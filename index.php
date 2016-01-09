@@ -1,7 +1,10 @@
+<?php
+	require "./connect.php";
+?>
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title>Blessing Skin Server 0.1</title>
+	<title>Index - Blessing Skin Server 0.1</title>
 	<link rel="stylesheet" href="./libs/bootstrap/bootstrap.min.css">
 	<link rel="stylesheet" href="./assets/css/style.css">
 </head>
@@ -67,7 +70,7 @@
 <script type="text/javascript" src="./libs/jquery/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="./libs/cookie.js"></script>
 <script type="text/javascript" src="./assets/js/login_utils.js"></script>
-<?php 
+<?php
 if ($_GET["action"] == "register") {
     echo "<script>changeForm(1);</script>";
 }

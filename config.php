@@ -1,12 +1,12 @@
 <?php
 /* Blessing Skin Server 数据库的名称 */
-define('DB_NAME', '');
+define('DB_NAME', 'skin');
 
 /* MySQL 数据库用户名 */
-define('DB_USER', '');
+define('DB_USER', 'root');
 
 /* MySQL 数据库密码 */
-define('DB_PASSWD', '');
+define('DB_PASSWD', 'root');
 
 /* MySQL 主机 */
 define('DB_HOST', 'localhost');

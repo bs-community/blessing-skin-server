@@ -1,11 +1,11 @@
-<?php 
+<?php
 if (!$_COOKIE["token"] && !$_COOKIE["uname"]) {
     echo "<script>window.location = './index.php?msg=Illegal access. Please login.';</script>";
 }?>
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title>Blessing Skin Server 0.1</title>
+	<title>Upload - Blessing Skin Server 0.1</title>
 	<link rel="stylesheet" href="./libs/bootstrap/bootstrap.min.css">
 	<link rel="stylesheet" href="./assets/css/style.css">
 </head>
