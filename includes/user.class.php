@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-17 00:13:55
+ * @Last Modified time: 2016-01-17 00:18:28
  */
 
 class user {
@@ -19,7 +19,7 @@ class user {
         if (utils::select('username', $this -> uname)['uid'] == 1) {
             $this -> is_admin = true;
         }
-        if (utils::select('username', $this -> uname)['password'] !== "") {
+        if (utils::select('username', $this -> uname)['password'] != "") {
             $this -> passwd = utils::select('username', $this -> uname)['password'];
             $this -> is_registered = true;
             $this -> token = md5($this -> uname.$this -> passwd.SALT);
