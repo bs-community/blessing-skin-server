@@ -1,5 +1,11 @@
 <?php
-require "../config.php";
+/**
+ * @Author: printempw
+ * @Date:   2016-01-16 23:01:33
+ * @Last Modified by:   prpr
+ * @Last Modified time: 2016-01-16 23:52:00
+ */
+require "./config.php";
 
 class utils {
     private static $connection = null;
@@ -25,7 +31,7 @@ class utils {
 
     public static function select($key, $value) {
         self::connect();
-        $query = mysql_query("SELECT * FROM users WHERE '$key'='$value'", self::$connection);
+        $query = mysql_query("SELECT * FROM users WHERE $key='$value'", self::$connection);
         $row = mysql_fetch_array($query);
         return $row;
     }
@@ -51,6 +57,10 @@ class utils {
         $hash = hash_file('sha256', "../textures/tmp.png");
         rename("../textures/tmp.png", $hash);
         return $hash;
+    }
+
+    public static function convertString($string) {
+        return stripslashes(trim($string));
     }
 }
 ?>

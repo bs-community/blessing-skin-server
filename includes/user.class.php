@@ -1,4 +1,10 @@
 <?php
+/**
+ * @Author: printempw
+ * @Date:   2016-01-16 23:01:33
+ * @Last Modified by:   prpr
+ * @Last Modified time: 2016-01-17 00:13:55
+ */
 
 class user {
     private $uname = "";
@@ -9,19 +15,19 @@ class user {
     public $is_admin = false;
 
     function __construct($uname) {
-        $this -> $uname = $uname;
-        if (utils::select('username', $this -> $uname)['uid'] == 1) {
-            $this -> $is_admin = true;
+        $this -> uname = $uname;
+        if (utils::select('username', $this -> uname)['uid'] == 1) {
+            $this -> is_admin = true;
         }
-        if (utils::select('username', $this -> $uname)['password'] !== "") {
-            $this -> $password = utils::select('username', $this -> $uname)['password'];
-            $this -> $is_registered = true;
-            $this -> $token = md5($this -> $uname.$this -> $password.SALT);
+        if (utils::select('username', $this -> uname)['password'] !== "") {
+            $this -> passwd = utils::select('username', $this -> uname)['password'];
+            $this -> is_registered = true;
+            $this -> token = md5($this -> uname.$this -> passwd.SALT);
         }
     }
 
     public function checkPasswd($raw_passwd) {
-        if ($raw_passwd == $this -> $password) {
+        if (md5($raw_passwd) == $this -> passwd) {
             return true;
         } else {
             return false;
@@ -29,11 +35,11 @@ class user {
     }
 
     public function getToken() {
-        return $this -> $token;
+        return $this -> token;
     }
 
     public function register($passwd, $ip) {
-        if (utils::insert([$this -> $uname, $passwd, $ip])) {
+        if (utils::insert([$this -> uname, $passwd, $ip])) {
             return true;
         } else {
             return false;
@@ -42,9 +48,9 @@ class user {
 
     public function getTexture($type) {
         if ($type == "skin") {
-            return utils::select('username', $this -> $uname)['skin_hash'];
+            return utils::select('username', $this -> uname)['skin_hash'];
         } else if ($type == "cape") {
-            return utils::select('username', $this -> $uname)['cape_hash'];
+            return utils::select('username', $this -> uname)['cape_hash'];
         }
         return false;
     }
@@ -52,9 +58,9 @@ class user {
     public function setTexture($type, $file) {
         $hash = utils::upload($file);
         if ($type == "skin") {
-            return utils::update($this -> $uname, 'skin_hash', $hash);
+            return utils::update($this -> uname, 'skin_hash', $hash);
         } else if ($type == "cape") {
-            return utils::update($this -> $uname, 'cape_hash', $hash);
+            return utils::update($this -> uname, 'cape_hash', $hash);
         }
         return false;
     }
