@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-17 10:51:05
+ * @Last Modified time: 2016-01-17 12:10:44
  *
  * All ajax requests will be handled here
  */
@@ -20,33 +20,8 @@ $user = new user($_POST['uname']);
 $action = $_GET['action'];
 $json = null;
 
-function checkInput($type = "login") {
-    global $json;
-    // generally check username
-    if (!$_POST['uname']) {
-        $json['errno'] = 1;
-        $json['msg'] = 'Empty username!';
-        return false;
-    }
-    if ($type == "login" || $type == "register") {
-        if (!$_POST['passwd']) {
-            $json['errno'] = 1;
-            $json['msg'] = "Empty password!";
-            return false;
-        }
-        return true;
-    } else if ($type == "upload") {
-        if (!($_FILES['skin_file'] || $_FILES['cape_file'])) {
-            $json['errno'] = 1;
-            $json['msg'] = "No input file selected.";
-            return false;
-        }
-        return true;
-    }
-}
-
 if ($action == "login") {
-    if (checkInput($action)) {
+    if (checkInput()) {
         if (!$user -> is_registered) {
             $json['errno'] = 1;
             $json['msg'] = "Non-existent user.";
@@ -63,7 +38,7 @@ if ($action == "login") {
         }
     }
 } elseif ($action == "register") {
-    if (checkInput($action)) {
+    if (checkInput()) {
         if (!$user -> is_registered) {
             if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
                 $ip = $_SERVER['HTTP_CLIENT_IP'];
@@ -94,7 +69,7 @@ if ($action == "login") {
     }
 } elseif ($action == "upload") {
     if ($_SESSION['token'] == $user -> getToken()) {
-        if (checkInput($action)) {
+        if (checkFile()) {
             if ($file = $_FILES['skin_file']) {
                 if ($user -> setTexture('skin', $file)) {
                     $json[0]['errno'] = 0;
@@ -113,11 +88,76 @@ if ($action == "login") {
                     $json[1]['msg'] = "Uncaught error.";
                 }
             }
+        } else {
+            echo "shit";
         }
     } else {
         $json['errno'] = 1;
         $json['msg'] = "Invalid token.";
     }
+}
+
+function checkInput() {
+    global $json;
+    if (!$_POST['uname']) {
+        $json['errno'] = 1;
+        $json['msg'] = 'Empty username!';
+        return false;
+    }
+    if (!$_POST['passwd']) {
+        $json['errno'] = 1;
+        $json['msg'] = "Empty password!";
+        return false;
+    }
+    return true;
+}
+
+function checkFile() {
+    global $json;
+    if (!$_POST['uname']) {
+        $json['errno'] = 1;
+        $json['msg'] = 'Empty username!';
+        return false;
+    }
+
+    if (!($_FILES['skin_file'] || $_FILES['cape_file'])) {
+        $json['errno'] = 1;
+        $json['msg'] = "No input file selected.";
+        return false;
+    }
+    /**
+     * Check for skin_file
+     */
+    if (($_FILES["skin_file"]["type"] == "image/png") || ($_FILES["skin_file"]["type"] == "image/x-png")) {
+        // if error occured while uploading file
+        if ($_FILES["skin_file"]["error"] > 0) {
+            $json[0]['errno'] = 1;
+            $json[0]['msg'] = $_FILES["skin_file"]["error"];
+            return false;
+        }
+    } else {
+        $json[0]['errno'] = 1;
+        $json[0]['msg'] = 'Skin file type error.';
+        return false;
+    }
+
+    /**
+     * Check for cape_file
+     */
+    if (($_FILES["cape_file"]["type"] == "image/png") || ($_FILES["cape_file"]["type"] == "image/x-png")) {
+        // if error occured while uploading file
+        if ($_FILES["cape_file"]["error"] > 0) {
+            $json[0]['errno'] = 1;
+            $json[0]['msg'] = $_FILES["cape_file"]["error"];
+            return false;
+        }
+    } else {
+        $json[0]['errno'] = 1;
+        $json[0]['msg'] = 'Cape file type error.';
+        return false;
+    }
+
+    return true;
 }
 
 echo json_encode($json);

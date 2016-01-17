@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-17 11:24:09
+ * @Last Modified time: 2016-01-17 12:02:23
  */
 
 class user {
@@ -43,7 +43,8 @@ class user {
                                 "uname" => $this -> uname,
                                 "passwd" => $passwd,
                                 "ip" => $ip
-                            )) {
+                            )))
+        {
             return true;
         } else {
             return false;
