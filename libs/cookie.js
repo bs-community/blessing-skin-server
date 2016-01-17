@@ -1,5 +1,5 @@
-/** 
-** cookie.js 
+/**
+** cookie.js
 ** https://developer.mozilla.org/en-US/docs/DOM/document.cookie
 */
 var docCookies = {

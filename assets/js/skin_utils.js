@@ -66,15 +66,27 @@ $("[title='Rotation']").click(function(){
 });
 
 $("#logout").click(function(){
-    docCookies.removeItem("uname");
-    docCookies.removeItem("token");
-    window.location = "./index.php";
+    $.ajax({
+        type: "POST",
+        url: "../ajax.php?action=logout",
+        dataType: "json",
+        data: {"uname": docCookies.getItem('uname')},
+        success: function(json) {
+            var path = "/" + document.URL.split("/").slice(-3)[0];
+            docCookies.removeItem("uname", path);
+            docCookies.removeItem("token", path);
+            showMsg('alert-success', json.msg);
+            window.setTimeout(function(){
+                window.location = "./index.php";
+            }, 1000);
+        }
+    });
 });
 
 $("#upload").click(function(){
     var skinFile = $("#skininput").get(0).files[0];
     var capeFile = $("#capeinput").get(0).files[0];
-    
+
     var formData = new FormData();
     if (skinFile) {
         formData.append('skinFile', skinFile);
@@ -82,24 +94,24 @@ $("#upload").click(function(){
     if (capeFile) {
         formData.append('capeFile', capeFile);
     }
-    
+
     if (skinFile || capeFile) {
         $.ajax({
             type: 'POST',
             url: './upload.php',
             contentType: false,
-            dataType: "json", 
+            dataType: "json",
             data: formData,
             processData: false,
-            beforeSend: function() { 
-        					showMsg("alert-info", "Uploading..."); 
+            beforeSend: function() {
+        					showMsg("alert-info", "Uploading...");
         				},
     		success: function(json) {
     		    if (json[0].success == 1 && json[1].success == 1) {
-    		        showMsg("alert-success", "Successfully uploaded."); 
+    		        showMsg("alert-success", "Successfully uploaded.");
     		    }
     		    if (json[0].success != 1) {
-    		        showMsg("alert-danger", "Error when uploading skin:\n"+json[0].msg); 
+    		        showMsg("alert-danger", "Error when uploading skin:\n"+json[0].msg);
     		    }
     		    if (json[1].success != 1) {
     		        showMsg("alert-danger", "Error when uploading cape:\n"+json[1].msg);
@@ -109,8 +121,8 @@ $("#upload").click(function(){
     } else {
         showMsg("alert-warning", "No input file selected");
     }
-    
+
 });
 
 
-    
+
