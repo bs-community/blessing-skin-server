@@ -3,9 +3,10 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-17 11:31:17
+ * @Last Modified time: 2016-01-17 13:48:15
  */
-require "./config.php";
+$dir = dirname(dirname(__FILE__));
+require "$dir/config.php";
 
 class utils {
     private static $connection = null;
