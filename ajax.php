@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-17 12:10:44
+ * @Last Modified time: 2016-01-17 12:18:00
  *
  * All ajax requests will be handled here
  */
@@ -88,8 +88,6 @@ if ($action == "login") {
                     $json[1]['msg'] = "Uncaught error.";
                 }
             }
-        } else {
-            echo "shit";
         }
     } else {
         $json['errno'] = 1;
@@ -131,13 +129,13 @@ function checkFile() {
     if (($_FILES["skin_file"]["type"] == "image/png") || ($_FILES["skin_file"]["type"] == "image/x-png")) {
         // if error occured while uploading file
         if ($_FILES["skin_file"]["error"] > 0) {
-            $json[0]['errno'] = 1;
-            $json[0]['msg'] = $_FILES["skin_file"]["error"];
+            $json['errno'] = 1;
+            $json['msg'] = $_FILES["skin_file"]["error"];
             return false;
         }
     } else {
-        $json[0]['errno'] = 1;
-        $json[0]['msg'] = 'Skin file type error.';
+        $json['errno'] = 1;
+        $json['msg'] = 'Skin file type error.';
         return false;
     }
 
@@ -147,13 +145,13 @@ function checkFile() {
     if (($_FILES["cape_file"]["type"] == "image/png") || ($_FILES["cape_file"]["type"] == "image/x-png")) {
         // if error occured while uploading file
         if ($_FILES["cape_file"]["error"] > 0) {
-            $json[0]['errno'] = 1;
-            $json[0]['msg'] = $_FILES["cape_file"]["error"];
+            $json['errno'] = 1;
+            $json['msg'] = $_FILES["cape_file"]["error"];
             return false;
         }
     } else {
-        $json[0]['errno'] = 1;
-        $json[0]['msg'] = 'Cape file type error.';
+        $json['errno'] = 1;
+        $json['msg'] = 'Cape file type error.';
         return false;
     }
 
