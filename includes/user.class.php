@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-17 00:18:28
+ * @Last Modified time: 2016-01-17 10:10:23
  */
 
 class user {
@@ -15,7 +15,7 @@ class user {
     public $is_admin = false;
 
     function __construct($uname) {
-        $this -> uname = $uname;
+        $this -> uname = utils::convertString($uname);
         if (utils::select('username', $this -> uname)['uid'] == 1) {
             $this -> is_admin = true;
         }
@@ -59,6 +59,7 @@ class user {
         $hash = utils::upload($file);
         if ($type == "skin") {
             return utils::update($this -> uname, 'skin_hash', $hash);
+            echo "shit";
         } else if ($type == "cape") {
             return utils::update($this -> uname, 'cape_hash', $hash);
         }

@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-17 10:18:53
+ * @Last Modified time: 2016-01-17 10:47:20
  *
  * Create tables automatically
  */
@@ -13,6 +13,8 @@ function __autoload($classname) {
     include_once($filename);
 }
 
+echo "<style>body { font-family: Courier; }</style>";
+
 if (!file_exists("./install.lock")) {
 	require "../config.php";
 	$con = mysql_connect(DB_HOST, DB_USER, DB_PASSWD);
@@ -20,13 +22,13 @@ if (!file_exists("./install.lock")) {
 	echo "<h2>Blessing Skin Server Install</h2>";
 
 	if (!$con) {
-		utils::raise('1', "Can not connect to mysql, check if database info correct in config.php. ".mysql_error())
+		utils::raise('1', "Can not connect to mysql, check if database info correct in config.php. ".mysql_error());
 	} else {
 		echo "Succesfully connected to mysql server.<br /><br />";
 	}
 
 	if(!mysql_select_db(DB_NAME, $con)){
-		utils::raise('1', "Can not select database, please check if database '".DB_NAME."' really exists.")
+		utils::raise('1', "Can not select database, please check if database '".DB_NAME."' really exists.");
 	}
 
 	echo "Selected database: ".DB_NAME."<br /><br />";
@@ -46,26 +48,38 @@ if (!file_exists("./install.lock")) {
 			) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15;";
 
 	if(!mysql_query($query)) {
-		die("Creating tables failed. ".mysql_error());
+		utils::raise('1', "Creating tables failed. ".mysql_error());
 	}
 
 	/**
 	 * username: admin
 	 * password: 123456
 	 */
-	mysql_query("INSERT INTO `users` (`uid`, `username`, `password`, `ip`) VALUES(1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', '127.0.0.1')");
+	mysql_query("INSERT INTO `users` (`uid`, `username`, `password`, `ip`, `preference`) VALUES(1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', '127.0.0.1', 'default')");
+
+	echo "Creating tables successfully <br /><br />";
+
+	echo "
+<pre style='font-family: Courier;'>
++-----------------------------------------------------------------------------------+
+|  uid  |  username  |  password  |  ip  |  preference  |  skin_hash  |  cape_hash  |
++-----------------------------------------------------------------------------------+
+|   1   |    admin   |   123456   |   *  |    default   |      *      |      *      |
++-----------------------------------------------------------------------------------+
+</pre>
+	";
 
 	echo "Successfully installed. <a href='../index.php'>Index</a>";
 
-	if ($lock = fopen("./install.lock", w)) {
+	if ($lock = fopen("./install.lock", 'w')) {
 		fwrite($lock, time());
 		fclose($lock);
 	} else {
 		die("Unable to write 'install.lock'.");
 	}
 
-
 } else {
+	echo "<br />";
 	echo "It seems that you have already installed. <a href='../index.php'>Index</a><br /><br />";
 	echo "May you should delete the file 'install.lock' in ./admin to unlock installing.";
 }

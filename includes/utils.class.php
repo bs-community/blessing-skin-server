@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-16 23:52:00
+ * @Last Modified time: 2016-01-17 10:09:56
  */
 require "./config.php";
 
@@ -48,19 +48,28 @@ class utils {
 
     public static function update($uname, $key, $value) {
         self::connect();
-        $query = mysql_query("UPDATE users SET $key='$value' WHERE username='$uname'", self::$connection);
+        $query = self::query("UPDATE users SET $key='$value' WHERE username='$uname'");
         return $query;
     }
 
     public static function upload($file) {
-        move_uploaded_file($file["tmp_name"],"../textures/tmp.png");
-        $hash = hash_file('sha256', "../textures/tmp.png");
-        rename("../textures/tmp.png", $hash);
+        move_uploaded_file($file["tmp_name"], "./textures/tmp.png");
+        $hash = hash_file('sha256', "./textures/tmp.png");
+        rename("./textures/tmp.png", "./textures/".$hash);
         return $hash;
     }
 
     public static function convertString($string) {
         return stripslashes(trim($string));
+    }
+
+    private static function query($sql) {
+        $query = mysql_query($sql, self::$connection);
+        if ($query) {
+            return $query;
+        } else {
+            self::raise('1', mysql_error());
+        }
     }
 }
 ?>
