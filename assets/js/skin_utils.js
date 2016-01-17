@@ -107,13 +107,14 @@ $("#upload").click(function(){
         					showMsg("alert-info", "Uploading...");
         				},
             success: function(json) {
+                console.log(json);
                 if (json[0].errno == 0 && json[1].errno == 0) {
                     showMsg("alert-success", "Successfully uploaded.");
                 }
-                if (json[0].success != 0) {
+                if (json[0].errno != 0) {
                     showMsg("alert-danger", "Error when uploading skin:\n"+json[0].msg);
                 }
-                if (json[1].success != 0) {
+                if (json[1].errno != 0) {
                     showMsg("alert-danger", "Error when uploading cape:\n"+json[1].msg);
                 }
             }

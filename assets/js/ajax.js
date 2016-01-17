@@ -56,7 +56,7 @@ $("body").on("click", "#login", function(){
     							docCookies.setItem("token", json.token, 604800, '/');
     						}
     						showMsg("alert-success", "Logging succeed!");
-    						// window.setTimeout("window.location = './user.php'", 1000);
+    						window.setTimeout("window.location = './user/index.php'", 1000);
     					} else {
     						showMsg("alert-danger", json.msg);
     					}

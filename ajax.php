@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-17 15:14:43
+ * @Last Modified time: 2016-01-17 15:51:42
  *
  * All ajax requests will be handled here
  */
@@ -84,7 +84,7 @@ if ($action == "login") {
 } else if ($action == "upload") {
     if ($_SESSION['token'] == $user -> getToken()) {
         if (checkFile()) {
-            if ($file = $_FILES['skin_file']) {
+            if ($file = getValue('skin_file', $_FILES)) {
                 if ($user -> setTexture('skin', $file)) {
                     $json[0]['errno'] = 0;
                     $json[0]['msg'] = "Skin uploaded successfully.";
@@ -93,7 +93,7 @@ if ($action == "login") {
                     $json[0]['msg'] = "Uncaught error.";
                 }
             }
-            if ($file = $_FILES['cape_file']) {
+            if ($file = getValue('cape_file', $_FILES)) {
                 if ($user -> setTexture('cape', $file)) {
                     $json[1]['errno'] = 0;
                     $json[1]['msg'] = "Cape uploaded successfully.";
@@ -136,7 +136,7 @@ function checkInput() {
 function checkFile() {
     global $json;
 
-    if (!($_FILES['skin_file'] || $_FILES['cape_file'])) {
+    if (!(getValue('skin_file', $_FILES) || getValue('cape_file', $_FILES))) {
         $json['errno'] = 1;
         $json['msg'] = "No input file selected.";
         return false;
@@ -144,36 +144,42 @@ function checkFile() {
     /**
      * Check for skin_file
      */
-    if (($_FILES["skin_file"]["type"] == "image/png") || ($_FILES["skin_file"]["type"] == "image/x-png")) {
+    if ((getValue('skin_file', $_FILES)["type"] == "image/png") || (getValue('skin_file', $_FILES)["type"] == "image/x-png")) {
         // if error occured while uploading file
-        if ($_FILES["skin_file"]["error"] > 0) {
+        if (getValue('skin_file', $_FILES)["error"] > 0) {
             $json['errno'] = 1;
-            $json['msg'] = $_FILES["skin_file"]["error"];
+            $json['msg'] = getValue('skin_file', $_FILES)["error"];
             return false;
         }
     } else {
-        if ($_FILES["skin_file"]) {
+        if (getValue('skin_file', $_FILES)) {
             $json['errno'] = 1;
             $json['msg'] = 'Skin file type error.';
             return false;
+        } else {
+            $json[0]['errno'] = 0;
+            $json[0]['msg'] = 'No skin file selected.';
         }
     }
 
     /**
      * Check for cape_file
      */
-    if (($_FILES["cape_file"]["type"] == "image/png") || ($_FILES["cape_file"]["type"] == "image/x-png")) {
+    if ((getValue('cape_file', $_FILES)["type"] == "image/png") || (getValue('cape_file', $_FILES)["type"] == "image/x-png")) {
         // if error occured while uploading file
-        if ($_FILES["cape_file"]["error"] > 0) {
+        if (getValue('cape_file', $_FILES)["error"] > 0) {
             $json['errno'] = 1;
-            $json['msg'] = $_FILES["cape_file"]["error"];
+            $json['msg'] = getValue('cape_file', $_FILES)["error"];
             return false;
         }
     } else {
-        if ($_FILES["cape_file"]) {
+        if (getValue('cape_file', $_FILES)) {
             $json['errno'] = 1;
             $json['msg'] = 'Cape file type error.';
             return false;
+        } else {
+            $json[1]['errno'] = 0;
+            $json[1]['msg'] = 'No cape file selected.';
         }
     }
 
