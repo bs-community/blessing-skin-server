@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-17 10:10:23
+ * @Last Modified time: 2016-01-17 11:24:09
  */
 
 class user {
@@ -39,7 +39,11 @@ class user {
     }
 
     public function register($passwd, $ip) {
-        if (utils::insert([$this -> uname, $passwd, $ip])) {
+        if (utils::insert(array(
+                                "uname" => $this -> uname,
+                                "passwd" => $passwd,
+                                "ip" => $ip
+                            )) {
             return true;
         } else {
             return false;

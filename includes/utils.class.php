@@ -3,13 +3,18 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-17 10:56:41
+ * @Last Modified time: 2016-01-17 11:31:17
  */
 require "./config.php";
 
 class utils {
     private static $connection = null;
 
+    /**
+     * Connect to database
+     *
+     * @return null
+     */
     public static function connect() {
         if (!self::$connection) {
             if ($con = mysql_connect(DB_HOST, DB_USER, DB_PASSWD)) {
@@ -22,39 +27,58 @@ class utils {
         }
     }
 
-    // use static function to replace raising a exception
+    /**
+     * Use static function to replace raising a exception
+     *
+     * @param  {integer} errno
+     * @param  {string} msg, message to show
+     * @return null
+     */
     public static function raise($errno = -1, $msg = "Error occured.") {
         $exception['errno'] = $errno;
         $exception['msg'] = $msg;
         die(json_encode($exception));
     }
 
+    /**
+     * Return array of rows which matches provided key adn value
+     *
+     * @param  {string} key
+     * @param  {string} value
+     * @return {array} row array returned by mysql_fetch_array()
+     */
     public static function select($key, $value) {
-        self::connect();
-        $query = mysql_query("SELECT * FROM users WHERE $key='$value'", self::$connection);
+        $query = self::query("SELECT * FROM users WHERE $key='$value'");
         $row = mysql_fetch_array($query);
-        mysql_close(self::$connection);
         return $row;
     }
 
-    // @param $array[uname, passwd, ip]
+    /**
+     * Insert a record to database
+     *
+     * @param  {array} array, [uname, passwd, ip]
+     * @return boolean
+     */
     public static function insert($array) {
-        $uname = $array[0];
-        $passwd = $array[1];
-        $ip = $array[2];
+        $uname = $array['uname'];
+        $passwd = $array['passwd'];
+        $ip = $array['ip'];
         self::connect();
-        $query = mysql_query("INSERT INTO users (username, password, ip) VALUES ('$uname', '$passwd', '$ip')", self::$connection);
-        mysql_close(self::$connection);
+        $query = self::query("INSERT INTO users (username, password, ip) VALUES ('$uname', '$passwd', '$ip')");
         return $query;
     }
 
     public static function update($uname, $key, $value) {
-        self::connect();
         $query = self::query("UPDATE users SET $key='$value' WHERE username='$uname'");
-        mysql_close(self::$connection);
         return $query;
     }
 
+    /**
+     * Rename uploaded file
+     *
+     * @param  {array} file, files uploaded via HTTP POST
+     * @return {string} hash, file's sha256 hash
+     */
     public static function upload($file) {
         move_uploaded_file($file["tmp_name"], "./textures/tmp.png");
         $hash = hash_file('sha256', "./textures/tmp.png");
@@ -62,10 +86,22 @@ class utils {
         return $hash;
     }
 
+    /**
+     * Simple SQL injection protection
+     *
+     * @param  {string} string, string to convert
+     * @return {string}
+     */
     public static function convertString($string) {
         return stripslashes(trim($string));
     }
 
+    /**
+     * Query with raw SQL statement
+     *
+     * @param  {string} sql, raw SQL statement
+     * @return {boolean}
+     */
     private static function query($sql) {
         self::connect();
         $query = mysql_query($sql, self::$connection);
