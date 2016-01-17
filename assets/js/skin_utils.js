@@ -84,39 +84,39 @@ $("#logout").click(function(){
 });
 
 $("#upload").click(function(){
-    var skinFile = $("#skininput").get(0).files[0];
-    var capeFile = $("#capeinput").get(0).files[0];
+    var skin_file = $("#skininput").get(0).files[0];
+    var cape_file = $("#capeinput").get(0).files[0];
 
-    var formData = new FormData();
-    if (skinFile) {
-        formData.append('skinFile', skinFile);
+    var form_data = new FormData();
+    if (skin_file) {
+        form_data.append('skin_file', skin_file);
     }
-    if (capeFile) {
-        formData.append('capeFile', capeFile);
+    if (cape_file) {
+        form_data.append('cape_file', cape_file);
     }
-
-    if (skinFile || capeFile) {
+    form_data.append('uname', docCookies.getItem('uname'));
+    if (skin_file || cape_file) {
         $.ajax({
             type: 'POST',
-            url: './upload.php',
+            url: '../ajax.php?action=upload',
             contentType: false,
             dataType: "json",
-            data: formData,
+            data: form_data,
             processData: false,
             beforeSend: function() {
         					showMsg("alert-info", "Uploading...");
         				},
-    		success: function(json) {
-    		    if (json[0].success == 1 && json[1].success == 1) {
-    		        showMsg("alert-success", "Successfully uploaded.");
-    		    }
-    		    if (json[0].success != 1) {
-    		        showMsg("alert-danger", "Error when uploading skin:\n"+json[0].msg);
-    		    }
-    		    if (json[1].success != 1) {
-    		        showMsg("alert-danger", "Error when uploading cape:\n"+json[1].msg);
-    		    }
-    		}
+            success: function(json) {
+                if (json[0].errno == 0 && json[1].errno == 0) {
+                    showMsg("alert-success", "Successfully uploaded.");
+                }
+                if (json[0].success != 0) {
+                    showMsg("alert-danger", "Error when uploading skin:\n"+json[0].msg);
+                }
+                if (json[1].success != 0) {
+                    showMsg("alert-danger", "Error when uploading cape:\n"+json[1].msg);
+                }
+            }
         });
     } else {
         showMsg("alert-warning", "No input file selected");
