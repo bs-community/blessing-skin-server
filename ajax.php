@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-17 12:18:00
+ * @Last Modified time: 2016-01-17 15:14:43
  *
  * All ajax requests will be handled here
  */
@@ -12,12 +12,26 @@ header('Access-Control-Allow-Origin: *');
 session_start();
 
 function __autoload($classname) {
-    $filename = "./includes/". $classname .".class.php";
+    $dir = dirname(__FILE__);
+    $filename = "$dir/includes/". $classname .".class.php";
     include_once($filename);
 }
 
-$user = new user($_POST['uname']);
-$action = $_GET['action'];
+function getValue($key, $array) {
+    if (array_key_exists($key, $array)) {
+        return $array[$key];
+    }
+    return false;
+}
+
+if ($uname = getValue('uname', $_POST)) {
+    $user = new user($uname);
+} else {
+    utils::raise('1', 'Empty username.');
+}
+if (!($action = getValue('action', $_GET))) {
+    $action = "login";
+}
 $json = null;
 
 if ($action == "login") {
@@ -37,7 +51,7 @@ if ($action == "login") {
             }
         }
     }
-} elseif ($action == "register") {
+} else if ($action == "register") {
     if (checkInput()) {
         if (!$user -> is_registered) {
             if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
@@ -67,7 +81,7 @@ if ($action == "login") {
             $json['msg'] = "User already existed.";
         }
     }
-} elseif ($action == "upload") {
+} else if ($action == "upload") {
     if ($_SESSION['token'] == $user -> getToken()) {
         if (checkFile()) {
             if ($file = $_FILES['skin_file']) {
@@ -93,6 +107,15 @@ if ($action == "login") {
         $json['errno'] = 1;
         $json['msg'] = "Invalid token.";
     }
+} else if ($action == "logout") {
+    if (getValue('token', $_SESSION)) {
+        session_destroy();
+        $json['errno'] = 0;
+        $json['msg'] = 'Session destroyed.';
+    } else {
+        $json['errno'] = 1;
+        $json['msg'] = 'No available session.';
+    }
 }
 
 function checkInput() {
@@ -112,11 +135,6 @@ function checkInput() {
 
 function checkFile() {
     global $json;
-    if (!$_POST['uname']) {
-        $json['errno'] = 1;
-        $json['msg'] = 'Empty username!';
-        return false;
-    }
 
     if (!($_FILES['skin_file'] || $_FILES['cape_file'])) {
         $json['errno'] = 1;
@@ -134,9 +152,11 @@ function checkFile() {
             return false;
         }
     } else {
-        $json['errno'] = 1;
-        $json['msg'] = 'Skin file type error.';
-        return false;
+        if ($_FILES["skin_file"]) {
+            $json['errno'] = 1;
+            $json['msg'] = 'Skin file type error.';
+            return false;
+        }
     }
 
     /**
@@ -150,9 +170,11 @@ function checkFile() {
             return false;
         }
     } else {
-        $json['errno'] = 1;
-        $json['msg'] = 'Cape file type error.';
-        return false;
+        if ($_FILES["cape_file"]) {
+            $json['errno'] = 1;
+            $json['msg'] = 'Cape file type error.';
+            return false;
+        }
     }
 
     return true;
