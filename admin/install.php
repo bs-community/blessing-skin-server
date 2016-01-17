@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-17 10:47:20
+ * @Last Modified time: 2016-01-17 15:11:13
  *
  * Create tables automatically
  */
@@ -40,9 +40,9 @@ if (!file_exists("./install.lock")) {
 			  `username` varchar(20) NOT NULL,
 			  `password` varchar(32) NOT NULL,
 			  `ip` varchar(32) NOT NULL,
-			  `preference` varchar(32) NOT NULL,
-			  `skin_hash` varchar(32) NOT NULL,
-			  `cape_hash` varchar(32) NOT NULL,
+			  `preference` varchar(10) NOT NULL,
+			  `skin_hash` varchar(64) NOT NULL,
+			  `cape_hash` varchar(64) NOT NULL,
 			  PRIMARY KEY (`uid`),
 			  UNIQUE KEY `uid` (`uid`)
 			) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15;";
