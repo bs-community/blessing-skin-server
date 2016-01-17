@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-17 10:09:56
+ * @Last Modified time: 2016-01-17 10:56:41
  */
 require "./config.php";
 
@@ -33,6 +33,7 @@ class utils {
         self::connect();
         $query = mysql_query("SELECT * FROM users WHERE $key='$value'", self::$connection);
         $row = mysql_fetch_array($query);
+        mysql_close(self::$connection);
         return $row;
     }
 
@@ -43,12 +44,14 @@ class utils {
         $ip = $array[2];
         self::connect();
         $query = mysql_query("INSERT INTO users (username, password, ip) VALUES ('$uname', '$passwd', '$ip')", self::$connection);
+        mysql_close(self::$connection);
         return $query;
     }
 
     public static function update($uname, $key, $value) {
         self::connect();
         $query = self::query("UPDATE users SET $key='$value' WHERE username='$uname'");
+        mysql_close(self::$connection);
         return $query;
     }
 
@@ -64,12 +67,14 @@ class utils {
     }
 
     private static function query($sql) {
+        self::connect();
         $query = mysql_query($sql, self::$connection);
         if ($query) {
             return $query;
         } else {
             self::raise('1', mysql_error());
         }
+        mysql_close(self::$connection);
     }
 }
 ?>
