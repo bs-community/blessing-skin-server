@@ -1,16 +1,5 @@
 // Auto login
-$(document).ready(function(){
-    if (docCookies.hasItem("uname") && docCookies.hasItem("token") && $("#login-reg").html() == 'Register') {
-        checkToken(docCookies.getItem("token"),function(json) {
-            if (json.success == 1) {
-                showMsg("alert-success", json.msg);
-                window.location = "./user.php";
-            } else {
-                showMsg("alert-danger", json.msg);
-            }
-        });
-    }
-});
+// null
 
 $('body').css('height', document.documentElement.clientHeight);
 

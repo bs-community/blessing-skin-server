@@ -1,5 +1,35 @@
 <?php
-	require "./connect.php";
+/**
+ * @Author: printempw
+ * @Date:   2016-01-09 21:11:53
+ * @Last Modified by:   prpr
+ * @Last Modified time: 2016-01-17 14:26:29
+ */
+session_start();
+function __autoload($classname) {
+	$dir = dirname(__FILE__);
+    $filename = "$dir/includes/". $classname .".class.php";
+    include_once($filename);
+}
+
+if (getValue('uname', $_COOKIE) && getValue('token', $_COOKIE)) {
+	$user = new user($_COOKIE['uname']);
+	if ($_COOKIE['token'] == $user -> getToken()) {
+		$_SESSION['uname'] = $_COOKIE['uname'];
+		$_SESSION['token'] = $user -> getToken();
+	}
+}
+
+function getValue($key, $array) {
+	if (array_key_exists($key, $array)) {
+		return $array[$key];
+	}
+	return false;
+}
+
+function echoScript($script) {
+	echo "<script>".$script."</script>";
+}
 ?>
 <!DOCTYPE HTML>
 <html>
@@ -21,13 +51,13 @@
 				<li><a href="#">Link</a></li>
 				</ul> -->
 				<ul class="nav navbar-nav navbar-right">
-				<li><a id="login-reg" href="javascript:;"><?php
-    				if ($_GET["action"] == "register") {
-    				    echo "Login";
-    				} else {
-    				    echo "Register";
-    				}
-				?></a></li>
+					<li><a id="login-reg" href="javascript:;"><?php
+		    				if (getValue('action', $_GET) == "register") {
+		    				    echo "Login";
+		    				} else {
+		    				    echo "Register";
+		    				}
+					?></a></li>
 				</ul>
 			</div><!-- /.navbar-collapse -->
 		</div><!-- /.container-fluid -->
@@ -71,11 +101,18 @@
 <script type="text/javascript" src="./libs/cookie.js"></script>
 <script type="text/javascript" src="./assets/js/login_utils.js"></script>
 <?php
-if ($_GET["action"] == "register") {
-    echo "<script>changeForm(1);</script>";
+if (getValue('action', $_GET) == "register") {
+    echoScript("changeForm(1);");
 }
-if ($_GET["msg"]) {
-    echo "<script>showMsg('alert-warning','".$_GET['msg']."');</script>";
-}?>
+if ($msg = getValue('msg', $_GET)) {
+    echoScript("showMsg('alert-warning','".$msg."');");
+}
+
+if (getValue('uname', $_SESSION)) {
+	echoScript("$('.login-title').html('Welcome');");
+	echoScript("$('#login-form').html('<a href=\"./user/index.php\">User Center</a>');");
+	echoScript("$('.navbar-right').html('<li><a href=\"javascript:;\">Welcome,".$_SESSION['uname']."!</a><li>');");
+}
+?>
 <script type="text/javascript" src="./assets/js/ajax.js"></script>
 </html>
