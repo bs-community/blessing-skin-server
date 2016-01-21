@@ -1,4 +1,10 @@
 <?php
+/*
+* @Author: prpr
+* @Date:   2016-01-21 13:56:40
+* @Last Modified by:   prpr
+* @Last Modified time: 2016-01-21 20:40:04
+*/
 session_start();
 $dir = dirname(dirname(__FILE__));
 
@@ -8,15 +14,11 @@ function __autoload($classname) {
     include_once($filename);
 }
 
-function getValue($key, $array) {
-	if (array_key_exists($key, $array)) {
-		return $array[$key];
-	}
-	return false;
-}
-if ($uname = getValue('uname', $_SESSION)) {
-	$user = new user($uname);
-	if (getValue('token', $_SESSION) != $user -> getToken()) {
+$action = utils::getValue('action', $_GET);
+
+if (isset($_SESSION['uname'])) {
+	$user = new user($_SESSION['uname']);
+	if ($_SESSION['token'] != $user->getToken()) {
 		header('Location: ../index.php?msg=Invalid token. Please login.');
 	}
 } else {
@@ -24,61 +26,138 @@ if ($uname = getValue('uname', $_SESSION)) {
 }
 
 ?>
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
 <head>
-	<title>Upload - Blessing Skin Server 0.1</title>
-	<link rel="stylesheet" href="../libs/bootstrap/bootstrap.min.css">
-	<link rel="stylesheet" href="../assets/css/style.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload - Blessing Skin Server</title>
+    <link rel="stylesheet" href="../libs/pure/pure-min.css">
+    <link rel="stylesheet" href="../libs/pure/grids-responsive-min.css">
+    <link rel="stylesheet" href="../libs/glyphicon/glyphicon.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/user.style.css">
+    <link rel="stylesheet" href="../libs/remodal/remodal.css">
+    <link rel="stylesheet" href="../libs/remodal/remodal-default-theme.css">
 </head>
-
 <body>
-<header>
-	<nav class="navbar navbar-default">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a style="font-family:Minecraft;" class="navbar-brand" href="../index.php">Blessing Skin Server</a>
+<div class="header">
+    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
+		<a class="pure-menu-heading" href="../index.php">Blessing Skin Server</a>
+		<a href="javascript:;" title="Movements"><span class="glyphicon glyphicon-pause"></span></a>
+		<a href="javascript:;" title="Running"><span class="glyphicon glyphicon-forward"></span></a>
+		<a href="javascript:;" title="Rotation"><span class="glyphicon glyphicon-repeat"></span></a>
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item pure-menu-selected">
+                <a href="javascript:;" class="pure-menu-link">Upload</a>
+            </li>
+            <li class="pure-menu-item">
+                <a href="javascript:;" class="pure-menu-link" style="color: #5e5e5e">
+                	Welcome, <?php echo $_SESSION['uname']; ?></a>
+            </li>
+        </ul>
+        <div class="home-menu-blur">
+            <div class="home-menu-wrp">
+                <div class="home-menu-bg"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<?php if ($action == "preview") { ?>
+<div class="container">
+	<div id="skinpreview"></div>
+</div>
+<style>
+#canvas3d {
+	margin: 8% auto;
+}
+</style>
+<?php } else if ($action == "upload") { ?>
+<div class="container">
+	<div class="upload-container">
+		<h2 class="upload-title">Upload</h2>
+			<div id="upload-form">
+				<p>Select a skin:</p>
+				<input type=file id="skininput" name="skininput" accept="image/png">
+				<br />
+				<p>Select a cape:</p>
+				<input type=file id="capeinput" name="capeinput" accept="image/png">
+				<br /><br />
+				<button id="upload" class="pure-button pure-button-primary">Upload</button>
+				<a href="?action=preview" class="pure-button">Preview</a>
 			</div>
-			<div class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li><a href="javascript:;" title="Movements"><span class="glyphicon glyphicon-pause"></span></a></li>
-					<li><a href="javascript:;" title="Running"><span class="glyphicon glyphicon-forward"></span></a></li>
-					<li><a href="javascript:;" title="Rotation"><span class="glyphicon glyphicon-repeat"></span></a></li>
-				</ul>
-				<ul class="nav navbar-nav navbar-right">
-				<li><a>Welcome, <?php echo getValue('uname', $_SESSION); ?>!</a></li>
-				<li><a id="logout" href="javascript:;">Log out?</a></li>
-				</ul>
-			</div><!-- /.navbar-collapse -->
-		</div><!-- /.container-fluid -->
-	</nav>
-</header>
-<div class="main">
-<div id="skinpreview" class="l"></div>
-<div class="upload-container r">
-	<h2 class="upload-title">Upload</h2>
-		<div id="upload-form">
-			<p>Select a skin:</p> <input type=file id="skininput" name="skininput" accept="image/png"><br>
-			<p>Select a cape:</p> <input type=file id="capeinput" name="capeinput" accept="image/png"><br>
-			<button id="upload" type="button" class="btn btn-default">Upload</button>
-		</div>
-	<div id="msg-container">
 		<div id="msg" class="alert hide" role="alert" />
 	</div>
 </div>
+<style>
+.upload-container {
+    width: 70%;
+    height: 50%;
+    margin: 100px auto;
+}
+</style>
+<?php } else { ?>
+<div class="container pure-g">
+	<div class="pure-u-2-3">
+		<div id="skinpreview"></div>
+	</div>
+	<div class="pure-u-1-3">
+		<div class="upload-container">
+			<h2 class="upload-title">Upload</h2>
+				<div id="upload-form">
+					<p>Select a skin:</p>
+					<input type=file id="skininput" name="skininput" accept="image/png">
+					<br />
+					<p>Select a cape:</p>
+					<input type=file id="capeinput" name="capeinput" accept="image/png">
+					<br /><br />
+					<button id="upload" class="pure-button pure-button-primary">Upload</button>
+					<a id="preview" href="?action=preview" class="pure-button">Preview</a>
+				</div>
+			<div id="msg" class="alert hide" role="alert" />
+		</div>
+	</div>
 </div>
-<footer>
-<p>© <a class="copy" href="https://prinzeugen.net">Blessing Studio</a> 2015</p>
-</footer>
+<style>
+	#preview {
+	    display: none;
+	}
+	@media (max-width: 800px) {
+	    #skinpreview {
+	        display: none;
+	    }
+	    #preview {
+	        display: inline-block;
+	    }
+	    .pure-u-2-3 {
+	        width: 0%;
+	    }
+	    .pure-u-1-3 {
+	        width: 100%;
+	    }
+	    .upload-container {
+	        width: 70%;
+	        height: 50%;
+	        margin: 100px auto;
+	    }
+	}
+</style>
+<?php } ?>
+
+<div class="footer">
+    &copy; <a class="copy" href="https://prinzeugen.net">Blessing Studio</a> 2016
+</div>
+
 </body>
-<script type="text/javascript" src="../libs/jquery/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="../libs/jquery/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="../libs/cookie.js"></script>
 <script src="../libs/three.js"></script>
 <script src="../libs/three.msp.js"></script>
 <script src="../assets/js/skin_utils.js"></script>
 <?php
 // get and set texture for preview
-$skin_file = $user -> getTexture('skin');
+$skin_file = $user->getTexture('skin');
 if ($skin_file) {
     echo "<script>var dskin ='../textures/".$skin_file."';</script>";
 } else {

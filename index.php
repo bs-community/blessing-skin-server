@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-21 18:56:34
+ * @Last Modified time: 2016-01-21 20:19:15
  */
 session_start();
 function __autoload($classname) {
@@ -34,6 +34,7 @@ function getValue($key, $array) {
     <link rel="stylesheet" href="./libs/pure/pure-min.css">
     <link rel="stylesheet" href="./libs/pure/grids-responsive-min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/index.style.css">
     <link rel="stylesheet" href="./libs/remodal/remodal.css">
     <link rel="stylesheet" href="./libs/remodal/remodal-default-theme.css">
 </head>
@@ -49,7 +50,7 @@ function getValue($key, $array) {
             <li class="pure-menu-item">
                 <?php
                         if ($uname = getValue('uname', $_SESSION)) { ?>
-                <a href="#" class="pure-menu-link" style="color: #5e5e5e">Welcome, <?php echo $uname; ?></a>
+                <a href="./user/index.php" class="pure-menu-link" style="color: #5e5e5e">Welcome, <?php echo $uname; ?></a>
                 <?php } else { ?>
                 <a id="login" href="javascript:;" class="pure-button pure-button-primary">Sign In</a>
                 <?php } ?>

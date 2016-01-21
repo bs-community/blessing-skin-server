@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-17 13:48:15
+ * @Last Modified time: 2016-01-21 21:59:47
  */
 $dir = dirname(dirname(__FILE__));
 require "$dir/config.php";
@@ -112,6 +112,13 @@ class utils {
             self::raise('1', mysql_error());
         }
         mysql_close(self::$connection);
+    }
+
+    function getValue($key, $array) {
+        if (array_key_exists($key, $array)) {
+            return $array[$key];
+        }
+        return false;
     }
 }
 ?>

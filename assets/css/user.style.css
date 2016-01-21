@@ -1,0 +1,89 @@
+/*
+* @Author: prpr
+* @Date:   2016-01-21 19:12:06
+* @Last Modified by:   prpr
+* @Last Modified time: 2016-01-21 22:09:28
+*/
+
+.home-menu-blur {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -100;
+}
+.home-menu-wrp {
+    height: 100%;
+    background-color: rgba(255,255,255,0.4);
+}
+.home-menu-bg {
+    background-image: url("../images/bg_stone.png");
+    background-repeat: repeat;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    filter: blur(2px);
+        -webkit-filter: blur(2px);
+        -moz-filter: blur(2px);
+        -o-filter: blur(2px);
+        -ms-filter: blur(2px);
+    box-shadow: rgba(0,0,0,0.1) 0 1px 2px;
+}
+
+.container {
+    background-image:
+        url("../images/bg_stone.png");
+    background-repeat: repeat;
+}
+
+/* Mobile phone */
+@media (max-width: 48em) {
+    .home-menu .pure-menu-selected a {
+        display: none;
+    }
+    /*.home-menu-bg {
+        background-size: inherit;
+        background-position-x: center;
+    }*/
+    .splash-head {
+        font-size: 200%;
+    }
+    .splash {
+        width: 100%;
+        height: 50%;
+    }
+    /*.splash-subhead {
+        font-size: 200%;
+    }*/
+}
+
+#canvas3d {
+    margin-top: 8%;
+    margin-left: 20%;
+    display: block;
+}
+
+.upload-container {
+	color: #333;
+	margin-top: 35%;
+	margin-right: 30%;
+	border: #989898 1px solid;
+	border-radius: 4px;
+	padding: 40px 40px 40px 40px;
+	background: rgba(255,255,255,.9);
+}
+.upload-title {
+	font-family: Minecraft;
+}
+button {
+	margin: 0 !important;
+}
+span {
+    padding: .5em .5em;
+    color: #5e5e5e;
+    margin-top: 0.1em;
+}
+.alert {
+    margin: 20px 0 0;
+}
