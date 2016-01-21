@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 07:57:38
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-01-21 12:49:17
+* @Last Modified time: 2016-01-21 18:20:11
 */
 
 @font-face {
@@ -226,4 +226,28 @@ body {
     .container {
         background-size: cover;
     }
+}
+.pure-form {
+    margin: 10px auto;
+    width: 40%;
+}
+.pure-input {
+    margin: 10px 0;
+    width: 100%;
+}
+#keep-label {
+    float: left;
+}
+#login-button {
+    float: right;
+    margin: .5em 0;
+}
+#register-button {
+    margin: .5em 0;
+    width: 100%;
+    float: left;
+}
+#msg {
+    width: 40%;
+    margin: 3.5em auto 0;
 }
