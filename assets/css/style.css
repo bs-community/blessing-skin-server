@@ -1,3 +1,10 @@
+/*
+* @Author: prpr
+* @Date:   2016-01-21 07:57:38
+* @Last Modified by:   prpr
+* @Last Modified time: 2016-01-21 12:49:17
+*/
+
 @font-face {
     font-family: 'Minecraft';
     src: url('../fonts/minecraft.eot');
@@ -9,115 +16,214 @@
 }
 
 body {
-    background-image: url(../images/bg_stone.png);
-    background-repeat: repeat;
+    line-height: 1.7em;
+    color: #fff;
+    font-size: 13px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.copy {
-    color: #FFFFFF;
+.home-menu {
+    padding: 0;
+    /*padding: 0.3em 0.5em 0.3em 0.5em;*/
+    text-align: center;
+    /*border: 1px solid transparent;*/
+    box-shadow: rgba(0,0,0,0.1) 0 1px 2px;
+    /* for firefox */
+    white-space: normal;
 }
 
-img.l {
-    width: 44%;
-    margin-left: 10%;
+.home-menu .pure-menu-heading {
+    color: #5e5e5e;
+    font-weight: 400;
+    font-size: 18px;
+    font-family: Minecraft;
+    text-transform: none;
+}
+.pure-menu-heading:hover {
+    color: #444;
 }
 
-.navbar {
-    border-radius: 0;
+.home-menu .pure-menu-selected a {
+    color: #5e5e5e;
 }
 
-.navbar-default {
-    background-color: rgba(255,255,255,.9);
-    border-color: transparent;
+.home-menu a {
+    color: #fff;
+    font-size: 15px;
+}
+.pure-menu-link:hover,
+.pure-menu-link:focus {
+    background: none;
+    border: none;
+    color: #0078e7 !important;
+}
+.pure-button {
+    margin: .5em 1em;
+}
+.home-menu-blur {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -100;
+}
+.home-menu-wrp {
+    height: 100%;
+    background-color: rgba(255,255,255,0.4);
+}
+.home-menu-bg {
+    background-image: url("http://ww4.sinaimg.cn/large/823186a6gw1enwts09sbrj21hc0u016u.jpg");
+    background-position: center 0;
+    background-size: auto 800px;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    filter: blur(5px);
+        -webkit-filter: blur(5px);
+        -moz-filter: blur(5px);
+        -o-filter: blur(5px);
+        -ms-filter: blur(5px);
     box-shadow: rgba(0,0,0,0.1) 0 1px 2px;
 }
 
-.l {
-    float: left;
+.container {
+    background-image:
+        url("http://ww4.sinaimg.cn/large/823186a6gw1enwts09sbrj21hc0u016u.jpg");
+    /* background-size: cover; */
+    background-size: auto 800px;
+    background-repeat: no-repeat;
+    background-position: center 0;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    position: fixed !important;
 }
 
-.r {
-    float: right;
-    margin-top: 20px;
-}
-
-.login-container, .upload-container {
-    margin-top: 8%;
-    margin-right: 10%;
-    border: #989898 1px solid;
-    border-radius: 4px;
-    width: 300px;
-    padding: 40px 40px 40px 40px;
-    background: rgba(255,255,255,.9);
-}
-
-.input-group {
-    margin: 20px 0 20px 0;
-}
-
-.login-group {
-    height: 40px;
-}
-
-div .keep {
-    float: left;
-}
-
-#login {
-    float: right;
-}
-
-#login-form {
-    margin-top: 10px;
-}
-
-.login-title, .upload-title {
-    font-family: Minecraft;
-    margin: 5px 0 30px 0;
-}
-
-.checkbox-wrapper {
-    float: left;
-    position: relative;
-    top: 15%;
-}
-
-.checkbox {
-    display: none;
-}
-
-label {
-    width: 18px;
-    height: 18px;
-    background: #fff;
-    border: 1px solid #e5e6e7;
-    margin-bottom: -3px;
-    border-radius: 2px;
-    cursor: pointer;
-    display: inline-block;
-}
-
-.checkbox:checked+label {
-    background: url(../images/check.png);
-}
-
-footer {
+.splash {
+    width: 80%;
+    height: 50%;
+    margin: auto;
+    position: absolute;
+    top: 100px; left: 0; bottom: 0; right: 0;
     text-align: center;
-    color: #FFFFFF;
+}
+
+.splash-head {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    padding: 1em 0.5em;
+    font-weight: 100;
+    line-height: 1.5em;
+    margin: 0.2em 0 0.5em;
+    font-family: Minecraft;
+    text-shadow:
+        0px 4px 3px rgba(0,0,0,0.4),
+        0px 8px 13px rgba(0,0,0,0.1),
+        0px 18px 23px rgba(0,0,0,0.1);
+}
+
+.splash-subhead {
+    letter-spacing: 0.05em;
+    margin-top: 0.8em;
+    margin-bottom: 1.5em;
+}
+
+.container .pure-button {
+    color: white;
+    padding: 0.8em 2.5em;
+    border-radius: 5px;
+    background: transparent;
+    border: 1px solid #fff;
+    font-size: 120%;
+    transition: color 0.25s ease-in-out,
+                border-color 0.25s ease-in-out,
+                background-color 0.25s ease-in-out;
+}
+
+.container .pure-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+/*.container a.pure-button-primary {
+
+}*/
+
+.footer {
+    color: #fff;
     position: absolute;
     width: 100%;
-    top: 95%;
+    top: 93%;
+    text-align: center;
+    letter-spacing: 0.05em;
 }
 
-.hide {
-    display: none;
+.footer a {
+    text-decoration: none;
+    color: white;
 }
 
-.alert {
-    margin-bottom: 0px;
-    margin-top: 10px;
+.footer a:hover {
+    color: #1f8dd6;
 }
 
-#canvas3d {
-    margin-left: 30%;
+/* Mobile phone */
+@media (max-width: 48em) {
+    .home-menu .pure-menu-selected a {
+        display: none;
+    }
+    /*.home-menu-bg {
+        background-size: inherit;
+        background-position-x: center;
+    }*/
+    .splash-head {
+        font-size: 200%;
+    }
+    .splash {
+        width: 100%;
+        height: 50%;
+    }
+    /*.splash-subhead {
+        font-size: 200%;
+    }*/
+}
+
+
+@media (min-width: 48em) {
+
+    body {
+        font-size: 16px;
+    }
+
+    .home-menu {
+        text-align: left;
+    }
+        .home-menu ul {
+            float: right;
+        }
+
+    .splash {
+        width: 80%;
+        height: 50%;
+    }
+
+    .splash-head {
+        font-size: 250%;
+    }
+
+}
+
+@media (min-width: 78em) {
+    .splash-head {
+        font-size: 300%;
+    }
+}
+
+@media (min-height: 800px) {
+    .home-menu-bg,
+    .container {
+        background-size: cover;
+    }
 }
