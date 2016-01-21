@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 07:57:38
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-01-21 18:20:11
+* @Last Modified time: 2016-01-21 19:01:48
 */
 
 @font-face {
@@ -31,7 +31,6 @@ body {
     /* for firefox */
     white-space: normal;
 }
-
 .home-menu .pure-menu-heading {
     color: #5e5e5e;
     font-weight: 400;
@@ -42,14 +41,15 @@ body {
 .pure-menu-heading:hover {
     color: #444;
 }
-
-.home-menu .pure-menu-selected a {
-    color: #5e5e5e;
-}
-
 .home-menu a {
     color: #fff;
     font-size: 15px;
+}
+.pure-menu-selected {
+    font-weight: bold;
+}
+.pure-menu-link {
+    color: #5e5e5e !important;
 }
 .pure-menu-link:hover,
 .pure-menu-link:focus {
@@ -101,6 +101,20 @@ body {
     left: 0;
     position: fixed !important;
 }
+.container .pure-button {
+    color: white;
+    padding: 0.8em 2.5em;
+    border-radius: 5px;
+    background: transparent;
+    border: 1px solid #fff;
+    font-size: 120%;
+    transition: color 0.25s ease-in-out,
+                border-color 0.25s ease-in-out,
+                background-color 0.25s ease-in-out;
+}
+.container .pure-button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
 
 .splash {
     width: 80%;
@@ -110,7 +124,6 @@ body {
     top: 100px; left: 0; bottom: 0; right: 0;
     text-align: center;
 }
-
 .splash-head {
     font-size: 20px;
     font-weight: bold;
@@ -125,31 +138,11 @@ body {
         0px 8px 13px rgba(0,0,0,0.1),
         0px 18px 23px rgba(0,0,0,0.1);
 }
-
 .splash-subhead {
     letter-spacing: 0.05em;
     margin-top: 0.8em;
     margin-bottom: 1.5em;
 }
-
-.container .pure-button {
-    color: white;
-    padding: 0.8em 2.5em;
-    border-radius: 5px;
-    background: transparent;
-    border: 1px solid #fff;
-    font-size: 120%;
-    transition: color 0.25s ease-in-out,
-                border-color 0.25s ease-in-out,
-                background-color 0.25s ease-in-out;
-}
-
-.container .pure-button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-/*.container a.pure-button-primary {
-
-}*/
 
 .footer {
     color: #fff;
@@ -159,12 +152,10 @@ body {
     text-align: center;
     letter-spacing: 0.05em;
 }
-
 .footer a {
     text-decoration: none;
     color: white;
 }
-
 .footer a:hover {
     color: #1f8dd6;
 }

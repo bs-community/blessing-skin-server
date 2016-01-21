@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:55:44
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-01-21 18:18:37
+* @Last Modified time: 2016-01-21 18:47:03
 */
 
 'use strict';
@@ -10,6 +10,14 @@
 function showMsg(type, msg) {
     $("[id=msg]").removeClass().addClass("alert").addClass(type).html(msg);
 }
+
+$('#login').click(function(){
+	$('[data-remodal-id=login-modal]').remodal().open();
+})
+
+$('#register').click(function(){
+	$('[data-remodal-id=register-modal]').remodal().open();
+})
 
 // Login Button Click Event
 $("body").on("click", "#login-button", function(){
@@ -34,7 +42,7 @@ $("body").on("click", "#login-button", function(){
 						docCookies.setItem("token", json.token, 604800, '/');
 					}
 					showMsg("alert-success", "Logging succeed!");
-					window.setTimeout("window.location = './user/index.php'", 1000);
+					window.setTimeout("$('[data-remodal-id=login-modal]').remodal().close(); window.location = './user/index.php'", 1000);
 				} else {
 					showMsg("alert-danger", json.msg);
 				}
@@ -59,7 +67,7 @@ $("body").on("click", "#register-button", function(){
 			success: function(json) {
 	        		if (json.errno == 0) {
 					showMsg("alert-success", json.msg);
-					window.setTimeout("window.location = './index.php?action=login&msg=Successfully Registered, please log in.'", 1000);
+					window.setTimeout("$('[data-remodal-id=register-modal]').remodal().close(); window.location = './index.php?action=login&msg=Successfully Registered, please log in.'", 1000);
 				} else {
 					showMsg("alert-danger", json.msg);
 				}

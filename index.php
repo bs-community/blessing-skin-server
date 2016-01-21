@@ -1,3 +1,30 @@
+<?php
+/**
+ * @Author: printempw
+ * @Date:   2016-01-17 13:55:20
+ * @Last Modified by:   prpr
+ * @Last Modified time: 2016-01-21 18:56:34
+ */
+session_start();
+function __autoload($classname) {
+    $dir = dirname(__FILE__);
+    $filename = "$dir/includes/". $classname .".class.php";
+    include_once($filename);
+}
+if (getValue('uname', $_COOKIE) && getValue('token', $_COOKIE)) {
+    $user = new user($_COOKIE['uname']);
+    if ($_COOKIE['token'] == $user -> getToken()) {
+        $_SESSION['uname'] = $_COOKIE['uname'];
+        $_SESSION['token'] = $user -> getToken();
+    }
+}
+function getValue($key, $array) {
+    if (array_key_exists($key, $array)) {
+        return $array[$key];
+    }
+    return false;
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,7 +47,12 @@
                 <a href="#" class="pure-menu-link">Home</a>
             </li>
             <li class="pure-menu-item">
-                <a id="login" href="#login-modal" class="pure-button pure-button-primary">Sign In</a>
+                <?php
+                        if ($uname = getValue('uname', $_SESSION)) { ?>
+                <a href="#" class="pure-menu-link" style="color: #5e5e5e">Welcome, <?php echo $uname; ?></a>
+                <?php } else { ?>
+                <a id="login" href="javascript:;" class="pure-button pure-button-primary">Sign In</a>
+                <?php } ?>
             </li>
         </ul>
         <div class="home-menu-blur">
@@ -37,9 +69,12 @@
         <p class="splash-subhead">
             Just a simple open-source Minecraft skin server
         </p>
+        <?php
+            if (!getValue('uname', $_SESSION)) { ?>
         <p>
-            <a id="register" href="#register-modal" class="pure-button pure-button-primary">Sign Up</a>
+            <a id="register" href="javascript:;" class="pure-button pure-button-primary">Sign Up</a>
         </p>
+        <?php } ?>
     </div>
 </div>
 
@@ -79,6 +114,12 @@
 <script src="./libs/cookie.js"></script>
 <script src="./libs/remodal/remodal.min.js"></script>
 <script src="./assets/js/index.utils.js"></script>
-
+<?php
+if ($msg = getValue('msg', $_GET)) { ?>
+    <div class="remodal" data-remodal-id="msg-modal">
+    <h3><?php echo $msg; ?></h3>
+    </div>
+    <script type="text/javascript">$('[data-remodal-id=msg-modal]').remodal().open();</script>
+<?php } ?>
 </body>
 </html>
