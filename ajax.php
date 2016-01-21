@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-17 15:51:42
+ * @Last Modified time: 2016-01-21 18:20:46
  *
  * All ajax requests will be handled here
  */
@@ -73,7 +73,7 @@ if ($action == "login") {
                 }
             } else {
                 $json['errno'] = 1;
-                $json['msg'] = "It seems that you have already register a account with this IP address.";
+                $json['msg'] = "It seems that you have already register an account with this IP address.";
             }
 
         } else {
