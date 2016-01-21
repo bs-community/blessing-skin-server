@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-21 21:59:47
+ * @Last Modified time: 2016-01-21 22:26:07
  */
 $dir = dirname(dirname(__FILE__));
 require "$dir/config.php";
@@ -14,7 +14,7 @@ class utils {
     /**
      * Connect to database
      *
-     * @return null
+     * @return void
      */
     public static function connect() {
         if (!self::$connection) {
@@ -31,9 +31,9 @@ class utils {
     /**
      * Use static function to replace raising a exception
      *
-     * @param  {integer} errno
-     * @param  {string} msg, message to show
-     * @return null
+     * @param  int $errno
+     * @param  string $msg, message to show
+     * @return void
      */
     public static function raise($errno = -1, $msg = "Error occured.") {
         $exception['errno'] = $errno;
@@ -42,11 +42,11 @@ class utils {
     }
 
     /**
-     * Return array of rows which matches provided key adn value
+     * Return array of rows which matches provided key and value
      *
-     * @param  {string} key
-     * @param  {string} value
-     * @return {array} row array returned by mysql_fetch_array()
+     * @param  string $key
+     * @param  string $value
+     * @return array $row, rows matched the key and value
      */
     public static function select($key, $value) {
         $query = self::query("SELECT * FROM users WHERE $key='$value'");
@@ -57,8 +57,8 @@ class utils {
     /**
      * Insert a record to database
      *
-     * @param  {array} array, [uname, passwd, ip]
-     * @return boolean
+     * @param  array $array, [uname, passwd, ip]
+     * @return bool
      */
     public static function insert($array) {
         $uname = $array['uname'];
@@ -77,8 +77,8 @@ class utils {
     /**
      * Rename uploaded file
      *
-     * @param  {array} file, files uploaded via HTTP POST
-     * @return {string} hash, file's sha256 hash
+     * @param  array $file, files uploaded via HTTP POST
+     * @return string $hash, sha256 hash of file
      */
     public static function upload($file) {
         move_uploaded_file($file["tmp_name"], "./textures/tmp.png");
@@ -88,10 +88,24 @@ class utils {
     }
 
     /**
+     * Remove a file
+     *
+     * @param  $filename
+     * @return $bool
+     */
+    public static function remove($filename) {
+        if (!unlink($filename)) {
+            self::raise(-1, "Uncaught error when deleting $filename");
+        } else {
+            return true;
+        }
+    }
+
+    /**
      * Simple SQL injection protection
      *
-     * @param  {string} string, string to convert
-     * @return {string}
+     * @param  string $string
+     * @return string
      */
     public static function convertString($string) {
         return stripslashes(trim($string));
@@ -100,8 +114,8 @@ class utils {
     /**
      * Query with raw SQL statement
      *
-     * @param  {string} sql, raw SQL statement
-     * @return {boolean}
+     * @param  string $sql, raw SQL statement
+     * @return bool
      */
     private static function query($sql) {
         self::connect();
@@ -114,6 +128,13 @@ class utils {
         mysql_close(self::$connection);
     }
 
+    /**
+     * Get the value of key in an array if index exist
+     *
+     * @param  string $key
+     * @param  array $array
+     * @return object
+     */
     function getValue($key, $array) {
         if (array_key_exists($key, $array)) {
             return $array[$key];
