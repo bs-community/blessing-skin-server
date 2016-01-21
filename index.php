@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-21 20:19:15
+ * @Last Modified time: 2016-01-21 23:08:45
  */
 session_start();
 function __autoload($classname) {
@@ -86,7 +86,7 @@ function getValue($key, $array) {
 <div class="remodal" data-remodal-id="login-modal">
     <button data-remodal-action="close" class="remodal-close"></button>
     <h1 id="login-title">Sign In</h1>
-    <form class="pure-form">
+    <div class="pure-form">
         <input class="pure-input" id="uname" type="text" placeholder="Username">
         <input class="pure-input" id="passwd" type="password" placeholder="Password">
         <br />
@@ -94,20 +94,20 @@ function getValue($key, $array) {
             <input id="keep" type="checkbox"> Remember me
         </label>
         <button id="login-button" class="pure-button pure-button-primary">Sign In</button>
-    </form>
+    </div>
     <div id="msg" class="alert"></div>
 </div>
 
 <div class="remodal" data-remodal-id="register-modal">
     <button data-remodal-action="close" class="remodal-close"></button>
     <h1 id="register-title">Sign Up</h1>
-    <form class="pure-form">
+    <div class="pure-form">
         <input class="pure-input" id="reg-uname" type="text" placeholder="Username">
         <input class="pure-input" id="reg-passwd" type="password" placeholder="Password">
         <input class="pure-input" id="reg-passwd2" type="password" placeholder="Comfirm Password">
         <br />
         <button id="register-button" class="pure-button pure-button-primary">Sign Up</button>
-    </form>
+    </div>
     <div id="msg" class="alert"></div>
 </div>
 
