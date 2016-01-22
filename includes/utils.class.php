@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-21 22:26:07
+ * @Last Modified time: 2016-01-22 14:11:23
  */
 $dir = dirname(dirname(__FILE__));
 require "$dir/config.php";
@@ -141,5 +141,6 @@ class utils {
         }
         return false;
     }
+
 }
 ?>

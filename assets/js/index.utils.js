@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:55:44
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-01-22 11:14:09
+* @Last Modified time: 2016-01-22 14:32:22
 */
 
 'use strict';
@@ -63,6 +63,7 @@ $("body").on("click", "#register-button", function(){
 			success: function(json) {
 	        		if (json.errno == 0) {
 					showAlert(json.msg + " Please log in.");
+					$('[data-remodal-id=register-modal]').remodal().close();
 				} else {
 					showAlert(json.msg);
 				}
