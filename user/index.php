@@ -16,6 +16,11 @@ function __autoload($classname) {
 
 $action = utils::getValue('action', $_GET);
 
+if(isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
+	$_SESSION['uname'] = $_COOKIE['uname'];
+	$_SESSION['token'] = $_COOKIE['token'];
+}
+
 if (isset($_SESSION['uname'])) {
 	$user = new user($_SESSION['uname']);
 	if ($_SESSION['token'] != $user->getToken()) {
@@ -47,14 +52,13 @@ if (isset($_SESSION['uname'])) {
 		<a href="javascript:;" title="Movements"><span class="glyphicon glyphicon-pause"></span></a>
 		<a href="javascript:;" title="Running"><span class="glyphicon glyphicon-forward"></span></a>
 		<a href="javascript:;" title="Rotation"><span class="glyphicon glyphicon-repeat"></span></a>
-        <ul class="pure-menu-list">
-            <li class="pure-menu-item pure-menu-selected">
-                <a href="javascript:;" class="pure-menu-link">Upload</a>
-            </li>
-            <li class="pure-menu-item">
-                <a href="javascript:;" class="pure-menu-link" style="color: #5e5e5e">
-                	Welcome, <?php echo $_SESSION['uname']; ?></a>
-            </li>
+		<ul class="pure-menu-list">
+			<li class="pure-menu-item">
+	                <a href="javascript:;" class="pure-menu-link">Welcome, <?php echo $_SESSION['uname']; ?>!</a>
+	         </li>
+         	<li class="pure-menu-item">
+         		<a class="pure-menu-link" id="logout" href="javascript:;">Log out?</a>
+         	</li>
         </ul>
         <div class="home-menu-blur">
             <div class="home-menu-wrp">
@@ -154,7 +158,7 @@ if (isset($_SESSION['uname'])) {
 <script type="text/javascript" src="../libs/cookie.js"></script>
 <script src="../libs/three.js"></script>
 <script src="../libs/three.msp.js"></script>
-<script src="../assets/js/skin_utils.js"></script>
+<script src="../assets/js/user.utils.js"></script>
 <?php
 // get and set texture for preview
 $skin_file = $user->getTexture('skin');
