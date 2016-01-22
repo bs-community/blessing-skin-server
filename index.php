@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-21 23:08:45
+ * @Last Modified time: 2016-01-22 10:33:36
  */
 session_start();
 function __autoload($classname) {
@@ -36,6 +36,7 @@ function getValue($key, $array) {
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="./assets/css/index.style.css">
     <link rel="stylesheet" href="./libs/remodal/remodal.css">
+    <link rel="stylesheet" href="./libs/ply/ply.css">
     <link rel="stylesheet" href="./libs/remodal/remodal-default-theme.css">
 </head>
 <body>
@@ -114,13 +115,13 @@ function getValue($key, $array) {
 <script src="./libs/jquery/jquery-2.1.1.min.js"></script>
 <script src="./libs/cookie.js"></script>
 <script src="./libs/remodal/remodal.min.js"></script>
+<script src="./libs/ply/ply.min.js"></script>
 <script src="./assets/js/index.utils.js"></script>
 <?php
 if ($msg = getValue('msg', $_GET)) { ?>
-    <div class="remodal" data-remodal-id="msg-modal">
-    <h3><?php echo $msg; ?></h3>
-    </div>
-    <script type="text/javascript">$('[data-remodal-id=msg-modal]').remodal().open();</script>
+    <script type="text/javascript">
+        Ply.dialog("alert", "<?php echo $msg; ?>");
+    </script>
 <?php } ?>
 </body>
 </html>

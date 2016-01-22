@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:55:44
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-01-21 18:47:03
+* @Last Modified time: 2016-01-22 10:34:42
 */
 
 'use strict';
@@ -43,6 +43,7 @@ $("body").on("click", "#login-button", function(){
 					}
 					showMsg("alert-success", "Logging succeed!");
 					window.setTimeout("$('[data-remodal-id=login-modal]').remodal().close(); window.location = './user/index.php'", 1000);
+
 				} else {
 					showMsg("alert-danger", json.msg);
 				}
