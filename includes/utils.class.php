@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-22 14:11:23
+ * @Last Modified time: 2016-01-22 15:04:56
  */
 $dir = dirname(dirname(__FILE__));
 require "$dir/config.php";
@@ -65,12 +65,17 @@ class utils {
         $passwd = $array['passwd'];
         $ip = $array['ip'];
         self::connect();
-        $query = self::query("INSERT INTO users (username, password, ip) VALUES ('$uname', '$passwd', '$ip')");
+        $query = self::query("INSERT INTO users (username, password, ip, preference) VALUES ('$uname', '$passwd', '$ip', 'default')");
         return $query;
     }
 
     public static function update($uname, $key, $value) {
         $query = self::query("UPDATE users SET $key='$value' WHERE username='$uname'");
+        return $query;
+    }
+
+    public static function delete($uname) {
+        $query = self::query("DELETE from users WHERE username='$uname'");
         return $query;
     }
 

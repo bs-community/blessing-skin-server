@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-22 14:52:44
+ * @Last Modified time: 2016-01-22 15:04:59
  */
 
 class user {
@@ -49,6 +49,12 @@ class user {
         } else {
             return false;
         }
+    }
+
+    public function unRegister() {
+        utils::remove("./textures/".$this->getTexture('skin'));
+        utils::remove("./textures/".$this->getTexture('cape'));
+        return utils::delete($this->uname);
     }
 
     public function getTexture($type) {
@@ -102,4 +108,3 @@ class user {
     }
 
 }
-?>
