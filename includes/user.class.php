@@ -3,14 +3,13 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-22 14:31:18
+ * @Last Modified time: 2016-01-22 14:52:44
  */
 
 class user {
     private $uname = "";
     private $passwd = "";
     private $token = "";
-    private $preference = "";
 
     public $is_registered = false;
     public $is_admin = false;
@@ -24,7 +23,6 @@ class user {
             $this->passwd = utils::select('username', $this->uname)['password'];
             $this->is_registered = true;
             $this->token = md5($this->uname . $this->passwd.SALT);
-            $this->preference = utils::select('username', $this->uname)['preference'];
         }
     }
 
@@ -74,7 +72,6 @@ class user {
             // remove the original texture first
             utils::remove("./textures/".$this->getTexture('skin'));
             return utils::update($this->uname, 'skin_hash', $hash);
-            echo "shit";
         } else if ($type == "cape") {
             utils::remove("./textures/".$this->getTexture('cape'));
             return utils::update($this->uname, 'cape_hash', $hash);
@@ -82,16 +79,20 @@ class user {
         return false;
     }
 
+    public function setPreference($type) {
+        return utils::update($this->uname, 'preference', $type);
+    }
+
+    public function getPreference() {
+        return utils::select('username', $this->uname)['preference'];
+    }
+
     public function getJsonProfile() {
         if ($this->is_registered) {
             $json['player_name'] = $this->uname;
-            if ($this->preference == "slim") {
-                $json['model_preference'] = ['slim','default'];
-                $json['skins']['slim'] = $this->getTexture('skin');
-            } else {
-                $json['model_preference'] = ['default'];
-                $json['skins']['default'] = $this->getTexture('skin');
-            }
+            $preference = $this->getPreference();
+            $json['model_preference'] = [$preference];
+            $json['skins'][$preference] = $this->getTexture('skin');
             $json['cape'] = $this->getTexture('cape');
         } else {
             $json['errno'] = 1;
