@@ -42,6 +42,7 @@ if (isset($_SESSION['uname'])) {
     <link rel="stylesheet" href="../libs/glyphicon/glyphicon.css">
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/user.style.css">
+    <link rel="stylesheet" href="../libs/ply/ply.css">
     <link rel="stylesheet" href="../libs/remodal/remodal.css">
     <link rel="stylesheet" href="../libs/remodal/remodal-default-theme.css">
 </head>
@@ -156,9 +157,10 @@ if (isset($_SESSION['uname'])) {
 </body>
 <script type="text/javascript" src="../libs/jquery/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="../libs/cookie.js"></script>
-<script src="../libs/three.js"></script>
-<script src="../libs/three.msp.js"></script>
-<script src="../assets/js/user.utils.js"></script>
+<script type="text/javascript" src="../libs/three.js"></script>
+<script type="text/javascript" src="../libs/three.msp.js"></script>
+<script type="text/javascript" src="../libs/ply/ply.min.js"></script>
+<script type="text/javascript" src="../assets/js/user.utils.js"></script>
 <?php
 // get and set texture for preview
 $skin_file = $user->getTexture('skin');

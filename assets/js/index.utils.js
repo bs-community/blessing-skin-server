@@ -2,14 +2,10 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:55:44
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-01-22 10:34:42
+* @Last Modified time: 2016-01-22 11:14:09
 */
 
 'use strict';
-
-function showMsg(type, msg) {
-    $("[id=msg]").removeClass().addClass("alert").addClass(type).html(msg);
-}
 
 $('#login').click(function(){
 	$('[data-remodal-id=login-modal]').remodal().open();
@@ -41,11 +37,10 @@ $("body").on("click", "#login-button", function(){
 						// 设置长效 token （7天）
 						docCookies.setItem("token", json.token, 604800, '/');
 					}
-					showMsg("alert-success", "Logging succeed!");
-					window.setTimeout("$('[data-remodal-id=login-modal]').remodal().close(); window.location = './user/index.php'", 1000);
-
+					showAlert("Logging succeed!");
+					window.setTimeout("window.location = './user/index.php'", 1000);
 				} else {
-					showMsg("alert-danger", json.msg);
+					showAlert(json.msg);
 				}
 	        	}
 	    	});
@@ -67,10 +62,9 @@ $("body").on("click", "#register-button", function(){
 			},
 			success: function(json) {
 	        		if (json.errno == 0) {
-					showMsg("alert-success", json.msg);
-					window.setTimeout("$('[data-remodal-id=register-modal]').remodal().close(); window.location = './index.php?action=login&msg=Successfully Registered, please log in.'", 1000);
+					showAlert(json.msg + " Please log in.");
 				} else {
-					showMsg("alert-danger", json.msg);
+					showAlert(json.msg);
 				}
 	        	}
 		});

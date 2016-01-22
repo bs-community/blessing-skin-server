@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-22 10:33:36
+ * @Last Modified time: 2016-01-22 11:14:35
  */
 session_start();
 function __autoload($classname) {
@@ -120,7 +120,7 @@ function getValue($key, $array) {
 <?php
 if ($msg = getValue('msg', $_GET)) { ?>
     <script type="text/javascript">
-        Ply.dialog("alert", "<?php echo $msg; ?>");
+        showAlert("<?php echo $msg; ?>");
     </script>
 <?php } ?>
 </body>
