@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-22 15:04:59
+ * @Last Modified time: 2016-01-22 15:47:36
  */
 
 class user {
@@ -76,10 +76,12 @@ class user {
         $hash = utils::upload($file);
         if ($type == "skin") {
             // remove the original texture first
-            utils::remove("./textures/".$this->getTexture('skin'));
+            if ($this->getTexture('skin') != "")
+                utils::remove("./textures/".$this->getTexture('skin'));
             return utils::update($this->uname, 'skin_hash', $hash);
         } else if ($type == "cape") {
-            utils::remove("./textures/".$this->getTexture('cape'));
+            if ($this->getTexture('cape') != "")
+                utils::remove("./textures/".$this->getTexture('cape'));
             return utils::update($this->uname, 'cape_hash', $hash);
         }
         return false;

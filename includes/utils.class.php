@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-22 15:04:56
+ * @Last Modified time: 2016-01-22 15:46:20
  */
 $dir = dirname(dirname(__FILE__));
 require "$dir/config.php";
@@ -99,10 +99,12 @@ class utils {
      * @return $bool
      */
     public static function remove($filename) {
-        if (!unlink($filename)) {
-            self::raise(-1, "Uncaught error when deleting $filename");
-        } else {
-            return true;
+        if(file_exists($filename)) {
+            if (!unlink($filename)) {
+                self::raise(-1, "Uncaught error when deleting $filename");
+            } else {
+                return true;
+            }
         }
     }
 
