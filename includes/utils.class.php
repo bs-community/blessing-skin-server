@@ -142,7 +142,7 @@ class utils {
      * @param  array $array
      * @return object
      */
-    function getValue($key, $array) {
+    public static function getValue($key, $array) {
         if (array_key_exists($key, $array)) {
             return $array[$key];
         }
