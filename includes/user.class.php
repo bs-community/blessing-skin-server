@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-22 15:47:36
+ * @Last Modified time: 2016-02-02 21:31:36
  */
 
 class user {
@@ -68,8 +68,13 @@ class user {
 
     public function getBinaryTexture($type) {
         $filename = "./textures/".$this->getTexture($type);
-        $data = fread(fopen($filename, 'r'), filesize($filename));
-        return $data;
+        if (file_exists($filename)) {
+            header('Content-Type: image/png');
+            $data = fread(fopen($filename, 'r'), filesize($filename));
+            return $data;
+        } else {
+            utils::raise(-1, 'Texture no longer exists.');
+        }
     }
 
     public function setTexture($type, $file) {
@@ -96,6 +101,7 @@ class user {
     }
 
     public function getJsonProfile() {
+        header('Content-type: application/json');
         if ($this->is_registered) {
             $json['player_name'] = $this->uname;
             $preference = $this->getPreference();
