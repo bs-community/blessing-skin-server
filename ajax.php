@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-02 21:50:54
+ * @Last Modified time: 2016-02-02 23:28:03
  *
  * All ajax requests will be handled here
  */
@@ -12,9 +12,12 @@ header('Access-Control-Allow-Origin: *');
 session_start();
 $dir = dirname(__FILE__);
 require "$dir/includes/autoload.inc.php";
+require "$dir/config.php";
+
+database::checkConfig();
 
 if (isset($_POST['uname'])) {
-    $user = new user($uname);
+    $user = new user($_POST['uname']);
 } else {
     utils::raise('1', 'Empty username.');
 }
@@ -48,8 +51,9 @@ if ($action == "login") {
             } else {
                 $ip = $_SERVER['REMOTE_ADDR'];
             }
-
-            if (!utils::select('ip', $ip)) {
+            // If amout of registered accounts of IP is more than allowed mounts,
+            // then reject the registration.
+            if ($user->db->getNumRows('ip', $ip) < REGS_PER_IP) {
                 // use once md5 to encrypt password
                 if ($user->register(md5($_POST['passwd']), $ip)) {
                     $json['errno'] = 0;
@@ -60,7 +64,7 @@ if ($action == "login") {
                 }
             } else {
                 $json['errno'] = 1;
-                $json['msg'] = "It seems that you have already register an account with this IP address.";
+                $json['msg'] = "You can't create more than ".REGS_PER_IP." accounts with this IP.";
             }
 
         } else {

@@ -8,8 +8,9 @@
 session_start();
 $dir = dirname(dirname(__FILE__));
 require "$dir/includes/autoload.inc.php";
+require "$dir/config.php";
 
-$action = utils::getValue('action', $_GET);
+$action = isset($_GET['action']) ? $_GET['action'] : "";
 
 if(isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
 	$_SESSION['uname'] = $_COOKIE['uname'];

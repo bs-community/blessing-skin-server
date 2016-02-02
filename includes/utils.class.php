@@ -3,33 +3,13 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-22 15:46:20
+ * @Last Modified time: 2016-02-02 22:46:50
  */
-$dir = dirname(dirname(__FILE__));
-require "$dir/config.php";
 
-class utils {
-    private static $connection = null;
-
+class utils
+{
     /**
-     * Connect to database
-     *
-     * @return void
-     */
-    public static function connect() {
-        if (!self::$connection) {
-            if ($con = mysql_connect(DB_HOST, DB_USER, DB_PASSWD)) {
-                self::$connection = $con;
-                mysql_select_db(DB_NAME, self::$connection);
-            } else {
-                $msg = "Can not connect to mysql, check if database info correct in config.php. ".mysql_error();
-                self::raise(-1, $msg);
-            }
-        }
-    }
-
-    /**
-     * Use static function to replace raising a exception
+     * Custom error handler
      *
      * @param  int $errno
      * @param  string $msg, message to show
@@ -39,44 +19,6 @@ class utils {
         $exception['errno'] = $errno;
         $exception['msg'] = $msg;
         die(json_encode($exception));
-    }
-
-    /**
-     * Return array of rows which matches provided key and value
-     *
-     * @param  string $key
-     * @param  string $value
-     * @return array $row, rows matched the key and value
-     */
-    public static function select($key, $value) {
-        $query = self::query("SELECT * FROM users WHERE $key='$value'");
-        $row = mysql_fetch_array($query);
-        return $row;
-    }
-
-    /**
-     * Insert a record to database
-     *
-     * @param  array $array, [uname, passwd, ip]
-     * @return bool
-     */
-    public static function insert($array) {
-        $uname = $array['uname'];
-        $passwd = $array['passwd'];
-        $ip = $array['ip'];
-        self::connect();
-        $query = self::query("INSERT INTO users (username, password, ip, preference) VALUES ('$uname', '$passwd', '$ip', 'default')");
-        return $query;
-    }
-
-    public static function update($uname, $key, $value) {
-        $query = self::query("UPDATE users SET $key='$value' WHERE username='$uname'");
-        return $query;
-    }
-
-    public static function delete($uname) {
-        $query = self::query("DELETE from users WHERE username='$uname'");
-        return $query;
     }
 
     /**
@@ -116,23 +58,6 @@ class utils {
      */
     public static function convertString($string) {
         return stripslashes(trim($string));
-    }
-
-    /**
-     * Query with raw SQL statement
-     *
-     * @param  string $sql, raw SQL statement
-     * @return bool
-     */
-    private static function query($sql) {
-        self::connect();
-        $query = mysql_query($sql, self::$connection);
-        if ($query) {
-            return $query;
-        } else {
-            self::raise('1', mysql_error());
-        }
-        mysql_close(self::$connection);
     }
 
     /**

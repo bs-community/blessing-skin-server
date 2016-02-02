@@ -3,26 +3,29 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-02 21:38:22
+ * @Last Modified time: 2016-02-02 23:41:37
  */
 
-class user {
-    private $uname = "";
+class user
+{
+    private $uname  = "";
     private $passwd = "";
-    private $token = "";
+    private $token  = "";
 
+    public $db = null;
     public $is_registered = false;
     public $is_admin = false;
 
     function __construct($uname) {
         $this->uname = utils::convertString($uname);
-        if (utils::select('username', $this->uname)['uid'] == 1) {
-            $this->is_admin = true;
-        }
-        if (utils::select('username', $this->uname)['password'] != "") {
-            $this->passwd = utils::select('username', $this->uname)['password'];
-            $this->is_registered = true;
+        $this->db = new database();
+        if ($this->db->checkRecordExist('username', $this->uname)) {
+            $this->passwd = $this->db->select('username', $this->uname)['password'];
             $this->token = md5($this->uname . $this->passwd.SALT);
+            $this->is_registered = true;
+            if ($this->db->select('username', $this->uname)['uid'] == 1) {
+                $this->is_admin = true;
+            }
         }
     }
 
@@ -39,7 +42,7 @@ class user {
     }
 
     public function register($passwd, $ip) {
-        if (utils::insert(array(
+        if ($this->db->insert(array(
                                 "uname" => $this->uname,
                                 "passwd" => $passwd,
                                 "ip" => $ip
@@ -59,9 +62,9 @@ class user {
 
     public function getTexture($type) {
         if ($type == "skin") {
-            return utils::select('username', $this->uname)['skin_hash'];
+            return $this->db->select('username', $this->uname)['skin_hash'];
         } else if ($type == "cape") {
-            return utils::select('username', $this->uname)['cape_hash'];
+            return $this->db->select('username', $this->uname)['cape_hash'];
         }
         return false;
     }
@@ -84,21 +87,21 @@ class user {
             // remove the original texture first
             if ($this->getTexture('skin') != "")
                 utils::remove("./textures/".$this->getTexture('skin'));
-            return utils::update($this->uname, 'skin_hash', $hash);
+            return $this->db->update($this->uname, 'skin_hash', $hash);
         } else if ($type == "cape") {
             if ($this->getTexture('cape') != "")
                 utils::remove("./textures/".$this->getTexture('cape'));
-            return utils::update($this->uname, 'cape_hash', $hash);
+            return $this->db->update($this->uname, 'cape_hash', $hash);
         }
         return false;
     }
 
     public function setPreference($type) {
-        return utils::update($this->uname, 'preference', $type);
+        return $this->db->update($this->uname, 'preference', $type);
     }
 
     public function getPreference() {
-        return utils::select('username', $this->uname)['preference'];
+        return $this->db->select('username', $this->uname)['preference'];
     }
 
     public function getJsonProfile() {

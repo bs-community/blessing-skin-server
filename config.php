@@ -13,4 +13,6 @@ define('DB_HOST', 'localhost');
 
 /* 盐，用于 token 验证，自行修改 */
 define('SALT', '9tvsh55d*s');
-?>
+
+/* 同一 IP 可注册的账户数 */
+define('REGS_PER_IP', 2);
