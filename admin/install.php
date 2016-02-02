@@ -3,39 +3,31 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-17 15:11:13
+ * @Last Modified time: 2016-02-03 00:23:08
  *
  * Create tables automatically
  */
 
-function __autoload($classname) {
-    $filename = "./includes/". $classname .".class.php";
-    include_once($filename);
-}
+$dir = dirname(dirname(__FILE__));
+require "$dir/includes/autoload.inc.php";
+require "$dir/config.php";
 
 echo "<style>body { font-family: Courier; }</style>";
 
 if (!file_exists("./install.lock")) {
-	require "../config.php";
-	$con = mysql_connect(DB_HOST, DB_USER, DB_PASSWD);
+	$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWD, DB_NAME);
 
 	echo "<h2>Blessing Skin Server Install</h2>";
 
-	if (!$con) {
-		utils::raise('1', "Can not connect to mysql, check if database info correct in config.php. ".mysql_error());
+	if ($conn->connect_error) {
+		utils::raise(-1, "Can not connect to mysql, check if database info correct in config.php. ".$conn->connect_error);
 	} else {
-		echo "Succesfully connected to mysql server.<br /><br />";
+		echo "Succesfully connected to database ".DB_USER."@".DB_HOST.". <br /><br />";
 	}
-
-	if(!mysql_select_db(DB_NAME, $con)){
-		utils::raise('1', "Can not select database, please check if database '".DB_NAME."' really exists.");
-	}
-
-	echo "Selected database: ".DB_NAME."<br /><br />";
 
 	echo "Start creating tables... <br /><br />";
 
-	$query = "CREATE TABLE IF NOT EXISTS `users` (
+	$sql  =  "CREATE TABLE IF NOT EXISTS `users` (
 			  `uid` int(11) NOT NULL AUTO_INCREMENT,
 			  `username` varchar(20) NOT NULL,
 			  `password` varchar(32) NOT NULL,
@@ -47,15 +39,15 @@ if (!file_exists("./install.lock")) {
 			  UNIQUE KEY `uid` (`uid`)
 			) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15;";
 
-	if(!mysql_query($query)) {
-		utils::raise('1', "Creating tables failed. ".mysql_error());
+	if(!$conn->query($sql)) {
+		utils::raise(1, "Creating tables failed. ".$conn->error);
 	}
 
 	/**
 	 * username: admin
 	 * password: 123456
 	 */
-	mysql_query("INSERT INTO `users` (`uid`, `username`, `password`, `ip`, `preference`) VALUES(1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', '127.0.0.1', 'default')");
+	$conn->query("INSERT INTO `users` (`uid`, `username`, `password`, `ip`, `preference`) VALUES(1, 'admin', 'e10adc3949ba59abbe56e057f20f883e', '127.0.0.1', 'default')");
 
 	echo "Creating tables successfully <br /><br />";
 
@@ -75,12 +67,12 @@ if (!file_exists("./install.lock")) {
 		fwrite($lock, time());
 		fclose($lock);
 	} else {
-		die("Unable to write 'install.lock'.");
+		die("Unable to write `install.lock`. Please check the permisson and create a `install.lock` file manually.");
 	}
 
 } else {
 	echo "<br />";
 	echo "It seems that you have already installed. <a href='../index.php'>Index</a><br /><br />";
-	echo "May you should delete the file 'install.lock' in ./admin to unlock installing.";
+	echo "May you should delete the file `install.lock` in ./admin to unlock installing.";
 }
 ?>
