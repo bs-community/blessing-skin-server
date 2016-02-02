@@ -3,47 +3,19 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-01-22 16:17:40
+ * @Last Modified time: 2016-02-02 21:20:23
  */
+session_start();
 $dir = dirname(__FILE__);
-
-function __autoload($classname) {
-    global $dir;
-    $filename = "$dir/includes/". $classname .".class.php";
-    include_once($filename);
-}
-
-if ($_GET['action'] == "get") {
-    if ($_GET['type'] && $_GET['uname']) {
-        $user = new user($_GET['uname']);
-        if ($_GET['type'] == "skin") {
-            header('Content-Type: image/png');
-            echo $user->getBinaryTexture('skin');
-        } else if ($_GET['type'] == "cape") {
-            header('Content-Type: image/png');
-            echo $user->getBinaryTexture('cape');
-        } else {
-            header('Content-type: application/json');
-            echo $user->getJsonProfile();
-        }
-    } else {
-        utils::raise(1, 'Illegal parameters.');
+require "$dir/includes/autoload.inc.php";
+// Auto load cookie value to session
+if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
+    $user = new user($_COOKIE['uname']);
+    if ($_COOKIE['token'] == $user->getToken()) {
+        $_SESSION['uname'] = $_COOKIE['uname'];
+        $_SESSION['token'] = $user->getToken();
     }
-} else {
-    session_start();
-    if (utils::getValue('uname', $_COOKIE) && utils::getValue('token', $_COOKIE)) {
-        $user = new user($_COOKIE['uname']);
-        if ($_COOKIE['token'] == $user -> getToken()) {
-            $_SESSION['uname'] = $_COOKIE['uname'];
-            $_SESSION['token'] = $user -> getToken();
-        }
-    }
-/**
- * 越写越像 MVC 。。。路由了以后就不得不视图层分离了啊。。等有时间用模板吧
- *
- * 这个入口也是神 TM 丑（扶额
- */
-?>
+} ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,8 +40,7 @@ if ($_GET['action'] == "get") {
                 <a href="#" class="pure-menu-link">Home</a>
             </li>
             <li class="pure-menu-item">
-                <?php
-                        if ($uname = utils::getValue('uname', $_SESSION)) { ?>
+                <?php if ($uname = utils::getValue('uname', $_SESSION)) { ?>
                 <a href="./user/index.php" class="pure-menu-link" style="color: #5e5e5e">Welcome, <?php echo $uname; ?></a>
                 <?php } else { ?>
                 <a id="login" href="javascript:;" class="pure-button pure-button-primary">Sign In</a>
@@ -144,5 +115,3 @@ if ($msg = utils::getValue('msg', $_GET)) { ?>
 <?php } ?>
 </body>
 </html>
-<?php } ?>
-
