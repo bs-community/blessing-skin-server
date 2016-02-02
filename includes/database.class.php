@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 21:59:06
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-02 23:48:47
+ * @Last Modified time: 2016-02-03 00:10:17
  */
 
 class database
@@ -20,7 +20,18 @@ class database
             utils::raise(-1, "Can not connect to mysql, check if database info correct in config.php. ".
                                 $conn->connect_error);
         }
+        if (!self::checkTableExist($conn)) {
+            utils::raise(-1, "Looks like that there is no `users` table in your database. ".
+                               "Please run `/admin/install.php` first.");
+        }
         return $conn;
+    }
+
+    public static function checkTableExist($conn) {
+        $sql = "SELECT table_name FROM
+                 `INFORMATION_SCHEMA`.`TABLES` WHERE table_name ='users'
+                 AND TABLE_SCHEMA='".DB_NAME."'";
+        return ($conn->query($sql)->num_rows != 0) ? true : false;
     }
 
     public function query($sql) {
