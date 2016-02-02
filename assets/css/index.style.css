@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 20:07:47
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-01-21 21:09:54
+* @Last Modified time: 2016-02-02 21:44:58
 */
 .home-menu-blur {
     position: absolute;
@@ -17,7 +17,7 @@
     background-color: rgba(255,255,255,0.4);
 }
 .home-menu-bg {
-    background-image: url("http://ww4.sinaimg.cn/large/823186a6gw1enwts09sbrj21hc0u016u.jpg");
+    background-image: url("../images/bg.jpg");
     background-position: center 0;
     background-size: auto 800px;
     position: absolute;
@@ -34,8 +34,7 @@
 
 .container {
     background-image:
-        url("http://ww4.sinaimg.cn/large/823186a6gw1enwts09sbrj21hc0u016u.jpg");
-    /* background-size: cover; */
+        url("../images/bg.jpg");
     background-size: auto 800px;
     background-repeat: no-repeat;
     background-position: center 0;

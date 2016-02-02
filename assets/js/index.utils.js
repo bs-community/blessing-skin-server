@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:55:44
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-01-22 15:03:08
+* @Last Modified time: 2016-02-02 21:41:26
 */
 
 'use strict';
@@ -66,6 +66,7 @@ $("body").on("click", "#register-button", function(){
 					$('[data-remodal-id=register-modal]').remodal().close();
 					showMsg('hide', "");
 				} else {
+					showMsg('hide', "");
 					showAlert(json.msg);
 				}
 	        	}

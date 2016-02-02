@@ -7,12 +7,7 @@
 */
 session_start();
 $dir = dirname(dirname(__FILE__));
-
-function __autoload($classname) {
-	global $dir;
-    $filename = "$dir/includes/". $classname .".class.php";
-    include_once($filename);
-}
+require "$dir/includes/autoload.inc.php";
 
 $action = utils::getValue('action', $_GET);
 

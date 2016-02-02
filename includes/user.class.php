@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-02 21:31:36
+ * @Last Modified time: 2016-02-02 21:38:22
  */
 
 class user {
@@ -73,6 +73,7 @@ class user {
             $data = fread(fopen($filename, 'r'), filesize($filename));
             return $data;
         } else {
+            header('Content-type: application/json');
             utils::raise(-1, 'Texture no longer exists.');
         }
     }
