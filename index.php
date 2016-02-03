@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-03 18:25:26
+ * @Last Modified time: 2016-02-03 22:20:07
  */
 session_start();
 $dir = dirname(__FILE__);
@@ -24,6 +24,7 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blessing Skin Server</title>
+    <link rel="shortcut icon" href="./assets/images/favicon.ico">
     <link rel="stylesheet" href="./libs/pure/pure-min.css">
     <link rel="stylesheet" href="./libs/pure/grids-responsive-min.css">
     <link rel="stylesheet" href="./assets/css/style.css">

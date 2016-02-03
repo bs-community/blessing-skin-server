@@ -33,6 +33,7 @@ if (isset($_SESSION['uname'])) {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload - Blessing Skin Server</title>
+    <link rel="shortcut icon" href="../assets/images/favicon.ico">
     <link rel="stylesheet" href="../libs/pure/pure-min.css">
     <link rel="stylesheet" href="../libs/pure/grids-responsive-min.css">
     <link rel="stylesheet" href="../libs/glyphicon/glyphicon.css">
