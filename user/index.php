@@ -128,12 +128,15 @@ if (isset($_SESSION['uname'])) {
 </div>
 <style>
     #preview { display: none; }
-    @media (max-width: 800px) {
+    @media (max-width: 48em) {
         #skinpreview { display: none; }
         #preview { display: inline-block; }
         .pure-u-2-3 { width: 0%; }
         .pure-u-1-3 { width: 100%; }
         .upload-container { width: 70%; height: 50%; margin: 100px auto; }
+    }
+    @media (max-width: 20em) {
+        .upload-container { margin: 130px auto; }
     }
 </style>
 <?php } ?>
