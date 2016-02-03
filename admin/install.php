@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-03 13:50:17
+ * @Last Modified time: 2016-02-03 15:45:46
  *
  * Create tables automatically
  */
@@ -60,6 +60,11 @@ if (!file_exists("./install.lock")) {
 +-----------------------------------------------------------------------------------+-----------------+
 </pre>
 	";
+
+	if (!is_dir("../textures/")) {
+		echo mkdir("../textures/") ? "Creating textures directory..." :
+								 	 "Creating textures directory failed."
+	}
 
 	echo "Successfully installed. <a href='../index.php'>Index</a>";
 
