@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:55:44
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-02 21:41:26
+* @Last Modified time: 2016-02-03 10:19:29
 */
 
 'use strict';
@@ -30,8 +30,8 @@ $("body").on("click", "#login-button", function(){
 			},
 	    		success: function(json) {
 	        		if (json.errno == 0) {
-	        		    docCookies.setItem("uname", uname, '/');
-	        		    docCookies.setItem("token", json.token, '/');
+	        		    docCookies.setItem("uname", uname, null, '/');
+	        		    docCookies.setItem("token", json.token, null, '/');
 					if ($("#keep").prop("checked")) {
 					    docCookies.setItem("uname", uname, 604800, '/');
 						// 设置长效 token （7天）
@@ -41,6 +41,7 @@ $("body").on("click", "#login-button", function(){
 					window.setTimeout("window.location = './user/index.php'", 1000);
 				} else {
 					showAlert(json.msg);
+					showMsg('hide', "");
 				}
 	        	}
 	    	});
@@ -66,8 +67,8 @@ $("body").on("click", "#register-button", function(){
 					$('[data-remodal-id=register-modal]').remodal().close();
 					showMsg('hide', "");
 				} else {
-					showMsg('hide', "");
 					showAlert(json.msg);
+					showMsg('hide', "");
 				}
 	        	}
 		});

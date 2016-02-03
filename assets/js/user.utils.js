@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:56:40
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-01-22 11:23:48
+* @Last Modified time: 2016-02-03 10:17:30
 */
 
 'use strict';
@@ -77,9 +77,8 @@ $("#logout").click(function(){
 		dataType: "json",
 		data: {"uname": docCookies.getItem('uname')},
 		success: function(json) {
-			var path = "/" + document.URL.split("/").slice(-3)[0];
-			docCookies.removeItem("uname", path);
-			docCookies.removeItem("token", path);
+			docCookies.removeItem("uname", "/");
+			docCookies.removeItem("token", "/");
 			showAlert(json.msg + " Successfully logged out.");
 			window.setTimeout(function(){
 				window.location = "../index.php";
