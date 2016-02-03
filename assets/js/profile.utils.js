@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-02-03 17:21:46
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-03 19:58:08
+* @Last Modified time: 2016-02-03 20:25:52
 */
 
 'use strict';
@@ -29,7 +29,7 @@ $('#change').click(function(){
             }
         });
     }
-})
+});
 
 function checkForm(passwd, new_passwd, confirm_pwd) {
     if (passwd == ""){
@@ -53,3 +53,29 @@ function checkForm(passwd, new_passwd, confirm_pwd) {
         return true;
     }
 }
+
+$('#delete').click(function(){
+    Ply.dialog("prompt", {
+        title: "Type in your password to confirm:",
+        form: { passwd: "Password" }
+    }).done(function(ui){
+        var passwd = ui.data.passwd;
+        $.ajax({
+            type: "POST",
+            url: "../ajax.php?action=delete",
+            dataType: "json",
+            data: { "uname": docCookies.getItem('uname'), "passwd": passwd },
+            success: function(json) {
+                if (json.errno == 0) {
+                    docCookies.removeItem("uname", "/");
+                    docCookies.removeItem("token", "/");
+                    showAlert(json.msg + " Bye~", function(){
+                        window.location = "../index.php";
+                    });
+                } else {
+                    showAlert(json.msg);
+                }
+            }
+        });
+    });
+});
