@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-03 13:31:10
+ * @Last Modified time: 2016-02-03 14:00:51
  */
 
 class user
@@ -111,6 +111,7 @@ class user
         header('Content-type: application/json');
         if ($this->is_registered) {
             $json['player_name'] = $this->uname;
+            $json['last_update'] = $this->getLastModified();
             $preference = $this->getPreference();
             $json['model_preference'] = [$preference];
             $json['skins'][$preference] = $this->getTexture('skin');
