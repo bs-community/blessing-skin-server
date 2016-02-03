@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-03 00:23:08
+ * @Last Modified time: 2016-02-03 13:50:17
  *
  * Create tables automatically
  */
@@ -35,8 +35,8 @@ if (!file_exists("./install.lock")) {
 			  `preference` varchar(10) NOT NULL,
 			  `skin_hash` varchar(64) NOT NULL,
 			  `cape_hash` varchar(64) NOT NULL,
-			  PRIMARY KEY (`uid`),
-			  UNIQUE KEY `uid` (`uid`)
+			  `last_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+			  PRIMARY KEY (`uid`)
 			) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15;";
 
 	if(!$conn->query($sql)) {
@@ -53,11 +53,11 @@ if (!file_exists("./install.lock")) {
 
 	echo "
 <pre style='font-family: Courier;'>
-+-----------------------------------------------------------------------------------+
-|  uid  |  username  |  password  |  ip  |  preference  |  skin_hash  |  cape_hash  |
-+-----------------------------------------------------------------------------------+
-|   1   |    admin   |   123456   |   *  |    default   |      *      |      *      |
-+-----------------------------------------------------------------------------------+
++-----------------------------------------------------------------------------------+-----------------+
+|  uid  |  username  |  password  |  ip  |  preference  |  skin_hash  |  cape_hash  |  last_modofied  |
++-----------------------------------------------------------------------------------+-----------------+
+|   1   |    admin   |   123456   |   *  |    default   |      *      |      *      |        *        |
++-----------------------------------------------------------------------------------+-----------------+
 </pre>
 	";
 
