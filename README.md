@@ -1,8 +1,6 @@
 # Blessing Skin Server
 
-Just a simple open-source Minecraft skin server write in PHP.
-
-Live demo is now unavailable because of my fault that typing in wrong path when excute `chsh` on my VPS :(
+Just a simple open-source Minecraft skin server write in PHP. [Live demo](https://work.prinzeugen.net/blessing-skin-server/)
 
 ![screenshot](https://img.prinzeugen.net/image.php?di=TASP)
 
@@ -30,17 +28,14 @@ Server configure:
 Add rewrite rules to your nginx.conf:
 
 ```
-if (!-e $request_filename) {
-	rewrite ^/([^/]*).json$ /get.php?type=json&uname=$1 last;
-	rewrite ^/skin/([^/]*).png$ /get.php?type=skin&uname=$1 last;
-	rewrite ^/cape/([^/]*).png$ /get.php?type=cape&uname=$1 last;
-	break;
+location / {
+    rewrite ^/([^/]*).json$ /get.php?type=json&uname=$1 last;
+    rewrite ^/(skin|cape)/([^/]*).png$ /get.php?type=$1&uname=$2 last;
 }
 ```
+If you installed the skin server to subdirectory, be careful of your `location`.
 
-Well, I need more time to add a fancy route instead of these shit :(
-
-Now you can access `/path/to/root/username.json` to get your json profile. After uploading skins, you can also access `/path/to/root/skin/username.png` for skin image or `/path/to/root/cape/username.png` for cape.
+Now you can access `http://example.com/username.json` to get your json profile. After uploading skins, you can also access `http://example.com/skin/username.png` for skin image or `http://example.com/cape/username.png` for cape.
 
 Client configure:
 ------------
@@ -62,7 +57,7 @@ Sample:
 # SkinMe Default
 Root: http://www.skinme.cc/uniskin
 # Your Server
-Root: http://fuck.io/path/to/root
+Root: http://example.com
 ```
 
 #### For UniSkinMod version < 1.3 or other
@@ -78,8 +73,8 @@ Version: 1
 Skin: http://skins.minecraft.net/MinecraftSkins/%s.png
 Cape: http://skins.minecraft.net/MinecraftCloaks/%s.png
 # Your Server
-Skin: http://fuck.io/path/to/root/skin/%s.png
-Cape: http://fuck.io/path/to/root/cape/%s.png
+Skin: http://example.com/skin/%s.png
+Cape: http://example.com/cape/%s.png
 ```
 
 FAQ
