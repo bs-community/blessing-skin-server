@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-03 15:45:46
+ * @Last Modified time: 2016-02-03 15:51:27
  *
  * Create tables automatically
  */
@@ -35,12 +35,12 @@ if (!file_exists("./install.lock")) {
 			  `preference` varchar(10) NOT NULL,
 			  `skin_hash` varchar(64) NOT NULL,
 			  `cape_hash` varchar(64) NOT NULL,
-			  `last_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+			  `last_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 			  PRIMARY KEY (`uid`)
 			) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15;";
 
 	if(!$conn->query($sql)) {
-		utils::raise(1, "Creating tables failed. ".$conn->error);
+		die("Creating tables failed. <br /><br />".$conn->error);
 	}
 
 	/**
@@ -62,8 +62,8 @@ if (!file_exists("./install.lock")) {
 	";
 
 	if (!is_dir("../textures/")) {
-		echo mkdir("../textures/") ? "Creating textures directory..." :
-								 	 "Creating textures directory failed."
+		echo mkdir("../textures/") ? "Creating textures directory...<br /><br />" :
+								 	 "Creating textures directory failed. Check permissons.<br /><br />";
 	}
 
 	echo "Successfully installed. <a href='../index.php'>Index</a>";

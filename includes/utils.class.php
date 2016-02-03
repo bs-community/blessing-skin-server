@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-03 10:41:31
+ * @Last Modified time: 2016-02-03 15:52:39
  */
 
 class utils
@@ -18,6 +18,7 @@ class utils
     public static function raise($errno = -1, $msg = "Error occured.") {
         $exception['errno'] = $errno;
         $exception['msg'] = $msg;
+        header('Content-type: application/json');
         die(json_encode($exception));
     }
 
