@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:56:40
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-03 10:29:24
+* @Last Modified time: 2016-02-03 13:28:19
 */
 
 'use strict';
@@ -112,14 +112,14 @@ $("#upload").click(function(){
 						},
 			success: function(json) {
 				console.log(json);
-				if (json['skin'].errno == 0 && json['cape'].errno == 0) {
+				if (json.skin.errno == 0 && json.cape.errno == 0) {
 					showMsg("alert-success", "Successfully uploaded.");
 				}
-				if (json['skin'].errno != 0) {
-					showMsg("alert-danger", "Error when uploading skin:\n"+json['skin'].msg);
+				if (json.skin.errno != 0) {
+					showMsg("alert-danger", "Error when uploading skin:\n"+json.skin.msg);
 				}
-				if (json['cape'].errno != 0) {
-					showMsg("alert-danger", "Error when uploading cape:\n"+json['cape'].msg);
+				if (json.cape.errno != 0) {
+					showMsg("alert-danger", "Error when uploading cape:\n"+json.cape.msg);
 				}
 			}
 		});
