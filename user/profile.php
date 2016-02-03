@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-03 16:12:45
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-03 22:20:38
+ * @Last Modified time: 2016-02-03 23:15:41
  */
 
 session_start();
@@ -85,6 +85,16 @@ if (isset($_SESSION['uname'])) {
                     <p>This is permanent! No backups, no restores, no magic undo button.</p>
                     <p>We warned you, ok?</p>
                     <button id="delete" class="pure-button pure-button-error">I am sure.</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="pure-g">
+        <div class="pure-u-1 pure-u-md-1-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">How To Use?</div>
+                <div class="panel-body">
+                    <p>Check it here: <a href="https://github.com/printempw/blessing-skin-server/blob/master/README.md">printempw/blessing-skin-server</a></p>
                 </div>
             </div>
         </div>
