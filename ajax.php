@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-02 23:28:03
+ * @Last Modified time: 2016-02-03 10:26:40
  *
  * All ajax requests will be handled here
  */
@@ -73,7 +73,7 @@ if ($action == "login") {
         }
     }
 } else if ($action == "upload") {
-    if ($_SESSION['token'] == $user->getToken()) {
+    if (utils::getValue('token', $_SESSION) == $user->getToken()) {
         if (checkFile()) {
             if ($file = utils::getValue('skin_file', $_FILES)) {
                 if ($user->setTexture('skin', $file)) {
