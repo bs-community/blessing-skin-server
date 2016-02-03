@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-03 10:26:40
+ * @Last Modified time: 2016-02-03 10:29:58
  *
  * All ajax requests will be handled here
  */
@@ -77,20 +77,20 @@ if ($action == "login") {
         if (checkFile()) {
             if ($file = utils::getValue('skin_file', $_FILES)) {
                 if ($user->setTexture('skin', $file)) {
-                    $json[0]['errno'] = 0;
-                    $json[0]['msg'] = "Skin uploaded successfully.";
+                    $json['skin']['errno'] = 0;
+                    $json['skin']['msg'] = "Skin uploaded successfully.";
                 } else {
-                    $json[0]['errno'] = 1;
-                    $json[0]['msg'] = "Uncaught error.";
+                    $json['skin']['errno'] = 1;
+                    $json['skin']['msg'] = "Uncaught error.";
                 }
             }
             if ($file = utils::getValue('cape_file', $_FILES)) {
                 if ($user->setTexture('cape', $file)) {
-                    $json[1]['errno'] = 0;
-                    $json[1]['msg'] = "Cape uploaded successfully.";
+                    $json['cape']['errno'] = 0;
+                    $json['cape']['msg'] = "Cape uploaded successfully.";
                 } else {
-                    $json[1]['errno'] = 1;
-                    $json[1]['msg'] = "Uncaught error.";
+                    $json['cape']['errno'] = 1;
+                    $json['cape']['msg'] = "Uncaught error.";
                 }
             }
         }
@@ -148,8 +148,8 @@ function checkFile() {
             $json['msg'] = 'Skin file type error.';
             return false;
         } else {
-            $json[0]['errno'] = 0;
-            $json[0]['msg'] = 'No skin file selected.';
+            $json['skin']['errno'] = 0;
+            $json['skin']['msg'] = 'No skin file selected.';
         }
     }
 
@@ -169,8 +169,8 @@ function checkFile() {
             $json['msg'] = 'Cape file type error.';
             return false;
         } else {
-            $json[1]['errno'] = 0;
-            $json[1]['msg'] = 'No cape file selected.';
+            $json['cape']['errno'] = 0;
+            $json['cape']['msg'] = 'No cape file selected.';
         }
     }
 
