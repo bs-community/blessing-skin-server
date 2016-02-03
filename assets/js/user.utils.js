@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:56:40
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-03 13:28:19
+* @Last Modified time: 2016-02-03 19:58:45
 */
 
 'use strict';
@@ -71,19 +71,10 @@ $("[title='Rotation']").click(function(){
 });
 
 $("#logout").click(function(){
-	$.ajax({
-		type: "POST",
-		url: "../ajax.php?action=logout",
-		dataType: "json",
-		data: {"uname": docCookies.getItem('uname')},
-		success: function(json) {
-			docCookies.removeItem("uname", "/");
-			docCookies.removeItem("token", "/");
-			showAlert(json.msg + " Successfully logged out.");
-			window.setTimeout(function(){
-				window.location = "../index.php";
-			}, 1000);
-		}
+	logout(function(json){
+		showAlert(json.msg + " Successfully logged out.", function(){
+			window.location = "../index.php";
+		});
 	});
 });
 

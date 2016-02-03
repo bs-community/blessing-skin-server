@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-03 16:12:45
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-03 17:21:31
+ * @Last Modified time: 2016-02-03 19:12:26
  */
 
 session_start();
@@ -46,11 +46,11 @@ if (isset($_SESSION['uname'])) {
         <a href="javascript:;" title="Rotation"><span class="glyphicon glyphicon-repeat"></span></a>
         <ul class="pure-menu-list">
             <li class="pure-menu-item">
+                <a class="pure-menu-link" href="index.php">Upload</a>
+            </li>
+            <li class="pure-menu-item">
                     <a href="javascript:;" class="pure-menu-link">Welcome, <?php echo $_SESSION['uname']; ?>!</a>
              </li>
-            <li class="pure-menu-item">
-                <a class="pure-menu-link" id="logout" href="javascript:;">Log out?</a>
-            </li>
         </ul>
         <div class="home-menu-blur">
             <div class="home-menu-wrp">
@@ -66,12 +66,12 @@ if (isset($_SESSION['uname'])) {
             <div class="panel panel-default">
                 <div class="panel-heading">Change Password</div>
                 <div class="panel-body">
-                    <form class="pure-form pure-form-stacked">
-                        <input id="password" type="password" placeholder="Old password">
-                        <input id="password" type="password" placeholder="New password">
-                        <input id="password" type="password" placeholder="Repeat to confirm">
-                        <button class="pure-button pure-button-primary">Change Password</button>
-                    </form>
+                    <div class="pure-form pure-form-stacked">
+                        <input id="passwd" type="password" placeholder="Old password">
+                        <input id="new-passwd" type="password" placeholder="New password">
+                        <input id="confirm-pwd" type="password" placeholder="Repeat to confirm">
+                        <button id="change" class="pure-button pure-button-primary">Change Password</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -83,7 +83,7 @@ if (isset($_SESSION['uname'])) {
                     <p>You're about to delete your account on Blessing Skin Server.</p>
                     <p>This is permanent! No backups, no restores, no magic undo button.</p>
                     <p>We warned you, ok?</p>
-                    <button class="pure-button pure-button-error">I am sure.</button>
+                    <button id="delete" class="pure-button pure-button-error">I am sure.</button>
                 </div>
             </div>
         </div>
@@ -97,5 +97,7 @@ if (isset($_SESSION['uname'])) {
 </body>
 <script type="text/javascript" src="../libs/jquery/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="../libs/ply/ply.min.js"></script>
+<script type="text/javascript" src="../libs/cookie.js"></script>
+<script type="text/javascript" src="../assets/js/utils.js"></script>
 <script type="text/javascript" src="../assets/js/profile.utils.js"></script>
 </html>

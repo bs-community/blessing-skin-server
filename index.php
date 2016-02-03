@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-02 23:07:46
+ * @Last Modified time: 2016-02-03 18:25:26
  */
 session_start();
 $dir = dirname(__FILE__);
@@ -104,11 +104,12 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
     <div id="msg" class="alert"></div>
 </div>
 
-<script src="./libs/jquery/jquery-2.1.1.min.js"></script>
-<script src="./libs/cookie.js"></script>
-<script src="./libs/remodal/remodal.min.js"></script>
-<script src="./libs/ply/ply.min.js"></script>
-<script src="./assets/js/index.utils.js"></script>
+<script type="text/javascript" src="./libs/jquery/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="./libs/cookie.js"></script>
+<script type="text/javascript" src="./libs/remodal/remodal.min.js"></script>
+<script type="text/javascript" src="./libs/ply/ply.min.js"></script>
+<script type="text/javascript" src="./assets/js/utils.js"></script>
+<script type="text/javascript" src="./assets/js/index.utils.js"></script>
 <?php
 if ($msg = utils::getValue('msg', $_GET)) { ?>
     <script type="text/javascript">

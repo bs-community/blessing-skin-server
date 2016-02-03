@@ -41,11 +41,3 @@ var docCookies = {
 		return aKeys;
 	}
 };
-
-function showMsg(type, msg) {
-    $("[id=msg]").removeClass().addClass("alert").addClass(type).html(msg);
-}
-
-function showAlert(msg) {
-	Ply.dialog("alert", msg);
-}
