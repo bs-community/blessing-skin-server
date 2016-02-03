@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:55:44
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-03 10:19:29
+* @Last Modified time: 2016-02-03 19:51:14
 */
 
 'use strict';
@@ -78,11 +78,11 @@ $("body").on("click", "#register-button", function(){
 function checkForm(type, uname, passwd, passwd2) {
 	switch(type) {
 		case "login":
-			if (uname === "") {
+			if (uname == "") {
 				showMsg("alert-warning", "Empty Username!");
 				$("#uname").focus();
 				return false;
-			} else if (passwd === ""){
+			} else if (passwd == ""){
 				showMsg("alert-warning", "Empty Password!");
 				$("#passwd").focus();
 				return false;
@@ -91,20 +91,20 @@ function checkForm(type, uname, passwd, passwd2) {
 			}
 			break;
 		case "register":
-			if (uname === "") {
+			if (uname == "") {
 				showMsg("alert-warning", "Empty Username!");
 				$("#uname").focus();
 				return false;
-			} else if (passwd === ""){
+			} else if (passwd == ""){
 				showMsg("alert-warning", "Empty Password!");
 				$("#passwd").focus();
 				return false;
-			} else if (passwd2 === ""){
-				showMsg("alert-warning", "Empty Comfirming Password!");
+			} else if (passwd2 == ""){
+				showMsg("alert-warning", "Empty Confirming Password!");
 				$("#cpasswd").focus();
 				return false;
 			} else if (passwd != passwd2){
-				showMsg("alert-warning", "Non-equal password comfirming!");
+				showMsg("alert-warning", "Non-equal password confirming!");
 				$("#cpasswd").focus();
 				return false;
 			} else {
