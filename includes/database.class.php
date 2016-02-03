@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 21:59:06
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-03 15:46:01
+ * @Last Modified time: 2016-02-03 15:55:17
  */
 
 class database
@@ -24,7 +24,8 @@ class database
             utils::raise(-1, "Looks like that there is no `users` table in your database. ".
                                "Please run `/admin/install.php` first.");
         }
-        if (!is_dir("./textures/")) {
+        $dir = dirname(dirname(__FILE__));
+        if (!is_dir("$dir/textures/")) {
             utils::raise(-1, "No `textures` directory exists. Please run `/admin/install.php` ".
                                "or put one manually.");
         }
