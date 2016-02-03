@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-02 23:41:37
+ * @Last Modified time: 2016-02-03 13:25:55
  */
 
 class user
@@ -73,6 +73,7 @@ class user
         $filename = "./textures/".$this->getTexture($type);
         if (file_exists($filename)) {
             header('Content-Type: image/png');
+            header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $this->getLastModified()).' GMT');
             $data = fread(fopen($filename, 'r'), filesize($filename));
             return $data;
         } else {
@@ -87,10 +88,12 @@ class user
             // remove the original texture first
             if ($this->getTexture('skin') != "")
                 utils::remove("./textures/".$this->getTexture('skin'));
+            $this->updateLastModified();
             return $this->db->update($this->uname, 'skin_hash', $hash);
         } else if ($type == "cape") {
             if ($this->getTexture('cape') != "")
                 utils::remove("./textures/".$this->getTexture('cape'));
+            $this->updateLastModified();
             return $this->db->update($this->uname, 'cape_hash', $hash);
         }
         return false;
@@ -107,16 +110,28 @@ class user
     public function getJsonProfile() {
         header('Content-type: application/json');
         if ($this->is_registered) {
-            $json['player_name'] = $this->uname;
             $preference = $this->getPreference();
-            $json['model_preference'] = [$preference];
-            $json['skins'][$preference] = $this->getTexture('skin');
+            $json['model'] = $preference;
+            $json['skin'] = $this->getTexture('skin');
             $json['cape'] = $this->getTexture('cape');
         } else {
             $json['errno'] = 1;
             $json['msg'] = "Non-existent user.";
         }
         return json_encode($json);
+    }
+
+    public function updateLastModified() {
+        // http://stackoverflow.com/questions/2215354/php-date-format-when-inserting-into-datetime-in-mysql
+        return $this->db->update($this->uname, 'last_modified', date("Y-m-d H:i:s"));
+    }
+
+    /**
+     * Get last modified time
+     * @return timestamp
+     */
+    public function getLastModified() {
+        return strtotime($this->db->select('username', $this->uname)['last_modified']);
     }
 
 }

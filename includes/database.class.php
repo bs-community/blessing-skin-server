@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 21:59:06
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-03 00:10:17
+ * @Last Modified time: 2016-02-03 12:12:16
  */
 
 class database
@@ -39,7 +39,7 @@ class database
         if (!$this->connection->error) {
             return $result;
         }
-        utils::raise(-1, "Database query error: ", $this->connection->error);
+        utils::raise(-1, "Database query error: ".$this->connection->error);
     }
 
     public function fetchArray($sql) {
@@ -69,7 +69,7 @@ class database
     }
 
     public function update($uname, $key, $value) {
-        return $this->query("UPDATE users SET $key='$value' WHERE username='$uname'");
+        return $this->query("UPDATE users SET `$key`='$value' WHERE username='$uname'");
     }
 
     public function delete($uname) {
