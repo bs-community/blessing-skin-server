@@ -3,29 +3,38 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-03 10:29:58
+ * @Last Modified time: 2016-02-03 18:03:57
+ *
+ * - login, register, logout
+ * - upload, change, delete
  *
  * All ajax requests will be handled here
  */
 
 header('Access-Control-Allow-Origin: *');
-session_start();
+header('Content-type: application/json');
+
 $dir = dirname(__FILE__);
 require "$dir/includes/autoload.inc.php";
 require "$dir/config.php";
-
 database::checkConfig();
+
+session_start();
 
 if (isset($_POST['uname'])) {
     $user = new user($_POST['uname']);
 } else {
     utils::raise('1', 'Empty username.');
 }
-$action = isset($_GET['action']) ? $_GET['action'] : "login";
+$action = isset($_GET['action']) ? $_GET['action'] : null;
 $json = null;
 
+/**
+ * Handle requests from index.php
+ * @var [type]
+ */
 if ($action == "login") {
-    if (checkInput()) {
+    if (checkPost()) {
         if (!$user->is_registered) {
             $json['errno'] = 1;
             $json['msg'] = "Non-existent user.";
@@ -42,7 +51,7 @@ if ($action == "login") {
         }
     }
 } else if ($action == "register") {
-    if (checkInput()) {
+    if (checkPost()) {
         if (!$user->is_registered) {
             if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
                 $ip = $_SERVER['HTTP_CLIENT_IP'];
@@ -69,10 +78,25 @@ if ($action == "login") {
 
         } else {
             $json['errno'] = 1;
-            $json['msg'] = "User already existed.";
+            $json['msg'] = "User already registered.";
         }
     }
-} else if ($action == "upload") {
+}
+
+function checkPost() {
+    global $json;
+    if (!isset($_POST['passwd'])) {
+        $json['errno'] = 1;
+        $json['msg'] = "Empty password!";
+        return false;
+    }
+    return true;
+}
+
+/**
+ * Handle request from user/index.php
+ */
+if ($action == "upload") {
     if (utils::getValue('token', $_SESSION) == $user->getToken()) {
         if (checkFile()) {
             if ($file = utils::getValue('skin_file', $_FILES)) {
@@ -107,21 +131,6 @@ if ($action == "login") {
         $json['errno'] = 1;
         $json['msg'] = 'No available session.';
     }
-}
-
-function checkInput() {
-    global $json;
-    if (!$_POST['uname']) {
-        $json['errno'] = 1;
-        $json['msg'] = 'Empty username!';
-        return false;
-    }
-    if (!$_POST['passwd']) {
-        $json['errno'] = 1;
-        $json['msg'] = "Empty password!";
-        return false;
-    }
-    return true;
 }
 
 function checkFile() {
@@ -175,6 +184,43 @@ function checkFile() {
     }
 
     return true;
+}
+
+/**
+ * Handle requests from user/profile.php
+ */
+if ($action == "change") {
+    if (checkPost()) {
+        if (isset($_POST['new_passwd'])) {
+            if ($user->checkPasswd($_POST['passwd'])) {
+                $user->changePasswd($_POST['new_passwd']);
+                $json['errno'] = 0;
+                $json['msg'] = "Password updated successfully.";
+            } else {
+                $json['errno'] = 1;
+                $json['msg'] = "Incorrect usename or password.";
+            }
+        } else {
+            $json['errno'] = 1;
+            $json['msg'] = "New password required.";
+        }
+    }
+} else if ($action == "delete") {
+    if (isset($_SESSION['token']) && $_SESSION['token'] == $user->getToken()) {
+        if (checkPost()) {
+            $user->unRegister();
+            $json['errno'] = 0;
+            $json['msg'] = "Account successfully deleted.";
+        }
+    } else {
+        $json['errno'] = 1;
+        $json['msg'] = "Invalid token.";
+    }
+}
+
+if (!$action) {
+    $json['errno'] = 1;
+    $json['msg'] = "Invalid parameters.";
 }
 
 echo json_encode($json);
