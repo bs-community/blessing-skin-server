@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-03 20:11:39
+ * @Last Modified time: 2016-02-03 20:26:26
  *
  * - login, register, logout
  * - upload, change, delete
@@ -208,10 +208,15 @@ if ($action == "change") {
 } else if ($action == "delete") {
     if (isset($_SESSION['token']) && $_SESSION['token'] == $user->getToken()) {
         if (checkPost()) {
-            session_destroy();
-            $user->unRegister();
-            $json['errno'] = 0;
-            $json['msg'] = "Account successfully deleted.";
+            if ($user->checkPasswd($_POST['passwd'])) {
+                session_destroy();
+                $user->unRegister();
+                $json['errno'] = 0;
+                $json['msg'] = "Account successfully deleted.";
+            } else {
+                $json['errno'] = 1;
+                $json['msg'] = "Incorrect password.";
+            }
         }
     } else {
         $json['errno'] = 1;
