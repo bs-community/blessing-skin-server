@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-03 20:26:26
+ * @Last Modified time: 2016-02-03 21:10:24
  *
  * - login, register, logout
  * - upload, change, delete
@@ -51,31 +51,32 @@ if ($action == "login") {
         }
     }
 } else if ($action == "register") {
-    if (checkPost()) {
+    if (checkPost('register')) {
         if (!$user->is_registered) {
-            if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-                $ip = $_SERVER['HTTP_CLIENT_IP'];
-            } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-                $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-            } else {
-                $ip = $_SERVER['REMOTE_ADDR'];
-            }
-            // If amout of registered accounts of IP is more than allowed mounts,
-            // then reject the registration.
-            if ($user->db->getNumRows('ip', $ip) < REGS_PER_IP) {
-                // use once md5 to encrypt password
-                if ($user->register(md5($_POST['passwd']), $ip)) {
-                    $json['errno'] = 0;
-                    $json['msg'] = "Registered successfully.";
+            if (user::checkValidPwd($_POST['passwd'])) {
+                if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+                    $ip = $_SERVER['HTTP_CLIENT_IP'];
+                } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+                } else {
+                    $ip = $_SERVER['REMOTE_ADDR'];
+                }
+                // If amout of registered accounts of IP is more than allowed mounts,
+                // then reject the registration.
+                if ($user->db->getNumRows('ip', $ip) < REGS_PER_IP) {
+                    // use once md5 to encrypt password
+                    if ($user->register(md5($_POST['passwd']), $ip)) {
+                        $json['errno'] = 0;
+                        $json['msg'] = "Registered successfully.";
+                    } else {
+                        $json['errno'] = 1;
+                        $json['msg'] = "Uncaught error.";
+                    }
                 } else {
                     $json['errno'] = 1;
-                    $json['msg'] = "Uncaught error.";
+                    $json['msg'] = "You can't create more than ".REGS_PER_IP." accounts with this IP.";
                 }
-            } else {
-                $json['errno'] = 1;
-                $json['msg'] = "You can't create more than ".REGS_PER_IP." accounts with this IP.";
             }
-
         } else {
             $json['errno'] = 1;
             $json['msg'] = "User already registered.";

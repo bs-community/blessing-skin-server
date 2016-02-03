@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-03 18:06:13
+ * @Last Modified time: 2016-02-03 21:13:05
  */
 
 class user
@@ -35,6 +35,15 @@ class user
         } else {
             return false;
         }
+    }
+
+    public static function checkValidPwd($passwd) {
+        if (strlen($passwd) > 16 || strlen($passwd) < 5) {
+            utils::raise(1, 'Illegal password. Password length should be in 5~16.');
+        } else if (utils::convertString($passwd) != $passwd) {
+            utils::raise(1, 'Illegal password. Password contains unsupported characters.');
+        }
+        return true;
     }
 
     public function changePasswd($new_passwd) {
