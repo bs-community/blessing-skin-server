@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-03 15:52:29
+ * @Last Modified time: 2016-02-03 18:06:13
  */
 
 class user
@@ -37,6 +37,10 @@ class user
         }
     }
 
+    public function changePasswd($new_passwd) {
+        $this->db->update($this->uname, 'password', md5($new_passwd));
+    }
+
     public function getToken() {
         return $this->token;
     }
@@ -55,9 +59,11 @@ class user
     }
 
     public function unRegister() {
-        utils::remove("./textures/".$this->getTexture('skin'));
-        utils::remove("./textures/".$this->getTexture('cape'));
-        return utils::delete($this->uname);
+        if (is_null($this->getTexture('skin')))
+            utils::remove("./textures/".$this->getTexture('skin'));
+        if (is_null($this->getTexture('skin')))
+            utils::remove("./textures/".$this->getTexture('cape'));
+        return $this->db->delete($this->uname);
     }
 
     public function getTexture($type) {

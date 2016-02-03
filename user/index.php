@@ -13,17 +13,17 @@ require "$dir/config.php";
 $action = isset($_GET['action']) ? $_GET['action'] : "";
 
 if(isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
-	$_SESSION['uname'] = $_COOKIE['uname'];
-	$_SESSION['token'] = $_COOKIE['token'];
+    $_SESSION['uname'] = $_COOKIE['uname'];
+    $_SESSION['token'] = $_COOKIE['token'];
 }
 
 if (isset($_SESSION['uname'])) {
-	$user = new user($_SESSION['uname']);
-	if ($_SESSION['token'] != $user->getToken()) {
-		header('Location: ../index.php?msg=Invalid token. Please login.');
-	}
+    $user = new user($_SESSION['uname']);
+    if ($_SESSION['token'] != $user->getToken()) {
+        header('Location: ../index.php?msg=Invalid token. Please login.');
+    }
 } else {
-	header('Location: ../index.php?msg=Illegal access. Please login.');
+    header('Location: ../index.php?msg=Illegal access. Please login.');
 }
 
 ?>
@@ -45,17 +45,20 @@ if (isset($_SESSION['uname'])) {
 <body>
 <div class="header">
     <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-		<a class="pure-menu-heading" href="../index.php">Blessing Skin Server</a>
-		<a href="javascript:;" title="Movements"><span class="glyphicon glyphicon-pause"></span></a>
-		<a href="javascript:;" title="Running"><span class="glyphicon glyphicon-forward"></span></a>
-		<a href="javascript:;" title="Rotation"><span class="glyphicon glyphicon-repeat"></span></a>
-		<ul class="pure-menu-list">
-			<li class="pure-menu-item">
-	                <a href="javascript:;" class="pure-menu-link">Welcome, <?php echo $_SESSION['uname']; ?>!</a>
-	         </li>
-         	<li class="pure-menu-item">
-         		<a class="pure-menu-link" id="logout" href="javascript:;">Log out?</a>
-         	</li>
+        <a class="pure-menu-heading" href="../index.php">Blessing Skin Server</a>
+        <a href="javascript:;" title="Movements"><span class="glyphicon glyphicon-pause"></span></a>
+        <a href="javascript:;" title="Running"><span class="glyphicon glyphicon-forward"></span></a>
+        <a href="javascript:;" title="Rotation"><span class="glyphicon glyphicon-repeat"></span></a>
+        <ul class="pure-menu-list">
+            <li class="pure-menu-item">
+                    <a href="javascript:;" class="pure-menu-link">Welcome, <?php echo $_SESSION['uname']; ?>!</a>
+             </li>
+             <li class="pure-menu-item">
+                 <a class="pure-menu-link" href="profile.php">Profile</a>
+             </li>
+             <li class="pure-menu-item">
+                 <a class="pure-menu-link" id="logout" href="javascript:;">Log out?</a>
+             </li>
         </ul>
         <div class="home-menu-blur">
             <div class="home-menu-wrp">
@@ -67,29 +70,29 @@ if (isset($_SESSION['uname'])) {
 
 <?php if ($action == "preview") { ?>
 <div class="container">
-	<div id="skinpreview"></div>
+    <div id="skinpreview"></div>
 </div>
 <style>
 #canvas3d {
-	margin: 8% auto;
+    margin: 8% auto;
 }
 </style>
 <?php } else if ($action == "upload") { ?>
 <div class="container">
-	<div class="upload-container">
-		<h2 class="upload-title">Upload</h2>
-			<div id="upload-form">
-				<p>Select a skin:</p>
-				<input type=file id="skininput" name="skininput" accept="image/png">
-				<br />
-				<p>Select a cape:</p>
-				<input type=file id="capeinput" name="capeinput" accept="image/png">
-				<br /><br />
-				<button id="upload" class="pure-button pure-button-primary">Upload</button>
-				<a href="?action=preview" class="pure-button">Preview</a>
-			</div>
-		<div id="msg" class="alert hide" role="alert" />
-	</div>
+    <div class="upload-container">
+        <h2 class="upload-title">Upload</h2>
+            <div id="upload-form">
+                <p>Select a skin:</p>
+                <input type=file id="skininput" name="skininput" accept="image/png">
+                <br />
+                <p>Select a cape:</p>
+                <input type=file id="capeinput" name="capeinput" accept="image/png">
+                <br /><br />
+                <button id="upload" class="pure-button pure-button-primary">Upload</button>
+                <a href="?action=preview" class="pure-button">Preview</a>
+            </div>
+        <div id="msg" class="alert hide" role="alert" />
+    </div>
 </div>
 <style>
 .upload-container {
@@ -100,49 +103,49 @@ if (isset($_SESSION['uname'])) {
 </style>
 <?php } else { ?>
 <div class="container pure-g">
-	<div class="pure-u-2-3">
-		<div id="skinpreview"></div>
-	</div>
-	<div class="pure-u-1-3">
-		<div class="upload-container">
-			<h2 class="upload-title">Upload</h2>
-				<div id="upload-form">
-					<p>Select a skin:</p>
-					<input type=file id="skininput" name="skininput" accept="image/png">
-					<br />
-					<p>Select a cape:</p>
-					<input type=file id="capeinput" name="capeinput" accept="image/png">
-					<br /><br />
-					<button id="upload" class="pure-button pure-button-primary">Upload</button>
-					<a id="preview" href="?action=preview" class="pure-button">Preview</a>
-				</div>
-			<div id="msg" class="alert hide" role="alert" />
-		</div>
-	</div>
+    <div class="pure-u-2-3">
+        <div id="skinpreview"></div>
+    </div>
+    <div class="pure-u-1-3">
+        <div class="upload-container">
+            <h2 class="upload-title">Upload</h2>
+                <div id="upload-form">
+                    <p>Select a skin:</p>
+                    <input type=file id="skininput" name="skininput" accept="image/png">
+                    <br />
+                    <p>Select a cape:</p>
+                    <input type=file id="capeinput" name="capeinput" accept="image/png">
+                    <br /><br />
+                    <button id="upload" class="pure-button pure-button-primary">Upload</button>
+                    <a id="preview" href="?action=preview" class="pure-button">Preview</a>
+                </div>
+            <div id="msg" class="alert hide" role="alert" />
+        </div>
+    </div>
 </div>
 <style>
-	#preview {
-	    display: none;
-	}
-	@media (max-width: 800px) {
-	    #skinpreview {
-	        display: none;
-	    }
-	    #preview {
-	        display: inline-block;
-	    }
-	    .pure-u-2-3 {
-	        width: 0%;
-	    }
-	    .pure-u-1-3 {
-	        width: 100%;
-	    }
-	    .upload-container {
-	        width: 70%;
-	        height: 50%;
-	        margin: 100px auto;
-	    }
-	}
+    #preview {
+        display: none;
+    }
+    @media (max-width: 800px) {
+        #skinpreview {
+            display: none;
+        }
+        #preview {
+            display: inline-block;
+        }
+        .pure-u-2-3 {
+            width: 0%;
+        }
+        .pure-u-1-3 {
+            width: 100%;
+        }
+        .upload-container {
+            width: 70%;
+            height: 50%;
+            margin: 100px auto;
+        }
+    }
 </style>
 <?php } ?>
 

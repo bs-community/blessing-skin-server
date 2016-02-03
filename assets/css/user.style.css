@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 19:12:06
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-01-21 22:09:28
+* @Last Modified time: 2016-02-03 16:39:42
 */
 
 .home-menu-blur {
@@ -31,7 +31,7 @@
     box-shadow: rgba(0,0,0,0.1) 0 1px 2px;
 }
 
-.container {
+body {
     background-image:
         url("../images/bg_stone.png");
     background-repeat: repeat;
