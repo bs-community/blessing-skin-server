@@ -8,6 +8,7 @@
 
 $dir = dirname(__FILE__);
 require "$dir/includes/autoload.inc.php";
+require "$dir/config.php";
 
 if (isset($_GET['type']) && isset($_GET['uname'])) {
     $user = new user($_GET['uname']);
