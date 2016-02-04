@@ -3,10 +3,10 @@
 define('DB_NAME', 'skin');
 
 /* MySQL 数据库用户名 */
-define('DB_USER', 'root');
+define('DB_USER', 'skin');
 
 /* MySQL 数据库密码 */
-define('DB_PASSWD', 'root');
+define('DB_PASSWD', 'y92aTw2CmsJm9ZaU');
 
 /* MySQL 主机 */
 define('DB_HOST', 'localhost');
