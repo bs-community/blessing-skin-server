@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-04 23:16:26
+ * @Last Modified time: 2016-02-05 00:01:22
  */
 session_start();
 $dir = dirname(__FILE__);
@@ -41,7 +41,6 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
         <a class="pure-menu-heading" href="#">Blessing Skin Server</a>
         <ul class="pure-menu-list">
             <li class="pure-menu-item">
-                <a href="#" class="pure-menu-link">Home</a>
                 <?php if (isset($_SESSION['uname'])) { ?>
                     <a href="./user/index.php" class="pure-menu-link">Welcome, <?php echo $_SESSION['uname']; ?>!</a> | <span class="pure-menu-link" id="logout">Log out?</span>
                 <?php } else { ?>
