@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-03 21:10:24
+ * @Last Modified time: 2016-02-04 18:48:30
  *
  * - login, register, logout
  * - upload, change, delete
@@ -11,15 +11,13 @@
  * All ajax requests will be handled here
  */
 
+session_start();
 header('Access-Control-Allow-Origin: *');
 header('Content-type: application/json');
 
 $dir = dirname(__FILE__);
 require "$dir/includes/autoload.inc.php";
-require "$dir/config.php";
 database::checkConfig();
-
-session_start();
 
 if (isset($_POST['uname'])) {
     $user = new user($_POST['uname']);

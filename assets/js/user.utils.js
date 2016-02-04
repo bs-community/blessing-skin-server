@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:56:40
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-03 19:58:45
+* @Last Modified time: 2016-02-04 23:38:39
 */
 
 'use strict';
@@ -43,39 +43,34 @@ var handleFiles = function (files, type) {
 	}
 };
 
-var canvas = MSP.get3dSkinCanvas(500, 500);
-$("#skinpreview").append($(canvas).prop("id", "canvas3d"));
+if ($(window).width() < 600) {
+	var canvas = MSP.get3dSkinCanvas($('#skinpreview').width(), $('#skinpreview').width());
+	$("#skinpreview").append($(canvas).prop("id", "canvas3d"));
+} else {
+	var canvas = MSP.get3dSkinCanvas(400, 400);
+	$("#skinpreview").append($(canvas).prop("id", "canvas3d"));
+}
+
+$(window).resize(function(){
+	if ($(document).height() <= $(window).height() || $(window).width() < 600) {
+		var canvas = MSP.get3dSkinCanvas($('#skinpreview').width(), $('#skinpreview').width());
+		$("#skinpreview").append($(canvas).prop("id", "canvas3d"));
+	} else {
+		var canvas = MSP.get3dSkinCanvas(400, 400);
+		$("#skinpreview").append($(canvas).prop("id", "canvas3d"));
+	}
+});
 
 $("[title='Movements']").click(function(){
-	if (MSP.getStatus("movements")) {
-		MSP.setStatus("movements", false);
-	} else {
-		MSP.setStatus("movements", true);
-	}
+	MSP.setStatus("movements", !MSP.getStatus("movements"));
 });
 
 $("[title='Running']").click(function(){
-	if (MSP.getStatus("running")) {
-		MSP.setStatus("running", false);
-	} else {
-		MSP.setStatus("running", true);
-	}
+	MSP.setStatus("running", !MSP.getStatus("running"));
 });
 
 $("[title='Rotation']").click(function(){
-	if (MSP.getStatus("rotation")) {
-		MSP.setStatus("rotation", false);
-	} else {
-		MSP.setStatus("rotation", true);
-	}
-});
-
-$("#logout").click(function(){
-	logout(function(json){
-		showAlert(json.msg + " Successfully logged out.", function(){
-			window.location = "../index.php";
-		});
-	});
+	MSP.setStatus("rotation", !MSP.getStatus("rotation"));
 });
 
 $("#upload").click(function(){
@@ -117,7 +112,6 @@ $("#upload").click(function(){
 	} else {
 		showMsg("alert-warning", "No input file selected");
 	}
-
 });
 
 

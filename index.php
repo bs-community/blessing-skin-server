@@ -3,12 +3,12 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-03 22:20:07
+ * @Last Modified time: 2016-02-04 23:16:26
  */
 session_start();
 $dir = dirname(__FILE__);
 require "$dir/includes/autoload.inc.php";
-require "$dir/config.php";
+
 database::checkConfig();
 // Auto load cookie value to session
 if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
@@ -17,7 +17,8 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
         $_SESSION['uname'] = $_COOKIE['uname'];
         $_SESSION['token'] = $user->getToken();
     }
-} ?>
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,12 +40,10 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
     <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
         <a class="pure-menu-heading" href="#">Blessing Skin Server</a>
         <ul class="pure-menu-list">
-            <li class="pure-menu-item pure-menu-selected">
-                <a href="#" class="pure-menu-link">Home</a>
-            </li>
             <li class="pure-menu-item">
-                <?php if ($uname = utils::getValue('uname', $_SESSION)) { ?>
-                <a href="./user/index.php" class="pure-menu-link" style="color: #5e5e5e">Welcome, <?php echo $uname; ?></a>
+                <a href="#" class="pure-menu-link">Home</a>
+                <?php if (isset($_SESSION['uname'])) { ?>
+                    <a href="./user/index.php" class="pure-menu-link">Welcome, <?php echo $_SESSION['uname']; ?>!</a> | <span class="pure-menu-link" id="logout">Log out?</span>
                 <?php } else { ?>
                 <a id="login" href="javascript:;" class="pure-button pure-button-primary">Sign In</a>
                 <?php } ?>
@@ -64,8 +63,7 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
         <p class="splash-subhead">
             Just a simple open-source Minecraft skin server
         </p>
-        <?php
-            if (!utils::getValue('uname', $_SESSION)) { ?>
+        <?php if (!utils::getValue('uname', $_SESSION)) { ?>
         <p>
             <a id="register" href="javascript:;" class="pure-button pure-button-primary">Sign Up</a>
         </p>
@@ -113,9 +111,7 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
 <script type="text/javascript" src="./assets/js/index.utils.js"></script>
 <?php
 if ($msg = utils::getValue('msg', $_GET)) { ?>
-    <script type="text/javascript">
-        showAlert("<?php echo $msg; ?>");
-    </script>
+<script type="text/javascript"> showAlert("<?php echo $msg; ?>"); </script>
 <?php } ?>
 </body>
 </html>

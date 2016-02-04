@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-04 16:20:19
+ * @Last Modified time: 2016-02-04 23:43:07
  */
 
 class utils
@@ -29,9 +29,10 @@ class utils
      * @return string $hash, sha256 hash of file
      */
     public static function upload($file) {
-        move_uploaded_file($file["tmp_name"], DIR."/textures/tmp.png");
-        $hash = hash_file('sha256', DIR."/textures/tmp.png");
-        rename(DIR."/textures/tmp.png", DIR."/textures/".$hash);
+        $dir = dirname(dirname(__FILE__));
+        move_uploaded_file($file["tmp_name"], "$dir/textures/tmp.png");
+        $hash = hash_file('sha256', "$dir/textures/tmp.png");
+        rename("$dir/textures/tmp.png", "$dir/textures/".$hash);
         return $hash;
     }
 
@@ -76,4 +77,3 @@ class utils
     }
 
 }
-?>

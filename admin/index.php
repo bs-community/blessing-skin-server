@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-03 14:39:50
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-04 18:34:32
+ * @Last Modified time: 2016-02-04 23:45:06
  */
 
 session_start();
@@ -51,7 +51,7 @@ if (isset($_SESSION['uname'])) {
                 <a class="pure-menu-link" href="../user/profile.php">Profile</a>
             </li>
             <li class="pure-menu-item">
-                    <a href="javascript:;" class="pure-menu-link">Welcome, <?php echo $_SESSION['uname']; ?>!</a>
+                <span class="pure-menu-link">Welcome, <?php echo $_SESSION['uname']; ?>!</span> | <span class="pure-menu-link" id="logout">Log out?</span>
              </li>
         </ul>
         <div class="home-menu-blur">
@@ -105,6 +105,7 @@ if (isset($_SESSION['uname'])) {
 </body>
 <script type="text/javascript" src="../libs/jquery/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="../libs/ply/ply.min.js"></script>
+<script type="text/javascript" src="../libs/cookie.js"></script>
 <script type="text/javascript" src="../assets/js/utils.js"></script>
 <script type="text/javascript" src="../assets/js/admin.utils.js"></script>
 </html>

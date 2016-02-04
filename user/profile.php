@@ -3,13 +3,12 @@
  * @Author: prpr
  * @Date:   2016-02-03 16:12:45
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-04 12:51:07
+ * @Last Modified time: 2016-02-04 23:11:11
  */
 
 session_start();
 $dir = dirname(dirname(__FILE__));
 require "$dir/includes/autoload.inc.php";
-require "$dir/config.php";
 
 if(isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
     $_SESSION['uname'] = $_COOKIE['uname'];
@@ -23,8 +22,8 @@ if (isset($_SESSION['uname'])) {
     }
 } else {
     header('Location: ../index.php?msg=Illegal access. Please login.');
-} ?>
-
+}
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -50,7 +49,7 @@ if (isset($_SESSION['uname'])) {
                 <a class="pure-menu-link" href="index.php">Upload</a>
             </li>
             <li class="pure-menu-item">
-                    <a href="javascript:;" class="pure-menu-link">Welcome, <?php echo $_SESSION['uname']; ?>!</a>
+                <span class="pure-menu-link">Welcome, <?php echo $_SESSION['uname']; ?>!</span> | <span class="pure-menu-link" id="logout">Log out?</span>
              </li>
         </ul>
         <div class="home-menu-blur">
@@ -109,10 +108,6 @@ if (isset($_SESSION['uname'])) {
         </div>
         <?php } ?>
     </div>
-</div>
-
-<div class="footer">
-    &copy; <a class="copy" href="https://prinzeugen.net">Blessing Studio</a> 2016
 </div>
 
 </body>
