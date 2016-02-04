@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-02-03 18:23:21
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-03 19:19:14
+* @Last Modified time: 2016-02-04 23:02:46
 */
 
 'use strict';
@@ -30,3 +30,11 @@ function logout(callback) {
         }
     });
 }
+
+$("#logout").click(function(){
+    logout(function(json){
+        showAlert(json.msg + " Successfully logged out.", function(){
+            window.location = "../index.php";
+        });
+    });
+});

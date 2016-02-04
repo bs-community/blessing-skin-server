@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 19:12:06
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-04 12:56:15
+* @Last Modified time: 2016-02-04 22:57:13
 */
 
 .home-menu-blur {
@@ -32,6 +32,7 @@
 }
 
 body {
+    color: #444;
     background-image:
         url("../images/bg_stone.png");
     background-repeat: repeat;
@@ -59,8 +60,7 @@ body {
 }
 
 #canvas3d {
-    margin-top: 8%;
-    margin-left: 20%;
+    margin: 0 auto;
     display: block;
 }
 
@@ -81,9 +81,22 @@ button {
 }
 span {
     padding: .5em .5em;
-    color: #5e5e5e;
-    margin-top: 0.1em;
+    display: inline !important;
 }
 .alert {
     margin: 20px 0 0;
+}
+input[type=radio] {
+    margin: 20px 0 0;
+}
+.operations {
+    display: inline;
+    float: right;
+}
+.operations > span:hover {
+    color: #555;
+    cursor: pointer;
+}
+.container {
+    position: initial !important;
 }

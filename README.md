@@ -2,7 +2,7 @@
 
 Just a simple open-source Minecraft skin server write in PHP. [Live demo](https://work.prinzeugen.net/blessing-skin-server/)
 
-![screenshot](https://img.prinzeugen.net/image.php?di=TASP)
+![screenshot](https://img.prinzeugen.net/image.php?di=FIQD)
 
 Features:
 -----------
@@ -31,8 +31,13 @@ Add rewrite rules to your nginx.conf:
 location / {
     rewrite ^/([^/]*).json$ /get.php?type=json&uname=$1 last;
     rewrite ^/(skin|cape)/([^/]*).png$ /get.php?type=$1&uname=$2 last;
+    # Optional
+    rewrite ^/(usm|csl)/([^/]*).json$ /get.php?type=json&uname=$2&api=$1 last;
+    rewrite ^/(usm|csl)/textures/(.*)$ /textures/$2 last;
 }
 ```
+You can also use optional rewrite rules to support both CustomSkinLoader API & UniSkinAPI. (Access `example.com/(usm|csl)/username.json` to get json for CustomSkinLoader API or UniSkinAPI)
+
 If you installed the skin server to subdirectory, be careful of your `location`.
 
 Now you can access `http://example.com/username.json` to get your json profile. After uploading skins, you can also access `http://example.com/skin/username.png` for skin image or `http://example.com/cape/username.png` for cape.

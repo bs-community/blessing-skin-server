@@ -3,14 +3,13 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-03 15:51:27
+ * @Last Modified time: 2016-02-04 18:42:51
  *
  * Create tables automatically
  */
 
 $dir = dirname(dirname(__FILE__));
 require "$dir/includes/autoload.inc.php";
-require "$dir/config.php";
 
 echo "<style>body { font-family: Courier; }</style>";
 
