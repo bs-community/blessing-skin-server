@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-03 14:39:50
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-04 16:56:34
+ * @Last Modified time: 2016-02-04 17:32:11
  */
 
 session_start();
@@ -84,8 +84,8 @@ if (isset($_SESSION['uname'])) {
                 <td><?php echo $row['uid']; ?></td>
                 <td><?php echo $row['username']; ?></td>
                 <td>
-                    <?php echo '<img id="'.$row['username'].'_skin" width="64" '.(($row['skin_hash'] == "") ? '' : 'src="http://skin.fuck.io/skin/'.$row['username'].'.png"').'/>'; ?>
-                    <?php echo '<img id="'.$row['username'].'_cape" width="64" '.(($row['cape_hash'] == "") ? '' : 'src="http://skin.fuck.io/cape/'.$row['username'].'.png"').'/>'; ?>
+                    <?php echo '<img id="'.$row['username'].'_skin" width="64" '.(($row['skin_hash'] == "") ? '' : 'src="../skin/'.$row['username'].'.png"').'/>'; ?>
+                    <?php echo '<img id="'.$row['username'].'_cape" width="64" '.(($row['cape_hash'] == "") ? '' : 'src="../cape/'.$row['username'].'.png"').'/>'; ?>
                 </td>
                 <td>
                     <a href="javascript:showUpload('<?php echo $row['username'] ?>', 'skin');" class="pure-button pure-button-primary">Skin</a>
