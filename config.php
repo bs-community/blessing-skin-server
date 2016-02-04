@@ -1,18 +1,21 @@
 <?php
-/* Blessing Skin Server 数据库的名称 */
+/* Blessing Skin Server Database Name */
 define('DB_NAME', 'skin');
 
-/* MySQL 数据库用户名 */
+/* MySQL Username */
 define('DB_USER', 'skin');
 
-/* MySQL 数据库密码 */
+/* MySQL Password */
 define('DB_PASSWD', 'y92aTw2CmsJm9ZaU');
 
-/* MySQL 主机 */
+/* MySQL Host */
 define('DB_HOST', 'localhost');
 
-/* 盐，用于 token 验证，自行修改 */
+/* Salt for encrypting token, Change it to any random string */
 define('SALT', '9tvsh55d*s');
 
-/* 同一 IP 可注册的账户数 */
+/* Max amount of accounts per IP */
 define('REGS_PER_IP', 2);
+
+/* Do not change this */
+define('DIR', dirname(__FILE__));

@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:55:44
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-03 21:40:41
+* @Last Modified time: 2016-02-04 12:34:37
 */
 
 'use strict';
@@ -52,17 +52,20 @@ var register = function() {
                 showMsg("alert-info", "Registering...");
             },
             success: function(json) {
-                    if (json.errno == 0) {
-                    showAlert(json.msg + " Please log in.", function(){
+                if (json.errno == 0) {
+                    showAlert(json.msg, function(){
                         showMsg('hide', "");
                         $('[data-remodal-id=register-modal]').remodal().close();
-                        $('[data-remodal-id=login-modal]').remodal().open();
+                        // Automatically login after registeration
+                        $("#uname").val(uname);
+                        $("#passwd").val(passwd);
+                        login();
                     });
                 } else {
                     showAlert(json.msg);
                     showMsg('hide', "");
                 }
-                }
+            }
         });
     }
 }
@@ -125,3 +128,4 @@ $("body").on("keypress", "[data-remodal-id=register-modal]", function(event){
 $("body").on("keypress", "[data-remodal-id=login-modal]", function(event){
     if (event.which == 13) login();
 }).on("click", "#login-button", login);
+

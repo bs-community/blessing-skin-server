@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-03 21:13:05
+ * @Last Modified time: 2016-02-04 13:48:48
  */
 
 class user
@@ -68,9 +68,9 @@ class user
     }
 
     public function unRegister() {
-        if (is_null($this->getTexture('skin')))
+        if ($this->getTexture('skin') != "")
             utils::remove("./textures/".$this->getTexture('skin'));
-        if (is_null($this->getTexture('skin')))
+        if ($this->getTexture('skin') != "")
             utils::remove("./textures/".$this->getTexture('cape'));
         return $this->db->delete($this->uname);
     }

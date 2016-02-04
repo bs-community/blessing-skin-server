@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-03 16:12:45
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-03 23:15:41
+ * @Last Modified time: 2016-02-04 12:51:07
  */
 
 session_start();
@@ -98,6 +98,16 @@ if (isset($_SESSION['uname'])) {
                 </div>
             </div>
         </div>
+        <?php if ($user->is_admin) { ?>
+        <div class="pure-u-1 pure-u-md-1-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">Welcome, administrator.</div>
+                <div class="panel-body">
+                    <p>Here manage your site: <a href="../admin/">Console</a></p>
+                </div>
+            </div>
+        </div>
+        <?php } ?>
     </div>
 </div>
 

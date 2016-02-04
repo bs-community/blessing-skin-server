@@ -1,0 +1,26 @@
+/*
+* @Author: prpr
+* @Date:   2016-02-04 16:47:54
+* @Last Modified by:   prpr
+* @Last Modified time: 2016-02-04 16:48:04
+*/
+.pure-table {
+    margin: 80px auto 0;
+    width: 100%;
+    background-color: #fff;
+}
+.pure-button {
+    width: inherit;
+    margin: 0 10px 0 0 !important;
+}
+.pure-button-error {
+    background: rgb(202, 60, 60);
+    color: #fff;
+}
+input {
+    width: 100%;
+    margin: 10px 0 20px;
+}
+.fw {
+    width: 100%;
+}
