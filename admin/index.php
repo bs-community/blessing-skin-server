@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-03 14:39:50
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-04 17:32:11
+ * @Last Modified time: 2016-02-04 18:08:41
  */
 
 session_start();
@@ -88,8 +88,10 @@ if (isset($_SESSION['uname'])) {
                     <?php echo '<img id="'.$row['username'].'_cape" width="64" '.(($row['cape_hash'] == "") ? '' : 'src="../cape/'.$row['username'].'.png"').'/>'; ?>
                 </td>
                 <td>
-                    <a href="javascript:showUpload('<?php echo $row['username'] ?>', 'skin');" class="pure-button pure-button-primary">Skin</a>
-                    <a href="javascript:showUpload('<?php echo $row['username'] ?>', 'cape');" class="pure-button pure-button-primary">Cape</a>
+                    <a href="javascript:showUpload('<?php echo $row['username']; ?>', 'skin');" class="pure-button pure-button-primary">Skin</a>
+                    <a href="javascript:showUpload('<?php echo $row['username']; ?>', 'cape');" class="pure-button pure-button-primary">Cape</a>
+                    <a href="javascript:showModel('<?php echo $row['username']; ?>', 'cape');" class="pure-button pure-button-default">Model</a>
+                    <span>(<?php echo $row['preference']; ?>)</span>
                 </td>
                 <td>
                     <a href="javascript:showChange('<?php echo $row['username'] ?>');" class="pure-button pure-button-default">Password</a>

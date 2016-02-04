@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-04 13:53:55
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-04 17:14:06
+ * @Last Modified time: 2016-02-04 18:09:26
  */
 session_start();
 $dir = dirname(dirname(__FILE__));
@@ -61,6 +61,16 @@ if (isset($_GET['action'])) {
         $user->unRegister();
         $json['errno'] = 0;
         $json['msg'] = "Account successfully deleted.";
+    } else if ($action == "model") {
+        if (isset($_POST['model']) && $_POST['model'] == 'slim' || $_POST['model'] == 'default') {
+            $user->setPreference($_POST['model']);
+            $json['errno'] = 0;
+            $json['msg'] = "Model preference of ".$_GET['uname']." changed to ".$_POST['model']." successfully.";
+        } else {
+            utils::raise(1, 'Illegal parameters');
+        }
+    } else {
+        utils::raise(1, 'Illegal parameters');
     }
 }
 

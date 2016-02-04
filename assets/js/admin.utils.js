@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-02-04 16:48:42
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-04 17:09:20
+* @Last Modified time: 2016-02-04 18:02:38
 */
 
 'use strict';
@@ -81,5 +81,31 @@ function showDelete(uname) {
                 }
             }
         });
+    });
+}
+
+function showModel(uname) {
+    Ply.dialog("prompt", {
+        title: "Change "+uname+"'s model prefrence:",
+        form: { text: "Type in `slim` or `default`" }
+    }).done(function(ui){
+        var model = ui.data.text;
+        if (model == 'slim'| model == 'default') {
+            $.ajax({
+                type: "POST",
+                url: "admin_ajax.php?action=model&uname="+uname,
+                data: { "model": ui.data.text },
+                dataType: "json",
+                success: function(json) {
+                    if (json.errno == 0) {
+                        showAlert(json.msg);
+                    } else {
+                        showAlert(json.msg);
+                    }
+                }
+            });
+        } else {
+            showAlert('Only `slim` or `default` is valid.');
+        }
     });
 }
