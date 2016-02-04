@@ -3,13 +3,12 @@
  * @Author: prpr
  * @Date:   2016-02-03 14:39:50
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-04 18:08:41
+ * @Last Modified time: 2016-02-04 18:34:32
  */
 
 session_start();
 $dir = dirname(dirname(__FILE__));
 require "$dir/includes/autoload.inc.php";
-require "$dir/config.php";
 
 if(isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
     $_SESSION['uname'] = $_COOKIE['uname'];
@@ -88,23 +87,19 @@ if (isset($_SESSION['uname'])) {
                     <?php echo '<img id="'.$row['username'].'_cape" width="64" '.(($row['cape_hash'] == "") ? '' : 'src="../cape/'.$row['username'].'.png"').'/>'; ?>
                 </td>
                 <td>
-                    <a href="javascript:showUpload('<?php echo $row['username']; ?>', 'skin');" class="pure-button pure-button-primary">Skin</a>
-                    <a href="javascript:showUpload('<?php echo $row['username']; ?>', 'cape');" class="pure-button pure-button-primary">Cape</a>
-                    <a href="javascript:showModel('<?php echo $row['username']; ?>', 'cape');" class="pure-button pure-button-default">Model</a>
+                    <a href="javascript:uploadTexture('<?php echo $row['username']; ?>', 'skin');" class="pure-button pure-button-primary">Skin</a>
+                    <a href="javascript:uploadTexture('<?php echo $row['username']; ?>', 'cape');" class="pure-button pure-button-primary">Cape</a>
+                    <a href="javascript:changeModel('<?php echo $row['username']; ?>', 'cape');" class="pure-button pure-button-default">Model</a>
                     <span>(<?php echo $row['preference']; ?>)</span>
                 </td>
                 <td>
-                    <a href="javascript:showChange('<?php echo $row['username'] ?>');" class="pure-button pure-button-default">Password</a>
-                    <a href="javascript:showDelete('<?php echo $row['username'] ?>');" class="pure-button pure-button-error">Delete</a>
+                    <a href="javascript:changePasswd('<?php echo $row['username'] ?>');" class="pure-button pure-button-default">Password</a>
+                    <a href="javascript:deleteAccount('<?php echo $row['username'] ?>');" class="pure-button pure-button-error">Delete</a>
                 </td>
             </tr>
             <?php } ?>
         </tbody>
     </table>
-</div>
-
-<div class="footer">
-    &copy; <a class="copy" href="https://prinzeugen.net">Blessing Studio</a> 2016
 </div>
 
 </body>
