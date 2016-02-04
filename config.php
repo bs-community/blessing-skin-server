@@ -17,5 +17,5 @@ define('SALT', '9tvsh55d*s');
 /* Max amount of accounts per IP */
 define('REGS_PER_IP', 2);
 
-/* Do not change this */
-define('DIR', dirname(__FILE__));
+/* Which API to use, 0 for CustomSkinLoader API, 1 for UniSkinAPI */
+define('API_TYPE', 0);

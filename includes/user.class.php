@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-04 13:48:48
+ * @Last Modified time: 2016-02-04 20:38:42
  */
 
 class user
@@ -121,15 +121,23 @@ class user
         return $this->db->select('username', $this->uname)['preference'];
     }
 
-    public function getJsonProfile() {
+    public function getJsonProfile($api_type) {
         header('Content-type: application/json');
         if ($this->is_registered) {
-            $json['player_name'] = $this->uname;
-            $json['last_update'] = $this->getLastModified();
-            $preference = $this->getPreference();
-            $json['model_preference'] = [$preference];
-            $json['skins'][$preference] = $this->getTexture('skin');
-            $json['cape'] = $this->getTexture('cape');
+            if ($api_type == 0 || $api_type == 1) {
+                $json[($api_type == 0) ? 'username' : 'player_name'] = $this->uname;
+                $model = $this->getPreference();
+                $sec_model = ($model == 'default') ? 'slim' : 'default';
+                if ($api_type == 1) {
+                    $json['last_update'] = $this->getLastModified();
+                    $json['model_preference'] = [$model, $sec_model];
+                }
+                $json['skins'][$model] = $this->getTexture('skin');
+                $json['skins'][$sec_model] = $this->getTexture('skin');
+                $json['cape'] = $this->getTexture('cape');
+            } else {
+                utils::raise(-1, 'Configuration error. Non-supported API_TYPE.');
+            }
         } else {
             $json['errno'] = 1;
             $json['msg'] = "Non-existent user.";
