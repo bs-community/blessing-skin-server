@@ -49,14 +49,14 @@ if (isset($_SESSION['uname'])) {
         <a href="javascript:;" title="Running"><span class="glyphicon glyphicon-forward"></span></a>
         <a href="javascript:;" title="Rotation"><span class="glyphicon glyphicon-repeat"></span></a>
         <ul class="pure-menu-list">
-            <li class="pure-menu-item">
-                    <a href="javascript:;" class="pure-menu-link">Welcome, <?php echo $_SESSION['uname']; ?>!</a>
-             </li>
              <li class="pure-menu-item">
                  <a class="pure-menu-link" href="profile.php">Profile</a>
              </li>
              <li class="pure-menu-item">
                  <a class="pure-menu-link" id="logout" href="javascript:;">Log out?</a>
+             </li>
+             <li class="pure-menu-item">
+                 <a href="javascript:;" class="pure-menu-link">Welcome, <?php echo $_SESSION['uname']; ?>!</a>
              </li>
         </ul>
         <div class="home-menu-blur">
@@ -85,10 +85,10 @@ if (isset($_SESSION['uname'])) {
         <h2 class="upload-title">Upload</h2>
             <div id="upload-form">
                 <p>Select a skin:</p>
-                <input type=file id="skininput" name="skininput" accept="image/png">
+                <input type="file" id="skininput" name="skininput" accept="image/png">
                 <br />
                 <p>Select a cape:</p>
-                <input type=file id="capeinput" name="capeinput" accept="image/png">
+                <input type="file" id="capeinput" name="capeinput" accept="image/png">
                 <br /><br />
                 <button id="upload" class="pure-button pure-button-primary">Upload</button>
                 <a href="?action=preview" class="pure-button">Preview</a>
@@ -119,7 +119,9 @@ if (isset($_SESSION['uname'])) {
                     <br />
                     <p>Select a cape:</p>
                     <input type=file id="capeinput" name="capeinput" accept="image/png">
-                    <br /><br />
+                    <br />
+                    <p>Well, the skin server <b>does</b> support double layer skin of 1.8, but the preview <b>does not</b>. So just upload and you will get it display well in game.</p>
+
                     <button id="upload" class="pure-button pure-button-primary">Upload</button>
                     <a id="preview" href="?action=preview" class="pure-button">Preview</a>
                 </div>
