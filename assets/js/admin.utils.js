@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-02-04 16:48:42
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-04 18:02:38
+* @Last Modified time: 2016-02-04 18:18:02
 */
 
 'use strict';
@@ -39,10 +39,6 @@ function upload(uname, type, file){
     }
 }
 
-function showAlert(msg) {
-    Ply.dialog("alert", msg);
-}
-
 function showChange(uname) {
     Ply.dialog("prompt", {
         title: "Type in "+uname+"'s new password",
@@ -75,7 +71,9 @@ function showDelete(uname) {
             dataType: "json",
             success: function(json) {
                 if (json.errno == 0) {
-                    showAlert(json.msg);
+                    showAlert(json.msg, function(){
+                        location.reload();
+                    });
                 } else {
                     showAlert(json.msg);
                 }
@@ -98,7 +96,9 @@ function showModel(uname) {
                 dataType: "json",
                 success: function(json) {
                     if (json.errno == 0) {
-                        showAlert(json.msg);
+                        showAlert(json.msg, function(){
+                            location.reload();
+                        });
                     } else {
                         showAlert(json.msg);
                     }
