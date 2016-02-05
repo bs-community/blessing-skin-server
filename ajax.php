@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-04 18:48:30
+ * @Last Modified time: 2016-02-05 15:35:31
  *
  * - login, register, logout
  * - upload, change, delete
@@ -20,7 +20,12 @@ require "$dir/includes/autoload.inc.php";
 database::checkConfig();
 
 if (isset($_POST['uname'])) {
-    $user = new user($_POST['uname']);
+    $uname = $_POST['uname'];
+    if (user::checkValidUname($uname)) {
+        $user = new user($_POST['uname']);
+    } else {
+        utils::raise(1, 'Invalid username. Only letters, numbers and _ is allowed.');
+    }
 } else {
     utils::raise('1', 'Empty username.');
 }
@@ -29,7 +34,6 @@ $json = null;
 
 /**
  * Handle requests from index.php
- * @var [type]
  */
 if ($action == "login") {
     if (checkPost()) {
@@ -59,7 +63,7 @@ if ($action == "login") {
                 } else {
                     $ip = $_SERVER['REMOTE_ADDR'];
                 }
-                // If amout of registered accounts of IP is more than allowed mounts,
+                // If amount of registered accounts of IP is more than allowed mounts,
                 // then reject the registration.
                 if ($user->db->getNumRows('ip', $ip) < REGS_PER_IP) {
                     // use once md5 to encrypt password
@@ -99,7 +103,8 @@ if ($action == "upload") {
     if (utils::getValue('token', $_SESSION) == $user->getToken()) {
         if (checkFile()) {
             if ($file = utils::getValue('skin_file', $_FILES)) {
-                if ($user->setTexture('skin', $file)) {
+                $model = (isset($_GET['model']) && $_GET['model'] == "steve") ? "steve" : "alex";
+                if ($user->setTexture($model, $file)) {
                     $json['skin']['errno'] = 0;
                     $json['skin']['msg'] = "Skin uploaded successfully.";
                 } else {
@@ -121,14 +126,15 @@ if ($action == "upload") {
         $json['errno'] = 1;
         $json['msg'] = "Invalid token.";
     }
-} else if ($action == "logout") {
-    if (utils::getValue('token', $_SESSION)) {
-        session_destroy();
+} else if ($action == "model") {
+    if (utils::getValue('token', $_SESSION) == $user->getToken()) {
+        $new_model = ($user->getPreference() == "default") ? "slim" : "default";
+        $user->setPreference($new_model);
         $json['errno'] = 0;
-        $json['msg'] = 'Session destroyed.';
+        $json['msg'] = "Preferred model successfully changed to ".$user->getPreference().".";
     } else {
         $json['errno'] = 1;
-        $json['msg'] = 'No available session.';
+        $json['msg'] = "Invalid token.";
     }
 }
 
@@ -220,6 +226,15 @@ if ($action == "change") {
     } else {
         $json['errno'] = 1;
         $json['msg'] = "Invalid token.";
+    }
+} else if ($action == "logout") {
+    if (utils::getValue('token', $_SESSION)) {
+        session_destroy();
+        $json['errno'] = 0;
+        $json['msg'] = 'Session destroyed.';
+    } else {
+        $json['errno'] = 1;
+        $json['msg'] = 'No available session.';
     }
 }
 

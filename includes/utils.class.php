@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-04 23:43:07
+ * @Last Modified time: 2016-02-05 13:27:43
  */
 
 class utils
@@ -34,6 +34,16 @@ class utils
         $hash = hash_file('sha256', "$dir/textures/tmp.png");
         rename("$dir/textures/tmp.png", "$dir/textures/".$hash);
         return $hash;
+    }
+
+    /**
+     * Read a file and return bin data
+     *
+     * @param  string $filename
+     * @return resource, binary data
+     */
+    public static function fread($filename) {
+        return fread(fopen($filename, 'r'), filesize($filename));
     }
 
     /**

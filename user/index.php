@@ -71,14 +71,20 @@ if (isset($_SESSION['uname'])) {
                         <p>Select a cape:</p>
                         <input type="file" id="capeinput" name="capeinput" accept="image/png" />
                         <br />
-                        <input type="radio" id="model" name="model" />My skin fits on the classic Steve player model.
+                        <input type="radio" id="model-steve" name="model" /><label for="model-steve">My skin fits on the classic Steve player model.</label>
                         <br />
-                        <input type="radio" id="model" name="model" />My skin fits on the new Alex player model.
+                        <input type="radio" id="model-alex" name="model" /><label for="model-alex">My skin fits on the new Alex player model.</label>
                         <br /><br />
                         <button id="upload" class="pure-button pure-button-primary">Upload</button>
                         <a href="javascript:show2dPreview();" class="pure-button">2D Preview</a>
                     </div>
                     <div id="msg" class="alert hide" role="alert"></div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">Change Preferred Model</div>
+                <div class="panel-body">
+                    <p>Your preference model is <b><?php echo $user->getPreference(); ?></b>. <a class="pure-button pure-button-default" style="margin: 0 3px;" href="javascript:changeModel();">Change?</a></p>
                 </div>
             </div>
         </div>
@@ -104,5 +110,9 @@ if (isset($_SESSION['uname'])) {
 <script type="text/javascript" src="../libs/cookie.js"></script>
 <script type="text/javascript" src="../assets/js/utils.js"></script>
 <script type="text/javascript" src="../assets/js/user.utils.js"></script>
-
+<?php if ($user->getTexture('alex') && ($user->getTexture('steve') == "")) {?>
+<script type="text/javascript">
+    showMsg('alert-warning', 'It seems that you have only uploaded skin for Alex model. Note that Minecraft version < 1.8 does not support Alex model. Uploading external skin fit on Steve model is recommemded.');
+</script>
+<?php } ?>
 </html>

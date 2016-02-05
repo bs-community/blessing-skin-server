@@ -2,10 +2,22 @@
 * @Author: prpr
 * @Date:   2016-02-04 16:48:42
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-04 18:27:44
+* @Last Modified time: 2016-02-05 15:52:32
 */
 
 'use strict';
+
+function uploadSkin(uname) {
+    Ply.dialog("confirm", {
+        text: "Which model do you want to change?",
+        ok: "Steve",
+        cancel: "Alex"
+    }).done(function(){
+        uploadTexture(uname, 'steve');
+    }).fail(function(){
+        uploadTexture(uname, 'alex');
+    });
+}
 
 function uploadTexture(uname, type) {
     var ply = new Ply({
@@ -31,7 +43,7 @@ function uploadTexture(uname, type) {
                                 location.reload();
                             });
                         } else {
-                            showAlert("Error when uploading cape:\n" + json.msg);
+                            showAlert("Error when uploading texture:\n" + json.msg);
                         }
                     }
                 });

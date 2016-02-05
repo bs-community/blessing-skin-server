@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-03 14:39:50
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-04 23:45:06
+ * @Last Modified time: 2016-02-05 15:52:39
  */
 
 session_start();
@@ -83,13 +83,14 @@ if (isset($_SESSION['uname'])) {
                 <td><?php echo $row['uid']; ?></td>
                 <td><?php echo $row['username']; ?></td>
                 <td>
-                    <?php echo '<img id="'.$row['username'].'_skin" width="64" '.(($row['skin_hash'] == "") ? '' : 'src="../skin/'.$row['username'].'.png"').'/>'; ?>
-                    <?php echo '<img id="'.$row['username'].'_cape" width="64" '.(($row['cape_hash'] == "") ? '' : 'src="../cape/'.$row['username'].'.png"').'/>'; ?>
+                    <?php echo '<img id="'.$row['username'].'_skin" width="64" '.(($row['hash_steve'] == "") ? '' : 'src="../skin/'.$row['username'].'-steve.png"').'/>'; ?>
+                    <?php echo '<img id="'.$row['username'].'_skin" width="64" '.(($row['hash_alex'] == "") ? '' : 'src="../skin/'.$row['username'].'-alex.png"').'/>'; ?>
+                    <?php echo '<img id="'.$row['username'].'_cape" width="64" '.(($row['hash_cape'] == "") ? '' : 'src="../cape/'.$row['username'].'.png"').'/>'; ?>
                 </td>
                 <td>
-                    <a href="javascript:uploadTexture('<?php echo $row['username']; ?>', 'skin');" class="pure-button pure-button-primary">Skin</a>
+                    <a href="javascript:uploadSkin('<?php echo $row['username']; ?>');" class="pure-button pure-button-primary">Skin</a>
                     <a href="javascript:uploadTexture('<?php echo $row['username']; ?>', 'cape');" class="pure-button pure-button-primary">Cape</a>
-                    <a href="javascript:changeModel('<?php echo $row['username']; ?>', 'cape');" class="pure-button pure-button-default">Model</a>
+                    <a href="javascript:changeModel('<?php echo $row['username']; ?>');" class="pure-button pure-button-default">Model</a>
                     <span>(<?php echo $row['preference']; ?>)</span>
                 </td>
                 <td>
