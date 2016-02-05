@@ -8,7 +8,8 @@ Features:
 -----------
 
 - Support latest [UniSkinAPI](https://github.com/RecursiveG/UniSkinServer/blob/master/doc/UniSkinAPI_zh-CN.md)
-- Also support legacy link style for UniSkinMod before 1.3
+- Support CustomSkinLoader API
+- Also support legacy link to access image directly
 - Nothing else...
 
 Installation:
@@ -28,19 +29,23 @@ Server configure:
 Add rewrite rules to your nginx.conf:
 
 ```
-location / {
-    rewrite ^/([^/]*).json$ /get.php?type=json&uname=$1 last;
-    rewrite ^/(skin|cape)/([^/]*).png$ /get.php?type=$1&uname=$2 last;
-    # Optional
-    rewrite ^/(usm|csl)/([^/]*).json$ /get.php?type=json&uname=$2&api=$1 last;
-    rewrite ^/(usm|csl)/textures/(.*)$ /textures/$2 last;
-}
+rewrite ^/([^/]*).json$ /get.php?type=json&uname=$1 last;
+rewrite ^/(skin|cape)/([^/-]*)(|-)(|alex|steve).png$ /get.php?type=$1&model=$4&uname=$2 last;
+# Optional
+rewrite ^/(usm|csl)/([^/]*).json$ /get.php?type=json&uname=$2&api=$1 last;
+rewrite ^/(usm|csl)/textures/(.*)$ /textures/$2 last;
 ```
-You can also use optional rewrite rules to support both CustomSkinLoader API & UniSkinAPI. (Access `example.com/(usm|csl)/username.json` to get json for CustomSkinLoader API or UniSkinAPI)
+You can also use optional rewrite rules to support both CustomSkinLoader API & UniSkinAPI.
 
-If you installed the skin server to subdirectory, be careful of your `location`.
+If you installed the skin server to subdirectory, you should configure the rules as this:
 
-Now you can access `http://example.com/username.json` to get your json profile. After uploading skins, you can also access `http://example.com/skin/username.png` for skin image or `http://example.com/cape/username.png` for cape.
+```
+rewrite ^/subdir/([^/]*).json$ /subdir/get.php?type=json&uname=$1 last;
+```
+
+Now you can access `http://example.com/username.json` to get your json profile of your preferred API. Another API is also available `http://example.com/(usm|csl)/username.json`.
+
+After uploading skins, you can also access `http://example.com/skin/username.png` for prefered model's skin image or `http://example.com/cape/username.png` for cape. Secondary model's texture is available on `http://example.com/skin/username-(alex|steve).png`.
 
 Client configure:
 ------------
