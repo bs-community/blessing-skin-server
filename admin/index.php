@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-03 14:39:50
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-05 21:44:08
+ * @Last Modified time: 2016-02-05 23:15:10
  */
 
 session_start();
@@ -51,7 +51,7 @@ if (isset($_SESSION['uname'])) {
                 <a class="pure-menu-link" href="../user/profile.php">个人设置</a>
             </li>
             <li class="pure-menu-item">
-                <span class="pure-menu-link">欢迎， <?php echo $_SESSION['uname']; ?>！</span> | <span class="pure-menu-link" id="logout">登出？</span>
+                <span class="pure-menu-link">欢迎，<?php echo $_SESSION['uname']; ?>！</span>|<span class="pure-menu-link" id="logout">登出？</span>
              </li>
         </ul>
         <div class="home-menu-blur">
