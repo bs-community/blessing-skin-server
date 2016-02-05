@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 20:07:47
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-03 22:06:53
+* @Last Modified time: 2016-02-05 11:23:43
 */
 .home-menu-blur {
     position: absolute;
@@ -109,7 +109,7 @@
 }
 #msg {
     width: 50%;
-    margin: 3.5em auto 0;
+    margin: 4.3em auto 0;
 }
 .alert {
     padding: 15px 0;
