@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:56:40
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-05 18:34:01
+* @Last Modified time: 2016-02-05 18:46:35
 */
 
 'use strict';
@@ -70,9 +70,9 @@ $("[title='Rotation']").click(function(){
 
 function show2dPreview() {
     $('#canvas3d').remove();
-    $("#skinpreview").html($('<p>Skin for Steve model:</p>').append($('<img />').css('float', 'right').attr('src', '../skin/'+docCookies.getItem('uname')+'-steve.png')));
-    $("#skinpreview").append($('<p>Skin for Alex model:</p>').append($('<img />').css('float', 'right').attr('src', '../skin/'+docCookies.getItem('uname')+'-alex.png')));
-    $("#skinpreview").append($('<p>Cape:</p>').append($('<img />').css('float', 'right').attr('src', '../cape/'+docCookies.getItem('uname')+'.png')));
+    $("#skinpreview").html($('<p>Skin for Steve model:</p>').append($('<img />').addClass('skin2d').attr('src', '../skin/'+docCookies.getItem('uname')+'-steve.png?v='+Math.random())));
+    $("#skinpreview").append($('<p>Skin for Alex model:</p>').append($('<img />').addClass('skin2d').attr('src', '../skin/'+docCookies.getItem('uname')+'-alex.png?v='+Math.random())));
+    $("#skinpreview").append($('<p>Cape:</p>').append($('<img />').addClass('skin2d').attr('src', '../cape/'+docCookies.getItem('uname')+'.png?v='+Math.random())));
     $('#preview').html('3D Preview').attr('href', 'javascript:show3dPreview();');
 }
 
