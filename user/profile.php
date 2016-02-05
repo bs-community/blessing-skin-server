@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-03 16:12:45
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-04 23:11:11
+ * @Last Modified time: 2016-02-05 16:05:18
  */
 
 session_start();
@@ -29,7 +29,7 @@ if (isset($_SESSION['uname'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile - Blessing Skin Server</title>
+    <title>Profile - <?php echo SITE_TITLE; ?></title>
     <link rel="shortcut icon" href="../assets/images/favicon.ico">
     <link rel="stylesheet" href="../libs/pure/pure-min.css">
     <link rel="stylesheet" href="../libs/pure/grids-responsive-min.css">
@@ -40,7 +40,7 @@ if (isset($_SESSION['uname'])) {
 <body>
 <div class="header">
     <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-        <a class="pure-menu-heading" href="../index.php">Blessing Skin Server</a>
+        <a class="pure-menu-heading" href="../index.php"><?php echo SITE_TITLE; ?></a>
         <a href="javascript:;" title="Movements"><span class="glyphicon glyphicon-pause"></span></a>
         <a href="javascript:;" title="Running"><span class="glyphicon glyphicon-forward"></span></a>
         <a href="javascript:;" title="Rotation"><span class="glyphicon glyphicon-repeat"></span></a>

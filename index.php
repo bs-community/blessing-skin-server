@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-05 00:01:22
+ * @Last Modified time: 2016-02-05 16:04:20
  */
 session_start();
 $dir = dirname(__FILE__);
@@ -24,7 +24,7 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blessing Skin Server</title>
+    <title><?php echo SITE_TITLE; ?></title>
     <link rel="shortcut icon" href="./assets/images/favicon.ico">
     <link rel="stylesheet" href="./libs/pure/pure-min.css">
     <link rel="stylesheet" href="./libs/pure/grids-responsive-min.css">
@@ -38,7 +38,7 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
 
 <div class="header">
     <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-        <a class="pure-menu-heading" href="#">Blessing Skin Server</a>
+        <a class="pure-menu-heading" href="#"><?php echo SITE_TITLE; ?></a>
         <ul class="pure-menu-list">
             <li class="pure-menu-item">
                 <?php if (isset($_SESSION['uname'])) { ?>
@@ -58,7 +58,7 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
 
 <div class="container">
     <div class="splash">
-        <h1 class="splash-head">Blessing Skin Server</h1>
+        <h1 class="splash-head"><?php echo SITE_TITLE; ?></h1>
         <p class="splash-subhead">
             Just a simple open-source Minecraft skin server
         </p>

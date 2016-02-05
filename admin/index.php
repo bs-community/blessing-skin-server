@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-03 14:39:50
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-05 15:52:39
+ * @Last Modified time: 2016-02-05 16:05:42
  */
 
 session_start();
@@ -32,7 +32,7 @@ if (isset($_SESSION['uname'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Console - Blessing Skin Server</title>
+    <title>Console - <?php echo SITE_TITLE; ?></title>
     <link rel="shortcut icon" href="../assets/images/favicon.ico">
     <link rel="stylesheet" href="../libs/pure/pure-min.css">
     <link rel="stylesheet" href="../libs/pure/grids-responsive-min.css">
@@ -45,7 +45,7 @@ if (isset($_SESSION['uname'])) {
 <body>
 <div class="header">
     <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-        <a class="pure-menu-heading" href="../index.php">Blessing Skin Server</a>
+        <a class="pure-menu-heading" href="../index.php"><?php echo SITE_TITLE; ?></a>
         <ul class="pure-menu-list">
             <li class="pure-menu-item">
                 <a class="pure-menu-link" href="../user/profile.php">Profile</a>

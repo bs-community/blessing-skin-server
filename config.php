@@ -19,3 +19,6 @@ define('REGS_PER_IP', 2);
 
 /* Which API to use, 0 for CustomSkinLoader API, 1 for UniSkinAPI */
 define('API_TYPE', 0);
+
+/* Letters only is recommended */
+define('SITE_TITLE', 'Blessing Skin Server');
