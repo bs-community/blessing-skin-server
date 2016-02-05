@@ -1,85 +1,77 @@
 # Blessing Skin Server
 
-优雅的开源 PHP Minecraft 皮肤站。[Live demo](https://work.prinzeugen.net/blessing-skin-server/)
+优雅的开源 PHP Minecraft 皮肤站。[演示地址](https://skin.prinzeugen.net/)
 
 ![screenshot](https://img.prinzeugen.net/image.php?di=FIQD)
 
-Features:
+特性：
 -----------
 
-- Support latest [UniSkinAPI](https://github.com/RecursiveG/UniSkinServer/blob/master/doc/UniSkinAPI_zh-CN.md)
-- Support CustomSkinLoader API
-- Also support legacy link to access image directly
-- Nothing else...
+- 支持 [UniSkinAPI](https://github.com/RecursiveG/UniSkinServer/blob/master/doc/UniSkinAPI_zh-CN.md)
+- 支持 CustomSkinLoader API
+- 同时支持旧版样式链接
 
-Installation:
+快速使用：
 -----------
 
-1. Configure your database information in config.php
-2. Run `./admin/install.php`
-3. Configure your rewrite rules in your `nginx.conf`
-3. Register or login with `admin/123456`
-4. Upload your skin/cape
-5. Configure your url in `UniSkinMod.cfg` of Minecraft client
-6. Enjoy~
+1. 下载源码，并在 `config.php` 中配置你的数据库连接信息
+2.  运行 `./admin/install.php`
+3. 如果你是用的是 Nginx，请配置你的 `nginx.conf` 并加入重写规则
+4. 注册一个新账户或者使用 `admin/123456` （管理员账户）登录
+5. 可以上传你的皮肤&皮肤啦
+6. 在你所使用的皮肤 Mod 配置文件中加入你的地址
+7. 完成啦~
 
-Server configure:
+服务器配置：
 ------------
 
-Add rewrite rules to your nginx.conf:
+在你的 `nginx.conf` 中加入如下 rewrite 规则**（重要）**：
 
 ```
 rewrite ^/([^/]*).json$ /get.php?type=json&uname=$1 last;
 rewrite ^/(skin|cape)/([^/-]*)(|-)(|alex|steve).png$ /get.php?type=$1&model=$4&uname=$2 last;
-# Optional
+# 以下是可选内容
 rewrite ^/(usm|csl)/([^/]*).json$ /get.php?type=json&uname=$2&api=$1 last;
 rewrite ^/(usm|csl)/textures/(.*)$ /textures/$2 last;
 ```
-You can also use optional rewrite rules to support both CustomSkinLoader API & UniSkinAPI.
+你可以使用可选的重写规则来同时支持 CustomSkinLoader API 和 UniSkinAPI。如何同时支持会在下面 Mod 配置中说明。
 
-If you installed the skin server to subdirectory, you should configure the rules as this:
+如果你将皮肤站放在子目录中，你需要把重写规则改成类似于**这样**：
 
 ```
 rewrite ^/subdir/([^/]*).json$ /subdir/get.php?type=json&uname=$1 last;
 ```
 
-Now you can access `http://example.com/username.json` to get your json profile of your preferred API. Another API is also available `http://example.com/(usm|csl)/username.json`.
+注意 `^/` 和 `/get.php` 前都要加上你的子目录名。
 
-After uploading skins, you can also access `http://example.com/skin/username.png` for prefered model's skin image or `http://example.com/cape/username.png` for cape. Secondary model's texture is available on `http://example.com/skin/username-(alex|steve).png`.
+现在你可以访问 `http://example.com/username.json` 来得到你的首选 API 的 JSON 用户数据。另外一个 API 的 JSON 数据可以通过访问 `http://example.com/(usm|csl)/username.json` 得到（需配置可选重写规则）。
 
-Client configure:
+上传完皮肤后，你就可以访问 `http://example.com/skin/username.png` 得到你的首选模型皮肤啦。 披风图片在这里：`http://example.com/cape/username.png` 。你还可以访问 `http://example.com/skin/username-(alex|steve).png` 来得到用户的 Alex/Steve 模型的皮肤文件（用户没上传则返回空）。
+
+客户端配置：
 ------------
 
-#### For UniSkinMod version >= 1.3
+#### UniSkinMod 1.3 版及以上
 
-Put your root directory of skin server( like `/path/to/root` above ) into your `/config/UniSkinMod.cfg` of Minecraft client
+在你 MC 客户端的`.minecraft/config/UniSkinMod.cfg` 中加入你的皮肤站根地址：
 
-Sample:
+举个栗子：
 
 ```
-# Line starts with '#' is a commit line
-# Line starts with 'Root: ' indicates a server
-# All servers will be queried in that order.
-# Server in front has higher priority
-# Official server has the lowest priority
-# No more legacy style link support!
-
 # SkinMe Default
 Root: http://www.skinme.cc/uniskin
 # Your Server
 Root: http://example.com
 ```
+如果你把皮肤站安装到子目录的话，请一起带上你的子目录。如果你的皮肤站首选 API 为 CustomSkinLoader API 的话，你需要在 UniSkinMod 配置文件中填入类似于 `http://example.com/usm` 来支持 UniSkinMod。
 
-#### For UniSkinMod version < 1.3 or other
+#### UniSkinMod 1.3 版以下
 
-Also put your url into `/config/UniSkinMod.cfg`, but you need to fill 2 urls for skin and cape
+同样是在 `.minecraft/config/UniSkinMod.cfg` 中配置你的皮肤站地址，但是稍有点不一样。旧版的 UniSkinMod 是不支持 Json API 的，而是使用了传统图片链接的方式（其实这样的话皮肤站爷好实现）：
 
-Sample:
+举个栗子：
 
 ```
-Version: 1
-# Do not edit the line above
-
 Skin: http://skins.minecraft.net/MinecraftSkins/%s.png
 Cape: http://skins.minecraft.net/MinecraftCloaks/%s.png
 # Your Server
@@ -87,23 +79,44 @@ Skin: http://example.com/skin/%s.png
 Cape: http://example.com/cape/%s.png
 ```
 
-FAQ
+这是通过 URL 重写（伪静态）实现的，所以皮肤站目录下没有 `skin` 和 `cape` 目录也不要惊讶哦。
+
+#### CustomSkinLoader 传统链接：
+
+在 `.minecraft/CustomSkinLoader/skinurls.txt` 中添加如下地址：
+
+```
+http://example.com/skin/*.png
+```
+
+在 `.minecraft/CustomSkinLoader/capeurls.txt` 中：
+
+```
+http://example.com/cape/*.png
+```
+
+#### CustomSkinLoader API
+
+等待作者发布
+
+常见问题：
 ------------
 
-If everything works well, you will get an awesome skin in game:
+####游戏中皮肤不显示？
+
+请先确认你的皮肤站 URL 重写规则已经配置正确，并且可以正常获取皮肤图片。
+
+如果还是不能显示皮肤，请阅读您所使用的皮肤 Mod 的 FAQ。
+
+还是不行德胡，请在启动器开启调试模式，并且查看所有关于 skin 的日志。一般来说看了就可以明白了，如果还是不明白请邮件 [联系我](mailto:h@prinzeugen.net)（带上你的日志）。
+
+如果一切都正常工作，你就可以在游戏中看到你的皮肤啦~
 
 ![screenshot2](https://img.prinzeugen.net/image.php?di=EV1E)
 
-And the log will be like this:
+版权：
+------------
+Blessing Skin Server 程序是基于 GUN General Public License 开放源代码的自由软件，你可以遵照 GPL 协议来修改和重新发布这一程序。
 
-```
-[16:23:56] [launcher/INFO] [UniSkinMod]: Loading configuration ... @D:\Minecraft\1.8\.minecraft\config\UniSkinMod.cfg
-[16:23:56] [launcher/INFO] [UniSkinMod]: Root Url Added: http://127.0.0.1/blessing-skin-server
+程序原作者为 [@printempw](https://prinzeugen.net/)，转载请注明。
 
-[16:24:23] [Client thread/INFO] [UniSkinMod]: Filling profile for player: 621sama
-[16:24:23] [Client thread/INFO] [UniSkinMod]: Fetching URL: http://127.0.0.1/blessing-skin-server/621sama.json
-[16:24:23] [Client thread/INFO] [UniSkinMod]: Player Skin Selected: 621sama default 3f14a21723023642b9e8d2bc008b443780698aaedbb7d4e29960e8a2c754a771
-[16:24:23] [Client thread/INFO] [UniSkinMod]: Player Cape Selected: 621sama aed8c3fc67aae4906b72fa74c27e15866c89752f0838f6b2a1c44bb4d59cec1e
-```
-
-If not, please check your log to locate where error occured.
