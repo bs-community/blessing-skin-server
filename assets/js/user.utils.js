@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:56:40
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-05 15:35:02
+* @Last Modified time: 2016-02-05 18:34:01
 */
 
 'use strict';
@@ -73,6 +73,13 @@ function show2dPreview() {
     $("#skinpreview").html($('<p>Skin for Steve model:</p>').append($('<img />').css('float', 'right').attr('src', '../skin/'+docCookies.getItem('uname')+'-steve.png')));
     $("#skinpreview").append($('<p>Skin for Alex model:</p>').append($('<img />').css('float', 'right').attr('src', '../skin/'+docCookies.getItem('uname')+'-alex.png')));
     $("#skinpreview").append($('<p>Cape:</p>').append($('<img />').css('float', 'right').attr('src', '../cape/'+docCookies.getItem('uname')+'.png')));
+    $('#preview').html('3D Preview').attr('href', 'javascript:show3dPreview();');
+}
+
+function show3dPreview() {
+    $('#skinpreview').html('');
+    init3dCanvas()
+    $('#preview').html('2D Preview').attr('href', 'javascript:show2dPreview();');
 }
 
 $("#upload").click(function(){
