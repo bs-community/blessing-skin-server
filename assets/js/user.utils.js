@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:56:40
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-05 18:46:35
+* @Last Modified time: 2016-02-05 18:54:38
 */
 
 'use strict';
@@ -70,6 +70,7 @@ $("[title='Rotation']").click(function(){
 
 function show2dPreview() {
     $('#canvas3d').remove();
+    $('.operations').hide();
     $("#skinpreview").html($('<p>Skin for Steve model:</p>').append($('<img />').addClass('skin2d').attr('src', '../skin/'+docCookies.getItem('uname')+'-steve.png?v='+Math.random())));
     $("#skinpreview").append($('<p>Skin for Alex model:</p>').append($('<img />').addClass('skin2d').attr('src', '../skin/'+docCookies.getItem('uname')+'-alex.png?v='+Math.random())));
     $("#skinpreview").append($('<p>Cape:</p>').append($('<img />').addClass('skin2d').attr('src', '../cape/'+docCookies.getItem('uname')+'.png?v='+Math.random())));
@@ -78,6 +79,7 @@ function show2dPreview() {
 
 function show3dPreview() {
     $('#skinpreview').html('');
+    $('.operations').show();
     init3dCanvas()
     $('#preview').html('2D Preview').attr('href', 'javascript:show2dPreview();');
 }
