@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-03 16:12:45
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-05 21:56:16
+ * @Last Modified time: 2016-02-05 22:24:40
  */
 
 session_start();
@@ -46,7 +46,7 @@ if (isset($_SESSION['uname'])) {
         <a href="javascript:;" title="Rotation"><span class="glyphicon glyphicon-repeat"></span></a>
         <ul class="pure-menu-list">
             <li class="pure-menu-item">
-                <a class="pure-menu-link" href="index.php">Upload</a>
+                <a class="pure-menu-link" href="index.php">皮肤上传</a>
             </li>
             <li class="pure-menu-item">
                 <span class="pure-menu-link">欢迎， <?php echo $_SESSION['uname']; ?>！</span> | <span class="pure-menu-link" id="logout">登出？</span>
