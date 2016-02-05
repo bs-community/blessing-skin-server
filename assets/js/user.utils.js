@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:56:40
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-05 11:08:02
+* @Last Modified time: 2016-02-05 11:16:43
 */
 
 'use strict';
@@ -71,15 +71,9 @@ $("[title='Rotation']").click(function(){
 $("#upload").click(function(){
 	var skin_file = $("#skininput").get(0).files[0];
 	var cape_file = $("#capeinput").get(0).files[0];
-
 	var form_data = new FormData();
-	if (skin_file) {
-		form_data.append('skin_file', skin_file);
-	}
-	if (cape_file) {
-		form_data.append('cape_file', cape_file);
-	}
-	form_data.append('uname', docCookies.getItem('uname'));
+	if (skin_file) form_data.append('skin_file', skin_file);
+	if (cape_file) form_data.append('cape_file', cape_file);
 	if (skin_file || cape_file) {
 		$.ajax({
 			type: 'POST',

@@ -76,7 +76,7 @@ if (isset($_SESSION['uname'])) {
                         <input type="radio" id="model" name="model" />My skin fits on the new Alex player model.
                         <br /><br />
                         <button id="upload" class="pure-button pure-button-primary">Upload</button>
-                        <a href="?action=preview" class="pure-button">Preview</a>
+                        <a href="javascript:show2dPreview();" class="pure-button">2D Preview</a>
                     </div>
                     <div id="msg" class="alert hide" role="alert"></div>
                 </div>
@@ -84,7 +84,7 @@ if (isset($_SESSION['uname'])) {
         </div>
         <div class="pure-u-md-1-2 pure-u-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Preview
+                <div class="panel-heading">3D Preview
                     <div class="operations">
                         <span title="Movements" class="glyphicon glyphicon-pause"></span>
                         <span title="Running" class="glyphicon glyphicon-forward"></span>
