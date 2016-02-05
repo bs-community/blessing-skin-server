@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:56:40
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-05 11:16:43
+* @Last Modified time: 2016-02-05 11:38:39
 */
 
 'use strict';
@@ -17,7 +17,7 @@ $("body").on("change", "#capeinput", function(){
 	handleFiles(files, "cape");
 });
 
-var handleFiles = function (files, type) {
+function handleFiles(files, type) {
 	if(files.length > 0) {
 		var file = files[0];
 		if(file.type === 'image/png') {
@@ -43,7 +43,7 @@ var handleFiles = function (files, type) {
 	}
 };
 
-function initCanvas() {
+function init3dCanvas() {
 	if ($(window).width() < 800) {
 		var canvas = MSP.get3dSkinCanvas($('#skinpreview').width(), $('#skinpreview').width());
 		$("#skinpreview").append($(canvas).prop("id", "canvas3d"));
@@ -52,9 +52,13 @@ function initCanvas() {
 		$("#skinpreview").append($(canvas).prop("id", "canvas3d"));
 	}
 }
+$(document).ready(function(){
+	init3dCanvas();
+});
 
-initCanvas();
-$(window).resize(function(){ initCanvas(); });
+$(window).resize(function(){
+	init3dCanvas();
+});
 
 $("[title='Movements']").click(function(){
 	MSP.setStatus("movements", !MSP.getStatus("movements"));
@@ -67,6 +71,11 @@ $("[title='Running']").click(function(){
 $("[title='Rotation']").click(function(){
 	MSP.setStatus("rotation", !MSP.getStatus("rotation"));
 });
+
+function show2dPreview() {
+	$('#canvas3d').remove();
+	$("#skinpreview").html($('<p>Skin for Steve model:</p>').append($('<img />').css('float', 'right').attr('src', '../skin/admin.png')));
+}
 
 $("#upload").click(function(){
 	var skin_file = $("#skininput").get(0).files[0];

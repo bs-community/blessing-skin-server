@@ -84,7 +84,7 @@ if (isset($_SESSION['uname'])) {
         </div>
         <div class="pure-u-md-1-2 pure-u-1">
             <div class="panel panel-default">
-                <div class="panel-heading">3D Preview
+                <div class="panel-heading">Preview
                     <div class="operations">
                         <span title="Movements" class="glyphicon glyphicon-pause"></span>
                         <span title="Running" class="glyphicon glyphicon-forward"></span>
