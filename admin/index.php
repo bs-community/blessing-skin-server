@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-03 14:39:50
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-05 16:05:42
+ * @Last Modified time: 2016-02-05 21:44:08
  */
 
 session_start();
@@ -18,12 +18,12 @@ if(isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
 if (isset($_SESSION['uname'])) {
     $admin = new user($_SESSION['uname']);
     if ($_SESSION['token'] != $admin->getToken()) {
-        header('Location: ../index.php?msg=Invalid token. Please login.');
+        header('Location: ../index.php?msg=无效的 token，请重新登录。');
     } else if (!$admin->is_admin) {
-        header('Location: ../index.php?msg=Looks like that you are not administrator :(');
+        header('Location: ../index.php?msg=看起来你并不是管理员');
     }
 } else {
-    header('Location: ../index.php?msg=Illegal access. Please login.');
+    header('Location: ../index.php?msg=非法访问，请先登录。');
 }
 ?>
 
@@ -32,7 +32,7 @@ if (isset($_SESSION['uname'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Console - <?php echo SITE_TITLE; ?></title>
+    <title>仪表盘 - <?php echo SITE_TITLE; ?></title>
     <link rel="shortcut icon" href="../assets/images/favicon.ico">
     <link rel="stylesheet" href="../libs/pure/pure-min.css">
     <link rel="stylesheet" href="../libs/pure/grids-responsive-min.css">
@@ -48,10 +48,10 @@ if (isset($_SESSION['uname'])) {
         <a class="pure-menu-heading" href="../index.php"><?php echo SITE_TITLE; ?></a>
         <ul class="pure-menu-list">
             <li class="pure-menu-item">
-                <a class="pure-menu-link" href="../user/profile.php">Profile</a>
+                <a class="pure-menu-link" href="../user/profile.php">个人设置</a>
             </li>
             <li class="pure-menu-item">
-                <span class="pure-menu-link">Welcome, <?php echo $_SESSION['uname']; ?>!</span> | <span class="pure-menu-link" id="logout">Log out?</span>
+                <span class="pure-menu-link">欢迎， <?php echo $_SESSION['uname']; ?>！</span> | <span class="pure-menu-link" id="logout">登出？</span>
              </li>
         </ul>
         <div class="home-menu-blur">
@@ -67,10 +67,10 @@ if (isset($_SESSION['uname'])) {
         <thead>
             <tr>
                 <th>#</th>
-                <th>Username</th>
-                <th>Preview Textures</th>
-                <th>Change Textures</th>
-                <th>Opreation</th>
+                <th>用户名</th>
+                <th>预览材质</th>
+                <th>更改材质</th>
+                <th>操作</th>
             </tr>
         </thead>
 
@@ -88,14 +88,14 @@ if (isset($_SESSION['uname'])) {
                     <?php echo '<img id="'.$row['username'].'_cape" width="64" '.(($row['hash_cape'] == "") ? '' : 'src="../cape/'.$row['username'].'.png"').'/>'; ?>
                 </td>
                 <td>
-                    <a href="javascript:uploadSkin('<?php echo $row['username']; ?>');" class="pure-button pure-button-primary">Skin</a>
-                    <a href="javascript:uploadTexture('<?php echo $row['username']; ?>', 'cape');" class="pure-button pure-button-primary">Cape</a>
-                    <a href="javascript:changeModel('<?php echo $row['username']; ?>');" class="pure-button pure-button-default">Model</a>
+                    <a href="javascript:uploadSkin('<?php echo $row['username']; ?>');" class="pure-button pure-button-primary">皮肤</a>
+                    <a href="javascript:uploadTexture('<?php echo $row['username']; ?>', 'cape');" class="pure-button pure-button-primary">披风</a>
+                    <a href="javascript:changeModel('<?php echo $row['username']; ?>');" class="pure-button pure-button-default">优先模型</a>
                     <span>(<?php echo $row['preference']; ?>)</span>
                 </td>
                 <td>
-                    <a href="javascript:changePasswd('<?php echo $row['username'] ?>');" class="pure-button pure-button-default">Password</a>
-                    <a href="javascript:deleteAccount('<?php echo $row['username'] ?>');" class="pure-button pure-button-error">Delete</a>
+                    <a href="javascript:changePasswd('<?php echo $row['username'] ?>');" class="pure-button pure-button-default">更改密码</a>
+                    <a href="javascript:deleteAccount('<?php echo $row['username'] ?>');" class="pure-button pure-button-error">删除用户</a>
                 </td>
             </tr>
             <?php } ?>

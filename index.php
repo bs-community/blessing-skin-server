@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-05 16:04:20
+ * @Last Modified time: 2016-02-05 21:13:05
  */
 session_start();
 $dir = dirname(__FILE__);
@@ -42,9 +42,9 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
         <ul class="pure-menu-list">
             <li class="pure-menu-item">
                 <?php if (isset($_SESSION['uname'])) { ?>
-                    <a href="./user/index.php" class="pure-menu-link">Welcome, <?php echo $_SESSION['uname']; ?>!</a> | <span class="pure-menu-link" id="logout">Log out?</span>
+                    <a href="./user/index.php" class="pure-menu-link">欢迎， <?php echo $_SESSION['uname']; ?>！</a> | <span class="pure-menu-link" id="logout">登出？</span>
                 <?php } else { ?>
-                <a id="login" href="javascript:;" class="pure-button pure-button-primary">Sign In</a>
+                <a id="login" href="javascript:;" class="pure-button pure-button-primary">登录</a>
                 <?php } ?>
             </li>
         </ul>
@@ -60,11 +60,11 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
     <div class="splash">
         <h1 class="splash-head"><?php echo SITE_TITLE; ?></h1>
         <p class="splash-subhead">
-            Just a simple open-source Minecraft skin server
+            开源的 PHP Minecraft 皮肤站
         </p>
         <?php if (!utils::getValue('uname', $_SESSION)) { ?>
         <p>
-            <a id="register" href="javascript:;" class="pure-button pure-button-primary">Sign Up</a>
+            <a id="register" href="javascript:;" class="pure-button pure-button-primary">现在注册</a>
         </p>
         <?php } ?>
     </div>
@@ -76,28 +76,28 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
 
 <div class="remodal" data-remodal-id="login-modal">
     <button data-remodal-action="close" class="remodal-close"></button>
-    <h1 id="login-title">Sign In</h1>
+    <h1 id="login-title">登录</h1>
     <div class="pure-form">
-        <input class="pure-input" id="uname" type="text" placeholder="Username">
-        <input class="pure-input" id="passwd" type="password" placeholder="Password">
+        <input class="pure-input" id="uname" type="text" placeholder="用户名">
+        <input class="pure-input" id="passwd" type="password" placeholder="密码">
         <br />
         <label for="keep" id="keep-label">
-            <input id="keep" type="checkbox"> Remember me
+            <input id="keep" type="checkbox"> 记住我
         </label>
-        <button id="login-button" class="pure-button pure-button-primary">Sign In</button>
+        <button id="login-button" class="pure-button pure-button-primary">登录</button>
     </div>
     <div id="msg" class="alert"></div>
 </div>
 
 <div class="remodal" data-remodal-id="register-modal">
     <button data-remodal-action="close" class="remodal-close"></button>
-    <h1 id="register-title">Sign Up</h1>
+    <h1 id="register-title">注册</h1>
     <div class="pure-form">
-        <input class="pure-input" id="reg-uname" type="text" placeholder="Username">
-        <input class="pure-input" id="reg-passwd" type="password" placeholder="Password">
-        <input class="pure-input" id="reg-passwd2" type="password" placeholder="Comfirm Password">
+        <input class="pure-input" id="reg-uname" type="text" placeholder="用户名">
+        <input class="pure-input" id="reg-passwd" type="password" placeholder="密码">
+        <input class="pure-input" id="reg-passwd2" type="password" placeholder="确认密码">
         <br />
-        <button id="register-button" class="pure-button pure-button-primary">Sign Up</button>
+        <button id="register-button" class="pure-button pure-button-primary">注册</button>
     </div>
     <div id="msg" class="alert"></div>
 </div>

@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-03 16:12:45
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-05 16:05:18
+ * @Last Modified time: 2016-02-05 21:56:16
  */
 
 session_start();
@@ -18,10 +18,10 @@ if(isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
 if (isset($_SESSION['uname'])) {
     $user = new user($_SESSION['uname']);
     if ($_SESSION['token'] != $user->getToken()) {
-        header('Location: ../index.php?msg=Invalid token. Please login.');
+        header('Location: ../index.php?msg=无效的 token，请重新登录。');
     }
 } else {
-    header('Location: ../index.php?msg=Illegal access. Please login.');
+    header('Location: ../index.php?msg=非法访问，请先登录。');
 }
 ?>
 <!DOCTYPE html>
@@ -29,7 +29,7 @@ if (isset($_SESSION['uname'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile - <?php echo SITE_TITLE; ?></title>
+    <title>个人设置 - <?php echo SITE_TITLE; ?></title>
     <link rel="shortcut icon" href="../assets/images/favicon.ico">
     <link rel="stylesheet" href="../libs/pure/pure-min.css">
     <link rel="stylesheet" href="../libs/pure/grids-responsive-min.css">
@@ -49,7 +49,7 @@ if (isset($_SESSION['uname'])) {
                 <a class="pure-menu-link" href="index.php">Upload</a>
             </li>
             <li class="pure-menu-item">
-                <span class="pure-menu-link">Welcome, <?php echo $_SESSION['uname']; ?>!</span> | <span class="pure-menu-link" id="logout">Log out?</span>
+                <span class="pure-menu-link">欢迎， <?php echo $_SESSION['uname']; ?>！</span> | <span class="pure-menu-link" id="logout">登出？</span>
              </li>
         </ul>
         <div class="home-menu-blur">
@@ -64,26 +64,25 @@ if (isset($_SESSION['uname'])) {
     <div class="pure-g">
         <div class="pure-u-1 pure-u-md-1-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Change Password</div>
+                <div class="panel-heading">更改密码</div>
                 <div class="panel-body">
                     <div class="pure-form pure-form-stacked">
-                        <input id="passwd" type="password" placeholder="Old password">
-                        <input id="new-passwd" type="password" placeholder="New password">
-                        <input id="confirm-pwd" type="password" placeholder="Repeat to confirm">
-                        <button id="change" class="pure-button pure-button-primary">Change Password</button>
+                        <input id="passwd" type="password" placeholder="旧的密码">
+                        <input id="new-passwd" type="password" placeholder="新密码">
+                        <input id="confirm-pwd" type="password" placeholder="确认密码">
+                        <button id="change" class="pure-button pure-button-primary">修改密码</button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="pure-u-1 pure-u-md-1-2">
             <div class="panel panel-danger">
-                <div class="panel-heading">Delete Account</div>
+                <div class="panel-heading">删除账号</div>
                 <div class="panel-body">
-                    <p>Are you sure you want to delete your account?</p>
-                    <p>You're about to delete your account on Blessing Skin Server.</p>
-                    <p>This is permanent! No backups, no restores, no magic undo button.</p>
-                    <p>We warned you, ok?</p>
-                    <button id="delete" class="pure-button pure-button-error">I am sure.</button>
+                    <p>确定要删除你在 <?php echo SITE_TITLE; ?> 上的账号吗？</p>
+                    <p>此操作不可恢复！我们不提供任何备份，或者神奇的撤销按钮。</p>
+                    <p>我们警告过你了，确定要这样做吗？</p>
+                    <button id="delete" class="pure-button pure-button-error">删除我的账户</button>
                 </div>
             </div>
         </div>
@@ -91,7 +90,7 @@ if (isset($_SESSION['uname'])) {
     <div class="pure-g">
         <div class="pure-u-1 pure-u-md-1-2">
             <div class="panel panel-default">
-                <div class="panel-heading">How To Use?</div>
+                <div class="panel-heading">如何使用？</div>
                 <div class="panel-body">
                     <p>Check it here: <a href="https://github.com/printempw/blessing-skin-server/blob/master/README.md">printempw/blessing-skin-server</a></p>
                 </div>
@@ -100,9 +99,9 @@ if (isset($_SESSION['uname'])) {
         <?php if ($user->is_admin) { ?>
         <div class="pure-u-1 pure-u-md-1-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Welcome, administrator.</div>
+                <div class="panel-heading">欢迎，尊敬的管理员</div>
                 <div class="panel-body">
-                    <p>Here manage your site: <a href="../admin/">Console</a></p>
+                    <p>在这里管理你的皮肤站： <a href="../admin/">仪表盘</a></p>
                 </div>
             </div>
         </div>

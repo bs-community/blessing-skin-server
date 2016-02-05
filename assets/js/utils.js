@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-02-03 18:23:21
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-04 23:02:46
+* @Last Modified time: 2016-02-05 21:12:29
 */
 
 'use strict';
@@ -33,7 +33,7 @@ function logout(callback) {
 
 $("#logout").click(function(){
     logout(function(json){
-        showAlert(json.msg + " Successfully logged out.", function(){
+        showAlert(json.msg, function(){
             window.location = "../index.php";
         });
     });

@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 07:57:38
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-04 23:15:08
+* @Last Modified time: 2016-02-05 21:13:54
 */
 
 @import url(https://fonts.googleapis.com/css?family=Ubuntu);
@@ -21,7 +21,7 @@ html {
     line-height: 1.7em;
     color: #fff;
     font-size: 13px;
-    font-family: Ubuntu, "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
 }
 
 p {
@@ -163,4 +163,7 @@ p {
     .pure-g:first-child {
         margin-top: 100px;
     }
+}
+.ply-layer {
+    font-family: Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif!important;
 }

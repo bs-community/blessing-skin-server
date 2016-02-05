@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-05 15:35:31
+ * @Last Modified time: 2016-02-05 21:23:27
  *
  * - login, register, logout
  * - upload, change, delete
@@ -24,10 +24,10 @@ if (isset($_POST['uname'])) {
     if (user::checkValidUname($uname)) {
         $user = new user($_POST['uname']);
     } else {
-        utils::raise(1, 'Invalid username. Only letters, numbers and _ is allowed.');
+        utils::raise(1, '无效的用户名。用户名只能包含数字，字母以及下划线。');
     }
 } else {
-    utils::raise('1', 'Empty username.');
+    utils::raise('1', '空用户名。');
 }
 $action = isset($_GET['action']) ? $_GET['action'] : null;
 $json = null;
@@ -39,16 +39,16 @@ if ($action == "login") {
     if (checkPost()) {
         if (!$user->is_registered) {
             $json['errno'] = 1;
-            $json['msg'] = "Non-existent user.";
+            $json['msg'] = "用户不存在哦";
         } else {
             if ($user->checkPasswd($_POST['passwd'])) {
                 $json['errno'] = 0;
-                $json['msg'] = 'Logging in succeed!';
+                $json['msg'] = '登录成功，欢迎回来~';
                 $json['token'] = $user->getToken();
                 $_SESSION['token'] = $user->getToken();
             } else {
                 $json['errno'] = 1;
-                $json['msg'] = "Incorrect usename or password.";
+                $json['msg'] = "用户名或密码不对哦";
             }
         }
     }
@@ -69,19 +69,19 @@ if ($action == "login") {
                     // use once md5 to encrypt password
                     if ($user->register(md5($_POST['passwd']), $ip)) {
                         $json['errno'] = 0;
-                        $json['msg'] = "Registered successfully.";
+                        $json['msg'] = "注册成功~";
                     } else {
                         $json['errno'] = 1;
-                        $json['msg'] = "Uncaught error.";
+                        $json['msg'] = "出现了奇怪的错误。。请联系作者 :(";
                     }
                 } else {
                     $json['errno'] = 1;
-                    $json['msg'] = "You can't create more than ".REGS_PER_IP." accounts with this IP.";
+                    $json['msg'] = "你最多只能注册 ".REGS_PER_IP." 个账户哦";
                 }
             }
         } else {
             $json['errno'] = 1;
-            $json['msg'] = "User already registered.";
+            $json['msg'] = "这个用户名已经被人注册辣，换一个吧";
         }
     }
 }
@@ -90,7 +90,7 @@ function checkPost() {
     global $json;
     if (!isset($_POST['passwd'])) {
         $json['errno'] = 1;
-        $json['msg'] = "Empty password!";
+        $json['msg'] = "空密码。";
         return false;
     }
     return true;
@@ -106,35 +106,35 @@ if ($action == "upload") {
                 $model = (isset($_GET['model']) && $_GET['model'] == "steve") ? "steve" : "alex";
                 if ($user->setTexture($model, $file)) {
                     $json['skin']['errno'] = 0;
-                    $json['skin']['msg'] = "Skin uploaded successfully.";
+                    $json['skin']['msg'] = "皮肤上传成功！";
                 } else {
                     $json['skin']['errno'] = 1;
-                    $json['skin']['msg'] = "Uncaught error.";
+                    $json['skin']['msg'] = "出现了奇怪的错误。。请联系作者 :(";
                 }
             }
             if ($file = utils::getValue('cape_file', $_FILES)) {
                 if ($user->setTexture('cape', $file)) {
                     $json['cape']['errno'] = 0;
-                    $json['cape']['msg'] = "Cape uploaded successfully.";
+                    $json['cape']['msg'] = "披风上传成功！";
                 } else {
                     $json['cape']['errno'] = 1;
-                    $json['cape']['msg'] = "Uncaught error.";
+                    $json['cape']['msg'] = "出现了奇怪的错误。。请联系作者 :(";
                 }
             }
         }
     } else {
         $json['errno'] = 1;
-        $json['msg'] = "Invalid token.";
+        $json['msg'] = "无效的 token，请先登录。";
     }
 } else if ($action == "model") {
     if (utils::getValue('token', $_SESSION) == $user->getToken()) {
         $new_model = ($user->getPreference() == "default") ? "slim" : "default";
         $user->setPreference($new_model);
         $json['errno'] = 0;
-        $json['msg'] = "Preferred model successfully changed to ".$user->getPreference().".";
+        $json['msg'] = "优先模型已经更改为 ".$user->getPreference()."。";
     } else {
         $json['errno'] = 1;
-        $json['msg'] = "Invalid token.";
+        $json['msg'] = "无效的 token，请先登录。";
     }
 }
 
@@ -143,7 +143,7 @@ function checkFile() {
 
     if (!(utils::getValue('skin_file', $_FILES) || utils::getValue('cape_file', $_FILES))) {
         $json['errno'] = 1;
-        $json['msg'] = "No input file selected.";
+        $json['msg'] = "什么文件都没有诶？";
         return false;
     }
     /**
@@ -159,11 +159,11 @@ function checkFile() {
     } else {
         if (utils::getValue('skin_file', $_FILES)) {
             $json['errno'] = 1;
-            $json['msg'] = 'Skin file type error.';
+            $json['msg'] = '错误的皮肤文件类型。';
             return false;
         } else {
             $json['skin']['errno'] = 0;
-            $json['skin']['msg'] = 'No skin file selected.';
+            $json['skin']['msg'] = '什么文件都没有诶？';
         }
     }
 
@@ -180,11 +180,11 @@ function checkFile() {
     } else {
         if (utils::getValue('cape_file', $_FILES)) {
             $json['errno'] = 1;
-            $json['msg'] = 'Cape file type error.';
+            $json['msg'] = '错误的披风文件类型。';
             return false;
         } else {
             $json['cape']['errno'] = 0;
-            $json['cape']['msg'] = 'No cape file selected.';
+            $json['cape']['msg'] = '什么文件都没有诶？';
         }
     }
 
@@ -200,14 +200,14 @@ if ($action == "change") {
             if ($user->checkPasswd($_POST['passwd'])) {
                 $user->changePasswd($_POST['new_passwd']);
                 $json['errno'] = 0;
-                $json['msg'] = "Password updated successfully.";
+                $json['msg'] = "密码更改成功。请重新登录。";
             } else {
                 $json['errno'] = 1;
-                $json['msg'] = "Incorrect usename or password.";
+                $json['msg'] = "原密码不对哦？";
             }
         } else {
             $json['errno'] = 1;
-            $json['msg'] = "New password required.";
+            $json['msg'] = "新密码呢？";
         }
     }
 } else if ($action == "delete") {
@@ -217,30 +217,30 @@ if ($action == "change") {
                 session_destroy();
                 $user->unRegister();
                 $json['errno'] = 0;
-                $json['msg'] = "Account successfully deleted.";
+                $json['msg'] = "账号已经成功删除，再见~";
             } else {
                 $json['errno'] = 1;
-                $json['msg'] = "Incorrect password.";
+                $json['msg'] = "错误的密码。";
             }
         }
     } else {
         $json['errno'] = 1;
-        $json['msg'] = "Invalid token.";
+        $json['msg'] = "无效的 token，请先登录。";
     }
 } else if ($action == "logout") {
     if (utils::getValue('token', $_SESSION)) {
         session_destroy();
         $json['errno'] = 0;
-        $json['msg'] = 'Session destroyed.';
+        $json['msg'] = 'Session 成功销毁。';
     } else {
         $json['errno'] = 1;
-        $json['msg'] = 'No available session.';
+        $json['msg'] = '并没有任何有效的 session。';
     }
 }
 
 if (!$action) {
     $json['errno'] = 1;
-    $json['msg'] = "Invalid parameters.";
+    $json['msg'] = "无效的参数。不要乱 POST 玩哦。";
 }
 
 echo json_encode($json);

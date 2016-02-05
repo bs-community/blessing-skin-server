@@ -2,14 +2,14 @@
 * @Author: prpr
 * @Date:   2016-02-04 16:48:42
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-05 15:52:32
+* @Last Modified time: 2016-02-05 22:01:44
 */
 
 'use strict';
 
 function uploadSkin(uname) {
     Ply.dialog("confirm", {
-        text: "Which model do you want to change?",
+        text: "更改该用户对应哪个模型的皮肤？",
         ok: "Steve",
         cancel: "Alex"
     }).done(function(){
@@ -21,9 +21,9 @@ function uploadSkin(uname) {
 
 function uploadTexture(uname, type) {
     var ply = new Ply({
-        el: '<h2>Upload new '+type+':</h2>'+
+        el: '<h2>为该用户上传新的 '+type+':</h2>'+
             '<input type="file" id="file" accept="image/png">'+
-            '<button id="upload" class="pure-button pure-button-primary fw">Upload</button>',
+            '<button id="upload" class="pure-button pure-button-primary fw">上传</button>',
         effect: "fade",
         onaction: function(){
             var form_data = new FormData();
@@ -39,11 +39,11 @@ function uploadTexture(uname, type) {
                     processData: false,
                     success: function(json) {
                         if (json.errno == 0) {
-                            showAlert("Successfully uploaded.", function(){
+                            showAlert("上传成功。", function(){
                                 location.reload();
                             });
                         } else {
-                            showAlert("Error when uploading texture:\n" + json.msg);
+                            showAlert("上传材质的时候出错啦：\n" + json.msg);
                         }
                     }
                 });
@@ -56,8 +56,8 @@ function uploadTexture(uname, type) {
 
 function changePasswd(uname) {
     Ply.dialog("prompt", {
-        title: "Type in "+uname+"'s new password",
-        form: { passwd: "New Password" }
+        title: "修改 "+uname+" 的登录密码：",
+        form: { passwd: "新的密码" }
     }).done(function(ui){
         var passwd = ui.data.passwd;
         $.ajax({
@@ -78,7 +78,7 @@ function changePasswd(uname) {
 
 function deleteAccount(uname) {
     Ply.dialog("prompt", {
-        title: "Are you sure to delete "+uname+"?",
+        title: "确定要删除 "+uname+"？此操作不可恢复。",
     }).done(function(ui){
         $.ajax({
             type: "POST",
@@ -99,8 +99,8 @@ function deleteAccount(uname) {
 
 function changeModel(uname) {
     Ply.dialog("prompt", {
-        title: "Change "+uname+"'s model prefrence:",
-        form: { text: "Type in `slim` or `default`" }
+        title: "修改 "+uname+" 的优先皮肤模型：",
+        form: { text: "输入 `slim` 或者 `default`" }
     }).done(function(ui){
         var model = ui.data.text;
         if (model == 'slim'| model == 'default') {
@@ -120,7 +120,7 @@ function changeModel(uname) {
                 }
             });
         } else {
-            showAlert('Only `slim` or `default` is valid.');
+            showAlert('只能输入 `slim` 或者 `default` 哦');
         }
     });
 }

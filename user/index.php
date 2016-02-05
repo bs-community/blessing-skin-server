@@ -19,10 +19,10 @@ if(isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
 if (isset($_SESSION['uname'])) {
     $user = new user($_SESSION['uname']);
     if ($_SESSION['token'] != $user->getToken()) {
-        header('Location: ../index.php?msg=Invalid token. Please login.');
+        header('Location: ../index.php?msg=无效的 token，请重新登录。');
     }
 } else {
-    header('Location: ../index.php?msg=Illegal access. Please login.');
+    header('Location: ../index.php?msg=非法访问，请先登录。');
 }
 ?>
 <!DOCTYPE html>
@@ -30,7 +30,7 @@ if (isset($_SESSION['uname'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload - <?php echo SITE_TITLE; ?></title>
+    <title>上传皮肤 - <?php echo SITE_TITLE; ?></title>
     <link rel="shortcut icon" href="../assets/images/favicon.ico">
     <link rel="stylesheet" href="../libs/pure/pure-min.css">
     <link rel="stylesheet" href="../libs/pure/grids-responsive-min.css">
@@ -45,10 +45,10 @@ if (isset($_SESSION['uname'])) {
         <a class="pure-menu-heading" href="../index.php"><?php echo SITE_TITLE; ?></a>
         <ul class="pure-menu-list">
              <li class="pure-menu-item">
-                 <a class="pure-menu-link" href="profile.php">Profile</a>
+                 <a class="pure-menu-link" href="profile.php">个人设置</a>
              </li>
              <li class="pure-menu-item">
-                <span class="pure-menu-link">Welcome, <?php echo $_SESSION['uname']; ?>!</span> | <span class="pure-menu-link" id="logout">Log out?</span>
+                <span class="pure-menu-link">欢迎， <?php echo $_SESSION['uname']; ?>！</span> | <span class="pure-menu-link" id="logout">登出？</span>
              </li>
         </ul>
         <div class="home-menu-blur">
@@ -62,35 +62,35 @@ if (isset($_SESSION['uname'])) {
     <div class="pure-g">
         <div class="pure-u-md-1-2 pure-u-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Upload</div>
+                <div class="panel-heading">上传</div>
                 <div class="panel-body">
                     <div id="upload-form">
-                        <p>Select a skin:</p>
+                        <p>选择皮肤：</p>
                         <input type="file" id="skininput" name="skininput" accept="image/png" />
                         <br />
-                        <p>Select a cape:</p>
+                        <p>选择皮肤：</p>
                         <input type="file" id="capeinput" name="capeinput" accept="image/png" />
                         <br />
-                        <input type="radio" id="model-steve" name="model" /><label for="model-steve">My skin fits on the classic Steve player model.</label>
+                        <input type="radio" id="model-steve" name="model" /><label for="model-steve">我的皮肤适合传统 Steve 皮肤模型</label>
                         <br />
-                        <input type="radio" id="model-alex" name="model" /><label for="model-alex">My skin fits on the new Alex player model.</label>
+                        <input type="radio" id="model-alex" name="model" /><label for="model-alex">我的皮肤适合新版 Alex 皮肤模型</label>
                         <br /><br />
-                        <button id="upload" class="pure-button pure-button-primary">Upload</button>
-                        <a id="preview" href="javascript:show2dPreview();" class="pure-button">2D Preview</a>
+                        <button id="upload" class="pure-button pure-button-primary">确认上传</button>
+                        <a id="preview" href="javascript:show2dPreview();" class="pure-button">2D 皮肤预览</a>
                     </div>
                     <div id="msg" class="alert hide" role="alert"></div>
                 </div>
             </div>
             <div class="panel panel-default">
-                <div class="panel-heading">Change Preferred Model</div>
+                <div class="panel-heading">修改优先皮肤模型</div>
                 <div class="panel-body">
-                    <p>Your preference model is <b><?php echo $user->getPreference(); ?></b>. <a class="pure-button pure-button-default" style="margin: 0 3px;" href="javascript:changeModel();">Change?</a></p>
+                    <p>你现在的优先皮肤模型是 <b><?php echo $user->getPreference(); ?></b>。 <a class="pure-button pure-button-default" style="margin: 0 3px;" href="javascript:changeModel();">更改</a></p>
                 </div>
             </div>
         </div>
         <div class="pure-u-md-1-2 pure-u-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Preview
+                <div class="panel-heading">皮肤预览
                     <div class="operations">
                         <span title="Movements" class="glyphicon glyphicon-pause"></span>
                         <span title="Running" class="glyphicon glyphicon-forward"></span>
@@ -112,7 +112,7 @@ if (isset($_SESSION['uname'])) {
 <script type="text/javascript" src="../assets/js/user.utils.js"></script>
 <?php if ($user->getTexture('alex') && ($user->getTexture('steve') == "")) {?>
 <script type="text/javascript">
-    showMsg('alert-warning', 'It seems that you have only uploaded skin for Alex model. Note that Minecraft version < 1.8 does not support Alex model. Uploading external skin fit on Steve model is recommemded.');
+    showMsg('alert-warning', '看起来你只上传了适合 Alex 模型的皮肤。注意 Minecraft 版本低于 1.8 的皮肤 MOD 不支持双层皮肤。你最好再上传一个适用于 Steve 模型的皮肤，并将优先模型设置为 Alex 以获得在各个版本下的良好表现。');
 </script>
 <?php } ?>
 </html>

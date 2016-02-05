@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-02-03 17:21:46
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-03 20:25:52
+* @Last Modified time: 2016-02-05 21:23:08
 */
 
 'use strict';
@@ -19,7 +19,7 @@ $('#change').click(function(){
             success: function(json) {
                 if (json.errno == 0) {
                     logout(function(){
-                        showAlert(json.msg + " Please log in again.", function(){
+                        showAlert(json.msg, function(){
                             window.location = "../index.php";
                         });
                     });
@@ -33,20 +33,20 @@ $('#change').click(function(){
 
 function checkForm(passwd, new_passwd, confirm_pwd) {
     if (passwd == ""){
-        showAlert("Empty Password!");
-        //$("#passwd").focus();
+        showAlert("原密码不能为空");
+        $("#passwd").focus();
         return false;
     } else if (new_passwd == ""){
-        showAlert("Empty New Password!");
+        showAlert("新密码要好好填哦");
         $("#new_passwd").focus();
         return false;
     } else if (confirm_pwd == ""){
-        showAlert("Empty Confirming Password!");
+        showAlert("确认密码不能为空");
         $("#confirm_pwd").focus();
         return false;
     } else if (new_passwd != confirm_pwd){
         console.log(new_passwd, confirm_pwd)
-        showAlert("Non-equal password confirming!");
+        showAlert("新密码和确认的密码不一样诶？");
         $("#confirm_pwd").focus();
         return false;
     } else {
@@ -56,7 +56,7 @@ function checkForm(passwd, new_passwd, confirm_pwd) {
 
 $('#delete').click(function(){
     Ply.dialog("prompt", {
-        title: "Type in your password to confirm:",
+        title: "这是危险操作！输入密码来确认：",
         form: { passwd: "Password" }
     }).done(function(ui){
         var passwd = ui.data.passwd;
@@ -69,7 +69,7 @@ $('#delete').click(function(){
                 if (json.errno == 0) {
                     docCookies.removeItem("uname", "/");
                     docCookies.removeItem("token", "/");
-                    showAlert(json.msg + " Bye~", function(){
+                    showAlert(json.msg, function(){
                         window.location = "../index.php";
                     });
                 } else {

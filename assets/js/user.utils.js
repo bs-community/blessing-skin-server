@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:56:40
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-05 18:54:38
+* @Last Modified time: 2016-02-05 21:20:30
 */
 
 'use strict';
@@ -33,13 +33,13 @@ function handleFiles(files, type) {
                     }
                 };
                 img.onerror = function () {
-                    showMsg("alert-danger", "Error: Not an image or unknown file format");
+                    showMsg("alert-danger", "错误：这张图片编码不对哦");
                 };
                 img.src = this.result;
             };
           fr.readAsDataURL(file);
         } else {
-            showMsg("alert-danger", "Error: This is not a PNG image!");
+            showMsg("alert-danger", "错误：皮肤文件必须为 PNG 格式");
         }
     }
 };
@@ -71,9 +71,9 @@ $("[title='Rotation']").click(function(){
 function show2dPreview() {
     $('#canvas3d').remove();
     $('.operations').hide();
-    $("#skinpreview").html($('<p>Skin for Steve model:</p>').append($('<img />').addClass('skin2d').attr('src', '../skin/'+docCookies.getItem('uname')+'-steve.png?v='+Math.random())));
-    $("#skinpreview").append($('<p>Skin for Alex model:</p>').append($('<img />').addClass('skin2d').attr('src', '../skin/'+docCookies.getItem('uname')+'-alex.png?v='+Math.random())));
-    $("#skinpreview").append($('<p>Cape:</p>').append($('<img />').addClass('skin2d').attr('src', '../cape/'+docCookies.getItem('uname')+'.png?v='+Math.random())));
+    $("#skinpreview").html($('<p>Steve 模型的皮肤：</p>').append($('<img />').addClass('skin2d').attr('src', '../skin/'+docCookies.getItem('uname')+'-steve.png?v='+Math.random())));
+    $("#skinpreview").append($('<p>Alex 模型的皮肤：</p>').append($('<img />').addClass('skin2d').attr('src', '../skin/'+docCookies.getItem('uname')+'-alex.png?v='+Math.random())));
+    $("#skinpreview").append($('<p>披风：</p>').append($('<img />').addClass('skin2d').attr('src', '../cape/'+docCookies.getItem('uname')+'.png?v='+Math.random())));
     $('#preview').html('3D Preview').attr('href', 'javascript:show3dPreview();');
 }
 
@@ -102,28 +102,28 @@ $("#upload").click(function(){
             data: form_data,
             processData: false,
             beforeSend: function() {
-                            showMsg('alert-info', 'Uploading...');
+                            showMsg('alert-info', '正在上传。。');
                         },
             success: function(json) {
                 console.log(json);
                 if (json.skin.errno == 0 && json.cape.errno == 0) {
-                    showMsg('alert-success', 'Successfully uploaded.');
+                    showMsg('alert-success', '上传成功！');
                 }
                 if (json.skin.errno != 0) {
-                    showMsg('alert-danger', 'Error when uploading skin:\n'+json.skin.msg);
+                    showMsg('alert-danger', '上传皮肤的时候出错了：\n'+json.skin.msg);
                 }
                 if (json.cape.errno != 0) {
-                    showMsg('alert-danger', 'Error when uploading cape:\n'+json.cape.msg);
+                    showMsg('alert-danger', '上传披风的时候出错了：\n'+json.cape.msg);
                 }
             }
         });
     } else {
-        showMsg('alert-warning', 'No input file selected');
+        showMsg('alert-warning', '你还没有选择任何文件哦');
     }
 });
 
 function changeModel(uname) {
-    showAlert("Sure to change?", function(){
+    showAlert('确定要更改优先皮肤模型吗？', function(){
         $.ajax({
             type: "POST",
             url: "../ajax.php?action=model",
