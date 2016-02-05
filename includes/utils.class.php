@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-05 13:27:43
+ * @Last Modified time: 2016-02-05 21:59:56
  */
 
 class utils
@@ -55,7 +55,7 @@ class utils
     public static function remove($filename) {
         if(file_exists($filename)) {
             if (!unlink($filename)) {
-                self::raise(-1, "Uncaught error when deleting $filename");
+                self::raise(-1, "删除 $filename 的时候出现了奇怪的问题。。请联系作者");
             } else {
                 return true;
             }

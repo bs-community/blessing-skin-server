@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-05 15:11:35
+ * @Last Modified time: 2016-02-05 21:58:57
  */
 
 class user
@@ -43,9 +43,9 @@ class user
 
     public static function checkValidPwd($passwd) {
         if (strlen($passwd) > 16 || strlen($passwd) < 5) {
-            utils::raise(1, 'Illegal password. Password length should be in 5~16.');
+            utils::raise(1, '无效的密码。密码长度应该大于 6 并小于 15。');
         } else if (utils::convertString($passwd) != $passwd) {
-            utils::raise(1, 'Illegal password. Password contains unsupported characters.');
+            utils::raise(1, '无效的密码。密码中包含了奇怪的字符。');
         }
         return true;
     }
@@ -146,7 +146,7 @@ class user
                 $json['skins'][$sec_model] = $this->getTexture($sec_model == "default" ? "steve" : "alex");
                 $json['cape'] = $this->getTexture('cape');
             } else {
-                utils::raise(-1, 'Configuration error. Non-supported API_TYPE.');
+                utils::raise(-1, '配置文件错误：不支持的 API_TYPE。');
             }
         } else {
             $json['errno'] = 1;

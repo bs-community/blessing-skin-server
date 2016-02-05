@@ -1,6 +1,6 @@
 # Blessing Skin Server
 
-优雅的开源 PHP Minecraft 皮肤站。[Live demo](https://work.prinzeugen.net/blessing-skin-server/)
+Just a simple open-source Minecraft skin server write in PHP. [Live demo](https://work.prinzeugen.net/blessing-skin-server/)
 
 ![screenshot](https://img.prinzeugen.net/image.php?di=FIQD)
 

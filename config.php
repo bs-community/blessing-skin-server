@@ -1,24 +1,24 @@
 <?php
-/* Blessing Skin Server Database Name */
+/* MySQL 数据库名 */
 define('DB_NAME', 'skin');
 
-/* MySQL Username */
+/* MySQL 用户名 */
 define('DB_USER', 'root');
 
-/* MySQL Password */
+/* MySQL 连接密码 */
 define('DB_PASSWD', 'root');
 
-/* MySQL Host */
+/* MySQL 主机 */
 define('DB_HOST', 'localhost');
 
-/* Salt for encrypting token, Change it to any random string */
+/* 盐，用于 token 加密，修改为任意随机字符串 */
 define('SALT', '9tvsh55d*s');
 
-/* Max amount of accounts per IP */
+/* 同一 IP 最大可注册账户数 */
 define('REGS_PER_IP', 2);
 
-/* Which API to use, 0 for CustomSkinLoader API, 1 for UniSkinAPI */
+/* 优先使用的 Json API，0 为 CustomSkinLoader API, 1 为 UniSkinAPI */
 define('API_TYPE', 0);
 
-/* Letters only is recommended */
+/* 站点名称，推荐英文（字体原因） */
 define('SITE_TITLE', 'Blessing Skin Server');
