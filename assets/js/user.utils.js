@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:56:40
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-04 23:38:39
+* @Last Modified time: 2016-02-05 11:08:02
 */
 
 'use strict';
@@ -43,23 +43,18 @@ var handleFiles = function (files, type) {
 	}
 };
 
-if ($(window).width() < 600) {
-	var canvas = MSP.get3dSkinCanvas($('#skinpreview').width(), $('#skinpreview').width());
-	$("#skinpreview").append($(canvas).prop("id", "canvas3d"));
-} else {
-	var canvas = MSP.get3dSkinCanvas(400, 400);
-	$("#skinpreview").append($(canvas).prop("id", "canvas3d"));
-}
-
-$(window).resize(function(){
-	if ($(document).height() <= $(window).height() || $(window).width() < 600) {
+function initCanvas() {
+	if ($(window).width() < 800) {
 		var canvas = MSP.get3dSkinCanvas($('#skinpreview').width(), $('#skinpreview').width());
 		$("#skinpreview").append($(canvas).prop("id", "canvas3d"));
 	} else {
 		var canvas = MSP.get3dSkinCanvas(400, 400);
 		$("#skinpreview").append($(canvas).prop("id", "canvas3d"));
 	}
-});
+}
+
+initCanvas();
+$(window).resize(function(){ initCanvas(); });
 
 $("[title='Movements']").click(function(){
 	MSP.setStatus("movements", !MSP.getStatus("movements"));
