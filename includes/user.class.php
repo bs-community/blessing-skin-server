@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-04 20:38:42
+ * @Last Modified time: 2016-02-05 15:11:35
  */
 
 class user
@@ -37,6 +37,10 @@ class user
         }
     }
 
+    public static function checkValidUname($uname) {
+        return preg_match("([A-Za-z0-9_\-]+)", $uname);
+    }
+
     public static function checkValidPwd($passwd) {
         if (strlen($passwd) > 16 || strlen($passwd) < 5) {
             utils::raise(1, 'Illegal password. Password length should be in 5~16.');
@@ -55,32 +59,33 @@ class user
     }
 
     public function register($passwd, $ip) {
-        if ($this->db->insert(array(
-                                "uname" => $this->uname,
-                                "passwd" => $passwd,
-                                "ip" => $ip
-                            )))
-        {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->db->insert(array(
+                                        "uname" => $this->uname,
+                                        "passwd" => $passwd,
+                                        "ip" => $ip
+                                    ));
     }
 
     public function unRegister() {
-        if ($this->getTexture('skin') != "")
-            utils::remove("./textures/".$this->getTexture('skin'));
-        if ($this->getTexture('skin') != "")
+        if ($this->getTexture('steve') != "")
+            utils::remove("./textures/".$this->getTexture('steve'));
+        if ($this->getTexture('alex') != "")
+            utils::remove("./textures/".$this->getTexture('alex'));
+        if ($this->getTexture('cape') != "")
             utils::remove("./textures/".$this->getTexture('cape'));
         return $this->db->delete($this->uname);
     }
 
+    /**
+     * Get textures of user
+     * @param  string $type steve|alex|cape
+     * @return string sha256-hash of texture file
+     */
     public function getTexture($type) {
-        if ($type == "skin") {
-            return $this->db->select('username', $this->uname)['skin_hash'];
-        } else if ($type == "cape") {
-            return $this->db->select('username', $this->uname)['cape_hash'];
-        }
+        if ($type == "skin")
+            $type = ($this->getPreference() == "default") ? "steve" : "alex";
+        if ($type == "steve" | $type == "alex" | $type == "cape")
+            return $this->db->select('username', $this->uname)['hash_'.$type];
         return false;
     }
 
@@ -88,9 +93,9 @@ class user
         $filename = "./textures/".$this->getTexture($type);
         if (file_exists($filename)) {
             header('Content-Type: image/png');
+            // Cache friendly
             header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $this->getLastModified()).' GMT');
-            $data = fread(fopen($filename, 'r'), filesize($filename));
-            return $data;
+            return utils::fread($filename);
         } else {
             utils::raise(-1, 'Texture no longer exists.');
         }
@@ -98,21 +103,19 @@ class user
 
     public function setTexture($type, $file) {
         $hash = utils::upload($file);
-        if ($type == "skin") {
-            // remove the original texture first
-            if ($this->getTexture('skin') != "")
-                utils::remove("./textures/".$this->getTexture('skin'));
-            $this->updateLastModified();
-            return $this->db->update($this->uname, 'skin_hash', $hash);
-        } else if ($type == "cape") {
-            if ($this->getTexture('cape') != "")
-                utils::remove("./textures/".$this->getTexture('cape'));
-            $this->updateLastModified();
-            return $this->db->update($this->uname, 'cape_hash', $hash);
-        }
+        // Remove the original texture first
+        if ($this->getTexture($type) != "")
+            utils::remove("./textures/".$this->getTexture($type));
+        $this->updateLastModified();
+        if ($type == "steve" | $type == "alex" | $type == "cape")
+            return $this->db->update($this->uname, 'hash_'.$type, $hash);
         return false;
     }
 
+    /**
+     * Set preferred model
+     * @param string $type, 'slim' or 'default'
+     */
     public function setPreference($type) {
         return $this->db->update($this->uname, 'preference', $type);
     }
@@ -121,9 +124,15 @@ class user
         return $this->db->select('username', $this->uname)['preference'];
     }
 
+    /**
+     * Get JSON profile
+     * @param  int $api_type, which API to use, 0 for CustomSkinAPI, 1 for UniSkinAPI
+     * @return string, user profile in json format
+     */
     public function getJsonProfile($api_type) {
         header('Content-type: application/json');
         if ($this->is_registered) {
+            // Support both CustomSkinLoader API & UniSkinAPI
             if ($api_type == 0 || $api_type == 1) {
                 $json[($api_type == 0) ? 'username' : 'player_name'] = $this->uname;
                 $model = $this->getPreference();
@@ -132,8 +141,9 @@ class user
                     $json['last_update'] = $this->getLastModified();
                     $json['model_preference'] = [$model, $sec_model];
                 }
-                $json['skins'][$model] = $this->getTexture('skin');
-                $json['skins'][$sec_model] = $this->getTexture('skin');
+                // Skins dict order by preference model
+                $json['skins'][$model] = $this->getTexture($model == "default" ? "steve" : "alex");
+                $json['skins'][$sec_model] = $this->getTexture($sec_model == "default" ? "steve" : "alex");
                 $json['cape'] = $this->getTexture('cape');
             } else {
                 utils::raise(-1, 'Configuration error. Non-supported API_TYPE.');

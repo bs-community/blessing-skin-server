@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-02 20:56:42
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-04 22:06:20
+ * @Last Modified time: 2016-02-05 14:51:26
  *
  * All textures requests of legacy link will be handle here.
  */
@@ -18,10 +18,15 @@ if (isset($_GET['type']) && isset($_GET['uname'])) {
     $if_modified_since = isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) : null;
 
     if ($_GET['type'] == "skin" || $_GET['type'] == "cape") {
+        $model = (isset($_GET['model']) && $_GET['model'] == "steve") ? "steve" : "alex";
         if ($if_modified_since >= $user->getLastModified()) {
             header('HTTP/1.0 304 Not Modified');
         } else {
-            echo $user->getBinaryTexture($_GET['type']);
+            if ($_GET['type'] == "cape") {
+                echo $user->getBinaryTexture('cape');
+            } else {
+                echo $user->getBinaryTexture($model);
+            }
         }
     } else if ($_GET['type'] == "json") {
         if (isset($_GET['api'])) {

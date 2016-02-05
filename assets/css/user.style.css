@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 19:12:06
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-04 22:57:13
+* @Last Modified time: 2016-02-05 15:13:00
 */
 
 .home-menu-blur {
@@ -84,7 +84,7 @@ span {
     display: inline !important;
 }
 .alert {
-    margin: 20px 0 0;
+    margin: 20px 0 10px;
 }
 input[type=radio] {
     margin: 20px 0 0;
@@ -99,4 +99,7 @@ input[type=radio] {
 }
 .container {
     position: initial !important;
+}
+#skinpreview > p {
+    margin: 20px 0;
 }
