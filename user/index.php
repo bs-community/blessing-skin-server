@@ -48,7 +48,7 @@ if (isset($_SESSION['uname'])) {
                  <a class="pure-menu-link" href="profile.php">个人设置</a>
              </li>
              <li class="pure-menu-item">
-                <span class="pure-menu-link">欢迎， <?php echo $_SESSION['uname']; ?>！</span> | <span class="pure-menu-link" id="logout">登出？</span>
+                <span class="pure-menu-link">欢迎，<?php echo $_SESSION['uname']; ?>！</span>|<span class="pure-menu-link" id="logout">登出？</span>
              </li>
         </ul>
         <div class="home-menu-blur">

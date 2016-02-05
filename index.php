@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-05 21:13:05
+ * @Last Modified time: 2016-02-05 23:14:59
  */
 session_start();
 $dir = dirname(__FILE__);
@@ -42,7 +42,7 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
         <ul class="pure-menu-list">
             <li class="pure-menu-item">
                 <?php if (isset($_SESSION['uname'])) { ?>
-                    <a href="./user/index.php" class="pure-menu-link">欢迎， <?php echo $_SESSION['uname']; ?>！</a> | <span class="pure-menu-link" id="logout">登出？</span>
+                    <a href="./user/index.php" class="pure-menu-link">欢迎，<?php echo $_SESSION['uname']; ?>！</a>|<span class="pure-menu-link" id="logout">登出？</span>
                 <?php } else { ?>
                 <a id="login" href="javascript:;" class="pure-button pure-button-primary">登录</a>
                 <?php } ?>
