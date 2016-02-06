@@ -68,7 +68,7 @@ if (isset($_SESSION['uname'])) {
                         <p>选择皮肤：</p>
                         <input type="file" id="skininput" name="skininput" accept="image/png" />
                         <br />
-                        <p>选择皮肤：</p>
+                        <p>选择披风：</p>
                         <input type="file" id="capeinput" name="capeinput" accept="image/png" />
                         <br />
                         <input type="radio" id="model-steve" name="model" /><label for="model-steve">我的皮肤适合传统 Steve 皮肤模型</label>
