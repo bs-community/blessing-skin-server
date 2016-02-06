@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-06 23:06:21
+ * @Last Modified time: 2016-02-06 23:32:13
  */
 
 class User
@@ -153,7 +153,7 @@ class User
             $json['errno'] = 1;
             $json['msg'] = "Non-existent user.";
         }
-        return json_encode($json);
+        return json_encode($json, JSON_PRETTY_PRINT);
     }
 
     public function updateLastModified() {
