@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-05 21:41:55
+ * @Last Modified time: 2016-02-06 23:06:23
  *
  * Create tables automatically
  */
@@ -19,7 +19,7 @@ if (!file_exists("./install.lock")) {
 	echo "<h2>Blessing Skin Server 安装程序</h2>";
 
 	if ($conn->connect_error) {
-		utils::raise(-1, "无法连接至 MySQL 服务器，确定你在 config.php 填写的数据库信息正确吗？".$conn->connect_error);
+		Utils::raise(-1, "无法连接至 MySQL 服务器，确定你在 config.php 填写的数据库信息正确吗？".$conn->connect_error);
 	} else {
 		echo "成功连接至 MySQL 服务器 ".DB_USER."@".DB_HOST."。 <br /><br />";
 	}

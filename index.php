@@ -3,16 +3,16 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-05 23:14:59
+ * @Last Modified time: 2016-02-06 23:06:24
  */
 session_start();
 $dir = dirname(__FILE__);
 require "$dir/includes/autoload.inc.php";
 
-database::checkConfig();
+Database::checkConfig();
 // Auto load cookie value to session
 if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
-    $user = new user($_COOKIE['uname']);
+    $user = new User($_COOKIE['uname']);
     if ($_COOKIE['token'] == $user->getToken()) {
         $_SESSION['uname'] = $_COOKIE['uname'];
         $_SESSION['token'] = $user->getToken();
@@ -62,7 +62,7 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
         <p class="splash-subhead">
             开源的 PHP Minecraft 皮肤站
         </p>
-        <?php if (!utils::getValue('uname', $_SESSION)) { ?>
+        <?php if (!Utils::getValue('uname', $_SESSION)) { ?>
         <p>
             <a id="register" href="javascript:;" class="pure-button pure-button-primary">现在注册</a>
         </p>
@@ -109,7 +109,7 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
 <script type="text/javascript" src="./assets/js/utils.js"></script>
 <script type="text/javascript" src="./assets/js/index.utils.js"></script>
 <?php
-if ($msg = utils::getValue('msg', $_GET)) { ?>
+if ($msg = Utils::getValue('msg', $_GET)) { ?>
 <script type="text/javascript"> showAlert("<?php echo $msg; ?>"); </script>
 <?php } ?>
 </body>
