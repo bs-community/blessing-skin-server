@@ -5,11 +5,10 @@
 * @Last Modified by:   prpr
 * @Last Modified time: 2016-01-21 20:40:04
 */
+
 session_start();
 $dir = dirname(dirname(__FILE__));
 require "$dir/includes/autoload.inc.php";
-
-$action = isset($_GET['action']) ? $_GET['action'] : "";
 
 if(isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
     $_SESSION['uname'] = $_COOKIE['uname'];
@@ -17,13 +16,14 @@ if(isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
 }
 
 if (isset($_SESSION['uname'])) {
-    $user = new user($_SESSION['uname']);
+    $user = new User($_SESSION['uname']);
     if ($_SESSION['token'] != $user->getToken()) {
         header('Location: ../index.php?msg=无效的 token，请重新登录。');
     }
 } else {
     header('Location: ../index.php?msg=非法访问，请先登录。');
 }
+$action = isset($_GET['action']) ? $_GET['action'] : "";
 ?>
 <!DOCTYPE html>
 <html>

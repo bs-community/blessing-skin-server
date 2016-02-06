@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-03 16:12:45
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-05 23:14:47
+ * @Last Modified time: 2016-02-06 23:04:22
  */
 
 session_start();
@@ -16,7 +16,7 @@ if(isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
 }
 
 if (isset($_SESSION['uname'])) {
-    $user = new user($_SESSION['uname']);
+    $user = new User($_SESSION['uname']);
     if ($_SESSION['token'] != $user->getToken()) {
         header('Location: ../index.php?msg=无效的 token，请重新登录。');
     }

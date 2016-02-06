@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-02 20:56:42
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-06 21:51:19
+ * @Last Modified time: 2016-02-06 23:06:26
  *
  * All textures requests of legacy link will be handle here.
  */
@@ -12,8 +12,8 @@ $dir = dirname(__FILE__);
 require "$dir/includes/autoload.inc.php";
 
 if (isset($_GET['type']) && isset($_GET['uname'])) {
-    $user = new user($_GET['uname']);
-    if (!$user->is_registered) utils::raise(1, 'Non-existent user.');
+    $user = new User($_GET['uname']);
+    if (!$user->is_registered) Utils::raise(1, 'Non-existent user.');
     // Cache friendly
     $if_modified_since = isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) : null;
 
@@ -36,8 +36,8 @@ if (isset($_GET['type']) && isset($_GET['uname'])) {
             echo $user->getJsonProfile(API_TYPE);
         }
     } else {
-        utils::raise(1, 'Illegal parameters.');
+        Utils::raise(1, 'Illegal parameters.');
     }
 } else {
-    utils::raise(1, 'Illegal parameters.');
+    Utils::raise(1, 'Illegal parameters.');
 }

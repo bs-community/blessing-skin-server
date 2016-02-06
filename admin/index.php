@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-03 14:39:50
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-05 23:15:10
+ * @Last Modified time: 2016-02-06 23:05:31
  */
 
 session_start();
@@ -16,7 +16,7 @@ if(isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
 }
 
 if (isset($_SESSION['uname'])) {
-    $admin = new user($_SESSION['uname']);
+    $admin = new User($_SESSION['uname']);
     if ($_SESSION['token'] != $admin->getToken()) {
         header('Location: ../index.php?msg=无效的 token，请重新登录。');
     } else if (!$admin->is_admin) {
@@ -76,7 +76,7 @@ if (isset($_SESSION['uname'])) {
 
         <tbody>
             <?php
-            $db = new database();
+            $db = new Database();
             $result = $db->query("SELECT * FROM users");
             while ($row = $result->fetch_array()) { ?>
             <tr>

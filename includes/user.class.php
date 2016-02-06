@@ -3,10 +3,10 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-06 21:34:21
+ * @Last Modified time: 2016-02-06 23:06:21
  */
 
-class user
+class User
 {
     private $uname  = "";
     private $passwd = "";
@@ -17,8 +17,8 @@ class user
     public $is_admin = false;
 
     function __construct($uname) {
-        $this->uname = utils::convertString($uname);
-        $this->db = new database();
+        $this->uname = Utils::convertString($uname);
+        $this->db = new Database();
         if ($this->db->checkRecordExist('username', $this->uname)) {
             $this->passwd = $this->db->select('username', $this->uname)['password'];
             $this->token = md5($this->uname . $this->passwd.SALT);
@@ -43,9 +43,9 @@ class user
 
     public static function checkValidPwd($passwd) {
         if (strlen($passwd) > 16 || strlen($passwd) < 5) {
-            utils::raise(1, '无效的密码。密码长度应该大于 6 并小于 15。');
-        } else if (utils::convertString($passwd) != $passwd) {
-            utils::raise(1, '无效的密码。密码中包含了奇怪的字符。');
+            Utils::raise(1, '无效的密码。密码长度应该大于 6 并小于 15。');
+        } else if (Utils::convertString($passwd) != $passwd) {
+            Utils::raise(1, '无效的密码。密码中包含了奇怪的字符。');
         }
         return true;
     }
@@ -68,11 +68,11 @@ class user
 
     public function unRegister() {
         if ($this->getTexture('steve') != "")
-            utils::remove("./textures/".$this->getTexture('steve'));
+            Utils::remove("./textures/".$this->getTexture('steve'));
         if ($this->getTexture('alex') != "")
-            utils::remove("./textures/".$this->getTexture('alex'));
+            Utils::remove("./textures/".$this->getTexture('alex'));
         if ($this->getTexture('cape') != "")
-            utils::remove("./textures/".$this->getTexture('cape'));
+            Utils::remove("./textures/".$this->getTexture('cape'));
         return $this->db->delete($this->uname);
     }
 
@@ -96,17 +96,17 @@ class user
             // Cache friendly
             header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $this->getLastModified()).' GMT');
             header('Content-Length: '.filesize($filename));
-            return utils::fread($filename);
+            return Utils::fread($filename);
         } else {
-            utils::raise(-1, 'Texture no longer exists.');
+            Utils::raise(-1, 'Texture no longer exists.');
         }
     }
 
     public function setTexture($type, $file) {
-        $hash = utils::upload($file);
+        $hash = Utils::upload($file);
         // Remove the original texture first
         if ($this->getTexture($type) != "")
-            utils::remove("./textures/".$this->getTexture($type));
+            Utils::remove("./textures/".$this->getTexture($type));
         $this->updateLastModified();
         if ($type == "steve" | $type == "alex" | $type == "cape")
             return $this->db->update($this->uname, 'hash_'.$type, $hash);
@@ -147,7 +147,7 @@ class user
                 $json['skins'][$sec_model] = $this->getTexture($sec_model == "default" ? "steve" : "alex");
                 $json['cape'] = $this->getTexture('cape');
             } else {
-                utils::raise(-1, '配置文件错误：不支持的 API_TYPE。');
+                Utils::raise(-1, '配置文件错误：不支持的 API_TYPE。');
             }
         } else {
             $json['errno'] = 1;

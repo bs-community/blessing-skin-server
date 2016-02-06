@@ -3,8 +3,9 @@
  * @Author: prpr
  * @Date:   2016-02-04 13:53:55
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-05 21:43:29
+ * @Last Modified time: 2016-02-06 23:14:48
  */
+
 session_start();
 $dir = dirname(dirname(__FILE__));
 require "$dir/includes/autoload.inc.php";
@@ -18,7 +19,7 @@ if(isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
  * Check token, won't allow non-admin user to access
  */
 if (isset($_SESSION['uname'])) {
-    $admin = new user($_SESSION['uname']);
+    $admin = new User($_SESSION['uname']);
     if ($_SESSION['token'] != $admin->getToken()) {
         header('Location: ../index.php?msg=无效的 token，请重新登录。');
     } else if (!$admin->is_admin) {
@@ -34,7 +35,7 @@ if (isset($_SESSION['uname'])) {
  */
 if (isset($_GET['action'])) {
     $action = $_GET['action'];
-    $user = new user($_GET['uname']);
+    $user = new User($_GET['uname']);
 
     if ($action == "upload") {
         $type = isset($_GET['type']) ? $_GET['type'] : "skin";
@@ -48,7 +49,7 @@ if (isset($_GET['action'])) {
                 $json['msg'] = "出现了奇怪的错误。。请联系作者";
             }
         } else {
-            utils::raise(1, '你没有选择任何文件哦');
+            Utils::raise(1, '你没有选择任何文件哦');
         }
     } else if ($action == "change") {
         if (user::checkValidPwd($_POST['passwd'])) {
@@ -66,10 +67,10 @@ if (isset($_GET['action'])) {
             $json['errno'] = 0;
             $json['msg'] = "成功地将用户 ".$_GET['uname']." 的优先皮肤模型更改为 ".$_POST['model']." 。";
         } else {
-            utils::raise(1, '非法参数。');
+            Utils::raise(1, '非法参数。');
         }
     } else {
-        utils::raise(1, '非法参数。');
+        Utils::raise(1, '非法参数。');
     }
 }
 

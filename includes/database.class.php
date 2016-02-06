@@ -3,10 +3,10 @@
  * @Author: printempw
  * @Date:   2016-02-02 21:59:06
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-03 15:55:17
+ * @Last Modified time: 2016-02-06 23:06:30
  */
 
-class database
+class Database
 {
     private $connection = null;
 
@@ -17,16 +17,16 @@ class database
     public static function checkConfig() {
         $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWD, DB_NAME);
         if ($conn->connect_error) {
-            utils::raise(-1, "Can not connect to mysql, check if database info correct in config.php. ".
+            Utils::raise(-1, "Can not connect to mysql, check if database info correct in config.php. ".
                                 $conn->connect_error);
         }
         if (!self::checkTableExist($conn)) {
-            utils::raise(-1, "Looks like that there is no `users` table in your database. ".
+            Utils::raise(-1, "Looks like that there is no `users` table in your database. ".
                                "Please run `/admin/install.php` first.");
         }
         $dir = dirname(dirname(__FILE__));
         if (!is_dir("$dir/textures/")) {
-            utils::raise(-1, "No `textures` directory exists. Please run `/admin/install.php` ".
+            Utils::raise(-1, "No `textures` directory exists. Please run `/admin/install.php` ".
                                "or put one manually.");
         }
         return $conn;
@@ -44,7 +44,7 @@ class database
         if (!$this->connection->error) {
             return $result;
         }
-        utils::raise(-1, "Database query error: ".$this->connection->error);
+        Utils::raise(-1, "Database query error: ".$this->connection->error);
     }
 
     public function fetchArray($sql) {

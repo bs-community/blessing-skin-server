@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-05 21:23:27
+ * @Last Modified time: 2016-02-06 23:12:17
  *
  * - login, register, logout
  * - upload, change, delete
@@ -17,17 +17,17 @@ header('Content-type: application/json');
 
 $dir = dirname(__FILE__);
 require "$dir/includes/autoload.inc.php";
-database::checkConfig();
+Database::checkConfig();
 
 if (isset($_POST['uname'])) {
     $uname = $_POST['uname'];
     if (user::checkValidUname($uname)) {
-        $user = new user($_POST['uname']);
+        $user = new User($_POST['uname']);
     } else {
-        utils::raise(1, '无效的用户名。用户名只能包含数字，字母以及下划线。');
+        Utils::raise(1, '无效的用户名。用户名只能包含数字，字母以及下划线。');
     }
 } else {
-    utils::raise('1', '空用户名。');
+    Utils::raise('1', '空用户名。');
 }
 $action = isset($_GET['action']) ? $_GET['action'] : null;
 $json = null;
@@ -100,9 +100,9 @@ function checkPost() {
  * Handle request from user/index.php
  */
 if ($action == "upload") {
-    if (utils::getValue('token', $_SESSION) == $user->getToken()) {
+    if (Utils::getValue('token', $_SESSION) == $user->getToken()) {
         if (checkFile()) {
-            if ($file = utils::getValue('skin_file', $_FILES)) {
+            if ($file = Utils::getValue('skin_file', $_FILES)) {
                 $model = (isset($_GET['model']) && $_GET['model'] == "steve") ? "steve" : "alex";
                 if ($user->setTexture($model, $file)) {
                     $json['skin']['errno'] = 0;
@@ -112,7 +112,7 @@ if ($action == "upload") {
                     $json['skin']['msg'] = "出现了奇怪的错误。。请联系作者 :(";
                 }
             }
-            if ($file = utils::getValue('cape_file', $_FILES)) {
+            if ($file = Utils::getValue('cape_file', $_FILES)) {
                 if ($user->setTexture('cape', $file)) {
                     $json['cape']['errno'] = 0;
                     $json['cape']['msg'] = "披风上传成功！";
@@ -127,7 +127,7 @@ if ($action == "upload") {
         $json['msg'] = "无效的 token，请先登录。";
     }
 } else if ($action == "model") {
-    if (utils::getValue('token', $_SESSION) == $user->getToken()) {
+    if (Utils::getValue('token', $_SESSION) == $user->getToken()) {
         $new_model = ($user->getPreference() == "default") ? "slim" : "default";
         $user->setPreference($new_model);
         $json['errno'] = 0;
@@ -141,7 +141,7 @@ if ($action == "upload") {
 function checkFile() {
     global $json;
 
-    if (!(utils::getValue('skin_file', $_FILES) || utils::getValue('cape_file', $_FILES))) {
+    if (!(Utils::getValue('skin_file', $_FILES) || Utils::getValue('cape_file', $_FILES))) {
         $json['errno'] = 1;
         $json['msg'] = "什么文件都没有诶？";
         return false;
@@ -149,15 +149,16 @@ function checkFile() {
     /**
      * Check for skin_file
      */
-    if ((utils::getValue('skin_file', $_FILES)["type"] == "image/png") || (utils::getValue('skin_file', $_FILES)["type"] == "image/x-png")) {
+    if ((Utils::getValue('skin_file', $_FILES)["type"] == "image/png") ||
+        (Utils::getValue('skin_file', $_FILES)["type"] == "image/x-png")) {
         // if error occured while uploading file
-        if (utils::getValue('skin_file', $_FILES)["error"] > 0) {
+        if (Utils::getValue('skin_file', $_FILES)["error"] > 0) {
             $json['errno'] = 1;
-            $json['msg'] = utils::getValue('skin_file', $_FILES)["error"];
+            $json['msg'] = Utils::getValue('skin_file', $_FILES)["error"];
             return false;
         }
     } else {
-        if (utils::getValue('skin_file', $_FILES)) {
+        if (Utils::getValue('skin_file', $_FILES)) {
             $json['errno'] = 1;
             $json['msg'] = '错误的皮肤文件类型。';
             return false;
@@ -170,15 +171,16 @@ function checkFile() {
     /**
      * Check for cape_file
      */
-    if ((utils::getValue('cape_file', $_FILES)["type"] == "image/png") || (utils::getValue('cape_file', $_FILES)["type"] == "image/x-png")) {
+    if ((Utils::getValue('cape_file', $_FILES)["type"] == "image/png") ||
+        (Utils::getValue('cape_file', $_FILES)["type"] == "image/x-png")) {
         // if error occured while uploading file
-        if (utils::getValue('cape_file', $_FILES)["error"] > 0) {
+        if (Utils::getValue('cape_file', $_FILES)["error"] > 0) {
             $json['errno'] = 1;
-            $json['msg'] = utils::getValue('cape_file', $_FILES)["error"];
+            $json['msg'] = Utils::getValue('cape_file', $_FILES)["error"];
             return false;
         }
     } else {
-        if (utils::getValue('cape_file', $_FILES)) {
+        if (Utils::getValue('cape_file', $_FILES)) {
             $json['errno'] = 1;
             $json['msg'] = '错误的披风文件类型。';
             return false;
@@ -228,7 +230,7 @@ if ($action == "change") {
         $json['msg'] = "无效的 token，请先登录。";
     }
 } else if ($action == "logout") {
-    if (utils::getValue('token', $_SESSION)) {
+    if (Utils::getValue('token', $_SESSION)) {
         session_destroy();
         $json['errno'] = 0;
         $json['msg'] = 'Session 成功销毁。';

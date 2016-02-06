@@ -81,28 +81,33 @@ Cape: http://example.com/cape/%s.png
 
 这是通过 URL 重写（伪静态）实现的，所以皮肤站目录下没有 `skin` 和 `cape` 目录也不要惊讶哦。
 
-#### CustomSkinLoader 传统链接：
+#### CustomSkinLoader 13.1 版以下：
 
 在 `.minecraft/CustomSkinLoader/skinurls.txt` 中添加如下地址：
 
 ```
 http://example.com/skin/*.png
+http://skins.minecraft.net/MinecraftSkins/*.png
+http://minecrack.fr.nf/mc/skinsminecrackd/*.png
+http://www.skinme.cc/MinecraftSkins/*.png
 ```
 
-在 `.minecraft/CustomSkinLoader/capeurls.txt` 中：
+注意你需要将你的皮肤站地址放在配置文件最上方以优先加载。
+
+同理在 `.minecraft/CustomSkinLoader/capeurls.txt` 中加入：
 
 ```
 http://example.com/cape/*.png
 ```
 
-#### CustomSkinLoader API
+#### CustomSkinLoader 13.1
 
 等待作者发布
 
 常见问题：
 ------------
 
-####游戏中皮肤不显示？
+#### 游戏中皮肤不显示？
 
 请先确认你的皮肤站 URL 重写规则已经配置正确，并且可以正常获取皮肤图片。
 
