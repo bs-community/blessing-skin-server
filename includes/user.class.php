@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-05 21:58:57
+ * @Last Modified time: 2016-02-06 21:34:21
  */
 
 class user
@@ -95,6 +95,7 @@ class user
             header('Content-Type: image/png');
             // Cache friendly
             header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $this->getLastModified()).' GMT');
+            header('Content-Length: '.filesize($filename));
             return utils::fread($filename);
         } else {
             utils::raise(-1, 'Texture no longer exists.');
