@@ -3,10 +3,9 @@
  * @Author: prpr
  * @Date:   2016-02-04 19:37:21
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-05 15:02:52
+ * @Last Modified time: 2016-02-06 23:24:56
  */
 ?>
-
 <div id="skinpreview"></div>
 <script type="text/javascript" src="../libs/three.js"></script>
 <script type="text/javascript" src="../libs/three.msp.js"></script>
@@ -22,4 +21,4 @@ echo "<script>MSP.changeSkin(dskin);</script>";
 if ($user->getTexture('cape')) {
     echo "<script>var dcape ='../textures/".$user->getTexture('cape')."';</script>";
     echo "<script>MSP.changeCape(dcape);</script>";
-} ?>
+}

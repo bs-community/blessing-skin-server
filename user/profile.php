@@ -3,26 +3,9 @@
  * @Author: prpr
  * @Date:   2016-02-03 16:12:45
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-06 23:04:22
+ * @Last Modified time: 2016-02-06 23:29:32
  */
-
-session_start();
-$dir = dirname(dirname(__FILE__));
-require "$dir/includes/autoload.inc.php";
-
-if(isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
-    $_SESSION['uname'] = $_COOKIE['uname'];
-    $_SESSION['token'] = $_COOKIE['token'];
-}
-
-if (isset($_SESSION['uname'])) {
-    $user = new User($_SESSION['uname']);
-    if ($_SESSION['token'] != $user->getToken()) {
-        header('Location: ../index.php?msg=无效的 token，请重新登录。');
-    }
-} else {
-    header('Location: ../index.php?msg=非法访问，请先登录。');
-}
+require "../includes/session.inc.php";
 ?>
 <!DOCTYPE html>
 <html>

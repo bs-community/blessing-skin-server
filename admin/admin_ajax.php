@@ -3,31 +3,12 @@
  * @Author: prpr
  * @Date:   2016-02-04 13:53:55
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-06 23:14:48
+ * @Last Modified time: 2016-02-06 23:29:34
  */
+require "../includes/session.inc.php";
 
-session_start();
-$dir = dirname(dirname(__FILE__));
-require "$dir/includes/autoload.inc.php";
-
-if(isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
-    $_SESSION['uname'] = $_COOKIE['uname'];
-    $_SESSION['token'] = $_COOKIE['token'];
-}
-
-/**
- * Check token, won't allow non-admin user to access
- */
-if (isset($_SESSION['uname'])) {
-    $admin = new User($_SESSION['uname']);
-    if ($_SESSION['token'] != $admin->getToken()) {
-        header('Location: ../index.php?msg=无效的 token，请重新登录。');
-    } else if (!$admin->is_admin) {
-        header('Location: ../index.php?msg=看起来你并不是管理员');
-    }
-} else {
-    header('Location: ../index.php?msg=非法访问，请先登录。');
-}
+// Check token, won't allow non-admin user to access
+if (!$admin->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
 
 /*
  * No protection here,
