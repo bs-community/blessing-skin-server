@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:56:40
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-05 21:20:30
+* @Last Modified time: 2016-02-07 10:25:41
 */
 
 'use strict';
@@ -22,10 +22,15 @@ function handleFiles(files, type) {
     if(files.length > 0) {
         var file = files[0];
         if(file.type === "image/png") {
-            var fr = new FileReader();
-            fr.onload = function (e) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
                 var img = new Image();
                 img.onload = function () {
+                    if (this.width == this.height) {
+                        showMsg("alert-info", "提示：看起来你上传了一张双层皮肤，皮肤站本身是支持的，"+
+                                "然而 3D 皮肤预览并不支持，所以不要在意变得奇怪的预览（笑）直接上传，"+
+                                "就可以在 2D 预览中看到正确的双层皮肤啦。");
+                    }
                     if (type == "skin") {
                         MSP.changeSkin(img.src);
                     } else {
@@ -37,7 +42,7 @@ function handleFiles(files, type) {
                 };
                 img.src = this.result;
             };
-          fr.readAsDataURL(file);
+            reader.readAsDataURL(file);
         } else {
             showMsg("alert-danger", "错误：皮肤文件必须为 PNG 格式");
         }
