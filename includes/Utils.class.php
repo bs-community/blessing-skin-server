@@ -6,7 +6,7 @@
  * @Last Modified time: 2016-02-05 21:59:56
  */
 
-class utils
+class Utils
 {
     /**
      * Custom error handler

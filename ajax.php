@@ -21,7 +21,7 @@ Database::checkConfig();
 
 if (isset($_POST['uname'])) {
     $uname = $_POST['uname'];
-    if (user::checkValidUname($uname)) {
+    if (User::checkValidUname($uname)) {
         $user = new User($_POST['uname']);
     } else {
         Utils::raise(1, '无效的用户名。用户名只能包含数字，字母以及下划线。');

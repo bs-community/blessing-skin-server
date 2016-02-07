@@ -8,7 +8,7 @@
 require "../includes/session.inc.php";
 
 // Check token, won't allow non-admin user to access
-if (!$admin->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
+if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
 
 /*
  * No protection here,

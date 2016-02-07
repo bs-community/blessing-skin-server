@@ -6,7 +6,7 @@
  * @Last Modified time: 2016-02-06 23:29:33
  */
 require "../includes/session.inc.php";
-if (!$admin->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
+if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
 ?>
 <!DOCTYPE html>
 <html>
