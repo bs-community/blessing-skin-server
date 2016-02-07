@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-06 23:32:13
+ * @Last Modified time: 2016-02-07 15:16:44
  */
 
 class User
@@ -103,11 +103,11 @@ class User
     }
 
     public function setTexture($type, $file) {
-        $hash = Utils::upload($file);
         // Remove the original texture first
         if ($this->getTexture($type) != "")
             Utils::remove("./textures/".$this->getTexture($type));
         $this->updateLastModified();
+        $hash = Utils::upload($file);
         if ($type == "steve" | $type == "alex" | $type == "cape")
             return $this->db->update($this->uname, 'hash_'.$type, $hash);
         return false;
