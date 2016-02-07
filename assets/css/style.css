@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 07:57:38
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-07 10:28:14
+* @Last Modified time: 2016-02-07 13:10:55
 */
 
 @import url(https://fonts.googleapis.com/css?family=Ubuntu);
@@ -168,5 +168,5 @@ p {
     }
 }
 .ply-layer {
-    font-family: Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
+    font-family: Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif !important;
 }
