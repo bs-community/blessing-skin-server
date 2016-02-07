@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-06 23:06:23
+ * @Last Modified time: 2016-02-07 23:47:17
  *
  * Create tables automatically
  */
@@ -35,7 +35,7 @@ if (!file_exists("./install.lock")) {
 			  `hash_steve` varchar(64) NOT NULL,
 			  `hash_alex` varchar(64) NOT NULL,
 			  `hash_cape` varchar(64) NOT NULL,
-			  `last_modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			  `last_modified` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
 			  PRIMARY KEY (`uid`)
 			) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15;";
 
