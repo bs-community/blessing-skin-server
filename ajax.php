@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-06 23:12:17
+ * @Last Modified time: 2016-02-08 22:06:36
  *
  * - login, register, logout
  * - upload, change, delete
@@ -55,7 +55,7 @@ if ($action == "login") {
 } else if ($action == "register") {
     if (checkPost('register')) {
         if (!$user->is_registered) {
-            if (user::checkValidPwd($_POST['passwd'])) {
+            if (User::checkValidPwd($_POST['passwd'])) {
                 if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
                     $ip = $_SERVER['HTTP_CLIENT_IP'];
                 } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {

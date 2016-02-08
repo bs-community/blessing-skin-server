@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-04 13:53:55
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-06 23:29:34
+ * @Last Modified time: 2016-02-08 22:06:43
  */
 require "../includes/session.inc.php";
 
@@ -33,7 +33,7 @@ if (isset($_GET['action'])) {
             Utils::raise(1, '你没有选择任何文件哦');
         }
     } else if ($action == "change") {
-        if (user::checkValidPwd($_POST['passwd'])) {
+        if (User::checkValidPwd($_POST['passwd'])) {
             $user->changePasswd($_POST['passwd']);
             $json['errno'] = 0;
             $json['msg'] = "成功更改了 ".$_GET['uname']." 的密码。";
