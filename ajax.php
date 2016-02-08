@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-08 22:06:36
+ * @Last Modified time: 2016-02-08 22:11:17
  *
  * - login, register, logout
  * - upload, change, delete
@@ -233,7 +233,7 @@ if ($action == "change") {
     if (Utils::getValue('token', $_SESSION)) {
         session_destroy();
         $json['errno'] = 0;
-        $json['msg'] = 'Session 成功销毁。';
+        $json['msg'] = '成功登出 | ﾟ ∀ﾟ)ノ';
     } else {
         $json['errno'] = 1;
         $json['msg'] = '并没有任何有效的 session。';
