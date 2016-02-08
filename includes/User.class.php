@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-07 15:16:44
+ * @Last Modified time: 2016-02-08 22:02:53
  */
 
 class User
@@ -38,7 +38,7 @@ class User
     }
 
     public static function checkValidUname($uname) {
-        return preg_match("([A-Za-z0-9_\-]+)", $uname);
+        return preg_match("/^([A-Za-z0-9_]+)$/", $uname);
     }
 
     public static function checkValidPwd($passwd) {
