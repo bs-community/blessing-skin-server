@@ -121,7 +121,7 @@ http://example.com/cape/*.png
 
 版权：
 ------------
-Blessing Skin Server 程序是基于 GUN General Public License 开放源代码的自由软件，你可以遵照 GPL 协议来修改和重新发布这一程序。
+Blessing Skin Server 程序是基于 GNU General Public License 开放源代码的自由软件，你可以遵照 GPL 协议来修改和重新发布这一程序。
 
 程序原作者为 [@printempw](https://prinzeugen.net/)，转载请注明。
 
