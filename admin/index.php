@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-03 14:39:50
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-06 23:29:33
+ * @Last Modified time: 2016-02-10 15:05:08
  */
 require "../includes/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
@@ -31,9 +31,7 @@ if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是�
             <li class="pure-menu-item">
                 <a class="pure-menu-link" href="../user/profile.php">个人设置</a>
             </li>
-            <li class="pure-menu-item">
-                <span class="pure-menu-link">欢迎，<?php echo $_SESSION['uname']; ?>！</span>|<span class="pure-menu-link" id="logout">登出？</span>
-             </li>
+            <?php include "../includes/welcome.inc.php"; ?>
         </ul>
         <div class="home-menu-blur">
             <div class="home-menu-wrp">
@@ -64,9 +62,9 @@ if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是�
                 <td><?php echo $row['uid']; ?></td>
                 <td><?php echo $row['username']; ?></td>
                 <td>
-                    <?php echo '<img id="'.$row['username'].'_skin" width="64" '.(($row['hash_steve'] == "") ? '' : 'src="../skin/'.$row['username'].'-steve.png"').'/>'; ?>
-                    <?php echo '<img id="'.$row['username'].'_skin" width="64" '.(($row['hash_alex'] == "") ? '' : 'src="../skin/'.$row['username'].'-alex.png"').'/>'; ?>
-                    <?php echo '<img id="'.$row['username'].'_cape" width="64" '.(($row['hash_cape'] == "") ? '' : 'src="../cape/'.$row['username'].'.png"').'/>'; ?>
+                    <img width="64" <?php if ($row['hash_steve']): ?>src="../skin/<?php echo $row['username']; ?>-steve.png"<?php endif; ?> />
+                    <img width="64" <?php if ($row['hash_alex']): ?>src="../skin/<?php echo $row['username']; ?>-alex.png"<?php endif; ?> />
+                    <img width="64" <?php if ($row['hash_cape']): ?>src="../cape/<?php echo $row['username']; ?>.png"<?php endif; ?> />
                 </td>
                 <td>
                     <a href="javascript:uploadSkin('<?php echo $row['username']; ?>');" class="pure-button pure-button-primary">皮肤</a>

@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-03 16:12:45
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-06 23:29:32
+ * @Last Modified time: 2016-02-10 14:39:11
  */
 require "../includes/session.inc.php";
 ?>
@@ -31,9 +31,7 @@ require "../includes/session.inc.php";
             <li class="pure-menu-item">
                 <a class="pure-menu-link" href="index.php">皮肤上传</a>
             </li>
-            <li class="pure-menu-item">
-                <span class="pure-menu-link">欢迎，<?php echo $_SESSION['uname']; ?>！</span>|<span class="pure-menu-link" id="logout">登出？</span>
-             </li>
+            <?php include "../includes/welcome.inc.php"; ?>
         </ul>
         <div class="home-menu-blur">
             <div class="home-menu-wrp">
@@ -79,7 +77,7 @@ require "../includes/session.inc.php";
                 </div>
             </div>
         </div>
-        <?php if ($user->is_admin) { ?>
+        <?php if ($user->is_admin): ?>
         <div class="pure-u-1 pure-u-md-1-2">
             <div class="panel panel-default">
                 <div class="panel-heading">欢迎，尊敬的管理员</div>
@@ -88,7 +86,7 @@ require "../includes/session.inc.php";
                 </div>
             </div>
         </div>
-        <?php } ?>
+        <?php endif; ?>
     </div>
 </div>
 

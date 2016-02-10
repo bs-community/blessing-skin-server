@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-01-21 13:56:40
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-10 10:45:04
+ * @Last Modified time: 2016-02-10 15:18:56
  */
 require "../includes/session.inc.php";
 ?>
@@ -26,12 +26,10 @@ require "../includes/session.inc.php";
     <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
         <a class="pure-menu-heading" href="../index.php"><?php echo SITE_TITLE; ?></a>
         <ul class="pure-menu-list">
-             <li class="pure-menu-item">
-                 <a class="pure-menu-link" href="profile.php">个人设置</a>
-             </li>
-             <li class="pure-menu-item">
-                <span class="pure-menu-link">欢迎，<?php echo $_SESSION['uname']; ?>！</span>|<span class="pure-menu-link" id="logout">登出？</span>
-             </li>
+            <li class="pure-menu-item">
+                <a class="pure-menu-link" href="profile.php">个人设置</a>
+            </li>
+            <?php include "../includes/welcome.inc.php"; ?>
         </ul>
         <div class="home-menu-blur">
             <div class="home-menu-wrp">
@@ -48,15 +46,14 @@ require "../includes/session.inc.php";
                 <div class="panel-body">
                     <div id="upload-form">
                         <p>选择皮肤：</p>
-                        <input type="file" id="skininput" name="skininput" accept="image/png" />
-                        <br />
+                        <input type="file" id="skininput" name="skininput" accept="image/png" /><br />
                         <p>选择披风：</p>
-                        <input type="file" id="capeinput" name="capeinput" accept="image/png" />
+                        <input type="file" id="capeinput" name="capeinput" accept="image/png" /><br />
+                        <input type="radio" id="model-steve" name="model" />
+                        <label for="model-steve">我的皮肤适合传统 Steve 皮肤模型</label><br />
+                        <input type="radio" id="model-alex" name="model" />
+                        <label for="model-alex">我的皮肤适合新版 Alex 皮肤模型</label><br />
                         <br />
-                        <input type="radio" id="model-steve" name="model" /><label for="model-steve">我的皮肤适合传统 Steve 皮肤模型</label>
-                        <br />
-                        <input type="radio" id="model-alex" name="model" /><label for="model-alex">我的皮肤适合新版 Alex 皮肤模型</label>
-                        <br /><br />
                         <button id="upload" class="pure-button pure-button-primary">确认上传</button>
                         <a id="preview" href="javascript:show2dPreview();" class="pure-button">2D 皮肤预览</a>
                     </div>
@@ -66,7 +63,9 @@ require "../includes/session.inc.php";
             <div class="panel panel-default">
                 <div class="panel-heading">修改优先皮肤模型</div>
                 <div class="panel-body">
-                    <p>你现在的优先皮肤模型是 <b><?php echo $user->getPreference(); ?></b>。 <a class="pure-button pure-button-default" style="margin: 0 3px;" href="javascript:changeModel();">更改</a></p>
+                    <p>你现在的优先皮肤模型是 <b><?php echo $user->getPreference(); ?></b>。
+                        <a class="pure-button pure-button-default" style="margin: 0 3px;" href="javascript:changeModel();">更改</a>
+                    </p>
                 </div>
             </div>
         </div>
@@ -94,7 +93,9 @@ require "../includes/session.inc.php";
 <script type="text/javascript" src="../assets/js/user.utils.js"></script>
 <?php if ($user->getTexture('alex') && ($user->getTexture('steve') == "")) {?>
 <script type="text/javascript">
-    showMsg('alert-warning', '看起来你只上传了适合 Alex 模型的皮肤。注意 Minecraft 版本低于 1.8 的皮肤 MOD 不支持双层皮肤。你最好再上传一个适用于 Steve 模型的皮肤，并将优先模型设置为 Alex 以获得在各个版本下的良好表现。');
+    showMsg('alert-warning',
+        '看起来你只上传了适合 Alex 模型的皮肤。注意 Minecraft 版本低于 1.8 的皮肤 MOD 不支持双层皮肤。'+
+        '你最好再上传一个适用于 Steve 模型的皮肤，并将优先模型设置为 Alex 以获得在各个版本下的良好表现。');
 </script>
 <?php } ?>
 </html>

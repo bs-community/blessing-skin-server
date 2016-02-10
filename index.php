@@ -3,13 +3,13 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-10 10:56:24
+ * @Last Modified time: 2016-02-10 14:18:22
  */
 session_start();
 $dir = dirname(__FILE__);
 require "$dir/includes/autoload.inc.php";
-
 Database::checkConfig();
+
 // Auto load cookie value to session
 if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
     $user = new User($_COOKIE['uname']);
@@ -41,11 +41,13 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
         <a class="pure-menu-heading" href="#"><?php echo SITE_TITLE; ?></a>
         <ul class="pure-menu-list">
             <li class="pure-menu-item">
-                <?php if (isset($_SESSION['uname'])) { ?>
-                    <a href="./user/index.php" class="pure-menu-link">欢迎，<?php echo $_SESSION['uname']; ?>！</a>|<span class="pure-menu-link" id="logout">登出？</span>
-                <?php } else { ?>
-                <a id="login" href="javascript:;" class="pure-button pure-button-primary">登录</a>
-                <?php } ?>
+                <?php if (isset($_SESSION['uname'])): ?>
+                <a href="./user/index.php" class="pure-menu-link">
+                    欢迎，<?php echo $_SESSION['uname']; ?>！
+                </a>|<span class="pure-menu-link" id="logout">登出？</span>
+                <?php else: ?>
+                <button id="login" class="pure-button pure-button-primary">登录</button>
+                <?php endif; ?>
             </li>
         </ul>
         <div class="home-menu-blur">
@@ -62,9 +64,9 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
         <p class="splash-subhead">
             开源的 PHP Minecraft 皮肤站
         </p>
-        <?php if (!Utils::getValue('uname', $_SESSION)) { ?>
+        <?php if (!isset($_SESSION['uname'])) { ?>
         <p>
-            <a id="register" href="javascript:;" class="pure-button pure-button-primary">现在注册</a>
+            <button id="register" class="pure-button pure-button-primary">现在注册</button>
         </p>
         <?php } ?>
     </div>
@@ -74,6 +76,7 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
     &copy; <a class="copy" href="https://prinzeugen.net">Blessing Studio</a> 2016
 </div>
 
+<!-- Contents below is for login/register dialog -->
 <div class="remodal" data-remodal-id="login-modal">
     <button data-remodal-action="close" class="remodal-close"></button>
     <h1 id="login-title">登录</h1>
@@ -101,6 +104,7 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
     </div>
     <div id="msg" class="alert alert-info">请使用您的 <b>Minecraft 用户名</b> 来注册</div>
 </div>
+<!-- Contents above is for login/register dialog -->
 
 <script type="text/javascript" src="./libs/jquery/jquery-2.1.1.min.js"></script>
 <script type="text/javascript" src="./libs/cookie.js"></script>
@@ -108,9 +112,8 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
 <script type="text/javascript" src="./libs/ply/ply.min.js"></script>
 <script type="text/javascript" src="./assets/js/utils.js"></script>
 <script type="text/javascript" src="./assets/js/index.utils.js"></script>
-<?php
-if ($msg = Utils::getValue('msg', $_GET)) { ?>
+<?php if ($msg = Utils::getValue('msg', $_GET)): ?>
 <script type="text/javascript"> showAlert("<?php echo $msg; ?>"); </script>
-<?php } ?>
+<?php endif; ?>
 </body>
 </html>

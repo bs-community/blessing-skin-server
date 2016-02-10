@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-02 20:56:42
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-06 23:06:26
+ * @Last Modified time: 2016-02-10 14:06:10
  *
  * All textures requests of legacy link will be handle here.
  */
@@ -15,7 +15,8 @@ if (isset($_GET['type']) && isset($_GET['uname'])) {
     $user = new User($_GET['uname']);
     if (!$user->is_registered) Utils::raise(1, 'Non-existent user.');
     // Cache friendly
-    $if_modified_since = isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) : null;
+    $if_modified_since = isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ?
+                                strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) : null;
 
     if ($_GET['type'] == "skin" || $_GET['type'] == "cape") {
         $model_preferrnce = ($user->getPreference() == "default") ? "steve" : "alex";
