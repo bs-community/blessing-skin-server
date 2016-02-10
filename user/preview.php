@@ -3,10 +3,17 @@
  * @Author: prpr
  * @Date:   2016-02-04 19:37:21
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-06 23:24:56
+ * @Last Modified time: 2016-02-10 18:37:35
  */
 ?>
-<div id="skinpreview"></div>
+<div id="skinpreview">
+    <div id="preview-2d">
+        <p>Steve 模型的皮肤：<img id="steve" class="skin2d" src="<?php echo "../textures/".$user->getTexture('skin');?>" /></p>
+        <p>Alex 模型的皮肤：<img id="alex" class="skin2d" src="<?php echo "../textures/".$user->getTexture('alex');?>" /></p>
+        <p>披风：<img id="cape" class="skin2d" src="<?php echo "../textures/".$user->getTexture('cape');?>" /></p>
+    </div>
+</div>
+
 <script type="text/javascript" src="../libs/three.js"></script>
 <script type="text/javascript" src="../libs/three.msp.js"></script>
 <?php
