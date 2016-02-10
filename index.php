@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-06 23:06:24
+ * @Last Modified time: 2016-02-10 10:56:24
  */
 session_start();
 $dir = dirname(__FILE__);
@@ -99,7 +99,7 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
         <br />
         <button id="register-button" class="pure-button pure-button-primary">注册</button>
     </div>
-    <div id="msg" class="alert"></div>
+    <div id="msg" class="alert alert-info">请使用您的 <b>Minecraft 用户名</b> 来注册</div>
 </div>
 
 <script type="text/javascript" src="./libs/jquery/jquery-2.1.1.min.js"></script>
