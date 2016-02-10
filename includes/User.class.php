@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-08 22:02:53
+ * @Last Modified time: 2016-02-10 15:07:08
  */
 
 class User
@@ -98,6 +98,7 @@ class User
             header('Content-Length: '.filesize($filename));
             return Utils::fread($filename);
         } else {
+            header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
             Utils::raise(-1, 'Texture no longer exists.');
         }
     }
