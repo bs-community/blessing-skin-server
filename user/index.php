@@ -1,12 +1,11 @@
 <?php
-/*
-* @Author: prpr
-* @Date:   2016-01-21 13:56:40
-* @Last Modified by:   prpr
-* @Last Modified time: 2016-01-21 20:40:04
-*/
+/**
+ * @Author: prpr
+ * @Date:   2016-01-21 13:56:40
+ * @Last Modified by:   prpr
+ * @Last Modified time: 2016-02-10 10:45:04
+ */
 require "../includes/session.inc.php";
-$action = isset($_GET['action']) ? $_GET['action'] : "";
 ?>
 <!DOCTYPE html>
 <html>
