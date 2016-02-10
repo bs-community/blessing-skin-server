@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-10 15:07:08
+ * @Last Modified time: 2016-02-10 21:04:32
  */
 
 class User
@@ -76,9 +76,23 @@ class User
         return $this->db->delete($this->uname);
     }
 
+    public function reset() {
+        for ($i = 1; $i <= 3; $i++) {
+            switch($i) {
+                case 1: $type = "steve"; break;
+                case 2: $type = "alex"; break;
+                case 3: $type = "cape"; break;
+            }
+            if ($this->getTexture($type) != "")
+                Utils::remove("./textures/".$this->getTexture($type));
+            $this->db->update($this->uname, 'hash_'.$type, '');
+        }
+        $this->db->update($this->uname, 'preference', 'default');
+    }
+
     /**
      * Get textures of user
-     * @param  string $type steve|alex|cape
+     * @param  string $type steve|alex|cape, 'skin' for texture of preferred model
      * @return string sha256-hash of texture file
      */
     public function getTexture($type) {

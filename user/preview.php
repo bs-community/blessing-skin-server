@@ -3,14 +3,14 @@
  * @Author: prpr
  * @Date:   2016-02-04 19:37:21
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-10 18:37:35
+ * @Last Modified time: 2016-02-10 21:12:26
  */
 ?>
 <div id="skinpreview">
     <div id="preview-2d">
-        <p>Steve 模型的皮肤：<img id="steve" class="skin2d" src="<?php echo "../textures/".$user->getTexture('skin');?>" /></p>
-        <p>Alex 模型的皮肤：<img id="alex" class="skin2d" src="<?php echo "../textures/".$user->getTexture('alex');?>" /></p>
-        <p>披风：<img id="cape" class="skin2d" src="<?php echo "../textures/".$user->getTexture('cape');?>" /></p>
+        <p>Steve 模型的皮肤：<img id="steve" class="skin2d" src="<?php if ($t = $user->getTexture('steve')) echo "../textures/".$t;?>" /></p>
+        <p>Alex 模型的皮肤：<img id="alex" class="skin2d" src="<?php if ($t = $user->getTexture('alex')) echo "../textures/".$t;?>" /></p>
+        <p>披风：<img id="cape" class="skin2d" src="<?php if ($t = $user->getTexture('cape')) echo "../textures/".$t;?>" /></p>
     </div>
 </div>
 

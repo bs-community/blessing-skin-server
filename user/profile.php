@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-03 16:12:45
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-10 14:39:11
+ * @Last Modified time: 2016-02-10 20:54:13
  */
 require "../includes/session.inc.php";
 ?>
@@ -77,16 +77,23 @@ require "../includes/session.inc.php";
                 </div>
             </div>
         </div>
-        <?php if ($user->is_admin): ?>
         <div class="pure-u-1 pure-u-md-1-2">
+            <div class="panel panel-warning">
+                <div class="panel-heading">重置账号</div>
+                <div class="panel-body">
+                    <p>这将会删除所有你上传的内容。我们不提供任何备份，确定？</p>
+                    <button id="reset" class="pure-button pure-button-warning">重置我的账户</button>
+                </div>
+            </div>
+        <?php if ($user->is_admin): ?>
             <div class="panel panel-default">
                 <div class="panel-heading">欢迎，尊敬的管理员</div>
                 <div class="panel-body">
                     <p>在这里管理你的皮肤站： <a href="../admin/">仪表盘</a></p>
                 </div>
             </div>
-        </div>
         <?php endif; ?>
+        </div>
     </div>
 </div>
 

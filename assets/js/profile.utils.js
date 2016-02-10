@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-02-03 17:21:46
 * @Last Modified by:   prpr
-* @Last Modified time: 2016-02-05 21:23:08
+* @Last Modified time: 2016-02-10 20:53:55
 */
 
 'use strict';
@@ -72,6 +72,28 @@ $('#delete').click(function(){
                     showAlert(json.msg, function(){
                         window.location = "../index.php";
                     });
+                } else {
+                    showAlert(json.msg);
+                }
+            }
+        });
+    });
+});
+
+$('#reset').click(function(){
+    Ply.dialog("prompt", {
+        title: "这是危险操作！输入密码来确认：",
+        form: { passwd: "Password" }
+    }).done(function(ui){
+        var passwd = ui.data.passwd;
+        $.ajax({
+            type: "POST",
+            url: "../ajax.php?action=reset",
+            dataType: "json",
+            data: { "uname": docCookies.getItem('uname'), "passwd": passwd },
+            success: function(json) {
+                if (json.errno == 0) {
+                    showAlert(json.msg);
                 } else {
                     showAlert(json.msg);
                 }

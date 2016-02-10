@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-08 22:11:17
+ * @Last Modified time: 2016-02-10 21:00:40
  *
  * - login, register, logout
  * - upload, change, delete
@@ -220,6 +220,22 @@ if ($action == "change") {
                 $user->unRegister();
                 $json['errno'] = 0;
                 $json['msg'] = "账号已经成功删除，再见~";
+            } else {
+                $json['errno'] = 1;
+                $json['msg'] = "错误的密码。";
+            }
+        }
+    } else {
+        $json['errno'] = 1;
+        $json['msg'] = "无效的 token，请先登录。";
+    }
+} else if ($action == "reset") {
+    if (isset($_SESSION['token']) && $_SESSION['token'] == $user->getToken()) {
+        if (checkPost()) {
+            if ($user->checkPasswd($_POST['passwd'])) {
+                $user->reset();
+                $json['errno'] = 0;
+                $json['msg'] = "重置成功。";
             } else {
                 $json['errno'] = 1;
                 $json['msg'] = "错误的密码。";
