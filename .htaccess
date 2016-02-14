@@ -1,0 +1,6 @@
+RewriteEngine on
+RewriteRule ^([^/]*).json$ get.php?type=json&uname=$1 [L]
+RewriteRule ^(skin|cape)/([^/-]*)(|-)(|alex|steve).png$ get.php?type=$1&model=$4&uname=$2 [L]
+# 以下是可选内容
+RewriteRule ^(usm|csl)/([^/]*).json$ get.php?type=json&uname=$2&api=$1 [L]
+RewriteRule ^(usm|csl)/textures/(.*)$ textures/$2 [L]

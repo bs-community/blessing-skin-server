@@ -44,6 +44,8 @@ rewrite ^/subdir/([^/]*).json$ /subdir/get.php?type=json&uname=$1 last;
 
 注意 `^/` 和 `/get.php` 前都要加上你的子目录名。
 
+如果你使用 Apache 作为 web 服务器，那么恭喜你，我已经帮你把重写规则写好在 `.htaccess` 里啦，开箱即用，无需任何配置~
+
 现在你可以访问 `http://example.com/username.json` 来得到你的首选 API 的 JSON 用户数据。另外一个 API 的 JSON 数据可以通过访问 `http://example.com/(usm|csl)/username.json` 得到（需配置可选重写规则）。
 
 上传完皮肤后，你就可以访问 `http://example.com/skin/username.png` 得到你的首选模型皮肤啦。 披风图片在这里：`http://example.com/cape/username.png` 。你还可以访问 `http://example.com/skin/username-(alex|steve).png` 来得到用户的 Alex/Steve 模型的皮肤文件（用户没上传则返回空）。
