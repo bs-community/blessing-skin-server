@@ -18,14 +18,16 @@
 2.  运行 `./admin/install.php`
 3. 如果你是用的是 Nginx，请配置你的 `nginx.conf` 并加入重写规则
 4. 注册一个新账户或者使用 `admin/123456` （管理员账户）登录
-5. 可以上传你的皮肤&皮肤啦
+5. 可以上传你的皮肤&披风啦
 6. 在你所使用的皮肤 Mod 配置文件中加入你的地址
 7. 完成啦~
 
 服务器配置：
 ------------
 
-在你的 `nginx.conf` 中加入如下 rewrite 规则**（重要）**：
+如果你使用 Apache 作为 web 服务器（大部分的虚拟主机），那么恭喜你，我已经帮你把重写规则写好在 `.htaccess` 里啦，开箱即用，无需任何配置~
+
+如果你使用 Nginx，请在你的 `nginx.conf` 中加入如下 rewrite 规则**（重要）**：
 
 ```
 rewrite ^/([^/]*).json$ /get.php?type=json&uname=$1 last;
@@ -34,6 +36,7 @@ rewrite ^/(skin|cape)/([^/-]*)(|-)(|alex|steve).png$ /get.php?type=$1&model=$4&u
 rewrite ^/(usm|csl)/([^/]*).json$ /get.php?type=json&uname=$2&api=$1 last;
 rewrite ^/(usm|csl)/textures/(.*)$ /textures/$2 last;
 ```
+
 你可以使用可选的重写规则来同时支持 CustomSkinLoader API 和 UniSkinAPI。如何同时支持会在下面 Mod 配置中说明。
 
 如果你将皮肤站放在子目录中，你需要把重写规则改成类似于**这样**：
@@ -42,9 +45,7 @@ rewrite ^/(usm|csl)/textures/(.*)$ /textures/$2 last;
 rewrite ^/subdir/([^/]*).json$ /subdir/get.php?type=json&uname=$1 last;
 ```
 
-注意 `^/` 和 `/get.php` 前都要加上你的子目录名。
-
-如果你使用 Apache 作为 web 服务器，那么恭喜你，我已经帮你把重写规则写好在 `.htaccess` 里啦，开箱即用，无需任何配置~
+注意 `^/` 后和 `/get.php` 前都要加上你的子目录名。
 
 现在你可以访问 `http://example.com/username.json` 来得到你的首选 API 的 JSON 用户数据。另外一个 API 的 JSON 数据可以通过访问 `http://example.com/(usm|csl)/username.json` 得到（需配置可选重写规则）。
 
