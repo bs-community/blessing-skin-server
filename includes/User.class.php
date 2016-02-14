@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-10 21:04:32
+ * @Last Modified time: 2016-02-14 16:21:53
  */
 
 class User
@@ -104,16 +104,21 @@ class User
     }
 
     public function getBinaryTexture($type) {
-        $filename = "./textures/".$this->getTexture($type);
-        if (file_exists($filename)) {
-            header('Content-Type: image/png');
-            // Cache friendly
-            header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $this->getLastModified()).' GMT');
-            header('Content-Length: '.filesize($filename));
-            return Utils::fread($filename);
+        if ($this->getTexture($type) != "") {
+            $filename = "./textures/".$this->getTexture($type);
+            if (file_exists($filename)) {
+                header('Content-Type: image/png');
+                // Cache friendly
+                header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $this->getLastModified()).' GMT');
+                header('Content-Length: '.filesize($filename));
+                return Utils::fread($filename);
+            } else {
+                header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+                Utils::raise(-1, 'Texture no longer exists.');
+            }
         } else {
             header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
-            Utils::raise(-1, 'Texture no longer exists.');
+            Utils::raise(-1, 'No available textures.');
         }
     }
 
@@ -165,6 +170,7 @@ class User
                 Utils::raise(-1, '配置文件错误：不支持的 API_TYPE。');
             }
         } else {
+            header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
             $json['errno'] = 1;
             $json['msg'] = "Non-existent user.";
         }

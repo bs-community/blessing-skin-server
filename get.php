@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-02 20:56:42
  * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-10 14:06:10
+ * @Last Modified time: 2016-02-14 16:18:03
  *
  * All textures requests of legacy link will be handle here.
  */
@@ -13,7 +13,10 @@ require "$dir/includes/autoload.inc.php";
 
 if (isset($_GET['type']) && isset($_GET['uname'])) {
     $user = new User($_GET['uname']);
-    if (!$user->is_registered) Utils::raise(1, 'Non-existent user.');
+    if (!$user->is_registered) {
+        header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
+        Utils::raise(1, 'Non-existent user.');
+    }
     // Cache friendly
     $if_modified_since = isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ?
                                 strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) : null;
