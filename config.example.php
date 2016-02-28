@@ -18,7 +18,7 @@ define('SALT', '9tvsh55d*s');
 define('REGS_PER_IP', 2);
 
 /* 优先使用的 Json API，0 为 CustomSkinLoader API, 1 为 UniSkinAPI */
-define('API_TYPE', 1);
+define('API_TYPE', 0);
 
 /* 站点名称，推荐英文（字体原因） */
 define('SITE_TITLE', 'Blessing Skin Server');
