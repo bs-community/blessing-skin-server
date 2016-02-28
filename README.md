@@ -14,7 +14,7 @@
 快速使用：
 -----------
 
-1. 下载源码，并在 `config.php` 中配置你的数据库连接信息
+1. 下载源码，重命名 `config.example.php` 为 `config.php` 并配置你的数据库连接信息
 2.  运行 `./admin/install.php`
 3. 如果你是用的是 Nginx，请配置你的 `nginx.conf` 并加入重写规则
 4. 注册一个新账户或者使用 `admin/123456` （管理员账户）登录
@@ -54,7 +54,7 @@ rewrite ^/subdir/([^/]*).json$ /subdir/get.php?type=json&uname=$1 last;
 客户端配置：
 ------------
 
-#### UniSkinMod 1.3 版及以上
+#### UniSkinMod 1.2 版及以上
 
 在你 MC 客户端的`.minecraft/config/UniSkinMod.cfg` 中加入你的皮肤站根地址：
 
@@ -68,7 +68,7 @@ Root: http://example.com
 ```
 如果你把皮肤站安装到子目录的话，请一起带上你的子目录。如果你的皮肤站首选 API 为 CustomSkinLoader API 的话，你需要在 UniSkinMod 配置文件中填入类似于 `http://example.com/usm` 来支持 UniSkinMod。
 
-#### UniSkinMod 1.3 版以下
+#### UniSkinMod 1.2 版以下
 
 同样是在 `.minecraft/config/UniSkinMod.cfg` 中配置你的皮肤站地址，但是稍有点不一样。旧版的 UniSkinMod 是不支持 Json API 的，而是使用了传统图片链接的方式（其实这样的话皮肤站爷好实现）：
 
@@ -86,7 +86,7 @@ Cape: http://example.com/cape/%s.png
 
 #### CustomSkinLoader 13.1 版以下：
 
-在 `.minecraft/CustomSkinLoader/skinurls.txt` 中添加如下地址：
+在 `.minecraft/CustomSkinLoader/skinurls.txt` 中添加你的皮肤站地址：
 
 ```
 http://example.com/skin/*.png
@@ -105,10 +105,77 @@ http://example.com/cape/*.png
 
 #### CustomSkinLoader 13.1
 
-等待作者发布
+CustomSkinLoader 13.1 经过作者的完全重写，支持了 CSL API，并且使用了高端洋气的 JSON 配置文件。
+
+配置文件位于 `.minecraft/CustomSkinLoader/CustomSkinLoader.json`，你需要在 loadlist 数组最顶端加入你的皮肤站配置。
+
+举个栗子（原来的 JSON 长这样）：
+
+```
+{
+    "enable": true,
+    "loadlist": [
+        {
+            "name": "Mojang",
+            "type": "MojangAPI"
+        },
+        {
+            "name": "SkinMe",
+            "type": "UniSkinAPI",
+            "root": "http://www.skinme.cc/uniskin/"
+        }
+    ]
+}
+```
+
+你需要将其修改成像这样：
+
+```
+{
+    "enable": true,
+    "loadlist": [
+        {
+            "name": "YourSkinServer",
+            "type": "CustomSkinAPI",
+            "root": "http://example.com/"
+        },
+        {
+            "name": "Mojang",
+            "type": "MojangAPI"
+        },
+        {
+            "name": "SkinMe",
+            "type": "UniSkinAPI",
+            "root": "http://www.skinme.cc/uniskin/"
+        }
+    ]
+}
+```
+
+`"type"` 字段按照你的 `config.php` 中配置的首选 API 来填(CustomSkinAPI|UniSkinAPI)，CSL 13.1 版是支持三种加载方式的~~万受♂之王~~
+
+有什么不会填的，请查看 CSL 开发者的 MCBBS 发布贴。
 
 常见问题：
 ------------
+
+#### 卡在上传中？
+
+按 F12 开启开发者工具（Chrome, Firefox 等浏览器），进入 network/网络 选项卡
+
+**在开启开发者工具的情况下，再按一次上传**
+
+把 network 的内容拉到最底，应该会有一个 `ajax.php?action=upload` 的请求
+
+点进去，选择 response 选项卡，就可以看到报错信息，自己排错（往下看），或者带着报错联系我（邮件、论坛私信）
+
+#### `example.com/skin/xxx.png ` 404?
+
+请确认你的伪静态（URL 重写）是否配置正确。
+
+#### 500 错误？
+
+本程序使用了一些 PHP 5.4 的新特性，请确保你的 PHP 版本 >= 5.4
 
 #### 游戏中皮肤不显示？
 
@@ -116,7 +183,7 @@ http://example.com/cape/*.png
 
 如果还是不能显示皮肤，请阅读您所使用的皮肤 Mod 的 FAQ。
 
-还是不行德胡，请在启动器开启调试模式，并且查看所有关于 skin 的日志。一般来说看了就可以明白了，如果还是不明白请邮件 [联系我](mailto:h@prinzeugen.net)（带上你的日志）。
+还是不行的话，请在启动器开启调试模式，并且查看所有关于 skin 的日志。一般来说看了就可以明白了，如果还是不明白请邮件 [联系我](mailto:h@prinzeugen.net)（带上你的日志）。
 
 如果一切都正常工作，你就可以在游戏中看到你的皮肤啦~
 
