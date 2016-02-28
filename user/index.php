@@ -2,8 +2,8 @@
 /**
  * @Author: prpr
  * @Date:   2016-01-21 13:56:40
- * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-10 15:18:56
+ * @Last Modified by:   printempw
+ * @Last Modified time: 2016-02-28 14:09:48
  */
 require "../includes/session.inc.php";
 ?>
@@ -75,7 +75,6 @@ require "../includes/session.inc.php";
                     <div class="operations">
                         <span title="Movements" class="glyphicon glyphicon-pause"></span>
                         <span title="Running" class="glyphicon glyphicon-forward"></span>
-                        <span title="Rotation" class="glyphicon glyphicon-repeat"></span>
                     </div>
                 </div>
                 <div class="panel-body">

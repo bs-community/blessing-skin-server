@@ -2,8 +2,8 @@
 /**
  * @Author: prpr
  * @Date:   2016-02-04 19:37:21
- * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-10 21:12:26
+ * @Last Modified by:   printempw
+ * @Last Modified time: 2016-02-28 12:59:31
  */
 ?>
 <div id="skinpreview">
@@ -14,6 +14,7 @@
     </div>
 </div>
 
+<script type="text/javascript" src="../libs/2dskin.js"></script>
 <script type="text/javascript" src="../libs/three.js"></script>
 <script type="text/javascript" src="../libs/three.msp.js"></script>
 <?php

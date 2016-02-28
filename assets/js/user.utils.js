@@ -1,8 +1,8 @@
 /*
 * @Author: prpr
 * @Date:   2016-01-21 13:56:40
-* @Last Modified by:   prpr
-* @Last Modified time: 2016-02-10 18:54:54
+* @Last Modified by:   printempw
+* @Last Modified time: 2016-02-28 14:19:37
 */
 
 'use strict';
@@ -26,11 +26,6 @@ function handleFiles(files, type) {
             reader.onload = function (e) {
                 var img = new Image();
                 img.onload = function () {
-                    if (this.width == this.height) {
-                        showMsg("alert-info", "提示：看起来你上传了一张双层皮肤，皮肤站本身是支持的，"+
-                                "然而 3D 皮肤预览并不支持，所以不要在意变得奇怪的预览（笑）直接上传，"+
-                                "就可以在 2D 预览中看到正确的双层皮肤啦。");
-                    }
                     if (type == "skin") {
                         MSP.changeSkin(img.src);
                         var model = $('#model-alex').prop('checked') ? "alex" : "steve";
@@ -53,12 +48,11 @@ function handleFiles(files, type) {
 };
 
 function init3dCanvas() {
-    if ($(window).width() < 800) {
-        var canvas = MSP.get3dSkinCanvas($('#skinpreview').width(), $('#skinpreview').width());
-        $("#skinpreview").append($(canvas).prop("id", "canvas3d"));
+    MSP.init(document.getElementById('skinpreview'));
+    if ($(window).width() < 1000) {
+        MSP.setSize($('#skinpreview').width(), $('#skinpreview').width())
     } else {
-        var canvas = MSP.get3dSkinCanvas(400, 400);
-        $("#skinpreview").append($(canvas).prop("id", "canvas3d"));
+        MSP.setSize(600, 400)
     }
 }
 $(document).ready(init3dCanvas);
@@ -66,14 +60,27 @@ $(document).ready(init3dCanvas);
 $(window).resize(init3dCanvas);
 
 // Change 3D preview status
+var run = false, stop = false;
 $("[title='Movements']").click(function(){
-    MSP.setStatus("movements", !MSP.getStatus("movements"));
+    stop = !stop;
+    MSP.stopPlay(stop);
 });
 $("[title='Running']").click(function(){
-    MSP.setStatus("running", !MSP.getStatus("running"));
+    run = !run;
+    MSP.playQuickly(run);
 });
-$("[title='Rotation']").click(function(){
-    MSP.setStatus("rotation", !MSP.getStatus("rotation"));
+
+$('#model-alex').on('change', function() {
+    if ($('#model-alex').prop('checked') == true) {
+        showMsg("alert-info", "提示：3D 预览暂时不支持 Alex 模型，预览可能会出现渲染错误。"+
+                                 "不要在意直接上传即可，<b>游戏中</b>显示是没有问题的。");
+    }
+});
+
+$('#model-steve').on('change', function() {
+    if ($('#model-steve').prop('checked') == true) {
+        showMsg("hide");
+    }
 });
 
 function show2dPreview() {
