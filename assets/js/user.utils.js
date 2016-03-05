@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:56:40
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-02-28 14:19:37
+* @Last Modified time: 2016-03-05 18:41:09
 */
 
 'use strict';
@@ -27,11 +27,11 @@ function handleFiles(files, type) {
                 var img = new Image();
                 img.onload = function () {
                     if (type == "skin") {
-                        MSP.changeSkin(img.src);
+                        skin.src = img.src;
                         var model = $('#model-alex').prop('checked') ? "alex" : "steve";
                         change2dTexture(model, img.src);
                     } else {
-                        MSP.changeCape(img.src);
+                        cape.src = img.src;
                         change2dTexture('cape', img.src);
                     }
                 };
@@ -46,18 +46,6 @@ function handleFiles(files, type) {
         }
     }
 };
-
-function init3dCanvas() {
-    MSP.init(document.getElementById('skinpreview'));
-    if ($(window).width() < 1000) {
-        MSP.setSize($('#skinpreview').width(), $('#skinpreview').width())
-    } else {
-        MSP.setSize(600, 400)
-    }
-}
-$(document).ready(init3dCanvas);
-// Auto resize canvas to fit responsive design
-$(window).resize(init3dCanvas);
 
 // Change 3D preview status
 var run = false, stop = false;
