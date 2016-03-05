@@ -2,14 +2,15 @@
 /**
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
- * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-08 00:33:32
+ * @Last Modified by:   printempw
+ * @Last Modified time: 2016-03-05 19:22:44
  *
  * Create tables automatically
  */
 
 $dir = dirname(dirname(__FILE__));
 require "$dir/includes/autoload.inc.php";
+header('Content-type: text/html; charset=utf-8');
 
 echo "<style>body { font-family: Courier, 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif; }</style>";
 

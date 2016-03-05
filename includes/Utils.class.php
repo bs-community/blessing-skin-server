@@ -2,8 +2,8 @@
 /**
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
- * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-05 21:59:56
+ * @Last Modified by:   printempw
+ * @Last Modified time: 2016-03-05 19:21:47
  */
 
 class Utils
@@ -18,7 +18,7 @@ class Utils
     public static function raise($errno = -1, $msg = "Error occured.") {
         $exception['errno'] = $errno;
         $exception['msg'] = $msg;
-        header('Content-type: application/json');
+        header('Content-type: application/json; charset=utf-8');
         die(json_encode($exception));
     }
 
