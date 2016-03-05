@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:56:40
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-05 18:41:09
+* @Last Modified time: 2016-03-05 20:36:43
 */
 
 'use strict';
@@ -51,11 +51,11 @@ function handleFiles(files, type) {
 var run = false, stop = false;
 $("[title='Movements']").click(function(){
     stop = !stop;
-    MSP.stopPlay(stop);
+    speed = stop ? 0 : 1;
 });
 $("[title='Running']").click(function(){
     run = !run;
-    MSP.playQuickly(run);
+    speed = run ? 4 : 1;
 });
 
 $('#model-alex').on('change', function() {

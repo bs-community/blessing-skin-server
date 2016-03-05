@@ -48,9 +48,9 @@ scene = new THREE.Scene();
 
 // Skin Part
 canvas = document.createElement('canvas');;
-    canvas.width = 64;
-    canvas.height = 64;
-    var context = canvas.getContext("2d");
+canvas.width = 64;
+canvas.height = 64;
+var context = canvas.getContext("2d");
 
 var skinTexture = new THREE.Texture(canvas);
 skinTexture.magFilter = THREE.NearestFilter;
@@ -878,7 +878,7 @@ function RenderSkin() {
     container = document.getElementById('skinpreview');
 
     renderer = new THREE.WebGLRenderer({alpha: true});
-    onWindowResize();
+    renderer.setSize(600, 350);
 
     window.addEventListener('resize', onWindowResize, false);
 
@@ -898,19 +898,29 @@ function RenderSkin() {
             isMouseDown = false;
     }, false);
 
-    container.appendChild(renderer.domElement);
+    var canvas3d = renderer.domElement;
+    canvas3d.setAttribute('id', 'canvas3d');
+    canvas3d.style = '';
+    container.appendChild(canvas3d);
+    onWindowResize();
 }
 
 function onWindowResize() {
     camera.aspect = (window.innerWidth - sidebarWidth) / window.innerHeight;
     camera.updateProjectionMatrix();
 
-    if (window.innerWidth > 768) {
-        renderer.setSize(container.clientWidth, container.clientWidth/1.8);
-    } else {
-        renderer.setSize(container.clientWidth/1.5, container.clientWidth/1.8);
-    }
+    var canvas3d = document.getElementById('canvas3d');
+    canvas3d.width = 600;
+    canvas3d.height = 350;
+
+    canvas3d.setSize(container.clientWidth, container.clientWidth/12*7);
 }
+
+Element.prototype.setSize = function (w, h) {
+    this.style.width = w + "px";
+    this.style.height = h + "px";
+    return this;
+};
 
 function Animate() {
     scene.getObjectByName("cape", false).visible = capeLoaded;
