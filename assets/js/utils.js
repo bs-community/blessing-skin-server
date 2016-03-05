@@ -1,8 +1,8 @@
 /*
 * @Author: prpr
 * @Date:   2016-02-03 18:23:21
-* @Last Modified by:   prpr
-* @Last Modified time: 2016-02-05 21:12:29
+* @Last Modified by:   printempw
+* @Last Modified time: 2016-03-05 21:41:24
 */
 
 'use strict';
@@ -12,9 +12,16 @@ function showMsg(type, msg) {
     $("[id=msg]").removeClass().addClass("alert").addClass(type).html(msg);
 }
 
-function showAlert(msg, callback) {
+function showAlert(msg, callback, callback2) {
     callback = callback ? callback : new Function;
-    Ply.dialog("alert", msg).done(callback);
+    Ply.dialog("alert", msg).done(callback).fail(callback2);
+}
+
+function isMobile() {
+    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+        return true;
+    }
+    return false;
 }
 
 function logout(callback) {

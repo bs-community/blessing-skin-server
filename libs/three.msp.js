@@ -880,8 +880,6 @@ function RenderSkin() {
     renderer = new THREE.WebGLRenderer({alpha: true});
     renderer.setSize(600, 350);
 
-    window.addEventListener('resize', onWindowResize, false);
-
     displayCanvas = renderer.domElement;
     displayCanvas.addEventListener('mousedown', function(e) {
         e.preventDefault();
@@ -901,19 +899,7 @@ function RenderSkin() {
     var canvas3d = renderer.domElement;
     canvas3d.setAttribute('id', 'canvas3d');
     canvas3d.style = '';
-    container.appendChild(canvas3d);
-    onWindowResize();
-}
-
-function onWindowResize() {
-    camera.aspect = (window.innerWidth - sidebarWidth) / window.innerHeight;
-    camera.updateProjectionMatrix();
-
-    var canvas3d = document.getElementById('canvas3d');
-    canvas3d.width = 600;
-    canvas3d.height = 350;
-
-    canvas3d.setSize(container.clientWidth, container.clientWidth/12*7);
+    if (preview_type == "3d") container.appendChild(canvas3d);
 }
 
 Element.prototype.setSize = function (w, h) {

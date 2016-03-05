@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:56:40
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-05 20:36:43
+* @Last Modified time: 2016-03-05 21:48:36
 */
 
 'use strict';
@@ -72,6 +72,7 @@ $('#model-steve').on('change', function() {
 });
 
 function show2dPreview() {
+    preview_type = "2d";
     $('#canvas3d').remove();
     $('.operations').hide();
     $('#preview-2d').show();
@@ -79,10 +80,25 @@ function show2dPreview() {
 }
 
 function show3dPreview() {
-    $('#preview-2d').hide();
-    $('.operations').show();
-    init3dCanvas()
-    $('#preview').html('2D 皮肤预览').attr('href', 'javascript:show2dPreview();');
+    if (isMobile() && preview_type == "2d") {
+        showAlert("手机上的 3D 预览可能会出现奇怪的问题，亟待解决。确定要启用吗？", function(){
+            preview_type = "3d";
+            show3dPreview();
+        }, function(){
+            return false;
+        });
+    } else {
+        preview_type = "3d";
+    }
+    if (preview_type == "3d") {
+        var canvas3d = renderer.domElement;
+        canvas3d.setAttribute('id', 'canvas3d');
+        canvas3d.style = '';
+        container.appendChild(canvas3d);
+        $('#preview-2d').hide();
+        $('.operations').show();
+        $('#preview').html('2D 皮肤预览').attr('href', 'javascript:show2dPreview();');
+    }
 }
 
 $("#upload").click(function(){
@@ -146,8 +162,29 @@ function changeModel(uname) {
 $(document).ready(function(){
     $('#preview-2d').hide();
     $('#model-steve').prop('checked', true);
+
+    if (isMobile()) {
+        show2dPreview();
+    }
 });
 
 function change2dTexture(type, file) {
     $('#'+type).attr('src', file);
 }
+
+function onWindowResize() {
+    if (preview_type == "3d") {
+        camera.aspect = (window.innerWidth - sidebarWidth) / window.innerHeight;
+        camera.updateProjectionMatrix();
+
+        var canvas3d = document.getElementById('canvas3d');
+        canvas3d.width = 600;
+        canvas3d.height = 350;
+
+        canvas3d.setSize(container.clientWidth, container.clientWidth/12*7);
+    } else {
+        show2dPreview();
+    }
+}
+
+window.addEventListener('resize', onWindowResize, false);

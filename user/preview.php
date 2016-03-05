@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-04 19:37:21
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-05 18:36:08
+ * @Last Modified time: 2016-03-05 21:36:08
  */
 ?>
 <div id="skinpreview">
@@ -13,7 +13,9 @@
         <p>披风：<img id="cape" class="skin2d" src="<?php if ($t = $user->getTexture('cape')) echo "../textures/".$t;?>" /></p>
     </div>
 </div>
-
+<script type="text/javascript">
+    var preview_type = "3d";
+</script>
 <script type="text/javascript" src="../libs/2dskin.js"></script>
 <script type="text/javascript" src="../libs/three.js"></script>
 <script type="text/javascript" src="../libs/three.msp.js"></script>
