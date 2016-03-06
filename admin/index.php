@@ -2,8 +2,8 @@
 /**
  * @Author: prpr
  * @Date:   2016-02-03 14:39:50
- * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-10 15:05:08
+ * @Last Modified by:   printempw
+ * @Last Modified time: 2016-03-06 14:07:38
  */
 require "../includes/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
@@ -55,8 +55,10 @@ if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是�
 
         <tbody>
             <?php
+            $page_now = isset($_GET['page']) ? $_GET['page'] : 1;
             $db = new Database();
-            $result = $db->query("SELECT * FROM users");
+            $result = $db->query("SELECT * FROM users ORDER BY `uid` LIMIT ".(string)(($page_now-1)*30).", 30");
+            $page_total = $db->getRecordNum()/30;
             while ($row = $result->fetch_array()) { ?>
             <tr>
                 <td><?php echo $row['uid']; ?></td>
@@ -80,6 +82,39 @@ if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是�
             <?php } ?>
         </tbody>
     </table>
+    <ul class="pagination">
+        <?php if ($page_now == 1): ?>
+        <li class="disabled">
+            <a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+        </li>
+        <?php else: ?>
+        <li>
+            <a href="index.php?page=<?php echo $page_now-1; ?>" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <?php endif;
+
+        for ($i = 1; $i <= $page_total; $i++) {
+            if ($i == $page_now) {
+                echo '<li class="active"><a href="#">'.(string)$i.'</a></li>';
+            } else {
+                echo '<li><a href="index.php?page='.$i.'">'.(string)$i.'</a></li>';
+            }
+        }
+
+        if ($page_now == $page_total): ?>
+        <li class="disabled">
+            <a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+        </li>
+        <?php else: ?>
+        <li>
+            <a href="index.php?page=<?php echo $page_now+1; ?>" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+        <?php endif; ?>
+     </ul>
 </div>
 
 </body>

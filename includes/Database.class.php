@@ -2,8 +2,8 @@
 /**
  * @Author: printempw
  * @Date:   2016-02-02 21:59:06
- * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-06 23:06:30
+ * @Last Modified by:   printempw
+ * @Last Modified time: 2016-03-06 13:41:24
  */
 
 class Database
@@ -57,6 +57,11 @@ class Database
 
     public function getNumRows($key, $value) {
         $sql = "SELECT * FROM users WHERE $key='$value'";
+        return $this->query($sql)->num_rows;
+    }
+
+    public function getRecordNum() {
+        $sql = "SELECT * FROM users WHERE 1";
         return $this->query($sql)->num_rows;
     }
 
