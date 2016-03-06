@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-05 19:21:47
+ * @Last Modified time: 2016-03-06 14:40:12
  */
 
 class Utils
@@ -60,6 +60,29 @@ class Utils
                 return true;
             }
         }
+    }
+
+    /**
+     * Recursively count the size of specified directory
+     *
+     * @param  string $dir
+     * @return int, total size in bytes
+     */
+    public static function getDirSize($dir) {
+        $dh = opendir($dir);
+        $size = 0;
+        while(false !== ($file = @readdir($dh))) {
+            if ($file!='.' and $file!='..') {
+                $path = $dir.'/'.$file;
+                if (is_dir($path)) {
+                    $size += $this->dir_size($path);
+                } else if (is_file($path)) {
+                    $size += filesize($path);
+                }
+            }
+        }
+        closedir($dh);
+        return $size;
     }
 
     /**

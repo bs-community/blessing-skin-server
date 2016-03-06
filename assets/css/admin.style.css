@@ -2,8 +2,12 @@
 * @Author: prpr
 * @Date:   2016-02-04 16:47:54
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-06 14:11:26
+* @Last Modified time: 2016-03-06 14:19:55
 */
+.overview {
+    margin: 80px auto 0;
+    width: 100%;
+}
 .pure-table {
     margin: 80px auto 0;
     width: 100%;

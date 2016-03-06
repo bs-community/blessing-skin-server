@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-03 14:39:50
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-06 14:07:38
+ * @Last Modified time: 2016-03-06 14:40:17
  */
 require "../includes/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
@@ -42,79 +42,18 @@ if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是�
 </div>
 
 <div class="container">
-    <table class="pure-table pure-table-horizontal">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>用户名</th>
-                <th>预览材质</th>
-                <th>更改材质</th>
-                <th>操作</th>
-            </tr>
-        </thead>
-
-        <tbody>
+    <div class="panel panel-default overview">
+        <div class="panel-heading">概览</div>
+        <div class="panel-body">
             <?php
             $page_now = isset($_GET['page']) ? $_GET['page'] : 1;
             $db = new Database();
-            $result = $db->query("SELECT * FROM users ORDER BY `uid` LIMIT ".(string)(($page_now-1)*30).", 30");
-            $page_total = $db->getRecordNum()/30;
-            while ($row = $result->fetch_array()) { ?>
-            <tr>
-                <td><?php echo $row['uid']; ?></td>
-                <td><?php echo $row['username']; ?></td>
-                <td>
-                    <img width="64" <?php if ($row['hash_steve']): ?>src="../skin/<?php echo $row['username']; ?>-steve.png"<?php endif; ?> />
-                    <img width="64" <?php if ($row['hash_alex']): ?>src="../skin/<?php echo $row['username']; ?>-alex.png"<?php endif; ?> />
-                    <img width="64" <?php if ($row['hash_cape']): ?>src="../cape/<?php echo $row['username']; ?>.png"<?php endif; ?> />
-                </td>
-                <td>
-                    <a href="javascript:uploadSkin('<?php echo $row['username']; ?>');" class="pure-button pure-button-primary">皮肤</a>
-                    <a href="javascript:uploadTexture('<?php echo $row['username']; ?>', 'cape');" class="pure-button pure-button-primary">披风</a>
-                    <a href="javascript:changeModel('<?php echo $row['username']; ?>');" class="pure-button pure-button-default">优先模型</a>
-                    <span>(<?php echo $row['preference']; ?>)</span>
-                </td>
-                <td>
-                    <a href="javascript:changePasswd('<?php echo $row['username'] ?>');" class="pure-button pure-button-default">更改密码</a>
-                    <a href="javascript:deleteAccount('<?php echo $row['username'] ?>');" class="pure-button pure-button-error">删除用户</a>
-                </td>
-            </tr>
-            <?php } ?>
-        </tbody>
-    </table>
-    <ul class="pagination">
-        <?php if ($page_now == 1): ?>
-        <li class="disabled">
-            <a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-        </li>
-        <?php else: ?>
-        <li>
-            <a href="index.php?page=<?php echo $page_now-1; ?>" aria-label="Previous">
-                <span aria-hidden="true">&laquo;</span>
-            </a>
-        </li>
-        <?php endif;
-
-        for ($i = 1; $i <= $page_total; $i++) {
-            if ($i == $page_now) {
-                echo '<li class="active"><a href="#">'.(string)$i.'</a></li>';
-            } else {
-                echo '<li><a href="index.php?page='.$i.'">'.(string)$i.'</a></li>';
-            }
-        }
-
-        if ($page_now == $page_total): ?>
-        <li class="disabled">
-            <a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-        </li>
-        <?php else: ?>
-        <li>
-            <a href="index.php?page=<?php echo $page_now+1; ?>" aria-label="Next">
-                <span aria-hidden="true">&raquo;</span>
-            </a>
-        </li>
-        <?php endif; ?>
-     </ul>
+            ?>
+            <p>注册用户：<?php echo $db->getRecordNum();?></p>
+            <p>上传材质总数：<?php echo count(scandir("../textures/"))-2;?></p>
+            <p>占用空间大小：<?php echo floor(Utils::getDirSize("../textures/")/1024)."KB";?></p>
+        </div>
+    </div>
 </div>
 
 </body>
