@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-03 14:39:50
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-06 14:40:17
+ * @Last Modified time: 2016-03-06 14:43:49
  */
 require "../includes/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
@@ -29,6 +29,7 @@ if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是�
         <a class="pure-menu-heading" href="../index.php"><?php echo SITE_TITLE; ?></a>
         <ul class="pure-menu-list">
             <li class="pure-menu-item">
+                <a class="pure-menu-link" href="manage.php">用户管理</a>
                 <a class="pure-menu-link" href="../user/profile.php">个人设置</a>
             </li>
             <?php include "../includes/welcome.inc.php"; ?>
