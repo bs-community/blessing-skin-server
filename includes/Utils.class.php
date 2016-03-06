@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-06 14:40:12
+ * @Last Modified time: 2016-03-06 15:44:32
  */
 
 class Utils
@@ -72,10 +72,10 @@ class Utils
         $dh = opendir($dir);
         $size = 0;
         while(false !== ($file = @readdir($dh))) {
-            if ($file!='.' and $file!='..') {
+            if ($file!='.' && $file!='..') {
                 $path = $dir.'/'.$file;
                 if (is_dir($path)) {
-                    $size += $this->dir_size($path);
+                    $size += $this->getDirSize($path);
                 } else if (is_file($path)) {
                     $size += filesize($path);
                 }
