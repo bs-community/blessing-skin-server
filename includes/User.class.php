@@ -2,13 +2,13 @@
 /**
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
- * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-14 16:21:53
+ * @Last Modified by:   printempw
+ * @Last Modified time: 2016-03-06 15:27:00
  */
 
 class User
 {
-    private $uname  = "";
+    public $uname  = "";
     private $passwd = "";
     private $token  = "";
 

@@ -2,8 +2,13 @@
 * @Author: prpr
 * @Date:   2016-02-04 16:47:54
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-06 14:19:55
+* @Last Modified time: 2016-03-06 15:33:44
 */
+@media screen and (min-width: 48em) {
+    .container {
+        width: 90%;
+    }
+}
 .overview {
     margin: 80px auto 0;
     width: 100%;
@@ -24,6 +29,15 @@
 input {
     width: 100%;
     margin: 10px 0 20px;
+}
+input[type=checkbox] {
+    width: initial;
+    margin: 0;
+    margin: 0 5px 0 5px;
+}
+label {
+    display: block;
+    margin: 6px 0;
 }
 .fw {
     width: 100%;

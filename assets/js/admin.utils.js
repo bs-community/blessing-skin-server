@@ -1,8 +1,8 @@
 /*
 * @Author: prpr
 * @Date:   2016-02-04 16:48:42
-* @Last Modified by:   prpr
-* @Last Modified time: 2016-02-05 22:01:44
+* @Last Modified by:   printempw
+* @Last Modified time: 2016-03-06 15:23:40
 */
 
 'use strict';
@@ -53,6 +53,43 @@ function uploadTexture(uname, type) {
     ply.open();
 }
 
+function deleteTexture(uname) {
+    var ply = new Ply({
+        el: '<h2>选择要删除的 '+uname+' 的当前材质:</h2>'+
+            '<label><input id="steve" type="checkbox" checked="">Steve 模型</label>'+
+            '<label><input id="alex" type="checkbox" checked="">Alex 模型</label>'+
+            '<label><input id="cape" type="checkbox" checked="">披风</label>'+
+            '<label style="margin: 6px 0 12px;"><input id="all" type="checkbox" checked="">全部</label>'+
+            '<button id="confirm" class="pure-button pure-button-primary fw">确定</button>',
+        effect: "fade",
+        onaction: function() {
+            var steve   = $('#steve').prop('checked');
+            var alex    = $('#alex').prop('checked');
+            var cape    = $('#cape').prop('checked');
+            if ($('#all').prop('checked')) {
+                steve = alex = cape = true;
+            }
+            $.ajax({
+                type: "POST",
+                url: "admin_ajax.php?action=deleteTexture&uname="+uname,
+                dataType: "json",
+                data: {
+                    "steve" : steve,
+                    "alex"  : alex,
+                    "cape"  : cape
+                },
+                success: function(json) {
+                    if (json.errno == 0) {
+                        showAlert(json.msg);
+                    } else {
+                        showAlert(json.msg);
+                    }
+                }
+            });
+        },
+    });
+    ply.open();
+}
 
 function changePasswd(uname) {
     Ply.dialog("prompt", {
@@ -82,7 +119,7 @@ function deleteAccount(uname) {
     }).done(function(ui){
         $.ajax({
             type: "POST",
-            url: "admin_ajax.php?action=delete&uname="+uname,
+            url: "admin_ajax.php?action=deleteAccount&uname="+uname,
             dataType: "json",
             success: function(json) {
                 if (json.errno == 0) {

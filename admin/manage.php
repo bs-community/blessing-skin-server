@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-06 14:19:20
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-06 14:44:26
+ * @Last Modified time: 2016-03-06 15:32:20
  */
 require "../includes/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
@@ -76,6 +76,7 @@ if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是�
                     <span>(<?php echo $row['preference']; ?>)</span>
                 </td>
                 <td>
+                    <a href="javascript:deleteTexture('<?php echo $row['username'] ?>');" class="pure-button pure-button-warning">删除材质</a>
                     <a href="javascript:changePasswd('<?php echo $row['username'] ?>');" class="pure-button pure-button-default">更改密码</a>
                     <a href="javascript:deleteAccount('<?php echo $row['username'] ?>');" class="pure-button pure-button-error">删除用户</a>
                 </td>
@@ -90,7 +91,7 @@ if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是�
         </li>
         <?php else: ?>
         <li>
-            <a href="index.php?page=<?php echo $page_now-1; ?>" aria-label="Previous">
+            <a href="manage.php?page=<?php echo $page_now-1; ?>" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
             </a>
         </li>
@@ -100,7 +101,7 @@ if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是�
             if ($i == $page_now) {
                 echo '<li class="active"><a href="#">'.(string)$i.'</a></li>';
             } else {
-                echo '<li><a href="index.php?page='.$i.'">'.(string)$i.'</a></li>';
+                echo '<li><a href="manage.php?page='.$i.'">'.(string)$i.'</a></li>';
             }
         }
 
@@ -110,7 +111,7 @@ if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是�
         </li>
         <?php else: ?>
         <li>
-            <a href="index.php?page=<?php echo $page_now+1; ?>" aria-label="Next">
+            <a href="manage.php?page=<?php echo $page_now+1; ?>" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
             </a>
         </li>

@@ -2,8 +2,8 @@
 /**
  * @Author: prpr
  * @Date:   2016-02-04 13:53:55
- * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-08 22:06:43
+ * @Last Modified by:   printempw
+ * @Last Modified time: 2016-03-06 15:34:29
  */
 require "../includes/session.inc.php";
 
@@ -38,10 +38,24 @@ if (isset($_GET['action'])) {
             $json['errno'] = 0;
             $json['msg'] = "成功更改了 ".$_GET['uname']." 的密码。";
         } // Will raise exception if password invalid
-    } else if ($action == "delete") {
+    } else if ($action == "deleteAccount") {
         $user->unRegister();
         $json['errno'] = 0;
         $json['msg'] = "成功删除了该用户。";
+    } else if ($action == "deleteTexture") {
+        for ($i = 1; $i <= 3; $i++) {
+            switch($i) {
+                case 1: $type = "steve"; break;
+                case 2: $type = "alex"; break;
+                case 3: $type = "cape"; break;
+            }
+            if ($_POST[$type] == "true" && $user->getTexture($type) != "") {
+                Utils::remove("./textures/".$user->getTexture($type));
+                $user->db->update($user->uname, 'hash_'.$type, '');
+            }
+        }
+        $json['errno'] = 0;
+        $json['msg'] = "成功地删除了该用户的所选材质。";
     } else if ($action == "model") {
         if (isset($_POST['model']) && $_POST['model'] == 'slim' || $_POST['model'] == 'default') {
             $user->setPreference($_POST['model']);
