@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:56:40
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-05 21:48:36
+* @Last Modified time: 2016-03-12 21:42:31
 */
 
 'use strict';
@@ -27,11 +27,11 @@ function handleFiles(files, type) {
                 var img = new Image();
                 img.onload = function () {
                     if (type == "skin") {
-                        skin.src = img.src;
+                        MSP.changeSkin(img.src);
                         var model = $('#model-alex').prop('checked') ? "alex" : "steve";
                         change2dTexture(model, img.src);
                     } else {
-                        cape.src = img.src;
+                        MSP.changeCape(img.src);
                         change2dTexture('cape', img.src);
                     }
                 };
@@ -47,15 +47,32 @@ function handleFiles(files, type) {
     }
 };
 
+function init3dCanvas() {
+    if ($(window).width() < 800) {
+        var canvas = MSP.get3dSkinCanvas($('#skinpreview').width(), $('#skinpreview').width());
+        $("#skinpreview").append($(canvas).prop("id", "canvas3d"));
+    } else {
+        var canvas = MSP.get3dSkinCanvas(400, 400);
+        $("#skinpreview").append($(canvas).prop("id", "canvas3d"));
+    }
+}
+$(document).ready(function(){
+    init3dCanvas();
+    showMsg("alert-info", "提示：3D 皮肤预览目前不支持双层皮肤，但是皮肤站本身是支持的，"+
+                            "所以不要在意变得奇怪的预览（笑）直接上传即可。");
+});
+// Auto resize canvas to fit responsive design
+$(window).resize(init3dCanvas);
+
 // Change 3D preview status
-var run = false, stop = false;
 $("[title='Movements']").click(function(){
-    stop = !stop;
-    speed = stop ? 0 : 1;
+    MSP.setStatus("movements", !MSP.getStatus("movements"));
 });
 $("[title='Running']").click(function(){
-    run = !run;
-    speed = run ? 4 : 1;
+    MSP.setStatus("running", !MSP.getStatus("running"));
+});
+$("[title='Rotation']").click(function(){
+    MSP.setStatus("rotation", !MSP.getStatus("rotation"));
 });
 
 $('#model-alex').on('change', function() {
@@ -91,10 +108,7 @@ function show3dPreview() {
         preview_type = "3d";
     }
     if (preview_type == "3d") {
-        var canvas3d = renderer.domElement;
-        canvas3d.setAttribute('id', 'canvas3d');
-        canvas3d.style = '';
-        container.appendChild(canvas3d);
+        init3dCanvas();
         $('#preview-2d').hide();
         $('.operations').show();
         $('#preview').html('2D 皮肤预览').attr('href', 'javascript:show2dPreview();');
