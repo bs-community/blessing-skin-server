@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-12 21:03:32
+ * @Last Modified time: 2016-03-12 21:15:22
  *
  * Blessing Skin Server Installer
  */
@@ -56,6 +56,7 @@ if ($conn->connect_error): ?>
 if (Database::checkTableExist($conn)): ?>
 <h1>已安装过</h1>
 <p>Blessing Skin Server 看起来已经安装妥当。如果想重新安装，请删除数据库中的旧数据表。</p>
+<p class="step"><a href="../index.php" class="button button-large">返回首页</a></p>
 <?php die();
 endif;
 
