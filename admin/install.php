@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-05 19:22:44
+ * @Last Modified time: 2016-03-12 16:44:47
  *
  * Create tables automatically
  */
@@ -15,7 +15,7 @@ header('Content-type: text/html; charset=utf-8');
 echo "<style>body { font-family: Courier, 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif; }</style>";
 
 if (!file_exists("./install.lock")) {
-	$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWD, DB_NAME);
+	$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWD, DB_NAME, DB_PORT);
 
 	echo "<h2>Blessing Skin Server 安装程序</h2>";
 

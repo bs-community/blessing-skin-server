@@ -8,6 +8,9 @@ define('DB_USER', 'root');
 /* MySQL 连接密码 */
 define('DB_PASSWD', 'root');
 
+/* MySQL 端口，默认 3306 */
+define('DB_PORT', 3306);
+
 /* MySQL 主机 */
 define('DB_HOST', 'localhost');
 

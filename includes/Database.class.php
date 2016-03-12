@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 21:59:06
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-06 13:41:24
+ * @Last Modified time: 2016-03-12 16:43:53
  */
 
 class Database
@@ -15,7 +15,7 @@ class Database
     }
 
     public static function checkConfig() {
-        $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWD, DB_NAME);
+        $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWD, DB_NAME, DB_PORT);
         if ($conn->connect_error) {
             Utils::raise(-1, "Can not connect to mysql, check if database info correct in config.php. ".
                                 $conn->connect_error);
