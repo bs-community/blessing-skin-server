@@ -2,8 +2,8 @@
 /**
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
- * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-10 21:00:40
+ * @Last Modified by:   printempw
+ * @Last Modified time: 2016-03-12 16:34:14
  *
  * - login, register, logout
  * - upload, change, delete
@@ -146,15 +146,17 @@ function checkFile() {
         $json['msg'] = "什么文件都没有诶？";
         return false;
     }
+
     /**
      * Check for skin_file
      */
-    if ((Utils::getValue('skin_file', $_FILES)["type"] == "image/png") ||
-        (Utils::getValue('skin_file', $_FILES)["type"] == "image/x-png")) {
+    if (isset($_FILES['skin_file']) && ($_FILES['skin_file']['type'] == "image/png" ||
+                                            $_FILES['skin_file']['type'] == "image/x-png"))
+    {
         // if error occured while uploading file
-        if (Utils::getValue('skin_file', $_FILES)["error"] > 0) {
+        if (isset($_FILES['skin_file']) && $_FILES['skin_file']["error"] > 0) {
             $json['errno'] = 1;
-            $json['msg'] = Utils::getValue('skin_file', $_FILES)["error"];
+            $json['msg'] = $_FILES['skin_file']["error"];
             return false;
         }
     } else {
@@ -171,12 +173,13 @@ function checkFile() {
     /**
      * Check for cape_file
      */
-    if ((Utils::getValue('cape_file', $_FILES)["type"] == "image/png") ||
-        (Utils::getValue('cape_file', $_FILES)["type"] == "image/x-png")) {
+    if (isset($_FILES['cape_file']) && ($_FILES['cape_file']['type'] == "image/png" ||
+                                            $_FILES['cape_file']['type'] == "image/x-png"))
+    {
         // if error occured while uploading file
-        if (Utils::getValue('cape_file', $_FILES)["error"] > 0) {
+        if (isset($_FILES['cape_file']) && $_FILES['cape_file']["error"] > 0) {
             $json['errno'] = 1;
-            $json['msg'] = Utils::getValue('cape_file', $_FILES)["error"];
+            $json['msg'] = $_FILES['cape_file']["error"];
             return false;
         }
     } else {
