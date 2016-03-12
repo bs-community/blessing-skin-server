@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 21:59:06
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-12 18:42:21
+ * @Last Modified time: 2016-03-12 20:55:08
  */
 
 class Database
@@ -18,17 +18,15 @@ class Database
         if (!DEBUG_MODE) error_reporting(0);
         $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWD, DB_NAME, DB_PORT);
         if ($conn->connect_error) {
-            Utils::showErrorPage(-1, "Can not connect to mysql, check if database info correct in config.php. ".
-                                        $conn->connect_error);
+            Utils::showErrorPage($conn->connect_errno,
+                "无法连接至 MySQL 服务器。请确认 config.php 中的配置是否正确：".$conn->connect_error);
         }
         if (!self::checkTableExist($conn)) {
-            Utils::showErrorPage(-1, "Looks like that there is no `users` table in your database. ".
-                                        "Please run `/admin/install.php` first.");
+            Utils::showErrorPage(-1, "数据库中不存在 users 表。请先运行 /admin/install.php 进行安装。");
         }
         $dir = dirname(dirname(__FILE__));
         if (!is_dir("$dir/textures/")) {
-            Utils::showErrorPage(-1, "No `textures` directory exists. Please run `/admin/install.php` ".
-                                        "or put one manually.");
+            Utils::showErrorPage(-1, "textures 文件夹不存在。请先运行 /admin/install.php 进行安装，或者手动放置一个。");
         }
         return $conn;
     }
