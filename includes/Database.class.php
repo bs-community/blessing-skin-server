@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 21:59:06
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-12 16:43:53
+ * @Last Modified time: 2016-03-12 18:15:55
  */
 
 class Database
@@ -15,19 +15,20 @@ class Database
     }
 
     public static function checkConfig() {
+        error_reporting(0);
         $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWD, DB_NAME, DB_PORT);
         if ($conn->connect_error) {
-            Utils::raise(-1, "Can not connect to mysql, check if database info correct in config.php. ".
-                                $conn->connect_error);
+            Utils::showErrorPage(-1, "Can not connect to mysql, check if database info correct in config.php. ".
+                                        $conn->connect_error);
         }
         if (!self::checkTableExist($conn)) {
-            Utils::raise(-1, "Looks like that there is no `users` table in your database. ".
-                               "Please run `/admin/install.php` first.");
+            Utils::showErrorPage(-1, "Looks like that there is no `users` table in your database. ".
+                                        "Please run `/admin/install.php` first.");
         }
         $dir = dirname(dirname(__FILE__));
         if (!is_dir("$dir/textures/")) {
-            Utils::raise(-1, "No `textures` directory exists. Please run `/admin/install.php` ".
-                               "or put one manually.");
+            Utils::showErrorPage(-1, "No `textures` directory exists. Please run `/admin/install.php` ".
+                                        "or put one manually.");
         }
         return $conn;
     }

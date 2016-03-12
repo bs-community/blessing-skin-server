@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-06 15:44:32
+ * @Last Modified time: 2016-03-12 18:00:02
  */
 
 class Utils
@@ -20,6 +20,12 @@ class Utils
         $exception['msg'] = $msg;
         header('Content-type: application/json; charset=utf-8');
         die(json_encode($exception));
+    }
+
+    public static function showErrorPage($errno = -1, $msg = "Error occured.") {
+        $dir = dirname(dirname(__FILE__));
+        require "$dir/includes/error.tpl.php";
+        die();
     }
 
     /**

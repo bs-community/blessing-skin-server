@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-06 15:27:00
+ * @Last Modified time: 2016-03-12 18:33:34
  */
 
 class User
@@ -114,11 +114,11 @@ class User
                 return Utils::fread($filename);
             } else {
                 header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
-                Utils::raise(-1, 'Texture no longer exists.');
+                Utils::showErrorPage(404, '请求的贴图已被删除。');
             }
         } else {
             header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
-            Utils::raise(-1, 'No available textures.');
+            Utils::showErrorPage(404, '该用户尚未上传请求的贴图类型。');
         }
     }
 
@@ -167,7 +167,7 @@ class User
                 $json['skins'][$sec_model] = $this->getTexture($sec_model == "default" ? "steve" : "alex");
                 $json['cape'] = $this->getTexture('cape');
             } else {
-                Utils::raise(-1, '配置文件错误：不支持的 API_TYPE。');
+                Utils::showErrorPage(-1, '配置文件错误：不支持的 API_TYPE。');
             }
         } else {
             header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
