@@ -17,6 +17,9 @@ define('DB_HOST', 'localhost');
 /* 盐，用于 token 加密，修改为任意随机字符串 */
 define('SALT', '9tvsh55d*s');
 
+/* 调试模式，开启后将会显示所有用于错误提示 */
+define('DEBUG_MODE', false);
+
 /* 同一 IP 最大可注册账户数 */
 define('REGS_PER_IP', 2);
 
