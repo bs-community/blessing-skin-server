@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-12 18:46:22
+ * @Last Modified time: 2016-03-13 09:30:07
  */
 
 class User
@@ -161,9 +161,11 @@ class User
                     $json['last_update'] = $this->getLastModified();
                     $json['model_preference'] = [$model, $sec_model];
                 }
-                // Skins dict order by preference model
-                $json['skins'][$model] = $this->getTexture($model == "default" ? "steve" : "alex");
-                $json['skins'][$sec_model] = $this->getTexture($sec_model == "default" ? "steve" : "alex");
+                if ($this->getTexture('steve') || $this->getTexture('alex')) {
+                    // Skins dict order by preference model
+                    $json['skins'][$model] = $this->getTexture($model == "default" ? "steve" : "alex");
+                    $json['skins'][$sec_model] = $this->getTexture($sec_model == "default" ? "steve" : "alex");
+                }
                 $json['cape'] = $this->getTexture('cape');
             } else {
                 Utils::showErrorPage(-1, '配置文件错误：不支持的 API_TYPE。');

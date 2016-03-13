@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-02 20:56:42
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-12 18:46:34
+ * @Last Modified time: 2016-03-13 09:27:24
  *
  * All textures requests of legacy link will be handle here.
  */
@@ -20,7 +20,7 @@ if (isset($_GET['type']) && isset($_GET['uname'])) {
     // Cache friendly
     $if_modified_since = isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ?
                                 strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) : null;
-
+    // Image bin data
     if ($_GET['type'] == "skin" || $_GET['type'] == "cape") {
         $model_preferrnce = ($user->getPreference() == "default") ? "steve" : "alex";
         $model = (isset($_GET['model']) && $_GET['model'] == "") ? $model_preferrnce : $_GET['model'];
@@ -34,6 +34,7 @@ if (isset($_GET['type']) && isset($_GET['uname'])) {
                 echo $user->getBinaryTexture($model);
             }
         }
+    // JSON profile
     } else if ($_GET['type'] == "json") {
         if (isset($_GET['api'])) {
             echo $user->getJsonProfile(($_GET['api'] == 'csl') ? 0 : 1);
