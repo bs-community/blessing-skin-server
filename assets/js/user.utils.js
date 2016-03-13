@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-01-21 13:56:40
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-12 21:42:31
+* @Last Modified time: 2016-03-13 16:00:48
 */
 
 'use strict';
@@ -146,6 +146,9 @@ $("#upload").click(function(){
                 if (json.cape.errno != 0) {
                     showMsg('alert-danger', '上传披风的时候出错了：\n'+json.cape.msg);
                 }
+            },
+            error: function(json) {
+                showMsg('alert-danger', '出错啦，请联系作者！<br />详细信息：'+json.responseText);
             }
         });
     } else {

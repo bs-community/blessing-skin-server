@@ -1,8 +1,8 @@
 /*
 * @Author: prpr
 * @Date:   2016-01-21 13:55:44
-* @Last Modified by:   prpr
-* @Last Modified time: 2016-02-05 21:11:56
+* @Last Modified by:   printempw
+* @Last Modified time: 2016-03-13 16:00:20
 */
 
 'use strict';
@@ -20,12 +20,13 @@ var login = function() {
                 showMsg('alert-info', '登录中。。');
             },
             success: function(json) {
+                console.log(json);
                 if (json.errno == 0) {
                     docCookies.setItem('uname', uname, null, '/');
                     docCookies.setItem('token', json.token, null, '/');
                     if ($('#keep').prop('checked')) {
                         docCookies.setItem('uname', uname, 604800, '/');
-                        // 设置长效 token （7天）
+                        // 设置长效 cookie （7天）
                         docCookies.setItem('token', json.token, 604800, '/');
                     }
                     showAlert(json.msg);
@@ -34,6 +35,9 @@ var login = function() {
                     showAlert(json.msg);
                     showMsg('hide', '');
                 }
+            },
+            error: function(json) {
+                showMsg('alert-danger', '出错啦，请联系作者！<br />详细信息：'+json.responseText);
             }
         });
     }
@@ -49,7 +53,7 @@ var register = function() {
             dataType: "json",
             data: {'uname':uname, 'passwd':passwd},
             beforeSend: function() {
-                showMsg('alert-info', 'Registering...');
+                showMsg('alert-info', '注册中...');
             },
             success: function(json) {
                 if (json.errno == 0) {
@@ -65,6 +69,9 @@ var register = function() {
                     showAlert(json.msg);
                     showMsg('hide', "");
                 }
+            },
+            error: function(json) {
+                showMsg('alert-danger', '出错啦，请联系作者！<br />详细信息：'+json.responseText);
             }
         });
     }
