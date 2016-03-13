@@ -3,10 +3,10 @@
  * @Author: printempw
  * @Date:   2016-02-02 21:59:06
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-13 11:27:11
+ * @Last Modified time: 2016-03-13 14:21:10
  */
 
-class Database
+class Database implements EncryptInterface, SyncInterface
 {
     private $connection = null;
 
@@ -83,6 +83,15 @@ class Database
 
     public function delete($uname) {
         return $this->query("DELETE FROM ".DB_PREFIX."users WHERE username='$uname'");
+    }
+
+    public function encryptPassword($raw_passwd, $username="") {
+        $encrypt = md5($raw_passwd);
+        return $encrypt;
+    }
+
+    public function sync($username) {
+        return ($this->checkRecordExist('username', $username)) ? true : false;
     }
 
 }

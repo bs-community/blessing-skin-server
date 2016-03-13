@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-13 09:30:07
+ * @Last Modified time: 2016-03-13 14:45:04
  */
 
 class User
@@ -18,10 +18,12 @@ class User
 
     function __construct($uname) {
         $this->uname = Utils::convertString($uname);
-        $this->db = new Database();
-        if ($this->db->checkRecordExist('username', $this->uname)) {
+        $class_name = DATA_ADAPTER."Database";
+        $this->db = new $class_name();
+
+        if ($this->db->sync($this->uname)) {
             $this->passwd = $this->db->select('username', $this->uname)['password'];
-            $this->token = md5($this->uname . $this->passwd.SALT);
+            $this->token = md5($this->uname . $this->passwd . SALT);
             $this->is_registered = true;
             if ($this->db->select('username', $this->uname)['uid'] == 1) {
                 $this->is_admin = true;
@@ -30,7 +32,7 @@ class User
     }
 
     public function checkPasswd($raw_passwd) {
-        if (md5($raw_passwd) == $this->passwd) {
+        if ($this->db->encryptPassword($raw_passwd, $this->uname) == $this->passwd) {
             return true;
         } else {
             return false;
@@ -61,7 +63,7 @@ class User
     public function register($passwd, $ip) {
         return $this->db->insert(array(
                                         "uname" => $this->uname,
-                                        "passwd" => $passwd,
+                                        "passwd" => $this->db->encryptPassword($passwd),
                                         "ip" => $ip
                                     ));
     }

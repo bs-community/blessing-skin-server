@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-12 16:34:14
+ * @Last Modified time: 2016-03-13 14:03:58
  *
  * - login, register, logout
  * - upload, change, delete
@@ -67,7 +67,7 @@ if ($action == "login") {
                 // then reject the registration.
                 if ($user->db->getNumRows('ip', $ip) < REGS_PER_IP) {
                     // use once md5 to encrypt password
-                    if ($user->register(md5($_POST['passwd']), $ip)) {
+                    if ($user->register($_POST['passwd'], $ip)) {
                         $json['errno'] = 0;
                         $json['msg'] = "注册成功~";
                     } else {
