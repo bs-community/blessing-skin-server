@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-13 09:38:50
+ * @Last Modified time: 2016-03-13 11:26:50
  *
  * Blessing Skin Server Installer
  */
@@ -140,7 +140,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['pass
 	header('Location: install.php?step=2&msg=表单信息不完整。'); die();
 }
 
-$sql  =  "CREATE TABLE IF NOT EXISTS `users` (
+$sql  =  "CREATE TABLE IF NOT EXISTS `".DB_PREFIX."users` (
 		  `uid` int(11) NOT NULL AUTO_INCREMENT,
 		  `username` varchar(20) NOT NULL,
 		  `password` varchar(32) NOT NULL,
@@ -161,7 +161,7 @@ if (!$conn->query($sql)) { ?>
 }
 
 // Insert user
-$conn->query("INSERT INTO `users` (`uid`, `username`, `password`, `ip`, `preference`) VALUES
+$conn->query("INSERT INTO `".DB_PREFIX."users` (`uid`, `username`, `password`, `ip`, `preference`) VALUES
 								  (1, '".$username."', '".md5($_POST['password'])."', '127.0.0.1', 'default')");
 
 if (!is_dir("../textures/")) {

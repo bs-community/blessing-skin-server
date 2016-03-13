@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 21:59:06
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-12 20:55:08
+ * @Last Modified time: 2016-03-13 11:27:11
  */
 
 class Database
@@ -22,7 +22,7 @@ class Database
                 "无法连接至 MySQL 服务器。请确认 config.php 中的配置是否正确：".$conn->connect_error);
         }
         if (!self::checkTableExist($conn)) {
-            Utils::showErrorPage(-1, "数据库中不存在 users 表。请先运行 /admin/install.php 进行安装。");
+            Utils::showErrorPage(-1, "数据库中不存在 ".DB_PREFIX."users 表。请先运行 /admin/install.php 进行安装。");
         }
         $dir = dirname(dirname(__FILE__));
         if (!is_dir("$dir/textures/")) {
@@ -33,7 +33,7 @@ class Database
 
     public static function checkTableExist($conn) {
         $sql = "SELECT table_name FROM
-                 `INFORMATION_SCHEMA`.`TABLES` WHERE table_name ='users'
+                 `INFORMATION_SCHEMA`.`TABLES` WHERE table_name ='".DB_PREFIX."users'
                  AND TABLE_SCHEMA='".DB_NAME."'";
         return ($conn->query($sql)->num_rows != 0) ? true : false;
     }
@@ -51,16 +51,16 @@ class Database
     }
 
     public function select($key, $value) {
-        return $this->fetchArray("SELECT * FROM users WHERE $key='$value'");
+        return $this->fetchArray("SELECT * FROM ".DB_PREFIX."users WHERE $key='$value'");
     }
 
     public function getNumRows($key, $value) {
-        $sql = "SELECT * FROM users WHERE $key='$value'";
+        $sql = "SELECT * FROM ".DB_PREFIX."users WHERE $key='$value'";
         return $this->query($sql)->num_rows;
     }
 
     public function getRecordNum() {
-        $sql = "SELECT * FROM users WHERE 1";
+        $sql = "SELECT * FROM ".DB_PREFIX."users WHERE 1";
         return $this->query($sql)->num_rows;
     }
 
@@ -72,17 +72,17 @@ class Database
         $uname  = $array['uname'];
         $passwd = $array['passwd'];
         $ip = $array['ip'];
-        $sql = "INSERT INTO users (username, password, ip, preference)
-                             VALUES ('$uname', '$passwd', '$ip', 'default')";
+        $sql = "INSERT INTO ".DB_PREFIX."users (username, password, ip, preference)
+                                            VALUES ('$uname', '$passwd', '$ip', 'default')";
         return $this->query($sql);
     }
 
     public function update($uname, $key, $value) {
-        return $this->query("UPDATE users SET `$key`='$value' WHERE username='$uname'");
+        return $this->query("UPDATE ".DB_PREFIX."users SET `$key`='$value' WHERE username='$uname'");
     }
 
     public function delete($uname) {
-        return $this->query("DELETE from users WHERE username='$uname'");
+        return $this->query("DELETE FROM ".DB_PREFIX."users WHERE username='$uname'");
     }
 
 }
