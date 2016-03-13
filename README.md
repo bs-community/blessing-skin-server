@@ -10,6 +10,7 @@
 - 支持 [UniSkinAPI](https://github.com/RecursiveG/UniSkinServer/blob/master/doc/UniSkinAPI_zh-CN.md)
 - 支持 CustomSkinLoader API
 - 同时支持旧版样式链接
+- 支持与 Authme、CrazyLogin、Discuz 等程序进行数据对接
 
 环境要求：
 -----------
