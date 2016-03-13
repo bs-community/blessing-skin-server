@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-13 09:06:08
+ * @Last Modified time: 2016-03-13 09:38:50
  *
  * Blessing Skin Server Installer
  */
@@ -56,8 +56,8 @@ $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWD, DB_NAME, DB_PORT);
 if ($conn->connect_error): ?>
 <h1>MySQL 连接错误</h1>
 <p>无法连接至 MySQL 服务器，确定你在 config.php 填写的数据库信息正确吗？</p>
-<p><?php $conn->connect_error; ?></p>
-<?php endif;
+<p>详细信息：<?php echo $conn->connect_error; ?></p>
+<?php die(); endif;
 
 if (Database::checkTableExist($conn)): ?>
 <h1>已安装过</h1>
