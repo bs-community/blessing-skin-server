@@ -58,6 +58,15 @@ rewrite ^/subdir/([^/]*).json$ /subdir/get.php?type=json&uname=$1 last;
 
 上传完皮肤后，你就可以访问 `http://example.com/skin/username.png` 得到你的首选模型皮肤啦。 披风图片在这里：`http://example.com/cape/username.png` 。你还可以访问 `http://example.com/skin/username-(alex|steve).png` 来得到用户的 Alex/Steve 模型的皮肤文件（用户没上传则返回空）。
 
+数据对接：
+------------
+
+Blessing Skin Server 支持与 Authme、CrazyLogin、Discuz 等程序进行数据对接，只需在 `config.php` 中修改 `DATA_ADAPTER` 为相应值即可。
+
+注意，`config.php` 中填写的数据库连接信息必须与被对接的程序的连接信息相同（即同一个数据库）。
+
+如需适配其他程序，继承 `Database` 类并实现 `EncryptInterface` 与 `SyncInterface` 两个接口即可。
+
 客户端配置：
 ------------
 
@@ -170,16 +179,6 @@ Cape: http://example.com/cape/%s.png
 
 常见问题：
 ------------
-
-#### 卡在上传中？
-
-按 F12 开启开发者工具（Chrome, Firefox 等浏览器），进入 network/网络 选项卡
-
-**在开启开发者工具的情况下，再按一次上传**
-
-把 network 的内容拉到最底，应该会有一个 `ajax.php?action=upload` 的请求
-
-点进去，选择 response 选项卡，就可以看到报错信息，自己排错（往下看），或者带着报错联系我（邮件、论坛私信）
 
 #### 访问 `example.com/skin/xxx.png ` 404?
 
