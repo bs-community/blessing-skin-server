@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-12 21:15:22
+ * @Last Modified time: 2016-03-13 09:06:08
  *
  * Blessing Skin Server Installer
  */
@@ -45,6 +45,12 @@ $step = isset($_GET['step']) ? $_GET['step'] : 1;
 <p id="logo"><a href="https://github.com/printempw/blessing-skin-server" tabindex="-1">Blessing Skin Server</a></p>
 <?php
 
+// if php version < 5.4
+if (strnatcasecmp(phpversion(), '5.4') < 0): ?>
+<h1>PHP 版本过低</h1>
+<p>由于使用了一些新特性，Blessing Skin Server 需要 PHP 版本 >= 5.4。您当前的 PHP 版本为 <?php echo phpversion(); ?></p>
+<?php die(); endif;
+
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWD, DB_NAME, DB_PORT);
 
 if ($conn->connect_error): ?>
@@ -57,8 +63,7 @@ if (Database::checkTableExist($conn)): ?>
 <h1>已安装过</h1>
 <p>Blessing Skin Server 看起来已经安装妥当。如果想重新安装，请删除数据库中的旧数据表。</p>
 <p class="step"><a href="../index.php" class="button button-large">返回首页</a></p>
-<?php die();
-endif;
+<?php die(); endif;
 
 /*
  * Stepped installation
