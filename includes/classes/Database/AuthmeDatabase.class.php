@@ -3,8 +3,12 @@
  * @Author: printempw
  * @Date:   2016-03-13 11:59:32
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 16:55:57
+ * @Last Modified time: 2016-03-18 17:33:27
  */
+
+namespace Database;
+
+use Database\AdaptedDatabase;
 
 class AuthmeDatabase extends AdaptedDatabase
 {

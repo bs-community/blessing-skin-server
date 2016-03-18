@@ -3,8 +3,15 @@
  * @Author: printempw
  * @Date:   2016-02-02 21:59:06
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 14:34:09
+ * @Last Modified time: 2016-03-18 17:37:01
  */
+
+namespace Database;
+
+use Database\EncryptInterface;
+use Database\SyncInterface;
+use Utils;
+use Mysqli;
 
 class Database implements EncryptInterface, SyncInterface
 {
@@ -24,8 +31,7 @@ class Database implements EncryptInterface, SyncInterface
         if (!self::checkTableExist($conn)) {
 
         }
-        $dir = dirname(dirname(__FILE__));
-        if (!is_dir("$dir/textures/")) {
+        if (!is_dir(BASE_DIR."/textures/")) {
             Utils::showErrorPage(-1, "textures 文件夹不存在。请先运行 /admin/install.php 进行安装，或者手动放置一个。");
         }
         return $conn;

@@ -3,12 +3,13 @@
  * @Author: printempw
  * @Date:   2016-03-18 14:02:12
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 14:37:04
+ * @Last Modified time: 2016-03-18 17:24:13
  */
+
+use Database\Database;
 
 class Config
 {
-
     public static function get($key) {
         $conn = Database::checkConfig();
         $sql = "SELECT * FROM ".DB_PREFIX."options WHERE `option_name` = '$key'";

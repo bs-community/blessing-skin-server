@@ -2,12 +2,12 @@
 /**
  * @Author: prpr
  * @Date:   2016-02-06 23:18:49
- * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-06 23:27:48
+ * @Last Modified by:   printempw
+ * @Last Modified time: 2016-03-18 17:46:22
  */
 session_start();
 $dir = dirname(dirname(__FILE__));
-require "$dir/includes/autoload.inc.php";
+require "$dir/includes/autoloader.php";
 
 if(isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
     $_SESSION['uname'] = $_COOKIE['uname'];

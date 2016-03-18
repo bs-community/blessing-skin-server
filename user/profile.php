@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-03 16:12:45
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 14:44:12
+ * @Last Modified time: 2016-03-18 17:44:50
  */
 require "../includes/session.inc.php";
 ?>
@@ -33,7 +33,7 @@ require "../includes/session.inc.php";
             <li class="pure-menu-item">
                 <a class="pure-menu-link" href="index.php">皮肤上传</a>
             </li>
-            <?php include "../includes/welcome.inc.php"; ?>
+            <?php include "../includes/templates/welcome.tpl.php"; ?>
         </ul>
         <div class="home-menu-blur">
             <div class="home-menu-wrp">

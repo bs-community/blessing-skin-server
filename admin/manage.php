@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-06 14:19:20
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 14:44:23
+ * @Last Modified time: 2016-03-18 17:45:06
  */
 require "../includes/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
@@ -34,7 +34,7 @@ if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是�
                 <a class="pure-menu-link" href="index.php">仪表盘</a>
                 <a class="pure-menu-link" href="../user/profile.php">个人设置</a>
             </li>
-            <?php include "../includes/welcome.inc.php"; ?>
+            <?php include "../includes/templates/welcome.tpl.php"; ?>
         </ul>
         <div class="home-menu-blur">
             <div class="home-menu-wrp">

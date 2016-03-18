@@ -3,13 +3,13 @@
  * @Author: prpr
  * @Date:   2016-02-02 20:56:42
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 14:38:46
+ * @Last Modified time: 2016-03-18 17:47:37
  *
  * All textures requests of legacy link will be handle here.
  */
 
 $dir = dirname(__FILE__);
-require "$dir/includes/autoload.inc.php";
+require "$dir/includes/autoloader.php";
 
 if (isset($_GET['type']) && isset($_GET['uname'])) {
     $user = new User($_GET['uname']);

@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-03 14:39:50
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 14:44:17
+ * @Last Modified time: 2016-03-18 17:45:01
  */
 require "../includes/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
@@ -34,7 +34,7 @@ if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是�
                 <a class="pure-menu-link" href="manage.php">用户管理</a>
                 <a class="pure-menu-link" href="../user/profile.php">个人设置</a>
             </li>
-            <?php include "../includes/welcome.inc.php"; ?>
+            <?php include "../includes/templates/welcome.tpl.php"; ?>
         </ul>
         <div class="home-menu-blur">
             <div class="home-menu-wrp">
@@ -50,7 +50,7 @@ if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是�
         <div class="panel-body">
             <?php
             $page_now = isset($_GET['page']) ? $_GET['page'] : 1;
-            $db = new Database();
+            $db = new Database\Database();
             ?>
             <p>注册用户：<?php echo $db->getRecordNum();?></p>
             <p>上传材质总数：<?php echo count(scandir("../textures/"))-2;?></p>

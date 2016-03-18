@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-01-21 13:56:40
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 14:44:02
+ * @Last Modified time: 2016-03-18 17:44:39
  */
 require "../includes/session.inc.php";
 ?>
@@ -31,7 +31,7 @@ require "../includes/session.inc.php";
             <li class="pure-menu-item">
                 <a class="pure-menu-link" href="profile.php">个人设置</a>
             </li>
-            <?php include "../includes/welcome.inc.php"; ?>
+            <?php include "../includes/templates/welcome.tpl.php"; ?>
         </ul>
         <div class="home-menu-blur">
             <div class="home-menu-wrp">

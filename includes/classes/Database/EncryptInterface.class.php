@@ -3,8 +3,10 @@
  * @Author: printempw
  * @Date:   2016-03-13 11:53:47
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-13 14:31:29
+ * @Last Modified time: 2016-03-18 17:23:08
  */
+
+namespace Database;
 
 interface EncryptInterface
 {

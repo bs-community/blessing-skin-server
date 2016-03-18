@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-12 18:00:02
+ * @Last Modified time: 2016-03-18 17:40:51
  */
 
 class Utils
@@ -23,8 +23,7 @@ class Utils
     }
 
     public static function showErrorPage($errno = -1, $msg = "Error occured.") {
-        $dir = dirname(dirname(__FILE__));
-        require "$dir/includes/error.tpl.php";
+        require BASE_DIR."/includes/templates/error.tpl.php";
         die();
     }
 
@@ -35,10 +34,9 @@ class Utils
      * @return string $hash, sha256 hash of file
      */
     public static function upload($file) {
-        $dir = dirname(dirname(__FILE__));
-        move_uploaded_file($file["tmp_name"], "$dir/textures/tmp.png");
-        $hash = hash_file('sha256', "$dir/textures/tmp.png");
-        rename("$dir/textures/tmp.png", "$dir/textures/".$hash);
+        move_uploaded_file($file["tmp_name"], BASE_DIR."/textures/tmp.png");
+        $hash = hash_file('sha256', BASE_DIR."/textures/tmp.png");
+        rename(BASE_DIR."/textures/tmp.png", BASE_DIR."/textures/".$hash);
         return $hash;
     }
 

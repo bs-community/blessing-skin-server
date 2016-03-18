@@ -3,12 +3,12 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 15:02:24
+ * @Last Modified time: 2016-03-18 17:47:57
  */
 session_start();
 $dir = dirname(__FILE__);
-require "$dir/includes/autoload.inc.php";
-Database::checkConfig();
+require "$dir/includes/autoloader.php";
+Database\Database::checkConfig();
 
 // Auto load cookie value to session
 if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {

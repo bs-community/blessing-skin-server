@@ -3,8 +3,15 @@
  * @Author: printempw
  * @Date:   2016-03-18 16:53:55
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 16:55:30
+ * @Last Modified time: 2016-03-18 17:33:58
  */
+
+namespace Database;
+
+use Database\Database;
+use Database\EncryptInterface;
+use Database\SyncInterface;
+use Config;
 
 class AdaptedDatabase extends Database implements EncryptInterface, SyncInterface
 {

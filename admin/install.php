@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 16:34:32
+ * @Last Modified time: 2016-03-18 17:46:50
  *
  * Blessing Skin Server Installer
  */
@@ -29,7 +29,7 @@ if (false): ?>
 <?php endif;
 
 $dir = dirname(dirname(__FILE__));
-require "$dir/includes/autoload.inc.php";
+require "$dir/includes/autoloader.php";
 $step = isset($_GET['step']) ? $_GET['step'] : 1;
 ?>
 <!DOCTYPE html>
