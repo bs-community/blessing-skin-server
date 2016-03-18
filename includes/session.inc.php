@@ -3,11 +3,12 @@
  * @Author: prpr
  * @Date:   2016-02-06 23:18:49
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 17:46:22
+ * @Last Modified time: 2016-03-18 18:45:48
  */
 session_start();
 $dir = dirname(dirname(__FILE__));
 require "$dir/includes/autoloader.php";
+Database\Database::checkConfig();
 
 if(isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
     $_SESSION['uname'] = $_COOKIE['uname'];

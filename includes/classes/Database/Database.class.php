@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 21:59:06
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 18:43:11
+ * @Last Modified time: 2016-03-18 18:47:20
  */
 
 namespace Database;
@@ -29,7 +29,7 @@ class Database implements EncryptInterface, SyncInterface
         if ($conn->connect_error)
             Utils::showErrorPage($conn->connect_errno,
                 "无法连接至 MySQL 服务器。请确认 config.php 中的配置是否正确：".$conn->connect_error);
-        if (self::checkTableExist($conn))
+        if (!self::checkTableExist($conn))
             Utils::showErrorPage(-1, "数据库中不存在 ".DB_PREFIX."users 或 ".DB_PREFIX."options 表。请先运行 /admin/install.php 进行安装。");
         if (!is_dir(BASE_DIR."/textures/"))
             Utils::showErrorPage(-1, "textures 文件夹不存在。请先运行 /admin/install.php 进行安装，或者手动放置一个。");
