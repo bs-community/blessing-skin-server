@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-13 11:26:50
+ * @Last Modified time: 2016-03-18 15:33:10
  *
  * Blessing Skin Server Installer
  */
@@ -143,7 +143,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['pass
 $sql  =  "CREATE TABLE IF NOT EXISTS `".DB_PREFIX."users` (
 		  `uid` int(11) NOT NULL AUTO_INCREMENT,
 		  `username` varchar(20) NOT NULL,
-		  `password` varchar(32) NOT NULL,
+		  `password` varchar(255) NOT NULL,
 		  `ip` varchar(32) NOT NULL,
 		  `preference` varchar(10) NOT NULL,
 		  `hash_steve` varchar(64),
@@ -151,7 +151,7 @@ $sql  =  "CREATE TABLE IF NOT EXISTS `".DB_PREFIX."users` (
 		  `hash_cape` varchar(64),
 		  `last_modified` datetime,
 		  PRIMARY KEY (`uid`)
-		) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15;";
+		) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
 
 if (!$conn->query($sql)) { ?>
 	<h1>数据表创建失败</h1>
