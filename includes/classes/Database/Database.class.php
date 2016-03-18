@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 21:59:06
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 17:37:01
+ * @Last Modified time: 2016-03-18 17:53:47
  */
 
 namespace Database;
@@ -23,17 +23,16 @@ class Database implements EncryptInterface, SyncInterface
 
     public static function checkConfig() {
         if (!DEBUG_MODE) error_reporting(0);
+
         $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWD, DB_NAME, DB_PORT);
-        if ($conn->connect_error) {
+
+        if ($conn->connect_error)
             Utils::showErrorPage($conn->connect_errno,
                 "无法连接至 MySQL 服务器。请确认 config.php 中的配置是否正确：".$conn->connect_error);
-        }
-        if (!self::checkTableExist($conn)) {
-
-        }
-        if (!is_dir(BASE_DIR."/textures/")) {
+        self::checkTableExist($conn);
+        if (!is_dir(BASE_DIR."/textures/"))
             Utils::showErrorPage(-1, "textures 文件夹不存在。请先运行 /admin/install.php 进行安装，或者手动放置一个。");
-        }
+
         return $conn;
     }
 
