@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 17:46:50
+ * @Last Modified time: 2016-03-18 18:54:35
  *
  * Blessing Skin Server Installer
  */
@@ -59,7 +59,7 @@ if ($conn->connect_error): ?>
 <p>详细信息：<?php echo $conn->connect_error; ?></p>
 <?php die(); endif;
 
-if (Database::checkTableExist($conn)): ?>
+if (Database\Database::checkTableExist($conn)): ?>
 <h1>已安装过</h1>
 <p>Blessing Skin Server 看起来已经安装妥当。如果想重新安装，请删除数据库中的旧数据表。</p>
 <p class="step"><a href="../index.php" class="button button-large">返回首页</a></p>
@@ -90,10 +90,8 @@ case 2: ?>
                 <p>用户名只能含有数字、字母、下划线。这是唯一的管理员账号。</p>
             </td>
         </tr>
-            <tr class="form-field form-required">
-            <th scope="row">
-                <label for="password">密码</label>
-            </th>
+        <tr class="form-field form-required">
+            <th scope="row"><label for="password">密码</label></th>
             <td>
                 <input type="password" name="password" id="password" class="regular-text" autocomplete="off" />
                 <p>
@@ -104,11 +102,23 @@ case 2: ?>
             </td>
         </tr>
         <tr class="form-field form-required">
-            <th scope="row">
-                <label for="password2">重复密码(必填)</label>
-            </th>
+            <th scope="row"><label for="password2">重复密码(必填)</label></th>
             <td>
                 <input type="password" name="password2" id="password2" autocomplete="off" />
+                <p>
+                    <span class="description important"></span>
+                </p>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row"><label for="username">站点名称</label></th>
+            <td>
+                <input name="sitename" type="text" id="sitename" size="25" value="" />
+                <p>
+                    <span class="description important">
+                        将会显示在首页以及标题栏，最好用纯英文（字体原因）
+                    </span>
+                </p>
             </td>
         </tr>
     </table>
@@ -126,6 +136,7 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['pass
     }
     $username = $_POST['username'];
     $password = $_POST['password'];
+    $sitename = isset($_POST['sitename']) ? $_POST['sitename'] : "Blessing Skin Server";
     if (User::checkValidUname($username)) {
         if (strlen($password) > 16 || strlen($password) < 5) {
             header('Location: install.php?step=2&msg=无效的密码。密码长度应该大于 6 并小于 15。');
@@ -166,7 +177,7 @@ $sql2  =  "CREATE TABLE IF NOT EXISTS `$table_options` (
 // import options
 $sql3  =  "INSERT INTO `$table_options` (`option_id`, `option_name`, `option_value`) VALUES
             (1,  'site_url',           ''),
-            (2,  'site_name',          'Default'),
+            (2,  'site_name',          '$sitename'),
             (3,  'site_description',   'Minecraft 皮肤站'),
             (4,  'user_can_register',  '1'),
             (5,  'regs_per_ip',        '2'),
@@ -185,8 +196,8 @@ if (!$conn->query($sql1) || !$conn->query($sql2) || !$conn->query($sql3)) { ?>
 }
 
 // Insert user
-$conn->query("INSERT INTO `".DB_PREFIX."users` (`uid`, `username`, `password`, `ip`, `preference`) VALUES
-                                  (1, '".$username."', '".md5($_POST['password'])."', '127.0.0.1', 'default')");
+$conn->query("INSERT INTO `$table_users` (`uid`, `username`, `password`, `ip`, `preference`) VALUES
+    (1, '".$username."', '".md5($_POST['password'])."', '127.0.0.1', 'default')");
 
 if (!is_dir("../textures/")) {
     if (!mkdir("../textures/")): ?>
