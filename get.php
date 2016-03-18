@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-02-02 20:56:42
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-13 09:27:24
+ * @Last Modified time: 2016-03-18 14:38:46
  *
  * All textures requests of legacy link will be handle here.
  */
@@ -39,7 +39,7 @@ if (isset($_GET['type']) && isset($_GET['uname'])) {
         if (isset($_GET['api'])) {
             echo $user->getJsonProfile(($_GET['api'] == 'csl') ? 0 : 1);
         } else {
-            echo $user->getJsonProfile(API_TYPE);
+            echo $user->getJsonProfile(Config::get('api_type'));
         }
     } else {
         Utils::raise(1, 'Illegal parameters.');

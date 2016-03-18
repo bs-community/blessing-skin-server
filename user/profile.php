@@ -2,8 +2,8 @@
 /**
  * @Author: prpr
  * @Date:   2016-02-03 16:12:45
- * @Last Modified by:   prpr
- * @Last Modified time: 2016-02-10 20:54:13
+ * @Last Modified by:   printempw
+ * @Last Modified time: 2016-03-18 14:44:12
  */
 require "../includes/session.inc.php";
 ?>
@@ -12,7 +12,7 @@ require "../includes/session.inc.php";
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>个人设置 - <?php echo SITE_TITLE; ?></title>
+    <title>个人设置 - <?php echo Config::get('site_name'); ?></title>
     <link rel="shortcut icon" href="../assets/images/favicon.ico">
     <link rel="stylesheet" href="../libs/pure/pure-min.css">
     <link rel="stylesheet" href="../libs/pure/grids-responsive-min.css">
@@ -23,7 +23,9 @@ require "../includes/session.inc.php";
 <body>
 <div class="header">
     <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-        <a class="pure-menu-heading" href="../index.php"><?php echo SITE_TITLE; ?></a>
+        <a class="pure-menu-heading" href="<?php echo Config::get('site_url'); ?>">
+            <?php echo Config::get('site_name'); ?>
+        </a>
         <a href="javascript:;" title="Movements"><span class="glyphicon glyphicon-pause"></span></a>
         <a href="javascript:;" title="Running"><span class="glyphicon glyphicon-forward"></span></a>
         <a href="javascript:;" title="Rotation"><span class="glyphicon glyphicon-repeat"></span></a>

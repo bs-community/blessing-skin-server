@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-12 18:03:48
+ * @Last Modified time: 2016-03-18 15:02:24
  */
 session_start();
 $dir = dirname(__FILE__);
@@ -24,7 +24,7 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo SITE_TITLE; ?></title>
+    <title><?php echo Config::get('site_name'); ?></title>
     <link rel="shortcut icon" href="./assets/images/favicon.ico">
     <link rel="stylesheet" href="./libs/pure/pure-min.css">
     <link rel="stylesheet" href="./libs/pure/grids-responsive-min.css">
@@ -38,14 +38,16 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
 
 <div class="header">
     <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-        <a class="pure-menu-heading" href="#"><?php echo SITE_TITLE; ?></a>
+        <a class="pure-menu-heading" href="<?php echo Config::get('site_url'); ?>">
+            <?php echo Config::get('site_name'); ?>
+        </a>
         <ul class="pure-menu-list">
             <li class="pure-menu-item">
                 <?php if (isset($_SESSION['uname'])): ?>
                 <a href="./user/index.php" class="pure-menu-link">
                     欢迎，<?php echo $_SESSION['uname']; ?>！
                 </a>|<span class="pure-menu-link" id="logout">登出？</span>
-                <?php else: ?>
+                <?php elseif (Config::get('user_can_register') == 1): ?>
                 <button id="login" class="pure-button pure-button-primary">登录</button>
                 <?php endif; ?>
             </li>
@@ -60,15 +62,19 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
 
 <div class="container">
     <div class="splash">
-        <h1 class="splash-head"><?php echo SITE_TITLE; ?></h1>
+        <h1 class="splash-head"><?php echo Config::get('site_name'); ?></h1>
         <p class="splash-subhead">
-            开源的 PHP Minecraft 皮肤站
+            <?php echo Config::get('site_description'); ?>
         </p>
-        <?php if (!isset($_SESSION['uname'])) { ?>
         <p>
-            <button id="register" class="pure-button pure-button-primary">现在注册</button>
+        <?php if (!isset($_SESSION['uname'])):
+            if (Config::get('user_can_register') == 1): ?>
+            <button id="register" class="pure-button pure-button-primary">现在注册</button><?php
+            else: ?>
+            <button id="login" class="pure-button pure-button-primary">登录</button><?php
+            endif; ?>
+        <?php endif; ?>
         </p>
-        <?php } ?>
     </div>
 </div>
 
@@ -91,7 +97,7 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
     </div>
     <div id="msg" class="alert"></div>
 </div>
-
+<?php if (Config::get('user_can_register') == 1): ?>
 <div class="remodal" data-remodal-id="register-modal">
     <button data-remodal-action="close" class="remodal-close"></button>
     <h1 id="register-title">注册</h1>
@@ -104,6 +110,7 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
     </div>
     <div id="msg" class="alert alert-info">请使用您的 <b>Minecraft 用户名</b> 来注册</div>
 </div>
+<?php endif; ?>
 <!-- Contents above is for login/register dialog -->
 
 <script type="text/javascript" src="./libs/jquery/jquery-2.1.1.min.js"></script>

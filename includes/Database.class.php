@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 21:59:06
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-13 14:21:10
+ * @Last Modified time: 2016-03-18 14:34:09
  */
 
 class Database implements EncryptInterface, SyncInterface
@@ -22,7 +22,7 @@ class Database implements EncryptInterface, SyncInterface
                 "无法连接至 MySQL 服务器。请确认 config.php 中的配置是否正确：".$conn->connect_error);
         }
         if (!self::checkTableExist($conn)) {
-            Utils::showErrorPage(-1, "数据库中不存在 ".DB_PREFIX."users 表。请先运行 /admin/install.php 进行安装。");
+
         }
         $dir = dirname(dirname(__FILE__));
         if (!is_dir("$dir/textures/")) {
@@ -33,9 +33,11 @@ class Database implements EncryptInterface, SyncInterface
 
     public static function checkTableExist($conn) {
         $sql = "SELECT table_name FROM
-                 `INFORMATION_SCHEMA`.`TABLES` WHERE table_name ='".DB_PREFIX."users'
-                 AND TABLE_SCHEMA='".DB_NAME."'";
-        return ($conn->query($sql)->num_rows != 0) ? true : false;
+                `INFORMATION_SCHEMA`.`TABLES` WHERE (table_name ='".DB_PREFIX."users'
+                OR table_name ='".DB_PREFIX."options') AND TABLE_SCHEMA='".DB_NAME."'";
+
+        if ($conn->query($sql)->num_rows != 2)
+            Utils::showErrorPage(-1, "数据库中不存在 ".DB_PREFIX."users 或 ".DB_PREFIX."options 表。请先运行 /admin/install.php 进行安装。");
     }
 
     public function query($sql) {

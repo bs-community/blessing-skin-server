@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-06 14:19:20
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-06 15:32:20
+ * @Last Modified time: 2016-03-18 14:44:23
  */
 require "../includes/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
@@ -13,7 +13,7 @@ if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是�
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>用户管理 - <?php echo SITE_TITLE; ?></title>
+    <title>用户管理 - <?php echo Config::get('site_name'); ?></title>
     <link rel="shortcut icon" href="../assets/images/favicon.ico">
     <link rel="stylesheet" href="../libs/pure/pure-min.css">
     <link rel="stylesheet" href="../libs/pure/grids-responsive-min.css">
@@ -26,7 +26,9 @@ if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是�
 <body>
 <div class="header">
     <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-        <a class="pure-menu-heading" href="../index.php"><?php echo SITE_TITLE; ?></a>
+        <a class="pure-menu-heading" href="<?php echo Config::get('site_url'); ?>">
+            <?php echo Config::get('site_name'); ?>
+        </a>
         <ul class="pure-menu-list">
             <li class="pure-menu-item">
                 <a class="pure-menu-link" href="index.php">仪表盘</a>

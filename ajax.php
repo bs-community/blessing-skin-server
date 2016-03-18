@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-13 14:03:58
+ * @Last Modified time: 2016-03-18 14:50:43
  *
  * - login, register, logout
  * - upload, change, delete
@@ -55,29 +55,34 @@ if ($action == "login") {
 } else if ($action == "register") {
     if (checkPost('register')) {
         if (!$user->is_registered) {
-            if (User::checkValidPwd($_POST['passwd'])) {
-                if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-                    $ip = $_SERVER['HTTP_CLIENT_IP'];
-                } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-                    $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-                } else {
-                    $ip = $_SERVER['REMOTE_ADDR'];
-                }
-                // If amount of registered accounts of IP is more than allowed mounts,
-                // then reject the registration.
-                if ($user->db->getNumRows('ip', $ip) < REGS_PER_IP) {
-                    // use once md5 to encrypt password
-                    if ($user->register($_POST['passwd'], $ip)) {
-                        $json['errno'] = 0;
-                        $json['msg'] = "注册成功~";
+            if (Config::get('user_can_register') == 1) {
+                if (User::checkValidPwd($_POST['passwd'])) {
+                    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+                        $ip = $_SERVER['HTTP_CLIENT_IP'];
+                    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+                    } else {
+                        $ip = $_SERVER['REMOTE_ADDR'];
+                    }
+                    // If amount of registered accounts of IP is more than allowed mounts,
+                    // then reject the registration.
+                    if ($user->db->getNumRows('ip', $ip) < Config::get('regs_per_ip')) {
+                        // use once md5 to encrypt password
+                        if ($user->register($_POST['passwd'], $ip)) {
+                            $json['errno'] = 0;
+                            $json['msg'] = "注册成功~";
+                        } else {
+                            $json['errno'] = 1;
+                            $json['msg'] = "出现了奇怪的错误。。请联系作者 :(";
+                        }
                     } else {
                         $json['errno'] = 1;
-                        $json['msg'] = "出现了奇怪的错误。。请联系作者 :(";
+                        $json['msg'] = "你最多只能注册 ".Config::get('regs_per_ip')." 个账户哦";
                     }
-                } else {
-                    $json['errno'] = 1;
-                    $json['msg'] = "你最多只能注册 ".REGS_PER_IP." 个账户哦";
                 }
+            } else {
+                $json['errno'] = 1;
+                $json['msg'] = "残念。。本皮肤站已经关闭注册咯 QAQ";
             }
         } else {
             $json['errno'] = 1;

@@ -3,7 +3,7 @@
  * @Author: prpr
  * @Date:   2016-01-21 13:56:40
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-12 21:29:34
+ * @Last Modified time: 2016-03-18 14:44:02
  */
 require "../includes/session.inc.php";
 ?>
@@ -12,7 +12,7 @@ require "../includes/session.inc.php";
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>上传皮肤 - <?php echo SITE_TITLE; ?></title>
+    <title>上传皮肤 - <?php echo Config::get('site_name'); ?></title>
     <link rel="shortcut icon" href="../assets/images/favicon.ico">
     <link rel="stylesheet" href="../libs/pure/pure-min.css">
     <link rel="stylesheet" href="../libs/pure/grids-responsive-min.css">
@@ -24,7 +24,9 @@ require "../includes/session.inc.php";
 <body>
 <div class="header">
     <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-        <a class="pure-menu-heading" href="../index.php"><?php echo SITE_TITLE; ?></a>
+        <a class="pure-menu-heading" href="<?php echo Config::get('site_url'); ?>">
+            <?php echo Config::get('site_name'); ?>
+        </a>
         <ul class="pure-menu-list">
             <li class="pure-menu-item">
                 <a class="pure-menu-link" href="profile.php">个人设置</a>

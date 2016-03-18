@@ -3,12 +3,12 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-13 14:45:04
+ * @Last Modified time: 2016-03-18 16:45:00
  */
 
 class User
 {
-    public $uname  = "";
+    public $uname   = "";
     private $passwd = "";
     private $token  = "";
 
@@ -18,7 +18,7 @@ class User
 
     function __construct($uname) {
         $this->uname = Utils::convertString($uname);
-        $class_name = DATA_ADAPTER."Database";
+        $class_name = Config::get('data_adapter')."Database";
         $this->db = new $class_name();
 
         if ($this->db->sync($this->uname)) {
