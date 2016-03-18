@@ -1,8 +1,8 @@
 /*
 * @Author: prpr
 * @Date:   2016-01-21 20:07:47
-* @Last Modified by:   prpr
-* @Last Modified time: 2016-02-05 11:23:43
+* @Last Modified by:   printempw
+* @Last Modified time: 2016-03-18 13:29:50
 */
 .home-menu-blur {
     position: absolute;
@@ -75,7 +75,7 @@
     font-weight: 100;
     line-height: 1.5em;
     margin: 0.2em 0 0.5em;
-    font-family: Minecraft;
+    font-family: Minecraft, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
     text-shadow:
         0px 4px 3px rgba(0,0,0,0.4),
         0px 8px 13px rgba(0,0,0,0.1),

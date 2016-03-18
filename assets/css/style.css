@@ -1,8 +1,8 @@
 /*
 * @Author: prpr
 * @Date:   2016-01-21 07:57:38
-* @Last Modified by:   prpr
-* @Last Modified time: 2016-02-10 20:32:32
+* @Last Modified by:   printempw
+* @Last Modified time: 2016-03-18 13:30:15
 */
 
 @import url(https://fonts.googleapis.com/css?family=Ubuntu);
@@ -40,7 +40,7 @@ p {
     color: #5e5e5e;
     font-weight: 400;
     font-size: 18px;
-    font-family: Minecraft;
+    font-family: Minecraft, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
     text-transform: none;
 }
 .pure-menu-heading:hover {
