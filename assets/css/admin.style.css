@@ -2,11 +2,14 @@
 * @Author: printempw
 * @Date:   2016-02-04 16:47:54
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-19 12:00:28
+* @Last Modified time: 2016-03-19 12:06:51
 */
 
 @import url(https://cdn.moefont.com/fonts/css?family=Ubuntu);
 body, .ply-layer {
+    font-family: Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
+}
+.main-header .logo .logo-lg {
     font-family: Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
 }
 input {
