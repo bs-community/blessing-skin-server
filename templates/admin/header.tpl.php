@@ -90,9 +90,10 @@
                     <li class="header">管理面板</li><?php
                     $pages  = array(1 => "仪表盘",
                                     2 => "用户管理",
-                                    3 => "个性化",
-                                    4 => "站点配置");
-                    for ($i = 1; $i <= 4; $i++) {
+                                    3 => "添加用户",
+                                    4 => "个性化",
+                                    5 => "站点配置");
+                    for ($i = 1; $i <= 5; $i++) {
                         if ($data['page_title'] == $pages[$i]) {
                             echo '<li class="active">';
                         } else {
@@ -106,9 +107,12 @@
                                 echo '<a href="manage.php"><i class="fa fa-users"></i> <span>'.$pages[$i].'</span></a>';
                                 break;
                             case 3:
-                                echo '<a href="customize.php"><i class="fa fa-paint-brush"></i> <span>'.$pages[$i].'</span></a>';
+                                echo '<a href="adduser.php"><i class="fa fa-user-plus"></i> <span>'.$pages[$i].'</span></a>';
                                 break;
                             case 4:
+                                echo '<a href="customize.php"><i class="fa fa-paint-brush"></i> <span>'.$pages[$i].'</span></a>';
+                                break;
+                            case 5:
                                 echo '<a href="options.php"><i class="fa fa-cog"></i> <span>'.$pages[$i].'</span></a>';
                                 break;
                         }
