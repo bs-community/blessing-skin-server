@@ -18,8 +18,7 @@ define('DB_HOST', 'localhost');
  * 数据表前缀
  *
  * 如果您有在同一数据库内安装多个 Blessing Skin Server 的需求，
- * 或者需要与 Authme、Discuz 等程序对接时，请为每个皮肤站设置
- * 不同的数据表前缀。前缀名只能为数字、字母加下划线。
+ * 请为每个皮肤站设置不同的数据表前缀。前缀名只能为数字、字母加下划线。
  */
 define('DB_PREFIX', '');
 
