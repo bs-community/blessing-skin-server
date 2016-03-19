@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 15:33:43
+ * @Last Modified time: 2016-03-19 15:37:29
  */
 session_start();
 $dir = dirname(__FILE__);
@@ -78,6 +78,8 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
             else: ?>
             <button id="login" class="pure-button pure-button-primary">登录</button><?php
             endif; ?>
+        <?php else: ?>
+            <a href="./user/" class="pure-button pure-button-primary">用户中心</a>
         <?php endif; ?>
         </p>
     </div>
