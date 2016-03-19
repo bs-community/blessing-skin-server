@@ -1,108 +1,86 @@
 <?php
 /**
- * @Author: prpr
+ * @Author: printempw
  * @Date:   2016-02-03 16:12:45
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 17:44:50
+ * @Last Modified time: 2016-03-19 10:06:12
  */
 require "../includes/session.inc.php";
+$data['style'] = <<< 'EOT'
+<link rel="stylesheet" href="../assets/css/user.style.css">
+EOT;
+$data['user'] = $user;
+$data['page_title'] = "个人资料";
+View::show('header', $data);
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>个人设置 - <?php echo Config::get('site_name'); ?></title>
-    <link rel="shortcut icon" href="../assets/images/favicon.ico">
-    <link rel="stylesheet" href="../libs/pure/pure-min.css">
-    <link rel="stylesheet" href="../libs/pure/grids-responsive-min.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/profile.style.css">
-    <link rel="stylesheet" href="../libs/ply/ply.css">
-</head>
-<body>
-<div class="header">
-    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-        <a class="pure-menu-heading" href="<?php echo Config::get('site_url'); ?>">
-            <?php echo Config::get('site_name'); ?>
-        </a>
-        <a href="javascript:;" title="Movements"><span class="glyphicon glyphicon-pause"></span></a>
-        <a href="javascript:;" title="Running"><span class="glyphicon glyphicon-forward"></span></a>
-        <a href="javascript:;" title="Rotation"><span class="glyphicon glyphicon-repeat"></span></a>
-        <ul class="pure-menu-list">
-            <li class="pure-menu-item">
-                <a class="pure-menu-link" href="index.php">皮肤上传</a>
-            </li>
-            <?php include "../includes/templates/welcome.tpl.php"; ?>
-        </ul>
-        <div class="home-menu-blur">
-            <div class="home-menu-wrp">
-                <div class="home-menu-bg"></div>
-            </div>
-        </div>
-    </div>
-</div>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            个人资料
+            <small>User Profile</small>
+        </h1>
+    </section>
 
-<div class="container">
-    <div class="pure-g">
-        <div class="pure-u-1 pure-u-md-1-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">更改密码</div>
-                <div class="panel-body">
-                    <div class="pure-form pure-form-stacked">
-                        <input id="passwd" type="password" placeholder="旧的密码">
-                        <input id="new-passwd" type="password" placeholder="新密码">
-                        <input id="confirm-pwd" type="password" placeholder="确认密码">
-                        <button id="change" class="pure-button pure-button-primary">修改密码</button>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">更改密码</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="title">旧的密码</label>
+                            <input type="password" class="form-control" id="passwd" value="">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="server">新密码</label>
+                            <input type="password" class="form-control" id="new-passwd" value="">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="method">确认密码</label>
+                            <input type="password" class="form-control" id="confirm-pwd" value="">
+                        </div>
+                    </div><!-- /.box-body -->
+                    <div class="box-footer">
+                        <button id="change" class="btn btn-primary">修改密码</button>
                     </div>
-                </div>
+                </div><!-- /.box -->
             </div>
-        </div>
-        <div class="pure-u-1 pure-u-md-1-2">
-            <div class="panel panel-danger">
-                <div class="panel-heading">删除账号</div>
-                <div class="panel-body">
-                    <p>确定要删除你在 <?php echo SITE_TITLE; ?> 上的账号吗？</p>
-                    <p>此操作不可恢复！我们不提供任何备份，或者神奇的撤销按钮。</p>
-                    <p>我们警告过你了，确定要这样做吗？</p>
-                    <button id="delete" class="pure-button pure-button-error">删除我的账户</button>
+            <div class="col-md-6">
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">重置账号</h3>
+                        </div><!-- /.box-header -->
+                        <div class="box-body">
+                        <p>这将会删除所有你上传的内容。我们不提供任何备份，确定？</p>
+                        <button id="reset" class="btn btn-warning">重置我的账户</button>
+                    </div><!-- /.box-body -->
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="pure-g">
-        <div class="pure-u-1 pure-u-md-1-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">如何使用？</div>
-                <div class="panel-body">
-                    <p>Check it here: <a href="https://github.com/printempw/blessing-skin-server/blob/master/README.md">printempw/blessing-skin-server</a></p>
-                </div>
-            </div>
-        </div>
-        <div class="pure-u-1 pure-u-md-1-2">
-            <div class="panel panel-warning">
-                <div class="panel-heading">重置账号</div>
-                <div class="panel-body">
-                    <p>这将会删除所有你上传的内容。我们不提供任何备份，确定？</p>
-                    <button id="reset" class="pure-button pure-button-warning">重置我的账户</button>
-                </div>
-            </div>
-        <?php if ($user->is_admin): ?>
-            <div class="panel panel-default">
-                <div class="panel-heading">欢迎，尊敬的管理员</div>
-                <div class="panel-body">
-                    <p>在这里管理你的皮肤站： <a href="../admin/">仪表盘</a></p>
-                </div>
-            </div>
-        <?php endif; ?>
-        </div>
-    </div>
-</div>
 
-</body>
-<script type="text/javascript" src="../libs/jquery/jquery-2.1.1.min.js"></script>
-<script type="text/javascript" src="../libs/ply/ply.min.js"></script>
-<script type="text/javascript" src="../libs/cookie.js"></script>
-<script type="text/javascript" src="../assets/js/utils.js"></script>
+                <div class="box box-danger">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">删除账号</h3>
+                        </div><!-- /.box-header -->
+                        <div class="box-body">
+                        <p>确定要删除你在 <?php echo Config::get('site_name'); ?> 上的账号吗？</p>
+                        <p>此操作不可恢复！我们不提供任何备份，或者神奇的撤销按钮。</p>
+                        <p>我们警告过你了，确定要这样做吗？</p>
+                        <button id="delete" class="btn btn-danger">删除我的账户</button>
+                    </div><!-- /.box-body -->
+                </div>
+            </div>
+        </div>
+
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+<?php
+$data['script'] = <<< 'EOT'
 <script type="text/javascript" src="../assets/js/profile.utils.js"></script>
-</html>
+EOT;
+View::show('footer', $data); ?>

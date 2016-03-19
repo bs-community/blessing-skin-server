@@ -1,104 +1,25 @@
 /*
-* @Author: prpr
+* @Author: printempw
 * @Date:   2016-01-21 19:12:06
-* @Last Modified by:   prpr
-* @Last Modified time: 2016-02-10 15:41:59
+* @Last Modified by:   printempw
+* @Last Modified time: 2016-03-19 10:08:38
 */
-
-.home-menu-blur {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -100;
-}
-.home-menu-wrp {
-    height: 100%;
-    background-color: rgba(255,255,255,0.4);
-}
-.home-menu-bg {
-    background-image: url("../images/bg_stone.png");
-    background-repeat: repeat;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    filter: blur(2px);
-        -webkit-filter: blur(2px);
-        -moz-filter: blur(2px);
-        -o-filter: blur(2px);
-        -ms-filter: blur(2px);
-    box-shadow: rgba(0,0,0,0.1) 0 1px 2px;
-}
-
-body {
-    color: #444;
-    background-image:
-        url("../images/bg_stone.png");
-    background-repeat: repeat;
-}
-
-/* Mobile phone */
-@media (max-width: 48em) {
-    .home-menu .pure-menu-selected a {
-        display: none;
-    }
-    /*.home-menu-bg {
-        background-size: inherit;
-        background-position-x: center;
-    }*/
-    .splash-head {
-        font-size: 200%;
-    }
-    .splash {
-        width: 100%;
-        height: 50%;
-    }
-    /*.splash-subhead {
-        font-size: 200%;
-    }*/
-}
 
 #canvas3d {
     margin: 0 auto;
     display: block;
 }
-
-.upload-container {
-	color: #333;
-	margin-top: 30%;
-	margin-right: 30%;
-	border: #989898 1px solid;
-	border-radius: 4px;
-	padding: 40px 40px 40px 40px;
-	background: rgba(255,255,255,.9);
-}
-.upload-title {
-	font-family: Minecraft;
-}
-button {
-	margin: 0 !important;
-}
-span {
-    padding: .5em .5em;
-    display: inline !important;
-}
-.alert {
-    margin: 20px 0 10px;
-}
-input[type=radio] {
-    margin: 20px 0 0;
-}
 .operations {
     display: inline;
     float: right;
 }
-.operations > span:hover {
+.operations > i {
+    padding: .5em .5em;
+    display: inline !important;
+}
+.operations > i:hover {
     color: #555;
     cursor: pointer;
-}
-.container {
-    position: initial !important;
 }
 #preview-2d > p {
     height: 64px;
@@ -108,4 +29,13 @@ input[type=radio] {
     float: right;
     max-height: 64px;
     width: 64px;
+}
+.box-title {
+    width: 100%;
+}
+.callout {
+    border-radius: 3px;
+    margin: 10px 0 0 0;
+    padding: 15px 30px 15px 15px;
+    border-left: 5px solid #eee;
 }

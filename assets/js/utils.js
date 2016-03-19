@@ -1,15 +1,18 @@
 /*
-* @Author: prpr
+* @Author: printempw
 * @Date:   2016-02-03 18:23:21
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-05 21:41:24
+* @Last Modified time: 2016-03-19 10:08:58
 */
 
 'use strict';
 
-
 function showMsg(type, msg) {
     $("[id=msg]").removeClass().addClass("alert").addClass(type).html(msg);
+}
+
+function showCallout(type, msg) {
+    $("[id=msg]").removeClass().addClass("callout").addClass(type).html(msg);
 }
 
 function showAlert(msg, callback, callback2) {

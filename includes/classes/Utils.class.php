@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 17:40:51
+ * @Last Modified time: 2016-03-19 09:52:51
  */
 
 class Utils
@@ -23,7 +23,7 @@ class Utils
     }
 
     public static function showErrorPage($errno = -1, $msg = "Error occured.") {
-        require BASE_DIR."/includes/templates/error.tpl.php";
+        require BASE_DIR."/templates/error.tpl.php";
         die();
     }
 

@@ -1,70 +1,56 @@
 <?php
 /**
- * @Author: prpr
+ * @Author: printempw
  * @Date:   2016-02-03 14:39:50
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 17:45:01
+ * @Last Modified time: 2016-03-19 10:08:11
  */
 require "../includes/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
+View::show('admin/header', array('page_title' => "仪表盘"));
+$db = new Database\Database();
 ?>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>仪表盘 - <?php echo Config::get('site_name'); ?></title>
-    <link rel="shortcut icon" href="../assets/images/favicon.ico">
-    <link rel="stylesheet" href="../libs/pure/pure-min.css">
-    <link rel="stylesheet" href="../libs/pure/grids-responsive-min.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
-    <link rel="stylesheet" href="../assets/css/profile.style.css">
-    <link rel="stylesheet" href="../assets/css/admin.style.css">
-    <link rel="stylesheet" href="../libs/ply/ply.css">
-</head>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            仪表盘
+            <small>Dashboard</small>
+        </h1>
+    </section>
 
-<body>
-<div class="header">
-    <div class="home-menu pure-menu pure-menu-horizontal pure-menu-fixed">
-        <a class="pure-menu-heading" href="<?php echo Config::get('site_url'); ?>">
-            <?php echo Config::get('site_name'); ?>
-        </a>
-        <ul class="pure-menu-list">
-            <li class="pure-menu-item">
-                <a class="pure-menu-link" href="manage.php">用户管理</a>
-                <a class="pure-menu-link" href="../user/profile.php">个人设置</a>
-            </li>
-            <?php include "../includes/templates/welcome.tpl.php"; ?>
-        </ul>
-        <div class="home-menu-blur">
-            <div class="home-menu-wrp">
-                <div class="home-menu-bg"></div>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="info-box">
+                    <span class="info-box-icon bg-aqua"><i class="fa fa-users"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">注册用户</span>
+                        <span class="info-box-number"><?php echo $db->getRecordNum();?></span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
+
+                <div class="info-box">
+                    <span class="info-box-icon bg-green"><i class="fa fa-files-o"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">上传材质总数</span>
+                        <span class="info-box-number"><?php echo count(scandir("../textures/"))-2;?></span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
+
+                <div class="info-box">
+                    <span class="info-box-icon bg-yellow"><i class="fa fa-hdd-o"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">占用空间大小</span>
+                        <span class="info-box-number"><?php echo floor(Utils::getDirSize("../textures/")/1024)."KB";?></span>
+                    </div><!-- /.info-box-content -->
+                </div><!-- /.info-box -->
             </div>
         </div>
-    </div>
-</div>
 
-<div class="container">
-    <div class="panel panel-default overview">
-        <div class="panel-heading">概览</div>
-        <div class="panel-body">
-            <?php
-            $page_now = isset($_GET['page']) ? $_GET['page'] : 1;
-            $db = new Database\Database();
-            ?>
-            <p>注册用户：<?php echo $db->getRecordNum();?></p>
-            <p>上传材质总数：<?php echo count(scandir("../textures/"))-2;?></p>
-            <p>占用空间大小：<?php echo floor(Utils::getDirSize("../textures/")/1024)."KB";?></p>
-        </div>
-    </div>
-</div>
-
-</body>
-<script type="text/javascript" src="../libs/jquery/jquery-2.1.1.min.js"></script>
-<script type="text/javascript" src="../libs/ply/ply.min.js"></script>
-<script type="text/javascript" src="../libs/cookie.js"></script>
-<script type="text/javascript" src="../assets/js/utils.js"></script>
-<script type="text/javascript" src="../assets/js/admin.utils.js"></script>
-</html>
-</body>
-</html>
+    </section><!-- /.content -->
+</div><!-- /.content-wrapper -->
+<?php
+View::show('footer'); ?>

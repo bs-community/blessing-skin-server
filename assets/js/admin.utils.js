@@ -1,8 +1,8 @@
 /*
-* @Author: prpr
+* @Author: printempw
 * @Date:   2016-02-04 16:48:42
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-06 15:23:40
+* @Last Modified time: 2016-03-19 10:08:43
 */
 
 'use strict';
@@ -23,7 +23,7 @@ function uploadTexture(uname, type) {
     var ply = new Ply({
         el: '<h2>为该用户上传新的 '+type+':</h2>'+
             '<input type="file" id="file" accept="image/png">'+
-            '<button id="upload" class="pure-button pure-button-primary fw">上传</button>',
+            '<button id="upload" class="btn btn-primary fw">上传</button>',
         effect: "fade",
         onaction: function(){
             var form_data = new FormData();
@@ -60,32 +60,34 @@ function deleteTexture(uname) {
             '<label><input id="alex" type="checkbox" checked="">Alex 模型</label>'+
             '<label><input id="cape" type="checkbox" checked="">披风</label>'+
             '<label style="margin: 6px 0 12px;"><input id="all" type="checkbox" checked="">全部</label>'+
-            '<button id="confirm" class="pure-button pure-button-primary fw">确定</button>',
+            '<button id="confirm" class="btn btn-primary fw">确定</button>',
         effect: "fade",
-        onaction: function() {
-            var steve   = $('#steve').prop('checked');
-            var alex    = $('#alex').prop('checked');
-            var cape    = $('#cape').prop('checked');
-            if ($('#all').prop('checked')) {
-                steve = alex = cape = true;
-            }
-            $.ajax({
-                type: "POST",
-                url: "admin_ajax.php?action=deleteTexture&uname="+uname,
-                dataType: "json",
-                data: {
-                    "steve" : steve,
-                    "alex"  : alex,
-                    "cape"  : cape
-                },
-                success: function(json) {
-                    if (json.errno == 0) {
-                        showAlert(json.msg);
-                    } else {
-                        showAlert(json.msg);
-                    }
+        onaction: function(ui) {
+            if (ui.state == true) {
+                var steve   = $('#steve').prop('checked');
+                var alex    = $('#alex').prop('checked');
+                var cape    = $('#cape').prop('checked');
+                if ($('#all').prop('checked')) {
+                    steve = alex = cape = true;
                 }
-            });
+                $.ajax({
+                    type: "POST",
+                    url: "admin_ajax.php?action=deleteTexture&uname="+uname,
+                    dataType: "json",
+                    data: {
+                        "steve" : steve,
+                        "alex"  : alex,
+                        "cape"  : cape
+                    },
+                    success: function(json) {
+                        if (json.errno == 0) {
+                            showAlert(json.msg);
+                        } else {
+                            showAlert(json.msg);
+                        }
+                    }
+                });
+            }
         },
     });
     ply.open();
