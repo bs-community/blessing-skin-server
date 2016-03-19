@@ -109,7 +109,7 @@
                         echo '</li>';
                     }
                     if ($data['user']->is_admin): ?>
-                    <li><a href="/admin"><i class="fa fa-cog"></i> <span>管理面板</span></a></li>
+                    <li><a href="../admin"><i class="fa fa-cog"></i> <span>管理面板</span></a></li>
                     <?php endif; ?>
                 </ul><!-- /.sidebar-menu -->
             </section>
