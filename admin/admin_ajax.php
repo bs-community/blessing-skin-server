@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-04 13:53:55
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 10:08:06
+ * @Last Modified time: 2016-03-19 15:13:55
  */
 require "../includes/session.inc.php";
 
@@ -16,7 +16,7 @@ if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是�
  */
 if (isset($_GET['action'])) {
     $action = $_GET['action'];
-    $user = new User($_GET['uname']);
+    $user = new User(isset($_GET['uname']) ? $_GET['uname'] : '');
 
     if ($action == "upload") {
         $type = isset($_GET['type']) ? $_GET['type'] : "skin";
@@ -61,6 +61,15 @@ if (isset($_GET['action'])) {
             $user->setPreference($_POST['model']);
             $json['errno'] = 0;
             $json['msg'] = "成功地将用户 ".$_GET['uname']." 的优先皮肤模型更改为 ".$_POST['model']." 。";
+        } else {
+            Utils::raise(1, '非法参数。');
+        }
+    } else if ($action == "color") {
+        if (isset($_POST['color_scheme'])) {
+            $color_scheme = str_replace('_', '-', $_POST['color_scheme']);
+            Config::set('color_scheme', $color_scheme);
+            $json['errno'] = 0;
+            $json['msg'] = "修改配色成功。";
         } else {
             Utils::raise(1, '非法参数。');
         }

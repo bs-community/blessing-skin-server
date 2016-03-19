@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 14:16:11
+ * @Last Modified time: 2016-03-19 15:20:18
  *
  * Blessing Skin Server Installer
  */
@@ -186,9 +186,10 @@ $sql3  =  "INSERT INTO `$table_options` (`option_id`, `option_name`, `option_val
             (7,  'announcement',       '这是默认的公告~'),
             (8,  'data_adapter',       ''),
             (9,  'data_table_name',    'authme for example'),
-            (10,  'data_column_uname',  'username'),
+            (10,  'data_column_uname', 'username'),
             (11, 'data_column_passwd', 'password'),
-            (12, 'data_column_ip',     'ip');";
+            (12, 'data_column_ip',     'ip'),
+            (12, 'color_scheme',       'skin-blue');";
 
 if (!$conn->query($sql1) || !$conn->query($sql2) || !$conn->query($sql3)) { ?>
     <h1>数据表创建失败</h1>

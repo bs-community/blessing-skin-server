@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="../libs/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../libs/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="../libs/AdminLTE/dist/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="../libs/AdminLTE/dist/css/skins/skin-blue.min.css">
+    <link rel="stylesheet" href="../libs/AdminLTE/dist/css/skins/<?php echo Config::get('color_scheme'); ?>.min.css">
     <link rel="stylesheet" href="../libs/ply/ply.css">
     <?php if (isset($data['style'])) echo $data['style']; ?>
 </head>
 
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition <?php echo Config::get('color_scheme'); ?> sidebar-mini">
     <div class="wrapper">
 
         <!-- Main Header -->
