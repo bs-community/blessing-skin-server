@@ -43,6 +43,8 @@ rewrite ^/(skin|cape)/([^/-]*)(|-)(|alex|steve).png$ /get.php?type=$1&model=$4&u
 # 以下是可选内容
 rewrite ^/(usm|csl)/([^/]*).json$ /get.php?type=json&uname=$2&api=$1 last;
 rewrite ^/(usm|csl)/textures/(.*)$ /textures/$2 last;
+# 用于获取皮肤头像
+rewrite ^/avatar/(|[0-9]*/)([^/-]*).png$ /get.php?type=avatar&uname=$2&size=$1 last;
 ```
 
 你可以使用可选的重写规则来同时支持 CustomSkinLoader API 和 UniSkinAPI。如何同时支持会在下面 Mod 配置中说明。

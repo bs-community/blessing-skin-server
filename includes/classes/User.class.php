@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 10:54:07
+ * @Last Modified time: 2016-03-19 19:01:11
  */
 
 use Database\Database;
@@ -121,7 +121,7 @@ class User
             }
         } else {
             header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
-            Utils::showErrorPage(404, '该用户尚未上传请求的贴图类型。');
+            Utils::showErrorPage(404, '该用户尚未上传请求的贴图类型 '.$type.'。');
         }
     }
 

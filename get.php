@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 20:56:42
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 10:06:25
+ * @Last Modified time: 2016-03-19 19:53:57
  *
  * All textures requests of legacy link will be handle here.
  */
@@ -41,6 +41,9 @@ if (isset($_GET['type']) && isset($_GET['uname'])) {
         } else {
             echo $user->getJsonProfile(Config::get('api_type'));
         }
+    } else if ($_GET['type'] == "avatar") {
+        $size = (isset($_GET['size']) && $_GET['size'] != "") ? (int)$_GET['size'] : 128;
+        Utils::getAvatarFromSkin($_GET['uname'], $size);
     } else {
         Utils::raise(1, 'Illegal parameters.');
     }
