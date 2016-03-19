@@ -2,9 +2,13 @@
 * @Author: printempw
 * @Date:   2016-01-21 19:12:06
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-19 10:08:38
+* @Last Modified time: 2016-03-19 11:42:00
 */
 
+@import url(https://cdn.moefont.com/fonts/css?family=Ubuntu);
+body {
+    font-family: Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
+}
 #canvas3d {
     margin: 0 auto;
     display: block;
