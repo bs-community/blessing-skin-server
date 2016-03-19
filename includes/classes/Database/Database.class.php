@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 21:59:06
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 18:47:20
+ * @Last Modified time: 2016-03-19 11:25:11
  */
 
 namespace Database;
@@ -33,7 +33,7 @@ class Database implements EncryptInterface, SyncInterface
             Utils::showErrorPage(-1, "数据库中不存在 ".DB_PREFIX."users 或 ".DB_PREFIX."options 表。请先运行 /admin/install.php 进行安装。");
         if (!is_dir(BASE_DIR."/textures/"))
             Utils::showErrorPage(-1, "textures 文件夹不存在。请先运行 /admin/install.php 进行安装，或者手动放置一个。");
-
+        $conn->query("SET names 'utf8'");
         return $conn;
     }
 
