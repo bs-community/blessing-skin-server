@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-01-21 19:12:06
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-19 13:07:41
+* @Last Modified time: 2016-03-19 15:53:06
 */
 
 @import url(https://cdn.moefont.com/fonts/css?family=Ubuntu);
@@ -48,4 +48,8 @@ body, .ply-layer {
     margin: 10px 0 0 0;
     padding: 15px 30px 15px 15px;
     border-left: 5px solid #eee;
+}
+.model-label {
+    font-weight: 500;
+    font-size: 15px;
 }

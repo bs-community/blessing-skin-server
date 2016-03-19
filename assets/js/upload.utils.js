@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-03-18 21:58:09
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-19 10:03:32
+* @Last Modified time: 2016-03-19 16:12:11
 */
 
 'use strict';
@@ -46,4 +46,11 @@ $("#upload").click(function(){
     } else {
         showCallout('callout-warning', '你还没有选择任何文件哦');
     }
+});
+
+$(document).ready(function() {
+    $('input[type=radio]').iCheck({
+        radioClass: 'iradio_square-blue'
+    });
+    $('input[type=file]').fileinput({'showUpload':false, 'language': 'zh'});
 });

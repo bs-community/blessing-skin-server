@@ -3,11 +3,13 @@
  * @Author: printempw
  * @Date:   2016-03-18 21:41:21
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 10:00:57
+ * @Last Modified time: 2016-03-19 16:13:18
  */
 require "../includes/session.inc.php";
 $data['style'] = <<< 'EOT'
 <link rel="stylesheet" href="../assets/css/user.style.css">
+<link rel="stylesheet" href="../libs/iCheck/square/blue.css">
+<link rel="stylesheet" href="../libs/bootstrap-fileinput/css/fileinput.min.css">
 EOT;
 $data['user'] = $user;
 $data['page_title'] = "皮肤上传";
@@ -43,14 +45,14 @@ View::show('header', $data);
                         </div>
 
                         <input type="radio" id="model-steve" name="model" />
-                        <label for="model-steve">我的皮肤适合传统 Steve 皮肤模型</label><br />
+                        <label class="model-label" for="model-steve">我的皮肤适合传统 Steve 皮肤模型</label><br />
                         <input type="radio" id="model-alex" name="model" />
-                        <label data-toggle="tooltip" data-placement="bottom" title="提示：3D 预览暂时不支持 Alex 模型，预览可能会出现渲染错误。不要在意直接上传即可，游戏中显示是没有问题的。" for="model-alex">我的皮肤适合新版 Alex 皮肤模型</label><br />
+                        <label class="model-label" data-toggle="tooltip" data-placement="bottom" title="提示：3D 预览暂时不支持 Alex 模型，预览可能会出现渲染错误。不要在意直接上传即可，游戏中显示是没有问题的。" for="model-alex">我的皮肤适合新版 Alex 皮肤模型</label><br />
 
                         <div id="msg" class="callout callout-info hide"></div>
                     </div><!-- /.box-body -->
                     <div class="box-footer">
-                        <button id="upload" class="btn btn-primary">上传</button>
+                        <button id="upload" class="btn btn-primary">确认上传</button>
                     </div>
                 </div><!-- /.box -->
                 <div class="box box-default">
@@ -82,6 +84,9 @@ View::show('header', $data);
 </div><!-- /.content-wrapper -->
 <?php
 $data['script'] = <<< 'EOT'
+<script type="text/javascript" src="../libs/iCheck/icheck.min.js"></script>
+<script type="text/javascript" src="../libs/bootstrap-fileinput/js/fileinput.min.js"></script>
+<script type="text/javascript" src="../libs/bootstrap-fileinput/js/fileinput_locale_zh.js"></script>
 <script type="text/javascript" src="../assets/js/user.utils.js"></script>
 <script type="text/javascript" src="../assets/js/upload.utils.js"></script>
 EOT;
