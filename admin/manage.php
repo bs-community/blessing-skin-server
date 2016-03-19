@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-06 14:19:20
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 22:49:28
+ * @Last Modified time: 2016-03-19 11:54:58
  */
 require "../includes/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
@@ -59,7 +59,14 @@ $db = new Database\Database();
                             <td>
                                 <a href="javascript:deleteTexture('<?php echo $row['username'] ?>');" class="btn btn-warning btn-sm">删除材质</a>
                                 <a href="javascript:changePasswd('<?php echo $row['username'] ?>');" class="btn btn-default btn-sm">更改密码</a>
-                                <a href="javascript:deleteAccount('<?php echo $row['username'] ?>');" class="btn btn-danger btn-sm">删除用户</a>
+                                <a class="btn btn-danger btn-sm"
+                                   <?php if ($row['uid'] == 1)
+                                        echo 'disabled="disabled" data-toggle="tooltip" data-placement="bottom" title="少年，不要作死哦"';
+                                    else
+                                        echo 'href="javascript:deleteAccount(\''.$row['username'].'\');"';
+                                    ?>>
+                                    删除用户
+                                </a>
                             </td>
                         </tr>
                         <?php } ?>
