@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-19 14:34:21
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 15:31:15
+ * @Last Modified time: 2016-03-19 20:33:07
  */
 require "../includes/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
@@ -135,10 +135,11 @@ $db = new Database\Database();
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 <?php
-$data['script'] = <<< 'EOT'
+$color_scheme = Config::get('color_scheme');
+$data['script'] = <<< EOT
 <script type="text/javascript">
 // Skin switcher
-var current_skin = "skin-blue";
+var current_skin = "$color_scheme";
 $('#layout-skins-list [data-skin]').click(function(e) {
     e.preventDefault();
     var skin_name = $(this).data('skin');
