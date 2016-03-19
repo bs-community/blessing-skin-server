@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 16:50:27
+ * @Last Modified time: 2016-03-19 20:52:00
  *
  * Blessing Skin Server Installer
  */
@@ -186,7 +186,7 @@ $sql3  =  "INSERT INTO `$table_options` (`option_id`, `option_name`, `option_val
             (7,  'announcement',       '这是默认的公告~'),
             (8,  'data_adapter',       ''),
             (9,  'data_table_name',    'authme for example'),
-            (10,  'data_column_uname', 'username'),
+            (10, 'data_column_uname',  'username'),
             (11, 'data_column_passwd', 'password'),
             (12, 'data_column_ip',     'ip'),
             (13, 'color_scheme',       'skin-blue'),
