@@ -62,7 +62,9 @@ rewrite ^/subdir/([^/]*).json$ /subdir/get.php?type=json&uname=$1 last;
 数据对接：
 ------------
 
-Blessing Skin Server 支持与 Authme、CrazyLogin、Discuz 等程序进行数据对接，只需在 `config.php` 中修改 `DATA_ADAPTER` 为相应值即可。
+Blessing Skin Server 支持与 Authme、CrazyLogin、Discuz 等程序进行数据对接，只需在 `/admin/options.php` 中进行相应配置即可。
+
+如果在插件配置中修改过用户名或者密码的字段，请自行修改 `对接数据表用户名字段` 等信息。
 
 注意，`config.php` 中填写的数据库连接信息必须与被对接的程序的连接信息相同（即同一个数据库）。
 
