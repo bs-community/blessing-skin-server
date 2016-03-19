@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 10:16:40
+ * @Last Modified time: 2016-03-19 14:16:11
  *
  * Blessing Skin Server Installer
  */
@@ -58,6 +58,7 @@ if ($conn->connect_error): ?>
 <p>无法连接至 MySQL 服务器，确定你在 config.php 填写的数据库信息正确吗？</p>
 <p>详细信息：<?php echo $conn->connect_error; ?></p>
 <?php die(); endif;
+$conn->query("SET names 'utf8'");
 
 if (Database\Database::checkTableExist($conn)): ?>
 <h1>已安装过</h1>
