@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-01-21 19:12:06
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-19 12:07:02
+* @Last Modified time: 2016-03-19 13:07:41
 */
 
 @import url(https://cdn.moefont.com/fonts/css?family=Ubuntu);
@@ -11,6 +11,9 @@ body, .ply-layer {
 }
 .main-header .logo .logo-lg {
     font-family: Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
+}
+.box-body {
+    line-height: 1.8;
 }
 #canvas3d {
     margin: 0 auto;
