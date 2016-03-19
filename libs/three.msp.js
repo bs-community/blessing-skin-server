@@ -476,11 +476,16 @@ var MSP = (function (global, undefined) {
 
         /* 高清皮肤支持 */
         skincanvas.width = skin.width;
-        skincanvas.height = skin.height;
+        skincanvas.height = skin.width/2;
 
         skinc.clearRect(0, 0, 64, 32);
 
-        skinc.drawImage(skin, 0, 0);
+        if(skin.width==skin.height){
+            skinc.drawImage(skin, 0, 0, skin.width, skin.height/2, 0, 0, skin.width, skin.height/2);
+            skinc.drawImage(skin, 0, skin.height/2, skin.width, skin.height/4, 0, skin.height/4, skin.width, skin.height/2);
+        }else{
+            skinc.drawImage(skin, 0, 0);
+        }
 
         var imgdata = skinc.getImageData(0, 0, 64, 32);
         var pixels = imgdata.data;
