@@ -11,6 +11,8 @@
 - 支持 CustomSkinLoader API
 - 同时支持旧版样式链接
 - 支持与 Authme、CrazyLogin、Discuz 等程序进行数据对接
+- 多种后台配色~
+- 可以获取由用户皮肤生成的头像（example.com/avatar/{{size}}/username.png）
 
 环境要求：
 -----------
