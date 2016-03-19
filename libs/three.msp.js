@@ -473,21 +473,24 @@ var MSP = (function (global, undefined) {
     var skin = new Image();
 
     skin.onload = function () {
-
         /* 高清皮肤支持 */
         skincanvas.width = skin.width;
         skincanvas.height = skin.width/2;
 
-        skinc.clearRect(0, 0, 64, 32);
+        skinc.clearRect(0, 0, skincanvas.width, skincanvas.height);
 
+        //DEBUG
+        //console.log(skin.width+" "+skin.height);
+        
         if(skin.width==skin.height){
-            skinc.drawImage(skin, 0, 0, skin.width, skin.height/2, 0, 0, skin.width, skin.height/2);
-            skinc.drawImage(skin, 0, skin.height/2, skin.width, skin.height/4, 0, skin.height/4, skin.width, skin.height/2);
+            var ratio=skin.width/64;
+            skinc.drawImage(skin, 0 *ratio, 0 *ratio, 64*ratio, 32*ratio, 0 *ratio, 0 *ratio, 64*ratio, 32*ratio);
+            skinc.drawImage(skin, 0 *ratio, 32*ratio, 64*ratio, 16*ratio, 0 *ratio, 16*ratio, 64*ratio, 16*ratio);
         }else{
             skinc.drawImage(skin, 0, 0);
         }
 
-        var imgdata = skinc.getImageData(0, 0, 64, 32);
+        var imgdata = skinc.getImageData(0, 0, skincanvas.width, skincanvas.height);
         var pixels = imgdata.data;
 
 
