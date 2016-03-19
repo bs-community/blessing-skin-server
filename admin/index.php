@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-03 14:39:50
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 10:08:11
+ * @Last Modified time: 2016-03-19 12:53:18
  */
 require "../includes/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
@@ -36,7 +36,7 @@ $db = new Database\Database();
                     <span class="info-box-icon bg-green"><i class="fa fa-files-o"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">上传材质总数</span>
-                        <span class="info-box-number"><?php echo count(scandir("../textures/"))-2;?></span>
+                        <span class="info-box-number"><?php echo Utils::getFileNum(BASE_DIR."/textures/");?></span>
                     </div><!-- /.info-box-content -->
                 </div><!-- /.info-box -->
 
@@ -44,7 +44,7 @@ $db = new Database\Database();
                     <span class="info-box-icon bg-yellow"><i class="fa fa-hdd-o"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">占用空间大小</span>
-                        <span class="info-box-number"><?php echo floor(Utils::getDirSize("../textures/")/1024)."KB";?></span>
+                        <span class="info-box-number"><?php echo floor(Utils::getDirSize(BASE_DIR."/textures/")/1024)."KB";?></span>
                     </div><!-- /.info-box-content -->
                 </div><!-- /.info-box -->
             </div>

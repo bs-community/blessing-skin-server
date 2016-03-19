@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 09:52:51
+ * @Last Modified time: 2016-03-19 12:55:08
  */
 
 class Utils
@@ -73,20 +73,45 @@ class Utils
      * @return int, total size in bytes
      */
     public static function getDirSize($dir) {
-        $dh = opendir($dir);
+        $resource = opendir($dir);
         $size = 0;
-        while(false !== ($file = @readdir($dh))) {
-            if ($file!='.' && $file!='..') {
-                $path = $dir.'/'.$file;
+        while($filename = readdir($resource)) {
+            if ($filename != "." && $filename != "..") {
+                $path = $dir.$filename;
                 if (is_dir($path)) {
-                    $size += $this->getDirSize($path);
+                    // recursion
+                    $size += self::getDirSize($path);
                 } else if (is_file($path)) {
                     $size += filesize($path);
                 }
             }
         }
-        closedir($dh);
+        closedir($resource);
         return $size;
+    }
+
+    /**
+     * Recursively count files of specified directory
+     *
+     * @param  string $dir
+     * @param  $file_num
+     * @return int, total size in bytes
+     */
+    public static function getFileNum($dir, $file_num = 0) {
+        $resource = opendir($dir);
+        while($filename = readdir($resource)) {
+            if ($filename != "." && $filename != "..") {
+                $path = $dir.$filename;
+                if (is_dir($path)) {
+                    // recursion
+                    $file_num = self::getFileNum($path, $file_num);
+                } else {
+                    $file_num++;
+                }
+            }
+        }
+        closedir($resource);
+        return $file_num;
     }
 
     /**
