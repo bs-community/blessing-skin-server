@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 17:47:57
+ * @Last Modified time: 2016-03-19 15:33:43
  */
 session_start();
 $dir = dirname(__FILE__);
@@ -33,6 +33,11 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
     <link rel="stylesheet" href="./libs/remodal/remodal.css">
     <link rel="stylesheet" href="./libs/ply/ply.css">
     <link rel="stylesheet" href="./libs/remodal/remodal-default-theme.css">
+    <style>
+        .home-menu-bg, .container {
+            background-image: url("<?php echo Config::get('home_pic_url'); ?>");
+        }
+    </style>
 </head>
 <body>
 

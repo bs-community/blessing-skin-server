@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-01-21 20:07:47
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-19 10:08:29
+* @Last Modified time: 2016-03-19 15:33:10
 */
 .home-menu-blur {
     position: absolute;
@@ -17,7 +17,6 @@
     background-color: rgba(255,255,255,0.4);
 }
 .home-menu-bg {
-    background-image: url("../images/bg.jpg");
     background-position: center 0;
     background-size: auto 800px;
     position: absolute;
@@ -33,8 +32,6 @@
 }
 
 .container {
-    background-image:
-        url("../images/bg.jpg");
     background-size: auto 800px;
     background-repeat: no-repeat;
     background-position: center 0;

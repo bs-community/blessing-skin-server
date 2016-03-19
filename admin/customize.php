@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-19 14:34:21
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 15:06:36
+ * @Last Modified time: 2016-03-19 15:31:15
  */
 require "../includes/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
@@ -33,7 +33,7 @@ $db = new Database\Database();
     <section class="content">
         <div class="row">
             <div class="col-md-6">
-                <div class="box box-solid">
+                <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">更改配色</h3>
                     </div><!-- /.box-header -->
@@ -99,6 +99,35 @@ $db = new Database\Database();
             </div>
 
             <div class="col-md-6">
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">首页配置</h3>
+                    </div><!-- /.box-header -->
+                    <form method="post" action="customize.php">
+                        <input type="hidden" name="option" value="adapter">
+                        <div class="box-body">
+                            <?php
+                            if (isset($_POST['home_pic_url'])) {
+                                Config::set('home_pic_url', $_POST['home_pic_url']);
+                                echo '<div class="callout callout-success">设置已保存。</div>';
+                            } ?>
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td class="key">首页图片地址</td>
+                                        <td class="value">
+                                           <input type="text" data-toggle="tooltip" data-placement="bottom" title="相对与首页的路径或绝对路径。" class="form-control" name="home_pic_url" value="<?php echo Config::get('home_pic_url'); ?>">
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div><!-- /.box-body -->
+                        <div class="box-footer">
+                            <button type="submit" name="submit" class="btn btn-primary">提交</button>
+                        </div>
+                    </form>
+                </div>
             </div>
 
         </div>
