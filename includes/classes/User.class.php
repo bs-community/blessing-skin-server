@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 17:31:41
+ * @Last Modified time: 2016-03-19 10:54:07
  */
 
 use Database\Database;
@@ -55,7 +55,7 @@ class User
     }
 
     public function changePasswd($new_passwd) {
-        $this->db->update($this->uname, 'password', md5($new_passwd));
+        $this->db->update($this->uname, 'password', $this->db->encryptPassword($new_passwd, $this->uname));
     }
 
     public function getToken() {
