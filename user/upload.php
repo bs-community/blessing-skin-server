@@ -57,7 +57,7 @@ View::show('header', $data);
                 </div><!-- /.box -->
                 <div class="box box-default">
                     <div class="box-body">
-                        <b>提示：</b>3D 皮肤预览目前不支持双层皮肤，但是皮肤站本身是支持的，所以不要在意变得奇怪的预览（笑）直接上传即可。
+                        <b>提示：</b>目前3D 皮肤预览已经可以支持双层皮肤了miao。
                     </div>
                 </div><!-- /.box -->
             </div>
