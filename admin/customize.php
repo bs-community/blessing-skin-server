@@ -1,9 +1,9 @@
-<?
+<?php
 /**
  * @Author: printempw
  * @Date:   2016-03-19 14:34:21
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 20:33:07
+ * @Last Modified time: 2016-03-20 11:32:49
  */
 require "../includes/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
