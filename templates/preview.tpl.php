@@ -8,8 +8,8 @@
 <script type="text/javascript">
     var preview_type = "3d";
 </script>
-<script type="text/javascript" src="../libs/three.js"></script>
-<script type="text/javascript" src="../libs/three.msp.js"></script>
+<script type="text/javascript" src="../libs/skin-preview/three.min.js"></script>
+<script type="text/javascript" src="../libs/skin-preview/three.msp.js"></script>
 <?php
 // Get and set texture for preview
 if ($data['user']->getTexture('skin')) {
