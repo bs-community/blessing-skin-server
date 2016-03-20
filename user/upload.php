@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-18 21:41:21
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 16:13:18
+ * @Last Modified time: 2016-03-20 12:52:04
  */
 require "../includes/session.inc.php";
 $data['style'] = <<< 'EOT'
@@ -53,11 +53,6 @@ View::show('header', $data);
                     </div><!-- /.box-body -->
                     <div class="box-footer">
                         <button id="upload" class="btn btn-primary">确认上传</button>
-                    </div>
-                </div><!-- /.box -->
-                <div class="box box-default">
-                    <div class="box-body">
-                        <b>提示：</b>目前3D 皮肤预览已经可以支持双层皮肤了miao。
                     </div>
                 </div><!-- /.box -->
             </div>
