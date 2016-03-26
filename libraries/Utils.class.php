@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 20:19:53
+ * @Last Modified time: 2016-03-26 20:32:03
  */
 
 class Utils
@@ -142,34 +142,23 @@ class Utils
      * Cut and resize to get avatar from skin
      *
      * @author https://github.com/jamiebicknell/Minecraft-Avatar/blob/master/face.php
-     * @param  string $username
+     * @param  string $hash
      * @param  int    $size
-     * @return null, will output directly
+     * @return resource
      */
-    public static function getAvatarFromSkin($username, $size, $view='f') {
-        $user = new User($username);
-        $model_preferrnce = ($user->getPreference() == "default") ? "steve" : "alex";
-        if ($user->getTexture($model_preferrnce) != "") {
-            $src = imagecreatefrompng(BASE_DIR."/textures/".$user->getTexture($model_preferrnce));
-            $dest = imagecreatetruecolor($size, $size);
+    public static function generateAvatarFromSkin($hash, $size, $view='f') {
+        $src = imagecreatefrompng(BASE_DIR."/textures/$hash");
+        $dest = imagecreatetruecolor($size, $size);
 
-            // f => front, l => left, r => right, b => back
-            $x = array('f' => 8, 'l' => 16, 'r' => 0, 'b' => 24);
+        // f => front, l => left, r => right, b => back
+        $x = array('f' => 8, 'l' => 16, 'r' => 0, 'b' => 24);
 
-            imagecopyresized($dest, $src, 0, 0, $x[$view], 8, $size, $size, 8, 8);         // Face
-            imagecolortransparent($src, imagecolorat($src, 63, 0));                       // Black Hat Issue
-            imagecopyresized($dest, $src, 0, 0, $x[$view] + 32, 8, $size, $size, 8, 8);    // Accessories
+        imagecopyresized($dest, $src, 0, 0, $x[$view], 8, $size, $size, 8, 8);         // Face
+        imagecolortransparent($src, imagecolorat($src, 63, 0));                       // Black Hat Issue
+        imagecopyresized($dest, $src, 0, 0, $x[$view] + 32, 8, $size, $size, 8, 8);    // Accessories
 
-            header('Content-type: image/png');
-            imagepng($dest);
-
-            imagedestroy($src);
-            imagedestroy($dest);
-        } else {
-            header('Content-Type: image/png');
-            echo Utils::fread(BASE_DIR."/assets/images/steve-avatar.png");
-        }
-
+        imagedestroy($src);
+        return $dest;
     }
 
 }

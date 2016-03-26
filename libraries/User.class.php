@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 19:01:11
+ * @Last Modified time: 2016-03-26 20:38:36
  */
 
 use Database\Database;
@@ -122,6 +122,28 @@ class User
         } else {
             header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
             Utils::showErrorPage(404, '该用户尚未上传请求的贴图类型 '.$type.'。');
+        }
+    }
+
+    /**
+     * Get avatar that generate from skin of user
+     *
+     * @param  int    $size  [description]
+     * @param  string $model, steve|alex
+     * @return null
+     */
+    public function getAvatar($size, $model=null) {
+        if (is_null($model))
+            $model = ($this->getPreference() == "default") ? "steve" : "alex";
+        // output image directly
+        if ($this->getTexture($model) != "") {
+            $png = Utils::generateAvatarFromSkin($this->getTexture($model), $size);
+            header('Content-Type: image/png');
+            imagepng($png);
+            imagedestroy($png);
+        } else {
+            header('Content-Type: image/png');
+            echo Utils::fread(BASE_DIR."/assets/images/steve-avatar.png");
         }
     }
 
