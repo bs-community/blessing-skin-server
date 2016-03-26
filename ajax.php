@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 18:47:47
+ * @Last Modified time: 2016-03-26 22:01:59
  *
  * - login, register, logout
  * - upload, change, delete
@@ -223,14 +223,19 @@ if ($action == "change") {
 } else if ($action == "delete") {
     if (isset($_SESSION['token']) && $_SESSION['token'] == $user->getToken()) {
         if (checkPost()) {
-            if ($user->checkPasswd($_POST['passwd'])) {
-                session_destroy();
-                $user->unRegister();
-                $json['errno'] = 0;
-                $json['msg'] = "账号已经成功删除，再见~";
+            if (!$user->is_admin) {
+                if ($user->checkPasswd($_POST['passwd'])) {
+                    session_destroy();
+                    $user->unRegister();
+                    $json['errno'] = 0;
+                    $json['msg'] = "账号已经成功删除，再见~";
+                } else {
+                    $json['errno'] = 1;
+                    $json['msg'] = "错误的密码。";
+                }
             } else {
                 $json['errno'] = 1;
-                $json['msg'] = "错误的密码。";
+                $json['msg'] = "管理员账号不能被删除哟~";
             }
         }
     } else {
