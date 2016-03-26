@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-18 14:02:12
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 22:47:39
+ * @Last Modified time: 2016-03-26 22:53:06
  */
 
 use Database\Database;
@@ -70,20 +70,6 @@ class Option
                 return true;
         } else {
             return false;
-        }
-    }
-
-    public static function clear($key) {
-        $conn = Database::checkConfig();
-        if (!self::has($key)) {
-            $sql = "INSERT INTO ".DB_PREFIX."options (`option_name`, `option_value`) VALUES ('$key', '$value')";
-            $result = $conn->query($sql);
-            if ($conn->error)
-                Utils::raise(-1, "Database query error: ".$conn->error);
-            else
-                return true;
-        } else {
-            return true;
         }
     }
 
