@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 20:38:36
+ * @Last Modified time: 2016-03-26 21:41:40
  */
 
 use Database\Database;
@@ -71,27 +71,22 @@ class User
     }
 
     public function unRegister() {
-        if ($this->getTexture('steve') != "")
-            Utils::remove("./textures/".$this->getTexture('steve'));
-        if ($this->getTexture('alex') != "")
-            Utils::remove("./textures/".$this->getTexture('alex'));
-        if ($this->getTexture('cape') != "")
-            Utils::remove("./textures/".$this->getTexture('cape'));
+        $skin_type_map = ["steve", "alex", "cape"];
+        for ($i = 0; $i <= 2; $i++) {
+            if ($this->getTexture($skin_type_map[$i]) != "" && !Utils::checkTextureOccupied($this->getTexture($skin_type_map[$i])))
+                Utils::remove("./textures/".$this->getTexture($skin_type_map[$i]));
+        }
         return $this->db->delete($this->uname);
     }
 
     public function reset() {
-        for ($i = 1; $i <= 3; $i++) {
-            switch($i) {
-                case 1: $type = "steve"; break;
-                case 2: $type = "alex"; break;
-                case 3: $type = "cape"; break;
-            }
-            if ($this->getTexture($type) != "")
-                Utils::remove("./textures/".$this->getTexture($type));
-            $this->db->update($this->uname, 'hash_'.$type, '');
+        $skin_type_map = ["steve", "alex", "cape"];
+        for ($i = 0; $i <= 2; $i++) {
+            if ($this->getTexture($skin_type_map[$i]) != "" && !Utils::checkTextureOccupied($this->getTexture($skin_type_map[$i])))
+                Utils::remove("./textures/".$this->getTexture($skin_type_map[$i]));
+            $this->db->update($this->uname, 'hash_'.$skin_type_map[$i], '');
         }
-        $this->db->update($this->uname, 'preference', 'default');
+        return $this->db->update($this->uname, 'preference', 'default');
     }
 
     /**
@@ -149,7 +144,7 @@ class User
 
     public function setTexture($type, $file) {
         // Remove the original texture first
-        if ($this->getTexture($type) != "")
+        if ($this->getTexture($type) != "" && !Utils::checkTextureOccupied($this->getTexture($type)))
             Utils::remove("./textures/".$this->getTexture($type));
         $this->updateLastModified();
         $hash = Utils::upload($file);
@@ -205,7 +200,7 @@ class User
     }
 
     public function updateLastModified() {
-        // http://stackoverflow.com/questions/2215354/php-date-format-when-inserting-into-datetime-in-mysql
+        // @see http://stackoverflow.com/questions/2215354/php-date-format-when-inserting-into-datetime-in-mysql
         return $this->db->update($this->uname, 'last_modified', date("Y-m-d H:i:s"));
     }
 

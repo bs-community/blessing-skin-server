@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 20:32:03
+ * @Last Modified time: 2016-03-26 21:35:53
  */
 
 class Utils
@@ -159,6 +159,25 @@ class Utils
 
         imagedestroy($src);
         return $dest;
+    }
+
+    /**
+     * Check if given texture is occupied
+     *
+     * @param  string $hash
+     * @return bool
+     */
+    public static function checkTextureOccupied($hash) {
+        $db = new Database\Database();
+        if ($db->getNumRows('hash_steve', $hash) > 1) {
+            return true;
+        } elseif ($db->getNumRows('hash_alex', $hash) > 1) {
+            return true;
+        } elseif ($db->getNumRows('hash_cape', $hash) > 1) {
+            return true;
+        }
+        // finally if given texture is not used by anyone else
+        return false;
     }
 
 }
