@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 21:59:06
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 11:25:11
+ * @Last Modified time: 2016-03-26 19:04:39
  */
 
 namespace Database;
@@ -21,10 +21,15 @@ class Database implements EncryptInterface, SyncInterface
         $this->connection = self::checkConfig();
     }
 
-    public static function checkConfig() {
-        if (!DEBUG_MODE) error_reporting(0);
+    function __destruct() {
+        $this->connection->close();
+    }
 
+    public static function checkConfig() {
+        // use error control to hide shitty connect warnings
+        error_reporting(0);
         $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWD, DB_NAME, DB_PORT);
+        error_reporting(E_ALL ^ E_NOTICE);
 
         if ($conn->connect_error)
             Utils::showErrorPage($conn->connect_errno,
@@ -33,6 +38,7 @@ class Database implements EncryptInterface, SyncInterface
             Utils::showErrorPage(-1, "数据库中不存在 ".DB_PREFIX."users 或 ".DB_PREFIX."options 表。请先运行 /admin/install.php 进行安装。");
         if (!is_dir(BASE_DIR."/textures/"))
             Utils::showErrorPage(-1, "textures 文件夹不存在。请先运行 /admin/install.php 进行安装，或者手动放置一个。");
+
         $conn->query("SET names 'utf8'");
         return $conn;
     }

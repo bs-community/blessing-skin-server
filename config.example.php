@@ -25,9 +25,6 @@ define('DB_PREFIX', '');
 /* 盐，用于 token 加密，修改为任意随机字符串 */
 define('SALT', '9tvsE+1._%R4@VLaX(I|.U+h_d*s');
 
-/* 调试模式，开启后将会显示所有错误提示 */
-define('DEBUG_MODE', false);
-
 /* 好了！请不要再继续编辑。请保存本文件。使用愉快！ */
 
 /* Blessing Skin Server 项目根目录 */
