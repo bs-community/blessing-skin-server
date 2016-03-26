@@ -3,13 +3,13 @@
  * @Author: printempw
  * @Date:   2016-02-02 21:17:59
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 10:05:09
+ * @Last Modified time: 2016-03-26 18:49:15
  */
 
 function __autoload($classname) {
     global $dir;
     // echo $classname.'<br />';
-    $include_dir = $dir.DIRECTORY_SEPARATOR."includes".DIRECTORY_SEPARATOR."classes".DIRECTORY_SEPARATOR;
+    $include_dir = $dir.DIRECTORY_SEPARATOR."libraries".DIRECTORY_SEPARATOR;
     $filename = $include_dir.str_replace('\\', DIRECTORY_SEPARATOR, $classname) . '.class.php';
     require_once($filename);
 }

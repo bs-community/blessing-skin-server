@@ -3,9 +3,9 @@
  * @Author: printempw
  * @Date:   2016-03-18 21:41:21
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-20 12:52:04
+ * @Last Modified time: 2016-03-26 18:47:50
  */
-require "../includes/session.inc.php";
+require "../libraries/session.inc.php";
 $data['style'] = <<< 'EOT'
 <link rel="stylesheet" href="../assets/css/user.style.css">
 <link rel="stylesheet" href="../libs/iCheck/square/blue.css">

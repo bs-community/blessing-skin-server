@@ -3,9 +3,9 @@
  * @Author: printempw
  * @Date:   2016-03-19 21:00:58
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-20 11:32:43
+ * @Last Modified time: 2016-03-26 18:47:48
  */
-require "../includes/session.inc.php";
+require "../libraries/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
 View::show('admin/header', array('page_title' => "添加用户"));
 $db = new Database\Database();

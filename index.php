@@ -3,11 +3,11 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 18:27:03
+ * @Last Modified time: 2016-03-26 18:47:48
  */
 session_start();
 $dir = dirname(__FILE__);
-require "$dir/includes/autoloader.php";
+require "$dir/libraries/autoloader.php";
 Database\Database::checkConfig();
 
 // Auto load cookie value to session

@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 17:47:22
+ * @Last Modified time: 2016-03-26 18:47:47
  *
  * - login, register, logout
  * - upload, change, delete
@@ -16,7 +16,7 @@ header('Access-Control-Allow-Origin: *');
 header('Content-type: application/json');
 
 $dir = dirname(__FILE__);
-require "$dir/includes/autoloader.php";
+require "$dir/libraries/autoloader.php";
 Database\Database::checkConfig();
 
 if (isset($_POST['uname'])) {

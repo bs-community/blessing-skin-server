@@ -3,9 +3,9 @@
  * @Author: printempw
  * @Date:   2016-01-21 13:56:40
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 10:18:44
+ * @Last Modified time: 2016-03-26 18:47:50
  */
-require "../includes/session.inc.php";
+require "../libraries/session.inc.php";
 $data['style'] = <<< 'EOT'
 <link rel="stylesheet" href="../assets/css/user.style.css">
 EOT;

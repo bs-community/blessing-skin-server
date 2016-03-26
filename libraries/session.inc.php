@@ -3,11 +3,11 @@
  * @Author: printempw
  * @Date:   2016-02-06 23:18:49
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 10:05:18
+ * @Last Modified time: 2016-03-26 18:47:49
  */
 session_start();
 $dir = dirname(dirname(__FILE__));
-require "$dir/includes/autoloader.php";
+require "$dir/libraries/autoloader.php";
 Database\Database::checkConfig();
 
 if(isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {

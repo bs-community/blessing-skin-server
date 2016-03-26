@@ -3,9 +3,9 @@
  * @Author: printempw
  * @Date:   2016-02-04 13:53:55
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 15:13:55
+ * @Last Modified time: 2016-03-26 18:47:48
  */
-require "../includes/session.inc.php";
+require "../libraries/session.inc.php";
 
 // Check token, won't allow non-admin user to access
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
