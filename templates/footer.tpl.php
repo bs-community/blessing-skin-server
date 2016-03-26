@@ -5,7 +5,7 @@
                 Powered with ❤ by <a href="https://github.com/printempw/blessing-skin-server">Blessing Skin Server</a>.
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2016 <a href="<?php echo Config::get('site_url'); ?>"><?php echo Config::get('site_name'); ?></a>.</strong> All rights reserved.
+            <strong>Copyright &copy; 2016 <a href="<?php echo Option::get('site_url'); ?>"><?php echo Option::get('site_name'); ?></a>.</strong> All rights reserved.
         </footer>
 
     </div><!-- ./wrapper -->

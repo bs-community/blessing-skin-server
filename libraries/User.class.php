@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 21:41:40
+ * @Last Modified time: 2016-03-26 22:28:23
  */
 
 use Database\Database;
@@ -20,7 +20,7 @@ class User
 
     function __construct($uname) {
         $this->uname = Utils::convertString($uname);
-        $class_name = "Database\\".Config::get('data_adapter')."Database";
+        $class_name = "Database\\".Option::get('data_adapter')."Database";
         $this->db = new $class_name();
 
         if ($this->db->sync($this->uname)) {

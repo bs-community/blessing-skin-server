@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-18 22:50:25
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 18:47:49
+ * @Last Modified time: 2016-03-26 22:28:23
  */
 require "../libraries/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
@@ -37,7 +37,7 @@ $db = new Database\Database();
                                 if (!isset($_POST['user_can_register'])) $_POST['user_can_register'] = '0';
                                 foreach ($_POST as $key => $value) {
                                     if ($key != "option" && $key != "submit") {
-                                        Config::set($key, $value);
+                                        Option::set($key, $value);
                                         // echo $key."=".$value."<br />";
                                     }
                                 }
@@ -48,48 +48,48 @@ $db = new Database\Database();
                                     <tr>
                                         <td class="key">站点标题</td>
                                         <td class="value">
-                                           <input type="text" class="form-control" name="site_name" value="<?php echo Config::get('site_name'); ?>">
+                                           <input type="text" class="form-control" name="site_name" value="<?php echo Option::get('site_name'); ?>">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="key">站点描述</td>
                                         <td class="value">
-                                           <input type="text" class="form-control" name="site_description" value="<?php echo Config::get('site_description'); ?>">
+                                           <input type="text" class="form-control" name="site_description" value="<?php echo Option::get('site_description'); ?>">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="key">站点地址（URL）</td>
                                         <td class="value">
-                                           <input type="text" class="form-control" name="site_url" value="<?php echo Config::get('site_url'); ?>">
+                                           <input type="text" class="form-control" name="site_url" value="<?php echo Option::get('site_url'); ?>">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="key">开放注册</td>
                                         <td class="value">
                                             <label for="user_can_register">
-                                                <input <?php echo (Config::get('user_can_register') == '1') ? 'checked="true"' : ''; ?> type="checkbox" id="user_can_register" name="user_can_register" value="1">任何人都可以注册
+                                                <input <?php echo (Option::get('user_can_register') == '1') ? 'checked="true"' : ''; ?> type="checkbox" id="user_can_register" name="user_can_register" value="1">任何人都可以注册
                                             </label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="key">每个 IP 限制注册数</td>
                                         <td class="value">
-                                           <input type="text" class="form-control" name="regs_per_ip" value="<?php echo Config::get('regs_per_ip'); ?>">
+                                           <input type="text" class="form-control" name="regs_per_ip" value="<?php echo Option::get('regs_per_ip'); ?>">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="key">首选 JSON API</td>
                                         <td class="value">
                                            <select class="form-control" name="api_type">selected="selected"
-                                                <option <?php echo (Config::get('api_type') == '0') ? 'selected="selected"' : ''; ?> value="0">CustomSkinLoader API</option>
-                                                <option <?php echo (Config::get('api_type') == '1') ? 'selected="selected"' : ''; ?> value="1">UniversalSkinAPI</option>
+                                                <option <?php echo (Option::get('api_type') == '0') ? 'selected="selected"' : ''; ?> value="0">CustomSkinLoader API</option>
+                                                <option <?php echo (Option::get('api_type') == '1') ? 'selected="selected"' : ''; ?> value="1">UniversalSkinAPI</option>
                                            </select>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="key">站点公告</td>
                                         <td class="value">
-                                           <textarea name="announcement" class="form-control" rows="3"><?php echo Config::get('announcement'); ?></textarea>
+                                           <textarea name="announcement" class="form-control" rows="3"><?php echo Option::get('announcement'); ?></textarea>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -114,7 +114,7 @@ $db = new Database\Database();
                             if (isset($_POST['option']) && ($_POST['option'] == "adapter")) {
                                 foreach ($_POST as $key => $value) {
                                     if ($key != "option" && $key != "submit") {
-                                        Config::set($key, $value);
+                                        Option::set($key, $value);
                                         //echo $key."=".$value."<br />";
                                     }
                                 }
@@ -128,35 +128,35 @@ $db = new Database\Database();
                                         <td class="key">数据对接适配器</td>
                                         <td class="value">
                                            <select class="form-control" name="data_adapter">
-                                                <option <?php echo (Config::get('data_adapter') == '') ? 'selected="selected"' : ''; ?> value="">不进行数据对接</option>
-                                                <option <?php echo (Config::get('data_adapter') == 'Authme') ? 'selected="selected"' : ''; ?> value="Authme">Authme</option>
-                                                <option <?php echo (Config::get('data_adapter') == 'Crazy') ? 'selected="selected"' : ''; ?> value="Crazy">CrazyLogin</option>
-                                                <option <?php echo (Config::get('data_adapter') == 'Discuz') ? 'selected="selected"' : ''; ?> value="Discuz">Discuz</option>
+                                                <option <?php echo (Option::get('data_adapter') == '') ? 'selected="selected"' : ''; ?> value="">不进行数据对接</option>
+                                                <option <?php echo (Option::get('data_adapter') == 'Authme') ? 'selected="selected"' : ''; ?> value="Authme">Authme</option>
+                                                <option <?php echo (Option::get('data_adapter') == 'Crazy') ? 'selected="selected"' : ''; ?> value="Crazy">CrazyLogin</option>
+                                                <option <?php echo (Option::get('data_adapter') == 'Discuz') ? 'selected="selected"' : ''; ?> value="Discuz">Discuz</option>
                                            </select>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="key">对接数据表名</td>
                                         <td class="value">
-                                           <input type="text" class="form-control" name="data_table_name" value="<?php echo Config::get('data_table_name'); ?>">
+                                           <input type="text" class="form-control" name="data_table_name" value="<?php echo Option::get('data_table_name'); ?>">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="key">对接数据表用户名字段</td>
                                         <td class="value">
-                                           <input data-toggle="tooltip" data-placement="bottom" title="如果你没有修改插件配置的话，请保持默认。CrazyLogin 的话请将此字段改为 `name`。" type="text" class="form-control" name="data_column_uname" value="<?php echo Config::get('data_column_uname'); ?>">
+                                           <input data-toggle="tooltip" data-placement="bottom" title="如果你没有修改插件配置的话，请保持默认。CrazyLogin 的话请将此字段改为 `name`。" type="text" class="form-control" name="data_column_uname" value="<?php echo Option::get('data_column_uname'); ?>">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="key">对接数据表密码字段</td>
                                         <td class="value">
-                                           <input data-toggle="tooltip" data-placement="bottom" title="同上，不要瞎球改。" type="text" class="form-control" name="data_column_passwd" value="<?php echo Config::get('data_column_passwd'); ?>">
+                                           <input data-toggle="tooltip" data-placement="bottom" title="同上，不要瞎球改。" type="text" class="form-control" name="data_column_passwd" value="<?php echo Option::get('data_column_passwd'); ?>">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="key">对接数据表 IP 字段</td>
                                         <td class="value">
-                                           <input data-toggle="tooltip" data-placement="bottom" title="CrazyLogin 的话请将此字段改为 `ips`，Discuz 请改为 `regip`。" type="text" class="form-control" name="data_column_ip" value="<?php echo Config::get('data_column_ip'); ?>">
+                                           <input data-toggle="tooltip" data-placement="bottom" title="CrazyLogin 的话请将此字段改为 `ips`，Discuz 请改为 `regip`。" type="text" class="form-control" name="data_column_ip" value="<?php echo Option::get('data_column_ip'); ?>">
                                         </td>
                                     </tr>
                                 </tbody>

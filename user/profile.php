@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-03 16:12:45
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 21:59:57
+ * @Last Modified time: 2016-03-26 22:28:24
  */
 require "../libraries/session.inc.php";
 $data['style'] = <<< 'EOT'
@@ -69,7 +69,7 @@ View::show('header', $data);
                         </div><!-- /.box-header -->
                         <div class="box-body">
                         <?php if (!$user->is_admin): ?>
-                        <p>确定要删除你在 <?php echo Config::get('site_name'); ?> 上的账号吗？</p>
+                        <p>确定要删除你在 <?php echo Option::get('site_name'); ?> 上的账号吗？</p>
                         <p>此操作不可恢复！我们不提供任何备份，或者神奇的撤销按钮。</p>
                         <p>我们警告过你了，确定要这样做吗？</p>
                         <button id="delete" class="btn btn-danger">删除我的账户</button>

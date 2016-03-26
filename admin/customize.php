@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-19 14:34:21
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 21:44:27
+ * @Last Modified time: 2016-03-26 22:28:23
  */
 require "../libraries/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
@@ -108,7 +108,7 @@ $db = new Database\Database();
                         <div class="box-body">
                             <?php
                             if (isset($_POST['home_pic_url'])) {
-                                Config::set('home_pic_url', $_POST['home_pic_url']);
+                                Option::set('home_pic_url', $_POST['home_pic_url']);
                                 echo '<div class="callout callout-success">设置已保存。</div>';
                             } ?>
                             <table class="table">
@@ -116,7 +116,7 @@ $db = new Database\Database();
                                     <tr>
                                         <td class="key">首页图片地址</td>
                                         <td class="value">
-                                           <input type="text" data-toggle="tooltip" data-placement="bottom" title="相对与首页的路径或绝对路径。" class="form-control" name="home_pic_url" value="<?php echo Config::get('home_pic_url'); ?>">
+                                           <input type="text" data-toggle="tooltip" data-placement="bottom" title="相对与首页的路径或绝对路径。" class="form-control" name="home_pic_url" value="<?php echo Option::get('home_pic_url'); ?>">
                                         </td>
                                     </tr>
 
@@ -135,7 +135,7 @@ $db = new Database\Database();
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 <?php
-$color_scheme = Config::get('color_scheme');
+$color_scheme = Option::get('color_scheme');
 $data['script'] = <<< EOT
 <script type="text/javascript">
 // Skin switcher

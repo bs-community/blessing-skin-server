@@ -3,29 +3,29 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title><?php echo $data['page_title']." - ".Config::get('site_name'); ?></title>
+    <title><?php echo $data['page_title']." - ".Option::get('site_name'); ?></title>
     <link rel="shortcut icon" href="../assets/images/favicon.ico">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="../assets/libs/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/libs/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="../assets/libs/AdminLTE/dist/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="../assets/libs/AdminLTE/dist/css/skins/<?php echo Config::get('color_scheme'); ?>.min.css">
+    <link rel="stylesheet" href="../assets/libs/AdminLTE/dist/css/skins/<?php echo Option::get('color_scheme'); ?>.min.css">
     <link rel="stylesheet" href="../assets/libs/ply/ply.css">
     <?php if (isset($data['style'])) echo $data['style']; ?>
 </head>
 
-<body class="hold-transition <?php echo Config::get('color_scheme'); ?> sidebar-mini">
+<body class="hold-transition <?php echo Option::get('color_scheme'); ?> sidebar-mini">
     <div class="wrapper">
 
         <!-- Main Header -->
         <header class="main-header">
 
             <!-- Logo -->
-            <a href="<?php echo Config::get('site_url'); ?>" class="logo">
+            <a href="<?php echo Option::get('site_url'); ?>" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>B</b>S</span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><?php echo Config::get('site_name'); ?></span>
+                <span class="logo-lg"><?php echo Option::get('site_name'); ?></span>
             </a>
 
             <!-- Header Navbar -->

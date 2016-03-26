@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 22:01:59
+ * @Last Modified time: 2016-03-26 22:28:22
  *
  * - login, register, logout
  * - upload, change, delete
@@ -55,7 +55,7 @@ if ($action == "login") {
 } else if ($action == "register") {
     if (checkPost('register')) {
         if (!$user->is_registered) {
-            if (Config::get('user_can_register') == 1) {
+            if (Option::get('user_can_register') == 1) {
                 if (User::checkValidPwd($_POST['passwd'])) {
                     if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
                         $ip = $_SERVER['HTTP_CLIENT_IP'];
@@ -66,7 +66,7 @@ if ($action == "login") {
                     }
                     // If amount of registered accounts of IP is more than allowed mounts,
                     // then reject the registration.
-                    if ($user->db->getNumRows('ip', $ip) < Config::get('regs_per_ip')) {
+                    if ($user->db->getNumRows('ip', $ip) < Option::get('regs_per_ip')) {
                         // use once md5 to encrypt password
                         if ($user->register($_POST['passwd'], $ip)) {
                             $json['errno'] = 0;
@@ -77,7 +77,7 @@ if ($action == "login") {
                         }
                     } else {
                         $json['errno'] = 1;
-                        $json['msg'] = "你最多只能注册 ".Config::get('regs_per_ip')." 个账户哦";
+                        $json['msg'] = "你最多只能注册 ".Option::get('regs_per_ip')." 个账户哦";
                     }
                 }
             } else {

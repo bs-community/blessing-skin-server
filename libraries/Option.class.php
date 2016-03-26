@@ -3,12 +3,12 @@
  * @Author: printempw
  * @Date:   2016-03-18 14:02:12
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 11:25:06
+ * @Last Modified time: 2016-03-26 22:27:36
  */
 
 use Database\Database;
 
-class Config
+class Option
 {
     public static function get($key) {
         $conn = Database::checkConfig();

@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-18 16:53:55
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 17:33:58
+ * @Last Modified time: 2016-03-26 22:28:23
  */
 
 namespace Database;
@@ -22,10 +22,10 @@ class AdaptedDatabase extends Database implements EncryptInterface, SyncInterfac
 
     function __construct() {
         parent::__construct();
-        $this->table_name    = Config::get('data_table_name');
-        $this->column_uname  = Config::get('data_column_uname');
-        $this->column_passwd = Config::get('data_column_passwd');
-        $this->column_ip     = Config::get('data_column_ip');
+        $this->table_name    = Option::get('data_table_name');
+        $this->column_uname  = Option::get('data_column_uname');
+        $this->column_passwd = Option::get('data_column_passwd');
+        $this->column_ip     = Option::get('data_column_ip');
     }
 
     public function createRecord($username, $password, $ip) {

@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 20:56:42
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 20:33:02
+ * @Last Modified time: 2016-03-26 22:28:22
  *
  * All textures requests of legacy link will be handle here.
  */
@@ -39,7 +39,7 @@ if (isset($_GET['type']) && isset($_GET['uname'])) {
         if (isset($_GET['api'])) {
             echo $user->getJsonProfile(($_GET['api'] == 'csl') ? 0 : 1);
         } else {
-            echo $user->getJsonProfile(Config::get('api_type'));
+            echo $user->getJsonProfile(Option::get('api_type'));
         }
     } else if ($_GET['type'] == "avatar") {
         $size = (isset($_GET['size']) && $_GET['size'] != "") ? (int)$_GET['size'] : 128;

@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-04 13:53:55
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 18:47:48
+ * @Last Modified time: 2016-03-26 22:28:22
  */
 require "../libraries/session.inc.php";
 
@@ -67,7 +67,7 @@ if (isset($_GET['action'])) {
     } else if ($action == "color") {
         if (isset($_POST['color_scheme'])) {
             $color_scheme = str_replace('_', '-', $_POST['color_scheme']);
-            Config::set('color_scheme', $color_scheme);
+            Option::set('color_scheme', $color_scheme);
             $json['errno'] = 0;
             $json['msg'] = "修改配色成功。";
         } else {

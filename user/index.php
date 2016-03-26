@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-21 13:56:40
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 18:47:50
+ * @Last Modified time: 2016-03-26 22:28:24
  */
 require "../libraries/session.inc.php";
 $data['style'] = <<< 'EOT'
@@ -32,7 +32,7 @@ View::show('header', $data);
                         <h3 class="box-title">公告</h3>
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                        <?php echo nl2br(Config::get('announcement')); ?>
+                        <?php echo nl2br(Option::get('announcement')); ?>
                     </div><!-- /.box-body -->
                 </div>
 
