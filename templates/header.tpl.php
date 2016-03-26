@@ -5,11 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title><?php echo $data['page_title']." - ".Config::get('site_name'); ?></title>
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <link rel="stylesheet" href="../libs/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../libs/font-awesome/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../libs/AdminLTE/dist/css/AdminLTE.min.css">
-    <link rel="stylesheet" href="../libs/AdminLTE/dist/css/skins/<?php echo Config::get('color_scheme'); ?>.min.css">
-    <link rel="stylesheet" href="../libs/ply/ply.css">
+    <link rel="stylesheet" href="../assets/libs/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/libs/AdminLTE/dist/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="../assets/libs/AdminLTE/dist/css/skins/<?php echo Config::get('color_scheme'); ?>.min.css">
+    <link rel="stylesheet" href="../assets/libs/ply/ply.css">
     <?php if (isset($data['style'])) echo $data['style']; ?>
 </head>
 

@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-19 15:37:29
+ * @Last Modified time: 2016-03-26 18:27:03
  */
 session_start();
 $dir = dirname(__FILE__);
@@ -26,13 +26,13 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo Config::get('site_name'); ?></title>
     <link rel="shortcut icon" href="./assets/images/favicon.ico">
-    <link rel="stylesheet" href="./libs/pure/pure-min.css">
-    <link rel="stylesheet" href="./libs/pure/grids-responsive-min.css">
+    <link rel="stylesheet" href="./assets/libs/pure/pure-min.css">
+    <link rel="stylesheet" href="./assets/libs/pure/grids-responsive-min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="./assets/css/index.style.css">
-    <link rel="stylesheet" href="./libs/remodal/remodal.css">
-    <link rel="stylesheet" href="./libs/ply/ply.css">
-    <link rel="stylesheet" href="./libs/remodal/remodal-default-theme.css">
+    <link rel="stylesheet" href="./assets/libs/remodal/remodal.css">
+    <link rel="stylesheet" href="./assets/libs/ply/ply.css">
+    <link rel="stylesheet" href="./assets/libs/remodal/remodal-default-theme.css">
     <style>
         .home-menu-bg, .container {
             background-image: url("<?php echo Config::get('home_pic_url'); ?>");
@@ -120,10 +120,10 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
 <?php endif; ?>
 <!-- Contents above is for login/register dialog -->
 
-<script type="text/javascript" src="./libs/jquery/jquery-2.1.1.min.js"></script>
-<script type="text/javascript" src="./libs/cookie.js"></script>
-<script type="text/javascript" src="./libs/remodal/remodal.min.js"></script>
-<script type="text/javascript" src="./libs/ply/ply.min.js"></script>
+<script type="text/javascript" src="./assets/libs/jquery/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="./assets/libs/cookie.js"></script>
+<script type="text/javascript" src="./assets/libs/remodal/remodal.min.js"></script>
+<script type="text/javascript" src="./assets/libs/ply/ply.min.js"></script>
 <script type="text/javascript" src="./assets/js/utils.js"></script>
 <script type="text/javascript" src="./assets/js/index.utils.js"></script>
 <?php if ($msg = Utils::getValue('msg', $_GET)): ?>

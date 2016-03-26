@@ -10,11 +10,11 @@
 
     </div><!-- ./wrapper -->
 
-    <script type="text/javascript" src="../libs/jquery/jquery-2.1.1.min.js"></script>
-    <script type="text/javascript" src="../libs/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="../libs/AdminLTE/dist/js/app.min.js"></script>
-    <script type="text/javascript" src="../libs/ply/ply.min.js"></script>
-    <script type="text/javascript" src="../libs/cookie.js"></script>
+    <script type="text/javascript" src="../assets/libs/jquery/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="../assets/libs/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../assets/libs/AdminLTE/dist/js/app.min.js"></script>
+    <script type="text/javascript" src="../assets/libs/ply/ply.min.js"></script>
+    <script type="text/javascript" src="../assets/libs/cookie.js"></script>
     <script type="text/javascript" src="../assets/js/utils.js"></script>
     <?php if (isset($data['script'])) echo $data['script']; ?>
 </body>
