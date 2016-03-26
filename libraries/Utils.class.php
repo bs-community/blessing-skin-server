@@ -144,18 +144,20 @@ class Utils
      * @author https://github.com/jamiebicknell/Minecraft-Avatar/blob/master/face.php
      * @param  string $hash
      * @param  int    $size
+     * @param  string $view (default for 'f')
      * @return resource
      */
     public static function generateAvatarFromSkin($hash, $size, $view='f') {
         $src = imagecreatefrompng(BASE_DIR."/textures/$hash");
         $dest = imagecreatetruecolor($size, $size);
-
+        $ratio = imagesx($src / 64);//Width/64
+        
         // f => front, l => left, r => right, b => back
         $x = array('f' => 8, 'l' => 16, 'r' => 0, 'b' => 24);
 
-        imagecopyresized($dest, $src, 0, 0, $x[$view], 8, $size, $size, 8, 8);         // Face
-        imagecolortransparent($src, imagecolorat($src, 63, 0));                       // Black Hat Issue
-        imagecopyresized($dest, $src, 0, 0, $x[$view] + 32, 8, $size, $size, 8, 8);    // Accessories
+        imagecopyresized($dest, $src, 0, 0, $x[$view] * $ratio, 8 * $ratio, $size, $size, 8 * $ratio, 8 * $ratio);         // Face
+        imagecolortransparent($src, imagecolorat($src, 63 * $ratio, 0));                                                   // Black Hat Issue
+        imagecopyresized($dest, $src, 0, 0, ($x[$view] + 32) * $ratio, 8 * $ratio, $size, $size, 8 * $ratio, 8 * $ratio);  // Accessories
 
         imagedestroy($src);
         return $dest;
