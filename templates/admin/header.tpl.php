@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title><?php echo $data['page_title']." - ".Config::get('site_name'); ?></title>
+    <link rel="shortcut icon" href="../assets/images/favicon.ico">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" href="../assets/libs/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="../assets/libs/font-awesome/css/font-awesome.min.css">
