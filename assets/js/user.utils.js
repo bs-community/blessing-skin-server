@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-01-21 13:56:40
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-19 10:08:55
+* @Last Modified time: 2016-03-26 22:19:57
 */
 
 'use strict';
@@ -76,6 +76,7 @@ $("[title='Rotation']").click(function(){
 function show2dPreview() {
     preview_type = "2d";
     $('#canvas3d').remove();
+    $('#preview-msg').remove();
     $('.operations').hide();
     $('#preview-2d').show();
     $('#preview').html('切换 3D 预览').attr('href', 'javascript:show3dPreview();');
@@ -83,21 +84,13 @@ function show2dPreview() {
 
 function show3dPreview() {
     if (isMobile() && preview_type == "2d") {
-        showAlert("手机上的 3D 预览可能会出现奇怪的问题，亟待解决。确定要启用吗？", function(){
-            preview_type = "3d";
-            show3dPreview();
-        }, function(){
-            return false;
-        });
-    } else {
-        preview_type = "3d";
+        $("#skinpreview").append($('<div id="preview-msg" class="alert alert-info alert-dismissible fade in"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>手机上的 3D 预览可能会出现奇怪的问题（譬如空白一片），亟待解决。</div>'));
     }
-    if (preview_type == "3d") {
-        init3dCanvas();
-        $('#preview-2d').hide();
-        $('.operations').show();
-        $('#preview').html('切换 2D 预览').attr('href', 'javascript:show2dPreview();');
-    }
+
+    init3dCanvas();
+    $('#preview-2d').hide();
+    $('.operations').show();
+    $('#preview').html('切换 2D 预览').attr('href', 'javascript:show2dPreview();');
 }
 
 function changeModel(uname) {
