@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 18:47:49
+ * @Last Modified time: 2016-03-26 19:44:57
  *
  * Blessing Skin Server Installer
  */
@@ -49,22 +49,25 @@ $step = isset($_GET['step']) ? $_GET['step'] : 1;
 if (strnatcasecmp(phpversion(), '5.4') < 0): ?>
 <h1>PHP 版本过低</h1>
 <p>由于使用了一些新特性，Blessing Skin Server 需要 PHP 版本 >= 5.4。您当前的 PHP 版本为 <?php echo phpversion(); ?></p>
-<?php die(); endif;
+<?php exit; endif;
 
+// use error control to hide shitty connect warnings
+error_reporting(0);
 $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWD, DB_NAME, DB_PORT);
+error_reporting(E_ALL ^ E_NOTICE);
 
 if ($conn->connect_error): ?>
 <h1>MySQL 连接错误</h1>
 <p>无法连接至 MySQL 服务器，确定你在 config.php 填写的数据库信息正确吗？</p>
 <p>详细信息：<?php echo $conn->connect_error; ?></p>
-<?php die(); endif;
+<?php exit; endif;
 $conn->query("SET names 'utf8'");
 
 if (Database\Database::checkTableExist($conn)): ?>
 <h1>已安装过</h1>
-<p>Blessing Skin Server 看起来已经安装妥当。如果想重新安装，请删除数据库中的旧数据表。</p>
+<p>Blessing Skin Server 看起来已经安装妥当。如果想重新安装，请删除数据库中的旧数据表，或者换一个数据表前缀。</p>
 <p class="step"><a href="../index.php" class="button button-large">返回首页</a></p>
-<?php die(); endif;
+<?php exit; endif;
 
 /*
  * Stepped installation
@@ -133,7 +136,7 @@ case 3:
 // check post
 if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['password2'])) {
     if ($_POST['password'] != $_POST['password2']) {
-        header('Location: install.php?step=2&msg=确认密码不一致。'); die();
+        header('Location: install.php?step=2&msg=确认密码不一致。'); exit;
     }
     $username = $_POST['username'];
     $password = $_POST['password'];
@@ -141,15 +144,15 @@ if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['pass
     if (User::checkValidUname($username)) {
         if (strlen($password) > 16 || strlen($password) < 5) {
             header('Location: install.php?step=2&msg=无效的密码。密码长度应该大于 6 并小于 15。');
-            die();
+            exit;
         } else if (Utils::convertString($password) != $password) {
-            header('Location: install.php?step=2&msg=无效的密码。密码中包含了奇怪的字符。'); die();
+            header('Location: install.php?step=2&msg=无效的密码。密码中包含了奇怪的字符。'); exit;
         }
     } else {
-        header('Location: install.php?step=2&msg=无效的用户名。用户名只能包含数字，字母以及下划线。'); die();
+        header('Location: install.php?step=2&msg=无效的用户名。用户名只能包含数字，字母以及下划线。'); exit;
     }
 } else {
-    header('Location: install.php?step=2&msg=表单信息不完整。'); die();
+    header('Location: install.php?step=2&msg=表单信息不完整。'); exit;
 }
 
 $table_users   = DB_PREFIX."users";
@@ -196,7 +199,7 @@ if (!$conn->query($sql1) || !$conn->query($sql2) || !$conn->query($sql3)) { ?>
     <h1>数据表创建失败</h1>
     <p>照理来说不应该的，请带上错误信息联系作者：</p>
     <p><?php echo $conn->error; ?></p>
-    <?php die();
+    <?php exit;
 }
 
 // Insert user
