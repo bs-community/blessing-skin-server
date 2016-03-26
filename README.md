@@ -42,7 +42,6 @@
 ```
 rewrite ^/([^/]*).json$ /get.php?type=json&uname=$1 last;
 rewrite ^/(skin|cape)/([^/-]*)(|-)(|alex|steve).png$ /get.php?type=$1&model=$4&uname=$2 last;
-# 以下是可选内容
 rewrite ^/(usm|csl)/([^/]*).json$ /get.php?type=json&uname=$2&api=$1 last;
 rewrite ^/(usm|csl)/textures/(.*)$ /textures/$2 last;
 # 用于获取皮肤头像
