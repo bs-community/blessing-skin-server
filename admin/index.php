@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-03 14:39:50
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 18:47:49
+ * @Last Modified time: 2016-03-26 20:06:00
  */
 require "../libraries/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
@@ -25,11 +25,13 @@ $db = new Database\Database();
         <div class="row">
             <div class="col-md-6">
                 <div class="info-box">
+                    <a href="manage.php">
                     <span class="info-box-icon bg-aqua"><i class="fa fa-users"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">注册用户</span>
                         <span class="info-box-number"><?php echo $db->getRecordNum();?></span>
                     </div><!-- /.info-box-content -->
+                    </a>
                 </div><!-- /.info-box -->
 
                 <div class="info-box">

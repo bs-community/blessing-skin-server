@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-02-04 16:47:54
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-26 18:41:45
+* @Last Modified time: 2016-03-26 20:14:22
 */
 
 @import url(https://fonts.googleapis.com/css?family=Ubuntu);
@@ -33,4 +33,8 @@ label {
 }
 td[class='key'], td[class='value'] {
     border-top: 0 !important;
+}
+.info-box > a {
+    color: #333;
+    font-size: 18px;
 }
