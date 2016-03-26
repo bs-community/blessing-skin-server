@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-18 14:02:12
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 22:27:36
+ * @Last Modified time: 2016-03-26 22:47:39
  */
 
 use Database\Database;
@@ -20,14 +20,71 @@ class Option
     }
 
     public static function set($key, $value) {
-        $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWD, DB_NAME, DB_PORT);
-        $conn->query("SET names 'utf8'");
-        $sql = "UPDATE ".DB_PREFIX."options SET `option_value`='$value' WHERE `option_name`='$key'";
-        $result = $conn->query($sql);
-        if ($conn->error)
-            Utils::raise(-1, "Database query error: ".$conn->error);
-        else
+        $conn = Database::checkConfig();
+        if (!self::has($key)) {
+            self::add($key, $value);
+        } else {
+            $sql = "UPDATE ".DB_PREFIX."options SET `option_value`='$value' WHERE `option_name`='$key'";
+            $result = $conn->query($sql);
+            if ($conn->error)
+                Utils::raise(-1, "Database query error: ".$conn->error);
+            else
+                return true;
+        }
+    }
+
+    public static function add($key, $value) {
+        $conn = Database::checkConfig();
+        // check if option exists
+        if (!self::has($key)) {
+            $sql = "INSERT INTO ".DB_PREFIX."options (`option_name`, `option_value`) VALUES ('$key', '$value')";
+            $result = $conn->query($sql);
+            if ($conn->error)
+                Utils::raise(-1, "Database query error: ".$conn->error);
+            else
+                return true;
+        } else {
             return true;
+        }
+    }
+
+    public static function has($key) {
+        $conn = Database::checkConfig();
+        // check if option exists
+        $sql = "SELECT * FROM ".DB_PREFIX."options WHERE `option_name` = '$key'";
+        if ($conn->query($sql)->num_rows != 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function delete($key) {
+        $conn = Database::checkConfig();
+        if (self::has($key)) {
+            $sql = "DELETE FROM ".DB_PREFIX."options WHERE `option_name`='$key'";
+            $result = $conn->query($sql);
+            if ($conn->error)
+                Utils::raise(-1, "Database query error: ".$conn->error);
+            else
+                return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function clear($key) {
+        $conn = Database::checkConfig();
+        if (!self::has($key)) {
+            $sql = "INSERT INTO ".DB_PREFIX."options (`option_name`, `option_value`) VALUES ('$key', '$value')";
+            $result = $conn->query($sql);
+            if ($conn->error)
+                Utils::raise(-1, "Database query error: ".$conn->error);
+            else
+                return true;
+        } else {
+            return true;
+        }
     }
 
     public static function setArray($options) {
