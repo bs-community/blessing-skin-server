@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-19 21:00:58
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 18:47:48
+ * @Last Modified time: 2016-03-26 21:44:04
  */
 require "../libraries/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
@@ -90,8 +90,8 @@ $db = new Database\Database();
 </div><!-- /.content-wrapper -->
 <?php
 $data['script'] = <<< 'EOT'
-<script type="text/javascript" src="../libs/bootstrap-fileinput/js/fileinput.min.js"></script>
-<script type="text/javascript" src="../libs/bootstrap-fileinput/js/fileinput_locale_zh.js"></script>
+<script type="text/javascript" src="../assets/libs/bootstrap-fileinput/js/fileinput.min.js"></script>
+<script type="text/javascript" src="../assets/libs/bootstrap-fileinput/js/fileinput_locale_zh.js"></script>
 <script type="text/javascript">
 var user_count = 1;
 $(document).ready(function() {

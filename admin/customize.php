@@ -3,12 +3,12 @@
  * @Author: printempw
  * @Date:   2016-03-19 14:34:21
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 18:47:48
+ * @Last Modified time: 2016-03-26 21:44:27
  */
 require "../libraries/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
 $data['style'] = <<< 'EOT'
-<link rel="stylesheet" href="../libs/AdminLTE/dist/css/skins/_all-skins.min.css">
+<link rel="stylesheet" href="../assets/libs/AdminLTE/dist/css/skins/_all-skins.min.css">
 <style>
 .callout {
     margin: 15px 0;
