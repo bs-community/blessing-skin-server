@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 22:28:22
+ * @Last Modified time: 2016-03-26 23:09:06
  */
 session_start();
 $dir = dirname(__FILE__);
@@ -28,6 +28,7 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
     <link rel="shortcut icon" href="./assets/images/favicon.ico">
     <link rel="stylesheet" href="./assets/libs/pure/pure-min.css">
     <link rel="stylesheet" href="./assets/libs/pure/grids-responsive-min.css">
+    <link rel="stylesheet" href="../assets/libs/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="./assets/css/style.css">
     <link rel="stylesheet" href="./assets/css/index.style.css">
     <link rel="stylesheet" href="./assets/libs/remodal/remodal.css">
@@ -102,7 +103,6 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
         </label>
         <button id="login-button" class="pure-button pure-button-primary">登录</button>
     </div>
-    <div id="msg" class="alert"></div>
 </div>
 <?php if (Option::get('user_can_register') == 1): ?>
 <div class="remodal" data-remodal-id="register-modal">

@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-01-21 13:55:44
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-19 10:08:46
+* @Last Modified time: 2016-03-26 23:07:15
 */
 
 'use strict';
@@ -17,7 +17,7 @@ var login = function() {
             dataType: "json",
             data: { "uname": uname, "passwd": passwd },
             beforeSend: function() {
-                showMsg('alert-info', '登录中。。');
+                $('#login-button').html('<i class="fa fa-spinner fa-spin"></i> 登录中').prop('disabled', 'disabled');
             },
             success: function(json) {
                 console.log(json);
@@ -33,7 +33,7 @@ var login = function() {
                     window.setTimeout('window.location = "./user/index.php"', 1000);
                 } else {
                     showAlert(json.msg);
-                    showMsg('hide', '');
+                    $('#login-button').html('登录').prop('disabled', '');
                 }
             },
             error: function(json) {
@@ -53,7 +53,7 @@ var register = function() {
             dataType: "json",
             data: {'uname':uname, 'passwd':passwd},
             beforeSend: function() {
-                showMsg('alert-info', '注册中...');
+                $('#register-button').html('<i class="fa fa-spinner fa-spin"></i> 注册中').prop('disabled', 'disabled');
             },
             success: function(json) {
                 if (json.errno == 0) {
@@ -67,7 +67,7 @@ var register = function() {
                     });
                 } else {
                     showAlert(json.msg);
-                    showMsg('hide', "");
+                    $('#register-button').html('注册').prop('disabled', '');
                 }
             },
             error: function(json) {
