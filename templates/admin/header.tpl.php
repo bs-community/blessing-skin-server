@@ -120,7 +120,7 @@
                         echo '</li>';
                     } ?>
                     <li class="header">返回</li>
-                    <li><a href="../user/index.php"><i class="fa fa-users"></i> <span>用户中心</span></a></li>
+                    <li><a href="../user/index.php"><i class="fa fa-user"></i> <span>用户中心</span></a></li>
                 </ul><!-- /.sidebar-menu -->
             </section>
             <!-- /.sidebar -->
