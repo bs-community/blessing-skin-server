@@ -8,10 +8,11 @@
 -----------
 
 - 支持 [UniSkinAPI](https://github.com/RecursiveG/UniSkinServer/blob/master/doc/UniSkinAPI_zh-CN.md)
-- 支持 CustomSkinLoader API
+- 支持 [CustomSkinLoader API](https://github.com/xfl03/CustomSkinLoaderAPI/blob/master/CustomSkinAPI/CustomSkinAPI_en.md)
 - 同时支持旧版样式链接
 - 支持与 Authme、CrazyLogin、Discuz 等程序进行数据对接
-- 多种后台配色~
+- 完善的用户管理后台以及配置页面
+- 多种后台配色
 - 可以获取由用户皮肤生成的头像（example.com/avatar/{{size}}/username.png）
 
 环境要求：
@@ -35,7 +36,7 @@
 服务器配置：
 ------------
 
-如果你使用 Apache 作为 web 服务器（大部分的虚拟主机），那么恭喜你，我已经帮你把重写规则写好在 `.htaccess` 里啦，开箱即用，无需任何配置~
+如果你使用 Apache 或者 IIS 作为 web 服务器（大部分的虚拟主机），那么恭喜你，我已经帮你把重写规则写好啦，开箱即用，无需任何配置~
 
 如果你使用 Nginx，请在你的 `nginx.conf` 中加入如下 rewrite 规则**（重要）**：
 
@@ -48,8 +49,6 @@ rewrite ^/(usm|csl)/textures/(.*)$ /textures/$2 last;
 rewrite ^/avatar/(|[0-9]*/)([^/-]*).png$ /get.php?type=avatar&uname=$2&size=$1 last;
 ```
 
-你可以使用可选的重写规则来同时支持 CustomSkinLoader API 和 UniSkinAPI。如何同时支持会在下面 Mod 配置中说明。
-
 如果你将皮肤站放在子目录中，你需要把重写规则改成类似于**这样**：
 
 ```
@@ -58,9 +57,9 @@ rewrite ^/subdir/([^/]*).json$ /subdir/get.php?type=json&uname=$1 last;
 
 注意 `^/` 后和 `/get.php` 前都要加上你的子目录名。
 
-现在你可以访问 `http://example.com/username.json` 来得到你的首选 API 的 JSON 用户数据。另外一个 API 的 JSON 数据可以通过访问 `http://example.com/(usm|csl)/username.json` 得到（需配置可选重写规则）。
+现在你可以访问 `http://example.com/username.json` 来得到你的首选 API 的 JSON 用户数据。另外一个 API 的 JSON 数据可以通过访问 `http://example.com/(usm|csl)/username.json` 得到。
 
-上传完皮肤后，你就可以访问 `http://example.com/skin/username.png` 得到你的首选模型皮肤啦。 披风图片在这里：`http://example.com/cape/username.png` 。你还可以访问 `http://example.com/skin/username-(alex|steve).png` 来得到用户的 Alex/Steve 模型的皮肤文件（用户没上传则返回空）。
+上传完皮肤后，你就可以访问 `http://example.com/skin/username.png` 得到你的首选模型皮肤啦。 披风图片在这里：`http://example.com/cape/username.png` 。你还可以访问 `http://example.com/skin/username-(alex|steve).png` 来得到用户的 Alex/Steve 模型的皮肤文件（用户没上传则返回 404）。
 
 数据对接：
 ------------
@@ -69,16 +68,16 @@ Blessing Skin Server 支持与 Authme、CrazyLogin、Discuz 等程序进行数�
 
 如果在插件配置中修改过用户名或者密码的字段，请自行修改 `对接数据表用户名字段` 等信息。
 
-注意，`config.php` 中填写的数据库连接信息必须与被对接的程序的连接信息相同（即同一个数据库）。
+注意，`config.php` 中填写的数据库连接信息必须与被对接的程序的连接信息相同**（即同一个数据库）**。
 
 如需适配其他程序，继承 `Database` 类并实现 `EncryptInterface` 与 `SyncInterface` 两个接口即可。
 
 客户端配置：
 ------------
 
-#### CustomSkinLoader 13.1 及以上
+#### CustomSkinLoader 13.1 及以上（推荐）
 
-CustomSkinLoader 13.1 经过作者的完全重写，支持了 CSL API，并且使用了高端洋气的 JSON 配置文件。
+CustomSkinLoader 13.1 经过作者的完全重写，支持了 CSL API，并且使用了高端洋气的 JSON 配置文件。你问我 JSON 是什么？为什么不去问问神奇海螺呢。
 
 配置文件位于 `.minecraft/CustomSkinLoader/CustomSkinLoader.json`，你需要在 loadlist 数组最顶端加入你的皮肤站配置。
 
@@ -127,7 +126,7 @@ CustomSkinLoader 13.1 经过作者的完全重写，支持了 CSL API，并且�
 
 `"type"` 字段按照你的 `config.php` 中配置的首选 API 来填(CustomSkinAPI|UniSkinAPI)，CSL 13.1 版是支持三种加载方式的~~万受♂之王~~
 
-有什么不会填的，请查看 CSL 开发者的 MCBBS 发布贴。
+如果还是不会填的话，请查看 CSL 开发者的 [MCBBS 发布贴](http://www.mcbbs.net/thread-269807-1-1.html)。
 
 #### CustomSkinLoader 13.1 版以下：
 
@@ -148,10 +147,44 @@ http://www.skinme.cc/MinecraftSkins/*.png
 http://example.com/cape/*.png
 ```
 
+#### UniSkinMod 1.4 版及以上（推荐）
 
-#### UniSkinMod 1.2 版及以上
+配置文件位于 `.minecraft/config/UniSkinMod/UniSkinMod.json`。
 
-在你 MC 客户端的`.minecraft/config/UniSkinMod.cfg` 中加入你的皮肤站根地址：
+举个栗子（原来的 JSON 长这样）：
+
+```
+{
+  "rootURIs": [
+    "http://www.skinme.cc/uniskin",
+    "https://skin.prinzeugen.net"
+  ],
+  "legacySkinURIs": [],
+  "legacyCapeURIs": []
+}
+```
+
+你需要在 `rootURIs` 字典中加入你的皮肤站的地址：
+
+```
+{
+  "rootURIs": [
+    "http://www.skinme.cc/uniskin",
+    "https://skin.prinzeugen.net",
+    "http://example.com"
+  ],
+  "legacySkinURIs": [],
+  "legacyCapeURIs": []
+}
+```
+
+如果你的皮肤站首选 API 为 CustomSkinLoader API 的话，你需要在 UniSkinMod 配置文件中填入类似于 `http://example.com/usm` （添加后缀）来支持 UniSkinMod。
+
+配置 `rootURIs` 后，`legacySkinURIs` 和 `legacyCapeURIs` 可以不用配置。详见[文档](https://github.com/RecursiveG/UniSkinMod/blob/1.9/README.md)。
+
+#### UniSkinMod 1.2 及 1.3 版
+
+在你 MC 客户端的 `.minecraft/config/UniSkinMod.cfg` 中加入你的皮肤站根地址：
 
 举个栗子：
 
@@ -161,11 +194,12 @@ Root: http://www.skinme.cc/uniskin
 # Your Server
 Root: http://example.com
 ```
-如果你把皮肤站安装到子目录的话，请一起带上你的子目录。如果你的皮肤站首选 API 为 CustomSkinLoader API 的话，你需要在 UniSkinMod 配置文件中填入类似于 `http://example.com/usm` 来支持 UniSkinMod。
+
+如果你把皮肤站安装到子目录的话，请一起带上你的子目录。
 
 #### UniSkinMod 1.2 版以下
 
-同样是在 `.minecraft/config/UniSkinMod.cfg` 中配置你的皮肤站地址，但是稍有点不一样。旧版的 UniSkinMod 是不支持 Json API 的，而是使用了传统图片链接的方式（其实这样的话皮肤站爷好实现）：
+同样是在 `.minecraft/config/UniSkinMod.cfg` 中配置你的皮肤站地址，但是稍有点不一样。旧版的 UniSkinMod 是不支持 Json API 的，而是使用了传统图片链接的方式（其实这样的话皮肤站也好实现）：
 
 举个栗子：
 
