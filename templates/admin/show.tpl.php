@@ -60,6 +60,17 @@
                         </div>
                     </form>
                 </div>
+
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">预览控制</h3>
+                        </div><!-- /.box-header -->
+                        <div class="box-body">
+                            选择要预览的模型：
+                            <a class="btn btn-primary" href="javascript:MSP.changeSkin('../textures/<?php echo $user->getTexture('alex');?>');" style="float: right;">Alex</a>
+                            <a class="btn btn-primary" href="javascript:MSP.changeSkin('../textures/<?php echo $user->getTexture('steve');?>');" style="float: right; margin-right: 10px;">Steve</a>
+                    </div><!-- /.box-body -->
+                </div>
             </div>
             <div class="col-md-6">
                 <div class="box">
