@@ -20,7 +20,7 @@ define('DB_HOST', 'localhost');
  * 如果您有在同一数据库内安装多个 Blessing Skin Server 的需求，
  * 请为每个皮肤站设置不同的数据表前缀。前缀名只能为数字、字母加下划线。
  */
-define('DB_PREFIX', '');
+define('DB_PREFIX', 'bs_');
 
 /* 盐，用于 token 加密，修改为任意随机字符串 */
 define('SALT', '9tvsE+1._%R4@VLaX(I|.U+h_d*s');
