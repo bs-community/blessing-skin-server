@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-21 13:56:40
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 22:28:24
+ * @Last Modified time: 2016-03-27 09:45:18
  */
 require "../libraries/session.inc.php";
 $data['style'] = <<< 'EOT'
@@ -70,6 +70,7 @@ View::show('header', $data);
 </div><!-- /.content-wrapper -->
 <?php
 $data['script'] = <<< 'EOT'
+<script type="text/javascript" src="../assets/js/preview.utils.js"></script>
 <script type="text/javascript" src="../assets/js/user.utils.js"></script>
 EOT;
 View::show('footer', $data); ?>

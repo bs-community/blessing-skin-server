@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-18 21:41:21
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 21:43:42
+ * @Last Modified time: 2016-03-27 09:45:12
  */
 require "../libraries/session.inc.php";
 $data['style'] = <<< 'EOT'
@@ -82,6 +82,7 @@ $data['script'] = <<< 'EOT'
 <script type="text/javascript" src="../assets/libs/iCheck/icheck.min.js"></script>
 <script type="text/javascript" src="../assets/libs/bootstrap-fileinput/js/fileinput.min.js"></script>
 <script type="text/javascript" src="../assets/libs/bootstrap-fileinput/js/fileinput_locale_zh.js"></script>
+<script type="text/javascript" src="../assets/js/preview.utils.js"></script>
 <script type="text/javascript" src="../assets/js/user.utils.js"></script>
 <script type="text/javascript" src="../assets/js/upload.utils.js"></script>
 EOT;

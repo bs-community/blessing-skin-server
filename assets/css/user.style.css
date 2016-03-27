@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-01-21 19:12:06
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-26 18:41:52
+* @Last Modified time: 2016-03-27 09:40:30
 */
 
 @import url(https://fonts.googleapis.com/css?family=Ubuntu);
@@ -14,34 +14,6 @@ body, .ply-layer {
 }
 .box-body {
     line-height: 1.8;
-}
-#canvas3d {
-    margin: 0 auto;
-    display: block;
-}
-.operations {
-    display: inline;
-    float: right;
-}
-.operations > i {
-    padding: .5em .5em;
-    display: inline !important;
-}
-.operations > i:hover {
-    color: #555;
-    cursor: pointer;
-}
-#preview-2d > p {
-    height: 64px;
-    line-height: 64px;
-}
-.skin2d {
-    float: right;
-    max-height: 64px;
-    width: 64px;
-}
-.box-title {
-    width: 100%;
 }
 .callout {
     border-radius: 3px;

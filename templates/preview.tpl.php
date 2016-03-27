@@ -20,11 +20,21 @@
         /></p>
     </div>
 </div>
+<style>
+    .operations { display: inline; float: right; }
+    .operations > i { padding: .5em .5em; display: inline !important; }
+    .operations > i:hover { color: #555; cursor: pointer; }
+    .skin2d { float: right; max-height: 64px; width: 64px; }
+    .box-title { width: 100%; }
+    #canvas3d { margin: 0 auto; display: block; }
+    #preview-2d > p { height: 64px; line-height: 64px; }
+</style>
 <script type="text/javascript">
-    var preview_type = "3d";
+
 </script>
 <script type="text/javascript" src="../assets/libs/skin-preview/three.min.js"></script>
 <script type="text/javascript" src="../assets/libs/skin-preview/three.msp.js"></script>
+
 <?php
 // Get and set texture for preview
 if ($data['user']->getTexture('skin')) {
