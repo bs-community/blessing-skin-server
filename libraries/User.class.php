@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 22:28:23
+ * @Last Modified time: 2016-03-27 10:58:10
  */
 
 use Database\Database;
@@ -106,6 +106,7 @@ class User
         if ($this->getTexture($type) != "") {
             $filename = "./textures/".$this->getTexture($type);
             if (file_exists($filename)) {
+                header('Content-Type: image/png');
                 // Cache friendly
                 header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $this->getLastModified()).' GMT');
                 header('Content-Length: '.filesize($filename));

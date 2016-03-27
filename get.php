@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 20:56:42
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 22:28:22
+ * @Last Modified time: 2016-03-27 10:57:45
  *
  * All textures requests of legacy link will be handle here.
  */
@@ -27,7 +27,6 @@ if (isset($_GET['type']) && isset($_GET['uname'])) {
         if ($if_modified_since >= $user->getLastModified()) {
             header('HTTP/1.0 304 Not Modified');
         } else {
-            header('Content-Type: image/png');
             if ($_GET['type'] == "cape") {
                 echo $user->getBinaryTexture('cape');
             } else {
