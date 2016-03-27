@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-06 14:19:20
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 18:47:49
+ * @Last Modified time: 2016-03-27 09:12:25
  */
 require "../libraries/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
@@ -40,7 +40,7 @@ $db = new Database\Database();
                         $page_now = isset($_GET['page']) ? $_GET['page'] : 1;
                         $db = new Database\Database();
                         $result = $db->query("SELECT * FROM users ORDER BY `uid` LIMIT ".(string)(($page_now-1)*30).", 30");
-                        $page_total = $db->getRecordNum()/30;
+                        $page_total = round($db->getRecordNum()/30);
                         while ($row = $result->fetch_array()) { ?>
                         <tr>
                             <td><?php echo $row['uid']; ?></td>
@@ -75,38 +75,37 @@ $db = new Database\Database();
             </div>
         </div>
 
-        <ul class="pagination">
-            <?php if ($page_now == 1): ?>
-            <li class="disabled">
-                <a href="#" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-            </li>
-            <?php else: ?>
+        <ul class="pager">
+            <?php if ($page_now != 1 && $page_now >= 5): ?>
             <li>
-                <a href="manage.php?page=<?php echo $page_now-1; ?>" aria-label="Previous">
-                    <span aria-hidden="true">&laquo;</span>
-                </a>
+                <a href="manage.php?page=1">1...</a>
             </li>
             <?php endif;
 
-            for ($i = 1; $i <= $page_total; $i++) {
+            if ($page_now > $page_total - 2) {
+                $from = $page_total - 4;
+                $to = $page_total;
+            } elseif ($page_now > 2) {
+                $from = $page_now - 2;
+                $to = $page_now + 2;
+            } else {
+                $from = 1;
+                $to = 6;
+            }
+
+            for ($i = $from; $i <= $to; $i++) {
                 if ($i == $page_now) {
                     echo '<li class="active"><a href="#">'.(string)$i.'</a></li>';
                 } else {
                     echo '<li><a href="manage.php?page='.$i.'">'.(string)$i.'</a></li>';
                 }
-            }
+            } ?>
 
-            if ($page_now == $page_total): ?>
-            <li class="disabled">
-                <a href="#" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-            </li>
-            <?php else: ?>
-            <li>
-                <a href="manage.php?page=<?php echo $page_now+1; ?>" aria-label="Next">
-                    <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-            <?php endif; ?>
+            <select id="page-select">
+                <?php for ($i = 1; $i <= $page_total; $i++) {
+                    echo "<option value='$i'>$i</option>";
+                } ?>
+            </select>
          </ul>
 
     </section><!-- /.content -->
@@ -114,5 +113,10 @@ $db = new Database\Database();
 <?php
 $data['script'] = <<< 'EOT'
 <script type="text/javascript" src="../assets/js/admin.utils.js"></script>
+<script>
+$('#page-select').on('change', function() {
+    window.location = "manage.php?page="+$(this).val();
+});
+</script>
 EOT;
 View::show('footer', $data); ?>

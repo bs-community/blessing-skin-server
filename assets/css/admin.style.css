@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-02-04 16:47:54
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-26 20:14:22
+* @Last Modified time: 2016-03-27 09:04:59
 */
 
 @import url(https://fonts.googleapis.com/css?family=Ubuntu);
@@ -37,4 +37,22 @@ td[class='key'], td[class='value'] {
 .info-box > a {
     color: #333;
     font-size: 18px;
+}
+.pager>.active>a,
+.pager>.active>a:focus,
+.pager>.active>a:hover {
+    z-index: 3;
+    color: #fff;
+    cursor: default;
+    background-color: #337ab7;
+    border-color: #337ab7;
+}
+.pager > select {
+    display: inline-block;
+    padding: 6px 14px;
+    color: #3c8dbc;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    outline: none;
 }
