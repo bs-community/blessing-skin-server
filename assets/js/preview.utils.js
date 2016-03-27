@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-03-27 09:43:57
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-27 09:46:57
+* @Last Modified time: 2016-03-27 17:21:21
 */
 
 'use strict';
@@ -10,6 +10,7 @@
 var preview_type = "3d";
 
 function init3dCanvas() {
+    if (preview_type == "2d") return;
     if ($(window).width() < 800) {
         var canvas = MSP.get3dSkinCanvas($('#skinpreview').width(), $('#skinpreview').width());
         $("#skinpreview").append($(canvas).prop("id", "canvas3d"));
