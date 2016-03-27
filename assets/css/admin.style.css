@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-02-04 16:47:54
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-27 09:40:35
+* @Last Modified time: 2016-03-27 10:38:36
 */
 
 @import url(https://fonts.googleapis.com/css?family=Ubuntu);
@@ -55,4 +55,13 @@ td[class='key'], td[class='value'] {
     border: 1px solid #ddd;
     border-radius: 15px;
     outline: none;
+}
+.user-search-form {
+    display: inline;
+}
+.user-search-input {
+    display: inline;
+    width: 30%;
+    float: right;
+    margin: 0;
 }

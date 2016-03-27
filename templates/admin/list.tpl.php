@@ -5,6 +5,9 @@
         <h1>
             用户管理
             <small>User Manage</small>
+            <form method="post" action="manage.php" class="user-search-form">
+                <input type="text" name="search-username" class="form-control user-search-input" placeholder="输入用户名，回车搜索。" value="<?php echo Utils::getValue('search-username', $_POST); ?>">
+            </form>
         </h1>
     </section>
 
@@ -27,8 +30,14 @@
                         <?php
                         $page_now = isset($_GET['page']) ? $_GET['page'] : 1;
                         $db = new Database\Database();
-                        $result = $db->query("SELECT * FROM users ORDER BY `uid` LIMIT ".(string)(($page_now-1)*30).", 30");
-                        $page_total = round($db->getRecordNum()/30);
+
+                        if (isset($_POST['search-username'])) {
+                            $result = $db->query("SELECT * FROM users WHERE `username` LIKE '%".$_POST['search-username']."%' ORDER BY `uid` LIMIT ".(string)(($page_now-1)*30).", 30");
+                        } else {
+                            $result = $db->query("SELECT * FROM users ORDER BY `uid` LIMIT ".(string)(($page_now-1)*30).", 30");
+                        }
+
+                        $page_total = round($result->num_rows/30);
                         while ($row = $result->fetch_array()) { ?>
                         <tr>
                             <td><?php echo $row['uid']; ?></td>
@@ -62,13 +71,13 @@
             </div>
         </div>
 
+        <?php if ($page_total != 0): ?>
         <ul class="pager">
             <?php if ($page_now != 1 && $page_now >= 5): ?>
-            <li>
-                <a href="manage.php?page=1">1...</a>
-            </li>
+            <li><a href="manage.php?page=1">1...</a></li>
             <?php endif;
 
+            // calculate page numbers to show
             if ($page_now > $page_total - 2) {
                 $from = $page_total - 4;
                 $to = $page_total;
@@ -94,6 +103,7 @@
                 } ?>
             </select>
          </ul>
+         <?php endif; ?>
 
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->

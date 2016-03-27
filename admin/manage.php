@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-06 14:19:20
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-27 09:45:54
+ * @Last Modified time: 2016-03-27 10:53:06
  */
 require "../libraries/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
@@ -17,7 +17,6 @@ if (isset($_GET['show'])) {
 }
 
 $data['script'] = <<< 'EOT'
-<script type="text/javascript" src="../assets/js/preview.utils.js"></script>
 <script type="text/javascript" src="../assets/js/admin.utils.js"></script>
 <script>
 $('#page-select').on('change', function() {
@@ -25,4 +24,6 @@ $('#page-select').on('change', function() {
 });
 </script>
 EOT;
+if (isset($_GET['show']))
+    $data['script'] .= '<script type="text/javascript" src="../assets/js/preview.utils.js"></script>';
 View::show('footer', $data); ?>
