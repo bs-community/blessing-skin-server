@@ -33,10 +33,10 @@
 
                         if (isset($_POST['search-username'])) {
                             $result = $db->query("SELECT * FROM users WHERE `username` LIKE '%".$_POST['search-username']."%' ORDER BY `uid` LIMIT ".(string)(($page_now-1)*30).", 30");
-                            $page_total = $db->query("SELECT * FROM users WHERE `username` LIKE '%".$_POST['search-username']."%'")->num_rows/30;
+                            $page_total = round($db->query("SELECT * FROM users WHERE `username` LIKE '%".$_POST['search-username']."%'")->num_rows/30);
                         } else {
                             $result = $db->query("SELECT * FROM users ORDER BY `uid` LIMIT ".(string)(($page_now-1)*30).", 30");
-                            $page_total = $db->query("SELECT * FROM users WHERE 1")->num_rows/30;
+                            $page_total = round($db->query("SELECT * FROM users WHERE 1")->num_rows/30);
                         }
 
                         while ($row = $result->fetch_array()) { ?>
