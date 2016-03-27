@@ -3,30 +3,11 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-27 08:15:03
+ * @Last Modified time: 2016-03-27 11:33:59
  */
 
 class Utils
 {
-    /**
-     * Custom error handler
-     *
-     * @param  int $errno
-     * @param  string $msg, message to show
-     * @return void
-     */
-    public static function raise($errno = -1, $msg = "Error occured.") {
-        $exception['errno'] = $errno;
-        $exception['msg'] = $msg;
-        header('Content-type: application/json; charset=utf-8');
-        die(json_encode($exception));
-    }
-
-    public static function showErrorPage($errno = -1, $msg = "Error occured.") {
-        require BASE_DIR."/templates/error.tpl.php";
-        die();
-    }
-
     /**
      * Rename uploaded file
      *

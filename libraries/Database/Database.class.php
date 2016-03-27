@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 21:59:06
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 19:04:39
+ * @Last Modified time: 2016-03-27 11:32:04
  */
 
 namespace Database;
@@ -12,6 +12,7 @@ use Database\EncryptInterface;
 use Database\SyncInterface;
 use Utils;
 use Mysqli;
+use E;
 
 class Database implements EncryptInterface, SyncInterface
 {
@@ -32,12 +33,11 @@ class Database implements EncryptInterface, SyncInterface
         error_reporting(E_ALL ^ E_NOTICE);
 
         if ($conn->connect_error)
-            Utils::showErrorPage($conn->connect_errno,
-                "无法连接至 MySQL 服务器。请确认 config.php 中的配置是否正确：".$conn->connect_error);
+            throw new E("无法连接至 MySQL 服务器。请确认 config.php 中的配置是否正确：".$conn->connect_error, $conn->connect_errno, true);
         if (!self::checkTableExist($conn))
-            Utils::showErrorPage(-1, "数据库中不存在 ".DB_PREFIX."users 或 ".DB_PREFIX."options 表。请先运行 /admin/install.php 进行安装。");
+            throw new E("数据库中不存在 ".DB_PREFIX."users 或 ".DB_PREFIX."options 表。请先访问 <a href='./admin/install.php'>/admin/install.php</a> 进行安装。", -1, true);
         if (!is_dir(BASE_DIR."/textures/"))
-            Utils::showErrorPage(-1, "textures 文件夹不存在。请先运行 /admin/install.php 进行安装，或者手动放置一个。");
+            throw new E("textures 文件夹不存在。请先运行 /admin/install.php 进行安装，或者手动放置一个。", -1, true);
 
         $conn->query("SET names 'utf8'");
         return $conn;
@@ -58,7 +58,7 @@ class Database implements EncryptInterface, SyncInterface
         if (!$this->connection->error) {
             return $result;
         }
-        Utils::raise(-1, "Database query error: ".$this->connection->error);
+        throw new E("Database query error: ".$this->connection->error, -1);
     }
 
     public function fetchArray($sql) {

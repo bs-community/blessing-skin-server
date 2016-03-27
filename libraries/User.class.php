@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-27 10:58:10
+ * @Last Modified time: 2016-03-27 11:27:06
  */
 
 use Database\Database;
@@ -47,9 +47,9 @@ class User
 
     public static function checkValidPwd($passwd) {
         if (strlen($passwd) > 16 || strlen($passwd) < 5) {
-            Utils::raise(1, '无效的密码。密码长度应该大于 6 并小于 15。');
+            throw new E('无效的密码。密码中包含了奇怪的字符。', 1);
         } else if (Utils::convertString($passwd) != $passwd) {
-            Utils::raise(1, '无效的密码。密码中包含了奇怪的字符。');
+            throw new E('无效的密码。密码长度应该大于 6 并小于 15。', 1);
         }
         return true;
     }
@@ -113,11 +113,11 @@ class User
                 return Utils::fread($filename);
             } else {
                 header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
-                Utils::showErrorPage(404, '请求的贴图已被删除。');
+                throw new E('请求的贴图已被删除。', 404, true);
             }
         } else {
             header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
-            Utils::showErrorPage(404, '该用户尚未上传请求的贴图类型 '.$type.'。');
+            throw new E('该用户尚未上传请求的贴图类型 '.$type.'。', 404, true);
         }
     }
 
@@ -190,7 +190,7 @@ class User
                 }
                 $json['cape'] = $this->getTexture('cape');
             } else {
-                Utils::showErrorPage(-1, '配置文件错误：不支持的 API_TYPE。');
+                throw new E('配置文件错误：不支持的 API_TYPE。', -1, true);
             }
         } else {
             header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");

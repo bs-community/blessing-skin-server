@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-04 13:53:55
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 22:28:22
+ * @Last Modified time: 2016-03-27 11:29:16
  */
 require "../libraries/session.inc.php";
 
@@ -30,7 +30,7 @@ if (isset($_GET['action'])) {
                 $json['msg'] = "出现了奇怪的错误。。请联系作者";
             }
         } else {
-            Utils::raise(1, '你没有选择任何文件哦');
+            throw new E('你没有选择任何文件哦', 1);
         }
     } else if ($action == "change") {
         if (User::checkValidPwd($_POST['passwd'])) {
@@ -62,7 +62,7 @@ if (isset($_GET['action'])) {
             $json['errno'] = 0;
             $json['msg'] = "成功地将用户 ".$_GET['uname']." 的优先皮肤模型更改为 ".$_POST['model']." 。";
         } else {
-            Utils::raise(1, '非法参数。');
+            throw new E('非法参数。', 1);
         }
     } else if ($action == "color") {
         if (isset($_POST['color_scheme'])) {
@@ -71,10 +71,10 @@ if (isset($_GET['action'])) {
             $json['errno'] = 0;
             $json['msg'] = "修改配色成功。";
         } else {
-            Utils::raise(1, '非法参数。');
+            throw new E('非法参数。', 1);
         }
     } else {
-        Utils::raise(1, '非法参数。');
+        throw new E('非法参数。', 1);
     }
 }
 

@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-18 14:02:12
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 22:53:06
+ * @Last Modified time: 2016-03-27 11:28:24
  */
 
 use Database\Database;
@@ -15,7 +15,7 @@ class Option
         $sql = "SELECT * FROM ".DB_PREFIX."options WHERE `option_name` = '$key'";
         $result = $conn->query($sql);
         if ($conn->error)
-            Utils::raise(-1, "Database query error: ".$conn->error);
+            throw new E("Database query error: ".$conn->error, -1);
         return $result->fetch_array()['option_value'];
     }
 
@@ -27,7 +27,7 @@ class Option
             $sql = "UPDATE ".DB_PREFIX."options SET `option_value`='$value' WHERE `option_name`='$key'";
             $result = $conn->query($sql);
             if ($conn->error)
-                Utils::raise(-1, "Database query error: ".$conn->error);
+                throw new E("Database query error: ".$conn->error, -1);
             else
                 return true;
         }
@@ -40,7 +40,7 @@ class Option
             $sql = "INSERT INTO ".DB_PREFIX."options (`option_name`, `option_value`) VALUES ('$key', '$value')";
             $result = $conn->query($sql);
             if ($conn->error)
-                Utils::raise(-1, "Database query error: ".$conn->error);
+                throw new E("Database query error: ".$conn->error, -1);
             else
                 return true;
         } else {
@@ -65,7 +65,7 @@ class Option
             $sql = "DELETE FROM ".DB_PREFIX."options WHERE `option_name`='$key'";
             $result = $conn->query($sql);
             if ($conn->error)
-                Utils::raise(-1, "Database query error: ".$conn->error);
+                throw new E("Database query error: ".$conn->error, -1);
             else
                 return true;
         } else {

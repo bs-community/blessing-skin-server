@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 22:28:22
+ * @Last Modified time: 2016-03-27 11:25:46
  *
  * - login, register, logout
  * - upload, change, delete
@@ -24,10 +24,10 @@ if (isset($_POST['uname'])) {
     if (User::checkValidUname($uname)) {
         $user = new User($_POST['uname']);
     } else {
-        Utils::raise(1, '无效的用户名。用户名只能包含数字，字母以及下划线。');
+        throw new E('无效的用户名。用户名只能包含数字，字母以及下划线。', 1);
     }
 } else {
-    Utils::raise('1', '空用户名。');
+    throw new E('空用户名。', 1);
 }
 $action = isset($_GET['action']) ? $_GET['action'] : null;
 $json = null;

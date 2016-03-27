@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 20:56:42
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-27 10:57:45
+ * @Last Modified time: 2016-03-27 11:25:36
  *
  * All textures requests of legacy link will be handle here.
  */
@@ -15,7 +15,7 @@ if (isset($_GET['type']) && isset($_GET['uname'])) {
     $user = new User($_GET['uname']);
     if (!$user->is_registered) {
         header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");
-        Utils::raise(1, 'Non-existent user.');
+        throw new E('Non-existent user.', 1);
     }
     // Cache friendly
     $if_modified_since = isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ?
@@ -44,8 +44,8 @@ if (isset($_GET['type']) && isset($_GET['uname'])) {
         $size = (isset($_GET['size']) && $_GET['size'] != "") ? (int)$_GET['size'] : 128;
         $user->getAvatar($size);
     } else {
-        Utils::raise(1, 'Illegal parameters.');
+        throw new E('Illegal parameters.', 1);
     }
 } else {
-    Utils::raise(1, 'Illegal parameters.');
+    throw new E('Illegal parameters.', 1);
 }
