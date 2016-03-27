@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-01-21 07:57:38
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-26 18:40:35
+* @Last Modified time: 2016-03-27 11:57:33
 */
 
 @import url(https://fonts.googleapis.com/css?family=Ubuntu);
@@ -183,4 +183,8 @@ p {
 }
 .ply-layer {
     font-family: Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif !important;
+}
+/* fucking webkit autofill */
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #fff inset !important;
 }
