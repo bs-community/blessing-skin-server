@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-27 13:30:00
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-27 14:46:20
+ * @Last Modified time: 2016-03-27 17:01:20
  */
 
 // Sanity check
@@ -104,7 +104,17 @@ function checkClass($classname) {
 
 function checkRewrite() {
     global $fails;
-    $uri = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    $protocol = "http://";
+
+    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 1) {  // Apache
+        $protocol = "https://";
+    } elseif ($_SERVER['HTTPS'] === 'on') { // IIS
+        $protocol = "https://";
+    } elseif ($_SERVER['SERVER_PORT'] == 443){ // for other servers
+        $protocol = "https://";
+    }
+
+    $uri = $protocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
     $base_url = explode('setup', $uri)[0];
 
     $ch = curl_init();
