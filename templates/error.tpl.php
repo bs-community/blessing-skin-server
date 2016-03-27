@@ -28,7 +28,8 @@
     #logo a, p, h1, h2 { font-weight: 400; }
     #logo, h1, h2 { padding: 0px 0px 7px; }
     p { padding-bottom: 2px; font-size: 14px; line-height: 1.5; }
-    #logo a { font-family: Minecraft, sans-serif; font-size: 50px; color: #666; height: 84px; line-height: 1.3em; margin: -130px auto 25px; padding: 0; outline: 0; text-decoration: none; overflow: hidden; display: block; }
+    #logo a { font-family: Minecraft, sans-serif; transition: all .2s ease-in-out; font-size: 50px; color: #666; height: 84px; line-height: 1.3em; margin: -130px auto 25px; padding: 0; outline: 0; text-decoration: none; overflow: hidden; display: block; }
+    #logo a:hover { color: #42a5f5; }
     #logo { margin: 6px 0 14px; border-bottom: none; text-align: center; }
     /* Mobile phone */
     @media (max-width: 48em) {

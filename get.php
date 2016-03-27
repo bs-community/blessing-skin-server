@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 20:56:42
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-27 11:25:36
+ * @Last Modified time: 2016-03-27 14:48:50
  *
  * All textures requests of legacy link will be handle here.
  */
@@ -12,6 +12,9 @@ $dir = dirname(__FILE__);
 require "$dir/libraries/autoloader.php";
 
 if (isset($_GET['type']) && isset($_GET['uname'])) {
+    // Use for checking rewrite rules when install
+    if ($_GET['uname'] == "check_for_rewrite_rules") exit;
+
     $user = new User($_GET['uname']);
     if (!$user->is_registered) {
         header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found");

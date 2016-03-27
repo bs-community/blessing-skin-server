@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 21:59:06
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-27 11:32:04
+ * @Last Modified time: 2016-03-27 14:50:39
  */
 
 namespace Database;
@@ -35,9 +35,9 @@ class Database implements EncryptInterface, SyncInterface
         if ($conn->connect_error)
             throw new E("无法连接至 MySQL 服务器。请确认 config.php 中的配置是否正确：".$conn->connect_error, $conn->connect_errno, true);
         if (!self::checkTableExist($conn))
-            throw new E("数据库中不存在 ".DB_PREFIX."users 或 ".DB_PREFIX."options 表。请先访问 <a href='./admin/install.php'>/admin/install.php</a> 进行安装。", -1, true);
+            throw new E("数据库中不存在 ".DB_PREFIX."users 或 ".DB_PREFIX."options 表。请先访问 <a href='./setup'>/setup</a> 进行安装。", -1, true);
         if (!is_dir(BASE_DIR."/textures/"))
-            throw new E("textures 文件夹不存在。请先运行 /admin/install.php 进行安装，或者手动放置一个。", -1, true);
+            throw new E("textures 文件夹不存在。请先访问 <a href='./setup'>/setup</a> 进行安装，或者手动放置一个。", -1, true);
 
         $conn->query("SET names 'utf8'");
         return $conn;

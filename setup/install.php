@@ -3,30 +3,10 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 19:44:57
+ * @Last Modified time: 2016-03-27 14:59:05
  *
  * Blessing Skin Server Installer
  */
-
-// Sanity check
-if (false): ?>
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta name="viewport" content="width=device-width" />
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="robots" content="noindex,nofollow" />
-<title>出现错误 - Blessing Skin Server 安装程序</title>
-<link rel="stylesheet" type="text/css" href="../assets/css/install.style.css">
-</head>
-<body class="container">
-<p id="logo"><a href="https://github.com/printempw/blessing-skin-server" tabindex="-1">Blessing Skin Server</a></p>
-<h1>错误：PHP 未运行</h1>
-<p>Blessing Skin Server 基于 PHP 开发，需要 PHP 运行环境。如果你看到这段话就说明主机的 PHP 未运行。</p>
-<p>你问 PHP 是什么？为什么不问问神奇海螺呢？</p>
-</body>
-</html>
-<?php endif;
 
 $dir = dirname(dirname(__FILE__));
 require "$dir/libraries/autoloader.php";
@@ -44,12 +24,6 @@ $step = isset($_GET['step']) ? $_GET['step'] : 1;
 <body class="container">
 <p id="logo"><a href="https://github.com/printempw/blessing-skin-server" tabindex="-1">Blessing Skin Server</a></p>
 <?php
-
-// if php version < 5.4
-if (strnatcasecmp(phpversion(), '5.4') < 0): ?>
-<h1>PHP 版本过低</h1>
-<p>由于使用了一些新特性，Blessing Skin Server 需要 PHP 版本 >= 5.4。您当前的 PHP 版本为 <?php echo phpversion(); ?></p>
-<?php exit; endif;
 
 // use error control to hide shitty connect warnings
 error_reporting(0);
@@ -73,19 +47,12 @@ if (Database\Database::checkTableExist($conn)): ?>
  * Stepped installation
  */
 switch ($step) {
+
 // Step 1
 case 1: ?>
-<h1>欢迎</h1>
-<p>欢迎使用 Blessing Skin Server V2！</p>
-<p>成功连接至 MySQL 服务器 <?php echo DB_USER."@".DB_HOST; ?>，点击下一步以开始安装。</p>
-<p class="step"><a href="install.php?step=2" class="button button-large">下一步</a></p>
-<?php break;
-
-// Step 2
-case 2: ?>
 <h1>填写信息</h1>
 <p>您需要填写一些基本信息。无需担心填错，这些信息以后可以再次修改。</p>
-<form id="setup" method="post" action="install.php?step=3" novalidate="novalidate">
+<form id="setup" method="post" action="install.php?step=2" novalidate="novalidate">
     <table class="form-table">
         <tr>
             <th scope="row"><label for="username">管理员用户名</label></th>
@@ -131,8 +98,8 @@ case 2: ?>
 </form>
 <?php break;
 
-// Step 3
-case 3:
+// Step 2
+case 2:
 // check post
 if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['password2'])) {
     if ($_POST['password'] != $_POST['password2']) {
@@ -183,17 +150,18 @@ $sql3  =  "INSERT INTO `$table_options` (`option_id`, `option_name`, `option_val
             (1,  'site_url',           ''),
             (2,  'site_name',          '$sitename'),
             (3,  'site_description',   'Minecraft 皮肤站'),
-            (4,  'user_can_register',  '1'),
-            (5,  'regs_per_ip',        '2'),
-            (6,  'api_type',           '0'),
-            (7,  'announcement',       '这是默认的公告~'),
-            (8,  'data_adapter',       ''),
-            (9,  'data_table_name',    'authme for example'),
-            (10, 'data_column_uname',  'username'),
-            (11, 'data_column_passwd', 'password'),
-            (12, 'data_column_ip',     'ip'),
-            (13, 'color_scheme',       'skin-blue'),
-            (14, 'home_pic_url',       './assets/images/bg.jpg');";
+            (4,  'current_version',    '2.3.4'),
+            (5,  'user_can_register',  '1'),
+            (6,  'regs_per_ip',        '2'),
+            (7,  'api_type',           '0'),
+            (8,  'announcement',       '这是默认的公告~'),
+            (9,  'data_adapter',       ''),
+            (10, 'data_table_name',    'authme for example'),
+            (11, 'data_column_uname',  'username'),
+            (12, 'data_column_passwd', 'password'),
+            (13, 'data_column_ip',     'ip'),
+            (14, 'color_scheme',       'skin-blue'),
+            (15, 'home_pic_url',       './assets/images/bg.jpg');";
 
 if (!$conn->query($sql1) || !$conn->query($sql2) || !$conn->query($sql3)) { ?>
     <h1>数据表创建失败</h1>
@@ -226,6 +194,7 @@ if (!is_dir("../textures/")) {
     </tr>
 </table>
 <p class="step"><a href="../index.php" class="button button-large">首页</a></p>
-<?php
-break;
-}
+<?php break;
+} ?>
+</body>
+</html>

@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-03-12 18:54:09
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-26 18:41:48
+* @Last Modified time: 2016-03-27 14:47:19
 */
 
 @import url(https://fonts.googleapis.com/css?family=Ubuntu);
@@ -41,6 +41,7 @@ p {
 }
 #logo a {
     font-family: Minecraft, sans-serif;
+    transition: all .2s ease-in-out;
     font-size: 50px;
     color: #666;
     height: 84px;
@@ -51,6 +52,9 @@ p {
     text-decoration: none;
     overflow: hidden;
     display: block;
+}
+#logo a:hover {
+    color: #42a5f5;
 }
 /* Mobile phone */
 @media (max-width: 48em) {
@@ -309,4 +313,30 @@ textarea {
     color: #8a6d3b;
     background-color: #fcf8e3;
     border-color: #faebcc;
+}
+.test {
+    margin-bottom: 20px;
+}
+.test-name {
+    display: inline-block;
+    width: 250px;
+    font-size: 16px;
+    /*font-weight: 700;*/
+}
+.result.passed {
+    color: #4caf50;
+}
+.result.failed {
+    color: #f44336;
+}
+.result {
+    float: right;
+    display: inline-block;
+    width: 250px;
+    text-align: right;
+    font-weight: bold;
+}
+.info {
+    margin: 4px 0 0 0;
+    font-size: 14px;
 }
