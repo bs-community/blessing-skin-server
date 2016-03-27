@@ -93,8 +93,9 @@
                                     2 => "用户管理",
                                     3 => "添加用户",
                                     4 => "个性化",
-                                    5 => "站点配置");
-                    for ($i = 1; $i <= 5; $i++) {
+                                    5 => "站点配置",
+                                    6 => "检查更新");
+                    for ($i = 1; $i <= 6; $i++) {
                         if ($data['page_title'] == $pages[$i]) {
                             echo '<li class="active">';
                         } else {
@@ -115,6 +116,9 @@
                                 break;
                             case 5:
                                 echo '<a href="options.php"><i class="fa fa-cog"></i> <span>'.$pages[$i].'</span></a>';
+                                break;
+                            case 6:
+                                echo '<a href="update.php"><i class="fa fa-arrow-up"></i> <span>'.$pages[$i].'</span></a>';
                                 break;
                         }
                         echo '</li>';
