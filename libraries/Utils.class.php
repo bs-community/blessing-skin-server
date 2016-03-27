@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 21:35:53
+ * @Last Modified time: 2016-03-27 08:15:03
  */
 
 class Utils
@@ -139,19 +139,19 @@ class Utils
     }
 
     /**
-     * Cut and resize to get avatar from skin
+     * Cut and resize to get avatar from skin, HD support by <xfl03@hotmail.com>
      *
      * @author https://github.com/jamiebicknell/Minecraft-Avatar/blob/master/face.php
      * @param  string $hash
      * @param  int    $size
-     * @param  string $view (default for 'f')
+     * @param  string $view, default for 'f'
      * @return resource
      */
     public static function generateAvatarFromSkin($hash, $size, $view='f') {
         $src = imagecreatefrompng(BASE_DIR."/textures/$hash");
         $dest = imagecreatetruecolor($size, $size);
-        $ratio = imagesx($src / 64);//Width/64
-        
+        $ratio = imagesx($src) / 64; // width/64
+
         // f => front, l => left, r => right, b => back
         $x = array('f' => 8, 'l' => 16, 'r' => 0, 'b' => 24);
 
