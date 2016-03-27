@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-27 11:27:06
+ * @Last Modified time: 2016-03-27 11:44:48
  */
 
 use Database\Database;
@@ -47,9 +47,9 @@ class User
 
     public static function checkValidPwd($passwd) {
         if (strlen($passwd) > 16 || strlen($passwd) < 5) {
-            throw new E('无效的密码。密码中包含了奇怪的字符。', 1);
+            throw new E('无效的密码。密码中包含了奇怪的字符。', 2);
         } else if (Utils::convertString($passwd) != $passwd) {
-            throw new E('无效的密码。密码长度应该大于 6 并小于 15。', 1);
+            throw new E('无效的密码。密码长度应该大于 6 并小于 15。', 2);
         }
         return true;
     }

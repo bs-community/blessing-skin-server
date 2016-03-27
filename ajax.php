@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-27 11:25:46
+ * @Last Modified time: 2016-03-27 11:50:32
  *
  * - login, register, logout
  * - upload, change, delete
@@ -24,10 +24,10 @@ if (isset($_POST['uname'])) {
     if (User::checkValidUname($uname)) {
         $user = new User($_POST['uname']);
     } else {
-        throw new E('无效的用户名。用户名只能包含数字，字母以及下划线。', 1);
+        throw new E('无效的用户名。用户名只能包含数字，字母以及下划线。', 3);
     }
 } else {
-    throw new E('空用户名。', 1);
+    throw new E('空用户名。', 3);
 }
 $action = isset($_GET['action']) ? $_GET['action'] : null;
 $json = null;
@@ -38,7 +38,7 @@ $json = null;
 if ($action == "login") {
     if (checkPost()) {
         if (!$user->is_registered) {
-            $json['errno'] = 1;
+            $json['errno'] = 2;
             $json['msg'] = "用户不存在哦";
         } else {
             if ($user->checkPasswd($_POST['passwd'])) {
@@ -57,44 +57,45 @@ if ($action == "login") {
         if (!$user->is_registered) {
             if (Option::get('user_can_register') == 1) {
                 if (User::checkValidPwd($_POST['passwd'])) {
-                    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-                        $ip = $_SERVER['HTTP_CLIENT_IP'];
-                    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-                        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-                    } else {
-                        $ip = $_SERVER['REMOTE_ADDR'];
-                    }
                     // If amount of registered accounts of IP is more than allowed mounts,
                     // then reject the registration.
-                    if ($user->db->getNumRows('ip', $ip) < Option::get('regs_per_ip')) {
+                    if ($user->db->getNumRows('ip', getRealIP()) < Option::get('regs_per_ip')) {
                         // use once md5 to encrypt password
-                        if ($user->register($_POST['passwd'], $ip)) {
+                        if ($user->register($_POST['passwd'], getRealIP())) {
                             $json['errno'] = 0;
                             $json['msg'] = "注册成功~";
-                        } else {
-                            $json['errno'] = 1;
-                            $json['msg'] = "出现了奇怪的错误。。请联系作者 :(";
                         }
                     } else {
-                        $json['errno'] = 1;
+                        $json['errno'] = 7;
                         $json['msg'] = "你最多只能注册 ".Option::get('regs_per_ip')." 个账户哦";
                     }
                 }
             } else {
-                $json['errno'] = 1;
+                $json['errno'] = 7;
                 $json['msg'] = "残念。。本皮肤站已经关闭注册咯 QAQ";
             }
         } else {
-            $json['errno'] = 1;
+            $json['errno'] = 5;
             $json['msg'] = "这个用户名已经被人注册辣，换一个吧";
         }
     }
 }
 
+function getRealIP() {
+    if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } else {
+        $ip = $_SERVER['REMOTE_ADDR'];
+    }
+    return $ip;
+}
+
 function checkPost() {
     global $json;
     if (!isset($_POST['passwd'])) {
-        $json['errno'] = 1;
+        $json['errno'] = 2;
         $json['msg'] = "空密码。";
         return false;
     }
@@ -112,18 +113,12 @@ if ($action == "upload") {
                 if ($user->setTexture($model, $file)) {
                     $json['skin']['errno'] = 0;
                     $json['skin']['msg'] = "皮肤上传成功！";
-                } else {
-                    $json['skin']['errno'] = 1;
-                    $json['skin']['msg'] = "出现了奇怪的错误。。请联系作者 :(";
                 }
             }
             if ($file = Utils::getValue('cape_file', $_FILES)) {
                 if ($user->setTexture('cape', $file)) {
                     $json['cape']['errno'] = 0;
                     $json['cape']['msg'] = "披风上传成功！";
-                } else {
-                    $json['cape']['errno'] = 1;
-                    $json['cape']['msg'] = "出现了奇怪的错误。。请联系作者 :(";
                 }
             }
         }
@@ -212,7 +207,7 @@ if ($action == "change") {
                 $json['errno'] = 0;
                 $json['msg'] = "密码更改成功。请重新登录。";
             } else {
-                $json['errno'] = 1;
+                $json['errno'] = 2;
                 $json['msg'] = "原密码不对哦？";
             }
         } else {
@@ -230,7 +225,7 @@ if ($action == "change") {
                     $json['errno'] = 0;
                     $json['msg'] = "账号已经成功删除，再见~";
                 } else {
-                    $json['errno'] = 1;
+                    $json['errno'] = 2;
                     $json['msg'] = "错误的密码。";
                 }
             } else {
@@ -250,7 +245,7 @@ if ($action == "change") {
                 $json['errno'] = 0;
                 $json['msg'] = "重置成功。";
             } else {
-                $json['errno'] = 1;
+                $json['errno'] = 2;
                 $json['msg'] = "错误的密码。";
             }
         }
@@ -270,7 +265,7 @@ if ($action == "change") {
 }
 
 if (!$action) {
-    $json['errno'] = 1;
+    $json['errno'] = 6;
     $json['msg'] = "无效的参数。不要乱 POST 玩哦。";
 }
 
