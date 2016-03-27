@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-26 23:09:06
+ * @Last Modified time: 2016-03-27 10:56:06
  */
 session_start();
 $dir = dirname(__FILE__);
@@ -103,6 +103,7 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
         </label>
         <button id="login-button" class="pure-button pure-button-primary">登录</button>
     </div>
+    <div id="msg" class="alert hide"></div>
 </div>
 <?php if (Option::get('user_can_register') == 1): ?>
 <div class="remodal" data-remodal-id="register-modal">
