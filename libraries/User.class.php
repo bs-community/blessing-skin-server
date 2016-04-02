@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-27 11:44:48
+ * @Last Modified time: 2016-04-02 22:50:16
  */
 
 use Database\Database;
@@ -21,7 +21,7 @@ class User
     function __construct($uname) {
         $this->uname = Utils::convertString($uname);
         $class_name = "Database\\".Option::get('data_adapter')."Database";
-        $this->db = new $class_name();
+        $this->db = new $class_name('users');
 
         if ($this->db->sync($this->uname)) {
             $this->passwd = $this->db->select('username', $this->uname)['password'];
@@ -55,7 +55,8 @@ class User
     }
 
     public function changePasswd($new_passwd) {
-        $this->db->update($this->uname, 'password', $this->db->encryptPassword($new_passwd, $this->uname));
+        $this->db->update('password', $this->db->encryptPassword($new_passwd, $this->uname), ['where' => "username='$this->uname'"]);
+        $this->db->sync($this->uname, true);
     }
 
     public function getToken() {
@@ -63,11 +64,13 @@ class User
     }
 
     public function register($passwd, $ip) {
-        return $this->db->insert(array(
-                                        "uname" => $this->uname,
-                                        "passwd" => $this->db->encryptPassword($passwd),
-                                        "ip" => $ip
-                                    ));
+        $data = array(
+                    "username"   => $this->uname,
+                    "password"   => $this->db->encryptPassword($passwd),
+                    "ip"         => $ip,
+                    "preference" => 'default'
+                );
+        return $this->db->insert($data);
     }
 
     public function unRegister() {
@@ -76,7 +79,7 @@ class User
             if ($this->getTexture($skin_type_map[$i]) != "" && !Utils::checkTextureOccupied($this->getTexture($skin_type_map[$i])))
                 Utils::remove("./textures/".$this->getTexture($skin_type_map[$i]));
         }
-        return $this->db->delete($this->uname);
+        return $this->db->delete(['where' => "username='$this->uname'"]);
     }
 
     public function reset() {
@@ -84,9 +87,9 @@ class User
         for ($i = 0; $i <= 2; $i++) {
             if ($this->getTexture($skin_type_map[$i]) != "" && !Utils::checkTextureOccupied($this->getTexture($skin_type_map[$i])))
                 Utils::remove("./textures/".$this->getTexture($skin_type_map[$i]));
-            $this->db->update($this->uname, 'hash_'.$skin_type_map[$i], '');
+            $this->db->update('hash_'.$skin_type_map[$i], '', ['where' => "username='$this->uname'"]);
         }
-        return $this->db->update($this->uname, 'preference', 'default');
+        return $this->db->update('preference', 'default', ['where' => "username='$this->uname'"]);
     }
 
     /**
@@ -104,7 +107,7 @@ class User
 
     public function getBinaryTexture($type) {
         if ($this->getTexture($type) != "") {
-            $filename = "./textures/".$this->getTexture($type);
+            $filename = BASE_DIR."/textures/".$this->getTexture($type);
             if (file_exists($filename)) {
                 header('Content-Type: image/png');
                 // Cache friendly
@@ -150,7 +153,7 @@ class User
         $this->updateLastModified();
         $hash = Utils::upload($file);
         if ($type == "steve" | $type == "alex" | $type == "cape")
-            return $this->db->update($this->uname, 'hash_'.$type, $hash);
+            return $this->db->update('hash_'.$type, $hash, ['where' => "username='$this->uname'"]);
         return false;
     }
 
@@ -159,7 +162,7 @@ class User
      * @param string $type, 'slim' or 'default'
      */
     public function setPreference($type) {
-        return $this->db->update($this->uname, 'preference', $type);
+        return $this->db->update('preference', $type, ['where' => "username='$this->uname'"]);
     }
 
     public function getPreference() {
@@ -200,9 +203,9 @@ class User
         return json_encode($json, JSON_PRETTY_PRINT);
     }
 
-    public function updateLastModified() {
+    public function updateLastModified() {//$this->uname
         // @see http://stackoverflow.com/questions/2215354/php-date-format-when-inserting-into-datetime-in-mysql
-        return $this->db->update($this->uname, 'last_modified', date("Y-m-d H:i:s"));
+        return $this->db->update('last_modified', date("Y-m-d H:i:s"), ['where' => "username='$this->uname'"]);
     }
 
     /**

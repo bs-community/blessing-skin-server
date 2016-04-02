@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-27 11:33:59
+ * @Last Modified time: 2016-04-02 22:01:48
  */
 
 class Utils
@@ -151,7 +151,7 @@ class Utils
      * @return bool
      */
     public static function checkTextureOccupied($hash) {
-        $db = new Database\Database();
+        $db = new Database\Database('users');
         if ($db->getNumRows('hash_steve', $hash) > 1) {
             return true;
         } elseif ($db->getNumRows('hash_alex', $hash) > 1) {
@@ -161,6 +161,15 @@ class Utils
         }
         // finally if given texture is not used by anyone else
         return false;
+    }
+
+    public function generateRndString($length) {
+        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_ []{}<>~`+=,.;:/?|';
+        $rnd_string = '';
+        for ($i = 0; $i < $length; $i++) {
+            $rnd_string .= $chars[mt_rand(0, strlen($chars) - 1)];
+        }
+        return $rnd_string;
     }
 
 }

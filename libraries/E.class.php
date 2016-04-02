@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-27 11:04:14
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-27 11:36:57
+ * @Last Modified time: 2016-04-02 22:25:08
  */
 
 class E extends Exception
@@ -27,7 +27,7 @@ class E extends Exception
     private function showErrorJson() {
         $exception['errno'] = $this->code;
         $exception['msg'] = $this->message;
-        header('Content-type: application/json; charset=utf-8');
+        @header('Content-type: application/json; charset=utf-8');
         exit(json_encode($exception));
     }
 

@@ -7,7 +7,7 @@
             <small>User Preview</small>
         </h1>
     </section>
-    <?php $db = new Database\Database();
+    <?php $db = new Database\Database('users');
         $user = new User($db->select('uid', $data['uid'])['username']);
     ?>
     <!-- Main content -->

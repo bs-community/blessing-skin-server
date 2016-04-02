@@ -3,12 +3,12 @@
  * @Author: printempw
  * @Date:   2016-03-06 14:19:20
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-27 10:53:06
+ * @Last Modified time: 2016-04-02 18:33:02
  */
 require "../libraries/session.inc.php";
 if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
 View::show('admin/header', array('page_title' => "用户管理"));
-$db = new Database\Database();
+$db = new Database\Database('users');
 
 if (isset($_GET['show'])) {
     View::show('admin/show', ['uid' => (int)$_GET['show']]);

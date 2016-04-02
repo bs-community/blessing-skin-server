@@ -3,39 +3,36 @@
  * @Author: printempw
  * @Date:   2016-02-02 21:59:06
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-27 14:50:39
+ * @Last Modified time: 2016-04-02 22:50:41
  */
 
 namespace Database;
 
-use Database\EncryptInterface;
-use Database\SyncInterface;
 use Utils;
-use Mysqli;
 use E;
 
 class Database implements EncryptInterface, SyncInterface
 {
     private $connection = null;
 
-    function __construct() {
-        $this->connection = self::checkConfig();
-    }
+    private $table_name = "";
 
-    function __destruct() {
-        $this->connection->close();
+    function __construct($table_name = '') {
+        $this->connection = self::checkConfig();
+        $this->table_name = DB_PREFIX.$table_name;
     }
 
     public static function checkConfig() {
         // use error control to hide shitty connect warnings
-        error_reporting(0);
-        $conn = new mysqli(DB_HOST, DB_USER, DB_PASSWD, DB_NAME, DB_PORT);
-        error_reporting(E_ALL ^ E_NOTICE);
+        @$conn = new \mysqli(DB_HOST, DB_USER, DB_PASSWD, DB_NAME, DB_PORT);
 
         if ($conn->connect_error)
             throw new E("无法连接至 MySQL 服务器。请确认 config.php 中的配置是否正确：".$conn->connect_error, $conn->connect_errno, true);
-        if (!self::checkTableExist($conn))
+
+        $sql = "SELECT table_name FROM `INFORMATION_SCHEMA`.`TABLES` WHERE (table_name ='".DB_PREFIX."users'OR table_name ='".DB_PREFIX."options') AND TABLE_SCHEMA='".DB_NAME."'";
+        if ($conn->query($sql)->num_rows != 2)
             throw new E("数据库中不存在 ".DB_PREFIX."users 或 ".DB_PREFIX."options 表。请先访问 <a href='./setup'>/setup</a> 进行安装。", -1, true);
+
         if (!is_dir(BASE_DIR."/textures/"))
             throw new E("textures 文件夹不存在。请先访问 <a href='./setup'>/setup</a> 进行安装，或者手动放置一个。", -1, true);
 
@@ -43,70 +40,120 @@ class Database implements EncryptInterface, SyncInterface
         return $conn;
     }
 
-    public static function checkTableExist($conn) {
-        $sql = "SELECT table_name FROM
-                `INFORMATION_SCHEMA`.`TABLES` WHERE (table_name ='".DB_PREFIX."users'
-                OR table_name ='".DB_PREFIX."options') AND TABLE_SCHEMA='".DB_NAME."'";
-
-        if ($conn->query($sql)->num_rows != 2)
-            return false;
-        return true;
-    }
-
     public function query($sql) {
         $result = $this->connection->query($sql);
-        if (!$this->connection->error) {
-            return $result;
-        }
-        throw new E("Database query error: ".$this->connection->error, -1);
+        if ($this->connection->error)
+            throw new E("Database query error: ".$this->connection->error.", Statement: ".$sql, -1);
+        return $result;
     }
 
     public function fetchArray($sql) {
         return $this->query($sql)->fetch_array();
     }
 
-    public function select($key, $value) {
-        return $this->fetchArray("SELECT * FROM ".DB_PREFIX."users WHERE $key='$value'");
+    /**
+     * Select records from table
+     *
+     * @param  string  $key
+     * @param  string  $value
+     * @param  array   $condition, see function `where`
+     * @param  string  $table, which table to operate
+     * @param  boolean $dont_fetch_array, return resources if true
+     * @return array|resources
+     */
+    public function select($key, $value, $condition = null, $table = null, $dont_fetch_array = false) {
+        $table = is_null($table) ? $this->table_name : $table;
+
+        if (isset($condition['where'])) {
+            $sql = "SELECT * FROM $table".$this->where($condition);
+        } else {
+            $sql = "SELECT * FROM $table WHERE $key='$value'";
+        }
+
+        if ($dont_fetch_array) {
+            return $this->query($sql);
+        } else {
+            return $this->fetchArray($sql);
+        }
+
     }
 
-    public function getNumRows($key, $value) {
-        $sql = "SELECT * FROM ".DB_PREFIX."users WHERE $key='$value'";
-        return $this->query($sql)->num_rows;
+    public function has($key, $value, $table = null) {
+        return ($this->getNumRows($key, $value, $table) != 0) ? true : false;
     }
 
-    public function getRecordNum() {
-        $sql = "SELECT * FROM ".DB_PREFIX."users WHERE 1";
-        return $this->query($sql)->num_rows;
-    }
+    public function insert($data, $table = null) {
+        $keys   = "";
+        $values = "";
+        $table  = is_null($table) ? $this->table_name : $table;
 
-    public function checkRecordExist($key, $value) {
-        return ($this->getNumRows($key, $value) != 0) ? true : false;
-    }
+        foreach($data as $key => $value) {
+            if ($value == end($data)) {
+                $keys .= '`'.$key.'`';
+                $values .= '"'.$value.'"';
+            } else {
+                $keys .= '`'.$key.'`,';
+                $values .= '"'.$value.'", ';
+            }
+        }
 
-    public function insert($array) {
-        $uname  = $array['uname'];
-        $passwd = $array['passwd'];
-        $ip = $array['ip'];
-        $sql = "INSERT INTO ".DB_PREFIX."users (username, password, ip, preference)
-                                            VALUES ('$uname', '$passwd', '$ip', 'default')";
+        $sql = "INSERT INTO $table ({$keys}) VALUES ($values)";
         return $this->query($sql);
     }
 
-    public function update($uname, $key, $value) {
-        return $this->query("UPDATE ".DB_PREFIX."users SET `$key`='$value' WHERE username='$uname'");
+    public function update($key, $value, $condition = null, $table = null) {
+        $table = is_null($table) ? $this->table_name : $table;
+        return $this->query("UPDATE $table SET `$key`='$value'".$this->where($condition));
     }
 
-    public function delete($uname) {
-        return $this->query("DELETE FROM ".DB_PREFIX."users WHERE username='$uname'");
+    public function delete($condition = null, $table = null) {
+        $table = is_null($table) ? $this->table_name : $table;
+        return $this->query("DELETE FROM $table".$this->where($condition));
     }
 
-    public function encryptPassword($raw_passwd, $username="") {
+    public function getNumRows($key, $value, $table = null) {
+        $table = is_null($table) ? $this->table_name : $table;
+        $sql = "SELECT * FROM $table WHERE $key='$value'";
+        return $this->query($sql)->num_rows;
+    }
+
+    public function getRecordNum($table = null) {
+        $table = is_null($table) ? $this->table_name : $table;
+        $sql = "SELECT * FROM $table WHERE 1";
+        return $this->query($sql)->num_rows;
+    }
+
+    public function encryptPassword($raw_passwd, $username = "") {
         $encrypt = md5($raw_passwd);
         return $encrypt;
     }
 
-    public function sync($username) {
-        return ($this->checkRecordExist('username', $username)) ? true : false;
+    public function sync($username, $reverse = false) {
+        return ($this->has('username', $username)) ? true : false;
+    }
+
+    /**
+     * Generate where statement
+     *
+     * @param  array $condition, e.g. array('where'=>'username="shit"', 'limit'=>10, 'order'=>'uid')
+     * @return string
+     */
+    private function where($condition) {
+        $statement = "";
+        if (isset($condition['where']) && $condition['where'] != "") {
+            $statement .= ' WHERE '.$condition['where'];
+        }
+        if (isset($condition['order'])) {
+            $statement .= ' ORDER BY `'.$condition['order'].'`';
+        }
+        if (isset($condition['limit'])) {
+            $statement .= ' LIMIT '.$condition['limit'];
+        }
+        return $statement;
+    }
+
+    function __destruct() {
+        $this->connection->close();
     }
 
 }

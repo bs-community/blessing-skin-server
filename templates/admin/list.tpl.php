@@ -29,14 +29,22 @@
                     <tbody>
                         <?php
                         $page_now = isset($_GET['page']) ? $_GET['page'] : 1;
-                        $db = new Database\Database();
+                        $db = new Database\Database('users');
 
                         if (isset($_POST['search-username'])) {
-                            $result = $db->query("SELECT * FROM ".DB_PREFIX."users WHERE `username` LIKE '%".$_POST['search-username']."%' ORDER BY `uid` LIMIT ".(string)(($page_now-1)*30).", 30");
+                            $result = $db->select(null, null, [
+                                'where' => "`username` LIKE '%".$_POST['search-username']."%'",
+                                'order' => 'uid',
+                                'limit' => (string)(($page_now-1)*30).", 30"
+                            ]);
                             $page_total = round($db->query("SELECT * FROM ".DB_PREFIX."users WHERE `username` LIKE '%".$_POST['search-username']."%'")->num_rows/30);
                         } else {
-                            $result = $db->query("SELECT * FROM ".DB_PREFIX."users ORDER BY `uid` LIMIT ".(string)(($page_now-1)*30).", 30");
-                            $page_total = round($db->query("SELECT * FROM ".DB_PREFIX."users WHERE 1")->num_rows/30);
+                            $result = $db->select(null, null, [
+                                'where' => '',
+                                'order' => 'uid',
+                                'limit' => (string)(($page_now-1)*30).", 30"
+                            ], null, true);
+                            $page_total = round($db->getRecordNum()/30);
                         }
 
                         while ($row = $result->fetch_array()) { ?>
