@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-03-27 09:43:57
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-27 17:21:21
+* @Last Modified time: 2016-04-02 20:20:52
 */
 
 'use strict';
@@ -57,7 +57,7 @@ function show3dPreview() {
     if (isMobile() && preview_type == "2d") {
         $("#skinpreview").append($('<div id="preview-msg" class="alert alert-info alert-dismissible fade in"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>手机上的 3D 预览可能会出现奇怪的问题（譬如空白一片），亟待解决。</div>'));
     }
-
+    preview_type = "3d";
     init3dCanvas();
     $('#preview-2d').hide();
     $('.operations').show();
