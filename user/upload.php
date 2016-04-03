@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-18 21:41:21
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-27 09:45:12
+ * @Last Modified time: 2016-04-03 11:51:49
  */
 require "../libraries/session.inc.php";
 $data['style'] = <<< 'EOT'
@@ -62,9 +62,9 @@ View::show('header', $data);
                         <h3 class="box-title">即时预览
                             <small><a id="preview" href="javascript:show2dPreview();">切换 2D 预览</a></small>
                             <div class="operations">
-                                <i data-toggle="tooltip" data-placement="bottom" title="Movements" class="fa fa-pause"></i>
-                                <i data-toggle="tooltip" data-placement="bottom" title="Running" class="fa fa-forward"></i>
-                                <i data-toggle="tooltip" data-placement="bottom" title="Rotation" class="fa fa-repeat"></i>
+                                <i data-toggle="tooltip" data-placement="bottom" title="行走" class="fa fa-pause"></i>
+                                <i data-toggle="tooltip" data-placement="bottom" title="奔跑" class="fa fa-forward"></i>
+                                <i data-toggle="tooltip" data-placement="bottom" title="旋转" class="fa fa-repeat"></i>
                             </div>
                         </h3>
                     </div><!-- /.box-header -->

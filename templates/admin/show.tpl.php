@@ -79,9 +79,9 @@
                             <h3 class="box-title">皮肤预览
                                 <small><a id="preview" href="javascript:show2dPreview();">切换 2D 预览</a></small>
                                 <div class="operations">
-                                    <i data-toggle="tooltip" data-placement="bottom" title="Movements" class="fa fa-pause"></i>
-                                    <i data-toggle="tooltip" data-placement="bottom" title="Running" class="fa fa-forward"></i>
-                                    <i data-toggle="tooltip" data-placement="bottom" title="Rotation" class="fa fa-repeat"></i>
+                                    <i data-toggle="tooltip" data-placement="bottom" title="行走" class="fa fa-pause"></i>
+                                    <i data-toggle="tooltip" data-placement="bottom" title="奔跑" class="fa fa-forward"></i>
+                                    <i data-toggle="tooltip" data-placement="bottom" title="旋转" class="fa fa-repeat"></i>
                                 </div>
                             </h3>
                         </div><!-- /.box-header -->

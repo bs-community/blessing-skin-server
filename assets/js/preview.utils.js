@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-03-27 09:43:57
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-04-02 20:20:52
+* @Last Modified time: 2016-04-03 11:55:42
 */
 
 'use strict';
@@ -27,6 +27,7 @@ $(document).ready(function(){
         show2dPreview();
     } else {
         init3dCanvas();
+        MSP.setStatus("rotation", false);
     }
 });
 
@@ -34,13 +35,17 @@ $(document).ready(function(){
 $(window).resize(init3dCanvas);
 
 // Change 3D preview status
-$("[title='Movements']").click(function(){
+$('.fa-pause').click(function(){
     MSP.setStatus("movements", !MSP.getStatus("movements"));
+    if ($(this).hasClass('fa-pause'))
+        $(this).removeClass('fa-pause').addClass('fa-play');
+    else
+        $(this).removeClass('fa-play').addClass('fa-pause');
 });
-$("[title='Running']").click(function(){
+$('.fa-forward').click(function(){
     MSP.setStatus("running", !MSP.getStatus("running"));
 });
-$("[title='Rotation']").click(function(){
+$('.fa-repeat').click(function(){
     MSP.setStatus("rotation", !MSP.getStatus("rotation"));
 });
 
