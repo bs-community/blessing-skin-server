@@ -2,12 +2,12 @@
 * @Author: printempw
 * @Date:   2016-01-21 13:55:44
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-26 23:07:15
+* @Last Modified time: 2016-04-03 08:13:36
 */
 
 'use strict';
 
-var login = function() {
+function login(silent = false) {
     var uname = $("#uname").val();
     var passwd = $("#passwd").val();
     if (checkForm("login", uname, passwd)) {
@@ -29,7 +29,7 @@ var login = function() {
                         // 设置长效 cookie （7天）
                         docCookies.setItem('token', json.token, 604800, '/');
                     }
-                    showAlert(json.msg);
+                    if (!silent) showAlert(json.msg);
                     window.setTimeout('window.location = "./user/index.php"', 1000);
                 } else {
                     showAlert(json.msg);
@@ -38,12 +38,13 @@ var login = function() {
             },
             error: function(json) {
                 showMsg('alert-danger', '出错啦，请联系作者！<br />详细信息：'+json.responseText);
+                $('#login-button').html('登录').prop('disabled', '');
             }
         });
     }
 }
 
-var register = function() {
+function register() {
     var uname = $('#reg-uname').val();
     var passwd = $('#reg-passwd').val();
     if (checkForm('register', uname, passwd, $('#reg-passwd2').val())) {
@@ -51,20 +52,19 @@ var register = function() {
             type: "POST",
             url: "ajax.php?action=register",
             dataType: "json",
-            data: {'uname':uname, 'passwd':passwd},
+            data: { 'uname': uname, 'passwd': passwd },
             beforeSend: function() {
                 $('#register-button').html('<i class="fa fa-spinner fa-spin"></i> 注册中').prop('disabled', 'disabled');
             },
             success: function(json) {
                 if (json.errno == 0) {
-                    showAlert(json.msg, function(){
-                        showMsg('hide', '');
-                        $('[data-remodal-id=register-modal]').remodal().close();
-                        // Automatically login after registeration
-                        $('#uname').val(uname);
-                        $('#passwd').val(passwd);
-                        login();
-                    });
+                    showAlert(json.msg);
+                    showMsg('hide', '');
+                    $('[data-remodal-id=register-modal]').remodal().close();
+                    // Automatically login after registeration
+                    $('#uname').val(uname);
+                    $('#passwd').val(passwd);
+                    login(true);
                 } else {
                     showAlert(json.msg);
                     $('#register-button').html('注册').prop('disabled', '');
@@ -72,6 +72,7 @@ var register = function() {
             },
             error: function(json) {
                 showMsg('alert-danger', '出错啦，请联系作者！<br />详细信息：'+json.responseText);
+                $('#register-button').html('注册').prop('disabled', '');
             }
         });
     }

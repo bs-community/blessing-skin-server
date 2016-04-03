@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-02-03 18:23:21
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-19 10:08:58
+* @Last Modified time: 2016-04-03 08:17:08
 */
 
 'use strict';
@@ -41,10 +41,9 @@ function logout(callback) {
     });
 }
 
-$("#logout").click(function(){
+$("#logout").click(function() {
     logout(function(json){
-        showAlert(json.msg, function(){
-            window.location = "../index.php";
-        });
+        showAlert(json.msg);
+        window.setTimeout('window.location = "../index.php"', 1000);
     });
 });
