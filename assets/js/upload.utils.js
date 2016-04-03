@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-03-18 21:58:09
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-19 16:12:11
+* @Last Modified time: 2016-04-03 10:18:30
 */
 
 'use strict';
@@ -33,10 +33,10 @@ $("#upload").click(function(){
                     showCallout('callout-success', '上传成功！');
                 }
                 if (json.skin.errno != 0) {
-                    showCallout('callout-danger', '上传皮肤的时候出错了：\n'+json.skin.msg);
+                    showCallout('callout-warning', '上传皮肤的时候出错了：\n'+json.skin.msg);
                 }
                 if (json.cape.errno != 0) {
-                    showCallout('callout-danger', '上传披风的时候出错了：\n'+json.cape.msg);
+                    showCallout('callout-warning', '上传披风的时候出错了：\n'+json.cape.msg);
                 }
             },
             error: function(json) {

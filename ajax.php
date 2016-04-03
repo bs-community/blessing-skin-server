@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-27 11:50:32
+ * @Last Modified time: 2016-04-03 10:16:00
  *
  * - login, register, logout
  * - upload, change, delete
@@ -154,15 +154,27 @@ function checkFile() {
                                             $_FILES['skin_file']['type'] == "image/x-png"))
     {
         // if error occured while uploading file
-        if (isset($_FILES['skin_file']) && $_FILES['skin_file']["error"] > 0) {
-            $json['errno'] = 1;
-            $json['msg'] = $_FILES['skin_file']["error"];
+        if ($_FILES['skin_file']["error"] > 0) {
+            $json['skin']['errno'] = 1;
+            $json['skin']['msg'] = $_FILES['skin_file']["error"];
+            return false;
+        }
+        if ($_FILES['skin_file']['size'] > (Option::get('upload_max_size')) * 1024) {
+            $json['skin']['errno'] = 1;
+            $json['skin']['msg'] = "本站最大只允许上传 ".Option::get('upload_max_size')." KB 的材质。";
+            return false;
+        }
+        $size = getimagesize($_FILES['skin_file']["tmp_name"]);
+        $ratio = $size[0] / $size[1];
+        if ($ratio != 2 && $ratio != 1) {
+            $json['skin']['errno'] = 1;
+            $json['skin']['msg'] = "不是有效的皮肤文件（宽 {$size[0]}，高 {$size[1]}）";
             return false;
         }
     } else {
         if (Utils::getValue('skin_file', $_FILES)) {
-            $json['errno'] = 1;
-            $json['msg'] = '错误的皮肤文件类型。';
+            $json['skin']['errno'] = 1;
+            $json['skin']['msg'] = '错误的皮肤文件类型。';
             return false;
         } else {
             $json['skin']['errno'] = 0;
@@ -177,15 +189,27 @@ function checkFile() {
                                             $_FILES['cape_file']['type'] == "image/x-png"))
     {
         // if error occured while uploading file
-        if (isset($_FILES['cape_file']) && $_FILES['cape_file']["error"] > 0) {
-            $json['errno'] = 1;
-            $json['msg'] = $_FILES['cape_file']["error"];
+        if ($_FILES['cape_file']["error"] > 0) {
+            $json['cape']['errno'] = 1;
+            $json['cape']['msg'] = $_FILES['cape_file']["error"];
+            return false;
+        }
+        if ($_FILES['cape_file']['size'] > (Option::get('upload_max_size')) * 1024) {
+            $json['cape']['errno'] = 1;
+            $json['cape']['msg'] = "本站最大只允许上传 ".(Option::get('upload_max_size') * 1024)." KB 的材质。";
+            return false;
+        }
+        $size = getimagesize($_FILES['cape_file']["tmp_name"]);
+        $ratio = $size[0] / $size[1];
+        if ($ratio != 2) {
+            $json['cape']['errno'] = 1;
+            $json['cape']['msg'] = "不是有效的披风文件（宽 {$size[0]}，高 {$size[1]}）";
             return false;
         }
     } else {
         if (Utils::getValue('cape_file', $_FILES)) {
-            $json['errno'] = 1;
-            $json['msg'] = '错误的披风文件类型。';
+            $json['cape']['errno'] = 1;
+            $json['cape']['msg'] = '错误的披风文件类型。';
             return false;
         } else {
             $json['cape']['errno'] = 0;

@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-18 22:50:25
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 07:55:54
+ * @Last Modified time: 2016-04-03 10:17:18
  */
 require "../libraries/session.inc.php";
 if (!$user->is_admin) Utils::redirect('../index.php?msg=看起来你并不是管理员');
@@ -38,7 +38,6 @@ $db = new Database\Database('users');
                                 foreach ($_POST as $key => $value) {
                                     if ($key != "option" && $key != "submit") {
                                         Option::set($key, $value);
-                                        // echo $key."=".$value."<br />";
                                     }
                                 }
                                 echo '<div class="callout callout-success">设置已保存。</div>';
@@ -75,6 +74,12 @@ $db = new Database\Database('users');
                                         <td class="key">每个 IP 限制注册数</td>
                                         <td class="value">
                                            <input type="text" class="form-control" name="regs_per_ip" value="<?php echo Option::get('regs_per_ip'); ?>">
+                                        </td>
+                                    </tr>
+                                    <tr data-toggle="tooltip" data-placement="bottom" title="PHP 限制：<?php echo ini_get('post_max_size'); ?>，定义在 php.ini 中。">
+                                        <td class="key">最大允许上传大小（KB）</td>
+                                        <td class="value">
+                                           <input type="text" class="form-control" name="upload_max_size" value="<?php echo Option::get('upload_max_size'); ?>">
                                         </td>
                                     </tr>
                                     <tr>
