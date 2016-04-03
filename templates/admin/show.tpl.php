@@ -26,8 +26,8 @@
                                 if (User::checkValidUname($_POST['username']) &&
                                     ($_POST['model_preference'] == 'default' || $_POST['model_preference'] == 'slim'))
                                 {
-                                    $db->update($user->uname, 'username', $_POST['username']);
-                                    $db->update($user->uname, 'preference', $_POST['model_preference']);
+                                    $db->update('username', $_POST['username'], ['where' => "username='$user->uname'"]);
+                                    $db->update('preference', $_POST['model_preference'], ['where' => "username='$user->uname'"]);
                                     echo '<div class="callout callout-success">设置已保存。</div>';
                                 } else {
                                     echo '<div class="callout callout-danger">无效的用户名或优先模型。</div>';

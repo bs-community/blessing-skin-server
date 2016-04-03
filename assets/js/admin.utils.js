@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-02-04 16:48:42
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-04-03 08:35:15
+* @Last Modified time: 2016-04-03 09:12:46
 */
 
 'use strict';
@@ -40,12 +40,13 @@ function uploadTexture(uname, type) {
                     success: function(json) {
                         if (json.errno == 0) {
                             showAlert("上传成功。");
-                            if (type == "steve") $('[src="../skin/' + uname + '-steve.png"]').prop('src',
-                                $('[src="../skin/' + uname + '-steve.png"]').prop('src')+'?random');
-                            if (type == "alex")  $('[src="../skin/' + uname + '-alex.png"]').prop('src',
-                                $('[src="../skin/' + uname + '-alex.png"]').prop('src')+'?random');
-                            if (type == "cape")  $('[src="../cape/' + uname + '.png"]').prop('src',
-                                $('[src="../cape/' + uname + '.png"]').prop('src')+'?random');
+                            // refresh image
+                            if (type == "steve") $('#'+uname+'-steve').prop('src',
+                                '../skin/'+uname+'-steve.png?'+Math.round(Math.random() * 1000000));
+                            if (type == "alex")  $('#'+uname+'-alex').prop('src',
+                                '../skin/'+uname+'-alex.png?'+Math.round(Math.random() * 1000000));
+                            if (type == "cape")  $('#'+uname+'-cape').prop('src',
+                                '../cape/'+uname+'-.png?'+Math.round(Math.random() * 1000000));
                         } else {
                             showAlert("上传材质的时候出错啦：\n" + json.msg);
                         }
@@ -87,9 +88,9 @@ function deleteTexture(uname) {
                         if (json.errno == 0) {
                             showAlert(json.msg);
                             // remove DOM
-                            if (steve) $('[src="../skin/' + uname + '-steve.png"]').remove();
-                            if (alex)  $('[src="../skin/' + uname + '-alex.png"]').remove();
-                            if (cape)  $('[src="../cape/' + uname + '.png"]').remove();
+                            if (steve) $('#' + uname + '-steve').remove();
+                            if (alex)  $('#' + uname + '-alex ').remove();
+                            if (cape)  $('#' + uname + '-cape ').remove();
                         } else {
                             showAlert(json.msg);
                         }

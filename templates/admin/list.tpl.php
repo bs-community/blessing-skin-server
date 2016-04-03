@@ -52,9 +52,9 @@
                             <td><?php echo $row['uid']; ?></td>
                             <td><?php echo $row['username']; ?></td>
                             <td>
-                                <img width="64" <?php if ($row['hash_steve']): ?>src="../skin/<?php echo $row['username']; ?>-steve.png"<?php endif; ?> />
-                                <img width="64" <?php if ($row['hash_alex']): ?>src="../skin/<?php echo $row['username']; ?>-alex.png"<?php endif; ?> />
-                                <img width="64" <?php if ($row['hash_cape']): ?>src="../cape/<?php echo $row['username']; ?>.png"<?php endif; ?> />
+                                <img id="<?php echo $row['username']; ?>-steve" width="64" <?php if ($row['hash_steve']): ?>src="../skin/<?php echo $row['username']; ?>-steve.png"<?php endif; ?> />
+                                <img id="<?php echo $row['username']; ?>-alex"  width="64" <?php if ($row['hash_alex']): ?>src="../skin/<?php echo $row['username']; ?>-alex.png"<?php endif; ?> />
+                                <img id="<?php echo $row['username']; ?>-cape"  width="64" <?php if ($row['hash_cape']): ?>src="../cape/<?php echo $row['username']; ?>.png"<?php endif; ?> />
                             </td>
                             <td>
                                 <a href="javascript:uploadSkin('<?php echo $row['username']; ?>');" class="btn btn-primary btn-sm">皮肤</a>

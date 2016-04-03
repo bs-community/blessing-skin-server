@@ -2,12 +2,12 @@
 * @Author: printempw
 * @Date:   2016-01-21 13:55:44
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-04-03 08:13:36
+* @Last Modified time: 2016-04-03 09:29:41
 */
 
 'use strict';
 
-function login(silent = false) {
+function login(silent) {
     var uname = $("#uname").val();
     var passwd = $("#passwd").val();
     if (checkForm("login", uname, passwd)) {
@@ -20,7 +20,6 @@ function login(silent = false) {
                 $('#login-button').html('<i class="fa fa-spinner fa-spin"></i> 登录中').prop('disabled', 'disabled');
             },
             success: function(json) {
-                console.log(json);
                 if (json.errno == 0) {
                     docCookies.setItem('uname', uname, null, '/');
                     docCookies.setItem('token', json.token, null, '/');
@@ -134,6 +133,6 @@ $('body').on('keypress', '[data-remodal-id=register-modal]', function(event){
 
 // Login Event
 $('body').on('keypress', '[data-remodal-id=login-modal]', function(event){
-    if (event.which == 13) login();
-}).on('click', '#login-button', login);
+    if (event.which == 13) login(false);
+}).on('click', '#login-button', function() { login(false); });
 
