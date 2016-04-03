@@ -3,17 +3,17 @@
  * @Author: printempw
  * @Date:   2016-03-18 16:53:55
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-02 22:14:12
+ * @Last Modified time: 2016-04-03 15:36:35
  */
 
 namespace Database;
 
 use Database\Database;
-use Database\EncryptInterface;
+use Database\PasswordInterface;
 use Database\SyncInterface;
 use Option;
 
-class AdaptedDatabase extends Database implements EncryptInterface, SyncInterface
+class AdaptedDatabase extends Database implements PasswordInterface, SyncInterface
 {
     protected $data_table;
     protected $column_uname;

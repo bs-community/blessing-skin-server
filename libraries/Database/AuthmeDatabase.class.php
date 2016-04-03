@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-13 11:59:32
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-02 22:03:39
+ * @Last Modified time: 2016-04-03 15:19:38
  */
 
 namespace Database;
@@ -25,8 +25,8 @@ class AuthmeDatabase extends AdaptedDatabase
             // generate random salt
             $salt = \Utils::generateRndString(16);
         }
-        $hash = hash('sha256', hash('sha256', $raw_passwd).$salt);
-        $encrypt = '$SHA$'.$salt.'$'. $hash;
+        $class_name = "Encryption\\".\Option::get('encryption');
+        $encrypt = '$SHA$'.$salt.'$'. $class_name::encrypt($raw_passwd, $salt);
         return $encrypt;
     }
 

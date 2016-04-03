@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-18 22:50:25
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 14:37:11
+ * @Last Modified time: 2016-04-03 15:09:33
  */
 require "../libraries/session.inc.php";
 if (!$user->is_admin) Utils::redirect('../index.php?msg=看起来你并不是管理员');
@@ -154,6 +154,17 @@ $db = new Database\Database('users');
                                         <td class="key">对接数据表名</td>
                                         <td class="value">
                                            <input type="text" class="form-control" name="data_table_name" value="<?php echo Option::get('data_table_name'); ?>">
+                                        </td>
+                                    </tr>
+                                    <tr data-toggle="tooltip" data-placement="bottom" title="默认为 MD5。Authme 默认为 SHA256，CrazyLogin 为 CrazyCrypt1，Discuz 为 SALTED2MD5。没有需要的加密算法？请联系作者。">
+                                        <td class="key">密码加密算法</td>
+                                        <td class="value">
+                                           <select class="form-control" name="encryption">
+                                               <option <?php echo (Option::get('encryption') == 'MD5') ? 'selected="selected"' : ''; ?> value="MD5">MD5</option>
+                                               <option <?php echo (Option::get('encryption') == 'SALTED2MD5') ? 'selected="selected"' : ''; ?> value="SALTED2MD5">SALTED2MD5</option>
+                                               <option <?php echo (Option::get('encryption') == 'SHA256') ? 'selected="selected"' : ''; ?> value="SHA256">SHA256</option>
+                                               <option <?php echo (Option::get('encryption') == 'CrazyCrypt1') ? 'selected="selected"' : ''; ?> value="CrazyCrypt1">CrazyCrypt1</option>
+                                          </select>
                                         </td>
                                     </tr>
                                     <tr>

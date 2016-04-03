@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-13 14:59:32
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-18 17:23:38
+ * @Last Modified time: 2016-04-03 15:24:30
  */
 
 namespace Database;
@@ -13,13 +13,12 @@ use Database\AdaptedDatabase;
 class DiscuzDatabase extends AdaptedDatabase
 {
     /**
-     * Discuz's Fucking dynamic salt
+     * Parse Discuz's Fucking dynamic salt
      */
     public function encryptPassword($raw_passwd, $username="") {
-        $salt = $this->query("SELECT * FROM ".$this->table_name."
-            WHERE ".$this->column_uname."='$username'")->fetch_array()['salt'];
-        $encrypt = md5(md5($raw_passwd).$salt);
-        return $encrypt;
+        $salt = $this->select($this->column_uname, $username, null, $this->data_table)['salt'];
+        $class_name = "Encryption\\".\Option::get('encryption');
+        return $class_name::encrypt($raw_passwd, $salt);
     }
 
 }

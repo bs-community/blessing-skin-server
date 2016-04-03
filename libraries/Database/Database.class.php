@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 21:59:06
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-02 22:50:41
+ * @Last Modified time: 2016-04-03 15:36:27
  */
 
 namespace Database;
@@ -11,7 +11,7 @@ namespace Database;
 use Utils;
 use E;
 
-class Database implements EncryptInterface, SyncInterface
+class Database implements PasswordInterface, SyncInterface
 {
     private $connection = null;
 
@@ -124,8 +124,8 @@ class Database implements EncryptInterface, SyncInterface
     }
 
     public function encryptPassword($raw_passwd, $username = "") {
-        $encrypt = md5($raw_passwd);
-        return $encrypt;
+        $class_name = "Encryption\\".\Option::get('encryption');
+        return $class_name::encrypt($raw_passwd);
     }
 
     public function sync($username, $reverse = false) {
