@@ -2,10 +2,9 @@
 * @Author: printempw
 * @Date:   2016-01-21 19:12:06
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-27 09:40:30
+* @Last Modified time: 2016-04-03 11:21:24
 */
 
-@import url(https://fonts.googleapis.com/css?family=Ubuntu);
 body, .ply-layer {
     font-family: Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
 }

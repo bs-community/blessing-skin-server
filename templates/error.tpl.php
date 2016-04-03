@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="robots" content="noindex,nofollow" />
     <title>出现错误 - Blessing Skin Server</title>
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Ubuntu">
+    <link rel="stylesheet" type="text/css" href="https://cdn.moefont.com/fonts/css?family=Ubuntu">
     <link rel="stylesheet" type="text/css" href="https://work.prinzeugen.net/font/Minecraft.css">
 </head>
 

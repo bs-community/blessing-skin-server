@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-18 22:50:25
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 10:17:18
+ * @Last Modified time: 2016-04-03 11:12:00
  */
 require "../libraries/session.inc.php";
 if (!$user->is_admin) Utils::redirect('../index.php?msg=看起来你并不是管理员');
@@ -85,7 +85,7 @@ $db = new Database\Database('users');
                                     <tr>
                                         <td class="key">首选 JSON API</td>
                                         <td class="value">
-                                           <select class="form-control" name="api_type">selected="selected"
+                                           <select class="form-control" name="api_type">
                                                 <option <?php echo (Option::get('api_type') == '0') ? 'selected="selected"' : ''; ?> value="0">CustomSkinLoader API</option>
                                                 <option <?php echo (Option::get('api_type') == '1') ? 'selected="selected"' : ''; ?> value="1">UniversalSkinAPI</option>
                                            </select>

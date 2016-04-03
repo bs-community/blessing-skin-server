@@ -12,6 +12,18 @@
     <link rel="stylesheet" href="../assets/libs/AdminLTE/dist/css/skins/<?php echo Option::get('color_scheme'); ?>.min.css">
     <link rel="stylesheet" href="../assets/libs/ply/ply.css">
     <link rel="stylesheet" href="../assets/css/admin.style.css">
+
+    <?php if (Option::get('google_font_cdn') == "google"): ?>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <?php elseif (Option::get('google_font_cdn') == "moefont"): ?>
+    <link rel="stylesheet" href="https://cdn.moefont.com/fonts/css?family=Ubuntu">
+    <link rel="stylesheet" href="https://cdn.moefont.com/fonts/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <?php elseif (Option::get('google_font_cdn') == "useso"): ?>
+    <link rel="stylesheet" href="http://fonts.useso.com/css?family=Ubuntu">
+    <link rel="stylesheet" href="http://fonts.useso.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <?php endif; ?>
+
     <?php if (isset($data['style'])) echo $data['style']; ?>
     <style><?php echo Option::get('custom_css'); ?></style>
 </head>

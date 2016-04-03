@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-19 14:34:21
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 11:00:02
+ * @Last Modified time: 2016-04-03 11:27:05
  */
 require "../libraries/session.inc.php";
 if (!$user->is_admin) Utils::redirect('../index.php?msg=看起来你并不是管理员');
@@ -96,6 +96,38 @@ $db = new Database\Database('users');
                         <div id="msg" class="callout callout-info hide"></div>
                     </div>
                 </div><!-- /.box -->
+
+                <div class="box box-warning">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Google Font CDN</h3>
+                    </div><!-- /.box-header -->
+                    <form method="post" action="customize.php">
+                        <input type="hidden" name="option" value="adapter">
+                        <div class="box-body">
+                            <?php
+                            if (isset($_POST['google_font_cdn'])) {
+                                Option::set('google_font_cdn', $_POST['google_font_cdn']);
+                                echo '<div class="callout callout-success">设置已保存。</div>';
+                            } ?>
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td class="value">
+                                           <select class="form-control" name="google_font_cdn">
+                                                <option <?php echo (Option::get('google_font_cdn') == 'google') ? 'selected="selected"' : ''; ?> value="google">Google Fonts（部分地区被墙）</option>
+                                                <option <?php echo (Option::get('google_font_cdn') == 'moefont') ? 'selected="selected"' : ''; ?> value="moefont">MoeFont CDN</option>
+                                                <option <?php echo (Option::get('google_font_cdn') == 'useso') ? 'selected="selected"' : ''; ?> value="useso">三六蛋 CDN（不支持 HTTPS）</option>
+                                           </select>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div><!-- /.box-body -->
+                        <div class="box-footer">
+                            <button type="submit" name="submit" class="btn btn-primary">提交</button>
+                        </div>
+                    </form>
+                </div>
             </div>
 
             <div class="col-md-6">

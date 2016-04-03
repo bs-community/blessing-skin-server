@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 10:53:41
+ * @Last Modified time: 2016-04-03 11:21:56
  */
 session_start();
 $dir = dirname(__FILE__);
@@ -34,6 +34,15 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
     <link rel="stylesheet" href="./assets/libs/remodal/remodal.css">
     <link rel="stylesheet" href="./assets/libs/ply/ply.css">
     <link rel="stylesheet" href="./assets/libs/remodal/remodal-default-theme.css">
+
+    <?php if (Option::get('google_font_cdn') == "google"): ?>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu">
+    <?php elseif (Option::get('google_font_cdn') == "moefont"): ?>
+    <link rel="stylesheet" href="https://cdn.moefont.com/fonts/css?family=Ubuntu">
+    <?php elseif (Option::get('google_font_cdn') == "useso"): ?>
+    <link rel="stylesheet" href="http://fonts.useso.com/css?family=Ubuntu">
+    <?php endif; ?>
+
     <style>
         .home-menu-bg, .container {
             background-image: url("<?php echo Option::get('home_pic_url'); ?>");
