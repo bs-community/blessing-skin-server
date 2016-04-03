@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-27 11:04:14
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-02 22:25:08
+ * @Last Modified time: 2016-04-03 15:53:59
  */
 
 class E extends Exception
@@ -34,7 +34,7 @@ class E extends Exception
     private function showErrorPage() {
         $message = $this->message;
         $code = $this->code;
-        require BASE_DIR."/templates/error.tpl.php";
+        require dirname(dirname(__FILE__))."/templates/error.tpl.php";
         exit;
     }
 }
