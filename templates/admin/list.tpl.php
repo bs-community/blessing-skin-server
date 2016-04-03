@@ -37,14 +37,14 @@
                                 'order' => 'uid',
                                 'limit' => (string)(($page_now-1)*30).", 30"
                             ]);
-                            $page_total = round($db->query("SELECT * FROM ".DB_PREFIX."users WHERE `username` LIKE '%".$_POST['search-username']."%'")->num_rows/30);
+                            $page_total = floor($db->query("SELECT * FROM ".DB_PREFIX."users WHERE `username` LIKE '%".$_POST['search-username']."%'")->num_rows/30) + 1;
                         } else {
                             $result = $db->select(null, null, [
                                 'where' => '',
                                 'order' => 'uid',
                                 'limit' => (string)(($page_now-1)*30).", 30"
                             ], null, true);
-                            $page_total = round($db->getRecordNum()/30);
+                            $page_total = floor($db->getRecordNum()/30) + 1;
                         }
 
                         while ($row = $result->fetch_array()) { ?>
@@ -105,7 +105,10 @@
             <?php endif;
 
             // calculate page numbers to show
-            if ($page_now > $page_total - 2) {
+            if ($page_total < 5) {
+                $from = 1;
+                $to = $page_total;
+            } elseif ($page_now > $page_total - 2) {
                 $from = $page_total - 4;
                 $to = $page_total;
             } elseif ($page_now > 2) {
