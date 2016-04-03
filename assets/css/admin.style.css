@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-02-04 16:47:54
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-04-03 11:21:29
+* @Last Modified time: 2016-04-03 13:29:12
 */
 
 body, .ply-layer {
@@ -13,7 +13,6 @@ body, .ply-layer {
 }
 input {
     width: 100%;
-    margin: 10px 0 20px;
 }
 input[type=checkbox] {
     width: initial;
@@ -26,6 +25,9 @@ label {
 }
 .key {
     vertical-align: middle !important;
+}
+.value {
+    width: 70%;
 }
 .value > input {
     margin: 0 !important;

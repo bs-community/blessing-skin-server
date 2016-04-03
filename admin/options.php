@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-18 22:50:25
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 11:12:00
+ * @Last Modified time: 2016-04-03 13:26:36
  */
 require "../libraries/session.inc.php";
 if (!$user->is_admin) Utils::redirect('../index.php?msg=看起来你并不是管理员');
@@ -77,9 +77,13 @@ $db = new Database\Database('users');
                                         </td>
                                     </tr>
                                     <tr data-toggle="tooltip" data-placement="bottom" title="PHP 限制：<?php echo ini_get('post_max_size'); ?>，定义在 php.ini 中。">
-                                        <td class="key">最大允许上传大小（KB）</td>
+                                        <td class="key">最大允许上传大小</td>
                                         <td class="value">
-                                           <input type="text" class="form-control" name="upload_max_size" value="<?php echo Option::get('upload_max_size'); ?>">
+                                            <div class="input-group">
+                                            <input type="text" class="form-control" name="upload_max_size" value="<?php echo Option::get('upload_max_size'); ?>">
+                                            <span class="input-group-addon">KB</span>
+                                          </div>
+
                                         </td>
                                     </tr>
                                     <tr>
