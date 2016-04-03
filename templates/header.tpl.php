@@ -100,28 +100,17 @@
 
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu"><?php
-                    $pages  = array(1 => "用户中心",
-                                    2 => "皮肤上传",
-                                    3 => "个人资料");
-                    for ($i = 1; $i <= 3; $i++) {
-                        if ($data['page_title'] == $pages[$i]) {
-                            echo '<li class="active">';
-                        } else {
-                            echo '<li>';
-                        }
-                        switch ($i) {
-                            case 1:
-                                echo '<a href="index.php"><i class="fa fa-dashboard"></i> <span>'.$pages[$i].'</span></a>';
-                                break;
-                            case 2:
-                                echo '<a href="upload.php"><i class="fa fa-upload"></i> <span>'.$pages[$i].'</span></a>';
-                                break;
-                            case 3:
-                                echo '<a href="profile.php"><i class="fa fa-user"></i> <span>'.$pages[$i].'</span></a>';
-                                break;
-                        }
+                    $pages  = array(1 => ['title'=>'用户中心', 'link'=>'index.php',   'icon'=>'fa-dashboard'],
+                                    2 => ['title'=>'皮肤上传', 'link'=>'upload.php',  'icon'=>'fa-upload'],
+                                    3 => ['title'=>'个人资料', 'link'=>'profile.php', 'icon'=>'fa-user'],
+                                    4 => ['title'=>'使用说明', 'link'=>'manual.php',  'icon'=>'fa-book']);
+
+                    foreach ($pages as $key => $value) {
+                        echo ($data['page_title'] == $value['title']) ? '<li class="active">' : '<li>';
+                        echo "<a href='{$value['link']}'><i class='fa {$value['icon']}'></i> <span>{$value['title']}</span></a>";
                         echo '</li>';
                     }
+
                     if ($data['user']->is_admin): ?>
                     <li><a href="../admin"><i class="fa fa-cog"></i> <span>管理面板</span></a></li>
                     <?php endif; ?>

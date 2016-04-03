@@ -102,38 +102,17 @@
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu">
                     <li class="header">管理面板</li><?php
-                    $pages  = array(1 => "仪表盘",
-                                    2 => "用户管理",
-                                    3 => "添加用户",
-                                    4 => "个性化",
-                                    5 => "站点配置",
-                                    6 => "检查更新");
-                    for ($i = 1; $i <= 6; $i++) {
-                        if ($data['page_title'] == $pages[$i]) {
-                            echo '<li class="active">';
-                        } else {
-                            echo '<li>';
-                        }
-                        switch ($i) {
-                            case 1:
-                                echo '<a href="index.php"><i class="fa fa-dashboard"></i> <span>'.$pages[$i].'</span></a>';
-                                break;
-                            case 2:
-                                echo '<a href="manage.php"><i class="fa fa-users"></i> <span>'.$pages[$i].'</span></a>';
-                                break;
-                            case 3:
-                                echo '<a href="adduser.php"><i class="fa fa-user-plus"></i> <span>'.$pages[$i].'</span></a>';
-                                break;
-                            case 4:
-                                echo '<a href="customize.php"><i class="fa fa-paint-brush"></i> <span>'.$pages[$i].'</span></a>';
-                                break;
-                            case 5:
-                                echo '<a href="options.php"><i class="fa fa-cog"></i> <span>'.$pages[$i].'</span></a>';
-                                break;
-                            case 6:
-                                echo '<a href="update.php"><i class="fa fa-arrow-up"></i> <span>'.$pages[$i].'</span></a>';
-                                break;
-                        }
+
+                    $pages  = array(1 => ['title'=>'仪表盘',   'link'=>'index.php',     'icon'=>'fa-dashboard'],
+                                    2 => ['title'=>'用户管理', 'link'=>'manage.php',    'icon'=>'fa-users'],
+                                    3 => ['title'=>'添加用户', 'link'=>'adduser.php',   'icon'=>'fa-user-plus'],
+                                    4 => ['title'=>'个性化',   'link'=>'customize.php', 'icon'=>'fa-paint-brush'],
+                                    5 => ['title'=>'站点配置', 'link'=>'options.php',   'icon'=>'fa-cog'],
+                                    6 => ['title'=>'检查更新', 'link'=>'update.php',    'icon'=>'fa-arrow-up']);
+
+                    foreach ($pages as $key => $value) {
+                        echo ($data['page_title'] == $value['title']) ? '<li class="active">' : '<li>';
+                        echo "<a href='{$value['link']}'><i class='fa {$value['icon']}'></i> <span>{$value['title']}</span></a>";
                         echo '</li>';
                     } ?>
                     <li class="header">返回</li>
