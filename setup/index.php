@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-27 13:30:00
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 16:16:57
+ * @Last Modified time: 2016-04-03 19:23:11
  */
 
 // Sanity check
@@ -44,9 +44,7 @@ $step = isset($_GET['step']) ? $_GET['step'] : 1;
 <?php
 
 // use error control to hide shitty connect warnings
-error_reporting(0);
-$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWD, DB_NAME, DB_PORT);
-error_reporting(E_ALL ^ E_NOTICE);
+@$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWD, DB_NAME, DB_PORT);
 
 if ($conn->connect_error): ?>
 <h1>MySQL 连接错误</h1>

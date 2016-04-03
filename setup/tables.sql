@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-04-03 16:22:11
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-04-03 17:14:53
+* @Last Modified time: 2016-04-03 21:22:18
 */
 
 CREATE TABLE IF NOT EXISTS `{$prefix}users` (
@@ -33,7 +33,7 @@ INSERT INTO `{$prefix}options` (`option_name`, `option_value`) VALUES
 ('user_can_register',  '1'),
 ('user_default_skin',  ''),
 ('regs_per_ip',        '2'),
-('upload_max_size',    '10'),
+('upload_max_size',    '1024'),
 ('api_type',           '0'),
 ('announcement',       '这是默认的公告~'),
 ('data_adapter',       ''),
@@ -44,7 +44,8 @@ INSERT INTO `{$prefix}options` (`option_name`, `option_value`) VALUES
 ('data_column_ip',     'ip'),
 ('color_scheme',       'skin-blue'),
 ('home_pic_url',       './assets/images/bg.jpg'),
-('google_font_cdn',    ''),
+('google_font_cdn',    'moefont'),
 ('custom_css',         ''),
-('custom_js',          '');
+('custom_js',          ''),
+('update_url',         'https://work.prinzeugen.net/update.json');
 

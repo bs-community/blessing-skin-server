@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-18 14:02:12
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-02 22:50:19
+ * @Last Modified time: 2016-04-03 21:47:08
  */
 
 use Database\Database;
@@ -27,6 +27,7 @@ class Option
 
     public static function add($key, $value) {
         $db = new Database('options');
+        if (self::has($key)) return true;
         return $db->insert(['option_name' => $key, 'option_value' => $value]);
     }
 

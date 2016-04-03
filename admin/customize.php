@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-19 14:34:21
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 11:27:05
+ * @Last Modified time: 2016-04-03 20:58:26
  */
 require "../libraries/session.inc.php";
 if (!$user->is_admin) Utils::redirect('../index.php?msg=看起来你并不是管理员');
@@ -241,4 +241,4 @@ $('#color-submit').click(function() {
 });
 </script>
 EOT;
-View::show('footer', $data); ?>
+View::show('admin/footer', $data); ?>

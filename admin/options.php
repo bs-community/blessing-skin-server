@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-18 22:50:25
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 15:09:33
+ * @Last Modified time: 2016-04-03 20:58:06
  */
 require "../libraries/session.inc.php";
 if (!$user->is_admin) Utils::redirect('../index.php?msg=看起来你并不是管理员');
@@ -200,4 +200,4 @@ $db = new Database\Database('users');
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 <?php
-View::show('footer'); ?>
+View::show('admin/footer'); ?>

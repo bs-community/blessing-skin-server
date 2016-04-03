@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 10:58:15
+ * @Last Modified time: 2016-04-03 21:44:11
  */
 
 class Utils
@@ -38,13 +38,28 @@ class Utils
      * @return $bool
      */
     public static function remove($filename) {
-        if(file_exists($filename)) {
-            if (!unlink($filename)) {
-                self::raise(-1, "删除 $filename 的时候出现了奇怪的问题。。请联系作者");
-            } else {
-                return true;
+        if (file_exists($filename)) {
+            return unlink($filename);
+        }
+    }
+
+    public static function removeDir($dir) {
+        $resource = opendir($dir);
+        $size = 0;
+        while($filename = @readdir($resource)) {
+            if ($filename != "." && $filename != "..") {
+                $path = $dir.$filename;
+                if (is_dir($path)) {
+                    // recursion
+                    self::removeDir($path."/");
+                } else {
+                    unlink($path);
+                }
             }
         }
+        closedir($resource);
+
+        return rmdir($dir);
     }
 
     /**
@@ -56,7 +71,7 @@ class Utils
     public static function getDirSize($dir) {
         $resource = opendir($dir);
         $size = 0;
-        while($filename = readdir($resource)) {
+        while($filename = @readdir($resource)) {
             if ($filename != "." && $filename != "..") {
                 $path = $dir.$filename;
                 if (is_dir($path)) {
@@ -93,6 +108,33 @@ class Utils
         }
         closedir($resource);
         return $file_num;
+    }
+
+    /**
+     * Copy directory recursively
+     *
+     * @param  string $source
+     * @param  string $dest
+     * @return bool
+     */
+    public static function copyDir($source, $dest) {
+        if(!is_dir($source)) return false;
+        if(!is_dir($dest)) mkdir($dest, 0777, true);
+
+        $handle = dir($source);
+
+        while($entry = $handle->read()) {
+            if ($entry != "." && $entry != "..") {
+                if (is_dir($source.'/'.$entry)) {
+                    // recursion
+                    self::copyDir($source.'/'.$entry, $dest.'/'.$entry);
+                } else {
+                    @copy($source.'/'.$entry, $dest.'/'.$entry);
+                    // echo $source.'/'.$entry." => ".$dest.'/'.$entry."<br />";
+                }
+            }
+        }
+        return true;
     }
 
     /**
@@ -184,8 +226,11 @@ class Utils
      * @param  string $url
      * @return null
      */
-    public static function redirect($url) {
-        header('Location: '.$url);
+    public static function redirect($url, $use_js = false) {
+        if ($use_js)
+            echo "<script>window.location = '$url';</script>";
+        else
+            header('Location: '.$url);
     }
 
 }

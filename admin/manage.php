@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-06 14:19:20
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 07:55:53
+ * @Last Modified time: 2016-04-03 20:58:13
  */
 require "../libraries/session.inc.php";
 if (!$user->is_admin) Utils::redirect('../index.php?msg=看起来你并不是管理员');
@@ -26,4 +26,4 @@ $('#page-select').on('change', function() {
 EOT;
 if (isset($_GET['show']))
     $data['script'] .= '<script type="text/javascript" src="../assets/js/preview.utils.js"></script>';
-View::show('footer', $data); ?>
+View::show('admin/footer', $data); ?>
