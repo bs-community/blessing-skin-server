@@ -2,22 +2,10 @@
 * @Author: printempw
 * @Date:   2016-02-04 16:48:42
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-04-03 09:12:46
+* @Last Modified time: 2016-04-03 11:42:38
 */
 
 'use strict';
-
-function uploadSkin(uname) {
-    Ply.dialog("confirm", {
-        text: "更改该用户对应哪个模型的皮肤？",
-        ok: "Steve",
-        cancel: "Alex"
-    }).done(function(){
-        uploadTexture(uname, 'steve');
-    }).fail(function(){
-        uploadTexture(uname, 'alex');
-    });
-}
 
 function uploadTexture(uname, type) {
     var ply = new Ply({

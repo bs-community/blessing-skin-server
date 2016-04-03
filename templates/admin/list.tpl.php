@@ -57,13 +57,31 @@
                                 <img id="<?php echo $row['username']; ?>-cape"  width="64" <?php if ($row['hash_cape']): ?>src="../cape/<?php echo $row['username']; ?>.png"<?php endif; ?> />
                             </td>
                             <td>
-                                <a href="javascript:uploadSkin('<?php echo $row['username']; ?>');" class="btn btn-primary btn-sm">皮肤</a>
-                                <a href="javascript:uploadTexture('<?php echo $row['username']; ?>', 'cape');" class="btn btn-primary btn-sm">披风</a>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        上传材质 <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="javascript:uploadTexture('<?php echo $row['username']; ?>', 'steve');">皮肤（Steve 模型）</a></li>
+                                        <li><a href="javascript:uploadTexture('<?php echo $row['username']; ?>', 'alex' );">皮肤（Alex 模型）</a></li>
+                                        <li><a href="javascript:uploadTexture('<?php echo $row['username']; ?>', 'cape' );">披风</a></li>
+                                    </ul>
+                                </div>
+                                <a href="javascript:deleteTexture('<?php echo $row['username'] ?>');" class="btn btn-warning btn-sm">删除材质</a>
                             </td>
                             <td>
-                                <a href="manage.php?show=<?php echo $row['uid']; ?>" class="btn btn-default btn-sm">材质预览</a>
-                                <a href="javascript:deleteTexture('<?php echo $row['username'] ?>');" class="btn btn-warning btn-sm">删除材质</a>
-                                <a href="javascript:changePasswd('<?php echo $row['username'] ?>');" class="btn btn-default btn-sm">更改密码</a>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        更多操作 <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="manage.php?show=<?php echo $row['uid']; ?>">修改用户名</a></li>
+                                        <li><a href="javascript:changePasswd('<?php echo $row['username'] ?>');">更改密码</a></li>
+                                        <li><a href="manage.php?show=<?php echo $row['uid']; ?>">修改优先模型</a></li>
+                                        <li role="separator" class="divider"></li>
+                                        <li><a href="manage.php?show=<?php echo $row['uid']; ?>">材质预览</a></li>
+                                    </ul>
+                                </div>
                                 <a class="btn btn-danger btn-sm"
                                    <?php if ($row['uid'] == 1)
                                         echo 'disabled="disabled" data-toggle="tooltip" data-placement="bottom" title="少年，不要作死哦"';
