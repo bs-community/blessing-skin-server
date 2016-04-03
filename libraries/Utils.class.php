@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 21:44:11
+ * @Last Modified time: 2016-04-03 22:14:39
  */
 
 class Utils
@@ -165,13 +165,14 @@ class Utils
      * Cut and resize to get avatar from skin, HD support by <xfl03@hotmail.com>
      *
      * @author https://github.com/jamiebicknell/Minecraft-Avatar/blob/master/face.php
-     * @param  string $hash
+     * @param  string $resource, img path or base64
      * @param  int    $size
      * @param  string $view, default for 'f'
+     * @param  bool   $base64, if given $resource is encoded in base64
      * @return resource
      */
-    public static function generateAvatarFromSkin($hash, $size, $view='f') {
-        $src = imagecreatefrompng(BASE_DIR."/textures/$hash");
+    public static function generateAvatarFromSkin($resource, $size, $view='f', $base64 = false) {
+        $src = $base64 ? imagecreatefromstring(base64_decode($resource)) : imagecreatefrompng($resource);
         $dest = imagecreatetruecolor($size, $size);
         $ratio = imagesx($src) / 64; // width/64
 
