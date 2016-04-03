@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 07:55:52
+ * @Last Modified time: 2016-04-03 17:14:26
  *
  * Blessing Skin Server Installer
  */
@@ -26,9 +26,7 @@ $step = isset($_GET['step']) ? $_GET['step'] : 1;
 <?php
 
 // use error control to hide shitty connect warnings
-error_reporting(0);
-$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWD, DB_NAME, DB_PORT);
-error_reporting(E_ALL ^ E_NOTICE);
+@$conn = new mysqli(DB_HOST, DB_USER, DB_PASSWD, DB_NAME, DB_PORT);
 
 if ($conn->connect_error): ?>
 <h1>MySQL 连接错误</h1>
@@ -37,11 +35,9 @@ if ($conn->connect_error): ?>
 <?php exit; endif;
 $conn->query("SET names 'utf8'");
 
-if (Database\Database::checkTableExist($conn)): ?>
-<h1>已安装过</h1>
-<p>Blessing Skin Server 看起来已经安装妥当。如果想重新安装，请删除数据库中的旧数据表，或者换一个数据表前缀。</p>
-<p class="step"><a href="../index.php" class="button button-large">返回首页</a></p>
-<?php exit; endif;
+$sql = "SELECT table_name FROM `INFORMATION_SCHEMA`.`TABLES` WHERE (table_name ='".DB_PREFIX."users'OR table_name ='".DB_PREFIX."options') AND TABLE_SCHEMA='".DB_NAME."'";
+if ($conn->query($sql)->num_rows == 2)
+    Utils::redirect('index.php');
 
 /*
  * Stepped installation
@@ -103,70 +99,39 @@ case 2:
 // check post
 if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['password2'])) {
     if ($_POST['password'] != $_POST['password2']) {
-        Utils::redirect('install.php?step=2&msg=确认密码不一致。'); exit;
+        Utils::redirect('install.php?msg=确认密码不一致。'); exit;
     }
     $username = $_POST['username'];
     $password = $_POST['password'];
     $sitename = isset($_POST['sitename']) ? $_POST['sitename'] : "Blessing Skin Server";
     if (User::checkValidUname($username)) {
         if (strlen($password) > 16 || strlen($password) < 5) {
-            Utils::redirect('install.php?step=2&msg=无效的密码。密码长度应该大于 6 并小于 15。');
+            Utils::redirect('install.php?msg=无效的密码。密码长度应该大于 6 并小于 15。');
             exit;
         } else if (Utils::convertString($password) != $password) {
-            Utils::redirect('install.php?step=2&msg=无效的密码。密码中包含了奇怪的字符。'); exit;
+            Utils::redirect('install.php?msg=无效的密码。密码中包含了奇怪的字符。'); exit;
         }
     } else {
-        Utils::redirect('install.php?step=2&msg=无效的用户名。用户名只能包含数字，字母以及下划线。'); exit;
+        Utils::redirect('install.php?msg=无效的用户名。用户名只能包含数字，字母以及下划线。'); exit;
     }
 } else {
-    Utils::redirect('install.php?step=2&msg=表单信息不完整。'); exit;
+    Utils::redirect('install.php?msg=表单信息不完整。'); exit;
 }
 
 $table_users   = DB_PREFIX."users";
 $table_options = DB_PREFIX."options";
 
-$sql1  =  "CREATE TABLE IF NOT EXISTS `$table_users` (
-              `uid` int(20) NOT NULL AUTO_INCREMENT,
-              `username` varchar(50) NOT NULL,
-              `password` varchar(255) NOT NULL,
-              `ip` varchar(32) NOT NULL,
-              `preference` varchar(10) NOT NULL,
-              `hash_steve` varchar(64),
-              `hash_alex` varchar(64),
-              `hash_cape` varchar(64),
-              `last_modified` datetime,
-              PRIMARY KEY (`uid`)
-            ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
+$sql  = str_replace('{$prefix}',   DB_PREFIX, file_get_contents(BASE_DIR.'/setup/tables.sql'));
+$sql  = str_replace('{$sitename}', $sitename, $sql);
+// I don't know why semicolon in sql statement dosen't work ...
+$sql = explode(';', $sql);
 
-$sql2  =  "CREATE TABLE IF NOT EXISTS `$table_options` (
-              `option_id` int(20) unsigned NOT NULL AUTO_INCREMENT,
-              `option_name` varchar(50) NOT NULL,
-              `option_value` longtext,
-              PRIMARY KEY (`option_id`)
-            ) ENGINE=MyISAM DEFAULT CHARSET=utf8;";
-
-// import options
-$sql3  =  "INSERT INTO `$table_options` (`option_id`, `option_name`, `option_value`) VALUES
-            (1,  'site_url',           ''),
-            (2,  'site_name',          '$sitename'),
-            (3,  'site_description',   'Minecraft 皮肤站'),
-            (4,  'current_version',    '2.3.4'),
-            (5,  'user_can_register',  '1'),
-            (6,  'regs_per_ip',        '2'),
-            (7,  'api_type',           '0'),
-            (8,  'announcement',       '这是默认的公告~'),
-            (9,  'data_adapter',       ''),
-            (10, 'data_table_name',    'authme for example'),
-            (11, 'data_column_uname',  'username'),
-            (12, 'data_column_passwd', 'password'),
-            (13, 'data_column_ip',     'ip'),
-            (14, 'color_scheme',       'skin-blue'),
-            (15, 'home_pic_url',       './assets/images/bg.jpg');";
-
-if (!$conn->query($sql1) || !$conn->query($sql2) || !$conn->query($sql3)) { ?>
+if (!$conn->query($sql[0]) || !$conn->query($sql[1]) || !$conn->query($sql[2])) { ?>
     <h1>数据表创建失败</h1>
     <p>照理来说不应该的，请带上错误信息联系作者：</p>
     <p><?php echo $conn->error; ?></p>
+    <p>SQL 语句：</p>
+    <p><?php echo nl2br($sql); ?></p>
     <?php exit;
 }
 

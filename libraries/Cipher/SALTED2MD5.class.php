@@ -3,10 +3,10 @@
  * @Author: printempw
  * @Date:   2016-04-03 14:58:11
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 15:27:11
+ * @Last Modified time: 2016-04-03 17:17:07
  */
 
-namespace Encryption;
+namespace Cipher;
 
 class SALTED2MD5 implements EncryptInterface
 {

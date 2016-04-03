@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-27 13:30:00
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-27 17:01:20
+ * @Last Modified time: 2016-04-03 16:16:57
  */
 
 // Sanity check
@@ -55,7 +55,8 @@ if ($conn->connect_error): ?>
 <?php exit; endif;
 $conn->query("SET names 'utf8'");
 
-if (Database\Database::checkTableExist($conn)): ?>
+$sql = "SELECT table_name FROM `INFORMATION_SCHEMA`.`TABLES` WHERE (table_name ='".DB_PREFIX."users'OR table_name ='".DB_PREFIX."options') AND TABLE_SCHEMA='".DB_NAME."'";
+if ($conn->query($sql)->num_rows == 2): ?>
 <h1>已安装过</h1>
 <p>Blessing Skin Server 看起来已经安装妥当。如果想重新安装，请删除数据库中的旧数据表，或者换一个数据表前缀。</p>
 <p class="step"><a href="../index.php" class="button button-large">返回首页</a></p>
@@ -153,7 +154,7 @@ function checkRewrite() {
 <div class="test">
     <span class="test-name">重写规则</span>
     <?php echo checkRewrite(); ?>
-    <div class="info">伪静态，用于支持传统皮肤获取链接。</div>
+    <div class="info">伪静态，用于支持传统皮肤获取链接。<small>*可能会判断错误</small></div>
 </div>
 
 <div class="test">
@@ -188,7 +189,11 @@ function checkRewrite() {
 if ($fails == 0) {
     echo '<p class="step"><a href="install.php" class="button button-large">下一步</a></p>';
 } else {
-    echo '<p class="step"><a disabled="disabled" class="button button-large">下一步</a></p>';
+    echo
+    '<p class="step">
+        <a disabled="disabled" class="button button-large">下一步</a>
+        <a style="float: right;" href="install.php" class="button button-large">无视，继续安装</a>
+    </p>';
 }
 ?>
 

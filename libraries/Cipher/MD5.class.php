@@ -3,10 +3,10 @@
  * @Author: printempw
  * @Date:   2016-04-03 14:53:42
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 15:19:09
+ * @Last Modified time: 2016-04-03 17:17:06
  */
 
-namespace Encryption;
+namespace Cipher;
 
 class MD5 implements EncryptInterface
 {
