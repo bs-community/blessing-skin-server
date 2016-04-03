@@ -62,7 +62,7 @@
                             <ul class="dropdown-menu">
                                 <!-- The user image in the menu -->
                                 <li class="user-header">
-                                    <img src="../get.php?type=avatar&uname=<?php echo $_SESSION['uname']; ?>&size=128" alt="User Image">
+                                    <img src="../avatar/128/<?php echo $_SESSION['uname']; ?>.png" alt="User Image">
                                     <p>
                                         <?php echo $_SESSION['uname']; ?>
                                     </p>
@@ -91,7 +91,7 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="../get.php?type=avatar&uname=<?php echo $_SESSION['uname']; ?>&size=45" alt="User Image">
+                        <img src="../avatar/45/<?php echo $_SESSION['uname']; ?>.png" alt="User Image">
                     </div>
                     <div class="pull-left info">
                         <p><?php echo $_SESSION['uname']; ?></p>
