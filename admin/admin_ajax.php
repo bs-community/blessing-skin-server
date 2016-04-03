@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-04 13:53:55
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 07:55:53
+ * @Last Modified time: 2016-04-03 08:26:15
  */
 require "../libraries/session.inc.php";
 
@@ -51,7 +51,7 @@ if (isset($_GET['action'])) {
             }
             if ($_POST[$type] == "true" && $user->getTexture($type) != "") {
                 Utils::remove("./textures/".$user->getTexture($type));
-                $user->db->update($user->uname, 'hash_'.$type, '');
+                $user->db->update('hash_'.$type, '', ['where' => "username='$user->uname'"]);
             }
         }
         $json['errno'] = 0;

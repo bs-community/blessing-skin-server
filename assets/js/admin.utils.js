@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-02-04 16:48:42
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-03-19 10:08:43
+* @Last Modified time: 2016-04-03 08:23:49
 */
 
 'use strict';
@@ -82,6 +82,10 @@ function deleteTexture(uname) {
                     success: function(json) {
                         if (json.errno == 0) {
                             showAlert(json.msg);
+                            // remove DOM
+                            if (steve) $('[src="../skin/' + uname + '-steve.png"]').remove();
+                            if (alex)  $('[src="../skin/' + uname + '-alex.png"]').remove();
+                            if (cape)  $('[src="../cape/' + uname + '.png"]').remove();
                         } else {
                             showAlert(json.msg);
                         }
