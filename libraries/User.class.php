@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-02 22:50:16
+ * @Last Modified time: 2016-04-03 14:39:40
  */
 
 use Database\Database;
@@ -70,6 +70,8 @@ class User
                     "ip"         => $ip,
                     "preference" => 'default'
                 );
+        if (Option::get('user_default_skin') != "")
+            $data['hash_steve'] = Option::get('user_default_skin');
         return $this->db->insert($data);
     }
 
