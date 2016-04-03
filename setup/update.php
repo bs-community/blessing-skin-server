@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-04-03 19:20:47
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 20:48:15
+ * @Last Modified time: 2016-04-03 21:56:13
  */
 
 session_start();
@@ -64,7 +64,7 @@ while($filename = @readdir($resource)) {
 }
 closedir($resource);
 
-echo "<p>数据库升级成功。欢迎使用 Blessing Skin Server v{$updater->current_version}！</p>"
+echo "<p>数据库升级成功。欢迎使用 Blessing Skin Server v".Option::get('current_version')."！</p>"
 ?>
 <p class="step"><a href="../index.php" class="button button-large">进入首页</a></p>
 <?php break; ?>
