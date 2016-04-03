@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-02 22:01:48
+ * @Last Modified time: 2016-04-03 08:07:39
  */
 
 class Utils
@@ -163,13 +163,29 @@ class Utils
         return false;
     }
 
-    public function generateRndString($length) {
+    /**
+     * Generate random string
+     *
+     * @param  int $length
+     * @return string
+     */
+    public static function generateRndString($length) {
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_ []{}<>~`+=,.;:/?|';
         $rnd_string = '';
         for ($i = 0; $i < $length; $i++) {
             $rnd_string .= $chars[mt_rand(0, strlen($chars) - 1)];
         }
         return $rnd_string;
+    }
+
+    /**
+     * HTTP redirect
+     *
+     * @param  string $url
+     * @return null
+     */
+    public static function redirect($url) {
+        header('Location: '.$url);
     }
 
 }

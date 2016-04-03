@@ -3,12 +3,12 @@
  * @Author: printempw
  * @Date:   2016-02-04 13:53:55
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-27 11:29:16
+ * @Last Modified time: 2016-04-03 07:55:53
  */
 require "../libraries/session.inc.php";
 
 // Check token, won't allow non-admin user to access
-if (!$user->is_admin) header('Location: ../index.php?msg=看起来你并不是管理员');
+if (!$user->is_admin) Utils::redirect('../index.php?msg=看起来你并不是管理员');
 
 /*
  * No protection here,

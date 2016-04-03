@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-27 14:59:05
+ * @Last Modified time: 2016-04-03 07:55:52
  *
  * Blessing Skin Server Installer
  */
@@ -103,23 +103,23 @@ case 2:
 // check post
 if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['password2'])) {
     if ($_POST['password'] != $_POST['password2']) {
-        header('Location: install.php?step=2&msg=确认密码不一致。'); exit;
+        Utils::redirect('install.php?step=2&msg=确认密码不一致。'); exit;
     }
     $username = $_POST['username'];
     $password = $_POST['password'];
     $sitename = isset($_POST['sitename']) ? $_POST['sitename'] : "Blessing Skin Server";
     if (User::checkValidUname($username)) {
         if (strlen($password) > 16 || strlen($password) < 5) {
-            header('Location: install.php?step=2&msg=无效的密码。密码长度应该大于 6 并小于 15。');
+            Utils::redirect('install.php?step=2&msg=无效的密码。密码长度应该大于 6 并小于 15。');
             exit;
         } else if (Utils::convertString($password) != $password) {
-            header('Location: install.php?step=2&msg=无效的密码。密码中包含了奇怪的字符。'); exit;
+            Utils::redirect('install.php?step=2&msg=无效的密码。密码中包含了奇怪的字符。'); exit;
         }
     } else {
-        header('Location: install.php?step=2&msg=无效的用户名。用户名只能包含数字，字母以及下划线。'); exit;
+        Utils::redirect('install.php?step=2&msg=无效的用户名。用户名只能包含数字，字母以及下划线。'); exit;
     }
 } else {
-    header('Location: install.php?step=2&msg=表单信息不完整。'); exit;
+    Utils::redirect('install.php?step=2&msg=表单信息不完整。'); exit;
 }
 
 $table_users   = DB_PREFIX."users";
