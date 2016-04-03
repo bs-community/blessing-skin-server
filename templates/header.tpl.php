@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../assets/libs/AdminLTE/dist/css/skins/<?php echo Option::get('color_scheme'); ?>.min.css">
     <link rel="stylesheet" href="../assets/libs/ply/ply.css">
     <?php if (isset($data['style'])) echo $data['style']; ?>
+    <style><?php echo Option::get('custom_css'); ?></style>
 </head>
 
 <body class="hold-transition <?php echo Option::get('color_scheme'); ?> sidebar-mini">

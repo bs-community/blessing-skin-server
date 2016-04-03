@@ -17,5 +17,6 @@
     <script type="text/javascript" src="../assets/libs/cookie.js"></script>
     <script type="text/javascript" src="../assets/js/utils.js"></script>
     <?php if (isset($data['script'])) echo $data['script']; ?>
+    <script><?php echo Option::get('custom_js'); ?></script>
 </body>
 </html>

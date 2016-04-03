@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-27 10:56:06
+ * @Last Modified time: 2016-04-03 10:53:41
  */
 session_start();
 $dir = dirname(__FILE__);
@@ -39,6 +39,7 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
             background-image: url("<?php echo Option::get('home_pic_url'); ?>");
         }
     </style>
+    <style><?php echo Option::get('custom_css'); ?></style>
 </head>
 <body>
 
@@ -127,6 +128,7 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
 <script type="text/javascript" src="./assets/libs/ply/ply.min.js"></script>
 <script type="text/javascript" src="./assets/js/utils.js"></script>
 <script type="text/javascript" src="./assets/js/index.utils.js"></script>
+<script><?php echo Option::get('custom_js'); ?></script>
 <?php if ($msg = Utils::getValue('msg', $_GET)): ?>
 <script type="text/javascript"> showAlert("<?php echo $msg; ?>"); </script>
 <?php endif; ?>

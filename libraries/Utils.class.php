@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 08:07:39
+ * @Last Modified time: 2016-04-03 10:58:15
  */
 
 class Utils
@@ -102,7 +102,7 @@ class Utils
      * @return string
      */
     public static function convertString($string) {
-        return stripslashes(trim($string));
+        return addslashes(trim($string));
     }
 
     /**

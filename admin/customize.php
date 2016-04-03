@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-19 14:34:21
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 07:55:53
+ * @Last Modified time: 2016-04-03 11:00:02
  */
 require "../libraries/session.inc.php";
 if (!$user->is_admin) Utils::redirect('../index.php?msg=看起来你并不是管理员');
@@ -117,6 +117,47 @@ $db = new Database\Database('users');
                                         <td class="key">首页图片地址</td>
                                         <td class="value">
                                            <input type="text" data-toggle="tooltip" data-placement="bottom" title="相对与首页的路径或绝对路径。" class="form-control" name="home_pic_url" value="<?php echo Option::get('home_pic_url'); ?>">
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div><!-- /.box-body -->
+                        <div class="box-footer">
+                            <button type="submit" name="submit" class="btn btn-primary">提交</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">自定义 CSS/JavaScript
+                            <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="字符串将会被转义"></i>
+                        </h3>
+                    </div><!-- /.box-header -->
+                    <form method="post" action="customize.php">
+                        <input type="hidden" name="option" value="adapter">
+                        <div class="box-body">
+                            <?php
+                            if (isset($_POST['custom_css']) && isset($_POST['custom_js'])) {
+                                Option::set('custom_css', Utils::convertString($_POST['custom_css']));
+                                Option::set('custom_js', Utils::convertString($_POST['custom_js']));
+                                echo '<div class="callout callout-success">设置已保存。</div>';
+                            } else {
+                                echo '<div class="callout callout-info">内容将会被追加至每个页面的 &lt;style&gt; 和 &lt;script&gt; 标签中</div>';
+                            } ?>
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td class="key">CSS</td>
+                                        <td class="value">
+                                           <textarea name="custom_css" class="form-control" rows="3"><?php echo Option::get('custom_css'); ?></textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="key">JavaScript</td>
+                                        <td class="value">
+                                           <textarea name="custom_js" class="form-control" rows="3"><?php echo Option::get('custom_js'); ?></textarea>
                                         </td>
                                     </tr>
 
