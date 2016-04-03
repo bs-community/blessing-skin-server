@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-13 14:59:32
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 15:24:30
+ * @Last Modified time: 2016-04-03 15:41:40
  */
 
 namespace Database;
@@ -17,7 +17,7 @@ class DiscuzDatabase extends AdaptedDatabase
      */
     public function encryptPassword($raw_passwd, $username="") {
         $salt = $this->select($this->column_uname, $username, null, $this->data_table)['salt'];
-        $class_name = "Encryption\\".\Option::get('encryption');
+        $class_name = "Cipher\\".\Option::get('encryption');
         return $class_name::encrypt($raw_passwd, $salt);
     }
 
