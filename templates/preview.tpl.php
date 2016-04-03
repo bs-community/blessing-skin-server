@@ -4,7 +4,7 @@
         <?php if ($data['user']->getTexture('steve') != "") {
             echo 'src = "../textures/'.$data['user']->getTexture('steve').'"/></p>';
         } else {
-            echo '/> <span class="skin2d">未上传</span></p>';
+            echo '/> </p>';
         } ?>
 
         <p>Alex 模型的皮肤：<img id="alex" class="skin2d"
