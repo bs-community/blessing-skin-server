@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-02-04 16:48:42
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-04-03 08:23:49
+* @Last Modified time: 2016-04-03 08:35:15
 */
 
 'use strict';
@@ -21,7 +21,7 @@ function uploadSkin(uname) {
 
 function uploadTexture(uname, type) {
     var ply = new Ply({
-        el: '<h2>为该用户上传新的 '+type+':</h2>'+
+        el: '<h2>为该用户上传新的 ' + type + ' 材质：</h2>'+
             '<input type="file" id="file" accept="image/png">'+
             '<button id="upload" class="btn btn-primary fw">上传</button>',
         effect: "fade",
@@ -39,9 +39,13 @@ function uploadTexture(uname, type) {
                     processData: false,
                     success: function(json) {
                         if (json.errno == 0) {
-                            showAlert("上传成功。", function(){
-                                location.reload();
-                            });
+                            showAlert("上传成功。");
+                            if (type == "steve") $('[src="../skin/' + uname + '-steve.png"]').prop('src',
+                                $('[src="../skin/' + uname + '-steve.png"]').prop('src')+'?random');
+                            if (type == "alex")  $('[src="../skin/' + uname + '-alex.png"]').prop('src',
+                                $('[src="../skin/' + uname + '-alex.png"]').prop('src')+'?random');
+                            if (type == "cape")  $('[src="../cape/' + uname + '.png"]').prop('src',
+                                $('[src="../cape/' + uname + '.png"]').prop('src')+'?random');
                         } else {
                             showAlert("上传材质的时候出错啦：\n" + json.msg);
                         }
