@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-04-03 16:22:11
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-04-03 21:22:18
+* @Last Modified time: 2016-04-04 08:08:23
 */
 
 CREATE TABLE IF NOT EXISTS `{$prefix}users` (
@@ -37,7 +37,7 @@ INSERT INTO `{$prefix}options` (`option_name`, `option_value`) VALUES
 ('api_type',           '0'),
 ('announcement',       '这是默认的公告~'),
 ('data_adapter',       ''),
-('encryption',         ''),
+('encryption',         'MD5'),
 ('data_table_name',    'authme for example'),
 ('data_column_uname',  'username'),
 ('data_column_passwd', 'password'),
