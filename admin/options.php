@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-18 22:50:25
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 20:58:06
+ * @Last Modified time: 2016-04-04 08:36:45
  */
 require "../libraries/session.inc.php";
 if (!$user->is_admin) Utils::redirect('../index.php?msg=看起来你并不是管理员');
@@ -36,6 +36,10 @@ $db = new Database\Database('users');
                                 // pre-set user_can_register because it will not be posted if not checked
                                 if (!isset($_POST['user_can_register'])) $_POST['user_can_register'] = '0';
                                 foreach ($_POST as $key => $value) {
+                                    // remove slash if site_url is ended with slash
+                                    if ($key == "site_url" && ereg("/$", $value)) {
+                                        $value = substr($value, 0, -1);
+                                    }
                                     if ($key != "option" && $key != "submit") {
                                         Option::set($key, $value);
                                     }
@@ -56,7 +60,7 @@ $db = new Database\Database('users');
                                            <input type="text" class="form-control" name="site_description" value="<?php echo Option::get('site_description'); ?>">
                                         </td>
                                     </tr>
-                                    <tr data-toggle="tooltip" data-placement="bottom" title="以 http:// 开头，带上子目录（如果有），不要以 / 结尾">
+                                    <tr data-toggle="tooltip" data-placement="bottom" title="以 http:// 开头，带上子目录（如果有）">
                                         <td class="key">站点地址（URL）</td>
                                         <td class="value">
                                            <input type="text" class="form-control" name="site_url" value="<?php echo Option::get('site_url'); ?>">
