@@ -79,6 +79,15 @@
                         <a href="http://www.mcbbs.net/thread-552877-1-1.html" style="float: right;" class="btn btn-default">查看 MCBBS 发布贴</a>
                     </div>
                 </div>
+
+                <div class="box box-default">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">注意事项</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <p>下载更新需要连接 GitHub 服务器，国内主机可能会长时间无响应。</p>
+                    </div><!-- /.box-body -->
+                </div>
             </div>
 
         </div>
