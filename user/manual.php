@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-04-03 12:15:35
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 14:28:05
+ * @Last Modified time: 2016-04-04 08:10:23
  */
 require "../libraries/session.inc.php";
 $data['style'] = <<< 'EOT'
@@ -87,7 +87,7 @@ View::show('header', $data);
         {
             "name": "<?php echo Option::get('site_name'); ?>",
             "type": "CustomSkinAPI",
-            "root": "<?php echo Option::get('site_url')."/"; ?>"
+            "root": "<?php echo Option::get('site_url')."/csl/"; ?>"
         },
         {
             "name": "Mojang",
@@ -109,7 +109,7 @@ http://skins.minecraft.net/MinecraftSkins/*.png
 <pre id="config-1_4-upper" style="display: none;">
 {
     "rootURIs": [
-        "<?php echo Option::get('site_url'); ?>",
+        "<?php echo Option::get('site_url'); ?>/usm",
         "http://www.skinme.cc/uniskin"
     ],
     "legacySkinURIs": [],
@@ -119,7 +119,7 @@ http://skins.minecraft.net/MinecraftSkins/*.png
 
 <pre id="config-1_2-1_3" class="hljs ini" style="display: none;">
 # <?php echo Option::get('site_name')."\n"; ?>
-Root: <?php echo Option::get('site_url'); ?>
+Root: <?php echo Option::get('site_url'); ?>/usm
 </pre>
 
 <pre id="config-1_2-lower" class="hljs ini" style="display: none;">
