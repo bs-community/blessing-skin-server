@@ -30,7 +30,7 @@
                         echo "<p>正在解压更新包</p>";
                         $zip->extractTo($extract_dir);
                     } else {
-                        exit('<p>更新包解压缩失败。</p>');
+                        exit('<p>更新包解压缩失败。详细信息：'.$zip.'</p>');
                     }
                     $zip->close();
 
