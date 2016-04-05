@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `{$prefix}users` (
   `hash_steve` varchar(64) DEFAULT '',
   `hash_alex` varchar(64) DEFAULT '',
   `hash_cape` varchar(64) DEFAULT '',
-  `last_modified` datetime DEFAULT CURRENT_TIMESTAMP,
+  `last_modified` datetime,
   PRIMARY KEY (`uid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
