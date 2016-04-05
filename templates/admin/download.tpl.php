@@ -26,11 +26,12 @@
 
                     $zip = new ZipArchive();
                     $extract_dir = BASE_DIR."/setup/update_cache/{$updater->latest_version}";
-                    if ($zip->open($zip_path) === true) {
+                    $res = $zip->open($zip_path);
+                    if ($res === true) {
                         echo "<p>正在解压更新包</p>";
                         $zip->extractTo($extract_dir);
                     } else {
-                        exit('<p>更新包解压缩失败。详细信息：'.$zip.'</p>');
+                        exit('<p>更新包解压缩失败。详细信息：'.$res.'</p>');
                     }
                     $zip->close();
 
