@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-04-03 16:22:11
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-04-05 14:08:28
+* @Last Modified time: 2016-04-05 14:46:31
 */
 
 CREATE TABLE IF NOT EXISTS `{$prefix}users` (
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `{$prefix}users` (
   `hash_steve` varchar(64) DEFAULT '',
   `hash_alex` varchar(64) DEFAULT '',
   `hash_cape` varchar(64) DEFAULT '',
-  `last_modified` datetime,
+  `last_modified` datetime DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`uid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
