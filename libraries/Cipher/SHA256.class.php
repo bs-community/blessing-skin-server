@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-04-03 14:50:45
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 17:17:07
+ * @Last Modified time: 2016-04-05 14:10:07
  */
 
 namespace Cipher;
@@ -15,7 +15,7 @@ class SHA256 implements EncryptInterface
      *
      * @see http://pastebin.com/1wy9g2HT
      */
-    public function encrypt($raw_passwd, $salt = "") {
+    public static function encrypt($raw_passwd, $salt = "") {
         $encrypt = hash('sha256', hash('sha256', $raw_passwd).$salt);
         return $encrypt;
     }
