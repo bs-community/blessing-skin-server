@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-27 15:16:22
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 21:15:23
+ * @Last Modified time: 2016-04-05 14:29:25
  */
 
 class Updater
@@ -42,16 +42,10 @@ class Updater
 
     public function downloadUpdate($silent = true) {
         $release_url = $this->update_info['releases'][$this->latest_version]['release_url'];
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $release_url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HEADER, 0);
-        curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
-
         if (!$silent) echo "<p>正在下载更新包：$release_url </p>";
-        $file = curl_exec($ch);
+        // I don't know why curl cant get full file here..
+        $file = fopen($release_url, 'r');
         if (!$silent) echo "<p>下载完成。</p>";
-        curl_close($ch);
 
         $update_cache = BASE_DIR."/setup/update_cache/";
         if (!is_dir($update_cache)) mkdir($update_cache);
@@ -61,7 +55,6 @@ class Updater
         if (file_put_contents($zip_path, $file) === false) {
             Utils::removeDir(BASE_DIR.'/setup/update_cache/');
             return false;
-
         }
         return $zip_path;
     }

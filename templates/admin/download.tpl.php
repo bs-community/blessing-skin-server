@@ -31,7 +31,7 @@
                         echo "<p>正在解压更新包</p>";
                         $zip->extractTo($extract_dir);
                     } else {
-                        exit('<p>更新包解压缩失败。详细信息：'.$res.'</p>');
+                        exit('<p>更新包解压缩失败。错误代码：'.$res.'</p>');
                     }
                     $zip->close();
 
