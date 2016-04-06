@@ -18,7 +18,6 @@ if (Option::get('current_version') == "2.4.1") {
     $sqls[0] = "ALTER TABLE `$table_name` CHANGE `hash_steve` `hash_steve` VARCHAR(64) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT ''";
     $sqls[1] = "ALTER TABLE `$table_name` CHANGE `hash_alex`  `hash_alex`  VARCHAR(64) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT ''";
     $sqls[2] = "ALTER TABLE `$table_name` CHANGE `hash_cape`  `hash_cape`  VARCHAR(64) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT ''";
-    $sqls[3] = "ALTER TABLE `$table_name` CHANGE `last_modified` `last_modified` DATETIME DEFAULT CURRENT_TIMESTAMP";
 
     foreach ($sqls as $sql) {
         $db->query($sql);
