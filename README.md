@@ -1,5 +1,7 @@
 # Blessing Skin Server
 
+由于开发者学业原因，本项目已经暂停开发。开源协议已改为 MIT。
+
 优雅的开源 PHP Minecraft 皮肤站。[演示地址](https://skin.prinzeugen.net/)
 
 ![screenshot](https://img.prinzeugen.net/image.php?di=FIQD)
@@ -240,6 +242,6 @@ Cape: http://example.com/cape/%s.png
 
 版权：
 ------------
-Blessing Skin Server 程序是基于 GNU General Public License 开放源代码的自由软件，你可以遵照 GPL 协议来修改和重新发布这一程序。
+Blessing Skin Server 程序是基于 The MIT License 开放源代码的自由软件，你可以遵照 MIT 协议来修改和重新发布这一程序。
 
 程序原作者为 [@printempw](https://prinzeugen.net/)，转载请注明。
