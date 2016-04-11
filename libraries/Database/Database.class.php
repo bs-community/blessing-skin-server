@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 21:59:06
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 15:41:40
+ * @Last Modified time: 2016-04-11 17:09:09
  */
 
 namespace Database;
@@ -153,7 +153,8 @@ class Database implements PasswordInterface, SyncInterface
     }
 
     function __destruct() {
-        $this->connection->close();
+        if (!is_null($this->connection))
+            $this->connection->close();
     }
 
 }
