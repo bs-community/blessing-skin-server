@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-04-03 12:15:35
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-04 08:10:23
+ * @Last Modified time: 2016-04-11 17:12:57
  */
 require "../libraries/session.inc.php";
 $data['style'] = <<< 'EOT'
@@ -23,8 +23,8 @@ View::show('header', $data);
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            使用说明
-            <small>Manual</small>
+            配置生成
+            <small>Configuration Generator</small>
         </h1>
     </section>
 

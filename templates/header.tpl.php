@@ -103,7 +103,7 @@
                     $pages  = array(1 => ['title'=>'用户中心', 'link'=>'index.php',   'icon'=>'fa-dashboard'],
                                     2 => ['title'=>'皮肤上传', 'link'=>'upload.php',  'icon'=>'fa-upload'],
                                     3 => ['title'=>'个人资料', 'link'=>'profile.php', 'icon'=>'fa-user'],
-                                    4 => ['title'=>'使用说明', 'link'=>'manual.php',  'icon'=>'fa-book']);
+                                    4 => ['title'=>'配置生成', 'link'=>'manual.php',  'icon'=>'fa-book']);
 
                     foreach ($pages as $key => $value) {
                         echo ($data['page_title'] == $value['title']) ? '<li class="active">' : '<li>';
