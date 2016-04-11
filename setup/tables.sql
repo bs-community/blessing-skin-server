@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-04-03 16:22:11
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-04-05 14:46:31
+* @Last Modified time: 2016-04-11 17:34:14
 */
 
 CREATE TABLE IF NOT EXISTS `{$prefix}users` (
@@ -29,7 +29,7 @@ INSERT INTO `{$prefix}options` (`option_name`, `option_value`) VALUES
 ('site_url',           ''),
 ('site_name',          '{$sitename}'),
 ('site_description',   'Minecraft 皮肤站'),
-('current_version',    '2.4'),
+('current_version',    '2.4.3'),
 ('user_can_register',  '1'),
 ('user_default_skin',  ''),
 ('regs_per_ip',        '2'),
