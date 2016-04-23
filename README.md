@@ -22,13 +22,13 @@
 
 1. 一台支持 URL 重写的主机，Nginx、Apache 或 IIS
 2. **PHP 版本 >= 5.4**
-3. 目录的写权限（SAE 等不可写应用引擎的支持正在开发中）
+3. 目录的写权限~~（SAE 等不可写应用引擎的支持正在开发中）~
 
 快速使用：
 -----------
 
 1. 下载源码，重命名 `config.example.php` 为 `config.php` 并配置你的数据库连接信息
-2. 运行 `./admin/install.php`
+2. 运行 `./setup/install.php`
 3. 如果你是用的是 Nginx，请配置你的 `nginx.conf` 并加入重写规则
 4. 注册一个新账户或者使用 `安装时所配置的账户` （管理员账户）登录
 5. 可以上传你的皮肤&披风啦
@@ -85,7 +85,7 @@ CustomSkinLoader 13.1 经过作者的完全重写，支持了 CSL API，并且�
 
 举个栗子（原来的 JSON 长这样）：
 
-```
+```json
 {
     "enable": true,
     "loadlist": [
@@ -104,7 +104,7 @@ CustomSkinLoader 13.1 经过作者的完全重写，支持了 CSL API，并且�
 
 你需要将其修改成像这样：
 
-```
+```json
 {
     "enable": true,
     "loadlist": [
@@ -155,7 +155,7 @@ http://example.com/cape/*.png
 
 举个栗子（原来的 JSON 长这样）：
 
-```
+```json
 {
   "rootURIs": [
     "http://www.skinme.cc/uniskin",
@@ -168,7 +168,7 @@ http://example.com/cape/*.png
 
 你需要在 `rootURIs` 字典中加入你的皮肤站的地址：
 
-```
+```json
 {
   "rootURIs": [
     "http://www.skinme.cc/uniskin",
