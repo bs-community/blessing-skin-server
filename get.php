@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 20:56:42
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-03-27 14:48:50
+ * @Last Modified time: 2016-04-23 13:02:24
  *
  * All textures requests of legacy link will be handle here.
  */
@@ -25,8 +25,8 @@ if (isset($_GET['type']) && isset($_GET['uname'])) {
                                 strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) : null;
     // Image bin data
     if ($_GET['type'] == "skin" || $_GET['type'] == "cape") {
-        $model_preferrnce = ($user->getPreference() == "default") ? "steve" : "alex";
-        $model = (isset($_GET['model']) && $_GET['model'] == "") ? $model_preferrnce : $_GET['model'];
+        $model_preference = ($user->getPreference() == "default") ? "steve" : "alex";
+        $model = (isset($_GET['model']) && $_GET['model'] == "") ? $model_preference : $_GET['model'];
         if ($if_modified_since >= $user->getLastModified()) {
             header('HTTP/1.0 304 Not Modified');
         } else {
