@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 17:14:26
+ * @Last Modified time: 2016-05-12 21:57:21
  *
  * Blessing Skin Server Installer
  */
@@ -89,7 +89,7 @@ case 1: ?>
             </td>
         </tr>
     </table>
-<?php if (isset($_GET['msg'])) echo "<div class='alert alert-warning' role='alert'>".$_GET['msg']."</div>"; ?>
+<?php if (isset($_GET['msg'])) echo "<div class='alert alert-warning' role='alert'>".htmlspecialchars($_GET['msg'])."</div>"; ?>
 <p class="step"><input type="submit" name="Submit" id="submit" class="button button-large" value="开始安装"  /></p>
 </form>
 <?php break;

@@ -3,10 +3,10 @@
  * @Author: printempw
  * @Date:   2016-03-19 14:34:21
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 20:58:26
+ * @Last Modified time: 2016-05-12 21:53:48
  */
 require "../libraries/session.inc.php";
-if (!$user->is_admin) Utils::redirect('../index.php?msg=看起来你并不是管理员');
+if (!$user->is_admin) Utils::redirect('../index.php', '看起来你并不是管理员');
 $data['style'] = <<< 'EOT'
 <link rel="stylesheet" href="../assets/libs/AdminLTE/dist/css/skins/_all-skins.min.css">
 <style>

@@ -49,7 +49,7 @@
                     $_SESSION['downloaded_version'] = $updater->latest_version;
 
                 } else {
-                    Utils::redirect('update.php', true);
+                    Utils::redirect('update.php', '', true);
                 } ?>
             </div><!-- /.box-body -->
             <div class="box-footer">

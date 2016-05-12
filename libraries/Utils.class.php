@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 22:14:39
+ * @Last Modified time: 2016-05-12 21:54:14
  */
 
 class Utils
@@ -227,7 +227,9 @@ class Utils
      * @param  string $url
      * @return null
      */
-    public static function redirect($url, $use_js = false) {
+    public static function redirect($url, $msg = "", $use_js = false) {
+        if ($msg != "") $_SESSION['msg'] = $msg;
+
         if ($use_js)
             echo "<script>window.location = '$url';</script>";
         else

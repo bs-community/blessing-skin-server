@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-17 13:55:20
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-11 17:01:15
+ * @Last Modified time: 2016-05-12 21:57:53
  */
 session_start();
 $dir = dirname(__FILE__);
@@ -139,8 +139,10 @@ if (isset($_COOKIE['uname']) && isset($_COOKIE['token'])) {
 <script type="text/javascript" src="./assets/js/index.utils.js"></script>
 <script><?php echo Option::get('custom_js'); ?></script>
 
-<?php if (isset($_GET['msg'])): ?>
-<script type="text/javascript"> showAlert("<?php echo $_GET['msg']; ?>"); </script>
-<?php endif; ?>
+<?php
+if (isset($_SESSION['msg'])) {
+    echo "<script type='text/javascript'> showAlert('".htmlspecialchars($_SESSION['msg'])."'); </script>";
+    unset($_SESSION['msg']);
+} ?>
 </body>
 </html>
