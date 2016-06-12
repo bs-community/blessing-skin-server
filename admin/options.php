@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-18 22:50:25
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-06-12 10:23:24
+ * @Last Modified time: 2016-06-12 11:09:02
  */
 require "../libraries/session.inc.php";
 if (!$user->is_admin) Utils::redirect('../index.php', '看起来你并不是管理员');
@@ -151,6 +151,7 @@ $db = new Database\Database('users');
                                                 <option <?php echo (Option::get('data_adapter') == 'Authme') ? 'selected="selected"' : ''; ?> value="Authme">Authme</option>
                                                 <option <?php echo (Option::get('data_adapter') == 'Crazy') ? 'selected="selected"' : ''; ?> value="Crazy">CrazyLogin</option>
                                                 <option <?php echo (Option::get('data_adapter') == 'Discuz') ? 'selected="selected"' : ''; ?> value="Discuz">Discuz</option>
+                                                <option <?php echo (Option::get('data_adapter') == 'Phpwind') ? 'selected="selected"' : ''; ?> value="Phpwind">Phpwind</option>
                                            </select>
                                         </td>
                                     </tr>
@@ -160,7 +161,7 @@ $db = new Database\Database('users');
                                            <input type="text" class="form-control" name="data_table_name" value="<?php echo Option::get('data_table_name'); ?>">
                                         </td>
                                     </tr>
-                                    <tr data-toggle="tooltip" data-placement="bottom" title="默认为 MD5。Authme 默认为 SHA256，CrazyLogin 为 CrazyCrypt1，Discuz 为 SALTED2MD5。没有需要的加密算法？请联系作者。">
+                                    <tr data-toggle="tooltip" data-placement="bottom">
                                         <td class="key">密码加密算法</td>
                                         <td class="value">
                                            <select class="form-control" name="encryption">
@@ -174,19 +175,19 @@ $db = new Database\Database('users');
                                     <tr>
                                         <td class="key">对接数据表用户名字段</td>
                                         <td class="value">
-                                           <input data-toggle="tooltip" data-placement="bottom" title="如果你没有修改插件配置的话，请保持默认。CrazyLogin 的话请将此字段改为 `name`。" type="text" class="form-control" name="data_column_uname" value="<?php echo Option::get('data_column_uname'); ?>">
+                                           <input data-toggle="tooltip" data-placement="bottom" type="text" class="form-control" name="data_column_uname" value="<?php echo Option::get('data_column_uname'); ?>">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="key">对接数据表密码字段</td>
                                         <td class="value">
-                                           <input data-toggle="tooltip" data-placement="bottom" title="同上，不要瞎球改。" type="text" class="form-control" name="data_column_passwd" value="<?php echo Option::get('data_column_passwd'); ?>">
+                                           <input data-toggle="tooltip" data-placement="bottom" type="text" class="form-control" name="data_column_passwd" value="<?php echo Option::get('data_column_passwd'); ?>">
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="key">对接数据表 IP 字段</td>
                                         <td class="value">
-                                           <input data-toggle="tooltip" data-placement="bottom" title="CrazyLogin 的话请将此字段改为 `ips`，Discuz 请改为 `regip`。" type="text" class="form-control" name="data_column_ip" value="<?php echo Option::get('data_column_ip'); ?>">
+                                           <input data-toggle="tooltip" data-placement="bottom" type="text" class="form-control" name="data_column_ip" value="<?php echo Option::get('data_column_ip'); ?>">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -196,6 +197,30 @@ $db = new Database\Database('users');
                             <button type="submit" name="submit" class="btn btn-primary">提交</button>
                         </div>
                     </form>
+                </div>
+
+                <div class="box box-default collapsed-box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">如何填写数据对接配置？</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </div>
+                        <!-- /.box-tools -->
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <h4>对接数据表名</h4>
+                        <p>所需要对接的程序的用户信息数据表，Authme 默认为 `authme`，CrazyLogin 默认为 `crazylogin_accounts`，Discuz 默认为 `pre_ucenter_members`，Phpwind 默认为 `windid_user`。请根据实际情况填写。</p>
+                        <h4>密码加密算法</h4>
+                        <p>皮肤站默认为 MD5。Authme 默认为 SHA256，CrazyLogin 为 CrazyCrypt1，Discuz 和 Phpwind 为 SALTED2MD5。没有需要的加密算法？请联系作者。</p>
+                        <h4>对接数据表用户名字段</h4>
+                        <p>如果你没有修改插件配置的话，请保持默认（`username`）。CrazyLogin 的话请将此字段改为 `name`。</p>
+                        <h4>对接数据表密码字段</h4>
+                        <p>同上，不要瞎球改。默认为 `password`</p>
+                        <h4>对接数据表 IP 字段</h4>
+                        <p>CrazyLogin 的话请将此字段改为 `ips`，Discuz 和 Phpwind 请改为 `regip`。</p>
+                    </div>
                 </div>
             </div>
 
