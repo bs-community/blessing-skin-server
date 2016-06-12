@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-02-02 21:59:06
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-11 17:09:09
+ * @Last Modified time: 2016-06-12 10:43:47
  */
 
 namespace Database;
@@ -109,6 +109,17 @@ class Database implements PasswordInterface, SyncInterface
     public function delete($condition = null, $table = null) {
         $table = is_null($table) ? $this->table_name : $table;
         return $this->query("DELETE FROM $table".$this->where($condition));
+    }
+
+    public function checkTableExist($table_name) {
+        $sql = "SELECT table_name FROM `INFORMATION_SCHEMA`.`TABLES` WHERE (table_name ='$table_name') AND TABLE_SCHEMA='".DB_NAME."'";
+        return ($this->query($sql)->num_rows == 0) ? false : true;
+    }
+
+    public function checkColumnExist($column_name, $table = null) {
+        $table = is_null($table) ? $this->table_name : $table;
+        $sql = "SELECT * FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE TABLE_SCHEMA = '".DB_NAME."' AND TABLE_NAME = '$table' AND COLUMN_NAME = '$column_name'";
+        return ($this->query($sql)->num_rows == 0) ? false : true;
     }
 
     public function getNumRows($key, $value, $table = null) {

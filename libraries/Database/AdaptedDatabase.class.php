@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-18 16:53:55
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 15:36:35
+ * @Last Modified time: 2016-06-12 10:44:56
  */
 
 namespace Database;
@@ -35,11 +35,19 @@ class AdaptedDatabase extends Database implements PasswordInterface, SyncInterfa
         if ($exist_in_bs_table && !$exist_in_data_table) {
             $result = $this->select('username', $username);
 
-            $this->insert(array(
+            $user_data = array(
                 $this->column_uname => $username,
                 $this->column_passwd => $result['password'],
                 $this->column_ip => $result['ip']
-            ), $this->data_table);
+            );
+
+            // quick fix for Authme realname
+            if (Option::get('data_adapter') == "Authme") {
+                if ($this->checkColumnExist('realname', $this->data_table))
+                    $user_data['realname'] = $username;
+            }
+
+            $this->insert($user_data, $this->data_table);
 
             // recursion
             return $this->sync($username);
