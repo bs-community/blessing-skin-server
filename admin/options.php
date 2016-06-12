@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-03-18 22:50:25
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-05-12 21:53:49
+ * @Last Modified time: 2016-06-12 10:23:24
  */
 require "../libraries/session.inc.php";
 if (!$user->is_admin) Utils::redirect('../index.php', '看起来你并不是管理员');
@@ -37,7 +37,7 @@ $db = new Database\Database('users');
                                 if (!isset($_POST['user_can_register'])) $_POST['user_can_register'] = '0';
                                 foreach ($_POST as $key => $value) {
                                     // remove slash if site_url is ended with slash
-                                    if ($key == "site_url" && ereg("/$", $value)) {
+                                    if ($key == "site_url" && preg_match("/.*(\/)$/", $value)) {
                                         $value = substr($value, 0, -1);
                                     }
                                     if ($key != "option" && $key != "submit") {
