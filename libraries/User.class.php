@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-01-16 23:01:33
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-04-03 22:14:51
+ * @Last Modified time: 2016-06-12 10:21:09
  */
 
 use Database\Database;
@@ -209,8 +209,9 @@ class User
         return json_encode($json, JSON_PRETTY_PRINT);
     }
 
-    public function updateLastModified() {//$this->uname
+    public function updateLastModified() {
         // @see http://stackoverflow.com/questions/2215354/php-date-format-when-inserting-into-datetime-in-mysql
+        date_default_timezone_set('UTC');
         return $this->db->update('last_modified', date("Y-m-d H:i:s"), ['where' => "username='$this->uname'"]);
     }
 
