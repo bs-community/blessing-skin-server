@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title><?php echo $__env->yieldContent('title'); ?> - <?php echo e(Option::get('site_name')); ?></title>
+    <link rel="shortcut icon" href="../assets/images/favicon.ico">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- App Styles -->
+    <link rel="stylesheet" href="../assets/dist/app.min.css">
+    <!-- AdminLTE Skins -->
+    <link rel="stylesheet" href="../assets/libs/skins/<?php echo e(Option::get('color_scheme')); ?>.min.css">
+
+    <link rel="stylesheet" href="../assets/dist/css/user.min.css">
+
+    <?php echo $__env->yieldContent('style'); ?>
+
+    <style><?php echo e(Option::get('custom_css')); ?></style>
+</head>
+
+<body class="hold-transition <?php echo e(Option::get('color_scheme')); ?> sidebar-mini">
+    <div class="wrapper">
+
+        <!-- Main Header -->
+        <header class="main-header">
+
+            <!-- Logo -->
+            <a href="<?php echo e(Option::get('site_url')); ?>" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"> <i class="fa fa-bookmark"></i> </span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><?php echo e(Option::get('site_name')); ?></span>
+            </a>
+
+            <!-- Header Navbar -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <!-- Navbar Right Menu -->
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- User Account Menu -->
+                        <li class="dropdown user user-menu">
+                            <!-- Menu Toggle Button -->
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-user"></i>
+                                <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                                <span class="hidden-xs nickname"><?php echo e(($user->getNickName() == '') ? $_SESSION['email'] : $user->getNickName()); ?></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- The user image in the menu -->
+                                <li class="user-header">
+                                    <img src="../avatar/128/<?php echo e(base64_encode($_SESSION['email'])); ?>.png" alt="User Image">
+                                    <p><?php echo e($_SESSION['email']); ?></p>
+                                </li>
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="../user/profile" class="btn btn-default btn-flat">我的资料</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="javascript:logout();" class="btn btn-default btn-flat">登出</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+
+                <!-- Sidebar user panel (optional) -->
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src="../avatar/45/<?php echo base64_encode($_SESSION['email']); ?>.png" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                        <p class="nickname"><?php echo e(($user->getNickName() == '') ? $_SESSION['email'] : $user->getNickName()); ?></p>
+                        <i class="fa fa-circle text-success"></i> Online
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <ul class="sidebar-menu">
+                    <li class="header">用户中心</li>
+                    <?php $menu = require BASE_DIR."/config/menu.php"; ?>
+
+                    <?php foreach($menu['user'] as $key => $value): ?>
+                    <li class="<?php echo e(($__env->yieldContent('title') == $value['title']) ? 'active' : ''); ?>">
+                        <a href="<?php echo e($value['link']); ?>"><i class="fa <?php echo e($value['icon']); ?>"></i> <span><?php echo e($value['title']); ?></span></a>
+                    </li>
+                    <?php endforeach; ?>
+
+                    <li class="header">浏览</li>
+                    <li><a href="../skinlib"><i class="fa fa-archive"></i> <span>皮肤库</span></a></li>
+
+                    <?php if($user->is_admin): ?>
+                    <li class="header">管理</li>
+                    <li><a href="../admin"><i class="fa fa-cog"></i> <span>管理面板</span></a></li>
+                    <?php endif; ?>
+                </ul><!-- /.sidebar-menu -->
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <?php echo $__env->yieldContent('content'); ?>
+
+        <!-- Main Footer -->
+        <footer class="main-footer">
+            <?php if(Option::get('show_footer_copyright')): ?>
+            <!-- To the right -->
+            <div class="pull-right hidden-xs">
+                Powered with ❤ by <a href="https://github.com/printempw/blessing-skin-server">Blessing Skin Server</a>.
+            </div>
+            <?php endif; ?>
+            <!-- Default to the left -->
+            <strong>Copyright &copy; 2016 <a href="<?php echo e(Option::get('site_url')); ?>"><?php echo e(Option::get('site_name')); ?></a>.</strong> All rights reserved.
+        </footer>
+
+    </div><!-- ./wrapper -->
+
+    <!-- App Scripts -->
+    <script type="text/javascript" src="../assets/dist/app.min.js"></script>
+
+    <script type="text/javascript" src="../assets/dist/js/user.min.js"></script>
+
+    <?php echo $__env->yieldContent('script'); ?>
+
+    <script><?php echo e(Option::get('custom_js')); ?></script>
+</body>
+</html>

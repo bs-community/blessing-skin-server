@@ -1,0 +1,28 @@
+{
+  "name": "blessing-skin-server",
+  "description": "Just a simple open-source Minecraft skin server written in PHP.",
+  "main": "",
+  "authors": [
+    "printempw"
+  ],
+  "license": "GPL-3.0",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "assets/bower_components",
+    "textures",
+    ".env"
+  ],
+  "dependencies": {
+    "AdminLTE": "admin-lte#^2.3.5",
+    "highlight-js": "^9.5.0",
+    "iCheck": "fronteed/icheck#^1.0.2",
+    "jquery": "2.2.3",
+    "toastr": "^2.1.2",
+    "font-awesome": "Font-Awesome#^4.6.3",
+    "bootstrap-fileinput": "^4.3.3",
+    "bootstrap": "^3.3.6"
+  }
+}

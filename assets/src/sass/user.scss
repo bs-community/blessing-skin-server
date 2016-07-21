@@ -1,0 +1,61 @@
+/*
+* @Author: printempw
+* @Date:   2016-07-10 17:17:07
+* @Last Modified by:   prpr
+* @Last Modified time: 2016-07-21 21:13:21
+*/
+
+@import "style.scss";
+
+.player {
+    cursor: pointer;
+}
+
+.player-selected {
+    background-color: #f5f5f5;
+}
+
+.box-title > a.selected {
+    color: #3c8dbc;
+}
+
+.box-title > a {
+    color: #6d6d6d;
+}
+
+.breadcrumb > a {
+    margin-right: 10px;
+    color: #444;
+}
+
+.breadcrumb > a:hover {
+    color: #3c8dbc;
+}
+
+.item-footer > .dropdown-menu {
+    margin-left: 180px;
+}
+
+.empty-msg {
+    text-align: center;
+    font-size: 16px;
+    padding: 10px 0;
+}
+
+.modal-body > label {
+    margin-bottom: 10px;
+}
+
+#score {
+    font-family: Minecraft;
+    font-size: 50px;
+    text-align: center;
+    margin-top: 20px;
+    cursor: help;
+}
+
+.progress {
+    margin-top: 4px;
+}
+
+

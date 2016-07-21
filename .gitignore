@@ -1,3 +1,8 @@
+.env
+.sass-cache
+vendor/*
 textures/*
-config.php
-setup/update_cache/*
+node_modules/*
+resoureces/cache/*
+assets/bower_components/*
+assets/dist/*

@@ -481,7 +481,7 @@ var MSP = (function (global, undefined) {
 
         //DEBUG
         //console.log(skin.width+" "+skin.height);
-        
+
         if(skin.width==skin.height){
             var ratio=skin.width/64;
             skinc.drawImage(skin, 0 *ratio, 0 *ratio, 64*ratio, 32*ratio, 0 *ratio, 0 *ratio, 64*ratio, 32*ratio);
@@ -657,6 +657,10 @@ var MSP = (function (global, undefined) {
         },
         changeCape: function(url) {
             cape.src = url;
+        },
+        clear: function() {
+            skin.src = dskin;
+            cape.src = "";
         },
         get3dSkinCanvas: function(width, height) {
             renderer.setSize(width, height);

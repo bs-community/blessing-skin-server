@@ -1,0 +1,54 @@
+/*
+* @Author: printempw
+* @Date:   2016-07-10 17:17:07
+* @Last Modified by:   prpr
+* @Last Modified time: 2016-07-21 21:13:07
+*/
+
+@import "style.scss";
+
+.navbar-nav>.user-menu .user-image {
+    border-radius: 10%;
+}
+
+.main-header #navbar-search-input.form-control {
+    border-radius: 4px;
+}
+
+.item-footer > a {
+    color: #fff;
+}
+
+.item-footer > .like:hover, .item-footer > .liked {
+    color: #e0353b;
+}
+
+.model-label {
+    font-weight: 500;
+    font-size: 15px;
+}
+
+label.pull-right {
+    font-weight: inherit;
+}
+
+div.likes {
+    background-color: #fff;
+    border-color: #fff;
+    color: #3e3e3e;
+    cursor: default;
+}
+
+div.likes:hover, div.likes:active, div.likes:focus, div.likes:active:focus {
+    background-color: #fff;
+    border-color: #fff;
+    color: #e0353b;
+}
+
+table {
+    font-size: inherit;
+}
+
+.table>tbody>tr>td {
+    border-top: none;
+}

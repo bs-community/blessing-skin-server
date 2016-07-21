@@ -1,0 +1,17 @@
+/*
+* @Author: printempw
+* @Date:   2016-06-02 13:12:33
+* @Last Modified by:   prpr
+* @Last Modified time: 2016-07-21 21:13:11
+*/
+
+@import "style.scss";
+
+.login-logo a, .register-logo a, .reset-logo a {
+    font-family: Minecraft, Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
+    transition: all .2s ease-in-out;
+}
+
+.login-logo a:hover, .register-logo a:hover, .reset-logo a:hover {
+    color: #42a5f5;
+}
