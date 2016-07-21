@@ -3,6 +3,6 @@
 vendor/*
 textures/*
 node_modules/*
-resoureces/cache/*
+resources/cache/*
 assets/bower_components/*
 assets/dist/*
