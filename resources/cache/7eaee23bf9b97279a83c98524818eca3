@@ -1,9 +1,0 @@
-<?php $__env->startSection('title', '404 Not Found'); ?>
-
-<?php $__env->startSection('content'); ?>
-<h1>404 Not Found</h1>
-
-<p>详细信息：<?php echo e($message); ?></p>
-<?php $__env->stopSection(); ?>
-
-<?php echo $__env->make('errors.general', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
