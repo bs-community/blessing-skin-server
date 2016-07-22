@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="../assets/dist/app.min.css">
     <link rel="stylesheet" href="../assets/libs/skins/{{ Option::get('color_scheme') }}.min.css">
 
-    <link rel="stylesheet" href="../assets/dist/css/auth.min.css">
+    <link rel="stylesheet" href="../assets/dist/css/auth.css">
 
     <style>{{ Option::get('custom_css')  }}</style>
 </head>
@@ -22,7 +22,7 @@
     <!-- App Scripts -->
     <script type="text/javascript" src="../assets/dist/app.min.js"></script>
 
-    <script type="text/javascript" src="../assets/dist/js/auth.min.js"></script>
+    <script type="text/javascript" src="../assets/dist/js/auth.js"></script>
 
     @if (isset($_SESSION['msg']))
     <script>

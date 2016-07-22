@@ -12,7 +12,7 @@
     <!-- AdminLTE Skins -->
     <link rel="stylesheet" href="./assets/libs/skins/{{ Option::get('color_scheme') }}.min.css">
 
-    <link rel="stylesheet" href="./assets/dist/css/index.min.css">
+    <link rel="stylesheet" href="./assets/dist/css/index.css">
 
     <style>{{ Option::get('custom_css') }}</style>
 </head>

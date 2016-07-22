@@ -12,7 +12,7 @@
     <!-- AdminLTE Skins -->
     <link rel="stylesheet" href="../assets/libs/skins/{{ Option::get('color_scheme') }}.min.css">
 
-    <link rel="stylesheet" href="../assets/dist/css/user.min.css">
+    <link rel="stylesheet" href="../assets/dist/css/user.css">
 
     @yield('style')
 
@@ -130,7 +130,7 @@
     <!-- App Scripts -->
     <script type="text/javascript" src="../assets/dist/app.min.js"></script>
 
-    <script type="text/javascript" src="../assets/dist/js/user.min.js"></script>
+    <script type="text/javascript" src="../assets/dist/js/user.js"></script>
 
     @yield('script')
 
