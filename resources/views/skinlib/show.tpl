@@ -33,8 +33,7 @@
                         </div><!-- /.box-body -->
                         <div class="box-footer">
                             @if (is_null($user))
-                            <button disabled="disabled" class="btn btn-primary pull-right">添加至衣柜</button>
-                            <button disabled="disabled" class="btn btn-default pull-right" style="margin-right: 10px;">另存为</button>
+                            <button disabled="disabled" title="登录后才能使用衣柜哦" class="btn btn-primary pull-right">添加至衣柜</button>
                             @else
 
                             @if ($user->closet->has($texture->tid))
@@ -42,7 +41,6 @@
                             @else
                             <a href="javascript:addToCloset({{ $texture->tid }});" id="{{ $texture->tid }}" class="btn btn-primary pull-right">添加至衣柜</a>
                             @endif
-                            <button data-toggle="modal" data-target="#modal-save-as" class="btn btn-default pull-right" style="margin-right: 10px;">另存为</button>
 
                             @endif
                             <div class="btn likes" title="收藏人数" data-toggle="tooltip" data-placement="top"><i class="fa fa-heart"></i>
@@ -142,45 +140,6 @@
         </section><!-- /.content -->
     </div><!-- /.container -->
 </div><!-- /.content-wrapper -->
-
-<div id="modal-save-as" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">另存为</h4>
-            </div>
-            <div class="modal-body">
-                <div class="callout callout-info">
-                    <p>喜欢这个材质，但是上传者起的名字太蠢了？</p>
-                    <p>或者是上传者指定的模型不是你想要的？那就另存为一份吧~</p>
-                    <p><strong>注意：</strong>另存为会消耗积分</p>
-                </div>
-                <div class="form-group">
-                    <label for="name">材质名称</label>
-                    <input id="name" class="form-control" type="text" placeholder="材质名称应该小于 32 个字节且不能包含奇怪的符号" value="{{ $texture->name }}" />
-                </div>
-
-                <div class="form-group">
-                    <label for="type">材质类型</label>
-                    <select class="form-control" id="type">
-                        <option {{ ($texture->type == "steve") ? 'selected="selected"' : '' }} value="steve">皮肤（Steve 模型）</option>
-                        <option {{ ($texture->type == "alex")  ? 'selected="selected"' : '' }} value="alex">皮肤（Alex 模型）</option>
-                        <option {{ ($texture->type == "cape")  ? 'selected="selected"' : '' }} value="cape">披风</option>
-                    </select>
-                </div>
-
-                <label for="private" title="其他人将不会在皮肤库中看到此材质" data-placement="top" data-toggle="tooltip">
-                    <input id="private" type="checkbox"> 设置为私密材质
-                </label>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <a href="javascript:saveAs({{ $texture->tid }});" class="btn btn-primary">提交</a>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
 
 <script type="text/javascript" src="../assets/libs/skin-preview/three.min.js"></script>
 <script type="text/javascript" src="../assets/libs/skin-preview/three.msp.js"></script>

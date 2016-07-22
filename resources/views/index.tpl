@@ -108,8 +108,6 @@
     <!-- App Scripts -->
     <script type="text/javascript" src="./assets/dist/app.min.js"></script>
 
-    @yield('script')
-
     <script>{{ Option::get('custom_js') }}</script>
 </body>
 </html>

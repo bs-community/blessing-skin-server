@@ -2,11 +2,12 @@
  * @Author: printempw
  */
 
-function showModal(msg, title, type) {
+function showModal(msg, title, type, callback) {
     title = title === undefined ? "Messgae" : title;
     type  = type  === undefined ? "default" : type;
+    callback = callback === undefined ? 'data-dismiss="modal"' : 'onclick="'+callback+'"';
     var btn_type = (type != "default") ? "btn-outline" : "btn-primary";
-    var dom = '<div class="modal modal-'+type+' fade in"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button><h4 class="modal-title">'+title+'</h4></div><div class="modal-body"><p>'+msg+'</p></div><div class="modal-footer"><button type="button" data-dismiss="modal" class="btn '+btn_type+'">OK</button></div></div></div></div>';
+    var dom = '<div class="modal modal-'+type+' fade in"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button><h4 class="modal-title">'+title+'</h4></div><div class="modal-body"><p>'+msg+'</p></div><div class="modal-footer"><button type="button" '+callback+' class="btn '+btn_type+'">OK</button></div></div></div></div>';
     $(dom).modal();
 }
 

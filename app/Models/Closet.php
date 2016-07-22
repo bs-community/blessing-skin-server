@@ -49,6 +49,9 @@ class Closet
         foreach ($this->textures as $texture) {
             $result = Texture::find($texture['tid']);
             if ($result) {
+                // user custom texture name
+                $result->name = $texture['name'];
+
                 if ($result->type == "cape") {
                     $this->textures_cape[] = $result;
                 } else {
@@ -83,7 +86,7 @@ class Closet
         return $this->eloquent_model->amount;
     }
 
-    public function add($tid)
+    public function add($tid, $name)
     {
         foreach ($this->textures as $item) {
             if ($item['tid'] == $tid)
@@ -91,8 +94,9 @@ class Closet
         }
 
         $this->textures[] = array(
-            'tid' => $tid,
-            'add_at' => Utils::getTimeFormatted()
+            'tid'    => $tid,
+            'name'   => $name,
+            'add_at' => time()
         );
 
         $this->eloquent_model->amount += 1;

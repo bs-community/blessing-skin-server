@@ -130,9 +130,12 @@ class SkinlibController extends BaseController
         if (!$results->isEmpty())
         {
             foreach ($results as $result) {
-                if (($result['name'] == $t->name) && ($result['type'] == $t->type)) {
-                    throw new E('The same file with same name has been already '.
-                        'uploaded by others. Try another filr or change your texture name.', 1);
+                if ($result->type == $t->type) {
+                    View::json([
+                        'errno' => 0,
+                        'msg' => '已经有人上传过这个材质了，直接添加到衣柜使用吧~',
+                        'tid' => $result->tid
+                    ]);
                 }
             }
         }

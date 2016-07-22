@@ -1,21 +1,38 @@
 /*
 * @Author: prpr
 * @Date:   2016-07-19 10:46:38
-* @Last Modified by:   prpr
-* @Last Modified time: 2016-07-21 15:59:34
+* @Last Modified by:   printempw
+* @Last Modified time: 2016-07-22 10:25:54
 */
 
 'use strict';
 
 function addToCloset(tid) {
+    var dom = '<div class="form-group">'+
+                    '<label for="new-name">给你的皮肤起个名字吧~</label>'+
+                    '<input id="new-name" class="form-control" type="text" placeholder="" />'+
+                '</div><br />';
+    showModal(dom, '收藏新皮肤', 'default', 'ajaxAddToCloset('+tid+')');
+    return;
+}
+
+function ajaxAddToCloset(tid) {
+    var name = $('#new-name').val();
+
+    if (name == "") {
+        toastr.info('你还没有填写名称哦');
+        $('#name').focus(); return;
+    }
+
     $.ajax({
         type: "POST",
         url: "../user/closet/add",
         dataType: "json",
-        data: { 'tid' : tid },
+        data: { 'tid': tid, 'name': name },
         success: function(json) {
             if (json.errno == 0) {
                 toastr.success(json.msg);
+                $('.modal').modal('hide');
                 $('a[tid='+tid+']').attr('href', 'javascript:removeFromCloset('+tid+');').attr('title', '从衣柜中移除').addClass('liked');
                 $('#'+tid).attr('href', 'javascript:removeFromCloset('+tid+');').html('从衣柜中移除');
                 $('#likes').html(parseInt($('#likes').html()) + 1);
@@ -145,7 +162,8 @@ function upload() {
             success: function(json) {
                 if (json.errno == 0) {
                     toastr.success(json.msg);
-                    window.setTimeout('window.location = "./show?tid='+json.tid+'"', 1000);
+                    toastr.info('正在跳转...');
+                    window.setTimeout('window.location = "./show?tid='+json.tid+'"', 2500);
                 } else {
                     $('#upload-button').html('确认上传').prop('disabled', '');
                     toastr.warning(json.msg);
@@ -158,26 +176,6 @@ function upload() {
         });
     }
     return false;
-}
-
-function saveAs(tid) {
-    $.ajax({
-        type: "POST",
-        url: "./save",
-        dataType: "json",
-        data: { 'name': $('#name').val(), 'type': $('#type').val(), 'public': !$('#private').prop('checked'), 'original_tid': tid },
-        success: function(json) {
-            if (json.errno == 0) {
-                toastr.success(json.msg);
-                window.setTimeout('window.location = "./show?tid='+json.tid+'"', 1000);
-            } else {
-                toastr.warning(json.msg);
-            }
-        },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
-    });
 }
 
 function changePrivacy(tid) {

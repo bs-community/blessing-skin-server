@@ -44,15 +44,14 @@ class ClosetController extends BaseController
 
     public function add()
     {
-        if (!is_numeric(\Utils::getValue('tid', $_POST)))
-            throw new E('Invalid parameters.', 1);
+        \Utils::checkPost(['tid', 'name']);
 
-        if ($this->closet->add($_POST['tid'])) {
+        if ($this->closet->add($_POST['tid'], $_POST['name'])) {
             $t = Texture::find($_POST['tid']);
             $t->likes += 1;
             $t->save();
 
-            View::json('收藏成功~', 0);
+            View::json('材质 '.$_POST['name'].' 收藏成功~', 0);
         }
     }
 
