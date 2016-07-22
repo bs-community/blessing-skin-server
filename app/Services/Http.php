@@ -33,6 +33,27 @@ class Http
         return $ip;
     }
 
+    public static function setUri($uri)
+    {
+        $_SERVER["REQUEST_URI"] = $uri;
+        return true;
+    }
+
+    public static function getUri()
+    {
+        return $_SERVER["REQUEST_URI"];
+    }
+
+    public static function getCurrentUrl()
+    {
+        $url  = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? "https://" : "http://";
+        $url .= $_SERVER["SERVER_NAME"];
+        $url .= ($_SERVER["SERVER_PORT"] == "80") ? "" : (":".$_SERVER["SERVER_PORT"]);
+        $url .= $_SERVER["REQUEST_URI"];
+
+        return $url;
+    }
+
     public static function abort($code, $msg = "Something happened.", $is_json = false)
     {
         http_response_code((int)$code);

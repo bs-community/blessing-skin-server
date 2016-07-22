@@ -30,6 +30,16 @@ foreach ($services as $facade => $class) {
     class_alias($class, $facade);
 }
 
+/**
+ * URL ends with slash will cause many reference problems
+ */
+if (\Http::getUri() != "/" && substr(\Http::getUri(), -1) == "/")
+{
+    die(\Http::getUri());
+    $url = substr(\Http::getCurrentUrl(), 0, -1);
+    \Http::redirect($url);
+}
+
 // Check database config
 $db_config = require BASE_DIR.'/config/database.php';
 \Database::checkConfig($db_config);
@@ -42,8 +52,7 @@ $capsule->bootEloquent();
 session_start();
 
 \Pecee\SimpleRouter\SimpleRouter::group([
-    'exceptionHandler' => 'App\Exceptions\RouterExceptionHandler',
-    'middleware'       => 'App\Middlewares\RemoveUrlSlashMiddleware'
+    'exceptionHandler' => 'App\Exceptions\RouterExceptionHandler'
 ], function() {
     require BASE_DIR.'/config/routes.php';
 });

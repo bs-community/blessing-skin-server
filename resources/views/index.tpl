@@ -4,15 +4,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{{ Option::get('site_name') }}</title>
-    <link rel="shortcut icon" href="../assets/images/favicon.ico">
+    <link rel="shortcut icon" href="./assets/images/favicon.ico">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- App Styles -->
-    <link rel="stylesheet" href="../assets/dist/app.min.css">
+    <link rel="stylesheet" href="./assets/dist/app.min.css">
     <!-- AdminLTE Skins -->
-    <link rel="stylesheet" href="../assets/libs/skins/{{ Option::get('color_scheme') }}.min.css">
+    <link rel="stylesheet" href="./assets/libs/skins/{{ Option::get('color_scheme') }}.min.css">
 
-    <link rel="stylesheet" href="../assets/dist/css/index.min.css">
+    <link rel="stylesheet" href="./assets/dist/css/index.min.css">
 
     <style>{{ Option::get('custom_css') }}</style>
 </head>
@@ -32,7 +32,7 @@
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">
                             <li class="active"><a href="./">首页</a></li>
-                            <li><a href="../skinlib">皮肤库</a></li>
+                            <li><a href="./skinlib">皮肤库</a></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
                     <!-- Navbar Right Menu -->
@@ -44,20 +44,20 @@
                                     <!-- Menu Toggle Button -->
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         <!-- The user image in the navbar-->
-                                        <img src="../avatar/25/{{ base64_encode($_SESSION['email']) }}.png" class="user-image" alt="User Image">
+                                        <img src="./avatar/25/{{ base64_encode($_SESSION['email']) }}.png" class="user-image" alt="User Image">
                                         <!-- hidden-xs hides the username on small devices so only the image appears. -->
                                         <span class="hidden-xs nickname">{{ ($user->getNickName() == '') ? $_SESSION['email'] : $user->getNickName() }}</span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <!-- The user image in the menu -->
                                         <li class="user-header">
-                                            <img src="../avatar/128/{{ base64_encode($_SESSION['email']) }}.png" alt="User Image">
+                                            <img src="./avatar/128/{{ base64_encode($_SESSION['email']) }}.png" alt="User Image">
                                             <p>{{ $_SESSION['email'] }}</p>
                                         </li>
                                         <!-- Menu Footer-->
                                         <li class="user-footer">
                                             <div class="pull-left">
-                                                <a href="../user" class="btn btn-default btn-flat">用户中心</a>
+                                                <a href="./user" class="btn btn-default btn-flat">用户中心</a>
                                             </div>
                                             <div class="pull-right">
                                                 <a href="javascript:logout();" class="btn btn-default btn-flat">登出</a>
@@ -106,7 +106,7 @@
     </div><!-- ./wrapper -->
 
     <!-- App Scripts -->
-    <script type="text/javascript" src="../assets/dist/app.min.js"></script>
+    <script type="text/javascript" src="./assets/dist/app.min.js"></script>
 
     @yield('script')
 
