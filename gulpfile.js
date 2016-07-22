@@ -1,25 +1,24 @@
 /*
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
-* @Last Modified by:   prpr
-* @Last Modified time: 2016-07-21 21:41:11
+* @Last Modified by:   printempw
+* @Last Modified time: 2016-07-22 08:17:54
 */
 
-var gulp        = require('gulp'),
-    jshint      = require('gulp-jshint'),
-    concat      = require('gulp-concat'),
-    uglify      = require('gulp-uglify'),
-    sass        = require('gulp-ruby-sass'),
-    cleanCss    = require('gulp-clean-css'),
-    rename      = require('gulp-rename'),
-    del         = require('del'),
-    runSequence = require('run-sequence'),
-    replace     = require('gulp-replace');
+var gulp     = require('gulp'),
+    jshint   = require('gulp-jshint'),
+    concat   = require('gulp-concat'),
+    uglify   = require('gulp-uglify'),
+    sass     = require('gulp-ruby-sass'),
+    cleanCss = require('gulp-clean-css'),
+    rename   = require('gulp-rename'),
+    del      = require('del'),
+    replace  = require('gulp-replace');
 
 /**
- * Copy files from bower_components to dist for later concat
+ * Copy files from bower_components to dist for later operations
  */
-gulp.task('copy', function() {
+gulp.task('copy', function(cb) {
 
     gulp.src('./assets/bower_components/jquery/dist/jquery.min.js')
         .pipe(gulp.dest('./assets/libs/js/'));
@@ -58,8 +57,8 @@ gulp.task('copy', function() {
         .pipe(gulp.dest('./assets/fonts/'));
 
     gulp.src('./assets/bower_components/iCheck/skins/square/blue.css')
-        .pipe(replace('blue.png', '"../../images/blue.png"'))
-        .pipe(replace('blue@2x.png', '"../../images/blue@2x.png"'))
+        .pipe(replace('blue.png', '"../images/blue.png"'))
+        .pipe(replace('blue@2x.png', '"../images/blue@2x.png"'))
         .pipe(gulp.dest('./assets/libs/css/'));
 
     gulp.src('./assets/bower_components/iCheck/skins/square/blue.png')
@@ -76,7 +75,6 @@ gulp.task('copy', function() {
 
     gulp.src('./assets/bower_components/toastr/toastr.min.js')
         .pipe(gulp.dest('./assets/libs/js/'));
-
 });
 
 gulp.task('lint', function() {
@@ -114,6 +112,11 @@ gulp.task('lib-scripts', function() {
         .pipe(gulp.dest('./assets/dist/'))
 });
 
+/**
+ * Concat css and js files to one file
+ */
+gulp.task('concat', ['lib-css', 'lib-scripts']);
+
 // compile sass
 gulp.task('sass', function() {
     return sass('./assets/src/sass/*.scss')
@@ -138,27 +141,13 @@ gulp.task('scripts', function() {
 
 gulp.task('minify', ['sass', 'scripts']);
 
-/**
- * Concat css and js files to one file
- */
-gulp.task('concat', ['lib-css', 'lib-scripts']);
-
-gulp.task('clean', function (cb) {
+gulp.task('clean', ['concat', 'minify'], function (cb) {
     return del([
         './assets/libs/css/**',
         './assets/libs/js/**'
     ], cb);
 });
 
-gulp.task('build', function(cb){
-    runSequence('copy', 'concat', 'minify', 'clean', cb);
-});
+gulp.task('build', ['concat', 'minify', 'clean']);
 
-gulp.task('default', function(){
-    gulp.watch('./assets/src/sass/*.scss', function() {
-        gulp.run('sass');
-    });
-    gulp.watch('./assets/src/js/*.js', function() {
-        gulp.run('scripts');
-    });
-});
+gulp.task('default', ['copy']);
