@@ -23,8 +23,15 @@ if ($_ENV['APP_DEBUG'] !== "false") {
         new \Whoops\Handler\PrettyPageHandler : new \Whoops\Handler\PlainTextHandler;
     $whoops->pushHandler($handler);
     $whoops->register();
+} else {
+    set_error_handler(function ($errno, $errstr, $errfile, $errline) {
+        Exceptions\ExceptionHandler::handler(
+            new \ErrorException($errstr, $errno, $errno, $errfile, $errline)
+        );
+    });
 }
 
+// set aliases for App\Services
 $services = require BASE_DIR.'/config/services.php';
 foreach ($services as $facade => $class) {
     class_alias($class, $facade);
@@ -51,6 +58,7 @@ $capsule->bootEloquent();
 
 session_start();
 
+// require route config
 \Pecee\SimpleRouter\SimpleRouter::group([
     'exceptionHandler' => 'App\Exceptions\RouterExceptionHandler'
 ], function() {

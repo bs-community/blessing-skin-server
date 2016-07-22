@@ -46,12 +46,16 @@ class Http
 
     public static function getCurrentUrl()
     {
-        $url  = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? "https://" : "http://";
-        $url .= $_SERVER["SERVER_NAME"];
-        $url .= ($_SERVER["SERVER_PORT"] == "80") ? "" : (":".$_SERVER["SERVER_PORT"]);
-        $url .= $_SERVER["REQUEST_URI"];
+        return self::getBaseUrl().$_SERVER["REQUEST_URI"];
+    }
 
-        return $url;
+    public static function getBaseUrl()
+    {
+        $base_url  = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? "https://" : "http://";
+        $base_url .= $_SERVER["SERVER_NAME"];
+        $base_url .= ($_SERVER["SERVER_PORT"] == "80") ? "" : (":".$_SERVER["SERVER_PORT"]);
+
+        return $base_url;
     }
 
     public static function abort($code, $msg = "Something happened.", $is_json = false)

@@ -31,7 +31,7 @@ class E extends \Exception
 
     private function showErrorPage()
     {
-        echo \View::make('errors.exception')->with('code', $this->code)->with('message', $this->message);
+        echo \View::make('errors.e')->with('code', $this->code)->with('message', $this->message);
         exit;
     }
 }
