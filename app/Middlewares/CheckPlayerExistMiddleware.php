@@ -4,9 +4,7 @@ namespace App\Middlewares;
 
 use Pecee\Http\Middleware\IMiddleware;
 use Pecee\Http\Request;
-use App\Models\User;
 use App\Models\PlayerModel;
-use App\Exceptions\E;
 
 class CheckPlayerExistMiddleware implements IMiddleware
 {

@@ -16,8 +16,10 @@ class Option
     }
 
     public static function set($key, $value) {
-        $option = OptionModel::firstOrCreate('option_name', $key);
-        $option->update(['option_value' => $value]);
+        $option = OptionModel::where('option_name', $key)->first();
+        if (!$option) throw new E('Unexistent option.', 1);
+        $option->option_value = $value;
+        return $option->save();
     }
 
     public static function add($key, $value) {
@@ -47,4 +49,6 @@ class OptionModel extends Model
 {
     protected $table = 'options';
     public $timestamps = false;
+
+    protected $fillable = ['option_value'];
 }

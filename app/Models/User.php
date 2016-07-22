@@ -232,4 +232,9 @@ class UserModel extends \Illuminate\Database\Eloquent\Model
     public $primaryKey = 'uid';
     protected $table = 'users';
     public $timestamps = false;
+
+    public function scopeLike($query, $field, $value)
+    {
+        return $query->where($field, 'LIKE', "%$value%");
+    }
 }

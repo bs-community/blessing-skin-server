@@ -41,7 +41,7 @@ Route::group(['prefix' => 'auth'], function()
 /**
  * User Center
  */
-Route::group(['prefix' => 'user',        'middleware' => 'App\Middlewares\CheckLoggedInMiddleware'], function()
+Route::group(['middleware' =>            'App\Middlewares\CheckLoggedInMiddleware', 'prefix' => 'user'], function()
 {
     Route::all ('',                      'UserController@index');
     Route::all ('/sign',                 'UserController@sign');
@@ -82,7 +82,7 @@ Route::group(['prefix' => 'skinlib'], function()
 
     Route::post('/privacy/{tid}',               'SkinlibController@privacy');
 
-    Route::group(['middleware' => 'App\Middlewares\CheckLoggedInMiddleware'], function()
+    Route::group(['middleware' =>               'App\Middlewares\CheckLoggedInMiddleware'], function()
     {
         Route::get ('/upload',                  'SkinlibController@upload');
         Route::post('/upload',                  'SkinlibController@handleUpload');
@@ -92,9 +92,25 @@ Route::group(['prefix' => 'skinlib'], function()
 });
 
 /**
+ * Admin Panel
+ */
+Route::group(['middleware' =>                   'App\Middlewares\CheckAdminMiddleware', 'prefix' => 'admin'], function()
+{
+    Route::get('/',                             'AdminController@index');
+    Route::post('/',                             'AdminController@ajaxHandler');
+
+    Route::all('/customize',                             'AdminController@customize');
+
+    Route::all('/options',                             'AdminController@options');
+
+    Route::get('/users',                             'AdminController@users');
+    Route::get('/players',                             'AdminController@players');
+});
+
+/**
  * Resources
  */
-Route::group(['middleware' => 'App\Middlewares\CheckPlayerExistMiddleware'], function()
+Route::group(['middleware' =>                   'App\Middlewares\CheckPlayerExistMiddleware'], function()
 {
     // Json profile
     Route::get('/{player_name}.json',           'TextureController@json')->where(['player_name' => '[^\\/]+?']);

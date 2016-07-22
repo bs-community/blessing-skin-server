@@ -1,0 +1,51 @@
+/*
+* @Author: printempw
+* @Date:   2016-07-22 14:08:41
+* @Last Modified by:   printempw
+* @Last Modified time: 2016-07-22 19:33:23
+*/
+
+@import "style.scss";
+
+.info-box > a {
+    color: #333;
+    font-size: 18px;
+}
+
+.key {
+    vertical-align: middle !important;
+}
+.value {
+    width: 70%;
+}
+
+td[class='key'], td[class='value'] {
+    border-top: 0 !important;
+}
+
+.btn-group {
+    .btn {
+        margin-right: 10px;
+    }
+}
+
+#page-select {
+    padding-left: 0;
+    margin: 0 20px 0 0;
+    border-radius: 4px;
+    padding: 5.5px 14px;
+}
+
+input.score {
+    width: 80px;
+}
+
+.user-search-form {
+    display: inline;
+}
+.user-search-input {
+    display: inline;
+    width: 30%;
+    float: right;
+    margin: 0;
+}

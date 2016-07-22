@@ -41,33 +41,37 @@ class Closet
     {
         $this->uid = $uid;
         $this->eloquent_model = ClosetModel::find($uid);
-        $this->textures = json_decode($this->eloquent_model->textures, true);
-        $this->textures = is_null($this->textures) ? [] : $this->textures;
 
-        $textures_invalid = [];
+        if ($this->eloquent_model) {
+            $this->textures = json_decode($this->eloquent_model->textures, true);
+            $this->textures = is_null($this->textures) ? [] : $this->textures;
 
-        foreach ($this->textures as $texture) {
-            $result = Texture::find($texture['tid']);
-            if ($result) {
-                // user custom texture name
-                $result->name = $texture['name'];
+            $textures_invalid = [];
 
-                if ($result->type == "cape") {
-                    $this->textures_cape[] = $result;
+            foreach ($this->textures as $texture) {
+                $result = Texture::find($texture['tid']);
+                if ($result) {
+                    // user custom texture name
+                    $result->name = $texture['name'];
+
+                    if ($result->type == "cape") {
+                        $this->textures_cape[] = $result;
+                    } else {
+                        $this->textures_skin[] = $result;
+                    }
                 } else {
-                    $this->textures_skin[] = $result;
+                    $textures_invalid[] = $texture['tid'];
+                    continue;
                 }
-            } else {
-                $textures_invalid[] = $texture['tid'];
-                continue;
             }
+
+            foreach ($textures_invalid as $tid) {
+                $this->remove($tid);
+            }
+
+            unset($textures_invalid);
         }
 
-        foreach ($textures_invalid as $tid) {
-            $this->remove($tid);
-        }
-
-        unset($textures_invalid);
     }
 
     /**
