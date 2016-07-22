@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-07-22 08:17:54
+* @Last Modified time: 2016-07-22 10:47:37
 */
 
 var gulp     = require('gulp'),
@@ -124,7 +124,7 @@ gulp.task('sass', function() {
                     console.error('Error!', error.message);
                 })
                 .pipe(cleanCss())
-                .pipe(rename({'suffix': '.min'}))
+                // .pipe(rename({'suffix': '.min'}))
                 .pipe(gulp.dest('./assets/dist/css'));
 })
 
@@ -134,7 +134,7 @@ gulp.task('scripts', function() {
             '!./assets/src/js/utils.js'
         ])
         .pipe(uglify())
-        .pipe(rename({'suffix': '.min'}))
+        // .pipe(rename({'suffix': '.min'}))
         .pipe(gulp.dest('./assets/dist/js'));
 
 });
