@@ -204,6 +204,9 @@ class AdminController extends BaseController
             if ($player->setOwner($_POST['uid']))
                 View::json('角色 '.$player->player_name.' 已成功让渡至 '.$user->getNickName(), 0);
 
+        } elseif ($action == "delete") {
+            if (PlayerModel::where('pid', $_POST['pid'])->delete())
+                View::json('角色已被成功删除', 0);
         } else {
             throw new E('Illegal parameters', 1);
         }

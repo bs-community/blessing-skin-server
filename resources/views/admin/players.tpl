@@ -51,8 +51,8 @@
                             <td id="player-name">{{ $player->player_name }}</td>
                             <td>
                                  <select class="form-control" id="preference">
-                                     <option {{ ($player->preference == "default") ? 'selected="selected"' : '' }} value="default">Default</option>
-                                     <option {{ ($player->preference == "slim") ? 'selected="selected"' : '' }} value="slim">Slim</option>
+                                     <option {{ ($player->preference == "default") ? 'selected=selected' : '' }} value="default">Default</option>
+                                     <option {{ ($player->preference == "slim") ? 'selected=selected' : '' }} value="slim">Slim</option>
                                 </select>
                             </td>
                             <td>

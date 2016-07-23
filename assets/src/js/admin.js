@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-07-22 14:02:44
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-07-23 15:22:01
+* @Last Modified time: 2016-07-23 21:12:23
 */
 
 'use strict';
@@ -257,6 +257,26 @@ function changeOwner(pid) {
         success: function(json) {
             if (json.errno == 0) {
                 $($('#'+pid).children()[1]).text(uid);
+                toastr.success(json.msg);
+            } else {
+                toastr.warning(json.msg);
+            }
+        },
+        error: showAjaxError
+    });
+}
+
+function deletePlayer(pid) {
+    if (!window.confirm('真的要删除此角色吗？此操作不可恢复')) return;
+
+    $.ajax({
+        type: "POST",
+        url: "../admin/players?action=delete",
+        dataType: "json",
+        data: { 'pid': pid },
+        success: function(json) {
+            if (json.errno == 0) {
+                $('tr#'+pid).remove();
                 toastr.success(json.msg);
             } else {
                 toastr.warning(json.msg);
