@@ -9,15 +9,20 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            @if (isset($_GET['filter']))
-            搜索结果：{{ $_GET['filter'] }}
+            @if (isset($_GET['q']))
+            搜索结果：{{ $_GET['q'] }}
             @else
             用户管理
             @endif
             <small>User Management</small>
             <form method="get" action="" class="user-search-form">
-                <input type="text" name="filter" class="form-control user-search-input" placeholder="输入昵称，回车搜索。" value="<?php echo Utils::getValue('search-username', $_POST); ?>">
+                <input type="text" name="q" class="form-control user-search-input" placeholder="输入，回车搜索。" value="{{ $q }}">
+                <select name="filter" class="form-control pull-right user-search-input">
+                    <option value='email' {{ $filter == 'email' ? 'selected="selected"' : '' }}>搜索邮箱</option>
+                    <option value='nickname' {{ $filter == 'nickname' ? 'selected="selected"' : '' }}>搜索昵称</option>
+                </select>
             </form>
+
         </h1>
     </section>
 
@@ -32,6 +37,7 @@
                             <th>邮箱</th>
                             <th>昵称</th>
                             <th>积分</th>
+                            <th>状态</th>
                             <th>注册时间</th>
                             <th>操作</th>
                         </tr>
@@ -44,6 +50,7 @@
                             <td id="email">{{ $user->email }}</td>
                             <td id="nickname">{{ $user->nickname }}</td>
                             <td><input type="text" class="form-control score" value="{{ $user->score }}" title="输入修改后的积分，回车提交" data-placement="top"></td>
+                            <td id="permission">{{ $user->permission == "-1" ? "封禁" : "正常" }}</td>
                             <td>{{ $user->register_at }}</td>
 
                             <td>
@@ -55,46 +62,59 @@
                                         <li><a href="javascript:changeUserEmail('{{ $user->uid }}');">修改邮箱</a></li>
                                         <li><a href="javascript:changeUserNickName('{{ $user->uid }}');">修改昵称</a></li>
                                         <li><a href="javascript:changeUserPwd('{{ $user->uid }}');">更改密码</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="../admin/players?filter=uid&q={{ $user->uid }}">查看该用户拥有的角色</a></li>
+                                        <li class="divider"></li>
+
+                                        @if ($user->permission == "1")
+                                        <li><a href="javascript:;">无法封禁管理员</a></li>
+                                        @elseif ($user->permission == "0")
+                                        <li><a href="javascript:changePermission('{{ $user->uid }}');">封禁</a></li>
+                                        @else
+                                        <li><a href="javascript:changePermission('{{ $user->uid }}');">解封</a></li>
+                                        @endif
                                     </ul>
                                 </div>
 
-                                <a class="btn btn-danger btn-sm"
-                                    @if ($user->permission == "1")
-                                        disabled="disabled" data-toggle="tooltip" data-placement="bottom" title="少年，不要作死哦"
-                                    @else
-                                        href="javascript:deleteUserAccount('{{ $user->uid }}');"
-                                    @endif>
-                                    删除用户
-                                </a>
+
+                                @if ($user->permission == "1")
+                                <a class="btn btn-danger btn-sm" disabled="disabled" data-toggle="tooltip" data-placement="bottom" title="管理员账号不能被这样删除的啦">删除用户</a>
+                                @else
+                                <a class="btn btn-danger btn-sm" href="javascript:deleteUserAccount('{{ $user->uid }}');">删除用户</a>
+                                @endif
                             </td>
                         </tr>
                         @empty
                         <tr>
                             <td>0</td>
                             <td>无结果</td>
+                            <td>(´・ω・`)</td>
                         </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
             <div class="box-footer">
+                <!-- Pagination -->
                 <ul class="pagination pagination-sm no-margin pull-right">
+                    <?php $base_url = ($filter != "" && $q != "") ? "?filter=$filter&q=$q&" : "?"; ?>
                     <li><a href="?page=1">«</a></li>
+
                     @if ($page != 1)
-                    <li><a href="?page={{ $page-1 }}">{{ $page - 1 }}</a></li>
+                    <li><a href="{{ $base_url }}page={{ $page-1 }}">{{ $page - 1 }}</a></li>
                     @endif
 
-                    <li><a href="?page={{ $page }}" class="active">{{ $page }}</a></li>
+                    <li><a href="{{ $base_url }}page={{ $page }}" class="active">{{ $page }}</a></li>
 
                     @if ($total_pages > $page)
-                    <li><a href="?page={{ $page+1 }}">{{ $page+1 }}</a></li>
+                    <li><a href="{{ $base_url }}page={{ $page+1 }}">{{ $page+1 }}</a></li>
                     @endif
 
-                    <li><a href="?page={{ $total_pages }}">»</a></li>
+                    <li><a href="{{ $base_url }}page={{ $total_pages }}">»</a></li>
                 </ul>
 
                 <select id="page-select" class="pull-right">
-                    @for ($i = 1; $i <= $total_pages; $i++)
+                @for ($i = 1; $i <= $total_pages; $i++)
 
                     @if ($i == $page)
                     <option value='{{ $i }}' selected="selected">{{ $i }}</option>
@@ -102,7 +122,7 @@
                     <option value='{{ $i }}'>{{ $i }}</option>
                     @endif
 
-                    @endfor
+                @endfor
                 </select>
 
                 <p class="pull-right">第 {{ $page }} 页，共 {{ $total_pages }} 页</p>

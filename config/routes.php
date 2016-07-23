@@ -97,14 +97,15 @@ Route::group(['prefix' => 'skinlib'], function()
 Route::group(['middleware' =>                   'App\Middlewares\CheckAdminMiddleware', 'prefix' => 'admin'], function()
 {
     Route::get('/',                             'AdminController@index');
-    Route::post('/',                             'AdminController@ajaxHandler');
 
-    Route::all('/customize',                             'AdminController@customize');
+    Route::all('/customize',                    'AdminController@customize');
+    Route::all('/options',                      'AdminController@options');
 
-    Route::all('/options',                             'AdminController@options');
-
-    Route::get('/users',                             'AdminController@users');
-    Route::get('/players',                             'AdminController@players');
+    Route::get('/users',                        'AdminController@users');
+    Route::get('/players',                      'AdminController@players');
+    // ajax handlers
+    Route::post('/users',                       'AdminController@userAjaxHandler');
+    Route::post('/players',                     'AdminController@playerAjaxHandler');
 });
 
 /**

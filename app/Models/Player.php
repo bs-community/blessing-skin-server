@@ -100,6 +100,10 @@ class Player
         return $this->eloquent_model['preference'];
     }
 
+    public function setOwner($uid) {
+        return $this->eloquent_model->update(['uid' => $uid]);
+    }
+
     /**
      * Get JSON profile
      * @param  int $api_type, which API to use, 0 for CustomSkinAPI, 1 for UniSkinAPI
@@ -146,9 +150,14 @@ class Player
 
 class PlayerModel extends \Illuminate\Database\Eloquent\Model
 {
-    public $primaryKey = 'pid';
-    protected $table = 'players';
-    public $timestamps = false;
+    public $primaryKey  = 'pid';
+    protected $table    = 'players';
+    public $timestamps  = false;
 
     protected $fillable = ['preference', 'last_modified'];
+
+    public function scopeLike($query, $field, $value)
+    {
+        return $query->where($field, 'LIKE', "%$value%");
+    }
 }

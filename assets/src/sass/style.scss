@@ -1,5 +1,8 @@
 /*
 * @Author: printempw
+* @Date:   2016-06-04 20:55:09
+* @Last Modified by:   printempw
+* @Last Modified time: 2016-07-23 10:47:50
 */
 
 @font-face {
@@ -24,6 +27,13 @@ body, h1, h2, h3, h4, h5, h6, .logo {
 /* fucking webkit autofill */
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0px 1000px #fff inset !important;
+}
+
+#page-select {
+    padding-left: 0;
+    margin: 0 20px 0 0;
+    border-radius: 4px;
+    padding: 5.5px 14px;
 }
 
 .item {
@@ -75,28 +85,53 @@ input:-webkit-autofill {
     padding: 3px 8px;
 }
 
-.item-footer > .more {
+.item-footer {
+    .more {
+        float: right;
+        margin-left: 6px;
+        margin-right: 3px;
+        color: #fff;
+    }
+
+    .more:hover {
+        color: #dadada;
+    }
+
+    small {
+        font-size: 50%;
+    }
+}
+
+.operations {
+    display: inline; float: right;
+
+    i {
+        padding: .5em .5em;
+        display: inline !important;
+    }
+
+    i:hover {
+        color: #555;
+        cursor: pointer;
+    }
+}
+
+.skin2d {
     float: right;
-    margin-left: 6px;
-    margin-right: 3px;
-    color: #fff;
+    max-height: 64px;
+    width: 64px;
+    font-size: 16px;
 }
 
-.item-footer > .more:hover {
-    color: #dadada;
+#canvas3d {
+    margin: 0 auto;
+    display: block;
 }
 
-.item-footer > small {
-    font-size: 50%;
+#preview-2d > p {
+    height: 64px;
+    line-height: 64px;
 }
-
-.operations { display: inline; float: right; }
-.operations > i { padding: .5em .5em; display: inline !important; }
-.operations > i:hover { color: #555; cursor: pointer; }
-.skin2d { float: right; max-height: 64px; width: 64px; font-size: 16px; }
-
-#canvas3d { margin: 0 auto; display: block; }
-#preview-2d > p { height: 64px; line-height: 64px; }
 
 #toast-container > div {
     opacity: 1;

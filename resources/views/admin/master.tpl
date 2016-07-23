@@ -101,9 +101,6 @@
                     </li>
                     @endforeach
 
-                    <li class="header">皮肤库</li>
-                    <li><a href="../admin/texture"><i class="fa fa-archive"></i> <span>材质管理</span></a></li>
-
                     @if ($user->is_admin)
                     <li class="header">返回</li>
                     <li><a href="../user"><i class="fa fa-user"></i> <span>用户中心</span></a></li>

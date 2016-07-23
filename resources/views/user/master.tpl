@@ -134,6 +134,12 @@
 
     @yield('script')
 
+    @if (isset($_SESSION['msg']))
+    <script>
+        toastr.info('{{ $_SESSION['msg'] }}'); <?php unset($_SESSION['msg']) ?>
+    </script>
+    @endif
+
     <script>{{ Option::get('custom_js') }}</script>
 </body>
 </html>

@@ -69,6 +69,23 @@ class User
         return $this->eloquent_model->save();
     }
 
+    public function getPermission()
+    {
+        return $this->eloquent_model->permission;
+    }
+
+    /**
+     * Set user permission
+     * @param int $permission
+     * -1 - banned
+     *  0 - normal
+     *  1 - admin
+     */
+    public function setPermission($permission)
+    {
+        return $this->eloquent_model->update(['permission' => $permission]);
+    }
+
     public function setEmail($new_email)
     {
         $this->eloquent_model->email = $new_email;
@@ -232,6 +249,8 @@ class UserModel extends \Illuminate\Database\Eloquent\Model
     public $primaryKey = 'uid';
     protected $table = 'users';
     public $timestamps = false;
+
+    protected $fillable = ['email', 'nickname', 'permission'];
 
     public function scopeLike($query, $field, $value)
     {

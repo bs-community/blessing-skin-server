@@ -16,22 +16,22 @@
                 <li><i class="fa fa-tags"></i> 当前正显示</li>
                 <li>
                     @if ($filter == "skin")
-                    皮肤<small>（任意模型）</small>
+                        皮肤<small>（任意模型）</small>
                     @elseif ($filter == "steve")
-                    皮肤<small>（Steve 模型）</small>
+                        皮肤<small>（Steve 模型）</small>
                     @elseif ($filter == "alex")
-                    皮肤<small>（Alex 模型）</small>
+                        皮肤<small>（Alex 模型）</small>
                     @elseif ($filter == "cape")
-                    披风
+                        披风
                     @elseif ($filter == "user")
-                    用户（uid.{{ $_GET['uid'] or 0 }}）上传
+                        用户（uid.{{ $_GET['uid'] or 0 }}）上传
                     @endif
                 </li>
                 <li class="active">
                     @if ($sort == "time")
-                    最新上传
+                        最新上传
                     @elseif ($sort == "likes")
-                    最多收藏
+                        最多收藏
                     @endif
                 </li>
             </ol>
@@ -51,17 +51,15 @@
                                 <span>{{ $texture['name'] }} <small>({{ $texture['type'] }})</small></span>
                                 @if (isset($_SESSION['email']))
 
-                                @if ($user->closet->has($texture['tid']))
-                                <a href="javascript:removeFromCloset({{ $texture['tid'] }});" class="more like liked" tid="{{ $texture['tid'] }}" title="从衣柜中移除" data-placement="top" data-toggle="tooltip">
-                                @else
-                                <a href="javascript:addToCloset({{ $texture['tid'] }});" class="more like" tid="{{ $texture['tid'] }}" title="添加至衣柜" data-placement="top" data-toggle="tooltip">
-                                @endif
+                                    @if ($user->closet->has($texture['tid']))
+                                    <a title="从衣柜中移除" class="more like liked" tid="{{ $texture['tid'] }}" href="javascript:removeFromCloset({{ $texture['tid'] }});" data-placement="top" data-toggle="tooltip"><i class="fa fa-heart"></i></a>
+                                    @else
+                                    <a title="添加至衣柜" class="more like" tid="{{ $texture['tid'] }}" href="javascript:addToCloset({{ $texture['tid'] }});" data-placement="top" data-toggle="tooltip"><i class="fa fa-heart"></i></a>
+                                    @endif
 
                                 @else
-                                <a href="javascript:;" class="more like" title="请先登录" data-placement="top" data-toggle="tooltip">
+                                <a title="请先登录" class="more like" href="javascript:;" data-placement="top" data-toggle="tooltip"><i class="fa fa-heart"></i></a>
                                 @endif
-                                    <i class="fa fa-heart"></i>
-                                </a>
 
                                 @if ($texture['public'] == "0")
                                 <small class="more" tid="{{ $texture['tid'] }}">私密</small>
@@ -75,6 +73,7 @@
                     @endforelse
                 </div><!-- /.box-body -->
                 <div class="box-footer">
+                    <!-- Pagination -->
                     <ul class="pagination pagination-sm no-margin pull-right">
                         <li><a href="?page=1">«</a></li>
                         @if ($page != 1)

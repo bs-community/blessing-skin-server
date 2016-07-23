@@ -50,10 +50,11 @@ class PlayerController extends BaseController
         if ($user->getScore() < 100)
             View::json('积分不够添加角色啦', 7);
 
-        $player              = new PlayerModel();
-        $player->uid         = $user->uid;
-        $player->player_name = $player_name;
-        $player->preference  = "default";
+        $player                = new PlayerModel();
+        $player->uid           = $user->uid;
+        $player->player_name   = $player_name;
+        $player->preference    = "default";
+        $player->last_modified = Utils::getTimeFormatted();
         $player->save();
 
         $user->setScore(100, 'minus');
@@ -117,6 +118,7 @@ class PlayerController extends BaseController
         $field_name = "tid_".$texture->type;
 
         $this->player->eloquent_model->$field_name = $tid;
+        $this->player->eloquent_model->last_modified = Utils::getTimeFormatted();
         $this->player->eloquent_model->save();
 
         View::json('材质已成功应用至角色 '.$this->player->eloquent_model->player_name.'', 0);
@@ -130,6 +132,8 @@ class PlayerController extends BaseController
         $this->player->eloquent_model->tid_steve = "";
         $this->player->eloquent_model->tid_alex = "";
         $this->player->eloquent_model->tid_cape = "";
+
+        $this->player->eloquent_model->last_modified = Utils::getTimeFormatted();
 
         $this->player->eloquent_model->save();
 

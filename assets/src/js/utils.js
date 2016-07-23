@@ -23,6 +23,16 @@ function isMobile() {
     return false;
 }
 
+function getQueryString(key) {
+    result = location.search.match(new RegExp('[\?\&]'+key+'=([^\&]+)','i'));
+
+    if (result == null || result.length < 1){
+        return "";
+    } else {
+        return result[1];
+    }
+}
+
 function logout(with_out_confirm, callback) {
     if (!with_out_confirm) {
         if (!window.confirm('确定要登出吗？')) return;

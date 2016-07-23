@@ -2,14 +2,16 @@
 * @Author: printempw
 * @Date:   2016-07-22 14:08:41
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-07-22 19:33:23
+* @Last Modified time: 2016-07-23 12:35:32
 */
 
 @import "style.scss";
 
-.info-box > a {
-    color: #333;
-    font-size: 18px;
+.info-box {
+    a {
+        color: #333;
+        font-size: 18px;
+    }
 }
 
 .key {
@@ -29,23 +31,42 @@ td[class='key'], td[class='value'] {
     }
 }
 
-#page-select {
-    padding-left: 0;
-    margin: 0 20px 0 0;
-    border-radius: 4px;
-    padding: 5.5px 14px;
-}
-
 input.score {
     width: 80px;
 }
 
 .user-search-form {
     display: inline;
+
+    .user-search-input {
+        display: inline;
+        width: 30%;
+        float: right;
+        margin: 0;
+    }
+
+    select.user-search-input {
+        padding-left: 0;
+        margin: 0 20px 0 0;
+        padding: 5.5px 14px;
+        width: 120px;
+    }
 }
-.user-search-input {
-    display: inline;
-    width: 30%;
-    float: right;
-    margin: 0;
+
+td {
+    a {
+        color: inherit;
+
+        img {
+            margin-left: 10px;
+        }
+    }
+
+    a:first-child > img {
+        margin-left: 0;
+    }
+
+    a:last-child > img {
+        margin-left: 0;
+    }
 }
