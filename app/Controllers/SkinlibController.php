@@ -144,7 +144,7 @@ class SkinlibController extends BaseController
 
         $this->user->setScore($t->size, 'minus');
 
-        if ($this->user->closet->add($t->tid)) {
+        if ($this->user->closet->add($t->tid, $t->name)) {
             $t = Texture::find($t->tid);
             $t->likes += 1;
             $t->save();

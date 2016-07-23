@@ -70,6 +70,10 @@ class Closet
             }
 
             unset($textures_invalid);
+        } else {
+            $this->eloquent_model = new ClosetModel();
+            $this->eloquent_model->uid = $uid;
+            $this->eloquent_model->save();
         }
 
     }
@@ -85,11 +89,6 @@ class Closet
         return array_reverse(($category == "skin") ? $this->textures_skin : $this->textures_cape);
     }
 
-    public function getAmount()
-    {
-        return $this->eloquent_model->amount;
-    }
-
     public function add($tid, $name)
     {
         foreach ($this->textures as $item) {
@@ -103,7 +102,6 @@ class Closet
             'add_at' => time()
         );
 
-        $this->eloquent_model->amount += 1;
         $this->eloquent_model->textures = json_encode($this->textures);
         return $this->eloquent_model->save();
     }
@@ -133,7 +131,6 @@ class Closet
         foreach ($this->textures as $item) {
             if ($item['tid'] == $tid) {
                 array_splice($this->textures, $offset, 1);
-                $this->eloquent_model->amount -= 1;
                 $this->eloquent_model->textures = json_encode($this->textures);
                 return $this->eloquent_model->save();
             }
