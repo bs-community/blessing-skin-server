@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-07-22 10:47:37
+* @Last Modified time: 2016-07-23 16:22:46
 */
 
 var gulp     = require('gulp'),
@@ -13,7 +13,10 @@ var gulp     = require('gulp'),
     cleanCss = require('gulp-clean-css'),
     rename   = require('gulp-rename'),
     del      = require('del'),
-    replace  = require('gulp-replace');
+    replace  = require('gulp-replace')
+    zip      = require('gulp-zip');
+
+var version  = "3.0-beta";
 
 /**
  * Copy files from bower_components to dist for later operations
@@ -149,5 +152,33 @@ gulp.task('clean', ['concat', 'minify'], function (cb) {
 });
 
 gulp.task('build', ['concat', 'minify', 'clean']);
+
+// release
+gulp.task('zip', function() {
+    del('resources/cache/*');
+
+    return gulp.src([
+            '**/*.*',
+            '!node_modules/**/*.*',
+            '!textures/**/*.*',
+            '!.env',
+            '!.bowerrc',
+            '!.gitignore',
+            '!.git/**/*.*',
+            '!.git/',
+            '!koala-config.json',
+            '!gulpfile.js',
+            '!package.json',
+            '!composer.json',
+            '!composer.lock',
+            '!bower.json',
+            '!assets/bower_components/**/*.*',
+            '!assets/src/**/*.*',
+            '!.sass-cache/**/*.*',
+            '!.sass-cache/'
+        ], { dot: true })
+        .pipe(zip('blessing-skin-server-'+version+'.zip'))
+        .pipe(gulp.dest('./'));
+});
 
 gulp.task('default', ['copy']);
