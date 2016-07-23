@@ -16,7 +16,7 @@
 
     @yield('style')
 
-    <style>{{ Option::get('custom_css') }}</style>
+    <style>{!! Option::get('custom_css') !!}</style>
 </head>
 
 <body class="hold-transition {{ Option::get('color_scheme') }} layout-top-nav">
@@ -147,6 +147,6 @@
 
     @yield('script')
 
-    <script>{{ Option::get('custom_js') }}</script>
+    <script>{!! Option::get('custom_js') !!}</script>
 </body>
 </html>

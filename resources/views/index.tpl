@@ -14,7 +14,7 @@
 
     <link rel="stylesheet" href="./assets/dist/css/index.css">
 
-    <style>{{ Option::get('custom_css') }}</style>
+    <style>{!! Option::get('custom_css') !!}</style>
 </head>
 
 <body class="hold-transition {{ Option::get('color_scheme') }} layout-top-nav">
@@ -108,6 +108,6 @@
     <!-- App Scripts -->
     <script type="text/javascript" src="./assets/dist/app.min.js"></script>
 
-    <script>{{ Option::get('custom_js') }}</script>
+    <script>{!! Option::get('custom_js') !!}</script>
 </body>
 </html>

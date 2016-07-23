@@ -30,6 +30,6 @@
     </script>
     @endif
 
-    <script>{{ Option::get('custom_js') }}</script>
+    <script>{!! Option::get('custom_js') !!}</script>
 </body>
 </html>

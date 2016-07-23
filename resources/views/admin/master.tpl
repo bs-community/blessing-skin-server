@@ -16,7 +16,7 @@
 
     @yield('style')
 
-    <style>{{ Option::get('custom_css') }}</style>
+    <style>{!! Option::get('custom_css') !!}</style>
 </head>
 
 <?php $user = new App\Models\User($_SESSION['email']); ?>
@@ -133,6 +133,6 @@
 
     @yield('script')
 
-    <script>{{ Option::get('custom_js') }}</script>
+    <script>{!! Option::get('custom_js') !!}</script>
 </body>
 </html>
