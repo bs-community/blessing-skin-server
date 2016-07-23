@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-07-22 14:02:44
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-07-23 15:17:22
+* @Last Modified time: 2016-07-23 15:22:01
 */
 
 'use strict';
@@ -32,9 +32,7 @@ $('#color-submit').click(function() {
             else
                 toastr.warning(json.msg);
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 });
 
@@ -69,9 +67,7 @@ function changeUserEmail(uid) {
                 toastr.warning(json.msg);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }
 
@@ -93,9 +89,7 @@ function changeUserNickName(uid) {
                 toastr.warning(json.msg);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }
 
@@ -115,9 +109,7 @@ function changeUserPwd(uid) {
             else
                 toastr.warning(json.msg);
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }
 
@@ -135,9 +127,7 @@ function changeUserScore(uid, score) {
                 toastr.warning(json.msg);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }
 
@@ -159,9 +149,7 @@ function changePermission(uid) {
                 toastr.warning(json.msg);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }
 
@@ -181,9 +169,7 @@ function deleteUserAccount(uid) {
                 toastr.warning(json.msg);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }
 
@@ -207,9 +193,7 @@ $('body').on('change', '#preference', function() {
                 toastr.warning(json.msg);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 });
 
@@ -256,9 +240,7 @@ function ajaxChangeTexture(pid) {
                 toastr.warning(json.msg);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }
 
@@ -280,8 +262,6 @@ function changeOwner(pid) {
                 toastr.warning(json.msg);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }

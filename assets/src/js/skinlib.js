@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-19 10:46:38
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-07-23 12:10:01
+* @Last Modified time: 2016-07-23 15:23:19
 */
 
 'use strict';
@@ -59,9 +59,7 @@ function ajaxAddToCloset(tid) {
                 toastr.warning(json.msg);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }
 
@@ -81,9 +79,7 @@ function removeFromCloset(tid) {
                 toastr.warning(json.msg);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }
 
@@ -213,9 +209,7 @@ function changePrivacy(tid) {
                 toastr.warning(json.msg);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }
 
@@ -235,8 +229,6 @@ function deleteTexture(tid) {
                 toastr.warning(json.msg);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }

@@ -1,8 +1,8 @@
 /*
  * @Author: printempw
  * @Date:   2016-07-16 10:02:24
- * @Last Modified by:   prpr
- * @Last Modified time: 2016-07-21 19:53:24
+ * @Last Modified by:   printempw
+ * @Last Modified time: 2016-07-23 15:23:31
  */
 
 'use strict';
@@ -59,9 +59,7 @@ $('body').on('click', '.player', function() {
                 MSP.changeCape('');
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 });
 
@@ -73,9 +71,7 @@ function getHashFromTid(tid, callback) {
         success: function(json) {
             callback(json.hash)
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }
 
@@ -145,9 +141,7 @@ $('body').on('click', '.item', function() {
                 MSP.changeSkin('../textures/' + json.hash);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 });
 
@@ -165,9 +159,7 @@ function removeFromCloset(tid) {
             else
                 toastr.warning(json.msg);
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }
 
@@ -190,9 +182,7 @@ function setAsAvatar(tid) {
                 toastr.warning(json.msg);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }
 
@@ -250,9 +240,7 @@ $('body').on('change', '#preference', function() {
                 toastr.warning(json.msg);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 });
 
@@ -274,9 +262,7 @@ function changePlayerMame(pid, current_player_name) {
                 toastr.warning(json.msg);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }
 
@@ -295,9 +281,7 @@ function clearTexture(pid) {
                 toastr.warning(json.msg);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }
 
@@ -317,9 +301,7 @@ function deletePlayer(pid) {
                 toastr.warning(json.msg);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }
 
@@ -338,9 +320,7 @@ function addNewPlayer() {
                 toastr.warning(json.msg);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }
 
@@ -369,9 +349,7 @@ function changeNickName() {
                 toastr.warning(json.msg);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }
 
@@ -453,9 +431,7 @@ function changeEmail() {
                 toastr.warning(json.msg);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }
 
@@ -482,9 +458,7 @@ function deleteAccount() {
                 toastr.warning(json.msg);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }
 
@@ -528,8 +502,6 @@ function sign() {
                 toastr.warning(json.msg);
             }
         },
-        error: function(json) {
-            showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-        }
+        error: showAjaxError
     });
 }

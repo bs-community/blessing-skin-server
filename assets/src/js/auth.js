@@ -1,8 +1,8 @@
 /*
  * @Author: printempw
  * @Date:   2016-07-17 10:54:22
- * @Last Modified by:   prpr
- * @Last Modified time: 2016-07-21 18:02:56
+ * @Last Modified by:   printempw
+ * @Last Modified time: 2016-07-23 15:26:48
  */
 
 'use strict';
@@ -72,7 +72,7 @@ $('#login-button').click(function() {
                 }
             },
             error: function(json) {
-                showModal(json.responseText, 'Fatal Error', 'danger');
+                showAjaxError(json);
                 $('#login-button').html('登录').prop('disabled', '');
             }
         });
@@ -135,7 +135,7 @@ $('#register-button').click(function() {
                 }
             },
             error: function(json) {
-                showModal(json.responseText, 'Fatal Error', 'danger');
+                showAjaxError(json);
                 $('#register-button').html('注册').prop('disabled', '');
             }
         });
@@ -178,7 +178,7 @@ $('#forgot-button').click(function() {
                 }
             },
             error: function(json) {
-                showModal(json.responseText, 'Fatal Error', 'danger');
+                showAjaxError(json);
                 $('#forgot-button').html('发送').prop('disabled', '');
             }
         });
@@ -220,7 +220,7 @@ $('#reset-button').click(function() {
                 }
             },
             error: function(json) {
-                showModal(json.responseText, 'Fatal Error', 'danger');
+                showAjaxError(json);
                 $('#reset-button').html('重置').prop('disabled', '');
             }
         });

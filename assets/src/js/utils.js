@@ -16,6 +16,10 @@ function showMsg(msg, type) {
     $("[id=msg]").removeClass().addClass("alert").addClass('alert-'+type).html(msg);
 }
 
+function showAjaxError(json) {
+    showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
+}
+
 function isMobile() {
     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
         return true;
