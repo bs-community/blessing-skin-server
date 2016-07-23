@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-06-04 20:55:09
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-07-23 10:47:50
+* @Last Modified time: 2016-07-23 22:30:39
 */
 
 @font-face {
@@ -46,10 +46,8 @@ input:-webkit-autofill {
     margin-right: 20px;
     margin-bottom: 20px;
     cursor: pointer;
-    min-width: 250px;
-    min-height: 196px;
-    max-width: 250px;
-    max-height: 196px;
+    width: 210px;
+    height: 196px;
 
     -webkit-transition: box-shadow 0.1s ease-in-out 0s;
     -moz-transition: box-shadow 0.1s ease-in-out 0s;
@@ -60,13 +58,44 @@ input:-webkit-autofill {
 
 .item-body {
     height: 166px;
+
+    img {
+        max-width: 100%;
+        margin-left: 30px;
+        margin-top: 16px;
+        width: 150px;
+    }
 }
 
-.item-body > img {
-    max-width: 100%;
-    margin-left: 50px;
-    margin-top: 16px;
-    width: 150px;
+@media (min-width: 1200px) {
+    .item {
+        width: 250px;
+    }
+
+    .item-body > img {
+        margin-left: 50px;
+    }
+}
+
+@media (max-width: 756px) {
+    .item {
+        width: 45%;
+        margin-right: 5%;
+    }
+
+    .item-body > img {
+        margin-left: 25%;
+    }
+}
+
+@media (max-width: 520px) {
+    .item {
+        width: 100%;
+    }
+
+    .item-body > img {
+        margin-left: 30%;
+    }
 }
 
 .item:hover {
@@ -83,9 +112,7 @@ input:-webkit-autofill {
     font-size: 16px;
     height: 30px;
     padding: 3px 8px;
-}
 
-.item-footer {
     .more {
         float: right;
         margin-left: 6px;
