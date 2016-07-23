@@ -5,6 +5,7 @@ namespace App\Middlewares;
 use Pecee\Http\Middleware\IMiddleware;
 use Pecee\Http\Request;
 use App\Models\User;
+use App\Exceptions\E;
 
 class CheckLoggedInMiddleware implements IMiddleware
 {
@@ -17,8 +18,18 @@ class CheckLoggedInMiddleware implements IMiddleware
 
         if (isset($_SESSION['email'])) {
             $user = new User($_SESSION['email']);
+
             if ($_SESSION['token'] != $user->getToken())
                 \Http::redirect('../auth/login', '无效的 token，请重新登录~');
+
+            if ($user->getPermission() == "-1") {
+                // delete cookies
+                setcookie("email", "", time() - 3600, '/');
+                setcookie("token", "", time() - 3600, '/');
+                session_destroy();
+
+                throw new E('你已经被本站封禁啦，请联系管理员解决', -1, true);
+            }
 
             return $user;
         } else {
