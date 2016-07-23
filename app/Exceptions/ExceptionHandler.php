@@ -4,6 +4,16 @@ namespace App\Exceptions;
 
 class ExceptionHandler
 {
+    public static function register()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == "GET") {
+            set_error_handler(function ($errno, $errstr, $errfile, $errline) {
+                self::handler(
+                    new \ErrorException($errstr, $errno, $errno, $errfile, $errline)
+                );
+            });
+        }
+    }
 
     public static function handler($e)
     {

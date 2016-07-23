@@ -24,11 +24,8 @@ if ($_ENV['APP_DEBUG'] !== "false") {
     $whoops->pushHandler($handler);
     $whoops->register();
 } else {
-    set_error_handler(function ($errno, $errstr, $errfile, $errline) {
-        Exceptions\ExceptionHandler::handler(
-            new \ErrorException($errstr, $errno, $errno, $errfile, $errline)
-        );
-    });
+    // register custom error handler
+    Exceptions\ExceptionHandler::register();
 }
 
 // set aliases for App\Services
@@ -42,7 +39,6 @@ foreach ($services as $facade => $class) {
  */
 if (\Http::getUri() != "/" && substr(\Http::getUri(), -1) == "/")
 {
-    die(\Http::getUri());
     $url = substr(\Http::getCurrentUrl(), 0, -1);
     \Http::redirect($url);
 }
