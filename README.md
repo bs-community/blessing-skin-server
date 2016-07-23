@@ -2,11 +2,10 @@
 
 优雅的开源 PHP Minecraft 皮肤站，现已更新至 v3。
 
-![screenshot](https://img.prinzeugen.net/image.php?di=FIQD)
+![screenshot](https://img.prinzeugen.net/image.php?di=OIDW)
 
 特性：
 -----------
-
 - 支持 [UniSkinAPI](https://github.com/RecursiveG/UniSkinServer/blob/master/doc/UniSkinAPI_zh-CN.md)
 - 支持 [CustomSkinLoader API](https://github.com/xfl03/CustomSkinLoaderAPI/blob/master/CustomSkinAPI/CustomSkinAPI_en.md)
 - 同时支持旧版样式链接
@@ -20,9 +19,8 @@
 
 面向开发者们的特性：
 -----------
-
 - MVC 设计模式，使用强大的 Blade 模板引擎和 Eloquent ORM
-- 使用 Composer、bower 等包管理器管理依赖
+- 使用 composer、bower 等包管理器管理依赖
 - 几乎所有请求都使用 ajax 发送
 - 使用 CSS 预处理器 Sass
 - 使用 gulp 作为前端构建工具
@@ -30,7 +28,6 @@
 
 环境要求：
 -----------
-
 1. 一台支持 URL 重写的主机，Nginx、Apache 或 IIS
 2. **PHP 版本 >= 5.4**
 3. PHP 安装 GD 扩展库
@@ -39,7 +36,6 @@
 
 快速使用：
 -----------
-
 1. 下载发布的打包版源码，重命名 `.env.example` 为 `.env` 并配置你的数据库连接信息
 2. 运行 `./setup/install.php`
 3. 如果你是用的是 Nginx，请配置你的 `nginx.conf` 并加入重写规则
@@ -52,32 +48,39 @@
 
 自行构建：
 ------------
+普通用户是用不到的，但是如果你想要自定义 Blessing Skin Server 的一些内容的话，就需要自己由源码构建啦。
 
-普通用户是用不到的，但是如果你想要自定义 Blessing Skin Server 的一些内容的话，就需要自己由源码构建啦。不推荐不熟悉 shell 操作以及不想折腾的用户使用。
+**不推荐不熟悉 shell 操作以及不想折腾的用户使用。**
 
 先从 git 上 clone 源码：
 
-`$ git clone https://github.com/printempw/blessing-skin-server.git`
+```
+$ git clone https://github.com/printempw/blessing-skin-server.git
+```
 
 使用 composer 安装 PHP 依赖：
 
-`$ composer install`
+```
+$ composer install
+```
 
 使用 bower 安装前端依赖库：
 
-`$ bower install`
+```
+$ bower install
+```
 
 使用 gulp 构建前端代码：
 
-`$ gulp copy`
-
-`$ gulp build`
+```
+$ gulp copy
+$ gulp build
+```
 
 可以开始使用啦~
 
 服务器配置：
 ------------
-
 如果你使用 Apache 或者 IIS 作为 web 服务器（大部分的虚拟主机），那么恭喜你，我已经帮你把重写规则写好啦，开箱即用，无需任何配置~
 
 如果你使用 Nginx，请在你的 `nginx.conf` 中加入如下规则**（重要）**：
@@ -94,7 +97,6 @@ location / {
 
 客户端配置：
 ------------
-
 #### CustomSkinLoader 13.1 及以上（推荐）
 
 CustomSkinLoader 13.1 经过作者的完全重写，支持了 CSL API，并且使用了高端洋气的 JSON 配置文件。你问我 JSON 是什么？为什么不去问问神奇海螺呢。
@@ -262,6 +264,6 @@ Cape: http://example.com/cape/%s.png
 
 版权：
 ------------
-Blessing Skin Server 程序是基于 GUN Public License 3.0 开放源代码的自由软件，你可以遵照 GPL 协议来修改和重新发布这一程序。
+Blessing Skin Server 程序是基于 GUN General Public License v3.0 开放源代码的自由软件，你可以遵照 GPLv3 协议来修改和重新发布这一程序。
 
 程序原作者为 [@printempw](https://prinzeugen.net/)，转载请注明。
