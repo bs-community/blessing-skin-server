@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-07-10 17:17:07
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-07-23 12:12:50
+* @Last Modified time: 2016-07-23 22:50:38
 */
 
 @import "style.scss";
@@ -15,6 +15,16 @@
 
 .main-header #navbar-search-input.form-control {
     border-radius: 4px;
+}
+
+@media (min-width: 1200px) {
+    .item {
+        width: 250px;
+    }
+
+    .item-body > img {
+        margin-left: 50px;
+    }
 }
 
 .item-footer {

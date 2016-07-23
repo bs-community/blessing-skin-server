@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-06-04 20:55:09
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-07-23 22:30:39
+* @Last Modified time: 2016-07-23 22:50:25
 */
 
 @font-face {
@@ -64,16 +64,6 @@ input:-webkit-autofill {
         margin-left: 30px;
         margin-top: 16px;
         width: 150px;
-    }
-}
-
-@media (min-width: 1200px) {
-    .item {
-        width: 250px;
-    }
-
-    .item-body > img {
-        margin-left: 50px;
     }
 }
 
