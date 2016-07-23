@@ -2,10 +2,23 @@
 * @Author: prpr
 * @Date:   2016-07-19 10:46:38
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-07-22 10:25:54
+* @Last Modified time: 2016-07-23 12:10:01
 */
 
 'use strict';
+
+$('#page-select').on('change', function() {
+    // if has query strings
+    if (getQueryString('filter') != "" || getQueryString('sort') != "") {
+        if (getQueryString('page') == "")
+            window.location = location.href + "&page=" + $(this).val();
+        else
+            window.location = "?filter="+getQueryString('filter')+"&sort="+getQueryString('sort')+"&page="+$(this).val();
+    } else {
+        window.location = "?page=" + $(this).val();
+    }
+
+});
 
 function addToCloset(tid) {
     var dom = '<div class="form-group">'+
@@ -17,6 +30,12 @@ function addToCloset(tid) {
 }
 
 function ajaxAddToCloset(tid) {
+    // remove interference of modal which is hide
+    $('.modal').each(function() {
+        if ($(this).css('display') == "none")
+            $(this).remove();
+    });
+
     var name = $('#new-name').val();
 
     if (name == "") {

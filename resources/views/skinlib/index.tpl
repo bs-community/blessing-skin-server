@@ -89,6 +89,19 @@
 
                         <li><a href="?page={{ $total_pages }}">»</a></li>
                     </ul>
+
+                    <select id="page-select" class="pull-right">
+                    @for ($i = 1; $i <= $total_pages; $i++)
+
+                        @if ($i == $page)
+                        <option value='{{ $i }}' selected="selected">{{ $i }}</option>
+                        @else
+                        <option value='{{ $i }}'>{{ $i }}</option>
+                        @endif
+
+                    @endfor
+                    </select>
+
                     <p class="pull-right">第 {{ $page }} 页，共 {{ $total_pages }} 页</p>
                 </div>
             </div><!-- /.box -->
