@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-07-23 16:22:46
+* @Last Modified time: 2016-07-24 11:13:23
 */
 
 var gulp     = require('gulp'),
@@ -159,6 +159,7 @@ gulp.task('zip', function() {
 
     return gulp.src([
             '**/*.*',
+            '!tests/**/*.*',
             '!node_modules/**/*.*',
             '!textures/**/*.*',
             '!.env',
