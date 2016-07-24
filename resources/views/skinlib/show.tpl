@@ -106,6 +106,23 @@
                             <a href="javascript:deleteTexture({{ $texture->tid }});" class="btn btn-danger pull-right">删除材质</a>
                         </div><!-- /.box-footer -->
                     </div><!-- /.box -->
+                    @elseif ($user->is_admin)
+                    <div class="box box-danger">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">管理员面板</h3>
+                        </div><!-- /.box-header -->
+                        <div class="box-body">
+                            <p>你可以将此材质设为隐私或删除。这将会使此材质从每一个收藏者的衣柜中移除。</p>
+                        </div><!-- /.box-body -->
+                        <div class="box-footer">
+                            @if ($texture->public == "1")
+                            <a href="javascript:changePrivacy({{ $texture->tid }});" class="btn btn-warning">设为隐私</a>
+                            @else
+                            <a href="javascript:changePrivacy({{ $texture->tid }});" class="btn btn-warning">设为公开</a>
+                            @endif
+                            <a href="javascript:deleteTexture({{ $texture->tid }});" class="btn btn-danger pull-right">删除材质</a>
+                        </div><!-- /.box-footer -->
+                    </div><!-- /.box -->
                     @endif
                 </div>
             </div>

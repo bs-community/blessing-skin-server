@@ -94,7 +94,11 @@ class User
 
     public function getNickName()
     {
-        return ($this->eloquent_model->nickname == "") ? $this->email : $this->eloquent_model->nickname;
+        if (!$this->is_registered) {
+            return "不存在的用户";
+        } else {
+            return ($this->eloquent_model->nickname == "") ? $this->email : $this->eloquent_model->nickname;
+        }
     }
 
     public function setNickName($new_nickname)

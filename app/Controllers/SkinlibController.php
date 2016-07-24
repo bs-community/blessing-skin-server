@@ -33,22 +33,30 @@ class SkinlibController extends BaseController
                 $query->where('public', '=', '1')
                       ->where('type', '=', 'steve')
                       ->orWhere('type', '=', 'alex');
-            })->orderBy($sort_by, 'desc')->skip(($page - 1) * 20)->take(20)->get();
+            })->orderBy($sort_by, 'desc');
+            $total_pages = ceil($textures->count() / 20);
+            $textures = $textures->skip(($page - 1) * 20)->take(20)->get();
         } elseif ($filter == "user") {
             $uid = isset($_GET['uid']) ? $_GET['uid'] : 0;
 
             if ($uid == $this->user->uid) {
                 // show private textures when show uploaded textures of current user
-                $textures = Texture::where('uploader', $uid)->orderBy($sort_by, 'desc')->skip(($page - 1) * 20)->take(20)->get();
+                $textures = Texture::where('uploader', $uid)->orderBy($sort_by, 'desc');
+                $total_pages = ceil($textures->count() / 20);
+                $textures = $textures->skip(($page - 1) * 20)->take(20)->get();
             } else {
-                $textures = Texture::where('uploader', $uid)->where('public', '1')->orderBy($sort_by, 'desc')->skip(($page - 1) * 20)->take(20)->get();
+                $textures = Texture::where('uploader', $uid)->where('public', '1')->orderBy($sort_by, 'desc');
+                $total_pages = ceil($textures->count() / 20);
+                $textures = $textures->skip(($page - 1) * 20)->take(20)->get();
             }
 
         } else {
-            $textures = Texture::where('type', $filter)->where('public', '1')->orderBy($sort_by, 'desc')->skip(($page - 1) * 20)->take(20)->get();
+            $textures = Texture::where('type', $filter)->where('public', '1')->orderBy($sort_by, 'desc');
+            $total_pages = ceil($textures->count() / 20);
+            $textures = $textures->skip(($page - 1) * 20)->take(20)->get();
         }
 
-        $total_pages = ceil(count($textures) / 20);
+
 
         echo View::make('skinlib.index')->with('user', $this->user)
                                         ->with('sort', $sort)
