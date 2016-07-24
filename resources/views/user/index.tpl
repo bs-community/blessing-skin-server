@@ -63,7 +63,7 @@
                             <i class="fa fa-calendar-check-o" aria-hidden="true"></i> &nbsp;每日签到
                         </button>
                         @else
-                        <button class="btn btn-primary pull-left" disabled="disabled">
+                        <button class="btn btn-primary pull-left" title="上次签到于 {{ $user->getLastSignTime() }}" disabled="disabled">
                             <i class="fa fa-calendar-check-o" aria-hidden="true"></i> &nbsp;{{ $user->canSign(true) }} 小时后可签到
                         </button>
                         @endif

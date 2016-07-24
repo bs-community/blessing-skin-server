@@ -44,7 +44,7 @@ class User
         $this->email             = \Utils::convertString($email);
         $this->eloquent_model    = ($uid == 0) ? UserModel::where('email', $this->email)->first() : UserModel::find($uid);
 
-        $class_name              = "App\Services\Cipher\\".\Option::get('encryption');
+        $class_name              = "App\Services\Cipher\\".$_ENV['PWD_METHOD'];
         $this->cipher            = new $class_name;
 
         if (!is_null($this->eloquent_model)) {
@@ -60,12 +60,12 @@ class User
 
     public function checkPasswd($raw_passwd)
     {
-        return ($this->cipher->encrypt($raw_passwd) == $this->password);
+        return ($this->cipher->encrypt($raw_passwd, $_ENV['SALT']) == $this->password);
     }
 
     public function changePasswd($new_passwd)
     {
-        $this->eloquent_model->password = $this->cipher->encrypt($new_passwd);
+        $this->eloquent_model->password = $this->cipher->encrypt($new_passwd, $_ENV['SALT']);
         return $this->eloquent_model->save();
     }
 
@@ -166,8 +166,7 @@ class User
     {
         // convert to timestamp
         $remaining_time = (strtotime($this->getLastSignTime()) + \Option::get('sign_gap_time') * 3600 - time()) / 3600;
-        return $return_remaining_time ? (int)$remaining_time : ($remaining_time <= 0);
-        //return (time() - strtotime($this->getLastSignTime()) > \Option::get('sign_gap_time') * 3600);
+        return $return_remaining_time ? round($remaining_time) : ($remaining_time <= 0);
     }
 
     public function getLastSignTime()
@@ -186,7 +185,7 @@ class User
         $user = new UserModel();
 
         $user->email        = $this->email;
-        $user->password     = $this->cipher->encrypt($password);
+        $user->password     = $this->cipher->encrypt($password, $_ENV['SALT']);
         $user->ip           = $ip;
         $user->score        = \Option::get('user_initial_score');
         $user->last_sign_at = \Utils::getTimeFormatted(time() - 86400);
