@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-24 13:37:40
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-07-24 13:48:50
+ * @Last Modified time: 2016-07-24 14:49:24
  */
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -103,7 +103,7 @@ INSERT INTO `options` (`id`, `option_name`, `option_value`) VALUES
 (1, 'site_url', ''),
 (2, 'site_name', 'Blessing Skin'),
 (3, 'site_description', '开源的 PHP Minecraft 皮肤站'),
-(4, 'user_can_register', '0'),
+(4, 'user_can_register', '1'),
 (5, 'regs_per_ip', '3'),
 (6, 'api_type', '0'),
 (7, 'announcement', '欢迎使用 Blessing Skin Server 3.0！'),

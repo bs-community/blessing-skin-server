@@ -188,6 +188,7 @@ class User
         $user->password     = $this->cipher->encrypt($password, $_ENV['SALT']);
         $user->ip           = $ip;
         $user->score        = \Option::get('user_initial_score');
+        $user->register_at  = \Utils::getTimeFormatted();
         $user->last_sign_at = \Utils::getTimeFormatted(time() - 86400);
         $user->permission   = 0;
         $user->save();
@@ -195,7 +196,6 @@ class User
         $closet             = new ClosetModel();
         $closet->uid        = $user->uid;
         $closet->textures   = "";
-        $closet->amount     = 0;
         $closet->save();
 
         $this->eloquent_model = $user;

@@ -10,6 +10,9 @@ define('BASE_DIR', __DIR__);
 // Autoloader
 require BASE_DIR.'/vendor/autoload.php';
 
+if (!file_exists(BASE_DIR."/.env"))
+    exit('错误：.env 配置文件不存在');
+
 // Load dotenv configuration
 $dotenv = new \Dotenv\Dotenv(BASE_DIR);
 $dotenv->load();
