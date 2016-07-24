@@ -1,8 +1,8 @@
 /*
 * @Author: printempw
 * @Date:   2016-07-10 17:17:07
-* @Last Modified by:   prpr
-* @Last Modified time: 2016-07-21 21:13:21
+* @Last Modified by:   printempw
+* @Last Modified time: 2016-07-24 13:14:58
 */
 
 @import "style.scss";
@@ -15,21 +15,25 @@
     background-color: #f5f5f5;
 }
 
-.box-title > a.selected {
-    color: #3c8dbc;
+.box-title {
+    a {
+        color: #6d6d6d;
+    }
+
+    a.selected {
+        color: #3c8dbc;
+    }
 }
 
-.box-title > a {
-    color: #6d6d6d;
-}
+.breadcrumb {
+    a {
+        margin-right: 10px;
+        color: #444;
+    }
 
-.breadcrumb > a {
-    margin-right: 10px;
-    color: #444;
-}
-
-.breadcrumb > a:hover {
-    color: #3c8dbc;
+    a:hover {
+        color: #3c8dbc;
+    }
 }
 
 .item-footer > .dropdown-menu {

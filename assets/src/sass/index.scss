@@ -1,8 +1,8 @@
 /*
 * @Author: printempw
 * @Date:   2016-06-04 20:54:53
-* @Last Modified by:   prpr
-* @Last Modified time: 2016-07-21 21:13:16
+* @Last Modified by:   printempw
+* @Last Modified time: 2016-07-24 13:13:09
 */
 
 @import "style.scss";
@@ -17,36 +17,65 @@ body {
     background-size: auto 800px;
     background-repeat: no-repeat;
     background-position: center 0;
-}
 
-.navbar-nav>.user-menu .user-image {
-    border-radius: 10%;
-}
+    .main-header .navbar-brand {
+        color: #5e5e5e;
+        font-family: Minecraft, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
+    }
 
-.main-header .navbar-brand {
-    color: #5e5e5e;
-    font-family: Minecraft, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
-}
+    .main-header .navbar .navbar-custom-menu .navbar-nav>li>a {
+        border-left: 0;
+    }
 
-.navbar {
-    background-color: rgba(255, 255, 255, 0.2) !important;
-}
+    .main-header .navbar .navbar-nav>li>a {
+        border: 0;
+    }
 
-.navbar-nav > li > a {
-    color: #5e5e5e !important;
-}
+    .main-header .navbar .nav>.active>a {
+        background: rgba(0,0,0,0.1);
+        color: #f6f6f6;
+    }
 
-.navbar-header > a {
-    color: #5e5e5e;
-}
+    .main-header .navbar .navbar-nav>li>a:hover {
+        background: rgba(0,0,0,0.1);
+        color: #f6f6f6;
+    }
 
-.main-footer > div, .main-footer > div > a {
-    color: #fff !important;
+    .main-header .navbar-brand {
+        border-right: 0;
+    }
+
+    .navbar-nav {
+        .user-menu .user-image {
+            border-radius: 10%;
+        }
+
+        li > a {
+            color: #5e5e5e !important;
+        }
+    }
+
+    .navbar {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .navbar-header > a {
+        color: #5e5e5e;
+    }
+
 }
 
 .main-footer {
     background-color: transparent;
     border-top: none;
+
+    div {
+        color: #fff !important;
+
+        a {
+            color: #fff !important;
+        }
+    }
 }
 
 .main-header {
