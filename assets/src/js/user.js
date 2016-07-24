@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 10:02:24
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-07-23 15:23:31
+ * @Last Modified time: 2016-07-24 12:28:52
  */
 
 'use strict';
@@ -497,7 +497,8 @@ function sign() {
             if (json.errno == 0) {
                 toastr.success(json.msg);
                 $('#score').html(json.score);
-                $('#sign-button').attr('disabled', 'disabled').html('<i class="fa fa-calendar-check-o" aria-hidden="true"></i> &nbsp;24 小时后可签到');
+                var dom = '<i class="fa fa-calendar-check-o"></i> &nbsp;'+json.remaining_time+' 小时后可签到';
+                $('#sign-button').attr('disabled', 'disabled').html(dom);
             } else {
                 toastr.warning(json.msg);
             }

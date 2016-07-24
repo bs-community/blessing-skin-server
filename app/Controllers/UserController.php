@@ -28,9 +28,10 @@ class UserController extends BaseController
     {
         if ($aquired_score = $this->user->sign()) {
             View::json([
-                'errno' => 0,
-                'msg'   => '签到成功，获得了 '.$aquired_score.' 积分~',
-                'score' => $this->user->getScore()
+                'errno'          => 0,
+                'msg'            => '签到成功，获得了 '.$aquired_score.' 积分~',
+                'score'          => $this->user->getScore(),
+                'remaining_time' => $this->user->canSign(true)
             ]);
         } else {
             View::json($this->user->canSign(true).' 小时后才能再次签到哦~', 1);
