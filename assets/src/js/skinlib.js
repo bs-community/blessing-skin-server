@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-19 10:46:38
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-07-23 15:23:19
+* @Last Modified time: 2016-07-24 15:38:22
 */
 
 'use strict';
@@ -191,6 +191,28 @@ function upload() {
         });
     }
     return false;
+}
+
+function changeTextureName(tid) {
+    var new_name = prompt("请输入新的材质名称：");
+
+    if (!new_name) return;
+
+    $.ajax({
+        type: "POST",
+        url: "./rename",
+        dataType: "json",
+        data: { 'tid': tid, 'new_name': new_name },
+        success: function(json) {
+            if (json.errno == 0) {
+                $('#name').text(new_name);
+                toastr.success(json.msg);
+            } else {
+                toastr.warning(json.msg);
+            }
+        },
+        error: showAjaxError
+    });
 }
 
 function changePrivacy(tid) {

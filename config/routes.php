@@ -77,16 +77,15 @@ Route::group(['prefix' => 'skinlib'], function()
     Route::get ('',                             'SkinlibController@index');
     Route::all ('/info/{tid}',                  'SkinlibController@info');
     Route::all ('/show',                        'SkinlibController@show');
-    Route::post('/save',                        'SkinlibController@save');
     Route::all ('/search',                      'SkinlibController@search');
-
-    Route::post('/privacy/{tid}',               'SkinlibController@privacy');
 
     Route::group(['middleware' =>               'App\Middlewares\CheckLoggedInMiddleware'], function()
     {
         Route::get ('/upload',                  'SkinlibController@upload');
         Route::post('/upload',                  'SkinlibController@handleUpload');
 
+        Route::post('/rename',                  'SkinlibController@rename');
+        Route::post('/privacy/{tid}',           'SkinlibController@privacy');
         Route::post('/delete',                  'SkinlibController@delete');
     });
 });

@@ -59,7 +59,13 @@
                                 <tbody>
                                     <tr>
                                         <td>名称</td>
-                                        <td>{{ $texture->name }}</td>
+                                        <td id="name">{{ $texture->name }}
+                                            @if (!is_null($user) && ($texture->uploader == $user->uid || $user->is_admin))
+                                            <small>
+                                                <a href="javascript:changeTextureName({{ $texture->tid }});">修改名称</a>
+                                            </small>
+                                            @endif
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>适用模型</td>
@@ -89,7 +95,8 @@
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
 
-                    @if (!is_null($user) && $texture->uploader == $user->uid)
+                    @if (!is_null($user))
+                    @if ($texture->uploader == $user->uid)
                     <div class="box box-danger">
                         <div class="box-header with-border">
                             <h3 class="box-title">删除材质 / 设置隐私</h3>
@@ -123,6 +130,7 @@
                             <a href="javascript:deleteTexture({{ $texture->tid }});" class="btn btn-danger pull-right">删除材质</a>
                         </div><!-- /.box-footer -->
                     </div><!-- /.box -->
+                    @endif
                     @endif
                 </div>
             </div>

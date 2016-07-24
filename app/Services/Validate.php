@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Exceptions\E;
+
 class Validate
 {
     public static function checkValidPlayerName($player_name) {

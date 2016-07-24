@@ -169,29 +169,37 @@ class SkinlibController extends BaseController
 
     public function delete()
     {
-        if (is_numeric(Utils::getValue('tid', $_POST))) {
-            $result = Texture::find($_POST['tid']);
+        \Utils::checkPost(['tid']);
 
-            if (!$result)
-                throw new E('Unexistent texture.', 1);
+        $result = Texture::find($_POST['tid']);
 
-            // check if file occupied
-            if (Texture::where('hash', $result['hash'])->count() == 1)
-                \Storage::remove("./textures/".$result['hash']);
+        if (!$result)
+            View::json('Unexistent texture.', 1);
 
-            $this->user->setScore($result->size, 'plus');
+        if ($result->uploader != $this->user->uid && !$this->user->is_admin)
+            View::json('你不是这个材质的上传者哦', 1);
 
-            if ($result->delete())
-                View::json('材质已被成功删除', 0);
+        // check if file occupied
+        if (Texture::where('hash', $result['hash'])->count() == 1)
+            \Storage::remove("./textures/".$result['hash']);
 
-        } else {
-            throw new E('Invalid parameters.', 1);
-        }
+        $this->user->setScore($result->size, 'plus');
+
+        if ($result->delete())
+            View::json('材质已被成功删除', 0);
     }
 
     public function privacy($tid)
     {
+        \Utils::checkPost(['tid']);
+
         $t = Texture::find($tid);
+
+        if (!$t) View::json('Unexistent texture.', 1);
+
+        if ($t->uploader != $this->user->uid && !$this->user->is_admin)
+            View::json('你不是这个材质的上传者哦', 1);
+
         if ($t->setPrivacy(!$t->public)) {
             View::json([
                 'errno'  => 0,
@@ -201,40 +209,58 @@ class SkinlibController extends BaseController
         }
     }
 
+    public function rename() {
+        \Utils::checkPost(['tid', 'new_name']);
+        \Validate::checkValidTextureName($_POST['new_name']);
+
+        $t = Texture::find($_POST['tid']);
+
+        if (!$t) View::json('材质不存在', 1);
+
+        if ($t->uploader != $this->user->uid && !$this->user->is_admin)
+            View::json('你不是这个材质的上传者哦', 1);
+
+        $t->name = $_POST['new_name'];
+
+        if ($t->save()) {
+            View::json('材质名称已被成功设置为'.$_POST['new_name'], 0);
+        }
+    }
+
     private function checkUpload($type)
     {
         \Validate::checkValidTextureName(Utils::getValue('name', $_POST));
 
         if (!Utils::getValue('file', $_FILES))
-            throw new E('你还没有选择任何文件哟', 1);
+            View::json('你还没有选择任何文件哟', 1);
 
         if (!isset($_POST['public']) || ($_POST['public'] != 0 && $_POST['public'] != 1))
-            throw new E('Invalid parameters.', 1);
+            View::json('Invalid parameters.', 1);
 
         if ($_FILES['file']['type'] == "image/png" || $_FILES['file']['type'] == "image/x-png")
         {
             // if error occured while uploading file
             if ($_FILES['file']["error"] > 0)
-                throw new E($_FILES['file']["error"], 1);
+                View::json($_FILES['file']["error"], 1);
 
             $size = getimagesize($_FILES['file']["tmp_name"]);
             $ratio = $size[0] / $size[1];
 
             if ($type == "steve" || $type == "alex") {
                 if ($ratio != 2 && $ratio != 1)
-                    throw new E("不是有效的皮肤文件（宽 {$size[0]}，高 {$size[1]}）", 1);
+                    View::json("不是有效的皮肤文件（宽 {$size[0]}，高 {$size[1]}）", 1);
             } elseif ($type == "cape") {
                 if ($ratio != 2)
-                    throw new E("不是有效的披风文件（宽 {$size[0]}，高 {$size[1]}）", 1);
+                    View::json("不是有效的披风文件（宽 {$size[0]}，高 {$size[1]}）", 1);
             } else {
-                throw new E('Invalid parameters.', 1);
+                View::json('Invalid parameters.', 1);
             }
 
         } else {
             if (Utils::getValue('file', $_FILES)) {
-                throw new E('文件格式不对哦', 1);
+                View::json('文件格式不对哦', 1);
             } else {
-                throw new E('No file selected.', 1);
+                View::json('No file selected.', 1);
             }
         }
 
