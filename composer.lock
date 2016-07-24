@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "41bd717e01e3a8d916581d94416a94df",
-    "content-hash": "d1bb700877f7ed1e1e022d39d893f089",
+    "hash": "046598b506a53fdcb25f80e857ad7f51",
+    "content-hash": "b8a5dba171d1b20e65797bda71d88156",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -76,16 +76,16 @@
         },
         {
             "name": "filp/whoops",
-            "version": "2.1.2",
+            "version": "2.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "d13505b240a6f580bc75ba591da30299d6cb0eec"
+                "reference": "8828aaa2178e0a19325522e2a45282ff0a14649b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/filp/whoops/d13505b240a6f580bc75ba591da30299d6cb0eec.zip",
-                "reference": "d13505b240a6f580bc75ba591da30299d6cb0eec",
+                "url": "https://packagist.phpcomposer.com/files/filp/whoops/8828aaa2178e0a19325522e2a45282ff0a14649b.zip",
+                "reference": "8828aaa2178e0a19325522e2a45282ff0a14649b",
                 "shasum": ""
             },
             "require": {
@@ -132,7 +132,7 @@
                 "whoops",
                 "zf2"
             ],
-            "time": "2016-04-07 06:16:25"
+            "time": "2016-05-06 18:25:35"
         },
         {
             "name": "gregwar/captcha",
@@ -803,6 +803,8 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": ">=5.4.0"
+    },
     "platform-dev": []
 }
