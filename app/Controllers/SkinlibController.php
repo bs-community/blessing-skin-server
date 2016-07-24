@@ -5,9 +5,10 @@ namespace App\Controllers;
 use App\Models\User;
 use App\Models\Texture;
 use App\Exceptions\E;
+use Option;
 use Utils;
 use View;
-use Option;
+use Http;
 
 class SkinlibController extends BaseController
 {
@@ -89,13 +90,13 @@ class SkinlibController extends BaseController
 
     public function show()
     {
-        if (!isset($_GET['tid'])) \Http::abort(404, 'No specified tid.');
+        if (!isset($_GET['tid'])) Http::abort(404, 'No specified tid.');
         $texture = Texture::find($_GET['tid']);
-        if (!$texture) \Http::abort(404, '请求的材质已经被删除');
+        if (!$texture) Http::abort(404, '请求的材质已经被删除');
 
         if ($texture->public == "0") {
             if (is_null($this->user) || ($this->user->uid != $texture->uploader && !$this->user->is_admin))
-                \Http::abort(404, '请求的材质已经设为隐私，仅上传者和管理员可查看');
+                Http::abort(404, '请求的材质已经设为隐私，仅上传者和管理员可查看');
         }
 
         echo View::make('skinlib.show')->with('texture', $texture)->with('with_out_filter', true)->with('user', $this->user)->render();
@@ -115,13 +116,14 @@ class SkinlibController extends BaseController
     {
         $this->checkUpload(isset($_POST['type']) ? $_POST['type'] : "");
 
-        $t           = new Texture();
-        $t->name     = $_POST['name'];
-        $t->type     = $_POST['type'];
-        $t->hash     = \Storage::upload($_FILES['file']);
-        $t->size     = ceil($_FILES['file']['size'] / 1024);
-        $t->public   = ($_POST['public'] == 'true') ? "1" : "0";
-        $t->uploader = $this->user->uid;
+        $t            = new Texture();
+        $t->name      = $_POST['name'];
+        $t->type      = $_POST['type'];
+        $t->hash      = \Storage::upload($_FILES['file']);
+        $t->size      = ceil($_FILES['file']['size'] / 1024);
+        $t->public    = ($_POST['public'] == 'true') ? "1" : "0";
+        $t->uploader  = $this->user->uid;
+        $t->upload_at = Utils::getTimeFormatted();
 
         if ($this->user->getScore() < $t->size)
             View::json('积分不够啦', 7);
@@ -152,41 +154,6 @@ class SkinlibController extends BaseController
             View::json([
                 'errno' => 0,
                 'msg'   => '材质 '.$_POST['name'].' 上传成功',
-                'tid'   => $t->tid
-            ]);
-        }
-    }
-
-    public function save()
-    {
-        Utils::checkPost(['name', 'type', 'public', 'original_tid']);
-
-        $original_texture = Texture::find($_POST['original_tid']);
-
-        if ($_POST['name'] == $original_texture->name)
-            View::json('名字不能和原来的一样哦', 1);
-
-        $t = new Texture();
-        $t->name     = $_POST['name'];
-        $t->type     = $_POST['type'];
-        $t->likes    = 1;
-        $t->hash     = $original_texture->hash;
-        $t->size     = $original_texture->size;
-        $t->public   = ($_POST['public'] == true) ? "1" : "0";
-        $t->uploader = $this->user->uid;
-
-        $t->save();
-
-        $this->user->setScore($t->size, 'minus');
-
-        if ($this->user->closet->add($t->tid)) {
-            $t = Texture::find($t->tid);
-            $t->likes += 1;
-            $t->save();
-
-            View::json([
-                'errno' => 0,
-                'msg'   => '材质成功另存为 '.$_POST['name'],
                 'tid'   => $t->tid
             ]);
         }
