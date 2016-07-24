@@ -135,17 +135,8 @@
                         </div><!-- /.box-header -->
                         <div class="box-body">
                             <div id="disqus_thread"></div>
-                            @if (Option::get('disqus-shortname') != "")
-                            <script>
-                                (function() {  // DON'T EDIT BELOW THIS LINE
-                                    var d = document, s = d.createElement('script');
-
-                                    s.src = "//{{ Option::get('disqus-shortname') }}/embed.js";
-
-                                    s.setAttribute('data-timestamp', +new Date());
-                                    (d.head || d.body).appendChild(s);
-                                })();
-                            </script>
+                            @if (Option::get('comment_script') != "")
+                            {!! Option::get('comment_script') !!}
                             @else
                             <p style="text-align: center; margin: 30px 0;">本站未开启评论服务</p>
                             @endif

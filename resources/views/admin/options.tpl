@@ -117,10 +117,12 @@
                                         </td>
                                     </tr>
 
-                                    <tr title="留空以停用评论功能" data-toggle="tooltip" data-placement="top">
-                                        <td class="key">Disqus 短域名</td>
+                                    <tr>
+                                        <td class="key">评论代码
+                                            <i class="fa fa-question-circle" title="就是 Disqus，多说，畅言等评论服务提供的代码。留空以停用评论功能" data-toggle="tooltip" data-placement="top"></i>
+                                        </td>
                                         <td class="value">
-                                           <input type="text" class="form-control" name="disqus-shortname" value="{{ Option::get('disqus-shortname') }}">
+                                            <textarea class="form-control" rows="4" name="comment_script">{{ Option::get('comment_script') }}</textarea>
                                         </td>
                                     </tr>
 

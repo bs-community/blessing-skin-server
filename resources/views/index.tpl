@@ -18,7 +18,7 @@
 </head>
 
 <body class="hold-transition {{ Option::get('color_scheme') }} layout-top-nav">
-    <div class="wrapper" style="background-image: url('./assets/images/bg.jpg') !important;">
+    <div class="wrapper" style="background-image: url('{{ Option::get('home_pic_url') }}') !important;">
 
         <header class="main-header">
             <nav class="navbar navbar-static-top">

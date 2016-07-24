@@ -110,13 +110,15 @@
                                     <tr>
                                         <td class="key">首页图片地址</td>
                                         <td class="value">
-                                           <input type="text" title="相对与首页的路径或绝对路径。" data-toggle="tooltip" data-placement="bottom" class="form-control" name="home_pic_url" value="<?php echo Option::get('home_pic_url'); ?>">
+                                           <input type="text" title="相对于首页的路径或者完整的 URL" data-toggle="tooltip" data-placement="top" class="form-control" name="home_pic_url" value="{{ Option::get('home_pic_url') }}">
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="key">版权信息</td>
+                                        <td class="key">版权信息
+                                            <i class="fa fa-question-circle" title="推荐开启，求扩散 qwq" data-toggle="tooltip" data-placement="top"></i>
+                                        </td>
                                         <td class="value">
-                                            <label for="show_footer_copyright" title="推荐开启，求扩散 qwq" data-toggle="tooltip" data-placement="top">
+                                            <label for="show_footer_copyright">
                                                 <input <?php echo (Option::get('show_footer_copyright') == '1') ? 'checked="true"' : ''; ?> type="checkbox" id="show_footer_copyright" name="show_footer_copyright" value="1"> 显示页面右下角的版权信息
                                             </label>
                                         </td>
@@ -133,7 +135,7 @@
                 <div class="box box-default">
                     <div class="box-header with-border">
                         <h3 class="box-title">自定义 CSS/JavaScript
-                            <i class="fa fa-question-circle" data-toggle="tooltip" data-placement="bottom" title="字符串将会被转义"></i>
+                            <i class="fa fa-question-circle" title="字符串将不会被转义，请小心" data-toggle="tooltip" data-placement="bottom"></i>
                         </h3>
                     </div><!-- /.box-header -->
                     <form method="post" action="../admin/customize">
