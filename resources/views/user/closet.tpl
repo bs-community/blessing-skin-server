@@ -41,7 +41,7 @@
                                 <img src="../preview/{{ $item->tid }}.png">
                             </div>
                             <div class="item-footer">
-                                <span>{{ $item->name }} <small>({{ $item->type }})</small></span>
+                                <span title="{{ $item->name }}">{{ strlen($item->name) > 12 ? substr($item->name, 0, 12).'...' : $item->name }} <small>({{ $item['type'] }})</small></span>
                                 <a href="../skinlib/show?tid={{ $item->tid }}" title="在皮肤库中查看" class="more" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-share"></i></a>
 
                                 <ul class="dropdown-menu" aria-labelledby="share-button">
