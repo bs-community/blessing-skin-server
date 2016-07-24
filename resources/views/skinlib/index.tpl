@@ -75,18 +75,20 @@
                 <div class="box-footer">
                     <!-- Pagination -->
                     <ul class="pagination pagination-sm no-margin pull-right">
+                        <?php $base_url = ($filter != "" && $sort != "") ? "?filter=$filter&sort=$sort&" : "?"; ?>
                         <li><a href="?page=1">«</a></li>
+
                         @if ($page != 1)
-                        <li><a href="?page={{ $page-1 }}">{{ $page - 1 }}</a></li>
+                        <li><a href="{{ $base_url }}page={{ $page-1 }}">{{ $page - 1 }}</a></li>
                         @endif
 
-                        <li><a href="?page={{ $page }}" class="active">{{ $page }}</a></li>
+                        <li><a href="{{ $base_url }}page={{ $page }}" class="active">{{ $page }}</a></li>
 
                         @if ($total_pages > $page)
-                        <li><a href="?page={{ $page+1 }}">{{ $page+1 }}</a></li>
+                        <li><a href="{{ $base_url }}page={{ $page+1 }}">{{ $page+1 }}</a></li>
                         @endif
 
-                        <li><a href="?page={{ $total_pages }}">»</a></li>
+                        <li><a href="{{ $base_url }}page={{ $total_pages }}">»</a></li>
                     </ul>
 
                     <select id="page-select" class="pull-right">
