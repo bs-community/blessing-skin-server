@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-19 10:46:38
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-07-26 09:32:30
+* @Last Modified time: 2016-07-26 10:28:00
 */
 
 'use strict';
@@ -161,7 +161,7 @@ function upload() {
     } else if ($('#type').val() == "") {
         toastr.info('请选择材质的类型');
         $('#type').focus();
-    } else if ($('#file').prop('files')[0].type === "image/png") {
+    } else if ($('#file').prop('files')[0].type !== "image/png") {
         toastr.warning('请选择 PNG 格式的图片');
         $('#file').focus();
     } else {
