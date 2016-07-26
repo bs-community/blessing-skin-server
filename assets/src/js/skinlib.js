@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-19 10:46:38
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-07-24 15:38:22
+* @Last Modified time: 2016-07-26 09:32:30
 */
 
 'use strict';
@@ -151,16 +151,17 @@ function upload() {
     form_data.append('file', $('#file').prop('files')[0])
     form_data.append('public', !$('#private').prop('checked'))
 
-    if (form_data.get('file') == 'undefined') {
+    // quick fix for browsers which don't support FormData.get()
+    if ($('#file').prop('files')[0] == 'undefined') {
         toastr.info('你还没有上传任何文件哦');
         $('#file').focus();
-    } else if (form_data.get('name') == "") {
+    } else if ($('#name').val() == "") {
         toastr.info('给你的材质起个名字吧');
         $('#name').focus();
-    } else if (form_data.get('type') == "") {
+    } else if ($('#type').val() == "") {
         toastr.info('请选择材质的类型');
         $('#type').focus();
-    } else if (form_data.get('file.type') === "image/png") {
+    } else if ($('#file').prop('files')[0].type === "image/png") {
         toastr.warning('请选择 PNG 格式的图片');
         $('#file').focus();
     } else {
