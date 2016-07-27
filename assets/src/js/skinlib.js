@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-19 10:46:38
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-07-26 10:28:00
+* @Last Modified time: 2016-07-27 18:37:16
 */
 
 'use strict';
@@ -21,12 +21,14 @@ $('#page-select').on('change', function() {
 });
 
 function addToCloset(tid) {
-    var dom = '<div class="form-group">'+
-                    '<label for="new-name">给你的皮肤起个名字吧~</label>'+
-                    '<input id="new-name" class="form-control" type="text" placeholder="" />'+
-                '</div><br />';
-    showModal(dom, '收藏新皮肤', 'default', 'ajaxAddToCloset('+tid+')');
-    return;
+    $.getJSON('../skinlib/info/'+tid, function(json) {
+        var dom  =  '<div class="form-group">'+
+                        '<label for="new-name">给你的皮肤起个名字吧~</label>'+
+                        '<input id="new-name" class="form-control" type="text" value="'+json.name+'" />'+
+                    '</div><br />';
+        showModal(dom, '收藏新皮肤', 'default', 'ajaxAddToCloset('+tid+')');
+        return;
+    });
 }
 
 function ajaxAddToCloset(tid) {
