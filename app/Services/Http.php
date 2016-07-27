@@ -65,10 +65,11 @@ class Http
             View::json($msg, $code);
         } else {
             $config = require BASE_DIR."/config/view.php";
-            if (file_exists($config['view_path']."/errors/".$code.".tpl"))
+            if (file_exists($config['view_path']."/errors/".$code.".tpl")) {
                 echo View::make('errors.'.$code)->with('code', $code)->with('message', $msg);
-            else
-                echo View::make('errors.exception')->with('code', $this->code)->with('message', $this->message);
+            } else {
+                echo View::make('errors.exception')->with('code', $code)->with('message', $msg);
+            }
             exit;
         }
     }
