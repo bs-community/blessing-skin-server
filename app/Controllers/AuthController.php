@@ -66,7 +66,11 @@ class AuthController extends BaseController
 
     public function register()
     {
-        View::show('auth.register');
+        if (Option::get('user_can_register') == 1) {
+            View::show('auth.register');
+        } else {
+            throw new E('残念。。本皮肤站已经关闭注册咯 QAQ', 7, true);
+        }
     }
 
     public function handleRegister()
