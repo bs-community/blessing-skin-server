@@ -123,5 +123,7 @@ Route::group(['middleware' =>                   'App\Middlewares\CheckPlayerExis
 Route::get('/avatar/{base64_email}.png',        'TextureController@avatar');
 Route::get('/avatar/{size}/{base64_email}.png', 'TextureController@avatarWithSize')->where(['base64_email' => '[^\\/]+?']);
 
+Route::get('/raw/{tid}.png',                    'TextureController@raw');
+
 Route::get('/preview/{tid}.png',                'TextureController@preview');
 Route::get('/preview/{size}/{tid}.png',         'TextureController@previewWithSize');

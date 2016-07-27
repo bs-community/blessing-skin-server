@@ -72,9 +72,11 @@
                                         <td>{{ $texture->type }}</td>
                                     </tr>
                                     <tr>
-                                        <td>Hash</td>
+                                        <td>Hash
+                                            <i class="fa fa-question-circle" title="右键另存为即可下载原始皮肤文件" data-toggle="tooltip" data-placement="top"></i>
+                                        </td>
                                         <td>
-                                            <a href="../textures/{{ $texture->hash }}">{{ substr($texture->hash, 0, 15) }}...</a>
+                                            <a href="../raw/{{ $texture->tid }}.png" title="{{ $texture->hash }}">{{ substr($texture->hash, 0, 15) }}...</a>
                                         </td>
                                     </tr>
                                     <tr>

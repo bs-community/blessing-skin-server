@@ -90,6 +90,16 @@ class TextureController extends BaseController
         $this->preview($tid, $size);
     }
 
+    public function raw($tid) {
+        if ($t = Texture::find($tid)) {
+            header('Content-Type: image/png');
+            echo \Storage::fread(BASE_DIR."/textures/".$t->hash);
+        } else {
+            \Http::abort(404, '材质不存在');
+        }
+
+    }
+
 	private function checkCache($player_name)
 	{
 		// Cache friendly
