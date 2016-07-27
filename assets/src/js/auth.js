@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-17 10:54:22
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-07-23 15:26:48
+ * @Last Modified time: 2016-07-27 18:18:16
  */
 
 'use strict';
@@ -12,6 +12,11 @@ $(document).ready(function() {
         checkboxClass: 'icheckbox_square-blue'
     });
 });
+
+function freshCaptcha() {
+    $('.captcha').attr('src', './captcha?' + new Date().getTime());
+    $('#captcha').val('');
+}
 
 var login_fails = 0;
 
@@ -63,8 +68,7 @@ $('#login-button').click(function() {
                     if (json.login_fails > 3) {
                         $('#captcha-form').show();
                         toastr.warning('你尝试的次数太多啦，请输入验证码');
-                        // fresh captcha
-                        $('.captcha').attr('src', './captcha?' + new Date().getTime());
+                        freshCaptcha();
                     }
 
                     showMsg(json.msg, 'warning');
@@ -127,10 +131,15 @@ $('#register-button').click(function() {
             },
             success: function(json) {
                 if (json.errno == 0) {
-                    showMsg('注册成功，请登录~', 'success');
-                    window.setTimeout('window.location = "./login"', 1000);
+                    // login automatically
+                    docCookies.setItem('email', email, null, '/');
+                    docCookies.setItem('token', json.token, null, '/');
+
+                    showMsg(json.msg, 'success');
+                    window.setTimeout('window.location = "../user"', 1000);
                 } else {
                     showMsg(json.msg, 'warning');
+                    freshCaptcha();
                     $('#register-button').html('注册').prop('disabled', '');
                 }
             },

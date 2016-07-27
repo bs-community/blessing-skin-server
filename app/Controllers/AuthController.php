@@ -85,7 +85,12 @@ class AuthController extends BaseController
                         // use once md5 to encrypt password
                         $user = $user->register($_POST['password'], \Http::getRealIP());
                         $user->setNickName($_POST['nickname']);
-                        View::json('注册成功~', 0);
+
+                        echo json_encode([
+                            'errno' => 0,
+                            'msg' => '注册成功，正在跳转~',
+                            'token' => $user->getToken()
+                        ]);
 
                     } else {
                         View::json('你最多只能注册 '.Option::get('regs_per_ip').' 个账户哦', 7);

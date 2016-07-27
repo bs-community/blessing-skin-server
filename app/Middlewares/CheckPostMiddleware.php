@@ -5,6 +5,7 @@ namespace App\Middlewares;
 use \Pecee\Http\Middleware\IMiddleware;
 use \Pecee\Http\Request;
 use App\Exceptions\E;
+use View;
 
 class CheckPostMiddleware implements IMiddleware
 {

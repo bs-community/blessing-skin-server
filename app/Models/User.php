@@ -52,7 +52,7 @@ class User
             $this->uid           = $this->eloquent_model->uid;
             $this->email         = $this->eloquent_model->email;
             $this->password      = $this->eloquent_model->password;
-            $this->token         = md5($this->email . $this->password . SALT);
+            $this->token         = md5($this->email . $this->password . $_ENV['SALT']);
             $this->closet        = new Closet($this->uid);
             $this->is_admin      = ($this->eloquent_model->permission == 1);
         }
@@ -109,6 +109,8 @@ class User
 
     public function getToken()
     {
+        if ($this->token === "")
+            $this->token = md5($this->eloquent_model->email . $this->eloquent_model->password . $_ENV['SALT']);
         return $this->token;
     }
 
