@@ -10,6 +10,8 @@ class Player
     public $pid            = "";
     public $player_name    = "";
 
+    public $is_banned      = false;
+
     public $eloquent_model = null;
 
     /**
@@ -31,6 +33,9 @@ class Player
             \Http::abort(404, '角色不存在');
 
         $this->player_name = $this->eloquent_model->player_name;
+
+        if ((new User('', $this->eloquent_model->uid))->getPermission() == "-1")
+            $this->is_banned = true;
     }
 
     /**

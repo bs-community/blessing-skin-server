@@ -7,6 +7,7 @@ use App\Models\Player;
 use App\Models\Texture;
 use App\Exceptions\E;
 use Option;
+use Http;
 
 class TextureController extends BaseController
 {
@@ -18,6 +19,10 @@ class TextureController extends BaseController
         $player_name = \Option::get('allow_chinese_playername') ? $GLOBALS['player_name'] : $player_name;
 
         $player = new Player(0, $player_name);
+
+        if ($player->is_banned)
+            Http::abort(404, '该角色拥有者已被本站封禁。');
+
 		if ($api == "csl") {
 			echo $player->getJsonProfile(0);
 		} else if ($api == "usm") {
@@ -25,7 +30,7 @@ class TextureController extends BaseController
 		} else if ($api == "") {
 			echo $player->getJsonProfile(Option::get('api_type'));
 		} else {
-            \Http::abort(404, '不支持的 API_TYPE。');
+            Http::abort(404, '不支持的 API_TYPE。');
         }
     }
 
@@ -37,6 +42,10 @@ class TextureController extends BaseController
 	public function skin($player_name, $model = "")
 	{
 		$player = new Player(0, $player_name);
+
+        if ($player->is_banned)
+            Http::abort(404, '该角色拥有者已被本站封禁。');
+
 		if (!$this->checkCache($player_name)) {
 			$model_preference = ($player->getPreference() == "default") ? "steve" : "alex";
 			$model = ($model == "") ? $model_preference : $model;
@@ -46,8 +55,13 @@ class TextureController extends BaseController
 
 	public function cape($player_name)
 	{
+        $player = new Player(0, $player_name);
+
+        if ($player->is_banned)
+            Http::abort(404, '该角色拥有者已被本站封禁。');
+
 		if (!$this->checkCache($player_name)) {
-			echo (new Player(0, $player_name))->getBinaryTexture('cape');
+			echo $player->getBinaryTexture('cape');
 		}
 	}
 
@@ -95,7 +109,7 @@ class TextureController extends BaseController
             header('Content-Type: image/png');
             echo \Storage::fread(BASE_DIR."/textures/".$t->hash);
         } else {
-            \Http::abort(404, '材质不存在');
+            Http::abort(404, '材质不存在');
         }
 
     }
