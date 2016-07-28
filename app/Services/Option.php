@@ -7,8 +7,6 @@ use App\Exceptions\E;
 
 class Option
 {
-    public $timestamps = false;
-
     public static function get($key) {
         $option = OptionModel::where('option_name', $key)->first();
         if (!$option) throw new E('Unexistent option.', 1);
@@ -34,9 +32,8 @@ class Option
             OptionModel::where('option_name', $key)->firstOrFail();
         } catch (Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return false;
-        } finally {
-            return true;
         }
+        return true;
     }
 
     public static function delete($key) {
