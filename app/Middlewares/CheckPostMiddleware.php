@@ -5,6 +5,7 @@ namespace App\Middlewares;
 use \Pecee\Http\Middleware\IMiddleware;
 use \Pecee\Http\Request;
 use App\Exceptions\E;
+use Validate;
 use View;
 
 class CheckPostMiddleware implements IMiddleware
@@ -12,7 +13,7 @@ class CheckPostMiddleware implements IMiddleware
     public function handle(Request $request)
     {
         if (isset($_POST['email']) && $_POST['email'] != "") {
-            if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+            if (!Validate::checkValidEmail($_POST['email'])) {
                 View::json('邮箱格式错误', 3);
             }
 
