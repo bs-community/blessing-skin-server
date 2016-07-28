@@ -55,17 +55,20 @@ class Mail
         return $this->mailer->ErrorInfo;
     }
 
+    public function content($content)
+    {
+        $this->mail->isHTML(true);
+        $this->mail->Body = $content;
+        return $this;
+    }
+
     /**
      * Send a mail
      *
-     * @param  string $body
      * @return boolean
      */
-    public function send($body)
+    public function send()
     {
-        $this->mail->isHTML(true);
-        $this->mail->Body = $body;
-
         return $this->mail->send();
     }
 

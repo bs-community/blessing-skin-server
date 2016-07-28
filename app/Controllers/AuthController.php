@@ -138,7 +138,7 @@ class AuthController extends BaseController
         $url = Option::get('site_url')."/auth/reset?uid={$uid}&token=$token";
         $content = View::make('auth.mail')->with('reset_url', $url)->render();
 
-        if(!$mail->Send($content)) {
+        if(!$mail->content($content)->send()) {
             View::json('邮件发送失败，详细信息：'.$mail->getLastError(), 2);
         } else {
             $_SESSION['last_mail_time'] = time();

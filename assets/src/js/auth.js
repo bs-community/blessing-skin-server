@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-17 10:54:22
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-07-27 18:18:16
+ * @Last Modified time: 2016-07-28 15:44:31
  */
 
 'use strict';
@@ -84,9 +84,7 @@ $('#login-button').click(function() {
     return false;
 });
 
-$('.captcha').click(function() {
-    $(this).attr('src', './captcha?' + new Date().getTime());
-});
+$('.captcha').click(freshCaptcha);
 
 $('#register-button').click(function() {
 
@@ -180,9 +178,10 @@ $('#forgot-button').click(function() {
             success: function(json) {
                 if (json.errno == 0) {
                     showMsg(json.msg, 'success');
-                    $('#forgot-button').html('发送').prop('disabled', '');
+                    $('#forgot-button').html('发送').prop('disabled', 'disabled');
                 } else {
                     showMsg(json.msg, 'warning');
+                    freshCaptcha();
                     $('#forgot-button').html('发送').prop('disabled', '');
                 }
             },
