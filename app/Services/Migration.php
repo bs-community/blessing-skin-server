@@ -44,7 +44,7 @@ class Migration
             $table->integer('size');
             $table->integer('uploader');
             $table->integer('public');
-            $table->dateTime('last_modified');
+            $table->dateTime('upload_at');
         });
 
         Schema::create($prefix.'options', function($table) {
