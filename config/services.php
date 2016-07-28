@@ -19,5 +19,8 @@ return [
     'Mail'      => 'App\Services\Mail',
     'Storage'   => 'App\Services\Storage',
     'Minecraft' => 'App\Services\Minecraft',
-    'Updater'   => 'App\Services\Updater'
+    'Updater'   => 'App\Services\Updater',
+    'Config'    => 'App\Services\Config',
+    'Schema'    => 'App\Services\Schema',
+    'Boot'      => 'App\Services\Boot'
 ];
