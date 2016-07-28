@@ -54,7 +54,8 @@ class User
             $this->password      = $this->eloquent_model->password;
             $this->token         = md5($this->email . $this->password . $_ENV['SALT']);
             $this->closet        = new Closet($this->uid);
-            $this->is_admin      = ($this->eloquent_model->permission == 1);
+            $this->is_admin      = $this->eloquent_model->permission == 1 ||
+                                        $this->eloquent_model->permission == 2;
         }
     }
 
