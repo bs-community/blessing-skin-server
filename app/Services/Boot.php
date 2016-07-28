@@ -33,9 +33,6 @@ class Boot
 
     public static function registerErrorHandler()
     {
-        if (!isset($_ENV))
-            self::loadDotEnv();
-
         if ($_ENV['APP_DEBUG'] !== "false") {
             // whoops: php errors for cool kids
             $whoops = new \Whoops\Run;

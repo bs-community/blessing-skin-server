@@ -6,3 +6,4 @@ node_modules/*
 resources/cache/*
 assets/bower_components/*
 assets/dist/*
+koala-config.json
