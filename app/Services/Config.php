@@ -18,6 +18,12 @@ class Config
         return require BASE_DIR."/config/view.php";
     }
 
+    public static function checkPHPVersion()
+    {
+        if (strnatcasecmp(phpversion(), '5.5.9') < 0)
+            throw new E('Blessing Skin Server v3 要求 PHP 版本不低于 5.5.9，当前版本为 '.phpversion(), -1, true);
+    }
+
     /**
      * Check database config
      *
@@ -46,6 +52,7 @@ class Config
                 return false;
             }
         }
+
         return true;
     }
 
@@ -56,8 +63,10 @@ class Config
 
         $view_config = self::getViewConfig();
 
-        if (!is_dir($view_config['cache_path']))
-            mkdir($view_config['cache_path']);
+        if (!is_dir($view_config['cache_path'])) {
+            if (!mkdir($view_config['cache_path']))
+                throw new E('缓存文件夹创建失败，请确认目录权限是否正确', -1);
+        }
 
         return true;
     }

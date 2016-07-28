@@ -12,8 +12,11 @@ require BASE_DIR.'/vendor/autoload.php';
 // Load Aliases
 App\Services\Boot::loadServices();
 
+// Check Runtime Environment
+Boot::checkRuntimeEnv();
+
 // Load dotenv Configuration
-Boot::loadDotEnv();
+Boot::loadDotEnv(BASE_DIR);
 
 // Register Error Handler
 Boot::registerErrorHandler();
@@ -29,8 +32,6 @@ if (Config::checkDbConfig($db_config)) {
 if (!Config::checkTableExist($db_config)) {
     Http::redirect('../setup/index.php');
 }
-
-Config::checkFolderExist();
 
 // Start Session
 Boot::startSession();

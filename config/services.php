@@ -22,5 +22,6 @@ return [
     'Updater'   => 'App\Services\Updater',
     'Config'    => 'App\Services\Config',
     'Schema'    => 'App\Services\Schema',
-    'Boot'      => 'App\Services\Boot'
+    'Boot'      => 'App\Services\Boot',
+    'Migration' => 'App\Services\Migration'
 ];

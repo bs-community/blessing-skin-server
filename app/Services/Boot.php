@@ -7,12 +7,18 @@ use \Pecee\SimpleRouter\SimpleRouter as Router;
 
 class Boot
 {
-    public static function loadDotEnv()
+    public static function loadDotEnv($dir)
     {
         if (Config::checkDotEnvExist()) {
-            $dotenv = new \Dotenv\Dotenv(BASE_DIR);
+            $dotenv = new \Dotenv\Dotenv($dir);
             $dotenv->load();
         }
+    }
+
+    public static function checkRuntimeEnv()
+    {
+        Config::checkPHPVersion();
+        Config::checkFolderExist();
     }
 
     public static function loadServices()
