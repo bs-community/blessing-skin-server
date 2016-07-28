@@ -74,8 +74,7 @@ $ bower install
 使用 gulp 构建前端代码：
 
 ```
-$ gulp copy
-$ gulp build
+$ gulp copy && gulp build
 ```
 
 可以开始使用啦~
@@ -89,6 +88,12 @@ $ gulp build
 ```
 location / {
     try_files $uri $uri/ /index.php?$query_string;
+}
+
+# Protect .env file
+location ~ /\.env
+{
+    deny all;
 }
 ```
 
