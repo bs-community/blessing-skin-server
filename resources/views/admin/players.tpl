@@ -164,3 +164,11 @@
 </div><!-- /.modal -->
 
 @endsection
+
+@section('script')
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.box-body').css('min-height', $('.content-wrapper').height() - $('.content-header').outerHeight() - 120);
+});
+</script>
+@endsection

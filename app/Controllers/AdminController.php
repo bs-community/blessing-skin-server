@@ -112,6 +112,8 @@ class AdminController extends BaseController
 
         $user = new User('', Utils::getValue('uid', $_POST));
 
+        $current_user = new User($_SESSION['email']);
+
         if (!$user->is_registered)
             throw new E('用户不存在', 1);
 
@@ -148,12 +150,40 @@ class AdminController extends BaseController
             if ($user->setScore($_POST['score']))
                     View::json('积分修改成功', 0);
 
-        } else if ($action == "permission") {
-            $permission = $user->getPermission() == "0"
-                            ? "-1" : "0";
+        } else if ($action == "ban") {
+            if ($user->getPermission() == "1") {
+                if ($current_user->getPermission() != "2")
+                    View::json('非超级管理员无法封禁普通管理员');
+            } elseif ($user->getPermission() == "2") {
+                View::json('超级管理员无法被封禁');
+            }
 
-            if ($user->setPermission($permission))
-                    View::json('账号已被'.($permission == "-1"?"封禁":"解封"), 0);
+            $permission = $user->getPermission() == "-1" ? "0" : "-1";
+
+            if ($user->setPermission($permission)) {
+                View::json([
+                    'errno'      => 0,
+                    'msg'        => '账号已被' . ($permission == '-1' ? '封禁' : '解封'),
+                    'permission' => $user->getPermission()
+                ]);
+            }
+
+        } else if ($action == "admin") {
+            if ($current_user->getPermission() != "2")
+                View::json('非超级管理员无法进行此操作');
+
+            if ($user->getPermission() == "2")
+                View::json('超级管理员无法被解除');
+
+            $permission = $user->getPermission() == "1" ? "0" : "1";
+
+            if ($user->setPermission($permission)) {
+                View::json([
+                    'errno'      => 0,
+                    'msg'        => '账号已被' . ($permission == '1' ? '设为' : '解除') . '管理员',
+                    'permission' => $user->getPermission()
+                ]);
+            }
 
         } else if ($action == "delete") {
             if ($user->delete())

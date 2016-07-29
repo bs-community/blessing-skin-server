@@ -26,6 +26,8 @@
         </h1>
     </section>
 
+    <?php $current_user = new App\Models\User($_SESSION['email']); ?>
+
     <!-- Main content -->
     <section class="content">
         <div class="box">
@@ -50,7 +52,17 @@
                             <td id="email">{{ $user->email }}</td>
                             <td id="nickname">{{ $user->nickname }}</td>
                             <td><input type="text" class="form-control score" value="{{ $user->score }}" title="输入修改后的积分，回车提交" data-placement="top"></td>
-                            <td id="permission">{{ $user->permission == "-1" ? "封禁" : "正常" }}</td>
+                            <td id="permission">
+                                @if ($user->permission == "0")
+                                正常
+                                @elseif ($user->permission == "-1")
+                                封禁
+                                @elseif ($user->permission == "1")
+                                管理员
+                                @elseif ($user->permission == "2")
+                                超级管理员
+                                @endif
+                            </td>
                             <td>{{ $user->register_at }}</td>
 
                             <td>
@@ -66,21 +78,58 @@
                                         <li><a href="../admin/players?filter=uid&q={{ $user->uid }}">查看该用户拥有的角色</a></li>
                                         <li class="divider"></li>
 
-                                        @if ($user->permission == "1")
-                                        <li><a href="javascript:;">无法封禁管理员</a></li>
-                                        @elseif ($user->permission == "0")
-                                        <li><a href="javascript:changePermission('{{ $user->uid }}');">封禁</a></li>
+                                        {{-- If current user is super admin --}}
+                                        @if ($current_user->getPermission() == "2")
+
+                                            @if ($user->permission == "1")
+                                            <li><a id="admin" href="javascript:changeAdminStatus('{{ $user->uid }}');">解除管理员</a></li>
+                                            @elseif ($user->permission == "2")
+                                            <li><a href="javascript:;">无法解除超级管理员</a></li>
+                                            @else
+                                            <li><a id="admin" href="javascript:changeAdminStatus('{{ $user->uid }}');">设为管理员</a></li>
+                                            @endif
+
+                                            <li class="divider"></li>
+
+                                            @if ($user->permission == "2")
+                                            <li><a href="javascript:;">无法封禁超级管理员</a></li>
+                                            @elseif ($user->permission == "-1")
+                                            <li><a id="ban" href="javascript:changeBanStatus('{{ $user->uid }}');">解封</a></li>
+                                            @else
+                                            <li><a id="ban" href="javascript:changeBanStatus('{{ $user->uid }}');">封禁</a></li>
+                                            @endif
+
+                                        {{-- If current user is ordinary admin --}}
                                         @else
-                                        <li><a href="javascript:changePermission('{{ $user->uid }}');">解封</a></li>
+
+                                            @if ($user->permission == "1" || $user->permission == "2")
+                                            <li><a href="javascript:;">无法封禁管理员</a></li>
+                                            @elseif ($user->permission == "0")
+                                            <li><a id="ban" href="javascript:changeBanStatus('{{ $user->uid }}');">封禁</a></li>
+                                            @else
+                                            <li><a id="ban" href="javascript:changeBanStatus('{{ $user->uid }}');">解封</a></li>
+                                            @endif
+
                                         @endif
                                     </ul>
                                 </div>
 
+                                {{-- If current user is super admin --}}
+                                @if ($current_user->getPermission() == "2")
 
-                                @if ($user->permission == "1")
-                                <a class="btn btn-danger btn-sm" disabled="disabled" data-toggle="tooltip" data-placement="bottom" title="管理员账号不能被这样删除的啦">删除用户</a>
+                                    @if ($user->permission == "2")
+                                    <a class="btn btn-danger btn-sm" disabled="disabled" data-toggle="tooltip" data-placement="bottom" title="超级管理员账号不能被这样删除的啦">删除用户</a>
+                                    @else
+                                    <a class="btn btn-danger btn-sm" href="javascript:deleteUserAccount('{{ $user->uid }}');">删除用户</a>
+                                    @endif
+
                                 @else
-                                <a class="btn btn-danger btn-sm" href="javascript:deleteUserAccount('{{ $user->uid }}');">删除用户</a>
+                                    @if ($user->permission == "1" || $user->permission == "2")
+                                    <a class="btn btn-danger btn-sm" disabled="disabled" data-toggle="tooltip" data-placement="bottom" title="你不能删除管理员账号哦">删除用户</a>
+                                    @else
+                                    <a class="btn btn-danger btn-sm" href="javascript:deleteUserAccount('{{ $user->uid }}');">删除用户</a>
+                                    @endif
+
                                 @endif
                             </td>
                         </tr>
@@ -133,4 +182,12 @@
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 
+@endsection
+
+@section('script')
+<script type="text/javascript">
+$(document).ready(function() {
+    $('.box-body').css('min-height', $('.content-wrapper').height() - $('.content-header').outerHeight() - 120);
+});
+</script>
 @endsection

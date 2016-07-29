@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-07-22 14:02:44
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-07-23 21:12:23
+* @Last Modified time: 2016-07-29 15:27:02
 */
 
 'use strict';
@@ -131,19 +131,43 @@ function changeUserScore(uid, score) {
     });
 }
 
-function changePermission(uid) {
+function changeBanStatus(uid) {
     $.ajax({
         type: "POST",
-        url: "../admin/users?action=permission",
+        url: "../admin/users?action=ban",
         dataType: "json",
         data: { 'uid': uid },
         success: function(json) {
             if (json.errno == 0) {
-                var object = $($('#'+uid).find('ul').children()[6]);
-                var dom = '<a href="javascript:changePermission('+uid+');">' +
+                var object = $('#'+uid).find('a#ban');
+                var dom = '<a id="ban" href="javascript:changeBanStatus('+uid+');">' +
                             (object.text() == '封禁' ? '解封' : '封禁') + '</a>';
                 object.html(dom);
-                $('#'+uid).find('#permission').text(object.text() == '封禁' ? '正常' : '封禁');
+
+                $('#'+uid).find('#permission').text(json.permission == '-1' ? '封禁' : '正常');
+                toastr.success(json.msg);
+            } else {
+                toastr.warning(json.msg);
+            }
+        },
+        error: showAjaxError
+    });
+}
+
+function changeAdminStatus(uid) {
+    $.ajax({
+        type: "POST",
+        url: "../admin/users?action=admin",
+        dataType: "json",
+        data: { 'uid': uid },
+        success: function(json) {
+            if (json.errno == 0) {
+                var object = $('#'+uid).find('a#admin');
+                var dom = '<a href="javascript:changeAdminStatus('+uid+');">' +
+                            (object.text() == '设为管理员' ? '解除管理员' : '设为管理员') + '</a>';
+                object.html(dom);
+
+                $('#'+uid).find('#permission').text(json.permission == '1' ? '管理员' : '正常');
                 toastr.success(json.msg);
             } else {
                 toastr.warning(json.msg);
