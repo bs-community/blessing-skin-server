@@ -16,7 +16,7 @@ class Migration
             $table->string('email', 100);
             $table->string('nickname', 50);
             $table->integer('score');
-            $table->integer('avatar');
+            $table->integer('avatar')->default('0');
             $table->string('password', 255);
             $table->string('ip', 32);
             $table->integer('permission')->default('0');
@@ -26,7 +26,7 @@ class Migration
 
         Schema::create('closets', function($table) {
             $table->increments('uid');
-            $table->longText('textures');
+            $table->longText('textures')->default('');
         });
 
         Schema::create('players', function($table) {
@@ -34,9 +34,9 @@ class Migration
             $table->integer('uid');
             $table->string('player_name', 50);
             $table->string('preference', 10);
-            $table->integer('tid_steve');
-            $table->integer('tid_alex');
-            $table->integer('tid_cape');
+            $table->integer('tid_steve')->default('0');
+            $table->integer('tid_alex')->default('0');
+            $table->integer('tid_cape')->default('0');
             $table->dateTime('last_modified');
         });
 
