@@ -24,6 +24,11 @@ class AdminController extends BaseController
         View::show('admin.customize');
     }
 
+    public function score()
+    {
+        View::show('admin.score');
+    }
+
     public function options()
     {
         View::show('admin.options');

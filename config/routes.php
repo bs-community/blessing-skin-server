@@ -98,6 +98,7 @@ Route::group(['middleware' =>                   'App\Middlewares\CheckAdminMiddl
     Route::get('/',                             'AdminController@index');
 
     Route::all('/customize',                    'AdminController@customize');
+    Route::all('/score',                        'AdminController@score');
     Route::all('/options',                      'AdminController@options');
 
     Route::get('/users',                        'AdminController@users');

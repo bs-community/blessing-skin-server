@@ -105,17 +105,18 @@
 
                 <p>为了不出现用户一个劲上传材质导致存储空间爆满，我们决定启用积分系统。</p>
                 <p>添加角色以及上传材质都会消耗积分，而删除已经添加的角色和已上传的材质时积分将会被返还。</p>
-                <p>本站用户初始积分为 {{ \Option::get('user_initial_score') }}，每日签到可以随机获得 10~100 积分</p>
+                <?php $sign_score = explode(',', Option::get('sign_score')); ?>
+                <p>本站用户初始积分为 {{ \Option::get('user_initial_score') }}，每日签到可以随机获得 {{ $sign_score[0] }} ~ {{ $sign_score[1] }} 积分</p>
                 <p>添加皮肤库里的材质到衣柜不消耗积分。</p>
 
                 <hr />
 
                 <div class="row">
                     <div class="col-md-6">
-                        <p class="text-center">1 积分 = 1 KB 存储空间</p>
+                        <p class="text-center">{{ Option::get('score_per_storage') }} 积分 = 1 KB 存储空间</p>
                     </div>
                     <div class="col-md-6">
-                        <p class="text-center">100 积分 = 1 个角色</p>
+                        <p class="text-center">{{ Option::get('score_per_player') }} 积分 = 1 个角色</p>
                     </div>
                 </div>
             </div>

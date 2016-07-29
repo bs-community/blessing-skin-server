@@ -4,9 +4,7 @@
 
 @section('style')
 <style type="text/css">
-.box-body > textarea {
-    height: 200px;
-}
+.box-body > textarea { height: 200px; }
 </style>
 @endsection
 
@@ -90,15 +88,6 @@
                                     </tr>
 
                                     <tr>
-                                        <td class="key">新用户默认积分</td>
-                                        <td class="value">
-                                            <div class="input-group">
-                                            <input type="text" class="form-control" name="user_initial_score" value="{{ Option::get('user_initial_score') }}">
-                                          </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
                                         <td class="key">角色名</td>
                                         <td class="value">
                                             <label for="allow_chinese_playername">
@@ -123,17 +112,6 @@
                                         </td>
                                         <td class="value">
                                             <textarea class="form-control" rows="4" name="comment_script">{{ Option::get('comment_script') }}</textarea>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="key">签到间隔时间</td>
-                                        <td class="value">
-                                            <div class="input-group">
-                                            <input type="text" class="form-control" name="sign_gap_time" value="{{ Option::get('sign_gap_time') }}">
-                                            <span class="input-group-addon">小时</span>
-                                          </div>
-
                                         </td>
                                     </tr>
                                 </tbody>

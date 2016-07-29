@@ -18,10 +18,11 @@ $menu['user'] = array(
 
 $menu['admin'] = array(
     1 => ['title' => '仪表盘',   'link' => '/admin',           'icon' => 'fa-dashboard'],
-    2 => ['title' => '用户管理', 'link' => '/admin/users',      'icon' => 'fa-users'],
-    3 => ['title' => '角色管理', 'link' => '/admin/players',    'icon' => 'fa-gamepad'],
+    2 => ['title' => '用户管理', 'link' => '/admin/users',     'icon' => 'fa-users'],
+    3 => ['title' => '角色管理', 'link' => '/admin/players',   'icon' => 'fa-gamepad'],
     4 => ['title' => '个性化',   'link' => '/admin/customize', 'icon' => 'fa-paint-brush'],
-    5 => ['title' => '站点配置', 'link' => '/admin/options',   'icon' => 'fa-cog']
+    5 => ['title' => '积分配置', 'link' => '/admin/score',     'icon' => 'fa-credit-card'],
+    6 => ['title' => '站点配置', 'link' => '/admin/options',   'icon' => 'fa-cog']
 );
 
 return $menu;
