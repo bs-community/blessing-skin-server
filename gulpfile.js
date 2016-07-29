@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-07-24 11:13:23
+* @Last Modified time: 2016-07-29 16:12:45
 */
 
 var gulp     = require('gulp'),
@@ -16,7 +16,7 @@ var gulp     = require('gulp'),
     replace  = require('gulp-replace')
     zip      = require('gulp-zip');
 
-var version  = "3.0-beta";
+var version  = "v3.0";
 
 /**
  * Copy files from bower_components to dist for later operations
@@ -159,6 +159,7 @@ gulp.task('zip', function() {
 
     return gulp.src([
             '**/*.*',
+            'LICENSE',
             '!tests/**/*.*',
             '!node_modules/**/*.*',
             '!textures/**/*.*',
