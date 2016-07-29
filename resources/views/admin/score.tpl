@@ -84,6 +84,7 @@
                                 $sign_score = $_POST['sign_score_from'].','.$_POST['sign_score_to'];
                                 Option::set('sign_score', $sign_score);
                                 Option::set('sign_gap_time', $_POST['sign_gap_time']);
+                                Option::set('sign_after_zero', isset($_POST['sign_after_zero']) ? '1' : '0');
                                 echo '<div class="callout callout-success">设置已保存。</div>';
                             } ?>
                             <table class="table">
@@ -109,6 +110,17 @@
                                             <span class="input-group-addon">小时</span>
                                           </div>
 
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="key">签到时间
+                                            <i class="fa fa-question-circle" title="勾选后将无视上一条，每天零时后均可签到" data-toggle="tooltip" data-placement="top"></i>
+                                        </td>
+                                        <td class="value">
+                                            <label for="sign_after_zero">
+                                                <input {{ (Option::get('sign_after_zero') == '1') ? 'checked="true"' : '' }} type="checkbox" id="sign_after_zero" name="sign_after_zero" value="1"> 每天零点后可签到
+                                            </label>
                                         </td>
                                     </tr>
                                 </tbody>

@@ -173,8 +173,17 @@ class User
     public function canSign($return_remaining_time = false)
     {
         // convert to timestamp
-        $remaining_time = (strtotime($this->getLastSignTime()) + Option::get('sign_gap_time') * 3600 - time()) / 3600;
-        return $return_remaining_time ? round($remaining_time) : ($remaining_time <= 0);
+        $last_sign_timestamp     = strtotime($this->getLastSignTime());
+        $zero_timestamp_today    = strtotime(date('Y-m-d',time()));
+        $zero_timestamp_tomorrow = strtotime(date('Y-m-d',strtotime('+1 day')));
+
+        if (Option::get('sign_after_zero')) {
+            $remaining_time = ($zero_timestamp_tomorrow - $last_sign_timestamp) / 3600;
+            return $return_remaining_time ? round($remaining_time) : ($last_sign_timestamp <= $zero_timestamp_today);
+        } else {
+            $remaining_time = ($last_sign_timestamp + Option::get('sign_gap_time') * 3600 - time()) / 3600;
+            return $return_remaining_time ? round($remaining_time) : ($remaining_time <= 0);
+        }
     }
 
     public function getLastSignTime()
