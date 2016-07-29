@@ -4,6 +4,7 @@ namespace App\Services;
 
 use \Illuminate\Database\Capsule\Manager as Capsule;
 use \Pecee\SimpleRouter\SimpleRouter as Router;
+use App\Exceptions\ExceptionHandler;
 
 class Boot
 {
@@ -42,7 +43,7 @@ class Boot
             $whoops->register();
         } else {
             // Register custom error handler
-            App\Exceptions\ExceptionHandler::register();
+            ExceptionHandler::register();
         }
     }
 
