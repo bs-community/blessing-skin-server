@@ -3,7 +3,7 @@
     "description": "Just a simple open-source Minecraft skin server written in PHP.",
     "license": "GPL-3.0",
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.5.9",
         "filp/whoops": "^2.1",
         "illuminate/database": "^5.2",
         "pecee/simple-router": "1.7.4.2",
