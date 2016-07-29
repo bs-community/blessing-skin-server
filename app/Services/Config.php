@@ -47,7 +47,7 @@ class Config
         $tables = ['users', 'closets', 'players', 'textures', 'options'];
 
         foreach ($tables as $table_name) {
-            $table_name = $config['prefix'].$table_name;
+            // prefix will be added automatically
             if (!Schema::hasTable($table_name)) {
                 return false;
             }

@@ -4,9 +4,14 @@ namespace App\Services;
 
 class Migration
 {
-    public static function creatTables($prefix = "")
+    /**
+     * Create tables, prefix will be added automatically
+     *
+     * @return void
+     */
+    public static function creatTables()
     {
-        Schema::create($prefix.'users', function($table) {
+        Schema::create('users', function($table) {
             $table->increments('uid');
             $table->string('email', 100);
             $table->string('nickname', 50);
@@ -19,12 +24,12 @@ class Migration
             $table->dateTime('register_at');
         });
 
-        Schema::create($prefix.'closets', function($table) {
+        Schema::create('closets', function($table) {
             $table->increments('uid');
             $table->longText('textures');
         });
 
-        Schema::create($prefix.'players', function($table) {
+        Schema::create('players', function($table) {
             $table->increments('pid');
             $table->integer('uid');
             $table->string('player_name', 50);
@@ -35,7 +40,7 @@ class Migration
             $table->dateTime('last_modified');
         });
 
-        Schema::create($prefix.'textures', function($table) {
+        Schema::create('textures', function($table) {
             $table->increments('tid');
             $table->string('name', 50);
             $table->string('type', 10);
@@ -47,7 +52,7 @@ class Migration
             $table->dateTime('upload_at');
         });
 
-        Schema::create($prefix.'options', function($table) {
+        Schema::create('options', function($table) {
             $table->increments('id');
             $table->string('option_name', 50);
             $table->longText('option_value');

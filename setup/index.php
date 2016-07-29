@@ -9,17 +9,12 @@ define('BASE_DIR', dirname(dirname(__FILE__)));
 // Register Composer Auto Loader
 require BASE_DIR.'/vendor/autoload.php';
 
-// Load Aliases
+// Boot Services
 App\Services\Boot::loadServices();
-
-// Check Runtime Environment
 Boot::checkRuntimeEnv();
-
-// Load dotenv Configuration
 Boot::loadDotEnv(BASE_DIR);
-
-// Register Error Handler
 Boot::registerErrorHandler();
+Boot::startSession();
 
 $db_config = Config::getDbConfig();
 
@@ -27,8 +22,6 @@ $db_config = Config::getDbConfig();
 if (Config::checkDbConfig($db_config)) {
     Boot::bootEloquent($db_config);
 }
-
-Boot::startSession();
 
 // If already installed
 if (Config::checkTableExist($db_config)) {
@@ -72,39 +65,27 @@ switch ($step) {
             } else {
                 Http::redirect('index.php?step=2', '邮箱格式不正确。');
             }
-        } else {
+        }
+        else {
             Http::redirect('index.php?step=2', '表单信息不完整。');
         }
 
+        // create tables
         Migration::creatTables($db_config['prefix']);
 
-        $options = [
-            'site_url'                 => Http::getBaseUrl(),
-            'site_name'                => $_POST['sitename'],
-            'site_description'         => '开源的 PHP Minecraft 皮肤站',
-            'user_can_register'        => '1',
-            'regs_per_ip'              => '3',
-            'api_type'                 => '0',
-            'announcement'             => '欢迎使用 Blessing Skin Server 3.0！',
-            'color_scheme'             => 'skin-blue',
-            'home_pic_url'             => './assets/images/bg.jpg',
-            'current_version'          => '3.0-beta',
-            'custom_css'               => '',
-            'custom_js'                => '',
-            'update_url'               => 'https://work.prinzeugen.net/update.json',
-            'allow_chinese_playername' => '1',
-            'show_footer_copyright'    => '1',
-            'comment_script'           => '',
-            'user_initial_score'       => '1000',
-            'sign_gap_time'            => '24'
-        ];
+        // import options
+        $options = require "options.php";
+        $options['site_name'] = $_POST['sitename'];
+        $options['site_url']  = Http::getBaseUrl();
 
         foreach ($options as $key => $value) {
             Option::add($key, $value);
         }
 
+        // register super admin
         $user = new App\Models\User($_POST['email']);
         $user->register($_POST['password'], Http::getRealIP());
+        $user->setPermission('2');
 
         if (!is_dir(BASE_DIR.'/textures/')) {
             if (!mkdir(BASE_DIR.'/textures/'))
