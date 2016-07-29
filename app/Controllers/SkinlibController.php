@@ -191,8 +191,6 @@ class SkinlibController extends BaseController
 
     public function privacy($tid)
     {
-        \Utils::checkPost(['tid']);
-
         $t = Texture::find($tid);
 
         if (!$t) View::json('Unexistent texture.', 1);
