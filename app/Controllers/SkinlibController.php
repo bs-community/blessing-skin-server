@@ -133,7 +133,7 @@ class SkinlibController extends BaseController
         $t->uploader  = $this->user->uid;
         $t->upload_at = Utils::getTimeFormatted();
 
-        if ($this->user->getScore() < $t->size)
+        if ($this->user->getScore() / Option::get('score_per_storage') < $t->size)
             View::json('积分不够啦', 7);
 
         $results = Texture::where('hash', $t->hash)->get();
@@ -183,7 +183,7 @@ class SkinlibController extends BaseController
         if (Texture::where('hash', $result['hash'])->count() == 1)
             \Storage::remove("./textures/".$result['hash']);
 
-        $this->user->setScore($result->size, 'plus');
+        $this->user->setScore($result->size * Option::get('score_per_storage'), 'plus');
 
         if ($result->delete())
             View::json('材质已被成功删除', 0);

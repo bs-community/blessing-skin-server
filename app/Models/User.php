@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use Option;
+use Utils;
+
 class User
 {
     public  $uid            = "";
@@ -41,7 +44,7 @@ class User
      */
     function __construct($email, $uid = 0)
     {
-        $this->email             = \Utils::convertString($email);
+        $this->email             = Utils::convertString($email);
         $this->eloquent_model    = ($uid == 0) ? UserModel::where('email', $this->email)->first() : UserModel::find($uid);
 
         $class_name              = "App\Services\Cipher\\".$_ENV['PWD_METHOD'];
@@ -81,6 +84,7 @@ class User
      * -1 - banned
      *  0 - normal
      *  1 - admin
+     *  2 - super admin
      */
     public function setPermission($permission)
     {
@@ -155,9 +159,10 @@ class User
     public function sign()
     {
         if ($this->canSign()) {
-            $aquired_score = rand(10, 100);
+            $sign_score = explode(',', Option::get('sign_score'));
+            $aquired_score = rand($sign_score[0], $sign_score[1]);
             $this->setScore($aquired_score, 'plus');
-            $this->eloquent_model->last_sign_at = \Utils::getTimeFormatted();
+            $this->eloquent_model->last_sign_at = Utils::getTimeFormatted();
             $this->eloquent_model->save();
             return $aquired_score;
         } else {
@@ -168,7 +173,7 @@ class User
     public function canSign($return_remaining_time = false)
     {
         // convert to timestamp
-        $remaining_time = (strtotime($this->getLastSignTime()) + \Option::get('sign_gap_time') * 3600 - time()) / 3600;
+        $remaining_time = (strtotime($this->getLastSignTime()) + Option::get('sign_gap_time') * 3600 - time()) / 3600;
         return $return_remaining_time ? round($remaining_time) : ($remaining_time <= 0);
     }
 
@@ -190,9 +195,9 @@ class User
         $user->email        = $this->email;
         $user->password     = $this->cipher->encrypt($password, $_ENV['SALT']);
         $user->ip           = $ip;
-        $user->score        = \Option::get('user_initial_score');
-        $user->register_at  = \Utils::getTimeFormatted();
-        $user->last_sign_at = \Utils::getTimeFormatted(time() - 86400);
+        $user->score        = Option::get('user_initial_score');
+        $user->register_at  = Utils::getTimeFormatted();
+        $user->last_sign_at = Utils::getTimeFormatted(time() - 86400);
         $user->permission   = 0;
         $user->save();
 

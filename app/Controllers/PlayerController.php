@@ -47,7 +47,7 @@ class PlayerController extends BaseController
 
         $user = new User($_SESSION['email']);
 
-        if ($user->getScore() < 100)
+        if ($user->getScore() < Option::get('score_per_player'))
             View::json('积分不够添加角色啦', 7);
 
         $player                = new PlayerModel();
@@ -57,7 +57,7 @@ class PlayerController extends BaseController
         $player->last_modified = Utils::getTimeFormatted();
         $player->save();
 
-        $user->setScore(100, 'minus');
+        $user->setScore(Option::get('score_per_player'), 'minus');
 
         View::json('成功添加了角色 '.$player_name.'', 0);
 
@@ -68,7 +68,7 @@ class PlayerController extends BaseController
         $player_name = $this->player->eloquent_model->player_name;
         $this->player->eloquent_model->delete();
 
-        (new User($_SESSION['email']))->setScore(100, 'plus');
+        (new User($_SESSION['email']))->setScore(Option::get('score_per_player'), 'plus');
 
         View::json('角色 '.$player_name.' 已被删除', 0);
     }

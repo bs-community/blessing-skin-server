@@ -32,17 +32,20 @@
                             <div class="col-md-8">
                                 <div class="progress-group">
                                     <span class="progress-text">角色数量</span>
-                                    <?php $players_available = count($user->getPlayers()) + floor($user->getScore() / 100); ?>
+                                    <?php
+                                        $players_available = count($user->getPlayers()) + floor($user->getScore() / Option::get('score_per_player'));
+                                        $percent = ($players_available == 0) ? 0 : count($user->getPlayers()) / $players_available * 100
+                                    ?>
                                     <span class="progress-number"><b>{{ count($user->getPlayers()) }}</b>/{{ $players_available }}</span>
                                     <div class="progress sm">
-                                        <div class="progress-bar progress-bar-aqua" style="width: {{ count($user->getPlayers()) / $players_available * 100 }}%"></div>
+                                        <div class="progress-bar progress-bar-aqua" style="width: {{ $percent }}%"></div>
                                     </div>
                                 </div><!-- /.progress-group -->
                                 <div class="progress-group">
                                     <span class="progress-text">存储空间</span>
-                                    <span class="progress-number"><b>{{ $user->getStorageUsed() }}</b>/{{ $user->getStorageUsed() + $user->getScore() }} KB</span>
+                                    <span class="progress-number"><b>{{ $user->getStorageUsed() }}</b>/{{ $user->getStorageUsed() + $user->getScore() / Option::get('score_per_storage') }} KB</span>
                                     <div class="progress sm">
-                                        <div class="progress-bar progress-bar-yellow" style="width: {{ $user->getStorageUsed() / ($user->getStorageUsed() + $user->getScore()) * 100 }}%"></div>
+                                        <div class="progress-bar progress-bar-yellow" style="width: {{ $user->getStorageUsed() / ($user->getStorageUsed() + $user->getScore() / Option::get('score_per_storage')) * 100 }}%"></div>
                                     </div>
                                 </div><!-- /.progress-group -->
                             </div><!-- /.col -->
