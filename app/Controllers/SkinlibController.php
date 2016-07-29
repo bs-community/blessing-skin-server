@@ -39,7 +39,7 @@ class SkinlibController extends BaseController
         } elseif ($filter == "user") {
             $uid = isset($_GET['uid']) ? $_GET['uid'] : 0;
 
-            if ($uid == $this->user->uid) {
+            if (!is_null($this->user) && $uid == $this->user->uid) {
                 // show private textures when show uploaded textures of current user
                 $textures = Texture::where('uploader', $uid)->orderBy($sort_by, 'desc');
                 $total_pages = ceil($textures->count() / 20);
