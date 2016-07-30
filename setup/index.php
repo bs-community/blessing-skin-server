@@ -11,7 +11,7 @@ require BASE_DIR.'/vendor/autoload.php';
 
 // Boot Services
 App\Services\Boot::loadServices();
-Boot::checkRuntimeEnv();
+Config::checkPHPVersion();
 Boot::loadDotEnv(BASE_DIR);
 Boot::registerErrorHandler();
 Boot::startSession();
