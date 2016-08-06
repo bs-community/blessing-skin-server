@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\User;
 use App\Models\UserModel;
 use App\Exceptions\E;
+use Validate;
 use Mail;
 use View;
 use Utils;

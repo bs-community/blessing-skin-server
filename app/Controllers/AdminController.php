@@ -8,6 +8,7 @@ use App\Models\Player;
 use App\Models\PlayerModel;
 use App\Models\Texture;
 use App\Exceptions\E;
+use Validate;
 use Utils;
 use View;
 

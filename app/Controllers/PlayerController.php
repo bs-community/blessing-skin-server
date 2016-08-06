@@ -7,6 +7,7 @@ use App\Models\Player;
 use App\Models\PlayerModel;
 use App\Models\Texture;
 use App\Exceptions\E;
+use Validate;
 use Utils;
 use Option;
 use View;
@@ -36,7 +37,7 @@ class PlayerController extends BaseController
         if (!isset($player_name))
             View::json('你还没有填写要添加的角色名哦', 1);
 
-        if (!\Validate::playerName($player_name))
+        if (!Validate::playerName($player_name))
         {
             $msg = "无效的角色名。角色名只能包含" . ((Option::get('allow_chinese_playername') == "1") ? "汉字、" : "")."字母、数字以及下划线";
             View::json($msg, 2);
@@ -85,7 +86,7 @@ class PlayerController extends BaseController
         if (!$new_player_name)
             throw new E('Invalid parameters', 1);
 
-        if (!\Validate::playerName($new_player_name))
+        if (!Validate::playerName($new_player_name))
         {
             $msg = "无效的角色名。角色名只能包含" . ((Option::get('allow_chinese_playername') == "1") ? "汉字、" : "")."字母、数字以及下划线";
             View::json($msg, 2);

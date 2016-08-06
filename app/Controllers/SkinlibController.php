@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\User;
 use App\Models\Texture;
 use App\Exceptions\E;
+use Validate;
 use Option;
 use Utils;
 use View;
@@ -169,7 +170,7 @@ class SkinlibController extends BaseController
 
     public function delete()
     {
-        \Validate::checkPost(['tid']);
+        Validate::checkPost(['tid']);
 
         $result = Texture::find($_POST['tid']);
 
@@ -208,8 +209,8 @@ class SkinlibController extends BaseController
     }
 
     public function rename() {
-        \Validate::checkPost(['tid', 'new_name']);
-        \Validate::textureName($_POST['new_name']);
+        Validate::checkPost(['tid', 'new_name']);
+        Validate::textureName($_POST['new_name']);
 
         $t = Texture::find($_POST['tid']);
 
@@ -227,7 +228,7 @@ class SkinlibController extends BaseController
 
     private function checkUpload($type)
     {
-        \Validate::textureName(Utils::getValue('name', $_POST));
+        Validate::textureName(Utils::getValue('name', $_POST));
 
         if (!Utils::getValue('file', $_FILES))
             View::json('你还没有选择任何文件哟', 1);
