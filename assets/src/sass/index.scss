@@ -1,9 +1,9 @@
 /*
-* @Author: printempw
-* @Date:   2016-06-04 20:54:53
-* @Last Modified by:   printempw
-* @Last Modified time: 2016-07-28 13:45:22
-*/
+ * @Author: printempw
+ * @Date:   2016-06-04 20:54:53
+ * @Last Modified by:   printempw
+ * @Last Modified time: 2016-08-06 18:23:25
+ */
 
 @import "style.scss";
 
@@ -12,46 +12,44 @@ body {
 }
 
 .layout-top-nav > .wrapper {
-    background-color: #e8e8e8;
-    background-image: url('./assets/images/bg.jpg') !important;
-    background-size: auto 800px;
+    background-color: #eaeaea;
+    // background image settings
+    background-size: 100% auto;
     background-repeat: no-repeat;
     background-position: center 0;
 
     .main-header .navbar-brand {
         color: #5e5e5e;
         font-family: Minecraft, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
-    }
-
-    .main-header .navbar .navbar-custom-menu .navbar-nav>li>a {
-        border-left: 0;
-    }
-
-    .main-header .navbar .navbar-nav>li>a {
-        border: 0;
-    }
-
-    .main-header .navbar .nav>.active>a {
-        background: rgba(0,0,0,0.1);
-        color: #f6f6f6;
-    }
-
-    .main-header .navbar .navbar-nav>li>a:hover {
-        background: rgba(0,0,0,0.1);
-        color: #f6f6f6;
-    }
-
-    .main-header .navbar-brand {
         border-right: 0;
     }
 
-    .navbar-nav {
+    .main-header .navbar .navbar-nav {
+        li {
+            a {
+                border: 0;
+                color: #5e5e5e;
+            }
+
+            a:hover {
+                background: rgba(0,0,0,0.1);
+                color: #f6f6f6;
+            }
+
+            .active > a {
+                background: rgba(0,0,0,0.1);
+                color: #f6f6f6;
+            }
+        }
+
         .user-menu .user-image {
             border-radius: 10%;
         }
+    }
 
-        li > a {
-            color: #5e5e5e !important;
+    .main-header .navbar .navbar-custom-menu .navbar-nav > li {
+        a {
+            border-left: 0;
         }
     }
 
@@ -126,10 +124,9 @@ body {
     line-height: 1.5em;
     margin: 0.2em 0 0.5em;
     font-family: Minecraft, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif !important;
-    text-shadow:
-        0px 4px 3px rgba(0,0,0,0.4),
-        0px 8px 13px rgba(0,0,0,0.1),
-        0px 18px 23px rgba(0,0,0,0.1);
+    text-shadow: 0px 4px 3px rgba(0,0,0,0.4),
+                 0px 8px 13px rgba(0,0,0,0.1),
+                 0px 18px 23px rgba(0,0,0,0.1);
 }
 
 .splash-subhead {
@@ -140,17 +137,19 @@ body {
     font-family: Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
 }
 
-.navbar-custom-menu .navbar-nav>li>a.btn.btn-login {
-    background-color: #0078e7;
-    color: #fff !important;
-    margin-top: 7px;
-    margin-left: 10px;
-    padding: 8px 20px;
-}
+.navbar-custom-menu .navbar-nav > li {
+    a.btn.btn-login {
+        background-color: #0078e7;
+        color: #fff !important;
+        margin-top: 7px;
+        margin-left: 10px;
+        padding: 8px 20px;
+    }
 
-.navbar-custom-menu .navbar-nav>li>a.btn.btn-login:hover,
-.navbar-custom-menu .navbar-nav>li>a.btn.btn-login:focus {
-    background-color: #006acc !important;
+    a.btn.btn-login:hover,
+    a.btn.btn-login:focus {
+        background-color: #006acc !important;
+    }
 }
 
 /* Mobile phone */
@@ -166,7 +165,6 @@ body {
 
 
 @media (min-width: 48em) {
-
     .splash {
         width: 80%;
         height: 50%;
