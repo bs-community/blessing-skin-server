@@ -1,5 +1,8 @@
 /*
  * @Author: printempw
+ * @Date:   2016-07-16 09:02:32
+ * @Last Modified by:   printempw
+ * @Last Modified time: 2016-08-06 18:52:23
  */
 
 function showModal(msg, title, type, callback) {
