@@ -110,13 +110,20 @@ class AuthController extends BaseController
 
     public function forgot()
     {
-        View::show('auth.forgot');
+        if ($_ENV['MAIL_HOST'] != "") {
+            View::show('auth.forgot');
+        } else {
+            throw new E('本站已关闭重置密码功能', 8, true);
+        }
     }
 
     public function handleForgot()
     {
         if (strtolower(\Utils::getValue('captcha', $_POST)) != strtolower($_SESSION['phrase']))
             View::json('验证码填写错误', 1);
+
+        if ($_ENV['MAIL_HOST'] == "")
+            View::json('本站已关闭重置密码功能', 1);
 
         if (isset($_SESSION['last_mail_time']) && (time() - $_SESSION['last_mail_time']) < 60)
             View::json('你邮件发送得太频繁啦，过 60 秒后再点发送吧', 1);
