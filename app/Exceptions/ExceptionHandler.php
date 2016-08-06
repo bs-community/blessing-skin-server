@@ -7,6 +7,7 @@ class ExceptionHandler
     public static function register()
     {
         if ($_SERVER['REQUEST_METHOD'] == "GET") {
+            // use closure to pass parameters
             set_error_handler(function ($errno, $errstr, $errfile, $errline) {
                 self::handler(
                     new \ErrorException($errstr, $errno, $errno, $errfile, $errline)
@@ -17,6 +18,11 @@ class ExceptionHandler
 
     public static function handler($e)
     {
+        // do nothing if error reporting is turned off or suppressed with @
+        if (error_reporting() === 0) {
+            return;
+        }
+
         switch ($e->getCode()) {
             case E_PARSE:
             case E_ERROR:
