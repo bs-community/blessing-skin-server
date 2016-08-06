@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-06-04 20:54:53
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-06 18:23:25
+ * @Last Modified time: 2016-08-06 21:49:42
  */
 
 @import "style.scss";
@@ -17,6 +17,10 @@ body {
     background-size: 100% auto;
     background-repeat: no-repeat;
     background-position: center 0;
+
+    .main-header {
+        background-color: rgba(255, 255, 255, 0.2);
+    }
 
     .main-header .navbar-brand {
         color: #5e5e5e;
@@ -61,31 +65,28 @@ body {
         color: #5e5e5e;
     }
 
-}
+    .content-wrapper {
+        background-color: transparent;
+        border: none;
+    }
 
-.main-footer {
-    background-color: transparent;
-    border-top: none;
+    .main-footer {
+        background-color: transparent;
+        border: none;
 
-    div {
-        color: #fff !important;
-
-        a {
+        div {
             color: #fff !important;
+
+            a {
+                color: #fff !important;
+            }
         }
     }
-}
 
-.main-header {
-    background-color: rgba(255, 255, 255, 0.2);
 }
 
 .nickname {
     color: #5e5e5e;
-}
-
-.content-wrapper {
-    background-color: transparent;
 }
 
 .splash-button {
