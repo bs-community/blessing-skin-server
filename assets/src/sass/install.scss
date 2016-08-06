@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-28 13:15:18
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-06 18:52:55
+ * @Last Modified time: 2016-08-06 20:03:51
  */
 
 @import "style.scss";
@@ -12,6 +12,7 @@ html {
     margin: 0 20px;
     font-weight: 400;
 }
+
 body {
     background: #FFF none repeat scroll 0% 0%;
     color: #444;
@@ -21,64 +22,86 @@ body {
     max-width: 700px;
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.13);
 }
+
 h1, h2 {
     border-bottom: 1px solid #DEDEDE;
     clear: both;
     color: #666;
     font-size: 24px;
-}
-#logo a, p, h1, h2 {
     font-weight: 400;
 }
-#logo, h1, h2 {
-    padding: 0px 0px 7px;
-}
+
 p {
     padding-bottom: 2px;
     font-size: 14px;
     line-height: 1.5;
 }
-#logo a {
-    font-family: Minecraft, sans-serif;
-    transition: all .2s ease-in-out;
-    font-size: 50px;
-    color: #666;
-    height: 84px;
-    line-height: 1.3em;
-    margin: -130px auto 25px;
-    padding: 0;
-    outline: 0;
-    text-decoration: none;
-    overflow: hidden;
-    display: block;
+
+#logo {
+    margin: 6px 0 14px;
+    border-bottom: none;
+    text-align: center;
+
+    a {
+        font-family: Minecraft, sans-serif;
+        transition: all .2s ease-in-out;
+        font-weight: 400;
+        font-size: 50px;
+        color: #666;
+        height: 84px;
+        line-height: 1.3em;
+        margin: -130px auto 25px;
+        padding: 0;
+        outline: 0;
+        text-decoration: none;
+        overflow: hidden;
+        display: block;
+    }
+
+    a:hover {
+        color: #42a5f5;
+    }
 }
-#logo a:hover {
-    color: #42a5f5;
-}
+
 /* Mobile phone */
 @media (max-width: 48em) {
     #logo a {
         font-size: 40px;
     }
 }
+
 @media (max-width: 35.5em) {
     #logo a {
         font-size: 30px;
     }
 }
-#logo {
-    margin: 6px 0 14px;
-    border-bottom: none;
-    text-align: center;
-}
+
 .step {
     margin: 20px 0 15px;
     text-align: left;
     padding: 0;
+
+    input {
+        font-family: Ubuntu, 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
+    }
 }
-.step>input {
-    font-family: Ubuntu, 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
+
+
+.alert {
+    font-size: 16px;
+    padding: 15px;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
 }
+
+.alert-warning {
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
+
 fieldset {
     padding: 0;
     margin: 0
@@ -88,19 +111,9 @@ label {
     cursor: pointer
 }
 
-.step {
-    margin: 20px 0 15px
-}
-
-.step,th {
+th.step {
     text-align: left;
     padding: 0
-}
-
-.language-chooser.wp-core-ui .step .button.button-large {
-    height: 36px;
-    vertical-align: middle;
-    font-size: 14px
 }
 
 .form-table td,.form-table th {
@@ -136,11 +149,6 @@ textarea {
     width: 140px
 }
 
-.form-table code {
-    line-height: 18px;
-    font-size: 14px
-}
-
 .form-table p {
     margin: 4px 0 0;
     font-size: 11px
@@ -159,20 +167,6 @@ textarea {
     width: 206px
 }
 
-.form-table.install-success td,.form-table.install-success th {
-    vertical-align: middle;
-    padding: 16px 20px 16px 0
-}
-
-.form-table.install-success td p {
-    margin: 0;
-    font-size: 14px
-}
-
-.form-table.install-success td code {
-    margin: 0;
-    font-size: 18px
-}
 .container .button,.container .button-primary,.container .button-secondary {
     display:inline-block;
     text-decoration:none;
@@ -304,16 +298,4 @@ textarea {
 .container .button-primary.focus,.container .button-primary:focus {
     -webkit-box-shadow:0 1px 0 #0073aa,0 0 2px 1px #33b3db;
     box-shadow:0 1px 0 #0073aa,0 0 2px 1px #33b3db
-}
-.alert {
-    padding: 15px;
-    margin-top: 15px;
-    margin-bottom: 20px;
-    border: 1px solid transparent;
-    border-radius: 4px;
-}
-.alert-warning {
-    color: #8a6d3b;
-    background-color: #fcf8e3;
-    border-color: #faebcc;
 }
