@@ -44,7 +44,7 @@ class ClosetController extends BaseController
 
     public function add()
     {
-        \Utils::checkPost(['tid', 'name']);
+        \Validate::checkPost(['tid', 'name']);
 
         if ($this->closet->add($_POST['tid'], $_POST['name'])) {
             $t = Texture::find($_POST['tid']);

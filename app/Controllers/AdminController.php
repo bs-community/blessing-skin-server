@@ -102,7 +102,7 @@ class AdminController extends BaseController
         $action = isset($_GET['action']) ? $_GET['action'] : "";
 
         if ($action == "color") {
-            Utils::checkPost(['color_scheme']);
+            Validate::checkPost(['color_scheme']);
 
             $color_scheme = str_replace('_', '-', $_POST['color_scheme']);
             \Option::set('color_scheme', $color_scheme);
@@ -118,7 +118,7 @@ class AdminController extends BaseController
             throw new E('用户不存在', 1);
 
         if ($action == "email") {
-            Utils::checkPost(['email']);
+            Validate::checkPost(['email']);
 
             if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
                 View::json('邮箱格式错误', 3);
@@ -128,7 +128,7 @@ class AdminController extends BaseController
                 View::json('邮箱修改成功', 0);
 
         } if ($action == "nickname") {
-            Utils::checkPost(['nickname']);
+            Validate::checkPost(['nickname']);
 
             if (Utils::convertString($_POST['nickname']) != $_POST['nickname'])
                 View::json('无效的昵称。昵称中包含了奇怪的字符。', 1);
@@ -137,15 +137,15 @@ class AdminController extends BaseController
                 View::json('昵称已成功设置为 '.$_POST['nickname'], 0);
 
         } else if ($action == "password") {
-            Utils::checkPost(['password']);
+            Validate::checkPost(['password']);
 
-            if (\Validate::checkValidPwd($_POST['password'])) {
+            if (\Validate::password($_POST['password'])) {
                 if ($user->changePasswd($_POST['password']))
                     View::json('密码修改成功', 0);
             }
 
         } else if ($action == "score") {
-            Utils::checkPost(['score']);
+            Validate::checkPost(['score']);
 
             if ($user->setScore($_POST['score']))
                     View::json('积分修改成功', 0);
@@ -205,7 +205,7 @@ class AdminController extends BaseController
         $player = new Player(Utils::getValue('pid', $_POST));
 
         if ($action == "preference") {
-            Utils::checkPost(['preference']);
+            Validate::checkPost(['preference']);
 
             if ($_POST['preference'] != "default" && $_POST['preference'] != "slim")
                 View::json('无效的参数', 0);
@@ -214,7 +214,7 @@ class AdminController extends BaseController
                 View::json('角色 '.$player->player_name.' 的优先模型已更改至 '.$_POST['preference'], 0);
 
         } elseif ($action == "texture") {
-            Utils::checkPost(['model', 'tid']);
+            Validate::checkPost(['model', 'tid']);
 
             if ($_POST['model'] != "steve" && $_POST['model'] != "alex" && $_POST['model'] != "cape")
                 View::json('无效的参数', 0);
@@ -226,7 +226,7 @@ class AdminController extends BaseController
                 View::json('角色 '.$player->player_name.' 的材质修改成功', 0);
 
         } elseif ($action == "owner") {
-            Utils::checkPost(['uid']);
+            Validate::checkPost(['uid']);
 
             if (!is_numeric($_POST['uid']))
                 View::json('无效的参数', 0);

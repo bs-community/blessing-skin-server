@@ -11,12 +11,12 @@ use View;
 class UserController extends BaseController
 {
     private $action = "";
-    private $user = null;
+    private $user   = null;
 
     function __construct()
     {
         $this->action = isset($_GET['action']) ? $_GET['action'] : "";
-        $this->user = new User($_SESSION['email']);
+        $this->user   = new User($_SESSION['email']);
     }
 
     public function index()
@@ -62,7 +62,7 @@ class UserController extends BaseController
             if (!$this->user->checkPasswd($_POST['current_password']))
                 View::json('原密码错误', 1);
 
-            if (\Validate::checkValidPwd($_POST['new_password'])) {
+            if (\Validate::password($_POST['new_password'])) {
                 if ($this->user->changePasswd($_POST['new_password']))
                     View::json('密码修改成功，请重新登录', 0);
             }

@@ -21,7 +21,7 @@ class Utils
      *
      * @param  string $key
      * @param  array $array
-     * @return object
+     * @return string|boolean
      */
     public static function getValue($key, $array) {
         if (array_key_exists($key, $array)) {
@@ -50,14 +50,6 @@ class Utils
         // set default time zone to UTC+8
         date_default_timezone_set('Asia/Shanghai');
         return ($timestamp == 0) ? date('Y-m-d H:i:s') : date('Y-m-d H:i:s', $timestamp);
-    }
-
-    public static function checkPost(Array $keys)
-    {
-        foreach ($keys as $key) {
-            if (!isset($_POST[$key]))
-                throw new E('Invalid parameters.', 1);
-        }
     }
 
 }

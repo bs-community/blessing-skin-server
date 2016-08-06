@@ -7,6 +7,7 @@ use App\Models\UserModel;
 use App\Exceptions\E;
 use Mail;
 use View;
+use Utils;
 use Option;
 
 class AuthController extends BaseController
@@ -20,8 +21,8 @@ class AuthController extends BaseController
     {
         $user = new User($_POST['email']);
 
-        if (\Utils::getValue('login_fails', $_SESSION) > 3) {
-            if (strtolower(\Utils::getValue('captcha', $_POST)) != strtolower($_SESSION['phrase']))
+        if (Utils::getValue('login_fails', $_SESSION) > 3) {
+            if (strtolower(Utils::getValue('captcha', $_POST)) != strtolower($_SESSION['phrase']))
                 View::json('验证码填写错误', 1);
         }
 
@@ -75,14 +76,14 @@ class AuthController extends BaseController
 
     public function handleRegister()
     {
-        if (strtolower(\Utils::getValue('captcha', $_POST)) != strtolower($_SESSION['phrase']))
+        if (strtolower(Utils::getValue('captcha', $_POST)) != strtolower($_SESSION['phrase']))
             View::json('验证码填写错误', 1);
 
         $user = new User($_POST['email']);
 
         if (!$user->is_registered) {
             if (Option::get('user_can_register') == 1) {
-                if (\Validate::checkValidPwd($_POST['password'])) {
+                if (\Validate::password($_POST['password'])) {
                     // If amount of registered accounts of IP is more than allowed mounts,
                     // then reject the registration.
                     if (count(UserModel::where('ip', \Http::getRealIP())->get()) < Option::get('regs_per_ip')) {
@@ -119,7 +120,7 @@ class AuthController extends BaseController
 
     public function handleForgot()
     {
-        if (strtolower(\Utils::getValue('captcha', $_POST)) != strtolower($_SESSION['phrase']))
+        if (strtolower(Utils::getValue('captcha', $_POST)) != strtolower($_SESSION['phrase']))
             View::json('验证码填写错误', 1);
 
         if ($_ENV['MAIL_HOST'] == "")
@@ -140,7 +141,7 @@ class AuthController extends BaseController
              ->subject('重置您在 '.Option::get('site_name').' 上的账户密码');
 
         $uid = $user->uid;
-        $token = base64_encode($user->getToken().substr(time(), 4, 6).\Utils::generateRndString(16));
+        $token = base64_encode($user->getToken().substr(time(), 4, 6).Utils::generateRndString(16));
 
         $url = Option::get('site_url')."/auth/reset?uid={$uid}&token=$token";
         $content = View::make('auth.mail')->with('reset_url', $url)->render();
@@ -182,9 +183,9 @@ class AuthController extends BaseController
 
     public function handleReset()
     {
-        \Utils::checkPost(['uid', 'password']);
+        \Validate::checkPost(['uid', 'password']);
 
-        if (\Validate::checkValidPwd($_POST['password'])) {
+        if (\Validate::password($_POST['password'])) {
             $user = new User('', $_POST['uid']);
 
             $user->changePasswd($_POST['password']);

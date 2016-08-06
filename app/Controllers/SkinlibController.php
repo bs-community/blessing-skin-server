@@ -169,7 +169,7 @@ class SkinlibController extends BaseController
 
     public function delete()
     {
-        \Utils::checkPost(['tid']);
+        \Validate::checkPost(['tid']);
 
         $result = Texture::find($_POST['tid']);
 
@@ -208,8 +208,8 @@ class SkinlibController extends BaseController
     }
 
     public function rename() {
-        \Utils::checkPost(['tid', 'new_name']);
-        \Validate::checkValidTextureName($_POST['new_name']);
+        \Validate::checkPost(['tid', 'new_name']);
+        \Validate::textureName($_POST['new_name']);
 
         $t = Texture::find($_POST['tid']);
 
@@ -227,7 +227,7 @@ class SkinlibController extends BaseController
 
     private function checkUpload($type)
     {
-        \Validate::checkValidTextureName(Utils::getValue('name', $_POST));
+        \Validate::textureName(Utils::getValue('name', $_POST));
 
         if (!Utils::getValue('file', $_FILES))
             View::json('你还没有选择任何文件哟', 1);

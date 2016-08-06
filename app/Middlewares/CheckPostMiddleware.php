@@ -13,7 +13,7 @@ class CheckPostMiddleware implements IMiddleware
     public function handle(Request $request)
     {
         if (isset($_POST['email']) && $_POST['email'] != "") {
-            if (!Validate::checkValidEmail($_POST['email'])) {
+            if (!Validate::email($_POST['email'])) {
                 View::json('邮箱格式错误', 3);
             }
 
