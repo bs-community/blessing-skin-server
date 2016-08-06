@@ -46,7 +46,7 @@ switch ($step) {
 
     case 3:
         // check post
-        if (isset($_POST['email']) && isset($_POST['password']) && isset($_POST['confirm-pwd']))
+        if (Validate::checkPost(['email', 'password', 'confirm-pwd']))
         {
             if ($_POST['password'] != $_POST['confirm-pwd'])
                 Http::redirect('index.php?step=2', '确认密码不一致');
@@ -55,8 +55,8 @@ switch ($step) {
             $password = $_POST['password'];
             $sitename = isset($_POST['sitename']) ? $_POST['sitename'] : "Blessing Skin Server";
 
-            if (Validate::checkValidEmail($email)) {
-                if (strlen($password) > 16 || strlen($password) < 8) {
+            if (Validate::email($email)) {
+                if (!Validate::password($password)) {
                     Http::redirect('index.php?step=2', '无效的密码。密码长度应该大于 8 并小于 16。');
 
                 } else if (Utils::convertString($password) != $password) {

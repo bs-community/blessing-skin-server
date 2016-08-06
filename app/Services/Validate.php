@@ -12,12 +12,15 @@ class Validate
      * @param  array  $keys
      * @return void
      */
-    public static function checkPost(Array $keys)
+    public static function checkPost(Array $keys, $silent = false)
     {
         foreach ($keys as $key) {
-            if (!isset($_POST[$key]))
+            if (!isset($_POST[$key])) {
+                if ($silent) return false;
                 throw new E('Invalid parameters.', 1);
+            }
         }
+        return true;
     }
 
     public static function email($email)
@@ -42,11 +45,13 @@ class Validate
         return true;
     }
 
-    public static function password($password)
+    public static function password($password, $silent = false)
     {
         if (strlen($password) > 16 || strlen($password) < 8) {
+            if ($silent) return false;
             throw new E('无效的密码。密码长度应该大于 8 并小于 16。', 2);
         } else if (Utils::convertString($password) != $password) {
+            if ($silent) return false;
             throw new E('无效的密码。密码中包含了奇怪的字符。', 2);
         }
         return true;
