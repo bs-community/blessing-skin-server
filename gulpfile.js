@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-07-29 16:12:45
+* @Last Modified time: 2016-08-06 22:13:01
 */
 
 var gulp     = require('gulp'),
@@ -16,7 +16,7 @@ var gulp     = require('gulp'),
     replace  = require('gulp-replace')
     zip      = require('gulp-zip');
 
-var version  = "v3.0";
+var version  = require('./package.json').version;
 
 /**
  * Copy files from bower_components to dist for later operations
