@@ -37,6 +37,7 @@
                                 // pre-set user_can_register because it will not be posted if not checked
                                 $_POST['user_can_register'] = isset($_POST['user_can_register']) ? $_POST['user_can_register'] : "0";
                                 $_POST['allow_chinese_playername'] = isset($_POST['allow_chinese_playername']) ? $_POST['allow_chinese_playername'] : "0";
+                                $_POST['avatar_query_string'] = isset($_POST['avatar_query_string']) ? $_POST['avatar_query_string'] : "0";
 
                                 foreach ($_POST as $key => $value) {
                                     // remove slash if site_url is ended with slash
@@ -103,6 +104,17 @@
                                                 <option {{ (Option::get('api_type') == '0') ? 'selected="selected"' : '' }} value="0">CustomSkinLoader API</option>
                                                 <option {{ (Option::get('api_type') == '1') ? 'selected="selected"' : '' }} value="1">UniversalSkinAPI</option>
                                            </select>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="key">头像缓存
+                                            <i class="fa fa-question-circle" title="如果对头像启用了 CDN 缓存请开启此项" data-toggle="tooltip" data-placement="top"></i>
+                                        </td>
+                                        <td class="value">
+                                            <label for="avatar_query_string">
+                                                <input {{ (Option::get('avatar_query_string') == '1') ? 'checked="true"' : '' }} type="checkbox" id="avatar_query_string" name="avatar_query_string" value="1"> 为头像添加 Query String
+                                            </label>
                                         </td>
                                     </tr>
 

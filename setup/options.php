@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-07-29 11:53:11
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-07-29 13:35:57
+ * @Last Modified time: 2016-08-07 16:43:16
  */
 
 return [
@@ -28,5 +28,6 @@ return [
     'sign_score'               => '10,100',
     'score_per_storage'        => '1',
     'score_per_player'         => '100',
-    'sign_after_zero'          => '0'
+    'sign_after_zero'          => '0',
+    'avatar_query_string'      => '0'
 ];

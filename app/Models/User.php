@@ -234,8 +234,8 @@ class User
     public function getAvatar($size)
     {
         // output image directly
-        if (!is_null($this->eloquent_model) && $this->eloquent_model->avatar) {
-            $png = \Minecraft::generateAvatarFromSkin(BASE_DIR."/textures/".Texture::find($this->eloquent_model->avatar)->hash, $size);
+        if (!is_null($this->eloquent_model) && $this->getAvatarId()) {
+            $png = \Minecraft::generateAvatarFromSkin(BASE_DIR."/textures/".Texture::find($this->getAvatarId())->hash, $size);
             header('Content-Type: image/png');
             imagepng($png);
             imagedestroy($png);
@@ -247,6 +247,11 @@ class User
             imagepng($png);
             imagedestroy($png);
         }
+    }
+
+    public function getAvatarId()
+    {
+        return $this->eloquent_model->avatar;
     }
 
     public function setAvatar($tid)

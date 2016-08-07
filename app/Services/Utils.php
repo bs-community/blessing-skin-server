@@ -52,4 +52,18 @@ class Utils
         return ($timestamp == 0) ? date('Y-m-d H:i:s') : date('Y-m-d H:i:s', $timestamp);
     }
 
+    public static function getNameOrEmail(\App\Models\User $user)
+    {
+        return ($user->getNickName() == '') ? $_SESSION['email'] : $user->getNickName();
+    }
+
+    public static function getAvatarFname(\App\Models\User $user)
+    {
+        $fname = base64_encode($user->email).".png";
+        if (Option::get('avatar_query_string')) {
+            $fname .= '?v='.$user->getAvatarId();
+        }
+        return $fname;
+    }
+
 }

@@ -50,12 +50,12 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-user"></i>
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                <span class="hidden-xs nickname">{{ ($user->getNickName() == '') ? $_SESSION['email'] : $user->getNickName() }}</span>
+                                <span class="hidden-xs nickname">{{ Utils::getNameOrEmail($user) }}</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- The user image in the menu -->
                                 <li class="user-header">
-                                    <img src="../avatar/128/{{ base64_encode($_SESSION['email']) }}.png" alt="User Image">
+                                    <img src="../avatar/128/{{ Utils::getAvatarFname($user) }}" alt="User Image">
                                     <p>{{ $_SESSION['email'] }}</p>
                                 </li>
                                 <!-- Menu Footer-->
@@ -82,10 +82,10 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="../avatar/45/<?php echo base64_encode($_SESSION['email']); ?>.png" alt="User Image">
+                        <img src="../avatar/45/{{ Utils::getAvatarFname($user) }}" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p class="nickname">{{ ($user->getNickName() == '') ? $_SESSION['email'] : $user->getNickName() }}</p>
+                        <p class="nickname">{{ Utils::getNameOrEmail($user) }}</p>
                         <i class="fa fa-circle text-success"></i> Online
                     </div>
                 </div>
