@@ -113,12 +113,20 @@ Route::group(['middleware' =>                   'App\Middlewares\CheckAdminMiddl
  */
 Route::group(['middleware' =>                   'App\Middlewares\CheckPlayerExistMiddleware'], function()
 {
-    // Json profile
-    Route::get('/{player_name}.json',           'TextureController@json')->where(['player_name' => '[^\\/]+?']);
-    Route::get('/{api}/{player_name}.json',     'TextureController@jsonWithApi')->where(['player_name' => '[^\\/]+?']);
-    // Legacy links
-    Route::get('/skin/{player_name}.png',       'TextureController@skin');
-    Route::get('/cape/{player_name}.png',       'TextureController@cape');
+    // Fix for fucking chinese player names
+    if (Option::get('allow_chinese_playername')) {
+        // Json profile
+        Route::get('/{player_name}.json',       'TextureController@json')->where(['player_name' => '[^\\/]+?']);
+        Route::get('/{api}/{player_name}.json', 'TextureController@jsonWithApi')->where(['player_name' => '[^\\/]+?']);
+        // Legacy links
+        Route::get('/skin/{player_name}.png',   'TextureController@skin')->where(['player_name' => '[^\\/]+?']);
+        Route::get('/cape/{player_name}.png',   'TextureController@cape')->where(['player_name' => '[^\\/]+?']);
+    } else {
+        Route::get('/{player_name}.json',       'TextureController@json');
+        Route::get('/{api}/{player_name}.json', 'TextureController@jsonWithApi');
+        Route::get('/skin/{player_name}.png',   'TextureController@skin');
+        Route::get('/cape/{player_name}.png',   'TextureController@cape');
+    }
 });
 
 Route::get('/avatar/{base64_email}.png',        'TextureController@avatar');

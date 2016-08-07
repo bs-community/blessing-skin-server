@@ -41,6 +41,8 @@ class TextureController extends BaseController
 
 	public function skin($player_name, $model = "")
 	{
+        $player_name = \Option::get('allow_chinese_playername') ? $GLOBALS['player_name'] : $player_name;
+
 		$player = new Player(0, $player_name);
 
         if ($player->is_banned)
@@ -55,6 +57,8 @@ class TextureController extends BaseController
 
 	public function cape($player_name)
 	{
+        $player_name = \Option::get('allow_chinese_playername') ? $GLOBALS['player_name'] : $player_name;
+
         $player = new Player(0, $player_name);
 
         if ($player->is_banned)
