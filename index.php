@@ -21,17 +21,11 @@ Boot::loadDotEnv(BASE_DIR);
 // Register Error Handler
 Boot::registerErrorHandler();
 
-$db_config = Config::getDbConfig();
-
 // Boot Eloquent ORM
-if (Config::checkDbConfig($db_config)) {
-    Boot::bootEloquent($db_config);
-}
+Boot::bootEloquent(Config::getDbConfig());
 
-// Redirect to Setup Page
-if (!Config::checkTableExist($db_config)) {
-    Http::redirect('../setup/index.php');
-}
+// Redirect if not installed
+Boot::checkInstallation();
 
 // Start Session
 Boot::startSession();

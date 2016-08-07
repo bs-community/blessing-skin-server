@@ -42,7 +42,7 @@ class Config
         return true;
     }
 
-    public static function checkTableExist(Array $config)
+    public static function checkTableExist()
     {
         $tables = ['users', 'closets', 'players', 'textures', 'options'];
 
@@ -56,11 +56,8 @@ class Config
         return true;
     }
 
-    public static function checkFolderExist()
+    public static function checkCache()
     {
-        if (!is_dir(BASE_DIR."/textures/"))
-            throw new E("根目录下未发现 `textures` 文件夹，请先运行 <a href='./setup'>安装程序</a>，或者手动放置一个。", -1, true);
-
         $view_config = self::getViewConfig();
 
         if (!is_dir($view_config['cache_path'])) {

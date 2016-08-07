@@ -5,6 +5,7 @@ namespace App\Services;
 use \Illuminate\Database\Capsule\Manager as Capsule;
 use \Pecee\SimpleRouter\SimpleRouter as Router;
 use App\Exceptions\ExceptionHandler;
+use App\Exceptions\E;
 
 class Boot
 {
@@ -19,7 +20,19 @@ class Boot
     public static function checkRuntimeEnv()
     {
         Config::checkPHPVersion();
-        Config::checkFolderExist();
+        Config::checkCache();
+    }
+
+    public static function checkInstallation()
+    {
+        if (!Config::checkTableExist()) {
+            Http::redirect('../setup/index.php');
+        }
+
+        if (!is_dir(BASE_DIR.'/textures/')) {
+            throw new E("检测到 `textures` 文件夹已被删除，请重新运行 <a href='./setup'>安装程序</a>，或者手动放置一个。", -1, true);
+        }
+        return true;
     }
 
     public static function loadServices()
@@ -49,10 +62,12 @@ class Boot
 
     public static function bootEloquent(Array $config)
     {
-        $capsule = new Capsule;
-        $capsule->addConnection($config);
-        $capsule->setAsGlobal();
-        $capsule->bootEloquent();
+        if (Config::checkDbConfig($config)) {
+            $capsule = new Capsule;
+            $capsule->addConnection($config);
+            $capsule->setAsGlobal();
+            $capsule->bootEloquent();
+        }
     }
 
     public static function startSession()
