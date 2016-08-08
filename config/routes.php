@@ -129,6 +129,8 @@ Route::group(['middleware' =>                   'App\Middlewares\CheckPlayerExis
     }
 });
 
+Route::get('/{api}/textures/{hash}',            'TextureController@redirectTextures');
+
 Route::get('/avatar/{base64_email}.png',        'TextureController@avatar');
 Route::get('/avatar/{size}/{base64_email}.png', 'TextureController@avatarWithSize')->where(['base64_email' => '[^\\/]+?']);
 

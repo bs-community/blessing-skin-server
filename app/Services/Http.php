@@ -7,8 +7,10 @@ class Http
     /**
      * HTTP redirect
      *
-     * @param  string $url
-     * @return null
+     * @param  string  $url
+     * @param  string  $msg    Write message to session
+     * @param  boolean $use_js Use javascript to redirect
+     * @return void
      */
     public static function redirect($url, $msg = "", $use_js = false)
     {
@@ -18,6 +20,19 @@ class Http
             echo "<script>window.location = '$url';</script>";
         else
             header('Location: '.$url);
+        exit;
+    }
+
+    /**
+     * 301 Moved Permanently
+     *
+     * @param  string $url
+     * @return void
+     */
+    public static function redirectPermanently($url)
+    {
+        http_response_code(301);
+        header('Location: '.$url);
         exit;
     }
 

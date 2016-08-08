@@ -118,6 +118,11 @@ class TextureController extends BaseController
 
     }
 
+    public static function redirectTextures($api, $hash)
+    {
+        Http::redirectPermanently('../../textures/'.$hash);
+    }
+
 	private function checkCache($player_name)
 	{
 		// Cache friendly
