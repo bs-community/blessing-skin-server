@@ -91,11 +91,7 @@ class Boot
         ], function() {
             require BASE_DIR.'/config/routes.php';
         });
-    }
 
-    public static function run()
-    {
-        self::bootRouter();
         // Start Route Dispatching
         Router::start('App\Controllers');
     }

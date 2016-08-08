@@ -77,6 +77,7 @@ switch ($step) {
         $options = require "options.php";
         $options['site_name'] = $_POST['sitename'];
         $options['site_url']  = Http::getBaseUrl();
+        $options['version']   = Application::getVersion();
 
         foreach ($options as $key => $value) {
             Option::add($key, $value);
