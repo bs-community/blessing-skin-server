@@ -83,7 +83,7 @@ class Http
             if (file_exists($config['view_path']."/errors/".$code.".tpl")) {
                 echo View::make('errors.'.$code)->with('code', $code)->with('message', $msg);
             } else {
-                echo View::make('errors.exception')->with('code', $code)->with('message', $msg);
+                echo View::make('errors.e')->with('code', $code)->with('message', $msg);
             }
             exit;
         }
