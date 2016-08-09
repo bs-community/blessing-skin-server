@@ -131,6 +131,17 @@
 
     <script type="text/javascript" src="../assets/dist/js/admin.js"></script>
 
+    @if (Option::get('check_update') == '1')
+    <script>
+        $(document).ready(function() {
+            $.getJSON('../admin/update?action=check', function(data) {
+                if (data.new_version_available == true)
+                    $('[href="/admin/update"]').append('<span class="label label-primary pull-right">v'+data.latest_version+'</span>');
+            })
+        });
+    </script>
+    @endif
+
     @yield('script')
 
     <script>{!! Option::get('custom_js') !!}</script>

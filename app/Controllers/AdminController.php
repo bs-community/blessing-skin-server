@@ -35,6 +35,20 @@ class AdminController extends BaseController
         View::show('admin.options');
     }
 
+    public function update()
+    {
+        if (\Utils::getValue('action', $_GET) == "check") {
+            $updater = new \Updater(\Application::getVersion());
+            if ($updater->newVersionAvailable()) {
+                View::json([
+                    'new_version_available' => true,
+                    'latest_version' => $updater->latest_version
+                ]);
+            }
+        }
+        View::show('admin.update');
+    }
+
     public function users()
     {
         $page = isset($_GET['page']) ? $_GET['page'] : 1;

@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-07-29 11:53:11
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-08 21:51:58
+ * @Last Modified time: 2016-08-08 22:41:23
  */
 
 return [
@@ -30,5 +30,7 @@ return [
     'score_per_player'         => '100',
     'sign_after_zero'          => '0',
     'avatar_query_string'      => '0',
-    'version'                  => ''
+    'version'                  => '',
+    'check_update'             => '1',
+    'update_source'            => 'github'
 ];

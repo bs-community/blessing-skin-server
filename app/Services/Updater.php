@@ -5,22 +5,26 @@ namespace App\Services;
 class Updater
 {
     public $current_version = "";
-    public $latest_version = "";
+    public $latest_version  = "";
 
-    public $update_time = "";
+    public $update_time     = "";
 
-    public $update_url = "";
+    private $update_sources = null;
+    private $current_source = null;
 
-    public $update_info = null;
+    private $update_info    = null;
 
-    function __construct($current_version) {
+    public function __construct($current_version)
+    {
         $this->current_version = $current_version;
-        $this->update_url = Option::get('update_url');
+        $this->update_sources = require BASE_DIR."/config/update.php";
+        $this->current_source = $this->update_sources[Option::get('update_source')];
     }
 
-    public function getUpdateInfo() {
+    public function getUpdateInfo()
+    {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->update_url);
+        curl_setopt($ch, CURLOPT_URL, $this->current_source['update_url']);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         // quick fix for accessing https resources
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
@@ -30,13 +34,15 @@ class Updater
         return $this->update_info;
     }
 
-    public function checkUpdate() {
+    public function checkUpdate()
+    {
         $info = $this->getUpdateInfo();
         $this->latest_version = $info['latest_version'];
         $this->update_time = date('Y-m-d H:i:s', $info['update_time']);
     }
 
-    public function downloadUpdate($silent = true) {
+    public function downloadUpdate($silent = true)
+    {
         $release_url = $this->update_info['releases'][$this->latest_version]['release_url'];
         if (!$silent) echo "<p>正在下载更新包：$release_url </p>";
         // I don't know why curl cant get full file here..
@@ -60,9 +66,15 @@ class Updater
      *
      * @return bool
      */
-    public function newVersionAvailable() {
+    public function newVersionAvailable()
+    {
         $this->checkUpdate();
         return $this->compareVersion($this->latest_version, $this->current_version);
+    }
+
+    public function getUpdateSources()
+    {
+        return $this->update_sources;
     }
 
     /**
@@ -72,7 +84,8 @@ class Updater
      * @param  string $v2
      * @return boolean
      */
-    private function compareVersion($v1, $v2) {
+    private function compareVersion($v1, $v2)
+    {
         if (strnatcasecmp($v1, $v2) > 0) {
             // v1 > v2
             return true;

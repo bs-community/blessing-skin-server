@@ -100,10 +100,10 @@
                                     <tr>
                                         <td class="key">首选 JSON API</td>
                                         <td class="value">
-                                           <select class="form-control" name="api_type">
+                                            <select class="form-control" name="api_type">
                                                 <option {{ (Option::get('api_type') == '0') ? 'selected="selected"' : '' }} value="0">CustomSkinLoader API</option>
                                                 <option {{ (Option::get('api_type') == '1') ? 'selected="selected"' : '' }} value="1">UniversalSkinAPI</option>
-                                           </select>
+                                            </select>
                                         </td>
                                     </tr>
 
