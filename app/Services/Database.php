@@ -44,7 +44,7 @@ class Database
             throw new E("Could not connect to MySQL database. Check your config.php:".
                 $this->connection->connect_error, $this->connection->connect_errno, true);
 
-        $$this->connection->query("SET names 'utf8'");
+        $this->connection->query("SET names 'utf8'");
         $this->table_name = $config['prefix'].$table_name;
     }
 
