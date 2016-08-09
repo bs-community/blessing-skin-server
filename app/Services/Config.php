@@ -20,7 +20,7 @@ class Config
 
     public static function checkPHPVersion()
     {
-        if (strnatcasecmp(phpversion(), '5.5.9') < 0)
+        if (version_compare(PHP_VERSION, '5.5.9', '<'))
             throw new E('Blessing Skin Server v3 要求 PHP 版本不低于 5.5.9，当前版本为 '.phpversion(), -1, true);
     }
 
