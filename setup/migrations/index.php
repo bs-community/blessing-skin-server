@@ -23,6 +23,8 @@ if (Config::checkDbConfig($db_config)) {
     Boot::bootEloquent($db_config);
 }
 
+Boot::checkInstallation('../../setup/index.php');
+
 if (isset($_COOKIE['email']) && isset($_COOKIE['token'])) {
     $_SESSION['email'] = $_COOKIE['email'];
     $_SESSION['token'] = $_COOKIE['token'];

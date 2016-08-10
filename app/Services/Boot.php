@@ -50,10 +50,10 @@ class Boot
         Config::checkCache();
     }
 
-    public static function checkInstallation()
+    public static function checkInstallation($redirect_to = '../setup/index.php')
     {
         if (!Config::checkTableExist()) {
-            Http::redirect('../setup/index.php');
+            Http::redirect($redirect_to);
         }
 
         if (!is_dir(BASE_DIR.'/textures/')) {

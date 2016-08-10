@@ -56,7 +56,7 @@ switch ($step) {
             $sitename = isset($_POST['sitename']) ? $_POST['sitename'] : "Blessing Skin Server";
 
             if (Validate::email($email)) {
-                if (!Validate::password($password)) {
+                if (!Validate::password($password, true)) {
                     Http::redirect('index.php?step=2', '无效的密码。密码长度应该大于 8 并小于 16。');
 
                 } else if (Utils::convertString($password) != $password) {
@@ -75,9 +75,10 @@ switch ($step) {
 
         // import options
         $options = require "options.php";
-        $options['site_name'] = $_POST['sitename'];
-        $options['site_url']  = Http::getBaseUrl();
-        $options['version']   = App::getVersion();
+        $options['site_name']    = $_POST['sitename'];
+        $options['site_url']     = Http::getBaseUrl();
+        $options['version']      = App::getVersion();
+        $options['announcement'] = str_replace('{version}', $options['version'], $options['announcement']);
 
         foreach ($options as $key => $value) {
             Option::add($key, $value);
@@ -95,5 +96,9 @@ switch ($step) {
 
         echo View::make('setup.steps.3')->with('email', $_POST['email'])->with('password', $_POST['password']);
 
+        break;
+
+    default:
+        throw new App\Exceptions\E('非法参数', 1, true);
         break;
 }

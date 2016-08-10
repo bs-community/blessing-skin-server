@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-07-29 11:53:11
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-08 22:41:23
+ * @Last Modified time: 2016-08-10 22:11:03
  */
 
 return [
@@ -13,10 +13,9 @@ return [
     'user_can_register'        => '1',
     'regs_per_ip'              => '3',
     'api_type'                 => '0',
-    'announcement'             => '欢迎使用 Blessing Skin Server 3.0！',
+    'announcement'             => '欢迎使用 Blessing Skin Server {version}！',
     'color_scheme'             => 'skin-blue',
     'home_pic_url'             => './assets/images/bg.jpg',
-    'current_version'          => '3.0-beta',
     'custom_css'               => '',
     'custom_js'                => '',
     'update_url'               => 'https://work.prinzeugen.net/update.json',
