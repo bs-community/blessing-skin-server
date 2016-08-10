@@ -48,7 +48,7 @@
                                 <img src="./preview/{{ $texture['tid'] }}.png">
                             </div>
                             <div class="item-footer">
-                                <span title="{{ $texture['name'] }}">{{ strlen($texture['name']) > 12 ? substr($texture['name'], 0, 12).'...' : $texture['name']}} <small>({{ $texture['type'] }})</small></span>
+                                <span title="{{ $texture['name'] }}">{{ Utils::getStringOmitted($texture['name'], 12) }} <small>({{ $texture['type'] }})</small></span>
                                 @if (isset($_SESSION['email']))
 
                                     @if ($user->closet->has($texture['tid']))
