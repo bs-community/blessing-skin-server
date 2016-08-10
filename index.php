@@ -10,7 +10,7 @@ define('BASE_DIR', __DIR__);
 require BASE_DIR.'/vendor/autoload.php';
 
 // Initialize Application
-$app = new App\Services\Application(BASE_DIR);
+$app = new App\Services\Application();
 
 // Start Application
 $app->run();

@@ -38,7 +38,7 @@ class AdminController extends BaseController
     public function update()
     {
         if (\Utils::getValue('action', $_GET) == "check") {
-            $updater = new \Updater(\Application::getVersion());
+            $updater = new \Updater(\App::getVersion());
             if ($updater->newVersionAvailable()) {
                 View::json([
                     'new_version_available' => true,

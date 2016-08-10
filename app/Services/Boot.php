@@ -9,6 +9,33 @@ use App\Exceptions\E;
 
 class Boot
 {
+    public static function start()
+    {
+        // Load Aliases
+        self::loadServices();
+
+        // Check Runtime Environment
+        self::checkRuntimeEnv();
+
+        // Load dotenv Configuration
+        self::loadDotEnv(BASE_DIR);
+
+        // Register Error Handler
+        self::registerErrorHandler();
+
+        // Boot Eloquent ORM
+        self::bootEloquent(Config::getDbConfig());
+
+        // Redirect if not installed
+        self::checkInstallation();
+
+        // Start Session
+        self::startSession();
+
+        // Start Route Dispatching
+        self::bootRouter();
+    }
+
     public static function loadDotEnv($dir)
     {
         if (Config::checkDotEnvExist()) {
