@@ -23,7 +23,7 @@ $menu['admin'] = array(
     4 => ['title' => '个性化',   'link' => '/admin/customize', 'icon' => 'fa-paint-brush'],
     5 => ['title' => '积分配置', 'link' => '/admin/score',     'icon' => 'fa-credit-card'],
     6 => ['title' => '站点配置', 'link' => '/admin/options',   'icon' => 'fa-cog'],
-    6 => ['title' => '检查更新', 'link' => '/admin/update',    'icon' => 'fa-arrow-up']
+    7 => ['title' => '检查更新', 'link' => '/admin/update',    'icon' => 'fa-arrow-up']
 );
 
 return $menu;
