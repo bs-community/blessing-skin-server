@@ -14,4 +14,9 @@ class Migration
         require BASE_DIR."/setup/tables.php";
     }
 
+    public static function importV2Textures()
+    {
+        return require BASE_DIR."/setup/migrations/import_v2_textures.php";
+    }
+
 }
