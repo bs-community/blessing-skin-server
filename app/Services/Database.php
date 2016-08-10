@@ -29,9 +29,9 @@ class Database
      * @param string $table_name
      * @param array $config
      */
-    function __construct($table_name = '', $config = null)
+    function __construct($table_name = '', $config = null, $no_prefix = false)
     {
-        $config = is_null($config) ? (require BASE_DIR.'/config/database.php') : $config;
+        $config = is_null($config) ? Config::getDbConfig() : $config;
         @$this->connection = new \mysqli(
             $config['host'],
             $config['username'],
@@ -41,11 +41,11 @@ class Database
         );
 
         if ($this->connection->connect_error)
-            throw new E("Could not connect to MySQL database. Check your config.php:".
+            throw new E("Could not connect to MySQL database. Check your configuration:".
                 $this->connection->connect_error, $this->connection->connect_errno, true);
 
         $this->connection->query("SET names 'utf8'");
-        $this->table_name = $config['prefix'].$table_name;
+        $this->table_name = $no_prefix ? $table_name : $config['prefix'].$table_name;
     }
 
     public function query($sql)
@@ -89,11 +89,6 @@ class Database
 
     }
 
-    public function has($key, $value, $table = null)
-    {
-        return ($this->getNumRows($key, $value, $table) != 0) ? true : false;
-    }
-
     public function insert($data, $table = null)
     {
         $keys   = "";
@@ -112,6 +107,17 @@ class Database
 
         $sql = "INSERT INTO $table ({$keys}) VALUES ($values)";
         return $this->query($sql);
+    }
+
+    public function has($key, $value, $table = null)
+    {
+        return ($this->getNumRows($key, $value, $table) != 0) ? true : false;
+    }
+
+    public function hasTable($table_name)
+    {
+        $sql = "SELECT table_name FROM `INFORMATION_SCHEMA`.`TABLES` WHERE (table_name = '$table_name') AND TABLE_SCHEMA='".Config::getDbConfig()['database']."'";
+        return ($this->query($sql)->num_rows != 0) ? true : false;
     }
 
     public function update($key, $value, $condition = null, $table = null)

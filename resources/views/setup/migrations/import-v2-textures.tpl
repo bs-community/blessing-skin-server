@@ -69,8 +69,8 @@
         } else {
             $_POST['uploader_uid'] = ($_POST['uploader_uid'] == "") ? 0 : (int)$_POST['uploader_uid'];
 
-            if (!Schema::hasTable($_POST['v2_table_name'])) {
-                Http::redirect('index.php?action=import-v2-textures&step=1', '不存在的数据表');
+            if (!(new Database)->hasTable($_POST['v2_table_name'])) {
+                Http::redirect('index.php?action=import-v2-textures&step=1', "数据表 {$_POST['v2_table_name']} 不存在");
             }
         }
     } else {
@@ -83,6 +83,7 @@
 <?php $result = Migration::importV2Textures(); ?>
 
 <p>已导入 {{ $result['imported'] }} 个材质到皮肤库，{{ $result['duplicated'] }} 个材质因重复而未导入。</p>
+<p>注意：请将 v2 的 textures 文件夹内容复制到 v3 的 textures 文件夹中</p>
 
 <p class="step">
 <a href="../../" class="button button-large">导入完成</a>

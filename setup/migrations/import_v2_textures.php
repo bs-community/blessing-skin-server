@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-08-09 21:44:13
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-10 18:00:38
+ * @Last Modified time: 2016-08-10 22:41:24
  *
  * There are still some coupling relationships here but,
  * Just let it go :)
@@ -16,7 +16,7 @@ $imported   = 0;
 $duplicated = 0;
 
 // use db helper instead of fat ORM
-$db = new Database($v2_table_name);
+$db = new Database($v2_table_name, null, true);
 
 $steps = ceil($db->getRecordNum() / 250);
 
@@ -62,7 +62,7 @@ for ($i = 0; $i <= $steps; $i++) {
                     'name'      => $name,
                     'type'      => 'alex',
                     'likes'     => 0,
-                    'hash'      => $row['hash_steve'],
+                    'hash'      => $row['hash_alex'],
                     'size'      => 0,
                     'uploader'  => $_POST['uploader_uid'],
                     'public'    => '1',
@@ -85,7 +85,7 @@ for ($i = 0; $i <= $steps; $i++) {
                     'name'      => $name,
                     'type'      => 'cape',
                     'likes'     => 0,
-                    'hash'      => $row['hash_steve'],
+                    'hash'      => $row['hash_cape'],
                     'size'      => 0,
                     'uploader'  => $_POST['uploader_uid'],
                     'public'    => '1',
