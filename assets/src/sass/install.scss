@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-28 13:15:18
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-06 20:03:51
+ * @Last Modified time: 2016-08-10 17:50:19
  */
 
 @import "style.scss";
@@ -44,7 +44,7 @@ p {
 
     a {
         font-family: Minecraft, sans-serif;
-        transition: all .2s ease-in-out;
+        transition: color .2s ease-in-out;
         font-weight: 400;
         font-size: 50px;
         color: #666;
