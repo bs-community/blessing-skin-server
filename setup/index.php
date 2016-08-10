@@ -13,7 +13,7 @@ require BASE_DIR.'/vendor/autoload.php';
 App\Services\Boot::loadServices();
 Config::checkPHPVersion();
 Boot::loadDotEnv(BASE_DIR);
-Boot::registerErrorHandler();
+Boot::registerErrorHandler(new \Whoops\Handler\PrettyPageHandler);
 Boot::startSession();
 
 $db_config = Config::getDbConfig();
@@ -77,7 +77,7 @@ switch ($step) {
         $options = require "options.php";
         $options['site_name'] = $_POST['sitename'];
         $options['site_url']  = Http::getBaseUrl();
-        $options['version']   = Application::getVersion();
+        $options['version']   = App::getVersion();
 
         foreach ($options as $key => $value) {
             Option::add($key, $value);

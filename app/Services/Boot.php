@@ -72,8 +72,21 @@ class Boot
         }
     }
 
-    public static function registerErrorHandler()
+    /**
+     * Register error handler
+     *
+     * @param  object $handler Push specified whoops handler
+     * @return void
+     */
+    public static function registerErrorHandler($handler = null)
     {
+        if (!is_null($handler) && $handler instanceof \Whoops\Handler\HandlerInterface) {
+            $whoops = new \Whoops\Run;
+            $whoops->pushHandler($handler);
+            $whoops->register();
+            return;
+        }
+
         if ($_ENV['APP_DEBUG'] !== "false") {
             // whoops: php errors for cool kids
             $whoops = new \Whoops\Run;

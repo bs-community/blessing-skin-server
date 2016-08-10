@@ -13,7 +13,7 @@ require BASE_DIR.'/vendor/autoload.php';
 App\Services\Boot::loadServices();
 Config::checkPHPVersion();
 Boot::loadDotEnv(BASE_DIR);
-Boot::registerErrorHandler();
+Boot::registerErrorHandler(new \Whoops\Handler\PrettyPageHandler);
 Boot::startSession();
 
 $db_config = Config::getDbConfig();
