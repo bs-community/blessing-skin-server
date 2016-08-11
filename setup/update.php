@@ -23,6 +23,12 @@ if (Config::checkDbConfig($db_config)) {
     Boot::bootEloquent($db_config);
 }
 
+// If no update is available
+if (App::getVersion() == @Option::get('version')) {
+    View::show('setup.locked');
+    exit;
+}
+
 $step = isset($_GET['step']) ? $_GET['step'] : '1';
 
 switch ($step) {
