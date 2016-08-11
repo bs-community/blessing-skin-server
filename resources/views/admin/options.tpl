@@ -5,6 +5,7 @@
 @section('style')
 <style type="text/css">
 .box-body > textarea { height: 200px; }
+.description { margin: 7px 0 0 0; color: #555; }
 </style>
 @endsection
 
@@ -123,7 +124,8 @@
                                             <i class="fa fa-question-circle" title="就是 Disqus，多说，畅言等评论服务提供的代码。留空以停用评论功能" data-toggle="tooltip" data-placement="top"></i>
                                         </td>
                                         <td class="value">
-                                            <textarea class="form-control" rows="4" name="comment_script">{{ Option::get('comment_script') }}</textarea>
+                                            <textarea class="form-control" rows="6" name="comment_script">{{ Option::get('comment_script') }}</textarea>
+                                            <p class="description">评论代码内可使用占位符，<code>{tid}</code> 将会被自动替换为材质的 id，<code>{name}</code> 会被替换为材质名称，<code>{url}</code> 会被替换为当前页面地址。</p>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -151,6 +153,7 @@
                             } ?>
 
                             <textarea name="announcement" class="form-control" rows="3">{{ Option::get('announcement') }}</textarea>
+                            <p class="description">站点公告内容不会被转义，因此您可以使用 HTML 进行排版</p>
 
                         </div><!-- /.box-body -->
                         <div class="box-footer">

@@ -144,9 +144,10 @@
                             <h3 class="box-title">评论区</h3>
                         </div><!-- /.box-header -->
                         <div class="box-body">
-                            <div id="disqus_thread"></div>
                             @if (Option::get('comment_script') != "")
-                            {!! Option::get('comment_script') !!}
+                            <!-- Comment Start -->
+                            {!! Utils::getStringReplaced(Option::get('comment_script'), ['{tid}' => $texture->tid, '{name}' => $texture->name, '{url}' => Http::getCurrentUrl()]) !!}
+                            <!-- Comment End -->
                             @else
                             <p style="text-align: center; margin: 30px 0;">本站未开启评论服务</p>
                             @endif

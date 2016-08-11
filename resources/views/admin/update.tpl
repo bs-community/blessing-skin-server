@@ -74,7 +74,7 @@
                                 <tr>
                                     <td class="key">发布时间：</td>
                                     <td class="value">
-                                        {{ date('Y-m-d H:i:s', $updater->getUpdateInfo()['releases'][$updater->current_version]['release_time']) }}
+                                        {{ @date('Y-m-d H:i:s', $updater->getUpdateInfo()['releases'][$updater->current_version]['release_time']) }}
                                     </td>
                                 </tr>
                             </tbody>

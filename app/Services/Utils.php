@@ -20,14 +20,11 @@ class Utils
      * Get the value of key in an array if index exist
      *
      * @param  string $key
-     * @param  array $array
+     * @param  array  $array
      * @return string|boolean
      */
     public static function getValue($key, $array) {
-        if (array_key_exists($key, $array)) {
-            return $array[$key];
-        }
-        return false;
+        return array_key_exists($key, $array) ? $array[$key] : false;
     }
 
     /**
@@ -66,6 +63,14 @@ class Utils
         return $fname;
     }
 
+    /**
+     * Generate omitted string
+     *
+     * @param  string  $str
+     * @param  int     $length
+     * @param  boolean $append
+     * @return string
+     */
     public static function getStringOmitted($str, $length, $append = true)
     {
         $str       = trim($str);
@@ -94,6 +99,21 @@ class Utils
         }
 
         return $newstr;
+    }
+
+    /**
+     * Replace content of string according to given rules
+     *
+     * @param  string $str
+     * @param  array  $rules
+     * @return string
+     */
+    public function getStringReplaced($str, $rules)
+    {
+        foreach ($rules as $search => $replace) {
+            $str = str_replace($search, $replace, $str);
+        }
+        return $str;
     }
 
 }
