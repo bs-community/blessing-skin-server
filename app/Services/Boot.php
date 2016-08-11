@@ -60,7 +60,7 @@ class Boot
             throw new E("检测到 `textures` 文件夹已被删除，请重新运行 <a href='./setup'>安装程序</a>，或者手动放置一个。", -1, true);
         }
 
-        if (Application::getVersion() != @Option::get('version')) {
+        if (Application::getVersion() != Option::get('version', '')) {
             Http::redirect(Http::getBaseUrl().'/setup/update.php');
             exit;
         }

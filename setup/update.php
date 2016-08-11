@@ -24,7 +24,7 @@ if (Config::checkDbConfig($db_config)) {
 }
 
 // If no update is available
-if (App::getVersion() == @Option::get('version')) {
+if (App::getVersion() == Option::get('version', '')) {
     View::show('setup.locked');
     exit;
 }

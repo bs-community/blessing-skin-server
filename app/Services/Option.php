@@ -3,41 +3,60 @@
 namespace App\Services;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Exceptions\E;
+use \Exception;
 
 class Option
 {
-    public static function get($key) {
+    public static function get($key, $default_value = null)
+    {
         $option = OptionModel::where('option_name', $key)->first();
-        if (!$option) throw new E('Unexistent option.', 1);
+
+        if (!$option) {
+            if (!is_null($default_value)) {
+                return $default_value;
+            } else {
+                throw new Exception('Unexistent option.', 1);
+            }
+        }
+
         return $option->option_value;
     }
 
-    public static function set($key, $value) {
+    public static function set($key, $value)
+    {
         $option = OptionModel::where('option_name', $key)->first();
-        if (!$option) throw new E('Unexistent option.', 1);
+
+        if (!$option)
+            throw new Exception('Unexistent option.', 1);
+
         $option->option_value = $value;
         return $option->save();
     }
 
-    public static function add($key, $value) {
+    public static function add($key, $value)
+    {
+        if (self::has($key))
+            return true;
+
         $option = new OptionModel;
         $option->option_name = $key;
         $option->option_value = $value;
         $option->save();
     }
 
-    public static function has($key) {
+    public static function has($key)
+    {
         try {
             OptionModel::where('option_name', $key)->firstOrFail();
-        } catch (Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return false;
         }
         return true;
     }
 
-    public static function delete($key) {
-        OptionModel::where('option_name', $key)->first()->delete();
+    public static function delete($key)
+    {
+        OptionModel::where('option_name', $key)->delete();
     }
 
 }
