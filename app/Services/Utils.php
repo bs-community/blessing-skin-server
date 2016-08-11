@@ -108,7 +108,7 @@ class Utils
      * @param  array  $rules
      * @return string
      */
-    public function getStringReplaced($str, $rules)
+    public static function getStringReplaced($str, $rules)
     {
         foreach ($rules as $search => $replace) {
             $str = str_replace($search, $replace, $str);
