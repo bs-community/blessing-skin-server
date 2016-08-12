@@ -9,39 +9,18 @@ use App\Exceptions\E;
 
 class Boot
 {
-    public static function start()
-    {
-        // Load Aliases
-        self::loadServices();
-
-        // Check Runtime Environment
-        self::checkRuntimeEnv();
-
-        // Load dotenv Configuration
-        self::loadDotEnv(BASE_DIR);
-
-        // Register Error Handler
-        self::registerErrorHandler();
-
-        // Boot Eloquent ORM
-        self::bootEloquent(Config::getDbConfig());
-
-        // Redirect if not installed
-        self::checkInstallation();
-
-        // Start Session
-        self::startSession();
-
-        // Start Route Dispatching
-        self::bootRouter();
-    }
-
     public static function loadDotEnv($dir)
     {
         if (Config::checkDotEnvExist()) {
             $dotenv = new \Dotenv\Dotenv($dir);
             $dotenv->load();
         }
+    }
+
+    public static function setTimeZone($timezone = 'Asia/Shanghai')
+    {
+        // set default time zone, UTC+8 for default
+        date_default_timezone_set($timezone);
     }
 
     public static function checkRuntimeEnv()

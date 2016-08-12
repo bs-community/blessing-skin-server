@@ -44,8 +44,6 @@ class Utils
 
     public static function getTimeFormatted($timestamp = 0)
     {
-        // set default time zone to UTC+8
-        date_default_timezone_set('Asia/Shanghai');
         return ($timestamp == 0) ? date('Y-m-d H:i:s') : date('Y-m-d H:i:s', $timestamp);
     }
 
