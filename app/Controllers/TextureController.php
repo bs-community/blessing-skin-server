@@ -23,13 +23,13 @@ class TextureController extends BaseController
         if ($player->is_banned)
             Http::abort(404, '该角色拥有者已被本站封禁。');
 
-		if ($api == "csl") {
-			echo $player->getJsonProfile(0);
-		} else if ($api == "usm") {
-			echo $player->getJsonProfile(1);
-		} else if ($api == "") {
-			echo $player->getJsonProfile(Option::get('api_type'));
-		} else {
+        if ($api == "csl") {
+            echo $player->getJsonProfile(0);
+        } else if ($api == "usm") {
+            echo $player->getJsonProfile(1);
+        } else if ($api == "") {
+            echo $player->getJsonProfile(Option::get('api_type'));
+        } else {
             Http::abort(404, '不支持的 API_TYPE。');
         }
     }
@@ -39,24 +39,8 @@ class TextureController extends BaseController
         $this->json($player_name, $api);
     }
 
-	public function skin($player_name, $model = "")
-	{
-        $player_name = \Option::get('allow_chinese_playername') ? $GLOBALS['player_name'] : $player_name;
-
-		$player = new Player(0, $player_name);
-
-        if ($player->is_banned)
-            Http::abort(404, '该角色拥有者已被本站封禁。');
-
-		if (!$this->checkCache($player_name)) {
-			$model_preference = ($player->getPreference() == "default") ? "steve" : "alex";
-			$model = ($model == "") ? $model_preference : $model;
-			echo $player->getBinaryTexture($model);
-		}
-	}
-
-	public function cape($player_name)
-	{
+    public function skin($player_name, $model = "")
+    {
         $player_name = \Option::get('allow_chinese_playername') ? $GLOBALS['player_name'] : $player_name;
 
         $player = new Player(0, $player_name);
@@ -64,24 +48,40 @@ class TextureController extends BaseController
         if ($player->is_banned)
             Http::abort(404, '该角色拥有者已被本站封禁。');
 
-		if (!$this->checkCache($player_name)) {
-			echo $player->getBinaryTexture('cape');
-		}
-	}
+        if (!$this->checkCache($player_name)) {
+            $model_preference = ($player->getPreference() == "default") ? "steve" : "alex";
+            $model = ($model == "") ? $model_preference : $model;
+            echo $player->getBinaryTexture($model);
+        }
+    }
 
-	public function avatar($base64_email, $size = 128)
-	{
-		echo (new User(base64_decode($base64_email)))->getAvatar((int)$size);
-	}
+    public function cape($player_name)
+    {
+        $player_name = \Option::get('allow_chinese_playername') ? $GLOBALS['player_name'] : $player_name;
+
+        $player = new Player(0, $player_name);
+
+        if ($player->is_banned)
+            Http::abort(404, '该角色拥有者已被本站封禁。');
+
+        if (!$this->checkCache($player_name)) {
+            echo $player->getBinaryTexture('cape');
+        }
+    }
+
+    public function avatar($base64_email, $size = 128)
+    {
+        echo (new User(base64_decode($base64_email)))->getAvatar((int)$size);
+    }
 
     public function avatarWithSize($size, $base64_email)
     {
         $this->avatar($base64_email, $size);
     }
 
-	public function preview($tid, $size = 250)
-	{
-		// output image directly
+    public function preview($tid, $size = 250)
+    {
+        // output image directly
         if ($t = Texture::find($tid)) {
             header('Content-Type: image/png');
             if ($t->type == "cape") {
@@ -101,7 +101,7 @@ class TextureController extends BaseController
             imagepng($png);
             imagedestroy($png);
         }
-	}
+    }
 
     public function previewWithSize($size, $tid)
     {
@@ -123,18 +123,18 @@ class TextureController extends BaseController
         Http::redirectPermanently('../../textures/'.$hash);
     }
 
-	private function checkCache($player_name)
-	{
-		// Cache friendly
-		$if_modified_since = isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ?
-									strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) : null;
+    private function checkCache($player_name)
+    {
+        // Cache friendly
+        $if_modified_since = isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ?
+                                    strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) : null;
 
-		if ($if_modified_since >= (new Player(0, $player_name))->getLastModified()) {
-			http_response_code(304);
-			return true;
-		} else {
-			return false;
-		}
-	}
+        if ($if_modified_since >= (new Player(0, $player_name))->getLastModified()) {
+            http_response_code(304);
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }
