@@ -44,32 +44,7 @@
                 <div class="box-body">
                     @forelse ($textures as $texture)
                     <a href="../skinlib/show?tid={{ $texture['tid'] }}">
-                        <div class="item" tid="{{ $texture['tid'] }}">
-                            <div class="item-body">
-                                <img src="../preview/{{ $texture['tid'] }}.png">
-                            </div>
-                            <div class="item-footer">
-                                <span>{{ $texture['name'] }} <small>({{ $texture['type'] }})</small></span>
-                                @if (isset($_SESSION['email']))
-
-                                @if ($user->closet->has($texture['tid']))
-                                <a href="javascript:removeFromCloset({{ $texture['tid'] }});" class="more like liked" tid="{{ $texture['tid'] }}" title="从衣柜中移除" data-placement="top" data-toggle="tooltip">
-                                @else
-                                <a href="javascript:addToCloset({{ $texture['tid'] }});" class="more like" tid="{{ $texture['tid'] }}" title="添加至衣柜" data-placement="top" data-toggle="tooltip">
-                                @endif
-
-                                @else
-                                <a href="javascript:;" class="more like" title="请先登录" data-placement="top" data-toggle="tooltip">
-                                @endif
-                                    <i class="fa fa-heart"></i>
-                                </a>
-
-                                @if($texture->public == "0")
-                                <small class="more" tid="{{ $texture['tid'] }}">私密</small>
-                                @endif
-
-                            </div>
-                        </div>
+                        @include('skinlib.item')
                     </a>
                     @empty
                     <p style="text-align: center; margin: 30px 0;">无结果</p>

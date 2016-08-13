@@ -43,30 +43,7 @@
                 <div class="box-body">
                     @forelse ($textures as $texture)
                     <a href="./skinlib/show?tid={{ $texture['tid'] }}">
-                        <div class="item" tid="{{ $texture['tid'] }}">
-                            <div class="item-body">
-                                <img src="./preview/{{ $texture['tid'] }}.png">
-                            </div>
-                            <div class="item-footer">
-                                <span title="{{ $texture['name'] }}">{{ Utils::getStringOmitted($texture['name'], 12) }} <small>({{ $texture['type'] }})</small></span>
-                                @if (isset($_SESSION['email']))
-
-                                    @if ($user->closet->has($texture['tid']))
-                                    <a title="从衣柜中移除" class="more like liked" tid="{{ $texture['tid'] }}" href="javascript:removeFromCloset({{ $texture['tid'] }});" data-placement="top" data-toggle="tooltip"><i class="fa fa-heart"></i></a>
-                                    @else
-                                    <a title="添加至衣柜" class="more like" tid="{{ $texture['tid'] }}" href="javascript:addToCloset({{ $texture['tid'] }});" data-placement="top" data-toggle="tooltip"><i class="fa fa-heart"></i></a>
-                                    @endif
-
-                                @else
-                                <a title="请先登录" class="more like" href="javascript:;" data-placement="top" data-toggle="tooltip"><i class="fa fa-heart"></i></a>
-                                @endif
-
-                                @if ($texture['public'] == "0")
-                                <small class="more" tid="{{ $texture['tid'] }}">私密</small>
-                                @endif
-
-                            </div>
-                        </div>
+                        @include('skinlib.item')
                     </a>
                     @empty
                     <p style="text-align: center; margin: 30px 0;">无结果</p>
