@@ -22,12 +22,12 @@ class SkinlibController extends BaseController
 
     public function index()
     {
-        $filter = isset($_GET['filter']) ? $_GET['filter'] : "skin";
-
-        $sort = isset($_GET['sort']) ? $_GET['sort'] : "time";
+        $filter  = isset($_GET['filter']) ? $_GET['filter'] : "skin";
+        $sort    = isset($_GET['sort']) ? $_GET['sort'] : "time";
         $sort_by = ($sort == "time") ? "upload_at" : $sort;
+        $uid     = isset($_GET['uid']) ? $_GET['uid'] : 0;
 
-        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $page    = isset($_GET['page']) ? $_GET['page'] : 1;
 
         if ($filter == "skin") {
             $textures = Texture::where(function($query) {
@@ -35,27 +35,22 @@ class SkinlibController extends BaseController
                       ->orWhere('type', '=', 'alex');
             })->orderBy($sort_by, 'desc');
 
-            $total_pages = ceil($textures->count() / 20);
-
         } elseif ($filter == "user") {
-            $uid = isset($_GET['uid']) ? $_GET['uid'] : 0;
-
-            if (!is_null($this->user) && $uid == $this->user->uid) {
-                // show private textures when show uploaded textures of current user
-                $textures = Texture::where('uploader', $uid)->orderBy($sort_by, 'desc');
-                $total_pages = ceil($textures->count() / 20);
-            } else {
-                $textures = Texture::where('uploader', $uid)->orderBy($sort_by, 'desc');
-                $total_pages = ceil($textures->count() / 20);
-            }
+            $textures = Texture::where('uploader', $uid)->orderBy($sort_by, 'desc');
 
         } else {
             $textures = Texture::where('type', $filter)->orderBy($sort_by, 'desc');
-            $total_pages = ceil($textures->count() / 20);
         }
 
-        if (is_null($this->user) || (!is_null($this->user) && !$this->user->is_admin))
+        if (!is_null($this->user)) {
+            // show private textures when show uploaded textures of current user
+            if ($uid != $this->user->uid && !$this->user->is_admin)
+                $textures = $textures->where('public', '1');
+        } else {
             $textures = $textures->where('public', '1');
+        }
+
+        $total_pages = ceil($textures->count() / 20);
 
         $textures = $textures->skip(($page - 1) * 20)->take(20)->get();
 
