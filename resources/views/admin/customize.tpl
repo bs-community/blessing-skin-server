@@ -143,8 +143,8 @@
                         <div class="box-body">
                             <?php
                             if (isset($_POST['custom_css']) && isset($_POST['custom_js'])) {
-                                Option::set('custom_css', Utils::convertString($_POST['custom_css']));
-                                Option::set('custom_js', Utils::convertString($_POST['custom_js']));
+                                Option::set('custom_css', $_POST['custom_css']);
+                                Option::set('custom_js', $_POST['custom_js']);
                                 echo '<div class="callout callout-success">设置已保存。</div>';
                             } else {
                                 echo '<div class="callout callout-info">内容将会被追加至每个页面的 &lt;style&gt; 和 &lt;script&gt; 标签中</div>';
