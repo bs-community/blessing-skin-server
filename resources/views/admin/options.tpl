@@ -66,7 +66,7 @@
                                         </td>
                                     </tr>
 
-                                    <tr title="以 http:// 开头，不要以 / 结尾" data-toggle="tooltip" data-placement="top">
+                                    <tr title="以 http(s):// 开头，不要以 / 结尾" data-toggle="tooltip" data-placement="top">
                                         <td class="key">站点地址（URL）</td>
                                         <td class="value">
                                            <input type="text" class="form-control" name="site_url" value="{{ Option::get('site_url') }}">

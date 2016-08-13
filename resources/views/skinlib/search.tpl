@@ -9,7 +9,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                搜索结果
+                搜索结果：{{ $_GET['q'] or "未指定关键字" }}
                 <small>Skin Library</small>
             </h1>
 

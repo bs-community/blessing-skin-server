@@ -59,11 +59,6 @@ class Http
         return $_SERVER["REQUEST_URI"];
     }
 
-    public static function getCurrentUrl()
-    {
-        return self::getBaseUrl().$_SERVER["REQUEST_URI"];
-    }
-
     public static function getBaseUrl()
     {
         $base_url  = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? "https://" : "http://";
@@ -71,6 +66,22 @@ class Http
         $base_url .= ($_SERVER["SERVER_PORT"] == "80") ? "" : (":".$_SERVER["SERVER_PORT"]);
 
         return $base_url;
+    }
+
+    public static function getCurrentUrl()
+    {
+        return self::getBaseUrl().$_SERVER["REQUEST_URI"];
+    }
+
+    /**
+     * Generate absolute url according to relative one
+     *
+     * @param  string $relative
+     * @return string
+     */
+    public static function urlTo($relative)
+    {
+        return Option::get('site_url').$relative;
     }
 
     public static function abort($code, $msg = "Something happened.", $is_json = false)
