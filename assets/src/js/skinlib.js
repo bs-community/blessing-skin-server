@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-19 10:46:38
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-06 18:51:20
+ * @Last Modified time: 2016-08-13 23:23:14
  */
 
 'use strict';
@@ -18,6 +18,10 @@ $('#page-select').on('change', function() {
         window.location = "?page=" + $(this).val();
     }
 
+});
+
+$('#private').on('ifToggled', function() {
+    $(this).prop('checked') ? $('#msg').show() : $('#msg').hide();
 });
 
 function addToCloset(tid) {

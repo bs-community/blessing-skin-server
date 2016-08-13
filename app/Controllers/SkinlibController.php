@@ -123,18 +123,21 @@ class SkinlibController extends BaseController
         $t            = new Texture();
         $t->name      = $_POST['name'];
         $t->type      = $_POST['type'];
+        $t->like      = 1;
         $t->hash      = \Storage::upload($_FILES['file']);
         $t->size      = ceil($_FILES['file']['size'] / 1024);
         $t->public    = ($_POST['public'] == 'true') ? "1" : "0";
         $t->uploader  = $this->user->uid;
         $t->upload_at = Utils::getTimeFormatted();
 
-        if ($this->user->getScore() / Option::get('score_per_storage') < $t->size)
+        $cost = $t->size * (($t->public == "1") ? Option::get('score_per_storage') : Option::get('private_score_per_storage'));
+
+        if ($this->user->getScore() < $cost)
             View::json('积分不够啦', 7);
 
         $results = Texture::where('hash', $t->hash)->get();
-        if (!$results->isEmpty())
-        {
+
+        if (!$results->isEmpty()) {
             foreach ($results as $result) {
                 if ($result->type == $t->type) {
                     View::json([
@@ -148,13 +151,9 @@ class SkinlibController extends BaseController
 
         $t->save();
 
-        $this->user->setScore($t->size, 'minus');
+        $this->user->setScore($cost, 'minus');
 
         if ($this->user->closet->add($t->tid, $t->name)) {
-            $t = Texture::find($t->tid);
-            $t->likes += 1;
-            $t->save();
-
             View::json([
                 'errno' => 0,
                 'msg'   => '材质 '.$_POST['name'].' 上传成功',

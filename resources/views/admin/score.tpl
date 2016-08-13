@@ -27,9 +27,10 @@
                         <div class="box-body">
                             <?php
                             if (isset($_POST['option']) && ($_POST['option'] == "rate")) {
-                                Option::set('score_per_storage', $_POST['score_per_storage']);
-                                Option::set('score_per_player', $_POST['score_per_player']);
-                                Option::set('user_initial_score', $_POST['user_initial_score']);
+                                foreach ($_POST as $key => $value) {
+                                    if ($key != "option" && $key != "submit")
+                                        Option::set($key, $value);
+                                }
                                 echo '<div class="callout callout-success">设置已保存。</div>';
                             } ?>
                             <table class="table">
@@ -39,6 +40,19 @@
                                         <td class="value">
                                            <div class="input-group">
                                                <input type="text" class="form-control" name="score_per_storage" value="{{ Option::get('score_per_storage') }}">
+                                               <span class="input-group-addon">积分 = 1 KB</span>
+                                           </div>
+
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="key">私密材质存储
+                                            <i class="fa fa-question-circle" title="上传私密材质将消耗更多积分" data-toggle="tooltip" data-placement="top"></i>
+                                        </td>
+                                        <td class="value">
+                                           <div class="input-group">
+                                               <input type="text" class="form-control" name="private_score_per_storage" value="{{ Option::get('private_score_per_storage') }}">
                                                <span class="input-group-addon">积分 = 1 KB</span>
                                            </div>
 

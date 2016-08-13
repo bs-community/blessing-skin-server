@@ -41,7 +41,12 @@
                                 <label for="file">选择文件</label>
                                 <input id="file" type="file" data-show-upload="false" data-language="zh" class="file" accept="image/png" />
                             </div>
+
+                            <div class="callout callout-info" id="msg" style="display: none;">
+                                <p>私密材质将会消耗更多的积分：每 KB 存储空间 {{ Option::get('private_score_per_storage') }} 积分</p>
+                            </div>
                         </div><!-- /.box-body -->
+
                         <div class="box-footer">
                             <label for="private" class="pull-right" title="其他人将不会在皮肤库中看到此材质" data-placement="top" data-toggle="tooltip">
                                 <input id="private" type="checkbox"> 设置为私密材质
