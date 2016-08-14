@@ -123,7 +123,7 @@ class SkinlibController extends BaseController
         $t            = new Texture();
         $t->name      = $_POST['name'];
         $t->type      = $_POST['type'];
-        $t->like      = 1;
+        $t->likes     = 1;
         $t->hash      = \Storage::upload($_FILES['file']);
         $t->size      = ceil($_FILES['file']['size'] / 1024);
         $t->public    = ($_POST['public'] == 'true') ? "1" : "0";
