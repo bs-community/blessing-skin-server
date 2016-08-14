@@ -5,20 +5,49 @@ namespace App\Services;
 use App\Exceptions\E;
 
 /**
+ * Facade for DatabaseHelper
+ */
+class Database
+{
+    public function __call($method, $args)
+    {
+        // Instantiate Helper
+        $instance = new DatabaseHelper;
+        // Call methods
+        return call_user_func_array([$instance, $method], $args);
+    }
+
+    public static function __callStatic($method, $args)
+    {
+        $instance = new DatabaseHelper;
+        return call_user_func_array([$instance, $method], $args);
+    }
+}
+
+/**
  * Light-weight database helper
  *
  * @author  <h@prinzeugen.net>
  */
-class Database
+class DatabaseHelper
 {
     /**
      * Instance of MySQLi
+     *
      * @var null
      */
     private $connection = null;
 
     /**
+     * Connection config
+     *
+     * @var array
+     */
+    private $config     = null;
+
+    /**
      * Table name to do operations in
+     *
      * @var string
      */
     private $table_name = "";
@@ -29,15 +58,16 @@ class Database
      * @param string $table_name
      * @param array $config
      */
-    function __construct($table_name = '', $config = null, $no_prefix = false)
+    public function __construct($config = null)
     {
-        $config = is_null($config) ? Config::getDbConfig() : $config;
+        $this->config = is_null($config) ? Config::getDbConfig() : $config;
+
         @$this->connection = new \mysqli(
-            $config['host'],
-            $config['username'],
-            $config['password'],
-            $config['database'],
-            $config['port']
+            $this->config['host'],
+            $this->config['username'],
+            $this->config['password'],
+            $this->config['database'],
+            $this->config['port']
         );
 
         if ($this->connection->connect_error)
@@ -45,7 +75,16 @@ class Database
                 $this->connection->connect_error, $this->connection->connect_errno, true);
 
         $this->connection->query("SET names 'utf8'");
-        $this->table_name = $no_prefix ? $table_name : $config['prefix'].$table_name;
+    }
+
+    public function table($table_name, $no_prefix = false)
+    {
+        if (Utils::convertString($table_name) == $table_name) {
+            $this->table_name = $no_prefix ? $table_name : $this->config['prefix'].$table_name;
+            return $this;
+        } else {
+            throw new E('Table name contains invalid characters', 1);
+        }
     }
 
     public function query($sql)
@@ -167,7 +206,7 @@ class Database
         return $statement;
     }
 
-    function __destruct()
+    public function __destruct()
     {
         if (!is_null($this->connection))
             $this->connection->close();

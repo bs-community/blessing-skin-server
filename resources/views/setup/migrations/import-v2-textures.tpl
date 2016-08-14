@@ -69,7 +69,10 @@
         } else {
             $_POST['uploader_uid'] = ($_POST['uploader_uid'] == "") ? 0 : (int)$_POST['uploader_uid'];
 
-            if (!(new Database)->hasTable($_POST['v2_table_name'])) {
+            if (Utils::convertString($_POST['v2_table_name']) != $_POST['v2_table_name'])
+                Http::redirect('index.php?action=import-v2-textures&step=1', "表名 {$_POST['v2_table_name']} 中含有无效字符");
+
+            if (!Database::hasTable($_POST['v2_table_name'])) {
                 Http::redirect('index.php?action=import-v2-textures&step=1', "数据表 {$_POST['v2_table_name']} 不存在");
             }
         }

@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-08-09 21:44:13
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-10 22:41:24
+ * @Last Modified time: 2016-08-14 08:00:49
  *
  * There are still some coupling relationships here but,
  * Just let it go :)
@@ -16,7 +16,7 @@ $imported   = 0;
 $duplicated = 0;
 
 // use db helper instead of fat ORM
-$db = new Database($v2_table_name, null, true);
+$db = Database::table($v2_table_name, true);
 
 $steps = ceil($db->getRecordNum() / 250);
 
