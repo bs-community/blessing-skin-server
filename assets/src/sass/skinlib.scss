@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-10 17:17:07
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-13 21:57:29
+ * @Last Modified time: 2016-08-14 09:00:16
  */
 
 @import "style.scss";
@@ -25,6 +25,10 @@
     .item-body > img {
         margin-left: 50px;
     }
+
+    .texture-name {
+        width: 65%;
+    }
 }
 
 .item-footer {
@@ -36,14 +40,6 @@
     .liked {
         color: #e0353b;
     }
-}
-
-.texture-name {
-    width: 85%;
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
 }
 
 .model-label {

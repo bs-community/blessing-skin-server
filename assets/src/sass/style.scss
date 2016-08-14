@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-06-04 20:55:09
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-06 18:53:08
+ * @Last Modified time: 2016-08-14 09:02:03
  */
 
 @font-face {
@@ -76,6 +76,10 @@ input:-webkit-autofill {
     .item-body > img {
         margin-left: 25%;
     }
+
+    .texture-name {
+        width: 65%;
+    }
 }
 
 @media (max-width: 520px) {
@@ -86,6 +90,18 @@ input:-webkit-autofill {
     .item-body > img {
         margin-left: 30%;
     }
+
+    .texture-name {
+        width: 80%;
+    }
+}
+
+.texture-name {
+    width: 65%;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .item:hover {
