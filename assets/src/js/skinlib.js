@@ -2,10 +2,17 @@
  * @Author: printempw
  * @Date:   2016-07-19 10:46:38
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-13 23:23:14
+ * @Last Modified time: 2016-08-14 13:20:38
  */
 
 'use strict';
+
+$(document).ready(function() {
+    swal.setDefaults({
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+    });
+});
 
 $('#page-select').on('change', function() {
     // if has query strings
@@ -26,28 +33,32 @@ $('#private').on('ifToggled', function() {
 
 function addToCloset(tid) {
     $.getJSON('../skinlib/info/'+tid, function(json) {
-        var dom  =  '<div class="form-group">'+
-                        '<label for="new-name">给你的皮肤起个名字吧~</label>'+
-                        '<input id="new-name" class="form-control" type="text" value="'+json.name+'" />'+
-                    '</div><br />';
-        showModal(dom, '收藏新皮肤', 'default', 'ajaxAddToCloset('+tid+')');
-        return;
+        swal({
+            title: '给你的皮肤起个名字吧~',
+            inputValue: json.name,
+            input: 'text',
+            showCancelButton: true,
+            inputValidator: function(value) {
+                return new Promise(function(resolve, reject) {
+                    if (value) {
+                        resolve();
+                    } else {
+                        reject('你还没有填写名称哦');
+                    }
+                });
+            }
+        }).then(function(result) {
+            ajaxAddToCloset(tid, result);
+        });
     });
 }
 
-function ajaxAddToCloset(tid) {
+function ajaxAddToCloset(tid, name) {
     // remove interference of modal which is hide
     $('.modal').each(function() {
         if ($(this).css('display') == "none")
             $(this).remove();
     });
-
-    var name = $('#new-name').val();
-
-    if (name == "") {
-        toastr.info('你还没有填写名称哦');
-        $('#name').focus(); return;
-    }
 
     $.ajax({
         type: "POST",
@@ -56,7 +67,11 @@ function ajaxAddToCloset(tid) {
         data: { 'tid': tid, 'name': name },
         success: function(json) {
             if (json.errno == 0) {
-                toastr.success(json.msg);
+                swal({
+                    type: 'success',
+                    html: json.msg
+                });
+
                 $('.modal').modal('hide');
                 $('a[tid='+tid+']').attr('href', 'javascript:removeFromCloset('+tid+');').attr('title', '从衣柜中移除').addClass('liked');
                 $('#'+tid).attr('href', 'javascript:removeFromCloset('+tid+');').html('从衣柜中移除');
@@ -70,23 +85,36 @@ function ajaxAddToCloset(tid) {
 }
 
 function removeFromCloset(tid) {
-    $.ajax({
-        type: "POST",
-        url: "../user/closet/remove",
-        dataType: "json",
-        data: { 'tid' : tid },
-        success: function(json) {
-            if (json.errno == 0) {
-                toastr.success(json.msg);
-                $('a[tid='+tid+']').attr('href', 'javascript:addToCloset('+tid+');').attr('title', '添加至衣柜').removeClass('liked');
-                $('#'+tid).attr('href', 'javascript:addToCloset('+tid+');').html('添加至衣柜');
-                $('#likes').html(parseInt($('#likes').html()) - 1);
-            } else {
-                toastr.warning(json.msg);
-            }
-        },
-        error: showAjaxError
+    swal({
+        text: '确定要从衣柜中移除此材质吗？',
+        type: 'warning',
+        showCancelButton: true,
+        cancelButtonColor: '#3085d6',
+        confirmButtonColor: '#d33'
+    }).then(function() {
+        $.ajax({
+            type: "POST",
+            url: "../user/closet/remove",
+            dataType: "json",
+            data: { 'tid' : tid },
+            success: function(json) {
+                if (json.errno == 0) {
+                    swal({
+                        type: 'success',
+                        html: json.msg
+                    });
+
+                    $('a[tid='+tid+']').attr('href', 'javascript:addToCloset('+tid+');').attr('title', '添加至衣柜').removeClass('liked');
+                    $('#'+tid).attr('href', 'javascript:addToCloset('+tid+');').html('添加至衣柜');
+                    $('#likes').html(parseInt($('#likes').html()) - 1);
+                } else {
+                    toastr.warning(json.msg);
+                }
+            },
+            error: showAjaxError
+        });
     });
+
 }
 
 function init3dCanvas() {
@@ -183,17 +211,25 @@ function upload() {
             },
             success: function(json) {
                 if (json.errno == 0) {
-                    toastr.success(json.msg);
-                    toastr.info('正在跳转...');
-                    window.setTimeout('window.location = "./show?tid='+json.tid+'"', 2500);
+                    swal({
+                        type: 'success',
+                        html: json.msg
+                    }).then(function() {
+                        toastr.info('正在跳转...');
+                        window.setTimeout('window.location = "./show?tid='+json.tid+'"', 1000);
+                    });
                 } else {
-                    $('#upload-button').html('确认上传').prop('disabled', '');
-                    toastr.warning(json.msg);
+                    swal({
+                        type: 'warning',
+                        html: json.msg
+                    }).then(function() {
+                        $('#upload-button').html('确认上传').prop('disabled', '');
+                    });
                 }
             },
             error: function(json) {
                 $('#upload-button').html('确认上传').prop('disabled', '');
-                showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
+                showAjaxError(json);
             }
         });
     }
@@ -201,24 +237,35 @@ function upload() {
 }
 
 function changeTextureName(tid) {
-    var new_name = prompt("请输入新的材质名称：");
-
-    if (!new_name) return;
-
-    $.ajax({
-        type: "POST",
-        url: "./rename",
-        dataType: "json",
-        data: { 'tid': tid, 'new_name': new_name },
-        success: function(json) {
-            if (json.errno == 0) {
-                $('#name').text(new_name);
-                toastr.success(json.msg);
-            } else {
-                toastr.warning(json.msg);
-            }
-        },
-        error: showAjaxError
+    swal({
+        text: '请输入新的材质名称：',
+        input: 'text',
+        showCancelButton: true,
+        inputValidator: function(value) {
+            return new Promise(function(resolve, reject) {
+                if (value) {
+                    resolve();
+                } else {
+                    reject('你还没有填写名称哦');
+                }
+            });
+        }
+    }).then(function(new_name) {
+        $.ajax({
+            type: "POST",
+            url: "./rename",
+            dataType: "json",
+            data: { 'tid': tid, 'new_name': new_name },
+            success: function(json) {
+                if (json.errno == 0) {
+                    $('#name').text(new_name);
+                    toastr.success(json.msg);
+                } else {
+                    toastr.warning(json.msg);
+                }
+            },
+            error: showAjaxError
+        });
     });
 }
 
@@ -243,21 +290,33 @@ function changePrivacy(tid) {
 }
 
 function deleteTexture(tid) {
-    if (!window.confirm('真的要删除此材质吗？积分将会被返还')) return;
-
-    $.ajax({
-        type: "POST",
-        url: "./delete",
-        dataType: "json",
-        data: { 'tid': tid },
-        success: function(json) {
-            if (json.errno == 0) {
-                toastr.success(json.msg);
-                window.setTimeout('window.location = "./"', 1000);
-            } else {
-                toastr.warning(json.msg);
-            }
-        },
-        error: showAjaxError
+    swal({
+        text: '真的要删除此材质吗？积分将会被返还',
+        type: 'warning',
+        showCancelButton: true
+    }).then(function() {
+        $.ajax({
+            type: "POST",
+            url: "./delete",
+            dataType: "json",
+            data: { 'tid': tid },
+            success: function(json) {
+                if (json.errno == 0) {
+                    swal({
+                        type: 'success',
+                        html: json.msg
+                    }).then(function() {
+                        toastr.info('正在跳转...');
+                        window.setTimeout('window.location = "./', 1000);
+                    });
+                } else {
+                    swal({
+                        type: 'warning',
+                        html: json.msg
+                    });
+                }
+            },
+            error: showAjaxError
+        });
     });
 }

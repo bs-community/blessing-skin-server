@@ -2,8 +2,10 @@
  * @Author: printempw
  * @Date:   2016-06-04 20:55:09
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-14 09:02:03
+ * @Last Modified time: 2016-08-14 12:58:39
  */
+
+$font_stack: Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
 
 @font-face {
     font-family: 'Ubuntu';
@@ -21,7 +23,16 @@
 }
 
 body, h1, h2, h3, h4, h5, h6, .logo {
-    font-family: Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif !important;
+    font-family: $font_stack !important;
+}
+
+.swal2-modal, .swal2-content {
+    font-family: $font_stack;
+    font-weight: 400;
+}
+
+.swal2-modal h2 {
+    font-size: 25px;
 }
 
 /* fucking webkit autofill */

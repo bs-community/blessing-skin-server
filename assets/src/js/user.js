@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 10:02:24
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-07-24 12:28:52
+ * @Last Modified time: 2016-08-14 13:03:37
  */
 
 'use strict';
@@ -146,49 +146,68 @@ $('body').on('click', '.item', function() {
 });
 
 function removeFromCloset(tid) {
-    if (!window.confirm('真的要从您的衣柜中移除此皮肤/披风吗？')) return;
+    swal({
+        text: '确定要从衣柜中移除此材质吗？',
+        type: 'warning',
+        showCancelButton: true
+    }).then(function() {
+        $.ajax({
+            type: "POST",
+            url: "./closet/remove",
+            dataType: "json",
+            data: { 'tid' : tid },
+            success: function(json) {
+                if (json.errno == 0) {
+                    swal({
+                        type: 'success',
+                        html: json.msg
+                    });
 
-    $.ajax({
-        type: "POST",
-        url: "./closet/remove",
-        dataType: "json",
-        data: { "tid": tid },
-        success: function(json) {
-            if (json.errno == 0)
-                toastr.success(json.msg);
-            else
-                toastr.warning(json.msg);
-        },
-        error: showAjaxError
+                    $('div[tid='+tid+']').remove();
+                } else {
+                    toastr.warning(json.msg);
+                }
+            },
+            error: showAjaxError
+        });
     });
 }
 
 function setAsAvatar(tid) {
-    if (!window.confirm('真的要将此材质设置为用户头像吗？（将会自动截取皮肤头部）')) return;
-
-    $.ajax({
-        type: "POST",
-        url: "./profile/avatar",
-        dataType: "json",
-        data: { "tid": tid },
-        success: function(json) {
-            if (json.errno == 0) {
-                toastr.success(json.msg);
-                // refersh avatars
-                $('[alt="User Image"]').each(function() {
-                    $(this).prop('src', $(this).attr('src') + '?' + new Date().getTime());
-                })
-            } else {
-                toastr.warning(json.msg);
-            }
-        },
-        error: showAjaxError
+    swal({
+        title: '确定要将此材质设置为用户头像吗？',
+        text: '将会自动截取皮肤头部',
+        type: 'question',
+        showCancelButton: true
+    }).then(function() {
+        $.ajax({
+            type: "POST",
+            url: "./profile/avatar",
+            dataType: "json",
+            data: { "tid": tid },
+            success: function(json) {
+                if (json.errno == 0) {
+                    toastr.success(json.msg);
+                    // refersh avatars
+                    $('[alt="User Image"]').each(function() {
+                        $(this).prop('src', $(this).attr('src') + '?' + new Date().getTime());
+                    })
+                } else {
+                    toastr.warning(json.msg);
+                }
+            },
+            error: showAjaxError
+        });
     });
 }
 
 $(document).ready(function() {
     $('input[type=radio]').iCheck({
         radioClass: 'iradio_square-blue'
+    });
+    swal.setDefaults({
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
     });
 });
 
@@ -213,7 +232,10 @@ function setTexture() {
             data: { 'pid' : pid, 'tid' : tid },
             success: function(json) {
                 if (json.errno == 0) {
-                    toastr.success(json.msg);
+                    swal({
+                        type: 'success',
+                        html: json.msg
+                    });
                     $('#modal-use-as').modal('hide');
                 } else {
                     toastr.warning(json.msg);
@@ -245,63 +267,104 @@ $('body').on('change', '#preference', function() {
 });
 
 function changePlayerMame(pid, current_player_name) {
-    var new_player_name = prompt("请输入角色名（允许数字、字母以及下划线，是否支持中文角色名请参考本站设置）：", current_player_name);
-
-    if (!new_player_name) return;
-
-    $.ajax({
-        type: "POST",
-        url: "./player/rename",
-        dataType: "json",
-        data: { 'pid' : pid, 'new_player_name' : new_player_name },
-        success: function(json) {
-            if (json.errno == 0) {
-                toastr.success(json.msg);
-                $('td:contains("'+pid+'")').next().html(new_player_name);
-            } else {
-                toastr.warning(json.msg);
-            }
-        },
-        error: showAjaxError
+    swal({
+        title: '请输入角色名：',
+        text: '允许数字、字母以及下划线，是否支持中文角色名请参考本站设置',
+        inputValue: current_player_name,
+        input: 'text',
+        showCancelButton: true,
+        inputValidator: function(value) {
+            return new Promise(function(resolve, reject) {
+                if (value) {
+                    resolve();
+                } else {
+                    reject('你还没有填写名称哦');
+                }
+            });
+        }
+    }).then(function(new_player_name) {
+        $.ajax({
+            type: "POST",
+            url: "./player/rename",
+            dataType: "json",
+            data: { 'pid' : pid, 'new_player_name' : new_player_name },
+            success: function(json) {
+                if (json.errno == 0) {
+                    swal({
+                        type: 'success',
+                        html: json.msg
+                    });
+                    $('td:contains("'+pid+'")').next().html(new_player_name);
+                } else {
+                    swal({
+                        type: 'error',
+                        html: json.msg
+                    });
+                }
+            },
+            error: showAjaxError
+        });
     });
 }
 
 function clearTexture(pid) {
-    if (!window.confirm('确定要重置该用户的皮肤/披风吗？')) return;
-
-    $.ajax({
-        type: "POST",
-        url: "./player/texture/clear",
-        dataType: "json",
-        data: { 'pid' : pid },
-        success: function(json) {
-            if (json.errno == 0) {
-                toastr.success(json.msg);
-            } else {
-                toastr.warning(json.msg);
-            }
-        },
-        error: showAjaxError
+    swal({
+        text: "确定要重置该用户的皮肤/披风吗？",
+        type: 'warning',
+        showCancelButton: true
+    }).then(function() {
+        $.ajax({
+            type: "POST",
+            url: "./player/texture/clear",
+            dataType: "json",
+            data: { 'pid' : pid },
+            success: function(json) {
+                if (json.errno == 0) {
+                    swal({
+                        type: 'success',
+                        html: json.msg
+                    });
+                } else {
+                    swal({
+                        type: 'error',
+                        html: json.msg
+                    });
+                }
+            },
+            error: showAjaxError
+        });
     });
 }
 
 function deletePlayer(pid) {
-    if (!window.confirm('真的要删除该玩家吗？这将是永久性的删除')) return;
-
-    $.ajax({
-        type: "POST",
-        url: "./player/delete",
-        dataType: "json",
-        data: { 'pid' : pid },
-        success: function(json) {
-            if (json.errno == 0) {
-                toastr.success(json.msg);
-                $('#'+pid).remove();
-            } else {
-                toastr.warning(json.msg);
-            }
-        },
-        error: showAjaxError
+    swal({
+        title: "真的要删除该玩家吗？",
+        text: "这将是永久性的删除",
+        type: 'warning',
+        showCancelButton: true,
+        cancelButtonColor: '#3085d6',
+        confirmButtonColor: '#d33'
+    }).then(function() {
+        $.ajax({
+            type: "POST",
+            url: "./player/delete",
+            dataType: "json",
+            data: { 'pid' : pid },
+            success: function(json) {
+                if (json.errno == 0) {
+                    swal({
+                        type: 'success',
+                        html: json.msg
+                    });
+                } else {
+                    swal({
+                        type: 'error',
+                        html: json.msg
+                    });
+                }
+            },
+            error: showAjaxError
+        });
     });
 }
 
@@ -313,9 +376,13 @@ function addNewPlayer() {
         data: { 'player_name' : $('#player_name').val() },
         success: function(json) {
             if (json.errno == 0) {
-                toastr.success(json.msg);
-                $('#modal-add-player').modal('hide');
-                location.reload();
+                swal({
+                    type: 'success',
+                    html: json.msg
+                }).then(function() {
+                    $('#modal-add-player').modal('hide');
+                    location.reload();
+                });
             } else {
                 toastr.warning(json.msg);
             }
@@ -328,29 +395,44 @@ function changeNickName() {
     var new_nickname = $('#new-nickname').val();
 
     if (!new_nickname) {
-        toastr.warning('你还没有填写新昵称啊');
+        swal({
+            type: 'error',
+            html: '你还没有填写新昵称啊'
+        });
         return;
     }
 
-    if (!window.confirm('确定要将昵称设置为 '+new_nickname+' 吗？')) return;
-
-    $.ajax({
-        type: "POST",
-        url: "./profile?action=nickname",
-        dataType: "json",
-        data: { 'new_nickname' : new_nickname },
-        success: function(json) {
-            if (json.errno == 0) {
-                toastr.success(json.msg);
-                $('.nickname').each(function() {
-                    $(this).html(new_nickname);
-                });
-            } else {
-                toastr.warning(json.msg);
-            }
-        },
-        error: showAjaxError
+    swal({
+        text: '确定要将昵称设置为 ' + new_nickname + ' 吗？',
+        type: 'question',
+        showCancelButton: true
+    }).then(function() {
+        $.ajax({
+            type: "POST",
+            url: "./profile?action=nickname",
+            dataType: "json",
+            data: { 'new_nickname' : new_nickname },
+            success: function(json) {
+                if (json.errno == 0) {
+                    swal({
+                        type: 'success',
+                        html: json.msg
+                    });
+                    $('.nickname').each(function() {
+                        $(this).html(new_nickname);
+                    });
+                } else {
+                    swal({
+                        type: 'warning',
+                        html: json.msg
+                    });
+                }
+            },
+            error: showAjaxError
+        });
     });
+
+
 }
 
 function changePassword() {
@@ -378,17 +460,22 @@ function changePassword() {
             data: { 'current_password': password, 'new_password': new_passwd},
             success: function(json) {
                 if (json.errno == 0) {
-                    toastr.success(json.msg);
-                    logout(true, function() {
-                        window.setTimeout('window.location = "../auth/login"', 1000);
+                    swal({
+                        type: 'success',
+                        html: json.msg
+                    }).then(function() {
+                        logout(true, function() {
+                            window.location = "../auth/login";
+                        });
                     });
                 } else {
-                    toastr.warning(json.msg);
+                    swal({
+                        type: 'warning',
+                        html: json.msg
+                    });
                 }
             },
-            error: function(json) {
-                showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-            }
+            error: showAjaxError
         });
     }
     return false;
@@ -407,40 +494,60 @@ function changeEmail() {
     var new_email = $('#new-email').val();
 
     if (!new_email) {
-        toastr.warning('你还没有填写新邮箱啊'); return;
+        swal({
+            type: 'error',
+            html: '你还没有填写新邮箱啊'
+        });
+        return;
     }
     // check valid email address
     if (!/\S+@\S+\.\S+/.test(new_email)) {
-        toastr.warning('邮箱格式不正确！'); return;
+        swal({
+            type: 'warning',
+            html: '邮箱格式不正确'
+        }); return;
     }
 
-    if (!window.confirm('确定要将用户邮箱更改为 '+new_email+' 吗？')) return;
-
-    $.ajax({
-        type: "POST",
-        url: "./profile?action=email",
-        dataType: "json",
-        data: { 'new_email' : new_email, 'password' : $('#current-password').val() },
-        success: function(json) {
-            if (json.errno == 0) {
-                toastr.success(json.msg);
-                logout(true, function() {
-                    window.setTimeout('window.location = "../auth/login"', 1000);
-                });
-            } else {
-                toastr.warning(json.msg);
-            }
-        },
-        error: showAjaxError
+    swal({
+        text: '确定要将用户邮箱更改为 '+new_email+' 吗？',
+        type: 'question',
+        showCancelButton: true
+    }).then(function() {
+        $.ajax({
+            type: "POST",
+            url: "./profile?action=email",
+            dataType: "json",
+            data: { 'new_email' : new_email, 'password' : $('#current-password').val() },
+            success: function(json) {
+                if (json.errno == 0) {
+                    swal({
+                        type: 'success',
+                        html: json.msg
+                    }).then(function() {
+                        logout(true, function() {
+                            window.location = "../auth/login";
+                        });
+                    });
+                } else {
+                    swal({
+                        type: 'warning',
+                        html: json.msg
+                    });
+                }
+            },
+            error: showAjaxError
+        });
     });
 }
 
 function deleteAccount() {
-
     var password = $('.modal-body>#password').val();
 
     if (!password) {
-        toastr.warning('请先输入当前用户密码'); return;
+        swal({
+            type: 'warning',
+            html: '请先输入当前用户密码'
+        }); return;
     }
 
     $.ajax({
@@ -450,12 +557,19 @@ function deleteAccount() {
         data: { 'password' : password },
         success: function(json) {
             if (json.errno == 0) {
-                toastr.success(json.msg);
-                logout(true, function() {
-                    window.setTimeout('window.location = "../auth/login"', 1000);
+                swal({
+                    type: 'success',
+                    html: json.msg
+                }).then(function() {
+                    logout(true, function() {
+                        window.location = "../auth/login";
+                    });
                 });
             } else {
-                toastr.warning(json.msg);
+                swal({
+                    type: 'warning',
+                    html: json.msg
+                });
             }
         },
         error: showAjaxError
@@ -495,10 +609,14 @@ function sign() {
         dataType: "json",
         success: function(json) {
             if (json.errno == 0) {
-                toastr.success(json.msg);
-                $('#score').html(json.score);
-                var dom = '<i class="fa fa-calendar-check-o"></i> &nbsp;'+json.remaining_time+' 小时后可签到';
-                $('#sign-button').attr('disabled', 'disabled').html(dom);
+                swal({
+                    type: 'success',
+                    html: json.msg
+                }).then(function() {
+                    $('#score').html(json.score);
+                    var dom = '<i class="fa fa-calendar-check-o"></i> &nbsp;'+json.remaining_time+' 小时后可签到';
+                    $('#sign-button').attr('disabled', 'disabled').html(dom);
+                });
             } else {
                 toastr.warning(json.msg);
             }

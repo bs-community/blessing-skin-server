@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-08-06 22:14:40
+* @Last Modified time: 2016-08-14 13:33:51
 */
 
 var gulp     = require('gulp'),
@@ -78,6 +78,15 @@ gulp.task('copy', function(cb) {
 
     gulp.src('./assets/bower_components/toastr/toastr.min.js')
         .pipe(gulp.dest('./assets/libs/js/'));
+
+    gulp.src('./assets/bower_components/sweetalert2/dist/sweetalert2.min.css')
+        .pipe(gulp.dest('./assets/libs/css/'));
+
+    gulp.src('./assets/bower_components/sweetalert2/dist/sweetalert2.min.js')
+        .pipe(gulp.dest('./assets/libs/js/'));
+
+    gulp.src('./assets/bower_components/es6-promise/es6-promise.min.js')
+        .pipe(gulp.dest('./assets/libs/js/'));
 });
 
 gulp.task('lint', function() {
@@ -93,7 +102,8 @@ gulp.task('lib-css', function() {
             './assets/libs/css/fileinput.min.css',
             './assets/libs/css/font-awesome.min.css',
             './assets/libs/css/blue.css',
-            './assets/libs/css/toastr.min.css'
+            './assets/libs/css/toastr.min.css',
+            './assets/libs/css/sweetalert2.min.css'
         ])
         .pipe(concat('app.min.css'))
         .pipe(cleanCss())
@@ -108,6 +118,8 @@ gulp.task('lib-scripts', function() {
             './assets/libs/js/icheck.min.js',
             './assets/libs/js/fileinput.min.js',
             './assets/libs/js/toastr.min.js',
+            './assets/libs/js/es6-promise.min.js',
+            './assets/libs/js/sweetalert2.min.js',
             './assets/src/js/utils.js'
         ])
         .pipe(concat('app.min.js'))
@@ -144,14 +156,14 @@ gulp.task('scripts', function() {
 
 gulp.task('minify', ['sass', 'scripts']);
 
-gulp.task('clean', ['concat', 'minify'], function (cb) {
+gulp.task('clean', function (cb) {
     return del([
         './assets/libs/css/**',
         './assets/libs/js/**'
     ], cb);
 });
 
-gulp.task('build', ['concat', 'minify', 'clean']);
+gulp.task('build', ['concat', 'minify']);
 
 // release
 gulp.task('zip', function() {

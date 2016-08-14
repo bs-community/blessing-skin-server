@@ -23,6 +23,7 @@
     "toastr": "^2.1.2",
     "font-awesome": "Font-Awesome#^4.6.3",
     "bootstrap-fileinput": "^4.3.3",
-    "bootstrap": "^3.3.6"
+    "bootstrap": "^3.3.6",
+    "sweetalert2": "^4.1.6"
   }
 }

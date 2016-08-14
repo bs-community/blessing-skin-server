@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 09:02:32
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-06 18:52:23
+ * @Last Modified time: 2016-08-14 13:27:11
  */
 
 function showModal(msg, title, type, callback) {
@@ -42,25 +42,41 @@ function getQueryString(key) {
 
 function logout(with_out_confirm, callback) {
     if (!with_out_confirm) {
-        if (!window.confirm('确定要登出吗？')) return;
-    }
+        swal({
+            text: '确定要登出吗？',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: '确定',
+            cancelButtonText: '取消'
+        }).then(function() {
+            $.ajax({
+                type: "POST",
+                url: "../auth/logout",
+                dataType: "json",
+                success: function(json) {
+                    docCookies.removeItem("email", "/");
+                    docCookies.removeItem("token", "/");
 
-    $.ajax({
-        type: "POST",
-        url: "../auth/logout",
-        dataType: "json",
-        success: function(json) {
-            docCookies.removeItem("email", "/");
-            docCookies.removeItem("token", "/");
-            // silent
-            if (!with_out_confirm) {
-                toastr.success(json.msg);
-                window.setTimeout('window.location = "../"', 1000);
-            } else {
+                    swal({
+                        type: 'success',
+                        html: json.msg
+                    });
+                }
+            });
+        });
+    } else {
+        $.ajax({
+            type: "POST",
+            url: "../auth/logout",
+            dataType: "json",
+            success: function(json) {
+                docCookies.removeItem("email", "/");
+                docCookies.removeItem("token", "/");
+
                 if (callback) callback(json);
             }
-        }
-    });
+        });
+    }
 }
 
 /**
@@ -106,4 +122,3 @@ var docCookies = {
         return aKeys;
     }
 };
-

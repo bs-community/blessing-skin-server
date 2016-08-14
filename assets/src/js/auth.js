@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-17 10:54:22
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-07-29 11:10:21
+ * @Last Modified time: 2016-08-14 13:22:35
  */
 
 'use strict';
@@ -63,12 +63,20 @@ $('#login-button').click(function() {
                     docCookies.setItem('email', data.email, time, '/');
                     docCookies.setItem('token', json.token, time, '/');
 
-                    showMsg(json.msg, 'success');
+                    swal({
+                        type: 'success',
+                        html: json.msg
+                    });
                     window.setTimeout('window.location = "../user"', 1000);
+
                 } else {
                     if (json.login_fails > 3) {
+                        swal({
+                            type: 'error',
+                            html: '你尝试的次数太多啦，请输入验证码'
+                        });
+
                         $('#captcha-form').show();
-                        toastr.warning('你尝试的次数太多啦，请输入验证码');
                         freshCaptcha();
                     }
 
@@ -138,7 +146,10 @@ $('#register-button').click(function() {
                     docCookies.setItem('email', email, null, '/');
                     docCookies.setItem('token', json.token, null, '/');
 
-                    showMsg(json.msg, 'success');
+                    swal({
+                        type: 'success',
+                        html: json.msg
+                    });
                     window.setTimeout('window.location = "../user"', 1000);
                 } else {
                     showMsg(json.msg, 'warning');
@@ -225,8 +236,12 @@ $('#reset-button').click(function() {
             },
             success: function(json) {
                 if (json.errno == 0) {
-                    showMsg('重置成功，请登录~', 'success');
-                    window.setTimeout('window.location = "./login"', 1000);
+                    swal({
+                        type: '重置成功，请重新登录~',
+                        html: json.msg
+                    }).then(function() {
+                        window.location = "./login";
+                    });
                 } else {
                     showMsg(json.msg, 'warning');
                     $('#reset-button').html('重置').prop('disabled', '');
@@ -239,5 +254,4 @@ $('#reset-button').click(function() {
         });
     }
     return false;
-
 });

@@ -44,14 +44,14 @@
                                 <p class="texture-name">
                                     <span title="{{ $item->name }}">{{ $item->name }} <small>({{ $item->type }})</small></span>
                                 </p>
+
                                 <a href="../skinlib/show?tid={{ $item->tid }}" title="在皮肤库中查看" class="more" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-share"></i></a>
+                                <span title="更多" class="more" data-toggle="dropdown" aria-haspopup="true" id="share-button"><i class="fa fa-cog"></i></span>
 
                                 <ul class="dropdown-menu" aria-labelledby="share-button">
                                     <li><a href="javascript:removeFromCloset({{ $item->tid }});">从衣柜中移除</a></li>
                                     <li><a href="javascript:setAsAvatar({{ $item->tid }});">设为头像</a></li>
                                 </ul>
-
-                                <span title="更多" class="more" data-toggle="dropdown" aria-haspopup="true" id="share-button"><i class="fa fa-cog"></i></span>
                             </div>
                         </div>
                         @empty
