@@ -105,7 +105,7 @@
         <!-- Main Footer -->
         <footer class="main-footer">
             <div class="container text-center">
-                Copyright &copy; 2016 <a href="{{ Option::get('site_url') }}">{{ Option::get('site_name') }}</a>. All rights reserved.
+                {!! Utils::getStringReplaced(Option::get('copyright_text'), ['{site_name}' => Option::get('site_name'), '{site_url}' => Option::get('site_url')]) !!}
             </div>
         </footer>
 

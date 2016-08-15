@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-07-29 11:53:11
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-13 23:02:04
+ * @Last Modified time: 2016-08-15 22:09:17
  */
 
 return [
@@ -18,7 +18,6 @@ return [
     'home_pic_url'              => './assets/images/bg.jpg',
     'custom_css'                => '',
     'custom_js'                 => '',
-    'update_url'                => 'https://work.prinzeugen.net/update.json',
     'allow_chinese_playername'  => '1',
     'show_footer_copyright'     => '1',
     'comment_script'            => '',
@@ -32,5 +31,6 @@ return [
     'avatar_query_string'       => '0',
     'version'                   => '',
     'check_update'              => '1',
-    'update_source'             => 'github'
+    'update_source'             => 'github',
+    'copyright_text'            => '<strong>Copyright &copy; 2016 <a href="{site_url}">{site_name}</a>.</strong> All rights reserved.'
 ];

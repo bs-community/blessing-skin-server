@@ -132,7 +132,7 @@
                 </div>
                 @endif
                 <!-- Default to the left -->
-                <strong>Copyright &copy; 2016 <a href="{{ Option::get('site_url') }}">{{ Option::get('site_name') }}</a>.</strong> All rights reserved.
+                {!! Utils::getStringReplaced(Option::get('copyright_text'), ['{site_name}' => Option::get('site_name'), '{site_url}' => Option::get('site_url')]) !!}
             </div>
         </footer>
 

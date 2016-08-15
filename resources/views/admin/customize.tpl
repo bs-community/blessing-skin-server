@@ -103,6 +103,7 @@
 
                                 Option::set('home_pic_url', $_POST['home_pic_url']);
                                 Option::set('show_footer_copyright', $_POST['show_footer_copyright']);
+                                Option::set('copyright_text', $_POST['copyright_text']);
                                 echo '<div class="callout callout-success">设置已保存。</div>';
                             } ?>
                             <table class="table">
@@ -119,8 +120,15 @@
                                         </td>
                                         <td class="value">
                                             <label for="show_footer_copyright">
-                                                <input <?php echo (Option::get('show_footer_copyright') == '1') ? 'checked="true"' : ''; ?> type="checkbox" id="show_footer_copyright" name="show_footer_copyright" value="1"> 显示页面右下角的版权信息
+                                                <input {{ (Option::get('show_footer_copyright') == '1') ? 'checked="true"' : '' }} type="checkbox" id="show_footer_copyright" name="show_footer_copyright" value="1"> 显示页面右下角的版权信息
                                             </label>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="key">版权文字</td>
+                                        <td class="value">
+                                            <textarea class="form-control" rows="4" name="copyright_text">{{ Option::get('copyright_text') }}</textarea>
+                                            <p class="description">自定义版权文字内可使用占位符，<code>{site_name}</code> 将会被自动替换为站点名称，<code>{site_url}</code> 会被替换为站点地址。</p>
                                         </td>
                                     </tr>
                                 </tbody>
