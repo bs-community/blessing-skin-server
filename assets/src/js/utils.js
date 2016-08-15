@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 09:02:32
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-14 13:27:11
+ * @Last Modified time: 2016-08-15 22:20:12
  */
 
 function showModal(msg, title, type, callback) {
@@ -61,6 +61,7 @@ function logout(with_out_confirm, callback) {
                         type: 'success',
                         html: json.msg
                     });
+                    window.setTimeout('window.location = "../"', 1000);
                 }
             });
         });
