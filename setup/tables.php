@@ -3,13 +3,13 @@
  * @Author: printempw
  * @Date:   2016-08-06 19:39:12
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-06 19:39:25
+ * @Last Modified time: 2016-08-15 12:24:34
  */
 
 Schema::create('users', function($table) {
     $table->increments('uid');
     $table->string('email', 100);
-    $table->string('nickname', 50);
+    $table->string('nickname', 50)->default('');
     $table->integer('score');
     $table->integer('avatar')->default('0');
     $table->string('password', 255);
@@ -21,7 +21,7 @@ Schema::create('users', function($table) {
 
 Schema::create('closets', function($table) {
     $table->increments('uid');
-    $table->longText('textures')->default('');
+    $table->longText('textures');
 });
 
 Schema::create('players', function($table) {
