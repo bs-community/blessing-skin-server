@@ -69,9 +69,6 @@
                         <div class="box-body">
                             <div id="skinpreview"></div>
                         </div><!-- /.box-body -->
-                        <div class="box-footer">
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#modal-use-as">使用...</button>
-                        </div><!-- /.box-footer -->
                     </div>
                 </div>
             </div>
