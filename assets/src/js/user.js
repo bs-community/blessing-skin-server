@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 10:02:24
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-14 13:03:37
+ * @Last Modified time: 2016-08-15 12:36:21
  */
 
 'use strict';
@@ -380,9 +380,9 @@ function addNewPlayer() {
                     type: 'success',
                     html: json.msg
                 }).then(function() {
-                    $('#modal-add-player').modal('hide');
                     location.reload();
                 });
+                $('#modal-add-player').modal('hide');
             } else {
                 toastr.warning(json.msg);
             }
