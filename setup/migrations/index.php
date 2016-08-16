@@ -32,7 +32,7 @@ if (isset($_COOKIE['email']) && isset($_COOKIE['token'])) {
 
 // check permission
 if (isset($_SESSION['email'])) {
-    $user = new App\Models\User($_SESSION['email']);
+    $user = new App\Models\User(0, ['email' => $_SESSION['email']]);
 
     if ($_SESSION['token'] != $user->getToken())
         Http::redirect('../../auth/login', '无效的 token，请重新登录~');

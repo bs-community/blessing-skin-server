@@ -25,7 +25,7 @@ class User
      * Instance of App\Models\UserModel
      * @var null
      */
-    private $eloquent_model = null;
+    private $model          = null;
 
     /**
      * Instance of App\Models\Closet
@@ -37,28 +37,45 @@ class User
     public $is_admin        = false;
 
     /**
-     * You can construct a User object with both email & uid
+     * Pass uid or an array to instantiate a user
      *
-     * @param string $email
-     * @param int $uid
+     * $info = [
+     *   'username' => 'foo',
+     *   'email'    => 'foo@bar.com'
+     * ];
+     *
+     * @param int   $uid
+     * @param array $info
      */
-    function __construct($email, $uid = 0)
+    public function __construct($uid, Array $info)
     {
-        $this->email             = Utils::convertString($email);
-        $this->eloquent_model    = ($uid == 0) ? UserModel::where('email', $this->email)->first() : UserModel::find($uid);
+        // Construct user with uid|email|player_name
+        if ($uid != 0) {
+            $this->uid          = $uid;
+            $this->model        = UserModel::find($uid);
+        } else {
+            if (isset($info['email'])) {
+                $this->email    = Utils::convertString($email);
+                $this->model    = UserModel::where('email', $this->email)->first();
+            } elseif (isset($info['username'])) {
+                $this->uid      = PlayerModel::where('player_name', $info['username'])->first()['uid'];
+                $this->model    = UserModel::find($this->uid);
+            } else {
+                throw new \InvalidArgumentException('Invalid arguments');
+            }
+        }
 
         $class_name              = "App\Services\Cipher\\".$_ENV['PWD_METHOD'];
         $this->cipher            = new $class_name;
 
-        if (!is_null($this->eloquent_model)) {
+        if (!is_null($this->model)) {
             $this->is_registered = true;
-            $this->uid           = $this->eloquent_model->uid;
-            $this->email         = $this->eloquent_model->email;
-            $this->password      = $this->eloquent_model->password;
+            $this->uid           = $this->model->uid;
+            $this->email         = $this->model->email;
+            $this->password      = $this->model->password;
             $this->token         = md5($this->email . $this->password . $_ENV['SALT']);
             $this->closet        = new Closet($this->uid);
-            $this->is_admin      = $this->eloquent_model->permission == 1 ||
-                                        $this->eloquent_model->permission == 2;
+            $this->is_admin      = $this->model->permission == 1 || $this->model->permission == 2;
         }
     }
 
@@ -69,13 +86,13 @@ class User
 
     public function changePasswd($new_passwd)
     {
-        $this->eloquent_model->password = $this->cipher->encrypt($new_passwd, $_ENV['SALT']);
-        return $this->eloquent_model->save();
+        $this->model->password = $this->cipher->encrypt($new_passwd, $_ENV['SALT']);
+        return $this->model->save();
     }
 
     public function getPermission()
     {
-        return $this->eloquent_model->permission;
+        return $this->model->permission;
     }
 
     /**
@@ -88,13 +105,13 @@ class User
      */
     public function setPermission($permission)
     {
-        return $this->eloquent_model->update(['permission' => $permission]);
+        return $this->model->update(['permission' => $permission]);
     }
 
     public function setEmail($new_email)
     {
-        $this->eloquent_model->email = $new_email;
-        return $this->eloquent_model->save();
+        $this->model->email = $new_email;
+        return $this->model->save();
     }
 
     public function getNickName()
@@ -102,44 +119,44 @@ class User
         if (!$this->is_registered) {
             return "不存在的用户";
         } else {
-            return ($this->eloquent_model->nickname == "") ? $this->email : $this->eloquent_model->nickname;
+            return ($this->model->nickname == "") ? $this->email : $this->model->nickname;
         }
     }
 
     public function setNickName($new_nickname)
     {
-        $this->eloquent_model->nickname = $new_nickname;
-        return $this->eloquent_model->save();
+        $this->model->nickname = $new_nickname;
+        return $this->model->save();
     }
 
     public function getToken()
     {
         if ($this->token === "")
-            $this->token = md5($this->eloquent_model->email . $this->eloquent_model->password . $_ENV['SALT']);
+            $this->token = md5($this->model->email . $this->model->password . $_ENV['SALT']);
         return $this->token;
     }
 
     public function getScore()
     {
-        return $this->eloquent_model->score;
+        return $this->model->score;
     }
 
     public function setScore($score, $mode = "set")
     {
         switch ($mode) {
             case 'set':
-                $this->eloquent_model->score = $score;
+                $this->model->score = $score;
                 break;
 
             case 'plus':
-                $this->eloquent_model->score += $score;
+                $this->model->score += $score;
                 break;
 
             case 'minus':
-                $this->eloquent_model->score -= $score;
+                $this->model->score -= $score;
                 break;
         }
-        return $this->eloquent_model->save();
+        return $this->model->save();
     }
 
     public function getStorageUsed()
@@ -162,8 +179,8 @@ class User
             $sign_score = explode(',', Option::get('sign_score'));
             $aquired_score = rand($sign_score[0], $sign_score[1]);
             $this->setScore($aquired_score, 'plus');
-            $this->eloquent_model->last_sign_at = Utils::getTimeFormatted();
-            $this->eloquent_model->save();
+            $this->model->last_sign_at = Utils::getTimeFormatted();
+            $this->model->save();
             return $aquired_score;
         } else {
             return false;
@@ -188,7 +205,7 @@ class User
 
     public function getLastSignTime()
     {
-        return $this->eloquent_model->last_sign_at;
+        return $this->model->last_sign_at;
     }
 
     /**
@@ -215,7 +232,7 @@ class User
         $closet->textures   = "";
         $closet->save();
 
-        $this->eloquent_model = $user;
+        $this->model = $user;
         return $this;
     }
 
@@ -234,7 +251,7 @@ class User
     public function getAvatar($size)
     {
         // output image directly
-        if (!is_null($this->eloquent_model) && $this->getAvatarId()) {
+        if (!is_null($this->model) && $this->getAvatarId()) {
             $png = \Minecraft::generateAvatarFromSkin(BASE_DIR."/textures/".Texture::find($this->getAvatarId())->hash, $size);
             header('Content-Type: image/png');
             imagepng($png);
@@ -251,20 +268,20 @@ class User
 
     public function getAvatarId()
     {
-        return $this->eloquent_model->avatar;
+        return $this->model->avatar;
     }
 
     public function setAvatar($tid)
     {
-        $this->eloquent_model->avatar = $tid;
-        return $this->eloquent_model->save();
+        $this->model->avatar = $tid;
+        return $this->model->save();
     }
 
     public function delete()
     {
         PlayerModel::where('uid', $this->uid)->delete();
         ClosetModel::where('uid', $this->uid)->delete();
-        return $this->eloquent_model->delete();
+        return $this->model->delete();
     }
 
 }

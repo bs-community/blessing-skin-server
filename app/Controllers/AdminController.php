@@ -125,9 +125,9 @@ class AdminController extends BaseController
             View::json('修改配色成功', 0);
         }
 
-        $user = new User('', Utils::getValue('uid', $_POST));
+        $user = new User(Utils::getValue('uid', $_POST));
 
-        $current_user = new User($_SESSION['email']);
+        $current_user = new User(0, ['email' => $_SESSION['email']]);
 
         if (!$user->is_registered)
             throw new E('用户不存在', 1);
@@ -246,7 +246,7 @@ class AdminController extends BaseController
             if (!is_numeric($_POST['uid']))
                 View::json('无效的参数', 0);
 
-            $user = new User('', $_POST['uid']);
+            $user = new User($_POST['uid']);
 
             if (!$user->is_registered)
                 View::json('不存在的用户', 1);

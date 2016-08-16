@@ -17,7 +17,7 @@ class CheckLoggedInMiddleware implements IMiddleware
         }
 
         if (isset($_SESSION['email'])) {
-            $user = new User($_SESSION['email']);
+            $user = new User(0, ['email' => $_SESSION['email']]);
 
             if ($_SESSION['token'] != $user->getToken())
                 \Http::redirect('../auth/login', '无效的 token，请重新登录~');

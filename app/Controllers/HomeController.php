@@ -22,7 +22,7 @@ class HomeController extends BaseController
             }
         }
 
-        $user = isset($_SESSION['email']) ? new User($_SESSION['email']) : null;
+        $user = isset($_SESSION['email']) ? new User(0, ['email' => $_SESSION['email']]) : null;
 
         echo \View::make('index')->with('user', $user);
     }

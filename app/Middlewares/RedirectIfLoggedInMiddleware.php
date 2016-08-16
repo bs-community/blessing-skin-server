@@ -16,7 +16,7 @@ class RedirectIfLoggedInMiddleware implements IMiddleware
         }
 
         if (isset($_SESSION['email'])) {
-            if ($_SESSION['token'] != (new User($_SESSION['email']))->getToken())
+            if ($_SESSION['token'] != (new User(0, ['email' => $_SESSION['email']]))->getToken())
             {
                 $_SESSION['msg'] = "无效的 token，请重新登录~";
             } else {

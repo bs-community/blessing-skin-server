@@ -27,7 +27,7 @@ class PlayerController extends BaseController
 
     public function index()
     {
-        echo View::make('user.player')->with('players', (new User($_SESSION['email']))->getPlayers()->toArray())->with('user', new User($_SESSION['email']));
+        echo View::make('user.player')->with('players', (new User(0, ['email' => $_SESSION['email']]))->getPlayers()->toArray())->with('user', new User(0, ['email' => $_SESSION['email']]));
     }
 
     public function add()
@@ -46,7 +46,7 @@ class PlayerController extends BaseController
         if (!PlayerModel::where('player_name', $player_name)->get()->isEmpty())
             View::json('该角色名已经被其他人注册掉啦', 6);
 
-        $user = new User($_SESSION['email']);
+        $user = new User(0, ['email' => $_SESSION['email']]);
 
         if ($user->getScore() < Option::get('score_per_player'))
             View::json('积分不够添加角色啦', 7);
@@ -69,7 +69,7 @@ class PlayerController extends BaseController
         $player_name = $this->player->eloquent_model->player_name;
         $this->player->eloquent_model->delete();
 
-        (new User($_SESSION['email']))->setScore(Option::get('score_per_player'), 'plus');
+        (new User(0, ['email' => $_SESSION['email']]))->setScore(Option::get('score_per_player'), 'plus');
 
         View::json('角色 '.$player_name.' 已被删除', 0);
     }

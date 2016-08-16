@@ -85,7 +85,7 @@
                                     </tr>
                                     <tr>
                                         <td>上传者</td>
-                                        <?php $uploader = new App\Models\User('', $texture->uploader); ?>
+                                        <?php $uploader = new App\Models\User($texture->uploader); ?>
                                         <td><a href="../skinlib?filter=user&uid={{ $uploader->uid }}&sort=time">{{ $uploader->getNickName() }}</a></td>
                                     </tr>
                                     <tr>

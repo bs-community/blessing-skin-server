@@ -12,7 +12,7 @@ class Player
 
     public $is_banned      = false;
 
-    public $eloquent_model = null;
+    public $model          = null;
 
     /**
      * Construct player with pid or playername
@@ -23,18 +23,18 @@ class Player
     {
         if ($player_name == "") {
             $this->pid = $pid;
-            $this->eloquent_model = PlayerModel::find($pid);
+            $this->model = PlayerModel::find($pid);
         } else {
-            $this->eloquent_model = PlayerModel::where('player_name', $player_name)->first();
-            @$this->pid = $this->eloquent_model->pid;
+            $this->model = PlayerModel::where('player_name', $player_name)->first();
+            @$this->pid = $this->model->pid;
         }
 
-        if (!$this->eloquent_model)
+        if (!$this->model)
             \Http::abort(404, '角色不存在');
 
-        $this->player_name = $this->eloquent_model->player_name;
+        $this->player_name = $this->model->player_name;
 
-        if ((new User('', $this->eloquent_model->uid))->getPermission() == "-1")
+        if ((new User($this->model->uid))->getPermission() == "-1")
             $this->is_banned = true;
     }
 
@@ -48,7 +48,7 @@ class Player
         if ($type == "skin")
             $type = ($this->getPreference() == "default") ? "steve" : "alex";
         if ($type == "steve" | $type == "alex" | $type == "cape") {
-            $tid = $this->eloquent_model['tid_'.$type];
+            $tid = $this->model['tid_'.$type];
             return Texture::find($tid)['hash'];
         }
         return false;
@@ -61,12 +61,12 @@ class Player
             throw new E('Invalid parameters.', 1);
         }
 
-        $this->eloquent_model->tid_steve = isset($tids['tid_steve']) ? $tids['tid_steve'] : $this->eloquent_model['tid_steve'];
-        $this->eloquent_model->tid_alex  = isset($tids['tid_alex'])  ? $tids['tid_alex']  : $this->eloquent_model['tid_alex'];
-        $this->eloquent_model->tid_cape  = isset($tids['tid_cape'])  ? $tids['tid_cape']  : $this->eloquent_model['tid_cape'];
+        $this->model->tid_steve = isset($tids['tid_steve']) ? $tids['tid_steve'] : $this->model['tid_steve'];
+        $this->model->tid_alex  = isset($tids['tid_alex'])  ? $tids['tid_alex']  : $this->model['tid_alex'];
+        $this->model->tid_cape  = isset($tids['tid_cape'])  ? $tids['tid_cape']  : $this->model['tid_cape'];
 
-        $this->eloquent_model->last_modified = Utils::getTimeFormatted();
-        return $this->eloquent_model->save();
+        $this->model->last_modified = Utils::getTimeFormatted();
+        return $this->model->save();
     }
 
     public function getBinaryTexture($type)
@@ -95,18 +95,18 @@ class Player
      */
     public function setPreference($type) {
 
-        return $this->eloquent_model->update([
+        return $this->model->update([
             'preference'    => $type,
             'last_modified' => Utils::getTimeFormatted()
         ]);
     }
 
     public function getPreference() {
-        return $this->eloquent_model['preference'];
+        return $this->model['preference'];
     }
 
     public function setOwner($uid) {
-        return $this->eloquent_model->update(['uid' => $uid]);
+        return $this->model->update(['uid' => $uid]);
     }
 
     /**
@@ -141,7 +141,7 @@ class Player
 
     public function updateLastModified() {
         // @see http://stackoverflow.com/questions/2215354/php-date-format-when-inserting-into-datetime-in-mysql
-        return $this->eloquent_model->update(['last_modified' => Utils::getTimeFormatted()]);
+        return $this->model->update(['last_modified' => Utils::getTimeFormatted()]);
     }
 
     /**
@@ -149,7 +149,7 @@ class Player
      * @return timestamp
      */
     public function getLastModified() {
-        return strtotime($this->eloquent_model['last_modified']);
+        return strtotime($this->model['last_modified']);
     }
 }
 

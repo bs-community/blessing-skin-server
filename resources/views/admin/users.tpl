@@ -26,7 +26,7 @@
         </h1>
     </section>
 
-    <?php $current_user = new App\Models\User($_SESSION['email']); ?>
+    <?php $current_user = new App\Models\User(0, ['email' => $_SESSION['email']]); ?>
 
     <!-- Main content -->
     <section class="content">

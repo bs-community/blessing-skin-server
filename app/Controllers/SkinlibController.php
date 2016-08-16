@@ -17,7 +17,7 @@ class SkinlibController extends BaseController
 
     function __construct()
     {
-        $this->user = isset($_SESSION['email']) ? new User($_SESSION['email']) : null;
+        $this->user = isset($_SESSION['email']) ? new User(0, ['email' => $_SESSION['email']]) : null;
     }
 
     public function index()

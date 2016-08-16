@@ -10,6 +10,7 @@ use Mail;
 use View;
 use Utils;
 use Option;
+use Http;
 
 class AuthController extends BaseController
 {
@@ -20,7 +21,10 @@ class AuthController extends BaseController
 
     public function handleLogin()
     {
-        $user = new User($_POST['email']);
+        // instantiate user
+        $user = ($_SESSION['auth_type'] = 'email') ?
+                    new User(0, ['email' => $_POST['email']]) :
+                    new User(0, ['username' => $_POST['username']]);
 
         if (Utils::getValue('login_fails', $_SESSION) > 3) {
             if (strtolower(Utils::getValue('captcha', $_POST)) != strtolower($_SESSION['phrase']))
@@ -31,15 +35,15 @@ class AuthController extends BaseController
             View::json('用户不存在哦', 2);
         } else {
             if ($user->checkPasswd($_POST['password'])) {
-                $_SESSION['token'] = $user->getToken();
                 unset($_SESSION['login_fails']);
 
-                header('Content-type: application/json');
+                $_SESSION['uid']   = $user->uid;
+                $_SESSION['token'] = $user->getToken();
 
-                // setcookie('email', $user->email, time()+3600, '/');
-                // setcookie('token', $user->getToken(), time()+3600, '/');
+                setcookie('uid',   $user->uid, time()+3600, '/');
+                setcookie('token', $user->getToken(), time()+3600, '/');
 
-                echo json_encode([
+                View::json([
                     'errno' => 0,
                     'msg' => '登录成功，欢迎回来~',
                     'token' => $user->getToken()
@@ -47,6 +51,7 @@ class AuthController extends BaseController
             } else {
                 $_SESSION['login_fails'] = isset($_SESSION['login_fails']) ?
                     $_SESSION['login_fails'] + 1 : 1;
+
                 View::json([
                     'errno' => 1,
                     'msg' => '邮箱或密码不对哦~',
@@ -60,6 +65,10 @@ class AuthController extends BaseController
     {
         if (isset($_SESSION['token'])) {
             session_destroy();
+
+            setcookie('uid',   $user->uid, time()-3600, '/');
+            setcookie('token', $user->getToken(), time()-3600, '/');
+
             View::json('登出成功~', 0);
         } else {
             throw new E('并没有有效的 session', 1);
@@ -80,19 +89,23 @@ class AuthController extends BaseController
         if (strtolower(Utils::getValue('captcha', $_POST)) != strtolower($_SESSION['phrase']))
             View::json('验证码填写错误', 1);
 
-        $user = new User($_POST['email']);
+        $user = new User(0, ['email' => $_POST['email']]);
 
         if (!$user->is_registered) {
             if (Option::get('user_can_register') == 1) {
-                if (\Validate::password($_POST['password'])) {
-                    // If amount of registered accounts of IP is more than allowed mounts,
-                    // then reject the registration.
-                    if (count(UserModel::where('ip', \Http::getRealIP())->get()) < Option::get('regs_per_ip')) {
-                        // use once md5 to encrypt password
-                        $user = $user->register($_POST['password'], \Http::getRealIP());
+                if (Validate::password($_POST['password'])) {
+                    // If amount of registered accounts of IP is more than allowed amounts,
+                    // then reject the register.
+                    if (UserModel::where('ip', Http::getRealIP())->count() < Option::get('regs_per_ip'))
+                    {
+                        if (Validate::nickname(Utils::getValue('nickname', $_POST)))
+                            View::json('无效的昵称，昵称不能包含奇怪的字符', 1);
+
+                        // register new user
+                        $user = $user->register($_POST['password'], Http::getRealIP());
                         $user->setNickName($_POST['nickname']);
 
-                        echo json_encode([
+                        View::json([
                             'errno' => 0,
                             'msg' => '注册成功，正在跳转~',
                             'token' => $user->getToken()
@@ -130,7 +143,7 @@ class AuthController extends BaseController
         if (isset($_SESSION['last_mail_time']) && (time() - $_SESSION['last_mail_time']) < 60)
             View::json('你邮件发送得太频繁啦，过 60 秒后再点发送吧', 1);
 
-        $user = new User($_POST['email']);
+        $user = new User(0, ['email' => $_POST['email']]);
 
         if (!$user->is_registered)
             View::json('该邮箱尚未注册', 1);
@@ -141,13 +154,14 @@ class AuthController extends BaseController
              ->to($_POST['email'])
              ->subject('重置您在 '.Option::get('site_name').' 上的账户密码');
 
-        $uid = $user->uid;
+        $uid   = $user->uid;
         $token = base64_encode($user->getToken().substr(time(), 4, 6).Utils::generateRndString(16));
 
-        $url = Option::get('site_url')."/auth/reset?uid={$uid}&token=$token";
-        $content = View::make('auth.mail')->with('reset_url', $url)->render();
+        $url = Option::get('site_url')."/auth/reset?uid=$uid&token=$token";
 
-        if(!$mail->content($content)->send()) {
+        $mail->content(View::make('auth.mail')->with('reset_url', $url)->render());
+
+        if (!$mail->send()) {
             View::json('邮件发送失败，详细信息：'.$mail->getLastError(), 2);
         } else {
             $_SESSION['last_mail_time'] = time();
@@ -159,35 +173,35 @@ class AuthController extends BaseController
     public function reset()
     {
         if (isset($_GET['uid']) && isset($_GET['token'])) {
-            $user = new User('', $_GET['uid']);
+            $user = new User($_GET['uid']);
             if (!$user->is_registered)
-                \Http::redirect('./forgot', '无效的链接');
+                Http::redirect('./forgot', '无效的链接');
 
             $token = substr(base64_decode($_GET['token']), 0, -22);
 
             if ($user->getToken() != $token) {
-                \Http::redirect('./forgot', '无效的链接');
+                Http::redirect('./forgot', '无效的链接');
             }
 
             $timestamp = substr(base64_decode($_GET['token']), strlen($token), 6);
 
             // more than 1 hour
             if ((substr(time(), 4, 6) - $timestamp) > 3600) {
-                \Http::redirect('./forgot', '链接已过期');
+                Http::redirect('./forgot', '链接已过期');
             }
 
             echo View::make('auth.reset')->with('user', $user);
         } else {
-            \Http::redirect('./login', '非法访问');
+            Http::redirect('./login', '非法访问');
         }
     }
 
     public function handleReset()
     {
-        \Validate::checkPost(['uid', 'password']);
+        Validate::checkPost(['uid', 'password']);
 
-        if (\Validate::password($_POST['password'])) {
-            $user = new User('', $_POST['uid']);
+        if (Validate::password($_POST['password'])) {
+            $user = new User($_POST['uid']);
 
             $user->changePasswd($_POST['password']);
 

@@ -16,7 +16,7 @@ class ClosetController extends BaseController
 
     function __construct()
     {
-        $this->closet = new Closet((new User($_SESSION['email']))->uid);
+        $this->closet = new Closet((new User(0, ['email' => $_SESSION['email']]))->uid);
     }
 
     public function index()
@@ -33,7 +33,7 @@ class ClosetController extends BaseController
                                       ->with('page', $page)
                                       ->with('category', $category)
                                       ->with('total_pages', $total_pages)
-                                      ->with('user', (new User($_SESSION['email'])))
+                                      ->with('user', (new User(0, ['email' => $_SESSION['email']])))
                                       ->render();
     }
 

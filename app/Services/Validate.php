@@ -28,6 +28,11 @@ class Validate
         return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
 
+    public static function nickname($nickname)
+    {
+        return $nickname != Utils::convertString($nickname);
+    }
+
     public static function playerName($player_name)
     {
         $regx = (Option::get('allow_chinese_playername') == "1") ?

@@ -16,7 +16,7 @@ class UserController extends BaseController
     function __construct()
     {
         $this->action = isset($_GET['action']) ? $_GET['action'] : "";
-        $this->user   = new User($_SESSION['email']);
+        $this->user   = new User(0, ['email' => $_SESSION['email']]);
     }
 
     public function index()
@@ -109,7 +109,7 @@ class UserController extends BaseController
         if ($result) {
             if ($result->type == "cape") throw new E('披风可不能设置为头像哦~', 1);
 
-            if ((new User($_SESSION['email']))->setAvatar($_POST['tid'])) {
+            if ((new User(0, ['email' => $_SESSION['email']]))->setAvatar($_POST['tid'])) {
                 View::json('设置成功！', 0);
             }
         } else {
