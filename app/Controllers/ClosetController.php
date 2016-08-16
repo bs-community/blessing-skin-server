@@ -12,11 +12,11 @@ use Option;
 
 class ClosetController extends BaseController
 {
-    public $closet;
+    private $closet;
 
-    function __construct()
+    public function __construct()
     {
-        $this->closet = new Closet((new User(0, ['email' => $_SESSION['email']]))->uid);
+        $this->closet = new Closet($_SESSION['uid']);
     }
 
     public function index()
@@ -33,7 +33,7 @@ class ClosetController extends BaseController
                                       ->with('page', $page)
                                       ->with('category', $category)
                                       ->with('total_pages', $total_pages)
-                                      ->with('user', (new User(0, ['email' => $_SESSION['email']])))
+                                      ->with('user', (new User($_SESSION['uid'])))
                                       ->render();
     }
 
@@ -58,7 +58,7 @@ class ClosetController extends BaseController
     public function remove()
     {
         if (!is_numeric(\Utils::getValue('tid', $_POST)))
-            throw new E('Invalid parameters.', 1);
+            throw new E('非法参数', 1);
 
         if ($this->closet->remove($_POST['tid'])) {
             $t = Texture::find($_POST['tid']);

@@ -47,18 +47,19 @@ class User
      * @param int   $uid
      * @param array $info
      */
-    public function __construct($uid, Array $info)
+    public function __construct($uid, Array $info = [])
     {
         // Construct user with uid|email|player_name
-        if ($uid != 0) {
+        if ($uid !== null) {
             $this->uid          = $uid;
             $this->model        = UserModel::find($uid);
         } else {
             if (isset($info['email'])) {
-                $this->email    = Utils::convertString($email);
+                $this->email    = Utils::convertString($info['email']);
                 $this->model    = UserModel::where('email', $this->email)->first();
             } elseif (isset($info['username'])) {
-                $this->uid      = PlayerModel::where('player_name', $info['username'])->first()['uid'];
+                $player         = PlayerModel::where('player_name', $info['username'])->first();
+                $this->uid      = $player ? $player['uid'] : 0;
                 $this->model    = UserModel::find($this->uid);
             } else {
                 throw new \InvalidArgumentException('Invalid arguments');

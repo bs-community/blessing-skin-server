@@ -10,13 +10,13 @@ class RedirectIfLoggedInMiddleware implements IMiddleware
 {
     public function handle(Request $request)
     {
-        if (isset($_COOKIE['email']) && isset($_COOKIE['token'])) {
-            $_SESSION['email'] = $_COOKIE['email'];
+        if (isset($_COOKIE['uid']) && isset($_COOKIE['token'])) {
+            $_SESSION['uid']   = $_COOKIE['uid'];
             $_SESSION['token'] = $_COOKIE['token'];
         }
 
-        if (isset($_SESSION['email'])) {
-            if ($_SESSION['token'] != (new User(0, ['email' => $_SESSION['email']]))->getToken())
+        if (isset($_SESSION['uid'])) {
+            if ($_SESSION['token'] != (new User($_SESSION['uid']))->getToken())
             {
                 $_SESSION['msg'] = "无效的 token，请重新登录~";
             } else {

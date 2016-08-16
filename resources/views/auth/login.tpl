@@ -14,7 +14,7 @@
 
         <form id="login-form">
             <div class="form-group has-feedback">
-                <input id="email" type="email" class="form-control" placeholder="邮箱">
+                <input id="email_or_username" type="email" class="form-control" placeholder="邮箱或角色名">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">

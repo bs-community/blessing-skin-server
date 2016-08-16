@@ -17,7 +17,7 @@ class Validate
         foreach ($keys as $key) {
             if (!isset($_POST[$key])) {
                 if ($silent) return false;
-                throw new E('Invalid parameters.', 1);
+                throw new E('非法参数', 1);
             }
         }
         return true;

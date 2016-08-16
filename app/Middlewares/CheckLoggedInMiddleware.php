@@ -11,24 +11,24 @@ class CheckLoggedInMiddleware implements IMiddleware
 {
     public function handle(Request $request)
     {
-        if (isset($_COOKIE['email']) && isset($_COOKIE['token'])) {
-            $_SESSION['email'] = $_COOKIE['email'];
+        if (isset($_COOKIE['uid']) && isset($_COOKIE['token'])) {
+            $_SESSION['uid']   = $_COOKIE['uid'];
             $_SESSION['token'] = $_COOKIE['token'];
         }
 
-        if (isset($_SESSION['email'])) {
-            $user = new User(0, ['email' => $_SESSION['email']]);
+        if (isset($_SESSION['uid'])) {
+            $user = new User($_SESSION['uid']);
 
             if ($_SESSION['token'] != $user->getToken())
                 \Http::redirect('../auth/login', '无效的 token，请重新登录~');
 
             if ($user->getPermission() == "-1") {
                 // delete cookies
-                setcookie("email", "", time() - 3600, '/');
+                setcookie("uid", "", time() - 3600, '/');
                 setcookie("token", "", time() - 3600, '/');
                 session_destroy();
 
-                throw new E('你已经被本站封禁啦，请联系管理员解决', -1, true);
+                throw new E('你已经被本站封禁啦，请联系管理员解决', 5, true);
             }
 
             return $user;

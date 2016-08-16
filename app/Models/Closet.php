@@ -13,7 +13,7 @@ class Closet
      * Instance of App\Models\ClosetModel
      * @var null
      */
-    private $eloquent_model = null;
+    private $model          = null;
 
     /**
      * Textures array generated from json
@@ -40,10 +40,10 @@ class Closet
     function __construct($uid)
     {
         $this->uid = $uid;
-        $this->eloquent_model = ClosetModel::find($uid);
+        $this->model = ClosetModel::find($uid);
 
-        if ($this->eloquent_model) {
-            $this->textures = json_decode($this->eloquent_model->textures, true);
+        if ($this->model) {
+            $this->textures = json_decode($this->model->textures, true);
             $this->textures = is_null($this->textures) ? [] : $this->textures;
 
             $textures_invalid = [];
@@ -71,9 +71,9 @@ class Closet
 
             unset($textures_invalid);
         } else {
-            $this->eloquent_model = new ClosetModel();
-            $this->eloquent_model->uid = $uid;
-            $this->eloquent_model->save();
+            $this->model = new ClosetModel();
+            $this->model->uid = $uid;
+            $this->model->save();
         }
 
     }
@@ -102,8 +102,8 @@ class Closet
             'add_at' => time()
         );
 
-        $this->eloquent_model->textures = json_encode($this->textures);
-        return $this->eloquent_model->save();
+        $this->model->textures = json_encode($this->textures);
+        return $this->model->save();
     }
 
     /**
@@ -131,8 +131,8 @@ class Closet
         foreach ($this->textures as $item) {
             if ($item['tid'] == $tid) {
                 array_splice($this->textures, $offset, 1);
-                $this->eloquent_model->textures = json_encode($this->textures);
-                return $this->eloquent_model->save();
+                $this->model->textures = json_encode($this->textures);
+                return $this->model->save();
             }
             $offset++;
         }

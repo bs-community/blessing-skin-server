@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 10:02:24
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-15 12:36:21
+ * @Last Modified time: 2016-08-16 22:13:55
  */
 
 'use strict';
@@ -355,6 +355,8 @@ function deletePlayer(pid) {
                     swal({
                         type: 'success',
                         html: json.msg
+                    }).then(function() {
+                        $('tr#'+pid).remove();
                     });
                 } else {
                     swal({

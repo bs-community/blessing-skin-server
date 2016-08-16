@@ -56,7 +56,7 @@
                                 <!-- The user image in the menu -->
                                 <li class="user-header">
                                     <img src="../avatar/128/{{ Utils::getAvatarFname($user) }}" alt="User Image">
-                                    <p>{{ $_SESSION['email'] }}</p>
+                                    <p>{{ $user->email }}</p>
                                 </li>
                                 <!-- Menu Footer-->
                                 <li class="user-footer">

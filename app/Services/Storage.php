@@ -29,6 +29,11 @@ class Storage
         return fread(fopen($filename, 'r'), filesize($filename));
     }
 
+    public static function exist($filename)
+    {
+        return file_exists($filename);
+    }
+
     /**
      * Remove a file
      *

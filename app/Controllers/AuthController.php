@@ -22,9 +22,9 @@ class AuthController extends BaseController
     public function handleLogin()
     {
         // instantiate user
-        $user = ($_SESSION['auth_type'] = 'email') ?
-                    new User(0, ['email' => $_POST['email']]) :
-                    new User(0, ['username' => $_POST['username']]);
+        $user = ($_SESSION['auth_type'] == 'email') ?
+                    new User(null, ['email'    => $_POST['email']]) :
+                    new User(null, ['username' => $_POST['username']]);
 
         if (Utils::getValue('login_fails', $_SESSION) > 3) {
             if (strtolower(Utils::getValue('captcha', $_POST)) != strtolower($_SESSION['phrase']))
@@ -40,8 +40,10 @@ class AuthController extends BaseController
                 $_SESSION['uid']   = $user->uid;
                 $_SESSION['token'] = $user->getToken();
 
-                setcookie('uid',   $user->uid, time()+3600, '/');
-                setcookie('token', $user->getToken(), time()+3600, '/');
+                $time = $_POST['keep'] == true ? 86400 : 3600;
+
+                setcookie('uid',   $user->uid, time()+$time, '/');
+                setcookie('token', $user->getToken(), time()+$time, '/');
 
                 View::json([
                     'errno' => 0,
@@ -64,10 +66,12 @@ class AuthController extends BaseController
     public function logout()
     {
         if (isset($_SESSION['token'])) {
-            session_destroy();
+            $user = new User($_SESSION['uid']);
 
             setcookie('uid',   $user->uid, time()-3600, '/');
             setcookie('token', $user->getToken(), time()-3600, '/');
+
+            session_destroy();
 
             View::json('登出成功~', 0);
         } else {
@@ -89,7 +93,7 @@ class AuthController extends BaseController
         if (strtolower(Utils::getValue('captcha', $_POST)) != strtolower($_SESSION['phrase']))
             View::json('验证码填写错误', 1);
 
-        $user = new User(0, ['email' => $_POST['email']]);
+        $user = new User(null, ['email' => $_POST['email']]);
 
         if (!$user->is_registered) {
             if (Option::get('user_can_register') == 1) {
@@ -143,7 +147,7 @@ class AuthController extends BaseController
         if (isset($_SESSION['last_mail_time']) && (time() - $_SESSION['last_mail_time']) < 60)
             View::json('你邮件发送得太频繁啦，过 60 秒后再点发送吧', 1);
 
-        $user = new User(0, ['email' => $_POST['email']]);
+        $user = new User(null, ['email' => $_POST['email']]);
 
         if (!$user->is_registered)
             View::json('该邮箱尚未注册', 1);

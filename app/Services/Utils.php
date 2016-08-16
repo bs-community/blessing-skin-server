@@ -21,10 +21,11 @@ class Utils
      *
      * @param  string $key
      * @param  array  $array
-     * @return string|boolean
+     * @param  string $default
+     * @return string
      */
-    public static function getValue($key, $array) {
-        return array_key_exists($key, $array) ? $array[$key] : false;
+    public static function getValue($key, $array, $default = "") {
+        return array_key_exists($key, $array) ? $array[$key] : $default;
     }
 
     /**
@@ -49,7 +50,7 @@ class Utils
 
     public static function getNameOrEmail(\App\Models\User $user)
     {
-        return ($user->getNickName() == '') ? $_SESSION['email'] : $user->getNickName();
+        return ($user->getNickName() == '') ? $user->email : $user->getNickName();
     }
 
     public static function getAvatarFname(\App\Models\User $user)

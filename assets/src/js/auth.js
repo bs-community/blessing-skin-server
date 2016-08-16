@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-17 10:54:22
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-14 13:22:35
+ * @Last Modified time: 2016-08-16 22:23:42
  */
 
 'use strict';
@@ -21,17 +21,22 @@ function freshCaptcha() {
 var login_fails = 0;
 
 $('#login-button').click(function() {
-    var data = new Object();
+    var data           = new Object();
+    var email_or_uname = $('#email_or_username').val();
 
-    data.email    = $("#email").val();
-    data.password = $("#password").val();
+    if (/\S+@\S+\.\S+/.test($('#email_or_username').val())) {
+        data.email    = email_or_uname;
+    } else {
+        data.username = email_or_uname;
+    }
 
-    if (data.email == "") {
-        showMsg('你还没有填写邮箱哦');
-        $('#email').focus();
+    data.password = $('#password').val();
+    data.keep     = $('#keep').prop('checked') ? true : false;
+
+    if (email_or_uname == "") {
+        showMsg('你还没有填写邮箱/角色名哦');
+        $('#email_or_username').focus();
     // check valid email address
-    } else if (!/\S+@\S+\.\S+/.test(data.email)) {
-        showMsg('邮箱格式不正确！', 'warning');
     } else if (data.password == "") {
         showMsg('密码要好好填哦');
         $('#password').focus();
@@ -56,13 +61,6 @@ $('#login-button').click(function() {
             },
             success: function(json) {
                 if (json.errno == 0) {
-
-                    // 7 days
-                    var time = $('#keep').prop('checked') ? 604800 : null;
-
-                    docCookies.setItem('email', data.email, time, '/');
-                    docCookies.setItem('token', json.token, time, '/');
-
                     swal({
                         type: 'success',
                         html: json.msg

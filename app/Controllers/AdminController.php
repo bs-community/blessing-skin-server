@@ -37,7 +37,7 @@ class AdminController extends BaseController
 
     public function update()
     {
-        if (\Utils::getValue('action', $_GET) == "check") {
+        if (Utils::getValue('action', $_GET) == "check") {
             $updater = new \Updater(\App::getVersion());
             if ($updater->newVersionAvailable()) {
                 View::json([
@@ -59,17 +59,14 @@ class AdminController extends BaseController
 
         if ($filter == "") {
             $users = UserModel::orderBy('uid');
-            $total_pages = ceil($users->count() / 30);
-            $users = $users->skip(($page - 1) * 30)->take(30)->get();
-        } else if ($filter == "email") {
+        } elseif ($filter == "email") {
             $users = UserModel::like('email', $q)->orderBy('uid');
-            $total_pages = ceil($users->count() / 30);
-            $users = $users->skip(($page - 1) * 30)->take(30)->get();
-        } else if ($filter == "nickname") {
+        } elseif ($filter == "nickname") {
             $users = UserModel::like('nickname', $q)->orderBy('uid');
-            $total_pages = ceil($users->count() / 30);
-            $users = $users->skip(($page - 1) * 30)->take(30)->get();
         }
+
+        $total_pages = ceil($users->count() / 30);
+        $users = $users->skip(($page - 1) * 30)->take(30)->get();
 
         echo View::make('admin.users')->with('users', $users)
                                       ->with('filter', $filter)
@@ -89,17 +86,14 @@ class AdminController extends BaseController
 
         if ($filter == "") {
             $players = PlayerModel::orderBy('uid');
-            $total_pages = ceil($players->count() / 30);
-            $players = $players->skip(($page - 1) * 30)->take(30)->get();
-        } else if ($filter == "player_name") {
+        } elseif ($filter == "player_name") {
             $players = PlayerModel::like('player_name', $q)->orderBy('uid');
-            $total_pages = ceil($players->count() / 30);
-            $players = $players->skip(($page - 1) * 30)->take(30)->get();
-        } else if ($filter == "uid") {
+        } elseif ($filter == "uid") {
             $players = PlayerModel::where('uid', $q)->orderBy('uid');
-            $total_pages = ceil($players->count() / 30);
-            $players = $players->skip(($page - 1) * 30)->take(30)->get();
         }
+
+        $total_pages = ceil($players->count() / 30);
+        $players = $players->skip(($page - 1) * 30)->take(30)->get();
 
         echo View::make('admin.players')->with('players', $players)
                                         ->with('filter', $filter)
@@ -125,9 +119,9 @@ class AdminController extends BaseController
             View::json('修改配色成功', 0);
         }
 
-        $user = new User(Utils::getValue('uid', $_POST));
-
-        $current_user = new User(0, ['email' => $_SESSION['email']]);
+        $user     = new User(Utils::getValue('uid', $_POST));
+        // current user
+        $cur_user = new User($_SESSION['uid']);
 
         if (!$user->is_registered)
             throw new E('用户不存在', 1);
@@ -142,7 +136,7 @@ class AdminController extends BaseController
             if ($user->setEmail($_POST['email']))
                 View::json('邮箱修改成功', 0);
 
-        } if ($action == "nickname") {
+        } elseif ($action == "nickname") {
             Validate::checkPost(['nickname']);
 
             if (Utils::convertString($_POST['nickname']) != $_POST['nickname'])
@@ -151,7 +145,7 @@ class AdminController extends BaseController
             if ($user->setNickName($_POST['nickname']))
                 View::json('昵称已成功设置为 '.$_POST['nickname'], 0);
 
-        } else if ($action == "password") {
+        } elseif ($action == "password") {
             Validate::checkPost(['password']);
 
             if (\Validate::password($_POST['password'])) {
@@ -159,15 +153,15 @@ class AdminController extends BaseController
                     View::json('密码修改成功', 0);
             }
 
-        } else if ($action == "score") {
+        } elseif ($action == "score") {
             Validate::checkPost(['score']);
 
             if ($user->setScore($_POST['score']))
                     View::json('积分修改成功', 0);
 
-        } else if ($action == "ban") {
+        } elseif ($action == "ban") {
             if ($user->getPermission() == "1") {
-                if ($current_user->getPermission() != "2")
+                if ($cur_user->getPermission() != "2")
                     View::json('非超级管理员无法封禁普通管理员');
             } elseif ($user->getPermission() == "2") {
                 View::json('超级管理员无法被封禁');
@@ -183,8 +177,8 @@ class AdminController extends BaseController
                 ]);
             }
 
-        } else if ($action == "admin") {
-            if ($current_user->getPermission() != "2")
+        } elseif ($action == "admin") {
+            if ($cur_user->getPermission() != "2")
                 View::json('非超级管理员无法进行此操作');
 
             if ($user->getPermission() == "2")
@@ -200,12 +194,12 @@ class AdminController extends BaseController
                 ]);
             }
 
-        } else if ($action == "delete") {
+        } elseif ($action == "delete") {
             if ($user->delete())
                 View::json('账号已被成功删除', 0);
 
         } else {
-            throw new E('Illegal parameters', 1);
+            throw new E('非法参数', 1);
         }
     }
 
@@ -258,7 +252,7 @@ class AdminController extends BaseController
             if (PlayerModel::where('pid', $_POST['pid'])->delete())
                 View::json('角色已被成功删除', 0);
         } else {
-            throw new E('Illegal parameters', 1);
+            throw new E('非法参数', 1);
         }
     }
 

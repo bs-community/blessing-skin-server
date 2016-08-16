@@ -9,20 +9,20 @@ class HomeController extends BaseController
 
     public function index()
     {
-        if (isset($_COOKIE['email']) && isset($_COOKIE['token'])) {
-            $user = new User($_COOKIE['email']);
+        if (isset($_COOKIE['uid']) && isset($_COOKIE['token'])) {
+            $user = new User($_COOKIE['uid']);
 
             if ($_COOKIE['token'] == $user->getToken() && $user->getPermission() != "-1") {
-                $_SESSION['email'] = $_COOKIE['email'];
+                $_SESSION['uid'] = $_COOKIE['uid'];
                 $_SESSION['token'] = $_COOKIE['token'];
             } else {
                 // delete cookies
-                setcookie("email", "", time() - 3600, '/');
+                setcookie("uid",   "", time() - 3600, '/');
                 setcookie("token", "", time() - 3600, '/');
             }
         }
 
-        $user = isset($_SESSION['email']) ? new User(0, ['email' => $_SESSION['email']]) : null;
+        $user = isset($_SESSION['uid']) ? new User($_SESSION['uid']) : null;
 
         echo \View::make('index')->with('user', $user);
     }

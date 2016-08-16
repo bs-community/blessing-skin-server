@@ -16,8 +16,12 @@ class PlayerController extends BaseController
 {
     private $player = null;
 
-    function __construct()
+    private $user   = null;
+
+    public function __construct()
     {
+        $this->user = new User($_SESSION['uid']);
+
         if (isset($_POST['pid'])) {
             $this->player = new Player($_POST['pid']);
             if (!$this->player)
@@ -27,7 +31,7 @@ class PlayerController extends BaseController
 
     public function index()
     {
-        echo View::make('user.player')->with('players', (new User(0, ['email' => $_SESSION['email']]))->getPlayers()->toArray())->with('user', new User(0, ['email' => $_SESSION['email']]));
+        echo View::make('user.player')->with('players', $this->user->getPlayers()->toArray())->with('user', $this->user);
     }
 
     public function add()
@@ -46,19 +50,17 @@ class PlayerController extends BaseController
         if (!PlayerModel::where('player_name', $player_name)->get()->isEmpty())
             View::json('该角色名已经被其他人注册掉啦', 6);
 
-        $user = new User(0, ['email' => $_SESSION['email']]);
-
-        if ($user->getScore() < Option::get('score_per_player'))
+        if ($this->user->getScore() < Option::get('score_per_player'))
             View::json('积分不够添加角色啦', 7);
 
         $player                = new PlayerModel();
-        $player->uid           = $user->uid;
+        $player->uid           = $this->user->uid;
         $player->player_name   = $player_name;
         $player->preference    = "default";
         $player->last_modified = Utils::getTimeFormatted();
         $player->save();
 
-        $user->setScore(Option::get('score_per_player'), 'minus');
+        $this->user->setScore(Option::get('score_per_player'), 'minus');
 
         View::json('成功添加了角色 '.$player_name.'', 0);
 
@@ -66,17 +68,17 @@ class PlayerController extends BaseController
 
     public function delete()
     {
-        $player_name = $this->player->eloquent_model->player_name;
-        $this->player->eloquent_model->delete();
+        $player_name = $this->player->model->player_name;
+        $this->player->model->delete();
 
-        (new User(0, ['email' => $_SESSION['email']]))->setScore(Option::get('score_per_player'), 'plus');
+        $this->user->setScore(Option::get('score_per_player'), 'plus');
 
         View::json('角色 '.$player_name.' 已被删除', 0);
     }
 
     public function show()
     {
-        echo json_encode($this->player->eloquent_model->toArray(), JSON_NUMERIC_CHECK);
+        echo json_encode($this->player->model->toArray(), JSON_NUMERIC_CHECK);
     }
 
     public function rename()
@@ -84,7 +86,7 @@ class PlayerController extends BaseController
         $new_player_name = Utils::getValue('new_player_name', $_POST);
 
         if (!$new_player_name)
-            throw new E('Invalid parameters', 1);
+            throw new E('非法参数', 1);
 
         if (!Validate::playerName($new_player_name))
         {
@@ -95,10 +97,10 @@ class PlayerController extends BaseController
         if (!PlayerModel::where('player_name', $new_player_name)->get()->isEmpty())
             View::json('此角色名已被他人使用，换一个吧~', 6);
 
-        $old_player_name = $this->player->eloquent_model->player_name;
-        $this->player->eloquent_model->player_name = $new_player_name;
-        $this->player->eloquent_model->last_modified = Utils::getTimeFormatted();
-        $this->player->eloquent_model->save();
+        $old_player_name = $this->player->model->player_name;
+        $this->player->model->player_name = $new_player_name;
+        $this->player->model->last_modified = Utils::getTimeFormatted();
+        $this->player->model->save();
 
         View::json('角色 '.$old_player_name.' 已更名为 '.$_POST['new_player_name'], 0);
     }
@@ -111,34 +113,34 @@ class PlayerController extends BaseController
         $tid = Utils::getValue('tid', $_POST);
 
         if (!is_numeric($tid))
-            throw new E('Invalid parameters.', 1);
+            throw new E('非法参数', 1);
 
         if (!($texture = Texture::find($tid)))
             View::json('Unexistent texture.', 6);
 
         $field_name = "tid_".$texture->type;
 
-        $this->player->eloquent_model->$field_name = $tid;
-        $this->player->eloquent_model->last_modified = Utils::getTimeFormatted();
-        $this->player->eloquent_model->save();
+        $this->player->model->$field_name = $tid;
+        $this->player->model->last_modified = Utils::getTimeFormatted();
+        $this->player->model->save();
 
-        View::json('材质已成功应用至角色 '.$this->player->eloquent_model->player_name.'', 0);
+        View::json('材质已成功应用至角色 '.$this->player->model->player_name.'', 0);
     }
 
 
 
     public function clearTexture()
     {
-        $this->player->eloquent_model->preference = "default";
-        $this->player->eloquent_model->tid_steve = "";
-        $this->player->eloquent_model->tid_alex = "";
-        $this->player->eloquent_model->tid_cape = "";
+        $this->player->model->preference = "default";
+        $this->player->model->tid_steve = "";
+        $this->player->model->tid_alex = "";
+        $this->player->model->tid_cape = "";
 
-        $this->player->eloquent_model->last_modified = Utils::getTimeFormatted();
+        $this->player->model->last_modified = Utils::getTimeFormatted();
 
-        $this->player->eloquent_model->save();
+        $this->player->model->save();
 
-        View::json('角色 '.$this->player->eloquent_model->player_name.' 的材质已被成功重置', 0);
+        View::json('角色 '.$this->player->model->player_name.' 的材质已被成功重置', 0);
     }
 
     public function setPreference()
@@ -146,7 +148,7 @@ class PlayerController extends BaseController
         if (!isset($_POST['preference']) ||
             ($_POST['preference'] != "default" && $_POST['preference'] != "slim"))
         {
-            throw new E('Invalid parameters.', 1);
+            throw new E('非法参数', 1);
         }
 
         $this->player->setPreference($_POST['preference']);

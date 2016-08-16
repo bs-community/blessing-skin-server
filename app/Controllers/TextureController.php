@@ -72,7 +72,7 @@ class TextureController extends BaseController
 
     public function avatar($base64_email, $size = 128)
     {
-        $user = new User(0, ['email' => base64_decode($base64_email)]);
+        $user = new User(null, ['email' => base64_decode($base64_email)]);
         echo $user->getAvatar((int)$size);
     }
 
@@ -85,15 +85,22 @@ class TextureController extends BaseController
     {
         // output image directly
         if ($t = Texture::find($tid)) {
-            header('Content-Type: image/png');
-            if ($t->type == "cape") {
-                $png = Minecraft::generatePreviewFromCape(BASE_DIR."/textures/".$t->hash, $size);
-                imagepng($png);
-                imagedestroy($png);
+            $filename = BASE_DIR."/textures/".$t->hash;
+
+            if (\Storage::exist($filename)) {
+                header('Content-Type: image/png');
+
+                if ($t->type == "cape") {
+                    $png = Minecraft::generatePreviewFromCape($filename, $size);
+                    imagepng($png);
+                    imagedestroy($png);
+                } else {
+                    $png = Minecraft::generatePreviewFromSkin($filename, $size);
+                    imagepng($png);
+                    imagedestroy($png);
+                }
             } else {
-                $png = Minecraft::generatePreviewFromSkin(BASE_DIR."/textures/".$t->hash, $size);
-                imagepng($png);
-                imagedestroy($png);
+                Http::abort(404, '该材质文件已被删除');
             }
         } else {
             // Default Steve Skin: https://minecraft.net/images/steve.png

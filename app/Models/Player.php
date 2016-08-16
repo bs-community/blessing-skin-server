@@ -16,21 +16,24 @@ class Player
 
     /**
      * Construct player with pid or playername
-     * @param int $pid
+     *
+     * @param int    $pid
      * @param string $player_name
      */
     public function __construct($pid, $player_name = "")
     {
         if ($player_name == "") {
-            $this->pid = $pid;
+            $this->pid   = $pid;
             $this->model = PlayerModel::find($pid);
         } else {
             $this->model = PlayerModel::where('player_name', $player_name)->first();
-            @$this->pid = $this->model->pid;
         }
 
-        if (!$this->model)
+        if (!$this->model) {
             \Http::abort(404, '角色不存在');
+        } else {
+            $this->pid = $this->model->pid;
+        }
 
         $this->player_name = $this->model->player_name;
 
@@ -40,6 +43,7 @@ class Player
 
     /**
      * Get textures of player
+     *
      * @param  string $type steve|alex|cape, 'skin' for texture of preferred model
      * @return string sha256-hash of texture file
      */
@@ -58,7 +62,7 @@ class Player
     {
         if (!isset($tids['tid_steve']) && !isset($tids['tid_alex']) && !isset($tids['tid_cape']))
         {
-            throw new E('Invalid parameters.', 1);
+            throw new E('非法参数', 1);
         }
 
         $this->model->tid_steve = isset($tids['tid_steve']) ? $tids['tid_steve'] : $this->model['tid_steve'];
@@ -74,7 +78,7 @@ class Player
         if ($this->getTexture($type) != "") {
             $filename = BASE_DIR."/textures/".$this->getTexture($type);
 
-            if (file_exists($filename)) {
+            if (\Storage::exist($filename)) {
                 header('Content-Type: image/png');
                 // Cache friendly
                 header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $this->getLastModified()).' GMT');

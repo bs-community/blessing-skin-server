@@ -17,7 +17,7 @@ class SkinlibController extends BaseController
 
     function __construct()
     {
-        $this->user = isset($_SESSION['email']) ? new User(0, ['email' => $_SESSION['email']]) : null;
+        $this->user = isset($_SESSION['uid']) ? new User($_SESSION['uid']) : null;
     }
 
     public function index()
@@ -228,7 +228,7 @@ class SkinlibController extends BaseController
             View::json('你还没有选择任何文件哟', 1);
 
         if (!isset($_POST['public']) || ($_POST['public'] != 0 && $_POST['public'] != 1))
-            View::json('Invalid parameters.', 1);
+            View::json('非法参数', 1);
 
         if ($_FILES['file']['type'] == "image/png" || $_FILES['file']['type'] == "image/x-png")
         {
@@ -246,7 +246,7 @@ class SkinlibController extends BaseController
                 if ($ratio != 2)
                     View::json("不是有效的披风文件（宽 {$size[0]}，高 {$size[1]}）", 1);
             } else {
-                View::json('Invalid parameters.', 1);
+                View::json('非法参数', 1);
             }
 
         } else {
