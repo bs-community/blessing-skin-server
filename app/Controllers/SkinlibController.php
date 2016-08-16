@@ -96,7 +96,10 @@ class SkinlibController extends BaseController
     {
         if (!isset($_GET['tid'])) Http::abort(404, 'No specified tid.');
         $texture = Texture::find($_GET['tid']);
-        if (!$texture) Http::abort(404, '请求的材质已经被删除');
+
+        if (!$texture || $texture && !\Storage::exist(BASE_DIR."/textures/".$texture->hash)) {
+            Http::abort(404, '请求的材质文件已经被删除，请联系管理员删除该条目');
+        }
 
         if ($texture->public == "0") {
             if (is_null($this->user) || ($this->user->uid != $texture->uploader && !$this->user->is_admin))

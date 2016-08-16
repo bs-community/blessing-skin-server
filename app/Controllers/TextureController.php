@@ -119,8 +119,14 @@ class TextureController extends BaseController
 
     public function raw($tid) {
         if ($t = Texture::find($tid)) {
-            header('Content-Type: image/png');
-            echo \Storage::fread(BASE_DIR."/textures/".$t->hash);
+            $fname = BASE_DIR."/textures/".$t->hash;
+
+            if (\Storage::exist($fname)) {
+                header('Content-Type: image/png');
+                echo \Storage::fread($fname);
+            } else {
+                Http::abort(404, '请求的材质文件已经被删除');
+            }
         } else {
             Http::abort(404, '材质不存在');
         }
