@@ -5,33 +5,36 @@ namespace App\Services;
 class Storage
 {
     /**
-     * Rename uploaded file
-     *
-     * @param  array $file, files uploaded via HTTP POST
-     * @return string $hash, sha256 hash of file
-     */
-    public static function upload($file)
-    {
-        move_uploaded_file($file["tmp_name"], BASE_DIR."/textures/tmp.png");
-        $hash = hash_file('sha256', BASE_DIR."/textures/tmp.png");
-        rename(BASE_DIR."/textures/tmp.png", BASE_DIR."/textures/".$hash);
-        return $hash;
-    }
-
-    /**
      * Read a file and return bin data
      *
      * @param  string $filename
-     * @return resource, binary data
+     * @return string|bool
      */
-    public static function fread($filename)
+    public static function read($filename)
     {
-        return fread(fopen($filename, 'r'), filesize($filename));
+        $result = file_get_contents($filename, 'r');
+        if (false === $result) {
+            throw new \Exception("Failed to read $filename.");
+        }
+        return $result;
     }
 
     public static function exist($filename)
     {
         return file_exists($filename);
+    }
+
+    public static function hash($filename, $type = 'sha256')
+    {
+        return hash_file('sha256', $filename);
+    }
+
+    public static function rename($fname, $new_fname)
+    {
+        if (false === rename($fname, $new_fname)) {
+            throw new \Exception("Failed to rename $fname to $new_fname.");
+        }
+        return $new_fname;
     }
 
     /**
@@ -126,8 +129,10 @@ class Storage
      */
     public static function copyDir($source, $dest)
     {
-        if(!is_dir($source)) return false;
-        if(!is_dir($dest)) mkdir($dest, 0777, true);
+        if(!is_dir($source))
+            return false;
+        if(!is_dir($dest))
+            mkdir($dest, 0777, true);
 
         $handle = dir($source);
 
@@ -138,7 +143,6 @@ class Storage
                     self::copyDir($source.'/'.$entry, $dest.'/'.$entry);
                 } else {
                     @copy($source.'/'.$entry, $dest.'/'.$entry);
-                    // echo $source.'/'.$entry." => ".$dest.'/'.$entry."<br />";
                 }
             }
         }

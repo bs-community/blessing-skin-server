@@ -12,7 +12,8 @@ class Utils
      * @param  string $string
      * @return string
      */
-    public static function convertString($string) {
+    public static function convertString($string)
+    {
         return addslashes(trim($string));
     }
 
@@ -24,8 +25,28 @@ class Utils
      * @param  string $default
      * @return string
      */
-    public static function getValue($key, $array, $default = "") {
+    public static function getValue($key, $array, $default = "")
+    {
         return array_key_exists($key, $array) ? $array[$key] : $default;
+    }
+
+    /**
+     * Rename uploaded file
+     *
+     * @param  array  $file files uploaded via HTTP POST
+     * @return string $hash sha256 hash of file
+     */
+    public static function upload($file)
+    {
+        $path = BASE_DIR.'/textures/tmp'.time();
+
+        if (false === move_uploaded_file($file['tmp_name'], $path)) {
+            throw new App\Exceptions\E('Failed to remove uploaded files, please check the permission', 1);
+        } else {
+            $hash = Storage::hash($path);
+            Storage::rename($path, BASE_DIR."/textures/$hash");
+            return $hash;
+        }
     }
 
     /**
@@ -34,7 +55,8 @@ class Utils
      * @param  int $length
      * @return string
      */
-    public static function generateRndString($length) {
+    public static function generateRndString($length)
+    {
         $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_ []{}<>~`+=,.;:/?|';
         $rnd_string = '';
         for ($i = 0; $i < $length; $i++) {

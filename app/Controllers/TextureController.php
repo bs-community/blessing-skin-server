@@ -123,7 +123,7 @@ class TextureController extends BaseController
 
             if (\Storage::exist($fname)) {
                 header('Content-Type: image/png');
-                echo \Storage::fread($fname);
+                echo \Storage::read($fname);
             } else {
                 Http::abort(404, '请求的材质文件已经被删除');
             }

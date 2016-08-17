@@ -127,7 +127,7 @@ class SkinlibController extends BaseController
         $t->name      = $_POST['name'];
         $t->type      = $_POST['type'];
         $t->likes     = 1;
-        $t->hash      = \Storage::upload($_FILES['file']);
+        $t->hash      = Utils::upload($_FILES['file']);
         $t->size      = ceil($_FILES['file']['size'] / 1024);
         $t->public    = ($_POST['public'] == 'true') ? "1" : "0";
         $t->uploader  = $this->user->uid;
