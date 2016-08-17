@@ -15,6 +15,12 @@ class Option
             if (!is_null($default_value)) {
                 return $default_value;
             } else {
+                $options = require BASE_DIR."/setup/options.php";
+
+                if (array_key_exists($key, $options)) {
+                    self::add($key, $options[$key]);
+                    return $options[$key];
+                }
                 throw new Exception('Unexistent option.', 1);
             }
         }
@@ -39,7 +45,7 @@ class Option
             return true;
 
         $option = new OptionModel;
-        $option->option_name = $key;
+        $option->option_name  = $key;
         $option->option_value = $value;
         $option->save();
     }
