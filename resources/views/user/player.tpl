@@ -60,12 +60,24 @@
                         </button>
                     </div>
                 </div>
+
+                <div class="box box-default collapsed-box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">提示</h3>
+                        <div class="box-tools pull-right">
+                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                        </div><!-- /.box-tools -->
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <p>你现在可以使用你所拥有的角色名来登录皮肤站啦~</p>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
             </div>
             <div class="col-md-6">
                 <div class="box">
                     <div class="box-header with-border">
                         <h3 class="box-title" style="width: 100%;">角色信息
-                            <small>（点击左侧角色名以查看预览）</small>
+                            <small>（点击角色名以查看预览）</small>
                             <div class="operations">
                                 <i data-toggle="tooltip" data-placement="bottom" title="行走" class="fa fa-pause"></i>
                                 <i data-toggle="tooltip" data-placement="bottom" title="奔跑" class="fa fa-forward"></i>

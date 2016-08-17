@@ -20,6 +20,15 @@
             <div class="col-md-6">
                 <div class="box box-primary">
                     <div class="box-header with-border">
+                        <h3 class="box-title">更改头像？</h3>
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <p>请在衣柜中任意皮肤的右下角「<i class="fa fa-cog"></i>」处选择「设为头像」，将会自动截取该皮肤的头部作为头像哦~</p>
+                    </div><!-- /.box-body -->
+                </div>
+
+                <div class="box box-warning">
+                    <div class="box-header with-border">
                         <h3 class="box-title">更改密码</h3>
                     </div><!-- /.box-header -->
                     <div class="box-body">
@@ -42,15 +51,6 @@
                         <button onclick="changePassword()" class="btn btn-primary">修改密码</button>
                     </div>
                 </div><!-- /.box -->
-
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">更改头像？</h3>
-                    </div><!-- /.box-header -->
-                    <div class="box-body">
-                        <p>请在衣柜中任意皮肤的右下角「更多」处选择「设为头像」，会自动截取该皮肤的头部作为头像哦~</p>
-                    </div><!-- /.box-body -->
-                </div>
             </div>
             <div class="col-md-6">
                 <div class="box box-primary">
