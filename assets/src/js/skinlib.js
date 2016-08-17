@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-19 10:46:38
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-14 13:20:38
+ * @Last Modified time: 2016-08-17 13:07:08
  */
 
 'use strict';
@@ -306,8 +306,7 @@ function deleteTexture(tid) {
                         type: 'success',
                         html: json.msg
                     }).then(function() {
-                        toastr.info('正在跳转...');
-                        window.setTimeout('window.location = "./', 1000);
+                        window.location = "./";
                     });
                 } else {
                     swal({

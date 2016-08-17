@@ -9,7 +9,7 @@
         </p>
 
 
-        @if (isset($_SESSION['email']))
+        @if (isset($_SESSION['uid']))
 
             @if ($user->closet->has($texture['tid']))
             <a title="从衣柜中移除" class="more like liked" tid="{{ $texture['tid'] }}" href="javascript:removeFromCloset({{ $texture['tid'] }});" data-placement="top" data-toggle="tooltip"><i class="fa fa-heart"></i></a>
