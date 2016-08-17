@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-19 10:46:38
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-17 13:07:08
+ * @Last Modified time: 2016-08-17 17:58:53
  */
 
 'use strict';
@@ -201,7 +201,7 @@ function upload() {
     } else {
         $.ajax({
             type: "POST",
-            url: "./upload",
+            url: "../skinlib/upload",
             contentType: false,
             dataType: "json",
             data: form_data,
@@ -253,7 +253,7 @@ function changeTextureName(tid) {
     }).then(function(new_name) {
         $.ajax({
             type: "POST",
-            url: "./rename",
+            url: "../skinlib/rename",
             dataType: "json",
             data: { 'tid': tid, 'new_name': new_name },
             success: function(json) {
@@ -269,10 +269,22 @@ function changeTextureName(tid) {
     });
 }
 
+$('.private-label').click(function() {
+    var object = $(this);
+    swal({
+        text: '要将此材质设置为公开吗？',
+        type: 'warning',
+        showCancelButton: true
+    }).then(function() {
+        changePrivacy(object.attr('tid'));
+        object.remove();
+    });
+});
+
 function changePrivacy(tid) {
     $.ajax({
         type: "POST",
-        url: "./privacy/" + tid,
+        url: "../skinlib/privacy/" + tid,
         dataType: "json",
         success: function(json) {
             if (json.errno == 0) {
@@ -297,7 +309,7 @@ function deleteTexture(tid) {
     }).then(function() {
         $.ajax({
             type: "POST",
-            url: "./delete",
+            url: "../skinlib/delete",
             dataType: "json",
             data: { 'tid': tid },
             success: function(json) {

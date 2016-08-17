@@ -22,7 +22,7 @@
         @endif
 
         @if ($texture['public'] == "0")
-        <small class="more" tid="{{ $texture['tid'] }}">私密</small>
+        <small class="more private-label" tid="{{ $texture['tid'] }}">私密</small>
         @endif
 
     </div>
