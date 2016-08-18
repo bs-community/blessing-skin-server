@@ -52,12 +52,15 @@ class Utils
     /**
      * Generate random string
      *
-     * @param  int $length
+     * @param  int  $length
+     * @param  bool $special_chars
      * @return string
      */
-    public static function generateRndString($length)
+    public static function generateRndString($length, $special_chars = true)
     {
-        $chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()-_ []{}<>~`+=,.;:/?|';
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        if ($special_chars) $chars .= "!@#$%^&*()-_ []{}<>~`+=,.;:/?|";
+
         $rnd_string = '';
         for ($i = 0; $i < $length; $i++) {
             $rnd_string .= $chars[mt_rand(0, strlen($chars) - 1)];
