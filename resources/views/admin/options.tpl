@@ -39,6 +39,7 @@
                                 $_POST['user_can_register'] = isset($_POST['user_can_register']) ? $_POST['user_can_register'] : "0";
                                 $_POST['allow_chinese_playername'] = isset($_POST['allow_chinese_playername']) ? $_POST['allow_chinese_playername'] : "0";
                                 $_POST['avatar_query_string'] = isset($_POST['avatar_query_string']) ? $_POST['avatar_query_string'] : "0";
+                                $_POST['auto_del_invalid_texture'] = isset($_POST['auto_del_invalid_texture']) ? $_POST['auto_del_invalid_texture'] : "0";
 
                                 foreach ($_POST as $key => $value) {
                                     // remove slash if site_url is ended with slash
@@ -115,6 +116,17 @@
                                         <td class="value">
                                             <label for="avatar_query_string">
                                                 <input {{ (Option::get('avatar_query_string') == '1') ? 'checked="true"' : '' }} type="checkbox" id="avatar_query_string" name="avatar_query_string" value="1"> 为头像添加 Query String
+                                            </label>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="key">失效材质
+                                            <i class="fa fa-question-circle" title="自动从皮肤库中删除文件不存在的材质记录" data-toggle="tooltip" data-placement="top"></i>
+                                        </td>
+                                        <td class="value">
+                                            <label for="auto_del_invalid_texture">
+                                                <input {{ (Option::get('auto_del_invalid_texture') == '1') ? 'checked="true"' : '' }} type="checkbox" id="auto_del_invalid_texture" name="auto_del_invalid_texture" value="1"> 自动删除失效材质
                                             </label>
                                         </td>
                                     </tr>
