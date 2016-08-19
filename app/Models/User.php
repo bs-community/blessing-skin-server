@@ -130,9 +130,9 @@ class User
         return $this->model->save();
     }
 
-    public function getToken()
+    public function getToken($refresh = false)
     {
-        if ($this->token === "")
+        if ($this->token === "" || $refresh)
             $this->token = md5($this->model->email . $this->model->password . $_ENV['SALT']);
         return $this->token;
     }

@@ -3,11 +3,13 @@
  * @Author: printempw
  * @Date:   2016-08-09 21:44:13
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-14 08:00:49
+ * @Last Modified time: 2016-08-19 22:48:54
  *
  * There are still some coupling relationships here but,
  * Just let it go :)
  */
+
+if (!defined('BASE_DIR')) exit('Permission denied.');
 
 $v2_table_name = $_POST['v2_table_name'];
 $v3_table_name = Config::getDbConfig()['prefix']."textures";
@@ -19,6 +21,8 @@ $duplicated = 0;
 $db = Database::table($v2_table_name, true);
 
 $steps = ceil($db->getRecordNum() / 250);
+
+$public = isset($_POST['import_as_private']) ? '1' : '0';
 
 // chunked
 for ($i = 0; $i <= $steps; $i++) {
@@ -42,14 +46,14 @@ for ($i = 0; $i <= $steps; $i++) {
                     'hash'      => $row['hash_steve'],
                     'size'      => 0,
                     'uploader'  => $_POST['uploader_uid'],
-                    'public'    => '1',
+                    'public'    => $public,
                     'upload_at' => Utils::getTimeFormatted()
                 ], $v3_table_name);
 
-                $imported += 1;
+                $imported++;
                 // echo $row['hash_steve']." saved. <br />";
             } else {
-                $duplicated += 1;
+                $duplicated++;
                 // echo $row['hash_steve']." duplicated. <br />";
             }
         }
@@ -65,14 +69,14 @@ for ($i = 0; $i <= $steps; $i++) {
                     'hash'      => $row['hash_alex'],
                     'size'      => 0,
                     'uploader'  => $_POST['uploader_uid'],
-                    'public'    => '1',
+                    'public'    => $public,
                     'upload_at' => Utils::getTimeFormatted()
                 ], $v3_table_name);
 
-                $imported += 1;
+                $imported++;
                 // echo $row['hash_alex']." saved. <br />";
             } else {
-                $duplicated += 1;
+                $duplicated++;
                 // echo $row['hash_alex']." duplicated. <br />";
             }
         }
@@ -88,14 +92,14 @@ for ($i = 0; $i <= $steps; $i++) {
                     'hash'      => $row['hash_cape'],
                     'size'      => 0,
                     'uploader'  => $_POST['uploader_uid'],
-                    'public'    => '1',
+                    'public'    => $public,
                     'upload_at' => Utils::getTimeFormatted()
                 ], $v3_table_name);
 
-                $imported += 1;
+                $imported++;
                 // echo $row['hash_cape']." saved. <br />";
             } else {
-                $duplicated += 1;
+                $duplicated++;
                 // echo $row['hash_cape']." duplicated. <br />";
             }
         }

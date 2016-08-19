@@ -45,6 +45,15 @@
                 </p>
             </td>
         </tr>
+
+        <tr>
+            <th scope="row">私密材质</th>
+            <td>
+                <label for="import_as_private">
+                    <input name="import_as_private" type="checkbox" id="import_as_private" size="25" /> 导入为私密材质
+                </label>
+            </td>
+        </tr>
     </table>
 
     @if (isset($_SESSION['msg']))
@@ -63,7 +72,7 @@
 @if ($step == '2')
 
 <?php
-    if (Validate::checkPost(['v2_table_name', 'uploader_uid', 'texture_name_pattern'])) {
+    if (Validate::checkPost(['v2_table_name', 'uploader_uid', 'texture_name_pattern'], true)) {
         if ($_POST['v2_table_name'] == "") {
             Http::redirect('index.php?action=import-v2-textures&step=1', 'v2 users 表名不能为空');
         } else {

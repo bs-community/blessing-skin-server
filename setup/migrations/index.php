@@ -25,14 +25,14 @@ if (Config::checkDbConfig($db_config)) {
 
 Boot::checkInstallation('../../setup/index.php');
 
-if (isset($_COOKIE['email']) && isset($_COOKIE['token'])) {
-    $_SESSION['email'] = $_COOKIE['email'];
+if (isset($_COOKIE['uid']) && isset($_COOKIE['token'])) {
+    $_SESSION['uid'] = $_COOKIE['uid'];
     $_SESSION['token'] = $_COOKIE['token'];
 }
 
 // check permission
-if (isset($_SESSION['email'])) {
-    $user = new App\Models\User(0, ['email' => $_SESSION['email']]);
+if (isset($_SESSION['uid'])) {
+    $user = new App\Models\User($_SESSION['uid']);
 
     if ($_SESSION['token'] != $user->getToken())
         Http::redirect('../../auth/login', '无效的 token，请重新登录~');
@@ -53,6 +53,10 @@ switch ($action) {
 
     case 'import-v2-textures':
         View::show('setup.migrations.import-v2-textures');
+        break;
+
+    case 'import-v2-users':
+        View::show('setup.migrations.import-v2-users');
         break;
 
     default:

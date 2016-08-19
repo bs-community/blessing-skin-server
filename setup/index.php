@@ -85,7 +85,7 @@ switch ($step) {
         }
 
         // register super admin
-        $user = new App\Models\User(0, ['email' => $_POST['email']]);
+        $user = new App\Models\User(null, ['email' => $_POST['email']]);
         $user->register($_POST['password'], Http::getRealIP());
         $user->setPermission('2');
 
