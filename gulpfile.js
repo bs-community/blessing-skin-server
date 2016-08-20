@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-08-14 13:33:51
+* @Last Modified time: 2016-08-20 21:58:50
 */
 
 var gulp     = require('gulp'),
@@ -192,7 +192,7 @@ gulp.task('zip', function() {
             '!.sass-cache/'
         ], { dot: true })
         .pipe(zip('blessing-skin-server-v'+version+'.zip'))
-        .pipe(gulp.dest('./'));
+        .pipe(gulp.dest('../'));
 });
 
 gulp.task('default', ['copy']);
