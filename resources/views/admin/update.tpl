@@ -49,7 +49,7 @@
                                 <tr>
                                     <td class="key">更新日志：</td>
                                     <td class="value">
-                                        {{ nl2br($updater->getUpdateInfo()['releases'][$updater->latest_version]['release_note']) }}
+                                        {!! nl2br($updater->getUpdateInfo()['releases'][$updater->latest_version]['release_note']) !!}
                                     </td>
                                 </tr>
                                 <tr>
