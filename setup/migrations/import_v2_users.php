@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-08-18 17:46:19
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-19 22:00:02
+ * @Last Modified time: 2016-08-20 18:42:56
  */
 
 if (!defined('BASE_DIR')) exit('Permission denied.');
@@ -24,7 +24,7 @@ $steps = ceil($db->getRecordNum() / 250);
 
 $score = Option::get('user_initial_score');
 
-// chunked
+// chunked (optionally)
 for ($i = 0; $i <= $steps; $i++) {
     $start = $i * 250;
 
@@ -53,7 +53,7 @@ for ($i = 0; $i <= $steps; $i++) {
             $db->insert([
                 'uid' => $uid,
                 'player_name'   => $row['username'],
-                'preference'    => 'steve',
+                'preference'    => $row['preference'],
                 'last_modified' => Utils::getTimeFormatted()
             ], $v3_players);
 

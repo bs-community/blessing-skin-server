@@ -13,5 +13,6 @@
 <p class="step">
     <a href="index.php?action=import-v2-textures" class="button button-large">导入 v2 皮肤库</a>
     <a href="index.php?action=import-v2-users" class="button button-large">导入 v2 用户数据</a>
+    <a href="index.php?action=import-v2-both" class="button button-large">同时导入</a>
 </p>
 @endsection

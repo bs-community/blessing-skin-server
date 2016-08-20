@@ -37,6 +37,15 @@ class Storage
         return $new_fname;
     }
 
+    public static function size($filename)
+    {
+        if (self::exist($filename)) {
+            return filesize($filename);
+        } else {
+            return 0;
+        }
+    }
+
     /**
      * Remove a file
      *

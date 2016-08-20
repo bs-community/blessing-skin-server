@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-08-09 21:44:13
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-19 22:48:54
+ * @Last Modified time: 2016-08-20 20:49:37
  *
  * There are still some coupling relationships here but,
  * Just let it go :)
@@ -22,9 +22,9 @@ $db = Database::table($v2_table_name, true);
 
 $steps = ceil($db->getRecordNum() / 250);
 
-$public = isset($_POST['import_as_private']) ? '1' : '0';
+$public = isset($_POST['import_as_private']) ? '0' : '1';
 
-// chunked
+// chunked (optionally)
 for ($i = 0; $i <= $steps; $i++) {
     $start = $i * 250;
 
@@ -35,72 +35,30 @@ for ($i = 0; $i <= $steps; $i++) {
         // compile patterns
         $name = str_replace('{username}', $row['username'], $_POST['texture_name_pattern']);
 
-        if ($row['hash_steve'] != "") {
-            $name = str_replace('{model}', 'steve', $name);
+        $models = ['steve', 'alex', 'cape'];
 
-            if (!$db->has('hash', $row['hash_steve'], $v3_table_name)) {
-                $db->insert([
-                    'name'      => $name,
-                    'type'      => 'steve',
-                    'likes'     => 0,
-                    'hash'      => $row['hash_steve'],
-                    'size'      => 0,
-                    'uploader'  => $_POST['uploader_uid'],
-                    'public'    => $public,
-                    'upload_at' => Utils::getTimeFormatted()
-                ], $v3_table_name);
+        foreach ($models as $model) {
+            if ($row['hash_steve'] != "") {
+                $name = str_replace('{model}', $model, $name);
 
-                $imported++;
-                // echo $row['hash_steve']." saved. <br />";
-            } else {
-                $duplicated++;
-                // echo $row['hash_steve']." duplicated. <br />";
-            }
-        }
+                if (!$db->has('hash', $row["hash_$model"], $v3_table_name)) {
+                    $db->insert([
+                        'name'      => $name,
+                        'type'      => $model,
+                        'likes'     => 0,
+                        'hash'      => $row["hash_$model"],
+                        'size'      => Storage::size(BASE_DIR.'/textures/'.$row["hash_$model"]),
+                        'uploader'  => $_POST['uploader_uid'],
+                        'public'    => $public,
+                        'upload_at' => Utils::getTimeFormatted()
+                    ], $v3_table_name);
 
-        if ($row['hash_alex'] != "") {
-            $name = str_replace('{model}', 'alex', $name);
-
-            if (!$db->has('hash', $row['hash_alex'], $v3_table_name)) {
-                $db->insert([
-                    'name'      => $name,
-                    'type'      => 'alex',
-                    'likes'     => 0,
-                    'hash'      => $row['hash_alex'],
-                    'size'      => 0,
-                    'uploader'  => $_POST['uploader_uid'],
-                    'public'    => $public,
-                    'upload_at' => Utils::getTimeFormatted()
-                ], $v3_table_name);
-
-                $imported++;
-                // echo $row['hash_alex']." saved. <br />";
-            } else {
-                $duplicated++;
-                // echo $row['hash_alex']." duplicated. <br />";
-            }
-        }
-
-        if ($row['hash_cape'] != "") {
-            $name = str_replace('{model}', 'cape', $name);
-
-            if (!$db->has('hash', $row['hash_cape'], $v3_table_name)) {
-                $db->insert([
-                    'name'      => $name,
-                    'type'      => 'cape',
-                    'likes'     => 0,
-                    'hash'      => $row['hash_cape'],
-                    'size'      => 0,
-                    'uploader'  => $_POST['uploader_uid'],
-                    'public'    => $public,
-                    'upload_at' => Utils::getTimeFormatted()
-                ], $v3_table_name);
-
-                $imported++;
-                // echo $row['hash_cape']." saved. <br />";
-            } else {
-                $duplicated++;
-                // echo $row['hash_cape']." duplicated. <br />";
+                    $imported++;
+                    // echo $row['hash_steve']." saved. <br />";
+                } else {
+                    $duplicated++;
+                    // echo $row['hash_steve']." duplicated. <br />";
+                }
             }
         }
     }

@@ -59,6 +59,10 @@ switch ($action) {
         View::show('setup.migrations.import-v2-users');
         break;
 
+    case 'import-v2-both':
+        View::show('setup.migrations.import-v2-both');
+        break;
+
     default:
         throw new App\Exceptions\E('非法参数', 1, true);
         break;
