@@ -22,7 +22,7 @@
     <section class="content">
 
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">更改配色</h3>
@@ -89,7 +89,7 @@
 
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-9">
                 <div class="box box-warning">
                     <div class="box-header with-border">
                         <h3 class="box-title">首页配置</h3>
@@ -162,13 +162,13 @@
                                     <tr>
                                         <td class="key">CSS</td>
                                         <td class="value">
-                                           <textarea name="custom_css" class="form-control" rows="3"><?php echo Option::get('custom_css'); ?></textarea>
+                                           <textarea name="custom_css" class="form-control" rows="6">{{ Option::get('custom_css') }}</textarea>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="key">JavaScript</td>
                                         <td class="value">
-                                           <textarea name="custom_js" class="form-control" rows="3"><?php echo Option::get('custom_js'); ?></textarea>
+                                           <textarea name="custom_js" class="form-control" rows="6">{{ Option::get('custom_js') }}</textarea>
                                         </td>
                                     </tr>
 
