@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-19 10:46:38
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-17 17:58:53
+ * @Last Modified time: 2016-08-21 10:33:47
  */
 
 'use strict';
@@ -29,6 +29,10 @@ $('#page-select').on('change', function() {
 
 $('#private').on('ifToggled', function() {
     $(this).prop('checked') ? $('#msg').show() : $('#msg').hide();
+});
+
+$('#type-skin').on('ifToggled', function() {
+    $(this).prop('checked') ? $('#skin-type').show() : $('#skin-type').hide();
 });
 
 function addToCloset(tid) {
@@ -146,10 +150,10 @@ $('body').on('change', '#file', function() {
     var files = $('#file').prop('files');
     var type = ($('#type').val() == "cape") ? "cape" : "skin";
     handleFiles(files, type);
-}).on('change', '#type', function() {
+}).on('ifToggled', '#type-skin', function() {
     MSP.clear();
     var files = $('#file').prop('files');
-    var type = ($('#type').val() == "cape") ? "cape" : "skin";
+    var type = $('#type-skin').prop('checked') ? "skin" : "cape";
     handleFiles(files, type);
 });
 
@@ -180,10 +184,17 @@ function handleFiles(files, type) {
 
 function upload() {
     var form_data = new FormData();
-    form_data.append('name', $('#name').val())
-    form_data.append('type', $('#type').val())
-    form_data.append('file', $('#file').prop('files')[0])
-    form_data.append('public', !$('#private').prop('checked'))
+    form_data.append('name', $('#name').val());
+    form_data.append('file', $('#file').prop('files')[0]);
+    form_data.append('public', !$('#private').prop('checked'));
+
+    if ($('#type-skin').prop('checked')) {
+        form_data.append('type', $('#skin-type').val());
+    } else if ($('#type-cape').prop('checked')) {
+        form_data.append('type', 'cape');
+    } else {
+        toastr.info('请选择材质的类型'); return;
+    }
 
     // quick fix for browsers which don't support FormData.get()
     if ($('#file').prop('files')[0] == 'undefined') {
@@ -192,9 +203,6 @@ function upload() {
     } else if ($('#name').val() == "") {
         toastr.info('给你的材质起个名字吧');
         $('#name').focus();
-    } else if ($('#type').val() == "") {
-        toastr.info('请选择材质的类型');
-        $('#type').focus();
     } else if ($('#file').prop('files')[0].type !== "image/png") {
         toastr.warning('请选择 PNG 格式的图片');
         $('#file').focus();

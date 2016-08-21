@@ -2,6 +2,15 @@
 
 @section('title', '上传材质')
 
+@section('style')
+<style>
+label[for="type-skin"],
+label[for="type-cape"] {
+    margin-top: 5px;
+}
+</style>
+@endsection
+
 @section('content')
 <!-- Full Width Column -->
 <div class="content-wrapper">
@@ -29,12 +38,32 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="type">材质类型</label>
-                                <select class="form-control" id="type">
-                                    <option value="steve">皮肤（Steve 模型）</option>
-                                    <option value="alex">皮肤（Alex 模型）</option>
-                                    <option value="cape">披风</option>
-                                </select>
+                                <label>材质类型</label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-xs-4">
+                                                <label for="type-skin">
+                                                    <input type="radio" name="type" id="type-skin"> 皮肤
+                                                </label>
+                                            </div>
+                                            <div class="col-xs-8">
+                                                <select class="form-control" id="skin-type" style="display: none;">
+                                                    <option value="steve">Steve 模型</option>
+                                                    <option value="alex">Alex 模型</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="type-cape">
+                                            <input type="radio" name="type" id="type-cape"> 披风
+                                        </label>
+                                    </div>
+                                </div>
+
                             </div>
 
                             <div class="form-group">
@@ -97,6 +126,7 @@ $(document).ready(function() {
     });
     $('[for="private"]').tooltip();
 });
+
 // Auto resize canvas to fit responsive design
 $(window).resize(init3dCanvas);
 </script>
