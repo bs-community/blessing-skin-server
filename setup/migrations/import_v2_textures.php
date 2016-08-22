@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-08-09 21:44:13
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-20 20:49:37
+ * @Last Modified time: 2016-08-20 23:43:45
  *
  * There are still some coupling relationships here but,
  * Just let it go :)
@@ -47,7 +47,7 @@ for ($i = 0; $i <= $steps; $i++) {
                         'type'      => $model,
                         'likes'     => 0,
                         'hash'      => $row["hash_$model"],
-                        'size'      => Storage::size(BASE_DIR.'/textures/'.$row["hash_$model"]),
+                        'size'      => ceil(Storage::size(BASE_DIR.'/textures/'.$row["hash_$model"]) / 1024),
                         'uploader'  => $_POST['uploader_uid'],
                         'public'    => $public,
                         'upload_at' => Utils::getTimeFormatted()

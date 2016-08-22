@@ -3,8 +3,13 @@
  * @Author: printempw
  * @Date:   2016-08-18 17:46:19
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-20 20:49:29
+ * @Last Modified time: 2016-08-21 09:41:14
  */
+
+use App\Models\UserModel;
+use App\Models\PlayerModel;
+use App\Models\ClosetModel;
+use App\Models\Texture;
 
 if (!defined('BASE_DIR')) exit('Permission denied.');
 
@@ -40,8 +45,8 @@ for ($i = 0; $i <= $steps; $i++) {
         // compile patterns
         $name = str_replace('{username}', $row['username'], $_POST['texture_name_pattern']);
 
-        if (!$db->has('player_name', $row['username'], $v3_players)) {
-            $user = new App\Models\UserModel;
+        if (PlayerModel::where('player_name', $row['username'])->get()->isEmpty()) {
+            $user = new UserModel;
 
             $user->email        = '';
             $user->nickname     = $row['username'];
@@ -63,14 +68,16 @@ for ($i = 0; $i <= $steps; $i++) {
                 if ($row["hash_$model"] != "") {
                     $name = str_replace('{model}', $model, $name);
 
-                    if (!$db->has('hash', $row["hash_$model"], $v3_textures)) {
-                        $t = new App\Models\Texture;
+                    $res = Texture::where('hash', $row["hash_$model"])->first();
+
+                    if ($res->isEmpty()) {
+                        $t = new Texture;
 
                         $t->name      = $name;
                         $t->type      = $model;
                         $t->likes     = 1;
                         $t->hash      = $row["hash_$model"];
-                        $t->size      = Storage::size(BASE_DIR.'/textures/'.$row["hash_$model"]);
+                        $t->size      = ceil(Storage::size(BASE_DIR.'/textures/'.$row["hash_$model"]) / 1024);
                         $t->uploader  = $user->uid;
                         $t->public    = $public;
                         $t->upload_at = $row['last_modified'] ? : Utils::getTimeFormatted();
@@ -81,19 +88,20 @@ for ($i = 0; $i <= $steps; $i++) {
 
                         $texture_imported++;
                     } else {
+                        $textures[$model] = $res->tid;
                         $texture_duplicated++;
                     }
                 }
             }
 
-            $p = new App\Models\PlayerModel;
+            $p = new PlayerModel;
 
             $p->uid           = $user->uid;
             $p->player_name   = $row['username'];
             $p->preference    = $row['preference'];
             $p->last_modified = $row['last_modified'] ? : Utils::getTimeFormatted();
 
-            $c = new App\Models\ClosetModel;
+            $c = new ClosetModel;
 
             $c->uid      = $user->uid;
             $c->textures = '';
