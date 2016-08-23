@@ -24,7 +24,7 @@
                 <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
             </div>
 
-            <div id="msg" class="alert hide"></div>
+            <div id="msg" class="callout hide"></div>
 
             <div class="row">
                 <div class="col-xs-8">

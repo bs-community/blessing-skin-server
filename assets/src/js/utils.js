@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 09:02:32
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-16 18:01:22
+ * @Last Modified time: 2016-08-23 17:58:40
  */
 
 function showModal(msg, title, type, callback) {
@@ -16,7 +16,7 @@ function showModal(msg, title, type, callback) {
 
 function showMsg(msg, type) {
     type  = type  === undefined ? "info" : type;
-    $("[id=msg]").removeClass().addClass("alert").addClass('alert-'+type).html(msg);
+    $("[id=msg]").removeClass().addClass("callout").addClass('callout-'+type).html(msg);
 }
 
 function showAjaxError(json) {
