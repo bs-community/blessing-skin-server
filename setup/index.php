@@ -10,7 +10,7 @@ define('BASE_DIR', dirname(dirname(__FILE__)));
 require BASE_DIR.'/vendor/autoload.php';
 
 // Boot Services
-App\Services\Boot::loadServices();
+Blessing\Foundation\Boot::loadServices();
 Config::checkPHPVersion();
 Boot::loadDotEnv(BASE_DIR);
 Boot::registerErrorHandler(new \Whoops\Handler\PrettyPageHandler);

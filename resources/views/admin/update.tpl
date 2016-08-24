@@ -14,7 +14,7 @@
         </h1>
     </section>
 
-    <?php $updater = new Updater(App::getVersion()); ?>
+    <?php $updater = new Updater(App::version()); ?>
     <!-- Main content -->
     <section class="content">
         <div class="row">

@@ -10,7 +10,7 @@ define('BASE_DIR', __DIR__);
 require BASE_DIR.'/vendor/autoload.php';
 
 // Initialize Application
-$app = new App\Services\Application();
+$app = new Blessing\Foundation\Application();
 
 // Start Application
 $app->run();

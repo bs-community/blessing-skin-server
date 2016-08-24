@@ -1,9 +1,14 @@
 <?php
 
-namespace App\Services;
+namespace Blessing\Foundation;
 
-class Application
+use \Illuminate\Container\Container;
+use \App\Services\Config;
+
+class Application extends Container
 {
+    private $version = null;
+
     /**
      * Start Application
      *
@@ -16,6 +21,9 @@ class Application
 
         // Check Runtime Environment
         Boot::checkRuntimeEnv();
+
+        // Register Facades
+        Boot::registerFacades($this);
 
         // Set Default Timezone to UTC+8
         Boot::setTimeZone();
@@ -40,14 +48,17 @@ class Application
     }
 
     /**
-     * Get current app version
+     * Get the version number of the application.
      *
      * @return string
      */
-    public static function getVersion()
+    public function version()
     {
-        $config = require BASE_DIR."/config/app.php";
-        return $config['version'];
+        if (is_null($this->version)) {
+            $config = require BASE_DIR."/config/app.php";
+            $this->version = $config['version'];
+        }
+        return $this->version;
     }
 
 }

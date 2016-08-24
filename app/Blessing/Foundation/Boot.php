@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Services;
+namespace Blessing\Foundation;
 
 use \Illuminate\Database\Capsule\Manager as Capsule;
+use \Illuminate\Support\Facades\Facade;
 use \Pecee\SimpleRouter\SimpleRouter as Router;
-use App\Exceptions\ExceptionHandler;
-use App\Exceptions\E;
+use \App\Exceptions\ExceptionHandler;
+use \App\Exceptions\E;
+use \App\Services\Config;
+use \App\Services\Http;
 
 class Boot
 {
@@ -15,6 +18,15 @@ class Boot
             $dotenv = new \Dotenv\Dotenv($dir);
             $dotenv->load();
         }
+    }
+
+    public static function registerFacades(Application $app)
+    {
+        Facade::setFacadeApplication($app);
+
+        $app->instance('app', $app);
+        $app->bind('manager', \App\Services\PluginManager::class);
+        $app->bind('db', \Blessing\Foundation\Database::class);
     }
 
     public static function setTimeZone($timezone = 'Asia/Shanghai')
@@ -39,7 +51,7 @@ class Boot
             throw new E("检测到 `textures` 文件夹已被删除，请重新运行 <a href='./setup'>安装程序</a>，或者手动放置一个。", -1, true);
         }
 
-        if (Application::getVersion() != Option::get('version', '')) {
+        if (\App::version() != \App\Services\Option::get('version', '')) {
             Http::redirect(Http::getBaseUrl().'/setup/update.php');
             exit;
         }

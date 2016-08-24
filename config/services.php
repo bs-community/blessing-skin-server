@@ -12,7 +12,7 @@
 
 return [
     'View'      => 'App\Services\View',
-    'Database'  => 'App\Services\Database',
+    'DB'        => 'Blessing\Facades\DB',
     'Option'    => 'App\Services\Option',
     'Utils'     => 'App\Services\Utils',
     'Validate'  => 'App\Services\Validate',
@@ -23,7 +23,7 @@ return [
     'Updater'   => 'App\Services\Updater',
     'Config'    => 'App\Services\Config',
     'Schema'    => 'App\Services\Schema',
-    'Boot'      => 'App\Services\Boot',
+    'Boot'      => 'Blessing\Foundation\Boot',
     'Migration' => 'App\Services\Migration',
-    'App'       => 'App\Services\Application'
+    'App'       => 'Blessing\Facades\App'
 ];

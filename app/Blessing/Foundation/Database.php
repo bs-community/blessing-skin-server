@@ -1,35 +1,16 @@
 <?php
 
-namespace App\Services;
+namespace Blessing\Foundation;
 
-use App\Exceptions\E;
-
-/**
- * Facade for DatabaseHelper
- */
-class Database
-{
-    public function __call($method, $args)
-    {
-        // Instantiate Helper
-        $instance = new DatabaseHelper;
-        // Call methods
-        return call_user_func_array([$instance, $method], $args);
-    }
-
-    public static function __callStatic($method, $args)
-    {
-        $instance = new DatabaseHelper;
-        return call_user_func_array([$instance, $method], $args);
-    }
-}
+use \App\Exceptions\E;
+use \App\Services\Config;
 
 /**
  * Light-weight database helper
  *
  * @author  <h@prinzeugen.net>
  */
-class DatabaseHelper
+class Database
 {
     /**
      * Instance of MySQLi
@@ -79,7 +60,7 @@ class DatabaseHelper
 
     public function table($table_name, $no_prefix = false)
     {
-        if (Utils::convertString($table_name) == $table_name) {
+        if (mysql_escape_string($table_name) == $table_name) {
             $this->table_name = $no_prefix ? $table_name : $this->config['prefix'].$table_name;
             return $this;
         } else {
