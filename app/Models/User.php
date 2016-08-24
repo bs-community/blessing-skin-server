@@ -165,12 +165,10 @@ class User
         if (is_null($this->storage_used)) {
             $this->storage_used = 0;
             // recalculate
-
-            foreach (Texture::where('uploader', $this->uid)->get() as $t) {
-                $this->storage_used += $t->size;
-            }
+            $prefix = \Config::getDbConfig()['prefix'];
+            $sql = "SELECT SUM(`size`) AS total_size FROM `{$prefix}textures` WHERE uploader = {$this->uid}";
+            $this->storage_used = \DB::fetchArray($sql)['total_size'];
         }
-
         return $this->storage_used;
     }
 
