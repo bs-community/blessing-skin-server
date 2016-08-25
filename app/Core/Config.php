@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace Blessing;
 
-use Illuminate\Database\Capsule\Manager as Capsule;
-use App\Services\Schema;
-use App\Exceptions\E;
+use \Illuminate\Database\Capsule\Manager as Capsule;
+use \Blessing\Database\Schema;
+use \App\Exceptions\E;
 
 class Config
 {

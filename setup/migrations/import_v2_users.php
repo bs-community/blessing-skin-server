@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-08-18 17:46:19
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-20 18:42:56
+ * @Last Modified time: 2016-08-25 22:30:49
  */
 
 if (!defined('BASE_DIR')) exit('Permission denied.');
@@ -18,7 +18,7 @@ $imported   = 0;
 $duplicated = 0;
 
 // use db helper instead of fat ORM
-$db = Database::table($v2_table_name, true);
+$db = DB::table($v2_table_name, true);
 
 $steps = ceil($db->getRecordNum() / 250);
 

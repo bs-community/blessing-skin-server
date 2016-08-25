@@ -9,19 +9,12 @@ define('BASE_DIR', dirname(dirname(dirname(__FILE__))));
 // Register Composer Auto Loader
 require BASE_DIR.'/vendor/autoload.php';
 
-// Boot Services
-Blessing\Foundation\Boot::loadServices();
-Config::checkPHPVersion();
-Boot::loadDotEnv(BASE_DIR);
+// Initialize Application
+$app = new Blessing\Foundation\Application();
+$app->boot();
 Boot::registerErrorHandler(new \Whoops\Handler\PrettyPageHandler);
-Boot::startSession();
 
 $db_config = Config::getDbConfig();
-
-// Boot Eloquent to make Schema available
-if (Config::checkDbConfig($db_config)) {
-    Boot::bootEloquent($db_config);
-}
 
 Boot::checkInstallation('../../setup/index.php');
 

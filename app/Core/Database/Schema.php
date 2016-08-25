@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace Blessing\Database;
 
 use Illuminate\Database\Capsule\Manager as Capsule;
 

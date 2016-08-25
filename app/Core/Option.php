@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace Blessing;
 
-use Illuminate\Database\Eloquent\Model;
+use \Illuminate\Database\Eloquent\Model;
 use \Exception;
 
 class Option

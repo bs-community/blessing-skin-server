@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace Blessing\Database;
+
+use Blessing\Storage;
 
 class Migration
 {
@@ -18,7 +20,7 @@ class Migration
     {
         if (strpos($method, 'import') !== false) {
             $filename = BASE_DIR."/setup/migrations/".snake_case($method).".php";
-            if (Storage::exist($filename)) {
+            if (Storage::exists($filename)) {
                 return require $filename;
             }
         }

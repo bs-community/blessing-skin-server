@@ -3,7 +3,7 @@
 namespace Blessing\Foundation;
 
 use \Illuminate\Container\Container;
-use \App\Services\Config;
+use \Blessing\Config;
 
 class Application extends Container
 {
@@ -15,6 +15,20 @@ class Application extends Container
      * @return void
      */
     public function run()
+    {
+        $this->boot();
+
+        // Register Error Handler
+        Boot::registerErrorHandler();
+
+        // Redirect if not installed
+        Boot::checkInstallation();
+
+        // Start Route Dispatching
+        Boot::bootRouter();
+    }
+
+    public function boot()
     {
         // Load Aliases
         Boot::loadServices();
@@ -31,20 +45,11 @@ class Application extends Container
         // Load dotenv Configuration
         Boot::loadDotEnv(BASE_DIR);
 
-        // Register Error Handler
-        Boot::registerErrorHandler();
-
         // Boot Eloquent ORM
         Boot::bootEloquent(Config::getDbConfig());
 
-        // Redirect if not installed
-        Boot::checkInstallation();
-
         // Start Session
         Boot::startSession();
-
-        // Start Route Dispatching
-        Boot::bootRouter();
     }
 
     /**

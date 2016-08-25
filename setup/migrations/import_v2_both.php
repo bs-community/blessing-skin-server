@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-08-18 17:46:19
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-21 09:41:14
+ * @Last Modified time: 2016-08-25 22:34:35
  */
 
 use App\Models\UserModel;
@@ -26,7 +26,7 @@ $texture_imported   = 0;
 $texture_duplicated = 0;
 
 // use db helper instead of fat ORM in some operations :(
-$db = Database::table($v2_table_name, true);
+$db = DB::table($v2_table_name, true);
 
 $steps = ceil($db->getRecordNum() / 250);
 
@@ -70,7 +70,7 @@ for ($i = 0; $i <= $steps; $i++) {
 
                     $res = Texture::where('hash', $row["hash_$model"])->first();
 
-                    if ($res->isEmpty()) {
+                    if (!$res) {
                         $t = new Texture;
 
                         $t->name      = $name;

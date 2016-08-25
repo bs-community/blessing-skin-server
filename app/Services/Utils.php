@@ -81,7 +81,7 @@ class Utils
     public static function getAvatarFname(\App\Models\User $user)
     {
         $fname = base64_encode($user->email).".png";
-        if (Option::get('avatar_query_string')) {
+        if (\Option::get('avatar_query_string')) {
             $fname .= '?v='.$user->getAvatarId();
         }
         return $fname;

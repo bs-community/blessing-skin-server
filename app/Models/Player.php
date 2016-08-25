@@ -84,13 +84,13 @@ class Player
         if ($this->getTexture($type) != "") {
             $filename = BASE_DIR."/textures/".$this->getTexture($type);
 
-            if (\Storage::exist($filename)) {
+            if (\Storage::exists($filename)) {
                 header('Content-Type: image/png');
                 // Cache friendly
                 header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $this->getLastModified()).' GMT');
                 header('Content-Length: '.filesize($filename));
 
-                return \Storage::read($filename);
+                return \Storage::get($filename);
             } else {
                 \Http::abort(404, '请求的贴图已被删除。');
             }

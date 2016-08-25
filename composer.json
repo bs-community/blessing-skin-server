@@ -15,7 +15,7 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "Blessing\\": "app/Blessing"
+            "Blessing\\": "app/Core"
         },
         "classmap": [
             "app/Models"

@@ -11,19 +11,19 @@
 */
 
 return [
-    'View'      => 'App\Services\View',
+    'View'      => 'Blessing\View',
     'DB'        => 'Blessing\Facades\DB',
-    'Option'    => 'App\Services\Option',
+    'Option'    => 'Blessing\Option',
     'Utils'     => 'App\Services\Utils',
     'Validate'  => 'App\Services\Validate',
-    'Http'      => 'App\Services\Http',
-    'Mail'      => 'App\Services\Mail',
-    'Storage'   => 'App\Services\Storage',
+    'Http'      => 'Blessing\Http',
+    'Mail'      => 'Blessing\Mail',
+    'Storage'   => 'Blessing\Storage',
     'Minecraft' => 'App\Services\Minecraft',
     'Updater'   => 'App\Services\Updater',
-    'Config'    => 'App\Services\Config',
-    'Schema'    => 'App\Services\Schema',
+    'Config'    => 'Blessing\Config',
+    'Schema'    => 'Blessing\Database\Schema',
     'Boot'      => 'Blessing\Foundation\Boot',
-    'Migration' => 'App\Services\Migration',
+    'Migration' => 'Blessing\Database\Migration',
     'App'       => 'Blessing\Facades\App'
 ];

@@ -1,9 +1,9 @@
 <?php
 
-namespace Blessing\Foundation;
+namespace Blessing\Database;
 
 use \App\Exceptions\E;
-use \App\Services\Config;
+use \Blessing\Config;
 
 /**
  * Light-weight database helper

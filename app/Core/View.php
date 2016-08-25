@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace Blessing;
 
 /**
  * Just a wrapper for Blade template engine

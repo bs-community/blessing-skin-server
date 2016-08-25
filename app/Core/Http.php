@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace Blessing;
 
 class Http
 {
@@ -8,18 +8,18 @@ class Http
      * HTTP redirect
      *
      * @param  string  $url
-     * @param  string  $msg    Write message to session
-     * @param  boolean $use_js Use javascript to redirect
+     * @param  string  $msg Write message to session
      * @return void
      */
-    public static function redirect($url, $msg = "", $use_js = false)
+    public static function redirect($url, $msg = "")
     {
-        if ($msg != "") $_SESSION['msg'] = $msg;
+        if ($msg !== "") $_SESSION['msg'] = $msg;
 
-        if ($use_js)
-            echo "<script>window.location = '$url';</script>";
-        else
+        if (!headers_sent()) {
             header('Location: '.$url);
+        } else {
+            echo "<meta http-equiv='Refresh' content='0; URL=$url'>";
+        }
         exit;
     }
 

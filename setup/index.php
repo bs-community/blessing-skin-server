@@ -9,19 +9,12 @@ define('BASE_DIR', dirname(dirname(__FILE__)));
 // Register Composer Auto Loader
 require BASE_DIR.'/vendor/autoload.php';
 
-// Boot Services
-Blessing\Foundation\Boot::loadServices();
-Config::checkPHPVersion();
-Boot::loadDotEnv(BASE_DIR);
+// Initialize Application
+$app = new Blessing\Foundation\Application();
+$app->boot();
 Boot::registerErrorHandler(new \Whoops\Handler\PrettyPageHandler);
-Boot::startSession();
 
 $db_config = Config::getDbConfig();
-
-// Boot Eloquent to make Schema available
-if (Config::checkDbConfig($db_config)) {
-    Boot::bootEloquent($db_config);
-}
 
 // If already installed
 if (Config::checkTableExist($db_config)) {
@@ -46,7 +39,7 @@ switch ($step) {
 
     case 3:
         // check post
-        if (Validate::checkPost(['email', 'password', 'confirm-pwd']))
+        if (Validate::checkPost(['email', 'password', 'confirm-pwd'], true))
         {
             if ($_POST['password'] != $_POST['confirm-pwd'])
                 Http::redirect('index.php?step=2', '确认密码不一致');
@@ -77,7 +70,7 @@ switch ($step) {
         $options = require "options.php";
         $options['site_name']    = $_POST['sitename'];
         $options['site_url']     = Http::getBaseUrl();
-        $options['version']      = App::getVersion();
+        $options['version']      = App::version();
         $options['announcement'] = str_replace('{version}', $options['version'], $options['announcement']);
 
         foreach ($options as $key => $value) {

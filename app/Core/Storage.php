@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace Blessing;
 
 class Storage
 {
@@ -10,7 +10,7 @@ class Storage
      * @param  string $filename
      * @return string|bool
      */
-    public static function read($filename)
+    public static function get($filename)
     {
         $result = file_get_contents($filename, 'r');
         if (false === $result) {
@@ -19,7 +19,7 @@ class Storage
         return $result;
     }
 
-    public static function exist($filename)
+    public static function exists($filename)
     {
         return file_exists($filename);
     }
@@ -39,7 +39,7 @@ class Storage
 
     public static function size($filename)
     {
-        if (self::exist($filename)) {
+        if (self::exists($filename)) {
             return filesize($filename);
         } else {
             return 0;
@@ -54,7 +54,7 @@ class Storage
      */
     public static function remove($filename)
     {
-        if (file_exists($filename)) {
+        if (self::exists($filename)) {
             return unlink($filename);
         }
     }

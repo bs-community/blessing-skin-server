@@ -35,7 +35,7 @@ class Validate
 
     public static function playerName($player_name)
     {
-        $regx = (Option::get('allow_chinese_playername') == "1") ?
+        $regx = (\Option::get('allow_chinese_playername') == "1") ?
                 "/^([A-Za-z0-9\x{4e00}-\x{9fa5}_]+)$/u" : "/^([A-Za-z0-9_]+)$/";
         return preg_match($regx, $player_name);
     }
