@@ -43,9 +43,21 @@
                                 </div><!-- /.progress-group -->
                                 <div class="progress-group">
                                     <span class="progress-text">存储空间</span>
-                                    <span class="progress-number"><b>{{ $user->getStorageUsed() }}</b>/{{ $user->getStorageUsed() + $user->getScore() / Option::get('score_per_storage') }} KB</span>
+                                    <?php $rate = Option::get('score_per_storage'); ?>
+                                    @if ($user->getStorageUsed() > 1024)
+                                    <span class="progress-number">
+                                        <b>{{ round($user->getStorageUsed() / 1024, 1) }}</b>/
+                                        {{ round(($user->getStorageUsed() + $user->getScore() / $rate) / 1024, 1) }} MB
+                                    </span>
+                                    @else
+                                    <span class="progress-number">
+                                        <b>{{ $user->getStorageUsed() }}</b>/
+                                        {{ $user->getStorageUsed() + $user->getScore() / $rate }} KB
+                                    </span>
+                                    @endif
+
                                     <div class="progress sm">
-                                        <div class="progress-bar progress-bar-yellow" style="width: {{ $user->getStorageUsed() / ($user->getStorageUsed() + $user->getScore() / Option::get('score_per_storage')) * 100 }}%"></div>
+                                        <div class="progress-bar progress-bar-yellow" style="width: {{ $user->getStorageUsed() / ($user->getStorageUsed() + $user->getScore() / $rate) * 100 }}%"></div>
                                     </div>
                                 </div><!-- /.progress-group -->
                             </div><!-- /.col -->

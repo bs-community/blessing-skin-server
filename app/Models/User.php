@@ -165,9 +165,9 @@ class User
         if (is_null($this->storage_used)) {
             $this->storage_used = 0;
             // recalculate
-            $prefix = \Config::getDbConfig()['prefix'];
-            $sql = "SELECT SUM(`size`) AS total_size FROM `{$prefix}textures` WHERE uploader = {$this->uid}";
-            $this->storage_used = \DB::fetchArray($sql)['total_size'];
+            $sql = "SELECT SUM(`size`) AS total_size FROM `{table}` WHERE uploader = {$this->uid}";
+            $result = \DB::table('textures')->fetchArray($sql)['total_size'];
+            $this->storage_used = $result ?: 0;
         }
         return $this->storage_used;
     }

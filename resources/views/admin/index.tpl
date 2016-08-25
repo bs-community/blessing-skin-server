@@ -46,14 +46,11 @@
                     </div>
                 </div>
 
-
-
-
                 <div class="info-box">
                     <span class="info-box-icon bg-green"><i class="fa fa-files-o"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">上传材质总数</span>
-                        <span class="info-box-number">{{ \Storage::getFileNum(BASE_DIR."/textures/") }}</span>
+                        <span class="info-box-number">{{ \DB::table('textures')->getRecordNum() }}</span>
                     </div><!-- /.info-box-content -->
                 </div><!-- /.info-box -->
 
@@ -61,7 +58,8 @@
                     <span class="info-box-icon bg-yellow"><i class="fa fa-hdd-o"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">占用空间大小</span>
-                        <span class="info-box-number">{{ floor(\Storage::getDirSize(BASE_DIR."/textures/")/1024)."KB" }}</span>
+                        <?php $size = \DB::table('textures')->fetchArray("SELECT SUM(`size`) AS total_size FROM `{table}` WHERE 1")['total_size']; ?>
+                        <span class="info-box-number">{{ $size > 1024 ? round($size / 1024, 1)."MB" : $size."KB" }}</span>
                     </div><!-- /.info-box-content -->
                 </div><!-- /.info-box -->
             </div>
