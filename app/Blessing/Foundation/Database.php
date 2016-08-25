@@ -70,9 +70,13 @@ class Database
 
     public function query($sql)
     {
+        // compile patterns
+        $sql = str_replace('{table}', $this->table_name, $sql);
+
         $result = $this->connection->query($sql);
         if ($this->connection->error)
             throw new E("Database query error: ".$this->connection->error.", Statement: ".$sql, -1);
+
         return $result;
     }
 
