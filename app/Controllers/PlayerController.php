@@ -131,14 +131,7 @@ class PlayerController extends BaseController
 
     public function clearTexture()
     {
-        $this->player->model->preference = "default";
-        $this->player->model->tid_steve = "";
-        $this->player->model->tid_alex = "";
-        $this->player->model->tid_cape = "";
-
-        $this->player->model->last_modified = Utils::getTimeFormatted();
-
-        $this->player->model->save();
+        $this->player->clearTexture();
 
         View::json('角色 '.$this->player->model->player_name.' 的材质已被成功重置', 0);
     }

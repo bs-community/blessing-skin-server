@@ -73,6 +73,12 @@ class Player
         return $this->model->save();
     }
 
+    public function clearTexture()
+    {
+        $this->setPreference('default');
+        $this->setTexture(['tid_steve' => 0, 'tid_alex' => 0, 'tid_cape' => 0]);
+    }
+
     public function getBinaryTexture($type)
     {
         if ($this->getTexture($type) != "") {
