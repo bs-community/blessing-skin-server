@@ -52,8 +52,11 @@
                 <div class="box-footer">
                     <!-- Pagination -->
                     <ul class="pagination pagination-sm no-margin pull-right">
-                        <?php $base_url = ($filter != "" && $sort != "") ? "?filter=$filter&sort=$sort&" : "?"; ?>
-                        <li><a href="?page=1">«</a></li>
+                        <?php
+                            $base_url = ($filter != "" && $sort != "") ? "?filter=$filter&sort=$sort&" : "?";
+                            if (isset($_GET['uid'])) $base_url.= "uid=".$_GET['uid']."&";
+                        ?>
+                        <li><a href="{{ $base_url }}page=1">«</a></li>
 
                         @if ($page != 1)
                         <li><a href="{{ $base_url }}page={{ $page-1 }}">{{ $page - 1 }}</a></li>
@@ -70,13 +73,7 @@
 
                     <select id="page-select" class="pull-right">
                     @for ($i = 1; $i <= $total_pages; $i++)
-
-                        @if ($i == $page)
-                        <option value='{{ $i }}' selected="selected">{{ $i }}</option>
-                        @else
-                        <option value='{{ $i }}'>{{ $i }}</option>
-                        @endif
-
+                        <option value='{{ $i }}' {{ ($i == $page) ? 'selected="selected"' : '' }}>{{ $i }}</option>
                     @endfor
                     </select>
 
