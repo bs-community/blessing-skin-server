@@ -60,11 +60,11 @@ class Database
 
     public function table($table_name, $no_prefix = false)
     {
-        if (mysql_escape_string($table_name) == $table_name) {
+        if ($this->connection->real_escape_string($table_name) == $table_name) {
             $this->table_name = $no_prefix ? $table_name : $this->config['prefix'].$table_name;
             return $this;
         } else {
-            throw new E('Table name contains invalid characters', 1);
+            throw new \InvalidArgumentException('Table name contains invalid characters', 1);
         }
     }
 
