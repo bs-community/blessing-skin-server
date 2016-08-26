@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 10:02:24
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-16 22:13:55
+ * @Last Modified time: 2016-08-26 13:21:23
  */
 
 'use strict';
@@ -563,9 +563,7 @@ function deleteAccount() {
                     type: 'success',
                     html: json.msg
                 }).then(function() {
-                    logout(true, function() {
-                        window.location = "../auth/login";
-                    });
+                    window.location = "../auth/login";
                 });
             } else {
                 swal({

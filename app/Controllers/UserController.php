@@ -89,9 +89,13 @@ class UserController extends BaseController
             if (!$this->user->checkPasswd($_POST['password']))
                 View::json('密码错误', 1);
 
-            if ($this->user->delete())
-                View::json('账号已被成功删除', 0);
+            if ($this->user->delete()) {
+                setcookie('uid',   '', time() - 3600, '/');
+                setcookie('token', '', time() - 3600, '/');
+                session_destroy();
 
+                View::json('账号已被成功删除', 0);
+            }
         }
 
     }

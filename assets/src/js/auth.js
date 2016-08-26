@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-17 10:54:22
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-16 22:23:42
+ * @Last Modified time: 2016-08-26 13:05:14
  */
 
 'use strict';
@@ -140,10 +140,6 @@ $('#register-button').click(function() {
             },
             success: function(json) {
                 if (json.errno == 0) {
-                    // login automatically
-                    docCookies.setItem('email', email, null, '/');
-                    docCookies.setItem('token', json.token, null, '/');
-
                     swal({
                         type: 'success',
                         html: json.msg

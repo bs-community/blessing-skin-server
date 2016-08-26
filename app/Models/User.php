@@ -132,8 +132,10 @@ class User
 
     public function getToken($refresh = false)
     {
-        if ($this->token === "" || $refresh)
+        if ($this->is_registered && ($this->token === "" || $refresh)) {
             $this->token = md5($this->model->email . $this->model->password . $_ENV['SALT']);
+        }
+
         return $this->token;
     }
 
@@ -231,7 +233,10 @@ class User
         $closet->textures   = "";
         $closet->save();
 
-        $this->model = $user;
+        $this->model         = $user;
+        $this->uid           = $user->uid;
+        $this->is_registered = true;
+
         return $this;
     }
 

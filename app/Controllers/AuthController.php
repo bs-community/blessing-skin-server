@@ -66,10 +66,8 @@ class AuthController extends BaseController
     public function logout()
     {
         if (isset($_SESSION['token'])) {
-            $user = new User($_SESSION['uid']);
-
-            setcookie('uid',   $user->uid, time()-3600, '/');
-            setcookie('token', $user->getToken(), time()-3600, '/');
+            setcookie('uid',   '', time() - 3600, '/');
+            setcookie('token', '', time() - 3600, '/');
 
             session_destroy();
 
@@ -108,6 +106,10 @@ class AuthController extends BaseController
                         // register new user
                         $user = $user->register($_POST['password'], Http::getRealIP());
                         $user->setNickName($_POST['nickname']);
+
+                        // set cookies
+                        setcookie('uid',   $user->uid, time() + 3600, '/');
+                        setcookie('token', $user->getToken(), time() + 3600, '/');
 
                         View::json([
                             'errno' => 0,
