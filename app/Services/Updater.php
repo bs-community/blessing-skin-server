@@ -17,8 +17,8 @@ class Updater
     public function __construct($current_version)
     {
         $this->current_version = $current_version;
-        $this->update_sources = require BASE_DIR."/config/update.php";
-        $this->current_source = $this->update_sources[Option::get('update_source')];
+        $this->update_sources  = require BASE_DIR."/config/update.php";
+        $this->current_source  = $this->update_sources[\Option::get('update_source')];
     }
 
     public function getUpdateInfo()
@@ -38,7 +38,7 @@ class Updater
     {
         $info = $this->getUpdateInfo();
         $this->latest_version = $info['latest_version'];
-        $this->update_time = date('Y-m-d H:i:s', $info['update_time']);
+        $this->update_time    = date('Y-m-d H:i:s', $info['update_time']);
     }
 
     public function downloadUpdate($silent = true)

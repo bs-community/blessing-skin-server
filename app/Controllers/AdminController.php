@@ -37,7 +37,9 @@ class AdminController extends BaseController
 
     public function update()
     {
-        if (Utils::getValue('action', $_GET) == "check") {
+        $action = Utils::getValue('action', $_GET);
+
+        if ($action == "check") {
             $updater = new \Updater(\App::version());
             if ($updater->newVersionAvailable()) {
                 View::json([
@@ -45,8 +47,12 @@ class AdminController extends BaseController
                     'latest_version' => $updater->latest_version
                 ]);
             }
+        } elseif ($action == "download") {
+            View::show('admin.download');
+        } else {
+            View::show('admin.update');
         }
-        View::show('admin.update');
+
     }
 
     public function users()

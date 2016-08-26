@@ -82,7 +82,7 @@
                         @endif
                     </div><!-- /.box-body -->
                     <div class="box-footer">
-                        <a <?php if (!$updater->newVersionAvailable()) echo "disabled='disabled'"; ?> href="update.php?action=download" class="btn btn-primary">马上升级</a>
+                        <a href="?action=download" class="btn btn-primary" {{ !$updater->newVersionAvailable() ? 'disabled="disabled"' : '' }} >马上升级</a>
                         <a href="http://www.mcbbs.net/thread-552877-1-1.html" style="float: right;" class="btn btn-default">查看 MCBBS 发布贴</a>
                     </div>
                 </div>
