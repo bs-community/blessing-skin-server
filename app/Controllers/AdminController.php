@@ -46,13 +46,17 @@ class AdminController extends BaseController
                     'new_version_available' => true,
                     'latest_version' => $updater->latest_version
                 ]);
+            } else {
+                View::json([
+                    'new_version_available' => false,
+                    'latest_version' => $updater->current_version
+                ]);
             }
         } elseif ($action == "download") {
             View::show('admin.download');
         } else {
             View::show('admin.update');
         }
-
     }
 
     public function users()

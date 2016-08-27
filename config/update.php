@@ -9,15 +9,10 @@
 */
 
 return array(
-    'github' => [
-        'name'        => 'GitHub',
-        'update_url'  => 'https://work.prinzeugen.net/update.json',
-        'description' => '从 <a href="https://prinzeugen.net/">作者主机</a> 上取更新信息，GitHub Releases 上取更新包。国内主机可能会奇慢无比，请注意。'
-    ],
     'nyavm' => [
         'name'        => 'NyaVM',
-        'update_url'  => 'http://anycast.cdn.nyavm.net/',
-        'description' => '啦啦啦'
+        'update_url'  => 'http://work.prinzeugen.net/update.json',
+        'description' => '感谢 <a href="https://www.nyavm.com/">NyaVM</a> 提供的 Anycast CDN，国内外主机都可获得不错的速度。NyaVM 主机，百兆 CN2 只需 $3.99 月付，稳定快速大带宽。'
     ],
     'little_service' => [
         'name'        => 'LittleService-COS',

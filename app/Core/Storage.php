@@ -19,6 +19,11 @@ class Storage
         return $result;
     }
 
+    public static function put($filename, $data)
+    {
+        return file_put_contents($filename, $data);
+    }
+
     public static function exists($filename)
     {
         return file_exists($filename);

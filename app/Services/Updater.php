@@ -2,16 +2,50 @@
 
 namespace App\Services;
 
+use \Blessing\Storage;
+
 class Updater
 {
+    /**
+     * Current version
+     *
+     * @var string
+     */
     public $current_version = "";
+
+    /**
+     * Latest version
+     *
+     * @var string
+     */
     public $latest_version  = "";
 
+    /**
+     * Latest update time in Y-m-d H:i:s format
+     *
+     * @var string
+     */
     public $update_time     = "";
 
+    /**
+     * See /config/update.php
+     *
+     * @var array
+     */
     private $update_sources = null;
+
+    /**
+     * Current selected update source
+     *
+     * @var array
+     */
     private $current_source = null;
 
+    /**
+     * Details of updates
+     *
+     * @var array
+     */
     private $update_info    = null;
 
     public function __construct($current_version)
@@ -21,6 +55,11 @@ class Updater
         $this->current_source  = $this->update_sources[\Option::get('update_source')];
     }
 
+    /**
+     * Get update info from selected json source
+     *
+     * @return array Decoded json
+     */
     public function getUpdateInfo()
     {
         $ch = curl_init();
@@ -30,34 +69,58 @@ class Updater
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         $result = curl_exec($ch);
         curl_close($ch);
+
         $this->update_info = json_decode($result, true);
         return $this->update_info;
     }
 
+    /**
+     * Check for updates
+     *
+     * @return void
+     */
     public function checkUpdate()
     {
         $info = $this->getUpdateInfo();
+
         $this->latest_version = $info['latest_version'];
         $this->update_time    = date('Y-m-d H:i:s', $info['update_time']);
     }
 
+    /**
+     * Download update files
+     *
+     * @param  bool $silent Don't print messages
+     * @return void
+     */
     public function downloadUpdate($silent = true)
     {
         $release_url = $this->update_info['releases'][$this->latest_version]['release_url'];
-        if (!$silent) echo "<p>正在下载更新包：$release_url </p>";
-        // I don't know why curl cant get full file here..
-        $file = fopen($release_url, 'r');
-        if (!$silent) echo "<p>下载完成。</p>";
+
+        if (!$silent)
+            echo "<p>正在下载更新包：$release_url </p>";
+
+        // I don't know why curl can't get full file content here..
+        $file = file_get_contents($release_url);
+
+        if (!$silent)
+            echo "<p>下载完成。</p>";
 
         $update_cache = BASE_DIR."/setup/update_cache/";
-        if (!is_dir($update_cache)) mkdir($update_cache);
+
+        if (!is_dir($update_cache)) {
+            if (false === mkdir($update_cache)) {
+                exit('<p>创建下载缓存文件夹失败，请检查目录权限。</p>');
+            }
+        }
 
         $zip_path = $update_cache."update_".time().".zip";
 
-        if (file_put_contents($zip_path, $file) === false) {
-            \Storage::removeDir(BASE_DIR.'/setup/update_cache/');
+        if (Storage::put($zip_path, $file) === false) {
+            Storage::removeDir(BASE_DIR.'/setup/update_cache/');
             return false;
         }
+
         return $zip_path;
     }
 
@@ -86,7 +149,7 @@ class Updater
      */
     private function compareVersion($v1, $v2)
     {
-        if (strnatcasecmp($v1, $v2) > 0) {
+        if (version_compare($v1, $v2) > 0) {
             // v1 > v2
             return true;
         } else {
