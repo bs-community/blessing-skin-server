@@ -2,6 +2,13 @@
 
 @section('title', '检查更新')
 
+@section('style')
+<style type="text/css">
+.description { margin: 7px 0 0 0; color: #555; }
+.description a { color: #3c8dbc; }
+</style>
+@endsection
+
 @section('content')
 
 <!-- Content Wrapper. Contains page content -->
@@ -55,7 +62,7 @@
                                 <tr>
                                     <td class="key">下载地址：</td>
                                     <td class="value">
-                                    <a href="{{ $updater->getUpdateInfo()['releases'][$updater->latest_version]['release_url'] }}">@GitHub</a>
+                                    <a href="{!! $updater->getUpdateInfo()['releases'][$updater->latest_version]['release_url'] !!}">@GitHub</a>
                                     </td>
                                 </tr>
 
@@ -92,7 +99,8 @@
                         <h3 class="box-title">注意事项</h3>
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                        <p>下载更新需要连接 GitHub 服务器，国内主机可能会长时间无响应。</p>
+                        <p>请根据你的主机所在位置（国内/国外）选择更新源。</p>
+                        <p>如错选至相对于你的主机速度较慢的源，可能会造成检查/下载更新页面长时间无响应。</p>
                     </div><!-- /.box-body -->
                 </div>
             </div>
@@ -102,50 +110,53 @@
                     <div class="box-header with-border">
                         <h3 class="box-title">更新选项</h3>
                     </div><!-- /.box-header -->
-                    <div class="box-body">
-                        <form method="post" action="../admin/update">
-                            <div class="box-body">
-                                <?php
-                                if (isset($_POST['submit'])) {
-                                    $_POST['check_update'] = isset($_POST['check_update']) ? $_POST['check_update'] : "0";
+                    <form method="post" action="../admin/update">
+                        <div class="box-body">
+                            <?php
+                            if (isset($_POST['submit'])) {
+                                $_POST['check_update'] = isset($_POST['check_update']) ? $_POST['check_update'] : "0";
 
-                                    foreach ($_POST as $key => $value) {
-                                        if ($key != "option" && $key != "submit")
-                                            Option::set($key, $value);
-                                    }
-                                    echo '<div class="callout callout-success">设置已保存。</div>';
-                                } ?>
-                                <table class="table">
-                                    <tbody>
+                                foreach ($_POST as $key => $value) {
+                                    if ($key != "option" && $key != "submit")
+                                        Option::set($key, $value);
+                                }
+                                echo '<div class="callout callout-success">设置已保存。</div>';
+                            } ?>
+                            <table class="table">
+                                <tbody>
 
 
-                                        <tr>
-                                            <td class="key">检查更新</td>
-                                            <td class="value">
-                                                <label for="check_update">
-                                                    <input {{ (Option::get('check_update') == '1') ? 'checked="true"' : '' }} type="checkbox" id="check_update" name="check_update" value="1"> 自动检查更新并提示
-                                                </label>
-                                            </td>
-                                        </tr>
+                                    <tr>
+                                        <td class="key">检查更新</td>
+                                        <td class="value">
+                                            <label for="check_update">
+                                                <input {{ (Option::get('check_update') == '1') ? 'checked="true"' : '' }} type="checkbox" id="check_update" name="check_update" value="1"> 自动检查更新并提示
+                                            </label>
+                                        </td>
+                                    </tr>
 
-                                        <tr>
-                                            <td class="key">更新源</td>
-                                            <td class="value">
-                                                <select class="form-control" name="update_source">
-                                                    @foreach ($updater->getUpdateSources() as $key => $value)
-                                                    <option {{ (Option::get('update_source') == $key) ? 'selected="selected"' : '' }} value="{{ $key }}">{{ $value['name'] }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div><!-- /.box-body -->
-                            <div class="box-footer">
-                                <button type="submit" name="submit" class="btn btn-primary">提交</button>
-                            </div>
-                        </form>
-                    </div><!-- /.box-body -->
+                                    <?php $current_source = Option::get('update_source'); ?>
+                                    <tr>
+                                        <td class="key">更新源</td>
+                                        <td class="value">
+                                            <select class="form-control" name="update_source">
+                                                @foreach ($updater->getUpdateSources() as $key => $value)
+                                                <option {!! $current_source == $key ? 'selected="selected"' : '' !!} value="{{ $key }}">{{ $value['name'] }}</option>
+                                                @endforeach
+                                            </select>
+
+                                            @foreach ($updater->getUpdateSources() as $key => $value)
+                                            <p class="description" id="{{ $key }}" {!! $current_source == $key ? '' : 'style="display: none;"' !!}>{!! $value['description'] !!}</p>
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div><!-- /.box-body -->
+                        <div class="box-footer">
+                            <button type="submit" name="submit" class="btn btn-primary">提交</button>
+                        </div>
+                    </form>
                 </div>
             </div>
 
@@ -153,4 +164,13 @@
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 
+@endsection
+
+@section('script')
+<script>
+    $('select[name=update_source]').change(function() {
+        $('.description').hide();
+        $('#' + this.value).show();
+    });
+</script>
 @endsection
