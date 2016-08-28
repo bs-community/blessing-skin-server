@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Facades;
 
 use \Illuminate\Support\Facades\Facade;
 
-class Database extends Facade
+class Option extends Facade
 {
     /**
      * Get the registered name of the component.
@@ -13,6 +13,6 @@ class Database extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'database';
+        return 'option';
     }
 }

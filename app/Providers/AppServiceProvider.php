@@ -24,5 +24,6 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('database', \App\Services\Database\Database::class);
+        $this->app->singleton('option', \App\Services\OptionRepository::class);
     }
 }
