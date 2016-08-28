@@ -43,10 +43,9 @@
         </tr>
     </table>
 
-@if (session()->has('msg'))
-<div class="alert alert-warning" role="alert">{{ session('msg') }}</div>
-<?php session()->forget('msg'); ?>
-@endif
+    @if (isset($_SESSION['msg']))
+    <div class="alert alert-warning" role="alert">{{ $_SESSION['msg'] }}</div> <?php unset($_SESSION['msg']); ?>
+    @endif
 
     <p class="step">
         <input type="submit" name="Submit" id="submit" class="button button-large" value="开始安装"  />

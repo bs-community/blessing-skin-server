@@ -1,6 +1,15 @@
 <?php
 
 return [
+    /*
+    |--------------------------------------------------------------------------
+    | Application Version
+    |--------------------------------------------------------------------------
+    |
+    | Version of Blessing Skin Server
+    |
+    */
+    'version' => '3.1',
 
     /*
     |--------------------------------------------------------------------------
@@ -52,7 +61,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Shanghai',
 
     /*
     |--------------------------------------------------------------------------
@@ -151,6 +160,7 @@ return [
         /*
          * Application Service Providers...
          */
+        App\Providers\BootServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,

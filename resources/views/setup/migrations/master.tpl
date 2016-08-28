@@ -6,7 +6,7 @@
     <meta name="robots" content="noindex,nofollow" />
     <title>Blessing Skin Server 数据迁移</title>
     <link rel="shortcut icon" href="../../assets/images/favicon.ico">
-    <link rel="stylesheet" type="text/css" href="../../assets/dist/css/install.css">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/install.css">
 
     <style>
         .container a.button {

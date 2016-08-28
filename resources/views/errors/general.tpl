@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="robots" content="noindex,nofollow" />
     <title>@yield('title') - Blessing Skin Server</title>
-    <link rel="stylesheet" type="text/css" href="{{ \Http::getBaseUrl() }}/assets/dist/css/style.css">
+    <link rel="stylesheet" type="text/css" href="{{ \Http::getBaseUrl() }}/assets/css/style.css">
 </head>
 
 <body class="container">

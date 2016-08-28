@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-08-28 11:44:15
+* @Last Modified time: 2016-08-28 18:29:06
 */
 
 var gulp     = require('gulp'),
@@ -10,6 +10,7 @@ var gulp     = require('gulp'),
     uglify   = require('gulp-uglify'),
     sass     = require('gulp-sass'),
     cleanCss = require('gulp-clean-css'),
+    del      = require('del'),
     zip      = require('gulp-zip');
 
 require('laravel-elixir-replace');
@@ -46,26 +47,25 @@ var replacements = [
 
 elixir(function(mix) {
     mix
-        .scripts(vendor_js.concat(
-            'resources/assets/src/js/utils.js'
-        ), 'assets/js/app.min.js', './')
+        .scripts(vendor_js.concat([
+            'resources/assets/js/utils.js'
+        ]), 'assets/js/app.min.js', './')
 
         .styles(vendor_css, 'assets/css/app.min.css', './')
-
         .replace('assets/css/app.min.css', replacements)
 
+        // copy fonts & images
         .copy([
             'resources/assets/bower_components/bootstrap/dist/fonts/**',
             'resources/assets/bower_components/font-awesome/fonts/**'
         ], 'assets/fonts/')
-
         .copy([
             'resources/assets/bower_components/iCheck/skins/square/blue.png',
             'resources/assets/bower_components/iCheck/skins/square/blue@2x.png'
         ], 'assets/images/')
 
         .task('sass')
-        .task('scripts')
+        .task('uglify');
 });
 
 // compile sass
@@ -76,7 +76,7 @@ gulp.task('sass', function () {
         .pipe(gulp.dest('./assets/css'));
 });
 
-gulp.task('scripts', function() {
+gulp.task('uglify', function() {
     gulp.src('resources/assets/js/*.js')
         .pipe(uglify())
         .pipe(gulp.dest('./assets/js'));
@@ -84,6 +84,14 @@ gulp.task('scripts', function() {
 
 // release
 gulp.task('zip', function() {
+    // delete cache files
+    del([
+        'storage/logs/*',
+        'storage/framework/cache/*',
+        'storage/framework/sessions/*',
+        'storage/framework/views/*'
+    ]);
+
     return gulp.src([
             '**/*.*',
             'LICENSE',
@@ -95,16 +103,19 @@ gulp.task('zip', function() {
             '!.gitignore',
             '!.git/**/*.*',
             '!.git/',
+            '!artisan',
             '!koala-config.json',
             '!gulpfile.js',
             '!package.json',
             '!composer.json',
             '!composer.lock',
             '!bower.json',
-            '!assets/bower_components/**/*.*',
-            '!assets/src/**/*.*',
+            '!resources/assets/**/*.*',
             '!.sass-cache/**/*.*',
-            '!.sass-cache/'
+            '!.sass-cache/',
+            '!storage/logs/*.*',
+            // do not pack vendor since laravel contains huge dependencies
+            '!vendor/**/*.*'
         ], { dot: true })
         .pipe(zip('blessing-skin-server-v'+version+'.zip'))
         .pipe(gulp.dest('../'));

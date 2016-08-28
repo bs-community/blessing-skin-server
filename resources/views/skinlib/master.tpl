@@ -8,11 +8,11 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- App Styles -->
-    <link rel="stylesheet" href="../assets/dist/app.min.css">
+    <link rel="stylesheet" href="../assets/css/app.min.css">
     <!-- AdminLTE Skins -->
     <link rel="stylesheet" href="../assets/libs/skins/{{ Option::get('color_scheme') }}.min.css">
 
-    <link rel="stylesheet" href="../assets/dist/css/skinlib.css">
+    <link rel="stylesheet" href="../assets/css/skinlib.css">
 
     @yield('style')
 
@@ -139,9 +139,9 @@
     </div><!-- ./wrapper -->
 
     <!-- App Scripts -->
-    <script type="text/javascript" src="../assets/dist/app.min.js"></script>
+    <script type="text/javascript" src="../assets/js/app.min.js"></script>
 
-    <script type="text/javascript" src="../assets/dist/js/skinlib.js"></script>
+    <script type="text/javascript" src="../assets/js/skinlib.js"></script>
 
     @yield('script')
 

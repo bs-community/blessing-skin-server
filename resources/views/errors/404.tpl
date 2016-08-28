@@ -5,5 +5,5 @@
 @section('content')
 <h1>404 Not Found</h1>
 
-<p>详细信息：{{ $message }}</p>
+<p>详细信息：{{ $message or "Nothing lives here.." }}</p>
 @endsection

@@ -5,5 +5,6 @@ textures/*
 node_modules/*
 resources/cache/*
 resources/assets/bower_components/*
-assets/dist/*
+assets/css/*
+assets/js/*
 koala-config.json
