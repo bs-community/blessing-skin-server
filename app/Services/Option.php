@@ -15,7 +15,7 @@ class Option
             if (!is_null($default_value)) {
                 return $default_value;
             } else {
-                $options = require BASE_DIR."/setup/options.php";
+                $options = require BASE_DIR."/config/options.php";
 
                 if (array_key_exists($key, $options)) {
                     self::add($key, $options[$key]);

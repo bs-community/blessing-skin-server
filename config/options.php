@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-07-29 11:53:11
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-19 23:11:29
+ * @Last Modified time: 2016-08-28 21:40:27
  */
 
 return [
@@ -31,7 +31,7 @@ return [
     'avatar_query_string'       => '0',
     'version'                   => '',
     'check_update'              => '1',
-    'update_source'             => 'github',
+    'update_source'             => 'nyavm',
     'copyright_text'            => '<strong>Copyright &copy; 2016 <a href="{site_url}">{site_name}</a>.</strong> All rights reserved.',
     'auto_del_invalid_texture'  => '0'
 ];

@@ -56,7 +56,7 @@ switch ($step) {
         App\Services\Database\Migration::creatTables($db_config['prefix']);
 
         // import options
-        $options = require "options.php";
+        $options = require BASE_DIR."/config/options.php";
         $options['site_name']    = $_POST['sitename'];
         $options['site_url']     = Http::getBaseUrl();
         $options['version']      = config('app.version');

@@ -21,7 +21,7 @@
                 <h3 class="box-title">下载更新</h3>
             </div><!-- /.box-header -->
             <div class="box-body"> <?php
-                $updater = new Updater(App::version());
+                $updater = new Updater(config('app.version'));
 
                 if ($updater->newVersionAvailable()) {
                     $zip_path = $updater->downloadUpdate(false);

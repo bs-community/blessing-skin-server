@@ -52,6 +52,13 @@ class Updater
     {
         $this->current_version = $current_version;
         $this->update_sources  = require BASE_DIR."/config/update.php";
+
+        $source = \Option::get('update_source');
+
+        if (!isset($this->update_sources[$source])) {
+            Option::set('update_source', config('options.update_source'));
+        }
+
         $this->current_source  = $this->update_sources[\Option::get('update_source')];
     }
 
