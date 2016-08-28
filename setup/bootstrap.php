@@ -23,13 +23,15 @@ $handler = new \Whoops\Handler\PrettyPageHandler;
 $whoops->pushHandler($handler);
 $whoops->register();
 
+// Instantiate Application
 $app = new Illuminate\Foundation\Application(BASE_DIR);
 
+// Set Container for Facades
 Illuminate\Support\Facades\Facade::setFacadeApplication($app);
 
+// Register Basic Service Providers manually
 (new Illuminate\View\ViewServiceProvider($app))->register();
 (new Illuminate\Foundation\Bootstrap\LoadConfiguration)->bootstrap($app);
-
 (new Illuminate\Database\DatabaseServiceProvider($app))->register();
 (new Illuminate\Filesystem\FilesystemServiceProvider($app))->register();
 (new Illuminate\Foundation\Bootstrap\LoadConfiguration)->bootstrap($app);
@@ -46,11 +48,6 @@ foreach ($config['aliases'] as $facade => $class) {
 }
 
 \View::addExtension('tpl', 'blade');
-
-// Set Default Timezone to UTC+8
-date_default_timezone_set('Asia/Shanghai');
-
-
 
 $config = require BASE_DIR.'/config/database.php';
 

@@ -3,20 +3,12 @@
  * Migrations Bootstrap of Blessing Skin Server
  */
 
-// Define Base Directory
-define('BASE_DIR', dirname(dirname(dirname(__FILE__))));
+require dirname(__DIR__)."/bootstrap.php";
 
-// Register Composer Auto Loader
-require BASE_DIR.'/vendor/autoload.php';
-
-// Initialize Application
-$app = new Blessing\Foundation\Application();
-$app->boot();
-Boot::registerErrorHandler(new \Whoops\Handler\PrettyPageHandler);
-
-$db_config = Config::getDbConfig();
-
-Boot::checkInstallation('../../setup/index.php');
+// If already installed
+if (!checkTableExist()) {
+    Http::redirect('../index.php');
+}
 
 if (isset($_COOKIE['uid']) && isset($_COOKIE['token'])) {
     $_SESSION['uid'] = $_COOKIE['uid'];

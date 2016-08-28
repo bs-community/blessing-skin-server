@@ -3,7 +3,6 @@
  * Installation of Blessing Skin Server
  */
 
-// Register Composer Auto Loader
 require __DIR__."/bootstrap.php";
 
 // If already installed

@@ -48,9 +48,8 @@
     </table>
 
 
-    @if (session()->has('msg'))
-    <div class="alert alert-warning" role="alert">{{ session('msg') }}</div>
-    <?php session()->forget('msg'); ?>
+    @if (isset($_SESSION['msg']))
+    <div class="alert alert-warning" role="alert">{{ $_SESSION['msg'] }}</div> <?php unset($_SESSION['msg']); ?>
     @endif
 
     <p class="step">
