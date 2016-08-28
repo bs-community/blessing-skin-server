@@ -75,7 +75,7 @@
                     <!-- Navbar Right Menu -->
                         <div class="navbar-custom-menu">
                             <ul class="nav navbar-nav">
-                                <li><a href="{{ Http::urlTo('/skinlib/upload') }}"><i class="fa fa-upload" aria-hidden="true"></i> 上传新皮肤</a></li>
+                                <li><a href="{{ url('skinlib/upload') }}"><i class="fa fa-upload" aria-hidden="true"></i> 上传新皮肤</a></li>
                                 @if (!is_null($user))
                                 <!-- User Account Menu -->
                                 <li class="dropdown user user-menu">

@@ -82,17 +82,6 @@ class Http
         return self::getBaseUrl().$_SERVER["REQUEST_URI"];
     }
 
-    /**
-     * Generate absolute url according to relative one
-     *
-     * @param  string $relative
-     * @return string
-     */
-    public static function urlTo($relative)
-    {
-        return Option::get('site_url').$relative;
-    }
-
     public static function abort($code, $msg = "Something happened.", $is_json = false)
     {
         http_response_code((int)$code);

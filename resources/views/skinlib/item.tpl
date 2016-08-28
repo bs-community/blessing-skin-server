@@ -1,6 +1,6 @@
 <div class="item" tid="{{ $texture['tid'] }}">
     <div class="item-body">
-        <img src="{{ Http::urlTo('/preview/'.$texture['tid'].'.png') }}">
+        <img src="{{ url('preview/'.$texture['tid'].'.png') }}">
     </div>
 
     <div class="item-footer">
@@ -9,7 +9,7 @@
         </p>
 
 
-        @if (session()->has('uid'))
+        @if (Session::has('uid'))
 
             @if ($user->closet->has($texture['tid']))
             <a title="从衣柜中移除" class="more like liked" tid="{{ $texture['tid'] }}" href="javascript:removeFromCloset({{ $texture['tid'] }});" data-placement="top" data-toggle="tooltip"><i class="fa fa-heart"></i></a>
