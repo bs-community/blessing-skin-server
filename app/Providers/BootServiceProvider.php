@@ -42,8 +42,9 @@ class BootServiceProvider extends ServiceProvider
             \Http::redirect(url('/setup/index.php'));
         }
 
-        if (!is_dir(BASE_DIR.'/textures/')) {
-            throw new E("检测到 `textures` 文件夹已被删除，请重新运行 <a href='".url('setup')."'>安装程序</a>，或者手动放置一个。", -1, true);
+        if (!is_dir(BASE_DIR.'/storage/textures/')) {
+            if (!mkdir(BASE_DIR.'/storage/textures/'))
+                throw new E('textures 文件夹创建失败，请确认目录权限是否正确，或者手动放置一个。', -1);
         }
 
         if (config('app.version') != \Option::get('version', '')) {

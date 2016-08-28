@@ -132,7 +132,8 @@ Route::group(['middleware' =>                   'App\Http\Middleware\CheckPlayer
     }
 });
 
-Route::get('/{api}/textures/{hash}',            'TextureController@redirectTextures');
+Route::get('/textures/{hash}',                  'TextureController@texture');
+Route::get('/{api}/textures/{hash}',            'TextureController@textureWithApi')->where('api', 'usm|csl');
 
 Route::get('/avatar/{base64_email}.png',        'TextureController@avatar');
 Route::get('/avatar/{size}/{base64_email}.png', 'TextureController@avatarWithSize')->where(['base64_email' => '[^\\/]+?']);

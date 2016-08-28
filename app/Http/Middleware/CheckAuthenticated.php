@@ -18,7 +18,7 @@ class CheckAuthenticated
             Session::put('token', $_COOKIE['token']);
         }
 
-        if (session()->has('uid')) {
+        if (Session::has('uid')) {
             $user = new User(session('uid'));
 
             if (session('token') != $user->getToken())

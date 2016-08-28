@@ -71,8 +71,8 @@ switch ($step) {
         $user->register($_POST['password'], Http::getRealIP());
         $user->setPermission('2');
 
-        if (!is_dir(BASE_DIR.'/textures/')) {
-            if (!mkdir(BASE_DIR.'/textures/'))
+        if (!is_dir(BASE_DIR.'/storage/textures/')) {
+            if (!mkdir(BASE_DIR.'/storage/textures/'))
                 throw new E('textures 文件夹创建失败，请确认目录权限是否正确，或者手动放置一个。', -1);
         }
 

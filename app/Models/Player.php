@@ -82,15 +82,15 @@ class Player
     public function getBinaryTexture($type)
     {
         if ($this->getTexture($type) != "") {
-            $filename = BASE_DIR."/textures/".$this->getTexture($type);
+            $hash = $this->getTexture($type);
+            $path = BASE_DIR."/storage/textures/".$hash;
 
-            if (\Storage::exists($filename)) {
-                header('Content-Type: image/png');
+            if (\Storage::disk('textures')->has($hash)) {
                 // Cache friendly
-                header('Last-Modified: ' . gmdate('D, d M Y H:i:s', $this->getLastModified()).' GMT');
-                header('Content-Length: '.filesize($filename));
-
-                return \Storage::get($filename);
+                return response(\Storage::disk('textures')->get($hash))
+                        ->header('Content-Type',  'image/png')
+                        ->header('Last-Modified',  gmdate('D, d M Y H:i:s', $this->getLastModified()).' GMT')
+                        ->header('Content-Length', filesize($path));
             } else {
                 \Http::abort(404, '请求的贴图已被删除。');
             }

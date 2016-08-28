@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
 use App\Exceptions\E;
+use Storage;
 use Minecraft;
 use Option;
 use Http;
@@ -41,6 +42,19 @@ class TextureController extends BaseController
         $this->json($player_name, $api);
     }
 
+    public function texture($hash) {
+        if (Storage::disk('textures')->has($hash)) {
+            return response(Storage::disk('textures')->get($hash))
+                    ->header('Content-Type', 'image/png');
+        } else {
+            abort(404);
+        }
+    }
+
+    public function textureWithApi($api, $hash) {
+        return $this->texture($hash);
+    }
+
     public function skin($player_name, $model = "")
     {
         $player_name = Option::get('allow_chinese_playername') ? $GLOBALS['player_name'] : $player_name;
@@ -53,7 +67,7 @@ class TextureController extends BaseController
         if (!$this->checkCache($player_name)) {
             $model_preference = ($player->getPreference() == "default") ? "steve" : "alex";
             $model = ($model == "") ? $model_preference : $model;
-            echo $player->getBinaryTexture($model);
+            return $player->getBinaryTexture($model);
         }
     }
 
@@ -86,10 +100,11 @@ class TextureController extends BaseController
     {
         // output image directly
         if ($t = Texture::find($tid)) {
-            $filename = BASE_DIR."/textures/".$t->hash;
 
-            if (\Storage::exists($filename)) {
+            if (\Storage::disk('textures')->has($t->hash)) {
                 header('Content-Type: image/png');
+
+                $filename = BASE_DIR."/storage/textures/{$t->hash}";
 
                 if ($t->type == "cape") {
                     $png = Minecraft::generatePreviewFromCape($filename, $size);
@@ -132,11 +147,6 @@ class TextureController extends BaseController
             Http::abort(404, '材质不存在');
         }
 
-    }
-
-    public static function redirectTextures($api, $hash)
-    {
-        Http::redirectPermanently('../../textures/'.$hash);
     }
 
     private function checkCache($player_name)

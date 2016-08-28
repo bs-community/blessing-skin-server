@@ -3,7 +3,7 @@
 namespace App\Services;
 
 use App\Exceptions\E;
-use Blessing\Storage;
+use Storage;
 
 class Utils
 {
@@ -39,13 +39,18 @@ class Utils
      */
     public static function upload($file)
     {
-        $path = BASE_DIR.'/textures/tmp'.time();
+        $path = 'tmp'.time();
+        $absolute_path = BASE_DIR."/storage/textures/$path";
 
-        if (false === move_uploaded_file($file['tmp_name'], $path)) {
+        if (false === move_uploaded_file($file['tmp_name'], $absolute_path)) {
             throw new App\Exceptions\E('Failed to remove uploaded files, please check the permission', 1);
         } else {
-            $hash = Storage::hash($path);
-            Storage::rename($path, BASE_DIR."/textures/$hash");
+            $hash = hash_file('sha256', $absolute_path);
+
+            if (!Storage::disk('textures')->has($hash)) {
+                Storage::disk('textures')->move($path, $hash);
+            }
+
             return $hash;
         }
     }

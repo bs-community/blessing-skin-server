@@ -95,12 +95,16 @@ class SkinlibController extends BaseController
 
     public function show()
     {
-        if (!isset($_GET['tid'])) Http::abort(404, 'No specified tid.');
+        if (!isset($_GET['tid']))
+            Http::abort(404, 'No specified tid.');
+
         $texture = Texture::find($_GET['tid']);
 
-        if (!$texture || $texture && !\Storage::exists(BASE_DIR."/textures/".$texture->hash)) {
+        if (!$texture || $texture && !\Storage::disk('textures')->has($texture->hash)) {
             if (Option::get('auto_del_invalid_texture') == "1") {
-                if ($texture) $texture->delete();
+                if ($texture)
+                    $texture->delete();
+
                 Http::abort(404, '请求的材质文件已经被删除');
             }
             Http::abort(404, '请求的材质文件已经被删除，请联系管理员删除该条目');
@@ -184,7 +188,7 @@ class SkinlibController extends BaseController
 
         // check if file occupied
         if (Texture::where('hash', $result['hash'])->count() == 1)
-            \Storage::remove("./textures/".$result['hash']);
+            \Storage::delete($result['hash']);
 
         $this->user->setScore($result->size * Option::get('score_per_storage'), 'plus');
 

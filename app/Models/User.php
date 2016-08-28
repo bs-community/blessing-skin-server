@@ -256,13 +256,15 @@ class User
     {
         // output image directly
         if (!is_null($this->model) && $this->getAvatarId()) {
-            $texture_path = BASE_DIR."/textures/".Texture::find($this->getAvatarId())->hash;
+            $hash = Texture::find($this->getAvatarId())->hash;
+            $path = BASE_DIR."/storage/textures/$hash";
 
-            if (\Storage::has($texture_path)) {
-                $png = \Minecraft::generateAvatarFromSkin(BASE_DIR."/textures/".Texture::find($this->getAvatarId())->hash, $size);
+            if (\Storage::disk('textures')->has($hash)) {
+                $png = \Minecraft::generateAvatarFromSkin($path, $size);
                 header('Content-Type: image/png');
                 imagepng($png);
                 imagedestroy($png);
+                return;
             }
         }
 

@@ -48,9 +48,9 @@ return [
             'root' => storage_path('app'),
         ],
 
-        'public' => [
+        'textures' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
+            'root' => storage_path('textures'),
             'visibility' => 'public',
         ],
 
