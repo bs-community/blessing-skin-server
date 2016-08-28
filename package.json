@@ -23,6 +23,7 @@
     "gulp-ruby-sass": "^2.0.6",
     "gulp-uglify": "^1.5.4",
     "gulp-zip": "^3.2.0",
-    "laravel-elixir": "^5.0.0",
+    "laravel-elixir": "^6.0.0-10",
+    "laravel-elixir-replace": "^1.1.2"
   }
 }

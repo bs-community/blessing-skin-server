@@ -2,175 +2,88 @@
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-08-28 09:54:19
+* @Last Modified time: 2016-08-28 11:44:15
 */
 
 var gulp     = require('gulp'),
-    jshint   = require('gulp-jshint'),
-    concat   = require('gulp-concat'),
+    elixir   = require('laravel-elixir'),
     uglify   = require('gulp-uglify'),
-    sass     = require('gulp-ruby-sass'),
+    sass     = require('gulp-sass'),
     cleanCss = require('gulp-clean-css'),
-    rename   = require('gulp-rename'),
-    del      = require('del'),
-    replace  = require('gulp-replace')
     zip      = require('gulp-zip');
 
-var elixir   = require('laravel-elixir');
+require('laravel-elixir-replace');
 
 var version  = require('./package.json').version;
 
-/**
- * Copy files from bower_components to dist for later operations
- */
-gulp.task('copy', function(cb) {
+var vendor_js = [
+    'resources/assets/bower_components/jquery/dist/jquery.min.js',
+    'resources/assets/bower_components/bootstrap/dist/js/bootstrap.min.js',
+    'resources/assets/bower_components/AdminLTE/dist/js/app.min.js',
+    'resources/assets/bower_components/bootstrap-fileinput/js/fileinput.min.js',
+    'resources/assets/bower_components/bootstrap-fileinput/js/locales/zh.js',
+    'resources/assets/bower_components/iCheck/icheck.min.js',
+    'resources/assets/bower_components/toastr/toastr.min.js',
+    'resources/assets/bower_components/sweetalert2/dist/sweetalert2.min.js',
+    'resources/assets/bower_components/es6-promise/es6-promise.min.js'
+];
 
-    gulp.src('./assets/bower_components/jquery/dist/jquery.min.js')
-        .pipe(gulp.dest('./assets/libs/js/'));
+var vendor_css = [
+    'resources/assets/bower_components/bootstrap/dist/css/bootstrap.min.css',
+    'resources/assets/bower_components/AdminLTE/dist/css/AdminLTE.min.css',
+    'resources/assets/bower_components/bootstrap-fileinput/css/fileinput.min.css',
+    'resources/assets/bower_components/font-awesome/css/font-awesome.min.css',
+    'resources/assets/bower_components/iCheck/skins/square/blue.css',
+    'resources/assets/bower_components/toastr/toastr.min.css',
+    'resources/assets/bower_components/sweetalert2/dist/sweetalert2.min.css'
+];
 
-    gulp.src('./assets/bower_components/bootstrap/dist/css/bootstrap.min.css')
-        .pipe(gulp.dest('./assets/libs/css/'));
+var replacements = [
+    ['@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic);', ''],
+    ['blue.png', '"../images/blue.png"'],
+    ['blue@2x.png', '"../images/blue@2x.png"']
+];
 
-    gulp.src('./assets/bower_components/bootstrap/dist/fonts/**')
-        .pipe(gulp.dest('./assets/fonts/'));
+elixir(function(mix) {
+    mix
+        .scripts(vendor_js.concat(
+            'resources/assets/src/js/utils.js'
+        ), 'assets/js/app.min.js', './')
 
-    gulp.src('./assets/bower_components/bootstrap/dist/js/bootstrap.min.js')
-        .pipe(gulp.dest('./assets/libs/js/'));
+        .styles(vendor_css, 'assets/css/app.min.css', './')
 
-    gulp.src('./assets/bower_components/AdminLTE/dist/css/AdminLTE.min.css')
-        .pipe(replace('@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic);', ''))
-        .pipe(gulp.dest('./assets/libs/css/'));
+        .replace('assets/css/app.min.css', replacements)
 
-    gulp.src('./assets/bower_components/AdminLTE/dist/css/skins/**')
-        .pipe(gulp.dest('./assets/libs/skins/'));
+        .copy([
+            'resources/assets/bower_components/bootstrap/dist/fonts/**',
+            'resources/assets/bower_components/font-awesome/fonts/**'
+        ], 'assets/fonts/')
 
-    gulp.src('./assets/bower_components/AdminLTE/dist/js/app.min.js')
-        .pipe(gulp.dest('./assets/libs/js/'));
+        .copy([
+            'resources/assets/bower_components/iCheck/skins/square/blue.png',
+            'resources/assets/bower_components/iCheck/skins/square/blue@2x.png'
+        ], 'assets/images/')
 
-    gulp.src('./assets/bower_components/bootstrap-fileinput/css/fileinput.min.css')
-        .pipe(gulp.dest('./assets/libs/css/'));
-
-    gulp.src(['./assets/bower_components/bootstrap-fileinput/js/fileinput.min.js',
-              './assets/bower_components/bootstrap-fileinput/js/locales/zh.js'])
-        .pipe(concat('fileinput.min.js'))
-        .pipe(gulp.dest('./assets/libs/js/'));
-
-    gulp.src('./assets/bower_components/font-awesome/css/font-awesome.min.css')
-        .pipe(gulp.dest('./assets/libs/css/'));
-
-    gulp.src('./assets/bower_components/font-awesome/fonts/**')
-        .pipe(gulp.dest('./assets/fonts/'));
-
-    gulp.src('./assets/bower_components/iCheck/skins/square/blue.css')
-        .pipe(replace('blue.png', '"../images/blue.png"'))
-        .pipe(replace('blue@2x.png', '"../images/blue@2x.png"'))
-        .pipe(gulp.dest('./assets/libs/css/'));
-
-    gulp.src('./assets/bower_components/iCheck/skins/square/blue.png')
-        .pipe(gulp.dest('./assets/images/'));
-
-    gulp.src('./assets/bower_components/iCheck/skins/square/blue@2x.png')
-        .pipe(gulp.dest('./assets/images/'));
-
-    gulp.src('./assets/bower_components/iCheck/icheck.min.js')
-        .pipe(gulp.dest('./assets/libs/js/'));
-
-    gulp.src('./assets/bower_components/toastr/toastr.min.css')
-        .pipe(gulp.dest('./assets/libs/css/'));
-
-    gulp.src('./assets/bower_components/toastr/toastr.min.js')
-        .pipe(gulp.dest('./assets/libs/js/'));
-
-    gulp.src('./assets/bower_components/sweetalert2/dist/sweetalert2.min.css')
-        .pipe(gulp.dest('./assets/libs/css/'));
-
-    gulp.src('./assets/bower_components/sweetalert2/dist/sweetalert2.min.js')
-        .pipe(gulp.dest('./assets/libs/js/'));
-
-    gulp.src('./assets/bower_components/es6-promise/es6-promise.min.js')
-        .pipe(gulp.dest('./assets/libs/js/'));
+        .task('sass')
+        .task('scripts')
 });
-
-gulp.task('lint', function() {
-    return gulp.src('./assets/js/*.js')
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'));
-});
-
-gulp.task('lib-css', function() {
-    gulp.src([
-            './assets/libs/css/bootstrap.min.css',
-            './assets/libs/css/AdminLTE.min.css',
-            './assets/libs/css/fileinput.min.css',
-            './assets/libs/css/font-awesome.min.css',
-            './assets/libs/css/blue.css',
-            './assets/libs/css/toastr.min.css',
-            './assets/libs/css/sweetalert2.min.css'
-        ])
-        .pipe(concat('app.min.css'))
-        .pipe(cleanCss())
-        .pipe(gulp.dest('./assets/dist/'))
-});
-
-gulp.task('lib-scripts', function() {
-    gulp.src([
-            './assets/libs/js/jquery.min.js',
-            './assets/libs/js/bootstrap.min.js',
-            './assets/libs/js/app.min.js',
-            './assets/libs/js/icheck.min.js',
-            './assets/libs/js/fileinput.min.js',
-            './assets/libs/js/toastr.min.js',
-            './assets/libs/js/es6-promise.min.js',
-            './assets/libs/js/sweetalert2.min.js',
-            './assets/src/js/utils.js'
-        ])
-        .pipe(concat('app.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest('./assets/dist/'))
-});
-
-/**
- * Concat css and js files to one file
- */
-gulp.task('concat', ['lib-css', 'lib-scripts']);
 
 // compile sass
-gulp.task('sass', function() {
-    return sass('./assets/src/sass/*.scss')
-                .on('error', function (error) {
-                    console.error('Error!', error.message);
-                })
-                .pipe(cleanCss())
-                // .pipe(rename({'suffix': '.min'}))
-                .pipe(gulp.dest('./assets/dist/css'));
-})
+gulp.task('sass', function () {
+    gulp.src('resources/assets/sass/*.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(cleanCss())
+        .pipe(gulp.dest('./assets/css'));
+});
 
 gulp.task('scripts', function() {
-    gulp.src([
-            './assets/src/js/*.js',
-            '!./assets/src/js/utils.js'
-        ])
+    gulp.src('resources/assets/js/*.js')
         .pipe(uglify())
-        // .pipe(rename({'suffix': '.min'}))
-        .pipe(gulp.dest('./assets/dist/js'));
-
+        .pipe(gulp.dest('./assets/js'));
 });
-
-gulp.task('minify', ['sass', 'scripts']);
-
-gulp.task('clean', function (cb) {
-    return del([
-        './assets/libs/css/**',
-        './assets/libs/js/**'
-    ], cb);
-});
-
-gulp.task('build', ['concat', 'minify']);
 
 // release
 gulp.task('zip', function() {
-    del('resources/cache/*');
-
     return gulp.src([
             '**/*.*',
             'LICENSE',
@@ -196,5 +109,3 @@ gulp.task('zip', function() {
         .pipe(zip('blessing-skin-server-v'+version+'.zip'))
         .pipe(gulp.dest('../'));
 });
-
-gulp.task('default', ['copy']);
