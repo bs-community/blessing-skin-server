@@ -3,21 +3,11 @@
  * Installation of Blessing Skin Server
  */
 
-// Define Base Directory
-define('BASE_DIR', dirname(dirname(__FILE__)));
-
 // Register Composer Auto Loader
-require BASE_DIR.'/vendor/autoload.php';
-
-// Initialize Application
-$app = new Blessing\Foundation\Application();
-$app->boot();
-Boot::registerErrorHandler(new \Whoops\Handler\PrettyPageHandler);
-
-$db_config = Config::getDbConfig();
+require __DIR__."/bootstrap.php";
 
 // If already installed
-if (Config::checkTableExist($db_config)) {
+if (checkTableExist()) {
     View::show('setup.locked');
     exit;
 }
@@ -64,13 +54,13 @@ switch ($step) {
         }
 
         // create tables
-        Migration::creatTables($db_config['prefix']);
+        App\Services\Database\Migration::creatTables($db_config['prefix']);
 
         // import options
         $options = require "options.php";
         $options['site_name']    = $_POST['sitename'];
         $options['site_url']     = Http::getBaseUrl();
-        $options['version']      = App::version();
+        $options['version']      = config('app.version');
         $options['announcement'] = str_replace('{version}', $options['version'], $options['announcement']);
 
         foreach ($options as $key => $value) {
