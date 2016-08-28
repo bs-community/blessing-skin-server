@@ -41,12 +41,19 @@ class Database
      */
     public function __construct($config = null)
     {
+        if (is_null($config)) {
+            $db_config = require BASE_DIR.'/config/database.php';
+            $config = $db_config['connections']['mysql'];
+        }
+
+        $this->config = $config;
+
         @$this->connection = new \mysqli(
-            config('database.connections.mysql.host'),
-            config('database.connections.mysql.username'),
-            config('database.connections.mysql.password'),
-            config('database.connections.mysql.database'),
-            config('database.connections.mysql.port')
+            $this->config['host'],
+            $this->config['username'],
+            $this->config['password'],
+            $this->config['database'],
+            $this->config['port']
         );
 
         if ($this->connection->connect_error)
@@ -138,7 +145,7 @@ class Database
 
     public function hasTable($table_name)
     {
-        $sql = "SELECT table_name FROM `INFORMATION_SCHEMA`.`TABLES` WHERE (table_name = '$table_name') AND TABLE_SCHEMA='".Config::getDbConfig()['database']."'";
+        $sql = "SELECT table_name FROM `INFORMATION_SCHEMA`.`TABLES` WHERE (table_name = '$table_name') AND TABLE_SCHEMA='".$this->config['database']."'";
         return ($this->query($sql)->num_rows != 0) ? true : false;
     }
 
@@ -191,8 +198,9 @@ class Database
 
     public function __destruct()
     {
-        if (!is_null($this->connection))
+        if (!is_null($this->connection)) {
             $this->connection->close();
+        }
     }
 
 }

@@ -16,8 +16,12 @@ class Http
     public static function redirect($url, $msg = "")
     {
         if ($msg !== "") {
-            Session::flash('msg', $msg);
-            Session::save();
+            if (app()->bound('session')) {
+                Session::flash('msg', $msg);
+                Session::save();
+            } else {
+                $_SESSION['msg'] = $msg;
+            }
         }
 
         if (!headers_sent()) {
