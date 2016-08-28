@@ -22,7 +22,7 @@
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
 
-            <div class="row" id="captcha-form" style="{{ (\Utils::getValue('login_fails', $_SESSION) > 3) ? '' : 'display: none;'}}">
+            <div class="row" id="captcha-form" style="{{ (session('login_fails') > 3) ? '' : 'display: none;'}}">
                 <div class="col-xs-8">
                     <div class="form-group has-feedback">
                         <input id="captcha" type="text" class="form-control" placeholder="输入验证码">

@@ -134,9 +134,9 @@
 
     @yield('script')
 
-    @if (isset($_SESSION['msg']))
+    @if (session()->has('msg'))
     <script>
-        toastr.info('{{ $_SESSION['msg'] }}'); <?php unset($_SESSION['msg']) ?>
+        toastr.info('{{ session('msg') }}'); <?php session()->forget('msg') ?>
     </script>
     @endif
 

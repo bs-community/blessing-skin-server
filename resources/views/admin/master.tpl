@@ -19,7 +19,7 @@
     <style>{!! Option::get('custom_css') !!}</style>
 </head>
 
-<?php $user = new App\Models\User($_SESSION['uid']); ?>
+<?php $user = new App\Models\User(session('uid')); ?>
 
 <body class="hold-transition {{ Option::get('color_scheme') }} sidebar-mini">
     <div class="wrapper">

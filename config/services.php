@@ -1,29 +1,38 @@
 <?php
-/*
-|--------------------------------------------------------------------------
-| Class Aliases
-|--------------------------------------------------------------------------
-|
-| This array of class aliases will be registered when this application
-| is started. However, feel free to register as many as you wish as
-| the aliases are "lazy" loaded so they don't hinder performance.
-|
-*/
 
 return [
-    'View'      => 'Blessing\View',
-    'DB'        => 'Blessing\Facades\DB',
-    'Option'    => 'Blessing\Option',
-    'Utils'     => 'App\Services\Utils',
-    'Validate'  => 'App\Services\Validate',
-    'Http'      => 'Blessing\Http',
-    'Mail'      => 'Blessing\Mail',
-    'Storage'   => 'Blessing\Storage',
-    'Minecraft' => 'App\Services\Minecraft',
-    'Updater'   => 'App\Services\Updater',
-    'Config'    => 'Blessing\Config',
-    'Schema'    => 'Blessing\Database\Schema',
-    'Boot'      => 'Blessing\Foundation\Boot',
-    'Migration' => 'Blessing\Database\Migration',
-    'App'       => 'Blessing\Facades\App'
+
+    /*
+    |--------------------------------------------------------------------------
+    | Third Party Services
+    |--------------------------------------------------------------------------
+    |
+    | This file is for storing the credentials for third party services such
+    | as Stripe, Mailgun, Mandrill, and others. This file provides a sane
+    | default location for this type of information, allowing packages
+    | to have a conventional place to find your various credentials.
+    |
+    */
+
+    'mailgun' => [
+        'domain' => env('MAILGUN_DOMAIN'),
+        'secret' => env('MAILGUN_SECRET'),
+    ],
+
+    'ses' => [
+        'key' => env('SES_KEY'),
+        'secret' => env('SES_SECRET'),
+        'region' => 'us-east-1',
+    ],
+
+    'sparkpost' => [
+        'secret' => env('SPARKPOST_SECRET'),
+    ],
+
+    'stripe' => [
+        'model' => App\User::class,
+        'key' => env('STRIPE_KEY'),
+        'secret' => env('STRIPE_SECRET'),
+    ],
+
 ];

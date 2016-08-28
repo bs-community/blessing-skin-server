@@ -26,9 +26,9 @@
         </tr>
     </table>
 
-    @if (isset($_SESSION['msg']))
-    <div class="alert alert-warning" role="alert">{{ htmlspecialchars($_SESSION['msg']) }}</div>
-    <?php unset($_SESSION['msg']); ?>
+    @if (session()->has('msg'))
+    <div class="alert alert-warning" role="alert">{{ session('msg') }}</div>
+    <?php session()->forget('msg'); ?>
     @endif
 
     <p class="step">
@@ -49,7 +49,7 @@
             if (Utils::convertString($_POST['v2_table_name']) != $_POST['v2_table_name'])
                 Http::redirect('index.php?action=import-v2-users&step=1', "表名 {$_POST['v2_table_name']} 中含有无效字符");
 
-            if (!DB::hasTable($_POST['v2_table_name'])) {
+            if (!Database::hasTable($_POST['v2_table_name'])) {
                 Http::redirect('index.php?action=import-v2-users&step=1', "数据表 {$_POST['v2_table_name']} 不存在");
             }
         }

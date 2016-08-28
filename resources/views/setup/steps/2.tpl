@@ -43,9 +43,9 @@
         </tr>
     </table>
 
-@if (isset($_SESSION['msg']))
-<div class="alert alert-warning" role="alert">{{ htmlspecialchars($_SESSION['msg']) }}</div>
-<?php unset($_SESSION['msg']); ?>
+@if (session()->has('msg'))
+<div class="alert alert-warning" role="alert">{{ session('msg') }}</div>
+<?php session()->forget('msg'); ?>
 @endif
 
     <p class="step">

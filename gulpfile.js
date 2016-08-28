@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-08-20 21:58:50
+* @Last Modified time: 2016-08-28 09:54:19
 */
 
 var gulp     = require('gulp'),
@@ -15,6 +15,8 @@ var gulp     = require('gulp'),
     del      = require('del'),
     replace  = require('gulp-replace')
     zip      = require('gulp-zip');
+
+var elixir   = require('laravel-elixir');
 
 var version  = require('./package.json').version;
 

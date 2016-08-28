@@ -24,9 +24,9 @@
 
     <script type="text/javascript" src="../assets/dist/js/auth.js"></script>
 
-    @if (isset($_SESSION['msg']))
+    @if (Session::has('msg'))
     <script>
-        toastr.info('{{ $_SESSION['msg'] }}'); <?php unset($_SESSION['msg']); ?>
+        toastr.info('{{ session('msg') }}');
     </script>
     @endif
 
