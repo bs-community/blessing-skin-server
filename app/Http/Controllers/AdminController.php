@@ -8,7 +8,7 @@ use App\Models\UserModel;
 use App\Models\Player;
 use App\Models\PlayerModel;
 use App\Models\Texture;
-use App\Exceptions\E;
+use App\Exceptions\PrettyPageException;
 use Validate;
 use Utils;
 use View;
@@ -135,7 +135,7 @@ class AdminController extends BaseController
         $cur_user = new User(session('uid'));
 
         if (!$user->is_registered)
-            throw new E('用户不存在', 1);
+            View::json('用户不存在', 1);
 
         if ($action == "email") {
             Validate::checkPost(['email']);
@@ -210,7 +210,7 @@ class AdminController extends BaseController
                 View::json('账号已被成功删除', 0);
 
         } else {
-            throw new E('非法参数', 1);
+            View::json('非法参数', 1);
         }
     }
 
@@ -263,7 +263,7 @@ class AdminController extends BaseController
             if (PlayerModel::where('pid', $_POST['pid'])->delete())
                 View::json('角色已被成功删除', 0);
         } else {
-            throw new E('非法参数', 1);
+            View::json('非法参数', 1);
         }
     }
 

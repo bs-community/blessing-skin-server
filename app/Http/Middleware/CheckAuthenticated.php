@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\User;
 use App\Models\UserModel;
-use App\Exceptions\E;
+use App\Exceptions\PrettyPageException;
 use View;
 use Http;
 use Session;
@@ -31,7 +31,7 @@ class CheckAuthenticated
                 Session::flush();
                 Session::save();
 
-                throw new E('你已经被本站封禁啦，请联系管理员解决', 5, true);
+                throw new PrettyPageException('你已经被本站封禁啦，请联系管理员解决', 5);
             }
 
             // ask for filling email

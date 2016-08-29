@@ -4,9 +4,10 @@ namespace App\Models;
 
 use App\Events\PlayerProfileUpdated;
 use App\Events\GetPlayerJson;
-use App\Exceptions\E;
+use App\Exceptions\PrettyPageException;
 use Event;
 use Utils;
+use View;
 
 class Player
 {
@@ -68,7 +69,7 @@ class Player
     {
         if (!isset($tids['tid_steve']) && !isset($tids['tid_alex']) && !isset($tids['tid_cape']))
         {
-            throw new E('非法参数', 1);
+            View::json('非法参数', 1);
         }
 
         $this->model->tid_steve = isset($tids['tid_steve']) ? $tids['tid_steve'] : $this->model['tid_steve'];
@@ -144,7 +145,7 @@ class Player
         if ($api_type == self::CSL_API || $api_type == self::USM_API) {
             return \Storage::disk('cache')->get("json/{$this->pid}-{$api_type}");
         } else {
-            throw new E('不支持的 API_TYPE。', -1, true);
+            throw new PrettyPageException('不支持的 API_TYPE。', -1);
         }
     }
 

@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use App\Exceptions\E;
+use App\Exceptions\PrettyPageException;
 
 class BootServiceProvider extends ServiceProvider
 {
@@ -15,8 +15,16 @@ class BootServiceProvider extends ServiceProvider
     public function boot()
     {
         \View::addExtension('tpl', 'blade');
+        $this->checkFileExists();
         $this->checkDbConfig();
         $this->checkInstallation();
+    }
+
+    protected function checkFileExists()
+    {
+        if (!file_exists(BASE_DIR."/.env")) {
+            throw new PrettyPageException('.env 文件不存在', -1);
+        }
     }
 
     protected function checkDbConfig()
@@ -31,7 +39,7 @@ class BootServiceProvider extends ServiceProvider
         );
 
         if ($conn->connect_error)
-            throw new E("无法连接至 MySQL 服务器，请检查你的配置：".$conn->connect_error, $conn->connect_errno, true);
+            throw new PrettyPageException("无法连接至 MySQL 服务器，请检查你的配置：".$conn->connect_error, $conn->connect_errno);
 
         return true;
     }
@@ -44,7 +52,7 @@ class BootServiceProvider extends ServiceProvider
 
         if (!is_dir(BASE_DIR.'/storage/textures/')) {
             if (!mkdir(BASE_DIR.'/storage/textures/'))
-                throw new E('textures 文件夹创建失败，请确认目录权限是否正确，或者手动放置一个。', -1);
+                throw new PrettyPageException('textures 文件夹创建失败，请确认目录权限是否正确，或者手动放置一个。', -1);
         }
 
         if (config('app.version') != \Option::get('version', '')) {

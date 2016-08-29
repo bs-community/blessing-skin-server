@@ -8,7 +8,7 @@ use App\Events\GetAvatarPreview;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
-use App\Exceptions\E;
+use App\Exceptions\PrettyPageException;
 use Storage;
 use Minecraft;
 use Option;

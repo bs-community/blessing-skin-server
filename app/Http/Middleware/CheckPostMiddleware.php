@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Exceptions\E;
+use App\Exceptions\PrettyPageException;
 use Validate;
 use Utils;
 use View;

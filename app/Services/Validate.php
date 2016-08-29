@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use App\Exceptions\E;
+use App\Exceptions\PrettyPageException;
+use View;
 
 class Validate
 {
@@ -17,7 +18,7 @@ class Validate
         foreach ($keys as $key) {
             if (!isset($_POST[$key])) {
                 if ($silent) return false;
-                throw new E('非法参数', 1);
+                View::json('非法参数', 1);
             }
         }
         return true;
@@ -43,9 +44,9 @@ class Validate
     public static function textureName($texture_name)
     {
         if (strlen($texture_name) > 32 || strlen($texture_name) < 1) {
-            throw new E('无效的材质名称。材质名长度应该小于 32。', 2);
+            View::json('无效的材质名称。材质名长度应该小于 32。', 2);
         } else if (Utils::convertString($texture_name) != $texture_name) {
-            throw new E('无效的材质名称。材质名称中包含了奇怪的字符。', 2);
+            View::json('无效的材质名称。材质名称中包含了奇怪的字符。', 2);
         }
         return true;
     }
@@ -54,10 +55,10 @@ class Validate
     {
         if (strlen($password) > 16 || strlen($password) < 8) {
             if ($silent) return false;
-            throw new E('无效的密码。密码长度应该大于 8 并小于 16。', 2);
+            View::json('无效的密码。密码长度应该大于 8 并小于 16。', 2);
         } else if (Utils::convertString($password) != $password) {
             if ($silent) return false;
-            throw new E('无效的密码。密码中包含了奇怪的字符。', 2);
+            View::json('无效的密码。密码中包含了奇怪的字符。', 2);
         }
         return true;
     }

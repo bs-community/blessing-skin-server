@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use App\Exceptions\E;
+use App\Exceptions\PrettyPageException;
 use Utils;
+use View;
 
 class Closet
 {
@@ -93,7 +94,7 @@ class Closet
     {
         foreach ($this->textures as $item) {
             if ($item['tid'] == $tid)
-                throw new E('你已经收藏过这个材质啦', 1);
+                View::json('你已经收藏过这个材质啦', 1);
         }
 
         $this->textures[] = array(
@@ -137,7 +138,7 @@ class Closet
             $offset++;
         }
 
-        throw new E('The texture is not in the closet.', 1);
+        View::json('The texture is not in the closet.', 1);
     }
 
     private function checkTextureExist($tid)

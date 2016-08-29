@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\User;
 use App\Models\Texture;
-use App\Exceptions\E;
+use App\Exceptions\PrettyPageException;
 use Utils;
 use View;
 
@@ -48,7 +48,7 @@ class UserController extends BaseController
     {
         // handle changing nickname
         if ($this->action == "nickname") {
-            if (!isset($_POST['new_nickname'])) throw new E('非法参数');
+            if (!isset($_POST['new_nickname'])) View::json('非法参数', 1);
 
             if (Utils::convertString($_POST['new_nickname']) != $_POST['new_nickname'])
                 View::json('无效的昵称。昵称中包含了奇怪的字符。', 1);
@@ -58,7 +58,7 @@ class UserController extends BaseController
         // handle changing password
         } elseif ($this->action == "password") {
             if (!(isset($_POST['current_password']) && isset($_POST['new_password'])))
-                throw new E('非法参数');
+                View::json('非法参数', 1);
 
             if (!$this->user->checkPasswd($_POST['current_password']))
                 View::json('原密码错误', 1);
@@ -70,7 +70,7 @@ class UserController extends BaseController
         // handle changing email
         } elseif ($this->action == "email") {
             if (!(isset($_POST['new_email']) && isset($_POST['password'])))
-                throw new E('非法参数');
+                View::json('非法参数', 1);
 
             if (!filter_var($_POST['new_email'], FILTER_VALIDATE_EMAIL)) {
                 View::json('邮箱格式错误', 3);
@@ -85,7 +85,7 @@ class UserController extends BaseController
         // handle deleting account
         } elseif ($this->action == "delete") {
             if (!isset($_POST['password']))
-                throw new E('非法参数');
+                View::json('非法参数', 1);
 
             if (!$this->user->checkPasswd($_POST['password']))
                 View::json('密码错误', 1);
@@ -109,17 +109,18 @@ class UserController extends BaseController
 
     public function setAvatar()
     {
-        if (!isset($_POST['tid'])) throw new E('Empty tid.');
+        if (!isset($_POST['tid']))
+            View::json('Empty tid.', 1);
 
         $result = Texture::find($_POST['tid']);
         if ($result) {
-            if ($result->type == "cape") throw new E('披风可不能设置为头像哦~', 1);
+            if ($result->type == "cape") View::json('披风可不能设置为头像哦~', 1);
 
             if ((new User(session('uid')))->setAvatar($_POST['tid'])) {
                 View::json('设置成功！', 0);
             }
         } else {
-            throw new E('材质不存在。', 1);
+            View::json('材质不存在。', 1);
         }
     }
 

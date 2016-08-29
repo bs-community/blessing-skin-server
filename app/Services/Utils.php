@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Exceptions\E;
+use App\Exceptions\PrettyPageException;
 use Storage;
 
 class Utils

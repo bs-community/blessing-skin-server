@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\User;
 use App\Models\Texture;
-use App\Exceptions\E;
+use App\Exceptions\PrettyPageException;
 use Validate;
 use Option;
 use Utils;

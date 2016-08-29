@@ -2,13 +2,10 @@
 
 namespace App\Services\Database;
 
-use \App\Exceptions\E;
-use \Blessing\Config;
-
 /**
  * Light-weight database helper
  *
- * @author  <h@prinzeugen.net>
+ * @author <h@prinzeugen.net>
  */
 class Database
 {
@@ -52,7 +49,7 @@ class Database
         );
 
         if ($this->connection->connect_error)
-            throw new E("Could not connect to MySQL database. Check your configuration:".
+            throw new \InvalidArgumentException("Could not connect to MySQL database. Check your configuration:".
                 $this->connection->connect_error, $this->connection->connect_errno, true);
 
         $this->connection->query("SET names 'utf8'");
@@ -75,7 +72,7 @@ class Database
 
         $result = $this->connection->query($sql);
         if ($this->connection->error)
-            throw new E("Database query error: ".$this->connection->error.", Statement: ".$sql, -1);
+            throw new \Exception("Database query error: ".$this->connection->error.", Statement: ".$sql, -1);
 
         return $result;
     }
@@ -90,9 +87,9 @@ class Database
      *
      * @param  string  $key
      * @param  string  $value
-     * @param  array   $condition, see function `where`
-     * @param  string  $table, which table to operate
-     * @param  boolean $dont_fetch_array, return resources if true
+     * @param  array   $condition        See function `where`
+     * @param  string  $table            Which table to operate
+     * @param  bool    $dont_fetch_array Return resources if true
      * @return array|resources
      */
     public function select($key, $value, $condition = null, $table = null, $dont_fetch_array = false)
@@ -173,7 +170,7 @@ class Database
     /**
      * Generate where statement
      *
-     * @param  array $condition, e.g. array('where'=>'username="shit"', 'limit'=>10, 'order'=>'uid')
+     * @param  array $condition e.g. array('where'=>'username="shit"', 'limit'=>10, 'order'=>'uid')
      * @return string
      */
     private function where($condition)

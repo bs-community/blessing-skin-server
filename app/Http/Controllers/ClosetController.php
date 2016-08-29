@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Texture;
 use App\Models\Closet;
 use App\Models\ClosetModel;
-use App\Exceptions\E;
+use App\Exceptions\PrettyPageException;
 use View;
 use Option;
 
@@ -59,7 +59,7 @@ class ClosetController extends BaseController
     public function remove()
     {
         if (!is_numeric(\Utils::getValue('tid', $_POST)))
-            throw new E('非法参数', 1);
+            View::json('非法参数', 1);
 
         if ($this->closet->remove($_POST['tid'])) {
             $t = Texture::find($_POST['tid']);

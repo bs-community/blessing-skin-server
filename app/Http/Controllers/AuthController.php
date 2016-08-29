@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\User;
 use App\Models\UserModel;
-use App\Exceptions\E;
+use App\Exceptions\PrettyPageException;
 use Validate;
 use Mail;
 use View;
@@ -76,7 +76,7 @@ class AuthController extends BaseController
 
             View::json('登出成功~', 0);
         } else {
-            throw new E('并没有有效的 session', 1);
+            View::json('并没有有效的 session', 1);
         }
     }
 
@@ -85,7 +85,7 @@ class AuthController extends BaseController
         if (Option::get('user_can_register') == 1) {
             return view('auth.register');
         } else {
-            throw new E('残念。。本皮肤站已经关闭注册咯 QAQ', 7, true);
+            throw new PrettyPageException('残念。。本皮肤站已经关闭注册咯 QAQ', 7);
         }
     }
 
@@ -137,7 +137,7 @@ class AuthController extends BaseController
         if ($_ENV['MAIL_HOST'] != "") {
             return view('auth.forgot');
         } else {
-            throw new E('本站已关闭重置密码功能', 8, true);
+            throw new PrettyPageException('本站已关闭重置密码功能', 8);
         }
     }
 

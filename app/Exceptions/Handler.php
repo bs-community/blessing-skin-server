@@ -46,6 +46,13 @@ class Handler extends ExceptionHandler
             $e = new NotFoundHttpException($e->getMessage(), $e);
         }
 
+        if ($e instanceof PrettyPageException && PHP_SAPI != "cli") {
+            echo \View::make('errors.e')->with('code', $e->getCode())
+                                        ->with('message', $e->getMessage())
+                                        ->render();
+            exit;
+        }
+
         if (config('app.debug')) {
             foreach ($this->dontReport as $type) {
                 if ($e instanceof $type) {

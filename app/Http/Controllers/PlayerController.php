@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\Player;
 use App\Models\PlayerModel;
 use App\Models\Texture;
-use App\Exceptions\E;
+use App\Exceptions\PrettyPageException;
 use Validate;
 use Utils;
 use Option;
@@ -87,7 +87,7 @@ class PlayerController extends BaseController
         $new_player_name = Utils::getValue('new_player_name', $_POST);
 
         if (!$new_player_name)
-            throw new E('非法参数', 1);
+            View::json('非法参数', 1);
 
         if (!Validate::playerName($new_player_name))
         {
@@ -114,7 +114,7 @@ class PlayerController extends BaseController
         $tid = Utils::getValue('tid', $_POST);
 
         if (!is_numeric($tid))
-            throw new E('非法参数', 1);
+            View::json('非法参数', 1);
 
         if (!($texture = Texture::find($tid)))
             View::json('Unexistent texture.', 6);
@@ -140,7 +140,7 @@ class PlayerController extends BaseController
         if (!isset($_POST['preference']) ||
             ($_POST['preference'] != "default" && $_POST['preference'] != "slim"))
         {
-            throw new E('非法参数', 1);
+            View::json('非法参数', 1);
         }
 
         $this->player->setPreference($_POST['preference']);
