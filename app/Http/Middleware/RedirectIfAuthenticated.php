@@ -9,11 +9,6 @@ class RedirectIfAuthenticated
 {
     public function handle($request, \Closure $next)
     {
-        if (isset($_COOKIE['uid']) && isset($_COOKIE['token'])) {
-            Session::put('uid'  , $_COOKIE['uid']);
-            Session::put('token', $_COOKIE['token']);
-        }
-
         if (session()->has('uid')) {
             if (session('token') != (new User(session('uid')))->getToken())
             {

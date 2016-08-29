@@ -13,11 +13,6 @@ class CheckAuthenticated
 {
     public function handle($request, \Closure $next, $return_user = false)
     {
-        if (isset($_COOKIE['uid']) && isset($_COOKIE['token'])) {
-            Session::put('uid'  , $_COOKIE['uid']);
-            Session::put('token', $_COOKIE['token']);
-        }
-
         if (Session::has('uid')) {
             $user = new User(session('uid'));
 
