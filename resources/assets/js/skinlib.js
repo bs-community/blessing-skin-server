@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-19 10:46:38
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-21 10:33:47
+ * @Last Modified time: 2016-08-29 10:08:55
  */
 
 'use strict';
@@ -134,10 +134,13 @@ function init3dCanvas() {
 // Change 3D preview status
 $('.fa-pause').click(function(){
     MSP.setStatus('movements', !MSP.getStatus('movements'));
+
     if ($(this).hasClass('fa-pause'))
         $(this).removeClass('fa-pause').addClass('fa-play');
     else
         $(this).removeClass('fa-play').addClass('fa-pause');
+    // stop rotation when pause
+    MSP.setStatus('rotation', !MSP.getStatus('rotation'));
 });
 $('.fa-forward').click(function(){
     MSP.setStatus('running', !MSP.getStatus('running'));
