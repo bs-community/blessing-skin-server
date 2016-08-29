@@ -41,12 +41,7 @@ class Database
      */
     public function __construct($config = null)
     {
-        if (is_null($config)) {
-            $db_config = require BASE_DIR.'/config/database.php';
-            $config = $db_config['connections']['mysql'];
-        }
-
-        $this->config = $config;
+        $this->config = is_null($config) ? config('database.connections.mysql') : $config;
 
         @$this->connection = new \mysqli(
             $this->config['host'],

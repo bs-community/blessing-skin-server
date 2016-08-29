@@ -66,7 +66,7 @@ class User
             }
         }
 
-        $class_name              = "App\Services\Cipher\\".$_ENV['PWD_METHOD'];
+        $class_name              = "App\Services\Cipher\\".config('secure.cipher');
         $this->cipher            = new $class_name;
 
         if (!is_null($this->model)) {
@@ -74,7 +74,7 @@ class User
             $this->uid           = $this->model->uid;
             $this->email         = $this->model->email;
             $this->password      = $this->model->password;
-            $this->token         = md5($this->email . $this->password . $_ENV['SALT']);
+            $this->token         = md5($this->email . $this->password . config('secure.salt'));
             $this->closet        = new Closet($this->uid);
             $this->is_admin      = $this->model->permission == 1 || $this->model->permission == 2;
         }
@@ -82,12 +82,12 @@ class User
 
     public function checkPasswd($raw_passwd)
     {
-        return ($this->cipher->encrypt($raw_passwd, $_ENV['SALT']) == $this->password);
+        return ($this->cipher->encrypt($raw_passwd, config('secure.salt')) == $this->password);
     }
 
     public function changePasswd($new_passwd)
     {
-        $this->model->password = $this->cipher->encrypt($new_passwd, $_ENV['SALT']);
+        $this->model->password = $this->cipher->encrypt($new_passwd, config('secure.salt'));
         return $this->model->save();
     }
 
@@ -133,7 +133,7 @@ class User
     public function getToken($refresh = false)
     {
         if ($this->is_registered && ($this->token === "" || $refresh)) {
-            $this->token = md5($this->model->email . $this->model->password . $_ENV['SALT']);
+            $this->token = md5($this->model->email . $this->model->password . config('secure.salt'));
         }
 
         return $this->token;
@@ -220,7 +220,7 @@ class User
         $user = new UserModel();
 
         $user->email        = $this->email;
-        $user->password     = $this->cipher->encrypt($password, $_ENV['SALT']);
+        $user->password     = $this->cipher->encrypt($password, config('secure.salt'));
         $user->ip           = $ip;
         $user->score        = Option::get('user_initial_score');
         $user->register_at  = Utils::getTimeFormatted();

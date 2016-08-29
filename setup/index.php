@@ -63,7 +63,7 @@ switch ($step) {
         $options['announcement'] = str_replace('{version}', $options['version'], $options['announcement']);
 
         foreach ($options as $key => $value) {
-            Option::add($key, $value);
+            Option::set($key, $value);
         }
 
         // register super admin

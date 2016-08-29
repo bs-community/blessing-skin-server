@@ -27,7 +27,7 @@
 
     @if (Session::has('msg'))
     <script>
-        toastr.info('{{ session('msg') }}');
+        toastr.info('{{ Session::pull('msg') }}');
     </script>
     @endif
 
