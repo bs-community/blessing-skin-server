@@ -2,17 +2,23 @@
 
 namespace App\Models;
 
+use App\Events\PlayerProfileUpdated;
+use App\Events\GetPlayerJson;
 use App\Exceptions\E;
+use Event;
 use Utils;
 
 class Player
 {
-    public $pid            = "";
-    public $player_name    = "";
+    public $pid         = "";
+    public $player_name = "";
 
-    public $is_banned      = false;
+    public $is_banned   = false;
 
-    public $model          = null;
+    public $model       = null;
+
+    const CSL_API       = 0;
+    const USM_API       = 1;
 
     /**
      * Construct player with pid or playername
@@ -70,7 +76,10 @@ class Player
         $this->model->tid_cape  = isset($tids['tid_cape'])  ? $tids['tid_cape']  : $this->model['tid_cape'];
 
         $this->model->last_modified = Utils::getTimeFormatted();
-        return $this->model->save();
+
+        $this->model->save();
+
+        return Event::fire(new PlayerProfileUpdated($this));
     }
 
     public function clearTexture()
@@ -104,11 +113,12 @@ class Player
      * @param string $type, 'slim' or 'default'
      */
     public function setPreference($type) {
-
-        return $this->model->update([
+        $this->model->update([
             'preference'    => $type,
             'last_modified' => Utils::getTimeFormatted()
         ]);
+
+        return Event::fire(new PlayerProfileUpdated($this));
     }
 
     public function getPreference() {
@@ -116,42 +126,55 @@ class Player
     }
 
     public function setOwner($uid) {
-        return $this->model->update(['uid' => $uid]);
+        $this->model->update(['uid' => $uid]);
+
+        return Event::fire(new PlayerProfileUpdated($this));
     }
 
     /**
      * Get JSON profile
-     * @param  int $api_type, which API to use, 0 for CustomSkinAPI, 1 for UniSkinAPI
-     * @return string, user profile in json format
+     *
+     * @param  int $api_type Which API to use, 0 for CustomSkinAPI, 1 for UniSkinAPI
+     * @return string        User profile in json format
      */
     public function getJsonProfile($api_type) {
-        header('Content-type: application/json');
+        Event::fire(new GetPlayerJson($this, $api_type));
 
         // Support both CustomSkinLoader API & UniSkinAPI
-        if ($api_type == 0 || $api_type == 1) {
-            $json[($api_type == 0) ? 'username' : 'player_name'] = $this->player_name;
-            $model = $this->getPreference();
-            $sec_model = ($model == 'default') ? 'slim' : 'default';
-            if ($api_type == 1) {
-                $json['last_update'] = $this->getLastModified();
-                $json['model_preference'] = [$model, $sec_model];
-            }
-            if ($this->getTexture('steve') || $this->getTexture('alex')) {
-                // Skins dict order by preference model
-                $json['skins'][$model] = $this->getTexture($model == "default" ? "steve" : "alex");
-                $json['skins'][$sec_model] = $this->getTexture($sec_model == "default" ? "steve" : "alex");
-            }
-            $json['cape'] = $this->getTexture('cape');
+        if ($api_type == self::CSL_API || $api_type == self::USM_API) {
+            return \Storage::disk('cache')->get("json/{$this->pid}-{$api_type}");
         } else {
             throw new E('不支持的 API_TYPE。', -1, true);
         }
+    }
+
+    public function generateJsonProfile($api_type)
+    {
+        $json[($api_type == self::CSL_API) ? 'username' : 'player_name'] = $this->player_name;
+
+        $model     = $this->getPreference();
+        $sec_model = ($model == 'default') ? 'slim' : 'default';
+
+        if ($api_type == self::USM_API) {
+            $json['last_update']      = $this->getLastModified();
+            $json['model_preference'] = [$model, $sec_model];
+        }
+
+        if ($this->getTexture('steve') || $this->getTexture('alex')) {
+            // Skins dict order by preference model
+            $json['skins'][$model]     = $this->getTexture($model == "default" ? "steve" : "alex");
+            $json['skins'][$sec_model] = $this->getTexture($sec_model == "default" ? "steve" : "alex");
+        }
+
+        $json['cape'] = $this->getTexture('cape');
 
         return json_encode($json, JSON_PRETTY_PRINT);
     }
 
     public function updateLastModified() {
         // @see http://stackoverflow.com/questions/2215354/php-date-format-when-inserting-into-datetime-in-mysql
-        return $this->model->update(['last_modified' => Utils::getTimeFormatted()]);
+        $this->model->update(['last_modified' => Utils::getTimeFormatted()]);
+        return Event::fire(new PlayerProfileUpdated($this));
     }
 
     /**

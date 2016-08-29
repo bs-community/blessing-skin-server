@@ -20,21 +20,20 @@ class TextureController extends BaseController
 
     public function json($player_name, $api = "")
     {
-        // FUCKING CHINESE PLAYER NAME
-        // I DONT WANT TO IMPLEMENT IT AT ALL
-        $player_name = Option::get('allow_chinese_playername') ? $GLOBALS['player_name'] : $player_name;
-
         $player = new Player(0, $player_name);
 
         if ($player->is_banned)
             Http::abort(404, '该角色拥有者已被本站封禁。');
 
         if ($api == "csl") {
-            echo $player->getJsonProfile(0);
+            return response($player->getJsonProfile(Player::CSL_API))
+                    ->header('Content-type', 'application/json');
         } else if ($api == "usm") {
-            echo $player->getJsonProfile(1);
+            return response($player->getJsonProfile(Player::USM_API))
+                    ->header('Content-type', 'application/json');
         } else if ($api == "") {
-            echo $player->getJsonProfile(Option::get('api_type'));
+            return response($player->getJsonProfile(Option::get('api_type')))
+                    ->header('Content-type', 'application/json');
         } else {
             Http::abort(404, '不支持的 API_TYPE。');
         }
@@ -42,7 +41,7 @@ class TextureController extends BaseController
 
     public function jsonWithApi($api, $player_name)
     {
-        $this->json($player_name, $api);
+        return $this->json($player_name, $api);
     }
 
     public function texture($hash) {

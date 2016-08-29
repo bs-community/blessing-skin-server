@@ -19,6 +19,12 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\GetAvatarPreview' => [
             'App\Listeners\CacheAvatarPreview',
         ],
+        'App\Events\GetPlayerJson' => [
+            'App\Listeners\CachePlayerJson',
+        ],
+        'App\Events\PlayerProfileUpdated' => [
+            'App\Listeners\FreshPlayerJson',
+        ],
     ];
 
     /**

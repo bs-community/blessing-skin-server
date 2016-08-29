@@ -79,7 +79,7 @@ class PlayerController extends BaseController
 
     public function show()
     {
-        echo json_encode($this->player->model->toArray(), JSON_NUMERIC_CHECK);
+        return json_encode($this->player->model->toArray(), JSON_NUMERIC_CHECK);
     }
 
     public function rename()
@@ -121,9 +121,7 @@ class PlayerController extends BaseController
 
         $field_name = "tid_".$texture->type;
 
-        $this->player->model->$field_name = $tid;
-        $this->player->model->last_modified = Utils::getTimeFormatted();
-        $this->player->model->save();
+        $this->player->setTexture([$field_name => $tid]);
 
         View::json('材质已成功应用至角色 '.$this->player->model->player_name.'', 0);
     }
