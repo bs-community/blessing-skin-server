@@ -10,11 +10,10 @@ class RedirectIfAuthenticated
     public function handle($request, \Closure $next)
     {
         if (session()->has('uid')) {
-            if (session('token') != (new User(session('uid')))->getToken())
-            {
+            if (session('token') != (new User(session('uid')))->getToken()) {
                 Session::put('msg', '无效的 token，请重新登录~');
             } else {
-                \Http::redirect('../user');
+                return redirect('user');
             }
         }
 

@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Session;
+
 /**
  * @see \Illuminate\Support\Facades\View
  */
@@ -24,16 +26,17 @@ class View extends \Illuminate\Support\Facades\View
         }
     }
 
-    private static function jsonCustom($array)
+    private static function jsonCustom(Array $array)
     {
-        if (is_array($array))
+        if (is_array($array)) {
+            Session::save();
             exit(json_encode($array));
-        else
-            throw new \Exception('The given arugument should be array.');
+        }
     }
 
     private static function jsonException($msg, $errno)
     {
+        Session::save();
         exit(json_encode([
             'errno' => $errno,
             'msg' => $msg

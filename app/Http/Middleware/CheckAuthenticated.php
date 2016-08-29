@@ -17,12 +17,13 @@ class CheckAuthenticated
             $user = new User(session('uid'));
 
             if (session('token') != $user->getToken())
-                Http::redirect('../auth/login', '无效的 token，请重新登录~');
+                return redirect('auth/login')->with('msg', '无效的 token，请重新登录');
 
             if ($user->getPermission() == "-1") {
                 // delete cookies
                 setcookie('uid',   '', time() - 3600, '/');
                 setcookie('token', '', time() - 3600, '/');
+
                 Session::flush();
                 Session::save();
 
@@ -38,6 +39,7 @@ class CheckAuthenticated
                             // refresh token
                             Session::put('token', $user->getToken(true));
                             setcookie('token', session('token'), time() + 3600, '/');
+
                             return $user;
                         } else {
                             return View::make('auth.bind')->with('msg', '该邮箱已被占用');
@@ -45,10 +47,8 @@ class CheckAuthenticated
                     } else {
                         return View::make('auth.bind')->with('msg', '邮箱格式错误');
                     }
-                    exit;
                 }
                 return view('auth.bind');
-                exit;
             }
 
             if ($return_user)
@@ -56,7 +56,7 @@ class CheckAuthenticated
 
             return $next($request);
         } else {
-            Http::redirect('../auth/login', '非法访问，请先登录');
+            return redirect('auth/login')->with('msg', '非法访问，请先登录');
         }
 
         return $next($request);

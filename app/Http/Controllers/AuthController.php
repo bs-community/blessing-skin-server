@@ -72,7 +72,6 @@ class AuthController extends BaseController
             setcookie('token', '', time() - 3600, '/');
 
             Session::flush();
-            Session::save();
 
             View::json('登出成功~', 0);
         } else {
@@ -184,24 +183,24 @@ class AuthController extends BaseController
         if (isset($_GET['uid']) && isset($_GET['token'])) {
             $user = new User($_GET['uid']);
             if (!$user->is_registered)
-                Http::redirect('./forgot', '无效的链接');
+                return redirect('auth/forgot')->with('msg', '无效的链接');
 
             $token = substr(base64_decode($_GET['token']), 0, -22);
 
             if ($user->getToken() != $token) {
-                Http::redirect('./forgot', '无效的链接');
+                return redirect('auth/forgot')->with('msg', '无效的链接');
             }
 
             $timestamp = substr(base64_decode($_GET['token']), strlen($token), 6);
 
             // more than 1 hour
             if ((substr(time(), 4, 6) - $timestamp) > 3600) {
-                Http::redirect('./forgot', '链接已过期');
+                return redirect('auth/forgot')->with('msg', '链接已过期');
             }
 
-            echo View::make('auth.reset')->with('user', $user);
+            return View::make('auth.reset')->with('user', $user);
         } else {
-            Http::redirect('./login', '非法访问');
+            return redirect('auth/login')->with('msg', '非法访问');
         }
     }
 
@@ -224,8 +223,9 @@ class AuthController extends BaseController
         $builder = new \Gregwar\Captcha\CaptchaBuilder;
         $builder->build($width = 100, $height = 34);
         Session::put('phrase', $builder->getPhrase());
-        header('Content-type: image/jpeg');
         $builder->output();
+
+        return \Response::png();
     }
 
 }

@@ -79,12 +79,12 @@ class AdminController extends BaseController
         $total_pages = ceil($users->count() / 30);
         $users = $users->skip(($page - 1) * 30)->take(30)->get();
 
-        echo View::make('admin.users')->with('users', $users)
-                                      ->with('filter', $filter)
-                                      ->with('q', $q)
-                                      ->with('page', $page)
-                                      ->with('total_pages', $total_pages)
-                                      ->render();
+        return View::make('admin.users')->with('users', $users)
+                                          ->with('filter', $filter)
+                                          ->with('q', $q)
+                                          ->with('page', $page)
+                                          ->with('total_pages', $total_pages)
+                                          ->render();
     }
 
     public function players()
@@ -106,12 +106,12 @@ class AdminController extends BaseController
         $total_pages = ceil($players->count() / 30);
         $players = $players->skip(($page - 1) * 30)->take(30)->get();
 
-        echo View::make('admin.players')->with('players', $players)
-                                        ->with('filter', $filter)
-                                        ->with('q', $q)
-                                        ->with('page', $page)
-                                        ->with('total_pages', $total_pages)
-                                        ->render();
+        return View::make('admin.players')->with('players', $players)
+                                            ->with('filter', $filter)
+                                            ->with('q', $q)
+                                            ->with('page', $page)
+                                            ->with('total_pages', $total_pages)
+                                            ->render();
     }
 
     /**

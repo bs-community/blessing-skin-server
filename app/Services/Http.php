@@ -7,32 +7,6 @@ use Session;
 class Http
 {
     /**
-     * HTTP redirect
-     *
-     * @param  string  $url
-     * @param  string  $msg Write message to session
-     * @return void
-     */
-    public static function redirect($url, $msg = "")
-    {
-        if ($msg !== "") {
-            if (app()->bound('session')) {
-                Session::flash('msg', $msg);
-                Session::save();
-            } else {
-                $_SESSION['msg'] = $msg;
-            }
-        }
-
-        if (!headers_sent()) {
-            header('Location: '.$url);
-        } else {
-            echo "<meta http-equiv='Refresh' content='0; URL=$url'>";
-        }
-        exit;
-    }
-
-    /**
      * 301 Moved Permanently
      *
      * @param  string $url
