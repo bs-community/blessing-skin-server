@@ -36,6 +36,11 @@ switch ($step) {
         }
         closedir($resource);
 
+        foreach (config('options') as $key => $value) {
+            if (!Option::has($key))
+                Option::set($key, $value);
+        }
+
         if (!$update_script_exist) {
             // if update script is not given
             Option::set('version', config('app.version'));

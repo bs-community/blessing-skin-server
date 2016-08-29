@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-08-11 13:08:13
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-11 13:25:23
+ * @Last Modified time: 2016-08-29 13:47:13
  */
 
 $options = [
@@ -14,7 +14,7 @@ $options = [
 ];
 
 foreach ($options as $key => $value) {
-    Option::add($key, $value);
+    Option::set($key, $value);
 }
 
 Option::set('version', '3.0.2');

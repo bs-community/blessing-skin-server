@@ -81,9 +81,14 @@ class OptionRepository implements ArrayAccess, ConfigContract
         $this->items_modified = array_unique($this->items_modified);
 
         foreach ($this->items_modified as $key) {
-            DB::table('options')
-                    ->where('option_name', $key)
-                    ->update(['option_value' => $this[$key]]);
+            if (!DB::table('options')->where('option_name', $key)->first()) {
+                DB::table('options')
+                    ->insert(['option_name' => $key, 'option_value' => $this[$key]]);
+            } else {
+                DB::table('options')
+                        ->where('option_name', $key)
+                        ->update(['option_value' => $this[$key]]);
+            }
         }
     }
 
