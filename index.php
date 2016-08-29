@@ -7,7 +7,6 @@
  * @author   Taylor Otwell <taylorotwell@gmail.com>
  */
 
-// Define Base Directory
 define('BASE_DIR', __DIR__);
 
 /*

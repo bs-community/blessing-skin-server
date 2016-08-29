@@ -34,9 +34,9 @@ Illuminate\Support\Facades\Facade::setFacadeApplication($app);
 (new Illuminate\Foundation\Bootstrap\LoadConfiguration)->bootstrap($app);
 (new Illuminate\Database\DatabaseServiceProvider($app))->register();
 (new Illuminate\Filesystem\FilesystemServiceProvider($app))->register();
-(new Illuminate\Foundation\Bootstrap\LoadConfiguration)->bootstrap($app);
 
-$app->singleton('database', \App\Services\Database\Database::class);
+$app->singleton('database', App\Services\Database\Database::class);
+$app->singleton('option',   App\Services\OptionRepository::class);
 
 require BASE_DIR.'/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php';
 
@@ -47,21 +47,21 @@ foreach ($config['aliases'] as $facade => $class) {
     class_alias($class, $facade);
 }
 
-\View::addExtension('tpl', 'blade');
+View::addExtension('tpl', 'blade');
 
 $config = require BASE_DIR.'/config/database.php';
 
 $db_config = $config['connections']['mysql'];
 
 // Check Database Config
-@$conn = new \mysqli($db_config['host'], $db_config['username'], $db_config['password'], $db_config['database'], $db_config['port']);
+@$conn = new mysqli($db_config['host'], $db_config['username'], $db_config['password'], $db_config['database'], $db_config['port']);
 
 if ($conn->connect_error) {
     throw new App\Exceptions\E("无法连接至 MySQL 服务器，请检查你的配置：".$conn->connect_error, $conn->connect_errno, true);
 }
 
 // Boot Eloquent ORM
-$capsule = new \Illuminate\Database\Capsule\Manager;
+$capsule = new Illuminate\Database\Capsule\Manager;
 $capsule->addConnection($db_config);
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
