@@ -116,27 +116,19 @@ Route::group(['middleware' =>                   'App\Http\Middleware\CheckAdminM
  */
 Route::group(['middleware' =>                   'App\Http\Middleware\CheckPlayerExistMiddleware'], function()
 {
-    // Fix for fucking chinese player names
-    if (Option::get('allow_chinese_playername')) {
-        // Json profile
-        Route::get('/{player_name}.json',       'TextureController@json')->where(['player_name' => '[^\\/]+?']);
-        Route::get('/{api}/{player_name}.json', 'TextureController@jsonWithApi')->where(['player_name' => '[^\\/]+?']);
-        // Legacy links
-        Route::get('/skin/{player_name}.png',   'TextureController@skin')->where(['player_name' => '[^\\/]+?']);
-        Route::get('/cape/{player_name}.png',   'TextureController@cape')->where(['player_name' => '[^\\/]+?']);
-    } else {
-        Route::get('/{player_name}.json',       'TextureController@json');
-        Route::get('/{api}/{player_name}.json', 'TextureController@jsonWithApi');
-        Route::get('/skin/{player_name}.png',   'TextureController@skin');
-        Route::get('/cape/{player_name}.png',   'TextureController@cape');
-    }
+    // Json profile
+    Route::get('/{player_name}.json',           'TextureController@json');
+    Route::get('/{api}/{player_name}.json',     'TextureController@jsonWithApi');
+    // Legacy links
+    Route::get('/skin/{player_name}.png',       'TextureController@skin');
+    Route::get('/cape/{player_name}.png',       'TextureController@cape');
 });
 
 Route::get('/textures/{hash}',                  'TextureController@texture');
 Route::get('/{api}/textures/{hash}',            'TextureController@textureWithApi')->where('api', 'usm|csl');
 
 Route::get('/avatar/{base64_email}.png',        'TextureController@avatar');
-Route::get('/avatar/{size}/{base64_email}.png', 'TextureController@avatarWithSize')->where(['base64_email' => '[^\\/]+?']);
+Route::get('/avatar/{size}/{base64_email}.png', 'TextureController@avatarWithSize');
 
 Route::get('/raw/{tid}.png',                    'TextureController@raw');
 
