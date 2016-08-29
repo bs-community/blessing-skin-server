@@ -82,4 +82,20 @@ function checkTableExist() {
     return true;
 }
 
+function redirect_to($url, $msg = "") {
+    if ($msg !== "") {
+        if (app()->bound('session')) {
+            Session::flash('msg', $msg);
+            Session::save();
+        } else {
+            $_SESSION['msg'] = $msg;
+        }
+    }
 
+    if (!headers_sent()) {
+        header('Location: '.$url);
+    } else {
+        echo "<meta http-equiv='Refresh' content='0; URL=$url'>";
+    }
+    exit;
+}

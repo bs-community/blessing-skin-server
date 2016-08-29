@@ -146,7 +146,7 @@
                         <div class="box-body">
                             @if (Option::get('comment_script') != "")
                             <!-- Comment Start -->
-                            {!! Utils::getStringReplaced(Option::get('comment_script'), ['{tid}' => $texture->tid, '{name}' => $texture->name, '{url}' => Http::getCurrentUrl()]) !!}
+                            {!! Utils::getStringReplaced(Option::get('comment_script'), ['{tid}' => $texture->tid, '{name}' => $texture->name, '{url}' => get_current_url()]) !!}
                             <!-- Comment End -->
                             @else
                             <p style="text-align: center; margin: 30px 0;">本站未开启评论服务</p>

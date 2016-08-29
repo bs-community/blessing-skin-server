@@ -14,6 +14,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         \View::addExtension('tpl', 'blade');
+
+        require_once BASE_DIR."/app/helpers.php";
     }
 
     /**

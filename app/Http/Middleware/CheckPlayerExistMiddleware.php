@@ -17,7 +17,7 @@ class CheckPlayerExistMiddleware
         $player_name = urldecode($matches[1]);
 
         if (PlayerModel::where('player_name', $player_name)->get()->isEmpty()) {
-            \Http::abort(404, '角色不存在');
+            abort(404, '角色不存在');
         }
 
         return $next($request);

@@ -26,7 +26,7 @@ class PlayerController extends BaseController
         if (isset($_POST['pid'])) {
             $this->player = new Player($_POST['pid']);
             if (!$this->player)
-                \Http::abort(404, '角色不存在');
+                abort(404, '角色不存在');
         }
     }
 

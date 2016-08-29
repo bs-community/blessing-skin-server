@@ -37,7 +37,7 @@ class Player
         }
 
         if (!$this->model) {
-            \Http::abort(404, '角色不存在');
+            abort(404, '角色不存在');
         } else {
             $this->pid = $this->model->pid;
         }
@@ -102,10 +102,10 @@ class Player
                         ->header('Last-Modified',  gmdate('D, d M Y H:i:s', $this->getLastModified()).' GMT')
                         ->header('Content-Length', filesize($path));
             } else {
-                \Http::abort(404, '请求的贴图已被删除。');
+                abort(404, '请求的贴图已被删除。');
             }
         } else {
-            \Http::abort(404, '该用户尚未上传请求的贴图类型 '.$type);
+            abort(404, '该用户尚未上传请求的贴图类型 '.$type);
         }
     }
 

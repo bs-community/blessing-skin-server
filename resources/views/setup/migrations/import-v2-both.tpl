@@ -65,17 +65,17 @@
 <?php
     if (Validate::checkPost(['v2_table_name', 'texture_name_pattern'], true)) {
         if ($_POST['v2_table_name'] == "") {
-            Http::redirect('index.php?action=import-v2-both&step=1', 'v2 users 表名不能为空');
+            redirect_to('index.php?action=import-v2-both&step=1', 'v2 users 表名不能为空');
         } else {
             if (Utils::convertString($_POST['v2_table_name']) != $_POST['v2_table_name'])
-                Http::redirect('index.php?action=import-v2-both&step=1', "表名 {$_POST['v2_table_name']} 中含有无效字符");
+                redirect_to('index.php?action=import-v2-both&step=1', "表名 {$_POST['v2_table_name']} 中含有无效字符");
 
             if (!Database::hasTable($_POST['v2_table_name'])) {
-                Http::redirect('index.php?action=import-v2-both&step=1', "数据表 {$_POST['v2_table_name']} 不存在");
+                redirect_to('index.php?action=import-v2-both&step=1', "数据表 {$_POST['v2_table_name']} 不存在");
             }
         }
     } else {
-        Http::redirect('index.php?action=import-v2-both&step=1', '表单信息不完整');
+        redirect_to('index.php?action=import-v2-both&step=1', '表单信息不完整');
     }
 
 ?>

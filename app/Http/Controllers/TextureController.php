@@ -23,7 +23,7 @@ class TextureController extends BaseController
         $player = new Player(0, $player_name);
 
         if ($player->is_banned)
-            Http::abort(404, '该角色拥有者已被本站封禁。');
+            abort(404, '该角色拥有者已被本站封禁。');
 
         if ($api == "csl") {
             return response($player->getJsonProfile(Player::CSL_API))
@@ -35,7 +35,7 @@ class TextureController extends BaseController
             return response($player->getJsonProfile(Option::get('api_type')))
                     ->header('Content-type', 'application/json');
         } else {
-            Http::abort(404, '不支持的 API_TYPE。');
+            abort(404, '不支持的 API_TYPE。');
         }
     }
 
@@ -64,7 +64,7 @@ class TextureController extends BaseController
         $player = new Player(0, $player_name);
 
         if ($player->is_banned)
-            Http::abort(404, '该角色拥有者已被本站封禁。');
+            abort(404, '该角色拥有者已被本站封禁。');
 
         if (!$this->checkCache($player_name)) {
             $model_preference = ($player->getPreference() == "default") ? "steve" : "alex";
@@ -80,7 +80,7 @@ class TextureController extends BaseController
         $player = new Player(0, $player_name);
 
         if ($player->is_banned)
-            Http::abort(404, '该角色拥有者已被本站封禁。');
+            abort(404, '该角色拥有者已被本站封禁。');
 
         if (!$this->checkCache($player_name)) {
             echo $player->getBinaryTexture('cape');
@@ -146,10 +146,10 @@ class TextureController extends BaseController
             if (Storage::disk('textures')->has($t->hash)) {
                 return response(Storage::disk('textures')->get($t->hash))->header('Content-Type', 'image/png');
             } else {
-                Http::abort(404, '请求的材质文件已经被删除');
+                abort(404, '请求的材质文件已经被删除');
             }
         } else {
-            Http::abort(404, '材质不存在');
+            abort(404, '材质不存在');
         }
 
     }

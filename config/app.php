@@ -222,7 +222,6 @@ return [
         'Validate'  => App\Services\Validate::class,
         'Updater'   => App\Services\Updater::class,
         'Database'  => App\Services\Facades\Database::class,
-        'Http'      => App\Services\Http::class
 
     ],
 

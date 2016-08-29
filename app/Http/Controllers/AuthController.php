@@ -98,15 +98,17 @@ class AuthController extends BaseController
         if (!$user->is_registered) {
             if (Option::get('user_can_register') == 1) {
                 if (Validate::password($_POST['password'])) {
+                    $ip = get_real_ip();
+
                     // If amount of registered accounts of IP is more than allowed amounts,
                     // then reject the register.
-                    if (UserModel::where('ip', Http::getRealIP())->count() < Option::get('regs_per_ip'))
+                    if (UserModel::where('ip', $ip)->count() < Option::get('regs_per_ip'))
                     {
                         if (Validate::nickname(Utils::getValue('nickname', $_POST)))
                             View::json('无效的昵称，昵称不能包含奇怪的字符', 1);
 
                         // register new user
-                        $user = $user->register($_POST['password'], Http::getRealIP());
+                        $user = $user->register($_POST['password'], $ip);
                         $user->setNickName($_POST['nickname']);
 
                         // set cookies
