@@ -8,11 +8,11 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- App Styles -->
-    <link rel="stylesheet" href="../assets/css/app.min.css">
+    <link rel="stylesheet" href="{{ url('assets/css/app.min.css') }}?v={{ config('app.version') }}">
     <!-- AdminLTE Skins -->
-    <link rel="stylesheet" href="../assets/libs/skins/{{ Option::get('color_scheme') }}.min.css">
+    <link rel="stylesheet" href="{{ url('assets/libs/skins/'.Option::get('color_scheme').'.min.css') }}">
 
-    <link rel="stylesheet" href="../assets/css/skinlib.css">
+    <link rel="stylesheet" href="{{ url('assets/css/skinlib.css') }}?v={{ config('app.version') }}">
 
     @yield('style')
 
@@ -139,9 +139,9 @@
     </div><!-- ./wrapper -->
 
     <!-- App Scripts -->
-    <script type="text/javascript" src="../assets/js/app.min.js"></script>
+    <script type="text/javascript" src="{{ url('assets/js/app.min.js') }}?v={{ config('app.version') }}"></script>
 
-    <script type="text/javascript" src="../assets/js/skinlib.js"></script>
+    <script type="text/javascript" src="{{ url('assets/js/skinlib.js') }}?v={{ config('app.version') }}"></script>
 
     @yield('script')
 
