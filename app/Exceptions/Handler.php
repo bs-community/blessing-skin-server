@@ -46,9 +46,9 @@ class Handler extends ExceptionHandler
             $e = new NotFoundHttpException($e->getMessage(), $e);
         }
 
-        // if (config('app.debug')) {
-        //     return $this->renderExceptionWithWhoops($e);
-        // }
+        if (config('app.debug')) {
+            return $this->renderExceptionWithWhoops($e);
+        }
 
         return parent::render($request, $e);
     }

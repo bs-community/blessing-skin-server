@@ -34,72 +34,85 @@ class Minecraft
     /**
      * Generate skin preview
      *
-     * @see    https://github.com/NC22/Minecraft-HD-skin-viewer-2D/blob/master/SkinViewer2D.class.php
-     * @param  resource       $resource
-     * @param  int            $size
-     * @param  boolean|string $side, 'front' or 'back'
-     * @param  boolean        $base64, generate image from base64 string
+     * @link   https://github.com/NC22/Minecraft-HD-skin-viewer-2D/blob/master/SkinViewer2D.class.php
+     * @param  resource    $resource
+     * @param  int         $size
+     * @param  bool|string $side   'front' or 'back'
+     * @param  bool        $base64 Generate image from base64 string
+     * @param  int         $gap    Gap size between front & back preview
      * @return resource
      */
-    public static function generatePreviewFromSkin($resource, $size, $side = false, $base64 = false)
+    public static function generatePreviewFromSkin($resource, $size, $side = false, $base64 = false, $gap = 4)
     {
         $src = $base64 ? imagecreatefromstring(base64_decode($resource)) : imagecreatefrompng($resource);
 
         $ratio = imagesx($src) / 64;
-        $double = (imagesy($src) == 64 * ratio);//boolean - is double layer skin
-        $dest = imagecreatetruecolor((($side) ? 16 : 36) * $ratio, 32 * $ratio);
-        $half_width = ($side) ? 0 : imagesx($dest) / 2 + 2 * $ratio;
+
+        /**
+         * Check if double layer skin given
+         * @var bool
+         */
+        $double = imagesy($src) == 64 * $ratio;
+
+        $dest = imagecreatetruecolor((($side) ? 16 : 32) * $ratio + $gap * $ratio, 32 * $ratio);
+
+        // width of front preview + width of gap
+        $half_width = ($side) ? 0 : (($side) ? 8 : 16) * $ratio + $gap * $ratio;
 
         $transparent = imagecolorallocatealpha($dest, 255, 255, 255, 127);
         imagefill($dest, 0, 0, $transparent);
 
         if (!$side or $side === 'front') {
-            imagecopy($dest, $src, 4 * $ratio, 0 * $ratio, 8 * $ratio, 8 * $ratio, 8 * $ratio, 8 * $ratio);//Head - 1
-            imagecopy($dest, $src, 0 * $ratio, 8 * $ratio, 44 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio);//Right Arm - 1
-            if($double)
-                imagecopy($dest, $src, 12 * $ratio, 8 * $ratio, 36 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio);//Left Arm - 1
-            else
-                self::imageflip($dest, $src, 12 * $ratio, 8 * $ratio, 44 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio);
-            imagecopy($dest, $src, 4 * $ratio, 8 * $ratio, 20 * $ratio, 20 * $ratio, 8 * $ratio, 12 * $ratio);//Body - 1
-            imagecopy($dest, $src, 4 * $ratio, 20 * $ratio, 4 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio);//Right Leg - 1
-            if($double)
-                imagecopy($dest, $src, 8 * $ratio, 20 * $ratio, 20 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio);//Left Leg - 1
-            else
-                self::imageflip($dest, $src, 8 * $ratio, 20 * $ratio, 4 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio);
-            imagecopy($dest, $src, 4 * $ratio, 0 * $ratio, 40 * $ratio, 8 * $ratio, 8 * $ratio, 8 * $ratio);//Head - 2
-            if($double) {
-                imagecopy($dest, $src, 0 * $ratio, 8 * $ratio, 44 * $ratio, 36 * $ratio, 4 * $ratio, 12 * $ratio);//Right Arm - 2
-                imagecopy($dest, $src, 12 * $ratio, 8 * $ratio, 52 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio);//Left Arm - 2
-                imagecopy($dest, $src, 4 * $ratio, 8 * $ratio, 20 * $ratio, 20 * $ratio, 8 * $ratio, 12 * $ratio);//Body - 2
-                imagecopy($dest, $src, 4 * $ratio, 20 * $ratio, 4 * $ratio, 36 * $ratio, 4 * $ratio, 12 * $ratio);//Right Leg - 2
-                imagecopy($dest, $src, 8 * $ratio, 20 * $ratio, 4 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio);//Left Leg - 2
+            imagecopy($dest, $src, 4 * $ratio,  0 * $ratio,  8 * $ratio,  8 * $ratio, 8 * $ratio,  8 * $ratio); // Head - 1
+            imagecopy($dest, $src, 4 * $ratio,  0 * $ratio, 40 * $ratio,  8 * $ratio, 8 * $ratio,  8 * $ratio); // Head - 2
+            imagecopy($dest, $src, 0 * $ratio,  8 * $ratio, 44 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio); // Right Arm - 1
+            imagecopy($dest, $src, 4 * $ratio,  8 * $ratio, 20 * $ratio, 20 * $ratio, 8 * $ratio, 12 * $ratio); // Body - 1
+            imagecopy($dest, $src, 4 * $ratio, 20 * $ratio,  4 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio); // Right Leg - 1
+
+            // Check if given skin is double layer skin.
+            // If not, flip right arm/leg to generate left arm/leg.
+            if ($double) {
+                imagecopy($dest, $src, 12 * $ratio, 8 * $ratio, 36 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio); // Left Arm - 1
+                imagecopy($dest, $src, 8 * $ratio, 20 * $ratio, 20 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio); // Left Leg - 1
+
+                // copy second layer
+                imagecopy($dest, $src,  0 * $ratio,  8 * $ratio, 44 * $ratio, 36 * $ratio, 4 * $ratio, 12 * $ratio); // Right Arm - 2
+                imagecopy($dest, $src, 12 * $ratio,  8 * $ratio, 52 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio); // Left Arm - 2
+                imagecopy($dest, $src,  4 * $ratio,  8 * $ratio, 20 * $ratio, 36 * $ratio, 8 * $ratio, 12 * $ratio); // Body - 2
+                imagecopy($dest, $src,  4 * $ratio, 20 * $ratio,  4 * $ratio, 36 * $ratio, 4 * $ratio, 12 * $ratio); // Right Leg - 2
+                imagecopy($dest, $src,  8 * $ratio, 20 * $ratio,  4 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio); // Left Leg - 2
+
+            } else {
+                self::imageflip($dest, $src, 12 * $ratio,  8 * $ratio, 44 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio);
+                self::imageflip($dest, $src,  8 * $ratio, 20 * $ratio,  4 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio);
             }
+
         }
 
         if (!$side or $side === 'back') {
-            imagecopy($dest, $src, $half_width + 4 * $ratio, 8 * $ratio, 32 * $ratio, 20 * $ratio, 8 * $ratio, 12 * $ratio);
-            imagecopy($dest, $src, $half_width + 4 * $ratio, 0 * $ratio, 24 * $ratio, 8 * $ratio, 8 * $ratio, 8 * $ratio);
-            if($double)
-                imagecopy($dest, $src, $half_width + 0 * $ratio, 8 * $ratio, 44 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio);
-            else
-                self::imageflip($dest, $src, $half_width + 0 * $ratio, 8 * $ratio, 52 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio);
-            imagecopy($dest, $src, $half_width + 12 * $ratio, 8 * $ratio, 52 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio);
-            if($double)
+            imagecopy($dest, $src, $half_width +  4 * $ratio,  8 * $ratio, 32 * $ratio, 20 * $ratio, 8 * $ratio, 12 * $ratio);
+            imagecopy($dest, $src, $half_width +  4 * $ratio,  0 * $ratio, 24 * $ratio,  8 * $ratio, 8 * $ratio,  8 * $ratio);
+            imagecopy($dest, $src, $half_width +  8 * $ratio, 20 * $ratio, 12 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio);
+            imagecopy($dest, $src, $half_width +  4 * $ratio,  0 * $ratio, 56 * $ratio,  8 * $ratio, 8 * $ratio,  8 * $ratio);
+            imagecopy($dest, $src, $half_width + 12 * $ratio,  8 * $ratio, 52 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio);
+
+            if ($double) {
+                imagecopy($dest, $src, $half_width + 0 * $ratio,  8 * $ratio, 44 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio);
                 imagecopy($dest, $src, $half_width + 4 * $ratio, 20 * $ratio, 28 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio);
-            else
+
+                // copy second layer
+                imagecopy($dest, $src, $half_width +  4 * $ratio,  8 * $ratio, 32 * $ratio, 36 * $ratio, 8 * $ratio, 12 * $ratio);
+                imagecopy($dest, $src, $half_width + 12 * $ratio,  8 * $ratio, 52 * $ratio, 36 * $ratio, 4 * $ratio, 12 * $ratio);
+                imagecopy($dest, $src, $half_width +  0 * $ratio,  8 * $ratio, 60 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio);
+                imagecopy($dest, $src, $half_width +  8 * $ratio, 20 * $ratio, 12 * $ratio, 36 * $ratio, 4 * $ratio, 12 * $ratio);
+                imagecopy($dest, $src, $half_width +  4 * $ratio, 20 * $ratio, 12 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio);
+            } else {
+                self::imageflip($dest, $src, $half_width + 0 * $ratio,  8 * $ratio, 52 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio);
                 self::imageflip($dest, $src, $half_width + 4 * $ratio, 20 * $ratio, 12 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio);
-            imagecopy($dest, $src, $half_width + 8 * $ratio, 20 * $ratio, 12 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio);
-            imagecopy($dest, $src, $half_width + 4 * $ratio, 0 * $ratio, 56 * $ratio, 8 * $ratio, 8 * $ratio, 8 * $ratio);
-            if($double) {
-                imagecopy($dest, $src, $half_width + 4 * $ratio, 8 * $ratio, 32 * $ratio, 36 * $ratio, 8 * $ratio, 12 * $ratio);
-                imagecopy($dest, $src, $half_width + 12 * $ratio, 8 * $ratio, 52 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio);
-                imagecopy($dest, $src, $half_width + 0 * $ratio, 8 * $ratio, 60 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio);
-                imagecopy($dest, $src, $half_width + 8 * $ratio, 20 * $ratio, 12 * $ratio, 36 * $ratio, 4 * $ratio, 12 * $ratio);
-                imagecopy($dest, $src, $half_width + 4 * $ratio, 20 * $ratio, 12 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio);
             }
         }
 
-        $size_x = ($side) ? $size / 2 : $size / 32 * 36;
+        $size_x = ($side) ? $size / 2 : $size / 32 * (32 + $gap);
         $fullsize = imagecreatetruecolor($size_x, $size);
 
         imagesavealpha($fullsize, true);

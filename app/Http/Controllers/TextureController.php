@@ -102,8 +102,6 @@ class TextureController extends BaseController
         if ($t = Texture::find($tid)) {
 
             if (\Storage::disk('textures')->has($t->hash)) {
-                header('Content-Type: image/png');
-
                 $filename = BASE_DIR."/storage/textures/{$t->hash}";
 
                 if ($t->type == "cape") {
@@ -115,6 +113,8 @@ class TextureController extends BaseController
                     imagepng($png);
                     imagedestroy($png);
                 }
+
+                return response('')->header('Content-Type', 'image/png');
             } else {
                 Http::abort(404, '该材质文件已被删除');
             }
@@ -125,6 +125,8 @@ class TextureController extends BaseController
             header('Content-Type: image/png');
             imagepng($png);
             imagedestroy($png);
+
+            return response('')->header('Content-Type', 'image/png');
         }
     }
 
@@ -135,11 +137,9 @@ class TextureController extends BaseController
 
     public function raw($tid) {
         if ($t = Texture::find($tid)) {
-            $fname = BASE_DIR."/textures/".$t->hash;
 
-            if (\Storage::exists($fname)) {
-                header('Content-Type: image/png');
-                echo \Storage::get($fname);
+            if (\Storage::disk('textures')->has($t->hash)) {
+                return response(\Storage::disk('textures')->get($t->hash))->header('Content-Type', 'image/png');
             } else {
                 Http::abort(404, '请求的材质文件已经被删除');
             }
