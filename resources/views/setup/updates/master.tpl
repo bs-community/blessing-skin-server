@@ -6,7 +6,7 @@
     <meta name="robots" content="noindex,nofollow" />
     <title>Blessing Skin Server 升级程序</title>
     <link rel="shortcut icon" href="../../assets/images/favicon.ico">
-    <link rel="stylesheet" type="text/css" href="{{ url('assets/css/install.css') }}?v={{ config('app.version') }}">
+    <link rel="stylesheet" type="text/css" href="../../assets/css/install.css">
 </head>
 
 <body class="container">
