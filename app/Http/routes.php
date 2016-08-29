@@ -118,7 +118,7 @@ Route::group(['middleware' =>                   'App\Http\Middleware\CheckPlayer
 {
     // Json profile
     Route::get('/{player_name}.json',           'TextureController@json');
-    Route::get('/{api}/{player_name}.json',     'TextureController@jsonWithApi');
+    Route::get('/{api}/{player_name}.json',     'TextureController@jsonWithApi')->where('api', 'usm|csl');
     // Legacy links
     Route::get('/skin/{player_name}.png',       'TextureController@skin');
     Route::get('/cape/{player_name}.png',       'TextureController@cape');

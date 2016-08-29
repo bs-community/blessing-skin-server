@@ -14,15 +14,9 @@ class CheckPlayerExistMiddleware
             preg_match('/\/([^\/]*)\.png/', $request->getUri(), $matches);
         }
 
-        $player_name = $matches[1];
+        $player_name = urldecode($matches[1]);
 
-        if (\Option::get('allow_chinese_playername')) {
-            $player_name = urldecode($player_name);
-            // quick fix of chinese playername route parameter problem
-            $GLOBALS['player_name'] = $player_name;
-        }
-
-        if (!PlayerModel::where('player_name', $player_name)->count()) {
+        if (PlayerModel::where('player_name', $player_name)->get()->isEmpty()) {
             \Http::abort(404, '角色不存在');
         }
 

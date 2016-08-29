@@ -47,6 +47,11 @@ class Handler extends ExceptionHandler
         }
 
         if (config('app.debug')) {
+            foreach ($this->dontReport as $type) {
+                if ($e instanceof $type) {
+                    return parent::render($request, $e);
+                }
+            }
             return $this->renderExceptionWithWhoops($e);
         }
 
