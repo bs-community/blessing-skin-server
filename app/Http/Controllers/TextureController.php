@@ -98,8 +98,7 @@ class TextureController extends BaseController
                 if (Storage::disk('textures')->has($t->hash)) {
                     Event::fire(new GetAvatarPreview($t, $size));
 
-                    return response(Storage::disk('cache')->get("avatar/$tid"))
-                        ->header('Content-Type', 'image/png');
+                    return \Response::png(Storage::disk('cache')->get("avatar/$tid"));
                 }
             }
         }
@@ -108,7 +107,7 @@ class TextureController extends BaseController
         imagepng($png);
         imagedestroy($png);
 
-        return response('')->header('Content-Type', 'image/png');
+        return \Response::png();
     }
 
     public function avatarWithSize($size, $base64_email)
@@ -125,8 +124,7 @@ class TextureController extends BaseController
                 $t->size = $size;
                 Event::fire(new GetSkinPreview($t));
 
-                return response(Storage::disk('cache')->get("preview/$tid"))
-                    ->header('Content-Type', 'image/png');
+                return \Response::png(Storage::disk('cache')->get("preview/$tid"));
             }
         }
 
@@ -134,7 +132,7 @@ class TextureController extends BaseController
         imagepng($png);
         imagedestroy($png);
 
-        return response('')->header('Content-Type', 'image/png');
+        return \Response::png();
     }
 
     public function previewWithSize($size, $tid)
