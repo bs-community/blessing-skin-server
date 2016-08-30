@@ -23,13 +23,11 @@ class CacheAvatarPreview
         $path = BASE_DIR."/storage/textures/$hash";
 
         if (!\Storage::disk('cache')->has("avatar/$tid")) {
-            $hash = Texture::find($tid)->hash;
-            $filename = BASE_DIR."/storage/textures/$hash";
-
-            $png = \Minecraft::generateAvatarFromSkin($filename, $event->size);
+            $png = \Minecraft::generateAvatarFromSkin($path, $event->size);
             imagepng($png, BASE_DIR."/storage/cache/avatar/$tid");
             imagedestroy($png);
         }
 
+        return \Response::png(\Storage::disk('cache')->get("avatar/$tid"));
     }
 }

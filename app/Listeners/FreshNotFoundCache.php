@@ -9,16 +9,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class FreshNotFoundCache
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Handle the event.
      *
      * @param  PlayerWasAdded  $event

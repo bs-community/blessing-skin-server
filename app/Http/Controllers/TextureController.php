@@ -3,14 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
-use App\Events\GetSkinPreview;
-use App\Events\GetAvatarPreview;
-use App\Models\User;
-use App\Models\Player;
-use App\Models\Texture;
 use App\Exceptions\PrettyPageException;
-use Storage;
+use App\Events\GetAvatarPreview;
+use App\Events\GetSkinPreview;
+use App\Models\Texture;
+use App\Models\Player;
+use App\Models\User;
 use Minecraft;
+use Response;
+use Storage;
 use Option;
 use Event;
 use Http;
@@ -96,9 +97,19 @@ class TextureController extends BaseController
 
             if ($t = Texture::find($tid)) {
                 if (Storage::disk('textures')->has($t->hash)) {
-                    Event::fire(new GetAvatarPreview($t, $size));
+                    $responses = Event::fire(new GetAvatarPreview($t, $size));
 
-                    return \Response::png(Storage::disk('cache')->get("avatar/$tid"));
+                    if (isset($responses[0]) && $responses[0] instanceof \Symfony\Component\HttpFoundation\Response) {
+                        return $responses[0];
+                    } else {
+                        $filename = BASE_DIR."/storage/textures/{$t->hash}";
+
+                        $png = \Minecraft::generateAvatarFromSkin($filename, $size);
+                        imagepng($png);
+                        imagedestroy($png);
+
+                        return Response::png();
+                    }
                 }
             }
         }
@@ -107,7 +118,7 @@ class TextureController extends BaseController
         imagepng($png);
         imagedestroy($png);
 
-        return \Response::png();
+        return Response::png();
     }
 
     public function avatarWithSize($size, $base64_email)
@@ -121,10 +132,25 @@ class TextureController extends BaseController
 
         if ($t = Texture::find($tid)) {
             if (Storage::disk('textures')->has($t->hash)) {
-                $t->size = $size;
-                Event::fire(new GetSkinPreview($t));
+                $responses = Event::fire(new GetSkinPreview($t, $size));
 
-                return \Response::png(Storage::disk('cache')->get("preview/$tid"));
+                if (isset($responses[0]) && $responses[0] instanceof \Symfony\Component\HttpFoundation\Response) {
+                    return $responses[0];
+                } else {
+                    $filename = BASE_DIR."/storage/textures/{$t->hash}";
+
+                    if ($t->type == "cape") {
+                        $png = \Minecraft::generatePreviewFromCape($filename, $size);
+                        imagepng($png);
+                        imagedestroy($png);
+                    } else {
+                        $png = \Minecraft::generatePreviewFromSkin($filename, $size);
+                        imagepng($png);
+                        imagedestroy($png);
+                    }
+
+                    return Response::png();
+                }
             }
         }
 
@@ -132,7 +158,7 @@ class TextureController extends BaseController
         imagepng($png);
         imagedestroy($png);
 
-        return \Response::png();
+        return Response::png();
     }
 
     public function previewWithSize($size, $tid)
@@ -144,7 +170,7 @@ class TextureController extends BaseController
         if ($t = Texture::find($tid)) {
 
             if (Storage::disk('textures')->has($t->hash)) {
-                return response(Storage::disk('textures')->get($t->hash))->header('Content-Type', 'image/png');
+                return Response::png(Storage::disk('textures')->get($t->hash));
             } else {
                 abort(404, '请求的材质文件已经被删除');
             }

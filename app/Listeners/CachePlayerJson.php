@@ -10,16 +10,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class CachePlayerJson
 {
     /**
-     * Create the event listener.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Handle the event.
      *
      * @param  GetPlayerJson  $event
@@ -30,9 +20,12 @@ class CachePlayerJson
         $player   = $event->player;
         $api_type = $event->api_type;
 
-        if (!Storage::disk('cache')->has("json/{$player->pid}-{$api_type}")) {
-            Storage::disk('cache')->put("json/{$player->pid}-{$api_type}", $player->generateJsonProfile($api_type));
+        $filename = "json/{$player->pid}-{$api_type}";
+
+        if (!Storage::disk('cache')->has($filename)) {
+            Storage::disk('cache')->put($filename, $player->generateJsonProfile($api_type));
         }
 
+        return \Storage::disk('cache')->get($filename);
     }
 }

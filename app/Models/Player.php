@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use App\Exceptions\PrettyPageException;
 use App\Events\PlayerProfileUpdated;
 use App\Events\GetPlayerJson;
-use App\Exceptions\PrettyPageException;
 use Event;
 use Utils;
 use View;
@@ -151,16 +151,26 @@ class Player
      * @return string        User profile in json format
      */
     public function getJsonProfile($api_type) {
-        Event::fire(new GetPlayerJson($this, $api_type));
-
         // Support both CustomSkinLoader API & UniSkinAPI
         if ($api_type == self::CSL_API || $api_type == self::USM_API) {
-            return \Storage::disk('cache')->get("json/{$this->pid}-{$api_type}");
+            $responses = Event::fire(new GetPlayerJson($this, $api_type));
+            // if listeners return nothing
+            if (isset($responses[0]) && $responses[0] !== null) {
+                return $responses[0];
+            } else {
+                return $this->generateJsonProfile($api_type);
+            }
         } else {
             throw new PrettyPageException('不支持的 API_TYPE。', -1);
         }
     }
 
+    /**
+     * Generate player profile in json string
+     *
+     * @param  int $api_type
+     * @return string
+     */
     public function generateJsonProfile($api_type)
     {
         $json[($api_type == self::CSL_API) ? 'username' : 'player_name'] = $this->player_name;
