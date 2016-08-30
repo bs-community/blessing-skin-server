@@ -126,6 +126,18 @@ class Player
         return $this->model['preference'];
     }
 
+    public function rename($new_name)
+    {
+        $this->model->update([
+            'player_name'   => $new_name,
+            'last_modified' => Utils::getTimeFormatted()
+        ]);
+
+        $this->player_name = $new_name;
+
+        return Event::fire(new PlayerProfileUpdated($this));
+    }
+
     public function setOwner($uid) {
         $this->model->update(['uid' => $uid]);
 
@@ -193,7 +205,7 @@ class PlayerModel extends \Illuminate\Database\Eloquent\Model
     protected $table    = 'players';
     public $timestamps  = false;
 
-    protected $fillable = ['preference', 'last_modified'];
+    protected $fillable = ['player_name', 'preference', 'last_modified'];
 
     public function scopeLike($query, $field, $value)
     {

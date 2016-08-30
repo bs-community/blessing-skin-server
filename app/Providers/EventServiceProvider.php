@@ -25,6 +25,12 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\PlayerProfileUpdated' => [
             'App\Listeners\FreshPlayerJson',
         ],
+        'App\Events\CheckPlayerExists' => [
+            'App\Listeners\CachePlayerExists',
+        ],
+        'App\Events\PlayerWasAdded' => [
+            'App\Listeners\FreshNotFoundCache',
+        ],
     ];
 
     /**

@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use App\Models\PlayerModel;
+use App\Events\CheckPlayerExists;
+use Event;
 
 class CheckPlayerExistMiddleware
 {
@@ -15,6 +17,8 @@ class CheckPlayerExistMiddleware
         }
 
         $player_name = urldecode($matches[1]);
+
+        Event::fire(new CheckPlayerExists($player_name));
 
         if (PlayerModel::where('player_name', $player_name)->get()->isEmpty()) {
             abort(404, '角色不存在');
