@@ -30,12 +30,9 @@ Route::group(['prefix' => 'auth'], function()
     Route::any('/logout',                'AuthController@logout');
     Route::any('/captcha',               'AuthController@captcha');
 
-    Route::group(['middleware' =>        'App\Http\Middleware\CheckPostMiddleware'], function()
-    {
-        Route::post('/login',            'AuthController@handleLogin');
-        Route::post('/register',         'AuthController@handleRegister');
-        Route::post('/forgot',           'AuthController@handleForgot');
-    });
+    Route::post('/login',                'AuthController@handleLogin');
+    Route::post('/register',             'AuthController@handleRegister');
+    Route::post('/forgot',               'AuthController@handleForgot');
 
     Route::post('/reset',                'AuthController@handleReset');
 });

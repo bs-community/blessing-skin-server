@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserModel;
 use App\Exceptions\PrettyPageException;
-use Validate;
 use Mail;
 use View;
 use Utils;
@@ -14,35 +13,49 @@ use Option;
 use Http;
 use Session;
 
-class AuthController extends BaseController
+class AuthController extends Controller
 {
     public function login()
     {
         return view('auth.login');
     }
 
-    public function handleLogin()
+    public function handleLogin(Request $request)
     {
+        $this->validate($request, [
+            'email'    => 'sometimes|required|email',
+            'username' => 'sometimes|required|username',
+            'password' => 'required|min:8|max:16'
+        ]);
+
+        if ($request->has('email')) {
+            $auth_type = "email";
+        } elseif ($request->has('username')) {
+            $auth_type = "username";
+        } else {
+            View::json('邮箱或角色名格式错误', 3);
+        }
+
         // instantiate user
-        $user = (session('auth_type') == 'email') ?
-                    new User(null, ['email'    => $_POST['email']]) :
-                    new User(null, ['username' => $_POST['username']]);
+        $user = ($auth_type == 'email') ?
+                    new User(null, ['email'    => $request->input('email')]) :
+                    new User(null, ['username' => $request->input('username')]);
 
         if (session('login_fails', 0) > 3) {
-            if (strtolower(Utils::getValue('captcha', $_POST)) != strtolower(session('phrase')))
+            if (strtolower($request->input('captcha')) != strtolower(session('phrase')))
                 View::json('验证码填写错误', 1);
         }
 
         if (!$user->is_registered) {
             View::json('用户不存在哦', 2);
         } else {
-            if ($user->checkPasswd($_POST['password'])) {
-                session()->forget('login_fails');
+            if ($user->checkPasswd($request->input('password'))) {
+                Session::forget('login_fails');
 
                 Session::put('uid'  , $user->uid);
                 Session::put('token', $user->getToken());
 
-                $time = $_POST['keep'] == true ? 86400 : 3600;
+                $time = $request->input('keep') == true ? 86400 : 3600;
 
                 setcookie('uid',   $user->uid, time()+$time, '/');
                 setcookie('token', $user->getToken(), time()+$time, '/');
@@ -53,8 +66,8 @@ class AuthController extends BaseController
                     'token' => $user->getToken()
                 ]);
             } else {
-                $fails = session()->has('login_fails') ? session('login_fails') + 1 : 1;
-                Session::put('login_fails', $fails);
+                $fails = session('login_fails', 0);
+                Session::put('login_fails', $fails + 1);
 
                 View::json([
                     'errno' => 1,
@@ -88,42 +101,43 @@ class AuthController extends BaseController
         }
     }
 
-    public function handleRegister()
+    public function handleRegister(Request $request)
     {
-        if (strtolower(Utils::getValue('captcha', $_POST)) != strtolower(session('phrase')))
+        if (strtolower($request->input('captcha')) != strtolower(session('phrase')))
             View::json('验证码填写错误', 1);
 
-        $user = new User(null, ['email' => $_POST['email']]);
+        $this->validate($request, [
+            'email'    => 'required|email',
+            'password' => 'required|min:8|max:16',
+            'nickname' => 'required|nickname|max:255'
+        ]);
+
+        $user = new User(null, ['email' => $request->input('email')]);
 
         if (!$user->is_registered) {
             if (Option::get('user_can_register') == 1) {
-                if (Validate::password($_POST['password'])) {
-                    $ip = get_real_ip();
+                $ip = get_real_ip();
 
-                    // If amount of registered accounts of IP is more than allowed amounts,
-                    // then reject the register.
-                    if (UserModel::where('ip', $ip)->count() < Option::get('regs_per_ip'))
-                    {
-                        if (Validate::nickname(Utils::getValue('nickname', $_POST)))
-                            View::json('无效的昵称，昵称不能包含奇怪的字符', 1);
+                // If amount of registered accounts of IP is more than allowed amounts,
+                // then reject the register.
+                if (UserModel::where('ip', $ip)->count() < Option::get('regs_per_ip'))
+                {
+                    // register new user
+                    $user = $user->register($request->input('password'), $ip);
+                    $user->setNickName($request->input('nickname'));
 
-                        // register new user
-                        $user = $user->register($_POST['password'], $ip);
-                        $user->setNickName($_POST['nickname']);
+                    // set cookies
+                    setcookie('uid',   $user->uid, time() + 3600, '/');
+                    setcookie('token', $user->getToken(), time() + 3600, '/');
 
-                        // set cookies
-                        setcookie('uid',   $user->uid, time() + 3600, '/');
-                        setcookie('token', $user->getToken(), time() + 3600, '/');
+                    View::json([
+                        'errno' => 0,
+                        'msg' => '注册成功，正在跳转~',
+                        'token' => $user->getToken()
+                    ]);
 
-                        View::json([
-                            'errno' => 0,
-                            'msg' => '注册成功，正在跳转~',
-                            'token' => $user->getToken()
-                        ]);
-
-                    } else {
-                        View::json('你最多只能注册 '.Option::get('regs_per_ip').' 个账户哦', 7);
-                    }
+                } else {
+                    View::json('你最多只能注册 '.Option::get('regs_per_ip').' 个账户哦', 7);
                 }
             } else {
                 View::json('残念。。本皮肤站已经关闭注册咯 QAQ', 7);
@@ -135,25 +149,25 @@ class AuthController extends BaseController
 
     public function forgot()
     {
-        if ($_ENV['MAIL_HOST'] != "") {
+        if (config('mail.host') != "") {
             return view('auth.forgot');
         } else {
             throw new PrettyPageException('本站已关闭重置密码功能', 8);
         }
     }
 
-    public function handleForgot()
+    public function handleForgot(Request $request)
     {
-        if (strtolower(Utils::getValue('captcha', $_POST)) != strtolower(session('phrase')))
+        if (strtolower($request->input('captcha')) != strtolower(session('phrase')))
             View::json('验证码填写错误', 1);
 
-        if ($_ENV['MAIL_HOST'] == "")
+        if (config('mail.host') == "")
             View::json('本站已关闭重置密码功能', 1);
 
         if (session()->has('last_mail_time') && (time() - session('last_mail_time')) < 60)
             View::json('你邮件发送得太频繁啦，过 60 秒后再点发送吧', 1);
 
-        $user = new User(null, ['email' => $_POST['email']]);
+        $user = new User(null, ['email' => $request->input('email')]);
 
         if (!$user->is_registered)
             View::json('该邮箱尚未注册', 1);
@@ -161,7 +175,7 @@ class AuthController extends BaseController
         $mail = new Mail();
 
         $mail->from(Option::get('site_name'))
-             ->to($_POST['email'])
+             ->to($request->input('email'))
              ->subject('重置您在 '.Option::get('site_name').' 上的账户密码');
 
         $uid   = $user->uid;
@@ -206,17 +220,18 @@ class AuthController extends BaseController
         }
     }
 
-    public function handleReset()
+    public function handleReset(Request $request)
     {
-        Validate::checkPost(['uid', 'password']);
+        $this->validate($request, [
+            'uid'      => 'required|integer',
+            'password' => 'required|min:8|max:16',
+        ]);
 
-        if (Validate::password($_POST['password'])) {
-            $user = new User($_POST['uid']);
+        $user = new User($request->input('uid'));
 
-            $user->changePasswd($_POST['password']);
+        $user->changePasswd($request->input('password'));
 
-            View::json('密码重置成功', 0);
-        }
+        View::json('密码重置成功', 0);
 
     }
 
