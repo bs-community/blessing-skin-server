@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-19 10:46:38
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-29 10:08:55
+ * @Last Modified time: 2016-09-03 21:48:17
  */
 
 'use strict';
@@ -153,10 +153,10 @@ $('body').on('change', '#file', function() {
     var files = $('#file').prop('files');
     var type = ($('#type').val() == "cape") ? "cape" : "skin";
     handleFiles(files, type);
-}).on('ifToggled', '#type-skin', function() {
+}).on('ifToggled', '#type-cape', function() {
     MSP.clear();
     var files = $('#file').prop('files');
-    var type = $('#type-skin').prop('checked') ? "skin" : "cape";
+    var type = $('#type-cape').prop('checked') ? "cape" : "skin";
     handleFiles(files, type);
 });
 
