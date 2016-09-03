@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-08-28 18:29:06
+* @Last Modified time: 2016-09-03 21:38:43
 */
 
 var gulp     = require('gulp'),
@@ -42,7 +42,9 @@ var vendor_css = [
 var replacements = [
     ['@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic);', ''],
     ['blue.png', '"../images/blue.png"'],
-    ['blue@2x.png', '"../images/blue@2x.png"']
+    ['blue@2x.png', '"../images/blue@2x.png"'],
+    ['../img/loading.gif', '"../images/loading.gif"'],
+    ['../img/loading-sm.gif', '"../images/loading-sm.gif"']
 ];
 
 elixir(function(mix) {
@@ -61,7 +63,9 @@ elixir(function(mix) {
         ], 'assets/fonts/')
         .copy([
             'resources/assets/bower_components/iCheck/skins/square/blue.png',
-            'resources/assets/bower_components/iCheck/skins/square/blue@2x.png'
+            'resources/assets/bower_components/iCheck/skins/square/blue@2x.png',
+            'resources/assets/bower_components/bootstrap-fileinput/img/loading.gif',
+            'resources/assets/bower_components/bootstrap-fileinput/img/loading-sm.gif'
         ], 'assets/images/')
 
         .task('sass')
