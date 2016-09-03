@@ -102,7 +102,7 @@ class PlayerController extends BaseController
         if (!PlayerModel::where('player_name', $new_player_name)->get()->isEmpty())
             View::json('此角色名已被他人使用，换一个吧~', 6);
 
-        $old_player_name = $this->player_name;
+        $old_player_name = $this->player->player_name;
         $this->player->rename($new_player_name);
 
         View::json("角色 $old_player_name 已更名为 $new_player_name", 0);
