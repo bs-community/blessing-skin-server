@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use \Blessing\Storage;
+use Blessing\Storage;
+use Option;
 
 class Updater
 {
@@ -53,13 +54,13 @@ class Updater
         $this->current_version = $current_version;
         $this->update_sources  = require BASE_DIR."/config/update.php";
 
-        $source = \Option::get('update_source');
+        $source = Option::get('update_source');
 
         if (!isset($this->update_sources[$source])) {
             Option::set('update_source', config('options.update_source'));
         }
 
-        $this->current_source  = $this->update_sources[\Option::get('update_source')];
+        $this->current_source  = $this->update_sources[Option::get('update_source')];
     }
 
     /**
@@ -70,7 +71,9 @@ class Updater
     public function getUpdateInfo()
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->current_source['update_url']);
+        // add timestamp to control cdn cache
+        $url = $this->current_source['update_url'].substr(time(), 0, -3);
+        curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         // quick fix for accessing https resources
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
