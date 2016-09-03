@@ -163,7 +163,7 @@ class TextureController extends BaseController
 
     public function previewWithSize($size, $tid)
     {
-        $this->preview($tid, $size);
+        return $this->preview($tid, $size);
     }
 
     public function raw($tid) {
