@@ -2,7 +2,6 @@
 
 namespace App\Events;
 
-use App\Events\Event;
 use App\Models\Texture;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;

@@ -17,22 +17,23 @@ class CacheSkinPreview
      */
     public function handle(GetSkinPreview $event)
     {
-        $tid = $event->texture->tid;
+        $tid  = $event->texture->tid;
+        $size = $event->size;
 
-        if (!Storage::disk('cache')->has("preview/$tid")) {
+        if (!Storage::disk('cache')->has("preview/$tid-$size")) {
             $filename = BASE_DIR."/storage/textures/{$event->texture->hash}";
 
             if ($event->texture->type == "cape") {
                 $png = \Minecraft::generatePreviewFromCape($filename, $event->size);
-                imagepng($png, BASE_DIR."/storage/cache/preview/$tid");
+                imagepng($png, BASE_DIR."/storage/cache/preview/$tid-$size");
                 imagedestroy($png);
             } else {
                 $png = \Minecraft::generatePreviewFromSkin($filename, $event->size);
-                imagepng($png, BASE_DIR."/storage/cache/preview/$tid");
+                imagepng($png, BASE_DIR."/storage/cache/preview/$tid-$size");
                 imagedestroy($png);
             }
         }
 
-        return \Response::png(Storage::disk('cache')->get("preview/$tid"));
+        return \Response::png(Storage::disk('cache')->get("preview/$tid-$size"));
     }
 }

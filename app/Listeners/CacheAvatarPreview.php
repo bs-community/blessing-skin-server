@@ -19,15 +19,16 @@ class CacheAvatarPreview
     {
         $tid  = $event->texture->tid;
         $hash = $event->texture->hash;
+        $size = $event->size;
 
         $path = BASE_DIR."/storage/textures/$hash";
 
-        if (!\Storage::disk('cache')->has("avatar/$tid")) {
+        if (!\Storage::disk('cache')->has("avatar/$tid-$size")) {
             $png = \Minecraft::generateAvatarFromSkin($path, $event->size);
-            imagepng($png, BASE_DIR."/storage/cache/avatar/$tid");
+            imagepng($png, BASE_DIR."/storage/cache/avatar/$tid-$size");
             imagedestroy($png);
         }
 
-        return \Response::png(\Storage::disk('cache')->get("avatar/$tid"));
+        return \Response::png(\Storage::disk('cache')->get("avatar/$tid-$size"));
     }
 }
