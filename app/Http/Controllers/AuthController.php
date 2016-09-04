@@ -163,7 +163,7 @@ class AuthController extends Controller
         if (config('mail.host') == "")
             View::json('本站已关闭重置密码功能', 1);
 
-        if (session()->has('last_mail_time') && (time() - session('last_mail_time')) < 60)
+        if (Session::has('last_mail_time') && (time() - session('last_mail_time')) < 60)
             View::json('你邮件发送得太频繁啦，过 60 秒后再点发送吧', 1);
 
         $user = new User(null, ['email' => $request->input('email')]);
@@ -171,26 +171,26 @@ class AuthController extends Controller
         if (!$user->is_registered)
             View::json('该邮箱尚未注册', 1);
 
-        $mail = new Mail();
-
-        $mail->from(Option::get('site_name'))
-             ->to($request->input('email'))
-             ->subject('重置您在 '.Option::get('site_name').' 上的账户密码');
-
         $uid   = $user->uid;
         $token = base64_encode($user->getToken().substr(time(), 4, 6).Utils::generateRndString(16));
 
         $url = Option::get('site_url')."/auth/reset?uid=$uid&token=$token";
 
-        $mail->content(View::make('auth.mail')->with('reset_url', $url)->render());
+        try {
+            Mail::send('auth.mail', ['reset_url' => $url], function ($m) use ($request) {
+                $site_name = Option::get('site_name');
 
-        if (!$mail->send()) {
-            View::json('邮件发送失败，详细信息：'.$mail->getLastError(), 2);
-        } else {
-            Session::put('last_mail_time', time());
-            View::json('邮件已发送，一小时内有效，请注意查收.', 0);
+                $m->from(config('mail.username'), $site_name);
+                $m->to($request->input('email'))->subject("重置您在 $site_name 上的账户密码");
+            });
+        } catch(\Exception $e) {
+            View::json('邮件发送失败，详细信息：'.$e->getMessage(), 2);
         }
 
+        Session::put('last_mail_time', time());
+        Session::save();
+
+        View::json('邮件已发送，一小时内有效，请注意查收.', 0);
     }
 
     public function reset()
@@ -213,7 +213,7 @@ class AuthController extends Controller
                 return redirect('auth/forgot')->with('msg', '链接已过期');
             }
 
-            return View::make('auth.reset')->with('user', $user);
+            return view('auth.reset')->with('user', $user);
         } else {
             return redirect('auth/login')->with('msg', '非法访问');
         }
