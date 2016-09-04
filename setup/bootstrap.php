@@ -35,6 +35,29 @@ Illuminate\Support\Facades\Facade::setFacadeApplication($app);
 (new Illuminate\Database\DatabaseServiceProvider($app))->register();
 (new Illuminate\Filesystem\FilesystemServiceProvider($app))->register();
 
+$app['url'] = $app->share(function ($app) {
+    $routes = $app['router']->getRoutes();
+
+    // The URL generator needs the route collection that exists on the router.
+    // Keep in mind this is an object, so we're passing by references here
+    // and all the registered routes will be available to the generator.
+    $app->instance('routes', $routes);
+
+    $request = Symfony\Component\HttpFoundation\Request::createFromGlobals();
+
+    $request = (new Illuminate\Http\Request)->duplicate(
+        $request->query->all(), $request->request->all(), $request->attributes->all(),
+        // quick fix: replace request URI with empty string
+        $request->cookies->all(), $request->files->all(), array_replace($request->server->all(), ['REQUEST_URI' => ''])
+    );
+
+    $url = new Illuminate\Routing\UrlGenerator(
+        $routes, $request
+    );
+
+    return $url;
+});
+
 $app->singleton('database', App\Services\Database\Database::class);
 $app->singleton('option',   App\Services\OptionRepository::class);
 

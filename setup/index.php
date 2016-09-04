@@ -4,7 +4,7 @@
  */
 
 require __DIR__."/bootstrap.php";
-
+throw new App\Exceptions\PrettyPageException('非法参数', 1, true);
 // If already installed
 if (checkTableExist()) {
     View::show('setup.locked');
@@ -73,7 +73,7 @@ switch ($step) {
 
         if (!is_dir(BASE_DIR.'/storage/textures/')) {
             if (!mkdir(BASE_DIR.'/storage/textures/'))
-                throw new E('textures 文件夹创建失败，请确认目录权限是否正确，或者手动放置一个。', -1);
+                throw new App\Exceptions\PrettyPageException('textures 文件夹创建失败，请确认目录权限是否正确，或者手动放置一个。', -1);
         }
 
         echo View::make('setup.steps.3')->with('email', $_POST['email'])->with('password', $_POST['password']);
@@ -81,6 +81,6 @@ switch ($step) {
         break;
 
     default:
-        throw new App\Exceptions\E('非法参数', 1, true);
+        throw new App\Exceptions\PrettyPageException('非法参数', 1, true);
         break;
 }

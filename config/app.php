@@ -219,7 +219,6 @@ return [
         'Option'    => App\Services\Facades\Option::class,
         'Utils'     => App\Services\Utils::class,
         'Minecraft' => App\Services\Minecraft::class,
-        'Validate'  => App\Services\Validate::class,
         'Updater'   => App\Services\Updater::class,
         'Database'  => App\Services\Facades\Database::class,
 
