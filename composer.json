@@ -1,9 +1,7 @@
 {
-    "name": "laravel/laravel",
-    "description": "The Laravel Framework.",
-    "keywords": ["framework", "laravel"],
-    "license": "MIT",
-    "type": "project",
+    "name": "blessing-skin-server",
+    "description": "Just a simple open-source Minecraft skin server written in PHP.",
+    "license": "GPL-3.0",
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
