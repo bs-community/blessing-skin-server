@@ -5,5 +5,5 @@
 @section('content')
 <h1>Be right back.</h1>
 
-<p>详细信息：{{ $message or "Application is now in maintenance mode." }}</p>
+<p>详细信息：{{ $exception->getMessage() ?: "Application is now in maintenance mode." }}</p>
 @endsection

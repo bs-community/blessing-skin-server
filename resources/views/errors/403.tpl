@@ -5,5 +5,5 @@
 @section('content')
 <h1>403 Forbidden</h1>
 
-<p>详细信息：{{ $message }}</p>
+<p>详细信息：{{ $exception->getMessage() ?: "你并没有权限查看此页面" }}</p>
 @endsection
