@@ -22,6 +22,10 @@ class ResponseMacroServiceProvider extends ServiceProvider
                 'Content-type' => 'image/png',
             ], $header));
         });
+
+        Response::macro('rawJson', function ($src = "", $status = 200, $header = []) {
+            return Response::make($src)->header('Content-type', 'application/json');
+        });
     }
 
     /**

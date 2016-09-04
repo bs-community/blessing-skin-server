@@ -99,3 +99,26 @@ function redirect_to($url, $msg = "") {
     }
     exit;
 }
+
+/**
+ * Check POST values in a simple way
+ *
+ * @param  array  $keys
+ * @return void
+ */
+function check_post(Array $keys) {
+    foreach ($keys as $key) {
+        if (!isset($_POST[$key])) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function check_password($password)
+{
+    if (strlen($password) > 16 || strlen($password) < 8) {
+        return false;
+    }
+    return true;
+}

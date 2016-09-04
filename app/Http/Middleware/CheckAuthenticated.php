@@ -32,10 +32,10 @@ class CheckAuthenticated
 
             // ask for filling email
             if ($user->email == "") {
-                if (isset($_POST['email'])) {
-                    if (\Validate::email($_POST['email'])) {
-                        if (UserModel::where('email', $_POST['email'])->get()->isEmpty()) {
-                            $user->setEmail($_POST['email']);
+                if (isset($request->email)) {
+                    if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
+                        if (UserModel::where('email', $request->email)->get()->isEmpty()) {
+                            $user->setEmail($request->email);
                             // refresh token
                             Session::put('token', $user->getToken(true));
                             setcookie('token', session('token'), time() + 3600, '/');

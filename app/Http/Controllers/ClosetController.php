@@ -2,17 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controller as BaseController;
-use App\Models\User;
-use App\Models\Texture;
-use App\Models\Closet;
-use App\Models\ClosetModel;
-use App\Exceptions\PrettyPageException;
 use View;
 use Option;
+use App\Models\User;
+use App\Models\Closet;
+use App\Models\Texture;
+use App\Models\ClosetModel;
+use Illuminate\Http\Request;
+use App\Exceptions\PrettyPageException;
 
-class ClosetController extends BaseController
+class ClosetController extends Controller
 {
+    /**
+     * Instance of Closet.
+     *
+     * @var \App\Models\Closet
+     */
     private $closet;
 
     public function __construct()
@@ -20,11 +25,10 @@ class ClosetController extends BaseController
         $this->closet = new Closet(session('uid'));
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $category = isset($_GET['category']) ? $_GET['category'] : "skin";
-
-        $page = isset($_GET['page']) ? $_GET['page'] : 1;
+        $category = $request->input('category', 'skin');
+        $page     = $request->input('page', 1);
 
         $items = array_slice($this->closet->getItems($category), ($page-1)*6, 6);
 
@@ -43,26 +47,30 @@ class ClosetController extends BaseController
         View::json($this->closet->getItems());
     }
 
-    public function add()
+    public function add(Request $request)
     {
-        \Validate::checkPost(['tid', 'name']);
+        $this->validate($request, [
+            'tid'  => 'required|integer',
+            'name' => 'required|nickname',
+        ]);
 
-        if ($this->closet->add($_POST['tid'], $_POST['name'])) {
-            $t = Texture::find($_POST['tid']);
+        if ($this->closet->add($request->tid, $request->name)) {
+            $t = Texture::find($request->tid);
             $t->likes += 1;
             $t->save();
 
-            View::json('材质 '.$_POST['name'].' 收藏成功~', 0);
+            View::json('材质 '.$request->input('name').' 收藏成功~', 0);
         }
     }
 
-    public function remove()
+    public function remove(Request $request)
     {
-        if (!is_numeric(\Utils::getValue('tid', $_POST)))
-            View::json('非法参数', 1);
+        $this->validate($request, [
+            'tid'  => 'required|integer'
+        ]);
 
-        if ($this->closet->remove($_POST['tid'])) {
-            $t = Texture::find($_POST['tid']);
+        if ($this->closet->remove($request->tid)) {
+            $t = Texture::find($request->tid);
             $t->likes = $t->likes - 1;
             $t->save();
 

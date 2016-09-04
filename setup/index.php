@@ -28,28 +28,28 @@ switch ($step) {
 
     case 3:
         // check post
-        if (Validate::checkPost(['email', 'password', 'confirm-pwd'], true))
+        if (check_post(['email', 'password', 'confirm-pwd'], true))
         {
             if ($_POST['password'] != $_POST['confirm-pwd'])
-                Http::redirect('index.php?step=2', '确认密码不一致');
+                redirect_to('index.php?step=2', '确认密码不一致');
 
             $email    = $_POST['email'];
             $password = $_POST['password'];
             $sitename = isset($_POST['sitename']) ? $_POST['sitename'] : "Blessing Skin Server";
 
-            if (Validate::email($email)) {
-                if (!Validate::password($password, true)) {
-                    Http::redirect('index.php?step=2', '无效的密码。密码长度应该大于 8 并小于 16。');
+            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                if (!check_password($password)) {
+                    redirect_to('index.php?step=2', '无效的密码。密码长度应该大于 8 并小于 16。');
 
                 } else if (Utils::convertString($password) != $password) {
-                    Http::redirect('index.php?step=2', '无效的密码。密码中包含了奇怪的字符。');
+                    redirect_to('index.php?step=2', '无效的密码。密码中包含了奇怪的字符。');
                 }
             } else {
-                Http::redirect('index.php?step=2', '邮箱格式不正确。');
+                redirect_to('index.php?step=2', '邮箱格式不正确。');
             }
         }
         else {
-            Http::redirect('index.php?step=2', '表单信息不完整。');
+            redirect_to('index.php?step=2', '表单信息不完整。');
         }
 
         // create tables

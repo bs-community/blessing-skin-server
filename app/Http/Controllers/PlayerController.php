@@ -2,53 +2,54 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controller as BaseController;
-use App\Events\PlayerWasAdded;
-use App\Models\User;
-use App\Models\Player;
-use App\Models\PlayerModel;
-use App\Models\Texture;
-use App\Exceptions\PrettyPageException;
-use Validate;
+use View;
 use Event;
 use Utils;
 use Option;
-use View;
+use App\Models\User;
+use App\Models\Player;
+use App\Models\Texture;
+use App\Models\PlayerModel;
+use Illuminate\Http\Request;
+use App\Events\PlayerWasAdded;
+use App\Exceptions\PrettyPageException;
 
-class PlayerController extends BaseController
+class PlayerController extends Controller
 {
-    private $player = null;
+    /**
+     * User Instance.
+     *
+     * @var \App\Models\User
+     */
+    private $user;
 
-    private $user   = null;
+    /**
+     * Player Instance.
+     *
+     * @var \App\Models\Player
+     */
+    private $player;
 
-    public function __construct()
+    public function __construct(Request $request)
     {
         $this->user = new User(session('uid'));
 
-        if (isset($_POST['pid'])) {
-            $this->player = new Player($_POST['pid']);
-            if (!$this->player)
-                abort(404, '角色不存在');
-        }
+        if ($request->has('pid'))
+            $this->player = new Player($request->pid);
     }
 
     public function index()
     {
-        return View::make('user.player')->with('players', $this->user->getPlayers()->toArray())->with('user', $this->user);
+        return view('user.player')->with('players', $this->user->getPlayers()->toArray())->with('user', $this->user);
     }
 
-    public function add()
+    public function add(Request $request)
     {
-        $player_name = $_POST['player_name'];
+        $this->validate($request, [
+            'player_name' => 'required|'.(Option::get('allow_chinese_playername') == "1") ? 'pname_chinese' : 'player_name'
+        ]);
 
-        if (!isset($player_name))
-            View::json('你还没有填写要添加的角色名哦', 1);
-
-        if (!Validate::playerName($player_name))
-        {
-            $msg = "无效的角色名。角色名只能包含" . ((Option::get('allow_chinese_playername') == "1") ? "汉字、" : "")."字母、数字以及下划线";
-            View::json($msg, 2);
-        }
+        $player_name = $request->input('player_name');
 
         if (!PlayerModel::where('player_name', $player_name)->get()->isEmpty())
             View::json('该角色名已经被其他人注册掉啦', 6);
@@ -67,18 +68,18 @@ class PlayerController extends BaseController
 
         $this->user->setScore(Option::get('score_per_player'), 'minus');
 
-        View::json('成功添加了角色 '.$player_name.'', 0);
-
+        View::json("成功添加了角色 $player_name", 0);
     }
 
-    public function delete()
+    public function delete(Request $request)
     {
-        $player_name = $this->player->model->player_name;
-        $this->player->model->delete();
+        $player_name = $this->player->player_name;
 
-        $this->user->setScore(Option::get('score_per_player'), 'plus');
+        if ($this->player->delete()) {
+            $this->user->setScore(Option::get('score_per_player'), 'plus');
 
-        View::json('角色 '.$player_name.' 已被删除', 0);
+            View::json("角色 $player_name 已被删除", 0);
+        }
     }
 
     public function show()
@@ -86,18 +87,13 @@ class PlayerController extends BaseController
         return json_encode($this->player->model->toArray(), JSON_NUMERIC_CHECK);
     }
 
-    public function rename()
+    public function rename(Request $request)
     {
-        $new_player_name = Utils::getValue('new_player_name', $_POST);
+        $this->validate($request, [
+            'new_player_name' => 'required|'.(Option::get('allow_chinese_playername') == "1") ? 'pname_chinese' : 'player_name'
+        ]);
 
-        if (!$new_player_name)
-            View::json('非法参数', 1);
-
-        if (!Validate::playerName($new_player_name))
-        {
-            $msg = "无效的角色名。角色名只能包含" . ((Option::get('allow_chinese_playername') == "1") ? "汉字、" : "")."字母、数字以及下划线";
-            View::json($msg, 2);
-        }
+        $new_player_name = $request->input('new_player_name');
 
         if (!PlayerModel::where('player_name', $new_player_name)->get()->isEmpty())
             View::json('此角色名已被他人使用，换一个吧~', 6);
@@ -111,43 +107,38 @@ class PlayerController extends BaseController
     /**
      * A wrapper of Player::setTexture()
      */
-    public function setTexture()
+    public function setTexture(Request $request)
     {
-        $tid = Utils::getValue('tid', $_POST);
-
-        if (!is_numeric($tid))
-            View::json('非法参数', 1);
+        $this->validate($request, [
+            'tid' => 'required|integer'
+        ]);
 
         if (!($texture = Texture::find($tid)))
-            View::json('Unexistent texture.', 6);
+            View::json('材质不存在', 6);
 
         $field_name = "tid_".$texture->type;
 
         $this->player->setTexture([$field_name => $tid]);
 
-        View::json('材质已成功应用至角色 '.$this->player->model->player_name.'', 0);
+        View::json('材质已成功应用至角色 '.$this->player->player_name, 0);
     }
-
-
 
     public function clearTexture()
     {
         $this->player->clearTexture();
 
-        View::json('角色 '.$this->player->model->player_name.' 的材质已被成功重置', 0);
+        View::json('角色 '.$this->player->player_name.' 的材质已被成功重置', 0);
     }
 
-    public function setPreference()
+    public function setPreference(Request $request)
     {
-        if (!isset($_POST['preference']) ||
-            ($_POST['preference'] != "default" && $_POST['preference'] != "slim"))
-        {
-            View::json('非法参数', 1);
-        }
+        $this->validate($request, [
+            'preference' => 'required|preference'
+        ]);
 
-        $this->player->setPreference($_POST['preference']);
+        $this->player->setPreference($request->preference);
 
-        View::json('角色 '.$this->player->player_name.' 的优先模型已更改至 '.$_POST['preference'], 0);
+        View::json('角色 '.$this->player->player_name.' 的优先模型已更改至 '.$request->preference, 0);
     }
 
 }

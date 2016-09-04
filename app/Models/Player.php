@@ -2,21 +2,29 @@
 
 namespace App\Models;
 
-use App\Exceptions\PrettyPageException;
-use App\Events\PlayerProfileUpdated;
-use App\Events\GetPlayerJson;
+use View;
 use Event;
 use Utils;
-use View;
+use App\Events\GetPlayerJson;
+use App\Events\PlayerWasDeleted;
+use App\Events\PlayerProfileUpdated;
+use App\Exceptions\PrettyPageException;
 
 class Player
 {
-    public $pid         = "";
-    public $player_name = "";
+    public $pid;
+    public $player_name;
 
-    public $is_banned   = false;
+    public $is_banned = false;
 
-    public $model       = null;
+    public $model;
+
+    /**
+     * User Instance.
+     *
+     * @var \App\Models\User
+     */
+    private $owner;
 
     const CSL_API       = 0;
     const USM_API       = 1;
@@ -44,7 +52,9 @@ class Player
 
         $this->player_name = $this->model->player_name;
 
-        if ((new User($this->model->uid))->getPermission() == "-1")
+        $this->owner = new User($this->model->uid);
+
+        if ($this->owner->getPermission() == "-1")
             $this->is_banned = true;
     }
 
@@ -113,7 +123,8 @@ class Player
      * Set preferred model
      * @param string $type, 'slim' or 'default'
      */
-    public function setPreference($type) {
+    public function setPreference($type)
+    {
         $this->model->update([
             'preference'    => $type,
             'last_modified' => Utils::getTimeFormatted()
@@ -122,7 +133,8 @@ class Player
         return Event::fire(new PlayerProfileUpdated($this));
     }
 
-    public function getPreference() {
+    public function getPreference()
+    {
         return $this->model['preference'];
     }
 
@@ -150,7 +162,8 @@ class Player
      * @param  int $api_type Which API to use, 0 for CustomSkinAPI, 1 for UniSkinAPI
      * @return string        User profile in json format
      */
-    public function getJsonProfile($api_type) {
+    public function getJsonProfile($api_type)
+    {
         // Support both CustomSkinLoader API & UniSkinAPI
         if ($api_type == self::CSL_API || $api_type == self::USM_API) {
             $responses = Event::fire(new GetPlayerJson($this, $api_type));
@@ -194,7 +207,8 @@ class Player
         return json_encode($json, JSON_PRETTY_PRINT);
     }
 
-    public function updateLastModified() {
+    public function updateLastModified()
+    {
         // @see http://stackoverflow.com/questions/2215354/php-date-format-when-inserting-into-datetime-in-mysql
         $this->model->update(['last_modified' => Utils::getTimeFormatted()]);
         return Event::fire(new PlayerProfileUpdated($this));
@@ -204,8 +218,16 @@ class Player
      * Get last modified time
      * @return timestamp
      */
-    public function getLastModified() {
+    public function getLastModified()
+    {
         return strtotime($this->model['last_modified']);
+    }
+
+    public function delete()
+    {
+        // Event::fire(new PlayerWasDeleted($this));
+
+        return $this->model->delete();
     }
 }
 

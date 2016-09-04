@@ -2,23 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controller as BaseController;
-use App\Exceptions\PrettyPageException;
-use App\Events\GetAvatarPreview;
-use App\Events\GetSkinPreview;
-use App\Models\Texture;
-use App\Models\Player;
-use App\Models\User;
-use Minecraft;
-use Response;
-use Storage;
-use Option;
 use Event;
-use Http;
+use Option;
+use Storage;
+use Response;
+use Minecraft;
+use App\Models\User;
+use App\Models\Player;
+use App\Models\Texture;
+use Illuminate\Http\Request;
+use App\Events\GetSkinPreview;
+use App\Events\GetAvatarPreview;
+use App\Exceptions\PrettyPageException;
 
-class TextureController extends BaseController
+class TextureController extends Controller
 {
-
+    /**
+     * Return Player Profile formatted in JSON.
+     *
+     * @param  string $player_name
+     * @param  string $api
+     * @return \Illuminate\Http\Response
+     */
     public function json($player_name, $api = "")
     {
         $player = new Player(0, $player_name);
@@ -27,16 +32,11 @@ class TextureController extends BaseController
             abort(404, '该角色拥有者已被本站封禁。');
 
         if ($api == "csl") {
-            return response($player->getJsonProfile(Player::CSL_API))
-                    ->header('Content-type', 'application/json');
+            return Response::rawJson($player->getJsonProfile(Player::CSL_API));
         } else if ($api == "usm") {
-            return response($player->getJsonProfile(Player::USM_API))
-                    ->header('Content-type', 'application/json');
-        } else if ($api == "") {
-            return response($player->getJsonProfile(Option::get('api_type')))
-                    ->header('Content-type', 'application/json');
+            return Response::rawJson($player->getJsonProfile(Player::USM_API));
         } else {
-            abort(404, '不支持的 API_TYPE。');
+            return Response::rawJson($player->getJsonProfile(Option::get('api_type')));
         }
     }
 
@@ -47,8 +47,7 @@ class TextureController extends BaseController
 
     public function texture($hash) {
         if (Storage::disk('textures')->has($hash)) {
-            return response(Storage::disk('textures')->get($hash))
-                    ->header('Content-Type', 'image/png');
+            return Response::png(Storage::disk('textures')->get($hash));
         } else {
             abort(404);
         }
@@ -60,8 +59,6 @@ class TextureController extends BaseController
 
     public function skin($player_name, $model = "")
     {
-        $player_name = Option::get('allow_chinese_playername') ? $GLOBALS['player_name'] : $player_name;
-
         $player = new Player(0, $player_name);
 
         if ($player->is_banned)
@@ -70,21 +67,25 @@ class TextureController extends BaseController
         if (!$this->checkCache($player_name)) {
             $model_preference = ($player->getPreference() == "default") ? "steve" : "alex";
             $model = ($model == "") ? $model_preference : $model;
+
             return $player->getBinaryTexture($model);
         }
     }
 
+    public function skinWithModel($model, $player_name)
+    {
+        return $this->skin($player_name, $model);
+    }
+
     public function cape($player_name)
     {
-        $player_name = Option::get('allow_chinese_playername') ? $GLOBALS['player_name'] : $player_name;
-
         $player = new Player(0, $player_name);
 
         if ($player->is_banned)
             abort(404, '该角色拥有者已被本站封禁。');
 
         if (!$this->checkCache($player_name)) {
-            echo $player->getBinaryTexture('cape');
+            return $player->getBinaryTexture('cape');
         }
     }
 
@@ -104,7 +105,7 @@ class TextureController extends BaseController
                     } else {
                         $filename = BASE_DIR."/storage/textures/{$t->hash}";
 
-                        $png = \Minecraft::generateAvatarFromSkin($filename, $size);
+                        $png = Minecraft::generateAvatarFromSkin($filename, $size);
                         imagepng($png);
                         imagedestroy($png);
 
@@ -140,11 +141,11 @@ class TextureController extends BaseController
                     $filename = BASE_DIR."/storage/textures/{$t->hash}";
 
                     if ($t->type == "cape") {
-                        $png = \Minecraft::generatePreviewFromCape($filename, $size);
+                        $png = Minecraft::generatePreviewFromCape($filename, $size);
                         imagepng($png);
                         imagedestroy($png);
                     } else {
-                        $png = \Minecraft::generatePreviewFromSkin($filename, $size);
+                        $png = Minecraft::generatePreviewFromSkin($filename, $size);
                         imagepng($png);
                         imagedestroy($png);
                     }

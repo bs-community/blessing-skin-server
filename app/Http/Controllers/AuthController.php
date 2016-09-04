@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\UserModel;
-use App\Exceptions\PrettyPageException;
 use Mail;
 use View;
 use Utils;
 use Option;
-use Http;
 use Session;
+use App\Models\User;
+use App\Models\UserModel;
+use Illuminate\Http\Request;
+use App\Exceptions\PrettyPageException;
 
 class AuthController extends Controller
 {

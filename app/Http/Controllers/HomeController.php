@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controller as BaseController;
 use App\Models\User;
 use Session;
 
-class HomeController extends BaseController
+class HomeController extends Controller
 {
 
     public function index()
@@ -24,9 +23,9 @@ class HomeController extends BaseController
             }
         }
 
-        $user = session()->has('uid') ? new User(session('uid')) : null;
+        $user = Session::has('uid') ? new User(session('uid')) : null;
 
-        echo \View::make('index')->with('user', $user);
+        return view('index')->with('user', $user);
     }
 
 }

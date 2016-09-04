@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controller as BaseController;
+use View;
+use Utils;
 use App\Models\User;
 use App\Models\Texture;
+use Illuminate\Http\Request;
 use App\Exceptions\PrettyPageException;
-use Utils;
-use View;
 
-class UserController extends BaseController
+class UserController extends Controller
 {
     private $action = "";
     private $user   = null;
 
-    function __construct()
+    public function __construct()
     {
         $this->action = isset($_GET['action']) ? $_GET['action'] : "";
         $this->user   = new User(session('uid'));
@@ -22,15 +22,20 @@ class UserController extends BaseController
 
     public function index()
     {
-        return View::make('user.index')->with('user', $this->user)->render();
+        return view('user.index')->with('user', $this->user);
     }
 
+    /**
+     * Handle User Signing
+     *
+     * @return void
+     */
     public function sign()
     {
         if ($aquired_score = $this->user->sign()) {
             View::json([
                 'errno'          => 0,
-                'msg'            => '签到成功，获得了 '.$aquired_score.' 积分~',
+                'msg'            => "签到成功，获得了 $aquired_score 积分~",
                 'score'          => $this->user->getScore(),
                 'remaining_time' => $this->user->canSign(true)
             ]);
@@ -41,82 +46,108 @@ class UserController extends BaseController
 
     public function profile()
     {
-        return View::make('user.profile')->with('user', $this->user);
+        return view('user.profile')->with('user', $this->user);
     }
 
-    public function handleProfile()
+    /**
+     * Handle Changing Profile
+     *
+     * @param  Request $request
+     * @return void
+     */
+    public function handleProfile(Request $request)
     {
-        // handle changing nickname
-        if ($this->action == "nickname") {
-            if (!isset($_POST['new_nickname'])) View::json('非法参数', 1);
+        switch ($this->action) {
+            case 'nickname':
+                $this->validate($request, [
+                    'new_nickname' => 'required|nickname|max:255'
+                ]);
 
-            if (Utils::convertString($_POST['new_nickname']) != $_POST['new_nickname'])
-                View::json('无效的昵称。昵称中包含了奇怪的字符。', 1);
+                $nickname = $request->input('new_nickname');
 
-            if ($this->user->setNickName($_POST['new_nickname']))
-                View::json('昵称已成功设置为 '.$_POST['new_nickname'], 0);
-        // handle changing password
-        } elseif ($this->action == "password") {
-            if (!(isset($_POST['current_password']) && isset($_POST['new_password'])))
-                View::json('非法参数', 1);
+                if ($this->user->setNickName($nickname))
+                    View::json("昵称已成功设置为 $nickname", 0);
 
-            if (!$this->user->checkPasswd($_POST['current_password']))
-                View::json('原密码错误', 1);
+                break;
 
-            if (\Validate::password($_POST['new_password'])) {
-                if ($this->user->changePasswd($_POST['new_password']))
+            case 'password':
+                $this->validate($request, [
+                    'current_password' => 'required|min:8|max:16',
+                    'new_password'     => 'required|min:8|max:16'
+                ]);
+
+                if (!$this->user->checkPasswd($request->input('current_password')))
+                    View::json('原密码错误', 1);
+
+                if ($this->user->changePasswd($request->input('new_password')))
                     View::json('密码修改成功，请重新登录', 0);
-            }
-        // handle changing email
-        } elseif ($this->action == "email") {
-            if (!(isset($_POST['new_email']) && isset($_POST['password'])))
+
+                break;
+
+            case 'email':
+                $this->validate($request, [
+                    'new_email' => 'required|email',
+                    'password'  => 'required|min:8|max:16'
+                ]);
+
+                if (!$this->user->checkPasswd($request->input('password')))
+                    View::json('密码错误', 1);
+
+                if ($this->user->setEmail($request->input('new_email')))
+                    View::json('邮箱修改成功，请重新登录', 0);
+
+                break;
+
+            case 'delete':
+                $this->validate($request, [
+                    'password' => 'required|min:8|max:16'
+                ]);
+
+                if (!$this->user->checkPasswd($request->input('password')))
+                    View::json('密码错误', 1);
+
+                if ($this->user->delete()) {
+                    setcookie('uid',   '', time() - 3600, '/');
+                    setcookie('token', '', time() - 3600, '/');
+
+                    Session::flush();
+                    Session::save();
+
+                    View::json('账号已被成功删除', 0);
+                }
+
+                break;
+
+            default:
                 View::json('非法参数', 1);
-
-            if (!filter_var($_POST['new_email'], FILTER_VALIDATE_EMAIL)) {
-                View::json('邮箱格式错误', 3);
-            }
-
-            if (!$this->user->checkPasswd($_POST['password']))
-                View::json('密码错误', 1);
-
-            if ($this->user->setEmail($_POST['new_email']))
-                View::json('邮箱修改成功，请重新登录', 0);
-
-        // handle deleting account
-        } elseif ($this->action == "delete") {
-            if (!isset($_POST['password']))
-                View::json('非法参数', 1);
-
-            if (!$this->user->checkPasswd($_POST['password']))
-                View::json('密码错误', 1);
-
-            if ($this->user->delete()) {
-                setcookie('uid',   '', time() - 3600, '/');
-                setcookie('token', '', time() - 3600, '/');
-                Session::flush();
-                Session::save();
-
-                View::json('账号已被成功删除', 0);
-            }
+                break;
         }
 
     }
 
     public function config()
     {
-        return View::make('user.config')->with('user', $this->user);
+        return view('user.config')->with('user', $this->user);
     }
 
-    public function setAvatar()
+    /**
+     * Set Avatar for User
+     *
+     * @param Request $request
+     */
+    public function setAvatar(Request $request)
     {
-        if (!isset($_POST['tid']))
-            View::json('Empty tid.', 1);
+        $this->validate($request, [
+            'tid' => 'required|integer'
+        ]);
 
-        $result = Texture::find($_POST['tid']);
+        $result = Texture::find($request->input('tid'));
+
         if ($result) {
-            if ($result->type == "cape") View::json('披风可不能设置为头像哦~', 1);
+            if ($result->type == "cape")
+                View::json('披风可不能设置为头像哦~', 1);
 
-            if ((new User(session('uid')))->setAvatar($_POST['tid'])) {
+            if ($this->user->setAvatar($request->input('tid'))) {
                 View::json('设置成功！', 0);
             }
         } else {

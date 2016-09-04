@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Routing\Controller as BaseController;
-use App\Models\User;
-use App\Models\UserModel;
-use App\Models\Player;
-use App\Models\PlayerModel;
-use App\Models\Texture;
-use App\Exceptions\PrettyPageException;
-use Validate;
-use Utils;
 use View;
+use Utils;
+use App\Models\User;
+use App\Models\Player;
+use App\Models\Texture;
+use App\Models\UserModel;
+use App\Models\PlayerModel;
+use Illuminate\Http\Request;
+use App\Exceptions\PrettyPageException;
 
-class AdminController extends BaseController
+class AdminController extends Controller
 {
 
     public function index()
@@ -36,12 +35,17 @@ class AdminController extends BaseController
         return view('admin.options');
     }
 
-    public function update()
+    /**
+     * Handle Upload Checking & Downloading
+     *
+     * @param  Request $request
+     * @return void
+     */
+    public function update(Request $request)
     {
-        $action = Utils::getValue('action', $_GET);
-
-        if ($action == "check") {
+        if ($request->action == "check") {
             $updater = new \Updater(\App::version());
+
             if ($updater->newVersionAvailable()) {
                 View::json([
                     'new_version_available' => true,
@@ -53,20 +57,24 @@ class AdminController extends BaseController
                     'latest_version' => $updater->current_version
                 ]);
             }
-        } elseif ($action == "download") {
+        } elseif ($request->action == "download") {
             return view('admin.download');
         } else {
             return view('admin.update');
         }
     }
 
-    public function users()
+    /**
+     * Show Manage Page of Users.
+     *
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function users(Request $request)
     {
-        $page = isset($_GET['page']) ? $_GET['page'] : 1;
-
-        $filter = isset($_GET['filter']) ? $_GET['filter'] : "";
-
-        $q = isset($_GET['q']) ? $_GET['q'] : "";
+        $page   = $request->input('page', 1);
+        $filter = $request->input('filter', '');
+        $q      = $request->input('q', '');
 
         if ($filter == "") {
             $users = UserModel::orderBy('uid');
@@ -79,21 +87,24 @@ class AdminController extends BaseController
         $total_pages = ceil($users->count() / 30);
         $users = $users->skip(($page - 1) * 30)->take(30)->get();
 
-        return View::make('admin.users')->with('users', $users)
-                                          ->with('filter', $filter)
-                                          ->with('q', $q)
-                                          ->with('page', $page)
-                                          ->with('total_pages', $total_pages)
-                                          ->render();
+        return view('admin.users')->with('users', $users)
+                                  ->with('filter', $filter)
+                                  ->with('q', $q)
+                                  ->with('page', $page)
+                                  ->with('total_pages', $total_pages);
     }
 
-    public function players()
+    /**
+     * Show Manage Page of Players.
+     *
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function players(Request $request)
     {
-        $page = isset($_GET['page']) ? $_GET['page'] : 1;
-
-        $filter = isset($_GET['filter']) ? $_GET['filter'] : "";
-
-        $q = isset($_GET['q']) ? $_GET['q'] : "";
+        $page   = $request->input('page', 1);
+        $filter = $request->input('filter', '');
+        $q      = $request->input('q', '');
 
         if ($filter == "") {
             $players = PlayerModel::orderBy('uid');
@@ -106,31 +117,35 @@ class AdminController extends BaseController
         $total_pages = ceil($players->count() / 30);
         $players = $players->skip(($page - 1) * 30)->take(30)->get();
 
-        return View::make('admin.players')->with('players', $players)
-                                            ->with('filter', $filter)
-                                            ->with('q', $q)
-                                            ->with('page', $page)
-                                            ->with('total_pages', $total_pages)
-                                            ->render();
+        return view('admin.players')->with('players', $players)
+                                    ->with('filter', $filter)
+                                    ->with('q', $q)
+                                    ->with('page', $page)
+                                    ->with('total_pages', $total_pages);
     }
 
     /**
      * Handle ajax request from /admin/users
+     *
+     * @param  Request $request
+     * @return void
      */
-    public function userAjaxHandler()
+    public function userAjaxHandler(Request $request)
     {
-        $action = isset($_GET['action']) ? $_GET['action'] : "";
+        $action = $request->input('action');
 
         if ($action == "color") {
-            Validate::checkPost(['color_scheme']);
+            $this->validate($request, [
+                'color_scheme' => 'required'
+            ]);
 
-            $color_scheme = str_replace('_', '-', $_POST['color_scheme']);
+            $color_scheme = str_replace('_', '-', $request->input('color_scheme'));
             \Option::set('color_scheme', $color_scheme);
 
             View::json('修改配色成功', 0);
         }
 
-        $user     = new User(Utils::getValue('uid', $_POST));
+        $user     = new User($request->input('uid'));
         // current user
         $cur_user = new User(session('uid'));
 
@@ -138,37 +153,36 @@ class AdminController extends BaseController
             View::json('用户不存在', 1);
 
         if ($action == "email") {
-            Validate::checkPost(['email']);
+            $this->validate($request, [
+                'email' => 'required|email'
+            ]);
 
-            if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
-                View::json('邮箱格式错误', 3);
-            }
-
-            if ($user->setEmail($_POST['email']))
+            if ($user->setEmail($request->input('email')))
                 View::json('邮箱修改成功', 0);
 
         } elseif ($action == "nickname") {
-            Validate::checkPost(['nickname']);
+            $this->validate($request, [
+                'nickname' => 'required|nickname'
+            ]);
 
-            if (Utils::convertString($_POST['nickname']) != $_POST['nickname'])
-                View::json('无效的昵称。昵称中包含了奇怪的字符。', 1);
-
-            if ($user->setNickName($_POST['nickname']))
-                View::json('昵称已成功设置为 '.$_POST['nickname'], 0);
+            if ($user->setNickName($request->input('nickname')))
+                View::json('昵称已成功设置为 '.$request->input('nickname'), 0);
 
         } elseif ($action == "password") {
-            Validate::checkPost(['password']);
+            $this->validate($request, [
+                'password' => 'required|min:8|max:16'
+            ]);
 
-            if (\Validate::password($_POST['password'])) {
-                if ($user->changePasswd($_POST['password']))
-                    View::json('密码修改成功', 0);
-            }
+            if ($user->changePasswd($request->input('password')))
+                View::json('密码修改成功', 0);
 
         } elseif ($action == "score") {
-            Validate::checkPost(['score']);
+            $this->validate($request, [
+                'score' => 'required|integer'
+            ]);
 
-            if ($user->setScore($_POST['score']))
-                    View::json('积分修改成功', 0);
+            if ($user->setScore($request->input('score')))
+                View::json('积分修改成功', 0);
 
         } elseif ($action == "ban") {
             if ($user->getPermission() == "1") {
@@ -217,50 +231,48 @@ class AdminController extends BaseController
     /**
      * Handle ajax request from /admin/players
      */
-    public function playerAjaxHandler()
+    public function playerAjaxHandler(Request $request)
     {
         $action = isset($_GET['action']) ? $_GET['action'] : "";
 
         // exception will be throw by model if player is not existent
-        $player = new Player(Utils::getValue('pid', $_POST));
+        $player = new Player($request->input('pid'));
 
         if ($action == "preference") {
-            Validate::checkPost(['preference']);
+            $this->validate($request, [
+                'preference' => 'required|preference'
+            ]);
 
-            if ($_POST['preference'] != "default" && $_POST['preference'] != "slim")
-                View::json('无效的参数', 0);
-
-            if ($player->setPreference($_POST['preference']))
-                View::json('角色 '.$player->player_name.' 的优先模型已更改至 '.$_POST['preference'], 0);
+            if ($player->setPreference($request->input('preference')))
+                View::json('角色 '.$player->player_name.' 的优先模型已更改至 '.$request->input('preference'), 0);
 
         } elseif ($action == "texture") {
-            Validate::checkPost(['model', 'tid']);
+            $this->validate($request, [
+                'model' => 'required|model',
+                'tid'   => 'required|integer'
+            ]);
 
-            if ($_POST['model'] != "steve" && $_POST['model'] != "alex" && $_POST['model'] != "cape")
-                View::json('无效的参数', 0);
+            if (!Texture::find($request->tid))
+                View::json("材质 tid.{$request->tid} 不存在", 1);
 
-            if (!(is_numeric($_POST['tid']) && Texture::find($_POST['tid'])))
-                View::json('材质 tid.'.$_POST['tid'].' 不存在', 1);
-
-            if ($player->setTexture(['tid_'.$_POST['model'] => $_POST['tid']]))
-                View::json('角色 '.$player->player_name.' 的材质修改成功', 0);
+            if ($player->setTexture(['tid_'.$request->model => $request->tid]))
+                View::json("角色 {$player->player_name} 的材质修改成功", 0);
 
         } elseif ($action == "owner") {
-            Validate::checkPost(['uid']);
+            $this->validate($request, [
+                'tid'   => 'required|integer'
+            ]);
 
-            if (!is_numeric($_POST['uid']))
-                View::json('无效的参数', 0);
-
-            $user = new User($_POST['uid']);
+            $user = new User($request->input('uid'));
 
             if (!$user->is_registered)
                 View::json('不存在的用户', 1);
 
-            if ($player->setOwner($_POST['uid']))
-                View::json('角色 '.$player->player_name.' 已成功让渡至 '.$user->getNickName(), 0);
+            if ($player->setOwner($request->input('uid')))
+                View::json("角色 $player->player_name 已成功让渡至 ".$user->getNickName(), 0);
 
         } elseif ($action == "delete") {
-            if (PlayerModel::where('pid', $_POST['pid'])->delete())
+            if (PlayerModel::where('pid', $request->input('pid'))->delete())
                 View::json('角色已被成功删除', 0);
         } else {
             View::json('非法参数', 1);
