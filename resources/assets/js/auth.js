@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-17 10:54:22
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-26 13:05:14
+ * @Last Modified time: 2016-09-05 22:24:33
  */
 
 'use strict';
@@ -69,18 +69,17 @@ $('#login-button').click(function() {
 
                 } else {
                     if (json.login_fails > 3) {
-                        swal({
-                            type: 'error',
-                            html: '你尝试的次数太多啦，请输入验证码'
-                        });
+                        if ($('#captcha-form').css('display') == "none") {
+                            swal({
+                                type: 'error',
+                                html: '你尝试的次数太多啦，请输入验证码'
+                            });
+                        }
 
                         $('#captcha-form').show();
-                        freshCaptcha();
                     }
 
-                    if ($('#captcha-form').css('display') == "block") {
-                        freshCaptcha();
-                    }
+                    freshCaptcha();
 
                     showMsg(json.msg, 'warning');
                     $('#login-button').html('登录').prop('disabled', '');
