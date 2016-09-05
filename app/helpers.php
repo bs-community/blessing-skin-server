@@ -34,3 +34,26 @@ if (! function_exists('get_current_url')) {
         return get_base_url().$_SERVER["REQUEST_URI"];
     }
 }
+
+if (! function_exists('avatar')) {
+
+    function avatar(App\Models\User $user, $size)
+    {
+        $fname = base64_encode($user->email).".png";
+
+        if (Option::get('avatar_query_string') == "1") {
+            $fname .= '?v='.$user->getAvatarId();
+        }
+
+        return url("avatar/$size/$fname");
+    }
+}
+
+if (! function_exists('assets')) {
+
+    function assets($relative_uri)
+    {
+        // add query string to fresh cache
+        return url("assets/$relative_uri")."?v=".config('app.version');
+    }
+}

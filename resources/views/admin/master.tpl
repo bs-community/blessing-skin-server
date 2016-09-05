@@ -4,15 +4,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>@yield('title') - {{ Option::get('site_name') }}</title>
-    <link rel="shortcut icon" href="../assets/images/favicon.ico">
+    <link rel="shortcut icon" href="{{ assets('images/favicon.ico') }}">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- App Styles -->
-    <link rel="stylesheet" href="{{ url('assets/css/app.min.css') }}?v={{ config('app.version') }}">
+    <link rel="stylesheet" href="{{ assets('css/app.min.css') }}">
     <!-- AdminLTE Skins -->
-    <link rel="stylesheet" href="{{ url('assets/libs/skins/'.Option::get('color_scheme').'.min.css') }}?v={{ config('app.version') }}">
+    <link rel="stylesheet" href="{{ assets('libs/skins/'.Option::get('color_scheme').'.min.css') }}">
 
-    <link rel="stylesheet" href="{{ url('assets/css/admin.css') }}?v={{ config('app.version') }}">
+    <link rel="stylesheet" href="{{ assets('css/admin.css') }}">
 
     @yield('style')
 
@@ -55,7 +55,7 @@
                             <ul class="dropdown-menu">
                                 <!-- The user image in the menu -->
                                 <li class="user-header">
-                                    <img src="../avatar/128/{{ Utils::getAvatarFname($user) }}" alt="User Image">
+                                    <img src="{{ avatar($user, 128) }}" alt="User Image">
                                     <p>{{ $user->email }}</p>
                                 </li>
                                 <!-- Menu Footer-->
@@ -82,7 +82,7 @@
                 <!-- Sidebar user panel (optional) -->
                 <div class="user-panel">
                     <div class="pull-left image">
-                        <img src="../avatar/45/{{ Utils::getAvatarFname($user) }}" alt="User Image">
+                        <img src="{{ avatar($user, 45) }}" alt="User Image">
                     </div>
                     <div class="pull-left info">
                         <p class="nickname">{{ Utils::getNameOrEmail($user) }}</p>
@@ -127,9 +127,9 @@
     </div><!-- ./wrapper -->
 
     <!-- App Scripts -->
-    <script type="text/javascript" src="{{ url('assets/js/app.min.js') }}?v={{ config('app.version') }}"></script>
+    <script type="text/javascript" src="{{ assets('js/app.min.js') }}"></script>
 
-    <script type="text/javascript" src="{{ url('assets/js/admin.js') }}?v={{ config('app.version') }}"></script>
+    <script type="text/javascript" src="{{ assets('js/admin.js') }}"></script>
 
     @if (Option::get('check_update') == '1')
     <script>

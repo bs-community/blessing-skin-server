@@ -4,15 +4,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>@yield('title') - {{ Option::get('site_name') }}</title>
-    <link rel="shortcut icon" href="../assets/images/favicon.ico">
+    <link rel="shortcut icon" href="{{ assets('images/favicon.ico') }}">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- App Styles -->
-    <link rel="stylesheet" href="{{ url('assets/css/app.min.css') }}?v={{ config('app.version') }}">
+    <link rel="stylesheet" href="{{ assets('css/app.min.css') }}">
     <!-- AdminLTE Skins -->
     <link rel="stylesheet" href="{{ url('assets/libs/skins/'.Option::get('color_scheme').'.min.css') }}">
 
-    <link rel="stylesheet" href="{{ url('assets/css/skinlib.css') }}?v={{ config('app.version') }}">
+    <link rel="stylesheet" href="{{ assets('css/skinlib.css') }}">
 
     @yield('style')
 
@@ -82,14 +82,14 @@
                                     <!-- Menu Toggle Button -->
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         <!-- The user image in the navbar-->
-                                        <img src="../avatar/25/{{ Utils::getAvatarFname($user) }}" class="user-image" alt="User Image">
+                                        <img src="{{ avatar($user, 25) }}" class="user-image" alt="User Image">
                                         <!-- hidden-xs hides the username on small devices so only the image appears. -->
                                         <span class="hidden-xs nickname">{{ Utils::getNameOrEmail($user) }}</span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <!-- The user image in the menu -->
                                         <li class="user-header">
-                                            <img src="../avatar/128/{{ Utils::getAvatarFname($user) }}" alt="User Image">
+                                            <img src="{{ avatar($user, 128) }}" alt="User Image">
                                             <p>{{ $user->email }}</p>
                                         </li>
                                         <!-- Menu Footer-->
@@ -139,9 +139,9 @@
     </div><!-- ./wrapper -->
 
     <!-- App Scripts -->
-    <script type="text/javascript" src="{{ url('assets/js/app.min.js') }}?v={{ config('app.version') }}"></script>
+    <script type="text/javascript" src="{{ assets('js/app.min.js') }}"></script>
 
-    <script type="text/javascript" src="{{ url('assets/js/skinlib.js') }}?v={{ config('app.version') }}"></script>
+    <script type="text/javascript" src="{{ assets('js/skinlib.js') }}"></script>
 
     @yield('script')
 

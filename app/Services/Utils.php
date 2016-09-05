@@ -84,53 +84,6 @@ class Utils
         return ($user->getNickName() == '') ? $user->email : $user->getNickName();
     }
 
-    public static function getAvatarFname(\App\Models\User $user)
-    {
-        $fname = base64_encode($user->email).".png";
-        if (\Option::get('avatar_query_string')) {
-            $fname .= '?v='.$user->getAvatarId();
-        }
-        return $fname;
-    }
-
-    /**
-     * Generate omitted string
-     *
-     * @param  string  $str
-     * @param  int     $length
-     * @param  boolean $append
-     * @return string
-     */
-    public static function getStringOmitted($str, $length, $append = true)
-    {
-        $str       = trim($str);
-        $strlength = strlen($str);
-
-        if ($length == 0 || $length >= $strlength) {
-            return $str;
-        } elseif ($length < 0) {
-            $length = $strlength + $length;
-
-            if ($length < 0) {
-                $length = $strlength;
-            }
-        }
-
-        if (function_exists('mb_substr')) {
-            $newstr = mb_substr($str, 0, $length, 'utf-8');
-        } elseif (function_exists('iconv_substr')) {
-            $newstr = iconv_substr($str, 0, $length, 'utf-8');
-        } else {
-            $newstr = substr($str, 0, $length);
-        }
-
-        if ($append && $str != $newstr) {
-            $newstr .= '...';
-        }
-
-        return $newstr;
-    }
-
     /**
      * Replace content of string according to given rules
      *
