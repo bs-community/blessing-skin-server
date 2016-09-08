@@ -25,7 +25,6 @@ class CheckAuthenticated
                 setcookie('token', '', time() - 3600, '/');
 
                 Session::flush();
-                Session::save();
 
                 throw new PrettyPageException('你已经被本站封禁啦，请联系管理员解决', 5);
             }

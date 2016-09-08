@@ -111,7 +111,6 @@ class UserController extends Controller
                     setcookie('token', '', time() - 3600, '/');
 
                     Session::flush();
-                    Session::save();
 
                     View::json('账号已被成功删除', 0);
                 }

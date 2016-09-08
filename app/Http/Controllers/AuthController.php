@@ -188,7 +188,6 @@ class AuthController extends Controller
         }
 
         Session::put('last_mail_time', time());
-        Session::save();
 
         View::json('邮件已发送，一小时内有效，请注意查收.', 0);
     }
