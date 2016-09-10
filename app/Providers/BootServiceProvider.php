@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use View;
 use Illuminate\Support\ServiceProvider;
 use App\Exceptions\PrettyPageException;
 
@@ -14,7 +15,8 @@ class BootServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \View::addExtension('tpl', 'blade');
+        View::addExtension('tpl', 'blade');
+
         $this->checkFileExists();
         $this->checkDbConfig();
         $this->checkInstallation();
@@ -47,7 +49,7 @@ class BootServiceProvider extends ServiceProvider
     protected function checkInstallation()
     {
         if (!$this->checkTableExist()) {
-            \Http::redirect(url('/setup/index.php'));
+            return redirect('/setup/index.php')->send();
         }
 
         if (!is_dir(BASE_DIR.'/storage/textures/')) {
@@ -56,7 +58,7 @@ class BootServiceProvider extends ServiceProvider
         }
 
         if (config('app.version') != \Option::get('version', '')) {
-            \Http::redirect(url('/setup/update.php'));
+            return redirect('/setup/update.php')->send();
         }
 
         return true;
