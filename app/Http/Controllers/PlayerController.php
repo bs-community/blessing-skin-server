@@ -113,12 +113,12 @@ class PlayerController extends Controller
             'tid' => 'required|integer'
         ]);
 
-        if (!($texture = Texture::find($tid)))
+        if (!($texture = Texture::find($request->tid)))
             return json('材质不存在', 6);
 
-        $field_name = "tid_".$texture->type;
+        $field_name = "tid_{$texture->type}";
 
-        $this->player->setTexture([$field_name => $tid]);
+        $this->player->setTexture([$field_name => $request->tid]);
 
         return json('材质已成功应用至角色 '.$this->player->player_name, 0);
     }
