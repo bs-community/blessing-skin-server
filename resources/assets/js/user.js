@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 10:02:24
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-10 17:07:55
+ * @Last Modified time: 2016-09-10 21:42:29
  */
 
 'use strict';
@@ -605,7 +605,7 @@ $('#version-select').change(showConfig);
 function sign() {
     $.ajax({
         type: "POST",
-        url: "./sign",
+        url: "./user/sign",
         dataType: "json",
         success: function(json) {
             if (json.errno == 0) {
