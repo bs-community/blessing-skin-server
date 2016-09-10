@@ -24,7 +24,7 @@
                     @elseif ($filter == "cape")
                         披风
                     @elseif ($filter == "user")
-                        用户（uid.{{ $_GET['uid'] or 0 }}）上传
+                        用户（{{ (new App\Models\User($_GET['uid']))->getNickName() }}）上传
                     @endif
                 </li>
                 <li class="active">
