@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-19 10:46:38
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-03 21:48:17
+ * @Last Modified time: 2016-09-10 17:07:04
  */
 
 'use strict';
@@ -36,7 +36,7 @@ $('#type-skin').on('ifToggled', function() {
 });
 
 function addToCloset(tid) {
-    $.getJSON('../skinlib/info/'+tid, function(json) {
+    $.getJSON('./info/'+tid, function(json) {
         swal({
             title: '给你的皮肤起个名字吧~',
             inputValue: json.name,
@@ -212,7 +212,7 @@ function upload() {
     } else {
         $.ajax({
             type: "POST",
-            url: "../skinlib/upload",
+            url: "./upload",
             contentType: false,
             dataType: "json",
             data: form_data,
@@ -264,7 +264,7 @@ function changeTextureName(tid) {
     }).then(function(new_name) {
         $.ajax({
             type: "POST",
-            url: "../skinlib/rename",
+            url: "./rename",
             dataType: "json",
             data: { 'tid': tid, 'new_name': new_name },
             success: function(json) {
@@ -295,7 +295,7 @@ $('.private-label').click(function() {
 function changePrivacy(tid) {
     $.ajax({
         type: "POST",
-        url: "../skinlib/privacy/" + tid,
+        url: "./privacy/" + tid,
         dataType: "json",
         success: function(json) {
             if (json.errno == 0) {
@@ -320,7 +320,7 @@ function deleteTexture(tid) {
     }).then(function() {
         $.ajax({
             type: "POST",
-            url: "../skinlib/delete",
+            url: "./delete",
             dataType: "json",
             data: { 'tid': tid },
             success: function(json) {

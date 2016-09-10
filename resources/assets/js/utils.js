@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 09:02:32
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-23 17:58:40
+ * @Last Modified time: 2016-09-10 17:10:08
  */
 
 function showModal(msg, title, type, callback) {
@@ -49,27 +49,29 @@ function logout(with_out_confirm, callback) {
             confirmButtonText: '确定',
             cancelButtonText: '取消'
         }).then(function() {
-            $.ajax({
-                type: "POST",
-                url: "../auth/logout",
-                dataType: "json",
-                success: function(json) {
-                    swal({
-                        type: 'success',
-                        html: json.msg
-                    });
-                    window.setTimeout('window.location = "../"', 1000);
-                }
+            do_logout(function(json) {
+                swal({
+                    type: 'success',
+                    html: json.msg
+                });
+                window.setTimeout('window.location = "../"', 1000);
             });
         });
     } else {
-        $.ajax({
-            type: "POST",
-            url: "../auth/logout",
-            dataType: "json",
-            success: function(json) {
-                if (callback) callback(json);
-            }
+        do_logout(function(json) {
+            if (callback) callback(json);
         });
     }
+}
+
+function do_logout(callback) {
+    $.ajax({
+        type: "POST",
+        url: "../auth/logout",
+        dataType: "json",
+        success: function(json) {
+            if (callback) callback(json);
+        },
+        error: showAjaxError
+    });
 }

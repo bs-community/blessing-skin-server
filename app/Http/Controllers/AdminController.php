@@ -260,7 +260,8 @@ class AdminController extends Controller
 
         } elseif ($action == "owner") {
             $this->validate($request, [
-                'tid'   => 'required|integer'
+                'pid'   => 'required|integer',
+                'uid'   => 'required|integer'
             ]);
 
             $user = new User($request->input('uid'));

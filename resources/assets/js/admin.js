@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-06 18:49:18
+ * @Last Modified time: 2016-09-10 17:04:04
  */
 
 'use strict';
@@ -23,7 +23,7 @@ $('#layout-skins-list [data-skin]').click(function(e) {
 $('#color-submit').click(function() {
     $.ajax({
         type: "POST",
-        url: "../admin/users?action=color",
+        url: "./users?action=color",
         dataType: "json",
         data: { "color_scheme": current_skin },
         success: function(json) {
@@ -56,7 +56,7 @@ function changeUserEmail(uid) {
 
     $.ajax({
         type: "POST",
-        url: "../admin/users?action=email",
+        url: "./users?action=email",
         dataType: "json",
         data: { 'uid': uid, 'email': email },
         success: function(json) {
@@ -78,7 +78,7 @@ function changeUserNickName(uid) {
 
     $.ajax({
         type: "POST",
-        url: "../admin/users?action=nickname",
+        url: "./users?action=nickname",
         dataType: "json",
         data: { 'uid': uid, 'nickname': nickname },
         success: function(json) {
@@ -100,7 +100,7 @@ function changeUserPwd(uid) {
 
     $.ajax({
         type: "POST",
-        url: "../admin/users?action=password",
+        url: "./users?action=password",
         dataType: "json",
         data: { 'uid': uid, 'password': password },
         success: function(json) {
@@ -116,7 +116,7 @@ function changeUserPwd(uid) {
 function changeUserScore(uid, score) {
     $.ajax({
         type: "POST",
-        url: "../admin/users?action=score",
+        url: "./users?action=score",
         dataType: "json",
         data: { 'uid': uid, 'score': score },
         success: function(json) {
@@ -134,7 +134,7 @@ function changeUserScore(uid, score) {
 function changeBanStatus(uid) {
     $.ajax({
         type: "POST",
-        url: "../admin/users?action=ban",
+        url: "./users?action=ban",
         dataType: "json",
         data: { 'uid': uid },
         success: function(json) {
@@ -157,7 +157,7 @@ function changeBanStatus(uid) {
 function changeAdminStatus(uid) {
     $.ajax({
         type: "POST",
-        url: "../admin/users?action=admin",
+        url: "./users?action=admin",
         dataType: "json",
         data: { 'uid': uid },
         success: function(json) {
@@ -182,7 +182,7 @@ function deleteUserAccount(uid) {
 
     $.ajax({
         type: "POST",
-        url: "../admin/users?action=delete",
+        url: "./users?action=delete",
         dataType: "json",
         data: { 'uid': uid },
         success: function(json) {
@@ -207,7 +207,7 @@ $('.score').on('keypress', function(event){
 $('body').on('change', '#preference', function() {
     $.ajax({
         type: "POST",
-        url: "../admin/players?action=preference",
+        url: "./players?action=preference",
         dataType: "json",
         data: { 'pid': $(this).parent().parent().attr('id'), 'preference': $(this).val() },
         success: function(json) {
@@ -252,7 +252,7 @@ function ajaxChangeTexture(pid) {
 
     $.ajax({
         type: "POST",
-        url: "../admin/players?action=texture",
+        url: "./players?action=texture",
         dataType: "json",
         data: { 'pid': pid, 'model': model, 'tid': tid },
         success: function(json) {
@@ -275,7 +275,7 @@ function changeOwner(pid) {
 
     $.ajax({
         type: "POST",
-        url: "../admin/players?action=owner",
+        url: "./players?action=owner",
         dataType: "json",
         data: { 'pid': pid, 'uid': uid },
         success: function(json) {
@@ -295,7 +295,7 @@ function deletePlayer(pid) {
 
     $.ajax({
         type: "POST",
-        url: "../admin/players?action=delete",
+        url: "./players?action=delete",
         dataType: "json",
         data: { 'pid': pid },
         success: function(json) {
