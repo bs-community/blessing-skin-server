@@ -26,6 +26,6 @@ class CachePlayerJson
             Storage::disk('cache')->put($filename, $player->generateJsonProfile($api_type));
         }
 
-        return \Storage::disk('cache')->get($filename);
+        return Storage::disk('cache')->get($filename);
     }
 }

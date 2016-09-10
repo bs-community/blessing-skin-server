@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use Storage;
 use App\Models\Texture;
 use App\Events\GetAvatarPreview;
 use Illuminate\Queue\InteractsWithQueue;
@@ -23,12 +24,12 @@ class CacheAvatarPreview
 
         $path = BASE_DIR."/storage/textures/$hash";
 
-        if (!\Storage::disk('cache')->has("avatar/$tid-$size")) {
+        if (!Storage::disk('cache')->has("avatar/$tid-$size")) {
             $png = \Minecraft::generateAvatarFromSkin($path, $event->size);
             imagepng($png, BASE_DIR."/storage/cache/avatar/$tid-$size");
             imagedestroy($png);
         }
 
-        return \Response::png(\Storage::disk('cache')->get("avatar/$tid-$size"));
+        return \Response::png(Storage::disk('cache')->get("avatar/$tid-$size"));
     }
 }
