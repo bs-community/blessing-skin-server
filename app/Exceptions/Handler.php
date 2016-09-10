@@ -55,6 +55,10 @@ class Handler extends ExceptionHandler
             exit;
         }
 
+        if ($e instanceof ValidationException) {
+            return $e->getResponse()->setStatusCode(200);
+        }
+
         if (config('app.debug')) {
             foreach ($this->dontReport as $type) {
                 if ($e instanceof $type) {
