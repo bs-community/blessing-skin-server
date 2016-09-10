@@ -2,10 +2,12 @@
  * @Author: printempw
  * @Date:   2016-07-19 10:46:38
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-10 17:07:04
+ * @Last Modified time: 2016-09-10 21:36:10
  */
 
 'use strict';
+
+var base_url = location.pathname.endsWith('skinlib') ? "." : "..";
 
 $(document).ready(function() {
     swal.setDefaults({
@@ -36,7 +38,7 @@ $('#type-skin').on('ifToggled', function() {
 });
 
 function addToCloset(tid) {
-    $.getJSON('./info/'+tid, function(json) {
+    $.getJSON(base_url + '/skinlib/info/'+tid, function(json) {
         swal({
             title: '给你的皮肤起个名字吧~',
             inputValue: json.name,
@@ -66,7 +68,7 @@ function ajaxAddToCloset(tid, name) {
 
     $.ajax({
         type: "POST",
-        url: "../user/closet/add",
+        url: base_url + "/user/closet/add",
         dataType: "json",
         data: { 'tid': tid, 'name': name },
         success: function(json) {
@@ -98,7 +100,7 @@ function removeFromCloset(tid) {
     }).then(function() {
         $.ajax({
             type: "POST",
-            url: "../user/closet/remove",
+            url: base_url + "/user/closet/remove",
             dataType: "json",
             data: { 'tid' : tid },
             success: function(json) {
