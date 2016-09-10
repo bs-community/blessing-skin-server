@@ -43,7 +43,7 @@
                 </div><!-- /.box-header -->
                 <div class="box-body">
                     @forelse ($textures as $texture)
-                    <a href="../skinlib/show?tid={{ $texture['tid'] }}">
+                    <a href="{{ url('skinlib/show?tid='.$texture['tid']) }}">
                         @include('skinlib.item')
                     </a>
                     @empty

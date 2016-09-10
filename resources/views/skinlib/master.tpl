@@ -35,8 +35,8 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="../skinlib">皮肤库</a></li>
-                            <li><a href="../user/closet">我的衣柜</a></li>
+                            <li class="active"><a href="{{ url('skinlib') }}">皮肤库</a></li>
+                            <li><a href="{{ url('user/closet') }}">我的衣柜</a></li>
                             @unless (isset($with_out_filter))
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -66,7 +66,7 @@
                             </li>
                             @endunless
                         </ul>
-                        <form class="navbar-form navbar-left" role="search" action="../skinlib/search">
+                        <form class="navbar-form navbar-left" role="search" action="{{ url('skinlib/search') }}">
                             <div class="form-group">
                                 <input type="text" class="form-control" id="navbar-search-input" name="q" placeholder="搜索材质" value="{{ $q or '' }}" />
                             </div>
@@ -95,7 +95,7 @@
                                         <!-- Menu Footer-->
                                         <li class="user-footer">
                                             <div class="pull-left">
-                                                <a href="../user" class="btn btn-default btn-flat">用户中心</a>
+                                                <a href="{{ url('user') }}" class="btn btn-default btn-flat">用户中心</a>
                                             </div>
                                             <div class="pull-right">
                                                 <a href="javascript:logout();" class="btn btn-default btn-flat">登出</a>
@@ -107,7 +107,7 @@
                                 <!-- User Account Menu -->
                                 <li class="dropdown user user-menu">
                                     <!-- Menu Toggle Button -->
-                                    <a href="../auth/login">
+                                    <a href="{{ url('auth/login') }}">
                                         <i class="fa fa-user"></i>
                                         <!-- hidden-xs hides the username on small devices so only the image appears. -->
                                         <span class="hidden-xs nickname">未登录</span>

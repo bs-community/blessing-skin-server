@@ -61,7 +61,7 @@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="../user/profile" class="btn btn-default btn-flat">我的资料</a>
+                                        <a href="{{ url('user/profile') }}" class="btn btn-default btn-flat">我的资料</a>
                                     </div>
                                     <div class="pull-right">
                                         <a href="javascript:logout();" class="btn btn-default btn-flat">登出</a>
@@ -97,13 +97,13 @@
 
                     @foreach ($menu['admin'] as $key => $value)
                     <li class="{{ ($__env->yieldContent('title') == $value['title']) ? 'active' : '' }}">
-                        <a href="{{ $value['link'] }}"><i class="fa {{ $value['icon'] }}"></i> <span>{{ $value['title'] }}</span></a>
+                        <a href="{{ url($value['link']) }}"><i class="fa {{ $value['icon'] }}"></i> <span>{{ $value['title'] }}</span></a>
                     </li>
                     @endforeach
 
                     @if ($user->is_admin)
                     <li class="header">返回</li>
-                    <li><a href="../user"><i class="fa fa-user"></i> <span>用户中心</span></a></li>
+                    <li><a href="{{ url('user') }}"><i class="fa fa-user"></i> <span>用户中心</span></a></li>
                     @endif
                 </ul><!-- /.sidebar-menu -->
             </section>
@@ -134,10 +134,11 @@
     @if (Option::get('check_update') == '1')
     <script>
         $(document).ready(function() {
-            $.getJSON('../admin/update?action=check', function(data) {
+            var url = "{{ url('admin/update') }}";
+            $.getJSON(url + '?action=check', function(data) {
                 if (data.new_version_available == true)
-                    $('[href="/admin/update"]').append('<span class="label label-primary pull-right">v'+data.latest_version+'</span>');
-            })
+                    $('[href="' + url + '"]').append('<span class="label label-primary pull-right">v'+data.latest_version+'</span>');
+            });
         });
     </script>
     @endif

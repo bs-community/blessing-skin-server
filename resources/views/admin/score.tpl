@@ -22,7 +22,7 @@
                     <div class="box-header with-border">
                         <h3 class="box-title">积分换算</h3>
                     </div><!-- /.box-header -->
-                    <form method="post" action="../admin/score">
+                    <form method="post">
                         <input type="hidden" name="option" value="rate">
                         <div class="box-body">
                             <?php
@@ -90,7 +90,7 @@
                     <div class="box-header with-border">
                         <h3 class="box-title">签到配置</h3>
                     </div><!-- /.box-header -->
-                    <form method="post" action="../admin/score">
+                    <form method="post">
                         <input type="hidden" name="option" value="sign">
                         <div class="box-body">
                             <?php

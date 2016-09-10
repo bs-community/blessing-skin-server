@@ -13,8 +13,8 @@
             <small>Closet</small>
         </h1>
         <div class="breadcrumb">
-            <a href="../skinlib/upload"><i class="fa fa-upload"></i> 上传材质</a>
-            <a href="../skinlib"><i class="fa fa-search"></i> 搜索材质</a>
+            <a href="{{ url('skinlib/upload') }}"><i class="fa fa-upload"></i> 上传材质</a>
+            <a href="{{ url('skinlib') }}"><i class="fa fa-search"></i> 搜索材质</a>
         </div>
     </section>
 
@@ -38,14 +38,14 @@
                         @forelse ($items as $item)
                         <div class="item" tid="{{ $item->tid }}">
                             <div class="item-body">
-                                <img src="../preview/{{ $item->tid }}.png">
+                                <img src="{{ url('preview/'.$item->tid) }}.png">
                             </div>
                             <div class="item-footer">
                                 <p class="texture-name">
                                     <span title="{{ $item->name }}">{{ $item->name }} <small>({{ $item->type }})</small></span>
                                 </p>
 
-                                <a href="../skinlib/show?tid={{ $item->tid }}" title="在皮肤库中查看" class="more" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-share"></i></a>
+                                <a href="{{ url('skinlib/show?tid='.$item->tid) }}" title="在皮肤库中查看" class="more" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-share"></i></a>
                                 <span title="更多" class="more" data-toggle="dropdown" aria-haspopup="true" id="share-button"><i class="fa fa-cog"></i></span>
 
                                 <ul class="dropdown-menu" aria-labelledby="share-button">
@@ -57,7 +57,7 @@
                         @empty
                         <div class="empty-msg">
                             <p>衣柜里啥都没有哦~</p>
-                            <p>去<a href="../skinlib">皮肤库</a>看看吧~</p>
+                            <p>去<a href="{{ url('skinlib') }}">皮肤库</a>看看吧~</p>
                         </div>
                         @endforelse
 
@@ -133,8 +133,8 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<script type="text/javascript" src="../assets/libs/skin-preview/three.min.js"></script>
-<script type="text/javascript" src="../assets/libs/skin-preview/three.msp.js"></script>
+<script type="text/javascript" src="{{ assets('libs/skin-preview/three.min.js') }}"></script>
+<script type="text/javascript" src="{{ assets('libs/skin-preview/three.msp.js') }}"></script>
 
 @endsection
 

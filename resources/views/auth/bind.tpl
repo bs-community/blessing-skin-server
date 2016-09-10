@@ -6,7 +6,7 @@
 
 <div class="login-box">
     <div class="login-logo">
-        <a href="../">{{ Option::get('site_name') }}</a>
+        <a href="{{ url('/') }}">{{ Option::get('site_name') }}</a>
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">

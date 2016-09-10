@@ -110,7 +110,7 @@
                     <div class="box-header with-border">
                         <h3 class="box-title">更新选项</h3>
                     </div><!-- /.box-header -->
-                    <form method="post" action="../admin/update">
+                    <form method="post">
                         <div class="box-body">
                             <?php
                             if (isset($_POST['submit'])) {

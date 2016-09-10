@@ -22,7 +22,7 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="info-box">
-                            <a href="../admin/users">
+                            <a href="{{ url('admin/users') }}">
                                 <span class="info-box-icon bg-aqua"><i class="fa fa-users"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">注册用户</span>
@@ -34,7 +34,7 @@
 
                     <div class="col-md-6">
                         <div class="info-box">
-                            <a href="../admin/players">
+                            <a href="{{ url('admin/players') }}">
                                 <div class="info-box-content" style="margin-left: 0;">
                                     <span class="info-box-text">角色总数</span>
                                     <span class="info-box-number">{{ App\Models\PlayerModel::all()->count() }}</span>

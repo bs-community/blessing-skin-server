@@ -15,6 +15,7 @@
             角色管理
             @endif
             <small>Player Management</small>
+            <!-- Search Form -->
             <form method="get" action="" class="user-search-form">
                 <input type="text" name="q" class="form-control user-search-input" placeholder="输入，回车搜索。" value="{{ $q }}">
                 <select name="filter" class="form-control pull-right user-search-input">
@@ -22,7 +23,6 @@
                     <option value='uid' selected="{{ $filter == 'nickname' ? 'selected' : '' }}">根据角色拥有者搜索</option>
                 </select>
             </form>
-
         </h1>
     </section>
 
@@ -59,24 +59,24 @@
                                 @if ($player->tid_steve == '0')
                                 <img id="{{ $player->pid }}-steve" width="64" />
                                 @else
-                                <a href="../skinlib/show?tid={{ $player->tid_steve }}">
-                                    <img id="{{ $player->pid }}-steve" width="64" src="../preview/64/{{ $player->tid_steve }}.png" />
+                                <a href="{{ url('skinlib/show?tid='.$player->tid_steve) }}">
+                                    <img id="{{ $player->pid }}-steve" width="64" src="{{ url('preview/64/'.$player->tid_steve) }}.png" />
                                 </a>
                                 @endif
 
                                 @if ($player->tid_alex == '0')
                                 <img id="{{ $player->pid }}-alex" width="64" />
                                 @else
-                                <a href="../skinlib/show?tid={{ $player->tid_alex }}">
-                                    <img id="{{ $player->pid }}-alex" width="64" src="../preview/64/{{ $player->tid_alex }}.png" />
+                                <a href="{{ url('skinlib/show?tid='.$player->tid_alex) }}">
+                                    <img id="{{ $player->pid }}-alex" width="64" src="{{ url('preview/64/'.$player->tid_alex) }}.png" />
                                 </a>
                                 @endif
 
                                 @if ($player->tid_cape == '0')
                                 <img id="{{ $player->pid }}-cape" width="64" />
                                 @else
-                                <a href="../skinlib/show?tid={{ $player->tid_cape }}">
-                                    <img id="{{ $player->pid }}-cape" width="64" src="../preview/64/{{ $player->tid_cape }}.png" />
+                                <a href="{{ url('skinlib/show?tid='.$player->tid_cape) }}">
+                                    <img id="{{ $player->pid }}-cape" width="64" src="{{ url('preview/64/'.$player->tid_cape) }}.png" />
                                 </a>
                                 @endif
                             </td>
@@ -144,24 +144,6 @@
 
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
-
-<div id="modal-change-texture" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">更改 Player 的材质</h4>
-            </div>
-            <div class="modal-body">
-
-            </div>
-            <div class="modal-footer">
-                <a href="./player" class="btn btn-default pull-left">添加角色</a>
-                <a href="javascript:setTexture();" class="btn btn-primary">提交</a>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
 
 @endsection
 

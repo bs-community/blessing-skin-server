@@ -59,7 +59,7 @@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="../user/profile" class="btn btn-default btn-flat">我的资料</a>
+                                        <a href="{{ url('user/profile') }}" class="btn btn-default btn-flat">我的资料</a>
                                     </div>
                                     <div class="pull-right">
                                         <a href="javascript:logout();" class="btn btn-default btn-flat">登出</a>
@@ -95,16 +95,16 @@
 
                     @foreach ($menu['user'] as $key => $value)
                     <li class="{{ ($__env->yieldContent('title') == $value['title']) ? 'active' : '' }}">
-                        <a href="{{ $value['link'] }}"><i class="fa {{ $value['icon'] }}"></i> <span>{{ $value['title'] }}</span></a>
+                        <a href="{{ url($value['link']) }}"><i class="fa {{ $value['icon'] }}"></i> <span>{{ $value['title'] }}</span></a>
                     </li>
                     @endforeach
 
                     <li class="header">浏览</li>
-                    <li><a href="../skinlib"><i class="fa fa-archive"></i> <span>皮肤库</span></a></li>
+                    <li><a href="{{ url('skinlib') }}"><i class="fa fa-archive"></i> <span>皮肤库</span></a></li>
 
                     @if ($user->is_admin)
                     <li class="header">管理</li>
-                    <li><a href="../admin"><i class="fa fa-cog"></i> <span>管理面板</span></a></li>
+                    <li><a href="{{ url('admin') }}"><i class="fa fa-cog"></i> <span>管理面板</span></a></li>
                     @endif
                 </ul><!-- /.sidebar-menu -->
             </section>

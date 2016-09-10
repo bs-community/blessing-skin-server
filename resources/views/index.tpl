@@ -31,14 +31,13 @@
                 <div class="container">
                     <div class="navbar-header">
                         <a href="{{ Option::get('site_url') }}" class="navbar-brand">{{ Option::get('site_name') }}</a>
-
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="./">首页</a></li>
-                            <li><a href="./skinlib">皮肤库</a></li>
+                            <li class="active"><a href="{{ url('/') }}">首页</a></li>
+                            <li><a href="{{ url('skinlib') }}">皮肤库</a></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
                     <!-- Navbar Right Menu -->
@@ -63,7 +62,7 @@
                                         <!-- Menu Footer-->
                                         <li class="user-footer">
                                             <div class="pull-left">
-                                                <a href="./user" class="btn btn-default btn-flat">用户中心</a>
+                                                <a href="{{ url('user') }}" class="btn btn-default btn-flat">用户中心</a>
                                             </div>
                                             <div class="pull-right">
                                                 <a href="javascript:logout();" class="btn btn-default btn-flat">登出</a>
@@ -74,7 +73,7 @@
                                 @else {{-- Anonymous User --}}
                                 <!-- User Account Menu -->
                                 <li class="dropdown user user-menu">
-                                    <a href="./auth/login" class="btn btn-login">登录</a>
+                                    <a href="{{ url('auth/login') }}" class="btn btn-login">登录</a>
                                 </li>
                                 @endif
                             </ul>
@@ -92,11 +91,11 @@
                         {{ Option::get('site_description') }}
                     </p>
                     <p>
-                    @if (is_null($user))
-                    <a href="./auth/register" class="button">现在注册</a>
-                    @else
-                    <a href="./user" class="button">用户中心</a>
-                    @endif
+                        @if (is_null($user))
+                        <a href="{{ url('auth/register') }}" class="button">现在注册</a>
+                        @else
+                        <a href="{{ url('user') }}" class="button">用户中心</a>
+                        @endif
                     </p>
                 </div>
             </div>

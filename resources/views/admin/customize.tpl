@@ -3,7 +3,7 @@
 @section('title', '个性化')
 
 @section('style')
-<link rel="stylesheet" href="../assets/libs/skins/_all-skins.min.css">
+<link rel="stylesheet" href="{{ assets('libs/skins/_all-skins.min.css') }}">
 @endsection
 
 @section('content')
@@ -94,7 +94,7 @@
                     <div class="box-header with-border">
                         <h3 class="box-title">首页配置</h3>
                     </div><!-- /.box-header -->
-                    <form method="post" action="../admin/customize">
+                    <form method="post">
                         <input type="hidden" name="option" value="adapter">
                         <div class="box-body">
                             <?php
@@ -146,7 +146,7 @@
                             <i class="fa fa-question-circle" title="字符串将不会被转义，请小心" data-toggle="tooltip" data-placement="bottom"></i>
                         </h3>
                     </div><!-- /.box-header -->
-                    <form method="post" action="../admin/customize">
+                    <form method="post">
                         <input type="hidden" name="option" value="adapter">
                         <div class="box-body">
                             <?php

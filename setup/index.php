@@ -4,7 +4,7 @@
  */
 
 require __DIR__."/bootstrap.php";
-throw new App\Exceptions\PrettyPageException('非法参数', 1, true);
+
 // If already installed
 if (checkTableExist()) {
     View::show('setup.locked');

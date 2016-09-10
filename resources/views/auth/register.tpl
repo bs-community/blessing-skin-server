@@ -6,7 +6,7 @@
 
 <div class="register-box">
     <div class="register-logo">
-        <a href="../">{{ Option::get('site_name') }}</a>
+        <a href="{{ url('/') }}">{{ Option::get('site_name') }}</a>
     </div>
 
     <div class="register-box-body">
@@ -39,7 +39,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <img class="pull-right captcha" src="./captcha" alt="CAPTCHA" title="点击以更换图片" data-placement="top" data-toggle="tooltip">
+                    <img class="pull-right captcha" src="{{ url('auth/captcha') }}" alt="CAPTCHA" title="点击以更换图片" data-placement="top" data-toggle="tooltip">
                 </div>
                 <!-- /.col -->
             </div>
@@ -48,7 +48,7 @@
 
             <div class="row">
                 <div class="col-xs-8">
-                    <a href="./login" class="text-center">已经有账号了？登录</a>
+                    <a href="{{ url('auth/login') }}" class="text-center">已经有账号了？登录</a>
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">

@@ -75,7 +75,7 @@
                                         <li><a href="javascript:changeUserNickName('{{ $user->uid }}');">修改昵称</a></li>
                                         <li><a href="javascript:changeUserPwd('{{ $user->uid }}');">更改密码</a></li>
                                         <li class="divider"></li>
-                                        <li><a href="../admin/players?filter=uid&q={{ $user->uid }}">查看该用户拥有的角色</a></li>
+                                        <li><a href="{{ url('admin/players?filter=uid&q='.$user->uid) }}">查看该用户拥有的角色</a></li>
                                         <li class="divider"></li>
 
                                         {{-- If current user is super admin --}}
