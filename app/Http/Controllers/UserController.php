@@ -33,14 +33,14 @@ class UserController extends Controller
     public function sign()
     {
         if ($aquired_score = $this->user->sign()) {
-            View::json([
+            return json([
                 'errno'          => 0,
                 'msg'            => "签到成功，获得了 $aquired_score 积分~",
                 'score'          => $this->user->getScore(),
                 'remaining_time' => $this->user->canSign(true)
             ]);
         } else {
-            View::json($this->user->canSign(true).' 小时后才能再次签到哦~', 1);
+            return json($this->user->canSign(true).' 小时后才能再次签到哦~', 1);
         }
     }
 
@@ -66,7 +66,7 @@ class UserController extends Controller
                 $nickname = $request->input('new_nickname');
 
                 if ($this->user->setNickName($nickname))
-                    View::json("昵称已成功设置为 $nickname", 0);
+                    return json("昵称已成功设置为 $nickname", 0);
 
                 break;
 
@@ -77,10 +77,10 @@ class UserController extends Controller
                 ]);
 
                 if (!$this->user->checkPasswd($request->input('current_password')))
-                    View::json('原密码错误', 1);
+                    return json('原密码错误', 1);
 
                 if ($this->user->changePasswd($request->input('new_password')))
-                    View::json('密码修改成功，请重新登录', 0);
+                    return json('密码修改成功，请重新登录', 0);
 
                 break;
 
@@ -91,10 +91,10 @@ class UserController extends Controller
                 ]);
 
                 if (!$this->user->checkPasswd($request->input('password')))
-                    View::json('密码错误', 1);
+                    return json('密码错误', 1);
 
                 if ($this->user->setEmail($request->input('new_email')))
-                    View::json('邮箱修改成功，请重新登录', 0);
+                    return json('邮箱修改成功，请重新登录', 0);
 
                 break;
 
@@ -104,7 +104,7 @@ class UserController extends Controller
                 ]);
 
                 if (!$this->user->checkPasswd($request->input('password')))
-                    View::json('密码错误', 1);
+                    return json('密码错误', 1);
 
                 if ($this->user->delete()) {
                     setcookie('uid',   '', time() - 3600, '/');
@@ -112,13 +112,13 @@ class UserController extends Controller
 
                     Session::flush();
 
-                    View::json('账号已被成功删除', 0);
+                    return json('账号已被成功删除', 0);
                 }
 
                 break;
 
             default:
-                View::json('非法参数', 1);
+                return json('非法参数', 1);
                 break;
         }
 
@@ -144,13 +144,13 @@ class UserController extends Controller
 
         if ($result) {
             if ($result->type == "cape")
-                View::json('披风可不能设置为头像哦~', 1);
+                return json('披风可不能设置为头像哦~', 1);
 
             if ($this->user->setAvatar($request->input('tid'))) {
-                View::json('设置成功！', 0);
+                return json('设置成功！', 0);
             }
         } else {
-            View::json('材质不存在。', 1);
+            return json('材质不存在。', 1);
         }
     }
 

@@ -57,3 +57,21 @@ if (! function_exists('assets')) {
         return url("assets/$relative_uri")."?v=".config('app.version');
     }
 }
+
+if (! function_exists('json')) {
+
+    function json()
+    {
+        @header('Content-type: application/json; charset=utf-8');
+        $args = func_get_args();
+
+        if (count($args) == 1 && is_array($args[0])) {
+            return Response::json($args[0]);
+        } elseif(count($args) == 2) {
+            return Response::json([
+                'errno' => $args[1],
+                'msg'   => $args[0]
+            ]);
+        }
+    }
+}

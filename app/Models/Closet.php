@@ -94,7 +94,7 @@ class Closet
     {
         foreach ($this->textures as $item) {
             if ($item['tid'] == $tid)
-                View::json('你已经收藏过这个材质啦', 1);
+                return false;
         }
 
         $this->textures[] = array(
@@ -138,7 +138,7 @@ class Closet
             $offset++;
         }
 
-        View::json('The texture is not in the closet.', 1);
+        return false;
     }
 
     private function checkTextureExist($tid)

@@ -82,6 +82,11 @@ return [
 
     'username'             => ':attribute format is invalid.',
     'nickname'             => ':attribute format is invalid.',
+    'playername'           => 'The :attribute may only contain letters, numbers and dashes.',
+    'pname_chinese'        => 'The :attribute may only contain letters, numbers, dashes and chinese characters.',
+    'no_special_chars'     => 'The :attribute must not contain special characters.',
+    'preference'           => 'The :attribute must be default or slim.',
+    'model'                => 'The :attribute must be steve, alex or cape.',
 
     /*
     |--------------------------------------------------------------------------
@@ -111,6 +116,8 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'player_name' => 'Player Name'
+    ],
 
 ];

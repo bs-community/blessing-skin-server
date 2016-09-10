@@ -44,7 +44,7 @@ class ClosetController extends Controller
 
     public function info()
     {
-        View::json($this->closet->getItems());
+        return json($this->closet->getItems());
     }
 
     public function add(Request $request)
@@ -59,7 +59,9 @@ class ClosetController extends Controller
             $t->likes += 1;
             $t->save();
 
-            View::json('材质 '.$request->input('name').' 收藏成功~', 0);
+            return json('材质 '.$request->input('name').' 收藏成功~', 0);
+        } else {
+            return json('你已经收藏过这个材质啦', 1);
         }
     }
 
@@ -74,7 +76,9 @@ class ClosetController extends Controller
             $t->likes = $t->likes - 1;
             $t->save();
 
-            View::json('材质已从衣柜中移除', 0);
+            return json('材质已从衣柜中移除', 0);
+        } else {
+            return json('衣柜中不存在此材质', 0);
         }
     }
 

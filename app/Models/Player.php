@@ -77,14 +77,14 @@ class Player
 
     public function setTexture(Array $tids)
     {
-        if (!isset($tids['tid_steve']) && !isset($tids['tid_alex']) && !isset($tids['tid_cape']))
-        {
-            View::json('非法参数', 1);
-        }
+        $map = ['steve', 'alex', 'cape'];
 
-        $this->model->tid_steve = isset($tids['tid_steve']) ? $tids['tid_steve'] : $this->model['tid_steve'];
-        $this->model->tid_alex  = isset($tids['tid_alex'])  ? $tids['tid_alex']  : $this->model['tid_alex'];
-        $this->model->tid_cape  = isset($tids['tid_cape'])  ? $tids['tid_cape']  : $this->model['tid_cape'];
+        foreach ($map as $model) {
+            $property = "tid_$model";
+            if (isset($tids[$property])) {
+                $this->model->$property = $tids[$property];
+            }
+        }
 
         $this->model->last_modified = Utils::getTimeFormatted();
 

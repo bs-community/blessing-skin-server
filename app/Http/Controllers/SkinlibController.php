@@ -119,7 +119,7 @@ class SkinlibController extends Controller
 
     public function info($tid)
     {
-        View::json(Texture::find($tid)->toArray());
+        return json(Texture::find($tid)->toArray());
     }
 
     public function upload()
@@ -144,14 +144,14 @@ class SkinlibController extends Controller
         $cost = $t->size * (($t->public == "1") ? Option::get('score_per_storage') : Option::get('private_score_per_storage'));
 
         if ($this->user->getScore() < $cost)
-            View::json('积分不够啦', 7);
+            return json('积分不够啦', 7);
 
         $results = Texture::where('hash', $t->hash)->get();
 
         if (!$results->isEmpty()) {
             foreach ($results as $result) {
                 if ($result->type == $t->type) {
-                    View::json([
+                    return json([
                         'errno' => 0,
                         'msg' => '已经有人上传过这个材质了，直接添加到衣柜使用吧~',
                         'tid' => $result->tid
@@ -165,7 +165,7 @@ class SkinlibController extends Controller
         $this->user->setScore($cost, 'minus');
 
         if ($this->user->closet->add($t->tid, $t->name)) {
-            View::json([
+            return json([
                 'errno' => 0,
                 'msg'   => '材质 '.$request->input('name').' 上传成功',
                 'tid'   => $t->tid
@@ -178,10 +178,10 @@ class SkinlibController extends Controller
         $result = Texture::find($request->tid);
 
         if (!$result)
-            View::json('材质不存在', 1);
+            return json('材质不存在', 1);
 
         if ($result->uploader != $this->user->uid && !$this->user->is_admin)
-            View::json('你不是这个材质的上传者哦', 1);
+            return json('你不是这个材质的上传者哦', 1);
 
         // check if file occupied
         if (Texture::where('hash', $result['hash'])->count() == 1)
@@ -190,7 +190,7 @@ class SkinlibController extends Controller
         $this->user->setScore($result->size * Option::get('score_per_storage'), 'plus');
 
         if ($result->delete())
-            View::json('材质已被成功删除', 0);
+            return json('材质已被成功删除', 0);
     }
 
     public function privacy($tid, Request $request)
@@ -198,13 +198,13 @@ class SkinlibController extends Controller
         $t = Texture::find($request->tid);
 
         if (!$t)
-            View::json('材质不存在', 1);
+            return json('材质不存在', 1);
 
         if ($t->uploader != $this->user->uid && !$this->user->is_admin)
-            View::json('你不是这个材质的上传者哦', 1);
+            return json('你不是这个材质的上传者哦', 1);
 
         if ($t->setPrivacy(!$t->public)) {
-            View::json([
+            return json([
                 'errno'  => 0,
                 'msg'    => '材质已被设为'.($t->public == "0" ? "隐私" : "公开"),
                 'public' => $t->public
@@ -221,15 +221,15 @@ class SkinlibController extends Controller
         $t = Texture::find($request->input('tid'));
 
         if (!$t)
-            View::json('材质不存在', 1);
+            return json('材质不存在', 1);
 
         if ($t->uploader != $this->user->uid && !$this->user->is_admin)
-            View::json('你不是这个材质的上传者哦', 1);
+            return json('你不是这个材质的上传者哦', 1);
 
         $t->name = $request->input('new_name');
 
         if ($t->save()) {
-            View::json('材质名称已被成功设置为'.$request->input('new_name'), 0);
+            return json('材质名称已被成功设置为'.$request->input('new_name'), 0);
         }
     }
 
@@ -249,7 +249,7 @@ class SkinlibController extends Controller
 
         // if error occured while uploading file
         if ($_FILES['file']["error"] > 0)
-            View::json($_FILES['file']["error"], 1);
+            return json($_FILES['file']["error"], 1);
 
         $type  = $request->input('type');
         $size  = getimagesize($_FILES['file']["tmp_name"]);
@@ -257,12 +257,12 @@ class SkinlibController extends Controller
 
         if ($type == "steve" || $type == "alex") {
             if ($ratio != 2 && $ratio != 1)
-                View::json("不是有效的皮肤文件（宽 {$size[0]}，高 {$size[1]}）", 1);
+                return json("不是有效的皮肤文件（宽 {$size[0]}，高 {$size[1]}）", 1);
         } elseif ($type == "cape") {
             if ($ratio != 2)
-                View::json("不是有效的披风文件（宽 {$size[0]}，高 {$size[1]}）", 1);
+                return json("不是有效的披风文件（宽 {$size[0]}，高 {$size[1]}）", 1);
         } else {
-            View::json('非法参数', 1);
+            return json('非法参数', 1);
         }
     }
 
