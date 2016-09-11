@@ -1,11 +1,41 @@
 login:
   login: Log In
-  message: Login in to manage your skin & players
-  identification: Email or Player Name
-  password: Password
-  captcha: Enter the CAPTCHA
-  change-captcha: Click to change another image.
+  message: Log in to manage your skin & players
   keep: Remember me
 
-  forgot-link: Forgot your password?
-  register-link: Register a new account
+register:
+  register: Register
+  message: Welcome to :sitename
+  nickname-intro: Whatever you like expect special characters
+  repeat-pwd: Repeat your password
+
+forgot:
+  forgot: Reset Password
+  message: We will send you an E-mail to verify
+  send: Send
+  login-link: I do remember it
+
+mail:
+  message: You are receiving this email because this email address was used to reset your password on :sitename
+  ignore: If you haven't signed up on our site, please ignore this email. No unsubscribing is required.
+  reset: Reset your password
+  notice: This mail is sending automatically, no reponses will be sent if you reply.
+
+reset:
+  reset: Reset
+  message: :username, reset your email address here
+
+bind:
+  bind: Bind
+  message: You need to fill your email adderss to continue
+  introduction: Email addresses will be used for password resetting. We won't send you any spam.
+
+nickname: Nickname
+email: Email Address
+identification: Email or Player Name
+password: Password
+captcha: Enter the CAPTCHA
+change-captcha: Click to change another image.
+login-link: Already have an account?
+forgot-link: Forgot your password?
+register-link: Register a new account

@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-17 10:54:22
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-05 22:24:33
+ * @Last Modified time: 2016-09-11 15:26:09
  */
 
 'use strict';
@@ -230,7 +230,7 @@ $('#reset-button').click(function() {
             success: function(json) {
                 if (json.errno == 0) {
                     swal({
-                        type: '重置成功，请重新登录~',
+                        type: 'success',
                         html: json.msg
                     }).then(function() {
                         window.location = "./login";

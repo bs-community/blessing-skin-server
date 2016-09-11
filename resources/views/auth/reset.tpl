@@ -1,6 +1,6 @@
 @extends('auth.master')
 
-@section('title', '重置密码')
+@section('title', trans('auth.forgot.reset'))
 
 @section('content')
 
@@ -10,17 +10,17 @@
     </div>
 
     <div class="login-box-body">
-        <p class="login-box-msg">{{ $user->getNickName() }}，在这重置你的密码</p>
+        <p class="login-box-msg">{{ trans('auth.reset.message', ['username' => $user->getNickName()]) }}</p>
 
         <form id="login-form">
             <input id="uid" type="hidden" value="{{ $user->uid }}" />
 
             <div class="form-group has-feedback">
-                <input id="password" type="password" class="form-control" placeholder="密码">
+                <input id="password" type="password" class="form-control" placeholder="{{ trans('auth.password') }}">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input id="confirm-pwd" type="password" class="form-control" placeholder="重复一遍密码">
+                <input id="confirm-pwd" type="password" class="form-control" placeholder="{{ trans('auth.register.repeat-pwd') }}">
                 <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
             </div>
 
@@ -31,7 +31,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <button id="reset-button" class="btn btn-primary btn-block btn-flat">重置</button>
+                    <button id="reset-button" class="btn btn-primary btn-block btn-flat">{{ trans('auth.reset.reset') }}</button>
                 </div>
                 <!-- /.col -->
             </div>

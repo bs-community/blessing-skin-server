@@ -1,6 +1,6 @@
 @extends('auth.master')
 
-@section('title', '找回密码')
+@section('title', trans('auth.forgot.forgot'))
 
 @section('content')
 
@@ -10,23 +10,23 @@
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
-        <p class="login-box-msg">我们将会给您发送一封密码重置邮件</p>
+        <p class="login-box-msg">{{ trans('auth.forgot.message') }}</p>
 
         <form id="login-form">
             <div class="form-group has-feedback">
-                <input id="email" type="email" class="form-control" placeholder="Email">
+                <input id="email" type="email" class="form-control" placeholder="{{ trans('auth.email') }}">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
 
             <div class="row" id="captcha-form">
                 <div class="col-xs-8">
                     <div class="form-group has-feedback">
-                        <input id="captcha" type="text" class="form-control" placeholder="输入验证码">
+                        <input id="captcha" type="text" class="form-control" placeholder="{{ trans('auth.captcha') }}">
                     </div>
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <img class="pull-right captcha" src="{{ url('auth/captcha') }}" alt="CAPTCHA" title="点击以更换图片" data-placement="top" data-toggle="tooltip">
+                    <img class="pull-right captcha" src="{{ url('auth/captcha') }}" alt="CAPTCHA" title="{{ trans('auth.change-captcha') }}" data-placement="top" data-toggle="tooltip">
                 </div>
                 <!-- /.col -->
             </div>
@@ -35,11 +35,11 @@
 
             <div class="row">
                 <div class="col-xs-8">
-                    <a href="{{ url('auth/login') }}" class="text-center">我又想起来了</a>
+                    <a href="{{ url('auth/login') }}" class="text-center">{{ trans('auth.forgot.login-link') }}</a>
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <button id="forgot-button" class="btn btn-primary btn-block btn-flat">发送</button>
+                    <button id="forgot-button" class="btn btn-primary btn-block btn-flat">{{ trans('auth.forgot.send') }}</button>
                 </div>
                 <!-- /.col -->
             </div>
