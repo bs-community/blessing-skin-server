@@ -1,0 +1,11 @@
+login:
+  login: Log In
+  message: Login in to manage your skin & players
+  identification: Email or Player Name
+  password: Password
+  captcha: Enter the CAPTCHA
+  change-captcha: Click to change another image.
+  keep: Remember me
+
+  forgot-link: Forgot your password?
+  register-link: Register a new account

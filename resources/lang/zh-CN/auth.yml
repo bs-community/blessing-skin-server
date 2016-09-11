@@ -1,0 +1,11 @@
+login:
+  login: 登录
+  message: 登录以管理您的角色及皮肤
+  identification: 邮箱或角色名
+  password: 密码
+  captcha: 输入验证码
+  change-captcha: 点击以更换图片
+  keep: 保持登录状态
+
+  forgot-link: 忘记密码了？
+  register-link: 注册新账号

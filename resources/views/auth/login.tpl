@@ -1,6 +1,6 @@
 @extends('auth.master')
 
-@section('title', '登录')
+@section('title', trans('auth.login.login'))
 
 @section('content')
 
@@ -10,27 +10,27 @@
     </div>
     <!-- /.login-logo -->
     <div class="login-box-body">
-        <p class="login-box-msg">登录以管理您的角色及皮肤</p>
+        <p class="login-box-msg">{{ trans('auth.login.message') }}</p>
 
         <form id="login-form">
             <div class="form-group has-feedback">
-                <input id="email_or_username" type="email" class="form-control" placeholder="邮箱或角色名">
+                <input id="email_or_username" type="email" class="form-control" placeholder="{{ trans('auth.login.identification') }}">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input id="password"type="password" class="form-control" placeholder="密码">
+                <input id="password"type="password" class="form-control" placeholder="{{ trans('auth.login.password') }}">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
 
             <div class="row" id="captcha-form" style="{{ (session('login_fails') > 3) ? '' : 'display: none;' }}">
                 <div class="col-xs-8">
                     <div class="form-group has-feedback">
-                        <input id="captcha" type="text" class="form-control" placeholder="输入验证码">
+                        <input id="captcha" type="text" class="form-control" placeholder="{{ trans('auth.login.captcha') }}">
                     </div>
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <img class="pull-right captcha" src="{{ url('auth/captcha') }}" alt="CAPTCHA" title="点击以更换图片" data-placement="top" data-toggle="tooltip">
+                    <img class="pull-right captcha" src="{{ url('auth/captcha') }}" alt="CAPTCHA" title="{{ trans('auth.login.change-captcha') }}" data-placement="top" data-toggle="tooltip">
                 </div>
                 <!-- /.col -->
             </div>
@@ -41,20 +41,20 @@
                 <div class="col-xs-8">
                     <div class="checkbox icheck">
                         <label for="keep">
-                            <input id="keep" type="checkbox"> 保持登录状态
+                            <input id="keep" type="checkbox"> {{ trans('auth.login.keep') }}
                         </label>
                     </div>
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <button id="login-button" class="btn btn-primary btn-block btn-flat">登录</button>
+                    <button id="login-button" class="btn btn-primary btn-block btn-flat">{{ trans('auth.login.login') }}</button>
                 </div>
                 <!-- /.col -->
             </div>
         </form>
 
-        <a href="{{ url('auth/forgot') }}">忘记密码了？</a><br>
-        <a href="{{ url('auth/register') }}" class="text-center">注册新账号</a>
+        <a href="{{ url('auth/forgot') }}">{{ trans('auth.login.forgot-link') }}</a><br>
+        <a href="{{ url('auth/register') }}" class="text-center">{{ trans('auth.login.register-link') }}</a>
 
     </div>
     <!-- /.login-box-body -->
