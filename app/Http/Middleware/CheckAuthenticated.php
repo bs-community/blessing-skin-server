@@ -39,15 +39,17 @@ class CheckAuthenticated
                             Session::put('token', $user->getToken(true));
                             setcookie('token', session('token'), time() + 3600, '/');
 
-                            return $user;
+                            return $next($request);
                         } else {
-                            return View::make('auth.bind')->with('msg', '该邮箱已被占用');
+                            echo View::make('auth.bind')->with('msg', '该邮箱已被占用');
                         }
                     } else {
-                        return View::make('auth.bind')->with('msg', '邮箱格式错误');
+                        echo View::make('auth.bind')->with('msg', '邮箱格式错误');
                     }
+                    exit;
                 }
-                return view('auth.bind');
+                View::show('auth.bind');
+                exit;
             }
 
             if ($return_user)
