@@ -9,7 +9,7 @@
     <!-- App Styles -->
     <link rel="stylesheet" href="{{ assets('css/app.min.css') }}">
 
-    <link rel="stylesheet" href="{{ assets('libs/skins/'.Option::get('color_scheme').'.min.css') }}">
+    <link rel="stylesheet" href="{{ assets('vendor/skins/'.Option::get('color_scheme').'.min.css') }}">
 
     <link rel="stylesheet" href="{{ assets('css/auth.css') }}">
 

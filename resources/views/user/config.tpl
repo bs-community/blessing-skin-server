@@ -3,7 +3,7 @@
 @section('title', '配置生成')
 
 @section('style')
-<link rel="stylesheet" href="{{ assets('libs/highlight/styles/arduino-light.css') }}">
+<link rel="stylesheet" href="{{ assets('vendor/highlight/styles/arduino-light.css') }}">
 <style> pre { border: 0; } td[class='key'], td[class='value'] { border-top: 0 !important; } </style>
 @endsection
 
@@ -133,7 +133,7 @@ Cape: http://skins.minecraft.net/MinecraftCloaks/%s.png
 @endsection
 
 @section('script')
-<script type="text/javascript" src="{{ assets('/libs/highlight/highlight.min.js') }}"></script>
+<script type="text/javascript" src="{{ assets('vendor/highlight/highlight.min.js') }}"></script>
 <script>
     $(document).ready(function() {
         $('pre').each(function(i, block) {

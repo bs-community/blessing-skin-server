@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 if (! function_exists('get_real_ip')) {
 
     function get_real_ip()
@@ -54,7 +56,11 @@ if (! function_exists('assets')) {
     function assets($relative_uri)
     {
         // add query string to fresh cache
-        return url("assets/$relative_uri")."?v=".config('app.version');
+        if (Str::startsWith($relative_uri, 'css') || Str::startsWith($relative_uri, 'js')) {
+            return url("resources/dist/$relative_uri")."?v=".config('app.version');
+        } else {
+            return url("resources/$relative_uri");
+        }
     }
 }
 

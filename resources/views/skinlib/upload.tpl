@@ -106,8 +106,8 @@ label[for="type-cape"] {
     </div><!-- /.container -->
 </div><!-- /.content-wrapper -->
 
-<script type="text/javascript" src="{{ assets('libs/skin-preview/three.min.js') }}"></script>
-<script type="text/javascript" src="{{ assets('libs/skin-preview/three.msp.js') }}"></script>
+<script type="text/javascript" src="{{ assets('vendor/skin-preview/three.min.js') }}"></script>
+<script type="text/javascript" src="{{ assets('vendor/skin-preview/three.msp.js') }}"></script>
 @endsection
 
 @section('script')

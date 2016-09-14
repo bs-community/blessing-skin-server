@@ -3,7 +3,7 @@
 @section('title', '个性化')
 
 @section('style')
-<link rel="stylesheet" href="{{ assets('libs/skins/_all-skins.min.css') }}">
+<link rel="stylesheet" href="{{ assets('vendor/skins/_all-skins.min.css') }}">
 @endsection
 
 @section('content')

@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-09-03 21:38:43
+* @Last Modified time: 2016-09-14 22:36:51
 */
 
 var gulp     = require('gulp'),
@@ -15,58 +15,60 @@ var gulp     = require('gulp'),
 
 require('laravel-elixir-replace');
 
+var path = require('path');
 var version  = require('./package.json').version;
 
 var vendor_js = [
-    'resources/assets/bower_components/jquery/dist/jquery.min.js',
-    'resources/assets/bower_components/bootstrap/dist/js/bootstrap.min.js',
-    'resources/assets/bower_components/AdminLTE/dist/js/app.min.js',
-    'resources/assets/bower_components/bootstrap-fileinput/js/fileinput.min.js',
-    'resources/assets/bower_components/bootstrap-fileinput/js/locales/zh.js',
-    'resources/assets/bower_components/iCheck/icheck.min.js',
-    'resources/assets/bower_components/toastr/toastr.min.js',
-    'resources/assets/bower_components/sweetalert2/dist/sweetalert2.min.js',
-    'resources/assets/bower_components/es6-promise/es6-promise.min.js'
+    'resources/src/bower_components/jquery/dist/jquery.min.js',
+    'resources/src/bower_components/bootstrap/dist/js/bootstrap.min.js',
+    'resources/src/bower_components/AdminLTE/dist/js/app.min.js',
+    'resources/src/bower_components/bootstrap-fileinput/js/fileinput.min.js',
+    'resources/src/bower_components/bootstrap-fileinput/js/locales/zh.js',
+    'resources/src/bower_components/iCheck/icheck.min.js',
+    'resources/src/bower_components/toastr/toastr.min.js',
+    'resources/src/bower_components/sweetalert2/dist/sweetalert2.min.js',
+    'resources/src/bower_components/es6-promise/es6-promise.min.js'
 ];
 
 var vendor_css = [
-    'resources/assets/bower_components/bootstrap/dist/css/bootstrap.min.css',
-    'resources/assets/bower_components/AdminLTE/dist/css/AdminLTE.min.css',
-    'resources/assets/bower_components/bootstrap-fileinput/css/fileinput.min.css',
-    'resources/assets/bower_components/font-awesome/css/font-awesome.min.css',
-    'resources/assets/bower_components/iCheck/skins/square/blue.css',
-    'resources/assets/bower_components/toastr/toastr.min.css',
-    'resources/assets/bower_components/sweetalert2/dist/sweetalert2.min.css'
+    'resources/src/bower_components/bootstrap/dist/css/bootstrap.min.css',
+    'resources/src/bower_components/AdminLTE/dist/css/AdminLTE.min.css',
+    'resources/src/bower_components/bootstrap-fileinput/css/fileinput.min.css',
+    'resources/src/bower_components/font-awesome/css/font-awesome.min.css',
+    'resources/src/bower_components/iCheck/skins/square/blue.css',
+    'resources/src/bower_components/toastr/toastr.min.css',
+    'resources/src/bower_components/sweetalert2/dist/sweetalert2.min.css'
 ];
 
 var replacements = [
     ['@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic);', ''],
-    ['blue.png', '"../images/blue.png"'],
-    ['blue@2x.png', '"../images/blue@2x.png"'],
-    ['../img/loading.gif', '"../images/loading.gif"'],
-    ['../img/loading-sm.gif', '"../images/loading-sm.gif"']
+    ['../fonts/fontawesome', '../../fonts/fontawesome'],
+    ['blue.png', '"../../images/blue.png"'],
+    ['blue@2x.png', '"../../images/blue@2x.png"'],
+    ['../img/loading.gif', '"../../images/loading.gif"'],
+    ['../img/loading-sm.gif', '"../../images/loading-sm.gif"']
 ];
 
 elixir(function(mix) {
     mix
         .scripts(vendor_js.concat([
             'resources/assets/js/utils.js'
-        ]), 'assets/js/app.min.js', './')
+        ]), 'resources/dist/js/app.min.js', './')
 
-        .styles(vendor_css, 'assets/css/app.min.css', './')
-        .replace('assets/css/app.min.css', replacements)
+        .styles(vendor_css, 'resources/dist/css/app.min.css', './')
+        .replace('resources/dist/css/app.min.css', replacements)
 
         // copy fonts & images
         .copy([
-            'resources/assets/bower_components/bootstrap/dist/fonts/**',
-            'resources/assets/bower_components/font-awesome/fonts/**'
-        ], 'assets/fonts/')
+            'resources/src/bower_components/bootstrap/dist/fonts/**',
+            'resources/src/bower_components/font-awesome/fonts/**'
+        ], 'resources/fonts/')
         .copy([
-            'resources/assets/bower_components/iCheck/skins/square/blue.png',
-            'resources/assets/bower_components/iCheck/skins/square/blue@2x.png',
-            'resources/assets/bower_components/bootstrap-fileinput/img/loading.gif',
-            'resources/assets/bower_components/bootstrap-fileinput/img/loading-sm.gif'
-        ], 'assets/images/')
+            'resources/src/bower_components/iCheck/skins/square/blue.png',
+            'resources/src/bower_components/iCheck/skins/square/blue@2x.png',
+            'resources/src/bower_components/bootstrap-fileinput/img/loading.gif',
+            'resources/src/bower_components/bootstrap-fileinput/img/loading-sm.gif'
+        ], 'resources/images/')
 
         .task('sass')
         .task('uglify');
@@ -74,16 +76,16 @@ elixir(function(mix) {
 
 // compile sass
 gulp.task('sass', function () {
-    gulp.src('resources/assets/sass/*.scss')
+    gulp.src('resources/src/sass/*.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(cleanCss())
-        .pipe(gulp.dest('./assets/css'));
+        .pipe(gulp.dest('./resources/dist/css'));
 });
 
 gulp.task('uglify', function() {
-    gulp.src('resources/assets/js/*.js')
+    gulp.src('resources/src/js/*.js')
         .pipe(uglify())
-        .pipe(gulp.dest('./assets/js'));
+        .pipe(gulp.dest('./resources/dist/js'));
 });
 
 // release
