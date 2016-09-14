@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-09-14 22:36:51
+* @Last Modified time: 2016-09-14 22:55:22
 */
 
 var gulp     = require('gulp'),
@@ -15,7 +15,6 @@ var gulp     = require('gulp'),
 
 require('laravel-elixir-replace');
 
-var path = require('path');
 var version  = require('./package.json').version;
 
 var vendor_js = [
@@ -42,6 +41,7 @@ var vendor_css = [
 
 var replacements = [
     ['@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic);', ''],
+    ['../fonts/glyphicons', '../../fonts/glyphicons'],
     ['../fonts/fontawesome', '../../fonts/fontawesome'],
     ['blue.png', '"../../images/blue.png"'],
     ['blue@2x.png', '"../../images/blue@2x.png"'],
@@ -52,7 +52,7 @@ var replacements = [
 elixir(function(mix) {
     mix
         .scripts(vendor_js.concat([
-            'resources/assets/js/utils.js'
+            'resources/src/js/utils.js'
         ]), 'resources/dist/js/app.min.js', './')
 
         .styles(vendor_css, 'resources/dist/css/app.min.css', './')
