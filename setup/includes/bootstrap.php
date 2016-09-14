@@ -6,6 +6,9 @@
 // Define Base Directory
 define('BASE_DIR', dirname(dirname(__DIR__)));
 
+// Set Display Errors
+ini_set('display_errors', 'on');
+
 // Register Composer Auto Loader
 require BASE_DIR.'/vendor/autoload.php';
 
