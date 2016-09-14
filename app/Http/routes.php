@@ -14,6 +14,13 @@
 Route::get('/',                          'HomeController@index');
 Route::get('/index.php',                 'HomeController@index');
 
+Route::get('/locale/{lang}', function($lang) {
+    if (Illuminate\Support\Arr::exists(config('locales'), $lang)) {
+        Session::set('locale', $lang);
+    }
+    return redirect('/');
+});
+
 /**
  * Auth
  */

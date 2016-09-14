@@ -1,11 +1,41 @@
 login:
   login: 登录
   message: 登录以管理您的角色及皮肤
-  identification: 邮箱或角色名
-  password: 密码
-  captcha: 输入验证码
-  change-captcha: 点击以更换图片
   keep: 保持登录状态
 
-  forgot-link: 忘记密码了？
-  register-link: 注册新账号
+register:
+  register: 注册
+  message: 欢迎使用 :sitename！
+  nickname-intro: 昵称可使用汉字，不可包含特殊字符
+  repeat-pwd: 重复密码
+
+forgot:
+  forgot: 重置密码
+  message: 我们将会向您发送一封验证邮件
+  send: 发送
+  login-link: 我又想起来了
+
+mail:
+  message: 您收到这封邮件，是因为在 :sitename 的用户重置密码功能使用了您的地址。
+  ignore: 如果您并没有访问过我们的网站，或没有进行上述操作，请忽略这封邮件。 您不需要退订或进行其他进一步的操作。
+  reset: 重置密码
+  notice: 本邮件由系统自动发送，就算你回复了我们也不会回复你哦
+
+reset:
+  reset: 重置
+  message: :username，在这里重置你的密码
+
+bind:
+  bind: 绑定
+  message: 你需要绑定邮箱地址以继续使用本站
+  introduction: 邮箱地址仅用于重置密码，我们将不会向您发送任何垃圾邮件
+
+nickname: 昵称
+email: Email
+identification: Email 或角色名
+password: 密码
+captcha: 请输入验证码
+change-captcha: 点击以更换图片
+login-link: 已经有账号了？登录
+forgot-link: 忘记密码
+register-link: 注册新账号
