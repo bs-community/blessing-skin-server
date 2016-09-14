@@ -26,8 +26,8 @@
         </tr>
     </table>
 
-    @if (isset($_SESSION['msg']))
-    <div class="alert alert-warning" role="alert">{{ $_SESSION['msg'] }}</div> <?php unset($_SESSION['msg']); ?>
+    @if (Session::has('msg'))
+    <div class="alert alert-warning" role="alert">{{ Session::pull('msg') }}</div>
     @endif
 
     <p class="step">
@@ -41,7 +41,7 @@
 @if ($step == '2')
 
 <?php
-    if (Validate::checkPost(['v2_table_name'], true)) {
+    if (check_post(['v2_table_name'], true)) {
         if ($_POST['v2_table_name'] == "") {
             redirect_to('index.php?action=import-v2-users&step=1', 'v2 users 表名不能为空');
         } else {
@@ -59,7 +59,7 @@
 
 <h1>导入成功</h1>
 
-<?php $result = Migration::importV2Users(); ?>
+<?php $result = migrate('import-v2-users'); ?>
 
 <p>已导入 {{ $result['imported'] }} 个用户，{{ $result['duplicated'] }} 个用户因重复而未导入。</p>
 

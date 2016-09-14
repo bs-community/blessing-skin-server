@@ -3,13 +3,13 @@
  * @Author: printempw
  * @Date:   2016-08-18 17:46:19
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-25 22:30:49
+ * @Last Modified time: 2016-09-14 19:43:03
  */
 
 if (!defined('BASE_DIR')) exit('Permission denied.');
 
 $v2_table_name = $_POST['v2_table_name'];
-$prefix        = Config::getDbConfig()['prefix'];
+$prefix        = get_db_config()['prefix'];
 $v3_users      = $prefix."users";
 $v3_players    = $prefix."players";
 $v3_closets    = $prefix."closets";
@@ -18,7 +18,7 @@ $imported   = 0;
 $duplicated = 0;
 
 // use db helper instead of fat ORM
-$db = DB::table($v2_table_name, true);
+$db = Database::table($v2_table_name, true);
 
 $steps = ceil($db->getRecordNum() / 250);
 

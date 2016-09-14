@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-08-09 21:44:13
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-25 22:30:49
+ * @Last Modified time: 2016-09-14 19:44:30
  *
  * There are still some coupling relationships here but,
  * Just let it go :)
@@ -12,13 +12,13 @@
 if (!defined('BASE_DIR')) exit('Permission denied.');
 
 $v2_table_name = $_POST['v2_table_name'];
-$v3_table_name = Config::getDbConfig()['prefix']."textures";
+$v3_table_name = get_db_config()['prefix']."textures";
 
 $imported   = 0;
 $duplicated = 0;
 
 // use db helper instead of fat ORM
-$db = DB::table($v2_table_name, true);
+$db = Database::table($v2_table_name, true);
 
 $steps = ceil($db->getRecordNum() / 250);
 
@@ -42,12 +42,15 @@ for ($i = 0; $i <= $steps; $i++) {
                 $name = str_replace('{model}', $model, $name);
 
                 if (!$db->has('hash', $row["hash_$model"], $v3_table_name)) {
+                    // file size in bytes
+                    $size = Storage::disk('textures')->has($row["hash_$model"]) ? Storage::disk('textures')->size($row["hash_$model"]) : 0;
+
                     $db->insert([
                         'name'      => $name,
                         'type'      => $model,
                         'likes'     => 0,
                         'hash'      => $row["hash_$model"],
-                        'size'      => ceil(Storage::size(BASE_DIR.'/textures/'.$row["hash_$model"]) / 1024),
+                        'size'      => ceil($size / 1024),
                         'uploader'  => $_POST['uploader_uid'],
                         'public'    => $public,
                         'upload_at' => Utils::getTimeFormatted()
@@ -65,6 +68,6 @@ for ($i = 0; $i <= $steps; $i++) {
 }
 
 return [
-    'imported' => $imported,
+    'imported'   => $imported,
     'duplicated' => $duplicated
 ];

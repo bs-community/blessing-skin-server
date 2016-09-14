@@ -1,9 +1,9 @@
 <?php
 /**
- * Migrations Bootstrap of Blessing Skin Server
+ * Update Bootstrap of Blessing Skin Server
  */
 
-require __DIR__."/bootstrap.php";
+require __DIR__."/includes/bootstrap.php";
 
 // If no update is available
 if (config('app.version') == Option::get('version', '')) {
@@ -51,7 +51,7 @@ switch ($step) {
         break;
 
     default:
-        throw new App\Exceptions\E('非法参数', 1, true);
+        throw new App\Exceptions\PrettyPageException('非法参数', 1, true);
         break;
 }
 

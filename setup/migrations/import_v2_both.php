@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-08-18 17:46:19
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-25 22:34:35
+ * @Last Modified time: 2016-09-14 19:44:05
  */
 
 use App\Models\UserModel;
@@ -14,7 +14,7 @@ use App\Models\Texture;
 if (!defined('BASE_DIR')) exit('Permission denied.');
 
 $v2_table_name = $_POST['v2_table_name'];
-$prefix        = Config::getDbConfig()['prefix'];
+$prefix        = get_db_config()['prefix'];
 $v3_users      = $prefix."users";
 $v3_players    = $prefix."players";
 $v3_closets    = $prefix."closets";
@@ -26,7 +26,7 @@ $texture_imported   = 0;
 $texture_duplicated = 0;
 
 // use db helper instead of fat ORM in some operations :(
-$db = DB::table($v2_table_name, true);
+$db = Database::table($v2_table_name, true);
 
 $steps = ceil($db->getRecordNum() / 250);
 
@@ -72,12 +72,14 @@ for ($i = 0; $i <= $steps; $i++) {
 
                     if (!$res) {
                         $t = new Texture;
+                        // file size in bytes
+                        $size = Storage::disk('textures')->has($row["hash_$model"]) ? Storage::disk('textures')->size($row["hash_$model"]) : 0;
 
                         $t->name      = $name;
                         $t->type      = $model;
                         $t->likes     = 1;
                         $t->hash      = $row["hash_$model"];
-                        $t->size      = ceil(Storage::size(BASE_DIR.'/textures/'.$row["hash_$model"]) / 1024);
+                        $t->size      = ceil($size / 1024);
                         $t->uploader  = $user->uid;
                         $t->public    = $public;
                         $t->upload_at = $row['last_modified'] ? : Utils::getTimeFormatted();

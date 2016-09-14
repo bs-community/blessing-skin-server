@@ -47,9 +47,8 @@
         </tr>
     </table>
 
-
-    @if (isset($_SESSION['msg']))
-    <div class="alert alert-warning" role="alert">{{ $_SESSION['msg'] }}</div> <?php unset($_SESSION['msg']); ?>
+    @if (Session::has('msg'))
+    <div class="alert alert-warning" role="alert">{{ Session::pull('msg') }}</div>
     @endif
 
     <p class="step">
@@ -63,7 +62,7 @@
 @if ($step == '2')
 
 <?php
-    if (Validate::checkPost(['v2_table_name', 'texture_name_pattern'], true)) {
+    if (check_post(['v2_table_name', 'texture_name_pattern'], true)) {
         if ($_POST['v2_table_name'] == "") {
             redirect_to('index.php?action=import-v2-both&step=1', 'v2 users 表名不能为空');
         } else {
@@ -82,7 +81,7 @@
 
 <h1>导入成功</h1>
 
-<?php $result = Migration::importV2Both(); ?>
+<?php $result = migrate('import-v2-both'); ?>
 
 <p>已导入 {{ $result['user']['imported'] }} 个用户，{{ $result['user']['duplicated'] }} 个用户因重复而未导入。</p>
 <p>已导入 {{ $result['texture']['imported'] }} 个材质到皮肤库，{{ $result['texture']['duplicated'] }} 个材质因重复而未导入。</p>

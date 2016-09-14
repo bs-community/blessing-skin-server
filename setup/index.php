@@ -3,10 +3,10 @@
  * Installation of Blessing Skin Server
  */
 
-require __DIR__."/bootstrap.php";
+require __DIR__."/includes/bootstrap.php";
 
 // If already installed
-if (checkTableExist()) {
+if (check_table_exists()) {
     View::show('setup.locked');
     exit;
 }
@@ -53,7 +53,7 @@ switch ($step) {
         }
 
         // create tables
-        App\Services\Database\Migration::creatTables($db_config['prefix']);
+        require BASE_DIR."/includes/setup/tables.php";
 
         // import options
         $options = require BASE_DIR."/config/options.php";
