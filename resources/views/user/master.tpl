@@ -42,6 +42,17 @@
                 <!-- Navbar Right Menu -->
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
+                        <!-- Language Menu -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-language" aria-hidden="true"></i> {{ trans('index.langs') }} <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                @foreach(config('locales') as $locale => $lang)
+                                <li><a href="{{ url('/locale/'.$locale) }}">{{ $lang }}</a></li>
+                                @endforeach
+                            </ul>
+                        </li>
                         <!-- User Account Menu -->
                         <li class="dropdown user user-menu">
                             <!-- Menu Toggle Button -->

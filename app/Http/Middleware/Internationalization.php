@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Support\Arr;
-use Session;
 use App;
+use Session;
+use Illuminate\Support\Arr;
 
 class Internationalization
 {

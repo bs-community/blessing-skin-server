@@ -36,8 +36,19 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="{{ url('/') }}">首页</a></li>
-                            <li><a href="{{ url('skinlib') }}">皮肤库</a></li>
+                            <li class="active"><a href="{{ url('/') }}">{{ trans('index.index') }}</a></li>
+                            <li><a href="{{ url('skinlib') }}">{{ trans('index.skinlib') }}</a></li>
+
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-language" aria-hidden="true"></i> {{ trans('index.langs') }} <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    @foreach(config('locales') as $locale => $lang)
+                                    <li><a href="{{ url('/locale/'.$locale) }}">{{ $lang }}</a></li>
+                                    @endforeach
+                                </ul>
+                            </li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
                     <!-- Navbar Right Menu -->
@@ -62,10 +73,10 @@
                                         <!-- Menu Footer-->
                                         <li class="user-footer">
                                             <div class="pull-left">
-                                                <a href="{{ url('user') }}" class="btn btn-default btn-flat">用户中心</a>
+                                                <a href="{{ url('user') }}" class="btn btn-default btn-flat">{{ trans('index.user-center') }}</a>
                                             </div>
                                             <div class="pull-right">
-                                                <a href="javascript:logout();" class="btn btn-default btn-flat">登出</a>
+                                                <a href="javascript:logout();" class="btn btn-default btn-flat">{{ trans('index.logout') }}</a>
                                             </div>
                                         </li>
                                     </ul>
@@ -73,7 +84,7 @@
                                 @else {{-- Anonymous User --}}
                                 <!-- User Account Menu -->
                                 <li class="dropdown user user-menu">
-                                    <a href="{{ url('auth/login') }}" class="btn btn-login">登录</a>
+                                    <a href="{{ url('auth/login') }}" class="btn btn-login">{{ trans('index.login') }}</a>
                                 </li>
                                 @endif
                             </ul>
@@ -92,9 +103,9 @@
                     </p>
                     <p>
                         @if (is_null($user))
-                        <a href="{{ url('auth/register') }}" class="button">现在注册</a>
+                        <a href="{{ url('auth/register') }}" class="button">{{ trans('index.register') }}</a>
                         @else
-                        <a href="{{ url('user') }}" class="button">用户中心</a>
+                        <a href="{{ url('user') }}" class="button">{{ trans('index.user-center') }}</a>
                         @endif
                     </p>
                 </div>

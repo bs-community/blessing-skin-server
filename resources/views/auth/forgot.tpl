@@ -1,6 +1,6 @@
 @extends('auth.master')
 
-@section('title', trans('auth.forgot.forgot'))
+@section('title', trans('auth.forgot.title'))
 
 @section('content')
 
@@ -39,7 +39,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <button id="forgot-button" class="btn btn-primary btn-block btn-flat">{{ trans('auth.forgot.send') }}</button>
+                    <button id="forgot-button" class="btn btn-primary btn-block btn-flat">{{ trans('auth.forgot.button') }}</button>
                 </div>
                 <!-- /.col -->
             </div>

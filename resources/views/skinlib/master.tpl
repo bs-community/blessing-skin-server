@@ -73,49 +73,61 @@
                         </form>
                     </div><!-- /.navbar-collapse -->
                     <!-- Navbar Right Menu -->
-                        <div class="navbar-custom-menu">
-                            <ul class="nav navbar-nav">
-                                <li><a href="{{ url('skinlib/upload') }}"><i class="fa fa-upload" aria-hidden="true"></i> 上传新皮肤</a></li>
-                                @if (!is_null($user))
-                                <!-- User Account Menu -->
-                                <li class="dropdown user user-menu">
-                                    <!-- Menu Toggle Button -->
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                        <!-- The user image in the navbar-->
-                                        <img src="{{ avatar($user, 25) }}" class="user-image" alt="User Image">
-                                        <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                        <span class="hidden-xs nickname">{{ Utils::getNameOrEmail($user) }}</span>
-                                    </a>
-                                    <ul class="dropdown-menu">
-                                        <!-- The user image in the menu -->
-                                        <li class="user-header">
-                                            <img src="{{ avatar($user, 128) }}" alt="User Image">
-                                            <p>{{ $user->email }}</p>
-                                        </li>
-                                        <!-- Menu Footer-->
-                                        <li class="user-footer">
-                                            <div class="pull-left">
-                                                <a href="{{ url('user') }}" class="btn btn-default btn-flat">用户中心</a>
-                                            </div>
-                                            <div class="pull-right">
-                                                <a href="javascript:logout();" class="btn btn-default btn-flat">登出</a>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
-                                @else {{-- Anonymous User --}}
-                                <!-- User Account Menu -->
-                                <li class="dropdown user user-menu">
-                                    <!-- Menu Toggle Button -->
-                                    <a href="{{ url('auth/login') }}">
-                                        <i class="fa fa-user"></i>
-                                        <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                        <span class="hidden-xs nickname">未登录</span>
-                                    </a>
-                                </li>
-                                @endif
-                            </ul>
-                        </div><!-- /.navbar-custom-menu -->
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
+                            <!-- Language Menu -->
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-language" aria-hidden="true"></i> {{ trans('index.langs') }} <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    @foreach(config('locales') as $locale => $lang)
+                                    <li><a href="{{ url('/locale/'.$locale) }}">{{ $lang }}</a></li>
+                                    @endforeach
+                                </ul>
+                            </li>
+
+                            <li><a href="{{ url('skinlib/upload') }}"><i class="fa fa-upload" aria-hidden="true"></i> 上传新皮肤</a></li>
+                            @if (!is_null($user))
+                            <!-- User Account Menu -->
+                            <li class="dropdown user user-menu">
+                                <!-- Menu Toggle Button -->
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                    <!-- The user image in the navbar-->
+                                    <img src="{{ avatar($user, 25) }}" class="user-image" alt="User Image">
+                                    <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                                    <span class="hidden-xs nickname">{{ Utils::getNameOrEmail($user) }}</span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <!-- The user image in the menu -->
+                                    <li class="user-header">
+                                        <img src="{{ avatar($user, 128) }}" alt="User Image">
+                                        <p>{{ $user->email }}</p>
+                                    </li>
+                                    <!-- Menu Footer-->
+                                    <li class="user-footer">
+                                        <div class="pull-left">
+                                            <a href="{{ url('user') }}" class="btn btn-default btn-flat">用户中心</a>
+                                        </div>
+                                        <div class="pull-right">
+                                            <a href="javascript:logout();" class="btn btn-default btn-flat">登出</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </li>
+                            @else {{-- Anonymous User --}}
+                            <!-- User Account Menu -->
+                            <li class="dropdown user user-menu">
+                                <!-- Menu Toggle Button -->
+                                <a href="{{ url('auth/login') }}">
+                                    <i class="fa fa-user"></i>
+                                    <!-- hidden-xs hides the username on small devices so only the image appears. -->
+                                    <span class="hidden-xs nickname">未登录</span>
+                                </a>
+                            </li>
+                            @endif
+                        </ul>
+                    </div><!-- /.navbar-custom-menu -->
                 </div><!-- /.container-fluid -->
             </nav>
         </header>

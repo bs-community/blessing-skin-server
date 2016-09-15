@@ -1,6 +1,6 @@
 @extends('auth.master')
 
-@section('title', trans('auth.register.register'))
+@section('title', trans('auth.register.title'))
 
 @section('content')
 
@@ -52,7 +52,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <button id="register-button" class="btn btn-primary btn-block btn-flat">{{ trans('auth.register.register') }}</button>
+                    <button id="register-button" class="btn btn-primary btn-block btn-flat">{{ trans('auth.register.button') }}</button>
                 </div>
                 <!-- /.col -->
             </div>

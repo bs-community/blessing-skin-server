@@ -9,6 +9,6 @@ return [
     | Available Languages
     |
     */
-    'zh-CN' => 'Chinese Simplified',
-    'en' => 'English'
+    'zh-CN' => '简体中文',
+    'en'    => 'English'
 ];

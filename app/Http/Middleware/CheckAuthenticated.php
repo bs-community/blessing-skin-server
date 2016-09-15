@@ -2,12 +2,12 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User;
-use App\Models\UserModel;
-use App\Exceptions\PrettyPageException;
 use View;
 use Http;
 use Session;
+use App\Models\User;
+use App\Models\UserModel;
+use App\Exceptions\PrettyPageException;
 
 class CheckAuthenticated
 {
@@ -17,7 +17,7 @@ class CheckAuthenticated
             $user = new User(session('uid'));
 
             if (session('token') != $user->getToken())
-                return redirect('auth/login')->with('msg', '无效的 token，请重新登录');
+                return redirect('auth/login')->with('msg', trans('auth.check.token'));
 
             if ($user->getPermission() == "-1") {
                 // delete cookies
@@ -26,7 +26,7 @@ class CheckAuthenticated
 
                 Session::flush();
 
-                throw new PrettyPageException('你已经被本站封禁啦，请联系管理员解决', 5);
+                throw new PrettyPageException(trans('auth.check.banned'), 5);
             }
 
             // ask for filling email
@@ -41,10 +41,10 @@ class CheckAuthenticated
 
                             return $next($request);
                         } else {
-                            echo View::make('auth.bind')->with('msg', '该邮箱已被占用');
+                            echo View::make('auth.bind')->with('msg', trans('auth.validation.email'));
                         }
                     } else {
-                        echo View::make('auth.bind')->with('msg', '邮箱格式错误');
+                        echo View::make('auth.bind')->with('msg', trans('auth.bind.registered'));
                     }
                     exit;
                 }
@@ -57,7 +57,7 @@ class CheckAuthenticated
 
             return $next($request);
         } else {
-            return redirect('auth/login')->with('msg', '非法访问，请先登录');
+            return redirect('auth/login')->with('msg', trans('auth.check.anonymous'));
         }
 
         return $next($request);
