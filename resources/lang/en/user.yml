@@ -1,0 +1,107 @@
+used:
+  title: Resources Used
+  players: Registered players
+  storage: Storage used
+
+cur-score: Current Score
+score-notice: Click the score to show introduction.
+sign: Sign In
+last-sign: Last signed in at :time
+remain-time: Can sign in after :time hours
+announcement: Announcement
+
+score-intro:
+  title: What is score?
+  introduction: |
+    We use score system to prevent the behaviors like uplaoding huge amount of textures and registering players casually.
+    Both adding players and uplaoding textures will consume your score. The score will be returned if you deleted them.
+    Adding textures from skin library to your closet will not decline your score.
+
+    The inital score of user on this site is :initial_score, you can acquire :score-from ~ :score-to scores by signing in.
+  rates:
+    storage: :score scores = 1 KB storage
+    player: :score scores = 1 player
+
+closet:
+  upload: Uplaod Texture
+  search: Search Texture
+  switch-category: Switch Category
+  view: View in skin librariy
+  more: More
+  remove: Remove from closet
+  set-avatar: Set as avatar
+  empty-msg: |
+    <p>Nothing in your closet...</p>
+    <p>Why not explore the <a href=":url">Skin Library</a> for a while?</p>
+
+  use-as:
+    button: Apply...
+    title: Which player should be applied to?
+    empty: It seems that you own no player...
+    add: Add new player
+
+player:
+  player-name: Player Name
+  preference: Preference
+  edit: Edit
+  operation: Delete
+  edit-pname: Player name
+  delete-texture: Textures
+  delete-player: Player
+  add-player: Add new player
+
+  login-notice: Now you can log in with player names you owned instead email address.
+
+  player-info: Information <small>(click player name to show preview)</small>
+
+  textures:
+    steve: Steve Model：
+    alex: Alex Model：
+    cape: Cape：
+    empty: Nothing
+
+  pname-rule: Could only contain letters, numbers and dashes.
+  pname-rule-chinese: Could only contain chinese characters, letters, numbers and dashes.
+
+profile:
+  change-avatar: Change Avatar?
+  avatar-notice: Click the gear icon「<i class="fa fa-cog"></i>」of any skin in your skinlib, then click 「Set as avatar」. We will cut the head segment of that skin for you.
+
+  password:
+    title: Change Password
+    old: Old Password
+    new: New Password
+    confirm: Repeat Password
+    button: Change Password
+
+  nickname:
+    title: Change Nickname
+    empty: No nickname is setted now.
+    rule: Whatever you like expect special characters
+
+  email:
+    title: Change Email
+    new: New Email
+    password: Current Password
+    button: Change Email
+
+  delete:
+    title: Delete Account
+    notice: Sure to delete your account on :sitename?
+    admin: Admin account can not be deleted.
+    button: Delete My Account
+
+    modal-title: You need to enter your password to continue
+    modal-notice: |
+      You're about to delete your account.
+      This is permanent! No backups, no restores, no magic undo button.
+      We warned you, ok?
+    password: Current Password
+
+config:
+  mod-requirement: MOD Requirement
+  mod-intro: |
+    <p>We support all versions of <a href="http://www.mcbbs.net/forum.php?mod=viewthread&tid=358932" target="_blank">UniSkinMod</a> and <a href="http://www.mcbbs.net/thread-269807-1-1.html" target="_blank">CustomSkinLoader</a>, and any other skin mod using with leagcy links.</p>
+    <p>Detailed Documentation Here: <a href="https://github.com/printempw/blessing-skin-server/wiki/Mod-Configuration" target="_blank">@GitHub</a></p>
+  version: Version
+  config-file: Config File

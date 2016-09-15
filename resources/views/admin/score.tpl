@@ -39,7 +39,7 @@
                                         <td class="key">存储</td>
                                         <td class="value">
                                            <div class="input-group">
-                                               <input type="text" class="form-control" name="score_per_storage" value="{{ Option::get('score_per_storage') }}">
+                                               <input type="text" class="form-control" name="score_per_storage" value="{{ option('score_per_storage') }}">
                                                <span class="input-group-addon">积分 = 1 KB</span>
                                            </div>
 
@@ -52,7 +52,7 @@
                                         </td>
                                         <td class="value">
                                            <div class="input-group">
-                                               <input type="text" class="form-control" name="private_score_per_storage" value="{{ Option::get('private_score_per_storage') }}">
+                                               <input type="text" class="form-control" name="private_score_per_storage" value="{{ option('private_score_per_storage') }}">
                                                <span class="input-group-addon">积分 = 1 KB</span>
                                            </div>
 
@@ -63,7 +63,7 @@
                                         <td class="key">角色</td>
                                         <td class="value">
                                             <div class="input-group">
-                                                <input type="text" class="form-control" name="score_per_player" value="{{ Option::get('score_per_player') }}">
+                                                <input type="text" class="form-control" name="score_per_player" value="{{ option('score_per_player') }}">
                                                 <span class="input-group-addon">积分 = 一个角色</span>
                                             </div>
                                         </td>
@@ -72,7 +72,7 @@
                                     <tr>
                                         <td class="key">新用户默认积分</td>
                                         <td class="value">
-                                            <input type="text" class="form-control" name="user_initial_score" value="{{ Option::get('user_initial_score') }}">
+                                            <input type="text" class="form-control" name="user_initial_score" value="{{ option('user_initial_score') }}">
                                         </td>
                                     </tr>
                                 </tbody>
@@ -107,9 +107,9 @@
                                         <td class="key">签到获得积分</td>
                                         <td class="value">
                                             <div class="input-group">
-                                            <input type="text" class="form-control" name="sign_score_from" value="{{ explode(',', Option::get('sign_score'))[0] }}">
+                                            <input type="text" class="form-control" name="sign_score_from" value="{{ explode(',', option('sign_score'))[0] }}">
                                             <span class="input-group-addon" style="border-right: 0; border-left: 0;">积分 ~ </span>
-                                            <input type="text" class="form-control" name="sign_score_to" value="{{ explode(',', Option::get('sign_score'))[1] }}">
+                                            <input type="text" class="form-control" name="sign_score_to" value="{{ explode(',', option('sign_score'))[1] }}">
                                             <span class="input-group-addon">积分</span>
                                           </div>
 
@@ -120,7 +120,7 @@
                                         <td class="key">签到间隔时间</td>
                                         <td class="value">
                                             <div class="input-group">
-                                            <input type="text" class="form-control" name="sign_gap_time" value="{{ Option::get('sign_gap_time') }}">
+                                            <input type="text" class="form-control" name="sign_gap_time" value="{{ option('sign_gap_time') }}">
                                             <span class="input-group-addon">小时</span>
                                           </div>
 
@@ -133,7 +133,7 @@
                                         </td>
                                         <td class="value">
                                             <label for="sign_after_zero">
-                                                <input {{ (Option::get('sign_after_zero') == '1') ? 'checked="true"' : '' }} type="checkbox" id="sign_after_zero" name="sign_after_zero" value="1"> 每天零点后可签到
+                                                <input {{ (option('sign_after_zero') == '1') ? 'checked="true"' : '' }} type="checkbox" id="sign_after_zero" name="sign_after_zero" value="1"> 每天零点后可签到
                                             </label>
                                         </td>
                                     </tr>

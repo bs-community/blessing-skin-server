@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 09:02:32
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-15 10:39:49
+ * @Last Modified time: 2016-09-15 21:48:24
  */
 
 $.locales = {};
@@ -42,10 +42,12 @@ function loadLocales() {
     }
 }
 
-function trans(key) {
+function trans(key, parameters) {
     if (isEmpty(locale)) {
         loadLocales();
     }
+
+    parameters = parameters || {};
 
     var segments = key.split('.');
     var temp = locale || {};
@@ -55,6 +57,12 @@ function trans(key) {
             return key;
         } else {
             temp = temp[segments[i]];
+        }
+    }
+
+    for (i in parameters) {
+        if (!isEmpty(parameters[i])) {
+            temp = temp.replace(':'+i, parameters[i]);
         }
     }
 

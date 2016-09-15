@@ -1,41 +1,76 @@
 login:
-  login: Log In
+  title: Log In
+  button: Log In
   message: Log in to manage your skin & players
   keep: Remember me
+  success: Logged in successfully~
+
+check:
+  anonymous: Illegal access. Please log in first.
+  banned: You are banned on this site. Please contact the admin.
+  token: Invalid token. Please log in.
 
 register:
-  register: Register
-  message: Welcome to :sitename
+  title: Register
+  button: Register
+  message: Welcome to :sitename!
   nickname-intro: Whatever you like expect special characters
   repeat-pwd: Repeat your password
+  close: Well, this site doesn't allow any register.
+  success: Registered successfully. Redirecting...
+  max: You can't register more than :regs accounts.
+  registered: The email address is already registered.
 
 forgot:
-  forgot: Reset Password
-  message: We will send you an E-mail to verify
-  send: Send
+  title: Forgot Password
+  button: Send
+  message: We will send you an E-mail to verify.
   login-link: I do remember it
+  close: Password resetting is not available now.
+  frequent-mail: You click the send button too fast. Wait for 60 secs, guy.
+  unregistered: The email address is not registered.
 
 mail:
+  title: Reset your password on :sitename
+  success: Mail is sent. Will be expired in 1 hour, please check.
+  failed: Fail to send mail, detailed message :msg
   message: You are receiving this email because this email address was used to reset your password on :sitename
   ignore: If you haven't signed up on our site, please ignore this email. No unsubscribing is required.
   reset: Reset your password
   notice: This mail is sending automatically, no reponses will be sent if you reply.
 
 reset:
-  reset: Reset
-  message: :username, reset your email address here
+  title: Reset Password
+  button: Reset
+  invalid: Invalid link.
+  expired: This link is expired.
+  message: :username, reset your email address here.
+  success: Password resetted successfully.
 
 bind:
-  bind: Bind
-  message: You need to fill your email adderss to continue
+  title: Bind Email
+  button: Bind
+  message: You need to fill your email adderss to continue.
   introduction: Email addresses will be used for password resetting. We won't send you any spam.
+  registered: The email address is already registered.
+
+validation:
+  identification: Invalid format of email or player name.
+  email: Email format is invalid.
+  captcha: Wrong CAPTCHA.
+  user: Unexistent user.
+  password: Wrong email or password.
+
+logout:
+  success: Logged out successfully~
+  fail: No valid session.
 
 nickname: Nickname
-email: Email Address
-identification: Email or Player Name
+email: Email
+identification: Email or player name
 password: Password
-captcha: Enter the CAPTCHA
-change-captcha: Click to change another image.
-login-link: Already have an account?
+captcha: Please enter the CAPTCHA.
+change-captcha: Click to change CAPTCHA image.
+login-link: Already registered? Log in here.
 forgot-link: Forgot your password?
-register-link: Register a new account
+register-link: Register new account

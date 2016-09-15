@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('title', '仪表盘')
+@section('title', trans('general.dashboard'))
 
 @section('content')
 
@@ -9,7 +9,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            仪表盘
+            {{ trans('general.dashboard') }}
             <small>Dashboard</small>
         </h1>
     </section>

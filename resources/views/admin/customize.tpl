@@ -111,7 +111,7 @@
                                     <tr>
                                         <td class="key">首页图片地址</td>
                                         <td class="value">
-                                           <input type="text" title="相对于首页的路径或者完整的 URL" data-toggle="tooltip" data-placement="top" class="form-control" name="home_pic_url" value="{{ Option::get('home_pic_url') }}">
+                                           <input type="text" title="相对于首页的路径或者完整的 URL" data-toggle="tooltip" data-placement="top" class="form-control" name="home_pic_url" value="{{ option('home_pic_url') }}">
                                         </td>
                                     </tr>
                                     <tr>
@@ -120,14 +120,14 @@
                                         </td>
                                         <td class="value">
                                             <label for="show_footer_copyright">
-                                                <input {{ (Option::get('show_footer_copyright') == '1') ? 'checked="true"' : '' }} type="checkbox" id="show_footer_copyright" name="show_footer_copyright" value="1"> 显示页面右下角的版权信息
+                                                <input {{ (option('show_footer_copyright') == '1') ? 'checked="true"' : '' }} type="checkbox" id="show_footer_copyright" name="show_footer_copyright" value="1"> 显示页面右下角的版权信息
                                             </label>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="key">版权文字</td>
                                         <td class="value">
-                                            <textarea class="form-control" rows="4" name="copyright_text">{{ Option::get('copyright_text') }}</textarea>
+                                            <textarea class="form-control" rows="4" name="copyright_text">{{ option('copyright_text') }}</textarea>
                                             <p class="description">自定义版权文字内可使用占位符，<code>{site_name}</code> 将会被自动替换为站点名称，<code>{site_url}</code> 会被替换为站点地址。</p>
                                         </td>
                                     </tr>
@@ -162,13 +162,13 @@
                                     <tr>
                                         <td class="key">CSS</td>
                                         <td class="value">
-                                           <textarea name="custom_css" class="form-control" rows="6">{{ Option::get('custom_css') }}</textarea>
+                                           <textarea name="custom_css" class="form-control" rows="6">{{ option('custom_css') }}</textarea>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="key">JavaScript</td>
                                         <td class="value">
-                                           <textarea name="custom_js" class="form-control" rows="6">{{ Option::get('custom_js') }}</textarea>
+                                           <textarea name="custom_js" class="form-control" rows="6">{{ option('custom_js') }}</textarea>
                                         </td>
                                     </tr>
 
@@ -188,7 +188,7 @@
 </div><!-- /.content-wrapper -->
 
 <script type="text/javascript">
-var current_skin = "{{ Option::get('color_scheme') }}";
+var current_skin = "{{ option('color_scheme') }}";
 </script>
 
 @endsection

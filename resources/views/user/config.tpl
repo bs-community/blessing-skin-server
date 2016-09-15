@@ -1,6 +1,6 @@
 @extends('user.master')
 
-@section('title', '配置生成')
+@section('title', trans('general.generate-config'))
 
 @section('style')
 <link rel="stylesheet" href="{{ assets('vendor/highlight/styles/arduino-light.css') }}">
@@ -14,7 +14,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            配置生成
+            {{ trans('general.generate-config') }}
             <small>Configuration Generator</small>
         </h1>
     </section>
@@ -25,17 +25,16 @@
             <div class="col-md-6">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title">MOD 需求</h3>
+                        <h3 class="box-title">{{ trans('user.config.mod-requirement') }}</h3>
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                        <p>本站支持的皮肤 MOD 有 <a href="http://www.mcbbs.net/forum.php?mod=viewthread&tid=358932" target="_blank">UniSkinMod</a>，<a href="http://www.mcbbs.net/thread-269807-1-1.html" target="_blank">CustomSkinLoader</a> 各自的新版和旧版，以及任何支持传统皮肤加载链接的皮肤 MOD。</p>
-                        <p>详细教程：<a href="https://github.com/printempw/blessing-skin-server#客户端配置" target="_blank">@GitHub</a></p>
+                        {!! trans('user.config.mod-intro') !!}
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
 
                 <div class="box box-default">
                     <div class="box-header with-border">
-                        <h3 class="box-title">配置生成</h3>
+                        <h3 class="box-title">{{ trans('general.generate-config') }}</h3>
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <table class="table">
@@ -51,11 +50,9 @@
                                 </tr>
 
                                 <tr>
-                                    <td class="key">版本</td>
+                                    <td class="key">{{ trans('user.config.version') }}</td>
                                     <td class="value">
                                        <select class="form-control" id="version-select">
-                                            <option value="13_1-upper">13.1 版及以上（推荐）</option>
-                                            <option value="13_1-lower">13.1 版以下</option>
                                        </select>
                                     </td>
                                 </tr>
@@ -67,7 +64,7 @@
             <div class="col-md-6">
                 <div class="box box-default">
                     <div class="box-header with-border">
-                        <h3 class="box-title">配置文件</h3>
+                        <h3 class="box-title">{{ trans('user.config.config-file') }}</h3>
                     </div><!-- /.box-header -->
                     <div class="box-body">
 
@@ -76,9 +73,9 @@
     "enable": true,
     "loadlist": [
         {
-            "name": "<?php echo Option::get('site_name'); ?>",
+            "name": "<?php echo option('site_name'); ?>",
             "type": "CustomSkinAPI",
-            "root": "<?php echo Option::get('site_url')."/csl/"; ?>"
+            "root": "<?php echo option('site_url')."/csl/"; ?>"
         },
         {
             "name": "Mojang",
@@ -90,17 +87,17 @@
 
 <pre id="config-13_1-lower" class="hljs ini" style="display: none;">
 # skinurls.txt
-<?php echo Option::get('site_url'); ?>/skin/*.png
+<?php echo option('site_url'); ?>/skin/*.png
 http://skins.minecraft.net/MinecraftSkins/*.png
 
 # capeurls.txt
-<?php echo Option::get('site_url'); ?>/cape/*.png
+<?php echo option('site_url'); ?>/cape/*.png
 </pre>
 
 <pre id="config-1_4-upper" style="display: none;">
 {
     "rootURIs": [
-        "<?php echo Option::get('site_url'); ?>/usm",
+        "<?php echo option('site_url'); ?>/usm",
         "http://www.skinme.cc/uniskin"
     ],
     "legacySkinURIs": [],
@@ -109,14 +106,14 @@ http://skins.minecraft.net/MinecraftSkins/*.png
 </pre>
 
 <pre id="config-1_2-1_3" class="hljs ini" style="display: none;">
-# <?php echo Option::get('site_name')."\n"; ?>
-Root: <?php echo Option::get('site_url'); ?>/usm
+# <?php echo option('site_name')."\n"; ?>
+Root: <?php echo option('site_url'); ?>/usm
 </pre>
 
 <pre id="config-1_2-lower" class="hljs ini" style="display: none;">
-# <?php echo Option::get('site_name')."\n"; ?>
-Skin: <?php echo Option::get('site_url'); ?>/skin/%s.png
-Cape: <?php echo Option::get('site_url'); ?>/cape/%s.png
+# <?php echo option('site_name')."\n"; ?>
+Skin: <?php echo option('site_url'); ?>/skin/%s.png
+Cape: <?php echo option('site_url'); ?>/cape/%s.png
 # Mojang
 Skin: http://skins.minecraft.net/MinecraftSkins/%s.png
 Cape: http://skins.minecraft.net/MinecraftCloaks/%s.png
@@ -140,6 +137,37 @@ Cape: http://skins.minecraft.net/MinecraftCloaks/%s.png
             hljs.highlightBlock(block);
         });
     });
+
+    function freshVersionSelect(element) {
+        $('#version-select').children().each(function() { $(this).remove(); });
+
+        if ($(element).val() == "csl") {
+            $('#version-select').append('<option value="13_1-upper">'+trans('config.csl13_1Upper')+'</option>');
+            $('#version-select').append('<option value="13_1-lower">'+trans('config.csl13_1Lower')+'</option>');
+        } else if ($(element).val() == "usm") {
+            $('#version-select').append('<option value="1_4-upper">'+trans('config.usm1_4Upper')+'</option>');
+            $('#version-select').append('<option value="1_2-1_3">'+trans('config.usm1_2To1_3')+'</option>');
+            $('#version-select').append('<option value="1_2-lower">'+trans('config.usm1_2Lower')+'</option>');
+        }
+
+        showConfig();
+    }
+
+    function showConfig() {
+        $('#config-13_1-upper').hide();
+        $('#config-13_1-lower').hide();
+        $('#config-1_4-upper').hide();
+        $('#config-1_2-1_3').hide();
+        $('#config-1_2-lower').hide();
+        $('#config-'+$('#version-select').val()).show();
+    }
+
+    $('#mod-select').change(function() {
+        freshVersionSelect(this);
+    });
+    $('#version-select').change(showConfig);
+
+    freshVersionSelect('#mod-select');
 </script>
 
 @endsection

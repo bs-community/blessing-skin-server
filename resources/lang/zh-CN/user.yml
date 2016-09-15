@@ -1,0 +1,114 @@
+used:
+  title: 使用情况
+  players: 角色数量
+  storage: 存储空间
+
+cur-score: 当前积分
+score-notice: 点击积分查看说明
+sign: 每日签到
+last-sign: 上次签到于 :time
+remain-time: :time 小时后可签到
+announcement: 公告
+
+score-intro:
+  title: 积分是个啥？
+  introduction: |
+    「既然你诚心诚意地发问了！」
+    「那我们就大发慈悲地告诉你！」
+    「为了守护皮肤站的和平」
+    「为了防止皮肤站被破坏」
+    「贯彻爱与真实的。。呸！」上面只是卖下萌~
+
+    为了不出现用户一个劲上传材质导致存储空间爆满，我们决定启用积分系统。
+    添加角色以及上传材质都会消耗积分，而删除已经添加的角色和已上传的材质时积分将会被返还。
+
+    本站用户初始积分为 :initial_score，每日签到可以随机获得 :score-from ~ :score-to 积分
+    添加皮肤库里的材质到衣柜不消耗积分。
+  rates:
+    storage: :score 积分 = 1 KB 存储空间
+    player: :score 积分 = 1 个角色
+
+closet:
+  upload: 上传材质
+  search: 搜索材质
+  switch-category: 切换分类
+  view: 在皮肤库中查看
+  more: 更多
+  remove: 从衣柜中移除
+  set-avatar: 设为头像
+  empty-msg: |
+    <p>衣柜里啥都没有哦~</p>
+    <p>去<a href=":url">皮肤库</a>看看吧~</p>
+
+  use-as:
+    button: 使用...
+    title: 要给哪个角色使用呢？
+    empty: 你好像还没有添加任何角色哦
+    add: 添加角色
+
+player:
+  player-name: 角色名称
+  preference: 优先模型
+  edit: 编辑
+  operation: 操作
+  edit-pname: 修改角色名
+  delete-texture: 删除材质
+  delete-player: 删除角色
+  add-player: 添加新角色
+
+  login-notice: 你现在可以使用你所拥有的角色名来登录皮肤站啦~
+
+  player-info: 角色信息 <small>（点击角色名以查看预览）</small>
+
+  textures:
+    steve: Steve 模型的皮肤：
+    alex: Alex 模型的皮肤：
+    cape: 披风：
+    empty: 未上传
+
+  pname-rule: 只能包含数字、字母以及下划线
+  pname-rule-chinese: 可使用汉字，字母数字以及下划线
+
+profile:
+  change-avatar: 更改头像？
+  avatar-notice: 请在衣柜中任意皮肤的右下角「<i class="fa fa-cog"></i>」处选择「设为头像」，将会自动截取该皮肤的头部作为头像哦~
+
+  password:
+    title: 更改密码
+    old: 旧的密码
+    new: 新密码
+    confirm: 确认密码
+    button: 修改密码
+
+  nickname:
+    title: 更改昵称
+    empty: 当前未设置昵称，
+    rule: 可使用除一些特殊符号外的任意字符
+
+  email:
+    title: 更改邮箱
+    new: 新邮箱
+    password: 当前密码
+    button: 修改邮箱
+
+  delete:
+    title: 删除账号
+    notice: 确定要删除你在 :sitename 上的账号吗？
+    admin: 管理员账号不能被删除哟
+    button: 删除我的账户
+
+    modal-title: 这是危险操作，输入密码以继续
+    modal-notice: |
+      此操作不可恢复！
+      你所上传至皮肤库的材质仍会被保留，但你的角色将被永久删除。
+      我们不提供任何备份，或者神奇的撤销按钮。
+      我们警告过你了，确定要这样做吗？
+    password: 当前密码
+
+config:
+  mod-requirement: MOD 需求
+  mod-intro: |
+    <p>本站支持的皮肤 MOD 有 <a href="http://www.mcbbs.net/forum.php?mod=viewthread&tid=358932" target="_blank">UniSkinMod</a>，<a href="http://www.mcbbs.net/thread-269807-1-1.html" target="_blank">CustomSkinLoader</a> 各自的新版和旧版，以及任何支持传统皮肤加载链接的皮肤 MOD。</p>
+    <p>详细教程：<a href="https://github.com/printempw/blessing-skin-server/wiki/Mod-Configuration" target="_blank">@GitHub</a></p>
+  version: 版本
+  config-file: 配置文件

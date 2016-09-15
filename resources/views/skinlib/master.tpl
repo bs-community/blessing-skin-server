@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>@yield('title') - {{ Option::get('site_name') }}</title>
+    <title>@yield('title') - {{ option('site_name') }}</title>
     <link rel="shortcut icon" href="{{ assets('images/favicon.ico') }}">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -13,14 +13,14 @@
     @yield('style')
 </head>
 
-<body class="hold-transition {{ Option::get('color_scheme') }} layout-top-nav">
+<body class="hold-transition {{ option('color_scheme') }} layout-top-nav">
     <div class="wrapper">
 
         <header class="main-header">
             <nav class="navbar navbar-static-top">
                 <div class="container">
                     <div class="navbar-header">
-                        <a href="{{ Option::get('site_url') }}" class="navbar-brand">{{ Option::get('site_name') }}</a>
+                        <a href="{{ option('site_url') }}" class="navbar-brand">{{ option('site_name') }}</a>
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                             <i class="fa fa-bars"></i>
                         </button>
@@ -72,7 +72,7 @@
                             <!-- Language Menu -->
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-language" aria-hidden="true"></i> {{ trans('index.langs') }} <span class="caret"></span>
+                                    <i class="fa fa-language" aria-hidden="true"></i> {{ trans('general.langs') }} <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
                                     @foreach(config('locales') as $locale => $lang)
@@ -90,7 +90,7 @@
                                     <!-- The user image in the navbar-->
                                     <img src="{{ avatar($user, 25) }}" class="user-image" alt="User Image">
                                     <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                    <span class="hidden-xs nickname">{{ Utils::getNameOrEmail($user) }}</span>
+                                    <span class="hidden-xs nickname">{{ bs_nickname($user) }}</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- The user image in the menu -->
@@ -101,10 +101,10 @@
                                     <!-- Menu Footer-->
                                     <li class="user-footer">
                                         <div class="pull-left">
-                                            <a href="{{ url('user') }}" class="btn btn-default btn-flat">用户中心</a>
+                                            <a href="{{ url('user') }}" class="btn btn-default btn-flat">{{ trans('general.user-center') }}</a>
                                         </div>
                                         <div class="pull-right">
-                                            <a href="javascript:logout();" class="btn btn-default btn-flat">登出</a>
+                                            <a href="javascript:logout();" class="btn btn-default btn-flat">{{ trans('general.logout') }}</a>
                                         </div>
                                     </li>
                                 </ul>
@@ -116,7 +116,7 @@
                                 <a href="{{ url('auth/login') }}">
                                     <i class="fa fa-user"></i>
                                     <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                    <span class="hidden-xs nickname">未登录</span>
+                                    <span class="hidden-xs nickname">{{ trans('general.anonymous') }}</span>
                                 </a>
                             </li>
                             @endif
@@ -131,14 +131,14 @@
         <!-- Main Footer -->
         <footer class="main-footer">
             <div class="container">
-                @if (Option::get('show_footer_copyright'))
+                @if (option('show_footer_copyright'))
                 <!-- To the right -->
                 <div class="pull-right hidden-xs">
                     Powered with ❤ by <a href="https://github.com/printempw/blessing-skin-server">Blessing Skin Server</a>.
                 </div>
                 @endif
                 <!-- Default to the left -->
-                {!! Utils::getStringReplaced(Option::get('copyright_text'), ['{site_name}' => Option::get('site_name'), '{site_url}' => Option::get('site_url')]) !!}
+                {!! bs_copyright() !!}
             </div>
         </footer>
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>@yield('title') - {{ Option::get('site_name') }}</title>
+    <title>@yield('title') - {{ option('site_name') }}</title>
     <link rel="shortcut icon" href="{{ assets('images/favicon.ico') }}">
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -13,18 +13,18 @@
     @yield('style')
 </head>
 
-<body class="hold-transition {{ Option::get('color_scheme') }} sidebar-mini">
+<body class="hold-transition {{ option('color_scheme') }} sidebar-mini">
     <div class="wrapper">
 
         <!-- Main Header -->
         <header class="main-header">
 
             <!-- Logo -->
-            <a href="{{ Option::get('site_url') }}" class="logo">
+            <a href="{{ option('site_url') }}" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"> <i class="fa fa-bookmark"></i> </span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg">{{ Option::get('site_name') }}</span>
+                <span class="logo-lg">{{ option('site_name') }}</span>
             </a>
 
             <!-- Header Navbar -->
@@ -39,7 +39,7 @@
                         <!-- Language Menu -->
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-language" aria-hidden="true"></i> {{ trans('index.langs') }} <span class="caret"></span>
+                                <i class="fa fa-language" aria-hidden="true"></i> {{ trans('general.langs') }} <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
                                 @foreach(config('locales') as $locale => $lang)
@@ -53,7 +53,7 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <i class="fa fa-user"></i>
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                <span class="hidden-xs nickname">{{ Utils::getNameOrEmail($user) }}</span>
+                                <span class="hidden-xs nickname">{{ bs_nickname($user) }}</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- The user image in the menu -->
@@ -64,10 +64,10 @@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="{{ url('user/profile') }}" class="btn btn-default btn-flat">我的资料</a>
+                                        <a href="{{ url('user/profile') }}" class="btn btn-default btn-flat">{{ trans('general.profile') }}</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="javascript:logout();" class="btn btn-default btn-flat">登出</a>
+                                        <a href="javascript:logout();" class="btn btn-default btn-flat">{{ trans('general.logout') }}</a>
                                     </div>
                                 </li>
                             </ul>
@@ -88,28 +88,22 @@
                         <img src="{{ avatar($user, 45) }}" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p class="nickname">{{ Utils::getNameOrEmail($user) }}</p>
-                        <i class="fa fa-circle text-success"></i> Online
+                        <p class="nickname">{{ bs_nickname($user) }}</p>
+                        <i class="fa fa-circle text-success"></i> {{ trans('general.online') }}
                     </div>
                 </div>
 
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu">
-                    <li class="header">用户中心</li>
-                    <?php $menu = require BASE_DIR."/config/menu.php"; ?>
+                    <li class="header">{{ trans('general.user-center') }}</li>
+                    {!! bs_menu('user', $__env->yieldContent('title')) !!}
 
-                    @foreach ($menu['user'] as $key => $value)
-                    <li class="{{ ($__env->yieldContent('title') == $value['title']) ? 'active' : '' }}">
-                        <a href="{{ url($value['link']) }}"><i class="fa {{ $value['icon'] }}"></i> <span>{{ $value['title'] }}</span></a>
-                    </li>
-                    @endforeach
-
-                    <li class="header">浏览</li>
-                    <li><a href="{{ url('skinlib') }}"><i class="fa fa-archive"></i> <span>皮肤库</span></a></li>
+                    <li class="header">{{ trans('general.explore') }}</li>
+                    <li><a href="{{ url('skinlib') }}"><i class="fa fa-archive"></i> <span>{{ trans('general.skinlib') }}</span></a></li>
 
                     @if ($user->is_admin)
-                    <li class="header">管理</li>
-                    <li><a href="{{ url('admin') }}"><i class="fa fa-cog"></i> <span>管理面板</span></a></li>
+                    <li class="header">{{ trans('general.manage') }}</li>
+                    <li><a href="{{ url('admin') }}"><i class="fa fa-cog"></i> <span>{{ trans('general.admin-panel') }}</span></a></li>
                     @endif
                 </ul><!-- /.sidebar-menu -->
             </section>
@@ -120,14 +114,14 @@
 
         <!-- Main Footer -->
         <footer class="main-footer">
-            @if (Option::get('show_footer_copyright'))
+            @if (option('show_footer_copyright'))
             <!-- To the right -->
             <div class="pull-right hidden-xs">
                 Powered with ❤ by <a href="https://github.com/printempw/blessing-skin-server">Blessing Skin Server</a>.
             </div>
             @endif
             <!-- Default to the left -->
-            {!! Utils::getStringReplaced(Option::get('copyright_text'), ['{site_name}' => Option::get('site_name'), '{site_url}' => Option::get('site_url')]) !!}
+            {!! bs_copyright() !!}
         </footer>
 
     </div><!-- ./wrapper -->

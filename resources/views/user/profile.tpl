@@ -1,6 +1,6 @@
 @extends('user.master')
 
-@section('title', '个人资料')
+@section('title', trans('general.profile'))
 
 @section('content')
 
@@ -9,7 +9,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            个人资料
+            {{ trans('general.profile') }}
             <small>User Profile</small>
         </h1>
     </section>
@@ -20,84 +20,84 @@
             <div class="col-md-6">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title">更改头像？</h3>
+                        <h3 class="box-title">{{ trans('user.profile.change-avatar') }}</h3>
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                        <p>请在衣柜中任意皮肤的右下角「<i class="fa fa-cog"></i>」处选择「设为头像」，将会自动截取该皮肤的头部作为头像哦~</p>
+                        {!! trans('user.profile.avatar-notice') !!}
                     </div><!-- /.box-body -->
                 </div>
 
                 <div class="box box-warning">
                     <div class="box-header with-border">
-                        <h3 class="box-title">更改密码</h3>
+                        <h3 class="box-title">{{ trans('user.profile.password.title') }}</h3>
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <div class="form-group">
-                            <label for="password">旧的密码</label>
+                            <label for="password">{{ trans('user.profile.password.old') }}</label>
                             <input type="password" class="form-control" id="password" value="">
                         </div>
 
                         <div class="form-group">
-                            <label for="new-passwd">新密码</label>
+                            <label for="new-passwd">{{ trans('user.profile.password.new') }}</label>
                             <input type="password" class="form-control" id="new-passwd" value="">
                         </div>
 
                         <div class="form-group">
-                            <label for="confirm-pwd">确认密码</label>
+                            <label for="confirm-pwd">{{ trans('user.profile.password.confirm') }}</label>
                             <input type="password" class="form-control" id="confirm-pwd" value="">
                         </div>
                     </div><!-- /.box-body -->
                     <div class="box-footer">
-                        <button onclick="changePassword()" class="btn btn-primary">修改密码</button>
+                        <button onclick="changePassword()" class="btn btn-primary">{{ trans('user.profile.password.button') }}</button>
                     </div>
                 </div><!-- /.box -->
             </div>
             <div class="col-md-6">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title">更改昵称</h3>
+                        <h3 class="box-title">{{ trans('user.profile.nickname.title') }}</h3>
                         </div><!-- /.box-header -->
                         <div class="box-body">
                         <div class="form-group has-feedback">
-                            <input id="new-nickname" type="text" class="form-control" placeholder="{{ ($user->getNickName() == '') ? '当前未设置昵称，' : '' }}可使用除一些特殊符号外的任意字符">
+                            <input id="new-nickname" type="text" class="form-control" placeholder="{{ ($user->getNickName() == '') ? trans('user.profile.nickname.empty') : '' . trans('user.profile.nickname.rule') }}">
                             <span class="glyphicon glyphicon-user form-control-feedback"></span>
                         </div>
                     </div><!-- /.box-body -->
                     <div class="box-footer">
-                        <button onclick="changeNickName()" class="btn btn-primary">提交</button>
+                        <button onclick="changeNickName()" class="btn btn-primary">{{ trans('general.submit') }}</button>
                     </div>
                 </div>
 
                 <div class="box box-warning">
                     <div class="box-header with-border">
-                        <h3 class="box-title">更改邮箱</h3>
+                        <h3 class="box-title">{{ trans('user.profile.email.title') }}</h3>
                         </div><!-- /.box-header -->
                         <div class="box-body">
                         <div class="form-group has-feedback">
-                            <input id="new-email" type="email" class="form-control" placeholder="新邮箱">
+                            <input id="new-email" type="email" class="form-control" placeholder="{{ trans('user.profile.email.new') }}">
                             <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                         </div>
                         <div class="form-group has-feedback" style="display: none;">
-                            <input id="current-password" type="password" class="form-control" placeholder="当前密码">
+                            <input id="current-password" type="password" class="form-control" placeholder="{{ trans('user.profile.email.password') }}">
                             <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                         </div>
                     </div><!-- /.box-body -->
                     <div class="box-footer">
-                        <button onclick="changeEmail()" class="btn btn-warning">修改邮箱</button>
+                        <button onclick="changeEmail()" class="btn btn-warning">{{ trans('user.profile.email.button') }}</button>
                     </div>
                 </div>
 
                 <div class="box box-danger">
                     <div class="box-header with-border">
-                        <h3 class="box-title">删除账号</h3>
+                        <h3 class="box-title">{{ trans('user.profile.delete.title') }}</h3>
                         </div><!-- /.box-header -->
                         <div class="box-body">
                         @if (!$user->is_admin)
-                        <p>确定要删除你在 {{ Option::get('site_name') }} 上的账号吗？</p>
-                        <button id="delete" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-account">删除我的账户</button>
+                        <p>{{ trans('user.profile.delete.notice', ['site' => option('site_name')]) }}</p>
+                        <button id="delete" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-account">{{ trans('user.profile.delete.button') }}</button>
                         @else
-                        <p>管理员账号不能被删除哟</p>
-                        <button class="btn btn-danger" disabled="disabled">删除我的账户</button>
+                        <p>{{ trans('user.profile.delete.admin') }}</p>
+                        <button class="btn btn-danger" disabled="disabled">{{ trans('user.profile.delete.button') }}</button>
                         @endif
                     </div><!-- /.box-body -->
                 </div>
@@ -112,20 +112,17 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">这是危险操作，输入密码以继续</h4>
+                <h4 class="modal-title">{{ trans('user.profile.delete.modal-title') }}</h4>
             </div>
             <div class="modal-body">
-                <p>此操作不可恢复！</p>
-                <p>你所上传至皮肤库的材质仍会被保留，但你的角色将被永久删除。</p>
-                <p>我们不提供任何备份，或者神奇的撤销按钮。</p>
-                <p>我们警告过你了，确定要这样做吗？</p>
+                {!! nl2br(trans('user.profile.delete.modal-notice')) !!}
                 <br />
-                <input type="password" class="form-control" id="password" placeholder="当前密码">
+                <input type="password" class="form-control" id="password" placeholder="{{ trans('user.profile.delete.password') }}">
                 <br />
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline" data-dismiss="modal">关闭</button>
-                <a href="javascript:deleteAccount();" class="btn btn-outline">提交</a>
+                <button type="button" class="btn btn-outline" data-dismiss="modal">{{ trans('general.close') }}</button>
+                <a href="javascript:deleteAccount();" class="btn btn-outline">{{ trans('general.submit') }}</a>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

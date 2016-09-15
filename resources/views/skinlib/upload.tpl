@@ -72,7 +72,7 @@ label[for="type-cape"] {
                             </div>
 
                             <div class="callout callout-info" id="msg" style="display: none;">
-                                <p>私密材质将会消耗更多的积分：每 KB 存储空间 {{ Option::get('private_score_per_storage') }} 积分</p>
+                                <p>私密材质将会消耗更多的积分：每 KB 存储空间 {{ option('private_score_per_storage') }} 积分</p>
                             </div>
                         </div><!-- /.box-body -->
 

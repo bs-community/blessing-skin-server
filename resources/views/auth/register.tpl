@@ -6,11 +6,11 @@
 
 <div class="register-box">
     <div class="register-logo">
-        <a href="{{ url('/') }}">{{ Option::get('site_name') }}</a>
+        <a href="{{ url('/') }}">{{ option('site_name') }}</a>
     </div>
 
     <div class="register-box-body">
-        <p class="login-box-msg">{{ trans('auth.register.message', ['sitename' => Option::get('site_name')]) }}</p>
+        <p class="login-box-msg">{{ trans('auth.register.message', ['sitename' => option('site_name')]) }}</p>
 
         <form id="register-form">
             <div class="form-group has-feedback">

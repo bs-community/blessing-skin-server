@@ -1,0 +1,38 @@
+index: Homepage
+skinlib: Skin Library
+langs: Language
+user-center: User Center
+logout: Log Out
+login: Log In
+register: Register Now
+profile: User Profile
+online: Online
+admin-panel: Admin Panel
+explore: Explore
+manage: Manage
+anonymous: Guest
+back: Back
+dashboard: Dashboard
+my-closet: Closet
+player-manage: Player Manage
+user-manage: User Manage
+generate-config: Generate Config
+customize: Customize
+options: Options
+score-options: Score Options
+check-update: Check Update
+close: Close
+skin: Skin
+cape: Cape
+
+pagination: Page :page, total :total
+
+texture-preview: Texture Preview
+walk: Walk
+run: Run
+rotation: Rotation
+
+submit: Submit
+
+notice: Notice
+switch-2d-preview: Switch to 2D Preview

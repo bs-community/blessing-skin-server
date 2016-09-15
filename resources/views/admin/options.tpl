@@ -56,21 +56,21 @@
                                     <tr>
                                         <td class="key">站点标题</td>
                                         <td class="value">
-                                           <input type="text" class="form-control" name="site_name" value="{{ Option::get('site_name') }}">
+                                           <input type="text" class="form-control" name="site_name" value="{{ option('site_name') }}">
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <td class="key">站点描述</td>
                                         <td class="value">
-                                           <input type="text" class="form-control" name="site_description" value="{{ Option::get('site_description') }}">
+                                           <input type="text" class="form-control" name="site_description" value="{{ option('site_description') }}">
                                         </td>
                                     </tr>
 
                                     <tr title="以 http(s):// 开头，不要以 / 结尾" data-toggle="tooltip" data-placement="top">
                                         <td class="key">站点地址（URL）</td>
                                         <td class="value">
-                                           <input type="text" class="form-control" name="site_url" value="{{ Option::get('site_url') }}">
+                                           <input type="text" class="form-control" name="site_url" value="{{ option('site_url') }}">
                                         </td>
                                     </tr>
 
@@ -78,7 +78,7 @@
                                         <td class="key">开放注册</td>
                                         <td class="value">
                                             <label for="user_can_register">
-                                                <input {{ (Option::get('user_can_register') == '1') ? 'checked="true"' : '' }} type="checkbox" id="user_can_register" name="user_can_register" value="1"> 任何人都可以注册
+                                                <input {{ (option('user_can_register') == '1') ? 'checked="true"' : '' }} type="checkbox" id="user_can_register" name="user_can_register" value="1"> 任何人都可以注册
                                             </label>
                                         </td>
                                     </tr>
@@ -86,7 +86,7 @@
                                     <tr>
                                         <td class="key">每个 IP 限制注册数</td>
                                         <td class="value">
-                                           <input type="text" class="form-control" name="regs_per_ip" value="{{ Option::get('regs_per_ip') }}">
+                                           <input type="text" class="form-control" name="regs_per_ip" value="{{ option('regs_per_ip') }}">
                                         </td>
                                     </tr>
 
@@ -94,7 +94,7 @@
                                         <td class="key">角色名</td>
                                         <td class="value">
                                             <label for="allow_chinese_playername">
-                                                <input {{ (Option::get('allow_chinese_playername') == '1') ? 'checked="true"' : '' }} type="checkbox" id="allow_chinese_playername" name="allow_chinese_playername" value="1"> 允许中文角色名
+                                                <input {{ (option('allow_chinese_playername') == '1') ? 'checked="true"' : '' }} type="checkbox" id="allow_chinese_playername" name="allow_chinese_playername" value="1"> 允许中文角色名
                                             </label>
                                         </td>
                                     </tr>
@@ -103,8 +103,8 @@
                                         <td class="key">首选 JSON API</td>
                                         <td class="value">
                                             <select class="form-control" name="api_type">
-                                                <option {{ (Option::get('api_type') == '0') ? 'selected="selected"' : '' }} value="0">CustomSkinLoader API</option>
-                                                <option {{ (Option::get('api_type') == '1') ? 'selected="selected"' : '' }} value="1">UniversalSkinAPI</option>
+                                                <option {{ (option('api_type') == '0') ? 'selected="selected"' : '' }} value="0">CustomSkinLoader API</option>
+                                                <option {{ (option('api_type') == '1') ? 'selected="selected"' : '' }} value="1">UniversalSkinAPI</option>
                                             </select>
                                         </td>
                                     </tr>
@@ -115,7 +115,7 @@
                                         </td>
                                         <td class="value">
                                             <label for="avatar_query_string">
-                                                <input {{ (Option::get('avatar_query_string') == '1') ? 'checked="true"' : '' }} type="checkbox" id="avatar_query_string" name="avatar_query_string" value="1"> 为头像添加 Query String
+                                                <input {{ (option('avatar_query_string') == '1') ? 'checked="true"' : '' }} type="checkbox" id="avatar_query_string" name="avatar_query_string" value="1"> 为头像添加 Query String
                                             </label>
                                         </td>
                                     </tr>
@@ -126,7 +126,7 @@
                                         </td>
                                         <td class="value">
                                             <label for="auto_del_invalid_texture">
-                                                <input {{ (Option::get('auto_del_invalid_texture') == '1') ? 'checked="true"' : '' }} type="checkbox" id="auto_del_invalid_texture" name="auto_del_invalid_texture" value="1"> 自动删除失效材质
+                                                <input {{ (option('auto_del_invalid_texture') == '1') ? 'checked="true"' : '' }} type="checkbox" id="auto_del_invalid_texture" name="auto_del_invalid_texture" value="1"> 自动删除失效材质
                                             </label>
                                         </td>
                                     </tr>
@@ -136,7 +136,7 @@
                                             <i class="fa fa-question-circle" title="就是 Disqus，多说，畅言等评论服务提供的代码。留空以停用评论功能" data-toggle="tooltip" data-placement="top"></i>
                                         </td>
                                         <td class="value">
-                                            <textarea class="form-control" rows="6" name="comment_script">{{ Option::get('comment_script') }}</textarea>
+                                            <textarea class="form-control" rows="6" name="comment_script">{{ option('comment_script') }}</textarea>
                                             <p class="description">评论代码内可使用占位符，<code>{tid}</code> 将会被自动替换为材质的 id，<code>{name}</code> 会被替换为材质名称，<code>{url}</code> 会被替换为当前页面地址。</p>
                                         </td>
                                     </tr>
@@ -164,7 +164,7 @@
                                 echo '<div class="callout callout-success">设置已保存。</div>';
                             } ?>
 
-                            <textarea name="announcement" class="form-control" rows="3">{{ Option::get('announcement') }}</textarea>
+                            <textarea name="announcement" class="form-control" rows="3">{{ option('announcement') }}</textarea>
                             <p class="description">站点公告内容不会被转义，因此您可以使用 HTML 进行排版</p>
 
                         </div><!-- /.box-body -->

@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 10:02:24
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-10 21:42:29
+ * @Last Modified time: 2016-09-15 21:26:27
  */
 
 'use strict';
@@ -95,7 +95,7 @@ function show2dPreview() {
     $('#preview-msg').remove();
     $('.operations').hide();
     $('#preview-2d').show();
-    $('#preview-switch').html('切换 3D 预览').attr('onclick', 'show3dPreview();');
+    $('#preview-switch').html(trans('user.switch3dPreview')).attr('onclick', 'show3dPreview();');
 }
 
 function show3dPreview() {
@@ -106,7 +106,7 @@ function show3dPreview() {
     init3dCanvas();
     $('#preview-2d').hide();
     $('.operations').show();
-    $('#preview-switch').html('切换 2D 预览').attr('onclick', 'show2dPreview();');
+    $('#preview-switch').html(trans('user.switch2dPreview')).attr('onclick', 'show2dPreview();');
 }
 
 // Change 3D preview status
@@ -147,7 +147,7 @@ $('body').on('click', '.item', function() {
 
 function removeFromCloset(tid) {
     swal({
-        text: '确定要从衣柜中移除此材质吗？',
+        text: trans('user.removeFromCloset'),
         type: 'warning',
         showCancelButton: true
     }).then(function() {
@@ -175,8 +175,8 @@ function removeFromCloset(tid) {
 
 function setAsAvatar(tid) {
     swal({
-        title: '确定要将此材质设置为用户头像吗？',
-        text: '将会自动截取皮肤头部',
+        title: trans('user.setAvatar'),
+        text: trans('user.setAvatarNotice'),
         type: 'question',
         showCancelButton: true
     }).then(function() {
@@ -206,8 +206,8 @@ $(document).ready(function() {
         radioClass: 'iradio_square-blue'
     });
     swal.setDefaults({
-        confirmButtonText: '确定',
-        cancelButtonText: '取消'
+        confirmButtonText: trans('general.confirm'),
+        cancelButtonText: trans('general.cancel')
     });
 });
 
@@ -221,9 +221,9 @@ function setTexture() {
     var tid = $('.item-selected').attr('tid');
 
     if (!pid) {
-        toastr.info('你还没有选择角色哦');
+        toastr.info(trans('user.noSelectedPlayer'));
     } else if (!tid) {
-        toastr.info('你还没有选择要应用的材质哦');
+        toastr.info(trans('user.noSelectedTexture'));
     } else {
         $.ajax({
             type: "POST",
@@ -241,9 +241,7 @@ function setTexture() {
                     toastr.warning(json.msg);
                 }
             },
-            error: function(json) {
-                showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
-            }
+            error: showAjaxError
         });
     }
 }
@@ -266,10 +264,10 @@ $('body').on('change', '#preference', function() {
     });
 });
 
-function changePlayerMame(pid, current_player_name) {
+function changePlayerName(pid, current_player_name) {
     swal({
-        title: '请输入角色名：',
-        text: '允许数字、字母以及下划线，是否支持中文角色名请参考本站设置',
+        title: trans('user.changePlayerName'),
+        text: trans('user.playerNameRule'),
         inputValue: current_player_name,
         input: 'text',
         showCancelButton: true,
@@ -278,7 +276,7 @@ function changePlayerMame(pid, current_player_name) {
                 if (value) {
                     resolve();
                 } else {
-                    reject('你还没有填写名称哦');
+                    reject(trans('user.emptyPlayerName'));
                 }
             });
         }
@@ -309,7 +307,7 @@ function changePlayerMame(pid, current_player_name) {
 
 function clearTexture(pid) {
     swal({
-        text: "确定要重置该用户的皮肤/披风吗？",
+        text: trans('user.clearTexture'),
         type: 'warning',
         showCancelButton: true
     }).then(function() {
@@ -338,8 +336,8 @@ function clearTexture(pid) {
 
 function deletePlayer(pid) {
     swal({
-        title: "真的要删除该玩家吗？",
-        text: "这将是永久性的删除",
+        title: trans('user.deletePlayer'),
+        text: trans('user.deletePlayerNotice'),
         type: 'warning',
         showCancelButton: true,
         cancelButtonColor: '#3085d6',
@@ -399,13 +397,13 @@ function changeNickName() {
     if (!new_nickname) {
         swal({
             type: 'error',
-            html: '你还没有填写新昵称啊'
+            html: trans('user.emptyNewNickname')
         });
         return;
     }
 
     swal({
-        text: '确定要将昵称设置为 ' + new_nickname + ' 吗？',
+        text: trans('user.changeNickName', { new_nickname: new_nickname }),
         type: 'question',
         showCancelButton: true
     }).then(function() {
@@ -433,8 +431,6 @@ function changeNickName() {
             error: showAjaxError
         });
     });
-
-
 }
 
 function changePassword() {
@@ -443,16 +439,16 @@ function changePassword() {
     var new_passwd = $('#new-passwd').val();
 
     if (password == "") {
-        toastr.info('原密码不能为空');
+        toastr.info(trans('user.emptyPassword'));
         $('#passwd').focus();
     } else if (new_passwd == "") {
-        toastr.info('新密码要好好填哦');
+        toastr.info(trans('user.emptyNewPassword'));
         $('#new-passwd').focus();
     } else if ($('#confirm-pwd').val() == "") {
-        toastr.info('确认密码不能为空');
+        toastr.info(trans('auth.emptyConfirmPwd'));
         $('#confirm-pwd').focus();
     } else if (new_passwd != $('#confirm-pwd').val()) {
-        toastr.warning('新密码和确认的密码不一样诶？');
+        toastr.warning(trans('auth.invalidConfirmPwd'));
         $('#confirm-pwd').focus();
     } else {
         $.ajax({
@@ -498,7 +494,7 @@ function changeEmail() {
     if (!new_email) {
         swal({
             type: 'error',
-            html: '你还没有填写新邮箱啊'
+            html: trans('user.emptyNewEmail')
         });
         return;
     }
@@ -506,12 +502,12 @@ function changeEmail() {
     if (!/\S+@\S+\.\S+/.test(new_email)) {
         swal({
             type: 'warning',
-            html: '邮箱格式不正确'
+            html: trans('auth.invalidEmail')
         }); return;
     }
 
     swal({
-        text: '确定要将用户邮箱更改为 '+new_email+' 吗？',
+        text: trans('user.changeEmail', { new_email: new_email }),
         type: 'question',
         showCancelButton: true
     }).then(function() {
@@ -548,7 +544,7 @@ function deleteAccount() {
     if (!password) {
         swal({
             type: 'warning',
-            html: '请先输入当前用户密码'
+            html: trans('user.emptyDeletePassword')
         }); return;
     }
 
@@ -576,32 +572,6 @@ function deleteAccount() {
     });
 }
 
-$('#mod-select').change(function() {
-    $('#version-select').children().each(function() { $(this).remove(); });
-
-    if ($(this).val() == "csl") {
-        $('#version-select').append('<option value="13_1-upper">13.1 版及以上（推荐）</option>');
-        $('#version-select').append('<option value="13_1-lower">13.1 版以下</option>');
-    } else if ($(this).val() == "usm") {
-        $('#version-select').append('<option value="1_4-upper">1.4 版及以上（推荐）</option>');
-        $('#version-select').append('<option value="1_2-1_3">1.2 及 1.3 版</option>');
-        $('#version-select').append('<option value="1_2-lower">1.2 版以下</option>');
-    }
-
-    showConfig();
-});
-
-function showConfig() {
-    $('#config-13_1-upper').hide();
-    $('#config-13_1-lower').hide();
-    $('#config-1_4-upper').hide();
-    $('#config-1_2-1_3').hide();
-    $('#config-1_2-lower').hide();
-    $('#config-'+$('#version-select').val()).show();
-}
-
-$('#version-select').change(showConfig);
-
 function sign() {
     $.ajax({
         type: "POST",
@@ -614,7 +584,7 @@ function sign() {
                     html: json.msg
                 }).then(function() {
                     $('#score').html(json.score);
-                    var dom = '<i class="fa fa-calendar-check-o"></i> &nbsp;'+json.remaining_time+' 小时后可签到';
+                    var dom = '<i class="fa fa-calendar-check-o"></i> &nbsp;' + trans('user.signRemainTime', { time: json.remaining_time });
                     $('#sign-button').attr('disabled', 'disabled').html(dom);
                 });
             } else {

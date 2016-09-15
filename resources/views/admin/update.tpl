@@ -130,12 +130,12 @@
                                         <td class="key">检查更新</td>
                                         <td class="value">
                                             <label for="check_update">
-                                                <input {{ (Option::get('check_update') == '1') ? 'checked="true"' : '' }} type="checkbox" id="check_update" name="check_update" value="1"> 自动检查更新并提示
+                                                <input {{ (option('check_update') == '1') ? 'checked="true"' : '' }} type="checkbox" id="check_update" name="check_update" value="1"> 自动检查更新并提示
                                             </label>
                                         </td>
                                     </tr>
 
-                                    <?php $current_source = Option::get('update_source'); ?>
+                                    <?php $current_source = option('update_source'); ?>
                                     <tr>
                                         <td class="key">更新源</td>
                                         <td class="value">

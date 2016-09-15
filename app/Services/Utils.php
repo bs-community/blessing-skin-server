@@ -79,11 +79,6 @@ class Utils
         return ($timestamp == 0) ? date('Y-m-d H:i:s') : date('Y-m-d H:i:s', $timestamp);
     }
 
-    public static function getNameOrEmail(\App\Models\User $user)
-    {
-        return ($user->getNickName() == '') ? $user->email : $user->getNickName();
-    }
-
     /**
      * Replace content of string according to given rules
      *
