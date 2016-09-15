@@ -2,8 +2,64 @@
  * @Author: printempw
  * @Date:   2016-07-16 09:02:32
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-10 17:10:08
+ * @Last Modified time: 2016-09-15 10:39:49
  */
+
+$.locales = {};
+
+var locale = {};
+
+function isEmpty(obj) {
+
+    // null and undefined are "empty"
+    if (obj == null) return true;
+
+    // Assume if it has a length property with a non-zero value
+    // that that property is correct.
+    if (obj.length > 0)    return false;
+    if (obj.length === 0)  return true;
+
+    // If it isn't an object at this point
+    // it is empty, but it can't be anything *but* empty
+    // Is it empty?  Depends on your application.
+    if (typeof obj !== "object") return true;
+
+    // Otherwise, does it have any properties of its own?
+    // Note that this doesn't handle
+    // toString and valueOf enumeration bugs in IE < 9
+    for (var key in obj) {
+        if (hasOwnProperty.call(obj, key)) return false;
+    }
+
+    return true;
+}
+
+function loadLocales() {
+    for (lang in $.locales) {
+        if (!isEmpty($.locales[lang])) {
+            locale = $.locales[lang] || {};
+        }
+    }
+}
+
+function trans(key) {
+    if (isEmpty(locale)) {
+        loadLocales();
+    }
+
+    var segments = key.split('.');
+    var temp = locale || {};
+
+    for (i in segments) {
+        if (isEmpty(temp[segments[i]])) {
+            return key;
+        } else {
+            temp = temp[segments[i]];
+        }
+    }
+
+    return temp;
+}
 
 function showModal(msg, title, type, callback) {
     title = title === undefined ? "Messgae" : title;
@@ -38,40 +94,4 @@ function getQueryString(key) {
     } else {
         return result[1];
     }
-}
-
-function logout(with_out_confirm, callback) {
-    if (!with_out_confirm) {
-        swal({
-            text: '确定要登出吗？',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonText: '确定',
-            cancelButtonText: '取消'
-        }).then(function() {
-            do_logout(function(json) {
-                swal({
-                    type: 'success',
-                    html: json.msg
-                });
-                window.setTimeout('window.location = "../"', 1000);
-            });
-        });
-    } else {
-        do_logout(function(json) {
-            if (callback) callback(json);
-        });
-    }
-}
-
-function do_logout(callback) {
-    $.ajax({
-        type: "POST",
-        url: "../auth/logout",
-        dataType: "json",
-        success: function(json) {
-            if (callback) callback(json);
-        },
-        error: showAjaxError
-    });
 }

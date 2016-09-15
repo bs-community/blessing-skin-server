@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-17 10:54:22
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-11 15:26:09
+ * @Last Modified time: 2016-09-15 10:09:52
  */
 
 'use strict';
@@ -34,18 +34,18 @@ $('#login-button').click(function() {
     data.keep     = $('#keep').prop('checked') ? true : false;
 
     if (email_or_uname == "") {
-        showMsg('你还没有填写邮箱/角色名哦');
+        showMsg(trans('auth.emptyIdentification'));
         $('#email_or_username').focus();
     // check valid email address
     } else if (data.password == "") {
-        showMsg('密码要好好填哦');
+        showMsg(trans('auth.emptyPassword'));
         $('#password').focus();
     } else {
         // if captcha form is shown
         if ($('#captcha-form').css('display') == "block") {
             data.captcha = $("#captcha").val();
             if (data.captcha == "") {
-                showMsg('你还没有填写验证码哦');
+                showMsg(trans('auth.emptyCaptcha'));
                 $('#captcha').focus();
                 return false;
             }
@@ -57,7 +57,7 @@ $('#login-button').click(function() {
             dataType: "json",
             data: data,
             beforeSend: function() {
-                $('#login-button').html('<i class="fa fa-spinner fa-spin"></i> 登录中').prop('disabled', 'disabled');
+                $('#login-button').html('<i class="fa fa-spinner fa-spin"></i> '+trans('auth.loggingIn')).prop('disabled', 'disabled');
             },
             success: function(json) {
                 if (json.errno == 0) {
@@ -72,7 +72,7 @@ $('#login-button').click(function() {
                         if ($('#captcha-form').css('display') == "none") {
                             swal({
                                 type: 'error',
-                                html: '你尝试的次数太多啦，请输入验证码'
+                                html: trans('auth.tooManyFails')
                             });
                         }
 
@@ -82,12 +82,12 @@ $('#login-button').click(function() {
                     freshCaptcha();
 
                     showMsg(json.msg, 'warning');
-                    $('#login-button').html('登录').prop('disabled', '');
+                    $('#login-button').html(trans('auth.login')).prop('disabled', '');
                 }
             },
             error: function(json) {
                 showAjaxError(json);
-                $('#login-button').html('登录').prop('disabled', '');
+                $('#login-button').html(trans('auth.login')).prop('disabled', '');
             }
         });
     }
@@ -105,27 +105,27 @@ $('#register-button').click(function() {
 
     // check valid email address
     if (email == "") {
-        showMsg('你还没有填写邮箱哦');
+        showMsg(trans('auth.emptyEmail'));
         $('#email').focus();
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-        showMsg('邮箱格式不正确！', 'warning');
+        showMsg(trans('auth.invalidEmail'), 'warning');
     } else if (password == "") {
-        showMsg('密码要好好填哦');
+        showMsg(trans('auth.emptyPassword'));
         $('#password').focus();
     } else if (password.length < 8 || password.length > 16) {
-        showMsg('无效的密码。密码长度应该大于 8 并小于 16。', 'warning');
+        showMsg(trans('auth.invalidPassword'), 'warning');
         $('#password').focus();
     } else if ($('#confirm-pwd').val() == "") {
-        showMsg('确认密码不能为空');
+        showMsg(trans('auth.emptyConfirmPwd'));
         $('#confirm-pwd').focus();
     } else if (password != $('#confirm-pwd').val()) {
-        showMsg('密码和确认的密码不一样诶？', 'warning');
+        showMsg(trans('auth.invalidConfirmPwd'), 'warning');
         $('#confirm-pwd').focus();
     } else if (nickname == "") {
-        showMsg('你还没有填写昵称哦');
+        showMsg(trans('auth.emptyNickname'));
         $('#nickname').focus();
     } else if (captcha == "") {
-        showMsg('你还没有填写验证码哦');
+        showMsg(trans('auth.emptyCaptcha'));
         $('#captcha').focus();
     } else {
 
@@ -135,7 +135,7 @@ $('#register-button').click(function() {
             dataType: "json",
             data: { 'email': email, 'password': password, 'nickname': nickname, 'captcha': captcha },
             beforeSend: function() {
-                $('#register-button').html('<i class="fa fa-spinner fa-spin"></i> 注册中').prop('disabled', 'disabled');
+                $('#register-button').html('<i class="fa fa-spinner fa-spin"></i> '+trans('auth.registering')).prop('disabled', 'disabled');
             },
             success: function(json) {
                 if (json.errno == 0) {
@@ -147,12 +147,12 @@ $('#register-button').click(function() {
                 } else {
                     showMsg(json.msg, 'warning');
                     freshCaptcha();
-                    $('#register-button').html('注册').prop('disabled', '');
+                    $('#register-button').html(trans('auth.register')).prop('disabled', '');
                 }
             },
             error: function(json) {
                 showAjaxError(json);
-                $('#register-button').html('注册').prop('disabled', '');
+                $('#register-button').html(trans('auth.register')).prop('disabled', '');
             }
         });
     }
@@ -167,12 +167,12 @@ $('#forgot-button').click(function() {
 
     // check valid email address
     if (email == "") {
-        showMsg('你还没有填写邮箱哦');
+        showMsg(trans('auth.emptyEmail'));
         $('#email').focus();
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-        showMsg('邮箱格式不正确！', 'warning');
+        showMsg(trans('auth.invalidEmail'), 'warning');
     } else if (captcha == "") {
-        showMsg('你还没有填写验证码哦');
+        showMsg(trans('auth.emptyCaptcha'));
         $('#captcha').focus();
     } else {
 
@@ -182,21 +182,21 @@ $('#forgot-button').click(function() {
             dataType: "json",
             data: { 'email': email, 'captcha': captcha },
             beforeSend: function() {
-                $('#forgot-button').html('<i class="fa fa-spinner fa-spin"></i> 发送中').prop('disabled', 'disabled');
+                $('#forgot-button').html('<i class="fa fa-spinner fa-spin"></i> '+trans('auth.sending')).prop('disabled', 'disabled');
             },
             success: function(json) {
                 if (json.errno == 0) {
                     showMsg(json.msg, 'success');
-                    $('#forgot-button').html('发送').prop('disabled', 'disabled');
+                    $('#forgot-button').html(trans('auth.send')).prop('disabled', 'disabled');
                 } else {
                     showMsg(json.msg, 'warning');
                     freshCaptcha();
-                    $('#forgot-button').html('发送').prop('disabled', '');
+                    $('#forgot-button').html(trans('auth.send')).prop('disabled', '');
                 }
             },
             error: function(json) {
                 showAjaxError(json);
-                $('#forgot-button').html('发送').prop('disabled', '');
+                $('#forgot-button').html(trans('auth.send')).prop('disabled', '');
             }
         });
     }
@@ -209,13 +209,16 @@ $('#reset-button').click(function() {
     var password = $('#password').val();
 
     if (password == "") {
-        showMsg('密码要好好填哦');
+        showMsg(trans('auth.emptyPassword'));
         $('#password').focus();
     } else if (password.length < 8 || password.length > 16) {
-        showMsg('无效的密码。密码长度应该大于 8 并小于 16。', 'warning');
+        showMsg(trans('auth.invalidPassword'), 'warning');
         $('#password').focus();
     } else if ($('#confirm-pwd').val() == "") {
-        showMsg('确认密码不能为空');
+        showMsg(trans('auth.emptyConfirmPwd'));
+        $('#confirm-pwd').focus();
+    } else if (password != $('#confirm-pwd').val()) {
+        showMsg(trans('auth.invalidConfirmPwd'), 'warning');
         $('#confirm-pwd').focus();
     } else {
 
@@ -225,7 +228,7 @@ $('#reset-button').click(function() {
             dataType: "json",
             data: { 'uid': uid, 'password': password },
             beforeSend: function() {
-                $('#reset-button').html('<i class="fa fa-spinner fa-spin"></i> 重置中').prop('disabled', 'disabled');
+                $('#reset-button').html('<i class="fa fa-spinner fa-spin"></i> '+trans('auth.resetting')).prop('disabled', 'disabled');
             },
             success: function(json) {
                 if (json.errno == 0) {
@@ -237,12 +240,12 @@ $('#reset-button').click(function() {
                     });
                 } else {
                     showMsg(json.msg, 'warning');
-                    $('#reset-button').html('重置').prop('disabled', '');
+                    $('#reset-button').html(trans('auth.reset')).prop('disabled', '');
                 }
             },
             error: function(json) {
                 showAjaxError(json);
-                $('#reset-button').html('重置').prop('disabled', '');
+                $('#reset-button').html(trans('auth.reset')).prop('disabled', '');
             }
         });
     }
