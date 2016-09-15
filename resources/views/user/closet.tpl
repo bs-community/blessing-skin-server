@@ -56,7 +56,7 @@
                         </div>
                         @empty
                         <div class="empty-msg">
-                            {{ trans('user.closet.empty-msg', ['url' => url('skinlib')]) }}
+                            {!! trans('user.closet.empty-msg', ['url' => url('skinlib')]) !!}
                         </div>
                         @endforelse
 
