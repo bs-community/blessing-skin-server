@@ -1,5 +1,7 @@
 # Blessing Skin Server
 
+> Now working on Internationalization. Help wanted~
+
 Blessing Skin Server is a web application for storing and managing skins in Minecraft. You can get your skin back easily even in an offline Minecraft server with Blessing Skin Server.
 
 The framework used by this project is Laravel. Older versions of Blessing Skin Server are available on other branches.
