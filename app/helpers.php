@@ -130,3 +130,48 @@ if (! function_exists('bs_header')) {
         echo '<style>'.Option::get("custom_css").'</style>';
     }
 }
+
+if (! function_exists('bs_menu')) {
+
+    function bs_menu($type, $title)
+    {
+        $menu = require BASE_DIR."/config/menu.php";
+
+        if (!isset($menu[$type])) {
+            throw new InvalidArgumentException;
+        }
+
+        foreach ($menu[$type] as $key => $value) {
+            $value['title'] = trans($value['title']);
+
+            echo ($title == $value['title']) ? '<li class="active">' : '<li>';
+
+            echo '<a href="'.url($value['link']).'"><i class="fa '.$value['icon'].'"></i> <span>'.$value['title'].'</span></a></li>';
+        }
+
+    }
+}
+
+if (! function_exists('bs_copyright')) {
+
+    function bs_copyright()
+    {
+        return Utils::getStringReplaced(Option::get('copyright_text'), ['{site_name}' => Option::get('site_name'), '{site_url}' => Option::get('site_url')]);
+    }
+}
+
+if (! function_exists('bs_nickname')) {
+
+    function bs_nickname(\App\Models\User $user)
+    {
+        return ($user->getNickName() == '') ? $user->email : $user->getNickName();
+    }
+}
+
+if (! function_exists('option')) {
+
+    function option($key)
+    {
+        return Option::get($key);
+    }
+}
