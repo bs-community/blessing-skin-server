@@ -8,15 +8,9 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- App Styles -->
-    <link rel="stylesheet" href="{{ assets('css/app.min.css') }}">
-    <!-- AdminLTE Skins -->
-    <link rel="stylesheet" href="{{ assets('vendor/skins/'.Option::get('color_scheme').'.min.css') }}">
-
-    <link rel="stylesheet" href="{{ assets('css/skinlib.css') }}">
+    {!! bs_header('skinlib') !!}
 
     @yield('style')
-
-    <style>{!! Option::get('custom_css') !!}</style>
 </head>
 
 <body class="hold-transition {{ Option::get('color_scheme') }} layout-top-nav">
@@ -151,12 +145,8 @@
     </div><!-- ./wrapper -->
 
     <!-- App Scripts -->
-    <script type="text/javascript" src="{{ assets('js/app.min.js') }}"></script>
-
-    <script type="text/javascript" src="{{ assets('js/skinlib.js') }}"></script>
+    {!! bs_footer('skinlib') !!}
 
     @yield('script')
-
-    <script>{!! Option::get('custom_js') !!}</script>
 </body>
 </html>

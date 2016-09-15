@@ -8,15 +8,9 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- App Styles -->
-    <link rel="stylesheet" href="{{ assets('css/app.min.css') }}">
-    <!-- AdminLTE Skins -->
-    <link rel="stylesheet" href="{{ assets('vendor/skins/'.Option::get('color_scheme').'.min.css') }}">
-
-    <link rel="stylesheet" href="{{ assets('css/user.css') }}">
+    {!! bs_header('user') !!}
 
     @yield('style')
-
-    <style>{!! Option::get('custom_css') !!}</style>
 </head>
 
 <body class="hold-transition {{ Option::get('color_scheme') }} sidebar-mini">
@@ -139,18 +133,8 @@
     </div><!-- ./wrapper -->
 
     <!-- App Scripts -->
-    <script type="text/javascript" src="{{ assets('js/app.min.js') }}"></script>
-
-    <script type="text/javascript" src="{{ assets('js/user.js') }}"></script>
+    {!! bs_footer('user') !!}
 
     @yield('script')
-
-    @if (Session::has('msg'))
-    <script>
-        toastr.info('{{ Session::pull('msg') }}');
-    </script>
-    @endif
-
-    <script>{!! Option::get('custom_js') !!}</script>
 </body>
 </html>

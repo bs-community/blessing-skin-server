@@ -81,3 +81,52 @@ if (! function_exists('json')) {
         }
     }
 }
+
+if (! function_exists('bs_footer')) {
+
+    function bs_footer($page_identification = "")
+    {
+        $scripts = [
+            assets('js/app.min.js'),
+            assets('lang/'.session('locale', config('app.locale')).'/locale.js'),
+            assets('js/general.js')
+        ];
+
+        if ($page_identification !== "") {
+            $scripts[] = assets("js/$page_identification.js");
+        }
+
+        foreach ($scripts as $script) {
+            echo "<script type=\"text/javascript\" src=\"$script\"></script>";
+        }
+
+        if (Session::has('msg')): ?>
+        <script>
+            toastr.info('{{ Session::pull('msg') }}');
+        </script>
+        <?php endif;
+
+        echo '<script>'.Option::get("custom_js").'</script>';
+    }
+}
+
+if (! function_exists('bs_header')) {
+
+    function bs_header($page_identification = "")
+    {
+        $styles = [
+            assets('css/app.min.css'),
+            assets('vendor/skins/'.Option::get('color_scheme').'.min.css')
+        ];
+
+        if ($page_identification !== "") {
+            $styles[] = assets("css/$page_identification.css");
+        }
+
+        foreach ($styles as $style) {
+            echo "<link rel=\"stylesheet\" href=\"$style\">";
+        }
+
+        echo '<style>'.Option::get("custom_css").'</style>';
+    }
+}

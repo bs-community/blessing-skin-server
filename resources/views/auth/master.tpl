@@ -7,13 +7,7 @@
     <link rel="shortcut icon" href="{{ assets('images/favicon.ico') }}">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- App Styles -->
-    <link rel="stylesheet" href="{{ assets('css/app.min.css') }}">
-
-    <link rel="stylesheet" href="{{ assets('vendor/skins/'.Option::get('color_scheme').'.min.css') }}">
-
-    <link rel="stylesheet" href="{{ assets('css/auth.css') }}">
-
-    <style>{{ Option::get('custom_css')  }}</style>
+    {!! bs_header('auth') !!}
 </head>
 
 <body class="hold-transition login-page">
@@ -21,16 +15,8 @@
     @yield('content')
 
     <!-- App Scripts -->
-    <script type="text/javascript" src="{{ assets('js/app.min.js') }}"></script>
+    {!! bs_footer('auth') !!}
 
-    <script type="text/javascript" src="{{ assets('js/auth.js') }}"></script>
-
-    @if (Session::has('msg'))
-    <script>
-        toastr.info('{{ Session::pull('msg') }}');
-    </script>
-    @endif
-
-    <script>{!! Option::get('custom_js') !!}</script>
+    @yield('script')
 </body>
 </html>

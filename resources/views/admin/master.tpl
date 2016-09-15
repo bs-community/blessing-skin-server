@@ -8,15 +8,9 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- App Styles -->
-    <link rel="stylesheet" href="{{ assets('css/app.min.css') }}">
-    <!-- AdminLTE Skins -->
-    <link rel="stylesheet" href="{{ assets('vendor/skins/'.Option::get('color_scheme').'.min.css') }}">
-
-    <link rel="stylesheet" href="{{ assets('css/admin.css') }}">
+    {!! bs_header('admin') !!}
 
     @yield('style')
-
-    <style>{!! Option::get('custom_css') !!}</style>
 </head>
 
 <?php $user = new App\Models\User(session('uid')); ?>
@@ -138,9 +132,7 @@
     </div><!-- ./wrapper -->
 
     <!-- App Scripts -->
-    <script type="text/javascript" src="{{ assets('js/app.min.js') }}"></script>
-
-    <script type="text/javascript" src="{{ assets('js/admin.js') }}"></script>
+    {!! bs_footer('admin') !!}
 
     @if (Option::get('check_update') == '1')
     <script>
@@ -155,7 +147,5 @@
     @endif
 
     @yield('script')
-
-    <script>{!! Option::get('custom_js') !!}</script>
 </body>
 </html>

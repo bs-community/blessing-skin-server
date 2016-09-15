@@ -8,18 +8,12 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- App Styles -->
-    <link rel="stylesheet" href="{{ assets('css/app.min.css') }}">
-    <!-- AdminLTE Skins -->
-    <link rel="stylesheet" href="{{ assets('vendor/skins/'.Option::get('color_scheme').'.min.css') }}">
-
-    <link rel="stylesheet" href="{{ assets('css/index.css') }}">
+    {!! bs_header('index') !!}
 
     <style>
         .wrapper {
             background-image: url('{{ Option::get('home_pic_url') }}');
         }
-
-        {!! Option::get('custom_css') !!}
     </style>
 </head>
 
@@ -122,8 +116,6 @@
     </div><!-- ./wrapper -->
 
     <!-- App Scripts -->
-    <script type="text/javascript" src="{{ assets('js/app.min.js') }}"></script>
-
-    <script>{!! Option::get('custom_js') !!}</script>
+    {!! bs_footer() !!}
 </body>
 </html>
