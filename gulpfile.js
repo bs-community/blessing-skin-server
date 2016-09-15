@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-09-14 22:55:22
+* @Last Modified time: 2016-09-15 11:09:48
 */
 
 var gulp     = require('gulp'),
@@ -93,6 +93,7 @@ gulp.task('zip', function() {
     // delete cache files
     del([
         'storage/logs/*',
+        'storage/yaml-translation/*',
         'storage/framework/cache/*',
         'storage/framework/sessions/*',
         'storage/framework/views/*'
@@ -103,7 +104,7 @@ gulp.task('zip', function() {
             'LICENSE',
             '!tests/**/*.*',
             '!node_modules/**/*.*',
-            '!textures/**/*.*',
+            '!storage/textures/**/*.*',
             '!.env',
             '!.bowerrc',
             '!.gitignore',
@@ -116,7 +117,7 @@ gulp.task('zip', function() {
             '!composer.json',
             '!composer.lock',
             '!bower.json',
-            '!resources/assets/**/*.*',
+            '!resources/src/**/*.*',
             '!.sass-cache/**/*.*',
             '!.sass-cache/',
             '!storage/logs/*.*',
