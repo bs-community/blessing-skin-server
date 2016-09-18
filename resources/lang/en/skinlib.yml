@@ -3,7 +3,7 @@ index:
   any-model: (Any model)
   steve-model: Steve Model
   alex-model: Alex Model
-  uploader: User（ :name ）uploaded
+  uploader: User ( :name ) uploaded
   newest-uploaded: Newestly uploaded
   most-likes: Most likes
   no-result: No result.
@@ -42,10 +42,10 @@ show:
   change-privacy: Change privacy
   message: Textures setted to be private or deleted will be removed from all collectors'' closets.
   set-private: Be private
-  set-public: Be publuc
+  set-public: Be public
   set-message: You can make this texture private or delete it, which will remove it from all collectors'' closets.
   comment: Comments
-  no-comment: We have not enable comment service.
+  no-comment: We have not enabled comment service.
 
 upload:
   title: Upload texture

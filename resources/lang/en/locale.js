@@ -48,8 +48,7 @@
             warningPublic: 'Are you sure to make this texture public?',
             setPrivate: 'Make it private',
             setPublic: 'Make it public',
-            warningDelete: 'Are you sure to delete this texture? Scores will be returned.',
-            
+            warningDelete: 'Are you sure to delete this texture? Scores will be returned.'
         },
         user: {
             switch2dPreview: 'Switch to 2D Preview',
@@ -72,8 +71,11 @@
             emptyNewEmail: 'Empty new email address.',
             changeEmail: 'Sure to change your email address to :new_email?',
             emptyDeletePassword: 'Please enter the current password:',
-            signRemainTime: 'Can sign after :time hours',
+            signRemainTime: 'Can sign after :time hours'
         },
+        utils: {
+            fatalError: 'Fatal Error (Please contact author.)'
+        }
         config: {
             csl13_1Upper: 'v13.1 and upper (recommended)',
             csl13_1Lower: 'lower than v13.1',
