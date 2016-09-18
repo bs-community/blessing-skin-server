@@ -6,7 +6,7 @@ index:
   uploader: User ( :name ) uploaded
   newest-uploaded: Newestly uploaded
   most-likes: Most likes
-  no-result: No result.
+  no-result: 'No result.'
 
 item:
   remove-from-closet: Remove from closet.
@@ -23,7 +23,7 @@ master:
 
 search:
   title: Result
-  no-given-keywords: No keywords
+  no-given-keywords: 'No keywords'
   no-result: No result.
 
 show:
@@ -40,10 +40,10 @@ show:
   upload-at: Date of upload
   delete-texture: Delete texture
   change-privacy: Change privacy
-  message: Textures setted to be private or deleted will be removed from all collectors'' closets.
+  message: 'Textures setted to be private or deleted will be removed from all collectors'' closets.'
   set-private: Be private
   set-public: Be public
-  set-message: You can make this texture private or delete it, which will remove it from all collectors'' closets.
+  set-message: 'You can make this texture private or delete it, which will remove it from all collectors'' closets.'
   comment: Comments
   no-comment: We have not enabled comment service.
 
