@@ -31,6 +31,26 @@
             reset: '重置',
             resetting: '重置中'
         },
+        skinlib: {
+            setSkinName: '给你的皮肤起个名字吧~',
+            removeFromCloset: '从衣柜中移除',
+            addToCloset: '添加至衣柜',
+            encodingError: '错误：这张图片编码不对哦',
+            formatError: '错误：皮肤文件必须为 PNG 格式',
+            chooseTextureType: '请选择材质的类型',
+            noUploadFile: '你还没有上传任何文件哦',
+            setTextureName: '给你的材质起个名字吧',
+            choosePNG: '请选择 PNG 格式的图片',
+            uploading: '上传中',
+            redirecting: '正在跳转...',
+            confirmUpload: '确认上传',
+            inputTextureName: '请输入新的材质名称：',
+            warningPublic: '要将此材质设置为公开吗？',
+            setPrivate: '设为隐私',
+            setPublic: '设为公开',
+            warningDelete: '真的要删除此材质吗？积分将会被返还',
+            
+        },
         user: {
             switch2dPreview: '切换 2D 预览',
             switch3dPreview: '切换 3D 预览',

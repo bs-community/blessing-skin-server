@@ -1,6 +1,6 @@
 @extends('skinlib.master')
 
-@section('title', '皮肤库')
+@section('title', trans('general.skinlib'))
 
 @section('content')
 <!-- Full Width Column -->
@@ -9,29 +9,29 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                皮肤库
+                {{ trans('general.skinlib') }}
                 <small>Skin Library</small>
             </h1>
             <ol class="breadcrumb">
-                <li><i class="fa fa-tags"></i> 当前正显示</li>
+                <li><i class="fa fa-tags"></i> {{ trans('skinlib.index.now-showing') }}</li>
                 <li>
                     @if ($filter == "skin")
-                        皮肤<small>（任意模型）</small>
+                        {{ trans('general.skin') }}<small>{{ trans('skinlib.index.any-model') }}</small>
                     @elseif ($filter == "steve")
-                        皮肤<small>（Steve 模型）</small>
+                        {{ trans('skinlib.index.any-model') }}<small>({{ trans('skinlib.index.steve-model') }})</small>
                     @elseif ($filter == "alex")
-                        皮肤<small>（Alex 模型）</small>
+                        {{ trans('general.skin') }}<small>{{ trans('skinlib.index.alex-model') }}</small>
                     @elseif ($filter == "cape")
-                        披风
+                        {{ trans('general.cape') }}
                     @elseif ($filter == "user")
-                        用户（{{ (new App\Models\User($_GET['uid']))->getNickName() }}）上传
+                        {{ trans('skinlib.index.uploader', ['name' => (new App\Models\User($_GET['uid']))->getNickName()]) }}
                     @endif
                 </li>
                 <li class="active">
                     @if ($sort == "time")
-                        最新上传
+                        {{ trans('skinlib.index.newest-uploaded') }}
                     @elseif ($sort == "likes")
-                        最多收藏
+                        {{ trans('skinlib.index.most-likes') }}
                     @endif
                 </li>
             </ol>
@@ -46,7 +46,7 @@
                         @include('skinlib.item')
                     </a>
                     @empty
-                    <p style="text-align: center; margin: 30px 0;">无结果</p>
+                    <p style="text-align: center; margin: 30px 0;">{{ trans('skinlib.index.no-result') }}</p>
                     @endforelse
                 </div><!-- /.box-body -->
                 <div class="box-footer">
@@ -77,7 +77,7 @@
                     @endfor
                     </select>
 
-                    <p class="pull-right">第 {{ $page }} 页，共 {{ $total_pages }} 页</p>
+                    <p class="pull-right">{{ trans('general.pagination', ['page' => $page , 'total' => $total_pages]) }}</p>
                 </div>
             </div><!-- /.box -->
         </section><!-- /.content -->

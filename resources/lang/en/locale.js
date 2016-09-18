@@ -31,6 +31,26 @@
             reset: 'Reset',
             resetting: 'Resetting'
         },
+        skinlib: {
+            setSkinName: 'Please name your skin~',
+            removeFromCloset: 'Remove from closet.',
+            addToCloset: 'Add to closet.',
+            encodingError: 'Error: Encoding of this picture is incorrect.',
+            formatError: 'Error: Format of skin file must be PNG.',
+            chooseTextureType: 'Please choose type of texture.',
+            noUploadFile: 'You have not uploaded any file.',
+            setTextureName: 'Please name your texture.',
+            choosePNG: 'Please choose PNG picture file.',
+            uploading: 'Uploading',
+            redirecting: 'Redirecting...',
+            confirmUpload: 'Confirm uploading',
+            inputTextureName: 'Please input new name of texture.',
+            warningPublic: 'Are you sure to make this texture public?',
+            setPrivate: 'Make it private',
+            setPublic: 'Make it public',
+            warningDelete: 'Are you sure to delete this texture? Scores will be returned.',
+            
+        },
         user: {
             switch2dPreview: 'Switch to 2D Preview',
             switch3dPreview: 'Switch to 3D Preview',

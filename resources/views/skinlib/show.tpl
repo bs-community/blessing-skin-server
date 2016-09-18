@@ -9,7 +9,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                材质详情
+                {{ trans('skinlib.show.title') }}
                 <small>Texture Details</small>
             </h1>
         </section>
@@ -20,11 +20,11 @@
                 <div class="col-md-8">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title" style="width: 100%;">材质预览
+                            <h3 class="box-title" style="width: 100%;">{{ trans('general.texture-preview') }}
                                 <div class="operations">
-                                    <i data-toggle="tooltip" data-placement="bottom" title="行走" class="fa fa-pause"></i>
-                                    <i data-toggle="tooltip" data-placement="bottom" title="奔跑" class="fa fa-forward"></i>
-                                    <i data-toggle="tooltip" data-placement="bottom" title="旋转" class="fa fa-repeat"></i>
+                                    <i data-toggle="tooltip" data-placement="bottom" title="{{ trans('general.walk') }}" class="fa fa-pause"></i>
+                                    <i data-toggle="tooltip" data-placement="bottom" title="{{ trans('general.run') }}" class="fa fa-forward"></i>
+                                    <i data-toggle="tooltip" data-placement="bottom" title="{{ trans('general.rotation') }}" class="fa fa-repeat"></i>
                                 </div>
                             </h3>
                         </div><!-- /.box-header -->
@@ -33,17 +33,17 @@
                         </div><!-- /.box-body -->
                         <div class="box-footer">
                             @if (is_null($user))
-                            <button disabled="disabled" title="登录后才能使用衣柜哦" class="btn btn-primary pull-right">添加至衣柜</button>
+                            <button disabled="disabled" title="{{ trans('skinlib.show.login-before-using-closet') }}" class="btn btn-primary pull-right">{{ trans('skinlib.item.add-to-closet') }}</button>
                             @else
 
                             @if ($user->closet->has($texture->tid))
-                            <a href="javascript:removeFromCloset({{ $texture->tid }});" id="{{ $texture->tid }}" class="btn btn-primary pull-right">从衣柜中移除</a>
+                            <a href="javascript:removeFromCloset({{ $texture->tid }});" id="{{ $texture->tid }}" class="btn btn-primary pull-right">{{ trans('skinlib.item.remove-from-closet') }}</a>
                             @else
-                            <a href="javascript:addToCloset({{ $texture->tid }});" id="{{ $texture->tid }}" class="btn btn-primary pull-right">添加至衣柜</a>
+                            <a href="javascript:addToCloset({{ $texture->tid }});" id="{{ $texture->tid }}" class="btn btn-primary pull-right">{{ trans('skinlib.item.add-to-closet') }}</a>
                             @endif
 
                             @endif
-                            <div class="btn likes" title="收藏人数" data-toggle="tooltip" data-placement="top"><i class="fa fa-heart"></i>
+                            <div class="btn likes" title="{{ trans('skinlib.show.number-of-likes') }}" data-toggle="tooltip" data-placement="top"><i class="fa fa-heart"></i>
                                 <span id="likes">{{ $texture->likes }}</span>
                             </div>
                         </div><!-- /.box-footer -->
@@ -52,44 +52,44 @@
                 <div class="col-md-4">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">详细信息</h3>
+                            <h3 class="box-title">{{ trans('skinlib.show.detail') }}</h3>
                         </div><!-- /.box-header -->
                         <div class="box-body">
                             <table class="table">
                                 <tbody>
                                     <tr>
-                                        <td>名称</td>
+                                        <td>{{ trans('skinlib.show.name') }}</td>
                                         <td id="name">{{ $texture->name }}
                                             @if (!is_null($user) && ($texture->uploader == $user->uid || $user->is_admin))
                                             <small>
-                                                <a href="javascript:changeTextureName({{ $texture->tid }});">修改名称</a>
+                                                <a href="javascript:changeTextureName({{ $texture->tid }});">{{ trans('skinlib.show.modify-name') }}</a>
                                             </small>
                                             @endif
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>适用模型</td>
+                                        <td>{{ trans('skinlib.show.suitable-model') }}</td>
                                         <td>{{ $texture->type }}</td>
                                     </tr>
                                     <tr>
                                         <td>Hash
-                                            <i class="fa fa-question-circle" title="右键另存为即可下载原始皮肤文件" data-toggle="tooltip" data-placement="top"></i>
+                                            <i class="fa fa-question-circle" title="{{ trans('skinlib.show.download-raw') }}" data-toggle="tooltip" data-placement="top"></i>
                                         </td>
                                         <td>
                                             <a href="{{ url('raw/'.$texture->tid) }}.png" title="{{ $texture->hash }}">{{ substr($texture->hash, 0, 15) }}...</a>
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>文件大小</td>
+                                        <td>{{ trans('skinlib.show.size-of-file') }}</td>
                                         <td>{{ $texture->size }} KB</td>
                                     </tr>
                                     <tr>
-                                        <td>上传者</td>
+                                        <td>{{ trans('skinlib.show.uploader') }}</td>
                                         <?php $uploader = new App\Models\User($texture->uploader); ?>
                                         <td><a href="{{ url('skinlib?filter=user&uid='.$uploader->uid) }}&sort=time">{{ $uploader->getNickName() }}</a></td>
                                     </tr>
                                     <tr>
-                                        <td>上传日期</td>
+                                        <td>{{ trans('skinlib.show.upload-at') }}</td>
                                         <td>{{ $texture->upload_at }}</td>
                                     </tr>
                                 </tbody>
@@ -101,35 +101,35 @@
                     @if ($texture->uploader == $user->uid)
                     <div class="box box-danger">
                         <div class="box-header with-border">
-                            <h3 class="box-title">删除材质 / 设置隐私</h3>
+                            <h3 class="box-title">{{ trans('skinlib.show.delete-texture') }} / {{ trans('skinlib.show.change-privacy') }}</h3>
                         </div><!-- /.box-header -->
                         <div class="box-body">
-                            <p>材质设为隐私或被删除后将会从每一个收藏者的衣柜中移除。</p>
+                            <p>{{ trans('skinlib.show.message') }}</p>
                         </div><!-- /.box-body -->
                         <div class="box-footer">
                             @if ($texture->public == "1")
-                            <a href="javascript:changePrivacy({{ $texture->tid }});" class="btn btn-warning">设为隐私</a>
+                            <a href="javascript:changePrivacy({{ $texture->tid }});" class="btn btn-warning">{{ trans('skinlib.show.set-private') }}</a>
                             @else
-                            <a href="javascript:changePrivacy({{ $texture->tid }});" class="btn btn-warning">设为公开</a>
+                            <a href="javascript:changePrivacy({{ $texture->tid }});" class="btn btn-warning">{{ trans('skinlib.show.set-public') }}</a>
                             @endif
-                            <a href="javascript:deleteTexture({{ $texture->tid }});" class="btn btn-danger pull-right">删除材质</a>
+                            <a href="javascript:deleteTexture({{ $texture->tid }});" class="btn btn-danger pull-right">{{ trans('skinlib.show.delete-texture') }}</a>
                         </div><!-- /.box-footer -->
                     </div><!-- /.box -->
                     @elseif ($user->is_admin)
                     <div class="box box-danger">
                         <div class="box-header with-border">
-                            <h3 class="box-title">管理员面板</h3>
+                            <h3 class="box-title">{{ trans('general.admin-panel') }}</h3>
                         </div><!-- /.box-header -->
                         <div class="box-body">
-                            <p>你可以将此材质设为隐私或删除。这将会使此材质从每一个收藏者的衣柜中移除。</p>
+                            <p>{{ trans('skinlib.show.set-message') }}</p>
                         </div><!-- /.box-body -->
                         <div class="box-footer">
                             @if ($texture->public == "1")
-                            <a href="javascript:changePrivacy({{ $texture->tid }});" class="btn btn-warning">设为隐私</a>
+                            <a href="javascript:changePrivacy({{ $texture->tid }});" class="btn btn-warning">{{ trans('skinlib.show.set-private') }}</a>
                             @else
-                            <a href="javascript:changePrivacy({{ $texture->tid }});" class="btn btn-warning">设为公开</a>
+                            <a href="javascript:changePrivacy({{ $texture->tid }});" class="btn btn-warning">{{ trans('skinlib.show.set-public') }}</a>
                             @endif
-                            <a href="javascript:deleteTexture({{ $texture->tid }});" class="btn btn-danger pull-right">删除材质</a>
+                            <a href="javascript:deleteTexture({{ $texture->tid }});" class="btn btn-danger pull-right">{{ trans('skinlib.show.delete-texture') }}</a>
                         </div><!-- /.box-footer -->
                     </div><!-- /.box -->
                     @endif
@@ -141,7 +141,7 @@
                 <div class="col-md-12">
                     <div class="box box-default">
                         <div class="box-header with-border">
-                            <h3 class="box-title">评论区</h3>
+                            <h3 class="box-title">{{ trans('skinlib.show.comment') }}</h3>
                         </div><!-- /.box-header -->
                         <div class="box-body">
                             @if (option('comment_script') != "")
@@ -149,7 +149,7 @@
                             {!! Utils::getStringReplaced(option('comment_script'), ['{tid}' => $texture->tid, '{name}' => $texture->name, '{url}' => get_current_url()]) !!}
                             <!-- Comment End -->
                             @else
-                            <p style="text-align: center; margin: 30px 0;">本站未开启评论服务</p>
+                            <p style="text-align: center; margin: 30px 0;">{{ trans('skinlib.show.no-comment') }}</p>
                             @endif
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->

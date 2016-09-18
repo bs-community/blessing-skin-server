@@ -1,0 +1,61 @@
+index:
+  now-showing: 当前正显示
+  any-model: （任意模型）
+  steve-model: Steve 模型
+  alex-model: Alex 模型
+  uploader: 用户（ :name ）上传
+  newest-uploaded: 最新上传
+  most-likes: 最多收藏
+  no-result: 无结果
+
+item:
+  remove-from-closet: 从衣柜中移除
+  add-to-closet: 添加至衣柜
+  not-logged-in: 请先登录
+  private: 私密
+
+master:
+  filter: 过滤器
+  my-upload: 我的上传
+  sort: 排序
+  search-textures: 搜索材质
+  upload-new-skin: 上传新皮肤
+
+search:
+  title: 搜索结果
+  no-given-keywords: 未指定关键字
+  no-result: 无结果
+
+show:
+  title: 材质详情
+  login-before-using-closet: 登录后才能使用衣柜哦
+  number-of-likes: 收藏人数
+  detail: 详细信息
+  name: 名称
+  modify-name: 修改名称
+  suitable-model: 适用模型
+  download-raw: 右键另存为即可下载原始皮肤文件
+  size-of-file: 文件大小
+  uploader: 上传者
+  upload-at: 上传日期
+  delete-texture: 删除材质
+  change-privacy: 设置隐私
+  message: 材质设为隐私或被删除后将会从每一个收藏者的衣柜中移除。
+  set-private: 设为隐私
+  set-public: 设为公开
+  set-message: 你可以将此材质设为隐私或删除。这将会使此材质从每一个收藏者的衣柜中移除。
+  comment: 评论区
+  no-comment: 本站未开启评论服务
+
+upload:
+  title: 上传材质
+  button: 确认上传
+  upload: 上传
+  texture-name: 材质名称
+  name-message: 材质名称应该小于 32 个字节且不能包含奇怪的符号
+  texture-type: 材质类型
+  choose-file: 选择文件
+  storage-message: 私密材质将会消耗更多的积分：每 KB 存储空间  :score 积分
+  privacy-message: 其他人将不会在皮肤库中看到此材质
+  set-private: 设置为私密材质
+  

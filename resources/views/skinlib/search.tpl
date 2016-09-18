@@ -1,6 +1,6 @@
 @extends('skinlib.master')
 
-@section('title', '搜索结果')
+@section('title', trans('skinlib.search.title'))
 
 @section('content')
 <!-- Full Width Column -->
@@ -9,7 +9,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                搜索结果：{{ $_GET['q'] or "未指定关键字" }}
+                {{ trans('skinlib.search.title') }}:{{ $_GET['q'] or "{{ trans('skinlib.search.no-given-keywords') }}" }}
                 <small>Skin Library</small>
             </h1>
 
@@ -19,24 +19,24 @@
         <section class="content">
             <div class="box box-default">
                 <div class="box-header with-border">
-                    <h3 class="box-title">当前正显示：
-                        <small>过滤器：
+                    <h3 class="box-title">{{ trans('skinlib.index.now-showing') }}:
+                        <small>{{ trans('skinlib.master.filter') }}:
                             @if ($filter == "skin")
-                            皮肤（任意模型）
+                            {{ trans('general.skin').trans('skinlib.index.any-model') }}
                             @elseif ($filter == "steve")
-                            皮肤（Steve 模型）
+                            {{ trans('general.skin').'('.trans('skinlib.index.steve-model').')' }}
                             @elseif ($filter == "alex")
-                            皮肤（Alex 模型）
+                            {{ trans('general.skin').'('.trans('skinlib.index.alex-model').')' }}
                             @elseif ($filter == "cape")
-                            披风
+                            {{ trans('general.cape') }}
                             @endif
                         </small>
 
-                        <small>，排序：
+                        <small>,{{ trans('skinlib.master.sort') }}:
                             @if ($sort == "time")
-                            最新上传
+                            {{ trans('skinlib.index.newest-uploaded') }}
                             @elseif ($sort == "likes")
-                            最多收藏
+                            {{ trans('skinlib.index.most-likes') }}
                             @endif
                         </small>
                     </h3>
@@ -47,7 +47,7 @@
                         @include('skinlib.item')
                     </a>
                     @empty
-                    <p style="text-align: center; margin: 30px 0;">无结果</p>
+                    <p style="text-align: center; margin: 30px 0;">{{ trans('skinlib.search.no-result') }}</p>
                     @endforelse
                 </div><!-- /.box-body -->
             </div><!-- /.box -->

@@ -1,6 +1,6 @@
 @extends('skinlib.master')
 
-@section('title', '上传材质')
+@section('title', trans('skinlib.upload.title'))
 
 @section('style')
 <style>
@@ -18,7 +18,7 @@ label[for="type-cape"] {
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                上传材质
+                {{ trans('skinlib.upload.title') }}
                 <small>Upload Texture</small>
             </h1>
         </section>
@@ -29,28 +29,28 @@ label[for="type-cape"] {
                 <div class="col-md-6">
                     <div class="box box-primary">
                         <div class="box-header with-border">
-                            <h3 class="box-title">上传</h3>
+                            <h3 class="box-title">{{ trans('skinlib.upload.upload') }}</h3>
                         </div><!-- /.box-header -->
                         <div class="box-body">
                             <div class="form-group">
-                                <label for="name">材质名称</label>
-                                <input id="name" class="form-control" type="text" placeholder="材质名称应该小于 32 个字节且不能包含奇怪的符号" />
+                                <label for="name">{{ trans('skinlib.upload.texture-name') }}</label>
+                                <input id="name" class="form-control" type="text" placeholder="{{ trans('skinlib.upload.name-message') }}" />
                             </div>
 
                             <div class="form-group">
-                                <label>材质类型</label>
+                                <label>{{ trans('skinlib.upload.texture-type') }}</label>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="row">
                                             <div class="col-xs-4">
                                                 <label for="type-skin">
-                                                    <input type="radio" name="type" id="type-skin"> 皮肤
+                                                    <input type="radio" name="type" id="type-skin"> {{ trans('general.skin') }}
                                                 </label>
                                             </div>
                                             <div class="col-xs-8">
                                                 <select class="form-control" id="skin-type" style="display: none;">
-                                                    <option value="steve">Steve 模型</option>
-                                                    <option value="alex">Alex 模型</option>
+                                                    <option value="steve">{{ trans('skinlib.index.steve-model') }}</option>
+                                                    <option value="alex">{{ trans('skinlib.index.alex-model') }}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -59,7 +59,7 @@ label[for="type-cape"] {
 
                                     <div class="col-md-6">
                                         <label for="type-cape">
-                                            <input type="radio" name="type" id="type-cape"> 披风
+                                            <input type="radio" name="type" id="type-cape"> {{ trans('general.cape') }}
                                         </label>
                                     </div>
                                 </div>
@@ -67,31 +67,31 @@ label[for="type-cape"] {
                             </div>
 
                             <div class="form-group">
-                                <label for="file">选择文件</label>
+                                <label for="file">{{ trans('skinlib.upload.choose-file') }}</label>
                                 <input id="file" type="file" data-show-upload="false" data-language="zh" class="file" accept="image/png" />
                             </div>
 
                             <div class="callout callout-info" id="msg" style="display: none;">
-                                <p>私密材质将会消耗更多的积分：每 KB 存储空间 {{ option('private_score_per_storage') }} 积分</p>
+                                <p>{{ trans('skinlib.upload.storage-message', ['score' => option('private_score_per_storage')]) }}</p>
                             </div>
                         </div><!-- /.box-body -->
 
                         <div class="box-footer">
-                            <label for="private" class="pull-right" title="其他人将不会在皮肤库中看到此材质" data-placement="top" data-toggle="tooltip">
-                                <input id="private" type="checkbox"> 设置为私密材质
+                            <label for="private" class="pull-right" title="{{ trans('skinlib.upload.privacy-message') }}" data-placement="top" data-toggle="tooltip">
+                                <input id="private" type="checkbox"> {{ trans('skinlib.upload.set-private') }}
                             </label>
-                            <button id="upload-button" onclick="upload()" class="btn btn-primary">确认上传</button>
+                            <button id="upload-button" onclick="upload()" class="btn btn-primary">{{ trans('skinlib.upload.button') }}</button>
                         </div>
                     </div><!-- /.box -->
                 </div>
                 <div class="col-md-6">
                     <div class="box box-default">
                         <div class="box-header with-border">
-                            <h3 class="box-title" style="width: 100%;">材质预览
+                            <h3 class="box-title" style="width: 100%;">{{ trans('general.texture-preview') }}
                                 <div class="operations">
-                                    <i data-toggle="tooltip" data-placement="bottom" title="行走" class="fa fa-pause"></i>
-                                    <i data-toggle="tooltip" data-placement="bottom" title="奔跑" class="fa fa-forward"></i>
-                                    <i data-toggle="tooltip" data-placement="bottom" title="旋转" class="fa fa-repeat"></i>
+                                    <i data-toggle="tooltip" data-placement="bottom" title="{{ trans('general.walk') }}" class="fa fa-pause"></i>
+                                    <i data-toggle="tooltip" data-placement="bottom" title="{{ trans('general.run') }}" class="fa fa-forward"></i>
+                                    <i data-toggle="tooltip" data-placement="bottom" title="{{ trans('general.rotation') }}" class="fa fa-repeat"></i>
                                 </div>
                             </h3>
                         </div><!-- /.box-header -->
