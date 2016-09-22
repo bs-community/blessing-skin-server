@@ -242,10 +242,14 @@ class SkinlibController extends Controller
     private function checkUpload(Request $request)
     {
         $this->validate($request, [
-            'name'    => 'required|no_special_chars',
-            'file' => 'required|mimes:png|max:10240',
+            'name'   => 'required|no_special_chars',
+            'file'   => 'required|max:10240',
             'public' => 'required'
         ]);
+
+        if ($_FILES['file']['type'] != "image/png" || $_FILES['file']['type'] != "image/x-png") {
+            return json("文件格式不对哦", 1);
+        }
 
         // if error occured while uploading file
         if ($_FILES['file']["error"] > 0)
