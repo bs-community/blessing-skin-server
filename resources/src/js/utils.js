@@ -84,7 +84,7 @@ function showMsg(msg, type) {
 }
 
 function showAjaxError(json) {
-    showModal(json.responseText.replace(/\n/g, '<br />'), 'Fatal Error（请联系作者）', 'danger');
+    showModal(json.responseText.replace(/\n/g, '<br />'), trans('utils.fatalError'), 'danger');
 }
 
 function isMobile() {

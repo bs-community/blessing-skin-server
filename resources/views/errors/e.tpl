@@ -1,10 +1,10 @@
 @extends('errors.general')
 
-@section('title', '出现错误')
+@section('title', trans('errors.error-occurred'))
 
 @section('content')
-<h1>出现了一些错误：</h1>
+<h1>{{ trans('errors.some-errors') }}</h1>
 
-<p>错误码：  {{ $code }}</p>
-<p>详细信息：{!! $message !!}</p>
+<p>{{ trans('error.error-code').$code }}</p>
+<p>{!! trans('error.details').$message !!}</p>
 @endsection

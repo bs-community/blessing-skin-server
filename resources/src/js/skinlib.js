@@ -11,8 +11,8 @@ var base_url = location.pathname.endsWith('skinlib') ? "." : "..";
 
 $(document).ready(function() {
     swal.setDefaults({
-        confirmButtonText: '确定',
-        cancelButtonText: '取消'
+        confirmButtonText: trans('general.confirm'),
+        cancelButtonText: trans('general.cancel')
     });
 });
 
@@ -40,7 +40,7 @@ $('#type-skin').on('ifToggled', function() {
 function addToCloset(tid) {
     $.getJSON(base_url + '/skinlib/info/'+tid, function(json) {
         swal({
-            title: '给你的皮肤起个名字吧~',
+            title: trans('skinlib.setSkinName'),
             inputValue: json.name,
             input: 'text',
             showCancelButton: true,
@@ -49,7 +49,7 @@ function addToCloset(tid) {
                     if (value) {
                         resolve();
                     } else {
-                        reject('你还没有填写名称哦');
+                        reject(trans('user.emptyPlayerName'));
                     }
                 });
             }
@@ -79,8 +79,8 @@ function ajaxAddToCloset(tid, name) {
                 });
 
                 $('.modal').modal('hide');
-                $('a[tid='+tid+']').attr('href', 'javascript:removeFromCloset('+tid+');').attr('title', '从衣柜中移除').addClass('liked');
-                $('#'+tid).attr('href', 'javascript:removeFromCloset('+tid+');').html('从衣柜中移除');
+                $('a[tid='+tid+']').attr('href', 'javascript:removeFromCloset('+tid+');').attr('title', trans('skinlib.removeFromCloset')).addClass('liked');
+                $('#'+tid).attr('href', 'javascript:removeFromCloset('+tid+');').html(trans('skinlib.removeFromCloset'));
                 $('#likes').html(parseInt($('#likes').html()) + 1);
             } else {
                 toastr.warning(json.msg);
@@ -92,7 +92,7 @@ function ajaxAddToCloset(tid, name) {
 
 function removeFromCloset(tid) {
     swal({
-        text: '确定要从衣柜中移除此材质吗？',
+        text: trans('user.removeFromCloset'),
         type: 'warning',
         showCancelButton: true,
         cancelButtonColor: '#3085d6',
@@ -110,8 +110,8 @@ function removeFromCloset(tid) {
                         html: json.msg
                     });
 
-                    $('a[tid='+tid+']').attr('href', 'javascript:addToCloset('+tid+');').attr('title', '添加至衣柜').removeClass('liked');
-                    $('#'+tid).attr('href', 'javascript:addToCloset('+tid+');').html('添加至衣柜');
+                    $('a[tid='+tid+']').attr('href', 'javascript:addToCloset('+tid+');').attr('title', trans('skinlib.addToCloset')).removeClass('liked');
+                    $('#'+tid).attr('href', 'javascript:addToCloset('+tid+');').html(trans('skinlib.addToCloset'));
                     $('#likes').html(parseInt($('#likes').html()) - 1);
                 } else {
                     toastr.warning(json.msg);
@@ -176,13 +176,13 @@ function handleFiles(files, type) {
                         $('#name').val(file.name.split('.png')[0])
                 };
                 img.onerror = function() {
-                    toastr.warning('错误：这张图片编码不对哦');
+                    toastr.warning(trans('skinlib.encodingError'));
                 };
                 img.src = this.result;
             };
             reader.readAsDataURL(file);
         } else {
-            toastr.warning('错误：皮肤文件必须为 PNG 格式');
+            toastr.warning(trans('skinlib.formatError'));
         }
     }
 };
@@ -198,18 +198,18 @@ function upload() {
     } else if ($('#type-cape').prop('checked')) {
         form_data.append('type', 'cape');
     } else {
-        toastr.info('请选择材质的类型'); return;
+        toastr.info(trans('skinlib.chooseTextureType')); return;
     }
 
     // quick fix for browsers which don't support FormData.get()
     if ($('#file').prop('files')[0] == 'undefined') {
-        toastr.info('你还没有上传任何文件哦');
+        toastr.info(trans('skinlib.noUploadFile'));
         $('#file').focus();
     } else if ($('#name').val() == "") {
-        toastr.info('给你的材质起个名字吧');
+        toastr.info(trans('skinlib.setTextureName'));
         $('#name').focus();
     } else if ($('#file').prop('files')[0].type !== "image/png") {
-        toastr.warning('请选择 PNG 格式的图片');
+        toastr.warning(trans('skinlib.choosePNG'));
         $('#file').focus();
     } else {
         $.ajax({
@@ -220,7 +220,7 @@ function upload() {
             data: form_data,
             processData: false,
             beforeSend: function() {
-                $('#upload-button').html('<i class="fa fa-spinner fa-spin"></i> 上传中').prop('disabled', 'disabled');
+                $('#upload-button').html('<i class="fa fa-spinner fa-spin"></i> ' + trans('skinlib.uploading')).prop('disabled', 'disabled');
             },
             success: function(json) {
                 if (json.errno == 0) {
@@ -228,7 +228,7 @@ function upload() {
                         type: 'success',
                         html: json.msg
                     }).then(function() {
-                        toastr.info('正在跳转...');
+                        toastr.info(trans('skinlib.redirecting'));
                         window.setTimeout('window.location = "./show?tid='+json.tid+'"', 1000);
                     });
                 } else {
@@ -236,12 +236,12 @@ function upload() {
                         type: 'warning',
                         html: json.msg
                     }).then(function() {
-                        $('#upload-button').html('确认上传').prop('disabled', '');
+                        $('#upload-button').html(trans('skinlib.confirmUpload')).prop('disabled', '');
                     });
                 }
             },
             error: function(json) {
-                $('#upload-button').html('确认上传').prop('disabled', '');
+                $('#upload-button').html(trans('skinlib.confirmUpload')).prop('disabled', '');
                 showAjaxError(json);
             }
         });
@@ -251,7 +251,7 @@ function upload() {
 
 function changeTextureName(tid) {
     swal({
-        text: '请输入新的材质名称：',
+        text: trans('skinlib.inputTextureName'),
         input: 'text',
         showCancelButton: true,
         inputValidator: function(value) {
@@ -259,7 +259,7 @@ function changeTextureName(tid) {
                 if (value) {
                     resolve();
                 } else {
-                    reject('你还没有填写名称哦');
+                    reject(trans('user.emptyPlayerName'));
                 }
             });
         }
@@ -285,7 +285,7 @@ function changeTextureName(tid) {
 $('.private-label').click(function() {
     var object = $(this);
     swal({
-        text: '要将此材质设置为公开吗？',
+        text: trans('skinlib.warningPublic'),
         type: 'warning',
         showCancelButton: true
     }).then(function() {
@@ -303,9 +303,9 @@ function changePrivacy(tid) {
             if (json.errno == 0) {
                 toastr.success(json.msg);
                 if (json.public == "0")
-                    $('a:contains("设为隐私")').html('设为公开');
+                    $('a:contains("' + trans('skinlib.setPrivate') + '")').html(trans('skinlib.setPublic'));
                 else
-                    $('a:contains("设为公开")').html('设为隐私');
+                    $('a:contains("' + trans('skinlib.setPublic') + '")').html(trans('skinlib.setPrivate'));
             } else {
                 toastr.warning(json.msg);
             }
@@ -316,7 +316,7 @@ function changePrivacy(tid) {
 
 function deleteTexture(tid) {
     swal({
-        text: '真的要删除此材质吗？积分将会被返还',
+        text: trans('skinlib.warningDelete'),
         type: 'warning',
         showCancelButton: true
     }).then(function() {

@@ -1,0 +1,61 @@
+index:
+  now-showing: Now showing
+  any-model: (Any model)
+  steve-model: Steve Model
+  alex-model: Alex Model
+  uploader: User ( :name ) uploaded
+  newest-uploaded: Newestly uploaded
+  most-likes: Most likes
+  no-result: 'No result.'
+
+item:
+  remove-from-closet: Remove from closet.
+  add-to-closet: Add to closet.
+  not-logged-in: Please login.
+  private: Private
+
+master:
+  filter: Filter
+  my-upload: My upload
+  sort: Sorting
+  search-textures: Search textures
+  upload-new-skin: Upload new skin
+
+search:
+  title: Result
+  no-given-keywords: 'No keywords'
+  no-result: No result.
+
+show:
+  title: Details of texture
+  login-before-using-closet: Please login before using closet.
+  number-of-likes: Number of likes
+  detail: Details
+  name: Name
+  modify-name: Modify name
+  suitable-model: Suitable model
+  download-raw: Right-click and choose SAVE AS then you can download raw skin file.
+  size-of-file: Size of file
+  uploader: Uploader
+  upload-at: Date of upload
+  delete-texture: Delete texture
+  change-privacy: Change privacy
+  message: 'Textures setted to be private or deleted will be removed from all collectors'' closets.'
+  set-private: Be private
+  set-public: Be public
+  set-message: 'You can make this texture private or delete it, which will remove it from all collectors'' closets.'
+  comment: Comments
+  no-comment: We have not enabled comment service.
+
+upload:
+  title: Upload texture
+  button: Confirm uploading
+  upload: Upload
+  texture-name: Texture name
+  name-message: Length of texture name should be less than 32 bytes and it cannot contain invaild character.
+  texture-type: Texture type
+  choose-file: Choose file
+  storage-message: Private texture will cost more scores. Every KB costs  :score scores
+  privacy-message: Others cannot find it in skin library.
+  set-private: Make it private.
+  
