@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-09-24 23:44:24
+* @Last Modified time: 2016-09-24 23:52:34
 */
 
 var gulp     = require('gulp'),
@@ -18,25 +18,25 @@ require('laravel-elixir-replace');
 var version  = require('./package.json').version;
 
 var vendor_js = [
-    'resources/src/bower_components/jquery/dist/jquery.min.js',
-    'resources/src/bower_components/bootstrap/dist/js/bootstrap.min.js',
-    'resources/src/bower_components/AdminLTE/dist/js/app.min.js',
-    'resources/src/bower_components/bootstrap-fileinput/js/fileinput.min.js',
-    'resources/src/bower_components/bootstrap-fileinput/js/locales/zh.js',
-    'resources/src/bower_components/iCheck/icheck.min.js',
-    'resources/src/bower_components/toastr/toastr.min.js',
-    'resources/src/bower_components/sweetalert2/dist/sweetalert2.min.js',
-    'resources/src/bower_components/es6-promise/es6-promise.min.js'
+    'resources/assets/src/bower_components/jquery/dist/jquery.min.js',
+    'resources/assets/src/bower_components/bootstrap/dist/js/bootstrap.min.js',
+    'resources/assets/src/bower_components/AdminLTE/dist/js/app.min.js',
+    'resources/assets/src/bower_components/bootstrap-fileinput/js/fileinput.min.js',
+    'resources/assets/src/bower_components/bootstrap-fileinput/js/locales/zh.js',
+    'resources/assets/src/bower_components/iCheck/icheck.min.js',
+    'resources/assets/src/bower_components/toastr/toastr.min.js',
+    'resources/assets/src/bower_components/sweetalert2/dist/sweetalert2.min.js',
+    'resources/assets/src/bower_components/es6-promise/es6-promise.min.js'
 ];
 
 var vendor_css = [
-    'resources/src/bower_components/bootstrap/dist/css/bootstrap.min.css',
-    'resources/src/bower_components/AdminLTE/dist/css/AdminLTE.min.css',
-    'resources/src/bower_components/bootstrap-fileinput/css/fileinput.min.css',
-    'resources/src/bower_components/font-awesome/css/font-awesome.min.css',
-    'resources/src/bower_components/iCheck/skins/square/blue.css',
-    'resources/src/bower_components/toastr/toastr.min.css',
-    'resources/src/bower_components/sweetalert2/dist/sweetalert2.min.css'
+    'resources/assets/src/bower_components/bootstrap/dist/css/bootstrap.min.css',
+    'resources/assets/src/bower_components/AdminLTE/dist/css/AdminLTE.min.css',
+    'resources/assets/src/bower_components/bootstrap-fileinput/css/fileinput.min.css',
+    'resources/assets/src/bower_components/font-awesome/css/font-awesome.min.css',
+    'resources/assets/src/bower_components/iCheck/skins/square/blue.css',
+    'resources/assets/src/bower_components/toastr/toastr.min.css',
+    'resources/assets/src/bower_components/sweetalert2/dist/sweetalert2.min.css'
 ];
 
 var replacements = [
@@ -52,23 +52,23 @@ var replacements = [
 elixir(function(mix) {
     mix
         .scripts(vendor_js.concat([
-            'resources/src/js/utils.js'
-        ]), 'resources/dist/js/app.min.js', './')
+            'resources/assets/src/js/utils.js'
+        ]), 'resources/assets/dist/js/app.min.js', './')
 
-        .styles(vendor_css, 'resources/dist/css/app.min.css', './')
-        .replace('resources/dist/css/app.min.css', replacements)
+        .styles(vendor_css, 'resources/assets/dist/css/app.min.css', './')
+        .replace('resources/assets/dist/css/app.min.css', replacements)
 
         // copy fonts & images
         .copy([
-            'resources/src/bower_components/bootstrap/dist/fonts/**',
-            'resources/src/bower_components/font-awesome/fonts/**'
-        ], 'resources/dist/fonts/')
+            'resources/assets/src/bower_components/bootstrap/dist/fonts/**',
+            'resources/assets/src/bower_components/font-awesome/fonts/**'
+        ], 'resources/assets/dist/fonts/')
         .copy([
-            'resources/src/bower_components/iCheck/skins/square/blue.png',
-            'resources/src/bower_components/iCheck/skins/square/blue@2x.png',
-            'resources/src/bower_components/bootstrap-fileinput/img/loading.gif',
-            'resources/src/bower_components/bootstrap-fileinput/img/loading-sm.gif'
-        ], 'resources/dist/images/')
+            'resources/assets/src/bower_components/iCheck/skins/square/blue.png',
+            'resources/assets/src/bower_components/iCheck/skins/square/blue@2x.png',
+            'resources/assets/src/bower_components/bootstrap-fileinput/img/loading.gif',
+            'resources/assets/src/bower_components/bootstrap-fileinput/img/loading-sm.gif'
+        ], 'resources/assets/dist/images/')
 
         .task('sass')
         .task('uglify');
@@ -76,16 +76,16 @@ elixir(function(mix) {
 
 // compile sass
 gulp.task('sass', function () {
-    gulp.src('resources/src/sass/*.scss')
+    gulp.src('resources/assets/src/sass/*.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(cleanCss())
-        .pipe(gulp.dest('./resources/dist/css'));
+        .pipe(gulp.dest('./resources/assets/dist/css'));
 });
 
 gulp.task('uglify', function() {
-    gulp.src('resources/src/js/*.js')
+    gulp.src('resources/assets/src/js/*.js')
         .pipe(uglify())
-        .pipe(gulp.dest('./resources/dist/js'));
+        .pipe(gulp.dest('./resources/assets/dist/js'));
 });
 
 // release
@@ -117,7 +117,7 @@ gulp.task('zip', function() {
             '!composer.json',
             '!composer.lock',
             '!bower.json',
-            '!resources/src/**/*.*',
+            '!resources/assets/src/**/*.*',
             '!.sass-cache/**/*.*',
             '!.sass-cache/',
             '!storage/logs/*.*',

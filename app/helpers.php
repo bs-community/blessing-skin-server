@@ -57,9 +57,11 @@ if (! function_exists('assets')) {
     {
         // add query string to fresh cache
         if (Str::startsWith($relative_uri, 'css') || Str::startsWith($relative_uri, 'js')) {
-            return url("resources/dist/$relative_uri")."?v=".config('app.version');
-        } else {
+            return url("resources/assets/dist/$relative_uri")."?v=".config('app.version');
+        } elseif (Str::startsWith($relative_uri, 'lang')) {
             return url("resources/$relative_uri");
+        } else {
+            return url("resources/assets/$relative_uri");
         }
     }
 }

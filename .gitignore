@@ -3,7 +3,5 @@
 vendor/*
 storage/textures/*
 node_modules/*
-resources/src/bower_components/*
+resources/assets/src/bower_components/*
 koala-config.json
-resources/dist/css/*
-resources/dist/js/*
