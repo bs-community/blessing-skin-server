@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Session;
+use App\Models\User;
+use Illuminate\Support\Arr;
 
 class HomeController extends Controller
 {
@@ -13,10 +14,7 @@ class HomeController extends Controller
         if (isset($_COOKIE['uid']) && isset($_COOKIE['token'])) {
             $user = new User($_COOKIE['uid']);
 
-            if ($_COOKIE['token'] == $user->getToken() && $user->getPermission() != "-1") {
-                Session::put('uid'  , $_COOKIE['uid']);
-                Session::put('token', $_COOKIE['token']);
-            } else {
+            if ($_COOKIE['token'] != $user->getToken() || $user->getPermission() == "-1") {
                 // delete cookies
                 setcookie("uid",   "", time() - 3600, '/');
                 setcookie("token", "", time() - 3600, '/');
@@ -26,6 +24,14 @@ class HomeController extends Controller
         $user = Session::has('uid') ? new User(session('uid')) : null;
 
         return view('index')->with('user', $user);
+    }
+
+    public function locale($lang)
+    {
+        if (Arr::exists(config('locales'), $lang)) {
+            Session::set('locale', $lang);
+        }
+        return redirect('/')->withCookie('locale', $lang);
     }
 
 }

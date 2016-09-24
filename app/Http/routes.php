@@ -11,37 +11,32 @@
 |
 */
 
-Route::get('/',                          'HomeController@index');
-Route::get('/index.php',                 'HomeController@index');
+Route::get('/',              'HomeController@index');
+Route::get('/index.php',     'HomeController@index');
 
-Route::get('/locale/{lang}', function($lang) {
-    if (Illuminate\Support\Arr::exists(config('locales'), $lang)) {
-        Session::set('locale', $lang);
-    }
-    return redirect('/');
-});
+Route::get('/locale/{lang}', 'HomeController@locale');
 
 /**
  * Auth
  */
 Route::group(['prefix' => 'auth'], function()
 {
-    Route::group(['middleware' =>        'App\Http\Middleware\RedirectIfAuthenticated'], function()
+    Route::group(['middleware' => 'App\Http\Middleware\RedirectIfAuthenticated'], function()
     {
-        Route::get ('/login',            'AuthController@login');
-        Route::get ('/register',         'AuthController@register');
-        Route::get ('/forgot',           'AuthController@forgot');
-        Route::get ('/reset',            'AuthController@reset');
+        Route::get ('/login',     'AuthController@login');
+        Route::get ('/register',  'AuthController@register');
+        Route::get ('/forgot',    'AuthController@forgot');
+        Route::get ('/reset',     'AuthController@reset');
     });
 
-    Route::any('/logout',                'AuthController@logout');
-    Route::any('/captcha',               'AuthController@captcha');
+    Route::any('/logout',         'AuthController@logout');
+    Route::any('/captcha',        'AuthController@captcha');
 
-    Route::post('/login',                'AuthController@handleLogin');
-    Route::post('/register',             'AuthController@handleRegister');
-    Route::post('/forgot',               'AuthController@handleForgot');
+    Route::post('/login',         'AuthController@handleLogin');
+    Route::post('/register',      'AuthController@handleRegister');
+    Route::post('/forgot',        'AuthController@handleForgot');
 
-    Route::post('/reset',                'AuthController@handleReset');
+    Route::post('/reset',         'AuthController@handleReset');
 });
 
 /**
@@ -50,7 +45,7 @@ Route::group(['prefix' => 'auth'], function()
 Route::group(['middleware' =>            'App\Http\Middleware\CheckAuthenticated', 'prefix' => 'user'], function()
 {
     Route::any ('',                      'UserController@index');
-    Route::any ('/sign',                 'UserController@sign');
+    Route::any ('/checkin',              'UserController@checkIn');
 
     // Profile
     Route::get ('/profile',              'UserController@profile');
@@ -80,39 +75,39 @@ Route::group(['middleware' =>            'App\Http\Middleware\CheckAuthenticated
  */
 Route::group(['prefix' => 'skinlib'], function()
 {
-    Route::get ('',                             'SkinlibController@index');
-    Route::any ('/info/{tid}',                  'SkinlibController@info');
-    Route::any ('/show',                        'SkinlibController@show');
-    Route::any ('/search',                      'SkinlibController@search');
+    Route::get ('',                   'SkinlibController@index');
+    Route::any ('/info/{tid}',        'SkinlibController@info');
+    Route::any ('/show',              'SkinlibController@show');
+    Route::any ('/search',            'SkinlibController@search');
 
-    Route::group(['middleware' =>               'App\Http\Middleware\CheckAuthenticated'], function()
+    Route::group(['middleware' =>     'App\Http\Middleware\CheckAuthenticated'], function()
     {
-        Route::get ('/upload',                  'SkinlibController@upload');
-        Route::post('/upload',                  'SkinlibController@handleUpload');
+        Route::get ('/upload',        'SkinlibController@upload');
+        Route::post('/upload',        'SkinlibController@handleUpload');
 
-        Route::post('/rename',                  'SkinlibController@rename');
-        Route::post('/privacy/{tid}',           'SkinlibController@privacy');
-        Route::post('/delete',                  'SkinlibController@delete');
+        Route::post('/rename',        'SkinlibController@rename');
+        Route::post('/privacy/{tid}', 'SkinlibController@privacy');
+        Route::post('/delete',        'SkinlibController@delete');
     });
 });
 
 /**
  * Admin Panel
  */
-Route::group(['middleware' =>                   'App\Http\Middleware\CheckAdminMiddleware', 'prefix' => 'admin'], function()
+Route::group(['middleware' => 'App\Http\Middleware\CheckAdminMiddleware', 'prefix' => 'admin'], function()
 {
-    Route::get('/',                             'AdminController@index');
+    Route::get('/',           'AdminController@index');
 
-    Route::any('/customize',                    'AdminController@customize');
-    Route::any('/score',                        'AdminController@score');
-    Route::any('/options',                      'AdminController@options');
-    Route::any('/update',                       'AdminController@update');
+    Route::any('/customize',  'AdminController@customize');
+    Route::any('/score',      'AdminController@score');
+    Route::any('/options',    'AdminController@options');
+    Route::any('/update',     'AdminController@update');
 
-    Route::get('/users',                        'AdminController@users');
-    Route::get('/players',                      'AdminController@players');
+    Route::get('/users',      'AdminController@users');
+    Route::get('/players',    'AdminController@players');
     // ajax handlers
-    Route::post('/users',                       'AdminController@userAjaxHandler');
-    Route::post('/players',                     'AdminController@playerAjaxHandler');
+    Route::post('/users',     'AdminController@userAjaxHandler');
+    Route::post('/players',   'AdminController@playerAjaxHandler');
 });
 
 /**
