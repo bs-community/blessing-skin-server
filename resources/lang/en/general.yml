@@ -36,3 +36,11 @@ submit: Submit
 
 notice: Notice
 switch-2d-preview: Switch to 2D Preview
+
+illegal-parameters: Illegal parameters.
+
+private: Private
+public: Public
+
+unexistent-user: Un-existent user
+unexistent-player: Un-existent player.

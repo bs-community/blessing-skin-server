@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-10 17:04:04
+ * @Last Modified time: 2016-09-24 19:58:24
  */
 
 'use strict';
@@ -50,7 +50,7 @@ $('#page-select').on('change', function() {
 });
 
 function changeUserEmail(uid) {
-    var email = prompt("请输入新邮箱：");
+    var email = prompt(trans('admin.newUserEmail'));
 
     if (!email) return;
 
@@ -72,7 +72,7 @@ function changeUserEmail(uid) {
 }
 
 function changeUserNickName(uid) {
-    var nickname = prompt("请输入新昵称：");
+    var nickname = prompt(trans('admin.newUserNickname'));
 
     if (!nickname) return;
 
@@ -94,7 +94,7 @@ function changeUserNickName(uid) {
 }
 
 function changeUserPwd(uid) {
-    var password = prompt("请输入新密码：");
+    var password = prompt(trans('admin.newUserPassword'));
 
     if (!password) return;
 
@@ -141,10 +141,10 @@ function changeBanStatus(uid) {
             if (json.errno == 0) {
                 var object = $('#'+uid).find('a#ban');
                 var dom = '<a id="ban" href="javascript:changeBanStatus('+uid+');">' +
-                            (object.text() == '封禁' ? '解封' : '封禁') + '</a>';
+                            (object.text() == trans('admin.ban') ? trans('admin.unban') : trans('admin.ban')) + '</a>';
                 object.html(dom);
 
-                $('#'+uid).find('#permission').text(json.permission == '-1' ? '封禁' : '正常');
+                $('#'+uid).find('#permission').text(json.permission == '-1' ? trans('admin.banned') : trans('admin.normal'));
                 toastr.success(json.msg);
             } else {
                 toastr.warning(json.msg);
@@ -164,10 +164,10 @@ function changeAdminStatus(uid) {
             if (json.errno == 0) {
                 var object = $('#'+uid).find('a#admin');
                 var dom = '<a href="javascript:changeAdminStatus('+uid+');">' +
-                            (object.text() == '设为管理员' ? '解除管理员' : '设为管理员') + '</a>';
+                            (object.text() == trans('admin.setAdmin') ? trans('admin.unsetAdmin') : trans('admin.setAdmin')) + '</a>';
                 object.html(dom);
 
-                $('#'+uid).find('#permission').text(json.permission == '1' ? '管理员' : '正常');
+                $('#'+uid).find('#permission').text(json.permission == '1' ? trans('admin.admin') : trans('admin.normal'));
                 toastr.success(json.msg);
             } else {
                 toastr.warning(json.msg);
@@ -178,7 +178,7 @@ function changeAdminStatus(uid) {
 }
 
 function deleteUserAccount(uid) {
-    if (!window.confirm('真的要删除此用户吗？此操作不可恢复')) return;
+    if (!window.confirm(trans('admin.deleteUserNotice'))) return;
 
     $.ajax({
         type: "POST",
@@ -223,20 +223,20 @@ $('body').on('change', '#preference', function() {
 
 function changeTexture(pid) {
     var dom   = '<div class="form-group">'+
-                    '<label for="model">材质类型</label>'+
+                    '<label for="model">'+trans('admin.textureType')+'</label>'+
                     '<select class="form-control" id="model">'+
-                        '<option value="steve">皮肤（Steve 模型）</option>'+
-                        '<option value="alex">皮肤（Alex 模型）</option>'+
-                        '<option value="cape">披风</option>'+
+                        '<option value="steve">'+trans('admin.skin', {'model': 'Steve'})+'</option>'+
+                        '<option value="alex">'+trans('admin.skin', {'model': 'Alex'})+'</option>'+
+                        '<option value="cape">'+trans('admin.cape')+'</option>'+
                     '</select>'+
                 '</div>'+
                 '<div class="form-group">'+
-                    '<label for="tid">材质 ID</label>'+
-                    '<input id="tid" class="form-control" type="text" placeholder="输入要更换的材质的 TID">'+
+                    '<label for="tid">'+trans('admin.pid')+'</label>'+
+                    '<input id="tid" class="form-control" type="text" placeholder="'+trans('admin.pidNotice')+'">'+
                 '</div>';
 
     var player_name = $('#'+pid).find('#player-name').text();
-    showModal(dom, '更换角色 '+player_name+' 的材质', 'default', 'ajaxChangeTexture('+pid+')');
+    showModal(dom, trans('admin.changePlayerTexture', {'player': player_name}), 'default', 'ajaxChangeTexture('+pid+')');
     return;
 }
 
@@ -269,7 +269,7 @@ function ajaxChangeTexture(pid) {
 }
 
 function changeOwner(pid) {
-    var uid = prompt("请输入此角色要让渡至的用户 UID：");
+    var uid = prompt(trans('admin.changePlayerOwner'));
 
     if (!uid) return;
 
@@ -291,7 +291,7 @@ function changeOwner(pid) {
 }
 
 function deletePlayer(pid) {
-    if (!window.confirm('真的要删除此角色吗？此操作不可恢复')) return;
+    if (!window.confirm(trans('admin.deletePlayerNotice'))) return;
 
     $.ajax({
         type: "POST",

@@ -20,10 +20,10 @@
             <div class="col-md-6">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title">{{ trans('user.profile.change-avatar') }}</h3>
+                        <h3 class="box-title">{{ trans('user.profile.avatar.title') }}</h3>
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                        {!! trans('user.profile.avatar-notice') !!}
+                        {!! trans('user.profile.avatar.notice') !!}
                     </div><!-- /.box-body -->
                 </div>
 

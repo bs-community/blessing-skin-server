@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-19 10:46:38
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-10 21:36:10
+ * @Last Modified time: 2016-09-24 20:09:15
  */
 
 'use strict';
@@ -40,7 +40,7 @@ $('#type-skin').on('ifToggled', function() {
 function addToCloset(tid) {
     $.getJSON(base_url + '/skinlib/info/'+tid, function(json) {
         swal({
-            title: trans('skinlib.setSkinName'),
+            title: trans('skinlib.setItemName'),
             inputValue: json.name,
             input: 'text',
             showCancelButton: true,
@@ -49,7 +49,7 @@ function addToCloset(tid) {
                     if (value) {
                         resolve();
                     } else {
-                        reject(trans('user.emptyPlayerName'));
+                        reject(trans('skinlib.emptyItemName'));
                     }
                 });
             }
@@ -176,7 +176,7 @@ function handleFiles(files, type) {
                         $('#name').val(file.name.split('.png')[0])
                 };
                 img.onerror = function() {
-                    toastr.warning(trans('skinlib.encodingError'));
+                    toastr.warning(trans('skinlib.fileExtError'));
                 };
                 img.src = this.result;
             };
@@ -198,18 +198,18 @@ function upload() {
     } else if ($('#type-cape').prop('checked')) {
         form_data.append('type', 'cape');
     } else {
-        toastr.info(trans('skinlib.chooseTextureType')); return;
+        toastr.info(trans('skinlib.emptyTextureType')); return;
     }
 
     // quick fix for browsers which don't support FormData.get()
     if ($('#file').prop('files')[0] == 'undefined') {
-        toastr.info(trans('skinlib.noUploadFile'));
+        toastr.info(trans('skinlib.emptyUploadFile'));
         $('#file').focus();
     } else if ($('#name').val() == "") {
-        toastr.info(trans('skinlib.setTextureName'));
+        toastr.info(trans('skinlib.emptyTextureName'));
         $('#name').focus();
     } else if ($('#file').prop('files')[0].type !== "image/png") {
-        toastr.warning(trans('skinlib.choosePNG'));
+        toastr.warning(trans('skinlib.fileExtError'));
         $('#file').focus();
     } else {
         $.ajax({
@@ -251,7 +251,7 @@ function upload() {
 
 function changeTextureName(tid) {
     swal({
-        text: trans('skinlib.inputTextureName'),
+        text: trans('skinlib.setNewTextureName'),
         input: 'text',
         showCancelButton: true,
         inputValidator: function(value) {
@@ -259,7 +259,7 @@ function changeTextureName(tid) {
                 if (value) {
                     resolve();
                 } else {
-                    reject(trans('user.emptyPlayerName'));
+                    reject(trans('skinlib.emptyNewTextureName'));
                 }
             });
         }
@@ -283,14 +283,14 @@ function changeTextureName(tid) {
 }
 
 $('.private-label').click(function() {
-    var object = $(this);
+    var self = $(this);
     swal({
-        text: trans('skinlib.warningPublic'),
+        text: trans('skinlib.setPublicNotice'),
         type: 'warning',
         showCancelButton: true
     }).then(function() {
-        changePrivacy(object.attr('tid'));
-        object.remove();
+        changePrivacy(self.attr('tid'));
+        self.remove();
     });
 });
 
@@ -303,9 +303,9 @@ function changePrivacy(tid) {
             if (json.errno == 0) {
                 toastr.success(json.msg);
                 if (json.public == "0")
-                    $('a:contains("' + trans('skinlib.setPrivate') + '")').html(trans('skinlib.setPublic'));
+                    $('a:contains("' + trans('skinlib.setAsPrivate') + '")').html(trans('skinlib.setAsPublic'));
                 else
-                    $('a:contains("' + trans('skinlib.setPublic') + '")').html(trans('skinlib.setPrivate'));
+                    $('a:contains("' + trans('skinlib.setAsPublic') + '")').html(trans('skinlib.setAsPrivate'));
             } else {
                 toastr.warning(json.msg);
             }
@@ -316,7 +316,7 @@ function changePrivacy(tid) {
 
 function deleteTexture(tid) {
     swal({
-        text: trans('skinlib.warningDelete'),
+        text: trans('skinlib.deleteNotice'),
         type: 'warning',
         showCancelButton: true
     }).then(function() {

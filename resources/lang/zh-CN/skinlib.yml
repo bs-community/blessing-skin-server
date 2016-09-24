@@ -47,6 +47,10 @@ show:
   comment: 评论区
   no-comment: 本站未开启评论服务
 
+  deleted: 请求的材质文件已经被删除
+  contact-admin: 请联系管理员删除该条目
+  private: 请求的材质已经设为隐私，仅上传者和管理员可查看
+
 upload:
   title: 上传材质
   button: 确认上传
@@ -58,4 +62,22 @@ upload:
   storage-message: 私密材质将会消耗更多的积分：每 KB 存储空间  :score 积分
   privacy-message: 其他人将不会在皮肤库中看到此材质
   set-private: 设置为私密材质
-  
+
+  type-error: 文件格式不对哦
+  invalid-size: 不是有效的 :type 文件（宽 :width，高 :height）
+
+  lack-score: 积分不够啦
+  repeated: 已经有人上传过这个材质了，直接添加到衣柜使用吧~
+  success: 材质 :name 上传成功
+
+delete:
+  success: 材质已被成功删除
+
+privacy:
+  success: 材质已被设为 :privacy
+
+rename:
+  success: 材质名称已被成功设置为 :name
+
+no-permission: 你不是这个材质的上传者哦
+non-existent: 材质不存在

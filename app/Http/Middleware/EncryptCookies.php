@@ -14,7 +14,7 @@ class EncryptCookies extends BaseEncrypter
      * @var array
      */
     protected $except = [
-        //
+        'locale'
     ];
 
     public function handle($request, Closure $next)

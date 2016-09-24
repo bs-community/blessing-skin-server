@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 10:02:24
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-15 21:26:27
+ * @Last Modified time: 2016-09-24 21:02:13
  */
 
 'use strict';
@@ -147,7 +147,7 @@ $('body').on('click', '.item', function() {
 
 function removeFromCloset(tid) {
     swal({
-        text: trans('user.removeFromCloset'),
+        text: trans('user.removeFromClosetNotice'),
         type: 'warning',
         showCancelButton: true
     }).then(function() {
@@ -221,9 +221,9 @@ function setTexture() {
     var tid = $('.item-selected').attr('tid');
 
     if (!pid) {
-        toastr.info(trans('user.noSelectedPlayer'));
+        toastr.info(trans('user.emptySelectedPlayer'));
     } else if (!tid) {
-        toastr.info(trans('user.noSelectedTexture'));
+        toastr.info(trans('user.emptySelectedTexture'));
     } else {
         $.ajax({
             type: "POST",
@@ -397,7 +397,7 @@ function changeNickName() {
     if (!new_nickname) {
         swal({
             type: 'error',
-            html: trans('user.emptyNewNickname')
+            html: trans('user.emptyNewNickName')
         });
         return;
     }
@@ -572,10 +572,10 @@ function deleteAccount() {
     });
 }
 
-function sign() {
+function checkin() {
     $.ajax({
         type: "POST",
-        url: "./user/sign",
+        url: "./user/checkin",
         dataType: "json",
         success: function(json) {
             if (json.errno == 0) {
@@ -584,8 +584,8 @@ function sign() {
                     html: json.msg
                 }).then(function() {
                     $('#score').html(json.score);
-                    var dom = '<i class="fa fa-calendar-check-o"></i> &nbsp;' + trans('user.signRemainTime', { time: json.remaining_time });
-                    $('#sign-button').attr('disabled', 'disabled').html(dom);
+                    var dom = '<i class="fa fa-calendar-check-o"></i> &nbsp;' + trans('user.checkinRemainTime', { time: String(json.remaining_time) });
+                    $('#checkin-button').attr('disabled', 'disabled').html(dom);
                 });
             } else {
                 toastr.warning(json.msg);

@@ -32,7 +32,7 @@ class SkinlibController extends Controller
 
         if ($filter == "skin") {
             $textures = Texture::where(function($query) {
-                $query->where('type', '=', 'steve')
+                $query->where('type',   '=', 'steve')
                       ->orWhere('type', '=', 'alex');
             })->orderBy($sort_by, 'desc');
 
@@ -94,7 +94,7 @@ class SkinlibController extends Controller
     public function show(Request $request)
     {
         $this->validate($request, [
-            'tid'    => 'required|integer'
+            'tid' => 'required|integer'
         ]);
 
         $texture = Texture::find($_GET['tid']);
@@ -104,14 +104,14 @@ class SkinlibController extends Controller
                 if ($texture)
                     $texture->delete();
 
-                abort(404, '请求的材质文件已经被删除');
+                abort(404, trans('skinlib.show.deleted'));
             }
-            abort(404, '请求的材质文件已经被删除，请联系管理员删除该条目');
+            abort(404, trans('skinlib.show.deleted').trans('skinlib.show.contact-admin'));
         }
 
         if ($texture->public == "0") {
             if (is_null($this->user) || ($this->user->uid != $texture->uploader && !$this->user->is_admin))
-                abort(404, '请求的材质已经设为隐私，仅上传者和管理员可查看');
+                abort(404, trans('skinlib.show.private'));
         }
 
         return view('skinlib.show')->with('texture', $texture)->with('with_out_filter', true)->with('user', $this->user);
@@ -144,7 +144,7 @@ class SkinlibController extends Controller
         $cost = $t->size * (($t->public == "1") ? Option::get('score_per_storage') : Option::get('private_score_per_storage'));
 
         if ($this->user->getScore() < $cost)
-            return json('积分不够啦', 7);
+            return json(trans('skinlib.upload.lack-score'), 7);
 
         $results = Texture::where('hash', $t->hash)->get();
 
@@ -153,7 +153,7 @@ class SkinlibController extends Controller
                 if ($result->type == $t->type) {
                     return json([
                         'errno' => 0,
-                        'msg' => '已经有人上传过这个材质了，直接添加到衣柜使用吧~',
+                        'msg' => trans('skinlib.upload.repeated'),
                         'tid' => $result->tid
                     ]);
                 }
@@ -167,7 +167,7 @@ class SkinlibController extends Controller
         if ($this->user->closet->add($t->tid, $t->name)) {
             return json([
                 'errno' => 0,
-                'msg'   => '材质 '.$request->input('name').' 上传成功',
+                'msg'   => trans('skinlib.upload.success', ['name' => $request->input('name')]),
                 'tid'   => $t->tid
             ]);
         }
@@ -178,10 +178,10 @@ class SkinlibController extends Controller
         $result = Texture::find($request->tid);
 
         if (!$result)
-            return json('材质不存在', 1);
+            return json(trans('skinlib.non-existent'), 1);
 
         if ($result->uploader != $this->user->uid && !$this->user->is_admin)
-            return json('你不是这个材质的上传者哦', 1);
+            return json(trans('skinlib.no-permission'), 1);
 
         // check if file occupied
         if (Texture::where('hash', $result['hash'])->count() == 1)
@@ -190,7 +190,7 @@ class SkinlibController extends Controller
         $this->user->setScore($result->size * Option::get('score_per_storage'), 'plus');
 
         if ($result->delete())
-            return json('材质已被成功删除', 0);
+            return json(trans('skinlib.delete.success'), 0);
     }
 
     public function privacy($tid, Request $request)
@@ -198,15 +198,15 @@ class SkinlibController extends Controller
         $t = Texture::find($request->tid);
 
         if (!$t)
-            return json('材质不存在', 1);
+            return json(trans('skinlib.non-existent'), 1);
 
         if ($t->uploader != $this->user->uid && !$this->user->is_admin)
-            return json('你不是这个材质的上传者哦', 1);
+            return json(trans('skinlib.no-permission'), 1);
 
         if ($t->setPrivacy(!$t->public)) {
             return json([
                 'errno'  => 0,
-                'msg'    => '材质已被设为'.($t->public == "0" ? "隐私" : "公开"),
+                'msg'    => trans('skinlib.privacy.success', ['privacy' => ($t->public == "0" ? trans('general.private') : trans('general.public'))]),
                 'public' => $t->public
             ]);
         }
@@ -221,15 +221,15 @@ class SkinlibController extends Controller
         $t = Texture::find($request->input('tid'));
 
         if (!$t)
-            return json('材质不存在', 1);
+            return json(trans('skinlib.non-existent'), 1);
 
         if ($t->uploader != $this->user->uid && !$this->user->is_admin)
-            return json('你不是这个材质的上传者哦', 1);
+            return json(trans('skinlib.no-permission'), 1);
 
         $t->name = $request->input('new_name');
 
         if ($t->save()) {
-            return json('材质名称已被成功设置为'.$request->input('new_name'), 0);
+            return json(trans('skinlib.rename.success', ['name' => $request->input('new_name')]), 0);
         }
     }
 
@@ -248,7 +248,7 @@ class SkinlibController extends Controller
         ]);
 
         if ($_FILES['file']['type'] != "image/png" || $_FILES['file']['type'] != "image/x-png") {
-            return json("文件格式不对哦", 1);
+            return json(trans('skinlib.upload.type-error'), 1);
         }
 
         // if error occured while uploading file
@@ -261,12 +261,12 @@ class SkinlibController extends Controller
 
         if ($type == "steve" || $type == "alex") {
             if ($ratio != 2 && $ratio != 1)
-                return json("不是有效的皮肤文件（宽 {$size[0]}，高 {$size[1]}）", 1);
+                return json(trans('skinlib.upload.invalid-size', ['type' => trans('general.skin'), 'width' => $size[0], 'height' => $size[1]]), 1);
         } elseif ($type == "cape") {
             if ($ratio != 2)
-                return json("不是有效的披风文件（宽 {$size[0]}，高 {$size[1]}）", 1);
+                return json(trans('skinlib.upload.invalid-size', ['type' => trans('general.cape'), 'width' => $size[0], 'height' => $size[1]]), 1);
         } else {
-            return json('非法参数', 1);
+            return json(trans('general.illegal-parameters'), 1);
         }
     }
 

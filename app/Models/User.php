@@ -118,7 +118,7 @@ class User
     public function getNickName()
     {
         if (!$this->is_registered) {
-            return "不存在的用户";
+            return trans('general.unexistent-user');
         } else {
             return ($this->model->nickname == "") ? $this->email : $this->model->nickname;
         }
@@ -174,9 +174,9 @@ class User
         return $this->storage_used;
     }
 
-    public function sign()
+    public function checkIn()
     {
-        if ($this->canSign()) {
+        if ($this->canCheckIn()) {
             $sign_score = explode(',', Option::get('sign_score'));
             $aquired_score = rand($sign_score[0], $sign_score[1]);
             $this->setScore($aquired_score, 'plus');
@@ -188,7 +188,7 @@ class User
         }
     }
 
-    public function canSign($return_remaining_time = false)
+    public function canCheckIn($return_remaining_time = false)
     {
         // convert to timestamp
         $last_sign_timestamp     = strtotime($this->getLastSignTime());

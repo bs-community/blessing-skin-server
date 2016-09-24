@@ -5,9 +5,11 @@ used:
 
 cur-score: Current Score
 score-notice: Click the score to show introduction.
-sign: Sign In
-last-sign: Last signed in at :time
-remain-time: Can sign in after :time hours
+checkin: Check In
+checkin-success: Checked in successfully. You got :score scores~
+cant-checkin-until: You can only check in after $time hours
+last-checkin: Last checked in at :time
+checkin-remain-time: Available after :time hours
 announcement: Announcement
 
 score-intro:
@@ -40,6 +42,14 @@ closet:
     empty: It seems that you own no player...
     add: Add new player
 
+  add:
+    success: Added :name to closet successfully~
+    repeated: You have already added this texture.
+
+  remove:
+    success: Texture was removed from closet successfully.
+    non-existent: The texture does not exist in your closet.
+
 player:
   player-name: Player Name
   preference: Preference
@@ -63,9 +73,34 @@ player:
   pname-rule: Could only contain letters, numbers and dashes.
   pname-rule-chinese: Could only contain chinese characters, letters, numbers and dashes.
 
+  add:
+    repeated: The player name is already registered.
+    lack-score: You don't have enough score to add a player.
+    success: Player :name was added successfully.
+
+  delete:
+    success: Player :name was deleted successfully.
+
+  rename:
+    repeated: This player name is occupied. Please choose another one.
+    success: Player :old was renamed to :new
+
+  set:
+    success: The texture was applied to player :name successfully.
+
+  clear:
+    success: The textures of player :name was resetted successfully.
+
+  preference:
+    success: The preference of player :name was updated to :preference
+
 profile:
-  change-avatar: Change Avatar?
-  avatar-notice: Click the gear icon「<i class="fa fa-cog"></i>」of any skin in your skinlib, then click 「Set as avatar」. We will cut the head segment of that skin for you.
+  avatar:
+    title: Change Avatar?
+    notice: Click the gear icon「<i class="fa fa-cog"></i>」of any skin in your skinlib, then click 「Set as avatar」. We will cut the head segment of that skin for you.
+    wrong-type: You can't set a cape as avatar
+    non-existent: Non-existent texture
+    success: Avatar setted successfully
 
   password:
     title: Change Password
@@ -73,17 +108,22 @@ profile:
     new: New Password
     confirm: Repeat Password
     button: Change Password
+    wrong-password: Original password is not correct.
+    success: Password updated successfully, please log in again.
 
   nickname:
     title: Change Nickname
     empty: No nickname is setted now.
     rule: Whatever you like expect special characters
+    success: Nickname is successfully updated to :nickname
 
   email:
     title: Change Email
     new: New Email
     password: Current Password
     button: Change Email
+    wrong-password: Wrong password.
+    success: Email address updated successfully, please log in again.
 
   delete:
     title: Delete Account
@@ -97,6 +137,9 @@ profile:
       This is permanent! No backups, no restores, no magic undo button.
       We warned you, ok?
     password: Current Password
+
+    wrong-password: Wrong password.
+    success: Your account is deleted successfully.
 
 config:
   mod-requirement: MOD Requirement

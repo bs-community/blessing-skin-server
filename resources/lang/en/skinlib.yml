@@ -47,9 +47,13 @@ show:
   comment: Comments
   no-comment: We have not enabled comment service.
 
+  deleted: The requested texture file is already deleted.
+  contact-admin: Please contact the admin to delete this texture.
+  private: The requested texture is private and is only visible to uploader and admins.
+
 upload:
   title: Upload texture
-  button: Confirm uploading
+  button: Upload
   upload: Upload
   texture-name: Texture name
   name-message: Length of texture name should be less than 32 bytes and it cannot contain invaild character.
@@ -58,4 +62,23 @@ upload:
   storage-message: Private texture will cost more scores. Every KB costs  :score scores
   privacy-message: Others cannot find it in skin library.
   set-private: Make it private.
-  
+
+  type-error: Incorrect mime type of uploaded file.
+  invalid-size: Invalid :type file (Width :width, Height :height)
+
+  lack-score: You don't have enough score to upload this texture.
+  repeated: The texture is already uploaded by someone else. You can add it to your closet directly.
+  success: Texture :name was uploaded successfully.
+
+delete:
+  success: The texture was deleted successfully.
+
+privacy:
+  success: The texture was setted to :privacy successfully.
+
+rename:
+  success: The texture was renamed to :name successfully.
+
+no-permission: You aren't the uploader of this texture.
+non-existent: Non-existent texture.
+

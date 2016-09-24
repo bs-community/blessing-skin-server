@@ -26,21 +26,21 @@ class UserController extends Controller
     }
 
     /**
-     * Handle User Signing
+     * Handle User Checking In
      *
      * @return void
      */
-    public function sign()
+    public function checkIn()
     {
-        if ($aquired_score = $this->user->sign()) {
+        if ($aquired_score = $this->user->checkIn()) {
             return json([
                 'errno'          => 0,
-                'msg'            => "签到成功，获得了 $aquired_score 积分~",
+                'msg'            => trans('user.checkin-success', ['score' => $aquired_score]),
                 'score'          => $this->user->getScore(),
-                'remaining_time' => $this->user->canSign(true)
+                'remaining_time' => $this->user->canCheckIn(true)
             ]);
         } else {
-            return json($this->user->canSign(true).' 小时后才能再次签到哦~', 1);
+            return json(trans('user.cant-checkin-until', ['time' => $this->user->canCheckIn(true)]), 1);
         }
     }
 
@@ -66,7 +66,7 @@ class UserController extends Controller
                 $nickname = $request->input('new_nickname');
 
                 if ($this->user->setNickName($nickname))
-                    return json("昵称已成功设置为 $nickname", 0);
+                    return json(trans('user.profile.nickname.success', ['nickname' => $nickname]), 0);
 
                 break;
 
@@ -77,10 +77,10 @@ class UserController extends Controller
                 ]);
 
                 if (!$this->user->checkPasswd($request->input('current_password')))
-                    return json('原密码错误', 1);
+                    return json(trans('user.profile.password.wrong-password'), 1);
 
                 if ($this->user->changePasswd($request->input('new_password')))
-                    return json('密码修改成功，请重新登录', 0);
+                    return json(trans('user.profile.password.success'), 0);
 
                 break;
 
@@ -91,10 +91,10 @@ class UserController extends Controller
                 ]);
 
                 if (!$this->user->checkPasswd($request->input('password')))
-                    return json('密码错误', 1);
+                    return json(trans('user.profile.email.wrong-password'), 1);
 
                 if ($this->user->setEmail($request->input('new_email')))
-                    return json('邮箱修改成功，请重新登录', 0);
+                    return json(trans('user.profile.email.success'), 0);
 
                 break;
 
@@ -104,7 +104,7 @@ class UserController extends Controller
                 ]);
 
                 if (!$this->user->checkPasswd($request->input('password')))
-                    return json('密码错误', 1);
+                    return json(trans('user.profile.delete.wrong-password'), 1);
 
                 if ($this->user->delete()) {
                     setcookie('uid',   '', time() - 3600, '/');
@@ -112,13 +112,13 @@ class UserController extends Controller
 
                     Session::flush();
 
-                    return json('账号已被成功删除', 0);
+                    return json(trans('user.profile.delete.success'), 0);
                 }
 
                 break;
 
             default:
-                return json('非法参数', 1);
+                return json(trans('general.illegal-parameters'), 1);
                 break;
         }
 
@@ -144,13 +144,13 @@ class UserController extends Controller
 
         if ($result) {
             if ($result->type == "cape")
-                return json('披风可不能设置为头像哦~', 1);
+                return json(trans('user.profile.avatar.wrong-type'), 1);
 
             if ($this->user->setAvatar($request->input('tid'))) {
-                return json('设置成功！', 0);
+                return json(trans('user.profile.avatar.success'), 0);
             }
         } else {
-            return json('材质不存在。', 1);
+            return json(trans('user.profile.avatar.non-existent'), 1);
         }
     }
 

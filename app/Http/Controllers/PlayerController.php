@@ -52,10 +52,10 @@ class PlayerController extends Controller
         $player_name = $request->input('player_name');
 
         if (!PlayerModel::where('player_name', $player_name)->get()->isEmpty())
-            return json('该角色名已经被其他人注册掉啦', 6);
+            return json(trans('user.player.add.repeated'), 6);
 
         if ($this->user->getScore() < Option::get('score_per_player'))
-            return json('积分不够添加角色啦', 7);
+            return json(trans('user.player.add.lack-score'), 7);
 
         $player                = new PlayerModel();
         $player->uid           = $this->user->uid;
@@ -68,7 +68,7 @@ class PlayerController extends Controller
 
         $this->user->setScore(Option::get('score_per_player'), 'minus');
 
-        return json("成功添加了角色 $player_name", 0);
+        return json(trans('user.player.add.success', ['name' => $player_name]), 0);
     }
 
     public function delete(Request $request)
@@ -78,7 +78,7 @@ class PlayerController extends Controller
         if ($this->player->delete()) {
             $this->user->setScore(Option::get('score_per_player'), 'plus');
 
-            return json("角色 $player_name 已被删除", 0);
+            return json("trans('user.player.delete.success', ['name' => $player_name])", 0);
         }
     }
 
@@ -96,12 +96,12 @@ class PlayerController extends Controller
         $new_player_name = $request->input('new_player_name');
 
         if (!PlayerModel::where('player_name', $new_player_name)->get()->isEmpty())
-            return json('此角色名已被他人使用，换一个吧~', 6);
+            return json(trans('user.player.rename.repeated'), 6);
 
         $old_player_name = $this->player->player_name;
         $this->player->rename($new_player_name);
 
-        return json("角色 $old_player_name 已更名为 $new_player_name", 0);
+        return json(trans('user.player.rename.success', ['old' => $old_player_name, 'new' => $new_player_name]), 0);
     }
 
     /**
@@ -114,20 +114,20 @@ class PlayerController extends Controller
         ]);
 
         if (!($texture = Texture::find($request->tid)))
-            return json('材质不存在', 6);
+            return json(trans('skinlib.un-existent'), 6);
 
         $field_name = "tid_{$texture->type}";
 
         $this->player->setTexture([$field_name => $request->tid]);
 
-        return json('材质已成功应用至角色 '.$this->player->player_name, 0);
+        return json(trans('user.player.set.success', ['name' => $this->player->player_name]), 0);
     }
 
     public function clearTexture()
     {
         $this->player->clearTexture();
 
-        return json('角色 '.$this->player->player_name.' 的材质已被成功重置', 0);
+        return json(trans('user.player.clear.success', ['name' => $this->player->player_name]), 0);
     }
 
     public function setPreference(Request $request)
@@ -138,7 +138,7 @@ class PlayerController extends Controller
 
         $this->player->setPreference($request->preference);
 
-        return json('角色 '.$this->player->player_name.' 的优先模型已更改至 '.$request->preference, 0);
+        return json(trans('user.player.preference.success', ['name' => $this->player->player_name, 'preference' => $request->preference]), 0);
     }
 
 }

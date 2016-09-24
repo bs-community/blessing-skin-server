@@ -36,3 +36,11 @@ submit: 提交
 
 notice: 提示
 switch-2d-preview: 切换 2D 预览
+
+illegal-parameters: 非法参数
+
+private: 私密
+public: 公开
+
+unexistent-user: 不存在的用户
+unexistent-player: 角色不存在

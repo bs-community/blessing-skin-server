@@ -2,13 +2,19 @@
  * @Author: printempw
  * @Date:   2016-07-16 09:02:32
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-15 21:48:24
+ * @Last Modified time: 2016-09-24 18:10:03
  */
 
 $.locales = {};
 
 var locale = {};
 
+/**
+ * Check if given value is empty.
+ *
+ * @param  {any}  obj
+ * @return {Boolean}
+ */
 function isEmpty(obj) {
 
     // null and undefined are "empty"
@@ -34,6 +40,11 @@ function isEmpty(obj) {
     return true;
 }
 
+/**
+ * Load current selected language.
+ *
+ * @return void
+ */
 function loadLocales() {
     for (lang in $.locales) {
         if (!isEmpty($.locales[lang])) {
@@ -42,6 +53,13 @@ function loadLocales() {
     }
 }
 
+/**
+ * Translate according to given key.
+ *
+ * @param  {string} key
+ * @param  {dict}   parameters
+ * @return {string}
+ */
 function trans(key, parameters) {
     if (isEmpty(locale)) {
         loadLocales();
@@ -78,15 +96,33 @@ function showModal(msg, title, type, callback) {
     $(dom).modal();
 }
 
+/**
+ * Show message to div#msg with level
+ *
+ * @param  {string} msg
+ * @param  {string} type
+ * @return {void}
+ */
 function showMsg(msg, type) {
-    type  = type  === undefined ? "info" : type;
+    type = (type === undefined) ? "info" : type;
     $("[id=msg]").removeClass().addClass("callout").addClass('callout-'+type).html(msg);
 }
 
+/**
+ * Show modal if error occured when sending an ajax request.
+ *
+ * @param  {object} json
+ * @return {void}
+ */
 function showAjaxError(json) {
     showModal(json.responseText.replace(/\n/g, '<br />'), trans('utils.fatalError'), 'danger');
 }
 
+/**
+ * Check if current environment is mobile.
+ *
+ * @return {Boolean}
+ */
 function isMobile() {
     if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
         return true;
@@ -94,6 +130,12 @@ function isMobile() {
     return false;
 }
 
+/**
+ * Get parameters in query string with key.
+ *
+ * @param  {string} key
+ * @return {string}
+ */
 function getQueryString(key) {
     result = location.search.match(new RegExp('[\?\&]'+key+'=([^\&]+)','i'));
 

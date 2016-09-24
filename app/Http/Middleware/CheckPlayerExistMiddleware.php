@@ -21,7 +21,7 @@ class CheckPlayerExistMiddleware
         Event::fire(new CheckPlayerExists($player_name));
 
         if (PlayerModel::where('player_name', $player_name)->get()->isEmpty()) {
-            abort(404, '角色不存在');
+            abort(404, trans('general.unexistent-player'));
         }
 
         return $next($request);

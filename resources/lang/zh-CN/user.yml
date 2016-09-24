@@ -5,9 +5,11 @@ used:
 
 cur-score: 当前积分
 score-notice: 点击积分查看说明
-sign: 每日签到
-last-sign: 上次签到于 :time
-remain-time: :time 小时后可签到
+checkin: 每日签到
+checkin-success: 签到成功，获得了 :score 积分~
+cant-checkin-until: $time 小时后才能再次签到哦~
+last-checkin: 上次签到于 :time
+checkin-remain-time: :time 小时后可签到
 announcement: 公告
 
 score-intro:
@@ -46,6 +48,14 @@ closet:
     empty: 你好像还没有添加任何角色哦
     add: 添加角色
 
+  add:
+    success: 材质 :name 收藏成功~
+    repeated: 你已经收藏过这个材质啦
+
+  remove:
+    success: 材质已从衣柜中移除
+    non-existent: 衣柜中不存在此材质
+
 player:
   player-name: 角色名称
   preference: 优先模型
@@ -69,9 +79,34 @@ player:
   pname-rule: 只能包含数字、字母以及下划线
   pname-rule-chinese: 可使用汉字，字母数字以及下划线
 
+  add:
+    repeated: 该角色名已经被其他人注册掉啦
+    lack-score: 积分不够添加角色啦
+    success: 成功添加了角色 :name
+
+  delete:
+    success: 角色 :name 已被删除
+
+  rename:
+    repeated: 此角色名已被他人使用，换一个吧~
+    success: 角色 :old 已更名为 :new
+
+  set:
+    success: 材质已成功应用至角色 :name
+
+  clear:
+    success: 角色 :name 的材质已被成功重置
+
+  preference:
+    success: 角色 :name 的优先模型已更改至 :preference
+
 profile:
-  change-avatar: 更改头像？
-  avatar-notice: 请在衣柜中任意皮肤的右下角「<i class="fa fa-cog"></i>」处选择「设为头像」，将会自动截取该皮肤的头部作为头像哦~
+  avatar:
+    title: 更改头像？
+    notice: 请在衣柜中任意皮肤的右下角「<i class="fa fa-cog"></i>」处选择「设为头像」，将会自动截取该皮肤的头部作为头像哦~
+    wrong-type: 披风可不能设置为头像哦~
+    non-existent: 材质不存在。
+    success: 设置成功！
 
   password:
     title: 更改密码
@@ -79,17 +114,22 @@ profile:
     new: 新密码
     confirm: 确认密码
     button: 修改密码
+    wrong-password: 原密码错误
+    success: 密码修改成功，请重新登录
 
   nickname:
     title: 更改昵称
     empty: 当前未设置昵称，
     rule: 可使用除一些特殊符号外的任意字符
+    success: 昵称已成功设置为 :nickname
 
   email:
     title: 更改邮箱
     new: 新邮箱
     password: 当前密码
     button: 修改邮箱
+    wrong-password: 密码错误
+    success: 邮箱修改成功，请重新登录
 
   delete:
     title: 删除账号
@@ -104,6 +144,9 @@ profile:
       我们不提供任何备份，或者神奇的撤销按钮。
       我们警告过你了，确定要这样做吗？
     password: 当前密码
+
+    wrong-password: 密码错误
+    success: 账号已被成功删除
 
 config:
   mod-requirement: MOD 需求
