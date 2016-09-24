@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-09-15 11:09:48
+* @Last Modified time: 2016-09-24 23:44:24
 */
 
 var gulp     = require('gulp'),
@@ -41,12 +41,12 @@ var vendor_css = [
 
 var replacements = [
     ['@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic);', ''],
-    ['../fonts/glyphicons', '../../fonts/glyphicons'],
-    ['../fonts/fontawesome', '../../fonts/fontawesome'],
-    ['blue.png', '"../../images/blue.png"'],
-    ['blue@2x.png', '"../../images/blue@2x.png"'],
-    ['../img/loading.gif', '"../../images/loading.gif"'],
-    ['../img/loading-sm.gif', '"../../images/loading-sm.gif"']
+    ['../fonts/glyphicons', '../fonts/glyphicons'],
+    ['../fonts/fontawesome', '../fonts/fontawesome'],
+    ['blue.png', '"../images/blue.png"'],
+    ['blue@2x.png', '"../images/blue@2x.png"'],
+    ['../img/loading.gif', '"../images/loading.gif"'],
+    ['../img/loading-sm.gif', '"../images/loading-sm.gif"']
 ];
 
 elixir(function(mix) {
@@ -62,13 +62,13 @@ elixir(function(mix) {
         .copy([
             'resources/src/bower_components/bootstrap/dist/fonts/**',
             'resources/src/bower_components/font-awesome/fonts/**'
-        ], 'resources/fonts/')
+        ], 'resources/dist/fonts/')
         .copy([
             'resources/src/bower_components/iCheck/skins/square/blue.png',
             'resources/src/bower_components/iCheck/skins/square/blue@2x.png',
             'resources/src/bower_components/bootstrap-fileinput/img/loading.gif',
             'resources/src/bower_components/bootstrap-fileinput/img/loading-sm.gif'
-        ], 'resources/images/')
+        ], 'resources/dist/images/')
 
         .task('sass')
         .task('uglify');
