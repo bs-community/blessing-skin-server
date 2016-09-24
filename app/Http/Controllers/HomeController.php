@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Session;
 use App\Models\User;
 use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -26,12 +27,17 @@ class HomeController extends Controller
         return view('index')->with('user', $user);
     }
 
-    public function locale($lang)
+    public function locale($lang, Request $request)
     {
         if (Arr::exists(config('locales'), $lang)) {
             Session::set('locale', $lang);
         }
-        return redirect('/')->withCookie('locale', $lang);
+
+        if (isset($_SERVER['HTTP_REFERER'])) {
+            return redirect('/')->setTargetUrl($_SERVER['HTTP_REFERER'])->withCookie('locale', $lang);
+        } else {
+            return redirect('/')->withCookie('locale', $lang);
+        }
     }
 
 }
