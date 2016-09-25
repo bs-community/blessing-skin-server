@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('title', '站点配置')
+@section('title', trans('general.options'))
 
 @section('style')
 <style type="text/css">
@@ -16,7 +16,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            站点配置
+            {{ trans('general.options') }}
             <small>Options</small>
         </h1>
     </section>

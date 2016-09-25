@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('title', '个性化')
+@section('title', trans('general.customize'))
 
 @section('style')
 <link rel="stylesheet" href="{{ assets('vendor/skins/_all-skins.min.css') }}">
@@ -13,7 +13,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            个性化
+            {{ trans('general.customize') }}
             <small>Customize</small>
         </h1>
     </section>

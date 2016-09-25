@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('title', '积分配置')
+@section('title', trans('general.score-options'))
 
 @section('content')
 
@@ -9,7 +9,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            积分配置
+            {{ trans('general.score-options') }}
             <small>Score Options</small>
         </h1>
     </section>

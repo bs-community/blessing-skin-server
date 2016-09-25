@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('title', '检查更新')
+@section('title', trans('general.check-update'))
 
 @section('style')
 <style type="text/css">
@@ -16,7 +16,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            检查更新
+            {{ trans('general.check-update') }}
             <small>Check Update</small>
         </h1>
     </section>

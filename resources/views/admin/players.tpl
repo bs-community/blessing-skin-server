@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('title', '角色管理')
+@section('title', trans('general.player-manage'))
 
 @section('content')
 
@@ -12,7 +12,7 @@
             @if (isset($_GET['q']))
             搜索结果：{{ $_GET['q'] }}
             @else
-            角色管理
+            {{ trans('general.player-manage') }}
             @endif
             <small>Player Management</small>
             <!-- Search Form -->

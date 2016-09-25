@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('title', '用户管理')
+@section('title', trans('general.user-manage'))
 
 @section('content')
 
@@ -12,7 +12,7 @@
             @if (isset($_GET['q']))
             搜索结果：{{ $_GET['q'] }}
             @else
-            用户管理
+            {{ trans('general.user-manage') }}
             @endif
             <small>User Management</small>
             <form method="get" action="" class="user-search-form">

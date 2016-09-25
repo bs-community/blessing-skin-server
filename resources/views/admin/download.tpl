@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('title', '下载更新')
+@section('title', trans('general.download-update'))
 
 @section('content')
 
@@ -9,7 +9,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            下载更新
+            {{ trans('general.download-update') }}
             <small>Download Updates</small>
         </h1>
     </section>
@@ -18,7 +18,7 @@
     <section class="content">
         <div class="box box-solid">
             <div class="box-header with-border">
-                <h3 class="box-title">下载更新</h3>
+                <h3 class="box-title">{{ trans('general.download-update') }}</h3>
             </div><!-- /.box-header -->
             <div class="box-body"> <?php
                 $updater = new Updater(config('app.version'));
