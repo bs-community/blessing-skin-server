@@ -107,8 +107,8 @@ session_start();
 $encrypter = $app->make('Illuminate\Contracts\Encryption\Encrypter');
 $session = $app->make('session')->driver();
 
-if (isset($_COOKIE['bs_session'])) {
-    $session->setId($encrypter->decrypt($_COOKIE['bs_session']));
+if (isset($_COOKIE['BS_SESSION'])) {
+    $session->setId($encrypter->decrypt($_COOKIE['BS_SESSION']));
 }
 
 $session->start();
