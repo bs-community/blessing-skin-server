@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-09-24 23:52:34
+* @Last Modified time: 2016-09-25 09:00:22
 */
 
 var gulp     = require('gulp'),
@@ -18,25 +18,25 @@ require('laravel-elixir-replace');
 var version  = require('./package.json').version;
 
 var vendor_js = [
-    'resources/assets/src/bower_components/jquery/dist/jquery.min.js',
-    'resources/assets/src/bower_components/bootstrap/dist/js/bootstrap.min.js',
-    'resources/assets/src/bower_components/AdminLTE/dist/js/app.min.js',
-    'resources/assets/src/bower_components/bootstrap-fileinput/js/fileinput.min.js',
-    'resources/assets/src/bower_components/bootstrap-fileinput/js/locales/zh.js',
-    'resources/assets/src/bower_components/iCheck/icheck.min.js',
-    'resources/assets/src/bower_components/toastr/toastr.min.js',
-    'resources/assets/src/bower_components/sweetalert2/dist/sweetalert2.min.js',
-    'resources/assets/src/bower_components/es6-promise/es6-promise.min.js'
+    'jquery/dist/jquery.min.js',
+    'bootstrap/dist/js/bootstrap.min.js',
+    'AdminLTE/dist/js/app.min.js',
+    'bootstrap-fileinput/js/fileinput.min.js',
+    'bootstrap-fileinput/js/locales/zh.js',
+    'iCheck/icheck.min.js',
+    'toastr/toastr.min.js',
+    'sweetalert2/dist/sweetalert2.min.js',
+    'es6-promise/es6-promise.min.js'
 ];
 
 var vendor_css = [
-    'resources/assets/src/bower_components/bootstrap/dist/css/bootstrap.min.css',
-    'resources/assets/src/bower_components/AdminLTE/dist/css/AdminLTE.min.css',
-    'resources/assets/src/bower_components/bootstrap-fileinput/css/fileinput.min.css',
-    'resources/assets/src/bower_components/font-awesome/css/font-awesome.min.css',
-    'resources/assets/src/bower_components/iCheck/skins/square/blue.css',
-    'resources/assets/src/bower_components/toastr/toastr.min.css',
-    'resources/assets/src/bower_components/sweetalert2/dist/sweetalert2.min.css'
+    'bootstrap/dist/css/bootstrap.min.css',
+    'AdminLTE/dist/css/AdminLTE.min.css',
+    'bootstrap-fileinput/css/fileinput.min.css',
+    'font-awesome/css/font-awesome.min.css',
+    'iCheck/skins/square/blue.css',
+    'toastr/toastr.min.css',
+    'sweetalert2/dist/sweetalert2.min.css'
 ];
 
 var replacements = [
@@ -49,13 +49,19 @@ var replacements = [
     ['../img/loading-sm.gif', '"../images/loading-sm.gif"']
 ];
 
+elixir.config.sourcemaps = false;
+
 elixir(function(mix) {
     mix
-        .scripts(vendor_js.concat([
+        .scripts(vendor_js.map(function(js) {
+            return 'resources/assets/src/bower_components/' + js;
+        }).concat([
             'resources/assets/src/js/utils.js'
         ]), 'resources/assets/dist/js/app.min.js', './')
 
-        .styles(vendor_css, 'resources/assets/dist/css/app.min.css', './')
+        .styles(vendor_css.map(function(css) {
+            return 'resources/assets/src/bower_components/' + css;
+        }), 'resources/assets/dist/css/app.min.css', './')
         .replace('resources/assets/dist/css/app.min.css', replacements)
 
         // copy fonts & images
@@ -120,7 +126,6 @@ gulp.task('zip', function() {
             '!resources/assets/src/**/*.*',
             '!.sass-cache/**/*.*',
             '!.sass-cache/',
-            '!storage/logs/*.*',
             // do not pack vendor since laravel contains huge dependencies
             '!vendor/**/*.*'
         ], { dot: true })
