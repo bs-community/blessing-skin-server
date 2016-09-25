@@ -19,6 +19,9 @@
                 <div class="container">
                     <div class="navbar-header">
                         <a href="{{ option('site_url') }}" class="navbar-brand">{{ option('site_name') }}</a>
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+                            <i class="fa fa-bars"></i>
+                        </button>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
@@ -26,11 +29,6 @@
                         <ul class="nav navbar-nav">
                             <li class="active"><a href="{{ url('/') }}">{{ trans('general.index') }}</a></li>
                             <li><a href="{{ url('skinlib') }}">{{ trans('general.skinlib') }}</a></li>
-                        </ul>
-                    </div><!-- /.navbar-collapse -->
-                    <!-- Navbar Right Menu -->
-                    <div class="navbar-custom-menu">
-                        <ul class="nav navbar-nav">
                             <!-- Language Menu -->
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -42,6 +40,11 @@
                                     @endforeach
                                 </ul>
                             </li>
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                    <!-- Navbar Right Menu -->
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
                             @if (!is_null($user))
                             <!-- User Account Menu -->
                             <li class="dropdown user user-menu">

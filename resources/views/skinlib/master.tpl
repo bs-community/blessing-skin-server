@@ -59,16 +59,6 @@
                                 </ul>
                             </li>
                             @endunless
-                        </ul>
-                        <form class="navbar-form navbar-left" role="search" action="{{ url('skinlib/search') }}">
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="navbar-search-input" name="q" placeholder="{{ trans('skinlib.master.search-textures') }}" value="{{ $q or '' }}" />
-                            </div>
-                        </form>
-                    </div><!-- /.navbar-collapse -->
-                    <!-- Navbar Right Menu -->
-                    <div class="navbar-custom-menu">
-                        <ul class="nav navbar-nav">
                             <!-- Language Menu -->
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -80,7 +70,16 @@
                                     @endforeach
                                 </ul>
                             </li>
-
+                        </ul>
+                        <form class="navbar-form navbar-left" role="search" action="{{ url('skinlib/search') }}">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="navbar-search-input" name="q" placeholder="{{ trans('skinlib.master.search-textures') }}" value="{{ $q or '' }}" />
+                            </div>
+                        </form>
+                    </div><!-- /.navbar-collapse -->
+                    <!-- Navbar Right Menu -->
+                    <div class="navbar-custom-menu">
+                        <ul class="nav navbar-nav">
                             <li><a href="{{ url('skinlib/upload') }}"><i class="fa fa-upload" aria-hidden="true"></i> {{ trans('skinlib.master.upload-new-skin') }}</a></li>
                             @if (!is_null($user))
                             <!-- User Account Menu -->
