@@ -35,11 +35,16 @@
                         <div class="box-body">
                             <?php
                             if (isset($_POST['option']) && ($_POST['option'] == "general")) {
-                                // pre-set user_can_register because it will not be posted if not checked
-                                $_POST['user_can_register'] = isset($_POST['user_can_register']) ? $_POST['user_can_register'] : "0";
-                                $_POST['allow_chinese_playername'] = isset($_POST['allow_chinese_playername']) ? $_POST['allow_chinese_playername'] : "0";
-                                $_POST['avatar_query_string'] = isset($_POST['avatar_query_string']) ? $_POST['avatar_query_string'] : "0";
-                                $_POST['auto_del_invalid_texture'] = isset($_POST['auto_del_invalid_texture']) ? $_POST['auto_del_invalid_texture'] : "0";
+                                // pre-set some options because they will not be posted if not checked
+                                $presets = [
+                                    'user_can_register',
+                                    'allow_chinese_playername',
+                                    'auto_del_invalid_texture'
+                                ];
+
+                                foreach ($presets as $key) {
+                                    $_POST[$key] = isset($_POST[$key]) ? $_POST[$key] : "0";
+                                }
 
                                 foreach ($_POST as $key => $value) {
                                     // remove slash if site_url is ended with slash
@@ -110,17 +115,6 @@
                                     </tr>
 
                                     <tr>
-                                        <td class="key">头像缓存
-                                            <i class="fa fa-question-circle" title="如果对头像启用了 CDN 缓存请开启此项" data-toggle="tooltip" data-placement="top"></i>
-                                        </td>
-                                        <td class="value">
-                                            <label for="avatar_query_string">
-                                                <input {{ (option('avatar_query_string') == '1') ? 'checked="true"' : '' }} type="checkbox" id="avatar_query_string" name="avatar_query_string" value="1"> 为头像添加 Query String
-                                            </label>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
                                         <td class="key">失效材质
                                             <i class="fa fa-question-circle" title="自动从皮肤库中删除文件不存在的材质记录" data-toggle="tooltip" data-placement="top"></i>
                                         </td>
@@ -167,6 +161,74 @@
                             <textarea name="announcement" class="form-control" rows="3">{{ option('announcement') }}</textarea>
                             <p class="description">站点公告内容不会被转义，因此您可以使用 HTML 进行排版</p>
 
+                        </div><!-- /.box-body -->
+                        <div class="box-footer">
+                            <button type="submit" name="submit" class="btn btn-primary">提交</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">缓存相关配置
+                            <i class="fa fa-question-circle" title="如果启用了 CDN 缓存请适当修改这些配置" data-toggle="tooltip" data-placement="top"></i>
+                        </h3>
+                    </div><!-- /.box-header -->
+                    <form method="post">
+                        <input type="hidden" name="option" value="cache">
+                        <div class="box-body">
+                            <?php
+                            if (isset($_POST['option']) && ($_POST['option'] == "cache")) {
+                                // pre-set some options because they will not be posted if not checked
+                                $presets = [
+                                    'avatar_query_string',
+                                    'return_200_when_notfound'
+                                ];
+
+                                foreach ($presets as $key) {
+                                    $_POST[$key] = isset($_POST[$key]) ? $_POST[$key] : "0";
+                                }
+
+                                foreach ($_POST as $key => $value) {
+                                    // remove slash if site_url is ended with slash
+                                    if ($key == "site_url" && substr($value, -1) == "/")
+                                        $value = substr($value, 0, -1);
+
+                                    if ($key != "option" && $key != "submit")
+                                        Option::set($key, $value);
+                                }
+                                echo '<div class="callout callout-success">设置已保存。</div>';
+                            } ?>
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td class="key">头像缓存</td>
+                                        <td class="value">
+                                            <label for="avatar_query_string">
+                                                <input {{ (option('avatar_query_string') == '1') ? 'checked="true"' : '' }} type="checkbox" id="avatar_query_string" name="avatar_query_string" value="1"> 为头像添加 Query String
+                                            </label>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="key">HTTP 响应码</td>
+                                        <td class="value">
+                                            <label for="return_200_when_notfound">
+                                                <input {{ (option('return_200_when_notfound') == '1') ? 'checked="true"' : '' }} type="checkbox" id="return_200_when_notfound" name="return_200_when_notfound" value="1"> 请求不存在的角色时返回 200 而不是 404
+                                            </label>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="key">缓存失效时间
+                                            <i class="fa fa-question-circle" title="秒数，86400 = 一天，31536000 = 一年" data-toggle="tooltip" data-placement="top"></i>
+                                        </td>
+                                        <td class="value">
+                                           <input type="text" class="form-control" name="cache_expire_time" value="{{ option('cache_expire_time') }}">
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div><!-- /.box-body -->
                         <div class="box-footer">
                             <button type="submit" name="submit" class="btn btn-primary">提交</button>

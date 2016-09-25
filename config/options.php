@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-07-29 11:53:11
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-25 09:32:25
+ * @Last Modified time: 2016-09-25 13:31:41
  */
 
 return [
@@ -33,5 +33,7 @@ return [
     'check_update'              => '1',
     'update_source'             => 'nyavm',
     'copyright_text'            => '<strong>Copyright &copy; 2016 <a href="{site_url}">{site_name}</a>.</strong> All rights reserved.',
-    'auto_del_invalid_texture'  => '0'
+    'auto_del_invalid_texture'  => '0',
+    'return_200_when_notfound'  => '0',
+    'cache_expire_time'         => '31536000'
 ];

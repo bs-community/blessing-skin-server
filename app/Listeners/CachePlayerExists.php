@@ -25,7 +25,14 @@ class CachePlayerExists
                 Storage::disk('cache')->put("notfound/$player_name", '');
             }
         } else {
-            abort(404, '角色不存在');
+            if (option('return_200_when_notfound') == "1") {
+                return json([
+                    'player_name' => $player_name,
+                    'message'     => 'Player Not Found.'
+                ]);
+            } else {
+                abort(404, trans('general.unexistent-player'));
+            }
         }
     }
 }

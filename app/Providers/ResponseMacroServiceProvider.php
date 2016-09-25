@@ -34,8 +34,8 @@ class ResponseMacroServiceProvider extends ServiceProvider
             }, $status, array_merge([
                 'Content-type'  => 'image/png',
                 'Last-Modified' => gmdate('D, d M Y H:i:s', $last_modified).' GMT',
-                'Cache-Control' => 'public, max-age=31536000', // 365 days
-                'Expires'       => gmdate('D, d M Y H:i:s', $last_modified + 31536000).' GMT',
+                'Cache-Control' => 'public, max-age='.option('cache_expire_time'), // 365 days
+                'Expires'       => gmdate('D, d M Y H:i:s', $last_modified + option('cache_expire_time')).' GMT',
                 'Etag'          => $etag
             ], $header));
         });
