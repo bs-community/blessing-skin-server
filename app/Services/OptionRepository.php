@@ -53,6 +53,10 @@ class OptionRepository implements ArrayAccess, ConfigContract
      */
     public function get($key, $default = null)
     {
+        if (!$this->has($key) && Arr::has(config('options'), $key)) {
+            $this->set($key, config("options.$key"));
+        }
+
         return Arr::get($this->items, $key, $default);
     }
 
