@@ -34,6 +34,8 @@ class CacheSkinPreview
             }
         }
 
-        return \Response::png(Storage::disk('cache')->get("preview/$tid-$size"));
+        return \Response::png(Storage::disk('cache')->get("preview/$tid-$size"), 200, [
+            'Last-Modified' => Storage::disk('cache')->lastModified("preview/$tid-$size")
+        ]);
     }
 }

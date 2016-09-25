@@ -47,7 +47,11 @@ class TextureController extends Controller
 
     public function texture($hash) {
         if (Storage::disk('textures')->has($hash)) {
-            return Response::png(Storage::disk('textures')->get($hash));
+            return Response::png(Storage::disk('textures')->get($hash), 200, [
+                'Last-Modified'  => Storage::disk('textures')->lastModified($hash),
+                'Accept-Ranges'  => 'bytes',
+                'Content-Length' => Storage::disk('textures')->size($hash),
+            ]);
         } else {
             abort(404);
         }
@@ -64,12 +68,10 @@ class TextureController extends Controller
         if ($player->is_banned)
             abort(404, '该角色拥有者已被本站封禁。');
 
-        if (!$this->checkCache($player_name)) {
-            $model_preference = ($player->getPreference() == "default") ? "steve" : "alex";
-            $model = ($model == "") ? $model_preference : $model;
+        $model_preference = ($player->getPreference() == "default") ? "steve" : "alex";
+        $model = ($model == "") ? $model_preference : $model;
 
-            return $player->getBinaryTexture($model);
-        }
+        return $player->getBinaryTexture($model);
     }
 
     public function skinWithModel($model, $player_name)
@@ -84,9 +86,7 @@ class TextureController extends Controller
         if ($player->is_banned)
             abort(404, '该角色拥有者已被本站封禁。');
 
-        if (!$this->checkCache($player_name)) {
-            return $player->getBinaryTexture('cape');
-        }
+        return $player->getBinaryTexture('cape');
     }
 
     public function avatar($base64_email, $size = 128)
@@ -179,20 +179,6 @@ class TextureController extends Controller
             abort(404, '材质不存在');
         }
 
-    }
-
-    private function checkCache($player_name)
-    {
-        // Cache friendly
-        $if_modified_since = isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ?
-                                    strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE']) : null;
-
-        if ($if_modified_since >= (new Player(0, $player_name))->getLastModified()) {
-            http_response_code(304);
-            return true;
-        } else {
-            return false;
-        }
     }
 
 }

@@ -5,6 +5,8 @@ namespace App\Models;
 use View;
 use Event;
 use Utils;
+use Storage;
+use Response;
 use App\Events\GetPlayerJson;
 use App\Events\PlayerWasDeleted;
 use App\Events\PlayerProfileUpdated;
@@ -105,12 +107,13 @@ class Player
             $hash = $this->getTexture($type);
             $path = BASE_DIR."/storage/textures/".$hash;
 
-            if (\Storage::disk('textures')->has($hash)) {
+            if (Storage::disk('textures')->has($hash)) {
                 // Cache friendly
-                return response(\Storage::disk('textures')->get($hash))
-                        ->header('Content-Type',  'image/png')
-                        ->header('Last-Modified',  gmdate('D, d M Y H:i:s', $this->getLastModified()).' GMT')
-                        ->header('Content-Length', filesize($path));
+                return Response::png(Storage::disk('textures')->get($hash), 200, [
+                    'Last-Modified'  => $this->getLastModified(),
+                    'Accept-Ranges'  => 'bytes',
+                    'Content-Length' => Storage::disk('textures')->size($hash),
+                ]);
             } else {
                 abort(404, '请求的贴图已被删除。');
             }
