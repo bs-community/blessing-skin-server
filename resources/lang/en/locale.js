@@ -73,6 +73,7 @@
             removeFromClosetNotice: 'Sure to remove this texture from your closet?',
             emptySelectedPlayer: 'No player is selected.',
             emptySelectedTexture: 'No texture is selected.',
+            renameClosetItem: 'Set a new name for this item:',
 
             // Player
             changePlayerName: 'Please enter the player name:',

@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 10:02:24
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-24 21:02:13
+ * @Last Modified time: 2016-09-25 10:16:21
  */
 
 'use strict';
@@ -144,6 +144,39 @@ $('body').on('click', '.item', function() {
         error: showAjaxError
     });
 });
+
+function renameClosetItem(tid) {
+    swal({
+        title: trans('user.renameClosetItem'),
+        input: 'text',
+        showCancelButton: true,
+        inputValidator: function(value) {
+            return new Promise(function(resolve, reject) {
+                if (value) {
+                    resolve();
+                } else {
+                    reject(trans('skinlib.emptyNewTextureName'));
+                }
+            });
+        }
+    }).then(function(new_name) {
+        $.ajax({
+            type: "POST",
+            url: "./closet/rename",
+            dataType: "json",
+            data: { 'tid': tid, 'new_name': new_name },
+            success: function(json) {
+                if (json.errno == 0) {
+                    $("[tid="+tid+"]>.item-footer>.texture-name>span").html(new_name);
+                    toastr.success(json.msg);
+                } else {
+                    toastr.warning(json.msg);
+                }
+            },
+            error: showAjaxError
+        });
+    });
+}
 
 function removeFromCloset(tid) {
     swal({

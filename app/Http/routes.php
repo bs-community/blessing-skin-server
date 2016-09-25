@@ -68,6 +68,7 @@ Route::group(['middleware' =>            'App\Http\Middleware\CheckAuthenticated
     Route::get ('/closet',               'ClosetController@index');
     Route::post('/closet/add',           'ClosetController@add');
     Route::post('/closet/remove',        'ClosetController@remove');
+    Route::post('/closet/rename',        'ClosetController@rename');
 });
 
 /**

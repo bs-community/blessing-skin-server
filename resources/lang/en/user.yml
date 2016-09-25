@@ -30,7 +30,6 @@ closet:
   switch-category: Switch Category
   view: View in skin librariy
   more: More
-  remove: Remove from closet
   set-avatar: Set as avatar
   empty-msg: |
     <p>Nothing in your closet...</p>
@@ -46,7 +45,12 @@ closet:
     success: Added :name to closet successfully~
     repeated: You have already added this texture.
 
+  rename:
+    title: Rename item
+    success: The item is successfully renamed to :name
+
   remove:
+    title: Remove from closet
     success: Texture was removed from closet successfully.
     non-existent: The texture does not exist in your closet.
 

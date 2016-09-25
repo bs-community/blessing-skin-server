@@ -36,7 +36,6 @@ closet:
   switch-category: 切换分类
   view: 在皮肤库中查看
   more: 更多
-  remove: 从衣柜中移除
   set-avatar: 设为头像
   empty-msg: |
     <p>衣柜里啥都没有哦~</p>
@@ -52,7 +51,12 @@ closet:
     success: 材质 :name 收藏成功~
     repeated: 你已经收藏过这个材质啦
 
+  rename:
+    title: 重命名物品
+    success: 衣柜物品成功重命名至 :name
+
   remove:
+    title: 从衣柜中移除
     success: 材质已从衣柜中移除
     non-existent: 衣柜中不存在此材质
 

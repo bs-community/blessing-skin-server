@@ -51,7 +51,7 @@ class ClosetController extends Controller
     {
         $this->validate($request, [
             'tid'  => 'required|integer',
-            'name' => 'required|nickname',
+            'name' => 'required|no_special_chars'
         ]);
 
         if ($this->closet->add($request->tid, $request->name)) {
@@ -62,6 +62,20 @@ class ClosetController extends Controller
             return json(trans('user.closet.add.success', ['name' => $request->input('name')]), 0);
         } else {
             return json(trans('user.closet.add.repeated'), 1);
+        }
+    }
+
+    public function rename(Request $request)
+    {
+        $this->validate($request, [
+            'tid' => 'required|integer',
+            'new_name' => 'required|no_special_chars'
+        ]);
+
+        if ($this->closet->rename($request->tid, $request->new_name)) {
+            return json(trans('user.closet.rename.success', ['name' => $request->new_name]), 0);
+        } else {
+            return json(trans('user.closet.remove.non-existent'), 0);
         }
     }
 

@@ -73,6 +73,7 @@
             removeFromClosetNotice: '确定要从衣柜中移除此材质吗？',
             emptySelectedPlayer: '你还没有选择角色哦',
             emptySelectedTexture: '你还没有选择要应用的材质哦',
+            renameClosetItem: '请输入此衣柜物品的新名称：',
 
             // Player
             changePlayerName: '请输入角色名：',

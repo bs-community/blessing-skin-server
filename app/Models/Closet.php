@@ -121,6 +121,27 @@ class Closet
     }
 
     /**
+     * Rename closet item.
+     *
+     * @param  integer $tid
+     * @param  string $new_name
+     * @return void
+     */
+    public function rename($tid, $new_name)
+    {
+        $offset = 0;
+        foreach ($this->textures as $item) {
+            if ($item['tid'] == $tid) {
+                $this->textures[$offset]['name'] = $new_name;
+            }
+            $offset++;
+        }
+
+        $this->model->textures = json_encode($this->textures);
+        return $this->model->save();
+    }
+
+    /**
      * Remove a texture from closet
      * @param  int $tid
      * @return boolean
