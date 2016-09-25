@@ -19,8 +19,8 @@
             <form method="get" action="" class="user-search-form">
                 <input type="text" name="q" class="form-control user-search-input" placeholder="输入，回车搜索。" value="{{ $q }}">
                 <select name="filter" class="form-control pull-right user-search-input">
-                    <option value='player_name' selected="{{ $filter == 'email' ? 'selected' : '' }}">搜索角色名</option>
                     <option value='uid' selected="{{ $filter == 'nickname' ? 'selected' : '' }}">根据角色拥有者搜索</option>
+                    <option value='player_name' selected="{{ $filter == 'email' ? 'selected' : '' }}">搜索角色名</option>
                 </select>
             </form>
         </h1>
@@ -145,6 +145,16 @@
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 
+@endsection
+
+@section('style')
+<style>
+    @media (max-width: 767px) {
+        .content-header > h1 > small {
+            display: none;
+        }
+    }
+</style>
 @endsection
 
 @section('script')
