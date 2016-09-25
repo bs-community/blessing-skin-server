@@ -53,12 +53,12 @@ switch ($step) {
         }
 
         // create tables
-        require BASE_DIR."/includes/setup/tables.php";
+        require BASE_DIR."/setup/includes/tables.php";
 
         // import options
         $options = require BASE_DIR."/config/options.php";
         $options['site_name']    = $_POST['sitename'];
-        $options['site_url']     = Http::getBaseUrl();
+        $options['site_url']     = url('/');
         $options['version']      = config('app.version');
         $options['announcement'] = str_replace('{version}', $options['version'], $options['announcement']);
 
@@ -68,12 +68,12 @@ switch ($step) {
 
         // register super admin
         $user = new App\Models\User(null, ['email' => $_POST['email']]);
-        $user->register($_POST['password'], Http::getRealIP());
+        $user->register($_POST['password'], get_real_ip());
         $user->setPermission('2');
 
         if (!is_dir(BASE_DIR.'/storage/textures/')) {
             if (!mkdir(BASE_DIR.'/storage/textures/'))
-                throw new App\Exceptions\PrettyPageException('textures 文件夹创建失败，请确认目录权限是否正确，或者手动放置一个。', -1);
+                throw new App\Exceptions\PrettyPageException('/storage/textures 文件夹创建失败，请检查目录权限是否正确，或者手动放置一个。', -1);
         }
 
         echo View::make('setup.steps.3')->with('email', $_POST['email'])->with('password', $_POST['password']);

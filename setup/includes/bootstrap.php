@@ -10,7 +10,16 @@ define('BASE_DIR', dirname(dirname(__DIR__)));
 ini_set('display_errors', 'on');
 
 // Register Composer Auto Loader
-require BASE_DIR.'/vendor/autoload.php';
+if (file_exists(BASE_DIR.'/vendor')) {
+    require BASE_DIR.'/vendor/autoload.php';
+} else {
+    exit('错误：/vendor 文件夹不存在');
+}
+
+// Check integrity of vendor
+if (!class_exists('Illuminate\Foundation\Application')) {
+    exit('错误：/vendor 文件夹不完整，请仔细阅读安装教程并下载完整的 vendor 包');
+}
 
 // Load dotenv Configuration
 if (file_exists(BASE_DIR."/.env")) {
@@ -18,6 +27,10 @@ if (file_exists(BASE_DIR."/.env")) {
     $dotenv->load();
 } else {
     exit('错误：.env 配置文件不存在');
+}
+
+if (!isset($_ENV['APP_KEY'])) {
+    exit('错误：.env 已过期，请重新复制一份 .env.example 并修改配置');
 }
 
 // Register Error Hanlders
@@ -55,12 +68,9 @@ $request = (new Illuminate\Http\Request)->duplicate(
     $request->cookies->all(), $request->files->all(), array_replace($request->server->all(), ['REQUEST_URI' => ''])
 );
 
+// Enable URL generator
 $app->bind('url', function ($app) {
     $routes = $app['router']->getRoutes();
-
-    // The URL generator needs the route collection that exists on the router.
-    // Keep in mind this is an object, so we're passing by references here
-    // and all the registered routes will be available to the generator.
     $app->instance('routes', $routes);
 
     $url = new Illuminate\Routing\UrlGenerator(
@@ -77,7 +87,6 @@ $app->singleton('option',   App\Services\OptionRepository::class);
 
 require BASE_DIR.'/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php';
 require __DIR__."/helpers.php";
-
 
 View::addExtension('tpl', 'blade');
 
@@ -97,5 +106,9 @@ session_start();
 // start laravel session
 $encrypter = $app->make('Illuminate\Contracts\Encryption\Encrypter');
 $session = $app->make('session')->driver();
-$session->setId($encrypter->decrypt($_COOKIE['bs_session']));
+
+if (isset($_COOKIE['bs_session'])) {
+    $session->setId($encrypter->decrypt($_COOKIE['bs_session']));
+}
+
 $session->start();
