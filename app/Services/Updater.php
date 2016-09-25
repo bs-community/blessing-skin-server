@@ -72,7 +72,7 @@ class Updater
     {
         $ch = curl_init();
         // add timestamp to control cdn cache
-        $url = $this->current_source['update_url'].substr(time(), 0, -3);
+        $url = $this->current_source['update_url']."?v=".substr(time(), 0, -3);
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         // quick fix for accessing https resources
