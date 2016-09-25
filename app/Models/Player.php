@@ -237,7 +237,7 @@ class PlayerModel extends \Illuminate\Database\Eloquent\Model
     protected $table    = 'players';
     public $timestamps  = false;
 
-    protected $fillable = ['player_name', 'preference', 'last_modified'];
+    protected $fillable = ['uid', 'player_name', 'preference', 'last_modified'];
 
     public function scopeLike($query, $field, $value)
     {
