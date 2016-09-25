@@ -1,6 +1,6 @@
 {
   "name": "blessing-skin-server",
-  "version": "3.0.4",
+  "version": "3.1",
   "description": "Just a simple open-source Minecraft skin server written in PHP.",
   "repository": {
     "type": "git",
