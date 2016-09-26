@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 09:02:32
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-24 18:10:03
+ * @Last Modified time: 2016-09-26 22:35:35
  */
 
 $.locales = {};
@@ -144,4 +144,17 @@ function getQueryString(key) {
     } else {
         return result[1];
     }
+}
+
+// quick fix for compatibility of String.prototype.endsWith
+if (!String.prototype.endsWith) {
+  String.prototype.endsWith = function(searchString, position) {
+      var subjectString = this.toString();
+      if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
+        position = subjectString.length;
+      }
+      position -= searchString.length;
+      var lastIndex = subjectString.lastIndexOf(searchString, position);
+      return lastIndex !== -1 && lastIndex === position;
+  };
 }
