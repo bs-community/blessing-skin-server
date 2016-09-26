@@ -9,7 +9,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>
-                {{ trans('skinlib.search.title') }}:{{ $_GET['q'] or "{{ trans('skinlib.search.no-given-keywords') }}" }}
+                {{ trans('skinlib.search.title') }}: {{ $_GET['q'] or trans('skinlib.search.no-given-keywords') }}
                 <small>Skin Library</small>
             </h1>
 
