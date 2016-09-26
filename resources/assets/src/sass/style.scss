@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-06-04 20:55:09
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-25 00:00:26
+ * @Last Modified time: 2016-09-26 22:09:14
  */
 
 $font_stack: Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
@@ -189,4 +189,18 @@ input:-webkit-autofill {
 
 .box-footer > p {
     margin: 6px 15px 5px 0;
+}
+
+@media (max-width: 767px) {
+
+    .wrapper .main-header .navbar .dropdown-menu li.locale {
+        a {
+            color: #777;
+        }
+
+        a:hover {
+            background-color: #e1e3e9;
+            color: #333;
+        }
+    }
 }
