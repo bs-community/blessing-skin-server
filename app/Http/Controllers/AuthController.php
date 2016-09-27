@@ -70,7 +70,7 @@ class AuthController extends Controller
 
                 return json([
                     'errno' => 1,
-                    'msg' => trans('auth.login.password'),
+                    'msg' => trans('auth.validation.password'),
                     'login_fails' => session('login_fails')
                 ]);
             }
