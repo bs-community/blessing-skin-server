@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-09-25 09:00:22
+* @Last Modified time: 2016-09-27 22:46:42
 */
 
 var gulp     = require('gulp'),
@@ -116,6 +116,7 @@ gulp.task('zip', function() {
             '!.gitignore',
             '!.git/**/*.*',
             '!.git/',
+            '!.gitattributes',
             '!artisan',
             '!koala-config.json',
             '!gulpfile.js',
@@ -126,8 +127,12 @@ gulp.task('zip', function() {
             '!resources/assets/src/**/*.*',
             '!.sass-cache/**/*.*',
             '!.sass-cache/',
-            // do not pack vendor since laravel contains huge dependencies
-            '!vendor/**/*.*'
+            // do not pack vendor for developments
+            '!vendor/fzaninotto/**/*.*',
+            '!vendor/mockery/**/*.*',
+            '!vendor/phpunit/**/*.*',
+            '!vendor/symfony/css-selector/**/*.*',
+            '!vendor/symfony/dom-crawler/**/*.*'
         ], { dot: true })
         .pipe(zip('blessing-skin-server-v'+version+'.zip'))
         .pipe(gulp.dest('../'));
