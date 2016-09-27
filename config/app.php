@@ -22,7 +22,7 @@ return [
     |
     */
 
-    'env' => env('APP_ENV', 'production'),
+    'env' => menv('APP_ENV', 'production'),
 
     /*
     |--------------------------------------------------------------------------
@@ -35,7 +35,7 @@ return [
     |
     */
 
-    'debug' => env('APP_DEBUG', false),
+    'debug' => menv('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -48,7 +48,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => menv('APP_URL', 'http://localhost'),
 
     /*
     |--------------------------------------------------------------------------
@@ -100,7 +100,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY', 'this_is_dangerous_default_key'),
+    'key' => menv('APP_KEY', 'this_is_dangerous_default_key'),
 
     'cipher' => 'AES-256-CBC',
 
@@ -117,7 +117,7 @@ return [
     |
     */
 
-    'log' => env('APP_LOG', 'single'),
+    'log' => menv('APP_LOG', 'single'),
 
     /*
     |--------------------------------------------------------------------------

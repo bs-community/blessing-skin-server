@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'driver' => env('SESSION_DRIVER', 'file'),
+    'driver' => menv('SESSION_DRIVER', 'file'),
 
     /*
     |--------------------------------------------------------------------------
