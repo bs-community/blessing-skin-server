@@ -27,6 +27,7 @@ class SkinlibController extends Controller
         $sort    = $request->input('sort', 'time');
         $uid     = $request->input('uid', 0);
         $page    = $request->input('page', 1);
+        $page    = $page <= 0 ? 1 : $page;
 
         $sort_by = ($sort == "time") ? "upload_at" : $sort;
 

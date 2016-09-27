@@ -29,6 +29,7 @@ class ClosetController extends Controller
     {
         $category = $request->input('category', 'skin');
         $page     = $request->input('page', 1);
+        $page     = $page <= 0 ? 1 : $page;
 
         $items = array_slice($this->closet->getItems($category), ($page-1)*6, 6);
 
