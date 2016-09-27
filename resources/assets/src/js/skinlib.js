@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-19 10:46:38
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-24 20:09:15
+ * @Last Modified time: 2016-09-27 21:36:48
  */
 
 'use strict';
@@ -153,7 +153,7 @@ $('.fa-repeat').click(function(){
 
 $('body').on('change', '#file', function() {
     var files = $('#file').prop('files');
-    var type = ($('#type').val() == "cape") ? "cape" : "skin";
+    var type = $('#type-cape').prop('checked') ? "cape" : "skin";
     handleFiles(files, type);
 }).on('ifToggled', '#type-cape', function() {
     MSP.clear();
