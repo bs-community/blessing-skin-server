@@ -49,7 +49,7 @@ return [
         'sqlite' => [
             'driver' => 'sqlite',
             'database' => menv('DB_DATABASE', database_path('database.sqlite')),
-            'prefix' => '',
+            'prefix' => menv('DB_PREFIX', ''),
         ],
 
         'mysql' => [
@@ -61,7 +61,7 @@ return [
             'password' => menv('DB_PASSWORD', ''),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
-            'prefix' => '',
+            'prefix' => menv('DB_PREFIX', ''),
             'strict' => false,
             'engine' => null,
         ],
@@ -74,7 +74,7 @@ return [
             'username' => menv('DB_USERNAME', 'forge'),
             'password' => menv('DB_PASSWORD', ''),
             'charset' => 'utf8',
-            'prefix' => '',
+            'prefix' => menv('DB_PREFIX', ''),
             'schema' => 'public',
         ],
 
