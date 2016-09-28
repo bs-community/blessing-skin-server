@@ -21,6 +21,9 @@ switch ($step) {
     case '2':
         $resource = opendir(BASE_DIR."/setup/update_scripts/");
         $update_script_exist = false;
+
+        $tips = [];
+
         while($filename = @readdir($resource)) {
             if ($filename != "." && $filename != "..") {
                 preg_match('/update-(.*)-to-(.*).php/', $filename, $matches);
@@ -31,7 +34,14 @@ switch ($step) {
                     continue;
                 }
 
-                include BASE_DIR."/setup/update_scripts/$filename";
+                $result = require BASE_DIR."/setup/update_scripts/$filename";
+
+                if (is_array($result)) {
+                    // push tip to array
+                    foreach ($result as $tip) {
+                        $tips[] = $tip;
+                    }
+                }
             }
         }
         closedir($resource);
@@ -46,7 +56,7 @@ switch ($step) {
             Option::set('version', config('app.version'));
         }
 
-        View::show('setup.updates.success');
+        View::show('setup.updates.success', ['tips' => $tips]);
 
         break;
 
