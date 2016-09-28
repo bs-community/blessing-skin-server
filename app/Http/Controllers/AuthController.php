@@ -84,6 +84,7 @@ class AuthController extends Controller
             setcookie('token', '', time() - 3600, '/');
 
             Session::flush();
+            Session::regenerate();
 
             return json(trans('auth.logout.success'), 0);
         } else {
