@@ -100,7 +100,7 @@ return [
     |
     */
 
-    'key' => menv('APP_KEY', 'this_is_dangerous_default_key'),
+    'key' => menv('APP_KEY', 'xrjmRQ/RE3B0ICoYqfWzPYizA7MPZz3fNXdnxQ7Cbcg='),
 
     'cipher' => 'AES-256-CBC',
 

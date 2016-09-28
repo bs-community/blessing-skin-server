@@ -10,5 +10,5 @@ return [
     |
     */
     'cipher' => menv('PWD_METHOD', 'SALTED2MD5'),
-    'salt'   => menv('APP_KEY', '')
+    'salt'   => menv('SALT', '')
 ];

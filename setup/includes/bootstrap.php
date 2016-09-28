@@ -7,7 +7,7 @@
 define('BASE_DIR', dirname(dirname(__DIR__)));
 
 // Set Display Errors
-ini_set('display_errors', 'on');
+@ini_set('display_errors', 'on');
 
 // Register Composer Auto Loader
 if (file_exists(BASE_DIR.'/vendor')) {
@@ -16,10 +16,9 @@ if (file_exists(BASE_DIR.'/vendor')) {
     exit('错误：/vendor 文件夹不存在');
 }
 
-// Check integrity of vendor
-if (!class_exists('Illuminate\Foundation\Application')) {
-    exit('错误：/vendor 文件夹不完整，请仔细阅读安装教程并下载完整的 vendor 包');
-}
+// Register Helpers
+require BASE_DIR.'/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php';
+require __DIR__."/helpers.php";
 
 // Load dotenv Configuration
 if (file_exists(BASE_DIR."/.env")) {
@@ -29,7 +28,7 @@ if (file_exists(BASE_DIR."/.env")) {
     exit('错误：.env 配置文件不存在');
 }
 
-if (!isset($_ENV['APP_KEY'])) {
+if (false === menv('APP_KEY', false)) {
     exit('错误：.env 已过期，请重新复制一份 .env.example 并修改配置');
 }
 
@@ -84,9 +83,6 @@ $app->instance('request', $request);
 
 $app->singleton('database', App\Services\Database\Database::class);
 $app->singleton('option',   App\Services\OptionRepository::class);
-
-require BASE_DIR.'/vendor/laravel/framework/src/Illuminate/Foundation/helpers.php';
-require __DIR__."/helpers.php";
 
 View::addExtension('tpl', 'blade');
 
