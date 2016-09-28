@@ -1,9 +1,13 @@
-details: 'Details:'
-error403: You cannot view this page without authority.
-error404: Nothing here.
-error503: Application is now in maintenance mode.
-be-right-back: Be right back.
-error-occurred: Error occurred.
-some-errors: 'Some errors occurred:'
-error-code: 'Error code:'
-file-location: 'File location:'
+http:
+  msg-403: You have no permission to access this page.
+  msg-404: Nothing here.
+  msg-503: The application is now in maintenance mode.
+
+general:
+  title: Error occurred
+
+exception:
+  title: Some errors occurred
+  code: 'Error code: :code'
+  message: 'Details: :msg'
+  location: 'File location: :location'

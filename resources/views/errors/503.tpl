@@ -3,7 +3,7 @@
 @section('title', '503 Service Unavailable')
 
 @section('content')
-<h1>{{ trans('errors.be-right-back') }}</h1>
+<h1>Be right back.</h1>
 
-<p>{{ trans('errors.details').$exception->getMessage() ?: trans('errors.error503') }}</p>
+<p>{{ trans('errors.exception.message', ['msg' => $exception->getMessage() ?: trans('errors.http.msg-503')]) }}</p>
 @endsection
