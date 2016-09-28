@@ -102,11 +102,9 @@ if (! function_exists('bs_footer')) {
             echo "<script type=\"text/javascript\" src=\"$script\"></script>";
         }
 
-        if (Session::has('msg')): ?>
-        <script>
-            toastr.info('{{ Session::pull('msg') }}');
-        </script>
-        <?php endif;
+        if (Session::has('msg')) {
+            echo "<script>toastr.info('".Session::pull('msg')."');</script>";
+        }
 
         echo '<script>'.Option::get("custom_js").'</script>';
     }
@@ -188,7 +186,7 @@ if (! function_exists('menv')) {
      */
     function menv($key, $default = null)
     {
-        if (function_exists('getenv')) {
+        if (function_exists('putenv') && function_exists('getenv')) {
             // try to read by getenv()
             $value = getenv($key);
 
