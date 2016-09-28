@@ -41,7 +41,10 @@ class ResponseMacroServiceProvider extends ServiceProvider
         });
 
         Response::macro('rawJson', function ($src = "", $status = 200, $header = []) {
-            return Response::make($src)->header('Content-type', 'application/json');
+            return Response::make($src, $status, array_merge([
+                'Content-type'  => 'application/json',
+                'Cache-Control' => 'public, max-age='.option('cache_expire_time') // 365 days
+            ], $header));
         });
     }
 
