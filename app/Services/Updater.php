@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use Blessing\Storage;
 use Option;
 
 class Updater
