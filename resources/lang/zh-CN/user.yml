@@ -7,7 +7,7 @@ cur-score: 当前积分
 score-notice: 点击积分查看说明
 checkin: 每日签到
 checkin-success: 签到成功，获得了 :score 积分~
-cant-checkin-until: $time 小时后才能再次签到哦~
+cant-checkin-until: :time 小时后才能再次签到哦~
 last-checkin: 上次签到于 :time
 checkin-remain-time: :time 小时后可签到
 announcement: 公告

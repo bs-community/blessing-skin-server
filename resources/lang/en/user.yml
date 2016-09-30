@@ -7,7 +7,7 @@ cur-score: Current Score
 score-notice: Click the score to show introduction.
 checkin: Check In
 checkin-success: Checked in successfully. You got :score scores~
-cant-checkin-until: You can only check in after $time hours
+cant-checkin-until: You can only check in after :time hours
 last-checkin: Last checked in at :time
 checkin-remain-time: Available after :time hours
 announcement: Announcement

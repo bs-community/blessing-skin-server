@@ -1,5 +1,5 @@
 /*!
- * Blessing Skin Chinese Translations
+ * Blessing Skin English Translations
  *
  * @see https://github.com/printempw/blessing-skin-server
  * @author printempw <h@prinzeugen.net>
@@ -10,7 +10,7 @@
 (function ($) {
     "use strict";
 
-    $.locales['zh-CN'] = {
+    $.locales['en'] = {
         auth: {
             // Login
             emptyIdentification: 'Empty email/player name.',
