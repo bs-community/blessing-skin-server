@@ -11,19 +11,18 @@ class PrettyPageException extends \Exception
      * @param integer $code
      * @param boolean $render, to show a error page
      */
-    function __construct($message = "Error occured.", $code = -1, $render = false)
+    public function __construct($message = "Error occured.", $code = -1, $render = false)
     {
         parent::__construct($message, $code);
 
-        if ($render)
-            $this->showErrorPage();
+        if ($render) {
+            $this->showErrorPage()->send();
+            exit;
+        }
     }
 
-    private function showErrorPage()
+    public function showErrorPage()
     {
-        echo \View::make('errors.e')->with('code', $this->code)
-                                    ->with('message', $this->message)
-                                    ->render();
-        exit;
+        return response()->view('errors.pretty', ['code' => $this->code, 'message' => $this->message]);
     }
 }

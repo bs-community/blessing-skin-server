@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use App\Exceptions\PrettyPageException;
 use App\Http\Middleware\Internationalization;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Validation\ValidationException;
@@ -20,7 +21,8 @@ class Handler extends ExceptionHandler
     protected $dontReport = [
         HttpException::class,
         ModelNotFoundException::class,
-        ValidationException::class
+        ValidationException::class,
+        PrettyPageException::class
     ];
 
     /**
@@ -50,10 +52,7 @@ class Handler extends ExceptionHandler
         }
 
         if ($e instanceof PrettyPageException && PHP_SAPI != "cli") {
-            echo \View::make('errors.e')->with('code', $e->getCode())
-                                        ->with('message', $e->getMessage())
-                                        ->render();
-            exit;
+            return $e->showErrorPage();
         }
 
         if ($e instanceof HttpException) {

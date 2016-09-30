@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-09-14 16:57:37
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-14 19:53:22
+ * @Last Modified time: 2016-09-30 23:18:56
  */
 
 function check_table_exists() {
@@ -20,14 +20,14 @@ function check_table_exists() {
 }
 
 function redirect_to($url, $msg = "") {
-    if ($msg !== "") {
-        if (app()->bound('session')) {
-            Session::put('msg', $msg);
-            Session::save();
-        } else {
+    // if ($msg !== "") {
+    //     if (app()->bound('session')) {
+    //         Session::put('msg', $msg);
+    //         Session::save();
+    //     } else {
             $_SESSION['msg'] = $msg;
-        }
-    }
+    //     }
+    // }
 
     if (!headers_sent()) {
         header('Location: '.$url);

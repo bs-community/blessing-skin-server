@@ -58,6 +58,7 @@ foreach ($config['aliases'] as $facade => $class) {
 (new Illuminate\Filesystem\FilesystemServiceProvider($app))->register();
 (new Illuminate\Session\SessionServiceProvider($app))->register();
 (new Illuminate\Encryption\EncryptionServiceProvider($app))->register();
+(new Devitek\Core\Translation\TranslationServiceProvider($app))->register();
 
 $request = Symfony\Component\HttpFoundation\Request::createFromGlobals();
 
