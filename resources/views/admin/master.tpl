@@ -89,7 +89,7 @@
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu">
                     <li class="header">{{ trans('general.admin-panel') }}</li>
-                    {!! bs_menu('admin', $__env->yieldContent('title')) !!}
+                    {!! bs_menu('admin') !!}
 
                     <li class="header">{{ trans('general.back') }}</li>
                     <li><a href="{{ url('user') }}"><i class="fa fa-user"></i> <span>{{ trans('general.user-center') }}</span></a></li>

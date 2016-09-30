@@ -87,7 +87,7 @@
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu">
                     <li class="header">{{ trans('general.user-center') }}</li>
-                    {!! bs_menu('user', $__env->yieldContent('title')) !!}
+                    {!! bs_menu('user') !!}
 
                     <li class="header">{{ trans('general.explore') }}</li>
                     <li><a href="{{ url('skinlib') }}"><i class="fa fa-archive"></i> <span>{{ trans('general.skinlib') }}</span></a></li>

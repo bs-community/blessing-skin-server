@@ -139,7 +139,7 @@ if (! function_exists('bs_header')) {
 
 if (! function_exists('bs_menu')) {
 
-    function bs_menu($type, $title)
+    function bs_menu($type)
     {
         $menu = require BASE_DIR."/config/menu.php";
 
@@ -147,12 +147,12 @@ if (! function_exists('bs_menu')) {
             throw new InvalidArgumentException;
         }
 
+        $request = App::make('request');
+
         foreach ($menu[$type] as $key => $value) {
-            $value['title'] = trans($value['title']);
+            echo ($request->is($value['link'])) ? '<li class="active">' : '<li>';
 
-            echo ($title == $value['title']) ? '<li class="active">' : '<li>';
-
-            echo '<a href="'.url($value['link']).'"><i class="fa '.$value['icon'].'"></i> <span>'.$value['title'].'</span></a></li>';
+            echo '<a href="'.url($value['link']).'"><i class="fa '.$value['icon'].'"></i> <span>'.trans($value['title']).'</span></a></li>';
         }
 
     }
