@@ -41,7 +41,7 @@ switch ($step) {
                 if (!check_password($password)) {
                     redirect_to('index.php?step=2', '无效的密码。密码长度应该大于 8 并小于 16。');
 
-                } else if (Utils::convertString($password) != $password) {
+                } else if (e($password) != $password) {
                     redirect_to('index.php?step=2', '无效的密码。密码中包含了奇怪的字符。');
                 }
             } else {

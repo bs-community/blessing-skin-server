@@ -9,30 +9,6 @@ use Log;
 class Utils
 {
     /**
-     * Simple SQL injection protection
-     *
-     * @param  string $string
-     * @return string
-     */
-    public static function convertString($string)
-    {
-        return addslashes(trim($string));
-    }
-
-    /**
-     * Get the value of key in an array if index exist
-     *
-     * @param  string $key
-     * @param  array  $array
-     * @param  string $default
-     * @return string
-     */
-    public static function getValue($key, $array, $default = "")
-    {
-        return array_key_exists($key, $array) ? $array[$key] : $default;
-    }
-
-    /**
      * Rename uploaded file
      *
      * @param  array  $file files uploaded via HTTP POST
