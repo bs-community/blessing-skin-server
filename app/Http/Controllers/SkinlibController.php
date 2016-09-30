@@ -151,10 +151,10 @@ class SkinlibController extends Controller
 
         if (!$results->isEmpty()) {
             foreach ($results as $result) {
-                if ($result->type == $t->type) {
-                    return json([
-                        'errno' => 0,
-                        'msg' => trans('skinlib.upload.repeated'),
+                // if the texture already uploaded was setted to private,
+                // then allow to re-upload it.
+                if ($result->type == $t->type && $result->public == "1") {
+                    return json(trans('skinlib.upload.repeated'), 0, [
                         'tid' => $result->tid
                     ]);
                 }
@@ -166,9 +166,7 @@ class SkinlibController extends Controller
         $this->user->setScore($cost, 'minus');
 
         if ($this->user->closet->add($t->tid, $t->name)) {
-            return json([
-                'errno' => 0,
-                'msg'   => trans('skinlib.upload.success', ['name' => $request->input('name')]),
+            return json(trans('skinlib.upload.success', ['name' => $request->input('name')]), 0, [
                 'tid'   => $t->tid
             ]);
         }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 
 if (! function_exists('get_real_ip')) {
 
@@ -70,14 +71,19 @@ if (! function_exists('json')) {
 
     function json()
     {
-        @header('Content-type: application/json; charset=utf-8');
         $args = func_get_args();
 
         if (count($args) == 1 && is_array($args[0])) {
             return Response::json($args[0]);
-        } elseif(count($args) == 2) {
-            return Response::json([
+        } elseif (count($args) == 3 && is_array($args[2])) {
+            // the third argument is array of extra fields
+            return Response::json(array_merge([
                 'errno' => $args[1],
+                'msg'   => $args[0]
+            ], $args[2]));
+        } else {
+            return Response::json([
+                'errno' => Arr::get($args, 1, 1),
                 'msg'   => $args[0]
             ]);
         }
