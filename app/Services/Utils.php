@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Exceptions\PrettyPageException;
 use Storage;
+use Log;
 
 class Utils
 {
@@ -42,16 +43,24 @@ class Utils
         $path = 'tmp'.time();
         $absolute_path = BASE_DIR."/storage/textures/$path";
 
-        if (false === move_uploaded_file($file['tmp_name'], $absolute_path)) {
-            throw new App\Exceptions\E('Failed to remove uploaded files, please check the permission', 1);
-        } else {
-            $hash = hash_file('sha256', $absolute_path);
-
-            if (!Storage::disk('textures')->has($hash)) {
-                Storage::disk('textures')->move($path, $hash);
+        try {
+            if (false === move_uploaded_file($file['tmp_name'], $absolute_path)) {
+                throw new Exception('Failed to remove uploaded files, please check the permission', 1);
             }
+        } catch (\Exception $e) {
+            Log::warning("Failed to move uploaded file, $e");
+        } finally {
+            if (file_exists($absolute_path)) {
+                $hash = hash_file('sha256', $absolute_path);
 
-            return $hash;
+                if (!Storage::disk('textures')->has($hash)) {
+                    Storage::disk('textures')->move($path, $hash);
+                }
+
+                return $hash;
+            } else {
+                Log::warning("Failed to upload file $path");
+            }
         }
     }
 

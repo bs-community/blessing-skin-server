@@ -1,13 +1,14 @@
 <div class="item" tid="{{ $texture['tid'] }}">
     <div class="item-body">
-        <img src="{{ url('preview/'.$texture['tid'].'.png') }}">
+        <img src="{{ url("preview/{$texture['tid']}.png") }}">
     </div>
 
     <div class="item-footer">
         <p class="texture-name">
-            <span title="{{ $texture['name'] }}">{{ $texture['name'] }} <small>({{ $texture['type'] }})</small></span>
+            <span title="{{ $texture['name'] }}">{{ $texture['name'] }}
+                <small>{{ trans("skinlib.item.{$texture['type']}") }}</small>
+            </span>
         </p>
-
 
         @if (Session::has('uid'))
 
@@ -18,7 +19,7 @@
             @endif
 
         @else
-        <a title="{{ trans('skinlib.item.not-logged-in') }}" class="more like" href="javascript:;" data-placement="top" data-toggle="tooltip"><i class="fa fa-heart"></i></a>
+            <a title="{{ trans('skinlib.item.anonymous') }}" class="more like" href="javascript:;" data-placement="top" data-toggle="tooltip"><i class="fa fa-heart"></i></a>
         @endif
 
         @if ($texture['public'] == "0")

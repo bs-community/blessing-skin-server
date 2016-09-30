@@ -1,67 +1,76 @@
-index:
-  now-showing: Now showing
-  any-model: (Any model)
-  steve-model: Steve Model
-  alex-model: Alex Model
-  uploader: User ( :name ) uploaded
-  newest-uploaded: Newestly uploaded
-  most-likes: Most likes
-  no-result: 'No result.'
-
-item:
-  remove-from-closet: Remove from closet.
-  add-to-closet: Add to closet.
-  not-logged-in: Please login.
-  private: Private
-
-master:
+general:
   filter: Filter
-  my-upload: My upload
-  sort: Sorting
-  search-textures: Search textures
-  upload-new-skin: Upload new skin
-
-search:
-  title: Result
-  no-given-keywords: 'No keywords'
+  my-upload: My Uploaded
+  sort: Sort
+  search-textures: Search For Textures
+  upload-new-skin: Upload New Skin
   no-result: No result.
 
-show:
-  title: Details of texture
-  login-before-using-closet: Please login before using closet.
-  number-of-likes: Number of likes
-  detail: Details
-  name: Name
-  modify-name: Modify name
-  suitable-model: Suitable model
-  download-raw: Right-click and choose SAVE AS then you can download raw skin file.
-  size-of-file: Size of file
-  uploader: Uploader
-  upload-at: Date of upload
-  delete-texture: Delete texture
-  change-privacy: Change privacy
-  message: 'Textures setted to be private or deleted will be removed from all collectors'' closets.'
-  set-private: Be private
-  set-public: Be public
-  set-message: 'You can make this texture private or delete it, which will remove it from all collectors'' closets.'
-  comment: Comments
-  no-comment: We have not enabled comment service.
+filter:
+  now-showing: Now showing
+  skin: Skin
+  cape: Cape
+  any-model: (Any Model)
+  steve-model: (Steve Model)
+  alex-model: (Alex Model)
+  uploader: User (:name) Uploaded
 
-  deleted: The requested texture file is already deleted.
-  contact-admin: Please contact the admin to delete this texture.
-  private: The requested texture is private and is only visible to uploader and admins.
+sort:
+  newest-uploaded: Newestly Uploaded
+  most-liked: Most Liked
+
+item:
+  steve: (Steve)
+  alex: (Alex)
+  cape: (Cape)
+  remove-from-closet: Remove from closet
+  add-to-closet: Add to closet
+  anonymous: Please login first
+  private: Private
+
+search:
+  title: 'Search Result: :query'
+  no-keywords: No keywords given
+
+show:
+  title: Texture Details
+  anonymous: You must login to use closets
+  likes: People who like this
+
+  detail: Details
+  name: Texture Name
+  edit-name: Edit Name
+  model: Applicable Model
+  download-raw: Click to download raw texture
+  size: File Size
+  uploader: Uploader
+  upload-at: Upload At
+
+  manage-panel: Manage Panel
+  delete-texture: Delete Texture
+
+  notice: The texture which was deleted or setted to private will be removed from the closet of everyone who had favorited it.
+  notice-admin: You are able to delete this texture or make it private. The operations will make it removed from the closet of everyone who had favorited it.
+
+  comment: Comment
+  comment-not-available: Comment is not available.
+
+  deleted: The requested texture was already deleted.
+  contact-admin: Please contact the admins to remove this entry.
+  private: The requested texture is private and only visible to the uploader and admins.
 
 upload:
-  title: Upload texture
+  title: Upload Texture
+
+  texture-name: Texture Name
+  name-rule: Less than 32 characters and must not contain any special one.
+  texture-type: Texture Type
+  select-file: Select File
+  private-score-notice: It will spend you more scores to set it as private. You will be charged :score scores for every KB storage.
+  privacy-notice: Prevent it from being visible at skin library.
+  set-as-private: Make it Private
+
   button: Upload
-  upload: Upload
-  texture-name: Texture name
-  name-message: Length of texture name should be less than 32 bytes and it cannot contain invaild character.
-  texture-type: Texture type
-  choose-file: Choose file
-  storage-message: Private texture will cost more scores. Every KB costs  :score scores
-  privacy-message: Others cannot find it in skin library.
-  set-private: Make it private.
 
   type-error: Incorrect mime type of uploaded file.
   invalid-size: Invalid :type file (Width :width, Height :height)
@@ -74,6 +83,9 @@ delete:
   success: The texture was deleted successfully.
 
 privacy:
+  change-privacy: Change Privacy
+  set-as-private: Set as Private
+  set-as-public: Set as Public
   success: The texture was setted to :privacy successfully.
 
 rename:
@@ -81,4 +93,3 @@ rename:
 
 no-permission: You aren't the uploader of this texture.
 non-existent: Non-existent texture.
-

@@ -31,31 +31,35 @@
                         <ul class="nav navbar-nav">
                             <li class="active"><a href="{{ url('skinlib') }}">{{ trans('general.skinlib') }}</a></li>
                             <li><a href="{{ url('user/closet') }}">{{ trans('general.my-closet') }}</a></li>
+
                             @unless (isset($with_out_filter))
+                            <!-- Filters -->
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-filter" aria-hidden="true"></i> {{ trans('skinlib.master.filter') }} <span class="caret"></span>
+                                    <i class="fa fa-filter" aria-hidden="true"></i> {{ trans('skinlib.general.filter') }} <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter=skin&sort={{ $sort }}'>{{ trans('general.skin') }}<small>{{ trans('skinlib.index.any-model') }}</small></a></li>
-                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter=steve&sort={{ $sort }}'>{{ trans('general.skin') }}<small>({{ trans('skinlib.index.steve-model') }})</small></a></li>
-                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter=alex&sort={{ $sort }}'>{{ trans('general.skin') }}<small>({{ trans('skinlib.index.alex-model') }})</small></a></li>
+                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter=skin&sort={{ $sort }}'>{{ trans('general.skin') }} <small>{{ trans('skinlib.filter.any-model') }}</small></a></li>
+                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter=steve&sort={{ $sort }}'>{{ trans('general.skin') }} <small>{{ trans('skinlib.filter.steve-model') }}</small></a></li>
+                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter=alex&sort={{ $sort }}'>{{ trans('general.skin') }} <small>{{ trans('skinlib.filter.alex-model') }}</small></a></li>
                                     <li class="divider"></li>
                                     <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter=cape&sort={{ $sort }}'>{{ trans('general.cape') }}</a></li>
                                     @if (!is_null($user))
                                     <li class="divider"></li>
-                                    <li><a href="?filter=user&uid={{ $user->uid }}&sort={{ $sort }}">{{ trans('skinlib.master.my-upload') }}</a></li>
+                                    <li><a href="?filter=user&uid={{ $user->uid }}&sort={{ $sort }}">{{ trans('skinlib.general.my-upload') }}</a></li>
                                     @endif
                                 </ul>
                             </li>
+
+                            <!-- Sort -->
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-sort-amount-desc" aria-hidden="true"></i> {{ trans('skinlib.master.sort') }} <span class="caret"></span>
+                                    <i class="fa fa-sort-amount-desc" aria-hidden="true"></i> {{ trans('skinlib.general.sort') }} <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter={{ $filter }}{{ isset($_GET['uid']) ? "&uid={$_GET['uid']}" : "" }}&sort=likes'>{{ trans('skinlib.index.most-likes') }}</a></li>
+                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter={{ $filter }}{{ isset($_GET['uid']) ? "&uid={$_GET['uid']}" : "" }}&sort=likes'>{{ trans('skinlib.sort.most-liked') }}</a></li>
                                     <li class="divider"></li>
-                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter={{ $filter }}{{ isset($_GET['uid']) ? "&uid={$_GET['uid']}" : "" }}&sort=time'>{{ trans('skinlib.index.newest-uploaded') }}</a></li>
+                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter={{ $filter }}{{ isset($_GET['uid']) ? "&uid={$_GET['uid']}" : "" }}&sort=time'>{{ trans('skinlib.sort.newest-uploaded') }}</a></li>
                                 </ul>
                             </li>
                             @endunless
@@ -64,14 +68,14 @@
                         </ul>
                         <form class="navbar-form navbar-left" role="search" action="{{ url('skinlib/search') }}">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="navbar-search-input" name="q" placeholder="{{ trans('skinlib.master.search-textures') }}" value="{{ $q or '' }}" />
+                                <input type="text" class="form-control" id="navbar-search-input" name="q" placeholder="{{ trans('skinlib.general.search-textures') }}" value="{{ $q or '' }}" />
                             </div>
                         </form>
                     </div><!-- /.navbar-collapse -->
                     <!-- Navbar Right Menu -->
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
-                            <li><a href="{{ url('skinlib/upload') }}"><i class="fa fa-upload" aria-hidden="true"></i> {{ trans('skinlib.master.upload-new-skin') }}</a></li>
+                            <li><a href="{{ url('skinlib/upload') }}"><i class="fa fa-upload" aria-hidden="true"></i> {{ trans('skinlib.general.upload-new-skin') }}</a></li>
                             @if (!is_null($user))
                             <!-- User Account Menu -->
                             <li class="dropdown user user-menu">
