@@ -37,7 +37,7 @@ switch ($step) {
             $password = $_POST['password'];
             $sitename = isset($_POST['sitename']) ? $_POST['sitename'] : "Blessing Skin Server";
 
-            if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            if (validate($email, 'email')) {
                 if (!check_password($password)) {
                     redirect_to('index.php?step=2', '无效的密码。密码长度应该大于 8 并小于 16。');
 

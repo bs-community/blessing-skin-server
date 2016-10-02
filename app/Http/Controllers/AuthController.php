@@ -22,23 +22,16 @@ class AuthController extends Controller
     public function handleLogin(Request $request)
     {
         $this->validate($request, [
-            'email'    => 'sometimes|required|email',
-            'username' => 'sometimes|required|username',
-            'password' => 'required|min:8|max:16'
+            'identification' => 'required',
+            'password'       => 'required|min:6|max:16'
         ]);
 
-        if ($request->has('email')) {
-            $auth_type = "email";
-        } elseif ($request->has('username')) {
-            $auth_type = "username";
-        } else {
-            return json(trans('auth.validation.identification'), 3);
-        }
+        $identification = $request->input('identification');
+
+        $auth_type = (validate($request->input('identification'), 'email')) ? "email" : "username";
 
         // instantiate user
-        $user = ($auth_type == 'email') ?
-                    new User(null, ['email'    => $request->input('email')]) :
-                    new User(null, ['username' => $request->input('username')]);
+        $user = new User(null, [$auth_type => $identification]);
 
         if (session('login_fails', 0) > 3) {
             if (strtolower($request->input('captcha')) != strtolower(session('phrase')))
@@ -59,18 +52,13 @@ class AuthController extends Controller
                 setcookie('uid',   $user->uid, time()+$time, '/');
                 setcookie('token', $user->getToken(), time()+$time, '/');
 
-                return json([
-                    'errno' => 0,
-                    'msg' => trans('auth.login.success'),
+                return json(trans('auth.login.success'), 0, [
                     'token' => $user->getToken()
                 ]);
             } else {
-                $fails = session('login_fails', 0);
-                Session::put('login_fails', $fails + 1);
+                Session::put('login_fails', session('login_fails', 0) + 1);
 
-                return json([
-                    'errno' => 1,
-                    'msg' => trans('auth.validation.password'),
+                return json(trans('auth.validation.password'), 1, [
                     'login_fails' => session('login_fails')
                 ]);
             }

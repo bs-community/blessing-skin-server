@@ -1,8 +1,8 @@
 /*
  * @Author: printempw
  * @Date:   2016-07-17 10:54:22
- * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-15 10:09:52
+ * @Last Modified by:   prpr
+ * @Last Modified time: 2016-10-02 20:27:13
  */
 
 'use strict';
@@ -21,22 +21,15 @@ function freshCaptcha() {
 var login_fails = 0;
 
 $('#login-button').click(function() {
-    var data           = new Object();
-    var email_or_uname = $('#email_or_username').val();
+    var data = new Object();
 
-    if (/\S+@\S+\.\S+/.test($('#email_or_username').val())) {
-        data.email    = email_or_uname;
-    } else {
-        data.username = email_or_uname;
-    }
-
+    data.identification = $('#identification').val();
     data.password = $('#password').val();
     data.keep     = $('#keep').prop('checked') ? true : false;
 
-    if (email_or_uname == "") {
+    if (data.identification == "") {
         showMsg(trans('auth.emptyIdentification'));
-        $('#email_or_username').focus();
-    // check valid email address
+        $('#identification').focus();
     } else if (data.password == "") {
         showMsg(trans('auth.emptyPassword'));
         $('#password').focus();

@@ -14,7 +14,7 @@
 
         <form id="login-form">
             <div class="form-group has-feedback">
-                <input id="email_or_username" type="email" class="form-control" placeholder="{{ trans('auth.identification') }}">
+                <input id="identification" type="email" class="form-control" placeholder="{{ trans('auth.identification') }}">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">

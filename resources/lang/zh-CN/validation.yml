@@ -75,10 +75,13 @@ url: ':attribute 格式不正确。'
 
 custom:
     attribute-name: { rule-name: custom-message }
+    identification:
+        required: 邮箱或角色名格式错误
 
 attributes:
     name: 名称
     username: 用户名
+    identification: 邮箱或角色名
     nickname: 昵称
     player_name: 角色名
     email: 邮箱

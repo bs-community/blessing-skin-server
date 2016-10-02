@@ -232,3 +232,19 @@ if (! function_exists('menv')) {
         return $value;
     }
 }
+
+if (! function_exists('validate')) {
+
+    function validate($value, $type)
+    {
+        switch ($type) {
+            case 'email':
+                return (bool) filter_var($value, FILTER_VALIDATE_EMAIL);
+                break;
+
+            default:
+                # code...
+                break;
+        }
+    }
+}
