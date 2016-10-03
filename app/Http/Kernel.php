@@ -33,8 +33,8 @@ class Kernel extends HttpKernel
             //\App\Http\Middleware\VerifyCsrfToken::class,
         ],
 
-        'api' => [
-            'throttle:60,1',
+        'static' => [
+            \App\Http\Middleware\Internationalization::class,
         ],
     ];
 
@@ -46,10 +46,9 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth' => \App\Http\Middleware\Authenticate::class,
-        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
-        'can' => \Illuminate\Foundation\Http\Middleware\Authorize::class,
-        'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'auth'   => \App\Http\Middleware\CheckAuthenticated::class,
+        'guest'  => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'admin'  => \App\Http\Middleware\CheckAdminMiddleware::class,
+        'player' => \App\Http\Middleware\CheckPlayerExistMiddleware::class
     ];
 }
