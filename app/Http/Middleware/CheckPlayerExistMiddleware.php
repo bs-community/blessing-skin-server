@@ -26,7 +26,7 @@ class CheckPlayerExistMiddleware
                     'player_name' => $player_name,
                     'errno'       => 404,
                     'msg'         => 'Player Not Found.'
-                ]);
+                ])->header('Cache-Control', 'public, max-age='.option('cache_expire_time'));
             } else {
                 abort(404, trans('general.unexistent-player'));
             }
