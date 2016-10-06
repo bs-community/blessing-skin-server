@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-19 10:46:38
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-27 21:36:48
+ * @Last Modified time: 2016-10-04 13:40:10
  */
 
 'use strict';
@@ -202,7 +202,7 @@ function upload() {
     }
 
     // quick fix for browsers which don't support FormData.get()
-    if ($('#file').prop('files')[0] == 'undefined') {
+    if ($('#file').prop('files')[0] === undefined) {
         toastr.info(trans('skinlib.emptyUploadFile'));
         $('#file').focus();
     } else if ($('#name').val() == "") {
