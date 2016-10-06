@@ -76,7 +76,7 @@ class AuthController extends Controller
 
             return json(trans('auth.logout.success'), 0);
         } else {
-            return json(trans('auth.logout.failed'), 1);
+            return json(trans('auth.logout.fail'), 1);
         }
     }
 
