@@ -7,7 +7,9 @@ use Event;
 use Utils;
 use Storage;
 use Response;
+use App\Models\User;
 use App\Events\GetPlayerJson;
+use App\Events\PlayerWasAdded;
 use App\Events\PlayerWasDeleted;
 use App\Events\PlayerProfileUpdated;
 use App\Exceptions\PrettyPageException;
@@ -18,6 +20,8 @@ class Player
     public $player_name;
 
     public $is_banned = false;
+
+    public $is_registered = false;
 
     public $model;
 
@@ -43,21 +47,21 @@ class Player
             $this->pid   = $pid;
             $this->model = PlayerModel::find($pid);
         } else {
+            $this->player_name = $player_name;
             $this->model = PlayerModel::where('player_name', $player_name)->first();
         }
 
-        if (!$this->model) {
-            abort(404, '角色不存在');
-        } else {
+        if ($this->model) {
             $this->pid = $this->model->pid;
+
+            $this->player_name = $this->model->player_name;
+
+            $this->owner = new User($this->model->uid);
+
+            $this->is_registered = true;
+
+            $this->is_banned = ($this->owner->getPermission() == "-1");
         }
-
-        $this->player_name = $this->model->player_name;
-
-        $this->owner = new User($this->model->uid);
-
-        if ($this->owner->getPermission() == "-1")
-            $this->is_banned = true;
     }
 
     /**
@@ -123,8 +127,9 @@ class Player
     }
 
     /**
-     * Set preferred model
-     * @param string $type, 'slim' or 'default'
+     * Set preferred model.
+     *
+     * @param string $type 'slim' or 'default'
      */
     public function setPreference($type)
     {
@@ -141,6 +146,35 @@ class Player
         return $this->model['preference'];
     }
 
+    /**
+     * Register a new player.
+     *
+     * @param  User  $owner Owner of the player.
+     * @return void
+     */
+    public function register(User $owner)
+    {
+        $this->owner = $owner;
+
+        $player = new PlayerModel();
+
+        $player->uid           = $this->owner->uid;
+        $player->player_name   = $this->player_name;
+        $player->preference    = "default";
+        $player->last_modified = Utils::getTimeFormatted();
+        $player->save();
+
+        Event::fire(new PlayerWasAdded($player));
+
+        $this->owner->setScore(option('score_per_player'), 'minus');
+    }
+
+    /**
+     * Rename the player.
+     *
+     * @param  string $new_name
+     * @return mixed
+     */
     public function rename($new_name)
     {
         $this->model->update([
@@ -153,6 +187,11 @@ class Player
         return Event::fire(new PlayerProfileUpdated($this));
     }
 
+    /**
+     * Set a new owner for the player.
+     *
+     * @param int $uid
+     */
     public function setOwner($uid) {
         $this->model->update(['uid' => $uid]);
 

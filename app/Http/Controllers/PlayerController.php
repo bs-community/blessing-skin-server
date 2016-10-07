@@ -9,9 +9,7 @@ use Option;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
-use App\Models\PlayerModel;
 use Illuminate\Http\Request;
-use App\Events\PlayerWasAdded;
 use App\Exceptions\PrettyPageException;
 
 class PlayerController extends Controller
@@ -49,26 +47,19 @@ class PlayerController extends Controller
             'player_name' => 'required|'.(Option::get('allow_chinese_playername') == "1") ? 'pname_chinese' : 'player_name'
         ]);
 
-        $player_name = $request->input('player_name');
+        $player = new Player(null, $request->input('player_name'));
 
-        if (!PlayerModel::where('player_name', $player_name)->get()->isEmpty())
+        if ($player->is_registered) {
             return json(trans('user.player.add.repeated'), 6);
+        }
 
-        if ($this->user->getScore() < Option::get('score_per_player'))
+        if ($this->user->getScore() < Option::get('score_per_player')) {
             return json(trans('user.player.add.lack-score'), 7);
+        }
 
-        $player                = new PlayerModel();
-        $player->uid           = $this->user->uid;
-        $player->player_name   = $player_name;
-        $player->preference    = "default";
-        $player->last_modified = Utils::getTimeFormatted();
-        $player->save();
+        $player->register($this->user);
 
-        Event::fire(new PlayerWasAdded($player));
-
-        $this->user->setScore(Option::get('score_per_player'), 'minus');
-
-        return json(trans('user.player.add.success', ['name' => $player_name]), 0);
+        return json(trans('user.player.add.success', ['name' => $request->input('player_name')]), 0);
     }
 
     public function delete(Request $request)
@@ -78,7 +69,7 @@ class PlayerController extends Controller
         if ($this->player->delete()) {
             $this->user->setScore(Option::get('score_per_player'), 'plus');
 
-            return json("trans('user.player.delete.success', ['name' => $player_name])", 0);
+            return json(trans('user.player.delete.success', ['name' => $player_name]), 0);
         }
     }
 
@@ -93,15 +84,17 @@ class PlayerController extends Controller
             'new_player_name' => 'required|'.(Option::get('allow_chinese_playername') == "1") ? 'pname_chinese' : 'player_name'
         ]);
 
-        $new_player_name = $request->input('new_player_name');
+        $new_name = $request->input('new_player_name');
 
-        if (!PlayerModel::where('player_name', $new_player_name)->get()->isEmpty())
+        if ((new Player(null, $new_name))->is_registered) {
             return json(trans('user.player.rename.repeated'), 6);
+        }
 
-        $old_player_name = $this->player->player_name;
-        $this->player->rename($new_player_name);
+        $old_name = $this->player->player_name;
 
-        return json(trans('user.player.rename.success', ['old' => $old_player_name, 'new' => $new_player_name]), 0);
+        $this->player->rename($new_name);
+
+        return json(trans('user.player.rename.success', ['old' => $old_name, 'new' => $new_name]), 0);
     }
 
     /**
