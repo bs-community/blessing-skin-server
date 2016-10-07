@@ -57,7 +57,7 @@
                                     <i class="fa fa-sort-amount-desc" aria-hidden="true"></i> {{ trans('skinlib.general.sort') }} <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter={{ $filter }}{{ isset($_GET['uid']) ? "&uid={$_GET['uid']}" : "" }}&sort=likes'>{{ trans('skinlib.sort.most-liked') }}</a></li>
+                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter={{ $filter }}{{ isset($_GET['uid']) ? "&uid={$_GET['uid']}" : "" }}&sort=likes'>{{ trans('skinlib.sort.most-likes') }}</a></li>
                                     <li class="divider"></li>
                                     <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter={{ $filter }}{{ isset($_GET['uid']) ? "&uid={$_GET['uid']}" : "" }}&sort=time'>{{ trans('skinlib.sort.newest-uploaded') }}</a></li>
                                 </ul>
