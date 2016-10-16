@@ -2,19 +2,15 @@
 
 namespace App\Models;
 
-use App\Exceptions\PrettyPageException;
-use Utils;
-use View;
-
 class Closet
 {
     public $uid;
 
     /**
-     * Instance of App\Models\ClosetModel
-     * @var null
+     * Instance of Query Builder
+     * @var \Illuminate\Database\Query\Builder
      */
-    private $model          = null;
+    private $db;
 
     /**
      * Textures array generated from json
@@ -34,62 +30,79 @@ class Closet
      */
     private $textures_cape  = [];
 
+    private $items_modified = [];
+
     /**
-     * Construct Closet object with owner's uid
+     * Construct Closet object with owner's uid.
+     *
      * @param int $uid
      */
-    function __construct($uid)
+    public function __construct($uid)
     {
         $this->uid = $uid;
-        $this->model = ClosetModel::find($uid);
+        $this->db  = \DB::table('closets');
 
-        if ($this->model) {
-            $this->textures = json_decode($this->model->textures, true);
-            $this->textures = is_null($this->textures) ? [] : $this->textures;
-
-            $textures_invalid = [];
-
-            foreach ($this->textures as $texture) {
-                $result = Texture::find($texture['tid']);
-                if ($result) {
-                    // user custom texture name
-                    $result->name = $texture['name'];
-
-                    if ($result->type == "cape") {
-                        $this->textures_cape[] = $result;
-                    } else {
-                        $this->textures_skin[] = $result;
-                    }
-                } else {
-                    $textures_invalid[] = $texture['tid'];
-                    continue;
-                }
-            }
-
-            foreach ($textures_invalid as $tid) {
-                $this->remove($tid);
-            }
-
-            unset($textures_invalid);
-        } else {
-            $this->model = new ClosetModel();
-            $this->model->uid = $uid;
-            $this->model->save();
+        // create a new closet if not exists
+        if (!$this->db->where('uid', $uid)->get()) {
+            $this->db->insert([
+                'uid'      => $uid,
+                'textures' => ''
+            ]);
         }
 
+        // load items from json string
+        $this->textures = json_decode($this->db->where('uid', $uid)->get()[0]->textures, true);
+        $this->textures = is_null($this->textures) ? [] : $this->textures;
+
+        $textures_invalid = [];
+
+        // traverse items in the closet
+        foreach ($this->textures as $texture) {
+            $result = Texture::find($texture['tid']);
+
+            if ($result) {
+                // set user custom texture name
+                $result->name = $texture['name'];
+
+                // push instances of App\Models\Texture to the bag
+                if ($result->type == "cape") {
+                    $this->textures_cape[] = $result;
+                } else {
+                    $this->textures_skin[] = $result;
+                }
+            } else {
+                $textures_invalid[] = $texture['tid'];
+                continue;
+            }
+        }
+
+        // remove invalid textures from closet
+        foreach ($textures_invalid as $tid) {
+            $this->remove($tid);
+        }
+
+        unset($textures_invalid);
     }
 
     /**
-     * Get array of instances of App\Models\Texture
+     * Get array of instances of App\Models\Texture.
+     *
      * @param  string $category
      * @return array
      */
     public function getItems($category = "skin")
     {
-        // need to reverse the array to sort desc by add_at
+        // reverse the array to sort desc by add_at
         return array_reverse(($category == "skin") ? $this->textures_skin : $this->textures_cape);
     }
 
+    /**
+     * Add an item to the closet.
+     *
+     * @param int $tid
+     * @param string $name
+     * @return bool
+     */
     public function add($tid, $name)
     {
         foreach ($this->textures as $item) {
@@ -103,14 +116,16 @@ class Closet
             'add_at' => time()
         );
 
-        $this->model->textures = json_encode($this->textures);
-        return $this->model->save();
+        $this->items_modified[] = $tid;
+
+        return true;
     }
 
     /**
-     * Check if texture is in the closet
+     * Check if texture is in the closet.
+     *
      * @param  int  $tid
-     * @return boolean
+     * @return bool
      */
     public function has($tid)
     {
@@ -137,8 +152,9 @@ class Closet
             $offset++;
         }
 
-        $this->model->textures = json_encode($this->textures);
-        return $this->model->save();
+        $this->items_modified[] = $tid;
+
+        return true;
     }
 
     /**
@@ -149,12 +165,12 @@ class Closet
     public function remove($tid)
     {
         $offset = 0;
-        // remove array element
+
+        // traverse items
         foreach ($this->textures as $item) {
             if ($item['tid'] == $tid) {
-                array_splice($this->textures, $offset, 1);
-                $this->model->textures = json_encode($this->textures);
-                return $this->model->save();
+                // remove element from array
+                return array_splice($this->textures, $offset, 1);
             }
             $offset++;
         }
@@ -164,14 +180,19 @@ class Closet
 
     private function checkTextureExist($tid)
     {
-        return (Texture::where('tid', $tid)->count() > 0) ? true : false;
+        return ! Texture::where('tid', $tid)->isEmpty();
     }
 
-}
+    private function save()
+    {
+        if (empty($this->items_modified)) return;
 
-class ClosetModel extends \Illuminate\Database\Eloquent\Model
-{
-    public $primaryKey = 'uid';
-    protected $table = 'closets';
-    public $timestamps = false;
+        $this->db->where('uid', $this->uid)->update(['textures' => json_encode($this->textures)]);
+    }
+
+    public function __destruct()
+    {
+        $this->save();
+    }
+
 }
