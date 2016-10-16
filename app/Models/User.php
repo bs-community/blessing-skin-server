@@ -229,11 +229,7 @@ class User
         $user->permission   = 0;
         $user->save();
 
-        $closet             = new ClosetModel();
-        $closet->uid        = $user->uid;
-        $closet->textures   = "";
-        $closet->save();
-
+        $closet              = new Closet($user->uid);
         $this->model         = $user;
         $this->uid           = $user->uid;
         $this->is_registered = true;
@@ -260,7 +256,7 @@ class User
     public function delete()
     {
         Player::where('uid', $this->uid)->delete();
-        ClosetModel::where('uid', $this->uid)->delete();
+        DB::table('closets')->where('uid', $this->uid)->delete();
         return $this->model->delete();
     }
 
