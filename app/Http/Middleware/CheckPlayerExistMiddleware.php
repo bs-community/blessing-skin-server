@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\PlayerModel;
+use App\Models\Player;
 use App\Events\CheckPlayerExists;
 use Event;
 
@@ -20,7 +20,7 @@ class CheckPlayerExistMiddleware
 
         Event::fire(new CheckPlayerExists($player_name));
 
-        if (PlayerModel::where('player_name', $player_name)->get()->isEmpty()) {
+        if (Player::where('player_name', $player_name)->get()->isEmpty()) {
             if (option('return_200_when_notfound') == "1") {
                 return json([
                     'player_name' => $player_name,

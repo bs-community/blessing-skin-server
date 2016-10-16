@@ -58,7 +58,7 @@ class User
                 $this->email    = e($info['email']);
                 $this->model    = UserModel::where('email', $this->email)->first();
             } elseif (isset($info['username'])) {
-                $player         = PlayerModel::where('player_name', $info['username'])->first();
+                $player         = Player::where('player_name', $info['username'])->first();
                 $this->uid      = $player ? $player['uid'] : 0;
                 $this->model    = UserModel::find($this->uid);
             } else {
@@ -242,7 +242,7 @@ class User
 
     public function getPlayers()
     {
-        return PlayerModel::where('uid', $this->uid)->get();
+        return Player::where('uid', $this->uid)->get();
     }
 
     public function getAvatarId()
@@ -258,7 +258,7 @@ class User
 
     public function delete()
     {
-        PlayerModel::where('uid', $this->uid)->delete();
+        Player::where('uid', $this->uid)->delete();
         ClosetModel::where('uid', $this->uid)->delete();
         return $this->model->delete();
     }

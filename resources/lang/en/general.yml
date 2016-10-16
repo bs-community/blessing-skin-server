@@ -1,6 +1,5 @@
 index: Homepage
 skinlib: Skin Library
-langs: Language
 user-center: User Center
 logout: Log Out
 login: Log In
@@ -45,3 +44,6 @@ public: Public
 
 unexistent-user: Un-existent user
 unexistent-player: Un-existent player.
+
+texture-deleted: The requested texture has been deleted.
+texture-not-uploaded: The user haven not uploaded the texture of :type model yet.

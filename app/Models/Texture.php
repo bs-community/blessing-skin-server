@@ -11,7 +11,7 @@ class Texture extends \Illuminate\Database\Eloquent\Model
     {
         $skin_type_map = ["steve", "alex", "cape"];
         for ($i = 0; $i <= 2; $i++) {
-            if (PlayerModel::where('tid_'.$skin_type_map[$i], $tid)->count() > 0)
+            if (Player::where('tid_'.$skin_type_map[$i], $tid)->count() > 0)
                 return true;
         }
         return false;

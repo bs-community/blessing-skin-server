@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use App\Models\PlayerModel;
+use App\Models\Player;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
@@ -17,7 +17,7 @@ class PlayerWasAdded extends Event
      *
      * @return void
      */
-    public function __construct(PlayerModel $player)
+    public function __construct(Player $player)
     {
         $this->player = $player;
     }

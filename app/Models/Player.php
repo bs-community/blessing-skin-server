@@ -8,106 +8,95 @@ use Utils;
 use Storage;
 use Response;
 use App\Models\User;
+use Illuminate\Support\Arr;
 use App\Events\GetPlayerJson;
-use App\Events\PlayerWasAdded;
-use App\Events\PlayerWasDeleted;
 use App\Events\PlayerProfileUpdated;
 use App\Exceptions\PrettyPageException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class Player
+class Player extends \Illuminate\Database\Eloquent\Model
 {
-    public $pid;
-    public $player_name;
+    public    $primaryKey = 'pid';
+    public    $timestamps = false;
 
-    public $is_banned = false;
+    protected $fillable   = ['uid', 'player_name', 'preference', 'last_modified'];
 
-    public $is_registered = false;
+    public    $is_banned  = false;
 
-    public $model;
-
-    /**
-     * User Instance.
-     *
-     * @var \App\Models\User
-     */
-    private $owner;
-
-    const CSL_API       = 0;
-    const USM_API       = 1;
+    const CSL_API         = 0;
+    const USM_API         = 1;
+    const MODELS          = ['steve', 'alex', 'cape'];
 
     /**
-     * Construct player with pid or playername
+     * Check if the player is banned.
      *
-     * @param int    $pid
-     * @param string $player_name
+     * @return bool
      */
-    public function __construct($pid, $player_name = "")
+    public function isBanned()
     {
-        if ($player_name == "") {
-            $this->pid   = $pid;
-            $this->model = PlayerModel::find($pid);
-        } else {
-            $this->player_name = $player_name;
-            $this->model = PlayerModel::where('player_name', $player_name)->first();
-        }
-
-        if ($this->model) {
-            $this->pid = $this->model->pid;
-
-            $this->player_name = $this->model->player_name;
-
-            $this->owner = new User($this->model->uid);
-
-            $this->is_registered = true;
-
-            $this->is_banned = ($this->owner->getPermission() == "-1");
-        }
+        return (new User($this->uid))->getPermission() == "-1";
     }
 
     /**
-     * Get textures of player
+     * Get specific texture of player.
      *
-     * @param  string $type steve|alex|cape, 'skin' for texture of preferred model
-     * @return string sha256-hash of texture file
+     * @param  string $type steve|alex|cape
+     * @return string       sha256-hash of texture file
      */
     public function getTexture($type)
     {
         if ($type == "skin")
             $type = ($this->getPreference() == "default") ? "steve" : "alex";
-        if ($type == "steve" | $type == "alex" | $type == "cape") {
-            $tid = $this->model['tid_'.$type];
-            return Texture::find($tid)['hash'];
+
+        if (in_array($type, self::MODELS)) {
+            return Texture::find($this["tid_$type"])['hash'];
         }
+
         return false;
     }
 
+    /**
+     * Set textures for the player.
+     *
+     * @param  array $tids
+     * @return mixed
+     */
     public function setTexture(Array $tids)
     {
-        $map = ['steve', 'alex', 'cape'];
-
-        foreach ($map as $model) {
+        foreach (self::MODELS as $model) {
             $property = "tid_$model";
+
             if (isset($tids[$property])) {
-                $this->model->$property = $tids[$property];
+                $this->$property = $tids[$property];
             }
         }
 
-        $this->model->last_modified = Utils::getTimeFormatted();
+        $this->last_modified = Utils::getTimeFormatted();
 
-        $this->model->save();
+        $this->save();
 
         return Event::fire(new PlayerProfileUpdated($this));
     }
 
+    /**
+     * Clear the textures of player.
+     *
+     * @return mixed
+     */
     public function clearTexture()
     {
         $this->setPreference('default');
-        $this->setTexture(['tid_steve' => 0, 'tid_alex' => 0, 'tid_cape' => 0]);
+
+        return $this->setTexture([
+            'tid_steve' => 0,
+            'tid_alex'  => 0,
+            'tid_cape'  => 0
+        ]);
     }
 
     public function getBinaryTexture($type)
     {
-        if ($this->getTexture($type) != "") {
+        if ($this->getTexture($type)) {
             $hash = $this->getTexture($type);
             $path = BASE_DIR."/storage/textures/".$hash;
 
@@ -119,21 +108,21 @@ class Player
                     'Content-Length' => Storage::disk('textures')->size($hash),
                 ]);
             } else {
-                abort(404, '请求的贴图已被删除。');
+                throw new NotFoundHttpException(trans('general.texture-deleted'));
             }
         } else {
-            abort(404, '该用户尚未上传请求的贴图类型 '.$type);
+            throw new NotFoundHttpException(trans('general.texture-not-uploaded', ['type' => $type]));
         }
     }
 
     /**
-     * Set preferred model.
+     * Set preferred model for the player.
      *
-     * @param string $type 'slim' or 'default'
+     * @param string $type slim|default
      */
     public function setPreference($type)
     {
-        $this->model->update([
+        $this->update([
             'preference'    => $type,
             'last_modified' => Utils::getTimeFormatted()
         ]);
@@ -143,30 +132,7 @@ class Player
 
     public function getPreference()
     {
-        return $this->model['preference'];
-    }
-
-    /**
-     * Register a new player.
-     *
-     * @param  User  $owner Owner of the player.
-     * @return void
-     */
-    public function register(User $owner)
-    {
-        $this->owner = $owner;
-
-        $player = new PlayerModel();
-
-        $player->uid           = $this->owner->uid;
-        $player->player_name   = $this->player_name;
-        $player->preference    = "default";
-        $player->last_modified = Utils::getTimeFormatted();
-        $player->save();
-
-        Event::fire(new PlayerWasAdded($player));
-
-        $this->owner->setScore(option('score_per_player'), 'minus');
+        return $this['preference'];
     }
 
     /**
@@ -177,7 +143,7 @@ class Player
      */
     public function rename($new_name)
     {
-        $this->model->update([
+        $this->update([
             'player_name'   => $new_name,
             'last_modified' => Utils::getTimeFormatted()
         ]);
@@ -193,13 +159,13 @@ class Player
      * @param int $uid
      */
     public function setOwner($uid) {
-        $this->model->update(['uid' => $uid]);
+        $this->update(['uid' => $uid]);
 
         return Event::fire(new PlayerProfileUpdated($this));
     }
 
     /**
-     * Get JSON profile
+     * Get Json profile of player.
      *
      * @param  int $api_type Which API to use, 0 for CustomSkinAPI, 1 for UniSkinAPI
      * @return string        User profile in json format
@@ -216,12 +182,12 @@ class Player
                 return $this->generateJsonProfile($api_type);
             }
         } else {
-            throw new PrettyPageException('不支持的 API_TYPE。', -1);
+            throw new InvalidArgumentException('The given api type should be 0 or 1.');
         }
     }
 
     /**
-     * Generate player profile in json string
+     * Generate player profile in json format.
      *
      * @param  int $api_type
      * @return string
@@ -249,37 +215,27 @@ class Player
         return json_encode($json, JSON_PRETTY_PRINT);
     }
 
+    /**
+     * Update the date of last modified.
+     *
+     * @return mixed
+     */
     public function updateLastModified()
     {
         // @see http://stackoverflow.com/questions/2215354/php-date-format-when-inserting-into-datetime-in-mysql
-        $this->model->update(['last_modified' => Utils::getTimeFormatted()]);
+        $this->update(['last_modified' => Utils::getTimeFormatted()]);
         return Event::fire(new PlayerProfileUpdated($this));
     }
 
     /**
-     * Get last modified time
+     * Get time of last modified.
+     *
      * @return timestamp
      */
     public function getLastModified()
     {
-        return strtotime($this->model['last_modified']);
+        return strtotime($this['last_modified']);
     }
-
-    public function delete()
-    {
-        // Event::fire(new PlayerWasDeleted($this));
-
-        return $this->model->delete();
-    }
-}
-
-class PlayerModel extends \Illuminate\Database\Eloquent\Model
-{
-    public $primaryKey  = 'pid';
-    protected $table    = 'players';
-    public $timestamps  = false;
-
-    protected $fillable = ['uid', 'player_name', 'preference', 'last_modified'];
 
     public function scopeLike($query, $field, $value)
     {

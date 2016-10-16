@@ -26,10 +26,7 @@ class TextureController extends Controller
      */
     public function json($player_name, $api = "")
     {
-        $player = new Player(0, $player_name);
-
-        if ($player->is_banned)
-            abort(404, '该角色拥有者已被本站封禁。');
+        $player = $this->getPlayerInstance($player_name);
 
         if ($api == "csl") {
             return Response::rawJson($player->getJsonProfile(Player::CSL_API));
@@ -63,10 +60,7 @@ class TextureController extends Controller
 
     public function skin($player_name, $model = "")
     {
-        $player = new Player(0, $player_name);
-
-        if ($player->is_banned)
-            abort(404, '该角色拥有者已被本站封禁。');
+        $player = $this->getPlayerInstance($player_name);
 
         $model_preference = ($player->getPreference() == "default") ? "steve" : "alex";
         $model = ($model == "") ? $model_preference : $model;
@@ -81,10 +75,7 @@ class TextureController extends Controller
 
     public function cape($player_name)
     {
-        $player = new Player(0, $player_name);
-
-        if ($player->is_banned)
-            abort(404, '该角色拥有者已被本站封禁。');
+        $player = $this->getPlayerInstance($player_name);
 
         return $player->getBinaryTexture('cape');
     }
@@ -179,6 +170,19 @@ class TextureController extends Controller
             abort(404, '材质不存在');
         }
 
+    }
+
+    private function getPlayerInstance($player_name)
+    {
+        $player = Player::where('player_name', $player_name)->first();
+
+        if (!$player)
+            abort(404, '角色不存在');
+
+        if ($player->isBanned())
+            abort(404, '该角色拥有者已被本站封禁。');
+
+        return $player;
     }
 
 }

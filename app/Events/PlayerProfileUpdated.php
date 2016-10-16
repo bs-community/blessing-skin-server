@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Player;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
@@ -16,7 +17,7 @@ class PlayerProfileUpdated extends Event
      *
      * @return void
      */
-    public function __construct(\App\Models\Player $player)
+    public function __construct(Player $player)
     {
         $this->player = $player;
     }

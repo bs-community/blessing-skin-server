@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
 use App\Models\UserModel;
-use App\Models\PlayerModel;
 use Illuminate\Http\Request;
 use App\Exceptions\PrettyPageException;
 
@@ -107,11 +106,11 @@ class AdminController extends Controller
         $q      = $request->input('q', '');
 
         if ($filter == "") {
-            $players = PlayerModel::orderBy('uid');
+            $players = Player::orderBy('uid');
         } elseif ($filter == "player_name") {
-            $players = PlayerModel::like('player_name', $q)->orderBy('uid');
+            $players = Player::like('player_name', $q)->orderBy('uid');
         } elseif ($filter == "uid") {
-            $players = PlayerModel::where('uid', $q)->orderBy('uid');
+            $players = Player::where('uid', $q)->orderBy('uid');
         }
 
         $total_pages = ceil($players->count() / 30);
@@ -235,8 +234,10 @@ class AdminController extends Controller
     {
         $action = isset($_GET['action']) ? $_GET['action'] : "";
 
-        // exception will be throw by model if player is not existent
-        $player = new Player($request->input('pid'));
+        $player = Player::find($request->input('pid'));
+
+        if (!$player)
+            abort(404, trans('general.unexistent-player'));
 
         if ($action == "preference") {
             $this->validate($request, [
@@ -273,7 +274,7 @@ class AdminController extends Controller
                 return json("角色 $player->player_name 已成功让渡至 ".$user->getNickName(), 0);
 
         } elseif ($action == "delete") {
-            if (PlayerModel::where('pid', $request->input('pid'))->delete())
+            if ($player->delete())
                 return json('角色已被成功删除', 0);
         } else {
             return json('非法参数', 1);

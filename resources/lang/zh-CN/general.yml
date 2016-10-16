@@ -1,6 +1,5 @@
 index: 首页
 skinlib: 皮肤库
-langs: 语言
 user-center: 用户中心
 logout: 登出
 login: 登录
@@ -45,3 +44,6 @@ public: 公开
 
 unexistent-user: 不存在的用户
 unexistent-player: 角色不存在
+
+texture-deleted: 请求的材质已被删除
+texture-not-uploaded: 该用户尚未上传请求的材质类型 :type

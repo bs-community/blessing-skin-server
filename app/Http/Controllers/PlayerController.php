@@ -10,6 +10,8 @@ use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
 use Illuminate\Http\Request;
+use App\Events\PlayerWasAdded;
+use App\Events\PlayerWasDeleted;
 use App\Exceptions\PrettyPageException;
 
 class PlayerController extends Controller
@@ -33,7 +35,7 @@ class PlayerController extends Controller
         $this->user = new User(session('uid'));
 
         if ($request->has('pid'))
-            $this->player = new Player($request->pid);
+            $this->player = Player::find($request->pid);
     }
 
     public function index()
@@ -47,9 +49,7 @@ class PlayerController extends Controller
             'player_name' => 'required|'.(Option::get('allow_chinese_playername') == "1") ? 'pname_chinese' : 'player_name'
         ]);
 
-        $player = new Player(null, $request->input('player_name'));
-
-        if ($player->is_registered) {
+        if (!Player::where('player_name', $request->input('player_name'))->get()->isEmpty()) {
             return json(trans('user.player.add.repeated'), 6);
         }
 
@@ -57,7 +57,17 @@ class PlayerController extends Controller
             return json(trans('user.player.add.lack-score'), 7);
         }
 
-        $player->register($this->user);
+        $player = new Player;
+
+        $player->uid           = $this->user->uid;
+        $player->player_name   = $request->input('player_name');
+        $player->preference    = "default";
+        $player->last_modified = Utils::getTimeFormatted();
+        $player->save();
+
+        Event::fire(new PlayerWasAdded($player));
+
+        $this->user->setScore(option('score_per_player'), 'minus');
 
         return json(trans('user.player.add.success', ['name' => $request->input('player_name')]), 0);
     }
@@ -69,13 +79,15 @@ class PlayerController extends Controller
         if ($this->player->delete()) {
             $this->user->setScore(Option::get('score_per_player'), 'plus');
 
+            // Event::fire(new PlayerWasDeleted($this));
+
             return json(trans('user.player.delete.success', ['name' => $player_name]), 0);
         }
     }
 
     public function show()
     {
-        return json_encode($this->player->model->toArray(), JSON_NUMERIC_CHECK);
+        return json_encode($this->player->toArray(), JSON_NUMERIC_CHECK);
     }
 
     public function rename(Request $request)
@@ -86,13 +98,14 @@ class PlayerController extends Controller
 
         $new_name = $request->input('new_player_name');
 
-        if ((new Player(null, $new_name))->is_registered) {
+        if (!Player::where('player_name', $new_name)->get()->isEmpty()) {
             return json(trans('user.player.rename.repeated'), 6);
         }
 
         $old_name = $this->player->player_name;
 
-        $this->player->rename($new_name);
+        $this->player->player_name = $new_name;
+        $this->player->save();
 
         return json(trans('user.player.rename.success', ['old' => $old_name, 'new' => $new_name]), 0);
     }

@@ -37,7 +37,7 @@
                             <a href="{{ url('admin/players') }}">
                                 <div class="info-box-content" style="margin-left: 0;">
                                     <span class="info-box-text">角色总数</span>
-                                    <span class="info-box-number">{{ App\Models\PlayerModel::all()->count() }}</span>
+                                    <span class="info-box-number">{{ App\Models\Player::all()->count() }}</span>
                                 </div><!-- /.info-box-content -->
                             </a>
                         </div><!-- /.info-box -->

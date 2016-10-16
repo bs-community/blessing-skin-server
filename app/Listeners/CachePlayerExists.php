@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use Storage;
-use App\Models\PlayerModel;
+use App\Models\Player;
 use App\Events\CheckPlayerExists;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -21,7 +21,7 @@ class CachePlayerExists
         $player_name = $event->player_name;
 
         if ($player_name && !Storage::disk('cache')->has("notfound/$player_name")) {
-            if (PlayerModel::where('player_name', $player_name)->get()->isEmpty()) {
+            if (Player::where('player_name', $player_name)->get()->isEmpty()) {
                 Storage::disk('cache')->put("notfound/$player_name", '');
             }
         } else {
