@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Option;
 use Utils;
+use Option;
+use Carbon\Carbon;
 
 class User
 {
@@ -191,17 +192,17 @@ class User
     public function canCheckIn($return_remaining_time = false)
     {
         // convert to timestamp
-        $last_sign_timestamp     = strtotime($this->getLastSignTime());
-        $zero_timestamp_today    = strtotime(date('Y-m-d',time()));
-        $zero_timestamp_tomorrow = strtotime(date('Y-m-d',strtotime('+1 day')));
+        $last_sign_at = strtotime($this->getLastSignTime());
 
         if (Option::get('sign_after_zero') == "1") {
-            $remaining_time = ($zero_timestamp_tomorrow - time()) / 3600;
-            return $return_remaining_time ? round($remaining_time) : ($last_sign_timestamp <= $zero_timestamp_today);
+            $remaining_time = (Carbon::tomorrow()->timestamp - time()) / 3600;
+            $can_check_in   = $last_sign_at <= Carbon::today()->timestamp;
         } else {
-            $remaining_time = ($last_sign_timestamp + Option::get('sign_gap_time') * 3600 - time()) / 3600;
-            return $return_remaining_time ? round($remaining_time) : ($remaining_time <= 0);
+            $remaining_time = ($last_sign_at + Option::get('sign_gap_time') * 3600 - time()) / 3600;
+            $can_check_in   = $remaining_time <= 0;
         }
+
+        return $return_remaining_time ? round($remaining_time) : $can_check_in;
     }
 
     public function getLastSignTime()
