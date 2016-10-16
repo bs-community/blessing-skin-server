@@ -30,13 +30,30 @@ class ClosetController extends Controller
         $category = $request->input('category', 'skin');
         $page     = $request->input('page', 1);
         $page     = $page <= 0 ? 1 : $page;
+        $q        = $request->input('q', null);
 
-        $items = array_slice($this->closet->getItems($category), ($page-1)*6, 6);
+        if ($q) {
+            $result = [];
 
-        $total_pages = ceil(count($this->closet->getItems($category)) / 6);
+            foreach ($this->closet->getItems() as $item) {
+                if (strstr($item->name, $q)) {
+                    $result[] = $item;
+                }
+            }
+
+            $items = $result;
+        } else {
+            $items = $this->closet->getItems($category);
+        }
+
+        // pagination
+        $items = array_slice($items, ($page-1)*6, 6);
+
+        $total_pages = ceil(count($items) / 6);
 
         echo View::make('user.closet')->with('items', $items)
                                       ->with('page', $page)
+                                      ->with('q', $q)
                                       ->with('category', $category)
                                       ->with('total_pages', $total_pages)
                                       ->with('user', (new User(session('uid'))))

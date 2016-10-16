@@ -27,10 +27,23 @@
                 <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title" title="{{ trans('user.closet.switch-category') }}" data-toggle="tooltip" data-placement="bottom">
+                            @if ($q)
+                            搜索结果
+                            @else
                             <a href="?category=skin" {{ ($category == "skin") ? 'class=selected' : "" }}>{{ trans('general.skin') }}</a>
                             /
                             <a href="?category=cape" {{ ($category == "cape") ? 'class=selected' : "" }}>{{ trans('general.cape') }}</a>
+                            @endif
                         </h3>
+
+                        <div class="box-tools pull-right">
+                            <div class="has-feedback">
+                                <form method="get" action="" class="user-search-form">
+                                    <input type="text" name="q" class="form-control input-sm" placeholder="输入，回车搜索" value="{{ $q }}">
+                                    <span class="glyphicon glyphicon-search form-control-feedback"></span>
+                                </form>
+                            </div>
+                        </div><!-- /.box-tools -->
                     </div><!-- /.box-header -->
 
                     <div class="box-body">
@@ -57,26 +70,32 @@
                         </div>
                         @empty
                         <div class="empty-msg">
+                            @if($q)
+                            {{ trans('skinlib.general.no-result') }}
+                            @else
                             {!! trans('user.closet.empty-msg', ['url' => url('skinlib')]) !!}
+                            @endif
                         </div>
-                        @endforelse
 
+                        @endforelse
 
                     </div>
                     <div class="box-footer">
                         <ul class="pagination pagination-sm no-margin pull-right">
-                            <li><a href="?page=1">«</a></li>
+                            <?php $base_url = $q ? "?q=$q&" : "?"; ?>
+
+                            <li><a href="{{ $base_url }}page=1">«</a></li>
                             @if ($page != 1)
-                            <li><a href="?page={{ $page-1 }}">{{ $page - 1 }}</a></li>
+                            <li><a href="{{ $base_url }}page={{ $page-1 }}">{{ $page - 1 }}</a></li>
                             @endif
 
-                            <li><a href="?page={{ $page }}" class="active">{{ $page }}</a></li>
+                            <li><a href="{{ $base_url }}page={{ $page }}" class="active">{{ $page }}</a></li>
 
                             @if ($total_pages > $page)
-                            <li><a href="?page={{ $page+1 }}">{{ $page+1 }}</a></li>
+                            <li><a href="{{ $base_url }}page={{ $page+1 }}">{{ $page+1 }}</a></li>
                             @endif
 
-                            <li><a href="?page={{ $total_pages }}">»</a></li>
+                            <li><a href="{{ $base_url }}page={{ $total_pages }}">»</a></li>
                         </ul>
                         <p class="pull-right">{{ trans('general.pagination', ['page' => $page, 'total' => $total_pages]) }}</p>
                     </div>

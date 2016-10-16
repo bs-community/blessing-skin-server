@@ -87,13 +87,20 @@ class Closet
     /**
      * Get array of instances of App\Models\Texture.
      *
-     * @param  string $category
+     * @param  string $category skin|cape|all
      * @return array
      */
-    public function getItems($category = "skin")
+    public function getItems($category = "all")
     {
+        if ($category == "all") {
+            $items = array_merge($this->textures_skin, $this->textures_cape);
+        } else {
+            $property = "textures_$category";
+            $items = $this->$property;
+        }
+
         // reverse the array to sort desc by add_at
-        return array_reverse(($category == "skin") ? $this->textures_skin : $this->textures_cape);
+        return array_reverse($items);
     }
 
     /**
