@@ -18,6 +18,7 @@ user-manage: User Manage
 generate-config: Generate Config
 customize: Customize
 options: Options
+import-v2: Import Data
 score-options: Score Options
 check-update: Check Update
 download-update: Download Updates

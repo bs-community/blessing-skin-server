@@ -18,6 +18,7 @@ user-manage: 用户管理
 generate-config: 配置生成
 customize: 个性化
 options: 站点配置
+import-v2: 导入数据
 score-options: 积分配置
 check-update: 检查更新
 download-update: 下载更新

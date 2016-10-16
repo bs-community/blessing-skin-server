@@ -190,11 +190,21 @@ class Closet
         return ! Texture::where('tid', $tid)->isEmpty();
     }
 
-    private function save()
+    /**
+     * Set textures string manually.
+     *
+     * @param string $textures
+     */
+    public function setTextures($textures)
+    {
+        return $this->db->where('uid', $this->uid)->update(['textures' => $textures]);;
+    }
+
+    public function save()
     {
         if (empty($this->items_modified)) return;
 
-        $this->db->where('uid', $this->uid)->update(['textures' => json_encode($this->textures)]);
+        return $this->setTextures(json_encode($this->textures));
     }
 
     public function __destruct()

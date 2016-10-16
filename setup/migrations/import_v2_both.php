@@ -3,12 +3,12 @@
  * @Author: printempw
  * @Date:   2016-08-18 17:46:19
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-14 19:44:05
+ * @Last Modified time: 2016-10-16 20:23:12
  */
 
 use App\Models\UserModel;
-use App\Models\PlayerModel;
-use App\Models\ClosetModel;
+use App\Models\Player;
+use App\Models\Closet;
 use App\Models\Texture;
 
 if (!defined('BASE_DIR')) exit('Permission denied.');
@@ -45,7 +45,7 @@ for ($i = 0; $i <= $steps; $i++) {
         // compile patterns
         $name = str_replace('{username}', $row['username'], $_POST['texture_name_pattern']);
 
-        if (PlayerModel::where('player_name', $row['username'])->get()->isEmpty()) {
+        if (Player::where('player_name', $row['username'])->get()->isEmpty()) {
             $user = new UserModel;
 
             $user->email        = '';
@@ -96,17 +96,14 @@ for ($i = 0; $i <= $steps; $i++) {
                 }
             }
 
-            $p = new PlayerModel;
+            $p = new Player;
 
             $p->uid           = $user->uid;
             $p->player_name   = $row['username'];
             $p->preference    = $row['preference'];
             $p->last_modified = $row['last_modified'] ? : Utils::getTimeFormatted();
 
-            $c = new ClosetModel;
-
-            $c->uid      = $user->uid;
-            $c->textures = '';
+            $c = new Closet($user->uid);
 
             $items = [];
 
@@ -121,10 +118,7 @@ for ($i = 0; $i <= $steps; $i++) {
                 );
             }
 
-            $c->textures = json_encode($items);
-
-            $p->save();
-            $c->save();
+            $c->setTextures(json_encode($items));
 
             $user_imported++;
             // echo $row['username']." saved. <br />";
