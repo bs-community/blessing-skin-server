@@ -80,6 +80,7 @@ custom:
 
 attributes:
     name: 名称
+    file: 文件
     username: 用户名
     identification: 邮箱或角色名
     nickname: 昵称

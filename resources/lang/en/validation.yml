@@ -89,4 +89,7 @@ custom:
 #  of "email". This simply helps us make messages a little cleaner.
 #
 attributes:
+    file: File
+    name: Name
     player_name: 'Player Name'
+    identification: Email or player name

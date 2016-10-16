@@ -242,7 +242,7 @@ class SkinlibController extends Controller
     {
         $this->validate($request, [
             'name'   => 'required|no_special_chars',
-            'file'   => 'required|max:10240',
+            'file'   => 'required|max:'.option('max_upload_file_size'),
             'public' => 'required'
         ]);
 

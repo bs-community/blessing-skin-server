@@ -96,6 +96,18 @@
                                     </tr>
 
                                     <tr>
+                                        <td class="key">最大允许上传大小
+                                            <i class="fa fa-question-circle" title="PHP 限制：<?php echo ini_get('post_max_size'); ?>，定义在 php.ini 中。" data-toggle="tooltip" data-placement="top"></i>
+                                        </td>
+                                        <td class="value">
+                                            <div class="input-group">
+                                               <input type="text" class="form-control" name="max_upload_file_size" value="{{ option('max_upload_file_size') }}">
+                                               <span class="input-group-addon">KB</span>
+                                           </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
                                         <td class="key">角色名</td>
                                         <td class="value">
                                             <label for="allow_chinese_playername">

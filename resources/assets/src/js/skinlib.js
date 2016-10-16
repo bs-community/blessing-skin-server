@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-19 10:46:38
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-10-04 13:40:10
+ * @Last Modified time: 2016-10-16 20:16:45
  */
 
 'use strict';
@@ -236,12 +236,12 @@ function upload() {
                         type: 'warning',
                         html: json.msg
                     }).then(function() {
-                        $('#upload-button').html(trans('skinlib.confirmUpload')).prop('disabled', '');
+                        $('#upload-button').html(trans('skinlib.upload')).prop('disabled', '');
                     });
                 }
             },
             error: function(json) {
-                $('#upload-button').html(trans('skinlib.confirmUpload')).prop('disabled', '');
+                $('#upload-button').html(trans('skinlib.upload')).prop('disabled', '');
                 showAjaxError(json);
             }
         });
