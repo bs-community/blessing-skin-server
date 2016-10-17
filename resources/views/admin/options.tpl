@@ -83,7 +83,7 @@
                                         <td class="key">开放注册</td>
                                         <td class="value">
                                             <label for="user_can_register">
-                                                <input {{ (option('user_can_register') == '1') ? 'checked="true"' : '' }} type="checkbox" id="user_can_register" name="user_can_register" value="1"> 任何人都可以注册
+                                                <input {{ option('user_can_register') ? 'checked="true"' : '' }} type="checkbox" id="user_can_register" name="user_can_register" value="1"> 任何人都可以注册
                                             </label>
                                         </td>
                                     </tr>
@@ -97,7 +97,7 @@
 
                                     <tr>
                                         <td class="key">最大允许上传大小
-                                            <i class="fa fa-question-circle" title="PHP 限制：<?php echo ini_get('post_max_size'); ?>，定义在 php.ini 中。" data-toggle="tooltip" data-placement="top"></i>
+                                            <i class="fa fa-question-circle" title="PHP 限制：{{ ini_get('post_max_size') }}，定义在 php.ini 中。" data-toggle="tooltip" data-placement="top"></i>
                                         </td>
                                         <td class="value">
                                             <div class="input-group">
@@ -111,7 +111,7 @@
                                         <td class="key">角色名</td>
                                         <td class="value">
                                             <label for="allow_chinese_playername">
-                                                <input {{ (option('allow_chinese_playername') == '1') ? 'checked="true"' : '' }} type="checkbox" id="allow_chinese_playername" name="allow_chinese_playername" value="1"> 允许中文角色名
+                                                <input {{ option('allow_chinese_playername') ? 'checked="true"' : '' }} type="checkbox" id="allow_chinese_playername" name="allow_chinese_playername" value="1"> 允许中文角色名
                                             </label>
                                         </td>
                                     </tr>
@@ -132,7 +132,7 @@
                                         </td>
                                         <td class="value">
                                             <label for="auto_del_invalid_texture">
-                                                <input {{ (option('auto_del_invalid_texture') == '1') ? 'checked="true"' : '' }} type="checkbox" id="auto_del_invalid_texture" name="auto_del_invalid_texture" value="1"> 自动删除失效材质
+                                                <input {{ option('auto_del_invalid_texture') ? 'checked="true"' : '' }} type="checkbox" id="auto_del_invalid_texture" name="auto_del_invalid_texture" value="1"> 自动删除失效材质
                                             </label>
                                         </td>
                                     </tr>
@@ -194,7 +194,8 @@
                                 // pre-set some options because they will not be posted if not checked
                                 $presets = [
                                     'avatar_query_string',
-                                    'return_200_when_notfound'
+                                    'return_200_when_notfound',
+                                    'auto_detect_asset_url'
                                 ];
 
                                 foreach ($presets as $key) {
@@ -217,7 +218,7 @@
                                         <td class="key">头像缓存</td>
                                         <td class="value">
                                             <label for="avatar_query_string">
-                                                <input {{ (option('avatar_query_string') == '1') ? 'checked="true"' : '' }} type="checkbox" id="avatar_query_string" name="avatar_query_string" value="1"> 为头像添加 Query String
+                                                <input {{ option('avatar_query_string') ? 'checked="true"' : '' }} type="checkbox" id="avatar_query_string" name="avatar_query_string" value="1"> 为头像添加 Query String
                                             </label>
                                         </td>
                                     </tr>
@@ -228,7 +229,7 @@
                                         </td>
                                         <td class="value">
                                             <label for="auto_detect_asset_url">
-                                                <input {{ (option('auto_detect_asset_url') == '1') ? 'checked="true"' : '' }} type="checkbox" id="auto_detect_asset_url" name="auto_detect_asset_url" value="1"> 自动判断资源文件地址
+                                                <input {{ option('auto_detect_asset_url') ? 'checked="true"' : '' }} type="checkbox" id="auto_detect_asset_url" name="auto_detect_asset_url" value="1"> 自动判断资源文件地址
                                             </label>
                                         </td>
                                     </tr>
@@ -237,7 +238,7 @@
                                         <td class="key">HTTP 响应码</td>
                                         <td class="value">
                                             <label for="return_200_when_notfound">
-                                                <input {{ (option('return_200_when_notfound') == '1') ? 'checked="true"' : '' }} type="checkbox" id="return_200_when_notfound" name="return_200_when_notfound" value="1"> 请求不存在的角色时返回 200 而不是 404
+                                                <input {{ option('return_200_when_notfound') ? 'checked="true"' : '' }} type="checkbox" id="return_200_when_notfound" name="return_200_when_notfound" value="1"> 请求不存在的角色时返回 200 而不是 404
                                             </label>
                                         </td>
                                     </tr>
