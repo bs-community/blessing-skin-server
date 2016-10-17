@@ -35,7 +35,8 @@
                     <div class="col-md-6">
                         <div class="info-box">
                             <a href="{{ url('admin/players') }}">
-                                <div class="info-box-content" style="margin-left: 0;">
+                                <span class="info-box-icon bg-green"><i class="fa fa-gamepad"></i></span>
+                                <div class="info-box-content">
                                     <span class="info-box-text">角色总数</span>
                                     <span class="info-box-number">{{ App\Models\Player::all()->count() }}</span>
                                 </div><!-- /.info-box-content -->
@@ -45,7 +46,7 @@
                 </div>
 
                 <div class="info-box">
-                    <span class="info-box-icon bg-green"><i class="fa fa-files-o"></i></span>
+                    <span class="info-box-icon bg-aqua" style="background-color: #605ca8 !important;"><i class="fa fa-files-o"></i></span>
                     <div class="info-box-content">
                         <span class="info-box-text">上传材质总数</span>
                         <span class="info-box-number">{{ \Database::table('textures')->getRecordNum() }}</span>
