@@ -16,6 +16,7 @@ my-closet: Closet
 player-manage: Player Manage
 user-manage: User Manage
 generate-config: Generate Config
+plugin-manage: Plugin Manage
 customize: Customize
 options: Options
 import-v2: Import Data

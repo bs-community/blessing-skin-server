@@ -9,6 +9,7 @@ use App\Models\Player;
 use App\Models\Texture;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
+use App\Services\PluginManager;
 use App\Exceptions\PrettyPageException;
 
 class AdminController extends Controller
@@ -61,6 +62,47 @@ class AdminController extends Controller
         } else {
             return view('admin.update');
         }
+    }
+
+    public function plugins(Request $request, PluginManager $plugins)
+    {
+        if ($request->has('action') && $request->has('id')) {
+            $id = $request->get('id');
+
+            if ($plugins->getPlugins()->has($id)) {
+                switch ($request->get('action')) {
+                    case 'enable':
+                        $plugins->enable($id);
+                        break;
+
+                    case 'disable':
+                        $plugins->disable($id);
+                        break;
+
+                    case 'delete':
+                        if ($request->isMethod('post')) {
+                            $plugins->uninstall($id);
+
+                            return json('插件已被成功删除', 0);
+                        }
+                        break;
+
+                    default:
+                        # code...
+                        break;
+                }
+            }
+
+        }
+
+        $data = [
+            'installed' => $plugins->getPlugins(),
+            'enabled'   => $plugins->getEnabledPlugins()
+        ];
+
+        // dd($data);
+
+        return view('admin.plugins', $data);
     }
 
     /**

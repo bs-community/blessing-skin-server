@@ -162,6 +162,7 @@ return [
          */
         App\Providers\BootServiceProvider::class,
         App\Providers\AppServiceProvider::class,
+        App\Providers\PluginServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ResponseMacroServiceProvider::class,
