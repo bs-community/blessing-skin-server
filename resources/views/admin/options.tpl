@@ -223,6 +223,17 @@
                                     </tr>
 
                                     <tr>
+                                        <td class="key">资源地址
+                                            <i class="fa fa-question-circle" title="根据当前 URL 自动加载资源文件。如果出现 CDN 回源问题请关闭" data-toggle="tooltip" data-placement="top"></i>
+                                        </td>
+                                        <td class="value">
+                                            <label for="auto_detect_asset_url">
+                                                <input {{ (option('auto_detect_asset_url') == '1') ? 'checked="true"' : '' }} type="checkbox" id="auto_detect_asset_url" name="auto_detect_asset_url" value="1"> 自动判断资源文件地址
+                                            </label>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
                                         <td class="key">HTTP 响应码</td>
                                         <td class="value">
                                             <label for="return_200_when_notfound">

@@ -18,10 +18,12 @@ class AppServiceProvider extends ServiceProvider
         // replace HTTP_HOST with site url setted in options to prevent CDN source problems
         preg_match('/https?:\/\/([^\/]+)\/?.*/', option('site_url'), $host);
 
-        // check if host is valid
-        if (isset($host[1]) && '' === preg_replace('/(?:^\[)?[a-zA-Z0-9-:\]_]+\.?/', '', $host[1])) {
-            $this->app['request']->headers->set('host', $host[1]);
-        };
+        if (option('auto_detect_asset_url') == "0") {
+            // check if host is valid
+            if (isset($host[1]) && '' === preg_replace('/(?:^\[)?[a-zA-Z0-9-:\]_]+\.?/', '', $host[1])) {
+                $this->app['request']->headers->set('host', $host[1]);
+            };
+        }
     }
 
     /**

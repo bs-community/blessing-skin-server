@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-07-29 11:53:11
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-10-16 20:09:27
+ * @Last Modified time: 2016-10-17 09:40:16
  */
 
 return [
@@ -36,5 +36,6 @@ return [
     'auto_del_invalid_texture'  => '0',
     'return_200_when_notfound'  => '0',
     'cache_expire_time'         => '31536000',
-    'max_upload_file_size'      => '1024'
+    'max_upload_file_size'      => '1024',
+    'auto_detect_asset_url'     => '1'
 ];
