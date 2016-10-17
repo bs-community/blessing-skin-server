@@ -50,6 +50,8 @@ class User
      */
     public function __construct($uid, Array $info = [])
     {
+        event(new \App\Events\UserInstantiated($uid));
+
         // Construct user with uid|email|player_name
         if ($uid !== null) {
             $this->uid          = $uid;
@@ -83,7 +85,13 @@ class User
 
     public function checkPasswd($raw_passwd)
     {
-        return ($this->cipher->encrypt($raw_passwd, config('secure.salt')) == $this->password);
+        $responses = event(new \App\Events\CheckUserPassword($raw_passwd, $this));
+
+        if (isset($responses[0])) {
+            return (bool) $responses[0];
+        } else {
+            return ($this->cipher->encrypt($raw_passwd, config('secure.salt')) == $this->password);
+        }
     }
 
     public function changePasswd($new_passwd)

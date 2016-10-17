@@ -121,6 +121,15 @@ class Plugin implements Arrayable
         return $this->installed;
     }
 
+    public function getViewPath($name) {
+        return $this->path."/views/$name.tpl";
+    }
+
+    public function hasConfigView()
+    {
+        return file_exists($this->getViewPath('config'));
+    }
+
     /**
      * @param string $version
      * @return Plugin

@@ -30,6 +30,8 @@ class AuthController extends Controller
 
         $auth_type = (validate($request->input('identification'), 'email')) ? "email" : "username";
 
+        event(new \App\Events\UserTryToLogin($identification, $auth_type));
+
         // instantiate user
         $user = new User(null, [$auth_type => $identification]);
 
@@ -51,6 +53,8 @@ class AuthController extends Controller
 
                 setcookie('uid',   $user->uid, time()+$time, '/');
                 setcookie('token', $user->getToken(), time()+$time, '/');
+
+                event(new \App\Events\UserLoggedIn($user));
 
                 return json(trans('auth.login.success'), 0, [
                     'token' => $user->getToken()

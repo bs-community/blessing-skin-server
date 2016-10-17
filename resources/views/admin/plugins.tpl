@@ -60,7 +60,12 @@
                                 <a class="btn btn-primary btn-sm" href="?action=enable&id={{ $plugin->name }}">启用插件</a>
                                 @endif
 
+                                @if ($plugin->isEnabled() && $plugin->hasConfigView())
                                 <a class="btn btn-default btn-sm" href="?action=config&id={{ $plugin->name }}">插件配置</a>
+                                @else
+                                <a class="btn btn-default btn-sm" disabled="disabled" title="插件已被禁用或无配置页" data-toggle="tooltip" data-placement="top">插件配置</a>
+                                @endif
+
                                 <a class="btn btn-danger btn-sm" href="javascript:deletePlugin('{{ $plugin->name }}');">删除插件</a>
 
                             </td>

@@ -49,9 +49,10 @@ class OptionRepository implements ArrayAccess, ConfigContract
      *
      * @param  string  $key
      * @param  mixed   $default
+     * @param  bool    $bool convert '0', '1' to bool value
      * @return mixed
      */
-    public function get($key, $default = null)
+    public function get($key, $default = null, $bool = true)
     {
         if (!$this->has($key) && Arr::has(config('options'), $key)) {
             $this->set($key, config("options.$key"));
@@ -59,19 +60,25 @@ class OptionRepository implements ArrayAccess, ConfigContract
 
         $value = Arr::get($this->items, $key, $default);
 
+        if (!$bool) return $value;
+
         switch (strtolower($value)) {
             case 'true':
             case '1':
                 return true;
+
             case 'false':
             case '0':
                 return false;
+
             case 'null':
             case '(null)':
                 return;
-        }
 
-        return $value;
+            default:
+                return $value;
+                break;
+        }
     }
 
     /**
@@ -150,6 +157,19 @@ class OptionRepository implements ArrayAccess, ConfigContract
     public function all()
     {
         return $this->items;
+    }
+
+    public function only(Array $array)
+    {
+        $result = [];
+
+        foreach ($this->items as $key => $value) {
+            if (in_array($key, $array)) {
+                $result[$key] = $value;
+            }
+        }
+
+        return $result;
     }
 
     /**

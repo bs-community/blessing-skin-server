@@ -70,6 +70,7 @@ class AdminController extends Controller
             $id = $request->get('id');
 
             if ($plugins->getPlugins()->has($id)) {
+                $plugin = $plugins->getPlugin($id);
                 switch ($request->get('action')) {
                     case 'enable':
                         $plugins->enable($id);
@@ -85,6 +86,15 @@ class AdminController extends Controller
 
                             return json('插件已被成功删除', 0);
                         }
+                        break;
+
+                    case 'config':
+                        if ($plugin->isEnabled() && $plugin->hasConfigView()) {
+                            return View::file($plugin->getViewPath('config'));
+                        } else {
+                            abort(404);
+                        }
+
                         break;
 
                     default:
