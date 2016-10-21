@@ -7,6 +7,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use App\Services\Repositories\OptionRepository;
 use App\Events\PluginWasDisabled;
 use App\Events\PluginWasEnabled;
 use App\Events\PluginWasUninstalled;
