@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-19 10:46:38
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-10-16 20:16:45
+ * @Last Modified time: 2016-10-22 23:08:29
  */
 
 'use strict';
@@ -92,7 +92,7 @@ function ajaxAddToCloset(tid, name) {
 
 function removeFromCloset(tid) {
     swal({
-        text: trans('user.removeFromCloset'),
+        text: trans('user.removeFromClosetNotice'),
         type: 'warning',
         showCancelButton: true,
         cancelButtonColor: '#3085d6',
