@@ -62,7 +62,6 @@ closet:
 
 player:
   player-name: 角色名称
-  preference: 优先模型
   edit: 编辑
   operation: 操作
   edit-pname: 修改角色名
@@ -102,6 +101,7 @@ player:
     success: 角色 :name 的材质已被成功重置
 
   preference:
+    title: 优先模型
     success: 角色 :name 的优先模型已更改至 :preference
 
 profile:

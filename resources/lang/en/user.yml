@@ -56,7 +56,6 @@ closet:
 
 player:
   player-name: Player Name
-  preference: Preference
   edit: Edit
   operation: Delete
   edit-pname: Player name
@@ -96,6 +95,7 @@ player:
     success: The textures of player :name was resetted successfully.
 
   preference:
+    title: Preference
     success: The preference of player :name was updated to :preference
 
 profile:
