@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use Event;
 use App\Models\Player;
 use App\Events\CheckPlayerExists;
-use Event;
 
 class CheckPlayerExistMiddleware
 {

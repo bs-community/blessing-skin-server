@@ -2,34 +2,45 @@
 
 namespace App\Models;
 
+use DB;
+
 class Closet
 {
     public $uid;
 
     /**
-     * Instance of Query Builder
+     * Instance of Query Builder.
+     *
      * @var \Illuminate\Database\Query\Builder
      */
     private $db;
 
     /**
-     * Textures array generated from json
+     * Textures array generated from json.
+     *
      * @var Array
      */
     private $textures       = [];
 
     /**
-     * Array of App\Models\Texture instances
+     * Array of App\Models\Texture instances.
+     *
      * @var array
      */
     private $textures_skin  = [];
 
     /**
-     * Array of App\Models\Texture instances
+     * Array of App\Models\Texture instances.
+     *
      * @var array
      */
     private $textures_cape  = [];
 
+    /**
+     * Items that are modified.
+     *
+     * @var array
+     */
     private $items_modified = [];
 
     /**
@@ -40,7 +51,7 @@ class Closet
     public function __construct($uid)
     {
         $this->uid = $uid;
-        $this->db  = \DB::table('closets');
+        $this->db  = DB::table('closets');
 
         // create a new closet if not exists
         if (!$this->db->where('uid', $uid)->get()) {
@@ -106,8 +117,8 @@ class Closet
     /**
      * Add an item to the closet.
      *
-     * @param int $tid
-     * @param string $name
+     * @param  int $tid
+     * @param  string $name
      * @return bool
      */
     public function add($tid, $name)
@@ -165,7 +176,7 @@ class Closet
     }
 
     /**
-     * Remove a texture from closet
+     * Remove a texture from closet.
      * @param  int $tid
      * @return boolean
      */
@@ -185,6 +196,12 @@ class Closet
         return false;
     }
 
+    /**
+     * Check if given tid is valid.
+     *
+     * @param  int $tid
+     * @return bool
+     */
     private function checkTextureExist($tid)
     {
         return ! Texture::where('tid', $tid)->isEmpty();
@@ -200,6 +217,11 @@ class Closet
         return $this->db->where('uid', $this->uid)->update(['textures' => $textures]);;
     }
 
+    /**
+     * Do really database operations.
+     *
+     * @return bool
+     */
     public function save()
     {
         if (empty($this->items_modified)) return;
@@ -207,6 +229,9 @@ class Closet
         return $this->setTextures(json_encode($this->textures));
     }
 
+    /**
+     * Save when the object will be destructed.
+     */
     public function __destruct()
     {
         $this->save();

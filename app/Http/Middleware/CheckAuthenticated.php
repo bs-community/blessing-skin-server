@@ -2,11 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App;
 use View;
 use Http;
 use Session;
 use App\Models\User;
-use App\Models\UserModel;
 use App\Exceptions\PrettyPageException;
 
 class CheckAuthenticated
@@ -14,17 +14,14 @@ class CheckAuthenticated
     public function handle($request, \Closure $next, $return_user = false)
     {
         if (Session::has('uid')) {
-            $user = new User(session('uid'));
+            $user = App::make('users')->get(session('uid'));
 
             if (session('token') != $user->getToken())
                 return redirect('auth/login')->with('msg', trans('auth.check.token'));
 
             if ($user->getPermission() == "-1") {
-                // delete cookies
-                setcookie('uid',   '', time() - 3600, '/');
-                setcookie('token', '', time() - 3600, '/');
-
-                Session::flush();
+                delete_sessions();
+                delete_cookies();
 
                 throw new PrettyPageException(trans('auth.check.banned'), 5);
             }
@@ -33,11 +30,11 @@ class CheckAuthenticated
             if ($user->email == "") {
                 if (isset($request->email)) {
                     if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
-                        if (UserModel::where('email', $request->email)->get()->isEmpty()) {
+                        if (User::where('email', $request->email)->get()->isEmpty()) {
                             $user->setEmail($request->email);
                             // refresh token
-                            Session::put('token', $user->getToken(true));
-                            setcookie('token', session('token'), time() + 3600, '/');
+                            Session::put('token',  $user->getToken(true));
+                            Cookie::queue('token', $user->getToken(), 60);
 
                             return $next($request);
                         } else {

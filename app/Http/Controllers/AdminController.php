@@ -7,14 +7,13 @@ use Utils;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
-use App\Models\UserModel;
 use Illuminate\Http\Request;
 use App\Services\PluginManager;
 use App\Exceptions\PrettyPageException;
+use App\Services\Repositories\UserRepository;
 
 class AdminController extends Controller
 {
-
     public function index()
     {
         return view('admin.index');
@@ -128,11 +127,11 @@ class AdminController extends Controller
         $q      = $request->input('q', '');
 
         if ($filter == "") {
-            $users = UserModel::orderBy('uid');
+            $users = User::orderBy('uid');
         } elseif ($filter == "email") {
-            $users = UserModel::like('email', $q)->orderBy('uid');
+            $users = User::like('email', $q)->orderBy('uid');
         } elseif ($filter == "nickname") {
-            $users = UserModel::like('nickname', $q)->orderBy('uid');
+            $users = User::like('nickname', $q)->orderBy('uid');
         }
 
         $total_pages = ceil($users->count() / 30);
@@ -181,7 +180,7 @@ class AdminController extends Controller
      * @param  Request $request
      * @return void
      */
-    public function userAjaxHandler(Request $request)
+    public function userAjaxHandler(Request $request, UserRepository $users)
     {
         $action = $request->input('action');
 
@@ -196,11 +195,11 @@ class AdminController extends Controller
             return json('修改配色成功', 0);
         }
 
-        $user     = new User($request->input('uid'));
+        $user     = $users->get($request->input('uid'));
         // current user
-        $cur_user = new User(session('uid'));
+        $cur_user = $users->get(session('uid'));
 
-        if (!$user->is_registered)
+        if (!$user)
             return json('用户不存在', 1);
 
         if ($action == "email") {
@@ -236,36 +235,36 @@ class AdminController extends Controller
                 return json('积分修改成功', 0);
 
         } elseif ($action == "ban") {
-            if ($user->getPermission() == "1") {
-                if ($cur_user->getPermission() != "2")
+            if ($user->getPermission() == User::ADMIN) {
+                if ($cur_user->getPermission() != User::SUPER_ADMIN)
                     return json('非超级管理员无法封禁普通管理员');
-            } elseif ($user->getPermission() == "2") {
+            } elseif ($user->getPermission() == User::SUPER_ADMIN) {
                 return json('超级管理员无法被封禁');
             }
 
-            $permission = $user->getPermission() == "-1" ? "0" : "-1";
+            $permission = $user->getPermission() == User::BANNED ? User::NORMAL : User::BANNED;
 
             if ($user->setPermission($permission)) {
                 return json([
                     'errno'      => 0,
-                    'msg'        => '账号已被' . ($permission == '-1' ? '封禁' : '解封'),
+                    'msg'        => '账号已被' . ($permission == User::BANNED ? '封禁' : '解封'),
                     'permission' => $user->getPermission()
                 ]);
             }
 
         } elseif ($action == "admin") {
-            if ($cur_user->getPermission() != "2")
+            if ($cur_user->getPermission() != User::SUPER_ADMIN)
                 return json('非超级管理员无法进行此操作');
 
-            if ($user->getPermission() == "2")
+            if ($user->getPermission() == User::SUPER_ADMIN)
                 return json('超级管理员无法被解除');
 
-            $permission = $user->getPermission() == "1" ? "0" : "1";
+            $permission = $user->getPermission() == User::ADMIN ? User::NORMAL : User::ADMIN;
 
             if ($user->setPermission($permission)) {
                 return json([
                     'errno'      => 0,
-                    'msg'        => '账号已被' . ($permission == '1' ? '设为' : '解除') . '管理员',
+                    'msg'        => '账号已被' . ($permission == User::ADMIN ? '设为' : '解除') . '管理员',
                     'permission' => $user->getPermission()
                 ]);
             }
@@ -282,7 +281,7 @@ class AdminController extends Controller
     /**
      * Handle ajax request from /admin/players
      */
-    public function playerAjaxHandler(Request $request)
+    public function playerAjaxHandler(Request $request, UserRepository $users)
     {
         $action = isset($_GET['action']) ? $_GET['action'] : "";
 
@@ -317,9 +316,9 @@ class AdminController extends Controller
                 'uid'   => 'required|integer'
             ]);
 
-            $user = new User($request->input('uid'));
+            $user = $users->get($request->input('uid'));
 
-            if (!$user->is_registered)
+            if (!$user)
                 return json('不存在的用户', 1);
 
             if ($player->setOwner($request->input('uid')))

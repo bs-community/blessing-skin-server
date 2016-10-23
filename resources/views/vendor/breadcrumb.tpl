@@ -13,7 +13,7 @@
         @elseif ($filter == "cape")
             {{ trans('skinlib.filter.cape') }}
         @elseif ($filter == "user")
-            {{ trans('skinlib.filter.uploader', ['name' => (new App\Models\User($_GET['uid']))->getNickName()]) }}
+            {{ trans('skinlib.filter.uploader', ['name' => App::make('users')->get($_GET['uid'])->getNickName()]) }}
         @endif
     </li>
     <li class="active">

@@ -25,7 +25,7 @@
                                 <tr>
                                     <th>PID</th>
                                     <th>{{ trans('user.player.player-name') }}</th>
-                                    <th>{{ trans('user.player.preference') }}</th>
+                                    <th>{{ trans('user.player.preference.title') }}</th>
                                     <th>{{ trans('user.player.edit') }}</th>
                                     <th>{{ trans('user.player.operation') }}</th>
                                 </tr>

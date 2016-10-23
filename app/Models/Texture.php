@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
-class Texture extends \Illuminate\Database\Eloquent\Model
+use Illuminate\Database\Eloquent\Model;
+
+class Texture extends Model
 {
     public $primaryKey = 'tid';
     public $timestamps = false;

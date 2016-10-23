@@ -12,7 +12,7 @@ class CheckAdminMiddleware
             return $user;
         }
 
-        if (!$user->is_admin) {
+        if (!$user->isAdmin()) {
             return redirect('user')->with('msg', '看起来你并不是管理员哦');
         }
 

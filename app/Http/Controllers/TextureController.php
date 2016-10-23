@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Events\GetSkinPreview;
 use App\Events\GetAvatarPreview;
 use App\Exceptions\PrettyPageException;
+use App\Services\Repositories\UserRepository;
 
 class TextureController extends Controller
 {
@@ -80,11 +81,11 @@ class TextureController extends Controller
         return $player->getBinaryTexture('cape');
     }
 
-    public function avatar($base64_email, $size = 128)
+    public function avatar($base64_email, $size = 128, UserRepository $users)
     {
-        $user = new User(null, ['email' => base64_decode($base64_email)]);
+        $user = $users->get(base64_decode($base64_email), 'email');
 
-        if ($user->is_registered) {
+        if ($user) {
             $tid = $user->getAvatarId();
 
             if ($t = Texture::find($tid)) {
@@ -113,9 +114,9 @@ class TextureController extends Controller
         return Response::png();
     }
 
-    public function avatarWithSize($size, $base64_email)
+    public function avatarWithSize($size, $base64_email, UserRepository $users)
     {
-        return $this->avatar($base64_email, $size);
+        return $this->avatar($base64_email, $size, $users);
     }
 
     public function preview($tid, $size = 250)

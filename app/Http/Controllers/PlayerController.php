@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Events\PlayerWasAdded;
 use App\Events\PlayerWasDeleted;
 use App\Exceptions\PrettyPageException;
+use App\Services\Repositories\UserRepository;
 
 class PlayerController extends Controller
 {
@@ -30,9 +31,9 @@ class PlayerController extends Controller
      */
     private $player;
 
-    public function __construct(Request $request)
+    public function __construct(Request $request, UserRepository $users)
     {
-        $this->user = new User(session('uid'));
+        $this->user = $users->get(session('uid'));
 
         if ($request->has('pid'))
             $this->player = Player::find($request->pid);
@@ -40,7 +41,7 @@ class PlayerController extends Controller
 
     public function index()
     {
-        return view('user.player')->with('players', $this->user->getPlayers()->toArray())->with('user', $this->user);
+        return view('user.player')->with('players', $this->user->players->toArray())->with('user', $this->user);
     }
 
     public function add(Request $request)

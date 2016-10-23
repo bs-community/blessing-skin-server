@@ -126,7 +126,7 @@
                 <h4 class="modal-title">{{ trans('user.closet.use-as.title') }}</h4>
             </div>
             <div class="modal-body">
-                @forelse($user->getPlayers() as $player)
+                @forelse($user->players as $player)
                 <label class="model-label" for="{{ $player->pid }}">
                     <input type="radio" id="{{ $player->pid }}" name="player" /> {{ $player->player_name }}
                 </label><br />

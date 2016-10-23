@@ -10,6 +10,7 @@ use App\Models\Texture;
 use App\Models\ClosetModel;
 use Illuminate\Http\Request;
 use App\Exceptions\PrettyPageException;
+use App\Services\Repositories\UserRepository;
 
 class ClosetController extends Controller
 {
@@ -25,7 +26,7 @@ class ClosetController extends Controller
         $this->closet = new Closet(session('uid'));
     }
 
-    public function index(Request $request)
+    public function index(Request $request, UserRepository $users)
     {
         $category = $request->input('category', 'skin');
         $page     = $request->input('page', 1);
@@ -56,7 +57,7 @@ class ClosetController extends Controller
                                       ->with('q', $q)
                                       ->with('category', $category)
                                       ->with('total_pages', $total_pages)
-                                      ->with('user', (new User(session('uid'))))
+                                      ->with('user', $users->get(session('uid')))
                                       ->render();
     }
 

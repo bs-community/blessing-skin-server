@@ -26,7 +26,7 @@
                             <button disabled="disabled" title="{{ trans('skinlib.show.anonymous') }}" class="btn btn-primary pull-right">{{ trans('skinlib.item.add-to-closet') }}</button>
                             @else
 
-                                @if ($user->closet->has($texture->tid))
+                                @if ($user->getCloset()->has($texture->tid))
                                 <a href="javascript:removeFromCloset({{ $texture->tid }});" id="{{ $texture->tid }}" class="btn btn-primary pull-right">{{ trans('skinlib.item.remove-from-closet') }}</a>
                                 @else
                                 <a href="javascript:addToCloset({{ $texture->tid }});" id="{{ $texture->tid }}" class="btn btn-primary pull-right">{{ trans('skinlib.item.add-to-closet') }}</a>
@@ -50,7 +50,7 @@
                                     <tr>
                                         <td>{{ trans('skinlib.show.name') }}</td>
                                         <td id="name">{{ $texture->name }}
-                                            @if (!is_null($user) && ($texture->uploader == $user->uid || $user->is_admin))
+                                            @if (!is_null($user) && ($texture->uploader == $user->uid || $user->isAdmin()))
                                             <small>
                                                 <a href="javascript:changeTextureName({{ $texture->tid }});">{{ trans('skinlib.show.edit-name') }}</a>
                                             </small>
@@ -75,7 +75,7 @@
                                     </tr>
                                     <tr>
                                         <td>{{ trans('skinlib.show.uploader') }}</td>
-                                        <?php $uploader = new App\Models\User($texture->uploader); ?>
+                                        <?php $uploader = App::make('users')->get($texture->uploader); ?>
                                         <td><a href="{{ url('skinlib?filter=user&uid='.$uploader->uid) }}&sort=time">{{ $uploader->getNickName() }}</a></td>
                                     </tr>
                                     <tr>
@@ -94,7 +94,7 @@
                                 'message' => trans('skinlib.show.notice')
                             ])
 
-                        @elseif ($user->is_admin)
+                        @elseif ($user->isAdmin())
                             @include('vendor.manage-panel', [
                                 'title'   => trans('skinlib.show.manage-panel'),
                                 'message' => trans('skinlib.show.notice-admin')

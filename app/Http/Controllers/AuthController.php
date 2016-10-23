@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Mail;
 use View;
 use Utils;
+use Cookie;
 use Option;
 use Session;
 use App\Models\User;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
 use App\Exceptions\PrettyPageException;
+use App\Services\Repositories\UserRepository;
 
 class AuthController extends Controller
 {
@@ -19,7 +21,7 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function handleLogin(Request $request)
+    public function handleLogin(Request $request, UserRepository $users)
     {
         $this->validate($request, [
             'identification' => 'required',
@@ -28,19 +30,22 @@ class AuthController extends Controller
 
         $identification = $request->input('identification');
 
-        $auth_type = (validate($request->input('identification'), 'email')) ? "email" : "username";
+        // guess type of identification
+        $auth_type = (validate($identification, 'email')) ? "email" : "username";
 
         event(new \App\Events\UserTryToLogin($identification, $auth_type));
 
-        // instantiate user
-        $user = new User(null, [$auth_type => $identification]);
+        // Get user instance from repository.
+        // If the given identification is not registered yet,
+        // it will return a null value.
+        $user = $users->get($identification, $auth_type);
 
         if (session('login_fails', 0) > 3) {
             if (strtolower($request->input('captcha')) != strtolower(session('phrase')))
                 return json(trans('auth.validation.captcha'), 1);
         }
 
-        if (!$user->is_registered) {
+        if (!$user) {
             return json(trans('auth.validation.user'), 2);
         } else {
             if ($user->checkPasswd($request->input('password'))) {
@@ -49,16 +54,16 @@ class AuthController extends Controller
                 Session::put('uid'  , $user->uid);
                 Session::put('token', $user->getToken());
 
-                $time = $request->input('keep') == true ? 86400 : 3600;
-
-                setcookie('uid',   $user->uid, time()+$time, '/');
-                setcookie('token', $user->getToken(), time()+$time, '/');
+                // time in minutes
+                $time = $request->input('keep') == true ? 10080 : 60;
 
                 event(new \App\Events\UserLoggedIn($user));
 
                 return json(trans('auth.login.success'), 0, [
                     'token' => $user->getToken()
-                ]);
+                ]) // set cookies
+                ->withCookie('uid', $user->uid, $time)
+                ->withCookie('token', $user->getToken(), $time);
             } else {
                 Session::put('login_fails', session('login_fails', 0) + 1);
 
@@ -69,16 +74,16 @@ class AuthController extends Controller
         }
     }
 
-    public function logout()
+    public function logout(Request $request)
     {
-        if (Session::has('token')) {
-            setcookie('uid',   '', time() - 3600, '/');
-            setcookie('token', '', time() - 3600, '/');
-
+        if ($request->hasSession()) {
+            // flush sessions
             Session::flush();
-            Session::regenerate();
 
-            return json(trans('auth.logout.success'), 0);
+            // delete cookies
+            return json(trans('auth.logout.success'), 0)
+                    ->withCookie(Cookie::forget('uid'))
+                    ->withCookie(Cookie::forget('token'));
         } else {
             return json(trans('auth.logout.fail'), 1);
         }
@@ -86,16 +91,16 @@ class AuthController extends Controller
 
     public function register()
     {
-        if (Option::get('user_can_register') == 1) {
+        if (option('user_can_register')) {
             return view('auth.register');
         } else {
             throw new PrettyPageException(trans('auth.register.close'), 7);
         }
     }
 
-    public function handleRegister(Request $request)
+    public function handleRegister(Request $request, UserRepository $users)
     {
-        if (strtolower($request->input('captcha')) != strtolower(session('phrase')))
+        if (!$this->checkCaptcha($request))
             return json(trans('auth.validation.captcha'), 1);
 
         $this->validate($request, [
@@ -104,38 +109,46 @@ class AuthController extends Controller
             'nickname' => 'required|nickname|max:255'
         ]);
 
-        $user = new User(null, ['email' => $request->input('email')]);
+        if (!option('user_can_register')) {
+            return json(trans('auth.register.close'), 7);
+        }
 
-        if (!$user->is_registered) {
-            if (Option::get('user_can_register') == 1) {
-                $ip = get_real_ip();
+        $ip = get_real_ip();
 
-                // If amount of registered accounts of IP is more than allowed amounts,
-                // then reject the register.
-                if (UserModel::where('ip', $ip)->count() < Option::get('regs_per_ip'))
-                {
-                    // register new user
-                    $user = $user->register($request->input('password'), $ip);
-                    $user->setNickName($request->input('nickname'));
+        // If amount of registered accounts of IP is more than allowed amounts,
+        // then reject the register.
+        if (User::where('ip', $ip)->count() < option('regs_per_ip'))
+        {
+            // Register a new user.
+            // If the email is already registered,
+            // it will return a false value.
+            $user = User::register(
+                $request->input('email'),
+                $request->input('password'),
+            function($user) use ($ip, $request)
+            {
+                $user->ip           = $ip;
+                $user->score        = option('user_initial_score');
+                $user->register_at  = Utils::getTimeFormatted();
+                $user->last_sign_at = Utils::getTimeFormatted(time() - 86400);
+                $user->permission   = User::NORMAL;
+                $user->nickname     = $request->input('nickname');
+            });
 
-                    // set cookies
-                    setcookie('uid',   $user->uid, time() + 3600, '/');
-                    setcookie('token', $user->getToken(), time() + 3600, '/');
-
-                    return json([
-                        'errno' => 0,
-                        'msg' => trans('auth.register.success'),
-                        'token' => $user->getToken()
-                    ]);
-
-                } else {
-                    return json(trans('auth.register.max', ['regs' => Option::get('regs_per_ip')]), 7);
-                }
-            } else {
-                return json(trans('auth.register.close'), 7);
+            if (!$user) {
+                return json(trans('auth.register.registered'), 5);
             }
+
+            return json([
+                'errno' => 0,
+                'msg'   => trans('auth.register.success'),
+                'token' => $user->getToken()
+            ]) // set cookies
+            ->withCookie('uid', $user->uid, 60)
+            ->withCookie('token', $user->getToken(), 60);
+
         } else {
-            return json(trans('auth.register.registered'), 5);
+            return json(trans('auth.register.max', ['regs' => option('regs_per_ip')]), 7);
         }
     }
 
@@ -148,9 +161,9 @@ class AuthController extends Controller
         }
     }
 
-    public function handleForgot(Request $request)
+    public function handleForgot(Request $request, UserRepository $users)
     {
-        if (strtolower($request->input('captcha')) != strtolower(session('phrase')))
+        if (!$this->checkCaptcha($request))
             return json(trans('auth.validation.captcha'), 1);
 
         if (config('mail.host') == "")
@@ -159,12 +172,14 @@ class AuthController extends Controller
         if (Session::has('last_mail_time') && (time() - session('last_mail_time')) < 60)
             return json(trans('auth.forgot.frequent-mail'), 1);
 
-        $user = new User(null, ['email' => $request->input('email')]);
+        // get user instance
+        $user = $users->get($request->input('email'), 'email');
 
-        if (!$user->is_registered)
+        if (!$user)
             return json(trans('auth.forgot.unregistered'), 1);
 
-        $uid   = $user->uid;
+        $uid = $user->uid;
+        // generate token for password resetting
         $token = base64_encode($user->getToken().substr(time(), 4, 6).Utils::generateRndString(16));
 
         $url = Option::get('site_url')."/auth/reset?uid=$uid&token=$token";
@@ -185,20 +200,23 @@ class AuthController extends Controller
         return json(trans('auth.mail.success'), 0);
     }
 
-    public function reset()
+    public function reset(UserRepository $users, Request $request)
     {
-        if (isset($_GET['uid']) && isset($_GET['token'])) {
-            $user = new User($_GET['uid']);
-            if (!$user->is_registered)
+        if ($request->has('uid') && $request->has('token')) {
+            // get user instance from repository
+            $user = $users->get($request->input('uid'));
+
+            if (!$user)
                 return redirect('auth/forgot')->with('msg', trans('auth.reset.invalid'));
 
-            $token = substr(base64_decode($_GET['token']), 0, -22);
+            // unpack to get user token & timestamp
+            $encrypted = base64_decode($request->input('token'));
+            $token     = substr($encrypted, 0, -22);
+            $timestamp = substr($encrypted, strlen($token), 6);
 
             if ($user->getToken() != $token) {
                 return redirect('auth/forgot')->with('msg', trans('auth.reset.invalid'));
             }
-
-            $timestamp = substr(base64_decode($_GET['token']), strlen($token), 6);
 
             // more than 1 hour
             if ((substr(time(), 4, 6) - $timestamp) > 3600) {
@@ -211,19 +229,16 @@ class AuthController extends Controller
         }
     }
 
-    public function handleReset(Request $request)
+    public function handleReset(Request $request, UserRepository $users)
     {
         $this->validate($request, [
             'uid'      => 'required|integer',
             'password' => 'required|min:8|max:16',
         ]);
 
-        $user = new User($request->input('uid'));
-
-        $user->changePasswd($request->input('password'));
+        $users->get($request->input('uid'))->changePasswd($request->input('password'));
 
         return json(trans('auth.reset.success'), 0);
-
     }
 
     public function captcha()
@@ -234,6 +249,11 @@ class AuthController extends Controller
         $builder->output();
 
         return \Response::png();
+    }
+
+    private function checkCaptcha($request)
+    {
+        return (strtolower($request->input('captcha')) == strtolower(session('phrase')));
     }
 
 }

@@ -2,22 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App;
 use View;
 use Utils;
 use App\Models\User;
 use App\Models\Texture;
 use Illuminate\Http\Request;
 use App\Exceptions\PrettyPageException;
+use App\Services\Repositories\UserRepository;
 
 class UserController extends Controller
 {
     private $action = "";
     private $user   = null;
 
-    public function __construct()
+    public function __construct(Request $request, UserRepository $users)
     {
-        $this->action = isset($_GET['action']) ? $_GET['action'] : "";
-        $this->user   = new User(session('uid'));
+        $this->action = $request->input('action', '');
+        $this->user   = $users->get(session('uid'));
     }
 
     public function index()

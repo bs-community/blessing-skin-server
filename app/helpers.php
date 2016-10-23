@@ -248,3 +248,23 @@ if (! function_exists('validate')) {
         }
     }
 }
+
+if (! function_exists('delete_cookies')) {
+
+    function delete_cookies()
+    {
+        Cookie::queue(Cookie::forget('uid'));
+        Cookie::queue(Cookie::forget('token'));
+    }
+}
+
+if (! function_exists('delete_sessions')) {
+
+    function delete_sessions()
+    {
+        Session::forget('uid');
+        Session::forget('token');
+
+        Session::save();
+    }
+}

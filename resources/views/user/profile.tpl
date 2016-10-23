@@ -92,7 +92,7 @@
                         <h3 class="box-title">{{ trans('user.profile.delete.title') }}</h3>
                         </div><!-- /.box-header -->
                         <div class="box-body">
-                        @if (!$user->is_admin)
+                        @if (!$user->isAdmin())
                         <p>{{ trans('user.profile.delete.notice', ['site' => option('site_name')]) }}</p>
                         <button id="delete" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-account">{{ trans('user.profile.delete.button') }}</button>
                         @else

@@ -33,10 +33,10 @@
                                 <div class="progress-group">
                                     <span class="progress-text">{{ trans('user.used.players') }}</span>
                                     <?php
-                                        $players_available = count($user->getPlayers()) + floor($user->getScore() / option('score_per_player'));
-                                        $percent = ($players_available == 0) ? 0 : count($user->getPlayers()) / $players_available * 100
+                                        $players_available = $user->players->count() + floor($user->getScore() / option('score_per_player'));
+                                        $percent = ($players_available == 0) ? 0 : $user->players->count() / $players_available * 100
                                     ?>
-                                    <span class="progress-number"><b>{{ count($user->getPlayers()) }}</b>/{{ $players_available }}</span>
+                                    <span class="progress-number"><b>{{ $user->players->count() }}</b>/{{ $players_available }}</span>
                                     <div class="progress sm">
                                         <div class="progress-bar progress-bar-aqua" style="width: {{ $percent }}%"></div>
                                     </div>

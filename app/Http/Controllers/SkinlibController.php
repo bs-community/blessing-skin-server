@@ -11,14 +11,18 @@ use App\Models\User;
 use App\Models\Texture;
 use Illuminate\Http\Request;
 use App\Exceptions\PrettyPageException;
+use App\Services\Repositories\UserRepository;
 
 class SkinlibController extends Controller
 {
     private $user = null;
 
-    public function __construct()
+    public function __construct(UserRepository $users)
     {
-        $this->user = Session::has('uid') ? new User(session('uid')) : null;
+        // Try to load user by uid stored in session.
+        // If there is no uid stored in session or the uid is invalid
+        // it will return a null value.
+        $this->user = $users->get(session('uid'));
     }
 
     public function index(Request $request)
@@ -46,7 +50,7 @@ class SkinlibController extends Controller
 
         if (!is_null($this->user)) {
             // show private textures when show uploaded textures of current user
-            if ($uid != $this->user->uid && !$this->user->is_admin)
+            if ($uid != $this->user->uid && !$this->user->isAdmin())
                 $textures = $textures->where('public', '1');
         } else {
             $textures = $textures->where('public', '1');
@@ -111,7 +115,7 @@ class SkinlibController extends Controller
         }
 
         if ($texture->public == "0") {
-            if (is_null($this->user) || ($this->user->uid != $texture->uploader && !$this->user->is_admin))
+            if (is_null($this->user) || ($this->user->uid != $texture->uploader && !$this->user->isAdmin()))
                 abort(404, trans('skinlib.show.private'));
         }
 
@@ -165,7 +169,7 @@ class SkinlibController extends Controller
 
         $this->user->setScore($cost, 'minus');
 
-        if ($this->user->closet->add($t->tid, $t->name)) {
+        if ($this->user->getCloset()->add($t->tid, $t->name)) {
             return json(trans('skinlib.upload.success', ['name' => $request->input('name')]), 0, [
                 'tid'   => $t->tid
             ]);
@@ -179,7 +183,7 @@ class SkinlibController extends Controller
         if (!$result)
             return json(trans('skinlib.non-existent'), 1);
 
-        if ($result->uploader != $this->user->uid && !$this->user->is_admin)
+        if ($result->uploader != $this->user->uid && !$this->user->isAdmin())
             return json(trans('skinlib.no-permission'), 1);
 
         // check if file occupied
@@ -199,7 +203,7 @@ class SkinlibController extends Controller
         if (!$t)
             return json(trans('skinlib.non-existent'), 1);
 
-        if ($t->uploader != $this->user->uid && !$this->user->is_admin)
+        if ($t->uploader != $this->user->uid && !$this->user->isAdmin())
             return json(trans('skinlib.no-permission'), 1);
 
         if ($t->setPrivacy(!$t->public)) {
@@ -222,7 +226,7 @@ class SkinlibController extends Controller
         if (!$t)
             return json(trans('skinlib.non-existent'), 1);
 
-        if ($t->uploader != $this->user->uid && !$this->user->is_admin)
+        if ($t->uploader != $this->user->uid && !$this->user->isAdmin())
             return json(trans('skinlib.no-permission'), 1);
 
         $t->name = $request->input('new_name');

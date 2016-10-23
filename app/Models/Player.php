@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use View;
 use Event;
 use Utils;
 use Storage;
@@ -12,20 +11,28 @@ use Illuminate\Support\Arr;
 use App\Events\GetPlayerJson;
 use App\Events\PlayerProfileUpdated;
 use App\Exceptions\PrettyPageException;
+use Illuminate\Database\Eloquent\Model;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class Player extends \Illuminate\Database\Eloquent\Model
+class Player extends Model
 {
+    /**
+     * Json APIs.
+     */
+    const CSL_API = 0;
+    const USM_API = 1;
+
+    /**
+     * Set of models.
+     */
+    const MODELS  = ['steve', 'alex', 'cape'];
+
+    /**
+     * Properties for Eloquent Model.
+     */
     public    $primaryKey = 'pid';
     public    $timestamps = false;
-
     protected $fillable   = ['uid', 'player_name', 'preference', 'last_modified'];
-
-    public    $is_banned  = false;
-
-    const CSL_API         = 0;
-    const USM_API         = 1;
-    const MODELS          = ['steve', 'alex', 'cape'];
 
     /**
      * Check if the player is banned.
@@ -34,14 +41,24 @@ class Player extends \Illuminate\Database\Eloquent\Model
      */
     public function isBanned()
     {
-        return (new User($this->uid))->getPermission() == "-1";
+        return $this->user->getPermission() == User::BANNED;
+    }
+
+    /**
+     * Return the owner of the player.
+     *
+     * @return App\Models\User
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User', 'uid');
     }
 
     /**
      * Get specific texture of player.
      *
      * @param  string $type steve|alex|cape
-     * @return string       sha256-hash of texture file
+     * @return string       Sha256-hash of texture file.
      */
     public function getTexture($type)
     {
@@ -94,6 +111,12 @@ class Player extends \Illuminate\Database\Eloquent\Model
         ]);
     }
 
+    /**
+     * Get binary texture by type.
+     *
+     * @param  string $type steve|alex|cape
+     * @return \Illuminate\Http\Response
+     */
     public function getBinaryTexture($type)
     {
         if ($this->getTexture($type)) {
@@ -130,6 +153,11 @@ class Player extends \Illuminate\Database\Eloquent\Model
         return Event::fire(new PlayerProfileUpdated($this));
     }
 
+    /**
+     * Get model preference of the player.
+     *
+     * @return string
+     */
     public function getPreference()
     {
         return $this['preference'];
@@ -182,7 +210,7 @@ class Player extends \Illuminate\Database\Eloquent\Model
                 return $this->generateJsonProfile($api_type);
             }
         } else {
-            throw new InvalidArgumentException('The given api type should be 0 or 1.');
+            throw new InvalidArgumentException('The given api type should be Player::CSL_API or Player::USM_API.');
         }
     }
 

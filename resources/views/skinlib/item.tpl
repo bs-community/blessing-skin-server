@@ -12,7 +12,7 @@
 
         @if (Session::has('uid'))
 
-            @if ($user->closet->has($texture['tid']))
+            @if ($user->getCloset()->has($texture['tid']))
             <a title="{{ trans('skinlib.item.remove-from-closet') }}" class="more like liked" tid="{{ $texture['tid'] }}" href="javascript:removeFromCloset({{ $texture['tid'] }});" data-placement="top" data-toggle="tooltip"><i class="fa fa-heart"></i></a>
             @else
             <a title="{{ trans('skinlib.item.add-to-closet') }}" class="more like" tid="{{ $texture['tid'] }}" href="javascript:addToCloset({{ $texture['tid'] }});" data-placement="top" data-toggle="tooltip"><i class="fa fa-heart"></i></a>

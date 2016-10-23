@@ -26,7 +26,7 @@
                                 <span class="info-box-icon bg-aqua"><i class="fa fa-users"></i></span>
                                 <div class="info-box-content">
                                     <span class="info-box-text">注册用户</span>
-                                    <span class="info-box-number">{{ App\Models\UserModel::all()->count() }}</span>
+                                    <span class="info-box-number">{{ App\Models\User::all()->count() }}</span>
                                 </div><!-- /.info-box-content -->
                             </a>
                         </div><!-- /.info-box -->
@@ -99,7 +99,7 @@
         $time = Carbon\Carbon::createFromTimestamp($today - $i * 86400);
 
         $labels[] = $time->format('m-d');
-        $data['user_register'][]  = App\Models\UserModel::like('register_at', $time->toDateString())->count();
+        $data['user_register'][]  = App\Models\User::like('register_at', $time->toDateString())->count();
         $data['texture_upload'][] = App\Models\Texture::like('upload_at', $time->toDateString())->count();
     }
 ?>

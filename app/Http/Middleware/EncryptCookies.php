@@ -14,16 +14,8 @@ class EncryptCookies extends BaseEncrypter
      * @var array
      */
     protected $except = [
-        'locale'
+        'locale',
+        'token'
     ];
 
-    public function handle($request, Closure $next)
-    {
-        if (isset($_COOKIE['uid']) && isset($_COOKIE['token'])) {
-            Session::put('uid'  , $_COOKIE['uid']);
-            Session::put('token', $_COOKIE['token']);
-        }
-
-        return parent::handle($request, $next);
-    }
 }

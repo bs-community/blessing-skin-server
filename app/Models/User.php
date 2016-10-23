@@ -2,87 +2,71 @@
 
 namespace App\Models;
 
+use DB;
+use App;
 use Utils;
-use Option;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 
-class User
+class User extends Model
 {
-    public  $uid            = "";
-    public  $email          = "";
-
-    private $password       = "";
-    private $token          = "";
-
-    private $storage_used   = null;
-
     /**
-     * Instance of App\Services\Cipher\{cipher}
-     * @var null
+     * Permissions.
      */
-    private $cipher         = null;
+    const BANNED      = -1;
+    const NORMAL      = 0;
+    const ADMIN       = 1;
+    const SUPER_ADMIN = 2;
 
     /**
-     * Instance of App\Models\UserModel
-     * @var null
+     * User Token.
+     * @var string
      */
-    private $model          = null;
+    private $token;
 
     /**
-     * Instance of App\Models\Closet
-     * @var null
+     * Instance of Closet.
+     * @var App\Models\Closet
      */
-    public $closet          = null;
-
-    public $is_registered   = false;
-    public $is_admin        = false;
+    private $closet;
 
     /**
-     * Pass uid or an array to instantiate a user
+     * Properties for Eloquent Model.
+     */
+    public $primaryKey  = 'uid';
+    public $timestamps  = false;
+    protected $fillable = ['email', 'nickname', 'permission'];
+
+    /**
+     * Check if user is admin.
      *
-     * $info = [
-     *   'username' => 'foo',
-     *   'email'    => 'foo@bar.com'
-     * ];
-     *
-     * @param int   $uid
-     * @param array $info
+     * @return bool
      */
-    public function __construct($uid, Array $info = [])
+    public function isAdmin()
     {
-        event(new \App\Events\UserInstantiated($uid));
-
-        // Construct user with uid|email|player_name
-        if ($uid !== null) {
-            $this->uid          = $uid;
-            $this->model        = UserModel::find($uid);
-        } else {
-            if (isset($info['email'])) {
-                $this->email    = e($info['email']);
-                $this->model    = UserModel::where('email', $this->email)->first();
-            } elseif (isset($info['username'])) {
-                $player         = Player::where('player_name', $info['username'])->first();
-                $this->uid      = $player ? $player['uid'] : 0;
-                $this->model    = UserModel::find($this->uid);
-            } else {
-                throw new \InvalidArgumentException('Invalid arguments');
-            }
-        }
-
-        $class_name              = "App\Services\Cipher\\".config('secure.cipher');
-        $this->cipher            = new $class_name;
-
-        if (!is_null($this->model)) {
-            $this->is_registered = true;
-            $this->uid           = $this->model->uid;
-            $this->email         = $this->model->email;
-            $this->password      = $this->model->password;
-            $this->token         = md5($this->email . $this->password . config('secure.salt'));
-            $this->closet        = new Closet($this->uid);
-            $this->is_admin      = $this->model->permission == 1 || $this->model->permission == 2;
-        }
+        return ($this->permission >= static::ADMIN);
     }
 
+    /**
+     * Get closet instance.
+     *
+     * @return App\Models\Closet
+     */
+    public function getCloset()
+    {
+        if (!$this->closet) {
+            $this->closet = new Closet($this->uid);
+        }
+
+        return $this->closet;
+    }
+
+    /**
+     * Check if given password is correct.
+     *
+     * @param  string $raw_passwd
+     * @return bool
+     */
     public function checkPasswd($raw_passwd)
     {
         $responses = event(new \App\Events\CheckUserPassword($raw_passwd, $this));
@@ -90,87 +74,158 @@ class User
         if (isset($responses[0])) {
             return (bool) $responses[0];
         } else {
-            return ($this->cipher->encrypt($raw_passwd, config('secure.salt')) == $this->password);
+            return (App::make('cipher')->encrypt($raw_passwd, config('secure.salt')) == $this->password);
         }
-    }
-
-    public function changePasswd($new_passwd)
-    {
-        $this->model->password = $this->cipher->encrypt($new_passwd, config('secure.salt'));
-        return $this->model->save();
-    }
-
-    public function getPermission()
-    {
-        return $this->model->permission;
     }
 
     /**
-     * Set user permission
-     * @param int $permission
-     * -1 - banned
-     *  0 - normal
-     *  1 - admin
-     *  2 - super admin
+     * Register a new user.
+     *
+     * @param  string   $email
+     * @param  string   $password
+     * @param  \Closure $callback
+     * @return User|bool
+     */
+    public static function register($email, $password, \Closure $callback) {
+        $user = static::firstOrNew(['email' => $email]);
+
+        // if the email is already registered
+        if ($user->uid)
+            return false;
+
+        $user->password = App::make('cipher')->encrypt($password, config('secure.salt'));
+
+        $callback($user);
+
+        $user->save();
+
+        return $user;
+    }
+
+    /**
+     * Change password of the user.
+     *
+     * @param  string $new_passwd New password that will be set.
+     * @return bool
+     */
+    public function changePasswd($new_passwd)
+    {
+        $this->password = App::make('cipher')->encrypt($new_passwd, config('secure.salt'));
+        return $this->save();
+    }
+
+    /**
+     * Get user permission.
+     *
+     * @return int
+     */
+    public function getPermission()
+    {
+        return $this->permission;
+    }
+
+    /**
+     * Set user permission.
+     *
+     * @param  int $permission
+     * @return bool
      */
     public function setPermission($permission)
     {
-        return $this->model->update(['permission' => $permission]);
+        return $this->update(['permission' => $permission]);
     }
 
+    /**
+     * Set new email for user.
+     *
+     * @param string $new_email
+     */
     public function setEmail($new_email)
     {
-        $this->model->email = $new_email;
-        return $this->model->save();
+        $this->email = $new_email;
+        return $this->save();
     }
 
+    /**
+     * Return Email if nickname is not set.
+     *
+     * @return string
+     */
     public function getNickName()
     {
-        if (!$this->is_registered) {
+        if (!$this->uid) {
             return trans('general.unexistent-user');
         } else {
-            return ($this->model->nickname == "") ? $this->email : $this->model->nickname;
+            return ($this->nickname == "") ? $this->email : $this->nickname;
         }
     }
 
+    /**
+     * Set nickname for the user.
+     *
+     * @param  string $new_nickname
+     * @return bool
+     */
     public function setNickName($new_nickname)
     {
-        $this->model->nickname = $new_nickname;
-        return $this->model->save();
+        $this->nickname = $new_nickname;
+        return $this->save();
     }
 
+    /**
+     * Get user token or generate one.
+     *
+     * @param  bool  $refresh Refresh token forcely.
+     * @return string
+     */
     public function getToken($refresh = false)
     {
-        if ($this->is_registered && ($this->token === "" || $refresh)) {
-            $this->token = md5($this->model->email . $this->model->password . config('secure.salt'));
+        if (!$this->token || $refresh) {
+            $this->token = md5($this->email . $this->password . config('secure.salt'));
         }
 
         return $this->token;
     }
 
+    /**
+     * Get current score of user.
+     *
+     * @return int
+     */
     public function getScore()
     {
-        return $this->model->score;
+        return $this->score;
     }
 
+    /**
+     * Set user score.
+     *
+     * @param int    $score
+     * @param string $mode  What operation should be done, set, plus or minus.
+     */
     public function setScore($score, $mode = "set")
     {
         switch ($mode) {
             case 'set':
-                $this->model->score = $score;
+                $this->score = $score;
                 break;
 
             case 'plus':
-                $this->model->score += $score;
+                $this->score += $score;
                 break;
 
             case 'minus':
-                $this->model->score -= $score;
+                $this->score -= $score;
                 break;
         }
-        return $this->model->save();
+        return $this->save();
     }
 
+    /**
+     * Get the size of storage units used by the user.
+     *
+     * @return int Size in KiloBytes.
+     */
     public function getStorageUsed()
     {
         if (is_null($this->storage_used)) {
@@ -183,103 +238,110 @@ class User
         return $this->storage_used;
     }
 
+    /**
+     * Check in for the user, return false if unavailable.
+     *
+     * @return int|bool
+     */
     public function checkIn()
     {
         if ($this->canCheckIn()) {
-            $sign_score = explode(',', Option::get('sign_score'));
+            $sign_score = explode(',', option('sign_score'));
             $aquired_score = rand($sign_score[0], $sign_score[1]);
             $this->setScore($aquired_score, 'plus');
-            $this->model->last_sign_at = Utils::getTimeFormatted();
-            $this->model->save();
+            $this->last_sign_at = Utils::getTimeFormatted();
+            $this->save();
             return $aquired_score;
         } else {
             return false;
         }
     }
 
+    /**
+     * Check if checking in is available now.
+     *
+     * @param  bool  $return_remaining_time Return remaining time.
+     * @return int|bool
+     */
     public function canCheckIn($return_remaining_time = false)
     {
         // convert to timestamp
         $last_sign_at = strtotime($this->getLastSignTime());
 
-        if (Option::get('sign_after_zero') == "1") {
+        if (option('sign_after_zero') == "1") {
             $remaining_time = (Carbon::tomorrow()->timestamp - time()) / 3600;
             $can_check_in   = $last_sign_at <= Carbon::today()->timestamp;
         } else {
-            $remaining_time = ($last_sign_at + Option::get('sign_gap_time') * 3600 - time()) / 3600;
+            $remaining_time = ($last_sign_at + option('sign_gap_time') * 3600 - time()) / 3600;
             $can_check_in   = $remaining_time <= 0;
         }
 
         return $return_remaining_time ? round($remaining_time) : $can_check_in;
     }
 
+    /**
+     * Get the last time of checking in.
+     *
+     * @return string Formatted time string.
+     */
     public function getLastSignTime()
     {
-        return $this->model->last_sign_at;
+        return $this->last_sign_at;
     }
 
     /**
-     * Register a new user
-     * @param  string $password
-     * @param  string $ip
-     * @return object, instance of App\Models\User
+     * Get the texture id of user's avatar.
+     *
+     * @return int
      */
-    public function register($password, $ip)
-    {
-        $user = new UserModel();
-
-        $user->email        = $this->email;
-        $user->password     = $this->cipher->encrypt($password, config('secure.salt'));
-        $user->ip           = $ip;
-        $user->score        = Option::get('user_initial_score');
-        $user->register_at  = Utils::getTimeFormatted();
-        $user->last_sign_at = Utils::getTimeFormatted(time() - 86400);
-        $user->permission   = 0;
-        $user->save();
-
-        $closet              = new Closet($user->uid);
-        $this->model         = $user;
-        $this->uid           = $user->uid;
-        $this->is_registered = true;
-
-        return $this;
-    }
-
-    public function getPlayers()
-    {
-        return Player::where('uid', $this->uid)->get();
-    }
-
     public function getAvatarId()
     {
-        return $this->model->avatar;
+        return $this->avatar;
     }
 
+    /**
+     * Set user avatar.
+     *
+     * @param  int $tid
+     * @return bool
+     */
     public function setAvatar($tid)
     {
-        $this->model->avatar = $tid;
-        return $this->model->save();
+        $this->avatar = $tid;
+        return $this->save();
     }
 
+    /**
+     * Delete the user.
+     *
+     * @return bool
+     */
     public function delete()
     {
+        // delete the players he owned
         Player::where('uid', $this->uid)->delete();
+        // delete his closet
         DB::table('closets')->where('uid', $this->uid)->delete();
-        return $this->model->delete();
+
+        return parent::delete();
     }
 
-}
+    /**
+     * Get the players which are owned by the user.
+     *
+     * @return Illuminate\Database\Eloquent\Collection
+     */
+    public function players()
+    {
+        return $this->hasMany('App\Models\Player', 'uid');
+    }
 
-class UserModel extends \Illuminate\Database\Eloquent\Model
-{
-    public $primaryKey = 'uid';
-    protected $table = 'users';
-    public $timestamps = false;
-
-    protected $fillable = ['email', 'nickname', 'permission'];
-
+    /**
+     * Expand like scope for Eloquent Model.
+     */
     public function scopeLike($query, $field, $value)
     {
         return $query->where($field, 'LIKE', "%$value%");
     }
+
 }

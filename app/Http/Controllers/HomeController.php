@@ -6,25 +6,13 @@ use Session;
 use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
+use App\Services\Repositories\UserRepository;
 
 class HomeController extends Controller
 {
-
-    public function index()
+    public function index(UserRepository $users, Request $request)
     {
-        if (isset($_COOKIE['uid']) && isset($_COOKIE['token'])) {
-            $user = new User($_COOKIE['uid']);
-
-            if ($_COOKIE['token'] != $user->getToken() || $user->getPermission() == "-1") {
-                // delete cookies
-                setcookie("uid",   "", time() - 3600, '/');
-                setcookie("token", "", time() - 3600, '/');
-            }
-        }
-
-        $user = Session::has('uid') ? new User(session('uid')) : null;
-
-        return view('index')->with('user', $user);
+        return view('index')->with('user', $users->get(session('uid')));
     }
 
     public function locale($lang, Request $request)
