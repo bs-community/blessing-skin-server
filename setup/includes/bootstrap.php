@@ -83,7 +83,7 @@ $app->bind('url', function ($app) {
 $app->instance('request', $request);
 
 $app->singleton('database', App\Services\Database\Database::class);
-$app->singleton('option',   App\Services\OptionRepository::class);
+$app->singleton('option',   App\Services\Repositories\OptionRepository::class);
 
 View::addExtension('tpl', 'blade');
 

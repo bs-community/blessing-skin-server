@@ -213,7 +213,7 @@ class PluginManager
      */
     public function getEnabled()
     {
-        return json_decode($this->option->get('plugins_enabled'), true);
+        return (array) json_decode($this->option->get('plugins_enabled'), true);
     }
 
     /**

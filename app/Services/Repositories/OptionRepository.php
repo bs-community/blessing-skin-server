@@ -4,6 +4,7 @@ namespace App\Services\Repositories;
 
 use DB;
 use Illuminate\Support\Arr;
+use Illuminate\Database\QueryException;
 
 class OptionRepository extends Repository
 {
@@ -21,7 +22,11 @@ class OptionRepository extends Repository
      */
     public function __construct()
     {
-        $options = DB::table('options')->get();
+        try {
+            $options = DB::table('options')->get();
+        } catch (QueryException $e) {
+            $options = [];
+        }
 
         foreach ($options as $option) {
             $this->items[$option->option_name] = $option->option_value;
@@ -75,15 +80,19 @@ class OptionRepository extends Repository
     {
         $this->items_modified = array_unique($this->items_modified);
 
-        foreach ($this->items_modified as $key) {
-            if (!DB::table('options')->where('option_name', $key)->first()) {
-                DB::table('options')
-                    ->insert(['option_name' => $key, 'option_value' => $this[$key]]);
-            } else {
-                DB::table('options')
-                        ->where('option_name', $key)
-                        ->update(['option_value' => $this[$key]]);
+        try {
+            foreach ($this->items_modified as $key) {
+                if (!DB::table('options')->where('option_name', $key)->first()) {
+                    DB::table('options')
+                        ->insert(['option_name' => $key, 'option_value' => $this[$key]]);
+                } else {
+                    DB::table('options')
+                            ->where('option_name', $key)
+                            ->update(['option_value' => $this[$key]]);
+                }
             }
+        } catch (QueryException $e) {
+            return;
         }
     }
 
