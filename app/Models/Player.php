@@ -25,7 +25,7 @@ class Player extends Model
     /**
      * Set of models.
      */
-    const MODELS  = ['steve', 'alex', 'cape'];
+    protected static $models = ['steve', 'alex', 'cape'];
 
     /**
      * Properties for Eloquent Model.
@@ -65,7 +65,7 @@ class Player extends Model
         if ($type == "skin")
             $type = ($this->getPreference() == "default") ? "steve" : "alex";
 
-        if (in_array($type, self::MODELS)) {
+        if (in_array($type, self::$models)) {
             return Texture::find($this["tid_$type"])['hash'];
         }
 
@@ -80,7 +80,7 @@ class Player extends Model
      */
     public function setTexture(Array $tids)
     {
-        foreach (self::MODELS as $model) {
+        foreach (self::$models as $model) {
             $property = "tid_$model";
 
             if (isset($tids[$property])) {
