@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-19 10:46:38
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-10-22 23:08:29
+ * @Last Modified time: 2016-10-23 11:38:36
  */
 
 'use strict';
@@ -224,13 +224,15 @@ function upload() {
             },
             success: function(json) {
                 if (json.errno == 0) {
+                    var redirect = function() {
+                        toastr.info(trans('skinlib.redirecting'));
+                        window.setTimeout('window.location = "./show?tid='+json.tid+'"', 1000);
+                    };
+                    // always redirect
                     swal({
                         type: 'success',
                         html: json.msg
-                    }).then(function() {
-                        toastr.info(trans('skinlib.redirecting'));
-                        window.setTimeout('window.location = "./show?tid='+json.tid+'"', 1000);
-                    });
+                    }).then(redirect, redirect);
                 } else {
                     swal({
                         type: 'warning',
