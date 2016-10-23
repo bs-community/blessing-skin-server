@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-09-14 16:57:37
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-30 23:18:56
+ * @Last Modified time: 2016-10-23 13:23:24
  */
 
 function check_table_exists() {
@@ -11,7 +11,7 @@ function check_table_exists() {
 
     foreach ($tables as $table_name) {
         // prefix will be added automatically
-        if (!Database::hasTable($table_name)) {
+        if (!Database::hasTable(config('database.connections.mysql.prefix').$table_name)) {
             return false;
         }
     }

@@ -84,6 +84,8 @@ $app->instance('request', $request);
 
 $app->singleton('database', App\Services\Database\Database::class);
 $app->singleton('option',   App\Services\Repositories\OptionRepository::class);
+$app->singleton('cipher',   "App\Services\Cipher\\".config('secure.cipher'));
+$app->singleton('users',    App\Services\Repositories\UserRepository::class);
 
 View::addExtension('tpl', 'blade');
 

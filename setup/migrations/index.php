@@ -10,19 +10,20 @@ if (!check_table_exists()) {
     redirect_to('../index.php');
 }
 
+// load session from cookie
 if (isset($_COOKIE['uid']) && isset($_COOKIE['token'])) {
-    $_SESSION['uid'] = $_COOKIE['uid'];
+    $_SESSION['uid']   = $_COOKIE['uid'];
     $_SESSION['token'] = $_COOKIE['token'];
 }
 
 // check permission
 if (isset($_SESSION['uid'])) {
-    $user = new App\Models\User($_SESSION['uid']);
+    $user = $app['users']->get($encrypter->decrypt($_COOKIE['uid']));
 
     if ($_SESSION['token'] != $user->getToken())
         redirect_to('../../auth/login', '无效的 token，请重新登录~');
 
-    if ($user->getPermission() != "2")
+    if ($user->getPermission() != App\Models\User::SUPER_ADMIN)
         abort(403, '此页面仅超级管理员可访问');
 
 } else {

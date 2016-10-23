@@ -67,9 +67,13 @@ switch ($step) {
         }
 
         // register super admin
-        $user = new App\Models\User(null, ['email' => $_POST['email']]);
-        $user->register($_POST['password'], get_real_ip());
-        $user->setPermission('2');
+        $user = App\Models\User::register($_POST['email'], $_POST['password'], function($user) {
+            $user->ip           = get_real_ip();
+            $user->score        = option('user_initial_score');
+            $user->register_at  = Utils::getTimeFormatted();
+            $user->last_sign_at = Utils::getTimeFormatted(time() - 86400);
+            $user->permission   = App\Models\User::SUPER_ADMIN;
+        });
 
         if (!is_dir(BASE_DIR.'/storage/textures/')) {
             if (!mkdir(BASE_DIR.'/storage/textures/'))
