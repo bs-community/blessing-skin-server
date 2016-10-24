@@ -2,29 +2,15 @@
 
 namespace App\Services;
 
-use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Contracts\Support\Arrayable;
 
 /**
  * @property string $name
  * @property string $description
- * @property string $type
- * @property array  $keywords
- * @property string $homepage
- * @property string $time
- * @property string $license
- * @property array  $authors
- * @property array  $support
- * @property array  $require
- * @property array  $requireDev
- * @property array  $autoload
- * @property array  $autoloadDev
- * @property array  $conflict
- * @property array  $replace
- * @property array  $provide
- * @property array  $suggest
- * @property array  $extra
+ * @property string $title
+ * @property array  $author
  */
 class Plugin implements Arrayable
 {
@@ -55,6 +41,13 @@ class Plugin implements Arrayable
      * @var string
      */
     protected $version;
+
+    /**
+     * The namespace used by the plugin.
+     *
+     * @var string
+     */
+    protected $namespace;
 
     /**
      * Whether the plugin is enabled.
@@ -121,7 +114,20 @@ class Plugin implements Arrayable
         return $this->installed;
     }
 
-    public function getViewPath($name) {
+    public function getNameSpace()
+    {
+        return $this->namespace;
+    }
+
+    public function setNameSpace($namespace)
+    {
+        $this->namespace = $namespace;
+
+        return $this;
+    }
+
+    public function getViewPath($name)
+    {
         return $this->path."/views/$name.tpl";
     }
 

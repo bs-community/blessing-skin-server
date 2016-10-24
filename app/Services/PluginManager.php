@@ -2,21 +2,27 @@
 
 namespace App\Services;
 
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
-use App\Services\Repositories\OptionRepository;
-use App\Events\PluginWasDisabled;
 use App\Events\PluginWasEnabled;
+use App\Events\PluginWasDisabled;
+use Illuminate\Support\Collection;
 use App\Events\PluginWasUninstalled;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Contracts\Events\Dispatcher;
+use App\Services\Repositories\OptionRepository;
+use Illuminate\Contracts\Foundation\Application;
 
 class PluginManager
 {
-    protected $option;
-
+    /**
+     * @var Application
+     */
     protected $app;
+
+    /**
+     * @var OptionRepository
+     */
+    protected $option;
 
     /**
      * @var Dispatcher
@@ -34,13 +40,13 @@ class PluginManager
     protected $plugins;
 
     public function __construct(
-        OptionRepository $option,
         Application $app,
+        OptionRepository $option,
         Dispatcher $dispatcher,
         Filesystem $filesystem
     ) {
-        $this->option = $option;
-        $this->app = $app;
+        $this->app        = $app;
+        $this->option     = $option;
         $this->dispatcher = $dispatcher;
         $this->filesystem = $filesystem;
     }
@@ -80,6 +86,7 @@ class PluginManager
 
                 // Per default all plugins are installed if they are registered in composer.
                 $plugin->setInstalled(true);
+                $plugin->setNameSpace(Arr::get($package, 'namespace'));
                 $plugin->setVersion(Arr::get($package, 'version'));
                 $plugin->setEnabled($this->isEnabled($plugin->name));
 
@@ -118,10 +125,6 @@ class PluginManager
             $enabled = $this->getEnabled();
 
             $enabled[] = $name;
-
-            // $this->migrate($plugin);
-
-            // $this->publishAssets($plugin);
 
             $this->setEnabled($enabled);
 
@@ -163,12 +166,6 @@ class PluginManager
         $plugin = $this->getPlugin($name);
 
         $this->disable($name);
-
-        // $this->migrateDown($plugin);
-
-        // $this->unpublishAssets($plugin);
-
-        // $plugin->setInstalled(false);
 
         $this->filesystem->deleteDirectory($plugin->getPath());
 
