@@ -126,11 +126,6 @@ class UserController extends Controller
 
     }
 
-    public function config()
-    {
-        return view('user.config')->with('user', $this->user);
-    }
-
     /**
      * Set Avatar for User
      *

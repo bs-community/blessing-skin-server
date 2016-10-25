@@ -133,7 +133,7 @@ class Plugin implements Arrayable
 
     public function hasConfigView()
     {
-        return file_exists($this->getViewPath('config'));
+        return Arr::get($this->packageInfo, 'config') != "";
     }
 
     /**

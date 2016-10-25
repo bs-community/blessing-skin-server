@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Routing\Router;
+use App\Events\ConfigureWebRoutes;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
@@ -60,6 +61,8 @@ class RouteServiceProvider extends ServiceProvider
         ], function ($router) {
             require app_path('Http/Routes/web.php');
         });
+
+        event(new ConfigureWebRoutes($router));
     }
 
     /**

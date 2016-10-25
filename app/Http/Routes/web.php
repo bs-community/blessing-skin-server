@@ -51,7 +51,6 @@ Route::group(['middleware' => 'auth', 'prefix' => 'user'], function()
     Route::get ('/profile',              'UserController@profile');
     Route::post('/profile',              'UserController@handleProfile');
     Route::post('/profile/avatar',       'UserController@setAvatar');
-    Route::get ('/config',               'UserController@config');
 
     // Player
     Route::any ('/player',               'PlayerController@index');

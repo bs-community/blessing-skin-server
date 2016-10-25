@@ -12,7 +12,6 @@ $menu['user'] = array(
     ['title' => 'general.dashboard',       'link' => 'user',         'icon' => 'fa-dashboard'],
     ['title' => 'general.my-closet',       'link' => 'user/closet',  'icon' => 'fa-star'],
     ['title' => 'general.player-manage',   'link' => 'user/player',  'icon' => 'fa-users'],
-    ['title' => 'general.generate-config', 'link' => 'user/config',  'icon' => 'fa-book'],
     ['title' => 'general.profile',         'link' => 'user/profile', 'icon' => 'fa-user']
 );
 
