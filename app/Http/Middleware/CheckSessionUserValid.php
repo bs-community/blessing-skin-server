@@ -22,7 +22,7 @@ class CheckSessionUserValid
 
             if ($user && $user->getToken() == session('token')) {
                 // push user instance to repository
-                App::make('users')->set($user->uid, $user);
+                app('users')->set($user->uid, $user);
             } else {
                 // remove sessions & cookies
                 delete_sessions();

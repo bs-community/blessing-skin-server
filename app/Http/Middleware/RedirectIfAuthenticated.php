@@ -11,7 +11,7 @@ class RedirectIfAuthenticated
     public function handle($request, \Closure $next)
     {
         if (session()->has('uid')) {
-            if (session('token') != App::make('users')->get(session('uid'))->getToken()) {
+            if (session('token') != app('users')->get(session('uid'))->getToken()) {
                 Session::put('msg', trans('auth.check.token'));
             } else {
                 return redirect('user');

@@ -26,7 +26,7 @@
         </h1>
     </section>
 
-    <?php $current_user = App::make('users')->get(session('uid')); ?>
+    <?php $current_user = app('users')->get(session('uid')); ?>
 
     <!-- Main content -->
     <section class="content">

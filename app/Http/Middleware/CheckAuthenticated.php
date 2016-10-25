@@ -14,7 +14,7 @@ class CheckAuthenticated
     public function handle($request, \Closure $next, $return_user = false)
     {
         if (Session::has('uid')) {
-            $user = App::make('users')->get(session('uid'));
+            $user = app('users')->get(session('uid'));
 
             if (session('token') != $user->getToken())
                 return redirect('auth/login')->with('msg', trans('auth.check.token'));

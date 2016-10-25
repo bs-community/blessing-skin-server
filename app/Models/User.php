@@ -74,7 +74,7 @@ class User extends Model
         if (isset($responses[0])) {
             return (bool) $responses[0];
         } else {
-            return (App::make('cipher')->encrypt($raw_passwd, config('secure.salt')) == $this->password);
+            return (app('cipher')->encrypt($raw_passwd, config('secure.salt')) == $this->password);
         }
     }
 
@@ -93,7 +93,7 @@ class User extends Model
         if ($user->uid)
             return false;
 
-        $user->password = App::make('cipher')->encrypt($password, config('secure.salt'));
+        $user->password = app('cipher')->encrypt($password, config('secure.salt'));
 
         $callback($user);
 
@@ -110,7 +110,7 @@ class User extends Model
      */
     public function changePasswd($new_passwd)
     {
-        $this->password = App::make('cipher')->encrypt($new_passwd, config('secure.salt'));
+        $this->password = app('cipher')->encrypt($new_passwd, config('secure.salt'));
         return $this->save();
     }
 

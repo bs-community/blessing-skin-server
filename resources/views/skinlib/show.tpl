@@ -75,7 +75,7 @@
                                     </tr>
                                     <tr>
                                         <td>{{ trans('skinlib.show.uploader') }}</td>
-                                        <?php $uploader = App::make('users')->get($texture->uploader); ?>
+                                        <?php $uploader = app('users')->get($texture->uploader); ?>
                                         <td><a href="{{ url('skinlib?filter=user&uid='.$uploader->uid) }}&sort=time">{{ $uploader->getNickName() }}</a></td>
                                     </tr>
                                     <tr>

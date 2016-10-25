@@ -13,7 +13,7 @@
     @yield('style')
 </head>
 
-<?php $user = App::make('users')->get(session('uid')); ?>
+<?php $user = app('users')->get(session('uid')); ?>
 
 <body class="hold-transition {{ option('color_scheme') }} sidebar-mini">
     <div class="wrapper">
