@@ -151,11 +151,3 @@ profile:
 
     wrong-password: 密码错误
     success: 账号已被成功删除
-
-config:
-  mod-requirement: MOD 需求
-  mod-intro: |
-    <p>本站支持的皮肤 MOD 有 <a href="http://www.mcbbs.net/forum.php?mod=viewthread&tid=358932" target="_blank">UniSkinMod</a>，<a href="http://www.mcbbs.net/thread-269807-1-1.html" target="_blank">CustomSkinLoader</a> 各自的新版和旧版，以及任何支持传统皮肤加载链接的皮肤 MOD。</p>
-    <p>详细教程：<a href="https://github.com/printempw/blessing-skin-server/wiki/Mod-Configuration" target="_blank">@GitHub</a></p>
-  version: 版本
-  config-file: 配置文件

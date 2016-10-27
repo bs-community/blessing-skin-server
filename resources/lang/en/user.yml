@@ -144,11 +144,3 @@ profile:
 
     wrong-password: Wrong password.
     success: Your account is deleted successfully.
-
-config:
-  mod-requirement: MOD Requirement
-  mod-intro: |
-    <p>We support all versions of <a href="http://www.mcbbs.net/forum.php?mod=viewthread&tid=358932" target="_blank">UniSkinMod</a> and <a href="http://www.mcbbs.net/thread-269807-1-1.html" target="_blank">CustomSkinLoader</a>, and any other skin mod using with leagcy links.</p>
-    <p>Detailed Documentation Here: <a href="https://github.com/printempw/blessing-skin-server/wiki/Mod-Configuration" target="_blank">@GitHub</a></p>
-  version: Version
-  config-file: Config File

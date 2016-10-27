@@ -15,7 +15,6 @@ dashboard: 仪表盘
 my-closet: 我的衣柜
 player-manage: 角色管理
 user-manage: 用户管理
-generate-config: 配置生成
 plugin-manage: 插件管理
 customize: 个性化
 options: 站点配置
