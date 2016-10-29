@@ -4,7 +4,7 @@ namespace App\Events;
 
 use Illuminate\Routing\Router;
 
-class ConfigureWebRoutes extends Event
+class ConfigureRoutes extends Event
 {
     public $router;
 

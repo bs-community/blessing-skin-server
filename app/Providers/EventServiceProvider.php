@@ -13,24 +13,7 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\GetSkinPreview' => [
-            'App\Listeners\CacheSkinPreview',
-        ],
-        'App\Events\GetAvatarPreview' => [
-            'App\Listeners\CacheAvatarPreview',
-        ],
-        'App\Events\GetPlayerJson' => [
-            'App\Listeners\CachePlayerJson',
-        ],
-        'App\Events\PlayerProfileUpdated' => [
-            'App\Listeners\FreshPlayerJson',
-        ],
-        'App\Events\CheckPlayerExists' => [
-            'App\Listeners\CachePlayerExists',
-        ],
-        'App\Events\PlayerWasAdded' => [
-            'App\Listeners\FreshNotFoundCache',
-        ],
+        //
     ];
 
     /**
