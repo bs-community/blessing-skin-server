@@ -7,6 +7,9 @@
 .btn {
     margin-right: 4px;
 }
+td#description {
+    width: 35%;
+}
 </style>
 @endsection
 
