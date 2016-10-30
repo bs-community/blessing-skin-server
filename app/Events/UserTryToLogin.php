@@ -10,7 +10,7 @@ class UserTryToLogin extends Event
 
     public $identification;
 
-    public $auth_type;
+    public $authType;
 
     /**
      * Create a new event instance.
@@ -20,7 +20,7 @@ class UserTryToLogin extends Event
     public function __construct($identification, $auth_type)
     {
         $this->identification = $identification;
-        $this->auth_type = $auth_type;
+        $this->authType = $auth_type;
     }
 
 }

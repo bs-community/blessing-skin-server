@@ -11,7 +11,7 @@ class ConfigureUserMenu extends Event
      *
      * @return void
      */
-    public function __construct(Array &$menu)
+    public function __construct(array &$menu)
     {
         // pass array by reference
         $this->menu = &$menu;

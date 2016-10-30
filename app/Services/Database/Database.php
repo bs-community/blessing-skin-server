@@ -58,7 +58,7 @@ class Database
     public function table($table_name, $no_prefix = false)
     {
         if ($this->connection->real_escape_string($table_name) == $table_name) {
-            $this->table_name = $no_prefix ? $table_name : config('database.connections.mysql.prefix').$table_name;
+            $this->table_name = $no_prefix ? "{$this->config['database']}.$table_name" : config('database.connections.mysql.prefix').$table_name;
             return $this;
         } else {
             throw new \InvalidArgumentException('Table name contains invalid characters', 1);

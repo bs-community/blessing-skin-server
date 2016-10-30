@@ -7,6 +7,7 @@ use Option;
 use Storage;
 use Response;
 use Minecraft;
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
@@ -30,12 +31,16 @@ class TextureController extends Controller
         $player = $this->getPlayerInstance($player_name);
 
         if ($api == "csl") {
-            return Response::rawJson($player->getJsonProfile(Player::CSL_API));
+            $content = $player->getJsonProfile(Player::CSL_API);
         } else if ($api == "usm") {
-            return Response::rawJson($player->getJsonProfile(Player::USM_API));
+            $content = $player->getJsonProfile(Player::USM_API);
         } else {
-            return Response::rawJson($player->getJsonProfile(Option::get('api_type')));
+            $content = $player->getJsonProfile(Option::get('api_type'));
         }
+
+        return Response::rawJson($content, 200, [
+            'Last-Modified' => Carbon::createFromTimestamp($player->getLastModified())->format('D, d M Y H:i:s \G\M\T')
+        ]);
     }
 
     public function jsonWithApi($api, $player_name)

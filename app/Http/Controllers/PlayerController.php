@@ -12,6 +12,7 @@ use App\Models\Texture;
 use Illuminate\Http\Request;
 use App\Events\PlayerWasAdded;
 use App\Events\PlayerWasDeleted;
+use App\Events\CheckPlayerExists;
 use App\Exceptions\PrettyPageException;
 use App\Services\Repositories\UserRepository;
 
@@ -49,6 +50,8 @@ class PlayerController extends Controller
         $this->validate($request, [
             'player_name' => 'required|'.(Option::get('allow_chinese_playername') == "1") ? 'pname_chinese' : 'player_name'
         ]);
+
+        Event::fire(new CheckPlayerExists($request->input('player_name')));
 
         if (!Player::where('player_name', $request->input('player_name'))->get()->isEmpty()) {
             return json(trans('user.player.add.repeated'), 6);
