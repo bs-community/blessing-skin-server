@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Events\PlayerWasAdded;
 use App\Events\PlayerWasDeleted;
 use App\Events\CheckPlayerExists;
+use App\Events\PlayerWillBeAdded;
 use App\Exceptions\PrettyPageException;
 use App\Services\Repositories\UserRepository;
 
@@ -60,6 +61,8 @@ class PlayerController extends Controller
         if ($this->user->getScore() < Option::get('score_per_player')) {
             return json(trans('user.player.add.lack-score'), 7);
         }
+
+        Event::fire(new PlayerWillBeAdded($request->input('player_name')));
 
         $player = new Player;
 
