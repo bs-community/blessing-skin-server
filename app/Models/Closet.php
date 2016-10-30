@@ -187,6 +187,7 @@ class Closet
         // traverse items
         foreach ($this->textures as $item) {
             if ($item['tid'] == $tid) {
+                $this->items_modified[] = $tid;
                 // remove element from array
                 return array_splice($this->textures, $offset, 1);
             }
