@@ -259,18 +259,6 @@
                         </div>
                     </form>
                 </div>
-
-                <div class="box box-warning">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">数据对接配置</h3>
-                    </div><!-- /.box-header -->
-                    <form method="post">
-                        <input type="hidden" name="option" value="adapter">
-                        <div class="box-body">
-                            <p>当前版本数据对接不可用。</p>
-                        </div><!-- /.box-body -->
-                    </form>
-                </div>
             </div>
 
         </div>
