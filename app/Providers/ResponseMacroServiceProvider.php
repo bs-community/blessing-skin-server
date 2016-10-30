@@ -41,6 +41,13 @@ class ResponseMacroServiceProvider extends ServiceProvider
         });
 
         Response::macro('rawJson', function ($src = "", $status = 200, $header = []) {
+            $last_modified = Arr::get($header, 'Last-Modified', time());
+
+            if (strtotime(Arr::get($_SERVER, 'If-Modified-Since')) >= $last_modified) {
+                $status = 304;
+                $src    = "";
+            }
+
             return Response::make($src, $status, array_merge([
                 'Content-type'  => 'application/json',
                 'Cache-Control' => 'public, max-age='.option('cache_expire_time') // 365 days
