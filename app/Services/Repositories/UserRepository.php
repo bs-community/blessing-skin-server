@@ -42,6 +42,8 @@ class UserRepository extends Repository
                 if ($player) {
                     $identification = $player->uid;
                     $type = "uid";
+                } else {
+                    return null;
                 }
             }
 
