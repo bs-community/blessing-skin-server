@@ -2,7 +2,7 @@
 
 namespace App\Services\Cipher;
 
-class SHA256 implements EncryptInterface
+class SALTED2SHA512 implements EncryptInterface
 {
     /**
      * Default SHA256 encryption method for Authme
