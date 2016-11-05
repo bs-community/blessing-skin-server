@@ -73,10 +73,12 @@ class User extends Model
         $responses = event(new EncryptUserPassword($raw_passwd, $this));
 
         if (isset($responses[0])) {
-            $this->password = $responses[0];
+            $encrypted = $responses[0];
+        } else {
+            $encrypted = app('cipher')->encrypt($raw_passwd, config('secure.salt'));
         }
 
-        return (app('cipher')->encrypt($raw_passwd, config('secure.salt')) == $this->password);
+        return ($encrypted == $this->password);
     }
 
     /**
