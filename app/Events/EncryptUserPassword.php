@@ -4,7 +4,7 @@ namespace App\Events;
 
 use App\Models\User;
 
-class CheckUserPassword extends Event
+class EncryptUserPassword extends Event
 {
     public $rawPasswd;
 

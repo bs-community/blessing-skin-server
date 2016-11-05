@@ -6,6 +6,7 @@ use DB;
 use App;
 use Utils;
 use Carbon\Carbon;
+use App\Events\EncryptUserPassword;
 use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
@@ -69,13 +70,13 @@ class User extends Model
      */
     public function checkPasswd($raw_passwd)
     {
-        $responses = event(new \App\Events\CheckUserPassword($raw_passwd, $this));
+        $responses = event(new EncryptUserPassword($raw_passwd, $this));
 
         if (isset($responses[0])) {
-            return (bool) $responses[0];
-        } else {
-            return (app('cipher')->encrypt($raw_passwd, config('secure.salt')) == $this->password);
+            $this->password = $responses[0];
         }
+
+        return (app('cipher')->encrypt($raw_passwd, config('secure.salt')) == $this->password);
     }
 
     /**
@@ -110,7 +111,14 @@ class User extends Model
      */
     public function changePasswd($new_passwd)
     {
-        $this->password = app('cipher')->encrypt($new_passwd, config('secure.salt'));
+        $responses = event(new EncryptUserPassword($new_passwd, $this));
+
+        if (isset($responses[0])) {
+            $this->password = $responses[0];
+        } else {
+            $this->password = app('cipher')->encrypt($new_passwd, config('secure.salt'));
+        }
+
         return $this->save();
     }
 
