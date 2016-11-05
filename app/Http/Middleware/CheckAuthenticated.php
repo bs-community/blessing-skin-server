@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App;
 use View;
 use Http;
+use Cookie;
 use Session;
 use App\Models\User;
 use App\Exceptions\PrettyPageException;
