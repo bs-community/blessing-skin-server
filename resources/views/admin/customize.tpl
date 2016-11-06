@@ -115,13 +115,9 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="key">版权信息
-                                            <i class="fa fa-question-circle" title="推荐开启，求扩散 qwq" data-toggle="tooltip" data-placement="top"></i>
-                                        </td>
+                                        <td class="key">版权信息</td>
                                         <td class="value">
-                                            <label for="show_footer_copyright">
-                                                <input {{ (option('show_footer_copyright') == '1') ? 'checked="true"' : '' }} type="checkbox" id="show_footer_copyright" name="show_footer_copyright" value="1"> 显示页面右下角的版权信息
-                                            </label>
+                                            对于任何恶意修改页面<b>右下角</b>的版权信息（包括不限于删除、修改作者信息、修改链接指向）的用户，作者保留对其追究责任的权力。
                                         </td>
                                     </tr>
                                     <tr>
