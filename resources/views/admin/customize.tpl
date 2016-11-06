@@ -95,15 +95,13 @@
                         <h3 class="box-title">首页配置</h3>
                     </div><!-- /.box-header -->
                     <form method="post">
-                        <input type="hidden" name="option" value="adapter">
+                        <input type="hidden" name="option" value="homepage">
                         <div class="box-body">
                             <?php
-                            if (isset($_POST['home_pic_url'])) {
-                                if (!isset($_POST['show_footer_copyright'])) $_POST['show_footer_copyright'] = '0';
-
+                            if (isset($_POST['option']) && $_POST['option'] == "homepage") {
                                 Option::set('home_pic_url', $_POST['home_pic_url']);
-                                Option::set('show_footer_copyright', $_POST['show_footer_copyright']);
                                 Option::set('copyright_text', $_POST['copyright_text']);
+
                                 echo '<div class="callout callout-success">设置已保存。</div>';
                             } ?>
                             <table class="table">

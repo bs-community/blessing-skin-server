@@ -75,8 +75,11 @@
                                     </tr>
                                     <tr>
                                         <td>{{ trans('skinlib.show.uploader') }}</td>
-                                        <?php $uploader = app('users')->get($texture->uploader); ?>
+                                        @if ($uploader = app('users')->get($texture->uploader))
                                         <td><a href="{{ url('skinlib?filter=user&uid='.$uploader->uid) }}&sort=time">{{ $uploader->getNickName() }}</a></td>
+                                        @else
+                                        <td><a href="#">{{ trans('general.unexistent-user') }}</a></td>
+                                        @endif
                                     </tr>
                                     <tr>
                                         <td>{{ trans('skinlib.show.upload-at') }}</td>
