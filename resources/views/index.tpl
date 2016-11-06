@@ -85,7 +85,11 @@
                     </p>
                     <p>
                         @if (is_null($user))
-                        <a href="{{ url('auth/register') }}" class="button">{{ trans('general.register') }}</a>
+                            @if (option('user_can_register'))
+                            <a href="{{ url('auth/register') }}" id="btn-register" class="button">{{ trans('general.register') }}</a>
+                            @else
+                            <a href="{{ url('auth/login') }}" id="btn-close-register" class="button">{{ trans('general.login') }}</a>
+                            @endif
                         @else
                         <a href="{{ url('user') }}" class="button">{{ trans('general.user-center') }}</a>
                         @endif
