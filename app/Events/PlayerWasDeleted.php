@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-class PlayerWillBeAdded extends Event
+class PlayerWasDeleted extends Event
 {
     public $playerName;
 

@@ -14,6 +14,7 @@ use App\Events\PlayerWasAdded;
 use App\Events\PlayerWasDeleted;
 use App\Events\CheckPlayerExists;
 use App\Events\PlayerWillBeAdded;
+use App\Events\PlayerWillBeDeleted;
 use App\Exceptions\PrettyPageException;
 use App\Services\Repositories\UserRepository;
 
@@ -83,10 +84,12 @@ class PlayerController extends Controller
     {
         $player_name = $this->player->player_name;
 
+        Event::fire(new PlayerWillBeDeleted($this->player));
+
         if ($this->player->delete()) {
             $this->user->setScore(Option::get('score_per_player'), 'plus');
 
-            // Event::fire(new PlayerWasDeleted($this));
+            Event::fire(new PlayerWasDeleted($player_name));
 
             return json(trans('user.player.delete.success', ['name' => $player_name]), 0);
         }

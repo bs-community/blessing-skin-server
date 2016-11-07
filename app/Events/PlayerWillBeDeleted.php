@@ -4,7 +4,7 @@ namespace App\Events;
 
 use App\Models\Player;
 
-class PlayerWasAdded extends Event
+class PlayerWillBeDeleted extends Event
 {
     public $player;
 
