@@ -148,9 +148,12 @@
                                 Option::set('custom_css', $_POST['custom_css']);
                                 Option::set('custom_js', $_POST['custom_js']);
                                 echo '<div class="callout callout-success">设置已保存。</div>';
-                            } else {
-                                echo '<div class="callout callout-info">内容将会被追加至每个页面的 &lt;style&gt; 和 &lt;script&gt; 标签中</div>';
-                            } ?>
+                            } else { ?>
+                                <div class="callout callout-info">
+                                    内容将会被追加至每个页面的 &lt;style&gt; 和 &lt;script&gt; 标签中。<br>
+                                    - 这里有一些有用的示例：<a href="https://github.com/printempw/blessing-skin-server/wiki/%E3%80%8C%E8%87%AA%E5%AE%9A%E4%B9%89-CSS-JavaScript%E3%80%8D%E5%8A%9F%E8%83%BD%E7%9A%84%E4%B8%80%E4%BA%9B%E5%AE%9E%E4%BE%8B">「自定义 CSS JavaScript」功能的一些实例@GitHub WiKi</a>
+                                </div>
+                            <?php } ?>
                             <table class="table">
                                 <tbody>
                                     <tr>
