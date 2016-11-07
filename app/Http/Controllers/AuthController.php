@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Log;
 use Mail;
 use View;
 use Utils;
@@ -191,6 +192,8 @@ class AuthController extends Controller
                 $m->from(config('mail.username'), $site_name);
                 $m->to($request->input('email'))->subject(trans('auth.mail.title', ['sitename' => $site_name]));
             });
+
+            Log::info("[Password Reset] Mail has been sent to [{$request->input('email')}] with token [$token]");
         } catch(\Exception $e) {
             return json(trans('auth.mail.failed', ['msg' => $e->getMessage()]), 2);
         }
@@ -237,6 +240,8 @@ class AuthController extends Controller
         ]);
 
         $users->get($request->input('uid'))->changePasswd($request->input('password'));
+
+        Log::info("[Password Reset] Password of user [{$request->input('uid')}] has been changed");
 
         return json(trans('auth.reset.success'), 0);
     }
