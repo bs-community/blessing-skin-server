@@ -240,7 +240,7 @@ class Player extends Model
 
         $json['cape'] = $this->getTexture('cape');
 
-        return json_encode($json, JSON_PRETTY_PRINT);
+        return json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 
     /**
