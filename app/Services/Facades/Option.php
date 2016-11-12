@@ -2,7 +2,8 @@
 
 namespace App\Services\Facades;
 
-use \Illuminate\Support\Facades\Facade;
+use App\Services\OptionForm;
+use Illuminate\Support\Facades\Facade;
 
 class Option extends Facade
 {
@@ -14,5 +15,14 @@ class Option extends Facade
     protected static function getFacadeAccessor()
     {
         return 'option';
+    }
+
+    public static function form($id, $title, $callback)
+    {
+        $form = new OptionForm($id, $title);
+
+        call_user_func($callback, $form);
+
+        return $form;
     }
 }
