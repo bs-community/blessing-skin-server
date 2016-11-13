@@ -125,16 +125,14 @@ class PlayerController extends Controller
      */
     public function setTexture(Request $request)
     {
-        $this->validate($request, [
-            'tid' => 'required|integer'
-        ]);
+        foreach ($request->input('tid') as $key => $value) {
+            if (!($texture = Texture::find($value)))
+                return json(trans('skinlib.un-existent'), 6);
 
-        if (!($texture = Texture::find($request->tid)))
-            return json(trans('skinlib.un-existent'), 6);
+            $field_name = "tid_{$texture->type}";
 
-        $field_name = "tid_{$texture->type}";
-
-        $this->player->setTexture([$field_name => $request->tid]);
+            $this->player->setTexture([$field_name => $value]);
+        }
 
         return json(trans('user.player.set.success', ['name' => $this->player->player_name]), 0);
     }

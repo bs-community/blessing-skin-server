@@ -23,62 +23,30 @@
         <div class="row">
             <!-- Left col -->
             <div class="col-md-8">
+                <!-- Custom tabs -->
+                <div class="nav-tabs-custom">
+                    <!-- Tabs within a box -->
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#skin-category" data-toggle="tab">{{ trans('general.skin') }}</a></li>
+                        <li><a href="#cape-category" data-toggle="tab">{{ trans('general.cape') }}</a></li>
 
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title" title="{{ trans('user.closet.switch-category') }}" data-toggle="tooltip" data-placement="bottom">
-                            @if ($q)
-                            搜索结果
-                            @else
-                            <a href="?category=skin" {{ ($category == "skin") ? 'class=selected' : "" }}>{{ trans('general.skin') }}</a>
-                            /
-                            <a href="?category=cape" {{ ($category == "cape") ? 'class=selected' : "" }}>{{ trans('general.cape') }}</a>
-                            @endif
-                        </h3>
-
-                        <div class="box-tools pull-right">
-                            <div class="has-feedback">
+                        <div style="padding: 7px;">
+                            <div class="has-feedback pull-right">
                                 <form method="get" action="" class="user-search-form">
                                     <input type="text" name="q" class="form-control input-sm" placeholder="输入，回车搜索" value="{{ $q }}">
                                     <span class="glyphicon glyphicon-search form-control-feedback"></span>
                                 </form>
                             </div>
-                        </div><!-- /.box-tools -->
-                    </div><!-- /.box-header -->
-
-                    <div class="box-body">
-
-                        @forelse ($items as $item)
-                        <div class="item" tid="{{ $item->tid }}">
-                            <div class="item-body">
-                                <img src="{{ url('preview/'.$item->tid) }}.png">
-                            </div>
-                            <div class="item-footer">
-                                <p class="texture-name">
-                                    <span title="{{ $item->name }}">{{ $item->name }} <small>({{ $item->type }})</small></span>
-                                </p>
-
-                                <a href="{{ url('skinlib/show?tid='.$item->tid) }}" title="{{ trans('user.closet.view') }}" class="more" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-share"></i></a>
-                                <span title="{{ trans('user.closet.more') }}" class="more" data-toggle="dropdown" aria-haspopup="true" id="share-button"><i class="fa fa-cog"></i></span>
-
-                                <ul class="dropdown-menu" aria-labelledby="share-button">
-                                    <li><a href="javascript:renameClosetItem({{ $item->tid }});">{{ trans('user.closet.rename.title') }}</a></li>
-                                    <li><a href="javascript:removeFromCloset({{ $item->tid }});">{{ trans('user.closet.remove.title') }}</a></li>
-                                    <li><a href="javascript:setAsAvatar({{ $item->tid }});">{{ trans('user.closet.set-avatar') }}</a></li>
-                                </ul>
-                            </div>
                         </div>
-                        @empty
-                        <div class="empty-msg">
-                            @if($q)
-                            {{ trans('skinlib.general.no-result') }}
-                            @else
-                            {!! trans('user.closet.empty-msg', ['url' => url('skinlib')]) !!}
-                            @endif
+                    </ul>
+                    <div class="tab-content no-padding">
+                        <div class="chart tab-pane active box-body" id="skin-category">
+                            @include('vendor.closet-items', ['items' => $items['skin']])
                         </div>
 
-                        @endforelse
-
+                        <div class="chart tab-pane box-body" id="cape-category">
+                            @include('vendor.closet-items', ['items' => $items['cape']])
+                        </div>
                     </div>
                     <div class="box-footer">
                         <ul class="pagination pagination-sm no-margin pull-right">
@@ -99,7 +67,8 @@
                         </ul>
                         <p class="pull-right">{{ trans('general.pagination', ['page' => $page, 'total' => $total_pages]) }}</p>
                     </div>
-                </div>
+                </div><!-- /.nav-tabs-custom -->
+
             </div>
 
             <!-- Left col -->

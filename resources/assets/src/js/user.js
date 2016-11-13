@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 10:02:24
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-25 10:16:21
+ * @Last Modified time: 2016-11-13 12:15:16
  */
 
 'use strict';
@@ -124,6 +124,8 @@ $('.fa-repeat').click(function(){
     MSP.setStatus("rotation", !MSP.getStatus("rotation"));
 });
 
+var selected = [];
+
 $('body').on('click', '.item', function() {
     $('.item-selected').removeClass('item-selected');
     $(this).addClass('item-selected');
@@ -137,9 +139,19 @@ $('body').on('click', '.item', function() {
         success: function(json) {
             if (json.type == "cape") {
                 MSP.changeCape('../textures/' + json.hash);
+                selected['cape'] = tid;
             } else {
                 MSP.changeSkin('../textures/' + json.hash);
+                selected['skin'] = tid;
             }
+
+            selected.length = 0;
+
+            ['skin', 'cape'].forEach(function(key) {
+                if (selected[key] !== undefined) selected.length++;
+
+                $('#textures-indicator').html(selected.length);
+            });
         },
         error: showAjaxError
     });
@@ -251,18 +263,20 @@ function setTexture() {
         if (this.checked) pid = this.id;
     });
 
-    var tid = $('.item-selected').attr('tid');
-
     if (!pid) {
         toastr.info(trans('user.emptySelectedPlayer'));
-    } else if (!tid) {
+    } else if (selected.length == 0) {
         toastr.info(trans('user.emptySelectedTexture'));
     } else {
         $.ajax({
             type: "POST",
             url: "./player/set",
             dataType: "json",
-            data: { 'pid' : pid, 'tid' : tid },
+            data: {
+                'pid': pid,
+                'tid[skin]': selected['skin'],
+                'tid[cape]': selected['cape']
+            },
             success: function(json) {
                 if (json.errno == 0) {
                     swal({

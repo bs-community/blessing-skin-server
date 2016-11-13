@@ -33,32 +33,36 @@ class ClosetController extends Controller
         $page     = $page <= 0 ? 1 : $page;
         $q        = $request->input('q', null);
 
-        if ($q) {
-            $result = [];
+        $items = [];
 
-            foreach ($this->closet->getItems() as $item) {
-                if (strstr($item->name, $q)) {
-                    $result[] = $item;
+        if ($q) {
+            foreach (['skin', 'cape'] as $category) {
+                // do search
+                foreach ($this->closet->getItems($category) as $item) {
+                    if (strstr($item->name, $q)) {
+                        $items[$category][] = $item;
+                    }
                 }
             }
-
-            $items = $result;
         } else {
-            $items = $this->closet->getItems($category);
+            $items['skin'] = $this->closet->getItems('skin');
+            $items['cape'] = $this->closet->getItems('cape');
         }
 
         // pagination
-        $items = array_slice($items, ($page-1)*6, 6);
+        $total_pages = [];
 
-        $total_pages = ceil(count($items) / 6);
+        foreach ($items as $key => $value) {
+            $total_pages[] = ceil(count($items[$key]) / 6);
+            $items[$key] = array_slice($value, ($page-1)*6, 6);
+        }
 
-        echo View::make('user.closet')->with('items', $items)
-                                      ->with('page', $page)
-                                      ->with('q', $q)
-                                      ->with('category', $category)
-                                      ->with('total_pages', $total_pages)
-                                      ->with('user', $users->get(session('uid')))
-                                      ->render();
+        return view('user.closet')->with('items', $items)
+                                  ->with('page', $page)
+                                  ->with('q', $q)
+                                  ->with('category', $category)
+                                  ->with('total_pages', max($total_pages))
+                                  ->with('user', $users->get(session('uid')));
     }
 
     public function info()
