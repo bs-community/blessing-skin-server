@@ -92,4 +92,5 @@ attributes:
     file: File
     name: Name
     player_name: 'Player Name'
+    new_player_name: 'Player Name'
     identification: Email or player name

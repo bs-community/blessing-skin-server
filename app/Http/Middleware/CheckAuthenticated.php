@@ -8,6 +8,7 @@ use Http;
 use Cookie;
 use Session;
 use App\Models\User;
+use App\Events\UserAuthenticated;
 use App\Exceptions\PrettyPageException;
 
 class CheckAuthenticated
@@ -52,6 +53,8 @@ class CheckAuthenticated
 
             if ($return_user)
                 return $user;
+
+            event(new UserAuthenticated($user));
 
             return $next($request);
         } else {

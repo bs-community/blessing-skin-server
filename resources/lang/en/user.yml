@@ -131,7 +131,7 @@ profile:
 
   delete:
     title: Delete Account
-    notice: Sure to delete your account on :sitename?
+    notice: Sure to delete your account on :site?
     admin: Admin account can not be deleted.
     button: Delete My Account
 

@@ -8,6 +8,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use App\Events\ConfigureRoutes;
 use App\Events\ConfigureUserMenu;
+use App\Events\ConfigureAdminMenu;
 
 class Hook
 {
@@ -26,12 +27,14 @@ class Hook
      */
     public static function addMenuItem($category, $position, array $menu)
     {
-        Event::listen(ConfigureUserMenu::class, function ($event) use ($menu, $position)
+        $class = $category == "user" ? ConfigureUserMenu::class : ConfigureAdminMenu::class;
+
+        Event::listen($class, function ($event) use ($menu, $position, $category)
         {
             $new = [];
 
             $offset = 0;
-            foreach ($event->menu['user'] as $item) {
+            foreach ($event->menu[$category] as $item) {
                 // push new menu items at the given position
                 if ($offset == $position) {
                     $new[] = $menu;
@@ -41,7 +44,7 @@ class Hook
                 $offset++;
             }
 
-            $event->menu['user'] = $new;
+            $event->menu[$category] = $new;
         });
     }
 

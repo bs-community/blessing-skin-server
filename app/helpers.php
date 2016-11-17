@@ -143,7 +143,8 @@ if (! function_exists('bs_menu')) {
     {
         $menu = require BASE_DIR."/config/menu.php";
 
-        event(new App\Events\ConfigureUserMenu($menu));
+        event($type == "user" ? new App\Events\ConfigureUserMenu($menu)
+                                : new App\Events\ConfigureAdminMenu($menu));
 
         if (!isset($menu[$type])) {
             throw new InvalidArgumentException;

@@ -137,7 +137,7 @@ profile:
 
   delete:
     title: 删除账号
-    notice: 确定要删除你在 :sitename 上的账号吗？
+    notice: 确定要删除你在 :site 上的账号吗？
     admin: 管理员账号不能被删除哟
     button: 删除我的账户
 

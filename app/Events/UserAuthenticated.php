@@ -4,7 +4,7 @@ namespace App\Events;
 
 use App\Models\User;
 
-class UserLoggedIn extends Event
+class UserAuthenticated extends Event
 {
     public $user;
 

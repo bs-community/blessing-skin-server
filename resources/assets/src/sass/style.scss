@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-06-04 20:55:09
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-26 22:09:14
+ * @Last Modified time: 2016-11-17 15:06:31
  */
 
 $font_stack: Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
@@ -203,4 +203,15 @@ input:-webkit-autofill {
             color: #333;
         }
     }
+}
+
+.key {
+    vertical-align: middle !important;
+}
+.value {
+    width: 70%;
+}
+
+td[class='key'], td[class='value'] {
+    border-top: 0 !important;
 }

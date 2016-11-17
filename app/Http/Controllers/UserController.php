@@ -112,7 +112,7 @@ class UserController extends Controller
                     setcookie('uid',   '', time() - 3600, '/');
                     setcookie('token', '', time() - 3600, '/');
 
-                    Session::flush();
+                    session()->flush();
 
                     return json(trans('user.profile.delete.success'), 0);
                 }

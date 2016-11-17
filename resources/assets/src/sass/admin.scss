@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:08:41
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-06 18:52:47
+ * @Last Modified time: 2016-11-17 15:06:22
  */
 
 @import "style.scss";
@@ -12,17 +12,6 @@
         color: #333;
         font-size: 18px;
     }
-}
-
-.key {
-    vertical-align: middle !important;
-}
-.value {
-    width: 70%;
-}
-
-td[class='key'], td[class='value'] {
-    border-top: 0 !important;
 }
 
 .btn-group {

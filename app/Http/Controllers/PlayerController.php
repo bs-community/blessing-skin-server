@@ -114,8 +114,7 @@ class PlayerController extends Controller
 
         $old_name = $this->player->player_name;
 
-        $this->player->player_name = $new_name;
-        $this->player->save();
+        $this->player->rename($new_name);
 
         return json(trans('user.player.rename.success', ['old' => $old_name, 'new' => $new_name]), 0);
     }

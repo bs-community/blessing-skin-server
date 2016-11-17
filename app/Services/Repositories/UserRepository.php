@@ -20,8 +20,11 @@ class UserRepository extends Repository
         if ($type == "uid") {
             return Arr::has($this->items, $identification);
         } else {
-            Arr::where((array) $this->items, function($key, $value) use ($identification, $type) {
-                return ($user->$type == $identification);
+            return Arr::where((array) $this->items, function($key, $value) use ($identification, $type) {
+                if (property_exists($value, $type))
+                    return false;
+
+                return ($value->$type == $identification);
             });
         }
     }
@@ -56,5 +59,10 @@ class UserRepository extends Repository
         }
 
         return Arr::get($this->items, $identification, null);
+    }
+
+    public function getCurrentUser()
+    {
+        return $this->get(session('uid'));
     }
 }

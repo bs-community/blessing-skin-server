@@ -9,6 +9,7 @@ use Utils;
 use Cookie;
 use Option;
 use Session;
+use App\Events;
 use App\Models\User;
 use App\Models\UserModel;
 use Illuminate\Http\Request;
@@ -34,7 +35,7 @@ class AuthController extends Controller
         // guess type of identification
         $auth_type = (validate($identification, 'email')) ? "email" : "username";
 
-        event(new \App\Events\UserTryToLogin($identification, $auth_type));
+        event(new Events\UserTryToLogin($identification, $auth_type));
 
         // Get user instance from repository.
         // If the given identification is not registered yet,
@@ -58,7 +59,7 @@ class AuthController extends Controller
                 // time in minutes
                 $time = $request->input('keep') == true ? 10080 : 60;
 
-                event(new \App\Events\UserLoggedIn($user));
+                event(new Events\UserLoggedIn($user));
 
                 return json(trans('auth.login.success'), 0, [
                     'token' => $user->getToken()
@@ -139,6 +140,8 @@ class AuthController extends Controller
             if (!$user) {
                 return json(trans('auth.register.registered'), 5);
             }
+
+            event(new Events\UserRegistered($user));
 
             return json([
                 'errno' => 0,
