@@ -4,7 +4,6 @@ namespace App\Events;
 
 use App\Models\Texture;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class GetSkinPreview extends Event
 {
@@ -25,13 +24,4 @@ class GetSkinPreview extends Event
         $this->size = $size;
     }
 
-    /**
-     * Get the channels the event should be broadcast on.
-     *
-     * @return array
-     */
-    public function broadcastOn()
-    {
-        return [];
-    }
 }

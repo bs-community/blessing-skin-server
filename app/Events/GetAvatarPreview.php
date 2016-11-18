@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class GetAvatarPreview extends Event
 {
@@ -24,13 +23,4 @@ class GetAvatarPreview extends Event
         $this->size = $size;
     }
 
-    /**
-     * Get the channels the event should be broadcast on.
-     *
-     * @return array
-     */
-    public function broadcastOn()
-    {
-        return [];
-    }
 }

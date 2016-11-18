@@ -8,6 +8,7 @@ use Utils;
 use App\Models\User;
 use App\Models\Texture;
 use Illuminate\Http\Request;
+use App\Events\UserProfileUpdated;
 use App\Exceptions\PrettyPageException;
 use App\Services\Repositories\UserRepository;
 
@@ -123,6 +124,8 @@ class UserController extends Controller
                 return json(trans('general.illegal-parameters'), 1);
                 break;
         }
+
+        event(new UserProfileUpdated($this->action, $this->user));
 
     }
 

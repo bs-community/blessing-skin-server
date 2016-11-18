@@ -4,7 +4,6 @@ namespace App\Events;
 
 use App\Models\Player;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class PlayerProfileUpdated extends Event
 {
@@ -22,13 +21,4 @@ class PlayerProfileUpdated extends Event
         $this->player = $player;
     }
 
-    /**
-     * Get the channels the event should be broadcast on.
-     *
-     * @return array
-     */
-    public function broadcastOn()
-    {
-        return [];
-    }
 }

@@ -44,7 +44,7 @@ class AdminController extends Controller
 
             $form->group('max_upload_file_size', '最大允许上传大小', function($group) {
                 // main textbox
-                $group->text('max_upload_file_size');
+                $group->text('max_upload_file_size', option('max_upload_file_size'));
                 $group->addon('KB');
             })->hint('PHP 限制：'.ini_get('post_max_size').'，定义在 php.ini 中。');
 

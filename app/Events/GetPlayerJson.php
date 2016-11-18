@@ -4,7 +4,6 @@ namespace App\Events;
 
 use App\Models\Player;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class GetPlayerJson extends Event
 {
@@ -25,13 +24,4 @@ class GetPlayerJson extends Event
         $this->api_type = $api_type;
     }
 
-    /**
-     * Get the channels the event should be broadcast on.
-     *
-     * @return array
-     */
-    public function broadcastOn()
-    {
-        return [];
-    }
 }
