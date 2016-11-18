@@ -9,9 +9,9 @@
         </p>
 
         <a href="{{ url('skinlib/show?tid='.$item->tid) }}" title="{{ trans('user.closet.view') }}" class="more" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-share"></i></a>
-        <span title="{{ trans('user.closet.more') }}" class="more" data-toggle="dropdown" aria-haspopup="true" id="share-button"><i class="fa fa-cog"></i></span>
+        <span title="{{ trans('user.closet.more') }}" class="more" data-toggle="dropdown" aria-haspopup="true" id="more-button"><i class="fa fa-cog"></i></span>
 
-        <ul class="dropdown-menu" aria-labelledby="share-button">
+        <ul class="dropup dropdown-menu" aria-labelledby="more-button">
             <li><a href="javascript:renameClosetItem({{ $item->tid }});">{{ trans('user.closet.rename.title') }}</a></li>
             <li><a href="javascript:removeFromCloset({{ $item->tid }});">{{ trans('user.closet.remove.title') }}</a></li>
             <li><a href="javascript:setAsAvatar({{ $item->tid }});">{{ trans('user.closet.set-avatar') }}</a></li>

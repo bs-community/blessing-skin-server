@@ -70,7 +70,6 @@ class AdminController extends Controller
 
         $cache = Option::form('cache', '缓存相关配置', function($form)
         {
-            $form->checkbox('avatar_query_string', '头像缓存', '为头像添加 Query String');
             $form->checkbox('auto_detect_asset_url', '资源地址', '自动判断资源文件地址')->hint('根据当前 URL 自动加载资源文件。如果出现 CDN 回源问题请关闭');
             $form->checkbox('return_200_when_notfound', 'HTTP 响应码', '请求不存在的角色时返回 200 而不是 404');
 

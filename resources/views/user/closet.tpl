@@ -40,11 +40,11 @@
                         </div>
                     </ul>
                     <div class="tab-content no-padding">
-                        <div class="chart tab-pane active box-body" id="skin-category">
+                        <div class="tab-pane active box-body" id="skin-category">
                             @include('vendor.closet-items', ['items' => $items['skin']])
                         </div>
 
-                        <div class="chart tab-pane box-body" id="cape-category">
+                        <div class="tab-pane box-body" id="cape-category">
                             @include('vendor.closet-items', ['items' => $items['cape']])
                         </div>
                     </div>

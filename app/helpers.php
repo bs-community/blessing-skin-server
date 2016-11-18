@@ -42,11 +42,7 @@ if (! function_exists('avatar')) {
 
     function avatar(App\Models\User $user, $size)
     {
-        $fname = base64_encode($user->email).".png";
-
-        if (Option::get('avatar_query_string') == "1") {
-            $fname .= '?v='.$user->getAvatarId();
-        }
+        $fname = base64_encode($user->email).".png?tid=".$user->getAvatarId();
 
         return url("avatar/$size/$fname");
     }
