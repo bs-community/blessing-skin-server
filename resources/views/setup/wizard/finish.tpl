@@ -1,4 +1,4 @@
-@extends('setup.master')
+@extends('setup.wizard.master')
 
 @section('content')
 <h1>成功！</h1>

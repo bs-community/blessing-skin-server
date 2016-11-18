@@ -33,11 +33,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('database', \App\Services\Database\Database::class);
-        $this->app->singleton('option', \App\Services\Repositories\OptionRepository::class);
         // register default cipher
         $this->app->singleton('cipher', "App\Services\Cipher\\".config('secure.cipher'));
-
         $this->app->singleton('users', \App\Services\Repositories\UserRepository::class);
     }
 }

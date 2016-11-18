@@ -10,6 +10,7 @@ use Illuminate\Foundation\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -22,7 +23,8 @@ class Handler extends ExceptionHandler
         HttpException::class,
         ModelNotFoundException::class,
         ValidationException::class,
-        PrettyPageException::class
+        PrettyPageException::class,
+        MethodNotAllowedHttpException::class,
     ];
 
     /**
@@ -47,23 +49,30 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if ($e instanceof HttpException) {
+            // call i18n middleware manually since http exceptions won't be sent through it
+            (new Internationalization)->handle($request, function(){});
+        }
+
         if ($e instanceof ModelNotFoundException) {
             $e = new NotFoundHttpException($e->getMessage(), $e);
+        }
+
+        if ($e instanceof MethodNotAllowedHttpException) {
+            abort(403, 'Method not allowed.');
         }
 
         if ($e instanceof PrettyPageException && PHP_SAPI != "cli") {
             return $e->showErrorPage();
         }
 
-        if ($e instanceof HttpException) {
-            // call i18n middleware manually since http exceptions won't be sent through it
-            (new Internationalization)->handle($request, function(){});
-        }
-
         if ($e instanceof ValidationException) {
+            // quick fix for returning 422
+            // @see https://prinzeugen.net/custom-responses-of-laravel-validations/
             return $e->getResponse()->setStatusCode(200);
         }
 
+        // render exceptions with whoops
         if (config('app.debug')) {
             foreach ($this->dontReport as $type) {
                 if ($e instanceof $type) {

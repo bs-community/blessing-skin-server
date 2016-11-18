@@ -17,11 +17,24 @@ Route::get('/index.php',     'HomeController@index');
 Route::get('/locale/{lang}', 'HomeController@locale');
 
 /**
+ * Setup Wizard
+ */
+Route::group(['prefix' => 'setup'], function ()
+{
+    Route::get ('/',         'SetupController@welcome');
+    Route::get ('/info',     'SetupController@info');
+    Route::post('/finish',   'SetupController@finish');
+
+    Route::get ('/update',   'SetupController@update');
+    Route::post('/update',   'SetupController@doUpdate');
+});
+
+/**
  * Auth
  */
-Route::group(['prefix' => 'auth'], function()
+Route::group(['prefix' => 'auth'], function ()
 {
-    Route::group(['middleware' => 'guest'], function()
+    Route::group(['middleware' => 'guest'], function ()
     {
         Route::get ('/login',     'AuthController@login');
         Route::get ('/register',  'AuthController@register');
@@ -42,7 +55,7 @@ Route::group(['prefix' => 'auth'], function()
 /**
  * User Center
  */
-Route::group(['middleware' => 'auth', 'prefix' => 'user'], function()
+Route::group(['middleware' => 'auth', 'prefix' => 'user'], function ()
 {
     Route::any ('',                      'UserController@index');
     Route::any ('/checkin',              'UserController@checkIn');
@@ -73,14 +86,14 @@ Route::group(['middleware' => 'auth', 'prefix' => 'user'], function()
 /**
  * Skin Library
  */
-Route::group(['prefix' => 'skinlib'], function()
+Route::group(['prefix' => 'skinlib'], function ()
 {
     Route::get ('',                   'SkinlibController@index');
     Route::any ('/info/{tid}',        'SkinlibController@info');
     Route::any ('/show',              'SkinlibController@show');
     Route::any ('/search',            'SkinlibController@search');
 
-    Route::group(['middleware' => 'auth'], function()
+    Route::group(['middleware' => 'auth'], function ()
     {
         Route::get ('/upload',        'SkinlibController@upload');
         Route::post('/upload',        'SkinlibController@handleUpload');
@@ -94,7 +107,7 @@ Route::group(['prefix' => 'skinlib'], function()
 /**
  * Admin Panel
  */
-Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function()
+Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function ()
 {
     Route::get('/',           'AdminController@index');
 

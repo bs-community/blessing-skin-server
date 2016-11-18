@@ -16,6 +16,6 @@
 @endif
 
 <p class="step">
-    <a href="../" class="button button-large">首页</a>
+    <a href="{{ url('/') }}" class="button button-large">首页</a>
 </p>
 @endsection

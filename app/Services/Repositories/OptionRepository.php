@@ -9,13 +9,6 @@ use Illuminate\Database\QueryException;
 class OptionRepository extends Repository
 {
     /**
-     * All of the option items  that is modified.
-     *
-     * @var array
-     */
-    protected $items_modified = [];
-
-    /**
      * Create a new option repository.
      *
      * @return void
@@ -76,7 +69,7 @@ class OptionRepository extends Repository
      *
      * @return void
      */
-    protected function save()
+    public function save()
     {
         $this->items_modified = array_unique($this->items_modified);
 

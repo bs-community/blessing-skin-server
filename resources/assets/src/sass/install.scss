@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-28 13:15:18
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-10 17:50:19
+ * @Last Modified time: 2016-11-18 15:12:18
  */
 
 @import "style.scss";
@@ -94,6 +94,10 @@ p {
     margin-bottom: 20px;
     border: 1px solid transparent;
     border-radius: 4px;
+
+    ul {
+        margin: 0px;
+    }
 }
 
 .alert-warning {

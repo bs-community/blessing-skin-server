@@ -179,9 +179,22 @@ if (! function_exists('bs_nickname')) {
 
 if (! function_exists('option')) {
 
-    function option($key)
+    function option($key = null, $default = null)
     {
-        return Option::get($key);
+        $options = app('options');
+
+        if (is_null($key)) {
+            return $options;
+        }
+
+        if (is_array($key)) {
+            foreach ($key as $innerKey => $innerValue) {
+                $options->set($innerKey, $innerValue);
+            }
+            return $options->save();
+        }
+
+        return $options->get($key);
     }
 }
 

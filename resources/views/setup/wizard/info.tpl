@@ -1,10 +1,10 @@
-@extends('setup.master')
+@extends('setup.wizard.master')
 
 @section('content')
 <h1>填写信息</h1>
 <p>您需要填写一些基本信息。无需担心填错，这些信息以后可以再次修改。</p>
 
-<form id="setup" method="post" action="index.php?step=3" novalidate="novalidate">
+<form id="setup" method="post" action="{{ url('setup/finish') }}" novalidate="novalidate">
     <table class="form-table">
         <tr>
             <th scope="row"><label for="email">管理员邮箱</label></th>
@@ -25,30 +25,36 @@
             </td>
         </tr>
         <tr class="form-field form-required">
-            <th scope="row"><label for="confirm-pwd">重复密码</label></th>
+            <th scope="row"><label for="password_confirmation">重复密码</label></th>
             <td>
-                <input type="password" name="confirm-pwd" id="confirm-pwd" autocomplete="off" />
+                <input type="password" name="password_confirmation" id="password_confirmation" autocomplete="off" />
             </td>
         </tr>
         <tr>
-            <th scope="row"><label for="sitename">站点名称</label></th>
+            <th scope="row"><label for="site_name">站点名称</label></th>
             <td>
-                <input name="sitename" type="text" id="sitename" size="25" value="" />
+                <input name="site_name" type="text" id="site_name" size="25" value="Blessing Skin Server" />
                 <p>
                     <span class="description important">
-                        将会显示在首页以及标题栏，最好用纯英文（字体原因）
+                        将会显示在首页以及标题栏
                     </span>
                 </p>
             </td>
         </tr>
     </table>
 
-    @if (isset($_SESSION['msg']))
-    <div class="alert alert-warning" role="alert">{{ $_SESSION['msg'] }}</div> <?php unset($_SESSION['msg']); ?>
+    @if (count($errors) > 0)
+        <div class="alert alert-warning" role="alert">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
     @endif
 
     <p class="step">
-        <input type="submit" name="Submit" id="submit" class="button button-large" value="开始安装"  />
+        <input type="submit" name="submit" id="submit" class="button button-large" value="开始安装"  />
     </p>
 </form>
 @endsection

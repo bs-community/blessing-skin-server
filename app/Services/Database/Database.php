@@ -49,7 +49,7 @@ class Database
         );
 
         if ($this->connection->connect_error)
-            throw new \InvalidArgumentException("Could not connect to MySQL database. Check your configuration:".
+            throw new \InvalidArgumentException("Could not connect to MySQL database. ".
                 $this->connection->connect_error, $this->connection->connect_errno);
 
         $this->connection->query("SET names 'utf8'");

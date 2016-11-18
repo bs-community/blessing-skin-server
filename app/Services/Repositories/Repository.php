@@ -15,6 +15,13 @@ class Repository implements ArrayAccess // Illuminate\Contracts\Cache\Repository
     protected $items;
 
     /**
+     * All of the option items  that is modified.
+     *
+     * @var array
+     */
+    protected $items_modified = [];
+
+    /**
      * Determine if an item exists in the repository.
      *
      * @param  string  $key

@@ -14,7 +14,7 @@ class Option extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'option';
+        return 'options';
     }
 
     public static function form($id, $title, $callback)

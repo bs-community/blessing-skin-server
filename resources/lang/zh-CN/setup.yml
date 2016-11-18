@@ -1,0 +1,6 @@
+database:
+  connection-error: 无法连接至 MySQL 服务器，请检查你的配置 :msg
+
+file:
+  permission-error: textures 文件夹创建失败，请确认目录权限是否正确，或者手动放置一个。
+  no-dot-env: 找不到 .env 配置文件
