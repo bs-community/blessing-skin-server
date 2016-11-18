@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Option;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class OptionForm
 {
@@ -23,14 +24,12 @@ class OptionForm
 
     public function text($id, $name, $value = null)
     {
-        return $this->addItem('text', $id, $name);
+        return $this->addItem('text', $id, $name)->set('value', $value);
     }
 
     public function checkbox($id, $name, $label, $checked = null)
     {
-        $checkbox = $this->addItem('checkbox', $id, $name);
-
-        $checkbox->set('label', $label);
+        $checkbox = $this->addItem('checkbox', $id, $name)->set('label', $label);
 
         return $checkbox;
     }
@@ -43,7 +42,7 @@ class OptionForm
 
         call_user_func($callback, $select);
 
-        $item->set('view', $select->render());
+        $item->set('view', $select);
 
         return $select;
     }
@@ -56,7 +55,7 @@ class OptionForm
 
         call_user_func($callback, $textarea);
 
-        $item->set('view', $textarea->render());
+        $item->set('view', $textarea);
 
         return $textarea;
     }
@@ -69,7 +68,7 @@ class OptionForm
 
         call_user_func($callback, $group);
 
-        $item->set('view', $group->render());
+        $item->set('view', $group);
 
         return $item;
     }
@@ -99,8 +98,12 @@ class OptionForm
 
             foreach ($this->items as $item) {
                 if ($item->type == "checkbox" && !isset($_POST[$item->id])) {
+                    // preset value for checkboxes which are not checked
                     $_POST[$item->id] = "0";
                 }
+
+                if (Str::is('*[*]', $item->id))
+                    continue;
 
                 if ($_POST[$item->id] != option($item->id)) {
                     Option::set($item->id, $_POST[$item->id]);
@@ -116,8 +119,19 @@ class OptionForm
     public function render()
     {
         foreach ($this->items as $item) {
-            $id    = $item->id;
-            $value = Option::get($item->id);
+            $id = $item->id;
+
+            if (!$value = $item->get('value')) {
+                preg_match('/(.*)\[(.*)\]/', $id, $matches);
+
+                if (isset($matches[2])) {
+                    $option = @unserialize(option($matches[1]));
+
+                    $value = Arr::get($option, $matches[2]);
+                } else {
+                    $value = option($item->id);
+                }
+            }
 
             switch ($item->type) {
                 case 'text':
@@ -135,7 +149,7 @@ class OptionForm
                 case 'select':
                 case 'textarea':
                 case 'group':
-                    $view = $item->get('view');
+                    $view = $item->get('view')->render();
                     break;
             }
 
@@ -188,6 +202,8 @@ class OptionFormItem
     public function set($key, $value)
     {
         $this->data[$key] = $value;
+
+        return $this;
     }
 
     public function get($key)
@@ -212,7 +228,7 @@ class OptionFormSelect
 
     protected $items;
 
-    protected $selected;
+    protected $selected = null;
 
     public function __construct($id)
     {
@@ -231,6 +247,10 @@ class OptionFormSelect
 
     public function render()
     {
+        if (is_null($this->selected)) {
+            $this->selected = option($this->id);
+        }
+
         return view('vendor.option-form.select')->with([
             'id' => $this->id,
             'items' => $this->items,

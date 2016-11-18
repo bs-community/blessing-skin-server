@@ -44,7 +44,7 @@ class AdminController extends Controller
 
             $form->group('max_upload_file_size', '最大允许上传大小', function($group) {
                 // main textbox
-                $group->text('max_upload_file_size', option('max_upload_file_size'));
+                $group->text('max_upload_file_size');
                 $group->addon('KB');
             })->hint('PHP 限制：'.ini_get('post_max_size').'，定义在 php.ini 中。');
 
@@ -53,8 +53,6 @@ class AdminController extends Controller
             $form->select('api_type', '首选 JSON API', function($options) {
                 $options->add('0', 'CustomSkinLoader API');
                 $options->add('1', 'UniversalSkinAPI');
-
-                $options->setSelected(option('api_type'));
             });
 
             $form->checkbox('auto_del_invalid_texture', '失效材质', '自动删除失效材质')->hint('自动从皮肤库中删除文件不存在的材质记录');
