@@ -103,7 +103,7 @@ class PlayerController extends Controller
     public function rename(Request $request)
     {
         $this->validate($request, [
-            'new_player_name' => 'required|'.(Option::get('allow_chinese_playername') == "1") ? 'pname_chinese' : 'player_name'
+            'new_player_name' => 'required|'.(option('allow_chinese_playername') ? 'pname_chinese' : 'playername')
         ]);
 
         $new_name = $request->input('new_player_name');
