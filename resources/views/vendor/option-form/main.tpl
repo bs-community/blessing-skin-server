@@ -8,6 +8,13 @@
             @if ($success)
             <div class="callout callout-success">设置已保存。</div>
             @endif
+
+            @if (!empty($messages))
+                @foreach($messages as $msg)
+                {!! $msg !!}
+                @endforeach
+            @endif
+
             <table class="table">
                 <tbody>
                     @foreach($items as $item)

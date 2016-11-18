@@ -16,6 +16,10 @@ class OptionForm
 
     protected $success = false;
 
+    protected $messages = [];
+
+    protected $alwaysCallback = null;
+
     public function __construct($id, $title)
     {
         $this->id    = $id;
@@ -89,11 +93,16 @@ class OptionForm
         return $this;
     }
 
+    public function addMessage($msg, $type = "info")
+    {
+        $this->messages[] = "<div class='callout callout-$type'>$msg</div>";
+    }
+
     public function handle($callback = null)
     {
         if (Arr::get($_POST, 'option') == $this->id) {
             if (!is_null($callback)) {
-                call_user_func($callback);
+                call_user_func($callback, $this);
             }
 
             foreach ($this->items as $item) {
@@ -116,8 +125,19 @@ class OptionForm
         return $this;
     }
 
+    public function always($callback)
+    {
+        $this->alwaysCallback = $callback;
+
+        return $this;
+    }
+
     public function render()
     {
+        if (!is_null($this->alwaysCallback)) {
+            call_user_func($this->alwaysCallback, $this);
+        }
+
         foreach ($this->items as $item) {
             $id = $item->id;
 
@@ -156,14 +176,7 @@ class OptionForm
             $item->setContent($view->render());
         }
 
-
-        return view('vendor.option-form.main')->with([
-            'title' => $this->title,
-            'id' => $this->id,
-            'hint' => $this->hint,
-            'items' => $this->items,
-            'success' => $this->success
-        ])->render();
+        return view('vendor.option-form.main')->with(get_object_vars($this))->render();
     }
 }
 
