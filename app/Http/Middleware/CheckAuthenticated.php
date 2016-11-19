@@ -51,10 +51,10 @@ class CheckAuthenticated
                 exit;
             }
 
+            event(new UserAuthenticated($user));
+
             if ($return_user)
                 return $user;
-
-            event(new UserAuthenticated($user));
 
             return $next($request);
         } else {

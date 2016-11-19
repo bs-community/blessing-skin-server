@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use View;
 use Utils;
 use Option;
+use App\Events;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
@@ -117,14 +118,20 @@ class AdminController extends Controller
                 switch ($request->get('action')) {
                     case 'enable':
                         $plugins->enable($id);
+
+                        return redirect('admin/plugins');
                         break;
 
                     case 'disable':
                         $plugins->disable($id);
+
+                        return redirect('admin/plugins');
                         break;
 
                     case 'delete':
                         if ($request->isMethod('post')) {
+                            event(new Events\PluginWasDeleted($plugin));
+
                             $plugins->uninstall($id);
 
                             return json('插件已被成功删除', 0);
