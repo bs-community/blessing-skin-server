@@ -30,7 +30,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <img class="pull-right captcha" src="{{ url('auth/captcha') }}" alt="CAPTCHA" title="{{ trans('auth.change-captcha') }}" data-placement="top" data-toggle="tooltip">
+                    <img class="pull-right captcha" src="{{ url('auth/captcha?v='.time()) }}" alt="CAPTCHA" title="{{ trans('auth.change-captcha') }}" data-placement="top" data-toggle="tooltip">
                 </div>
                 <!-- /.col -->
             </div>
