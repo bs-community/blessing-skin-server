@@ -48,6 +48,11 @@ return [
             'root' => storage_path('app'),
         ],
 
+        'storage' => [
+            'driver' => 'local',
+            'root' => storage_path(),
+        ],
+
         'textures' => [
             'driver' => 'local',
             'root' => storage_path('textures'),

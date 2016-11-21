@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\Exceptions\PrettyPageException;
-use Storage;
 use Log;
+use Storage;
+use App\Exceptions\PrettyPageException;
 
 class Utils
 {
@@ -17,11 +17,11 @@ class Utils
     public static function upload($file)
     {
         $path = 'tmp'.time();
-        $absolute_path = BASE_DIR."/storage/textures/$path";
+        $absolute_path = storage_path("textures/$path");
 
         try {
             if (false === move_uploaded_file($file['tmp_name'], $absolute_path)) {
-                throw new Exception('Failed to remove uploaded files, please check the permission', 1);
+                throw new \Exception('Failed to remove uploaded files, please check the permission', 1);
             }
         } catch (\Exception $e) {
             Log::warning("Failed to move uploaded file, $e");
@@ -77,6 +77,15 @@ class Utils
             $str = str_replace($search, $replace, $str);
         }
         return $str;
+    }
+
+    public static function checkTextureDirectory()
+    {
+        if (!Storage::disk('storage')->has('textures')) {
+            // mkdir
+            if (!Storage::disk('storage')->makeDirectory('textures'))
+                throw new PrettyPageException(trans('setup.file.permission-error'), -1);
+        }
     }
 
 }

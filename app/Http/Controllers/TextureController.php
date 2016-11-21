@@ -100,7 +100,7 @@ class TextureController extends Controller
                     if (isset($responses[0]) && $responses[0] instanceof \Symfony\Component\HttpFoundation\Response) {
                         return $responses[0];
                     } else {
-                        $filename = BASE_DIR."/storage/textures/{$t->hash}";
+                        $filename = storage_path("textures/{$t->hash}");
 
                         $png = Minecraft::generateAvatarFromSkin($filename, $size);
                         imagepng($png);
@@ -135,7 +135,7 @@ class TextureController extends Controller
                 if (isset($responses[0]) && $responses[0] instanceof \Symfony\Component\HttpFoundation\Response) {
                     return $responses[0];
                 } else {
-                    $filename = BASE_DIR."/storage/textures/{$t->hash}";
+                    $filename = storage_path("textures/{$t->hash}");
 
                     if ($t->type == "cape") {
                         $png = Minecraft::generatePreviewFromCape($filename, $size);

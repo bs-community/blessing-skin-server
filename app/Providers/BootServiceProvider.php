@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use View;
+use Utils;
 use Schema;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
@@ -29,7 +30,7 @@ class BootServiceProvider extends ServiceProvider
 
     protected function checkFileExists()
     {
-        if (!file_exists(BASE_DIR."/.env")) {
+        if (!file_exists(base_path('.env'))) {
             throw new PrettyPageException(trans('setup.file.no-dot-env'), -1);
         }
     }
@@ -63,10 +64,7 @@ class BootServiceProvider extends ServiceProvider
             return redirect('/setup')->send();
         }
 
-        if (!is_dir(BASE_DIR.'/storage/textures/')) {
-            if (!mkdir(BASE_DIR.'/storage/textures/'))
-                throw new PrettyPageException(trans('setup.file.permission-error'), -1);
-        }
+        Utils::checkTextureDirectory();
 
         if (version_compare(config('app.version'), option('version', ''), '>')) {
             return redirect('/setup/update')->send();

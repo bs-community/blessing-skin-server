@@ -51,7 +51,7 @@ class Updater
     public function __construct($current_version)
     {
         $this->current_version = $current_version;
-        $this->update_sources  = require BASE_DIR."/config/update.php";
+        $this->update_sources  = config('update');
 
         $source = Option::get('update_source');
 
@@ -115,7 +115,7 @@ class Updater
         if (!$silent)
             echo "<p>下载完成。</p>";
 
-        $update_cache = BASE_DIR."/setup/update_cache/";
+        $update_cache = storage_path('update_cache');
 
         if (!is_dir($update_cache)) {
             if (false === mkdir($update_cache)) {
@@ -126,7 +126,7 @@ class Updater
         $zip_path = $update_cache."update_".time().".zip";
 
         if (Storage::put($zip_path, $file) === false) {
-            Storage::removeDir(BASE_DIR.'/setup/update_cache/');
+            Storage::removeDir($update_cache);
             return false;
         }
 

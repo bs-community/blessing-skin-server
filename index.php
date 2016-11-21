@@ -7,11 +7,9 @@
  * @author   printempw <h@prinzeugen.net>
  */
 
-define('BASE_DIR', __DIR__);
+require __DIR__.'/bootstrap/autoload.php';
 
-require BASE_DIR.'/bootstrap/autoload.php';
-
-$app = require_once BASE_DIR.'/bootstrap/app.php';
+$app = require_once __DIR__.'/bootstrap/app.php';
 
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 

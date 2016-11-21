@@ -1,8 +1,6 @@
 #!/usr/bin/env php
 <?php
 
-define('BASE_DIR', __DIR__);
-
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader
@@ -15,9 +13,9 @@ define('BASE_DIR', __DIR__);
 |
 */
 
-require BASE_DIR.'/bootstrap/autoload.php';
+require __DIR__.'/bootstrap/autoload.php';
 
-$app = require_once BASE_DIR.'/bootstrap/app.php';
+$app = require_once __DIR__.'/bootstrap/app.php';
 
 /*
 |--------------------------------------------------------------------------

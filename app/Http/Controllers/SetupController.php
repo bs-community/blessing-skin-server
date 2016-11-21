@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use Utils;
 use Schema;
 use Option;
+use Storage;
 use Artisan;
 use Database;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Validator;
+use App\Exceptions\PrettyPageException;
 
 class SetupController extends Controller
 {
@@ -121,10 +123,7 @@ class SetupController extends Controller
 
     protected function createDirectories()
     {
-        if (!is_dir(BASE_DIR.'/storage/textures/')) {
-            if (!mkdir(BASE_DIR.'/storage/textures/'))
-                throw new App\Exceptions\PrettyPageException('/storage/textures 文件夹创建失败，请检查目录权限是否正确，或者手动放置一个。', -1);
-        }
+        Utils::checkTextureDirectory();
     }
 
     protected function checkTablesExist()

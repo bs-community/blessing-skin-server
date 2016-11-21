@@ -137,7 +137,7 @@ if (! function_exists('bs_menu')) {
 
     function bs_menu($type)
     {
-        $menu = require BASE_DIR."/config/menu.php";
+        $menu = config('menu');
 
         event($type == "user" ? new App\Events\ConfigureUserMenu($menu)
                                 : new App\Events\ConfigureAdminMenu($menu));

@@ -31,7 +31,7 @@
                     }
 
                     $zip = new ZipArchive();
-                    $extract_dir = BASE_DIR."/setup/update_cache/{$updater->latest_version}";
+                    $extract_dir = storage_path("update_cache/{$updater->latest_version}");
                     $res = $zip->open($zip_path);
 
                     if ($res === true) {
@@ -42,12 +42,12 @@
                     }
                     $zip->close();
 
-                    if (Storage::copyDir($extract_dir, BASE_DIR) !== true) {
-                        Storage::removeDir(BASE_DIR.'/setup/update_cache/');
+                    if (Storage::copyDir($extract_dir, base_path()) !== true) {
+                        Storage::removeDir(storage_path('update_cache'));
                         exit('无法覆盖文件。');
                     } else {
                        echo "<p>正在覆盖文件</p>";
-                       Storage::removeDir(BASE_DIR.'/setup/update_cache/');
+                       Storage::removeDir(storage_path('update_cache'));
                        echo "<p>正在清理</p>";
                     }
                     echo "<p>更新完成。</p>";
@@ -57,7 +57,7 @@
             </div><!-- /.box-body -->
 
             <div class="box-footer">
-                <a href="../setup/update.php" class="btn btn-primary">下一步</a>
+                <a href="{{ url('setup/update') }}" class="btn btn-primary">下一步</a>
             </div>
         </div>
 
