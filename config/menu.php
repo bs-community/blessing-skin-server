@@ -23,7 +23,6 @@ $menu['admin'] = array(
     ['title' => 'general.customize',     'link' => 'admin/customize',  'icon' => 'fa-paint-brush'],
     ['title' => 'general.score-options', 'link' => 'admin/score',      'icon' => 'fa-credit-card'],
     ['title' => 'general.options',       'link' => 'admin/options',    'icon' => 'fa-cog'],
-    ['title' => 'general.import-v2',     'link' => 'setup/migrations', 'icon' => 'fa-undo'],
     ['title' => 'general.check-update',  'link' => 'admin/update',     'icon' => 'fa-arrow-up']
 );
 
