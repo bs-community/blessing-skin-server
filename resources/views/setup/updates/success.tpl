@@ -6,7 +6,7 @@
 <p>数据库升级成功，欢迎使用 Blessing Skin Server {{ config('app.version') }}！</p>
 
 {{-- if any tip is given --}}
-@if (isset($tips))
+@if (!empty($tips))
 <p><b>升级提示：</b></p>
 <ul>
     @foreach ($tips as $tip)

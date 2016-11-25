@@ -118,10 +118,11 @@
     @if (option('check_update') == '1')
     <script>
         $(document).ready(function() {
-            var url = "{{ url('admin/update') }}";
-            $.getJSON(url + '?action=check', function(data) {
-                if (data.new_version_available == true)
-                    $('[href="' + url + '"]').append('<span class="label label-primary pull-right">v'+data.latest_version+'</span>');
+            // check for updates
+            $.getJSON("{{ url('admin/update/check') }}", function(data) {
+                if (data.available == true) {
+                    $('[href="{{ url('admin/update') }}"]').append('<span class="label label-primary pull-right">v'+data.latest+'</span>');
+                }
             });
         });
     </script>

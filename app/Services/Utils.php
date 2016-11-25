@@ -40,6 +40,64 @@ class Utils
         }
     }
 
+    public static function download($url, $path)
+    {
+        set_time_limit(0);
+
+        touch($path);
+
+        Log::info("[File Downloader] Download started, source: $url");
+        Log::info("[File Downloader] ======================================");
+
+        if ($fp = fopen($url, "rb")) {
+
+            if (!$download_fp = fopen($path, "wb")) {
+                return false;
+            }
+
+            while (!feof($fp)) {
+
+                if (!file_exists($path)) {
+                    // cancel downloading if destination is no longer available
+                    fclose($download_fp);
+
+                    return false;
+                }
+
+                Log::info("[Download] 1024 bytes wrote");
+                fwrite($download_fp, fread($fp, 1024 * 8 ), 1024 * 8);
+            }
+
+            fclose($download_fp);
+            fclose($fp);
+
+            Log::info("[File Downloader] Finished downloading, data stored to: $path");
+            Log::info("[File Downloader] ===========================================");
+
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static function getRemoteFileSize($url)
+    {
+        $regex = '/^Content-Length: *+\K\d++$/im';
+
+        if (!$fp = @fopen($url, 'rb')) {
+            return false;
+        }
+
+        if (
+            isset($http_response_header) &&
+            preg_match($regex, implode("\n", $http_response_header), $matches)
+        ) {
+            return (int)$matches[0];
+        }
+
+        return strlen(stream_get_contents($fp));
+    }
+
     /**
      * Generate random string
      *

@@ -102,7 +102,12 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function ()
     Route::any('/customize',  'AdminController@customize');
     Route::any('/score',      'AdminController@score');
     Route::any('/options',    'AdminController@options');
-    Route::any('/update',     'AdminController@update');
+
+    Route::any('/update',     'UpdateController@showUpdatePage');
+
+    Route::any('/update/download',     'UpdateController@download');
+
+    Route::get('/update/check',     'UpdateController@checkUpdates');
 
     Route::get('/users',      'AdminController@users');
     Route::get('/players',    'AdminController@players');

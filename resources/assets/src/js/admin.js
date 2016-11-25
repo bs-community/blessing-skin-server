@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-24 19:58:24
+ * @Last Modified time: 2016-11-25 12:45:28
  */
 
 'use strict';
@@ -308,4 +308,81 @@ function deletePlayer(pid) {
         },
         error: showAjaxError
     });
+}
+
+function downloadUpdates() {
+    var file_size = 0;
+    var progress  = 0;
+
+    console.log("Prepared to download");
+
+    $.ajax({
+        url: './update/download?action=prepare-download',
+        type: 'GET',
+        dataType: 'json',
+        beforeSend: function() {
+            $('#update-button').html('<i class="fa fa-spinner fa-spin"></i> 正在准备').prop('disabled', 'disabled');
+        },
+    })
+    .done(function(json) {
+        console.log(json);
+
+        file_size = json.file_size;
+
+        $('#file-size').html(file_size);
+
+        $('#modal-start-download').modal({
+            'backdrop': 'static',
+            'keyboard': false
+        });
+
+        console.log("started downloading");
+        $.ajax({
+            url: './update/download?action=start-download',
+            type: 'POST',
+            dataType: 'json'
+        })
+        .done(function(json) {
+            // set progress to 100 when got the response
+            progress = 100;
+
+            console.log("Downloading finished");
+            console.log(json);
+        })
+        .fail(showAjaxError);
+
+        var interval_id = window.setInterval(function() {
+
+            if (progress == 100) {
+                clearInterval(interval_id);
+
+                $('#modal-start-download').modal('toggle');
+
+                swal({
+                    type: 'success',
+                    html: '下载完成！'
+                }).then(function(new_name) {
+                    //
+                });
+            } else {
+                $.ajax({
+                    url: './update/download?action=get-file-size',
+                    type: 'GET'
+                })
+                .done(function(json) {
+                    progress = (json.size / file_size * 100).toFixed(2);
+
+                    $('#imported-progress').html(progress);
+                    $('.progress-bar').css('width', progress+'%').attr('aria-valuenow', progress);
+
+                    console.log("Progress: "+progress);
+                })
+                .fail(showAjaxError);
+            }
+
+        }, 300);
+
+    })
+    .fail(showAjaxError);
+
 }

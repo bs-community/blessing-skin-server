@@ -21,7 +21,6 @@
         </h1>
     </section>
 
-    <?php $updater = new Updater(config('app.version')); ?>
     <!-- Main content -->
     <section class="content">
         <div class="row">
@@ -31,40 +30,44 @@
                         <h3 class="box-title">更新信息</h3>
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                        @if ($updater->newVersionAvailable())
+                        @if ($info['new_version_available'])
                         <div class="callout callout-info">有更新可用。</div>
                         <table class="table">
                             <tbody>
                                 <tr>
                                     <td class="key">最新版本：</td>
                                     <td class="value">
-                                        v{{ $updater->latest_version }}
+                                        v{{ $info['latest_version'] }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="key">当前版本：</td>
                                     <td class="value">
-                                        v{{ $updater->current_version }}
+                                        v{{ $info['current_version'] }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="key">发布时间：</td>
                                     <td class="value">
-                                        {{ $updater->update_time }}
+                                        {{ Utils::getTimeFormatted($info['release_time']) }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="key">更新日志：</td>
                                     <td class="value">
-                                        {!! nl2br($updater->getUpdateInfo()['releases'][$updater->latest_version]['release_note']) !!}
+                                        {!! nl2br($info['release_note']) ?: "无内容" !!}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="key">下载地址：</td>
                                     <td class="value">
-                                    <a href="{!! $updater->getUpdateInfo()['releases'][$updater->latest_version]['release_url'] !!}">@GitHub</a>
+                                    <a href="{!! $info['release_url'] !!}">点击下载完整安装包</a>
                                     </td>
                                 </tr>
+
+                                @if($info['pre_release'])
+                                <div class="callout callout-warning">本次更新为预发布版，请谨慎选择是否更新。</div>
+                                @endif
 
                             </tbody>
                         </table>
@@ -75,13 +78,17 @@
                                 <tr>
                                     <td class="key">当前版本：</td>
                                     <td class="value">
-                                        v{{ $updater->current_version }}
+                                        v{{ $info['current_version'] }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="key">发布时间：</td>
                                     <td class="value">
-                                        {{ @date('Y-m-d H:i:s', $updater->getUpdateInfo()['releases'][$updater->current_version]['release_time']) }}
+                                        @if (isset($info['release_time']))
+                                        {{ Utils::getTimeFormatted($info['release_time']) }}
+                                        @else
+                                        当前版本为未发布测试版
+                                        @endif
                                     </td>
                                 </tr>
                             </tbody>
@@ -89,7 +96,7 @@
                         @endif
                     </div><!-- /.box-body -->
                     <div class="box-footer">
-                        <a href="?action=download" class="btn btn-primary" {{ !$updater->newVersionAvailable() ? 'disabled="disabled"' : '' }} >马上升级</a>
+                        <a class="btn btn-primary" id="update-button" {!! !$info['new_version_available'] ? 'disabled="disabled"' : 'href="javascript:downloadUpdates();"' !!}>马上升级</a>
                         <a href="http://www.mcbbs.net/thread-552877-1-1.html" style="float: right;" class="btn btn-default">查看 MCBBS 发布贴</a>
                     </div>
                 </div>
@@ -120,12 +127,19 @@
                                     if ($key != "option" && $key != "submit")
                                         Option::set($key, $value);
                                 }
+
                                 echo '<div class="callout callout-success">设置已保存。</div>';
-                            } ?>
+                            }
+
+                            try {
+                                $response = file_get_contents(option('update_source'));
+                            } catch (Exception $e) {
+                                echo '<div class="callout callout-danger">无法访问当前更新源。详细信息：'.$e->getMessage().'</div>';
+                            }
+
+                            ?>
                             <table class="table">
                                 <tbody>
-
-
                                     <tr>
                                         <td class="key">检查更新</td>
                                         <td class="value">
@@ -135,19 +149,12 @@
                                         </td>
                                     </tr>
 
-                                    <?php $current_source = option('update_source'); ?>
                                     <tr>
                                         <td class="key">更新源</td>
                                         <td class="value">
-                                            <select class="form-control" name="update_source">
-                                                @foreach ($updater->getUpdateSources() as $key => $value)
-                                                <option {!! $current_source == $key ? 'selected="selected"' : '' !!} value="{{ $key }}">{{ $value['name'] }}</option>
-                                                @endforeach
-                                            </select>
+                                            <input type="text" class="form-control" name="update_source" value="{{ option('update_source') }}">
 
-                                            @foreach ($updater->getUpdateSources() as $key => $value)
-                                            <p class="description" id="{{ $key }}" {!! $current_source == $key ? '' : 'style="display: none;"' !!}>{!! $value['description'] !!}</p>
-                                            @endforeach
+                                            <p class="description">可用的更新源列表可以在这里查看：<a href="https://github.com/printempw/blessing-skin-server/wiki/%E6%9B%B4%E6%96%B0%E6%BA%90%E5%88%97%E8%A1%A8">@GitHub Wiki</a></p>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -164,13 +171,23 @@
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 
-@endsection
+<div id="modal-start-download" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">正在下载更新包</h4>
+            </div>
+            <div class="modal-body">
+                <p>更新包大小：<span id="file-size">0</span> Bytes</p>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                        <span id="imported-progress">0</span>%
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-@section('script')
-<script>
-    $('select[name=update_source]').change(function() {
-        $('.description').hide();
-        $('#' + this.value).show();
-    });
-</script>
 @endsection

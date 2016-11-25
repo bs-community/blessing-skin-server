@@ -50,7 +50,7 @@ class SetupController extends Controller
 
                 // skip if the file is not valid or expired
                 if (!isset($matches[2]) ||
-                    version_compare($matches[2], option('version'), '<')) {
+                    version_compare($matches[2], config('app.version'), '<')) {
                     continue;
                 }
 
