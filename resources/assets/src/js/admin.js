@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-11-25 12:45:28
+ * @Last Modified time: 2016-11-25 13:10:36
  */
 
 'use strict';
@@ -353,17 +353,33 @@ function downloadUpdates() {
 
         var interval_id = window.setInterval(function() {
 
+            $('#imported-progress').html(progress);
+            $('.progress-bar').css('width', progress+'%').attr('aria-valuenow', progress);
+
             if (progress == 100) {
                 clearInterval(interval_id);
 
-                $('#modal-start-download').modal('toggle');
+                toastr.success('正在解压更新包');
 
-                swal({
-                    type: 'success',
-                    html: '下载完成！'
-                }).then(function(new_name) {
-                    //
-                });
+                console.log("Start extracting");
+                $.ajax({
+                    url: './update/download?action=extract',
+                    type: 'POST',
+                    dataType: 'json'
+                })
+                .done(function(json) {
+                    console.log("Files covered");
+                    $('#modal-start-download').modal('toggle');
+
+                    swal({
+                        type: 'success',
+                        html: json.msg
+                    }).then(function() {
+                        window.location = "../";
+                    });
+                })
+                .fail(showAjaxError);
+
             } else {
                 $.ajax({
                     url: './update/download?action=get-file-size',
@@ -371,9 +387,6 @@ function downloadUpdates() {
                 })
                 .done(function(json) {
                     progress = (json.size / file_size * 100).toFixed(2);
-
-                    $('#imported-progress').html(progress);
-                    $('.progress-bar').css('width', progress+'%').attr('aria-valuenow', progress);
 
                     console.log("Progress: "+progress);
                 })

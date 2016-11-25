@@ -70,7 +70,7 @@ class Storage
         $size = 0;
         while($filename = @readdir($resource)) {
             if ($filename != "." && $filename != "..") {
-                $path = $dir.$filename;
+                $path = "$dir/$filename";
                 if (is_dir($path)) {
                     // recursion
                     self::removeDir($path."/");
@@ -96,7 +96,7 @@ class Storage
         $size = 0;
         while($filename = @readdir($resource)) {
             if ($filename != "." && $filename != "..") {
-                $path = $dir.$filename;
+                $path = "$dir/$filename";
                 if (is_dir($path)) {
                     // recursion
                     $size += self::getDirSize($path);
@@ -121,7 +121,7 @@ class Storage
         $resource = opendir($dir);
         while($filename = readdir($resource)) {
             if ($filename != "." && $filename != "..") {
-                $path = $dir.$filename;
+                $path = "$dir/$filename";
                 if (is_dir($path)) {
                     // recursion
                     $file_num = self::getFileNum($path, $file_num);

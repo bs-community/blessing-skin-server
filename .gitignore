@@ -2,6 +2,7 @@
 .sass-cache
 vendor/*
 storage/textures/*
+storage/update_cache/*
 node_modules/*
 resources/assets/src/bower_components/*
 koala-config.json

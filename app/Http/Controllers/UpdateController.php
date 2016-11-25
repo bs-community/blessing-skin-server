@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Arr;
 use Log;
 use Utils;
+use ZipArchive;
 use App\Services\Storage;
 use Illuminate\Http\Request;
 
@@ -140,7 +141,43 @@ class UpdateController extends Controller
                 break;
 
             case 'extract':
-                //
+
+                if (!file_exists($tmp_path)) exit('No file available');
+
+                $extract_dir = storage_path("update_cache/{$this->latestVersion}");
+
+                $zip = new ZipArchive();
+                $res = $zip->open($tmp_path);
+
+                if ($res === true) {
+                    Log::info("[ZipArchive] Extracting file $tmp_path");
+
+                    try {
+                        $zip->extractTo($extract_dir);
+                    } catch (\Exception $e) {
+                        exit('发生错误：'.$e->getMessage());
+                    }
+
+                } else {
+                    exit('更新包解压缩失败。错误代码：'.$res);
+                }
+                $zip->close();
+
+                if (Storage::copyDir($extract_dir, base_path()) !== true) {
+
+                    Storage::removeDir(storage_path('update_cache'));
+                    exit('无法覆盖文件。');
+
+                } else {
+
+                   Log::info("[Extracter] Covering files");
+                   Storage::removeDir(storage_path('update_cache'));
+
+                   Log::info("[Extracter] Cleaning cache");
+                }
+
+                return json('更新完成', 0);
+
                 break;
 
             default:
