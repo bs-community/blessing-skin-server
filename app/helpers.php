@@ -109,6 +109,12 @@ if (! function_exists('bs_footer')) {
         }
 
         echo '<script>'.Option::get("custom_js").'</script>';
+
+        $extra_contents = [];
+
+        Event::fire(new App\Events\RenderingFooter($extra_contents));
+
+        echo implode(PHP_EOL, $extra_contents);
     }
 }
 
@@ -130,6 +136,12 @@ if (! function_exists('bs_header')) {
         }
 
         echo '<style>'.Option::get("custom_css").'</style>';
+
+        $extra_contents = [];
+
+        Event::fire(new App\Events\RenderingHeader($extra_contents));
+
+        echo implode(PHP_EOL, $extra_contents);
     }
 }
 
