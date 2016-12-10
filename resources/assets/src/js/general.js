@@ -2,13 +2,10 @@
 * @Author: printempw
 * @Date:   2016-09-15 10:39:41
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-10-23 11:04:11
+* @Last Modified time: 2016-12-10 21:57:23
 */
 
 'use strict';
-
-// guesss base url
-var base_url = (location.pathname.endsWith('user') || location.pathname.endsWith('admin')) ? "." : "..";
 
 function logout(with_out_confirm, callback) {
     if (!with_out_confirm) {
@@ -24,7 +21,9 @@ function logout(with_out_confirm, callback) {
                     type: 'success',
                     html: json.msg
                 });
-                window.setTimeout('window.location = "'+base_url+'/"', 1000);
+                window.setTimeout(function() {
+                    window.location = blessing.baseUrl;
+                }, 1000);
             });
         });
     } else {
@@ -37,7 +36,7 @@ function logout(with_out_confirm, callback) {
 function do_logout(callback) {
     $.ajax({
         type: "POST",
-        url: base_url + "/auth/logout",
+        url: blessing.baseUrl + "/auth/logout",
         dataType: "json",
         success: function(json) {
             if (callback) callback(json);

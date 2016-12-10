@@ -3,7 +3,10 @@
 namespace App\Providers;
 
 use View;
+use Event;
 use Validator;
+use App\Events;
+use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -24,6 +27,15 @@ class AppServiceProvider extends ServiceProvider
                 $this->app['request']->headers->set('host', $host[1]);
             };
         }
+
+        Event::listen(Events\RenderingHeader::class, function($event) {
+            // provide some application information for javascript
+            $blessing = array_merge(Arr::except(config('app'), ['key', 'providers', 'aliases', 'cipher', 'log', 'url']), [
+                'baseUrl' => url('/'),
+            ]);
+
+            $event->addContent('<script>var blessing = '.json_encode($blessing).';</script>');
+        });
     }
 
     /**
