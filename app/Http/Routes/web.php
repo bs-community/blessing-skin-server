@@ -98,7 +98,8 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function ()
 {
     Route::get('/',           'AdminController@index');
 
-    Route::any('/plugins',    'AdminController@plugins');
+    Route::any('/plugins/manage',    'AdminController@plugins');
+
     Route::any('/customize',  'AdminController@customize');
     Route::any('/score',      'AdminController@score');
     Route::any('/options',    'AdminController@options');

@@ -158,14 +158,28 @@ if (! function_exists('bs_menu')) {
             throw new InvalidArgumentException;
         }
 
-        $request = App::make('request');
+        echo bs_menu_render($menu[$type]);
+    }
 
-        foreach ($menu[$type] as $key => $value) {
-            echo ($request->is($value['link'])) ? '<li class="active">' : '<li>';
+    function bs_menu_render($data)
+    {
+        $content = "";
 
-            echo '<a href="'.url($value['link']).'"><i class="fa '.$value['icon'].'"></i> <span>'.trans($value['title']).'</span></a></li>';
+        foreach ($data as $key => $value) {
+            $content .= (app('request')->is(@$value['link'])) ? '<li class="active">' : '<li>';
+
+            if (isset($value['children'])) {
+                $content .= '<a href="#"><i class="fa '.$value['icon'].'"></i> <span>'.trans($value['title']).'</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>';
+                // recurse
+                $content .= '<ul class="treeview-menu" style="display: none;">'.bs_menu_render($value['children']).'</ul>';
+            } else {
+                $content .= '<a href="'.url($value['link']).'"><i class="fa '.$value['icon'].'"></i> <span>'.trans($value['title']).'</span></a>';
+            }
+
+            $content .= '</li>';
         }
 
+        return $content;
     }
 }
 

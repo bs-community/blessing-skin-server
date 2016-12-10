@@ -16,6 +16,8 @@ my-closet: 我的衣柜
 player-manage: 角色管理
 user-manage: 用户管理
 plugin-manage: 插件管理
+plugin-market: 插件市场
+plugin-installed: 已安装
 customize: 个性化
 options: 站点配置
 import-v2: 导入数据

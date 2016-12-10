@@ -16,6 +16,8 @@ my-closet: Closet
 player-manage: Player Manage
 user-manage: User Manage
 plugin-manage: Plugin Manage
+plugin-market: Plugin Market
+plugin-installed: Installed
 customize: Customize
 options: Options
 import-v2: Import Data
