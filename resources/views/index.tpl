@@ -109,5 +109,8 @@
 
     <!-- App Scripts -->
     {!! bs_footer() !!}
+
+    <!-- Quick fix for logging out at homepage when installed to a subdir -->
+    <script>base_url = ".";</script>
 </body>
 </html>
