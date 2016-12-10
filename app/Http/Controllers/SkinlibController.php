@@ -124,7 +124,11 @@ class SkinlibController extends Controller
 
     public function info($tid)
     {
-        return json(Texture::find($tid)->toArray());
+        if ($t = Texture::find($tid)) {
+            return json($t->toArray());
+        } else {
+            return json([]);
+        }
     }
 
     public function upload()
