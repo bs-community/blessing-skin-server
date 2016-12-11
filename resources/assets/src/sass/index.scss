@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-06-04 20:54:53
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-08-07 11:26:30
+ * @Last Modified time: 2016-12-11 15:10:01
  */
 
 @import "style.scss";
@@ -18,51 +18,74 @@ body {
     background-repeat: no-repeat;
     background-position: center 0;
 
-    .main-header {
-        background-color: rgba(255, 255, 255, 0.2);
+    .main-header .navbar {
+        transition: color 0.25s ease-in-out,
+                    border-color 0.25s ease-in-out,
+                    background-color 0.25s ease-in-out;
     }
 
     .main-header .navbar-brand {
-        color: #5e5e5e;
         font-family: Minecraft, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
         border-right: 0;
     }
 
     .main-header .navbar .navbar-nav {
-        li {
-            a {
-                border: 0;
-                color: #5e5e5e;
-            }
-
-            a:hover {
-                background: rgba(0,0,0,0.1);
-                color: #f6f6f6;
-            }
-
-            .active > a {
-                background: rgba(0,0,0,0.1);
-                color: #f6f6f6;
-            }
-        }
-
         .user-menu .user-image {
             border-radius: 10%;
         }
     }
 
-    .main-header .navbar .navbar-custom-menu .navbar-nav > li {
-        a {
-            border-left: 0;
+    .main-header.transparent {
+        .navbar-brand {
+            color: #5e5e5e;
+        }
+
+        .navbar-header > a {
+            color: #5e5e5e;
+        }
+
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.2);
+
+            .navbar-nav {
+                li {
+                    a {
+                        border: 0;
+                        color: #5e5e5e;
+                    }
+
+                    a:hover {
+                        background: rgba(0,0,0,0.1);
+                        color: #f6f6f6;
+                    }
+
+                    .active > a {
+                        background: rgba(0,0,0,0.1);
+                        color: #f6f6f6;
+                    }
+                }
+
+            }
+
+            .navbar-custom-menu .navbar-nav > li {
+                a.btn {
+                    background-color: #0078e7;
+                    border: 1px solid #0078e7;
+                }
+            }
+        }
+
+        .nickname {
+            color: #5e5e5e;
         }
     }
 
-    .navbar {
-        background-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .navbar-header > a {
-        color: #5e5e5e;
+    .main-header .navbar .navbar-custom-menu .navbar-nav > li {
+        a.btn {
+            border-radius: 5px;
+                    background: transparent;
+                    border: 1px solid #fff;
+        }
     }
 
     .content-wrapper {
@@ -83,10 +106,6 @@ body {
         }
     }
 
-}
-
-.nickname {
-    color: #5e5e5e;
 }
 
 .splash-button {
@@ -195,4 +214,71 @@ body {
 
 .container .button:hover {
     background-color: rgba(255, 255, 255, 0.2);
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+.wrapper {
+    width: 100%;
+}
+
+/* ==========================================================================
+   Wrap Sections
+   ========================================================================== */
+
+/* intro Wrap */
+
+#intro {
+    padding: 50px 0 50px;
+    border-top: #bdc3c7 solid 5px;
+
+    i {
+        font-size: 80px;
+    }
+
+    .col-lg-4 {
+        margin: 10px 0 50px;
+    }
+
+    @media (min-width: 1200px) {
+        .col-lg-4 {
+            margin: 10px 0 20px;
+        }
+    }
+}
+
+#footerwrap {
+    background-color: #2f2f2f;
+    color: white;
+    padding: 40px 0 50px;
+    text-align: left;
+
+    .col-lg-6:last-child {
+        text-align: center;
+        padding-top: 50px;
+    }
+
+    @media (min-width: 1200px) {
+
+        .col-lg-6:last-child {
+            text-align: right;
+            padding-top: 20px;
+        }
+    }
+}
+
+/* Copyright Wrap */
+
+#copyright {
+    border-top: #2f2f2f solid 5px;
+    background: #222222;
+    padding: 16px 0 20px;
+    color: white
 }

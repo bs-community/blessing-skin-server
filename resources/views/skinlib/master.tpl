@@ -63,8 +63,6 @@
                                 </ul>
                             </li>
                             @endunless
-
-                            @include('vendor.language')
                         </ul>
                         <form class="navbar-form navbar-left" role="search" action="{{ url('skinlib/search') }}">
                             <div class="form-group">
@@ -75,7 +73,10 @@
                     <!-- Navbar Right Menu -->
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
-                            <li><a href="{{ url('skinlib/upload') }}"><i class="fa fa-upload" aria-hidden="true"></i> {{ trans('skinlib.general.upload-new-skin') }}</a></li>
+                            <li><a href="{{ url('skinlib/upload') }}"><i class="fa fa-upload" aria-hidden="true"></i> <span class="description-text">{{ trans('skinlib.general.upload-new-skin') }}</span></a></li>
+
+                            @include('vendor.language')
+
                             @if (!is_null($user))
                             <!-- User Account Menu -->
                             <li class="dropdown user user-menu">
@@ -140,5 +141,11 @@
     {!! bs_footer('skinlib') !!}
 
     @yield('script')
+
+    <script>
+        if ($('.navbar').height() > 50) {
+            $('.description-text').hide();
+        }
+    </script>
 </body>
 </html>

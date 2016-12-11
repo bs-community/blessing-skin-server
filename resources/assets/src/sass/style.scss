@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-06-04 20:55:09
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-11-17 15:06:31
+ * @Last Modified time: 2016-12-11 14:07:33
  */
 
 $font_stack: Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
@@ -202,6 +202,11 @@ input:-webkit-autofill {
             background-color: #e1e3e9;
             color: #333;
         }
+    }
+
+    /* hide the text on mobile phone pages */
+    .description-text {
+        display: none;
     }
 }
 

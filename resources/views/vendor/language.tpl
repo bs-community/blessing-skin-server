@@ -1,7 +1,9 @@
 <!-- Language Menu -->
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-        <i class="fa fa-language" aria-hidden="true"></i> Language <span class="caret"></span>
+        <i class="fa fa-language" aria-hidden="true"></i>
+        <span class="description-text">Language</span>
+        <span class="caret"></span>
     </a>
     <ul class="dropdown-menu" role="menu">
         @foreach(config('locales') as $locale => $lang)
