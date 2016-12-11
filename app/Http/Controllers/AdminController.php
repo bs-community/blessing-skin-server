@@ -45,7 +45,7 @@ class AdminController extends Controller
 
             $form->group('max_upload_file_size', '最大允许上传大小', function($group) {
                 // main textbox
-                $group->text('max_upload_file_size', option('max_upload_file_size'));
+                $group->text('max_upload_file_size');
                 $group->addon('KB');
             })->hint('PHP 限制：'.ini_get('post_max_size').'，定义在 php.ini 中。');
 
@@ -58,7 +58,7 @@ class AdminController extends Controller
 
             $form->checkbox('auto_del_invalid_texture', '失效材质', '自动删除失效材质')->hint('自动从皮肤库中删除文件不存在的材质记录');
 
-            $form->textarea('comment_script', '评论代码', option('comment_script'), function($textarea) {
+            $form->textarea('comment_script', '评论代码', function($textarea) {
                 $textarea->setRows(6);
                 $textarea->setDescription('评论代码内可使用占位符，<code>{tid}</code> 将会被自动替换为材质的 id，<code>{name}</code> 会被替换为材质名称，<code>{url}</code> 会被替换为当前页面地址。');
             });

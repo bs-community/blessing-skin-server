@@ -51,11 +51,11 @@ class OptionForm
         return $select;
     }
 
-    public function textarea($id, $name, $value, $callback)
+    public function textarea($id, $name, $callback)
     {
         $item = $this->addItem('textarea', $id, $name);
 
-        $textarea = new OptionFormTextarea($id, $value);
+        $textarea = new OptionFormTextarea($id);
 
         call_user_func($callback, $textarea);
 
@@ -119,7 +119,7 @@ class OptionForm
                 }
             }
 
-            $this->success = true;
+            session()->flash($this->id.'.status', 'success');
         }
 
         return $this;
@@ -282,10 +282,14 @@ class OptionFormTextarea
 
     protected $description = "";
 
-    public function __construct($id, $value)
+    public function __construct($id)
     {
-        $this->id    = $id;
-        $this->value = $value;
+        $this->id = $id;
+    }
+
+    public function setContent($content)
+    {
+        $this->value = $content;
     }
 
     public function setRows($rows)
@@ -300,6 +304,10 @@ class OptionFormTextarea
 
     public function render()
     {
+        if (is_null($this->value)) {
+            $this->value = option($this->id);
+        }
+
         return view('vendor.option-form.textarea')->with([
             'rows' => $this->rows,
             'id' => $this->id,
@@ -320,18 +328,28 @@ class OptionFormGroup
         $this->id = $id;
     }
 
-    public function text($id, $value)
+    public function text($id, $value = null)
     {
-        $this->items[] = view('vendor.option-form.text')->withId($id)->withValue($value);
+        $this->items[] = ['type' => 'text', 'id' => $id, 'value' => $value];
     }
 
     public function addon($value)
     {
-        $this->items[] = view('vendor.option-form.addon')->withValue($value);
+        $this->items[] = ['type' => 'addon', 'id' => null, 'value' => $value];
     }
 
     public function render()
     {
-        return view('vendor.option-form.group')->with('items', $this->items);
+        $rendered = [];
+
+        foreach ($this->items as $item) {
+            if ($item['id'] && !$item['value']) {
+                $item['value'] = option($item['id']);
+            }
+
+            $rendered[] = view('vendor.option-form.'.$item['type'])->withId($item['id'])->withValue($item['value']);
+        }
+
+        return view('vendor.option-form.group')->with('items', $rendered);
     }
 }

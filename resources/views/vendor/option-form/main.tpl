@@ -5,7 +5,7 @@
     <form method="post">
         <input type="hidden" name="option" value="{{ $id }}">
         <div class="box-body">
-            @if ($success)
+            @if (session("$id.status") == 'success')
             <div class="callout callout-success">设置已保存。</div>
             @endif
 
