@@ -106,18 +106,18 @@
                 <br>
                 <div class="col-lg-4">
                     <i class="fa fa-users" aria-hidden="true"></i>
-                    <h3>多角色</h3>
-                    <p>一个账户可绑定多个游戏角色</p>
+                    <h3>{{ trans('index.features.multi-player.name') }}</h3>
+                    <p>{{ trans('index.features.multi-player.desc') }}</p>
                 </div>
                 <div class="col-lg-4">
                     <i class="fa fa-share-alt" aria-hidden="true"></i>
-                    <h3>分享</h3>
-                    <p>浏览皮肤库，添加喜爱的皮肤并与好友分享</p>
+                    <h3>{{ trans('index.features.sharing.name') }}</h3>
+                    <p>{{ trans('index.features.sharing.desc') }}</p>
                 </div>
                 <div class="col-lg-4">
                     <i class="fa fa-cloud" aria-hidden="true"></i>
-                    <h3>永久免费</h3>
-                    <p>我们承诺永不收取任何费用</p>
+                    <h3>{{ trans('index.features.free.name') }}</h3>
+                    <p>{{ trans('index.features.free.desc') }}</p>
                 </div>
             </div>
             <br>
@@ -127,11 +127,11 @@
     <div id="footerwrap">
         <div class="container">
             <div class="col-lg-6">
-                {{ option('site_name') }} 提供 Minecraft 角色皮肤的上传以及托管服务。配合 CustomSKinLoader 等换肤 MOD，您可以为您的游戏角色设置皮肤与披风，并让其他玩家在游戏中看到。
+                {{ trans('index.introduction', ['sitename' => option('site_name')]) }}
             </div>
 
             <div class="col-lg-6">
-                <a href="{{ url('auth/register') }}" id="btn-register" class="button">开始使用</a>
+                <a href="{{ url('auth/register') }}" id="btn-register" class="button">{{ trans('index.start') }}</a>
             </div>
         </div>
     </div>

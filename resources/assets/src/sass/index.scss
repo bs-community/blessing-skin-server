@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-06-04 20:54:53
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-12-11 15:10:01
+ * @Last Modified time: 2016-12-11 21:36:02
  */
 
 @import "style.scss";
@@ -18,20 +18,39 @@ body {
     background-repeat: no-repeat;
     background-position: center 0;
 
-    .main-header .navbar {
-        transition: color 0.25s ease-in-out,
-                    border-color 0.25s ease-in-out,
-                    background-color 0.25s ease-in-out;
-    }
+    .main-header {
+        .navbar {
+            transition: color 0.25s ease-in-out,
+                        border-color 0.25s ease-in-out,
+                        background-color 0.25s ease-in-out;
 
-    .main-header .navbar-brand {
-        font-family: Minecraft, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
-        border-right: 0;
-    }
+            .user-menu .user-image {
+                border-radius: 10%;
+            }
 
-    .main-header .navbar .navbar-nav {
-        .user-menu .user-image {
-            border-radius: 10%;
+            .navbar-custom-menu .navbar-nav > li {
+                a.btn.btn-login {
+                    background-color: transparent;
+                    border-radius: 5px;
+                    border: 1px solid #fff;
+                    color: #fff !important;
+                    margin-top: 7px;
+                    margin-left: 10px;
+                    padding: 8px 20px;
+                    transition: border-color 0.25s ease-in-out,
+                                background-color 0.3s ease-in-out;
+                }
+
+                a.btn.btn-login:hover,
+                a.btn.btn-login:focus {
+                    background-color: #006acc !important;
+                }
+            }
+        }
+
+        .navbar-brand {
+            font-family: Minecraft, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
+            border-right: 0;
         }
     }
 
@@ -68,7 +87,7 @@ body {
             }
 
             .navbar-custom-menu .navbar-nav > li {
-                a.btn {
+                a.btn.btn-login {
                     background-color: #0078e7;
                     border: 1px solid #0078e7;
                 }
@@ -77,14 +96,6 @@ body {
 
         .nickname {
             color: #5e5e5e;
-        }
-    }
-
-    .main-header .navbar .navbar-custom-menu .navbar-nav > li {
-        a.btn {
-            border-radius: 5px;
-                    background: transparent;
-                    border: 1px solid #fff;
         }
     }
 
@@ -155,21 +166,6 @@ body {
     margin-bottom: 3em;
     color: #fff;
     font-family: Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
-}
-
-.navbar-custom-menu .navbar-nav > li {
-    a.btn.btn-login {
-        background-color: #0078e7;
-        color: #fff !important;
-        margin-top: 7px;
-        margin-left: 10px;
-        padding: 8px 20px;
-    }
-
-    a.btn.btn-login:hover,
-    a.btn.btn-login:focus {
-        background-color: #006acc !important;
-    }
 }
 
 /* Mobile phone */
@@ -277,7 +273,6 @@ hr {
 /* Copyright Wrap */
 
 #copyright {
-    border-top: #2f2f2f solid 5px;
     background: #222222;
     padding: 16px 0 20px;
     color: white

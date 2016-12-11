@@ -1,0 +1,16 @@
+features:
+  multi-player:
+    name: Multi Player
+    desc: You can add many players with only one account.
+
+  sharing:
+    name: Sharing
+    desc: Explore the skin library, give a 'like' and share them with your friends.
+
+  free:
+    name: Free
+    desc: It is free forever. No ads. No subscription fees.
+
+introduction: :sitename provides the service of uploading and hosting Minecraft skins. By coordinating with skin mods e.g. CustomSkinLoader, you can set skins & capes for your game character, and make it visible to other players.
+
+start: Join Us
