@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-07-29 11:53:11
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-11-18 17:00:05
+ * @Last Modified time: 2016-12-11 22:42:05
  */
 
 return [
@@ -29,7 +29,7 @@ return [
     'sign_after_zero'           => '0',
     'version'                   => '',
     'check_update'              => '1',
-    'update_source'             => 'nyavm',
+    'update_source'             => 'https://work.prinzeugen.net/update.json',
     'copyright_text'            => '<strong>Copyright &copy; 2016 <a href="{site_url}">{site_name}</a>.</strong> All rights reserved.',
     'auto_del_invalid_texture'  => '0',
     'return_200_when_notfound'  => '0',
