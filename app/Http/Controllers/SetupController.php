@@ -95,7 +95,7 @@ class SetupController extends Controller
         ]);
 
         // create tables
-        Artisan::call('migrate');
+        Artisan::call('migrate', ['--force' => true]);
 
         Option::set('site_name', $request->input('site_name'));
         Option::set('site_url',  url('/'));
