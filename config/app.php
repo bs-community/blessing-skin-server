@@ -153,11 +153,16 @@ return [
         Illuminate\Redis\RedisServiceProvider::class,
         Illuminate\Auth\Passwords\PasswordResetServiceProvider::class,
         Illuminate\Session\SessionServiceProvider::class,
-        Devitek\Core\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 
-        /*
+        /**
+         * Third-party libraries
+         */
+        Devitek\Core\Translation\TranslationServiceProvider::class,
+        Swiggles\Memcache\MemcacheServiceProvider::class,
+
+        /**
          * Application Service Providers...
          */
         App\Providers\BootServiceProvider::class,

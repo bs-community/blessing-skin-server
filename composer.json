@@ -7,7 +7,8 @@
         "laravel/framework": "5.2.*",
         "gregwar/captcha": "^1.1",
         "devitek/yaml-translation": "^2.0",
-        "filp/whoops": "^2.1"
+        "filp/whoops": "^2.1",
+        "swiggles/memcache": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
