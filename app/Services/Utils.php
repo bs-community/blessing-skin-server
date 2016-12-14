@@ -31,6 +31,9 @@ class Utils
 
                 if (!Storage::disk('textures')->has($hash)) {
                     Storage::disk('textures')->move($path, $hash);
+                } else {
+                    // delete the temp file
+                    unlink($absolute_path);
                 }
 
                 return $hash;
