@@ -45,7 +45,7 @@ class Utils
 
     public static function download($url, $path)
     {
-        set_time_limit(0);
+        @set_time_limit(0);
 
         touch($path);
 
