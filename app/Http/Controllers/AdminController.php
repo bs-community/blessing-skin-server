@@ -120,13 +120,13 @@ class AdminController extends Controller
                     case 'enable':
                         $plugins->enable($id);
 
-                        return redirect('admin/plugins');
+                        return redirect('admin/plugins/manage');
                         break;
 
                     case 'disable':
                         $plugins->disable($id);
 
-                        return redirect('admin/plugins');
+                        return redirect('admin/plugins/manage');
                         break;
 
                     case 'delete':

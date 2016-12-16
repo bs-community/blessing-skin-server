@@ -26,10 +26,6 @@ class BootServiceProvider extends ServiceProvider
         if (!$request->is('setup') && !$request->is('setup/*') && PHP_SAPI != "cli") {
             $this->checkInstallation();
         }
-
-        if (config('app.env') == 'debug' && config('app.debug')) {
-            $this->app->register('Barryvdh\Debugbar\ServiceProvider');
-        }
     }
 
     protected function checkFileExists()
