@@ -63,7 +63,7 @@ class Closet
 
         // load items from json string
         $this->textures = json_decode($this->db->where('uid', $uid)->get()[0]->textures, true);
-        $this->textures = is_null($this->textures) ? [] : $this->textures;
+        $this->textures = is_array($this->textures) ? $this->textures : [];
 
         $textures_invalid = [];
 
