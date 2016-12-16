@@ -67,9 +67,10 @@ class AdminController extends Controller
                 $_POST['site_url'] = substr($_POST['site_url'], 0, -1);
         });
 
-        $cache = Option::form('cache', '缓存相关配置', function($form)
+        $cache = Option::form('cache', '资源文件配置', function($form)
         {
-            $form->checkbox('auto_detect_asset_url', '资源地址', '自动判断资源文件地址')->hint('根据当前 URL 自动加载资源文件。如果出现 CDN 回源问题请关闭');
+            $form->checkbox('force_ssl', '强制 SSL', '强制使用 HTTPS 协议加载资源')->hint('请确认 SSL 可用后再开启');
+            $form->checkbox('auto_detect_asset_url', '资源地址', '自动判断资源文件地址')->hint('根据当前 URL 自动加载资源文件，如果关闭则将根据「站点地址」填写的内容加载。如果出现 CDN 回源问题请关闭');
             $form->checkbox('return_200_when_notfound', 'HTTP 响应码', '请求不存在的角色时返回 200 而不是 404');
 
             $form->text('cache_expire_time', '缓存失效时间')->hint('秒数，86400 = 一天，31536000 = 一年');

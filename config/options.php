@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-07-29 11:53:11
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-12-11 22:42:05
+ * @Last Modified time: 2016-12-16 22:14:18
  */
 
 return [
@@ -35,6 +35,7 @@ return [
     'return_200_when_notfound'  => '0',
     'cache_expire_time'         => '31536000',
     'max_upload_file_size'      => '1024',
+    'force_ssl'                 => '0',
     'auto_detect_asset_url'     => '1',
     'plugins_enabled'           => ''
 ];

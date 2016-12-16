@@ -19,13 +19,16 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         // replace HTTP_HOST with site url setted in options to prevent CDN source problems
-        preg_match('/https?:\/\/([^\/]+)\/?.*/', option('site_url'), $host);
-
         if (!option('auto_detect_asset_url')) {
-            // check if host is valid
-            if (isset($host[1]) && '' === preg_replace('/(?:^\[)?[a-zA-Z0-9-:\]_]+\.?/', '', $host[1])) {
-                $this->app['request']->headers->set('host', $host[1]);
-            };
+            $rootUrl = option('site_url');
+
+            if ($this->app['url']->isValidUrl($rootUrl)) {
+                $this->app['url']->forceRootUrl($rootUrl);
+            }
+        }
+
+        if (option('force_ssl')) {
+            $this->app['url']->forceSchema('https');
         }
 
         Event::listen(Events\RenderingHeader::class, function($event) {
