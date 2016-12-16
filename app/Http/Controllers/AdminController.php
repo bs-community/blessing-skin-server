@@ -161,8 +161,6 @@ class AdminController extends Controller
             'enabled'   => $plugins->getEnabledPlugins()
         ];
 
-        // dd($data);
-
         return view('admin.plugins', $data);
     }
 

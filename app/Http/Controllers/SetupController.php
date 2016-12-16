@@ -106,7 +106,7 @@ class SetupController extends Controller
             $request->input('password'),
             function ($user)
         {
-            $user->ip           = get_real_ip();
+            $user->ip           = $request->ip();
             $user->score        = option('user_initial_score');
             $user->register_at  = Utils::getTimeFormatted();
             $user->last_sign_at = Utils::getTimeFormatted(time() - 86400);

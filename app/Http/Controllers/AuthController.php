@@ -115,11 +115,9 @@ class AuthController extends Controller
             return json(trans('auth.register.close'), 7);
         }
 
-        $ip = get_real_ip();
-
         // If amount of registered accounts of IP is more than allowed amounts,
         // then reject the register.
-        if (User::where('ip', $ip)->count() < option('regs_per_ip'))
+        if (User::where('ip', $request->ip())->count() < option('regs_per_ip'))
         {
             // Register a new user.
             // If the email is already registered,
@@ -127,9 +125,9 @@ class AuthController extends Controller
             $user = User::register(
                 $request->input('email'),
                 $request->input('password'),
-            function($user) use ($ip, $request)
+            function($user) use ($request)
             {
-                $user->ip           = $ip;
+                $user->ip           = $request->ip();
                 $user->score        = option('user_initial_score');
                 $user->register_at  = Utils::getTimeFormatted();
                 $user->last_sign_at = Utils::getTimeFormatted(time() - 86400);
