@@ -5,9 +5,11 @@ namespace App\Providers;
 use View;
 use Utils;
 use Schema;
+use App\Services\Database;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use App\Exceptions\PrettyPageException;
+use App\Services\Repositories\OptionRepository;
 
 class BootServiceProvider extends ServiceProvider
 {
@@ -21,8 +23,9 @@ class BootServiceProvider extends ServiceProvider
         View::addExtension('tpl', 'blade');
 
         $this->checkFileExists();
-        $this->checkDbConfig();
+        $this->checkDbConnection();
 
+        // skip the installation check when setup or under CLI
         if (!$request->is('setup') && !$request->is('setup/*') && PHP_SAPI != "cli") {
             $this->checkInstallation();
         }
@@ -35,7 +38,7 @@ class BootServiceProvider extends ServiceProvider
         }
     }
 
-    protected function checkDbConfig()
+    protected function checkDbConnection()
     {
         $config = config('database.connections.mysql');
 
@@ -94,7 +97,7 @@ class BootServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('database', \App\Services\Database\Database::class);
-        $this->app->singleton('options', \App\Services\Repositories\OptionRepository::class);
+        $this->app->singleton('options',  OptionRepository::class);
+        $this->app->singleton('database', Database::class);
     }
 }
