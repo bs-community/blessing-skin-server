@@ -305,11 +305,6 @@ if (! function_exists('runtime_check')) {
 
     function runtime_check(array $requirements)
     {
-        // check php version
-        if (version_compare(PHP_VERSION, $requirements['php'], '<')) {
-            exit("[Error] Blessing Skin Server needs PHP version >= {$requirements['php']}, you are now using ".PHP_VERSION);
-        }
-
         foreach ($requirements['extensions'] as $extension) {
             if (!extension_loaded($extension)) {
                 exit("[Error] You have not installed the $extension extension");

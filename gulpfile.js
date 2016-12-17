@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-12-10 20:22:13
+* @Last Modified time: 2016-12-17 20:36:36
 */
 
 var gulp     = require('gulp'),
@@ -100,6 +100,7 @@ gulp.task('zip', function() {
     del([
         'storage/logs/*',
         'storage/debugbar/*',
+        'storage/update_cache/*',
         'storage/yaml-translation/*',
         'storage/framework/cache/*',
         'storage/framework/sessions/*',
