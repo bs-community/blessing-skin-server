@@ -7,18 +7,13 @@
  * @author   printempw <h@prinzeugen.net>
  */
 
-// runtime check
-if (version_compare(PHP_VERSION, '5.5.9', '<')) {
-    exit('[Error] Blessing Skin Server needs PHP version >= 5.5.9, you are now using '.PHP_VERSION);
-}
+require __DIR__.'/bootstrap/autoload.php';
 
-if (!class_exists('PDO')) {
-    exit('[Error] You have not installed the PDO extension');
-}
-
-if (!function_exists('openssl_encrypt')) {
-    exit('[Error] You have not installed the OpenSSL extension');
-}
+// check the runtime environment
+runtime_check([
+    'php' => '5.5.9',
+    'extensions' => ['pdo_mysql', 'openssl', 'gd']
+]);
 
 // handle the request
 require __DIR__.'/bootstrap/handler.php';

@@ -11,8 +11,6 @@
 |
 */
 
-require __DIR__.'/autoload.php';
-
 $app = require_once __DIR__.'/app.php';
 
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
