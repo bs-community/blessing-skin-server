@@ -50,7 +50,7 @@ class PlayerController extends Controller
     public function add(Request $request)
     {
         $this->validate($request, [
-            'player_name' => 'required|'.(Option::get('allow_chinese_playername') == "1") ? 'pname_chinese' : 'player_name'
+            'player_name' => 'required|'.(option('allow_chinese_playername') ? 'pname_chinese' : 'playername')
         ]);
 
         Event::fire(new CheckPlayerExists($request->input('player_name')));
