@@ -10,7 +10,6 @@ use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
 use Illuminate\Http\Request;
-use App\Services\PluginManager;
 use App\Exceptions\PrettyPageException;
 use App\Services\Repositories\UserRepository;
 
@@ -78,90 +77,6 @@ class AdminController extends Controller
         })->hint('如果启用了 CDN 缓存请适当修改这些配置')->handle();
 
         return view('admin.options')->with('forms', compact('general', 'cache'));
-    }
-
-    /**
-     * Handle Upload Checking & Downloading
-     *
-     * @param  Request $request
-     * @return void
-     */
-    public function update(Request $request)
-    {
-        if ($request->action == "check") {
-            $updater = new \Updater(\App::version());
-
-            if ($updater->newVersionAvailable()) {
-                return json([
-                    'new_version_available' => true,
-                    'latest_version' => $updater->latest_version
-                ]);
-            } else {
-                return json([
-                    'new_version_available' => false,
-                    'latest_version' => $updater->current_version
-                ]);
-            }
-        } elseif ($request->action == "download") {
-            return view('admin.download');
-        } else {
-            return view('admin.update');
-        }
-    }
-
-    public function plugins(Request $request, PluginManager $plugins)
-    {
-        if ($request->has('action') && $request->has('id')) {
-            $id = $request->get('id');
-
-            if ($plugins->getPlugins()->has($id)) {
-                $plugin = $plugins->getPlugin($id);
-                switch ($request->get('action')) {
-                    case 'enable':
-                        $plugins->enable($id);
-
-                        return redirect('admin/plugins/manage');
-                        break;
-
-                    case 'disable':
-                        $plugins->disable($id);
-
-                        return redirect('admin/plugins/manage');
-                        break;
-
-                    case 'delete':
-                        if ($request->isMethod('post')) {
-                            event(new Events\PluginWasDeleted($plugin));
-
-                            $plugins->uninstall($id);
-
-                            return json('插件已被成功删除', 0);
-                        }
-                        break;
-
-                    case 'config':
-                        if ($plugin->isEnabled() && $plugin->hasConfigView()) {
-                            return View::file($plugin->getViewPath('config'));
-                        } else {
-                            abort(404);
-                        }
-
-                        break;
-
-                    default:
-                        # code...
-                        break;
-                }
-            }
-
-        }
-
-        $data = [
-            'installed' => $plugins->getPlugins(),
-            'enabled'   => $plugins->getEnabledPlugins()
-        ];
-
-        return view('admin.plugins', $data);
     }
 
     /**

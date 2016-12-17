@@ -98,21 +98,24 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function ()
 {
     Route::get('/',           'AdminController@index');
 
-    Route::any('/plugins/manage',    'AdminController@plugins');
-
     Route::any('/customize',  'AdminController@customize');
     Route::any('/score',      'AdminController@score');
     Route::any('/options',    'AdminController@options');
-
-    Route::any('/update',     'UpdateController@showUpdatePage');
-
-    Route::any('/update/download',     'UpdateController@download');
-
-    Route::get('/update/check',     'UpdateController@checkUpdates');
 
     Route::get('/users',      'AdminController@users');
     Route::get('/players',    'AdminController@players');
     // ajax handlers
     Route::post('/users',     'AdminController@userAjaxHandler');
     Route::post('/players',   'AdminController@playerAjaxHandler');
+
+    Route::group(['prefix' => 'plugins'], function () {
+        Route::get('/manage', 'PluginController@manage');
+        Route::any('/market', 'PluginController@showMarket');
+    });
+
+    Route::group(['prefix' => 'update'], function () {
+        Route::any('/update',          'UpdateController@showUpdatePage');
+        Route::get('/update/check',    'UpdateController@checkUpdates');
+        Route::any('/update/download', 'UpdateController@download');
+    });
 });
