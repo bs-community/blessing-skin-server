@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-class CheckAdminMiddleware
+class CheckAdministrator
 {
     public function handle($request, \Closure $next)
     {

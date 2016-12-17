@@ -25,13 +25,12 @@ class Kernel extends HttpKernel
     protected $middlewareGroups = [
         'web' => [
             \App\Http\Middleware\EncryptCookies::class,
-            \App\Http\Middleware\RemoveSlashMiddleware::class,
+            \App\Http\Middleware\RedirectIfUrlEndsWithSlash::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\Internationalization::class,
             \App\Http\Middleware\SaveOptionRepository::class,
-            //\App\Http\Middleware\VerifyCsrfToken::class,
         ],
 
         'static' => [
@@ -49,7 +48,7 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'auth'   => \App\Http\Middleware\CheckAuthenticated::class,
         'guest'  => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'admin'  => \App\Http\Middleware\CheckAdminMiddleware::class,
-        'player' => \App\Http\Middleware\CheckPlayerExistMiddleware::class
+        'admin'  => \App\Http\Middleware\CheckAdministrator::class,
+        'player' => \App\Http\Middleware\CheckPlayerExist::class
     ];
 }

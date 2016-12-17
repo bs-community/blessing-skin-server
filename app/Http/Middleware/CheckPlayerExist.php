@@ -6,7 +6,7 @@ use Event;
 use App\Models\Player;
 use App\Events\CheckPlayerExists;
 
-class CheckPlayerExistMiddleware
+class CheckPlayerExist
 {
     public function handle($request, \Closure $next)
     {
@@ -27,7 +27,7 @@ class CheckPlayerExistMiddleware
         if (!Player::where('player_name', $player_name)->get()->isEmpty())
             return $next($request);
 
-        if (option('return_200_when_notfound') == "1") {
+        if (option('return_200_when_notfound')) {
             return json([
                 'player_name' => $player_name,
                 'errno'       => 404,
