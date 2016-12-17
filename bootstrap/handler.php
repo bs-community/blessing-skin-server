@@ -2,6 +2,19 @@
 
 /*
 |--------------------------------------------------------------------------
+| Handle The Request
+|--------------------------------------------------------------------------
+|
+| Blessing Skin Server separated these codes here to ensure that
+| runtime check will be executed correctly, since namespaced class names
+| will be regarded as parse error under PHP 5.3.
+|
+*/
+
+require __DIR__.'/autoload.php';
+
+/*
+|--------------------------------------------------------------------------
 | Create The Application
 |--------------------------------------------------------------------------
 |
@@ -41,15 +54,12 @@ $app->singleton(
     App\Exceptions\Handler::class
 );
 
-/*
-|--------------------------------------------------------------------------
-| Return The Application
-|--------------------------------------------------------------------------
-|
-| This script returns the application instance. The instance is given to
-| the calling script so we can separate the building of the instances
-| from the actual running of the application and sending responses.
-|
-*/
+$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
-return $app;
+$response = $kernel->handle(
+    $request = Illuminate\Http\Request::capture()
+);
+
+$response->send();
+
+$kernel->terminate($request, $response);

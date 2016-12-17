@@ -28,7 +28,8 @@ Blessing Skin Server has a few system requirements.
 1. Web server which supports URL rewriting
 2. **PHP version >= 5.5.9**
 3. GD PHP Extension
-4. Writeable directory
+4. OpenSSL PHP Extension
+5. Writeable directory
 
 Quick Start Install
 -----------
