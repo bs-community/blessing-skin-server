@@ -151,7 +151,16 @@ if (! function_exists('bs_menu')) {
         $content = "";
 
         foreach ($data as $key => $value) {
-            $content .= (app('request')->is(@$value['link'])) ? '<li class="active">' : '<li>';
+            $active = app('request')->is(@$value['link']);
+
+            // also set parent as active if any child is active
+            foreach ((array) @$value['children'] as $childKey => $childValue) {
+                if (app('request')->is(@$childValue['link'])) {
+                    $active = true;
+                }
+            }
+
+            $content .= $active ? '<li class="active">' : '<li>';
 
             if (isset($value['children'])) {
                 $content .= '<a href="#"><i class="fa '.$value['icon'].'"></i> <span>'.trans($value['title']).'</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>';

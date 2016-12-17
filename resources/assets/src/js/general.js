@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-09-15 10:39:41
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-12-10 21:57:23
+* @Last Modified time: 2016-12-17 18:47:02
 */
 
 'use strict';
@@ -44,3 +44,7 @@ function do_logout(callback) {
         error: showAjaxError
     });
 }
+
+$(document).ready(function() {
+    $('li.active > ul').show();
+});
