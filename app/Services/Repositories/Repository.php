@@ -19,7 +19,7 @@ class Repository implements ArrayAccess // Illuminate\Contracts\Cache\Repository
      *
      * @var array
      */
-    protected $items_modified = [];
+    protected $itemsModified = [];
 
     /**
      * Determine if an item exists in the repository.
@@ -57,11 +57,11 @@ class Repository implements ArrayAccess // Illuminate\Contracts\Cache\Repository
             // If given key is an array
             foreach ($key as $innerKey => $innerValue) {
                 Arr::set($this->items, $innerKey, $innerValue);
-                $this->items_modified[] = $innerKey;
+                $this->itemsModified[] = $innerKey;
             }
         } else {
             Arr::set($this->items, $key, $value);
-            $this->items_modified[] = $key;
+            $this->itemsModified[] = $key;
         }
     }
 

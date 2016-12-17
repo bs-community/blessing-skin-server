@@ -223,6 +223,9 @@ class PluginManager
         $enabled = array_values(array_unique($enabled));
 
         $this->option->set('plugins_enabled', json_encode($enabled));
+
+        // ensure to save options
+        $this->option->save();
     }
 
     /**

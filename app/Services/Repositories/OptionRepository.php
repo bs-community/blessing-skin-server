@@ -71,10 +71,10 @@ class OptionRepository extends Repository
      */
     public function save()
     {
-        $this->items_modified = array_unique($this->items_modified);
+        $this->itemsModified = array_unique($this->itemsModified);
 
         try {
-            foreach ($this->items_modified as $key) {
+            foreach ($this->itemsModified as $key) {
                 if (!DB::table('options')->where('option_name', $key)->first()) {
                     DB::table('options')
                         ->insert(['option_name' => $key, 'option_value' => $this[$key]]);
@@ -84,6 +84,9 @@ class OptionRepository extends Repository
                             ->update(['option_value' => $this[$key]]);
                 }
             }
+
+            // clear the list
+            $this->itemsModified = [];
         } catch (QueryException $e) {
             return;
         }
