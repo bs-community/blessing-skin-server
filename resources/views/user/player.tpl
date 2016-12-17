@@ -34,8 +34,8 @@
                             <tbody>
                                 @foreach ($players as $player)
                                 <tr class="player" id="{{ $player['pid'] }}">
-                                    <td>{{ $player['pid'] }}</td>
-                                    <td>{{ $player['player_name'] }}</td>
+                                    <td class="pid">{{ $player['pid'] }}</td>
+                                    <td class="player-name">{{ $player['player_name'] }}</td>
                                     <td>
                                         <select class="form-control" id="preference" pid="{{ $player['pid'] }}">
                                             <option {{ ($player['preference'] == "default") ? 'selected="selected"' : '' }} value="default">Default</option>
