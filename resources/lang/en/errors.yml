@@ -6,6 +6,9 @@ http:
 general:
   title: Error occurred
 
+brief:
+  message: Whoops, looks like something went wrong.
+
 exception:
   title: Some errors occurred
   code: 'Error code: :code'

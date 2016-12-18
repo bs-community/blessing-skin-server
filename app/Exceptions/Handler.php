@@ -82,7 +82,7 @@ class Handler extends ExceptionHandler
             return $this->renderExceptionWithWhoops($e);
         }
 
-        return parent::render($request, $e);
+        return response()->view('errors.brief', ['code' => 0, 'message' => 'cmn']);
     }
 
     /**

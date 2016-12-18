@@ -6,6 +6,9 @@ http:
 general:
   title: 出现错误
 
+brief:
+  message: 哎呀，你似乎触发了一个错误
+
 exception:
   title: 出现了一些错误
   code: 错误码：:code
