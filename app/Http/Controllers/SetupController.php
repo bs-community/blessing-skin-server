@@ -18,7 +18,7 @@ class SetupController extends Controller
     public function welcome()
     {
         // already installed
-        if ($this->checkTablesExist()) {
+        if (self::checkTablesExist()) {
             return view('setup.locked');
         } else {
             $config = config('database.connections.mysql');
@@ -40,7 +40,7 @@ class SetupController extends Controller
     public function doUpdate()
     {
         $resource = opendir(database_path('update_scripts'));
-        $update_script_exist = false;
+        $updateScriptExist = false;
 
         $tips = [];
 
@@ -63,7 +63,7 @@ class SetupController extends Controller
                     }
                 }
 
-                $update_script_exist = true;
+                $updateScriptExist = true;
             }
         }
         closedir($resource);
@@ -73,7 +73,7 @@ class SetupController extends Controller
                 Option::set($key, $value);
         }
 
-        if (!$update_script_exist) {
+        if (!$updateScriptExist) {
             // if update script is not given
             Option::set('version', config('app.version'));
         }
@@ -104,7 +104,7 @@ class SetupController extends Controller
         $user = User::register(
             $request->input('email'),
             $request->input('password'),
-            function ($user)
+            function ($user) use ($request)
         {
             $user->ip           = $request->ip();
             $user->score        = option('user_initial_score');
@@ -121,15 +121,16 @@ class SetupController extends Controller
         ]);
     }
 
-    protected function createDirectories()
+    /**
+     * Check if the given tables exist in current database.
+     *
+     * @param  array $tables [description]
+     * @return bool
+     */
+    public static function checkTablesExist($tables = [
+        'users', 'closets', 'players', 'textures', 'options'
+    ])
     {
-        Utils::checkTextureDirectory();
-    }
-
-    protected function checkTablesExist()
-    {
-        $tables = ['users', 'closets', 'players', 'textures', 'options'];
-
         foreach ($tables as $table_name) {
             // prefix will be added automatically
             if (!Schema::hasTable($table_name)) {
@@ -138,6 +139,22 @@ class SetupController extends Controller
         }
 
         return true;
+    }
+
+    public static function checkTextureDirectory()
+    {
+        if (!Storage::disk('storage')->has('textures')) {
+            // mkdir
+            if (!Storage::disk('storage')->makeDirectory('textures'))
+                return false;
+        }
+
+        return true;
+    }
+
+    protected function createDirectories()
+    {
+        return self::checkTextureDirectory();
     }
 
     /**

@@ -114,8 +114,8 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function ()
     });
 
     Route::group(['prefix' => 'update'], function () {
-        Route::any('/update',          'UpdateController@showUpdatePage');
-        Route::get('/update/check',    'UpdateController@checkUpdates');
-        Route::any('/update/download', 'UpdateController@download');
+        Route::any('',          'UpdateController@showUpdatePage');
+        Route::get('/check',    'UpdateController@checkUpdates');
+        Route::any('/download', 'UpdateController@download');
     });
 });

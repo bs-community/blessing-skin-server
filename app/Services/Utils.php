@@ -140,13 +140,4 @@ class Utils
         return $str;
     }
 
-    public static function checkTextureDirectory()
-    {
-        if (!Storage::disk('storage')->has('textures')) {
-            // mkdir
-            if (!Storage::disk('storage')->makeDirectory('textures'))
-                throw new PrettyPageException(trans('setup.file.permission-error'), -1);
-        }
-    }
-
 }
