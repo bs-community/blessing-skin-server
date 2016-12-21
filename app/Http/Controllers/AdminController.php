@@ -27,7 +27,30 @@ class AdminController extends Controller
 
     public function score()
     {
-        return view('admin.score');
+        $rate = Option::form('rate', '积分换算', function($form)
+        {
+            $form->group('score_per_storage', '存储', function($group) {
+                $group->text('score_per_storage');
+                $group->addon('积分 = 1 KB');
+            });
+
+            $form->group('private_score_per_storage', '私密材质存储', function($group) {
+                $group->text('private_score_per_storage');
+                $group->addon('积分 = 1 KB');
+            })->hint('上传私密材质将消耗更多积分');
+
+            $form->checkbox('return_score', '积分返还', '用户删除角色/材质时返还积分');
+
+            $form->group('score_per_player', '角色', function($group) {
+                $group->text('score_per_player');
+                $group->addon('积分 = 一个角色');
+            });
+
+            $form->text('user_initial_score', '新用户默认积分');
+
+        })->handle();
+
+        return view('admin.score', compact('rate'));
     }
 
     public function options()

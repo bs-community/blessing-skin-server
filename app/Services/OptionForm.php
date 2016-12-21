@@ -114,7 +114,7 @@ class OptionForm
                 if (Str::is('*[*]', $item->id))
                     continue;
 
-                if ($_POST[$item->id] != option($item->id)) {
+                if ($_POST[$item->id] != option($item->id, null, false)) {
                     Option::set($item->id, $_POST[$item->id]);
                 }
             }

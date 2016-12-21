@@ -194,7 +194,9 @@ class SkinlibController extends Controller
         if (Texture::where('hash', $result['hash'])->count() == 1)
             Storage::delete($result['hash']);
 
-        $this->user->setScore($result->size * Option::get('score_per_storage'), 'plus');
+        if (option('return_score')) {
+            $this->user->setScore($result->size * Option::get('score_per_storage'), 'plus');
+        }
 
         if ($result->delete())
             return json(trans('skinlib.delete.success'), 0);

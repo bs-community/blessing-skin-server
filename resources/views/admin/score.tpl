@@ -18,71 +18,7 @@
     <section class="content">
         <div class="row">
             <div class="col-md-6">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">积分换算</h3>
-                    </div><!-- /.box-header -->
-                    <form method="post">
-                        <input type="hidden" name="option" value="rate">
-                        <div class="box-body">
-                            <?php
-                            if (isset($_POST['option']) && ($_POST['option'] == "rate")) {
-                                foreach ($_POST as $key => $value) {
-                                    if ($key != "option" && $key != "submit")
-                                        Option::set($key, $value);
-                                }
-                                echo '<div class="callout callout-success">设置已保存。</div>';
-                            } ?>
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <td class="key">存储</td>
-                                        <td class="value">
-                                           <div class="input-group">
-                                               <input type="text" class="form-control" name="score_per_storage" value="{{ option('score_per_storage') }}">
-                                               <span class="input-group-addon">积分 = 1 KB</span>
-                                           </div>
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="key">私密材质存储
-                                            <i class="fa fa-question-circle" title="上传私密材质将消耗更多积分" data-toggle="tooltip" data-placement="top"></i>
-                                        </td>
-                                        <td class="value">
-                                           <div class="input-group">
-                                               <input type="text" class="form-control" name="private_score_per_storage" value="{{ option('private_score_per_storage') }}">
-                                               <span class="input-group-addon">积分 = 1 KB</span>
-                                           </div>
-
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="key">角色</td>
-                                        <td class="value">
-                                            <div class="input-group">
-                                                <input type="text" class="form-control" name="score_per_player" value="{{ option('score_per_player') }}">
-                                                <span class="input-group-addon">积分 = 一个角色</span>
-                                            </div>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td class="key">新用户默认积分</td>
-                                        <td class="value">
-                                            <input type="text" class="form-control" name="user_initial_score" value="{{ option('user_initial_score') }}">
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div><!-- /.box-body -->
-                        <div class="box-footer">
-                            <button type="submit" name="submit" class="btn btn-primary">提交</button>
-                        </div>
-                    </form>
-                </div>
+                {!! $rate->render() !!}
             </div>
 
             <div class="col-md-6">

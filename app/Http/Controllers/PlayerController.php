@@ -87,7 +87,9 @@ class PlayerController extends Controller
         Event::fire(new PlayerWillBeDeleted($this->player));
 
         if ($this->player->delete()) {
-            $this->user->setScore(Option::get('score_per_player'), 'plus');
+
+            if (option('return_score'))
+                $this->user->setScore(Option::get('score_per_player'), 'plus');
 
             Event::fire(new PlayerWasDeleted($player_name));
 

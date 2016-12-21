@@ -195,7 +195,7 @@ if (! function_exists('bs_nickname')) {
 
 if (! function_exists('option')) {
 
-    function option($key = null, $default = null)
+    function option($key = null, $default = null, $bool = true)
     {
         $options = app('options');
 
@@ -210,7 +210,7 @@ if (! function_exists('option')) {
             return $options->save();
         }
 
-        return $options->get($key);
+        return $options->get($key, $default, $bool);
     }
 }
 
