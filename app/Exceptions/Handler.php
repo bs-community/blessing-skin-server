@@ -72,17 +72,18 @@ class Handler extends ExceptionHandler
             return $e->getResponse()->setStatusCode(200);
         }
 
-        // render exceptions with whoops
-        if (config('app.debug')) {
-            foreach ($this->dontReport as $type) {
-                if ($e instanceof $type) {
-                    return parent::render($request, $e);
+        foreach ($this->dontReport as $type) {
+            if ($e instanceof $type) {
+                return parent::render($request, $e);
+            } else {
+                // hide exception details if not in debug mode
+                if (config('app.debug')) {
+                    return $this->renderExceptionWithWhoops($e);
+                } else {
+                    return $this->renderExceptionInBrief($e);
                 }
             }
-            return $this->renderExceptionWithWhoops($e);
         }
-
-        return response()->view('errors.brief', ['code' => 0, 'message' => 'cmn']);
     }
 
     /**
@@ -103,5 +104,16 @@ class Handler extends ExceptionHandler
             $e->getStatusCode(),
             $e->getHeaders()
         );
+    }
+
+    /**
+     * Render an exception in a short word.
+     *
+     * @param  \Exception $e
+     * @return \Illuminate\Http\Response
+     */
+    protected function renderExceptionInBrief(Exception $e)
+    {
+        return response()->view('errors.brief');
     }
 }
