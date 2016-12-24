@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use ArrayAccess;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Contracts\Support\Arrayable;
@@ -12,7 +13,7 @@ use Illuminate\Contracts\Support\Arrayable;
  * @property string $title
  * @property array  $author
  */
-class Plugin implements Arrayable
+class Plugin implements Arrayable, ArrayAccess
 {
     /**
      * The directory of this plugin.
@@ -180,6 +181,51 @@ class Plugin implements Arrayable
     public function getPath()
     {
         return $this->path;
+    }
+
+    /**
+     * Determine if the given option option exists.
+     *
+     * @param  string  $key
+     * @return bool
+     */
+    public function offsetExists($key)
+    {
+        return Arr::has($this->packageInfo, $key);
+    }
+
+    /**
+     * Get a option option.
+     *
+     * @param  string  $key
+     * @return mixed
+     */
+    public function offsetGet($key)
+    {
+        return $this->packageInfoAttribute($key);
+    }
+
+    /**
+     * Set a option option.
+     *
+     * @param  string  $key
+     * @param  mixed  $value
+     * @return void
+     */
+    public function offsetSet($key, $value)
+    {
+        return Arr::set($this->packageInfo, $key, $value);
+    }
+
+    /**
+     * Unset a option option.
+     *
+     * @param  string  $key
+     * @return void
+     */
+    public function offsetUnset($key)
+    {
+        unset($this->packageInfo[$key]);
     }
 
     /**
