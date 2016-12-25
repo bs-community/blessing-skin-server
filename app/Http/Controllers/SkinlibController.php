@@ -10,6 +10,7 @@ use Session;
 use App\Models\User;
 use App\Models\Texture;
 use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 use App\Exceptions\PrettyPageException;
 use App\Services\Repositories\UserRepository;
 
@@ -138,7 +139,9 @@ class SkinlibController extends Controller
 
     public function handleUpload(Request $request)
     {
-        $this->checkUpload($request);
+        if (($response = $this->checkUpload($request)) instanceof JsonResponse) {
+            return $response;
+        }
 
         $t            = new Texture();
         $t->name      = $request->input('name');
@@ -250,6 +253,12 @@ class SkinlibController extends Controller
      */
     private function checkUpload(Request $request)
     {
+        if ($file = $request->files->get('file')) {
+            if ($file->getError() !== UPLOAD_ERR_OK) {
+                return json(Utils::convertUploadFileError($file->getError()), $file->getError());
+            }
+        }
+
         $this->validate($request, [
             'name'   => 'required|no_special_chars',
             'file'   => 'required|max:'.option('max_upload_file_size'),
