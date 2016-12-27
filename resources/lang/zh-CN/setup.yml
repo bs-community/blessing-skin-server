@@ -4,3 +4,6 @@ database:
 file:
   permission-error: textures 文件夹创建失败，请确认目录权限是否正确，或者手动放置一个。
   no-dot-env: 找不到 .env 配置文件
+
+permissions:
+  storage: 无法写入 storage 目录，请检查目录权限是否正确

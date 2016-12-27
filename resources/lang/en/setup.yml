@@ -1,0 +1,9 @@
+database:
+  connection-error: Unable to connect to MySQL server, please check your configuration. :msg
+
+file:
+  permission-error: Unable to create textures folder, please check the directory permissions or place one manually.
+  no-dot-env: Unable to find the .env configuration file.
+
+permissions:
+  storage: Unable to write to storage directory, please check the permissions.

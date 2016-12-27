@@ -28,6 +28,11 @@ class BootServiceProvider extends ServiceProvider
             throw new PrettyPageException(trans('setup.file.no-dot-env'), -1);
         }
 
+        // check permissions of storage path
+        if (!is_writable(storage_path())) {
+            throw new PrettyPageException(trans('setup.permissions.storage'), -1);
+        }
+
         try {
             // check database config
             Database::prepareConnection();
