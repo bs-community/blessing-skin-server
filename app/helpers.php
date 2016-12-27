@@ -179,7 +179,24 @@ if (! function_exists('bs_menu')) {
 
 if (! function_exists('bs_copyright')) {
 
-    function bs_copyright()
+    function bs_copyright($prefer = null)
+    {
+        $prefer = is_null($prefer) ? Option::get('copyright_prefer', 0, false) : $prefer;
+
+        $base64CopyrightText = [
+            'UG93ZXJlZCB3aXRoIOKdpCBieSA8YSBocmVmPSJodHRwczovL2dpdGh1Yi5jb20vcHJpbnRlbXB3L2JsZXNzaW5nLXNraW4tc2VydmVyIj5CbGVzc2luZyBTa2luIFNlcnZlcjwvYT4u',
+            'UG93ZXJlZCBieSA8YSBocmVmPSJodHRwczovL2dpdGh1Yi5jb20vcHJpbnRlbXB3L2JsZXNzaW5nLXNraW4tc2VydmVyIj5CbGVzc2luZyBTa2luIFNlcnZlcjwvYT4u',
+            '55SxIDxhIGhyZWY9Imh0dHBzOi8vZ2l0aHViLmNvbS9wcmludGVtcHcvYmxlc3Npbmctc2tpbi1zZXJ2ZXIiPkJsZXNzaW5nIFNraW4gU2VydmVyPC9hPiDlvLrlipvpqbHliqgu',
+            '6Ieq6LGq5Zyw6YeH55SoIDxhIGhyZWY9Imh0dHBzOi8vZ2l0aHViLmNvbS9wcmludGVtcHcvYmxlc3Npbmctc2tpbi1zZXJ2ZXIiPkJsZXNzaW5nIFNraW4gU2VydmVyPC9hPi4='
+        ];
+
+        return base64_decode(Arr::get($base64CopyrightText, $prefer, $base64CopyrightText[0]));
+    }
+}
+
+if (! function_exists('bs_custom_copyright')) {
+
+    function bs_custom_copyright()
     {
         return Utils::getStringReplaced(Option::get('copyright_text'), ['{site_name}' => Option::get('site_name'), '{site_url}' => Option::get('site_url')]);
     }

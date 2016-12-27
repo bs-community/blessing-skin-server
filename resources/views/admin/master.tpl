@@ -104,10 +104,10 @@
         <footer class="main-footer">
             <!-- YOU CAN NOT MODIFIY THE COPYRIGHT TEXT W/O PERMISSION -->
             <div class="pull-right hidden-xs">
-                Powered with ❤ by <a href="https://github.com/printempw/blessing-skin-server">Blessing Skin Server</a>.
+                {!! bs_copyright() !!}
             </div>
             <!-- Default to the left -->
-            {!! bs_copyright() !!}
+            {!! bs_custom_copyright() !!}
         </footer>
 
     </div><!-- ./wrapper -->

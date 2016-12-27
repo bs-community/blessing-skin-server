@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-07-29 11:53:11
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-12-21 22:49:31
+ * @Last Modified time: 2016-12-27 22:56:31
  */
 
 return [
@@ -38,5 +38,6 @@ return [
     'max_upload_file_size'      => '1024',
     'force_ssl'                 => '0',
     'auto_detect_asset_url'     => '1',
-    'plugins_enabled'           => ''
+    'plugins_enabled'           => '',
+    'copyright_prefer'          => '0'
 ];

@@ -22,7 +22,25 @@ class AdminController extends Controller
 
     public function customize()
     {
-        return view('admin.customize');
+        $homepage = Option::form('homepage', '首页配置', function($form)
+        {
+            $form->text('home_pic_url', '首页图片地址')->hint('相对于首页的路径或者完整的 URL');
+
+            $form->select('copyright_prefer', '程序版权信息', function($options) {
+                $options->add('0', 'Powered with ❤ by Blessing Skin Server.');
+                $options->add('1', 'Powered by Blessing Skin Server.');
+                $options->add('2', '由 Blessing Skin Server 强力驱动.');
+                $options->add('3', '自豪地采用 Blessing Skin Server.');
+            })->setSelected(Option::get('copyright_prefer', 0, false));
+
+            $form->textarea('copyright_text', '自定义版权文字', function($textarea) {
+                $textarea->setRows(6);
+                $textarea->setDescription('自定义版权文字内可使用占位符，<code>{site_name}</code> 将会被自动替换为站点名称，<code>{site_url}</code> 会被替换为站点地址。');
+            });
+
+        })->handle();
+
+        return view('admin.customize', compact('homepage'));
     }
 
     public function score()

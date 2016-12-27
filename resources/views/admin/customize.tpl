@@ -90,49 +90,7 @@
             </div>
 
             <div class="col-md-9">
-                <div class="box box-warning">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">首页配置</h3>
-                    </div><!-- /.box-header -->
-                    <form method="post">
-                        <input type="hidden" name="option" value="homepage">
-                        <div class="box-body">
-                            <?php
-                            if (isset($_POST['option']) && $_POST['option'] == "homepage") {
-                                Option::set('home_pic_url', $_POST['home_pic_url']);
-                                Option::set('copyright_text', $_POST['copyright_text']);
-
-                                echo '<div class="callout callout-success">设置已保存。</div>';
-                            } ?>
-                            <table class="table">
-                                <tbody>
-                                    <tr>
-                                        <td class="key">首页图片地址</td>
-                                        <td class="value">
-                                           <input type="text" title="相对于首页的路径或者完整的 URL" data-toggle="tooltip" data-placement="top" class="form-control" name="home_pic_url" value="{{ option('home_pic_url') }}">
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="key">版权信息</td>
-                                        <td class="value">
-                                            对于任何恶意修改页面<b>右下角</b>的版权信息（包括不限于删除、修改作者信息、修改链接指向）的用户，作者保留对其追究责任的权力。
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="key">版权文字</td>
-                                        <td class="value">
-                                            <textarea class="form-control" rows="4" name="copyright_text">{{ option('copyright_text') }}</textarea>
-                                            <p class="description">自定义版权文字内可使用占位符，<code>{site_name}</code> 将会被自动替换为站点名称，<code>{site_url}</code> 会被替换为站点地址。</p>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div><!-- /.box-body -->
-                        <div class="box-footer">
-                            <button type="submit" name="submit" class="btn btn-primary">提交</button>
-                        </div>
-                    </form>
-                </div>
+                {!! $homepage->render() !!}
 
                 <div class="box box-default">
                     <div class="box-header with-border">
