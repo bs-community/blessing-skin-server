@@ -77,6 +77,10 @@ class ClosetController extends Controller
             'name' => 'required|no_special_chars'
         ]);
 
+        if (app('user.current')->getScore() < option('score_per_closet_item', null, false)) {
+            return json(trans('user.closet.add.lack-score'), 7);
+        }
+
         if ($this->closet->add($request->tid, $request->name)) {
             $t = Texture::find($request->tid);
             $t->likes += 1;

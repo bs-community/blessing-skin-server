@@ -50,6 +50,7 @@ closet:
   add:
     success: 材质 :name 收藏成功~
     repeated: 你已经收藏过这个材质啦
+    lack-score: 积分不够添加收藏啦
 
   rename:
     title: 重命名物品

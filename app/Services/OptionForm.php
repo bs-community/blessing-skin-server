@@ -343,8 +343,8 @@ class OptionFormGroup
         $rendered = [];
 
         foreach ($this->items as $item) {
-            if ($item['id'] && !$item['value']) {
-                $item['value'] = option($item['id']);
+            if ($item['id'] && is_null($item['value'])) {
+                $item['value'] = option($item['id'], null, false);
             }
 
             $rendered[] = view('vendor.option-form.'.$item['type'])->withId($item['id'])->withValue($item['value']);

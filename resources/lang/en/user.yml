@@ -44,6 +44,7 @@ closet:
   add:
     success: Added :name to closet successfully~
     repeated: You have already added this texture.
+    lack-score: You don't have enough score to add it to closet.
 
   rename:
     title: Rename item

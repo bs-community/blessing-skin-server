@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-07-29 11:53:11
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-12-27 22:56:31
+ * @Last Modified time: 2016-12-28 12:59:37
  */
 
 return [
@@ -39,5 +39,6 @@ return [
     'force_ssl'                 => '0',
     'auto_detect_asset_url'     => '1',
     'plugins_enabled'           => '',
-    'copyright_prefer'          => '0'
+    'copyright_prefer'          => '0',
+    'score_per_closet_item'     => '0'
 ];

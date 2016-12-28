@@ -57,7 +57,12 @@ class AdminController extends Controller
                 $group->addon('积分 = 1 KB');
             })->hint('上传私密材质将消耗更多积分');
 
-            $form->checkbox('return_score', '积分返还', '用户删除角色/材质时返还积分');
+            $form->group('score_per_closet_item', '收藏消耗积分', function($group) {
+                $group->text('score_per_closet_item');
+                $group->addon('积分 = 一个衣柜物品');
+            });
+
+            $form->checkbox('return_score', '积分返还', '用户删除角色/材质/收藏时返还积分');
 
             $form->group('score_per_player', '角色', function($group) {
                 $group->text('score_per_player');
