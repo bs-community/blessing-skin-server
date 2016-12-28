@@ -92,7 +92,7 @@
                         <h3 class="box-title">{{ trans('user.announcement') }}</h3>
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                        {!! nl2br(option('announcement')) !!}
+                        {!! bs_announcement() !!}
                     </div><!-- /.box-body -->
                 </div>
             </div>

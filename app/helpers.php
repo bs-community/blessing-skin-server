@@ -202,6 +202,16 @@ if (! function_exists('bs_custom_copyright')) {
     }
 }
 
+if (! function_exists('bs_announcement')) {
+
+    function bs_announcement()
+    {
+        $parser = new Parsedown();
+
+        return $parser->text(option('announcement'));
+    }
+}
+
 if (! function_exists('bs_nickname')) {
 
     function bs_nickname(\App\Models\User $user)

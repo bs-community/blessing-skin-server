@@ -23,6 +23,8 @@ class CheckSessionUserValid
             if ($user && $user->getToken() == session('token')) {
                 // push user instance to repository
                 app('users')->set($user->uid, $user);
+                // bind current user to container
+                app()->instance('user.current', $user);
             } else {
                 // remove sessions & cookies
                 delete_sessions();

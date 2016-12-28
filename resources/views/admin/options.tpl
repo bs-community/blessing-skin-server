@@ -37,7 +37,7 @@
                             } ?>
 
                             <textarea name="announcement" class="form-control" rows="3">{{ option('announcement') }}</textarea>
-                            <p class="description">站点公告内容不会被转义，因此您可以使用 HTML 进行排版</p>
+                            <p class="description">可使用 Markdown 进行排版</p>
 
                         </div><!-- /.box-body -->
                         <div class="box-footer">
