@@ -12,9 +12,10 @@ class OptionForm
     public $title;
 
     protected $hint;
+    protected $type = 'primary';
     protected $items;
 
-    protected $success = false;
+    protected $values;
 
     protected $messages = [];
 
@@ -26,69 +27,37 @@ class OptionForm
         $this->title = $title;
     }
 
-    public function text($id, $name, $value = null)
+    public function __call($name, $arguments)
     {
-        return $this->addItem('text', $id, $name)->set('value', $value);
-    }
+        if (!in_array($name, ['text', 'checkbox', 'textarea', 'select', 'group'])) {
+            throw new \InvalidArgumentException("No such item for option form.", 1);
+        }
 
-    public function checkbox($id, $name, $label, $checked = null)
-    {
-        $checkbox = $this->addItem('checkbox', $id, $name)->set('label', $label);
-
-        return $checkbox;
-    }
-
-    public function select($id, $name, $callback)
-    {
-        $item = $this->addItem('select', $id, $name);
-
-        $select = new OptionFormSelect($id);
-
-        call_user_func($callback, $select);
-
-        $item->set('view', $select);
-
-        return $select;
-    }
-
-    public function textarea($id, $name, $callback)
-    {
-        $item = $this->addItem('textarea', $id, $name);
-
-        $textarea = new OptionFormTextarea($id);
-
-        call_user_func($callback, $textarea);
-
-        $item->set('view', $textarea);
-
-        return $textarea;
-    }
-
-    public function group($id, $name, $callback)
-    {
-        $item = $this->addItem('group', $id, $name);
-
-        $group = new OptionFormGroup($id);
-
-        call_user_func($callback, $group);
-
-        $item->set('view', $group);
-
-        return $item;
-    }
-
-    public function addItem($type, $id, $name)
-    {
-        $item = new OptionFormItem($id, $name, $type);
-
+        $class = new \ReflectionClass('App\Services\OptionForm'.Str::title($name));
+        // use ReflectionClass to create a new OptionFormItem instance
+        $item = $class->newInstanceArgs($arguments);
         $this->items[] = $item;
 
         return $item;
     }
 
+    public function type($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
     public function hint($hint_content)
     {
         $this->hint = view('vendor.option-form.hint')->with('hint', $hint_content)->render();
+
+        return $this;
+    }
+
+    public function setValues(array $values)
+    {
+        $this->values = array_merge($this->values, $values);
 
         return $this;
     }
@@ -105,21 +74,31 @@ class OptionForm
                 call_user_func($callback, $this);
             }
 
+            $arrayOptionCache = [];
+
             foreach ($this->items as $item) {
-                if ($item->type == "checkbox" && !isset($_POST[$item->id])) {
+                if ($item instanceof OptionFormCheckbox && !isset($_POST[$item->id])) {
                     // preset value for checkboxes which are not checked
                     $_POST[$item->id] = "0";
                 }
 
-                if (Str::is('*[*]', $item->id))
+                // Str::is('*[*]', $item->id)
+                if (false !== ($result = $this->parseIdWithOffset($item->id))) {
+                    // push array option value to cache
+                    $arrayOptionCache[$result['id']][$result['offset']] = $_POST[$item->id];
                     continue;
+                }
 
                 if ($_POST[$item->id] != option($item->id, null, false)) {
                     Option::set($item->id, $_POST[$item->id]);
                 }
             }
 
-            session()->flash($this->id.'.status', 'success');
+            foreach ($arrayOptionCache as $key => $value) {
+                Option::set($key, serialize($value));
+            }
+
+            $this->addMessage('设置已保存。', 'success');
         }
 
         return $this;
@@ -132,48 +111,64 @@ class OptionForm
         return $this;
     }
 
+    protected function parseIdWithOffset($id)
+    {
+        // detect if id is formatted as *[*]
+        // array option is stored as unserialized string
+        preg_match('/(.*)\[(.*)\]/', $id, $matches);
+
+        if (isset($matches[2])) {
+            return [
+                'id'     => $matches[1],
+                'offset' => $matches[2]
+            ];
+        }
+
+        return false;
+    }
+
+    /**
+     * Load value from $this->values & options.
+     *
+     * @param  string $id
+     * @return mixed
+     */
+    protected function loadValueFromId($id)
+    {
+        if (false === ($result = $this->parseIdWithOffset($id))) {
+            return option($id);
+        } else {
+            $option = Arr::get(
+                $this->values,
+                $result['id'],
+                // fallback to load from options
+                @unserialize(option($result['id']))
+            );
+
+            return Arr::get($option, $result['offset']);
+        }
+    }
+
     public function render()
     {
         if (!is_null($this->alwaysCallback)) {
             call_user_func($this->alwaysCallback, $this);
         }
 
+        // load values for items if not set manually
         foreach ($this->items as $item) {
-            $id = $item->id;
-
-            if (!$value = $item->get('value')) {
-                preg_match('/(.*)\[(.*)\]/', $id, $matches);
-
-                if (isset($matches[2])) {
-                    $option = @unserialize(option($matches[1]));
-
-                    $value = Arr::get($option, $matches[2]);
-                } else {
-                    $value = option($item->id);
+            if ($item instanceof OptionFormGroup) {
+                foreach ($item->items as $groupItem) {
+                    if ($groupItem['id'] && is_null($groupItem['value'])) {
+                        $groupItem['value'] = $this->loadValueFromId($groupItem['id']);
+                    }
                 }
+                continue;
             }
 
-            switch ($item->type) {
-                case 'text':
-                    $view = view('vendor.option-form.text')->with(compact('id', 'value'));
-                    break;
-
-                case 'checkbox':
-                    $view = view('vendor.option-form.checkbox')->with([
-                        'id'      => $id,
-                        'label'   => $item->get('label'),
-                        'checked' => (bool) $value
-                    ]);
-                    break;
-
-                case 'select':
-                case 'textarea':
-                case 'group':
-                    $view = $item->get('view')->render();
-                    break;
+            if (is_null($item->value)) {
+                $item->value = $this->loadValueFromId($item->id);
             }
-
-            $item->setContent($view->render());
         }
 
         return view('vendor.option-form.main')->with(get_object_vars($this))->render();
@@ -183,159 +178,139 @@ class OptionForm
 class OptionFormItem
 {
     public $id;
-    public $type;
-    public $title;
 
-    protected $data;
+    public $name;
 
-    protected $hint;
-    protected $content;
+    public $value = null;
 
-    public function __construct($id, $title, $type = "")
+    public $hint;
+
+    public $description;
+
+    public function __construct($id, $name)
     {
-        $this->id    = $id;
-        $this->type  = $type;
-        $this->title = $title;
+        $this->id   = $id;
+        $this->name = $name;
     }
 
-    public function hint($hint_content)
+    public function value($value)
     {
-        $this->hint = view('vendor.option-form.hint')->with('hint', $hint_content)->render();
+        $this->value = $value;
 
         return $this;
     }
 
-    public function setContent($content)
+    public function hint($hintContent)
     {
-        $this->content = $content;
+        $this->hint = view('vendor.option-form.hint')->with('hint', $hintContent)->render();
 
         return $this;
     }
 
-    public function set($key, $value)
-    {
-        $this->data[$key] = $value;
-
-        return $this;
-    }
-
-    public function get($key)
-    {
-        return Arr::get($this->data, $key);
-    }
-
-    public function render()
-    {
-        return view('vendor.option-form.item')->with([
-            'title' => $this->title,
-            'content' => $this->content,
-            'hint' => $this->hint
-        ]);
-    }
-
-}
-
-class OptionFormSelect
-{
-    protected $id;
-
-    protected $items;
-
-    protected $selected = null;
-
-    public function __construct($id)
-    {
-        $this->id = $id;
-    }
-
-    public function add($id, $name)
-    {
-        $this->items[] = [$id, $name];
-    }
-
-    public function setSelected($id)
-    {
-        $this->selected = $id;
-    }
-
-    public function render()
-    {
-        if (is_null($this->selected)) {
-            $this->selected = option($this->id);
-        }
-
-        return view('vendor.option-form.select')->with([
-            'id' => $this->id,
-            'items' => $this->items,
-            'selected' => $this->selected
-        ]);
-    }
-}
-
-class OptionFormTextarea
-{
-    protected $id;
-
-    protected $value;
-
-    protected $rows = 3;
-
-    protected $description = "";
-
-    public function __construct($id)
-    {
-        $this->id = $id;
-    }
-
-    public function setContent($content)
-    {
-        $this->value = $content;
-    }
-
-    public function setRows($rows)
-    {
-        $this->rows = $rows;
-    }
-
-    public function setDescription($description)
+    public function description($description)
     {
         $this->description = $description;
+
+        return $this;
     }
 
     public function render()
     {
-        if (is_null($this->value)) {
-            $this->value = option($this->id);
-        }
+        //
+    }
 
-        return view('vendor.option-form.textarea')->with([
-            'rows' => $this->rows,
-            'id' => $this->id,
-            'value' => $this->value,
-            'description' => $this->description
+}
+
+class OptionFormText extends OptionFormItem
+{
+    public function render()
+    {
+        return view('vendor.option-form.text')->with([
+            'id'    => $this->id,
+            'value' => $this->value
         ]);
     }
 }
 
-class OptionFormGroup
+class OptionFormCheckbox extends OptionFormItem
 {
-    protected $id;
+    protected $label;
 
-    protected $items = [];
-
-    public function __construct($id)
+    public function label($label)
     {
-        $this->id = $id;
+        $this->label = $label;
+
+        return $this;
     }
+
+    public function render()
+    {
+        return view('vendor.option-form.checkbox')->with([
+            'id'    => $this->id,
+            'value' => $this->value,
+            'label' => $this->label
+        ]);
+    }
+}
+
+class OptionFormTextarea extends OptionFormItem
+{
+    protected $rows = 3;
+
+    public function rows($rows)
+    {
+        $this->rows = $rows;
+
+        return $this;
+    }
+
+    public function render()
+    {
+        return view('vendor.option-form.textarea')->with([
+            'id'    => $this->id,
+            'rows'  => $this->rows,
+            'value' => $this->value
+        ]);
+    }
+}
+
+class OptionFormSelect extends OptionFormItem
+{
+    protected $options;
+
+    public function option($value, $name)
+    {
+        $this->options[] = compact('value', 'name');
+
+        return $this;
+    }
+
+    public function render()
+    {
+        return view('vendor.option-form.select')->with([
+            'id'       => $this->id,
+            'options'  => $this->options,
+            'selected' => $this->value
+        ]);
+    }
+}
+
+class OptionFormGroup extends OptionFormItem
+{
+    public $items = [];
 
     public function text($id, $value = null)
     {
         $this->items[] = ['type' => 'text', 'id' => $id, 'value' => $value];
+
+        return $this;
     }
 
     public function addon($value)
     {
         $this->items[] = ['type' => 'addon', 'id' => null, 'value' => $value];
+
+        return $this;
     }
 
     public function render()
@@ -347,7 +322,10 @@ class OptionFormGroup
                 $item['value'] = option($item['id'], null, false);
             }
 
-            $rendered[] = view('vendor.option-form.'.$item['type'])->withId($item['id'])->withValue($item['value']);
+            $rendered[] = view('vendor.option-form.'.$item['type'])->with([
+                'id'    => $item['id'],
+                'value' => $item['value']
+            ]);
         }
 
         return view('vendor.option-form.group')->with('items', $rendered);

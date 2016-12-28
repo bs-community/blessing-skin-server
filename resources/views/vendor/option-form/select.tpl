@@ -1,8 +1,7 @@
 <select class="form-control" name="{{ $id }}">
 
-@foreach ((array) $items as $item)
-    <?php list($id, $name) = $item; ?>
-    <option {!! $selected == $id ? 'selected="selected"' : '' !!} value="{{ $id }}">{{ $name }}</option>
+@foreach ((array) $options as $option)
+    <option {!! $selected == $option['value'] ? 'selected="selected"' : '' !!} value="{{ $option['value'] }}">{{ $option['name'] }}</option>
 @endforeach
 
 </select>

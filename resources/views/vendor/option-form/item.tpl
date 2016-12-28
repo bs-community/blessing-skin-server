@@ -1,6 +1,10 @@
 <tr>
-    <td class="key">{{ $title }} {!! $hint or '' !!}</td>
+    <td class="key">{{ $item->name }} {!! $item->hint or '' !!}</td>
     <td class="value">
-        {!! $content !!}
+        {!! $item->render() !!}
+
+        @if ($item->description != "")
+        <p class="description">{!! $item->description !!}</p>
+        @endif
     </td>
 </tr>

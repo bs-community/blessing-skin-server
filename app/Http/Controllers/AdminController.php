@@ -84,29 +84,24 @@ class AdminController extends Controller
             $form->text('site_description', '站点描述');
             $form->text('site_url', '站点地址（URL）')->hint('以 http(s):// 开头，不要以 / 结尾');
 
-            $form->checkbox('user_can_register', '开放注册', '任何人都可以注册');
+            $form->checkbox('user_can_register', '开放注册')->label('任何人都可以注册');
 
             $form->text('regs_per_ip', '每个 IP 限制注册数');
 
-            $form->group('max_upload_file_size', '最大允许上传大小', function($group) {
-                // main textbox
-                $group->text('max_upload_file_size');
-                $group->addon('KB');
-            })->hint('PHP 限制：'.ini_get('post_max_size').'，定义在 php.ini 中。');
+            $form->group('max_upload_file_size', '最大允许上传大小')
+                    ->text('max_upload_file_size')->addon('KB')
+                    ->hint('PHP 限制：'.ini_get('post_max_size').'，定义在 php.ini 中。');
 
-            $form->checkbox('allow_chinese_playername', '角色名', '允许中文角色名');
+            $form->checkbox('allow_chinese_playername', '角色名')->label('允许中文角色名');
 
-            $form->select('api_type', '首选 JSON API', function($options) {
-                $options->add('0', 'CustomSkinLoader API');
-                $options->add('1', 'UniversalSkinAPI');
-            });
+            $form->select('api_type', '首选 JSON API')
+                    ->option('0', 'CustomSkinLoader API')
+                    ->option('1', 'UniversalSkinAPI');
 
-            $form->checkbox('auto_del_invalid_texture', '失效材质', '自动删除失效材质')->hint('自动从皮肤库中删除文件不存在的材质记录');
+            $form->checkbox('auto_del_invalid_texture', '失效材质')->label('自动删除失效材质')->hint('自动从皮肤库中删除文件不存在的材质记录');
 
-            $form->textarea('comment_script', '评论代码', function($textarea) {
-                $textarea->setRows(6);
-                $textarea->setDescription('评论代码内可使用占位符，<code>{tid}</code> 将会被自动替换为材质的 id，<code>{name}</code> 会被替换为材质名称，<code>{url}</code> 会被替换为当前页面地址。');
-            });
+            $form->textarea('comment_script', '评论代码')->rows(6)->description('评论代码内可使用占位符，<code>{tid}</code> 将会被自动替换为材质的 id，<code>{name}</code> 会被替换为材质名称，<code>{url}</code> 会被替换为当前页面地址。');
+
         })->handle(function() {
             if (substr($_POST['site_url'], -1) == "/")
                 $_POST['site_url'] = substr($_POST['site_url'], 0, -1);
@@ -114,13 +109,13 @@ class AdminController extends Controller
 
         $cache = Option::form('cache', '资源文件配置', function($form)
         {
-            $form->checkbox('force_ssl', '强制 SSL', '强制使用 HTTPS 协议加载资源')->hint('请确认 SSL 可用后再开启');
-            $form->checkbox('auto_detect_asset_url', '资源地址', '自动判断资源文件地址')->hint('根据当前 URL 自动加载资源文件，如果关闭则将根据「站点地址」填写的内容加载。如果出现 CDN 回源问题请关闭');
-            $form->checkbox('return_200_when_notfound', 'HTTP 响应码', '请求不存在的角色时返回 200 而不是 404');
+            $form->checkbox('force_ssl', '强制 SSL')->label('强制使用 HTTPS 协议加载资源')->hint('请确认 SSL 可用后再开启');
+            $form->checkbox('auto_detect_asset_url', '资源地址')->label('自动判断资源文件地址')->hint('根据当前 URL 自动加载资源文件，如果关闭则将根据「站点地址」填写的内容加载。如果出现 CDN 回源问题请关闭');
+            $form->checkbox('return_200_when_notfound', 'HTTP 响应码')->label('请求不存在的角色时返回 200 而不是 404');
 
             $form->text('cache_expire_time', '缓存失效时间')->hint('秒数，86400 = 一天，31536000 = 一年');
 
-        })->hint('如果启用了 CDN 缓存请适当修改这些配置')->handle();
+        })->type('warning')->hint('如果启用了 CDN 缓存请适当修改这些配置')->handle();
 
         return view('admin.options')->with('forms', compact('general', 'cache'));
     }

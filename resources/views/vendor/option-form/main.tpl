@@ -1,13 +1,10 @@
-<div class="box box-primary">
+<div class="box box-{{ $type }}">
     <div class="box-header with-border">
         <h3 class="box-title">{{ $title }} {!! $hint or '' !!}</h3>
     </div><!-- /.box-header -->
     <form method="post">
         <input type="hidden" name="option" value="{{ $id }}">
         <div class="box-body">
-            @if (session("$id.status") == 'success')
-            <div class="callout callout-success">设置已保存。</div>
-            @endif
 
             @if (!empty($messages))
                 @foreach($messages as $msg)
@@ -18,7 +15,7 @@
             <table class="table">
                 <tbody>
                     @foreach($items as $item)
-                    {!! $item->render() !!}
+                        @include('vendor.option-form.item', compact('item'))
                     @endforeach
                 </tbody>
             </table>
