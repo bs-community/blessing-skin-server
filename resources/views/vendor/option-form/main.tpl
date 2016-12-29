@@ -15,7 +15,28 @@
             <table class="table">
                 <tbody>
                     @foreach($items as $item)
-                        @include('vendor.option-form.item', compact('item'))
+
+
+                    @unless ($renderWithOutTable)
+                    <tr>
+                        @unless ($renderInputTagsOnly)
+                        <td class="key">{{ $item->name }} {!! $item->hint or '' !!}</td>
+                        @endunless
+
+                        <td class="value">
+                    @endunless
+
+                            {!! $item->render() !!}
+
+                            @if ($item->description)
+                            <p class="description">{!! $item->description !!}</p>
+                            @endif
+
+                    @unless ($renderWithOutTable)
+                        </td>
+                    </tr>
+                    @endunless
+
                     @endforeach
                 </tbody>
             </table>

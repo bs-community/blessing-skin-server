@@ -23,28 +23,7 @@
             </div>
 
             <div class="col-md-6">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">站点公告</h3>
-                    </div><!-- /.box-header -->
-                    <form method="post">
-                        <input type="hidden" name="option" value="announcement">
-                        <div class="box-body">
-                            <?php
-                            if (isset($_POST['option']) && ($_POST['option'] == "announcement")) {
-                                Option::set('announcement', $_POST['announcement']);
-                                echo '<div class="callout callout-success">设置已保存。</div>';
-                            } ?>
-
-                            <textarea name="announcement" class="form-control" rows="3">{{ option('announcement') }}</textarea>
-                            <p class="description">可使用 Markdown 进行排版</p>
-
-                        </div><!-- /.box-body -->
-                        <div class="box-footer">
-                            <button type="submit" name="submit" class="btn btn-primary">提交</button>
-                        </div>
-                    </form>
-                </div>
+                {!! $forms['announcement']->render() !!}
 
                 {!! $forms['cache']->render() !!}
             </div>

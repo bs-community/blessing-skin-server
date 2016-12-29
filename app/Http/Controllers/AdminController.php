@@ -90,7 +90,7 @@ class AdminController extends Controller
 
             $form->group('max_upload_file_size', '最大允许上传大小')
                     ->text('max_upload_file_size')->addon('KB')
-                    ->hint('PHP 限制：'.ini_get('post_max_size').'，定义在 php.ini 中。');
+                    ->hint('PHP 限制：'.ini_get('upload_max_filesize').'，定义在 php.ini 中。');
 
             $form->checkbox('allow_chinese_playername', '角色名')->label('允许中文角色名');
 
@@ -107,6 +107,12 @@ class AdminController extends Controller
                 $_POST['site_url'] = substr($_POST['site_url'], 0, -1);
         });
 
+        $announcement = Option::form('announcement', '站点公告', function($form)
+        {
+            $form->textarea('announcement')->description('可使用 Markdown 进行排版');
+
+        })->renderWithOutTable()->handle();
+
         $cache = Option::form('cache', '资源文件配置', function($form)
         {
             $form->checkbox('force_ssl', '强制 SSL')->label('强制使用 HTTPS 协议加载资源')->hint('请确认 SSL 可用后再开启');
@@ -117,7 +123,7 @@ class AdminController extends Controller
 
         })->type('warning')->hint('如果启用了 CDN 缓存请适当修改这些配置')->handle();
 
-        return view('admin.options')->with('forms', compact('general', 'cache'));
+        return view('admin.options')->with('forms', compact('general', 'cache', 'announcement'));
     }
 
     /**

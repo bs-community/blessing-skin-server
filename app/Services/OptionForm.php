@@ -8,8 +8,8 @@ use Illuminate\Support\Str;
 
 class OptionForm
 {
-    public $id;
-    public $title;
+    protected $id;
+    protected $title;
 
     protected $hint;
     protected $type = 'primary';
@@ -20,6 +20,9 @@ class OptionForm
     protected $messages = [];
 
     protected $alwaysCallback = null;
+
+    protected $renderWithOutTable  = false;
+    protected $renderInputTagsOnly = false;
 
     public function __construct($id, $title)
     {
@@ -55,9 +58,13 @@ class OptionForm
         return $this;
     }
 
-    public function setValues(array $values)
+    public function with($key, $value = null)
     {
-        $this->values = array_merge($this->values, $values);
+        if (is_array($key)) {
+            $this->values = array_merge($this->values, $values);
+        } else {
+            $this->values[$key] = $value;
+        }
 
         return $this;
     }
@@ -65,6 +72,29 @@ class OptionForm
     public function addMessage($msg, $type = "info")
     {
         $this->messages[] = "<div class='callout callout-$type'>$msg</div>";
+    }
+
+    public function always($callback)
+    {
+        $this->alwaysCallback = $callback;
+
+        return $this;
+    }
+
+    protected function parseIdWithOffset($id)
+    {
+        // detect if id is formatted as *[*]
+        // array option is stored as unserialized string
+        preg_match('/(.*)\[(.*)\]/', $id, $matches);
+
+        if (isset($matches[2])) {
+            return [
+                'id'     => $matches[1],
+                'offset' => $matches[2]
+            ];
+        }
+
+        return false;
     }
 
     public function handle($callback = null)
@@ -104,36 +134,13 @@ class OptionForm
         return $this;
     }
 
-    public function always($callback)
-    {
-        $this->alwaysCallback = $callback;
-
-        return $this;
-    }
-
-    protected function parseIdWithOffset($id)
-    {
-        // detect if id is formatted as *[*]
-        // array option is stored as unserialized string
-        preg_match('/(.*)\[(.*)\]/', $id, $matches);
-
-        if (isset($matches[2])) {
-            return [
-                'id'     => $matches[1],
-                'offset' => $matches[2]
-            ];
-        }
-
-        return false;
-    }
-
     /**
      * Load value from $this->values & options.
      *
      * @param  string $id
      * @return mixed
      */
-    protected function loadValueFromId($id)
+    protected function getValueById($id)
     {
         if (false === ($result = $this->parseIdWithOffset($id))) {
             return option($id);
@@ -149,7 +156,7 @@ class OptionForm
         }
     }
 
-    public function render()
+    protected function assignValues()
     {
         if (!is_null($this->alwaysCallback)) {
             call_user_func($this->alwaysCallback, $this);
@@ -160,18 +167,37 @@ class OptionForm
             if ($item instanceof OptionFormGroup) {
                 foreach ($item->items as $groupItem) {
                     if ($groupItem['id'] && is_null($groupItem['value'])) {
-                        $groupItem['value'] = $this->loadValueFromId($groupItem['id']);
+                        $groupItem['value'] = $this->getValueById($groupItem['id']);
                     }
                 }
                 continue;
             }
 
             if (is_null($item->value)) {
-                $item->value = $this->loadValueFromId($item->id);
+                $item->value = $this->getValueById($item->id);
             }
         }
+    }
 
-        return view('vendor.option-form.main')->with(get_object_vars($this))->render();
+    public function renderWithOutTable()
+    {
+        $this->renderWithOutTable = true;
+
+        return $this;
+    }
+
+    public function renderInputTagsOnly()
+    {
+        $this->renderInputTagsOnly = true;
+
+        return $this;
+    }
+
+    public function render()
+    {
+        $this->assignValues();
+
+        return view('vendor.option-form.main')->with(array_merge(get_object_vars($this)))->render();
     }
 }
 
@@ -181,13 +207,13 @@ class OptionFormItem
 
     public $name;
 
-    public $value = null;
-
     public $hint;
+
+    public $value = null;
 
     public $description;
 
-    public function __construct($id, $name)
+    public function __construct($id, $name = null)
     {
         $this->id   = $id;
         $this->name = $name;
@@ -214,9 +240,14 @@ class OptionFormItem
         return $this;
     }
 
+    /**
+     * Render option item. Should be extended.
+     *
+     * @return \Illuminate\View\View|string
+     */
     public function render()
     {
-        //
+        return;
     }
 
 }
