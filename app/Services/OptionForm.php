@@ -3,8 +3,10 @@
 namespace App\Services;
 
 use Option;
+use ReflectionClass;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use BadMethodCallException;
 
 class OptionForm
 {
@@ -12,11 +14,12 @@ class OptionForm
     protected $title;
 
     protected $hint;
-    protected $type = 'primary';
-    protected $items;
+    protected $type  = 'primary';
+    protected $items = [];
 
-    protected $values;
+    protected $values = [];
 
+    protected $buttons  = [];
     protected $messages = [];
 
     protected $alwaysCallback = null;
@@ -24,26 +27,48 @@ class OptionForm
     protected $renderWithOutTable  = false;
     protected $renderInputTagsOnly = false;
 
+    /**
+     * Create a new option form instance.
+     *
+     * @param  string  $id
+     * @param  string  $title
+     * @return void
+     */
     public function __construct($id, $title)
     {
         $this->id    = $id;
         $this->title = $title;
     }
 
-    public function __call($name, $arguments)
+    /**
+     * Add option item to the form dynamically.
+     *
+     * @param  string  $method
+     * @param  array   $parameters
+     * @return OptionItem
+     *
+     * @throws \BadMethodCallException
+     */
+    public function __call($method, $parameters)
     {
-        if (!in_array($name, ['text', 'checkbox', 'textarea', 'select', 'group'])) {
-            throw new \InvalidArgumentException("No such item for option form.", 1);
+        if (!in_array($method, ['text', 'checkbox', 'textarea', 'select', 'group'])) {
+            throw new BadMethodCallException("Method [$method] does not exist on option form.");
         }
 
-        $class = new \ReflectionClass('App\Services\OptionForm'.Str::title($name));
+        $class = new ReflectionClass('App\Services\OptionForm'.Str::title($method));
         // use ReflectionClass to create a new OptionFormItem instance
-        $item = $class->newInstanceArgs($arguments);
+        $item = $class->newInstanceArgs($parameters);
         $this->items[] = $item;
 
         return $item;
     }
 
+    /**
+     * Set the box type of option form.
+     *
+     * @param  string  $type
+     * @return $this
+     */
     public function type($type)
     {
         $this->type = $type;
@@ -51,17 +76,30 @@ class OptionForm
         return $this;
     }
 
-    public function hint($hint_content)
+    /**
+     * Add a hint to option form.
+     *
+     * @param  array  $info
+     * @return $this
+     */
+    public function hint($hintContent)
     {
-        $this->hint = view('vendor.option-form.hint')->with('hint', $hint_content)->render();
+        $this->hint = view('vendor.option-form.hint')->with('hint', $hintContent)->render();
 
         return $this;
     }
 
+    /**
+     * Add a piece of data to the option form.
+     *
+     * @param  string|array  $key
+     * @param  mixed   $value
+     * @return $this
+     */
     public function with($key, $value = null)
     {
         if (is_array($key)) {
-            $this->values = array_merge($this->values, $values);
+            $this->values = array_merge($this->values, $key);
         } else {
             $this->values[$key] = $value;
         }
@@ -69,22 +107,69 @@ class OptionForm
         return $this;
     }
 
-    public function addMessage($msg, $type = "info")
+    /**
+     * Add a button at the footer of option form.
+     *
+     * @param  array  $info
+     * @return $this
+     */
+    public function addButton(array $info)
     {
-        $this->messages[] = "<div class='callout callout-$type'>$msg</div>";
+        $info = array_merge([
+            'style' => 'default',
+            'class' => [],
+            'href'  => '',
+            'text'  => 'BUTTON',
+            'type'  => 'button',
+            'name'  => ''
+        ], $info);
+
+        $classes = "btn btn-{$info['style']} ".implode(' ', (array) Arr::get($info, 'class'));
+
+        if ($info['href']) {
+            $this->buttons[] = "<a href='{$info['href']}' class='$classes'>{$info['text']}</a>";
+        } else {
+            $this->buttons[] = "<button type='{$info['type']}' name='{$info['name']}' class='$classes'>{$info['text']}</button>";
+        }
+
+        return $this;
     }
 
-    public function always($callback)
+    /**
+     * Add a message to the top of option form.
+     *
+     * @param  string $msg
+     * @param  string $style
+     * @return $this
+     */
+    public function addMessage($msg, $style = "info")
+    {
+        $this->messages[] = "<div class='callout callout-$style'>$msg</div>";
+
+        return $this;
+    }
+
+    /**
+     * Add callback which will be always executed.
+     *
+     * @param  callable $callback
+     * @return $this
+     */
+    public function always(callable $callback)
     {
         $this->alwaysCallback = $callback;
 
         return $this;
     }
 
+    /**
+     * Parse id formatted as *[*]. Return id & offset when succeed.
+     *
+     * @param  string $id
+     * @return bool|array
+     */
     protected function parseIdWithOffset($id)
     {
-        // detect if id is formatted as *[*]
-        // array option is stored as unserialized string
         preg_match('/(.*)\[(.*)\]/', $id, $matches);
 
         if (isset($matches[2])) {
@@ -97,34 +182,54 @@ class OptionForm
         return false;
     }
 
-    public function handle($callback = null)
+    /**
+     * Handle the HTTP post request and update modified options.
+     *
+     * @param  callable $callback
+     * @return $this
+     */
+    public function handle(callable $callback = null)
     {
         if (Arr::get($_POST, 'option') == $this->id) {
             if (!is_null($callback)) {
                 call_user_func($callback, $this);
             }
 
-            $arrayOptionCache = [];
+            $postOptionQueue  = [];
+            $arrayOptionQueue = [];
 
             foreach ($this->items as $item) {
+                if ($item instanceof OptionFormGroup) {
+                    foreach ($item->items as $innerItem) {
+                        if ($innerItem['type'] == "text") {
+                            $postOptionQueue[] = new OptionFormText($innerItem['id']);
+                        }
+                    }
+                    continue;
+                }
+                // push item to the queue
+                $postOptionQueue[] = $item;
+            }
+
+            foreach ($postOptionQueue as $item) {
                 if ($item instanceof OptionFormCheckbox && !isset($_POST[$item->id])) {
                     // preset value for checkboxes which are not checked
-                    $_POST[$item->id] = "0";
+                    $_POST[$item->id] = "false";
                 }
 
                 // Str::is('*[*]', $item->id)
                 if (false !== ($result = $this->parseIdWithOffset($item->id))) {
                     // push array option value to cache
-                    $arrayOptionCache[$result['id']][$result['offset']] = $_POST[$item->id];
+                    $arrayOptionQueue[$result['id']][$result['offset']] = $_POST[$item->id];
                     continue;
                 }
 
-                if ($_POST[$item->id] != option($item->id, null, false)) {
-                    Option::set($item->id, $_POST[$item->id]);
+                if (($data = Arr::get($_POST, $item->id)) != option($item->id, null, false)) {
+                    Option::set($item->id, $data);
                 }
             }
 
-            foreach ($arrayOptionCache as $key => $value) {
+            foreach ($arrayOptionQueue as $key => $value) {
                 Option::set($key, serialize($value));
             }
 
@@ -135,7 +240,7 @@ class OptionForm
     }
 
     /**
-     * Load value from $this->values & options.
+     * Load value from $this->values & options by given id.
      *
      * @param  string $id
      * @return mixed
@@ -143,7 +248,7 @@ class OptionForm
     protected function getValueById($id)
     {
         if (false === ($result = $this->parseIdWithOffset($id))) {
-            return option($id);
+            return Arr::get($this->values, $id, option($id, null, false));
         } else {
             $option = Arr::get(
                 $this->values,
@@ -156,6 +261,11 @@ class OptionForm
         }
     }
 
+    /**
+     * Assign value for option items whose value haven't been set.
+     *
+     * @return void
+     */
     protected function assignValues()
     {
         if (!is_null($this->alwaysCallback)) {
@@ -165,7 +275,7 @@ class OptionForm
         // load values for items if not set manually
         foreach ($this->items as $item) {
             if ($item instanceof OptionFormGroup) {
-                foreach ($item->items as $groupItem) {
+                foreach ($item->items as &$groupItem) {
                     if ($groupItem['id'] && is_null($groupItem['value'])) {
                         $groupItem['value'] = $this->getValueById($groupItem['id']);
                     }
@@ -193,11 +303,26 @@ class OptionForm
         return $this;
     }
 
+    /**
+     * Get the string contents of the option form.
+     *
+     * @return string
+     */
     public function render()
     {
         $this->assignValues();
 
         return view('vendor.option-form.main')->with(array_merge(get_object_vars($this)))->render();
+    }
+
+    /**
+     * Get the string contents of the option form.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->render();
     }
 }
 

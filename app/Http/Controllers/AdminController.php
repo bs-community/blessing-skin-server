@@ -26,54 +26,71 @@ class AdminController extends Controller
         {
             $form->text('home_pic_url', '首页图片地址')->hint('相对于首页的路径或者完整的 URL');
 
-            $form->select('copyright_prefer', '程序版权信息', function($options) {
-                $options->add('0', 'Powered with ❤ by Blessing Skin Server.');
-                $options->add('1', 'Powered by Blessing Skin Server.');
-                $options->add('2', '由 Blessing Skin Server 强力驱动.');
-                $options->add('3', '自豪地采用 Blessing Skin Server.');
-            })->setSelected(Option::get('copyright_prefer', 0, false));
+            $form->select('copyright_prefer', '程序版权信息')
+                ->option('0', 'Powered with ❤ by Blessing Skin Server.')
+                ->option('1', 'Powered by Blessing Skin Server.')
+                ->option('2', '由 Blessing Skin Server 强力驱动.')
+                ->option('3', '自豪地采用 Blessing Skin Server.');
 
-            $form->textarea('copyright_text', '自定义版权文字', function($textarea) {
-                $textarea->setRows(6);
-                $textarea->setDescription('自定义版权文字内可使用占位符，<code>{site_name}</code> 将会被自动替换为站点名称，<code>{site_url}</code> 会被替换为站点地址。');
-            });
+            $form->textarea('copyright_text', '自定义版权文字')->rows(6)
+                ->description('自定义版权文字内可使用占位符，<code>{site_name}</code> 将会被自动替换为站点名称，<code>{site_url}</code> 会被替换为站点地址。');
 
         })->handle();
 
-        return view('admin.customize', compact('homepage'));
+        $customJsCss = Option::form('customJsCss', '自定义 CSS/JavaScript', function($form)
+        {
+            $form->textarea('custom_css', 'CSS')->rows(6);
+            $form->textarea('custom_js', 'JavaScript')->rows(6);
+        })->addMessage('
+            内容将会被追加至每个页面的 &lt;style&gt; 和 &lt;script&gt; 标签中。<br>
+            - 这里有一些有用的示例：<a href="https://github.com/printempw/blessing-skin-server/wiki/%E3%80%8C%E8%87%AA%E5%AE%9A%E4%B9%89-CSS-JavaScript%E3%80%8D%E5%8A%9F%E8%83%BD%E7%9A%84%E4%B8%80%E4%BA%9B%E5%AE%9E%E4%BE%8B">「自定义 CSS JavaScript」功能的一些实例@GitHub WiKi</a>
+        ')->handle();
+
+        return view('admin.customize', ['forms' => compact('homepage', 'customJsCss')]);
     }
 
     public function score()
     {
         $rate = Option::form('rate', '积分换算', function($form)
         {
-            $form->group('score_per_storage', '存储', function($group) {
-                $group->text('score_per_storage');
-                $group->addon('积分 = 1 KB');
-            });
+            $form->group('score_per_storage', '存储')->text('score_per_storage')->addon('积分 = 1 KB');
 
-            $form->group('private_score_per_storage', '私密材质存储', function($group) {
-                $group->text('private_score_per_storage');
-                $group->addon('积分 = 1 KB');
-            })->hint('上传私密材质将消耗更多积分');
+            $form->group('private_score_per_storage', '私密材质存储')
+                ->text('private_score_per_storage')->addon('积分 = 1 KB')
+                ->hint('上传私密材质将消耗更多积分');
 
-            $form->group('score_per_closet_item', '收藏消耗积分', function($group) {
-                $group->text('score_per_closet_item');
-                $group->addon('积分 = 一个衣柜物品');
-            });
+            $form->group('score_per_closet_item', '收藏消耗积分')
+                ->text('score_per_closet_item')->addon('积分 = 一个衣柜物品');
 
-            $form->checkbox('return_score', '积分返还', '用户删除角色/材质/收藏时返还积分');
+            $form->checkbox('return_score', '积分返还')->label('用户删除角色/材质/收藏时返还积分');
 
-            $form->group('score_per_player', '角色', function($group) {
-                $group->text('score_per_player');
-                $group->addon('积分 = 一个角色');
-            });
+            $form->group('score_per_player', '角色')->text('score_per_player')->addon('积分 = 一个角色');
 
             $form->text('user_initial_score', '新用户默认积分');
 
         })->handle();
 
-        return view('admin.score', compact('rate'));
+        $signIn = Option::form('sign_in', '签到配置', function($form)
+        {
+            $form->group('sign_score', '签到获得积分')
+                ->text('sign_score_from')->addon('积分 ~ ')->text('sign_score_to')->addon('积分');
+
+            $form->group('sign_gap_time', '签到间隔时间')->text('sign_gap_time')->addon('小时');
+
+            $form->checkbox('sign_after_zero', '签到时间')->label('每天零点后可签到')
+                ->hint('勾选后将无视上一条，每天零时后均可签到');
+        })->handle(function() {
+            $sign_score = $_POST['sign_score_from'].','.$_POST['sign_score_to'];
+            Option::set('sign_score', $sign_score);
+
+            unset($_POST['sign_score_from']);
+            unset($_POST['sign_score_to']);
+        })->with([
+            'sign_score_from' => @explode(',', option('sign_score'))[0],
+            'sign_score_to'   => @explode(',', option('sign_score'))[1]
+        ]);
+
+        return view('admin.score', ['forms' => compact('rate', 'signIn')]);
     }
 
     public function options()
