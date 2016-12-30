@@ -206,9 +206,7 @@ if (! function_exists('bs_announcement')) {
 
     function bs_announcement()
     {
-        $parser = new Parsedown();
-
-        return $parser->text(option('announcement'));
+        return app('parsedown')->text(option('announcement'));
     }
 }
 
