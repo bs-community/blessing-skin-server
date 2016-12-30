@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:08:41
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-11-17 15:06:22
+ * @Last Modified time: 2016-12-30 20:54:26
  */
 
 @import "style.scss";
@@ -57,5 +57,14 @@ td {
 
     a:last-child > img {
         margin-left: 0;
+    }
+}
+
+.description {
+    margin: 7px 0 0 0;
+    color: #555;
+
+    a {
+        color: #3c8dbc;
     }
 }

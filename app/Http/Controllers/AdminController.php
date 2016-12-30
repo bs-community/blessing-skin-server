@@ -27,10 +27,11 @@ class AdminController extends Controller
             $form->text('home_pic_url', '首页图片地址')->hint('相对于首页的路径或者完整的 URL');
 
             $form->select('copyright_prefer', '程序版权信息')
-                ->option('0', 'Powered with ❤ by Blessing Skin Server.')
-                ->option('1', 'Powered by Blessing Skin Server.')
-                ->option('2', '由 Blessing Skin Server 强力驱动.')
-                ->option('3', '自豪地采用 Blessing Skin Server.');
+                    ->option('0', 'Powered with ❤ by Blessing Skin Server.')
+                    ->option('1', 'Powered by Blessing Skin Server.')
+                    ->option('2', '由 Blessing Skin Server 强力驱动.')
+                    ->option('3', '自豪地采用 Blessing Skin Server.')
+                ->description('对于任何恶意修改页面<b>右下角</b>的版权信息（包括不限于删除、修改作者信息、修改链接指向）的用户，作者保留对其追究责任的权力。');
 
             $form->textarea('copyright_text', '自定义版权文字')->rows(6)
                 ->description('自定义版权文字内可使用占位符，<code>{site_name}</code> 将会被自动替换为站点名称，<code>{site_url}</code> 会被替换为站点地址。');

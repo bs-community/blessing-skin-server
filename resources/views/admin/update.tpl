@@ -2,13 +2,6 @@
 
 @section('title', trans('general.check-update'))
 
-@section('style')
-<style type="text/css">
-.description { margin: 7px 0 0 0; color: #555; }
-.description a { color: #3c8dbc; }
-</style>
-@endsection
-
 @section('content')
 
 <!-- Content Wrapper. Contains page content -->
