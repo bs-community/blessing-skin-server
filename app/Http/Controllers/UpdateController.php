@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Arr;
 use Log;
 use Utils;
+use Option;
 use ZipArchive;
 use App\Services\Storage;
 use Illuminate\Http\Request;
@@ -35,17 +36,13 @@ class UpdateController extends Controller
             'release_url'     => '',
             'pre_release'     => false,
             // fallback to current time
-            'release_time'    => time(),
+            'release_time'    => '',
             'new_version_available' => false
         ];
 
         // if current update source is available
         if ($this->getUpdateInfo()) {
             $info['latest_version'] = $this->getUpdateInfo('latest_version');
-
-            if ($current_release = $this->getReleaseInfo($this->currentVersion)) {
-                $info['release_time'] = Arr::get($current_release, 'release_time') ?: time();
-            }
 
             $info['new_version_available'] = version_compare(
                 $info['latest_version'],
@@ -63,10 +60,26 @@ class UpdateController extends Controller
                 // if detailed release info is not given
                 $info['new_version_available'] = false;
             }
+
+            if (!$info['new_version_available']) {
+                $info['release_time'] = Arr::get($this->getReleaseInfo($this->currentVersion), 'release_time');
+            }
         }
 
+        $update = Option::form('update', '更新选项', function($form)
+        {
+            $form->checkbox('check_update', '检查更新')->label('自动检查更新并提示');
+            $form->text('update_source', '更新源')
+                ->description('可用的更新源列表可以在这里查看：<a href="https://github.com/printempw/blessing-skin-server/wiki/%E6%9B%B4%E6%96%B0%E6%BA%90%E5%88%97%E8%A1%A8">@GitHub Wiki</a>');
+        })->handle()->always(function($form) {
+            try {
+                $response = file_get_contents(option('update_source'));
+            } catch (\Exception $e) {
+                $form->addMessage('无法访问当前更新源。详细信息：'.$e->getMessage(), 'danger');
+            }
+        });
 
-        return view('admin.update')->with('info', $info);
+        return view('admin.update')->with('info', $info)->with('update', $update);
     }
 
     public function checkUpdates()

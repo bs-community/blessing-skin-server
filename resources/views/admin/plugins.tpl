@@ -36,8 +36,8 @@ td#description {
                             <th>{{ trans('admin.plugins.description') }}</th>
                             <th>{{ trans('admin.plugins.author') }}</th>
                             <th>{{ trans('admin.plugins.version') }}</th>
-                            <th>{{ trans('admin.plugins.status') }}</th>
-                            <th>{{ trans('admin.plugins.operation') }}</th>
+                            <th>{{ trans('admin.plugins.status.title') }}</th>
+                            <th>{{ trans('admin.plugins.operations.title') }}</th>
                         </tr>
                     </thead>
 
@@ -50,33 +50,33 @@ td#description {
                             <td id="version">{{ $plugin->version }}</td>
                             <td id="status">
                                 @if ($plugin->isEnabled())
-                                {{ trans('admin.plugins.enabled') }}
+                                {{ trans('admin.plugins.status.enabled') }}
                                 @else
-                                {{ trans('admin.plugins.disabled') }}
+                                {{ trans('admin.plugins.status.disabled') }}
                                 @endif
                             </td>
 
                             <td>
                                 @if ($plugin->isEnabled())
-                                <a class="btn btn-warning btn-sm" href="?action=disable&id={{ $plugin->name }}">{{ trans('admin.plugins.disable-plugin') }}</a>
+                                <a class="btn btn-warning btn-sm" href="?action=disable&id={{ $plugin->name }}">{{ trans('admin.plugins.operations.disable') }}</a>
                                 @else
-                                <a class="btn btn-primary btn-sm" href="?action=enable&id={{ $plugin->name }}">{{ trans('admin.plugins.enable-plugin') }}</a>
+                                <a class="btn btn-primary btn-sm" href="?action=enable&id={{ $plugin->name }}">{{ trans('admin.plugins.operations.enable') }}</a>
                                 @endif
 
                                 @if ($plugin->isEnabled() && $plugin->hasConfigView())
-                                <a class="btn btn-default btn-sm" href="?action=config&id={{ $plugin->name }}">{{ trans('admin.plugins.plugin-config') }}</a>
+                                <a class="btn btn-default btn-sm" href="?action=config&id={{ $plugin->name }}">{{ trans('admin.plugins.operations.configure') }}</a>
                                 @else
-                                <a class="btn btn-default btn-sm" disabled="disabled" title="{{ trans('admin.plugins.no-config') }}" data-toggle="tooltip" data-placement="top">{{ trans('admin.plugins.no-config') }}</a>
+                                <a class="btn btn-default btn-sm" disabled="disabled" title="{{ trans('admin.plugins.operations.no-config-notice') }}" data-toggle="tooltip" data-placement="top">{{ trans('admin.plugins.operations.configure') }}</a>
                                 @endif
 
-                                <a class="btn btn-danger btn-sm" href="javascript:deletePlugin('{{ $plugin->name }}');">{{ trans('admin.plugins.delete-plugin') }}</a>
+                                <a class="btn btn-danger btn-sm" href="javascript:deletePlugin('{{ $plugin->name }}');">{{ trans('admin.plugins.operations.delete') }}</a>
 
                             </td>
                         </tr>
                         @empty
                         <tr>
                             <td>0</td>
-                            <td>{{ trans('admin.plugins.no-result') }}</td>
+                            <td>{{ trans('admin.plugins.empty') }}</td>
                             <td>(´・ω・`)</td>
                         </tr>
                         @endforelse
@@ -105,7 +105,7 @@ td#description {
 
 function deletePlugin(name) {
     swal({
-        text: trans('admin.deletionConfirmation'),
+        text: trans('admin.confirmDeletion'),
         type: 'warning',
         showCancelButton: true
     }).then(function() {

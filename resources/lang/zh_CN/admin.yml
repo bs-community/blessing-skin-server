@@ -1,0 +1,80 @@
+index:
+  total-users: 注册用户
+  total-players: 角色总数
+  total-textures: 上传材质总数
+  disk-usage: 占用空间大小
+  overview: 概览
+
+customize:
+  change-color: 更改配色
+
+  colors:
+    blue: 蓝色主题（默认）
+    blue-light: 蓝色主题 - 白色侧边栏
+    yellow: 黄色主题
+    yellow-light: 黄色主题 - 白色侧边栏
+    green: 绿色主题
+    green-light: 绿色主题 - 白色侧边栏
+    purple: 基佬紫
+    purple-light: 紫色主题 - 白色侧边栏
+    red: 喜庆红（笑）
+    red-light: 红色主题 - 白色侧边栏
+    black: 高端黑
+    black-light: 黑色主题 - 白色侧边栏
+
+plugins:
+  name: 名称
+  description: 描述
+  author: 作者
+  version: 版本
+
+  status:
+    title: 状态
+    enabled: 已启用
+    disabled: 已禁用
+
+  operations:
+    title: 操作
+    disable: 禁用插件
+    enable: 启用插件
+    configure: 插件配置
+    no-config-notice: 插件已被禁用或无配置页
+    delete: 删除插件
+
+  empty: 无结果
+
+update:
+  info:
+    title: 更新信息
+
+    up-to-date: 已更新至最新版本。
+    available: 有更新可用。
+    pre-release-warning: 本次更新为预发布版，请谨慎选择是否更新。
+
+    versions:
+      latest: 最新版本：
+      current: 当前版本：
+
+    release-time: 发布时间：
+    pre-release: 当前版本为未发布测试版
+
+    change-log:
+      text: 更新日志：
+      empty: 无内容
+
+    downloads:
+      text: 下载地址：
+      link: 点击下载完整安装包
+
+    check-github: <a href=":url" target="_blank" class="btn btn-default pull-right">查看 GitHub Releases</a>
+    button: 马上升级
+
+  cautions:
+    title: 注意事项
+    text: |
+      请根据你的主机所在位置（国内/国外）选择更新源。
+      如错选至相对于你的主机速度较慢的源，可能会造成检查/下载更新页面长时间无响应。
+
+  download:
+    downloading: 正在下载更新包
+    size: 更新包大小：

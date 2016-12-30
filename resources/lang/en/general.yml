@@ -13,11 +13,11 @@ anonymous: Guest
 back: Back
 dashboard: Dashboard
 my-closet: Closet
-player-manage: Player Manage
-user-manage: User Manage
-plugin-manage: Plugin Manage
+player-manage: Players
+user-manage: Users
+plugin-manage: Plugins
 plugin-market: Plugin Market
-plugin-installed: Installed
+plugin-installed: Installed Plugins
 customize: Customize
 options: Options
 import-v2: Import Data

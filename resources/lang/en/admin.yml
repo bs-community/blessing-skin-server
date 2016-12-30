@@ -1,70 +1,80 @@
+index:
+  total-users: Registered Users
+  total-players: Players
+  total-textures: Uploaded Textures
+  disk-usage: Disk Usage
+  overview: Overview
+
 customize:
   change-color: Change theme color
 
-  color:
+  colors:
     blue: Blue (Default)
-    blue-white-sidebar: Blue with white sidebar
+    blue-light: Blue Light
     yellow: Yellow
-    yellow-white-sidebar: Yellow with white sidebar
+    yellow-light: Yellow Light
     green: Green
-    green-white-sidebar: Green with white sidebar
+    green-light: Green Light
     purple: Purple
-    purple-white-sidebar: Purple with white sidebar
+    purple-light: Purple Light
     red: Red
-    red-white-sidebar: Red with white sidebar
+    red-light: Red Light
     black: Black
-    black-white-sidebar: Black with white sidebar
-
-index:
-  users-count: 注册用户
-  players-count: 角色总数
-  textures-count: 上传材质总数
-  usage: Usage
-  overview: Overview
+    black-light: Black Light
 
 plugins:
   name: Name
   description: Description
   author: Author
   version: Version
-  status: Status
-  opration: Opration
 
-  enabled: Enabled
-  disabled: Disabled
-  disable-plugin: Disable plugin
-  enable-plugin: Enable plugin
-  plugin-config: Plugin configuration
-  no-cofig: Plugin has been disabled or no configuration.
-  delete-plugin: delete-plugin
+  status:
+    title: Status
+    enabled: Enabled
+    disabled: Disabled
 
-  no-result: No result
+  operations:
+    title: Operations
+    disable: Disable
+    enable: Enable
+    configure: Configure
+    no-config-notice: The plugin has been disabled or no configuration is provided.
+    delete: Delete
+
+  empty: No result
 
 update:
-  update-info: Update information
-  update-available: New version available.
-  latest-version: 'Latest version:'
-  current-version: 'Current version'
-  release-time: 'Release time:'
-  change-log: 'Change log:'
-  no-log: 'Empty'
-  download-link: 'Download link:'
-  download-full: Click here to download full zip file
-  pre-release-warning: 本次更新为预发布版，请谨慎选择是否更新。
-  latest-now: It is latest version.
-  pre-release: 当前版本为未发布测试版
-  button: Update
-  check-forum: 查看 MCBBS 发布贴
-  forum-url: 'http://www.mcbbs.net/thread-552877-1-1.html'
-  caution: Cautions
-  choose-source: Please choose update source according to location (China or not) of your server.
-  choose-wrong: 如错选至相对于你的主机速度较慢的源，可能会造成检查/下载更新页面长时间无响应。
-  update-options: Update options
-  config-saved: Saved
-  connection-error: 无法访问当前更新源。详细信息：
-  check-update: Check update
-  auto-check: 自动检查更新并提示
-  source: Sources
-  source-list: Available sources list
-  downloading: Downloading
-  size: 'Package size:'
+  info:
+    title: Update Information
+
+    up-to-date: Already up-to-date.
+    available: New version available.
+    pre-release-warning: This update is a pre-release, please double check before updating.
+
+    versions:
+      latest: "Latest Version:"
+      current: "Current Version:"
+
+    release-time: "Release Time:"
+    pre-release: You are now using pre-release version.
+
+    change-log:
+      text: "Change Log:"
+      empty: Empty
+
+    downloads:
+      text: "Download Link:"
+      link: Click to download full program package.
+
+    check-github: <a href=":url" target="_blank" class="btn btn-default pull-right">Check GitHub Releases</a>
+    button: Update Now
+
+  cautions:
+    title: Cautions
+    text: |
+      Please choose update source according to your host location.
+      Low-speed connection between update source and your host will cause long-time loading at checking/downloading page.
+
+  download:
+    downloading: Downloading update package...
+    size: "Size of package:"

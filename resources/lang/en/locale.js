@@ -127,14 +127,14 @@
             cape: 'Cape',
             pid: 'Texture ID',
             pidNotice: 'Please enter the tid of texture',
-            changePlayerTexture: 'Change textures of :player'
+            changePlayerTexture: 'Change textures of :player',
 
             // Index
-            textureUpload: 'Texture Upload',
-            registration: 'Registration'
+            textureUploads: 'Texture Uploads',
+            userRegistration: 'User Registration',
 
             // Plugins
-            deletionConfirmation: 'Really delete this plugin?'
+            confirmDeletion: 'Are you sure to delete this plugin?'
         },
         utils: {
             fatalError: 'Fatal Error (Please contact the author)'

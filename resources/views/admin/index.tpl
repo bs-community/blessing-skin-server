@@ -25,7 +25,7 @@
                             <a href="{{ url('admin/users') }}">
                                 <span class="info-box-icon bg-aqua"><i class="fa fa-users"></i></span>
                                 <div class="info-box-content">
-                                    <span class="info-box-text">{{ trans('admin.index.users-count') }}</span>
+                                    <span class="info-box-text">{{ trans('admin.index.total-users') }}</span>
                                     <span class="info-box-number">{{ App\Models\User::all()->count() }}</span>
                                 </div><!-- /.info-box-content -->
                             </a>
@@ -37,7 +37,7 @@
                             <a href="{{ url('admin/players') }}">
                                 <span class="info-box-icon bg-green"><i class="fa fa-gamepad"></i></span>
                                 <div class="info-box-content">
-                                    <span class="info-box-text">{{ trans('admin.index.players-count') }}</span>
+                                    <span class="info-box-text">{{ trans('admin.index.total-players') }}</span>
                                     <span class="info-box-number">{{ App\Models\Player::all()->count() }}</span>
                                 </div><!-- /.info-box-content -->
                             </a>
@@ -48,7 +48,7 @@
                 <div class="info-box">
                     <span class="info-box-icon bg-aqua" style="background-color: #605ca8 !important;"><i class="fa fa-files-o"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">{{ trans('admin.index.textures-count') }}</span>
+                        <span class="info-box-text">{{ trans('admin.index.total-textures') }}</span>
                         <span class="info-box-number">{{ \Database::table('textures')->getRecordNum() }}</span>
                     </div><!-- /.info-box-content -->
                 </div><!-- /.info-box -->
@@ -56,7 +56,7 @@
                 <div class="info-box">
                     <span class="info-box-icon bg-yellow"><i class="fa fa-hdd-o"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">{{ trans('admin.index.usage') }}</span>
+                        <span class="info-box-text">{{ trans('admin.index.disk-usage') }}</span>
                         <?php $size = \Database::table('textures')->fetchArray("SELECT SUM(`size`) AS total_size FROM `{table}` WHERE 1")['total_size'] ?: 0; ?>
                         <span class="info-box-number">{{ $size > 1024 ? round($size / 1024, 1)."MB" : $size."KB" }}</span>
                     </div><!-- /.info-box-content -->
@@ -113,7 +113,7 @@
           labels: {!! json_encode($labels) !!},
           datasets: [
             {
-              label: trans("admin.textureUpload"),
+              label: trans("admin.textureUploads"),
               fillColor: "rgba(210, 214, 222, 1)",
               strokeColor: "rgba(210, 214, 222, 1)",
               pointColor: "rgba(210, 214, 222, 1)",
@@ -123,7 +123,7 @@
               data: {!! json_encode($data['texture_upload']) !!}
             },
             {
-              label: trans("admin.registration"),
+              label: trans("admin.userRegistration"),
               fillColor: "rgba(60,141,188,0.9)",
               strokeColor: "rgba(60,141,188,0.8)",
               pointColor: "#3b8bba",
