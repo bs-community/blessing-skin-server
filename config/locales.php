@@ -9,6 +9,12 @@ return [
     | Available Languages
     |
     */
-    'zh_CN' => '简体中文',
-    'en'    => 'English'
+    'zh_CN' => [
+        'name' => '中文 (中国)',
+        'short_name' => 'ZH (CN)',
+    ],
+    'en' => [
+        'name' => 'English',
+        'short_name' => 'EN',
+    ],
 ];
