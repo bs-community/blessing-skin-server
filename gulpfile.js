@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-12-17 20:36:36
+* @Last Modified time: 2016-12-30 16:15:43
 */
 
 var gulp     = require('gulp'),
@@ -94,10 +94,8 @@ gulp.task('uglify', function() {
         .pipe(gulp.dest('./resources/assets/dist/js'));
 });
 
-// release
-gulp.task('zip', function() {
-    // delete cache files
-    del([
+function clearCache() {
+    return del([
         'storage/logs/*',
         'storage/debugbar/*',
         'storage/update_cache/*',
@@ -106,6 +104,16 @@ gulp.task('zip', function() {
         'storage/framework/sessions/*',
         'storage/framework/views/*'
     ]);
+}
+
+// delete cache files
+gulp.task('clear', function() {
+    clearCache();
+});
+
+// release
+gulp.task('zip', function() {
+    clearCache();
 
     return gulp.src([
             '**/*.*',
