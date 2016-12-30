@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="robots" content="noindex,nofollow" />
-    <title>Blessing Skin Server 升级程序</title>
+    <title>{{ trans('setup.updates.master.title') }}</title>
     <link rel="shortcut icon" href="../resources/assets/images/favicon.ico">
     <link rel="stylesheet" type="text/css" href="../resources/assets/dist/css/install.css">
 </head>

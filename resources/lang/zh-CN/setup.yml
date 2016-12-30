@@ -1,5 +1,6 @@
 database:
   connection-error: 无法连接至 MySQL 服务器，请检查你的配置 :msg
+  connection-success: 成功连接至 MySQL 服务器 :server ，点击下一步以开始安装。
 
 file:
   permission-error: textures 文件夹创建失败，请确认目录权限是否正确，或者手动放置一个。
@@ -7,3 +8,51 @@ file:
 
 permissions:
   storage: 无法写入 storage 目录，请检查目录权限是否正确
+
+locked:
+  title: 已安装过
+  text: 看起来已经安装妥当。如果想重新安装，请删除数据库中的旧数据表，或者换一个数据表前缀。
+  back-to-index: 返回首页
+
+updates:
+  master:
+    title: Blessing Skin Server 升级程序
+
+  welcome:
+    title: 还差一小步
+    tip-welcome: 欢迎升级至 Blessing Skin Server
+    tip-next: 我们需要升级您的数据库，点击下一步以继续。
+    button: 下一步
+
+  success:
+    title: 升级成功
+    tip-success: 数据库升级成功，欢迎使用 Blessing Skin Server
+    tip-update: 升级提示：
+
+wizard:
+  info:
+    title: 填写信息
+    button: 开始安装
+    tip-info: 您需要填写一些基本信息。无需担心填错，这些信息以后可以再次修改。
+    admin-email: 管理员邮箱
+    super-admin: 这是唯一的超级管理员账号，可 添加/取消 其他管理员。
+    password: 密码
+    tip-important: 重要：
+    password-saving: 您将需要此密码来登录管理皮肤站，请将其保存在安全的位置。
+    password-confirmation: 重复密码
+    site-name: 站点名称
+    site-name-show: 将会显示在首页以及标题栏
+
+  welcome:
+    title: 欢迎
+    button: 下一步
+    welcome: 欢迎使用 Blessing Skin Server
+
+  master:
+    title: Blessing Skin Server 安装程序
+
+  finish:
+    title: 成功！
+    success: Blessing Skin Server 安装完成。您是否还沉浸在愉悦的安装过程中？很遗憾，一切皆已完成！ :)
+    email: 邮箱
+    password: 密码
