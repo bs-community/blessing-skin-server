@@ -2,15 +2,15 @@
 
 @section('content')
 <h1>{{ trans('setup.wizard.finish.title') }}</h1>
+<p>{{ trans('setup.wizard.finish.text') }}</p>
 
-<p>{{ trans('setup.wizard.finish.success') }}</p>
 <table class="form-table install-success">
     <tr>
-        <th>{{ trans('setup.wizard.finish.email') }}</th>
+        <th>{{ trans('auth.email') }}</th>
         <td>{{ $email }}</td>
     </tr>
     <tr>
-        <th>{{ trans('setup.wizard.finish.password') }}</th>
+        <th>{{ trans('auth.password') }}</th>
         <td><p><em>{{ $password }}</em></p></td>
     </tr>
 </table>

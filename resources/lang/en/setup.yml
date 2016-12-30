@@ -1,6 +1,6 @@
 database:
-  connection-error: Unable to connect to MySQL server, please check your configuration. :msg
-  connection-success: Successfully connected to :server , just click NEXT to start installation.
+  connection-error: Unable to connect to the target database, please check your configuration. The server replied with this :msg.
+  connection-success: Connect to the target database [:server] successfully, just click NEXT to start installation.
 
 file:
   permission-error: Unable to create textures folder, please check the directory permissions or place one manually.
@@ -10,9 +10,9 @@ permissions:
   storage: Unable to write to storage directory, please check the permissions.
 
 locked:
-  title: Installed
+  title: Already installed
   text: You appear to have already installed Blessing Skin Server. To reinstall please clear your old database tables first, or use a new database table prefix.
-  back-to-index: Back to index
+  button: Back to homepage
 
 updates:
   master:
@@ -30,29 +30,27 @@ updates:
     tip-update: Tips of updating
 
 wizard:
-  info:
-    title: Providing information
-    button: Start installation
-    tip-info: Please provide the following information. Don't worry, you can always change these settings later.
-    admin-email: E-mail address of administrator
-    super-admin: This is the only one administrator account, which can ADD or CANCEL other administrators.
-    password: Password
-    tip-important: 'Important:'
-    password-saving: You will need this password to log in. Please store it in a secure location.
-    password-confirmation: Confirm password
-    site-name: Site name
-    site-name-show: will be showed in index and title.
+  master:
+    title: Install Wizard - Blessing Skin Server
 
   welcome:
-    title: Welcom
+    title: Welcome
     button: Next
-    welcome: Welcome to Blessing Skin Server
+    text: Welcome to Blessing Skin Server v:version!
 
-  master:
-    title: Blessing Skin Server Installation
+  info:
+    title: Information needed
+    button: Run install
+    text: To proceed with the installation fill this form with the details of the initial admin account. Don't worry, you can always change these settings later.
+
+    admin-email: Admin Email
+    admin-notice: This is the <b>UNIQUE</b> super admin account who can GIVE or CANCEL other users' admin privilege.
+    password: Password
+    pwd-notice: <b>Attention:</b> You will need the password to log in. Please keep it at a secure place.
+    confirm-pwd: Confirm password
+    site-name: Site name
+    site-name-notice: This will be shown at title bar and homepage.
 
   finish:
-    title: Success!
-    success: Blessing Skin Server has been installed. Thank you, and enjoy!
-    email: E-mail
-    password: Password
+    title: Installation complete
+    text: Blessing Skin Server has been installed. Thank you, and enjoy!

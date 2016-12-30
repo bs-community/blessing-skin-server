@@ -83,11 +83,19 @@ class SetupController extends Controller
 
     public function info()
     {
+        if (self::checkTablesExist()) {
+            return view('setup.locked');
+        }
+
         return view('setup.wizard.info');
     }
 
     public function finish(Request $request)
     {
+        if (self::checkTablesExist()) {
+            return view('setup.locked');
+        }
+
         $this->validate($request, [
             'email'     => 'required|email',
             'password'  => 'required|min:6|max:16|confirmed',

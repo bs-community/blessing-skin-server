@@ -37,7 +37,7 @@ td#description {
                             <th>{{ trans('admin.plugins.author') }}</th>
                             <th>{{ trans('admin.plugins.version') }}</th>
                             <th>{{ trans('admin.plugins.status') }}</th>
-                            <th>{{ trans('admin.plugins.opration') }}</th>
+                            <th>{{ trans('admin.plugins.operation') }}</th>
                         </tr>
                     </thead>
 

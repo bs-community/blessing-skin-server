@@ -3,8 +3,8 @@
 @section('content')
 <h1>{{ trans('setup.locked.title') }}</h1>
 
-<p>Blessing Skin Server {{ trans('setup.locked.text') }}</p>
+<p>{{ trans('setup.locked.text') }}</p>
 <p class="step">
-    <a href="{{ url('/') }}" class="button button-large">{{ trans('setup.locked.back-to-index') }}</a>
+    <a href="{{ url('/') }}" class="button button-large">{{ trans('setup.locked.button') }}</a>
 </p>
 @endsection
