@@ -1,0 +1,70 @@
+customize:
+  change-color: Change theme color
+
+  color:
+    blue: Blue (Default)
+    blue-white-sidebar: Blue with white sidebar
+    yellow: Yellow
+    yellow-white-sidebar: Yellow with white sidebar
+    green: Green
+    green-white-sidebar: Green with white sidebar
+    purple: Purple
+    purple-white-sidebar: Purple with white sidebar
+    red: Red
+    red-white-sidebar: Red with white sidebar
+    black: Black
+    black-white-sidebar: Black with white sidebar
+
+index:
+  users-count: 注册用户
+  players-count: 角色总数
+  textures-count: 上传材质总数
+  usage: Usage
+  overview: Overview
+
+plugins:
+  name: Name
+  description: Description
+  author: Author
+  version: Version
+  status: Status
+  opration: Opration
+
+  enabled: Enabled
+  disabled: Disabled
+  disable-plugin: Disable plugin
+  enable-plugin: Enable plugin
+  plugin-config: Plugin configuration
+  no-cofig: Plugin has been disabled or no configuration.
+  delete-plugin: delete-plugin
+
+  no-result: No result
+
+update:
+  update-info: Update information
+  update-available: New version available.
+  latest-version: 'Latest version:'
+  current-version: 'Current version'
+  release-time: 'Release time:'
+  change-log: 'Change log:'
+  no-log: 'Empty'
+  download-link: 'Download link:'
+  download-full: Click here to download full zip file
+  pre-release-warning: 本次更新为预发布版，请谨慎选择是否更新。
+  latest-now: It is latest version.
+  pre-release: 当前版本为未发布测试版
+  button: Update
+  check-forum: 查看 MCBBS 发布贴
+  forum-url: 'http://www.mcbbs.net/thread-552877-1-1.html'
+  caution: Cautions
+  choose-source: Please choose update source according to location (China or not) of your server.
+  choose-wrong: 如错选至相对于你的主机速度较慢的源，可能会造成检查/下载更新页面长时间无响应。
+  update-options: Update options
+  config-saved: Saved
+  connection-error: 无法访问当前更新源。详细信息：
+  check-update: Check update
+  auto-check: 自动检查更新并提示
+  source: Sources
+  source-list: Available sources list
+  downloading: Downloading
+  size: 'Package size:'
