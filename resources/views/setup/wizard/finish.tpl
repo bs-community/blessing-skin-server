@@ -1,21 +1,21 @@
 @extends('setup.wizard.master')
 
 @section('content')
-<h1>成功！</h1>
+<h1>{{ trans('setup.wizard.finish.title') }}</h1>
 
-<p>Blessing Skin Server 安装完成。您是否还沉浸在愉悦的安装过程中？很遗憾，一切皆已完成！ :)</p>
+<p>{{ trans('setup.wizard.finish.success') }}</p>
 <table class="form-table install-success">
     <tr>
-        <th>邮箱</th>
+        <th>{{ trans('setup.wizard.finish.email') }}</th>
         <td>{{ $email }}</td>
     </tr>
     <tr>
-        <th>密码</th>
+        <th>{{ trans('setup.wizard.finish.password') }}</th>
         <td><p><em>{{ $password }}</em></p></td>
     </tr>
 </table>
 
 <p class="step">
-    <a href="../" class="button button-large">首页</a>
+    <a href="../" class="button button-large">{{ trans('general.index') }}</a>
 </p>
 @endsection

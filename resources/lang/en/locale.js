@@ -128,6 +128,13 @@
             pid: 'Texture ID',
             pidNotice: 'Please enter the tid of texture',
             changePlayerTexture: 'Change textures of :player'
+
+            // Index
+            textureUpload: 'Texture Upload',
+            registration: 'Registration'
+
+            // Plugins
+            deletionConfirmation: 'Really delete this plugin?'
         },
         utils: {
             fatalError: 'Fatal Error (Please contact the author)'

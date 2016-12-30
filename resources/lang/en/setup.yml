@@ -1,5 +1,6 @@
 database:
   connection-error: Unable to connect to MySQL server, please check your configuration. :msg
+  connection-success: Successfully connected to :server , just click NEXT to start installation.
 
 file:
   permission-error: Unable to create textures folder, please check the directory permissions or place one manually.
@@ -7,3 +8,51 @@ file:
 
 permissions:
   storage: Unable to write to storage directory, please check the permissions.
+
+locked:
+  title: Installed
+  text: You appear to have already installed Blessing Skin Server. To reinstall please clear your old database tables first, or use a new database table prefix.
+  back-to-index: Back to index
+
+updates:
+  master:
+    title: Blessing Skin Server Updating Wizard
+
+  welcome:
+    title: Just one step
+    tip-welcome: Welcome to updating Blessing Skin Server
+    tip-next: We need to update your database, just click NEXT.
+    button: Next
+
+  success:
+    title: Updated successfully
+    tip-success: Database updated successfully. Welcome to Blessing Skin Server.
+    tip-update: Tips of updating
+
+wizard:
+  info:
+    title: Providing information
+    button: Start installation
+    tip-info: Please provide the following information. Don't worry, you can always change these settings later.
+    admin-email: E-mail address of administrator
+    super-admin: This is the only one administrator account, which can ADD or CANCEL other administrators.
+    password: Password
+    tip-important: 'Important:'
+    password-saving: You will need this password to log in. Please store it in a secure location.
+    password-confirmation: Confirm password
+    site-name: Site name
+    site-name-show: will be showed in index and title.
+
+  welcome:
+    title: Welcom
+    button: Next
+    welcome: Welcome to Blessing Skin Server
+
+  master:
+    title: Blessing Skin Server Installation
+
+  finish:
+    title: Success!
+    success: Blessing Skin Server has been installed. Thank you, and enjoy!
+    email: E-mail
+    password: Password
