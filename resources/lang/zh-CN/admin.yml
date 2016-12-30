@@ -1,0 +1,70 @@
+customize:
+  change-color: 更改配色
+
+  color:
+    blue: 蓝色主题（默认）
+    blue-white-sidebar: 蓝色主题-白色侧边栏
+    yellow: 黄色主题
+    yellow-white-sidebar: 黄色主题-白色侧边栏
+    green: 绿色主题
+    green-white-sidebar: 绿色主题-白色侧边栏
+    purple: 基佬紫
+    purple-white-sidebar: 紫色主题-白色侧边栏
+    red: 喜庆红（笑）
+    red-white-sidebar: 红色主题-白色侧边栏
+    black: 高端黑
+    black-white-sidebar: 黑色主题-白色侧边栏
+
+index:
+  users-count: 注册用户
+  players-count: 角色总数
+  textures-count: 上传材质总数
+  usage: 占用空间大小
+  overview: 概览
+
+plugins:
+  name: 名称
+  description: 描述
+  author: 作者
+  version: 版本
+  status: 状态
+  opration: 操作
+
+  enabled: 已启用
+  disabled: 已禁用
+  disable-plugin: 禁用插件
+  enable-plugin: 启用插件
+  plugin-config: 插件配置
+  no-cofig: 插件已被禁用或无配置页
+  delete-plugin: 删除插件
+
+  no-result: 无结果
+
+update:
+  update-info: 更新信息
+  update-available: 有更新可用。
+  latest-version: 最新版本：
+  current-version: 当前版本：
+  release-time: 发布时间：
+  change-log: 更新日志：
+  no-log: 无内容
+  download-link: 下载地址：
+  download-full: 点击下载完整安装包
+  pre-release-warning: 本次更新为预发布版，请谨慎选择是否更新。
+  latest-now: 已更新至最新版本。
+  pre-release: 当前版本为未发布测试版
+  button: 马上升级
+  check-forum: 查看 MCBBS 发布贴
+  forum-url: 'http://www.mcbbs.net/thread-552877-1-1.html'
+  caution: 注意事项
+  choose-source: 请根据你的主机所在位置（国内/国外）选择更新源。
+  choose-wrong: 如错选至相对于你的主机速度较慢的源，可能会造成检查/下载更新页面长时间无响应。
+  update-options: 更新选项
+  config-saved: 设置已保存。
+  connection-error: 无法访问当前更新源。详细信息：
+  check-update: 检查更新
+  auto-check: 自动检查更新并提示
+  source: 更新源
+  source-list: 可用的更新源列表可以在这里查看：
+  downloading: 正在下载更新包
+  size: 更新包大小：

@@ -44,7 +44,7 @@ wizard:
     site-name-show: will be showed in index and title.
 
   welcome:
-    title: Welcom
+    title: Welcome
     button: Next
     welcome: Welcome to Blessing Skin Server
 
