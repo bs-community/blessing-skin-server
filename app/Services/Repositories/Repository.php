@@ -45,7 +45,7 @@ class Repository implements ArrayAccess // Illuminate\Contracts\Cache\Repository
     }
 
     /**
-     * Set a given option value.
+     * Set a given item value.
      *
      * @param  array|string  $key
      * @param  mixed  $value

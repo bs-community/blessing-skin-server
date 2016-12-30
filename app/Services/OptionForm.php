@@ -248,7 +248,7 @@ class OptionForm
     protected function getValueById($id)
     {
         if (false === ($result = $this->parseIdWithOffset($id))) {
-            return Arr::get($this->values, $id, option($id, null, false));
+            return Arr::get($this->values, $id, option($id));
         } else {
             $option = Arr::get(
                 $this->values,
@@ -268,10 +268,6 @@ class OptionForm
      */
     protected function assignValues()
     {
-        if (!is_null($this->alwaysCallback)) {
-            call_user_func($this->alwaysCallback, $this);
-        }
-
         // load values for items if not set manually
         foreach ($this->items as $item) {
             if ($item instanceof OptionFormGroup) {
@@ -310,6 +306,10 @@ class OptionForm
      */
     public function render()
     {
+        if (!is_null($this->alwaysCallback)) {
+            call_user_func($this->alwaysCallback, $this);
+        }
+
         $this->assignValues();
 
         return view('vendor.option-form.main')->with(array_merge(get_object_vars($this)))->render();

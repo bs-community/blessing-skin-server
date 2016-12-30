@@ -27,6 +27,7 @@ class SaveOptionRepository
      */
     public function terminate($request, $response)
     {
-        app('options')->save();
+        // deprecated
+        // app('options')->save();
     }
 }

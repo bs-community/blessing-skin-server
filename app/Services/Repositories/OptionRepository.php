@@ -65,8 +65,51 @@ class OptionRepository extends Repository
     }
 
     /**
+     * Set a given option value.
+     *
+     * @param  array|string  $key
+     * @param  mixed  $value
+     * @return void
+     */
+    public function set($key, $value = null)
+    {
+        if (is_array($key)) {
+            // If given key is an array
+            foreach ($key as $innerKey => $innerValue) {
+                Arr::set($this->items, $innerKey, $innerValue);
+                $this->doSetOption($innerKey, $innerValue);
+            }
+        } else {
+            Arr::set($this->items, $key, $value);
+            $this->doSetOption($key, $value);
+        }
+    }
+
+    /**
      * Do really save modified options to database.
      *
+     * @return void
+     */
+    protected function doSetOption($key, $value)
+    {
+        try {
+            if (!DB::table('options')->where('option_name', $key)->first()) {
+                DB::table('options')
+                    ->insert(['option_name' => $key, 'option_value' => $value]);
+            } else {
+                DB::table('options')
+                        ->where('option_name', $key)
+                        ->update(['option_value' => $value]);
+            }
+        } catch (QueryException $e) {
+            return;
+        }
+    }
+
+    /**
+     * Do really save modified options to database.
+     *
+     * @deprecated
      * @return void
      */
     public function save()
