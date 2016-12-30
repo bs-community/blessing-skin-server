@@ -16,9 +16,11 @@ class Internationalization
             session(['locale' => Cookie::get('locale')]);
         }
 
-        if (Session::has('locale') && Arr::exists(config('locales'), session('locale'))) {
+        if (Session::has('locale')) {
             // Set app locale dynamically
             App::setLocale(session('locale'));
+        } else {
+            App::setLocale($request->getPreferredLanguage());
         }
 
         return $next($request);
