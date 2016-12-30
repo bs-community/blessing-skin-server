@@ -22,7 +22,7 @@ class PluginServiceProvider extends ServiceProvider
         // make view instead of view.finder since the finder is defined as not a singleton
         $finder = $this->app->make('view');
 
-        foreach ($plugins->getPlugins() as $plugin) {
+        foreach ($plugins->getEnabledPlugins() as $plugin) {
             $src_paths[$plugin->getNameSpace()] = $plugin->getPath()."/src";
             // add paths of translation files for namespace hints
             $loader->addNamespace($plugin->getNameSpace(), $plugin->getPath()."/lang");
