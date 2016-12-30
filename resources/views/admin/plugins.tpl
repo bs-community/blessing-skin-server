@@ -32,12 +32,12 @@ td#description {
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th>名称</th>
-                            <th>描述</th>
-                            <th>作者</th>
-                            <th>版本</th>
-                            <th>状态</th>
-                            <th>操作</th>
+                            <th>{{ trans('admin.plugins.name') }}</th>
+                            <th>{{ trans('admin.plugins.description') }}</th>
+                            <th>{{ trans('admin.plugins.author') }}</th>
+                            <th>{{ trans('admin.plugins.version') }}</th>
+                            <th>{{ trans('admin.plugins.status') }}</th>
+                            <th>{{ trans('admin.plugins.opration') }}</th>
                         </tr>
                     </thead>
 
@@ -50,33 +50,33 @@ td#description {
                             <td id="version">{{ $plugin->version }}</td>
                             <td id="status">
                                 @if ($plugin->isEnabled())
-                                已启用
+                                {{ trans('admin.plugins.enabled') }}
                                 @else
-                                已禁用
+                                {{ trans('admin.plugins.disabled') }}
                                 @endif
                             </td>
 
                             <td>
                                 @if ($plugin->isEnabled())
-                                <a class="btn btn-warning btn-sm" href="?action=disable&id={{ $plugin->name }}">禁用插件</a>
+                                <a class="btn btn-warning btn-sm" href="?action=disable&id={{ $plugin->name }}">{{ trans('admin.plugins.disable-plugin') }}</a>
                                 @else
-                                <a class="btn btn-primary btn-sm" href="?action=enable&id={{ $plugin->name }}">启用插件</a>
+                                <a class="btn btn-primary btn-sm" href="?action=enable&id={{ $plugin->name }}">{{ trans('admin.plugins.enable-plugin') }}</a>
                                 @endif
 
                                 @if ($plugin->isEnabled() && $plugin->hasConfigView())
-                                <a class="btn btn-default btn-sm" href="?action=config&id={{ $plugin->name }}">插件配置</a>
+                                <a class="btn btn-default btn-sm" href="?action=config&id={{ $plugin->name }}">{{ trans('admin.plugins.plugin-config') }}</a>
                                 @else
-                                <a class="btn btn-default btn-sm" disabled="disabled" title="插件已被禁用或无配置页" data-toggle="tooltip" data-placement="top">插件配置</a>
+                                <a class="btn btn-default btn-sm" disabled="disabled" title="{{ trans('admin.plugins.no-config') }}" data-toggle="tooltip" data-placement="top">{{ trans('admin.plugins.no-config') }}</a>
                                 @endif
 
-                                <a class="btn btn-danger btn-sm" href="javascript:deletePlugin('{{ $plugin->name }}');">删除插件</a>
+                                <a class="btn btn-danger btn-sm" href="javascript:deletePlugin('{{ $plugin->name }}');">{{ trans('admin.plugins.delete-plugin') }}</a>
 
                             </td>
                         </tr>
                         @empty
                         <tr>
                             <td>0</td>
-                            <td>无结果</td>
+                            <td>{{ trans('admin.plugins.no-result') }}</td>
                             <td>(´・ω・`)</td>
                         </tr>
                         @endforelse
@@ -105,7 +105,7 @@ td#description {
 
 function deletePlugin(name) {
     swal({
-        text: '真的要删除这个插件吗？',
+        text: trans('admin.deletionConfirmation'),
         type: 'warning',
         showCancelButton: true
     }).then(function() {

@@ -128,6 +128,13 @@
             pid: '材质 ID',
             pidNotice: '输入要更换的材质的 TID',
             changePlayerTexture: '更换角色 :player 的材质'
+
+            // Index
+            textureUpload: '材质上传',
+            registration: '用户注册'
+
+            // Plugins
+            deletionConfirmation: '真的要删除这个插件吗？'
         },
         utils: {
             fatalError: '严重错误（请联系作者）'

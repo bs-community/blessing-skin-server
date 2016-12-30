@@ -1,13 +1,13 @@
 @extends('setup.updates.master')
 
 @section('content')
-<h1>升级成功</h1>
+<h1>{{ trans('setup.updates.success.title') }}</h1>
 
-<p>数据库升级成功，欢迎使用 Blessing Skin Server {{ config('app.version') }}！</p>
+<p>{{ trans('setup.updates.success.tip-success') }} {{ config('app.version') }}！</p>
 
 {{-- if any tip is given --}}
 @if (!empty($tips))
-<p><b>升级提示：</b></p>
+<p><b>{{ trans('setup.updates.success.tip-update') }}</b></p>
 <ul>
     @foreach ($tips as $tip)
     <li><p>{{ $tip }}</p></li>
@@ -16,6 +16,6 @@
 @endif
 
 <p class="step">
-    <a href="{{ url('/') }}" class="button button-large">首页</a>
+    <a href="{{ url('/') }}" class="button button-large">{{ trans('general.index') }}</a>
 </p>
 @endsection
