@@ -7,6 +7,7 @@
     <title>{{ trans('setup.wizard.master.title') }}</title>
     <link rel="shortcut icon" href="../resources/assets/images/favicon.ico">
     <link rel="stylesheet" type="text/css" href="../resources/assets/dist/css/install.css">
+    @yield('style')
 </head>
 
 <body class="container">
@@ -14,6 +15,19 @@
 
 @yield('content')
 
-</body>
+<script>
+    function refreshWithLangPrefer() {
+        var e = document.getElementById("language-chooser");
+        var lang = e.options[e.selectedIndex].value;
 
+        // set cookie
+        document.cookie = "locale=" + lang + "; path=/";
+
+        location.reload();
+    }
+</script>
+
+@yield('script')
+
+</body>
 </html>

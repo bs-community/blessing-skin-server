@@ -1,7 +1,9 @@
 @extends('setup.wizard.master')
 
 @section('content')
-<h1>{{ trans('setup.wizard.welcome.title') }}</h1>
+<h1>{{ trans('setup.wizard.welcome.title') }}
+@include('setup.wizard.language')
+</h1>
 
 <p>{{ trans('setup.wizard.welcome.text', ['version' => config('app.version')]) }}</p>
 <p>{{ trans('setup.database.connection-success', ['server' => $server]) }}</p>

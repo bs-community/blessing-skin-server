@@ -1,7 +1,10 @@
 @extends('setup.wizard.master')
 
 @section('content')
-<h1>{{ trans('setup.wizard.finish.title') }}</h1>
+<h1>{{ trans('setup.wizard.finish.title') }}
+@include('setup.wizard.language')
+</h1>
+
 <p>{{ trans('setup.wizard.finish.text') }}</p>
 
 <table class="form-table install-success">

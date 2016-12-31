@@ -1,7 +1,10 @@
 @extends('setup.wizard.master')
 
 @section('content')
-<h1>{{ trans('setup.wizard.info.title') }}</h1>
+<h1>{{ trans('setup.wizard.info.title') }}
+@include('setup.wizard.language')
+</h1>
+
 <p>{{ trans('setup.wizard.info.text') }}</p>
 
 <form id="setup" method="post" action="{{ url('setup/finish') }}" novalidate="novalidate">
