@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-07-29 11:53:11
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-12-28 12:59:37
+ * @Last Modified time: 2016-12-31 13:25:58
  */
 
 return [
@@ -40,5 +40,6 @@ return [
     'auto_detect_asset_url'     => '1',
     'plugins_enabled'           => '',
     'copyright_prefer'          => '0',
-    'score_per_closet_item'     => '0'
+    'score_per_closet_item'     => '0',
+    'favicon_url'               => 'images/favicon.ico'
 ];

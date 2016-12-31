@@ -28,6 +28,9 @@ class AdminController extends Controller
         {
             $form->text('home_pic_url', '首页图片地址')->hint('相对于首页的路径或者完整的 URL');
 
+            $form->text('favicon_url', '网站图标')->hint('相对 resources/assets/ 的路径或者完整的 URL')
+                ->description('所使用的图像必须具有相同的宽度和高度');
+
             $form->select('copyright_prefer', '程序版权信息')
                     ->option('0', 'Powered with ❤ by Blessing Skin Server.')
                     ->option('1', 'Powered by Blessing Skin Server.')

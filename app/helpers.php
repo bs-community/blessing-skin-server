@@ -130,6 +130,18 @@ if (! function_exists('bs_header')) {
     }
 }
 
+if (! function_exists('bs_favicon')) {
+
+    function bs_favicon()
+    {
+        $url = Str::startsWith($url = option('favicon_url'), 'http') ? $url : assets($url);
+
+        return "<link rel=\"shortcut icon\" href=\"$url\">".
+            "<link rel=\"icon\" type=\"image/png\" href=\"$url\" sizes=\"192x192\">".
+            "<link rel=\"apple-touch-icon\" href=\"$url\" sizes=\"180x180\">";
+    }
+}
+
 if (! function_exists('bs_menu')) {
 
     function bs_menu($type)
