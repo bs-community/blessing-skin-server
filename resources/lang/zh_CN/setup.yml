@@ -54,4 +54,4 @@ wizard:
 
   finish:
     title: 安装成功！
-    success: Blessing Skin Server 安装完成。您是否还沉浸在愉悦的安装过程中？很遗憾，一切皆已完成！ :)
+    text: Blessing Skin Server 安装完成。您是否还沉浸在愉悦的安装过程中？很遗憾，一切皆已完成！ :)

@@ -131,21 +131,30 @@ class SetupController extends Controller
     /**
      * Check if the given tables exist in current database.
      *
-     * @param  array $tables [description]
+     * @param  array $tables
      * @return bool
      */
     public static function checkTablesExist($tables = [
         'users', 'closets', 'players', 'textures', 'options'
-    ])
-    {
-        foreach ($tables as $table_name) {
+    ]) {
+        $totalTables = 0;
+
+        foreach ($tables as $tableName) {
             // prefix will be added automatically
-            if (!Schema::hasTable($table_name)) {
-                return false;
+            if (Schema::hasTable($tableName)) {
+                $totalTables++;
             }
         }
 
-        return true;
+        if ($totalTables == count($tables)) {
+            return true;
+        } else {
+            // not installed completely
+            foreach (array_merge($tables, ['migrations']) as $tableName) {
+                Schema::dropIfExists($tableName);
+            }
+            return false;
+        }
     }
 
     public static function checkTextureDirectory()
