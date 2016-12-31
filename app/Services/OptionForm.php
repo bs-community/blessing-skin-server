@@ -26,6 +26,7 @@ class OptionForm
 
     protected $renderWithOutTable  = false;
     protected $renderInputTagsOnly = false;
+    protected $renderWithOutSubmitButton = false;
 
     /**
      * Create a new option form instance.
@@ -301,6 +302,13 @@ class OptionForm
         return $this;
     }
 
+    public function renderWithOutSubmitButton()
+    {
+        $this->renderWithOutSubmitButton = true;
+
+        return $this;
+    }
+
     /**
      * Get the string contents of the option form.
      *
@@ -310,6 +318,16 @@ class OptionForm
     {
         if (!is_null($this->alwaysCallback)) {
             call_user_func($this->alwaysCallback, $this);
+        }
+
+        // attach submit button to the form
+        if (!$this->renderWithOutSubmitButton) {
+            $this->addButton([
+                'style' => 'primary',
+                'text'  => trans('general.submit'),
+                'type'  => 'submit',
+                'name'  => 'submit'
+            ]);
         }
 
         $this->assignValues();
@@ -338,6 +356,8 @@ class OptionFormItem
 
     public $value = null;
 
+    public $disabled;
+
     public $description;
 
     public function __construct($id, $name = null)
@@ -356,6 +376,13 @@ class OptionFormItem
     public function hint($hintContent)
     {
         $this->hint = view('vendor.option-form.hint')->with('hint', $hintContent)->render();
+
+        return $this;
+    }
+
+    public function disabled($disabled = "disabled")
+    {
+        $this->disabled = "disabled=\"$disabled\"";
 
         return $this;
     }
@@ -384,8 +411,9 @@ class OptionFormText extends OptionFormItem
     public function render()
     {
         return view('vendor.option-form.text')->with([
-            'id'    => $this->id,
-            'value' => $this->value
+            'id' => $this->id,
+            'value' => $this->value,
+            'disabled' => $this->disabled
         ]);
     }
 }
@@ -406,7 +434,8 @@ class OptionFormCheckbox extends OptionFormItem
         return view('vendor.option-form.checkbox')->with([
             'id'    => $this->id,
             'value' => $this->value,
-            'label' => $this->label
+            'label' => $this->label,
+            'disabled' => $this->disabled
         ]);
     }
 }
@@ -427,7 +456,8 @@ class OptionFormTextarea extends OptionFormItem
         return view('vendor.option-form.textarea')->with([
             'id'    => $this->id,
             'rows'  => $this->rows,
-            'value' => $this->value
+            'value' => $this->value,
+            'disabled' => $this->disabled
         ]);
     }
 }
@@ -448,7 +478,8 @@ class OptionFormSelect extends OptionFormItem
         return view('vendor.option-form.select')->with([
             'id'       => $this->id,
             'options'  => $this->options,
-            'selected' => $this->value
+            'selected' => $this->value,
+            'disabled' => $this->disabled
         ]);
     }
 }

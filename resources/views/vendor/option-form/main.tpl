@@ -32,8 +32,6 @@
 
         </div><!-- /.box-body -->
         <div class="box-footer">
-            <button type="submit" name="submit" class="btn btn-primary">{{ trans('general.submit') }}</button>
-
             @foreach($buttons as $button)
             {!! $button !!}
             @endforeach

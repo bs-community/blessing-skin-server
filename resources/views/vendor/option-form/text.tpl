@@ -1,1 +1,1 @@
-<input type="text" class="form-control" name="{{ $id }}" value="{{ $value }}">
+<input type="text" class="form-control" name="{{ $id }}" {{ $disabled or '' }} value="{{ $value }}">
