@@ -3,8 +3,7 @@
 @section('content')
 <h1>{{ trans('setup.updates.welcome.title') }}</h1>
 
-<p>{{ trans('setup.updates.welcome.tip-welcome') }} {{ config('app.version') }}</p>
-<p>{{ trans('setup.updates.welcome.tip-next') }}</p>
+<p>{!! nl2br(trans('setup.updates.welcome.text', ['version' => config('app.version')])) !!}</p>
 
 <form method="post" action="" novalidate="novalidate">
     <p class="step">

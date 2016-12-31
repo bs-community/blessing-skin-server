@@ -3,11 +3,11 @@
 @section('content')
 <h1>{{ trans('setup.updates.success.title') }}</h1>
 
-<p>{{ trans('setup.updates.success.tip-success') }} {{ config('app.version') }}！</p>
+<p>{{ trans('setup.updates.success.text', ['version' => config('app.version')]) }}</p>
 
 {{-- if any tip is given --}}
 @if (!empty($tips))
-<p><b>{{ trans('setup.updates.success.tip-update') }}</b></p>
+<p><b>{{ trans('setup.updates.success.tips') }}</b></p>
 <ul>
     @foreach ($tips as $tip)
     <li><p>{{ $tip }}</p></li>
