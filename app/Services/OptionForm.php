@@ -219,8 +219,10 @@ class OptionForm
 
                 // Str::is('*[*]', $item->id)
                 if (false !== ($result = $this->parseIdWithOffset($item->id))) {
-                    // push array option value to cache
-                    $arrayOptionQueue[$result['id']][$result['offset']] = $_POST[$item->id];
+                    // Push array option value to cache.
+                    // Values of post ids like *[*] is collected as arrays in $_POST
+                    // automatically by Laravel.
+                    $arrayOptionQueue[$result['id']] = $_POST[$result['id']];
                     continue;
                 }
 
