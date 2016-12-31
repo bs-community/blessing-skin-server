@@ -4,12 +4,9 @@
 
 @section('style')
 <style>
-.btn {
-    margin-right: 4px;
-}
-td#description {
-    width: 35%;
-}
+.btn { margin-right: 4px; }
+td#description { width: 35%; }
+@media (max-width: 767px) { .content-header > h1 > small { display: none; } }
 </style>
 @endsection
 
@@ -27,6 +24,13 @@ td#description {
 
     <!-- Main content -->
     <section class="content">
+
+        @if (session()->has('message'))
+            <div class="callout callout-success" role="alert">
+                {{ session('message') }}
+            </div>
+        @endif
+
         <div class="box">
             <div class="box-body table-responsive no-padding">
                 <table class="table table-hover">
@@ -88,16 +92,6 @@ td#description {
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 
-@endsection
-
-@section('style')
-<style>
-    @media (max-width: 767px) {
-        .content-header > h1 > small {
-            display: none;
-        }
-    }
-</style>
 @endsection
 
 @section('script')

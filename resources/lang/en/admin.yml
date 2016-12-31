@@ -41,6 +41,10 @@ plugins:
     no-config-notice: The plugin has been disabled or no configuration is provided.
     delete: Delete
 
+    enabled: :plugin has been enabled.
+    disabled: :plugin has been disabled.
+    deleted: The plugin was deleted successfully.
+
   empty: No result
 
 update:

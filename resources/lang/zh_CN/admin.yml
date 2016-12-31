@@ -41,6 +41,10 @@ plugins:
     no-config-notice: 插件已被禁用或无配置页
     delete: 删除插件
 
+    enabled: :plugin 已启用
+    disabled: :plugin 已禁用
+    deleted: 插件已被成功删除
+
   empty: 无结果
 
 update:

@@ -16,18 +16,19 @@ locked:
 
 updates:
   master:
-    title: Blessing Skin Server Updating Wizard
+    title: Update Wizard - Blessing Skin Server
 
   welcome:
-    title: Just one step
-    tip-welcome: Welcome to updating Blessing Skin Server
-    tip-next: We need to update your database, just click NEXT.
+    title: One more step
+    text: |
+      Welcome to update to Blessing Skin Server v:version!
+      We need to apply some updates to your database, click NEXT to continue.
     button: Next
 
   success:
-    title: Updated successfully
-    tip-success: Database updated successfully. Welcome to Blessing Skin Server.
-    tip-update: Tips of updating
+    title: Update complete
+    text: Blessing Skin Server has been successfully updated to v:version.
+    tips: "Update Tips:"
 
 wizard:
   master:

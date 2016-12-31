@@ -10,7 +10,7 @@ return [
     |
     */
     'zh_CN' => [
-        'name' => '中文 (中国)',
+        'name' => '中文 (简体)',
         'short_name' => 'ZH (CN)',
     ],
     'en' => [

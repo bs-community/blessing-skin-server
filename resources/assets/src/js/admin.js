@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-11-25 13:10:36
+ * @Last Modified time: 2016-12-31 10:54:41
  */
 
 'use strict';
@@ -197,11 +197,10 @@ function deleteUserAccount(uid) {
     });
 }
 
-$('.score').on('keypress', function(event){
-    if (event.which == 13)
+$('body').on('keypress', '.score', function(event){
+    if (event.which == 13) {
         changeUserScore($(this).parent().parent().attr('id'), $(this).val());
-}).click(function() {
-    $(this).tooltip('show');
+    }
 });
 
 $('body').on('change', '#preference', function() {

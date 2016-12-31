@@ -25,13 +25,13 @@ class PluginController extends Controller
                     case 'enable':
                         $plugins->enable($id);
 
-                        return redirect('admin/plugins/manage');
+                        return redirect('admin/plugins/manage')->with('message', trans('admin.plugins.operations.enabled', ['plugin' => $plugin->title]));
                         break;
 
                     case 'disable':
                         $plugins->disable($id);
 
-                        return redirect('admin/plugins/manage');
+                        return redirect('admin/plugins/manage')->with('message', trans('admin.plugins.operations.disabled', ['plugin' => $plugin->title]));
                         break;
 
                     case 'delete':
@@ -40,7 +40,7 @@ class PluginController extends Controller
 
                             $plugins->uninstall($id);
 
-                            return json('插件已被成功删除', 0);
+                            return json(trans('admin.plugins.operations.deleted'), 0);
                         }
                         break;
 

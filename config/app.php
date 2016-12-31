@@ -161,6 +161,7 @@ return [
          */
         Devitek\Core\Translation\TranslationServiceProvider::class,
         Swiggles\Memcache\MemcacheServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
 
         /**
          * Application Service Providers...

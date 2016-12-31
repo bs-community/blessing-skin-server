@@ -20,14 +20,15 @@ updates:
 
   welcome:
     title: 还差一小步
-    tip-welcome: 欢迎升级至 Blessing Skin Server
-    tip-next: 我们需要升级您的数据库，点击下一步以继续。
+    text: |
+      欢迎升级至 Blessing Skin Server v:version！
+      我们需要升级您的数据库，点击下一步以继续。
     button: 下一步
 
   success:
     title: 升级成功
-    tip-success: 数据库升级成功，欢迎使用 Blessing Skin Server
-    tip-update: 升级提示：
+    text: 数据库升级成功，欢迎使用 Blessing Skin Server v:version！
+    tips: 升级提示：
 
 wizard:
   master:

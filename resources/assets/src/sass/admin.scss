@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:08:41
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-12-30 20:54:26
+ * @Last Modified time: 2016-12-31 11:27:18
  */
 
 @import "style.scss";
@@ -21,25 +21,7 @@
 }
 
 input.score {
-    width: 80px;
-}
-
-.user-search-form {
-    display: inline;
-
-    .user-search-input {
-        display: inline;
-        width: 30%;
-        float: right;
-        margin: 0;
-    }
-
-    select.user-search-input {
-        padding-left: 0;
-        margin: 0 20px 0 0;
-        padding: 5.5px 14px;
-        width: 120px;
-    }
+    width: 100px !important;
 }
 
 td {
@@ -67,4 +49,8 @@ td {
     a {
         color: #3c8dbc;
     }
+}
+
+.table>tbody>tr>td {
+    border-top: 0 !important;
 }

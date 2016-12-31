@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-12-30 16:15:43
+* @Last Modified time: 2016-12-30 23:03:17
 */
 
 var gulp     = require('gulp'),
@@ -23,6 +23,8 @@ var vendor_js = [
     'AdminLTE/dist/js/app.min.js',
     'bootstrap-fileinput/js/fileinput.min.js',
     'bootstrap-fileinput/js/locales/zh.js',
+    'AdminLTE/plugins/datatables/jquery.dataTables.min.js',
+    'AdminLTE/plugins/datatables/dataTables.bootstrap.min.js',
     'iCheck/icheck.min.js',
     'toastr/toastr.min.js',
     'sweetalert2/dist/sweetalert2.min.js',
@@ -32,6 +34,7 @@ var vendor_js = [
 var vendor_css = [
     'bootstrap/dist/css/bootstrap.min.css',
     'AdminLTE/dist/css/AdminLTE.min.css',
+    'AdminLTE/plugins/datatables/dataTables.bootstrap.css',
     'bootstrap-fileinput/css/fileinput.min.css',
     'font-awesome/css/font-awesome.min.css',
     'iCheck/skins/square/blue.css',

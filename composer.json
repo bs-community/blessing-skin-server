@@ -9,7 +9,8 @@
         "devitek/yaml-translation": "^2.0",
         "filp/whoops": "^2.1",
         "swiggles/memcache": "^2.0",
-        "erusev/parsedown": "^1.6"
+        "erusev/parsedown": "^1.6",
+        "yajra/laravel-datatables-oracle": "~6.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

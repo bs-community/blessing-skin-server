@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use View;
 use Utils;
 use Option;
+use Datatables;
 use App\Events;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Exceptions\PrettyPageException;
 use App\Services\Repositories\UserRepository;
@@ -152,26 +154,31 @@ class AdminController extends Controller
      */
     public function users(Request $request)
     {
-        $page   = $request->input('page', 1);
-        $filter = $request->input('filter', '');
-        $q      = $request->input('q', '');
+        return view('admin.users');
+    }
 
-        if ($filter == "") {
-            $users = User::orderBy('uid');
-        } elseif ($filter == "email") {
-            $users = User::like('email', $q)->orderBy('uid');
-        } elseif ($filter == "nickname") {
-            $users = User::like('nickname', $q)->orderBy('uid');
-        }
+    public function getUserData()
+    {
+        $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at']);
 
-        $total_pages = ceil($users->count() / 30);
-        $users = $users->skip(($page - 1) * 30)->take(30)->get();
+        $permissionTextMap = [
+            User::BANNED => '封禁',
+            User::NORMAL => '正常',
+            User::ADMIN  => '管理员',
+            User::SUPER_ADMIN => '超级管理员'
+        ];
 
-        return view('admin.users')->with('users', $users)
-                                  ->with('filter', $filter)
-                                  ->with('q', $q)
-                                  ->with('page', $page)
-                                  ->with('total_pages', $total_pages);
+        return Datatables::of($users)->editColumn('email', function ($user) {
+            return $user->email ?: '[未填写邮箱]';
+        })->editColumn('permission', function ($user) use ($permissionTextMap) {
+            return Arr::get($permissionTextMap, $user->permission);
+        })
+        ->setRowId('uid')
+        ->editColumn('score', function ($user) {
+            return '<input type="text" class="form-control score" value="'.$user->score.'" title="输入修改后的积分，回车提交" data-toggle="tooltip" data-placement="right">';
+        })
+        ->addColumn('operations', 'vendor.admin-operations.users')
+        ->make(true);
     }
 
     /**
