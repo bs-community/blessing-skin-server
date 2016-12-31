@@ -252,7 +252,7 @@ if (! function_exists('option')) {
      * @param  mixed  $default
      * @return mixed
      */
-    function option($key = null, $default = null, $bool = true)
+    function option($key = null, $default = null)
     {
         $options = app('options');
 
@@ -264,10 +264,10 @@ if (! function_exists('option')) {
             foreach ($key as $innerKey => $innerValue) {
                 $options->set($innerKey, $innerValue);
             }
-            return $options->save();
+            return;
         }
 
-        return $options->get($key, $default, $bool);
+        return $options->get($key, $default);
     }
 }
 

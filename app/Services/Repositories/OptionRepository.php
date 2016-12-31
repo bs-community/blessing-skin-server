@@ -35,7 +35,7 @@ class OptionRepository extends Repository
      * @param  bool    $bool convert '0', '1' to bool value
      * @return mixed
      */
-    public function get($key, $default = null, $bool = true)
+    public function get($key, $default = null)
     {
         if (!$this->has($key) && Arr::has(config('options'), $key)) {
             $this->set($key, config("options.$key"));
@@ -43,15 +43,13 @@ class OptionRepository extends Repository
 
         $value = Arr::get($this->items, $key, $default);
 
-        if (!$bool) return $value;
-
         switch (strtolower($value)) {
             case 'true':
-            case '1':
+            case '(true)':
                 return true;
 
             case 'false':
-            case '0':
+            case '(false)':
                 return false;
 
             case 'null':

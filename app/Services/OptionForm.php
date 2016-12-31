@@ -250,7 +250,7 @@ class OptionForm
                     continue;
                 }
 
-                if (($data = Arr::get($_POST, $item->id)) != option($item->id, null, false)) {
+                if (($data = Arr::get($_POST, $item->id)) != option($item->id)) {
                     Option::set($item->id, $data);
                 }
             }
@@ -547,7 +547,7 @@ class OptionFormGroup extends OptionFormItem
 
         foreach ($this->items as $item) {
             if ($item['id'] && is_null($item['value'])) {
-                $item['value'] = option($item['id'], null, false);
+                $item['value'] = option($item['id']);
             }
 
             $rendered[] = view('vendor.option-form.'.$item['type'])->with([
