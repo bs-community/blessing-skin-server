@@ -20,10 +20,7 @@
         var e = document.getElementById("language-chooser");
         var lang = e.options[e.selectedIndex].value;
 
-        // set cookie
-        document.cookie = "locale=" + lang + "; path=/";
-
-        location.reload();
+        window.location = "?lang="+lang;
     }
 </script>
 
