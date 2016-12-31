@@ -96,19 +96,21 @@ Route::group(['prefix' => 'skinlib'], function ()
  */
 Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function ()
 {
-    Route::get('/',           'AdminController@index');
+    Route::get('/',            'AdminController@index');
 
-    Route::any('/customize',  'AdminController@customize');
-    Route::any('/score',      'AdminController@score');
-    Route::any('/options',    'AdminController@options');
+    Route::any('/customize',   'AdminController@customize');
+    Route::any('/score',       'AdminController@score');
+    Route::any('/options',     'AdminController@options');
 
-    Route::get('/users',      'AdminController@users');
-    Route::get('/user-data',  'AdminController@getUserData');
+    Route::get('/users',       'AdminController@users');
+    Route::get('/user-data',   'AdminController@getUserData');
 
-    Route::get('/players',    'AdminController@players');
+    Route::get('/players',     'AdminController@players');
+    Route::get('/player-data', 'AdminController@getPlayerData');
+
     // ajax handlers
-    Route::post('/users',     'AdminController@userAjaxHandler');
-    Route::post('/players',   'AdminController@playerAjaxHandler');
+    Route::post('/users',      'AdminController@userAjaxHandler');
+    Route::post('/players',    'AdminController@playerAjaxHandler');
 
     Route::group(['prefix' => 'plugins'], function () {
         Route::any('/manage', 'PluginController@manage');

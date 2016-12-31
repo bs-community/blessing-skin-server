@@ -9,32 +9,20 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            @if (isset($_GET['q']))
-            搜索结果：{{ $_GET['q'] }}
-            @else
             {{ trans('general.player-manage') }}
-            @endif
             <small>Player Management</small>
-            <!-- Search Form -->
-            <form method="get" action="" class="user-search-form">
-                <input type="text" name="q" class="form-control user-search-input" placeholder="输入，回车搜索。" value="{{ $q }}">
-                <select name="filter" class="form-control pull-right user-search-input">
-                    <option value='uid' selected="{{ $filter == 'nickname' ? 'selected' : '' }}">根据角色拥有者搜索</option>
-                    <option value='player_name' selected="{{ $filter == 'email' ? 'selected' : '' }}">搜索角色名</option>
-                </select>
-            </form>
         </h1>
     </section>
 
     <!-- Main content -->
     <section class="content">
         <div class="box">
-            <div class="box-body table-responsive no-padding">
-                <table class="table table-hover">
+            <div class="box-body table-bordered">
+                <table id="player-table" class="table table-hover">
                     <thead>
                         <tr>
                             <th>PID</th>
-                            <th>拥有者 UID</th>
+                            <th>拥有者</th>
                             <th>角色名</th>
                             <th>优先模型</th>
                             <th>预览材质</th>
@@ -42,103 +30,7 @@
                             <th>操作</th>
                         </tr>
                     </thead>
-
-                    <tbody>
-                        @forelse($players as $player)
-                        <tr id="{{ $player->pid }}">
-                            <td>{{ $player->pid }}</td>
-                            <td><a href="?filter=uid&q={{ $player->uid }}">{{ $player->uid }}</a></td>
-                            <td id="player-name">{{ $player->player_name }}</td>
-                            <td>
-                                 <select class="form-control" id="preference">
-                                     <option {{ ($player->preference == "default") ? 'selected=selected' : '' }} value="default">Default</option>
-                                     <option {{ ($player->preference == "slim") ? 'selected=selected' : '' }} value="slim">Slim</option>
-                                </select>
-                            </td>
-                            <td>
-                                @if ($player->tid_steve == '0')
-                                <img id="{{ $player->pid }}-steve" width="64" />
-                                @else
-                                <a href="{{ url('skinlib/show?tid='.$player->tid_steve) }}">
-                                    <img id="{{ $player->pid }}-steve" width="64" src="{{ url('preview/64/'.$player->tid_steve) }}.png" />
-                                </a>
-                                @endif
-
-                                @if ($player->tid_alex == '0')
-                                <img id="{{ $player->pid }}-alex" width="64" />
-                                @else
-                                <a href="{{ url('skinlib/show?tid='.$player->tid_alex) }}">
-                                    <img id="{{ $player->pid }}-alex" width="64" src="{{ url('preview/64/'.$player->tid_alex) }}.png" />
-                                </a>
-                                @endif
-
-                                @if ($player->tid_cape == '0')
-                                <img id="{{ $player->pid }}-cape" width="64" />
-                                @else
-                                <a href="{{ url('skinlib/show?tid='.$player->tid_cape) }}">
-                                    <img id="{{ $player->pid }}-cape" width="64" src="{{ url('preview/64/'.$player->tid_cape) }}.png" />
-                                </a>
-                                @endif
-                            </td>
-                            <td>{{ $player->last_modified }}</td>
-
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        更多操作 <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu">
-                                        <li><a href="javascript:changeTexture('{{ $player->pid }}');">更换材质</a></li>
-                                        <li><a href="javascript:changeOwner('{{ $player->pid }}');">更换角色拥有者</a></li>
-                                    </ul>
-                                </div>
-
-                                <a class="btn btn-danger btn-sm" href="javascript:deletePlayer('{{ $player->pid }}');">删除角色</a>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td>0</td>
-                            <td>无结果</td>
-                            <td>(´・ω・`)</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
                 </table>
-            </div>
-            <div class="box-footer">
-                <!-- Pagination -->
-                <ul class="pagination pagination-sm no-margin pull-right">
-                    <?php $base_url = ($filter != "" && $q != "") ? "?filter=$filter&q=$q&" : "?"; ?>
-                    <li><a href="?page=1">«</a></li>
-
-                    @if ($page != 1)
-                    <li><a href="{{ $base_url }}page={{ $page-1 }}">{{ $page - 1 }}</a></li>
-                    @endif
-
-                    <li><a href="{{ $base_url }}page={{ $page }}" class="active">{{ $page }}</a></li>
-
-                    @if ($total_pages > $page)
-                    <li><a href="{{ $base_url }}page={{ $page+1 }}">{{ $page+1 }}</a></li>
-                    @endif
-
-                    <li><a href="{{ $base_url }}page={{ $total_pages }}">»</a></li>
-                </ul>
-
-                <select id="page-select" class="pull-right">
-                @for ($i = 1; $i <= $total_pages; $i++)
-
-                    @if ($i == $page)
-                    <option value='{{ $i }}' selected="selected">{{ $i }}</option>
-                    @else
-                    <option value='{{ $i }}'>{{ $i }}</option>
-                    @endif
-
-                @endfor
-                </select>
-
-                <p class="pull-right">第 {{ $page }} 页，共 {{ $total_pages }} 页</p>
-
             </div>
         </div>
 
@@ -147,20 +39,31 @@
 
 @endsection
 
-@section('style')
-<style>
-    @media (max-width: 767px) {
-        .content-header > h1 > small {
-            display: none;
-        }
-    }
-</style>
-@endsection
-
 @section('script')
 <script type="text/javascript">
 $(document).ready(function() {
     $('.box-body').css('min-height', $('.content-wrapper').height() - $('.content-header').outerHeight() - 120);
+});
+
+$('#player-table').DataTable({
+    language: trans('vendor.datatables'),
+    responsive: true,
+    autoWidth: false,
+    processing: true,
+    serverSide: true,
+    ajax: '{{ url("admin/player-data") }}',
+    createdRow: function (row, data, index) {
+        $('td', row).eq(2).attr('id', 'player-name');
+    },
+    columns: [
+        {data: 'pid', 'width': '1%'},
+        {data: 'uid'},
+        {data: 'player_name'},
+        {data: 'preference'},
+        {data: 'previews', searchable: false, orderable: false},
+        {data: 'last_modified'},
+        {data: 'operations', searchable: false, orderable: false}
+    ]
 });
 </script>
 @endsection

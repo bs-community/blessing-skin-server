@@ -21,7 +21,6 @@
                 <table id="user-table" class="table table-hover">
                     <thead>
                         <tr>
-                            {{-- <th><input name="select_all" value="1" type="checkbox"></th> --}}
                             <th>UID</th>
                             <th>邮箱</th>
                             <th>昵称</th>
@@ -53,22 +52,11 @@ $('#user-table').DataTable({
     serverSide: true,
     ajax: '{{ url("admin/user-data") }}',
     createdRow: function (row, data, index) {
-        $('td', row).eq(2).attr('id', 'email');
-        $('td', row).eq(3).attr('id', 'nickname');
-        $('td', row).eq(5).attr('id', 'permission');
+        $('td', row).eq(1).attr('id', 'email');
+        $('td', row).eq(2).attr('id', 'nickname');
+        $('td', row).eq(4).attr('id', 'permission');
     },
-    // columnDefs: [{
-    //     targets: 0,
-    //     searchable: false,
-    //     orderable: false,
-    //     width: '1%',
-    //     className: 'dt-body-center',
-    //     render: function (data, type, full, meta){
-    //         return '<input type="checkbox">';
-    //     }
-    // }],
     columns: [
-        // {data: 0},
         {data: 'uid', 'width': '1%'},
         {data: 'email'},
         {data: 'nickname'},

@@ -174,10 +174,8 @@ class AdminController extends Controller
             return Arr::get($permissionTextMap, $user->permission);
         })
         ->setRowId('uid')
-        ->editColumn('score', function ($user) {
-            return '<input type="text" class="form-control score" value="'.$user->score.'" title="输入修改后的积分，回车提交" data-toggle="tooltip" data-placement="right">';
-        })
-        ->addColumn('operations', 'vendor.admin-operations.users')
+        ->editColumn('score', 'vendor.admin-operations.users.score')
+        ->addColumn('operations', 'vendor.admin-operations.users.operations')
         ->make(true);
     }
 
@@ -189,26 +187,18 @@ class AdminController extends Controller
      */
     public function players(Request $request)
     {
-        $page   = $request->input('page', 1);
-        $filter = $request->input('filter', '');
-        $q      = $request->input('q', '');
+        return view('admin.players');
+    }
 
-        if ($filter == "") {
-            $players = Player::orderBy('uid');
-        } elseif ($filter == "player_name") {
-            $players = Player::like('player_name', $q)->orderBy('uid');
-        } elseif ($filter == "uid") {
-            $players = Player::where('uid', $q)->orderBy('uid');
-        }
+    public function getPlayerData()
+    {
+        $players = Player::select(['pid', 'uid', 'player_name', 'preference', 'tid_steve', 'tid_alex', 'tid_cape', 'last_modified']);
 
-        $total_pages = ceil($players->count() / 30);
-        $players = $players->skip(($page - 1) * 30)->take(30)->get();
-
-        return view('admin.players')->with('players', $players)
-                                    ->with('filter', $filter)
-                                    ->with('q', $q)
-                                    ->with('page', $page)
-                                    ->with('total_pages', $total_pages);
+        return Datatables::of($players)->editColumn('preference', 'vendor.admin-operations.players.preference')
+            ->setRowId('pid')
+            ->addColumn('previews', 'vendor.admin-operations.players.previews')
+            ->addColumn('operations', 'vendor.admin-operations.players.operations')
+            ->make(true);
     }
 
     /**
