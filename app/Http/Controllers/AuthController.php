@@ -117,17 +117,16 @@ class AuthController extends Controller
 
         // If amount of registered accounts of IP is more than allowed amounts,
         // then reject the register.
-        if (User::where('ip', $request->ip())->count() < option('regs_per_ip'))
+        if (User::where('ip', Utils::getClientIp())->count() < option('regs_per_ip'))
         {
             // Register a new user.
             // If the email is already registered,
             // it will return a false value.
             $user = User::register(
                 $request->input('email'),
-                $request->input('password'),
-            function($user) use ($request)
+                $request->input('password'), function($user) use ($request)
             {
-                $user->ip           = $request->ip();
+                $user->ip           = Utils::getClientIp();
                 $user->score        = option('user_initial_score');
                 $user->register_at  = Utils::getTimeFormatted();
                 $user->last_sign_at = Utils::getTimeFormatted(time() - 86400);

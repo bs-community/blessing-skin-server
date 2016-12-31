@@ -9,6 +9,24 @@ use App\Exceptions\PrettyPageException;
 class Utils
 {
     /**
+     * Returns the client IP address.
+     *
+     * @return string
+     */
+    public static function getClientIp()
+    {
+        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip = $_SERVER['HTTP_CLIENT_IP'];
+        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        } else {
+            $ip = $_SERVER['REMOTE_ADDR'];
+        }
+
+        return $ip;
+    }
+
+    /**
      * Rename uploaded file
      *
      * @param  array  $file files uploaded via HTTP POST

@@ -111,10 +111,9 @@ class SetupController extends Controller
         // register super admin
         $user = User::register(
             $request->input('email'),
-            $request->input('password'),
-            function ($user) use ($request)
+            $request->input('password'), function ($user)
         {
-            $user->ip           = $request->ip();
+            $user->ip           = Utils::getClientIp();
             $user->score        = option('user_initial_score');
             $user->register_at  = Utils::getTimeFormatted();
             $user->last_sign_at = Utils::getTimeFormatted(time() - 86400);
