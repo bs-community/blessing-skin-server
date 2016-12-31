@@ -48,6 +48,18 @@ if (! function_exists('assets')) {
     }
 }
 
+if (! function_exists('plugin_assets')) {
+
+    function plugin_assets($id, $relative_uri)
+    {
+        if ($plugin = app('plugins')->getPlugin($id)) {
+            return url("plugins/{$plugin->getDirname()}/$relative_uri");
+        } else {
+            throw new InvalidArgumentException("No such plugin.");
+        }
+    }
+}
+
 if (! function_exists('json')) {
 
     function json()

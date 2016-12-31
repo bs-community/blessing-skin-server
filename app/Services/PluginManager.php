@@ -85,6 +85,7 @@ class PluginManager
                 $plugin = new Plugin($this->getPluginsDir().'/'.$path, $package);
 
                 // Per default all plugins are installed if they are registered in composer.
+                $plugin->setDirname($path);
                 $plugin->setInstalled(true);
                 $plugin->setNameSpace(Arr::get($package, 'namespace'));
                 $plugin->setVersion(Arr::get($package, 'version'));

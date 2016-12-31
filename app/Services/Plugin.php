@@ -16,11 +16,18 @@ use Illuminate\Contracts\Support\Arrayable;
 class Plugin implements Arrayable, ArrayAccess
 {
     /**
-     * The directory of this plugin.
+     * The full directory of this plugin.
      *
      * @var string
      */
     protected $path;
+
+    /**
+     * The directory name where the plugin installed.
+     *
+     * @var string
+     */
+    protected $dirname;
 
     /**
      * package.json of the package.
@@ -113,6 +120,18 @@ class Plugin implements Arrayable, ArrayAccess
     public function isInstalled()
     {
         return $this->installed;
+    }
+
+    public function getDirname()
+    {
+        return $this->dirname;
+    }
+
+    public function setDirname($dirname)
+    {
+        $this->dirname = $dirname;
+
+        return $this;
     }
 
     public function getNameSpace()
