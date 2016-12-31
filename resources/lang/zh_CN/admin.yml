@@ -5,6 +5,69 @@ index:
   disk-usage: 占用空间大小
   overview: 概览
 
+users:
+  status:
+    title: 状态
+    normal: 正常
+    banned: 封禁
+    admin: 管理员
+    super-admin: 超级管理员
+  score:
+    tip: 输入修改后的积分，回车提交
+  operations:
+    title: 更多操作
+    non-existent: 用户不存在
+    email:
+      change: 修改邮箱
+      success: 邮箱修改成功
+    nickname:
+      change: 修改昵称
+      success: 昵称已成功设置为 :new
+    password:
+      change: 更改密码
+      success: 密码修改成功
+    score:
+      success: 积分修改成功
+    admin:
+      set:
+        text: 设为管理员
+        success: 账号已被设置为管理员
+      unset:
+        text: 解除管理员
+        success: 账号已被解除管理员
+      cant-set: 非超级管理员无法进行此操作
+      cant-unset: 无法解除超级管理员
+    ban:
+      ban:
+        text: 封禁
+        success: 账号已被封禁
+      unban:
+        text: 解封
+        success: 账号已被解封
+      cant-super-admin: 无法封禁超级管理员
+      cant-admin: 非超级管理员无法封禁普通管理员
+    delete:
+      delete: 删除用户
+      success: 账号已被成功删除
+      cant-super-admin: 超级管理员账号不能被这样删除的啦
+      cant-admin: 你不能删除管理员账号哦
+
+players:
+  operations:
+    title: 更多操作
+  preference:
+    success: 角色 :player 的优先模型已更改至 :preference
+  textures:
+    change: 更换材质
+    non-existent: 材质 tid.:tid 不存在
+    success: 角色 :player 的材质修改成功
+  owner:
+    change: 更换角色拥有者
+    success: 角色 :player 已成功让渡至 :user
+  delete:
+    delete: 删除角色
+    success: 角色已被成功删除
+
 customize:
   change-color: 更改配色
 

@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-12-31 10:54:41
+ * @Last Modified time: 2016-12-31 19:54:01
  */
 
 'use strict';
@@ -23,7 +23,7 @@ $('#layout-skins-list [data-skin]').click(function(e) {
 $('#color-submit').click(function() {
     $.ajax({
         type: "POST",
-        url: "./users?action=color",
+        url: "./customize?action=color",
         dataType: "json",
         data: { "color_scheme": current_skin },
         success: function(json) {
@@ -34,19 +34,6 @@ $('#color-submit').click(function() {
         },
         error: showAjaxError
     });
-});
-
-$('#page-select').on('change', function() {
-    // if has query strings
-    if (getQueryString('filter') != "" || getQueryString('q') != "") {
-        if (getQueryString('page') == "")
-            window.location = location.href + "&page=" + $(this).val();
-        else
-            window.location = "?filter="+getQueryString('filter')+"&q="+getQueryString('q')+"&page="+$(this).val();
-    } else {
-        window.location = "?page=" + $(this).val();
-    }
-
 });
 
 function changeUserEmail(uid) {

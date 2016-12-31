@@ -21,13 +21,13 @@
                 <table id="user-table" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>UID</th>
-                            <th>邮箱</th>
-                            <th>昵称</th>
-                            <th>积分</th>
-                            <th>状态</th>
-                            <th>注册时间</th>
-                            <th>操作</th>
+                            <th>{{ trans('general.user.uid') }}</th>
+                            <th>{{ trans('general.user.email') }}</th>
+                            <th>{{ trans('general.user.nickname') }}</th>
+                            <th>{{ trans('general.user.score') }}</th>
+                            <th>{{ trans('admin.users.status.title') }}</th>
+                            <th>{{ trans('general.user.register-at') }}</th>
+                            <th>{{ trans('general.operations') }}</th>
                         </tr>
                     </thead>
                 </table>

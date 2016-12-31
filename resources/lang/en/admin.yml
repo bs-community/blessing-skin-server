@@ -5,6 +5,69 @@ index:
   disk-usage: Disk Usage
   overview: Overview
 
+users:
+  status:
+    title: Status
+    normal: Normal
+    banned: Banned
+    admin: Admin
+    super-admin: Super Admin
+  score:
+    tip: Press enter to submit new score
+  operations:
+    title: Operations
+    non-existent: No such user.
+    email:
+      change: Edit Email
+      success: Email changed successfully.
+    nickname:
+      change: Edit Nickname
+      success: Nickname changed successfully.
+    password:
+     change: Edit Password
+     success: Password changed successfully.
+    score:
+      success: Score changed successfully.
+    admin:
+      set:
+        text: Set as Admin
+        success: The account has been set as admin.
+      unset:
+        text: Remove Admin
+        success: The account's admin privilege has been removed.
+      cant-set: Only super admins can do the operation
+      cant-unset: Can't remove super admin privilege
+    ban:
+      ban:
+        text: Ban
+        success: The account has been banned.
+      unban:
+        text: Unban
+        success: The account has been unbanned.
+      cant-super-admin: You can't ban super admin.
+      cant-admin: Only super admins are able to ban admins.
+    delete:
+      delete: Delete User
+      success: The account has been deleted successfully.
+      cant-super-admin: You can't delete super admin in this way
+      cant-admin: You can't delete admins.
+
+players:
+  operations:
+    title: Operations
+  preference:
+    success: The preference of player [:player] has been changed to :preference
+  textures:
+    change: Change Textures
+    non-existent: No such texture tid.:tid
+    success: The textures of :player has been updated.
+  owner:
+    change: Change Owner
+    success: The player :player was transferred to user :user.
+  delete:
+    delete: Delete
+    success: The player has been deleted successfully.
+
 customize:
   change-color: Change theme color
 

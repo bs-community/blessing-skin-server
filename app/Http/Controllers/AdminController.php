@@ -22,8 +22,19 @@ class AdminController extends Controller
         return view('admin.index');
     }
 
-    public function customize()
+    public function customize(Request $request)
     {
+        if ($request->input('action') == "color") {
+            $this->validate($request, [
+                'color_scheme' => 'required'
+            ]);
+
+            $color_scheme = str_replace('_', '-', $request->input('color_scheme'));
+            option(['color_scheme' => $color_scheme]);
+
+            return json('修改配色成功', 0);
+        }
+
         $homepage = Option::form('homepage', '首页配置', function($form)
         {
             $form->text('home_pic_url', '首页图片地址')->hint('相对于首页的路径或者完整的 URL');
@@ -165,14 +176,14 @@ class AdminController extends Controller
         $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at']);
 
         $permissionTextMap = [
-            User::BANNED => '封禁',
-            User::NORMAL => '正常',
-            User::ADMIN  => '管理员',
-            User::SUPER_ADMIN => '超级管理员'
+            User::BANNED => trans('admin.users.status.banned'),
+            User::NORMAL => trans('admin.users.status.normal'),
+            User::ADMIN  => trans('admin.users.status.admin'),
+            User::SUPER_ADMIN => trans('admin.users.status.super-admin')
         ];
 
         return Datatables::of($users)->editColumn('email', function ($user) {
-            return $user->email ?: '[未填写邮箱]';
+            return $user->email ?: 'EMPTY';
         })->editColumn('permission', function ($user) use ($permissionTextMap) {
             return Arr::get($permissionTextMap, $user->permission);
         })
@@ -213,98 +224,86 @@ class AdminController extends Controller
     public function userAjaxHandler(Request $request, UserRepository $users)
     {
         $action = $request->input('action');
-
-        if ($action == "color") {
-            $this->validate($request, [
-                'color_scheme' => 'required'
-            ]);
-
-            $color_scheme = str_replace('_', '-', $request->input('color_scheme'));
-            \Option::set('color_scheme', $color_scheme);
-
-            return json('修改配色成功', 0);
-        }
-
-        $user     = $users->get($request->input('uid'));
-        // current user
-        $cur_user = $users->get(session('uid'));
+        $user   = $users->get($request->input('uid'));
 
         if (!$user)
-            return json('用户不存在', 1);
+            return json(trans('admin.users.operations.non-existent'), 1);
 
         if ($action == "email") {
             $this->validate($request, [
                 'email' => 'required|email'
             ]);
 
-            if ($user->setEmail($request->input('email')))
-                return json('邮箱修改成功', 0);
+            $user->setEmail($request->input('email'));
+
+            return json(trans('admin.users.operations.email.success'), 0);
 
         } elseif ($action == "nickname") {
             $this->validate($request, [
                 'nickname' => 'required|nickname'
             ]);
 
-            if ($user->setNickName($request->input('nickname')))
-                return json('昵称已成功设置为 '.$request->input('nickname'), 0);
+            $user->setNickName($request->input('nickname'));
+
+            return json(trans('admin.users.operations.nickname.success', ['new' => $request->input('nickname')]), 0);
 
         } elseif ($action == "password") {
             $this->validate($request, [
                 'password' => 'required|min:8|max:16'
             ]);
 
-            if ($user->changePasswd($request->input('password')))
-                return json('密码修改成功', 0);
+            $user->changePasswd($request->input('password'));
+
+            return json(trans('admin.users.operations.password.success'), 0);
 
         } elseif ($action == "score") {
             $this->validate($request, [
                 'score' => 'required|integer'
             ]);
 
-            if ($user->setScore($request->input('score')))
-                return json('积分修改成功', 0);
+            $user->setScore($request->input('score'));
+
+            return json(trans('admin.users.operations.score.success'), 0);
 
         } elseif ($action == "ban") {
             if ($user->getPermission() == User::ADMIN) {
-                if ($cur_user->getPermission() != User::SUPER_ADMIN)
-                    return json('非超级管理员无法封禁普通管理员');
+                if (app('user.current')->getPermission() != User::SUPER_ADMIN)
+                    return json(trans('admin.users.operations.ban.cant-admin'));
             } elseif ($user->getPermission() == User::SUPER_ADMIN) {
-                return json('超级管理员无法被封禁');
+                return json(trans('admin.users.operations.ban.cant-super-admin'));
             }
 
             $permission = $user->getPermission() == User::BANNED ? User::NORMAL : User::BANNED;
 
-            if ($user->setPermission($permission)) {
-                return json([
-                    'errno'      => 0,
-                    'msg'        => '账号已被' . ($permission == User::BANNED ? '封禁' : '解封'),
-                    'permission' => $user->getPermission()
-                ]);
-            }
+            $user->setPermission($permission);
+
+            return json([
+                'errno'      => 0,
+                'msg'        => trans('admin.users.operations.ban.'.($permission == User::BANNED ? 'ban' : 'unban').'.success'),
+                'permission' => $user->getPermission()
+            ]);
 
         } elseif ($action == "admin") {
-            if ($cur_user->getPermission() != User::SUPER_ADMIN)
-                return json('非超级管理员无法进行此操作');
+            if (app('user.current')->getPermission() != User::SUPER_ADMIN)
+                return json(trans('admin.users.operations.admin.cant-set'));
 
             if ($user->getPermission() == User::SUPER_ADMIN)
-                return json('超级管理员无法被解除');
+                return json(trans('admin.users.operations.admin.cant-unset'));
 
             $permission = $user->getPermission() == User::ADMIN ? User::NORMAL : User::ADMIN;
 
-            if ($user->setPermission($permission)) {
-                return json([
-                    'errno'      => 0,
-                    'msg'        => '账号已被' . ($permission == User::ADMIN ? '设为' : '解除') . '管理员',
-                    'permission' => $user->getPermission()
-                ]);
-            }
+            $user->setPermission($permission);
+
+            return json([
+                'errno'      => 0,
+                'msg'        => trans('admin.users.operations.admin.'.($permission == User::ADMIN ? 'set' : 'unset').'.success'),
+                'permission' => $user->getPermission()
+            ]);
 
         } elseif ($action == "delete") {
-            if ($user->delete())
-                return json('账号已被成功删除', 0);
+            $user->delete();
 
-        } else {
-            return json('非法参数', 1);
+            return json(trans('admin.users.operations.delete.success'), 0);
         }
     }
 
@@ -325,8 +324,9 @@ class AdminController extends Controller
                 'preference' => 'required|preference'
             ]);
 
-            if ($player->setPreference($request->input('preference')))
-                return json('角色 '.$player->player_name.' 的优先模型已更改至 '.$request->input('preference'), 0);
+            $player->setPreference($request->input('preference'));
+
+            return json(trans('admin.players.preference.success', ['player' => $player->player_name, 'preference' => $request->input('preference')]), 0);
 
         } elseif ($action == "texture") {
             $this->validate($request, [
@@ -335,10 +335,11 @@ class AdminController extends Controller
             ]);
 
             if (!Texture::find($request->tid))
-                return json("材质 tid.{$request->tid} 不存在", 1);
+                return json(trans('admin.players.textures.non-existent', ['tid' => $request->tid]), 1);
 
-            if ($player->setTexture(['tid_'.$request->model => $request->tid]))
-                return json("角色 {$player->player_name} 的材质修改成功", 0);
+            $player->setTexture(['tid_'.$request->model => $request->tid]);
+
+            return json(trans('admin.players.textures.success', ['player' => $player->player_name]), 0);
 
         } elseif ($action == "owner") {
             $this->validate($request, [
@@ -349,16 +350,16 @@ class AdminController extends Controller
             $user = $users->get($request->input('uid'));
 
             if (!$user)
-                return json('不存在的用户', 1);
+                return json(trans('admin.users.operations.non-existent'), 1);
 
-            if ($player->setOwner($request->input('uid')))
-                return json("角色 $player->player_name 已成功让渡至 ".$user->getNickName(), 0);
+            $player->setOwner($request->input('uid'));
+
+            return json(trans('admin.players.owner.success', ['player' => $player->player_name, 'user' => $user->getNickName()]), 0);
 
         } elseif ($action == "delete") {
-            if ($player->delete())
-                return json('角色已被成功删除', 0);
-        } else {
-            return json('非法参数', 1);
+            $player->delete();
+
+            return json(trans('admin.players.delete.success'), 0);
         }
     }
 

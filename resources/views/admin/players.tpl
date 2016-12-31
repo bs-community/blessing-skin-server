@@ -21,13 +21,13 @@
                 <table id="player-table" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>PID</th>
-                            <th>拥有者</th>
-                            <th>角色名</th>
-                            <th>优先模型</th>
-                            <th>预览材质</th>
-                            <th>修改时间</th>
-                            <th>操作</th>
+                            <th>{{ trans('general.player.pid') }}</th>
+                            <th>{{ trans('general.player.owner') }}</th>
+                            <th>{{ trans('general.player.player-name') }}</th>
+                            <th>{{ trans('general.player.preference') }}</th>
+                            <th>{{ trans('general.player.previews') }}</th>
+                            <th>{{ trans('general.player.last-modified') }}</th>
+                            <th>{{ trans('general.operations') }}</th>
                         </tr>
                     </thead>
                 </table>

@@ -50,3 +50,21 @@ unexistent-player: 角色不存在
 
 texture-deleted: 请求的材质已被删除
 texture-not-uploaded: 该用户尚未上传请求的材质类型 :type
+
+operations: 操作
+
+user:
+  uid: UID
+  email: 邮箱
+  nickname: 昵称
+  password: 密码
+  score: 积分
+  register-at: 注册时间
+
+player:
+  pid: PID
+  owner: 拥有者
+  player-name: 角色名
+  preference: 优先模型
+  previews: 预览材质
+  last-modified: 修改时间
