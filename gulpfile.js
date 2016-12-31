@@ -2,7 +2,7 @@
 * @Author: prpr
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-12-30 23:03:17
+* @Last Modified time: 2016-12-31 13:14:31
 */
 
 var gulp     = require('gulp'),
@@ -22,7 +22,6 @@ var vendor_js = [
     'bootstrap/dist/js/bootstrap.min.js',
     'AdminLTE/dist/js/app.min.js',
     'bootstrap-fileinput/js/fileinput.min.js',
-    'bootstrap-fileinput/js/locales/zh.js',
     'AdminLTE/plugins/datatables/jquery.dataTables.min.js',
     'AdminLTE/plugins/datatables/dataTables.bootstrap.min.js',
     'iCheck/icheck.min.js',

@@ -64,7 +64,7 @@ label[for="type-cape"] {
 
                             <div class="form-group">
                                 <label for="file">{{ trans('skinlib.upload.select-file') }}</label>
-                                <input id="file" type="file" data-show-upload="false" data-language="zh" class="file" accept="image/png" />
+                                <input id="file" type="file" data-show-upload="false" data-language="{{ config('app.locale') }}" class="file" accept="image/png" />
                             </div>
 
                             <div class="callout callout-info" id="msg" style="display: none;">
