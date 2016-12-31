@@ -69,7 +69,9 @@ players:
     success: The player has been deleted successfully.
 
 customize:
-  change-color: Change theme color
+  change-color:
+    title: Change theme color
+    success: Theme color updated.
 
   colors:
     blue: Blue (Default)

@@ -25,7 +25,7 @@
             <div class="col-md-3">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title">{{ trans('admin.customize.change-color') }}</h3>
+                        <h3 class="box-title">{{ trans('admin.customize.change-color.title') }}</h3>
                     </div><!-- /.box-header -->
                     <div class="box-body no-padding">
                         <table id="layout-skins-list" class="table table-striped bring-up nth-2-center">

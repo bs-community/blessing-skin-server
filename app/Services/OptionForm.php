@@ -10,6 +10,12 @@ use BadMethodCallException;
 
 class OptionForm
 {
+    /**
+     * Pass this value to tell generator to
+     * load text from language files automatically.
+     */
+    const AUTO_DETECT = 0x97ab1;
+
     protected $id;
     protected $title;
 
@@ -37,28 +43,37 @@ class OptionForm
      */
     public function __construct($id, $title)
     {
-        $this->id    = $id;
-        $this->title = $title;
+        $this->id = $id;
+
+        if ($title == self::AUTO_DETECT) {
+            $this->title = trans("options.$this->id.title");
+        } else {
+            $this->title = $title;
+        }
     }
 
     /**
      * Add option item to the form dynamically.
      *
      * @param  string  $method
-     * @param  array   $parameters
+     * @param  array   $params
      * @return OptionItem
      *
      * @throws \BadMethodCallException
      */
-    public function __call($method, $parameters)
+    public function __call($method, $params)
     {
         if (!in_array($method, ['text', 'checkbox', 'textarea', 'select', 'group'])) {
             throw new BadMethodCallException("Method [$method] does not exist on option form.");
         }
 
+        if (!isset($params[1]) || Arr::get($params, 1) == OptionForm::AUTO_DETECT) {
+            $params[1] = Arr::get(trans("options.$params[0]"), 'title', trans("options.$params[0]"));
+        }
+
         $class = new ReflectionClass('App\Services\OptionForm'.Str::title($method));
         // use ReflectionClass to create a new OptionFormItem instance
-        $item = $class->newInstanceArgs($parameters);
+        $item = $class->newInstanceArgs($params);
         $this->items[] = $item;
 
         return $item;
@@ -85,6 +100,10 @@ class OptionForm
      */
     public function hint($hintContent)
     {
+        if ($hintContent == self::AUTO_DETECT) {
+            $hintContent = trans("options.$this->id.hint");
+        }
+
         $this->hint = view('vendor.option-form.hint')->with('hint', $hintContent)->render();
 
         return $this;
@@ -145,6 +164,10 @@ class OptionForm
      */
     public function addMessage($msg, $style = "info")
     {
+        if ($msg == self::AUTO_DETECT) {
+            $msg = trans("options.$this->id.message");
+        }
+
         $this->messages[] = "<div class='callout callout-$style'>$msg</div>";
 
         return $this;
@@ -236,7 +259,7 @@ class OptionForm
                 Option::set($key, serialize($value));
             }
 
-            $this->addMessage('设置已保存。', 'success');
+            $this->addMessage(trans('options.option-saved'), 'success');
         }
 
         return $this;
@@ -375,6 +398,10 @@ class OptionFormItem
 
     public function hint($hintContent)
     {
+        if ($hintContent == OptionForm::AUTO_DETECT) {
+            $hintContent = trans("options.$this->id.hint");
+        }
+
         $this->hint = view('vendor.option-form.hint')->with('hint', $hintContent)->render();
 
         return $this;
@@ -389,6 +416,10 @@ class OptionFormItem
 
     public function description($description)
     {
+        if ($description == OptionForm::AUTO_DETECT) {
+            $description = trans("options.$this->id.description");
+        }
+
         $this->description = $description;
 
         return $this;
@@ -424,6 +455,10 @@ class OptionFormCheckbox extends OptionFormItem
 
     public function label($label)
     {
+        if ($label == OptionForm::AUTO_DETECT) {
+            $label = trans("options.$this->id.label");
+        }
+
         $this->label = $label;
 
         return $this;
@@ -497,6 +532,10 @@ class OptionFormGroup extends OptionFormItem
 
     public function addon($value)
     {
+        if ($value == OptionForm::AUTO_DETECT) {
+            $value = trans("options.$this->id.addon");
+        }
+
         $this->items[] = ['type' => 'addon', 'id' => null, 'value' => $value];
 
         return $this;

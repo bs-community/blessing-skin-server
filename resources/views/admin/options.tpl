@@ -23,7 +23,7 @@
             </div>
 
             <div class="col-md-6">
-                {!! $forms['announcement']->render() !!}
+                {!! $forms['announ']->render() !!}
 
                 {!! $forms['cache']->render() !!}
             </div>

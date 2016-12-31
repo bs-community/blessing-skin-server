@@ -69,7 +69,9 @@ players:
     success: 角色已被成功删除
 
 customize:
-  change-color: 更改配色
+  change-color:
+    title: 更改配色
+    success: 修改配色成功
 
   colors:
     blue: 蓝色主题（默认）

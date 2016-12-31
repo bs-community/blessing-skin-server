@@ -3,17 +3,17 @@
  * @Author: printempw
  * @Date:   2016-07-29 11:53:11
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-12-31 13:25:58
+ * @Last Modified time: 2016-12-31 23:14:51
  */
 
 return [
     'site_url'                  => '',
     'site_name'                 => 'Blessing Skin Server',
-    'site_description'          => '开源的 PHP Minecraft 皮肤站',
+    'site_description'          => 'Open-source PHP Minecraft Skin Hosting Service',
     'user_can_register'         => '1',
     'regs_per_ip'               => '3',
     'api_type'                  => '0',
-    'announcement'              => '欢迎使用 Blessing Skin Server {version}！',
+    'announcement'              => 'Welcome to Blessing Skin Server {version}!',
     'color_scheme'              => 'skin-blue',
     'home_pic_url'              => './resources/assets/images/bg.jpg',
     'custom_css'                => '',
