@@ -1,9 +1,9 @@
 {
     "name": "blessing-skin-server",
-    "description": "Just a simple open-source Minecraft skin server written in PHP.",
+    "description": "A web application brings your custom skins back in offline Minecraft servers.",
     "license": "GPL-3.0",
     "require": {
-        "php": ">=5.5.9",
+        "php": "^5.5.9",
         "laravel/framework": "5.2.*",
         "gregwar/captcha": "^1.1",
         "devitek/yaml-translation": "^2.0",
