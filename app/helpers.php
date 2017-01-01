@@ -236,8 +236,10 @@ if (! function_exists('bs_announcement')) {
 
 if (! function_exists('bs_nickname')) {
 
-    function bs_nickname(\App\Models\User $user)
+    function bs_nickname(\App\Models\User $user = null)
     {
+        $user = $user ?: app('users')->getCurrentUser();
+
         return ($user->getNickName() == '') ? $user->email : $user->getNickName();
     }
 }
