@@ -265,7 +265,7 @@ class SkinlibController extends Controller
             'public' => 'required'
         ]);
 
-        if ($_FILES['file']['type'] != "image/png" || $_FILES['file']['type'] != "image/x-png") {
+        if ($_FILES['file']['type'] != "image/png" && $_FILES['file']['type'] != "image/x-png") {
             return json(trans('skinlib.upload.type-error'), 1);
         }
 
