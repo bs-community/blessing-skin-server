@@ -10,7 +10,6 @@ use App\Models\Texture;
 use App\Models\ClosetModel;
 use Illuminate\Http\Request;
 use App\Exceptions\PrettyPageException;
-use App\Services\Repositories\UserRepository;
 
 class ClosetController extends Controller
 {
@@ -26,7 +25,7 @@ class ClosetController extends Controller
         $this->closet = new Closet(session('uid'));
     }
 
-    public function index(Request $request, UserRepository $users)
+    public function index(Request $request)
     {
         $category = $request->input('category', 'skin');
         $page     = $request->input('page', 1);
@@ -62,7 +61,7 @@ class ClosetController extends Controller
                                   ->with('q', $q)
                                   ->with('category', $category)
                                   ->with('total_pages', max($total_pages))
-                                  ->with('user', $users->get(session('uid')));
+                                  ->with('user', app('user.current'));
     }
 
     public function info()
@@ -85,6 +84,8 @@ class ClosetController extends Controller
             $t = Texture::find($request->tid);
             $t->likes += 1;
             $t->save();
+
+            app('user.current')->setScore(option('score_per_closet_item'), 'minus');
 
             return json(trans('user.closet.add.success', ['name' => $request->input('name')]), 0);
         } else {
@@ -116,6 +117,9 @@ class ClosetController extends Controller
             $t = Texture::find($request->tid);
             $t->likes = $t->likes - 1;
             $t->save();
+
+            if (option('return_score'))
+                app('user.current')->setScore(option('score_per_closet_item'), 'minus');
 
             return json(trans('user.closet.remove.success'), 0);
         } else {
