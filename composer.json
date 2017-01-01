@@ -1,5 +1,5 @@
 {
-    "name": "blessing-skin-server",
+    "name": "printempw/blessing-skin-server",
     "description": "A web application brings your custom skins back in offline Minecraft servers.",
     "license": "GPL-3.0",
     "require": {
