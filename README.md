@@ -1,65 +1,65 @@
-# Blessing Skin Server
+<p align="center"><img src="https://img.blessing.studio/images/2017/01/01/bs-logo.png"></p>
 
-> Now working on Internationalization. Help wanted~
+<p align="center">
+<a href="https://github.com/printempw/blessing-skin-server/releases"><img src="https://poser.pugx.org/printempw/blessing-skin-server/version" alt="Latest Stable Version"></a>
+<img src="https://img.shields.io/badge/PHP-5.5.9+-orange.svg" alt="PHP 5.5.9+">
+<img src="https://poser.pugx.org/printempw/blessing-skin-server/license" alt="License">
+<a href="https://twitter.com/printempw"><img src="https://img.shields.io/twitter/follow/printempw.svg?style=social&label=Follow" alt="Twitter Follow"></a>
+</p>
 
-Blessing Skin Server is a web application for storing and managing skins in Minecraft. You can get your skin back easily even in an offline Minecraft server with Blessing Skin Server.
+Are you puzzled by losing your custom skins in Minecraft servers runing in offline mode? Now you can easily get them back with the help of Blessing Skin Server!
 
-The framework used by this project is Laravel. Older versions of Blessing Skin Server are available on other branches.
+Blessing Skin Server is a web application where you can upload, manage and share your custom skins & capes! Unlike modifying a resource pack, everyone in the game will see the different skins of each other (of course they should register at the same website too).
 
-中文版 README 在[这里](https://github.com/printempw/blessing-skin-server/wiki/README---zh_CN)。
+Blessing Skin Server is an open-source project written in PHP, which means you can deploy it freely on your own web server! Here is a [live demo](http://skin.prinzeugen.net/).
 
-![screenshot](https://img.prinzeugen.net/image.php?di=VH7Z)
-
-Feature
+Features
 -----------
-- Support [UniSkinAPI](https://github.com/RecursiveG/UniSkinServer/blob/master/doc/UniSkinAPI_zh-CN.md), [CustomSkinLoader API](https://github.com/xfl03/CustomSkinLoaderAPI/blob/master/CustomSkinAPI/CustomSkinAPI_en.md) and legacy links
-- Adapt to Authme, CrazyLogin, Discuz and so on
-- One user, many players
-- Skin library and user closets
-- Score system to provent evil requests
-- Easy-using user management and option pages
-- Many color schemes
-- Avatars generated from skins
+- Multiple player names can be owned by one user on the website
+- Share your skins and capes online with skin library!
+- Easy-to-use
+    - Visual page for user/player/texture management
+    - Detailed option pages
+- Security 
+    - User passwords will be well encrypted 
+    - Email verification for registration (available as plugin)
+    - Score system for preventing evil requests
+- Extensible
+    - Plenty of plugins available 
+    - Integration with Authme/CrazyLogin/Discuz
 
 Requirements
 -----------
-Blessing Skin Server has a few system requirements.
+Blessing Skin Server has a few system requirements. In most cases, these PHP extensions are already enabled.
 
-1. Web server which supports URL rewriting
-2. **PHP version >= 5.5.9**
-3. GD PHP Extension
-4. OpenSSL PHP Extension
-5. Writeable directory
+- Web server with URL rewriting enabled
+- **PHP >= 5.5.9**
+- OpenSSL PHP Extension
+- PDO PHP Extension
+- Mbstring PHP Extension
+- Tokenizer PHP Extension
+- GD PHP Extension (for generating CAPTCHA)
 
-Quick Start Install
+Quick Install
 -----------
-1. Download the latest release and unzip it to the location you want to install
-2. Rename `.env.example` to `.env` and configure your database there.(For windows, just rename it to `.env.`, the last dot will be removed automatically)
-3. For Nginx users, add rewrite rules to your `nginx.conf`
-4. Access `/setup/index.php` in your browser
-5. Congratulations! Upload your skins and have fun!
+1. Download our [latest release](https://github.com/printempw/blessing-skin-server/releases), extract to where you like to installed on.
+2. Rename `.env.example` to `.env` and configure your database information. (For windows users, just rename it to `.env.`, and the last dot will be removed automatically)
+3. For Nginx users, add [rewrite rules](#configure-the-web-server) to your Nginx configuration
+4. Navigate to `http://your-domain.com/setup` in your browser. If 404 is returned, please check whether the rewrite rules works correctly.
+5. Follow the setup wizard and your website is ready-to-go.
 
 Developer Install
 ------------
-Download and deploy from git only if you want to modify something in Blessing Skin Server.
+If you'd like make some contribution on the project, please deploy it from git first.
 
-**You'd better have some experience on shell to continue.**
+**You'd better have some experience on shell operations to continue.**
 
-Clone the code from GitHub:
+Clone the code from GitHub and install dependencies:
 
 ```
 $ git clone https://github.com/printempw/blessing-skin-server.git
-```
-
-Install php dependencies using composer:
-
-```
 $ composer install
-```
-
-Install front-end dependencies using bower:
-
-```
+$ npm install
 $ bower install
 ```
 
@@ -73,9 +73,9 @@ Congrats! You made it. More general install docs here in case you got stuck.
 
 Configure the Web Server
 ------------
-For Apache(most of the virtual hosts) and IIS users, there is already some pre-configured files for you, and what you need to do is just to enjoy!
+For Apache (most of the virtual hosts) and IIS users, there is already a pre-configured file for you. What you need is just to enjoy!
 
-For Nginx users, **please add the below rules** to your `nginx.conf` :
+For Nginx users, **please add the following rules** to your Nginx configuration file:
 
 ```
 location / {
@@ -91,8 +91,6 @@ location ~ /\.env {
 Mod Configuration
 ------------
 See [Wiki - Mod Configuration](https://github.com/printempw/blessing-skin-server/wiki/Mod-Configuration)
-
-> BTW, generating configs is available at user center~
 
 ![screenshot2](https://img.prinzeugen.net/image.php?di=42U6)
 
