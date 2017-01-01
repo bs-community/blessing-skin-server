@@ -113,6 +113,8 @@ plugins:
   empty: No result
 
 update:
+  complete: Update completed
+  
   info:
     title: Update Information
 
@@ -147,3 +149,10 @@ update:
   download:
     downloading: Downloading update package...
     size: "Size of package:"
+
+    errors:
+    prefix: "An error occured: "
+    connection: "Unable to access to current update source. Details:"
+    write-permission: Unable to make cache directory. Please sure permission.
+    unzip: "Failed to unzip update file. Error code: "
+    overwrite: Unable to overwrite files.

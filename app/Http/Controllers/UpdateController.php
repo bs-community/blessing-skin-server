@@ -8,6 +8,7 @@ use Utils;
 use Option;
 use ZipArchive;
 use App\Services\Storage;
+use App\Services\OptionForm;
 use Illuminate\Http\Request;
 
 class UpdateController extends Controller
@@ -66,16 +67,16 @@ class UpdateController extends Controller
             }
         }
 
-        $update = Option::form('update', '更新选项', function($form)
+        $update = Option::form('update', OptionForm::AUTO_DETECT, function($form)
         {
-            $form->checkbox('check_update', '检查更新')->label('自动检查更新并提示');
-            $form->text('update_source', '更新源')
-                ->description('可用的更新源列表可以在这里查看：<a href="https://github.com/printempw/blessing-skin-server/wiki/%E6%9B%B4%E6%96%B0%E6%BA%90%E5%88%97%E8%A1%A8">@GitHub Wiki</a>');
+            $form->checkbox('check_update', OptionForm::AUTO_DETECT)->label(OptionForm::AUTO_DETECT);
+            $form->text('update_source', OptionForm::AUTO_DETECT)
+                ->description(OptionForm::AUTO_DETECT);
         })->handle()->always(function($form) {
             try {
                 $response = file_get_contents(option('update_source'));
             } catch (\Exception $e) {
-                $form->addMessage('无法访问当前更新源。详细信息：'.$e->getMessage(), 'danger');
+                $form->addMessage(trans('admin.update.errors.connection').$e->getMessage(), 'danger');
             }
         });
 
@@ -114,7 +115,7 @@ class UpdateController extends Controller
 
                 if (!is_dir($update_cache)) {
                     if (false === mkdir($update_cache)) {
-                        exit('创建下载缓存文件夹失败，请检查目录权限。');
+                        exit(trans('admin.update.errors.write-permission'));
                     }
                 }
 
@@ -136,7 +137,7 @@ class UpdateController extends Controller
                 } catch (\Exception $e) {
                     Storage::remove($tmp_path);
 
-                    exit('发生错误：'.$e->getMessage());
+                    exit(trans('admin.update.errors.prefix').$e->getMessage());
                 }
 
                 return json(compact('tmp_path'));
@@ -168,18 +169,18 @@ class UpdateController extends Controller
                     try {
                         $zip->extractTo($extract_dir);
                     } catch (\Exception $e) {
-                        exit('发生错误：'.$e->getMessage());
+                        exit(trans('admin.update.errors.prefix').$e->getMessage());
                     }
 
                 } else {
-                    exit('更新包解压缩失败。错误代码：'.$res);
+                    exit(trans('admin.update.errors.unzip').$res);
                 }
                 $zip->close();
 
                 if (Storage::copyDir($extract_dir, base_path()) !== true) {
 
                     Storage::removeDir(storage_path('update_cache'));
-                    exit('无法覆盖文件。');
+                    exit(trans('admin.update.errors.overwrite'));
 
                 } else {
 
@@ -189,7 +190,7 @@ class UpdateController extends Controller
                    Log::info("[Extracter] Cleaning cache");
                 }
 
-                return json('更新完成', 0);
+                return json(trans('admin.update.complete'), 0);
 
                 break;
 
