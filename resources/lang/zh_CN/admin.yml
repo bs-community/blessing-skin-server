@@ -113,6 +113,8 @@ plugins:
   empty: 无结果
 
 update:
+  complete: 更新完成
+  
   info:
     title: 更新信息
 
@@ -147,3 +149,10 @@ update:
   download:
     downloading: 正在下载更新包
     size: 更新包大小：
+
+  errors:
+    prefix: 发生错误：
+    connection: 无法访问当前更新源。详细信息：
+    write-permission: 创建下载缓存文件夹失败，请检查目录权限。
+    unzip: 更新包解压缩失败。错误代码：
+    overwrite: 无法覆盖文件。

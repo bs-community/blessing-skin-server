@@ -106,3 +106,12 @@ return_200_when_notfound:
 cache_expire_time:
   title: 缓存失效时间
   hint: 秒数，86400 = 一天，31536000 = 一年
+
+update:
+  title: 更新选项
+check_update:
+  title: 检查更新
+  label: 自动检查更新并提示
+update_source:
+  title: 更新源
+  description: 可用的更新源列表可以在这里查看：<a href="https://github.com/printempw/blessing-skin-server/wiki/%E6%9B%B4%E6%96%B0%E6%BA%90%E5%88%97%E8%A1%A8">@GitHub Wiki</a>
