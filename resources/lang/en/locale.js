@@ -138,7 +138,12 @@
             statusDisabled: 'Disabled',
             enablePlugin: 'Enable',
             disablePlugin: 'Disable',
-            confirmDeletion: 'Are you sure to delete this plugin?'
+            confirmDeletion: 'Are you sure to delete this plugin?',
+
+            // Update
+            preparing: 'Preparing',
+            downloadCompleted: 'Update package download completed.',
+            extracting: 'Extracting update package..'
         },
         utils: {
             fatalError: 'Fatal Error (Please contact the author)'
