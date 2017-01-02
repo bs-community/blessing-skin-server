@@ -250,7 +250,8 @@ class OptionForm
                     continue;
                 }
 
-                if (($data = Arr::get($_POST, $item->id)) != option($item->id)) {
+                // compare with raw option value
+                if (($data = Arr::get($_POST, $item->id)) != option($item->id, null, true)) {
                     Option::set($item->id, $data);
                 }
             }
