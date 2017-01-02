@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 10:02:24
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-11-13 12:15:16
+ * @Last Modified time: 2017-01-02 11:15:33
  */
 
 'use strict';
@@ -626,13 +626,13 @@ function checkin() {
         dataType: "json",
         success: function(json) {
             if (json.errno == 0) {
+                $('#score').html(json.score);
+                var dom = '<i class="fa fa-calendar-check-o"></i> &nbsp;' + trans('user.checkinRemainTime', { time: String(json.remaining_time) });
+                $('#checkin-button').attr('disabled', 'disabled').html(dom);
+
                 swal({
                     type: 'success',
                     html: json.msg
-                }).then(function() {
-                    $('#score').html(json.score);
-                    var dom = '<i class="fa fa-calendar-check-o"></i> &nbsp;' + trans('user.checkinRemainTime', { time: String(json.remaining_time) });
-                    $('#checkin-button').attr('disabled', 'disabled').html(dom);
                 });
             } else {
                 toastr.warning(json.msg);
