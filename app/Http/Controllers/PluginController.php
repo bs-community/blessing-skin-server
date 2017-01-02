@@ -21,6 +21,10 @@ class PluginController extends Controller
 
             if ($plugins->getPlugins()->has($id)) {
                 $plugin = $plugins->getPlugin($id);
+
+                // pass the plugin title through the translator
+                $plugin->title = trans($plugin->title);
+
                 switch ($request->get('action')) {
                     case 'enable':
                         $plugins->enable($id);

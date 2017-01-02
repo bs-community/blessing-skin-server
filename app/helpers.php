@@ -253,9 +253,10 @@ if (! function_exists('option')) {
      *
      * @param  array|string  $key
      * @param  mixed  $default
+     * @param  raw    $raw  return raw value without convertion
      * @return mixed
      */
-    function option($key = null, $default = null)
+    function option($key = null, $default = null, $raw = false)
     {
         $options = app('options');
 
@@ -270,7 +271,7 @@ if (! function_exists('option')) {
             return;
         }
 
-        return $options->get($key, $default);
+        return $options->get($key, $default, $raw);
     }
 }
 
