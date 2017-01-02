@@ -10,8 +10,8 @@
     <section class="content-header">
         <h1>
             {{ trans('general.dashboard') }}
-            <small>Dashboard</small>
         </h1>
+        <div class="breadcrumb"></div>
     </section>
 
     <!-- Main content -->

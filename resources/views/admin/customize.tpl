@@ -14,8 +14,8 @@
     <section class="content-header">
         <h1>
             {{ trans('general.customize') }}
-            <small>Customize</small>
         </h1>
+        <div class="breadcrumb"></div>
     </section>
 
     <!-- Main content -->

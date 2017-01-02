@@ -10,7 +10,6 @@
         <section class="content-header">
             <h1>
                 {{ trans('general.skinlib') }}
-                <small>Skin Library</small>
             </h1>
             @include('vendor.breadcrumb')
         </section>

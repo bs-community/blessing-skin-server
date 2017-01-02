@@ -10,7 +10,6 @@
     <section class="content-header">
         <h1>
             {{ trans('general.my-closet') }}
-            <small>Closet</small>
         </h1>
         <div class="breadcrumb">
             <a href="{{ url('skinlib/upload') }}"><i class="fa fa-upload"></i> {{ trans('user.closet.upload') }}</a>

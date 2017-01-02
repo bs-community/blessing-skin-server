@@ -18,8 +18,8 @@ td#description { width: 35%; }
     <section class="content-header">
         <h1>
             {{ trans('general.plugin-manage') }}
-            <small>Plugin Manage</small>
         </h1>
+        <div class="breadcrumb"></div>
     </section>
 
     <!-- Main content -->
@@ -48,8 +48,8 @@ td#description { width: 35%; }
                     <tbody>
                         @forelse($installed as $plugin)
                         <tr id="plugin-{{ $plugin->name }}">
-                            <td>{{ $plugin->title }}</td>
-                            <td id="description">{{ $plugin->description }}</td>
+                            <td>{!! trans($plugin->title) !!}</td>
+                            <td id="description">{!! trans($plugin->description) !!}</td>
                             <td id="author">{{ $plugin->author }}</td>
                             <td id="version">{{ $plugin->version }}</td>
                             <td id="status">

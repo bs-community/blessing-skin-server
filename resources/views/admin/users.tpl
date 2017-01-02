@@ -10,8 +10,8 @@
     <section class="content-header">
         <h1>
             {{ trans('general.user-manage') }}
-            <small>User Management</small>
         </h1>
+        <div class="breadcrumb"></div>
     </section>
 
     <!-- Main content -->

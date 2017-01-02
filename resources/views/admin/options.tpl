@@ -10,8 +10,8 @@
     <section class="content-header">
         <h1>
             {{ trans('general.options') }}
-            <small>Options</small>
         </h1>
+        <div class="breadcrumb"></div>
     </section>
 
     <!-- Main content -->

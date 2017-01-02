@@ -10,8 +10,8 @@
     <section class="content-header">
         <h1>
             {{ trans('general.check-update') }}
-            <small>Check Update</small>
         </h1>
+        <div class="breadcrumb"></div>
     </section>
 
     <!-- Main content -->

@@ -10,7 +10,6 @@
         <section class="content-header">
             <h1>
                 {{ trans('skinlib.show.title') }}
-                <small>Texture Details</small>
             </h1>
         </section>
 

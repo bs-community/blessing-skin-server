@@ -19,7 +19,6 @@ label[for="type-cape"] {
         <section class="content-header">
             <h1>
                 {{ trans('skinlib.upload.title') }}
-                <small>Upload Texture</small>
             </h1>
         </section>
 
