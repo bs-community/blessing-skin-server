@@ -49,10 +49,8 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        if ($e instanceof HttpException) {
-            // call i18n middleware manually since http exceptions won't be sent through it
-            (new Internationalization)->handle($request, function(){});
-        }
+        // call i18n middleware manually since http exceptions won't be sent through it
+        (new Internationalization)->handle($request, function(){});
 
         if ($e instanceof ModelNotFoundException) {
             $e = new NotFoundHttpException($e->getMessage(), $e);
