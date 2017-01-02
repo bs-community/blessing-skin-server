@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Log;
 use Utils;
 use Schema;
 use Option;
@@ -32,8 +33,66 @@ class SetupController extends Controller
         } else {
             $config = config('database.connections.mysql');
 
+            // generate new APP_KEY
+            if (is_writable(app()->environmentFile())) {
+                Artisan::call('key:generate');
+                Log::info("[SetupWizard] Application key set successfully.", ['key' => config('app.key')]);
+            } else {
+                Log::warning("[SetupWizard] Failed to set application key. No write permission.");
+            }
+
             return view('setup.wizard.welcome')->with('server', "{$config['username']}@{$config['host']}");
         }
+    }
+
+    public function info()
+    {
+        if (self::checkTablesExist()) {
+            return view('setup.locked');
+        }
+
+        return view('setup.wizard.info');
+    }
+
+    public function finish(Request $request)
+    {
+        if (self::checkTablesExist()) {
+            return view('setup.locked');
+        }
+
+        $this->validate($request, [
+            'email'     => 'required|email',
+            'password'  => 'required|min:6|max:16|confirmed',
+            'site_name' => 'required'
+        ]);
+
+        // create tables
+        Artisan::call('migrate', ['--force' => true]);
+        Log::info("[SetupWizard] Tables migrated.");
+
+        Option::set('site_name', $request->input('site_name'));
+        Option::set('site_url',  url('/'));
+
+        // register super admin
+        $user = User::register(
+            $request->input('email'),
+            $request->input('password'), function ($user)
+        {
+            $user->ip           = Utils::getClientIp();
+            $user->score        = option('user_initial_score');
+            $user->register_at  = Utils::getTimeFormatted();
+            $user->last_sign_at = Utils::getTimeFormatted(time() - 86400);
+            $user->permission   = User::SUPER_ADMIN;
+        });
+        Log::info("[SetupWizard] Super Admin registered.", ['user' => $user]);
+
+        $this->createDirectories();
+        Log::info("[SetupWizard] Installation completed.");
+
+        return view('setup.wizard.finish')->with([
+            'email'    => $request->input('email'),
+            'password' => $request->input('password')
+        ]);
     }
 
     public function update()
@@ -88,53 +147,6 @@ class SetupController extends Controller
         }
 
         return view('setup.updates.success', ['tips' => $tips]);
-    }
-
-    public function info()
-    {
-        if (self::checkTablesExist()) {
-            return view('setup.locked');
-        }
-
-        return view('setup.wizard.info');
-    }
-
-    public function finish(Request $request)
-    {
-        if (self::checkTablesExist()) {
-            return view('setup.locked');
-        }
-
-        $this->validate($request, [
-            'email'     => 'required|email',
-            'password'  => 'required|min:6|max:16|confirmed',
-            'site_name' => 'required'
-        ]);
-
-        // create tables
-        Artisan::call('migrate', ['--force' => true]);
-
-        Option::set('site_name', $request->input('site_name'));
-        Option::set('site_url',  url('/'));
-
-        // register super admin
-        $user = User::register(
-            $request->input('email'),
-            $request->input('password'), function ($user)
-        {
-            $user->ip           = Utils::getClientIp();
-            $user->score        = option('user_initial_score');
-            $user->register_at  = Utils::getTimeFormatted();
-            $user->last_sign_at = Utils::getTimeFormatted(time() - 86400);
-            $user->permission   = User::SUPER_ADMIN;
-        });
-
-        $this->createDirectories();
-
-        return view('setup.wizard.finish')->with([
-            'email'    => $request->input('email'),
-            'password' => $request->input('password')
-        ]);
     }
 
     /**
