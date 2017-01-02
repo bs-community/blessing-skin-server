@@ -7,6 +7,8 @@
 <a href="https://twitter.com/printempw"><img src="https://img.shields.io/twitter/follow/printempw.svg?style=social&label=Follow" alt="Twitter Follow"></a>
 </p>
 
+中文文档在这里 [@GitHub Wiki](https://github.com/printempw/blessing-skin-server/wiki/README---zh_CN)。
+
 Are you puzzled by losing your custom skins in Minecraft servers runing in offline mode? Now you can easily get them back with the help of Blessing Skin Server!
 
 Blessing Skin Server is a web application where you can upload, manage and share your custom skins & capes! Unlike modifying a resource pack, everyone in the game will see the different skins of each other (of course they should register at the same website too).
@@ -33,7 +35,7 @@ Requirements
 Blessing Skin Server has a few system requirements. In most cases, these PHP extensions are already enabled.
 
 - Web server with URL rewriting enabled
-- **PHP >= 5.5.9**
+- **PHP >= 5.5.9** (use v2.x branch if your server isn't qualified)
 - OpenSSL PHP Extension
 - PDO PHP Extension
 - Mbstring PHP Extension
@@ -93,6 +95,14 @@ Mod Configuration
 See [Wiki - Mod Configuration](https://github.com/printempw/blessing-skin-server/wiki/Mod-Configuration)
 
 ![screenshot2](https://img.prinzeugen.net/image.php?di=42U6)
+
+FAQ
+------------
+Read [Wiki - FAQ](https://github.com/printempw/blessing-skin-server/wiki/FAQ) and double check if your situation doesn't suit any case mentioned there before reporting.
+
+Report Bugs
+------------
+Please attach your log file (located at `storage/logs/laravel.log`) when reporting a bug. You should also provide the information of your server where the error occured on. Bug will be addressed ASAP.
 
 Copyright & License
 ------------
