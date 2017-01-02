@@ -178,20 +178,28 @@ class SetupController extends Controller
         }
     }
 
-    public static function checkTextureDirectory()
+    public static function checkDirectories()
     {
-        if (!Storage::disk('storage')->has('textures')) {
-            // mkdir
-            if (!Storage::disk('storage')->makeDirectory('textures'))
-                return false;
-        }
+        $directories = ['storage/textures', 'plugins'];
 
-        return true;
+        try {
+            foreach ($directories as $dir) {
+                if (!Storage::disk('root')->has($dir)) {
+                    // mkdir
+                    if (!Storage::disk('root')->makeDirectory($dir))
+                        return false;
+                }
+            }
+
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     protected function createDirectories()
     {
-        return self::checkTextureDirectory();
+        return self::checkDirectories();
     }
 
     /**

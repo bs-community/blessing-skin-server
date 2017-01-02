@@ -56,7 +56,7 @@ class BootServiceProvider extends ServiceProvider
             return redirect('/setup')->send();
         }
 
-        if (!SetupController::checkTextureDirectory()) {
+        if (!SetupController::checkDirectories()) {
             throw new PrettyPageException(trans('setup.file.permission-error'), -1);
         }
 
