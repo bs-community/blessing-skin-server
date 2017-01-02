@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use View;
+use Datatables;
 use App\Events;
 use Illuminate\Http\Request;
 use App\Services\PluginManager;
@@ -29,13 +30,13 @@ class PluginController extends Controller
                     case 'enable':
                         $plugins->enable($id);
 
-                        return redirect('admin/plugins/manage')->with('message', trans('admin.plugins.operations.enabled', ['plugin' => $plugin->title]));
+                        return json(trans('admin.plugins.operations.enabled', ['plugin' => $plugin->title]), 0);
                         break;
 
                     case 'disable':
                         $plugins->disable($id);
 
-                        return redirect('admin/plugins/manage')->with('message', trans('admin.plugins.operations.disabled', ['plugin' => $plugin->title]));
+                        return json(trans('admin.plugins.operations.disabled', ['plugin' => $plugin->title]), 0);
                         break;
 
                     case 'delete':
@@ -65,11 +66,27 @@ class PluginController extends Controller
 
         }
 
-        $data = [
-            'installed' => $plugins->getPlugins(),
-            'enabled'   => $plugins->getEnabledPlugins()
-        ];
+        return view('admin.plugins');
+    }
 
-        return view('admin.plugins', $data);
+    public function getPluginData(PluginManager $plugins)
+    {
+        $installed = $plugins->getPlugins();
+
+        return Datatables::of($installed)
+            ->setRowId('plugin-{{ $name }}')
+            ->editColumn('title', function ($plugin) {
+                return trans($plugin->title);
+            })
+            ->editColumn('description', function ($plugin) {
+                return trans($plugin->description);
+            })
+            ->addColumn('status', function ($plugin) {
+                return trans('admin.plugins.status.'.($plugin->isEnabled() ? 'enabled' : 'disabled'));
+            })
+            ->addColumn('operations', function ($plugin) {
+                return view('vendor.admin-operations.plugins.operations', compact('plugin'));
+            })
+            ->make(true);
     }
 }

@@ -134,6 +134,10 @@
             userRegistration: '用户注册',
 
             // Plugins
+            statusEnabled: '已启用',
+            statusDisabled: '已禁用',
+            enablePlugin: '启用插件',
+            disablePlugin: '禁用插件',
             confirmDeletion: '真的要删除这个插件吗？'
         },
         utils: {

@@ -3,11 +3,7 @@
 @section('title', trans('general.plugin-manage'))
 
 @section('style')
-<style>
-.btn { margin-right: 4px; }
-td#description { width: 35%; }
-@media (max-width: 767px) { .content-header > h1 > small { display: none; } }
-</style>
+<style> .btn { margin-right: 4px; } </style>
 @endsection
 
 @section('content')
@@ -32,8 +28,8 @@ td#description { width: 35%; }
         @endif
 
         <div class="box">
-            <div class="box-body table-responsive no-padding">
-                <table class="table table-hover">
+            <div class="box-body table-bordered">
+                <table id="plugin-table" class="table table-hover">
                     <thead>
                         <tr>
                             <th>{{ trans('admin.plugins.name') }}</th>
@@ -44,47 +40,6 @@ td#description { width: 35%; }
                             <th>{{ trans('admin.plugins.operations.title') }}</th>
                         </tr>
                     </thead>
-
-                    <tbody>
-                        @forelse($installed as $plugin)
-                        <tr id="plugin-{{ $plugin->name }}">
-                            <td>{!! trans($plugin->title) !!}</td>
-                            <td id="description">{!! trans($plugin->description) !!}</td>
-                            <td id="author">{{ $plugin->author }}</td>
-                            <td id="version">{{ $plugin->version }}</td>
-                            <td id="status">
-                                @if ($plugin->isEnabled())
-                                {{ trans('admin.plugins.status.enabled') }}
-                                @else
-                                {{ trans('admin.plugins.status.disabled') }}
-                                @endif
-                            </td>
-
-                            <td>
-                                @if ($plugin->isEnabled())
-                                <a class="btn btn-warning btn-sm" href="?action=disable&id={{ $plugin->name }}">{{ trans('admin.plugins.operations.disable') }}</a>
-                                @else
-                                <a class="btn btn-primary btn-sm" href="?action=enable&id={{ $plugin->name }}">{{ trans('admin.plugins.operations.enable') }}</a>
-                                @endif
-
-                                @if ($plugin->isEnabled() && $plugin->hasConfigView())
-                                <a class="btn btn-default btn-sm" href="?action=config&id={{ $plugin->name }}">{{ trans('admin.plugins.operations.configure') }}</a>
-                                @else
-                                <a class="btn btn-default btn-sm" disabled="disabled" title="{{ trans('admin.plugins.operations.no-config-notice') }}" data-toggle="tooltip" data-placement="top">{{ trans('admin.plugins.operations.configure') }}</a>
-                                @endif
-
-                                <a class="btn btn-danger btn-sm" href="javascript:deletePlugin('{{ $plugin->name }}');">{{ trans('admin.plugins.operations.delete') }}</a>
-
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td>0</td>
-                            <td>{{ trans('admin.plugins.empty') }}</td>
-                            <td>(´・ω・`)</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
                 </table>
             </div>
         </div>
@@ -97,28 +52,27 @@ td#description { width: 35%; }
 @section('script')
 <script type="text/javascript">
 
-function deletePlugin(name) {
-    swal({
-        text: trans('admin.confirmDeletion'),
-        type: 'warning',
-        showCancelButton: true
-    }).then(function() {
-        $.ajax({
-            type: "POST",
-            url: "?action=delete&id=" + name,
-            dataType: "json",
-            success: function(json) {
-                if (json.errno == 0) {
-                    toastr.success(json.msg);
-
-                    $('tr[id=plugin-'+name+']').remove();
-                } else {
-                    toastr.warning(json.msg);
-                }
-            },
-            error: showAjaxError
-        });
-    });
-}
+var table = $('#plugin-table').DataTable({
+    language: trans('vendor.datatables'),
+    responsive: true,
+    autoWidth: false,
+    processing: true,
+    serverSide: true,
+    ajax: '{{ url("admin/plugins/data") }}',
+    createdRow: function (row, data, index) {
+        $('td', row).eq(1).attr('id', 'description');
+        $('td', row).eq(2).attr('id', 'author');
+        $('td', row).eq(3).attr('id', 'version');
+        $('td', row).eq(4).attr('id', 'status');
+    },
+    columns: [
+        {data: 'title'},
+        {data: 'description', 'width': '35%'},
+        {data: 'author'},
+        {data: 'version'},
+        {data: 'status'},
+        {data: 'operations', searchable: false, orderable: false}
+    ]
+});
 </script>
 @endsection

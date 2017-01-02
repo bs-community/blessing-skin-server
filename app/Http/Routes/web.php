@@ -114,6 +114,7 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function ()
 
     Route::group(['prefix' => 'plugins'], function () {
         Route::any('/manage', 'PluginController@manage');
+        Route::get('/data',   'PluginController@getPluginData');
         Route::any('/market', 'PluginController@showMarket');
     });
 

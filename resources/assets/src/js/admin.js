@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-12-31 19:54:01
+ * @Last Modified time: 2017-01-02 12:11:43
  */
 
 'use strict';
@@ -293,6 +293,66 @@ function deletePlayer(pid) {
             }
         },
         error: showAjaxError
+    });
+}
+
+function enablePlugin(name) {
+    $.ajax({
+        type: "POST",
+        url: "?action=enable&id=" + name,
+        dataType: "json",
+        success: function(json) {
+            if (json.errno == 0) {
+                toastr.success(json.msg);
+
+                table.ajax.reload(null, false);
+            } else {
+                toastr.warning(json.msg);
+            }
+        },
+        error: showAjaxError
+    });
+}
+
+function disablePlugin(name) {
+    $.ajax({
+        type: "POST",
+        url: "?action=disable&id=" + name,
+        dataType: "json",
+        success: function(json) {
+            if (json.errno == 0) {
+                toastr.warning(json.msg);
+
+                table.ajax.reload(null, false);
+            } else {
+                toastr.warning(json.msg);
+            }
+        },
+        error: showAjaxError
+    });
+}
+
+function deletePlugin(name) {
+    swal({
+        text: trans('admin.confirmDeletion'),
+        type: 'warning',
+        showCancelButton: true
+    }).then(function() {
+        $.ajax({
+            type: "POST",
+            url: "?action=delete&id=" + name,
+            dataType: "json",
+            success: function(json) {
+                if (json.errno == 0) {
+                    toastr.success(json.msg);
+
+                    $('tr[id=plugin-'+name+']').remove();
+                } else {
+                    toastr.warning(json.msg);
+                }
+            },
+            error: showAjaxError
+        });
     });
 }
 

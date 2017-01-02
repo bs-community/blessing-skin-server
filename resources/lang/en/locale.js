@@ -134,6 +134,10 @@
             userRegistration: 'User Registration',
 
             // Plugins
+            statusEnabled: 'Enabled',
+            statusDisabled: 'Disabled',
+            enablePlugin: 'Enable',
+            disablePlugin: 'Disable',
             confirmDeletion: 'Are you sure to delete this plugin?'
         },
         utils: {
