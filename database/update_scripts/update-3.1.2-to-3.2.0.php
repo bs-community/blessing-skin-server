@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-12-31 23:37:34
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-12-31 23:49:39
+ * @Last Modified time: 2017-01-02 16:22:32
  */
 
 if (!Illuminate\Support\Str::startsWith(option('update_source'), 'http')) {
@@ -20,4 +20,8 @@ foreach (config('options') as $key => $value) {
     }
 }
 
-Option::set('version', '3.2-pr8');
+Option::set('version', '3.2.0');
+
+return [
+    'v3.2 新加入了插件系统，支持的插件请去程序发布帖查看'
+];

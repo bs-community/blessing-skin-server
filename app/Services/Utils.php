@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Log;
+use Illuminate\Support\Str;
 use Storage as LaravelStorage;
 use App\Exceptions\PrettyPageException;
 
@@ -24,6 +25,43 @@ class Utils
         }
 
         return $ip;
+    }
+
+    public static function versionCompare($version1, $version2, $operator = null)
+    {
+        $versions = [$version1, $version2];
+
+        // pre-processing for version contains hyphen
+        foreach ([0, 1] as $offset) {
+            if (false !== ($result = self::parseVersionWithHyphen($versions[$offset]))) {
+                $versions[$offset] = $result;
+            } else {
+                $versions[$offset] = ['main' => $versions[$offset], 'sub' => ''];
+            }
+        }
+
+        if (version_compare($versions[0]['main'], $versions[1]['main'], '=')) {
+            // v3.2-pr < v3.2
+            if ($versions[0]['sub'] != "" || $versions[1]['sub'] != "") {
+                return version_compare($versions[0]['sub'], $versions[1]['sub'], $operator);
+            }
+        }
+
+        return version_compare($versions[0]['main'], $versions[1]['main'], $operator);
+    }
+
+    public static function parseVersionWithHyphen($version)
+    {
+        preg_match('/(.*)-(.*)/', $version, $matches);
+
+        if (isset($matches[2])) {
+            return [
+                'main' => $matches[1],
+                'sub'  => $matches[2]
+            ];
+        }
+
+        return false;
     }
 
     /**

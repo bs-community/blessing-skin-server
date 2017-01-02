@@ -97,7 +97,7 @@ class SetupController extends Controller
 
     public function update()
     {
-        if (version_compare(config('app.version'), option('version', ''), '<=')) {
+        if (Utils::versionCompare(config('app.version'), option('version', ''), '<=')) {
             // no updates available
             return view('setup.locked');
         }
@@ -118,7 +118,7 @@ class SetupController extends Controller
 
                 // skip if the file is not valid or expired
                 if (!isset($matches[2]) ||
-                    version_compare($matches[2], config('app.version'), '<')) {
+                    Utils::versionCompare($matches[2], config('app.version'), '<')) {
                     continue;
                 }
 

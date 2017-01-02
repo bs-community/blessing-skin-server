@@ -60,7 +60,7 @@ class BootServiceProvider extends ServiceProvider
             throw new PrettyPageException(trans('setup.file.permission-error'), -1);
         }
 
-        if (version_compare(config('app.version'), option('version', ''), '>')) {
+        if (Utils::versionCompare(config('app.version'), option('version', ''), '>')) {
             return redirect('/setup/update')->send();
         }
 

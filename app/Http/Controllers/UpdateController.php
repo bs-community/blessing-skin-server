@@ -45,7 +45,7 @@ class UpdateController extends Controller
         if ($this->getUpdateInfo()) {
             $info['latest_version'] = $this->getUpdateInfo('latest_version');
 
-            $info['new_version_available'] = version_compare(
+            $info['new_version_available'] = Utils::versionCompare(
                 $info['latest_version'],
                 $info['current_version'], '>'
             );
@@ -95,7 +95,7 @@ class UpdateController extends Controller
     {
         $latest = $this->getUpdateInfo('latest_version');
 
-        return version_compare($latest, $this->currentVersion, '>') && $this->getReleaseInfo($latest);
+        return Utils::versionCompare($latest, $this->currentVersion, '>') && $this->getReleaseInfo($latest);
     }
 
     public function download(Request $request)
