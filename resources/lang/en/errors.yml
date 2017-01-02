@@ -7,7 +7,7 @@ general:
   title: Error occurred
 
 brief:
-  message: Whoops, looks like something went wrong. (enable APP_DEBUG to see details)
+  message: Whoops, looks like something went wrong. (enable APP_DEBUG in .env to see details)
 
 exception:
   title: Some errors occurred

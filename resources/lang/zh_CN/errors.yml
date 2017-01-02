@@ -7,7 +7,7 @@ general:
   title: 出现错误
 
 brief:
-  message: 哎呀，你似乎触发了一个错误（开启 APP_DEBUG 以查看详细信息）
+  message: 哎呀，你似乎触发了一个错误（开启 .env 中的 APP_DEBUG 以查看详细信息）
 
 exception:
   title: 出现了一些错误
