@@ -138,7 +138,11 @@
             statusDisabled: '已禁用',
             enablePlugin: '启用插件',
             disablePlugin: '禁用插件',
-            confirmDeletion: '真的要删除这个插件吗？'
+            confirmDeletion: '真的要删除这个插件吗？',
+
+            preparing: '正在准备',
+            downloadCompleted: '更新包下载完成',
+            extracting: '正在解压更新包'
         },
         utils: {
             fatalError: '严重错误（请联系作者）'

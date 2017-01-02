@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
  * @Last Modified by:   printempw
- * @Last Modified time: 2017-01-02 12:11:43
+ * @Last Modified time: 2017-01-02 15:30:42
  */
 
 'use strict';
@@ -367,7 +367,7 @@ function downloadUpdates() {
         type: 'GET',
         dataType: 'json',
         beforeSend: function() {
-            $('#update-button').html('<i class="fa fa-spinner fa-spin"></i> 正在准备').prop('disabled', 'disabled');
+            $('#update-button').html('<i class="fa fa-spinner fa-spin"></i> '+trans('admin.preparing')).prop('disabled', 'disabled');
         },
     })
     .done(function(json) {
@@ -405,7 +405,8 @@ function downloadUpdates() {
             if (progress == 100) {
                 clearInterval(interval_id);
 
-                toastr.success('正在解压更新包');
+                $('.modal-title').html('<i class="fa fa-spinner fa-spin"></i> ' + trans('admin.extracting'));
+                $('.modal-body').append('<p>'+trans('admin.downloadCompleted')+'</p>')
 
                 console.log("Start extracting");
                 $.ajax({
@@ -414,13 +415,15 @@ function downloadUpdates() {
                     dataType: 'json'
                 })
                 .done(function(json) {
-                    console.log("Files covered");
+                    console.log("Package extracted and files are covered");
                     $('#modal-start-download').modal('toggle');
 
                     swal({
                         type: 'success',
                         html: json.msg
                     }).then(function() {
+                        window.location = "../";
+                    }, function(dismiss) {
                         window.location = "../";
                     });
                 })
