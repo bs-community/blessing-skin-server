@@ -6,6 +6,7 @@ use DB;
 use App;
 use Utils;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use App\Events\EncryptUserPassword;
 use Illuminate\Database\Eloquent\Model;
 
@@ -65,20 +66,29 @@ class User extends Model
     /**
      * Check if given password is correct.
      *
-     * @param  string $raw_passwd
+     * @param  string $rawPasswd
      * @return bool
      */
-    public function checkPasswd($raw_passwd)
+    public function checkPasswd($rawPasswd)
     {
-        $responses = event(new EncryptUserPassword($raw_passwd, $this));
+        return (static::encryptPassword($rawPasswd, $this) == $this->password);
+    }
 
-        if (isset($responses[0])) {
-            $encrypted = $responses[0];
-        } else {
-            $encrypted = app('cipher')->encrypt($raw_passwd, config('secure.salt'));
-        }
+    /**
+     * Encrypt user's password.
+     *
+     * @param  string $rawPasswd
+     * @param  User   $user
+     * @return mixed
+     */
+    protected static function encryptPassword($rawPasswd, User $user)
+    {
+        $responses = event(new EncryptUserPassword($rawPasswd, $user));
 
-        return ($encrypted == $this->password);
+        return Arr::get($responses, 0,
+            // encrypt with current cipher if no response is returned by the event dispatcher
+            app('cipher')->encrypt($rawPasswd, config('secure.salt'))
+        );
     }
 
     /**
@@ -96,10 +106,15 @@ class User extends Model
         if ($user->uid)
             return false;
 
-        $user->password = app('cipher')->encrypt($password, config('secure.salt'));
+        // save to get uid
+        $user->save();
 
-        $callback($user);
+        $user->password = static::encryptPassword($password, $user);
 
+        // pass the user instance to the callback
+        call_user_func($callback, $user);
+
+        // save again with password etc.
         $user->save();
 
         return $user;
