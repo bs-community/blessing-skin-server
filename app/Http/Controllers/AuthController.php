@@ -11,7 +11,6 @@ use Option;
 use Session;
 use App\Events;
 use App\Models\User;
-use App\Models\UserModel;
 use Illuminate\Http\Request;
 use App\Exceptions\PrettyPageException;
 use App\Services\Repositories\UserRepository;
@@ -256,7 +255,7 @@ class AuthController extends Controller
         return \Response::png();
     }
 
-    private function checkCaptcha($request)
+    protected function checkCaptcha($request)
     {
         return (strtolower($request->input('captcha')) == strtolower(session('phrase')));
     }

@@ -13,10 +13,17 @@ use App\Exceptions\PrettyPageException;
 
 class CheckAuthenticated
 {
-    public function handle($request, \Closure $next, $return_user = false)
+    public function handle($request, \Closure $next, $returnUser = false)
     {
         if (Session::has('uid')) {
-            $user = app('users')->get(session('uid'));
+
+            if (!app()->bound('user.current')) {
+                // bind current user to container
+                $user = app('users')->get(session('uid'));
+                app()->instance('user.current', $user);
+            } else {
+                $user = app('user.current');
+            }
 
             if (session('token') != $user->getToken())
                 return redirect('auth/login')->with('msg', trans('auth.check.token'));
@@ -40,23 +47,20 @@ class CheckAuthenticated
 
                             return $next($request);
                         } else {
-                            echo View::make('auth.bind')->with('msg', trans('auth.validation.email'));
+                            return response()->view('auth.bind', ['msg' => trans('auth.bind.registered')]);
                         }
                     } else {
-                        echo View::make('auth.bind')->with('msg', trans('auth.bind.registered'));
+                        return response()->view('auth.bind', ['msg' => trans('auth.validation.email')]);
                     }
-                    exit;
                 }
-                View::show('auth.bind');
-                exit;
+
+                return response()->view('auth.bind');
             }
 
             event(new UserAuthenticated($user));
 
-            if ($return_user)
-                return $user;
+            return $returnUser ? $user : $next($request);
 
-            return $next($request);
         } else {
             return redirect('auth/login')->with('msg', trans('auth.check.anonymous'));
         }

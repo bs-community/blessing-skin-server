@@ -103,18 +103,16 @@ class User extends Model
         $user = static::firstOrNew(['email' => $email]);
 
         // if the email is already registered
-        if ($user->uid)
-            return false;
-
-        // save to get uid
-        $user->save();
-
-        $user->password = static::encryptPassword($password, $user);
+        if ($user->uid) return false;
 
         // pass the user instance to the callback
         call_user_func($callback, $user);
 
-        // save again with password etc.
+        // save to get uid
+        $user->save();
+
+        // save again with password
+        $user->password = static::encryptPassword($password, $user);
         $user->save();
 
         return $user;
