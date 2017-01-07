@@ -126,7 +126,7 @@
                             <td>{{ trans('user.player.player-name') }}</td>
                             <td>
                                <input type="text" class="form-control" id="player_name"
-                                    placeholder="{{ (option('allow_chinese_playername') == '1') ? trans('user.player.pname-rule-chinese') : trans('user.player.pname-rule') }}" value="">
+                                    placeholder="{{ option('allow_chinese_playername') ? trans('user.player.pname-rule-chinese') : trans('user.player.pname-rule') }}" value="">
                             </td>
                         </tr>
                     </tbody>

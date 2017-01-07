@@ -115,7 +115,7 @@
     <!-- App Scripts -->
     {!! bs_footer('admin') !!}
 
-    @if (option('check_update') == '1')
+    @if (option('check_update'))
     <script>
         $(document).ready(function() {
             // check for updates
