@@ -153,6 +153,6 @@ update:
   errors:
     prefix: 发生错误：
     connection: 无法访问当前更新源。详细信息：
-    write-permission: 创建下载缓存文件夹失败，请检查目录权限。
+    write-permission: 您的服务器不支持自动更新：创建下载缓存文件夹失败，请检查目录权限。
     unzip: 更新包解压缩失败。错误代码：
-    overwrite: 无法覆盖文件。
+    overwrite: 您的服务器不支持自动更新：无法覆盖文件。

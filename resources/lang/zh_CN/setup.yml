@@ -1,10 +1,10 @@
 database:
-  connection-error: 无法连接至 MySQL 服务器，请检查你的配置 :msg
+  connection-error: 无法连接至 MySQL 服务器，请检查你的配置。服务器返回的信息： :msg
   connection-success: 成功连接至 MySQL 服务器 [:server] ，点击下一步以开始安装。
 
 file:
   permission-error: textures 文件夹创建失败，请确认目录权限是否正确，或者手动放置一个。
-  no-dot-env: 找不到 .env 配置文件
+  no-dot-env: 找不到配置文件，请将 .env.example 重命名至 .env 并仔细阅读安装指南。
 
 permissions:
   storage: 无法写入 storage 目录，请检查目录权限是否正确
