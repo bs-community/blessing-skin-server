@@ -79,7 +79,7 @@ class UserController extends Controller
                     'new_password'     => 'required|min:8|max:16'
                 ]);
 
-                if (!$this->user->checkPasswd($request->input('current_password')))
+                if (!$this->user->verifyPassword($request->input('current_password')))
                     return json(trans('user.profile.password.wrong-password'), 1);
 
                 if ($this->user->changePasswd($request->input('new_password')))
@@ -93,7 +93,7 @@ class UserController extends Controller
                     'password'  => 'required|min:8|max:16'
                 ]);
 
-                if (!$this->user->checkPasswd($request->input('password')))
+                if (!$this->user->verifyPassword($request->input('password')))
                     return json(trans('user.profile.email.wrong-password'), 1);
 
                 if ($this->user->setEmail($request->input('new_email')))
@@ -106,7 +106,7 @@ class UserController extends Controller
                     'password' => 'required|min:8|max:16'
                 ]);
 
-                if (!$this->user->checkPasswd($request->input('password')))
+                if (!$this->user->verifyPassword($request->input('password')))
                     return json(trans('user.profile.delete.wrong-password'), 1);
 
                 if ($this->user->delete()) {

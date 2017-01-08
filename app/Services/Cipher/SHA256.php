@@ -2,12 +2,12 @@
 
 namespace App\Services\Cipher;
 
-class SHA256 implements EncryptInterface
+class SHA256 extends BaseCipher
 {
     /**
      * Once SHA256 hash
      */
-    public function encrypt($value, $salt = "")
+    public function hash($value, $salt = "")
     {
         return hash('sha256', $value);
     }

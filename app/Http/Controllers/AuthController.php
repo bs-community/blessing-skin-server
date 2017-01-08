@@ -49,7 +49,7 @@ class AuthController extends Controller
         if (!$user) {
             return json(trans('auth.validation.user'), 2);
         } else {
-            if ($user->checkPasswd($request->input('password'))) {
+            if ($user->verifyPassword($request->input('password'))) {
                 Session::forget('login_fails');
 
                 Session::put('uid'  , $user->uid);

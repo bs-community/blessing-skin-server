@@ -8,6 +8,7 @@ use Validator;
 use App\Events;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
+use App\Exceptions\PrettyPageException;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -49,7 +50,14 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         // register default cipher
-        $this->app->singleton('cipher', "App\Services\Cipher\\".config('secure.cipher'));
+        $className = "App\Services\Cipher\\".config('secure.cipher');
+
+        if (class_exists($className)) {
+            $this->app->singleton('cipher', $className);
+        } else {
+            exit(sprintf("No such encrypt method: [%s], please check your .env configuration.", config('secure.cipher')));
+        }
+
         $this->app->singleton('users', \App\Services\Repositories\UserRepository::class);
         $this->app->singleton('parsedown', \Parsedown::class);
     }

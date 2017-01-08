@@ -2,12 +2,12 @@
 
 namespace App\Services\Cipher;
 
-class MD5 implements EncryptInterface
+class MD5 extends BaseCipher
 {
     /**
      * Once MD5 hash
      */
-    public function encrypt($value, $salt = "")
+    public function hash($value, $salt = "")
     {
         return md5($value);
     }

@@ -69,26 +69,28 @@ class User extends Model
      * @param  string $rawPasswd
      * @return bool
      */
-    public function checkPasswd($rawPasswd)
+    public function verifyPassword($rawPasswd)
     {
-        return (static::encryptPassword($rawPasswd, $this) == $this->password);
+        // compare directly if any responses is returned by event dispatcher
+        if ($result = static::getEncryptedPwdFromEvent($rawPasswd, $this)) {
+            return ($result == $this->password);
+        }
+
+        return app('cipher')->verify($rawPasswd, $this->password, config('secure.salt'));
     }
 
     /**
-     * Encrypt user's password.
+     * Try to get encrypted password from event dispatcher.
      *
      * @param  string $rawPasswd
      * @param  User   $user
      * @return mixed
      */
-    protected static function encryptPassword($rawPasswd, User $user)
+    protected static function getEncryptedPwdFromEvent($rawPasswd, User $user)
     {
         $responses = event(new EncryptUserPassword($rawPasswd, $user));
 
-        return Arr::get($responses, 0,
-            // encrypt with current cipher if no response is returned by the event dispatcher
-            app('cipher')->encrypt($rawPasswd, config('secure.salt'))
-        );
+        return Arr::get($responses, 0);
     }
 
     /**
@@ -112,7 +114,7 @@ class User extends Model
         $user->save();
 
         // save again with password
-        $user->password = static::encryptPassword($password, $user);
+        $user->password = static::getEncryptedPwdFromEvent($password, $user) ?: app('cipher')->hash($password, config('secure.salt'));
         $user->save();
 
         return $user;
@@ -131,7 +133,7 @@ class User extends Model
         if (isset($responses[0])) {
             $this->password = $responses[0];
         } else {
-            $this->password = app('cipher')->encrypt($new_passwd, config('secure.salt'));
+            $this->password = app('cipher')->hash($new_passwd, config('secure.salt'));
         }
 
         return $this->save();

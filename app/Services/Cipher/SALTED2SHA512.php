@@ -2,14 +2,14 @@
 
 namespace App\Services\Cipher;
 
-class SALTED2SHA512 implements EncryptInterface
+class SALTED2SHA512 extends BaseCipher
 {
     /**
-     * SHA512 with salt
+     * SHA512 hash with salt
      */
-    public function encrypt($value, $salt = "")
+    public function hash($value, $salt = "")
     {
-        return hash('sha512', hash('sha256', $value).$salt);
+        return hash('sha512', hash('sha512', $value).$salt);
     }
 
 }
