@@ -83,6 +83,8 @@ class Hook
                 foreach ((array) $urls as $url) {
                     $event->addContent("<link rel=\"stylesheet\" href=\"$url\">");
                 }
+
+                return;
             }
 
         }, $priority);
@@ -99,6 +101,8 @@ class Hook
                 foreach ((array) $urls as $url) {
                     $event->addContent("<script src=\"$url\"></script>");
                 }
+
+                return;
             }
 
         }, $priority);
