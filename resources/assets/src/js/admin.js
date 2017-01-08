@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
  * @Last Modified by:   printempw
- * @Last Modified time: 2017-01-02 15:30:42
+ * @Last Modified time: 2017-01-08 16:07:24
  */
 
 'use strict';
@@ -299,7 +299,7 @@ function deletePlayer(pid) {
 function enablePlugin(name) {
     $.ajax({
         type: "POST",
-        url: "?action=enable&id=" + name,
+        url: "?action=enable&name=" + name,
         dataType: "json",
         success: function(json) {
             if (json.errno == 0) {
@@ -317,7 +317,7 @@ function enablePlugin(name) {
 function disablePlugin(name) {
     $.ajax({
         type: "POST",
-        url: "?action=disable&id=" + name,
+        url: "?action=disable&name=" + name,
         dataType: "json",
         success: function(json) {
             if (json.errno == 0) {
@@ -340,7 +340,7 @@ function deletePlugin(name) {
     }).then(function() {
         $.ajax({
             type: "POST",
-            url: "?action=delete&id=" + name,
+            url: "?action=delete&name=" + name,
             dataType: "json",
             success: function(json) {
                 if (json.errno == 0) {

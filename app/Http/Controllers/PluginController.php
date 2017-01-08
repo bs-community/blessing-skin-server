@@ -17,24 +17,24 @@ class PluginController extends Controller
 
     public function manage(Request $request, PluginManager $plugins)
     {
-        if ($request->has('action') && $request->has('id')) {
-            $id = $request->get('id');
+        if ($request->has('action') && $request->has('name')) {
+            $name = $request->get('name');
 
-            if ($plugins->getPlugins()->has($id)) {
-                $plugin = $plugins->getPlugin($id);
+            if ($plugins->getPlugins()->has($name)) {
+                $plugin = $plugins->getPlugin($name);
 
                 // pass the plugin title through the translator
                 $plugin->title = trans($plugin->title);
 
                 switch ($request->get('action')) {
                     case 'enable':
-                        $plugins->enable($id);
+                        $plugins->enable($name);
 
                         return json(trans('admin.plugins.operations.enabled', ['plugin' => $plugin->title]), 0);
                         break;
 
                     case 'disable':
-                        $plugins->disable($id);
+                        $plugins->disable($name);
 
                         return json(trans('admin.plugins.operations.disabled', ['plugin' => $plugin->title]), 0);
                         break;
@@ -43,7 +43,7 @@ class PluginController extends Controller
                         if ($request->isMethod('post')) {
                             event(new Events\PluginWasDeleted($plugin));
 
-                            $plugins->uninstall($id);
+                            $plugins->uninstall($name);
 
                             return json(trans('admin.plugins.operations.deleted'), 0);
                         }
