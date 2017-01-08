@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 
@@ -25,7 +26,7 @@ if (! function_exists('get_current_url')) {
 
 if (! function_exists('avatar')) {
 
-    function avatar(App\Models\User $user, $size)
+    function avatar(User $user, $size)
     {
         $fname = base64_encode($user->email).".png?tid=".$user->getAvatarId();
 
@@ -99,10 +100,6 @@ if (! function_exists('bs_footer')) {
 
         foreach ($scripts as $script) {
             echo "<script type=\"text/javascript\" src=\"$script\"></script>";
-        }
-
-        if (Session::has('msg')) {
-            echo "<script>toastr.info('".Session::pull('msg')."');</script>";
         }
 
         echo '<script>'.Option::get("custom_js").'</script>';
@@ -237,11 +234,30 @@ if (! function_exists('bs_announcement')) {
 
 if (! function_exists('bs_nickname')) {
 
-    function bs_nickname(\App\Models\User $user = null)
+    function bs_nickname(User $user = null)
     {
         $user = $user ?: app('users')->getCurrentUser();
 
         return ($user->getNickName() == '') ? $user->email : $user->getNickName();
+    }
+}
+
+if (! function_exists('bs_role')) {
+
+    function bs_role(User $user = null)
+    {
+        $user = $user ?: app('users')->getCurrentUser();
+
+        $roles = [
+            User::NORMAL => 'normal',
+            User::BANNED => 'banned',
+            User::ADMIN  => 'admin',
+            User::SUPER_ADMIN => 'super-admin'
+        ];
+
+        $role = Arr::get($roles, $user->getPermission());
+
+        return trans("admin.users.status.$role");
     }
 }
 

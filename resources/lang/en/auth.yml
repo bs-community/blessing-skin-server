@@ -7,6 +7,7 @@ login:
 
 check:
   anonymous: Illegal access. Please log in first.
+  admin: Only admins are permitted to access this page.
   banned: You are banned on this site. Please contact the admin.
   token: Invalid token. Please log in.
 

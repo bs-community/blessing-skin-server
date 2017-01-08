@@ -7,13 +7,13 @@ use View;
 use Http;
 use Cookie;
 use Session;
+use Closure;
 use App\Models\User;
 use App\Events\UserAuthenticated;
-use App\Exceptions\PrettyPageException;
 
 class CheckAuthenticated
 {
-    public function handle($request, \Closure $next, $returnUser = false)
+    public function handle($request, Closure $next, $returnUser = false)
     {
         if (Session::has('uid')) {
 
@@ -32,29 +32,12 @@ class CheckAuthenticated
                 delete_sessions();
                 delete_cookies();
 
-                throw new PrettyPageException(trans('auth.check.banned'), 5);
+                abort(403, trans('auth.check.banned'));
             }
 
             // ask for filling email
             if ($user->email == "") {
-                if (isset($request->email)) {
-                    if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
-                        if (User::where('email', $request->email)->get()->isEmpty()) {
-                            $user->setEmail($request->email);
-                            // refresh token
-                            Session::put('token',  $user->getToken(true));
-                            Cookie::queue('token', $user->getToken(), 60);
-
-                            return $next($request);
-                        } else {
-                            return response()->view('auth.bind', ['msg' => trans('auth.bind.registered')]);
-                        }
-                    } else {
-                        return response()->view('auth.bind', ['msg' => trans('auth.validation.email')]);
-                    }
-                }
-
-                return response()->view('auth.bind');
+                return $this->askForFillingEmail($request, $next);
             }
 
             event(new UserAuthenticated($user));
@@ -66,5 +49,27 @@ class CheckAuthenticated
         }
 
         return $next($request);
+    }
+
+    public function askForFillingEmail($request, Closure $next)
+    {
+        if (isset($request->email)) {
+            if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
+                if (User::where('email', $request->email)->get()->isEmpty()) {
+                    $user->setEmail($request->email);
+                    // refresh token
+                    Session::put('token',  $user->getToken(true));
+                    Cookie::queue('token', $user->getToken(), 60);
+
+                    return $next($request);
+                } else {
+                    return response()->view('auth.bind', ['msg' => trans('auth.bind.registered')]);
+                }
+            } else {
+                return response()->view('auth.bind', ['msg' => trans('auth.validation.email')]);
+            }
+        }
+
+        return response()->view('auth.bind');
     }
 }

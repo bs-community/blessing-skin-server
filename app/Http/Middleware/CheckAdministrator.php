@@ -6,14 +6,14 @@ class CheckAdministrator
 {
     public function handle($request, \Closure $next)
     {
-        $user = (new CheckAuthenticated)->handle($request, $next, true);
+        $result = (new CheckAuthenticated)->handle($request, $next, true);
 
-        if ($user instanceof \Illuminate\Http\RedirectResponse) {
-            return $user;
+        if ($result instanceof \Illuminate\Http\RedirectResponse) {
+            return $result;
         }
 
-        if (!$user->isAdmin()) {
-            return redirect('user')->with('msg', '看起来你并不是管理员哦');
+        if (!$result->isAdmin()) {
+            abort(403, trans('auth.check.admin'));
         }
 
         return $next($request);

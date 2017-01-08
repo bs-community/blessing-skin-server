@@ -12,6 +12,10 @@
     <div class="login-box-body">
         <p class="login-box-msg">{{ trans('auth.login.message') }}</p>
 
+        @if (Session::has('msg'))
+        <div class="callout callout-warning">{{ Session::pull('msg') }}</div>
+        @endif
+
         <form id="login-form">
             <div class="form-group has-feedback">
                 <input id="identification" type="email" class="form-control" placeholder="{{ trans('auth.identification') }}">

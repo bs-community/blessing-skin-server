@@ -8,7 +8,7 @@ index:
 users:
   status:
     title: 状态
-    normal: 正常
+    normal: 普通用户
     banned: 封禁
     admin: 管理员
     super-admin: 超级管理员
@@ -114,7 +114,7 @@ plugins:
 
 update:
   complete: 更新完成
-  
+
   info:
     title: 更新信息
 

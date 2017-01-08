@@ -29,6 +29,8 @@ class CheckSessionUserValid
                 // remove sessions & cookies
                 delete_sessions();
                 delete_cookies();
+
+                return redirect('auth/login')->with('msg', trans('auth.check.token'));
             }
         }
 

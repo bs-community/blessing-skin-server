@@ -82,7 +82,7 @@
                     </div>
                     <div class="pull-left info">
                         <p class="nickname">{{ bs_nickname($user) }}</p>
-                        <i class="fa fa-circle text-success"></i> {{ trans('general.online') }}
+                        <i class="fa fa-circle text-success"></i> {{ bs_role($user) }}
                     </div>
                 </div>
 

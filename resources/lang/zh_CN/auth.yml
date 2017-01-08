@@ -7,6 +7,7 @@ login:
 
 check:
   anonymous: 非法访问，请先登录
+  admin: 看起来你并不是管理员哦
   banned: 你已经被本站封禁啦，请联系管理员解决
   token: 无效的 token，请重新登录
 
