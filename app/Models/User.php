@@ -40,6 +40,13 @@ class User extends Model
     protected $fillable = ['email', 'nickname', 'permission'];
 
     /**
+     * Storage size used by user in KiB.
+     *
+     * @var int
+     */
+    protected $storageUsed;
+
+    /**
      * Check if user is admin.
      *
      * @return bool
@@ -253,14 +260,18 @@ class User extends Model
      */
     public function getStorageUsed()
     {
-        if (is_null($this->storage_used)) {
-            $this->storage_used = 0;
-            // recalculate
-            $sql = "SELECT SUM(`size`) AS total_size FROM `{table}` WHERE uploader = {$this->uid}";
-            $result = \Database::table('textures')->fetchArray($sql)['total_size'];
-            $this->storage_used = $result ?: 0;
+        if (is_null($this->storageUsed)) {
+            $this->storageUsed = 0;
+
+            $result = DB::table('textures')
+                        ->select(DB::raw("SUM(size) AS total_size"))
+                        ->where('uploader', $this->uid)
+                        ->first()->total_size;
+
+            $this->storageUsed = $result ?: 0;
         }
-        return $this->storage_used;
+
+        return $this->storageUsed;
     }
 
     /**
