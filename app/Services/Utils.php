@@ -59,6 +59,7 @@ class Utils
      *
      * e.g. 3.2-beta > 3.2-alpha
      *      3.2 > 3.2-beta
+     *      3.2 > 3.2-pre-release
      *      3.2 > 3.2-pr8
      *
      * @param  string $version1
@@ -80,11 +81,19 @@ class Utils
         }
 
         if (version_compare($versions[0]['main'], $versions[1]['main'], '=')) {
+            $sub1 = $versions[0]['sub'];
+            $sub2 = $versions[1]['sub'];
+
             // v3.2-pr < v3.2
-            if ($versions[0]['sub'] != "" && $versions[1]['sub'] != "") {
-                return version_compare($versions[0]['sub'], $versions[1]['sub'], $operator);
-            } else {
-                return !version_compare($versions[0]['sub'], $versions[1]['sub'], $operator);
+            if ($sub1 != "" || $sub2 != "") {
+                // if both of sub-versions are not empty
+                if ($sub1 != "" && $sub2 != "") {
+                    return version_compare($sub1, $sub2, $operator);
+                } else {
+                    $result = version_compare($sub1, $sub2, $operator);
+                    // reverse the result since version_compare() will determine that "beta" > ""
+                    return ($operator == "=") ? $result : !$result;
+                }
             }
         }
 
@@ -93,7 +102,7 @@ class Utils
 
     public static function parseVersionWithHyphen($version)
     {
-        preg_match('/(.*)-(.*)/', $version, $matches);
+        preg_match('/([^-]*)-(.*)/', $version, $matches);
 
         if (isset($matches[2])) {
             return [
