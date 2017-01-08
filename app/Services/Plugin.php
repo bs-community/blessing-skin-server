@@ -103,6 +103,11 @@ class Plugin implements Arrayable, ArrayAccess
         return Arr::get($this->packageInfo, $name);
     }
 
+    public function assets($relativeUri)
+    {
+        return url("plugins/{$this->getDirname()}/$relativeUri");
+    }
+
     /**
      * @param bool $installed
      * @return Plugin

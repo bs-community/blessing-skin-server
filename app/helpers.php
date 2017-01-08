@@ -36,25 +36,33 @@ if (! function_exists('avatar')) {
 
 if (! function_exists('assets')) {
 
-    function assets($relative_uri)
+    function assets($relativeUri)
     {
         // add query string to fresh cache
-        if (Str::startsWith($relative_uri, 'css') || Str::startsWith($relative_uri, 'js')) {
-            return url("resources/assets/dist/$relative_uri")."?v=".config('app.version');
-        } elseif (Str::startsWith($relative_uri, 'lang')) {
-            return url("resources/$relative_uri");
+        if (Str::startsWith($relativeUri, 'css') || Str::startsWith($relativeUri, 'js')) {
+            return url("resources/assets/dist/$relativeUri")."?v=".config('app.version');
+        } elseif (Str::startsWith($relativeUri, 'lang')) {
+            return url("resources/$relativeUri");
         } else {
-            return url("resources/assets/$relative_uri");
+            return url("resources/assets/$relativeUri");
         }
+    }
+}
+
+if (! function_exists('plugin')) {
+
+    function plugin($id)
+    {
+        return app('plugins')->getPlugin($id);
     }
 }
 
 if (! function_exists('plugin_assets')) {
 
-    function plugin_assets($id, $relative_uri)
+    function plugin_assets($id, $relativeUri)
     {
-        if ($plugin = app('plugins')->getPlugin($id)) {
-            return url("plugins/{$plugin->getDirname()}/$relative_uri");
+        if ($plugin = plugin($id)) {
+            return $plugin->assets($relativeUri);
         } else {
             throw new InvalidArgumentException("No such plugin.");
         }

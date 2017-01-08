@@ -72,23 +72,35 @@ class Hook
         }, 999);
     }
 
-    public static function addStyleFileToPage($urls, $priority = 1)
+    public static function addStyleFileToPage($urls, $pages = ['*'], $priority = 1)
     {
-        Event::listen(Events\RenderingHeader::class, function($event) use ($urls)
+        Event::listen(Events\RenderingHeader::class, function($event) use ($urls, $pages)
         {
-            foreach ((array) $urls as $url) {
-                $event->addContent("<link rel=\"stylesheet\" href=\"$url\">");
+            foreach ($pages as $pattern) {
+                if (!app('request')->is($pattern))
+                    continue;
+
+                foreach ((array) $urls as $url) {
+                    $event->addContent("<link rel=\"stylesheet\" href=\"$url\">");
+                }
             }
+
         }, $priority);
     }
 
-    public static function addScriptFileToPage($urls, $priority = 1)
+    public static function addScriptFileToPage($urls, $pages = ['*'], $priority = 1)
     {
-        Event::listen(Events\RenderingFooter::class, function($event) use ($urls)
+        Event::listen(Events\RenderingFooter::class, function($event) use ($urls, $pages)
         {
-            foreach ((array) $urls as $url) {
-                $event->addContent("<script src=\"$url\"></script>");
+            foreach ($pages as $pattern) {
+                if (!app('request')->is($pattern))
+                    continue;
+
+                foreach ((array) $urls as $url) {
+                    $event->addContent("<script src=\"$url\"></script>");
+                }
             }
+
         }, $priority);
     }
 }
