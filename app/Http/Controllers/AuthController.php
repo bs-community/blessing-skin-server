@@ -180,7 +180,7 @@ class AuthController extends Controller
 
         $uid = $user->uid;
         // generate token for password resetting
-        $token = base64_encode($user->getToken().substr(time(), 4, 6).Utils::generateRndString(16));
+        $token = base64_encode($user->getToken().substr(time(), 4, 6).str_random(16));
 
         $url = Option::get('site_url')."/auth/reset?uid=$uid&token=$token";
 

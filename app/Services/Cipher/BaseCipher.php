@@ -17,7 +17,7 @@ abstract class BaseCipher implements EncryptInterface
      */
     public function verify($password, $hash, $salt = "")
     {
-        return ($this->hash($password, $salt) === $hash);
+        return hash_equals($hash, $this->hash($password, $salt));
     }
 
 }

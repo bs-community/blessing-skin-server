@@ -207,32 +207,13 @@ class Utils
         return strlen(stream_get_contents($fp));
     }
 
-    /**
-     * Generate random string
-     *
-     * @param  int  $length
-     * @param  bool $special_chars
-     * @return string
-     */
-    public static function generateRndString($length, $special_chars = true)
-    {
-        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        if ($special_chars) $chars .= "!@#$%^&*()-_ []{}<>~`+=,.;:/?|";
-
-        $rnd_string = '';
-        for ($i = 0; $i < $length; $i++) {
-            $rnd_string .= $chars[mt_rand(0, strlen($chars) - 1)];
-        }
-        return $rnd_string;
-    }
-
     public static function getTimeFormatted($timestamp = 0)
     {
         return ($timestamp == 0) ? date('Y-m-d H:i:s') : date('Y-m-d H:i:s', $timestamp);
     }
 
     /**
-     * Replace content of string according to given rules
+     * Replace content of string according to given rules.
      *
      * @param  string $str
      * @param  array  $rules
@@ -246,6 +227,12 @@ class Utils
         return $str;
     }
 
+    /**
+     * Convert error number of uploading files to human-readable text.
+     *
+     * @param  int  $errno
+     * @return string
+     */
     public static function convertUploadFileError($errno = 0)
     {
         $phpFileUploadErrors = [
