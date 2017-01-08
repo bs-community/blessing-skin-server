@@ -23,6 +23,9 @@ class BootServiceProvider extends ServiceProvider
     {
         View::addExtension('tpl', 'blade');
 
+        // set current locale
+        $this->i18n($request);
+
         // check dotenv
         if (!file_exists(base_path('.env'))) {
             throw new PrettyPageException(trans('setup.file.no-dot-env'), -1);
@@ -65,6 +68,15 @@ class BootServiceProvider extends ServiceProvider
         }
 
         return true;
+    }
+
+    protected function i18n($request)
+    {
+        $locale = $request->input('lang') ?: ($request->cookie('locale') ?: $request->getPreferredLanguage());
+
+        app()->setLocale($locale);
+        session()->set('locale', $locale);
+        cookie()->queue('locale', $locale);
     }
 
     /**

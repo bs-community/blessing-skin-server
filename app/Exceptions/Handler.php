@@ -4,7 +4,6 @@ namespace App\Exceptions;
 
 use Exception;
 use App\Exceptions\PrettyPageException;
-use App\Http\Middleware\Internationalization;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -49,9 +48,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        // call i18n middleware manually since http exceptions won't be sent through it
-        (new Internationalization)->handle($request, function(){});
-
         if ($e instanceof ModelNotFoundException) {
             $e = new NotFoundHttpException($e->getMessage(), $e);
         }
