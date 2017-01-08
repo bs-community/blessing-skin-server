@@ -12,7 +12,7 @@ class HomeController extends Controller
 {
     public function index(UserRepository $users, Request $request)
     {
-        return view('index')->with('user', $users->get(session('uid')));
+        return view('index')->with('user', $users->getCurrentUser());
     }
 
     public function locale($lang, Request $request)
