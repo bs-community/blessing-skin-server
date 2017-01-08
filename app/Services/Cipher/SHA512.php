@@ -2,16 +2,13 @@
 
 namespace App\Services\Cipher;
 
-class SHA256 implements EncryptInterface
+class SHA512 implements EncryptInterface
 {
     /**
-     * Default SHA256 encryption method for Authme
-     *
-     * @see http://pastebin.com/1wy9g2HT
+     * Once SHA512 hash
      */
-    public function encrypt($raw_passwd, $salt = "") {
-        $encrypt = hash('sha512', $raw_passwd);
-        return $encrypt;
+    public function encrypt($value, $salt = "")
+    {
+        return hash('sha512', $value);
     }
-
 }

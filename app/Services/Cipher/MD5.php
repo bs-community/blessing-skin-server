@@ -5,10 +5,10 @@ namespace App\Services\Cipher;
 class MD5 implements EncryptInterface
 {
     /**
-     * Once MD5 encrypt
+     * Once MD5 hash
      */
-    public function encrypt($raw_passwd, $salt = "") {
-        $encrypt = md5($raw_passwd);
-        return $encrypt;
+    public function encrypt($value, $salt = "")
+    {
+        return md5($value);
     }
 }

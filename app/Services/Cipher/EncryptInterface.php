@@ -7,9 +7,9 @@ interface EncryptInterface
     /**
      * Encrypt given string w/ or w/o salt
      *
-     * @param  string $raw_passwd
+     * @param  string $value
      * @param  string $salt
-     * @return string ecrypted password
+     * @return string
      */
-    public function encrypt($raw_passwd, $salt = "");
+    public function encrypt($value, $salt = "");
 }
