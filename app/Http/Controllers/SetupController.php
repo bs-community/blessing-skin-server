@@ -33,14 +33,6 @@ class SetupController extends Controller
         } else {
             $config = config('database.connections.mysql');
 
-            // generate new APP_KEY
-            if (is_writable(app()->environmentFile())) {
-                Artisan::call('key:generate');
-                Log::info("[SetupWizard] Application key set successfully.", ['key' => config('app.key')]);
-            } else {
-                Log::warning("[SetupWizard] Failed to set application key. No write permission.");
-            }
-
             return view('setup.wizard.welcome')->with('server', "{$config['username']}@{$config['host']}");
         }
     }
@@ -65,6 +57,21 @@ class SetupController extends Controller
             'password'  => 'required|min:6|max:16|confirmed',
             'site_name' => 'required'
         ]);
+
+        if (isset($_POST['generate_random'])) {
+            // generate new APP_KEY & SALT randomly
+            if (is_writable(app()->environmentFile())) {
+                Artisan::call('key:random');
+                Artisan::call('salt:random');
+
+                Log::info("[SetupWizard] Random application key & salt set successfully.", [
+                    'key'  => config('app.key'),
+                    'salt' => config('secure.salt')
+                ]);
+            } else {
+                Log::warning("[SetupWizard] Failed to set application key. No write permission.");
+            }
+        }
 
         // create tables
         Artisan::call('migrate', ['--force' => true]);

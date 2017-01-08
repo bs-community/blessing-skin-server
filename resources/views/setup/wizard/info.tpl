@@ -36,6 +36,15 @@
                 <p>{{ trans('setup.wizard.info.site-name-notice') }}</p>
             </td>
         </tr>
+        <tr>
+            <th scope="row"><label for="generate_random">{{ trans('setup.wizard.info.secure') }}</label></th>
+            <td>
+                <label for="generate_random">
+                    <input name="generate_random" type="checkbox" id="generate_random" size="25" value="on" />
+                    {{ trans('setup.wizard.info.secure-notice') }}
+                </label>
+            </td>
+        </tr>
     </table>
 
     @if (count($errors) > 0)

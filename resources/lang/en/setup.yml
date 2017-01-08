@@ -51,6 +51,8 @@ wizard:
     confirm-pwd: Confirm password
     site-name: Site name
     site-name-notice: This will be shown at title bar and homepage.
+    secure: Security
+    secure-notice: Generate random APP_KEY and SALT to make your site secured.
 
   finish:
     title: Installation complete
