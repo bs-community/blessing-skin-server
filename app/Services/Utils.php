@@ -12,6 +12,9 @@ class Utils
     /**
      * Returns the client IP address.
      *
+     * This method is defined because Symfony's Request::getClientIp() needs "setTrustedProxies()"
+     * which sucks when load balancer is enabled.
+     *
      * @return string
      */
     public static function getClientIp()
@@ -27,6 +30,42 @@ class Utils
         return $ip;
     }
 
+    /**
+     * Checks whether the request is secure or not.
+     * True is always returned when "X-Forwarded-Proto" header is set.
+     *
+     * This method is defined because Symfony's Request::isSecure() needs "setTrustedProxies()"
+     * which sucks when load balancer is enabled.
+     *
+     * @return bool
+     */
+    public static function isRequestSecure()
+    {
+        if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
+            return true;
+
+        if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
+            return true;
+
+        if (!empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on')
+            return true;
+
+        return false;
+    }
+
+    /**
+     * Compares two "PHP-standardized" version number strings.
+     * Unlike version_compare(), this method will determine that versions with suffix are lower.
+     *
+     * e.g. 3.2-beta > 3.2-alpha
+     *      3.2 > 3.2-beta
+     *      3.2 > 3.2-pr8
+     *
+     * @param  string $version1
+     * @param  string $version2
+     * @param  string $operator
+     * @return mixed
+     */
     public static function versionCompare($version1, $version2, $operator = null)
     {
         $versions = [$version1, $version2];
@@ -42,8 +81,10 @@ class Utils
 
         if (version_compare($versions[0]['main'], $versions[1]['main'], '=')) {
             // v3.2-pr < v3.2
-            if ($versions[0]['sub'] != "" || $versions[1]['sub'] != "") {
+            if ($versions[0]['sub'] != "" && $versions[1]['sub'] != "") {
                 return version_compare($versions[0]['sub'], $versions[1]['sub'], $operator);
+            } else {
+                return !version_compare($versions[0]['sub'], $versions[1]['sub'], $operator);
             }
         }
 
