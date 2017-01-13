@@ -54,7 +54,8 @@
 
 var table = $('#plugin-table').DataTable({
     language: trans('vendor.datatables'),
-    responsive: true,
+    scrollX: true,
+    pageLength: 25,
     autoWidth: false,
     processing: true,
     serverSide: true,

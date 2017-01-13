@@ -47,7 +47,7 @@ $(document).ready(function() {
 
 $('#player-table').DataTable({
     language: trans('vendor.datatables'),
-    responsive: true,
+    scrollX: true,
     autoWidth: false,
     processing: true,
     serverSide: true,
