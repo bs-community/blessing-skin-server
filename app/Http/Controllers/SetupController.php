@@ -153,6 +153,9 @@ class SetupController extends Controller
             Option::set('version', config('app.version'));
         }
 
+        // clear all compiled view files
+        Artisan::call('view:clear');
+
         return view('setup.updates.success', ['tips' => $tips]);
     }
 
