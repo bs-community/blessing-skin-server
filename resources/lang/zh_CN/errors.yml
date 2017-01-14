@@ -7,8 +7,8 @@ general:
   title: 出现错误
 
 exception:
-  code: 'Error code: :code'
-  detail: 错误码：:code
+  code: '错误码：:code'
+  detail: '详细信息：:msg'
   message: |
     如果您是访客，这说明网站程序出现了一些错误，请您稍后再试或联系站长。
     如果您是站长，请开启 .env 中的 APP_DEBUG 以查看详细信息。
