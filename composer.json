@@ -4,14 +4,14 @@
     "license": "GPL-3.0",
     "require": {
         "php": "^5.5.9",
-        "laravel/framework": "5.2.*",
-        "gregwar/captcha": "^1.1",
-        "devitek/yaml-translation": "^2.0",
         "filp/whoops": "^2.1",
-        "swiggles/memcache": "^2.0",
+        "predis/predis": "~1.0",
+        "gregwar/captcha": "^1.1",
         "erusev/parsedown": "^1.6",
-        "yajra/laravel-datatables-oracle": "~6.0",
-        "predis/predis": "~1.0"
+        "swiggles/memcache": "^2.0",
+        "laravel/framework": "5.2.*",
+        "devitek/yaml-translation": "^2.0",
+        "printempw/laravel-datatables-lite": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
@@ -38,12 +38,6 @@
         ]
     },
     "scripts": {
-        "post-root-package-install": [
-            "php -r \"copy('.env.example', '.env');\""
-        ],
-        "post-create-project-cmd": [
-            "php artisan key:generate"
-        ],
         "post-install-cmd": [
             "Illuminate\\Foundation\\ComposerScripts::postInstall",
             "php artisan optimize"
