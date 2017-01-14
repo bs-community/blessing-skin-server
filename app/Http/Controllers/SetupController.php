@@ -16,15 +16,6 @@ use App\Exceptions\PrettyPageException;
 
 class SetupController extends Controller
 {
-    public function __construct(Request $request)
-    {
-        if ($locale = $request->input('lang')) {
-            cookie()->queue('locale', $locale);
-            session(['locale' => $locale]);
-            app()->setLocale($locale);
-        }
-    }
-
     public function welcome()
     {
         // already installed

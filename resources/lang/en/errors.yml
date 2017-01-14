@@ -7,5 +7,7 @@ general:
   title: Error occurred
 
 exception:
+  code: 'Error code: :code'
+  detail: 'Details: :msg'
   message: |
     Whoops, looks like something went wrong. (enable APP_DEBUG in .env to see details)

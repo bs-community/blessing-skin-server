@@ -8,5 +8,5 @@
 </h1>
 
 <p>{{ trans('errors.exception.code', ['code' => $code]) }}</p>
-<p>{!! trans('errors.exception.message', ['msg' => $message]) !!}</p>
+<p>{!! trans('errors.exception.detail', ['msg' => $message]) !!}</p>
 @endsection

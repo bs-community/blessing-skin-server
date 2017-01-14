@@ -15,17 +15,4 @@ class HomeController extends Controller
         return view('index')->with('user', $users->getCurrentUser());
     }
 
-    public function locale($lang, Request $request)
-    {
-        if (Arr::exists(config('locales'), $lang)) {
-            Session::set('locale', $lang);
-        }
-
-        if (isset($_SERVER['HTTP_REFERER'])) {
-            return redirect('/')->setTargetUrl($_SERVER['HTTP_REFERER'])->withCookie('locale', $lang);
-        } else {
-            return redirect('/')->withCookie('locale', $lang);
-        }
-    }
-
 }
