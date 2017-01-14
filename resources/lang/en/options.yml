@@ -83,6 +83,10 @@ auto_del_invalid_texture:
 comment_script:
   title: Comment Script
   description: Placeholders are available in comment scripts. <code>{tid}</code> will be replaced with texture id, <code>{name}</code> will be replaced with texture name, <code>{url}</code> will be replaced with current URL.
+allow_sending_statistic:
+  title: Statistics
+  label: Send usage statistics anonymously.
+  hint: Information about privacy will nerver be sent.
 
 announ:
   title: Site Announcement

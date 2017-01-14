@@ -83,6 +83,10 @@ auto_del_invalid_texture:
 comment_script:
   title: 评论代码
   description: 评论代码内可使用占位符，<code>{tid}</code> 将会被自动替换为材质的 id，<code>{name}</code> 会被替换为材质名称，<code>{url}</code> 会被替换为当前页面地址。
+allow_sending_statistic:
+  title: 统计信息
+  label: 发送程序使用情况统计信息以帮助开发
+  hint: 隐私信息不会被收集
 
 announ:
   title: 站点公告

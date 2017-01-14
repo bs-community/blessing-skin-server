@@ -136,6 +136,8 @@ class AdminController extends Controller
 
             $form->textarea('comment_script')->rows(6)->description(OptionForm::AUTO_DETECT);
 
+            $form->checkbox('allow_sending_statistic')->label(OptionForm::AUTO_DETECT)->hint(OptionForm::AUTO_DETECT);
+
         })->handle(function() {
             if (substr($_POST['site_url'], -1) == "/")
                 $_POST['site_url'] = substr($_POST['site_url'], 0, -1);

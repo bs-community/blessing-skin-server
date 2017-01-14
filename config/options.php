@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-07-29 11:53:11
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-12-31 23:34:17
+ * @Last Modified time: 2017-01-14 22:05:22
  */
 
 return [
@@ -20,6 +20,7 @@ return [
     'custom_js'                 => '',
     'allow_chinese_playername'  => 'true',
     'comment_script'            => '',
+    'allow_sending_statistic'   => 'true',
     'user_initial_score'        => '1000',
     'sign_gap_time'             => '24',
     'sign_score'                => '10,100',

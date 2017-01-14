@@ -36,7 +36,8 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(Events\RenderingHeader::class, function($event) {
             // provide some application information for javascript
             $blessing = array_merge(Arr::except(config('app'), ['key', 'providers', 'aliases', 'cipher', 'log', 'url']), [
-                'baseUrl' => url('/'),
+                'base_url' => url('/'),
+                'site_name' => option('site_name')
             ]);
 
             $event->addContent('<script>var blessing = '.json_encode($blessing).';</script>');
