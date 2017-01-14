@@ -2,9 +2,8 @@
 
 namespace App\Services;
 
+use App\Events;
 use Illuminate\Support\Arr;
-use App\Events\PluginWasEnabled;
-use App\Events\PluginWasDisabled;
 use Illuminate\Support\Collection;
 use App\Events\PluginWasUninstalled;
 use Illuminate\Filesystem\Filesystem;
@@ -131,7 +130,7 @@ class PluginManager
 
             $plugin->setEnabled(true);
 
-            // $this->dispatcher->fire(new PluginWasEnabled($plugin));
+            $this->dispatcher->fire(new Events\PluginWasEnabled($plugin));
         }
     }
 
@@ -153,7 +152,7 @@ class PluginManager
 
             $plugin->setEnabled(false);
 
-            // $this->dispatcher->fire(new PluginWasDisabled($plugin));
+            $this->dispatcher->fire(new Events\PluginWasDisabled($plugin));
         }
     }
 
@@ -173,7 +172,7 @@ class PluginManager
         // refresh plugin list
         $this->plugins = null;
 
-        // $this->dispatcher->fire(new PluginWasUninstalled($plugin));
+        $this->dispatcher->fire(new Events\PluginWasDeleted($plugin));
     }
 
     /**

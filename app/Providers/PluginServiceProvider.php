@@ -2,12 +2,25 @@
 
 namespace App\Providers;
 
+use Event;
+use App\Events;
 use Illuminate\Support\Str;
 use App\Services\PluginManager;
 use Illuminate\Support\ServiceProvider;
 
 class PluginServiceProvider extends ServiceProvider
 {
+    /**
+     * Map of event class names to callback names.
+     *
+     * @var array
+     */
+    protected $eventCallbackMap = [
+        Events\PluginWasEnabled::class  => 'enabled',
+        Events\PluginWasDeleted::class  => 'deleted',
+        Events\PluginWasDisabled::class => 'disabled'
+    ];
+
     /**
      * Bootstrap any application services.
      *
@@ -33,6 +46,7 @@ class PluginServiceProvider extends ServiceProvider
             $loader->addNamespace($plugin->getNameSpace(), $plugin->getPath()."/lang");
         }
 
+        $this->registerPluginCallbackListener();
         $this->registerClassAutoloader($src_paths);
 
         $bootstrappers = $plugins->getEnabledBootstrappers();
@@ -42,6 +56,20 @@ class PluginServiceProvider extends ServiceProvider
             // call closure using service container
             $this->app->call($bootstrapper);
         }
+    }
+
+    protected function registerPluginCallbackListener()
+    {
+        Event::listen(array_keys($this->eventCallbackMap), function ($event) {
+            // call callback functions of plugin
+            if (file_exists($filename = $event->plugin->getPath()."/callbacks.php")) {
+                $callbacks = require $filename;
+
+                $callback = array_get($callbacks, $this->eventCallbackMap[get_class($event)]);
+
+                return $callback ? call_user_func($callback, $event->plugin) : null;
+            }
+        });
     }
 
     /**
