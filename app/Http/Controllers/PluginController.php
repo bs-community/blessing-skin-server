@@ -81,6 +81,9 @@ class PluginController extends Controller
             ->editColumn('description', function ($plugin) {
                 return trans($plugin->description);
             })
+            ->editColumn('author', function ($plugin) {
+                return "<a href='{$plugin->url}' target='_blank'>".trans($plugin->author)."</a>";
+            })
             ->addColumn('status', function ($plugin) {
                 return trans('admin.plugins.status.'.($plugin->isEnabled() ? 'enabled' : 'disabled'));
             })
