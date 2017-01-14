@@ -40,11 +40,11 @@
                     </ul>
                     <div class="tab-content no-padding">
                         <div class="tab-pane active box-body" id="skin-category">
-                            @include('vendor.closet-items', ['items' => $items['skin']])
+                            @include('vendor.closet-items', ['items' => (array)array_get($items, 'skin')])
                         </div>
 
                         <div class="tab-pane box-body" id="cape-category">
-                            @include('vendor.closet-items', ['items' => $items['cape']])
+                            @include('vendor.closet-items', ['items' => (array)array_get($items, 'cape')])
                         </div>
                     </div>
                     <div class="box-footer">

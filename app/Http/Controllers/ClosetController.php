@@ -60,7 +60,7 @@ class ClosetController extends Controller
                                   ->with('page', $page)
                                   ->with('q', $q)
                                   ->with('category', $category)
-                                  ->with('total_pages', max($total_pages))
+                                  ->with('total_pages', $total_pages ? max($total_pages) : 0)
                                   ->with('user', app('user.current'));
     }
 
