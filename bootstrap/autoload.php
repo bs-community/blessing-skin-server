@@ -14,7 +14,11 @@ define('LARAVEL_START', microtime(true));
 |
 */
 
-require __DIR__.'/../vendor/autoload.php';
+if (file_exists($autoload = __DIR__.'/../vendor/autoload.php')) {
+    require $autoload;
+} else {
+    exit("No vendor folder found. Have you installed the dependencies with composer?");
+}
 
 /*
 |--------------------------------------------------------------------------
