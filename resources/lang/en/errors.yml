@@ -6,11 +6,6 @@ http:
 general:
   title: Error occurred
 
-brief:
-  message: Whoops, looks like something went wrong. (enable APP_DEBUG in .env to see details)
-
 exception:
-  title: Some errors occurred
-  code: 'Error code: :code'
-  message: 'Details: :msg'
-  location: 'File location: :location'
+  message: |
+    Whoops, looks like something went wrong. (enable APP_DEBUG in .env to see details)

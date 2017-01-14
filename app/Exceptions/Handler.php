@@ -108,6 +108,6 @@ class Handler extends ExceptionHandler
      */
     protected function renderExceptionInBrief(Exception $e)
     {
-        return response()->view('errors.brief');
+        return response()->view('errors.exception', ['message' => $e->getMessage()]);
     }
 }
