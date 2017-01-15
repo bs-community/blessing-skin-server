@@ -1,7 +1,7 @@
 {
   "name": "blessing-skin-server",
-  "version": "3.2.0",
-  "description": "Just a simple open-source Minecraft skin server written in PHP.",
+  "version": "3.2.1",
+  "description": "A web application brings your custom skins back in offline Minecraft servers.",
   "repository": {
     "type": "git",
     "url": "https://github.com/printempw/blessing-skin-server"
