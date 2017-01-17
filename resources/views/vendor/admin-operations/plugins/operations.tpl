@@ -5,7 +5,7 @@
 @endif
 
 @if ($plugin->isEnabled() && $plugin->hasConfigView())
-<a class="btn btn-default btn-sm" href="?action=config&id={{ $plugin->name }}">{{ trans('admin.plugins.operations.configure') }}</a>
+<a class="btn btn-default btn-sm" href="{{ url('admin/plugins/config/'.$plugin->name) }}">{{ trans('admin.plugins.operations.configure') }}</a>
 @else
 <a class="btn btn-default btn-sm" disabled="disabled" title="{{ trans('admin.plugins.operations.no-config-notice') }}" data-toggle="tooltip" data-placement="top">{{ trans('admin.plugins.operations.configure') }}</a>
 @endif

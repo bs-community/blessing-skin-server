@@ -167,12 +167,13 @@ class PluginManager
 
         $this->disable($name);
 
+        // fire event before deleeting plugin files
+        $this->dispatcher->fire(new Events\PluginWasDeleted($plugin));
+
         $this->filesystem->deleteDirectory($plugin->getPath());
 
         // refresh plugin list
         $this->plugins = null;
-
-        $this->dispatcher->fire(new Events\PluginWasDeleted($plugin));
     }
 
     /**

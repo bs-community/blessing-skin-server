@@ -113,9 +113,12 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function ()
     Route::post('/players',    'AdminController@playerAjaxHandler');
 
     Route::group(['prefix' => 'plugins'], function () {
-        Route::any('/manage', 'PluginController@manage');
-        Route::get('/data',   'PluginController@getPluginData');
-        Route::any('/market', 'PluginController@showMarket');
+        Route::get ('/data',   'PluginController@getPluginData');
+        Route::any ('/market', 'PluginController@showMarket');
+
+        Route::get ('/manage', 'PluginController@showManage');
+        Route::post('/manage', 'PluginController@manage');
+        Route::any ('/config/{name}', 'PluginController@config');
     });
 
     Route::group(['prefix' => 'update'], function () {

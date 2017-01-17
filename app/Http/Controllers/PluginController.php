@@ -12,61 +12,54 @@ class PluginController extends Controller
 {
     public function showMarket()
     {
-        return "developing";
+        return 'Plugin market is under development. Maybe you will want to check <a href="https://github.com/g-plane/unofficial-plugins-market">this</a>.';
+    }
+
+    public function showManage()
+    {
+        return view('admin.plugins');
+    }
+
+    public function config($name, Request $request)
+    {
+        $plugin = plugin($name);
+
+        if ($plugin && $plugin->isEnabled() && $plugin->hasConfigView()) {
+            return $plugin->getConfigView();
+        } else {
+            abort(404, trans('admin.plugins.operations.no-config-notice'));
+        }
     }
 
     public function manage(Request $request, PluginManager $plugins)
     {
-        if ($request->has('action') && $request->has('name')) {
-            $name = $request->get('name');
+        $plugin = plugin($name = $request->get('name'));
 
-            if ($plugins->getPlugins()->has($name)) {
-                $plugin = $plugins->getPlugin($name);
+        if ($plugin) {
+            // pass the plugin title through the translator
+            $plugin->title = trans($plugin->title);
 
-                // pass the plugin title through the translator
-                $plugin->title = trans($plugin->title);
+            switch ($request->get('action')) {
+                case 'enable':
+                    $plugins->enable($name);
 
-                switch ($request->get('action')) {
-                    case 'enable':
-                        $plugins->enable($name);
+                    return json(trans('admin.plugins.operations.enabled', ['plugin' => $plugin->title]), 0);
 
-                        return json(trans('admin.plugins.operations.enabled', ['plugin' => $plugin->title]), 0);
-                        break;
+                case 'disable':
+                    $plugins->disable($name);
 
-                    case 'disable':
-                        $plugins->disable($name);
+                    return json(trans('admin.plugins.operations.disabled', ['plugin' => $plugin->title]), 0);
 
-                        return json(trans('admin.plugins.operations.disabled', ['plugin' => $plugin->title]), 0);
-                        break;
+                case 'delete':
+                    $plugins->uninstall($name);
 
-                    case 'delete':
-                        if ($request->isMethod('post')) {
-                            event(new Events\PluginWasDeleted($plugin));
+                    return json(trans('admin.plugins.operations.deleted'), 0);
 
-                            $plugins->uninstall($name);
-
-                            return json(trans('admin.plugins.operations.deleted'), 0);
-                        }
-                        break;
-
-                    case 'config':
-                        if ($plugin->isEnabled() && $plugin->hasConfigView()) {
-                            return View::file($plugin->getViewPath('config'));
-                        } else {
-                            abort(404);
-                        }
-
-                        break;
-
-                    default:
-                        # code...
-                        break;
-                }
+                default:
+                    # code...
+                    break;
             }
-
         }
-
-        return view('admin.plugins');
     }
 
     public function getPluginData(PluginManager $plugins)

@@ -153,12 +153,24 @@ class Plugin implements Arrayable, ArrayAccess
 
     public function getViewPath($name)
     {
-        return $this->path."/views/$name.tpl";
+        return $this->getViewPathByFileName("$name.tpl");
+    }
+
+    public function getViewPathByFileName($filename)
+    {
+        return $this->path."/views/$filename";
+    }
+
+    public function getConfigView()
+    {
+        return $this->hasConfigView() ? view()->file($this->getViewPathByFileName(Arr::get($this->packageInfo, 'config'))) : null;
     }
 
     public function hasConfigView()
     {
-        return Arr::get($this->packageInfo, 'config') != "";
+        $filename = Arr::get($this->packageInfo, 'config');
+
+        return $filename && file_exists($this->getViewPathByFileName($filename));
     }
 
     /**
