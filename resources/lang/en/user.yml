@@ -5,11 +5,11 @@ used:
 
 cur-score: Current Score
 score-notice: Click the score to show introduction.
-checkin: Check In
-checkin-success: Checked in successfully. You got :score scores~
-cant-checkin-until: You can only check in after :time hours
-last-checkin: Last checked in at :time
-checkin-remain-time: Available after :time hours
+sign-in: Sign In
+sign-in-success: Signed in successfully. You got :score scores.
+cant-sign-in-until: You can't sign in in :time hours
+last-sign-in: Last signed in at :time
+sign-in-remain-time: Available after :time hours
 announcement: Announcement
 
 score-intro:

@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 09:02:32
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-09-26 22:35:35
+ * @Last Modified time: 2017-01-17 22:51:55
  */
 
 $.locales = {};
@@ -115,6 +115,11 @@ function showMsg(msg, type) {
  * @return {void}
  */
 function showAjaxError(json) {
+    if (!json.responseText) {
+        console.warn('Empty Ajax response body.');
+        return;
+    }
+
     showModal(json.responseText.replace(/\n/g, '<br />'), trans('utils.fatalError'), 'danger');
 }
 

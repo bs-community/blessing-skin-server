@@ -275,52 +275,56 @@ class User extends Model
     }
 
     /**
-     * Check in for the user, return false if unavailable.
+     * Sign in for the user, return false if unavailable.
      *
      * @return int|bool
      */
-    public function checkIn()
+    public function signIn()
     {
-        if ($this->canCheckIn()) {
-            $sign_score = explode(',', option('sign_score'));
-            $aquired_score = rand($sign_score[0], $sign_score[1]);
-            $this->setScore($aquired_score, 'plus');
+        if ($this->canSignIn()) {
+
+            $scoreLimits = explode(',', option('sign_score'));
+            $acquiredScore = rand($scoreLimits[0], $scoreLimits[1]);
+
+            $this->setScore($acquiredScore, 'plus');
             $this->last_sign_at = Utils::getTimeFormatted();
             $this->save();
-            return $aquired_score;
+
+            return $acquiredScore;
         } else {
             return false;
         }
     }
 
     /**
-     * Check if checking in is available now.
+     * Get remaining time before next signing is available.
      *
-     * @param  bool  $return_remaining_time Return remaining time.
-     * @return int|bool
+     * @return int Time in seconds.
      */
-    public function canCheckIn($return_remaining_time = false)
+    public function getSignInRemainingTime()
     {
         // convert to timestamp
-        $last_sign_at = strtotime($this->getLastSignTime());
+       $lastSignInTime = strtotime($this->getLastSignInTime());
 
-        if (option('sign_after_zero') == "1") {
-            $remaining_time = (Carbon::tomorrow()->timestamp - time()) / 3600;
-            $can_check_in   = $last_sign_at <= Carbon::today()->timestamp;
-        } else {
-            $remaining_time = ($last_sign_at + option('sign_gap_time') * 3600 - time()) / 3600;
-            $can_check_in   = $remaining_time <= 0;
-        }
-
-        return $return_remaining_time ? round($remaining_time) : $can_check_in;
+       return option('sign_after_zero') ? (Carbon::tomorrow()->timestamp - time()) : ($lastSignInTime + option('sign_gap_time') * 3600 - time());
     }
 
     /**
-     * Get the last time of checking in.
+     * Check if signing in is available now.
+     *
+     * @return bool
+     */
+    public function canSignIn()
+    {
+        return ($this->getSignInRemainingTime() <= 0);
+    }
+
+    /**
+     * Get the last time of signing in.
      *
      * @return string Formatted time string.
      */
-    public function getLastSignTime()
+    public function getLastSignInTime()
     {
         return $this->last_sign_at;
     }

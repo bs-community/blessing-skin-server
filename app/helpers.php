@@ -98,7 +98,7 @@ if (! function_exists('bs_footer')) {
     {
         $scripts = [
             assets('js/app.min.js'),
-            assets('lang/'.session('locale', config('app.locale')).'/locale.js'),
+            assets('lang/'.config('app.locale').'/locale.js'),
             assets('js/general.js')
         ];
 

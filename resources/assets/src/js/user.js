@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 10:02:24
  * @Last Modified by:   printempw
- * @Last Modified time: 2017-01-02 11:15:33
+ * @Last Modified time: 2017-01-17 22:35:58
  */
 
 'use strict';
@@ -619,16 +619,16 @@ function deleteAccount() {
     });
 }
 
-function checkin() {
+function signIn() {
     $.ajax({
         type: "POST",
-        url: "./user/checkin",
+        url: "./user/sign-in",
         dataType: "json",
         success: function(json) {
             if (json.errno == 0) {
                 $('#score').html(json.score);
-                var dom = '<i class="fa fa-calendar-check-o"></i> &nbsp;' + trans('user.checkinRemainTime', { time: String(json.remaining_time) });
-                $('#checkin-button').attr('disabled', 'disabled').html(dom);
+                var dom = '<i class="fa fa-calendar-check-o"></i> &nbsp;' + trans('user.signInRemainingTime', { time: String(json.remaining_time) });
+                $('#sign-in-button').attr('disabled', 'disabled').html(dom);
 
                 swal({
                     type: 'success',

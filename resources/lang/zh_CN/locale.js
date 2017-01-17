@@ -65,7 +65,7 @@
             deleteNotice: '真的要删除此材质吗？积分将会被返还'
         },
         user: {
-            checkinRemainTime: ':time 小时后可签到',
+            signInRemainingTime: ':time 小时后可签到',
 
             // Closet
             switch2dPreview: '切换 2D 预览',
@@ -93,13 +93,6 @@
             emptyNewEmail: '你还没有填写新邮箱啊',
             changeEmail: '确定要将用户邮箱更改为 :new_email 吗？',
             emptyDeletePassword: '请先输入当前用户密码'
-        },
-        config: {
-            csl13_1Upper: '13.1 版及以上（推荐）',
-            csl13_1Lower: '13.1 版以下',
-            usm1_4Upper:  '1.4 版及以上（推荐）',
-            usm1_2To1_3:  '1.2 及 1.3 版',
-            usm1_2Lower:  '1.2 版以下',
         },
         admin: {
             // Change User Profile

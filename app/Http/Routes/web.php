@@ -45,7 +45,7 @@ Route::group(['prefix' => 'auth'], function ()
 Route::group(['middleware' => 'auth', 'prefix' => 'user'], function ()
 {
     Route::any ('',                      'UserController@index');
-    Route::any ('/checkin',              'UserController@checkIn');
+    Route::any ('/sign-in',              'UserController@signIn');
 
     // Profile
     Route::get ('/profile',              'UserController@profile');

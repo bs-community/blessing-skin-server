@@ -65,7 +65,7 @@
             deleteNotice: 'Are you sure to delete this texture? Scores will be returned.'
         },
         user: {
-            checkinRemainTime: 'Available after :time hours',
+            signInRemainingTime: 'Available after :time hours',
 
             // Closet
             switch2dPreview: 'Switch to 2D Preview',
@@ -93,13 +93,6 @@
             emptyNewEmail: 'Empty new email address.',
             changeEmail: 'Sure to change your email address to :new_email?',
             emptyDeletePassword: 'Please enter the current password:'
-        },
-        config: {
-            csl13_1Upper: 'v13.1 and upper (recommended)',
-            csl13_1Lower: 'lower than v13.1',
-            usm1_4Upper:  'v1.4 and upper (recommended)',
-            usm1_2To1_3:  'v1.2 to v1.3',
-            usm1_2Lower:  'lower than v1.2',
         },
         admin: {
             // Change User Profile

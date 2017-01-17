@@ -29,21 +29,23 @@ class UserController extends Controller
     }
 
     /**
-     * Handle User Checking In
+     * Handle user signing in.
      *
      * @return void
      */
-    public function checkIn()
+    public function signIn()
     {
-        if ($aquired_score = $this->user->checkIn()) {
+        if ($this->user->canSignIn()) {
+            $acuiredScore = $this->user->signIn();
+
             return json([
                 'errno'          => 0,
-                'msg'            => trans('user.checkin-success', ['score' => $aquired_score]),
+                'msg'            => trans('user.sign-in-success', ['score' => $acuiredScore]),
                 'score'          => $this->user->getScore(),
-                'remaining_time' => $this->user->canCheckIn(true)
+                'remaining_time' => round($this->user->getSignInRemainingTime() / 3600)
             ]);
         } else {
-            return json(trans('user.cant-checkin-until', ['time' => $this->user->canCheckIn(true)]), 1);
+            return json(trans('user.cant-sign-in-until', ['time' => round($this->user->getSignInRemainingTime() / 3600)]), 1);
         }
     }
 
@@ -53,7 +55,7 @@ class UserController extends Controller
     }
 
     /**
-     * Handle Changing Profile
+     * Handle changing user profile.
      *
      * @param  Request $request
      * @return void
@@ -130,7 +132,7 @@ class UserController extends Controller
     }
 
     /**
-     * Set Avatar for User
+     * Set user avatar.
      *
      * @param Request $request
      */
