@@ -2,120 +2,129 @@ option-saved: Option Saved.
 
 homepage:
   title: Homepage
-home_pic_url:
-  title: Picture URL at Homepage
-  hint: Path relative to homepage or full URL.
-favicon_url:
-  title: Website Icon
-  hint: Path relative to resources/assets/ or full URL.
-  description: The given image must have same width and height.
-copyright_prefer:
-  title: Program Copyright
-  description: Any evil modification applied on the footer program copyright (including deleting, modifying author, changing link target) with out permission is <b>FORBIDDEN</b>. The author reserves the right to pursue relevant responsibilities.
-copyright_text:
-  title: Custom Copyright Text
-  description: Placeholders are available in custom copyright text. e.g. <code>{site_name}</code> & <code>{site_url}</code>
+
+  home_pic_url:
+    title: Picture URL at Homepage
+    hint: Path relative to homepage or full URL.
+  favicon_url:
+    title: Website Icon
+    hint: Path relative to resources/assets/ or full URL.
+    description: The given image must have same width and height.
+  copyright_prefer:
+    title: Program Copyright
+    description: Any evil modification applied on the footer program copyright (including deleting, modifying author, changing link target) with out permission is <b>FORBIDDEN</b>. The author reserves the right to pursue relevant responsibilities.
+  copyright_text:
+    title: Custom Copyright Text
+    description: Placeholders are available in custom copyright text. e.g. <code>{site_name}</code> & <code>{site_url}</code>
 
 customJsCss:
   title: Custom CSS/JavaScript
   message: |
     The contents will be attached to &lt;style&gt; and &lt;script&gt; tags.<br>
     - Here are some useful examples: <a href="https://github.com/printempw/blessing-skin-server/wiki/Examples-of-custom-CSS-JavaScript">Examples of Custom CSS JavaScript @GitHub WiKi</a>
-custom_css: CSS
-custom_js: JavaScript
+
+  custom_css: CSS
+  custom_js: JavaScript
 
 rate:
   title: About Scores
-score_per_storage:
-  title: Storage
-  addon: scores = 1 KB
-private_score_per_storage:
-  title: Private Storage
-  addon: scores = 1 KB
-  hint: Uploading private textures will cost more scores.
-score_per_closet_item:
-  title: Favorites
-  addon: score = 1 closet item
-return_score:
-  title: Score Return
-  label: Return scores back to user after deleting players/textures/closet items.
-score_per_player:
-  title: Players
-  addon: scores = 1 player
-user_initial_score: User Initial Score
+
+  score_per_storage:
+    title: Storage
+    addon: scores = 1 KB
+  private_score_per_storage:
+    title: Private Storage
+    addon: scores = 1 KB
+    hint: Uploading private textures will cost more scores.
+  score_per_closet_item:
+    title: Favorites
+    addon: score = 1 closet item
+  return_score:
+    title: Score Return
+    label: Return scores back to user after deleting players/textures/closet items.
+  score_per_player:
+    title: Players
+    addon: scores = 1 player
+  user_initial_score: User Initial Score
 
 sign_in:
   title: Signing In
-sign_score:
-  title: Score Granted
-  addon1: scores ~
-  addon2: scores
-sign_gap_time:
-  title: Gap Time
-  addon: hours
-sign_after_zero:
-  title: Time
-  label: Can sign in after 0 everyday
-  hint: The above option will be ignored if this is checked.
+
+  sign_score:
+    title: Score Granted
+    addon1: scores ~
+    addon2: scores
+  sign_gap_time:
+    title: Gap Time
+    addon: hours
+  sign_after_zero:
+    title: Time
+    label: Users can sign in after 0 everyday.
+    hint: The above option will be ignored if this is checked.
 
 general:
   title: General Options
-site_name: Site Name
-site_description: Site Description
-site_url:
-  title: Site URL
-  hint: Begin with http(s)://, nerver ends with slash
-user_can_register:
-  title: Open Registration
-  label: Everyone is allowed to register
-regs_per_ip: Max accounts of one IP
-max_upload_file_size:
-  title: Max Upload Size
-  hint: "Limit of PHP in php.ini: :size"
-allow_chinese_playername:
-  title: Player Name
-  label: Allow chinese player names
-api_type: Prefered JSON API
-auto_del_invalid_texture:
-  title: Invalid Textures
-  label: Delete invalid textures from skinlib automatically.
-  hint: Delete textures records whose file no longer exists automatically.
-comment_script:
-  title: Comment Script
-  description: Placeholders are available in comment scripts. <code>{tid}</code> will be replaced with texture id, <code>{name}</code> will be replaced with texture name, <code>{url}</code> will be replaced with current URL.
-allow_sending_statistic:
-  title: Statistics
-  label: Send usage statistics anonymously.
-  hint: Information about privacy will nerver be sent.
+
+  site_name: Site Name
+  site_description: Site Description
+  site_url:
+    title: Site URL
+    hint: Begin with http(s)://, nerver ends with slash
+  user_can_register:
+    title: Open Registration
+    label: Everyone is allowed to register.
+  regs_per_ip: Max accounts of one IP
+  max_upload_file_size:
+    title: Max Upload Size
+    hint: "Limit of PHP in php.ini: :size"
+  allow_chinese_playername:
+    title: Player Name
+    label: Allow chinese player names.
+  api_type: Prefered JSON API
+  auto_del_invalid_texture:
+    title: Invalid Textures
+    label: Delete invalid textures automatically.
+    hint: Delete textures records whose file no longer exists from skinlib.
+  comment_script:
+    title: Comment Script
+    description: Placeholders are available in comment scripts. <code>{tid}</code> will be replaced with texture id, <code>{name}</code> will be replaced with texture name, <code>{url}</code> will be replaced with current URL.
+  allow_sending_statistics:
+    title: Statistics
+    label: Send usage statistics anonymously.
+    hint: Information about privacy will nerver be sent.
 
 announ:
-  title: Site Announcement
-announcement:
-  description: Styling with Markdown is supported.
+  title: Announcement
 
-cache:
+  announcement:
+    description: Styling with Markdown is supported.
+
+resources:
   title: Resource Files
   hint: Please adjust these options when CDN cache is on
-force_ssl:
-  title: Force SSL
-  label: Force to use HTTPS protocol to load resources
-  hint: Check SSL available before turning on
-auto_detect_asset_url:
-  title: Assets URL
-  label: Determine assets url automatically
-  description: Load asset files according to current URL. The site url will be used if this is not enabled. Please unable this if requests don't go through CDN.
-return_200_when_notfound:
-  title: HTTP Response Code
-  label: Return 200 instead of 404 when requesting un-existent player
-cache_expire_time:
-  title: Cache Exipre Time
-  hint: In seconds, 86400 = one day, 31536000 = one year
+
+  force_ssl:
+    title: Force SSL
+    label: Use HTTPS protocol to load resources forcely.
+    hint: Check SSL available before turning on
+  auto_detect_asset_url:
+    title: Assets URL
+    label: Determine assets url automatically.
+    description: Load asset files according to current URL. The site url will be used if this is not enabled. Please unable this if requests don't go through CDN.
+  return_200_when_notfound:
+    title: HTTP Response Code
+    label: Return 200 instead of 404 when requesting un-existent player.
+    description: If your CDN doesn't cache 404 pages, please turn this on. A flood of requests to un-existent players will greatly slow down the site.
+  cache_expire_time:
+    title: Cache Exipre Time
+    hint: In seconds, 86400 = one day, 31536000 = one year
 
 update:
   title: Check Update
-check_update:
-  title: Check Update
-  label: Check update automatically and notify me.
-update_source:
-  title: Update Source
-  description: 'Available update source list can be found at: <a href="https://github.com/printempw/blessing-skin-server/wiki/%E6%9B%B4%E6%96%B0%E6%BA%90%E5%88%97%E8%A1%A8">@GitHub Wiki</a>'
+
+  check_update:
+    title: Check Update
+    label: Check update automatically and notify me.
+  update_source:
+    title: Update Source
+    description: 'Available update source list can be found at: <a href="https://github.com/printempw/blessing-skin-server/wiki/%E6%9B%B4%E6%96%B0%E6%BA%90%E5%88%97%E8%A1%A8">@GitHub Wiki</a>'

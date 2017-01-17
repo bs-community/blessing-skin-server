@@ -89,13 +89,12 @@ class AdminController extends Controller
         $signIn = Option::form('sign_in', OptionForm::AUTO_DETECT, function($form)
         {
             $form->group('sign_score')
-                ->text('sign_score_from')->addon(trans('options.sign_score.addon1'))
-                ->text('sign_score_to')->addon(trans('options.sign_score.addon2'));
+                ->text('sign_score_from')->addon(trans('options.sign_in.sign_score.addon1'))
+                ->text('sign_score_to')->addon(trans('options.sign_in.sign_score.addon2'));
 
-            $form->group('sign_gap_time')->text('sign_gap_time')->addon(OptionForm::AUTO_DETECT);
+            $form->group('sign_gap_time')->text('sign_gap_time')->addon();
 
-            $form->checkbox('sign_after_zero')->label(OptionForm::AUTO_DETECT)
-                ->hint(OptionForm::AUTO_DETECT);
+            $form->checkbox('sign_after_zero')->label()->hint();
         })->handle(function() {
             $sign_score = $_POST['sign_score_from'].','.$_POST['sign_score_to'];
             Option::set('sign_score', $sign_score);
@@ -116,27 +115,27 @@ class AdminController extends Controller
         {
             $form->text('site_name');
             $form->text('site_description');
-            $form->text('site_url')->hint(OptionForm::AUTO_DETECT);
+            $form->text('site_url')->hint();
 
-            $form->checkbox('user_can_register')->label(OptionForm::AUTO_DETECT);
+            $form->checkbox('user_can_register')->label();
 
             $form->text('regs_per_ip');
 
             $form->group('max_upload_file_size')
                     ->text('max_upload_file_size')->addon('KB')
-                    ->hint(trans('options.max_upload_file_size.hint', ['size' => ini_get('upload_max_filesize')]));
+                    ->hint(trans('options.general.max_upload_file_size.hint', ['size' => ini_get('upload_max_filesize')]));
 
-            $form->checkbox('allow_chinese_playername')->label(OptionForm::AUTO_DETECT);
+            $form->checkbox('allow_chinese_playername')->label();
 
             $form->select('api_type')
                     ->option('0', 'CustomSkinLoader API')
                     ->option('1', 'UniversalSkinAPI');
 
-            $form->checkbox('auto_del_invalid_texture')->label(OptionForm::AUTO_DETECT)->hint(OptionForm::AUTO_DETECT);
+            $form->checkbox('auto_del_invalid_texture')->label()->hint();
 
-            $form->textarea('comment_script')->rows(6)->description(OptionForm::AUTO_DETECT);
+            $form->textarea('comment_script')->rows(6)->description();
 
-            $form->checkbox('allow_sending_statistic')->label(OptionForm::AUTO_DETECT)->hint(OptionForm::AUTO_DETECT);
+            $form->checkbox('allow_sending_statistics')->label()->hint();
 
         })->handle(function() {
             if (substr($_POST['site_url'], -1) == "/")
@@ -145,21 +144,21 @@ class AdminController extends Controller
 
         $announ = Option::form('announ', OptionForm::AUTO_DETECT, function($form)
         {
-            $form->textarea('announcement')->description(OptionForm::AUTO_DETECT);
+            $form->textarea('announcement')->rows(10)->description();
 
         })->renderWithOutTable()->handle();
 
-        $cache = Option::form('cache', OptionForm::AUTO_DETECT, function($form)
+        $resources = Option::form('resources', OptionForm::AUTO_DETECT, function($form)
         {
-            $form->checkbox('force_ssl')->label(OptionForm::AUTO_DETECT)->hint(OptionForm::AUTO_DETECT);
-            $form->checkbox('auto_detect_asset_url')->label(OptionForm::AUTO_DETECT)->description(OptionForm::AUTO_DETECT);
-            $form->checkbox('return_200_when_notfound')->label(OptionForm::AUTO_DETECT);
+            $form->checkbox('force_ssl')->label()->hint();
+            $form->checkbox('auto_detect_asset_url')->label()->description();
+            $form->checkbox('return_200_when_notfound')->label()->description();
 
             $form->text('cache_expire_time')->hint(OptionForm::AUTO_DETECT);
 
         })->type('warning')->hint(OptionForm::AUTO_DETECT)->handle();
 
-        return view('admin.options')->with('forms', compact('general', 'cache', 'announ'));
+        return view('admin.options')->with('forms', compact('general', 'resources', 'announ'));
     }
 
     /**

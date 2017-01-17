@@ -25,7 +25,7 @@
             <div class="col-md-6">
                 {!! $forms['announ']->render() !!}
 
-                {!! $forms['cache']->render() !!}
+                {!! $forms['resources']->render() !!}
             </div>
 
         </div>
@@ -33,11 +33,4 @@
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 
-@endsection
-
-@section('style')
-<style type="text/css">
-.box-body > textarea { height: 200px; }
-.description { margin: 7px 0 0 0; color: #555; }
-</style>
 @endsection

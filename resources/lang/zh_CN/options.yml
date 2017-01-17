@@ -2,120 +2,129 @@ option-saved: 设置已保存。
 
 homepage:
   title: 首页配置
-home_pic_url:
-  title: 首页图片地址
-  hint: 相对于首页的路径或者完整的 URL
-favicon_url:
-  title: 网站图标
-  hint: 相对 resources/assets/ 的路径或者完整的 URL
-  description: 所使用的图像必须具有相同的宽度和高度
-copyright_prefer:
-  title: 程序版权信息
-  description: 对于任何恶意修改页面<b>右下角</b>的版权信息（包括不限于删除、修改作者信息、修改链接指向）的用户，作者保留对其追究责任的权力。
-copyright_text:
-  title:　自定义版权文字
-  description: 自定义版权文字内可使用占位符，<code>{site_name}</code> 将会被自动替换为站点名称，<code>{site_url}</code> 会被替换为站点地址。
+
+  home_pic_url:
+    title: 首页图片地址
+    hint: 相对于首页的路径或者完整的 URL
+  favicon_url:
+    title: 网站图标
+    hint: 相对 resources/assets/ 的路径或者完整的 URL
+    description: 所使用的图像必须具有相同的宽度和高度
+  copyright_prefer:
+    title: 程序版权信息
+    description: 对于任何恶意修改页面<b>右下角</b>的版权信息（包括不限于删除、修改作者信息、修改链接指向）的用户，作者保留对其追究责任的权力。
+  copyright_text:
+    title:　自定义版权文字
+    description: 自定义版权文字内可使用占位符，<code>{site_name}</code> 将会被自动替换为站点名称，<code>{site_url}</code> 会被替换为站点地址。
 
 customJsCss:
   title: 自定义 CSS/JavaScript
   message: |
     内容将会被追加至每个页面的 &lt;style&gt; 和 &lt;script&gt; 标签中。<br>
     - 这里有一些有用的示例：<a href="https://github.com/printempw/blessing-skin-server/wiki/Examples-of-custom-CSS-JavaScript">「自定义 CSS JavaScript」功能的一些实例@GitHub WiKi</a>
-custom_css: CSS
-custom_js: JavaScript
+
+  custom_css: CSS
+  custom_js: JavaScript
 
 rate:
   title: 积分换算
-score_per_storage:
-  title: 存储
-  addon: 积分 = 1 KB
-private_score_per_storage:
-  title: 私密材质存储
-  addon: 积分 = 1 KB
-  hint: 上传私密材质将消耗更多积分
-score_per_closet_item:
-  title: 收藏消耗积分
-  addon: 积分 = 一个衣柜物品
-return_score:
-  title: 积分返还
-  label: 用户删除角色/材质/收藏时返还积分
-score_per_player:
-  title: 角色
-  addon: 积分 = 一个角色
-user_initial_score: 新用户默认积分
+
+  score_per_storage:
+    title: 存储
+    addon: 积分 = 1 KB
+  private_score_per_storage:
+    title: 私密材质存储
+    addon: 积分 = 1 KB
+    hint: 上传私密材质将消耗更多积分
+  score_per_closet_item:
+    title: 收藏消耗积分
+    addon: 积分 = 一个衣柜物品
+  return_score:
+    title: 积分返还
+    label: 用户删除角色/材质/收藏时返还积分
+  score_per_player:
+    title: 角色
+    addon: 积分 = 一个角色
+  user_initial_score: 新用户默认积分
 
 sign_in:
   title: 签到配置
-sign_score:
-  title: 签到获得积分
-  addon1: 积分 ~
-  addon2: 积分
-sign_gap_time:
-  title: 签到间隔时间
-  addon: 小时
-sign_after_zero:
-  title: 签到时间
-  label: 每天零点后可签到
-  hint: 勾选后将无视上一条，每天零时后均可签到
+
+  sign_score:
+    title: 签到获得积分
+    addon1: 积分 ~
+    addon2: 积分
+  sign_gap_time:
+    title: 签到间隔时间
+    addon: 小时
+  sign_after_zero:
+    title: 签到时间
+    label: 每天零点后可签到
+    hint: 勾选后将无视上一条，每天零时后均可签到
 
 general:
   title: 常规选项
-site_name: 站点标题
-site_description: 站点描述
-site_url:
-  title: 站点地址（URL）
-  hint: 以 http(s):// 开头，不要以 / 结尾
-user_can_register:
-  title: 开放注册
-  label: 任何人都可以注册
-regs_per_ip: 每个 IP 限制注册数
-max_upload_file_size:
-  title: 最大允许上传大小
-  hint: PHP 限制：:size，定义在 php.ini 中。
-allow_chinese_playername:
-  title: 角色名
-  label: 允许中文角色名
-api_type: 首选 JSON API
-auto_del_invalid_texture:
-  title: 失效材质
-  label: 自动删除失效材质
-  hint: 自动从皮肤库中删除文件不存在的材质记录
-comment_script:
-  title: 评论代码
-  description: 评论代码内可使用占位符，<code>{tid}</code> 将会被自动替换为材质的 id，<code>{name}</code> 会被替换为材质名称，<code>{url}</code> 会被替换为当前页面地址。
-allow_sending_statistic:
-  title: 统计信息
-  label: 发送程序使用情况统计信息以帮助开发
-  hint: 隐私信息不会被收集
+
+  site_name: 站点标题
+  site_description: 站点描述
+  site_url:
+    title: 站点地址（URL）
+    hint: 以 http(s):// 开头，不要以 / 结尾
+  user_can_register:
+    title: 开放注册
+    label: 任何人都可以注册
+  regs_per_ip: 每个 IP 限制注册数
+  max_upload_file_size:
+    title: 最大允许上传大小
+    hint: PHP 限制：:size，定义在 php.ini 中。
+  allow_chinese_playername:
+    title: 角色名
+    label: 允许中文角色名
+  api_type: 首选 JSON API
+  auto_del_invalid_texture:
+    title: 失效材质
+    label: 自动删除失效材质
+    hint: 自动从皮肤库中删除文件不存在的材质记录
+  comment_script:
+    title: 评论代码
+    description: 评论代码内可使用占位符，<code>{tid}</code> 将会被自动替换为材质的 id，<code>{name}</code> 会被替换为材质名称，<code>{url}</code> 会被替换为当前页面地址。
+  allow_sending_statistics:
+    title: 统计信息
+    label: 发送程序使用情况统计信息以帮助开发
+    hint: 隐私信息不会被收集
 
 announ:
   title: 站点公告
-announcement:
-  description: 可使用 Markdown 进行排版
 
-cache:
+  announcement:
+    description: 可使用 Markdown 进行排版
+
+resources:
   title: 资源文件配置
   hint: 如果启用了 CDN 缓存请适当修改这些配置
-force_ssl:
-  title: 强制 SSL
-  label: 强制使用 HTTPS 协议加载资源
-  hint: 请确认 SSL 可用后再开启
-auto_detect_asset_url:
-  title: 资源地址
-  label: 自动判断资源文件地址
-  description: 根据当前 URL 自动加载资源文件，如果关闭则将根据「站点地址」填写的内容加载。如果出现 CDN 回源问题请关闭
-return_200_when_notfound:
-  title: HTTP 响应码
-  label: 请求不存在的角色时返回 200 而不是 404
-cache_expire_time:
-  title: 缓存失效时间
-  hint: 秒数，86400 = 一天，31536000 = 一年
+
+  force_ssl:
+    title: 强制 SSL
+    label: 强制使用 HTTPS 协议加载资源
+    hint: 请确认 SSL 可用后再开启
+  auto_detect_asset_url:
+    title: 资源地址
+    label: 自动判断资源文件地址
+    description: 根据当前 URL 自动加载资源文件，如果关闭则将根据「站点地址」填写的内容加载。如果出现 CDN 回源问题请关闭
+  return_200_when_notfound:
+    title: HTTP 响应码
+    label: 请求不存在的角色时返回 200 而不是 404
+    description: 如果你的 CDN 不缓存 404 页面，请打开此项。否则大量对不存在角色的 Profile 请求会加重站点负载。
+  cache_expire_time:
+    title: 缓存失效时间
+    hint: 秒数，86400 = 一天，31536000 = 一年
 
 update:
   title: 更新选项
-check_update:
-  title: 检查更新
-  label: 自动检查更新并提示
-update_source:
-  title: 更新源
-  description: 可用的更新源列表可以在这里查看：<a href="https://github.com/printempw/blessing-skin-server/wiki/%E6%9B%B4%E6%96%B0%E6%BA%90%E5%88%97%E8%A1%A8">@GitHub Wiki</a>
+
+  check_update:
+    title: 检查更新
+    label: 自动检查更新并提示
+  update_source:
+    title: 更新源
+    description: 可用的更新源列表可以在这里查看：<a href="https://github.com/printempw/blessing-skin-server/wiki/%E6%9B%B4%E6%96%B0%E6%BA%90%E5%88%97%E8%A1%A8">@GitHub Wiki</a>

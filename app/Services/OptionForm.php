@@ -67,13 +67,15 @@ class OptionForm
             throw new BadMethodCallException("Method [$method] does not exist on option form.");
         }
 
+        // assign name for option item
         if (!isset($params[1]) || Arr::get($params, 1) == OptionForm::AUTO_DETECT) {
-            $params[1] = Arr::get(trans("options.$params[0]"), 'title', trans("options.$params[0]"));
+            $params[1] = Arr::get(trans("options.$this->id.$params[0]"), 'title', trans("options.$this->id.$params[0]"));
         }
 
         $class = new ReflectionClass('App\Services\OptionForm'.Str::title($method));
         // use ReflectionClass to create a new OptionFormItem instance
         $item = $class->newInstanceArgs($params);
+        $item->setParentId($this->id);
         $this->items[] = $item;
 
         return $item;
@@ -98,7 +100,7 @@ class OptionForm
      * @param  array  $info
      * @return $this
      */
-    public function hint($hintContent)
+    public function hint($hintContent = self::AUTO_DETECT)
     {
         if ($hintContent == self::AUTO_DETECT) {
             $hintContent = trans("options.$this->id.hint");
@@ -384,10 +386,19 @@ class OptionFormItem
 
     public $description;
 
+    protected $parentId;
+
     public function __construct($id, $name = null)
     {
         $this->id   = $id;
         $this->name = $name;
+    }
+
+    public function setParentId($id)
+    {
+        $this->parentId = $id;
+
+        return $this;
     }
 
     public function value($value)
@@ -397,10 +408,10 @@ class OptionFormItem
         return $this;
     }
 
-    public function hint($hintContent)
+    public function hint($hintContent = OptionForm::AUTO_DETECT)
     {
         if ($hintContent == OptionForm::AUTO_DETECT) {
-            $hintContent = trans("options.$this->id.hint");
+            $hintContent = trans("options.$this->parentId.$this->id.hint");
         }
 
         $this->hint = view('vendor.option-form.hint')->with('hint', $hintContent)->render();
@@ -415,10 +426,10 @@ class OptionFormItem
         return $this;
     }
 
-    public function description($description)
+    public function description($description = OptionForm::AUTO_DETECT)
     {
         if ($description == OptionForm::AUTO_DETECT) {
-            $description = trans("options.$this->id.description");
+            $description = trans("options.$this->parentId.$this->id.description");
         }
 
         $this->description = $description;
@@ -454,10 +465,10 @@ class OptionFormCheckbox extends OptionFormItem
 {
     protected $label;
 
-    public function label($label)
+    public function label($label = OptionForm::AUTO_DETECT)
     {
         if ($label == OptionForm::AUTO_DETECT) {
-            $label = trans("options.$this->id.label");
+            $label = trans("options.$this->parentId.$this->id.label");
         }
 
         $this->label = $label;
@@ -531,10 +542,10 @@ class OptionFormGroup extends OptionFormItem
         return $this;
     }
 
-    public function addon($value)
+    public function addon($value = OptionForm::AUTO_DETECT)
     {
         if ($value == OptionForm::AUTO_DETECT) {
-            $value = trans("options.$this->id.addon");
+            $value = trans("options.$this->parentId.$this->id.addon");
         }
 
         $this->items[] = ['type' => 'addon', 'id' => null, 'value' => $value];
