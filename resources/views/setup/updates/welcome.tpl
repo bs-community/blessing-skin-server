@@ -1,7 +1,10 @@
 @extends('setup.updates.master')
 
 @section('content')
-<h1>{{ trans('setup.updates.welcome.title') }}</h1>
+<h1>
+{{ trans('setup.updates.welcome.title') }}
+@include('setup.wizard.language')
+</h1>
 
 <p>{!! nl2br(trans('setup.updates.welcome.text', ['version' => config('app.version')])) !!}</p>
 

@@ -1,7 +1,10 @@
 @extends('setup.wizard.master')
 
 @section('content')
-<h1>{{ trans('setup.locked.title') }}</h1>
+<h1>
+{{ trans('setup.locked.title') }}
+@include('setup.wizard.language')
+</h1>
 
 <p>{{ trans('setup.locked.text') }}</p>
 <p class="step">

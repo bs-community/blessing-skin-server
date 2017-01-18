@@ -1,7 +1,10 @@
 @extends('setup.updates.master')
 
 @section('content')
-<h1>{{ trans('setup.updates.success.title') }}</h1>
+<h1>
+{{ trans('setup.updates.success.title') }}
+@include('setup.wizard.language')
+</h1>
 
 <p>{{ trans('setup.updates.success.text', ['version' => config('app.version')]) }}</p>
 

@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use View;
 use Utils;
-use Schema;
 use App\Services\Database;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
@@ -21,11 +20,20 @@ class BootServiceProvider extends ServiceProvider
      */
     public function boot(Request $request)
     {
-        View::addExtension('tpl', 'blade');
+        // detect current locale
+        $this->app->call('App\Http\Middleware\DetectLanguagePrefer@detect');
 
-        // set current locale
-        $this->i18n($request);
+        $this->checkFilePermissions();
+        $this->checkDatabaseConnection();
 
+        // skip the installation check when setup or under CLI
+        if (!$request->is('setup*') && PHP_SAPI != "cli") {
+            $this->checkInstallation();
+        }
+    }
+
+    protected function checkFilePermissions()
+    {
         // check dotenv
         if (!file_exists(base_path('.env'))) {
             throw new PrettyPageException(trans('setup.file.no-dot-env'), -1);
@@ -36,6 +44,13 @@ class BootServiceProvider extends ServiceProvider
             throw new PrettyPageException(trans('setup.permissions.storage'), -1);
         }
 
+        if (!SetupController::checkDirectories()) {
+            throw new PrettyPageException(trans('setup.file.permission-error'), -1);
+        }
+    }
+
+    protected function checkDatabaseConnection()
+    {
         try {
             // check database config
             Database::prepareConnection();
@@ -44,11 +59,6 @@ class BootServiceProvider extends ServiceProvider
                 trans('setup.database.connection-error', ['msg' => $e->getMessage()]),
                 $e->getCode()
             );
-        }
-
-        // skip the installation check when setup or under CLI
-        if (!$request->is('setup') && !$request->is('setup/*') && PHP_SAPI != "cli") {
-            $this->checkInstallation();
         }
     }
 
@@ -59,24 +69,11 @@ class BootServiceProvider extends ServiceProvider
             return redirect('/setup')->send();
         }
 
-        if (!SetupController::checkDirectories()) {
-            throw new PrettyPageException(trans('setup.file.permission-error'), -1);
-        }
-
         if (Utils::versionCompare(config('app.version'), option('version', ''), '>')) {
             return redirect('/setup/update')->send();
         }
 
         return true;
-    }
-
-    protected function i18n($request)
-    {
-        $locale = $request->input('lang') ?: ($request->cookie('locale') ?: $request->getPreferredLanguage());
-
-        app()->setLocale($locale);
-        session()->set('locale', $locale);
-        cookie()->queue('locale', $locale);
     }
 
     /**
@@ -86,6 +83,8 @@ class BootServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        View::addExtension('tpl', 'blade');
+
         $this->app->singleton('options',  OptionRepository::class);
         $this->app->singleton('database', Database::class);
     }

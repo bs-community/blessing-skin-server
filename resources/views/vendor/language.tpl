@@ -7,7 +7,9 @@
     </a>
     <ul class="dropdown-menu" role="menu">
         @foreach(config('locales') as $code => $langInfo)
-        <li class="locale"><a href="?lang={{ $code }}">{{ $langInfo['name'] }}</a></li>
+            @if (!isset($langInfo['alias']))
+                <li class="locale"><a href="?lang={{ $code }}">{{ $langInfo['name'] }}</a></li>
+            @endif
         @endforeach
     </ul>
 </li>
