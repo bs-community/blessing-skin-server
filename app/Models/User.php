@@ -80,7 +80,7 @@ class User extends Model
     {
         // compare directly if any responses is returned by event dispatcher
         if ($result = static::getEncryptedPwdFromEvent($rawPasswd, $this)) {
-            return ($result == $this->password);
+            return hash_equals($this->password, $result);
         }
 
         return app('cipher')->verify($rawPasswd, $this->password, config('secure.salt'));
