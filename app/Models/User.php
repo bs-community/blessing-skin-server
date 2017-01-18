@@ -304,9 +304,15 @@ class User extends Model
     public function getSignInRemainingTime()
     {
         // convert to timestamp
-       $lastSignInTime = strtotime($this->getLastSignInTime());
+        $lastSignInTime = Carbon::parse($this->getLastSignInTime());
 
-       return option('sign_after_zero') ? (Carbon::tomorrow()->timestamp - time()) : ($lastSignInTime + option('sign_gap_time') * 3600 - time());
+        if (option('sign_after_zero')) {
+            return Carbon::now()->diffInSeconds(
+                (($lastSignInTime <= Carbon::today()) ? $lastSignInTime : Carbon::tomorrow())
+            , false);
+        }
+
+        return $lastSignInTime->addSeconds(option('sign_gap_time') * 3600)->diffInSeconds(Carbon::now());
     }
 
     /**

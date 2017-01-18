@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use Log;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Storage as LaravelStorage;
 use App\Exceptions\PrettyPageException;
@@ -209,7 +210,7 @@ class Utils
 
     public static function getTimeFormatted($timestamp = 0)
     {
-        return ($timestamp == 0) ? date('Y-m-d H:i:s') : date('Y-m-d H:i:s', $timestamp);
+        return ($timestamp == 0) ? Carbon::now()->toDateTimeString() : Carbon::createFromTimestamp($timestamp)->toDateTimeString();
     }
 
     /**
