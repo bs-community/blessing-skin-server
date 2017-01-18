@@ -2,14 +2,10 @@
 
 namespace App\Providers;
 
-use View;
 use Event;
 use Utils;
-use Validator;
 use App\Events;
-use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
-use App\Exceptions\PrettyPageException;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
 
         Event::listen(Events\RenderingHeader::class, function($event) {
             // provide some application information for javascript
-            $blessing = array_merge(Arr::except(config('app'), ['key', 'providers', 'aliases', 'cipher', 'log', 'url']), [
+            $blessing = array_merge(array_except(config('app'), ['key', 'providers', 'aliases', 'cipher', 'log', 'url']), [
                 'base_url' => url('/'),
                 'site_name' => option('site_name')
             ]);

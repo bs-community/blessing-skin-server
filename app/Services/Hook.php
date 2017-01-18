@@ -5,8 +5,6 @@ namespace App\Services;
 use Event;
 use Closure;
 use App\Events;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 class Hook
 {

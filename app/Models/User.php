@@ -3,10 +3,8 @@
 namespace App\Models;
 
 use DB;
-use App;
 use Utils;
 use Carbon\Carbon;
-use Illuminate\Support\Arr;
 use App\Events\EncryptUserPassword;
 use Illuminate\Database\Eloquent\Model;
 
@@ -97,7 +95,7 @@ class User extends Model
     {
         $responses = event(new EncryptUserPassword($rawPasswd, $user));
 
-        return Arr::get($responses, 0);
+        return array_get($responses, 0);
     }
 
     /**

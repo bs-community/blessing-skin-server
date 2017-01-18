@@ -7,7 +7,6 @@ use Utils;
 use Storage;
 use Response;
 use App\Models\User;
-use Illuminate\Support\Arr;
 use App\Events\GetPlayerJson;
 use App\Events\PlayerProfileUpdated;
 use App\Exceptions\PrettyPageException;

@@ -2,18 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use View;
-use Utils;
 use Option;
 use Datatables;
 use App\Events;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
-use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Services\OptionForm;
-use App\Exceptions\PrettyPageException;
 use App\Services\Repositories\UserRepository;
 
 class AdminController extends Controller
@@ -38,10 +34,9 @@ class AdminController extends Controller
 
         $homepage = Option::form('homepage', OptionForm::AUTO_DETECT, function($form)
         {
-            $form->text('home_pic_url')->hint(OptionForm::AUTO_DETECT);
+            $form->text('home_pic_url')->hint();
 
-            $form->text('favicon_url')->hint(OptionForm::AUTO_DETECT)
-                ->description(OptionForm::AUTO_DETECT);
+            $form->text('favicon_url')->hint()->description();
 
             $form->select('copyright_prefer')
                     ->option('0', 'Powered with ❤ by Blessing Skin Server.')
@@ -49,10 +44,9 @@ class AdminController extends Controller
                     ->option('2', 'Proudly powered by Blessing Skin Server.')
                     ->option('3', '由 Blessing Skin Server 强力驱动.')
                     ->option('4', '自豪地采用 Blessing Skin Server.')
-                ->description(OptionForm::AUTO_DETECT);
+                ->description();
 
-            $form->textarea('copyright_text')->rows(6)
-                ->description(OptionForm::AUTO_DETECT);
+            $form->textarea('copyright_text')->rows(6)->description();
 
         })->handle();
 
@@ -60,7 +54,7 @@ class AdminController extends Controller
         {
             $form->textarea('custom_css', 'CSS')->rows(6);
             $form->textarea('custom_js', 'JavaScript')->rows(6);
-        })->addMessage(OptionForm::AUTO_DETECT)->handle();
+        })->addMessage()->handle();
 
         return view('admin.customize', ['forms' => compact('homepage', 'customJsCss')]);
     }
@@ -69,18 +63,17 @@ class AdminController extends Controller
     {
         $rate = Option::form('rate', OptionForm::AUTO_DETECT, function($form)
         {
-            $form->group('score_per_storage')->text('score_per_storage')->addon(OptionForm::AUTO_DETECT);
+            $form->group('score_per_storage')->text('score_per_storage')->addon();
 
             $form->group('private_score_per_storage')
-                ->text('private_score_per_storage')->addon(OptionForm::AUTO_DETECT)
-                ->hint(OptionForm::AUTO_DETECT);
+                ->text('private_score_per_storage')->addon()->hint();
 
             $form->group('score_per_closet_item')
-                ->text('score_per_closet_item')->addon(OptionForm::AUTO_DETECT);
+                ->text('score_per_closet_item')->addon();
 
-            $form->checkbox('return_score')->label(OptionForm::AUTO_DETECT);
+            $form->checkbox('return_score')->label();
 
-            $form->group('score_per_player')->text('score_per_player')->addon(OptionForm::AUTO_DETECT);
+            $form->group('score_per_player')->text('score_per_player')->addon();
 
             $form->text('user_initial_score');
 
@@ -186,7 +179,7 @@ class AdminController extends Controller
         return Datatables::of($users)->editColumn('email', function ($user) {
             return $user->email ?: 'EMPTY';
         })->editColumn('permission', function ($user) use ($permissionTextMap) {
-            return Arr::get($permissionTextMap, $user->permission);
+            return array_get($permissionTextMap, $user->permission);
         })
         ->setRowId('uid')
         ->editColumn('score', 'vendor.admin-operations.users.score')

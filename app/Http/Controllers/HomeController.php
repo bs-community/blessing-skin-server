@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Session;
-use App\Models\User;
-use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Services\Repositories\UserRepository;
 

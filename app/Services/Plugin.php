@@ -4,7 +4,6 @@ namespace App\Services;
 
 use ArrayAccess;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use Illuminate\Contracts\Support\Arrayable;
 
 /**
@@ -79,7 +78,7 @@ class Plugin implements Arrayable, ArrayAccess
      */
     public function __get($name)
     {
-        return $this->packageInfoAttribute(Str::snake($name, '-'));
+        return $this->packageInfoAttribute(snake_case($name, '-'));
     }
 
     /**
@@ -87,7 +86,7 @@ class Plugin implements Arrayable, ArrayAccess
      */
     public function __isset($name)
     {
-        return isset($this->{$name}) || $this->packageInfoAttribute(Str::snake($name, '-'));
+        return isset($this->{$name}) || $this->packageInfoAttribute(snake_case($name, '-'));
     }
 
     /**

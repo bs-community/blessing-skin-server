@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use Exception;
-use Illuminate\Support\Arr;
 use InvalidArgumentException;
 
 /**
@@ -49,7 +48,7 @@ class Database
                 $e->getMessage(), $e->getCode());
         }
 
-        $this->database = Arr::get($config, 'database', config('database.connections.mysql.database'));
+        $this->database = array_get($config, 'database', config('database.connections.mysql.database'));
         $this->connection->query("SET names 'utf8'");
     }
 
