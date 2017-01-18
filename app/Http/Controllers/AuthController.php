@@ -26,7 +26,7 @@ class AuthController extends Controller
     {
         $this->validate($request, [
             'identification' => 'required',
-            'password'       => 'required|min:6|max:16'
+            'password'       => 'required|min:6|max:64'
         ]);
 
         $identification = $request->input('identification');
