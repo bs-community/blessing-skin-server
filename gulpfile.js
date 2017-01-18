@@ -1,11 +1,13 @@
 /*
-* @Author: prpr
+* @Author: printempw
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2016-12-31 13:14:31
+* @Last Modified time: 2017-01-18 23:04:20
 */
 
-var gulp     = require('gulp'),
+'use strict';
+
+let gulp     = require('gulp'),
     elixir   = require('laravel-elixir'),
     uglify   = require('gulp-uglify'),
     sass     = require('gulp-sass'),
@@ -15,9 +17,9 @@ var gulp     = require('gulp'),
 
 require('laravel-elixir-replace');
 
-var version  = require('./package.json').version;
+let version  = require('./package.json').version;
 
-var vendor_js = [
+let vendor_js = [
     'jquery/dist/jquery.min.js',
     'bootstrap/dist/js/bootstrap.min.js',
     'AdminLTE/dist/js/app.min.js',
@@ -30,7 +32,7 @@ var vendor_js = [
     'es6-promise/es6-promise.min.js'
 ];
 
-var vendor_css = [
+let vendor_css = [
     'bootstrap/dist/css/bootstrap.min.css',
     'AdminLTE/dist/css/AdminLTE.min.css',
     'AdminLTE/plugins/datatables/dataTables.bootstrap.css',
@@ -41,7 +43,7 @@ var vendor_css = [
     'sweetalert2/dist/sweetalert2.min.css'
 ];
 
-var replacements = [
+let replacements = [
     ['@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic);', ''],
     ['../fonts/glyphicons', '../fonts/glyphicons'],
     ['../fonts/fontawesome', '../fonts/fontawesome'],
@@ -53,17 +55,13 @@ var replacements = [
 
 elixir.config.sourcemaps = false;
 
-elixir(function(mix) {
+elixir((mix) => {
     mix
-        .scripts(vendor_js.map(function(js) {
-            return 'resources/assets/src/bower_components/' + js;
-        }).concat([
+        .scripts(vendor_js.map((js) => 'resources/assets/src/bower_components/' + js).concat([
             'resources/assets/src/js/utils.js'
         ]), 'resources/assets/dist/js/app.min.js', './')
 
-        .styles(vendor_css.map(function(css) {
-            return 'resources/assets/src/bower_components/' + css;
-        }), 'resources/assets/dist/css/app.min.css', './')
+        .styles(vendor_css.map((css) => 'resources/assets/src/bower_components/' + css), 'resources/assets/dist/css/app.min.css', './')
         .replace('resources/assets/dist/css/app.min.css', replacements)
 
         // copy fonts & images
@@ -83,14 +81,14 @@ elixir(function(mix) {
 });
 
 // compile sass
-gulp.task('sass', function () {
+gulp.task('sass', () => {
     gulp.src('resources/assets/src/sass/*.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(cleanCss())
         .pipe(gulp.dest('./resources/assets/dist/css'));
 });
 
-gulp.task('uglify', function() {
+gulp.task('uglify', () => {
     gulp.src('resources/assets/src/js/*.js')
         .pipe(uglify())
         .pipe(gulp.dest('./resources/assets/dist/js'));
@@ -109,12 +107,12 @@ function clearCache() {
 }
 
 // delete cache files
-gulp.task('clear', function() {
+gulp.task('clear', () => {
     clearCache();
 });
 
 // release
-gulp.task('zip', function() {
+gulp.task('zip', () => {
     clearCache();
 
     return gulp.src([
