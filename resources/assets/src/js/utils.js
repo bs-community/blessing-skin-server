@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 09:02:32
  * @Last Modified by:   printempw
- * @Last Modified time: 2017-01-17 22:51:55
+ * @Last Modified time: 2017-01-18 21:36:24
  */
 
 $.locales = {};
@@ -153,13 +153,24 @@ function getQueryString(key) {
 
 // quick fix for compatibility of String.prototype.endsWith
 if (!String.prototype.endsWith) {
-  String.prototype.endsWith = function(searchString, position) {
-      var subjectString = this.toString();
-      if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
-        position = subjectString.length;
-      }
-      position -= searchString.length;
-      var lastIndex = subjectString.lastIndexOf(searchString, position);
-      return lastIndex !== -1 && lastIndex === position;
-  };
+    String.prototype.endsWith = function(searchString, position) {
+        var subjectString = this.toString();
+        if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
+            position = subjectString.length;
+        }
+        position -= searchString.length;
+        var lastIndex = subjectString.lastIndexOf(searchString, position);
+        return lastIndex !== -1 && lastIndex === position;
+    };
+}
+
+function url(relativeUri) {
+    relativeUri       = relativeUri || "";
+    blessing.base_url = blessing.base_url || "";
+
+    if (relativeUri[0] != "/") {
+        relativeUri = "/" + relativeUri;
+    }
+
+    return blessing.base_url + relativeUri;
 }

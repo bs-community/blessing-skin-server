@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-09-15 10:39:41
 * @Last Modified by:   printempw
-* @Last Modified time: 2017-01-14 22:36:55
+* @Last Modified time: 2017-01-18 21:35:01
 */
 
 'use strict';
@@ -22,7 +22,7 @@ function logout(with_out_confirm, callback) {
                     html: json.msg
                 });
                 window.setTimeout(function() {
-                    window.location = blessing.base_url;
+                    window.location = url();
                 }, 1000);
             });
         });
@@ -36,7 +36,7 @@ function logout(with_out_confirm, callback) {
 function do_logout(callback) {
     $.ajax({
         type: "POST",
-        url: blessing.base_url + "/auth/logout",
+        url: url('auth/logout'),
         dataType: "json",
         success: function(json) {
             if (callback) callback(json);
