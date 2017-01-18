@@ -18,31 +18,18 @@ class SetupController extends Controller
 {
     public function welcome()
     {
-        // already installed
-        if (self::checkTablesExist()) {
-            return view('setup.locked');
-        } else {
-            $config = config('database.connections.mysql');
+        $config = config('database.connections.mysql');
 
-            return view('setup.wizard.welcome')->with('server', "{$config['username']}@{$config['host']}");
-        }
+        return view('setup.wizard.welcome')->with('server', "{$config['username']}@{$config['host']}");
     }
 
     public function info()
     {
-        if (self::checkTablesExist()) {
-            return view('setup.locked');
-        }
-
         return view('setup.wizard.info');
     }
 
     public function finish(Request $request)
     {
-        if (self::checkTablesExist()) {
-            return view('setup.locked');
-        }
-
         $this->validate($request, [
             'email'     => 'required|email',
             'password'  => 'required|min:6|max:16|confirmed',

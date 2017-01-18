@@ -16,9 +16,11 @@
  */
 Route::group(['prefix' => 'setup'], function ()
 {
-    Route::get ('/',         'SetupController@welcome');
-    Route::get ('/info',     'SetupController@info');
-    Route::post('/finish',   'SetupController@finish');
+    Route::group(['middleware' => 'setup'], function () {
+        Route::get ('/',         'SetupController@welcome');
+        Route::get ('/info',     'SetupController@info');
+        Route::post('/finish',   'SetupController@finish');
+    });
 
     Route::get ('/update',   'SetupController@update');
     Route::post('/update',   'SetupController@doUpdate');

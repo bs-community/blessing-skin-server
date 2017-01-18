@@ -47,6 +47,7 @@ class Kernel extends HttpKernel
         'auth'   => \App\Http\Middleware\CheckAuthenticated::class,
         'guest'  => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'admin'  => \App\Http\Middleware\CheckAdministrator::class,
-        'player' => \App\Http\Middleware\CheckPlayerExist::class
+        'player' => \App\Http\Middleware\CheckPlayerExist::class,
+        'setup'  => \App\Http\Middleware\CheckInstallation::class,
     ];
 }
