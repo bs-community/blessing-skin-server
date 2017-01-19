@@ -164,7 +164,7 @@ class OptionForm
      * @param  string $style
      * @return $this
      */
-    public function addMessage($msg, $style = "info")
+    public function addMessage($msg = self::AUTO_DETECT, $style = "info")
     {
         if ($msg == self::AUTO_DETECT) {
             $msg = trans("options.$this->id.message");
