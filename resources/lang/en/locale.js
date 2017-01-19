@@ -138,10 +138,8 @@
             downloadCompleted: 'Update package download completed.',
             extracting: 'Extracting update package..'
         },
-        utils: {
-            fatalError: 'Fatal Error (Please contact the author)'
-        },
         general: {
+            fatalError: 'Fatal Error (Please contact the author)',
             confirmLogout: 'Sure to log out?',
             confirm: 'OK',
             cancel: 'Cancel'

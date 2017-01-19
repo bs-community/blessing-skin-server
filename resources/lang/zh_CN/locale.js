@@ -138,10 +138,8 @@
             downloadCompleted: '更新包下载完成',
             extracting: '正在解压更新包'
         },
-        utils: {
-            fatalError: '严重错误（请联系作者）'
-        },
         general: {
+            fatalError: '严重错误（请联系作者）',
             confirmLogout: '确定要登出吗？',
             confirm: '确定',
             cancel:  '取消'

@@ -2,24 +2,26 @@
 * @Author: printempw
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2017-01-18 23:04:20
+* @Last Modified time: 2017-01-19 23:07:05
 */
 
 'use strict';
 
-let gulp     = require('gulp'),
+var gulp     = require('gulp'),
+    babel    = require('gulp-babel'),
     elixir   = require('laravel-elixir'),
     uglify   = require('gulp-uglify'),
     sass     = require('gulp-sass'),
     cleanCss = require('gulp-clean-css'),
     del      = require('del'),
-    zip      = require('gulp-zip');
+    zip      = require('gulp-zip'),
+    notify   = require('gulp-notify');
 
 require('laravel-elixir-replace');
 
 let version  = require('./package.json').version;
 
-let vendor_js = [
+let vendorJs = [
     'jquery/dist/jquery.min.js',
     'bootstrap/dist/js/bootstrap.min.js',
     'AdminLTE/dist/js/app.min.js',
@@ -28,11 +30,11 @@ let vendor_js = [
     'AdminLTE/plugins/datatables/dataTables.bootstrap.min.js',
     'iCheck/icheck.min.js',
     'toastr/toastr.min.js',
+    'es6-promise/es6-promise.auto.min.js',
     'sweetalert2/dist/sweetalert2.min.js',
-    'es6-promise/es6-promise.min.js'
 ];
 
-let vendor_css = [
+let vendorCss = [
     'bootstrap/dist/css/bootstrap.min.css',
     'AdminLTE/dist/css/AdminLTE.min.css',
     'AdminLTE/plugins/datatables/dataTables.bootstrap.css',
@@ -40,71 +42,66 @@ let vendor_css = [
     'font-awesome/css/font-awesome.min.css',
     'iCheck/skins/square/blue.css',
     'toastr/toastr.min.css',
-    'sweetalert2/dist/sweetalert2.min.css'
+    'sweetalert2/dist/sweetalert2.min.css',
 ];
 
 let replacements = [
-    ['@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic);', ''],
-    ['../fonts/glyphicons', '../fonts/glyphicons'],
-    ['../fonts/fontawesome', '../fonts/fontawesome'],
     ['blue.png', '"../images/blue.png"'],
     ['blue@2x.png', '"../images/blue@2x.png"'],
+    ['../fonts/glyphicons', '../fonts/glyphicons'],
+    ['../fonts/fontawesome', '../fonts/fontawesome'],
     ['../img/loading.gif', '"../images/loading.gif"'],
-    ['../img/loading-sm.gif', '"../images/loading-sm.gif"']
+    ['../img/loading-sm.gif', '"../images/loading-sm.gif"'],
+    ['@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic);', ''],
+];
+
+let fonts = [
+    'font-awesome/fonts/**',
+    'bootstrap/dist/fonts/**',
+];
+
+let images = [
+    'iCheck/skins/square/blue.png',
+    'iCheck/skins/square/blue@2x.png',
+    'bootstrap-fileinput/img/loading.gif',
+    'bootstrap-fileinput/img/loading-sm.gif',
 ];
 
 elixir.config.sourcemaps = false;
 
 elixir((mix) => {
-    mix
-        .scripts(vendor_js.map((js) => 'resources/assets/src/bower_components/' + js).concat([
-            'resources/assets/src/js/utils.js'
+    mix // compile sass files & ES6 scripts first
+        .task('compile-sass')
+        .task('compile-es6')
+
+        .scripts(convertRelativePath(vendorJs).concat([
+            'resources/assets/dist/js/general.js'
         ]), 'resources/assets/dist/js/app.min.js', './')
 
-        .styles(vendor_css.map((css) => 'resources/assets/src/bower_components/' + css), 'resources/assets/dist/css/app.min.css', './')
+        .styles(convertRelativePath(vendorCss), 'resources/assets/dist/css/app.min.css', './')
         .replace('resources/assets/dist/css/app.min.css', replacements)
 
         // copy fonts & images
-        .copy([
-            'resources/assets/src/bower_components/bootstrap/dist/fonts/**',
-            'resources/assets/src/bower_components/font-awesome/fonts/**'
-        ], 'resources/assets/dist/fonts/')
-        .copy([
-            'resources/assets/src/bower_components/iCheck/skins/square/blue.png',
-            'resources/assets/src/bower_components/iCheck/skins/square/blue@2x.png',
-            'resources/assets/src/bower_components/bootstrap-fileinput/img/loading.gif',
-            'resources/assets/src/bower_components/bootstrap-fileinput/img/loading-sm.gif'
-        ], 'resources/assets/dist/images/')
-
-        .task('sass')
-        .task('uglify');
+        .copy(convertRelativePath(fonts), 'resources/assets/dist/fonts/')
+        .copy(convertRelativePath(images), 'resources/assets/dist/images/');
 });
 
 // compile sass
-gulp.task('sass', () => {
+gulp.task('compile-sass', () => {
     gulp.src('resources/assets/src/sass/*.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(cleanCss())
         .pipe(gulp.dest('./resources/assets/dist/css'));
 });
 
-gulp.task('uglify', () => {
+gulp.task('compile-es6', () => {
     gulp.src('resources/assets/src/js/*.js')
+        .pipe(babel({
+            presets: ['es2015']
+        }))
         .pipe(uglify())
         .pipe(gulp.dest('./resources/assets/dist/js'));
 });
-
-function clearCache() {
-    return del([
-        'storage/logs/*',
-        'storage/debugbar/*',
-        'storage/update_cache/*',
-        'storage/yaml-translation/*',
-        'storage/framework/cache/*',
-        'storage/framework/sessions/*',
-        'storage/framework/views/*'
-    ]);
-}
 
 // delete cache files
 gulp.task('clear', () => {
@@ -114,6 +111,14 @@ gulp.task('clear', () => {
 // release
 gulp.task('zip', () => {
     clearCache();
+
+    console.info("============================================================================")
+    console.info("= Don't forget to compile Sass & ES2015 files before publishing a release! =");
+    console.info("============================================================================")
+
+    let zipPath = `blessing-skin-server-v${version}.zip`;
+
+    console.log(`Zip archive will be saved to ${zipPath}.`);
 
     return gulp.src([
             '**/*.*',
@@ -144,6 +149,33 @@ gulp.task('zip', () => {
             '!vendor/symfony/css-selector/**/*.*',
             '!vendor/symfony/dom-crawler/**/*.*'
         ], { dot: true })
-        .pipe(zip('blessing-skin-server-v'+version+'.zip'))
-        .pipe(gulp.dest('../'));
+        .pipe(zip(zipPath))
+        .pipe(gulp.dest('../'))
+        .pipe(notify({ message: `Zip archive saved to ${zipPath}!` }));
 });
+
+gulp.task('notify')
+
+gulp.task('watch', () => {
+    // Watch .scss files
+    gulp.watch('resources/assets/src/sass/*.scss', ['compile-sass'], () => notify({ message: 'Sass files compiled!' }));
+    // Watch .js files
+    gulp.watch('resources/assets/src/js/*.js', ['compile-es6'], () => notify({ message: 'ES6 scripts compiled!' }));
+    gulp.watch('resources/assets/src/js/general.js', ['scripts']);
+});
+
+function convertRelativePath(paths) {
+    return paths.map(relativePath => 'resources/assets/src/bower_components/' + relativePath);
+}
+
+function clearCache() {
+    return del([
+        'storage/logs/*',
+        'storage/debugbar/*',
+        'storage/update_cache/*',
+        'storage/yaml-translation/*',
+        'storage/framework/cache/*',
+        'storage/framework/sessions/*',
+        'storage/framework/views/*'
+    ]);
+}

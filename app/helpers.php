@@ -99,7 +99,6 @@ if (! function_exists('bs_footer')) {
         $scripts = [
             assets('js/app.min.js'),
             assets('lang/'.config('app.locale').'/locale.js'),
-            assets('js/general.js')
         ];
 
         if ($page_identification !== "") {
