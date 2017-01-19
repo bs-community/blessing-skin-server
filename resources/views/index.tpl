@@ -59,7 +59,7 @@
                                             <a href="{{ url('user') }}" class="btn btn-default btn-flat">{{ trans('general.user-center') }}</a>
                                         </div>
                                         <div class="pull-right">
-                                            <a href="javascript:logout();" class="btn btn-default btn-flat">{{ trans('general.logout') }}</a>
+                                            <button id="logout-button" class="btn btn-default btn-flat">{{ trans('general.logout') }}</button>
                                         </div>
                                     </li>
                                 </ul>
