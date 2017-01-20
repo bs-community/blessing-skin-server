@@ -83,7 +83,7 @@
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 
-<script type="text/javascript" src="{{ assets('vendor/Chart.min.js') }}"></script>
+<script type="text/javascript" src="{{ assets('scripts/Chart.min.js') }}"></script>
 
 @endsection
 

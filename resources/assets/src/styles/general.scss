@@ -2,24 +2,24 @@
  * @Author: printempw
  * @Date:   2016-06-04 20:55:09
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-12-31 18:41:28
+ * @Last Modified time: 2017-01-20 17:21:39
  */
 
 $font_stack: Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
 
 @font-face {
     font-family: 'Ubuntu';
-    src: url('../../fonts/ubuntu.woff2') format('woff2');
+    src: url('../fonts/ubuntu.woff2') format('woff2');
 }
 
 @font-face {
     font-family: 'Minecraft';
-    src: url('../../fonts/minecraft.eot');
-    src: url('../../fonts/minecraft.eot') format('embedded-opentype'),
-         url('../../fonts/minecraft.woff2') format('woff2'),
-         url('../../fonts/minecraft.woff') format('woff'),
-         url('../../fonts/minecraft.ttf') format('truetype'),
-         url('../../fonts/minecraft.svg#minecraft') format('svg');
+    src: url('../fonts/minecraft.eot');
+    src: url('../fonts/minecraft.eot')    format('embedded-opentype'),
+         url('../fonts/minecraft.woff2')  format('woff2'),
+         url('../fonts/minecraft.woff')   format('woff'),
+         url('../fonts/minecraft.ttf')    format('truetype'),
+         url('../fonts/minecraft.svg#minecraft') format('svg');
 }
 
 body, h1, h2, h3, h4, h5, h6, .logo {

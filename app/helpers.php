@@ -39,7 +39,7 @@ if (! function_exists('assets')) {
     function assets($relativeUri)
     {
         // add query string to fresh cache
-        if (Str::startsWith($relativeUri, 'css') || Str::startsWith($relativeUri, 'js')) {
+        if (Str::startsWith($relativeUri, 'styles') || Str::startsWith($relativeUri, 'scripts')) {
             return url("resources/assets/dist/$relativeUri")."?v=".config('app.version');
         } elseif (Str::startsWith($relativeUri, 'lang')) {
             return url("resources/$relativeUri");
@@ -96,26 +96,28 @@ if (! function_exists('bs_footer')) {
 
     function bs_footer($page_identification = "")
     {
+        $content = "";
+
         $scripts = [
-            assets('js/app.min.js'),
+            assets('scripts/app.min.js'),
             assets('lang/'.config('app.locale').'/locale.js'),
         ];
 
         if ($page_identification !== "") {
-            $scripts[] = assets("js/$page_identification.js");
+            $scripts[] = assets("scripts/$page_identification.js");
         }
 
         foreach ($scripts as $script) {
-            echo "<script type=\"text/javascript\" src=\"$script\"></script>";
+            $content .= "<script type=\"text/javascript\" src=\"$script\"></script>\n";
         }
 
-        echo '<script>'.Option::get("custom_js").'</script>';
+        $content .=  '<script>'.option("custom_js").'</script>';
 
-        $extra_contents = [];
+        $extraContents = [];
 
-        Event::fire(new App\Events\RenderingFooter($extra_contents));
+        Event::fire(new App\Events\RenderingFooter($extraContents));
 
-        echo implode(PHP_EOL, $extra_contents);
+        return $content . implode("\n", $extraContents);
     }
 }
 
@@ -123,26 +125,28 @@ if (! function_exists('bs_header')) {
 
     function bs_header($page_identification = "")
     {
+        $content = "";
+
         $styles = [
-            assets('css/app.min.css'),
-            assets('vendor/skins/'.Option::get('color_scheme').'.min.css')
+            assets('styles/app.min.css'),
+            assets('styles/skins/'.Option::get('color_scheme').'.min.css')
         ];
 
         if ($page_identification !== "") {
-            $styles[] = assets("css/$page_identification.css");
+            $styles[] = assets("styles/$page_identification.css");
         }
 
         foreach ($styles as $style) {
-            echo "<link rel=\"stylesheet\" href=\"$style\">";
+            $content .= "<link rel=\"stylesheet\" href=\"$style\">\n";
         }
 
-        echo '<style>'.Option::get("custom_css").'</style>';
+        $content .= '<style>'.option("custom_css").'</style>';
 
-        $extra_contents = [];
+        $extraContents = [];
 
-        Event::fire(new App\Events\RenderingHeader($extra_contents));
+        Event::fire(new App\Events\RenderingHeader($extraContents));
 
-        echo implode(PHP_EOL, $extra_contents);
+        return $content . implode("\n", $extraContents);
     }
 }
 
@@ -150,11 +154,14 @@ if (! function_exists('bs_favicon')) {
 
     function bs_favicon()
     {
-        $url = Str::startsWith($url = option('favicon_url'), 'http') ? $url : assets($url);
+        // fallback to default favicon
+        $url = Str::startsWith($url = (option('favicon_url') ?: config('options.favicon_url')), 'http') ? $url : assets($url);
 
-        return "<link rel=\"shortcut icon\" href=\"$url\">".
-            "<link rel=\"icon\" type=\"image/png\" href=\"$url\" sizes=\"192x192\">".
-            "<link rel=\"apple-touch-icon\" href=\"$url\" sizes=\"180x180\">";
+        return <<< ICONS
+<link rel="shortcut icon" href="$url">
+<link rel="icon" type="image/png" href="$url" sizes="192x192">
+<link rel="apple-touch-icon" href="$url" sizes="180x180">
+ICONS;
     }
 }
 
@@ -164,14 +171,14 @@ if (! function_exists('bs_menu')) {
     {
         $menu = config('menu');
 
-        event($type == "user" ? new App\Events\ConfigureUserMenu($menu)
+        Event::fire($type == "user" ? new App\Events\ConfigureUserMenu($menu)
                                 : new App\Events\ConfigureAdminMenu($menu));
 
         if (!isset($menu[$type])) {
             throw new InvalidArgumentException;
         }
 
-        echo bs_menu_render($menu[$type]);
+        return bs_menu_render($menu[$type]);
     }
 
     function bs_menu_render($data)

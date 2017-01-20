@@ -35,7 +35,7 @@ Requirements
 Blessing Skin Server has a few system requirements. In most cases, these PHP extensions are already enabled.
 
 - Web server with URL rewriting enabled
-- **PHP >= 5.5.9** (use v2.x branch if your server isn't qualified)
+- **PHP >= 5.5.9** (use v2.x branch if your server doesn't meet the requirements)
 - OpenSSL PHP Extension
 - PDO PHP Extension
 - Mbstring PHP Extension
@@ -102,7 +102,7 @@ Read [Wiki - FAQ](https://github.com/printempw/blessing-skin-server/wiki/FAQ) an
 
 Report Bugs
 ------------
-Please attach your log file (located at `storage/logs/laravel.log`) when reporting a bug. You should also provide the information of your server where the error occured on. Bug will be addressed ASAP.
+Please attach your log file (located at `storage/logs/laravel.log`) when reporting a bug. You should also provide the information of your server where the error occured on. Bugs will be addressed ASAP.
 
 Copyright & License
 ------------

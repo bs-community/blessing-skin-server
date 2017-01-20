@@ -14,8 +14,8 @@
     </div>
 </div><!-- /.box-body -->
 
-<script type="text/javascript" src="{{ assets('vendor/skin-preview/three.min.js') }}"></script>
-<script type="text/javascript" src="{{ assets('vendor/skin-preview/three.msp.js') }}"></script>
+<script type="text/javascript" src="{{ assets('scripts/three.min.js') }}"></script>
+<script type="text/javascript" src="{{ assets('scripts/three.msp.js') }}"></script>
 
 <script>
     // Default Steve Skin: https://minecraft.net/images/steve.png

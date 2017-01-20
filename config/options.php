@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-07-29 11:53:11
  * @Last Modified by:   printempw
- * @Last Modified time: 2017-01-17 21:47:29
+ * @Last Modified time: 2017-01-20 17:54:15
  */
 
 return [
@@ -15,7 +15,7 @@ return [
     'api_type'                  => 'false',
     'announcement'              => 'Welcome to Blessing Skin Server {version}!',
     'color_scheme'              => 'skin-blue',
-    'home_pic_url'              => './resources/assets/images/bg.jpg',
+    'home_pic_url'              => './resources/assets/dist/images/bg.jpg',
     'custom_css'                => '',
     'custom_js'                 => '',
     'allow_chinese_playername'  => 'true',

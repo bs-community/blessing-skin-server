@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="robots" content="noindex,nofollow" />
     <title>{{ trans('setup.updates.master.title') }}</title>
-    <link rel="shortcut icon" href="../resources/assets/images/favicon.ico">
+    <link rel="shortcut icon" href="../resources/assets/dist/images/favicon.ico">
     <link rel="stylesheet" type="text/css" href="../resources/assets/dist/css/install.css">
 </head>
 

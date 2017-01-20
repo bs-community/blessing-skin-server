@@ -4,7 +4,7 @@ namespace App\Events;
 
 class RenderingFooter extends Event
 {
-    public $contents;
+    protected $contents;
 
     /**
      * Create a new event instance.

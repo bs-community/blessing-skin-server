@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2017-01-19 23:07:05
+* @Last Modified time: 2017-01-20 18:21:00
 */
 
 'use strict';
@@ -19,9 +19,12 @@ var gulp     = require('gulp'),
 
 require('laravel-elixir-replace');
 
-let version  = require('./package.json').version;
+var version  = require('./package.json').version;
 
-let vendorJs = [
+var srcPath  = 'resources/assets/src/';
+var distPath = 'resources/assets/dist/';
+
+var vendorScripts = [
     'jquery/dist/jquery.min.js',
     'bootstrap/dist/js/bootstrap.min.js',
     'AdminLTE/dist/js/app.min.js',
@@ -32,9 +35,10 @@ let vendorJs = [
     'toastr/toastr.min.js',
     'es6-promise/es6-promise.auto.min.js',
     'sweetalert2/dist/sweetalert2.min.js',
+    'resources/assets/dist/scripts/general.js',
 ];
 
-let vendorCss = [
+var vendorStyles = [
     'bootstrap/dist/css/bootstrap.min.css',
     'AdminLTE/dist/css/AdminLTE.min.css',
     'AdminLTE/plugins/datatables/dataTables.bootstrap.css',
@@ -45,24 +49,24 @@ let vendorCss = [
     'sweetalert2/dist/sweetalert2.min.css',
 ];
 
-let replacements = [
+var replacements = [
     ['blue.png', '"../images/blue.png"'],
     ['blue@2x.png', '"../images/blue@2x.png"'],
-    ['../fonts/glyphicons', '../fonts/glyphicons'],
-    ['../fonts/fontawesome', '../fonts/fontawesome'],
     ['../img/loading.gif', '"../images/loading.gif"'],
     ['../img/loading-sm.gif', '"../images/loading-sm.gif"'],
     ['@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic);', ''],
 ];
 
-let fonts = [
+var fonts = [
     'font-awesome/fonts/**',
     'bootstrap/dist/fonts/**',
+    'resources/assets/src/fonts/**',
 ];
 
-let images = [
+var images = [
     'iCheck/skins/square/blue.png',
     'iCheck/skins/square/blue@2x.png',
+    'resources/assets/src/images/**',
     'bootstrap-fileinput/img/loading.gif',
     'bootstrap-fileinput/img/loading-sm.gif',
 ];
@@ -71,41 +75,41 @@ elixir.config.sourcemaps = false;
 
 elixir((mix) => {
     mix // compile sass files & ES6 scripts first
-        .task('compile-sass')
         .task('compile-es6')
+        .task('compile-sass')
 
-        .scripts(convertRelativePath(vendorJs).concat([
-            'resources/assets/dist/js/general.js'
-        ]), 'resources/assets/dist/js/app.min.js', './')
-
-        .styles(convertRelativePath(vendorCss), 'resources/assets/dist/css/app.min.css', './')
-        .replace('resources/assets/dist/css/app.min.css', replacements)
+        .scripts(convertBowerRelativePath(vendorScripts), distPath + 'scripts/app.min.js', './')
+        .styles(convertBowerRelativePath(vendorStyles),   distPath + 'styles/app.min.css', './')
+        .replace(distPath + 'styles/app.min.css', replacements)
 
         // copy fonts & images
-        .copy(convertRelativePath(fonts), 'resources/assets/dist/fonts/')
-        .copy(convertRelativePath(images), 'resources/assets/dist/images/');
+        .copy(convertBowerRelativePath(fonts),  distPath + 'fonts/')
+        .copy(convertBowerRelativePath(images), distPath + 'images/')
+        .copy(convertBowerRelativePath(['AdminLTE/dist/css/skins']), distPath + 'styles/skins')
+        .copy(['skin-preview/**', 'Chart.min.js'].map(relativePath => srcPath + 'vendor/' + relativePath), distPath + 'scripts/');
 });
 
 // compile sass
 gulp.task('compile-sass', () => {
-    gulp.src('resources/assets/src/sass/*.scss')
+    gulp.src(srcPath + 'styles/*.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(cleanCss())
-        .pipe(gulp.dest('./resources/assets/dist/css'));
+        .pipe(gulp.dest(distPath + 'styles'));
 });
 
 gulp.task('compile-es6', () => {
-    gulp.src('resources/assets/src/js/*.js')
-        .pipe(babel({
-            presets: ['es2015']
-        }))
+    gulp.src(srcPath + 'scripts/*.js')
+        .pipe(babel({ presets: ['es2015'] }))
         .pipe(uglify())
-        .pipe(gulp.dest('./resources/assets/dist/js'));
+        .pipe(gulp.dest(distPath + 'scripts'));
 });
+
+gulp.task
 
 // delete cache files
 gulp.task('clear', () => {
     clearCache();
+    clearDist();
 });
 
 // release
@@ -133,16 +137,13 @@ gulp.task('zip', () => {
             '!.git/',
             '!.gitattributes',
             '!artisan',
-            '!koala-config.json',
             '!gulpfile.js',
             '!package.json',
             '!composer.json',
             '!composer.lock',
             '!bower.json',
             '!resources/assets/src/**/*.*',
-            '!.sass-cache/**/*.*',
-            '!.sass-cache/',
-            // do not pack vendor for developments
+            // do not pack packages for developments
             '!vendor/fzaninotto/**/*.*',
             '!vendor/mockery/**/*.*',
             '!vendor/phpunit/**/*.*',
@@ -154,18 +155,18 @@ gulp.task('zip', () => {
         .pipe(notify({ message: `Zip archive saved to ${zipPath}!` }));
 });
 
-gulp.task('notify')
-
 gulp.task('watch', () => {
-    // Watch .scss files
-    gulp.watch('resources/assets/src/sass/*.scss', ['compile-sass'], () => notify({ message: 'Sass files compiled!' }));
-    // Watch .js files
-    gulp.watch('resources/assets/src/js/*.js', ['compile-es6'], () => notify({ message: 'ES6 scripts compiled!' }));
-    gulp.watch('resources/assets/src/js/general.js', ['scripts']);
+    // watch .scss files
+    gulp.watch(srcPath + 'styles/*.scss', ['compile-sass'], () => notify({ message: 'Sass files compiled!' }));
+    // watch .js files
+    gulp.watch(srcPath + 'scripts/*.js', ['compile-es6'], () => notify({ message: 'ES6 scripts compiled!' }));
+    gulp.watch(srcPath + 'scripts/general.js', ['scripts']);
 });
 
-function convertRelativePath(paths) {
-    return paths.map(relativePath => 'resources/assets/src/bower_components/' + relativePath);
+function convertBowerRelativePath(paths) {
+    return paths.map(relativePath => {
+        return relativePath.startsWith('resources') ? relativePath : (srcPath + 'bower_components/' + relativePath);
+    });
 }
 
 function clearCache() {
@@ -177,5 +178,11 @@ function clearCache() {
         'storage/framework/cache/*',
         'storage/framework/sessions/*',
         'storage/framework/views/*'
+    ]);
+}
+
+function clearDist() {
+    return del([
+        distPath + '**/*'
     ]);
 }
