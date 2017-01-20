@@ -127,7 +127,7 @@
         <footer class="main-footer">
             <div class="container">
                 <!-- YOU CAN NOT MODIFIY THE COPYRIGHT TEXT W/O PERMISSION -->
-                <div class="pull-right hidden-xs">
+                <div id="copyright" class="pull-right hidden-xs">
                     {!! bs_copyright() !!}
                 </div>
                 <!-- Default to the left -->
