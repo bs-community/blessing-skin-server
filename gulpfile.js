@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-07-21 13:38:26
 * @Last Modified by:   printempw
-* @Last Modified time: 2017-01-20 18:21:00
+* @Last Modified time: 2017-01-20 22:15:50
 */
 
 'use strict';
@@ -142,6 +142,7 @@ gulp.task('zip', () => {
             '!composer.json',
             '!composer.lock',
             '!bower.json',
+            '!plugins/**/*.*',
             '!resources/assets/src/**/*.*',
             // do not pack packages for developments
             '!vendor/fzaninotto/**/*.*',
