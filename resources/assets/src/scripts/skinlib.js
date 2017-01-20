@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-19 10:46:38
  * @Last Modified by:   printempw
- * @Last Modified time: 2016-10-23 11:38:36
+ * @Last Modified time: 2017-01-20 20:57:52
  */
 
 'use strict';
@@ -122,34 +122,6 @@ function removeFromCloset(tid) {
     });
 
 }
-
-function init3dCanvas() {
-    if ($(window).width() < 800) {
-        var canvas = MSP.get3dSkinCanvas($('#skinpreview').width(), $('#skinpreview').width());
-        $("#skinpreview").append($(canvas).prop("id", "canvas3d"));
-    } else {
-        var canvas = MSP.get3dSkinCanvas(350, 350);
-        $("#skinpreview").append($(canvas).prop("id", "canvas3d"));
-    }
-}
-
-// Change 3D preview status
-$('.fa-pause').click(function(){
-    MSP.setStatus('movements', !MSP.getStatus('movements'));
-
-    if ($(this).hasClass('fa-pause'))
-        $(this).removeClass('fa-pause').addClass('fa-play');
-    else
-        $(this).removeClass('fa-play').addClass('fa-pause');
-    // stop rotation when pause
-    MSP.setStatus('rotation', !MSP.getStatus('rotation'));
-});
-$('.fa-forward').click(function(){
-    MSP.setStatus('running', !MSP.getStatus('running'));
-});
-$('.fa-repeat').click(function(){
-    MSP.setStatus('rotation', !MSP.getStatus('rotation'));
-});
 
 $('body').on('change', '#file', function() {
     var files = $('#file').prop('files');

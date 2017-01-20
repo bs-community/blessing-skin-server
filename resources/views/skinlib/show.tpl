@@ -147,8 +147,8 @@
         $('[for="private"]').tooltip();
     });
 
-    $(document).ready(init3dCanvas);
+    $(document).ready(TexturePreview.init3dPreview);
     // Auto resize canvas to fit responsive design
-    $(window).resize(init3dCanvas);
+    $(window).resize(TexturePreview.init3dPreview);
 </script>
 @endsection

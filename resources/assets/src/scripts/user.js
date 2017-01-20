@@ -2,141 +2,35 @@
  * @Author: printempw
  * @Date:   2016-07-16 10:02:24
  * @Last Modified by:   printempw
- * @Last Modified time: 2017-01-17 22:35:58
+ * @Last Modified time: 2017-01-20 21:19:07
  */
 
 'use strict';
 
-$('body').on('click', '.player', function() {
+$('body').on('click', '.player', function () {
     $('.player-selected').removeClass('player-selected');
     $(this).addClass('player-selected');
 
-    var pid = this.id;
-
-    $.ajax({
-        type: "POST",
-        url: "./player/show",
-        dataType: "json",
-        data: { "pid": pid },
-        success: function(json) {
-            if ((json.preference == "default" && !json.tid_steve) || (json.preference == "slim" && !json.tid_alex)) {
-                MSP.changeSkin(dskin);
-            } else {
-                if (json.tid_steve) {
-                    getHashFromTid(json.tid_steve, function(hash) {
-                        $('#steve').attr('src', '../preview/200/' + json.tid_steve + '.png').show();
-                        $('#steve').parent().attr('href', '../skinlib/show?tid=' + json.tid_steve);
-                        $('#steve').parent().next().hide();
-                        if (json.preference == "default")
-                            MSP.changeSkin('../textures/' + hash);
-                    });
-                } else {
-                    $('#steve').hide().parent().next().show();
-                }
-
-                if (json.tid_alex) {
-                    getHashFromTid(json.tid_alex, function(hash) {
-                        $('#alex').attr('src', '../preview/200/' + json.tid_alex + '.png').show();
-                        $('#alex').parent().attr('href', '../skinlib/show?tid=' + json.tid_alex);
-                        $('#alex').parent().next().hide();
-                        if (json.preference == "slim")
-                            MSP.changeSkin('../textures/' + hash);
-                    });
-                } else {
-                    $('#alex').hide().parent().next().show();
-                }
-            }
-
-            if (json.tid_cape) {
-                getHashFromTid(json.tid_cape, function(hash) {
-                    $('#cape').attr('src', '../preview/200/' + json.tid_cape + '.png').show();
-                    $('#cape').parent().attr('href', '../skinlib/show?tid=' + json.tid_cape);
-                    $('#cape').parent().next().hide();
-                    MSP.changeCape('../textures/' + hash);
-                });
-            } else {
-                $('#cape').hide().parent().next().show();
-                MSP.changeCape('');
-            }
-        },
-        error: showAjaxError
-    });
+    showPlayerTexturePreview(this.id);
 });
 
-function getHashFromTid(tid, callback) {
-    $.ajax({
-        type: "GET",
-        url: "../skinlib/info/" + tid,
-        dataType: "json",
-        success: function(json) {
-            callback(json.hash)
-        },
-        error: showAjaxError
-    });
-}
-
-var preview_type = "3d";
-
-function init3dCanvas() {
-    if (preview_type == "2d") return;
-    $('#preview-2d').hide();
-    if ($(window).width() < 800) {
-        var canvas = MSP.get3dSkinCanvas($('#skinpreview').width(), $('#skinpreview').width());
-        $("#skinpreview").append($(canvas).prop("id", "canvas3d"));
-    } else {
-        var canvas = MSP.get3dSkinCanvas(350, 350);
-        $("#skinpreview").append($(canvas).prop("id", "canvas3d"));
-    }
-}
-
-function show2dPreview() {
-    preview_type = "2d";
-    $('#canvas3d').remove();
-    $('#preview-msg').remove();
-    $('.operations').hide();
-    $('#preview-2d').show();
-    $('#preview-switch').html(trans('user.switch3dPreview')).attr('onclick', 'show3dPreview();');
-}
-
-function show3dPreview() {
-    if (isMobile() && preview_type == "2d") {
-        $("#skinpreview").append($('<div id="preview-msg" class="alert alert-info alert-dismissible fade in"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>手机上的 3D 预览可能会出现奇怪的问题（譬如空白一片），亟待解决。</div>'));
-    }
-    preview_type = "3d";
-    init3dCanvas();
-    $('#preview-2d').hide();
-    $('.operations').show();
-    $('#preview-switch').html(trans('user.switch2dPreview')).attr('onclick', 'show2dPreview();');
-}
-
-// Change 3D preview status
-$('.fa-pause').click(function(){
-    MSP.setStatus("movements", !MSP.getStatus("movements"));
-    if ($(this).hasClass('fa-pause'))
-        $(this).removeClass('fa-pause').addClass('fa-play');
-    else
-        $(this).removeClass('fa-play').addClass('fa-pause');
-});
-$('.fa-forward').click(function(){
-    MSP.setStatus("running", !MSP.getStatus("running"));
-});
-$('.fa-repeat').click(function(){
-    MSP.setStatus("rotation", !MSP.getStatus("rotation"));
+$('body').on('click', '#preview-switch', () => {
+    TexturePreview.previewType == '3D' ? TexturePreview.show2dPreview() : TexturePreview.show3dPreview();
 });
 
 var selected = [];
 
-$('body').on('click', '.item', function() {
+$('body').on('click', '.item', function () {
     $('.item-selected').removeClass('item-selected');
     $(this).addClass('item-selected');
 
-    var tid = $(this).attr('tid');
+    let tid = $(this).attr('tid');
 
     $.ajax({
         type: "POST",
         url: "../skinlib/info/" + tid,
         dataType: "json",
-        success: function(json) {
+        success: (json) => {
             if (json.type == "cape") {
                 MSP.changeCape('../textures/' + json.hash);
                 selected['cape'] = tid;
@@ -147,7 +41,7 @@ $('body').on('click', '.item', function() {
 
             selected.length = 0;
 
-            ['skin', 'cape'].forEach(function(key) {
+            ['skin', 'cape'].forEach((key) => {
                 if (selected[key] !== undefined) selected.length++;
 
                 $('#textures-indicator').html(selected.length);
@@ -156,6 +50,36 @@ $('body').on('click', '.item', function() {
         error: showAjaxError
     });
 });
+
+function showPlayerTexturePreview(pid) {
+    $.ajax({
+        type: "POST",
+        url: url('user/player/show'),
+        dataType: "json",
+        data: { "pid": pid },
+        success: (json) => {
+
+            ['steve', 'alex', 'cape'].forEach((type) => {
+                let tid     = json[`tid_${type}`];
+                let preview = new TexturePreview(type, tid, json.preference);
+
+                if (tid) {
+                    preview.change2dPreview().change3dPreview();
+                } else {
+                    preview.showNotUploaded();
+                }
+            });
+
+            if ((json.preference == "default" && !json.tid_steve) || (json.preference == "slim" && !json.tid_alex)) {
+                // show default skin
+                MSP.changeSkin(defaultSkin);
+            }
+
+            console.log(`Texture previews of player ${json.player_name} rendered.`);
+        },
+        error: showAjaxError
+    });
+}
 
 function renameClosetItem(tid) {
     swal({

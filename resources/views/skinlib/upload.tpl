@@ -95,7 +95,7 @@ label[for="type-cape"] {
 @section('script')
 <script>
     $(document).ready(function() {
-        init3dCanvas();
+        TexturePreview.init3dPreview();
         $('input[type=radio]').iCheck({
             radioClass:    'iradio_square-blue'
         });
@@ -106,6 +106,6 @@ label[for="type-cape"] {
     });
 
     // Auto resize canvas to fit responsive design
-    $(window).resize(init3dCanvas);
+    $(window).resize(TexturePreview.init3dPreview);
 </script>
 @endsection

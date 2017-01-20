@@ -3,7 +3,7 @@
  * @Author: printempw
  * @Date:   2016-07-29 11:53:11
  * @Last Modified by:   printempw
- * @Last Modified time: 2017-01-20 17:54:15
+ * @Last Modified time: 2017-01-20 19:24:21
  */
 
 return [
@@ -42,5 +42,5 @@ return [
     'plugins_enabled'           => '',
     'copyright_prefer'          => '0',
     'score_per_closet_item'     => '0',
-    'favicon_url'               => 'images/favicon.ico'
+    'favicon_url'               => 'dist/images/favicon.ico'
 ];

@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-09-15 10:39:41
 * @Last Modified by:   printempw
-* @Last Modified time: 2017-01-19 22:42:44
+* @Last Modified time: 2017-01-20 21:13:38
 */
 
 'use strict';
@@ -139,18 +139,6 @@ function showAjaxError(json) {
 }
 
 /**
- * Check if current environment is mobile.
- *
- * @return {Boolean}
- */
-function isMobile() {
-    if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-        return true;
-    }
-    return false;
-}
-
-/**
  * Get parameters in query string with key.
  *
  * @param  {string} key
@@ -166,7 +154,7 @@ function getQueryString(key) {
     }
 }
 
-// quick fix for compatibility of String.prototype.endsWith
+// polyfill of String.prototype.endsWith
 if (!String.prototype.endsWith) {
     String.prototype.endsWith = function (searchString, position) {
         var subjectString = this.toString();
@@ -226,3 +214,95 @@ function logout() {
 $('#logout-button').click(() => confirmLogout());
 
 $(document).ready(() => $('li.active > ul').show());
+
+var TexturePreview = function (type, tid, preference) {
+    this.tid               = tid;
+    this.type              = type;
+    this.selector          = $('#' + type);
+    this.preference        = type == 'steve' ? 'default' : 'slim';
+    this.playerPreference  = preference;
+
+    this.change2dPreview = function () {
+        this.selector
+            .attr('src', url(`preview/200/${this.tid}.png`))
+            .show()
+            .parent().attr('href', url('skinlib/show?tid=' + this.tid))
+            .next().hide();
+
+        return this;
+    }
+
+    this.change3dPreview = function () {
+
+        if (this.playerPreference == this.preference) {
+            $.ajax({
+                type: "GET",
+                url: url(`skinlib/info/${this.tid}`),
+                dataType: "json",
+                success: (json) => {
+                    let textureUrl = url('textures/' + json.hash);
+
+                    if (this.type == 'cape') {
+                        MSP.changeCape(textureUrl);
+                    } else {
+                        MSP.changeSkin(textureUrl);
+                    }
+                },
+                error: (json) => showAjaxError(json)
+            });
+        }
+
+        return this;
+    }
+
+    this.showNotUploaded = function () {
+        this.selector.hide().parent().next().show();
+
+        return this;
+    }
+}
+
+TexturePreview.previewType = '3D';
+
+TexturePreview.init3dPreview = () => {
+    if (TexturePreview.previewType == '2D') return;
+
+    $('#preview-2d').hide();
+
+    if ($(window).width() < 800) {
+        var canvas = MSP.get3dSkinCanvas($('#skinpreview').width(), $('#skinpreview').width());
+        $("#skinpreview").append($(canvas).prop("id", "canvas3d"));
+    } else {
+        var canvas = MSP.get3dSkinCanvas(350, 350);
+        $("#skinpreview").append($(canvas).prop("id", "canvas3d"));
+    }
+}
+
+TexturePreview.show3dPreview = () => {
+    TexturePreview.previewType = "3D";
+
+    TexturePreview.init3dPreview();
+    $('#preview-2d').hide();
+    $('.operations').show();
+    $('#preview-switch').html(trans('user.switch2dPreview'));
+}
+
+TexturePreview.show2dPreview = function () {
+    TexturePreview.previewType = '2D';
+
+    $('#canvas3d').remove();
+    $('.operations').hide();
+    $('#preview-2d').show();
+    $('#preview-switch').html(trans('user.switch3dPreview')).attr('onclick', 'show3dPreview();');
+}
+
+// change 3D preview status
+$('.fa-pause').click(function () {
+    MSP.setStatus('rotation',  ! MSP.getStatus('rotation'));
+    MSP.setStatus('movements', ! MSP.getStatus('movements'));
+
+    $(this).toggleClass('fa-pause').toggleClass('fa-play');
+});
+
+$('.fa-forward').click(() => MSP.setStatus('running',  !MSP.getStatus('running')) );
+$('.fa-repeat' ).click(() => MSP.setStatus('rotation', !MSP.getStatus('rotation')) );
