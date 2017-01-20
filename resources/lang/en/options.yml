@@ -9,7 +9,7 @@ homepage:
   favicon_url:
     title: Website Icon
     hint: Path relative to resources/assets/ or full URL.
-    description: The given image must have same width and height.
+    description: The given image must have same width and height (leave blank to use default icon).
   copyright_prefer:
     title: Program Copyright
     description: Any evil modification applied on the footer program copyright (including deleting, modifying author, changing link target) with out permission is <b>FORBIDDEN</b>. The author reserves the right to pursue relevant responsibilities.

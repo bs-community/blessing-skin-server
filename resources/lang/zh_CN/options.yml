@@ -9,7 +9,7 @@ homepage:
   favicon_url:
     title: 网站图标
     hint: 相对 resources/assets/ 的路径或者完整的 URL
-    description: 所使用的图像必须具有相同的宽度和高度
+    description: 所使用的图像必须具有相同的宽度和高度（留空以使用默认图标）
   copyright_prefer:
     title: 程序版权信息
     description: 对于任何恶意修改页面<b>右下角</b>的版权信息（包括不限于删除、修改作者信息、修改链接指向）的用户，作者保留对其追究责任的权力。
