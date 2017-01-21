@@ -12,7 +12,7 @@ class PluginController extends Controller
 {
     public function showMarket()
     {
-        return 'Plugin market is under development. Maybe you will want to check <a href="https://github.com/g-plane/unofficial-plugins-market">this</a>.';
+        return redirect('/')->setTargetUrl('https://github.com/g-plane/unofficial-plugins-market/blob/master/README.md');
     }
 
     public function showManage()
