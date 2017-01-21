@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-06-04 20:55:09
  * @Last Modified by:   printempw
- * @Last Modified time: 2017-01-20 17:21:39
+ * @Last Modified time: 2017-01-21 11:23:37
  */
 
 $font_stack: Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
@@ -28,7 +28,7 @@ body, h1, h2, h3, h4, h5, h6, .logo {
 
 .swal2-modal, .swal2-content {
     font-family: $font_stack;
-    font-weight: 400;
+    font-weight: 400 !important;
 }
 
 .swal2-modal h2 {
