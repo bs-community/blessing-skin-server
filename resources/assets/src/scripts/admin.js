@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
  * @Last Modified by:   printempw
- * @Last Modified time: 2017-01-08 16:07:24
+ * @Last Modified time: 2017-01-21 10:58:50
  */
 
 'use strict';
@@ -208,21 +208,25 @@ $('body').on('change', '#preference', function() {
 });
 
 function changeTexture(pid) {
-    var dom   = '<div class="form-group">'+
-                    '<label for="model">'+trans('admin.textureType')+'</label>'+
-                    '<select class="form-control" id="model">'+
-                        '<option value="steve">'+trans('admin.skin', {'model': 'Steve'})+'</option>'+
-                        '<option value="alex">'+trans('admin.skin', {'model': 'Alex'})+'</option>'+
-                        '<option value="cape">'+trans('admin.cape')+'</option>'+
-                    '</select>'+
-                '</div>'+
-                '<div class="form-group">'+
-                    '<label for="tid">'+trans('admin.pid')+'</label>'+
-                    '<input id="tid" class="form-control" type="text" placeholder="'+trans('admin.pidNotice')+'">'+
-                '</div>';
+    let dom   = `
+    <div class="form-group">
+        <label for="model">${trans('admin.textureType')}</label>
+        <select class="form-control" id="model">
+            <option value="steve">${trans('admin.skin', {'model': 'Steve'})}</option>
+            <option value="alex">${trans('admin.skin', {'model': 'Alex'})}</option>
+            <option value="cape">${trans('admin.cape')}</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="tid">${trans('admin.pid')}</label>
+        <input id="tid" class="form-control" type="text" placeholder="${trans('admin.pidNotice')}">
+    </div>`;
 
-    var player_name = $('#'+pid).find('#player-name').text();
-    showModal(dom, trans('admin.changePlayerTexture', {'player': player_name}), 'default', 'ajaxChangeTexture('+pid+')');
+    let playerName = $('#'+pid).find('#player-name').text();
+
+    showModal(dom, trans('admin.changePlayerTexture', {'player': playerName}), 'default', {
+        callback: `ajaxChangeTexture(${pid})`
+    });
     return;
 }
 
