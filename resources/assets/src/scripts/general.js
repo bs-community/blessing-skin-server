@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-09-15 10:39:41
 * @Last Modified by:   printempw
-* @Last Modified time: 2017-01-21 11:15:29
+* @Last Modified time: 2017-01-21 12:58:05
 */
 
 'use strict';
@@ -309,7 +309,7 @@ $('.fa-forward').click(() => MSP.setStatus('running',  !MSP.getStatus('running')
 $('.fa-repeat' ).click(() => MSP.setStatus('rotation', !MSP.getStatus('rotation')) );
 
 (function ($) {
-    if ($('#copyright').length != 0 && $('#copyright').text().indexOf('Blessing') >= 0) {
+    if ($('#copyright-text').length != 0 && $('#copyright-text').text().indexOf('Blessing') >= 0) {
         return;
     }
 

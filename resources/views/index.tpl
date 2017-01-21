@@ -140,7 +140,7 @@
         <!-- Designed by Pratt -->
         <div class="container">
             <!-- YOU CAN NOT MODIFIY THE COPYRIGHT TEXT W/O PERMISSION -->
-            <div id="copyright" class="pull-right hidden-xs">
+            <div id="copyright-text" class="pull-right hidden-xs">
                 {!! bs_copyright() !!}
             </div>
             <!-- Default to the left -->
