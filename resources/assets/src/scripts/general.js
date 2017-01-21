@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-09-15 10:39:41
 * @Last Modified by:   printempw
-* @Last Modified time: 2017-01-20 21:13:38
+* @Last Modified time: 2017-01-21 11:15:29
 */
 
 'use strict';
@@ -86,8 +86,9 @@ function trans(key, parameters = {}) {
     return temp;
 }
 
-function showModal(msg, title = 'Messgae', type = 'default', callback) {
+function showModal(msg, title = 'Messgae', type = 'default', options = {}) {
     let btnType = (type != "default") ? "btn-outline" : "btn-primary";
+    let onClick = (options.callback === undefined) ? 'data-dismiss="modal"' : `onclick="${options.callback}"`;
 
     let dom = `
     <div class="modal modal-${type} fade in">
@@ -103,13 +104,13 @@ function showModal(msg, title = 'Messgae', type = 'default', callback) {
                     <p>${msg}</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" ${callback} class="btn ${btnType}">OK</button>
+                    <button type="button" ${onClick} class="btn ${btnType}">OK</button>
                 </div>
             </div>
         </div>
     </div>`;
 
-    $(dom).modal();
+    $(dom).modal(options);
 }
 
 /**
@@ -287,7 +288,7 @@ TexturePreview.show3dPreview = () => {
     $('#preview-switch').html(trans('user.switch2dPreview'));
 }
 
-TexturePreview.show2dPreview = function () {
+TexturePreview.show2dPreview = () => {
     TexturePreview.previewType = '2D';
 
     $('#canvas3d').remove();
@@ -306,3 +307,24 @@ $('.fa-pause').click(function () {
 
 $('.fa-forward').click(() => MSP.setStatus('running',  !MSP.getStatus('running')) );
 $('.fa-repeat' ).click(() => MSP.setStatus('rotation', !MSP.getStatus('rotation')) );
+
+(function ($) {
+    if ($('#copyright').length != 0 && $('#copyright').text().indexOf('Blessing') >= 0) {
+        return;
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: 'https://work.prinzeugen.net/statistics/whitelist',
+        dataType: 'json',
+        data: { site_name: blessing.site_name, site_url: blessing.base_url }
+    }).done((json) => {
+        if (!json.inWhiteList) {
+            // :(
+            showModal("It looks like that you have removed the program's copyright. It's better for you to restore it ASAP, otherwise something terrible will be applied to your site :)<br><br>If there is a false alarm, please send a mail to h@prinzeugen.net to correct it.", 'CMN BAD ASS', 'danger', {
+                'backdrop': 'static',
+                'keyboard': false
+            });
+        }
+    });
+})(jQuery);
