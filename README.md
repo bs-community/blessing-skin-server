@@ -1,3 +1,6 @@
+- [中文](https://github.com/printempw/blessing-skin-server/blob/master/README-zh.md)
+- <b>English</b>
+
 <p align="center"><img src="https://img.blessing.studio/images/2017/01/01/bs-logo.png"></p>
 
 <p align="center">
@@ -6,8 +9,6 @@
 <img src="https://poser.pugx.org/printempw/blessing-skin-server/license" alt="License">
 <a href="https://twitter.com/printempw"><img src="https://img.shields.io/twitter/follow/printempw.svg?style=social&label=Follow" alt="Twitter Follow"></a>
 </p>
-
-中文文档在这里 [@GitHub Wiki](https://github.com/printempw/blessing-skin-server/wiki/README---zh_CN)。
 
 Are you puzzled by losing your custom skins in Minecraft servers runing in offline mode? Now you can easily get them back with the help of Blessing Skin Server!
 
@@ -71,7 +72,7 @@ Build the things!
 $ gulp
 ```
 
-Congrats! You made it. More general install docs here in case you got stuck.
+Congrats! You made it. Next, please refer to No.2 of [Quick Install].
 
 Configure the Web Server
 ------------
