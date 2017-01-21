@@ -11,7 +11,6 @@
         <h1>
             {{ trans('general.check-update') }}
         </h1>
-        <div class="breadcrumb"></div>
     </section>
 
     <!-- Main content -->

@@ -15,7 +15,6 @@
         <h1>
             {{ trans('general.plugin-manage') }}
         </h1>
-        <div class="breadcrumb"></div>
     </section>
 
     <!-- Main content -->

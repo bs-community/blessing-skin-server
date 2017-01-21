@@ -11,7 +11,6 @@
         <h1>
             {{ trans('general.dashboard') }}
         </h1>
-        <div class="breadcrumb"></div>
     </section>
 
     <!-- Main content -->

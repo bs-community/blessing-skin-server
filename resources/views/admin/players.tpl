@@ -11,7 +11,6 @@
         <h1>
             {{ trans('general.player-manage') }}
         </h1>
-        <div class="breadcrumb"></div>
     </section>
 
     <!-- Main content -->
