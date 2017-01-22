@@ -77,7 +77,7 @@ Route::group(['prefix' => 'skinlib'], function ()
 {
     Route::get ('',                   'SkinlibController@index');
     Route::any ('/info/{tid}',        'SkinlibController@info');
-    Route::any ('/show',              'SkinlibController@show');
+    Route::any ('/show/{tid}',        'SkinlibController@show');
     Route::any ('/search',            'SkinlibController@search');
 
     Route::group(['middleware' => 'auth'], function ()
@@ -86,7 +86,7 @@ Route::group(['prefix' => 'skinlib'], function ()
         Route::post('/upload',        'SkinlibController@handleUpload');
 
         Route::post('/rename',        'SkinlibController@rename');
-        Route::post('/privacy/{tid}', 'SkinlibController@privacy');
+        Route::post('/privacy',       'SkinlibController@privacy');
         Route::post('/delete',        'SkinlibController@delete');
     });
 });

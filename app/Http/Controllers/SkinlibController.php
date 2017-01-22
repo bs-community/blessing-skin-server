@@ -97,13 +97,9 @@ class SkinlibController extends Controller
                                     ->with('textures', $textures);
     }
 
-    public function show(Request $request)
+    public function show($tid)
     {
-        $this->validate($request, [
-            'tid' => 'required|integer'
-        ]);
-
-        $texture = Texture::find($_GET['tid']);
+        $texture = Texture::find($tid);
 
         if (!$texture || $texture && !Storage::disk('textures')->has($texture->hash)) {
             if (Option::get('auto_del_invalid_texture') == "1") {
@@ -205,9 +201,9 @@ class SkinlibController extends Controller
             return json(trans('skinlib.delete.success'), 0);
     }
 
-    public function privacy($tid, Request $request)
+    public function privacy(Request $request)
     {
-        $t = Texture::find($request->tid);
+        $t = Texture::find($request->input('tid'));
 
         if (!$t)
             return json(trans('skinlib.non-existent'), 1);

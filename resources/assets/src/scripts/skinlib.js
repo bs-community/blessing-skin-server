@@ -2,76 +2,90 @@
  * @Author: printempw
  * @Date:   2016-07-19 10:46:38
  * @Last Modified by:   printempw
- * @Last Modified time: 2017-01-20 20:57:52
+ * @Last Modified time: 2017-01-22 15:57:57
  */
 
 'use strict';
 
-var base_url = location.pathname.endsWith('skinlib') ? "." : "..";
+$(document).ready(() => swal.setDefaults({
+    confirmButtonText: trans('general.confirm'),
+    cancelButtonText: trans('general.cancel')
+}));
 
-$(document).ready(function() {
-    swal.setDefaults({
-        confirmButtonText: trans('general.confirm'),
-        cancelButtonText: trans('general.cancel')
-    });
-});
+$('#page-select').on('change', function () {
+    let sort   = getQueryString('sort'),
+        page   = getQueryString('page'),
+        filter = getQueryString('filter');
 
-$('#page-select').on('change', function() {
+    let targetPage = $(this).val();
+
     // if has query strings
-    if (getQueryString('filter') != "" || getQueryString('sort') != "") {
-        if (getQueryString('page') == "")
-            window.location = location.href + "&page=" + $(this).val();
-        else
-            window.location = "?filter="+getQueryString('filter')+"&sort="+getQueryString('sort')+"&page="+$(this).val();
+    if (filter || sort) {
+
+        if (page == null) {
+            // append "&page=" to current URL
+            window.location = `${location.href}&page=${targetPage}`;
+        } else {
+            window.location = `?filter=${filter}&sort=${sort}&page=${targetPage}`;
+        }
+
     } else {
-        window.location = "?page=" + $(this).val();
+        window.location = `?page=${targetPage}`;
     }
 
 });
 
-$('#private').on('ifToggled', function() {
+$('#private').on('ifToggled', function () {
     $(this).prop('checked') ? $('#msg').show() : $('#msg').hide();
 });
-
-$('#type-skin').on('ifToggled', function() {
+$('#type-skin').on('ifToggled', function () {
     $(this).prop('checked') ? $('#skin-type').show() : $('#skin-type').hide();
 });
 
 function addToCloset(tid) {
-    $.getJSON(base_url + '/skinlib/info/'+tid, function(json) {
+    $.getJSON(url(`skinlib/info/${tid}`), (json) => {
         swal({
             title: trans('skinlib.setItemName'),
             inputValue: json.name,
             input: 'text',
             showCancelButton: true,
-            inputValidator: function(value) {
-                return new Promise(function(resolve, reject) {
-                    if (value) {
-                        resolve();
-                    } else {
-                        reject(trans('skinlib.emptyItemName'));
-                    }
+            inputValidator: (value) => {
+                return new Promise((resolve, reject) => {
+                    value ? resolve() : reject(trans('skinlib.emptyItemName'));
                 });
             }
-        }).then(function(result) {
-            ajaxAddToCloset(tid, result);
-        });
+        }).then((result) => ajaxAddToCloset(tid, result));
     });
+}
+
+/**
+ * Update button action & likes of texture.
+ *
+ * @param  {int}    tid
+ * @param  {string} action add|remove
+ * @return {null}
+ */
+function updateTextureStatus(tid, action) {
+    let likes  = parseInt($('#likes').html()) + (action == "add" ? 1 : -1);
+        action = (action == "add") ? 'removeFromCloset' : 'addToCloset';
+
+    $(`a[tid=${tid}]`).attr('href', `javascript:${action}(${tid});`).attr('title', trans('skinlib.' + action)).toggleClass('liked');
+    $('#'+tid).attr('href', `javascript:${action}(${tid});`).html(trans('skinlib.' + action));
+    $('#likes').html(likes);
 }
 
 function ajaxAddToCloset(tid, name) {
     // remove interference of modal which is hide
-    $('.modal').each(function() {
-        if ($(this).css('display') == "none")
-            $(this).remove();
+    $('.modal').each(function () {
+        return ($(this).css('display') == "none") ? $(this).remove() : null;
     });
 
     $.ajax({
         type: "POST",
-        url: base_url + "/user/closet/add",
+        url: url("user/closet/add"),
         dataType: "json",
         data: { 'tid': tid, 'name': name },
-        success: function(json) {
+        success: (json) => {
             if (json.errno == 0) {
                 swal({
                     type: 'success',
@@ -79,9 +93,7 @@ function ajaxAddToCloset(tid, name) {
                 });
 
                 $('.modal').modal('hide');
-                $('a[tid='+tid+']').attr('href', 'javascript:removeFromCloset('+tid+');').attr('title', trans('skinlib.removeFromCloset')).addClass('liked');
-                $('#'+tid).attr('href', 'javascript:removeFromCloset('+tid+');').html(trans('skinlib.removeFromCloset'));
-                $('#likes').html(parseInt($('#likes').html()) + 1);
+                updateTextureStatus(tid, 'add');
             } else {
                 toastr.warning(json.msg);
             }
@@ -97,22 +109,20 @@ function removeFromCloset(tid) {
         showCancelButton: true,
         cancelButtonColor: '#3085d6',
         confirmButtonColor: '#d33'
-    }).then(function() {
+    }).then(() => {
         $.ajax({
             type: "POST",
-            url: base_url + "/user/closet/remove",
+            url: url("/user/closet/remove"),
             dataType: "json",
             data: { 'tid' : tid },
-            success: function(json) {
+            success: (json) => {
                 if (json.errno == 0) {
                     swal({
                         type: 'success',
                         html: json.msg
                     });
 
-                    $('a[tid='+tid+']').attr('href', 'javascript:addToCloset('+tid+');').attr('title', trans('skinlib.addToCloset')).removeClass('liked');
-                    $('#'+tid).attr('href', 'javascript:addToCloset('+tid+');').html(trans('skinlib.addToCloset'));
-                    $('#likes').html(parseInt($('#likes').html()) - 1);
+                    updateTextureStatus(tid, 'remove');
                 } else {
                     toastr.warning(json.msg);
                 }
@@ -123,98 +133,104 @@ function removeFromCloset(tid) {
 
 }
 
-$('body').on('change', '#file', function() {
-    var files = $('#file').prop('files');
-    var type = $('#type-cape').prop('checked') ? "cape" : "skin";
-    handleFiles(files, type);
-}).on('ifToggled', '#type-cape', function() {
+$('body').on('change', '#file', () => handleFiles()).on('ifToggled', '#type-cape', () => {
     MSP.clear();
-    var files = $('#file').prop('files');
-    var type = $('#type-cape').prop('checked') ? "cape" : "skin";
-    handleFiles(files, type);
+    handleFiles();
 });
 
 // Real-time preview
 function handleFiles(files, type) {
+
+    files = files || $('#file').prop('files');
+    type  = type  || $('#type-cape').prop('checked') ? "cape" : "skin";
+
     if (files.length > 0) {
-        var file = files[0];
-        if (file.type === "image/png") {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                var img = new Image();
-                img.onload = function() {
+        let file = files[0];
+
+        if (file.type === "image/png" || file.type === "image/x-png") {
+            let reader = new FileReader();
+
+            reader.onload = function (e) {
+                let img = new Image();
+
+                img.onload = () => {
+
                     (type == "skin") ? MSP.changeSkin(img.src) : MSP.changeCape(img.src);
-                    if ($('#name').val() == "")
-                        $('#name').val(file.name.split('.png')[0])
+                    $('#name').val($('#name').val() == "" ? file.name.split('.png')[0] : $('#name').val());
                 };
-                img.onerror = function() {
-                    toastr.warning(trans('skinlib.fileExtError'));
-                };
+                img.onerror = () => toastr.warning(trans('skinlib.fileExtError'));
+
                 img.src = this.result;
             };
             reader.readAsDataURL(file);
         } else {
-            toastr.warning(trans('skinlib.formatError'));
+            toastr.warning(trans('skinlib.encodingError'));
         }
     }
 };
 
 function upload() {
-    var form_data = new FormData();
-    form_data.append('name', $('#name').val());
-    form_data.append('file', $('#file').prop('files')[0]);
-    form_data.append('public', !$('#private').prop('checked'));
+    let form = new FormData();
+    let file = $('#file').prop('files')[0];
+
+    form.append('name',   $('#name').val());
+    form.append('file',   file);
+    form.append('public', ! $('#private').prop('checked'));
 
     if ($('#type-skin').prop('checked')) {
-        form_data.append('type', $('#skin-type').val());
+        form.append('type', $('#skin-type').val());
     } else if ($('#type-cape').prop('checked')) {
-        form_data.append('type', 'cape');
+        form.append('type', 'cape');
     } else {
-        toastr.info(trans('skinlib.emptyTextureType')); return;
+        return toastr.info(trans('skinlib.emptyTextureType'));
     }
 
-    // quick fix for browsers which don't support FormData.get()
-    if ($('#file').prop('files')[0] === undefined) {
+    if (file === undefined) {
         toastr.info(trans('skinlib.emptyUploadFile'));
         $('#file').focus();
     } else if ($('#name').val() == "") {
         toastr.info(trans('skinlib.emptyTextureName'));
         $('#name').focus();
-    } else if ($('#file').prop('files')[0].type !== "image/png") {
+    } else if (file.type !== "image/png") {
         toastr.warning(trans('skinlib.fileExtError'));
         $('#file').focus();
     } else {
         $.ajax({
             type: "POST",
-            url: "./upload",
+            url: url("skinlib/upload"),
             contentType: false,
             dataType: "json",
-            data: form_data,
+            data: form,
             processData: false,
-            beforeSend: function() {
+            beforeSend: () => {
                 $('#upload-button').html('<i class="fa fa-spinner fa-spin"></i> ' + trans('skinlib.uploading')).prop('disabled', 'disabled');
             },
-            success: function(json) {
+            success: (json) => {
                 if (json.errno == 0) {
-                    var redirect = function() {
+                    let redirect = function () {
                         toastr.info(trans('skinlib.redirecting'));
-                        window.setTimeout('window.location = "./show?tid='+json.tid+'"', 1000);
+
+                        window.setTimeout(() => {
+                            window.location = url(`skinlib/show/${json.tid}`);
+                        }, 1000);
                     };
+
                     // always redirect
                     swal({
                         type: 'success',
                         html: json.msg
                     }).then(redirect, redirect);
+
                 } else {
                     swal({
                         type: 'warning',
                         html: json.msg
-                    }).then(function() {
+                    }).then(() => {
                         $('#upload-button').html(trans('skinlib.upload')).prop('disabled', '');
                     });
                 }
             },
-            error: function(json) {
+            error: (json) => {
                 $('#upload-button').html(trans('skinlib.upload')).prop('disabled', '');
                 showAjaxError(json);
             }
@@ -228,22 +244,18 @@ function changeTextureName(tid) {
         text: trans('skinlib.setNewTextureName'),
         input: 'text',
         showCancelButton: true,
-        inputValidator: function(value) {
-            return new Promise(function(resolve, reject) {
-                if (value) {
-                    resolve();
-                } else {
-                    reject(trans('skinlib.emptyNewTextureName'));
-                }
+        inputValidator: (value) => {
+            return new Promise((resolve, reject) => {
+                (value) ? resolve() : reject(trans('skinlib.emptyNewTextureName'));
             });
         }
-    }).then(function(new_name) {
+    }).then((new_name) => {
         $.ajax({
             type: "POST",
-            url: "./rename",
+            url: url("skinlib/rename"),
             dataType: "json",
             data: { 'tid': tid, 'new_name': new_name },
-            success: function(json) {
+            success: (json) => {
                 if (json.errno == 0) {
                     $('#name').text(new_name);
                     toastr.success(json.msg);
@@ -256,24 +268,24 @@ function changeTextureName(tid) {
     });
 }
 
-$('.private-label').click(function() {
-    var self = $(this);
+$('.private-label').click(function () {
     swal({
         text: trans('skinlib.setPublicNotice'),
         type: 'warning',
         showCancelButton: true
-    }).then(function() {
-        changePrivacy(self.attr('tid'));
-        self.remove();
+    }).then(() => {
+        changePrivacy($(this).attr('tid'));
+        $(this).remove();
     });
 });
 
 function changePrivacy(tid) {
     $.ajax({
         type: "POST",
-        url: "./privacy/" + tid,
+        url: url(`skinlib/privacy`),
         dataType: "json",
-        success: function(json) {
+        data: { 'tid': tid },
+        success: (json) => {
             if (json.errno == 0) {
                 toastr.success(json.msg);
                 if (json.public == "0")
@@ -296,17 +308,15 @@ function deleteTexture(tid) {
     }).then(function() {
         $.ajax({
             type: "POST",
-            url: "./delete",
+            url: url("skinlib/delete"),
             dataType: "json",
             data: { 'tid': tid },
-            success: function(json) {
+            success: (json) => {
                 if (json.errno == 0) {
                     swal({
                         type: 'success',
                         html: json.msg
-                    }).then(function() {
-                        window.location = "./";
-                    });
+                    }).then(() => window.location = url('skinlib') );
                 } else {
                     swal({
                         type: 'warning',

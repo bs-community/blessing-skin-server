@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-09-15 10:39:41
 * @Last Modified by:   printempw
-* @Last Modified time: 2017-01-21 14:26:44
+* @Last Modified time: 2017-01-22 14:03:31
 */
 
 'use strict';
@@ -151,7 +151,7 @@ function getQueryString(key) {
     result = location.search.match(new RegExp('[\?\&]'+key+'=([^\&]+)','i'));
 
     if (result == null || result.length < 1){
-        return "";
+        return null;
     } else {
         return result[1];
     }

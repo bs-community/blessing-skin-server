@@ -58,8 +58,8 @@
             redirecting: 'Redirecting...',
 
             // Change Privacy
-            setAsPrivate: 'Set as private',
-            setAsPublic: 'Set as public',
+            setAsPrivate: 'Set as Private',
+            setAsPublic: 'Set as Public',
             setPublicNotice: 'Sure to set this as public texture?',
 
             deleteNotice: 'Are you sure to delete this texture? Scores will be returned.'
