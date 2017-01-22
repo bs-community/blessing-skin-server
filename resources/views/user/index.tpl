@@ -32,31 +32,44 @@
                                 <div class="progress-group">
                                     <span class="progress-text">{{ trans('user.used.players') }}</span>
                                     <?php
-                                        $players_available = $user->players->count() + floor($user->getScore() / option('score_per_player'));
-                                        $percent = ($players_available == 0) ? 0 : $user->players->count() / $players_available * 100
+                                        // to avoid division by zero
+                                        if (option('score_per_player') == 0) {
+                                            $total = 'UNLIMITED';
+                                            $percentage = 0;
+                                        } else {
+                                            $total = $user->players->count() + floor($user->getScore() / option('score_per_player'));
+                                            $percentage = $user->players->count() / $total * 100;
+                                        }
                                     ?>
-                                    <span class="progress-number"><b>{{ $user->players->count() }}</b>/{{ $players_available }}</span>
+                                    <span class="progress-number"><b>{{ $user->players->count() }}</b>/ {{ $total }}</span>
                                     <div class="progress sm">
-                                        <div class="progress-bar progress-bar-aqua" style="width: {{ $percent }}%"></div>
+                                        <div class="progress-bar progress-bar-aqua" style="width: {{ $percentage }}%"></div>
                                     </div>
                                 </div><!-- /.progress-group -->
                                 <div class="progress-group">
                                     <span class="progress-text">{{ trans('user.used.storage') }}</span>
-                                    <?php $rate = option('score_per_storage'); ?>
+                                    <?php
+                                        if (($rate = option('score_per_storage')) == 0) {
+                                            $total = 'UNLIMITED';
+                                            $percentage = 0;
+                                        } else {
+                                            $total = $user->getStorageUsed() + $user->getScore() / $rate;
+                                            $percentage = $user->getStorageUsed() / ($user->getStorageUsed() + $user->getScore() / $rate) * 100;
+                                        }
+                                    ?>
                                     @if ($user->getStorageUsed() > 1024)
                                     <span class="progress-number">
                                         <b>{{ round($user->getStorageUsed() / 1024, 1) }}</b>/
-                                        {{ round(($user->getStorageUsed() + $user->getScore() / $rate) / 1024, 1) }} MB
+                                        {{ is_string($total) ? $total : round($total / 1024, 1) }} MB
                                     </span>
                                     @else
                                     <span class="progress-number">
-                                        <b>{{ $user->getStorageUsed() }}</b>/
-                                        {{ $user->getStorageUsed() + $user->getScore() / $rate }} KB
+                                        <b>{{ $user->getStorageUsed() }}</b>/ {{ $total }} KB
                                     </span>
                                     @endif
 
                                     <div class="progress sm">
-                                        <div class="progress-bar progress-bar-yellow" style="width: {{ $user->getStorageUsed() / ($user->getStorageUsed() + $user->getScore() / $rate) * 100 }}%"></div>
+                                        <div class="progress-bar progress-bar-yellow" style="width: {{ $percentage }}%"></div>
                                     </div>
                                 </div><!-- /.progress-group -->
                             </div><!-- /.col -->
