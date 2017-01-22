@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-09-15 10:39:41
 * @Last Modified by:   printempw
-* @Last Modified time: 2017-01-22 14:03:31
+* @Last Modified time: 2017-01-22 18:51:51
 */
 
 'use strict';
@@ -229,7 +229,7 @@ var TexturePreview = function (type, tid, preference) {
         this.selector
             .attr('src', url(`preview/200/${this.tid}.png`))
             .show()
-            .parent().attr('href', url('skinlib/show?tid=' + this.tid))
+            .parent().attr('href', url('skinlib/show/' + this.tid))
             .next().hide();
 
         return this;

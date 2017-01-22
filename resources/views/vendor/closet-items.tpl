@@ -8,7 +8,7 @@
             <span title="{{ $item->name }}">{{ $item->name }} <small>({{ $item->type }})</small></span>
         </p>
 
-        <a href="{{ url('skinlib/show?tid='.$item->tid) }}" title="{{ trans('user.closet.view') }}" class="more" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-share"></i></a>
+        <a href="{{ url('skinlib/show/'.$item->tid) }}" title="{{ trans('user.closet.view') }}" class="more" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-share"></i></a>
         <span title="{{ trans('user.closet.more') }}" class="more" data-toggle="dropdown" aria-haspopup="true" id="more-button"><i class="fa fa-cog"></i></span>
 
         <ul class="dropup dropdown-menu" aria-labelledby="more-button">
