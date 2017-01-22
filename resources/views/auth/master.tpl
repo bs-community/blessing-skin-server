@@ -14,6 +14,11 @@
 
     @yield('content')
 
+    <!-- YOU CAN NOT MODIFIY THE COPYRIGHT TEXT W/O PERMISSION -->
+    <div id="copyright-text" class="hide">
+        {!! bs_copyright() !!}
+    </div>
+
     <!-- App Scripts -->
     {!! bs_footer('auth') !!}
 
