@@ -1,0 +1,4 @@
+[submodule "plugins"]
+    path = plugins
+    url = git@git.coding.net:printempw/blessing-skin-plugins.git
+    ignore = all
