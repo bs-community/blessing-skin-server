@@ -53,8 +53,11 @@ class CheckAuthenticated
 
     public function askForFillingEmail($request, Closure $next)
     {
+        $user = app('user.current');
+
         if (isset($request->email)) {
             if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
+
                 if (User::where('email', $request->email)->get()->isEmpty()) {
                     $user->setEmail($request->email);
                     // refresh token
