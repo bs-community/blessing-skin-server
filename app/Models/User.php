@@ -310,7 +310,7 @@ class User extends Model
             , false);
         }
 
-        return $lastSignInTime->addSeconds(option('sign_gap_time') * 3600)->diffInSeconds(Carbon::now());
+        return Carbon::now()->diffInSeconds($lastSignInTime->addSeconds(option('sign_gap_time') * 3600), false);
     }
 
     /**
