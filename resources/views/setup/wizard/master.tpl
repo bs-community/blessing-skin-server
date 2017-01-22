@@ -6,7 +6,7 @@
     <meta name="robots" content="noindex,nofollow" />
     <title>{{ trans('setup.wizard.master.title') }}</title>
     <link rel="shortcut icon" href="../resources/assets/dist/images/favicon.ico">
-    <link rel="stylesheet" type="text/css" href="../resources/assets/dist/css/install.css">
+    <link rel="stylesheet" type="text/css" href="../resources/assets/dist/styles/install.css">
     @yield('style')
 </head>
 
