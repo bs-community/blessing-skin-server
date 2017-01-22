@@ -1,4 +1,4 @@
-@extends('setup.wizard.master')
+@extends('setup.master')
 
 @section('content')
 <h1>{{ trans('setup.wizard.welcome.title') }}
