@@ -276,6 +276,8 @@ class SkinlibController extends Controller
         if ($type == "steve" || $type == "alex") {
             if ($ratio != 2 && $ratio != 1)
                 return json(trans('skinlib.upload.invalid-size', ['type' => trans('general.skin'), 'width' => $size[0], 'height' => $size[1]]), 1);
+            if ($size[0] % 64 != 0 || $size[1] % 32 != 0)
+                return json(trans('skinlib.upload.invalid-hd-skin', ['type' => trans('general.skin'), 'width' => $size[0], 'height' => $size[1]]), 1);
         } elseif ($type == "cape") {
             if ($ratio != 2)
                 return json(trans('skinlib.upload.invalid-size', ['type' => trans('general.cape'), 'width' => $size[0], 'height' => $size[1]]), 1);

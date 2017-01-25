@@ -74,6 +74,7 @@ upload:
 
   type-error: Incorrect mime type of uploaded file.
   invalid-size: Invalid :type file (Width :width, Height :height)
+  invalid-hd-skin: Invalid HD skin (Width and height can not be devided by 32)
 
   lack-score: You don't have enough score to upload this texture.
   repeated: The texture is already uploaded by someone else. You can add it to your closet directly.
