@@ -31,45 +31,31 @@
                             <div class="col-md-8">
                                 <div class="progress-group">
                                     <span class="progress-text">{{ trans('user.used.players') }}</span>
-                                    <?php
-                                        // to avoid division by zero
-                                        if (option('score_per_player') == 0) {
-                                            $total = 'UNLIMITED';
-                                            $percentage = 0;
-                                        } else {
-                                            $total = $user->players->count() + floor($user->getScore() / option('score_per_player'));
-                                            $percentage = $user->players->count() / $total * 100;
-                                        }
-                                    ?>
-                                    <span class="progress-number"><b>{{ $user->players->count() }}</b>/ {{ $total }}</span>
+                                    <span class="progress-number"><b>{{ $statistics['players']['used'] }}</b>/ {{ $statistics['players']['total'] }}</span>
                                     <div class="progress sm">
-                                        <div class="progress-bar progress-bar-aqua" style="width: {{ $percentage }}%"></div>
+                                        <div class="progress-bar progress-bar-aqua" style="width: {{ $statistics['players']['percentage'] }}%"></div>
                                     </div>
                                 </div><!-- /.progress-group -->
                                 <div class="progress-group">
                                     <span class="progress-text">{{ trans('user.used.storage') }}</span>
+
                                     <?php
-                                        if (($rate = option('score_per_storage')) == 0) {
-                                            $total = 'UNLIMITED';
-                                            $percentage = 0;
-                                        } else {
-                                            $total = $user->getStorageUsed() + $user->getScore() / $rate;
-                                            $percentage = $user->getStorageUsed() / ($user->getStorageUsed() + $user->getScore() / $rate) * 100;
-                                        }
+                                        $used  = $statistics['storage']['used'];
+                                        $total = $statistics['storage']['total'];
                                     ?>
-                                    @if ($user->getStorageUsed() > 1024)
+
+                                    @if ($used > 1024)
                                     <span class="progress-number">
-                                        <b>{{ round($user->getStorageUsed() / 1024, 1) }}</b>/
-                                        {{ is_string($total) ? $total : round($total / 1024, 1) }} MB
+                                        <b>{{ round($used / 1024, 1) }}</b>/ {{ is_string($total) ? $total : round($total / 1024, 1) }} MB
                                     </span>
                                     @else
                                     <span class="progress-number">
-                                        <b>{{ $user->getStorageUsed() }}</b>/ {{ $total }} KB
+                                        <b>{{ $used }}</b>/ {{ $total }} KB
                                     </span>
                                     @endif
 
                                     <div class="progress sm">
-                                        <div class="progress-bar progress-bar-yellow" style="width: {{ $percentage }}%"></div>
+                                        <div class="progress-bar progress-bar-yellow" style="width: {{ $statistics['storage']['percentage'] }}%"></div>
                                     </div>
                                 </div><!-- /.progress-group -->
                             </div><!-- /.col -->

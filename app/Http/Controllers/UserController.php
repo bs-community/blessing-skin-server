@@ -14,18 +14,49 @@ use App\Services\Repositories\UserRepository;
 
 class UserController extends Controller
 {
-    private $action = "";
-    private $user   = null;
+    /**
+     * Current user instance.
+     *
+     * @var App\Models\User
+     */
+    private $user = null;
 
-    public function __construct(Request $request, UserRepository $users)
+    public function __construct(UserRepository $users)
     {
-        $this->action = $request->input('action', '');
-        $this->user   = $users->get(session('uid'));
+        $this->user = $users->get(session('uid'));
     }
 
     public function index()
     {
-        return view('user.index')->with('user', $this->user);
+        return view('user.index')->with([
+            'user' => $this->user,
+            'statistics' => [
+                'players' => $this->calculatePercentageUsed($this->user->players->count(), option('score_per_player')),
+                'storage' => $this->calculatePercentageUsed($this->user->getStorageUsed(), option('score_per_storage'))
+            ]
+        ]);
+    }
+
+    /**
+     * Calculate percentage of resources used by user.
+     *
+     * @param  int $used
+     * @param  int $rate
+     * @return array
+     */
+    protected function calculatePercentageUsed($used, $rate)
+    {
+        // init default value to avoid division by zero
+        $result['used']       = $used;
+        $result['total']      = 'UNLIMITED';
+        $result['percentage'] = 0;
+
+        if ($rate != 0) {
+            $result['total'] = $used + floor($this->user->getScore() / $rate);
+            $result['percentage'] = $result['total'] ? $used / $result['total'] * 100 : 100;
+        }
+
+        return $result;
     }
 
     /**
@@ -62,7 +93,9 @@ class UserController extends Controller
      */
     public function handleProfile(Request $request)
     {
-        switch ($this->action) {
+        $action = $request->input('action', '');
+
+        switch ($action) {
             case 'nickname':
                 $this->validate($request, [
                     'new_nickname' => 'required|nickname|max:255'
@@ -127,7 +160,7 @@ class UserController extends Controller
                 break;
         }
 
-        event(new UserProfileUpdated($this->action, $this->user));
+        event(new UserProfileUpdated($action, $this->user));
 
     }
 
