@@ -73,6 +73,7 @@ upload:
 
   type-error: 文件格式不对哦
   invalid-size: 不是有效的 :type 文件（宽 :width，高 :height）
+  invalid-hd-skin: 不是有效的高清皮肤（宽和高不是 32 的整数倍）
 
   lack-score: 积分不够啦
   repeated: 已经有人上传过这个材质了，直接添加到衣柜使用吧~
