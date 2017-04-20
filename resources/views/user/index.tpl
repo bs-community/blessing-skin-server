@@ -44,18 +44,16 @@
                                         $total = $statistics['storage']['total'];
                                     ?>
 
-                                    @if ($used > 1024)
-                                    <span class="progress-number">
-                                        <b>{{ round($used / 1024, 1) }}</b>/ {{ is_string($total) ? $total : round($total / 1024, 1) }} MB
+                                    <span class="progress-number" id="user-storage">
+                                        @if ($used > 1024)
+                                            <b>{{ round($used / 1024, 1) }}</b>/ {{ is_string($total) ? $total : round($total / 1024, 1) }} MB
+                                        @else
+                                            <b>{{ $used }}</b>/ {{ $total }} KB
+                                        @endif
                                     </span>
-                                    @else
-                                    <span class="progress-number">
-                                        <b>{{ $used }}</b>/ {{ $total }} KB
-                                    </span>
-                                    @endif
 
                                     <div class="progress sm">
-                                        <div class="progress-bar progress-bar-yellow" style="width: {{ $statistics['storage']['percentage'] }}%"></div>
+                                        <div class="progress-bar progress-bar-yellow" id="user-storage-bar" style="width: {{ $statistics['storage']['percentage'] }}%"></div>
                                     </div>
                                 </div><!-- /.progress-group -->
                             </div><!-- /.col -->

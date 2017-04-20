@@ -73,6 +73,7 @@ class UserController extends Controller
                 'errno'          => 0,
                 'msg'            => trans('user.sign-in-success', ['score' => $acuiredScore]),
                 'score'          => $this->user->getScore(),
+                'storage'        => $this->calculatePercentageUsed($this->user->getStorageUsed(), option('score_per_storage')),
                 'remaining_time' => round($this->user->getSignInRemainingTime() / 3600)
             ]);
         } else {
