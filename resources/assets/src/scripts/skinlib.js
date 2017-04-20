@@ -156,7 +156,11 @@ function handleFiles(files, type) {
                 img.onload = () => {
 
                     (type == "skin") ? MSP.changeSkin(img.src) : MSP.changeCape(img.src);
-                    $('#name').val($('#name').val() == "" ? file.name.split('.png')[0] : $('#name').val());
+                    let domTextureName = $('#name');
+                    if (domTextureName.val() === '' || domTextureName.val() === domTextureName.attr('data-last-file-name')) {
+                        domTextureName.attr('data-last-file-name', file.name);
+                        domTextureName.val(file.name);
+                    }
                 };
                 img.onerror = () => toastr.warning(trans('skinlib.fileExtError'));
 
