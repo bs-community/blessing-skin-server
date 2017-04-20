@@ -20,11 +20,11 @@ $('body').on('click', '#preview-switch', () => {
 
 var selected = [];
 
-$('body').on('click', '.item', function () {
-    $('.item-selected').removeClass('item-selected');
-    $(this).addClass('item-selected');
+$('body').on('click', '.item-body', function () {
+    $('.item-selected').parent().removeClass('item-selected');
+    $(this).parent().addClass('item-selected');
 
-    let tid = $(this).attr('tid');
+    let tid = $(this).parent().attr('tid');
 
     $.ajax({
         type: "POST",
