@@ -2,8 +2,8 @@
 /**
  * @Author: printempw
  * @Date:   2016-07-29 11:53:11
- * @Last Modified by:   printempw
- * @Last Modified time: 2017-01-20 19:24:21
+ * @Last Modified by:   g-plane
+ * @Last Modified time: 2017-04-21 13:01:49
  */
 
 return [
@@ -32,7 +32,7 @@ return [
     'version'                   => '',
     'check_update'              => 'true',
     'update_source'             => 'https://work.prinzeugen.net/update.json',
-    'copyright_text'            => '<strong>Copyright &copy; 2016 <a href="{site_url}">{site_name}</a>.</strong> All rights reserved.',
+    'copyright_text'            => '<strong>Copyright &copy; '.getdate()['year'].' <a href="{site_url}">{site_name}</a>.</strong> All rights reserved.',
     'auto_del_invalid_texture'  => 'false',
     'return_200_when_notfound'  => 'false',
     'cache_expire_time'         => '31536000',
