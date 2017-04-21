@@ -8,6 +8,8 @@ use Option;
 use Storage;
 use Session;
 use App\Models\User;
+use App\Models\Closet;
+use App\Models\Player;
 use App\Models\Texture;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -205,12 +207,24 @@ class SkinlibController extends Controller
     public function privacy(Request $request)
     {
         $t = Texture::find($request->input('tid'));
+        $type = $t->type;
+        $uid = session('uid');
 
         if (!$t)
             return json(trans('skinlib.non-existent'), 1);
 
         if ($t->uploader != $this->user->uid && !$this->user->isAdmin())
             return json(trans('skinlib.no-permission'), 1);
+
+        foreach (Player::where("tid_$type", $t->tid)->where('uid', '<>', $uid)->get() as $player) {
+            $player->setTexture(["tid_$type" => 0]);
+        }
+
+        foreach (Closet::all() as $closet) {
+            if ($closet->uid != $uid && $closet->has($t->tid)) {
+                $closet->remove($t->tid);
+            }
+        }
 
         if ($t->setPrivacy(!$t->public)) {
             return json([

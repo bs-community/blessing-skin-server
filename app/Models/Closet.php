@@ -238,4 +238,18 @@ class Closet
         $this->save();
     }
 
+    /**
+     * Get all closets.
+     *
+     * @return array
+     */
+    public static function all()
+    {
+        $result = [];
+        foreach (DB::table('closets')->lists('uid') as $uid) {
+            $result[] = new Closet($uid);
+        }
+        return $result;
+    }
+
 }
