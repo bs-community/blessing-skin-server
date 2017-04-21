@@ -25,10 +25,10 @@ score-intro:
     player: :score scores = 1 player
 
 closet:
-  upload: Uplaod Texture
+  upload: Upload Texture
   search: Search Texture
   switch-category: Switch Category
-  view: View in skin librariy
+  view: View in skin library
   more: More
   set-avatar: Set as avatar
   empty-msg: |
