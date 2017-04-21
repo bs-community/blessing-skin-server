@@ -30,7 +30,7 @@ class SkinlibController extends Controller
     {
         $filter  = $request->input('filter', 'skin');
         $sort    = $request->input('sort', 'time');
-        $uid     = $request->input('uid', 0);
+        $uid     = $request->input('uid', session('uid'));
         $page    = $request->input('page', 1);
         $page    = $page <= 0 ? 1 : $page;
 
@@ -51,8 +51,9 @@ class SkinlibController extends Controller
 
         if (!is_null($this->user)) {
             // show private textures when show uploaded textures of current user
-            if ($uid != $this->user->uid && !$this->user->isAdmin())
-                $textures = $textures->where('public', '1');
+            if (!$this->user->isAdmin())
+                $textures = $textures->where('public', '1')
+                                     ->orWhere('uploader', $this->user->uid);
         } else {
             $textures = $textures->where('public', '1');
         }
