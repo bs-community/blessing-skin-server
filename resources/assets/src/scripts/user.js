@@ -20,11 +20,11 @@ $('body').on('click', '#preview-switch', () => {
 
 var selected = [];
 
-$('body').on('click', '.item', function () {
-    $('.item-selected').removeClass('item-selected');
-    $(this).addClass('item-selected');
+$('body').on('click', '.item-body', function () {
+    $('.item-selected').parent().removeClass('item-selected');
+    $(this).parent().addClass('item-selected');
 
-    let tid = $(this).attr('tid');
+    let tid = $(this).parent().attr('tid');
 
     $.ajax({
         type: "POST",
@@ -553,6 +553,14 @@ function signIn() {
                 $('#score').html(json.score);
                 var dom = '<i class="fa fa-calendar-check-o"></i> &nbsp;' + trans('user.signInRemainingTime', { time: String(json.remaining_time) });
                 $('#sign-in-button').attr('disabled', 'disabled').html(dom);
+
+                if (json.storage.used > 1024) {
+                    $('#user-storage').html(`<b>${Math.round(json.storage.used)}</b>/ ${Math.round(json.storage.total)} MB`);
+                } else {
+                    $('#user-storage').html(`<b>${Math.round(json.storage.used)}</b>/ ${Math.round(json.storage.total)} KB`);
+                }
+
+                $('#user-storage-bar').css('width', `${json.storage.percentage}%`)
 
                 swal({
                     type: 'success',

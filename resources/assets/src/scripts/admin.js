@@ -187,6 +187,7 @@ function deleteUserAccount(uid) {
 $('body').on('keypress', '.score', function(event){
     if (event.which == 13) {
         changeUserScore($(this).parent().parent().attr('id'), $(this).val());
+        $(this).blur();
     }
 });
 

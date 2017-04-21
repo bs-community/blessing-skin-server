@@ -14,6 +14,7 @@ filter:
   steve-model: (Steve Model)
   alex-model: (Alex Model)
   uploader: User (:name) Uploaded
+  clean-filter: Clean Filter
 
 sort:
   newest-uploaded: Newestly Uploaded

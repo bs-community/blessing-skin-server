@@ -8,6 +8,8 @@ use Option;
 use Storage;
 use Session;
 use App\Models\User;
+use App\Models\Closet;
+use App\Models\Player;
 use App\Models\Texture;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -30,7 +32,7 @@ class SkinlibController extends Controller
     {
         $filter  = $request->input('filter', 'skin');
         $sort    = $request->input('sort', 'time');
-        $uid     = $request->input('uid', 0);
+        $uid     = $request->input('uid', session('uid'));
         $page    = $request->input('page', 1);
         $page    = $page <= 0 ? 1 : $page;
 
@@ -51,8 +53,9 @@ class SkinlibController extends Controller
 
         if (!is_null($this->user)) {
             // show private textures when show uploaded textures of current user
-            if ($uid != $this->user->uid && !$this->user->isAdmin())
-                $textures = $textures->where('public', '1');
+            if (!$this->user->isAdmin())
+                $textures = $textures->where('public', '1')
+                                     ->orWhere('uploader', $this->user->uid);
         } else {
             $textures = $textures->where('public', '1');
         }
@@ -194,7 +197,10 @@ class SkinlibController extends Controller
             Storage::delete($result['hash']);
 
         if (option('return_score')) {
-            $this->user->setScore($result->size * Option::get('score_per_storage'), 'plus');
+            if ($result->public == 1)
+                $this->user->setScore($result->size * Option::get('score_per_storage'), 'plus');
+            else
+                $this->user->setScore($result->size * Option::get('private_score_per_storage'), 'plus');
         }
 
         if ($result->delete())
@@ -204,12 +210,32 @@ class SkinlibController extends Controller
     public function privacy(Request $request)
     {
         $t = Texture::find($request->input('tid'));
+        $type = $t->type;
+        $uid = session('uid');
 
         if (!$t)
             return json(trans('skinlib.non-existent'), 1);
 
         if ($t->uploader != $this->user->uid && !$this->user->isAdmin())
             return json(trans('skinlib.no-permission'), 1);
+
+        foreach (Player::where("tid_$type", $t->tid)->where('uid', '<>', $uid)->get() as $player) {
+            $player->setTexture(["tid_$type" => 0]);
+        }
+
+        foreach (Closet::all() as $closet) {
+            if ($closet->uid != $uid && $closet->has($t->tid)) {
+                $closet->remove($t->tid);
+                if (option('return_score')) {
+                    User::find($closet->uid)->setScore(option('score_per_closet_item'), 'plus');
+                }
+            }
+        }
+
+        app('user.current')->setScore(
+            $t->size * (option('private_score_per_storage') - option('score_per_storage')) * ($t->public == 1 ? -1 : 1),
+            'plus'
+        );
 
         if ($t->setPrivacy(!$t->public)) {
             return json([

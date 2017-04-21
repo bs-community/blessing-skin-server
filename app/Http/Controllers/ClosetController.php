@@ -119,7 +119,7 @@ class ClosetController extends Controller
             $t->save();
 
             if (option('return_score'))
-                app('user.current')->setScore(option('score_per_closet_item'), 'minus');
+                app('user.current')->setScore(option('score_per_closet_item'), 'plus');
 
             return json(trans('user.closet.remove.success'), 0);
         } else {
