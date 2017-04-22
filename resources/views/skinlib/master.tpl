@@ -49,7 +49,7 @@
                                     <li><a href="?filter=user&uid={{ $user->uid }}&sort={{ $sort }}">{{ trans('skinlib.general.my-upload') }}</a></li>
                                     @endif
                                     <li class="divider"></li>
-                                    <li><a href="/skinlib">{{ trans('skinlib.filter.clean-filter') }}</a></li>
+                                    <li><a href="{{ url('skinlib') }}">{{ trans('skinlib.filter.clean-filter') }}</a></li>
                                 </ul>
                             </li>
 
