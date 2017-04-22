@@ -62,7 +62,7 @@
             setAsPublic: '设为公开',
             setPublicNotice: '要将此材质设置为公开吗？',
 
-            deleteNotice: '真的要删除此材质吗？积分将会被返还'
+            deleteNotice: '真的要删除此材质吗？'
         },
         user: {
             signInRemainingTime: ':time 小时后可签到',

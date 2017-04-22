@@ -62,7 +62,7 @@
             setAsPublic: 'Set as Public',
             setPublicNotice: 'Sure to set this as public texture?',
 
-            deleteNotice: 'Are you sure to delete this texture? Scores will be returned.'
+            deleteNotice: 'Are you sure to delete this texture?'
         },
         user: {
             signInRemainingTime: 'Available after :time hours',

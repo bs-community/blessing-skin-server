@@ -16,10 +16,11 @@ score-intro:
   title: What is score?
   introduction: |
     We use score system to prevent the behaviors like uplaoding huge amount of textures and registering players casually.
-    Both adding players and uplaoding textures will consume your score. The score will be returned if you deleted them.
-    Adding textures from skin library to your closet will not decline your score.
+    Both adding players and uplaoding textures will consume your score. :return-score
 
     The inital score of user on this site is :initial_score, you can acquire :score-from ~ :score-to scores by signing in.
+  will-return-score: The score will be returned if you deleted them.
+  no-return-score: But the score will NOT be returned if you deleted them.
   rates:
     storage: :score scores = 1 KB storage
     player: :score scores = 1 player
