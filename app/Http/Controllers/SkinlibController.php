@@ -153,6 +153,7 @@ class SkinlibController extends Controller
         $t->upload_at = Utils::getTimeFormatted();
 
         $cost = $t->size * (($t->public == "1") ? Option::get('score_per_storage') : Option::get('private_score_per_storage'));
+        $cost += option('score_per_closet_item');
 
         if ($this->user->getScore() < $cost)
             return json(trans('skinlib.upload.lack-score'), 7);
@@ -197,8 +198,15 @@ class SkinlibController extends Controller
             Storage::delete($result['hash']);
 
         if (option('return_score')) {
-            if ($result->public == 1)
+            if ($result->public == 1) {
                 $this->user->setScore($result->size * Option::get('score_per_storage'), 'plus');
+                foreach (Closet::all() as $closet) {
+                    if ($closet->has($result->tid)) {
+                        $closet->remove($result->tid);
+                        User::find($closet->uid)->setScore(option('score_per_closet_item'), 'plus');
+                    }
+                }
+            }
             else
                 $this->user->setScore($result->size * Option::get('private_score_per_storage'), 'plus');
         }
