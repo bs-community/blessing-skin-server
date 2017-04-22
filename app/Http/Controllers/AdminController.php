@@ -169,21 +169,11 @@ class AdminController extends Controller
     {
         $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at']);
 
-        $permissionTextMap = [
-            User::BANNED => trans('admin.users.status.banned'),
-            User::NORMAL => trans('admin.users.status.normal'),
-            User::ADMIN  => trans('admin.users.status.admin'),
-            User::SUPER_ADMIN => trans('admin.users.status.super-admin')
-        ];
-
         return Datatables::of($users)->editColumn('email', function ($user) {
             return $user->email ?: 'EMPTY';
-        })->editColumn('permission', function ($user) use ($permissionTextMap) {
-            return array_get($permissionTextMap, $user->permission);
         })
         ->setRowId('uid')
-        ->editColumn('score', 'vendor.admin-operations.users.score')
-        ->addColumn('operations', 'vendor.admin-operations.users.operations')
+        ->addColumn('operations', app('user.current')->getPermission())
         ->make(true);
     }
 
@@ -202,11 +192,7 @@ class AdminController extends Controller
     {
         $players = Player::select(['pid', 'uid', 'player_name', 'preference', 'tid_steve', 'tid_alex', 'tid_cape', 'last_modified']);
 
-        return Datatables::of($players)->editColumn('preference', 'vendor.admin-operations.players.preference')
-            ->setRowId('pid')
-            ->addColumn('previews', 'vendor.admin-operations.players.previews')
-            ->addColumn('operations', 'vendor.admin-operations.players.operations')
-            ->make(true);
+        return Datatables::of($players)->setRowId('pid')->make(true);
     }
 
     /**

@@ -42,28 +42,5 @@
 $(document).ready(function() {
     $('.box-body').css('min-height', $('.content-wrapper').height() - $('.content-header').outerHeight() - 120);
 });
-
-$('#user-table').DataTable({
-    language: trans('vendor.datatables'),
-    scrollX: true,
-    autoWidth: false,
-    processing: true,
-    serverSide: true,
-    ajax: '{{ url("admin/user-data") }}',
-    createdRow: function (row, data, index) {
-        $('td', row).eq(1).attr('id', 'email');
-        $('td', row).eq(2).attr('id', 'nickname');
-        $('td', row).eq(4).attr('id', 'permission');
-    },
-    columns: [
-        {data: 'uid', 'width': '1%'},
-        {data: 'email'},
-        {data: 'nickname'},
-        {data: 'score'},
-        {data: 'permission'},
-        {data: 'register_at'},
-        {data: 'operations', searchable: false, orderable: false}
-    ]
-});
 </script>
 @endsection

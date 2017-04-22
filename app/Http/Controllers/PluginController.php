@@ -75,13 +75,13 @@ class PluginController extends Controller
                 return trans($plugin->description);
             })
             ->editColumn('author', function ($plugin) {
-                return "<a href='{$plugin->url}' target='_blank'>".trans($plugin->author)."</a>";
+                return ['author' => trans($plugin->author), 'url' => $plugin->url];
             })
             ->addColumn('status', function ($plugin) {
                 return trans('admin.plugins.status.'.($plugin->isEnabled() ? 'enabled' : 'disabled'));
             })
             ->addColumn('operations', function ($plugin) {
-                return view('vendor.admin-operations.plugins.operations', compact('plugin'));
+                return ['enabled' => $plugin->isEnabled(), 'hasConfigView' => $plugin->hasConfigView()];
             })
             ->make(true);
     }

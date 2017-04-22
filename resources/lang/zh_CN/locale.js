@@ -95,38 +95,52 @@
             emptyDeletePassword: '请先输入当前用户密码'
         },
         admin: {
-            // Change User Profile
-            newUserEmail: '请输入新邮箱：',
-            newUserNickname: '请输入新昵称：',
-            newUserPassword: '请输入新密码：',
-            deleteUserNotice: '真的要删除此用户吗？此操作不可恢复',
-            changePlayerOwner: '请输入此角色要让渡至的用户 UID：',
-            deletePlayerNotice: '真的要删除此角色吗？此操作不可恢复',
+            operationsTitle: '更多操作',
 
-            // Status
-            banned: '封禁',
-            normal: '正常',
-            admin:  '管理员',
-
-            // Operations
+            // Users
             ban: '封禁',
             unban: '解封',
             setAdmin: '设为管理员',
             unsetAdmin: '解除管理员',
+            deleteUser: '删除用户',
+            cannotDeleteAdmin: '你不能删除管理员账号哦',
+            cannotDeleteSuperAdmin: '超级管理员账号不能被这样删除的啦',
+            changeEmail: '修改邮箱',
+            changeNickName: '修改昵称',
+            changePassword: '更改密码',
+            newUserEmail: '请输入新邮箱：',
+            newUserNickname: '请输入新昵称：',
+            newUserPassword: '请输入新密码：',
+            deleteUserNotice: '真的要删除此用户吗？此操作不可恢复',
+            scoreTip: '输入修改后的积分，回车提交',
 
-            // Change Player Texture
+            // Status
+            banned: '封禁',
+            normal: '普通用户',
+            admin: '管理员',
+            superAdmin: '超级管理员',
+
+            // Players
             textureType: '材质类型',
             skin: '皮肤（:model 模型）',
             cape: '披风',
             pid: '材质 ID',
             pidNotice: '输入要更换的材质的 TID',
             changePlayerTexture: '更换角色 :player 的材质',
+            changeTexture: '更换材质',
+            changeOwner: '更换角色拥有者',
+            deletePlayer: '删除角色',
+            changePlayerOwner: '请输入此角色要让渡至的用户 UID：',
+            deletePlayerNotice: '真的要删除此角色吗？此操作不可恢复',
 
             // Index
             textureUploads: '材质上传',
             userRegistration: '用户注册',
 
             // Plugins
+            configurePlugin: '插件配置',
+            noPluginConfigNotice: '插件已被禁用或无配置页',
+            deletePlugin: '删除插件',
             statusEnabled: '已启用',
             statusDisabled: '已禁用',
             enablePlugin: '启用插件',

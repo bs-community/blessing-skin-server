@@ -95,38 +95,52 @@
             emptyDeletePassword: 'Please enter the current password:'
         },
         admin: {
-            // Change User Profile
-            newUserEmail: 'Please enter the new email:',
-            newUserNickname: 'Please enter the new nickname:',
-            newUserPassword: 'Please enter the new password:',
-            deleteUserNotice: 'Are you sure to delete this user? It\' permanent.',
-            changePlayerOwner: 'Please enter the id of user which this player should be transferred to:',
-            deletePlayerNotice: 'Are you sure to delete this player? It\' permanent.',
+            operationsTitle: 'Operations',
 
-            // Status
-            banned: 'Banned',
-            normal: 'Normal',
-            admin:  'Admin',
-
-            // Operations
+            // Users
             ban: 'Ban',
             unban: 'Unban',
             setAdmin: 'Set as admin',
             unsetAdmin: 'Remove admin',
+            deleteUser: 'Delete User',
+            cannotDeleteAdmin: 'You can\'t delete admins.',
+            cannotDeleteSuperAdmin: 'You can\'t delete super admin in this way',
+            changeEmail: 'Edit Email',
+            changeNickName: 'Edit Nickname',
+            changePassword: 'Edit Password',
+            newUserEmail: 'Please enter the new email:',
+            newUserNickname: 'Please enter the new nickname:',
+            newUserPassword: 'Please enter the new password:',
+            deleteUserNotice: 'Are you sure to delete this user? It\' permanent.',
+            scoreTip: 'Press ENTER to submit new score',
 
-            // Change Player Texture
+            // Status
+            banned: 'Banned',
+            normal: 'Normal',
+            admin: 'Admin',
+            superAdmin: 'Super Admin',
+
+            // Players
             textureType: 'Texture Type',
             skin: 'Skin (:model Model)',
             cape: 'Cape',
             pid: 'Texture ID',
             pidNotice: 'Please enter the tid of texture',
             changePlayerTexture: 'Change textures of :player',
+            changeTexture: 'Change Textures',
+            changeOwner: 'Change Owner',
+            deletePlayer: 'Delete',
+            changePlayerOwner: 'Please enter the id of user which this player should be transferred to:',
+            deletePlayerNotice: 'Are you sure to delete this player? It\' permanent.',
 
             // Index
             textureUploads: 'Texture Uploads',
             userRegistration: 'User Registration',
 
             // Plugins
+            configurePlugin: 'Configure',
+            noPluginConfigNotice: 'The plugin has been disabled or no configuration is provided.',
+            deletePlugin: 'Delete',
             statusEnabled: 'Enabled',
             statusDisabled: 'Disabled',
             enablePlugin: 'Enable',

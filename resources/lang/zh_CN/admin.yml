@@ -12,8 +12,6 @@ users:
     banned: 封禁
     admin: 管理员
     super-admin: 超级管理员
-  score:
-    tip: 输入修改后的积分，回车提交
   operations:
     title: 更多操作
     non-existent: 用户不存在
@@ -100,12 +98,6 @@ plugins:
 
   operations:
     title: 操作
-    disable: 禁用插件
-    enable: 启用插件
-    configure: 插件配置
-    no-config-notice: 插件已被禁用或无配置页
-    delete: 删除插件
-
     enabled: :plugin 已启用
     disabled: :plugin 已禁用
     deleted: 插件已被成功删除

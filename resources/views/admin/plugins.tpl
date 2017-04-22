@@ -47,32 +47,3 @@
 </div><!-- /.content-wrapper -->
 
 @endsection
-
-@section('script')
-<script type="text/javascript">
-
-var table = $('#plugin-table').DataTable({
-    language: trans('vendor.datatables'),
-    scrollX: true,
-    pageLength: 25,
-    autoWidth: false,
-    processing: true,
-    serverSide: true,
-    ajax: '{{ url("admin/plugins/data") }}',
-    createdRow: function (row, data, index) {
-        $('td', row).eq(1).attr('id', 'description');
-        $('td', row).eq(2).attr('id', 'author');
-        $('td', row).eq(3).attr('id', 'version');
-        $('td', row).eq(4).attr('id', 'status');
-    },
-    columns: [
-        {data: 'title'},
-        {data: 'description', 'width': '35%'},
-        {data: 'author'},
-        {data: 'version'},
-        {data: 'status'},
-        {data: 'operations', searchable: false, orderable: false}
-    ]
-});
-</script>
-@endsection

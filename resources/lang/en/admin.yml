@@ -12,8 +12,6 @@ users:
     banned: Banned
     admin: Admin
     super-admin: Super Admin
-  score:
-    tip: Press enter to submit new score
   operations:
     title: Operations
     non-existent: No such user.
@@ -100,12 +98,6 @@ plugins:
 
   operations:
     title: Operations
-    disable: Disable
-    enable: Enable
-    configure: Configure
-    no-config-notice: The plugin has been disabled or no configuration is provided.
-    delete: Delete
-
     enabled: :plugin has been enabled.
     disabled: :plugin has been disabled.
     deleted: The plugin was deleted successfully.
