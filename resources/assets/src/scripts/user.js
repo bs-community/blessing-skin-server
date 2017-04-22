@@ -81,10 +81,11 @@ function showPlayerTexturePreview(pid) {
     });
 }
 
-function renameClosetItem(tid) {
+function renameClosetItem(tid, oldName) {
     swal({
         title: trans('user.renameClosetItem'),
         input: 'text',
+        inputValue: oldName,
         showCancelButton: true,
         inputValidator: function(value) {
             return new Promise(function(resolve, reject) {

@@ -12,7 +12,7 @@
         <span title="{{ trans('user.closet.more') }}" class="more" data-toggle="dropdown" aria-haspopup="true" id="more-button"><i class="fa fa-cog"></i></span>
 
         <ul class="dropup dropdown-menu" aria-labelledby="more-button">
-            <li><a href="javascript:renameClosetItem({{ $item->tid }});">{{ trans('user.closet.rename.title') }}</a></li>
+            <li><a href="javascript:renameClosetItem({{ $item->tid }}, '{{ $item->name }}');">{{ trans('user.closet.rename.title') }}</a></li>
             <li><a href="javascript:removeFromCloset({{ $item->tid }});">{{ trans('user.closet.remove.title') }}</a></li>
             <li><a href="javascript:setAsAvatar({{ $item->tid }});">{{ trans('user.closet.set-avatar') }}</a></li>
         </ul>
