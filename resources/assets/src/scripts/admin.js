@@ -534,10 +534,10 @@ function initUsersTable() {
                         }
                         if (row.permission === -1) {
                             bannedOption = `<li class="divider"></li>
-                            <li><a id="ban" href="javascript:changeBanStatus(${row.uid});">${trans('admin.ban')}</a></li>`;
+                            <li><a id="ban" href="javascript:changeBanStatus(${row.uid});">${trans('admin.unban')}</a></li>`;
                         } else {
                             bannedOption = `<li class="divider"></li>
-                            <li><a id="ban" href="javascript:changeBanStatus(${row.uid});">${trans('admin.unban')}</a></li>`;
+                            <li><a id="ban" href="javascript:changeBanStatus(${row.uid});">${trans('admin.ban')}</a></li>`;
                         }
                     }
 
