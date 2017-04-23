@@ -18,13 +18,13 @@ $('body').on('click', '#preview-switch', () => {
     TexturePreview.previewType == '3D' ? TexturePreview.show2dPreview() : TexturePreview.show3dPreview();
 });
 
-var selected = [];
+let skinSelected = false, capeSelected = false;
 
 $('body').on('click', '.item-body', function () {
     $('.item-selected').parent().removeClass('item-selected');
     $(this).parent().addClass('item-selected');
 
-    let tid = $(this).parent().attr('tid');
+    const tid = $(this).parent().attr('tid');
 
     $.ajax({
         type: "POST",
@@ -33,23 +33,94 @@ $('body').on('click', '.item-body', function () {
         success: (json) => {
             if (json.type == "cape") {
                 MSP.changeCape('../textures/' + json.hash);
-                selected['cape'] = tid;
+                capeSelected = true;
             } else {
                 MSP.changeSkin('../textures/' + json.hash);
-                selected['skin'] = tid;
+                skinSelected = true;
             }
 
-            selected.length = 0;
-
-            ['skin', 'cape'].forEach((key) => {
-                if (selected[key] !== undefined) selected.length++;
-
-                $('#textures-indicator').html(selected.length);
-            });
+            if (skinSelected && capeSelected)
+                $('#textures-indicator').text(`${trans('general.skin')} & ${trans('general.cape')}`);
+            else if (skinSelected)
+                $('#textures-indicator').text(trans('general.skin'));
+            else if (capeSelected)
+                $('#textures-indicator').text(trans('general.cape'));
         },
         error: showAjaxError
     });
 });
+
+$('body').on('click', '.category-switch', () => {
+    const category = $('a[href="#skin-category"]').parent().hasClass('active') ? 'cape' : 'skin';
+    const page = parseInt($('#closet-paginator').attr(`last-${category}-page`));
+    const search = $('input[name=q]').val();
+    reloadCloset(category, page, search);
+});
+
+function renderClosetItemComponent(item, rootPath) {
+    return `
+    <div class="item" tid="${item.tid}">
+    <div class="item-body">
+        <img src="${rootPath}/preview/${item.tid}.png">
+    </div>
+    <div class="item-footer">
+        <p class="texture-name">
+            <span title="${item.name}">${item.name} <small>(${item.type})</small></span>
+        </p>
+
+        <a href="${rootPath}/skinlib/show/${item.tid}" title="${trans('user.viewInSkinlib')}" class="more" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-share"></i></a>
+        <span title="${trans('general.more')}" class="more" data-toggle="dropdown" aria-haspopup="true" id="more-button"><i class="fa fa-cog"></i></span>
+
+        <ul class="dropup dropdown-menu" aria-labelledby="more-button">
+            <li><a href="javascript:renameClosetItem(${item.tid}, '${item.name}');">${trans('user.renameItem')}</a></li>
+            <li><a href="javascript:removeFromCloset(${item.tid});">${trans('user.removeItem')}</a></li>
+            <li><a href="javascript:setAsAvatar(${item.tid});">${trans('user.setAsAvatar')}</a></li>
+        </ul>
+    </div>
+</div>`;
+}
+
+function renderCloset(items, category) {
+    const rootPath = /(^https?.*)\/user\/closet/.exec(window.location.href)[1];
+    const search = $('input[name=q]').val();
+    let container = $(`#${category}-category`);
+    container.html('');
+    if (items.length === 0) {
+        $('#closet-paginator').hide();
+        if (search === '') {
+            container.html(`<div class="empty-msg">
+            ${trans('user.emptyClosetMsg', { url: rootPath + '/skinlib?filter=' + category })}</div>`);
+        } else {
+            container.html(`<div class="empty-msg">${trans('general.noResult')}</div>`);
+        }
+    } else {
+        $('#closet-paginator').show();
+        for (const item of items) {
+            container.append(renderClosetItemComponent(item, rootPath));
+        }
+    }
+}
+
+function reloadCloset(category, page, search) {
+    Promise.resolve($.ajax({
+        type: 'GET',
+        url: /(^https?.*)\/user\/closet/.exec(window.location.href)[1] + '/user/closet-data',
+        dataType: 'json',
+        data: {
+            category: category,
+            page: page,
+            q: search
+        }
+    })).then(result => {
+        renderCloset(result.items, result.category);
+        let paginator = $('#closet-paginator');
+        paginator.attr(`last-${result.category}-page`, page);
+        paginator.jqPaginator('option', {
+            currentPage: page,
+            totalPages: result.total_pages
+        });
+    }).catch(error => showAjaxError);
+}
 
 function showPlayerTexturePreview(pid) {
     $.ajax({
@@ -179,6 +250,43 @@ $(document).ready(function() {
         confirmButtonText: trans('general.confirm'),
         cancelButtonText: trans('general.cancel')
     });
+
+    if (window.location.pathname.includes('/user/closet')) {
+        Promise.resolve($.ajax({
+            type: 'GET',
+            url: /(^https?.*)\/user\/closet/.exec(window.location.href)[1] + '/user/closet-data',
+            dataType: 'json'
+        })).then(result => {
+            renderCloset(result.items, result.category);
+            $('#closet-paginator').jqPaginator({
+                totalPages: result.total_pages,
+                visiblePages: 5,
+                currentPage: 1,
+                first: '<li><a style="cursor: pointer;">«</a></li>',
+                prev: '<li><a style="cursor: pointer;">‹</a></li>',
+                next: '<li><a style="cursor: pointer;">›</a></li>',
+                last: '<li><a style="cursor: pointer;">»</a></li>',
+                page: '<li><a style="cursor: pointer;">{{page}}</a></li>',
+                wrapper: '<ul class="pagination pagination-sm no-margin"></ul>',
+                onPageChange: page => {
+                    reloadCloset(
+                        $('#skin-category').hasClass('active') ? 'skin' : 'cape',
+                        page,
+                        $('input[name=q]').val()
+                    );
+                }
+            });
+        }).catch(error => showAjaxError);
+
+        $('input[name=q]').on('input', _.debounce(() => {
+            const category = $('#skin-category').hasClass('active') ? 'skin' : 'cape';
+            reloadCloset(
+                category,
+                1,
+                $('input[name=q]').val()
+            );
+        }, 350));
+    }
 });
 
 function setTexture() {

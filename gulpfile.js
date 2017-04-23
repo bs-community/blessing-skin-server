@@ -25,6 +25,7 @@ var srcPath  = 'resources/assets/src/';
 var distPath = 'resources/assets/dist/';
 
 var vendorScripts = [
+    'lodash/dist/lodash.min.js',
     'jquery/dist/jquery.min.js',
     'bootstrap/dist/js/bootstrap.min.js',
     'AdminLTE/dist/js/app.min.js',
@@ -35,6 +36,7 @@ var vendorScripts = [
     'toastr/toastr.min.js',
     'es6-promise/es6-promise.auto.min.js',
     'sweetalert2/dist/sweetalert2.min.js',
+    'jqPaginator/dist/jqPaginator.min.js',
     'resources/assets/dist/scripts/general.js',
 ];
 

@@ -35,13 +35,11 @@ score-intro:
 closet:
   upload: 上传材质
   search: 搜索材质
+  type-to-search: 输入即搜索
   switch-category: 切换分类
   view: 在皮肤库中查看
   more: 更多
   set-avatar: 设为头像
-  empty-msg: |
-    <p>衣柜里啥都没有哦~</p>
-    <p>去<a href=":url">皮肤库</a>看看吧~</p>
 
   use-as:
     button: 使用...

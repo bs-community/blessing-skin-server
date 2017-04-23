@@ -26,51 +26,30 @@
                 <div class="nav-tabs-custom">
                     <!-- Tabs within a box -->
                     <ul class="nav nav-tabs">
-                        <li class="active"><a href="#skin-category" data-toggle="tab">{{ trans('general.skin') }}</a></li>
-                        <li><a href="#cape-category" data-toggle="tab">{{ trans('general.cape') }}</a></li>
+                        <li class="active"><a href="#skin-category" class="category-switch" data-toggle="tab">{{ trans('general.skin') }}</a></li>
+                        <li><a href="#cape-category" class="category-switch" data-toggle="tab">{{ trans('general.cape') }}</a></li>
 
-                        <div style="padding: 7px;">
+                        <li class="pull-right" style="padding: 7px;">
                             <div class="has-feedback pull-right">
-                                <form method="get" action="" class="user-search-form">
-                                    <input type="text" name="q" class="form-control input-sm" placeholder="输入，回车搜索" value="{{ $q }}">
+                                <div class="user-search-form">
+                                    <input type="text" name="q" class="form-control input-sm" placeholder="{{ trans('user.closet.type-to-search') }}">
                                     <span class="glyphicon glyphicon-search form-control-feedback"></span>
-                                </form>
+                                </div>
                             </div>
-                        </div>
+                        </li>
                     </ul>
                     <div class="tab-content no-padding">
-                        <div class="tab-pane active box-body" id="skin-category">
-                            @include('vendor.closet-items', ['items' => (array)array_get($items, 'skin')])
-                        </div>
-
-                        <div class="tab-pane box-body" id="cape-category">
-                            @include('vendor.closet-items', ['items' => (array)array_get($items, 'cape')])
-                        </div>
+                        <div class="tab-pane active box-body" id="skin-category"></div>
+                        <div class="tab-pane box-body" id="cape-category"></div>
                     </div>
                     <div class="box-footer">
-                        <ul class="pagination pagination-sm no-margin pull-right">
-                            <?php $base_url = $q ? "?q=$q&" : "?"; ?>
-
-                            <li><a href="{{ $base_url }}page=1">«</a></li>
-                            @if ($page != 1)
-                            <li><a href="{{ $base_url }}page={{ $page-1 }}">{{ $page - 1 }}</a></li>
-                            @endif
-
-                            <li><a href="{{ $base_url }}page={{ $page }}" class="active">{{ $page }}</a></li>
-
-                            @if ($total_pages > $page)
-                            <li><a href="{{ $base_url }}page={{ $page+1 }}">{{ $page+1 }}</a></li>
-                            @endif
-
-                            <li><a href="{{ $base_url }}page={{ $total_pages }}">»</a></li>
-                        </ul>
-                        <p class="pull-right">{{ trans('general.pagination', ['page' => $page, 'total' => $total_pages]) }}</p>
+                        <div class="pull-right" id="closet-paginator" last-skin-page="1" last-cape-page="1"></div>
                     </div>
                 </div><!-- /.nav-tabs-custom -->
 
             </div>
 
-            <!-- Left col -->
+            <!-- Right col -->
             <div class="col-md-4">
 
                 <div class="box box-default">

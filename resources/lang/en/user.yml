@@ -28,13 +28,11 @@ score-intro:
 closet:
   upload: Upload Texture
   search: Search Texture
+  type-to-search: Type to search
   switch-category: Switch Category
   view: View in skin library
   more: More
   set-avatar: Set as avatar
-  empty-msg: |
-    <p>Nothing in your closet...</p>
-    <p>Why not explore the <a href=":url">Skin Library</a> for a while?</p>
 
   use-as:
     button: Apply...

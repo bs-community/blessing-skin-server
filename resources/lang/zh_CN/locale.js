@@ -68,6 +68,11 @@
             signInRemainingTime: ':time 小时后可签到',
 
             // Closet
+            emptyClosetMsg: '<p>衣柜里啥都没有哦~</p><p>去<a href=":url">皮肤库</a>看看吧~</p>',
+            renameItem: '重命名物品',
+            removeItem: '从衣柜中移除',
+            setAsAvatar: '设为头像',
+            viewInSkinlib: '在皮肤库中查看',
             switch2dPreview: '切换 2D 预览',
             switch3dPreview: '切换 3D 预览',
             removeFromClosetNotice: '确定要从衣柜中移除此材质吗？',
@@ -153,10 +158,14 @@
             extracting: '正在解压更新包'
         },
         general: {
+            skin: '皮肤',
+            cape: '披风',
             fatalError: '严重错误（请联系作者）',
             confirmLogout: '确定要登出吗？',
             confirm: '确定',
-            cancel:  '取消'
+            cancel: '取消',
+            more: '更多',
+            noResult: '无结果'
         },
         vendor: {
             datatables: {

@@ -68,6 +68,11 @@
             signInRemainingTime: 'Available after :time hours',
 
             // Closet
+            emptyClosetMsg: '<p>Nothing in your closet...</p><p>Why not explore the <a href=":url">Skin Library</a> for a while?</p>',
+            renameItem: 'Rename item',
+            removeItem: 'Remove from closet',
+            setAsAvatar: 'Set as avatar',
+            viewInSkinlib: 'View in skin library',
             switch2dPreview: 'Switch to 2D Preview',
             switch3dPreview: 'Switch to 3D Preview',
             removeFromClosetNotice: 'Sure to remove this texture from your closet?',
@@ -153,10 +158,14 @@
             extracting: 'Extracting update package..'
         },
         general: {
+            skin: 'Skin',
+            cape: 'Cape',
             fatalError: 'Fatal Error (Please contact the author)',
             confirmLogout: 'Sure to log out?',
             confirm: 'OK',
-            cancel: 'Cancel'
+            cancel: 'Cancel',
+            more: 'More',
+            noResult: 'No result.'
         }
     };
 })(window.jQuery);

@@ -65,6 +65,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'user'], function ()
 
     // Closet
     Route::get ('/closet',               'ClosetController@index');
+    Route::get ('/closet-data',          'ClosetController@getClosetData');
     Route::post('/closet/add',           'ClosetController@add');
     Route::post('/closet/remove',        'ClosetController@remove');
     Route::post('/closet/rename',        'ClosetController@rename');
