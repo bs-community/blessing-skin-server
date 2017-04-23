@@ -54,67 +54,75 @@ $('#color-submit').click(function() {
 });
 
 function changeUserEmail(uid) {
-    var email = prompt(trans('admin.newUserEmail'));
-
-    if (!email) return;
-
-    $.ajax({
-        type: "POST",
-        url: "./users?action=email",
-        dataType: "json",
-        data: { 'uid': uid, 'email': email },
-        success: function(json) {
-            if (json.errno == 0) {
-                $($('tr#'+uid+' > td')[1]).html(email);
-                toastr.success(json.msg);
-            } else {
-                toastr.warning(json.msg);
-            }
-        },
-        error: showAjaxError
+    let dom = $(`tr#${uid} > td:nth-child(2)`);
+    swal({
+        text: trans('admin.newUserEmail'),
+        showCancelButton: true,
+        input: 'text',
+        inputValue: dom.text()
+    }).then(email => {
+        $.ajax({
+            type: "POST",
+            url: "./users?action=email",
+            dataType: "json",
+            data: { 'uid': uid, 'email': email },
+            success: json => {
+                if (json.errno == 0) {
+                    dom.text(email);
+                    toastr.success(json.msg);
+                } else {
+                    toastr.warning(json.msg);
+                }
+            },
+            error: showAjaxError
+        });
     });
 }
 
 function changeUserNickName(uid) {
-    var nickname = prompt(trans('admin.newUserNickname'));
-
-    if (!nickname) return;
-
-    $.ajax({
-        type: "POST",
-        url: "./users?action=nickname",
-        dataType: "json",
-        data: { 'uid': uid, 'nickname': nickname },
-        success: function(json) {
-            if (json.errno == 0) {
-                $($('tr#'+uid+' > td')[2]).html(nickname);
-                toastr.success(json.msg);
-            } else {
-                toastr.warning(json.msg);
-            }
-        },
-        error: showAjaxError
+    let dom = $(`tr#${uid} > td:nth-child(3)`);
+    swal({
+        text: trans('admin.newUserNickname'),
+        showCancelButton: true,
+        input: 'text',
+        inputValue: dom.text()
+    }).then(nickname => {
+        $.ajax({
+            type: "POST",
+            url: "./users?action=nickname",
+            dataType: "json",
+            data: { 'uid': uid, 'nickname': nickname },
+            success: json => {
+                if (json.errno == 0) {
+                    dom.text(nickname);
+                    toastr.success(json.msg);
+                } else {
+                    toastr.warning(json.msg);
+                }
+            },
+            error: showAjaxError
+        });
     });
 }
 
 function changeUserPwd(uid) {
-    var password = prompt(trans('admin.newUserPassword'));
-
-    if (!password) return;
-
-    $.ajax({
-        type: "POST",
-        url: "./users?action=password",
-        dataType: "json",
-        data: { 'uid': uid, 'password': password },
-        success: function(json) {
-            if (json.errno == 0)
-                toastr.success(json.msg);
-            else
-                toastr.warning(json.msg);
-        },
-        error: showAjaxError
-    });
+    swal({
+        text: trans('admin.newUserPassword'),
+        showCancelButton: true,
+        input: 'password',
+    }).then(password => {
+        return Promise.resolve($.ajax({
+            type: "POST",
+            url: "./users?action=password",
+            dataType: "json",
+            data: { 'uid': uid, 'password': password }
+        }));
+    }).then(json => {
+        if (json.errno == 0)
+            toastr.success(json.msg);
+        else
+            toastr.warning(json.msg);
+    }).catch(error => showAjaxError);
 }
 
 function changeUserScore(uid, score) {
@@ -182,23 +190,25 @@ function changeAdminStatus(uid) {
 }
 
 function deleteUserAccount(uid) {
-    if (!window.confirm(trans('admin.deleteUserNotice'))) return;
-
-    $.ajax({
-        type: "POST",
-        url: "./users?action=delete",
-        dataType: "json",
-        data: { 'uid': uid },
-        success: function(json) {
-            if (json.errno == 0) {
-                $('tr#'+uid).remove();
-                toastr.success(json.msg);
-            } else {
-                toastr.warning(json.msg);
-            }
-        },
-        error: showAjaxError
-    });
+    swal({
+        text: trans('admin.deleteUserNotice'),
+        type: 'warning',
+        showCancelButton: true
+    }).then(() => {
+        return Promise.resolve($.ajax({
+            type: "POST",
+            url: "./users?action=delete",
+            dataType: "json",
+            data: { 'uid': uid }
+        }))
+    }).then(json => {
+        if (json.errno == 0) {
+            $('tr#' + uid).remove();
+            toastr.success(json.msg);
+        } else {
+            toastr.warning(json.msg);
+        }
+    }).catch(error => showAjaxError);
 }
 
 $('body').on('keypress', '.score', function(event){
@@ -275,45 +285,55 @@ function ajaxChangeTexture(pid) {
 }
 
 function changeOwner(pid) {
-    var uid = prompt(trans('admin.changePlayerOwner'));
-
-    if (!uid) return;
-
-    $.ajax({
-        type: "POST",
-        url: "./players?action=owner",
-        dataType: "json",
-        data: { 'pid': pid, 'uid': uid },
-        success: function(json) {
-            if (json.errno == 0) {
-                $($('#'+pid).children()[1]).text(uid);
-                toastr.success(json.msg);
-            } else {
-                toastr.warning(json.msg);
-            }
-        },
-        error: showAjaxError
+    let dom = $(`#${pid} > td:nth-child(2)`);
+    swal({
+        text: trans('admin.changePlayerOwner'),
+        input: 'number',
+        inputValue: dom.text(),
+        showCancelButton: true
+    }).then(uid => {
+        $.ajax({
+            type: "POST",
+            url: "./players?action=owner",
+            dataType: "json",
+            data: { 'pid': pid, 'uid': uid },
+            success: function (json) {
+                if (json.errno == 0) {
+                    $($('#' + pid).children()[1]).text(uid);
+                    toastr.success(json.msg);
+                } else {
+                    toastr.warning(json.msg);
+                }
+            },
+            error: showAjaxError
+        });
     });
 }
 
 function deletePlayer(pid) {
-    if (!window.confirm(trans('admin.deletePlayerNotice'))) return;
+    swal({
+        text: trans('admin.deletePlayerNotice'),
+        type: 'warning',
+        showCancelButton: true
+    }).then(() => {
+        return Promise.resolve($.ajax({
+            type: "POST",
+            url: "./players?action=delete",
+            dataType: "json",
+            data: { 'pid': pid },
+            success: function (json) {
 
-    $.ajax({
-        type: "POST",
-        url: "./players?action=delete",
-        dataType: "json",
-        data: { 'pid': pid },
-        success: function(json) {
-            if (json.errno == 0) {
-                $('tr#'+pid).remove();
-                toastr.success(json.msg);
-            } else {
-                toastr.warning(json.msg);
-            }
-        },
-        error: showAjaxError
-    });
+            },
+            error: showAjaxError
+        }))
+    }).then(json => {
+        if (json.errno == 0) {
+            $('tr#' + pid).remove();
+            toastr.success(json.msg);
+        } else {
+            toastr.warning(json.msg);
+        }
+    }).catch(error => showAjaxError);
 }
 
 function enablePlugin(name) {
