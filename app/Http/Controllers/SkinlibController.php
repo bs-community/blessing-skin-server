@@ -56,7 +56,7 @@ class SkinlibController extends Controller
                                      ->merge($textures->where('uploader', $this->user->uid));
             }
         } else {
-            $textures = $textures->where('public', '1');
+            $textures = $textures->where('public', 1);
         }
 
         $total_pages = ceil($textures->count() / 20);
@@ -88,7 +88,7 @@ class SkinlibController extends Controller
         } else {
             $textures = Texture::like('name', $q)
                                 ->where('type', $filter)
-                                ->where('public', '1')
+                                ->where('public', 1)
                                 ->orderBy($sort_by, 'desc')->get();
         }
 
@@ -99,7 +99,7 @@ class SkinlibController extends Controller
                                      ->merge($textures->where('uploader', $this->user->uid));
             }
         } else {
-            $textures = $textures->where('public', '1');
+            $textures = $textures->where('public', 1);
         }
 
         return view('skinlib.search')->with('user', $this->user)
