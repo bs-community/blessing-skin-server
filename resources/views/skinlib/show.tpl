@@ -58,7 +58,13 @@
                                     </tr>
                                     <tr>
                                         <td>{{ trans('skinlib.show.model') }}</td>
-                                        <td>{{ $texture->type }}</td>
+                                        <td>
+                                            @if ($texture->type == 'cape')
+                                                {{ trans('general.cape') }}
+                                            @else
+                                                {{ $texture->type }}
+                                            @endif
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Hash
