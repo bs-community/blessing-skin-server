@@ -75,7 +75,7 @@
                                     <tr>
                                         <td>{{ trans('skinlib.show.uploader') }}</td>
                                         @if ($uploader = app('users')->get($texture->uploader))
-                                        <td><a href="{{ url('skinlib?filter=user&uid='.$uploader->uid) }}&sort=time">{{ $uploader->getNickName() }}</a></td>
+                                        <td><a href="{{ url('skinlib?filter='.($texture->type == 'cape' ? 'cape' : 'skin').'&uid='.$uploader->uid) }}&sort=time">{{ $uploader->getNickName() }}</a></td>
                                         @else
                                         <td><a href="#">{{ trans('general.unexistent-user') }}</a></td>
                                         @endif
