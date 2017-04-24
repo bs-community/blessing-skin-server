@@ -82,8 +82,7 @@ class SkinlibController extends Controller
 
         if ($filter == "skin") {
             $textures = Texture::like('name', $q)->where(function($query) use ($q) {
-                $query->where('public', '=', '1')
-                      ->where('type',   '=', 'steve')
+                $query->where('type',   '=', 'steve')
                       ->orWhere('type', '=', 'alex');
             })->orderBy($sort_by, 'desc')->get();
         } else {
@@ -91,6 +90,16 @@ class SkinlibController extends Controller
                                 ->where('type', $filter)
                                 ->where('public', '1')
                                 ->orderBy($sort_by, 'desc')->get();
+        }
+
+        if (!is_null($this->user)) {
+            // show private textures when show uploaded textures of current user
+            if (!$this->user->isAdmin()) {
+                $textures = $textures->where('public', 1)
+                                     ->merge($textures->where('uploader', $this->user->uid));
+            }
+        } else {
+            $textures = $textures->where('public', '1');
         }
 
         return view('skinlib.search')->with('user', $this->user)
