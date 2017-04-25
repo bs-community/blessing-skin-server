@@ -80,6 +80,10 @@ class SkinlibController extends Controller
 
         $sort_by = ($sort == "time") ? "upload_at" : $sort;
 
+        if ($q == '') {
+            return redirect('skinlib');
+        }
+
         if ($filter == "skin") {
             $textures = Texture::like('name', $q)->where(function($query) use ($q) {
                 $query->where('type',   '=', 'steve')
