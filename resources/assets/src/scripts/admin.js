@@ -1,8 +1,8 @@
 /*
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
- * @Last Modified by:   printempw
- * @Last Modified time: 2017-01-21 10:58:50
+ * @Last Modified by: g-plane
+ * @Last Modified time: 2017-04-25 17:30:11
  */
 
 'use strict';
@@ -10,6 +10,10 @@
 $(document).ready(function() {
     $('input').iCheck({
         checkboxClass: 'icheckbox_square-blue'
+    });
+    swal.setDefaults({
+        confirmButtonText: trans('general.confirm'),
+        cancelButtonText: trans('general.cancel')
     });
 
     $.extend(true, $.fn.dataTable.defaults, {
