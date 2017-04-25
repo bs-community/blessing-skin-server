@@ -51,7 +51,7 @@
                                         <td id="name">{{ $texture->name }}
                                             @if (!is_null($user) && ($texture->uploader == $user->uid || $user->isAdmin()))
                                             <small>
-                                                <a href="javascript:changeTextureName({{ $texture->tid }});">{{ trans('skinlib.show.edit-name') }}</a>
+                                                <a href="javascript:changeTextureName({{ $texture->tid }}, '{{ $texture->name }}');">{{ trans('skinlib.show.edit-name') }}</a>
                                             </small>
                                             @endif
                                         </td>

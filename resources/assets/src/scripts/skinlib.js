@@ -1,8 +1,8 @@
 /*
  * @Author: printempw
  * @Date:   2016-07-19 10:46:38
- * @Last Modified by:   printempw
- * @Last Modified time: 2017-01-22 15:57:57
+ * @Last Modified by: g-plane
+ * @Last Modified time: 2017-04-25 21:56:19
  */
 
 'use strict';
@@ -244,10 +244,11 @@ function upload() {
     return false;
 }
 
-function changeTextureName(tid) {
+function changeTextureName(tid, oldName) {
     swal({
         text: trans('skinlib.setNewTextureName'),
         input: 'text',
+        inputValue: oldName,
         showCancelButton: true,
         inputValidator: (value) => {
             return new Promise((resolve, reject) => {
