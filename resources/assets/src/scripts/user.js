@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 10:02:24
  * @Last Modified by: g-plane
- * @Last Modified time: 2017-04-26 17:32:38
+ * @Last Modified time: 2017-04-26 17:42:50
  */
 
 'use strict';
@@ -204,6 +204,14 @@ function removeFromCloset(tid) {
                     });
 
                     $('div[tid='+tid+']').remove();
+
+                    ['skin', 'cape'].forEach(type => {
+                        let container = $(`#${type}-category`);
+                        if ($.trim(container.html()) == '') {
+                            container.html(`<div class="empty-msg">
+                            ${trans('user.emptyClosetMsg', { url: url('skinlib?filter=' + type) })}</div>`);
+                        }
+                    })
                 } else {
                     toastr.warning(json.msg);
                 }
