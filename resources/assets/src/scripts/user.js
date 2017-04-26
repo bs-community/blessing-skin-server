@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 10:02:24
  * @Last Modified by: g-plane
- * @Last Modified time: 2017-04-26 23:37:56
+ * @Last Modified time: 2017-04-27 00:01:38
  */
 
 'use strict';
@@ -422,7 +422,7 @@ function ajaxClearTexture(pid) {
         data[type] = $(`#clear-${type}`).prop('checked') ? 1 : 0;
     });
 
-    if (data['steve'] == data['alex'] == data['cape'] == 0) {
+    if (data['steve'] == 0 && data['alex'] == 0 && data['cape'] == 0) {
         toastr.warning(trans('user.noClearChoice'));
         return;
     }
