@@ -1,8 +1,8 @@
 /*
 * @Author: printempw
 * @Date:   2016-09-15 10:39:41
-* @Last Modified by:   printempw
-* @Last Modified time: 2017-01-22 18:51:51
+ * @Last Modified by: g-plane
+ * @Last Modified time: 2017-04-26 15:57:50
 */
 
 'use strict';
@@ -154,6 +154,28 @@ function getQueryString(key) {
         return null;
     } else {
         return result[1];
+    }
+}
+
+/**
+ * Return a debounced function
+ *
+ * @param {Function} func
+ * @param {number}   delay
+ * @param {Array}    args
+ * @param {Object}   context
+ */
+function debounce(func, delay, args = [], context = undefined) {
+    if (isNaN(delay) || typeof func !== 'function') {
+        throw new Error('Arguments type of function "debounce" is incorrent!');
+    }
+
+    let timer = null;
+    return function () {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            func.apply(context, args);
+        }, delay);
     }
 }
 

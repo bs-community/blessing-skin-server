@@ -1,8 +1,8 @@
 /*
 * @Author: printempw
 * @Date:   2016-07-21 13:38:26
-* @Last Modified by:   printempw
-* @Last Modified time: 2017-01-22 20:45:06
+ * @Last Modified by: g-plane
+ * @Last Modified time: 2017-04-26 15:39:46
 */
 
 'use strict';
@@ -25,7 +25,6 @@ var srcPath  = 'resources/assets/src/';
 var distPath = 'resources/assets/dist/';
 
 var vendorScripts = [
-    'lodash/dist/lodash.min.js',
     'jquery/dist/jquery.min.js',
     'bootstrap/dist/js/bootstrap.min.js',
     'AdminLTE/dist/js/app.min.js',

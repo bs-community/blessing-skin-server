@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
  * @Last Modified by: g-plane
- * @Last Modified time: 2017-04-26 15:31:34
+ * @Last Modified time: 2017-04-26 15:37:52
  */
 
 'use strict';
@@ -321,7 +321,7 @@ function changeOwner(pid) {
         });
     });
 
-    $('.swal2-input').on('input', _.debounce(() => {
+    $('.swal2-input').on('input', debounce(() => {
         const uid = $('.swal2-input').val();
         if (uid > 0) {
             Promise.resolve($.ajax({

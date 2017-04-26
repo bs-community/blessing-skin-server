@@ -1,8 +1,8 @@
 /*
  * @Author: printempw
  * @Date:   2016-07-16 10:02:24
- * @Last Modified by:   printempw
- * @Last Modified time: 2017-01-20 21:19:07
+ * @Last Modified by: g-plane
+ * @Last Modified time: 2017-04-26 15:53:54
  */
 
 'use strict';
@@ -278,7 +278,7 @@ $(document).ready(function() {
             });
         }).catch(error => showAjaxError);
 
-        $('input[name=q]').on('input', _.debounce(() => {
+        $('input[name=q]').on('input', debounce(() => {
             const category = $('#skin-category').hasClass('active') ? 'skin' : 'cape';
             reloadCloset(
                 category,
