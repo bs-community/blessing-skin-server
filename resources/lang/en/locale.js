@@ -131,7 +131,7 @@
             skin: 'Skin (:model Model)',
             cape: 'Cape',
             pid: 'Texture ID',
-            pidNotice: 'Please enter the tid of texture',
+            pidNotice: 'Please enter the tid of texture. Inputting 0 can clear texture of this player.',
             changePlayerTexture: 'Change textures of :player',
             changeTexture: 'Change Textures',
             changeOwner: 'Change Owner',

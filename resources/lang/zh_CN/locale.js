@@ -131,7 +131,7 @@
             skin: '皮肤（:model 模型）',
             cape: '披风',
             pid: '材质 ID',
-            pidNotice: '输入要更换的材质的 TID',
+            pidNotice: '输入要更换的材质的 TID，输入 0 即可清除该角色的材质',
             changePlayerTexture: '更换角色 :player 的材质',
             changeTexture: '更换材质',
             changeOwner: '更换角色拥有者',
