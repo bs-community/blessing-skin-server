@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 10:02:24
  * @Last Modified by: g-plane
- * @Last Modified time: 2017-04-26 15:53:54
+ * @Last Modified time: 2017-04-26 17:02:57
  */
 
 'use strict';
@@ -18,13 +18,13 @@ $('body').on('click', '#preview-switch', () => {
     TexturePreview.previewType == '3D' ? TexturePreview.show2dPreview() : TexturePreview.show3dPreview();
 });
 
-let skinSelected = false, capeSelected = false;
+let selectedTextures = [];
 
 $('body').on('click', '.item-body', function () {
     $('.item-selected').parent().removeClass('item-selected');
     $(this).parent().addClass('item-selected');
 
-    const tid = $(this).parent().attr('tid');
+    const tid = parseInt($(this).parent().attr('tid'));
 
     $.ajax({
         type: "POST",
@@ -33,17 +33,17 @@ $('body').on('click', '.item-body', function () {
         success: (json) => {
             if (json.type == "cape") {
                 MSP.changeCape('../textures/' + json.hash);
-                capeSelected = true;
+                selectedTextures['cape'] = tid;
             } else {
                 MSP.changeSkin('../textures/' + json.hash);
-                skinSelected = true;
+                selectedTextures['skin'] = tid;
             }
 
-            if (skinSelected && capeSelected)
+            if (selectedTextures['skin'] !== undefined && selectedTextures['cape'] !== undefined)
                 $('#textures-indicator').text(`${trans('general.skin')} & ${trans('general.cape')}`);
-            else if (skinSelected)
+            else if (selectedTextures['skin'] != undefined)
                 $('#textures-indicator').text(trans('general.skin'));
-            else if (capeSelected)
+            else if (selectedTextures['cape'] != undefined)
                 $('#textures-indicator').text(trans('general.cape'));
         },
         error: showAjaxError
@@ -298,7 +298,7 @@ function setTexture() {
 
     if (!pid) {
         toastr.info(trans('user.emptySelectedPlayer'));
-    } else if (selected.length == 0) {
+    } else if (selectedTextures['skin'] == undefined && selectedTextures['cape'] == undefined) {
         toastr.info(trans('user.emptySelectedTexture'));
     } else {
         $.ajax({
@@ -307,8 +307,8 @@ function setTexture() {
             dataType: "json",
             data: {
                 'pid': pid,
-                'tid[skin]': selected['skin'],
-                'tid[cape]': selected['cape']
+                'tid[skin]': selectedTextures['skin'],
+                'tid[cape]': selectedTextures['cape']
             },
             success: function(json) {
                 if (json.errno == 0) {
