@@ -82,7 +82,6 @@
 
             // Player
             changePlayerName: '请输入角色名：',
-            playerNameRule: '允许数字、字母以及下划线，是否支持中文角色名请参考本站设置',
             emptyPlayerName: '你还没有填写名称哦',
             clearTexture: '确定要重置该用户的皮肤/披风吗？',
             deletePlayer: '真的要删除该玩家吗？',

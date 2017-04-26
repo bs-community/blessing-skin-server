@@ -82,7 +82,6 @@
 
             // Player
             changePlayerName: 'Please enter the player name:',
-            playerNameRule: 'The player name should only contain letters, numbers, and dashes.',
             emptyPlayerName: 'Empty player name.',
             clearTexture: 'Sure to clear the skins & cape of this player?',
             deletePlayer: 'Sure to delete this player?',

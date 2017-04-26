@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 10:02:24
  * @Last Modified by: g-plane
- * @Last Modified time: 2017-04-26 17:42:50
+ * @Last Modified time: 2017-04-26 17:46:28
  */
 
 'use strict';
@@ -354,7 +354,7 @@ $('body').on('change', '#preference', function() {
 function changePlayerName(pid, current_player_name) {
     swal({
         title: trans('user.changePlayerName'),
-        text: trans('user.playerNameRule'),
+        text: $('#player_name').attr('placeholder'),
         inputValue: current_player_name,
         input: 'text',
         showCancelButton: true,
