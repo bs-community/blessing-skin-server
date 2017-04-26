@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
  * @Last Modified by: g-plane
- * @Last Modified time: 2017-04-26 15:37:52
+ * @Last Modified time: 2017-04-26 16:29:33
  */
 
 'use strict';
@@ -215,7 +215,7 @@ function deleteUserAccount(uid) {
         }))
     }).then(json => {
         if (json.errno == 0) {
-            $('tr#' + uid).remove();
+            $('tr#user-' + uid).remove();
             toastr.success(json.msg);
         } else {
             toastr.warning(json.msg);
