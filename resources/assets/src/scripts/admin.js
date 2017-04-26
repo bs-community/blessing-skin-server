@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
  * @Last Modified by: g-plane
- * @Last Modified time: 2017-04-26 15:12:19
+ * @Last Modified time: 2017-04-26 15:31:34
  */
 
 'use strict';
@@ -58,7 +58,7 @@ $('#color-submit').click(function() {
 });
 
 function changeUserEmail(uid) {
-    let dom = $(`tr#${uid} > td:nth-child(2)`);
+    let dom = $(`tr#user-${uid} > td:nth-child(2)`);
     swal({
         text: trans('admin.newUserEmail'),
         showCancelButton: true,
@@ -84,7 +84,7 @@ function changeUserEmail(uid) {
 }
 
 function changeUserNickName(uid) {
-    let dom = $(`tr#${uid} > td:nth-child(3)`);
+    let dom = $(`tr#user-${uid} > td:nth-child(3)`);
     swal({
         text: trans('admin.newUserNickname'),
         showCancelButton: true,
