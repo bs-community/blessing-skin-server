@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 10:02:24
  * @Last Modified by: g-plane
- * @Last Modified time: 2017-04-26 17:02:57
+ * @Last Modified time: 2017-04-26 17:32:38
  */
 
 'use strict';
@@ -57,18 +57,18 @@ $('body').on('click', '.category-switch', () => {
     reloadCloset(category, page, search);
 });
 
-function renderClosetItemComponent(item, rootPath) {
+function renderClosetItemComponent(item) {
     return `
     <div class="item" tid="${item.tid}">
     <div class="item-body">
-        <img src="${rootPath}/preview/${item.tid}.png">
+        <img src="${url('/')}preview/${item.tid}.png">
     </div>
     <div class="item-footer">
         <p class="texture-name">
             <span title="${item.name}">${item.name} <small>(${item.type})</small></span>
         </p>
 
-        <a href="${rootPath}/skinlib/show/${item.tid}" title="${trans('user.viewInSkinlib')}" class="more" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-share"></i></a>
+        <a href="${url('/')}skinlib/show/${item.tid}" title="${trans('user.viewInSkinlib')}" class="more" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-share"></i></a>
         <span title="${trans('general.more')}" class="more" data-toggle="dropdown" aria-haspopup="true" id="more-button"><i class="fa fa-cog"></i></span>
 
         <ul class="dropup dropdown-menu" aria-labelledby="more-button">
@@ -81,7 +81,6 @@ function renderClosetItemComponent(item, rootPath) {
 }
 
 function renderCloset(items, category) {
-    const rootPath = /(^https?.*)\/user\/closet/.exec(window.location.href)[1];
     const search = $('input[name=q]').val();
     let container = $(`#${category}-category`);
     container.html('');
@@ -89,14 +88,14 @@ function renderCloset(items, category) {
         $('#closet-paginator').hide();
         if (search === '') {
             container.html(`<div class="empty-msg">
-            ${trans('user.emptyClosetMsg', { url: rootPath + '/skinlib?filter=' + category })}</div>`);
+            ${trans('user.emptyClosetMsg', { url: url('skinlib?filter=' + category) })}</div>`);
         } else {
             container.html(`<div class="empty-msg">${trans('general.noResult')}</div>`);
         }
     } else {
         $('#closet-paginator').show();
         for (const item of items) {
-            container.append(renderClosetItemComponent(item, rootPath));
+            container.append(renderClosetItemComponent(item));
         }
     }
 }
@@ -104,7 +103,7 @@ function renderCloset(items, category) {
 function reloadCloset(category, page, search) {
     Promise.resolve($.ajax({
         type: 'GET',
-        url: /(^https?.*)\/user\/closet/.exec(window.location.href)[1] + '/user/closet-data',
+        url: url('user/closet-data'),
         dataType: 'json',
         data: {
             category: category,

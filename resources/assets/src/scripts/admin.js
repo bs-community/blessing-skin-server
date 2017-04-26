@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
  * @Last Modified by: g-plane
- * @Last Modified time: 2017-04-26 16:29:33
+ * @Last Modified time: 2017-04-26 17:30:40
  */
 
 'use strict';
@@ -25,11 +25,11 @@ $(document).ready(function() {
         serverSide: true
     });
 
-    if (window.location.pathname.includes('admin/users')) {
+    if (window.location.href == url('admin/users')) {
         initUsersTable();
-    } else if (window.location.pathname.includes('admin/players')) {
+    } else if (window.location.href == url('admin/players')) {
         initPlayersTable();
-    } else if (window.location.pathname.includes('admin/plugins/manage')) {
+    } else if (window.location.href == url('admin/plugins/manage')) {
         initPluginsTable();
     }
 });
@@ -520,9 +520,8 @@ function downloadUpdates() {
 }
 
 function initUsersTable() {
-    const rootPath = /(^https?:.*)\/admin\/users/.exec(window.location.href)[1];
     $('#user-table').DataTable({
-        ajax: `${rootPath}/admin/user-data`,
+        ajax: url('admin/user-data'),
         scrollY: ($('.content-wrapper').height() - $('.content-header').outerHeight()) * 0.7,
         rowCallback: (row, data) => {
             $(row).attr('id', `user-${data.uid}`);
@@ -631,9 +630,8 @@ function initUsersTable() {
 }
 
 function initPlayersTable() {
-    const rootPath = /(^https?:.*)\/admin\/players/.exec(window.location.href)[1];
     $('#player-table').DataTable({
-        ajax: `${rootPath}/admin/player-data`,
+        ajax: url('admin/player-data'),
         scrollY: ($('.content-wrapper').height() - $('.content-header').outerHeight()) * 0.7,
         columnDefs: [
             {
@@ -671,8 +669,8 @@ function initPlayersTable() {
                             html[textureType] = `<img id="${row.pid}-${row['tid_' + textureType]}" width="64" />`;
                         } else {
                             html[textureType] = `
-                        <a href="${rootPath}/skinlib/show/${row['tid_' + textureType]}">
-                            <img id="${row.pid}-${row['tid_' + textureType]}" width="64" src="${rootPath}/preview/64/${row['tid_' + textureType]}.png" />
+                        <a href="${url('/')}skinlib/show/${row['tid_' + textureType]}">
+                            <img id="${row.pid}-${row['tid_' + textureType]}" width="64" src="${url('/')}preview/64/${row['tid_' + textureType]}.png" />
                         </a>`;
                         }
                     });
@@ -705,9 +703,8 @@ function initPlayersTable() {
 }
 
 function initPluginsTable() {
-    const rootPath = /(^https?:.*)\/admin\/plugins\/manage/.exec(window.location.href)[1];
     $('#plugin-table').DataTable({
-        ajax: `${rootPath}/admin/plugins/data`,
+        ajax: url('admin/plugins/data'),
         columnDefs: [
             {
                 targets: 0,
@@ -753,7 +750,7 @@ function initPluginsTable() {
                     }
                     if (data.enabled && data.hasConfigView) {
                         configViewButton = `
-                        <a class="btn btn-default btn-sm" href="${rootPath}/admin/plugins/config/${row.name}">${trans('admin.configurePlugin')}</a>`;
+                        <a class="btn btn-default btn-sm" href="${url('/')}admin/plugins/config/${row.name}">${trans('admin.configurePlugin')}</a>`;
                     } else {
                         configViewButton = `
                         <a class="btn btn-default btn-sm" disabled="disabled" title="${trans('admin.noPluginConfigNotice')}" data-toggle="tooltip" data-placement="top">${trans('admin.configurePlugin')}</a>`;
