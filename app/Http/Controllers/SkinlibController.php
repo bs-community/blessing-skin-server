@@ -197,7 +197,7 @@ class SkinlibController extends Controller
         }
     }
 
-    public function delete(Request $request)
+    public function delete(Request $request, UserRepository $users)
     {
         $result = Texture::find($request->tid);
 
@@ -213,23 +213,23 @@ class SkinlibController extends Controller
 
         if (option('return_score')) {
             if ($result->public == 1) {
-                $this->user->setScore($result->size * Option::get('score_per_storage'), 'plus');
+                $users->get($result->uploader)->setScore($result->size * Option::get('score_per_storage'), 'plus');
                 foreach (Closet::all() as $closet) {
                     if ($closet->has($result->tid)) {
                         $closet->remove($result->tid);
-                        User::find($closet->uid)->setScore(option('score_per_closet_item'), 'plus');
+                        $users->get($closet->uid)->setScore(option('score_per_closet_item'), 'plus');
                     }
                 }
             }
             else
-                $this->user->setScore($result->size * Option::get('private_score_per_storage'), 'plus');
+                $users->get($result->uploader)->setScore($result->size * Option::get('private_score_per_storage'), 'plus');
         }
 
         if ($result->delete())
             return json(trans('skinlib.delete.success'), 0);
     }
 
-    public function privacy(Request $request)
+    public function privacy(Request $request, UserRepository $users)
     {
         $t = Texture::find($request->input('tid'));
         $type = $t->type;
@@ -249,12 +249,12 @@ class SkinlibController extends Controller
             if ($closet->uid != $uid && $closet->has($t->tid)) {
                 $closet->remove($t->tid);
                 if (option('return_score')) {
-                    User::find($closet->uid)->setScore(option('score_per_closet_item'), 'plus');
+                    $users->get($closet->uid)->setScore(option('score_per_closet_item'), 'plus');
                 }
             }
         }
 
-        app('user.current')->setScore(
+        $users->get($t->uploader)->setScore(
             $t->size * (option('private_score_per_storage') - option('score_per_storage')) * ($t->public == 1 ? -1 : 1),
             'plus'
         );
