@@ -108,6 +108,7 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function ()
 
     Route::get('/players',     'AdminController@players');
     Route::get('/player-data', 'AdminController@getPlayerData');
+    Route::get('/user/{uid}',  'AdminController@getOneUser');
 
     // ajax handlers
     Route::post('/users',      'AdminController@userAjaxHandler');

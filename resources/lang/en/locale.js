@@ -137,6 +137,8 @@
             deletePlayer: 'Delete',
             changePlayerOwner: 'Please enter the id of user which this player should be transferred to:',
             deletePlayerNotice: 'Are you sure to delete this player? It\' permanent.',
+            targetUser: 'Target user is :nickname',
+            noSuchUser: 'No such user',
 
             // Index
             textureUploads: 'Texture Uploads',

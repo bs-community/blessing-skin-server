@@ -343,4 +343,22 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * Get one user information
+     *
+     * @param  string $uid
+     * @return JsonResponse
+     */
+    public function getOneUser($uid, UserRepository $users)
+    {
+        $user = $users->get(intval($uid));
+        if ($user) {
+            return json('success', 0, ['user' => $user->makeHidden([
+                'password', 'ip', 'last_sign_at', 'register_at'
+            ])->toArray()]);
+        } else {
+            return json('No such user.', 1);
+        }
+    }
+
 }

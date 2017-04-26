@@ -137,6 +137,8 @@
             deletePlayer: '删除角色',
             changePlayerOwner: '请输入此角色要让渡至的用户 UID：',
             deletePlayerNotice: '真的要删除此角色吗？此操作不可恢复',
+            targetUser: '目标用户：:nickname',
+            noSuchUser: '没有这个用户哦~',
 
             // Index
             textureUploads: '材质上传',

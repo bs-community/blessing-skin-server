@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
  * @Last Modified by: g-plane
- * @Last Modified time: 2017-04-25 23:21:54
+ * @Last Modified time: 2017-04-26 15:12:19
  */
 
 'use strict';
@@ -299,7 +299,7 @@ function ajaxChangeTexture(pid) {
 function changeOwner(pid) {
     let dom = $(`#${pid} > td:nth-child(2)`);
     swal({
-        text: trans('admin.changePlayerOwner'),
+        html: `${trans('admin.changePlayerOwner')}<br><small>&nbsp;</small>`,
         input: 'number',
         inputValue: dom.text(),
         showCancelButton: true
@@ -311,7 +311,7 @@ function changeOwner(pid) {
             data: { 'pid': pid, 'uid': uid },
             success: function (json) {
                 if (json.errno == 0) {
-                    $($('#' + pid).children()[1]).text(uid);
+                    dom.text(uid);
                     toastr.success(json.msg);
                 } else {
                     toastr.warning(json.msg);
@@ -320,6 +320,24 @@ function changeOwner(pid) {
             error: showAjaxError
         });
     });
+
+    $('.swal2-input').on('input', _.debounce(() => {
+        const uid = $('.swal2-input').val();
+        if (uid > 0) {
+            Promise.resolve($.ajax({
+                type: 'GET',
+                url: `./user/${uid}`,
+                dataType: 'json'
+            })).then(result => {
+                $('#swal2-content').html(
+                    `${trans('admin.changePlayerOwner')}<br>
+                    <small>${trans('admin.targetUser', { nickname: result.user.nickname })}</small>`
+                );
+            }).catch(() => {
+                $('#swal2-content').html(`${trans('admin.changePlayerOwner')}<br><small>${trans('admin.noSuchUser')}</small>`);
+            });
+        }
+    }, 350));
 }
 
 function deletePlayer(pid) {
