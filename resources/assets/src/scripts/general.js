@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-09-15 10:39:41
  * @Last Modified by: g-plane
- * @Last Modified time: 2017-04-26 15:57:50
+ * @Last Modified time: 2017-04-26 23:48:09
 */
 
 'use strict';
@@ -88,7 +88,7 @@ function trans(key, parameters = {}) {
     return temp;
 }
 
-function showModal(msg, title = 'Messgae', type = 'default', options = {}) {
+function showModal(msg, title = 'Message', type = 'default', options = {}) {
     let btnType = (type != "default") ? "btn-outline" : "btn-primary";
     let onClick = (options.callback === undefined) ? 'data-dismiss="modal"' : `onclick="${options.callback}"`;
 
