@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-09-15 10:39:41
  * @Last Modified by: g-plane
- * @Last Modified time: 2017-04-26 23:48:09
+ * @Last Modified time: 2017-04-26 23:58:06
 */
 
 'use strict';
@@ -259,7 +259,7 @@ var TexturePreview = function (type, tid, preference) {
 
     this.change3dPreview = function () {
 
-        if (this.playerPreference == this.preference) {
+        if (this.playerPreference == this.preference || this.type == 'cape') {
             $.ajax({
                 type: "GET",
                 url: url(`skinlib/info/${this.tid}`),
