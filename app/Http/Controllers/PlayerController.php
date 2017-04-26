@@ -138,9 +138,13 @@ class PlayerController extends Controller
         return json(trans('user.player.set.success', ['name' => $this->player->player_name]), 0);
     }
 
-    public function clearTexture()
+    public function clearTexture(Request $request)
     {
-        $this->player->clearTexture();
+        $types = array_filter(['steve', 'alex', 'cape'], function ($type) use ($request) {
+            return $request->input($type);
+        });
+
+        $this->player->clearTexture($types);
 
         return json(trans('user.player.clear.success', ['name' => $this->player->player_name]), 0);
     }

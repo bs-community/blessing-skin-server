@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 10:02:24
  * @Last Modified by: g-plane
- * @Last Modified time: 2017-04-26 17:46:28
+ * @Last Modified time: 2017-04-26 23:37:56
  */
 
 'use strict';
@@ -393,32 +393,49 @@ function changePlayerName(pid, current_player_name) {
 }
 
 function clearTexture(pid) {
-    swal({
-        text: trans('user.clearTexture'),
-        type: 'warning',
-        showCancelButton: true
-    }).then(function() {
-        $.ajax({
-            type: "POST",
-            url: "./player/texture/clear",
-            dataType: "json",
-            data: { 'pid' : pid },
-            success: function(json) {
-                if (json.errno == 0) {
-                    swal({
-                        type: 'success',
-                        html: json.msg
-                    });
-                } else {
-                    swal({
-                        type: 'error',
-                        html: json.msg
-                    });
-                }
-            },
-            error: showAjaxError
-        });
+    let dom = `
+    <div class="form-group">
+        <input type="checkbox" id="clear-steve"> Default (Steve)
+    </div>
+    <div class="form-group">
+        <input type="checkbox" id="clear-alex"> Slim (Alex)
+    </div>
+    <div class="form-group">
+        <input type="checkbox" id="clear-cape"> ${trans('general.cape')}
+    </div>
+    <script>
+        $('input[type=checkbox]').iCheck({ checkboxClass: 'icheckbox_square-blue' });
+    </script>
+    `;
+    showModal(dom, trans('user.chooseClearTexture'), 'default', { callback: `ajaxClearTexture(${pid})` });
+    return;
+}
+
+function ajaxClearTexture(pid) {
+    $('.modal').each(function () {
+        if ($(this).css('display') == "none")
+            $(this).remove();
     });
+
+    let data = { pid: pid };
+    ['steve', 'alex', 'cape'].forEach(type => {
+        data[type] = $(`#clear-${type}`).prop('checked') ? 1 : 0;
+    });
+
+    if (data['steve'] == data['alex'] == data['cape'] == 0) {
+        toastr.warning(trans('user.noClearChoice'));
+        return;
+    }
+
+    Promise.resolve($.ajax({
+        type: 'POST',
+        url: './player/texture/clear',
+        dataType: 'json',
+        data: data
+    })).then(json => {
+        swal({ type: json.errno == 0 ? 'success' : 'error', html: json.msg });
+        $('.modal').modal('hide');
+    }).catch(error => showAjaxError);
 }
 
 function deletePlayer(pid) {

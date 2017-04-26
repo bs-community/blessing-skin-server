@@ -86,6 +86,8 @@
             clearTexture: '确定要重置该用户的皮肤/披风吗？',
             deletePlayer: '真的要删除该玩家吗？',
             deletePlayerNotice: '这将是永久性的删除',
+            chooseClearTexture: '选择要删除的材质类型',
+            noClearChoice: '您还没选择要删除的材质类型',
 
             // Profile
             setAvatar: '确定要将此材质设置为用户头像吗？',

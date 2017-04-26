@@ -86,6 +86,8 @@
             clearTexture: 'Sure to clear the skins & cape of this player?',
             deletePlayer: 'Sure to delete this player?',
             deletePlayerNotice: 'It\'s permanent. No backups.',
+            chooseClearTexture: 'Choose texture types you want to clear',
+            noClearChoice: 'You haven\'t choose any types',
 
             // Profile
             setAvatar: 'Sure to set this as your avatar?',
