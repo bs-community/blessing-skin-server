@@ -6,6 +6,8 @@ index:
   overview: 概览
 
 users:
+  players-count:
+    title: 拥有角色数
   status:
     title: 状态
     normal: 普通用户

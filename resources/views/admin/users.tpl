@@ -24,6 +24,7 @@
                             <th>{{ trans('general.user.email') }}</th>
                             <th>{{ trans('general.user.nickname') }}</th>
                             <th>{{ trans('general.user.score') }}</th>
+                            <th>{{ trans('admin.users.players-count.title') }}</th>
                             <th>{{ trans('admin.users.status.title') }}</th>
                             <th>{{ trans('general.user.register-at') }}</th>
                             <th>{{ trans('general.operations') }}</th>

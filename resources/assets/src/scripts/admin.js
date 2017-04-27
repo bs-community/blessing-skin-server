@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
  * @Last Modified by: g-plane
- * @Last Modified time: 2017-04-27 08:46:33
+ * @Last Modified time: 2017-04-27 17:58:47
  */
 
 'use strict';
@@ -25,11 +25,11 @@ $(document).ready(function() {
         serverSide: true
     });
 
-    if (window.location.href == url('admin/users')) {
+    if (window.location.href.indexOf(url('admin/users')) >= 0) {
         initUsersTable();
-    } else if (window.location.href == url('admin/players')) {
+    } else if (window.location.href.indexOf(url('admin/players')) >= 0) {
         initPlayersTable();
-    } else if (window.location.href == url('admin/plugins/manage')) {
+    } else if (window.location.href.indexOf(url('admin/plugins/manage')) >= 0) {
         initPluginsTable();
     }
 });
@@ -552,8 +552,12 @@ function downloadUpdates() {
 }
 
 function initUsersTable() {
+    let dataUrl = url('admin/user-data');
+    if (getQueryString('uid')) {
+        dataUrl += '?uid=' + getQueryString('uid');
+    }
     $('#user-table').DataTable({
-        ajax: url('admin/user-data'),
+        ajax: dataUrl,
         scrollY: ($('.content-wrapper').height() - $('.content-header').outerHeight()) * 0.7,
         rowCallback: (row, data) => {
             $(row).attr('id', `user-${data.uid}`);
@@ -581,6 +585,16 @@ function initUsersTable() {
             },
             {
                 targets: 4,
+                data: 'players_count',
+                render: (data, type, row) => {
+                    return `<span title="${trans('admin.doubleClickToSeePlayers')}"
+                    style="cursor: pointer;"
+                    ondblclick="window.location.href = '${url('admin/players?uid=') + row.uid}'"
+                    data-toggle="tooltip" data-placement="top">${data}</span>`;
+                }
+            },
+            {
+                targets: 5,
                 data: 'permission',
                 render: data => {
                     switch (data) {
@@ -596,11 +610,11 @@ function initUsersTable() {
                 }
             },
             {
-                targets: 5,
+                targets: 6,
                 data: 'register_at'
             },
             {
-                targets: 6,
+                targets: 7,
                 data: 'operations',
                 searchable: false,
                 orderable: false,
@@ -662,8 +676,12 @@ function initUsersTable() {
 }
 
 function initPlayersTable() {
+    let dataUrl = url('admin/player-data');
+    if (getQueryString('uid')) {
+        dataUrl += '?uid=' + getQueryString('uid');
+    }
     $('#player-table').DataTable({
-        ajax: url('admin/player-data'),
+        ajax: dataUrl,
         scrollY: ($('.content-wrapper').height() - $('.content-header').outerHeight()) * 0.7,
         columnDefs: [
             {
@@ -673,7 +691,13 @@ function initPlayersTable() {
             },
             {
                 targets: 1,
-                data: 'uid'
+                data: 'uid',
+                render: (data, type, row) => {
+                    return `<span title="${trans('admin.doubleClickToSeeUser')}"
+                    style="cursor: pointer;"
+                    ondblclick="window.location.href = '${url('admin/users?uid=') + row.uid}'"
+                    data-toggle="tooltip" data-placement="top">${data}</span>`;
+                }
             },
             {
                 targets: 2,

@@ -165,15 +165,25 @@ class AdminController extends Controller
         return view('admin.users');
     }
 
-    public function getUserData()
+    public function getUserData(Request $request)
     {
-        $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at']);
+        $users = collect();
+
+        if ($request->has('uid')) {
+            $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at'])
+                        ->where('uid', intval($request->input('uid')));
+        } else {
+            $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at']);
+        }
 
         return Datatables::of($users)->editColumn('email', function ($user) {
             return $user->email ?: 'EMPTY';
         })
         ->setRowId('uid')
         ->addColumn('operations', app('user.current')->getPermission())
+        ->addColumn('players_count', function ($user) {
+            return Player::where('uid', $user->uid)->count();
+        })
         ->make(true);
     }
 
@@ -188,9 +198,15 @@ class AdminController extends Controller
         return view('admin.players');
     }
 
-    public function getPlayerData()
+    public function getPlayerData(Request $request)
     {
-        $players = Player::select(['pid', 'uid', 'player_name', 'preference', 'tid_steve', 'tid_alex', 'tid_cape', 'last_modified']);
+        $players = collect();
+        if ($request->has('uid')) {
+            $players = Player::select(['pid', 'uid', 'player_name', 'preference', 'tid_steve', 'tid_alex', 'tid_cape', 'last_modified'])
+                            ->where('uid', intval($request->input('uid')));
+        } else {
+            $players = Player::select(['pid', 'uid', 'player_name', 'preference', 'tid_steve', 'tid_alex', 'tid_cape', 'last_modified']);
+        }
 
         return Datatables::of($players)->setRowId('pid')->make(true);
     }

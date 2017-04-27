@@ -119,6 +119,8 @@
             newUserPassword: 'Please enter the new password:',
             deleteUserNotice: 'Are you sure to delete this user? It\' permanent.',
             scoreTip: 'Press ENTER to submit new score',
+            doubleClickToSeeUser: 'Double click to see info of this user',
+            doubleClickToSeePlayers: 'Double click to see his/her players',
 
             // Status
             banned: 'Banned',

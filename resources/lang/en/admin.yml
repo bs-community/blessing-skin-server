@@ -6,6 +6,8 @@ index:
   overview: Overview
 
 users:
+  players-count:
+    title: Players Count
   status:
     title: Status
     normal: Normal
