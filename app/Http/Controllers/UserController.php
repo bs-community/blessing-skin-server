@@ -90,9 +90,9 @@ class UserController extends Controller
      * Handle changing user profile.
      *
      * @param  Request $request
-     * @return void
+     * @return mixed
      */
-    public function handleProfile(Request $request)
+    public function handleProfile(Request $request, UserRepository $users)
     {
         $action = $request->input('action', '');
 
@@ -128,6 +128,10 @@ class UserController extends Controller
                     'new_email' => 'required|email',
                     'password'  => 'required|min:8|max:16'
                 ]);
+
+                if ($users->get($request->input('new_email'), 'email')) {
+                    return json(trans('user.profile.email.existed'), 1);
+                }
 
                 if (!$this->user->verifyPassword($request->input('password')))
                     return json(trans('user.profile.email.wrong-password'), 1);

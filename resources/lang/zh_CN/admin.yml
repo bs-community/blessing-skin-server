@@ -17,6 +17,7 @@ users:
     non-existent: 用户不存在
     email:
       change: 修改邮箱
+      existed: :email 已被占用
       success: 邮箱修改成功
     nickname:
       change: 修改昵称

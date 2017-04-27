@@ -214,6 +214,10 @@ class AdminController extends Controller
                 'email' => 'required|email'
             ]);
 
+            if ($users->get($request->input('email'), 'email')) {
+                return json(trans('admin.users.operations.email.existed', ['email' => $request->input('email')]), 1);
+            }
+
             $user->setEmail($request->input('email'));
 
             return json(trans('admin.users.operations.email.success'), 0);

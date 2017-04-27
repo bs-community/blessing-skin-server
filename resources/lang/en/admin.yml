@@ -17,6 +17,7 @@ users:
     non-existent: No such user.
     email:
       change: Edit Email
+      existed: :email is existed.
       success: Email changed successfully.
     nickname:
       change: Edit Nickname

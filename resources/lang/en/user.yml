@@ -127,6 +127,7 @@ profile:
     password: Current Password
     button: Change Email
     wrong-password: Wrong password.
+    existed: This email address is used.
     success: Email address updated successfully, please log in again.
 
   delete:
