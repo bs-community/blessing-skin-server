@@ -2,7 +2,7 @@
 * @Author: printempw
 * @Date:   2016-09-15 10:39:41
  * @Last Modified by: g-plane
- * @Last Modified time: 2017-04-26 23:58:06
+ * @Last Modified time: 2017-04-27 15:33:24
 */
 
 'use strict';
@@ -222,18 +222,11 @@ function confirmLogout() {
 }
 
 function logout() {
-    return new Promise((resolve, reject) => {
-        $.ajax({
-            type: "POST",
-            url: url('auth/logout'),
-            dataType: "json",
-            success: (json) => resolve(json),
-            error: (json) => {
-                showAjaxError(json);
-                reject(json);
-            }
-        });
-    });
+    return Promise.resolve($.ajax({
+        type: "POST",
+        url: url('auth/logout'),
+        dataType: "json"
+    }));
 }
 
 $('#logout-button').click(() => confirmLogout());

@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-16 10:02:24
  * @Last Modified by: g-plane
- * @Last Modified time: 2017-04-27 00:01:38
+ * @Last Modified time: 2017-04-27 16:37:05
  */
 
 'use strict';
@@ -538,49 +538,46 @@ function changeNickName() {
 }
 
 function changePassword() {
+    let domOldPwd = $('#password');
+    let domNewPwd = $('#new-passwd');
+    let domConfirmPwd = $('#confirm-pwd');
 
-    var password = $('#password').val();
-    var new_passwd = $('#new-passwd').val();
+    let password = domOldPwd.val();
+    let new_passwd = domNewPwd.val();
 
     if (password == "") {
         toastr.info(trans('user.emptyPassword'));
-        $('#passwd').focus();
+        domOldPwd.focus();
     } else if (new_passwd == "") {
         toastr.info(trans('user.emptyNewPassword'));
-        $('#new-passwd').focus();
-    } else if ($('#confirm-pwd').val() == "") {
+        domNewPwd.focus();
+    } else if (domConfirmPwd.val() == "") {
         toastr.info(trans('auth.emptyConfirmPwd'));
-        $('#confirm-pwd').focus();
-    } else if (new_passwd != $('#confirm-pwd').val()) {
+        domConfirmPwd.focus();
+    } else if (new_passwd != domConfirmPwd.val()) {
         toastr.warning(trans('auth.invalidConfirmPwd'));
-        $('#confirm-pwd').focus();
+        domConfirmPwd.focus();
     } else {
-        $.ajax({
+        Promise.resolve($.ajax({
             type: "POST",
             url: "./profile?action=password",
             dataType: "json",
-            data: { 'current_password': password, 'new_password': new_passwd},
-            success: function(json) {
-                if (json.errno == 0) {
-                    swal({
-                        type: 'success',
-                        html: json.msg
-                    }).then(function() {
-                        logout(true, function() {
-                            window.location = "../auth/login";
-                        });
-                    });
-                } else {
-                    swal({
-                        type: 'warning',
-                        html: json.msg
-                    });
-                }
-            },
-            error: showAjaxError
-        });
+            data: { 'current_password': password, 'new_password': new_passwd }
+        })).then(result => {
+            if (result.errno == 0) {
+                return swal({ type: 'success', text: result.msg })
+                    .then(() => {
+                        return logout();
+                    }).then(result => {
+                        if (result.errno == 0) {
+                            window.location = url('auth/login');
+                        }
+                    }).catch(error => showAjaxError);
+            } else {
+                return swal({ type: 'warning', text: result.msg });
+            }
+        }).catch(error => showAjaxError);
     }
-    return false;
 }
 
 $('#new-email').focusin(function() {
@@ -614,32 +611,27 @@ function changeEmail() {
         text: trans('user.changeEmail', { new_email: new_email }),
         type: 'question',
         showCancelButton: true
-    }).then(function() {
-        $.ajax({
-            type: "POST",
-            url: "./profile?action=email",
-            dataType: "json",
-            data: { 'new_email' : new_email, 'password' : $('#current-password').val() },
-            success: function(json) {
-                if (json.errno == 0) {
-                    swal({
-                        type: 'success',
-                        html: json.msg
-                    }).then(function() {
-                        logout(true, function() {
-                            window.location = "../auth/login";
-                        });
-                    });
-                } else {
-                    swal({
-                        type: 'warning',
-                        html: json.msg
-                    });
-                }
-            },
-            error: showAjaxError
-        });
-    });
+    }).then(() => {
+        return Promise.resolve($.ajax({
+            type: 'POST',
+            url: './profile?action=email',
+            dataType: 'json',
+            data: { 'new_email': new_email, 'password': $('#current-password').val() }
+        }));
+    }).then(result => {
+        if (result.errno == 0) {
+            return swal({ type: 'success', text: result.msg })
+                .then(() => {
+                    return logout();
+                }).then(result => {
+                    if (result.errno == 0) {
+                        window.location = url('auth/login');
+                    }
+                }).catch(error => showAjaxError);
+        } else {
+            return swal({ type: 'warning', text: result.msg });
+        }
+    }).catch(error => showAjaxError);
 }
 
 function deleteAccount() {
