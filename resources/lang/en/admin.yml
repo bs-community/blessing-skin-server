@@ -59,6 +59,8 @@ players:
     change: Change Textures
     non-existent: No such texture tid.:tid
     success: The textures of :player has been updated.
+  name:
+    success: Player name has been updated to :player
   owner:
     change: Change Owner
     success: The player :player was transferred to user :user.

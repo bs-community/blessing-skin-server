@@ -134,12 +134,15 @@
             pidNotice: '输入要更换的材质的 TID，输入 0 即可清除该角色的材质',
             changePlayerTexture: '更换角色 :player 的材质',
             changeTexture: '更换材质',
+            changePlayerName: '更改角色名',
             changeOwner: '更换角色拥有者',
             deletePlayer: '删除角色',
             changePlayerOwner: '请输入此角色要让渡至的用户 UID：',
             deletePlayerNotice: '真的要删除此角色吗？此操作不可恢复',
             targetUser: '目标用户：:nickname',
             noSuchUser: '没有这个用户哦~',
+            changePlayerNameNotice: '请输入新的角色名：',
+            emptyPlayerName: '您还没填写角色名呢',
 
             // Index
             textureUploads: '材质上传',

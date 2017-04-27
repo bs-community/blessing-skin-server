@@ -134,12 +134,15 @@
             pidNotice: 'Please enter the tid of texture. Inputting 0 can clear texture of this player.',
             changePlayerTexture: 'Change textures of :player',
             changeTexture: 'Change Textures',
+            changePlayerName: 'Change Player Name',
             changeOwner: 'Change Owner',
             deletePlayer: 'Delete',
             changePlayerOwner: 'Please enter the id of user which this player should be transferred to:',
             deletePlayerNotice: 'Are you sure to delete this player? It\' permanent.',
             targetUser: 'Target user is :nickname',
             noSuchUser: 'No such user',
+            changePlayerNameNotice: 'Please input new player name:',
+            emptyPlayerName: 'Player name cannot be empty.',
 
             // Index
             textureUploads: 'Texture Uploads',

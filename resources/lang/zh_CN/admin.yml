@@ -59,6 +59,8 @@ players:
     change: 更换材质
     non-existent: 材质 tid.:tid 不存在
     success: 角色 :player 的材质修改成功
+  name:
+    success: 角色名成功更改为 :player
   owner:
     change: 更换角色拥有者
     success: 角色 :player 已成功让渡至 :user

@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
  * @Last Modified by: g-plane
- * @Last Modified time: 2017-04-26 17:30:40
+ * @Last Modified time: 2017-04-27 08:46:33
  */
 
 'use strict';
@@ -294,6 +294,38 @@ function ajaxChangeTexture(pid) {
         },
         error: showAjaxError
     });
+}
+
+function changePlayerName(pid, oldName) {
+    let dom = $(`tr#${pid} > td:nth-child(3)`);
+    swal({
+        text: trans('admin.changePlayerNameNotice'),
+        input: 'text',
+        inputValue: oldName,
+        inputValidator: name => {
+            return new Promise((resolve, reject) => {
+                if (name) {
+                    resolve();
+                } else {
+                    reject(trans('admin.emptyPlayerName'));
+                }
+            })
+        }
+    }).then(name => {
+        return Promise.resolve($.ajax({
+            type: 'POST',
+            url: './players?action=name',
+            dataType: 'json',
+            data: { pid: pid, name: name }
+        }));
+    }).then(json => {
+        if (json.errno == 0) {
+            dom.text(json.name);
+            toastr.success(json.msg);
+        } else {
+            toastr.warning(json.msg);
+        }
+    }).catch(error => showAjaxError);
 }
 
 function changeOwner(pid) {
@@ -692,6 +724,7 @@ function initPlayersTable() {
                     ${trans('admin.operationsTitle')} <span class="caret"></span></button>
                     <ul class="dropdown-menu">
                         <li><a href="javascript:changeTexture(${row.pid}, '${row.player_name}');">${trans('admin.changeTexture')}</a></li>
+                        <li><a href="javascript:changePlayerName(${row.pid}, '${row.player_name}');">${trans('admin.changePlayerName')}</a></li>
                         <li><a href="javascript:changeOwner(${row.pid});">${trans('admin.changeOwner')}</a></li>
                     </ul>
                     </div>

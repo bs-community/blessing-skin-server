@@ -340,6 +340,10 @@ class AdminController extends Controller
             $player->delete();
 
             return json(trans('admin.players.delete.success'), 0);
+        } elseif ($action == "name") {
+            $player->rename($request->input('name'));
+
+            return json(trans('admin.players.name.success', ['player' => $player->player_name]), 0, ['name' => $player->player_name]);
         }
     }
 
