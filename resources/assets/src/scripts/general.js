@@ -1,8 +1,8 @@
 /*
 * @Author: printempw
 * @Date:   2016-09-15 10:39:41
-* @Last Modified by:   printempw
-* @Last Modified time: 2017-01-22 18:51:51
+ * @Last Modified by: g-plane
+ * @Last Modified time: 2017-04-27 15:33:24
 */
 
 'use strict';
@@ -88,7 +88,7 @@ function trans(key, parameters = {}) {
     return temp;
 }
 
-function showModal(msg, title = 'Messgae', type = 'default', options = {}) {
+function showModal(msg, title = 'Message', type = 'default', options = {}) {
     let btnType = (type != "default") ? "btn-outline" : "btn-primary";
     let onClick = (options.callback === undefined) ? 'data-dismiss="modal"' : `onclick="${options.callback}"`;
 
@@ -157,6 +157,28 @@ function getQueryString(key) {
     }
 }
 
+/**
+ * Return a debounced function
+ *
+ * @param {Function} func
+ * @param {number}   delay
+ * @param {Array}    args
+ * @param {Object}   context
+ */
+function debounce(func, delay, args = [], context = undefined) {
+    if (isNaN(delay) || typeof func !== 'function') {
+        throw new Error('Arguments type of function "debounce" is incorrent!');
+    }
+
+    let timer = null;
+    return function () {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+            func.apply(context, args);
+        }, delay);
+    }
+}
+
 // polyfill of String.prototype.endsWith
 if (!String.prototype.endsWith) {
     String.prototype.endsWith = function (searchString, position) {
@@ -200,18 +222,11 @@ function confirmLogout() {
 }
 
 function logout() {
-    return new Promise((resolve, reject) => {
-        $.ajax({
-            type: "POST",
-            url: url('auth/logout'),
-            dataType: "json",
-            success: (json) => resolve(json),
-            error: (json) => {
-                showAjaxError(json);
-                reject(json);
-            }
-        });
-    });
+    return Promise.resolve($.ajax({
+        type: "POST",
+        url: url('auth/logout'),
+        dataType: "json"
+    }));
 }
 
 $('#logout-button').click(() => confirmLogout());
@@ -237,7 +252,7 @@ var TexturePreview = function (type, tid, preference) {
 
     this.change3dPreview = function () {
 
-        if (this.playerPreference == this.preference) {
+        if (this.playerPreference == this.preference || this.type == 'cape') {
             $.ajax({
                 type: "GET",
                 url: url(`skinlib/info/${this.tid}`),

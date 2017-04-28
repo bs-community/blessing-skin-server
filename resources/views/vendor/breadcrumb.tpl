@@ -5,17 +5,18 @@
             {{ trans('skinlib.filter.skin') }}
             <small>{{ trans('skinlib.filter.any-model') }}</small>
         @elseif ($filter == "steve")
-            {{ trans('skinlib.filter.any-model') }}
-            <small>({{ trans('skinlib.filter.steve-model') }})</small>
+            {{ trans('skinlib.filter.skin') }}
+            <small>{{ trans('skinlib.filter.steve-model') }}</small>
         @elseif ($filter == "alex")
             {{ trans('skinlib.filter.skin') }}
             <small>{{ trans('skinlib.filter.alex-model') }}</small>
         @elseif ($filter == "cape")
             {{ trans('skinlib.filter.cape') }}
-        @elseif ($filter == "user")
-            {{ trans('skinlib.filter.uploader', ['name' => App::make('users')->get($_GET['uid'])->getNickName()]) }}
         @endif
     </li>
+    @unless ($uploader == 0)
+    <li>{{ trans('skinlib.filter.uploader', ['name' => App::make('users')->get($_GET['uid'])->getNickName()]) }}</li>
+    @endunless
     <li class="active">
         @if ($sort == "time")
             {{ trans('skinlib.sort.newest-uploaded') }}

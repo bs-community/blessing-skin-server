@@ -62,12 +62,17 @@
             setAsPublic: 'Set as Public',
             setPublicNotice: 'Sure to set this as public texture?',
 
-            deleteNotice: 'Are you sure to delete this texture? Scores will be returned.'
+            deleteNotice: 'Are you sure to delete this texture?'
         },
         user: {
             signInRemainingTime: 'Available after :time hours',
 
             // Closet
+            emptyClosetMsg: '<p>Nothing in your closet...</p><p>Why not explore the <a href=":url">Skin Library</a> for a while?</p>',
+            renameItem: 'Rename item',
+            removeItem: 'Remove from closet',
+            setAsAvatar: 'Set as avatar',
+            viewInSkinlib: 'View in skin library',
             switch2dPreview: 'Switch to 2D Preview',
             switch3dPreview: 'Switch to 3D Preview',
             removeFromClosetNotice: 'Sure to remove this texture from your closet?',
@@ -77,11 +82,12 @@
 
             // Player
             changePlayerName: 'Please enter the player name:',
-            playerNameRule: 'The player name should only contain letters, numbers, and dashes.',
             emptyPlayerName: 'Empty player name.',
             clearTexture: 'Sure to clear the skins & cape of this player?',
             deletePlayer: 'Sure to delete this player?',
             deletePlayerNotice: 'It\'s permanent. No backups.',
+            chooseClearTexture: 'Choose texture types you want to clear',
+            noClearChoice: 'You haven\'t choose any types',
 
             // Profile
             setAvatar: 'Sure to set this as your avatar?',
@@ -95,38 +101,59 @@
             emptyDeletePassword: 'Please enter the current password:'
         },
         admin: {
-            // Change User Profile
-            newUserEmail: 'Please enter the new email:',
-            newUserNickname: 'Please enter the new nickname:',
-            newUserPassword: 'Please enter the new password:',
-            deleteUserNotice: 'Are you sure to delete this user? It\' permanent.',
-            changePlayerOwner: 'Please enter the id of user which this player should be transferred to:',
-            deletePlayerNotice: 'Are you sure to delete this player? It\' permanent.',
+            operationsTitle: 'Operations',
 
-            // Status
-            banned: 'Banned',
-            normal: 'Normal',
-            admin:  'Admin',
-
-            // Operations
+            // Users
             ban: 'Ban',
             unban: 'Unban',
             setAdmin: 'Set as admin',
             unsetAdmin: 'Remove admin',
+            deleteUser: 'Delete User',
+            cannotDeleteAdmin: 'You can\'t delete admins.',
+            cannotDeleteSuperAdmin: 'You can\'t delete super admin in this way',
+            changeEmail: 'Edit Email',
+            changeNickName: 'Edit Nickname',
+            changePassword: 'Edit Password',
+            newUserEmail: 'Please enter the new email:',
+            newUserNickname: 'Please enter the new nickname:',
+            newUserPassword: 'Please enter the new password:',
+            deleteUserNotice: 'Are you sure to delete this user? It\' permanent.',
+            scoreTip: 'Press ENTER to submit new score',
+            doubleClickToSeeUser: 'Double click to see info of this user',
+            doubleClickToSeePlayers: 'Double click to see his/her players',
 
-            // Change Player Texture
+            // Status
+            banned: 'Banned',
+            normal: 'Normal',
+            admin: 'Admin',
+            superAdmin: 'Super Admin',
+
+            // Players
             textureType: 'Texture Type',
             skin: 'Skin (:model Model)',
             cape: 'Cape',
             pid: 'Texture ID',
-            pidNotice: 'Please enter the tid of texture',
+            pidNotice: 'Please enter the tid of texture. Inputting 0 can clear texture of this player.',
             changePlayerTexture: 'Change textures of :player',
+            changeTexture: 'Change Textures',
+            changePlayerName: 'Change Player Name',
+            changeOwner: 'Change Owner',
+            deletePlayer: 'Delete',
+            changePlayerOwner: 'Please enter the id of user which this player should be transferred to:',
+            deletePlayerNotice: 'Are you sure to delete this player? It\' permanent.',
+            targetUser: 'Target user is :nickname',
+            noSuchUser: 'No such user',
+            changePlayerNameNotice: 'Please input new player name:',
+            emptyPlayerName: 'Player name cannot be empty.',
 
             // Index
             textureUploads: 'Texture Uploads',
             userRegistration: 'User Registration',
 
             // Plugins
+            configurePlugin: 'Configure',
+            noPluginConfigNotice: 'The plugin has been disabled or no configuration is provided.',
+            deletePlugin: 'Delete',
             statusEnabled: 'Enabled',
             statusDisabled: 'Disabled',
             enablePlugin: 'Enable',
@@ -139,10 +166,14 @@
             extracting: 'Extracting update package..'
         },
         general: {
+            skin: 'Skin',
+            cape: 'Cape',
             fatalError: 'Fatal Error (Please contact the author)',
             confirmLogout: 'Sure to log out?',
             confirm: 'OK',
-            cancel: 'Cancel'
+            cancel: 'Cancel',
+            more: 'More',
+            noResult: 'No result.'
         }
     };
 })(window.jQuery);

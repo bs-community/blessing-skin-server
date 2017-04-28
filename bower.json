@@ -24,6 +24,10 @@
     "font-awesome": "Font-Awesome#^4.6.3",
     "bootstrap-fileinput": "^4.3.3",
     "bootstrap": "^3.3.6",
-    "sweetalert2": "^4.1.6"
+    "sweetalert2": "^4.1.6",
+    "jqPaginator": "^1.2.0"
+  },
+  "resolutions": {
+    "jquery": "1.9.1 - 3"
   }
 }

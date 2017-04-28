@@ -165,25 +165,25 @@ class AdminController extends Controller
         return view('admin.users');
     }
 
-    public function getUserData()
+    public function getUserData(Request $request)
     {
-        $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at']);
+        $users = collect();
 
-        $permissionTextMap = [
-            User::BANNED => trans('admin.users.status.banned'),
-            User::NORMAL => trans('admin.users.status.normal'),
-            User::ADMIN  => trans('admin.users.status.admin'),
-            User::SUPER_ADMIN => trans('admin.users.status.super-admin')
-        ];
+        if ($request->has('uid')) {
+            $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at'])
+                        ->where('uid', intval($request->input('uid')));
+        } else {
+            $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at']);
+        }
 
         return Datatables::of($users)->editColumn('email', function ($user) {
             return $user->email ?: 'EMPTY';
-        })->editColumn('permission', function ($user) use ($permissionTextMap) {
-            return array_get($permissionTextMap, $user->permission);
         })
         ->setRowId('uid')
-        ->editColumn('score', 'vendor.admin-operations.users.score')
-        ->addColumn('operations', 'vendor.admin-operations.users.operations')
+        ->addColumn('operations', app('user.current')->getPermission())
+        ->addColumn('players_count', function ($user) {
+            return Player::where('uid', $user->uid)->count();
+        })
         ->make(true);
     }
 
@@ -198,15 +198,17 @@ class AdminController extends Controller
         return view('admin.players');
     }
 
-    public function getPlayerData()
+    public function getPlayerData(Request $request)
     {
-        $players = Player::select(['pid', 'uid', 'player_name', 'preference', 'tid_steve', 'tid_alex', 'tid_cape', 'last_modified']);
+        $players = collect();
+        if ($request->has('uid')) {
+            $players = Player::select(['pid', 'uid', 'player_name', 'preference', 'tid_steve', 'tid_alex', 'tid_cape', 'last_modified'])
+                            ->where('uid', intval($request->input('uid')));
+        } else {
+            $players = Player::select(['pid', 'uid', 'player_name', 'preference', 'tid_steve', 'tid_alex', 'tid_cape', 'last_modified']);
+        }
 
-        return Datatables::of($players)->editColumn('preference', 'vendor.admin-operations.players.preference')
-            ->setRowId('pid')
-            ->addColumn('previews', 'vendor.admin-operations.players.previews')
-            ->addColumn('operations', 'vendor.admin-operations.players.operations')
-            ->make(true);
+        return Datatables::of($players)->setRowId('pid')->make(true);
     }
 
     /**
@@ -227,6 +229,10 @@ class AdminController extends Controller
             $this->validate($request, [
                 'email' => 'required|email'
             ]);
+
+            if ($users->get($request->input('email'), 'email')) {
+                return json(trans('admin.users.operations.email.existed', ['email' => $request->input('email')]), 1);
+            }
 
             $user->setEmail($request->input('email'));
 
@@ -354,6 +360,28 @@ class AdminController extends Controller
             $player->delete();
 
             return json(trans('admin.players.delete.success'), 0);
+        } elseif ($action == "name") {
+            $player->rename($request->input('name'));
+
+            return json(trans('admin.players.name.success', ['player' => $player->player_name]), 0, ['name' => $player->player_name]);
+        }
+    }
+
+    /**
+     * Get one user information
+     *
+     * @param  string $uid
+     * @return JsonResponse
+     */
+    public function getOneUser($uid, UserRepository $users)
+    {
+        $user = $users->get(intval($uid));
+        if ($user) {
+            return json('success', 0, ['user' => $user->makeHidden([
+                'password', 'ip', 'last_sign_at', 'register_at'
+            ])->toArray()]);
+        } else {
+            return json('No such user.', 1);
         }
     }
 

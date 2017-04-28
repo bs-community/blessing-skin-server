@@ -32,41 +32,41 @@ class SkinlibController extends Controller
     {
         $filter  = $request->input('filter', 'skin');
         $sort    = $request->input('sort', 'time');
-        $uid     = $request->input('uid', session('uid'));
-        $page    = $request->input('page', 1);
-        $page    = $page <= 0 ? 1 : $page;
+        $uid     = intval($request->input('uid', 0));
+        $page    = $request->input('page', 1) <= 0 ? 1 : $request->input('page', 1);
 
         $sort_by = ($sort == "time") ? "upload_at" : $sort;
 
         if ($filter == "skin") {
-            $textures = Texture::where(function($query) {
-                $query->where('type',   '=', 'steve')
-                      ->orWhere('type', '=', 'alex');
-            })->orderBy($sort_by, 'desc');
-
-        } elseif ($filter == "user") {
-            $textures = Texture::where('uploader', $uid)->orderBy($sort_by, 'desc');
-
+            $textures = Texture::where('type', 'steve')->orWhere('type', 'alex');
         } else {
-            $textures = Texture::where('type', $filter)->orderBy($sort_by, 'desc');
+            $textures = Texture::where('type', $filter);
+        }
+
+        $textures = $textures->orderBy($sort_by, 'desc')->get();
+
+        if ($uid != 0) {
+            $textures = $textures->where('uploader', $uid);
         }
 
         if (!is_null($this->user)) {
             // show private textures when show uploaded textures of current user
-            if (!$this->user->isAdmin())
-                $textures = $textures->where('public', '1')
-                                     ->orWhere('uploader', $this->user->uid);
+            if ($uid != $this->user->uid && !$this->user->isAdmin()) {
+                $textures = $textures->where('public', 1)
+                                     ->merge($textures->where('uploader', $this->user->uid));
+            }
         } else {
-            $textures = $textures->where('public', '1');
+            $textures = $textures->where('public', 1);
         }
 
         $total_pages = ceil($textures->count() / 20);
 
-        $textures = $textures->skip(($page - 1) * 20)->take(20)->get();
+        $textures = $textures->slice(($page - 1) * 20);
 
         return view('skinlib.index')->with('user', $this->user)
                                     ->with('sort', $sort)
                                     ->with('filter', $filter)
+                                    ->with('uploader', $uid)
                                     ->with('textures', $textures)
                                     ->with('page', $page)
                                     ->with('total_pages', $total_pages);
@@ -80,22 +80,36 @@ class SkinlibController extends Controller
 
         $sort_by = ($sort == "time") ? "upload_at" : $sort;
 
+        if ($q == '') {
+            return redirect('skinlib');
+        }
+
         if ($filter == "skin") {
             $textures = Texture::like('name', $q)->where(function($query) use ($q) {
-                $query->where('public', '=', '1')
-                      ->where('type',   '=', 'steve')
+                $query->where('type',   '=', 'steve')
                       ->orWhere('type', '=', 'alex');
             })->orderBy($sort_by, 'desc')->get();
         } else {
             $textures = Texture::like('name', $q)
                                 ->where('type', $filter)
-                                ->where('public', '1')
+                                ->where('public', 1)
                                 ->orderBy($sort_by, 'desc')->get();
+        }
+
+        if (!is_null($this->user)) {
+            // show private textures when show uploaded textures of current user
+            if (!$this->user->isAdmin()) {
+                $textures = $textures->where('public', 1)
+                                     ->merge($textures->where('uploader', $this->user->uid));
+            }
+        } else {
+            $textures = $textures->where('public', 1);
         }
 
         return view('skinlib.search')->with('user', $this->user)
                                     ->with('sort', $sort)
                                     ->with('filter', $filter)
+                                    ->with('uploader', 0)
                                     ->with('q', $q)
                                     ->with('textures', $textures);
     }
@@ -153,6 +167,7 @@ class SkinlibController extends Controller
         $t->upload_at = Utils::getTimeFormatted();
 
         $cost = $t->size * (($t->public == "1") ? Option::get('score_per_storage') : Option::get('private_score_per_storage'));
+        $cost += option('score_per_closet_item');
 
         if ($this->user->getScore() < $cost)
             return json(trans('skinlib.upload.lack-score'), 7);
@@ -182,7 +197,7 @@ class SkinlibController extends Controller
         }
     }
 
-    public function delete(Request $request)
+    public function delete(Request $request, UserRepository $users)
     {
         $result = Texture::find($request->tid);
 
@@ -197,17 +212,24 @@ class SkinlibController extends Controller
             Storage::delete($result['hash']);
 
         if (option('return_score')) {
-            if ($result->public == 1)
-                $this->user->setScore($result->size * Option::get('score_per_storage'), 'plus');
+            if ($result->public == 1) {
+                $users->get($result->uploader)->setScore($result->size * Option::get('score_per_storage'), 'plus');
+                foreach (Closet::all() as $closet) {
+                    if ($closet->has($result->tid)) {
+                        $closet->remove($result->tid);
+                        $users->get($closet->uid)->setScore(option('score_per_closet_item'), 'plus');
+                    }
+                }
+            }
             else
-                $this->user->setScore($result->size * Option::get('private_score_per_storage'), 'plus');
+                $users->get($result->uploader)->setScore($result->size * Option::get('private_score_per_storage'), 'plus');
         }
 
         if ($result->delete())
             return json(trans('skinlib.delete.success'), 0);
     }
 
-    public function privacy(Request $request)
+    public function privacy(Request $request, UserRepository $users)
     {
         $t = Texture::find($request->input('tid'));
         $type = $t->type;
@@ -227,12 +249,12 @@ class SkinlibController extends Controller
             if ($closet->uid != $uid && $closet->has($t->tid)) {
                 $closet->remove($t->tid);
                 if (option('return_score')) {
-                    User::find($closet->uid)->setScore(option('score_per_closet_item'), 'plus');
+                    $users->get($closet->uid)->setScore(option('score_per_closet_item'), 'plus');
                 }
             }
         }
 
-        app('user.current')->setScore(
+        $users->get($t->uploader)->setScore(
             $t->size * (option('private_score_per_storage') - option('score_per_storage')) * ($t->public == 1 ? -1 : 1),
             'plus'
         );

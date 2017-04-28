@@ -62,12 +62,17 @@
             setAsPublic: '设为公开',
             setPublicNotice: '要将此材质设置为公开吗？',
 
-            deleteNotice: '真的要删除此材质吗？积分将会被返还'
+            deleteNotice: '真的要删除此材质吗？'
         },
         user: {
             signInRemainingTime: ':time 小时后可签到',
 
             // Closet
+            emptyClosetMsg: '<p>衣柜里啥都没有哦~</p><p>去<a href=":url">皮肤库</a>看看吧~</p>',
+            renameItem: '重命名物品',
+            removeItem: '从衣柜中移除',
+            setAsAvatar: '设为头像',
+            viewInSkinlib: '在皮肤库中查看',
             switch2dPreview: '切换 2D 预览',
             switch3dPreview: '切换 3D 预览',
             removeFromClosetNotice: '确定要从衣柜中移除此材质吗？',
@@ -77,11 +82,12 @@
 
             // Player
             changePlayerName: '请输入角色名：',
-            playerNameRule: '允许数字、字母以及下划线，是否支持中文角色名请参考本站设置',
             emptyPlayerName: '你还没有填写名称哦',
             clearTexture: '确定要重置该用户的皮肤/披风吗？',
             deletePlayer: '真的要删除该玩家吗？',
             deletePlayerNotice: '这将是永久性的删除',
+            chooseClearTexture: '选择要删除的材质类型',
+            noClearChoice: '您还没选择要删除的材质类型',
 
             // Profile
             setAvatar: '确定要将此材质设置为用户头像吗？',
@@ -95,38 +101,59 @@
             emptyDeletePassword: '请先输入当前用户密码'
         },
         admin: {
-            // Change User Profile
-            newUserEmail: '请输入新邮箱：',
-            newUserNickname: '请输入新昵称：',
-            newUserPassword: '请输入新密码：',
-            deleteUserNotice: '真的要删除此用户吗？此操作不可恢复',
-            changePlayerOwner: '请输入此角色要让渡至的用户 UID：',
-            deletePlayerNotice: '真的要删除此角色吗？此操作不可恢复',
+            operationsTitle: '更多操作',
 
-            // Status
-            banned: '封禁',
-            normal: '正常',
-            admin:  '管理员',
-
-            // Operations
+            // Users
             ban: '封禁',
             unban: '解封',
             setAdmin: '设为管理员',
             unsetAdmin: '解除管理员',
+            deleteUser: '删除用户',
+            cannotDeleteAdmin: '你不能删除管理员账号哦',
+            cannotDeleteSuperAdmin: '超级管理员账号不能被这样删除的啦',
+            changeEmail: '修改邮箱',
+            changeNickName: '修改昵称',
+            changePassword: '更改密码',
+            newUserEmail: '请输入新邮箱：',
+            newUserNickname: '请输入新昵称：',
+            newUserPassword: '请输入新密码：',
+            deleteUserNotice: '真的要删除此用户吗？此操作不可恢复',
+            scoreTip: '输入修改后的积分，回车提交',
+            doubleClickToSeeUser: '双击可查看该用户的信息',
+            doubleClickToSeePlayers: '双击可查看该用户的角色',
 
-            // Change Player Texture
+            // Status
+            banned: '封禁',
+            normal: '普通用户',
+            admin: '管理员',
+            superAdmin: '超级管理员',
+
+            // Players
             textureType: '材质类型',
             skin: '皮肤（:model 模型）',
             cape: '披风',
             pid: '材质 ID',
-            pidNotice: '输入要更换的材质的 TID',
+            pidNotice: '输入要更换的材质的 TID，输入 0 即可清除该角色的材质',
             changePlayerTexture: '更换角色 :player 的材质',
+            changeTexture: '更换材质',
+            changePlayerName: '更改角色名',
+            changeOwner: '更换角色拥有者',
+            deletePlayer: '删除角色',
+            changePlayerOwner: '请输入此角色要让渡至的用户 UID：',
+            deletePlayerNotice: '真的要删除此角色吗？此操作不可恢复',
+            targetUser: '目标用户：:nickname',
+            noSuchUser: '没有这个用户哦~',
+            changePlayerNameNotice: '请输入新的角色名：',
+            emptyPlayerName: '您还没填写角色名呢',
 
             // Index
             textureUploads: '材质上传',
             userRegistration: '用户注册',
 
             // Plugins
+            configurePlugin: '插件配置',
+            noPluginConfigNotice: '插件已被禁用或无配置页',
+            deletePlugin: '删除插件',
             statusEnabled: '已启用',
             statusDisabled: '已禁用',
             enablePlugin: '启用插件',
@@ -139,10 +166,14 @@
             extracting: '正在解压更新包'
         },
         general: {
+            skin: '皮肤',
+            cape: '披风',
             fatalError: '严重错误（请联系作者）',
             confirmLogout: '确定要登出吗？',
             confirm: '确定',
-            cancel:  '取消'
+            cancel: '取消',
+            more: '更多',
+            noResult: '无结果'
         },
         vendor: {
             datatables: {

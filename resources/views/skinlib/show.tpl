@@ -51,14 +51,20 @@
                                         <td id="name">{{ $texture->name }}
                                             @if (!is_null($user) && ($texture->uploader == $user->uid || $user->isAdmin()))
                                             <small>
-                                                <a href="javascript:changeTextureName({{ $texture->tid }});">{{ trans('skinlib.show.edit-name') }}</a>
+                                                <a href="javascript:changeTextureName({{ $texture->tid }}, '{{ $texture->name }}');">{{ trans('skinlib.show.edit-name') }}</a>
                                             </small>
                                             @endif
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>{{ trans('skinlib.show.model') }}</td>
-                                        <td>{{ $texture->type }}</td>
+                                        <td>
+                                            @if ($texture->type == 'cape')
+                                                {{ trans('general.cape') }}
+                                            @else
+                                                {{ $texture->type }}
+                                            @endif
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td>Hash
@@ -75,7 +81,7 @@
                                     <tr>
                                         <td>{{ trans('skinlib.show.uploader') }}</td>
                                         @if ($uploader = app('users')->get($texture->uploader))
-                                        <td><a href="{{ url('skinlib?filter=user&uid='.$uploader->uid) }}&sort=time">{{ $uploader->getNickName() }}</a></td>
+                                        <td><a href="{{ url('skinlib?filter='.($texture->type == 'cape' ? 'cape' : 'skin').'&uid='.$uploader->uid) }}&sort=time">{{ $uploader->getNickName() }}</a></td>
                                         @else
                                         <td><a href="#">{{ trans('general.unexistent-user') }}</a></td>
                                         @endif

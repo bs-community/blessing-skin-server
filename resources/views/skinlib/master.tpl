@@ -39,17 +39,17 @@
                                     <i class="fa fa-filter" aria-hidden="true"></i> {{ trans('skinlib.general.filter') }} <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter=skin&sort={{ $sort }}'>{{ trans('general.skin') }} <small>{{ trans('skinlib.filter.any-model') }}</small></a></li>
-                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter=steve&sort={{ $sort }}'>{{ trans('general.skin') }} <small>{{ trans('skinlib.filter.steve-model') }}</small></a></li>
-                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter=alex&sort={{ $sort }}'>{{ trans('general.skin') }} <small>{{ trans('skinlib.filter.alex-model') }}</small></a></li>
+                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter=skin&{{ isset($_GET["uid"]) ? "uid=$uploader&" : "" }}sort={{ $sort }}'>{{ trans('general.skin') }} <small>{{ trans('skinlib.filter.any-model') }}</small></a></li>
+                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter=steve&{{ isset($_GET["uid"]) ? "uid=$uploader&" : "" }}sort={{ $sort }}'>{{ trans('general.skin') }} <small>{{ trans('skinlib.filter.steve-model') }}</small></a></li>
+                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter=alex&{{ isset($_GET["uid"]) ? "uid=$uploader&" : "" }}sort={{ $sort }}'>{{ trans('general.skin') }} <small>{{ trans('skinlib.filter.alex-model') }}</small></a></li>
                                     <li class="divider"></li>
-                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter=cape&sort={{ $sort }}'>{{ trans('general.cape') }}</a></li>
+                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter=cape&{{ isset($_GET["uid"]) ? "uid=$uploader&" : "" }}sort={{ $sort }}'>{{ trans('general.cape') }}</a></li>
                                     @if (!is_null($user))
                                     <li class="divider"></li>
-                                    <li><a href="?filter=user&uid={{ $user->uid }}&sort={{ $sort }}">{{ trans('skinlib.general.my-upload') }}</a></li>
+                                    <li><a href="?{{ isset($_GET["filter"]) ? "filter=$filter&" : "" }}uid={{ $user->uid }}&sort={{ $sort }}">{{ trans('skinlib.general.my-upload') }}</a></li>
                                     @endif
                                     <li class="divider"></li>
-                                    <li><a href="/skinlib">{{ trans('skinlib.filter.clean-filter') }}</a></li>
+                                    <li><a href="{{ url('skinlib') }}">{{ trans('skinlib.filter.clean-filter') }}</a></li>
                                 </ul>
                             </li>
 

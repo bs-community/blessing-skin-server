@@ -43,26 +43,5 @@
 $(document).ready(function() {
     $('.box-body').css('min-height', $('.content-wrapper').height() - $('.content-header').outerHeight() - 120);
 });
-
-$('#player-table').DataTable({
-    language: trans('vendor.datatables'),
-    scrollX: true,
-    autoWidth: false,
-    processing: true,
-    serverSide: true,
-    ajax: '{{ url("admin/player-data") }}',
-    createdRow: function (row, data, index) {
-        $('td', row).eq(2).attr('id', 'player-name');
-    },
-    columns: [
-        {data: 'pid', 'width': '1%'},
-        {data: 'uid'},
-        {data: 'player_name'},
-        {data: 'preference'},
-        {data: 'previews', searchable: false, orderable: false},
-        {data: 'last_modified'},
-        {data: 'operations', searchable: false, orderable: false}
-    ]
-});
 </script>
 @endsection

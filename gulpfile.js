@@ -1,8 +1,8 @@
 /*
 * @Author: printempw
 * @Date:   2016-07-21 13:38:26
-* @Last Modified by:   printempw
-* @Last Modified time: 2017-01-22 20:45:06
+ * @Last Modified by: g-plane
+ * @Last Modified time: 2017-04-26 15:39:46
 */
 
 'use strict';
@@ -35,6 +35,7 @@ var vendorScripts = [
     'toastr/toastr.min.js',
     'es6-promise/es6-promise.auto.min.js',
     'sweetalert2/dist/sweetalert2.min.js',
+    'jqPaginator/dist/jqPaginator.min.js',
     'resources/assets/dist/scripts/general.js',
 ];
 

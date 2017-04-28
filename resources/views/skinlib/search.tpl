@@ -10,7 +10,6 @@
         <section class="content-header">
             <h1>
                 {{ $__env->getSections()['title'] }}
-                <small>Search Result</small>
             </h1>
             @include('vendor.breadcrumb')
 

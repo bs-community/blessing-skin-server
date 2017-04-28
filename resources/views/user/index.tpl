@@ -110,7 +110,8 @@
                 {!! nl2br(trans('user.score-intro.introduction', [
                     'initial_score' => option('user_initial_score'),
                     'score-from'    => $from,
-                    'score-to'      => $to
+                    'score-to'      => $to,
+                    'return-score'  => option('return_score') ? trans('user.score-intro.will-return-score') : trans('user.score-intro.no-return-score')
                 ])) !!}
 
                 <hr />

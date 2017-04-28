@@ -6,19 +6,20 @@ index:
   overview: 概览
 
 users:
+  players-count:
+    title: 拥有角色数
   status:
     title: 状态
     normal: 普通用户
     banned: 封禁
     admin: 管理员
     super-admin: 超级管理员
-  score:
-    tip: 输入修改后的积分，回车提交
   operations:
     title: 更多操作
     non-existent: 用户不存在
     email:
       change: 修改邮箱
+      existed: :email 已被占用
       success: 邮箱修改成功
     nickname:
       change: 修改昵称
@@ -61,6 +62,8 @@ players:
     change: 更换材质
     non-existent: 材质 tid.:tid 不存在
     success: 角色 :player 的材质修改成功
+  name:
+    success: 角色名成功更改为 :player
   owner:
     change: 更换角色拥有者
     success: 角色 :player 已成功让渡至 :user
@@ -100,12 +103,6 @@ plugins:
 
   operations:
     title: 操作
-    disable: 禁用插件
-    enable: 启用插件
-    configure: 插件配置
-    no-config-notice: 插件已被禁用或无配置页
-    delete: 删除插件
-
     enabled: :plugin 已启用
     disabled: :plugin 已禁用
     deleted: 插件已被成功删除

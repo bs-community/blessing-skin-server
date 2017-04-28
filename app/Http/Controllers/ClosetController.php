@@ -25,43 +25,40 @@ class ClosetController extends Controller
         $this->closet = new Closet(session('uid'));
     }
 
-    public function index(Request $request)
+    public function index()
+    {
+        return view('user.closet')->with('user', app('user.current'));
+    }
+
+    public function getClosetData(Request $request)
     {
         $category = $request->input('category', 'skin');
-        $page     = $request->input('page', 1);
-        $page     = $page <= 0 ? 1 : $page;
+        $page     = abs($request->input('page', 1));
         $q        = $request->input('q', null);
 
         $items = [];
 
         if ($q) {
-            foreach (['skin', 'cape'] as $category) {
-                // do search
-                foreach ($this->closet->getItems($category) as $item) {
-                    if (strstr($item->name, $q)) {
-                        $items[$category][] = $item;
-                    }
+            // do search
+            foreach ($this->closet->getItems($category) as $item) {
+                if (stristr($item->name, $q)) {
+                    $items[] = $item;
                 }
             }
         } else {
-            $items['skin'] = $this->closet->getItems('skin');
-            $items['cape'] = $this->closet->getItems('cape');
+            $items = $this->closet->getItems($category);
         }
 
         // pagination
-        $total_pages = [];
+        $total_pages = ceil(count($items) / 6);
 
-        foreach ($items as $key => $value) {
-            $total_pages[] = ceil(count($items[$key]) / 6);
-            $items[$key] = array_slice($value, ($page-1)*6, 6);
-        }
+        $items = array_slice($items, ($page - 1) * 6, 6);
 
-        return view('user.closet')->with('items', $items)
-                                  ->with('page', $page)
-                                  ->with('q', $q)
-                                  ->with('category', $category)
-                                  ->with('total_pages', $total_pages ? max($total_pages) : 0)
-                                  ->with('user', app('user.current'));
+        return response()->json([
+            'category'    => $category,
+            'items'       => $items,
+            'total_pages' => $total_pages
+        ]);
     }
 
     public function info()

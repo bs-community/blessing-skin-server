@@ -97,17 +97,22 @@ class Player extends Model
     /**
      * Clear the textures of player.
      *
-     * @return mixed
+     * @param  array|string $types
+     * @return $this
      */
-    public function clearTexture()
+    public function clearTexture($types)
     {
-        $this->setPreference('default');
+        $types = (array) $types;
 
-        return $this->setTexture([
-            'tid_steve' => 0,
-            'tid_alex'  => 0,
-            'tid_cape'  => 0
-        ]);
+        $map = [];
+
+        foreach ($types as $type) {
+            $map["tid_$type"] = 0;
+        }
+
+        $this->setTexture($map);
+
+        return $this;
     }
 
     /**

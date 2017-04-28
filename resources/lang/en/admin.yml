@@ -6,19 +6,20 @@ index:
   overview: Overview
 
 users:
+  players-count:
+    title: Players Count
   status:
     title: Status
     normal: Normal
     banned: Banned
     admin: Admin
     super-admin: Super Admin
-  score:
-    tip: Press enter to submit new score
   operations:
     title: Operations
     non-existent: No such user.
     email:
       change: Edit Email
+      existed: :email is existed.
       success: Email changed successfully.
     nickname:
       change: Edit Nickname
@@ -61,6 +62,8 @@ players:
     change: Change Textures
     non-existent: No such texture tid.:tid
     success: The textures of :player has been updated.
+  name:
+    success: Player name has been updated to :player
   owner:
     change: Change Owner
     success: The player :player was transferred to user :user.
@@ -100,12 +103,6 @@ plugins:
 
   operations:
     title: Operations
-    disable: Disable
-    enable: Enable
-    configure: Configure
-    no-config-notice: The plugin has been disabled or no configuration is provided.
-    delete: Delete
-
     enabled: :plugin has been enabled.
     disabled: :plugin has been disabled.
     deleted: The plugin was deleted successfully.

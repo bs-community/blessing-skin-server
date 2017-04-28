@@ -1,16 +1,39 @@
 /*
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
- * @Last Modified by:   printempw
- * @Last Modified time: 2017-01-21 10:58:50
+ * @Last Modified by: g-plane
+ * @Last Modified time: 2017-04-28 19:54:02
  */
 
 'use strict';
+
+let pluginsTable;
 
 $(document).ready(function() {
     $('input').iCheck({
         checkboxClass: 'icheckbox_square-blue'
     });
+    swal.setDefaults({
+        confirmButtonText: trans('general.confirm'),
+        cancelButtonText: trans('general.cancel')
+    });
+
+    $.extend(true, $.fn.dataTable.defaults, {
+        language: trans('vendor.datatables'),
+        scrollX: true,
+        pageLength: 25,
+        autoWidth: false,
+        processing: true,
+        serverSide: true
+    });
+
+    if (window.location.href.indexOf(url('admin/users')) >= 0) {
+        initUsersTable();
+    } else if (window.location.href.indexOf(url('admin/players')) >= 0) {
+        initPlayersTable();
+    } else if (window.location.href.indexOf(url('admin/plugins/manage')) >= 0) {
+        pluginsTable = initPluginsTable();
+    }
 });
 
 $('#layout-skins-list [data-skin]').click(function(e) {
@@ -37,67 +60,75 @@ $('#color-submit').click(function() {
 });
 
 function changeUserEmail(uid) {
-    var email = prompt(trans('admin.newUserEmail'));
-
-    if (!email) return;
-
-    $.ajax({
-        type: "POST",
-        url: "./users?action=email",
-        dataType: "json",
-        data: { 'uid': uid, 'email': email },
-        success: function(json) {
-            if (json.errno == 0) {
-                $($('tr#'+uid+' > td')[1]).html(email);
-                toastr.success(json.msg);
-            } else {
-                toastr.warning(json.msg);
-            }
-        },
-        error: showAjaxError
+    let dom = $(`tr#user-${uid} > td:nth-child(2)`);
+    swal({
+        text: trans('admin.newUserEmail'),
+        showCancelButton: true,
+        input: 'text',
+        inputValue: dom.text()
+    }).then(email => {
+        $.ajax({
+            type: "POST",
+            url: "./users?action=email",
+            dataType: "json",
+            data: { 'uid': uid, 'email': email },
+            success: json => {
+                if (json.errno == 0) {
+                    dom.text(email);
+                    toastr.success(json.msg);
+                } else {
+                    toastr.warning(json.msg);
+                }
+            },
+            error: showAjaxError
+        });
     });
 }
 
 function changeUserNickName(uid) {
-    var nickname = prompt(trans('admin.newUserNickname'));
-
-    if (!nickname) return;
-
-    $.ajax({
-        type: "POST",
-        url: "./users?action=nickname",
-        dataType: "json",
-        data: { 'uid': uid, 'nickname': nickname },
-        success: function(json) {
-            if (json.errno == 0) {
-                $($('tr#'+uid+' > td')[2]).html(nickname);
-                toastr.success(json.msg);
-            } else {
-                toastr.warning(json.msg);
-            }
-        },
-        error: showAjaxError
+    let dom = $(`tr#user-${uid} > td:nth-child(3)`);
+    swal({
+        text: trans('admin.newUserNickname'),
+        showCancelButton: true,
+        input: 'text',
+        inputValue: dom.text()
+    }).then(nickname => {
+        $.ajax({
+            type: "POST",
+            url: "./users?action=nickname",
+            dataType: "json",
+            data: { 'uid': uid, 'nickname': nickname },
+            success: json => {
+                if (json.errno == 0) {
+                    dom.text(nickname);
+                    toastr.success(json.msg);
+                } else {
+                    toastr.warning(json.msg);
+                }
+            },
+            error: showAjaxError
+        });
     });
 }
 
 function changeUserPwd(uid) {
-    var password = prompt(trans('admin.newUserPassword'));
-
-    if (!password) return;
-
-    $.ajax({
-        type: "POST",
-        url: "./users?action=password",
-        dataType: "json",
-        data: { 'uid': uid, 'password': password },
-        success: function(json) {
-            if (json.errno == 0)
-                toastr.success(json.msg);
-            else
-                toastr.warning(json.msg);
-        },
-        error: showAjaxError
-    });
+    swal({
+        text: trans('admin.newUserPassword'),
+        showCancelButton: true,
+        input: 'password',
+    }).then(password => {
+        return Promise.resolve($.ajax({
+            type: "POST",
+            url: "./users?action=password",
+            dataType: "json",
+            data: { 'uid': uid, 'password': password }
+        }));
+    }).then(json => {
+        if (json.errno == 0)
+            toastr.success(json.msg);
+        else
+            toastr.warning(json.msg);
+    }).catch(error => showAjaxError);
 }
 
 function changeUserScore(uid, score) {
@@ -126,12 +157,16 @@ function changeBanStatus(uid) {
         data: { 'uid': uid },
         success: function(json) {
             if (json.errno == 0) {
-                var object = $('#'+uid).find('a#ban');
-                var dom = '<a id="ban" href="javascript:changeBanStatus('+uid+');">' +
-                            (object.text() == trans('admin.ban') ? trans('admin.unban') : trans('admin.ban')) + '</a>';
-                object.html(dom);
+                let dom = $(`#ban-${uid}`);
+                if (dom.attr('data') == 'banned') {
+                    dom.text(trans('admin.ban'));
+                    dom.attr('data', 'normal');
+                } else {
+                    dom.text(trans('admin.unban'));
+                    dom.attr('data', 'banned');
+                }
 
-                $('#'+uid).find('#permission').text(json.permission == '-1' ? trans('admin.banned') : trans('admin.normal'));
+                $(`#user-${uid} > td:nth-child(5)`).text(json.permission == -1 ? trans('admin.banned') : trans('admin.normal'));
                 toastr.success(json.msg);
             } else {
                 toastr.warning(json.msg);
@@ -149,12 +184,16 @@ function changeAdminStatus(uid) {
         data: { 'uid': uid },
         success: function(json) {
             if (json.errno == 0) {
-                var object = $('#'+uid).find('a#admin');
-                var dom = '<a href="javascript:changeAdminStatus('+uid+');">' +
-                            (object.text() == trans('admin.setAdmin') ? trans('admin.unsetAdmin') : trans('admin.setAdmin')) + '</a>';
-                object.html(dom);
+                let dom = $(`#admin-${uid}`);
+                if (dom.attr('data') == 'admin') {
+                    dom.text(trans('admin.setAdmin'));
+                    dom.attr('data', 'normal');
+                } else {
+                    dom.text(trans('admin.unsetAdmin'));
+                    dom.attr('data', 'admin');
+                }
 
-                $('#'+uid).find('#permission').text(json.permission == '1' ? trans('admin.admin') : trans('admin.normal'));
+                $(`#user-${uid} > td:nth-child(5)`).text(json.permission == 1 ? trans('admin.admin') : trans('admin.normal'));
                 toastr.success(json.msg);
             } else {
                 toastr.warning(json.msg);
@@ -165,23 +204,25 @@ function changeAdminStatus(uid) {
 }
 
 function deleteUserAccount(uid) {
-    if (!window.confirm(trans('admin.deleteUserNotice'))) return;
-
-    $.ajax({
-        type: "POST",
-        url: "./users?action=delete",
-        dataType: "json",
-        data: { 'uid': uid },
-        success: function(json) {
-            if (json.errno == 0) {
-                $('tr#'+uid).remove();
-                toastr.success(json.msg);
-            } else {
-                toastr.warning(json.msg);
-            }
-        },
-        error: showAjaxError
-    });
+    swal({
+        text: trans('admin.deleteUserNotice'),
+        type: 'warning',
+        showCancelButton: true
+    }).then(() => {
+        return Promise.resolve($.ajax({
+            type: "POST",
+            url: "./users?action=delete",
+            dataType: "json",
+            data: { 'uid': uid }
+        }))
+    }).then(json => {
+        if (json.errno == 0) {
+            $('tr#user-' + uid).remove();
+            toastr.success(json.msg);
+        } else {
+            toastr.warning(json.msg);
+        }
+    }).catch(error => showAjaxError);
 }
 
 $('body').on('keypress', '.score', function(event){
@@ -191,7 +232,7 @@ $('body').on('keypress', '.score', function(event){
     }
 });
 
-$('body').on('change', '#preference', function() {
+function changePreference() {
     $.ajax({
         type: "POST",
         url: "./players?action=preference",
@@ -206,9 +247,9 @@ $('body').on('change', '#preference', function() {
         },
         error: showAjaxError
     });
-});
+}
 
-function changeTexture(pid) {
+function changeTexture(pid, playerName) {
     let dom   = `
     <div class="form-group">
         <label for="model">${trans('admin.textureType')}</label>
@@ -222,8 +263,6 @@ function changeTexture(pid) {
         <label for="tid">${trans('admin.pid')}</label>
         <input id="tid" class="form-control" type="text" placeholder="${trans('admin.pidNotice')}">
     </div>`;
-
-    let playerName = $('#'+pid).find('#player-name').text();
 
     showModal(dom, trans('admin.changePlayerTexture', {'player': playerName}), 'default', {
         callback: `ajaxChangeTexture(${pid})`
@@ -259,46 +298,106 @@ function ajaxChangeTexture(pid) {
     });
 }
 
+function changePlayerName(pid, oldName) {
+    let dom = $(`tr#${pid} > td:nth-child(3)`);
+    swal({
+        text: trans('admin.changePlayerNameNotice'),
+        input: 'text',
+        inputValue: oldName,
+        inputValidator: name => {
+            return new Promise((resolve, reject) => {
+                if (name) {
+                    resolve();
+                } else {
+                    reject(trans('admin.emptyPlayerName'));
+                }
+            })
+        }
+    }).then(name => {
+        return Promise.resolve($.ajax({
+            type: 'POST',
+            url: './players?action=name',
+            dataType: 'json',
+            data: { pid: pid, name: name }
+        }));
+    }).then(json => {
+        if (json.errno == 0) {
+            dom.text(json.name);
+            toastr.success(json.msg);
+        } else {
+            toastr.warning(json.msg);
+        }
+    }).catch(error => showAjaxError);
+}
+
 function changeOwner(pid) {
-    var uid = prompt(trans('admin.changePlayerOwner'));
-
-    if (!uid) return;
-
-    $.ajax({
-        type: "POST",
-        url: "./players?action=owner",
-        dataType: "json",
-        data: { 'pid': pid, 'uid': uid },
-        success: function(json) {
-            if (json.errno == 0) {
-                $($('#'+pid).children()[1]).text(uid);
-                toastr.success(json.msg);
-            } else {
-                toastr.warning(json.msg);
-            }
-        },
-        error: showAjaxError
+    let dom = $(`#${pid} > td:nth-child(2)`);
+    swal({
+        html: `${trans('admin.changePlayerOwner')}<br><small>&nbsp;</small>`,
+        input: 'number',
+        inputValue: dom.text(),
+        showCancelButton: true
+    }).then(uid => {
+        $.ajax({
+            type: "POST",
+            url: "./players?action=owner",
+            dataType: "json",
+            data: { 'pid': pid, 'uid': uid },
+            success: function (json) {
+                if (json.errno == 0) {
+                    dom.text(uid);
+                    toastr.success(json.msg);
+                } else {
+                    toastr.warning(json.msg);
+                }
+            },
+            error: showAjaxError
+        });
     });
+
+    $('.swal2-input').on('input', debounce(() => {
+        const uid = $('.swal2-input').val();
+        if (uid > 0) {
+            Promise.resolve($.ajax({
+                type: 'GET',
+                url: `./user/${uid}`,
+                dataType: 'json'
+            })).then(result => {
+                $('#swal2-content').html(
+                    `${trans('admin.changePlayerOwner')}<br>
+                    <small>${trans('admin.targetUser', { nickname: result.user.nickname })}</small>`
+                );
+            }).catch(() => {
+                $('#swal2-content').html(`${trans('admin.changePlayerOwner')}<br><small>${trans('admin.noSuchUser')}</small>`);
+            });
+        }
+    }, 350));
 }
 
 function deletePlayer(pid) {
-    if (!window.confirm(trans('admin.deletePlayerNotice'))) return;
+    swal({
+        text: trans('admin.deletePlayerNotice'),
+        type: 'warning',
+        showCancelButton: true
+    }).then(() => {
+        return Promise.resolve($.ajax({
+            type: "POST",
+            url: "./players?action=delete",
+            dataType: "json",
+            data: { 'pid': pid },
+            success: function (json) {
 
-    $.ajax({
-        type: "POST",
-        url: "./players?action=delete",
-        dataType: "json",
-        data: { 'pid': pid },
-        success: function(json) {
-            if (json.errno == 0) {
-                $('tr#'+pid).remove();
-                toastr.success(json.msg);
-            } else {
-                toastr.warning(json.msg);
-            }
-        },
-        error: showAjaxError
-    });
+            },
+            error: showAjaxError
+        }))
+    }).then(json => {
+        if (json.errno == 0) {
+            $('tr#' + pid).remove();
+            toastr.success(json.msg);
+        } else {
+            toastr.warning(json.msg);
+        }
+    }).catch(error => showAjaxError);
 }
 
 function enablePlugin(name) {
@@ -310,7 +409,7 @@ function enablePlugin(name) {
             if (json.errno == 0) {
                 toastr.success(json.msg);
 
-                table.ajax.reload(null, false);
+                pluginsTable.ajax.reload(null, false);
             } else {
                 toastr.warning(json.msg);
             }
@@ -328,7 +427,7 @@ function disablePlugin(name) {
             if (json.errno == 0) {
                 toastr.warning(json.msg);
 
-                table.ajax.reload(null, false);
+                pluginsTable.ajax.reload(null, false);
             } else {
                 toastr.warning(json.msg);
             }
@@ -351,7 +450,7 @@ function deletePlugin(name) {
                 if (json.errno == 0) {
                     toastr.success(json.msg);
 
-                    $('tr[id=plugin-'+name+']').remove();
+                    pluginsTable.ajax.reload(null, false);
                 } else {
                     toastr.warning(json.msg);
                 }
@@ -452,4 +551,274 @@ function downloadUpdates() {
     })
     .fail(showAjaxError);
 
+}
+
+function initUsersTable() {
+    let dataUrl = url('admin/user-data');
+    if (getQueryString('uid')) {
+        dataUrl += '?uid=' + getQueryString('uid');
+    }
+    $('#user-table').DataTable({
+        ajax: dataUrl,
+        scrollY: ($('.content-wrapper').height() - $('.content-header').outerHeight()) * 0.7,
+        rowCallback: (row, data) => {
+            $(row).attr('id', `user-${data.uid}`);
+        },
+        columnDefs: [
+            {
+                targets: 0,
+                data: 'uid',
+                width: '1%'
+            },
+            {
+                targets: 1,
+                data: 'email'
+            },
+            {
+                targets: 2,
+                data: 'nickname'
+            },
+            {
+                targets: 3,
+                data: 'score',
+                render: data => {
+                    return `<input type="number" class="form-control score" value="${data}" title="${trans('admin.scoreTip')}" data-toggle="tooltip" data-placement="right">`;
+                }
+            },
+            {
+                targets: 4,
+                data: 'players_count',
+                render: (data, type, row) => {
+                    return `<span title="${trans('admin.doubleClickToSeePlayers')}"
+                    style="cursor: pointer;"
+                    ondblclick="window.location.href = '${url('admin/players?uid=') + row.uid}'"
+                    data-toggle="tooltip" data-placement="top">${data}</span>`;
+                }
+            },
+            {
+                targets: 5,
+                data: 'permission',
+                render: data => {
+                    switch (data) {
+                        case -1:
+                            return trans('admin.banned');
+                        case 0:
+                            return trans('admin.normal');
+                        case 1:
+                            return trans('admin.admin');
+                        case 2:
+                            return trans('admin.superAdmin');
+                    }
+                }
+            },
+            {
+                targets: 6,
+                data: 'register_at'
+            },
+            {
+                targets: 7,
+                data: 'operations',
+                searchable: false,
+                orderable: false,
+                render: (data, type, row) => {
+                    let operationsHtml, adminOption = '', bannedOption = '', deleteUserButton;
+                    if (row.permission !== 2) {
+                        if (data === 2) {
+                            if (row.permission === 1) {
+                                adminOption = `<li class="divider"></li>
+                                <li><a id="admin-${row.uid}" data="admin" href="javascript:changeAdminStatus(${row.uid});">${trans('admin.unsetAdmin')}</a></li>`;
+                            } else {
+                                adminOption = `<li class="divider"></li>
+                                <li><a id="admin-${row.uid}" data="normal" href="javascript:changeAdminStatus(${row.uid});">${trans('admin.setAdmin')}</a></li>`;
+                            }
+                        }
+                        if (row.permission === -1) {
+                            bannedOption = `<li class="divider"></li>
+                            <li><a id="ban-${row.uid}" data="banned" href="javascript:changeBanStatus(${row.uid});">${trans('admin.unban')}</a></li>`;
+                        } else {
+                            bannedOption = `<li class="divider"></li>
+                            <li><a id="ban-${row.uid}" data="normal" href="javascript:changeBanStatus(${row.uid});">${trans('admin.ban')}</a></li>`;
+                        }
+                    }
+
+                    if (data === 2) {
+                        if (row.permission === 2) {
+                            deleteUserButton = `
+                            <a class="btn btn-danger btn-sm" disabled="disabled" data-toggle="tooltip" data-placement="bottom" title="${trans('admin.cannotDeleteSuperAdmin')}">${trans('admin.deleteUser')}</a>`;
+                        } else {
+                            deleteUserButton = `
+                            <a class="btn btn-danger btn-sm" href="javascript:deleteUserAccount(${row.uid});">${trans('admin.deleteUser')}</a>`;
+                        }
+                    } else {
+                        if (row.permission === 1 || row.permission === 2) {
+                            deleteUserButton = `
+                            <a class="btn btn-danger btn-sm" disabled="disabled" data-toggle="tooltip" data-placement="bottom" title="${trans('admin.cannotDeleteAdmin')}">${trans('admin.deleteUser')}</a>`;
+                        } else {
+                            deleteUserButton = `
+                            <a class="btn btn-danger btn-sm" href="javascript:deleteUserAccount(${row.uid});">${trans('admin.deleteUser')}</a>`;
+                        }
+                    }
+
+                    return `
+                    <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    ${trans('admin.operationsTitle')} <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:changeUserEmail(${row.uid});">${trans('admin.changeEmail')}</a></li>
+                        <li><a href="javascript:changeUserNickName(${row.uid});">${trans('admin.changeNickName')}</a></li>
+                        <li><a href="javascript:changeUserPwd(${row.uid});">${trans('admin.changePassword')}</a></li>
+                        ${adminOption}${bannedOption}
+                    </ul>
+                    </div>
+                    ${deleteUserButton}`;
+                }
+            }
+        ]
+    });
+}
+
+function initPlayersTable() {
+    let dataUrl = url('admin/player-data');
+    if (getQueryString('uid')) {
+        dataUrl += '?uid=' + getQueryString('uid');
+    }
+    $('#player-table').DataTable({
+        ajax: dataUrl,
+        scrollY: ($('.content-wrapper').height() - $('.content-header').outerHeight()) * 0.7,
+        columnDefs: [
+            {
+                targets: 0,
+                data: 'pid',
+                width: '1%'
+            },
+            {
+                targets: 1,
+                data: 'uid',
+                render: (data, type, row) => {
+                    return `<span title="${trans('admin.doubleClickToSeeUser')}"
+                    style="cursor: pointer;"
+                    ondblclick="window.location.href = '${url('admin/users?uid=') + row.uid}'"
+                    data-toggle="tooltip" data-placement="top">${data}</span>`;
+                }
+            },
+            {
+                targets: 2,
+                data: 'player_name'
+            },
+            {
+                targets: 3,
+                data: 'preference',
+                render: data => {
+                    return `
+                    <select class="form-control" onchange="changePreference.call(this)">
+                        <option ${(data == "default") ? 'selected=selected' : ''} value="default">Default</option>
+                        <option ${(data == "slim") ? 'selected=selected' : ''} value="slim">Slim</option>
+                    </select>`;
+                }
+            },
+            {
+                targets: 4,
+                searchable: false,
+                orderable: false,
+                render: (data, type, row) => {
+                    let html = { steve: '', alex: '', cape: '' };
+                    ['steve', 'alex', 'cape'].forEach(textureType => {
+                        if (row['tid_' + textureType] === 0) {
+                            html[textureType] = `<img id="${row.pid}-${row['tid_' + textureType]}" width="64" />`;
+                        } else {
+                            html[textureType] = `
+                        <a href="${url('/')}skinlib/show/${row['tid_' + textureType]}">
+                            <img id="${row.pid}-${row['tid_' + textureType]}" width="64" src="${url('/')}preview/64/${row['tid_' + textureType]}.png" />
+                        </a>`;
+                        }
+                    });
+                    return html.steve + html.alex + html.cape;
+                }
+            },
+            {
+                targets: 5,
+                data: 'last_modified'
+            },
+            {
+                targets: 6,
+                searchable: false,
+                orderable: false,
+                render: (data, type, row) => {
+                    return `
+                    <div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    ${trans('admin.operationsTitle')} <span class="caret"></span></button>
+                    <ul class="dropdown-menu">
+                        <li><a href="javascript:changeTexture(${row.pid}, '${row.player_name}');">${trans('admin.changeTexture')}</a></li>
+                        <li><a href="javascript:changePlayerName(${row.pid}, '${row.player_name}');">${trans('admin.changePlayerName')}</a></li>
+                        <li><a href="javascript:changeOwner(${row.pid});">${trans('admin.changeOwner')}</a></li>
+                    </ul>
+                    </div>
+                    <a class="btn btn-danger btn-sm" href="javascript:deletePlayer(${row.pid});">${trans('admin.deletePlayer')}</a>`;
+                }
+            }
+        ]
+    });
+}
+
+function initPluginsTable() {
+    return $('#plugin-table').DataTable({
+        ajax: url('admin/plugins/data'),
+        columnDefs: [
+            {
+                targets: 0,
+                data: 'title'
+            },
+            {
+                targets: 1,
+                data: 'description',
+                width: '35%'
+            },
+            {
+                targets: 2,
+                data: 'author',
+                render: data => {
+                    if (data.url === '' || data.url === null) {
+                        return data.author;
+                    } else {
+                        return `<a href="${data.url}" target="_blank">${data.author}</a>`;
+                    }
+                }
+            },
+            {
+                targets: 3,
+                data: 'version'
+            },
+            {
+                targets: 4,
+                data: 'status'
+            },
+            {
+                targets: 5,
+                data: 'operations',
+                searchable: false,
+                orderable: false,
+                render: (data, type, row) => {
+                    let switchEnableButton, configViewButton, deletePluginButton;
+                    if (data.enabled) {
+                        switchEnableButton = `
+                        <a class="btn btn-warning btn-sm" href="javascript:disablePlugin('${row.name}');">${trans('admin.disablePlugin')}</a>`;
+                    } else {
+                        switchEnableButton = `
+                        <a class="btn btn-primary btn-sm" href="javascript:enablePlugin('${row.name}');">${trans('admin.enablePlugin')}</a>`;
+                    }
+                    if (data.enabled && data.hasConfigView) {
+                        configViewButton = `
+                        <a class="btn btn-default btn-sm" href="${url('/')}admin/plugins/config/${row.name}">${trans('admin.configurePlugin')}</a>`;
+                    } else {
+                        configViewButton = `
+                        <a class="btn btn-default btn-sm" disabled="disabled" title="${trans('admin.noPluginConfigNotice')}" data-toggle="tooltip" data-placement="top">${trans('admin.configurePlugin')}</a>`;
+                    }
+                    deletePluginButton = `
+                    <a class="btn btn-danger btn-sm" href="javascript:deletePlugin('${row.name}');">${trans('admin.deletePlugin')}</a>`;
+                    return switchEnableButton + configViewButton + deletePluginButton;
+                }
+            }
+        ]
+    });
 }

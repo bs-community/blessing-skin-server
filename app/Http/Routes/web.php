@@ -65,6 +65,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'user'], function ()
 
     // Closet
     Route::get ('/closet',               'ClosetController@index');
+    Route::get ('/closet-data',          'ClosetController@getClosetData');
     Route::post('/closet/add',           'ClosetController@add');
     Route::post('/closet/remove',        'ClosetController@remove');
     Route::post('/closet/rename',        'ClosetController@rename');
@@ -107,6 +108,7 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function ()
 
     Route::get('/players',     'AdminController@players');
     Route::get('/player-data', 'AdminController@getPlayerData');
+    Route::get('/user/{uid}',  'AdminController@getOneUser');
 
     // ajax handlers
     Route::post('/users',      'AdminController@userAjaxHandler');

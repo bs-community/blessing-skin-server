@@ -32,7 +32,7 @@ class SetupController extends Controller
     {
         $this->validate($request, [
             'email'     => 'required|email',
-            'password'  => 'required|min:6|max:16|confirmed',
+            'password'  => 'required|min:8|max:16|confirmed',
             'site_name' => 'required'
         ]);
 

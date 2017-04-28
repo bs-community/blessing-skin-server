@@ -22,10 +22,12 @@ score-intro:
     「贯彻爱与真实的。。呸！」上面只是卖下萌~
 
     为了不出现用户一个劲上传材质导致存储空间爆满，我们决定启用积分系统。
-    添加角色以及上传材质都会消耗积分，而删除已经添加的角色和已上传的材质时积分将会被返还。
+    添加角色以及上传材质都会消耗积分，:return-score。
 
     本站用户初始积分为 :initial_score，每日签到可以随机获得 :score-from ~ :score-to 积分
     添加皮肤库里的材质到衣柜不消耗积分。
+  will-return-score: 而删除已经添加的角色和已上传的材质时积分将会被返还
+  no-return-score: 但删除已经添加的角色和已上传的材质时积分不会被返还
   rates:
     storage: :score 积分 = 1 KB 存储空间
     player: :score 积分 = 1 个角色
@@ -33,13 +35,11 @@ score-intro:
 closet:
   upload: 上传材质
   search: 搜索材质
+  type-to-search: 输入即搜索
   switch-category: 切换分类
   view: 在皮肤库中查看
   more: 更多
   set-avatar: 设为头像
-  empty-msg: |
-    <p>衣柜里啥都没有哦~</p>
-    <p>去<a href=":url">皮肤库</a>看看吧~</p>
 
   use-as:
     button: 使用...
@@ -134,6 +134,7 @@ profile:
     password: 当前密码
     button: 修改邮箱
     wrong-password: 密码错误
+    existed: 这个邮箱已经被别人占用啦
     success: 邮箱修改成功，请重新登录
 
   delete:

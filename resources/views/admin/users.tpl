@@ -24,6 +24,7 @@
                             <th>{{ trans('general.user.email') }}</th>
                             <th>{{ trans('general.user.nickname') }}</th>
                             <th>{{ trans('general.user.score') }}</th>
+                            <th>{{ trans('admin.users.players-count.title') }}</th>
                             <th>{{ trans('admin.users.status.title') }}</th>
                             <th>{{ trans('general.user.register-at') }}</th>
                             <th>{{ trans('general.operations') }}</th>
@@ -41,29 +42,6 @@
 <script type="text/javascript">
 $(document).ready(function() {
     $('.box-body').css('min-height', $('.content-wrapper').height() - $('.content-header').outerHeight() - 120);
-});
-
-$('#user-table').DataTable({
-    language: trans('vendor.datatables'),
-    scrollX: true,
-    autoWidth: false,
-    processing: true,
-    serverSide: true,
-    ajax: '{{ url("admin/user-data") }}',
-    createdRow: function (row, data, index) {
-        $('td', row).eq(1).attr('id', 'email');
-        $('td', row).eq(2).attr('id', 'nickname');
-        $('td', row).eq(4).attr('id', 'permission');
-    },
-    columns: [
-        {data: 'uid', 'width': '1%'},
-        {data: 'email'},
-        {data: 'nickname'},
-        {data: 'score'},
-        {data: 'permission'},
-        {data: 'register_at'},
-        {data: 'operations', searchable: false, orderable: false}
-    ]
 });
 </script>
 @endsection
