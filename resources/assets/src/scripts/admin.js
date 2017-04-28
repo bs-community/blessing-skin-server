@@ -2,10 +2,12 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
  * @Last Modified by: g-plane
- * @Last Modified time: 2017-04-27 17:58:47
+ * @Last Modified time: 2017-04-28 19:54:02
  */
 
 'use strict';
+
+let pluginsTable;
 
 $(document).ready(function() {
     $('input').iCheck({
@@ -30,7 +32,7 @@ $(document).ready(function() {
     } else if (window.location.href.indexOf(url('admin/players')) >= 0) {
         initPlayersTable();
     } else if (window.location.href.indexOf(url('admin/plugins/manage')) >= 0) {
-        initPluginsTable();
+        pluginsTable = initPluginsTable();
     }
 });
 
@@ -407,7 +409,7 @@ function enablePlugin(name) {
             if (json.errno == 0) {
                 toastr.success(json.msg);
 
-                table.ajax.reload(null, false);
+                pluginsTable.ajax.reload(null, false);
             } else {
                 toastr.warning(json.msg);
             }
@@ -425,7 +427,7 @@ function disablePlugin(name) {
             if (json.errno == 0) {
                 toastr.warning(json.msg);
 
-                table.ajax.reload(null, false);
+                pluginsTable.ajax.reload(null, false);
             } else {
                 toastr.warning(json.msg);
             }
@@ -448,7 +450,7 @@ function deletePlugin(name) {
                 if (json.errno == 0) {
                     toastr.success(json.msg);
 
-                    $('tr[id=plugin-'+name+']').remove();
+                    pluginsTable.ajax.reload(null, false);
                 } else {
                     toastr.warning(json.msg);
                 }
@@ -760,7 +762,7 @@ function initPlayersTable() {
 }
 
 function initPluginsTable() {
-    $('#plugin-table').DataTable({
+    return $('#plugin-table').DataTable({
         ajax: url('admin/plugins/data'),
         columnDefs: [
             {
