@@ -334,7 +334,7 @@ class AdminController extends Controller
                 'tid'   => 'required|integer'
             ]);
 
-            if (!Texture::find($request->tid))
+            if (!Texture::find($request->tid) && $request->tid != 0)
                 return json(trans('admin.players.textures.non-existent', ['tid' => $request->tid]), 1);
 
             $player->setTexture(['tid_'.$request->model => $request->tid]);
