@@ -33,35 +33,39 @@ class SkinlibController extends Controller
         $filter  = $request->input('filter', 'skin');
         $sort    = $request->input('sort', 'time');
         $uid     = intval($request->input('uid', 0));
-        $page    = $request->input('page', 1) <= 0 ? 1 : $request->input('page', 1);
+        $page    = $request->input('page', 1);
+        $page    = $page <= 0 ? 1 : $page;
 
         $sort_by = ($sort == "time") ? "upload_at" : $sort;
 
         if ($filter == "skin") {
-            $textures = Texture::where('type', 'steve')->orWhere('type', 'alex');
+            $textures = Texture::where(function($query) {
+                // Nested condition, DO NOT MODIFY
+                $query->where('type', '=', 'steve')->orWhere('type', '=', 'alex');
+            });
         } else {
             $textures = Texture::where('type', $filter);
         }
-
-        $textures = $textures->orderBy($sort_by, 'desc')->get();
 
         if ($uid != 0) {
             $textures = $textures->where('uploader', $uid);
         }
 
         if (!is_null($this->user)) {
+
             // show private textures when show uploaded textures of current user
             if ($uid != $this->user->uid && !$this->user->isAdmin()) {
                 $textures = $textures->where('public', 1)
                                      ->merge($textures->where('uploader', $this->user->uid));
             }
+
         } else {
             $textures = $textures->where('public', 1);
         }
 
         $total_pages = ceil($textures->count() / 20);
 
-        $textures = $textures->slice(($page - 1) * 20);
+        $textures = $textures->orderBy($sort_by, 'desc')->skip(($page - 1) * 20)->take(20)->get();
 
         return view('skinlib.index')->with('user', $this->user)
                                     ->with('sort', $sort)
