@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
  * @Last Modified by:   printempw
- * @Last Modified time: 2017-05-05 11:56:01
+ * @Last Modified time: 2017-05-05 12:07:16
  */
 
 'use strict';
@@ -158,15 +158,17 @@ function changeBanStatus(uid) {
         success: function(json) {
             if (json.errno == 0) {
                 let dom = $(`#ban-${uid}`);
+
                 if (dom.attr('data') == 'banned') {
-                    dom.text(trans('admin.ban'));
-                    dom.attr('data', 'normal');
+                    dom.text(trans('admin.ban')).attr('data', 'normal');
                 } else {
-                    dom.text(trans('admin.unban'));
-                    dom.attr('data', 'banned');
+                    dom.text(trans('admin.unban')).attr('data', 'banned');
                 }
 
-                $(`#user-${uid} > td:nth-child(5)`).text(json.permission == -1 ? trans('admin.banned') : trans('admin.normal'));
+                $(`#user-${uid} > td.status`).text(
+                    json.permission == -1 ? trans('admin.banned') : trans('admin.normal')
+                );
+
                 toastr.success(json.msg);
             } else {
                 toastr.warning(json.msg);
@@ -185,15 +187,17 @@ function changeAdminStatus(uid) {
         success: function(json) {
             if (json.errno == 0) {
                 let dom = $(`#admin-${uid}`);
+
                 if (dom.attr('data') == 'admin') {
-                    dom.text(trans('admin.setAdmin'));
-                    dom.attr('data', 'normal');
+                    dom.text(trans('admin.setAdmin')).attr('data', 'normal');
                 } else {
-                    dom.text(trans('admin.unsetAdmin'));
-                    dom.attr('data', 'admin');
+                    dom.text(trans('admin.unsetAdmin')).attr('data', 'admin');
                 }
 
-                $(`#user-${uid} > td:nth-child(5)`).text(json.permission == 1 ? trans('admin.admin') : trans('admin.normal'));
+                $(`#user-${uid} > td.status`).text(
+                    json.permission == 1 ? trans('admin.admin') : trans('admin.normal')
+                );
+
                 toastr.success(json.msg);
             } else {
                 toastr.warning(json.msg);
@@ -598,6 +602,7 @@ function initUsersTable() {
             {
                 targets: 5,
                 data: 'permission',
+                className: 'status',
                 render: data => {
                     switch (data) {
                         case -1:
