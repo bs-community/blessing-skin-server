@@ -1,8 +1,8 @@
 /*
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
- * @Last Modified by: g-plane
- * @Last Modified time: 2017-04-28 19:54:02
+ * @Last Modified by:   printempw
+ * @Last Modified time: 2017-05-05 11:56:01
  */
 
 'use strict';
@@ -136,10 +136,10 @@ function changeUserScore(uid, score) {
         type: "POST",
         url: "./users?action=score",
         dataType: "json",
-        data: { 'uid': uid, 'score': score },
+        // handle id formatted as '#user-1234'
+        data: { 'uid': uid.slice(5), 'score': score },
         success: function(json) {
             if (json.errno == 0) {
-                $('tr#'+uid+' > td > .score').val(score);
                 toastr.success(json.msg);
             } else {
                 toastr.warning(json.msg);
