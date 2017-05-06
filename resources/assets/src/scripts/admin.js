@@ -2,7 +2,7 @@
  * @Author: printempw
  * @Date:   2016-07-22 14:02:44
  * @Last Modified by:   printempw
- * @Last Modified time: 2017-05-05 12:07:16
+ * @Last Modified time: 2017-05-06 21:17:57
  */
 
 'use strict';
@@ -367,12 +367,14 @@ function changeOwner(pid) {
                 url: `./user/${uid}`,
                 dataType: 'json'
             })).then(result => {
-                $('#swal2-content').html(
-                    `${trans('admin.changePlayerOwner')}<br>
-                    <small>${trans('admin.targetUser', { nickname: result.user.nickname })}</small>`
+                $('.swal2-content').html(
+                    trans('admin.changePlayerOwner') +
+                    '<small style="display: block; margin-top: .5em;">' +
+                    trans('admin.targetUser', { nickname: result.user.nickname }) +
+                    '</small>'
                 );
             }).catch(() => {
-                $('#swal2-content').html(`${trans('admin.changePlayerOwner')}<br><small>${trans('admin.noSuchUser')}</small>`);
+                $('.swal2-content').html(`${trans('admin.changePlayerOwner')}<br><small>${trans('admin.noSuchUser')}</small>`);
             });
         }
     }, 350));
