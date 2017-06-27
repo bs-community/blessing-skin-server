@@ -40,31 +40,7 @@
                     <ul class="nav navbar-nav">
                         @include('vendor.language')
 
-                        <!-- User Account Menu -->
-                        <li class="dropdown user user-menu">
-                            <!-- Menu Toggle Button -->
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <i class="fa fa-user"></i>
-                                <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                <span class="hidden-xs nickname">{{ bs_nickname($user) }}</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <!-- The user image in the menu -->
-                                <li class="user-header">
-                                    <img src="{{ avatar($user, 128) }}" alt="User Image">
-                                    <p>{{ $user->email }}</p>
-                                </li>
-                                <!-- Menu Footer-->
-                                <li class="user-footer">
-                                    <div class="pull-left">
-                                        <a href="{{ url('user/profile') }}" class="btn btn-default btn-flat">{{ trans('general.profile') }}</a>
-                                    </div>
-                                    <div class="pull-right">
-                                        <button id="logout-button" class="btn btn-default btn-flat">{{ trans('general.logout') }}</button>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
+                        @include('vendor.user-menu')
                     </ul>
                 </div>
             </nav>

@@ -38,32 +38,7 @@
                             @include('vendor.language')
 
                             @if (!is_null($user))
-                            <!-- User Account Menu -->
-                            <li class="dropdown user user-menu">
-                                <!-- Menu Toggle Button -->
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <!-- The user image in the navbar-->
-                                    <img src="{{ avatar($user, 25) }}" class="user-image" alt="User Image">
-                                    <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                    <span class="hidden-xs nickname">{{ bs_nickname($user) }}</span>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <!-- The user image in the menu -->
-                                    <li class="user-header">
-                                        <img src="{{ avatar($user, 128) }}" alt="User Image">
-                                        <p>{{ $user->email }}</p>
-                                    </li>
-                                    <!-- Menu Footer-->
-                                    <li class="user-footer">
-                                        <div class="pull-left">
-                                            <a href="{{ url('user') }}" class="btn btn-default btn-flat">{{ trans('general.user-center') }}</a>
-                                        </div>
-                                        <div class="pull-right">
-                                            <button id="logout-button" class="btn btn-default btn-flat">{{ trans('general.logout') }}</button>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
+                                @include('vendor.user-menu')
                             @else {{-- Anonymous User --}}
                             <!-- User Account Menu -->
                             <li class="dropdown user user-menu">

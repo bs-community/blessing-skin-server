@@ -83,7 +83,22 @@ body {
                         color: #f6f6f6;
                     }
                 }
+            }
 
+            .user-menu li {
+                a.btn {
+                    border: 1px solid #ddd;
+                    color: #5e5e5e;
+                }
+
+                a:hover {
+                    background-color: transparent;
+                }
+
+                a.btn:hover {
+                    background-color: #e7e7e7;
+                    border-color: #adadad;
+                }
             }
 
             .navbar-custom-menu .navbar-nav > li {
