@@ -62,7 +62,7 @@ class RouteServiceProvider extends ServiceProvider
             'middleware' => ['web', CheckSessionUserValid::class],
             'namespace' => $this->namespace,
         ], function ($router) {
-            require app_path('Http/Routes/web.php');
+            require base_path('routes/web.php');
         });
     }
 
@@ -80,7 +80,7 @@ class RouteServiceProvider extends ServiceProvider
             'middleware' => 'web',
             'namespace' => $this->namespace,
         ], function ($router) {
-            require app_path('Http/Routes/setup.php');
+            require base_path('routes/setup.php');
         });
     }
 
@@ -98,7 +98,7 @@ class RouteServiceProvider extends ServiceProvider
             'middleware' => 'static',
             'namespace' => $this->namespace,
         ], function ($router) {
-            require app_path('Http/Routes/static.php');
+            require base_path('routes/static.php');
         });
     }
 }
