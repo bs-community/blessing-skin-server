@@ -11,7 +11,10 @@
 
 // check PHP version
 if (version_compare(PHP_VERSION, '5.5.9', '<')) {
-    exit('[Error] Blessing Skin Server needs PHP version >= 5.5.9, you are now using '.PHP_VERSION);
+    exit(
+        '[Error] Blessing Skin Server needs PHP version >= 5.5.9, you are now using '.PHP_VERSION.'<br>'.
+        '[错误] 你的 PHP 版本过低（'.PHP_VERSION.'），Blessing Skin Server 要求至少为 5.5.9'
+    );
 }
 
 require __DIR__.'/bootstrap/autoload.php';

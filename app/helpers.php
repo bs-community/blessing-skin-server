@@ -398,7 +398,10 @@ if (! function_exists('runtime_check')) {
     {
         foreach ($requirements['extensions'] as $extension) {
             if (!extension_loaded($extension)) {
-                exit("[Error] You have not installed the $extension extension");
+                exit(
+                    "[Error] You have not installed the $extension extension <br>".
+                    "[错误] 你尚未安装 $extension 扩展！安装方法请自行搜索，蟹蟹。"
+                );
             }
         }
     }
