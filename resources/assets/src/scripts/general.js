@@ -276,6 +276,11 @@ var TexturePreview = function (type, tid, preference) {
     this.showNotUploaded = function () {
         this.selector.hide().parent().next().show();
 
+        // clear 3D preview of cape
+        if (this.type == 'cape') {
+            MSP.changeCape('');
+        }
+
         return this;
     }
 }
