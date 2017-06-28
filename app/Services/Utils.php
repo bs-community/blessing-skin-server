@@ -20,12 +20,14 @@ class Utils
      */
     public static function getClientIp()
     {
-        if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
-            $ip = $_SERVER['HTTP_CLIENT_IP'];
-        } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
-            $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        if (option('ip_get_method') == "0") {
+            // fallback to REMOTE_ADDR
+            $ip = array_get(
+                $_SERVER, 'HTTP_X_FORWARDED_FOR',
+                array_get($_SERVER, 'HTTP_CLIENT_IP', $_SERVER['REMOTE_ADDR'])
+            );
         } else {
-            $ip = $_SERVER['REMOTE_ADDR'];
+            $ip = array_get($_SERVER, 'REMOTE_ADDR');
         }
 
         return $ip;

@@ -74,6 +74,11 @@ general:
     title: Open Registration
     label: Everyone is allowed to register.
   regs_per_ip: Max accounts of one IP
+  ip_get_method:
+    title: Get IP via
+    HTTP_X_FORWARDED_FOR: HTTP_X_FORWARDED_FOR (can be fabricated)
+    REMOTE_ADDR: REMOTE_ADDR (isn't suit for sites under load balancer)
+    hint: We have no method to get the real IP address of client with PHP.
   max_upload_file_size:
     title: Max Upload Size
     hint: "Limit of PHP in php.ini: :size"

@@ -12,6 +12,7 @@ return [
     'site_description'          => 'Open-source PHP Minecraft Skin Hosting Service',
     'user_can_register'         => 'true',
     'regs_per_ip'               => '3',
+    'ip_get_method'             => '0',
     'api_type'                  => 'false',
     'announcement'              => 'Welcome to Blessing Skin Server {version}!',
     'color_scheme'              => 'skin-blue',
