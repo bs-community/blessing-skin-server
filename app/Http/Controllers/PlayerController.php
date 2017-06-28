@@ -38,8 +38,11 @@ class PlayerController extends Controller
     {
         $this->user = $users->get(session('uid'));
 
-        if ($request->has('pid'))
-            $this->player = Player::find($request->pid);
+        if ($request->has('pid')) {
+            if ($this->player = Player::find($request->pid)) {
+                $this->player->checkForInvalidTextures();
+            }
+        }
     }
 
     public function index()

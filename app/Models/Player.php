@@ -95,6 +95,25 @@ class Player extends Model
     }
 
     /**
+     * Check and delete invalid textures from player profile.
+     *
+     * @return mixed
+     */
+    public function checkForInvalidTextures()
+    {
+        foreach (self::$models as $model) {
+            $property = "tid_$model";
+
+            if (!Texture::find($this->$property)) {
+                // reset texture
+                $this->$property = 0;
+            }
+        }
+
+        return $this->save();
+    }
+
+    /**
      * Clear the textures of player.
      *
      * @param  array|string $types

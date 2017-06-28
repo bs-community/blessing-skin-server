@@ -205,32 +205,45 @@ class SkinlibController extends Controller
     {
         $result = Texture::find($request->tid);
 
-        if (!$result)
+        if (!$result) {
             return json(trans('skinlib.non-existent'), 1);
+        }
 
-        if ($result->uploader != $this->user->uid && !$this->user->isAdmin())
+        if ($result->uploader != $this->user->uid && !$this->user->isAdmin()) {
             return json(trans('skinlib.no-permission'), 1);
+        }
 
         // check if file occupied
-        if (Texture::where('hash', $result['hash'])->count() == 1)
+        if (Texture::where('hash', $result['hash'])->count() == 1) {
             Storage::delete($result['hash']);
+        }
 
         if (option('return_score')) {
+            // remove the public texture from all users' closet
             if ($result->public == 1) {
-                $users->get($result->uploader)->setScore($result->size * Option::get('score_per_storage'), 'plus');
+                $users->get($result->uploader)->setScore(
+                    $result->size * option('score_per_storage'), 'plus'
+                );
+
                 foreach (Closet::all() as $closet) {
                     if ($closet->has($result->tid)) {
                         $closet->remove($result->tid);
-                        $users->get($closet->uid)->setScore(option('score_per_closet_item'), 'plus');
+
+                        $users->get($closet->uid)->setScore(
+                            option('score_per_closet_item'), 'plus'
+                        );
                     }
                 }
+            } else {
+                $users->get($result->uploader)->setScore(
+                    $result->size * option('private_score_per_storage'), 'plus'
+                );
             }
-            else
-                $users->get($result->uploader)->setScore($result->size * Option::get('private_score_per_storage'), 'plus');
         }
 
-        if ($result->delete())
+        if ($result->delete()) {
             return json(trans('skinlib.delete.success'), 0);
+        }
     }
 
     public function privacy(Request $request, UserRepository $users)
