@@ -60,6 +60,8 @@ class AuthController extends Controller
 
                 event(new Events\UserLoggedIn($user));
 
+                session()->forget('last_requested_path');
+
                 return json(trans('auth.login.success'), 0, [
                     'token' => $user->getToken()
                 ]) // set cookies

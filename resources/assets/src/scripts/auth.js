@@ -7,11 +7,9 @@
 
 'use strict';
 
-$(document).ready(function() {
-    $('input').iCheck({
-        checkboxClass: 'icheckbox_square-blue'
-    });
-});
+$(document).ready(() => $('input').iCheck({
+    checkboxClass: 'icheckbox_square-blue'
+}));
 
 function freshCaptcha() {
     $('.captcha').attr('src', './captcha?' + new Date().getTime());
@@ -20,7 +18,7 @@ function freshCaptcha() {
 
 var login_fails = 0;
 
-$('#login-button').click(function() {
+$('#login-button').click(function () {
     var data = new Object();
 
     data.identification = $('#identification').val();
@@ -49,16 +47,22 @@ $('#login-button').click(function() {
             url: "./login",
             dataType: "json",
             data: data,
-            beforeSend: function() {
-                $('#login-button').html('<i class="fa fa-spinner fa-spin"></i> '+trans('auth.loggingIn')).prop('disabled', 'disabled');
+            beforeSend: () => {
+                $('#login-button').html(
+                    '<i class="fa fa-spinner fa-spin"></i> ' + trans('auth.loggingIn')
+                ).prop('disabled', 'disabled');
             },
-            success: function(json) {
+            success: (json) => {
                 if (json.errno == 0) {
                     swal({
                         type: 'success',
                         html: json.msg
                     });
-                    window.setTimeout('window.location = "../user"', 1000);
+
+                    // redirect to last requested path
+                    let redirect_to = url(blessing.redirect_to) || "../user";
+
+                    window.setTimeout(() => (window.location = redirect_to), 1000);
 
                 } else {
                     if (json.login_fails > 3) {
@@ -78,7 +82,7 @@ $('#login-button').click(function() {
                     $('#login-button').html(trans('auth.login')).prop('disabled', '');
                 }
             },
-            error: function(json) {
+            error: (json) => {
                 showAjaxError(json);
                 $('#login-button').html(trans('auth.login')).prop('disabled', '');
             }
@@ -89,7 +93,7 @@ $('#login-button').click(function() {
 
 $('.captcha').click(freshCaptcha);
 
-$('#register-button').click(function() {
+$('#register-button').click(function () {
 
     var email    = $('#email').val();
     var password = $('#password').val();
@@ -127,8 +131,10 @@ $('#register-button').click(function() {
             url: "./register",
             dataType: "json",
             data: { 'email': email, 'password': password, 'nickname': nickname, 'captcha': captcha },
-            beforeSend: function() {
-                $('#register-button').html('<i class="fa fa-spinner fa-spin"></i> '+trans('auth.registering')).prop('disabled', 'disabled');
+            beforeSend: function () {
+                $('#register-button').html(
+                    '<i class="fa fa-spinner fa-spin"></i> ' + trans('auth.registering')
+                ).prop('disabled', 'disabled');
             },
             success: function(json) {
                 if (json.errno == 0) {
@@ -143,7 +149,7 @@ $('#register-button').click(function() {
                     $('#register-button').html(trans('auth.register')).prop('disabled', '');
                 }
             },
-            error: function(json) {
+            error: (json) => {
                 showAjaxError(json);
                 $('#register-button').html(trans('auth.register')).prop('disabled', '');
             }
@@ -153,7 +159,7 @@ $('#register-button').click(function() {
 
 });
 
-$('#forgot-button').click(function() {
+$('#forgot-button').click(function () {
 
     var email    = $('#email').val();
     var captcha  = $('#captcha').val();
@@ -174,10 +180,10 @@ $('#forgot-button').click(function() {
             url: "./forgot",
             dataType: "json",
             data: { 'email': email, 'captcha': captcha },
-            beforeSend: function() {
+            beforeSend: () => {
                 $('#forgot-button').html('<i class="fa fa-spinner fa-spin"></i> '+trans('auth.sending')).prop('disabled', 'disabled');
             },
-            success: function(json) {
+            success: (json) => {
                 if (json.errno == 0) {
                     showMsg(json.msg, 'success');
                     $('#forgot-button').html(trans('auth.send')).prop('disabled', 'disabled');
@@ -187,7 +193,7 @@ $('#forgot-button').click(function() {
                     $('#forgot-button').html(trans('auth.send')).prop('disabled', '');
                 }
             },
-            error: function(json) {
+            error: (json) => {
                 showAjaxError(json);
                 $('#forgot-button').html(trans('auth.send')).prop('disabled', '');
             }
@@ -197,7 +203,7 @@ $('#forgot-button').click(function() {
 
 });
 
-$('#reset-button').click(function() {
+$('#reset-button').click(function () {
     var uid = $('#uid').val();
     var password = $('#password').val();
 
@@ -220,23 +226,23 @@ $('#reset-button').click(function() {
             url: "./reset",
             dataType: "json",
             data: { 'uid': uid, 'password': password },
-            beforeSend: function() {
-                $('#reset-button').html('<i class="fa fa-spinner fa-spin"></i> '+trans('auth.resetting')).prop('disabled', 'disabled');
+            beforeSend: () => {
+                $('#reset-button').html(
+                    '<i class="fa fa-spinner fa-spin"></i> ' + trans('auth.resetting')
+                ).prop('disabled', 'disabled');
             },
-            success: function(json) {
+            success: (json) => {
                 if (json.errno == 0) {
                     swal({
                         type: 'success',
                         html: json.msg
-                    }).then(function() {
-                        window.location = "./login";
-                    });
+                    }).then(() => (window.location = "./login"));
                 } else {
                     showMsg(json.msg, 'warning');
                     $('#reset-button').html(trans('auth.reset')).prop('disabled', '');
                 }
             },
-            error: function(json) {
+            error: (json) => {
                 showAjaxError(json);
                 $('#reset-button').html(trans('auth.reset')).prop('disabled', '');
             }

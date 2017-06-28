@@ -25,8 +25,10 @@ class CheckAuthenticated
                 $user = app('user.current');
             }
 
-            if (session('token') != $user->getToken())
+            if (session('token') != $user->getToken()) {
+                $this->flashLastRequestedPath();
                 return redirect('auth/login')->with('msg', trans('auth.check.token'));
+            }
 
             if ($user->getPermission() == "-1") {
                 delete_sessions();
@@ -45,6 +47,8 @@ class CheckAuthenticated
             return $returnUser ? $user : $next($request);
 
         } else {
+            $this->flashLastRequestedPath();
+
             return redirect('auth/login')->with('msg', trans('auth.check.anonymous'));
         }
 
@@ -74,5 +78,12 @@ class CheckAuthenticated
         }
 
         return response()->view('auth.bind');
+    }
+
+    protected function flashLastRequestedPath($path = null)
+    {
+        $path = $path ?: app('request')->path();
+        
+        return session(['last_requested_path' => $path]);
     }
 }
