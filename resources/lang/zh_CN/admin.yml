@@ -106,6 +106,7 @@ plugins:
     enabled: :plugin 已启用
     disabled: :plugin 已禁用
     deleted: 插件已被成功删除
+    no-config-notice: 插件未安装或未提供配置页面
 
   empty: 无结果
 

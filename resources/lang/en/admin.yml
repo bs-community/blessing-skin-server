@@ -106,12 +106,13 @@ plugins:
     enabled: :plugin has been enabled.
     disabled: :plugin has been disabled.
     deleted: The plugin was deleted successfully.
+    no-config-notice: The plugin is not installed or doesn't provide configuration page.
 
   empty: No result
 
 update:
   complete: Update completed
-  
+
   info:
     title: Update Information
 
