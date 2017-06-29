@@ -71,7 +71,7 @@ class Handler extends ExceptionHandler
                 return parent::render($request, $e);
             } else {
                 // hide exception details if not in debug mode
-                if (config('app.debug')) {
+                if (config('app.debug') && !$request->ajax()) {
                     return $this->renderExceptionWithWhoops($e);
                 } else {
                     return $this->renderExceptionInBrief($e);
@@ -108,7 +108,7 @@ class Handler extends ExceptionHandler
      */
     protected function renderExceptionInBrief(Exception $e)
     {
-        if ($_SERVER['REQUEST_METHOD'] == "GET") {
+        if ($_SERVER['REQUEST_METHOD'] == "GET" && !app('request')->ajax()) {
             return response()->view('errors.exception', ['message' => $e->getMessage()]);
         } else {
             return $e->getMessage();
