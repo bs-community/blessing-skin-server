@@ -23,12 +23,12 @@ Features
 - Easy-to-use
     - Visual page for user/player/texture management
     - Detailed option pages
-- Security 
-    - User passwords will be well encrypted 
+- Security
+    - User passwords will be well encrypted
     - Email verification for registration (available as plugin)
     - Score system for preventing evil requests
 - Extensible
-    - Plenty of plugins available 
+    - Plenty of plugins available
     - Integration with Authme/CrazyLogin/Discuz
 
 Requirements
@@ -62,8 +62,7 @@ Clone the code from GitHub and install dependencies:
 ```
 $ git clone https://github.com/printempw/blessing-skin-server.git
 $ composer install
-$ npm install
-$ bower install
+$ yarn install
 ```
 
 Build the things!

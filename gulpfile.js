@@ -27,26 +27,26 @@ var distPath = 'resources/assets/dist/';
 var vendorScripts = [
     'jquery/dist/jquery.min.js',
     'bootstrap/dist/js/bootstrap.min.js',
-    'AdminLTE/dist/js/app.min.js',
+    'admin-lte/dist/js/app.min.js',
     'bootstrap-fileinput/js/fileinput.min.js',
-    'AdminLTE/plugins/datatables/jquery.dataTables.min.js',
-    'AdminLTE/plugins/datatables/dataTables.bootstrap.min.js',
-    'iCheck/icheck.min.js',
-    'toastr/toastr.min.js',
-    'es6-promise/es6-promise.auto.min.js',
+    'admin-lte/plugins/datatables/jquery.dataTables.min.js',
+    'admin-lte/plugins/datatables/dataTables.bootstrap.min.js',
+    'icheck/icheck.min.js',
+    'toastr/build/toastr.min.js',
+    'es6-promise/dist/es6-promise.auto.min.js',
     'sweetalert2/dist/sweetalert2.min.js',
-    'jqPaginator/dist/jqPaginator.min.js',
+    'jqPaginator/dist/1.2.0/jqPaginator.min.js',
     'resources/assets/dist/scripts/general.js',
 ];
 
 var vendorStyles = [
     'bootstrap/dist/css/bootstrap.min.css',
-    'AdminLTE/dist/css/AdminLTE.min.css',
-    'AdminLTE/plugins/datatables/dataTables.bootstrap.css',
+    'admin-lte/dist/css/AdminLTE.min.css',
+    'admin-lte/plugins/datatables/dataTables.bootstrap.css',
     'bootstrap-fileinput/css/fileinput.min.css',
     'font-awesome/css/font-awesome.min.css',
-    'iCheck/skins/square/blue.css',
-    'toastr/toastr.min.css',
+    'icheck/skins/square/blue.css',
+    'toastr/build/toastr.min.css',
     'sweetalert2/dist/sweetalert2.min.css',
 ];
 
@@ -65,8 +65,8 @@ var fonts = [
 ];
 
 var images = [
-    'iCheck/skins/square/blue.png',
-    'iCheck/skins/square/blue@2x.png',
+    'icheck/skins/square/blue.png',
+    'icheck/skins/square/blue@2x.png',
     'resources/assets/src/images/**',
     'bootstrap-fileinput/img/loading.gif',
     'bootstrap-fileinput/img/loading-sm.gif',
@@ -79,15 +79,18 @@ elixir((mix) => {
         .task('compile-es6')
         .task('compile-sass')
 
-        .scripts(convertBowerRelativePath(vendorScripts), distPath + 'scripts/app.min.js', './')
-        .styles(convertBowerRelativePath(vendorStyles),   distPath + 'styles/app.min.css', './')
+        .scripts(convertNpmRelativePath(vendorScripts), distPath + 'scripts/app.min.js', './')
+        .styles(convertNpmRelativePath(vendorStyles),   distPath + 'styles/app.min.css', './')
         .replace(distPath + 'styles/app.min.css', replacements)
 
         // copy fonts & images
-        .copy(convertBowerRelativePath(fonts),  distPath + 'fonts/')
-        .copy(convertBowerRelativePath(images), distPath + 'images/')
-        .copy(convertBowerRelativePath(['AdminLTE/dist/css/skins']), distPath + 'styles/skins')
-        .copy(['skin-preview/**', 'Chart.min.js'].map(relativePath => srcPath + 'vendor/' + relativePath), distPath + 'scripts/');
+        .copy(convertNpmRelativePath(fonts),  distPath + 'fonts/')
+        .copy(convertNpmRelativePath(images), distPath + 'images/')
+        .copy(convertNpmRelativePath(['admin-lte/dist/css/skins']), distPath + 'styles/skins')
+        .copy(
+            ['skin-preview/**', 'Chart.min.js'].map(relativePath => `${srcPath}vendor/${relativePath}`),
+            distPath + 'scripts/'
+        );
 });
 
 // compile sass
@@ -166,9 +169,9 @@ gulp.task('watch', () => {
     gulp.watch(srcPath + 'scripts/general.js', ['scripts']);
 });
 
-function convertBowerRelativePath(paths) {
+function convertNpmRelativePath(paths) {
     return paths.map(relativePath => {
-        return relativePath.startsWith('resources') ? relativePath : (srcPath + 'bower_components/' + relativePath);
+        return relativePath.startsWith('resources') ? relativePath : ('node_modules/' + relativePath);
     });
 }
 

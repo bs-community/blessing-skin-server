@@ -62,8 +62,7 @@ Blessing Skin Server 对您的服务器有一定的要求。在大多数情况�
 ```
 $ git clone https://github.com/printempw/blessing-skin-server.git
 $ composer install
-$ npm install
-$ bower install
+$ yarn install
 ```
 
 构建代码！
