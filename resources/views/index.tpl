@@ -9,11 +9,18 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- App Styles -->
     {!! bs_header('index') !!}
+
+    <script type="text/javascript">
+        var changeWrapperHeight = function() {
+            document.getElementsByClassName('wrapper')[0].style.height = window.innerHeight + 'px';
+        };
+    </script>
 </head>
 
 <body class="hold-transition {{ option('color_scheme') }} layout-top-nav">
 
     <div class="wrapper" style="background-image: url('{{ option('home_pic_url') }}');">
+        <script>changeWrapperHeight();</script>
         <!-- Navigation -->
         <header class="main-header transparent">
             <nav class="navbar navbar-fixed-top">
@@ -127,8 +134,6 @@
     {!! bs_footer() !!}
 
     <script>
-        var changeWrapperHeight = function() { $('.wrapper').height($(window).height()) };
-        $(document).ready(changeWrapperHeight);
         $(window).resize(changeWrapperHeight).scroll(function(event) {
             // change color of the navigation bar when scrolling
             if (document.body.scrollTop >= ($(window).height() * 2 / 3)) {
