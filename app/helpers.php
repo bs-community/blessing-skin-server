@@ -404,5 +404,16 @@ if (! function_exists('runtime_check')) {
                 );
             }
         }
+
+        foreach (array_get($requirements, 'write_permission', []) as $dir) {
+            $realPath = realpath(__DIR__."/../$dir");
+
+            if (!is_writable($realPath)) {
+                exit(
+                    "[Error] The program lacks write permission to directory $dir <br>".
+                    "[错误] 程序缺少对 $dir 目录的写权限或目录不存在，请手动授权/创建"
+                );
+            }
+        }
     }
 }

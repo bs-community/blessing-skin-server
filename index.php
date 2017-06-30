@@ -21,7 +21,8 @@ require __DIR__.'/bootstrap/autoload.php';
 
 // check the runtime environment
 runtime_check(array(
-    'extensions' => array('pdo_mysql', 'openssl', 'gd', 'mbstring', 'tokenizer')
+    'extensions' => array('pdo_mysql', 'openssl', 'gd', 'mbstring', 'tokenizer'),
+    'write_permission' => array('storage', 'resources', 'plugins')
 ));
 
 // handle the request
