@@ -60,7 +60,7 @@ $('#login-button').click(function () {
                     });
 
                     // redirect to last requested path
-                    let redirect_to = url(blessing.redirect_to) || "../user";
+                    let redirect_to = url(blessing.redirect_to || "user");
 
                     window.setTimeout(() => (window.location = redirect_to), 1000);
 
