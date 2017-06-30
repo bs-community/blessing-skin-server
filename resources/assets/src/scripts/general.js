@@ -1,8 +1,8 @@
 /*
-* @Author: printempw
-* @Date:   2016-09-15 10:39:41
- * @Last Modified by: g-plane
- * @Last Modified time: 2017-04-27 15:33:24
+ * @Author: printempw
+ * @Date:   2016-09-15 10:39:41
+ * @Last Modified by: printempw
+ * @Last Modified time: 2017-06-30 13:33:20
 */
 
 'use strict';
@@ -22,6 +22,44 @@ $.defaultPaginatorConfig = {
     page: '<li><a style="cursor: pointer;">{{page}}</a></li>',
     wrapper: '<ul class="pagination pagination-sm no-margin"></ul>'
 };
+
+// polyfill of String.prototype.includes
+if (!String.prototype.includes) {
+    String.prototype.includes = function(search, start) {
+        'use strict';
+        if (typeof start !== 'number') {
+            start = 0;
+        }
+
+        if (start + search.length > this.length) {
+            return false;
+        } else {
+            return this.indexOf(search, start) !== -1;
+        }
+    };
+}
+
+// polyfill of String.prototype.endsWith
+if (!String.prototype.endsWith) {
+    String.prototype.endsWith = function (searchString, position) {
+        var subjectString = this.toString();
+        if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
+            position = subjectString.length;
+        }
+        position -= searchString.length;
+        var lastIndex = subjectString.lastIndexOf(searchString, position);
+        return lastIndex !== -1 && lastIndex === position;
+    };
+}
+
+$(window).ready(activateLayout).resize(activateLayout);
+
+function activateLayout() {
+    if (location.pathname == "/" || location.pathname.includes('auth'))
+        return;
+
+    $.AdminLTE.layout.activate();
+}
 
 /**
  * Check if given value is empty.
@@ -191,19 +229,6 @@ function debounce(func, delay, args = [], context = undefined) {
             func.apply(context, args);
         }, delay);
     }
-}
-
-// polyfill of String.prototype.endsWith
-if (!String.prototype.endsWith) {
-    String.prototype.endsWith = function (searchString, position) {
-        var subjectString = this.toString();
-        if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
-            position = subjectString.length;
-        }
-        position -= searchString.length;
-        var lastIndex = subjectString.lastIndexOf(searchString, position);
-        return lastIndex !== -1 && lastIndex === position;
-    };
 }
 
 function url(relativeUri) {

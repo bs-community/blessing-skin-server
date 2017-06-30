@@ -50,12 +50,16 @@ var vendorStyles = [
     'sweetalert2/dist/sweetalert2.min.css',
 ];
 
-var replacements = [
+var styleReplacements = [
     ['blue.png', '"../images/blue.png"'],
     ['blue@2x.png', '"../images/blue@2x.png"'],
     ['../img/loading.gif', '"../images/loading.gif"'],
     ['../img/loading-sm.gif', '"../images/loading-sm.gif"'],
     ['@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic);', ''],
+];
+
+var scriptReplacements = [
+    ['$.AdminLTE.layout.activate(),', '']
 ];
 
 var fonts = [
@@ -81,7 +85,8 @@ elixir((mix) => {
 
         .scripts(convertNpmRelativePath(vendorScripts), distPath + 'scripts/app.min.js', './')
         .styles(convertNpmRelativePath(vendorStyles),   distPath + 'styles/app.min.css', './')
-        .replace(distPath + 'styles/app.min.css', replacements)
+        .replace(distPath + 'styles/app.min.css', styleReplacements)
+        .replace(distPath + 'scripts/app.min.js', scriptReplacements)
 
         // copy fonts & images
         .copy(convertNpmRelativePath(fonts),  distPath + 'fonts/')

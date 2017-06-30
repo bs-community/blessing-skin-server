@@ -134,10 +134,7 @@
     {!! bs_footer() !!}
 
     <script>
-        $(window)
-        .ready(changeWrapperHeight)
-        .resize(changeWrapperHeight)
-        .scroll(function(event) {
+        $(window).scroll(function(event) {
             // change color of the navigation bar when scrolling
             if (document.body.scrollTop >= ($(window).height() * 2 / 3)) {
                 $('.main-header').removeClass('transparent');
