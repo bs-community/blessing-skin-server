@@ -27,7 +27,7 @@ close: 关闭
 skin: 皮肤
 cape: 披风
 
-pagination: 第 :page 页，共 :total 页
+loading: 正在加载
 
 texture-preview: 材质预览
 walk: 行走

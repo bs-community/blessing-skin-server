@@ -29,10 +29,6 @@ item:
   anonymous: Please login first
   private: Private
 
-search:
-  title: 'Search Result: :query'
-  no-keywords: No keywords given
-
 show:
   title: Texture Details
   anonymous: You must login to use closets

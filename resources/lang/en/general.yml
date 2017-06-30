@@ -27,7 +27,7 @@ close: Close
 skin: Skin
 cape: Cape
 
-pagination: Page :page, total :total
+loading: Loading
 
 texture-preview: Texture Preview
 walk: Walk

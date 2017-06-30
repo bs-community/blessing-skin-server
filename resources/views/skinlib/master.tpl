@@ -20,7 +20,9 @@
             <nav class="navbar navbar-static-top">
                 <div class="container">
                     <div class="navbar-header">
-                        <a href="{{ option('site_url') }}" class="navbar-brand">{{ option('site_name') }}</a>
+                        <a href="{{ option('site_url') }}" class="navbar-brand">
+                            {{ option('site_name') }}
+                        </a>
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                             <i class="fa fa-bars"></i>
                         </button>
@@ -29,8 +31,12 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="{{ url('skinlib') }}">{{ trans('general.skinlib') }}</a></li>
-                            <li><a href="{{ url('user/closet') }}">{{ trans('general.my-closet') }}</a></li>
+                            <li class="active">
+                                <a href="{{ url('skinlib') }}">{{ trans('general.skinlib') }}</a>
+                            </li>
+                            <li>
+                                <a href="{{ url('user/closet') }}">{{ trans('general.my-closet') }}</a>
+                            </li>
 
                             @unless (isset($with_out_filter))
                             <!-- Filters -->
@@ -39,15 +45,21 @@
                                     <i class="fa fa-filter" aria-hidden="true"></i> {{ trans('skinlib.general.filter') }} <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter=skin&{{ isset($_GET["uid"]) ? "uid=$uploader&" : "" }}sort={{ $sort }}'>{{ trans('general.skin') }} <small>{{ trans('skinlib.filter.any-model') }}</small></a></li>
-                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter=steve&{{ isset($_GET["uid"]) ? "uid=$uploader&" : "" }}sort={{ $sort }}'>{{ trans('general.skin') }} <small>{{ trans('skinlib.filter.steve-model') }}</small></a></li>
-                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter=alex&{{ isset($_GET["uid"]) ? "uid=$uploader&" : "" }}sort={{ $sort }}'>{{ trans('general.skin') }} <small>{{ trans('skinlib.filter.alex-model') }}</small></a></li>
+                                    <li><a class="filter" data-filter="skin" href="#">{{ trans('general.skin') }} <small>{{ trans('skinlib.filter.any-model') }}</small></a></li>
+
+                                    <li><a class="filter" data-filter="steve" href="#">{{ trans('general.skin') }} <small>{{ trans('skinlib.filter.steve-model') }}</small></a></li>
+
+                                    <li><a class="filter" data-filter="alex" href="#">{{ trans('general.skin') }} <small>{{ trans('skinlib.filter.alex-model') }}</small></a></li>
+
                                     <li class="divider"></li>
-                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter=cape&{{ isset($_GET["uid"]) ? "uid=$uploader&" : "" }}sort={{ $sort }}'>{{ trans('general.cape') }}</a></li>
+
+                                    <li><a class="filter" data-filter="cape" href="#">{{ trans('general.cape') }}</a></li>
+
                                     @if (!is_null($user))
                                     <li class="divider"></li>
-                                    <li><a href="?{{ isset($_GET["filter"]) ? "filter=$filter&" : "" }}uid={{ $user->uid }}&sort={{ $sort }}">{{ trans('skinlib.general.my-upload') }}</a></li>
+                                    <li><a class="filter" data-filter="uploader" data-uid="{{ $user->uid }}" href="#">{{ trans('skinlib.general.my-upload') }}</a></li>
                                     @endif
+
                                     <li class="divider"></li>
                                     <li><a href="{{ url('skinlib') }}">{{ trans('skinlib.filter.clean-filter') }}</a></li>
                                 </ul>
@@ -59,18 +71,21 @@
                                     <i class="fa fa-sort-amount-desc" aria-hidden="true"></i> {{ trans('skinlib.general.sort') }} <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter={{ $filter }}{{ isset($_GET['uid']) ? "&uid={$_GET['uid']}" : "" }}&sort=likes'>{{ trans('skinlib.sort.most-likes') }}</a></li>
+                                    <li><a class="sort" data-sort="likes" href="#">{{ trans('skinlib.sort.most-likes') }}</a></li>
                                     <li class="divider"></li>
-                                    <li><a href='?{{ isset($_GET["q"]) ? "q=$q&" : "" }}filter={{ $filter }}{{ isset($_GET['uid']) ? "&uid={$_GET['uid']}" : "" }}&sort=time'>{{ trans('skinlib.sort.newest-uploaded') }}</a></li>
+                                    <li><a class="sort" data-sort="time" href="#">{{ trans('skinlib.sort.newest-uploaded') }}</a></li>
                                 </ul>
                             </li>
                             @endunless
                         </ul>
-                        <form class="navbar-form navbar-left" role="search" action="{{ url('skinlib/search') }}">
+                        
+                        @unless (isset($with_out_filter))
+                        <form class="navbar-form navbar-left" id="search-form" role="search">
                             <div class="form-group">
                                 <input type="text" class="form-control" id="navbar-search-input" name="q" placeholder="{{ trans('skinlib.general.search-textures') }}" value="{{ $q or '' }}" />
                             </div>
                         </form>
+                        @endunless
                     </div><!-- /.navbar-collapse -->
                     <!-- Navbar Right Menu -->
                     <div class="navbar-custom-menu">

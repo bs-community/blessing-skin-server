@@ -28,94 +28,91 @@ class SkinlibController extends Controller
         $this->user = $users->get(session('uid'));
     }
 
-    public function index(Request $request)
+    public function index()
     {
-        $filter  = $request->input('filter', 'skin');
-        $sort    = $request->input('sort', 'time');
-        $uid     = intval($request->input('uid', 0));
-        $page    = $request->input('page', 1);
-        $page    = $page <= 0 ? 1 : $page;
-
-        $sort_by = ($sort == "time") ? "upload_at" : $sort;
-
-        if ($filter == "skin") {
-            $textures = Texture::where(function($query) {
-                // Nested condition, DO NOT MODIFY
-                $query->where('type', '=', 'steve')->orWhere('type', '=', 'alex');
-            });
-        } else {
-            $textures = Texture::where('type', $filter);
-        }
-
-        if ($uid != 0) {
-            $textures = $textures->where('uploader', $uid);
-        }
-
-        if (!is_null($this->user)) {
-
-            // show private textures when show uploaded textures of current user
-            if ($uid != $this->user->uid && !$this->user->isAdmin()) {
-                $textures = $textures->where('public', 1)
-                                     ->merge($textures->where('uploader', $this->user->uid));
-            }
-
-        } else {
-            $textures = $textures->where('public', 1);
-        }
-
-        $total_pages = ceil($textures->count() / 20);
-
-        $textures = $textures->orderBy($sort_by, 'desc')->skip(($page - 1) * 20)->take(20)->get();
-
-        return view('skinlib.index')->with('user', $this->user)
-                                    ->with('sort', $sort)
-                                    ->with('filter', $filter)
-                                    ->with('uploader', $uid)
-                                    ->with('textures', $textures)
-                                    ->with('page', $page)
-                                    ->with('total_pages', $total_pages);
+        return view('skinlib.index', ['user' => $this->user]);
     }
 
-    public function search(Request $request)
+    /**
+     * Get skin library data filtered.
+     * Available Query String: filter, uploader, page, sort, keyword, items_per_page.
+     *
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function getSkinlibFiltered(Request $request)
     {
-        $q      = $request->input('q', '');
+
+        // Available filters: skin, steve, alex, cape
         $filter = $request->input('filter', 'skin');
-        $sort   = $request->input('sort', 'time');
 
-        $sort_by = ($sort == "time") ? "upload_at" : $sort;
+        // Filter result by uploader's uid
+        $uploader = intval($request->input('uploader', 0));
 
-        if ($q == '') {
-            return redirect('skinlib');
-        }
+        // Available sorting methods: time, likes
+        $sort = $request->input('sort', 'time');
+        $sortBy = ($sort == "time") ? "upload_at" : $sort;
+
+        // Current page
+        $page = $request->input('page', 1);
+        $currentPage = ($page <= 0) ? 1 : $page;
+
+        // How many items to show in one page
+        $itemsPerPage = $request->input('items_per_page', 20);
+
+        // Keyword to search
+        $keyword = $request->input('keyword', '');
+
+        // Check if user logged in
+        $anonymous = is_null($this->user);
 
         if ($filter == "skin") {
-            $textures = Texture::like('name', $q)->where(function($query) use ($q) {
-                $query->where('type',   '=', 'steve')
-                      ->orWhere('type', '=', 'alex');
-            })->orderBy($sort_by, 'desc')->get();
+            $query = Texture::where(function ($innerQuery) {
+                // Nested condition, DO NOT MODIFY
+                $innerQuery->where('type', '=', 'steve')->orWhere('type', '=', 'alex');
+            });
         } else {
-            $textures = Texture::like('name', $q)
-                                ->where('type', $filter)
-                                ->where('public', 1)
-                                ->orderBy($sort_by, 'desc')->get();
+            $query = Texture::where('type', $filter);
         }
 
-        if (!is_null($this->user)) {
-            // show private textures when show uploaded textures of current user
-            if (!$this->user->isAdmin()) {
-                $textures = $textures->where('public', 1)
-                                     ->merge($textures->where('uploader', $this->user->uid));
+        if ($keyword !== "") {
+            $query = $query->like('name', $keyword);
+        }
+
+        if ($uploader !== 0) {
+            $query = $query->where('uploader', $uploader);
+        }
+
+        if ($anonymous) {
+            // Show public textures only to anonymous visitors
+            $query = $query->where('public', 1);
+        } else {
+            // Show private textures when show uploaded textures of current user
+            if ($uploader != $this->user->uid && !$this->user->isAdmin()) {
+                $query = $query->where(function ($innerQuery) {
+                    $innerQuery->where('public', '=', '1')->orWhere('uploader', '=', $this->user->uid);
+                });
             }
-        } else {
-            $textures = $textures->where('public', 1);
         }
 
-        return view('skinlib.search')->with('user', $this->user)
-                                    ->with('sort', $sort)
-                                    ->with('filter', $filter)
-                                    ->with('uploader', 0)
-                                    ->with('q', $q)
-                                    ->with('textures', $textures);
+        $totalPages = ceil($query->count() / 20);
+
+        $textures = $query->orderBy($sortBy, 'desc')
+                            ->skip(($currentPage - 1) * $itemsPerPage)
+                            ->take($itemsPerPage)
+                            ->get();
+
+        if (! $anonymous) {
+            foreach ($textures as $item) {
+                $item->liked = $this->user->getCloset()->has($item->tid);
+            }
+        }
+
+        return response()->json([
+            'items'       => $textures,
+            'anonymous'   => $anonymous,
+            'total_pages' => $totalPages
+        ]);
     }
 
     public function show($tid)

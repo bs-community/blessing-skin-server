@@ -29,10 +29,6 @@ item:
   anonymous: 请先登录
   private: 私密
 
-search:
-  title: 搜索结果：:query
-  no-keywords: 未指定关键字
-
 show:
   title: 材质详情
   anonymous: 登录后才能使用衣柜哦

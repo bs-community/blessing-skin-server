@@ -261,20 +261,12 @@ $(document).ready(function() {
     if (window.location.pathname.includes('/user/closet')) {
         Promise.resolve($.ajax({
             type: 'GET',
-            url: /(^https?.*)\/user\/closet/.exec(window.location.href)[1] + '/user/closet-data',
+            url: url('/user/closet-data'),
             dataType: 'json'
         })).then(result => {
             renderCloset(result.items, result.category);
-            $('#closet-paginator').jqPaginator({
+            $('#closet-paginator').jqPaginator($.extend({}, $.defaultPaginatorConfig, {
                 totalPages: result.total_pages,
-                visiblePages: 5,
-                currentPage: 1,
-                first: '<li><a style="cursor: pointer;">«</a></li>',
-                prev: '<li><a style="cursor: pointer;">‹</a></li>',
-                next: '<li><a style="cursor: pointer;">›</a></li>',
-                last: '<li><a style="cursor: pointer;">»</a></li>',
-                page: '<li><a style="cursor: pointer;">{{page}}</a></li>',
-                wrapper: '<ul class="pagination pagination-sm no-margin"></ul>',
                 onPageChange: page => {
                     reloadCloset(
                         $('#skin-category').hasClass('active') ? 'skin' : 'cape',
@@ -282,7 +274,7 @@ $(document).ready(function() {
                         $('input[name=q]').val()
                     );
                 }
-            });
+            }));
         }).catch(error => showAjaxError);
 
         $('input[name=q]').on('input', debounce(() => {

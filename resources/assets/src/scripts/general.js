@@ -12,6 +12,17 @@ console.log(`\n %c Blessing Skin v${blessing.version} %c https://blessing.studio
 $.locales       = {};
 $.currentLocale = {};
 
+$.defaultPaginatorConfig = {
+    visiblePages: 5,
+    currentPage: 1,
+    first: '<li><a style="cursor: pointer;">«</a></li>',
+    prev: '<li><a style="cursor: pointer;">‹</a></li>',
+    next: '<li><a style="cursor: pointer;">›</a></li>',
+    last: '<li><a style="cursor: pointer;">»</a></li>',
+    page: '<li><a style="cursor: pointer;">{{page}}</a></li>',
+    wrapper: '<ul class="pagination pagination-sm no-margin"></ul>'
+};
+
 /**
  * Check if given value is empty.
  *
@@ -22,6 +33,8 @@ function isEmpty(obj) {
 
     // null and undefined are "empty"
     if (obj == null) return true;
+
+    if (typeof (obj) == 'number' || typeof (obj) == 'boolean') return false;
 
     // Assume if it has a length property with a non-zero value
     // that that property is correct.
@@ -145,13 +158,14 @@ function showAjaxError(json) {
  * Get parameters in query string with key.
  *
  * @param  {string} key
+ * @param  {string} defaultValue
  * @return {string}
  */
-function getQueryString(key) {
+function getQueryString(key, defaultValue) {
     result = location.search.match(new RegExp('[\?\&]'+key+'=([^\&]+)','i'));
 
     if (result == null || result.length < 1){
-        return null;
+        return defaultValue;
     } else {
         return result[1];
     }

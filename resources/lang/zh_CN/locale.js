@@ -42,6 +42,22 @@
             removeFromCloset: '从衣柜中移除',
             setItemName: '给你的皮肤起个名字吧~',
             emptyItemName: '你还没有填写要收藏的材质名称啊',
+            anonymous: '请先登录',
+            private: '私密',
+
+            // Skinlib
+            filter: {
+                skin: '（任意模型）',
+                steve: '（Steve）',
+                alex: '（Alex）',
+                cape: '（披风）',
+                uploader: '用户（UID = :uid）上传',
+                allUsers: '所有用户'
+            },
+            sort: {
+                time: '最新上传',
+                likes: '最多收藏'
+            },
 
             // Rename
             setNewTextureName: '请输入新的材质名称：',
@@ -173,6 +189,8 @@
             confirm: '确定',
             cancel: '取消',
             more: '更多',
+            pagination: '第 :page 页，共 :total 页',
+            searchResult: '（关键词 “:keyword” 的搜索结果）',
             noResult: '无结果'
         },
         vendor: {

@@ -76,10 +76,10 @@ Route::group(['middleware' => 'auth', 'prefix' => 'user'], function ()
  */
 Route::group(['prefix' => 'skinlib'], function ()
 {
-    Route::get ('',                   'SkinlibController@index');
-    Route::any ('/info/{tid}',        'SkinlibController@info');
-    Route::any ('/show/{tid}',        'SkinlibController@show');
-    Route::any ('/search',            'SkinlibController@search');
+    Route::get('',                    'SkinlibController@index');
+    Route::any('/info/{tid}',         'SkinlibController@info');
+    Route::any('/show/{tid}',         'SkinlibController@show');
+    Route::any('/data',               'SkinlibController@getSkinlibFiltered');
 
     Route::group(['middleware' => 'auth'], function ()
     {

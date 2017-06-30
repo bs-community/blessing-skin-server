@@ -8,27 +8,33 @@
     <div class="container">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>
-                {{ trans('general.skinlib') }}
+            <h1>{{ trans('general.skinlib') }}
+                <small id="search-indicator"></small>
             </h1>
-            @include('vendor.breadcrumb')
+            <ol class="breadcrumb">
+                <li><i class="fa fa-tags"></i> {{ trans('skinlib.filter.now-showing') }}</li>
+                <li id="filter-indicator"></li>
+                <li id="uploader-indicator"></li>
+                <li class="active" id="sort-indicator"></li>
+            </ol>
         </section>
 
         <!-- Main content -->
         <section class="content">
             <div class="box box-default">
-                <div class="box-body">
-                    @forelse ($textures as $texture)
-                    <a href="{{ url("skinlib/show/$texture->tid") }}">
-                        @include('skinlib.item')
-                    </a>
-                    @empty
-                    <p style="text-align: center; margin: 30px 0;">{{ trans('skinlib.general.no-result') }}</p>
-                    @endforelse
-                </div><!-- /.box-body -->
+                <!-- Container of Skin Library -->
+                <div id="skinlib-container" class="box-body"></div>
 
                 <div class="box-footer">
-                    @include('vendor.pagination')
+                    <!-- Pagination -->
+                    <div class="pull-right" id="skinlib-paginator"></div>
+                    <select class="pull-right pagination"></select>
+                    <p class="pull-right pagination"></p>
+                </div>
+
+                <div class="overlay">
+                    <i class="fa fa-refresh fa-spin"></i>
+                    <span>{{ trans('general.loading') }}</span>
                 </div>
             </div><!-- /.box -->
         </section><!-- /.content -->

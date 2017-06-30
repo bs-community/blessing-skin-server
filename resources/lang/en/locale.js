@@ -47,6 +47,20 @@
             setNewTextureName: 'Please enter the new texture name:',
             emptyNewTextureName: 'Empty new texture name.',
 
+            // Skinlib
+            filter: {
+                skin: '(Any Model)',
+                steve: '(Steve)',
+                alex: '(Alex)',
+                cape: '(Cape)',
+                uploader: 'User (UID = :uid) Uploaded',
+                allUsers: 'All Users'
+            },
+            sort: {
+                time: 'Newestly Uploaded',
+                likes: 'Most Likes'
+            },
+
             // Upload
             emptyTextureName: 'Empty texture name.',
             emptyTextureType: 'Please select a type for this texture.',
@@ -173,6 +187,8 @@
             confirm: 'OK',
             cancel: 'Cancel',
             more: 'More',
+            pagination: 'Page :page, total :total',
+            searchResult: '(Search result of keyword ":keyword")',
             noResult: 'No result.'
         }
     };

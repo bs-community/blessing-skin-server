@@ -74,3 +74,32 @@ table {
 .table > tbody > tr > td {
     border-top: none;
 }
+
+select.pagination {
+    padding-left: 0;
+    margin: 0 20px 0 0;
+    border-radius: 4px;
+    padding: 5.5px 14px;
+}
+
+.overlay span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -40px;
+    margin-top: 25px;
+    color: #000;
+    font-size: 20px;
+}
+
+#skinlib-container {
+    min-height: 20em;
+}
+
+.private-label {
+    margin-top: 2px;
+}
+
+.dropdown-menu .divider {
+    margin: 3px 0;
+}
