@@ -39,7 +39,7 @@ if (! function_exists('assets')) {
     function assets($relativeUri)
     {
         // add query string to fresh cache
-        if (Str::startsWith($relativeUri, 'styles') || Str::startsWith($relativeUri, 'scripts')) {
+        if (Str::startsWith($relativeUri, 'css') || Str::startsWith($relativeUri, 'js')) {
             return url("resources/assets/dist/$relativeUri")."?v=".config('app.version');
         } elseif (Str::startsWith($relativeUri, 'lang')) {
             return url("resources/$relativeUri");
@@ -92,61 +92,27 @@ if (! function_exists('json')) {
     }
 }
 
-if (! function_exists('bs_footer')) {
+if (! function_exists('bs_footer_extra')) {
 
-    function bs_footer($page_identification = "")
+    function bs_footer_extra()
     {
-        $content = "";
-
-        $scripts = [
-            assets('scripts/app.min.js'),
-            assets('lang/'.config('app.locale').'/locale.js'),
-        ];
-
-        if ($page_identification !== "") {
-            $scripts[] = assets("scripts/$page_identification.js");
-        }
-
-        foreach ($scripts as $script) {
-            $content .= "<script type=\"text/javascript\" src=\"$script\"></script>\n";
-        }
-
-        $content .=  '<script>'.option("custom_js").'</script>';
-
         $extraContents = [];
 
         Event::fire(new App\Events\RenderingFooter($extraContents));
 
-        return $content . implode("\n", $extraContents);
+        return implode("\n", $extraContents);
     }
 }
 
-if (! function_exists('bs_header')) {
+if (! function_exists('bs_header_extra')) {
 
-    function bs_header($page_identification = "")
+    function bs_header_extra()
     {
-        $content = "";
-
-        $styles = [
-            assets('styles/app.min.css'),
-            assets('styles/skins/'.Option::get('color_scheme').'.min.css')
-        ];
-
-        if ($page_identification !== "") {
-            $styles[] = assets("styles/$page_identification.css");
-        }
-
-        foreach ($styles as $style) {
-            $content .= "<link rel=\"stylesheet\" href=\"$style\">\n";
-        }
-
-        $content .= '<style>'.option("custom_css").'</style>';
-
         $extraContents = [];
 
         Event::fire(new App\Events\RenderingHeader($extraContents));
 
-        return $content . implode("\n", $extraContents);
+        return implode("\n", $extraContents);
     }
 }
 

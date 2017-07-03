@@ -18,7 +18,7 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="box box-primary">
-                        @include('vendor.texture-preview')
+                        @include('common.texture-preview')
 
                         <div class="box-footer">
                             @if (is_null($user)) {{-- Not logged in --}}
@@ -97,13 +97,13 @@
 
                     @if (!is_null($user))
                         @if ($texture->uploader == $user->uid)
-                            @include('vendor.manage-panel', [
+                            @include('common.manage-panel', [
                                 'title'   => trans('skinlib.show.delete-texture')." / ".trans('skinlib.privacy.change-privacy'),
                                 'message' => trans('skinlib.show.notice')
                             ])
 
                         @elseif ($user->isAdmin())
-                            @include('vendor.manage-panel', [
+                            @include('common.manage-panel', [
                                 'title'   => trans('skinlib.show.manage-panel'),
                                 'message' => trans('skinlib.show.notice-admin')
                             ])

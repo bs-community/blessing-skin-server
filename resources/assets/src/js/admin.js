@@ -19,7 +19,7 @@ $(document).ready(function() {
     });
 
     $.extend(true, $.fn.dataTable.defaults, {
-        language: trans('vendor.datatables'),
+        language: trans('common.datatables'),
         scrollX: true,
         pageLength: 25,
         autoWidth: false,

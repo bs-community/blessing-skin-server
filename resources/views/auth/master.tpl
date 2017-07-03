@@ -7,8 +7,9 @@
     {!! bs_favicon() !!}
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- App Styles -->
-    {!! bs_header('auth') !!}
-    <script>blessing.redirect_to = '<?php echo session('last_requested_path') ?>';</script>
+    @include('common.dependencies.style', ['module' => 'auth'])
+
+    <script>blessing.redirect_to = "{{ session('last_requested_path') }}";</script>
 </head>
 
 <body class="hold-transition login-page">
@@ -21,7 +22,7 @@
     </div>
 
     <!-- App Scripts -->
-    {!! bs_footer('auth') !!}
+    @include('common.dependencies.script', ['module' => 'auth'])
 
     @yield('script')
 </body>

@@ -139,8 +139,8 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
-<script type="text/javascript" src="{{ assets('scripts/three.min.js') }}"></script>
-<script type="text/javascript" src="{{ assets('scripts/three.msp.js') }}"></script>
+<script type="text/javascript" src="{{ assets('js/three.min.js') }}"></script>
+<script type="text/javascript" src="{{ assets('js/three.msp.js') }}"></script>
 
 @endsection
 

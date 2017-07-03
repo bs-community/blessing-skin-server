@@ -3,7 +3,7 @@
 @section('title', trans('general.customize'))
 
 @section('style')
-<link rel="stylesheet" href="{{ assets('styles/skins/_all-skins.min.css') }}">
+<link rel="stylesheet" href="{{ assets('css/skins/_all-skins.min.css') }}">
 @endsection
 
 @section('content')
@@ -63,5 +63,3 @@ var current_skin = "{{ option('color_scheme') }}";
 </script>
 
 @endsection
-
-

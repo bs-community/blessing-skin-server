@@ -8,7 +8,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- App Styles -->
-    {!! bs_header('admin') !!}
+    @include('common.dependencies.style', ['module' => 'admin'])
 
     @yield('style')
 </head>
@@ -38,9 +38,9 @@
                 <!-- Navbar Right Menu -->
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
-                        @include('vendor.language')
+                        @include('common.language')
 
-                        @include('vendor.user-menu')
+                        @include('common.user-menu')
                     </ul>
                 </div>
             </nav>
@@ -89,7 +89,7 @@
     </div><!-- ./wrapper -->
 
     <!-- App Scripts -->
-    {!! bs_footer('admin') !!}
+    @include('common.dependencies.script', ['module' => 'admin'])
 
     @if (option('check_update'))
     <script>

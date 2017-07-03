@@ -106,7 +106,7 @@ class OptionForm
             $hintContent = trans("options.$this->id.hint");
         }
 
-        $this->hint = view('vendor.option-form.hint')->with('hint', $hintContent)->render();
+        $this->hint = view('common.option-form.hint')->with('hint', $hintContent)->render();
 
         return $this;
     }
@@ -358,7 +358,7 @@ class OptionForm
 
         $this->assignValues();
 
-        return view('vendor.option-form.main')->with(array_merge(get_object_vars($this)))->render();
+        return view('common.option-form.main')->with(array_merge(get_object_vars($this)))->render();
     }
 
     /**
@@ -414,7 +414,7 @@ class OptionFormItem
             $hintContent = trans("options.$this->parentId.$this->id.hint");
         }
 
-        $this->hint = view('vendor.option-form.hint')->with('hint', $hintContent)->render();
+        $this->hint = view('common.option-form.hint')->with('hint', $hintContent)->render();
 
         return $this;
     }
@@ -453,7 +453,7 @@ class OptionFormText extends OptionFormItem
 {
     public function render()
     {
-        return view('vendor.option-form.text')->with([
+        return view('common.option-form.text')->with([
             'id' => $this->id,
             'value' => $this->value,
             'disabled' => $this->disabled
@@ -478,7 +478,7 @@ class OptionFormCheckbox extends OptionFormItem
 
     public function render()
     {
-        return view('vendor.option-form.checkbox')->with([
+        return view('common.option-form.checkbox')->with([
             'id'    => $this->id,
             'value' => $this->value,
             'label' => $this->label,
@@ -500,7 +500,7 @@ class OptionFormTextarea extends OptionFormItem
 
     public function render()
     {
-        return view('vendor.option-form.textarea')->with([
+        return view('common.option-form.textarea')->with([
             'id'    => $this->id,
             'rows'  => $this->rows,
             'value' => $this->value,
@@ -522,7 +522,7 @@ class OptionFormSelect extends OptionFormItem
 
     public function render()
     {
-        return view('vendor.option-form.select')->with([
+        return view('common.option-form.select')->with([
             'id'       => $this->id,
             'options'  => $this->options,
             'selected' => $this->value,
@@ -562,12 +562,12 @@ class OptionFormGroup extends OptionFormItem
                 $item['value'] = option($item['id']);
             }
 
-            $rendered[] = view('vendor.option-form.'.$item['type'])->with([
+            $rendered[] = view('common.option-form.'.$item['type'])->with([
                 'id'    => $item['id'],
                 'value' => $item['value']
             ]);
         }
 
-        return view('vendor.option-form.group')->with('items', $rendered);
+        return view('common.option-form.group')->with('items', $rendered);
     }
 }

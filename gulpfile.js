@@ -36,7 +36,7 @@ var vendorScripts = [
     'es6-promise/dist/es6-promise.auto.min.js',
     'sweetalert2/dist/sweetalert2.min.js',
     'jqPaginator/dist/1.2.0/jqPaginator.min.js',
-    'resources/assets/dist/scripts/general.js',
+    'resources/assets/dist/js/general.js',
 ];
 
 var vendorStyles = [
@@ -83,37 +83,35 @@ elixir((mix) => {
         .task('compile-es6')
         .task('compile-sass')
 
-        .scripts(convertNpmRelativePath(vendorScripts), distPath + 'scripts/app.min.js', './')
-        .styles(convertNpmRelativePath(vendorStyles),   distPath + 'styles/app.min.css', './')
-        .replace(distPath + 'styles/app.min.css', styleReplacements)
-        .replace(distPath + 'scripts/app.min.js', scriptReplacements)
+        .scripts(convertNpmRelativePath(vendorScripts), distPath + 'js/app.js', './')
+        .styles(convertNpmRelativePath(vendorStyles),   distPath + 'css/style.css', './')
+        .replace(distPath + 'css/style.css', styleReplacements)
+        .replace(distPath + 'js/app.js', scriptReplacements)
 
         // copy fonts & images
         .copy(convertNpmRelativePath(fonts),  distPath + 'fonts/')
         .copy(convertNpmRelativePath(images), distPath + 'images/')
-        .copy(convertNpmRelativePath(['admin-lte/dist/css/skins']), distPath + 'styles/skins')
+        .copy(convertNpmRelativePath(['admin-lte/dist/css/skins']), distPath + 'css/skins')
         .copy(
             ['skin-preview/**', 'Chart.min.js'].map(relativePath => `${srcPath}vendor/${relativePath}`),
-            distPath + 'scripts/'
+            distPath + 'js/'
         );
 });
 
 // compile sass
 gulp.task('compile-sass', () => {
-    gulp.src(srcPath + 'styles/*.scss')
+    gulp.src(srcPath + 'sass/*.scss')
         .pipe(sass().on('error', sass.logError))
         .pipe(cleanCss())
-        .pipe(gulp.dest(distPath + 'styles'));
+        .pipe(gulp.dest(distPath + 'css'));
 });
 
 gulp.task('compile-es6', () => {
-    gulp.src(srcPath + 'scripts/*.js')
+    gulp.src(srcPath + 'js/*.js')
         .pipe(babel({ presets: ['es2015'] }))
         .pipe(uglify())
-        .pipe(gulp.dest(distPath + 'scripts'));
+        .pipe(gulp.dest(distPath + 'js'));
 });
-
-gulp.task
 
 // delete cache files
 gulp.task('clear', () => {
@@ -168,10 +166,10 @@ gulp.task('zip', () => {
 
 gulp.task('watch', () => {
     // watch .scss files
-    gulp.watch(srcPath + 'styles/*.scss', ['compile-sass'], () => notify({ message: 'Sass files compiled!' }));
+    gulp.watch(srcPath + 'sass/*.scss', ['compile-sass'], () => notify({ message: 'Sass files compiled!' }));
     // watch .js files
-    gulp.watch(srcPath + 'scripts/*.js', ['compile-es6'], () => notify({ message: 'ES6 scripts compiled!' }));
-    gulp.watch(srcPath + 'scripts/general.js', ['scripts']);
+    gulp.watch(srcPath + 'js/*.js', ['compile-es6'], () => notify({ message: 'ES6 scripts compiled!' }));
+    gulp.watch(srcPath + 'js/general.js', ['scripts']);
 });
 
 function convertNpmRelativePath(paths) {

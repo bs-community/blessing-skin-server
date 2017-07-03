@@ -81,7 +81,7 @@ label[for="type-cape"] {
                 </div>
                 <div class="col-md-6">
                     <div class="box box-default">
-                        @include('vendor.texture-preview')
+                        @include('common.texture-preview')
                     </div>
                 </div>
             </div>

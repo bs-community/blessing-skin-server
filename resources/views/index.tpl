@@ -8,10 +8,10 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- App Styles -->
-    {!! bs_header('index') !!}
+    @include('common.dependencies.style', ['module' => 'index'])
 
     <script type="text/javascript">
-        var changeWrapperHeight = function() {
+        var changeWrapperHeight = function () {
             document.getElementsByClassName('wrapper')[0].style.height = window.innerHeight + 'px';
         };
     </script>
@@ -42,10 +42,10 @@
                     <!-- Navbar Right Menu -->
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
-                            @include('vendor.language')
+                            @include('common.language')
 
                             @if (!is_null($user))
-                                @include('vendor.user-menu')
+                                @include('common.user-menu')
                             @else {{-- Anonymous User --}}
                             <!-- User Account Menu -->
                             <li class="dropdown user user-menu">
@@ -131,7 +131,7 @@
     </div>
 
     <!-- App Scripts -->
-    {!! bs_footer() !!}
+    @include('common.dependencies.script', ['module' => 'index'])
 
     <script>
         $(window).scroll(function(event) {

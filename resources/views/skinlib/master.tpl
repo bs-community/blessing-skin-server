@@ -8,7 +8,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- App Styles -->
-    {!! bs_header('skinlib') !!}
+    @include('common.dependencies.style', ['module' => 'skinlib'])
 
     @yield('style')
 </head>
@@ -78,7 +78,7 @@
                             </li>
                             @endunless
                         </ul>
-                        
+
                         @unless (isset($with_out_filter))
                         <form class="navbar-form navbar-left" id="search-form" role="search">
                             <div class="form-group">
@@ -92,10 +92,10 @@
                         <ul class="nav navbar-nav">
                             <li><a href="{{ url('skinlib/upload') }}"><i class="fa fa-upload" aria-hidden="true"></i> <span class="description-text">{{ trans('skinlib.general.upload-new-skin') }}</span></a></li>
 
-                            @include('vendor.language')
+                            @include('common.language')
 
                             @if (!is_null($user))
-                                @include('vendor.user-menu')
+                                @include('common.user-menu')
                             @else {{-- Anonymous User --}}
                             <!-- User Account Menu -->
                             <li class="dropdown user user-menu">
@@ -130,7 +130,7 @@
     </div><!-- ./wrapper -->
 
     <!-- App Scripts -->
-    {!! bs_footer('skinlib') !!}
+    @include('common.dependencies.script', ['module' => 'skinlib'])
 
     @yield('script')
 

@@ -53,7 +53,7 @@
             <div class="col-md-4">
 
                 <div class="box box-default">
-                    @include('vendor.texture-preview')
+                    @include('common.texture-preview')
 
                     <div class="box-footer">
                         <button class="btn btn-primary" data-toggle="modal" data-target="#modal-use-as">{{ trans('user.closet.use-as.button') }}</button>

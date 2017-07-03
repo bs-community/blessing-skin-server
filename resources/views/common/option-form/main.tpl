@@ -11,7 +11,7 @@
             @endforeach
 
             @if ($renderWithOutTable)
-                @each('vendor.option-form.item', $items, 'item')
+                @each('common.option-form.item', $items, 'item')
             @else
             <table class="table">
                 <tbody>
@@ -22,7 +22,7 @@
                         @endunless
 
                         <td class="value">
-                            @include('vendor.option-form.item', compact('item'))
+                            @include('common.option-form.item', compact('item'))
                         </td>
                     </tr>
                     @endforeach
