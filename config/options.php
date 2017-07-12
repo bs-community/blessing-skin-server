@@ -1,10 +1,4 @@
 <?php
-/**
- * @Author: printempw
- * @Date:   2016-07-29 11:53:11
- * @Last Modified by:   g-plane
- * @Last Modified time: 2017-04-21 13:01:49
- */
 
 return [
     'site_url'                  => '',

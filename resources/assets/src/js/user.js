@@ -1,10 +1,3 @@
-/*
- * @Author: printempw
- * @Date:   2016-07-16 10:02:24
- * @Last Modified by: g-plane
- * @Last Modified time: 2017-04-27 16:37:05
- */
-
 'use strict';
 
 $('body').on('click', '.player', function () {

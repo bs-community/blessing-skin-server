@@ -1,10 +1,3 @@
-/*
- * @Author: printempw
- * @Date:   2016-09-15 10:39:41
- * @Last Modified by: printempw
- * @Last Modified time: 2017-06-30 13:33:20
-*/
-
 'use strict';
 
 console.log(`\n %c Blessing Skin v${blessing.version} %c https://blessing.studio \n\n`,"color: #fadfa3; background: #030307; padding:5px 0;","background: #fadfa3; padding:5px 0;");

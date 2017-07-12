@@ -1,10 +1,3 @@
-/*
- * @Author: printempw
- * @Date:   2016-07-22 14:02:44
- * @Last Modified by:   printempw
- * @Last Modified time: 2017-05-06 21:17:57
- */
-
 'use strict';
 
 let pluginsTable;

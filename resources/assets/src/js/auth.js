@@ -1,10 +1,3 @@
-/*
- * @Author: printempw
- * @Date:   2016-07-17 10:54:22
- * @Last Modified by:   prpr
- * @Last Modified time: 2016-10-02 20:27:13
- */
-
 'use strict';
 
 $(document).ready(() => $('input').iCheck({

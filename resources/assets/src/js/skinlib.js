@@ -1,10 +1,3 @@
-/*
- * @Author: printempw
- * @Date:   2016-07-19 10:46:38
- * @Last Modified by: printempw
- * @Last Modified time: 2017-06-30 10:25:12
- */
-
 'use strict';
 
 $(document).ready(() => {
