@@ -1,28 +1,21 @@
-/*
-* @Author: printempw
-* @Date:   2016-07-21 13:38:26
- * @Last Modified by: g-plane
- * @Last Modified time: 2017-04-26 15:39:46
-*/
-
 'use strict';
 
-var gulp     = require('gulp'),
-    babel    = require('gulp-babel'),
-    elixir   = require('laravel-elixir'),
-    uglify   = require('gulp-uglify'),
-    sass     = require('gulp-sass'),
-    cleanCss = require('gulp-clean-css'),
-    del      = require('del'),
-    zip      = require('gulp-zip'),
-    notify   = require('gulp-notify');
-
-require('laravel-elixir-replace');
+var gulp        = require('gulp'),
+    babel       = require('gulp-babel'),
+    uglify      = require('gulp-uglify'),
+    sass        = require('gulp-sass'),
+    cleanCss    = require('gulp-clean-css'),
+    del         = require('del'),
+    concat      = require('gulp-concat'),
+    zip         = require('gulp-zip'),
+    replace     = require('gulp-batch-replace'),
+    notify      = require('gulp-notify'),
+    runSequence = require('run-sequence');
 
 var version  = require('./package.json').version;
 
-var srcPath  = 'resources/assets/src/';
-var distPath = 'resources/assets/dist/';
+var srcPath  = 'resources/assets/src';
+var distPath = 'resources/assets/dist';
 
 var vendorScripts = [
     'jquery/dist/jquery.min.js',
@@ -55,7 +48,7 @@ var styleReplacements = [
     ['blue@2x.png', '"../images/blue@2x.png"'],
     ['../img/loading.gif', '"../images/loading.gif"'],
     ['../img/loading-sm.gif', '"../images/loading-sm.gif"'],
-    ['@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic);', ''],
+    [/@import url\((.*)italic\);/g, ''],
 ];
 
 var scriptReplacements = [
@@ -76,50 +69,67 @@ var images = [
     'bootstrap-fileinput/img/loading-sm.gif',
 ];
 
-elixir.config.sourcemaps = false;
+// aka. `yarn run build`
+gulp.task('default', ['build']);
 
-elixir((mix) => {
-    mix // compile sass files & ES6 scripts first
-        .task('compile-es6')
-        .task('compile-sass')
-
-        .scripts(convertNpmRelativePath(vendorScripts), distPath + 'js/app.js', './')
-        .styles(convertNpmRelativePath(vendorStyles),   distPath + 'css/style.css', './')
-        .replace(distPath + 'css/style.css', styleReplacements)
-        .replace(distPath + 'js/app.js', scriptReplacements)
-
-        // copy fonts & images
-        .copy(convertNpmRelativePath(fonts),  distPath + 'fonts/')
-        .copy(convertNpmRelativePath(images), distPath + 'images/')
-        .copy(convertNpmRelativePath(['admin-lte/dist/css/skins']), distPath + 'css/skins')
-        .copy(
-            ['skin-preview/**', 'Chart.min.js'].map(relativePath => `${srcPath}vendor/${relativePath}`),
-            distPath + 'js/'
-        );
+// Build the things!
+gulp.task('build', function (callback) {
+    runSequence('clean', ['compile-es6', 'compile-sass'], 'publish-vendor', callback);
 });
 
-// compile sass
+// Concentrate all vendor scripts & styles to one dist file
+gulp.task('publish-vendor', ['compile-es6'], callback => {
+    // JavaScript files
+    gulp.src(convertNpmRelativePath(vendorScripts))
+        .pipe(concat('app.js'))
+        .pipe(replace(scriptReplacements))
+        .pipe(gulp.dest(`${distPath}/js/`));
+    // CSS files
+    gulp.src(convertNpmRelativePath(vendorStyles))
+        .pipe(concat('style.css'))
+        .pipe(replace(styleReplacements))
+        .pipe(gulp.dest(`${distPath}/css/`));
+    // Fonts
+    gulp.src(convertNpmRelativePath(fonts))
+        .pipe(gulp.dest(`${distPath}/fonts/`));
+    // Images
+    gulp.src(convertNpmRelativePath(images))
+        .pipe(gulp.dest(`${distPath}/images/`));
+    // AdminLTE skins
+    gulp.src('node_modules/admin-lte/dist/css/skins/**')
+        .pipe(gulp.dest(`${distPath}/css/skins/`));
+    // 3D skin preview
+    gulp.src(['skin-preview/**', 'Chart.min.js'].map(path => `${srcPath}/vendor/${path}`))
+        .pipe(gulp.dest(`${distPath}/js/`));
+
+    callback();
+});
+
+// Compile sass to css
 gulp.task('compile-sass', () => {
-    gulp.src(srcPath + 'sass/*.scss')
+    return gulp.src(`${srcPath}/sass/*.scss`)
         .pipe(sass().on('error', sass.logError))
         .pipe(cleanCss())
-        .pipe(gulp.dest(distPath + 'css'));
+        .pipe(gulp.dest(`${distPath}/css`));
 });
 
+// Compile ES6 scripts to ES5
 gulp.task('compile-es6', () => {
-    gulp.src(srcPath + 'js/*.js')
+    return gulp.src(`${srcPath}/js/*.js`)
         .pipe(babel({ presets: ['es2015'] }))
         .pipe(uglify())
-        .pipe(gulp.dest(distPath + 'js'));
+        .pipe(gulp.dest(`${distPath}/js`));
 });
 
-// delete cache files
-gulp.task('clear', () => {
+// Delete cache files
+gulp.task('clean', () => {
     clearCache();
-    clearDist();
+
+    return clearDist();
 });
 
-// release
+// Release archive file
+// aka. `yarn run release`
 gulp.task('zip', () => {
     clearCache();
 
@@ -166,15 +176,15 @@ gulp.task('zip', () => {
 
 gulp.task('watch', () => {
     // watch .scss files
-    gulp.watch(srcPath + 'sass/*.scss', ['compile-sass'], () => notify({ message: 'Sass files compiled!' }));
+    gulp.watch(`${srcPath}/sass/*.scss`, ['compile-sass'], () => notify({ message: 'Sass files compiled!' }));
     // watch .js files
-    gulp.watch(srcPath + 'js/*.js', ['compile-es6'], () => notify({ message: 'ES6 scripts compiled!' }));
-    gulp.watch(srcPath + 'js/general.js', ['scripts']);
+    gulp.watch(`${srcPath}/js/*.js`, ['compile-es6'], () => notify({ message: 'ES6 scripts compiled!' }));
+    gulp.watch(`${srcPath}/js/general.js`, ['build']);
 });
 
 function convertNpmRelativePath(paths) {
     return paths.map(relativePath => {
-        return relativePath.startsWith('resources') ? relativePath : ('node_modules/' + relativePath);
+        return relativePath.startsWith('resources') ? relativePath : `node_modules/${relativePath}`;
     });
 }
 
@@ -191,7 +201,5 @@ function clearCache() {
 }
 
 function clearDist() {
-    return del([
-        distPath + '**/*'
-    ]);
+    return del([`${distPath}/**/*`]);
 }
