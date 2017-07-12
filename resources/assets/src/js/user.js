@@ -302,7 +302,7 @@ function setTexture() {
     } else {
         $.ajax({
             type: "POST",
-            url: "./player/set",
+            url: url('user/player/set'),
             dataType: "json",
             data: {
                 'pid': pid,
@@ -329,7 +329,7 @@ $('body').on('change', '#preference', function() {
 
     $.ajax({
         type: "POST",
-        url: "./player/preference",
+        url: url('user/player/preference'),
         dataType: "json",
         data: { 'pid' : $(this).attr('pid'), 'preference' : $(this).val() },
         success: function(json) {
@@ -362,7 +362,7 @@ function changePlayerName(pid, current_player_name) {
     }).then(function(new_player_name) {
         $.ajax({
             type: "POST",
-            url: "./player/rename",
+            url: url('user/player/rename'),
             dataType: "json",
             data: { 'pid' : pid, 'new_player_name' : new_player_name },
             success: function(json) {
@@ -421,7 +421,7 @@ function ajaxClearTexture(pid) {
 
     Promise.resolve($.ajax({
         type: 'POST',
-        url: './player/texture/clear',
+        url: url('user/player/texture/clear'),
         dataType: 'json',
         data: data
     })).then(json => {
@@ -441,7 +441,7 @@ function deletePlayer(pid) {
     }).then(function() {
         $.ajax({
             type: "POST",
-            url: "./player/delete",
+            url: url('user/player/delete'),
             dataType: "json",
             data: { 'pid' : pid },
             success: function(json) {
@@ -467,7 +467,7 @@ function deletePlayer(pid) {
 function addNewPlayer() {
     $.ajax({
         type: "POST",
-        url: "./player/add",
+        url: url('user/player/add'),
         dataType: "json",
         data: { 'player_name' : $('#player_name').val() },
         success: function(json) {
