@@ -2,6 +2,7 @@
 
 var gulp        = require('gulp'),
     babel       = require('gulp-babel'),
+    eslint      = require('gulp-eslint'),
     uglify      = require('gulp-uglify'),
     sass        = require('gulp-sass'),
     cleanCss    = require('gulp-clean-css'),
@@ -29,7 +30,7 @@ var vendorScripts = [
     'es6-promise/dist/es6-promise.auto.min.js',
     'sweetalert2/dist/sweetalert2.min.js',
     'jqPaginator/dist/1.2.0/jqPaginator.min.js',
-    'resources/assets/dist/js/general.js',
+    'resources/assets/dist/js/common.js',
 ];
 
 var vendorStyles = [
@@ -73,8 +74,21 @@ var images = [
 gulp.task('default', ['build']);
 
 // Build the things!
-gulp.task('build', function (callback) {
-    runSequence('clean', ['compile-es6', 'compile-sass'], 'publish-vendor', callback);
+gulp.task('build', callback => {
+    runSequence('clean', 'lint', ['compile-es6', 'compile-sass'], 'publish-vendor', 'notify', callback);
+});
+
+// Send a notification
+gulp.task('notify', () => {
+    return gulp.src('').pipe(notify('Assets compiled!'));
+});
+
+// Check JavaScript files with ESLint
+gulp.task('lint', () => {
+    return gulp.src(`${srcPath}/js/**/*.js`)
+        .pipe(eslint())
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
 });
 
 // Concentrate all vendor scripts & styles to one dist file
@@ -114,11 +128,16 @@ gulp.task('compile-sass', () => {
 });
 
 // Compile ES6 scripts to ES5
-gulp.task('compile-es6', () => {
-    return gulp.src(`${srcPath}/js/*.js`)
-        .pipe(babel({ presets: ['es2015'] }))
-        .pipe(uglify())
-        .pipe(gulp.dest(`${distPath}/js`));
+gulp.task('compile-es6', callback => {
+    ['common', 'admin', 'auth', 'skinlib', 'user'].forEach(moduleName => {
+        return gulp.src(`${srcPath}/js/${moduleName}/*.js`)
+            .pipe(babel({ presets: ['es2015'] }))
+            .pipe(concat(`${moduleName}.js`))
+            .pipe(uglify())
+            .pipe(gulp.dest(`${distPath}/js`));
+    });
+
+    callback();
 });
 
 // Delete cache files
@@ -176,10 +195,10 @@ gulp.task('zip', () => {
 
 gulp.task('watch', () => {
     // watch .scss files
-    gulp.watch(`${srcPath}/sass/*.scss`, ['compile-sass'], () => notify({ message: 'Sass files compiled!' }));
+    gulp.watch(`${srcPath}/sass/*.scss`, ['compile-sass'], () => notify('Sass files compiled!'));
     // watch .js files
-    gulp.watch(`${srcPath}/js/*.js`, ['compile-es6'], () => notify({ message: 'ES6 scripts compiled!' }));
-    gulp.watch(`${srcPath}/js/general.js`, ['build']);
+    gulp.watch(`${srcPath}/js/*.js`, ['compile-es6'], () => notify('ES6 scripts compiled!'));
+    gulp.watch(`${srcPath}/js/general.js`, ['publish-vendor']);
 });
 
 function convertNpmRelativePath(paths) {
