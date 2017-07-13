@@ -222,7 +222,7 @@ function setAsAvatar(tid) {
         showCancelButton: true
     }).then(() => fetch({
         type: 'POST',
-        url: url('profile/avatar'),
+        url: url('user/profile/avatar'),
         dataType: 'json',
         data: { tid: tid }
     })).then(result => {
