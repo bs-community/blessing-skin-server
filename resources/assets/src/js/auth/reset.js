@@ -1,0 +1,98 @@
+/* global refreshCaptcha */
+
+'use strict';
+
+$('#forgot-button').click(() => {
+    let data = {
+        email: $('#email').val(),
+        captcha: $('#captcha').val()
+    };
+
+    (function validate({ email, captcha }, callback) {
+        if (email == '') {
+            showMsg(trans('auth.emptyEmail'));
+            $('#email').focus();
+        } else if (!/\S+@\S+\.\S+/.test(email)) {
+            showMsg(trans('auth.invalidEmail'), 'warning');
+        } else if (captcha == '') {
+            showMsg(trans('auth.emptyCaptcha'));
+            $('#captcha').focus();
+        } else {
+            callback();
+        }
+    })(data, () => {
+        fetch({
+            type: 'POST',
+            url: url('auth/forgot'),
+            dataType: 'json',
+            data: data,
+            beforeSend: () => {
+                $('#forgot-button').html(
+                    '<i class="fa fa-spinner fa-spin"></i> ' + trans('auth.sending')
+                ).prop('disabled', 'disabled');
+            }
+        }).then(({ errno, msg }) => {
+            if (errno == 0) {
+                showMsg(msg, 'success');
+                $('#forgot-button').html(trans('auth.send')).prop('disabled', 'disabled');
+            } else {
+                showMsg(msg, 'warning');
+                refreshCaptcha();
+                $('#forgot-button').html(trans('auth.send')).prop('disabled', '');
+            }
+        }).catch(err => {
+            showAjaxError(err);
+            $('#forgot-button').html(trans('auth.send')).prop('disabled', '');
+        });
+    });
+});
+
+$('#reset-button').click(() => {
+    let data = {
+        uid: $('#uid').val(),
+        password: $('#password').val()
+    };
+
+    (function validate({ password }, callback) {
+        if (password == '') {
+            showMsg(trans('auth.emptyPassword'));
+            $('#password').focus();
+        } else if (password.length < 8 || password.length > 16) {
+            showMsg(trans('auth.invalidPassword'), 'warning');
+            $('#password').focus();
+        } else if ($('#confirm-pwd').val() == '') {
+            showMsg(trans('auth.emptyConfirmPwd'));
+            $('#confirm-pwd').focus();
+        } else if (password != $('#confirm-pwd').val()) {
+            showMsg(trans('auth.invalidConfirmPwd'), 'warning');
+            $('#confirm-pwd').focus();
+        } else {
+            callback();
+        }
+    })(data, () => {
+        fetch({
+            type: 'POST',
+            url: url('auth/reset'),
+            dataType: 'json',
+            data: data,
+            beforeSend: () => {
+                $('#reset-button').html(
+                    '<i class="fa fa-spinner fa-spin"></i> ' + trans('auth.resetting')
+                ).prop('disabled', 'disabled');
+            }
+        }).then(({ errno, msg }) => {
+            if (errno == 0) {
+                swal({
+                    type: 'success',
+                    html: msg
+                }).then(() => (window.location = url('auth/login')));
+            } else {
+                showMsg(msg, 'warning');
+                $('#reset-button').html(trans('auth.reset')).prop('disabled', '');
+            }
+        }).catch(err => {
+            showAjaxError(err);
+            $('#reset-button').html(trans('auth.reset')).prop('disabled', '');
+        });
+    });
+});
