@@ -2,7 +2,9 @@
 
 'use strict';
 
-$('#forgot-button').click(() => {
+$('#forgot-button').click(e => {
+    e.preventDefault();
+
     let data = {
         email: $('#email').val(),
         captcha: $('#captcha').val()
@@ -47,7 +49,9 @@ $('#forgot-button').click(() => {
     });
 });
 
-$('#reset-button').click(() => {
+$('#reset-button').click(e => {
+    e.preventDefault();
+    
     let data = {
         uid: $('#uid').val(),
         password: $('#password').val()

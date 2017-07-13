@@ -2,7 +2,9 @@
 
 'use strict';
 
-$('#login-button').click(() => {
+$('#login-button').click(e => {
+    e.preventDefault();
+    
     let data = {
         identification: $('#identification').val(),
         password: $('#password').val(),

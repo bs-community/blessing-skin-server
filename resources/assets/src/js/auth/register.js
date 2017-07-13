@@ -2,7 +2,9 @@
 
 'use strict';
 
-$('#register-button').click(() => {
+$('#register-button').click(e => {
+    e.preventDefault();
+    
     let data = {
         email: $('#email').val(),
         password: $('#password').val(),
