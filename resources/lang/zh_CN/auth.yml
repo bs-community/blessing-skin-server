@@ -74,5 +74,5 @@ password: 密码
 captcha: 请输入验证码
 change-captcha: 点击以更换图片
 login-link: 已经有账号了？登录
-forgot-link: 忘记密码
+forgot-link: 忘记密码？
 register-link: 注册新账号

@@ -73,5 +73,5 @@ password: Password
 captcha: Please enter the CAPTCHA.
 change-captcha: Click to change CAPTCHA image.
 login-link: Already registered? Log in here.
-forgot-link: Forgot your password?
-register-link: Register new account
+forgot-link: Forgot password?
+register-link: Register a new account

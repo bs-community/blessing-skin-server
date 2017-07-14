@@ -42,24 +42,26 @@
             <div id="msg" class="callout hide"></div>
 
             <div class="row">
-                <div class="col-xs-8">
-                    <div class="checkbox icheck">
+                <div class="col-xs-6">
+                    <div class="checkbox icheck" style="margin-top: 0;">
                         <label for="keep">
                             <input id="keep" type="checkbox"> {{ trans('auth.login.keep') }}
                         </label>
                     </div>
-                </div>
-                <!-- /.col -->
-                <div class="col-xs-4">
+                </div><!-- /.col -->
+                <div class="col-xs-6">
+                    <a class="pull-right" href="{{ url('auth/forgot') }}">{{ trans('auth.forgot-link') }}</a>
+                </div><!-- /.col -->
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
                     <button id="login-button" class="btn btn-primary btn-block btn-flat">{{ trans('auth.login.button') }}</button>
-                </div>
-                <!-- /.col -->
+                </div><!-- /.col -->
             </div>
         </form>
-
-        <a href="{{ url('auth/forgot') }}">{{ trans('auth.forgot-link') }}</a><br>
-        <a href="{{ url('auth/register') }}" class="text-center">{{ trans('auth.register-link') }}</a>
-
+        <br>
+        <a href="{{ url('auth/register') }}" class="pull-left" style="margin-top: -10px;">{{ trans('auth.register-link') }}</a>
     </div>
     <!-- /.login-box-body -->
 </div>
