@@ -131,7 +131,7 @@
     </div>
 
     <!-- App Scripts -->
-    @include('common.dependencies.script', ['module' => 'index'])
+    @include('common.dependencies.script')
 
     <script>
         $(window).scroll(function(event) {
