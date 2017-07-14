@@ -227,8 +227,13 @@ class AdminController extends Controller
         $action = $request->input('action');
         $user   = $users->get($request->input('uid'));
 
-        if (!$user)
+        if (! $user) {
             return json(trans('admin.users.operations.non-existent'), 1);
+        }
+
+        if ($user->permission >= app('user.current')->permission) {
+            return json(trans('admin.users.operations.no-permission'), 1);
+        }
 
         if ($action == "email") {
             $this->validate($request, [
@@ -250,7 +255,9 @@ class AdminController extends Controller
 
             $user->setNickName($request->input('nickname'));
 
-            return json(trans('admin.users.operations.nickname.success', ['new' => $request->input('nickname')]), 0);
+            return json(trans('admin.users.operations.nickname.success', [
+                'new' => $request->input('nickname')
+            ]), 0);
 
         } elseif ($action == "password") {
             $this->validate($request, [
@@ -271,13 +278,6 @@ class AdminController extends Controller
             return json(trans('admin.users.operations.score.success'), 0);
 
         } elseif ($action == "ban") {
-            if ($user->getPermission() == User::ADMIN) {
-                if (app('user.current')->getPermission() != User::SUPER_ADMIN)
-                    return json(trans('admin.users.operations.ban.cant-admin'));
-            } elseif ($user->getPermission() == User::SUPER_ADMIN) {
-                return json(trans('admin.users.operations.ban.cant-super-admin'));
-            }
-
             $permission = $user->getPermission() == User::BANNED ? User::NORMAL : User::BANNED;
 
             $user->setPermission($permission);
@@ -289,12 +289,6 @@ class AdminController extends Controller
             ]);
 
         } elseif ($action == "admin") {
-            if (app('user.current')->getPermission() != User::SUPER_ADMIN)
-                return json(trans('admin.users.operations.admin.cant-set'));
-
-            if ($user->getPermission() == User::SUPER_ADMIN)
-                return json(trans('admin.users.operations.admin.cant-unset'));
-
             $permission = $user->getPermission() == User::ADMIN ? User::NORMAL : User::ADMIN;
 
             $user->setPermission($permission);
@@ -321,8 +315,13 @@ class AdminController extends Controller
 
         $player = Player::find($request->input('pid'));
 
-        if (!$player)
+        if (! $player) {
             abort(404, trans('general.unexistent-player'));
+        }
+
+        if ($player->user->permission >= app('user.current')->permission) {
+            return json(trans('admin.players.no-permission'), 1);
+        }
 
         if ($action == "preference") {
             $this->validate($request, [

@@ -17,6 +17,7 @@ users:
   operations:
     title: 更多操作
     non-existent: 用户不存在
+    no-permission: 你无权操作此用户
     email:
       change: 修改邮箱
       existed: :email 已被占用
@@ -36,8 +37,6 @@ users:
       unset:
         text: 解除管理员
         success: 账号已被解除管理员
-      cant-set: 非超级管理员无法进行此操作
-      cant-unset: 无法解除超级管理员
     ban:
       ban:
         text: 封禁
@@ -54,6 +53,7 @@ users:
       cant-admin: 你不能删除管理员账号哦
 
 players:
+  no-permission: 你无权操作此角色
   operations:
     title: 更多操作
   preference:

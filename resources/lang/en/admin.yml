@@ -17,6 +17,7 @@ users:
   operations:
     title: Operations
     non-existent: No such user.
+    no-permission: You have no permission to operate this user.
     email:
       change: Edit Email
       existed: :email is existed.
@@ -36,8 +37,6 @@ users:
       unset:
         text: Remove Admin
         success: The account's admin privilege has been removed.
-      cant-set: Only super admins can do the operation
-      cant-unset: Can't remove super admin privilege
     ban:
       ban:
         text: Ban
@@ -54,6 +53,7 @@ users:
       cant-admin: You can't delete admins.
 
 players:
+  no-permission: You have no permission to operate this player.
   operations:
     title: Operations
   preference:
