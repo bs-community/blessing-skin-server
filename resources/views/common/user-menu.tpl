@@ -23,13 +23,13 @@
         <li class="user-body">
             <div class="row">
                 <div class="col-xs-4 text-center">
-                    <a href="{{ url('admin') }}">管理面板</a>
+                    <a href="{{ url('admin') }}">{{ trans('general.admin-panel') }}</a>
                 </div>
                 <div class="col-xs-4 text-center">
-                    <a href="{{ url('admin/users') }}">用户管理</a>
+                    <a href="{{ url('admin/users') }}">{{ trans('general.user-manage') }}</a>
                 </div>
                 <div class="col-xs-4 text-center">
-                    <a href="{{ url('admin/options') }}">站点配置</a>
+                    <a href="{{ url('admin/options') }}">{{ trans('general.options') }}</a>
                 </div>
             </div>
         </li>
