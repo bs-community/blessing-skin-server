@@ -25,7 +25,7 @@ function addToCloset(tid) {
             inputValidator: value => (new Promise((resolve, reject) => {
                 value ? resolve() : reject(trans('skinlib.emptyItemName'));
             }))
-        }).then((result) => ajaxAddToCloset(tid, result));
+        }).then(result => ajaxAddToCloset(tid, result));
     });
 }
 

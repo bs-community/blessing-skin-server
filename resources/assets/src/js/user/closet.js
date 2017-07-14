@@ -6,6 +6,10 @@
 var selectedTextures = [];
 
 $(document).ready(function () {
+    $('input[type=radio]').iCheck({
+        radioClass: 'iradio_square-blue'
+    });
+
     if (! window.location.pathname.includes('/user/closet'))
         return;
 
@@ -13,11 +17,11 @@ $(document).ready(function () {
         type: 'GET',
         url: url('/user/closet-data'),
         dataType: 'json'
-    }).then(result => {
-        renderCloset(result.items, result.category);
+    }).then(({ items, category, total_pages }) => {
+        renderCloset(items, category);
 
         $('#closet-paginator').jqPaginator($.extend({}, $.defaultPaginatorConfig, {
-            totalPages: result.total_pages,
+            totalPages: total_pages,
             onPageChange: page => reloadCloset(
                 $('#skin-category').hasClass('active') ? 'skin' : 'cape',
                 page, $('input[name=q]').val()
@@ -43,12 +47,12 @@ $('body').on('click', '.item-body', function () {
         type: 'POST',
         url: url(`skinlib/info/${tid}`),
         dataType: 'json'
-    }).then(result => {
-        if (result.type == 'cape') {
-            MSP.changeCape(url(`textures/${result.hash}`));
+    }).then(({ type, hash }) => {
+        if (type == 'cape') {
+            MSP.changeCape(url(`textures/${hash}`));
             selectedTextures['cape'] = tid;
         } else {
-            MSP.changeSkin(url(`textures/${result.hash}`));
+            MSP.changeSkin(url(`textures/${hash}`));
             selectedTextures['skin'] = tid;
         }
 
@@ -145,15 +149,15 @@ function reloadCloset(category, page, search) {
             page: page,
             q: search
         }
-    }).then(result => {
-        renderCloset(result.items, result.category);
+    }).then(({ items, category, total_pages }) => {
+        renderCloset(items, category);
 
         let paginator = $('#closet-paginator');
 
-        paginator.attr(`last-${result.category}-page`, page);
+        paginator.attr(`last-${category}-page`, page);
         paginator.jqPaginator('option', {
             currentPage: page,
-            totalPages: result.total_pages
+            totalPages: total_pages
         });
     }).catch(err => showAjaxError(err));
 }
@@ -174,12 +178,12 @@ function renameClosetItem(tid, oldName) {
         url: url('closet/rename'),
         dataType: 'json',
         data: { tid: tid, new_name: name }
-    })).then(result => {
-        if (result.errno == 0) {
+    })).then(({ errno, msg }) => {
+        if (errno == 0) {
             $(`[tid=${tid}]>.item-footer>.texture-name>span`).html(newTextureName);
-            toastr.success(result.msg);
+            toastr.success(msg);
         } else {
-            toastr.warning(result.msg);
+            toastr.warning(msg);
         }
     }).catch(err => showAjaxError(err));
 }
@@ -194,9 +198,9 @@ function removeFromCloset(tid) {
         url: url('closet/remove'),
         dataType: 'json',
         data: { tid: tid }
-    })).then(result => {
-        if (result.errno == 0) {
-            swal({ type: 'success', html: result.msg });
+    })).then(({ errno, msg }) => {
+        if (errno == 0) {
+            swal({ type: 'success', html: msg });
 
             $(`div[tid=${tid}]`).remove();
 
@@ -209,7 +213,7 @@ function removeFromCloset(tid) {
                 }
             });
         } else {
-            toastr.warning(result.msg);
+            toastr.warning(msg);
         }
     }).catch(err => showAjaxError(err));
 }
@@ -225,16 +229,16 @@ function setAsAvatar(tid) {
         url: url('user/profile/avatar'),
         dataType: 'json',
         data: { tid: tid }
-    })).then(result => {
-        if (result.errno == 0) {
-            toastr.success(result.msg);
+    })).then(({ errno, msg }) => {
+        if (errno == 0) {
+            toastr.success(msg);
 
             // Refersh avatars
             $('[alt="User Image"]').each(function () {
                 $(this).prop('src', $(this).attr('src') + '?' + new Date().getTime());
             });
         } else {
-            toastr.warning(result.msg);
+            toastr.warning(msg);
         }
     }).catch(err => showAjaxError(err));
 }

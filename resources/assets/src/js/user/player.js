@@ -51,12 +51,8 @@ $('body').on('change', '#preference', function () {
         url: url('user/player/preference'),
         dataType: 'json',
         data: { pid: $(this).attr('pid'), preference: $(this).val() }
-    }).then(result => {
-        if (result.errno == 0) {
-            toastr.success(result.msg);
-        } else {
-            toastr.warning(result.msg);
-        }
+    }).then(({ errno, msg }) => {
+        (errno == 0) ? toastr.success(msg) : toastr.warning(msg);
     }).catch(err => showAjaxError(err));
 });
 
@@ -77,13 +73,13 @@ function changePlayerName(pid, currentPlayerName) {
         url: url('user/player/rename'),
         dataType: 'json',
         data: { pid: pid, new_player_name: name }
-    })).then(result => {
-        if (result.errno == 0) {
-            swal({ type: 'success', html: result.msg });
+    })).then(({ errno, msg }) => {
+        if (errno == 0) {
+            swal({ type: 'success', html: msg });
 
             $(`td:contains("${pid}")`).next().html(newPlayerName);
         } else {
-            swal({ type: 'error', html: result.msg });
+            swal({ type: 'error', html: msg });
         }
     }).catch(err => showAjaxError(err));
 }
@@ -127,8 +123,8 @@ function ajaxClearTexture(pid) {
         url: url('user/player/texture/clear'),
         dataType: 'json',
         data: data
-    }).then(result => {
-        swal({ type: result.errno == 0 ? 'success' : 'error', html: result.msg });
+    }).then(({ errno, msg }) => {
+        swal({ type: errno == 0 ? 'success' : 'error', html: msg });
         $('.modal').modal('hide');
     }).catch(err => showAjaxError(err));
 }
@@ -146,14 +142,14 @@ function deletePlayer(pid) {
         url: url('user/player/delete'),
         dataType: 'json',
         data: { pid: pid }
-    })).then(result => {
-        if (result.errno == 0) {
+    })).then(({ errno, msg }) => {
+        if (errno == 0) {
             swal({
                 type: 'success',
-                html: result.msg
+                html: msg
             }).then(() => $(`tr#${pid}`).remove());
         } else {
-            swal({ type: 'error', html: result.msg });
+            swal({ type: 'error', html: msg });
         }
     }).catch(err => showAjaxError(err));
 }
@@ -164,16 +160,16 @@ function addNewPlayer() {
         url: url('user/player/add'),
         dataType: 'json',
         data: { player_name: $('#player_name').val() }
-    }).then(result => {
-        if (result.errno == 0) {
+    }).then(({ errno, msg }) => {
+        if (errno == 0) {
             swal({
                 type: 'success',
-                html: result.msg
+                html: msg
             }).then(() => location.reload());
 
             $('#modal-add-player').modal('hide');
         } else {
-            toastr.warning(result.msg);
+            toastr.warning(msg);
         }
     }).catch(err => showAjaxError(err));
 }
@@ -201,12 +197,12 @@ function setTexture() {
                 'tid[skin]': skin,
                 'tid[cape]': cape
             }
-        }).then(result => {
-            if (result.errno == 0) {
-                swal({ type: 'success', html: result.msg });
+        }).then(({ errno, msg }) => {
+            if (errno == 0) {
+                swal({ type: 'success', html: msg });
                 $('#modal-use-as').modal('hide');
             } else {
-                toastr.warning(result.msg);
+                toastr.warning(msg);
             }
         }).catch(err => showAjaxError(err));
     }

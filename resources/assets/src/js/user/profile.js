@@ -18,16 +18,16 @@ function changeNickName() {
         url: url('user/profile?action=nickname'),
         dataType: 'json',
         data: { new_nickname: name }
-    })).then(result => {
-        if (result.errno == 0) {
+    })).then(({ errno, msg }) => {
+        if (errno == 0) {
 
             $('.nickname').each(function () {
                 $(this).html(name);
             });
 
-            return swal({ type: 'success', html: result.msg });
+            return swal({ type: 'success', html: msg });
         } else {
-            return swal({ type: 'warning', html: result.msg });
+            return swal({ type: 'warning', html: msg });
         }
     }).catch(err => showAjaxError(err));
 }
@@ -58,20 +58,20 @@ function changePassword() {
             url: url('user/profile?action=password'),
             dataType: 'json',
             data: { 'current_password': password, 'new_password': newPasswd }
-        }).then(result => {
-            if (result.errno == 0) {
+        }).then(({ errno, msg }) => {
+            if (errno == 0) {
                 return swal({
                     type: 'success',
-                    text: result.msg }
+                    text: msg }
                 ).then(() => {
                     return logout();
-                }).then(result => {
-                    if (result.errno == 0) {
+                }).then(({ errno }) => {
+                    if (errno == 0) {
                         window.location = url('auth/login');
                     }
                 }).catch(err => showAjaxError(err));
             } else {
-                return swal({ type: 'warning', text: result.msg });
+                return swal({ type: 'warning', text: msg });
             }
         }).catch(err => showAjaxError(err));
     }
@@ -108,20 +108,20 @@ function changeEmail() {
         url: url('user/profile?action=email'),
         dataType: 'json',
         data: { new_email: newEmail, password: $('#current-password').val() }
-    })).then(result => {
-        if (result.errno == 0) {
+    })).then(({ errno, msg }) => {
+        if (errno == 0) {
             return swal({
                 type: 'success',
-                text: result.msg
+                text: msg
             }).then(() => {
                 return logout();
-            }).then(result => {
-                if (result.errno == 0) {
+            }).then(({ errno }) => {
+                if (errno == 0) {
                     window.location = url('auth/login');
                 }
             }).catch(err => showAjaxError(err));
         } else {
-            return swal({ type: 'warning', text: result.msg });
+            return swal({ type: 'warning', text: msg });
         }
     }).catch(err => showAjaxError(err));
 }
@@ -138,16 +138,16 @@ function deleteAccount() {
         url: url('user/profile?action=delete'),
         dataType: 'json',
         data: { password: password }
-    }).then(result => {
-        if (result.errno == 0) {
+    }).then(({ errno, msg }) => {
+        if (errno == 0) {
             return swal({
                 type: 'success',
-                html: result.msg
+                html: msg
             }).then(() => {
                 window.location = url('auth/login');
             });
         } else {
-            return swal({ type: 'warning', html: result.msg });
+            return swal({ type: 'warning', html: msg });
         }
     }).catch(err => showAjaxError(err));
 }
