@@ -6,7 +6,7 @@ $.pluginsTable = null;
 
 $(document).ready(() => {
     $.extend(true, $.fn.dataTable.defaults, {
-        language: trans('common.datatables'),
+        language: trans('vendor.datatables'),
         scrollX: true,
         pageLength: 25,
         autoWidth: false,
