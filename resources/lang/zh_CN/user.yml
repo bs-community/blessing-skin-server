@@ -5,11 +5,11 @@ used:
 
 cur-score: 当前积分
 score-notice: 点击积分查看说明
-sign-in: 每日签到
-sign-in-success: 签到成功，获得了 :score 积分~
-cant-sign-in-until: :time 小时后才能再次签到哦~
-last-sign-in: 上次签到于 :time
-sign-in-remain-time: :time 小时后可签到
+sign: 每日签到
+sign-success: 签到成功，获得了 :score 积分~
+cant-sign-until: :time 小时后才能再次签到哦~
+last-sign: 上次签到于 :time
+sign-remain-time: :time 小时后可签到
 announcement: 公告
 
 score-intro:

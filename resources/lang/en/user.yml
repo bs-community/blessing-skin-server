@@ -5,11 +5,11 @@ used:
 
 cur-score: Current Score
 score-notice: Click the score to show introduction.
-sign-in: Sign In
-sign-in-success: Signed in successfully. You got :score scores.
-cant-sign-in-until: You can't sign in in :time hours
-last-sign-in: Last signed in at :time
-sign-in-remain-time: Available after :time hours
+sign: Sign
+sign-success: Signed successfully. You got :score scores.
+cant-sign-until: You can't sign in in :time hours
+last-sign: Last signed at :time
+sign-remain-time: Available after :time hours
 announcement: Announcement
 
 score-intro:

@@ -47,7 +47,7 @@ rate:
     addon: 积分 = 一个角色
   user_initial_score: 新用户默认积分
 
-sign_in:
+sign:
   title: 签到配置
 
   sign_score:

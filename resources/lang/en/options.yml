@@ -47,8 +47,8 @@ rate:
     addon: scores = 1 player
   user_initial_score: User Initial Score
 
-sign_in:
-  title: Signing In
+sign:
+  title: Signing
 
   sign_score:
     title: Score Granted

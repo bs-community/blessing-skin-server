@@ -21,7 +21,7 @@
             </div>
 
             <div class="col-md-6">
-                {!! $forms['signIn']->render() !!}
+                {!! $forms['sign']->render() !!}
             </div>
 
         </div>

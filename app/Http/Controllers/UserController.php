@@ -60,24 +60,24 @@ class UserController extends Controller
     }
 
     /**
-     * Handle user signing in.
+     * Handle user signing.
      *
      * @return void
      */
-    public function signIn()
+    public function sign()
     {
-        if ($this->user->canSignIn()) {
-            $acuiredScore = $this->user->signIn();
+        if ($this->user->canSign()) {
+            $acuiredScore = $this->user->sign();
 
             return json([
                 'errno'          => 0,
-                'msg'            => trans('user.sign-in-success', ['score' => $acuiredScore]),
+                'msg'            => trans('user.sign-success', ['score' => $acuiredScore]),
                 'score'          => $this->user->getScore(),
                 'storage'        => $this->calculatePercentageUsed($this->user->getStorageUsed(), option('score_per_storage')),
-                'remaining_time' => round($this->user->getSignInRemainingTime() / 3600)
+                'remaining_time' => round($this->user->getSignRemainingTime() / 3600)
             ]);
         } else {
-            return json(trans('user.cant-sign-in-until', ['time' => round($this->user->getSignInRemainingTime() / 3600)]), 1);
+            return json(trans('user.cant-sign-until', ['time' => round($this->user->getSignRemainingTime() / 3600)]), 1);
         }
     }
 

@@ -273,13 +273,13 @@ class User extends Model
     }
 
     /**
-     * Sign in for the user, return false if unavailable.
+     * Sign for the user, return false if unavailable.
      *
      * @return int|bool
      */
-    public function signIn()
+    public function sign()
     {
-        if ($this->canSignIn()) {
+        if ($this->canSign()) {
 
             $scoreLimits = explode(',', option('sign_score'));
             $acquiredScore = rand($scoreLimits[0], $scoreLimits[1]);
@@ -299,18 +299,18 @@ class User extends Model
      *
      * @return int Time in seconds.
      */
-    public function getSignInRemainingTime()
+    public function getSignRemainingTime()
     {
         // convert to timestamp
-        $lastSignInTime = Carbon::parse($this->getLastSignInTime());
+        $lastSignTime = Carbon::parse($this->getLastSignTime());
 
         if (option('sign_after_zero')) {
             return Carbon::now()->diffInSeconds(
-                (($lastSignInTime <= Carbon::today()) ? $lastSignInTime : Carbon::tomorrow())
+                (($lastSignTime <= Carbon::today()) ? $lastSignTime : Carbon::tomorrow())
             , false);
         }
 
-        return Carbon::now()->diffInSeconds($lastSignInTime->addSeconds(option('sign_gap_time') * 3600), false);
+        return Carbon::now()->diffInSeconds($lastSignTime->addSeconds(option('sign_gap_time') * 3600), false);
     }
 
     /**
@@ -318,9 +318,9 @@ class User extends Model
      *
      * @return bool
      */
-    public function canSignIn()
+    public function canSign()
     {
-        return ($this->getSignInRemainingTime() <= 0);
+        return ($this->getSignRemainingTime() <= 0);
     }
 
     /**
@@ -328,7 +328,7 @@ class User extends Model
      *
      * @return string Formatted time string.
      */
-    public function getLastSignInTime()
+    public function getLastSignTime()
     {
         return $this->last_sign_at;
     }

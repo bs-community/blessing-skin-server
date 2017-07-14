@@ -69,13 +69,13 @@
                         </div><!-- /.row -->
                     </div><!-- ./box-body -->
                     <div class="box-footer">
-                        @if ($user->canSignIn())
-                        <button id="sign-in-button" class="btn btn-primary pull-left" onclick="signIn()">
-                            <i class="fa fa-calendar-check-o" aria-hidden="true"></i> &nbsp;{{ trans('user.sign-in') }}
+                        @if ($user->canSign())
+                        <button id="sign-button" class="btn btn-primary pull-left" onclick="sign()">
+                            <i class="fa fa-calendar-check-o" aria-hidden="true"></i> &nbsp;{{ trans('user.sign') }}
                         </button>
                         @else
-                        <button class="btn btn-primary pull-left" title="{{ trans('user.last-sign-in', ['time' => $user->getLastSignInTime()]) }}" disabled="disabled">
-                            <i class="fa fa-calendar-check-o" aria-hidden="true"></i> &nbsp;{{ trans('user.sign-in-remain-time', ['time' => round($user->getSignInRemainingTime() / 3600)]) }}
+                        <button class="btn btn-primary pull-left" title="{{ trans('user.last-sign', ['time' => $user->getLastSignTime()]) }}" disabled="disabled">
+                            <i class="fa fa-calendar-check-o" aria-hidden="true"></i> &nbsp;{{ trans('user.sign-remain-time', ['time' => round($user->getSignRemainingTime() / 3600)]) }}
                         </button>
                         @endif
                     </div><!-- /.box-footer -->

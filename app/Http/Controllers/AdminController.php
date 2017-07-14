@@ -79,11 +79,11 @@ class AdminController extends Controller
 
         })->handle();
 
-        $signIn = Option::form('sign_in', OptionForm::AUTO_DETECT, function($form)
+        $sign = Option::form('sign', OptionForm::AUTO_DETECT, function($form)
         {
             $form->group('sign_score')
-                ->text('sign_score_from')->addon(trans('options.sign_in.sign_score.addon1'))
-                ->text('sign_score_to')->addon(trans('options.sign_in.sign_score.addon2'));
+                ->text('sign_score_from')->addon(trans('options.sign.sign_score.addon1'))
+                ->text('sign_score_to')->addon(trans('options.sign.sign_score.addon2'));
 
             $form->group('sign_gap_time')->text('sign_gap_time')->addon();
 
@@ -99,7 +99,7 @@ class AdminController extends Controller
             'sign_score_to'   => @explode(',', option('sign_score'))[1]
         ]);
 
-        return view('admin.score', ['forms' => compact('rate', 'signIn')]);
+        return view('admin.score', ['forms' => compact('rate', 'sign')]);
     }
 
     public function options()
