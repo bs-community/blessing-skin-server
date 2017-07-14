@@ -185,7 +185,11 @@ function onPageChange(page, type) {
 function updateUrlQueryString() {
     let query = $.param($.skinlib);
 
-    window.history.pushState(null, null, url(`skinlib?${query}`));
+    window.history.pushState(null, null, url(`skinlib?${ query }`));
+
+    $('li.locale').each(function () {
+        $(this).find('a').prop('href', `?lang=${ $(this).data('code') }&${ query }`);
+    });
 }
 
 function updateBreadCrumb() {

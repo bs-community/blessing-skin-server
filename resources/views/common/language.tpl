@@ -17,7 +17,7 @@
                         $link = $_SERVER['REQUEST_URI']."&lang=$code";
                     }
                 ?>
-                <li class="locale">
+                <li class="locale" data-code="{{ $code }}">
                     <a href="{{ $link }}">{{ $langInfo['name'] }}</a>
                 </li>
             @endif
