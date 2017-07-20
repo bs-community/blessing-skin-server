@@ -57,3 +57,11 @@ function showModal(msg, title = 'Message', type = 'default', options = {}) {
 
     $(dom).modal(options);
 }
+
+if (typeof require !== 'undefined' && typeof module !== 'undefined') {
+    module.exports = {
+        showMsg,
+        showAjaxError,
+        showModal
+    };
+}

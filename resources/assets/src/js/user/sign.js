@@ -13,7 +13,9 @@ function sign() {
             $('#sign-button').attr('disabled', 'disabled').html(dom);
 
             if (result.storage.used > 1024) {
-                $('#user-storage').html(`<b>${Math.round(result.storage.used)}</b>/ ${Math.round(result.storage.total)} MB`);
+                $('#user-storage').html(
+                    `<b>${Math.round(result.storage.used / 1024)}</b>/ ${Math.round(result.storage.total / 1024)} MB`
+                );
             } else {
                 $('#user-storage').html(`<b>${Math.round(result.storage.used)}</b>/ ${Math.round(result.storage.total)} KB`);
             }
@@ -25,4 +27,8 @@ function sign() {
             toastr.warning(result.msg);
         }
     }).catch(err => showAjaxError(err));
+}
+
+if (typeof require !== 'undefined' && typeof module !== 'undefined') {
+    module.exports = sign;
 }

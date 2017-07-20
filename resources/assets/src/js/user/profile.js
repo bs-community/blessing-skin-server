@@ -62,8 +62,8 @@ function changePassword() {
             if (errno == 0) {
                 return swal({
                     type: 'success',
-                    text: msg }
-                ).then(() => {
+                    text: msg
+                }).then(() => {
                     return logout();
                 }).then(({ errno }) => {
                     if (errno == 0) {
@@ -150,4 +150,13 @@ function deleteAccount() {
             return swal({ type: 'warning', html: msg });
         }
     }).catch(err => showAjaxError(err));
+}
+
+if (typeof require !== 'undefined' && typeof module !== 'undefined') {
+    module.exports = {
+        changeNickName,
+        changePassword,
+        changeEmail,
+        deleteAccount
+    };
 }

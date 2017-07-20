@@ -9,7 +9,7 @@ $('#layout-skins-list [data-skin]').click(function (e) {
     current_skin = skin_name;
 });
 
-$('#color-submit').click(() => {
+function submitColor() {
     fetch({
         type: 'POST',
         url: url('admin/customize?action=color'),
@@ -18,4 +18,10 @@ $('#color-submit').click(() => {
     }).then(({ errno, msg }) => {
         (errno == 0) ? toastr.success(msg) : toastr.warning(msg);
     }).catch(err => showAjaxError(err));
-});
+}
+
+$('#color-submit').click(submitColor);
+
+if (typeof require !== 'undefined' && typeof module !== 'undefined') {
+    module.exports = submitColor;
+}

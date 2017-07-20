@@ -25,7 +25,7 @@ function disablePlugin(name) {
         dataType: 'json'
     }).then(({ errno, msg }) => {
         if (errno == 0) {
-            toastr.warning(msg);
+            toastr.success(msg);
 
             $.pluginsTable.ajax.reload(null, false);
         } else {
@@ -52,4 +52,12 @@ function deletePlugin(name) {
             toastr.warning(msg);
         }
     }).catch(err => showAjaxError(err));
+}
+
+if (typeof require !== 'undefined' && typeof module !== 'undefined') {
+    module.exports = {
+        enablePlugin,
+        disablePlugin,
+        deletePlugin
+    };
 }

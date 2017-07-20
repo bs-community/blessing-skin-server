@@ -9,3 +9,7 @@ function refreshCaptcha() {
 }
 
 $('.captcha').click(refreshCaptcha);
+
+if (typeof require !== 'undefined' && typeof module !== 'undefined') {
+    module.exports = refreshCaptcha;
+}

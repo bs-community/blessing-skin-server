@@ -104,16 +104,21 @@ function changeTextureName(tid, oldName) {
 /**
  * Update button action & likes of texture.
  *
- * @param  {int}    tid
- * @param  {string} action add|remove
+ * @param  {number}         tid
+ * @param  {'add'|'remove'} action
  * @return {null}
  */
 function updateTextureStatus(tid, action) {
     let likes  = parseInt($('#likes').html()) + (action == 'add' ? 1 : -1);
         action = (action == 'add') ? 'removeFromCloset' : 'addToCloset';
 
-    $(`a[tid=${tid}]`).attr('href', `javascript:${action}(${tid});`).attr('title', trans(`skinlib.${action}`)).toggleClass('liked');
-    $(`#${tid}`).attr('href', `javascript:${action}(${tid});`).html(trans(`skinlib.${action}`));
+    $(`a[tid=${tid}]`)
+        .attr('href', `javascript:${action}(${tid});`)
+        .attr('title', trans(`skinlib.${action}`))
+        .toggleClass('liked');
+    $(`#${tid}`)
+        .attr('href', `javascript:${action}(${tid});`)
+        .html(trans(`skinlib.${action}`));
     $('#likes').html(likes);
 }
 
@@ -170,4 +175,16 @@ function deleteTexture(tid) {
             swal({ type: 'warning', html: msg });
         }
     }).catch(err => showAjaxError(err));
+}
+
+if (typeof require !== 'undefined' && typeof module !== 'undefined') {
+    module.exports = {
+        addToCloset,
+        ajaxAddToCloset,
+        removeFromCloset,
+        changeTextureName,
+        updateTextureStatus,
+        changePrivacy,
+        deleteTexture
+    };
 }

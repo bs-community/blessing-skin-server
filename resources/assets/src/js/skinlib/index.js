@@ -63,9 +63,11 @@ function renderSkinlib(items) {
     if (items.length === 0) {
         $('#skinlib-paginator').hide();
 
-        container.html(`<p style="text-align: center; margin: 30px 0;">
-            ${ trans('general.noResult') }
-        </p>`);
+        container.html(
+            '<p style="text-align: center; margin: 30px 0;">' +
+            trans('general.noResult') +
+            '</p>'
+        );
     } else {
         $('#skinlib-paginator').show();
 
@@ -216,4 +218,14 @@ function updateBreadCrumb() {
 
         $('#navbar-search-input').val(decodeURI($.skinlib.keyword));
     }
+}
+
+if (typeof require !== 'undefined' && typeof module !== 'undefined') {
+    module.exports = {
+        renderSkinlib,
+        reloadSkinlib,
+        updatePaginator,
+        updateUrlQueryString,
+        updateBreadCrumb
+    };
 }

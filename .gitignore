@@ -1,5 +1,6 @@
 .env
 .sass-cache
+coverage
 vendor/*
 plugins/*
 storage/textures/*

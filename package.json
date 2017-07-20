@@ -12,6 +12,9 @@
   "scripts": {
     "build": "gulp build",
     "release": "gulp release",
+    "test": "jest --silent",
+    "test:watch": "jest --silent --watch",
+    "test:cover": "jest --silent --coverage",
     "dev": "gulp watch"
   },
   "devDependencies": {
@@ -27,6 +30,7 @@
     "gulp-sass": "^3.1.0",
     "gulp-uglify": "^3.0.0",
     "gulp-zip": "^4.0.0",
+    "jest": "^20.0.4",
     "run-sequence": "^2.0.0"
   },
   "dependencies": {
@@ -41,5 +45,8 @@
     "jquery": "^3.2.1",
     "sweetalert2": "^6.6.5",
     "toastr": "^2.1.2"
+  },
+  "optionalDependencies": {
+    "@types/jest": "^20.0.2"
   }
 }

@@ -74,7 +74,7 @@ function getQueryString(key, defaultValue) {
  */
 function debounce(func, delay, args = [], context = undefined) {
     if (isNaN(delay) || typeof func !== 'function') {
-        throw new Error('Arguments type of function "debounce" is incorrent!');
+        throw new Error('Arguments type of function "debounce" is incorrect!');
     }
 
     let timer = null;
@@ -95,4 +95,13 @@ function url(relativeUri) {
     }
 
     return blessing.base_url + relativeUri;
+}
+
+if (typeof require !== 'undefined' && typeof module !== 'undefined') {
+    module.exports = {
+        isEmpty,
+        fetch,
+        debounce,
+        url
+    };
 }

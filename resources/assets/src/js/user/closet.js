@@ -242,3 +242,13 @@ function setAsAvatar(tid) {
         }
     }).catch(err => showAjaxError(err));
 }
+
+if (typeof require !== 'undefined' && typeof module !== 'undefined') {
+    module.exports = {
+        renderCloset,
+        reloadCloset,
+        renameClosetItem,
+        removeFromCloset,
+        setAsAvatar
+    };
+}
