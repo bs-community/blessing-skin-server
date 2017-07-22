@@ -111,7 +111,7 @@ class UserController extends Controller
 
             case 'password':
                 $this->validate($request, [
-                    'current_password' => 'required|min:8|max:16',
+                    'current_password' => 'required|min:6|max:16',
                     'new_password'     => 'required|min:8|max:16'
                 ]);
 
@@ -126,7 +126,7 @@ class UserController extends Controller
             case 'email':
                 $this->validate($request, [
                     'new_email' => 'required|email',
-                    'password'  => 'required|min:8|max:16'
+                    'password'  => 'required|min:6|max:16'
                 ]);
 
                 if ($users->get($request->input('new_email'), 'email')) {
@@ -143,7 +143,7 @@ class UserController extends Controller
 
             case 'delete':
                 $this->validate($request, [
-                    'password' => 'required|min:8|max:16'
+                    'password' => 'required|min:6|max:16'
                 ]);
 
                 if (!$this->user->verifyPassword($request->input('password')))
