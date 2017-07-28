@@ -25,9 +25,14 @@ module.exports = {
         "getQueryString": false,
         "TexturePreview": false
     },
+    "parserOptions": {
+        "ecmaVersion": 2017
+    },
     "env":{
+        "commonjs": true,
         "es6": true,
         "browser": true,
+        "jest": true,
         "jquery": true
     }
 };

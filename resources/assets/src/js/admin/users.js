@@ -167,3 +167,15 @@ $('body').on('keypress', '.score', function(event){
         changeUserScore($(this).parent().parent().attr('id'), $(this).val());
     }
 });
+
+if (typeof require !== 'undefined' && typeof module !== 'undefined') {
+    module.exports = {
+        changeUserEmail,
+        changeUserNickName,
+        changeUserPwd,
+        changeUserScore,
+        changeBanStatus,
+        changeAdminStatus,
+        deleteUserAccount
+    };
+}

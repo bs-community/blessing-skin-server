@@ -162,3 +162,14 @@ function deletePlayer(pid) {
         }
     }).catch(err => showAjaxError(err));
 }
+
+if (typeof require !== 'undefined' && typeof module !== 'undefined') {
+    module.exports = {
+        changePreference,
+        changeTexture,
+        ajaxChangeTexture,
+        changePlayerName,
+        changeOwner,
+        deletePlayer
+    };
+}

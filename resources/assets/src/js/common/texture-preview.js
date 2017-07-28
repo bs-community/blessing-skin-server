@@ -98,3 +98,7 @@ $('.fa-pause').click(function () {
 
 $('.fa-forward').click(() => MSP.setStatus('running',  ! MSP.getStatus('running')));
 $('.fa-repeat' ).click(() => MSP.setStatus('rotation', ! MSP.getStatus('rotation')));
+
+if (typeof require !== 'undefined' && typeof module !== 'undefined') {
+    module.exports = TexturePreview;
+}

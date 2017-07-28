@@ -56,13 +56,14 @@ $('body').on('change', '#preference', function () {
     }).catch(err => showAjaxError(err));
 });
 
-function changePlayerName(pid, currentPlayerName) {
+function changePlayerName(pid) {
     let newPlayerName = '';
+    const $playerName = $(`td:contains("${pid}")`).next();
 
     swal({
         title: trans('user.changePlayerName'),
         text: $('#player_name').attr('placeholder'),
-        inputValue: currentPlayerName,
+        inputValue: $playerName.html(),
         input: 'text',
         showCancelButton: true,
         inputValidator: value => (new Promise((resolve, reject) => {
@@ -77,7 +78,7 @@ function changePlayerName(pid, currentPlayerName) {
         if (errno == 0) {
             swal({ type: 'success', html: msg });
 
-            $(`td:contains("${pid}")`).next().html(newPlayerName);
+            $playerName.html(newPlayerName);
         } else {
             swal({ type: 'error', html: msg });
         }
@@ -206,4 +207,14 @@ function setTexture() {
             }
         }).catch(err => showAjaxError(err));
     }
+}
+
+if (typeof require !== 'undefined' && typeof module !== 'undefined') {
+    module.exports = {
+        changePlayerName,
+        ajaxClearTexture,
+        deletePlayer,
+        addNewPlayer,
+        setTexture
+    };
 }
