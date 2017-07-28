@@ -1,5 +1,4 @@
 /* global MSP */
-/* exported TexturePreview */
 
 class TexturePreview {
     constructor(type, tid, preference) {

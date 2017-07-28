@@ -1,5 +1,3 @@
-/* exported initUsersTable, initPlayersTable, initPluginsTable */
-
 'use strict';
 
 function initUsersTable() {
@@ -269,4 +267,12 @@ function initPluginsTable() {
       }
     ]
   });
+}
+
+if (typeof require !== 'undefined' && typeof module !== 'undefined') {
+    module.exports = {
+        initUsersTable,
+        initPlayersTable,
+        initPluginsTable
+    };
 }

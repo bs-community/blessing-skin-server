@@ -1,5 +1,3 @@
-/* exported isEmpty, fetch, getQueryString, debounce, url */
-
 'use strict';
 
 console.log(`\n %c Blessing Skin v${blessing.version} %c https://blessing.studio \n\n`, 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;');
@@ -102,6 +100,7 @@ if (typeof require !== 'undefined' && typeof module !== 'undefined') {
         isEmpty,
         fetch,
         debounce,
+        getQueryString,
         url
     };
 }

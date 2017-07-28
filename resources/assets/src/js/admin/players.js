@@ -1,5 +1,3 @@
-/* exported changePreference, changeTexture, ajaxChangeTexture, changePlayerName, changeOwner, deletePlayer */
-
 'use strict';
 
 function changePreference() {

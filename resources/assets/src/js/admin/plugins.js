@@ -1,5 +1,3 @@
-/* exported enablePlugin, disablePlugin, deletePlugin */
-
 'use strict';
 
 function enablePlugin(name) {

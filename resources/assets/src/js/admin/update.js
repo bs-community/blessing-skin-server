@@ -1,5 +1,3 @@
-/* exported downloadUpdates */
-
 'use strict';
 
 function downloadUpdates() {

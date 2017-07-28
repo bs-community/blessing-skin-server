@@ -1,5 +1,3 @@
-/* exported changeTextureName, deleteTexture */
-
 'use strict';
 
 $(document).on('click', '.more.like', function () {

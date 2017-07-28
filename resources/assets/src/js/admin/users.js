@@ -1,6 +1,3 @@
-/* exported changeUserEmail, changeUserNickName, changeUserPwd,
-   changeBanStatus, changeAdminStatus, deleteUserAccount */
-
 'use strict';
 
 function changeUserEmail(uid) {

@@ -1,5 +1,3 @@
-/* exported showMsg, showAjaxError, showModal */
-
 'use strict';
 
 /**

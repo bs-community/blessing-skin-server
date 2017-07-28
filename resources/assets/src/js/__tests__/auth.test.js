@@ -1,3 +1,5 @@
+/* eslint no-unused-vars: "off" */
+
 const $ = require('jquery');
 window.$ = window.jQuery = $;
 

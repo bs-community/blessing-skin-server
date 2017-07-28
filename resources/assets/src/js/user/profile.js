@@ -1,5 +1,3 @@
-/* exported changeNickName, changePassword, changeEmail, deleteAccount, deleteAccount */
-
 'use strict';
 
 function changeNickName() {

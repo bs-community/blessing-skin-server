@@ -1,5 +1,4 @@
 /* global MSP */
-/* exported upload */
 
 'use strict';
 
@@ -127,4 +126,10 @@ function upload() {
             $('#upload-button').html(trans('skinlib.upload')).prop('disabled', '');
         });
     });
+}
+
+if (typeof require !== 'undefined' && typeof module !== 'undefined') {
+    module.exports = {
+        upload
+    };
 }

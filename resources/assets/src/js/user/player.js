@@ -1,5 +1,4 @@
 /* global MSP, defaultSkin, selectedTextures */
-/* exported changePlayerName, clearTexture, ajaxClearTexture, addNewPlayer, deletePlayer, setTexture */
 
 'use strict';
 
@@ -213,6 +212,7 @@ if (typeof require !== 'undefined' && typeof module !== 'undefined') {
     module.exports = {
         changePlayerName,
         ajaxClearTexture,
+        clearTexture,
         deletePlayer,
         addNewPlayer,
         setTexture

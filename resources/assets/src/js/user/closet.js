@@ -1,5 +1,4 @@
 /* global MSP */
-/* exported renameClosetItem, removeFromCloset, setAsAvatar */
 
 'use strict';
 

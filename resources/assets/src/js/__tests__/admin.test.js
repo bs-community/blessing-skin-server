@@ -1,3 +1,5 @@
+/* eslint no-unused-vars: "off" */
+
 const $ = require('jquery');
 window.$ = window.jQuery = $;
 
@@ -319,7 +321,7 @@ describe('tests for "plugins" module', () => {
     await enablePlugin('plugin');
     expect(fetch).toBeCalledWith({
       type: 'POST',
-      url: 'admin/plugins?action=enable&name=plugin',
+      url: 'admin/plugins/manage?action=enable&name=plugin',
       dataType: 'json'
     });
     expect(toastr.warning).not.toBeCalled();
@@ -354,7 +356,7 @@ describe('tests for "plugins" module', () => {
     await disablePlugin('plugin');
     expect(fetch).toBeCalledWith({
       type: 'POST',
-      url: 'admin/plugins?action=disable&name=plugin',
+      url: 'admin/plugins/manage?action=disable&name=plugin',
       dataType: 'json'
     });
     expect(toastr.warning).not.toBeCalled();
@@ -395,7 +397,7 @@ describe('tests for "plugins" module', () => {
     });
     expect(fetch).toBeCalledWith({
       type: 'POST',
-      url: 'admin/plugins?action=delete&name=plugin',
+      url: 'admin/plugins/manage?action=delete&name=plugin',
       dataType: 'json'
     });
     await deletePlugin('plugin');

@@ -1,5 +1,3 @@
-/* exported trans */
-
 'use strict';
 
 $.locales       = {};

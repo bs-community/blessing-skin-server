@@ -1,5 +1,3 @@
-/* exported sign */
-
 function sign() {
     fetch({
         type: 'POST',

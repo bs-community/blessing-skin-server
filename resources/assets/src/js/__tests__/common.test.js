@@ -1,3 +1,5 @@
+/* eslint no-unused-vars: "off" */
+
 const $ = require('jquery');
 window.jQuery = window.$ = $;
 
@@ -18,7 +20,7 @@ describe('tests for "i18n" module', () => {
 
   it('get translated text', () => {
     const trans = require(modulePath).trans;
-    
+
     expect(trans('text')).toBe('text');
     expect(trans('text.nothing')).toBe('text.nothing');
     expect(trans('nested.sth')).toBe(':sth here!');
