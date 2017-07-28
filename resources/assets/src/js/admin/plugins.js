@@ -5,7 +5,7 @@
 function enablePlugin(name) {
     fetch({
         type: 'POST',
-        url: url(`admin/plugins?action=enable&name=${name}`),
+        url: url(`admin/plugins/manage?action=enable&name=${name}`),
         dataType: 'json'
     }).then(({ errno, msg }) => {
         if (errno == 0) {
@@ -21,7 +21,7 @@ function enablePlugin(name) {
 function disablePlugin(name) {
     fetch({
         type: 'POST',
-        url: url(`admin/plugins?action=disable&name=${name}`),
+        url: url(`admin/plugins/manage?action=disable&name=${name}`),
         dataType: 'json'
     }).then(({ errno, msg }) => {
         if (errno == 0) {
@@ -41,7 +41,7 @@ function deletePlugin(name) {
         showCancelButton: true
     }).then(() => fetch({
         type: 'POST',
-        url: url(`admin/plugins?action=delete&name=${name}`),
+        url: url(`admin/plugins/manage?action=delete&name=${name}`),
         dataType: 'json'
     })).then(({ errno, msg }) => {
         if (errno == 0) {
