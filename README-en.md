@@ -4,6 +4,7 @@
 <p align="center"><img src="https://img.blessing.studio/images/2017/01/01/bs-logo.png"></p>
 
 <p align="center">
+<a href="https://travis-ci.org/printempw/blessing-skin-server"><img src="https://api.travis-ci.org/printempw/blessing-skin-server.svg?branch=master" alt="Travis Building Status"></a>
 <a href="https://github.com/printempw/blessing-skin-server/releases"><img src="https://poser.pugx.org/printempw/blessing-skin-server/version" alt="Latest Stable Version"></a>
 <img src="https://img.shields.io/badge/PHP-5.5.9+-orange.svg" alt="PHP 5.5.9+">
 <img src="https://poser.pugx.org/printempw/blessing-skin-server/license" alt="License">
@@ -65,10 +66,16 @@ $ composer install
 $ yarn install
 ```
 
+Run the tests (can be skipped):
+
+```
+$ yarn run test
+```
+
 Build the things!
 
 ```
-$ gulp
+$ yarn run build
 ```
 
 Congrats! You made it. Next, please refer to No.2 of [Quick Install].
@@ -94,7 +101,7 @@ Mod Configuration
 ------------
 See [Wiki - Mod Configuration](https://github.com/printempw/blessing-skin-server/wiki/Mod-Configuration)
 
-![screenshot2](https://img.prinzeugen.net/image.php?di=42U6)
+![screenshot](https://img.blessing.studio/images/2017/07/29/2017-06-16_15.54.16.png)
 
 FAQ
 ------------
@@ -106,4 +113,4 @@ Please attach your log file (located at `storage/logs/laravel.log`) when reporti
 
 Copyright & License
 ------------
-Copyright (c) 2016 [@printempw](https://prinzeugen.net/) - Released under the GUN General Public License v3.0.
+Copyright (c) 2016 [@printempw](https://prinzeugen.net/) - Released under the GNU General Public License v3.0.

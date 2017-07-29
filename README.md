@@ -4,6 +4,7 @@
 <p align="center"><img src="https://img.blessing.studio/images/2017/01/01/bs-logo.png"></p>
 
 <p align="center">
+<a href="https://travis-ci.org/printempw/blessing-skin-server"><img src="https://api.travis-ci.org/printempw/blessing-skin-server.svg?branch=master" alt="Travis Building Status"></a>
 <a href="https://github.com/printempw/blessing-skin-server/releases"><img src="https://poser.pugx.org/printempw/blessing-skin-server/version" alt="Latest Stable Version"></a>
 <img src="https://img.shields.io/badge/PHP-5.5.9+-orange.svg" alt="PHP 5.5.9+">
 <img src="https://poser.pugx.org/printempw/blessing-skin-server/license" alt="License">
@@ -65,10 +66,16 @@ $ composer install
 $ yarn install
 ```
 
+运行自动化测试（可跳过）：
+
+```
+$ yarn run test
+```
+
 构建代码！
 
 ```
-$ gulp
+$ yarn run build
 ```
 
 恭喜，构建完成！接下来请参考「快速使用」的第二点进行后续安装。
@@ -94,7 +101,7 @@ Mod 配置
 ------------
 请前往 [Wiki - Mod Configuration](https://github.com/printempw/blessing-skin-server/wiki/Mod-Configuration)
 
-![screenshot2](https://img.prinzeugen.net/image.php?di=42U6)
+![screenshot](https://img.blessing.studio/images/2017/07/29/2017-06-16_15.54.16.png)
 
 FAQ
 ------------
@@ -106,6 +113,6 @@ Bug 报告
 
 版权
 ------------
-Blessing Skin Server 程序是基于 GUN General Public License v3.0 开放源代码的自由软件，你可以遵照 GPLv3 协议来修改和重新发布这一程序。
+Blessing Skin Server 程序是基于 GNU General Public License v3.0 开放源代码的自由软件，你可以遵照 GPLv3 协议来修改和重新发布这一程序。
 
 程序原作者为 [@printempw](https://prinzeugen.net/)，转载请注明。
