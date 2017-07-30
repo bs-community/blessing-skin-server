@@ -34,6 +34,8 @@ function initUsersTable() {
       {
         targets: 4,
         data: 'players_count',
+        searchable: false,
+        orderable: false,
         render: (data, type, row) => {
           return `<span title="${trans('admin.doubleClickToSeePlayers')}"
           style="cursor: pointer;"
