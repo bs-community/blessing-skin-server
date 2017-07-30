@@ -52,6 +52,15 @@ Blessing Skin Server 对您的服务器有一定的要求。在大多数情况�
 4. 在浏览器中打开 `http://your-domain.com/setup` 。如果出现 404，请检查 Rewrite 规则是否正确并有效。
 5. 按照提示执行安装程序
 
+插件系统
+------------
+
+Blessing Skin Server 提供了强大的插件系统，您可以通过添加多种多样的插件来为您的皮肤站添加功能。
+
+- [官方插件列表](https://github.com/printempw/blessing-skin-server/wiki/%E5%AE%98%E6%96%B9%E6%8F%92%E4%BB%B6%E5%88%97%E8%A1%A8)
+- [官方示例插件](https://coding.net/u/printempw/p/blessing-skin-plugins/git/tree/master/example-plugin)
+- [插件开发文档](https://github.com/g-plane/blessing-skin-plugin-docs)
+
 自行构建
 ------------
 如果你想为此项目作贡献，你应该先用 Git 上的代码部署。

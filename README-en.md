@@ -52,6 +52,15 @@ Quick Install
 4. Navigate to `http://your-domain.com/setup` in your browser. If 404 is returned, please check whether the rewrite rules works correctly.
 5. Follow the setup wizard and your website is ready-to-go.
 
+Plugin System
+------------
+
+Blessing Skin Server provides an elegant and powerful plugin system, and you can attach plenty of functions and customization to your site via installing plugins.
+
+- [Official Plugins List](https://github.com/printempw/blessing-skin-server/wiki/%E5%AE%98%E6%96%B9%E6%8F%92%E4%BB%B6%E5%88%97%E8%A1%A8)
+- [Example Plugin](https://coding.net/u/printempw/p/blessing-skin-plugins/git/tree/master/example-plugin)
+- [Plugin Documentation](https://github.com/g-plane/blessing-skin-plugin-docs)
+
 Developer Install
 ------------
 If you'd like make some contribution on the project, please deploy it from git first.
