@@ -319,7 +319,9 @@ class AdminController extends Controller
             abort(404, trans('general.unexistent-player'));
         }
 
-        if ($player->user->permission >= app('user.current')->permission) {
+        if ($player->user->permission >= app('user.current')->permission &&
+            $player->user()->first()->uid !== app('user.current')->uid)
+        {
             return json(trans('admin.players.no-permission'), 1);
         }
 
