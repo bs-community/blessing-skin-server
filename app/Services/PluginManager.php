@@ -7,6 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use App\Events\PluginWasUninstalled;
 use Illuminate\Filesystem\Filesystem;
+use App\Exceptions\PrettyPageException;
 use Illuminate\Contracts\Events\Dispatcher;
 use App\Services\Repositories\OptionRepository;
 use Illuminate\Contracts\Foundation\Application;
@@ -89,6 +90,13 @@ class PluginManager
                 $plugin->setNameSpace(Arr::get($package, 'namespace'));
                 $plugin->setVersion(Arr::get($package, 'version'));
                 $plugin->setEnabled($this->isEnabled($plugin->name));
+
+                if ($plugins->has($plugin->name)) {
+                    throw new PrettyPageException(trans('errors.plugins.duplicate', [
+                        'dir1' => $plugin->getDirname(),
+                        'dir2' => $plugins->get($plugin->name)->getDirname()
+                    ]), 5);
+                }
 
                 $plugins->put($plugin->name, $plugin);
             }

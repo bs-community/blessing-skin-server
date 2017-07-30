@@ -12,3 +12,6 @@ exception:
   message: |
     如果您是访客，这说明网站程序出现了一些错误，请您稍后再试或联系站长。
     如果您是站长，请开启 .env 中的 APP_DEBUG 以查看详细信息。
+
+plugins:
+  duplicate: 【插件定义重复】:dir1 目录下的插件与 :dir2 目录下的插件使用了相同的 name 定义并造成了冲突。请检查您的 plugins 目录，移除其中一个插件或者使用不同的 name 属性。
