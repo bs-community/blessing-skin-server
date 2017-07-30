@@ -3,7 +3,7 @@
 <div style="min-height:100%;background:#444;padding:80px 0;margin:0;font-size:14px;line-height:1.7;font-family:'Helvetica Neue',Arial,'Microsoft Yahei','Microsoft Jhenghei',sans-serif;color:#444">
 <center>
     <div style="margin:0 auto;width:580px;background:#fff;text-align:left">
-        <h1 style="margin:0 40px;color:#999;border-bottom:1px dotted #ddd;padding:40px 0 30px;text-align:center;font-size: 35px;font-family:Minecraft,'Helvetica Neue',Arial,'Microsoft Yahei','Microsoft Jhenghei',sans-serif">
+        <h1 style="margin:0 40px;color:#999;border-bottom:1px dotted #ddd;padding:40px 0 30px;text-align:center;font-size: 35px;font-family:Minecraft,Copperplate,'Copperplate Gothic Light',Palatino,'Palatino Linotype','Palatino LT STD',Georgia,'Microsoft Yahei','Microsoft Jhenghei',serif">
             {{ option('site_name') }}
         </h1>
         <div style="padding:30px 40px 40px">{!! trans('auth.mail.message', ['sitename' => "<a style='color:#009a61;text-decoration:none' href='".option('site_url')."'>".option('site_name')."</a>"]) !!}<br><br>
