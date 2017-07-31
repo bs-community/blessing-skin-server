@@ -212,7 +212,7 @@ function updateBreadCrumb() {
     $('#sort-indicator').html(trans('skinlib.sort.' + $.skinlib.sort));
 
     if ($.skinlib.keyword != '') {
-        $('#search-indicator').html(trans('general.searchResult', {
+        $('#search-indicator').text(trans('general.searchResult', {
             keyword: decodeURI($.skinlib.keyword)
         }));
 
