@@ -206,11 +206,11 @@ function setTexture() {
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {
     module.exports = {
-        changePlayerName,
-        ajaxClearTexture,
+        setTexture,
+        addNewPlayer,
         clearTexture,
         deletePlayer,
-        addNewPlayer,
-        setTexture
+        changePlayerName,
+        ajaxClearTexture,
     };
 }

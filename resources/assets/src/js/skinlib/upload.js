@@ -129,7 +129,5 @@ function upload() {
 }
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {
-    module.exports = {
-        upload
-    };
+    module.exports = upload;
 }

@@ -167,12 +167,12 @@ $('body').on('keypress', '.score', function(event){
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {
     module.exports = {
-        changeUserEmail,
-        changeUserNickName,
         changeUserPwd,
-        changeUserScore,
         changeBanStatus,
+        changeUserEmail,
+        changeUserScore,
         changeAdminStatus,
-        deleteUserAccount
+        deleteUserAccount,
+        changeUserNickName,
     };
 }

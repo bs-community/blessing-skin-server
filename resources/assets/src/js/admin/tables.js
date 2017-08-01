@@ -275,6 +275,6 @@ if (typeof require !== 'undefined' && typeof module !== 'undefined') {
     module.exports = {
         initUsersTable,
         initPlayersTable,
-        initPluginsTable
+        initPluginsTable,
     };
 }

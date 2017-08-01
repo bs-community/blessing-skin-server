@@ -84,8 +84,7 @@ function debounce(func, delay, args = [], context = undefined) {
     };
 }
 
-function url(relativeUri) {
-    relativeUri       = relativeUri || '';
+function url(relativeUri = '') {
     blessing.base_url = blessing.base_url || '';
 
     if (relativeUri[0] != '/') {
@@ -97,10 +96,10 @@ function url(relativeUri) {
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {
     module.exports = {
-        isEmpty,
+        url,
         fetch,
+        isEmpty,
         debounce,
         getQueryString,
-        url
     };
 }

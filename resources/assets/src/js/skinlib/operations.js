@@ -178,11 +178,11 @@ function deleteTexture(tid) {
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {
     module.exports = {
         addToCloset,
+        changePrivacy,
+        deleteTexture,
         ajaxAddToCloset,
         removeFromCloset,
         changeTextureName,
         updateTextureStatus,
-        changePrivacy,
-        deleteTexture
     };
 }

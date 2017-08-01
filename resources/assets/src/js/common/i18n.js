@@ -50,7 +50,7 @@ function trans(key, parameters = {}) {
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {
     module.exports = {
+        trans,
         loadLocales,
-        trans
     };
 }

@@ -225,7 +225,7 @@ if (typeof require !== 'undefined' && typeof module !== 'undefined') {
         renderSkinlib,
         reloadSkinlib,
         updatePaginator,
+        updateBreadCrumb,
         updateUrlQueryString,
-        updateBreadCrumb
     };
 }

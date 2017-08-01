@@ -163,11 +163,11 @@ function deletePlayer(pid) {
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {
     module.exports = {
-        changePreference,
-        changeTexture,
-        ajaxChangeTexture,
-        changePlayerName,
         changeOwner,
-        deletePlayer
+        deletePlayer,
+        changeTexture,
+        changePlayerName,
+        changePreference,
+        ajaxChangeTexture,
     };
 }

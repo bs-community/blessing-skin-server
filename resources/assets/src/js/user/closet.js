@@ -244,10 +244,10 @@ function setAsAvatar(tid) {
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {
     module.exports = {
+        setAsAvatar,
         renderCloset,
         reloadCloset,
         renameClosetItem,
         removeFromCloset,
-        setAsAvatar
     };
 }

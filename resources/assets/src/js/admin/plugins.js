@@ -54,8 +54,8 @@ function deletePlugin(name) {
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {
     module.exports = {
+        deletePlugin,
         enablePlugin,
         disablePlugin,
-        deletePlugin
     };
 }

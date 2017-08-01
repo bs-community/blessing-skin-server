@@ -152,9 +152,9 @@ function deleteAccount() {
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {
     module.exports = {
+        changeEmail,
+        deleteAccount,
         changeNickName,
         changePassword,
-        changeEmail,
-        deleteAccount
     };
 }
