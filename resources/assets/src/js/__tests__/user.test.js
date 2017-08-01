@@ -22,6 +22,7 @@ describe('tests for "closet" module', () => {
     window.trans = trans;
     window.url = url;
     window.MSP = MSP;
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = `
       <div id="textures-indicator"></div>
@@ -71,6 +72,7 @@ describe('tests for "closet" module', () => {
     const url = jest.fn(path => path);
     window.trans = trans;
     window.url = url;
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = `
       <input name="q" />
@@ -126,6 +128,7 @@ describe('tests for "closet" module', () => {
     window.url = url;
     window.swal = swal;
     window.toastr = toastr;
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = `
       <div id="skin-category">
@@ -174,6 +177,7 @@ describe('tests for "closet" module', () => {
     window.url = url;
     window.swal = swal;
     window.toastr = toastr;
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = `
       <div id="skin-category">
@@ -226,6 +230,7 @@ describe('tests for "closet" module', () => {
     window.url = url;
     window.swal = swal;
     window.toastr = toastr;
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = `
       <div id="skin-category">
@@ -275,6 +280,7 @@ describe('tests for "closet" module', () => {
     window.url = url;
     window.swal = swal;
     window.toastr = toastr;
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = `
       <img alt="User Image" src="src" />
@@ -316,6 +322,7 @@ describe('tests for "player" module', () => {
       }));
     window.url = url;
     window.fetch = fetch;
+    window.showAjaxError = jest.fn();
     window.TexturePreview = require('../common/texture-preview');
     window.MSP = {
       changeSkin: jest.fn(),
@@ -353,6 +360,7 @@ describe('tests for "player" module', () => {
     window.fetch = fetch;
     window.url = url;
     window.toastr = toastr;
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = `
       <select id="preference" pid="1">
@@ -399,6 +407,7 @@ describe('tests for "player" module', () => {
     window.trans = trans;
     window.toastr = toastr;
     window.swal = swal;
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = `
       <input id="player_name" placeholder="placeholder" />
@@ -445,6 +454,7 @@ describe('tests for "player" module', () => {
     window.url = url;
     window.trans = trans;
     window.toastr = toastr;
+    window.showAjaxError = jest.fn();
     $.fn.modal = modal;
 
     document.body.innerHTML = `
@@ -489,6 +499,7 @@ describe('tests for "player" module', () => {
     window.url = url;
     window.toastr = toastr;
     window.swal = swal;
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = `
       <tr id="1"></tr>
@@ -531,6 +542,7 @@ describe('tests for "player" module', () => {
     window.url = url;
     window.toastr = toastr;
     window.swal = swal;
+    window.showAjaxError = jest.fn();
     $.fn.modal = modal;
 
     document.body.innerHTML = `
@@ -570,6 +582,7 @@ describe('tests for "player" module', () => {
     window.swal = swal;
     $.fn.modal = modal;
     window.selectedTextures = {};
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = `
       <input name="player" id="1" />
@@ -614,6 +627,7 @@ describe('tests for "profile" module', () => {
     window.trans = trans;
     window.url = url;
     window.debounce = jest.fn(fn => fn);
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = `
       <div class="nickname"></div>
@@ -661,6 +675,7 @@ describe('tests for "profile" module', () => {
     window.trans = trans;
     window.url = url;
     window.toastr = toastr;
+    window.showAjaxError = jest.fn();
     window.logout = jest.fn().mockReturnValue(Promise.resolve({ errno: 0 }));
 
     document.body.innerHTML = `
@@ -722,6 +737,7 @@ describe('tests for "profile" module', () => {
     window.trans = trans;
     window.url = url;
     window.toastr = toastr;
+    window.showAjaxError = jest.fn();
     window.logout = jest.fn().mockReturnValue(Promise.resolve({ errno: 0 }));
 
     document.body.innerHTML = `
@@ -769,6 +785,7 @@ describe('tests for "profile" module', () => {
     window.trans = trans;
     window.url = url;
     window.toastr = toastr;
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = `
       <div class="modal-body">
@@ -810,6 +827,7 @@ describe('tests for "sign" module', () => {
     window.toastr = toastr;
     window.trans = trans;
     window.swal = swal;
+    window.showAjaxError = jest.fn();
     window.debounce = fn => fn;
     const fetch = jest.fn()
       .mockReturnValueOnce(Promise.resolve({

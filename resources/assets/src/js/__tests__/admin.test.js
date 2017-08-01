@@ -8,6 +8,7 @@ describe('tests for "customize" module', () => {
 
   it('change skin preview after switching color', () => {
     window.current_skin = 'skin-blue';
+    window.showAjaxError = jest.fn();
     document.body.className = window.current_skin;
     document.body.innerHTML = `
       <div id="layout-skins-list">
@@ -35,6 +36,7 @@ describe('tests for "customize" module', () => {
     window.url = url;
     window.toastr = toastr;
     window.current_skin = '';
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = '<button id="color-submit">submit</button>';
     const submitColor = require(modulePath);
@@ -69,6 +71,7 @@ describe('tests for "players" module', () => {
     window.fetch = fetch;
     window.url = url;
     window.toastr = toastr;
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = `
       <div id="1">
@@ -111,6 +114,7 @@ describe('tests for "players" module', () => {
     window.url = url;
     window.toastr = toastr;
     window.$.fn.modal = modal;
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = `
       <div class="modal" style="display: none" id="shouldBeRemoved"></div>
@@ -157,6 +161,7 @@ describe('tests for "players" module', () => {
     window.toastr = toastr;
     window.trans = trans;
     window.swal = swal;
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = `
       <table>
@@ -208,6 +213,7 @@ describe('tests for "players" module', () => {
     window.trans = trans;
     window.swal = swal;
     window.debounce = debounce;
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = `
       <table>
@@ -263,6 +269,7 @@ describe('tests for "players" module', () => {
     window.toastr = toastr;
     window.trans = trans;
     window.swal = swal;
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = `
       <table>
@@ -310,6 +317,7 @@ describe('tests for "plugins" module', () => {
     window.fetch = fetch;
     window.url = url;
     window.toastr = toastr;
+    window.showAjaxError = jest.fn();
     $.pluginsTable = {
       ajax: {
         reload: reloadTable
@@ -345,6 +353,7 @@ describe('tests for "plugins" module', () => {
     window.fetch = fetch;
     window.url = url;
     window.toastr = toastr;
+    window.showAjaxError = jest.fn();
     $.pluginsTable = {
       ajax: {
         reload: reloadTable
@@ -380,6 +389,7 @@ describe('tests for "plugins" module', () => {
     window.fetch = fetch;
     window.url = url;
     window.toastr = toastr;
+    window.showAjaxError = jest.fn();
     $.pluginsTable = {
       ajax: {
         reload: reloadTable
@@ -423,6 +433,7 @@ describe('tests for "update" module', () => {
     window.fetch = fetch;
     window.url = url;
     window.toastr = toastr;
+    window.showAjaxError = jest.fn();
     $.fn.modal = modal;
 
     document.body.innerHTML = `
@@ -470,6 +481,7 @@ describe('tests for "users" module', () => {
     window.toastr = toastr;
     window.trans = trans;
     window.swal = swal;
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = `
       <table>
@@ -519,6 +531,7 @@ describe('tests for "users" module', () => {
     window.toastr = toastr;
     window.trans = trans;
     window.swal = swal;
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = `
       <table>
@@ -566,6 +579,7 @@ describe('tests for "users" module', () => {
     window.toastr = toastr;
     window.trans = trans;
     window.swal = swal;
+    window.showAjaxError = jest.fn();
 
     const changeUserPwd = require(modulePath).changeUserPwd;
 
@@ -597,6 +611,7 @@ describe('tests for "users" module', () => {
     window.fetch = fetch;
     window.url = url;
     window.toastr = toastr;
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = `
       <table>
@@ -648,6 +663,7 @@ describe('tests for "users" module', () => {
     window.url = url;
     window.toastr = toastr;
     window.trans = trans;
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = `
       <table>
@@ -720,6 +736,7 @@ describe('tests for "users" module', () => {
     window.url = url;
     window.toastr = toastr;
     window.trans = trans;
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = `
       <table>
@@ -784,6 +801,7 @@ describe('tests for "users" module', () => {
     window.toastr = toastr;
     window.trans = trans;
     window.swal = swal;
+    window.showAjaxError = jest.fn();
 
     document.body.innerHTML = '<tr id="user-1"></tr>';
     const deleteUserAccount = require(modulePath).deleteUserAccount;
