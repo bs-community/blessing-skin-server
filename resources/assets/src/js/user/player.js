@@ -17,7 +17,7 @@ $('body').on('click', '.player', function () {
         data: { pid: $(this).attr('pid'), preference: $(this).val() }
     }).then(({ errno, msg }) => {
         (errno == 0) ? toastr.success(msg) : toastr.warning(msg);
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 });
 
 function showPlayerTexturePreview(pid) {
@@ -48,7 +48,7 @@ function showPlayerTexturePreview(pid) {
 
         console.log(`Texture previews of player ${result.player_name} rendered.`);
 
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function changePlayerName(pid) {
@@ -77,7 +77,7 @@ function changePlayerName(pid) {
         } else {
             swal({ type: 'error', html: msg });
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function clearTexture(pid) {
@@ -122,7 +122,7 @@ function ajaxClearTexture(pid) {
     }).then(({ errno, msg }) => {
         swal({ type: errno == 0 ? 'success' : 'error', html: msg });
         $('.modal').modal('hide');
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function deletePlayer(pid) {
@@ -147,7 +147,7 @@ function deletePlayer(pid) {
         } else {
             swal({ type: 'error', html: msg });
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function addNewPlayer() {
@@ -167,7 +167,7 @@ function addNewPlayer() {
         } else {
             toastr.warning(msg);
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function setTexture() {
@@ -200,7 +200,7 @@ function setTexture() {
             } else {
                 toastr.warning(msg);
             }
-        }).catch(err => showAjaxError(err));
+        }).catch(showAjaxError);
     }
 }
 

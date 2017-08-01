@@ -17,7 +17,7 @@ function submitColor() {
         data: { color_scheme: current_skin }
     }).then(({ errno, msg }) => {
         (errno == 0) ? toastr.success(msg) : toastr.warning(msg);
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 $('#color-submit').click(submitColor);

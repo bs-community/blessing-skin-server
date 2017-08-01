@@ -47,7 +47,7 @@ function ajaxAddToCloset(tid, name) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function removeFromCloset(tid) {
@@ -70,7 +70,7 @@ function removeFromCloset(tid) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function changeTextureName(tid, oldName) {
@@ -96,7 +96,7 @@ function changeTextureName(tid, oldName) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 /**
@@ -151,7 +151,7 @@ function changePrivacy(tid) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function deleteTexture(tid) {
@@ -172,7 +172,7 @@ function deleteTexture(tid) {
         } else {
             swal({ type: 'warning', html: msg });
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {

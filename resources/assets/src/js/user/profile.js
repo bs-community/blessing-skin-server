@@ -27,7 +27,7 @@ function changeNickName() {
         } else {
             return swal({ type: 'warning', html: msg });
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function changePassword() {
@@ -67,11 +67,11 @@ function changePassword() {
                     if (errno == 0) {
                         window.location = url('auth/login');
                     }
-                }).catch(err => showAjaxError(err));
+                }).catch(showAjaxError);
             } else {
                 return swal({ type: 'warning', text: msg });
             }
-        }).catch(err => showAjaxError(err));
+        }).catch(showAjaxError);
     }
 }
 
@@ -117,11 +117,11 @@ function changeEmail() {
                 if (errno == 0) {
                     window.location = url('auth/login');
                 }
-            }).catch(err => showAjaxError(err));
+            }).catch(showAjaxError);
         } else {
             return swal({ type: 'warning', text: msg });
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function deleteAccount() {
@@ -147,7 +147,7 @@ function deleteAccount() {
         } else {
             return swal({ type: 'warning', html: msg });
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {

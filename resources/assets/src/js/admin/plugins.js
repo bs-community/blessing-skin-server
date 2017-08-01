@@ -13,7 +13,7 @@ function enablePlugin(name) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function disablePlugin(name) {
@@ -29,7 +29,7 @@ function disablePlugin(name) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function deletePlugin(name) {
@@ -49,7 +49,7 @@ function deletePlugin(name) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {

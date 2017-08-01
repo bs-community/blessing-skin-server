@@ -26,7 +26,7 @@ $(document).ready(function () {
                 page, $('input[name=q]').val()
             )
         }));
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 
     $('input[name=q]').on('input', debounce(() => {
         let category = $('#skin-category').hasClass('active') ? 'skin' : 'cape';
@@ -67,7 +67,7 @@ $('body').on('click', '.item-body', function () {
         } else if (cape != undefined) {
             $indicator.text(trans('general.cape'));
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 });
 
 $('body').on('click', '.category-switch', () => {
@@ -158,7 +158,7 @@ function reloadCloset(category, page, search) {
             currentPage: page,
             totalPages: total_pages
         });
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function renameClosetItem(tid, oldName) {
@@ -184,7 +184,7 @@ function renameClosetItem(tid, oldName) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function removeFromCloset(tid) {
@@ -214,7 +214,7 @@ function removeFromCloset(tid) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function setAsAvatar(tid) {
@@ -239,7 +239,7 @@ function setAsAvatar(tid) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {

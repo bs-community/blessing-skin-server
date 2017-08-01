@@ -24,7 +24,7 @@ function sign() {
         } else {
             toastr.warning(result.msg);
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {

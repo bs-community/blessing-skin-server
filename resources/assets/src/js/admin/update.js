@@ -39,7 +39,7 @@ function downloadUpdates() {
 
             console.log('Downloading finished');
             console.log(json);
-        }).catch(err => showAjaxError(err));
+        }).catch(showAjaxError);
 
         // Downloading progress polling
         let interval_id = window.setInterval(() => {
@@ -70,7 +70,7 @@ function downloadUpdates() {
                     }, function() {
                         window.location = url('/');
                     });
-                }).catch(err => showAjaxError(err));
+                }).catch(showAjaxError);
 
             } else {
                 fetch({
@@ -80,11 +80,11 @@ function downloadUpdates() {
                     progress = (json.size / fileSize * 100).toFixed(2);
 
                     console.log('Progress: ' + progress);
-                }).catch(err => showAjaxError(err));
+                }).catch(showAjaxError);
             }
 
         }, 300);
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 
 }
 

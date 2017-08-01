@@ -11,7 +11,7 @@ function changePreference() {
         }
     }).then(({ errno, msg }) => {
         (errno == 0) ? toastr.success(msg) : toastr.warning(msg);
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function changeTexture(pid, playerName) {
@@ -58,7 +58,7 @@ function ajaxChangeTexture(pid) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function changePlayerName(pid, oldName) {
@@ -85,7 +85,7 @@ function changePlayerName(pid, oldName) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function changeOwner(pid) {
@@ -113,7 +113,7 @@ function changeOwner(pid) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 
     $('.swal2-input').on('input', debounce(() => {
         let uid = $('.swal2-input').val();
@@ -158,7 +158,7 @@ function deletePlayer(pid) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {

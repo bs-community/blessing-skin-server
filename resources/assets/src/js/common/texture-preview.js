@@ -33,7 +33,7 @@ class TexturePreview {
                 } else {
                     MSP.changeSkin(textureUrl);
                 }
-            }).catch(err => showAjaxError(err));
+            }).catch(showAjaxError);
         }
 
         return this;

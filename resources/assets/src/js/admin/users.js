@@ -25,7 +25,7 @@ function changeUserEmail(uid) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function changeUserNickName(uid) {
@@ -53,7 +53,7 @@ function changeUserNickName(uid) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function changeUserPwd(uid) {
@@ -68,7 +68,7 @@ function changeUserPwd(uid) {
         data: { uid: uid, password: password }
     })).then(({ errno, msg }) => {
         (errno == 0) ? toastr.success(msg) : toastr.warning(msg);
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function changeUserScore(uid, score) {
@@ -80,7 +80,7 @@ function changeUserScore(uid, score) {
         data: { uid: uid.slice(5), score: score }
     }).then(({ errno, msg }) => {
         (errno == 0) ? toastr.success(msg) : toastr.warning(msg);
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function changeBanStatus(uid) {
@@ -107,7 +107,7 @@ function changeBanStatus(uid) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function changeAdminStatus(uid) {
@@ -134,7 +134,7 @@ function changeAdminStatus(uid) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 function deleteUserAccount(uid) {
@@ -154,7 +154,7 @@ function deleteUserAccount(uid) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(err => showAjaxError(err));
+    }).catch(showAjaxError);
 }
 
 $('body').on('keypress', '.score', function(event){
