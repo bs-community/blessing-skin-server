@@ -2,18 +2,18 @@
 
 'use strict';
 
-$('#private').on('ifToggled', function () {
-    $(this).prop('checked') ? $('#msg').show() : $('#msg').hide();
-});
-
-$('#type-skin').on('ifToggled', function () {
-    $(this).prop('checked') ? $('#skin-type').show() : $('#skin-type').hide();
-});
-
-$('body').on('change', '#file', () => handleFiles()).on('ifToggled', '#type-cape', () => {
-    MSP.clear();
-    handleFiles();
-});
+$('body')
+    .on('change', '#file', () => handleFiles())
+    .on('ifToggled', '#type-cape', () => {
+        MSP.clear();
+        handleFiles();
+    })
+    .on('ifToggled', '#type-skin', function () {
+        $(this).prop('checked') ? $('#skin-type').show() : $('#skin-type').hide();
+    })
+    .on('ifToggled', '#private', function () {
+        $(this).prop('checked') ? $('#msg').show() : $('#msg').hide();
+    });
 
 // Real-time preview
 function handleFiles(files, type) {

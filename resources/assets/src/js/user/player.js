@@ -7,10 +7,17 @@ $('body').on('click', '.player', function () {
     $(this).addClass('player-selected');
 
     showPlayerTexturePreview(this.id);
-});
-
-$('body').on('click', '#preview-switch', () => {
+}).on('click', '#preview-switch', () => {
     TexturePreview.previewType == '3D' ? TexturePreview.show2dPreview() : TexturePreview.show3dPreview();
+}).on('change', '#preference', function () {
+    fetch({
+        type: 'POST',
+        url: url('user/player/preference'),
+        dataType: 'json',
+        data: { pid: $(this).attr('pid'), preference: $(this).val() }
+    }).then(({ errno, msg }) => {
+        (errno == 0) ? toastr.success(msg) : toastr.warning(msg);
+    }).catch(err => showAjaxError(err));
 });
 
 function showPlayerTexturePreview(pid) {
@@ -43,17 +50,6 @@ function showPlayerTexturePreview(pid) {
 
     }).catch(err => showAjaxError(err));
 }
-
-$('body').on('change', '#preference', function () {
-    fetch({
-        type: 'POST',
-        url: url('user/player/preference'),
-        dataType: 'json',
-        data: { pid: $(this).attr('pid'), preference: $(this).val() }
-    }).then(({ errno, msg }) => {
-        (errno == 0) ? toastr.success(msg) : toastr.warning(msg);
-    }).catch(err => showAjaxError(err));
-});
 
 function changePlayerName(pid) {
     let newPlayerName = '';
