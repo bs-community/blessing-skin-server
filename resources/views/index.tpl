@@ -9,18 +9,11 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- App Styles -->
     @include('common.dependencies.style', ['module' => 'index'])
-
-    <script type="text/javascript">
-        var changeWrapperHeight = function () {
-            document.getElementsByClassName('wrapper')[0].style.height = window.innerHeight + 'px';
-        };
-    </script>
 </head>
 
 <body class="hold-transition {{ option('color_scheme') }} layout-top-nav">
 
     <div class="wrapper" style="background-image: url('{{ option('home_pic_url') }}');">
-        <script>changeWrapperHeight();</script>
         <!-- Navigation -->
         <header class="main-header transparent">
             <nav class="navbar navbar-fixed-top">
@@ -133,15 +126,37 @@
     <!-- App Scripts -->
     @include('common.dependencies.script')
 
-    <script>
-        $(window).scroll(function(event) {
-            // change color of the navigation bar when scrolling
+    <script type="text/javascript">
+
+        var cachedWindowWidth = $(window).width();
+
+        function changeWrapperHeight() {
+            var btn = $('p a.button');
+            var bottom = btn.offset().top + btn.height() + 80;
+
+            if (bottom > $(window).height()) {
+                $('.wrapper').height(bottom + 'px');
+            } else {
+                $('.wrapper').height($(window).height() + 'px');
+            }
+        }
+
+        function changeHeaderTransparency() {
             if (document.body.scrollTop >= ($(window).height() * 2 / 3)) {
                 $('.main-header').removeClass('transparent');
             } else {
                 $('.main-header').addClass('transparent');
             }
-        });
+        }
+
+        $(window)
+            .scroll(changeHeaderTransparency)
+            .ready(changeWrapperHeight)
+            .resize(function () {
+                if ($(window).width() !== cachedWindowWidth) {
+                    changeWrapperHeight();
+                }
+            });
     </script>
 </body>
 </html>
