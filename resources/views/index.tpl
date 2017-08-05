@@ -13,7 +13,7 @@
 
 <body class="hold-transition {{ option('color_scheme') }} layout-top-nav">
 
-    <div class="wrapper" style="background-image: url('{{ option('home_pic_url') }}');">
+    <div class="wrapper" style="background-image: url('{{ $home_pic_url }}');">
         <!-- Navigation -->
         <header class="main-header transparent">
             <nav class="navbar navbar-fixed-top">

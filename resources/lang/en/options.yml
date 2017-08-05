@@ -5,7 +5,7 @@ homepage:
 
   home_pic_url:
     title: Picture URL at Homepage
-    hint: Path relative to homepage or full URL.
+    hint: Path relative to homepage or full URL, leave empty to use default image
   favicon_url:
     title: Website Icon
     hint: Path relative to resources/assets/ or full URL.

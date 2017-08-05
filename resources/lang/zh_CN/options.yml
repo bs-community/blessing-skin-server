@@ -5,7 +5,7 @@ homepage:
 
   home_pic_url:
     title: 首页图片地址
-    hint: 相对于首页的路径或者完整的 URL
+    hint: 相对于首页的路径或者完整的 URL，留空以使用默认背景
   favicon_url:
     title: 网站图标
     hint: 相对 resources/assets/ 的路径或者完整的 URL
