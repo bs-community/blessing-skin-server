@@ -178,6 +178,15 @@ class UpdateController extends Controller
                 $zip->close();
 
                 try {
+                    File::copyDirectory("$extract_dir/vendor", base_path('vendor'));
+                } catch (\Exception $e) {
+                    Log::error('[Extracter] Unable to extract vendors', [$e]);
+                    // Skip copying vendor
+                    File::deleteDirectory("$extract_dir/vendor");
+                }
+
+
+                try {
                     File::copyDirectory($extract_dir, base_path());
 
                     Log::info("[Extracter] Covering files");
