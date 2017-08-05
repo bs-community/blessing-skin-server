@@ -173,7 +173,6 @@ gulp.task('zip', () => {
             '!.git/',
             '!.gitmodules',
             '!.gitattributes',
-            '!artisan',
             '!gulpfile.js',
             '!.eslintrc.js',
             '!.travis.yml',
