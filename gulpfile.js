@@ -152,9 +152,9 @@ gulp.task('clean', () => {
 gulp.task('zip', () => {
     clearCache();
 
-    console.info("============================================================================")
+    console.info("============================================================================");
     console.info("= Don't forget to compile Sass & ES2015 files before publishing a release! =");
-    console.info("============================================================================")
+    console.info("============================================================================");
 
     let zipPath = `blessing-skin-server-v${version}.zip`;
 
