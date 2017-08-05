@@ -104,7 +104,7 @@
     </script>
     @endif
 
-    @if (option('allow_sending_statistic'))
+    @if (option('allow_sending_statistics'))
     <script>
         blessing.site_url = blessing.base_url;
 
