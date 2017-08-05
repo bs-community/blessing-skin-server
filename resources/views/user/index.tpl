@@ -75,7 +75,9 @@
                         </button>
                         @else
                         <button class="btn btn-primary pull-left" title="{{ trans('user.last-sign', ['time' => $user->getLastSignTime()]) }}" disabled="disabled">
-                            <i class="fa fa-calendar-check-o" aria-hidden="true"></i> &nbsp;{{ trans('user.sign-remain-time', ['time' => round($user->getSignRemainingTime() / 3600)]) }}
+                            <i class="fa fa-calendar-check-o" aria-hidden="true"></i> &nbsp;
+                            <?php $hours = $user->getSignRemainingTime() / 3600; ?>
+                            {{ trans('user.sign-remain-time', ['time' => round($hours) ?: round($hours, 1)]) }}
                         </button>
                         @endif
                     </div><!-- /.box-footer -->

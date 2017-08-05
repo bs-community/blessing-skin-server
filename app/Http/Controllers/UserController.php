@@ -74,11 +74,20 @@ class UserController extends Controller
                 'msg'            => trans('user.sign-success', ['score' => $acuiredScore]),
                 'score'          => $this->user->getScore(),
                 'storage'        => $this->calculatePercentageUsed($this->user->getStorageUsed(), option('score_per_storage')),
-                'remaining_time' => round($this->user->getSignRemainingTime() / 3600)
+                'remaining_time' => $this->getUserSignRemainingTimeWithPrecision()
             ]);
         } else {
-            return json(trans('user.cant-sign-until', ['time' => round($this->user->getSignRemainingTime() / 3600)]), 1);
+            return json(trans('user.cant-sign-until', [
+                'time' => $this->getUserSignRemainingTimeWithPrecision()
+            ]), 1);
         }
+    }
+
+    public function getUserSignRemainingTimeWithPrecision()
+    {
+        $hours = $this->user->getSignRemainingTime() / 3600;
+
+        return round($hours) ?: round($hours, 1);
     }
 
     public function profile()
