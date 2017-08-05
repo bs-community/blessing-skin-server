@@ -186,10 +186,10 @@ class UpdateController extends Controller
                     Log::info("[Extracter] Cleaning cache");
 
                 } catch (\Exception $e) {
-                    Log::error("[Extracter] Error occured when covering files", $e);
+                    Log::error("[Extracter] Error occured when covering files", [$e]);
 
                     File::deleteDirectory(storage_path('update_cache'));
-                    exit(trans('admin.update.errors.overwrite'));
+                    exit(trans('admin.update.errors.overwrite').$e->getMessage());
                 }
 
                 return json(trans('admin.update.complete'), 0);
