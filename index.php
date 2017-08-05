@@ -26,4 +26,4 @@ runtime_check(array(
 ));
 
 // handle the request
-require __DIR__.'/bootstrap/handler.php';
+require __DIR__.'/bootstrap/kernel.php';
