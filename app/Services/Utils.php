@@ -3,9 +3,9 @@
 namespace App\Services;
 
 use Log;
+use Storage;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
-use Storage as LaravelStorage;
 use App\Exceptions\PrettyPageException;
 
 class Utils
@@ -138,8 +138,8 @@ class Utils
             if (file_exists($absolute_path)) {
                 $hash = hash_file('sha256', $absolute_path);
 
-                if (!LaravelStorage::disk('textures')->has($hash)) {
-                    LaravelStorage::disk('textures')->move($path, $hash);
+                if (! Storage::disk('textures')->has($hash)) {
+                    Storage::disk('textures')->move($path, $hash);
                 } else {
                     // delete the temp file
                     unlink($absolute_path);

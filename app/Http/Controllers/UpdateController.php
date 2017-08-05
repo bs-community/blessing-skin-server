@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Arr;
 use Log;
 use Utils;
+use File;
 use Option;
 use ZipArchive;
-use App\Services\Storage;
 use App\Services\OptionForm;
 use Illuminate\Http\Request;
 
@@ -135,7 +135,7 @@ class UpdateController extends Controller
                     Utils::download($release_url, $tmp_path);
 
                 } catch (\Exception $e) {
-                    Storage::remove($tmp_path);
+                    File::delete($tmp_path);
 
                     exit(trans('admin.update.errors.prefix').$e->getMessage());
                 }
@@ -177,17 +177,19 @@ class UpdateController extends Controller
                 }
                 $zip->close();
 
-                if (Storage::copyDir($extract_dir, base_path()) !== true) {
+                try {
+                    File::copyDirectory($extract_dir, base_path());
 
-                    Storage::removeDir(storage_path('update_cache'));
+                    Log::info("[Extracter] Covering files");
+                    File::deleteDirectory(storage_path('update_cache'));
+
+                    Log::info("[Extracter] Cleaning cache");
+
+                } catch (\Exception $e) {
+                    Log::error("[Extracter] Error occured when covering files", $e);
+
+                    File::deleteDirectory(storage_path('update_cache'));
                     exit(trans('admin.update.errors.overwrite'));
-
-                } else {
-
-                   Log::info("[Extracter] Covering files");
-                   Storage::removeDir(storage_path('update_cache'));
-
-                   Log::info("[Extracter] Cleaning cache");
                 }
 
                 return json(trans('admin.update.complete'), 0);
