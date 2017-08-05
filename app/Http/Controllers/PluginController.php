@@ -12,7 +12,9 @@ class PluginController extends Controller
 {
     public function showMarket()
     {
-        return redirect('/')->setTargetUrl('https://github.com/g-plane/unofficial-plugins-market/blob/master/README.md');
+        return redirect('/')->setTargetUrl(
+            'https://github.com/printempw/blessing-skin-server/wiki/Plugins'
+        );
     }
 
     public function showManage()
