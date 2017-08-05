@@ -63,6 +63,51 @@ function getQueryString(key, defaultValue) {
 }
 
 /**
+ * Check if the `resize` event is fired by scrolling on a mobile browser
+ * whose address bar (e.g. Chrome) will hide automatically when scrolling.
+ *
+ * @return {Boolean}
+ */
+function isMobileBrowserScrolling() {
+    let currentWindowWidth  = $(window).width();
+    let currentWindowHeight = $(window).height();
+
+    if ($.cachedWindowWidth === undefined) {
+        $.cachedWindowWidth = currentWindowWidth;
+    }
+
+    if ($.cachedWindowHeight === undefined) {
+        $.cachedWindowHeight = currentWindowHeight;
+    }
+
+    let isWidthChanged  = (currentWindowWidth  !== $.cachedWindowWidth);
+    let isHeightChanged = (currentWindowHeight !== $.cachedWindowHeight);
+
+    // If the window width & height changes simultaneously, the resize can't be fired by scrolling.
+    if (isWidthChanged && isHeightChanged) {
+        return false;
+    }
+
+    // If only width was changed, it also can't be.
+    if (isWidthChanged) {
+        return false;
+    }
+
+    // If width didn't change but height changed ?
+    if (isHeightChanged) {
+        let last = $.lastWindowHeight;
+        $.lastWindowHeight = currentWindowHeight;
+
+        if (last === undefined || currentWindowHeight == last) {
+            return true;
+        }
+    }
+
+    // If both width & height did not change
+    return false;
+}
+
+/**
  * Return a debounced function
  *
  * @param {Function} func
@@ -101,5 +146,6 @@ if (typeof require !== 'undefined' && typeof module !== 'undefined') {
         isEmpty,
         debounce,
         getQueryString,
+        isMobileBrowserScrolling,
     };
 }

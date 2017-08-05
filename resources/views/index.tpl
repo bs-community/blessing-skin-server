@@ -128,8 +128,6 @@
 
     <script type="text/javascript">
 
-        var cachedWindowWidth = $(window).width();
-
         function changeWrapperHeight() {
             var btn = $('p a.button');
             var bottom = btn.offset().top + btn.height() + 80;
@@ -153,9 +151,7 @@
             .scroll(changeHeaderTransparency)
             .ready(changeWrapperHeight)
             .resize(function () {
-                if ($(window).width() !== cachedWindowWidth) {
-                    changeWrapperHeight();
-                }
+                isMobileBrowserScrolling() ? null : changeWrapperHeight();
             });
     </script>
 </body>
