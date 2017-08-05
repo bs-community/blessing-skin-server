@@ -17,7 +17,10 @@ define('LARAVEL_START', microtime(true));
 if (file_exists($autoload = __DIR__.'/../vendor/autoload.php')) {
     require $autoload;
 } else {
-    exit("No vendor folder found. Have you installed the dependencies with composer?");
+    exit(
+        "No vendor folder found. Have you installed the dependencies with composer? <br>".
+        "根目录下未发现 vendor 文件夹，请参照安装说明使用 composer 安装依赖库。"
+    );
 }
 
 /*
