@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Log;
+use File;
 use Utils;
 use Schema;
 use Option;
@@ -132,7 +133,13 @@ class SetupController extends Controller
         }
 
         // clear all compiled view files
-        Artisan::call('view:clear');
+        try {
+            Artisan::call('view:clear');
+        } catch (\Exception $e) {
+            Log::error('Error occured when processing view:clear', $e);
+            
+            File::cleanDirectory(storage_path('framework/views'));
+        }
 
         return view('setup.updates.success', ['tips' => $tips]);
     }
