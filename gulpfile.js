@@ -110,7 +110,7 @@ gulp.task('publish-vendor', ['compile-es6'], callback => {
     gulp.src(convertNpmRelativePath(images))
         .pipe(gulp.dest(`${distPath}/images/`));
     // AdminLTE skins
-    gulp.src('node_modules/admin-lte/dist/css/skins/**')
+    gulp.src('node_modules/admin-lte/dist/css/skins/*.min.css')
         .pipe(gulp.dest(`${distPath}/css/skins/`));
     // 3D skin preview
     gulp.src(['skin-preview/**', 'Chart.min.js'].map(path => `${srcPath}/vendor/${path}`))
@@ -152,10 +152,6 @@ gulp.task('clean', () => {
 gulp.task('zip', () => {
     clearCache();
 
-    console.info("============================================================================");
-    console.info("= Don't forget to compile Sass & ES2015 files before publishing a release! =");
-    console.info("============================================================================");
-
     let zipPath = `blessing-skin-server-v${version}.zip`;
 
     console.log(`Zip archive will be saved to ${zipPath}.`);
@@ -190,6 +186,7 @@ gulp.task('zip', () => {
             '!vendor/symfony/css-selector/**/*.*',
             '!vendor/symfony/dom-crawler/**/*.*'
         ], { dot: true })
+        .pipe(notify('Don\'t forget to compile Sass & ES2015 files before publishing a release!'))
         .pipe(zip(zipPath))
         .pipe(gulp.dest('../'))
         .pipe(notify({ message: `Zip archive saved to ${zipPath}!` }));
