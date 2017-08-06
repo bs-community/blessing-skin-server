@@ -418,6 +418,8 @@ describe('tests for "plugins" module', () => {
 });
 
 describe('tests for "update" module', () => {
+  const modulePath = '../admin/update';
+
   it('download updates', async () => {
     const fetch = jest.fn()
       .mockReturnValueOnce(Promise.resolve({
@@ -441,7 +443,9 @@ describe('tests for "update" module', () => {
       <div id="modal-start-download"></div>
     `;
 
-    await require('../admin/update')();
+    const downloadUpdates = require(modulePath).downloadUpdates;
+
+    await downloadUpdates();
     expect(fetch).toBeCalledWith(expect.objectContaining({
       url: 'admin/update/download?action=prepare-download',
       type: 'GET',
@@ -457,6 +461,39 @@ describe('tests for "update" module', () => {
       type: 'POST',
       dataType: 'json'
     });
+  });
+
+  it('check for updates', async () => {
+    const fetch = jest.fn()
+      .mockReturnValueOnce(Promise.resolve({
+        available: false,
+        latest: '1.1.4'
+      }))
+      .mockReturnValueOnce(Promise.resolve({
+        available: true,
+        latest: '5.1.4'
+      }));
+    const url = jest.fn(path => path);
+
+    window.fetch = fetch;
+    window.url = url;
+
+    document.body.innerHTML = `
+      <a id="target" href="admin/update"><i class="fa fa-arrow-up"></i> <span>Check Update</span></a>
+    `;
+
+    const checkForUpdates = require(modulePath).checkForUpdates;
+
+    await checkForUpdates();
+    expect($('#target').html()).toBe(
+      '<i class="fa fa-arrow-up"></i> <span>Check Update</span>'
+    );
+
+    await checkForUpdates();
+    expect($('#target').html()).toBe(
+      '<i class="fa fa-arrow-up"></i> <span>Check Update</span>'+
+      '<span class="label label-primary pull-right">v5.1.4</span>'
+    );
   });
 });
 
