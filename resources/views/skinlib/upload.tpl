@@ -96,12 +96,7 @@ label[for="type-cape"] {
 <script>
     $(document).ready(function() {
         TexturePreview.init3dPreview();
-        $('input[type=radio]').iCheck({
-            radioClass:    'iradio_square-blue'
-        });
-        $('input[type=checkbox]').iCheck({
-            checkboxClass: 'icheckbox_square-blue'
-        });
+
         $('[for="private"]').tooltip();
     });
 

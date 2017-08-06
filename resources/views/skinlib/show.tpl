@@ -145,14 +145,6 @@
         MSP.changeSkin('{{ url('textures/'.$texture->hash) }}');
     @endif
 
-    $(function() {
-        $('input').iCheck({
-            checkboxClass: 'icheckbox_square-blue',
-            radioClass:    'iradio_square-blue'
-        });
-        $('[for="private"]').tooltip();
-    });
-
     $(document).ready(TexturePreview.init3dPreview);
     // Auto resize canvas to fit responsive design
     $(window).resize(TexturePreview.init3dPreview);

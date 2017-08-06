@@ -19,6 +19,7 @@ $(document).ready(() => {
     $('li.active > ul').show();
 
     $('input').iCheck({
+        radioClass: 'iradio_square-blue',
         checkboxClass: 'icheckbox_square-blue'
     });
 

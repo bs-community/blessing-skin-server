@@ -5,10 +5,6 @@
 var selectedTextures = [];
 
 $(document).ready(function () {
-    $('input[type=radio]').iCheck({
-        radioClass: 'iradio_square-blue'
-    });
-
     if (! window.location.pathname.includes('/user/closet'))
         return;
 
