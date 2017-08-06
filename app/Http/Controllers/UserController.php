@@ -77,8 +77,11 @@ class UserController extends Controller
                 'remaining_time' => $this->getUserSignRemainingTimeWithPrecision()
             ]);
         } else {
+            $remaining_time = $this->getUserSignRemainingTimeWithPrecision();
             return json(trans('user.cant-sign-until', [
-                'time' => $this->getUserSignRemainingTimeWithPrecision()
+                'time' => $remaining_time >= 1 ?: round($remaining_time * 60),
+                'unit' => $remaining_time >= 1
+                    ? trans('user.time-unit-hour') : trans('user.time-unit-min')
             ]), 1);
         }
     }
@@ -87,7 +90,7 @@ class UserController extends Controller
     {
         $hours = $this->user->getSignRemainingTime() / 3600;
 
-        return round($hours) ?: round($hours, 1);
+        return $hours > 1 ? round($hours) : $hours;
     }
 
     public function profile()

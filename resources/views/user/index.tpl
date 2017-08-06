@@ -77,7 +77,11 @@
                         <button class="btn btn-primary pull-left" title="{{ trans('user.last-sign', ['time' => $user->getLastSignTime()]) }}" disabled="disabled">
                             <i class="fa fa-calendar-check-o" aria-hidden="true"></i> &nbsp;
                             <?php $hours = $user->getSignRemainingTime() / 3600; ?>
-                            {{ trans('user.sign-remain-time', ['time' => round($hours) ?: round($hours, 1)]) }}
+                            @if ($hours >= 1)
+                                {{ trans('user.sign-remain-time', ['time' => round($hours), 'unit' => trans('user.time-unit-hour')]) }}
+                            @else
+                                {{ trans('user.sign-remain-time', ['time' => round($hours * 60), 'unit' => trans('user.time-unit-min')]) }}
+                            @endif
                         </button>
                         @endif
                     </div><!-- /.box-footer -->

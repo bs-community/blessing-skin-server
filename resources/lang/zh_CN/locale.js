@@ -81,7 +81,10 @@
             deleteNotice: '真的要删除此材质吗？'
         },
         user: {
-            signRemainingTime: ':time 小时后可签到',
+            // Signing in
+            signRemainingTime: ':time :unit 后可签到',
+            timeUnitHour: '小时',
+            timeUnitMin: '分钟',
 
             // Closet
             emptyClosetMsg: '<p>衣柜里啥都没有哦~</p><p>去<a href=":url">皮肤库</a>看看吧~</p>',

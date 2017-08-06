@@ -834,7 +834,7 @@ describe('tests for "sign" module', () => {
         errno: 0,
         msg: 'success',
         score: 100,
-        remaining_time: 24,
+        remaining_time: 0.1,
         storage: {
           used: 50,
           total: 100,
@@ -870,7 +870,10 @@ describe('tests for "sign" module', () => {
       dataType: 'json'
     });
     expect($('#score').html()).toBe('100');
-    expect(trans).toBeCalledWith('user.signRemainingTime', { time: '24' });
+    expect(trans).toBeCalledWith(
+      'user.signRemainingTime',
+      { time: '6', unit: 'user.timeUnitMin' }
+    );
     expect($('#sign-button').html()).toBe(
       '<i class="fa fa-calendar-check-o"></i> &nbsp;user.signRemainingTime'
     );
@@ -880,6 +883,10 @@ describe('tests for "sign" module', () => {
     expect(swal).toBeCalledWith({ type: 'success', html: 'success' });
 
     await sign();
+    expect(trans).toBeCalledWith(
+      'user.signRemainingTime',
+      { time: '24', unit: 'user.timeUnitHour' }
+    );
     expect($('#user-storage').html()).toBe('<b>2</b>/ 4 MB');
 
     await sign();

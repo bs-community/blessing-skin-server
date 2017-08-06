@@ -79,7 +79,10 @@
             deleteNotice: 'Are you sure to delete this texture?'
         },
         user: {
-            signRemainingTime: 'Available after :time hours',
+            // Signing in
+            signRemainingTime: 'Available after :time :unit',
+            timeUnitHour: 'h',
+            timeUnitMin: 'min',
 
             // Closet
             emptyClosetMsg: '<p>Nothing in your closet...</p><p>Why not explore the <a href=":url">Skin Library</a> for a while?</p>',

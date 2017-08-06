@@ -6,7 +6,12 @@ function sign() {
     }).then(result => {
         if (result.errno == 0) {
             $('#score').html(result.score);
-            var dom = '<i class="fa fa-calendar-check-o"></i> &nbsp;' + trans('user.signRemainingTime', { time: String(result.remaining_time) });
+            const dom = '<i class="fa fa-calendar-check-o"></i> &nbsp;' + trans(
+                'user.signRemainingTime',
+                result.remaining_time >= 1
+                    ? { time: result.remaining_time.toString(), unit: trans('user.timeUnitHour') }
+                    : { time: (result.remaining_time * 60).toFixed(), unit: trans('user.timeUnitMin') }
+            );
 
             $('#sign-button').attr('disabled', 'disabled').html(dom);
 
