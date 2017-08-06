@@ -18,6 +18,8 @@ var version  = require('./package.json').version;
 var srcPath  = 'resources/assets/src';
 var distPath = 'resources/assets/dist';
 
+var skinColor = ['blue', 'yellow', 'green', 'purple', 'red', 'square'];
+
 var vendorScripts = [
     'jquery/dist/jquery.min.js',
     'bootstrap/dist/js/bootstrap.min.js',
@@ -39,18 +41,16 @@ var vendorStyles = [
     'admin-lte/plugins/datatables/dataTables.bootstrap.css',
     'bootstrap-fileinput/css/fileinput.min.css',
     'font-awesome/css/font-awesome.min.css',
-    'icheck/skins/square/blue.css',
     'toastr/build/toastr.min.css',
     'sweetalert2/dist/sweetalert2.min.css',
-];
+].concat(skinColor.map((color) => `icheck/skins/square/${color}.css`));
 
 var styleReplacements = [
-    ['blue.png', '"../images/blue.png"'],
-    ['blue@2x.png', '"../images/blue@2x.png"'],
     ['../img/loading.gif', '"../images/loading.gif"'],
     ['../img/loading-sm.gif', '"../images/loading-sm.gif"'],
     [/@import url\((.*)italic\);/g, ''],
-];
+].concat(skinColor.map((color) => [`${color}.png`, `"../images/${color}.png"`]))
+.concat(skinColor.map((color) => [`${color}@2x.png`, `"../images/${color}@2x.png"`]));
 
 var scriptReplacements = [
     ['$.AdminLTE.layout.activate(),', '']
@@ -63,12 +63,11 @@ var fonts = [
 ];
 
 var images = [
-    'icheck/skins/square/blue.png',
-    'icheck/skins/square/blue@2x.png',
     'resources/assets/src/images/**',
     'bootstrap-fileinput/img/loading.gif',
     'bootstrap-fileinput/img/loading-sm.gif',
-];
+].concat(skinColor.map((color) => `icheck/skins/square/${color}.png`))
+.concat(skinColor.map((color) => `icheck/skins/square/${color}@2x.png`));
 
 // aka. `yarn run build`
 gulp.task('default', ['build']);
@@ -152,9 +151,9 @@ gulp.task('clean', () => {
 gulp.task('zip', () => {
     clearCache();
 
-    console.info("============================================================================");
-    console.info("= Don't forget to compile Sass & ES2015 files before publishing a release! =");
-    console.info("============================================================================");
+    console.info('============================================================================');
+    console.info('= Don\'t forget to compile Sass & ES2015 files before publishing a release! =');
+    console.info('============================================================================');
 
     let zipPath = `blessing-skin-server-v${version}.zip`;
 
