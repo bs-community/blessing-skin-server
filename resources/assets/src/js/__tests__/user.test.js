@@ -201,7 +201,7 @@ describe('tests for "closet" module', () => {
     }));
     expect(fetch).toBeCalledWith({
       type: 'POST',
-      url: 'closet/rename',
+      url: 'user/closet/rename',
       dataType: 'json',
       data: { tid: 1, new_name: 'name' }
     });
@@ -247,7 +247,7 @@ describe('tests for "closet" module', () => {
     });
     expect(fetch).toBeCalledWith({
       type: 'POST',
-      url: 'closet/remove',
+      url: 'user/closet/remove',
       dataType: 'json',
       data: { tid: 1 }
     });
