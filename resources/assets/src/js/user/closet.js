@@ -170,7 +170,7 @@ function renameClosetItem(tid, oldName) {
         }))
     }).then(name => fetch({
         type: 'POST',
-        url: url('closet/rename'),
+        url: url('user/closet/rename'),
         dataType: 'json',
         data: { tid: tid, new_name: name }
     })).then(({ errno, msg }) => {
@@ -190,7 +190,7 @@ function removeFromCloset(tid) {
         showCancelButton: true
     }).then(() => fetch({
         type: 'POST',
-        url: url('closet/remove'),
+        url: url('user/closet/remove'),
         dataType: 'json',
         data: { tid: tid }
     })).then(({ errno, msg }) => {
