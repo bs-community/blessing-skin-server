@@ -19,7 +19,7 @@ $(document).ready(() => {
     $('li.active > ul').show();
 
     $('input').iCheck({
-        checkboxClass: `icheckbox_square${getColorScheme()}`
+        checkboxClass: 'icheckbox_square-blue'
     });
 
     swal.setDefaults({
@@ -33,11 +33,4 @@ function activateLayout() {
         return;
 
     $.AdminLTE.layout.activate();
-}
-
-function getColorScheme() {
-    const color = /skin-(\w+)(?:-light)? sidebar-mini/.exec(
-        document.getElementsByTagName('body')[0].className
-    )[1];
-    return color === 'black' ? '' : `-${color}`;
 }
