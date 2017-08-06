@@ -231,8 +231,10 @@ class AdminController extends Controller
             return json(trans('admin.users.operations.non-existent'), 1);
         }
 
-        if ($user->permission >= app('user.current')->permission) {
-            return json(trans('admin.users.operations.no-permission'), 1);
+        if ($user->uid !== app('user.current')->uid) {
+            if ($user->permission >= app('user.current')->permission) {
+                return json(trans('admin.users.operations.no-permission'), 1);
+            }
         }
 
         if ($action == "email") {
@@ -319,10 +321,10 @@ class AdminController extends Controller
             abort(404, trans('general.unexistent-player'));
         }
 
-        if ($player->user->permission >= app('user.current')->permission &&
-            $player->user()->first()->uid !== app('user.current')->uid)
-        {
-            return json(trans('admin.players.no-permission'), 1);
+        if ($player->user()->first()->uid !== app('user.current')->uid) {
+            if ($player->user->permission >= app('user.current')->permission) {
+                return json(trans('admin.players.no-permission'), 1);
+            }
         }
 
         if ($action == "preference") {
