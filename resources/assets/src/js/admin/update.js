@@ -88,6 +88,19 @@ function downloadUpdates() {
 
 }
 
+function checkForUpdates() {
+    fetch({ url: url('admin/update/check') }).then(data => {
+        if (data.available == true) {
+            let dom = `<span class="label label-primary pull-right">v${data.latest}</span>`;
+
+            $(`[href="${url('admin/update')}"]`).append(dom);
+        }
+    });
+}
+
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {
-    module.exports = downloadUpdates;
+    module.exports = {
+        checkForUpdates,
+        downloadUpdates,
+    };
 }

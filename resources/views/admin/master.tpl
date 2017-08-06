@@ -92,16 +92,7 @@
     @include('common.dependencies.script', ['module' => 'admin'])
 
     @if (option('check_update'))
-    <script>
-        $(document).ready(function() {
-            // check for updates
-            $.getJSON("{{ url('admin/update/check') }}", function(data) {
-                if (data.available == true) {
-                    $('[href="{{ url('admin/update') }}"]').append('<span class="label label-primary pull-right">v'+data.latest+'</span>');
-                }
-            });
-        });
-    </script>
+    <script>$(document).ready(checkForUpdates);</script>
     @endif
 
     @if (option('allow_sending_statistics'))
