@@ -29,9 +29,20 @@ function showAjaxError(json) {
     showModal(json.responseText.replace(/\n/g, '<br />'), trans('general.fatalError'), 'danger');
 }
 
+/**
+ * Show a bootstrap modal.
+ *
+ * @param  {string} msg      Modal content
+ * @param  {string} title    Modal title
+ * @param  {string} type     Modal type, default|info|success|warning|error
+ * @param  {object} options  All $.fn.modal options, plus { btnText, callback, destroyOnClose }
+ * @return {void}
+ */
 function showModal(msg, title = 'Message', type = 'default', options = {}) {
     let btnType = (type != 'default') ? 'btn-outline' : 'btn-primary';
+    let btnText = options.btnText || 'OK';
     let onClick = (options.callback === undefined) ? 'data-dismiss="modal"' : `onclick="${options.callback}"`;
+    let destroyOnClose = (options.destroyOnClose === false) ? false : true;
 
     let dom = `
     <div class="modal modal-${type} fade in">
@@ -47,13 +58,15 @@ function showModal(msg, title = 'Message', type = 'default', options = {}) {
                     <p>${msg}</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" ${onClick} class="btn ${btnType}">OK</button>
+                    <button type="button" ${onClick} class="btn ${btnType}">${btnText}</button>
                 </div>
             </div>
         </div>
     </div>`;
 
-    $(dom).modal(options);
+    $(dom).on('hidden.bs.modal', function () {
+        destroyOnClose && $(this).remove();
+    }).modal(options);
 }
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {
