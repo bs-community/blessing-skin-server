@@ -96,19 +96,7 @@
     @endif
 
     @if (option('allow_sending_statistics'))
-    <script>
-        blessing.site_url = blessing.base_url;
-
-        $.ajax({
-            url: 'https://work.prinzeugen.net/statistics/feedback',
-            type: 'POST',
-            dataType: 'json',
-            data: blessing
-        }).done(function() {
-            console.log('Feedback sent. Thank you!');
-        });
-
-    </script>
+    <script>sendFeedback();</script>
     @endif
 
     @yield('script')

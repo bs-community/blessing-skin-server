@@ -21,6 +21,7 @@ module.exports = {
         "blessing": true,
         "debounce": false,
         "showModal": false,
+        "docCookies": false,
         "showAjaxError": false,
         "getQueryString": false,
         "TexturePreview": false

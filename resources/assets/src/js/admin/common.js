@@ -22,3 +22,30 @@ $(document).ready(() => {
         $.pluginsTable = initPluginsTable();
     }
 });
+
+function sendFeedback() {
+    if (docCookies.getItem('feedback_sent') !== null)
+        return;
+
+    fetch({
+        url: 'https://work.prinzeugen.net/statistics/feedback',
+        type: 'POST',
+        dataType: 'json',
+        data: {
+            site_name: blessing.site_name,
+            site_url: blessing.base_url,
+            version: blessing.version
+        }
+    }).then(({ errno }) => {
+        if (errno === 0) {
+            // Will be expired when current session ends
+            docCookies.setItem('feedback_sent', Date.now());
+
+            console.log('Feedback sent. Thank you!');
+        }
+    });
+}
+
+if (typeof require !== 'undefined' && typeof module !== 'undefined') {
+    module.exports = sendFeedback;
+}
