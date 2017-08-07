@@ -171,10 +171,10 @@ class TextureController extends Controller
             if (Storage::disk('textures')->has($t->hash)) {
                 return Response::png(Storage::disk('textures')->get($t->hash));
             } else {
-                abort(404, '请求的材质文件已经被删除');
+                abort(404, trans('general.texture-deleted'));
             }
         } else {
-            abort(404, '材质不存在');
+            abort(404, trans('skinlib.non-existent'));
         }
 
     }
@@ -184,10 +184,10 @@ class TextureController extends Controller
         $player = Player::where('player_name', $player_name)->first();
 
         if (!$player)
-            abort(404, '角色不存在');
+            abort(404, trans('general.unexistent-player'));
 
         if ($player->isBanned())
-            abort(404, '该角色拥有者已被本站封禁。');
+            abort(404, trans('general.player-banned'));
 
         return $player;
     }

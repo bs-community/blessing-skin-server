@@ -45,7 +45,8 @@ private: Private
 public: Public
 
 unexistent-user: Un-existent user
-unexistent-player: Un-existent player.
+unexistent-player: Un-existent player
+player-banned: The owner of this player has been banned
 
 texture-deleted: The requested texture has been deleted.
 texture-not-uploaded: The user haven not uploaded the texture of :type model yet.

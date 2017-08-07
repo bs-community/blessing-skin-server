@@ -202,7 +202,7 @@ class UserController extends Controller
                 return json(trans('user.profile.avatar.success'), 0);
             }
         } else {
-            return json(trans('user.profile.avatar.non-existent'), 1);
+            return json(trans('skinlib.non-existent'), 1);
         }
     }
 
