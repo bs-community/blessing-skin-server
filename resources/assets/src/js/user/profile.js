@@ -61,13 +61,11 @@ function changePassword() {
                 return swal({
                     type: 'success',
                     text: msg
+                }).then(() => logout()).catch(err => {
+                    docCookies.removeItem('token') && console.warn(err);
                 }).then(() => {
-                    return logout();
-                }).then(({ errno }) => {
-                    if (errno == 0) {
-                        window.location = url('auth/login');
-                    }
-                }).catch(showAjaxError);
+                    window.location = url('auth/login');
+                });
             } else {
                 return swal({ type: 'warning', text: msg });
             }
@@ -111,13 +109,11 @@ function changeEmail() {
             return swal({
                 type: 'success',
                 text: msg
+            }).then(() => logout()).catch(err => {
+                docCookies.removeItem('token') && console.warn(err);
             }).then(() => {
-                return logout();
-            }).then(({ errno }) => {
-                if (errno == 0) {
-                    window.location = url('auth/login');
-                }
-            }).catch(showAjaxError);
+                window.location = url('auth/login');
+            });
         } else {
             return swal({ type: 'warning', text: msg });
         }
