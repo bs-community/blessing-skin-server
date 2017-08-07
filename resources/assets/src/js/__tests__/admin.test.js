@@ -878,3 +878,39 @@ describe('tests for "users" module', () => {
     expect($('.score').is(':focus')).toBe(false);
   });
 });
+
+describe('tests for "common" module', () => {
+  const modulePath = '../admin/common';
+
+  it('send feedbacks', async () => {
+    const fetch = jest.fn()
+      .mockReturnValue(Promise.resolve({ errno: 0, msg: 'Recorded.' }));
+    const docCookies = require('../common/cookie');
+
+    window.document.cookie = '';
+    window.docCookies = docCookies;
+    window.fetch = fetch;
+    window.console.log = jest.fn();
+    window.blessing = {
+        site_name: 'inm',
+        base_url: 'http://tdkr.mur',
+        version: '8.1.0'
+    };
+
+    const sendFeedback = require(modulePath);
+
+    await sendFeedback();
+    expect(fetch).toBeCalledWith({
+        url: 'https://work.prinzeugen.net/statistics/feedback',
+        type: 'POST',
+        dataType: 'json',
+        data: { site_name: 'inm', site_url: 'http://tdkr.mur', version: '8.1.0' }
+    });
+    expect(window.document.cookie).not.toBe('');
+    expect(console.log).toBeCalledWith('Feedback sent. Thank you!');
+
+    await sendFeedback();
+    expect(fetch).toHaveBeenCalledTimes(1);
+    expect(console.log).toHaveBeenCalledTimes(1);
+  });
+});
