@@ -186,8 +186,8 @@ gulp.task('zip', () => {
             '!vendor/symfony/css-selector/**/*.*',
             '!vendor/symfony/dom-crawler/**/*.*'
         ], { dot: true })
-        .pipe(notify('Don\'t forget to compile Sass & ES2015 files before publishing a release!'))
         .pipe(zip(zipPath))
+        .pipe(notify('Don\'t forget to compile Sass & ES2015 files before publishing a release!'))
         .pipe(gulp.dest('../'))
         .pipe(notify({ message: `Zip archive saved to ${zipPath}!` }));
 });
