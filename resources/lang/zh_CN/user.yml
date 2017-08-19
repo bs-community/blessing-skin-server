@@ -5,7 +5,7 @@ used:
 
 cur-score: 当前积分
 score-notice: 点击积分查看说明
-sign: 每日签到
+sign: 签到
 sign-success: 签到成功，获得了 :score 积分~
 time-unit-hour: 小时
 time-unit-min: 分钟

@@ -110,7 +110,7 @@
             setAvatar: 'Sure to set this as your avatar?',
             setAvatarNotice: 'The head segment of skin will bu used.',
             emptyNewNickName: 'Empty new nickname.',
-            changeNickName: 'SUre to set your nickname to :new_nickname?',
+            changeNickName: 'Sure to set your nickname to :new_nickname?',
             emptyPassword: 'Original password is required.',
             emptyNewPassword: 'Empty new password.',
             emptyNewEmail: 'Empty new email address.',
