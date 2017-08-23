@@ -48,7 +48,7 @@ Blessing Skin Server 对您的服务器有一定的要求。在大多数情况�
 -----------
 1. 下载皮肤站的 [最新版本](https://github.com/printempw/blessing-skin-server/releases)，并解压到你想要安装到的位置。
 2. 将 `.env.example` 重命名为 `.env` 并**配置你的数据库信息**。（Windows 用户请重命名为 `.env.`，最后的小数点会自动消失）
-3. Nginx 用户请添加 [Rewrite 规则](##%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE) 到你的 Nginx 的配置文件中。
+3. Nginx 用户请添加 [Rewrite 规则](#%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AE) 到你的 Nginx 的配置文件中。
 4. 在浏览器中打开 `http://your-domain.com/setup` 。如果出现 404，请检查 Rewrite 规则是否正确并有效。
 5. 按照提示执行安装程序
 
