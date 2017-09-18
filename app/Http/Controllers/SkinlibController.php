@@ -255,6 +255,11 @@ class SkinlibController extends Controller
         if ($t->uploader != $this->user->uid && !$this->user->isAdmin())
             return json(trans('skinlib.no-permission'), 1);
 
+        $score_diff = $t->size * (option('private_score_per_storage') - option('score_per_storage')) * ($t->public == 1 ? -1 : 1);
+        if ($users->get($t->uploader)->getScore() + $score_diff < 0) {
+            return json(trans('skinlib.upload.lack-score'), 1);
+        }
+
         foreach (Player::where("tid_$type", $t->tid)->where('uid', '<>', $uid)->get() as $player) {
             $player->setTexture(["tid_$type" => 0]);
         }
@@ -268,10 +273,7 @@ class SkinlibController extends Controller
             }
         }
 
-        $users->get($t->uploader)->setScore(
-            $t->size * (option('private_score_per_storage') - option('score_per_storage')) * ($t->public == 1 ? -1 : 1),
-            'plus'
-        );
+        $users->get($t->uploader)->setScore($score_diff, 'plus');
 
         if ($t->setPrivacy(!$t->public)) {
             return json([
