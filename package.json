@@ -12,7 +12,7 @@
   "scripts": {
     "build": "gulp build",
     "lint": "gulp lint",
-    "release": "gulp release",
+    "release": "gulp zip",
     "test": "jest --silent",
     "test:watch": "jest --silent --watch",
     "test:cover": "jest --silent --coverage",
