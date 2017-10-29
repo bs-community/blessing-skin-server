@@ -12,7 +12,7 @@ class RedirectIfAuthenticated
     {
         if (session()->has('uid')) {
             if (session('token') != app('users')->get(session('uid'))->getToken()) {
-                Session::put('msg', trans('auth.check.token'));
+                Session::put('msg', trans('auth.check.token'));    // @codeCoverageIgnore
             } else {
                 return redirect('user');
             }

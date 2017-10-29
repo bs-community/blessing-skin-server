@@ -36,7 +36,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $e)
     {
-        return parent::report($e);
+        parent::report($e);
     }
 
     /**
@@ -56,7 +56,7 @@ class Handler extends ExceptionHandler
             abort(403, 'Method not allowed.');
         }
 
-        if ($e instanceof PrettyPageException && PHP_SAPI != "cli") {
+        if ($e instanceof PrettyPageException) {
             return $e->showErrorPage();
         }
 
@@ -84,19 +84,21 @@ class Handler extends ExceptionHandler
      * Render an exception using Whoops.
      *
      * @param  \Exception $e
+     * @param  int $code
+     * @param  array $headers
      * @return \Illuminate\Http\Response
      */
-    protected function renderExceptionWithWhoops(Exception $e)
+    protected function renderExceptionWithWhoops(Exception $e, $code = 200, $headers = [])
     {
         $whoops = new \Whoops\Run;
-        $handler = ($_SERVER['REQUEST_METHOD'] == "GET") ?
+        $handler = (request()->isMethod('GET')) ?
                         new \Whoops\Handler\PrettyPageHandler : new \Whoops\Handler\PlainTextHandler;
         $whoops->pushHandler($handler);
 
         return new \Illuminate\Http\Response(
             $whoops->handleException($e),
-            $e->getStatusCode(),
-            $e->getHeaders()
+            $code,
+            $headers
         );
     }
 
@@ -108,7 +110,7 @@ class Handler extends ExceptionHandler
      */
     protected function renderExceptionInBrief(Exception $e)
     {
-        if ($_SERVER['REQUEST_METHOD'] == "GET" && !app('request')->ajax()) {
+        if (request()->isMethod('GET') && !request()->ajax()) {
             return response()->view('errors.exception', ['message' => $e->getMessage()]);
         } else {
             return $e->getMessage();

@@ -18,10 +18,10 @@ class CheckPlayerExist
 
         $player_name = urldecode($matches[1]);
 
-        $responses = Event::fire(new CheckPlayerExists($player_name));
+        $responses = event(new CheckPlayerExists($player_name));
 
         foreach ($responses as $r) {
-            if ($r) return $next($request);
+            if ($r) return $next($request);    // @codeCoverageIgnore
         }
 
         if (!Player::where('player_name', $player_name)->get()->isEmpty())
@@ -34,7 +34,7 @@ class CheckPlayerExist
                 'msg'         => 'Player Not Found.'
             ])->header('Cache-Control', 'public, max-age='.option('cache_expire_time'));
         } else {
-            abort(404, trans('general.unexistent-player'));
+            return abort(404, trans('general.unexistent-player'));
         }
 
     }

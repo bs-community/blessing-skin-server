@@ -1,6 +1,7 @@
 .env
 .sass-cache
 coverage
+.idea/
 vendor/*
 plugins/*
 storage/textures/*
