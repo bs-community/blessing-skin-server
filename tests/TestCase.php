@@ -22,6 +22,8 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         Artisan::call('migrate');
 
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+
         return $app;
     }
 

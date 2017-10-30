@@ -79,7 +79,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        if ($request->hasSession()) {
+        if (Session::has('uid') && Session::has('token')) {
             // flush sessions
             Session::flush();
 
@@ -252,9 +252,13 @@ class AuthController extends Controller
         $builder = new \Gregwar\Captcha\CaptchaBuilder;
         $builder->build($width = 100, $height = 34);
         Session::put('phrase', $builder->getPhrase());
-        $builder->output();
 
-        return \Response::png();
+        ob_start();
+        $builder->output();
+        $captcha = ob_get_contents();
+        ob_end_clean();
+
+        return \Response::png($captcha);
     }
 
     protected function checkCaptcha($request)
