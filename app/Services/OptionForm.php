@@ -28,6 +28,8 @@ class OptionForm
     protected $buttons  = [];
     protected $messages = [];
 
+    protected $hookBefore;
+    protected $hookAfter;
     protected $alwaysCallback = null;
 
     protected $renderWithOutTable  = false;
@@ -176,6 +178,32 @@ class OptionForm
     }
 
     /**
+     * Add callback which will be executed before handling options
+     *
+     * @param callable $callback
+     * @return $this
+     */
+    public function before(callable $callback)
+    {
+        $this->hookBefore = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Add callback which will be executed after handling options
+     *
+     * @param callable $callback
+     * @return $this
+     */
+    public function after(callable $callback)
+    {
+        $this->hookAfter = $callback;
+
+        return $this;
+    }
+
+    /**
      * Add callback which will be always executed.
      *
      * @param  callable $callback
@@ -216,9 +244,16 @@ class OptionForm
      */
     public function handle(callable $callback = null)
     {
-        if (Arr::get($_POST, 'option') == $this->id) {
+        $request = app('request');
+        $allPostData = $request->all();
+
+        if ($request->isMethod('POST') && Arr::get($allPostData, 'option') == $this->id) {
             if (!is_null($callback)) {
                 call_user_func($callback, $this);
+            }
+
+            if (!is_null($this->hookBefore)) {
+                call_user_func($this->hookBefore, $this);
             }
 
             $postOptionQueue  = [];
@@ -238,28 +273,33 @@ class OptionForm
             }
 
             foreach ($postOptionQueue as $item) {
-                if ($item instanceof OptionFormCheckbox && !isset($_POST[$item->id])) {
+                if ($item instanceof OptionFormCheckbox && !isset($allPostData[$item->id])) {
                     // preset value for checkboxes which are not checked
-                    $_POST[$item->id] = "false";
+                    $allPostData[$item->id] = "false";
                 }
 
                 // Str::is('*[*]', $item->id)
                 if (false !== ($result = $this->parseIdWithOffset($item->id))) {
                     // Push array option value to cache.
-                    // Values of post ids like *[*] is collected as arrays in $_POST
+                    // Values of post ids like *[*] is collected as arrays in $allPostData
                     // automatically by Laravel.
-                    $arrayOptionQueue[$result['id']] = $_POST[$result['id']];
+                    $arrayOptionQueue[$result['id']] = $allPostData[$result['id']];
                     continue;
                 }
 
                 // compare with raw option value
-                if (($data = Arr::get($_POST, $item->id)) != option($item->id, null, true)) {
-                    Option::set($item->id, $data);
+                if (($data = Arr::get($allPostData, $item->id)) != option($item->id, null, true)) {
+                    $formatted = is_null($item->format) ? $data : call_user_func($item->format, $data);
+                    Option::set($item->id, $formatted);
                 }
             }
 
             foreach ($arrayOptionQueue as $key => $value) {
                 Option::set($key, serialize($value));
+            }
+
+            if (!is_null($this->hookAfter)) {
+                call_user_func($this->hookAfter, $this);
             }
 
             $this->addMessage(trans('options.option-saved'), 'success');
@@ -352,7 +392,7 @@ class OptionForm
                 'style' => 'primary',
                 'text'  => trans('general.submit'),
                 'type'  => 'submit',
-                'name'  => 'submit'
+                'name'  => 'submit_'.$this->id
             ]);
         }
 
@@ -379,6 +419,8 @@ class OptionFormItem
     public $name;
 
     public $hint;
+
+    public $format;
 
     public $value = null;
 
@@ -415,6 +457,13 @@ class OptionFormItem
         }
 
         $this->hint = view('common.option-form.hint')->with('hint', $hintContent)->render();
+
+        return $this;
+    }
+
+    public function format(callable $callback)
+    {
+        $this->format = $callback;
 
         return $this;
     }

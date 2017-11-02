@@ -18,6 +18,7 @@ users:
     title: 更多操作
     non-existent: 用户不存在
     no-permission: 你无权操作此用户
+    invalid: 无效 action
     email:
       change: 修改邮箱
       existed: :email 已被占用

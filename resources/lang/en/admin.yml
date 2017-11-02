@@ -18,6 +18,7 @@ users:
     title: Operations
     non-existent: No such user.
     no-permission: You have no permission to operate this user.
+    invalid: Invalid action.
     email:
       change: Edit Email
       existed: :email is existed.

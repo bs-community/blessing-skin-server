@@ -88,16 +88,13 @@ class AdminController extends Controller
             $form->group('sign_gap_time')->text('sign_gap_time')->addon();
 
             $form->checkbox('sign_after_zero')->label()->hint();
-        })->handle(function() {
-            $sign_score = $_POST['sign_score_from'].','.$_POST['sign_score_to'];
+        })->after(function() {
+            $sign_score = request('sign_score_from').','.request('sign_score_to');
             Option::set('sign_score', $sign_score);
-
-            unset($_POST['sign_score_from']);
-            unset($_POST['sign_score_to']);
         })->with([
             'sign_score_from' => @explode(',', option('sign_score'))[0],
             'sign_score_to'   => @explode(',', option('sign_score'))[1]
-        ]);
+        ])->handle();
 
         return view('admin.score', ['forms' => compact('rate', 'sign')]);
     }
@@ -108,7 +105,13 @@ class AdminController extends Controller
         {
             $form->text('site_name');
             $form->text('site_description');
-            $form->text('site_url')->hint();
+            $form->text('site_url')
+                ->hint()
+                ->format(function ($url) {
+                    if (ends_with($url, '/'))
+                        $url = substr($url, 0, -1);
+                    return $url;
+                });
 
             $form->checkbox('user_can_register')->label();
 
@@ -135,10 +138,7 @@ class AdminController extends Controller
 
             $form->checkbox('allow_sending_statistics')->label()->hint();
 
-        })->handle(function() {
-            if (substr($_POST['site_url'], -1) == "/")
-                $_POST['site_url'] = substr($_POST['site_url'], 0, -1);
-        });
+        })->handle();
 
         $announ = Option::form('announ', OptionForm::AUTO_DETECT, function($form)
         {
@@ -220,7 +220,7 @@ class AdminController extends Controller
      * Handle ajax request from /admin/users
      *
      * @param  Request $request
-     * @return void
+     * @return Illuminate\Http\JsonResponse
      */
     public function userAjaxHandler(Request $request, UserRepository $users)
     {
@@ -305,6 +305,8 @@ class AdminController extends Controller
             $user->delete();
 
             return json(trans('admin.users.operations.delete.success'), 0);
+        } else {
+            return json(trans('admin.users.operations.invalid'), 1);
         }
     }
 
@@ -313,12 +315,12 @@ class AdminController extends Controller
      */
     public function playerAjaxHandler(Request $request, UserRepository $users)
     {
-        $action = isset($_GET['action']) ? $_GET['action'] : "";
+        $action = $request->input('action');
 
         $player = Player::find($request->input('pid'));
 
         if (! $player) {
-            abort(404, trans('general.unexistent-player'));
+            return json(trans('general.unexistent-player'), 1);
         }
 
         if ($player->user()->first()->uid !== app('user.current')->uid) {
@@ -351,7 +353,6 @@ class AdminController extends Controller
 
         } elseif ($action == "owner") {
             $this->validate($request, [
-                'pid'   => 'required|integer',
                 'uid'   => 'required|integer'
             ]);
 
@@ -369,9 +370,15 @@ class AdminController extends Controller
 
             return json(trans('admin.players.delete.success'), 0);
         } elseif ($action == "name") {
+            $this->validate($request, [
+                'name' => 'required'
+            ]);
+
             $player->rename($request->input('name'));
 
             return json(trans('admin.players.name.success', ['player' => $player->player_name]), 0, ['name' => $player->player_name]);
+        } else {
+            return json(trans('admin.users.operations.invalid'), 1);
         }
     }
 
@@ -379,7 +386,8 @@ class AdminController extends Controller
      * Get one user information
      *
      * @param  string $uid
-     * @return JsonResponse
+     * @param  UserRepository $users
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getOneUser($uid, UserRepository $users)
     {
