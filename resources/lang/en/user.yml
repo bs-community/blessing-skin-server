@@ -45,6 +45,7 @@ closet:
   add:
     success: Added :name to closet successfully~
     repeated: You have already added this texture.
+    not-found: We cannot find this texture.
     lack-score: You don't have enough score to add it to closet.
 
   rename:

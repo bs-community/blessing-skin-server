@@ -61,11 +61,6 @@ class ClosetController extends Controller
         ]);
     }
 
-    public function info()
-    {
-        return json($this->closet->getItems());
-    }
-
     public function add(Request $request)
     {
         $this->validate($request, [
@@ -77,8 +72,13 @@ class ClosetController extends Controller
             return json(trans('user.closet.add.lack-score'), 7);
         }
 
-        if ($this->closet->add($request->tid, $request->name)) {
-            $t = Texture::find($request->tid);
+        $tid = $request->tid;
+        if (!Texture::find($tid)) {
+            return json(trans('user.closet.add.not-found'), 1);
+        }
+
+        if ($this->closet->add($tid, $request->name)) {
+            $t = Texture::find($tid);
             $t->likes += 1;
             $t->save();
 
@@ -100,7 +100,7 @@ class ClosetController extends Controller
         if ($this->closet->rename($request->tid, $request->new_name)) {
             return json(trans('user.closet.rename.success', ['name' => $request->new_name]), 0);
         } else {
-            return json(trans('user.closet.remove.non-existent'), 0);
+            return json(trans('user.closet.remove.non-existent'), 1);
         }
     }
 
@@ -120,7 +120,7 @@ class ClosetController extends Controller
 
             return json(trans('user.closet.remove.success'), 0);
         } else {
-            return json(trans('user.closet.remove.non-existent'), 0);
+            return json(trans('user.closet.remove.non-existent'), 1);
         }
     }
 

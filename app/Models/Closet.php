@@ -158,10 +158,14 @@ class Closet
      *
      * @param  integer $tid
      * @param  string $new_name
-     * @return void
+     * @return bool
      */
     public function rename($tid, $new_name)
     {
+        if (!$this->has($tid)) {
+            return false;
+        }
+
         $offset = 0;
         foreach ($this->textures as $item) {
             if ($item['tid'] == $tid) {

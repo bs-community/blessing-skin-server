@@ -230,8 +230,9 @@ class User extends Model
     /**
      * Set user score.
      *
-     * @param int    $score
-     * @param string $mode  What operation should be done, set, plus or minus.
+     * @param int $score
+     * @param string $mode What operation should be done, set, plus or minus.
+     * @return bool
      */
     public function setScore($score, $mode = "set")
     {
