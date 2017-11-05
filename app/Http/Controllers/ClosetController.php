@@ -36,27 +36,23 @@ class ClosetController extends Controller
         $page     = abs($request->input('page', 1));
         $q        = $request->input('q', null);
 
-        $items = [];
+        $items = collect();
 
         if ($q) {
             // do search
-            foreach ($this->closet->getItems($category) as $item) {
-                if (stristr($item->name, $q)) {
-                    $items[] = $item;
-                }
-            }
+            $items = $this->closet->getItems($category)->filter(function ($item) use ($q) {
+                return stristr($item['name'], $q);
+            });
         } else {
             $items = $this->closet->getItems($category);
         }
 
         // pagination
-        $total_pages = ceil(count($items) / 6);
-
-        $items = array_slice($items, ($page - 1) * 6, 6);
+        $total_pages = ceil($items->count() / 6);
 
         return response()->json([
             'category'    => $category,
-            'items'       => $items,
+            'items'       => $items->forPage($page, 6)->values(),
             'total_pages' => $total_pages
         ]);
     }

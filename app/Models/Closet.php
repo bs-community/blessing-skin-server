@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use DB;
+use Illuminate\Support\Collection;
 
 class Closet
 {
@@ -18,30 +19,16 @@ class Closet
     /**
      * Textures array generated from json.
      *
-     * @var Array
+     * @var Collection
      */
-    private $textures       = [];
+    private $textures;
 
     /**
-     * Array of App\Models\Texture instances.
+     * Indicates if closet has been modified
      *
      * @var array
      */
-    private $textures_skin  = [];
-
-    /**
-     * Array of App\Models\Texture instances.
-     *
-     * @var array
-     */
-    private $textures_cape  = [];
-
-    /**
-     * Items that are modified.
-     *
-     * @var array
-     */
-    private $items_modified = [];
+    private $closet_modified = false;
 
     /**
      * Construct Closet object with owner's uid.
@@ -57,42 +44,22 @@ class Closet
         if (!$this->db->where('uid', $uid)->get()) {
             $this->db->insert([
                 'uid'      => $uid,
-                'textures' => ''
+                'textures' => '[]'
             ]);
         }
 
         // load items from json string
-        $this->textures = json_decode($this->db->where('uid', $uid)->get()[0]->textures, true);
-        $this->textures = is_array($this->textures) ? $this->textures : [];
-
-        $textures_invalid = [];
+        $this->textures = collect(json_decode(
+            $this->db->where('uid', $uid)->first()->textures,
+            true
+        ));
 
         // traverse items in the closet
-        foreach ($this->textures as $texture) {
-            $result = Texture::find($texture['tid']);
-
-            if ($result) {
-                // set user custom texture name
-                $result->name = $texture['name'];
-
-                // push instances of App\Models\Texture to the bag
-                if ($result->type == "cape") {
-                    $this->textures_cape[] = $result;
-                } else {
-                    $this->textures_skin[] = $result;
-                }
-            } else {
-                $textures_invalid[] = $texture['tid'];
-                continue;
-            }
-        }
-
-        // remove invalid textures from closet
-        foreach ($textures_invalid as $tid) {
+        $this->textures->filter(function ($texture) {
+            return is_null(Texture::find($texture['tid']));
+        })->each(function ($tid) {
             $this->remove($tid);
-        }
-
-        unset($textures_invalid);
+        });
     }
 
     /**
@@ -103,15 +70,31 @@ class Closet
      */
     public function getItems($category = "all")
     {
+        $textures = Texture::whereIn('tid', $this->textures->pluck('tid')->all())
+                        ->get()
+                        ->map(function ($texture) {
+                            $in_closet = $this->textures
+                                            ->where('tid', $texture->tid)
+                                            ->first();
+                            return [
+                                'tid' => $texture->tid,
+                                'name' => $in_closet['name'],
+                                'type' => $texture->type,
+                                'add_at' => $in_closet['add_at']
+                            ];
+                        })
+                        ->sortByDesc('add_at');
         if ($category == "all") {
-            $items = array_merge($this->textures_skin, $this->textures_cape);
+            return $textures->values()->all();
+        } elseif ($category == 'cape') {
+            return $textures->filter(function ($texture) {
+                return $texture['type'] == 'cape';
+            })->values();
         } else {
-            $property = "textures_$category";
-            $items = $this->$property;
+            return $textures->reject(function ($texture) {
+                return $texture['type'] == 'cape';
+            })->values();
         }
-
-        // reverse the array to sort desc by add_at
-        return array_reverse($items);
     }
 
     /**
@@ -123,18 +106,17 @@ class Closet
      */
     public function add($tid, $name)
     {
-        foreach ($this->textures as $item) {
-            if ($item['tid'] == $tid)
-                return false;
+        if ($this->has($tid)) {
+            return false;
         }
 
-        $this->textures[] = array(
+        $this->textures->push([
             'tid'    => $tid,
             'name'   => $name,
             'add_at' => time()
-        );
+        ]);
 
-        $this->items_modified[] = $tid;
+        $this->closet_modified = true;
 
         return true;
     }
@@ -147,10 +129,18 @@ class Closet
      */
     public function has($tid)
     {
-        foreach ($this->textures as $item) {
-            if ($item['tid'] == $tid) return true;
-        }
-        return false;
+        return $this->textures->contains('tid', $tid);
+    }
+
+    /**
+     * Get one texture info
+     *
+     * @param $tid Texture ID
+     * @return array|null Result
+     */
+    public function get($tid)
+    {
+        return $this->textures->where('tid', $tid)->first();
     }
 
     /**
@@ -166,15 +156,14 @@ class Closet
             return false;
         }
 
-        $offset = 0;
-        foreach ($this->textures as $item) {
-            if ($item['tid'] == $tid) {
-                $this->textures[$offset]['name'] = $new_name;
+        $this->textures->transform(function ($texture) use ($tid, $new_name) {
+            if ($texture['tid'] == $tid) {
+                $texture['name'] = $new_name;
             }
-            $offset++;
-        }
+            return $texture;
+        });
 
-        $this->items_modified[] = $tid;
+        $this->closet_modified = true;
 
         return true;
     }
@@ -186,40 +175,26 @@ class Closet
      */
     public function remove($tid)
     {
-        $offset = 0;
-
-        // traverse items
-        foreach ($this->textures as $item) {
-            if ($item['tid'] == $tid) {
-                $this->items_modified[] = $tid;
-                // remove element from array
-                return array_splice($this->textures, $offset, 1);
-            }
-            $offset++;
+        if (!$this->has($tid)) {
+            return false;
         }
+        $this->textures = $this->textures->reject(function ($texture) use ($tid) {
+            return $texture['tid'] == $tid;
+        });
 
-        return false;
-    }
-
-    /**
-     * Check if given tid is valid.
-     *
-     * @param  int $tid
-     * @return bool
-     */
-    private function checkTextureExist($tid)
-    {
-        return ! Texture::where('tid', $tid)->isEmpty();
+        $this->closet_modified = true;
+        return true;
     }
 
     /**
      * Set textures string manually.
      *
      * @param string $textures
+     * @return int
      */
     public function setTextures($textures)
     {
-        return $this->db->where('uid', $this->uid)->update(['textures' => $textures]);;
+        return $this->db->where('uid', $this->uid)->update(['textures' => $textures]);
     }
 
     /**
@@ -229,9 +204,9 @@ class Closet
      */
     public function save()
     {
-        if (empty($this->items_modified)) return;
+        if (!$this->closet_modified) return false;
 
-        return $this->setTextures(json_encode($this->textures));
+        return $this->setTextures($this->textures->toJson());
     }
 
     /**
