@@ -9,7 +9,8 @@ $('#register-button').click(e => {
         email: $('#email').val(),
         password: $('#password').val(),
         nickname: $('#nickname').val(),
-        captcha: $('#captcha').val()
+        captcha: $('#captcha').val(),
+        addPlayer: $('#add-player').prop('checked') ? 'add' : '',
     };
 
     (function validate({ email, password, nickname, captcha }, callback) {
@@ -53,13 +54,16 @@ $('#register-button').click(e => {
                     '<i class="fa fa-spinner fa-spin"></i> ' + trans('auth.registering')
                 ).prop('disabled', 'disabled');
             }
-        }).then(({ errno, msg }) => {
+        }).then(({ errno, msg, redirect }) => {
             if (errno == 0) {
-                swal({ type: 'success', html: msg });
+                swal({ type: 'success', html: msg })
+                    .then(() => window.location = url('user'));
 
-                window.setTimeout(() => {
-                    window.location = url('user');
-                }, 1000);
+                if (redirect) {
+                    setTimeout(() => {
+                        window.location = url('user');
+                    }, 1000);
+                }
             } else {
                 showMsg(msg, 'warning');
                 refreshCaptcha();

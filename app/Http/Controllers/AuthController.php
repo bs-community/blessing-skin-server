@@ -9,8 +9,10 @@ use Utils;
 use Cookie;
 use Option;
 use Session;
+use Validator;
 use App\Events;
 use App\Models\User;
+use App\Models\Player;
 use Illuminate\Http\Request;
 use App\Exceptions\PrettyPageException;
 use App\Services\Repositories\UserRepository;
@@ -141,10 +143,38 @@ class AuthController extends Controller
 
             event(new Events\UserRegistered($user));
 
+            $msg = trans('auth.register.success');
+            $redirect = true;
+
+            if ($request->input('addPlayer') == 'add') {
+                if (!Player::where('player_name', $request->nickname)->first()) {
+                    if (!Validator::make(
+                        ['name' => $request->nickname],
+                        ['name' => option('allow_chinese_playername') ? 'pname_chinese' : 'playername']
+                    )->fails()) {
+                        $player = new Player;
+                        $player->uid           = $user->uid;
+                        $player->player_name   = $request->input('nickname');
+                        $player->preference    = "default";
+                        $player->last_modified = Utils::getTimeFormatted();
+                        $player->save();
+
+                        event(new Events\PlayerWasAdded($player));
+                    } else {
+                        $msg = trans('auth.register.success-with-chinese-player-name');
+                        $redirect = false;
+                    }
+                } else {
+                    $msg = trans('auth.register.success-without-player');
+                    $redirect = false;
+                }
+            }
+
             return json([
-                'errno' => 0,
-                'msg'   => trans('auth.register.success'),
-                'token' => $user->getToken()
+                'errno'    => 0,
+                'msg'      => $msg,
+                'token'    => $user->getToken(),
+                'redirect' => $redirect,
             ]) // set cookies
             ->withCookie('uid', $user->uid, 60)
             ->withCookie('token', $user->getToken(), 60);
