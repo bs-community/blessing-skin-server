@@ -111,7 +111,7 @@ class Closet
         }
 
         $this->textures->push([
-            'tid'    => $tid,
+            'tid'    => (int) $tid,
             'name'   => $name,
             'add_at' => time()
         ]);
