@@ -44,6 +44,12 @@
                 <!-- /.col -->
             </div>
 
+            <div class="checkbox icheck" style="margin-top: 0;">
+                <label for="keep">
+                    <input id="add-player" type="checkbox"> {{ trans('auth.register.auto-add-player') }}
+                </label>
+            </div>
+
             <div id="msg" class="callout hide"></div>
 
             <div class="row">
