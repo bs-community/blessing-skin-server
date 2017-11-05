@@ -407,6 +407,7 @@ class AuthControllerTest extends TestCase
             'msg' => trans('auth.register.success'),
             'redirect' => true
         ]);
+        $this->expectsEvents(Events\PlayerWasAdded::class);
         $this->assertNotNull(\App\Models\Player::where('player_name', 'new_player')->first());
 
         // Register with a duplicated player name
