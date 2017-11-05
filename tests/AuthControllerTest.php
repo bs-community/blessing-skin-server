@@ -589,11 +589,64 @@ class AuthControllerTest extends TestCase
             'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 16])
         ]);
 
-        // Success
+        // Should be forbidden if `token` is missing
         $this->post(
             '/auth/reset', [
             'uid' => $user->uid,
             'password' => '12345678'
+        ], ['X-Requested-With' => 'XMLHttpRequest'])->seeJson([
+            'errno' => 1,
+            'msg' => trans('validation.required', ['attribute' => 'token'])
+        ]);
+
+        // Should be forbidden if expired
+        $token = base64_encode(
+            $user->getToken().substr(time() - 60 * 60 * 2, 4, 6).str_random(16)
+        );
+        $this->post(
+            '/auth/reset', [
+            'uid' => $user->uid,
+            'password' => '12345678',
+            'token' => $token
+        ])->seeJson([
+            'errno' => 1,
+            'msg' => trans('auth.reset.expired')
+        ]);
+
+        // Should return a warning if the user is not existed
+        $token = base64_encode(
+            $user->getToken().substr(time(), 4, 6).str_random(16)
+        );
+        $this->post(
+            '/auth/reset', [
+            'uid' => -1,
+            'password' => '12345678',
+            'token' => $token
+        ])->seeJson([
+            'errno' => 1,
+            'msg' => trans('auth.reset.invalid')
+        ]);
+
+        // Should be forbidden if `token` is invalid
+        $this->post(
+            '/auth/reset', [
+            'uid' => $user->uid,
+            'password' => '12345678',
+            'token' => 'invalid'
+        ])->seeJson([
+            'errno' => 1,
+            'msg' => trans('auth.reset.invalid')
+        ]);
+
+        // Success
+        $token = base64_encode(
+            $user->getToken().substr(time(), 4, 6).str_random(16)
+        );
+        $this->post(
+            '/auth/reset', [
+            'uid' => $user->uid,
+            'password' => '12345678',
+            'token' => $token
         ])->seeJson([
             'errno' => 0,
             'msg' => trans('auth.reset.success')
@@ -603,8 +656,6 @@ class AuthControllerTest extends TestCase
         // after resetting password.
         $user = User::find($user->uid);
         $this->assertTrue($user->verifyPassword('12345678'));
-
-        // TODO: Security check before resetting password!!!
     }
 
     public function testCaptcha()

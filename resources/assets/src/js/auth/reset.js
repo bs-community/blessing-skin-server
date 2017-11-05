@@ -5,7 +5,8 @@ $('#reset-button').click(e => {
     
     let data = {
         uid: $('#uid').val(),
-        password: $('#password').val()
+        password: $('#password').val(),
+        token: getQueryString('token')
     };
 
     (function validate({ password }, callback) {

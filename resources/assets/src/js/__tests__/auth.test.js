@@ -302,12 +302,14 @@ describe('tests for "reset" module', () => {
     const url = jest.fn(path => path);
     const swal = jest.fn().mockReturnValue(Promise.resolve());
     const showMsg = jest.fn();
+    const getQueryString = jest.fn().mockReturnValue('token');
     window.fetch = fetch;
     window.trans = trans;
     window.url = url;
     window.swal = swal;
     window.showMsg = showMsg;
     window.refreshCaptcha = jest.fn();
+    window.getQueryString = getQueryString;
 
     document.body.innerHTML = `
       <input id="uid" value="1" />
@@ -348,13 +350,15 @@ describe('tests for "reset" module', () => {
 
     $('#confirm-pwd').val('password');
     await $('button').click();
+    expect(getQueryString).toBeCalledWith('token');
     expect(fetch).toBeCalledWith(expect.objectContaining({
       type: 'POST',
       url: 'auth/reset',
       dataType: 'json',
       data: {
         uid: '1',
-        password: 'password'
+        password: 'password',
+        token: 'token'
       }
     }));
     expect($('button').html()).toBe(

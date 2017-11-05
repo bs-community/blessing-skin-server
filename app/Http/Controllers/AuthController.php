@@ -214,9 +214,9 @@ class AuthController extends Controller
                 return redirect('auth/forgot')->with('msg', trans('auth.reset.invalid'));
 
             // unpack to get user token & timestamp
-            $encrypted = base64_decode($request->input('token'));
-            $token     = substr($encrypted, 0, -22);
-            $timestamp = substr($encrypted, strlen($token), 6);
+            $decoded   = base64_decode($request->input('token'));
+            $token     = substr($decoded, 0, -22);
+            $timestamp = substr($decoded, strlen($token), 6);
 
             if ($user->getToken() != $token) {
                 return redirect('auth/forgot')->with('msg', trans('auth.reset.invalid'));
@@ -238,7 +238,25 @@ class AuthController extends Controller
         $this->validate($request, [
             'uid'      => 'required|integer',
             'password' => 'required|min:8|max:16',
+            'token'    => 'required',
         ]);
+
+        $decoded   = base64_decode($request->input('token'));
+        $token     = substr($decoded, 0, -22);
+        $timestamp = intval(substr($decoded, strlen($token), 6));
+
+        $user = $users->get($request->input('uid'));
+        if (!$user)
+            return json(trans('auth.reset.invalid'), 1);
+
+        if ($user->getToken() != $token) {
+            return json(trans('auth.reset.invalid'), 1);
+        }
+
+        // more than 1 hour
+        if ((intval(substr(time(), 4, 6)) - $timestamp) > 3600) {
+            return json(trans('auth.reset.expired'), 1);
+        }
 
         $users->get($request->input('uid'))->changePasswd($request->input('password'));
 
