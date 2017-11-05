@@ -39,29 +39,26 @@ class ClosetControllerTest extends TestCase
 
         // Use default query parameters
         $this->get('/user/closet-data')
-            ->seeJson([
-                'category' => 'skin',
-                'total_pages' => 1,
-                'items' => $textures->map(function ($item) {
-                    $item->upload_at = $item->upload_at->format('Y-m-d H:i:s');
-                    $item->public = $item->public ? 1 : 0;
-                    return $item;
-                })->take(6)->toArray()
+            ->seeJsonStructure([
+                'category',
+                'total_pages',
+                'items' => [['tid', 'name', 'type', 'add_at']]
             ]);
 
         // Get capes
         $cape = factory(Texture::class, 'cape')->create();
-        $closet->add($cape->tid, $cape->name);
+        $closet->add($cape->tid, 'custom_name');
         $closet->save();
         $this->get('/user/closet-data?category=cape')
             ->seeJson([
                 'category' => 'cape',
                 'total_pages' => 1,
-                'items' => collect([$cape])->map(function ($item) {
-                    $item->upload_at = $item->upload_at->format('Y-m-d H:i:s');
-                    $item->public = $item->public ? 1 : 0;
-                    return $item;
-                })->take(6)->toArray()
+                'items' => [[
+                    'tid' => $cape->tid,
+                    'name' => 'custom_name',
+                    'type' => 'cape',
+                    'add_at' => $closet->get($cape->tid)['add_at']
+                ]]
             ]);
 
         // Search by keyword
@@ -70,7 +67,12 @@ class ClosetControllerTest extends TestCase
             ->seeJson([
                 'category' => 'skin',
                 'total_pages' => 1,
-                'items' => collect([$random])->take(6)->toArray()
+                'items' => [[
+                    'tid' => $random->tid,
+                    'name' => $random->name,
+                    'type' => $random->type,
+                    'add_at' => $closet->get($random->tid)['add_at']
+                ]]
             ]);
     }
 
@@ -226,11 +228,7 @@ class ClosetControllerTest extends TestCase
         ]);
         $closet->save();
         $closet = new Closet($this->user->uid);
-        $this->assertTrue(
-            in_array($name, array_map(function ($item) {
-                return $item->name;
-            }, $closet->getItems()))
-        );
+        $this->assertFalse(collect($closet->getItems())->where('name', 'new')->isEmpty());
     }
 
     public function testRemove()
