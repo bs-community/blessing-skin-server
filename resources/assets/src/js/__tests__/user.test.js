@@ -152,10 +152,22 @@ describe('tests for "closet" module', () => {
       data: {
         category: 'skin',
         page: 1,
+        perPage: 0,
         q: 'q'
       }
     });
     expect($('#closet-paginator').attr('last-skin-page')).toBe('1');
+  });
+
+  it('calculate capacity of closet', () => {
+    document.body.innerHTML = `
+      <div id="skin-category" style="width: 900px">
+        <div class="item" style="width: 50px; margin-right: 10.5px"></div>
+      </div>
+    `;
+
+    const getCapacityOfCloset = require(modulePath).getCapacityOfCloset;
+    expect(getCapacityOfCloset()).toBe(28);
   });
 
   it('rename item', async () => {

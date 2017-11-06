@@ -142,6 +142,7 @@ function reloadCloset(category, page, search) {
         data: {
             category: category,
             page: page,
+            perPage: getCapacityOfCloset(),
             q: search
         }
     }).then(({ items, category, total_pages }) => {
@@ -155,6 +156,18 @@ function reloadCloset(category, page, search) {
             totalPages: total_pages
         });
     }).catch(showAjaxError);
+}
+
+/**
+ * Get the capacity of closet.
+ *
+ * @returns {number}
+ */
+function getCapacityOfCloset() {
+    return ~~(
+        $('#skin-category').width() /
+        ($('.item').width() + parseFloat($('.item').css('margin-right')))
+    ) * 2;
 }
 
 function renameClosetItem(tid, oldName) {
@@ -243,6 +256,7 @@ if (typeof require !== 'undefined' && typeof module !== 'undefined') {
         setAsAvatar,
         renderCloset,
         reloadCloset,
+        getCapacityOfCloset,
         renameClosetItem,
         removeFromCloset,
     };

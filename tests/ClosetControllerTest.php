@@ -30,7 +30,7 @@ class ClosetControllerTest extends TestCase
 
     public function testGetClosetData()
     {
-        $textures = factory(Texture::class, 5)->create();
+        $textures = factory(Texture::class, 10)->create();
         $closet = new Closet($this->user->uid);
         $textures->each(function ($texture) use ($closet) {
             $closet->add($texture->tid, $texture->name);
@@ -44,6 +44,17 @@ class ClosetControllerTest extends TestCase
                 'total_pages',
                 'items' => [['tid', 'name', 'type', 'add_at']]
             ]);
+
+        // Responsive
+        $result = json_decode($this->call('get', '/user/closet-data?perPage=0')
+            ->getContent(), true);
+        $this->assertEquals(6, count($result['items']));
+        $result = json_decode($this->call('get', '/user/closet-data?perPage=8')
+            ->getContent(), true);
+        $this->assertEquals(8, count($result['items']));
+        $result = json_decode($this->call('get', '/user/closet-data?perPage=8&page=2')
+            ->getContent(), true);
+        $this->assertEquals(2, count($result['items']));
 
         // Get capes
         $cape = factory(Texture::class, 'cape')->create();
