@@ -30,6 +30,7 @@ var vendorScripts = [
     'es6-promise/dist/es6-promise.auto.min.js',
     'sweetalert2/dist/sweetalert2.min.js',
     'jqPaginator/dist/1.2.0/jqPaginator.min.js',
+    'regenerator-runtime/runtime.js',
     'resources/assets/dist/js/common.js',
 ];
 
@@ -131,7 +132,7 @@ gulp.task('compile-sass', () => {
 gulp.task('compile-es6', callback => {
     ['common', 'admin', 'auth', 'skinlib', 'user'].forEach(moduleName => {
         return gulp.src(`${srcPath}/js/${moduleName}/*.js`)
-            .pipe(babel({ presets: ['es2015'] }))
+            .pipe(babel())
             .pipe(concat(`${moduleName}.js`))
             .pipe(uglify())
             .pipe(gulp.dest(`${distPath}/js`));

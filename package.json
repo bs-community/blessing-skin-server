@@ -20,7 +20,7 @@
     "dev": "gulp watch"
   },
   "devDependencies": {
-    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
     "codecov": "^3.0.0",
     "del": "^3.0.0",
     "gulp": "^3.9.1",
@@ -47,6 +47,7 @@
     "icheck": "^1.0.2",
     "jqPaginator": "^1.2.0",
     "jquery": "^3.2.1",
+    "regenerator": "^0.11.0",
     "sweetalert2": "^6.6.5",
     "toastr": "^2.1.2"
   },
