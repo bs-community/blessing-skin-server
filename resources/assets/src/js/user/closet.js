@@ -76,7 +76,7 @@ $('body').on('click', '.category-switch', () => {
 
 function renderClosetItemComponent(item) {
     return `
-    <div class="item" tid="${item.tid}">
+    <div class="item" tid="${item.tid}" data-texture-type="${item.type}">
     <div class="item-body">
         <img src="${url('/')}preview/${item.tid}.png">
     </div>
@@ -188,7 +188,11 @@ function renameClosetItem(tid, oldName) {
         data: { tid: tid, new_name: name }
     })).then(({ errno, msg }) => {
         if (errno == 0) {
-            $(`[tid=${tid}]>.item-footer>.texture-name>span`).html(newTextureName);
+            const type = $(`[tid=${tid}]`).data('texture-type');
+            $(`[tid=${tid}]>.item-footer>.texture-name>span`).html(
+                newTextureName +
+                ` <small>(${type})</small>`
+            );
             toastr.success(msg);
         } else {
             toastr.warning(msg);
