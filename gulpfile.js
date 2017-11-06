@@ -167,6 +167,8 @@ gulp.task('zip', () => {
             '!.gitignore',
             '!.git/**/*.*',
             '!.git/',
+            '!.github/**/*.*',
+            '!.github/',
             '!.gitmodules',
             '!.gitattributes',
             '!gulpfile.js',
@@ -176,7 +178,9 @@ gulp.task('zip', () => {
             '!package.json',
             '!composer.json',
             '!composer.lock',
+            '!coverage/**/*.*',
             '!bower.json',
+            '!phpunit.xml',
             '!plugins/**/*.*',
             '!resources/assets/src/**/*.*',
             // do not pack packages for developments
