@@ -2,13 +2,9 @@ RewriteEngine On
 
 RewriteBase /
 
+RewriteRule (^\.|/\.) - [F]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 RewriteRule ^.*$ index.php [L]
-
-# Protect .env file
-<Files .env>
-    Order allow,deny
-    Deny from all
-</Files>
