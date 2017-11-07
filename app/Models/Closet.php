@@ -55,10 +55,28 @@ class Closet
         ));
 
         // traverse items in the closet
-        $this->textures->filter(function ($texture) {
-            return is_null(Texture::find($texture['tid']));
-        })->each(function ($tid) {
-            $this->remove($tid);
+        $this->textures->filter(function ($texture) use ($uid) {
+            $t = Texture::find($texture['tid']);
+
+            // if the texture was deleted
+            if (is_null($t)) {
+                return true;
+            }
+
+            if ($t->public == 0 && $t->uploader != $uid) {
+                return true;
+            }
+
+            return false;
+        })->each(function ($texture) use ($uid) {
+            // return scores if the texture was deleted or set as private
+            if (option('return_score')) {
+                app('users')->get($uid)->setScore(
+                    option('score_per_closet_item'), 'plus'
+                );
+            }
+
+            $this->remove($texture['tid']);
         });
     }
 

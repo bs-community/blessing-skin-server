@@ -216,25 +216,16 @@ class SkinlibController extends Controller
         }
 
         if (option('return_score')) {
-            // remove the public texture from all users' closet
-            if ($result->public == 1) {
-                $users->get($result->uploader)->setScore(
-                    $result->size * option('score_per_storage'), 'plus'
-                );
-
-                foreach (Closet::all() as $closet) {
-                    if ($closet->has($result->tid)) {
-                        $closet->remove($result->tid);
-
-                        $users->get($closet->uid)->setScore(
-                            option('score_per_closet_item'), 'plus'
-                        );
-                    }
+            if ($u = $users->get($result->uploader)) {
+                if ($result->public == 1) {
+                    $u->setScore(
+                        $result->size * option('score_per_storage'), 'plus'
+                    );
+                } else {
+                    $u->setScore(
+                        $result->size * option('private_score_per_storage'), 'plus'
+                    );
                 }
-            } else {
-                $users->get($result->uploader)->setScore(
-                    $result->size * option('private_score_per_storage'), 'plus'
-                );
             }
         }
 
@@ -264,16 +255,7 @@ class SkinlibController extends Controller
             $player->setTexture(["tid_$type" => 0]);
         }
 
-        foreach (Closet::all() as $closet) {
-            if ($closet->uid != $uid && $closet->has($t->tid)) {
-                $closet->remove($t->tid);
-                if (option('return_score')) {
-                    $users->get($closet->uid)->setScore(option('score_per_closet_item'), 'plus');
-                }
-            }
-        }
-
-        $users->get($t->uploader)->setScore($score_diff, 'plus');
+        @$users->get($t->uploader)->setScore($score_diff, 'plus');
 
         if ($t->setPrivacy(!$t->public)) {
             return json([
