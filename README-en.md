@@ -122,4 +122,6 @@ Please attach your log file (located at `storage/logs/laravel.log`) when reporti
 
 Copyright & License
 ------------
-Copyright (c) 2016 [@printempw](https://prinzeugen.net/) - Released under the GNU General Public License v3.0.
+Copyright (c) 2017 [@printempw](https://prinzeugen.net/) - Released under the GNU General Public License v3.0.
+
+**Exception**: Any plugin developed for Blessing Skin, is not required to adopt GPLv3 License nor release its source code provided no source code from Blessing Skin is contained in the plugin.
