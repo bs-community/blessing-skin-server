@@ -31,6 +31,12 @@
                 <span class="glyphicon glyphicon-pencil form-control-feedback"></span>
             </div>
 
+            <div class="checkbox icheck" style="margin-top: 0;">
+                <label for="keep">
+                    <input id="add-player" type="checkbox"> {{ trans('auth.register.auto-add-player') }}
+                </label>
+            </div>
+
             <div class="row">
                 <div class="col-xs-8">
                     <div class="form-group has-feedback">
@@ -42,12 +48,6 @@
                     <img class="pull-right captcha" src="{{ url('auth/captcha?v='.time()) }}" alt="CAPTCHA" title="{{ trans('auth.change-captcha') }}" data-placement="top" data-toggle="tooltip">
                 </div>
                 <!-- /.col -->
-            </div>
-
-            <div class="checkbox icheck" style="margin-top: 0;">
-                <label for="keep">
-                    <input id="add-player" type="checkbox"> {{ trans('auth.register.auto-add-player') }}
-                </label>
             </div>
 
             <div id="msg" class="callout hide"></div>
