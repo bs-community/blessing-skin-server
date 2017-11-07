@@ -108,8 +108,14 @@ class AdminController extends Controller
             $form->text('site_url')
                 ->hint()
                 ->format(function ($url) {
-                    if (ends_with($url, '/'))
+                    if (ends_with($url, '/')) {
                         $url = substr($url, 0, -1);
+                    }
+
+                    if (ends_with($url, '/index.php')) {
+                        $url = substr($url, 0, -10);
+                    }
+
                     return $url;
                 });
 

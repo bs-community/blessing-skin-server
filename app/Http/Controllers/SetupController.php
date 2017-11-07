@@ -57,7 +57,14 @@ class SetupController extends Controller
         Log::info("[SetupWizard] Tables migrated.");
 
         Option::set('site_name', $request->input('site_name'));
-        Option::set('site_url',  url('/'));
+
+        $siteUrl = url('/');
+
+        if (ends_with($siteUrl, '/index.php')) {
+            $siteUrl = substr($siteUrl, 0, -10);
+        }
+
+        Option::set('site_url',  $siteUrl);
 
         // register super admin
         $user = User::register(
@@ -137,7 +144,7 @@ class SetupController extends Controller
             Artisan::call('view:clear');
         } catch (\Exception $e) {
             Log::error('Error occured when processing view:clear', $e);
-            
+
             File::cleanDirectory(storage_path('framework/views'));
         }
 
