@@ -5,6 +5,7 @@
 
 <p align="center">
 <a href="https://travis-ci.org/printempw/blessing-skin-server"><img src="https://api.travis-ci.org/printempw/blessing-skin-server.svg?branch=master" alt="Travis Building Status"></a>
+<a href="https://codecov.io/gh/printempw/blessing-skin-server"><img src="https://codecov.io/gh/printempw/blessing-skin-server/branch/master/graph/badge.svg" alt="Codecov" /></a>
 <a href="https://github.com/printempw/blessing-skin-server/releases"><img src="https://poser.pugx.org/printempw/blessing-skin-server/version" alt="Latest Stable Version"></a>
 <img src="https://img.shields.io/badge/PHP-5.5.9+-orange.svg" alt="PHP 5.5.9+">
 <img src="https://poser.pugx.org/printempw/blessing-skin-server/license" alt="License">
@@ -69,7 +70,7 @@ Blessing Skin Server 提供了强大的插件系统，您可以通过添加多�
 
 从 Git 上 clone 源码并安装依赖:
 
-```
+```bash
 $ git clone https://github.com/printempw/blessing-skin-server.git
 $ composer install
 $ yarn install
@@ -77,13 +78,14 @@ $ yarn install
 
 运行自动化测试（可跳过）：
 
-```
-$ yarn run test
+```bash
+$ yarn test               # JavaScript
+$ ./vendor/bin/phpunit    # PHP
 ```
 
 构建代码！
 
-```
+```bash
 $ yarn run build
 ```
 

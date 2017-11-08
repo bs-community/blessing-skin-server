@@ -5,6 +5,7 @@
 
 <p align="center">
 <a href="https://travis-ci.org/printempw/blessing-skin-server"><img src="https://api.travis-ci.org/printempw/blessing-skin-server.svg?branch=master" alt="Travis Building Status"></a>
+<a href="https://codecov.io/gh/printempw/blessing-skin-server"><img src="https://codecov.io/gh/printempw/blessing-skin-server/branch/master/graph/badge.svg" alt="Codecov" /></a>
 <a href="https://github.com/printempw/blessing-skin-server/releases"><img src="https://poser.pugx.org/printempw/blessing-skin-server/version" alt="Latest Stable Version"></a>
 <img src="https://img.shields.io/badge/PHP-5.5.9+-orange.svg" alt="PHP 5.5.9+">
 <img src="https://poser.pugx.org/printempw/blessing-skin-server/license" alt="License">
@@ -69,7 +70,7 @@ If you'd like make some contribution on the project, please deploy it from git f
 
 Clone the code from GitHub and install dependencies:
 
-```
+```bash
 $ git clone https://github.com/printempw/blessing-skin-server.git
 $ composer install
 $ yarn install
@@ -77,13 +78,14 @@ $ yarn install
 
 Run the tests (can be skipped):
 
-```
-$ yarn run test
+```bash
+$ yarn test               # JavaScript
+$ ./vendor/bin/phpunit    # PHP
 ```
 
 Build the things!
 
-```
+```bash
 $ yarn run build
 ```
 
