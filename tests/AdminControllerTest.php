@@ -126,6 +126,11 @@ class AdminControllerTest extends TestCase
         $this->assertFalse(option('allow_sending_statistics'));
 
         $this->visit('/admin/options')
+            ->type('http://blessing.skin/index.php', 'site_url')
+            ->press('submit_general');
+        $this->assertEquals('http://blessing.skin', option('site_url'));
+
+        $this->visit('/admin/options')
             ->type('announcement', 'announcement')
             ->press('submit_announ');
         $this->assertEquals('announcement', option('announcement'));
