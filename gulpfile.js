@@ -11,6 +11,7 @@ var gulp        = require('gulp'),
     zip         = require('gulp-zip'),
     replace     = require('gulp-batch-replace'),
     notify      = require('gulp-notify'),
+    sourcemaps  = require('gulp-sourcemaps'),
     merge       = require('merge2'),
     runSequence = require('run-sequence');
 
@@ -130,8 +131,10 @@ gulp.task('publish-vendor', ['compile-es6'], callback => {
 // Compile sass to css
 gulp.task('compile-sass', () => {
     return gulp.src(`${srcPath}/sass/*.scss`)
+        .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(cleanCss())
+        .pipe(sourcemaps.write('./maps'))
         .pipe(gulp.dest(`${distPath}/css`));
 });
 
@@ -139,9 +142,11 @@ gulp.task('compile-sass', () => {
 gulp.task('compile-es6', callback => {
     ['common', 'admin', 'auth', 'skinlib', 'user'].forEach(moduleName => {
         return gulp.src(`${srcPath}/js/${moduleName}/*.js`)
+            .pipe(sourcemaps.init())
             .pipe(babel())
             .pipe(concat(`${moduleName}.js`))
             .pipe(uglify())
+            .pipe(sourcemaps.write('./maps'))
             .pipe(gulp.dest(`${distPath}/js`));
     });
 
@@ -192,6 +197,8 @@ gulp.task('zip', () => {
             '!phpunit.xml',
             '!plugins/**/*.*',
             '!resources/assets/src/**/*.*',
+            '!resources/assets/dist/**/maps/*.map',
+            '!resources/assets/dist/**/maps/',
             // do not pack packages for developments
             '!vendor/fzaninotto/**/*.*',
             '!vendor/mockery/**/*.*',
