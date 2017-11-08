@@ -79,16 +79,20 @@ function renderSkinlib(items) {
     $('.overlay').hide();
 }
 
-function reloadSkinlib() {
-    requestSkinlibData().then(result => {
+async function reloadSkinlib() {
+    try {
+        const result = await requestSkinlibData();
+
         $('.overlay').show();
         renderSkinlib(result.items);
 
         updatePaginator($.skinlib.page, result.total_pages || 1);
-    }).then(() => {
+
         updateUrlQueryString();
         updateBreadCrumb();
-    });
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
 function requestSkinlibData() {

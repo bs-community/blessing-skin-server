@@ -9,15 +9,18 @@ $('#layout-skins-list [data-skin]').click(function (e) {
     current_skin = skin_name;
 });
 
-function submitColor() {
-    fetch({
-        type: 'POST',
-        url: url('admin/customize?action=color'),
-        dataType: 'json',
-        data: { color_scheme: current_skin }
-    }).then(({ errno, msg }) => {
-        (errno == 0) ? toastr.success(msg) : toastr.warning(msg);
-    }).catch(showAjaxError);
+async function submitColor() {
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('admin/customize?action=color'),
+            dataType: 'json',
+            data: { color_scheme: current_skin }
+        });
+        errno == 0 ? toastr.success(msg) : toastr.warning(msg);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
 $('#color-submit').click(submitColor);

@@ -1,11 +1,12 @@
 'use strict';
 
-function enablePlugin(name) {
-    fetch({
-        type: 'POST',
-        url: url(`admin/plugins/manage?action=enable&name=${name}`),
-        dataType: 'json'
-    }).then(({ errno, msg }) => {
+async function enablePlugin(name) {
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url(`admin/plugins/manage?action=enable&name=${name}`),
+            dataType: 'json'
+        });
         if (errno == 0) {
             toastr.success(msg);
 
@@ -13,15 +14,18 @@ function enablePlugin(name) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
-function disablePlugin(name) {
-    fetch({
-        type: 'POST',
-        url: url(`admin/plugins/manage?action=disable&name=${name}`),
-        dataType: 'json'
-    }).then(({ errno, msg }) => {
+async function disablePlugin(name) {
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url(`admin/plugins/manage?action=disable&name=${name}`),
+            dataType: 'json'
+        });
         if (errno == 0) {
             toastr.success(msg);
 
@@ -29,19 +33,28 @@ function disablePlugin(name) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
-function deletePlugin(name) {
-    swal({
-        text: trans('admin.confirmDeletion'),
-        type: 'warning',
-        showCancelButton: true
-    }).then(() => fetch({
-        type: 'POST',
-        url: url(`admin/plugins/manage?action=delete&name=${name}`),
-        dataType: 'json'
-    })).then(({ errno, msg }) => {
+async function deletePlugin(name) {
+    try {
+        await swal({
+            text: trans('admin.confirmDeletion'),
+            type: 'warning',
+            showCancelButton: true
+        });
+    } catch (error) {
+        return;
+    }
+
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url(`admin/plugins/manage?action=delete&name=${name}`),
+            dataType: 'json'
+        });
         if (errno == 0) {
             toastr.success(msg);
 
@@ -49,7 +62,9 @@ function deletePlugin(name) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {

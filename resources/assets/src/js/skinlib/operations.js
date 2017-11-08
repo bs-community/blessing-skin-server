@@ -14,31 +14,38 @@ $(document).on('click', '.more.like', function () {
 });
 
 function addToCloset(tid) {
-    $.getJSON(url(`skinlib/info/${tid}`), ({ name }) => {
-        swal({
-            title: trans('skinlib.setItemName'),
-            inputValue: name,
-            input: 'text',
-            showCancelButton: true,
-            inputValidator: value => (new Promise((resolve, reject) => {
-                value ? resolve() : reject(trans('skinlib.emptyItemName'));
-            }))
-        }).then(result => ajaxAddToCloset(tid, result));
+    $.getJSON(url(`skinlib/info/${tid}`), async ({ name }) => {
+        try {
+            const result = await swal({
+                title: trans('skinlib.setItemName'),
+                inputValue: name,
+                input: 'text',
+                showCancelButton: true,
+                inputValidator: value => (new Promise((resolve, reject) => {
+                    value ? resolve() : reject(trans('skinlib.emptyItemName'));
+                }))
+            });
+            ajaxAddToCloset(tid, result);
+        } catch (error) {
+            //
+        }
     });
 }
 
-function ajaxAddToCloset(tid, name) {
+async function ajaxAddToCloset(tid, name) {
     // Remove interference of modal which is hide
     $('.modal').each(function () {
         return ($(this).css('display') == 'none') ? $(this).remove() : null;
     });
 
-    fetch({
-        type: 'POST',
-        url: url('user/closet/add'),
-        dataType: 'json',
-        data: { tid: tid, name: name }
-    }).then(({ errno, msg }) => {
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('user/closet/add'),
+            dataType: 'json',
+            data: { tid: tid, name: name }
+        });
+
         if (errno == 0) {
             swal({ type: 'success', html: msg });
 
@@ -47,22 +54,32 @@ function ajaxAddToCloset(tid, name) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
-function removeFromCloset(tid) {
-    swal({
-        text: trans('user.removeFromClosetNotice'),
-        type: 'warning',
-        showCancelButton: true,
-        cancelButtonColor: '#3085d6',
-        confirmButtonColor: '#d33'
-    }).then(() => fetch({
-        type: 'POST',
-        url: url('/user/closet/remove'),
-        dataType: 'json',
-        data: { tid: tid }
-    })).then(({ errno, msg }) => {
+async function removeFromCloset(tid) {
+    try {
+        await swal({
+            text: trans('user.removeFromClosetNotice'),
+            type: 'warning',
+            showCancelButton: true,
+            cancelButtonColor: '#3085d6',
+            confirmButtonColor: '#d33'
+        });
+    } catch (error) {
+        return;
+    }
+
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('/user/closet/remove'),
+            dataType: 'json',
+            data: { tid: tid }
+        });
+
         if (errno == 0) {
             swal({ type: 'success', html: msg });
 
@@ -70,33 +87,45 @@ function removeFromCloset(tid) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
-function changeTextureName(tid, oldName) {
+async function changeTextureName(tid, oldName) {
     let newTextureName = '';
 
-    swal({
-        text: trans('skinlib.setNewTextureName'),
-        input: 'text',
-        inputValue: oldName,
-        showCancelButton: true,
-        inputValidator: value => (new Promise((resolve, reject) => {
-            (newTextureName = value) ? resolve() : reject(trans('skinlib.emptyNewTextureName'));
-        }))
-    }).then(name => fetch({
-        type: 'POST',
-        url: url('skinlib/rename'),
-        dataType: 'json',
-        data: { tid: tid, new_name: name }
-    })).then(({ errno, msg }) => {
+    try {
+        newTextureName = await swal({
+            text: trans('skinlib.setNewTextureName'),
+            input: 'text',
+            inputValue: oldName,
+            showCancelButton: true,
+            inputValidator: value => (new Promise((resolve, reject) => {
+                value ? resolve() : reject(trans('skinlib.emptyNewTextureName'));
+            }))
+        });
+    } catch (error) {
+        return;
+    }
+
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('skinlib/rename'),
+            dataType: 'json',
+            data: { tid: tid, new_name: newTextureName }
+        });
+
         if (errno == 0) {
             $('#name').text(newTextureName);
             toastr.success(msg);
         } else {
             toastr.warning(msg);
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
 /**
@@ -120,25 +149,30 @@ function updateTextureStatus(tid, action) {
     $('#likes').html(likes);
 }
 
-$(document).on('click', '.private-label', function () {
-    swal({
-        text: trans('skinlib.setPublicNotice'),
-        type: 'warning',
-        showCancelButton: true
-    }).then(() => {
+$(document).on('click', '.private-label', async function () {
+    try {
+        await swal({
+            text: trans('skinlib.setPublicNotice'),
+            type: 'warning',
+            showCancelButton: true
+        });
+
         changePrivacy($(this).attr('tid'));
         $(this).remove();
-    });
+    } catch (error) {
+        //
+    }
 });
 
-function changePrivacy(tid) {
-    fetch({
-        type: 'POST',
-        url: url('skinlib/privacy'),
-        dataType: 'json',
-        data: { tid: tid }
-    }).then(result => {
-        let { errno, msg } = result;
+async function changePrivacy(tid) {
+    try {
+        const result = await fetch({
+            type: 'POST',
+            url: url('skinlib/privacy'),
+            dataType: 'json',
+            data: { tid: tid }
+        });
+        const { errno, msg } = result;
 
         if (errno == 0) {
             toastr.success(msg);
@@ -151,28 +185,39 @@ function changePrivacy(tid) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
-function deleteTexture(tid) {
-    swal({
-        text: trans('skinlib.deleteNotice'),
-        type: 'warning',
-        showCancelButton: true
-    }).then(() => fetch({
-        type: 'POST',
-        url: url('skinlib/delete'),
-        dataType: 'json',
-        data: { tid: tid }
-    })).then(({ errno, msg }) => {
+async function deleteTexture(tid) {
+    try {
+        await swal({
+            text: trans('skinlib.deleteNotice'),
+            type: 'warning',
+            showCancelButton: true
+        });
+    } catch (error) {
+        return;
+    }
+
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('skinlib/delete'),
+            dataType: 'json',
+            data: { tid: tid }
+        });
+
         if (errno == 0) {
-            swal({ type: 'success', html: msg }).then(() => {
-                window.location = url('skinlib');
-            });
+            await swal({ type: 'success', html: msg });
+            window.location = url('skinlib');
         } else {
             swal({ type: 'warning', html: msg });
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {

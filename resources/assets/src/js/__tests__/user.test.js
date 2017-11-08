@@ -11,18 +11,20 @@ describe('tests for "closet" module', () => {
   it('preview textures', async () => {
     const fetch = jest.fn()
       .mockReturnValueOnce(Promise.resolve({ type: 'skin', hash: 1 }))
-      .mockReturnValueOnce(Promise.resolve({ type: 'cape', hash: 2 }));
+      .mockReturnValueOnce(Promise.resolve({ type: 'cape', hash: 2 }))
+      .mockReturnValueOnce(Promise.reject());
     const trans = jest.fn(key => key);
     const url = jest.fn(path => path);
     const MSP = {
       changeSkin: jest.fn(),
       changeCape: jest.fn()
     };
+    const showAjaxError = jest.fn();
     window.fetch = fetch;
     window.trans = trans;
     window.url = url;
     window.MSP = MSP;
-    window.showAjaxError = jest.fn();
+    window.showAjaxError = showAjaxError;
 
     document.body.innerHTML = `
       <div id="textures-indicator"></div>
@@ -54,7 +56,6 @@ describe('tests for "closet" module', () => {
         <div class="item-body"></div>
       </div>
     `;
-    window.selectedTextures = [];
 
     await $('#next > .item-body').click();
     expect(fetch).toBeCalledWith({
@@ -65,6 +66,9 @@ describe('tests for "closet" module', () => {
     expect($('#next').hasClass('item-selected')).toBe(true);
     expect(MSP.changeCape).toBeCalledWith('textures/2');
     expect($('#textures-indicator').text()).toBe('general.skin & general.cape');
+
+    await $('#next > .item-body').click();
+    expect(showAjaxError).toBeCalled();
   });
 
   it('render closet', () => {
@@ -107,14 +111,14 @@ describe('tests for "closet" module', () => {
 
   it('reload closet', async () => {
     const fetch = jest.fn()
-      .mockReturnValue(Promise.resolve({
+      .mockReturnValueOnce(Promise.resolve({
         items: [],
         category: 'skin',
         total_pages: 1
-      }));
+      }))
+      .mockReturnValueOnce(Promise.reject());
     const trans = jest.fn(key => key);
     const url = jest.fn(path => path);
-    const swal = jest.fn().mockReturnValue(Promise.resolve('name'));
     const toastr = {
       success: jest.fn(),
       warning: jest.fn()
@@ -123,12 +127,12 @@ describe('tests for "closet" module', () => {
       changeSkin: jest.fn(),
       changeCape: jest.fn()
     };
+    const showAjaxError = jest.fn();
     window.fetch = fetch;
     window.trans = trans;
     window.url = url;
-    window.swal = swal;
     window.toastr = toastr;
-    window.showAjaxError = jest.fn();
+    window.showAjaxError = showAjaxError;
 
     document.body.innerHTML = `
       <div id="skin-category">
@@ -157,6 +161,9 @@ describe('tests for "closet" module', () => {
       }
     });
     expect($('#closet-paginator').attr('last-skin-page')).toBe('1');
+
+    await reloadCloset('skin', 1, 'q');
+    expect(showAjaxError).toBeCalled();
   });
 
   it('calculate capacity of closet', () => {
@@ -172,10 +179,17 @@ describe('tests for "closet" module', () => {
 
   it('rename item', async () => {
     const fetch = jest.fn()
-      .mockReturnValue(Promise.resolve({ errno: 0, msg: 'success' }));
+      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
+      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
+      .mockReturnValueOnce(Promise.reject());
     const trans = jest.fn(key => key);
     const url = jest.fn(path => path);
-    const swal = jest.fn().mockReturnValue(Promise.resolve('name'));
+    const swal = jest.fn()
+      .mockImplementationOnce(() => Promise.reject())
+      .mockImplementationOnce(({ inputValidator }) => {
+        inputValidator('name');
+        return Promise.resolve('name');
+      });
     const toastr = {
       success: jest.fn(),
       warning: jest.fn()
@@ -184,12 +198,13 @@ describe('tests for "closet" module', () => {
       changeSkin: jest.fn(),
       changeCape: jest.fn()
     };
+    const showAjaxError = jest.fn();
     window.fetch = fetch;
     window.trans = trans;
     window.url = url;
     window.swal = swal;
     window.toastr = toastr;
-    window.showAjaxError = jest.fn();
+    window.showAjaxError = showAjaxError;
 
     document.body.innerHTML = `
       <div id="skin-category">
@@ -205,6 +220,9 @@ describe('tests for "closet" module', () => {
     const renameClosetItem = require(modulePath).renameClosetItem;
 
     await renameClosetItem(1, 'oldName');
+    expect(fetch).not.toBeCalled();
+
+    await renameClosetItem(1, 'oldName');
     expect(swal).toBeCalledWith(expect.objectContaining({
       title: trans('user.renameClosetItem'),
       input: 'text',
@@ -217,18 +235,26 @@ describe('tests for "closet" module', () => {
       dataType: 'json',
       data: { tid: 1, new_name: 'name' }
     });
-
-    await renameClosetItem(1, 'oldName');
     expect(toastr.success).toBeCalledWith('success');
     expect($('span').html('name'));
+
+    await renameClosetItem(1, 'oldName');
+    expect(toastr.warning).toBeCalledWith('warning');
+
+    await renameClosetItem(1, 'oldName');
+    expect(showAjaxError).toBeCalled();
   });
 
   it('remove item from closet', async () => {
     const fetch = jest.fn()
-      .mockReturnValue(Promise.resolve({ errno: 0, msg: 'success' }));
+      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
+      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
+      .mockReturnValueOnce(Promise.reject());
     const trans = jest.fn(key => key);
     const url = jest.fn(path => path);
-    const swal = jest.fn().mockReturnValue(Promise.resolve());
+    const swal = jest.fn()
+      .mockReturnValueOnce(Promise.reject())
+      .mockReturnValueOnce(Promise.resolve());
     const toastr = {
       success: jest.fn(),
       warning: jest.fn()
@@ -237,12 +263,13 @@ describe('tests for "closet" module', () => {
       changeSkin: jest.fn(),
       changeCape: jest.fn()
     };
+    const showAjaxError = jest.fn();
     window.fetch = fetch;
     window.trans = trans;
     window.url = url;
     window.swal = swal;
     window.toastr = toastr;
-    window.showAjaxError = jest.fn();
+    window.showAjaxError = showAjaxError;
 
     document.body.innerHTML = `
       <div id="skin-category">
@@ -250,6 +277,9 @@ describe('tests for "closet" module', () => {
       </div>
     `;
     const removeFromCloset = require(modulePath).removeFromCloset;
+
+    await removeFromCloset(1);
+    expect(fetch).not.toBeCalled();
 
     await removeFromCloset(1);
     expect(swal).toBeCalledWith({
@@ -263,22 +293,30 @@ describe('tests for "closet" module', () => {
       dataType: 'json',
       data: { tid: 1 }
     });
-
-    await removeFromCloset(1);
     expect(swal).toBeCalledWith({ type: 'success', html: 'success' });
     expect(document.getElementById('shouldBeRemoved')).toBeNull();
     expect(trans).toBeCalledWith('user.emptyClosetMsg', { url: url('skinlib?filter=skin') });
     expect($('#skin-category').html()).toBe(
       '<div class="empty-msg">user.emptyClosetMsg</div>'
     );
+
+    await removeFromCloset(1);
+    expect(toastr.warning).toBeCalledWith('warning');
+
+    await removeFromCloset(1);
+    expect(showAjaxError).toBeCalled();
   });
 
   it('set avatar', async () => {
     const fetch = jest.fn()
-      .mockReturnValue(Promise.resolve({ errno: 0, msg: 'success' }));
+      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
+      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
+      .mockReturnValueOnce(Promise.reject());
     const trans = jest.fn(key => key);
     const url = jest.fn(path => path);
-    const swal = jest.fn().mockReturnValue(Promise.resolve());
+    const swal = jest.fn()
+      .mockReturnValueOnce(Promise.reject())
+      .mockReturnValueOnce(Promise.resolve());
     const toastr = {
       success: jest.fn(),
       warning: jest.fn()
@@ -287,17 +325,21 @@ describe('tests for "closet" module', () => {
       changeSkin: jest.fn(),
       changeCape: jest.fn()
     };
+    const showAjaxError = jest.fn();
     window.fetch = fetch;
     window.trans = trans;
     window.url = url;
     window.swal = swal;
     window.toastr = toastr;
-    window.showAjaxError = jest.fn();
+    window.showAjaxError = showAjaxError;
 
     document.body.innerHTML = `
       <img alt="User Image" src="src" />
     `;
     const setAsAvatar = require(modulePath).setAsAvatar;
+
+    await setAsAvatar(1);
+    expect(fetch).not.toBeCalled();
 
     await setAsAvatar(1);
     expect(swal).toBeCalledWith({
@@ -312,10 +354,14 @@ describe('tests for "closet" module', () => {
       dataType: 'json',
       data: { tid: 1 }
     });
-
-    await setAsAvatar(1);
     expect(toastr.success).toBeCalledWith('success');
     expect($('img').attr('src').endsWith('src')).toBe(false);
+
+    await setAsAvatar(1);
+    expect(toastr.warning).toBeCalledWith('warning');
+
+    await setAsAvatar(1);
+    expect(showAjaxError).toBeCalled();
   });
 });
 
@@ -325,27 +371,32 @@ describe('tests for "player" module', () => {
   it('show player texture preview', async () => {
     const url = jest.fn(path => path);
     const fetch = jest.fn()
-      .mockReturnValue(Promise.resolve({
+      .mockReturnValueOnce(Promise.resolve({
         tid_steve: 1,
         tid_alex: 2,
         tid_cape: 3,
-        preference: 'steve',
+        preference: 'default',
         player_name: 'name'
-      }));
-    window.url = url;
-    window.fetch = fetch;
-    window.showAjaxError = jest.fn();
-    window.TexturePreview = require('../common/texture-preview');
-    window.MSP = {
+      }))
+      .mockReturnValueOnce(Promise.reject());
+    const showAjaxError = jest.fn();
+    const MSP = {
       changeSkin: jest.fn(),
       changeCape: jest.fn(),
       setStatus: jest.fn(),
       getStatus: jest.fn()
     };
+    window.url = url;
+    window.fetch = fetch;
+    window.showAjaxError = showAjaxError;
+    window.TexturePreview = require('../common/texture-preview');
+    window.MSP = MSP;
+    window.defaultSkin = 'steve_base64';
 
     document.body.innerHTML = `
       <div id="1" class="player-selected player"></div>
       <div id="2" class="player"></div>
+      <div id="preview-switch"></div>
     `;
     require(modulePath);
 
@@ -358,21 +409,29 @@ describe('tests for "player" module', () => {
       dataType: 'json',
       data: { pid: '2' }
     });
+
+    await $('#2').click();
+    expect(showAjaxError).toBeCalled();
+
+    $('#preview-switch').click();
+    expect(window.TexturePreview.previewType).toBe('2D');
   });
 
-  it('change player reference', async () => {
+  it('change player preference', async () => {
     const fetch = jest.fn()
       .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
-      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }));
+      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
+      .mockReturnValueOnce(Promise.reject());
     const url = jest.fn(path => path);
     const toastr = {
       success: jest.fn(),
       warning: jest.fn()
     };
+    const showAjaxError = jest.fn();
     window.fetch = fetch;
     window.url = url;
     window.toastr = toastr;
-    window.showAjaxError = jest.fn();
+    window.showAjaxError = showAjaxError;
 
     document.body.innerHTML = `
       <select id="preference" pid="1">
@@ -397,11 +456,16 @@ describe('tests for "player" module', () => {
 
     await $('select').trigger('change');
     expect(toastr.warning).toBeCalledWith('warning');
+
+    await $('select').trigger('change');
+    expect(showAjaxError).toBeCalled();
   });
 
   it('change player name', async () => {
     const fetch = jest.fn()
-      .mockReturnValue(Promise.resolve({ errno: 0, msg: 'success' }));
+      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
+      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
+      .mockReturnValueOnce(Promise.reject());
     const url = jest.fn(path => path);
     const trans = jest.fn(key => key);
     const toastr = {
@@ -409,17 +473,18 @@ describe('tests for "player" module', () => {
       warning: jest.fn()
     };
     const swal = jest.fn()
+      .mockImplementationOnce(() => Promise.reject())
       .mockImplementationOnce(options => {
         options.inputValidator('name');
         return Promise.resolve('name');
-      })
-      .mockImplementation(() => Promise.resolve());
+      });
+    const showAjaxError = jest.fn();
     window.fetch = fetch;
     window.url = url;
     window.trans = trans;
     window.toastr = toastr;
     window.swal = swal;
-    window.showAjaxError = jest.fn();
+    window.showAjaxError = showAjaxError;
 
     document.body.innerHTML = `
       <input id="player_name" placeholder="placeholder" />
@@ -431,6 +496,9 @@ describe('tests for "player" module', () => {
       </table>
     `;
     const changePlayerName = require(modulePath).changePlayerName;
+
+    await changePlayerName(1);
+    expect(fetch).not.toBeCalled();
 
     await changePlayerName(1);
     expect(swal).toBeCalledWith(expect.objectContaining({
@@ -446,27 +514,47 @@ describe('tests for "player" module', () => {
       dataType: 'json',
       data: { pid: 1, new_player_name: 'name' }
     });
-    await changePlayerName(1);
     expect(swal).toBeCalledWith({ type: 'success', html: 'success' });
     expect($('#player-name').html()).toBe('name');
+
+    await changePlayerName(1);
+    expect(swal).toBeCalledWith({ type: 'warning', html: 'warning' });
+
+    await changePlayerName(1);
+    expect(showAjaxError).toBeCalled();
+  });
+
+  it('show "clear texture" modal dialog', () => {
+    const { clearTexture } = require(modulePath);
+    const trans = jest.fn(key => key);
+    const showModal = jest.fn();
+    window.trans = trans;
+    window.showModal = showModal;
+
+    clearTexture();
+    const args = showModal.mock.calls[0];
+    expect(args.includes('user.chooseClearTexture')).toBe(true);
+    expect(args.includes('default')).toBe(true);
   });
 
   it('submit clearing texture request', async () => {
     const fetch = jest.fn()
       .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
-      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }));
+      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
+      .mockReturnValueOnce(Promise.reject());
     const url = jest.fn(path => path);
     const trans = jest.fn(key => key);
     const toastr = {
       success: jest.fn(),
       warning: jest.fn()
     };
+    const showAjaxError = jest.fn();
     const modal = jest.fn();
     window.fetch = fetch;
     window.url = url;
     window.trans = trans;
     window.toastr = toastr;
-    window.showAjaxError = jest.fn();
+    window.showAjaxError = showAjaxError;
     $.fn.modal = modal;
 
     document.body.innerHTML = `
@@ -496,27 +584,38 @@ describe('tests for "player" module', () => {
 
     await ajaxClearTexture(1);
     expect(swal).lastCalledWith({ type: 'error', html: 'warning' });
+
+    await ajaxClearTexture(1);
+    expect(showAjaxError).toBeCalled();
   });
 
   it('delete player', async () => {
     const fetch = jest.fn()
-      .mockReturnValue(Promise.resolve({ errno: 0, msg: 'success' }));
+      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
+      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
+      .mockReturnValueOnce(Promise.reject());
     const url = jest.fn(path => path);
     const toastr = {
       success: jest.fn(),
       warning: jest.fn()
     };
-    const swal = jest.fn().mockReturnValue(Promise.resolve());
+    const swal = jest.fn()
+      .mockReturnValueOnce(Promise.reject())
+      .mockReturnValueOnce(Promise.resolve());
+    const showAjaxError = jest.fn();
     window.fetch = fetch;
     window.url = url;
     window.toastr = toastr;
     window.swal = swal;
-    window.showAjaxError = jest.fn();
+    window.showAjaxError = showAjaxError;
 
     document.body.innerHTML = `
       <tr id="1"></tr>
     `;
     const deletePlayer = require(modulePath).deletePlayer;
+
+    await deletePlayer(1);
+    expect(fetch).not.toBeCalled();
 
     await deletePlayer(1);
     expect(swal).toBeCalledWith({
@@ -533,16 +632,21 @@ describe('tests for "player" module', () => {
       dataType: 'json',
       data: { pid: 1 }
     });
-
-    await deletePlayer(1);
     expect(swal).lastCalledWith({ type: 'success', html: 'success' });
     expect(document.getElementById('1')).toBeNull();
+
+    await deletePlayer(1);
+    expect(toastr.warning).toBeCalledWith('warning');
+
+    await deletePlayer(1);
+    expect(showAjaxError).toBeCalled();
   });
 
   it('add a new player', async () => {
     const fetch = jest.fn()
       .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
-      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }));
+      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
+      .mockReturnValueOnce(Promise.reject());
     const url = jest.fn(path => path);
     const toastr = {
       success: jest.fn(),
@@ -550,11 +654,12 @@ describe('tests for "player" module', () => {
     };
     const swal = jest.fn().mockReturnValue(Promise.resolve());
     const modal = jest.fn();
+    const showAjaxError = jest.fn();
     window.fetch = fetch;
     window.url = url;
     window.toastr = toastr;
     window.swal = swal;
-    window.showAjaxError = jest.fn();
+    window.showAjaxError = showAjaxError;
     $.fn.modal = modal;
 
     document.body.innerHTML = `
@@ -570,31 +675,36 @@ describe('tests for "player" module', () => {
       data: { player_name: 'name' }
     });
     expect(swal).toBeCalledWith({ type: 'success', html: 'success' });
+    expect(modal).toBeCalled();
 
     await addNewPlayer();
     expect(toastr.warning).toBeCalledWith('warning');
-    expect(modal.mock.calls.length).toBe(1);
+
+    await addNewPlayer();
+    expect(showAjaxError).toBeCalled();
   });
 
   it('set texture', async () => {
     const fetch = jest.fn()
       .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
-      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }));
+      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
+      .mockReturnValueOnce(Promise.reject());
     const url = jest.fn(path => path);
     const toastr = {
       success: jest.fn(),
       warning: jest.fn(),
       info: jest.fn()
     };
-    const swal = jest.fn().mockReturnValue(Promise.resolve());
+    const swal = jest.fn();
     const modal = jest.fn();
+    const showAjaxError = jest.fn();
     window.fetch = fetch;
     window.url = url;
     window.toastr = toastr;
     window.swal = swal;
     $.fn.modal = modal;
     window.selectedTextures = {};
-    window.showAjaxError = jest.fn();
+    window.showAjaxError = showAjaxError;
 
     document.body.innerHTML = `
       <input name="player" id="1" />
@@ -622,6 +732,9 @@ describe('tests for "player" module', () => {
     await setTexture();
     expect(toastr.warning).toBeCalledWith('warning');
     expect(modal.mock.calls.length).toBe(1);
+
+    await setTexture();
+    expect(showAjaxError).toBeCalled();
   });
 });
 
@@ -630,16 +743,22 @@ describe('tests for "profile" module', () => {
 
   it('change nickname', async () => {
     const fetch = jest.fn()
-      .mockReturnValue(Promise.resolve({ errno: 0, msg: 'success' }));
-    const swal = jest.fn().mockReturnValue(Promise.resolve());
+      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
+      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
+      .mockReturnValueOnce(Promise.reject());
+    const swal = jest.fn()
+      .mockReturnValueOnce(Promise.resolve())
+      .mockReturnValueOnce(Promise.reject())
+      .mockReturnValueOnce(Promise.resolve());
     const trans = jest.fn(key => key);
     const url = jest.fn(path => path);
+    const showAjaxError = jest.fn();
     window.fetch = fetch;
     window.swal = swal;
     window.trans = trans;
     window.url = url;
     window.debounce = jest.fn(fn => fn);
-    window.showAjaxError = jest.fn();
+    window.showAjaxError = showAjaxError;
 
     document.body.innerHTML = `
       <div class="nickname"></div>
@@ -649,8 +768,12 @@ describe('tests for "profile" module', () => {
 
     await changeNickName();
     expect(swal).toBeCalledWith({ type: 'error', html: 'user.emptyNewNickName' });
+    expect(fetch).not.toBeCalled();
 
     $('input').val('name');
+    await changeNickName();
+    expect(fetch).not.toBeCalled();
+
     await changeNickName();
     expect(trans).toBeCalledWith('user.changeNickName', { new_nickname: 'name' });
     expect(swal).toBeCalledWith({
@@ -664,17 +787,22 @@ describe('tests for "profile" module', () => {
       dataType: 'json',
       data: { new_nickname: 'name' }
     });
-
-    await changeNickName();
     expect($('.nickname').text()).toBe('name');
     expect(swal).toBeCalledWith({ type: 'success', html: 'success' });
+
+    await changeNickName();
+    expect(swal).toBeCalled();
+
+    await changeNickName();
+    expect(showAjaxError).toBeCalled();
   });
 
   it('change password', async () => {
     const fetch = jest.fn()
       .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
+      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
       .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
-      .mockReturnValue(Promise.resolve({ errno: 0, msg: 'success' }));
+      .mockReturnValueOnce(Promise.reject());
     const swal = jest.fn().mockReturnValue(Promise.resolve());
     const trans = jest.fn(key => key);
     const url = jest.fn(path => path);
@@ -682,13 +810,20 @@ describe('tests for "profile" module', () => {
       info: jest.fn(),
       warning: jest.fn()
     };
+    const showAjaxError = jest.fn();
+    const docCookies = {
+      removeItem: jest.fn()
+    };
     window.fetch = fetch;
     window.swal = swal;
     window.trans = trans;
     window.url = url;
     window.toastr = toastr;
-    window.showAjaxError = jest.fn();
-    window.logout = jest.fn().mockReturnValue(Promise.resolve({ errno: 0 }));
+    window.showAjaxError = showAjaxError;
+    window.logout = jest.fn()
+      .mockReturnValueOnce(Promise.resolve({ errno: 0 }))
+      .mockReturnValueOnce(Promise.reject());
+    window.docCookies = docCookies;
 
     document.body.innerHTML = `
       <input id="password" />
@@ -725,32 +860,49 @@ describe('tests for "profile" module', () => {
       dataType: 'json',
       data: { current_password: 'password', new_password: 'new-password' }
     });
+    expect(logout).toBeCalled();
+
+    await changePassword();
+    expect(docCookies.removeItem).toBeCalledWith('token');
 
     await changePassword();
     expect(swal).toBeCalledWith({ type: 'warning', text: 'warning' });
 
     await changePassword();
-    expect(logout).toBeCalled();
+    expect(showAjaxError).toBeCalled();
   });
 
   it('change email', async () => {
     const fetch = jest.fn()
       .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
-      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }));
-    const swal = jest.fn().mockReturnValue(Promise.resolve());
+      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
+      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
+      .mockReturnValueOnce(Promise.reject());
+    const swal = jest.fn()
+      .mockReturnValueOnce(Promise.resolve())
+      .mockReturnValueOnce(Promise.resolve())
+      .mockReturnValueOnce(Promise.reject())
+      .mockReturnValue(Promise.resolve());
     const trans = jest.fn(key => key);
     const url = jest.fn(path => path);
     const toastr = {
       info: jest.fn(),
       warning: jest.fn()
     };
+    const showAjaxError = jest.fn();
+    const docCookies = {
+      removeItem: jest.fn()
+    };
     window.fetch = fetch;
     window.swal = swal;
     window.trans = trans;
     window.url = url;
     window.toastr = toastr;
-    window.showAjaxError = jest.fn();
-    window.logout = jest.fn().mockReturnValue(Promise.resolve({ errno: 0 }));
+    window.showAjaxError = showAjaxError;
+    window.logout = jest.fn()
+      .mockReturnValueOnce(Promise.resolve({ errno: 0 }))
+      .mockReturnValueOnce(Promise.reject());
+    window.docCookies = docCookies;
 
     document.body.innerHTML = `
       <input id="new-email" />
@@ -758,14 +910,17 @@ describe('tests for "profile" module', () => {
     `;
     const changeEmail = require(modulePath).changeEmail;
 
-    changeEmail();
+    await changeEmail();
     expect(swal).toBeCalledWith({ type: 'error', html: 'user.emptyNewEmail' });
+    expect(fetch).not.toBeCalled();
 
     $('#new-email').val('email');
-    changeEmail();
+    await changeEmail();
     expect(swal).toBeCalledWith({ type: 'warning', html: 'auth.invalidEmail' });
 
     $('#new-email').val('a@b.c');
+    await changeEmail();    // Suppose the user cancelled changing email
+
     await changeEmail();
     expect(trans).toBeCalledWith('user.changeEmail', { new_email: 'a@b.c' });
     expect(swal).toBeCalledWith({
@@ -779,12 +934,24 @@ describe('tests for "profile" module', () => {
       dataType: 'json',
       data: { new_email: 'a@b.c', password: 'pwd' }
     });
+    expect(swal).toBeCalledWith({ type: 'success', text: 'success' });
+    expect(logout).toBeCalled();
+
+    await changeEmail();
+    expect(docCookies.removeItem).toBeCalled();
+
+    await changeEmail();
+    expect(swal).toBeCalledWith({ type: 'warning', text: 'warning' });
+
+    await changeEmail();
+    expect(showAjaxError).toBeCalled();
   });
 
   it('delete account', async () => {
     const fetch = jest.fn()
       .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
-      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }));
+      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
+      .mockReturnValueOnce(Promise.reject());
     const swal = jest.fn().mockReturnValue(Promise.resolve());
     const trans = jest.fn(key => key);
     const url = jest.fn(path => path);
@@ -792,12 +959,13 @@ describe('tests for "profile" module', () => {
       info: jest.fn(),
       warning: jest.fn()
     };
+    const showAjaxError = jest.fn();
     window.fetch = fetch;
     window.swal = swal;
     window.trans = trans;
     window.url = url;
     window.toastr = toastr;
-    window.showAjaxError = jest.fn();
+    window.showAjaxError = showAjaxError;
 
     document.body.innerHTML = `
       <div class="modal-body">
@@ -806,7 +974,7 @@ describe('tests for "profile" module', () => {
     `;
     const deleteAccount = require(modulePath).deleteAccount;
 
-    deleteAccount();
+    await deleteAccount();
     expect(swal).toBeCalledWith({ type: 'warning', html: 'user.emptyDeletePassword' });
 
     $('#password').val('password');
@@ -818,9 +986,13 @@ describe('tests for "profile" module', () => {
       data: { password: 'password' }
     });
     expect(swal).toBeCalledWith({ type: 'success', html: 'success' });
+    expect(url).toBeCalledWith('auth/login');
 
     await deleteAccount();
     expect(swal).toBeCalledWith({ type: 'warning', html: 'warning' });
+
+    await deleteAccount();
+    expect(showAjaxError).toBeCalled();
   });
 });
 
@@ -835,11 +1007,12 @@ describe('tests for "sign" module', () => {
     };
     const trans = jest.fn(key => key);
     const swal = jest.fn().mockReturnValue(Promise.resolve());
+    const showAjaxError = jest.fn();
     window.url = url;
     window.toastr = toastr;
     window.trans = trans;
     window.swal = swal;
-    window.showAjaxError = jest.fn();
+    window.showAjaxError = showAjaxError;
     window.debounce = fn => fn;
     const fetch = jest.fn()
       .mockReturnValueOnce(Promise.resolve({
@@ -864,7 +1037,8 @@ describe('tests for "sign" module', () => {
           percentage: 50
         }
       }))
-      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }));
+      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
+      .mockReturnValueOnce(Promise.reject());
     window.fetch = fetch;
 
     document.body.innerHTML = `
@@ -903,5 +1077,8 @@ describe('tests for "sign" module', () => {
 
     await sign();
     expect(toastr.warning).toBeCalledWith('warning');
+
+    await sign();
+    expect(showAjaxError).toBeCalled();
   });
 });

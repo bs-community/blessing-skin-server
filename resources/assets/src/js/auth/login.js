@@ -2,7 +2,7 @@
 
 'use strict';
 
-$('#login-button').click(e => {
+$('#login-button').click(async e => {
     e.preventDefault();
     
     let data = {
@@ -29,21 +29,22 @@ $('#login-button').click(e => {
             }
         }
 
-        fetch({
-            type: 'POST',
-            url: url('auth/login'),
-            dataType: 'json',
-            data: data,
-            beforeSend: () => {
-                $('#login-button').html(
-                    '<i class="fa fa-spinner fa-spin"></i> ' + trans('auth.loggingIn')
-                ).prop('disabled', 'disabled');
-            }
-        }).then(({ errno, msg, login_fails }) => {
+        try {
+            const { errno, msg, login_fails } = await fetch({
+                type: 'POST',
+                url: url('auth/login'),
+                dataType: 'json',
+                data: data,
+                beforeSend: () => {
+                    $('#login-button').html(
+                        '<i class="fa fa-spinner fa-spin"></i> ' + trans('auth.loggingIn')
+                    ).prop('disabled', 'disabled');
+                }
+            });
             if (errno == 0) {
                 swal({ type: 'success', html: msg });
 
-                window.setTimeout(() => {
+                setTimeout(() => {
                     window.location = url(blessing.redirect_to || 'user');
                 }, 1000);
             } else {
@@ -60,9 +61,9 @@ $('#login-button').click(e => {
                 showMsg(msg, 'warning');
                 $('#login-button').html(trans('auth.login')).prop('disabled', '');
             }
-        }).catch(err => {
-            showAjaxError(err);
+        } catch (error) {
+            showAjaxError(error);
             $('#login-button').html(trans('auth.login')).prop('disabled', '');
-        });
+        }
     }
 });

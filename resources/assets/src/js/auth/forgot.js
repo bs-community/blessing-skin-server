@@ -22,18 +22,19 @@ $('#forgot-button').click(e => {
         } else {
             callback();
         }
-    })(data, () => {
-        fetch({
-            type: 'POST',
-            url: url('auth/forgot'),
-            dataType: 'json',
-            data: data,
-            beforeSend: () => {
-                $('#forgot-button').html(
-                    '<i class="fa fa-spinner fa-spin"></i> ' + trans('auth.sending')
-                ).prop('disabled', 'disabled');
-            }
-        }).then(({ errno, msg }) => {
+    })(data, async () => {
+        try {
+            const { errno, msg } = await fetch({
+                type: 'POST',
+                url: url('auth/forgot'),
+                dataType: 'json',
+                data: data,
+                beforeSend: () => {
+                    $('#forgot-button').html(
+                        '<i class="fa fa-spinner fa-spin"></i> ' + trans('auth.sending')
+                    ).prop('disabled', 'disabled');
+                }
+            });
             if (errno == 0) {
                 showMsg(msg, 'success');
                 $('#forgot-button').html(trans('auth.send')).prop('disabled', 'disabled');
@@ -42,9 +43,9 @@ $('#forgot-button').click(e => {
                 refreshCaptcha();
                 $('#forgot-button').html(trans('auth.send')).prop('disabled', '');
             }
-        }).catch(err => {
-            showAjaxError(err);
+        } catch (error) {
+            showAjaxError(error);
             $('#forgot-button').html(trans('auth.send')).prop('disabled', '');
-        });
+        }
     });
 });

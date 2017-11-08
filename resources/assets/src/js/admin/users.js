@@ -1,23 +1,31 @@
 'use strict';
 
-function changeUserEmail(uid) {
+async function changeUserEmail(uid) {
     let dom = $(`tr#user-${uid} > td:nth-child(2)`),
         newUserEmail = '';
 
-    swal({
-        text: trans('admin.newUserEmail'),
-        showCancelButton: true,
-        input: 'text',
-        inputValue: dom.text(),
-        inputValidator: value => (new Promise((resolve, reject) => {
-            (newUserEmail = value) ? resolve() : reject(trans('auth.emptyEmail'));
-        }))
-    }).then(email => fetch({
-        type: 'POST',
-        url: url('admin/users?action=email'),
-        dataType: 'json',
-        data: { uid: uid, email: email }
-    })).then(({ errno, msg }) => {
+    try {
+        newUserEmail = await swal({
+            text: trans('admin.newUserEmail'),
+            showCancelButton: true,
+            input: 'text',
+            inputValue: dom.text(),
+            inputValidator: value => (new Promise((resolve, reject) => {
+                value ? resolve() : reject(trans('auth.emptyEmail'));
+            }))
+        });
+    } catch (error) {
+        return;
+    }
+
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('admin/users?action=email'),
+            dataType: 'json',
+            data: { uid: uid, email: newUserEmail }
+        });
+
         if (errno == 0) {
             dom.text(newUserEmail);
 
@@ -25,27 +33,36 @@ function changeUserEmail(uid) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
-function changeUserNickName(uid) {
+async function changeUserNickName(uid) {
     let dom = $(`tr#user-${uid} > td:nth-child(3)`),
         newNickName = '';
 
-    swal({
-        text: trans('admin.newUserNickname'),
-        showCancelButton: true,
-        input: 'text',
-        inputValue: dom.text(),
-        inputValidator: value => (new Promise((resolve, reject) => {
-            (newNickName = value) ? resolve() : reject(trans('auth.emptyNickname'));
-        }))
-    }).then(nickname => fetch({
-        type: 'POST',
-        url: url('admin/users?action=nickname'),
-        dataType: 'json',
-        data: { uid: uid, nickname: nickname }
-    })).then(({ errno, msg }) => {
+    try {
+        newNickName = await swal({
+            text: trans('admin.newUserNickname'),
+            showCancelButton: true,
+            input: 'text',
+            inputValue: dom.text(),
+            inputValidator: value => (new Promise((resolve, reject) => {
+                value ? resolve() : reject(trans('auth.emptyNickname'));
+            }))
+        });
+    } catch (error) {
+        return;
+    }
+
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('admin/users?action=nickname'),
+            dataType: 'json',
+            data: { uid: uid, nickname: newNickName }
+        });
         if (errno == 0) {
             dom.text(newNickName);
 
@@ -53,43 +70,60 @@ function changeUserNickName(uid) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
-function changeUserPwd(uid) {
-    swal({
-        text: trans('admin.newUserPassword'),
-        showCancelButton: true,
-        input: 'password',
-    }).then(password => fetch({
-        type: 'POST',
-        url: url('admin/users?action=password'),
-        dataType: 'json',
-        data: { uid: uid, password: password }
-    })).then(({ errno, msg }) => {
-        (errno == 0) ? toastr.success(msg) : toastr.warning(msg);
-    }).catch(showAjaxError);
+async function changeUserPwd(uid) {
+    let password;
+    try {
+        password = await swal({
+            text: trans('admin.newUserPassword'),
+            showCancelButton: true,
+            input: 'password',
+        });
+    } catch (error) {
+        return;
+    }
+
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('admin/users?action=password'),
+            dataType: 'json',
+            data: { uid: uid, password: password }
+        });
+        errno == 0 ? toastr.success(msg) : toastr.warning(msg);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
-function changeUserScore(uid, score) {
-    fetch({
-        type: 'POST',
-        url: url('admin/users?action=score'),
-        dataType: 'json',
-        // Handle id formatted as '#user-1234'
-        data: { uid: uid.slice(5), score: score }
-    }).then(({ errno, msg }) => {
-        (errno == 0) ? toastr.success(msg) : toastr.warning(msg);
-    }).catch(showAjaxError);
+async function changeUserScore(uid, score) {
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('admin/users?action=score'),
+            dataType: 'json',
+            // Handle id formatted as '#user-1234'
+            data: { uid: uid.slice(5), score: score }
+        });
+        errno == 0 ? toastr.success(msg) : toastr.warning(msg);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
-function changeBanStatus(uid) {
-    fetch({
-        type: 'POST',
-        url: url('admin/users?action=ban'),
-        dataType: 'json',
-        data: { uid: uid }
-    }).then(({ errno, msg, permission }) => {
+async function changeBanStatus(uid) {
+    try {
+        const { errno, msg, permission } = await fetch({
+            type: 'POST',
+            url: url('admin/users?action=ban'),
+            dataType: 'json',
+            data: { uid: uid }
+        });
+
         if (errno == 0) {
             let dom = $(`#ban-${uid}`);
 
@@ -107,16 +141,20 @@ function changeBanStatus(uid) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
-function changeAdminStatus(uid) {
-    fetch({
-        type: 'POST',
-        url: url('admin/users?action=admin'),
-        dataType: 'json',
-        data: { uid: uid }
-    }).then(({ errno, msg, permission }) => {
+async function changeAdminStatus(uid) {
+    try {
+        const { errno, msg, permission } = await fetch({
+            type: 'POST',
+            url: url('admin/users?action=admin'),
+            dataType: 'json',
+            data: { uid: uid }
+        });
+
         if (errno == 0) {
             let dom = $(`#admin-${uid}`);
 
@@ -134,27 +172,39 @@ function changeAdminStatus(uid) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
-function deleteUserAccount(uid) {
-    swal({
-        text: trans('admin.deleteUserNotice'),
-        type: 'warning',
-        showCancelButton: true
-    }).then(() => fetch({
-        type: 'POST',
-        url: url('admin/users?action=delete'),
-        dataType: 'json',
-        data: { uid: uid }
-    })).then(({ errno, msg }) => {
+async function deleteUserAccount(uid) {
+    try {
+        await swal({
+            text: trans('admin.deleteUserNotice'),
+            type: 'warning',
+            showCancelButton: true
+        });
+    } catch (error) {
+        return;
+    }
+
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('admin/users?action=delete'),
+            dataType: 'json',
+            data: { uid: uid }
+        });
+
         if (errno == 0) {
             $('tr#user-' + uid).remove();
             toastr.success(msg);
         } else {
             toastr.warning(msg);
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
 $('body').on('keypress', '.score', function(event){

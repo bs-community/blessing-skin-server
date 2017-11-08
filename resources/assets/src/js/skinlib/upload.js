@@ -85,25 +85,27 @@ function upload() {
         } else {
             callback();
         }
-    })(form, file, () => {
-        fetch({
-            type: 'POST',
-            url: url('skinlib/upload'),
-            contentType: false,
-            dataType: 'json',
-            data: form,
-            processData: false,
-            beforeSend: () => {
-                $('#upload-button').html(
-                    '<i class="fa fa-spinner fa-spin"></i> ' + trans('skinlib.uploading')
-                ).prop('disabled', 'disabled');
-            }
-        }).then(({ errno, msg, tid }) => {
+    })(form, file, async () => {
+        try {
+            const { errno, msg, tid } = await fetch({
+                type: 'POST',
+                url: url('skinlib/upload'),
+                contentType: false,
+                dataType: 'json',
+                data: form,
+                processData: false,
+                beforeSend: () => {
+                    $('#upload-button').html(
+                        '<i class="fa fa-spinner fa-spin"></i> ' + trans('skinlib.uploading')
+                    ).prop('disabled', 'disabled');
+                }
+            });
+
             if (errno == 0) {
                 let redirect = function () {
                     toastr.info(trans('skinlib.redirecting'));
 
-                    window.setTimeout(() => {
+                    setTimeout(() => {
                         window.location = url(`skinlib/show/${tid}`);
                     }, 1000);
                 };
@@ -114,17 +116,16 @@ function upload() {
                     html: msg
                 }).then(redirect, redirect);
             } else {
-                swal({
+                await swal({
                     type: 'warning',
                     html: msg
-                }).then(() => {
-                    $('#upload-button').html(trans('skinlib.upload')).prop('disabled', '');
                 });
+                $('#upload-button').html(trans('skinlib.upload')).prop('disabled', '');
             }
-        }).catch(err => {
-            showAjaxError(err);
+        } catch (error) {
+            showAjaxError(error);
             $('#upload-button').html(trans('skinlib.upload')).prop('disabled', '');
-        });
+        }
     });
 }
 

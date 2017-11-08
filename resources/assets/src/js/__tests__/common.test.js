@@ -3,6 +3,43 @@
 const $ = require('jquery');
 window.jQuery = window.$ = $;
 
+describe('tests for "cookie" module', () => {
+  it('operates cookies', () => {
+    const cookies = require('../common/cookie');
+
+    expect(cookies.hasItem('key1')).toBe(false);
+    expect(cookies.getItem('key1')).toBeNull();
+
+    expect(cookies.setItem('key1', 'value1')).toBe(true);
+    expect(document.cookie).toBe('key1=value1');
+    expect(cookies.setItem('key2', 'value2')).toBe(true);
+    expect(document.cookie).toBe('key1=value1; key2=value2');
+    expect(cookies.hasItem('key1')).toBe(true);
+    expect(cookies.getItem('key1')).toBe('value1');
+    expect(cookies.hasItem('key2')).toBe(true);
+    expect(cookies.getItem('key2')).toBe('value2');
+    expect(cookies.keys()).toEqual(['key1', 'key2']);
+
+    expect(cookies.setItem('domain', 'value')).toBe(false);
+
+    expect(cookies.removeItem('key0')).toBe(false);
+    expect(cookies.removeItem('key2')).toBe(true);
+    expect(cookies.hasItem('key2')).toBe(false);
+    expect(document.cookie).toBe('key1=value1');
+    expect(cookies.removeItem('key1')).toBe(true);
+
+    expect(cookies.setItem('key3', 'value3', 50));
+    expect(cookies.getItem('key3')).toBe('value3');
+    expect(cookies.setItem('key3', 'value3', Infinity));
+    expect(cookies.getItem('key3')).toBe('value3');
+    expect(cookies.setItem('key3', 'value3', '60'));
+    expect(cookies.getItem('key3')).toBe('value3');
+    expect(cookies.setItem('key4', 'value3', new Date));
+    expect(cookies.removeItem('key3')).toBe(true);
+    expect(document.cookie).toBe('');
+  });
+});
+
 describe('tests for "i18n" module', () => {
   const modulePath = '../common/i18n';
 
@@ -21,6 +58,11 @@ describe('tests for "i18n" module', () => {
   it('get translated text', () => {
     const trans = require(modulePath).trans;
 
+    $.currentLocale = undefined;  // Should load locale automatically
+    $.locales = {
+      en: { text: 'text', nested: { sth: ':sth here!' } }
+    };
+
     expect(trans('text')).toBe('text');
     expect(trans('text.nothing')).toBe('text.nothing');
     expect(trans('nested.sth')).toBe(':sth here!');
@@ -28,21 +70,31 @@ describe('tests for "i18n" module', () => {
   });
 });
 
+jest.useFakeTimers();
+
 describe('tests for "logout" module', () => {
   const modulePath = '../common/logout';
 
   it('logout', async () => {
-    const swal = jest.fn().mockReturnValue(Promise.resolve());
+    const swal = jest.fn()
+      .mockReturnValueOnce(Promise.reject())
+      .mockReturnValueOnce(Promise.resolve());
     const trans = jest.fn(key => key);
     const fetch = jest.fn()
-      .mockReturnValue(Promise.resolve({ msg: 'success' }));
+      .mockReturnValueOnce(Promise.resolve({ msg: 'success' }))
+      .mockReturnValueOnce(Promise.reject());
+    const showAjaxError = jest.fn();
     window.swal = swal;
     window.trans = trans;
     window.fetch = fetch;
     window.url = jest.fn(path => path);
+    window.showAjaxError = showAjaxError;
 
     document.body.innerHTML = '<button id="logout-button"></button>';
     require(modulePath);
+
+    await $('button').click();
+    expect(fetch).not.toBeCalled();
 
     await $('button').click();
     expect(swal).toBeCalledWith({
@@ -57,10 +109,18 @@ describe('tests for "logout" module', () => {
       url: 'auth/logout',
       dataType: 'json'
     });
+    jest.runAllTimers();
+    expect(url).toBeCalled();
+
     await $('button').click();
     expect(swal).toBeCalledWith({ type: 'success', html: 'success' });
+
+    await $('button').click();
+    expect(showAjaxError).toBeCalled();
   });
 });
+
+jest.useRealTimers();
 
 describe('tests for "notify" module', () => {
   const modulePath = '../common/notify';
@@ -87,6 +147,7 @@ describe('tests for "notify" module', () => {
     const warn = jest.fn();
     window.console.warn = warn;
     window.trans = jest.fn(key => key);
+    $.fn.modal = jest.fn();
 
     const showAjaxError = require(modulePath).showAjaxError;
 
@@ -95,6 +156,9 @@ describe('tests for "notify" module', () => {
 
     showAjaxError({});
     expect(warn).toBeCalledWith('Empty Ajax response body.');
+
+    showAjaxError({ responseText: 'error' });
+    expect(window.trans).toBeCalledWith('general.fatalError');
   });
 
   it('show modal dialog', () => {
@@ -146,6 +210,9 @@ describe('tests for "utils" module', () => {
     expect(isEmpty('')).toBe(true);
     expect(isEmpty({})).toBe(true);
     expect(isEmpty({ sth: '' })).toBe(false);
+    expect(isEmpty([])).toBe(true);
+    expect(isEmpty([1])).toBe(false);
+    expect(isEmpty('something')).toBe(false);
   });
 
   it('fake fetch', () => {
@@ -159,7 +226,8 @@ describe('tests for "utils" module', () => {
 
   it('make a debounced function', done => {
     const func = jest.fn();
-    const debounced = require(modulePath).debounce(func, 100);
+    const debounce = require(modulePath).debounce;
+    const debounced = debounce(func, 100);
 
     debounced();
     debounced();
@@ -168,6 +236,9 @@ describe('tests for "utils" module', () => {
       expect(func.mock.calls.length).toBe(1);
       done();
     }, 100);
+
+    expect(() => debounce(func, 'string')).toThrow();
+    expect(() => debounce('not a function', 100)).toThrow();
   });
 
   it('get a absolute url', () => {

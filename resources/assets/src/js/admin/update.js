@@ -88,14 +88,17 @@ function downloadUpdates() {
 
 }
 
-function checkForUpdates() {
-    fetch({ url: url('admin/update/check') }).then(data => {
+async function checkForUpdates() {
+    try {
+        const data = await fetch({ url: url('admin/update/check') });
         if (data.available == true) {
             let dom = `<span class="label label-primary pull-right">v${data.latest}</span>`;
 
             $(`[href="${url('admin/update')}"]`).append(dom);
         }
-    });
+    } catch (error) {
+        //
+    }
 }
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {

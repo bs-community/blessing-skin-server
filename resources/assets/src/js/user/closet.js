@@ -4,17 +4,24 @@
 
 var selectedTextures = [];
 
-$(document).ready(function () {
+$(document).ready(async function () {
     if (! window.location.pathname.includes('/user/closet'))
         return;
 
-    fetch({
-        type: 'GET',
-        url: url('/user/closet-data'),
-        dataType: 'json'
-    }).then(({ items, category, total_pages }) => {
-        renderCloset(items, category);
+    $('input[name=q]').on('input', debounce(() => {
+        let category = $('#skin-category').hasClass('active') ? 'skin' : 'cape';
+        reloadCloset(category, 1, $('input[name=q]').val());
+    }, 350));
 
+    try {
+        const { items, category, total_pages } = await fetch({
+            type: 'GET',
+            url: url('/user/closet-data'),
+            dataType: 'json'
+        });
+
+        renderCloset(items, category);
+        
         $('#closet-paginator').jqPaginator($.extend({}, $.defaultPaginatorConfig, {
             totalPages: total_pages,
             onPageChange: page => reloadCloset(
@@ -22,15 +29,12 @@ $(document).ready(function () {
                 page, $('input[name=q]').val()
             )
         }));
-    }).catch(showAjaxError);
-
-    $('input[name=q]').on('input', debounce(() => {
-        let category = $('#skin-category').hasClass('active') ? 'skin' : 'cape';
-        reloadCloset(category, 1, $('input[name=q]').val());
-    }, 350));
+    } catch (error) {
+        showAjaxError(error);
+    }
 });
 
-$('body').on('click', '.item-body', function () {
+$('body').on('click', '.item-body', async function () {
     $('.item-selected').parent().removeClass('item-selected');
     let $item = $(this).parent();
 
@@ -38,11 +42,13 @@ $('body').on('click', '.item-body', function () {
 
     let tid = parseInt($item.attr('tid'));
 
-    fetch({
-        type: 'POST',
-        url: url(`skinlib/info/${tid}`),
-        dataType: 'json'
-    }).then(({ type, hash }) => {
+    try {
+        const { type, hash } = await fetch({
+            type: 'POST',
+            url: url(`skinlib/info/${tid}`),
+            dataType: 'json'
+        });
+
         if (type == 'cape') {
             MSP.changeCape(url(`textures/${hash}`));
             selectedTextures['cape'] = tid;
@@ -63,7 +69,9 @@ $('body').on('click', '.item-body', function () {
         } else if (cape != undefined) {
             $indicator.text(trans('general.cape'));
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 });
 
 $('body').on('click', '.category-switch', () => {
@@ -131,31 +139,35 @@ function renderCloset(items, category) {
  * Reload and render closet.
  *
  * @param {string} category
- * @param {integer} page
+ * @param {number} page
  * @param {string} search
  */
-function reloadCloset(category, page, search) {
-    fetch({
-        type: 'GET',
-        url: url('user/closet-data'),
-        dataType: 'json',
-        data: {
-            category: category,
-            page: page,
-            perPage: getCapacityOfCloset(),
-            q: search
-        }
-    }).then(({ items, category, total_pages }) => {
+async function reloadCloset(textureCategory, page, search) {
+    try {
+        const { items, category, total_pages } = await fetch({
+            type: 'GET',
+            url: url('user/closet-data'),
+            dataType: 'json',
+            data: {
+                category: textureCategory,
+                page: page,
+                perPage: getCapacityOfCloset(),
+                q: search
+            }
+        });
+
         renderCloset(items, category);
-
+        
         let paginator = $('#closet-paginator');
-
+        
         paginator.attr(`last-${category}-page`, page);
         paginator.jqPaginator('option', {
             currentPage: page,
             totalPages: total_pages
         });
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
 /**
@@ -170,23 +182,31 @@ function getCapacityOfCloset() {
     ) * 2;
 }
 
-function renameClosetItem(tid, oldName) {
+async function renameClosetItem(tid, oldName) {
     let newTextureName = '';
 
-    swal({
-        title: trans('user.renameClosetItem'),
-        input: 'text',
-        inputValue: oldName,
-        showCancelButton: true,
-        inputValidator: value => (new Promise((resolve, reject) => {
-            (newTextureName = value) ? resolve() : reject(trans('skinlib.emptyNewTextureName'));
-        }))
-    }).then(name => fetch({
-        type: 'POST',
-        url: url('user/closet/rename'),
-        dataType: 'json',
-        data: { tid: tid, new_name: name }
-    })).then(({ errno, msg }) => {
+    try {
+        newTextureName = await swal({
+            title: trans('user.renameClosetItem'),
+            input: 'text',
+            inputValue: oldName,
+            showCancelButton: true,
+            inputValidator: value => (new Promise((resolve, reject) => {
+                value ? resolve() : reject(trans('skinlib.emptyNewTextureName'));
+            }))
+        });
+    } catch (error) {
+        return;
+    }
+
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('user/closet/rename'),
+            dataType: 'json',
+            data: { tid: tid, new_name: newTextureName }
+        });
+
         if (errno == 0) {
             const type = $(`[tid=${tid}]`).data('texture-type');
             $(`[tid=${tid}]>.item-footer>.texture-name>span`).html(
@@ -197,20 +217,30 @@ function renameClosetItem(tid, oldName) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
-function removeFromCloset(tid) {
-    swal({
-        text: trans('user.removeFromClosetNotice'),
-        type: 'warning',
-        showCancelButton: true
-    }).then(() => fetch({
-        type: 'POST',
-        url: url('user/closet/remove'),
-        dataType: 'json',
-        data: { tid: tid }
-    })).then(({ errno, msg }) => {
+async function removeFromCloset(tid) {
+    try {
+        await swal({
+            text: trans('user.removeFromClosetNotice'),
+            type: 'warning',
+            showCancelButton: true
+        });
+    } catch (error) {
+        return;
+    }
+
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('user/closet/remove'),
+            dataType: 'json',
+            data: { tid: tid }
+        });
+
         if (errno == 0) {
             swal({ type: 'success', html: msg });
 
@@ -227,21 +257,31 @@ function removeFromCloset(tid) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
-function setAsAvatar(tid) {
-    swal({
-        title: trans('user.setAvatar'),
-        text: trans('user.setAvatarNotice'),
-        type: 'question',
-        showCancelButton: true
-    }).then(() => fetch({
-        type: 'POST',
-        url: url('user/profile/avatar'),
-        dataType: 'json',
-        data: { tid: tid }
-    })).then(({ errno, msg }) => {
+async function setAsAvatar(tid) {
+    try {
+        await swal({
+            title: trans('user.setAvatar'),
+            text: trans('user.setAvatarNotice'),
+            type: 'question',
+            showCancelButton: true
+        });
+    } catch (error) {
+        return;
+    }
+
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('user/profile/avatar'),
+            dataType: 'json',
+            data: { tid: tid }
+        });
+
         if (errno == 0) {
             toastr.success(msg);
 
@@ -252,7 +292,9 @@ function setAsAvatar(tid) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {

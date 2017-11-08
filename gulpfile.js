@@ -11,6 +11,7 @@ var gulp        = require('gulp'),
     zip         = require('gulp-zip'),
     replace     = require('gulp-batch-replace'),
     notify      = require('gulp-notify'),
+    merge       = require('merge2'),
     runSequence = require('run-sequence');
 
 var version  = require('./package.json').version;
@@ -30,8 +31,11 @@ var vendorScripts = [
     'es6-promise/dist/es6-promise.auto.min.js',
     'sweetalert2/dist/sweetalert2.min.js',
     'jqPaginator/dist/1.2.0/jqPaginator.min.js',
-    'regenerator-runtime/runtime.js',
     'resources/assets/dist/js/common.js',
+];
+
+var vendorScriptsToBeMinified = [
+    'regenerator-runtime/runtime.js',
 ];
 
 var vendorStyles = [
@@ -95,9 +99,12 @@ gulp.task('lint', () => {
 // Concentrate all vendor scripts & styles to one dist file
 gulp.task('publish-vendor', ['compile-es6'], callback => {
     // JavaScript files
-    gulp.src(convertNpmRelativePath(vendorScripts))
+    var js = gulp.src(convertNpmRelativePath(vendorScripts))
+        .pipe(replace(scriptReplacements));
+    var jsToBeMinified = gulp.src(convertNpmRelativePath(vendorScriptsToBeMinified))
+        .pipe(uglify());
+    merge(js, jsToBeMinified)
         .pipe(concat('app.js'))
-        .pipe(replace(scriptReplacements))
         .pipe(gulp.dest(`${distPath}/js/`));
     // CSS files
     gulp.src(convertNpmRelativePath(vendorStyles))
@@ -164,6 +171,7 @@ gulp.task('zip', () => {
             '!node_modules/**/*.*',
             '!storage/textures/**/*.*',
             '!.env',
+            '!.babelrc',
             '!.bowerrc',
             '!.gitignore',
             '!.git/**/*.*',
@@ -201,7 +209,7 @@ gulp.task('watch', () => {
     // watch .scss files
     gulp.watch(`${srcPath}/sass/*.scss`, ['compile-sass'], () => notify('Sass files compiled!'));
     // watch .js files
-    gulp.watch(`${srcPath}/js/*.js`, ['compile-es6'], () => notify('ES6 scripts compiled!'));
+    gulp.watch(`${srcPath}/js/**/*.js`, ['compile-es6'], () => notify('ES6 scripts compiled!'));
     gulp.watch(`${srcPath}/js/general.js`, ['publish-vendor']);
 });
 

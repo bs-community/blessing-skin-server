@@ -9,24 +9,29 @@ $('body').on('click', '.player', function () {
     showPlayerTexturePreview(this.id);
 }).on('click', '#preview-switch', () => {
     TexturePreview.previewType == '3D' ? TexturePreview.show2dPreview() : TexturePreview.show3dPreview();
-}).on('change', '#preference', function () {
-    fetch({
-        type: 'POST',
-        url: url('user/player/preference'),
-        dataType: 'json',
-        data: { pid: $(this).attr('pid'), preference: $(this).val() }
-    }).then(({ errno, msg }) => {
-        (errno == 0) ? toastr.success(msg) : toastr.warning(msg);
-    }).catch(showAjaxError);
+}).on('change', '#preference', async function () {
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('user/player/preference'),
+            dataType: 'json',
+            data: { pid: $(this).attr('pid'), preference: $(this).val() }
+        });
+        errno == 0 ? toastr.success(msg) : toastr.warning(msg);
+    } catch (error) {
+        showAjaxError(error);
+    }
 });
 
-function showPlayerTexturePreview(pid) {
-    fetch({
-        type: 'POST',
-        url: url('user/player/show'),
-        dataType: 'json',
-        data: { pid: pid }
-    }).then(result => {
+async function showPlayerTexturePreview(pid) {
+    try {
+        const result = await fetch({
+            type: 'POST',
+            url: url('user/player/show'),
+            dataType: 'json',
+            data: { pid: pid }
+        });
+
         // Render skin preview of selected player
         ['steve', 'alex', 'cape'].forEach((type) => {
             let tid     = result[`tid_${type}`];
@@ -47,37 +52,48 @@ function showPlayerTexturePreview(pid) {
         }
 
         console.log(`Texture previews of player ${result.player_name} rendered.`);
-
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
-function changePlayerName(pid) {
+async function changePlayerName(pid) {
     let newPlayerName = '';
     const $playerName = $(`td:contains("${pid}")`).next();
 
-    swal({
-        title: trans('user.changePlayerName'),
-        text: $('#player_name').attr('placeholder'),
-        inputValue: $playerName.html(),
-        input: 'text',
-        showCancelButton: true,
-        inputValidator: value => (new Promise((resolve, reject) => {
-            (newPlayerName = value) ? resolve() : reject(trans('skinlib.emptyPlayerName'));
-        }))
-    }).then(name => fetch({
-        type: 'POST',
-        url: url('user/player/rename'),
-        dataType: 'json',
-        data: { pid: pid, new_player_name: name }
-    })).then(({ errno, msg }) => {
+    try {
+        newPlayerName = await swal({
+            title: trans('user.changePlayerName'),
+            text: $('#player_name').attr('placeholder'),
+            inputValue: $playerName.html(),
+            input: 'text',
+            showCancelButton: true,
+            inputValidator: value => (new Promise((resolve, reject) => {
+                value ? resolve() : reject(trans('skinlib.emptyPlayerName'));
+            }))
+        });
+    } catch (error) {
+        return;
+    }
+
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('user/player/rename'),
+            dataType: 'json',
+            data: { pid: pid, new_player_name: newPlayerName }
+        });
+
         if (errno == 0) {
             swal({ type: 'success', html: msg });
 
             $playerName.html(newPlayerName);
         } else {
-            swal({ type: 'error', html: msg });
+            swal({ type: 'warning', html: msg });
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
 function clearTexture(pid) {
@@ -99,7 +115,7 @@ function clearTexture(pid) {
     });
 }
 
-function ajaxClearTexture(pid) {
+async function ajaxClearTexture(pid) {
     $('.modal').each(function () {
         if ($(this).css('display') == 'none') $(this).remove();
     });
@@ -114,49 +130,65 @@ function ajaxClearTexture(pid) {
         return toastr.warning(trans('user.noClearChoice'));
     }
 
-    fetch({
-        type: 'POST',
-        url: url('user/player/texture/clear'),
-        dataType: 'json',
-        data: data
-    }).then(({ errno, msg }) => {
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('user/player/texture/clear'),
+            dataType: 'json',
+            data: data
+        });
         swal({ type: errno == 0 ? 'success' : 'error', html: msg });
         $('.modal').modal('hide');
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
-function deletePlayer(pid) {
-    swal({
-        title: trans('user.deletePlayer'),
-        text: trans('user.deletePlayerNotice'),
-        type: 'warning',
-        showCancelButton: true,
-        cancelButtonColor: '#3085d6',
-        confirmButtonColor: '#d33'
-    }).then(() => fetch({
-        type: 'POST',
-        url: url('user/player/delete'),
-        dataType: 'json',
-        data: { pid: pid }
-    })).then(({ errno, msg }) => {
+async function deletePlayer(pid) {
+    try {
+        await swal({
+            title: trans('user.deletePlayer'),
+            text: trans('user.deletePlayerNotice'),
+            type: 'warning',
+            showCancelButton: true,
+            cancelButtonColor: '#3085d6',
+            confirmButtonColor: '#d33'
+        });
+    } catch (error) {
+        return;
+    }
+
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('user/player/delete'),
+            dataType: 'json',
+            data: { pid: pid }
+        });
+
         if (errno == 0) {
-            swal({
+            await swal({
                 type: 'success',
                 html: msg
-            }).then(() => $(`tr#${pid}`).remove());
+            });
+            $(`tr#${pid}`).remove();
         } else {
-            swal({ type: 'error', html: msg });
+            toastr.warning(msg);
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
-function addNewPlayer() {
-    fetch({
-        type: 'POST',
-        url: url('user/player/add'),
-        dataType: 'json',
-        data: { player_name: $('#player_name').val() }
-    }).then(({ errno, msg }) => {
+async function addNewPlayer() {
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('user/player/add'),
+            dataType: 'json',
+            data: { player_name: $('#player_name').val() }
+        });
+
         if (errno == 0) {
             swal({
                 type: 'success',
@@ -167,10 +199,12 @@ function addNewPlayer() {
         } else {
             toastr.warning(msg);
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
-function setTexture() {
+async function setTexture() {
     let pid = 0,
         skin = selectedTextures['skin'],
         cape = selectedTextures['cape'];
@@ -184,23 +218,27 @@ function setTexture() {
     } else if (skin == undefined && cape == undefined) {
         toastr.info(trans('user.emptySelectedTexture'));
     } else {
-        fetch({
-            type: 'POST',
-            url: url('user/player/set'),
-            dataType: 'json',
-            data: {
-                'pid': pid,
-                'tid[skin]': skin,
-                'tid[cape]': cape
-            }
-        }).then(({ errno, msg }) => {
+        try {
+            const { errno, msg } = await fetch({
+                type: 'POST',
+                url: url('user/player/set'),
+                dataType: 'json',
+                data: {
+                    'pid': pid,
+                    'tid[skin]': skin,
+                    'tid[cape]': cape
+                }
+            });
+
             if (errno == 0) {
                 swal({ type: 'success', html: msg });
                 $('#modal-use-as').modal('hide');
             } else {
                 toastr.warning(msg);
             }
-        }).catch(showAjaxError);
+        } catch (error) {
+            showAjaxError(error);
+        }
     }
 }
 

@@ -157,13 +157,14 @@ describe('tests for "index" module', () => {
   });
 
   it('reload skin library', async () => {
-    const fetch = jest.fn().mockReturnValue(Promise.resolve({
+    const fetch = jest.fn().mockReturnValueOnce(Promise.resolve({
       items: []
-    }));
+    })).mockReturnValueOnce(Promise.reject());
     const url = jest.fn(path => path);
+    const showAjaxError = jest.fn();
     window.fetch = fetch;
     window.url = url;
-    window.showAjaxError = jest.fn();
+    window.showAjaxError = showAjaxError;
     document.body.innerHTML = `
       <div id="skinlib-paginator"></div>
     `;
@@ -241,7 +242,8 @@ describe('tests for "operations" module', () => {
   it('add to closet (by ajax)', async () => {
     const fetch = jest.fn()
       .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
-      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }));
+      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
+      .mockReturnValueOnce(Promise.reject());
     window.fetch = fetch;
     const url = jest.fn(path => path);
     window.url = url;
@@ -255,6 +257,8 @@ describe('tests for "operations" module', () => {
       warning: jest.fn()
     };
     window.toastr = toastr;
+    const showAjaxError = jest.fn();
+    window.showAjaxError = showAjaxError;
     $.fn.modal = modal;
 
     document.body.innerHTML = `
@@ -277,17 +281,24 @@ describe('tests for "operations" module', () => {
 
     await ajaxAddToCloset(1, 'name');
     expect(toastr.warning).toBeCalledWith('warning');
+
+    await ajaxAddToCloset(1, 'name');
+    expect(showAjaxError).toBeCalled();
   });
 
   it('remove from closet', async () => {
     const fetch = jest.fn()
-      .mockReturnValue(Promise.resolve({ errno: 0, msg: 'success' }));
+      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
+      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
+      .mockReturnValueOnce(Promise.reject());
     window.fetch = fetch;
     const url = jest.fn(path => path);
     window.url = url;
     const trans = jest.fn(key => key);
     window.trans = trans;
-    const swal = jest.fn().mockReturnValue(Promise.resolve());
+    const swal = jest.fn()
+      .mockReturnValueOnce(Promise.reject())
+      .mockReturnValueOnce(Promise.resolve());
     window.swal = swal;
     const modal = jest.fn();
     const toastr = {
@@ -295,8 +306,13 @@ describe('tests for "operations" module', () => {
       warning: jest.fn()
     };
     window.toastr = toastr;
+    const showAjaxError = jest.fn();
+    window.showAjaxError = showAjaxError;
 
     const removeFromCloset = require(modulePath).removeFromCloset;
+
+    await removeFromCloset(1);
+    expect(fetch).not.toBeCalled();
 
     await removeFromCloset(1);
     expect(swal).toBeCalledWith({
@@ -312,22 +328,31 @@ describe('tests for "operations" module', () => {
       dataType: 'json',
       data: { tid: 1 }
     });
-    await removeFromCloset(1);
     expect(swal).toBeCalledWith({ type: 'success', html: 'success' });
+
+    await removeFromCloset(1);
+    expect(toastr.warning).toBeCalledWith('warning');
+
+    await removeFromCloset(1);
+    expect(showAjaxError).toBeCalled();
   });
 
   it('change texture name', async () => {
     const fetch = jest.fn()
-      .mockReturnValue(Promise.resolve({ errno: 0, msg: 'success' }));
+      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
+      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
+      .mockReturnValueOnce(Promise.reject());
     window.fetch = fetch;
     const url = jest.fn(path => path);
     window.url = url;
     const trans = jest.fn(key => key);
     window.trans = trans;
-    const swal = jest.fn(option => {
-      option.inputValidator('new-name');
-      return Promise.resolve('new-name');
-    });
+    const swal = jest.fn()
+      .mockImplementationOnce(() => Promise.reject())
+      .mockImplementationOnce(option => {
+        option.inputValidator('new-name');
+        return Promise.resolve('new-name');
+      });
     window.swal = swal;
     const modal = jest.fn();
     const toastr = {
@@ -335,9 +360,14 @@ describe('tests for "operations" module', () => {
       warning: jest.fn()
     };
     window.toastr = toastr;
+    const showAjaxError = jest.fn();
+    window.showAjaxError = showAjaxError;
 
     document.body.innerHTML = '<div id="name"></div>';
     const changeTextureName = require(modulePath).changeTextureName;
+
+    await changeTextureName(1, 'oldName');
+    expect(fetch).not.toBeCalled();
 
     await changeTextureName(1, 'oldName');
     expect(swal).toBeCalledWith(expect.objectContaining({
@@ -352,9 +382,14 @@ describe('tests for "operations" module', () => {
       dataType: 'json',
       data: { tid: 1, new_name: 'new-name' }
     });
-    await changeTextureName(1, 'oldName');
     expect($('div').text()).toBe('new-name');
     expect(toastr.success).toBeCalledWith('success');
+
+    await changeTextureName(1, 'oldName');
+    expect(toastr.warning).toBeCalledWith('warning');
+
+    await changeTextureName(1, 'oldName');
+    expect(showAjaxError).toBeCalled();
   });
 
   it('update texture status', () => {
@@ -416,7 +451,8 @@ describe('tests for "operations" module', () => {
     const fetch = jest.fn()
       .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success', public: '0' }))
       .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
-      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }));
+      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
+      .mockReturnValueOnce(Promise.reject());
     window.fetch = fetch;
     const url = jest.fn(path => path);
     window.url = url;
@@ -430,6 +466,8 @@ describe('tests for "operations" module', () => {
       warning: jest.fn()
     };
     window.toastr = toastr;
+    const showAjaxError = jest.fn();
+    window.showAjaxError = showAjaxError;
 
     document.body.innerHTML = `
       <a id="1">skinlib.setAsPrivate</a>
@@ -453,17 +491,24 @@ describe('tests for "operations" module', () => {
 
     await changePrivacy(1);
     expect(toastr.warning).toBeCalledWith('warning');
+
+    await changePrivacy(1);
+    expect(showAjaxError).toBeCalled();
   });
 
   it('delete texture', async () => {
     const fetch = jest.fn()
-      .mockReturnValue(Promise.resolve({ errno: 0, msg: 'success' }));
+      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
+      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
+      .mockReturnValueOnce(Promise.reject());
     window.fetch = fetch;
     const url = jest.fn(path => path);
     window.url = url;
     const trans = jest.fn(key => key);
     window.trans = trans;
-    const swal = jest.fn().mockReturnValue(Promise.resolve());
+    const swal = jest.fn()
+      .mockReturnValueOnce(Promise.reject())
+      .mockReturnValueOnce(Promise.resolve());
     window.swal = swal;
     const modal = jest.fn();
     const toastr = {
@@ -471,8 +516,13 @@ describe('tests for "operations" module', () => {
       warning: jest.fn()
     };
     window.toastr = toastr;
+    const showAjaxError = jest.fn();
+    window.showAjaxError = showAjaxError;
 
     const deleteTexture = require(modulePath).deleteTexture;
+
+    await deleteTexture(1);
+    expect(fetch).not.toBeCalled();
 
     await deleteTexture(1);
     expect(swal).toBeCalledWith({
@@ -486,7 +536,13 @@ describe('tests for "operations" module', () => {
       dataType: 'json',
       data: { tid: 1 }
     });
-    await deleteTexture(1);
     expect(swal).toBeCalledWith({ type: 'success', html: 'success' });
+    expect(url).toBeCalledWith('skinlib');
+
+    await deleteTexture(1);
+    expect(swal).toBeCalledWith({ type: 'warning', html: 'warning' });
+
+    await deleteTexture(1);
+    expect(showAjaxError).toBeCalled();
   });
 });

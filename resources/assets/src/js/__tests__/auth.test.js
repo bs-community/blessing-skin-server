@@ -40,17 +40,20 @@ describe('tests for "login" module', () => {
       ))
       .mockImplementationOnce(() => Promise.resolve(
         { errno: 1, msg: 'warning2', login_fails: 4 }
-      ));
+      ))
+      .mockImplementationOnce(() => Promise.reject());
     const trans = jest.fn(key => key);
     const url = jest.fn(path => path);
     const swal = jest.fn();
     const refreshCaptcha = jest.fn();
+    const showAjaxError = jest.fn();
     window.fetch = fetch;
     window.trans = trans;
     window.url = url;
     window.swal = swal;
     window.showMsg = jest.fn();
     window.refreshCaptcha = refreshCaptcha;
+    window.showAjaxError = showAjaxError;
 
     document.body.innerHTML = `
       <input id="identification" />
@@ -108,6 +111,9 @@ describe('tests for "login" module', () => {
     expect(swal).toBeCalledWith({ type: 'error', html: 'auth.tooManyFails' });
     expect($('#captcha-form').css('display')).not.toBe('none');
     expect(showMsg).toBeCalledWith('warning2', 'warning');
+
+    await $('button').click();
+    expect(showAjaxError).toBeCalled();
   });
 });
 
@@ -126,18 +132,21 @@ describe('tests for "register" module', () => {
       })
       .mockImplementationOnce(() => Promise.resolve(
         { errno: 1, msg: 'warning' }
-      ));
+      ))
+      .mockImplementationOnce(() => Promise.reject(new Error));
     const trans = jest.fn(key => key);
     const url = jest.fn(path => path);
     const swal = jest.fn().mockImplementation(() => Promise.resolve());
     const showMsg = jest.fn();
     const refreshCaptcha = jest.fn();
+    const showAjaxError = jest.fn();
     window.fetch = fetch;
     window.trans = trans;
     window.url = url;
     window.swal = swal;
     window.showMsg = showMsg;
     window.refreshCaptcha = refreshCaptcha;
+    window.showAjaxError = showAjaxError;
 
     document.body.innerHTML = `
       <input id="email" />
@@ -232,6 +241,9 @@ describe('tests for "register" module', () => {
     expect(refreshCaptcha).toBeCalled();
     expect(showMsg).toBeCalledWith('warning', 'warning');
     expect($('button').html()).toBe('auth.register');
+
+    await $('button').click();
+    expect(showAjaxError).toBeCalled();
   });
 });
 
@@ -246,18 +258,21 @@ describe('tests for "forgot" module', () => {
       })
       .mockImplementationOnce(() => Promise.resolve(
         { errno: 1, msg: 'warning' }
-      ));
+      ))
+      .mockImplementationOnce(() => Promise.reject(new Error));
     const trans = jest.fn(key => key);
     const url = jest.fn(path => path);
     const swal = jest.fn();
     const showMsg = jest.fn();
     const refreshCaptcha = jest.fn();
+    const showAjaxError = jest.fn();
     window.fetch = fetch;
     window.trans = trans;
     window.url = url;
     window.swal = swal;
     window.showMsg = showMsg;
     window.refreshCaptcha = refreshCaptcha;
+    window.showAjaxError = showAjaxError;
 
     document.body.innerHTML = `
       <input id="email" />
@@ -302,6 +317,11 @@ describe('tests for "forgot" module', () => {
     expect(refreshCaptcha).toBeCalled();
     expect(showMsg).toBeCalledWith('warning', 'warning');
     expect($('button').html()).toBe('auth.send');
+
+    await $('button').click();
+    expect($('button').html()).toBe('auth.send');
+    expect($('button').prop('disabled')).toBe(false);
+    expect(showAjaxError).toBeCalled();
   });
 });
 
@@ -316,12 +336,14 @@ describe('tests for "reset" module', () => {
       })
       .mockImplementationOnce(() => Promise.resolve(
         { errno: 1, msg: 'warning' }
-      ));
+      ))
+      .mockImplementationOnce(() => Promise.reject(new Error));
     const trans = jest.fn(key => key);
     const url = jest.fn(path => path);
     const swal = jest.fn().mockReturnValue(Promise.resolve());
     const showMsg = jest.fn();
     const getQueryString = jest.fn().mockReturnValue('token');
+    const showAjaxError = jest.fn();
     window.fetch = fetch;
     window.trans = trans;
     window.url = url;
@@ -329,6 +351,7 @@ describe('tests for "reset" module', () => {
     window.showMsg = showMsg;
     window.refreshCaptcha = jest.fn();
     window.getQueryString = getQueryString;
+    window.showAjaxError = showAjaxError;
 
     document.body.innerHTML = `
       <input id="uid" value="1" />
@@ -389,5 +412,9 @@ describe('tests for "reset" module', () => {
     await $('button').click();
     expect(showMsg).toBeCalledWith('warning', 'warning');
     expect($('button').html()).toBe('auth.reset');
+
+    await $('button').click();
+    expect($('button').html()).toBe('auth.reset');
+    expect(showAjaxError).toBeCalled();
   });
 });

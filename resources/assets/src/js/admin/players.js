@@ -1,17 +1,20 @@
 'use strict';
 
-function changePreference() {
-    fetch({
-        type: 'POST',
-        url: url('admin/players?action=preference'),
-        dataType: 'json',
-        data: {
-            pid: $(this).parent().parent().attr('id'),
-            preference: $(this).val()
-        }
-    }).then(({ errno, msg }) => {
-        (errno == 0) ? toastr.success(msg) : toastr.warning(msg);
-    }).catch(showAjaxError);
+async function changePreference() {
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('admin/players?action=preference'),
+            dataType: 'json',
+            data: {
+                pid: $(this).parent().parent().attr('id'),
+                preference: $(this).val()
+            }
+        });
+        errno == 0 ? toastr.success(msg) : toastr.warning(msg);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
 function changeTexture(pid, playerName) {
@@ -35,21 +38,22 @@ function changeTexture(pid, playerName) {
     return;
 }
 
-function ajaxChangeTexture(pid) {
+async function ajaxChangeTexture(pid) {
     // Remove interference of modal which is hide
     $('.modal').each(function () {
         if ($(this).css('display') == 'none') $(this).remove();
     });
 
-    var model = $('#model').val();
-    var tid = $('#tid').val();
+    const model = $('#model').val();
+    const tid = $('#tid').val();
 
-    fetch({
-        type: 'POST',
-        url: url('admin/players?action=texture'),
-        dataType: 'json',
-        data: { pid: pid, model: model, tid: tid }
-    }).then(({ errno, msg }) => {
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('admin/players?action=texture'),
+            dataType: 'json',
+            data: { pid: pid, model: model, tid: tid }
+        });
         if (errno == 0) {
             $(`#${pid}-${model}`).attr('src', url(`preview/64/${tid}.png`));
             $('.modal').modal('hide');
@@ -58,26 +62,35 @@ function ajaxChangeTexture(pid) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
-function changePlayerName(pid, oldName) {
+async function changePlayerName(pid, oldName) {
     let dom = $(`tr#${pid} > td:nth-child(3)`);
-    let newPlayerName = '';
+    let newPlayerName;
 
-    swal({
-        text: trans('admin.changePlayerNameNotice'),
-        input: 'text',
-        inputValue: oldName,
-        inputValidator: name => (new Promise((resolve, reject) => {
-            (newPlayerName = name) ? resolve() : reject(trans('admin.emptyPlayerName'));
-        }))
-    }).then(name => fetch({
-        type: 'POST',
-        url: url('admin/players?action=name'),
-        dataType: 'json',
-        data: { pid: pid, name: name }
-    })).then(({ errno, msg }) => {
+    try {
+        newPlayerName = await swal({
+            text: trans('admin.changePlayerNameNotice'),
+            input: 'text',
+            inputValue: oldName,
+            inputValidator: name => (new Promise((resolve, reject) => {
+                name ? resolve() : reject(trans('admin.emptyPlayerName'));
+            }))
+        });
+    } catch (error) {
+        return;
+    }
+
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('admin/players?action=name'),
+            dataType: 'json',
+            data: { pid: pid, name: newPlayerName }
+        });
         if (errno == 0) {
             dom.text(newPlayerName);
 
@@ -85,7 +98,9 @@ function changePlayerName(pid, oldName) {
         } else {
             toastr.warning(msg);
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    } 
 }
 
 function changeOwner(pid) {
@@ -97,68 +112,81 @@ function changeOwner(pid) {
         input: 'number',
         inputValue: dom.text(),
         showCancelButton: true
-    }).then(uid => {
+    }).then(async uid => {
         owner = uid;
 
-        return fetch({
-            type: 'POST',
-            url: url('admin/players?action=owner'),
-            dataType: 'json',
-            data: { pid: pid, uid: uid }
-        });
-    }).then(({ errno, msg }) => {
-        if (errno == 0) {
-            dom.text(owner);
-            toastr.success(msg);
-        } else {
-            toastr.warning(msg);
+        try {
+            const { errno, msg } = await fetch({
+                type: 'POST',
+                url: url('admin/players?action=owner'),
+                dataType: 'json',
+                data: { pid, uid }
+            });
+            if (errno == 0) {
+                dom.text(owner);
+                toastr.success(msg);
+            } else {
+                toastr.warning(msg);
+            }
+        } catch (error) {
+            showAjaxError(error);
         }
-    }).catch(showAjaxError);
+    });
 
-    $('.swal2-input').on('input', debounce(() => {
+    $('.swal2-input').on('input', debounce(async () => {
         let uid = $('.swal2-input').val();
 
         if (isNaN(uid) || uid <= 0)
             return;
 
-        fetch({
-            type: 'GET',
-            url: url(`admin/user/${uid}`),
-            dataType: 'json'
-        }).then(result => {
+        try {
+            const { user } = await fetch({
+                type: 'GET',
+                url: url(`admin/user/${uid}`),
+                dataType: 'json'
+            });
             $('.swal2-content').html(
                 trans('admin.changePlayerOwner') +
                 '<small style="display: block; margin-top: .5em;">' +
-                trans('admin.targetUser', { nickname: result.user.nickname }) +
+                trans('admin.targetUser', { nickname: user.nickname }) +
                 '</small>'
             );
-        }).catch(() => {
+        } catch (error) {
             $('.swal2-content').html(`
                 ${trans('admin.changePlayerOwner')}<br>
                 <small>${trans('admin.noSuchUser')}</small>
             `);
-        });
+        }
     }, 350));
 }
 
-function deletePlayer(pid) {
-    swal({
-        text: trans('admin.deletePlayerNotice'),
-        type: 'warning',
-        showCancelButton: true
-    }).then(() => fetch({
-        type: 'POST',
-        url: url('admin/players?action=delete'),
-        dataType: 'json',
-        data: { pid: pid }
-    })).then(({ errno, msg }) => {
+async function deletePlayer(pid) {
+    try {
+        await swal({
+            text: trans('admin.deletePlayerNotice'),
+            type: 'warning',
+            showCancelButton: true
+        });
+    } catch (error) {
+        return;
+    }
+
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('admin/players?action=delete'),
+            dataType: 'json',
+            data: { pid: pid }
+        });
         if (errno == 0) {
             $(`tr#${pid}`).remove();
             toastr.success(msg);
         } else {
             toastr.warning(msg);
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {

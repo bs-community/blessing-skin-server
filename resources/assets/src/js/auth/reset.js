@@ -25,18 +25,19 @@ $('#reset-button').click(e => {
         } else {
             callback();
         }
-    })(data, () => {
-        fetch({
-            type: 'POST',
-            url: url('auth/reset'),
-            dataType: 'json',
-            data: data,
-            beforeSend: () => {
-                $('#reset-button').html(
-                    '<i class="fa fa-spinner fa-spin"></i> ' + trans('auth.resetting')
-                ).prop('disabled', 'disabled');
-            }
-        }).then(({ errno, msg }) => {
+    })(data, async () => {
+        try {
+            const { errno, msg } = await fetch({
+                type: 'POST',
+                url: url('auth/reset'),
+                dataType: 'json',
+                data: data,
+                beforeSend: () => {
+                    $('#reset-button').html(
+                        '<i class="fa fa-spinner fa-spin"></i> ' + trans('auth.resetting')
+                    ).prop('disabled', 'disabled');
+                }
+            });
             if (errno == 0) {
                 swal({
                     type: 'success',
@@ -46,9 +47,9 @@ $('#reset-button').click(e => {
                 showMsg(msg, 'warning');
                 $('#reset-button').html(trans('auth.reset')).prop('disabled', '');
             }
-        }).catch(err => {
-            showAjaxError(err);
+        } catch (error) {
+            showAjaxError(error);
             $('#reset-button').html(trans('auth.reset')).prop('disabled', '');
-        });
+        }
     });
 });

@@ -1,22 +1,30 @@
 'use strict';
 
-function changeNickName() {
+async function changeNickName() {
     let name = $('#new-nickname').val();
 
     if (! name) {
         return swal({ type: 'error', html: trans('user.emptyNewNickName') });
     }
 
-    swal({
-        text: trans('user.changeNickName', { new_nickname: name }),
-        type: 'question',
-        showCancelButton: true
-    }).then(() => fetch({
-        type: 'POST',
-        url: url('user/profile?action=nickname'),
-        dataType: 'json',
-        data: { new_nickname: name }
-    })).then(({ errno, msg }) => {
+    try {
+        await swal({
+            text: trans('user.changeNickName', { new_nickname: name }),
+            type: 'question',
+            showCancelButton: true
+        });
+    } catch (error) {
+        return;
+    }
+
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('user/profile?action=nickname'),
+            dataType: 'json',
+            data: { new_nickname: name }
+        });
+
         if (errno == 0) {
 
             $('.nickname').each(function () {
@@ -27,10 +35,12 @@ function changeNickName() {
         } else {
             return swal({ type: 'warning', html: msg });
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
-function changePassword() {
+async function changePassword() {
     let $oldPasswd = $('#password'),
         $newPasswd = $('#new-passwd'),
         $confirmPwd = $('#confirm-pwd');
@@ -51,25 +61,33 @@ function changePassword() {
         toastr.warning(trans('auth.invalidConfirmPwd'));
         $confirmPwd.focus();
     } else {
-        fetch({
-            type: 'POST',
-            url: url('user/profile?action=password'),
-            dataType: 'json',
-            data: { 'current_password': password, 'new_password': newPasswd }
-        }).then(({ errno, msg }) => {
+        try {
+            const { errno, msg } = await fetch({
+                type: 'POST',
+                url: url('user/profile?action=password'),
+                dataType: 'json',
+                data: { 'current_password': password, 'new_password': newPasswd }
+            });
+
             if (errno == 0) {
-                return swal({
-                    type: 'success',
-                    text: msg
-                }).then(() => logout()).catch(err => {
-                    docCookies.removeItem('token') && console.warn(err);
-                }).then(() => {
+                try {
+                    await swal({
+                        type: 'success',
+                        text: msg
+                    });
+                    await logout();
+                } catch (error) {
+                    docCookies.removeItem('token') && console.warn(error);
+                } finally {
                     window.location = url('auth/login');
-                });
+                }
+                return;
             } else {
                 return swal({ type: 'warning', text: msg });
             }
-        }).catch(showAjaxError);
+        } catch (error) {
+            showAjaxError(error);
+        }
     }
 }
 
@@ -83,8 +101,8 @@ $('#new-email').focusin(() => {
     }
 }, 10));
 
-function changeEmail() {
-    var newEmail = $('#new-email').val();
+async function changeEmail() {
+    const newEmail = $('#new-email').val();
 
     if (! newEmail) {
         return swal({ type: 'error', html: trans('user.emptyNewEmail') });
@@ -95,55 +113,72 @@ function changeEmail() {
         return swal({ type: 'warning', html: trans('auth.invalidEmail') });
     }
 
-    swal({
-        text: trans('user.changeEmail', { new_email: newEmail }),
-        type: 'question',
-        showCancelButton: true
-    }).then(() => fetch({
-        type: 'POST',
-        url: url('user/profile?action=email'),
-        dataType: 'json',
-        data: { new_email: newEmail, password: $('#current-password').val() }
-    })).then(({ errno, msg }) => {
+    try {
+        await swal({
+            text: trans('user.changeEmail', { new_email: newEmail }),
+            type: 'question',
+            showCancelButton: true
+        });
+    } catch (error) {
+        return;
+    }
+
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('user/profile?action=email'),
+            dataType: 'json',
+            data: { new_email: newEmail, password: $('#current-password').val() }
+        });
+
         if (errno == 0) {
-            return swal({
+            await swal({
                 type: 'success',
                 text: msg
-            }).then(() => logout()).catch(err => {
-                docCookies.removeItem('token') && console.warn(err);
-            }).then(() => {
-                window.location = url('auth/login');
             });
+            
+            try {
+                await logout();
+            } catch (error) {
+                docCookies.removeItem('token') && console.warn(error);
+            } finally {
+                window.location = url('auth/login');
+            }
         } else {
             return swal({ type: 'warning', text: msg });
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
-function deleteAccount() {
+async function deleteAccount() {
     let password = $('.modal-body>#password').val();
 
     if (! password) {
         return swal({ type: 'warning', html: trans('user.emptyDeletePassword') });
     }
 
-    fetch({
-        type: 'POST',
-        url: url('user/profile?action=delete'),
-        dataType: 'json',
-        data: { password: password }
-    }).then(({ errno, msg }) => {
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('user/profile?action=delete'),
+            dataType: 'json',
+            data: { password: password }
+        });
+
         if (errno == 0) {
-            return swal({
+            await swal({
                 type: 'success',
                 html: msg
-            }).then(() => {
-                window.location = url('auth/login');
             });
+            window.location = url('auth/login');
         } else {
             return swal({ type: 'warning', html: msg });
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {

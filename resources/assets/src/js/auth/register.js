@@ -43,18 +43,19 @@ $('#register-button').click(e => {
         }
 
         return;
-    })(data, () => {
-        fetch({
-            type: 'POST',
-            url: url('auth/register'),
-            dataType: 'json',
-            data: data,
-            beforeSend: function () {
-                $('#register-button').html(
-                    '<i class="fa fa-spinner fa-spin"></i> ' + trans('auth.registering')
-                ).prop('disabled', 'disabled');
-            }
-        }).then(({ errno, msg, redirect }) => {
+    })(data, async () => {
+        try {
+            const { errno, msg, redirect } = await fetch({
+                type: 'POST',
+                url: url('auth/register'),
+                dataType: 'json',
+                data: data,
+                beforeSend: function () {
+                    $('#register-button').html(
+                        '<i class="fa fa-spinner fa-spin"></i> ' + trans('auth.registering')
+                    ).prop('disabled', 'disabled');
+                }
+            });
             if (errno == 0) {
                 swal({ type: 'success', html: msg })
                     .then(() => window.location = url('user'));
@@ -69,9 +70,9 @@ $('#register-button').click(e => {
                 refreshCaptcha();
                 $('#register-button').html(trans('auth.register')).prop('disabled', '');
             }
-        }).catch(err => {
-            showAjaxError(err);
+        } catch (error) {
+            showAjaxError(error);
             $('#register-button').html(trans('auth.register')).prop('disabled', '');
-        });
+        }
     });
 });

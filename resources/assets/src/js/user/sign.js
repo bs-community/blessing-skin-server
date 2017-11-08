@@ -1,9 +1,11 @@
-function sign() {
-    fetch({
-        type: 'POST',
-        url: url('user/sign'),
-        dataType: 'json'
-    }).then(result => {
+async function sign() {
+    try {
+        const result = await fetch({
+            type: 'POST',
+            url: url('user/sign'),
+            dataType: 'json'
+        });
+
         if (result.errno == 0) {
             $('#score').html(result.score);
             const dom = '<i class="fa fa-calendar-check-o"></i> &nbsp;' + trans(
@@ -29,7 +31,9 @@ function sign() {
         } else {
             toastr.warning(result.msg);
         }
-    }).catch(showAjaxError);
+    } catch (error) {
+        showAjaxError(error);
+    }
 }
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {
