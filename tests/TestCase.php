@@ -20,7 +20,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
 
         $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
-        Artisan::call('migrate');
+        Artisan::call('migrate:refresh');
 
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
