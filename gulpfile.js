@@ -7,6 +7,7 @@ var gulp        = require('gulp'),
     sass        = require('gulp-sass'),
     cleanCss    = require('gulp-clean-css'),
     del         = require('del'),
+    exec        = require('gulp-exec'),
     concat      = require('gulp-concat'),
     zip         = require('gulp-zip'),
     replace     = require('gulp-batch-replace'),
@@ -175,9 +176,7 @@ gulp.task('zip', () => {
             '!.bowerrc',
             '!.gitignore',
             '!.git/**/*.*',
-            '!.git/',
             '!.github/**/*.*',
-            '!.github/',
             '!.gitmodules',
             '!.gitattributes',
             '!gulpfile.js',
@@ -199,6 +198,7 @@ gulp.task('zip', () => {
             '!vendor/symfony/css-selector/**/*.*',
             '!vendor/symfony/dom-crawler/**/*.*'
         ], { dot: true })
+        .pipe(exec('composer dump-autoload --no-dev'))
         .pipe(zip(zipPath))
         .pipe(notify('Don\'t forget to compile Sass & ES2015 files before publishing a release!'))
         .pipe(gulp.dest('../'))

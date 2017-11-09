@@ -35,19 +35,7 @@
     },
     "autoload-dev": {
         "classmap": [
-          "tests",
-          "database"
-        ]
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "php -r \"file_exists('.env') || copy('.env.example', '.env');\"",
-            "Illuminate\\Foundation\\ComposerScripts::postInstall",
-            "php artisan optimize"
-        ],
-        "post-update-cmd": [
-            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
-            "php artisan optimize"
+          "tests"
         ]
     },
     "config": {
