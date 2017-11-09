@@ -35,7 +35,7 @@ class BootServiceProvider extends ServiceProvider
     protected function checkFilePermissions()
     {
         // check dotenv
-        if (!file_exists(base_path('.env'))) {
+        if (!file_exists(app()->environmentFile())) {
             throw new PrettyPageException(trans('setup.file.no-dot-env'), -1);
         }
 
