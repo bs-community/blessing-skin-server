@@ -5,50 +5,39 @@ git:
 
 cache:
   directories:
-    - vendor
-    - node_modules
+  - vendor
+  - node_modules
 
 env:
-  global: APP_ENV=testing DB_HOST=localhost DB_USERNAME=root DB_PASSWORD= DB_DATABASE=blessing_test
+  global: APP_ENV=testing
 
-before_install:
-  - if [[ $TEST_TYPE == 'php' ]]; then mysql -e 'CREATE DATABASE blessing_test;' ; fi
+services: mysql
 
-install:
-  - composer install
+install: composer install
 
 before_script:
-  - if [[ $TEST_TYPE == 'php' ]]; then php artisan key:generate ; fi
+- mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
+- php artisan key:random
+- php artisan salt:random
 
-script:
-  - ./vendor/bin/phpunit
+script: ./vendor/bin/phpunit
 
 matrix:
   include:
-    - php: 5.6
-      env: TEST_TYPE=php
-      services:
-        - mysql
-    - php: 7.0
-      env: TEST_TYPE=php
-      services:
-        - mysql
-      script:
-        - ./vendor/bin/phpunit --coverage-clover=coverage.xml
-      after_success:
-        - bash <(curl -s https://codecov.io/bash) -cF php
-    - php: 7.1
-      env: TEST_TYPE=php
-      services:
-        - mysql
-    - node_js: 8
-      language: node_js
-      node_js: 8
-      env: TEST_TYPE=js
-      install:
-        - yarn
-      script:
-        - yarn run lint
-        - yarn test:coverage
-      after_success:
-        - yarn run codecov
+  - php: 5.6
+  - php: 7.0
+    script:
+    - ./vendor/bin/phpunit --coverage-clover=coverage.xml
+    after_success:
+    - bash <(curl -s https://codecov.io/bash) -cF php
+  - php: 7.1
+  - node_js: 8
+    language: node_js
+    install: yarn
+    before_script:
+    - echo "Testing JavaScript Code" > /dev/null
+    script:
+    - yarn run lint
+    - yarn test:coverage
+    after_success:
+    - yarn run codecov

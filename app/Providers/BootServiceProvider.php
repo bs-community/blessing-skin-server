@@ -55,6 +55,15 @@ class BootServiceProvider extends ServiceProvider
             // check database config
             Database::prepareConnection();
         } catch (\Exception $e) {
+            if (PHP_SAPI == "cli") {
+                // dump some useful information for debugging
+                dump([
+                    'APP_ENV' => app()->environment(),
+                    'DOTENV_FILE' => app()->environmentFile(),
+                    'DB_CONNECTION' => config('database.connections.mysql')
+                ]);
+            }
+
             throw new PrettyPageException(
                 trans('setup.database.connection-error', ['msg' => $e->getMessage()]),
                 $e->getCode()
