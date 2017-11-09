@@ -33,11 +33,11 @@ var vendorScripts = [
     'es6-promise/dist/es6-promise.auto.min.js',
     'sweetalert2/dist/sweetalert2.min.js',
     'jqPaginator/dist/1.2.0/jqPaginator.min.js',
-    'resources/assets/dist/js/common.js',
 ];
 
 var vendorScriptsToBeMinified = [
     'regenerator-runtime/runtime.js',
+    'resources/assets/dist/js/common.js',
 ];
 
 var vendorStyles = [
