@@ -7,7 +7,7 @@ var gulp        = require('gulp'),
     sass        = require('gulp-sass'),
     cleanCss    = require('gulp-clean-css'),
     del         = require('del'),
-    exec        = require('gulp-exec'),
+    exec        = require('child_process').exec,
     concat      = require('gulp-concat'),
     zip         = require('gulp-zip'),
     replace     = require('gulp-batch-replace'),
@@ -165,6 +165,11 @@ gulp.task('clean', () => {
 // aka. `yarn run release`
 gulp.task('zip', () => {
     clearCache();
+    console.log('Cache file deleted');
+
+    exec('composer dump-autoload --no-dev', () => {
+        console.log('Autoload files generated without autoload-dev');
+    });
 
     let zipPath = `blessing-skin-server-v${version}.zip`;
 
@@ -172,40 +177,34 @@ gulp.task('zip', () => {
 
     return gulp.src([
             '**/*.*',
+            'artisan',
             'LICENSE',
-            '!tests/**/*.*',
-            '!node_modules/**/*.*',
-            '!storage/textures/**/*.*',
-            '!.env',
             '!.babelrc',
-            '!.bowerrc',
-            '!.gitignore',
-            '!.git/**/*.*',
-            '!.github/**/*.*',
-            '!.gitmodules',
-            '!.gitattributes',
-            '!gulpfile.js',
             '!.eslintrc.js',
             '!.travis.yml',
+            '!{.env,.env.testing}',
+            '!{.git,.git/**}',
+            '!{.github,.github/**}',
+            '!{.gitignore,.gitmodules,.gitattributes}',
+            '!gulpfile.js',
+            '!composer.*',
             '!yarn.lock',
-            '!package.json',
-            '!composer.json',
-            '!composer.lock',
-            '!coverage/**/*.*',
-            '!bower.json',
+            '!plugins/**',
             '!phpunit.xml',
-            '!plugins/**/*.*',
-            '!resources/assets/src/**/*.*',
-            '!resources/assets/dist/**/maps/*.map',
-            '!resources/assets/dist/**/maps/',
+            '!package.json',
+            '!{tests,tests/**}',
+            '!{coverage,coverage/**}',
+            '!{node_modules,node_modules/**}',
+            '!storage/textures/**',
+            '!resources/assets/{src,src/**}',
+            '!resources/assets/dist/**/{maps,maps/**}',
             // do not pack packages for developments
-            '!vendor/fzaninotto/**/*.*',
-            '!vendor/mockery/**/*.*',
-            '!vendor/phpunit/**/*.*',
-            '!vendor/symfony/css-selector/**/*.*',
-            '!vendor/symfony/dom-crawler/**/*.*'
+            '!vendor/fzaninotto/**',
+            '!vendor/mockery/**',
+            '!vendor/phpunit/**',
+            '!vendor/symfony/css-selector/**',
+            '!vendor/symfony/dom-crawler/**'
         ], { dot: true })
-        .pipe(exec('composer dump-autoload --no-dev'))
         .pipe(zip(zipPath))
         .pipe(notify('Don\'t forget to compile Sass & ES2015 files before publishing a release!'))
         .pipe(gulp.dest('../'))
