@@ -55,10 +55,9 @@ Route::group(['middleware' => 'auth', 'prefix' => 'user'], function ()
     // Player
     Route::any ('/player',               'PlayerController@index');
     Route::post('/player/add',           'PlayerController@add');
-    Route::post('/player/show',          'PlayerController@show');
+    Route::any ('/player/show',          'PlayerController@show');
     Route::post('/player/preference',    'PlayerController@setPreference');
     Route::post('/player/set',           'PlayerController@setTexture');
-    Route::post('/player/texture',       'PlayerController@changeTexture');
     Route::post('/player/texture/clear', 'PlayerController@clearTexture');
     Route::post('/player/rename',        'PlayerController@rename');
     Route::post('/player/delete',        'PlayerController@delete');

@@ -56,7 +56,7 @@ class PlayerController extends Controller
             'player_name' => 'required|'.(option('allow_chinese_playername') ? 'pname_chinese' : 'playername')
         ]);
 
-        Event::fire(new CheckPlayerExists($request->input('player_name')));
+        event(new CheckPlayerExists($request->input('player_name')));
 
         if (!Player::where('player_name', $request->input('player_name'))->get()->isEmpty()) {
             return json(trans('user.player.add.repeated'), 6);
@@ -66,7 +66,7 @@ class PlayerController extends Controller
             return json(trans('user.player.add.lack-score'), 7);
         }
 
-        Event::fire(new PlayerWillBeAdded($request->input('player_name')));
+        event(new PlayerWillBeAdded($request->input('player_name')));
 
         $player = new Player;
 
@@ -76,7 +76,7 @@ class PlayerController extends Controller
         $player->last_modified = Utils::getTimeFormatted();
         $player->save();
 
-        Event::fire(new PlayerWasAdded($player));
+        event(new PlayerWasAdded($player));
 
         $this->user->setScore(option('score_per_player'), 'minus');
 
@@ -87,22 +87,21 @@ class PlayerController extends Controller
     {
         $player_name = $this->player->player_name;
 
-        Event::fire(new PlayerWillBeDeleted($this->player));
+        event(new PlayerWillBeDeleted($this->player));
 
-        if ($this->player->delete()) {
+        $this->player->delete();
 
-            if (option('return_score'))
-                $this->user->setScore(Option::get('score_per_player'), 'plus');
+        if (option('return_score'))
+            $this->user->setScore(Option::get('score_per_player'), 'plus');
 
-            Event::fire(new PlayerWasDeleted($player_name));
+        event(new PlayerWasDeleted($player_name));
 
-            return json(trans('user.player.delete.success', ['name' => $player_name]), 0);
-        }
+        return json(trans('user.player.delete.success', ['name' => $player_name]), 0);
     }
 
     public function show()
     {
-        return json_encode($this->player->toArray(), JSON_NUMERIC_CHECK);
+        return response()->json($this->player->toArray());
     }
 
     public function rename(Request $request)
@@ -126,6 +125,9 @@ class PlayerController extends Controller
 
     /**
      * A wrapper of Player::setTexture()
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function setTexture(Request $request)
     {

@@ -404,7 +404,7 @@ describe('tests for "player" module', () => {
     expect($('#1').hasClass('player-selected')).toBe(false);
     expect($('#2').hasClass('player-selected')).toBe(true);
     expect(fetch).toBeCalledWith({
-      type: 'POST',
+      type: 'GET',
       url: 'user/player/show',
       dataType: 'json',
       data: { pid: '2' }

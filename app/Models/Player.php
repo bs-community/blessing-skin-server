@@ -46,7 +46,7 @@ class Player extends Model
     /**
      * Return the owner of the player.
      *
-     * @return App\Models\User
+     * @return \App\Models\User
      */
     public function user()
     {
@@ -75,7 +75,7 @@ class Player extends Model
      * Set textures for the player.
      *
      * @param  array $tids
-     * @return mixed
+     * @return $this
      */
     public function setTexture(Array $tids)
     {
@@ -91,7 +91,9 @@ class Player extends Model
 
         $this->save();
 
-        return Event::fire(new PlayerProfileUpdated($this));
+        event(new PlayerProfileUpdated($this));
+
+        return $this;
     }
 
     /**
@@ -165,6 +167,8 @@ class Player extends Model
      * Set preferred model for the player.
      *
      * @param string $type slim|default
+     *
+     * @return $this
      */
     public function setPreference($type)
     {
@@ -173,7 +177,9 @@ class Player extends Model
             'last_modified' => Utils::getTimeFormatted()
         ]);
 
-        return Event::fire(new PlayerProfileUpdated($this));
+        event(new PlayerProfileUpdated($this));
+
+        return $this;
     }
 
     /**
@@ -190,7 +196,7 @@ class Player extends Model
      * Rename the player.
      *
      * @param  string $new_name
-     * @return mixed
+     * @return $this;
      */
     public function rename($new_name)
     {
@@ -201,18 +207,24 @@ class Player extends Model
 
         $this->player_name = $new_name;
 
-        return Event::fire(new PlayerProfileUpdated($this));
+        event(new PlayerProfileUpdated($this));
+
+        return $this;
     }
 
     /**
      * Set a new owner for the player.
      *
      * @param int $uid
+     *
+     * @return $this
      */
     public function setOwner($uid) {
         $this->update(['uid' => $uid]);
 
-        return Event::fire(new PlayerProfileUpdated($this));
+        event(new PlayerProfileUpdated($this));
+
+        return $this;
     }
 
     /**

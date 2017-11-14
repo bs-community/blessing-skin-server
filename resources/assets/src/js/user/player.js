@@ -26,7 +26,7 @@ $('body').on('click', '.player', function () {
 async function showPlayerTexturePreview(pid) {
     try {
         const result = await fetch({
-            type: 'POST',
+            type: 'GET',
             url: url('user/player/show'),
             dataType: 'json',
             data: { pid: pid }
