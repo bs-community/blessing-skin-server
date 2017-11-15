@@ -110,6 +110,51 @@ class MiddlewareTest extends TestCase
 
         $this->expectsEvents(\App\Events\CheckPlayerExists::class);
         $this->get("/{$player->player_name}.json");
+
+        $player = factory(\App\Models\Player::class)->create();
+        $user = \App\Models\User::find($player->uid);
+        $this->actAs($user)
+            ->post('/user/player/rename', [
+                'pid' => -1,
+                'new_player_name' => 'name'
+            ])->seeJson([
+                'errno' => 1,
+                'msg' => trans('general.unexistent-player')
+            ]);
+        $this->actAs($user)
+            ->post('/user/player/rename', [
+                'pid' => $player->pid,
+                'new_player_name' => 'name'
+            ])->seeJson([
+                'errno' => 0
+            ]);
+    }
+
+    public function testCheckPlayerOwner()
+    {
+        $other_user = factory(\App\Models\User::class)->create();
+        $player = factory(\App\Models\Player::class)->create();
+        $owner = \App\Models\User::find($player->uid);
+
+        $this->actAs($other_user)
+            ->visit('/user/player')
+            ->assertResponseStatus(200);
+
+        $this->actAs($other_user)
+            ->post('/user/player/rename', [
+                'pid' => $player->pid
+            ])->seeJson([
+                'errno' => 1,
+                'msg' => trans('admin.players.no-permission')
+            ]);
+
+        $this->actAs($owner)
+            ->post('/user/player/rename', [
+                'pid' => $player->pid,
+                'new_player_name' => 'name'
+            ])->seeJson([
+                'errno' => 0
+            ]);
     }
 
     public function testRedirectIfAuthenticated()

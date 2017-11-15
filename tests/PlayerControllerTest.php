@@ -279,14 +279,15 @@ class PlayerControllerTest extends TestCase
     {
         // Without `preference` field
         $player = factory(Player::class)->create();
-        $this->post('/user/player/preference', [
-            'pid' => $player->pid
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'preference'])
-        ]);
+        $this->actAs(User::find($player->uid))
+            ->post('/user/player/preference', [
+                'pid' => $player->pid
+            ], [
+                'X-Requested-With' => 'XMLHttpRequest'
+            ])->seeJson([
+                'errno' => 1,
+                'msg' => trans('validation.required', ['attribute' => 'preference'])
+            ]);
 
         // value of `preference` is invalid
         $this->post('/user/player/preference', [

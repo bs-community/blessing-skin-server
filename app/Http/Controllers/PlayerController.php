@@ -16,6 +16,8 @@ use App\Events\CheckPlayerExists;
 use App\Events\PlayerWillBeAdded;
 use App\Events\PlayerWillBeDeleted;
 use App\Exceptions\PrettyPageException;
+use App\Http\Middleware\CheckPlayerExist;
+use App\Http\Middleware\CheckPlayerOwner;
 use App\Services\Repositories\UserRepository;
 
 class PlayerController extends Controller
@@ -43,6 +45,14 @@ class PlayerController extends Controller
                 $this->player->checkForInvalidTextures();
             }
         }
+
+        $this->middleware(
+            [CheckPlayerExist::class, CheckPlayerOwner::class],
+            [
+                'only' => ['delete', 'rename', 'setTexture', 'clearTexture', 'setPreference']
+            ]);
+
+        return json('dd', 0);
     }
 
     public function index()

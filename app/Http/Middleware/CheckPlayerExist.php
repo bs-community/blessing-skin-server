@@ -10,6 +10,17 @@ class CheckPlayerExist
 {
     public function handle($request, \Closure $next)
     {
+        if ($request->has('pid') && $request->isMethod('post')) {
+            if (is_null(Player::find($request->input('pid')))) {
+                return response()->json([
+                    'errno' => 1,
+                    'msg' => trans('general.unexistent-player')
+                ]);
+            } else {
+                return $next($request);
+            }
+        }
+
         if (stripos($request->getUri(), '.json') != false) {
             preg_match('/\/([^\/]*)\.json/', $request->getUri(), $matches);
         } else {
