@@ -146,7 +146,6 @@ class Player extends Model
     {
         if ($this->getTexture($type)) {
             $hash = $this->getTexture($type);
-            $path = storage_path("textures/$hash");
 
             if (Storage::disk('textures')->has($hash)) {
                 // Cache friendly

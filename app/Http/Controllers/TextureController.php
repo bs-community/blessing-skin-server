@@ -58,7 +58,7 @@ class TextureController extends Controller
                 'Content-Length' => Storage::disk('textures')->size($hash),
             ]);
         } else {
-            abort(404);
+            return abort(404);
         }
     }
 
@@ -88,7 +88,7 @@ class TextureController extends Controller
         return $player->getBinaryTexture('cape');
     }
 
-    public function avatar($base64_email, $size = 128, UserRepository $users)
+    public function avatar($base64_email, UserRepository $users, $size = 128)
     {
         $user = $users->get(base64_decode($base64_email), 'email');
 
@@ -97,33 +97,39 @@ class TextureController extends Controller
 
             if ($t = Texture::find($tid)) {
                 if (Storage::disk('textures')->has($t->hash)) {
-                    $responses = Event::fire(new GetAvatarPreview($t, $size));
+                    $responses = event(new GetAvatarPreview($t, $size));
 
                     if (isset($responses[0]) && $responses[0] instanceof \Symfony\Component\HttpFoundation\Response) {
-                        return $responses[0];
+                        return $responses[0];       // @codeCoverageIgnore
                     } else {
-                        $filename = storage_path("textures/{$t->hash}");
+                        $filename = config('filesystems.disks.textures.root').'/'.$t->hash;
 
                         $png = Minecraft::generateAvatarFromSkin($filename, $size);
+                        ob_start();
                         imagepng($png);
                         imagedestroy($png);
+                        $image = ob_get_contents();
+                        ob_end_clean();
 
-                        return Response::png();
+                        return Response::png($image);
                     }
                 }
             }
         }
 
         $png = imagecreatefromstring(base64_decode(static::getDefaultAvatar()));
+        ob_start();
         imagepng($png);
         imagedestroy($png);
+        $image = ob_get_contents();
+        ob_end_clean();
 
-        return Response::png();
+        return Response::png($image);
     }
 
     public function avatarWithSize($size, $base64_email, UserRepository $users)
     {
-        return $this->avatar($base64_email, $size, $users);
+        return $this->avatar($base64_email, $users, $size);
     }
 
     public function preview($tid, $size = 250)
@@ -131,33 +137,42 @@ class TextureController extends Controller
         // output image directly
         if ($t = Texture::find($tid)) {
             if (Storage::disk('textures')->has($t->hash)) {
-                $responses = Event::fire(new GetSkinPreview($t, $size));
+                $responses = event(new GetSkinPreview($t, $size));
 
                 if (isset($responses[0]) && $responses[0] instanceof \Symfony\Component\HttpFoundation\Response) {
-                    return $responses[0];
+                    return $responses[0];      // @codeCoverageIgnore
                 } else {
-                    $filename = storage_path("textures/{$t->hash}");
+                    $filename = config('filesystems.disks.textures.root').'/'.$t->hash;
 
                     if ($t->type == "cape") {
                         $png = Minecraft::generatePreviewFromCape($filename, $size);
+                        ob_start();
                         imagepng($png);
                         imagedestroy($png);
+                        $image = ob_get_contents();
+                        ob_end_clean();
                     } else {
                         $png = Minecraft::generatePreviewFromSkin($filename, $size);
+                        ob_start();
                         imagepng($png);
                         imagedestroy($png);
+                        $image = ob_get_contents();
+                        ob_end_clean();
                     }
 
-                    return Response::png();
+                    return Response::png($image);
                 }
             }
         }
 
         $png = imagecreatefromstring(base64_decode(static::getBrokenPreview()));
+        ob_start();
         imagepng($png);
         imagedestroy($png);
+        $image = ob_get_contents();
+        ob_end_clean();
 
-        return Response::png();
+        return Response::png($image);
     }
 
     public function previewWithSize($size, $tid)
@@ -171,10 +186,10 @@ class TextureController extends Controller
             if (Storage::disk('textures')->has($t->hash)) {
                 return Response::png(Storage::disk('textures')->get($t->hash));
             } else {
-                abort(404, trans('general.texture-deleted'));
+                return abort(404, trans('general.texture-deleted'));
             }
         } else {
-            abort(404, trans('skinlib.non-existent'));
+            return abort(404, trans('skinlib.non-existent'));
         }
 
     }
@@ -182,9 +197,6 @@ class TextureController extends Controller
     protected function getPlayerInstance($player_name)
     {
         $player = Player::where('player_name', $player_name)->first();
-
-        if (!$player)
-            abort(404, trans('general.unexistent-player'));
 
         if ($player->isBanned())
             abort(404, trans('general.player-banned'));
