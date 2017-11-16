@@ -20,7 +20,6 @@ before_script:
 - mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
 - php artisan key:random
 - php artisan salt:random
-- php -f ./tests/scripts/download-plugins.php
 
 script: ./vendor/bin/phpunit
 

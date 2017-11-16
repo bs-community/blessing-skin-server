@@ -11,6 +11,26 @@ class PluginControllerTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
+
+        $plugins = [
+            'example-plugin' => 'example-plugin_v1.0.zip',
+            'avatar-api'     => 'avatar-api_v1.1.zip'
+        ];
+        foreach ($plugins as $plugin_name => $filename) {
+            if (!file_exists(base_path('plugins/'.$plugin_name))) {
+                file_put_contents(
+                    storage_path('testing/'.$filename),
+                    file_get_contents("https://github.com/printempw/blessing-skin-plugins/raw/master/dist/$filename")
+                );
+
+                $zip = new ZipArchive();
+                $zip->open(storage_path('testing/'.$filename));
+                $zip->extractTo(base_path('plugins/'));
+                $zip->close();
+                unlink(storage_path('testing/'.$filename));
+            }
+        }
+
         return $this->actAs('admin');
     }
 
