@@ -10,6 +10,9 @@ use App\Services\PluginManager;
 
 class PluginController extends Controller
 {
+    /**
+     * @codeCoverageIgnore
+     */
     public function showMarket()
     {
         return redirect('/')->setTargetUrl(
@@ -29,7 +32,7 @@ class PluginController extends Controller
         if ($plugin && $plugin->isEnabled() && $plugin->hasConfigView()) {
             return $plugin->getConfigView();
         } else {
-            abort(404, trans('admin.plugins.operations.no-config-notice'));
+            return abort(404, trans('admin.plugins.operations.no-config-notice'));
         }
     }
 
@@ -58,9 +61,10 @@ class PluginController extends Controller
                     return json(trans('admin.plugins.operations.deleted'), 0);
 
                 default:
-                    # code...
-                    break;
+                    return json(trans('admin.invalid-action'), 1);
             }
+        } else {
+            return json(trans('admin.plugins.operations.not-found'), 1);
         }
     }
 

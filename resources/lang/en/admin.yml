@@ -108,6 +108,7 @@ plugins:
     disabled: :plugin has been disabled.
     deleted: The plugin was deleted successfully.
     no-config-notice: The plugin is not installed or doesn't provide configuration page.
+    not-found: No such plugin.
 
   empty: No result
 
@@ -155,3 +156,5 @@ update:
     write-permission: Unable to make cache directory. Please sure permission.
     unzip: "Failed to unzip update file. Error code: "
     overwrite: Unable to overwrite files.
+
+invalid-action: Invalid action

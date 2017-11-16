@@ -51,6 +51,10 @@ if (! function_exists('assets')) {
 
 if (! function_exists('plugin')) {
 
+    /**
+     * @param string $id
+     * @return \App\Services\Plugin
+     */
     function plugin($id)
     {
         return app('plugins')->getPlugin($id);

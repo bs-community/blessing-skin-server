@@ -108,6 +108,7 @@ plugins:
     disabled: :plugin 已禁用
     deleted: 插件已被成功删除
     no-config-notice: 插件未安装或未提供配置页面
+    not-found: 插件不存在
 
   empty: 无结果
 
@@ -155,3 +156,5 @@ update:
     write-permission: 您的服务器不支持自动更新：创建下载缓存文件夹失败，请检查目录权限。
     unzip: 更新包解压缩失败。错误代码：
     overwrite: 您的服务器不支持自动更新：无法覆盖文件。
+
+invalid-action: 无效的操作名

@@ -175,7 +175,7 @@ class PluginManager
 
         $this->disable($name);
 
-        // fire event before deleeting plugin files
+        // fire event before deleting plugin files
         $this->dispatcher->fire(new Events\PluginWasDeleted($plugin));
 
         $this->filesystem->deleteDirectory($plugin->getPath());
