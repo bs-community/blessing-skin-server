@@ -59,7 +59,7 @@ return [
         ],
 
         'textures' => [
-            'driver' => 'local',
+            'driver' => menv('FS_DRIVER', 'local'),
             'root' => storage_path('textures'),
             'visibility' => 'public',
         ],
@@ -68,6 +68,10 @@ return [
             'driver' => 'local',
             'root' => storage_path('cache'),
             'visibility' => 'public',
+        ],
+
+        'testing' => [
+            'driver' => 'memory'
         ],
 
         's3' => [

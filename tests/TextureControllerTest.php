@@ -11,24 +11,6 @@ class TextureControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
-    protected function setUp()
-    {
-        parent::setUp();
-        config(['filesystems.disks.textures.root' => storage_path('testing/textures')]);
-    }
-
-    protected function tearDown()
-    {
-        collect(Storage::disk('textures')->files())
-            ->reject(function ($filename) {
-                return $filename == '.gitignore';
-            })
-            ->each(function ($filename) {
-                Storage::disk('textures')->delete($filename);
-            });
-        parent::tearDown();
-    }
-
     public function testJson()
     {
         $steve = factory(Texture::class)->create();
