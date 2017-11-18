@@ -713,6 +713,10 @@ class AuthControllerTest extends TestCase
 
     public function testCaptcha()
     {
+        if (!function_exists('imagettfbbox') || getenv('TRAVIS_PHP_VERSION' == '5.5')) {
+            $this->markTestSkipped('There are some problems with PHP 5.5 on Travis CI');
+        }
+
         $this->get('/auth/captcha')
             ->assertResponseStatus(200)
             ->seeHeader('Content-Type', 'image/png')
