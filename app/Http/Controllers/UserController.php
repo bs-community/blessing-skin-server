@@ -62,16 +62,16 @@ class UserController extends Controller
     /**
      * Handle user signing.
      *
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function sign()
     {
         if ($this->user->canSign()) {
-            $acuiredScore = $this->user->sign();
+            $acquiredScore = $this->user->sign();
 
             return json([
                 'errno'          => 0,
-                'msg'            => trans('user.sign-success', ['score' => $acuiredScore]),
+                'msg'            => trans('user.sign-success', ['score' => $acquiredScore]),
                 'score'          => $this->user->getScore(),
                 'storage'        => $this->calculatePercentageUsed($this->user->getStorageUsed(), option('score_per_storage')),
                 'remaining_time' => $this->getUserSignRemainingTimeWithPrecision()
@@ -79,7 +79,8 @@ class UserController extends Controller
         } else {
             $remaining_time = $this->getUserSignRemainingTimeWithPrecision();
             return json(trans('user.cant-sign-until', [
-                'time' => $remaining_time >= 1 ?: round($remaining_time * 60),
+                'time' => $remaining_time >= 1
+                    ? $remaining_time : round($remaining_time * 60),
                 'unit' => $remaining_time >= 1
                     ? trans('user.time-unit-hour') : trans('user.time-unit-min')
             ]), 1);
@@ -102,6 +103,7 @@ class UserController extends Controller
      * Handle changing user profile.
      *
      * @param  Request $request
+     * @param  UserRepository $users
      * @return mixed
      */
     public function handleProfile(Request $request, UserRepository $users)
@@ -116,10 +118,12 @@ class UserController extends Controller
 
                 $nickname = $request->input('new_nickname');
 
-                if ($this->user->setNickName($nickname))
+                if ($this->user->setNickName($nickname)) {
+                    event(new UserProfileUpdated($action, $this->user));
                     return json(trans('user.profile.nickname.success', ['nickname' => $nickname]), 0);
+                }
 
-                break;
+                break;   // @codeCoverageIgnore
 
             case 'password':
                 $this->validate($request, [
@@ -130,10 +134,12 @@ class UserController extends Controller
                 if (!$this->user->verifyPassword($request->input('current_password')))
                     return json(trans('user.profile.password.wrong-password'), 1);
 
-                if ($this->user->changePasswd($request->input('new_password')))
+                if ($this->user->changePasswd($request->input('new_password'))) {
+                    event(new UserProfileUpdated($action, $this->user));
                     return json(trans('user.profile.password.success'), 0);
+                }
 
-                break;
+                break;   // @codeCoverageIgnore
 
             case 'email':
                 $this->validate($request, [
@@ -148,10 +154,12 @@ class UserController extends Controller
                 if (!$this->user->verifyPassword($request->input('password')))
                     return json(trans('user.profile.email.wrong-password'), 1);
 
-                if ($this->user->setEmail($request->input('new_email')))
+                if ($this->user->setEmail($request->input('new_email'))) {
+                    event(new UserProfileUpdated($action, $this->user));
                     return json(trans('user.profile.email.success'), 0);
+                }
 
-                break;
+                break;   // @codeCoverageIgnore
 
             case 'delete':
                 $this->validate($request, [
@@ -162,24 +170,24 @@ class UserController extends Controller
                     return json(trans('user.profile.delete.wrong-password'), 1);
 
                 if ($this->user->delete()) {
-                    setcookie('uid',   '', time() - 3600, '/');
-                    setcookie('token', '', time() - 3600, '/');
-
                     session()->flush();
 
-                    return json(trans('user.profile.delete.success'), 0);
+                    return response()
+                        ->json([
+                            'errno' => 0,
+                            'msg' => trans('user.profile.delete.success')
+                        ])
+                        ->cookie('uid', '', time() - 3600, '/')
+                        ->cookie('token', '', time() - 3600, '/');
                 }
 
-                break;
+                break;   // @codeCoverageIgnore
 
             default:
                 return json(trans('general.illegal-parameters'), 1);
                 break;
         }
-
-        event(new UserProfileUpdated($action, $this->user));
-
-    }
+    }                    // @codeCoverageIgnore
 
     /**
      * Set user avatar.
@@ -204,6 +212,6 @@ class UserController extends Controller
         } else {
             return json(trans('skinlib.non-existent'), 1);
         }
-    }
+    }                    // @codeCoverageIgnore
 
 }

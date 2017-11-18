@@ -168,7 +168,8 @@ class User extends Model
     /**
      * Set new email for user.
      *
-     * @param string $new_email
+     * @param  string $new_email
+     * @return bool
      */
     public function setEmail($new_email)
     {
