@@ -7,4 +7,3 @@ plugins/*
 storage/textures/*
 storage/update_cache/*
 node_modules/*
-resources/assets/src/bower_components/*

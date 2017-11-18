@@ -7,6 +7,7 @@ use Log;
 use Utils;
 use File;
 use Option;
+use Storage;
 use ZipArchive;
 use App\Services\OptionForm;
 use Illuminate\Http\Request;
@@ -114,8 +115,8 @@ class UpdateController extends Controller
                 $update_cache = storage_path('update_cache');
 
                 if (!is_dir($update_cache)) {
-                    if (false === mkdir($update_cache)) {
-                        exit(trans('admin.update.errors.write-permission'));
+                    if (false === Storage::disk('storage')->makeDirectory('update_cache')) {
+                        return response(trans('admin.update.errors.write-permission'));
                     }
                 }
 
@@ -124,8 +125,6 @@ class UpdateController extends Controller
                 session(['tmp_path' => $tmp_path]);
 
                 return json(compact('release_url', 'tmp_path', 'file_size'));
-
-                break;
 
             case 'start-download':
 
@@ -137,12 +136,10 @@ class UpdateController extends Controller
                 } catch (\Exception $e) {
                     File::delete($tmp_path);
 
-                    exit(trans('admin.update.errors.prefix').$e->getMessage());
+                    return response(trans('admin.update.errors.prefix').$e->getMessage());
                 }
 
                 return json(compact('tmp_path'));
-
-                break;
 
             case 'get-file-size':
 
@@ -152,11 +149,10 @@ class UpdateController extends Controller
                     return json(['size' => filesize($tmp_path)]);
                 }
 
-                break;
-
             case 'extract':
 
-                if (!file_exists($tmp_path)) exit('No file available');
+                if (!file_exists($tmp_path))
+                    return response('No file available');
 
                 $extract_dir = storage_path("update_cache/{$this->latestVersion}");
 
@@ -166,14 +162,12 @@ class UpdateController extends Controller
                 if ($res === true) {
                     Log::info("[ZipArchive] Extracting file $tmp_path");
 
-                    try {
-                        $zip->extractTo($extract_dir);
-                    } catch (\Exception $e) {
-                        exit(trans('admin.update.errors.prefix').$e->getMessage());
+                    if ($zip->extractTo($extract_dir) === false) {
+                        return response(trans('admin.update.errors.prefix').'Cannot unzip file.');
                     }
 
                 } else {
-                    exit(trans('admin.update.errors.unzip').$res);
+                    return response(trans('admin.update.errors.unzip').$res);
                 }
                 $zip->close();
 
@@ -190,24 +184,22 @@ class UpdateController extends Controller
                     File::copyDirectory($extract_dir, base_path());
 
                     Log::info("[Extracter] Covering files");
-                    File::deleteDirectory(storage_path('update_cache'));
-
-                    Log::info("[Extracter] Cleaning cache");
 
                 } catch (\Exception $e) {
                     Log::error("[Extracter] Error occured when covering files", [$e]);
 
+                    // Response can be returned, while cache will be cleared
+                    // @see https://gist.github.com/g-plane/2f88ad582826a78e0a26c33f4319c1e0
+                    return response(trans('admin.update.errors.overwrite').$e->getMessage());
+                } finally {
                     File::deleteDirectory(storage_path('update_cache'));
-                    exit(trans('admin.update.errors.overwrite').$e->getMessage());
+                    Log::info("[Extracter] Cleaning cache");
                 }
 
                 return json(trans('admin.update.complete'), 0);
 
-                break;
-
             default:
-                # code...
-                break;
+                return json(trans('general.illegal-parameters'), 1);
         }
     }
 
@@ -215,7 +207,9 @@ class UpdateController extends Controller
     {
         if (!$this->updateInfo) {
             // add timestamp to control cdn cache
-            $url = $this->updateSource."?v=".substr(time(), 0, -3);
+            $url = starts_with($this->updateSource, 'http')
+                ? $this->updateSource."?v=".substr(time(), 0, -3)
+                : $this->updateSource;
 
             try {
                 $response = file_get_contents($url);
