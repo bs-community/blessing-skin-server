@@ -22,7 +22,8 @@
         "symfony/css-selector": "2.8.*|3.0.*",
         "symfony/dom-crawler": "2.8.*|3.0.*",
         "barryvdh/laravel-debugbar": "^2.3",
-        "league/flysystem-memory": "^1.0"
+        "league/flysystem-memory": "^1.0",
+        "mikey179/vfsStream": "1.6.4"
     },
     "autoload": {
         "classmap": [

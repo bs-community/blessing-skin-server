@@ -203,7 +203,8 @@ gulp.task('zip', () => {
             '!vendor/mockery/**',
             '!vendor/phpunit/**',
             '!vendor/symfony/css-selector/**',
-            '!vendor/symfony/dom-crawler/**'
+            '!vendor/symfony/dom-crawler/**',
+            '!vendor/mikey179/vfsStream/**',
         ], { dot: true })
         .pipe(zip(zipPath))
         .pipe(notify('Don\'t forget to compile Sass & ES2015 files before publishing a release!'))

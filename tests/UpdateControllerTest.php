@@ -1,5 +1,6 @@
 <?php
 
+use org\bovigo\vfs;
 use Illuminate\Support\Facades\File;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -12,6 +13,9 @@ class UpdateControllerTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
+
+        vfs\vfsStream::setup();
+
         return $this->actAs('admin');
     }
 
@@ -22,7 +26,7 @@ class UpdateControllerTest extends TestCase
      */
     protected function generateFakeUpdateInfo($version, $is_pre_release = false) {
         $time = \Carbon\Carbon::now();
-        file_put_contents(storage_path('testing/update.json'), json_encode([
+        file_put_contents(vfs\vfsStream::url('root/update.json'), json_encode([
             'app_name' => 'blessing-skin-server',
             'latest_version' => $version,
             'update_time' => $time->getTimestamp(),
@@ -59,11 +63,11 @@ class UpdateControllerTest extends TestCase
             ->see(trans('admin.update.errors.connection'))
             ->see(config('app.version'))
             ->uncheck('check_update')
-            ->type(storage_path('testing/update.json'), 'update_source')
+            ->type(vfs\vfsStream::url('root/update.json'), 'update_source')
             ->press('submit_update');
         $this->assertFalse(option('check_update'));
         $this->assertEquals(
-            storage_path('testing/update.json'),
+            vfs\vfsStream::url('root/update.json'),
             option('update_source')
         );
 
@@ -74,7 +78,7 @@ class UpdateControllerTest extends TestCase
             ->see('test')
             ->see($time);
 
-        file_put_contents(storage_path('testing/update.json'), json_encode([
+        file_put_contents(vfs\vfsStream::url('root/update.json'), json_encode([
             'latest_version' => '4.0.0'
         ]));
         $this->visit('/admin/update')
@@ -92,7 +96,7 @@ class UpdateControllerTest extends TestCase
                 'available' => false
             ]);
 
-        option(['update_source' => storage_path('testing/update.json')]);
+        option(['update_source' => vfs\vfsStream::url('root/update.json')]);
         $this->generateFakeUpdateInfo('4.0.0');
         $this->get('/admin/update/check')
             ->seeJson([
@@ -103,7 +107,7 @@ class UpdateControllerTest extends TestCase
 
     public function testDownload()
     {
-        option(['update_source' => storage_path('testing/update.json')]);
+        option(['update_source' => vfs\vfsStream::url('root/update.json')]);
         $this->generateFakeUpdateInfo('0.1.0');
         $this->get('/admin/update/download');
 
