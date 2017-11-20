@@ -37,7 +37,7 @@ class SetupController extends Controller
             'site_name' => 'required'
         ]);
 
-        if (isset($_POST['generate_random'])) {
+        if ($request->has('generate_random')) {
             // generate new APP_KEY & SALT randomly
             if (is_writable(app()->environmentFile())) {
                 Artisan::call('key:random');
@@ -48,7 +48,9 @@ class SetupController extends Controller
                     'salt' => config('secure.salt')
                 ]);
             } else {
+                // @codeCoverageIgnoreStart
                 Log::warning("[SetupWizard] Failed to set application key. No write permission.");
+                // @codeCoverageIgnoreEnd
             }
         }
 
@@ -61,7 +63,7 @@ class SetupController extends Controller
         $siteUrl = url('/');
 
         if (ends_with($siteUrl, '/index.php')) {
-            $siteUrl = substr($siteUrl, 0, -10);
+            $siteUrl = substr($siteUrl, 0, -10);    // @codeCoverageIgnore
         }
 
         Option::set('site_url',  $siteUrl);
@@ -143,9 +145,14 @@ class SetupController extends Controller
         try {
             Artisan::call('view:clear');
         } catch (\Exception $e) {
-            Log::error('Error occured when processing view:clear', $e);
+            Log::error('Error occured when processing view:clear', [$e]);
 
-            File::cleanDirectory(storage_path('framework/views'));
+            $files = collect(File::files(storage_path('framework/views')));
+            $files->reject(function ($path) {
+                return ends_with($path, '.gitignore');
+            })->each(function ($path) {
+                File::delete($path);
+            });
         }
 
         return view('setup.updates.success', ['tips' => $tips]);
