@@ -208,6 +208,7 @@ class PlayerControllerTest extends TestCase
                 'msg' => trans('skinlib.un-existent')
             ]);
 
+        // Set for "steve" type
         $this->post('/user/player/set', [
             'pid' => $player->pid,
             'tid' => ['steve' => $steve->tid]
@@ -218,6 +219,7 @@ class PlayerControllerTest extends TestCase
         $this->expectsEvents(Events\PlayerProfileUpdated::class);
         $this->assertEquals($steve->tid, Player::find($player->pid)->tid_steve);
 
+        // Set for "alex" type
         $this->post('/user/player/set', [
             'pid' => $player->pid,
             'tid' => ['alex' => $alex->tid]
@@ -227,6 +229,7 @@ class PlayerControllerTest extends TestCase
         ]);
         $this->assertEquals($alex->tid, Player::find($player->pid)->tid_alex);
 
+        // Set for "cape" type
         $this->post('/user/player/set', [
             'pid' => $player->pid,
             'tid' => ['cape' => $cape->tid]
@@ -244,6 +247,23 @@ class PlayerControllerTest extends TestCase
             'errno' => 0,
             'msg' => trans('user.player.set.success', ['name' => $player->player_name])
         ]);
+
+        // Should be OK if texture type does not match
+        $this->post('/user/player/set', [
+            'pid' => $player->pid,
+            'tid' => [
+                'steve' => $alex->tid,
+                'alex' => $cape->tid,
+                'cape' => $steve->tid
+            ]
+        ])->seeJson([
+            'errno' => 0,
+            'msg' => trans('user.player.set.success', ['name' => $player->player_name])
+        ]);
+        $player = Player::find($player->pid);
+        $this->assertEquals($steve->tid, $player->tid_steve);
+        $this->assertEquals($alex->tid, $player->tid_alex);
+        $this->assertEquals($cape->tid, $player->tid_cape);
     }
 
     public function testClearTexture()
