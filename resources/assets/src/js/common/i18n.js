@@ -1,7 +1,7 @@
 'use strict';
 
-$.locales       = {};
-$.currentLocale = {};
+$.locales       = Object.create(null);
+$.currentLocale = Object.create(null);
 
 /**
  * Load current selected language.
@@ -11,7 +11,7 @@ $.currentLocale = {};
 function loadLocales() {
     for (let lang in $.locales) {
         if (!isEmpty($.locales[lang])) {
-            $.currentLocale = $.locales[lang] || {};
+            $.currentLocale = $.locales[lang] || Object.create(null);
         }
     }
 }
