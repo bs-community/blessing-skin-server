@@ -83,7 +83,7 @@
             </div>
             <div class="modal-footer">
                 <a href="./player" class="btn btn-default pull-left">{{ trans('user.closet.use-as.add') }}</a>
-                <a href="javascript:setTexture();" class="btn btn-primary">{{ trans('general.submit') }}</a>
+                <a onclick="setTexture();" class="btn btn-primary">{{ trans('general.submit') }}</a>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

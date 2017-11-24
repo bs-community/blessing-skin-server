@@ -97,9 +97,9 @@ function renderClosetItemComponent(item) {
         <span title="${trans('general.more')}" class="more" data-toggle="dropdown" aria-haspopup="true" id="more-button"><i class="fa fa-cog"></i></span>
 
         <ul class="dropup dropdown-menu" aria-labelledby="more-button">
-            <li><a href="javascript:renameClosetItem(${item.tid}, '${item.name}');">${trans('user.renameItem')}</a></li>
-            <li><a href="javascript:removeFromCloset(${item.tid});">${trans('user.removeItem')}</a></li>
-            <li><a href="javascript:setAsAvatar(${item.tid});">${trans('user.setAsAvatar')}</a></li>
+            <li><a onclick="renameClosetItem(${item.tid}, '${item.name}');">${trans('user.renameItem')}</a></li>
+            <li><a onclick="removeFromCloset(${item.tid});">${trans('user.removeItem')}</a></li>
+            <li><a onclick="setAsAvatar(${item.tid});">${trans('user.setAsAvatar')}</a></li>
         </ul>
     </div>
 </div>`;

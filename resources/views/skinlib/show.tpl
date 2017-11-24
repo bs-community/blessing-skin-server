@@ -26,9 +26,9 @@
                             @else
 
                                 @if ($user->getCloset()->has($texture->tid))
-                                <a href="javascript:removeFromCloset({{ $texture->tid }});" id="{{ $texture->tid }}" class="btn btn-primary pull-right">{{ trans('skinlib.item.remove-from-closet') }}</a>
+                                <a onclick="removeFromCloset({{ $texture->tid }});" id="{{ $texture->tid }}" class="btn btn-primary pull-right">{{ trans('skinlib.item.remove-from-closet') }}</a>
                                 @else
-                                <a href="javascript:addToCloset({{ $texture->tid }});" id="{{ $texture->tid }}" class="btn btn-primary pull-right">{{ trans('skinlib.item.add-to-closet') }}</a>
+                                <a onclick="addToCloset({{ $texture->tid }});" id="{{ $texture->tid }}" class="btn btn-primary pull-right">{{ trans('skinlib.item.add-to-closet') }}</a>
                                 @endif
 
                             @endif
@@ -51,7 +51,7 @@
                                         <td id="name">{{ $texture->name }}
                                             @if (!is_null($user) && ($texture->uploader == $user->uid || $user->isAdmin()))
                                             <small>
-                                                <a href="javascript:changeTextureName({{ $texture->tid }}, '{{ $texture->name }}');">{{ trans('skinlib.show.edit-name') }}</a>
+                                                <a style="cursor: pointer" onclick="changeTextureName({{ $texture->tid }}, '{{ $texture->name }}');">{{ trans('skinlib.show.edit-name') }}</a>
                                             </small>
                                             @endif
                                         </td>

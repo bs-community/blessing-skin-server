@@ -88,7 +88,7 @@
                         @endif
                     </div><!-- /.box-body -->
                     <div class="box-footer">
-                        <a class="btn btn-primary" id="update-button" {!! !$info['new_version_available'] ? 'disabled="disabled"' : 'href="javascript:downloadUpdates();"' !!}>{{ trans('admin.update.info.button') }}</a>
+                        <a class="btn btn-primary" id="update-button" {!! !$info['new_version_available'] ? 'disabled="disabled"' : 'onclick="downloadUpdates();"' !!}>{{ trans('admin.update.info.button') }}</a>
                         {!! trans('admin.update.info.check-github', ['url' => 'https://github.com/printempw/blessing-skin-server/releases']) !!}
                     </div>
                 </div>

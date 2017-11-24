@@ -75,18 +75,18 @@ function initUsersTable() {
             if (data === 2) {
               if (row.permission === 1) {
                 adminOption = `<li class="divider"></li>
-                <li><a id="admin-${row.uid}" data="admin" href="javascript:changeAdminStatus(${row.uid});">${trans('admin.unsetAdmin')}</a></li>`;
+                <li><a id="admin-${row.uid}" data="admin" style="cursor: pointer" onclick="changeAdminStatus(${row.uid});">${trans('admin.unsetAdmin')}</a></li>`;
               } else {
                 adminOption = `<li class="divider"></li>
-                <li><a id="admin-${row.uid}" data="normal" href="javascript:changeAdminStatus(${row.uid});">${trans('admin.setAdmin')}</a></li>`;
+                <li><a id="admin-${row.uid}" data="normal" style="cursor: pointer" onclick="changeAdminStatus(${row.uid});">${trans('admin.setAdmin')}</a></li>`;
               }
             }
             if (row.permission === -1) {
               bannedOption = `<li class="divider"></li>
-              <li><a id="ban-${row.uid}" data="banned" href="javascript:changeBanStatus(${row.uid});">${trans('admin.unban')}</a></li>`;
+              <li><a id="ban-${row.uid}" data="banned" style="cursor: pointer" onclick="changeBanStatus(${row.uid});">${trans('admin.unban')}</a></li>`;
             } else {
               bannedOption = `<li class="divider"></li>
-              <li><a id="ban-${row.uid}" data="normal" href="javascript:changeBanStatus(${row.uid});">${trans('admin.ban')}</a></li>`;
+              <li><a id="ban-${row.uid}" data="normal" style="cursor: pointer" onclick="changeBanStatus(${row.uid});">${trans('admin.ban')}</a></li>`;
             }
           }
 
@@ -96,7 +96,7 @@ function initUsersTable() {
               <a class="btn btn-danger btn-sm" disabled="disabled" data-toggle="tooltip" data-placement="bottom" title="${trans('admin.cannotDeleteSuperAdmin')}">${trans('admin.deleteUser')}</a>`;
             } else {
               deleteUserButton = `
-              <a class="btn btn-danger btn-sm" href="javascript:deleteUserAccount(${row.uid});">${trans('admin.deleteUser')}</a>`;
+              <a class="btn btn-danger btn-sm" style="cursor: pointer" onclick="deleteUserAccount(${row.uid});">${trans('admin.deleteUser')}</a>`;
             }
           } else {
             if (row.permission === 1 || row.permission === 2) {
@@ -104,7 +104,7 @@ function initUsersTable() {
               <a class="btn btn-danger btn-sm" disabled="disabled" data-toggle="tooltip" data-placement="bottom" title="${trans('admin.cannotDeleteAdmin')}">${trans('admin.deleteUser')}</a>`;
             } else {
               deleteUserButton = `
-              <a class="btn btn-danger btn-sm" href="javascript:deleteUserAccount(${row.uid});">${trans('admin.deleteUser')}</a>`;
+              <a class="btn btn-danger btn-sm" style="cursor: pointer" onclick="deleteUserAccount(${row.uid});">${trans('admin.deleteUser')}</a>`;
             }
           }
 
@@ -113,9 +113,9 @@ function initUsersTable() {
           <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           ${trans('admin.operationsTitle')} <span class="caret"></span></button>
           <ul class="dropdown-menu">
-            <li><a href="javascript:changeUserEmail(${row.uid});">${trans('admin.changeEmail')}</a></li>
-            <li><a href="javascript:changeUserNickName(${row.uid});">${trans('admin.changeNickName')}</a></li>
-            <li><a href="javascript:changeUserPwd(${row.uid});">${trans('admin.changePassword')}</a></li>
+            <li><a style="cursor: pointer" onclick="changeUserEmail(${row.uid});">${trans('admin.changeEmail')}</a></li>
+            <li><a style="cursor: pointer" onclick="changeUserNickName(${row.uid});">${trans('admin.changeNickName')}</a></li>
+            <li><a style="cursor: pointer" onclick="changeUserPwd(${row.uid});">${trans('admin.changePassword')}</a></li>
             ${adminOption}${bannedOption}
           </ul>
           </div>
@@ -197,12 +197,12 @@ function initPlayersTable() {
           <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           ${trans('admin.operationsTitle')} <span class="caret"></span></button>
           <ul class="dropdown-menu">
-            <li><a href="javascript:changeTexture(${row.pid}, '${row.player_name}');">${trans('admin.changeTexture')}</a></li>
-            <li><a href="javascript:changePlayerName(${row.pid}, '${row.player_name}');">${trans('admin.changePlayerName')}</a></li>
-            <li><a href="javascript:changeOwner(${row.pid});">${trans('admin.changeOwner')}</a></li>
+            <li><a style="cursor: pointer" onclick="changeTexture(${row.pid}, '${row.player_name}');">${trans('admin.changeTexture')}</a></li>
+            <li><a style="cursor: pointer" onclick="changePlayerName(${row.pid}, '${row.player_name}');">${trans('admin.changePlayerName')}</a></li>
+            <li><a style="cursor: pointer" onclick="changeOwner(${row.pid});">${trans('admin.changeOwner')}</a></li>
           </ul>
           </div>
-          <a class="btn btn-danger btn-sm" href="javascript:deletePlayer(${row.pid});">${trans('admin.deletePlayer')}</a>`;
+          <a class="btn btn-danger btn-sm" style="cursor: pointer" onclick="deletePlayer(${row.pid});">${trans('admin.deletePlayer')}</a>`;
         }
       }
     ]
@@ -250,10 +250,10 @@ function initPluginsTable() {
           let switchEnableButton, configViewButton, deletePluginButton;
           if (data.enabled) {
             switchEnableButton = `
-            <a class="btn btn-warning btn-sm" href="javascript:disablePlugin('${row.name}');">${trans('admin.disablePlugin')}</a>`;
+            <a class="btn btn-warning btn-sm" style="cursor: pointer" onclick="disablePlugin('${row.name}');">${trans('admin.disablePlugin')}</a>`;
           } else {
             switchEnableButton = `
-            <a class="btn btn-primary btn-sm" href="javascript:enablePlugin('${row.name}');">${trans('admin.enablePlugin')}</a>`;
+            <a class="btn btn-primary btn-sm" style="cursor: pointer" onclick="enablePlugin('${row.name}');">${trans('admin.enablePlugin')}</a>`;
           }
           if (data.enabled && data.hasConfigView) {
             configViewButton = `
@@ -263,7 +263,7 @@ function initPluginsTable() {
             <a class="btn btn-default btn-sm" disabled="disabled" title="${trans('admin.noPluginConfigNotice')}" data-toggle="tooltip" data-placement="top">${trans('admin.configurePlugin')}</a>`;
           }
           deletePluginButton = `
-          <a class="btn btn-danger btn-sm" href="javascript:deletePlugin('${row.name}');">${trans('admin.deletePlugin')}</a>`;
+          <a class="btn btn-danger btn-sm" style="cursor: pointer" onclick="deletePlugin('${row.name}');">${trans('admin.deletePlugin')}</a>`;
           return switchEnableButton + configViewButton + deletePluginButton;
         }
       }

@@ -121,7 +121,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline" data-dismiss="modal">{{ trans('general.close') }}</button>
-                <a href="javascript:deleteAccount();" class="btn btn-outline">{{ trans('general.submit') }}</a>
+                <a onclick="deleteAccount();" class="btn btn-outline">{{ trans('general.submit') }}</a>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

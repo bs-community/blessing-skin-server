@@ -42,11 +42,11 @@
                                        </select>
                                     </td>
                                     <td>
-                                        <a class="btn btn-default btn-sm" href="javascript:changePlayerName('{{ $player['pid'] }}', '{{ $player['player_name'] }}')">{{ trans('user.player.edit-pname') }}</a>
+                                        <a class="btn btn-default btn-sm" onclick="changePlayerName('{{ $player['pid'] }}', '{{ $player['player_name'] }}')">{{ trans('user.player.edit-pname') }}</a>
                                     </td>
                                     <td>
-                                        <a class="btn btn-warning btn-sm" href="javascript:clearTexture('{{ $player['pid'] }}');">{{ trans('user.player.delete-texture') }}</a>
-                                        <a class="btn btn-danger btn-sm" href="javascript:deletePlayer('{{ $player['pid'] }}');">{{ trans('user.player.delete-player') }}</a>
+                                        <a class="btn btn-warning btn-sm" onclick="clearTexture('{{ $player['pid'] }}');">{{ trans('user.player.delete-texture') }}</a>
+                                        <a class="btn btn-danger btn-sm" onclick="deletePlayer('{{ $player['pid'] }}');">{{ trans('user.player.delete-player') }}</a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -133,7 +133,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('general.close') }}</button>
-                <a href="javascript:addNewPlayer();" class="btn btn-primary">{{ trans('general.submit') }}</a>
+                <a onclick="addNewPlayer();" class="btn btn-primary">{{ trans('general.submit') }}</a>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
