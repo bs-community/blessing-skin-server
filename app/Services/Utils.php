@@ -120,36 +120,23 @@ class Utils
     /**
      * Rename uploaded file
      *
-     * @param  array  $file files uploaded via HTTP POST
+     * @param  \Illuminate\Http\UploadedFile $file files uploaded via HTTP POST
      * @return string $hash sha256 hash of file
+     * @throws \Exception
      */
     public static function upload($file)
     {
-        $path = 'tmp'.time();
-        $absolute_path = storage_path("textures/$path");
-
+        $hash = hash_file('sha256', $file);
         try {
-            if (false === move_uploaded_file($file['tmp_name'], $absolute_path)) {
-                throw new \Exception('Failed to remove uploaded files, please check the permission', 1);
+            $storage = Storage::disk('textures');
+            if (!$storage->exists($hash)) {
+                $storage->put($hash, file_get_contents($file));
             }
         } catch (\Exception $e) {
-            Log::warning("Failed to move uploaded file, $e");
-        } finally {
-            if (file_exists($absolute_path)) {
-                $hash = hash_file('sha256', $absolute_path);
-
-                if (! Storage::disk('textures')->has($hash)) {
-                    Storage::disk('textures')->move($path, $hash);
-                } else {
-                    // delete the temp file
-                    unlink($absolute_path);
-                }
-
-                return $hash;
-            } else {
-                Log::warning("Failed to upload file $path");
-            }
+            Log::warning("Failed to upload file {$file->getFilename()}");
+            throw new \Exception("Failed to upload file {$file->getFilename()}");
         }
+        return $hash;
     }
 
     public static function download($url, $path)

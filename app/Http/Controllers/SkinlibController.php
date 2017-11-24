@@ -38,7 +38,7 @@ class SkinlibController extends Controller
      * Available Query String: filter, uploader, page, sort, keyword, items_per_page.
      *
      * @param  Request $request [description]
-     * @return [type]           [description]
+     * @return JsonResponse
      */
     public function getSkinlibFiltered(Request $request)
     {
@@ -59,6 +59,7 @@ class SkinlibController extends Controller
 
         // How many items to show in one page
         $itemsPerPage = $request->input('items_per_page', 20);
+        $itemsPerPage = $itemsPerPage <= 0 ? 20 : $itemsPerPage;
 
         // Keyword to search
         $keyword = $request->input('keyword', '');
@@ -95,7 +96,7 @@ class SkinlibController extends Controller
             }
         }
 
-        $totalPages = ceil($query->count() / 20);
+        $totalPages = ceil($query->count() / $itemsPerPage);
 
         $textures = $query->orderBy($sortBy, 'desc')
                             ->skip(($currentPage - 1) * $itemsPerPage)
@@ -161,8 +162,8 @@ class SkinlibController extends Controller
         $t->name      = $request->input('name');
         $t->type      = $request->input('type');
         $t->likes     = 1;
-        $t->hash      = Utils::upload($_FILES['file']);
-        $t->size      = ceil($_FILES['file']['size'] / 1024);
+        $t->hash      = Utils::upload($request->file('file'));
+        $t->size      = ceil($request->file('file')->getSize() / 1024);
         $t->public    = ($request->input('public') == 'true') ? "1" : "0";
         $t->uploader  = $this->user->uid;
         $t->upload_at = Utils::getTimeFormatted();
@@ -177,7 +178,7 @@ class SkinlibController extends Controller
 
         if (!$results->isEmpty()) {
             foreach ($results as $result) {
-                // if the texture already uploaded was setted to private,
+                // if the texture already uploaded was set to private,
                 // then allow to re-upload it.
                 if ($result->type == $t->type && $result->public == "1") {
                     return json(trans('skinlib.upload.repeated'), 0, [
@@ -196,7 +197,7 @@ class SkinlibController extends Controller
                 'tid'   => $t->tid
             ]);
         }
-    }
+    }   // @codeCoverageIgnore
 
     public function delete(Request $request, UserRepository $users)
     {
@@ -211,8 +212,8 @@ class SkinlibController extends Controller
         }
 
         // check if file occupied
-        if (Texture::where('hash', $result['hash'])->count() == 1) {
-            Storage::delete($result['hash']);
+        if (Texture::where('hash', $result->hash)->count() == 1) {
+            Storage::disk('textures')->delete($result->hash);
         }
 
         if (option('return_score')) {
@@ -232,13 +233,11 @@ class SkinlibController extends Controller
         if ($result->delete()) {
             return json(trans('skinlib.delete.success'), 0);
         }
-    }
+    }   // @codeCoverageIgnore
 
     public function privacy(Request $request, UserRepository $users)
     {
         $t = Texture::find($request->input('tid'));
-        $type = $t->type;
-        $uid = session('uid');
 
         if (!$t)
             return json(trans('skinlib.non-existent'), 1);
@@ -251,9 +250,13 @@ class SkinlibController extends Controller
             return json(trans('skinlib.upload.lack-score'), 1);
         }
 
-        foreach (Player::where("tid_$type", $t->tid)->where('uid', '<>', $uid)->get() as $player) {
-            $player->setTexture(["tid_$type" => 0]);
-        }
+        $type = $t->type;
+        Player::where("tid_$type", $t->tid)
+            ->where('uid', '<>', session('uid'))
+            ->get()
+            ->each(function ($player) use ($type) {
+                $player->setTexture(["tid_$type" => 0]);
+            });
 
         @$users->get($t->uploader)->setScore($score_diff, 'plus');
 
@@ -264,7 +267,7 @@ class SkinlibController extends Controller
                 'public' => $t->public
             ]);
         }
-    }
+    }   // @codeCoverageIgnore
 
     public function rename(Request $request) {
         $this->validate($request, [
@@ -285,13 +288,13 @@ class SkinlibController extends Controller
         if ($t->save()) {
             return json(trans('skinlib.rename.success', ['name' => $request->input('new_name')]), 0);
         }
-    }
+    }   // @codeCoverageIgnore
 
     /**
      * Check Uploaded Files
      *
      * @param  Request $request
-     * @return void
+     * @return JsonResponse
      */
     private function checkUpload(Request $request)
     {
@@ -307,16 +310,13 @@ class SkinlibController extends Controller
             'public' => 'required'
         ]);
 
-        if ($_FILES['file']['type'] != "image/png" && $_FILES['file']['type'] != "image/x-png") {
+        $mime = $request->file('file')->getMimeType();
+        if ($mime != "image/png" && $mime != "image/x-png") {
             return json(trans('skinlib.upload.type-error'), 1);
         }
 
-        // if error occured while uploading file
-        if ($_FILES['file']["error"] > 0)
-            return json($_FILES['file']["error"], 1);
-
         $type  = $request->input('type');
-        $size  = getimagesize($_FILES['file']["tmp_name"]);
+        $size  = getimagesize($request->file('file'));
         $ratio = $size[0] / $size[1];
 
         if ($type == "steve" || $type == "alex") {
@@ -330,6 +330,6 @@ class SkinlibController extends Controller
         } else {
             return json(trans('general.illegal-parameters'), 1);
         }
-    }
+    }       // @codeCoverageIgnore
 
 }
