@@ -4,7 +4,9 @@
 
 $.pluginsTable = null;
 
-$(document).ready(() => {
+$(document).ready(initTables);
+
+function initTables() {
     $.extend(true, $.fn.dataTable.defaults, {
         language: trans('vendor.datatables'),
         scrollX: true,
@@ -14,14 +16,14 @@ $(document).ready(() => {
         serverSide: true
     });
 
-    if (window.location.pathname.includes('admin/users')) {
+    if ($('#user-table').length === 1) {
         initUsersTable();
-    } else if (window.location.pathname.includes('admin/players')) {
+    } else if ($('#player-table').length === 1) {
         initPlayersTable();
-    } else if (window.location.pathname.includes('admin/plugins/manage')) {
+    } else if ($('#plugin-table').length === 1) {
         $.pluginsTable = initPluginsTable();
     }
-});
+}
 
 async function sendFeedback() {
     if (docCookies.getItem('feedback_sent') !== null)
@@ -50,5 +52,8 @@ async function sendFeedback() {
 }
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {
-    module.exports = sendFeedback;
+    module.exports = {
+        sendFeedback,
+        initTables
+    };
 }

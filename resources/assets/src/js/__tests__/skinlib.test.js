@@ -1,5 +1,6 @@
 /* eslint no-unused-vars: "off" */
 
+jest.dontMock('jquery');
 const $ = require('jquery');
 window.$ = window.jQuery = $;
 
@@ -184,6 +185,9 @@ describe('tests for "index" module', () => {
         keyword: '%20q'
       }
     }));
+
+    await reloadSkinlib();
+    expect(showAjaxError).toBeCalled();
   });
 
   it('update query string', () => {
@@ -207,6 +211,32 @@ describe('tests for "index" module', () => {
       'skinlib?' + query);
     expect($('li[data-code=zh_CN] > a').prop('href')).toBe(`?lang=zh_CN&${query}`);
     expect($('li[data-code=en] > a').prop('href')).toBe(`?lang=en&${query}`);
+  });
+
+  it('change page', () => {
+    document.body.innerHTML = `
+      <div class="overlay" style="display: none"></div>
+    `;
+    const { onPageChange } = require(modulePath);
+    onPageChange(1, 'init');
+    expect($.skinlib.page).toBe(1);
+
+    onPageChange(2);
+    expect($('div').css('display')).not.toBe('none');
+    expect($.skinlib.page).toBe(2);
+  });
+
+  it('update filter', () => {
+    document.body.innerHTML = `
+      <div data-filter="skin"></div>
+    `;
+    const { updateFilter } = require(modulePath);
+    updateFilter.call($('div'), new Event('click'));
+    expect($.skinlib.filter).toBe('skin');
+
+    $('div').data('filter', 'uploader').data('uid', 4);
+    updateFilter.call($('div'), new Event('click'));
+    expect($.skinlib.uploader).toBe(4);
   });
 });
 

@@ -302,6 +302,42 @@ describe('tests for "players" module', () => {
     expect(showAjaxError).toBeCalled();
   });
 
+  it('show nickname in swal', async () => {
+    const fetch = jest.fn()
+      .mockReturnValueOnce(Promise.resolve({ user: { nickname: 'name' } }))
+      .mockReturnValueOnce(Promise.reject());
+    const url = jest.fn(path => path);
+    const trans = jest.fn(key => key);
+    window.fetch = fetch;
+    window.url = url;
+    window.trans = trans;
+
+    document.body.innerHTML = `
+      <input class="swal2-input" />
+      <div class="swal2-content"></div>
+    `;
+    const { showNicknameInSwal } = require(modulePath);
+
+    await showNicknameInSwal();
+    expect(fetch).not.toBeCalled();
+
+    $('input').val('-8');
+    await showNicknameInSwal();
+    expect(fetch).not.toBeCalled();
+
+    $('input').val('8');
+    await showNicknameInSwal();
+    expect(fetch).toBeCalledWith({
+      type: 'GET',
+      url: 'admin/user/8',
+      dataType: 'json'
+    });
+    expect($('div').html().includes('name'));
+
+    await showNicknameInSwal();
+    expect($('div').html().includes('admin.noSuchUser'));
+  });
+
   it('delete player', async () => {
     const fetch = jest.fn()
       .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
@@ -506,10 +542,13 @@ describe('tests for "update" module', () => {
 
   it('download updates', async () => {
     const fetch = jest.fn()
-      .mockReturnValueOnce(Promise.resolve({
-        file_size: 5000
-      }))
-      .mockReturnValueOnce(Promise.resolve());
+      .mockImplementationOnce(({ beforeSend }) => {
+        beforeSend && beforeSend();
+        return Promise.resolve({
+          file_size: 5000
+        });
+      })
+      .mockImplementationOnce(() => Promise.resolve());
     const url = jest.fn(path => path);
     const toastr = {
       success: jest.fn(),
@@ -525,6 +564,7 @@ describe('tests for "update" module', () => {
     document.body.innerHTML = `
       <div id="file-size"></div>
       <div id="modal-start-download"></div>
+      <button id="update-button"></button>
     `;
 
     const downloadUpdates = require(modulePath).downloadUpdates;
@@ -535,6 +575,7 @@ describe('tests for "update" module', () => {
       type: 'GET',
       dataType: 'json',
     }));
+    expect($('#update-button').prop('disabled')).toBe(true);
     expect($('#file-size').html()).toBe('5000');
     expect(modal).toBeCalledWith({
       backdrop: 'static',
@@ -1048,7 +1089,7 @@ describe('tests for "common" module', () => {
         version: '8.1.0'
     };
 
-    const sendFeedback = require(modulePath);
+    const { sendFeedback } = require(modulePath);
 
     await sendFeedback();
     expect(fetch).toBeCalledWith({
@@ -1063,5 +1104,28 @@ describe('tests for "common" module', () => {
     await sendFeedback();
     expect(fetch).toHaveBeenCalledTimes(1);
     expect(console.log).toHaveBeenCalledTimes(1);
+  });
+
+  it('initialize data tables', () => {
+    $.fn.dataTable = { defaults: {} };
+    const initUsersTable = jest.fn();
+    const initPlayersTable = jest.fn();
+    const initPluginsTable = jest.fn();
+    window.initUsersTable = initUsersTable;
+    window.initPlayersTable = initPlayersTable;
+    window.initPluginsTable = initPluginsTable;
+    const { initTables } = require(modulePath);
+
+    document.body.innerHTML = '<div id="user-table"></div>';
+    initTables();
+    expect(initUsersTable).toBeCalled();
+
+    document.body.innerHTML = '<div id="player-table"></div>';
+    initTables();
+    expect(initPlayersTable).toBeCalled();
+
+    document.body.innerHTML = '<div id="plugin-table"></div>';
+    initTables();
+    expect($.pluginsTable).not.toBeNull();
   });
 });

@@ -26,20 +26,7 @@ $('select.pagination').on('change', function () {
     onPageChange(parseInt($(this).val()));
 });
 
-$('.filter').click(function (e) {
-    e.preventDefault();
-    let selectedFilter = $(this).data('filter');
-
-    if (selectedFilter == 'uploader') {
-        $.skinlib.uploader = $(this).data('uid');
-        console.log('Show items uploaded by uid ' + $.skinlib.uploader);
-    } else {
-        $.skinlib.filter = selectedFilter;
-        console.log('Filter by ' + $.skinlib.filter);
-    }
-
-    reloadSkinlib();
-});
+$('.filter').click(updateFilter);
 
 $('.sort').click(function (e) {
     e.preventDefault();
@@ -174,6 +161,21 @@ function updatePaginator(currentPage, totalPages) {
     }
 }
 
+function updateFilter(e) {
+    e.preventDefault();
+    let selectedFilter = $(this).data('filter');
+
+    if (selectedFilter == 'uploader') {
+        $.skinlib.uploader = $(this).data('uid');
+        console.log('Show items uploaded by uid ' + $.skinlib.uploader);
+    } else {
+        $.skinlib.filter = selectedFilter;
+        console.log('Filter by ' + $.skinlib.filter);
+    }
+
+    reloadSkinlib();
+}
+
 function onPageChange(page, type) {
     $.skinlib.page = page;
     updateBreadCrumb();
@@ -231,5 +233,7 @@ if (typeof require !== 'undefined' && typeof module !== 'undefined') {
         updatePaginator,
         updateBreadCrumb,
         updateUrlQueryString,
+        onPageChange,
+        updateFilter,
     };
 }

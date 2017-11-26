@@ -4,35 +4,7 @@
 
 var selectedTextures = [];
 
-$(document).ready(async function () {
-    if (! window.location.pathname.includes('/user/closet'))
-        return;
-
-    $('input[name=q]').on('input', debounce(() => {
-        let category = $('#skin-category').hasClass('active') ? 'skin' : 'cape';
-        reloadCloset(category, 1, $('input[name=q]').val());
-    }, 350));
-
-    try {
-        const { items, category, total_pages } = await fetch({
-            type: 'GET',
-            url: url('/user/closet-data'),
-            dataType: 'json'
-        });
-
-        renderCloset(items, category);
-        
-        $('#closet-paginator').jqPaginator($.extend({}, $.defaultPaginatorConfig, {
-            totalPages: total_pages,
-            onPageChange: page => reloadCloset(
-                $('#skin-category').hasClass('active') ? 'skin' : 'cape',
-                page, $('input[name=q]').val()
-            )
-        }));
-    } catch (error) {
-        showAjaxError(error);
-    }
-});
+$(document).ready(initCloset);
 
 $('body').on('click', '.item-body', async function () {
     $('.item-selected').parent().removeClass('item-selected');
@@ -81,6 +53,36 @@ $('body').on('click', '.category-switch', () => {
 
     reloadCloset(category, page, search);
 });
+
+async function initCloset() {
+    if ($('#closet-container').length !== 1)
+        return;
+
+    $('input[name=q]').on('input', debounce(() => {
+        let category = $('#skin-category').hasClass('active') ? 'skin' : 'cape';
+        reloadCloset(category, 1, $('input[name=q]').val());
+    }, 350));
+
+    try {
+        const { items, category, total_pages } = await fetch({
+            type: 'GET',
+            url: url('/user/closet-data'),
+            dataType: 'json'
+        });
+
+        renderCloset(items, category);
+
+        $('#closet-paginator').jqPaginator($.extend({}, $.defaultPaginatorConfig, {
+            totalPages: total_pages,
+            onPageChange: page => reloadCloset(
+                $('#skin-category').hasClass('active') ? 'skin' : 'cape',
+                page, $('input[name=q]').val()
+            )
+        }));
+    } catch (error) {
+        showAjaxError(error);
+    }
+}
 
 function renderClosetItemComponent(item) {
     return `
@@ -305,5 +307,6 @@ if (typeof require !== 'undefined' && typeof module !== 'undefined') {
         getCapacityOfCloset,
         renameClosetItem,
         removeFromCloset,
+        initCloset,
     };
 }

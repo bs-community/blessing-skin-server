@@ -363,6 +363,43 @@ describe('tests for "closet" module', () => {
     await setAsAvatar(1);
     expect(showAjaxError).toBeCalled();
   });
+
+  it('initialize closet', async () => {
+    const fetch = jest.fn()
+      .mockReturnValueOnce(Promise.reject())
+      .mockReturnValueOnce(Promise.resolve({ items: [], category: 'skin', total_pages: 0 }));
+    const trans = jest.fn(key => key);
+    const url = jest.fn(path => path);
+    const showAjaxError = jest.fn();
+    const debounce = jest.fn((func, timer) => func());
+    window.fetch = fetch;
+    window.trans = trans;
+    window.url = url;
+    window.showAjaxError = showAjaxError;
+    window.debounce = debounce;
+    $.defaultPaginatorConfig = {};
+    $.fn.jqPaginator = jest.fn(({ onPageChange }) => onPageChange(0));
+
+    const { initCloset } = require(modulePath);
+    await initCloset();
+    expect(fetch).not.toBeCalled();
+
+    document.body.innerHTML = `
+      <div id="closet-container"></div>
+      <div id="skin-category" value="val"></div>
+    `;
+    await initCloset();
+    expect(showAjaxError).toBeCalled();
+
+    await initCloset();
+    expect(debounce.mock.calls[0][1]).toBe(350);
+    expect(fetch).toBeCalledWith({
+      type: 'GET',
+      url: '/user/closet-data',
+      dataType: 'json'
+    });
+    expect($.fn.jqPaginator).toBeCalled();
+  });
 });
 
 describe('tests for "player" module', () => {

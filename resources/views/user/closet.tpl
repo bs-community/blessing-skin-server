@@ -23,7 +23,7 @@
             <!-- Left col -->
             <div class="col-md-8">
                 <!-- Custom tabs -->
-                <div class="nav-tabs-custom">
+                <div class="nav-tabs-custom" id="closet-container">
                     <!-- Tabs within a box -->
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#skin-category" class="category-switch" data-toggle="tab">{{ trans('general.skin') }}</a></li>

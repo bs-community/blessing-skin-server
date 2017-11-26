@@ -133,31 +133,33 @@ function changeOwner(pid) {
         }
     });
 
-    $('.swal2-input').on('input', debounce(async () => {
-        let uid = $('.swal2-input').val();
+    $('.swal2-input').on('input', debounce(showNicknameInSwal, 350));
+}
 
-        if (isNaN(uid) || uid <= 0)
-            return;
+async function showNicknameInSwal() {
+    let uid = $('.swal2-input').val();
 
-        try {
-            const { user } = await fetch({
-                type: 'GET',
-                url: url(`admin/user/${uid}`),
-                dataType: 'json'
-            });
-            $('.swal2-content').html(
-                trans('admin.changePlayerOwner') +
-                '<small style="display: block; margin-top: .5em;">' +
-                trans('admin.targetUser', { nickname: user.nickname }) +
-                '</small>'
-            );
-        } catch (error) {
-            $('.swal2-content').html(`
-                ${trans('admin.changePlayerOwner')}<br>
-                <small>${trans('admin.noSuchUser')}</small>
-            `);
-        }
-    }, 350));
+    if (isNaN(uid) || uid <= 0)
+        return;
+
+    try {
+        const { user } = await fetch({
+            type: 'GET',
+            url: url(`admin/user/${uid}`),
+            dataType: 'json'
+        });
+        $('.swal2-content').html(
+            trans('admin.changePlayerOwner') +
+            '<small style="display: block; margin-top: .5em;">' +
+            trans('admin.targetUser', { nickname: user.nickname }) +
+            '</small>'
+        );
+    } catch (error) {
+        $('.swal2-content').html(`
+                    ${trans('admin.changePlayerOwner')}<br>
+                    <small>${trans('admin.noSuchUser')}</small>
+                `);
+    }
 }
 
 async function deletePlayer(pid) {
@@ -192,6 +194,7 @@ async function deletePlayer(pid) {
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {
     module.exports = {
         changeOwner,
+        showNicknameInSwal,
         deletePlayer,
         changeTexture,
         changePlayerName,

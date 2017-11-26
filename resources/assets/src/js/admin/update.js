@@ -42,7 +42,7 @@ function downloadUpdates() {
         }).catch(showAjaxError);
 
         // Downloading progress polling
-        let interval_id = window.setInterval(() => {
+        let interval_id = setInterval(() => {
             $('#imported-progress').html(progress);
             $('.progress-bar').css('width', progress+'%').attr('aria-valuenow', progress);
 

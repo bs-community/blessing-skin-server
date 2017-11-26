@@ -33,4 +33,4 @@ function logout() {
     });
 }
 
-$('#logout-button').click(() => confirmLogout());
+$('#logout-button').click(confirmLogout);
