@@ -51,8 +51,6 @@ class PlayerController extends Controller
             [
                 'only' => ['delete', 'rename', 'setTexture', 'clearTexture', 'setPreference']
             ]);
-
-        return json('dd', 0);
     }
 
     public function index()
