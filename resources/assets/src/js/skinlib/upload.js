@@ -1,5 +1,7 @@
 /* global MSP */
 
+// TODO: Help wanted. This file needs to be tested.
+
 'use strict';
 
 $('body')

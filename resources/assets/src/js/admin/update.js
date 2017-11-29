@@ -1,24 +1,22 @@
 'use strict';
 
-function downloadUpdates() {
-    var fileSize = 0;
-    var progress = 0;
+async function downloadUpdates() {
+    console.log('Prepare trno download');
 
-    console.log('Prepare to download');
+    try {
+        const preparation = await fetch({
+            url: url('admin/update/download?action=prepare-download'),
+            type: 'GET',
+            dataType: 'json',
+            beforeSend: function() {
+                $('#update-button').html(
+                    '<i class="fa fa-spinner fa-spin"></i> ' + trans('admin.preparing')
+                ).prop('disabled', 'disabled');
+            }
+        });
+        console.log(preparation);
 
-    fetch({
-        url: url('admin/update/download?action=prepare-download'),
-        type: 'GET',
-        dataType: 'json',
-        beforeSend: function() {
-            $('#update-button').html(
-                '<i class="fa fa-spinner fa-spin"></i> ' + trans('admin.preparing')
-            ).prop('disabled', 'disabled');
-        }
-    }).then(json => {
-        console.log(json);
-
-        fileSize = json.file_size;
+        const { file_size: fileSize } = preparation;
 
         $('#file-size').html(fileSize);
 
@@ -29,63 +27,65 @@ function downloadUpdates() {
 
         console.log('Start downloading');
 
-        fetch({
+        // Downloading progress polling
+        const interval_id = setInterval(progressPolling(fileSize), 300);
+
+        const download = await fetch({
             url: url('admin/update/download?action=start-download'),
             type: 'POST',
             dataType: 'json'
-        }).then(json => {
-            // Set progress to 100 when got the response
-            progress = 100;
+        });
 
-            console.log('Downloading finished');
-            console.log(json);
-        }).catch(showAjaxError);
+        clearInterval(interval_id);
 
-        // Downloading progress polling
-        let interval_id = setInterval(() => {
+        console.log('Downloading finished');
+        console.log(download);
+
+        $('.modal-title').html('<i class="fa fa-spinner fa-spin"></i> ' + trans('admin.extracting'));
+        $('.modal-body').append(`<p>${trans('admin.downloadCompleted')}</p>`);
+
+        console.log('Start extracting');
+
+        const extract = await fetch({
+            url: url('admin/update/download?action=extract'),
+            type: 'POST',
+            dataType: 'json'
+        });
+        
+        console.log('Package extracted and files are covered');
+        $('#modal-start-download').modal('toggle');
+
+        swal({
+            type: 'success',
+            html: extract.msg
+        }).then(function () {
+            window.location = url('/');
+        }, function () {
+            window.location = url('/');
+        });
+    } catch (error) {
+        showAjaxError(error);
+    }
+}
+
+function progressPolling(fileSize) {
+    return async () => {
+        try {
+            const { size } = await fetch({
+                url: url('admin/update/download?action=get-file-size'),
+                type: 'GET'
+            });
+            
+            const progress = (size / fileSize * 100).toFixed(2);
+    
             $('#imported-progress').html(progress);
-            $('.progress-bar').css('width', progress+'%').attr('aria-valuenow', progress);
-
-            if (progress == 100) {
-                clearInterval(interval_id);
-
-                $('.modal-title').html('<i class="fa fa-spinner fa-spin"></i> ' + trans('admin.extracting'));
-                $('.modal-body').append(`<p>${ trans('admin.downloadCompleted') }</p>`);
-
-                console.log('Start extracting');
-
-                fetch({
-                    url: url('admin/update/download?action=extract'),
-                    type: 'POST',
-                    dataType: 'json'
-                }).then(json => {
-                    console.log('Package extracted and files are covered');
-                    $('#modal-start-download').modal('toggle');
-
-                    swal({
-                        type: 'success',
-                        html: json.msg
-                    }).then(function() {
-                        window.location = url('/');
-                    }, function() {
-                        window.location = url('/');
-                    });
-                }).catch(showAjaxError);
-
-            } else {
-                fetch({
-                    url: url('admin/update/download?action=get-file-size'),
-                    type: 'GET'
-                }).then(json => {
-                    progress = (json.size / fileSize * 100).toFixed(2);
-
-                    console.log('Progress: ' + progress);
-                }).catch(showAjaxError);
-            }
-
-        }, 300);
-    }).catch(showAjaxError);
-
+            $('.progress-bar')
+                .css('width', progress + '%')
+                .attr('aria-valuenow', progress);
+        } catch (error) {
+            // No need to show error if failed to get size
+        }
+    };
 }
 
 async function checkForUpdates() {
@@ -104,6 +104,7 @@ async function checkForUpdates() {
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {
     module.exports = {
         checkForUpdates,
+        progressPolling,
         downloadUpdates,
     };
 }

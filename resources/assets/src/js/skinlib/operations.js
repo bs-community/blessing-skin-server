@@ -1,6 +1,8 @@
 'use strict';
 
-$(document).on('click', '.more.like', function () {
+$(document).on('click', '.more.like', toggleLiked);
+
+function toggleLiked() {
     let tid = $(this).attr('tid');
 
     if ($(this).hasClass('anonymous'))
@@ -11,7 +13,7 @@ $(document).on('click', '.more.like', function () {
     } else {
         addToCloset(tid);
     }
-});
+}
 
 function addToCloset(tid) {
     $.getJSON(url(`skinlib/info/${tid}`), async ({ name }) => {
@@ -222,6 +224,7 @@ async function deleteTexture(tid) {
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {
     module.exports = {
+        toggleLiked,
         addToCloset,
         changePrivacy,
         deleteTexture,

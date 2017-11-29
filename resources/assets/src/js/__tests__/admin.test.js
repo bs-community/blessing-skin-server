@@ -548,16 +548,30 @@ describe('tests for "update" module', () => {
           file_size: 5000
         });
       })
-      .mockImplementationOnce(() => Promise.resolve());
+      .mockImplementationOnce(() => Promise.resolve())
+      .mockImplementationOnce(() => Promise.resolve({ msg: 'ok' }))
+      .mockImplementationOnce(() => Promise.reject())
+      .mockImplementationOnce(({ beforeSend }) => {
+        beforeSend && beforeSend();
+        return Promise.resolve({
+          file_size: 5000
+        });
+      })
+      .mockImplementationOnce(() => Promise.resolve())
+      .mockImplementationOnce(() => Promise.resolve({ msg: 'ok' }));
     const url = jest.fn(path => path);
     const toastr = {
       success: jest.fn(),
       warning: jest.fn()
     };
     const modal = jest.fn();
+    const swal = jest.fn()
+      .mockReturnValueOnce(Promise.resolve())
+      .mockReturnValueOnce(Promise.reject());
     window.fetch = fetch;
     window.url = url;
     window.toastr = toastr;
+    window.swal = swal;
     window.showAjaxError = jest.fn();
     $.fn.modal = modal;
 
@@ -565,6 +579,8 @@ describe('tests for "update" module', () => {
       <div id="file-size"></div>
       <div id="modal-start-download"></div>
       <button id="update-button"></button>
+      <div class="modal-title"></div>
+      <div class="modal-body"></div>
     `;
 
     const downloadUpdates = require(modulePath).downloadUpdates;
@@ -586,6 +602,38 @@ describe('tests for "update" module', () => {
       type: 'POST',
       dataType: 'json'
     });
+    expect($('.modal-title').html().includes('admin.extracting')).toBe(true);
+    expect($('.modal-body').html().includes('admin.downloadCompleted')).toBe(true);
+    expect(swal).toBeCalledWith({ type: 'success', html: 'ok' });
+    expect(url).toBeCalledWith('/');
+
+    await downloadUpdates();
+    expect(window.showAjaxError).toBeCalled();
+
+    await downloadUpdates();
+    expect(url).toBeCalledWith('/');
+  });
+
+  it('download progress polling', async () => {
+    const fetch = jest.fn().mockReturnValueOnce(Promise.resolve({ size: 50 }));
+    const url = jest.fn(path => path);
+    window.fetch = fetch;
+    window.url = url;
+
+    document.body.innerHTML = `
+      <div id="imported-progress"></div>
+      <div class="progress-bar"></div>
+    `;
+
+    const { progressPolling } = require(modulePath);
+    await progressPolling(100)();
+    expect(fetch).toBeCalledWith({
+      url: 'admin/update/download?action=get-file-size',
+      type: 'GET'
+    });
+    expect($('#imported-progress').html()).toBe('50.00');
+    expect($('.progress-bar').css('width')).toBe('50%');
+    expect($('.progress-bar').attr('aria-valuenow')).toBe('50.00');
   });
 
   it('check for updates', async () => {

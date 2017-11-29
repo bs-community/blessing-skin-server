@@ -8,7 +8,31 @@ $.skinlib = {
     keyword:  decodeURI(getQueryString('keyword', ''))
 };
 
-$(document).ready(() => {
+$(document).ready(initSkinlib);
+
+$('body').on('change', 'select.pagination', function () {
+    onPageChange(parseInt($(this).val()));
+});
+
+$('.filter').click(updateFilter);
+
+$('body').on('click', '.sort', function (e) {
+    e.preventDefault();
+    $.skinlib.sort = $(this).data('sort');
+
+    console.log('Sort by ' + $.skinlib.sort);
+    reloadSkinlib();
+});
+
+$('body').on('submit', '#search-form', function (e) {
+    e.preventDefault();
+    $.skinlib.keyword = $('#navbar-search-input').val();
+
+    console.log('Search keyword: ' + $.skinlib.keyword);
+    reloadSkinlib();
+});
+
+function initSkinlib() {
     if ($('#skinlib-container').length != 0) {
         // Initially render skinlib
         requestSkinlibData().then(result => {
@@ -20,29 +44,7 @@ $(document).ready(() => {
             );
         });
     }
-});
-
-$('select.pagination').on('change', function () {
-    onPageChange(parseInt($(this).val()));
-});
-
-$('.filter').click(updateFilter);
-
-$('.sort').click(function (e) {
-    e.preventDefault();
-    $.skinlib.sort = $(this).data('sort');
-
-    console.log('Sort by ' + $.skinlib.sort);
-    reloadSkinlib();
-});
-
-$('#search-form').submit(function (e) {
-    e.preventDefault();
-    $.skinlib.keyword = $('#navbar-search-input').val();
-
-    console.log('Search keyword: ' + $.skinlib.keyword);
-    reloadSkinlib();
-});
+}
 
 function renderSkinlib(items) {
     let container = $('#skinlib-container').html('');
@@ -228,6 +230,7 @@ function updateBreadCrumb() {
 
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {
     module.exports = {
+        initSkinlib,
         renderSkinlib,
         reloadSkinlib,
         updatePaginator,

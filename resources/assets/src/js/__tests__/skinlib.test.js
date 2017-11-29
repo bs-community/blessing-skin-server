@@ -1,6 +1,5 @@
 /* eslint no-unused-vars: "off" */
 
-jest.dontMock('jquery');
 const $ = require('jquery');
 window.$ = window.jQuery = $;
 
@@ -8,6 +7,30 @@ window.getQueryString = jest.fn((key, defaultValue) => defaultValue);
 
 describe('tests for "index" module', () => {
   const modulePath = '../skinlib/index';
+
+  it('initialize skin library', () => {
+    const fetch = jest.fn().mockReturnValue(Promise.resolve({ items: [] }));
+    const url = jest.fn(path => path);
+    const trans = jest.fn(key => key);
+    const showAjaxError = jest.fn();
+    window.fetch = fetch;
+    window.url = url;
+    window.trans = trans;
+    window.showAjaxError = showAjaxError;
+    $.fn.jqPaginator = jest.fn();
+    const { initSkinlib } = require(modulePath);
+
+    initSkinlib();
+    expect(fetch).not.toBeCalled();
+
+    document.body.innerHTML = `
+      <div id="skinlib-container"></div>
+      <div id="skinlib-paginator"></div>
+      <div class="sort"></div>
+    `;
+    initSkinlib();
+    expect(fetch).toBeCalled();
+  });
 
   it('render skin library', () => {
     const trans = jest.fn(key => key);
@@ -216,12 +239,16 @@ describe('tests for "index" module', () => {
   it('change page', () => {
     document.body.innerHTML = `
       <div class="overlay" style="display: none"></div>
+      <select class="pagination">
+        <option value="2"></option>
+      </select>
     `;
     const { onPageChange } = require(modulePath);
     onPageChange(1, 'init');
     expect($.skinlib.page).toBe(1);
 
-    onPageChange(2);
+    //onPageChange(2);
+    $('select').trigger('change');
     expect($('div').css('display')).not.toBe('none');
     expect($.skinlib.page).toBe(2);
   });
@@ -238,10 +265,64 @@ describe('tests for "index" module', () => {
     updateFilter.call($('div'), new Event('click'));
     expect($.skinlib.uploader).toBe(4);
   });
+
+  it('change sort type', () => {
+    const fetch = jest.fn().mockReturnValue(Promise.resolve());
+    window.fetch = fetch;
+    document.body.innerHTML = `
+      <a class="sort" data-sort="likes"></a>
+    `;
+
+    require(modulePath);
+    $('a').click();
+    expect(fetch).toBeCalled();
+    expect($.skinlib.sort).toBe('likes');
+  });
+
+  it('search texture', async () => {
+    const fetch = jest.fn().mockReturnValue(Promise.resolve());
+    window.fetch = fetch;
+    document.body.innerHTML = `
+      <form id="search-form">
+        <input id="navbar-search-input" name="q" value="keyword">
+      </form>
+    `;
+
+    $('#search-form').trigger('submit');
+    expect(fetch).toBeCalled();
+    expect($.skinlib.keyword).toBe('keyword');
+  });
 });
 
 describe('tests for "operations" module', () => {
   const modulePath = '../skinlib/operations';
+
+  it('toggle liked', async () => {
+    const fetch = jest.fn().mockReturnValue(Promise.resolve());
+    const swal = jest.fn().mockReturnValue(Promise.resolve());
+    const url = jest.fn(path => path);
+    window.fetch = fetch;
+    window.swal = swal;
+    window.url = url;
+    document.body.innerHTML = `
+      <a tid="5" class="anonymous"></a>
+    `;
+    const { toggleLiked } = require(modulePath);
+
+    await toggleLiked.call($('a'));
+    expect(fetch).not.toBeCalled();
+
+    $('a').removeClass('anonymous');
+    const originGetJson = $.getJSON;
+    $.getJSON = jest.fn();
+    await toggleLiked.call($('a'));
+    expect($.getJSON).toBeCalled();
+    $.getJSON = originGetJson;
+
+    $('a').addClass('liked');
+    await toggleLiked.call($('a'));
+    expect(fetch).toBeCalled();
+  });
 
   it('add to closet', async () => {
     const url = jest.fn(path => path);
