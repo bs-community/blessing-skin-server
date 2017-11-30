@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use App\Services\Facades\Option;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -34,14 +35,29 @@ class MiddlewareTest extends TestCase
             'token' => $noEmailUser->getToken()
         ])->visit('/user')->see('Bind')->dontSee('User Center');
 
+        $this->actAs($noEmailUser)
+            ->get('/user?email=email')
+            ->see('Bind');
+
+        $other = factory(User::class)->create();
+        $this->actAs($noEmailUser)
+            ->get('/user?email='.$other->email)
+            ->see(trans('auth.bind.registered'));
+
+        $this->actAs($noEmailUser)
+            ->get('/user?email=a@b.c')
+            ->see('User Center');
+        $this->assertEquals('a@b.c', User::find($noEmailUser->uid)->email);
+
         // Without token
         $this->withSession([
             'uid' => 0
         ])->visit('/user')->seePageIs('/auth/login');
 
         // Without invalid token
+        $user = factory(User::class)->create();
         $this->withSession([
-            'uid' => 0,
+            'uid' => $user->uid,
             'token' => 'invalid'
         ])->visit('/user')->seePageIs('/auth/login');
     }
