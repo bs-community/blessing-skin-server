@@ -2,13 +2,12 @@
 
 'use strict';
 
-var selectedTextures = [];
-
 $(document).ready(initCloset);
 
 $('body').on('click', '.item-body', async function () {
     $('.item-selected').parent().removeClass('item-selected');
     let $item = $(this).parent();
+    const $indicator = $('#textures-indicator');
 
     $item.addClass('item-selected');
 
@@ -23,16 +22,14 @@ $('body').on('click', '.item-body', async function () {
 
         if (type == 'cape') {
             MSP.changeCape(url(`textures/${hash}`));
-            selectedTextures['cape'] = tid;
+            $indicator.data('cape', tid);
         } else {
             MSP.changeSkin(url(`textures/${hash}`));
-            selectedTextures['skin'] = tid;
+            $indicator.data('skin', tid);
         }
 
-        let skin = selectedTextures['skin'],
-            cape = selectedTextures['cape'];
-
-        let $indicator = $('#textures-indicator');
+        const skin = $indicator.data('skin');
+        const cape = $indicator.data('cape');
 
         if (skin !== undefined && cape !== undefined) {
             $indicator.text(`${trans('general.skin')} & ${trans('general.cape')}`);
@@ -299,6 +296,45 @@ async function setAsAvatar(tid) {
     }
 }
 
+async function setTexture() {
+    const $indicator = $('#textures-indicator');
+    let pid = 0,
+        skin = $indicator.data('skin'),
+        cape = $indicator.data('cape');
+
+    $('input[name="player"]').each(function(){
+        if (this.checked) pid = this.id;
+    });
+
+    if (! pid) {
+        toastr.info(trans('user.emptySelectedPlayer'));
+    } else if (skin == undefined && cape == undefined) {
+        toastr.info(trans('user.emptySelectedTexture'));
+    } else {
+        try {
+            const { errno, msg } = await fetch({
+                type: 'POST',
+                url: url('user/player/set'),
+                dataType: 'json',
+                data: {
+                    'pid': pid,
+                    'tid[skin]': skin,
+                    'tid[cape]': cape
+                }
+            });
+
+            if (errno == 0) {
+                swal({ type: 'success', html: msg });
+                $('#modal-use-as').modal('hide');
+            } else {
+                toastr.warning(msg);
+            }
+        } catch (error) {
+            showAjaxError(error);
+        }
+    }
+}
+
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {
     module.exports = {
         setAsAvatar,
@@ -308,5 +344,6 @@ if (typeof require !== 'undefined' && typeof module !== 'undefined') {
         renameClosetItem,
         removeFromCloset,
         initCloset,
+        setTexture,
     };
 }

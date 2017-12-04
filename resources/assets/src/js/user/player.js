@@ -1,4 +1,4 @@
-/* global MSP, defaultSkin, selectedTextures */
+/* global MSP, defaultSkin */
 
 'use strict';
 
@@ -204,47 +204,8 @@ async function addNewPlayer() {
     }
 }
 
-async function setTexture() {
-    let pid = 0,
-        skin = selectedTextures['skin'],
-        cape = selectedTextures['cape'];
-
-    $('input[name="player"]').each(function(){
-        if (this.checked) pid = this.id;
-    });
-
-    if (! pid) {
-        toastr.info(trans('user.emptySelectedPlayer'));
-    } else if (skin == undefined && cape == undefined) {
-        toastr.info(trans('user.emptySelectedTexture'));
-    } else {
-        try {
-            const { errno, msg } = await fetch({
-                type: 'POST',
-                url: url('user/player/set'),
-                dataType: 'json',
-                data: {
-                    'pid': pid,
-                    'tid[skin]': skin,
-                    'tid[cape]': cape
-                }
-            });
-
-            if (errno == 0) {
-                swal({ type: 'success', html: msg });
-                $('#modal-use-as').modal('hide');
-            } else {
-                toastr.warning(msg);
-            }
-        } catch (error) {
-            showAjaxError(error);
-        }
-    }
-}
-
 if (typeof require !== 'undefined' && typeof module !== 'undefined') {
     module.exports = {
-        setTexture,
         addNewPlayer,
         clearTexture,
         deletePlayer,

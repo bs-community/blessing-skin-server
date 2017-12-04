@@ -12,6 +12,7 @@ describe('tests for "closet" module', () => {
     const fetch = jest.fn()
       .mockReturnValueOnce(Promise.resolve({ type: 'skin', hash: 1 }))
       .mockReturnValueOnce(Promise.resolve({ type: 'cape', hash: 2 }))
+      .mockReturnValueOnce(Promise.resolve({ type: 'skin', hash: 3 }))
       .mockReturnValueOnce(Promise.reject());
     const trans = jest.fn(key => key);
     const url = jest.fn(path => path);
@@ -55,6 +56,9 @@ describe('tests for "closet" module', () => {
       <div id="next" tid="2">
         <div class="item-body"></div>
       </div>
+      <div tid="3">
+        <div class="item-body"></div>
+      </div>
     `;
 
     await $('#next > .item-body').click();
@@ -65,6 +69,15 @@ describe('tests for "closet" module', () => {
     });
     expect($('#next').hasClass('item-selected')).toBe(true);
     expect(MSP.changeCape).toBeCalledWith('textures/2');
+    expect($('#textures-indicator').text()).toBe('general.cape');
+
+    await $('[tid="3"] > .item-body').click();
+    expect(fetch).toBeCalledWith({
+      type: 'POST',
+      url: 'skinlib/info/3',
+      dataType: 'json'
+    });
+    expect(MSP.changeSkin).toBeCalledWith('textures/3');
     expect($('#textures-indicator').text()).toBe('general.skin & general.cape');
 
     await $('#next > .item-body').click();
@@ -400,6 +413,60 @@ describe('tests for "closet" module', () => {
     });
     expect($.fn.jqPaginator).toBeCalled();
   });
+
+  it('set texture', async () => {
+    const fetch = jest.fn()
+      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
+      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
+      .mockReturnValueOnce(Promise.reject());
+    const url = jest.fn(path => path);
+    const toastr = {
+      success: jest.fn(),
+      warning: jest.fn(),
+      info: jest.fn()
+    };
+    const swal = jest.fn();
+    const modal = jest.fn();
+    const showAjaxError = jest.fn();
+    window.fetch = fetch;
+    window.url = url;
+    window.toastr = toastr;
+    window.swal = swal;
+    $.fn.modal = modal;
+    window.showAjaxError = showAjaxError;
+
+    document.body.innerHTML = `
+      <input name="player" id="1" />
+      <div id="textures-indicator"></div>
+    `;
+    const setTexture = require(modulePath).setTexture;
+
+    await setTexture();
+    expect(toastr.info).toBeCalledWith('user.emptySelectedPlayer');
+
+    $('input').prop('checked', true);
+    await setTexture();
+    expect(toastr.info).toBeCalledWith('user.emptySelectedTexture');
+
+    $('#textures-indicator').data('skin', 1);
+    $('#textures-indicator').data('cape', 2);
+    await setTexture();
+    expect(fetch).toBeCalledWith({
+      type: 'POST',
+      url: 'user/player/set',
+      dataType: 'json',
+      data: { 'pid': '1', 'tid[skin]': 1, 'tid[cape]': 2 }
+    });
+    expect(swal).toBeCalledWith({ type: 'success', html: 'success' });
+    expect(modal).toBeCalledWith('hide');
+
+    await setTexture();
+    expect(toastr.warning).toBeCalledWith('warning');
+    expect(modal.mock.calls.length).toBe(1);
+
+    await setTexture();
+    expect(showAjaxError).toBeCalled();
+  });
 });
 
 describe('tests for "player" module', () => {
@@ -718,59 +785,6 @@ describe('tests for "player" module', () => {
     expect(toastr.warning).toBeCalledWith('warning');
 
     await addNewPlayer();
-    expect(showAjaxError).toBeCalled();
-  });
-
-  it('set texture', async () => {
-    const fetch = jest.fn()
-      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
-      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
-      .mockReturnValueOnce(Promise.reject());
-    const url = jest.fn(path => path);
-    const toastr = {
-      success: jest.fn(),
-      warning: jest.fn(),
-      info: jest.fn()
-    };
-    const swal = jest.fn();
-    const modal = jest.fn();
-    const showAjaxError = jest.fn();
-    window.fetch = fetch;
-    window.url = url;
-    window.toastr = toastr;
-    window.swal = swal;
-    $.fn.modal = modal;
-    window.selectedTextures = {};
-    window.showAjaxError = showAjaxError;
-
-    document.body.innerHTML = `
-      <input name="player" id="1" />
-    `;
-    const setTexture = require(modulePath).setTexture;
-
-    setTexture();
-    expect(toastr.info).toBeCalledWith('user.emptySelectedPlayer');
-
-    $('input').prop('checked', true);
-    setTexture();
-    expect(toastr.info).toBeCalledWith('user.emptySelectedTexture');
-
-    window.selectedTextures = { skin: 1, cape: 2 };
-    await setTexture();
-    expect(fetch).toBeCalledWith({
-      type: 'POST',
-      url: 'user/player/set',
-      dataType: 'json',
-      data: { 'pid': '1', 'tid[skin]': 1, 'tid[cape]': 2 }
-    });
-    expect(swal).toBeCalledWith({ type: 'success', html: 'success' });
-    expect(modal).toBeCalledWith('hide');
-
-    await setTexture();
-    expect(toastr.warning).toBeCalledWith('warning');
-    expect(modal.mock.calls.length).toBe(1);
-
-    await setTexture();
     expect(showAjaxError).toBeCalled();
   });
 });
