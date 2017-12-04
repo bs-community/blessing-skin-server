@@ -35,7 +35,7 @@ class Minecraft
      * Generate skin preview
      *
      * @link   https://github.com/NC22/Minecraft-HD-skin-viewer-2D/blob/master/SkinViewer2D.class.php
-     * @param  resource    $resource
+     * @param  string      $resource
      * @param  int         $size
      * @param  bool|string $side   'front' or 'back'
      * @param  bool        $base64 Generate image from base64 string
