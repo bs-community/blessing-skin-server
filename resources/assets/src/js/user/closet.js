@@ -81,6 +81,10 @@ async function initCloset() {
     }
 }
 
+/**
+ * 
+ * @param {{ name: string, tid: number, type: 'steve' | 'alex' | 'cape' }} item 
+ */
 function renderClosetItemComponent(item) {
     return `
     <div class="item" tid="${item.tid}" data-texture-type="${item.type}">
@@ -107,8 +111,8 @@ function renderClosetItemComponent(item) {
 /**
  * Render closet with giving items & category.
  *
- * @param {array} items
- * @param {string} category
+ * @param {Array<{ name: string, tid: number, type: 'steve' | 'alex' | 'cape' }>} items
+ * @param {'skin' | 'cape'} category
  */
 function renderCloset(items, category) {
     let search = $('input[name=q]').val();
