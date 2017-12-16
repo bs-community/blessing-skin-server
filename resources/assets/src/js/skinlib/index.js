@@ -60,9 +60,7 @@ function renderSkinlib(items) {
     } else {
         $('#skinlib-paginator').show();
 
-        for (const item of items) {
-            container.append(renderSkinlibItemComponent(item));
-        }
+        container.html(items.reduce((carry, item) => renderSkinlibItemComponent(item), ''));
     }
 
     $('.overlay').hide();

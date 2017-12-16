@@ -132,9 +132,7 @@ function renderCloset(items, category) {
     } else {
         $('#closet-paginator').show();
 
-        for (let item of items) {
-            container.append(renderClosetItemComponent(item));
-        }
+        container.html(items.reduce((carry, item) => carry + renderClosetItemComponent(item), ''));
     }
 }
 
