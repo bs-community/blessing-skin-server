@@ -212,7 +212,7 @@ gulp.task('zip', () => {
         .pipe(notify({ message: `Zip archive saved to ${zipPath}!` }));
 });
 
-gulp.task('watch', () => {
+gulp.task('watch', ['compile-sass', 'compile-es6'], () => {
     // watch .scss files
     gulp.watch(`${srcPath}/sass/*.scss`, ['compile-sass'], () => notify('Sass files compiled!'));
     // watch .js files
