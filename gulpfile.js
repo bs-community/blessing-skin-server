@@ -190,6 +190,7 @@ gulp.task('zip', () => {
             '!composer.*',
             '!yarn.lock',
             '!plugins/**',
+            'plugins/',
             '!phpunit.xml',
             '!package.json',
             '!{tests,tests/**}',
