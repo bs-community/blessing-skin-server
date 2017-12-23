@@ -3664,9 +3664,9 @@ regenerate@^1.2.1:
   version "1.3.2"
   resolved "http://registry.npm.taobao.org/regenerate/download/regenerate-1.3.2.tgz#d1941c67bad437e1be76433add5b385f95b19260"
 
-regenerator-preset@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/regenerator-preset/-/regenerator-preset-0.11.0.tgz#65eda86c1da0cb62c84fa88ac2633e08d03b3566"
+regenerator-preset@^0.11.4:
+  version "0.11.4"
+  resolved "https://registry.yarnpkg.com/regenerator-preset/-/regenerator-preset-0.11.4.tgz#cc1242baaf4b9bcd72bc198be14f5e5a57a917a8"
   dependencies:
     babel-plugin-syntax-async-functions "^6.13.0"
     babel-plugin-syntax-async-generators "^6.13.0"
@@ -3674,7 +3674,7 @@ regenerator-preset@^0.11.0:
     babel-plugin-transform-es2015-block-scoping "^6.18.0"
     babel-plugin-transform-es2015-classes "^6.18.0"
     babel-plugin-transform-es2015-for-of "^6.18.0"
-    regenerator-transform "^0.11.0"
+    regenerator-transform "^0.12.2"
 
 regenerator-runtime@^0.10.0:
   version "0.10.5"
@@ -3684,6 +3684,10 @@ regenerator-runtime@^0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.0.tgz#7e54fe5b5ccd5d6624ea6255c3473be090b802e1"
 
+regenerator-runtime@^0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
+
 regenerator-transform@^0.10.0:
   version "0.10.1"
   resolved "https://registry.yarnpkg.com/regenerator-transform/-/regenerator-transform-0.10.1.tgz#1e4996837231da8b7f3cf4114d71b5691a0680dd"
@@ -3692,16 +3696,15 @@ regenerator-transform@^0.10.0:
     babel-types "^6.19.0"
     private "^0.1.6"
 
-regenerator-transform@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/regenerator-transform/-/regenerator-transform-0.11.0.tgz#0e204c1e69defc6ac70677232b29ea5d4d1df989"
+regenerator-transform@^0.12.2:
+  version "0.12.2"
+  resolved "https://registry.yarnpkg.com/regenerator-transform/-/regenerator-transform-0.12.2.tgz#55c038e9203086b445c67fcd77422eb53a4c406b"
   dependencies:
-    babel-types "^6.19.0"
     private "^0.1.6"
 
-regenerator@^0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/regenerator/-/regenerator-0.11.0.tgz#08f8cbb783bdcb7981eff9fec8b9348207df1b70"
+regenerator@^0.12.2:
+  version "0.12.2"
+  resolved "https://registry.yarnpkg.com/regenerator/-/regenerator-0.12.2.tgz#05a165a7112723b23cccc413a694c8cde8055b62"
   dependencies:
     babel-core "^6.18.2"
     babel-plugin-syntax-async-functions "^6.13.0"
@@ -3715,9 +3718,9 @@ regenerator@^0.11.0:
     commoner "^0.10.8"
     private "^0.1.6"
     recast "^0.11.17"
-    regenerator-preset "^0.11.0"
-    regenerator-runtime "^0.11.0"
-    regenerator-transform "^0.11.0"
+    regenerator-preset "^0.11.4"
+    regenerator-runtime "^0.11.1"
+    regenerator-transform "^0.12.2"
     through "^2.3.8"
 
 regex-cache@^0.4.2:

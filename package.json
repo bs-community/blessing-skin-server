@@ -49,7 +49,7 @@
     "icheck": "^1.0.2",
     "jqPaginator": "^1.2.0",
     "jquery": "^3.2.1",
-    "regenerator": "^0.11.0",
+    "regenerator": "^0.12.2",
     "sweetalert2": "^6.6.5",
     "toastr": "^2.1.2"
   },
