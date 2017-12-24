@@ -13,9 +13,9 @@
     "build": "gulp build",
     "lint": "gulp lint",
     "release": "gulp zip",
-    "test": "jest --silent",
-    "test:watch": "jest --silent --watch",
-    "test:coverage": "jest --silent --coverage --coverageDirectory ./coverage/",
+    "test": "jest --verbose",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --verbose --coverage --coverageDirectory ./coverage/",
     "codecov": "codecov -F js",
     "dev": "gulp watch"
   },
