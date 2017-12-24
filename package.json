@@ -23,6 +23,7 @@
     "timers": "fake"
   },
   "devDependencies": {
+    "babel-plugin-transform-inline-environment-variables": "^0.2.0",
     "babel-plugin-transform-remove-console": "^6.8.5",
     "babel-preset-env": "^1.6.1",
     "codecov": "^3.0.0",

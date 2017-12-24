@@ -6,6 +6,9 @@
       }
     }]
   ],
+  "plugins": [
+    "transform-inline-environment-variables"
+  ],
   "env": {
     "test": {
       "plugins": [

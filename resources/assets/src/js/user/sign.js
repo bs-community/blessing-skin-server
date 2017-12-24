@@ -36,6 +36,6 @@ async function sign() {
     }
 }
 
-if (typeof require !== 'undefined' && typeof module !== 'undefined') {
+if (process.env.NODE_ENV === 'test') {
     module.exports = sign;
 }

@@ -67,7 +67,7 @@ async function deletePlugin(name) {
     }
 }
 
-if (typeof require !== 'undefined' && typeof module !== 'undefined') {
+if (process.env.NODE_ENV === 'test') {
     module.exports = {
         deletePlugin,
         enablePlugin,

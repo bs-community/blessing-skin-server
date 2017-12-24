@@ -30,7 +30,7 @@ module.exports = {
         "ecmaVersion": 2017
     },
     "env":{
-        "commonjs": true,
+        "node": true,
         "es6": true,
         "browser": true,
         "jest": true,

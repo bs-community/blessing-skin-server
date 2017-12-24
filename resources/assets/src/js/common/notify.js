@@ -69,7 +69,7 @@ function showModal(msg, title = 'Message', type = 'default', options = {}) {
     }).modal(options);
 }
 
-if (typeof require !== 'undefined' && typeof module !== 'undefined') {
+if (process.env.NODE_ENV === 'test') {
     module.exports = {
         showMsg,
         showModal,
