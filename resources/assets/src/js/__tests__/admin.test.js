@@ -1130,7 +1130,6 @@ describe('tests for "common" module', () => {
     window.document.cookie = '';
     window.docCookies = docCookies;
     window.fetch = fetch;
-    window.console.log = jest.fn();
     window.blessing = {
         site_name: 'inm',
         base_url: 'http://tdkr.mur',
@@ -1147,11 +1146,9 @@ describe('tests for "common" module', () => {
         data: { site_name: 'inm', site_url: 'http://tdkr.mur', version: '8.1.0' }
     });
     expect(window.document.cookie).not.toBe('');
-    expect(console.log).toBeCalledWith('Feedback sent. Thank you!');
 
     await sendFeedback();
     expect(fetch).toHaveBeenCalledTimes(1);
-    expect(console.log).toHaveBeenCalledTimes(1);
   });
 
   it('initialize data tables', () => {

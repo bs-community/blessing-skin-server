@@ -19,7 +19,11 @@
     "codecov": "codecov -F js",
     "dev": "gulp watch"
   },
+  "jest": {
+    "timers": "fake"
+  },
   "devDependencies": {
+    "babel-plugin-transform-remove-console": "^6.8.5",
     "babel-preset-env": "^1.6.1",
     "codecov": "^3.0.0",
     "del": "^3.0.0",

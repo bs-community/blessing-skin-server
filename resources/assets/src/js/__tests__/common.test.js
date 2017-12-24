@@ -144,18 +144,10 @@ describe('tests for "notify" module', () => {
   });
 
   it('show ajax error', () => {
-    const warn = jest.fn();
-    window.console.warn = warn;
     window.trans = jest.fn(key => key);
     $.fn.modal = jest.fn();
 
     const showAjaxError = require(modulePath).showAjaxError;
-
-    showAjaxError('error');
-    expect(warn).toBeCalledWith('error');
-
-    showAjaxError({});
-    expect(warn).toBeCalledWith('Empty Ajax response body.');
 
     showAjaxError({ responseText: 'error' });
     expect(window.trans).toBeCalledWith('general.fatalError');
@@ -366,6 +358,7 @@ describe('tests for "utils" module', () => {
       expect(func.mock.calls.length).toBe(1);
       done();
     }, 100);
+    jest.runAllTimers();
 
     expect(() => debounce(func, 'string')).toThrow();
     expect(() => debounce('not a function', 100)).toThrow();
