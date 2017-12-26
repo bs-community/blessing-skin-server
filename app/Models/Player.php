@@ -241,12 +241,12 @@ class Player extends Model
 
             // if listeners return nothing
             if (isset($responses[0]) && $responses[0] !== null) {
-                return $responses[0];
+                return $responses[0];     // @codeCoverageIgnore
             } else {
                 return $this->generateJsonProfile($api_type);
             }
         } else {
-            throw new InvalidArgumentException('The given api type should be Player::CSL_API or Player::USM_API.');
+            throw new \InvalidArgumentException('The given api type should be Player::CSL_API or Player::USM_API.');
         }
     }
 
@@ -288,21 +288,17 @@ class Player extends Model
     {
         // @see http://stackoverflow.com/questions/2215354/php-date-format-when-inserting-into-datetime-in-mysql
         $this->update(['last_modified' => Utils::getTimeFormatted()]);
-        return Event::fire(new PlayerProfileUpdated($this));
+        return event(new PlayerProfileUpdated($this));
     }
 
     /**
      * Get time of last modified.
      *
-     * @return timestamp
+     * @return int|false
      */
     public function getLastModified()
     {
         return strtotime($this['last_modified']);
     }
 
-    public function scopeLike($query, $field, $value)
-    {
-        return $query->where($field, 'LIKE', "%$value%");
-    }
 }
