@@ -136,22 +136,6 @@ class OptionRepository extends Repository
     }
 
     /**
-     * Prepend a value onto an array option value.
-     *
-     * @param  string  $key
-     * @param  mixed  $value
-     * @return void
-     */
-    public function prepend($key, $value)
-    {
-        $array = $this->get($key);
-
-        array_unshift($array, $value);
-
-        $this->set($key, $array);
-    }
-
-    /**
      * Return the options with key in the given array.
      *
      * @param  array  $array

@@ -12,7 +12,7 @@ class Repository implements ArrayAccess // Illuminate\Contracts\Cache\Repository
      *
      * @var array
      */
-    protected $items;
+    protected $items = [];
 
     /**
      * All of the option items  that is modified.
@@ -89,11 +89,11 @@ class Repository implements ArrayAccess // Illuminate\Contracts\Cache\Repository
     /**
      * Get an item from the repository, or store the default value.
      *
-     * @param  string  $key
-     * @param  \Closure  $callback
+     * @param  string    $key
+     * @param  callable  $callback
      * @return mixed
      */
-    public function remember($key, Closure $callback)
+    public function remember($key, callable $callback)
     {
         // If the item exists in the repository we will just return this immediately
         // otherwise we will execute the given Closure and repository the result
@@ -102,7 +102,7 @@ class Repository implements ArrayAccess // Illuminate\Contracts\Cache\Repository
             return $value;
         }
 
-        $this->put($key, $value = $callback());
+        $this->set($key, $value = $callback());
 
         return $value;
     }
@@ -110,8 +110,8 @@ class Repository implements ArrayAccess // Illuminate\Contracts\Cache\Repository
     /**
      * Remove an item from the repository.
      *
-     * @param  string $key
-     * @return bool
+     * @param  string|array $key
+     * @return void
      */
     public function forget($key)
     {
