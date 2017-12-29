@@ -1,8 +1,8 @@
 'use strict';
 
 function initUsersTable() {
-  let uid = getQueryString('uid');
-  let dataUrl = url('admin/user-data') + (uid ? `?uid=${uid}` : '');
+  const uid = getQueryString('uid');
+  const dataUrl = url('admin/user-data') + (uid ? `?uid=${uid}` : '');
 
   $('#user-table').DataTable({
     ajax: dataUrl,
@@ -127,8 +127,8 @@ function initUsersTable() {
 }
 
 function initPlayersTable() {
-  let uid = getQueryString('uid');
-  let dataUrl = url('admin/player-data') + (uid ? `?uid=${uid}` : '');
+  const uid = getQueryString('uid');
+  const dataUrl = url('admin/player-data') + (uid ? `?uid=${uid}` : '');
 
   $('#player-table').DataTable({
     ajax: dataUrl,
@@ -159,8 +159,8 @@ function initPlayersTable() {
         render: data => {
           return `
           <select class="form-control" onchange="changePreference.call(this)">
-            <option ${(data == 'default') ? 'selected=selected' : ''} value="default">Default</option>
-            <option ${(data == 'slim') ? 'selected=selected' : ''} value="slim">Slim</option>
+            <option ${(data === 'default') ? 'selected=selected' : ''} value="default">Default</option>
+            <option ${(data === 'slim') ? 'selected=selected' : ''} value="slim">Slim</option>
           </select>`;
         }
       },
@@ -169,7 +169,7 @@ function initPlayersTable() {
         searchable: false,
         orderable: false,
         render: (data, type, row) => {
-          let html = { steve: '', alex: '', cape: '' };
+          const html = { steve: '', alex: '', cape: '' };
           ['steve', 'alex', 'cape'].forEach(textureType => {
             if (row['tid_' + textureType] === 0) {
               html[textureType] = `<img id="${row.pid}-${row['tid_' + textureType]}" width="64" />`;
@@ -247,7 +247,7 @@ function initPluginsTable() {
         searchable: false,
         orderable: false,
         render: (data, type, row) => {
-          let switchEnableButton, configViewButton, deletePluginButton;
+          let switchEnableButton, configViewButton;
           if (data.enabled) {
             switchEnableButton = `
             <a class="btn btn-warning btn-sm" style="cursor: pointer" onclick="disablePlugin('${row.name}');">${trans('admin.disablePlugin')}</a>`;
@@ -262,7 +262,7 @@ function initPluginsTable() {
             configViewButton = `
             <a class="btn btn-default btn-sm" disabled="disabled" title="${trans('admin.noPluginConfigNotice')}" data-toggle="tooltip" data-placement="top">${trans('admin.configurePlugin')}</a>`;
           }
-          deletePluginButton = `
+          const deletePluginButton = `
           <a class="btn btn-danger btn-sm" style="cursor: pointer" onclick="deletePlugin('${row.name}');">${trans('admin.deletePlugin')}</a>`;
           return switchEnableButton + configViewButton + deletePluginButton;
         }

@@ -1,8 +1,8 @@
 'use strict';
 
 async function changeUserEmail(uid) {
-    let dom = $(`tr#user-${uid} > td:nth-child(2)`),
-        newUserEmail = '';
+    const dom = $(`tr#user-${uid} > td:nth-child(2)`);
+    let newUserEmail = '';
 
     try {
         newUserEmail = await swal({
@@ -26,7 +26,7 @@ async function changeUserEmail(uid) {
             data: { uid: uid, email: newUserEmail }
         });
 
-        if (errno == 0) {
+        if (errno === 0) {
             dom.text(newUserEmail);
 
             toastr.success(msg);
@@ -39,8 +39,8 @@ async function changeUserEmail(uid) {
 }
 
 async function changeUserNickName(uid) {
-    let dom = $(`tr#user-${uid} > td:nth-child(3)`),
-        newNickName = '';
+    const dom = $(`tr#user-${uid} > td:nth-child(3)`);
+    let newNickName = '';
 
     try {
         newNickName = await swal({
@@ -63,7 +63,7 @@ async function changeUserNickName(uid) {
             dataType: 'json',
             data: { uid: uid, nickname: newNickName }
         });
-        if (errno == 0) {
+        if (errno === 0) {
             dom.text(newNickName);
 
             toastr.success(msg);
@@ -94,7 +94,7 @@ async function changeUserPwd(uid) {
             dataType: 'json',
             data: { uid: uid, password: password }
         });
-        errno == 0 ? toastr.success(msg) : toastr.warning(msg);
+        errno === 0 ? toastr.success(msg) : toastr.warning(msg);
     } catch (error) {
         showAjaxError(error);
     }
@@ -109,7 +109,7 @@ async function changeUserScore(uid, score) {
             // Handle id formatted as '#user-1234'
             data: { uid: uid.slice(5), score: score }
         });
-        errno == 0 ? toastr.success(msg) : toastr.warning(msg);
+        errno === 0 ? toastr.success(msg) : toastr.warning(msg);
     } catch (error) {
         showAjaxError(error);
     }
@@ -124,17 +124,17 @@ async function changeBanStatus(uid) {
             data: { uid: uid }
         });
 
-        if (errno == 0) {
-            let dom = $(`#ban-${uid}`);
+        if (errno === 0) {
+            const dom = $(`#ban-${uid}`);
 
-            if (dom.attr('data') == 'banned') {
+            if (dom.attr('data') === 'banned') {
                 dom.text(trans('admin.ban')).attr('data', 'normal');
             } else {
                 dom.text(trans('admin.unban')).attr('data', 'banned');
             }
 
             $(`#user-${uid} > td.status`).text(
-                permission == -1 ? trans('admin.banned') : trans('admin.normal')
+                permission === -1 ? trans('admin.banned') : trans('admin.normal')
             );
 
             toastr.success(msg);
@@ -155,17 +155,17 @@ async function changeAdminStatus(uid) {
             data: { uid: uid }
         });
 
-        if (errno == 0) {
-            let dom = $(`#admin-${uid}`);
+        if (errno === 0) {
+            const dom = $(`#admin-${uid}`);
 
-            if (dom.attr('data') == 'admin') {
+            if (dom.attr('data') === 'admin') {
                 dom.text(trans('admin.setAdmin')).attr('data', 'normal');
             } else {
                 dom.text(trans('admin.unsetAdmin')).attr('data', 'admin');
             }
 
             $(`#user-${uid} > td.status`).text(
-                (permission == 1) ? trans('admin.admin') : trans('admin.normal')
+                (permission === 1) ? trans('admin.admin') : trans('admin.normal')
             );
 
             toastr.success(msg);
@@ -196,7 +196,7 @@ async function deleteUserAccount(uid) {
             data: { uid: uid }
         });
 
-        if (errno == 0) {
+        if (errno === 0) {
             $('tr#user-' + uid).remove();
             toastr.success(msg);
         } else {
@@ -209,7 +209,7 @@ async function deleteUserAccount(uid) {
 
 $('body').on('keypress', '.score', function(event){
     // Change score when Enter key is pressed
-    if (event.which == 13) {
+    if (event.which === 13) {
         $(this).blur();
         changeUserScore($(this).parent().parent().attr('id'), $(this).val());
     }

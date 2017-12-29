@@ -7,7 +7,7 @@ async function enablePlugin(name) {
             url: url(`admin/plugins/manage?action=enable&name=${name}`),
             dataType: 'json'
         });
-        if (errno == 0) {
+        if (errno === 0) {
             toastr.success(msg);
 
             $.pluginsTable.ajax.reload(null, false);
@@ -26,7 +26,7 @@ async function disablePlugin(name) {
             url: url(`admin/plugins/manage?action=disable&name=${name}`),
             dataType: 'json'
         });
-        if (errno == 0) {
+        if (errno === 0) {
             toastr.success(msg);
 
             $.pluginsTable.ajax.reload(null, false);
@@ -55,7 +55,7 @@ async function deletePlugin(name) {
             url: url(`admin/plugins/manage?action=delete&name=${name}`),
             dataType: 'json'
         });
-        if (errno == 0) {
+        if (errno === 0) {
             toastr.success(msg);
 
             $.pluginsTable.ajax.reload(null, false);

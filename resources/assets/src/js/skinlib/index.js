@@ -33,7 +33,7 @@ $('body').on('submit', '#search-form', function (e) {
 });
 
 function initSkinlib() {
-    if ($('#skinlib-container').length != 0) {
+    if ($('#skinlib-container').length !== 0) {
         // Initially render skinlib
         requestSkinlibData().then(result => {
             renderSkinlib(result.items);
@@ -47,7 +47,7 @@ function initSkinlib() {
 }
 
 function renderSkinlib(items) {
-    let container = $('#skinlib-container').html('');
+    const container = $('#skinlib-container').html('');
 
     if (items.length === 0) {
         $('#skinlib-paginator').hide();
@@ -95,7 +95,7 @@ function requestSkinlibData() {
 function renderSkinlibItemComponent(item) {
     let title = '';
     let anonymous = '';
-    let liked = item.liked ? 'liked' : '';
+    const liked = item.liked ? 'liked' : '';
 
     if (item.liked === undefined) {
         // If user haven't logged in
@@ -120,7 +120,7 @@ function renderSkinlibItemComponent(item) {
 
                 <a title="${title}" class="more like ${liked} ${anonymous}" tid="${ item.tid }" href="javascript:;" data-placement="top" data-toggle="tooltip"><i class="fa fa-heart"></i></a>
 
-                <small class="more private-label ${(item.public == 0) ? '' : 'hide'}" tid="${ item.tid }">
+                <small class="more private-label ${(item.public === 0) ? '' : 'hide'}" tid="${ item.tid }">
                     ${ trans('skinlib.private') }
                 </small>
             </div>
@@ -136,9 +136,9 @@ function updatePaginator(currentPage, totalPages) {
         total: totalPages
     }));
 
-    let paginator = $('#skinlib-paginator');
+    const paginator = $('#skinlib-paginator');
 
-    if (paginator.html().length == 0) {
+    if (paginator.html().length === 0) {
         // init paginator
         $('#skinlib-paginator').jqPaginator($.extend({}, $.defaultPaginatorConfig, {
             currentPage: parseInt(currentPage),
@@ -152,20 +152,20 @@ function updatePaginator(currentPage, totalPages) {
         });
     }
 
-    let pageSelectElement = $('select.pagination').html('');
+    const pageSelectElement = $('select.pagination').html('');
 
     for (let i = 1; i <= totalPages; i++) {
         pageSelectElement.append(`
-            <option value="${i}" ${ (i == currentPage) ? 'selected' : '' }>${i}</option>
+            <option value="${i}" ${ (i === currentPage) ? 'selected' : '' }>${i}</option>
         `);
     }
 }
 
 function updateFilter(e) {
     e.preventDefault();
-    let selectedFilter = $(this).data('filter');
+    const selectedFilter = $(this).data('filter');
 
-    if (selectedFilter == 'uploader') {
+    if (selectedFilter === 'uploader') {
         $.skinlib.uploader = $(this).data('uid');
         console.log('Show items uploaded by uid ' + $.skinlib.uploader);
     } else {
@@ -180,7 +180,7 @@ function onPageChange(page, type) {
     $.skinlib.page = page;
     updateBreadCrumb();
 
-    if (type == 'init') {
+    if (type === 'init') {
         console.log('Init paginator', page);
     } else {
         $('.overlay').show();
@@ -191,7 +191,7 @@ function onPageChange(page, type) {
 }
 
 function updateUrlQueryString() {
-    let query = $.param($.skinlib);
+    const query = $.param($.skinlib);
 
     window.history.pushState(null, null, url(`skinlib?${ query }`));
 
@@ -201,7 +201,7 @@ function updateUrlQueryString() {
 }
 
 function updateBreadCrumb() {
-    if ($.skinlib.filter == 'cape') {
+    if ($.skinlib.filter === 'cape') {
         $('#filter-indicator').html(trans('general.cape'));
     } else {
         $('#filter-indicator').html(trans('general.skin') + `<small>
@@ -209,7 +209,7 @@ function updateBreadCrumb() {
         </small>`);
     }
 
-    if ($.skinlib.uploader != 0) {
+    if ($.skinlib.uploader !== 0) {
         $('#uploader-indicator').html(trans('skinlib.filter.uploader', { uid: $.skinlib.uploader }));
     } else {
         $('#uploader-indicator').html(trans('skinlib.filter.allUsers'));
@@ -217,7 +217,7 @@ function updateBreadCrumb() {
 
     $('#sort-indicator').html(trans('skinlib.sort.' + $.skinlib.sort));
 
-    if ($.skinlib.keyword != '') {
+    if ($.skinlib.keyword !== '') {
         $('#search-indicator').text(trans('general.searchResult', {
             keyword: decodeURI($.skinlib.keyword)
         }));

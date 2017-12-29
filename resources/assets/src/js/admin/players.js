@@ -11,14 +11,14 @@ async function changePreference() {
                 preference: $(this).val()
             }
         });
-        errno == 0 ? toastr.success(msg) : toastr.warning(msg);
+        errno === 0 ? toastr.success(msg) : toastr.warning(msg);
     } catch (error) {
         showAjaxError(error);
     }
 }
 
 function changeTexture(pid, playerName) {
-    let dom   = `
+    const dom   = `
     <div class="form-group">
         <label for="model">${trans('admin.textureType')}</label>
         <select class="form-control" id="model">
@@ -41,7 +41,7 @@ function changeTexture(pid, playerName) {
 async function ajaxChangeTexture(pid) {
     // Remove interference of modal which is hide
     $('.modal').each(function () {
-        if ($(this).css('display') == 'none') $(this).remove();
+        if ($(this).css('display') === 'none') $(this).remove();
     });
 
     const model = $('#model').val();
@@ -54,7 +54,7 @@ async function ajaxChangeTexture(pid) {
             dataType: 'json',
             data: { pid: pid, model: model, tid: tid }
         });
-        if (errno == 0) {
+        if (errno === 0) {
             $(`#${pid}-${model}`).attr('src', url(`preview/64/${tid}.png`));
             $('.modal').modal('hide');
 
@@ -68,7 +68,7 @@ async function ajaxChangeTexture(pid) {
 }
 
 async function changePlayerName(pid, oldName) {
-    let dom = $(`tr#${pid} > td:nth-child(3)`);
+    const dom = $(`tr#${pid} > td:nth-child(3)`);
     let newPlayerName;
 
     try {
@@ -91,7 +91,7 @@ async function changePlayerName(pid, oldName) {
             dataType: 'json',
             data: { pid: pid, name: newPlayerName }
         });
-        if (errno == 0) {
+        if (errno === 0) {
             dom.text(newPlayerName);
 
             toastr.success(msg);
@@ -104,7 +104,7 @@ async function changePlayerName(pid, oldName) {
 }
 
 function changeOwner(pid) {
-    let dom = $(`#${pid} > td:nth-child(2)`);
+    const dom = $(`#${pid} > td:nth-child(2)`);
     let owner = 0;
 
     swal({
@@ -122,7 +122,7 @@ function changeOwner(pid) {
                 dataType: 'json',
                 data: { pid, uid }
             });
-            if (errno == 0) {
+            if (errno === 0) {
                 dom.text(owner);
                 toastr.success(msg);
             } else {
@@ -137,7 +137,7 @@ function changeOwner(pid) {
 }
 
 async function showNicknameInSwal() {
-    let uid = $('.swal2-input').val();
+    const uid = $('.swal2-input').val();
 
     if (isNaN(uid) || uid <= 0)
         return;
@@ -180,7 +180,7 @@ async function deletePlayer(pid) {
             dataType: 'json',
             data: { pid: pid }
         });
-        if (errno == 0) {
+        if (errno === 0) {
             $(`tr#${pid}`).remove();
             toastr.success(msg);
         } else {

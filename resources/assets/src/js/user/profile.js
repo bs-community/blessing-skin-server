@@ -1,7 +1,7 @@
 'use strict';
 
 async function changeNickName() {
-    let name = $('#new-nickname').val();
+    const name = $('#new-nickname').val();
 
     if (! name) {
         return swal({ type: 'error', html: trans('user.emptyNewNickName') });
@@ -25,7 +25,7 @@ async function changeNickName() {
             data: { new_nickname: name }
         });
 
-        if (errno == 0) {
+        if (errno === 0) {
 
             $('.nickname').each(function () {
                 $(this).html(name);
@@ -41,23 +41,23 @@ async function changeNickName() {
 }
 
 async function changePassword() {
-    let $oldPasswd = $('#password'),
-        $newPasswd = $('#new-passwd'),
-        $confirmPwd = $('#confirm-pwd');
+    const $oldPasswd = $('#password'),
+          $newPasswd = $('#new-passwd'),
+          $confirmPwd = $('#confirm-pwd');
 
-    let password = $oldPasswd.val(),
-        newPasswd = $newPasswd.val();
+    const password = $oldPasswd.val(),
+          newPasswd = $newPasswd.val();
 
-    if (password == '') {
+    if (password === '') {
         toastr.info(trans('user.emptyPassword'));
         $oldPasswd.focus();
-    } else if (newPasswd == '') {
+    } else if (newPasswd === '') {
         toastr.info(trans('user.emptyNewPassword'));
         $newPasswd.focus();
-    } else if ($confirmPwd.val() == '') {
+    } else if ($confirmPwd.val() === '') {
         toastr.info(trans('auth.emptyConfirmPwd'));
         $confirmPwd.focus();
-    } else if (newPasswd != $confirmPwd.val()) {
+    } else if (newPasswd !== $confirmPwd.val()) {
         toastr.warning(trans('auth.invalidConfirmPwd'));
         $confirmPwd.focus();
     } else {
@@ -69,7 +69,7 @@ async function changePassword() {
                 data: { 'current_password': password, 'new_password': newPasswd }
             });
 
-            if (errno == 0) {
+            if (errno === 0) {
                 try {
                     await swal({
                         type: 'success',
@@ -94,7 +94,7 @@ async function changePassword() {
 $('#new-email').focusin(() => {
     $('#current-password').parent().show();
 }).focusout(debounce(() => {
-    let dom = $('#current-password');
+    const dom = $('#current-password');
 
     if (! dom.is(':focus')) {
         dom.parent().hide();
@@ -131,7 +131,7 @@ async function changeEmail() {
             data: { new_email: newEmail, password: $('#current-password').val() }
         });
 
-        if (errno == 0) {
+        if (errno === 0) {
             await swal({
                 type: 'success',
                 text: msg
@@ -153,7 +153,7 @@ async function changeEmail() {
 }
 
 async function deleteAccount() {
-    let password = $('.modal-body>#password').val();
+    const password = $('.modal-body>#password').val();
 
     if (! password) {
         return swal({ type: 'warning', html: trans('user.emptyDeletePassword') });
@@ -167,7 +167,7 @@ async function deleteAccount() {
             data: { password: password }
         });
 
-        if (errno == 0) {
+        if (errno === 0) {
             await swal({
                 type: 'success',
                 html: msg

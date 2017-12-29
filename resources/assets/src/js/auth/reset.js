@@ -3,23 +3,23 @@
 $('#reset-button').click(e => {
     e.preventDefault();
     
-    let data = {
+    const data = {
         uid: $('#uid').val(),
         password: $('#password').val(),
         token: getQueryString('token')
     };
 
     (function validate({ password }, callback) {
-        if (password == '') {
+        if (password === '') {
             showMsg(trans('auth.emptyPassword'));
             $('#password').focus();
         } else if (password.length < 8 || password.length > 16) {
             showMsg(trans('auth.invalidPassword'), 'warning');
             $('#password').focus();
-        } else if ($('#confirm-pwd').val() == '') {
+        } else if ($('#confirm-pwd').val() === '') {
             showMsg(trans('auth.emptyConfirmPwd'));
             $('#confirm-pwd').focus();
-        } else if (password != $('#confirm-pwd').val()) {
+        } else if (password !== $('#confirm-pwd').val()) {
             showMsg(trans('auth.invalidConfirmPwd'), 'warning');
             $('#confirm-pwd').focus();
         } else {
@@ -38,7 +38,7 @@ $('#reset-button').click(e => {
                     ).prop('disabled', 'disabled');
                 }
             });
-            if (errno == 0) {
+            if (errno === 0) {
                 swal({
                     type: 'success',
                     html: msg

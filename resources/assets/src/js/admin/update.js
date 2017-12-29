@@ -91,8 +91,8 @@ function progressPolling(fileSize) {
 async function checkForUpdates() {
     try {
         const data = await fetch({ url: url('admin/update/check') });
-        if (data.available == true) {
-            let dom = `<span class="label label-primary pull-right">v${data.latest}</span>`;
+        if (data.available === true) {
+            const dom = `<span class="label label-primary pull-right">v${data.latest}</span>`;
 
             $(`[href="${url('admin/update')}"]`).append(dom);
         }

@@ -7,7 +7,10 @@ module.exports = {
         "object-curly-spacing": ["error", "always"],
         "no-unused-vars": "warn",
         "no-console": "off",
-        "comma-style": ["warn", "last"]
+        "comma-style": ["warn", "last"],
+        "prefer-const": "warn",
+        "no-var": "error",
+        "eqeqeq": "error",
     },
     "globals": {
         "url": false,
@@ -29,6 +32,7 @@ module.exports = {
     "parserOptions": {
         "ecmaVersion": 2017
     },
+    "root": true,
     "env":{
         "node": true,
         "es6": true,

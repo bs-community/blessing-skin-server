@@ -5,7 +5,7 @@
 $('#register-button').click(e => {
     e.preventDefault();
     
-    let data = {
+    const data = {
         email: $('#email').val(),
         password: $('#password').val(),
         nickname: $('#nickname').val(),
@@ -15,27 +15,27 @@ $('#register-button').click(e => {
 
     (function validate({ email, password, nickname, captcha }, callback) {
         // Massive form validation
-        if (email == '') {
+        if (email === '') {
             showMsg(trans('auth.emptyEmail'));
             $('#email').focus();
         } else if (!/\S+@\S+\.\S+/.test(email)) {
             showMsg(trans('auth.invalidEmail'), 'warning');
-        } else if (password == '') {
+        } else if (password === '') {
             showMsg(trans('auth.emptyPassword'));
             $('#password').focus();
         } else if (password.length < 8 || password.length > 16) {
             showMsg(trans('auth.invalidPassword'), 'warning');
             $('#password').focus();
-        } else if ($('#confirm-pwd').val() == '') {
+        } else if ($('#confirm-pwd').val() === '') {
             showMsg(trans('auth.emptyConfirmPwd'));
             $('#confirm-pwd').focus();
-        } else if (password != $('#confirm-pwd').val()) {
+        } else if (password !== $('#confirm-pwd').val()) {
             showMsg(trans('auth.invalidConfirmPwd'), 'warning');
             $('#confirm-pwd').focus();
-        } else if (nickname == '') {
+        } else if (nickname === '') {
             showMsg(trans('auth.emptyNickname'));
             $('#nickname').focus();
-        } else if (captcha == '') {
+        } else if (captcha === '') {
             showMsg(trans('auth.emptyCaptcha'));
             $('#captcha').focus();
         } else {
@@ -56,7 +56,7 @@ $('#register-button').click(e => {
                     ).prop('disabled', 'disabled');
                 }
             });
-            if (errno == 0) {
+            if (errno === 0) {
                 swal({ type: 'success', html: msg })
                     .then(() => window.location = url('user'));
 

@@ -6,7 +6,7 @@ async function sign() {
             dataType: 'json'
         });
 
-        if (result.errno == 0) {
+        if (result.errno === 0) {
             $('#score').html(result.score);
             const dom = '<i class="fa fa-calendar-check-o"></i> &nbsp;' + trans(
                 'user.signRemainingTime',

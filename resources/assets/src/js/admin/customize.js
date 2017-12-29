@@ -4,7 +4,7 @@
 
 $('#layout-skins-list [data-skin]').click(function (e) {
     e.preventDefault();
-    let skin_name = $(this).data('skin');
+    const skin_name = $(this).data('skin');
     $('body').removeClass(current_skin).addClass(skin_name);
     current_skin = skin_name;
 });
@@ -17,7 +17,7 @@ async function submitColor() {
             dataType: 'json',
             data: { color_scheme: current_skin }
         });
-        errno == 0 ? toastr.success(msg) : toastr.warning(msg);
+        errno === 0 ? toastr.success(msg) : toastr.warning(msg);
     } catch (error) {
         showAjaxError(error);
     }

@@ -18,7 +18,7 @@ class TexturePreview {
         /**
          * @type {'default'|'slim'}
          */
-        this.preference        = (type == 'steve') ? 'default' : 'slim';
+        this.preference        = (type === 'steve') ? 'default' : 'slim';
         this.playerPreference  = preference;
     }
 
@@ -33,7 +33,7 @@ class TexturePreview {
     }
 
     async change3dPreview() {
-        if (this.playerPreference == this.preference || this.type == 'cape') {
+        if (this.playerPreference === this.preference || this.type === 'cape') {
             try {
                 const { hash } = await fetch({
                     type: 'GET',
@@ -41,9 +41,9 @@ class TexturePreview {
                     dataType: 'json'
                 });
 
-                let textureUrl = url(`textures/${hash}`);
+                const textureUrl = url(`textures/${hash}`);
 
-                if (this.type == 'cape') {
+                if (this.type === 'cape') {
                     MSP.changeCape(textureUrl);
                 } else {
                     MSP.changeSkin(textureUrl);
@@ -60,7 +60,7 @@ class TexturePreview {
         this.selector.hide().parent().next().show();
 
         // clear 3D preview of cape
-        if (this.type == 'cape') {
+        if (this.type === 'cape') {
             MSP.changeCape('');
         }
 
@@ -68,7 +68,7 @@ class TexturePreview {
     }
 
     static init3dPreview() {
-        if (TexturePreview.previewType == '2D') return;
+        if (TexturePreview.previewType === '2D') return;
     
         $('#preview-2d').hide();
     

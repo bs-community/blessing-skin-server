@@ -30,7 +30,7 @@ $(document).ready(() => {
 });
 
 function activateLayout() {
-    if (location.pathname == '/' || location.pathname.includes('auth'))
+    if (location.pathname === '/' || location.pathname.includes('auth'))
         return;
 
     $.AdminLTE.layout.activate();

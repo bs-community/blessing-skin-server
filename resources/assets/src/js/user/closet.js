@@ -6,12 +6,12 @@ $(document).ready(initCloset);
 
 $('body').on('click', '.item-body', async function () {
     $('.item-selected').parent().removeClass('item-selected');
-    let $item = $(this).parent();
+    const $item = $(this).parent();
     const $indicator = $('#textures-indicator');
 
     $item.addClass('item-selected');
 
-    let tid = parseInt($item.attr('tid'));
+    const tid = parseInt($item.attr('tid'));
 
     try {
         const { type, hash } = await fetch({
@@ -20,7 +20,7 @@ $('body').on('click', '.item-body', async function () {
             dataType: 'json'
         });
 
-        if (type == 'cape') {
+        if (type === 'cape') {
             MSP.changeCape(url(`textures/${hash}`));
             $indicator.data('cape', tid);
         } else {
@@ -33,9 +33,9 @@ $('body').on('click', '.item-body', async function () {
 
         if (skin !== undefined && cape !== undefined) {
             $indicator.text(`${trans('general.skin')} & ${trans('general.cape')}`);
-        } else if (skin != undefined) {
+        } else if (skin) {
             $indicator.text(trans('general.skin'));
-        } else if (cape != undefined) {
+        } else if (cape) {
             $indicator.text(trans('general.cape'));
         }
     } catch (error) {
@@ -44,9 +44,9 @@ $('body').on('click', '.item-body', async function () {
 });
 
 $('body').on('click', '.category-switch', () => {
-    let category = $('a[href="#skin-category"]').parent().hasClass('active') ? 'cape' : 'skin';
-    let search = $('input[name=q]').val();
-    let page = parseInt($('#closet-paginator').attr(`last-${category}-page`));
+    const category = $('a[href="#skin-category"]').parent().hasClass('active') ? 'cape' : 'skin';
+    const search = $('input[name=q]').val();
+    const page = parseInt($('#closet-paginator').attr(`last-${category}-page`));
 
     reloadCloset(category, page, search);
 });
@@ -56,7 +56,7 @@ async function initCloset() {
         return;
 
     $('input[name=q]').on('input', debounce(() => {
-        let category = $('#skin-category').hasClass('active') ? 'skin' : 'cape';
+        const category = $('#skin-category').hasClass('active') ? 'skin' : 'cape';
         reloadCloset(category, 1, $('input[name=q]').val());
     }, 350));
 
@@ -115,8 +115,8 @@ function renderClosetItemComponent(item) {
  * @param {'skin' | 'cape'} category
  */
 function renderCloset(items, category) {
-    let search = $('input[name=q]').val();
-    let container = $(`#${category}-category`).html('');
+    const search = $('input[name=q]').val();
+    const container = $(`#${category}-category`).html('');
 
     if (items.length === 0) {
         $('#closet-paginator').hide();
@@ -159,7 +159,7 @@ async function reloadCloset(textureCategory, page, search) {
 
         renderCloset(items, category);
         
-        let paginator = $('#closet-paginator');
+        const paginator = $('#closet-paginator');
         
         paginator.attr(`last-${category}-page`, page);
         paginator.jqPaginator('option', {
@@ -208,7 +208,7 @@ async function renameClosetItem(tid, oldName) {
             data: { tid: tid, new_name: newTextureName }
         });
 
-        if (errno == 0) {
+        if (errno === 0) {
             const type = $(`[tid=${tid}]`).data('texture-type');
             $(`[tid=${tid}]>.item-footer>.texture-name>span`).html(
                 newTextureName +
@@ -242,16 +242,16 @@ async function removeFromCloset(tid) {
             data: { tid: tid }
         });
 
-        if (errno == 0) {
+        if (errno === 0) {
             swal({ type: 'success', html: msg });
 
             $(`div[tid=${tid}]`).remove();
 
             ['skin', 'cape'].forEach(type => {
-                let container = $(`#${type}-category`);
+                const container = $(`#${type}-category`);
 
-                if ($.trim(container.html()) == '') {
-                    let msg = trans('user.emptyClosetMsg', { url: url(`skinlib?filter=${type}`) });
+                if ($.trim(container.html()) === '') {
+                    const msg = trans('user.emptyClosetMsg', { url: url(`skinlib?filter=${type}`) });
                     container.html(`<div class="empty-msg">${msg}</div>`);
                 }
             });
@@ -283,7 +283,7 @@ async function setAsAvatar(tid) {
             data: { tid: tid }
         });
 
-        if (errno == 0) {
+        if (errno === 0) {
             toastr.success(msg);
 
             // Refersh avatars
@@ -300,9 +300,9 @@ async function setAsAvatar(tid) {
 
 async function setTexture() {
     const $indicator = $('#textures-indicator');
-    let pid = 0,
-        skin = $indicator.data('skin'),
-        cape = $indicator.data('cape');
+    let pid = 0;
+    const skin = $indicator.data('skin'),
+          cape = $indicator.data('cape');
 
     $('input[name="player"]').each(function(){
         if (this.checked) pid = this.id;
@@ -310,7 +310,7 @@ async function setTexture() {
 
     if (! pid) {
         toastr.info(trans('user.emptySelectedPlayer'));
-    } else if (skin == undefined && cape == undefined) {
+    } else if (!skin && !cape) {
         toastr.info(trans('user.emptySelectedTexture'));
     } else {
         try {
@@ -325,7 +325,7 @@ async function setTexture() {
                 }
             });
 
-            if (errno == 0) {
+            if (errno === 0) {
                 swal({ type: 'success', html: msg });
                 $('#modal-use-as').modal('hide');
             } else {

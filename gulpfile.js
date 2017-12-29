@@ -181,6 +181,7 @@ gulp.task('zip', () => {
             'LICENSE',
             '!.babelrc',
             '!.eslintrc.js',
+            '!.eslintignore',
             '!.travis.yml',
             '!{.env,.env.testing}',
             '!{.git,.git/**}',

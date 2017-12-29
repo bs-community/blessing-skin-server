@@ -5,18 +5,18 @@
 $('#forgot-button').click(e => {
     e.preventDefault();
 
-    let data = {
+    const data = {
         email: $('#email').val(),
         captcha: $('#captcha').val()
     };
 
     (function validate({ email, captcha }, callback) {
-        if (email == '') {
+        if (email === '') {
             showMsg(trans('auth.emptyEmail'));
             $('#email').focus();
         } else if (!/\S+@\S+\.\S+/.test(email)) {
             showMsg(trans('auth.invalidEmail'), 'warning');
-        } else if (captcha == '') {
+        } else if (captcha === '') {
             showMsg(trans('auth.emptyCaptcha'));
             $('#captcha').focus();
         } else {
@@ -35,7 +35,7 @@ $('#forgot-button').click(e => {
                     ).prop('disabled', 'disabled');
                 }
             });
-            if (errno == 0) {
+            if (errno === 0) {
                 showMsg(msg, 'success');
                 $('#forgot-button').html(trans('auth.send')).prop('disabled', 'disabled');
             } else {

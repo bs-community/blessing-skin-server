@@ -5,24 +5,24 @@
 $('#login-button').click(async e => {
     e.preventDefault();
     
-    let data = {
+    const data = {
         identification: $('#identification').val(),
         password: $('#password').val(),
         keep: $('#keep').prop('checked') ? true : false
     };
 
-    if (data.identification == '') {
+    if (data.identification === '') {
         showMsg(trans('auth.emptyIdentification'));
         $('#identification').focus();
-    } else if (data.password == '') {
+    } else if (data.password === '') {
         showMsg(trans('auth.emptyPassword'));
         $('#password').focus();
     } else {
         // Verify it when captcha form is shown
-        if ($('#captcha-form').css('display') == 'block') {
+        if ($('#captcha-form').css('display') === 'block') {
             data.captcha = $('#captcha').val();
 
-            if (data.captcha == '') {
+            if (data.captcha === '') {
                 showMsg(trans('auth.emptyCaptcha'));
                 $('#captcha').focus();
                 return false;
@@ -41,7 +41,7 @@ $('#login-button').click(async e => {
                     ).prop('disabled', 'disabled');
                 }
             });
-            if (errno == 0) {
+            if (errno === 0) {
                 swal({ type: 'success', html: msg });
 
                 setTimeout(() => {
@@ -49,7 +49,7 @@ $('#login-button').click(async e => {
                 }, 1000);
             } else {
                 if (login_fails > 3) {
-                    if ($('#captcha-form').css('display') == 'none') {
+                    if ($('#captcha-form').css('display') === 'none') {
                         swal({ type: 'error', html: trans('auth.tooManyFails') });
 
                         $('#captcha-form').show();

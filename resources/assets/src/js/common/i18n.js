@@ -9,7 +9,7 @@ $.currentLocale = Object.create(null);
  * @return void
  */
 function loadLocales() {
-    for (let lang in $.locales) {
+    for (const lang in $.locales) {
         if (!isEmpty($.locales[lang])) {
             $.currentLocale = $.locales[lang] || Object.create(null);
         }
@@ -28,10 +28,10 @@ function trans(key, parameters = {}) {
         loadLocales();
     }
 
-    let segments = key.split('.');
+    const segments = key.split('.');
     let temp = $.currentLocale || {};
 
-    for (let i in segments) {
+    for (const i in segments) {
         if (isEmpty(temp[segments[i]])) {
             return key;
         } else {
@@ -39,7 +39,7 @@ function trans(key, parameters = {}) {
         }
     }
 
-    for (let i in parameters) {
+    for (const i in parameters) {
         if (!isEmpty(parameters[i])) {
             temp = temp.replace(':'+i, parameters[i]);
         }

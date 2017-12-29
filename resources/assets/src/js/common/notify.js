@@ -18,7 +18,7 @@ function showMsg(msg, type = 'info') {
  * @return {void}
  */
 function showAjaxError(json) {
-    if (typeof json == 'string') {
+    if (typeof json === 'string') {
         return console.warn(json);
     }
 
@@ -39,12 +39,12 @@ function showAjaxError(json) {
  * @return {void}
  */
 function showModal(msg, title = 'Message', type = 'default', options = {}) {
-    let btnType = (type != 'default') ? 'btn-outline' : 'btn-primary';
-    let btnText = options.btnText || 'OK';
-    let onClick = (options.callback === undefined) ? 'data-dismiss="modal"' : `onclick="${options.callback}"`;
-    let destroyOnClose = (options.destroyOnClose === false) ? false : true;
+    const btnType = (type !== 'default') ? 'btn-outline' : 'btn-primary';
+    const btnText = options.btnText || 'OK';
+    const onClick = (options.callback === undefined) ? 'data-dismiss="modal"' : `onclick="${options.callback}"`;
+    const destroyOnClose = (options.destroyOnClose === false) ? false : true;
 
-    let dom = `
+    const dom = `
     <div class="modal modal-${type} fade in">
         <div class="modal-dialog">
             <div class="modal-content">

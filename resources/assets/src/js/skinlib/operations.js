@@ -3,7 +3,7 @@
 $(document).on('click', '.more.like', toggleLiked);
 
 function toggleLiked() {
-    let tid = $(this).attr('tid');
+    const tid = $(this).attr('tid');
 
     if ($(this).hasClass('anonymous'))
         return;
@@ -37,7 +37,7 @@ function addToCloset(tid) {
 async function ajaxAddToCloset(tid, name) {
     // Remove interference of modal which is hide
     $('.modal').each(function () {
-        return ($(this).css('display') == 'none') ? $(this).remove() : null;
+        return ($(this).css('display') === 'none') ? $(this).remove() : null;
     });
 
     try {
@@ -48,7 +48,7 @@ async function ajaxAddToCloset(tid, name) {
             data: { tid: tid, name: name }
         });
 
-        if (errno == 0) {
+        if (errno === 0) {
             swal({ type: 'success', html: msg });
 
             $('.modal').modal('hide');
@@ -82,7 +82,7 @@ async function removeFromCloset(tid) {
             data: { tid: tid }
         });
 
-        if (errno == 0) {
+        if (errno === 0) {
             swal({ type: 'success', html: msg });
 
             updateTextureStatus(tid, 'remove');
@@ -119,7 +119,7 @@ async function changeTextureName(tid, oldName) {
             data: { tid: tid, new_name: newTextureName }
         });
 
-        if (errno == 0) {
+        if (errno === 0) {
             $('#name').text(newTextureName);
             toastr.success(msg);
         } else {
@@ -138,8 +138,8 @@ async function changeTextureName(tid, oldName) {
  * @return {null}
  */
 function updateTextureStatus(tid, action) {
-    let likes  = parseInt($('#likes').html()) + (action == 'add' ? 1 : -1);
-        action = (action == 'add') ? 'removeFromCloset' : 'addToCloset';
+    const likes  = parseInt($('#likes').html()) + (action === 'add' ? 1 : -1);
+        action = (action === 'add') ? 'removeFromCloset' : 'addToCloset';
 
     $(`a[tid=${tid}]`)
         .attr('href', `javascript:${action}(${tid});`)
@@ -176,10 +176,10 @@ async function changePrivacy(tid) {
         });
         const { errno, msg } = result;
 
-        if (errno == 0) {
+        if (errno === 0) {
             toastr.success(msg);
 
-            if (result.public == '0') {
+            if (result.public === '0') {
                 $(`a:contains("${trans('skinlib.setAsPrivate')}")`).html(trans('skinlib.setAsPublic'));
             } else {
                 $(`a:contains("${trans('skinlib.setAsPublic')}")`).html(trans('skinlib.setAsPrivate'));
@@ -211,7 +211,7 @@ async function deleteTexture(tid) {
             data: { tid: tid }
         });
 
-        if (errno == 0) {
+        if (errno === 0) {
             await swal({ type: 'success', html: msg });
             window.location = url('skinlib');
         } else {

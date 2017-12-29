@@ -24,18 +24,18 @@ function handleFiles(files, type) {
     type  = type  || $('#type-cape').prop('checked') ? 'cape' : 'skin';
 
     if (files.length > 0) {
-        let file = files[0];
+        const file = files[0];
 
         if (file.type === 'image/png' || file.type === 'image/x-png') {
-            let reader = new FileReader();
+            const reader = new FileReader();
 
             reader.onload = function () {
-                let img = new Image();
+                const img = new Image();
 
                 img.onload = () => {
-                    let $name = $('#name');
+                    const $name = $('#name');
 
-                    (type == 'skin') ? MSP.changeSkin(img.src) : MSP.changeCape(img.src);
+                    (type === 'skin') ? MSP.changeSkin(img.src) : MSP.changeCape(img.src);
 
                     if ($name.val() === '' || $name.val() === $name.attr('data-last-file-name')) {
                         // Remove png extension in filename
@@ -59,8 +59,8 @@ function handleFiles(files, type) {
 }
 
 function upload() {
-    let form = new FormData();
-    let file = $('#file').prop('files')[0];
+    const form = new FormData();
+    const file = $('#file').prop('files')[0];
 
     form.append('name',   $('#name').val());
     form.append('file',   file);
@@ -78,7 +78,7 @@ function upload() {
         if (file === undefined) {
             toastr.info(trans('skinlib.emptyUploadFile'));
             $('#file').focus();
-        } else if ($('#name').val() == '') {
+        } else if ($('#name').val() === '') {
             toastr.info(trans('skinlib.emptyTextureName'));
             $('#name').focus();
         } else if (file.type !== 'image/png') {
@@ -103,8 +103,8 @@ function upload() {
                 }
             });
 
-            if (errno == 0) {
-                let redirect = function () {
+            if (errno === 0) {
+                const redirect = function () {
                     toastr.info(trans('skinlib.redirecting'));
 
                     setTimeout(() => {

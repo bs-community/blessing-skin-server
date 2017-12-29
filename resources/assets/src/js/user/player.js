@@ -8,7 +8,7 @@ $('body').on('click', '.player', function () {
 
     showPlayerTexturePreview(this.id);
 }).on('click', '#preview-switch', () => {
-    TexturePreview.previewType == '3D' ? TexturePreview.show2dPreview() : TexturePreview.show3dPreview();
+    TexturePreview.previewType === '3D' ? TexturePreview.show2dPreview() : TexturePreview.show3dPreview();
 }).on('change', '#preference', async function () {
     try {
         const { errno, msg } = await fetch({
@@ -17,7 +17,7 @@ $('body').on('click', '.player', function () {
             dataType: 'json',
             data: { pid: $(this).attr('pid'), preference: $(this).val() }
         });
-        errno == 0 ? toastr.success(msg) : toastr.warning(msg);
+        errno === 0 ? toastr.success(msg) : toastr.warning(msg);
     } catch (error) {
         showAjaxError(error);
     }
@@ -34,8 +34,8 @@ async function showPlayerTexturePreview(pid) {
 
         // Render skin preview of selected player
         ['steve', 'alex', 'cape'].forEach((type) => {
-            let tid     = result[`tid_${type}`];
-            let preview = new TexturePreview(type, tid, result.preference);
+            const tid     = result[`tid_${type}`];
+            const preview = new TexturePreview(type, tid, result.preference);
 
             if (tid) {
                 preview.change2dPreview().change3dPreview();
@@ -44,8 +44,8 @@ async function showPlayerTexturePreview(pid) {
             }
         });
 
-        if ((result.preference == 'default' && !result.tid_steve) ||
-            (result.preference == 'slim' && !result.tid_alex))
+        if ((result.preference === 'default' && !result.tid_steve) ||
+            (result.preference === 'slim' && !result.tid_alex))
         {
             // show default skin
             MSP.changeSkin(defaultSkin);
@@ -84,7 +84,7 @@ async function changePlayerName(pid) {
             data: { pid: pid, new_player_name: newPlayerName }
         });
 
-        if (errno == 0) {
+        if (errno === 0) {
             swal({ type: 'success', html: msg });
 
             $playerName.html(newPlayerName);
@@ -97,7 +97,7 @@ async function changePlayerName(pid) {
 }
 
 function clearTexture(pid) {
-    let dom = `<div class="form-group">
+    const dom = `<div class="form-group">
         <input type="checkbox" id="clear-steve"> Default (Steve)
     </div>
     <div class="form-group">
@@ -117,16 +117,16 @@ function clearTexture(pid) {
 
 async function ajaxClearTexture(pid) {
     $('.modal').each(function () {
-        if ($(this).css('display') == 'none') $(this).remove();
+        if ($(this).css('display') === 'none') $(this).remove();
     });
 
-    let data = { pid: pid };
+    const data = { pid: pid };
 
     ['steve', 'alex', 'cape'].forEach(type => {
         data[type] = $(`#clear-${type}`).prop('checked') ? 1 : 0;
     });
 
-    if (data['steve'] == 0 && data['alex'] == 0 && data['cape'] == 0) {
+    if (data['steve'] === 0 && data['alex'] === 0 && data['cape'] === 0) {
         return toastr.warning(trans('user.noClearChoice'));
     }
 
@@ -137,7 +137,7 @@ async function ajaxClearTexture(pid) {
             dataType: 'json',
             data: data
         });
-        swal({ type: errno == 0 ? 'success' : 'error', html: msg });
+        swal({ type: errno === 0 ? 'success' : 'error', html: msg });
         $('.modal').modal('hide');
     } catch (error) {
         showAjaxError(error);
@@ -166,7 +166,7 @@ async function deletePlayer(pid) {
             data: { pid: pid }
         });
 
-        if (errno == 0) {
+        if (errno === 0) {
             await swal({
                 type: 'success',
                 html: msg
@@ -189,7 +189,7 @@ async function addNewPlayer() {
             data: { player_name: $('#player_name').val() }
         });
 
-        if (errno == 0) {
+        if (errno === 0) {
             swal({
                 type: 'success',
                 html: msg
