@@ -69,7 +69,7 @@ async function changePlayerName(pid) {
             input: 'text',
             showCancelButton: true,
             inputValidator: value => (new Promise((resolve, reject) => {
-                value ? resolve() : reject(trans('skinlib.emptyPlayerName'));
+                value ? resolve() : reject(trans('user.emptyPlayerName'));
             }))
         });
     } catch (error) {
