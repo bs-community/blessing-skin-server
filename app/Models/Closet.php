@@ -55,7 +55,7 @@ class Closet
         ));
 
         // traverse items in the closet
-        $this->textures->filter(function ($texture) use ($uid) {
+        $removedCount = $this->textures->filter(function ($texture) use ($uid) {
             $t = Texture::find($texture['tid']);
 
             // if the texture was deleted
@@ -69,15 +69,16 @@ class Closet
 
             return false;
         })->each(function ($texture) use ($uid) {
-            // return scores if the texture was deleted or set as private
-            if (option('return_score')) {
-                app('users')->get($uid)->setScore(
-                    option('score_per_closet_item'), 'plus'
-                );
-            }
-
             $this->remove($texture['tid']);
-        });
+        })->count();
+
+        // return scores if the texture was deleted or set as private
+        if (option('return_score')) {
+            app('users')->get($uid)->setScore(
+                option('score_per_closet_item') * $removedCount,
+                'plus'
+            );
+        }
     }
 
     /**
