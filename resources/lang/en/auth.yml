@@ -63,7 +63,7 @@ validation:
   email: Email format is invalid.
   captcha: Wrong CAPTCHA.
   user: Unexistent user.
-  password: Wrong email or password.
+  password: Wrong password.
 
 logout:
   success: Logged out successfully~

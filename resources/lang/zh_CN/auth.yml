@@ -64,7 +64,7 @@ validation:
   email: 邮箱格式错误
   captcha: 验证码填写错误
   user: 用户不存在哦
-  password: 邮箱或密码不对哦~
+  password: 密码不对哦~
 
 logout:
   success: 登出成功~
