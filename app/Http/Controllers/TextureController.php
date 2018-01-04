@@ -152,7 +152,7 @@ class TextureController extends Controller
                         $image = ob_get_contents();
                         ob_end_clean();
                     } else {
-                        $png = Minecraft::generatePreviewFromSkin($filename, $size);
+                        $png = Minecraft::generatePreviewFromSkin($filename, $size, false, false, 4, $t->type == 'alex');
                         ob_start();
                         imagepng($png);
                         imagedestroy($png);

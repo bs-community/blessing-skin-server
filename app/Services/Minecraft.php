@@ -42,7 +42,7 @@ class Minecraft
      * @param  int         $gap    Gap size between front & back preview
      * @return resource
      */
-    public static function generatePreviewFromSkin($resource, $size, $side = false, $base64 = false, $gap = 4)
+    public static function generatePreviewFromSkin($resource, $size, $side = false, $base64 = false, $gap = 4, $alex = false)
     {
         $src = $base64 ? imagecreatefromstring(base64_decode($resource)) : imagecreatefrompng($resource);
 
@@ -65,45 +65,76 @@ class Minecraft
         if (!$side or $side === 'front') {
             imagecopy($dest, $src, 4 * $ratio,  0 * $ratio,  8 * $ratio,  8 * $ratio, 8 * $ratio,  8 * $ratio); // Head - 1
             imagecopy($dest, $src, 4 * $ratio,  0 * $ratio, 40 * $ratio,  8 * $ratio, 8 * $ratio,  8 * $ratio); // Head - 2
-            imagecopy($dest, $src, 0 * $ratio,  8 * $ratio, 44 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio); // Right Arm - 1
             imagecopy($dest, $src, 4 * $ratio,  8 * $ratio, 20 * $ratio, 20 * $ratio, 8 * $ratio, 12 * $ratio); // Body - 1
             imagecopy($dest, $src, 4 * $ratio, 20 * $ratio,  4 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio); // Right Leg - 1
+
+            if ($alex) {
+                imagecopy($dest, $src, 1 * $ratio,  8 * $ratio, 44 * $ratio, 20 * $ratio, 3 * $ratio, 12 * $ratio); // Right Arm - 1
+            } else {
+                imagecopy($dest, $src, 0 * $ratio,  8 * $ratio, 44 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio); // Right Arm - 1
+            }
 
             // Check if given skin is double layer skin.
             // If not, flip right arm/leg to generate left arm/leg.
             if ($double) {
-                imagecopy($dest, $src, 12 * $ratio, 8 * $ratio, 36 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio); // Left Arm - 1
                 imagecopy($dest, $src, 8 * $ratio, 20 * $ratio, 20 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio); // Left Leg - 1
 
                 // copy second layer
-                imagecopy($dest, $src,  0 * $ratio,  8 * $ratio, 44 * $ratio, 36 * $ratio, 4 * $ratio, 12 * $ratio); // Right Arm - 2
-                imagecopy($dest, $src, 12 * $ratio,  8 * $ratio, 52 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio); // Left Arm - 2
                 imagecopy($dest, $src,  4 * $ratio,  8 * $ratio, 20 * $ratio, 36 * $ratio, 8 * $ratio, 12 * $ratio); // Body - 2
                 imagecopy($dest, $src,  4 * $ratio, 20 * $ratio,  4 * $ratio, 36 * $ratio, 4 * $ratio, 12 * $ratio); // Right Leg - 2
                 imagecopy($dest, $src,  8 * $ratio, 20 * $ratio,  4 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio); // Left Leg - 2
 
+                if ($alex) {
+                    imagecopy($dest, $src, 12 * $ratio, 8 * $ratio, 36 * $ratio, 52 * $ratio, 3 * $ratio, 12 * $ratio); // Left Arm - 1
+                    imagecopy($dest, $src,  1 * $ratio,  8 * $ratio, 44 * $ratio, 36 * $ratio, 3 * $ratio, 12 * $ratio); // Right Arm - 2
+                    imagecopy($dest, $src, 11 * $ratio,  8 * $ratio, 50 * $ratio, 52 * $ratio, 3 * $ratio, 12 * $ratio); // Left Arm - 2
+                } else {
+                    imagecopy($dest, $src, 12 * $ratio, 8 * $ratio, 36 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio); // Left Arm - 1
+                    imagecopy($dest, $src,  0 * $ratio,  8 * $ratio, 44 * $ratio, 36 * $ratio, 4 * $ratio, 12 * $ratio); // Right Arm - 2
+                    imagecopy($dest, $src, 12 * $ratio,  8 * $ratio, 52 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio); // Left Arm - 2
+                }
+
             } else {
-                self::imageflip($dest, $src, 12 * $ratio,  8 * $ratio, 44 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio);
-                self::imageflip($dest, $src,  8 * $ratio, 20 * $ratio,  4 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio);
+                // I am not sure whether there are single layer Alex-model skin.
+                if ($alex) {
+                    self::imageflip($dest, $src, 12 * $ratio,  8 * $ratio, 44 * $ratio, 20 * $ratio, 3 * $ratio, 12 * $ratio); // Left Arm
+                } else {
+                    self::imageflip($dest, $src, 12 * $ratio,  8 * $ratio, 44 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio); // Left Arm
+                }
+                self::imageflip($dest, $src,  8 * $ratio, 20 * $ratio,  4 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio); // Left Leg
             }
 
         }
 
         if (!$side or $side === 'back') {
-            imagecopy($dest, $src, $half_width +  4 * $ratio,  8 * $ratio, 32 * $ratio, 20 * $ratio, 8 * $ratio, 12 * $ratio);
-            imagecopy($dest, $src, $half_width +  4 * $ratio,  0 * $ratio, 24 * $ratio,  8 * $ratio, 8 * $ratio,  8 * $ratio);
-            imagecopy($dest, $src, $half_width +  8 * $ratio, 20 * $ratio, 12 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio);
-            imagecopy($dest, $src, $half_width +  4 * $ratio,  0 * $ratio, 56 * $ratio,  8 * $ratio, 8 * $ratio,  8 * $ratio);
-            imagecopy($dest, $src, $half_width + 12 * $ratio,  8 * $ratio, 52 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio);
+            imagecopy($dest, $src, $half_width +  4 * $ratio,  8 * $ratio, 32 * $ratio, 20 * $ratio, 8 * $ratio, 12 * $ratio); // Body
+            imagecopy($dest, $src, $half_width +  4 * $ratio,  0 * $ratio, 24 * $ratio,  8 * $ratio, 8 * $ratio,  8 * $ratio); // Head
+            imagecopy($dest, $src, $half_width +  8 * $ratio, 20 * $ratio, 12 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio); // Right Leg
+            imagecopy($dest, $src, $half_width +  4 * $ratio,  0 * $ratio, 56 * $ratio,  8 * $ratio, 8 * $ratio,  8 * $ratio); // Headwear
+            
+
+            if ($alex) {
+                imagecopy($dest, $src, $half_width + 12 * $ratio,  8 * $ratio, 51 * $ratio, 20 * $ratio, 3 * $ratio, 12 * $ratio); // Right Arm
+            } else {
+                imagecopy($dest, $src, $half_width + 12 * $ratio,  8 * $ratio, 52 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio); // Right Arm
+            }
 
             if ($double) {
-                imagecopy($dest, $src, $half_width + 0 * $ratio,  8 * $ratio, 44 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio);
-                imagecopy($dest, $src, $half_width + 4 * $ratio, 20 * $ratio, 28 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio);
+                if ($alex) {
+                    imagecopy($dest, $src, $half_width + 1 * $ratio,  8 * $ratio, 43 * $ratio, 52 * $ratio, 3 * $ratio, 12 * $ratio);
+                } else {
+                    imagecopy($dest, $src, $half_width + 0 * $ratio,  8 * $ratio, 44 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio);
+                }
+                imagecopy($dest, $src, $half_width + 4 * $ratio, 20 * $ratio, 28 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio); // Left Leg
 
                 // copy second layer
                 imagecopy($dest, $src, $half_width +  4 * $ratio,  8 * $ratio, 32 * $ratio, 36 * $ratio, 8 * $ratio, 12 * $ratio);
                 imagecopy($dest, $src, $half_width + 12 * $ratio,  8 * $ratio, 52 * $ratio, 36 * $ratio, 4 * $ratio, 12 * $ratio);
-                imagecopy($dest, $src, $half_width +  0 * $ratio,  8 * $ratio, 60 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio);
+                if ($alex) {
+                    imagecopy($dest, $src, $half_width +  1 * $ratio,  8 * $ratio, 59 * $ratio, 52 * $ratio, 3 * $ratio, 12 * $ratio);
+                } else {
+                    imagecopy($dest, $src, $half_width +  0 * $ratio,  8 * $ratio, 60 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio);
+                }
                 imagecopy($dest, $src, $half_width +  8 * $ratio, 20 * $ratio, 12 * $ratio, 36 * $ratio, 4 * $ratio, 12 * $ratio);
                 imagecopy($dest, $src, $half_width +  4 * $ratio, 20 * $ratio, 12 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio);
             } else {

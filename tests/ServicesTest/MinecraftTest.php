@@ -44,6 +44,30 @@ class MinecraftTest extends TestCase
         $this->assertEquals(25, imagesx($preview));
         $this->assertEquals(50, imagesy($preview));
 
+        imagepng(imagecreatetruecolor(64, 32), vfsStream::url('root/skin.png'));
+        $preview = Minecraft::generatePreviewFromSkin(
+            vfsStream::url('root/skin.png'),
+            50,
+            false,
+            false,
+            4,
+            true  // Alex model
+        );
+        $this->assertEquals(56, imagesx($preview));
+        $this->assertEquals(50, imagesy($preview));
+
+        imagepng(imagecreatetruecolor(64, 64), vfsStream::url('root/skin.png'));
+        $preview = Minecraft::generatePreviewFromSkin(
+            vfsStream::url('root/skin.png'),
+            50,
+            false,
+            false,
+            4,
+            true  // Alex model
+        );
+        $this->assertEquals(56, imagesx($preview));
+        $this->assertEquals(50, imagesy($preview));
+
         imagepng(imagecreatetruecolor(128, 64), vfsStream::url('root/skin.png'));
         $preview = Minecraft::generatePreviewFromSkin(vfsStream::url('root/skin.png'), 50);
         $this->assertEquals(56, imagesx($preview));
