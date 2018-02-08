@@ -1,4 +1,4 @@
 [submodule "plugins"]
     path = plugins
     url = git@github.com:printempw/blessing-skin-plugins.git
-    ignore = all
+    ignore = dirty
