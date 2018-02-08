@@ -141,7 +141,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/doctrine/inflector/90b2128806bfde671b6952ab8bea493942c1fdae.zip",
+                "url": "https://files.phpcomposer.com/files/doctrine/inflector/90b2128806bfde671b6952ab8bea493942c1fdae.zip",
                 "reference": "90b2128806bfde671b6952ab8bea493942c1fdae",
                 "shasum": ""
             },
@@ -208,7 +208,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/erusev/parsedown/728952b90a333b5c6f77f06ea9422b94b585878d.zip",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/728952b90a333b5c6f77f06ea9422b94b585878d",
                 "reference": "728952b90a333b5c6f77f06ea9422b94b585878d",
                 "shasum": ""
             },
@@ -303,26 +303,31 @@
         },
         {
             "name": "gregwar/captcha",
-            "version": "v1.1.3",
+            "version": "v1.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Gregwar/Captcha.git",
-                "reference": "b4f22bc4794b652fccefae5a5be9565305e11572"
+                "reference": "1d06ac8e12d2b3e0df39586d78b9f50e086a0bea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Gregwar/Captcha/zipball/b4f22bc4794b652fccefae5a5be9565305e11572",
-                "reference": "b4f22bc4794b652fccefae5a5be9565305e11572",
+                "url": "https://files.phpcomposer.com/files/Gregwar/Captcha/1d06ac8e12d2b3e0df39586d78b9f50e086a0bea.zip",
+                "reference": "1d06ac8e12d2b3e0df39586d78b9f50e086a0bea",
                 "shasum": ""
             },
             "require": {
                 "ext-gd": "*",
-                "php": ">=5.3.0"
+                "ext-mbstring": "*",
+                "php": ">=5.3.0",
+                "symfony/finder": "~3.0|~4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.4"
             },
             "type": "captcha",
             "autoload": {
                 "psr-4": {
-                    "Gregwar\\Captcha\\": "/"
+                    "Gregwar\\": "src/Gregwar"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -347,7 +352,7 @@
                 "captcha",
                 "spam"
             ],
-            "time": "2017-09-27T06:58:14+00:00"
+            "time": "2017-12-30T16:18:44+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -1097,16 +1102,16 @@
         },
         {
             "name": "printempw/laravel-datatables-lite",
-            "version": "v1.0.0",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/printempw/laravel-datatables-lite.git",
-                "reference": "60a79fccc0bebaaaaff371f8afbca2e72a593996"
+                "reference": "1f27c392178e0f1f6943d7534af25badfc59fd4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/printempw/laravel-datatables-lite/60a79fccc0bebaaaaff371f8afbca2e72a593996.zip",
-                "reference": "60a79fccc0bebaaaaff371f8afbca2e72a593996",
+                "url": "https://files.phpcomposer.com/files/printempw/laravel-datatables-lite/1f27c392178e0f1f6943d7534af25badfc59fd4e.zip",
+                "reference": "1f27c392178e0f1f6943d7534af25badfc59fd4e",
                 "shasum": ""
             },
             "require": {
@@ -1150,7 +1155,7 @@
                 "laravel4",
                 "laravel5"
             ],
-            "time": "2017-01-14T09:28:45+00:00"
+            "time": "2018-02-08T18:19:07+00:00"
         },
         {
             "name": "psr/log",
@@ -2324,7 +2329,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://files.phpcomposer.com/files/doctrine/instantiator/8e884e78f9f0eb1329e445619e04456e64d8051d.zip",
+                "url": "https://packagist.phpcomposer.com/files/doctrine/instantiator/8e884e78f9f0eb1329e445619e04456e64d8051d.zip",
                 "reference": "8e884e78f9f0eb1329e445619e04456e64d8051d",
                 "shasum": ""
             },
