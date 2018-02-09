@@ -12,30 +12,33 @@
 <a href="https://twitter.com/printempw"><img src="https://img.shields.io/twitter/follow/printempw.svg?style=social&label=Follow" alt="Twitter Follow"></a>
 </p>
 
-Are you puzzled by losing your custom skins in Minecraft servers runing in offline mode? Now you can easily get them back with the help of Blessing Skin Server!
+Are you puzzled by losing your custom skins in Minecraft servers runing in offline mode? Now you can easily get them back with the help of Blessing Skin!
 
-Blessing Skin Server is a web application where you can upload, manage and share your custom skins & capes! Unlike modifying a resource pack, everyone in the game will see the different skins of each other (of course they should register at the same website too).
+Blessing Skin is a web application where you can upload, manage and share your custom skins & capes! Unlike modifying a resource pack, everyone in the game will see the different skins of each other (of course they should register at the same website too).
 
-Blessing Skin Server is an open-source project written in PHP, which means you can deploy it freely on your own web server! Here is a [live demo](http://skin.prinzeugen.net/).
+Blessing Skin is an open-source project written in PHP, which means you can deploy it freely on your own web server! Here is a [live demo](http://skin.prinzeugen.net/).
 
 Features
 -----------
+- A fully functional skin hosting service
 - Multiple player names can be owned by one user on the website
 - Share your skins and capes online with skin library!
 - Easy-to-use
     - Visual page for user/player/texture management
     - Detailed option pages
+    - Many tweaks for a better UI/UX
 - Security
-    - User passwords will be well encrypted
+    - Support many secure password hash algorithms
     - Email verification for registration (available as plugin)
     - Score system for preventing evil requests
-- Extensible
+- Incredibly extensible
     - Plenty of plugins available
     - Integration with Authme/CrazyLogin/Discuz
+    - Support custom Yggdrasil API authentication
 
 Requirements
 -----------
-Blessing Skin Server has a few system requirements. In most cases, these PHP extensions are already enabled.
+Blessing Skin has only a few system requirements. _In most cases, these PHP extensions are already enabled._
 
 - Web server with URL rewriting enabled
 - **PHP >= 5.5.9** (use v2.x branch if your server doesn't meet the requirements)
@@ -44,6 +47,8 @@ Blessing Skin Server has a few system requirements. In most cases, these PHP ext
 - Mbstring PHP Extension
 - Tokenizer PHP Extension
 - GD PHP Extension (for generating CAPTCHA)
+
+If you are using PHP 7.2, you should also apply this [patch](https://github.com/printempw/blessing-skin-server/wiki/%E5%9C%A8-PHP-7.2-%E4%B8%8A%E8%BF%90%E8%A1%8C) after your installation. Just extract the `vendor` folder from the patch, cover the stock `vendor` with that and you are done.
 
 Quick Install
 -----------
@@ -56,11 +61,9 @@ Quick Install
 Plugin System
 ------------
 
-Blessing Skin Server provides an elegant and powerful plugin system, and you can attach plenty of functions and customization to your site via installing plugins.
+Blessing Skin provides an elegant and powerful plugin system, and you can attach plenty of functions and customization to your site via installing plugins.
 
-- [Official Plugins List](https://github.com/printempw/blessing-skin-server/wiki/%E5%AE%98%E6%96%B9%E6%8F%92%E4%BB%B6%E5%88%97%E8%A1%A8)
-- [Example Plugin](https://coding.net/u/printempw/p/blessing-skin-plugins/git/tree/master/example-plugin)
-- [Plugin Documentation](https://github.com/g-plane/blessing-skin-plugin-docs)
+For more information, please refer to [Wiki - Introducing plugin system](https://github.com/printempw/blessing-skin-server/wiki/%E6%8F%92%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BB%8B%E7%BB%8D).
 
 Developer Install
 ------------
@@ -76,11 +79,11 @@ $ composer install
 $ yarn install
 ```
 
-Run the tests (can be skipped):
+Run the tests (optional):
 
 ```bash
-$ yarn test               # JavaScript
-$ ./vendor/bin/phpunit    # PHP
+$ yarn test
+$ ./vendor/bin/phpunit
 ```
 
 Build the things!
@@ -89,7 +92,7 @@ Build the things!
 $ yarn run build
 ```
 
-Congrats! You made it. Next, please refer to No.2 of [Quick Install].
+Congrats! You made it. Next, please refer to No.2 of **Quick Install** section.
 
 Configure the Web Server
 ------------
@@ -110,20 +113,18 @@ location ~ /\.env {
 
 Mod Configuration
 ------------
-See [Wiki - Mod Configuration](https://github.com/printempw/blessing-skin-server/wiki/Mod-Configuration)
+Please refer to [Wiki - Mod Configuration](https://github.com/printempw/blessing-skin-server/wiki/%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%E7%9A%AE%E8%82%A4-Mod).
 
 ![screenshot](https://img.blessing.studio/images/2017/07/29/2017-06-16_15.54.16.png)
 
-FAQ
+Report Problems
 ------------
 Read [Wiki - FAQ](https://github.com/printempw/blessing-skin-server/wiki/FAQ) and double check if your situation doesn't suit any case mentioned there before reporting.
 
-Report Bugs
-------------
-Please attach your log file (located at `storage/logs/laravel.log`) when reporting a bug. You should also provide the information of your server where the error occured on. Bugs will be addressed ASAP.
+When reporting a problem, please attach your log file (located at `storage/logs/laravel.log`) and the information of your server where the error occured on. You should also read this [guide](https://github.com/printempw/blessing-skin-server/wiki/%E6%8A%A5%E5%91%8A%E9%97%AE%E9%A2%98%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF) before reporting a problem.
 
 Copyright & License
 ------------
-Copyright (c) 2017 [@printempw](https://prinzeugen.net/) - Released under the GNU General Public License v3.0.
+Copyright (c) 2017 [@printempw](https://blessing.studio/) - Released under the GNU General Public License v3.0.
 
 **Exception**: Any plugin developed for Blessing Skin, is not required to adopt GPLv3 License nor release its source code provided no source code from Blessing Skin is contained in the plugin.
