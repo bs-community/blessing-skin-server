@@ -105,7 +105,6 @@ location / {
     try_files $uri $uri/ /index.php?$query_string;
 }
 
-# Protect .env file
 location ~ /\.env {
     deny all;
 }
@@ -125,6 +124,8 @@ When reporting a problem, please attach your log file (located at `storage/logs/
 
 Copyright & License
 ------------
-Copyright (c) 2017 [@printempw](https://blessing.studio/) - Released under the GNU General Public License v3.0.
+Copyright 2016-2018 [printempw](https://blessing.studio/) and contributors.
 
-**Exception**: Any plugin developed for Blessing Skin, is not required to adopt GPLv3 License nor release its source code provided no source code from Blessing Skin is contained in the plugin.
+Blessing Skin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 3.
+
+**Exception**: Any plugin developed for Blessing Skin, is not required to adopt GPLv3 License nor release its source code, provided no source code from Blessing Skin is contained in the plugin.
