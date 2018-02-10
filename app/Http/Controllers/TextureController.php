@@ -198,8 +198,9 @@ class TextureController extends Controller
     {
         $player = Player::where('player_name', $player_name)->first();
 
-        if ($player->isBanned())
-            abort(404, trans('general.player-banned'));
+        if ($player->isBanned()) {
+            abort(403, trans('general.player-banned'));
+        }
 
         return $player;
     }

@@ -121,9 +121,10 @@ class SkinlibController extends Controller
         $texture = Texture::find($tid);
 
         if (!$texture || $texture && !Storage::disk('textures')->has($texture->hash)) {
-            if (Option::get('auto_del_invalid_texture') == "1") {
-                if ($texture)
+            if (option('auto_del_invalid_texture')) {
+                if ($texture) {
                     $texture->delete();
+                }
 
                 abort(404, trans('skinlib.show.deleted'));
             }
@@ -132,7 +133,7 @@ class SkinlibController extends Controller
 
         if ($texture->public == "0") {
             if (is_null($this->user) || ($this->user->uid != $texture->uploader && !$this->user->isAdmin()))
-                abort(404, trans('skinlib.show.private'));
+                abort(403, trans('skinlib.show.private'));
         }
 
         return view('skinlib.show')->with('texture', $texture)->with('with_out_filter', true)->with('user', $this->user);

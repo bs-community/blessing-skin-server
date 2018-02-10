@@ -25,7 +25,7 @@ class TextureControllerTest extends TestCase
         User::find($player->uid)->setPermission(User::BANNED);
         $this->get("/{$player->player_name}.json")
             ->see(trans('general.player-banned'))
-            ->assertResponseStatus(404);
+            ->assertResponseStatus(403);
 
         User::find($player->uid)->setPermission(User::NORMAL);
 
