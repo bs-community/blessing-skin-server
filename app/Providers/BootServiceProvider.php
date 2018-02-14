@@ -55,7 +55,7 @@ class BootServiceProvider extends ServiceProvider
             // check database config
             Database::prepareConnection();
         } catch (\Exception $e) {
-            if (PHP_SAPI == "cli") {
+            if ($this->app->runningInConsole()) {
                 // dump some useful information for debugging
                 dump([
                     'APP_ENV' => app()->environment(),
