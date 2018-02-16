@@ -16,11 +16,14 @@ class PluginControllerTest extends TestCase
             'example-plugin' => 'example-plugin_v1.0.zip',
             'avatar-api'     => 'avatar-api_v1.1.zip'
         ];
+
         foreach ($plugins as $plugin_name => $filename) {
             if (! file_exists(base_path('plugins/'.$plugin_name))) {
+                $user_agent = menv('USER_AGENT', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36');
+
                 $context = stream_context_create(['http' => [
-                    'method' => "GET",
-                    'header' => "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36"
+                    'method' => 'GET',
+                    'header' => "User-Agent: $user_agent"
                 ]]);
 
                 file_put_contents(
