@@ -513,18 +513,18 @@ describe('tests for "operations" module', () => {
     const updateTextureStatus = require(modulePath).updateTextureStatus;
 
     updateTextureStatus(1, 'add');
-    expect($('a[tid=1]').attr('href')).toBe('javascript:removeFromCloset(1);');
+    expect($('a[tid=1]').attr('onclick')).toBe('removeFromCloset(1);');
     expect($('a[tid=1]').attr('title')).toBe('skinlib.removeFromCloset');
     expect($('a[tid=1]').hasClass('liked')).toBe(true);
-    expect($('#1').attr('href')).toBe('javascript:removeFromCloset(1);');
+    expect($('#1').attr('onclick')).toBe('removeFromCloset(1);');
     expect($('#1').html()).toBe('skinlib.removeFromCloset');
     expect($('div').html()).toBe('6');
 
     updateTextureStatus(1, 'remove');
-    expect($('a[tid=1]').attr('href')).toBe('javascript:addToCloset(1);');
+    expect($('a[tid=1]').attr('onclick')).toBe('addToCloset(1);');
     expect($('a[tid=1]').attr('title')).toBe('skinlib.addToCloset');
     expect($('a[tid=1]').hasClass('liked')).toBe(false);
-    expect($('#1').attr('href')).toBe('javascript:addToCloset(1);');
+    expect($('#1').attr('onclick')).toBe('addToCloset(1);');
     expect($('#1').html()).toBe('skinlib.addToCloset');
     expect($('div').html()).toBe('5');
   });

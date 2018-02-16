@@ -142,11 +142,11 @@ function updateTextureStatus(tid, action) {
         action = (action === 'add') ? 'removeFromCloset' : 'addToCloset';
 
     $(`a[tid=${tid}]`)
-        .attr('href', `javascript:${action}(${tid});`)
+        .attr('onclick', `${action}(${tid});`)
         .attr('title', trans(`skinlib.${action}`))
         .toggleClass('liked');
     $(`#${tid}`)
-        .attr('href', `javascript:${action}(${tid});`)
+        .attr('onclick', `${action}(${tid});`)
         .html(trans(`skinlib.${action}`));
     $('#likes').html(likes);
 }
