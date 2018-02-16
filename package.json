@@ -19,8 +19,19 @@
     "codecov": "codecov -F js",
     "dev": "gulp watch"
   },
-  "jest": {
-    "timers": "fake"
+  "dependencies": {
+    "admin-lte": "^2.3.11",
+    "bootstrap": "^3.3.7",
+    "bootstrap-fileinput": "^4.4.2",
+    "es6-promise": "^4.1.1",
+    "font-awesome": "^4.7.0",
+    "highlight.js": "^9.12.0",
+    "icheck": "^1.0.2",
+    "jqPaginator": "^1.2.0",
+    "jquery": "^3.2.1",
+    "regenerator": "^0.12.2",
+    "sweetalert2": "^6.6.5",
+    "toastr": "^2.1.2"
   },
   "devDependencies": {
     "babel-plugin-transform-inline-environment-variables": "^0.2.0",
@@ -44,19 +55,8 @@
     "node-sass": "^4.5.3",
     "run-sequence": "^2.0.0"
   },
-  "dependencies": {
-    "admin-lte": "^2.3.11",
-    "bootstrap": "^3.3.7",
-    "bootstrap-fileinput": "^4.4.2",
-    "es6-promise": "^4.1.1",
-    "font-awesome": "^4.7.0",
-    "highlight.js": "^9.12.0",
-    "icheck": "^1.0.2",
-    "jqPaginator": "^1.2.0",
-    "jquery": "^3.2.1",
-    "regenerator": "^0.12.2",
-    "sweetalert2": "^6.6.5",
-    "toastr": "^2.1.2"
+  "jest": {
+    "timers": "fake"
   },
   "optionalDependencies": {
     "@types/jest": "^20.0.2"
