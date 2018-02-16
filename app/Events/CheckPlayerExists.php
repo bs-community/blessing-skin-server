@@ -2,22 +2,18 @@
 
 namespace App\Events;
 
-use Illuminate\Queue\SerializesModels;
-
 class CheckPlayerExists extends Event
 {
-    use SerializesModels;
-
-    public $player_name;
+    public $playerName;
 
     /**
      * Create a new event instance.
      *
+     * @param  string $playerName
      * @return void
      */
-    public function __construct($player_name)
+    public function __construct($playerName)
     {
-        $this->player_name = $player_name;
+        $this->playerName = $playerName;
     }
-
 }

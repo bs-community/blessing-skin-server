@@ -11,11 +11,11 @@ class PluginWasDeleted extends Event
     /**
      * Create a new event instance.
      *
+     * @param  Plugin $plugin
      * @return void
      */
     public function __construct(Plugin $plugin)
     {
         $this->plugin = $plugin;
     }
-
 }

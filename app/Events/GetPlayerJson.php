@@ -3,25 +3,29 @@
 namespace App\Events;
 
 use App\Models\Player;
-use Illuminate\Queue\SerializesModels;
 
 class GetPlayerJson extends Event
 {
-    use SerializesModels;
-
     public $player;
 
-    public $api_type;
+    /**
+     * CSL_API = 0
+     * USM_API = 1
+     *
+     * @var int
+     */
+    public $apiType;
 
     /**
      * Create a new event instance.
      *
+     * @param  Player $player
+     * @param  int    $apiType
      * @return void
      */
-    public function __construct(Player $player, $api_type)
+    public function __construct(Player $player, $apiType)
     {
         $this->player   = $player;
-        $this->api_type = $api_type;
+        $this->apiType  = $apiType;
     }
-
 }

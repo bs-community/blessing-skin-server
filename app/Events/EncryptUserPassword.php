@@ -6,19 +6,20 @@ use App\Models\User;
 
 class EncryptUserPassword extends Event
 {
-    public $rawPasswd;
-
     public $user;
+
+    public $rawPasswd;
 
     /**
      * Create a new event instance.
      *
+     * @param  string $rawPasswd
+     * @param  User   $user
      * @return void
      */
-    public function __construct($raw_passwd, User $user)
+    public function __construct($rawPasswd, User $user)
     {
-        $this->rawPasswd = $raw_passwd;
+        $this->rawPasswd = $rawPasswd;
         $this->user = $user;
     }
-
 }

@@ -3,19 +3,18 @@
 namespace App\Events;
 
 use App\Models\Texture;
-use Illuminate\Queue\SerializesModels;
 
 class GetSkinPreview extends Event
 {
-    use SerializesModels;
+    public $size;
 
     public $texture;
-
-    public $size;
 
     /**
      * Create a new event instance.
      *
+     * @param  Texture $texture
+     * @param  int     $size
      * @return void
      */
     public function __construct(Texture $texture, $size)
@@ -23,5 +22,4 @@ class GetSkinPreview extends Event
         $this->texture = $texture;
         $this->size = $size;
     }
-
 }

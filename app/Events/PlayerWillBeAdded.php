@@ -9,11 +9,11 @@ class PlayerWillBeAdded extends Event
     /**
      * Create a new event instance.
      *
+     * @param  string $playerName
      * @return void
      */
-    public function __construct($player_name)
+    public function __construct($playerName)
     {
-        $this->playerName = $player_name;
+        $this->playerName = $playerName;
     }
-
 }

@@ -2,12 +2,8 @@
 
 namespace App\Events;
 
-use Illuminate\Queue\SerializesModels;
-
 class UserTryToLogin extends Event
 {
-    use SerializesModels;
-
     public $identification;
 
     public $authType;
@@ -15,12 +11,13 @@ class UserTryToLogin extends Event
     /**
      * Create a new event instance.
      *
+     * @param  string $identification Email or username of the user.
+     * @param  string $authType       "email" or "username".
      * @return void
      */
-    public function __construct($identification, $auth_type)
+    public function __construct($identification, $authType)
     {
         $this->identification = $identification;
-        $this->authType = $auth_type;
+        $this->authType = $authType;
     }
-
 }

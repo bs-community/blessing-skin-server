@@ -2,25 +2,24 @@
 
 namespace App\Events;
 
-use Illuminate\Queue\SerializesModels;
+use App\Models\Texture;
 
 class GetAvatarPreview extends Event
 {
-    use SerializesModels;
+    public $size;
 
     public $texture;
-
-    public $size;
 
     /**
      * Create a new event instance.
      *
+     * @param  Texture $texture
+     * @param  int     $size
      * @return void
      */
-    public function __construct(\App\Models\Texture $texture, $size)
+    public function __construct(Texture $texture, $size)
     {
-        $this->texture  = $texture;
+        $this->texture = $texture;
         $this->size = $size;
     }
-
 }

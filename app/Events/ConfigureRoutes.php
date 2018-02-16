@@ -11,6 +11,7 @@ class ConfigureRoutes extends Event
     /**
      * Create a new event instance.
      *
+     * @param  Router $router
      * @return void
      */
     public function __construct(Router $router)
