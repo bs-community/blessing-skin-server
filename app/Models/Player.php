@@ -56,8 +56,8 @@ class Player extends Model
     /**
      * Get specific texture of player.
      *
-     * @param  string $type steve|alex|cape
-     * @return string       Sha256-hash of texture file.
+     * @param  string $type "steve" or "alex" or "cape".
+     * @return string The sha256 hash of texture file.
      */
     public function getTexture($type)
     {
@@ -99,20 +99,22 @@ class Player extends Model
     /**
      * Check and delete invalid textures from player profile.
      *
-     * @return mixed
+     * @return $this
      */
     public function checkForInvalidTextures()
     {
         foreach (self::$models as $model) {
             $property = "tid_$model";
 
-            if (!Texture::find($this->$property)) {
+            if (! Texture::find($this->$property)) {
                 // reset texture
                 $this->$property = 0;
             }
         }
 
-        return $this->save();
+        $this->save();
+
+        return $this;
     }
 
     /**
@@ -165,8 +167,7 @@ class Player extends Model
     /**
      * Set preferred model for the player.
      *
-     * @param string $type slim|default
-     *
+     * @param  string $type "slim" or "default".
      * @return $this
      */
     public function setPreference($type)
@@ -194,17 +195,17 @@ class Player extends Model
     /**
      * Rename the player.
      *
-     * @param  string $new_name
-     * @return $this;
+     * @param  string $newName
+     * @return $this
      */
-    public function rename($new_name)
+    public function rename($newName)
     {
         $this->update([
-            'player_name'   => $new_name,
+            'player_name'   => $newName,
             'last_modified' => Utils::getTimeFormatted()
         ]);
 
-        $this->player_name = $new_name;
+        $this->player_name = $newName;
 
         event(new PlayerProfileUpdated($this));
 
@@ -214,8 +215,7 @@ class Player extends Model
     /**
      * Set a new owner for the player.
      *
-     * @param int $uid
-     *
+     * @param  int $uid
      * @return $this
      */
     public function setOwner($uid) {
@@ -239,7 +239,7 @@ class Player extends Model
 
             $responses = Event::fire(new GetPlayerJson($this, $api_type));
 
-            // if listeners return nothing
+            // If listeners return nothing
             if (isset($responses[0]) && $responses[0] !== null) {
                 return $responses[0];     // @codeCoverageIgnore
             } else {
@@ -300,5 +300,4 @@ class Player extends Model
     {
         return strtotime($this['last_modified']);
     }
-
 }

@@ -35,7 +35,7 @@ class CheckPlayerExist
             if ($r) return $next($request);    // @codeCoverageIgnore
         }
 
-        if (!Player::where('player_name', $player_name)->get()->isEmpty())
+        if (! Player::where('player_name', $player_name)->get()->isEmpty())
             return $next($request);
 
         if (option('return_200_when_notfound')) {
@@ -47,6 +47,5 @@ class CheckPlayerExist
         } else {
             return abort(404, trans('general.unexistent-player'));
         }
-
     }
 }

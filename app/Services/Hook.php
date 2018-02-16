@@ -31,7 +31,7 @@ class Hook
 
             $offset = 0;
             foreach ($event->menu[$category] as $item) {
-                // push new menu items at the given position
+                // Push new menu items at the given position
                 if ($offset == $position) {
                     $new[] = $menu;
                 }
@@ -77,7 +77,7 @@ class Hook
         Event::listen(Events\RenderingHeader::class, function($event) use ($urls, $pages)
         {
             foreach ($pages as $pattern) {
-                if (!app('request')->is($pattern))
+                if (! app('request')->is($pattern))
                     continue;
 
                 foreach ((array) $urls as $url) {
@@ -95,7 +95,7 @@ class Hook
         Event::listen(Events\RenderingFooter::class, function($event) use ($urls, $pages)
         {
             foreach ($pages as $pattern) {
-                if (!app('request')->is($pattern))
+                if (! app('request')->is($pattern))
                     continue;
 
                 foreach ((array) $urls as $url) {

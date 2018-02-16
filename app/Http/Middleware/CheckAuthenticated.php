@@ -17,8 +17,8 @@ class CheckAuthenticated
     {
         if (Session::has('uid')) {
 
-            if (!app()->bound('user.current')) {
-                // bind current user to container
+            if (! app()->bound('user.current')) {
+                // Bind current user to container
                 $user = app('users')->get(session('uid'));
                 app()->instance('user.current', $user);
             } else {
@@ -37,7 +37,7 @@ class CheckAuthenticated
                 abort(403, trans('auth.check.banned'));
             }
 
-            // ask for filling email
+            // Ask for filling email
             if ($user->email == "") {
                 return $this->askForFillingEmail($request, $next);
             }
@@ -64,7 +64,7 @@ class CheckAuthenticated
 
                 if (User::where('email', $request->email)->get()->isEmpty()) {
                     $user->setEmail($request->email);
-                    // refresh token
+                    // Refresh token
                     Session::put('token',  $user->getToken(true));
                     Cookie::queue('token', $user->getToken(), 60);
 
@@ -83,7 +83,7 @@ class CheckAuthenticated
     protected function flashLastRequestedPath($path = null)
     {
         $path = $path ?: app('request')->path();
-        
+
         return session(['last_requested_path' => $path]);
     }
 }

@@ -46,7 +46,7 @@ class UserController extends Controller
      */
     protected function calculatePercentageUsed($used, $rate)
     {
-        // init default value to avoid division by zero
+        // Initialize default value to avoid division by zero.
         $result['used']       = $used;
         $result['total']      = 'UNLIMITED';
         $result['percentage'] = 0;
@@ -131,7 +131,7 @@ class UserController extends Controller
                     'new_password'     => 'required|min:8|max:16'
                 ]);
 
-                if (!$this->user->verifyPassword($request->input('current_password')))
+                if (! $this->user->verifyPassword($request->input('current_password')))
                     return json(trans('user.profile.password.wrong-password'), 1);
 
                 if ($this->user->changePasswd($request->input('new_password'))) {
@@ -151,7 +151,7 @@ class UserController extends Controller
                     return json(trans('user.profile.email.existed'), 1);
                 }
 
-                if (!$this->user->verifyPassword($request->input('password')))
+                if (! $this->user->verifyPassword($request->input('password')))
                     return json(trans('user.profile.email.wrong-password'), 1);
 
                 if ($this->user->setEmail($request->input('new_email'))) {
@@ -166,7 +166,7 @@ class UserController extends Controller
                     'password' => 'required|min:6|max:16'
                 ]);
 
-                if (!$this->user->verifyPassword($request->input('password')))
+                if (! $this->user->verifyPassword($request->input('password')))
                     return json(trans('user.profile.delete.wrong-password'), 1);
 
                 if ($this->user->delete()) {

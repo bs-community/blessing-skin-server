@@ -61,7 +61,7 @@ class User extends Model
      */
     public function getCloset()
     {
-        if (!$this->closet) {
+        if (! $this->closet) {
             $this->closet = new Closet($this->uid);
         }
 
@@ -76,7 +76,7 @@ class User extends Model
      */
     public function verifyPassword($rawPasswd)
     {
-        // compare directly if any responses is returned by event dispatcher
+        // Compare directly if any responses is returned by event dispatcher
         if ($result = static::getEncryptedPwdFromEvent($rawPasswd, $this)) {
             return hash_equals($this->password, $result);     // @codeCoverageIgnore
         }
@@ -109,16 +109,16 @@ class User extends Model
     public static function register($email, $password, \Closure $callback) {
         $user = static::firstOrNew(['email' => $email]);
 
-        // if the email is already registered
+        // If the email is already registered
         if ($user->uid) return false;
 
-        // pass the user instance to the callback
+        // Pass the user instance to the callback
         call_user_func($callback, $user);
 
-        // save to get uid
+        // Save to get uid
         $user->save();
 
-        // save again with password
+        // Save again with password
         $user->password = static::getEncryptedPwdFromEvent($password, $user) ?: app('cipher')->hash($password, config('secure.salt'));
         $user->save();
 
@@ -184,7 +184,7 @@ class User extends Model
      */
     public function getNickName()
     {
-        if (!$this->uid) {
+        if (! $this->uid) {
             return trans('general.unexistent-user');
         } else {
             return ($this->nickname == "") ? $this->email : $this->nickname;
@@ -194,12 +194,12 @@ class User extends Model
     /**
      * Set nickname for the user.
      *
-     * @param  string $new_nickname
+     * @param  string $newNickName
      * @return bool
      */
-    public function setNickName($new_nickname)
+    public function setNickName($newNickName)
     {
-        $this->nickname = $new_nickname;
+        $this->nickname = $newNickName;
         return $this->save();
     }
 
@@ -211,7 +211,7 @@ class User extends Model
      */
     public function getToken($refresh = false)
     {
-        if (!$this->token || $refresh) {
+        if (! $this->token || $refresh) {
             $this->token = md5($this->email . $this->password . config('secure.salt'));
         }
 
@@ -303,7 +303,7 @@ class User extends Model
      */
     public function getSignRemainingTime()
     {
-        // convert to timestamp
+        // Convert to timestamp
         $lastSignTime = Carbon::parse($this->getLastSignTime());
 
         if (option('sign_after_zero')) {
@@ -364,9 +364,9 @@ class User extends Model
      */
     public function delete()
     {
-        // delete the players he owned
+        // Delete the players he owned
         Player::where('uid', $this->uid)->delete();
-        // delete his closet
+        // Delete his closet
         DB::table('closets')->where('uid', $this->uid)->delete();
 
         return parent::delete();
@@ -389,5 +389,4 @@ class User extends Model
     {
         return $query->where($field, 'LIKE', "%$value%");
     }
-
 }

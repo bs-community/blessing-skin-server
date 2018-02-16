@@ -20,31 +20,31 @@ class BootServiceProvider extends ServiceProvider
      */
     public function boot(Request $request)
     {
-        // detect current locale
+        // Detect current locale
         $this->app->call('App\Http\Middleware\DetectLanguagePrefer@detect');
 
         $this->checkFilePermissions();
         $this->checkDatabaseConnection();
 
-        // skip the installation check when setup or under CLI
-        if (!$request->is('setup*') && PHP_SAPI != "cli") {
+        // Skip the installation check when setup or under CLI
+        if (! $request->is('setup*') && PHP_SAPI != "cli") {
             $this->checkInstallation();
         }
     }
 
     protected function checkFilePermissions()
     {
-        // check dotenv
-        if (!file_exists(app()->environmentFile())) {
+        // Check dotenv file
+        if (! file_exists(app()->environmentFile())) {
             throw new PrettyPageException(trans('setup.file.no-dot-env'), -1);
         }
 
-        // check permissions of storage path
-        if (!is_writable(storage_path())) {
+        // Check permissions of storage path
+        if (! is_writable(storage_path())) {
             throw new PrettyPageException(trans('setup.permissions.storage'), -1);
         }
 
-        if (!SetupController::checkDirectories()) {
+        if (! SetupController::checkDirectories()) {
             throw new PrettyPageException(trans('setup.file.permission-error'), -1);
         }
     }
@@ -52,11 +52,11 @@ class BootServiceProvider extends ServiceProvider
     protected function checkDatabaseConnection()
     {
         try {
-            // check database config
+            // Check database config
             Database::prepareConnection();
         } catch (\Exception $e) {
             if ($this->app->runningInConsole()) {
-                // dump some useful information for debugging
+                // Dump some useful information for debugging
                 dump([
                     'APP_ENV' => app()->environment(),
                     'DOTENV_FILE' => app()->environmentFile(),
@@ -73,8 +73,8 @@ class BootServiceProvider extends ServiceProvider
 
     protected function checkInstallation()
     {
-        // redirect to setup wizard
-        if (!SetupController::checkTablesExist()) {
+        // Redirect to setup wizard
+        if (! SetupController::checkTablesExist()) {
             return redirect('/setup')->send();
         }
 

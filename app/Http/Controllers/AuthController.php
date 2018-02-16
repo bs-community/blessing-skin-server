@@ -33,22 +33,22 @@ class AuthController extends Controller
 
         $identification = $request->input('identification');
 
-        // guess type of identification
-        $auth_type = (validate($identification, 'email')) ? "email" : "username";
+        // Guess type of identification
+        $authType = (validate($identification, 'email')) ? "email" : "username";
 
-        event(new Events\UserTryToLogin($identification, $auth_type));
+        event(new Events\UserTryToLogin($identification, $authType));
 
         // Get user instance from repository.
         // If the given identification is not registered yet,
         // it will return a null value.
-        $user = $users->get($identification, $auth_type);
+        $user = $users->get($identification, $authType);
 
         if (session('login_fails', 0) > 3) {
             if (strtolower($request->input('captcha')) != strtolower(session('phrase')))
                 return json(trans('auth.validation.captcha'), 1);
         }
 
-        if (!$user) {
+        if (! $user) {
             return json(trans('auth.validation.user'), 2);
         } else {
             if ($user->verifyPassword($request->input('password'))) {
@@ -57,7 +57,7 @@ class AuthController extends Controller
                 Session::put('uid'  , $user->uid);
                 Session::put('token', $user->getToken());
 
-                // time in minutes
+                // Time in minutes
                 $time = $request->input('keep') == true ? 10080 : 60;
 
                 event(new Events\UserLoggedIn($user));
@@ -66,7 +66,7 @@ class AuthController extends Controller
 
                 return json(trans('auth.login.success'), 0, [
                     'token' => $user->getToken()
-                ]) // set cookies
+                ]) // Set cookies
                 ->withCookie('uid', $user->uid, $time)
                 ->withCookie('token', $user->getToken(), $time);
             } else {
@@ -82,10 +82,10 @@ class AuthController extends Controller
     public function logout(Request $request)
     {
         if (Session::has('uid') && Session::has('token')) {
-            // flush sessions
+            // Flush sessions
             Session::flush();
 
-            // delete cookies
+            // Delete cookies
             return json(trans('auth.logout.success'), 0)
                     ->withCookie(Cookie::forget('uid'))
                     ->withCookie(Cookie::forget('token'));
@@ -105,7 +105,7 @@ class AuthController extends Controller
 
     public function handleRegister(Request $request, UserRepository $users)
     {
-        if (!$this->checkCaptcha($request))
+        if (! $this->checkCaptcha($request))
             return json(trans('auth.validation.captcha'), 1);
 
         $this->validate($request, [
@@ -114,7 +114,7 @@ class AuthController extends Controller
             'nickname' => 'required|nickname|max:255'
         ]);
 
-        if (!option('user_can_register')) {
+        if (! option('user_can_register')) {
             return json(trans('auth.register.close'), 7);
         }
 
@@ -137,7 +137,7 @@ class AuthController extends Controller
                 $user->nickname     = $request->input('nickname');
             });
 
-            if (!$user) {
+            if (! $user) {
                 return json(trans('auth.register.registered'), 5);
             }
 
@@ -147,8 +147,8 @@ class AuthController extends Controller
             $redirect = true;
 
             if ($request->input('addPlayer') == 'add') {
-                if (!Player::where('player_name', $request->nickname)->first()) {
-                    if (!Validator::make(
+                if (! Player::where('player_name', $request->nickname)->first()) {
+                    if (! Validator::make(
                         ['name' => $request->nickname],
                         ['name' => option('allow_chinese_playername') ? 'pname_chinese' : 'playername']
                     )->fails()) {
@@ -175,7 +175,7 @@ class AuthController extends Controller
                 'msg'      => $msg,
                 'token'    => $user->getToken(),
                 'redirect' => $redirect,
-            ]) // set cookies
+            ]) // Set cookies
             ->withCookie('uid', $user->uid, 60)
             ->withCookie('token', $user->getToken(), 60);
 
@@ -195,7 +195,7 @@ class AuthController extends Controller
 
     public function handleForgot(Request $request, UserRepository $users)
     {
-        if (!$this->checkCaptcha($request))
+        if (! $this->checkCaptcha($request))
             return json(trans('auth.validation.captcha'), 1);
 
         if (config('mail.host') == "")
@@ -204,14 +204,14 @@ class AuthController extends Controller
         if (Session::has('last_mail_time') && (time() - session('last_mail_time')) < 60)
             return json(trans('auth.forgot.frequent-mail'), 1);
 
-        // get user instance
+        // Get user instance
         $user = $users->get($request->input('email'), 'email');
 
-        if (!$user)
+        if (! $user)
             return json(trans('auth.forgot.unregistered'), 1);
 
         $uid = $user->uid;
-        // generate token for password resetting
+        // Generate token for password resetting
         $token = base64_encode($user->getToken().substr(time(), 4, 6).str_random(16));
 
         $url = Option::get('site_url')."/auth/reset?uid=$uid&token=$token";
@@ -237,13 +237,13 @@ class AuthController extends Controller
     public function reset(UserRepository $users, Request $request)
     {
         if ($request->has('uid') && $request->has('token')) {
-            // get user instance from repository
+            // Get user instance from repository
             $user = $users->get($request->input('uid'));
 
-            if (!$user)
+            if (! $user)
                 return redirect('auth/forgot')->with('msg', trans('auth.reset.invalid'));
 
-            // unpack to get user token & timestamp
+            // Unpack to get user token & timestamp
             $decoded   = base64_decode($request->input('token'));
             $token     = substr($decoded, 0, -22);
             $timestamp = substr($decoded, strlen($token), 6);
@@ -252,7 +252,7 @@ class AuthController extends Controller
                 return redirect('auth/forgot')->with('msg', trans('auth.reset.invalid'));
             }
 
-            // more than 1 hour
+            // More than 1 hour
             if ((substr(time(), 4, 6) - $timestamp) > 3600) {
                 return redirect('auth/forgot')->with('msg', trans('auth.reset.expired'));
             }
@@ -276,14 +276,14 @@ class AuthController extends Controller
         $timestamp = intval(substr($decoded, strlen($token), 6));
 
         $user = $users->get($request->input('uid'));
-        if (!$user)
+        if (! $user)
             return json(trans('auth.reset.invalid'), 1);
 
         if ($user->getToken() != $token) {
             return json(trans('auth.reset.invalid'), 1);
         }
 
-        // more than 1 hour
+        // More than 1 hour
         if ((intval(substr(time(), 4, 6)) - $timestamp) > 3600) {
             return json(trans('auth.reset.expired'), 1);
         }

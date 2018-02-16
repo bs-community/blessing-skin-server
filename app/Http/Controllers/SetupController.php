@@ -38,7 +38,7 @@ class SetupController extends Controller
         ]);
 
         if ($request->has('generate_random')) {
-            // generate new APP_KEY & SALT randomly
+            // Generate new APP_KEY & SALT randomly
             if (is_writable(app()->environmentFile())) {
                 Artisan::call('key:random');
                 Artisan::call('salt:random');
@@ -68,7 +68,7 @@ class SetupController extends Controller
 
         Option::set('site_url',  $siteUrl);
 
-        // register super admin
+        // Register super admin
         $user = User::register(
             $request->input('email'),
             $request->input('password'), function ($user)
@@ -93,7 +93,7 @@ class SetupController extends Controller
     public function update()
     {
         if (Utils::versionCompare(config('app.version'), option('version', ''), '<=')) {
-            // no updates available
+            // No updates available
             return view('setup.locked');
         }
 
@@ -111,8 +111,8 @@ class SetupController extends Controller
             if ($filename != "." && $filename != "..") {
                 preg_match('/update-(.*)-to-(.*).php/', $filename, $matches);
 
-                // skip if the file is not valid or expired
-                if (!isset($matches[2]) ||
+                // Skip if the file is not valid or expired
+                if (! isset($matches[2]) ||
                     Utils::versionCompare($matches[2], config('app.version'), '<')) {
                     continue;
                 }
@@ -120,7 +120,7 @@ class SetupController extends Controller
                 $result = require database_path('update_scripts')."/$filename";
 
                 if (is_array($result)) {
-                    // push tip to array
+                    // Push the tip into array
                     foreach ($result as $tip) {
                         $tips[] = $tip;
                     }
@@ -132,16 +132,17 @@ class SetupController extends Controller
         closedir($resource);
 
         foreach (config('options') as $key => $value) {
-            if (!Option::has($key))
+            if (! Option::has($key)) {
                 Option::set($key, $value);
+            }
         }
 
-        if (!$updateScriptExist) {
-            // if update script is not given
+        if (! $updateScriptExist) {
+            // If there is no update script given
             Option::set('version', config('app.version'));
         }
 
-        // clear all compiled view files
+        // Clear all compiled view files
         try {
             Artisan::call('view:clear');
         } catch (\Exception $e) {
@@ -164,13 +165,13 @@ class SetupController extends Controller
      * @param  array $tables
      * @return bool
      */
-    public static function checkTablesExist($tables = [
-        'users', 'closets', 'players', 'textures', 'options'
-    ]) {
+    public static function checkTablesExist($tables = null) {
         $totalTables = 0;
 
+        $tables = $tables ?: ['users', 'closets', 'players', 'textures', 'options'];
+
         foreach ($tables as $tableName) {
-            // prefix will be added automatically
+            // Table prefix will be added automatically
             if (Schema::hasTable($tableName)) {
                 $totalTables++;
             }
@@ -179,7 +180,7 @@ class SetupController extends Controller
         if ($totalTables == count($tables)) {
             return true;
         } else {
-            // not installed completely
+            // Not installed completely
             foreach (array_merge($tables, ['migrations']) as $tableName) {
                 Schema::dropIfExists($tableName);
             }
@@ -193,10 +194,11 @@ class SetupController extends Controller
 
         try {
             foreach ($directories as $dir) {
-                if (!Storage::disk('root')->has($dir)) {
-                    // mkdir
-                    if (!Storage::disk('root')->makeDirectory($dir))
+                if (! Storage::disk('root')->has($dir)) {
+                    // Try to mkdir
+                    if (! Storage::disk('root')->makeDirectory($dir)) {
                         return false;
+                    }
                 }
             }
 
@@ -218,5 +220,4 @@ class SetupController extends Controller
     {
         return $validator->errors()->all();
     }
-
 }

@@ -5,11 +5,12 @@ namespace App\Exceptions;
 class PrettyPageException extends \Exception
 {
     /**
-     * Custom error handler
+     * Custom error handler.
      *
-     * @param string  $message
-     * @param integer $code
-     * @param boolean $render, to show a error page
+     * @param  string $message
+     * @param  int    $code
+     * @param  bool   $render Whether to show a error page.
+     * @return void
      */
     public function __construct($message = "Error occured.", $code = -1, $render = false)
     {

@@ -42,7 +42,7 @@ class ClosetController extends Controller
         $items = collect();
 
         if ($q) {
-            // do search
+            // Do search
             $items = $this->closet->getItems($category)->filter(function ($item) use ($q) {
                 return stristr($item['name'], $q);
             });
@@ -50,7 +50,7 @@ class ClosetController extends Controller
             $items = $this->closet->getItems($category);
         }
 
-        // pagination
+        // Pagination
         $total_pages = ceil($items->count() / $per_page);
 
         return response()->json([
@@ -72,7 +72,7 @@ class ClosetController extends Controller
         }
 
         $tid = $request->tid;
-        if (!Texture::find($tid)) {
+        if (! Texture::find($tid)) {
             return json(trans('user.closet.add.not-found'), 1);
         }
 

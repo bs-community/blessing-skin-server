@@ -41,7 +41,7 @@ class PluginController extends Controller
         $plugin = plugin($name = $request->get('name'));
 
         if ($plugin) {
-            // pass the plugin title through the translator
+            // Pass the plugin title through the translator.
             $plugin->title = trans($plugin->title);
 
             switch ($request->get('action')) {

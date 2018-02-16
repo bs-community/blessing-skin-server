@@ -350,7 +350,7 @@ class AdminController extends Controller
                 'tid'   => 'required|integer'
             ]);
 
-            if (!Texture::find($request->tid) && $request->tid != 0)
+            if (! Texture::find($request->tid) && $request->tid != 0)
                 return json(trans('admin.players.textures.non-existent', ['tid' => $request->tid]), 1);
 
             $player->setTexture(['tid_'.$request->model => $request->tid]);
@@ -364,7 +364,7 @@ class AdminController extends Controller
 
             $user = $users->get($request->input('uid'));
 
-            if (!$user)
+            if (! $user)
                 return json(trans('admin.users.operations.non-existent'), 1);
 
             $player->setOwner($request->input('uid'));

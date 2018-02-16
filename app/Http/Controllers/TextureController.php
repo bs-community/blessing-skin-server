@@ -134,7 +134,6 @@ class TextureController extends Controller
 
     public function preview($tid, $size = 250)
     {
-        // output image directly
         if ($t = Texture::find($tid)) {
             if (Storage::disk('textures')->has($t->hash)) {
                 $responses = event(new GetSkinPreview($t, $size));
@@ -165,6 +164,7 @@ class TextureController extends Controller
             }
         }
 
+        // Show this if given texture is invalid.
         $png = imagecreatefromstring(base64_decode(static::getBrokenPreview()));
         ob_start();
         imagepng($png);

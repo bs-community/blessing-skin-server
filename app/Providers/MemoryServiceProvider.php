@@ -11,7 +11,7 @@ class MemoryServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        Storage::extend('memory', function($app, $config) {
+        Storage::extend('memory', function ($app, $config) {
             return new Filesystem(new MemoryAdapter());
         });
     }

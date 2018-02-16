@@ -65,17 +65,17 @@ class OptionForm
      */
     public function __call($method, $params)
     {
-        if (!in_array($method, ['text', 'checkbox', 'textarea', 'select', 'group'])) {
+        if (! in_array($method, ['text', 'checkbox', 'textarea', 'select', 'group'])) {
             throw new BadMethodCallException("Method [$method] does not exist on option form.");
         }
 
-        // assign name for option item
-        if (!isset($params[1]) || Arr::get($params, 1) == OptionForm::AUTO_DETECT) {
+        // Assign name for option item
+        if (! isset($params[1]) || Arr::get($params, 1) == OptionForm::AUTO_DETECT) {
             $params[1] = Arr::get(trans("options.$this->id.$params[0]"), 'title', trans("options.$this->id.$params[0]"));
         }
 
         $class = new ReflectionClass('App\Services\OptionForm'.Str::title($method));
-        // use ReflectionClass to create a new OptionFormItem instance
+        // Use ReflectionClass to create a new OptionFormItem instance
         $item = $class->newInstanceArgs($params);
         $item->setParentId($this->id);
         $this->items[] = $item;
@@ -248,11 +248,11 @@ class OptionForm
         $allPostData = $request->all();
 
         if ($request->isMethod('POST') && Arr::get($allPostData, 'option') == $this->id) {
-            if (!is_null($callback)) {
+            if (! is_null($callback)) {
                 call_user_func($callback, $this);
             }
 
-            if (!is_null($this->hookBefore)) {
+            if (! is_null($this->hookBefore)) {
                 call_user_func($this->hookBefore, $this);
             }
 
@@ -268,7 +268,7 @@ class OptionForm
                     }
                     continue;
                 }
-                // push item to the queue
+                // Push item to the queue
                 $postOptionQueue[] = $item;
             }
 
@@ -287,7 +287,7 @@ class OptionForm
                     continue;
                 }
 
-                // compare with raw option value
+                // Compare with raw option value
                 if (($data = Arr::get($allPostData, $item->id)) != option($item->id, null, true)) {
                     $formatted = is_null($item->format) ? $data : call_user_func($item->format, $data);
                     Option::set($item->id, $formatted);
@@ -298,7 +298,7 @@ class OptionForm
                 Option::set($key, serialize($value));
             }
 
-            if (!is_null($this->hookAfter)) {
+            if (! is_null($this->hookAfter)) {
                 call_user_func($this->hookAfter, $this);
             }
 
@@ -322,7 +322,7 @@ class OptionForm
             $option = Arr::get(
                 $this->values,
                 $result['id'],
-                // fallback to load from options
+                // Fallback to load from options
                 @unserialize(option($result['id']))
             );
 
@@ -337,7 +337,7 @@ class OptionForm
      */
     protected function assignValues()
     {
-        // load values for items if not set manually
+        // Load values for items if not set manually
         foreach ($this->items as $item) {
             if ($item instanceof OptionFormGroup) {
                 foreach ($item->items as &$groupItem) {
@@ -382,12 +382,12 @@ class OptionForm
      */
     public function render()
     {
-        if (!is_null($this->alwaysCallback)) {
+        if (! is_null($this->alwaysCallback)) {
             call_user_func($this->alwaysCallback, $this);
         }
 
         // attach submit button to the form
-        if (!$this->renderWithOutSubmitButton) {
+        if (! $this->renderWithOutSubmitButton) {
             $this->addButton([
                 'style' => 'primary',
                 'text'  => trans('general.submit'),

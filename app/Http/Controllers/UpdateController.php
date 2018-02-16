@@ -37,12 +37,12 @@ class UpdateController extends Controller
             'release_note'    => '',
             'release_url'     => '',
             'pre_release'     => false,
-            // fallback to current time
+            // Fallback to current time
             'release_time'    => '',
             'new_version_available' => false
         ];
 
-        // if current update source is available
+        // If current update source is available
         if ($this->getUpdateInfo()) {
             $info['latest_version'] = $this->getUpdateInfo('latest_version');
 
@@ -63,7 +63,7 @@ class UpdateController extends Controller
                 $info['new_version_available'] = false;
             }
 
-            if (!$info['new_version_available']) {
+            if (! $info['new_version_available']) {
                 $info['release_time'] = Arr::get($this->getReleaseInfo($this->currentVersion), 'release_time');
             }
         }
@@ -103,7 +103,7 @@ class UpdateController extends Controller
     {
         $action = $request->input('action');
 
-        if (!$this->newVersionAvailable()) return;
+        if (! $this->newVersionAvailable()) return;
 
         $release_url = $this->getReleaseInfo($this->latestVersion)['release_url'];
         $file_size   = Utils::getRemoteFileSize($release_url);
@@ -114,7 +114,7 @@ class UpdateController extends Controller
 
                 $update_cache = storage_path('update_cache');
 
-                if (!is_dir($update_cache)) {
+                if (! is_dir($update_cache)) {
                     if (false === Storage::disk('storage')->makeDirectory('update_cache')) {
                         return response(trans('admin.update.errors.write-permission'));
                     }
@@ -128,7 +128,9 @@ class UpdateController extends Controller
 
             case 'start-download':
 
-                if (!session()->has('tmp_path')) return "No temp path is set.";
+                if (! session()->has('tmp_path')) {
+                    return "No temp path is set.";
+                }
 
                 try {
                     Utils::download($release_url, $tmp_path);
@@ -143,7 +145,9 @@ class UpdateController extends Controller
 
             case 'get-file-size':
 
-                if (!session()->has('tmp_path')) return "No temp path is set.";
+                if (! session()->has('tmp_path')) {
+                    return "No temp path is set.";
+                }
 
                 if (file_exists($tmp_path)) {
                     return json(['size' => filesize($tmp_path)]);
@@ -151,8 +155,9 @@ class UpdateController extends Controller
 
             case 'extract':
 
-                if (!file_exists($tmp_path))
+                if (! file_exists($tmp_path)) {
                     return response('No file available');
+                }
 
                 $extract_dir = storage_path("update_cache/{$this->latestVersion}");
 
@@ -205,8 +210,8 @@ class UpdateController extends Controller
 
     protected function getUpdateInfo($key = null)
     {
-        if (!$this->updateInfo) {
-            // add timestamp to control cdn cache
+        if (! $this->updateInfo) {
+            // Add timestamp to control cdn cache
             $url = starts_with($this->updateSource, 'http')
                 ? $this->updateSource."?v=".substr(time(), 0, -3)
                 : $this->updateSource;
@@ -225,7 +230,7 @@ class UpdateController extends Controller
 
         $this->latestVersion = Arr::get($this->updateInfo, 'latest_version', $this->currentVersion);
 
-        if (!is_null($key)) {
+        if (! is_null($key)) {
             return Arr::get($this->updateInfo, $key);
         }
 

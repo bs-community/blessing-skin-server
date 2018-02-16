@@ -46,11 +46,9 @@ class PlayerController extends Controller
             }
         }
 
-        $this->middleware(
-            [CheckPlayerExist::class, CheckPlayerOwner::class],
-            [
-                'only' => ['delete', 'rename', 'setTexture', 'clearTexture', 'setPreference']
-            ]);
+        $this->middleware([CheckPlayerExist::class, CheckPlayerOwner::class], [
+            'only' => ['delete', 'rename', 'setTexture', 'clearTexture', 'setPreference']
+        ]);
     }
 
     public function index()
@@ -66,7 +64,7 @@ class PlayerController extends Controller
 
         event(new CheckPlayerExists($request->input('player_name')));
 
-        if (!Player::where('player_name', $request->input('player_name'))->get()->isEmpty()) {
+        if (! Player::where('player_name', $request->input('player_name'))->get()->isEmpty()) {
             return json(trans('user.player.add.repeated'), 6);
         }
 
@@ -93,18 +91,19 @@ class PlayerController extends Controller
 
     public function delete(Request $request)
     {
-        $player_name = $this->player->player_name;
+        $playerName = $this->player->player_name;
 
         event(new PlayerWillBeDeleted($this->player));
 
         $this->player->delete();
 
-        if (option('return_score'))
+        if (option('return_score')) {
             $this->user->setScore(Option::get('score_per_player'), 'plus');
+        }
 
-        event(new PlayerWasDeleted($player_name));
+        event(new PlayerWasDeleted($playerName));
 
-        return json(trans('user.player.delete.success', ['name' => $player_name]), 0);
+        return json(trans('user.player.delete.success', ['name' => $playerName]), 0);
     }
 
     public function show()
@@ -118,21 +117,21 @@ class PlayerController extends Controller
             'new_player_name' => 'required|'.(option('allow_chinese_playername') ? 'pname_chinese' : 'playername')
         ]);
 
-        $new_name = $request->input('new_player_name');
+        $newName = $request->input('new_player_name');
 
-        if (!Player::where('player_name', $new_name)->get()->isEmpty()) {
+        if (! Player::where('player_name', $newName)->get()->isEmpty()) {
             return json(trans('user.player.rename.repeated'), 6);
         }
 
-        $old_name = $this->player->player_name;
+        $oldName = $this->player->player_name;
 
-        $this->player->rename($new_name);
+        $this->player->rename($newName);
 
-        return json(trans('user.player.rename.success', ['old' => $old_name, 'new' => $new_name]), 0);
+        return json(trans('user.player.rename.success', ['old' => $oldName, 'new' => $newName]), 0);
     }
 
     /**
-     * A wrapper of Player::setTexture()
+     * A wrapper of Player::setTexture().
      *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -140,12 +139,15 @@ class PlayerController extends Controller
     public function setTexture(Request $request)
     {
         foreach ($request->input('tid') as $key => $value) {
-            if (!($texture = Texture::find($value)))
+            $texture = Texture::find($value);
+
+            if (! $texture) {
                 return json(trans('skinlib.un-existent'), 6);
+            }
 
-            $field_name = "tid_{$texture->type}";
+            $fieldName = "tid_{$texture->type}";
 
-            $this->player->setTexture([$field_name => $value]);
+            $this->player->setTexture([$fieldName => $value]);
         }
 
         return json(trans('user.player.set.success', ['name' => $this->player->player_name]), 0);

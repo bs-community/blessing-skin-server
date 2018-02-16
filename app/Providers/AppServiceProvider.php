@@ -16,8 +16,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // replace HTTP_HOST with site url setted in options to prevent CDN source problems
-        if (!option('auto_detect_asset_url')) {
+        // Replace HTTP_HOST with site url setted in options to prevent CDN source problems
+        if (! option('auto_detect_asset_url')) {
             $rootUrl = option('site_url');
 
             if ($this->app['url']->isValidUrl($rootUrl)) {
@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         Event::listen(Events\RenderingHeader::class, function($event) {
-            // provide some application information for javascript
+            // Provide some application information for javascript
             $blessing = array_merge(array_except(config('app'), ['key', 'providers', 'aliases', 'cipher', 'log', 'url']), [
                 'base_url' => url('/'),
                 'site_name' => option('site_name')
@@ -47,7 +47,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // register default cipher
+        // Register default cipher
         $className = "App\Services\Cipher\\".config('secure.cipher');
 
         if (class_exists($className)) {

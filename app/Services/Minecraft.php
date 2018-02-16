@@ -62,7 +62,7 @@ class Minecraft
         $transparent = imagecolorallocatealpha($dest, 255, 255, 255, 127);
         imagefill($dest, 0, 0, $transparent);
 
-        if (!$side or $side === 'front') {
+        if (! $side or $side === 'front') {
             imagecopy($dest, $src, 4 * $ratio,  0 * $ratio,  8 * $ratio,  8 * $ratio, 8 * $ratio,  8 * $ratio); // Head - 1
             imagecopy($dest, $src, 4 * $ratio,  0 * $ratio, 40 * $ratio,  8 * $ratio, 8 * $ratio,  8 * $ratio); // Head - 2
             imagecopy($dest, $src, 4 * $ratio,  8 * $ratio, 20 * $ratio, 20 * $ratio, 8 * $ratio, 12 * $ratio); // Body - 1
@@ -106,12 +106,12 @@ class Minecraft
 
         }
 
-        if (!$side or $side === 'back') {
+        if (! $side or $side === 'back') {
             imagecopy($dest, $src, $half_width +  4 * $ratio,  8 * $ratio, 32 * $ratio, 20 * $ratio, 8 * $ratio, 12 * $ratio); // Body
             imagecopy($dest, $src, $half_width +  4 * $ratio,  0 * $ratio, 24 * $ratio,  8 * $ratio, 8 * $ratio,  8 * $ratio); // Head
             imagecopy($dest, $src, $half_width +  8 * $ratio, 20 * $ratio, 12 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio); // Right Leg
             imagecopy($dest, $src, $half_width +  4 * $ratio,  0 * $ratio, 56 * $ratio,  8 * $ratio, 8 * $ratio,  8 * $ratio); // Headwear
-            
+
 
             if ($alex) {
                 imagecopy($dest, $src, $half_width + 12 * $ratio,  8 * $ratio, 51 * $ratio, 20 * $ratio, 3 * $ratio, 12 * $ratio); // Right Arm

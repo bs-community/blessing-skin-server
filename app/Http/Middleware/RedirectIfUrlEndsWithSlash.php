@@ -11,7 +11,7 @@ class RedirectIfUrlEndsWithSlash
         if (substr($request->getRequestUri(), -1) == '/') {
             $baseUrl = $request->getBaseUrl();
 
-            // try to remove slash at the end of current url
+            // Try to remove slash at the end of current url
             $newUrl  = substr($request->getRequestUri(), 0, -1);
 
             if ($newUrl != $baseUrl) {

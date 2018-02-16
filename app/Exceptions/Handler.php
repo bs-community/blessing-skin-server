@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Http\Response;
 use App\Exceptions\PrettyPageException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Validation\ValidationException;
@@ -29,9 +30,7 @@ class Handler extends ExceptionHandler
     /**
      * Report or log an exception.
      *
-     * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
-     *
-     * @param  \Exception  $e
+     * @param  Exception $e
      * @return void
      */
     public function report(Exception $e)
@@ -42,9 +41,9 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $e
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request $request
+     * @param  Exception $e
+     * @return Response
      */
     public function render($request, Exception $e)
     {
@@ -61,7 +60,7 @@ class Handler extends ExceptionHandler
         }
 
         if ($e instanceof ValidationException) {
-            // quick fix for returning 422
+            // Quick fix for returning 422
             // @see https://prinzeugen.net/custom-responses-of-laravel-validations/
             return $e->getResponse()->setStatusCode(200);
         }
@@ -70,7 +69,7 @@ class Handler extends ExceptionHandler
             if ($e instanceof $type) {
                 return parent::render($request, $e);
             } else {
-                // hide exception details if not in debug mode
+                // Hide exception details if we are not in debug mode
                 if (config('app.debug') && !$request->ajax()) {
                     return $this->renderExceptionWithWhoops($e);
                 } else {
@@ -83,10 +82,10 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception using Whoops.
      *
-     * @param  \Exception $e
-     * @param  int $code
-     * @param  array $headers
-     * @return \Illuminate\Http\Response
+     * @param  Exception $e
+     * @param  int       $code
+     * @param  array     $headers
+     * @return Response
      */
     protected function renderExceptionWithWhoops(Exception $e, $code = 200, $headers = [])
     {
@@ -95,7 +94,7 @@ class Handler extends ExceptionHandler
                         new \Whoops\Handler\PrettyPageHandler : new \Whoops\Handler\PlainTextHandler;
         $whoops->pushHandler($handler);
 
-        return new \Illuminate\Http\Response(
+        return new Response(
             $whoops->handleException($e),
             $code,
             $headers
@@ -105,8 +104,8 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception in a short word.
      *
-     * @param  \Exception $e
-     * @return \Illuminate\Http\Response
+     * @param  Exception $e
+     * @return Response
      */
     protected function renderExceptionInBrief(Exception $e)
     {

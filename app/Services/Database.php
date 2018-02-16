@@ -225,7 +225,7 @@ class Database
 
     public function __destruct()
     {
-        if (!is_null($this->connection)) {
+        if (! is_null($this->connection)) {
             $this->connection->close();
         }
     }

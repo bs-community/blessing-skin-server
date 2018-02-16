@@ -12,7 +12,7 @@ class CheckAdministrator
             return $result;
         }
 
-        if (!$result->isAdmin()) {
+        if (! $result->isAdmin()) {
             abort(403, trans('auth.check.admin'));
         }
 

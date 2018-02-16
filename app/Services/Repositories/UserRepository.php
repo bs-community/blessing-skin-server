@@ -38,7 +38,7 @@ class UserRepository extends Repository
      */
     public function get($identification, $type = 'uid')
     {
-        if (!$this->has($identification, $type)) {
+        if (! $this->has($identification, $type)) {
             if ($type == "username") {
                 $player = Player::where('player_name', $identification)->first();
 
@@ -67,7 +67,7 @@ class UserRepository extends Repository
             return ($value->$type == $identification);
         });
 
-        // return first element
+        // Return first element
         reset($result);
         return current($result);
     }

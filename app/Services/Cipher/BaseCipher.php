@@ -19,5 +19,4 @@ abstract class BaseCipher implements EncryptInterface
     {
         return hash_equals($hash, $this->hash($password, $salt));
     }
-
 }

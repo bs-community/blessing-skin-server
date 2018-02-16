@@ -12,5 +12,4 @@ class HomeController extends Controller
         return view('index')->with('user', $users->getCurrentUser())
             ->with('home_pic_url', option('home_pic_url') ?: config('options.home_pic_url'));
     }
-
 }

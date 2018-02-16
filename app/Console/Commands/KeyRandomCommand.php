@@ -52,7 +52,7 @@ class KeyRandomCommand extends Command
     protected function setKeyInEnvironmentFile($key)
     {
         // Unlike Illuminate\Foundation\Console\KeyGenerateCommand,
-        // I add soame spaces to the replace pattern.
+        // I add some spaces to the replace pattern.
         file_put_contents($this->laravel->environmentFilePath(), str_replace(
             'APP_KEY = '.$this->laravel['config']['app.key'],
             'APP_KEY = '.$key,

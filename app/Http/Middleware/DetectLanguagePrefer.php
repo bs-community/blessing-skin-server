@@ -21,11 +21,13 @@ class DetectLanguagePrefer
     public function detect(Request $request)
     {
         $locale = $request->input('lang') ?: ($request->cookie('locale') ?: $request->getPreferredLanguage());
-        if ($locale == 'zh_HANS_CN') {     // For Microsoft Edge and IE
+
+        // For Microsoft Edge and IE
+        if ($locale == 'zh_HANS_CN') {
             $locale = 'zh_CN';
         }
 
-        // if current locale is an alias of other locale
+        // If current locale is an alias of other locale
         if (($info = array_get(config('locales'), $locale)) && ($alias = array_get($info, 'alias'))) {
             $locale = $alias;
         }

@@ -18,7 +18,7 @@ use App\Services\Repositories\UserRepository;
 
 class SkinlibController extends Controller
 {
-    private $user = null;
+    protected $user = null;
 
     public function __construct(UserRepository $users)
     {
@@ -120,7 +120,7 @@ class SkinlibController extends Controller
     {
         $texture = Texture::find($tid);
 
-        if (!$texture || $texture && !Storage::disk('textures')->has($texture->hash)) {
+        if (! $texture || $texture && !Storage::disk('textures')->has($texture->hash)) {
             if (option('auto_del_invalid_texture')) {
                 if ($texture) {
                     $texture->delete();
@@ -177,7 +177,7 @@ class SkinlibController extends Controller
 
         $results = Texture::where('hash', $t->hash)->get();
 
-        if (!$results->isEmpty()) {
+        if (! $results->isEmpty()) {
             foreach ($results as $result) {
                 // if the texture already uploaded was set to private,
                 // then allow to re-upload it.
@@ -204,7 +204,7 @@ class SkinlibController extends Controller
     {
         $result = Texture::find($request->tid);
 
-        if (!$result) {
+        if (! $result) {
             return json(trans('skinlib.non-existent'), 1);
         }
 
@@ -240,7 +240,7 @@ class SkinlibController extends Controller
     {
         $t = Texture::find($request->input('tid'));
 
-        if (!$t)
+        if (! $t)
             return json(trans('skinlib.non-existent'), 1);
 
         if ($t->uploader != $this->user->uid && !$this->user->isAdmin())
@@ -278,7 +278,7 @@ class SkinlibController extends Controller
 
         $t = Texture::find($request->input('tid'));
 
-        if (!$t)
+        if (! $t)
             return json(trans('skinlib.non-existent'), 1);
 
         if ($t->uploader != $this->user->uid && !$this->user->isAdmin())
@@ -297,7 +297,7 @@ class SkinlibController extends Controller
      * @param  Request $request
      * @return JsonResponse
      */
-    private function checkUpload(Request $request)
+    protected function checkUpload(Request $request)
     {
         if ($file = $request->files->get('file')) {
             if ($file->getError() !== UPLOAD_ERR_OK) {

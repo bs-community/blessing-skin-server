@@ -30,14 +30,14 @@ class OptionRepository extends Repository
     /**
      * Get the specified option value.
      *
-     * @param  string  $key
-     * @param  mixed   $default
-     * @param  raw     $raw  return raw value without convertion
+     * @param  string $key
+     * @param  mixed  $default
+     * @param  bool   $raw  Return raw value without convertion.
      * @return mixed
      */
     public function get($key, $default = null, $raw = false)
     {
-        if (!$this->has($key) && Arr::has(config('options'), $key)) {
+        if (! $this->has($key) && Arr::has(config('options'), $key)) {
             $this->set($key, config("options.$key"));
         }
 
@@ -67,8 +67,8 @@ class OptionRepository extends Repository
     /**
      * Set a given option value.
      *
-     * @param  array|string  $key
-     * @param  mixed  $value
+     * @param  array|string $key
+     * @param  mixed        $value
      * @return void
      */
     public function set($key, $value = null)
@@ -93,7 +93,7 @@ class OptionRepository extends Repository
     protected function doSetOption($key, $value)
     {
         try {
-            if (!DB::table('options')->where('option_name', $key)->first()) {
+            if (! DB::table('options')->where('option_name', $key)->first()) {
                 DB::table('options')
                     ->insert(['option_name' => $key, 'option_value' => $value]);
             } else {
@@ -118,7 +118,7 @@ class OptionRepository extends Repository
 
         try {
             foreach ($this->itemsModified as $key) {
-                if (!DB::table('options')->where('option_name', $key)->first()) {
+                if (! DB::table('options')->where('option_name', $key)->first()) {
                     DB::table('options')
                         ->insert(['option_name' => $key, 'option_value' => $this[$key]]);
                 } else {
@@ -128,7 +128,7 @@ class OptionRepository extends Repository
                 }
             }
 
-            // clear the list
+            // Clear the list
             $this->itemsModified = [];
         } catch (QueryException $e) {
             return;
@@ -161,5 +161,4 @@ class OptionRepository extends Repository
     {
         $this->save();
     }
-
 }

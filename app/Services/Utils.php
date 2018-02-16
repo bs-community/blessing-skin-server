@@ -21,7 +21,7 @@ class Utils
     public static function getClientIp()
     {
         if (option('ip_get_method') == "0") {
-            // fallback to REMOTE_ADDR
+            // Fallback to REMOTE_ADDR
             $ip = array_get(
                 $_SERVER, 'HTTP_X_FORWARDED_FOR',
                 array_get($_SERVER, 'HTTP_CLIENT_IP', $_SERVER['REMOTE_ADDR'])
@@ -47,10 +47,10 @@ class Utils
         if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
             return true;
 
-        if (!empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
+        if (! empty($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')
             return true;
 
-        if (!empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on')
+        if (! empty($_SERVER['HTTP_X_FORWARDED_SSL']) && $_SERVER['HTTP_X_FORWARDED_SSL'] == 'on')
             return true;
 
         return false;
@@ -74,7 +74,7 @@ class Utils
     {
         $versions = [$version1, $version2];
 
-        // pre-processing for version contains hyphen
+        // Pre-processing for version contains hyphen
         foreach ([0, 1] as $offset) {
             if (false !== ($result = self::parseVersionWithHyphen($versions[$offset]))) {
                 $versions[$offset] = $result;
@@ -89,12 +89,12 @@ class Utils
 
             // v3.2-pr < v3.2
             if ($sub1 != "" || $sub2 != "") {
-                // if both of sub-versions are not empty
+                // If both of sub-versions are not empty
                 if ($sub1 != "" && $sub2 != "") {
                     return version_compare($sub1, $sub2, $operator);
                 } else {
                     $result = version_compare($sub1, $sub2, $operator);
-                    // reverse the result since version_compare() will determine that "beta" > ""
+                    // Reverse the result since version_compare() will determine that "beta" > ""
                     return ($operator == "=") ? $result : !$result;
                 }
             }
@@ -120,8 +120,8 @@ class Utils
     /**
      * Rename uploaded file
      *
-     * @param  \Illuminate\Http\UploadedFile $file files uploaded via HTTP POST
-     * @return string $hash sha256 hash of file
+     * @param  \Illuminate\Http\UploadedFile $file The Files uploaded via HTTP POST
+     * @return string                        $hash The sha256 hash of file
      * @throws \Exception
      */
     public static function upload($file)
@@ -129,7 +129,7 @@ class Utils
         $hash = hash_file('sha256', $file);
         try {
             $storage = Storage::disk('textures');
-            if (!$storage->exists($hash)) {
+            if (! $storage->exists($hash)) {
                 $storage->put($hash, file_get_contents($file));
             }
         } catch (\Exception $e) {
@@ -150,14 +150,14 @@ class Utils
 
         if ($fp = fopen($url, "rb")) {
 
-            if (!$download_fp = fopen($path, "wb")) {
+            if (! $download_fp = fopen($path, "wb")) {
                 return false;
             }
 
             while (!feof($fp)) {
 
-                if (!file_exists($path)) {
-                    // cancel downloading if destination is no longer available
+                if (! file_exists($path)) {
+                    // Cancel downloading if destination is no longer available
                     fclose($download_fp);
 
                     return false;
@@ -183,7 +183,7 @@ class Utils
     {
         $regex = '/^Content-Length: *+\K\d++$/im';
 
-        if (!$fp = @fopen($url, 'rb')) {
+        if (! $fp = @fopen($url, 'rb')) {
             return false;
         }
 

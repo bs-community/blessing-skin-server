@@ -38,7 +38,7 @@ if (! function_exists('assets')) {
 
     function assets($relativeUri)
     {
-        // add query string to fresh cache
+        // Add query string to fresh cache
         if (Str::startsWith($relativeUri, 'css') || Str::startsWith($relativeUri, 'js')) {
             return url("resources/assets/dist/$relativeUri")."?v=".config('app.version');
         } elseif (Str::startsWith($relativeUri, 'lang')) {
@@ -82,7 +82,7 @@ if (! function_exists('json')) {
         if (count($args) == 1 && is_array($args[0])) {
             return Response::json($args[0]);
         } elseif (count($args) == 3 && is_array($args[2])) {
-            // the third argument is array of extra fields
+            // The third argument is array of extra fields
             return Response::json(array_merge([
                 'errno' => $args[1],
                 'msg'   => $args[0]
@@ -124,7 +124,7 @@ if (! function_exists('bs_favicon')) {
 
     function bs_favicon()
     {
-        // fallback to default favicon
+        // Fallback to default favicon
         $url = Str::startsWith($url = (option('favicon_url') ?: config('options.favicon_url')), 'http') ? $url : assets($url);
 
         return <<< ICONS
@@ -144,7 +144,7 @@ if (! function_exists('bs_menu')) {
         Event::fire($type == "user" ? new App\Events\ConfigureUserMenu($menu)
                                 : new App\Events\ConfigureAdminMenu($menu));
 
-        if (!isset($menu[$type])) {
+        if (! isset($menu[$type])) {
             throw new InvalidArgumentException;
         }
 
@@ -367,7 +367,7 @@ if (! function_exists('runtime_check')) {
     function runtime_check(array $requirements)
     {
         foreach ($requirements['extensions'] as $extension) {
-            if (!extension_loaded($extension)) {
+            if (! extension_loaded($extension)) {
                 exit(
                     "[Error] You have not installed the $extension extension <br>".
                     "[错误] 你尚未安装 $extension 扩展！安装方法请自行搜索，蟹蟹。"
@@ -378,7 +378,7 @@ if (! function_exists('runtime_check')) {
         foreach (array_get($requirements, 'write_permission', []) as $dir) {
             $realPath = realpath(__DIR__."/../$dir");
 
-            if (!is_writable($realPath)) {
+            if (! is_writable($realPath)) {
                 exit(
                     "[Error] The program lacks write permission to directory $dir <br>".
                     "[错误] 程序缺少对 $dir 目录的写权限或目录不存在，请手动授权/创建"

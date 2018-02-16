@@ -40,25 +40,25 @@ class Closet
         $this->uid = $uid;
         $this->db  = DB::table('closets');
 
-        // create a new closet if not exists
-        if (!$this->db->where('uid', $uid)->get()) {
+        // Create a new closet if not exists
+        if (! $this->db->where('uid', $uid)->get()) {
             $this->db->insert([
                 'uid'      => $uid,
                 'textures' => '[]'
             ]);
         }
 
-        // load items from json string
+        // Load items from json string
         $this->textures = collect(json_decode(
             $this->db->where('uid', $uid)->first()->textures,
             true
         ));
 
-        // traverse items in the closet
+        // Traverse items in the closet
         $removedCount = $this->textures->filter(function ($texture) use ($uid) {
             $t = Texture::find($texture['tid']);
 
-            // if the texture was deleted
+            // If the texture was deleted
             if (is_null($t)) {
                 return true;
             }
@@ -72,7 +72,7 @@ class Closet
             $this->remove($texture['tid']);
         })->count();
 
-        // return scores if the texture was deleted or set as private
+        // Return scores if the texture was deleted or set as private
         if (option('return_score')) {
             app('users')->get($uid)->setScore(
                 option('score_per_closet_item') * $removedCount,
@@ -84,7 +84,7 @@ class Closet
     /**
      * Get array of instances of App\Models\Texture.
      *
-     * @param  string $category skin|cape|all
+     * @param  string $category "skin" or "cape" or "all".
      * @return array
      */
     public function getItems($category = "all")
@@ -119,7 +119,7 @@ class Closet
     /**
      * Add an item to the closet.
      *
-     * @param  int $tid
+     * @param  int    $tid
      * @param  string $name
      * @return bool
      */
@@ -154,7 +154,7 @@ class Closet
     /**
      * Get one texture info
      *
-     * @param $tid Texture ID
+     * @param  int        $tid
      * @return array|null Result
      */
     public function get($tid)
@@ -166,18 +166,18 @@ class Closet
      * Rename closet item.
      *
      * @param  integer $tid
-     * @param  string $new_name
+     * @param  string  $newName
      * @return bool
      */
-    public function rename($tid, $new_name)
+    public function rename($tid, $newName)
     {
-        if (!$this->has($tid)) {
+        if (! $this->has($tid)) {
             return false;
         }
 
-        $this->textures->transform(function ($texture) use ($tid, $new_name) {
+        $this->textures->transform(function ($texture) use ($tid, $newName) {
             if ($texture['tid'] == $tid) {
-                $texture['name'] = $new_name;
+                $texture['name'] = $newName;
             }
             return $texture;
         });
@@ -189,12 +189,13 @@ class Closet
 
     /**
      * Remove a texture from closet.
+     *
      * @param  int $tid
-     * @return boolean
+     * @return bool
      */
     public function remove($tid)
     {
-        if (!$this->has($tid)) {
+        if (! $this->has($tid)) {
             return false;
         }
         $this->textures = $this->textures->reject(function ($texture) use ($tid) {
@@ -223,13 +224,17 @@ class Closet
      */
     public function save()
     {
-        if (!$this->closet_modified) return false;
+        if (! $this->closet_modified) {
+            return false;
+        }
 
         return $this->setTextures($this->textures->values()->toJson());
     }
 
     /**
      * Save when the object will be destructed.
+     *
+     * @return void
      */
     public function __destruct()
     {
@@ -249,5 +254,4 @@ class Closet
         }
         return $result;
     }
-
 }

@@ -30,5 +30,4 @@ class AfterSessionBooted
 
         return $next($request);
     }
-
 }
