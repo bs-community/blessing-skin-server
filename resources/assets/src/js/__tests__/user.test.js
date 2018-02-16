@@ -851,7 +851,6 @@ describe('tests for "profile" module', () => {
   it('change password', async () => {
     const fetch = jest.fn()
       .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
-      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
       .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
       .mockReturnValueOnce(Promise.reject());
     const swal = jest.fn().mockReturnValue(Promise.resolve());
@@ -862,19 +861,12 @@ describe('tests for "profile" module', () => {
       warning: jest.fn()
     };
     const showAjaxError = jest.fn();
-    const docCookies = {
-      removeItem: jest.fn()
-    };
     window.fetch = fetch;
     window.swal = swal;
     window.trans = trans;
     window.url = url;
     window.toastr = toastr;
     window.showAjaxError = showAjaxError;
-    window.logout = jest.fn()
-      .mockReturnValueOnce(Promise.resolve({ errno: 0 }))
-      .mockReturnValueOnce(Promise.reject());
-    window.docCookies = docCookies;
 
     document.body.innerHTML = `
       <input id="password" />
@@ -911,10 +903,6 @@ describe('tests for "profile" module', () => {
       dataType: 'json',
       data: { current_password: 'password', new_password: 'new-password' }
     });
-    expect(logout).toBeCalled();
-
-    await changePassword();
-    expect(docCookies.removeItem).toBeCalledWith('token');
 
     await changePassword();
     expect(swal).toBeCalledWith({ type: 'warning', text: 'warning' });
@@ -925,9 +913,8 @@ describe('tests for "profile" module', () => {
 
   it('change email', async () => {
     const fetch = jest.fn()
-      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
-      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
       .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
+      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
       .mockReturnValueOnce(Promise.reject());
     const swal = jest.fn()
       .mockReturnValueOnce(Promise.resolve())
@@ -941,19 +928,12 @@ describe('tests for "profile" module', () => {
       warning: jest.fn()
     };
     const showAjaxError = jest.fn();
-    const docCookies = {
-      removeItem: jest.fn()
-    };
     window.fetch = fetch;
     window.swal = swal;
     window.trans = trans;
     window.url = url;
     window.toastr = toastr;
     window.showAjaxError = showAjaxError;
-    window.logout = jest.fn()
-      .mockReturnValueOnce(Promise.resolve({ errno: 0 }))
-      .mockReturnValueOnce(Promise.reject());
-    window.docCookies = docCookies;
 
     document.body.innerHTML = `
       <input id="new-email" />
@@ -985,14 +965,10 @@ describe('tests for "profile" module', () => {
       dataType: 'json',
       data: { new_email: 'a@b.c', password: 'pwd' }
     });
-    expect(swal).toBeCalledWith({ type: 'success', text: 'success' });
-    expect(logout).toBeCalled();
-
-    await changeEmail();
-    expect(docCookies.removeItem).toBeCalled();
-
-    await changeEmail();
     expect(swal).toBeCalledWith({ type: 'warning', text: 'warning' });
+
+    await changeEmail();
+    expect(swal).toBeCalledWith({ type: 'success', text: 'success' });
 
     await changeEmail();
     expect(showAjaxError).toBeCalled();

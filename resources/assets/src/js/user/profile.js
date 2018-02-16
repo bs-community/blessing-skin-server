@@ -70,18 +70,13 @@ async function changePassword() {
             });
 
             if (errno === 0) {
-                try {
-                    await swal({
-                        type: 'success',
-                        text: msg
-                    });
-                    await logout();
-                } catch (error) {
-                    docCookies.removeItem('token') && console.warn(error);
-                } finally {
-                    window.location = url('auth/login');
-                }
-                return;
+                await swal({
+                    type: 'success',
+                    text: msg
+                });
+
+                // Cookies were already deleted by remote server
+                return window.location = url('auth/login');
             } else {
                 return swal({ type: 'warning', text: msg });
             }
@@ -136,14 +131,8 @@ async function changeEmail() {
                 type: 'success',
                 text: msg
             });
-            
-            try {
-                await logout();
-            } catch (error) {
-                docCookies.removeItem('token') && console.warn(error);
-            } finally {
-                window.location = url('auth/login');
-            }
+
+            return window.location = url('auth/login');
         } else {
             return swal({ type: 'warning', text: msg });
         }

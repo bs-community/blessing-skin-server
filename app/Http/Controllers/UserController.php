@@ -136,7 +136,12 @@ class UserController extends Controller
 
                 if ($this->user->changePasswd($request->input('new_password'))) {
                     event(new UserProfileUpdated($action, $this->user));
-                    return json(trans('user.profile.password.success'), 0);
+
+                    session()->flush();
+
+                    return json(trans('user.profile.password.success'), 0)
+                            ->withCookie(cookie()->forget('uid'))
+                            ->withCookie(cookie()->forget('token'));
                 }
 
                 break;   // @codeCoverageIgnore
@@ -156,7 +161,10 @@ class UserController extends Controller
 
                 if ($this->user->setEmail($request->input('new_email'))) {
                     event(new UserProfileUpdated($action, $this->user));
-                    return json(trans('user.profile.email.success'), 0);
+
+                    return json(trans('user.profile.email.success'), 0)
+                            ->withCookie(cookie()->forget('uid'))
+                            ->withCookie(cookie()->forget('token'));
                 }
 
                 break;   // @codeCoverageIgnore

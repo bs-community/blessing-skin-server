@@ -26,8 +26,9 @@ function initTables() {
 }
 
 async function sendFeedback() {
-    if (docCookies.getItem('feedback_sent') !== null)
+    if (document.cookie.replace(/(?:(?:^|.*;\s*)feedback_sent\s*=\s*([^;]*).*$)|^.*$/, '$1') !== '') {
         return;
+    }
 
     try {
         const { errno } = await fetch({
@@ -41,8 +42,8 @@ async function sendFeedback() {
             }
         });
         if (errno === 0) {
-            // Will be expired when current session ends
-            docCookies.setItem('feedback_sent', Date.now());
+            // It will be expired when current session ends
+            document.cookie = 'feedback_sent=' + Date.now();
 
             console.log('Feedback sent. Thank you!');
         }

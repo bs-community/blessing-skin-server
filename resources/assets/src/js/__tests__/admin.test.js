@@ -1125,10 +1125,8 @@ describe('tests for "common" module', () => {
   it('send feedbacks', async () => {
     const fetch = jest.fn()
       .mockReturnValue(Promise.resolve({ errno: 0, msg: 'Recorded.' }));
-    const docCookies = require('../common/cookie');
 
     window.document.cookie = '';
-    window.docCookies = docCookies;
     window.fetch = fetch;
     window.blessing = {
         site_name: 'inm',

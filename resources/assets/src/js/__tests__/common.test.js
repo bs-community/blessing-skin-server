@@ -3,43 +3,6 @@
 const $ = require('jquery');
 window.jQuery = window.$ = $;
 
-describe('tests for "cookie" module', () => {
-  it('operates cookies', () => {
-    const cookies = require('../common/cookie');
-
-    expect(cookies.hasItem('key1')).toBe(false);
-    expect(cookies.getItem('key1')).toBeNull();
-
-    expect(cookies.setItem('key1', 'value1')).toBe(true);
-    expect(document.cookie).toBe('key1=value1');
-    expect(cookies.setItem('key2', 'value2')).toBe(true);
-    expect(document.cookie).toBe('key1=value1; key2=value2');
-    expect(cookies.hasItem('key1')).toBe(true);
-    expect(cookies.getItem('key1')).toBe('value1');
-    expect(cookies.hasItem('key2')).toBe(true);
-    expect(cookies.getItem('key2')).toBe('value2');
-    expect(cookies.keys()).toEqual(['key1', 'key2']);
-
-    expect(cookies.setItem('domain', 'value')).toBe(false);
-
-    expect(cookies.removeItem('key0')).toBe(false);
-    expect(cookies.removeItem('key2')).toBe(true);
-    expect(cookies.hasItem('key2')).toBe(false);
-    expect(document.cookie).toBe('key1=value1');
-    expect(cookies.removeItem('key1')).toBe(true);
-
-    expect(cookies.setItem('key3', 'value3', 50));
-    expect(cookies.getItem('key3')).toBe('value3');
-    expect(cookies.setItem('key3', 'value3', Infinity));
-    expect(cookies.getItem('key3')).toBe('value3');
-    expect(cookies.setItem('key3', 'value3', '60'));
-    expect(cookies.getItem('key3')).toBe('value3');
-    expect(cookies.setItem('key4', 'value3', new Date));
-    expect(cookies.removeItem('key3')).toBe(true);
-    expect(document.cookie).toBe('');
-  });
-});
-
 describe('tests for "i18n" module', () => {
   const modulePath = '../common/i18n';
 
