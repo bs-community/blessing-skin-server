@@ -17,10 +17,15 @@ class PluginControllerTest extends TestCase
             'avatar-api'     => 'avatar-api_v1.1.zip'
         ];
         foreach ($plugins as $plugin_name => $filename) {
-            if (!file_exists(base_path('plugins/'.$plugin_name))) {
+            if (! file_exists(base_path('plugins/'.$plugin_name))) {
+                $context = stream_context_create(['http' => [
+                    'method' => "GET",
+                    'header' => "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36"
+                ]]);
+
                 file_put_contents(
                     storage_path('testing/'.$filename),
-                    file_get_contents("https://github.com/printempw/blessing-skin-plugins/raw/master/dist/$filename")
+                    file_get_contents("https://coding.net/u/printempw/p/bs-plugins-archive/git/raw/master/$filename", false, $context)
                 );
 
                 $zip = new ZipArchive();
