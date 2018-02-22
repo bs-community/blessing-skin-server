@@ -9,7 +9,6 @@ use Schema;
 use Option;
 use Storage;
 use Artisan;
-use Database;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Validator;

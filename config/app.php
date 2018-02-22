@@ -231,8 +231,6 @@ return [
         'Utils'     => App\Services\Utils::class,
         'Minecraft' => App\Services\Minecraft::class,
         'Updater'   => App\Services\Updater::class,
-        'Database'  => App\Services\Facades\Database::class,
-
     ],
 
 ];

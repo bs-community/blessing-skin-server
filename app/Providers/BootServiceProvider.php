@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
+use DB;
 use View;
 use Utils;
-use App\Services\Database;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use App\Exceptions\PrettyPageException;
@@ -52,8 +52,7 @@ class BootServiceProvider extends ServiceProvider
     protected function checkDatabaseConnection()
     {
         try {
-            // Check database config
-            Database::prepareConnection();
+            DB::connection()->getPdo();
         } catch (\Exception $e) {
             if ($this->app->runningInConsole()) {
                 // Dump some useful information for debugging
@@ -64,8 +63,10 @@ class BootServiceProvider extends ServiceProvider
                 ]);
             }
 
+            $gbkErrorMsg = iconv('gbk', 'utf-8', $e->getMessage());
+
             throw new PrettyPageException(
-                trans('setup.database.connection-error', ['msg' => $e->getMessage()]),
+                trans('setup.database.connection-error', ['msg' => $gbkErrorMsg]),
                 $e->getCode()
             );
         }
@@ -95,6 +96,5 @@ class BootServiceProvider extends ServiceProvider
         View::addExtension('tpl', 'blade');
 
         $this->app->singleton('options',  OptionRepository::class);
-        $this->app->singleton('database', Database::class);
     }
 }
