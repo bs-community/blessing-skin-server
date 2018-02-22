@@ -1,6 +1,7 @@
 database:
   connection-error: 无法连接至 :type 服务器，请检查你的配置。服务器返回的信息：「:msg」
   connection-success: 成功连接至 :type 服务器 [:server] ，点击下一步以开始安装。
+  table-already-exists: 检测到目标数据库中已存在如下数据表 :tables，它们与本程序即将创建的数据表名称冲突，为了避免原有数据被覆盖，请手动删除它们，或者为本程序选择一个不同的数据表前缀。
 
 file:
   permission-error: textures 文件夹创建失败，请确认目录权限是否正确，或者手动放置一个。

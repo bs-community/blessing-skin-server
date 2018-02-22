@@ -32,6 +32,19 @@ class SetupController extends Controller
 
     public function info()
     {
+        $existingTables = static::checkTablesExist([], true);
+
+        // Not installed completely
+        if (count($existingTables) > 0) {
+            Log::info('Remaining tables detected, exit setup wizard now', [$existingTables]);
+
+            $existingTables = array_map(function ($item) {
+                return get_db_config()['prefix'].$item;
+            }, $existingTables);
+
+            throw new PrettyPageException(trans('setup.database.table-already-exists', ['tables' => json_encode($existingTables)]), 1);
+        }
+
         return view('setup.wizard.info');
     }
 
@@ -60,7 +73,7 @@ class SetupController extends Controller
             }
         }
 
-        // create tables
+        // Create tables
         Artisan::call('migrate', ['--force' => true]);
         Log::info("[SetupWizard] Tables migrated.");
 
@@ -169,28 +182,24 @@ class SetupController extends Controller
      * Check if the given tables exist in current database.
      *
      * @param  array $tables
-     * @return bool
+     * @param  bool  $returnExisting
+     * @return bool|array
      */
-    public static function checkTablesExist($tables = null) {
-        $totalTables = 0;
-
+    public static function checkTablesExist($tables = [], $returnExistingTables = false) {
+        $existingTables = [];
         $tables = $tables ?: ['users', 'closets', 'players', 'textures', 'options'];
 
         foreach ($tables as $tableName) {
             // Table prefix will be added automatically
             if (Schema::hasTable($tableName)) {
-                $totalTables++;
+                $existingTables[] = $tableName;
             }
         }
 
-        if ($totalTables == count($tables)) {
+        if (count($existingTables) == count($tables)) {
             return true;
         } else {
-            // Not installed completely
-            foreach (array_merge($tables, ['migrations']) as $tableName) {
-                Schema::dropIfExists($tableName);
-            }
-            return false;
+            return $returnExistingTables ? $existingTables : false;
         }
     }
 
