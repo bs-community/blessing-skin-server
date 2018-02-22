@@ -10,6 +10,9 @@ file:
 permissions:
   storage: Unable to write to storage directory, please check the permissions.
 
+disabled-functions:
+  escapeshellarg: "The escapeshellarg function is disabled in your php.ini configuration. Please contact your web hosting provider to enable it or perform the installation manually: http://t.cn/REzBZUe"
+
 locked:
   title: Already installed
   text: You appear to have already installed Blessing Skin Server. To reinstall please clear your old database tables first, or use a new database table prefix.

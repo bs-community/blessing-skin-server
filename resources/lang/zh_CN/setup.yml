@@ -10,6 +10,9 @@ file:
 permissions:
   storage: 无法写入 storage 目录，请检查目录权限是否正确
 
+disabled-functions:
+  escapeshellarg: 你的主机提供商禁用了 escapeshellarg 函数，而此函数是本安装程序必须使用的。请联系你的主机提供商解决，或者参照这篇文章进行手动安装：http://t.cn/REzBZUe
+
 locked:
   title: 已安装过
   text: Blessing Skin Server 看起来已经安装妥当。如果想重新安装，请删除数据库中的旧数据表，或者换一个数据表前缀。
