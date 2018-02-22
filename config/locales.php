@@ -13,6 +13,9 @@ return [
         'name' => '中文 (简体)',
         'short_name' => 'ZH (CN)',
     ],
+    'zh_HANS_CN' => [
+        'alias' => 'zh_CN',
+    ],
     'en' => [
         'name' => 'English',
         'short_name' => 'EN',
