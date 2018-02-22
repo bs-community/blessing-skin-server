@@ -1,6 +1,6 @@
 database:
-  connection-error: "Unable to connect to the target database, please check your configuration. The server replied with: :msg"
-  connection-success: Connect to the target database [:server] successfully, just click NEXT to start installation.
+  connection-error: "Unable to connect to the target :type database, please check your configuration. The server replied with: :msg"
+  connection-success: Connect to the target :type database [:server] successfully, just click NEXT to start installation.
 
 file:
   permission-error: Unable to create textures folder, please check the directory permissions or place one manually.

@@ -115,7 +115,8 @@ class User extends Model
         // Pass the user instance to the callback
         call_user_func($callback, $user);
 
-        // Save to get uid
+        // Save once to get uid
+        $user->password = '';
         $user->save();
 
         // Save again with password

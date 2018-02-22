@@ -1,6 +1,6 @@
 database:
-  connection-error: 无法连接至 MySQL 服务器，请检查你的配置。服务器返回的信息： :msg
-  connection-success: 成功连接至 MySQL 服务器 [:server] ，点击下一步以开始安装。
+  connection-error: 无法连接至 :type 服务器，请检查你的配置。服务器返回的信息：「:msg」
+  connection-success: 成功连接至 :type 服务器 [:server] ，点击下一步以开始安装。
 
 file:
   permission-error: textures 文件夹创建失败，请确认目录权限是否正确，或者手动放置一个。

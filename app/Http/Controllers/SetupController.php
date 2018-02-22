@@ -18,9 +18,16 @@ class SetupController extends Controller
 {
     public function welcome()
     {
-        $config = config('database.connections.mysql');
+        $type = get_db_type();
 
-        return view('setup.wizard.welcome')->with('server', "{$config['username']}@{$config['host']}");
+        if ($type === 'SQLite') {
+            $server = get_db_config()['database'];
+        } else {
+            $config = get_db_config();
+            $server = "{$config['username']}@{$config['host']}";
+        }
+
+        return view('setup.wizard.welcome')->with(compact('type', 'server'));
     }
 
     public function info()

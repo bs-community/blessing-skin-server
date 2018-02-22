@@ -59,14 +59,15 @@ class BootServiceProvider extends ServiceProvider
                 dump([
                     'APP_ENV' => app()->environment(),
                     'DOTENV_FILE' => app()->environmentFile(),
-                    'DB_CONNECTION' => config('database.connections.mysql')
+                    'DB_CONNECTION' => get_db_config()
                 ]);
             }
 
-            $gbkErrorMsg = iconv('gbk', 'utf-8', $e->getMessage());
+            $msg = iconv('gbk', 'utf-8', $e->getMessage());
+            $type = get_db_type();
 
             throw new PrettyPageException(
-                trans('setup.database.connection-error', ['msg' => $gbkErrorMsg]),
+                trans('setup.database.connection-error', compact('msg', 'type')),
                 $e->getCode()
             );
         }

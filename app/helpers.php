@@ -387,3 +387,29 @@ if (! function_exists('runtime_check')) {
         }
     }
 }
+
+if (! function_exists('get_db_type')) {
+
+    function get_db_type($type = null)
+    {
+        $map = [
+            'mysql'  => 'MySQL',
+            'sqlite' => 'SQLite',
+            'pgsql'  => 'PostgreSQL'
+        ];
+
+        $type = $type ?: config('database.default');
+
+        return Arr::get($map, $type, '');
+    }
+}
+
+if (! function_exists('get_db_config')) {
+
+    function get_db_config($type = null)
+    {
+        $type = $type ?: config('database.default');
+
+        return config("database.connections.$type");
+    }
+}
