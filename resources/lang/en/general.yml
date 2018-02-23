@@ -16,7 +16,7 @@ player-manage: Players
 user-manage: Users
 plugin-manage: Plugins
 plugin-market: Plugin Market
-plugin-installed: Installed Plugins
+plugin-configs: Plugin Configs
 customize: Customize
 options: Options
 import-v2: Import Data

@@ -148,6 +148,30 @@ if (! function_exists('bs_menu')) {
             throw new InvalidArgumentException;
         }
 
+        $menu[$type] = array_map(function ($item) {
+            if (Arr::get($item, 'id') === 'plugin-configs') {
+                $availablePluginConfigs = [];
+
+                foreach (app('plugins')->getEnabledPlugins() as $plugin) {
+                    if ($plugin->hasConfigView()) {
+                        $availablePluginConfigs[] = [
+                            'title' => trans($plugin->title),
+                            'link'  => 'admin/plugins/config/'.$plugin->name,
+                            'icon'  => 'fa-circle-o'
+                        ];
+                    }
+                }
+
+                // Don't display this menu item when no plugin config is available
+                if (count($availablePluginConfigs) > 0) {
+                    $item['children'] = array_merge($item['children'], $availablePluginConfigs);
+                    return $item;
+                }
+            } else {
+                return $item;
+            }
+        }, $menu[$type]);
+
         return bs_menu_render($menu[$type]);
     }
 
@@ -179,7 +203,14 @@ if (! function_exists('bs_menu')) {
                 // recurse
                 $content .= '<ul class="treeview-menu">'.bs_menu_render($value['children']).'</ul>';
             } else {
-                $content .= sprintf('<a href="%s"><i class="fa %s"></i> <span>%s</span></a>', url($value['link']), $value['icon'], trans($value['title']));
+                if ($value) {
+                    $content .= sprintf(
+                        '<a href="%s"><i class="fa %s"></i> <span>%s</span></a>',
+                        url((string) $value['link']),
+                        (string) $value['icon'],
+                        trans((string) $value['title'])
+                    );
+                }
             }
 
             $content .= '</li>';
