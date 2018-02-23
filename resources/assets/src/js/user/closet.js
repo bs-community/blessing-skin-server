@@ -32,7 +32,6 @@ $('body').on('click', '.item-body', async function () {
             // Reset skinview3d to change model
             $.msp.config.slim = (type === 'alex');
             initSkinViewer();
-            $.msp.handles.walk.paused = $.msp.handles.rotate.paused = false;
         }
 
         const skin = $indicator.data('skin');

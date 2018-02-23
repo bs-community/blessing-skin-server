@@ -23,7 +23,6 @@ function initUploadListeners() {
         $.msp.config.skinUrl = defaultSkin;
         initSkinViewer();
         $('[for="private"]').tooltip();
-        $.msp.handles.walk.paused = $.msp.handles.rotate.paused = false;
     });
 }
 
@@ -68,8 +67,6 @@ function handleFiles(files, type) {
                     $.msp.config.slim = ($('#skin-type').val() === 'alex');
 
                     initSkinViewer();
-
-                    $.msp.handles.walk.paused = $.msp.handles.rotate.paused = false;
 
                     if ($name.val() === '' || $name.val() === $name.attr('data-last-file-name')) {
                         // Remove png extension in filename

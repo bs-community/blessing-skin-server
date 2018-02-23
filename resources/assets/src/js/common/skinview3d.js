@@ -24,7 +24,7 @@ function initSkinViewer(cameraPositionZ = 70) {
     $.msp.handles.walk   = $.msp.viewer.animation.add(skinview3d.WalkingAnimation);
     $.msp.handles.run    = $.msp.viewer.animation.add(skinview3d.RunningAnimation);
     $.msp.handles.rotate = $.msp.viewer.animation.add(skinview3d.RotatingAnimation);
-    $.msp.handles.walk.paused = $.msp.handles.run.paused = $.msp.handles.rotate.paused = true;
+    $.msp.handles.run.paused = true;
 
     $.msp.control = skinview3d.createOrbitControls($.msp.viewer);
 }
@@ -57,7 +57,14 @@ function registerAnimationController() {
     });
 
     $('.fa-repeat').click(() => ($.msp.handles.rotate.paused = !$.msp.handles.rotate.paused));
-    $('.fa-stop').click(() => initSkinViewer());
+    $('.fa-stop').click(() => {
+        initSkinViewer();
+
+        // Pause all animations respectively
+        for (const key in $.msp.handles) {
+            $.msp.handles[key].paused = true;
+        }
+    });
 }
 
 function registerWindowResizeHandler() {

@@ -85,7 +85,6 @@ async function showPlayerTexturePreview(pid) {
 
         if (shouldBeUpdated) {
             initSkinViewer();
-            $.msp.handles.walk.paused = $.msp.handles.rotate.paused = false;
             console.log(`[skinview3d] texture previews of player ${result.player_name} rendered`);
         }
     } catch (error) {

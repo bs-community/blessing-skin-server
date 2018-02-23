@@ -98,7 +98,6 @@
         initSkinViewer();
         registerAnimationController();
         registerWindowResizeHandler();
-        $.msp.handles.walk.paused = $.msp.handles.rotate.paused = false;
     });
 </script>
 @endsection
