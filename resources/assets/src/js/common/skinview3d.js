@@ -1,5 +1,7 @@
 /* global skinview3d */
 
+// TODO: Help wanted. This file needs to be tested.
+
 $.msp = {};
 $.msp.handles = {};
 $.msp.control = null;
