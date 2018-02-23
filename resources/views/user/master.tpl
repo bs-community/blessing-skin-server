@@ -30,7 +30,7 @@
             <!-- Header Navbar -->
             <nav class="navbar navbar-static-top" role="navigation">
                 <!-- Sidebar toggle button-->
-                <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
                     <span class="sr-only">Toggle navigation</span>
                 </a>
                 <!-- Navbar Right Menu -->
@@ -61,7 +61,7 @@
                 </div>
 
                 <!-- Sidebar Menu -->
-                <ul class="sidebar-menu">
+                <ul class="sidebar-menu" data-widget="tree">
                     <li class="header">{{ trans('general.user-center') }}</li>
                     {!! bs_menu('user') !!}
 

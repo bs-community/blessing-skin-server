@@ -165,14 +165,19 @@ if (! function_exists('bs_menu')) {
                 }
             }
 
-            $content .= $active ? '<li class="active">' : '<li>';
+            $classes = [];
+            $active ? ($classes[] = 'active') : null;
+            isset($value['children']) ? ($classes[] = 'treeview') : null;
+
+            $content .= sprintf('<li class="%s">', implode(' ', $classes));
 
             if (isset($value['children'])) {
-                $content .= '<a href="#"><i class="fa '.$value['icon'].'"></i> <span>'.trans($value['title']).'</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>';
+                $content .= sprintf('<a href="#"><i class="fa %s"></i> <span>%s</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>', $value['icon'], trans($value['title']));
+
                 // recurse
                 $content .= '<ul class="treeview-menu" style="display: none;">'.bs_menu_render($value['children']).'</ul>';
             } else {
-                $content .= '<a href="'.url($value['link']).'"><i class="fa '.$value['icon'].'"></i> <span>'.trans($value['title']).'</span></a>';
+                $content .= sprintf('<a href="%s"><i class="fa %s"></i> <span>%s</span></a>', url($value['link']), $value['icon'], trans($value['title']));
             }
 
             $content .= '</li>';

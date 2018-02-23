@@ -13,7 +13,7 @@
 
 <body class="hold-transition {{ option('color_scheme') }} layout-top-nav">
 
-    <div class="wrapper" style="background-image: url('{{ $home_pic_url }}');">
+    <div class="hp-wrapper" style="background-image: url('{{ $home_pic_url }}');">
         <!-- Navigation -->
         <header class="main-header transparent">
             <nav class="navbar navbar-fixed-top">
@@ -133,14 +133,14 @@
             var bottom = btn.offset().top + btn.height() + 80;
 
             if (bottom > $(window).height()) {
-                $('.wrapper').height(bottom + 'px');
+                $('.hp-wrapper').height(bottom + 'px');
             } else {
-                $('.wrapper').height($(window).height() + 'px');
+                $('.hp-wrapper').height($(window).height() + 'px');
             }
         }
 
         function changeHeaderTransparency() {
-            if (document.body.scrollTop >= ($(window).height() * 2 / 3)) {
+            if ($(window).scrollTop() >= ($(window).height() * 2 / 3)) {
                 $('.main-header').removeClass('transparent');
             } else {
                 $('.main-header').addClass('transparent');

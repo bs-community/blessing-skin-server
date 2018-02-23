@@ -11,11 +11,7 @@ $.defaultPaginatorConfig = {
     wrapper: '<ul class="pagination pagination-sm no-margin"></ul>'
 };
 
-$(window).resize(activateLayout);
-
 $(document).ready(() => {
-    activateLayout();
-
     $('li.active > ul').show();
 
     $('input').iCheck({
@@ -28,10 +24,3 @@ $(document).ready(() => {
         cancelButtonText: trans('general.cancel')
     });
 });
-
-function activateLayout() {
-    if (location.pathname === '/' || location.pathname.includes('auth'))
-        return;
-
-    $.AdminLTE.layout.activate();
-}

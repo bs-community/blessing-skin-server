@@ -24,10 +24,8 @@ var distPath = 'resources/assets/dist';
 var vendorScripts = [
     'jquery/dist/jquery.min.js',
     'bootstrap/dist/js/bootstrap.min.js',
-    'admin-lte/dist/js/app.min.js',
+    'admin-lte/dist/js/adminlte.min.js',
     'bootstrap-fileinput/js/fileinput.min.js',
-    'admin-lte/plugins/datatables/jquery.dataTables.min.js',
-    'admin-lte/plugins/datatables/dataTables.bootstrap.min.js',
     'icheck/icheck.min.js',
     'toastr/build/toastr.min.js',
     'es6-promise/dist/es6-promise.auto.min.js',
@@ -37,13 +35,15 @@ var vendorScripts = [
 
 var vendorScriptsToBeMinified = [
     'regenerator-runtime/runtime.js',
+    'datatables.net/js/jquery.dataTables.js',
+    'datatables.net-bs/js/dataTables.bootstrap.js',
     'resources/assets/dist/js/common.js',
 ];
 
 var vendorStyles = [
     'bootstrap/dist/css/bootstrap.min.css',
     'admin-lte/dist/css/AdminLTE.min.css',
-    'admin-lte/plugins/datatables/dataTables.bootstrap.css',
+    'datatables.net-bs/css/dataTables.bootstrap.css',
     'bootstrap-fileinput/css/fileinput.min.css',
     'font-awesome/css/font-awesome.min.css',
     'icheck/skins/square/blue.css',
@@ -56,12 +56,9 @@ var styleReplacements = [
     ['blue@2x.png', '"../images/blue@2x.png"'],
     ['../img/loading.gif', '"../images/loading.gif"'],
     ['../img/loading-sm.gif', '"../images/loading-sm.gif"'],
-    [/@import url\((.*)italic\);/g, ''],
 ];
 
-var scriptReplacements = [
-    ['$.AdminLTE.layout.activate(),', '']
-];
+var scriptReplacements = [];
 
 var fonts = [
     'font-awesome/fonts/**',
