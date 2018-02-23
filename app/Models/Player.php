@@ -34,6 +34,19 @@ class Player extends Model
     protected $fillable   = ['uid', 'player_name', 'preference', 'last_modified'];
 
     /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'pid' => 'integer',
+        'uid' => 'integer',
+        'tid_steve' => 'integer',
+        'tid_alex' => 'integer',
+        'tid_cape' => 'integer',
+    ];
+
+    /**
      * Check if the player is banned.
      *
      * @return bool

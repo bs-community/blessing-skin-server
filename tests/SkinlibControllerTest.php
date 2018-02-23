@@ -793,7 +793,7 @@ class SkinlibControllerTest extends TestCase
             ->seeJson([
                 'errno' => 0,
                 'msg' => trans('skinlib.privacy.success', ['privacy' => trans('general.private')]),
-                'public' => '0'
+                'public' => 0
             ]);
         $this->assertEquals(0, Texture::find($texture->tid)->public);
 
@@ -818,7 +818,7 @@ class SkinlibControllerTest extends TestCase
             ->seeJson([
                 'errno' => 0,
                 'msg' => trans('skinlib.privacy.success', ['privacy' => trans('general.private')]),
-                'public' => '0'
+                'public' => 0
             ]);
         $this->assertEquals(0, User::find($uploader->uid)->score);
 
@@ -833,7 +833,7 @@ class SkinlibControllerTest extends TestCase
             ->seeJson([
                 'errno' => 0,
                 'msg' => trans('skinlib.privacy.success', ['privacy' => trans('general.private')]),
-                'public' => '0'
+                'public' => 0
             ]);
         $this->assertEquals(0, Player::find($player->pid)->tid_steve);
     }

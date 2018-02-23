@@ -37,9 +37,16 @@ class SetupControllerTest extends TestCase
 
     public function testWelcome()
     {
-        $this->visit('/setup')
-            ->see(config('database.connections.mysql.username'))
-            ->see(config('database.connections.mysql.host'));
+        $type = get_db_type();
+
+        if ($type === 'SQLite') {
+            $server = get_db_config()['database'];
+        } else {
+            $config = get_db_config();
+            $server = "{$config['username']}@{$config['host']}";
+        }
+
+        $this->visit('/setup')->see($type)->see($server);
     }
 
     public function testInfo()

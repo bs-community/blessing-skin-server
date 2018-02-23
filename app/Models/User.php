@@ -22,13 +22,13 @@ class User extends Model
      * User Token.
      * @var string
      */
-    private $token;
+    protected $token;
 
     /**
      * Instance of Closet.
-     * @var App\Models\Closet
+     * @var \App\Models\Closet
      */
-    private $closet;
+    protected $closet;
 
     /**
      * Properties for Eloquent Model.
@@ -36,6 +36,18 @@ class User extends Model
     public $primaryKey  = 'uid';
     public $timestamps  = false;
     protected $fillable = ['email', 'nickname', 'permission'];
+
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'uid' => 'integer',
+        'score' => 'integer',
+        'avatar' => 'integer',
+        'permission' => 'integer',
+    ];
 
     /**
      * Storage size used by user in KiB.

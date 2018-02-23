@@ -9,6 +9,19 @@ class Texture extends Model
     public $primaryKey = 'tid';
     public $timestamps = false;
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'tid' => 'integer',
+        'likes' => 'integer',
+        'size' => 'integer',
+        'uploader' => 'integer',
+        'public' => 'integer',
+    ];
+
     public function setPrivacy($public)
     {
         $this->public = $public ? "1" : "0";
