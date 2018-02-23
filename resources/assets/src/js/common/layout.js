@@ -19,6 +19,8 @@ $(document).ready(() => {
         checkboxClass: 'icheckbox_square-blue'
     });
 
+    $('[data-toggle="tooltip"]').tooltip();
+
     swal.setDefaults({
         confirmButtonText: trans('general.confirm'),
         cancelButtonText: trans('general.cancel')
