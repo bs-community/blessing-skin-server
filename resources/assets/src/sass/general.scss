@@ -97,6 +97,12 @@ input:-webkit-autofill {
     }
 }
 
+@media (min-width: 992px) {
+    #preview-3d-container {
+        min-height: 500px;
+    }
+}
+
 .texture-name {
     width: 65%;
     display: inline-block;
@@ -157,12 +163,7 @@ input:-webkit-autofill {
     font-size: 16px;
 }
 
-#canvas3d {
-    margin: 0 auto;
-    display: block;
-}
-
-#preview-2d > p {
+#preview-2d-container > p {
     height: 64px;
     line-height: 64px;
 }

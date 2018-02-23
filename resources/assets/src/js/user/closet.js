@@ -1,4 +1,4 @@
-/* global MSP */
+/* global initSkinViewer */
 
 'use strict';
 
@@ -21,11 +21,18 @@ $('body').on('click', '.item-body', async function () {
         });
 
         if (type === 'cape') {
-            MSP.changeCape(url(`textures/${hash}`));
+            $.msp.viewer.capeUrl = $.msp.config.capeUrl = url(`textures/${hash}`);
             $indicator.data('cape', tid);
         } else {
-            MSP.changeSkin(url(`textures/${hash}`));
+            $.msp.viewer.skinUrl = $.msp.config.skinUrl = url(`textures/${hash}`);
             $indicator.data('skin', tid);
+        }
+
+        if (type === 'alex' && !$.msp.config.slim || type === 'steve' && $.msp.config.slim) {
+            // Reset skinview3d to change model
+            $.msp.config.slim = (type === 'alex');
+            initSkinViewer();
+            $.msp.handles.walk.paused = $.msp.handles.rotate.paused = false;
         }
 
         const skin = $indicator.data('skin');
@@ -82,8 +89,8 @@ async function initCloset() {
 }
 
 /**
- * 
- * @param {{ name: string, tid: number, type: 'steve' | 'alex' | 'cape' }} item 
+ *
+ * @param {{ name: string, tid: number, type: 'steve' | 'alex' | 'cape' }} item
  */
 function renderClosetItemComponent(item) {
     return `
@@ -158,9 +165,9 @@ async function reloadCloset(textureCategory, page, search) {
         });
 
         renderCloset(items, category);
-        
+
         const paginator = $('#closet-paginator');
-        
+
         paginator.attr(`last-${category}-page`, page);
         paginator.jqPaginator('option', {
             currentPage: page,

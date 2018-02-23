@@ -93,8 +93,12 @@
 
 @section('script')
 <script>
-    $(document).ready(TexturePreview.init3dPreview);
-    // Auto resize canvas to fit responsive design
-    $(window).resize(TexturePreview.init3dPreview);
+    $(document).ready(function () {
+        $.msp.config.skinUrl = defaultSkin;
+        initSkinViewer();
+        registerAnimationController();
+        registerWindowResizeHandler();
+        $.msp.handles.walk.paused = $.msp.handles.rotate.paused = false;
+    });
 </script>
 @endsection

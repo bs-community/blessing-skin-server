@@ -1,5 +1,5 @@
 <div class="box-header with-border">
-    <h3 class="box-title" style="width: 100%;">{{ trans('general.texture-preview') }}
+    <h3 class="box-title" style="width: 100%;">{!! $title or trans('general.texture-preview') !!}
         <span id="textures-indicator" data-toggle="tooltip" title="" class="badge bg-light-blue"></span>
         <div class="operations">
             <i data-toggle="tooltip" data-placement="bottom" title="{{ trans('general.walk').' / '.trans('general.run') }}" class="fa fa-forward"></i>
@@ -10,7 +10,7 @@
     </h3>
 </div><!-- /.box-header -->
 <div class="box-body">
-    <div id="skin_container">
+    <div id="preview-3d-container">
         <!-- Container for 3D Preview -->
     </div>
 </div><!-- /.box-body -->

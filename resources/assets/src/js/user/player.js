@@ -1,4 +1,4 @@
-/* global MSP, defaultSkin */
+/* global defaultSkin, initSkinViewer */
 
 'use strict';
 
@@ -7,8 +7,6 @@ $('body').on('click', '.player', function () {
     $(this).addClass('player-selected');
 
     showPlayerTexturePreview(this.id);
-}).on('click', '#preview-switch', () => {
-    TexturePreview.previewType === '3D' ? TexturePreview.show2dPreview() : TexturePreview.show3dPreview();
 }).on('change', '#preference', async function () {
     try {
         const { errno, msg } = await fetch({
@@ -21,6 +19,17 @@ $('body').on('click', '.player', function () {
     } catch (error) {
         showAjaxError(error);
     }
+}).on('click', '#preview-switch', () => {
+    // Switch preview type between 2D and 3D
+    $('#preview-3d-container').toggle();
+    $('#preview-2d-container').toggle();
+    $('.operations').toggle();
+
+    if ($('#preview-3d-container').is(':visible')) {
+        $('#preview-switch').html(trans('user.switch2dPreview'));
+    } else {
+        $('#preview-switch').html(trans('user.switch3dPreview'));
+    }
 });
 
 async function showPlayerTexturePreview(pid) {
@@ -32,26 +41,53 @@ async function showPlayerTexturePreview(pid) {
             data: { pid: pid }
         });
 
-        // Render skin preview of selected player
-        ['steve', 'alex', 'cape'].forEach((type) => {
-            const tid     = result[`tid_${type}`];
-            const preview = new TexturePreview(type, tid, result.preference);
+        let shouldBeUpdated = false;
+
+        for (const type of ['steve', 'alex', 'cape']) {
+            // Render skin preview of selected player
+            const tid = result[`tid_${type}`];
 
             if (tid) {
-                preview.change2dPreview().change3dPreview();
-            } else {
-                preview.showNotUploaded();
-            }
-        });
+                $(`#${type}`)
+                    .attr('src', url(`preview/200/${tid}.png`)).show().parent()
+                    .attr('href', url(`skinlib/show/${tid}`)).next().hide();
 
-        if ((result.preference === 'default' && !result.tid_steve) ||
-            (result.preference === 'slim' && !result.tid_alex))
-        {
-            // show default skin
-            MSP.changeSkin(defaultSkin);
+                const { hash } = await fetch({
+                    type: 'GET',
+                    url: url(`skinlib/info/${tid}`),
+                    dataType: 'json'
+                });
+
+                if (type === 'cape') {
+                    $.msp.config.capeUrl = url(`textures/${hash}`);
+                } else if (type === (result.preference === 'slim' ? 'alex' : 'steve')) {
+                    $.msp.config.skinUrl = url(`textures/${hash}`);
+                }
+            } else {
+                $(`#${type}`).hide().parent().next().show();
+
+                if (type === 'cape') {
+                    $.msp.config.capeUrl = '';
+                } else if (type === (result.preference === 'slim' ? 'alex' : 'steve')) {
+                    $.msp.config.skinUrl = defaultSkin;
+                }
+            }
         }
 
-        console.log(`Texture previews of player ${result.player_name} rendered.`);
+        if ($.msp.config.slim !== (result.preference === 'slim')) {
+            $.msp.config.slim = !$.msp.config.slim;
+            shouldBeUpdated = true;
+        }
+
+        if ($.msp.config.skinUrl !== $.msp.viewer.skinUrl || $.msp.config.capeUrl !== $.msp.viewer.capeUrl) {
+            shouldBeUpdated = true;
+        }
+
+        if (shouldBeUpdated) {
+            initSkinViewer();
+            $.msp.handles.walk.paused = $.msp.handles.rotate.paused = false;
+            console.log(`[skinview3d] texture previews of player ${result.player_name} rendered`);
+        }
     } catch (error) {
         showAjaxError(error);
     }

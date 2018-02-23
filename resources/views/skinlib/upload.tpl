@@ -4,15 +4,10 @@
 
 @section('style')
 <style>
-label[for="type-skin"],
-label[for="type-cape"] {
-    margin-top: 5px;
-}
-@media (min-width: 992px) {
-    #skin_container {
-        min-height: 500px;
+    label[for="type-skin"],
+    label[for="type-cape"] {
+        margin-top: 5px;
     }
-}
 </style>
 @endsection
 
@@ -98,7 +93,8 @@ label[for="type-cape"] {
 
 @section('script')
 <script>
-initUploadListeners();
-initAnimationControllers();
+    initUploadListeners();
+    registerAnimationController();
+    registerWindowResizeHandler();
 </script>
 @endsection

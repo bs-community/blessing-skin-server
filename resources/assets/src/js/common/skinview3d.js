@@ -4,10 +4,10 @@ $.msp = {};
 $.msp.handles = {};
 $.msp.control = null;
 $.msp.config = {
-    domElement: document.getElementById('skin_container'),
+    domElement: document.getElementById('preview-3d-container'),
     slim: false,
-    width: $('#skin_container').width(),
-    height: $('#skin_container').height(),
+    width: $('#preview-3d-container').width(),
+    height: $('#preview-3d-container').height(),
     skinUrl: '',
     capeUrl: ''
 };
@@ -29,6 +29,14 @@ function initSkinViewer(cameraPositionZ = 70) {
     $.msp.control = skinview3d.createOrbitControls($.msp.viewer);
 }
 
+function applySkinViewerConfig(config) {
+    config = config || $.msp.config;
+
+    for (const key in config) {
+        $.msp.viewer[key] = config[key];
+    }
+}
+
 function disposeSkinViewer() {
     if ($.msp.viewer instanceof skinview3d.SkinViewer) {
         $.msp.viewer.dispose();
@@ -37,7 +45,7 @@ function disposeSkinViewer() {
     }
 }
 
-function initAnimationControllers() {
+function registerAnimationController() {
     $('.fa-pause').click(function () {
         $.msp.viewer.animationPaused = !$.msp.viewer.animationPaused;
         $(this).toggleClass('fa-pause').toggleClass('fa-play');
@@ -52,6 +60,13 @@ function initAnimationControllers() {
     $('.fa-stop').click(() => initSkinViewer());
 }
 
+function registerWindowResizeHandler() {
+    $(window).resize(function () {
+        $.msp.viewer.width  = $('#preview-3d-container').width();
+        $.msp.viewer.height = $('#preview-3d-container').height();
+    });
+}
+
 if (process.env.NODE_ENV === 'test') {
-    module.exports = { initSkinViewer, initAnimationControllers };
+    module.exports = { initSkinViewer, applySkinViewerConfig, registerAnimationController, registerWindowResizeHandler };
 }

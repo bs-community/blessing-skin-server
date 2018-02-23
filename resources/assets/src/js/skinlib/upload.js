@@ -25,11 +25,6 @@ function initUploadListeners() {
         $('[for="private"]').tooltip();
         $.msp.handles.walk.paused = $.msp.handles.rotate.paused = false;
     });
-
-    $(window).resize(() => {
-        $.msp.viewer.width  = $('#skin_container').width();
-        $.msp.viewer.height = $('#skin_container').height();
-    });
 }
 
 // Real-time preview

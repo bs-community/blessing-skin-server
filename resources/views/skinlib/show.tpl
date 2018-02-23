@@ -2,16 +2,6 @@
 
 @section('title', $texture->name)
 
-@section('style')
-<style>
-@media (min-width: 992px) {
-    #skin_container {
-        min-height: 400px;
-    }
-}
-</style>
-@endsection
-
 @section('content')
 <!-- Full Width Column -->
 <div class="content-wrapper">
@@ -162,13 +152,9 @@
 
     $(document).ready(function () {
         initSkinViewer(60);
-        initAnimationControllers();
+        registerAnimationController();
+        registerWindowResizeHandler();
         $.msp.handles.walk.paused = $.msp.handles.rotate.paused = false;
-    });
-
-    $(window).resize(function () {
-        $.msp.viewer.width  = $('#skin_container').width();
-        $.msp.viewer.height = $('#skin_container').height();
     });
 </script>
 @endsection
