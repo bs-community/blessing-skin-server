@@ -166,16 +166,18 @@ if (! function_exists('bs_menu')) {
             }
 
             $classes = [];
-            $active ? ($classes[] = 'active') : null;
+            $active ? ($classes[] = 'active menu-open') : null;
             isset($value['children']) ? ($classes[] = 'treeview') : null;
 
-            $content .= sprintf('<li class="%s">', implode(' ', $classes));
+            $attr = count($classes) ? sprintf(' class="%s"', implode(' ', $classes)) : '';
+
+            $content .= "<li{$attr}>";
 
             if (isset($value['children'])) {
                 $content .= sprintf('<a href="#"><i class="fa %s"></i> <span>%s</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>', $value['icon'], trans($value['title']));
 
                 // recurse
-                $content .= '<ul class="treeview-menu" style="display: none;">'.bs_menu_render($value['children']).'</ul>';
+                $content .= '<ul class="treeview-menu">'.bs_menu_render($value['children']).'</ul>';
             } else {
                 $content .= sprintf('<a href="%s"><i class="fa %s"></i> <span>%s</span></a>', url($value['link']), $value['icon'], trans($value['title']));
             }

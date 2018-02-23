@@ -61,7 +61,7 @@
                 </div>
 
                 <!-- Sidebar Menu -->
-                <ul class="sidebar-menu" data-widget="tree">
+                <ul class="sidebar-menu tree" data-widget="tree">
                     <li class="header">{{ trans('general.user-center') }}</li>
                     {!! bs_menu('user') !!}
 

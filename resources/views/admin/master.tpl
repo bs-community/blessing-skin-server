@@ -63,7 +63,7 @@
                 </div>
 
                 <!-- Sidebar Menu -->
-                <ul class="sidebar-menu">
+                <ul class="sidebar-menu tree" data-widget="tree">
                     <li class="header">{{ trans('general.admin-panel') }}</li>
                     {!! bs_menu('admin') !!}
 
