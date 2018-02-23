@@ -16,16 +16,13 @@ describe('tests for "closet" module', () => {
       .mockReturnValueOnce(Promise.reject());
     const trans = jest.fn(key => key);
     const url = jest.fn(path => path);
-    const MSP = {
-      changeSkin: jest.fn(),
-      changeCape: jest.fn()
-    };
     const showAjaxError = jest.fn();
     window.fetch = fetch;
     window.trans = trans;
     window.url = url;
-    window.MSP = MSP;
     window.showAjaxError = showAjaxError;
+    window.initSkinViewer = jest.fn();
+    window.applySkinViewerConfig = jest.fn();
 
     document.body.innerHTML = `
       <div id="textures-indicator"></div>
@@ -37,6 +34,7 @@ describe('tests for "closet" module', () => {
       </div>
     `;
     require(modulePath);
+    require('../common/skinview3d');
 
     await $('#next > .item-body').click();
     expect(fetch).toBeCalledWith({
@@ -45,7 +43,7 @@ describe('tests for "closet" module', () => {
       dataType: 'json'
     });
     expect($('#next').hasClass('item-selected')).toBe(true);
-    expect(MSP.changeSkin).toBeCalledWith('textures/1');
+    expect($.msp.config.skinUrl).toBe('textures/1');
     expect($('#textures-indicator').text()).toBe('general.skin');
 
     document.body.innerHTML = `
@@ -68,7 +66,7 @@ describe('tests for "closet" module', () => {
       dataType: 'json'
     });
     expect($('#next').hasClass('item-selected')).toBe(true);
-    expect(MSP.changeCape).toBeCalledWith('textures/2');
+    expect($.msp.config.capeUrl).toBe('textures/2');
     expect($('#textures-indicator').text()).toBe('general.cape');
 
     await $('[tid="3"] > .item-body').click();
@@ -77,7 +75,7 @@ describe('tests for "closet" module', () => {
       url: 'skinlib/info/3',
       dataType: 'json'
     });
-    expect(MSP.changeSkin).toBeCalledWith('textures/3');
+    expect($.msp.config.skinUrl).toBe('textures/3');
     expect($('#textures-indicator').text()).toBe('general.skin & general.cape');
 
     await $('#next > .item-body').click();
@@ -135,10 +133,6 @@ describe('tests for "closet" module', () => {
     const toastr = {
       success: jest.fn(),
       warning: jest.fn()
-    };
-    const MSP = {
-      changeSkin: jest.fn(),
-      changeCape: jest.fn()
     };
     const showAjaxError = jest.fn();
     window.fetch = fetch;
@@ -207,10 +201,6 @@ describe('tests for "closet" module', () => {
       success: jest.fn(),
       warning: jest.fn()
     };
-    const MSP = {
-      changeSkin: jest.fn(),
-      changeCape: jest.fn()
-    };
     const showAjaxError = jest.fn();
     window.fetch = fetch;
     window.trans = trans;
@@ -272,10 +262,6 @@ describe('tests for "closet" module', () => {
       success: jest.fn(),
       warning: jest.fn()
     };
-    const MSP = {
-      changeSkin: jest.fn(),
-      changeCape: jest.fn()
-    };
     const showAjaxError = jest.fn();
     window.fetch = fetch;
     window.trans = trans;
@@ -333,10 +319,6 @@ describe('tests for "closet" module', () => {
     const toastr = {
       success: jest.fn(),
       warning: jest.fn()
-    };
-    const MSP = {
-      changeSkin: jest.fn(),
-      changeCape: jest.fn()
     };
     const showAjaxError = jest.fn();
     window.fetch = fetch;
@@ -484,18 +466,11 @@ describe('tests for "player" module', () => {
       }))
       .mockReturnValueOnce(Promise.reject());
     const showAjaxError = jest.fn();
-    const MSP = {
-      changeSkin: jest.fn(),
-      changeCape: jest.fn(),
-      setStatus: jest.fn(),
-      getStatus: jest.fn()
-    };
     window.url = url;
     window.fetch = fetch;
     window.showAjaxError = showAjaxError;
-    window.TexturePreview = require('../common/texture-preview');
-    window.MSP = MSP;
-    window.defaultSkin = 'steve_base64';
+    window.defaultSteveSkin = 'steve_base64';
+    window.initSkinViewer = jest.fn();
 
     document.body.innerHTML = `
       <div id="1" class="player-selected player"></div>
@@ -518,7 +493,7 @@ describe('tests for "player" module', () => {
     expect(showAjaxError).toBeCalled();
 
     $('#preview-switch').click();
-    expect(window.TexturePreview.previewType).toBe('2D');
+    expect($('#preview-switch').html()).toBe('user.switch3dPreview');
   });
 
   it('change player preference', async () => {
@@ -594,8 +569,10 @@ describe('tests for "player" module', () => {
       <input id="player_name" placeholder="placeholder" />
       <table>
         <tbody>
-          <td>1</td>
-          <td id="player-name">old</td>
+          <tr id="1">
+            <td>1</td>
+            <td class="player-name">old</td>
+          </td>
         </tbody>
       </table>
     `;
@@ -619,7 +596,7 @@ describe('tests for "player" module', () => {
       data: { pid: 1, new_player_name: 'name' }
     });
     expect(swal).toBeCalledWith({ type: 'success', html: 'success' });
-    expect($('#player-name').html()).toBe('name');
+    expect($('.player-name').html()).toBe('name');
 
     await changePlayerName(1);
     expect(swal).toBeCalledWith({ type: 'warning', html: 'warning' });
