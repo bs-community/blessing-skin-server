@@ -5,6 +5,10 @@
 'use strict';
 
 function initUploadListeners() {
+    if (trans('vendor.fileinput') !== 'vendor.fileinput') {
+        $.fn.fileinputLocales[blessing.locale] = trans('vendor.fileinput');
+    }
+
     $('body')
         .on('change', ['#file', '#skin-type'], () => handleFiles())
         .on('ifToggled', '#type-cape', () => handleFiles())
