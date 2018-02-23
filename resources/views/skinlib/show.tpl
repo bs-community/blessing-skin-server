@@ -142,7 +142,7 @@
     var texture = {!! $texture->toJson() !!};
 
     $.msp.config.slim = (texture.type === 'alex');
-    $.msp.config.skinUrl = defaultSkin;
+    $.msp.config.skinUrl = texture.type === 'alex' ? defaultAlexSkin : defaultSteveSkin;
 
     if (texture.type === 'cape') {
         $.msp.config.capeUrl = url('textures/' + texture.hash);

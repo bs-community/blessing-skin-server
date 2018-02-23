@@ -28,7 +28,7 @@ class MinecraftTest extends TestCase
         $this->assertEquals(50, imagesy($avatar));
 
         $avatar = Minecraft::generateAvatarFromSkin(
-            TextureController::getDefaultSkin(),
+            TextureController::getDefaultSteveSkin(),
             50,
             'f',
             true
@@ -79,7 +79,7 @@ class MinecraftTest extends TestCase
         $this->assertEquals(50, imagesy($preview));
 
         $preview = Minecraft::generatePreviewFromSkin(
-            TextureController::getDefaultSkin(),
+            TextureController::getDefaultSteveSkin(),
             50,
             true,
             true

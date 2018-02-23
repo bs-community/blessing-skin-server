@@ -17,5 +17,6 @@
 
 <script type="text/javascript" src="{{ assets('js/skinview3d.js') }}"></script>
 <script type="text/javascript">
-    var defaultSkin = "data:image/png;base64,{{ App\Http\Controllers\TextureController::getDefaultSkin() }}";
+    var defaultAlexSkin  = "data:image/png;base64,{{ App\Http\Controllers\TextureController::getDefaultAlexSkin()  }}";
+    var defaultSteveSkin = "data:image/png;base64,{{ App\Http\Controllers\TextureController::getDefaultSteveSkin() }}";
 </script>

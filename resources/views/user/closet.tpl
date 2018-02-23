@@ -94,7 +94,7 @@
 @section('script')
 <script>
     $(document).ready(function () {
-        $.msp.config.skinUrl = defaultSkin;
+        $.msp.config.skinUrl = defaultSteveSkin;
         initSkinViewer();
         registerAnimationController();
         registerWindowResizeHandler();

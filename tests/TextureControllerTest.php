@@ -165,7 +165,7 @@ class TextureControllerTest extends TestCase
             ->seeHeader('Content-Type', 'image/png');
 
         $steve = factory(Texture::class)->create();
-        $png = base64_decode(\App\Http\Controllers\TextureController::getDefaultSkin());
+        $png = base64_decode(\App\Http\Controllers\TextureController::getDefaultSteveSkin());
         Storage::disk('textures')->put($steve->hash, $png);
 
         $user = factory(User::class)->create(['avatar' => $steve->tid]);
@@ -183,7 +183,7 @@ class TextureControllerTest extends TestCase
     public function testAvatarWithSize()
     {
         $steve = factory(Texture::class)->create();
-        $png = base64_decode(\App\Http\Controllers\TextureController::getDefaultSkin());
+        $png = base64_decode(\App\Http\Controllers\TextureController::getDefaultSteveSkin());
         Storage::disk('textures')->put($steve->hash, $png);
 
         $user = factory(User::class)->create(['avatar' => $steve->tid]);
@@ -209,7 +209,7 @@ class TextureControllerTest extends TestCase
         $this->get("/preview/{$steve->tid}.png")
             ->seeHeader('Content-Type', 'image/png');
 
-        $png = base64_decode(\App\Http\Controllers\TextureController::getDefaultSkin());
+        $png = base64_decode(\App\Http\Controllers\TextureController::getDefaultSteveSkin());
         Storage::disk('textures')->put($steve->hash, $png);
         Storage::disk('textures')->put($cape->hash, $png);
 

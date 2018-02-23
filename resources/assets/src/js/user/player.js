@@ -1,4 +1,4 @@
-/* global defaultSkin, initSkinViewer */
+/* global initSkinViewer, defaultSteveSkin, defaultAlexSkin */
 
 'use strict';
 
@@ -69,7 +69,7 @@ async function showPlayerTexturePreview(pid) {
                 if (type === 'cape') {
                     $.msp.config.capeUrl = '';
                 } else if (type === (result.preference === 'slim' ? 'alex' : 'steve')) {
-                    $.msp.config.skinUrl = defaultSkin;
+                    $.msp.config.skinUrl = type === 'steve' ? defaultSteveSkin : defaultAlexSkin;
                 }
             }
         }

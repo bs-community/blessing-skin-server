@@ -1,4 +1,4 @@
-/* global initSkinViewer, defaultSkin */
+/* global initSkinViewer, defaultSteveSkin, defaultAlexSkin */
 
 // TODO: Help wanted. This file needs to be tested.
 
@@ -10,8 +10,16 @@ function initUploadListeners() {
     }
 
     $('body')
-        .on('change', ['#file', '#skin-type'], () => handleFiles())
+        .on('change', '#file', () => handleFiles())
         .on('ifToggled', '#type-cape', () => handleFiles())
+        .on('change', '#skin-type', function () {
+            if ($('#file').prop('files').length === 0) {
+                $.msp.config.slim = ($(this).val() === 'alex');
+                $.msp.config.skinUrl = getDefaultSkin();
+                initSkinViewer();
+            }
+            handleFiles();
+        })
         .on('ifToggled', '#type-skin', function () {
             $(this).prop('checked') ? $('#skin-type').show() : $('#skin-type').hide();
         })
@@ -20,7 +28,7 @@ function initUploadListeners() {
         });
 
     $(document).ready(() => {
-        $.msp.config.skinUrl = defaultSkin;
+        $.msp.config.skinUrl = defaultSteveSkin;
         initSkinViewer();
         $('[for="private"]').tooltip();
     });
@@ -45,7 +53,7 @@ function handleFiles(files, type) {
                     const $name = $('#name');
 
                     if (type === 'cape') {
-                        $.msp.config.skinUrl = defaultSkin;
+                        $.msp.config.skinUrl = getDefaultSkin();
 
                         if (img.width / img.height === 2) {
                             $.msp.config.capeUrl = img.src;
@@ -59,7 +67,7 @@ function handleFiles(files, type) {
                             $.msp.config.skinUrl = img.src;
                             $.msp.config.capeUrl = null;
                         } else {
-                            $.msp.config.skinUrl = defaultSkin;
+                            $.msp.config.skinUrl = getDefaultSkin();
                             toastr.warning(trans('skinlib.badSkinSize'));
                         }
                     }
@@ -87,6 +95,10 @@ function handleFiles(files, type) {
             toastr.warning(trans('skinlib.encodingError'));
         }
     }
+}
+
+function getDefaultSkin() {
+    return $('#skin-type').val() === 'alex' ? defaultAlexSkin : defaultSteveSkin;
 }
 
 function upload() {
