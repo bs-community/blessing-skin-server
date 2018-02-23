@@ -1,4 +1,4 @@
-/* global initSkinViewer */
+/* global initSkinViewer, applySkinViewerConfig */
 
 'use strict';
 
@@ -21,10 +21,10 @@ $('body').on('click', '.item-body', async function () {
         });
 
         if (type === 'cape') {
-            $.msp.viewer.capeUrl = $.msp.config.capeUrl = url(`textures/${hash}`);
+            $.msp.config.capeUrl = url(`textures/${hash}`);
             $indicator.data('cape', tid);
         } else {
-            $.msp.viewer.skinUrl = $.msp.config.skinUrl = url(`textures/${hash}`);
+            $.msp.config.skinUrl = url(`textures/${hash}`);
             $indicator.data('skin', tid);
         }
 
@@ -32,6 +32,8 @@ $('body').on('click', '.item-body', async function () {
             // Reset skinview3d to change model
             $.msp.config.slim = (type === 'alex');
             initSkinViewer();
+        } else {
+            applySkinViewerConfig();
         }
 
         const skin = $indicator.data('skin');
