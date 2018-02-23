@@ -61,6 +61,10 @@
                 likes: 'Most Likes'
             },
 
+            // Preview
+            badSkinSize: 'The size of selected skin file is not valid',
+            badCapeSize: 'The size of selected cape file is not valid',
+
             // Upload
             emptyTextureName: 'Empty texture name.',
             emptyTextureType: 'Please select a type for this texture.',

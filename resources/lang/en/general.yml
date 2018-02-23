@@ -33,6 +33,8 @@ texture-preview: Texture Preview
 walk: Walk
 run: Run
 rotation: Rotation
+pause: Pause
+reset: Reset
 
 submit: Submit
 

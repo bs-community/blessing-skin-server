@@ -59,6 +59,10 @@
                 likes: '最多收藏'
             },
 
+            // Preview
+            badSkinSize: '所选皮肤文件的尺寸不对哦',
+            badCapeSize: '所选披风文件的尺寸不对哦',
+
             // Rename
             setNewTextureName: '请输入新的材质名称：',
             emptyNewTextureName: '你还没有输入新名称啊',

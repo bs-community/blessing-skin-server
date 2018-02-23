@@ -2,6 +2,16 @@
 
 @section('title', $texture->name)
 
+@section('style')
+<style>
+@media (min-width: 992px) {
+    #skin_container {
+        min-height: 400px;
+    }
+}
+</style>
+@endsection
+
 @section('content')
 <!-- Full Width Column -->
 <div class="content-wrapper">
@@ -139,14 +149,26 @@
 
 @section('script')
 <script>
-    @if ($texture->type == "cape")
-        MSP.changeCape('{{ url('textures/'.$texture->hash) }}');
-    @else
-        MSP.changeSkin('{{ url('textures/'.$texture->hash) }}');
-    @endif
+    var texture = {!! $texture->toJson() !!};
 
-    $(document).ready(TexturePreview.init3dPreview);
-    // Auto resize canvas to fit responsive design
-    $(window).resize(TexturePreview.init3dPreview);
+    $.msp.config.slim = (texture.type === 'alex');
+    $.msp.config.skinUrl = defaultSkin;
+
+    if (texture.type === 'cape') {
+        $.msp.config.capeUrl = url('textures/' + texture.hash);
+    } else {
+        $.msp.config.skinUrl = url('textures/' + texture.hash);
+    }
+
+    $(document).ready(function () {
+        initSkinViewer(60);
+        initAnimationControllers();
+        $.msp.handles.walk.paused = $.msp.handles.rotate.paused = false;
+    });
+
+    $(window).resize(function () {
+        $.msp.viewer.width  = $('#skin_container').width();
+        $.msp.viewer.height = $('#skin_container').height();
+    });
 </script>
 @endsection

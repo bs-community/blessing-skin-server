@@ -8,6 +8,11 @@ label[for="type-skin"],
 label[for="type-cape"] {
     margin-top: 5px;
 }
+@media (min-width: 992px) {
+    #skin_container {
+        min-height: 500px;
+    }
+}
 </style>
 @endsection
 
@@ -40,11 +45,11 @@ label[for="type-cape"] {
                                         <div class="row">
                                             <div class="col-xs-4">
                                                 <label for="type-skin">
-                                                    <input type="radio" name="type" id="type-skin"> {{ trans('general.skin') }}
+                                                    <input type="radio" name="type" id="type-skin" checked> {{ trans('general.skin') }}
                                                 </label>
                                             </div>
                                             <div class="col-xs-8">
-                                                <select class="form-control" id="skin-type" style="display: none;">
+                                                <select class="form-control" id="skin-type">
                                                     <option value="steve">{{ trans('skinlib.filter.steve-model') }}</option>
                                                     <option value="alex">{{ trans('skinlib.filter.alex-model') }}</option>
                                                 </select>
@@ -89,18 +94,11 @@ label[for="type-cape"] {
         </section><!-- /.content -->
     </div><!-- /.container -->
 </div><!-- /.content-wrapper -->
-
 @endsection
 
 @section('script')
 <script>
-    $(document).ready(function() {
-        TexturePreview.init3dPreview();
-
-        $('[for="private"]').tooltip();
-    });
-
-    // Auto resize canvas to fit responsive design
-    $(window).resize(TexturePreview.init3dPreview);
+initUploadListeners();
+initAnimationControllers();
 </script>
 @endsection

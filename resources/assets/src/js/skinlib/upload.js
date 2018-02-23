@@ -1,21 +1,32 @@
-/* global MSP */
+/* global initSkinViewer, defaultSkin */
 
 // TODO: Help wanted. This file needs to be tested.
 
 'use strict';
 
-$('body')
-    .on('change', '#file', () => handleFiles())
-    .on('ifToggled', '#type-cape', () => {
-        MSP.clear();
-        handleFiles();
-    })
-    .on('ifToggled', '#type-skin', function () {
-        $(this).prop('checked') ? $('#skin-type').show() : $('#skin-type').hide();
-    })
-    .on('ifToggled', '#private', function () {
-        $(this).prop('checked') ? $('#msg').show() : $('#msg').hide();
+function initUploadListeners() {
+    $('body')
+        .on('change', ['#file', '#skin-type'], () => handleFiles())
+        .on('ifToggled', '#type-cape', () => handleFiles())
+        .on('ifToggled', '#type-skin', function () {
+            $(this).prop('checked') ? $('#skin-type').show() : $('#skin-type').hide();
+        })
+        .on('ifToggled', '#private', function () {
+            $(this).prop('checked') ? $('#msg').show() : $('#msg').hide();
+        });
+
+    $(document).ready(() => {
+        $.msp.config.skinUrl = defaultSkin;
+        initSkinViewer();
+        $('[for="private"]').tooltip();
+        $.msp.handles.walk.paused = $.msp.handles.rotate.paused = false;
     });
+
+    $(window).resize(() => {
+        $.msp.viewer.width  = $('#skin_container').width();
+        $.msp.viewer.height = $('#skin_container').height();
+    });
+}
 
 // Real-time preview
 function handleFiles(files, type) {
@@ -35,7 +46,31 @@ function handleFiles(files, type) {
                 img.onload = () => {
                     const $name = $('#name');
 
-                    (type === 'skin') ? MSP.changeSkin(img.src) : MSP.changeCape(img.src);
+                    if (type === 'cape') {
+                        $.msp.config.skinUrl = defaultSkin;
+
+                        if (img.width / img.height === 2) {
+                            $.msp.config.capeUrl = img.src;
+                        } else {
+                            $.msp.config.capeUrl = null;
+                            toastr.warning(trans('skinlib.badCapeSize'));
+                        }
+                    } else {
+                        // Check skin size
+                        if (img.width === img.height || img.width / img.height === 2) {
+                            $.msp.config.skinUrl = img.src;
+                            $.msp.config.capeUrl = null;
+                        } else {
+                            $.msp.config.skinUrl = defaultSkin;
+                            toastr.warning(trans('skinlib.badSkinSize'));
+                        }
+                    }
+
+                    $.msp.config.slim = ($('#skin-type').val() === 'alex');
+
+                    initSkinViewer();
+
+                    $.msp.handles.walk.paused = $.msp.handles.rotate.paused = false;
 
                     if ($name.val() === '' || $name.val() === $name.attr('data-last-file-name')) {
                         // Remove png extension in filename
@@ -132,5 +167,5 @@ function upload() {
 }
 
 if (process.env.NODE_ENV === 'test') {
-    module.exports = upload;
+    module.exports = { upload, initUploadListeners };
 }
