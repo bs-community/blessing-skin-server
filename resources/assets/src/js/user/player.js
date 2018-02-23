@@ -95,7 +95,7 @@ async function showPlayerTexturePreview(pid) {
 
 async function changePlayerName(pid) {
     let newPlayerName = '';
-    const $playerName = $(`td:contains("${pid}")`).next();
+    const $playerName = $(`tr#${pid} td.player-name`);
 
     try {
         newPlayerName = await swal({
