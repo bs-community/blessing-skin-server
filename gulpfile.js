@@ -120,7 +120,11 @@ gulp.task('publish-vendor', ['compile-es6'], callback => {
     gulp.src('node_modules/admin-lte/dist/css/skins/*.min.css')
         .pipe(gulp.dest(`${distPath}/css/skins/`));
     // 3D skin preview
-    gulp.src(['skin-preview/**', 'Chart.min.js'].map(path => `${srcPath}/vendor/${path}`))
+    gulp.src(convertNpmRelativePath(['three/build/three.min.js', 'skinview3d/build/skinview3d.min.js']))
+        .pipe(concat('skinview3d.js'))
+        .pipe(gulp.dest(`${distPath}/js/`));
+    // TODO: remove this
+    gulp.src(['Chart.min.js'].map(path => `${srcPath}/vendor/${path}`))
         .pipe(gulp.dest(`${distPath}/js/`));
 
     callback();
