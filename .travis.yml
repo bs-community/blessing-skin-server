@@ -33,6 +33,7 @@ matrix:
     after_success:
     - bash <(curl -s https://codecov.io/bash) -cF php
   - php: 7.1
+  - php: 7.2
   - node_js: 8
     language: node_js
     install: yarn

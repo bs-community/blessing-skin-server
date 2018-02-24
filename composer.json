@@ -42,6 +42,11 @@
       "tests"
     ]
   },
+  "scripts": {
+    "post-install-cmd": [
+      "unzip -o storage/patches/bs_php72_patch_180224.zip"
+    ]
+  },
   "config": {
     "preferred-install": "dist"
   }
