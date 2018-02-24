@@ -406,7 +406,7 @@ if (! function_exists('runtime_check')) {
     {
         foreach ($requirements['extensions'] as $extension) {
             if (! extension_loaded($extension)) {
-                exit(
+                die_with_utf8_encoding(
                     "[Error] You have not installed the $extension extension <br>".
                     "[错误] 你尚未安装 $extension 扩展！安装方法请自行搜索，蟹蟹。"
                 );
@@ -416,13 +416,29 @@ if (! function_exists('runtime_check')) {
         foreach (array_get($requirements, 'write_permission', []) as $dir) {
             $realPath = realpath(__DIR__."/../$dir");
 
+            if (! file_exists($realPath)) {
+                die_with_utf8_encoding(
+                    "[Error] The directory < $dir > does not exist <br>".
+                    "[错误] 目录 < $dir > 不存在，请在程序根目录下手动创建"
+                );
+            }
+
             if (! is_writable($realPath)) {
-                exit(
-                    "[Error] The program lacks write permission to directory $dir <br>".
-                    "[错误] 程序缺少对 $dir 目录的写权限或目录不存在，请手动授权/创建"
+                die_with_utf8_encoding(
+                    "[Error] The program lacks write permission to directory < $dir > <br>".
+                    "[错误] 程序缺少对 < $dir > 目录的写权限，请手动授权"
                 );
             }
         }
+    }
+}
+
+if (! function_exists('die_with_utf8_encoding')) {
+
+    function die_with_utf8_encoding($error)
+    {
+        header('Content-Type: text/html; charset=UTF-8');
+        exit($error);
     }
 }
 

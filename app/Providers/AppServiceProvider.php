@@ -53,7 +53,10 @@ class AppServiceProvider extends ServiceProvider
         if (class_exists($className)) {
             $this->app->singleton('cipher', $className);
         } else {
-            exit(sprintf("No such encrypt method: [%s], please check your .env configuration.", config('secure.cipher')));
+            die_with_utf8_encoding(sprintf(
+                '[Error] Unsupported encryption method: < %1$s >, please check your .env configuration <br>'.
+                '[错误] 不支持的密码加密方式 < %1$s >，请检查你的 .env 配置文件'
+            , config('secure.cipher')));
         }
 
         $this->app->singleton('users', \App\Services\Repositories\UserRepository::class);
