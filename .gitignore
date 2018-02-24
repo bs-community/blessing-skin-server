@@ -3,7 +3,6 @@
 coverage
 .idea/
 vendor/*
-plugins/*
 storage/textures/*
 storage/update_cache/*
 node_modules/*
