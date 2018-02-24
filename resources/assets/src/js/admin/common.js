@@ -1,29 +1,13 @@
-/* global initUsersTable, initPlayersTable, initPluginsTable */
-
 'use strict';
 
-$.pluginsTable = null;
-
-$(document).ready(initTables);
-
-function initTables() {
-    $.extend(true, $.fn.dataTable.defaults, {
-        language: trans('vendor.datatables'),
-        scrollX: true,
-        pageLength: 25,
-        autoWidth: false,
-        processing: true,
-        serverSide: true
-    });
-
-    if ($('#user-table').length === 1) {
-        initUsersTable();
-    } else if ($('#player-table').length === 1) {
-        initPlayersTable();
-    } else if ($('#plugin-table').length === 1) {
-        $.pluginsTable = initPluginsTable();
-    }
-}
+$.extend(true, $.fn.dataTable.defaults, {
+    language: trans('vendor.datatables'),
+    scrollX: true,
+    pageLength: 25,
+    autoWidth: false,
+    processing: true,
+    serverSide: true
+});
 
 async function sendFeedback() {
     if (document.cookie.replace(/(?:(?:^|.*;\s*)feedback_sent\s*=\s*([^;]*).*$)|^.*$/, '$1') !== '') {
@@ -55,6 +39,5 @@ async function sendFeedback() {
 if (process.env.NODE_ENV === 'test') {
     module.exports = {
         sendFeedback,
-        initTables
     };
 }

@@ -65,6 +65,8 @@ describe('tests for "customize" module', () => {
 describe('tests for "players" module', () => {
   const modulePath = '../admin/players';
 
+  // TODO: test initializing players table
+
   it('show "change player texture" modal dialog', () => {
     const trans = jest.fn(key => key);
     const showModal = jest.fn();
@@ -401,6 +403,8 @@ describe('tests for "players" module', () => {
 describe('tests for "plugins" module', () => {
   const modulePath = '../admin/plugins';
 
+  // TODO: test initializing plugins table
+
   it('enable a plugin', async () => {
     const fetch = jest.fn()
       .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
@@ -672,6 +676,8 @@ describe('tests for "update" module', () => {
 
 describe('tests for "users" module', () => {
   const modulePath = '../admin/users';
+
+  // TODO: test initializing users table
 
   it('change user email', async () => {
     const fetch = jest.fn()
@@ -1126,6 +1132,7 @@ describe('tests for "common" module', () => {
     const fetch = jest.fn()
       .mockReturnValue(Promise.resolve({ errno: 0, msg: 'Recorded.' }));
 
+    $.fn.dataTable = { defaults: {} };
     window.document.cookie = '';
     window.fetch = fetch;
     window.blessing = {
@@ -1147,28 +1154,5 @@ describe('tests for "common" module', () => {
 
     await sendFeedback();
     expect(fetch).toHaveBeenCalledTimes(1);
-  });
-
-  it('initialize data tables', () => {
-    $.fn.dataTable = { defaults: {} };
-    const initUsersTable = jest.fn();
-    const initPlayersTable = jest.fn();
-    const initPluginsTable = jest.fn();
-    window.initUsersTable = initUsersTable;
-    window.initPlayersTable = initPlayersTable;
-    window.initPluginsTable = initPluginsTable;
-    const { initTables } = require(modulePath);
-
-    document.body.innerHTML = '<div id="user-table"></div>';
-    initTables();
-    expect(initUsersTable).toBeCalled();
-
-    document.body.innerHTML = '<div id="player-table"></div>';
-    initTables();
-    expect(initPlayersTable).toBeCalled();
-
-    document.body.innerHTML = '<div id="plugin-table"></div>';
-    initTables();
-    expect($.pluginsTable).not.toBeNull();
   });
 });

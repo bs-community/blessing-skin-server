@@ -1,5 +1,122 @@
 'use strict';
 
+if ($('#user-table').length === 1) {
+    $(document).ready(initUsersTable);
+}
+
+function initUsersTable() {
+    const specificUid = getQueryString('uid');
+    const query = specificUid ? `?uid=${specificUid}` : '';
+
+    $('#user-table').DataTable({
+        ajax: url(`admin/user-data${query}`),
+        scrollY: ($('.content-wrapper').height() - $('.content-header').outerHeight()) * 0.7,
+        fnDrawCallback: () => $('[data-toggle="tooltip"]').tooltip(),
+        rowCallback: (row, data) => $(row).attr('id', `user-${data.uid}`),
+        columnDefs: usersTableColumnDefs
+    });
+}
+
+const userPermissions = {
+    '-1': 'banned',
+    '0': 'normal',
+    '1': 'admin',
+    '2': 'superAdmin'
+};
+
+const usersTableColumnDefs = [
+    {
+        targets: 0,
+        data: 'uid',
+        width: '1%'
+    },
+    {
+        targets: 1,
+        data: 'email'
+    },
+    {
+        targets: 2,
+        data: 'nickname'
+    },
+    {
+        targets: 3,
+        data: 'score',
+        render: data => `<input type="number" class="form-control score" value="${data}" title="${trans('admin.scoreTip')}" data-toggle="tooltip" data-placement="right">`
+    },
+    {
+        targets: 4,
+        data: 'players_count',
+        searchable: false,
+        orderable: false,
+        render: (data, type, row) => `<a href="${url('admin/players?uid='+row.uid)}" title="${trans('admin.inspectHisPlayers')}" data-toggle="tooltip" data-placement="right">${data}</span>`
+    },
+    {
+        targets: 5,
+        data: 'permission',
+        className: 'status',
+        render: data => trans('admin.' + userPermissions[data])
+    },
+    {
+        targets: 6,
+        data: 'register_at'
+    },
+    {
+        targets: 7,
+        data: 'operations',
+        searchable: false,
+        orderable: false,
+        render: renderUsersTableOperations
+    }
+];
+
+function renderUsersTableOperations(currentUserPermission, type, row) {
+    let adminOption = '', bannedOption = '', deleteUserButton;
+
+    if (row.permission !== 2) {
+        // Only SUPER admins are allowed to set/unset admins
+        if (currentUserPermission === 2) {
+            const adminStatus = row.permission === 1 ? 'admin' : 'normal';
+            adminOption = `<li class="divider"></li> <li><a id="admin-${row.uid}" data="${adminStatus}" onclick="changeAdminStatus(${row.uid});">
+                ${ adminStatus === 'admin' ? trans('admin.unsetAdmin') : trans('admin.setAdmin') }
+            </a></li>`;
+        }
+
+        const banStatus = row.permission === -1 ? 'banned' : 'normal';
+        bannedOption = `<li class="divider"></li> <li><a id="ban-${row.uid}" data="${banStatus}" onclick="changeBanStatus(${row.uid});">
+            ${  banStatus === 'banned' ? trans('admin.unban') : trans('admin.ban') }
+        </a></li>`;
+    }
+
+    if (currentUserPermission === 2) {
+        if (row.permission === 2) {
+            deleteUserButton = `<a class="btn btn-danger btn-sm" disabled="disabled" data-toggle="tooltip" data-placement="bottom" title="${trans('admin.cannotDeleteSuperAdmin')}">${trans('admin.deleteUser')}</a>`;
+        } else {
+            deleteUserButton = `<a class="btn btn-danger btn-sm" onclick="deleteUserAccount(${row.uid});">${trans('admin.deleteUser')}</a>`;
+        }
+    } else {
+        if (row.permission === 1 || row.permission === 2) {
+            deleteUserButton = `<a class="btn btn-danger btn-sm" disabled="disabled" data-toggle="tooltip" data-placement="bottom" title="${trans('admin.cannotDeleteAdmin')}">${trans('admin.deleteUser')}</a>`;
+        } else {
+            deleteUserButton = `<a class="btn btn-danger btn-sm" onclick="deleteUserAccount(${row.uid});">${trans('admin.deleteUser')}</a>`;
+        }
+    }
+
+    return `
+    <div class="btn-group">
+        <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            ${trans('admin.operationsTitle')} <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a onclick="changeUserEmail(${row.uid});">${trans('admin.changeEmail')}</a></li>
+            <li><a onclick="changeUserNickName(${row.uid});">${trans('admin.changeNickName')}</a></li>
+            <li><a onclick="changeUserPwd(${row.uid});">${trans('admin.changePassword')}</a></li>
+            ${adminOption}
+            ${bannedOption}
+        </ul>
+    </div>
+    ${deleteUserButton}`;
+}
+
 async function changeUserEmail(uid) {
     const dom = $(`tr#user-${uid} > td:nth-child(2)`);
     let newUserEmail = '';
@@ -217,6 +334,7 @@ $('body').on('keypress', '.score', function(event){
 
 if (process.env.NODE_ENV === 'test') {
     module.exports = {
+        initUsersTable,
         changeUserPwd,
         changeBanStatus,
         changeUserEmail,

@@ -142,8 +142,8 @@
             newUserPassword: '请输入新密码：',
             deleteUserNotice: '真的要删除此用户吗？此操作不可恢复',
             scoreTip: '输入修改后的积分，回车提交',
-            doubleClickToSeeUser: '双击可查看该用户的信息',
-            doubleClickToSeePlayers: '双击可查看该用户的角色',
+            inspectHisOwner: '点击查看该角色的所有者',
+            inspectHisPlayers: '点击查看该用户的角色',
 
             // Status
             banned: '封禁',
