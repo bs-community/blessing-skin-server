@@ -57,6 +57,7 @@
 
                     <div class="box-footer">
                         <button class="btn btn-primary" data-toggle="modal" data-target="#modal-use-as">{{ trans('user.closet.use-as.button') }}</button>
+                        <button class="btn btn-default pull-right" id="closet-reset">{{ trans('user.closet.use-as.reset') }}</button>
                     </div><!-- /.box-footer -->
                 </div>
             </div>

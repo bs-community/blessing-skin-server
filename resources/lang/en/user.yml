@@ -38,6 +38,7 @@ closet:
 
   use-as:
     button: Apply...
+    reset: Clear selected
     title: Which player should be applied to?
     empty: It seems that you own no player...
     add: Add new player

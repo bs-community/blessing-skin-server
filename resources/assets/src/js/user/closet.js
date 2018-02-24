@@ -1,4 +1,4 @@
-/* global initSkinViewer, applySkinViewerConfig */
+/* global initSkinViewer, applySkinViewerConfig, defaultSteveSkin */
 
 'use strict';
 
@@ -57,6 +57,18 @@ $('body').on('click', '.category-switch', () => {
     const page = parseInt($('#closet-paginator').attr(`last-${category}-page`));
 
     reloadCloset(category, page, search);
+});
+
+$('#closet-reset').click(() => {
+    const $indicator = $('#textures-indicator');
+    $indicator.text('');
+    $indicator.removeData('skin');
+    $indicator.removeData('cape');
+
+    $.msp.config.skinUrl = defaultSteveSkin;
+    $.msp.config.capeUrl = '';
+    $.msp.config.slim = false;
+    initSkinViewer();
 });
 
 async function initCloset() {
