@@ -7,6 +7,9 @@ function initUsersTable() {
   $('#user-table').DataTable({
     ajax: dataUrl,
     scrollY: ($('.content-wrapper').height() - $('.content-header').outerHeight()) * 0.7,
+    fnDrawCallback: () => {
+      $('[data-toggle="tooltip"]').tooltip();
+    },
     rowCallback: (row, data) => {
       $(row).attr('id', `user-${data.uid}`);
     },
@@ -133,6 +136,9 @@ function initPlayersTable() {
   $('#player-table').DataTable({
     ajax: dataUrl,
     scrollY: ($('.content-wrapper').height() - $('.content-header').outerHeight()) * 0.7,
+    fnDrawCallback: () => {
+      $('[data-toggle="tooltip"]').tooltip();
+    },
     columnDefs: [
       {
         targets: 0,
@@ -212,6 +218,9 @@ function initPlayersTable() {
 function initPluginsTable() {
   return $('#plugin-table').DataTable({
     ajax: url('admin/plugins/data'),
+    fnDrawCallback: () => {
+      $('[data-toggle="tooltip"]').tooltip();
+    },
     columnDefs: [
       {
         targets: 0,
