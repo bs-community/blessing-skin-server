@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "93065cb8a9e776fe417866c9741f35e5",
+    "content-hash": "7cc7aede94ac363755668bb4198c9ca4",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -300,58 +300,6 @@
                 "whoops"
             ],
             "time": "2017-10-15T13:05:10+00:00"
-        },
-        {
-            "name": "fx3costa/laravelchartjs",
-            "version": "2.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fxcosta/laravel-chartjs.git",
-                "reference": "21eaf327118ca512b6503979d4ae75ad3a463e68"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://files.phpcomposer.com/files/fxcosta/laravel-chartjs/21eaf327118ca512b6503979d4ae75ad3a463e68.zip",
-                "reference": "21eaf327118ca512b6503979d4ae75ad3a463e68",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.* || 5.6.*",
-                "php": ">=5.6.4"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Fx3costa\\LaravelChartJs\\Providers\\ChartjsServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Fx3costa\\LaravelChartJs\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Felix",
-                    "email": "fx3costa@gmail.com"
-                }
-            ],
-            "description": "Simple package to facilitate and automate the use of charts in Laravel 5.x using Chartjs v2 library",
-            "keywords": [
-                "chart",
-                "chartjs",
-                "fx3costa",
-                "graphics",
-                "laravel5",
-                "reports"
-            ],
-            "time": "2018-02-20T17:00:36+00:00"
         },
         {
             "name": "gregwar/captcha",

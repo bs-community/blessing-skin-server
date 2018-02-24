@@ -71,9 +71,8 @@
                         </div>
                     </div>
                     <div class="box-body">
-                        <div class="chart">
-                            {!! $chart->render() !!}
-                        </div>
+                        <canvas id="overview" width="400" height="200"></canvas>
+                        <div class="chart"></div>
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
             </div>
@@ -83,4 +82,16 @@
 </div><!-- /.content-wrapper -->
 
 <script type="text/javascript" src="{{ assets('js/chart.js') }}"></script>
+<script>
+    var chartOptions = {!! json_encode($chartOptions) !!};
+
+    var chart = new Chart(document.getElementById('overview').getContext('2d'), {
+        type: 'line',
+        data: {
+            labels: chartOptions.labels,
+            datasets: chartOptions.datasets
+        },
+        options: chartOptions.options
+    });
+</script>
 @endsection

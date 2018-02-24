@@ -31,43 +31,39 @@ class AdminController extends Controller
             $data['texture_uploads'][]   = Texture::like('upload_at', $time->toDateString())->count();
         }
 
-        $chart = app()->chartjs
-            ->name('overview_chart')
-            ->type('line')
-            ->size(['width' => 400, 'height' => 200])
-            ->labels($labels)
-            ->datasets([
-                [
-                    'label' => trans('admin.index.user-registration'),
-                    'backgroundColor' => 'rgba(60, 141, 188, 0.6)',
-                    'borderColor' => '#3c8dbc',
-                    'pointRadius' => 0,
-                    'pointBorderColor' => '#3c8dbc',
-                    'pointBackgroundColor' => '#3c8dbc',
-                    'pointHoverBackgroundColor' => '#3c8dbc',
-                    'pointHoverBorderColor' => '#3c8dbc',
-                    'data' => $data['user_registration'],
-                ],
-                [
-                    'label' => trans('admin.index.texture-uploads'),
-                    'backgroundColor' => 'rgba(210, 214, 222, 0.6)',
-                    'borderColor' => '#d2d6de',
-                    'pointRadius' => 0,
-                    'pointBorderColor' => '#c1c7d1',
-                    'pointBackgroundColor' => '#c1c7d1',
-                    'pointHoverBackgroundColor' => '#c1c7d1',
-                    'pointHoverBorderColor' => '#c1c7d1',
-                    'data' => $data['texture_uploads'],
-                ]
-            ])
-            ->options([
-                'tooltips' => [
-                    'intersect' => false,
-                    'mode' => 'index'
-                ]
-            ]);
+        $datasets = [
+            [
+                'label' => trans('admin.index.user-registration'),
+                'backgroundColor' => 'rgba(60, 141, 188, 0.6)',
+                'borderColor' => '#3c8dbc',
+                'pointRadius' => 0,
+                'pointBorderColor' => '#3c8dbc',
+                'pointBackgroundColor' => '#3c8dbc',
+                'pointHoverBackgroundColor' => '#3c8dbc',
+                'pointHoverBorderColor' => '#3c8dbc',
+                'data' => $data['user_registration'],
+            ],
+            [
+                'label' => trans('admin.index.texture-uploads'),
+                'backgroundColor' => 'rgba(210, 214, 222, 0.6)',
+                'borderColor' => '#d2d6de',
+                'pointRadius' => 0,
+                'pointBorderColor' => '#c1c7d1',
+                'pointBackgroundColor' => '#c1c7d1',
+                'pointHoverBackgroundColor' => '#c1c7d1',
+                'pointHoverBorderColor' => '#c1c7d1',
+                'data' => $data['texture_uploads'],
+            ]
+        ];
 
-        return view('admin.index', compact('chart'));
+        $options = [
+            'tooltips' => [
+                'intersect' => false,
+                'mode' => 'index'
+            ]
+        ];
+
+        return view('admin.index', ['chartOptions' => compact('labels', 'datasets', 'options')]);
     }
 
     public function customize(Request $request)
