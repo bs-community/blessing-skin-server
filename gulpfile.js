@@ -184,10 +184,10 @@ gulp.task('zip', () => {
             '!.babelrc',
             '!.eslintrc.js',
             '!.eslintignore',
+            '!.editorconfig',
             '!.travis.yml',
             '!{.env,.env.testing}',
             '!{.git,.git/**}',
-            '!{.github,.github/**}',
             '!{.gitignore,.gitmodules,.gitattributes}',
             '!gulpfile.js',
             '!composer.*',
@@ -197,6 +197,7 @@ gulp.task('zip', () => {
             '!phpunit.xml',
             '!package.json',
             '!{tests,tests/**}',
+            '!ISSUE_TEMPLATE.md',
             '!{coverage,coverage/**}',
             '!{node_modules,node_modules/**}',
             '!storage/textures/**',
@@ -233,6 +234,7 @@ function convertNpmRelativePath(paths) {
 function clearCache() {
     return del([
         'storage/logs/*',
+        'storage/testing/*',
         'storage/debugbar/*',
         'storage/update_cache/*',
         'storage/yaml-translation/*',
