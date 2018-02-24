@@ -72,7 +72,7 @@
                     </div>
                     <div class="box-body">
                         <div class="chart">
-                            <canvas id="areaChart" style="height:250px"></canvas>
+                            {!! $chart->render() !!}
                         </div>
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
@@ -82,78 +82,5 @@
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 
-<script type="text/javascript" src="{{ assets('js/Chart.min.js') }}"></script>
-@endsection
-
-@section('script')
-<?php
-    $today = Carbon\Carbon::today()->timestamp;
-
-    $data   = [];
-    $labels = [];
-
-    // Prepare data for the graph
-    for ($i = 6; $i >= 0; $i--) {
-        $time = Carbon\Carbon::createFromTimestamp($today - $i * 86400);
-
-        $labels[] = $time->format('m-d');
-        $data['user_register'][]  = App\Models\User::like('register_at',  $time->toDateString())->count();
-        $data['texture_upload'][] = App\Models\Texture::like('upload_at', $time->toDateString())->count();
-    }
-?>
-<script>
-    $(function () {
-        var areaChartCanvas = $("#areaChart").get(0).getContext("2d");
-        var areaChart = new Chart(areaChartCanvas);
-
-        var areaChartData = {
-            labels: {!! json_encode($labels) !!},
-            datasets: [
-                {
-                    label: trans("admin.textureUploads"),
-                    fillColor: "rgba(210, 214, 222, 1)",
-                    strokeColor: "rgba(210, 214, 222, 1)",
-                    pointColor: "rgba(210, 214, 222, 1)",
-                    pointStrokeColor: "#c1c7d1",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(220,220,220,1)",
-                    data: {!! json_encode($data['texture_upload']) !!}
-                },
-                {
-                    label: trans("admin.userRegistration"),
-                    fillColor: "rgba(60,141,188,0.9)",
-                    strokeColor: "rgba(60,141,188,0.8)",
-                    pointColor: "#3b8bba",
-                    pointStrokeColor: "rgba(60,141,188,1)",
-                    pointHighlightFill: "#fff",
-                    pointHighlightStroke: "rgba(60,141,188,1)",
-                    data: {!! json_encode($data['user_register']) !!}
-                }
-            ]
-        };
-
-        var areaChartOptions = {
-            showScale: true,
-            scaleShowGridLines: false,
-            scaleGridLineColor: "rgba(0,0,0,.05)",
-            scaleGridLineWidth: 1,
-            scaleShowHorizontalLines: true,
-            scaleShowVerticalLines: true,
-            bezierCurve: true,
-            bezierCurveTension: 0.3,
-            pointDot: false,
-            pointDotRadius: 4,
-            pointDotStrokeWidth: 1,
-            pointHitDetectionRadius: 20,
-            datasetStroke: true,
-            datasetStrokeWidth: 2,
-            datasetFill: true,
-            legendTemplate: "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].lineColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",
-            maintainAspectRatio: true,
-            responsive: true
-        };
-
-        areaChart.Line(areaChartData, areaChartOptions);
-    });
-</script>
+<script type="text/javascript" src="{{ assets('js/chart.js') }}"></script>
 @endsection

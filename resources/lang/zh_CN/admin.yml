@@ -4,6 +4,8 @@ index:
   total-textures: 上传材质总数
   disk-usage: 占用空间大小
   overview: 概览
+  texture-uploads: 材质上传
+  user-registration: 用户注册
 
 users:
   players-count:

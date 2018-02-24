@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Option;
 use Datatables;
 use App\Events;
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
@@ -16,7 +17,57 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return view('admin.index');
+        $today = Carbon::today()->timestamp;
+
+        // Prepare data for the graph
+        $data   = [];
+        $labels = [];
+
+        for ($i = 6; $i >= 0; $i--) {
+            $time = Carbon::createFromTimestamp($today - $i * 86400);
+
+            $labels[] = $time->format('m-d');
+            $data['user_registration'][] = User::like('register_at',  $time->toDateString())->count();
+            $data['texture_uploads'][]   = Texture::like('upload_at', $time->toDateString())->count();
+        }
+
+        $chart = app()->chartjs
+            ->name('overview_chart')
+            ->type('line')
+            ->size(['width' => 400, 'height' => 200])
+            ->labels($labels)
+            ->datasets([
+                [
+                    'label' => trans('admin.index.user-registration'),
+                    'backgroundColor' => 'rgba(60, 141, 188, 0.6)',
+                    'borderColor' => '#3c8dbc',
+                    'pointRadius' => 0,
+                    'pointBorderColor' => '#3c8dbc',
+                    'pointBackgroundColor' => '#3c8dbc',
+                    'pointHoverBackgroundColor' => '#3c8dbc',
+                    'pointHoverBorderColor' => '#3c8dbc',
+                    'data' => $data['user_registration'],
+                ],
+                [
+                    'label' => trans('admin.index.texture-uploads'),
+                    'backgroundColor' => 'rgba(210, 214, 222, 0.6)',
+                    'borderColor' => '#d2d6de',
+                    'pointRadius' => 0,
+                    'pointBorderColor' => '#c1c7d1',
+                    'pointBackgroundColor' => '#c1c7d1',
+                    'pointHoverBackgroundColor' => '#c1c7d1',
+                    'pointHoverBorderColor' => '#c1c7d1',
+                    'data' => $data['texture_uploads'],
+                ]
+            ])
+            ->options([
+                'tooltips' => [
+                    'intersect' => false,
+                    'mode' => 'index'
+                ]
+            ]);
+
+        return view('admin.index', compact('chart'));
     }
 
     public function customize(Request $request)

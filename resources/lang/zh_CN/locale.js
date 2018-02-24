@@ -169,10 +169,6 @@
             changePlayerNameNotice: '请输入新的角色名：',
             emptyPlayerName: '您还没填写角色名呢',
 
-            // Index
-            textureUploads: '材质上传',
-            userRegistration: '用户注册',
-
             // Plugins
             configurePlugin: '插件配置',
             noPluginConfigNotice: '插件已被禁用或无配置页',

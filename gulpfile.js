@@ -117,14 +117,15 @@ gulp.task('publish-vendor', ['compile-es6'], callback => {
     gulp.src(convertNpmRelativePath(images))
         .pipe(gulp.dest(`${distPath}/images/`));
     // AdminLTE skins
-    gulp.src('node_modules/admin-lte/dist/css/skins/*.min.css')
+    gulp.src(convertNpmRelativePath(['admin-lte/dist/css/skins/*.min.css']))
         .pipe(gulp.dest(`${distPath}/css/skins/`));
     // 3D skin preview
     gulp.src(convertNpmRelativePath(['three/build/three.min.js', 'skinview3d/build/skinview3d.min.js']))
         .pipe(concat('skinview3d.js'))
         .pipe(gulp.dest(`${distPath}/js/`));
-    // TODO: remove this
-    gulp.src(['Chart.min.js'].map(path => `${srcPath}/vendor/${path}`))
+    // Chart.js
+    gulp.src(convertNpmRelativePath(['chart.js/dist/Chart.min.js']))
+        .pipe(concat('chart.js'))
         .pipe(gulp.dest(`${distPath}/js/`));
 
     callback();

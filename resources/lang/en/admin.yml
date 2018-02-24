@@ -4,6 +4,8 @@ index:
   total-textures: Uploaded Textures
   disk-usage: Disk Usage
   overview: Overview
+  texture-uploads: Texture Uploads
+  user-registration: User Registration
 
 users:
   players-count:

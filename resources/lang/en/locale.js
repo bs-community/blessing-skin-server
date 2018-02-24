@@ -167,10 +167,6 @@
             changePlayerNameNotice: 'Please input new player name:',
             emptyPlayerName: 'Player name cannot be empty.',
 
-            // Index
-            textureUploads: 'Texture Uploads',
-            userRegistration: 'User Registration',
-
             // Plugins
             configurePlugin: 'Configure',
             noPluginConfigNotice: 'The plugin has been disabled or no configuration is provided.',

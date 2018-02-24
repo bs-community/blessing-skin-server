@@ -23,6 +23,7 @@
     "admin-lte": "^2.4.2",
     "bootstrap": "^3.3.7",
     "bootstrap-fileinput": "^4.4.7",
+    "chart.js": "^2.7.1",
     "datatables.net-bs": "^1.10.16",
     "es6-promise": "^4.2.4",
     "font-awesome": "^4.7.0",

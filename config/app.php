@@ -162,6 +162,7 @@ return [
         Devitek\Core\Translation\TranslationServiceProvider::class,
         Swiggles\Memcache\MemcacheServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
+        Fx3costa\LaravelChartJs\Providers\ChartjsServiceProvider::class,
 
         /**
          * Application Service Providers...
