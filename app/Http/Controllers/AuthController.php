@@ -28,7 +28,7 @@ class AuthController extends Controller
     {
         $this->validate($request, [
             'identification' => 'required',
-            'password'       => 'required|min:6|max:64'
+            'password'       => 'required|min:6|max:32'
         ]);
 
         $identification = $request->input('identification');
@@ -110,7 +110,7 @@ class AuthController extends Controller
 
         $this->validate($request, [
             'email'    => 'required|email',
-            'password' => 'required|min:8|max:16',
+            'password' => 'required|min:8|max:32',
             'nickname' => 'required|nickname|max:255'
         ]);
 
@@ -267,7 +267,7 @@ class AuthController extends Controller
     {
         $this->validate($request, [
             'uid'      => 'required|integer',
-            'password' => 'required|min:8|max:16',
+            'password' => 'required|min:8|max:32',
             'token'    => 'required',
         ]);
 

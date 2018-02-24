@@ -182,7 +182,7 @@ describe('tests for "register" module', () => {
     expect(showMsg).toBeCalledWith('auth.invalidPassword', 'warning');
     expect($('#password').is(':focus')).toBe(true);
 
-    $('#password').val('too_long_password');
+    $('#password').val('too_long_password_very_super_long');
     $('#password').blur();
     $('button').click();
     expect(trans).toBeCalledWith('auth.invalidPassword');
@@ -372,7 +372,7 @@ describe('tests for "reset" module', () => {
     expect(showMsg).toBeCalledWith('auth.invalidPassword', 'warning');
     expect($('#password').is(':focus')).toBe(true);
 
-    $('#password').val('too_long_password');
+    $('#password').val('too_long_password_very_super_long');
     $('#password').blur();
     $('button').click();
     expect(trans).toBeCalledWith('auth.invalidPassword');

@@ -62,7 +62,7 @@ class AuthControllerTest extends TestCase
             'msg' => trans('validation.min.string', ['attribute' => 'password', 'min' => 6])
         ]);
 
-        // Should return a warning if length of `password` is greater than 64
+        // Should return a warning if length of `password` is greater than 32
         $this->post(
             '/auth/login', [
             'identification' => $user->email,
@@ -71,7 +71,7 @@ class AuthControllerTest extends TestCase
             'X-Requested-With' => 'XMLHttpRequest'
         ])->seeJson([
             'errno' => 1,
-            'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 64])
+            'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 32])
         ]);
 
         $this->flushSession();
@@ -255,18 +255,18 @@ class AuthControllerTest extends TestCase
             'msg' => trans('validation.min.string', ['attribute' => 'password', 'min' => 8])
         ]);
 
-        // Should return a warning if length of `password` is greater than 16
+        // Should return a warning if length of `password` is greater than 32
         $this->post(
             '/auth/register',
             [
                 'email' => 'a@b.c',
-                'password' => str_random(17),
+                'password' => str_random(33),
                 'captcha' => 'a'
             ],
             ['X-Requested-With' => 'XMLHttpRequest']
         )->seeJson([
             'errno' => 1,
-            'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 16])
+            'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 32])
         ]);
 
         // Should return a warning if `nickname` is empty
@@ -634,12 +634,12 @@ class AuthControllerTest extends TestCase
         $this->post(
             '/auth/reset', [
             'uid' => $user->uid,
-            'password' => str_random(17)
+            'password' => str_random(33)
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
         ])->seeJson([
             'errno' => 1,
-            'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 16])
+            'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 32])
         ]);
 
         // Should be forbidden if `token` is missing

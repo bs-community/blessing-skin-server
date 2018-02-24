@@ -4,7 +4,7 @@
 
 $('#register-button').click(e => {
     e.preventDefault();
-    
+
     const data = {
         email: $('#email').val(),
         password: $('#password').val(),
@@ -23,7 +23,7 @@ $('#register-button').click(e => {
         } else if (password === '') {
             showMsg(trans('auth.emptyPassword'));
             $('#password').focus();
-        } else if (password.length < 8 || password.length > 16) {
+        } else if (password.length < 8 || password.length > 32) {
             showMsg(trans('auth.invalidPassword'), 'warning');
             $('#password').focus();
         } else if ($('#confirm-pwd').val() === '') {

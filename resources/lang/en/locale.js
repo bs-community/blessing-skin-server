@@ -23,7 +23,7 @@
             // Register
             emptyEmail: 'Empty email address.',
             invalidEmail: 'Invalid format of email address.',
-            invalidPassword: 'Invalid password. The length of password should between 8 and 16.',
+            invalidPassword: 'Invalid password. The length of password should between 8 and 32.',
             emptyConfirmPwd: 'Empty confirming password.',
             invalidConfirmPwd: 'Confirming password is not equal with password.',
             emptyNickname: 'Empty nickname.',

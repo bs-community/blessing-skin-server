@@ -23,7 +23,7 @@
             // Register
             emptyEmail: '你还没有填写邮箱哦',
             invalidEmail: '邮箱格式不正确！',
-            invalidPassword: '无效的密码。密码长度应该大于 8 并小于 16。',
+            invalidPassword: '无效的密码。密码长度应该大于 8 并小于 32。',
             emptyConfirmPwd: '确认密码不能为空',
             invalidConfirmPwd: '密码和确认的密码不一样诶？',
             emptyNickname: '你还没有填写昵称哦',
