@@ -103,6 +103,10 @@ input:-webkit-autofill {
     }
 }
 
+#preview-3d-container canvas {
+    cursor: move;
+}
+
 .texture-name {
     width: 65%;
     display: inline-block;
