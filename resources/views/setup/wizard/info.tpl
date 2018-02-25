@@ -32,7 +32,7 @@
         <tr>
             <th scope="row"><label for="site_name">{{ trans('setup.wizard.info.site-name') }}</label></th>
             <td>
-                <input name="site_name" type="text" id="site_name" size="25" value="Blessing Skin Server" />
+                <input name="site_name" type="text" id="site_name" size="25" value="{{ config('options.site_name') }}" />
                 <p>{{ trans('setup.wizard.info.site-name-notice') }}</p>
             </td>
         </tr>

@@ -2,13 +2,13 @@
 
 return [
     'site_url'                  => '',
-    'site_name'                 => 'Blessing Skin Server',
+    'site_name'                 => 'Blessing Skin',
     'site_description'          => 'Open-source PHP Minecraft Skin Hosting Service',
     'user_can_register'         => 'true',
     'regs_per_ip'               => '3',
     'ip_get_method'             => '0',
     'api_type'                  => 'false',
-    'announcement'              => 'Welcome to Blessing Skin Server {version}!',
+    'announcement'              => 'Welcome to Blessing Skin {version}!',
     'color_scheme'              => 'skin-blue',
     'home_pic_url'              => './resources/assets/dist/images/bg.jpg',
     'custom_css'                => '',
