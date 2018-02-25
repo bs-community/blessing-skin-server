@@ -148,13 +148,18 @@ class Utils
         Log::info("[File Downloader] Download started, source: $url");
         Log::info("[File Downloader] ======================================");
 
-        if ($fp = fopen($url, "rb")) {
+        $context = stream_context_create(['http' => [
+            'method' => 'GET',
+            'header' => 'User-Agent: '.menv('USER_AGENT', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36')
+        ]]);
 
-            if (! $download_fp = fopen($path, "wb")) {
+        if ($fp = fopen($url, 'rb', false, $context)) {
+
+            if (! $download_fp = fopen($path, 'wb')) {
                 return false;
             }
 
-            while (!feof($fp)) {
+            while (! feof($fp)) {
 
                 if (! file_exists($path)) {
                     // Cancel downloading if destination is no longer available
@@ -163,7 +168,7 @@ class Utils
                     return false;
                 }
 
-                Log::info("[Download] 1024 bytes wrote");
+                Log::info('[File Downloader] 1024 bytes wrote');
                 fwrite($download_fp, fread($fp, 1024 * 8 ), 1024 * 8);
             }
 
