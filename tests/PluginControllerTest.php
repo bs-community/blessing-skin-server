@@ -13,8 +13,8 @@ class PluginControllerTest extends TestCase
         parent::setUp();
 
         $plugins = [
-            'example-plugin' => 'example-plugin_v1.0.zip',
-            'avatar-api'     => 'avatar-api_v1.1.zip'
+            'example-plugin' => 'example-plugin_v1.0.0.zip',
+            'avatar-api'     => 'avatar-api_v1.1.0.zip'
         ];
 
         foreach ($plugins as $plugin_name => $filename) {
