@@ -45,6 +45,9 @@ class SetupController extends Controller
             throw new PrettyPageException(trans('setup.database.table-already-exists', ['tables' => json_encode($existingTables)]), 1);
         }
 
+        /**
+         * @codeCoverageIgnore
+         */
         if (! function_exists('escapeshellarg')) {
             throw new PrettyPageException(trans('setup.disabled-functions.escapeshellarg'), 1);
         }

@@ -53,6 +53,10 @@ class SetupControllerTest extends TestCase
     {
         $this->visit('/setup/info')
             ->seePageIs('/setup/info');
+
+        Artisan::call('migrate:refresh');
+        Schema::drop('users');
+        $this->visit('/setup/info')->see('already exist');
     }
 
     public function testFinish()
