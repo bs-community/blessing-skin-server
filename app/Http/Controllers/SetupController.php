@@ -21,7 +21,9 @@ class SetupController extends Controller
         $type = get_db_type();
 
         if ($type === 'SQLite') {
+            // @codeCoverageIgnoreStart
             $server = get_db_config()['database'];
+            // @codeCoverageIgnoreEnd
         } else {
             $config = get_db_config();
             $server = "{$config['username']}@{$config['host']}";
@@ -45,12 +47,11 @@ class SetupController extends Controller
             throw new PrettyPageException(trans('setup.database.table-already-exists', ['tables' => json_encode($existingTables)]), 1);
         }
 
-        /**
-         * @codeCoverageIgnore
-         */
+        // @codeCoverageIgnoreStart
         if (! function_exists('escapeshellarg')) {
             throw new PrettyPageException(trans('setup.disabled-functions.escapeshellarg'), 1);
         }
+        // @codeCoverageIgnoreEnd
 
         return view('setup.wizard.info');
     }
