@@ -42,4 +42,12 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         }
         return $this->withSession(['uid' => $role->uid, 'token' => $role->getToken()]);
     }
+
+    protected function tearDown()
+    {
+        $this->beforeApplicationDestroyed(function () {
+            DB::disconnect();
+        });
+        parent::tearDown();
+    }
 }
