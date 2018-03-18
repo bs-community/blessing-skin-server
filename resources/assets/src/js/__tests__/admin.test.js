@@ -1132,7 +1132,7 @@ describe('tests for "common" module', () => {
     const fetch = jest.fn()
       .mockReturnValue(Promise.resolve({ errno: 0, msg: 'Recorded.' }));
 
-    $.fn.dataTable = { defaults: {} };
+    $.fn.dataTable = { defaults: {}, ext: { errMode: '' } };
     window.document.cookie = '';
     window.fetch = fetch;
     window.blessing = {
@@ -1154,5 +1154,25 @@ describe('tests for "common" module', () => {
 
     await sendFeedback();
     expect(fetch).toHaveBeenCalledTimes(1);
+  });
+
+  it('handle DataTables AJAX error', () => {
+    const { handleDataTablesAjaxError } = require(modulePath);
+    const showModal = jest.fn();
+    window.trans = jest.fn(t => t);
+    window.showModal = showModal;
+    $.fn.dataTable = { defaults: {}, ext: { errMode: '' } };
+
+    handleDataTablesAjaxError(undefined, undefined, '{}');
+    expect(showModal).not.toBeCalled();
+
+    handleDataTablesAjaxError(undefined, undefined, null, {
+      responseText: 'error'
+    });
+    expect(showModal).toBeCalledWith(
+      'error',
+      'general.fatalError',
+      'danger'
+    );
   });
 });

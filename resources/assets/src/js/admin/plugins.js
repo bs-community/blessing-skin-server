@@ -9,7 +9,7 @@ function initPluginsTable() {
         ajax: url('admin/plugins/data'),
         fnDrawCallback: () => $('[data-toggle="tooltip"]').tooltip(),
         columnDefs: pluginsTableColumnDefs
-    });
+    }).on('xhr.dt', handleDataTablesAjaxError);
 }
 
 const pluginsTableColumnDefs = [

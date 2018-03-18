@@ -14,7 +14,7 @@ function initUsersTable() {
         fnDrawCallback: () => $('[data-toggle="tooltip"]').tooltip(),
         rowCallback: (row, data) => $(row).attr('id', `user-${data.uid}`),
         columnDefs: usersTableColumnDefs
-    });
+    }).on('xhr.dt', handleDataTablesAjaxError);
 }
 
 const userPermissions = {

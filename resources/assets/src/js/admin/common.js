@@ -9,6 +9,14 @@ $.extend(true, $.fn.dataTable.defaults, {
     serverSide: true
 });
 
+$.fn.dataTable.ext.errMode = 'none';
+
+function handleDataTablesAjaxError(event, settings, json, xhr) {
+    if (json === null) {
+        showModal(xhr.responseText, trans('general.fatalError'), 'danger');
+    }
+}
+
 async function sendFeedback() {
     if (document.cookie.replace(/(?:(?:^|.*;\s*)feedback_sent\s*=\s*([^;]*).*$)|^.*$/, '$1') !== '') {
         return;
@@ -39,5 +47,6 @@ async function sendFeedback() {
 if (process.env.NODE_ENV === 'test') {
     module.exports = {
         sendFeedback,
+        handleDataTablesAjaxError,
     };
 }

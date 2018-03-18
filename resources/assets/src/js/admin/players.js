@@ -13,7 +13,7 @@ function initPlayersTable() {
         scrollY: ($('.content-wrapper').height() - $('.content-header').outerHeight()) * 0.7,
         fnDrawCallback: () => $('[data-toggle="tooltip"]').tooltip(),
         columnDefs: playersTableColumnDefs
-    });
+    }).on('xhr.dt', handleDataTablesAjaxError);
 }
 
 const playersTableColumnDefs = [

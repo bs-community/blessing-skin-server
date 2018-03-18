@@ -26,7 +26,8 @@ module.exports = {
         "showModal": false,
         "showAjaxError": false,
         "getQueryString": false,
-        "TexturePreview": false
+        "TexturePreview": false,
+        "handleDataTablesAjaxError": false
     },
     "parserOptions": {
         "ecmaVersion": 2017
