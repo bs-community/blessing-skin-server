@@ -7,3 +7,4 @@ vendor/*
 storage/textures/*
 storage/update_cache/*
 node_modules/*
+yarn-error.log
