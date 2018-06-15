@@ -19,11 +19,8 @@ register:
   repeat-pwd: 重复密码
   close: 残念。。本皮肤站已经关闭注册咯 QAQ
   success: 注册成功，正在跳转~
-  success-without-player: 注册成功。但您需要手动添加角色因为角色名重复。
-  success-with-chinese-player-name: 注册成功。但您需要手动添加角色因为角色名中包含中文字符。
   max: 你最多只能注册 :regs 个账户哦
   registered: 这个邮箱已经注册过啦，换一个吧
-  auto-add-player: 注册成功后自动新建同名角色
 
 forgot:
   title: 忘记密码

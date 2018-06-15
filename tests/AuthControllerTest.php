@@ -378,8 +378,7 @@ class AuthControllerTest extends TestCase
         $response->seeJson([
             'errno' => 0,
             'msg' => trans('auth.register.success'),
-            'token' => $newUser->getToken(),
-            'redirect' => true
+            'token' => $newUser->getToken()
         ])->seeCookie('uid', $newUser->uid)
             ->seeCookie('token', $newUser->getToken());
         $this->assertTrue($newUser->verifyPassword('12345678'));
@@ -389,58 +388,6 @@ class AuthControllerTest extends TestCase
             'score' => option('user_initial_score'),
             'ip' => '127.0.0.1',
             'permission' => User::NORMAL
-        ]);
-        $this->assertNull(\App\Models\Player::where('player_name', 'nickname')->first());
-
-        // Add a player automatically after success
-        $this->post(
-            '/auth/register',
-            [
-                'email' => 'aa@b.c',
-                'password' => '12345678',
-                'nickname' => 'new_player',
-                'captcha' => 'a',
-                'addPlayer' => 'add'
-            ]
-        )->seeJson([
-            'errno' => 0,
-            'msg' => trans('auth.register.success'),
-            'redirect' => true
-        ]);
-        $this->expectsEvents(Events\PlayerWasAdded::class);
-        $this->assertNotNull(\App\Models\Player::where('player_name', 'new_player')->first());
-
-        // Register with a duplicated player name
-        $this->post(
-            '/auth/register',
-            [
-                'email' => 'aaa@b.c',
-                'password' => '12345678',
-                'nickname' => 'new_player',
-                'captcha' => 'a',
-                'addPlayer' => 'add'
-            ]
-        )->seeJson([
-            'errno' => 0,
-            'msg' => trans('auth.register.success-without-player'),
-            'redirect' => false
-        ]);
-
-        // Should be warned if player name contains Chinese characters
-        option(['allow_chinese_playername' => false]);
-        $this->post(
-            '/auth/register',
-            [
-                'email' => 'b@b.c',
-                'password' => '12345678',
-                'nickname' => '角色player',
-                'captcha' => 'a',
-                'addPlayer' => 'add'
-            ]
-        )->seeJson([
-            'errno' => 0,
-            'msg' => trans('auth.register.success-with-chinese-player-name'),
-            'redirect' => false
         ]);
     }
 

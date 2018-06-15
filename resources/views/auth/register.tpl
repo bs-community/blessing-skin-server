@@ -31,12 +31,6 @@
                 <span class="glyphicon glyphicon-pencil form-control-feedback"></span>
             </div>
 
-            <div class="checkbox icheck" style="margin-top: 0;">
-                <label for="keep">
-                    <input id="add-player" type="checkbox"> {{ trans('auth.register.auto-add-player') }}
-                </label>
-            </div>
-
             <div class="row">
                 <div class="col-xs-8">
                     <div class="form-group has-feedback">

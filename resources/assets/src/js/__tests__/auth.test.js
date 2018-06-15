@@ -3,8 +3,6 @@
 const $ = require('jquery');
 window.$ = window.jQuery = $;
 
-jest.useFakeTimers();
-
 window.blessing = {
     base_url: '/'
 };
@@ -124,11 +122,7 @@ describe('tests for "register" module', () => {
     const fetch = jest.fn()
       .mockImplementationOnce(option => {
         option.beforeSend();
-        return Promise.resolve({ errno: 0, msg: 'success', redirect: false });
-      })
-      .mockImplementationOnce(option => {
-        option.beforeSend();
-        return Promise.resolve({ errno: 0, msg: 'success', redirect: true });
+        return Promise.resolve({ errno: 0, msg: 'success' });
       })
       .mockImplementationOnce(() => Promise.resolve(
         { errno: 1, msg: 'warning' }
@@ -155,7 +149,6 @@ describe('tests for "register" module', () => {
       <input id="confirm-pwd" />
       <div id="captcha-form"></div>
       <input id="captcha" />
-      <input id="add-player" type="checkbox" checked />
       <button id="register-button"></button>
     `;
 
@@ -220,8 +213,7 @@ describe('tests for "register" module', () => {
         email: 'a@b.c',
         nickname: 'nickname',
         password: 'password',
-        captcha: 'captcha',
-        addPlayer: 'add'
+        captcha: 'captcha'
       }
     }));
     expect($('button').html()).toBe(
@@ -229,13 +221,6 @@ describe('tests for "register" module', () => {
     );
     expect($('button').prop('disabled')).toBe(true);
     expect(swal).toBeCalledWith({ type: 'success', html: 'success' });
-    url.mockClear();
-    expect(url).not.toBeCalled();
-
-    await $('button').click();
-    url.mockClear();
-    jest.runAllTimers();
-    expect(url).toBeCalledWith('user');
 
     await $('button').click();
     expect(refreshCaptcha).toBeCalled();

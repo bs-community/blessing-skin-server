@@ -19,11 +19,8 @@ register:
   repeat-pwd: Repeat your password
   close: Well, this site doesn't allow any register.
   success: Registered successfully. Redirecting...
-  success-without-player: Your account is successfully registered. But you may need to add a player manually since there was already someone occupied the player name.
-  success-with-chinese-player-name: Your account is successfully registered. But you may need to add a player manually because the nickname contains Chinese characters.
   max: You can't register more than :regs accounts.
   registered: The email address is already registered.
-  auto-add-player: Add an player with the associated name
 
 forgot:
   title: Forgot Password

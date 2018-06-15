@@ -10,7 +10,6 @@ $('#register-button').click(e => {
         password: $('#password').val(),
         nickname: $('#nickname').val(),
         captcha: $('#captcha').val(),
-        addPlayer: $('#add-player').prop('checked') ? 'add' : '',
     };
 
     (function validate({ email, password, nickname, captcha }, callback) {
@@ -45,7 +44,7 @@ $('#register-button').click(e => {
         return;
     })(data, async () => {
         try {
-            const { errno, msg, redirect } = await fetch({
+            const { errno, msg } = await fetch({
                 type: 'POST',
                 url: url('auth/register'),
                 dataType: 'json',
@@ -57,14 +56,11 @@ $('#register-button').click(e => {
                 }
             });
             if (errno === 0) {
-                swal({ type: 'success', html: msg })
-                    .then(() => window.location = url('user'));
+                swal({ type: 'success', html: msg });
 
-                if (redirect) {
-                    setTimeout(() => {
-                        window.location = url('user');
-                    }, 1000);
-                }
+                setTimeout(() => {
+                    window.location = url('user');
+                }, 1000);
             } else {
                 showMsg(msg, 'warning');
                 refreshCaptcha();
