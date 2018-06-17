@@ -1,6 +1,13 @@
 'use strict';
 
-console.log(`\n %c Blessing Skin v${blessing.version} %c https://blessing.studio \n\n`, 'color: #fadfa3; background: #030307; padding:5px 0;', 'background: #fadfa3; padding:5px 0;');
+console.log(
+    `%c Blessing Skin %c v${blessing.version} %c Made with %c<3%c by printempw.%c https://blessing.studio`,
+    'color:#fadfa3;background:#030307;padding:5px 0;margin:10px 0;',
+    'background:#fadfa3;padding:5px 0;',
+    'font-style:italic;',
+    'color:red;',
+    'font-style:italic;', ''
+);
 
 /**
  * Check if given value is empty.
