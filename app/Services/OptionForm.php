@@ -500,12 +500,26 @@ class OptionFormItem
 
 class OptionFormText extends OptionFormItem
 {
+    protected $placeholder = '';
+
+    public function placeholder($placeholder = OptionForm::AUTO_DETECT)
+    {
+        if ($placeholder == OptionForm::AUTO_DETECT) {
+            $placeholder = trans("options.$this->parentId.$this->id.placeholder");
+        }
+
+        $this->placeholder = $placeholder;
+
+        return $this;
+    }
+
     public function render()
     {
         return view('common.option-form.text')->with([
             'id' => $this->id,
             'value' => $this->value,
-            'disabled' => $this->disabled
+            'disabled' => $this->disabled,
+            'placeholder' => $this->placeholder
         ]);
     }
 }
@@ -584,9 +598,13 @@ class OptionFormGroup extends OptionFormItem
 {
     public $items = [];
 
-    public function text($id, $value = null)
+    public function text($id, $value = null, $placeholder = OptionForm::AUTO_DETECT)
     {
-        $this->items[] = ['type' => 'text', 'id' => $id, 'value' => $value];
+        if ($placeholder == OptionForm::AUTO_DETECT) {
+            $placeholder = trans("options.$this->parentId.$this->id.placeholder");
+        }
+
+        $this->items[] = ['type' => 'text', 'id' => $id, 'value' => $value, 'placeholder' => $placeholder];
 
         return $this;
     }
@@ -613,7 +631,8 @@ class OptionFormGroup extends OptionFormItem
 
             $rendered[] = view('common.option-form.'.$item['type'])->with([
                 'id'    => $item['id'],
-                'value' => $item['value']
+                'value' => $item['value'],
+                'placeholder' => array_get($item, 'placeholder')
             ]);
         }
 
