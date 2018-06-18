@@ -173,7 +173,8 @@ class UserControllerTest extends TestCase
         // Too short current password
         $this->post('/user/profile', [
             'action' => 'password',
-            'current_password' => '1'
+            'current_password' => '1',
+            'new_password' => '12345678'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
         ])->seeJson([
@@ -184,12 +185,13 @@ class UserControllerTest extends TestCase
         // Too long current password
         $this->post('/user/profile', [
             'action' => 'password',
-            'current_password' => str_random(17)
+            'current_password' => str_random(33),
+            'new_password' => '12345678'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
         ])->seeJson([
             'errno' => 1,
-            'msg' => trans('validation.max.string', ['attribute' => 'current password', 'max' => 16])
+            'msg' => trans('validation.max.string', ['attribute' => 'current password', 'max' => 32])
         ]);
 
         // Too short new password
@@ -208,12 +210,12 @@ class UserControllerTest extends TestCase
         $this->post('/user/profile', [
             'action' => 'password',
             'current_password' => '12345678',
-            'new_password' => str_random(17)
+            'new_password' => str_random(33)
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
         ])->seeJson([
             'errno' => 1,
-            'msg' => trans('validation.max.string', ['attribute' => 'new password', 'max' => 16])
+            'msg' => trans('validation.max.string', ['attribute' => 'new password', 'max' => 32])
         ]);
 
         // Wrong old password
@@ -283,12 +285,12 @@ class UserControllerTest extends TestCase
         $this->post('/user/profile', [
             'action' => 'email',
             'new_email' => 'a@b.c',
-            'password' => str_random(17)
+            'password' => str_random(33)
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
         ])->seeJson([
             'errno' => 1,
-            'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 16])
+            'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 32])
         ]);
 
         // Use a duplicated email
@@ -356,12 +358,12 @@ class UserControllerTest extends TestCase
         // Too long current password
         $this->post('/user/profile', [
             'action' => 'delete',
-            'password' => str_random(17)
+            'password' => str_random(33)
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
         ])->seeJson([
             'errno' => 1,
-            'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 16])
+            'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 32])
         ]);
 
         // Wrong password
