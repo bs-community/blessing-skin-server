@@ -505,7 +505,8 @@ class OptionFormText extends OptionFormItem
     public function placeholder($placeholder = OptionForm::AUTO_DETECT)
     {
         if ($placeholder == OptionForm::AUTO_DETECT) {
-            $placeholder = trans("options.$this->parentId.$this->id.placeholder");
+            $key = "options.$this->parentId.$this->id.placeholder";
+            $placeholder = trans()->has($key) ? trans($key) : '';
         }
 
         $this->placeholder = $placeholder;
@@ -601,7 +602,8 @@ class OptionFormGroup extends OptionFormItem
     public function text($id, $value = null, $placeholder = OptionForm::AUTO_DETECT)
     {
         if ($placeholder == OptionForm::AUTO_DETECT) {
-            $placeholder = trans("options.$this->parentId.$this->id.placeholder");
+            $key = "options.$this->parentId.$this->id.placeholder";
+            $placeholder = trans()->has($key) ? trans($key) : '';
         }
 
         $this->items[] = ['type' => 'text', 'id' => $id, 'value' => $value, 'placeholder' => $placeholder];
