@@ -15,7 +15,7 @@ homepage:
     description: Any evil modification applied on the footer program copyright (including deleting, modifying author, changing link target) with out permission is <b>FORBIDDEN</b>. The author reserves the right to pursue relevant responsibilities.
   copyright_text:
     title: Custom Copyright Text
-    description: Placeholders are available in custom copyright text. e.g. <code>{site_name}</code> & <code>{site_url}</code>
+    description: Placeholders are available in custom copyright text. e.g. <code>{site_name}</code> & <code>{site_url}</code>. You can also specify a different footer for each language. To edit a specific language's corresponding footer, please switch to that language and submit your edit.
 
 customJsCss:
   title: Custom CSS/JavaScript
@@ -113,7 +113,7 @@ announ:
   title: Announcement
 
   announcement:
-    description: Styling with Markdown is supported.
+    description: Styling with Markdown is supported. You can also specify a different announcement for each language. To edit a specific language's corresponding announcement, please switch to that language and submit your edit.
 
 resources:
   title: Resource Files

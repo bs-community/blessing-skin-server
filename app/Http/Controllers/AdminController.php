@@ -95,7 +95,11 @@ class AdminController extends Controller
 
             $form->textarea('copyright_text')->rows(6)->description();
 
-        })->handle();
+        })->with('copyright_text',
+            option('copyright_text_'.config('app.locale'), option('copyright_text'))
+        )->handle(function () {
+            Option::set('copyright_text_'.config('app.locale'), request('copyright_text'));
+        });
 
         $customJsCss = Option::form('customJsCss', OptionForm::AUTO_DETECT, function($form)
         {
@@ -205,11 +209,13 @@ class AdminController extends Controller
 
         })->handle();
 
-        $announ = Option::form('announ', OptionForm::AUTO_DETECT, function($form)
-        {
+        $announ = Option::form('announ', OptionForm::AUTO_DETECT, function ($form) {
             $form->textarea('announcement')->rows(10)->description();
-
-        })->renderWithOutTable()->handle();
+        })->renderWithOutTable()->with('announcement',
+            option('announcement_'.config('app.locale'), option('announcement'))
+        )->handle(function () {
+            Option::set('announcement_'.config('app.locale'), request('announcement'));
+        });
 
         $resources = Option::form('resources', OptionForm::AUTO_DETECT, function($form)
         {

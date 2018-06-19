@@ -15,7 +15,7 @@ homepage:
     description: 对于任何恶意修改页面<b>右下角</b>的版权信息（包括不限于删除、修改作者信息、修改链接指向）的用户，作者保留对其追究责任的权力。
   copyright_text:
     title:　自定义版权文字
-    description: 自定义版权文字内可使用占位符，<code>{site_name}</code> 将会被自动替换为站点名称，<code>{site_url}</code> 会被替换为站点地址。
+    description: 自定义版权文字内可使用占位符，<code>{site_name}</code> 将会被自动替换为站点名称，<code>{site_url}</code> 会被替换为站点地址。每种支持的语言都可以对应不同的自定义版权文字，如果想要编辑某种特定语言下的版权文字，请在右上角切换至该语言后再提交修改。
 
 customJsCss:
   title: 自定义 CSS/JavaScript
@@ -113,7 +113,7 @@ announ:
   title: 站点公告
 
   announcement:
-    description: 可使用 Markdown 进行排版
+    description: 可使用 Markdown 进行排版。每种支持的语言都可以对应不同的站点公告，如果想要编辑某种特定语言下的公告，请在右上角切换至该语言后再提交修改。
 
 resources:
   title: 资源文件配置

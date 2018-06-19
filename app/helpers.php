@@ -242,7 +242,9 @@ if (! function_exists('bs_custom_copyright')) {
 
     function bs_custom_copyright()
     {
-        return Utils::getStringReplaced(Option::get('copyright_text'), ['{site_name}' => Option::get('site_name'), '{site_url}' => Option::get('site_url')]);
+        $localizedCopyrightText = option('copyright_text_'.config('app.locale'), option('copyright_text'));
+
+        return Utils::getStringReplaced($localizedCopyrightText, ['{site_name}' => Option::get('site_name'), '{site_url}' => Option::get('site_url')]);
     }
 }
 
@@ -250,7 +252,9 @@ if (! function_exists('bs_announcement')) {
 
     function bs_announcement()
     {
-        return app('parsedown')->text(option('announcement'));
+        $localizedAnnouncement = option('announcement_'.config('app.locale'), option('announcement'));
+
+        return app('parsedown')->text($localizedAnnouncement);
     }
 }
 
