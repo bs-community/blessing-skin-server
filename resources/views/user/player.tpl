@@ -113,15 +113,20 @@
                 <table class="table">
                     <tbody>
                         <tr>
-                            <style> td { border-top: 0 !important; } </style>
-                            <td>{{ trans('user.player.player-name') }}</td>
-                            <td>
-                               <input type="text" class="form-control" id="player_name"
-                                    placeholder="{{ option('allow_chinese_playername') ? trans('user.player.pname-rule-chinese') : trans('user.player.pname-rule') }}" value="">
+                            <td class="key">{{ trans('user.player.player-name') }}</td>
+                            <td class="value">
+                               <input type="text" class="form-control" id="player_name" value="">
                             </td>
                         </tr>
                     </tbody>
                 </table>
+
+                <div class="callout callout-info">
+                    <ul style="padding: 0 0 0 20px; margin: 0;">
+                        <li>{{ trans('user.player.player-name-rule.'.option('player_name_rule')) }}</li>
+                        <li>{{ trans('user.player.player-name-length', ['min' => option('player_name_length_min'), 'max' => option('player_name_length_max')]) }}</li>
+                    </ul>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('general.close') }}</button>

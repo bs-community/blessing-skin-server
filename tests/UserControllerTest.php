@@ -133,7 +133,7 @@ class UserControllerTest extends TestCase
             'X-Requested-With' => 'XMLHttpRequest'
         ])->seeJson([
             'errno' => 1,
-            'msg' => trans('validation.nickname', ['attribute' => 'new nickname'])
+            'msg' => trans('validation.no_special_chars', ['attribute' => 'new nickname'])
         ]);
 
         // Too long nickname

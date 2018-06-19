@@ -106,7 +106,8 @@ class AdminControllerTest extends TestCase
                 'options.general.max_upload_file_size.hint',
                 ['size' => ini_get('upload_max_filesize')]
             ))
-            ->uncheck('allow_chinese_playername')
+            ->select('cjk', 'player_name_rule')
+            ->type('/^([0-9]+)$/', 'custom_player_name_regexp')
             ->select('1', 'api_type')
             ->check('auto_del_invalid_texture')
             ->type('code', 'comment_script')
@@ -119,7 +120,8 @@ class AdminControllerTest extends TestCase
         $this->assertEquals('8', option('regs_per_ip'));
         $this->assertEquals('1', option('ip_get_method'));
         $this->assertEquals('2048', option('max_upload_file_size'));
-        $this->assertFalse(option('allow_chinese_playername'));
+        $this->assertEquals('cjk', option('player_name_rule'));
+        $this->assertEquals('/^([0-9]+)$/', option('custom_player_name_regexp'));
         $this->assertEquals('1', option('api_type'));
         $this->assertTrue(option('auto_del_invalid_texture'));
         $this->assertEquals('code', option('comment_script'));
@@ -298,14 +300,14 @@ class AdminControllerTest extends TestCase
             'msg' => trans('validation.required', ['attribute' => 'nickname'])
         ]);
 
-        // Action is `email` but with an invalid nickname
+        // Action is `nickname` but with an invalid nickname
         $this->post(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'nickname', 'nickname' => '\\'],
             ['X-Requested-With' => 'XMLHttpRequest']
         )->seeJson([
             'errno' => 1,
-            'msg' => trans('validation.nickname', ['attribute' => 'nickname'])
+            'msg' => trans('validation.no_special_chars', ['attribute' => 'nickname'])
         ]);
 
         // Set nickname successfully

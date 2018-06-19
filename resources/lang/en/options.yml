@@ -82,9 +82,20 @@ general:
   max_upload_file_size:
     title: Max Upload Size
     hint: "Limit of PHP in php.ini: :size"
-  allow_chinese_playername:
-    title: Player Name
-    label: Allow chinese player names.
+  player_name_rule:
+    title: Player Name Rule
+    official: Letters, numbers and underscores (Mojang's official rule)
+    cjk: Allow CJK Unified Ideographs
+    custom: Use custom rules (regular expression)
+  custom_player_name_regexp:
+    title: Custom Player Name Rules
+    hint: Only takes effect when the above option is set to 'custom'. Leave empty to allow any character.
+    placeholder: Regular Expressions
+  player_name_length:
+    title: Player Name Length
+    addon1: Minimum
+    addon2: characters, maximum
+    addon3: characters
   api_type: Prefered JSON API
   auto_del_invalid_texture:
     title: Invalid Textures

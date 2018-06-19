@@ -80,6 +80,13 @@ player:
   pname-rule: Could only contain letters, numbers and dashes.
   pname-rule-chinese: Could only contain chinese characters, letters, numbers and dashes.
 
+  player-name-rule:
+    official: Player name may only contains letters, numbers and underscores.
+    cjk: Player name may contains letters, numbers, underscores and CJK Unified Ideographs.
+    custom: Custom player name rules are applied on this site. Please contact admins for further information.
+
+  player-name-length: The player name should be at least :min characters and not greater than :max characters.
+
   add:
     repeated: The player name is already registered.
     lack-score: You don't have enough score to add a player.

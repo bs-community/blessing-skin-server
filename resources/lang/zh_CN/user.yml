@@ -84,8 +84,12 @@ player:
     cape: 披风：
     empty: 未上传
 
-  pname-rule: 只能包含数字、字母以及下划线
-  pname-rule-chinese: 可使用汉字，字母数字以及下划线
+  player-name-rule:
+    official: 角色名只能包含拉丁字母、数字以及下划线。
+    cjk: 角色名可使用拉丁字母、数字、下划线以及汉字（中日韩统一表意文字）。
+    custom: 本站使用了自定义的角色名规则，详情请咨询站点管理员。
+
+  player-name-length: 角色名最少要求 :min 个字符，最多不超过 :max 个字符。
 
   add:
     repeated: 该角色名已经被其他人注册掉啦

@@ -34,32 +34,47 @@ class PlayerControllerTest extends TestCase
                 'msg' => trans('validation.required', ['attribute' => 'Player Name'])
             ]);
 
-        // Not allowed to use Chinese characters
-        option(['allow_chinese_playername' => false]);
-        $this->post('/user/player/add', [
-            'player_name' => '角色名'
-        ], ['X-Requested-With' => 'XMLHttpRequest'])
-            ->seeJson([
-                'errno' => 1,
-                'msg' => trans('validation.playername', ['attribute' => 'Player Name'])
-            ]);
+        // Only A-Za-z0-9_ are allowed
+        option(['player_name_rule' => 'official']);
+        $this->post(
+            '/user/player/add',
+            ['player_name' => '角色名'],
+            ['X-Requested-With' => 'XMLHttpRequest']
+        )->seeJson([
+            'errno' => 1,
+            'msg' => trans('validation.player_name', ['attribute' => 'Player Name'])
+        ]);
+
+        // Custom player name rule (regexp)
+        option(['player_name_rule' => 'custom']);
+        option(['custom_player_name_regexp' => '/^([0-9]+)$/']);
+        $this->post(
+            '/user/player/add',
+            ['player_name' => 'yjsnpi'],
+            ['X-Requested-With' => 'XMLHttpRequest']
+        )->seeJson([
+            'errno' => 1,
+            'msg' => trans('validation.player_name', ['attribute' => 'Player Name'])
+        ]);
 
         // Lack of score
+        option(['player_name_rule' => 'official']);
         $user = factory(User::class)->create(['score' => 0]);
-        $this->actAs($user)
-            ->post('/user/player/add', ['player_name' => 'no_score'])
-            ->seeJson([
-                'errno' => 7,
-                'msg' => trans('user.player.add.lack-score')
-            ]);
+        $this->actAs($user)->post(
+            '/user/player/add',
+            ['player_name' => 'no_score'],
+            ['X-Requested-With' => 'XMLHttpRequest']
+        )->seeJson([
+            'errno' => 7,
+            'msg' => trans('user.player.add.lack-score')
+        ]);
         $this->expectsEvents(Events\CheckPlayerExists::class);
 
-        // Allowed to use Chinese characters
-        option(['allow_chinese_playername' => true]);
+        // Allowed to use CJK characters
+        option(['player_name_rule' => 'cjk']);
         $user = factory(User::class)->create();
         $score = $user->score;
-        $this->actAs($user)
-            ->post('/user/player/add', [
+        $this->actAs($user)->post('/user/player/add', [
             'player_name' => '角色名'
         ])->seeJson([
             'errno' => 0,
@@ -142,20 +157,20 @@ class PlayerControllerTest extends TestCase
                 'msg' => trans('validation.required', ['attribute' => 'Player Name'])
             ]);
 
-        // Chinese characters are not allowed
-        option(['allow_chinese_playername' => false]);
-        $this->post('/user/player/rename', [
+        // Only A-Za-z0-9_ are allowed
+        option(['player_name_rule' => 'official']);
+        $this->post('/user/player/rename',[
             'pid' => $player->pid,
             'new_player_name' => '角色名'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
         ])->seeJson([
             'errno' => 1,
-            'msg' => trans('validation.playername', ['attribute' => 'Player Name'])
+            'msg' => trans('validation.player_name', ['attribute' => 'Player Name'])
         ]);
 
         // Other invalid characters
-        option(['allow_chinese_playername' => true]);
+        option(['player_name_rule' => 'cjk']);
         $this->post('/user/player/rename', [
             'pid' => $player->pid,
             'new_player_name' => '\\'
@@ -163,7 +178,7 @@ class PlayerControllerTest extends TestCase
             'X-Requested-With' => 'XMLHttpRequest'
         ])->seeJson([
             'errno' => 1,
-            'msg' => trans('validation.pname_chinese', ['attribute' => 'Player Name'])
+            'msg' => trans('validation.player_name', ['attribute' => 'Player Name'])
         ]);
 
         // Use a duplicated player name

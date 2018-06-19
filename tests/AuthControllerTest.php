@@ -295,7 +295,7 @@ class AuthControllerTest extends TestCase
             ['X-Requested-With' => 'XMLHttpRequest']
         )->seeJson([
             'errno' => 1,
-            'msg' => trans('validation.nickname', ['attribute' => 'nickname'])
+            'msg' => trans('validation.no_special_chars', ['attribute' => 'nickname'])
         ]);
 
         // Should return a warning if `nickname` is too long

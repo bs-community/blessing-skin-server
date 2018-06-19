@@ -109,7 +109,7 @@ class AuthController extends Controller
         $this->validate($request, [
             'email'    => 'required|email',
             'password' => 'required|min:8|max:32',
-            'nickname' => 'required|nickname|max:255'
+            'nickname' => 'required|no_special_chars|max:255'
         ]);
 
         if (! option('user_can_register')) {

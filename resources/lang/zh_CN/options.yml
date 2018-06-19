@@ -82,9 +82,20 @@ general:
   max_upload_file_size:
     title: 最大允许上传大小
     hint: PHP 限制：:size，定义在 php.ini 中。
-  allow_chinese_playername:
-    title: 角色名
-    label: 允许中文角色名
+  player_name_rule:
+    title: 角色名规则
+    official: 大小写字母数字下划线（Mojang 官方的用户名规则）
+    cjk: 允许中文字符（中日韩统一表意文字）
+    custom: 自定义（使用下方设置的正则表达式）
+  custom_player_name_regexp:
+    title: 自定义角色名规则
+    hint: 正则表达式，仅当上一选项为「自定义」时生效。留空表示允许使用任意字符。
+    placeholder: 正则表达式，不懂别乱填
+  player_name_length:
+    title: 角色名长度
+    addon1: 最少
+    addon2: 个字符，最多
+    addon3: 个字符
   api_type: 首选 JSON API
   auto_del_invalid_texture:
     title: 失效材质

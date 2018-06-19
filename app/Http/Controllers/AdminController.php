@@ -179,7 +179,19 @@ class AdminController extends Controller
                     ->text('max_upload_file_size')->addon('KB')
                     ->hint(trans('options.general.max_upload_file_size.hint', ['size' => ini_get('upload_max_filesize')]));
 
-            $form->checkbox('allow_chinese_playername')->label();
+            $form->select('player_name_rule')
+                    ->option('official', trans('options.general.player_name_rule.official'))
+                    ->option('cjk', trans('options.general.player_name_rule.cjk'))
+                    ->option('custom', trans('options.general.player_name_rule.custom'));
+
+            $form->text('custom_player_name_regexp')->hint()->placeholder();
+
+            $form->group('player_name_length')
+                ->addon(trans('options.general.player_name_length.addon1'))
+                ->text('player_name_length_min')
+                ->addon(trans('options.general.player_name_length.addon2'))
+                ->text('player_name_length_max')
+                ->addon(trans('options.general.player_name_length.addon3'));
 
             $form->select('api_type')
                     ->option('0', 'CustomSkinLoader API')
@@ -305,7 +317,7 @@ class AdminController extends Controller
 
         } elseif ($action == "nickname") {
             $this->validate($request, [
-                'nickname' => 'required|nickname'
+                'nickname' => 'required|no_special_chars'
             ]);
 
             $user->setNickName($request->input('nickname'));

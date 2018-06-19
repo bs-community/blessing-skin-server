@@ -1,8 +1,6 @@
 # Blessing Skin
 username:         ':attribute 格式错误。'
-nickname:         ':attribute 格式错误。'
-playername:       ':attribute 只能包含数字、字母以及下划线。'
-pname_chinese:    ':attribute 只能包含数字、字母、汉字以及下划线。'
+player_name:      ':attribute 不符合规则。'
 no_special_chars: ':attribute 不能包含特殊字母。'
 preference:       ':attribute 的值必须为 default 或 slim。'
 model:            ':attribute 的值必须为 steve、alex 或 cape。'

@@ -59,7 +59,7 @@ class PlayerController extends Controller
     public function add(Request $request)
     {
         $this->validate($request, [
-            'player_name' => 'required|'.(option('allow_chinese_playername') ? 'pname_chinese' : 'playername')
+            'player_name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max')
         ]);
 
         event(new CheckPlayerExists($request->input('player_name')));
@@ -114,7 +114,7 @@ class PlayerController extends Controller
     public function rename(Request $request)
     {
         $this->validate($request, [
-            'new_player_name' => 'required|'.(option('allow_chinese_playername') ? 'pname_chinese' : 'playername')
+            'new_player_name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max')
         ]);
 
         $newName = $request->input('new_player_name');
