@@ -208,7 +208,7 @@ async function deletePlayer(pid) {
             });
             $(`tr#${pid}`).remove();
         } else {
-            toastr.warning(msg);
+            swal({ type: 'warning', html: msg });
         }
     } catch (error) {
         showAjaxError(error);
@@ -225,14 +225,12 @@ async function addNewPlayer() {
         });
 
         if (errno === 0) {
-            swal({
-                type: 'success',
-                html: msg
-            }).then(() => location.reload());
+            await swal({ type: 'success', html: msg });
 
             $('#modal-add-player').modal('hide');
+            location.reload();
         } else {
-            toastr.warning(msg);
+            swal({ type: 'warning', html: msg });
         }
     } catch (error) {
         showAjaxError(error);

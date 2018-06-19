@@ -717,7 +717,7 @@ describe('tests for "player" module', () => {
     expect(document.getElementById('1')).toBeNull();
 
     await deletePlayer(1);
-    expect(toastr.warning).toBeCalledWith('warning');
+    expect(swal).toBeCalledWith({ type: 'warning', html: 'warning' });
 
     await deletePlayer(1);
     expect(showAjaxError).toBeCalled();
@@ -759,7 +759,7 @@ describe('tests for "player" module', () => {
     expect(modal).toBeCalled();
 
     await addNewPlayer();
-    expect(toastr.warning).toBeCalledWith('warning');
+    expect(swal).toBeCalledWith({ type: 'warning', html: 'warning' });
 
     await addNewPlayer();
     expect(showAjaxError).toBeCalled();
