@@ -24,7 +24,10 @@
                                 <tr>
                                     <th>PID</th>
                                     <th>{{ trans('user.player.player-name') }}</th>
-                                    <th>{{ trans('user.player.preference.title') }}</th>
+                                    <th>
+                                      {{ trans('user.player.preference.title') }}
+                                      <i class="fa fa-question-circle" title="{{ trans('user.player.preference.description') }}" data-toggle="tooltip" data-placement="right"></i>
+                                    </th>
                                     <th>{{ trans('user.player.edit') }}</th>
                                     <th>{{ trans('user.player.operation') }}</th>
                                 </tr>
@@ -37,8 +40,8 @@
                                     <td class="player-name">{{ $player['player_name'] }}</td>
                                     <td>
                                         <select class="form-control" id="preference" pid="{{ $player['pid'] }}">
-                                            <option {{ ($player['preference'] == "default") ? 'selected="selected"' : '' }} value="default">Default</option>
-                                            <option {{ ($player['preference'] == "slim") ? 'selected="selected"' : '' }} value="slim">Slim</option>
+                                            <option {{ ($player['preference'] == "default") ? 'selected="selected"' : '' }} value="default">Default (Steve)</option>
+                                            <option {{ ($player['preference'] == "slim") ? 'selected="selected"' : '' }} value="slim">Slim (Alex)</option>
                                        </select>
                                     </td>
                                     <td>

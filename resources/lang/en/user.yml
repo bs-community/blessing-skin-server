@@ -107,6 +107,7 @@ player:
 
   preference:
     title: Preference
+    description: Default stands for the Steve model with 4-pixel width arms, and Slim for the Alex model with 3-pixel width arms.
     success: The preference of player :name was updated to :preference
 
 profile:

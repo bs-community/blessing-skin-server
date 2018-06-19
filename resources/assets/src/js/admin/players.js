@@ -37,8 +37,8 @@ const playersTableColumnDefs = [
         render: data => {
             return `
             <select class="form-control" onchange="changePreference.call(this)">
-                <option ${(data === 'default') ? 'selected=selected' : ''} value="default">Default</option>
-                <option ${(data === 'slim')    ? 'selected=selected' : ''} value="slim">Slim</option>
+                <option ${(data === 'default') ? 'selected=selected' : ''} value="default">Default (Steve)</option>
+                <option ${(data === 'slim')    ? 'selected=selected' : ''} value="slim">Slim (Alex)</option>
             </select>`;
         }
     },
