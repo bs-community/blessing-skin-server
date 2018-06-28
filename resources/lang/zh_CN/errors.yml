@@ -14,4 +14,5 @@ exception:
     如果您是站长，请开启 .env 中的 APP_DEBUG 以查看详细信息。
 
 plugins:
-  duplicate: 【插件定义重复】:dir1 目录下的插件与 :dir2 目录下的插件使用了相同的 name 定义并造成了冲突。请检查您的 plugins 目录，移除其中一个插件或者使用不同的 name 属性。
+  duplicate: 【插件定义重复】:dir1 目录下的插件与 :dir2 目录下的插件使用了相同的 name 定义并造成了冲突。请检查您的插件目录，移除其中一个插件或者使用不同的 name 属性。
+  directory: 配置文件 .env 中指定的插件加载目录（PLUGINS_DIR）不存在或无法打开，请检查您的配置。错误信息：:msg

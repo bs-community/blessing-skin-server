@@ -61,31 +61,38 @@ class PluginManager
 
             $installed = [];
 
-            $resource = opendir(base_path('plugins'));
+            try {
+                $resource = opendir($this->getPluginsDir());
+            } catch (\Exception $e) {
+                throw new PrettyPageException(trans('errors.plugins.directory', ['msg' => $e->getMessage()]), 500);
+            }
+
             // traverse plugins dir
             while($filename = @readdir($resource)) {
-                if ($filename == "." || $filename == "..")
+                if ($filename == '.' || $filename == '..')
                     continue;
 
-                $path = base_path('plugins')."/".$filename;
+                $path = $this->getPluginsDir().DIRECTORY_SEPARATOR.$filename;
 
                 if (is_dir($path)) {
-                    if (file_exists($path."/package.json")) {
+                    $packageJsonPath = $path.DIRECTORY_SEPARATOR.'package.json';
+
+                    if (file_exists($packageJsonPath)) {
                         // load packages installed
-                        $installed[$filename] = json_decode($this->filesystem->get($path."/package.json"), true);
+                        $installed[$filename] = json_decode($this->filesystem->get($packageJsonPath), true);
                     }
                 }
 
             }
             closedir($resource);
 
-            foreach ($installed as $path => $package) {
+            foreach ($installed as $dirname => $package) {
 
                 // Instantiates an Plugin object using the package path and package.json file.
-                $plugin = new Plugin($this->getPluginsDir().'/'.$path, $package);
+                $plugin = new Plugin($this->getPluginsDir().DIRECTORY_SEPARATOR.$dirname, $package);
 
                 // Per default all plugins are installed if they are registered in composer.
-                $plugin->setDirname($path);
+                $plugin->setDirname($dirname);
                 $plugin->setInstalled(true);
                 $plugin->setNameSpace(Arr::get($package, 'namespace'));
                 $plugin->setVersion(Arr::get($package, 'version'));
@@ -255,7 +262,7 @@ class PluginManager
      */
     protected function getPluginsDir()
     {
-        return $this->app->basePath().'/plugins';
+        return config('plugins.directory') ?: base_path('plugins');
     }
 
 }

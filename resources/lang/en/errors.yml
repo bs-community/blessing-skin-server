@@ -14,3 +14,4 @@ exception:
 
 plugins:
   duplicate: The plugin [:dir1] has a duplicated plugin name definition which is same to plugin [:dir2]. Please check your plugins directory, remove one of them or use another name definition.
+  directory: We can't approach the path for loading plugins specified by the PLUGINS_DIR in .env file. Please check your configuration. Error :msg
