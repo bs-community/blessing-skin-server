@@ -115,7 +115,7 @@ class UpdateController extends Controller
                 $update_cache = storage_path('update_cache');
 
                 if (! is_dir($update_cache)) {
-                    if (false === Storage::disk('storage')->makeDirectory('update_cache')) {
+                    if (false === Storage::disk('root')->makeDirectory('storage/update_cache')) {
                         return response(trans('admin.update.errors.write-permission'));
                     }
                 }

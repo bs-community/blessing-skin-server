@@ -28,7 +28,7 @@ return [
     |
     */
 
-    'cloud' => 's3',
+    'cloud' => 'testing',
 
     /*
     |--------------------------------------------------------------------------
@@ -53,33 +53,13 @@ return [
             'root' => base_path(),
         ],
 
-        'storage' => [
-            'driver' => 'local',
-            'root' => storage_path(),
-        ],
-
         'textures' => [
             'driver' => menv('FS_DRIVER', 'local'),
             'root' => storage_path('textures'),
-            'visibility' => 'public',
-        ],
-
-        'cache' => [
-            'driver' => 'local',
-            'root' => storage_path('cache'),
-            'visibility' => 'public',
         ],
 
         'testing' => [
             'driver' => 'memory'
-        ],
-
-        's3' => [
-            'driver' => 's3',
-            'key' => 'your-key',
-            'secret' => 'your-secret',
-            'region' => 'your-region',
-            'bucket' => 'your-bucket',
         ],
 
     ],

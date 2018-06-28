@@ -114,14 +114,14 @@ class UpdateControllerTest extends TestCase
         $this->generateFakeUpdateFile();
 
         // Prepare for downloading
-        Storage::disk('storage')->deleteDirectory('update_cache');
+        Storage::disk('root')->deleteDirectory('storage/update_cache');
         $this->generateFakeUpdateInfo('4.0.0');
         Storage::shouldReceive('disk')
-            ->with('storage')
+            ->with('root')
             ->once()
             ->andReturnSelf();
         Storage::shouldReceive('makeDirectory')
-            ->with('update_cache')
+            ->with('storage/update_cache')
             ->once()
             ->andReturn(false);
         $this->get('/admin/update/download?action=prepare-download')
