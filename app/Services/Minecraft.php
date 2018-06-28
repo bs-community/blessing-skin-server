@@ -5,64 +5,72 @@ namespace App\Services;
 class Minecraft
 {
     /**
-     * Cut and resize to get avatar from skin, HD support by <xfl03@hotmail.com>
+     * Cut and resize to get the head part from a skin image.
+     * HD skin support added by xfl03 <xfl03@hotmail.com>.
      *
-     * @author https://github.com/jamiebicknell/Minecraft-Avatar/blob/master/face.php
-     * @param  string $resource, img path or base64
-     * @param  int    $size
-     * @param  string $view, default for 'f'
-     * @param  bool   $base64, if given $resource is encoded in base64
+     * @see    https://github.com/jamiebicknell/Minecraft-Avatar/blob/master/face.php
+     * @param  string $binary Binary image data or decoded base64 formatted image.
+     * @param  int    $height The height of generated image in pixel.
+     * @param  string $view   Which side of head to be captured, defaults to 'f' for front view.
      * @return resource
      */
-    public static function generateAvatarFromSkin($resource, $size, $view='f', $base64 = false)
+    public static function generateAvatarFromSkin($binary, $height, $view = 'f')
     {
-        $src = $base64 ? imagecreatefromstring(base64_decode($resource)) : imagecreatefrompng($resource);
-        $dest = imagecreatetruecolor($size, $size);
-        $ratio = imagesx($src) / 64; // width/64
+        $src = imagecreatefromstring($binary);
+        $dest = imagecreatetruecolor($height, $height);
+        $ratio = imagesx($src) / 64;
 
-        // f => front, l => left, r => right, b => back
-        $x = array('f' => 8, 'l' => 16, 'r' => 0, 'b' => 24);
+        $x = [
+            'f' => 8,  // Front
+            'l' => 16, // Left
+            'r' => 0,  // Right
+            'b' => 24  // Back
+        ];
 
-        imagecopyresized($dest, $src, 0, 0, $x[$view] * $ratio, 8 * $ratio, $size, $size, 8 * $ratio, 8 * $ratio);         // Face
-        imagecolortransparent($src, imagecolorat($src, 63 * $ratio, 0));                                                   // Black Hat Issue
-        imagecopyresized($dest, $src, 0, 0, ($x[$view] + 32) * $ratio, 8 * $ratio, $size, $size, 8 * $ratio, 8 * $ratio);  // Accessories
+        imagecopyresized($dest, $src, 0, 0, $x[$view] * $ratio, 8 * $ratio, $height, $height, 8 * $ratio, 8 * $ratio); // Face
+        imagecolortransparent($src, imagecolorat($src, 63 * $ratio, 0)); // Black hat issue
+        imagecopyresized($dest, $src, 0, 0, ($x[$view] + 32) * $ratio, 8 * $ratio, $height, $height, 8 * $ratio, 8 * $ratio); // Accessories
 
         imagedestroy($src);
         return $dest;
     }
 
     /**
-     * Generate skin preview
+     * Generate a image preview for a skin texture.
      *
-     * @link   https://github.com/NC22/Minecraft-HD-skin-viewer-2D/blob/master/SkinViewer2D.class.php
-     * @param  string      $resource
-     * @param  int         $size
-     * @param  bool|string $side   'front' or 'back'
-     * @param  bool        $base64 Generate image from base64 string
-     * @param  int         $gap    Gap size between front & back preview
+     * @see    https://github.com/NC22/Minecraft-HD-skin-viewer-2D/blob/master/SkinViewer2D.class.php
+     * @param  string $binary Binary image data or decoded base64 formatted image.
+     * @param  int    $height The height of generated image in pixel.
+     * @param  bool   $alex   Whether the given skin is in Alex model.
+     * @param  string $side   Which side of model to be captured, 'front', 'back' or 'both'.
+     * @param  int    $gap    Gap size between front & back preview in relative pixel.
      * @return resource
      */
-    public static function generatePreviewFromSkin($resource, $size, $side = false, $base64 = false, $gap = 4, $alex = false)
+    public static function generatePreviewFromSkin($binary, $height, $alex = false, $side = 'both', $gap = 4)
     {
-        $src = $base64 ? imagecreatefromstring(base64_decode($resource)) : imagecreatefrompng($resource);
+        $src = imagecreatefromstring($binary);
 
         $ratio = imagesx($src) / 64;
 
-        /**
-         * Check if double layer skin given
-         * @var bool
-         */
+        // Check if given skin contains double layers
         $double = imagesy($src) == 64 * $ratio;
 
-        $dest = imagecreatetruecolor((($side) ? 16 : 32) * $ratio + $gap * $ratio, 32 * $ratio);
+        $dest = imagecreatetruecolor((32 + $gap) * $ratio, 32 * $ratio);
 
-        // width of front preview + width of gap
-        $half_width = ($side) ? 0 : (($side) ? 8 : 16) * $ratio + $gap * $ratio;
+        if ($side == 'both') {
+            // The width of front view and gap, the back side view will be drawn on its right.
+            $half_width = (16 + $gap) * $ratio;
+            $dest = imagecreatetruecolor((32 + $gap) * $ratio, 32 * $ratio);
+        } else {
+            // No need to calculate this if only single side view is required
+            $half_width = 0;
+            $dest = imagecreatetruecolor((16 + $gap) * $ratio, 32 * $ratio);
+        }
 
         $transparent = imagecolorallocatealpha($dest, 255, 255, 255, 127);
         imagefill($dest, 0, 0, $transparent);
 
-        if (! $side or $side === 'front') {
+        if ($side == 'both' || $side == 'front') {
             imagecopy($dest, $src, 4 * $ratio,  0 * $ratio,  8 * $ratio,  8 * $ratio, 8 * $ratio,  8 * $ratio); // Head - 1
             imagecopy($dest, $src, 4 * $ratio,  0 * $ratio, 40 * $ratio,  8 * $ratio, 8 * $ratio,  8 * $ratio); // Head - 2
             imagecopy($dest, $src, 4 * $ratio,  8 * $ratio, 20 * $ratio, 20 * $ratio, 8 * $ratio, 12 * $ratio); // Body - 1
@@ -97,20 +105,20 @@ class Minecraft
             } else {
                 // I am not sure whether there are single layer Alex-model skin.
                 if ($alex) {
-                    self::imageflip($dest, $src, 12 * $ratio,  8 * $ratio, 44 * $ratio, 20 * $ratio, 3 * $ratio, 12 * $ratio); // Left Arm
+                    static::imageflip($dest, $src, 12 * $ratio,  8 * $ratio, 44 * $ratio, 20 * $ratio, 3 * $ratio, 12 * $ratio); // Left Arm
                 } else {
-                    self::imageflip($dest, $src, 12 * $ratio,  8 * $ratio, 44 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio); // Left Arm
+                    static::imageflip($dest, $src, 12 * $ratio,  8 * $ratio, 44 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio); // Left Arm
                 }
-                self::imageflip($dest, $src,  8 * $ratio, 20 * $ratio,  4 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio); // Left Leg
+                static::imageflip($dest, $src,  8 * $ratio, 20 * $ratio,  4 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio); // Left Leg
             }
 
         }
 
-        if (! $side or $side === 'back') {
-            imagecopy($dest, $src, $half_width +  4 * $ratio,  8 * $ratio, 32 * $ratio, 20 * $ratio, 8 * $ratio, 12 * $ratio); // Body
-            imagecopy($dest, $src, $half_width +  4 * $ratio,  0 * $ratio, 24 * $ratio,  8 * $ratio, 8 * $ratio,  8 * $ratio); // Head
-            imagecopy($dest, $src, $half_width +  8 * $ratio, 20 * $ratio, 12 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio); // Right Leg
-            imagecopy($dest, $src, $half_width +  4 * $ratio,  0 * $ratio, 56 * $ratio,  8 * $ratio, 8 * $ratio,  8 * $ratio); // Headwear
+        if ($side == 'both' || $side == 'back') {
+            imagecopy($dest, $src, $half_width + 4 * $ratio,  8 * $ratio, 32 * $ratio, 20 * $ratio, 8 * $ratio, 12 * $ratio); // Body
+            imagecopy($dest, $src, $half_width + 4 * $ratio,  0 * $ratio, 24 * $ratio,  8 * $ratio, 8 * $ratio,  8 * $ratio); // Head
+            imagecopy($dest, $src, $half_width + 8 * $ratio, 20 * $ratio, 12 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio); // Right Leg
+            imagecopy($dest, $src, $half_width + 4 * $ratio,  0 * $ratio, 56 * $ratio,  8 * $ratio, 8 * $ratio,  8 * $ratio); // Headwear
 
 
             if ($alex) {
@@ -138,18 +146,17 @@ class Minecraft
                 imagecopy($dest, $src, $half_width +  8 * $ratio, 20 * $ratio, 12 * $ratio, 36 * $ratio, 4 * $ratio, 12 * $ratio);
                 imagecopy($dest, $src, $half_width +  4 * $ratio, 20 * $ratio, 12 * $ratio, 52 * $ratio, 4 * $ratio, 12 * $ratio);
             } else {
-                self::imageflip($dest, $src, $half_width + 0 * $ratio,  8 * $ratio, 52 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio);
-                self::imageflip($dest, $src, $half_width + 4 * $ratio, 20 * $ratio, 12 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio);
+                static::imageflip($dest, $src, $half_width + 0 * $ratio,  8 * $ratio, 52 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio);
+                static::imageflip($dest, $src, $half_width + 4 * $ratio, 20 * $ratio, 12 * $ratio, 20 * $ratio, 4 * $ratio, 12 * $ratio);
             }
         }
 
-        $size_x = ($side) ? $size / 2 : $size / 32 * (32 + $gap);
-        $fullsize = imagecreatetruecolor($size_x, $size);
+        $width = ($side == 'both') ? $height / 32 * (32 + $gap) : $height / 2;
 
+        $fullsize = imagecreatetruecolor($width, $height);
         imagesavealpha($fullsize, true);
         $transparent = imagecolorallocatealpha($fullsize, 255, 255, 255, 127);
         imagefill($fullsize, 0, 0, $transparent);
-
         imagecopyresized($fullsize, $dest, 0, 0, 0, 0, imagesx($fullsize), imagesy($fullsize), imagesx($dest), imagesy($dest));
 
         imagedestroy($dest);
@@ -158,37 +165,50 @@ class Minecraft
         return $fullsize;
     }
 
-    private static function imageflip(&$result, &$img, $rx = 0, $ry = 0, $x = 0, $y = 0, $size_x = null, $size_y = null)
+    /**
+     * Generate a image preview for a cape texture.
+     *
+     * @param  string $binary     Binary image data or decoded base64 formatted image.
+     * @param  int    $height     The size of generated image in pixel.
+     * @param  int    $fillWidth  Create a image with given size, And draw the preview on the center of it.
+     * @param  int    $fillHeight Set the value to 0 to disable.
+     * @return resource
+     */
+    public static function generatePreviewFromCape($binary, $height, $fillWidth = 0, $fillHeight = 0)
     {
-        if ($size_x < 1)
-            $size_x = imagesx($img);
-        if ($size_y < 1)
-            $size_y = imagesy($img);
+        $src = imagecreatefromstring($binary);
+        $ratio = imagesx($src) / 64;
+        $width = $height / 16 * 10;
 
-        imagecopyresampled($result, $img, $rx, $ry, ($x + $size_x - 1), $y, $size_x, $size_y, 0 - $size_x, $size_y);
-    }
-
-    public static function generatePreviewFromCape($resource)
-    {
-        $src = imagecreatefrompng($resource);
-
-        $dest = imagecreatetruecolor(250, 166);
+        $dest = imagecreatetruecolor($width, $height);
         imagesavealpha($dest, true);
-
-        $trans_colour = imagecolorallocatealpha($dest, 0, 0, 0, 127);
-        imagefill($dest, 0, 0, $trans_colour);
-
-        $src_width = imagesx($src) * 11 / 64;
-        $src_height = imagesy($src) * 17 / 32;
-
-        $dst_height = 100;
-        // 100 / 17 * 11
-        $dst_width = 64;
-
-        // dst_x = (250 - 64) / 2
-        imagecopyresized($dest, $src, 93, 30, 0, 0, $dst_width, $dst_height, $src_width, $src_height);
+        $transparent = imagecolorallocatealpha($dest, 255, 255, 255, 127);
+        imagefill($dest, 0, 0, $transparent);
+        imagecopyresized($dest, $src, 0, 0, $ratio, $ratio, $width, $height, imagesx($src)*10/64, imagesy($src)*16/32);
 
         imagedestroy($src);
-        return $dest;
+        if ($fillWidth == 0 || $fillHeight == 0) {
+            return $dest;
+        }
+
+        $filled = imagecreatetruecolor($fillWidth, $fillHeight);
+        imagesavealpha($filled, true);
+        $transparent = imagecolorallocatealpha($filled, 255, 255, 255, 127);
+        imagefill($filled, 0, 0, $transparent);
+        imagecopyresized($filled, $dest, ($fillWidth-$width)/2, ($fillHeight-$height)/2, 0, 0, $width, $height, $width, $height);
+
+        imagedestroy($dest);
+        return $filled;
+    }
+
+    /**
+     * Flip the given image.
+     */
+    protected static function imageflip(&$result, &$img, $rx = 0, $ry = 0, $x = 0, $y = 0, $size_x = null, $size_y = null)
+    {
+        $size_x = ($size_x < 1) ? $imagesx($img) : $size_x;
+        $size_y = ($size_y < 1) ? $imagesy($img) : $size_y;
+
+        imagecopyresampled($result, $img, $rx, $ry, ($x + $size_x - 1), $y, $size_x, $size_y, 0 - $size_x, $size_y);
     }
 }

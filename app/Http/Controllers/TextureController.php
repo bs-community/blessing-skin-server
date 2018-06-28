@@ -102,9 +102,8 @@ class TextureController extends Controller
                     if (isset($responses[0]) && $responses[0] instanceof \Symfony\Component\HttpFoundation\Response) {
                         return $responses[0];       // @codeCoverageIgnore
                     } else {
-                        $filename = config('filesystems.disks.textures.root').'/'.$t->hash;
+                        $png = Minecraft::generateAvatarFromSkin(Storage::disk('textures')->read($t->hash), $size);
 
-                        $png = Minecraft::generateAvatarFromSkin($filename, $size);
                         ob_start();
                         imagepng($png);
                         imagedestroy($png);
@@ -141,23 +140,19 @@ class TextureController extends Controller
                 if (isset($responses[0]) && $responses[0] instanceof \Symfony\Component\HttpFoundation\Response) {
                     return $responses[0];      // @codeCoverageIgnore
                 } else {
-                    $filename = config('filesystems.disks.textures.root').'/'.$t->hash;
+                    $binary = Storage::disk('textures')->read($t->hash);
 
                     if ($t->type == "cape") {
-                        $png = Minecraft::generatePreviewFromCape($filename, $size);
-                        ob_start();
-                        imagepng($png);
-                        imagedestroy($png);
-                        $image = ob_get_contents();
-                        ob_end_clean();
+                        $png = Minecraft::generatePreviewFromCape($binary, $size*0.8, $size*1.125, $size);
                     } else {
-                        $png = Minecraft::generatePreviewFromSkin($filename, $size, false, false, 4, $t->type == 'alex');
-                        ob_start();
-                        imagepng($png);
-                        imagedestroy($png);
-                        $image = ob_get_contents();
-                        ob_end_clean();
+                        $png = Minecraft::generatePreviewFromSkin($binary, $size, ($t->type == 'alex'), 'both', 4);
                     }
+
+                    ob_start();
+                    imagepng($png);
+                    imagedestroy($png);
+                    $image = ob_get_contents();
+                    ob_end_clean();
 
                     return Response::png($image);
                 }
