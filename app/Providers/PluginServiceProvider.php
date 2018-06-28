@@ -38,6 +38,11 @@ class PluginServiceProvider extends ServiceProvider
         $this->registerPluginCallbackListener();
         $this->registerClassAutoloader($src_paths);
 
+        // Register plugin's own composer autoloader
+        foreach ($plugins->getEnabledComposerAutoloaders() as $autoloader) {
+            require $autoloader;
+        }
+
         $bootstrappers = $plugins->getEnabledBootstrappers();
 
         foreach ($bootstrappers as $file) {

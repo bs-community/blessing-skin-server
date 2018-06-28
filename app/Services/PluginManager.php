@@ -220,6 +220,24 @@ class PluginManager
     }
 
     /**
+     * Loads composer autoloader for the enabled plugins if exists.
+     *
+     * @return Collection
+     */
+    public function getEnabledComposerAutoloaders()
+    {
+        $autoloaders = new Collection;
+
+        foreach ($this->getEnabledPlugins() as $plugin) {
+            if ($this->filesystem->exists($file = $plugin->getPath().'/vendor/autoload.php')) {
+                $autoloaders->push($file);
+            }
+        }
+
+        return $autoloaders;
+    }
+
+    /**
      * The id's of the enabled plugins.
      *
      * @return array
