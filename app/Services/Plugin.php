@@ -194,6 +194,25 @@ class Plugin implements Arrayable, ArrayAccess
     }
 
     /**
+     * @param array $require
+     * @return Plugin
+     */
+    public function setRequirements($require)
+    {
+        $this->require = $require;
+
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getRequirements()
+    {
+        return (array) $this->require;
+    }
+
+    /**
      * @param bool $enabled
      * @return Plugin
      */

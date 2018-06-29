@@ -17,6 +17,9 @@ class PluginServiceProvider extends ServiceProvider
      */
     public function boot(PluginManager $plugins)
     {
+        // Disable plugins which has unsatisfied dependencies
+        $this->disableRequirementsUnsatisfiedPlugins($plugins);
+
         // Store paths of class files of plugins
         $src_paths = [];
 
@@ -49,6 +52,15 @@ class PluginServiceProvider extends ServiceProvider
             $bootstrapper = require $file;
             // Call closure using service container
             $this->app->call($bootstrapper);
+        }
+    }
+
+    protected function disableRequirementsUnsatisfiedPlugins(PluginManager $manager)
+    {
+        foreach ($manager->getEnabledPlugins() as $plugin) {
+            if (! $manager->isRequirementsSatisfied($plugin->name)) {
+                $manager->disable($plugin->name);
+            }
         }
     }
 

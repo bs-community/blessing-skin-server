@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Events;
+use Composer\Semver\Semver;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use App\Events\PluginWasUninstalled;
@@ -265,12 +266,78 @@ class PluginManager
     /**
      * Whether the plugin is enabled.
      *
-     * @param $plugin
+     * @param  string $pluginName
      * @return bool
      */
-    public function isEnabled($plugin)
+    public function isEnabled($pluginName)
     {
-        return in_array($plugin, $this->getEnabled());
+        return in_array($pluginName, $this->getEnabled());
+    }
+
+    /**
+     * Get the unsatisfied requirements of plugin.
+     *
+     * @param  string $pluginName
+     * @return array
+     */
+    public function getUnsatisfiedRequirements($pluginName)
+    {
+        $plugin = $this->getPlugin($pluginName);
+
+        if (! $plugin) {
+            throw new \InvalidArgumentException('Plugin with given name does not exist.');
+        }
+
+        $requirements = $plugin->getRequirements();
+
+        $unsatisfied = [];
+
+        foreach ($requirements as $name => $versionConstraint) {
+            // Version requirement for the main application
+            if ($name == 'blessing-skin-server') {
+                if (! Semver::satisfies(config('app.version'), $versionConstraint)) {
+                    $unsatisfied['blessing-skin-server'] = [
+                        'version' => config('app.version'),
+                        'constraint' => $versionConstraint
+                    ];
+                }
+
+                continue;
+            }
+
+            $requiredPlugin = $this->getPlugin($name);
+
+            if (!$requiredPlugin || !$requiredPlugin->isEnabled()) {
+                $unsatisfied[$name] = [
+                    'version' => null,
+                    'constraint' => $versionConstraint
+                ];
+
+                continue;
+            }
+
+            if (! Semver::satisfies($requiredPlugin->getVersion(), $versionConstraint)) {
+                $unsatisfied[$name] = [
+                    'version' => $requiredPlugin->getVersion(),
+                    'constraint' => $versionConstraint
+                ];
+
+                continue;
+            }
+        }
+
+        return $unsatisfied;
+    }
+
+    /**
+     * Whether the plugin's requirements are satisfied.
+     *
+     * @param  string $pluginName
+     * @return bool
+     */
+    public function isRequirementsSatisfied($pluginName)
+    {
+        return empty($this->getUnsatisfiedRequirements($pluginName));
     }
 
     /**
