@@ -415,7 +415,7 @@ describe('tests for "plugins" module', () => {
         requirements: { 'a': '^1.1.0', 'b': '^2.1.0', 'c': '^3.3.0' },
         unsatisfiedRequirements: { 'c': '^3.3.0' }
       }))
-      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
+      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'notice', reason: ['reason1', 'reason2'] }))
       .mockReturnValueOnce(Promise.reject());
     const url = jest.fn(path => path);
     const swal = jest.fn()
@@ -464,7 +464,7 @@ describe('tests for "plugins" module', () => {
     expect(reloadTable).toBeCalledWith(null, false);
 
     await enablePlugin('plugin');
-    expect(swal).toBeCalledWith({ type: 'warning', html: 'warning' });
+    expect(swal).toBeCalledWith({ type: 'warning', html: '<p>notice</p><ul><li>reason1</li><li>reason2</li></ul>' });
 
     await enablePlugin('plugin');
     expect(showAjaxError).toBeCalled();

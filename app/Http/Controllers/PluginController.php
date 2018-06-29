@@ -48,22 +48,23 @@ class PluginController extends Controller
             switch ($request->get('action')) {
                 case 'enable':
                     if (! $plugins->isRequirementsSatisfied($plugin)) {
-                        $msg = '';
+                        $reason = [];
 
                         foreach ($plugins->getUnsatisfiedRequirements($plugin) as $name => $detail) {
+                            $constraint = $detail['constraint'];
+
                             if (! $detail['version']) {
-                                $msg .= '<li>'.trans('admin.plugins.operations.unsatisfied.disabled', [
-                                    'name' => "<code>$name</code>"
-                                ]).'</li>';
+                                $reason[] = trans('admin.plugins.operations.unsatisfied.disabled', compact('name'));
                             } else {
-                                $msg .= '<li>'.trans('admin.plugins.operations.unsatisfied.version', [
-                                    'name' => "<code>$name</code>",
-                                    'constraint' => "<code>{$detail['constraint']}</code>"
-                                ]).'</li>';
+                                $reason[] = trans('admin.plugins.operations.unsatisfied.version', compact('name', 'constraint'));
                             }
                         }
 
-                        return json('<p>'.trans('admin.plugins.operations.unsatisfied.notice')."</p><ul>$msg</ul>", 1);
+                        return json([
+                            'errno' => 1,
+                            'msg' => trans('admin.plugins.operations.unsatisfied.notice'),
+                            'reason' => $reason
+                        ]);
                     }
 
                     $plugins->enable($name);

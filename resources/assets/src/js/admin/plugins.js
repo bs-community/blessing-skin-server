@@ -102,17 +102,18 @@ async function enablePlugin(name) {
             });
         }
 
-        const { errno, msg } = await fetch({
+        const { errno, msg, reason } = await fetch({
             type: 'POST',
             url: url(`admin/plugins/manage?action=enable&name=${name}`),
             dataType: 'json'
         });
+
         if (errno === 0) {
             toastr.success(msg);
 
             $.pluginsTable.ajax.reload(null, false);
         } else {
-            swal({ type: 'warning', html: msg });
+            swal({ type: 'warning', html: `<p>${msg}</p><ul><li>${reason.join('</li><li>')}</li></ul>` });
         }
     } catch (error) {
         showAjaxError(error);

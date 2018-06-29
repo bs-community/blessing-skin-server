@@ -110,8 +110,8 @@ plugins:
     enabled: :plugin has been enabled.
     unsatisfied:
       notice: There are unsatisfied dependencies in the plugin, therefore we can't enable it. Please install or update the plugins listed below.
-      disabled: The :name plugin is not enabled.
-      version: The version of :name does not satisfies the constraint :constraint
+      disabled: The <code>:name</code> plugin is not enabled
+      version: The version of <code>:name</code> does not satisfies the constraint <code>:constraint</code>
     disabled: :plugin has been disabled.
     deleted: The plugin was deleted successfully.
     no-config-notice: The plugin is not installed or doesn't provide configuration page.

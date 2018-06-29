@@ -110,8 +110,8 @@ plugins:
     enabled: :plugin 已启用
     unsatisfied:
       notice: 无法启用此插件，因为其仍有未满足的依赖关系。请检查以下插件的版本，更新或安装它们：
-      disabled: :name 插件未启用
-      version: :name 的版本不符合要求 :constraint
+      disabled: <code>:name</code> 插件未启用
+      version: <code>:name</code> 的版本不符合要求 <code>:constraint</code>
     disabled: :plugin 已禁用
     deleted: 插件已被成功删除
     no-config-notice: 插件未安装或未提供配置页面

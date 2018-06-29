@@ -95,17 +95,16 @@ class PluginControllerTest extends TestCase
             'action' => 'enable'
         ])->seeJson([
             'errno' => 1,
-            'msg' => sprintf(
-                '<p>%s</p><ul><li>%s</li><li>%s</li></ul>',
-                trans('admin.plugins.operations.unsatisfied.notice'),
+            'msg' => trans('admin.plugins.operations.unsatisfied.notice'),
+            'reason' => [
                 trans('admin.plugins.operations.unsatisfied.version', [
-                    'name' => "<code>example-plugin</code>",
-                    'constraint' => "<code>^6.6.6</code>"
+                    'name' => 'example-plugin',
+                    'constraint' => '^6.6.6'
                 ]),
                 trans('admin.plugins.operations.unsatisfied.disabled', [
-                    'name' => "<code>whatever</code>"
+                    'name' => 'whatever'
                 ])
-            )
+            ]
         ]);
 
         // Enable a plugin
