@@ -73,7 +73,7 @@ class TextureController extends Controller
         $model_preference = ($player->getPreference() == "default") ? "steve" : "alex";
         $model = ($model == "") ? $model_preference : $model;
 
-        return $player->getBinaryTexture($model);
+        return $this->getBinaryTextureFromPlayer($player_name, $model);
     }
 
     public function skinWithModel($model, $player_name)
@@ -83,9 +83,34 @@ class TextureController extends Controller
 
     public function cape($player_name)
     {
+        return $this->getBinaryTextureFromPlayer($player_name, 'cape');
+    }
+
+    /**
+     * Get the texture image of given type and player.
+     *
+     * @param  string $player_name
+     * @param  string $type "steve" or "alex" or "cape".
+     * @return void|Response
+     */
+    protected function getBinaryTextureFromPlayer($player_name, $type)
+    {
         $player = $this->getPlayerInstance($player_name);
 
-        return $player->getBinaryTexture('cape');
+        if ($hash = $player->getTexture($type)) {
+            if (Storage::disk('textures')->has($hash)) {
+                // Cache friendly
+                return Response::png(Storage::disk('textures')->read($hash), 200, [
+                    'Last-Modified'  => $player->getLastModified(),
+                    'Accept-Ranges'  => 'bytes',
+                    'Content-Length' => Storage::disk('textures')->size($hash),
+                ]);
+            } else {
+                abort(404, trans('general.texture-deleted'));
+            }
+        } else {
+            abort(404, trans('general.texture-not-uploaded', ['type' => $type]));
+        }
     }
 
     public function avatar($base64_email, UserRepository $users, $size = 128)

@@ -4,14 +4,12 @@ namespace App\Models;
 
 use Event;
 use Utils;
-use Storage;
 use Response;
 use App\Models\User;
 use App\Events\GetPlayerJson;
 use App\Events\PlayerProfileUpdated;
 use App\Exceptions\PrettyPageException;
 use Illuminate\Database\Eloquent\Model;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Player extends Model
 {
@@ -149,32 +147,6 @@ class Player extends Model
         $this->setTexture($map);
 
         return $this;
-    }
-
-    /**
-     * Get binary texture by type.
-     *
-     * @param  string $type steve|alex|cape
-     * @return \Illuminate\Http\Response
-     */
-    public function getBinaryTexture($type)
-    {
-        if ($this->getTexture($type)) {
-            $hash = $this->getTexture($type);
-
-            if (Storage::disk('textures')->has($hash)) {
-                // Cache friendly
-                return Response::png(Storage::disk('textures')->get($hash), 200, [
-                    'Last-Modified'  => $this->getLastModified(),
-                    'Accept-Ranges'  => 'bytes',
-                    'Content-Length' => Storage::disk('textures')->size($hash),
-                ]);
-            } else {
-                throw new NotFoundHttpException(trans('general.texture-deleted'));
-            }
-        } else {
-            throw new NotFoundHttpException(trans('general.texture-not-uploaded', ['type' => $type]));
-        }
     }
 
     /**
