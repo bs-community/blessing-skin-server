@@ -58,7 +58,7 @@ class PluginServiceProvider extends ServiceProvider
     protected function disableRequirementsUnsatisfiedPlugins(PluginManager $manager)
     {
         foreach ($manager->getEnabledPlugins() as $plugin) {
-            if (! $manager->isRequirementsSatisfied($plugin->name)) {
+            if (! $manager->isRequirementsSatisfied($plugin)) {
                 $manager->disable($plugin->name);
             }
         }

@@ -47,10 +47,10 @@ class PluginController extends Controller
 
             switch ($request->get('action')) {
                 case 'enable':
-                    if (! $plugins->isRequirementsSatisfied($name)) {
+                    if (! $plugins->isRequirementsSatisfied($plugin)) {
                         $msg = '';
 
-                        foreach ($plugins->getUnsatisfiedRequirements($name) as $name => $detail) {
+                        foreach ($plugins->getUnsatisfiedRequirements($plugin) as $name => $detail) {
                             if (! $detail['version']) {
                                 $msg .= '<li>'.trans('admin.plugins.operations.unsatisfied.disabled', [
                                     'name' => "<code>$name</code>"
@@ -123,9 +123,9 @@ class PluginController extends Controller
         $plugins = app('plugins');
 
         return [
-            'isRequirementsSatisfied' => $plugins->isRequirementsSatisfied($plugin->name),
+            'isRequirementsSatisfied' => $plugins->isRequirementsSatisfied($plugin),
             'requirements' => $plugin->getRequirements(),
-            'unsatisfiedRequirements' => $plugins->getUnsatisfiedRequirements($plugin->name)
+            'unsatisfiedRequirements' => $plugins->getUnsatisfiedRequirements($plugin)
         ];
     }
 }

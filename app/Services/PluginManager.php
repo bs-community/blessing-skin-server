@@ -277,12 +277,14 @@ class PluginManager
     /**
      * Get the unsatisfied requirements of plugin.
      *
-     * @param  string $pluginName
+     * @param  string|Plugin $plugin
      * @return array
      */
-    public function getUnsatisfiedRequirements($pluginName)
+    public function getUnsatisfiedRequirements($plugin)
     {
-        $plugin = $this->getPlugin($pluginName);
+        if (! $plugin instanceof Plugin) {
+            $plugin = $this->getPlugin($plugin);
+        }
 
         if (! $plugin) {
             throw new \InvalidArgumentException('Plugin with given name does not exist.');
@@ -332,12 +334,12 @@ class PluginManager
     /**
      * Whether the plugin's requirements are satisfied.
      *
-     * @param  string $pluginName
+     * @param  string|Plugin $plugin
      * @return bool
      */
-    public function isRequirementsSatisfied($pluginName)
+    public function isRequirementsSatisfied($plugin)
     {
-        return empty($this->getUnsatisfiedRequirements($pluginName));
+        return empty($this->getUnsatisfiedRequirements($plugin));
     }
 
     /**
