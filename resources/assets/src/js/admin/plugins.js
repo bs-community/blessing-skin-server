@@ -20,6 +20,7 @@ const pluginsTableColumnDefs = [
     {
         targets: 1,
         data: 'description',
+        orderable: false,
         width: '35%'
     },
     {
@@ -29,14 +30,37 @@ const pluginsTableColumnDefs = [
     },
     {
         targets: 3,
-        data: 'version'
+        data: 'version',
+        orderable: false
     },
     {
         targets: 4,
-        data: 'status'
+        data: 'dependencies',
+        searchable: false,
+        orderable: false,
+        render: data => {
+            if (data.requirements.length === 0) {
+                return `<i>${trans('admin.noDependencies')}</i>`;
+            }
+
+            let result = data.isRequirementsSatisfied ? '' : `<a href="http://t.cn/RrT7SqC" target="_blank" class="label label-primary">${trans('admin.whyDependencies')}</a><br>`;
+
+            for (const name in data.requirements) {
+                const constraint = data.requirements[name];
+                const color = (name in data.unsatisfiedRequirements) ? 'red' : 'green';
+
+                result += `<span class="label bg-${color}">${name}: ${constraint}</span><br>`;
+            }
+
+            return result;
+        }
     },
     {
         targets: 5,
+        data: 'status'
+    },
+    {
+        targets: 6,
         data: 'operations',
         searchable: false,
         orderable: false,
@@ -64,6 +88,20 @@ const pluginsTableColumnDefs = [
 
 async function enablePlugin(name) {
     try {
+        const { requirements } = await fetch({
+            type: 'POST',
+            url: url(`admin/plugins/manage?action=requirements&name=${name}`),
+            dataType: 'json'
+        });
+
+        if (requirements.length === 0) {
+            await swal({
+                text: trans('admin.noDependenciesNotice'),
+                type: 'warning',
+                showCancelButton: true
+            });
+        }
+
         const { errno, msg } = await fetch({
             type: 'POST',
             url: url(`admin/plugins/manage?action=enable&name=${name}`),
@@ -74,7 +112,7 @@ async function enablePlugin(name) {
 
             $.pluginsTable.ajax.reload(null, false);
         } else {
-            toastr.warning(msg);
+            swal({ type: 'warning', html: msg });
         }
     } catch (error) {
         showAjaxError(error);
@@ -93,7 +131,7 @@ async function disablePlugin(name) {
 
             $.pluginsTable.ajax.reload(null, false);
         } else {
-            toastr.warning(msg);
+            swal({ type: 'warning', html: msg });
         }
     } catch (error) {
         showAjaxError(error);
@@ -122,7 +160,7 @@ async function deletePlugin(name) {
 
             $.pluginsTable.ajax.reload(null, false);
         } else {
-            toastr.warning(msg);
+            swal({ type: 'warning', html: msg });
         }
     } catch (error) {
         showAjaxError(error);

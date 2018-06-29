@@ -171,11 +171,14 @@
             configurePlugin: 'Configure',
             noPluginConfigNotice: 'The plugin has been disabled or no configuration is provided.',
             deletePlugin: 'Delete',
+            noDependencies: 'No Dependencies',
+            whyDependencies: 'What\'s this?',
             statusEnabled: 'Enabled',
             statusDisabled: 'Disabled',
             enablePlugin: 'Enable',
             disablePlugin: 'Disable',
             confirmDeletion: 'Are you sure to delete this plugin?',
+            noDependenciesNotice: 'There is no dependency definition in the plugin. It means that the plugin may be not compatible with the current version of Blessing Skin, and enabling it may cause unexpected problems. Do you really want to enable the plugin?',
 
             // Update
             preparing: 'Preparing',

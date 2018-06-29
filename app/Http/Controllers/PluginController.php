@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use View;
 use Datatables;
 use App\Events;
+use App\Services\Plugin;
 use Illuminate\Http\Request;
 use App\Services\PluginManager;
 
@@ -46,9 +47,31 @@ class PluginController extends Controller
 
             switch ($request->get('action')) {
                 case 'enable':
+                    if (! $plugins->isRequirementsSatisfied($name)) {
+                        $msg = '';
+
+                        foreach ($plugins->getUnsatisfiedRequirements($name) as $name => $detail) {
+                            if (! $detail['version']) {
+                                $msg .= '<li>'.trans('admin.plugins.operations.unsatisfied.disabled', [
+                                    'name' => "<code>$name</code>"
+                                ]).'</li>';
+                            } else {
+                                $msg .= '<li>'.trans('admin.plugins.operations.unsatisfied.version', [
+                                    'name' => "<code>$name</code>",
+                                    'constraint' => "<code>{$detail['constraint']}</code>"
+                                ]).'</li>';
+                            }
+                        }
+
+                        return json('<p>'.trans('admin.plugins.operations.unsatisfied.notice')."</p><ul>$msg</ul>", 1);
+                    }
+
                     $plugins->enable($name);
 
                     return json(trans('admin.plugins.operations.enabled', ['plugin' => $plugin->title]), 0);
+
+                case 'requirements':
+                    return json($this->getPluginDependencies($plugin));
 
                 case 'disable':
                     $plugins->disable($name);
@@ -83,6 +106,9 @@ class PluginController extends Controller
             ->editColumn('author', function ($plugin) {
                 return ['author' => trans($plugin->author ?: 'EMPTY'), 'url' => $plugin->url];
             })
+            ->addColumn('dependencies', function ($plugin) {
+                return $this->getPluginDependencies($plugin);
+            })
             ->addColumn('status', function ($plugin) {
                 return trans('admin.plugins.status.'.($plugin->isEnabled() ? 'enabled' : 'disabled'));
             })
@@ -90,5 +116,16 @@ class PluginController extends Controller
                 return ['enabled' => $plugin->isEnabled(), 'hasConfigView' => $plugin->hasConfigView()];
             })
             ->make(true);
+    }
+
+    protected function getPluginDependencies(Plugin $plugin)
+    {
+        $plugins = app('plugins');
+
+        return [
+            'isRequirementsSatisfied' => $plugins->isRequirementsSatisfied($plugin->name),
+            'requirements' => $plugin->getRequirements(),
+            'unsatisfiedRequirements' => $plugins->getUnsatisfiedRequirements($plugin->name)
+        ];
     }
 }

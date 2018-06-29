@@ -35,6 +35,7 @@
                             <th>{{ trans('admin.plugins.description') }}</th>
                             <th>{{ trans('admin.plugins.author') }}</th>
                             <th>{{ trans('admin.plugins.version') }}</th>
+                            <th>{{ trans('admin.plugins.dependencies') }}</th>
                             <th>{{ trans('admin.plugins.status.title') }}</th>
                             <th>{{ trans('admin.plugins.operations.title') }}</th>
                         </tr>
