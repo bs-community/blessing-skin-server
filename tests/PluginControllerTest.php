@@ -83,7 +83,33 @@ class PluginControllerTest extends TestCase
                 'msg' => trans('admin.invalid-action')
             ]);
 
+        // Enable a plugin with unsatisfied dependencies
+        app('plugins')->getPlugin('avatar-api')->setRequirements([
+            'blessing-skin-server' => '^3.4.0',
+            'example-plugin' => '^6.6.6',
+            'whatever' => '^1.0.0'
+        ]);
+        app('plugins')->enable('example-plugin');
+        $this->post('/admin/plugins/manage', [
+            'name' => 'avatar-api',
+            'action' => 'enable'
+        ])->seeJson([
+            'errno' => 1,
+            'msg' => sprintf(
+                '<p>%s</p><ul><li>%s</li><li>%s</li></ul>',
+                trans('admin.plugins.operations.unsatisfied.notice'),
+                trans('admin.plugins.operations.unsatisfied.version', [
+                    'name' => "<code>example-plugin</code>",
+                    'constraint' => "<code>^6.6.6</code>"
+                ]),
+                trans('admin.plugins.operations.unsatisfied.disabled', [
+                    'name' => "<code>whatever</code>"
+                ])
+            )
+        ]);
+
         // Enable a plugin
+        app('plugins')->getPlugin('avatar-api')->setRequirements([]);
         $this->expectsEvents(App\Events\PluginWasEnabled::class);
         $this->post('/admin/plugins/manage', [
             'name' => 'avatar-api',
@@ -135,6 +161,7 @@ class PluginControllerTest extends TestCase
                     'url',
                     'namespace',
                     'status',
+                    'dependencies',
                     'operations' => ['enabled', 'hasConfigView']
                 ]]
             ]);

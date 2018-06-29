@@ -407,10 +407,20 @@ describe('tests for "plugins" module', () => {
 
   it('enable a plugin', async () => {
     const fetch = jest.fn()
+      .mockReturnValueOnce(Promise.resolve({ requirements: [] }))
+      .mockReturnValueOnce(Promise.resolve({ requirements: [] }))
       .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
+      .mockReturnValueOnce(Promise.resolve({
+        isRequirementsSatisfied: false,
+        requirements: { 'a': '^1.1.0', 'b': '^2.1.0', 'c': '^3.3.0' },
+        unsatisfiedRequirements: { 'c': '^3.3.0' }
+      }))
       .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
       .mockReturnValueOnce(Promise.reject());
     const url = jest.fn(path => path);
+    const swal = jest.fn()
+      .mockReturnValueOnce(Promise.reject())
+      .mockReturnValueOnce(Promise.resolve());
     const toastr = {
       success: jest.fn(),
       warning: jest.fn()
@@ -419,6 +429,7 @@ describe('tests for "plugins" module', () => {
     const showAjaxError = jest.fn();
     window.fetch = fetch;
     window.url = url;
+    window.swal = swal;
     window.toastr = toastr;
     window.showAjaxError = showAjaxError;
     $.pluginsTable = {
@@ -432,15 +443,28 @@ describe('tests for "plugins" module', () => {
     await enablePlugin('plugin');
     expect(fetch).toBeCalledWith({
       type: 'POST',
+      url: 'admin/plugins/manage?action=requirements&name=plugin',
+      dataType: 'json'
+    });
+    expect(swal).toBeCalledWith({
+      text: 'admin.noDependenciesNotice',
+      type: 'warning',
+      showCancelButton: true
+    });
+    expect(fetch.mock.calls.length).toBe(1);
+
+    await enablePlugin('plugin');
+    expect(fetch).toBeCalledWith({
+      type: 'POST',
       url: 'admin/plugins/manage?action=enable&name=plugin',
       dataType: 'json'
     });
-    expect(toastr.warning).not.toBeCalled();
+    expect(swal).not.toBeCalledWith({ type: 'warning' });
     expect(toastr.success).toBeCalledWith('success');
     expect(reloadTable).toBeCalledWith(null, false);
 
     await enablePlugin('plugin');
-    expect(toastr.warning).toBeCalledWith('warning');
+    expect(swal).toBeCalledWith({ type: 'warning', html: 'warning' });
 
     await enablePlugin('plugin');
     expect(showAjaxError).toBeCalled();
@@ -476,12 +500,12 @@ describe('tests for "plugins" module', () => {
       url: 'admin/plugins/manage?action=disable&name=plugin',
       dataType: 'json'
     });
-    expect(toastr.warning).not.toBeCalled();
+    expect(swal).not.toBeCalledWith({ type: 'warning' });
     expect(toastr.success).toBeCalledWith('success');
     expect(reloadTable).toBeCalledWith(null, false);
 
     await disablePlugin('plugin');
-    expect(toastr.warning).toBeCalledWith('warning');
+    expect(swal).toBeCalledWith({ type: 'warning', html: 'warning' });
 
     await disablePlugin('plugin');
     expect(showAjaxError).toBeCalled();
@@ -529,12 +553,12 @@ describe('tests for "plugins" module', () => {
       url: 'admin/plugins/manage?action=delete&name=plugin',
       dataType: 'json'
     });
-    expect(toastr.warning).not.toBeCalled();
+    expect(swal).not.toBeCalledWith({ type: 'warning' });
     expect(toastr.success).toBeCalledWith('success');
     expect(reloadTable).toBeCalledWith(null, false);
 
     await deletePlugin('plugin');
-    expect(toastr.warning).toBeCalledWith('warning');
+    expect(swal).toBeCalledWith({ type: 'warning', html: 'warning' });
 
     await deletePlugin('plugin');
     expect(showAjaxError).toBeCalled();
