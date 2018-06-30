@@ -6,6 +6,7 @@ use DB;
 use View;
 use Utils;
 use Illuminate\Http\Request;
+use Composer\Semver\Comparator;
 use Illuminate\Support\ServiceProvider;
 use App\Exceptions\PrettyPageException;
 use App\Http\Controllers\SetupController;
@@ -80,7 +81,7 @@ class BootServiceProvider extends ServiceProvider
             return redirect('/setup')->send();
         }
 
-        if (Utils::versionCompare(config('app.version'), option('version', ''), '>')) {
+        if (Comparator::greaterThan(config('app.version'), option('version'))) {
             return redirect('/setup/update')->send();
         }
 

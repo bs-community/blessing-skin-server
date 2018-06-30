@@ -56,67 +56,6 @@ class Utils
         return false;
     }
 
-    /**
-     * Compares two "PHP-standardized" version number strings.
-     * Unlike version_compare(), this method will determine that versions with suffix are lower.
-     *
-     * e.g. 3.2-beta > 3.2-alpha
-     *      3.2 > 3.2-beta
-     *      3.2 > 3.2-pre-release
-     *      3.2 > 3.2-pr8
-     *
-     * @param  string $version1
-     * @param  string $version2
-     * @param  string $operator
-     * @return mixed
-     */
-    public static function versionCompare($version1, $version2, $operator = null)
-    {
-        $versions = [$version1, $version2];
-
-        // Pre-processing for version contains hyphen
-        foreach ([0, 1] as $offset) {
-            if (false !== ($result = self::parseVersionWithHyphen($versions[$offset]))) {
-                $versions[$offset] = $result;
-            } else {
-                $versions[$offset] = ['main' => $versions[$offset], 'sub' => ''];
-            }
-        }
-
-        if (version_compare($versions[0]['main'], $versions[1]['main'], '=')) {
-            $sub1 = $versions[0]['sub'];
-            $sub2 = $versions[1]['sub'];
-
-            // v3.2-pr < v3.2
-            if ($sub1 != "" || $sub2 != "") {
-                // If both of sub-versions are not empty
-                if ($sub1 != "" && $sub2 != "") {
-                    return version_compare($sub1, $sub2, $operator);
-                } else {
-                    $result = version_compare($sub1, $sub2, $operator);
-                    // Reverse the result since version_compare() will determine that "beta" > ""
-                    return ($operator == "=") ? $result : !$result;
-                }
-            }
-        }
-
-        return version_compare($versions[0]['main'], $versions[1]['main'], $operator);
-    }
-
-    public static function parseVersionWithHyphen($version)
-    {
-        preg_match('/([^-]*)-(.*)/', $version, $matches);
-
-        if (isset($matches[2])) {
-            return [
-                'main' => $matches[1],
-                'sub'  => $matches[2]
-            ];
-        }
-
-        return false;
-    }
-
     public static function download($url, $path)
     {
         @set_time_limit(0);

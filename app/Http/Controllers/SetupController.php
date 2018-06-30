@@ -11,6 +11,7 @@ use Storage;
 use Artisan;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Composer\Semver\Comparator;
 use Illuminate\Validation\Validator;
 use App\Exceptions\PrettyPageException;
 
@@ -119,7 +120,7 @@ class SetupController extends Controller
 
     public function update()
     {
-        if (Utils::versionCompare(config('app.version'), option('version', ''), '<=')) {
+        if (Comparator::lessThanOrEqualTo(config('app.version'), option('version'))) {
             // No updates available
             return view('setup.locked');
         }
@@ -140,7 +141,7 @@ class SetupController extends Controller
 
                 // Skip if the file is not valid or expired
                 if (! isset($matches[2]) ||
-                    Utils::versionCompare($matches[2], config('app.version'), '<')) {
+                    Comparator::lessThan($matches[2], config('app.version'))) {
                     continue;
                 }
 

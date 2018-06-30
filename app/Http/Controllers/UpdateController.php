@@ -11,6 +11,7 @@ use Storage;
 use ZipArchive;
 use App\Services\OptionForm;
 use Illuminate\Http\Request;
+use Composer\Semver\Comparator;
 
 class UpdateController extends Controller
 {
@@ -46,9 +47,9 @@ class UpdateController extends Controller
         if ($this->getUpdateInfo()) {
             $info['latest_version'] = $this->getUpdateInfo('latest_version');
 
-            $info['new_version_available'] = Utils::versionCompare(
+            $info['new_version_available'] = Comparator::greaterThan(
                 $info['latest_version'],
-                $info['current_version'], '>'
+                $info['current_version']
             );
 
             if ($detail = $this->getReleaseInfo($info['latest_version'])) {
@@ -96,7 +97,7 @@ class UpdateController extends Controller
     {
         $latest = $this->getUpdateInfo('latest_version');
 
-        return Utils::versionCompare($latest, $this->currentVersion, '>') && $this->getReleaseInfo($latest);
+        return Comparator::greaterThan($latest, $this->currentVersion) && $this->getReleaseInfo($latest);
     }
 
     public function download(Request $request)
