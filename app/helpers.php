@@ -96,6 +96,21 @@ if (! function_exists('json')) {
     }
 }
 
+if (! function_exists('bs_hash_file')) {
+
+    function bs_hash_file(Illuminate\Http\UploadedFile $file)
+    {
+        // Try to get hash from event listener
+        $responses = event(new App\Events\HashingFile($file));
+        if (isset($responses[0]) && is_string($responses[0])) {
+            return $responses[0];
+        }
+
+        // Default to sha256 hash
+        return hash_file('sha256', $file);
+    }
+}
+
 if (! function_exists('bs_footer_extra')) {
 
     function bs_footer_extra()

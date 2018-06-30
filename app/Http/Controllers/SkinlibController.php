@@ -163,7 +163,7 @@ class SkinlibController extends Controller
         $t->name      = $request->input('name');
         $t->type      = $request->input('type');
         $t->likes     = 1;
-        $t->hash      = Utils::upload($request->file('file'));
+        $t->hash      = bs_hash_file($request->file('file'));
         $t->size      = ceil($request->file('file')->getSize() / 1024);
         $t->public    = ($request->input('public') == 'true') ? "1" : "0";
         $t->uploader  = $this->user->uid;
@@ -187,6 +187,10 @@ class SkinlibController extends Controller
                     ]);
                 }
             }
+        }
+
+        if (! Storage::disk('textures')->exists($t->hash)) {
+            Storage::disk('textures')->put($t->hash, file_get_contents($request->file('file')));
         }
 
         $t->save();

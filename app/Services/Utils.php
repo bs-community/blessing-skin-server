@@ -117,28 +117,6 @@ class Utils
         return false;
     }
 
-    /**
-     * Rename uploaded file
-     *
-     * @param  \Illuminate\Http\UploadedFile $file The Files uploaded via HTTP POST
-     * @return string                        $hash The sha256 hash of file
-     * @throws \Exception
-     */
-    public static function upload($file)
-    {
-        $hash = hash_file('sha256', $file);
-        try {
-            $storage = Storage::disk('textures');
-            if (! $storage->exists($hash)) {
-                $storage->put($hash, file_get_contents($file));
-            }
-        } catch (\Exception $e) {
-            Log::warning("Failed to upload file {$file->getFilename()}");
-            throw new \Exception("Failed to upload file {$file->getFilename()}");
-        }
-        return $hash;
-    }
-
     public static function download($url, $path)
     {
         @set_time_limit(0);
