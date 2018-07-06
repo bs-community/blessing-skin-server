@@ -195,7 +195,10 @@ class AuthController extends Controller
             });
 
             Log::info("[Password Reset] Mail has been sent to [{$request->input('email')}] with token [$token]");
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
+            // Write the exception to log
+            app(\Illuminate\Foundation\Exceptions\Handler::class)->report($e);
+
             return json(trans('auth.mail.failed', ['msg' => $e->getMessage()]), 2);
         }
 
