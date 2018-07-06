@@ -317,13 +317,13 @@ class OptionForm
     protected function getValueById($id)
     {
         if (false === ($result = $this->parseIdWithOffset($id))) {
-            return Arr::get($this->values, $id, option($id));
+            return Arr::get($this->values, $id, option_localized($id));
         } else {
             $option = Arr::get(
                 $this->values,
                 $result['id'],
                 // Fallback to load from options
-                @unserialize(option($result['id']))
+                @unserialize(option_localized($result['id']))
             );
 
             return Arr::get($option, $result['offset']);
@@ -628,7 +628,7 @@ class OptionFormGroup extends OptionFormItem
 
         foreach ($this->items as $item) {
             if ($item['id'] && is_null($item['value'])) {
-                $item['value'] = option($item['id']);
+                $item['value'] = option_localized($item['id']);
             }
 
             $rendered[] = view('common.option-form.'.$item['type'])->with([

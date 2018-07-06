@@ -257,9 +257,10 @@ if (! function_exists('bs_custom_copyright')) {
 
     function bs_custom_copyright()
     {
-        $localizedCopyrightText = option('copyright_text_'.config('app.locale'), option('copyright_text'));
-
-        return Utils::getStringReplaced($localizedCopyrightText, ['{site_name}' => Option::get('site_name'), '{site_url}' => Option::get('site_url')]);
+        return Utils::getStringReplaced(option_localized('copyright_text'), [
+            '{site_name}' => option_localized('site_name'),
+            '{site_url}' => option('site_url')
+        ]);
     }
 }
 
@@ -267,9 +268,7 @@ if (! function_exists('bs_announcement')) {
 
     function bs_announcement()
     {
-        $localizedAnnouncement = option('announcement_'.config('app.locale'), option('announcement'));
-
-        return app('parsedown')->text($localizedAnnouncement);
+        return app('parsedown')->text(option_localized('announcement'));
     }
 }
 
@@ -329,6 +328,14 @@ if (! function_exists('option')) {
         }
 
         return $options->get($key, $default, $raw);
+    }
+}
+
+if (! function_exists('option_localized')) {
+
+    function option_localized($key = null, $default = null, $raw = false)
+    {
+        return option($key.'_'.config('app.locale'), option($key));
     }
 }
 
