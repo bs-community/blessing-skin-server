@@ -123,11 +123,14 @@
                 <hr />
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <p class="text-center">{{ trans('user.score-intro.rates.storage', ['score' => option('score_per_storage')]) }}</p>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <p class="text-center">{{ trans('user.score-intro.rates.player', ['score' => option('score_per_player')]) }}</p>
+                    </div>
+                    <div class="col-md-4">
+                        <p class="text-center">{{ trans('user.score-intro.rates.closet', ['score' => option('score_per_closet_item')]) }}</p>
                     </div>
                 </div>
             </div>

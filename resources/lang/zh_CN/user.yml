@@ -17,22 +17,17 @@ announcement: 公告
 score-intro:
   title: 积分是个啥？
   introduction: |
-    「既然你诚心诚意地发问了！」
-    「那我们就大发慈悲地告诉你！」
-    「为了守护皮肤站的和平」
-    「为了防止皮肤站被破坏」
-    「贯彻爱与真实的。。呸！」上面只是卖下萌~
+    为了防止用户滥用材质上传功能导致占用过多的存储空间，本站已启用积分系统。
+    添加角色、上传材质，以及添加皮肤库里的材质到衣柜等操作均会消耗积分。
+    :return-score
 
-    为了不出现用户一个劲上传材质导致存储空间爆满，我们决定启用积分系统。
-    添加角色以及上传材质都会消耗积分，:return-score。
-
-    本站用户初始积分为 :initial_score，每日签到可以随机获得 :score-from ~ :score-to 积分
-    添加皮肤库里的材质到衣柜不消耗积分。
-  will-return-score: 而删除已经添加的角色和已上传的材质时积分将会被返还
-  no-return-score: 但删除已经添加的角色和已上传的材质时积分不会被返还
+    本站用户初始积分为 :initial_score，每日签到可以随机获得 :score-from ~ :score-to 积分。
+  will-return-score: 删除已经添加的角色、已上传的材质、衣柜中的收藏物品时将会返还相应积分。
+  no-return-score: 删除已经添加的角色、已上传的材质、衣柜中的收藏物品时不会返还相应积分。
   rates:
     storage: :score 积分 = 1 KB 存储空间
     player: :score 积分 = 1 个角色
+    closet: :score 积分 = 1 个衣柜收藏
 
 closet:
   upload: 上传材质

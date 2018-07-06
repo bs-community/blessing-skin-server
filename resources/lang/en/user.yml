@@ -18,14 +18,16 @@ score-intro:
   title: What is score?
   introduction: |
     We use score system to prevent the behaviors like uplaoding huge amount of textures and registering players casually.
-    Both adding players and uplaoding textures will consume your score. :return-score
+    Either adding players, uplaoding textures or adding a skinlib item to your closet will consume scores.
+    :return-score
 
-    The inital score of user on this site is :initial_score, you can acquire :score-from ~ :score-to scores by signing in.
-  will-return-score: The score will be returned if you deleted them.
-  no-return-score: But the score will NOT be returned if you deleted them.
+    New users will get :initial_score scores initially, and you can acquire :score-from ~ :score-to scores by daily signing in.
+  will-return-score: The score will be returned if you deleted players, uploaded textures or closet items.
+  no-return-score: The score will NOT be returned if you deleted players, uploaded textures or closet items.
   rates:
     storage: :score scores = 1 KB storage
     player: :score scores = 1 player
+    closet: :score socres = 1 closet item
 
 closet:
   upload: Upload Texture
