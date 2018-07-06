@@ -12,8 +12,8 @@ class HomeControllerTest extends TestCase
     public function testIndex()
     {
         $this->get('/')
-            ->see(option('site_name'))
-            ->see(option('site_description'))
+            ->see(option_localized('site_name'))
+            ->see(option_localized('site_description'))
             ->assertViewHas('home_pic_url', option('home_pic_url'));
 
         $this->visit('/')->click('Log In')->seePageIs('/auth/login');

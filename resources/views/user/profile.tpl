@@ -92,7 +92,7 @@
                         </div><!-- /.box-header -->
                         <div class="box-body">
                         @if (!$user->isAdmin())
-                        <p>{{ trans('user.profile.delete.notice', ['site' => option('site_name')]) }}</p>
+                        <p>{{ trans('user.profile.delete.notice', ['site' => option_localized('site_name')]) }}</p>
                         <button id="delete" class="btn btn-danger" data-toggle="modal" data-target="#modal-delete-account">{{ trans('user.profile.delete.button') }}</button>
                         @else
                         <p>{{ trans('user.profile.delete.admin') }}</p>

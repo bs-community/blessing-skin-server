@@ -66,7 +66,9 @@ general:
   title: 常规选项
 
   site_name: 站点标题
-  site_description: 站点描述
+  site_description:
+    title: 站点描述
+    description: 每种支持的语言都可以对应不同的站点标题与站点描述文本，如果想要编辑某种特定语言下的站点标题与描述，请在右上角切换至该语言后再提交修改。
   site_url:
     title: 站点地址（URL）
     hint: 以 http(s):// 开头，不要以 / 结尾

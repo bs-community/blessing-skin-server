@@ -459,7 +459,7 @@ class AuthControllerTest extends TestCase
 
                     $mock->shouldReceive('from')
                         ->once()
-                        ->with(option('mail.username'), option('site_name'));
+                        ->with(option('mail.username'), option_localized('site_name'));
 
                     $mock->shouldReceive('to')
                         ->once()
@@ -468,7 +468,7 @@ class AuthControllerTest extends TestCase
 
                     $mock->shouldReceive('subject')
                         ->once()
-                        ->with(trans('auth.mail.title', ['sitename' => option('site_name')]));
+                        ->with(trans('auth.mail.title', ['sitename' => option_localized('site_name')]));
                     $closure($mock);
                     return true;
                 })

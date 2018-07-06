@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
             // Provide some application information for javascript
             $blessing = array_merge(array_except(config('app'), ['key', 'providers', 'aliases', 'cipher', 'log', 'url']), [
                 'base_url' => url('/'),
-                'site_name' => option('site_name')
+                'site_name' => option_localized('site_name')
             ]);
 
             $event->addContent('<script>var blessing = '.json_encode($blessing).';</script>');

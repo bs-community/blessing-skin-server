@@ -4,9 +4,9 @@
 <center>
     <div style="margin:0 auto;width:580px;background:#fff;text-align:left">
         <h1 style="margin:0 40px;color:#999;border-bottom:1px dotted #ddd;padding:40px 0 30px;text-align:center;font-size: 35px;font-family:Minecraft,Copperplate,'Copperplate Gothic Light',Palatino,'Palatino Linotype','Palatino LT STD',Georgia,'Microsoft Yahei','Microsoft Jhenghei',serif">
-            {{ option('site_name') }}
+            {{ option_localized('site_name') }}
         </h1>
-        <div style="padding:30px 40px 40px">{!! trans('auth.mail.message', ['sitename' => "<a style='color:#009a61;text-decoration:none' href='".option('site_url')."'>".option('site_name')."</a>"]) !!}<br><br>
+        <div style="padding:30px 40px 40px">{!! trans('auth.mail.message', ['sitename' => "<a style='color:#009a61;text-decoration:none' href='".option('site_url')."'>".option_localized('site_name')."</a>"]) !!}<br><br>
             <div style="border-left:5px solid #ddd;padding:0 0 0 24px;color:#888">
                 {{ trans('auth.mail.ignore')  }}
             </div>

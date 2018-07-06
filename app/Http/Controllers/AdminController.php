@@ -155,7 +155,8 @@ class AdminController extends Controller
         $general = Option::form('general', OptionForm::AUTO_DETECT, function($form)
         {
             $form->text('site_name');
-            $form->text('site_description');
+            $form->text('site_description')->description();
+
             $form->text('site_url')
                 ->hint()
                 ->format(function ($url) {
@@ -207,13 +208,14 @@ class AdminController extends Controller
 
             $form->checkbox('allow_sending_statistics')->label()->hint();
 
-        })->handle();
+        })->handle(function () {
+            Option::set('site_name_'.config('app.locale'), request('site_name'));
+            Option::set('site_description_'.config('app.locale'), request('site_description'));
+        });
 
         $announ = Option::form('announ', OptionForm::AUTO_DETECT, function ($form) {
             $form->textarea('announcement')->rows(10)->description();
-        })->renderWithOutTable()->with('announcement',
-            option('announcement_'.config('app.locale'), option('announcement'))
-        )->handle(function () {
+        })->renderWithOutTable()->handle(function () {
             Option::set('announcement_'.config('app.locale'), request('announcement'));
         });
 

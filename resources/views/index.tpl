@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{{ option('site_name') }}</title>
+    <title>{{ option_localized('site_name') }}</title>
     {!! bs_favicon() !!}
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -19,7 +19,7 @@
             <nav class="navbar navbar-fixed-top">
                 <div class="container">
                     <div class="navbar-header">
-                        <a href="{{ option('site_url') }}" class="navbar-brand">{{ option('site_name') }}</a>
+                        <a href="{{ option('site_url') }}" class="navbar-brand">{{ option_localized('site_name') }}</a>
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                             <i class="fa fa-bars"></i>
                         </button>
@@ -53,9 +53,9 @@
 
         <div class="container">
             <div class="splash">
-                <h1 class="splash-head">{{ option('site_name') }}</h1>
+                <h1 class="splash-head">{{ option_localized('site_name') }}</h1>
                 <p class="splash-subhead">
-                    {{ option('site_description') }}
+                    {{ option_localized('site_description') }}
                 </p>
                 <p>
                     @if (is_null($user))
@@ -102,7 +102,7 @@
     <div id="footerwrap">
         <div class="container">
             <div class="col-lg-6">
-                {{ trans('index.introduction', ['sitename' => option('site_name')]) }}
+                {{ trans('index.introduction', ['sitename' => option_localized('site_name')]) }}
             </div>
 
             <div class="col-lg-6">

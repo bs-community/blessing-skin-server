@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>@yield('title') - {{ option('site_name') }}</title>
+    <title>@yield('title') - {{ option_localized('site_name') }}</title>
     {!! bs_favicon() !!}
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -24,7 +24,7 @@
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"> <i class="fa fa-bookmark"></i> </span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg">{{ option('site_name') }}</span>
+                <span class="logo-lg">{{ option_localized('site_name') }}</span>
             </a>
 
             <!-- Header Navbar -->

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>@yield('title') - {{ option('site_name') }}</title>
+    <title>@yield('title') - {{ option_localized('site_name') }}</title>
     {!! bs_favicon() !!}
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -21,7 +21,7 @@
                 <div class="container">
                     <div class="navbar-header">
                         <a href="{{ option('site_url') }}" class="navbar-brand">
-                            {{ option('site_name') }}
+                            {{ option_localized('site_name') }}
                         </a>
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
                             <i class="fa fa-bars"></i>

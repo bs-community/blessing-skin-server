@@ -6,7 +6,7 @@
 
 <div class="login-box">
     <div class="login-logo">
-        <a href="{{ url('/') }}">{{ option('site_name') }}</a>
+        <a href="{{ url('/') }}">{{ option_localized('site_name') }}</a>
     </div>
 
     <div class="login-box-body">

@@ -113,8 +113,8 @@ class AdminControllerTest extends TestCase
             ->type('code', 'comment_script')
             ->uncheck('allow_sending_statistics')
             ->press('submit_general');
-        $this->assertEquals('My Site', option('site_name'));
-        $this->assertEquals('hi', option('site_description'));
+        $this->assertEquals('My Site', option_localized('site_name'));
+        $this->assertEquals('hi', option_localized('site_description'));
         $this->assertEquals('http://blessing.skin', option('site_url'));
         $this->assertFalse(option('user_can_register'));
         $this->assertEquals('8', option('regs_per_ip'));
