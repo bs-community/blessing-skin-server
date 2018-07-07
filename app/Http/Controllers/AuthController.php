@@ -156,7 +156,7 @@ class AuthController extends Controller
 
     public function forgot()
     {
-        if (config('mail.host') != "") {
+        if (config('mail.driver') != "") {
             return view('auth.forgot');
         } else {
             throw new PrettyPageException(trans('auth.forgot.close'), 8);
@@ -168,7 +168,7 @@ class AuthController extends Controller
         if (! $this->checkCaptcha($request))
             return json(trans('auth.validation.captcha'), 1);
 
-        if (config('mail.host') == "")
+        if (config('mail.driver') == "")
             return json(trans('auth.forgot.close'), 1);
 
         if (Session::has('last_mail_time') && (time() - session('last_mail_time')) < 60)
@@ -188,7 +188,7 @@ class AuthController extends Controller
 
         try {
             Mail::send('auth.mail', ['reset_url' => $url], function ($m) use ($request) {
-                $site_name = Option::get('site_name');
+                $site_name = option_localized('site_name');
 
                 $m->from(config('mail.username'), $site_name);
                 $m->to($request->input('email'))->subject(trans('auth.mail.title', ['sitename' => $site_name]));
