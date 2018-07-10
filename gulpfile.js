@@ -4,7 +4,7 @@ var gulp        = require('gulp'),
     babel       = require('gulp-babel'),
     eslint      = require('gulp-eslint'),
     uglify      = require('gulp-uglify'),
-    sass        = require('gulp-sass'),
+    stylus      = require('gulp-stylus'),
     cleanCss    = require('gulp-clean-css'),
     del         = require('del'),
     exec        = require('child_process').exec,
@@ -79,7 +79,7 @@ gulp.task('default', ['build']);
 
 // Build the things!
 gulp.task('build', callback => {
-    runSequence('clean', 'lint', ['compile-es6', 'compile-sass'], 'publish-vendor', 'notify', callback);
+    runSequence('clean', 'lint', ['compile-es6', 'compile-stylus'], 'publish-vendor', 'notify', callback);
 });
 
 // Send a notification
@@ -131,11 +131,11 @@ gulp.task('publish-vendor', ['compile-es6'], callback => {
     callback();
 });
 
-// Compile sass to css
-gulp.task('compile-sass', () => {
-    return gulp.src(`${srcPath}/sass/*.scss`)
+// Compile stylus to css
+gulp.task('compile-stylus', () => {
+    return gulp.src(`${srcPath}/stylus/*.styl`)
         .pipe(sourcemaps.init())
-        .pipe(sass().on('error', sass.logError))
+        .pipe(stylus())
         .pipe(cleanCss())
         .pipe(sourcemaps.write('./maps'))
         .pipe(gulp.dest(`${distPath}/css`));
@@ -212,14 +212,14 @@ gulp.task('zip', () => {
             '!vendor/mikey179/vfsStream/**',
         ], { dot: true })
         .pipe(zip(zipPath))
-        .pipe(notify('Don\'t forget to compile Sass & ES2015 files before publishing a release!'))
+        .pipe(notify('Don\'t forget to compile Stylus & ES2015 files before publishing a release!'))
         .pipe(gulp.dest('../'))
         .pipe(notify({ message: `Zip archive saved to ${zipPath}!` }));
 });
 
-gulp.task('watch', ['compile-sass', 'compile-es6'], () => {
+gulp.task('watch', ['compile-stylus', 'compile-es6'], () => {
     // watch .scss files
-    gulp.watch(`${srcPath}/sass/*.scss`, ['compile-sass'], () => notify('Sass files compiled!'));
+    gulp.watch(`${srcPath}/stylus/*.scss`, ['compile-stylus'], () => notify('Stylus files compiled!'));
     // watch .js files
     gulp.watch(`${srcPath}/js/**/*.js`, ['compile-es6'], () => notify('ES6 scripts compiled!'));
     gulp.watch(`${srcPath}/js/general.js`, ['publish-vendor']);
