@@ -41,7 +41,7 @@ class Closet
         $this->db  = DB::table('closets');
 
         // Create a new closet if not exists
-        if (! $this->db->where('uid', $uid)->get()) {
+        if ($this->db->where('uid', $uid)->isEmpty()) {
             $this->db->insert([
                 'uid'      => $uid,
                 'textures' => '[]'
