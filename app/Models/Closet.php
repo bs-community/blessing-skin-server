@@ -251,7 +251,7 @@ class Closet
     public static function all()
     {
         $result = [];
-        foreach (DB::table('closets')->lists('uid') as $uid) {
+        foreach (DB::table('closets')->pluck('uid') as $uid) {
             $result[] = new Closet($uid);
         }
         return $result;
