@@ -84,6 +84,8 @@ class ClosetController extends Controller
             $t->likes += 1;
             $t->save();
 
+            $this->closet->save();
+
             app('user.current')->setScore(option('score_per_closet_item'), 'minus');
 
             return json(trans('user.closet.add.success', ['name' => $request->input('name')]), 0);
@@ -100,6 +102,7 @@ class ClosetController extends Controller
         ]);
 
         if ($this->closet->rename($request->tid, $request->new_name)) {
+            $this->closet->save();
             return json(trans('user.closet.rename.success', ['name' => $request->new_name]), 0);
         } else {
             return json(trans('user.closet.remove.non-existent'), 1);
@@ -116,6 +119,8 @@ class ClosetController extends Controller
             $t = Texture::find($request->tid);
             $t->likes = $t->likes - 1;
             $t->save();
+
+            $this->closet->save();
 
             if (option('return_score'))
                 app('user.current')->setScore(option('score_per_closet_item'), 'plus');

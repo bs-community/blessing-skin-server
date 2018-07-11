@@ -228,6 +228,8 @@ class Closet
             return false;
         }
 
+        $this->closet_modified = false;
+
         return $this->setTextures($this->textures->values()->toJson());
     }
 
