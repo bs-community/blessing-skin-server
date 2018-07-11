@@ -23,7 +23,10 @@ class UserController extends Controller
 
     public function __construct(UserRepository $users)
     {
-        $this->user = $users->get(session('uid'));
+        $this->middleware(function ($request, $next) use ($users) {
+            $this->user = $users->get($request->session()->get('uid'));
+            return $next($request);
+        });
     }
 
     public function index()

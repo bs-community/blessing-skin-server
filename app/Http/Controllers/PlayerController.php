@@ -36,15 +36,21 @@ class PlayerController extends Controller
      */
     private $player;
 
-    public function __construct(Request $request, UserRepository $users)
+    public function __construct(UserRepository $users)
     {
-        $this->user = $users->get(session('uid'));
+        $this->middleware(function ($request, $next) use ($users) {
+            $uid = $request->session()->get('uid');
 
-        if ($request->has('pid')) {
-            if ($this->player = Player::find($request->pid)) {
-                $this->player->checkForInvalidTextures();
+            $this->user = $users->get($uid);
+
+            if ($request->has('pid')) {
+                if ($this->player = Player::find($request->pid)) {
+                    $this->player->checkForInvalidTextures();
+                }
             }
-        }
+
+            return $next($request);
+        });
 
         $this->middleware([CheckPlayerExist::class, CheckPlayerOwner::class], [
             'only' => ['delete', 'rename', 'setTexture', 'clearTexture', 'setPreference']

@@ -22,7 +22,10 @@ class ClosetController extends Controller
 
     public function __construct()
     {
-        $this->closet = new Closet(session('uid'));
+        $this->middleware(function ($request, $next) {
+            $this->closet = new Closet($request->session()->get('uid'));
+            return $next($request);
+        });
     }
 
     public function index()

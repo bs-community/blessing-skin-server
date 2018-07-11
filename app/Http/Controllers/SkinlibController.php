@@ -22,10 +22,10 @@ class SkinlibController extends Controller
 
     public function __construct(UserRepository $users)
     {
-        // Try to load user by uid stored in session.
-        // If there is no uid stored in session or the uid is invalid
-        // it will return a null value.
-        $this->user = $users->get(session('uid'));
+        $this->middleware(function ($request, $next) use ($users) {
+            $this->user = $users->get($request->session()->get('uid'));
+            return $next($request);
+        });
     }
 
     public function index()
