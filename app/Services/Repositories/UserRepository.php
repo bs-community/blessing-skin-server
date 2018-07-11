@@ -20,7 +20,7 @@ class UserRepository extends Repository
         if ($type == "uid") {
             return Arr::has($this->items, $identification);
         } else {
-            return (bool) Arr::where((array) $this->items, function($key, $value) use ($identification, $type) {
+            return (bool) Arr::where((array) $this->items, function($value) use ($identification, $type) {
                 if (property_exists($value, $type))
                     return false;
 
@@ -60,7 +60,7 @@ class UserRepository extends Repository
             return null;
         }
 
-        $result = Arr::where((array) $this->items, function($key, $value) use ($identification, $type) {
+        $result = Arr::where((array) $this->items, function($value) use ($identification, $type) {
             if (property_exists($value, $type))
                 return false;
 
