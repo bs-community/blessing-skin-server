@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Http\Response;
 use App\Exceptions\PrettyPageException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Foundation\Validation\ValidationException;
+use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
@@ -112,7 +112,7 @@ class Handler extends ExceptionHandler
         if (request()->isMethod('GET') && !request()->ajax()) {
             return response()->view('errors.exception', ['message' => $e->getMessage()]);
         } else {
-            return $e->getMessage();
+            return response($e->getMessage());
         }
     }
 }
