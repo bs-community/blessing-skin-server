@@ -10,7 +10,7 @@
     "erusev/parsedown": "^1.6",
     "swiggles/memcache": "^2.0",
     "doctrine/inflector": "1.1.0",
-    "laravel/framework": "5.2.*",
+    "laravel/framework": "5.3.*",
     "devitek/yaml-translation": "^2.0",
     "printempw/laravel-datatables-lite": "^1.0",
     "composer/semver": "^1.4"
