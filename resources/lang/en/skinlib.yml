@@ -61,6 +61,7 @@ upload:
 
   texture-name: Texture Name
   name-rule: Less than 32 characters and must not contain any special one.
+  name-rule-regexp: Custom name rules are applied. :regexp
   texture-type: Texture Type
   select-file: Select File
   private-score-notice: It will spend you more scores to set it as private. You will be charged :score scores for every KB storage.

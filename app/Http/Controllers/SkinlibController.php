@@ -310,7 +310,7 @@ class SkinlibController extends Controller
         }
 
         $this->validate($request, [
-            'name'   => 'required|no_special_chars',
+            'name'   => 'required|'.(option('texture_name_regexp') ? 'texture_name_regexp' : 'no_special_chars'),
             'file'   => 'required|max:'.option('max_upload_file_size'),
             'public' => 'required'
         ]);

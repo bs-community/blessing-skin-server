@@ -46,6 +46,10 @@ class ValidatorExtendServiceProvider extends ServiceProvider
             return preg_match($regexp, $value);
         });
 
+        Validator::extend('texture_name_regexp', function ($a, $value, $p, $v) {
+            return preg_match(option('texture_name_regexp'), $value);
+        });
+
         Validator::extend('preference', function ($a, $value, $p, $v) {
             return preg_match('/^(default|slim)$/', $value);
         });
