@@ -19,7 +19,7 @@
     "fzaninotto/faker": "~1.4",
     "mockery/mockery": "0.9.*",
     "phpdocumentor/reflection-docblock": "3.2.2",
-    "phpunit/phpunit": "~4.0",
+    "phpunit/phpunit": "~5.0",
     "symfony/css-selector": "3.1.*",
     "symfony/dom-crawler": "3.1.*",
     "barryvdh/laravel-debugbar": "^2.3",
