@@ -32,6 +32,8 @@ class UpdateController extends Controller
 
     public function showUpdatePage()
     {
+        $this->refreshInfo();
+
         $info = [
             'latest_version'  => '',
             'current_version' => $this->currentVersion,
@@ -87,6 +89,8 @@ class UpdateController extends Controller
 
     public function checkUpdates()
     {
+        $this->refreshInfo();
+
         return json([
             'latest' => $this->getUpdateInfo('latest_version'),
             'available' => $this->newVersionAvailable()
@@ -102,6 +106,8 @@ class UpdateController extends Controller
 
     public function download(Request $request)
     {
+        $this->refreshInfo();
+
         $action = $request->input('action');
 
         if (! $this->newVersionAvailable()) return;
@@ -241,6 +247,17 @@ class UpdateController extends Controller
     protected function getReleaseInfo($version)
     {
         return Arr::get($this->getUpdateInfo('releases'), $version);
+    }
+
+    /**
+     * Only used in testing.
+     */
+    protected function refreshInfo()
+    {
+        if (config('app.env') == 'testing') {
+            $this->updateSource = option('update_source');
+            $this->currentVersion = config('app.version');
+        }
     }
 
 }

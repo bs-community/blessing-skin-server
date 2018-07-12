@@ -60,6 +60,7 @@ class UpdateControllerTest extends TestCase
     {
         option(['update_source' => 'http://xxx.xx/']);
         $this->visit('/admin/update')
+            ->see(trans('admin.update.info.pre-release'))
             ->see(trans('admin.update.errors.connection'))
             ->see(config('app.version'))
             ->uncheck('check_update')
@@ -71,18 +72,13 @@ class UpdateControllerTest extends TestCase
             option('update_source')
         );
 
+        option(['update_source' => vfs\vfsStream::url('root/update.json')]);
         $time = $this->generateFakeUpdateInfo('4.0.0');
         $this->visit('/admin/update')
             ->see(config('app.version'))
             ->see('4.0.0')
             ->see('test')
             ->see($time);
-
-        file_put_contents(vfs\vfsStream::url('root/update.json'), json_encode([
-            'latest_version' => '4.0.0'
-        ]));
-        $this->visit('/admin/update')
-            ->see(trans('admin.update.info.pre-release'));
     }
 
     public function testCheckUpdates()
@@ -117,12 +113,12 @@ class UpdateControllerTest extends TestCase
         Storage::disk('root')->deleteDirectory('storage/update_cache');
         $this->generateFakeUpdateInfo('4.0.0');
         Storage::shouldReceive('disk')
-            ->with('root')
             ->once()
+            ->with('root')
             ->andReturnSelf();
         Storage::shouldReceive('makeDirectory')
-            ->with('storage/update_cache')
             ->once()
+            ->with('storage/update_cache')
             ->andReturn(false);
         $this->get('/admin/update/download?action=prepare-download')
             ->see(trans('admin.update.errors.write-permission'));
