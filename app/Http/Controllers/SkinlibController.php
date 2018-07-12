@@ -104,8 +104,9 @@ class SkinlibController extends Controller
                             ->get();
 
         if (! $anonymous) {
+            $closet = new Closet($this->user->uid);
             foreach ($textures as $item) {
-                $item->liked = $this->user->getCloset()->has($item->tid);
+                $item->liked = $closet->has($item->tid);
             }
         }
 
