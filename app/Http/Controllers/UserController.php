@@ -69,6 +69,11 @@ class UserController extends Controller
      */
     public function sign()
     {
+        // Hacking for testing
+        if (config('app.env') == 'testing') {
+            $this->user = User::find($this->user->uid);
+        }
+
         if ($this->user->canSign()) {
             $acquiredScore = $this->user->sign();
 
