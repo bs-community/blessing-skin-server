@@ -156,6 +156,11 @@ class SkinlibController extends Controller
 
     public function handleUpload(Request $request)
     {
+        // Hacking for testing
+        if (config('app.env') == 'testing') {
+            $this->user = User::find($this->user->uid);
+        }
+
         if (($response = $this->checkUpload($request)) instanceof JsonResponse) {
             return $response;
         }
