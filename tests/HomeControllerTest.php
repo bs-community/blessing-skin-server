@@ -12,16 +12,9 @@ class HomeControllerTest extends TestCase
     public function testIndex()
     {
         $this->get('/')
-            ->see(option_localized('site_name'))
-            ->see(option_localized('site_description'))
+            ->assertSee(option_localized('site_name'))
+            ->assertSee(option_localized('site_description'))
             ->assertViewHas('home_pic_url', option('home_pic_url'));
-
-        $this->visit('/')->click('Log In')->seePageIs('/auth/login');
-        $this->visit('/')->click('#btn-register')->seePageIs('/auth/register');
-
-        // Nav bar
-        $this->visit('/')->click('Homepage')->seePageIs('/');
-        $this->visit('/')->click('Skin Library')->seePageIs('/skinlib');
     }
 
     public function testRenderingHeaderEvent()
@@ -29,7 +22,7 @@ class HomeControllerTest extends TestCase
         Event::listen(RenderingHeader::class, function (RenderingHeader $event) {
             $event->addContent('testing custom header');
         });
-        $this->visit('/')->see('testing custom header');
+        $this->get('/')->assertSee('testing custom header');
 
         Event::listen(RenderingHeader::class, function (RenderingHeader $event) {
             $event->addContent(new stdClass());
@@ -42,7 +35,7 @@ class HomeControllerTest extends TestCase
         Event::listen(RenderingFooter::class, function (RenderingFooter $event) {
             $event->addContent('testing custom footer');
         });
-        $this->visit('/')->see('testing custom footer');
+        $this->get('/')->assertSee('testing custom footer');
 
         Event::listen(RenderingFooter::class, function (RenderingFooter $event) {
             $event->addContent(new stdClass());
