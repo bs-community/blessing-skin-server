@@ -44,41 +44,39 @@ class PluginControllerTest extends TestCase
 
     public function testShowManage()
     {
-        $this->visit('/admin/plugins/manage')
-            ->see(trans('general.plugin-manage'));
+        $this->get('/admin/plugins/manage')
+            ->assertSee(trans('general.plugin-manage'));
     }
 
     public function testConfig()
     {
         // Plugin is disabled
         $this->get('/admin/plugins/config/example-plugin')
-            ->see(trans('admin.plugins.operations.no-config-notice'))
-            ->assertResponseStatus(404);
+            ->assertStatus(404);
 
         // Plugin is enabled but it doesn't have config view
         plugin('avatar-api')->setEnabled(true);
         $this->get('/admin/plugins/config/avatar-api')
-            ->see(trans('admin.plugins.operations.no-config-notice'))
-            ->assertResponseStatus(404);
+            ->assertStatus(404);
 
         // Plugin has config view
         plugin('example-plugin')->setEnabled(true);
         $this->get('/admin/plugins/config/example-plugin')
-            ->assertResponseStatus(200);
+            ->assertSuccessful();
     }
 
     public function testManage()
     {
         // An not-existed plugin
-        $this->post('/admin/plugins/manage', ['name' => 'nope'])
-            ->seeJson([
+        $this->postJson('/admin/plugins/manage', ['name' => 'nope'])
+            ->assertJson([
                 'errno' => 1,
                 'msg' => trans('admin.plugins.operations.not-found')
             ]);
 
         // Invalid action
-        $this->post('/admin/plugins/manage', ['name' => 'avatar-api'])
-            ->seeJson([
+        $this->postJson('/admin/plugins/manage', ['name' => 'avatar-api'])
+            ->assertJson([
                 'errno' => 1,
                 'msg' => trans('admin.invalid-action')
             ]);
@@ -90,10 +88,10 @@ class PluginControllerTest extends TestCase
             'whatever' => '^1.0.0'
         ]);
         app('plugins')->enable('example-plugin');
-        $this->post('/admin/plugins/manage', [
+        $this->postJson('/admin/plugins/manage', [
             'name' => 'avatar-api',
             'action' => 'enable'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 1,
             'msg' => trans('admin.plugins.operations.unsatisfied.notice'),
             'reason' => [
@@ -110,10 +108,10 @@ class PluginControllerTest extends TestCase
         // Enable a plugin
         app('plugins')->getPlugin('avatar-api')->setRequirements([]);
         $this->expectsEvents(App\Events\PluginWasEnabled::class);
-        $this->post('/admin/plugins/manage', [
+        $this->postJson('/admin/plugins/manage', [
             'name' => 'avatar-api',
             'action' => 'enable'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 0,
             'msg' => trans(
                 'admin.plugins.operations.enabled',
@@ -122,10 +120,10 @@ class PluginControllerTest extends TestCase
         ]);
 
         // Disable a plugin
-        $this->post('/admin/plugins/manage', [
+        $this->postJson('/admin/plugins/manage', [
             'name' => 'avatar-api',
             'action' => 'disable'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 0,
             'msg' => trans(
                 'admin.plugins.operations.disabled',
@@ -135,10 +133,10 @@ class PluginControllerTest extends TestCase
         $this->expectsEvents(App\Events\PluginWasDisabled::class);
 
         // Delete a plugin
-        $this->post('/admin/plugins/manage', [
+        $this->postJson('/admin/plugins/manage', [
             'name' => 'avatar-api',
             'action' => 'delete'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 0,
             'msg' => trans('admin.plugins.operations.deleted')
         ]);
@@ -148,8 +146,8 @@ class PluginControllerTest extends TestCase
 
     public function testGetPluginData()
     {
-        $this->get('/admin/plugins/data')
-            ->seeJsonStructure([
+        $this->getJson('/admin/plugins/data')
+            ->assertJsonStructure([
                 'data' => [[
                     'name',
                     'version',
