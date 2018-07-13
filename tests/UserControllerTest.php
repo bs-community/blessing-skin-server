@@ -23,13 +23,13 @@ class UserControllerTest extends TestCase
 
         $players_count = option('score_per_player') / option('user_initial_score');
         $this->actAs($user)
-            ->visit('/user')
+            ->get('/user')
             ->assertViewHas('user')
             ->assertViewHas('statistics')
-            ->see(1 / $players_count * 100)    // Players
-            ->see(0)               // Storage
-            ->see(bs_announcement())
-            ->see($user->score);
+            ->assertSee((string) (1 / $players_count * 100))    // Players
+            ->assertSee('0')               // Storage
+            ->assertSee(bs_announcement())
+            ->assertSee((string) $user->score);
     }
 
     public function testSign()
@@ -39,8 +39,8 @@ class UserControllerTest extends TestCase
 
         // Success
         $this->actAs($user)
-            ->post('/user/sign')
-            ->seeJson([
+            ->postJson('/user/sign')
+            ->assertJson([
                 'errno' => 0,
                 'msg' => trans('user.sign-success', ['score' => 50]),
                 'score' => option('user_initial_score') + 50,
@@ -53,8 +53,8 @@ class UserControllerTest extends TestCase
             ]);
 
         // Remaining time is greater than 0
-        $this->post('/user/sign')
-            ->seeJson([
+        $this->postJson('/user/sign')
+            ->assertJson([
                 'errno' => 1,
                 'msg' => trans(
                     'user.cant-sign-until',
@@ -76,8 +76,8 @@ class UserControllerTest extends TestCase
             $diff = round($diff / 60);
             $unit = 'min';
         }
-        $this->post('/user/sign')
-            ->seeJson([
+        $this->postJson('/user/sign')
+            ->assertJson([
                 'errno' => 1,
                 'msg' => trans(
                     'user.cant-sign-until',
@@ -90,15 +90,15 @@ class UserControllerTest extends TestCase
 
         $user->last_sign_at = \Carbon\Carbon::today()->toDateTimeString();
         $user->save();
-        $this->post('/user/sign')
-            ->seeJson([
+        $this->postJson('/user/sign')
+            ->assertJson([
                 'errno' => 0
             ]);
     }
 
     public function testProfile()
     {
-        $this->visit('/user/profile')
+        $this->get('/user/profile')
             ->assertViewHas('user');
     }
 
@@ -109,283 +109,283 @@ class UserControllerTest extends TestCase
 
         // Invalid action
         $this->actAs($user)
-            ->post('/user/profile')
-            ->seeJson([
+            ->postJson('/user/profile')
+            ->assertJson([
                 'errno' => 1,
                 'msg' => trans('general.illegal-parameters')
             ]);
 
         // Change nickname without `new_nickname` field
-        $this->post('/user/profile', [
+        $this->postJson('/user/profile', [
             'action' => 'nickname'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'new nickname'])
         ]);
 
         // Invalid nickname
-        $this->post('/user/profile', [
+        $this->postJson('/user/profile', [
             'action' => 'nickname',
             'new_nickname' => '\\'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.no_special_chars', ['attribute' => 'new nickname'])
         ]);
 
         // Too long nickname
-        $this->post('/user/profile', [
+        $this->postJson('/user/profile', [
             'action' => 'nickname',
             'new_nickname' => str_random(256)
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.max.string', ['attribute' => 'new nickname', 'max' => 255])
         ]);
 
         // Change nickname successfully
         $this->expectsEvents(Events\UserProfileUpdated::class);
-        $this->post('/user/profile', [
+        $this->postJson('/user/profile', [
             'action' => 'nickname',
             'new_nickname' => 'nickname'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 0,
             'msg' => trans('user.profile.nickname.success', ['nickname' => 'nickname'])
         ]);
         $this->assertEquals('nickname', User::find($user->uid)->nickname);
 
         // Change password without `current_password` field
-        $this->post('/user/profile', [
+        $this->postJson('/user/profile', [
             'action' => 'password'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'current password'])
         ]);
 
         // Too short current password
-        $this->post('/user/profile', [
+        $this->postJson('/user/profile', [
             'action' => 'password',
             'current_password' => '1',
             'new_password' => '12345678'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.min.string', ['attribute' => 'current password', 'min' => 6])
         ]);
 
         // Too long current password
-        $this->post('/user/profile', [
+        $this->postJson('/user/profile', [
             'action' => 'password',
             'current_password' => str_random(33),
             'new_password' => '12345678'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.max.string', ['attribute' => 'current password', 'max' => 32])
         ]);
 
         // Too short new password
-        $this->post('/user/profile', [
+        $this->postJson('/user/profile', [
             'action' => 'password',
             'current_password' => '12345678',
             'new_password' => '1'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.min.string', ['attribute' => 'new password', 'min' => 8])
         ]);
 
         // Too long new password
-        $this->post('/user/profile', [
+        $this->postJson('/user/profile', [
             'action' => 'password',
             'current_password' => '12345678',
             'new_password' => str_random(33)
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.max.string', ['attribute' => 'new password', 'max' => 32])
         ]);
 
         // Wrong old password
-        $this->post('/user/profile', [
+        $this->postJson('/user/profile', [
             'action' => 'password',
             'current_password' => '1234567',
             'new_password' => '87654321'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 1,
             'msg' => trans('user.profile.password.wrong-password')
         ]);
 
         // Change password successfully
         $this->expectsEvents(Events\EncryptUserPassword::class);
-        $this->post('/user/profile', [
+        $this->postJson('/user/profile', [
             'action' => 'password',
             'current_password' => '12345678',
             'new_password' => '87654321'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 0,
             'msg' => trans('user.profile.password.success')
         ]);
         $this->assertTrue(User::find($user->uid)->verifyPassword('87654321'));
         // After changed password, user should re-login.
-        $this->visit('/user')->seePageIs('/auth/login');
+        $this->get('/user')->assertRedirect('/auth/login');
 
         $user = User::find($user->uid);
         // Change email without `new_email` field
         $this->actAs($user)
-            ->post(
+            ->postJson(
                 '/user/profile',
                 ['action' => 'email'],
                 ['X-Requested-With' => 'XMLHttpRequest'])
-            ->seeJson([
+            ->assertJson([
                 'errno' => 1,
                 'msg' => trans('validation.required', ['attribute' => 'new email'])
             ]);
 
         // Invalid email
-        $this->post('/user/profile', [
+        $this->postJson('/user/profile', [
             'action' => 'email',
             'new_email' => 'not_an_email'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.email', ['attribute' => 'new email'])
         ]);
 
         // Too short current password
-        $this->post('/user/profile', [
+        $this->postJson('/user/profile', [
             'action' => 'email',
             'new_email' => 'a@b.c',
             'password' => '1'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.min.string', ['attribute' => 'password', 'min' => 6])
         ]);
 
         // Too long current password
-        $this->post('/user/profile', [
+        $this->postJson('/user/profile', [
             'action' => 'email',
             'new_email' => 'a@b.c',
             'password' => str_random(33)
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 32])
         ]);
 
         // Use a duplicated email
-        $this->post('/user/profile', [
+        $this->postJson('/user/profile', [
             'action' => 'email',
             'new_email' => $user->email,
             'password' => '87654321'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 1,
             'msg' => trans('user.profile.email.existed')
         ]);
 
         // Wrong password
-        $this->post('/user/profile', [
+        $this->postJson('/user/profile', [
             'action' => 'email',
             'new_email' => 'a@b.c',
             'password' => '7654321'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 1,
             'msg' => trans('user.profile.email.wrong-password')
         ]);
 
         // Change email successfully
-        $this->post('/user/profile', [
+        $this->postJson('/user/profile', [
             'action' => 'email',
             'new_email' => 'a@b.c',
             'password' => '87654321'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 0,
             'msg' => trans('user.profile.email.success')
         ]);
         $this->assertEquals('a@b.c', User::find($user->uid)->email);
         // After changed email, user should re-login.
-        $this->visit('/user')->seePageIs('/auth/login');
+        $this->get('/user')->assertRedirect('/auth/login');
 
         $user = User::find($user->uid);
         // Delete account without `password` field
         $this->actAs($user)
-            ->post(
+            ->postJson(
                 '/user/profile',
                 ['action' => 'delete'],
                 ['X-Requested-With' => 'XMLHttpRequest'])
-            ->seeJson([
+            ->assertJson([
                 'errno' => 1,
                 'msg' => trans('validation.required', ['attribute' => 'password'])
             ]);
 
         // Too short current password
-        $this->post('/user/profile', [
+        $this->postJson('/user/profile', [
             'action' => 'delete',
             'password' => '1'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.min.string', ['attribute' => 'password', 'min' => 6])
         ]);
 
         // Too long current password
-        $this->post('/user/profile', [
+        $this->postJson('/user/profile', [
             'action' => 'delete',
             'password' => str_random(33)
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 32])
         ]);
 
         // Wrong password
-        $this->post('/user/profile', [
+        $this->postJson('/user/profile', [
             'action' => 'delete',
             'password' => '7654321'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 1,
             'msg' => trans('user.profile.delete.wrong-password')
         ]);
 
         // Delete account successfully
-        $this->post('/user/profile', [
+        $this->postJson('/user/profile', [
             'action' => 'delete',
             'password' => '87654321'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 0,
             'msg' => trans('user.profile.delete.success')
-        ])->seeCookie('uid', '')
-            ->seeCookie('token', '');
+        ])->assertCookie('uid', '')
+            ->assertCookie('token', '');
         $this->assertNull(User::find($user->uid));
     }
 
@@ -397,52 +397,52 @@ class UserControllerTest extends TestCase
 
         // Without `tid` field
         $this->actAs($user)
-            ->post('/user/profile/avatar', [], [
+            ->postJson('/user/profile/avatar', [], [
                 'X-Requested-With' => 'XMLHttpRequest'
             ])
-            ->seeJson([
+            ->assertJson([
                 'errno' => 1,
                 'msg' => trans('validation.required', ['attribute' => 'tid'])
             ]);
 
         // TID is not a integer
         $this->actAs($user)
-            ->post('/user/profile/avatar', [
+            ->postJson('/user/profile/avatar', [
                 'tid' => 'string'
             ], [
                 'X-Requested-With' => 'XMLHttpRequest'
             ])
-            ->seeJson([
+            ->assertJson([
                 'errno' => 1,
                 'msg' => trans('validation.integer', ['attribute' => 'tid'])
             ]);
 
         // Texture cannot be found
         $this->actAs($user)
-            ->post('/user/profile/avatar', [
+            ->postJson('/user/profile/avatar', [
                 'tid' => 0
             ])
-            ->seeJson([
+            ->assertJson([
                 'errno' => 1,
                 'msg' => trans('skinlib.non-existent')
             ]);
 
         // Use cape
         $this->actAs($user)
-            ->post('/user/profile/avatar', [
+            ->postJson('/user/profile/avatar', [
                 'tid' => $cape->tid
             ])
-            ->seeJson([
+            ->assertJson([
                 'errno' => 1,
                 'msg' => trans('user.profile.avatar.wrong-type')
             ]);
 
         // Success
         $this->actAs($user)
-            ->post('/user/profile/avatar', [
+            ->postJson('/user/profile/avatar', [
                 'tid' => $steve->tid
             ])
-            ->seeJson([
+            ->assertJson([
                 'errno' => 0,
                 'msg' => trans('user.profile.avatar.success')
             ]);
