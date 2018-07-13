@@ -20,7 +20,7 @@ class PlayerControllerTest extends TestCase
 
     public function testIndex()
     {
-        $this->visit('/user/player?pid=5')
+        $this->get('/user/player?pid=5')
             ->assertViewHas('players')
             ->assertViewHas('user');
     }
@@ -28,19 +28,19 @@ class PlayerControllerTest extends TestCase
     public function testAdd()
     {
         // Without player name
-        $this->post('/user/player/add', [], ['X-Requested-With' => 'XMLHttpRequest'])
-            ->seeJson([
+        $this->postJson('/user/player/add', [], ['X-Requested-With' => 'XMLHttpRequest'])
+            ->assertJson([
                 'errno' => 1,
                 'msg' => trans('validation.required', ['attribute' => 'Player Name'])
             ]);
 
         // Only A-Za-z0-9_ are allowed
         option(['player_name_rule' => 'official']);
-        $this->post(
+        $this->postJson(
             '/user/player/add',
             ['player_name' => '角色名'],
             ['X-Requested-With' => 'XMLHttpRequest']
-        )->seeJson([
+        )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.player_name', ['attribute' => 'Player Name'])
         ]);
@@ -48,11 +48,11 @@ class PlayerControllerTest extends TestCase
         // Custom player name rule (regexp)
         option(['player_name_rule' => 'custom']);
         option(['custom_player_name_regexp' => '/^([0-9]+)$/']);
-        $this->post(
+        $this->postJson(
             '/user/player/add',
             ['player_name' => 'yjsnpi'],
             ['X-Requested-With' => 'XMLHttpRequest']
-        )->seeJson([
+        )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.player_name', ['attribute' => 'Player Name'])
         ]);
@@ -60,11 +60,11 @@ class PlayerControllerTest extends TestCase
         // Lack of score
         option(['player_name_rule' => 'official']);
         $user = factory(User::class)->create(['score' => 0]);
-        $this->actAs($user)->post(
+        $this->actAs($user)->postJson(
             '/user/player/add',
             ['player_name' => 'no_score'],
             ['X-Requested-With' => 'XMLHttpRequest']
-        )->seeJson([
+        )->assertJson([
             'errno' => 7,
             'msg' => trans('user.player.add.lack-score')
         ]);
@@ -74,9 +74,9 @@ class PlayerControllerTest extends TestCase
         option(['player_name_rule' => 'cjk']);
         $user = factory(User::class)->create();
         $score = $user->score;
-        $this->actAs($user)->post('/user/player/add', [
+        $this->actAs($user)->postJson('/user/player/add', [
             'player_name' => '角色名'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 0,
             'msg' => trans('user.player.add.success', ['name' => '角色名'])
         ]);
@@ -93,8 +93,8 @@ class PlayerControllerTest extends TestCase
         );
 
         // Add a existed player
-        $this->post('/user/player/add', ['player_name' => '角色名'])
-            ->seeJson([
+        $this->postJson('/user/player/add', ['player_name' => '角色名'])
+            ->assertJson([
                 'errno' => 6,
                 'msg' => trans('user.player.add.repeated')
             ]);
@@ -106,8 +106,8 @@ class PlayerControllerTest extends TestCase
         $user = User::find($player->uid);
         $this->expectsEvents(Events\PlayerWillBeDeleted::class);
         $this->actAs($user)
-            ->post('/user/player/delete', ['pid' => $player->pid])
-            ->seeJson([
+            ->postJson('/user/player/delete', ['pid' => $player->pid])
+            ->assertJson([
                 'errno' => 0,
                 'msg' => trans('user.player.delete.success', ['name' => $player->player_name])
             ]);
@@ -123,8 +123,8 @@ class PlayerControllerTest extends TestCase
         $player = factory(Player::class)->create();
         $user = User::find($player->uid);
         $this->actAs($user)
-            ->post('/user/player/delete', ['pid' => $player->pid])
-            ->seeJson([
+            ->postJson('/user/player/delete', ['pid' => $player->pid])
+            ->assertJson([
                 'errno' => 0,
                 'msg' => trans('user.player.delete.success', ['name' => $player->player_name])
             ]);
@@ -138,7 +138,7 @@ class PlayerControllerTest extends TestCase
     {
         $player = factory(Player::class)->create(['last_modified' => '2017-11-11 22:51:00']);
         $this->get('/user/player/show?pid='.$player->pid)
-            ->seeJson($player->toArray());
+            ->assertJson($player->toArray());
     }
 
     public function testRename()
@@ -148,55 +148,55 @@ class PlayerControllerTest extends TestCase
 
         // Without new player name
         $this->actAs($user)
-            ->post('/user/player/rename', [
+            ->postJson('/user/player/rename', [
                 'pid' => $player->pid,
             ], [
                 'X-Requested-With' => 'XMLHttpRequest'
-            ])->seeJson([
+            ])->assertJson([
                 'errno' => 1,
                 'msg' => trans('validation.required', ['attribute' => 'Player Name'])
             ]);
 
         // Only A-Za-z0-9_ are allowed
         option(['player_name_rule' => 'official']);
-        $this->post('/user/player/rename',[
+        $this->postJson('/user/player/rename',[
             'pid' => $player->pid,
             'new_player_name' => '角色名'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.player_name', ['attribute' => 'Player Name'])
         ]);
 
         // Other invalid characters
         option(['player_name_rule' => 'cjk']);
-        $this->post('/user/player/rename', [
+        $this->postJson('/user/player/rename', [
             'pid' => $player->pid,
             'new_player_name' => '\\'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.player_name', ['attribute' => 'Player Name'])
         ]);
 
         // Use a duplicated player name
         $name = factory(Player::class)->create()->player_name;
-        $this->post('/user/player/rename', [
+        $this->postJson('/user/player/rename', [
             'pid' => $player->pid,
             'new_player_name' => $name
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 6,
             'msg' => trans('user.player.rename.repeated')
         ]);
 
         // Success
         $this->expectsEvents(Events\PlayerProfileUpdated::class);
-        $this->post('/user/player/rename', [
+        $this->postJson('/user/player/rename', [
             'pid' => $player->pid,
             'new_player_name' => 'new_name'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 0,
             'msg' => trans(
                 'user.player.rename.success',
@@ -215,19 +215,19 @@ class PlayerControllerTest extends TestCase
 
         // Set a not-existed texture
         $this->actAs($user)
-            ->post('/user/player/set', [
+            ->postJson('/user/player/set', [
                 'pid' => $player->pid,
                 'tid' => ['steve' => -1]
-            ])->seeJson([
+            ])->assertJson([
                 'errno' => 6,
                 'msg' => trans('skinlib.un-existent')
             ]);
 
         // Set for "steve" type
-        $this->post('/user/player/set', [
+        $this->postJson('/user/player/set', [
             'pid' => $player->pid,
             'tid' => ['steve' => $steve->tid]
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 0,
             'msg' => trans('user.player.set.success', ['name' => $player->player_name])
         ]);
@@ -235,43 +235,43 @@ class PlayerControllerTest extends TestCase
         $this->assertEquals($steve->tid, Player::find($player->pid)->tid_steve);
 
         // Set for "alex" type
-        $this->post('/user/player/set', [
+        $this->postJson('/user/player/set', [
             'pid' => $player->pid,
             'tid' => ['alex' => $alex->tid]
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 0,
             'msg' => trans('user.player.set.success', ['name' => $player->player_name])
         ]);
         $this->assertEquals($alex->tid, Player::find($player->pid)->tid_alex);
 
         // Set for "cape" type
-        $this->post('/user/player/set', [
+        $this->postJson('/user/player/set', [
             'pid' => $player->pid,
             'tid' => ['cape' => $cape->tid]
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 0,
             'msg' => trans('user.player.set.success', ['name' => $player->player_name])
         ]);
         $this->assertEquals($cape->tid, Player::find($player->pid)->tid_cape);
 
         // Invalid texture type is acceptable
-        $this->post('/user/player/set', [
+        $this->postJson('/user/player/set', [
             'pid' => $player->pid,
             'tid' => ['nope' => $steve->tid]     // TID must be valid
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 0,
             'msg' => trans('user.player.set.success', ['name' => $player->player_name])
         ]);
 
         // Should be OK if texture type does not match
-        $this->post('/user/player/set', [
+        $this->postJson('/user/player/set', [
             'pid' => $player->pid,
             'tid' => [
                 'steve' => $alex->tid,
                 'alex' => $cape->tid,
                 'cape' => $steve->tid
             ]
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 0,
             'msg' => trans('user.player.set.success', ['name' => $player->player_name])
         ]);
@@ -295,13 +295,13 @@ class PlayerControllerTest extends TestCase
 
         $this->expectsEvents(Events\PlayerProfileUpdated::class);
         $this->actAs($user)
-            ->post('/user/player/texture/clear', [
+            ->postJson('/user/player/texture/clear', [
                 'pid' => $player->pid,
                 'steve' => 1,    // "1" stands for "true"
                 'alex' => 1,
                 'cape' => 1,
                 'nope' => 1,     // Invalid texture type is acceptable
-            ])->seeJson([
+            ])->assertJson([
                 'errno' => 0,
                 'msg' => trans('user.player.clear.success', ['name' => $player->player_name])
             ]);
@@ -315,34 +315,34 @@ class PlayerControllerTest extends TestCase
         // Without `preference` field
         $player = factory(Player::class)->create();
         $this->actAs(User::find($player->uid))
-            ->post('/user/player/preference', [
+            ->postJson('/user/player/preference', [
                 'pid' => $player->pid
             ], [
                 'X-Requested-With' => 'XMLHttpRequest'
-            ])->seeJson([
+            ])->assertJson([
                 'errno' => 1,
                 'msg' => trans('validation.required', ['attribute' => 'preference'])
             ]);
 
         // value of `preference` is invalid
-        $this->post('/user/player/preference', [
+        $this->postJson('/user/player/preference', [
             'pid' => $player->pid,
             'preference' => 'steve'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.preference', ['attribute' => 'preference'])
         ]);
 
         // Success
         $this->expectsEvents(Events\PlayerProfileUpdated::class);
-        $this->post('/user/player/preference', [
+        $this->postJson('/user/player/preference', [
             'pid' => $player->pid,
             'preference' => 'slim'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
-        ])->seeJson([
+        ])->assertJson([
             'errno' => 0,
             'msg' => trans(
                 'user.player.preference.success',
