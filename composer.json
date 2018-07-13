@@ -10,7 +10,7 @@
     "erusev/parsedown": "^1.6",
     "swiggles/memcache": "^2.0",
     "doctrine/inflector": "1.1.0",
-    "laravel/framework": "5.3.*",
+    "laravel/framework": "5.4.*",
     "devitek/yaml-translation": "^2.0",
     "printempw/laravel-datatables-lite": "^1.0",
     "composer/semver": "^1.4"
@@ -19,7 +19,7 @@
     "fzaninotto/faker": "~1.4",
     "mockery/mockery": "0.9.*",
     "phpdocumentor/reflection-docblock": "3.2.2",
-    "phpunit/phpunit": "~5.0",
+    "phpunit/phpunit": "~5.7",
     "symfony/css-selector": "3.1.*",
     "symfony/dom-crawler": "3.1.*",
     "barryvdh/laravel-debugbar": "^2.3",
