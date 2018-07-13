@@ -46,59 +46,59 @@ class SetupControllerTest extends TestCase
             $server = "{$config['username']}@{$config['host']}";
         }
 
-        $this->visit('/setup')->see($type)->see($server);
+        $this->get('/setup')->assertSee($type)->assertSee($server);
     }
 
     public function testInfo()
     {
-        $this->visit('/setup/info')
-            ->seePageIs('/setup/info');
+        $this->get('/setup/info')
+            ->assertViewIs('setup.wizard.info');
 
         Artisan::call('migrate:refresh');
         Schema::drop('users');
-        $this->visit('/setup/info')->see('already exist');
+        $this->get('/setup/info')->assertSee('already exist');
     }
 
     public function testFinish()
     {
         // Without `email` field
         $this->post('/setup/finish')
-            ->dontSee(trans('setup.wizard.finish.title'));
+            ->assertDontSee(trans('setup.wizard.finish.title'));
 
         // Not an valid email address
         $this->post('/setup/finish', ['email' => 'not_an_email'])
-            ->dontSee(trans('setup.wizard.finish.title'));
+            ->assertDontSee(trans('setup.wizard.finish.title'));
 
         // Without `password` field
         $this->post('/setup/finish', [
             'email' => 'a@b.c'
-        ])->dontSee(trans('setup.wizard.finish.title'));
+        ])->assertDontSee(trans('setup.wizard.finish.title'));
 
         // Password is too short
         $this->post('/setup/finish', [
             'email' => 'a@b.c',
             'password' => '1'
-        ])->dontSee(trans('setup.wizard.finish.title'));
+        ])->assertDontSee(trans('setup.wizard.finish.title'));
 
         // Password is too long
         $this->post('/setup/finish', [
             'email' => 'a@b.c',
             'password' => str_random(17)
-        ])->dontSee(trans('setup.wizard.finish.title'));
+        ])->assertDontSee(trans('setup.wizard.finish.title'));
 
         // Confirmation is not OK
         $this->post('/setup/finish', [
             'email' => 'a@b.c',
             'password' => '12345678',
             'password_confirmation' => '12345679'
-        ])->dontSee(trans('setup.wizard.finish.title'));
+        ])->assertDontSee(trans('setup.wizard.finish.title'));
 
         // Without `site_name` field
         $this->post('/setup/finish', [
             'email' => 'a@b.c',
             'password' => '12345678',
             'password_confirmation' => '12345678'
-        ])->dontSee(trans('setup.wizard.finish.title'));
+        ])->assertDontSee(trans('setup.wizard.finish.title'));
 
         // Regenerate keys
         Artisan::shouldReceive('call')
@@ -122,19 +122,19 @@ class SetupControllerTest extends TestCase
             'password_confirmation' => '12345678',
             'site_name' => 'bs',
             'generate_random' => true
-        ])->see(trans('setup.wizard.finish.title'))
-            ->see('a@b.c')
-            ->see('12345678');
+        ])->assertSee(trans('setup.wizard.finish.title'))
+            ->assertSee('a@b.c')
+            ->assertSee('12345678');
     }
 
     public function testUpdate()
     {
-        $this->visit('/setup/update')
-            ->see(trans('setup.locked.text'));
+        $this->get('/setup/update')
+            ->assertSee(trans('setup.locked.text'));
 
         option(['version' => '0.1.0']);
-        $this->visit('/setup/update')
-            ->see(trans('setup.updates.welcome.title'));
+        $this->get('/setup/update')
+            ->assertSee(trans('setup.updates.welcome.title'));
     }
 
     public function testDoUpdate()
@@ -150,8 +150,7 @@ class SetupControllerTest extends TestCase
             ->with('view:clear')
             ->andThrow(new Exception());
         config(['options.new_option' => 'value']);
-        $this->post('/setup/update')
-            ->assertViewHas('tips');
+        $this->post('/setup/update')->assertViewHas('tips');
         $this->assertEquals('value', option('new_option'));
         $this->assertEquals('3.1.1', option('version'));
         unlink(database_path("update_scripts/update-$current_version-to-100.0.0.php"));
