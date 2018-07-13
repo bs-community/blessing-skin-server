@@ -25,7 +25,7 @@ class SaltRandomCommand extends Command
      *
      * @return void
      */
-    public function fire()
+    public function handle()
     {
         $salt = $this->generateRandomSalt();
 
