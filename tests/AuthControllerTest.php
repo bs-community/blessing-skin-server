@@ -401,6 +401,8 @@ class AuthControllerTest extends TestCase
 
     public function testHandleForgot()
     {
+        Mail::fake();
+
         // Should return a warning if `captcha` is wrong
         $this->withSession(['phrase' => 'a'])->postJson('/auth/forgot', [
             'captcha' => 'b'
@@ -443,9 +445,7 @@ class AuthControllerTest extends TestCase
             $user->getToken().substr(time(), 4, 6).str_random(16)
         );
         $url = Option::get('site_url')."/auth/reset?uid=$uid&token=$token";
-        // An email should be send
-        // Laravel supports `Mail::fake()` since v5.4, but now we cannot
-        // Thanks: https://stackoverflow.com/questions/31120567/unittesting-laravel-5-mail-using-mock
+        // @see https://stackoverflow.com/questions/31120567/unittesting-laravel-5-mail-using-mock
         Mail::shouldReceive('send')
             ->once()
             ->with(
