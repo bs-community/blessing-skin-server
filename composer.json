@@ -10,20 +10,20 @@
     "erusev/parsedown": "^1.6",
     "swiggles/memcache": "^2.0",
     "doctrine/inflector": "1.1.0",
-    "laravel/framework": "5.4.*",
-    "devitek/yaml-translation": "^2.0",
+    "laravel/framework": "5.5.*",
+    "devitek/yaml-translation": "^4.1.0",
     "printempw/laravel-datatables-lite": "^1.0",
     "composer/semver": "^1.4"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",
-    "mockery/mockery": "0.9.*",
+    "mockery/mockery": "^1.1.0",
     "phpdocumentor/reflection-docblock": "3.2.2",
-    "phpunit/phpunit": "~5.7",
-    "laravel/browser-kit-testing": "~1.0",
-    "barryvdh/laravel-debugbar": "^2.3",
+    "phpunit/phpunit": "~6.0",
+    "laravel/browser-kit-testing": "~2.0",
+    "barryvdh/laravel-debugbar": "^3.1.5",
     "league/flysystem-memory": "^1.0",
-    "mikey179/vfsStream": "1.6.4"
+    "mikey179/vfsStream": "^1.6.5"
   },
   "autoload": {
     "classmap": [
