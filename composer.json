@@ -20,8 +20,7 @@
     "mockery/mockery": "0.9.*",
     "phpdocumentor/reflection-docblock": "3.2.2",
     "phpunit/phpunit": "~5.7",
-    "symfony/css-selector": "3.1.*",
-    "symfony/dom-crawler": "3.1.*",
+    "laravel/browser-kit-testing": "~1.0",
     "barryvdh/laravel-debugbar": "^2.3",
     "league/flysystem-memory": "^1.0",
     "mikey179/vfsStream": "1.6.4"
