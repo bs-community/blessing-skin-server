@@ -13,81 +13,79 @@ class MiddlewareTest extends TestCase
     public function testCheckAuthenticated()
     {
         // Not logged in
-        $this->visit('/user')->seePageIs('/auth/login');
+        $this->get('/user')->assertRedirect('auth/login');
 
         // Normal user
         $this->actAs('normal')
-            ->visit('/user')
-            ->seePageIs('/user')
-            ->assertResponseStatus(200);
+            ->get('/user')
+            ->assertViewIs('user.index')
+            ->assertSuccessful();
 
         // Banned User
         $this->actAs('banned')
-            ->get('/user')                   // Do not use `visit` method here.
-            ->see('banned')
-            ->dontSee('User Center')
-            ->assertResponseStatus(403);
+            ->get('/user')
+            ->assertSee('banned')
+            ->assertDontSee('User Center')
+            ->assertStatus(403);
 
         // Binding email
         $noEmailUser = factory(App\Models\User::class)->create(['email' => '']);
         $this->withSession([
             'uid' => $noEmailUser->uid,
             'token' => $noEmailUser->getToken()
-        ])->visit('/user')->see('Bind')->dontSee('User Center');
+        ])->get('/user')->assertSee('Bind')->assertDontSee('User Center');
 
         $this->actAs($noEmailUser)
             ->get('/user?email=email')
-            ->see('Bind');
+            ->assertSee('Bind');
 
         $other = factory(User::class)->create();
         $this->actAs($noEmailUser)
             ->get('/user?email='.$other->email)
-            ->see(trans('auth.bind.registered'));
+            ->assertSee(trans('auth.bind.registered'));
 
         $this->actAs($noEmailUser)
             ->get('/user?email=a@b.c')
-            ->see('User Center');
+            ->assertSee('User Center');
         $this->assertEquals('a@b.c', User::find($noEmailUser->uid)->email);
 
         // Without token
         $this->withSession([
             'uid' => 0
-        ])->visit('/user')->seePageIs('/auth/login');
+        ])->get('/user')->assertRedirect('/auth/login');
 
         // Without invalid token
         $user = factory(User::class)->create();
         $this->withSession([
             'uid' => $user->uid,
             'token' => 'invalid'
-        ])->visit('/user')->seePageIs('/auth/login');
+        ])->get('/user')->assertRedirect('/auth/login');
     }
 
     public function testCheckAdministrator()
     {
         // Without logged in
-        $this->get('/admin')->assertRedirectedTo('/auth/login');
+        $this->get('/admin')->assertRedirect('/auth/login');
 
         // Normal user
         $this->actAs('normal')
             ->get('/admin')
-            ->assertResponseStatus(403);
+            ->assertStatus(403);
 
         // Admin
         $this->actAs('admin')
-            ->visit('/admin')
-            ->seePageIs('/admin')
-            ->assertResponseStatus(200);
+            ->get('/admin')
+            ->assertSuccessful();
 
         // Super admin
         $this->actAs('superAdmin')
-            ->visit('/admin')
-            ->seePageIs('/admin')
-            ->assertResponseStatus(200);
+            ->get('/admin')
+            ->assertSuccessful();
     }
 
     public function testCheckInstallation()
     {
-        $this->visit('/setup')->see('Already installed');
+        $this->get('/setup')->assertSee('Already installed');
 
         $tables = [
             'closets', 'migrations', 'options', 'players', 'textures', 'users'
@@ -95,7 +93,7 @@ class MiddlewareTest extends TestCase
         array_walk($tables, function ($table) {
             Schema::dropIfExists($table);
         });
-        $this->visit('/setup')->see(trans(
+        $this->get('/setup')->assertSee(trans(
             'setup.wizard.welcome.text',
             ['version' => config('app.version')]
         ));
@@ -103,45 +101,45 @@ class MiddlewareTest extends TestCase
 
     public function testCheckPlayerExist()
     {
-        $this->get('/nope.json')
-            ->assertResponseStatus(404)
-            ->see('Un-existent player');
+        $this->getJson('/nope.json')
+            ->assertStatus(404)
+            ->assertSee('Un-existent player');
 
         $this->get('/skin/nope.png')
-            ->assertResponseStatus(404)
-            ->see('Un-existent player');
+            ->assertStatus(404)
+            ->assertSee('Un-existent player');
 
         Option::set('return_200_when_notfound', true);
-        $this->get('/nope.json')
-            ->assertResponseStatus(200)
-            ->seeJson([
+        $this->getJson('/nope.json')
+            ->assertSuccessful()
+            ->assertJson([
                 'player_name' => 'nope',
                 'errno' => 404,
                 'msg' => 'Player Not Found.'
             ]);
 
         $player = factory(App\Models\Player::class)->create();
-        $this->get("/{$player->player_name}.json")
-            ->seeJson(['username' => $player->player_name]);  // Default is CSL API
+        $this->getJson("/{$player->player_name}.json")
+            ->assertJson(['username' => $player->player_name]);  // Default is CSL API
 
         $this->expectsEvents(\App\Events\CheckPlayerExists::class);
-        $this->get("/{$player->player_name}.json");
+        $this->getJson("/{$player->player_name}.json");
 
         $player = factory(\App\Models\Player::class)->create();
         $user = \App\Models\User::find($player->uid);
         $this->actAs($user)
-            ->post('/user/player/rename', [
+            ->postJson('/user/player/rename', [
                 'pid' => -1,
                 'new_player_name' => 'name'
-            ])->seeJson([
+            ])->assertJson([
                 'errno' => 1,
                 'msg' => trans('general.unexistent-player')
             ]);
         $this->actAs($user)
-            ->post('/user/player/rename', [
+            ->postJson('/user/player/rename', [
                 'pid' => $player->pid,
                 'new_player_name' => 'name'
-            ])->seeJson([
+            ])->assertJson([
                 'errno' => 0
             ]);
     }
@@ -153,50 +151,44 @@ class MiddlewareTest extends TestCase
         $owner = \App\Models\User::find($player->uid);
 
         $this->actAs($other_user)
-            ->visit('/user/player')
-            ->assertResponseStatus(200);
+            ->get('/user/player')
+            ->assertSuccessful();
 
         $this->actAs($other_user)
-            ->post('/user/player/rename', [
+            ->postJson('/user/player/rename', [
                 'pid' => $player->pid
-            ])->seeJson([
+            ])->assertJson([
                 'errno' => 1,
                 'msg' => trans('admin.players.no-permission')
             ]);
 
         $this->actAs($owner)
-            ->post('/user/player/rename', [
+            ->postJson('/user/player/rename', [
                 'pid' => $player->pid,
                 'new_player_name' => 'name'
-            ])->seeJson([
+            ])->assertJson([
                 'errno' => 0
             ]);
     }
 
     public function testRedirectIfAuthenticated()
     {
-        $this->visit('/auth/login')
-            ->seePageIs('/auth/login')
-            ->dontSee('User Center');
+        $this->get('/auth/login')
+            ->assertViewIs('auth.login')
+            ->assertDontSee('User Center');
 
         $user = factory(\App\Models\User::class)->create();
 
         $this->withSession(['uid' => $user->uid])
-            ->visit('/auth/login')
-            ->see('Invalid token');
+            ->get('/auth/login')
+            ->assertRedirect('/auth/login');
 
         $this->withSession(['uid' => $user->uid, 'token' => 'nothing'])
-            ->visit('/auth/login')
-            ->seePageIs('/auth/login')
-            ->see(trans('auth.check.token'));
+            ->get('/auth/login')
+            ->assertRedirect('/auth/login');
 
         $this->actAs('normal')
-            ->visit('/auth/login')
-            ->seePageIs('/user');
-    }
-
-    public function testRedirectIfUrlEndsWithSlash()
-    {
-        $this->visit('/auth/login/')->seePageIs('/auth/login');
+            ->get('/auth/login')
+            ->assertRedirect('/user');
     }
 }
