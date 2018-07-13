@@ -25,7 +25,7 @@ class ClosetControllerTest extends TestCase
 
     public function testIndex()
     {
-        $this->visit('/user/closet')->assertViewHas('user');
+        $this->get('/user/closet')->assertViewHas('user');
     }
 
     public function testGetClosetData()
@@ -38,30 +38,27 @@ class ClosetControllerTest extends TestCase
         $closet->save();
 
         // Use default query parameters
-        $this->get('/user/closet-data')
-            ->seeJsonStructure([
+        $this->getJson('/user/closet-data')
+            ->assertJsonStructure([
                 'category',
                 'total_pages',
                 'items' => [['tid', 'name', 'type', 'add_at']]
             ]);
 
         // Responsive
-        $result = json_decode($this->call('get', '/user/closet-data?perPage=0')
-            ->getContent(), true);
-        $this->assertEquals(6, count($result['items']));
-        $result = json_decode($this->call('get', '/user/closet-data?perPage=8')
-            ->getContent(), true);
-        $this->assertEquals(8, count($result['items']));
-        $result = json_decode($this->call('get', '/user/closet-data?perPage=8&page=2')
-            ->getContent(), true);
-        $this->assertEquals(2, count($result['items']));
+        $result = $this->json('get', '/user/closet-data?perPage=0')->json();
+        $this->assertCount(6, $result['items']);
+        $result = $this->json('get', '/user/closet-data?perPage=8')->json();
+        $this->assertCount(8, $result['items']);
+        $result = $this->json('get', '/user/closet-data?perPage=8&page=2')->json();
+        $this->assertCount(2, $result['items']);
 
         // Get capes
         $cape = factory(Texture::class, 'cape')->create();
         $closet->add($cape->tid, 'custom_name');
         $closet->save();
-        $this->get('/user/closet-data?category=cape')
-            ->seeJson([
+        $this->getJson('/user/closet-data?category=cape')
+            ->assertJson([
                 'category' => 'cape',
                 'total_pages' => 1,
                 'items' => [[
@@ -74,8 +71,8 @@ class ClosetControllerTest extends TestCase
 
         // Search by keyword
         $random = $textures->random();
-        $this->get('/user/closet-data?q='.$random->name)
-            ->seeJson([
+        $this->getJson('/user/closet-data?q='.$random->name)
+            ->assertJson([
                 'category' => 'skin',
                 'total_pages' => 1,
                 'items' => [[
@@ -94,67 +91,67 @@ class ClosetControllerTest extends TestCase
         option(['score_per_closet_item' => 10]);
 
         // Missing `tid` field
-        $this->post('/user/closet/add', [], ['X-Requested-With' => 'XMLHttpRequest'])
-            ->seeJson([
+        $this->postJson('/user/closet/add', [], ['X-Requested-With' => 'XMLHttpRequest'])
+            ->assertJson([
                 'errno' => 1,
                 'msg' => trans('validation.required', ['attribute' => 'tid'])
             ]);
 
         // `tid` is not a integer
-        $this->post(
+        $this->postJson(
             '/user/closet/add',
             ['tid' => 'string'],
             ['X-Requested-With' => 'XMLHttpRequest']
-        )->seeJson([
+        )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.integer', ['attribute' => 'tid'])
         ]);
 
         // Missing `name` field
-        $this->post(
+        $this->postJson(
             '/user/closet/add',
             ['tid' => 0],
             ['X-Requested-With' => 'XMLHttpRequest']
-        )->seeJson([
+        )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'Name'])
         ]);
 
         // `name` field has special characters
-        $this->post(
+        $this->postJson(
             '/user/closet/add',
             ['tid' => 0, 'name' => '\\'],
             ['X-Requested-With' => 'XMLHttpRequest']
-        )->seeJson([
+        )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.no_special_chars', ['attribute' => 'Name'])
         ]);
 
         // The user doesn't have enough score to add a texture
         $this->user->setScore(0);
-        $this->post(
+        $this->postJson(
             '/user/closet/add',
             ['tid' => $texture->tid, 'name' => $name]
-        )->seeJson([
+        )->assertJson([
             'errno' => 7,
             'msg' => trans('user.closet.add.lack-score')
         ]);
 
         // Add a not-existed texture
         $this->user->setScore(100);
-        $this->post(
+        $this->postJson(
             '/user/closet/add',
             ['tid' => -1, 'name' => 'my']
-        )->seeJson([
+        )->assertJson([
             'errno' => 1,
             'msg' => trans('user.closet.add.not-found')
         ]);
 
         // Add a texture successfully
-        $this->post(
+        $this->postJson(
             '/user/closet/add',
             ['tid' => $texture->tid, 'name' => $name]
-        )->seeJson([
+        )->assertJson([
             'errno' => 0,
             'msg' => trans('user.closet.add.success', ['name' => $name])
         ]);
@@ -165,10 +162,10 @@ class ClosetControllerTest extends TestCase
         $this->assertTrue($closet->has($texture->tid));
 
         // If the texture is duplicated, should be warned
-        $this->post(
+        $this->postJson(
             '/user/closet/add',
             ['tid' => $texture->tid, 'name' => $name]
-        )->seeJson([
+        )->assertJson([
             'errno' => 1,
             'msg' => trans('user.closet.add.repeated')
         ]);
@@ -180,47 +177,47 @@ class ClosetControllerTest extends TestCase
         $name = 'new';
 
         // Missing `tid` field
-        $this->post('/user/closet/rename', [], ['X-Requested-With' => 'XMLHttpRequest'])
-            ->seeJson([
+        $this->postJson('/user/closet/rename', [], ['X-Requested-With' => 'XMLHttpRequest'])
+            ->assertJson([
                 'errno' => 1,
                 'msg' => trans('validation.required', ['attribute' => 'tid'])
             ]);
 
         // `tid` is not a integer
-        $this->post(
+        $this->postJson(
             '/user/closet/rename',
             ['tid' => 'string'],
             ['X-Requested-With' => 'XMLHttpRequest']
-        )->seeJson([
+        )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.integer', ['attribute' => 'tid'])
         ]);
 
         // Missing `new_name` field
-        $this->post(
+        $this->postJson(
             '/user/closet/rename',
             ['tid' => 0],
             ['X-Requested-With' => 'XMLHttpRequest']
-        )->seeJson([
+        )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'new name'])
         ]);
 
         // `new_name` field has special characters
-        $this->post(
+        $this->postJson(
             '/user/closet/rename',
             ['tid' => 0, 'new_name' => '\\'],
             ['X-Requested-With' => 'XMLHttpRequest']
-        )->seeJson([
+        )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.no_special_chars', ['attribute' => 'new name'])
         ]);
 
         // Rename a not-existed texture
-        $this->post(
+        $this->postJson(
             '/user/closet/rename',
             ['tid' => -1, 'new_name' => $name]
-        )->seeJson([
+        )->assertJson([
             'errno' => 1,
             'msg' => trans('user.closet.remove.non-existent')
         ]);
@@ -230,10 +227,10 @@ class ClosetControllerTest extends TestCase
         $closet->add($texture->tid, 'name');
         $closet->save();
         $closet = new Closet($this->user->uid);
-        $this->post(
+        $this->postJson(
             '/user/closet/rename',
             ['tid' => $texture->tid, 'new_name' => $name]
-        )->seeJson([
+        )->assertJson([
             'errno' => 0,
             'msg' => trans('user.closet.rename.success', ['name' => 'new'])
         ]);
@@ -247,27 +244,27 @@ class ClosetControllerTest extends TestCase
         $texture = factory(Texture::class)->create();
 
         // Missing `tid` field
-        $this->post('/user/closet/remove', [], ['X-Requested-With' => 'XMLHttpRequest'])
-            ->seeJson([
+        $this->postJson('/user/closet/remove', [], ['X-Requested-With' => 'XMLHttpRequest'])
+            ->assertJson([
                 'errno' => 1,
                 'msg' => trans('validation.required', ['attribute' => 'tid'])
             ]);
 
         // `tid` is not a integer
-        $this->post(
+        $this->postJson(
             '/user/closet/remove',
             ['tid' => 'string'],
             ['X-Requested-With' => 'XMLHttpRequest']
-        )->seeJson([
+        )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.integer', ['attribute' => 'tid'])
         ]);
 
         // Rename a not-existed texture
-        $this->post(
+        $this->postJson(
             '/user/closet/remove',
             ['tid' => -1]
-        )->seeJson([
+        )->assertJson([
             'errno' => 1,
             'msg' => trans('user.closet.remove.non-existent')
         ]);
@@ -277,10 +274,10 @@ class ClosetControllerTest extends TestCase
         $closet->add($texture->tid, 'name');
         $closet->save();
         $score = $this->user->score;
-        $this->post(
+        $this->postJson(
             '/user/closet/remove',
             ['tid' => $texture->tid]
-        )->seeJson([
+        )->assertJson([
             'errno' => 0,
             'msg' => trans('user.closet.remove.success')
         ]);
@@ -296,10 +293,10 @@ class ClosetControllerTest extends TestCase
         $closet->add($texture->tid, 'name');
         $closet->save();
         $score = $this->user->score;
-        $this->post(
+        $this->postJson(
             '/user/closet/remove',
             ['tid' => $texture->tid]
-        )->seeJson([
+        )->assertJson([
             'errno' => 0,
             'msg' => trans('user.closet.remove.success')
         ]);
