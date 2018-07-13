@@ -71,7 +71,10 @@ class OptionForm
 
         // Assign name for option item
         if (! isset($params[1]) || Arr::get($params, 1) == OptionForm::AUTO_DETECT) {
-            $params[1] = Arr::get(trans("options.$this->id.$params[0]"), 'title', trans("options.$this->id.$params[0]"));
+            $params[1] = trans("options.$this->id.$params[0]");
+            if ($params[1] == "options.$this->id.$params[0]") {
+                $params[1] = trans("options.$this->id.$params[0].title");
+            }
         }
 
         $class = new ReflectionClass('App\Services\OptionForm'.Str::title($method));
