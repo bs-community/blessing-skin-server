@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         if (option('force_ssl') || Utils::isRequestSecure()) {
-            $this->app['url']->forceSchema('https');
+            $this->app['url']->forceScheme('https');
         }
 
         Event::listen(Events\RenderingHeader::class, function($event) {
