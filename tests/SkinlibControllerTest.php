@@ -779,8 +779,7 @@ class SkinlibControllerTest extends TestCase
 
         // When setting a texture to be private,
         // other players should not be able to use it.
-        $texture->public = '1';
-        $texture->save();
+        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
         $uploader->score += $texture->size * option('private_score_per_storage');
         $uploader->save();
         $player = factory(Player::class)->create(['tid_steve' => $texture->tid]);
