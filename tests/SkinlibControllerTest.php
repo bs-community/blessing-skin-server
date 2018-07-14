@@ -552,7 +552,6 @@ class SkinlibControllerTest extends TestCase
             )
         ]);
 
-        imagepng(imagecreatetruecolor(64, 32), $file->url());
         $upload = UploadedFile::fake()->image('texture.png', 64, 32);
 
         // Score is not enough
