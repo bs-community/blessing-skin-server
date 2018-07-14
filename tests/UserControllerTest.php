@@ -88,9 +88,10 @@ class UserControllerTest extends TestCase
                 )
             ]);
 
-        $user->last_sign_at = \Carbon\Carbon::today()->toDateTimeString();
-        $user->save();
-        $this->postJson('/user/sign')
+        $user = factory(User::class)->create([
+            'last_sign_at' => \Carbon\Carbon::today()->toDateTimeString()
+        ]);
+        $this->actAs($user)->postJson('/user/sign')
             ->assertJson([
                 'errno' => 0
             ]);
