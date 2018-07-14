@@ -7,7 +7,7 @@
 <a href="https://travis-ci.org/printempw/blessing-skin-server"><img src="https://api.travis-ci.org/printempw/blessing-skin-server.svg?branch=master" alt="Travis Building Status"></a>
 <a href="https://codecov.io/gh/printempw/blessing-skin-server"><img src="https://codecov.io/gh/printempw/blessing-skin-server/branch/master/graph/badge.svg" alt="Codecov" /></a>
 <a href="https://github.com/printempw/blessing-skin-server/releases"><img src="https://poser.pugx.org/printempw/blessing-skin-server/version" alt="Latest Stable Version"></a>
-<img src="https://img.shields.io/badge/PHP-5.5.9+-orange.svg" alt="PHP 5.5.9+">
+<img src="https://img.shields.io/badge/PHP-7.0.0+-orange.svg" alt="PHP 7.0.0+">
 <img src="https://poser.pugx.org/printempw/blessing-skin-server/license" alt="License">
 <a href="https://twitter.com/printempw"><img src="https://img.shields.io/twitter/follow/printempw.svg?style=social&label=Follow" alt="Twitter Follow"></a>
 </p>
@@ -41,7 +41,7 @@ Blessing Skin 是一个开源的 PHP 项目，这意味着您可以自由地在�
 Blessing Skin 对您的服务器有一定的要求。_在大多数情况下，下列所需的 PHP 扩展已经开启。_
 
 - 一台支持 URL 重写的主机，Nginx、Apache 或 IIS
-- **PHP >= 5.5.9** [（服务器不支持？）](https://github.com/printempw/blessing-skin-server/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
+- **PHP >= 7.0.0** [（服务器不支持？）](https://github.com/printempw/blessing-skin-server/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
 - 安装并启用如下 PHP 扩展：
     - OpenSSL
     - PDO
