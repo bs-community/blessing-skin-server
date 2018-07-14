@@ -121,6 +121,7 @@ class SkinlibControllerTest extends TestCase
 
         // Sort by `likes`
         $expected = $skins
+            ->sortBy('name')
             ->sortByDesc('likes')
             ->values();
         $this->getJson('/skinlib/data?sort=likes')
