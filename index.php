@@ -10,11 +10,11 @@
 @ini_set('display_errors', 'on');
 
 // Check PHP version
-if (version_compare(PHP_VERSION, '7.0.0', '<')) {
+if (version_compare(PHP_VERSION, '7.1.3', '<')) {
     header('Content-Type: text/html; charset=UTF-8');
     exit(
-        '[Error] Blessing Skin requires PHP version >= 7.0.0, you are now using '.PHP_VERSION.'<br>'.
-        '[错误] 你的 PHP 版本过低（'.PHP_VERSION.'），Blessing Skin 要求至少为 7.0.0'
+        '[Error] Blessing Skin requires PHP version >= 7.1.3, you are now using '.PHP_VERSION.'<br>'.
+        '[错误] 你的 PHP 版本过低（'.PHP_VERSION.'），Blessing Skin 要求至少为 7.1.3'
     );
 }
 
