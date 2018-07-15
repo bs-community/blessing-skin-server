@@ -119,21 +119,13 @@ class SkinlibControllerTest extends TestCase
                 'total_pages' => 1
             ]);
 
-        // Sort by `likes`
-        $response = $this->getJson('/skinlib/data?sort=likes');
-        try {
-            $response->assertJson([
-                'items' => $this->serializeTextures($skins->sortByDesc('likes')->values()),
+        // Sort by `tid`
+        $this->getJson('/skinlib/data?sort=tid')
+            ->assertJson([
+                'items' => $this->serializeTextures($skins->sortByDesc('tid')->values()),
                 'anonymous' => true,
                 'total_pages' => 1
             ]);
-        } catch (\PHPUnit\Framework\ExpectationFailedException $e) {
-            $response->assertJson([
-                'items' => $this->serializeTextures($skins->sortBy('name')->sortByDesc('likes')->values()),
-                'anonymous' => true,
-                'total_pages' => 1
-            ]);
-        }
 
         // Search
         $keyword = str_limit($skins->random()->name, 1, '');
