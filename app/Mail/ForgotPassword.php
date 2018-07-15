@@ -35,7 +35,7 @@ class ForgotPassword extends Mailable
      */
     public function build()
     {
-        $site_name = option('site_name');
+        $site_name = option_localized('site_name');
 
         return $this->from(config('mail.username'), $site_name)
             ->subject(trans('auth.mail.title', ['sitename' => $site_name]))
