@@ -23,20 +23,3 @@ if (file_exists($autoload = __DIR__.'/../vendor/autoload.php')) {
         "[错误] 根目录下未发现 vendor 文件夹，请使用 composer 安装依赖库。详情请阅读 http://t.cn/REyMUqA"
     );
 }
-
-/*
-|--------------------------------------------------------------------------
-| Include The Compiled Class File
-|--------------------------------------------------------------------------
-|
-| To dramatically increase your application's performance, you may use a
-| compiled class file which contains all of the classes commonly used
-| by a request. The Artisan "optimize" is used to create this file.
-|
-*/
-
-$compiledPath = __DIR__.'/cache/compiled.php';
-
-if (file_exists($compiledPath)) {
-    require $compiledPath;
-}
