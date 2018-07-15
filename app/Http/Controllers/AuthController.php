@@ -157,7 +157,7 @@ class AuthController extends Controller
 
     public function forgot()
     {
-        if (config('mail.host') != "") {
+        if (config('mail.driver') != "") {
             return view('auth.forgot');
         } else {
             throw new PrettyPageException(trans('auth.forgot.close'), 8);
@@ -169,7 +169,7 @@ class AuthController extends Controller
         if (! $this->checkCaptcha($request))
             return json(trans('auth.validation.captcha'), 1);
 
-        if (config('mail.host') == "")
+        if (config('mail.driver') == "")
             return json(trans('auth.forgot.close'), 1);
 
         if (Session::has('last_mail_time') && (time() - session('last_mail_time')) < 60)

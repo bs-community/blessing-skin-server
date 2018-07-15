@@ -396,7 +396,7 @@ class AuthControllerTest extends TestCase
     {
         $this->get('/auth/forgot')->assertSee('Forgot Password');
 
-        config(['mail.host' => '']);
+        config(['mail.driver' => '']);
         $this->get('/auth/forgot')->assertSee(trans('auth.forgot.close'));
     }
 
@@ -413,14 +413,14 @@ class AuthControllerTest extends TestCase
         ]);
 
         // Should be forbidden if "forgot password" is closed
-        config(['mail.host' => '']);
+        config(['mail.driver' => '']);
         $this->withSession(['phrase' => 'a'])->postJson('/auth/forgot', [
             'captcha' => 'a'
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('auth.forgot.close')
         ]);
-        config(['mail.host' => 'localhost']);
+        config(['mail.driver' => 'smtp']);
 
         // Should be forbidden if sending email frequently
         $this->withSession(['last_mail_time' => time()])->postJson('/auth/forgot', [
