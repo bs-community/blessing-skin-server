@@ -11,6 +11,7 @@ use Option;
 use Session;
 use App\Events;
 use App\Models\User;
+use App\Mail\ForgotPassword;
 use Illuminate\Http\Request;
 use App\Exceptions\PrettyPageException;
 use App\Services\Repositories\UserRepository;
@@ -180,19 +181,11 @@ class AuthController extends Controller
         if (! $user)
             return json(trans('auth.forgot.unregistered'), 1);
 
-        $uid = $user->uid;
         // Generate token for password resetting
         $token = base64_encode($user->getToken().substr(time(), 4, 6).str_random(16));
 
-        $url = Option::get('site_url')."/auth/reset?uid=$uid&token=$token";
-
         try {
-            Mail::send('auth.mail', ['reset_url' => $url], function ($m) use ($request) {
-                $site_name = Option::get('site_name');
-
-                $m->from(config('mail.username'), $site_name);
-                $m->to($request->input('email'))->subject(trans('auth.mail.title', ['sitename' => $site_name]));
-            });
+            Mail::to($request->input('email'))->send(new ForgotPassword($user->uid, $token));
 
             Log::info("[Password Reset] Mail has been sent to [{$request->input('email')}] with token [$token]");
         } catch(\Exception $e) {

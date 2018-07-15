@@ -2,6 +2,7 @@
 
 use App\Events;
 use App\Models\User;
+use App\Mail\ForgotPassword;
 use App\Services\Facades\Option;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -445,34 +446,6 @@ class AuthControllerTest extends TestCase
             $user->getToken().substr(time(), 4, 6).str_random(16)
         );
         $url = Option::get('site_url')."/auth/reset?uid=$uid&token=$token";
-        // @see https://stackoverflow.com/questions/31120567/unittesting-laravel-5-mail-using-mock
-        Mail::shouldReceive('send')
-            ->once()
-            ->with(
-                'auth.mail',
-                \Mockery::on(function ($actual) use ($url) {
-                    $this->assertEquals(0, stristr($url, $actual['reset_url']));
-                    return true;
-                }),
-                \Mockery::on(function (\Closure $closure) use ($user) {
-                    $mock = \Mockery::mock(Illuminate\Mail\Message::class);
-
-                    $mock->shouldReceive('from')
-                        ->once()
-                        ->with(option('mail.username'), option_localized('site_name'));
-
-                    $mock->shouldReceive('to')
-                        ->once()
-                        ->with($user->email)
-                        ->andReturnSelf();
-
-                    $mock->shouldReceive('subject')
-                        ->once()
-                        ->with(trans('auth.mail.title', ['sitename' => option_localized('site_name')]));
-                    $closure($mock);
-                    return true;
-                })
-            );
         $this->postJson('/auth/forgot', [
             'email' => $user->email,
             'captcha' => 'a'
@@ -480,9 +453,12 @@ class AuthControllerTest extends TestCase
             'errno' => 0,
             'msg' => trans('auth.mail.success')
         ])->assertSessionHas('last_mail_time');
+        Mail::assertSent(ForgotPassword::class, function ($mail) use ($url, $user) {
+            return stristr($url, $mail->reset_url) == 0 && $mail->hasTo($user->email);
+        });
 
         // Should handle exception when sending email
-        Mail::shouldReceive('send')
+        Mail::shouldReceive('to')
             ->once()
             ->andThrow(new \Mockery\Exception('A fake exception.'));
         $this->flushSession();
