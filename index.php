@@ -23,7 +23,7 @@ require __DIR__.'/bootstrap/autoload.php';
 // Check the runtime environment
 runtime_check(array(
     'extensions' => array('pdo_mysql', 'openssl', 'gd', 'mbstring', 'tokenizer'),
-    'write_permission' => array('storage', 'plugins')
+    'write_permission' => array('storage', 'plugins', 'bootstrap/cache')
 ));
 
 // Process the request
