@@ -126,7 +126,7 @@ class MiddlewareTest extends TestCase
         $this->getJson("/{$player->player_name}.json");
 
         $player = factory(\App\Models\Player::class)->create();
-        $user = \App\Models\User::find($player->uid);
+        $user = $player->user;
         $this->actAs($user)
             ->postJson('/user/player/rename', [
                 'pid' => -1,
@@ -148,7 +148,7 @@ class MiddlewareTest extends TestCase
     {
         $other_user = factory(\App\Models\User::class)->create();
         $player = factory(\App\Models\Player::class)->create();
-        $owner = \App\Models\User::find($player->uid);
+        $owner = $player->user;
 
         $this->actAs($other_user)
             ->get('/user/player')

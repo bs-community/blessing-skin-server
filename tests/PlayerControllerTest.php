@@ -103,7 +103,7 @@ class PlayerControllerTest extends TestCase
     public function testDelete()
     {
         $player = factory(Player::class)->create();
-        $user = User::find($player->uid);
+        $user = $player->user;
         $this->expectsEvents(Events\PlayerWillBeDeleted::class);
         $this->actAs($user)
             ->postJson('/user/player/delete', ['pid' => $player->pid])
@@ -121,7 +121,7 @@ class PlayerControllerTest extends TestCase
         // No returning score
         option(['return_score' => false]);
         $player = factory(Player::class)->create();
-        $user = User::find($player->uid);
+        $user = $player->user;
         $this->actAs($user)
             ->postJson('/user/player/delete', ['pid' => $player->pid])
             ->assertJson([
@@ -144,7 +144,7 @@ class PlayerControllerTest extends TestCase
     public function testRename()
     {
         $player = factory(Player::class)->create();
-        $user = User::find($player->uid);
+        $user = $player->user;
 
         // Without new player name
         $this->actAs($user)
@@ -208,7 +208,7 @@ class PlayerControllerTest extends TestCase
     public function testSetTexture()
     {
         $player = factory(Player::class)->create();
-        $user = User::find($player->uid);
+        $user = $player->user;
         $steve = factory(Texture::class)->create();
         $alex = factory(Texture::class, 'alex')->create();
         $cape = factory(Texture::class, 'cape')->create();
@@ -284,7 +284,7 @@ class PlayerControllerTest extends TestCase
     public function testClearTexture()
     {
         $player = factory(Player::class)->create();
-        $user = User::find($player->uid);
+        $user = $player->user;
 
         $player->setTexture([
             'tid_steve' => 1,
@@ -314,7 +314,7 @@ class PlayerControllerTest extends TestCase
     {
         // Without `preference` field
         $player = factory(Player::class)->create();
-        $this->actAs(User::find($player->uid))
+        $this->actAs($player->user)
             ->postJson('/user/player/preference', [
                 'pid' => $player->pid
             ], [

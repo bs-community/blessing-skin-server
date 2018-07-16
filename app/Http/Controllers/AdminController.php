@@ -260,7 +260,7 @@ class AdminController extends Controller
         ->setRowId('uid')
         ->addColumn('operations', app('user.current')->getPermission())
         ->addColumn('players_count', function ($user) {
-            return Player::where('uid', $user->uid)->count();
+            return $user->players->count();
         })
         ->make(true);
     }

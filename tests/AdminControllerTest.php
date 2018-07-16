@@ -192,7 +192,7 @@ class AdminControllerTest extends BrowserKitTestCase
     public function testGetPlayerData()
     {
         $player = factory(Player::class)->create();
-        $user = User::find($player->uid);
+        $user = $player->user;
 
         $this->visit('/admin/player-data')
             ->seeJsonStructure([
