@@ -63,7 +63,7 @@ class Closet
                 return true;
             }
 
-            if ($t->public == 0 && $t->uploader != $uid && !app('users')->get($uid)->isAdmin()) {
+            if (!$t->public && $t->uploader != $uid && !app('users')->get($uid)->isAdmin()) {
                 return true;
             }
 

@@ -25,7 +25,7 @@ class ClosetTest extends TestCase
         $other = factory(User::class)->create();
         $texture = factory(Texture::class)->create([
             'uploader' => $other->uid,
-            'public' => 0
+            'public' => true
         ]);
         $user = factory(User::class)->create();
         $closet = new Closet($user->uid);

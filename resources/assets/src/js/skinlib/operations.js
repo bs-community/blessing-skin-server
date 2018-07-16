@@ -179,7 +179,7 @@ async function changePrivacy(tid) {
         if (errno === 0) {
             toastr.success(msg);
 
-            if (result.public === '0') {
+            if (!result.public) {
                 $(`a:contains("${trans('skinlib.setAsPrivate')}")`).html(trans('skinlib.setAsPublic'));
             } else {
                 $(`a:contains("${trans('skinlib.setAsPublic')}")`).html(trans('skinlib.setAsPrivate'));

@@ -49,7 +49,7 @@ class CreateAllTables extends Migration
             $table->string('hash', 64);
             $table->integer('size');
             $table->integer('uploader');
-            $table->integer('public');
+            $table->tinyInteger('public');
             $table->dateTime('upload_at');
         });
 

@@ -86,12 +86,12 @@ class SkinlibController extends Controller
 
         if ($anonymous) {
             // Show public textures only to anonymous visitors
-            $query = $query->where('public', 1);
+            $query = $query->where('public', true);
         } else {
             // Show private textures when show uploaded textures of current user
             if ($uploader != $this->user->uid && !$this->user->isAdmin()) {
                 $query = $query->where(function ($innerQuery) {
-                    $innerQuery->where('public', '=', '1')->orWhere('uploader', '=', $this->user->uid);
+                    $innerQuery->where('public', true)->orWhere('uploader', '=', $this->user->uid);
                 });
             }
         }
@@ -132,7 +132,7 @@ class SkinlibController extends Controller
             abort(404, trans('skinlib.show.deleted').trans('skinlib.show.contact-admin'));
         }
 
-        if ($texture->public == "0") {
+        if (!$texture->public) {
             if (is_null($this->user) || ($this->user->uid != $texture->uploader && !$this->user->isAdmin()))
                 abort(403, trans('skinlib.show.private'));
         }
@@ -171,11 +171,11 @@ class SkinlibController extends Controller
         $t->likes     = 1;
         $t->hash      = bs_hash_file($request->file('file'));
         $t->size      = ceil($request->file('file')->getSize() / 1024);
-        $t->public    = ($request->input('public') == 'true') ? "1" : "0";
+        $t->public    = $request->input('public') == 'true';
         $t->uploader  = $this->user->uid;
         $t->upload_at = Utils::getTimeFormatted();
 
-        $cost = $t->size * (($t->public == "1") ? Option::get('score_per_storage') : Option::get('private_score_per_storage'));
+        $cost = $t->size * ($t->public ? Option::get('score_per_storage') : Option::get('private_score_per_storage'));
         $cost += option('score_per_closet_item');
 
         if ($this->user->getScore() < $cost)
@@ -187,7 +187,7 @@ class SkinlibController extends Controller
             foreach ($results as $result) {
                 // if the texture already uploaded was set to private,
                 // then allow to re-upload it.
-                if ($result->type == $t->type && $result->public == "1") {
+                if ($result->type == $t->type && $result->public) {
                     return json(trans('skinlib.upload.repeated'), 0, [
                         'tid' => $result->tid
                     ]);
@@ -229,7 +229,7 @@ class SkinlibController extends Controller
 
         if (option('return_score')) {
             if ($u = $users->get($result->uploader)) {
-                if ($result->public == 1) {
+                if ($result->public) {
                     $u->setScore(
                         $result->size * option('score_per_storage'), 'plus'
                     );
@@ -256,7 +256,7 @@ class SkinlibController extends Controller
         if ($t->uploader != $this->user->uid && !$this->user->isAdmin())
             return json(trans('skinlib.no-permission'), 1);
 
-        $score_diff = $t->size * (option('private_score_per_storage') - option('score_per_storage')) * ($t->public == 1 ? -1 : 1);
+        $score_diff = $t->size * (option('private_score_per_storage') - option('score_per_storage')) * ($t->public ? -1 : 1);
         if ($users->get($t->uploader)->getScore() + $score_diff < 0) {
             return json(trans('skinlib.upload.lack-score'), 1);
         }
@@ -274,7 +274,7 @@ class SkinlibController extends Controller
         if ($t->setPrivacy(!$t->public)) {
             return json([
                 'errno'  => 0,
-                'msg'    => trans('skinlib.privacy.success', ['privacy' => ($t->public == "0" ? trans('general.private') : trans('general.public'))]),
+                'msg'    => trans('skinlib.privacy.success', ['privacy' => (!$t->public ? trans('general.private') : trans('general.public'))]),
                 'public' => $t->public
             ]);
         }

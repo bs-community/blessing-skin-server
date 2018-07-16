@@ -37,7 +37,7 @@ class SkinlibControllerTest extends TestCase
                     'hash' => $texture->hash,
                     'size' => $texture->size,
                     'uploader' => $texture->uploader,
-                    'public' => $texture->public ? 1 : 0,
+                    'public' => $texture->public,
                     'upload_at' => $texture->upload_at->format('Y-m-d H:i:s')
                 ];
             })
@@ -374,7 +374,7 @@ class SkinlibControllerTest extends TestCase
                 'hash' => $texture->hash,
                 'size' => $texture->size,
                 'uploader' => $texture->uploader,
-                'public' => $texture->public ? 1 : 0,
+                'public' => $texture->public,
                 'upload_at' => $texture->upload_at->format('Y-m-d H:i:s')
             ]);
     }
@@ -605,8 +605,8 @@ class SkinlibControllerTest extends TestCase
         $this->assertEquals('steve', $t->type);
         $this->assertEquals(1, $t->likes);
         $this->assertEquals(1, $t->size);
-        $this->assertEquals('1', $t->public);
         $this->assertEquals($user->uid, $t->uploader);
+        $this->assertTrue($t->public);
 
         // Upload a duplicated texture
         $user = factory(User::class)->create();
@@ -744,7 +744,7 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'errno' => 0,
                 'msg' => trans('skinlib.privacy.success', ['privacy' => trans('general.private')]),
-                'public' => 0
+                'public' => false
             ]);
         $this->assertEquals(0, Texture::find($texture->tid)->public);
 
@@ -769,7 +769,7 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'errno' => 0,
                 'msg' => trans('skinlib.privacy.success', ['privacy' => trans('general.private')]),
-                'public' => 0
+                'public' => false
             ]);
         $this->assertEquals(0, User::find($uploader->uid)->score);
 
@@ -783,7 +783,7 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'errno' => 0,
                 'msg' => trans('skinlib.privacy.success', ['privacy' => trans('general.private')]),
-                'public' => 0
+                'public' => false
             ]);
         $this->assertEquals(0, Player::find($player->pid)->tid_steve);
     }

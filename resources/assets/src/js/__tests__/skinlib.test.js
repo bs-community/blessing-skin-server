@@ -58,7 +58,7 @@ describe('tests for "index" module', () => {
       tid: 1,
       name: 'name',
       type: 'steve',
-      public: 0
+      public: false
     }]);
     expect($('#skinlib-paginator').css('display')).not.toBe('none');
     expect($('.item').attr('tid')).toBe('1');
@@ -75,7 +75,7 @@ describe('tests for "index" module', () => {
       tid: 1,
       name: 'name',
       type: 'steve',
-      public: 0,
+      public: false,
       liked: true
     }]);
     expect($('a.more.like').attr('title')).toBe('skinlib.removeFromCloset');
@@ -88,7 +88,7 @@ describe('tests for "index" module', () => {
       tid: 1,
       name: 'name',
       type: 'steve',
-      public: 0,
+      public: false,
       liked: false
     }]);
     expect($('a.more.like').attr('title')).toBe('skinlib.addToCloset');
@@ -101,7 +101,7 @@ describe('tests for "index" module', () => {
       tid: 1,
       name: 'name',
       type: 'steve',
-      public: 1,
+      public: true,
       liked: false
     }]);
     expect($('small.more').hasClass('hide')).toBe(true);
@@ -560,8 +560,8 @@ describe('tests for "operations" module', () => {
 
   it('change privacy', async () => {
     const fetch = jest.fn()
-      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success', public: '0' }))
-      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
+      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success', public: false }))
+      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success', public: true }))
       .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
       .mockReturnValueOnce(Promise.reject());
     window.fetch = fetch;

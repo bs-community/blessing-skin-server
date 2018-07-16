@@ -19,12 +19,12 @@ class Texture extends Model
         'likes' => 'integer',
         'size' => 'integer',
         'uploader' => 'integer',
-        'public' => 'integer',
+        'public' => 'boolean',
     ];
 
     public function setPrivacy($public)
     {
-        $this->public = $public ? "1" : "0";
+        $this->public = $public;
         return $this->save();
     }
 

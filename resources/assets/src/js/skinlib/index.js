@@ -120,7 +120,7 @@ function renderSkinlibItemComponent(item) {
 
                 <a title="${title}" class="more like ${liked} ${anonymous}" tid="${ item.tid }" href="javascript:;" data-placement="top" data-toggle="tooltip"><i class="fa fa-heart"></i></a>
 
-                <small class="more private-label ${(item.public === 0) ? '' : 'hide'}" tid="${ item.tid }">
+                <small class="more private-label ${(!item.public) ? '' : 'hide'}" tid="${ item.tid }">
                     ${ trans('skinlib.private') }
                 </small>
             </div>
