@@ -239,7 +239,7 @@ class SkinlibControllerTest extends TestCase
             ]);
 
         // Other users should not see someone's private textures
-        for ($i = 0; $i < count($expected); $i++) {
+        for ($i = 0, $length = count($expected); $i < $length; $i++) {
             $expected[$i]['liked'] = false;
         }
         $this->actAs($otherUser)
@@ -258,7 +258,7 @@ class SkinlibControllerTest extends TestCase
         $closet = new Closet($otherUser->uid);
         $closet->add($texture->tid, $texture->name);
         $closet->save();
-        for ($i = 0; $i < count($expected); $i++) {
+        for ($i = 0, $length = count($expected); $i < $length; $i++) {
             if ($expected[$i]['tid'] == $texture->tid) {
                 $expected[$i]['liked'] = true;
             } else {
@@ -279,7 +279,7 @@ class SkinlibControllerTest extends TestCase
             ->values()
             ->forPage(1, 20);
         $expected = $this->serializeTextures($expected);
-        for ($i = 0; $i < count($expected); $i++) {
+        for ($i = 0, $length = count($expected); $i < $length; $i++) {
             // The reason we use `false` here is that some textures just were
             // uploaded by this user, but these textures are not in his closet.
             // By default(not in testing like now), when you uploaded a texture,
