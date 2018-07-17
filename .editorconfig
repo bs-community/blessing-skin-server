@@ -9,5 +9,5 @@ indent_style = space
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-[*.{php,js,md,styl}]
+[*.{php,js,md,styl,tpl}]
 indent_size = 4
