@@ -63,7 +63,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'user'], function ()
     Route::post('/player/delete',        'PlayerController@delete');
 
     // Closet
-    Route::view('/closet',               'ClosetController@index');
+    Route::get ('/closet',               'ClosetController@index');
     Route::get ('/closet-data',          'ClosetController@getClosetData');
     Route::post('/closet/add',           'ClosetController@add');
     Route::post('/closet/remove',        'ClosetController@remove');
