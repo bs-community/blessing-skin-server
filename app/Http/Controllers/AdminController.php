@@ -232,17 +232,6 @@ class AdminController extends Controller
         return view('admin.options')->with('forms', compact('general', 'resources', 'announ'));
     }
 
-    /**
-     * Show Manage Page of Users.
-     *
-     * @param  Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function users(Request $request)
-    {
-        return view('admin.users');
-    }
-
     public function getUserData(Request $request)
     {
         $users = collect();
@@ -263,17 +252,6 @@ class AdminController extends Controller
             return $user->players->count();
         })
         ->make(true);
-    }
-
-    /**
-     * Show Manage Page of Players.
-     *
-     * @param  Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function players(Request $request)
-    {
-        return view('admin.players');
     }
 
     public function getPlayerData(Request $request)

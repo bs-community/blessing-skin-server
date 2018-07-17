@@ -23,7 +23,7 @@ Route::group(['prefix' => 'auth'], function ()
 {
     Route::group(['middleware' => 'guest'], function ()
     {
-        Route::get ('/login',     'AuthController@login');
+        Route::view('/login',     'auth.login');
         Route::get ('/register',  'AuthController@register');
         Route::get ('/forgot',    'AuthController@forgot');
         Route::get ('/reset',     'AuthController@reset');
@@ -63,7 +63,7 @@ Route::group(['middleware' => 'auth', 'prefix' => 'user'], function ()
     Route::post('/player/delete',        'PlayerController@delete');
 
     // Closet
-    Route::get ('/closet',               'ClosetController@index');
+    Route::view('/closet',               'ClosetController@index');
     Route::get ('/closet-data',          'ClosetController@getClosetData');
     Route::post('/closet/add',           'ClosetController@add');
     Route::post('/closet/remove',        'ClosetController@remove');
@@ -102,12 +102,12 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function ()
     Route::any('/score',       'AdminController@score');
     Route::any('/options',     'AdminController@options');
 
-    Route::get('/users',       'AdminController@users');
-    Route::get('/user-data',   'AdminController@getUserData');
+    Route::view('/users',       'admin.users');
+    Route::get ('/user-data',   'AdminController@getUserData');
 
-    Route::get('/players',     'AdminController@players');
-    Route::get('/player-data', 'AdminController@getPlayerData');
-    Route::get('/user/{uid}',  'AdminController@getOneUser');
+    Route::view('/players',     'admin.players');
+    Route::get ('/player-data', 'AdminController@getPlayerData');
+    Route::get ('/user/{uid}',  'AdminController@getOneUser');
 
     // ajax handlers
     Route::post('/users',      'AdminController@userAjaxHandler');
@@ -115,9 +115,9 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function ()
 
     Route::group(['prefix' => 'plugins'], function () {
         Route::get ('/data',   'PluginController@getPluginData');
-        Route::any ('/market', 'PluginController@showMarket');
+        Route::redirect('/market', 'https://github.com/printempw/blessing-skin-server/wiki/Plugins');
 
-        Route::get ('/manage', 'PluginController@showManage');
+        Route::view('/manage', 'admin.plugins');
         Route::post('/manage', 'PluginController@manage');
         Route::any ('/config/{name}', 'PluginController@config');
     });
