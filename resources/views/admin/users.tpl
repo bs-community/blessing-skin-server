@@ -9,7 +9,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            {{ trans('general.user-manage') }}
+            @lang('general.user-manage')
         </h1>
     </section>
 
@@ -20,14 +20,14 @@
                 <table id="user-table" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>{{ trans('general.user.uid') }}</th>
-                            <th>{{ trans('general.user.email') }}</th>
-                            <th>{{ trans('general.user.nickname') }}</th>
-                            <th>{{ trans('general.user.score') }}</th>
-                            <th>{{ trans('admin.users.players-count.title') }}</th>
-                            <th>{{ trans('admin.users.status.title') }}</th>
-                            <th>{{ trans('general.user.register-at') }}</th>
-                            <th>{{ trans('general.operations') }}</th>
+                            <th>@lang('general.user.uid')</th>
+                            <th>@lang('general.user.email')</th>
+                            <th>@lang('general.user.nickname')</th>
+                            <th>@lang('general.user.score')</th>
+                            <th>@lang('admin.users.players-count.title')</th>
+                            <th>@lang('admin.users.status.title')</th>
+                            <th>@lang('general.user.register-at')</th>
+                            <th>@lang('general.operations')</th>
                         </tr>
                     </thead>
                 </table>

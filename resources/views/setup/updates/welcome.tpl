@@ -2,7 +2,7 @@
 
 @section('content')
 <h1>
-{{ trans('setup.updates.welcome.title') }}
+@lang('setup.updates.welcome.title')
 @include('setup.wizard.language')
 </h1>
 
@@ -10,7 +10,7 @@
 
 <form method="post" action="" novalidate="novalidate">
     <p class="step">
-        <input type="submit" name="submit" class="button button-large" value="{{ trans('setup.updates.welcome.button') }}"  />
+        <input type="submit" name="submit" class="button button-large" value="@lang('setup.updates.welcome.button')"  />
     </p>
 </form>
 @endsection

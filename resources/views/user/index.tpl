@@ -9,7 +9,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            {{ trans('general.dashboard') }}
+            @lang('general.dashboard')
         </h1>
     </section>
 
@@ -24,20 +24,20 @@
             <div class="col-md-8">
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title">{{ trans('user.used.title') }}</h3>
+                        <h3 class="box-title">@lang('user.used.title')</h3>
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="progress-group">
-                                    <span class="progress-text">{{ trans('user.used.players') }}</span>
+                                    <span class="progress-text">@lang('user.used.players')</span>
                                     <span class="progress-number"><b>{{ $statistics['players']['used'] }}</b>/ {{ $statistics['players']['total'] }}</span>
                                     <div class="progress sm">
                                         <div class="progress-bar progress-bar-aqua" style="width: {{ $statistics['players']['percentage'] }}%"></div>
                                     </div>
                                 </div><!-- /.progress-group -->
                                 <div class="progress-group">
-                                    <span class="progress-text">{{ trans('user.used.storage') }}</span>
+                                    <span class="progress-text">@lang('user.used.storage')</span>
 
                                     <?php
                                         $used  = $statistics['storage']['used'];
@@ -59,28 +59,28 @@
                             </div><!-- /.col -->
                             <div class="col-md-4">
                                 <p class="text-center">
-                                    <strong>{{ trans('user.cur-score') }}</strong>
+                                    <strong>@lang('user.cur-score')</strong>
                                 </p>
                                 <p id="score" data-toggle="modal" data-target="#modal-score-instruction">
                                     {{ $user->getScore() }}
                                 </p>
-                                <p class="text-center" style="font-size: smaller; margin-top: 20px;">{{ trans('user.score-notice') }}</p>
+                                <p class="text-center" style="font-size: smaller; margin-top: 20px;">@lang('user.score-notice')</p>
                             </div><!-- /.col -->
                         </div><!-- /.row -->
                     </div><!-- ./box-body -->
                     <div class="box-footer">
                         @if ($user->canSign())
                         <button id="sign-button" class="btn btn-primary pull-left" onclick="sign()">
-                            <i class="fa fa-calendar-check-o" aria-hidden="true"></i> &nbsp;{{ trans('user.sign') }}
+                            <i class="fa fa-calendar-check-o" aria-hidden="true"></i> &nbsp;@lang('user.sign')
                         </button>
                         @else
-                        <button class="btn btn-primary pull-left" title="{{ trans('user.last-sign', ['time' => $user->getLastSignTime()]) }}" disabled="disabled">
+                        <button class="btn btn-primary pull-left" title="@lang('user.last-sign', ['time' => $user->getLastSignTime()])" disabled="disabled">
                             <i class="fa fa-calendar-check-o" aria-hidden="true"></i> &nbsp;
                             <?php $hours = $user->getSignRemainingTime() / 3600; ?>
                             @if ($hours >= 1)
-                                {{ trans('user.sign-remain-time', ['time' => round($hours), 'unit' => trans('user.time-unit-hour')]) }}
+                                @lang('user.sign-remain-time', ['time' => round($hours), 'unit' => trans('user.time-unit-hour')])
                             @else
-                                {{ trans('user.sign-remain-time', ['time' => round($hours * 60), 'unit' => trans('user.time-unit-min')]) }}
+                                @lang('user.sign-remain-time', ['time' => round($hours * 60), 'unit' => trans('user.time-unit-min')])
                             @endif
                         </button>
                         @endif
@@ -91,7 +91,7 @@
             <div class="col-md-4">
                 <div class="box box-primary">
                     <div class="box-header with-border">
-                        <h3 class="box-title">{{ trans('user.announcement') }}</h3>
+                        <h3 class="box-title">@lang('user.announcement')</h3>
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         {!! bs_announcement() !!}
@@ -109,7 +109,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">{{ trans('user.score-intro.title') }}</h4>
+                <h4 class="modal-title">@lang('user.score-intro.title')</h4>
             </div>
             <div class="modal-body">
                 <?php list($from, $to) = explode(',', Option::get('sign_score')); ?>
@@ -124,18 +124,18 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        <p class="text-center">{{ trans('user.score-intro.rates.storage', ['score' => option('score_per_storage')]) }}</p>
+                        <p class="text-center">@lang('user.score-intro.rates.storage', ['score' => option('score_per_storage')])</p>
                     </div>
                     <div class="col-md-4">
-                        <p class="text-center">{{ trans('user.score-intro.rates.player', ['score' => option('score_per_player')]) }}</p>
+                        <p class="text-center">@lang('user.score-intro.rates.player', ['score' => option('score_per_player')])</p>
                     </div>
                     <div class="col-md-4">
-                        <p class="text-center">{{ trans('user.score-intro.rates.closet', ['score' => option('score_per_closet_item')]) }}</p>
+                        <p class="text-center">@lang('user.score-intro.rates.closet', ['score' => option('score_per_closet_item')])</p>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('general.close') }}</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">@lang('general.close')</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

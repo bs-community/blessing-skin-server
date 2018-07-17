@@ -9,7 +9,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            {{ trans('general.options') }}
+            @lang('general.options')
         </h1>
     </section>
 

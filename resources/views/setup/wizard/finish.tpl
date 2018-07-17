@@ -1,24 +1,24 @@
 @extends('setup.master')
 
 @section('content')
-<h1>{{ trans('setup.wizard.finish.title') }}
+<h1>@lang('setup.wizard.finish.title')
 @include('setup.wizard.language')
 </h1>
 
-<p>{{ trans('setup.wizard.finish.text') }}</p>
+<p>@lang('setup.wizard.finish.text')</p>
 
 <table class="form-table install-success">
     <tr>
-        <th>{{ trans('auth.email') }}</th>
+        <th>@lang('auth.email')</th>
         <td>{{ $email }}</td>
     </tr>
     <tr>
-        <th>{{ trans('auth.password') }}</th>
+        <th>@lang('auth.password')</th>
         <td><p><em>{{ $password }}</em></p></td>
     </tr>
 </table>
 
 <p class="step">
-    <a href="../" class="button button-large">{{ trans('general.index') }}</a>
+    <a href="../" class="button button-large">@lang('general.index')</a>
 </p>
 @endsection

@@ -2,10 +2,10 @@
     <h3 class="box-title" style="width: 100%;">{!! $title or trans('general.texture-preview') !!}
         <span id="textures-indicator" data-toggle="tooltip" title="" class="badge bg-light-blue"></span>
         <div class="operations">
-            <i data-toggle="tooltip" data-placement="bottom" title="{{ trans('general.walk').' / '.trans('general.run') }}" class="fa fa-forward"></i>
-            <i data-toggle="tooltip" data-placement="bottom" title="{{ trans('general.rotation') }}" class="fa fa-repeat"></i>
-            <i data-toggle="tooltip" data-placement="bottom" title="{{ trans('general.pause') }}" class="fa fa-pause"></i>
-            <i data-toggle="tooltip" data-placement="bottom" title="{{ trans('general.reset') }}" class="fa fa-stop"></i>
+            <i data-toggle="tooltip" data-placement="bottom" title="@lang('general.walk').' / '.trans('general.run')" class="fa fa-forward"></i>
+            <i data-toggle="tooltip" data-placement="bottom" title="@lang('general.rotation')" class="fa fa-repeat"></i>
+            <i data-toggle="tooltip" data-placement="bottom" title="@lang('general.pause')" class="fa fa-pause"></i>
+            <i data-toggle="tooltip" data-placement="bottom" title="@lang('general.reset')" class="fa fa-stop"></i>
         </div>
     </h3>
 </div><!-- /.box-header -->

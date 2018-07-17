@@ -8,17 +8,17 @@
         </h1>
         <div style="padding:30px 40px 40px">{!! trans('auth.mail.message', ['sitename' => "<a style='color:#009a61;text-decoration:none' href='".option('site_url')."'>".option_localized('site_name')."</a>"]) !!}<br><br>
             <div style="border-left:5px solid #ddd;padding:0 0 0 24px;color:#888">
-                {{ trans('auth.mail.ignore')  }}
+                @lang('auth.mail.ignore')
             </div>
         </div>
         <div style="background:#eee;border-top:1px solid #ddd;text-align:center;min-height:90px;line-height:90px">
             <a href="{{ $reset_url }}" style="padding:8px 18px;background:#009a61;color:#fff;text-decoration:none;border-radius:3px" target="_blank">
-                {{ trans('auth.mail.reset') }} ➔
+                @lang('auth.mail.reset') ➔
             </a>
         </div>
     </div>
     <div style="padding-top:30px;text-align:center;font-size:12px;color:#999">
-        * {{ trans('auth.mail.notice') }} <br>
+        * @lang('auth.mail.notice') <br>
     </div>
 </center>
 </div>

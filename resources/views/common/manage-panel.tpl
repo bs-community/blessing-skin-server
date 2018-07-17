@@ -9,10 +9,10 @@
 
     <div class="box-footer">
         @if ($texture->public == "1")
-        <a onclick="changePrivacy({{ $texture->tid }});" class="btn btn-warning">{{ trans('skinlib.privacy.set-as-private') }}</a>
+        <a onclick="changePrivacy({{ $texture->tid }});" class="btn btn-warning">@lang('skinlib.privacy.set-as-private')</a>
         @else
-        <a onclick="changePrivacy({{ $texture->tid }});" class="btn btn-warning">{{ trans('skinlib.privacy.set-as-public') }}</a>
+        <a onclick="changePrivacy({{ $texture->tid }});" class="btn btn-warning">@lang('skinlib.privacy.set-as-public')</a>
         @endif
-        <a onclick="deleteTexture({{ $texture->tid }});" class="btn btn-danger pull-right">{{ trans('skinlib.show.delete-texture') }}</a>
+        <a onclick="deleteTexture({{ $texture->tid }});" class="btn btn-danger pull-right">@lang('skinlib.show.delete-texture')</a>
     </div><!-- /.box-footer -->
 </div><!-- /.box -->

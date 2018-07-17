@@ -23,13 +23,13 @@
         <li class="user-body">
             <div class="row">
                 <div class="col-xs-4 text-center">
-                    <a href="{{ url('admin') }}">{{ trans('general.admin-panel') }}</a>
+                    <a href="{{ url('admin') }}">@lang('general.admin-panel')</a>
                 </div>
                 <div class="col-xs-4 text-center">
-                    <a href="{{ url('admin/users') }}">{{ trans('general.user-manage') }}</a>
+                    <a href="{{ url('admin/users') }}">@lang('general.user-manage')</a>
                 </div>
                 <div class="col-xs-4 text-center">
-                    <a href="{{ url('admin/options') }}">{{ trans('general.options') }}</a>
+                    <a href="{{ url('admin/options') }}">@lang('general.options')</a>
                 </div>
             </div>
         </li>
@@ -38,10 +38,10 @@
         <!-- Menu Footer-->
         <li class="user-footer">
             <div class="pull-left">
-                <a href="{{ url('user') }}" class="btn btn-default btn-flat">{{ trans('general.user-center') }}</a>
+                <a href="{{ url('user') }}" class="btn btn-default btn-flat">@lang('general.user-center')</a>
             </div>
             <div class="pull-right">
-                <button id="logout-button" class="btn btn-default btn-flat">{{ trans('general.logout') }}</button>
+                <button id="logout-button" class="btn btn-default btn-flat">@lang('general.logout')</button>
             </div>
         </li>
     </ul>

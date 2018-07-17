@@ -32,48 +32,48 @@
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">
                             <li class="active">
-                                <a href="{{ url('skinlib') }}">{{ trans('general.skinlib') }}</a>
+                                <a href="{{ url('skinlib') }}">@lang('general.skinlib')</a>
                             </li>
                             <li>
-                                <a href="{{ url('user/closet') }}">{{ trans('general.my-closet') }}</a>
+                                <a href="{{ url('user/closet') }}">@lang('general.my-closet')</a>
                             </li>
 
                             @unless (isset($with_out_filter))
                             <!-- Filters -->
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-filter" aria-hidden="true"></i> {{ trans('skinlib.general.filter') }} <span class="caret"></span>
+                                    <i class="fa fa-filter" aria-hidden="true"></i> @lang('skinlib.general.filter') <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a class="filter" data-filter="skin" href="#">{{ trans('general.skin') }} <small>{{ trans('skinlib.filter.any-model') }}</small></a></li>
+                                    <li><a class="filter" data-filter="skin" href="#">@lang('general.skin') <small>@lang('skinlib.filter.any-model')</small></a></li>
 
-                                    <li><a class="filter" data-filter="steve" href="#">{{ trans('general.skin') }} <small>{{ trans('skinlib.filter.steve-model') }}</small></a></li>
+                                    <li><a class="filter" data-filter="steve" href="#">@lang('general.skin') <small>@lang('skinlib.filter.steve-model')</small></a></li>
 
-                                    <li><a class="filter" data-filter="alex" href="#">{{ trans('general.skin') }} <small>{{ trans('skinlib.filter.alex-model') }}</small></a></li>
+                                    <li><a class="filter" data-filter="alex" href="#">@lang('general.skin') <small>@lang('skinlib.filter.alex-model')</small></a></li>
 
                                     <li class="divider"></li>
 
-                                    <li><a class="filter" data-filter="cape" href="#">{{ trans('general.cape') }}</a></li>
+                                    <li><a class="filter" data-filter="cape" href="#">@lang('general.cape')</a></li>
 
                                     @if (!is_null($user))
                                     <li class="divider"></li>
-                                    <li><a class="filter" data-filter="uploader" data-uid="{{ $user->uid }}" href="#">{{ trans('skinlib.general.my-upload') }}</a></li>
+                                    <li><a class="filter" data-filter="uploader" data-uid="{{ $user->uid }}" href="#">@lang('skinlib.general.my-upload')</a></li>
                                     @endif
 
                                     <li class="divider"></li>
-                                    <li><a href="{{ url('skinlib') }}">{{ trans('skinlib.filter.clean-filter') }}</a></li>
+                                    <li><a href="{{ url('skinlib') }}">@lang('skinlib.filter.clean-filter')</a></li>
                                 </ul>
                             </li>
 
                             <!-- Sort -->
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-sort-amount-desc" aria-hidden="true"></i> {{ trans('skinlib.general.sort') }} <span class="caret"></span>
+                                    <i class="fa fa-sort-amount-desc" aria-hidden="true"></i> @lang('skinlib.general.sort') <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a class="sort" data-sort="likes" href="#">{{ trans('skinlib.sort.most-likes') }}</a></li>
+                                    <li><a class="sort" data-sort="likes" href="#">@lang('skinlib.sort.most-likes')</a></li>
                                     <li class="divider"></li>
-                                    <li><a class="sort" data-sort="time" href="#">{{ trans('skinlib.sort.newest-uploaded') }}</a></li>
+                                    <li><a class="sort" data-sort="time" href="#">@lang('skinlib.sort.newest-uploaded')</a></li>
                                 </ul>
                             </li>
                             @endunless
@@ -82,7 +82,7 @@
                         @unless (isset($with_out_filter))
                         <form class="navbar-form navbar-left" id="search-form" role="search">
                             <div class="form-group">
-                                <input type="text" class="form-control" id="navbar-search-input" name="q" placeholder="{{ trans('skinlib.general.search-textures') }}" value="{{ $q or '' }}" />
+                                <input type="text" class="form-control" id="navbar-search-input" name="q" placeholder="@lang('skinlib.general.search-textures')" value="{{ $q or '' }}" />
                             </div>
                         </form>
                         @endunless
@@ -90,7 +90,7 @@
                     <!-- Navbar Right Menu -->
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
-                            <li><a href="{{ url('skinlib/upload') }}"><i class="fa fa-upload" aria-hidden="true"></i> <span class="description-text">{{ trans('skinlib.general.upload-new-skin') }}</span></a></li>
+                            <li><a href="{{ url('skinlib/upload') }}"><i class="fa fa-upload" aria-hidden="true"></i> <span class="description-text">@lang('skinlib.general.upload-new-skin')</span></a></li>
 
                             @include('common.language')
 
@@ -103,7 +103,7 @@
                                 <a href="{{ url('auth/login') }}">
                                     <i class="fa fa-user"></i>
                                     <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                    <span class="hidden-xs nickname">{{ trans('general.anonymous') }}</span>
+                                    <span class="hidden-xs nickname">@lang('general.anonymous')</span>
                                 </a>
                             </li>
                             @endif

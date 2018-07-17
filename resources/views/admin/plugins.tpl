@@ -13,7 +13,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            {{ trans('general.plugin-manage') }}
+            @lang('general.plugin-manage')
         </h1>
     </section>
 
@@ -31,13 +31,13 @@
                 <table id="plugin-table" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>{{ trans('admin.plugins.name') }}</th>
-                            <th>{{ trans('admin.plugins.description') }}</th>
-                            <th>{{ trans('admin.plugins.author') }}</th>
-                            <th>{{ trans('admin.plugins.version') }}</th>
-                            <th>{{ trans('admin.plugins.dependencies') }}</th>
-                            <th>{{ trans('admin.plugins.status.title') }}</th>
-                            <th>{{ trans('admin.plugins.operations.title') }}</th>
+                            <th>@lang('admin.plugins.name')</th>
+                            <th>@lang('admin.plugins.description')</th>
+                            <th>@lang('admin.plugins.author')</th>
+                            <th>@lang('admin.plugins.version')</th>
+                            <th>@lang('admin.plugins.dependencies')</th>
+                            <th>@lang('admin.plugins.status.title')</th>
+                            <th>@lang('admin.plugins.operations.title')</th>
                         </tr>
                     </thead>
                 </table>

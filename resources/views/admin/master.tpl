@@ -64,11 +64,11 @@
 
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu tree" data-widget="tree">
-                    <li class="header">{{ trans('general.admin-panel') }}</li>
+                    <li class="header">@lang('general.admin-panel')</li>
                     {!! bs_menu('admin') !!}
 
-                    <li class="header">{{ trans('general.back') }}</li>
-                    <li><a href="{{ url('user') }}"><i class="fa fa-user"></i> <span>{{ trans('general.user-center') }}</span></a></li>
+                    <li class="header">@lang('general.back')</li>
+                    <li><a href="{{ url('user') }}"><i class="fa fa-user"></i> <span>@lang('general.user-center')</span></a></li>
                 </ul><!-- /.sidebar-menu -->
             </section>
             <!-- /.sidebar -->

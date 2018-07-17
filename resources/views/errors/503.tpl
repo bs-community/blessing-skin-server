@@ -7,5 +7,5 @@
 @include('setup.wizard.language')
 </h1>
 
-<p>{{ trans('errors.exception.detail', ['msg' => $exception->getMessage() ?: trans('errors.http.msg-503')]) }}</p>
+<p>@lang('errors.exception.detail', ['msg' => $exception->getMessage() ?: trans('errors.http.msg-503')])</p>
 @endsection

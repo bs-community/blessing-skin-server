@@ -9,7 +9,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            {{ trans('general.player-manage') }}
+            @lang('general.player-manage')
         </h1>
     </section>
 
@@ -20,13 +20,13 @@
                 <table id="player-table" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>{{ trans('general.player.pid') }}</th>
-                            <th>{{ trans('general.player.owner') }}</th>
-                            <th>{{ trans('general.player.player-name') }}</th>
-                            <th>{{ trans('general.player.preference') }}</th>
-                            <th>{{ trans('general.player.previews') }}</th>
-                            <th>{{ trans('general.player.last-modified') }}</th>
-                            <th>{{ trans('general.operations') }}</th>
+                            <th>@lang('general.player.pid')</th>
+                            <th>@lang('general.player.owner')</th>
+                            <th>@lang('general.player.player-name')</th>
+                            <th>@lang('general.player.preference')</th>
+                            <th>@lang('general.player.previews')</th>
+                            <th>@lang('general.player.last-modified')</th>
+                            <th>@lang('general.operations')</th>
                         </tr>
                     </thead>
                 </table>

@@ -62,15 +62,15 @@
 
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu tree" data-widget="tree">
-                    <li class="header">{{ trans('general.user-center') }}</li>
+                    <li class="header">@lang('general.user-center')</li>
                     {!! bs_menu('user') !!}
 
-                    <li class="header">{{ trans('general.explore') }}</li>
-                    <li><a href="{{ url('skinlib') }}"><i class="fa fa-archive"></i> <span>{{ trans('general.skinlib') }}</span></a></li>
+                    <li class="header">@lang('general.explore')</li>
+                    <li><a href="{{ url('skinlib') }}"><i class="fa fa-archive"></i> <span>@lang('general.skinlib')</span></a></li>
 
                     @admin($user)
-                    <li class="header">{{ trans('general.manage') }}</li>
-                    <li><a href="{{ url('admin') }}"><i class="fa fa-cog"></i> <span>{{ trans('general.admin-panel') }}</span></a></li>
+                    <li class="header">@lang('general.manage')</li>
+                    <li><a href="{{ url('admin') }}"><i class="fa fa-cog"></i> <span>@lang('general.admin-panel')</span></a></li>
                     @endadmin
                 </ul><!-- /.sidebar-menu -->
             </section>

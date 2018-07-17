@@ -8,11 +8,11 @@
     <div class="container">
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>{{ trans('general.skinlib') }}
+            <h1>@lang('general.skinlib')
                 <small id="search-indicator"></small>
             </h1>
             <ol class="breadcrumb">
-                <li><i class="fa fa-tags"></i> {{ trans('skinlib.filter.now-showing') }}</li>
+                <li><i class="fa fa-tags"></i> @lang('skinlib.filter.now-showing')</li>
                 <li id="filter-indicator"></li>
                 <li id="uploader-indicator"></li>
                 <li class="active" id="sort-indicator"></li>
@@ -34,7 +34,7 @@
 
                 <div class="overlay">
                     <i class="fa fa-refresh fa-spin"></i>
-                    <span>{{ trans('general.loading') }}</span>
+                    <span>@lang('general.loading')</span>
                 </div>
             </div><!-- /.box -->
         </section><!-- /.content -->

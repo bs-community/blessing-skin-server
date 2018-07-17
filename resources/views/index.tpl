@@ -28,8 +28,8 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                         <ul class="nav navbar-nav">
-                            <li class="active"><a href="{{ url('/') }}">{{ trans('general.index') }}</a></li>
-                            <li><a href="{{ url('skinlib') }}">{{ trans('general.skinlib') }}</a></li>
+                            <li class="active"><a href="{{ url('/') }}">@lang('general.index')</a></li>
+                            <li><a href="{{ url('skinlib') }}">@lang('general.skinlib')</a></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
                     <!-- Navbar Right Menu -->
@@ -42,7 +42,7 @@
                             @else {{-- Anonymous User --}}
                             <!-- User Account Menu -->
                             <li class="dropdown user user-menu">
-                                <a href="{{ url('auth/login') }}" class="btn btn-login">{{ trans('general.login') }}</a>
+                                <a href="{{ url('auth/login') }}" class="btn btn-login">@lang('general.login')</a>
                             </li>
                             @endif
                         </ul>
@@ -60,12 +60,12 @@
                 <p>
                     @if (is_null($user))
                         @if (option('user_can_register'))
-                        <a href="{{ url('auth/register') }}" id="btn-register" class="button">{{ trans('general.register') }}</a>
+                        <a href="{{ url('auth/register') }}" id="btn-register" class="button">@lang('general.register')</a>
                         @else
-                        <a href="{{ url('auth/login') }}" id="btn-close-register" class="button">{{ trans('general.login') }}</a>
+                        <a href="{{ url('auth/login') }}" id="btn-close-register" class="button">@lang('general.login')</a>
                         @endif
                     @else
-                    <a href="{{ url('user') }}" class="button">{{ trans('general.user-center') }}</a>
+                    <a href="{{ url('user') }}" class="button">@lang('general.user-center')</a>
                     @endif
                 </p>
             </div>
@@ -81,18 +81,18 @@
                 <br>
                 <div class="col-lg-4">
                     <i class="fa fa-users" aria-hidden="true"></i>
-                    <h3>{{ trans('index.features.multi-player.name') }}</h3>
-                    <p>{{ trans('index.features.multi-player.desc') }}</p>
+                    <h3>@lang('index.features.multi-player.name')</h3>
+                    <p>@lang('index.features.multi-player.desc')</p>
                 </div>
                 <div class="col-lg-4">
                     <i class="fa fa-share-alt" aria-hidden="true"></i>
-                    <h3>{{ trans('index.features.sharing.name') }}</h3>
-                    <p>{{ trans('index.features.sharing.desc') }}</p>
+                    <h3>@lang('index.features.sharing.name')</h3>
+                    <p>@lang('index.features.sharing.desc')</p>
                 </div>
                 <div class="col-lg-4">
                     <i class="fa fa-cloud" aria-hidden="true"></i>
-                    <h3>{{ trans('index.features.free.name') }}</h3>
-                    <p>{{ trans('index.features.free.desc') }}</p>
+                    <h3>@lang('index.features.free.name')</h3>
+                    <p>@lang('index.features.free.desc')</p>
                 </div>
             </div>
             <br>
@@ -102,11 +102,11 @@
     <div id="footerwrap">
         <div class="container">
             <div class="col-lg-6">
-                {{ trans('index.introduction', ['sitename' => option_localized('site_name')]) }}
+                @lang('index.introduction', ['sitename' => option_localized('site_name')])
             </div>
 
             <div class="col-lg-6">
-                <a href="{{ url('auth/register') }}" id="btn-register" class="button">{{ trans('index.start') }}</a>
+                <a href="{{ url('auth/register') }}" id="btn-register" class="button">@lang('index.start')</a>
             </div>
         </div>
     </div>

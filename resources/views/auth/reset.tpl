@@ -10,17 +10,17 @@
     </div>
 
     <div class="login-box-body">
-        <p class="login-box-msg">{{ trans('auth.reset.message', ['username' => $user->getNickName()]) }}</p>
+        <p class="login-box-msg">@lang('auth.reset.message', ['username' => $user->getNickName()])</p>
 
         <form id="login-form">
             <input id="uid" type="hidden" value="{{ $user->uid }}" />
 
             <div class="form-group has-feedback">
-                <input id="password" type="password" class="form-control" placeholder="{{ trans('auth.password') }}">
+                <input id="password" type="password" class="form-control" placeholder="@lang('auth.password')">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
             <div class="form-group has-feedback">
-                <input id="confirm-pwd" type="password" class="form-control" placeholder="{{ trans('auth.register.repeat-pwd') }}">
+                <input id="confirm-pwd" type="password" class="form-control" placeholder="@lang('auth.register.repeat-pwd')">
                 <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
             </div>
 
@@ -31,7 +31,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-xs-4">
-                    <button id="reset-button" class="btn btn-primary btn-block btn-flat">{{ trans('auth.reset.button') }}</button>
+                    <button id="reset-button" class="btn btn-primary btn-block btn-flat">@lang('auth.reset.button')</button>
                 </div>
                 <!-- /.col -->
             </div>
