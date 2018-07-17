@@ -18,7 +18,7 @@
             <img src="{{ avatar($user, 128) }}" alt="User Image">
             <p>{{ $user->email }}</p>
         </li>
-        @if ($user->isAdmin())
+        @admin($user)
         <!-- Menu Body -->
         <li class="user-body">
             <div class="row">
@@ -34,7 +34,7 @@
             </div>
         </li>
         <style>li.user-header { height: initial !important; }</style>
-        @endif
+        @endadmin
         <!-- Menu Footer-->
         <li class="user-footer">
             <div class="pull-left">

@@ -68,10 +68,10 @@
                     <li class="header">{{ trans('general.explore') }}</li>
                     <li><a href="{{ url('skinlib') }}"><i class="fa fa-archive"></i> <span>{{ trans('general.skinlib') }}</span></a></li>
 
-                    @if ($user->isAdmin())
+                    @admin($user)
                     <li class="header">{{ trans('general.manage') }}</li>
                     <li><a href="{{ url('admin') }}"><i class="fa fa-cog"></i> <span>{{ trans('general.admin-panel') }}</span></a></li>
-                    @endif
+                    @endadmin
                 </ul><!-- /.sidebar-menu -->
             </section>
             <!-- /.sidebar -->

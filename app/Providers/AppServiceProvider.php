@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use Blade;
 use Event;
 use Utils;
 use App\Events;
+use App\Models\User;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -61,5 +63,9 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton('users', \App\Services\Repositories\UserRepository::class);
         $this->app->singleton('parsedown', \Parsedown::class);
+
+        Blade::if('admin', function (User $user) {
+            return $user->isAdmin();
+        });
     }
 }
