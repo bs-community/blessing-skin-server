@@ -67,5 +67,9 @@ class AppServiceProvider extends ServiceProvider
         Blade::if('admin', function (User $user) {
             return $user->isAdmin();
         });
+
+        if ($this->app->environment() !== 'production') {
+            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+        }
     }
 }
