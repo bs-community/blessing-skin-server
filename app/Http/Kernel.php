@@ -49,5 +49,6 @@ class Kernel extends HttpKernel
         'admin'  => \App\Http\Middleware\CheckAdministrator::class,
         'player' => \App\Http\Middleware\CheckPlayerExist::class,
         'setup'  => \App\Http\Middleware\CheckInstallation::class,
+        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
     ];
 }

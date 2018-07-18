@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use URL;
 use Log;
 use Mail;
 use View;
@@ -181,13 +182,10 @@ class AuthController extends Controller
         if (! $user)
             return json(trans('auth.forgot.unregistered'), 1);
 
-        // Generate token for password resetting
-        $token = base64_encode($user->getToken().substr(time(), 4, 6).str_random(16));
+        $url = URL::temporarySignedRoute('auth.reset', now()->addHour(), ['uid' => $user->uid]);
 
         try {
-            Mail::to($request->input('email'))->send(new ForgotPassword($user->uid, $token));
-
-            Log::info("[Password Reset] Mail has been sent to [{$request->input('email')}] with token [$token]");
+            Mail::to($request->input('email'))->send(new ForgotPassword($url));
         } catch (\Exception $e) {
             // Write the exception to log
             app(\Illuminate\Foundation\Exceptions\Handler::class)->report($e);
@@ -200,63 +198,18 @@ class AuthController extends Controller
         return json(trans('auth.mail.success'), 0);
     }
 
-    public function reset(UserRepository $users, Request $request)
+    public function reset($uid, UserRepository $users)
     {
-        if ($request->has('uid') && $request->has('token')) {
-            // Get user instance from repository
-            $user = $users->get($request->input('uid'));
-
-            if (! $user)
-                return redirect('auth/forgot')->with('msg', trans('auth.reset.invalid'));
-
-            // Unpack to get user token & timestamp
-            $decoded   = base64_decode($request->input('token'));
-            $token     = substr($decoded, 0, -22);
-            $timestamp = substr($decoded, strlen($token), 6);
-
-            if ($user->getToken() != $token) {
-                return redirect('auth/forgot')->with('msg', trans('auth.reset.invalid'));
-            }
-
-            // More than 1 hour
-            if ((substr(time(), 4, 6) - $timestamp) > 3600) {
-                return redirect('auth/forgot')->with('msg', trans('auth.reset.expired'));
-            }
-
-            return view('auth.reset')->with('user', $user);
-        } else {
-            return redirect('auth/login')->with('msg', trans('auth.check.anonymous'));
-        }
+        return view('auth.reset')->with('user', $users->get($uid));
     }
 
-    public function handleReset(Request $request, UserRepository $users)
+    public function handleReset($uid, Request $request, UserRepository $users)
     {
-        $this->validate($request, [
-            'uid'      => 'required|integer',
+        $validated = $this->validate($request, [
             'password' => 'required|min:8|max:32',
-            'token'    => 'required',
         ]);
 
-        $decoded   = base64_decode($request->input('token'));
-        $token     = substr($decoded, 0, -22);
-        $timestamp = intval(substr($decoded, strlen($token), 6));
-
-        $user = $users->get($request->input('uid'));
-        if (! $user)
-            return json(trans('auth.reset.invalid'), 1);
-
-        if ($user->getToken() != $token) {
-            return json(trans('auth.reset.invalid'), 1);
-        }
-
-        // More than 1 hour
-        if ((intval(substr(time(), 4, 6)) - $timestamp) > 3600) {
-            return json(trans('auth.reset.expired'), 1);
-        }
-
-        $users->get($request->input('uid'))->changePasswd($request->input('password'));
-
-        Log::info("[Password Reset] Password of user [{$request->input('uid')}] has been changed");
+        $users->get($uid)->changePasswd($validated['password']);
 
         return json(trans('auth.reset.success'), 0);
     }

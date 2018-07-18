@@ -19,13 +19,12 @@ class ForgotPassword extends Mailable
     /**
      * Create a new message instance.
      *
-     * @param int    $uid
-     * @param string $token
+     * @param string $url
      * @return void
      */
-    public function __construct(int $uid, string $token)
+    public function __construct(string $url)
     {
-        $this->reset_url = option('site_url')."/auth/reset?uid=$uid&token=$token";
+        $this->reset_url = $url;
     }
 
     /**

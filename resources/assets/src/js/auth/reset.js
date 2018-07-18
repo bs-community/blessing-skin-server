@@ -2,11 +2,9 @@
 
 $('#reset-button').click(e => {
     e.preventDefault();
-    
+
     const data = {
-        uid: $('#uid').val(),
         password: $('#password').val(),
-        token: getQueryString('token')
     };
 
     (function validate({ password }, callback) {
@@ -29,9 +27,9 @@ $('#reset-button').click(e => {
         try {
             const { errno, msg } = await fetch({
                 type: 'POST',
-                url: url('auth/reset'),
+                url: `${url('auth/reset')}/${$('#uid').val()}?expires=${getQueryString('expires')}&signature=${getQueryString('signature')}`,
                 dataType: 'json',
-                data: data,
+                data,
                 beforeSend: () => {
                     $('#reset-button').html(
                         '<i class="fa fa-spinner fa-spin"></i> ' + trans('auth.resetting')

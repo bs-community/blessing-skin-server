@@ -441,11 +441,6 @@ class AuthControllerTest extends TestCase
             'msg' => trans('auth.forgot.unregistered')
         ]);
 
-        $uid = $user->uid;
-        $token = base64_encode(
-            $user->getToken().substr(time(), 4, 6).str_random(16)
-        );
-        $url = Option::get('site_url')."/auth/reset?uid=$uid&token=$token";
         $this->postJson('/auth/forgot', [
             'email' => $user->email,
             'captcha' => 'a'
@@ -453,8 +448,8 @@ class AuthControllerTest extends TestCase
             'errno' => 0,
             'msg' => trans('auth.mail.success')
         ])->assertSessionHas('last_mail_time');
-        Mail::assertSent(ForgotPassword::class, function ($mail) use ($url, $user) {
-            return stristr($url, $mail->reset_url) == 0 && $mail->hasTo($user->email);
+        Mail::assertSent(ForgotPassword::class, function ($mail) use ($user) {
+            return $mail->hasTo($user->email);
         });
 
         // Should handle exception when sending email
@@ -476,59 +471,19 @@ class AuthControllerTest extends TestCase
     {
         $user = factory(User::class)->create();
 
-        // Should be redirected if `uid` or `token` is empty
-        $this->get('/auth/reset')
-            ->assertRedirect('/auth/login');
-
-        // Should be redirected if `uid` is invalid
-        $this->get('/auth/reset?uid=-1&token=nothing')
-            ->assertRedirect('/auth/forgot');
-
-        // Should be redirected if `token` is invalid
-        $this->get('/auth/reset?uid=' . $user->uid . '&token=nothing')
-            ->assertRedirect('/auth/forgot');
-
-        // Should be redirected if expired
-        $token = base64_encode(
-            $user->getToken().substr(time() - 60 * 60 * 2, 4, 6).str_random(16)
-        );
-        $this->get('/auth/reset?uid=' . $user->uid . '&token=' . $token)
-            ->assertRedirect('/auth/forgot');
-
-        // Success
-        $token = base64_encode(
-            $user->getToken().substr(time(), 4, 6).str_random(16)
-        );
-        $this->get('/auth/reset?uid=' . $user->uid . '&token=' . $token);
+        $this->get(
+            URL::temporarySignedRoute('auth.reset', now()->addHour(), ['uid' => $user->uid])
+        )->assertSuccessful();
     }
 
     public function testHandleReset()
     {
         $user = factory(User::class)->create();
-
-        // Should return a warning if `uid` is empty
-        $this->postJson('/auth/reset', [], [
-            'X-Requested-With' => 'XMLHttpRequest'
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'uid'])
-        ]);
-
-        // Should return a warning if `uid` is not an integer
-        $this->postJson('/auth/reset', [
-            'uid' => 'string'
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest'
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.integer', ['attribute' => 'uid'])
-        ]);
+        $url = URL::temporarySignedRoute('auth.reset', now()->addHour(), ['uid' => $user->uid]);
 
         // Should return a warning if `password` is empty
         $this->postJson(
-            '/auth/reset', [
-            'uid' => $user->uid
-        ], [
+            $url, [], [
             'X-Requested-With' => 'XMLHttpRequest'
         ])->assertJson([
             'errno' => 1,
@@ -537,8 +492,7 @@ class AuthControllerTest extends TestCase
 
         // Should return a warning if `password` is too short
         $this->postJson(
-            '/auth/reset', [
-            'uid' => $user->uid,
+            $url, [
             'password' => '123'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
@@ -549,8 +503,7 @@ class AuthControllerTest extends TestCase
 
         // Should return a warning if `password` is too long
         $this->postJson(
-            '/auth/reset', [
-            'uid' => $user->uid,
+            $url, [
             'password' => str_random(33)
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
@@ -559,64 +512,10 @@ class AuthControllerTest extends TestCase
             'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 32])
         ]);
 
-        // Should be forbidden if `token` is missing
-        $this->postJson(
-            '/auth/reset', [
-            'uid' => $user->uid,
-            'password' => '12345678'
-        ], ['X-Requested-With' => 'XMLHttpRequest'])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'token'])
-        ]);
-
-        // Should be forbidden if expired
-        $token = base64_encode(
-            $user->getToken().substr(time() - 60 * 60 * 2, 4, 6).str_random(16)
-        );
-        $this->postJson(
-            '/auth/reset', [
-            'uid' => $user->uid,
-            'password' => '12345678',
-            'token' => $token
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('auth.reset.expired')
-        ]);
-
-        // Should return a warning if the user is not existed
-        $token = base64_encode(
-            $user->getToken().substr(time(), 4, 6).str_random(16)
-        );
-        $this->postJson(
-            '/auth/reset', [
-            'uid' => -1,
-            'password' => '12345678',
-            'token' => $token
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('auth.reset.invalid')
-        ]);
-
-        // Should be forbidden if `token` is invalid
-        $this->postJson(
-            '/auth/reset', [
-            'uid' => $user->uid,
-            'password' => '12345678',
-            'token' => 'invalid'
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('auth.reset.invalid')
-        ]);
-
         // Success
-        $token = base64_encode(
-            $user->getToken().substr(time(), 4, 6).str_random(16)
-        );
         $this->postJson(
-            '/auth/reset', [
-            'uid' => $user->uid,
+            $url, [
             'password' => '12345678',
-            'token' => $token
         ])->assertJson([
             'errno' => 0,
             'msg' => trans('auth.reset.success')

@@ -23,10 +23,10 @@ Route::group(['prefix' => 'auth'], function ()
 {
     Route::group(['middleware' => 'guest'], function ()
     {
-        Route::view('/login',     'auth.login');
-        Route::get ('/register',  'AuthController@register');
-        Route::get ('/forgot',    'AuthController@forgot');
-        Route::get ('/reset',     'AuthController@reset');
+        Route::view('/login',        'auth.login');
+        Route::get ('/register',    'AuthController@register');
+        Route::get ('/forgot',      'AuthController@forgot');
+        Route::get ('/reset/{uid}', 'AuthController@reset')->name('auth.reset')->middleware('signed');
     });
 
     Route::any('/logout',         'AuthController@logout');
@@ -36,7 +36,7 @@ Route::group(['prefix' => 'auth'], function ()
     Route::post('/register',      'AuthController@handleRegister');
     Route::post('/forgot',        'AuthController@handleForgot');
 
-    Route::post('/reset',         'AuthController@handleReset');
+    Route::post('/reset/{uid}',   'AuthController@handleReset')->middleware('signed');
 });
 
 /**

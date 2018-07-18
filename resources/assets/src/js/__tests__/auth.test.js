@@ -327,7 +327,9 @@ describe('tests for "reset" module', () => {
     const url = jest.fn(path => path);
     const swal = jest.fn().mockReturnValue(Promise.resolve());
     const showMsg = jest.fn();
-    const getQueryString = jest.fn().mockReturnValue('token');
+    const getQueryString = jest.fn()
+      .mockReturnValueOnce('expires')
+      .mockReturnValueOnce('signature');
     const showAjaxError = jest.fn();
     window.fetch = fetch;
     window.trans = trans;
@@ -377,15 +379,14 @@ describe('tests for "reset" module', () => {
 
     $('#confirm-pwd').val('password');
     await $('button').click();
-    expect(getQueryString).toBeCalledWith('token');
+    expect(getQueryString.mock.calls[0][0]).toBe('expires');
+    expect(getQueryString.mock.calls[1][0]).toBe('signature');
     expect(fetch).toBeCalledWith(expect.objectContaining({
       type: 'POST',
-      url: 'auth/reset',
+      url: 'auth/reset/1?expires=expires&signature=signature',
       dataType: 'json',
       data: {
-        uid: '1',
-        password: 'password',
-        token: 'token'
+        password: 'password'
       }
     }));
     expect($('button').html()).toBe(
