@@ -141,17 +141,17 @@ class User extends Model
     /**
      * Change password of the user.
      *
-     * @param  string $new_passwd New password that will be set.
+     * @param  string $password New password that will be set.
      * @return bool
      */
-    public function changePassword($new_passwd)
+    public function changePassword($password)
     {
-        $responses = event(new EncryptUserPassword($new_passwd, $this));
+        $responses = event(new EncryptUserPassword($password, $this));
 
         if (isset($responses[0])) {
             $this->password = $responses[0];     // @codeCoverageIgnore
         } else {
-            $this->password = app('cipher')->hash($new_passwd, config('secure.salt'));
+            $this->password = app('cipher')->hash($password, config('secure.salt'));
         }
 
         return $this->save();
