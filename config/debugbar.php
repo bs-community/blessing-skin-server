@@ -9,7 +9,7 @@ return [
      |
      | Debugbar is enabled by default, when debug is set to true in app.php.
      | You can override the value by setting enable to true or false instead of null.
-     | 
+     |
      | You can provide an array of URI's that must be ignored (eg. 'api/*')
      |
      */
@@ -79,7 +79,7 @@ return [
      |
      */
     'error_handler' => false,
-    
+
     /*
      |--------------------------------------------------------------------------
      | Clockwork integration
@@ -110,7 +110,7 @@ return [
         'db'              => true,  // Show database (PDO) queries and bindings
         'views'           => true,  // Views with their data
         'route'           => true,  // Current route information
-        'auth'            => true, // Display Laravel authentication status
+        'auth'            => false, // Display Laravel authentication status
         'gate'            => true, // Display Laravel Gate checks
         'session'         => true,  // Display session data
         'symfony_request' => true,  // Only one can be enabled..
