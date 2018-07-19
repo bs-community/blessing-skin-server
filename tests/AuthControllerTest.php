@@ -24,7 +24,7 @@ class AuthControllerTest extends TestCase
         $this->expectsEvents(Events\UserLoggedIn::class);
 
         $user = factory(User::class)->create();
-        $user->changePasswd('12345678');
+        $user->changePassword('12345678');
         $player = factory(App\Models\Player::class)->create(
             [
                 'uid' => $user->uid

@@ -137,7 +137,7 @@ class UserController extends Controller
                 if (! $this->user->verifyPassword($request->input('current_password')))
                     return json(trans('user.profile.password.wrong-password'), 1);
 
-                if ($this->user->changePasswd($request->input('new_password'))) {
+                if ($this->user->changePassword($request->input('new_password'))) {
                     event(new UserProfileUpdated($action, $this->user));
 
                     session()->flush();

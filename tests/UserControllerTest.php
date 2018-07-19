@@ -106,7 +106,7 @@ class UserControllerTest extends TestCase
     public function testHandleProfile()
     {
         $user = factory(User::class)->create();
-        $user->changePasswd('12345678');
+        $user->changePassword('12345678');
 
         // Invalid action
         $this->actAs($user)

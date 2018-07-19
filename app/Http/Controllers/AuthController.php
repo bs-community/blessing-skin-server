@@ -209,7 +209,7 @@ class AuthController extends Controller
             'password' => 'required|min:8|max:32',
         ]);
 
-        $users->get($uid)->changePasswd($validated['password']);
+        $users->get($uid)->changePassword($validated['password']);
 
         return json(trans('auth.reset.success'), 0);
     }

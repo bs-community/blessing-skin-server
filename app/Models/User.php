@@ -144,7 +144,7 @@ class User extends Model
      * @param  string $new_passwd New password that will be set.
      * @return bool
      */
-    public function changePasswd($new_passwd)
+    public function changePassword($new_passwd)
     {
         $responses = event(new EncryptUserPassword($new_passwd, $this));
 

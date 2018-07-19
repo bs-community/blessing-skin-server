@@ -317,7 +317,7 @@ class AdminController extends Controller
                 'password' => 'required|min:8|max:16'
             ]);
 
-            $user->changePasswd($request->input('password'));
+            $user->changePassword($request->input('password'));
 
             return json(trans('admin.users.operations.password.success'), 0);
 
