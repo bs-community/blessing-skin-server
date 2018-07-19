@@ -385,8 +385,7 @@ class UserControllerTest extends TestCase
         ])->assertJson([
             'errno' => 0,
             'msg' => trans('user.profile.delete.success')
-        ])->assertCookie('uid', '')
-            ->assertCookie('token', '');
+        ]);
         $this->assertNull(User::find($user->uid));
     }
 

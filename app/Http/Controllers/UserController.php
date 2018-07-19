@@ -187,9 +187,7 @@ class UserController extends Controller
                         ->json([
                             'errno' => 0,
                             'msg' => trans('user.profile.delete.success')
-                        ])
-                        ->cookie('uid', '', time() - 3600, '/')
-                        ->cookie('token', '', time() - 3600, '/');
+                        ]);
                 }
 
                 break;   // @codeCoverageIgnore
