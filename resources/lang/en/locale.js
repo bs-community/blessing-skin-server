@@ -15,7 +15,7 @@
             // Login
             emptyIdentification: 'Empty email/player name.',
             emptyPassword: 'Password is required.',
-            emptyCaptcha: 'Empty password.',
+            emptyCaptcha: 'Please enter the CAPTCHA.',
             login: 'Log In',
             loggingIn: 'Logging In',
             tooManyFails: 'You fails too many times! Please enter the CAPTCHA.',
