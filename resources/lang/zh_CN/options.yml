@@ -103,6 +103,10 @@ general:
     title: 失效材质
     label: 自动删除失效材质
     hint: 自动从皮肤库中删除文件不存在的材质记录
+  texture_name_regexp:
+    title: 材质名称规则
+    hint: 皮肤库上传材质时名称的正则表达式。留空表示允许使用除半角单双引号、反斜杠以外的任意字符。
+    placeholder: 正则表达式，不懂别乱填
   comment_script:
     title: 评论代码
     description: 评论代码内可使用占位符，<code>{tid}</code> 将会被自动替换为材质的 id，<code>{name}</code> 会被替换为材质名称，<code>{url}</code> 会被替换为当前页面地址。

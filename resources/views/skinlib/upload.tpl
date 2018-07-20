@@ -30,7 +30,12 @@
                         <div class="box-body">
                             <div class="form-group">
                                 <label for="name">@lang('skinlib.upload.texture-name')</label>
-                                <input id="name" class="form-control" type="text" placeholder="@lang('skinlib.upload.name-rule')" />
+                                @php
+                                    $regexp = option('texture_name_regexp');
+                                @endphp
+                                <input id="name" class="form-control" type="text" placeholder="{{
+                                    $regexp ? trans('skinlib.upload.name-rule-regexp', compact('regexp')) : trans('skinlib.upload.name-rule')
+                                }}" />
                             </div>
 
                             <div class="form-group">

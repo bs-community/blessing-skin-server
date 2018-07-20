@@ -205,6 +205,8 @@ class AdminController extends Controller
 
             $form->checkbox('auto_del_invalid_texture')->label()->hint();
 
+            $form->text('texture_name_regexp')->hint()->placeholder();
+
             $form->textarea('comment_script')->rows(6)->description();
 
             $form->checkbox('allow_sending_statistics')->label()->hint();

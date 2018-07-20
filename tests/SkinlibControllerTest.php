@@ -429,6 +429,18 @@ class SkinlibControllerTest extends TestCase
             'msg' => trans('validation.no_special_chars', ['attribute' => 'Name'])
         ]);
 
+        // Specified regular expression for texture name
+        option(['texture_name_regexp' => '/\\d+/']);
+        $this->postJson('/skinlib/upload', [
+            'name' => 'abc'
+        ], [
+            'X-Requested-With' => 'XMLHttpRequest'
+        ])->assertJson([
+            'errno' => 1,
+            'msg' => trans('validation.regex', ['attribute' => 'Name'])
+        ]);
+        option(['texture_name_regexp' => null]);
+
         // Without file
         $this->postJson('/skinlib/upload', [
             'name' => 'texture'

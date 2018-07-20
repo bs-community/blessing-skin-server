@@ -61,6 +61,7 @@ upload:
   texture-name: 材质名称
   name-rule: 材质名称应该小于 32 个字节且不能包含奇怪的符号
   texture-type: 材质类型
+  name-rule-regexp: 本站已应用特殊的名称规则：:regexp
   select-file: 选择文件
   private-score-notice: 私密材质将会消耗更多的积分：每 KB 存储空间 :score 积分
   privacy-notice: 其他人将不会在皮肤库中看到此材质
