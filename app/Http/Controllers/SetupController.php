@@ -61,6 +61,7 @@ class SetupController extends Controller
     {
         $data = $this->validate($request, [
             'email'     => 'required|email',
+            'nickname'  => 'required|no_special_chars|max:255',
             'password'  => 'required|min:8|max:32|confirmed',
             'site_name' => 'required'
         ]);
@@ -94,7 +95,7 @@ class SetupController extends Controller
         // Register super admin
         $user = new User;
         $user->email = $data['email'];
-        $user->nickname = '';
+        $user->nickname = $data['nickname'];
         $user->score = option('user_initial_score');
         $user->avatar = 0;
         $user->password = User::getEncryptedPwdFromEvent($data['password'], $user)

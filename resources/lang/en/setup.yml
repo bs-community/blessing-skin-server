@@ -50,6 +50,7 @@ wizard:
 
     admin-email: Admin Email
     admin-notice: This is the <b>UNIQUE</b> super admin account who can GIVE or CANCEL other users' admin privilege.
+    nickname: Nickname
     password: Password
     pwd-notice: <b>Attention:</b> You will need the password to log in. Please keep it at a secure place.
     confirm-pwd: Confirm password

@@ -16,6 +16,12 @@
                 <p>{!! trans('setup.wizard.info.admin-notice') !!}</p>
             </td>
         </tr>
+        <tr>
+            <th scope="row"><label for="email">@lang('setup.wizard.info.nickname')</label></th>
+            <td>
+                <input name="nickname" type="text" id="nickname" size="25" value="" />
+            </td>
+        </tr>
         <tr class="form-field form-required">
             <th scope="row"><label for="password">@lang('setup.wizard.info.password')</label></th>
             <td>

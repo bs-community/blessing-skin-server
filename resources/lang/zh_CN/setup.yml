@@ -50,6 +50,7 @@ wizard:
 
     admin-email: 管理员邮箱
     admin-notice: 这是<b>唯一</b>的超级管理员账号，可 添加/取消 其他管理员。
+    nickname: 昵称
     password: 密码
     pwd-notice: <b>重要：</b>您将需要此密码来登录管理皮肤站，请将其保存在安全的位置。
     confirm-pwd: 重复密码

@@ -69,26 +69,47 @@ class SetupControllerTest extends TestCase
         $this->post('/setup/finish', ['email' => 'not_an_email'])
             ->assertDontSee(trans('setup.wizard.finish.title'));
 
-        // Without `password` field
+        // Empty nickname
         $this->post('/setup/finish', [
             'email' => 'a@b.c'
+        ])->assertDontSee(trans('setup.wizard.finish.title'));
+
+        // Invalid characters in nickname
+        $this->post('/setup/finish', [
+            'email' => 'a@b.c',
+            'nickname' => '\\'
+        ])->assertDontSee(trans('setup.wizard.finish.title'));
+
+        // Too long nickname
+        $this->post('/setup/finish', [
+            'email' => 'a@b.c',
+            'nickname' => str_random(256)
+        ])->assertDontSee(trans('setup.wizard.finish.title'));
+
+        // Without `password` field
+        $this->post('/setup/finish', [
+            'email' => 'a@b.c',
+            'nickname' => 'nickname'
         ])->assertDontSee(trans('setup.wizard.finish.title'));
 
         // Password is too short
         $this->post('/setup/finish', [
             'email' => 'a@b.c',
+            'nickname' => 'nickname',
             'password' => '1'
         ])->assertDontSee(trans('setup.wizard.finish.title'));
 
         // Password is too long
         $this->post('/setup/finish', [
             'email' => 'a@b.c',
+            'nickname' => 'nickname',
             'password' => str_random(17)
         ])->assertDontSee(trans('setup.wizard.finish.title'));
 
         // Confirmation is not OK
         $this->post('/setup/finish', [
             'email' => 'a@b.c',
+            'nickname' => 'nickname',
             'password' => '12345678',
             'password_confirmation' => '12345679'
         ])->assertDontSee(trans('setup.wizard.finish.title'));
@@ -96,6 +117,7 @@ class SetupControllerTest extends TestCase
         // Without `site_name` field
         $this->post('/setup/finish', [
             'email' => 'a@b.c',
+            'nickname' => 'nickname',
             'password' => '12345678',
             'password_confirmation' => '12345678'
         ])->assertDontSee(trans('setup.wizard.finish.title'));
@@ -118,6 +140,7 @@ class SetupControllerTest extends TestCase
             });
         $this->post('/setup/finish', [
             'email' => 'a@b.c',
+            'nickname' => 'nickname',
             'password' => '12345678',
             'password_confirmation' => '12345678',
             'site_name' => 'bs',
@@ -125,6 +148,11 @@ class SetupControllerTest extends TestCase
         ])->assertSee(trans('setup.wizard.finish.title'))
             ->assertSee('a@b.c')
             ->assertSee('12345678');
+        $superAdmin = \App\Models\User::find(1);
+        $this->assertEquals('a@b.c', $superAdmin->email);
+        $this->assertTrue($superAdmin->verifyPassword('12345678'));
+        $this->assertEquals('nickname', $superAdmin->nickname);
+        $this->assertEquals('bs', option('site_name'));
     }
 
     public function testUpdate()
