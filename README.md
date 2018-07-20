@@ -48,8 +48,10 @@ Blessing Skin 对您的服务器有一定的要求。_在大多数情况下，�
     - Mbstring
     - Tokenizer
     - GD
-
-如果你使用的是 PHP 7.2，请先阅读 [Wiki - 在 PHP 7.2 上运行](https://github.com/printempw/blessing-skin-server/wiki/%E5%9C%A8-PHP-7.2-%E4%B8%8A%E8%BF%90%E8%A1%8C)。
+    - XML
+    - Ctype
+    - JSON
+    - fileinfo
 
 快速使用
 -----------

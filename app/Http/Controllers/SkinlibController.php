@@ -321,12 +321,7 @@ class SkinlibController extends Controller
             'public' => 'required'
         ]);
 
-        if (extension_loaded('fileinfo')) {
-            $mime = $request->file('file')->getMimeType();
-        } else {
-            $mime = $_FILES['file']['type'];
-        }
-
+        $mime = $request->file('file')->getMimeType();
         if ($mime != "image/png" && $mime != "image/x-png") {
             return json(trans('skinlib.upload.type-error'), 1);
         }

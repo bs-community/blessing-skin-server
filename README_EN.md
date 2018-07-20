@@ -46,9 +46,11 @@ Blessing Skin has only a few system requirements. _In most cases, these PHP exte
 - PDO PHP Extension
 - Mbstring PHP Extension
 - Tokenizer PHP Extension
-- GD PHP Extension (for generating CAPTCHA)
-
-If you are using PHP 7.2, you should also apply this [patch](https://github.com/printempw/blessing-skin-server/wiki/%E5%9C%A8-PHP-7.2-%E4%B8%8A%E8%BF%90%E8%A1%8C) after your installation. Just extract the `vendor` folder from the patch, cover the stock `vendor` with that and you are done.
+- GD PHP Extension
+- XML PHP Extension
+- Ctype PHP Extension
+- JSON PHP Extension
+- fileinfo PHP Extension
 
 Quick Install
 -----------
