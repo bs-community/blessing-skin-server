@@ -10,29 +10,18 @@ use Session;
 use Closure;
 use App\Models\User;
 use App\Events\UserAuthenticated;
+use Illuminate\Support\Facades\Auth;
 
 class CheckAuthenticated
 {
-    public function handle($request, Closure $next, $returnUser = false)
+    public function handle($request, Closure $next)
     {
-        if (Session::has('uid')) {
+        if (Auth::check()) {
 
-            if (! app()->bound('user.current')) {
-                // Bind current user to container
-                $user = app('users')->get(session('uid'));
-                app()->instance('user.current', $user);
-            } else {
-                $user = app('user.current');
-            }
+            $user = Auth::user();
 
-            if (session('token') != $user->getToken()) {
-                $this->flashLastRequestedPath();
-                return redirect('auth/login')->with('msg', trans('auth.check.token'));
-            }
-
-            if ($user->getPermission() == "-1") {
-                delete_sessions();
-                delete_cookies();
+            if ($user->permission == User::BANNED) {
+                Auth::logout();
 
                 abort(403, trans('auth.check.banned'));
             }
@@ -44,29 +33,24 @@ class CheckAuthenticated
 
             event(new UserAuthenticated($user));
 
-            return $returnUser ? $user : $next($request);
+            return $next($request);
 
         } else {
             $this->flashLastRequestedPath();
 
             return redirect('auth/login')->with('msg', trans('auth.check.anonymous'));
         }
-
-        return $next($request);
     }
 
     public function askForFillingEmail($request, Closure $next)
     {
-        $user = app('user.current');
+        $user = Auth::user();
 
         if (isset($request->email)) {
             if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
 
                 if (User::where('email', $request->email)->get()->isEmpty()) {
                     $user->setEmail($request->email);
-                    // Refresh token
-                    Session::put('token',  $user->getToken(true));
-                    Cookie::queue('token', $user->getToken(), 60);
 
                     return $next($request);
                 } else {

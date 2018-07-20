@@ -40,7 +40,7 @@ class BrowserKitTestCase extends Laravel\BrowserKitTesting\TestCase
                 $role = factory(\App\Models\User::class, $role)->create();
             }
         }
-        return $this->withSession(['uid' => $role->uid, 'token' => $role->getToken()]);
+        return $this->actingAs($role);
     }
 
     protected function tearDown()

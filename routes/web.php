@@ -42,7 +42,7 @@ Route::group(['prefix' => 'auth'], function ()
 /**
  * User Center
  */
-Route::group(['middleware' => 'auth', 'prefix' => 'user'], function ()
+Route::group(['middleware' => ['web', 'auth'], 'prefix' => 'user'], function ()
 {
     Route::any ('',                      'UserController@index');
     Route::any ('/sign',                 'UserController@sign');
@@ -94,7 +94,7 @@ Route::group(['prefix' => 'skinlib'], function ()
 /**
  * Admin Panel
  */
-Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function ()
+Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function ()
 {
     Route::get('/',            'AdminController@index');
 

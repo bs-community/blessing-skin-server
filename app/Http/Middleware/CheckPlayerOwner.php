@@ -19,7 +19,7 @@ class CheckPlayerOwner
         if ($pid = $request->input('pid')) {
             $player = Player::find($pid);
 
-            if ($player->uid != app('user.current')->uid) {
+            if ($player->uid != auth()->id()) {
                 return response()->json([
                     'errno' => 1,
                     'msg' => trans('admin.players.no-permission')

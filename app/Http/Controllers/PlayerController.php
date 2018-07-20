@@ -15,6 +15,7 @@ use App\Events\PlayerWasDeleted;
 use App\Events\CheckPlayerExists;
 use App\Events\PlayerWillBeAdded;
 use App\Events\PlayerWillBeDeleted;
+use Illuminate\Support\Facades\Auth;
 use App\Exceptions\PrettyPageException;
 use App\Http\Middleware\CheckPlayerExist;
 use App\Http\Middleware\CheckPlayerOwner;
@@ -23,26 +24,15 @@ use App\Services\Repositories\UserRepository;
 class PlayerController extends Controller
 {
     /**
-     * User Instance.
-     *
-     * @var \App\Models\User
-     */
-    private $user;
-
-    /**
      * Player Instance.
      *
      * @var \App\Models\Player
      */
     private $player;
 
-    public function __construct(UserRepository $users)
+    public function __construct()
     {
-        $this->middleware(function ($request, $next) use ($users) {
-            $uid = $request->session()->get('uid');
-
-            $this->user = $users->get($uid);
-
+        $this->middleware(function ($request, $next) {
             if ($request->has('pid')) {
                 if ($this->player = Player::find($request->pid)) {
                     $this->player->checkForInvalidTextures();
@@ -59,11 +49,16 @@ class PlayerController extends Controller
 
     public function index()
     {
-        return view('user.player')->with('players', $this->user->players->toArray())->with('user', $this->user);
+        $user = Auth::user();
+        return view('user.player')
+            ->with('players', $user->players->toArray())
+            ->with('user', $user);
     }
 
     public function add(Request $request)
     {
+        $user = Auth::user();
+
         $this->validate($request, [
             'player_name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max')
         ]);
@@ -74,7 +69,7 @@ class PlayerController extends Controller
             return json(trans('user.player.add.repeated'), 6);
         }
 
-        if ($this->user->getScore() < Option::get('score_per_player')) {
+        if ($user->getScore() < Option::get('score_per_player')) {
             return json(trans('user.player.add.lack-score'), 7);
         }
 
@@ -82,7 +77,7 @@ class PlayerController extends Controller
 
         $player = new Player;
 
-        $player->uid           = $this->user->uid;
+        $player->uid           = $user->uid;
         $player->player_name   = $request->input('player_name');
         $player->preference    = "default";
         $player->last_modified = Utils::getTimeFormatted();
@@ -90,12 +85,12 @@ class PlayerController extends Controller
 
         event(new PlayerWasAdded($player));
 
-        $this->user->setScore(option('score_per_player'), 'minus');
+        $user->setScore(option('score_per_player'), 'minus');
 
         return json(trans('user.player.add.success', ['name' => $request->input('player_name')]), 0);
     }
 
-    public function delete(Request $request)
+    public function delete()
     {
         $playerName = $this->player->player_name;
 
@@ -104,7 +99,7 @@ class PlayerController extends Controller
         $this->player->delete();
 
         if (option('return_score')) {
-            $this->user->setScore(Option::get('score_per_player'), 'plus');
+            Auth::user()->setScore(Option::get('score_per_player'), 'plus');
         }
 
         event(new PlayerWasDeleted($playerName));

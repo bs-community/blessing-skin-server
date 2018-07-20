@@ -14,16 +14,12 @@ use App\Events;
 use App\Models\User;
 use App\Mail\ForgotPassword;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Exceptions\PrettyPageException;
 use App\Services\Repositories\UserRepository;
 
 class AuthController extends Controller
 {
-    public function login()
-    {
-        return view('auth.login');
-    }
-
     public function handleLogin(Request $request, UserRepository $users)
     {
         $this->validate($request, [
@@ -54,21 +50,13 @@ class AuthController extends Controller
             if ($user->verifyPassword($request->input('password'))) {
                 Session::forget('login_fails');
 
-                Session::put('uid'  , $user->uid);
-                Session::put('token', $user->getToken());
-
-                // Time in minutes
-                $time = $request->input('keep') == true ? 10080 : 60;
+                Auth::login($user, $request->input('keep') == 'true');
 
                 event(new Events\UserLoggedIn($user));
 
                 session()->forget('last_requested_path');
 
-                return json(trans('auth.login.success'), 0, [
-                    'token' => $user->getToken()
-                ]) // Set cookies
-                ->withCookie('uid', $user->uid, $time)
-                ->withCookie('token', $user->getToken(), $time);
+                return json(trans('auth.login.success'), 0);
             } else {
                 Session::put('login_fails', session('login_fails', 0) + 1);
 
@@ -79,16 +67,11 @@ class AuthController extends Controller
         }
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
-        if (Session::has('uid') && Session::has('token')) {
-            // Flush sessions
-            Session::flush();
-
-            // Delete cookies
-            return json(trans('auth.logout.success'), 0)
-                    ->withCookie(Cookie::forget('uid'))
-                    ->withCookie(Cookie::forget('token'));
+        if (Auth::check()) {
+            Auth::logout();
+            return json(trans('auth.logout.success'), 0);
         } else {
             return json(trans('auth.logout.fail'), 1);
         }
@@ -103,15 +86,13 @@ class AuthController extends Controller
         }
     }
 
-    public function handleRegister(Request $request, UserRepository $users)
+    public function handleRegister(Request $request)
     {
-        if (! $this->checkCaptcha($request))
-            return json(trans('auth.validation.captcha'), 1);
-
-        $this->validate($request, [
-            'email'    => 'required|email',
+        $data = $this->validate($request, [
+            'email'    => 'required|email|unique:users',
             'password' => 'required|min:8|max:32',
-            'nickname' => 'required|no_special_chars|max:255'
+            'nickname' => 'required|no_special_chars|max:255',
+            'captcha'  => 'required'.(app()->environment('testing') ? '' : '|captcha')
         ]);
 
         if (! option('user_can_register')) {
@@ -119,37 +100,30 @@ class AuthController extends Controller
         }
 
         // If amount of registered accounts of IP is more than allowed amounts,
-        // then reject the register.
-        if (User::where('ip', Utils::getClientIp())->count() < option('regs_per_ip'))
-        {
-            // Register a new user.
-            // If the email is already registered,
-            // it will return a false value.
-            $user = User::register(
-                $request->input('email'),
-                $request->input('password'), function($user) use ($request)
-            {
-                $user->ip           = Utils::getClientIp();
-                $user->score        = option('user_initial_score');
-                $user->register_at  = Utils::getTimeFormatted();
-                $user->last_sign_at = Utils::getTimeFormatted(time() - 86400);
-                $user->permission   = User::NORMAL;
-                $user->nickname     = $request->input('nickname');
-            });
+        // reject the registration.
+        if (User::where('ip', Utils::getClientIp())->count() < option('regs_per_ip')) {
+            $user = new User;
+            $user->email = $data['email'];
+            $user->nickname = $data['nickname'];
+            $user->score = option('user_initial_score');
+            $user->avatar = 0;
+            $user->password = User::getEncryptedPwdFromEvent($data['password'], $user)
+                ?: app('cipher')->hash($data['password'], config('secure.salt'));
+            $user->ip = Utils::getClientIp();
+            $user->permission = User::NORMAL;
+            $user->register_at = Utils::getTimeFormatted();
+            $user->last_sign_at = Utils::getTimeFormatted(time() - 86400);
 
-            if (! $user) {
-                return json(trans('auth.register.registered'), 5);
-            }
+            $user->save();
 
             event(new Events\UserRegistered($user));
 
+            Auth::login($user);
+
             return json([
                 'errno'    => 0,
-                'msg'      => trans('auth.register.success'),
-                'token'    => $user->getToken(),
-            ]) // Set cookies
-            ->withCookie('uid', $user->uid, 60)
-            ->withCookie('token', $user->getToken(), 60);
+                'msg'      => trans('auth.register.success')
+            ]);
 
         } else {
             return json(trans('auth.register.max', ['regs' => option('regs_per_ip')]), 7);
@@ -216,16 +190,7 @@ class AuthController extends Controller
 
     public function captcha()
     {
-        $builder = new \Gregwar\Captcha\CaptchaBuilder;
-        $builder->build($width = 100, $height = 34);
-        Session::put('phrase', $builder->getPhrase());
-
-        ob_start();
-        $builder->output();
-        $captcha = ob_get_contents();
-        ob_end_clean();
-
-        return \Response::png($captcha);
+        return captcha();
     }
 
     protected function checkCaptcha($request)

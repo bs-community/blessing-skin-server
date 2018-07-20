@@ -39,10 +39,10 @@
                                 <div class="progress-group">
                                     <span class="progress-text">@lang('user.used.storage')</span>
 
-                                    <?php
+                                    @php
                                         $used  = $statistics['storage']['used'];
                                         $total = $statistics['storage']['total'];
-                                    ?>
+                                    @endphp
 
                                     <span class="progress-number" id="user-storage">
                                         @if ($used > 1024)
@@ -76,7 +76,9 @@
                         @else
                         <button class="btn btn-primary pull-left" title="@lang('user.last-sign', ['time' => $user->getLastSignTime()])" disabled="disabled">
                             <i class="fa fa-calendar-check-o" aria-hidden="true"></i> &nbsp;
-                            <?php $hours = $user->getSignRemainingTime() / 3600; ?>
+                            @php
+                                $hours = $user->getSignRemainingTime() / 3600;
+                            @endphp
                             @if ($hours >= 1)
                                 @lang('user.sign-remain-time', ['time' => round($hours), 'unit' => trans('user.time-unit-hour')])
                             @else

@@ -6,9 +6,9 @@ use DB;
 use Utils;
 use Carbon\Carbon;
 use App\Events\EncryptUserPassword;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model
+class User extends Authenticatable
 {
     /**
      * Permissions.
@@ -17,12 +17,6 @@ class User extends Model
     const NORMAL      = 0;
     const ADMIN       = 1;
     const SUPER_ADMIN = 2;
-
-    /**
-     * User Token.
-     * @var string
-     */
-    protected $token;
 
     /**
      * Instance of Closet.
@@ -103,39 +97,11 @@ class User extends Model
      * @param  User   $user
      * @return mixed
      */
-    protected static function getEncryptedPwdFromEvent($rawPasswd, User $user)
+    public static function getEncryptedPwdFromEvent($rawPasswd, User $user)
     {
         $responses = event(new EncryptUserPassword($rawPasswd, $user));
 
         return array_get($responses, 0);
-    }
-
-    /**
-     * Register a new user.
-     *
-     * @param  string   $email
-     * @param  string   $password
-     * @param  \Closure $callback
-     * @return User|bool
-     */
-    public static function register($email, $password, \Closure $callback) {
-        $user = static::firstOrNew(['email' => $email]);
-
-        // If the email is already registered
-        if ($user->uid) return false;
-
-        // Pass the user instance to the callback
-        call_user_func($callback, $user);
-
-        // Save once to get uid
-        $user->password = '';
-        $user->save();
-
-        // Save again with password
-        $user->password = static::getEncryptedPwdFromEvent($password, $user) ?: app('cipher')->hash($password, config('secure.salt'));
-        $user->save();
-
-        return $user;
     }
 
     /**
@@ -214,21 +180,6 @@ class User extends Model
     {
         $this->nickname = $newNickName;
         return $this->save();
-    }
-
-    /**
-     * Get user token or generate one.
-     *
-     * @param  bool  $refresh Refresh token forcely.
-     * @return string
-     */
-    public function getToken($refresh = false)
-    {
-        if (! $this->token || $refresh) {
-            $this->token = md5($this->email . $this->password . config('secure.salt'));
-        }
-
-        return $this->token;
     }
 
     /**
@@ -401,5 +352,10 @@ class User extends Model
     public function scopeLike($query, $field, $value)
     {
         return $query->where($field, 'LIKE', "%$value%");
+    }
+
+    public function getAuthIdentifier()
+    {
+        return $this->uid;
     }
 }

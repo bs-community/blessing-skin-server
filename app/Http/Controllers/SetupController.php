@@ -59,7 +59,7 @@ class SetupController extends Controller
 
     public function finish(Request $request)
     {
-        $this->validate($request, [
+        $data = $this->validate($request, [
             'email'     => 'required|email',
             'password'  => 'required|min:8|max:32|confirmed',
             'site_name' => 'required'
@@ -70,11 +70,6 @@ class SetupController extends Controller
             if (is_writable(app()->environmentFile())) {
                 Artisan::call('key:random');
                 Artisan::call('salt:random');
-
-                Log::info("[SetupWizard] Random application key & salt set successfully.", [
-                    'key'  => config('app.key'),
-                    'salt' => config('secure.salt')
-                ]);
             } else {
                 // @codeCoverageIgnoreStart
                 Log::warning("[SetupWizard] Failed to set application key. No write permission.");
@@ -97,20 +92,21 @@ class SetupController extends Controller
         Option::set('site_url',  $siteUrl);
 
         // Register super admin
-        $user = User::register(
-            $request->input('email'),
-            $request->input('password'), function ($user)
-        {
-            $user->ip           = Utils::getClientIp();
-            $user->score        = option('user_initial_score');
-            $user->register_at  = Utils::getTimeFormatted();
-            $user->last_sign_at = Utils::getTimeFormatted(time() - 86400);
-            $user->permission   = User::SUPER_ADMIN;
-        });
-        Log::info("[SetupWizard] Super Admin registered.", ['user' => $user]);
+        $user = new User;
+        $user->email = $data['email'];
+        $user->nickname = '';
+        $user->score = option('user_initial_score');
+        $user->avatar = 0;
+        $user->password = User::getEncryptedPwdFromEvent($data['password'], $user)
+            ?: app('cipher')->hash($data['password'], config('secure.salt'));
+        $user->ip = Utils::getClientIp();
+        $user->permission = User::SUPER_ADMIN;
+        $user->register_at = Utils::getTimeFormatted();
+        $user->last_sign_at = Utils::getTimeFormatted(time() - 86400);
+
+        $user->save();
 
         $this->createDirectories();
-        Log::info("[SetupWizard] Installation completed.");
 
         return view('setup.wizard.finish')->with([
             'email'    => $request->input('email'),

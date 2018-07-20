@@ -12,7 +12,7 @@ class CreateAllTables extends Migration
      */
     public function up()
     {
-        Schema::create('users', function($table) {
+        Schema::create('users', function (Blueprint $table) {
             $table->increments('uid');
             $table->string('email', 100);
             $table->string('nickname', 50)->default('');
@@ -23,14 +23,15 @@ class CreateAllTables extends Migration
             $table->integer('permission')->default('0');
             $table->dateTime('last_sign_at');
             $table->dateTime('register_at');
+            $table->rememberToken();
         });
 
-        Schema::create('closets', function($table) {
+        Schema::create('closets', function (Blueprint $table) {
             $table->increments('uid');
             $table->longText('textures');
         });
 
-        Schema::create('players', function($table) {
+        Schema::create('players', function (Blueprint $table) {
             $table->increments('pid');
             $table->integer('uid');
             $table->string('player_name', 50);
@@ -41,7 +42,7 @@ class CreateAllTables extends Migration
             $table->dateTime('last_modified');
         });
 
-        Schema::create('textures', function($table) {
+        Schema::create('textures', function (Blueprint $table) {
             $table->increments('tid');
             $table->string('name', 50);
             $table->string('type', 10);
@@ -53,7 +54,7 @@ class CreateAllTables extends Migration
             $table->dateTime('upload_at');
         });
 
-        Schema::create('options', function($table) {
+        Schema::create('options', function (Blueprint $table) {
             $table->increments('id');
             $table->string('option_name', 50);
             $table->longText('option_value');

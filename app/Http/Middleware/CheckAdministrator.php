@@ -6,13 +6,7 @@ class CheckAdministrator
 {
     public function handle($request, \Closure $next)
     {
-        $result = (new CheckAuthenticated)->handle($request, $next, true);
-
-        if ($result instanceof \Illuminate\Http\RedirectResponse) {
-            return $result;
-        }
-
-        if (! $result->isAdmin()) {
+        if (! auth()->user()->isAdmin()) {
             abort(403, trans('auth.check.admin'));
         }
 

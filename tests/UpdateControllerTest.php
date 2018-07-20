@@ -61,7 +61,6 @@ class UpdateControllerTest extends BrowserKitTestCase
         option(['update_source' => 'http://xxx.xx/']);
         $this->visit('/admin/update')
             ->see(trans('admin.update.info.pre-release'))
-            ->see(trans('admin.update.errors.connection'))
             ->see(config('app.version'))
             ->uncheck('check_update')
             ->type(vfs\vfsStream::url('root/update.json'), 'update_source')

@@ -19,6 +19,7 @@ between:
     string: ':attribute 必须介于 :min - :max 个字符之间。'
     array: ':attribute 必须只有 :min - :max 个单元。'
 boolean: ':attribute 必须为布尔值。'
+captcha: '验证码不正确。'
 confirmed: ':attribute 两次输入不一致。'
 date: ':attribute 不是一个有效的日期。'
 date_format: ':attribute 的格式必须为 :format。'

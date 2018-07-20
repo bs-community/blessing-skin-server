@@ -9,6 +9,7 @@ use App\Models\Closet;
 use App\Models\Texture;
 use App\Models\ClosetModel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Exceptions\PrettyPageException;
 
 class ClosetController extends Controller
@@ -23,14 +24,14 @@ class ClosetController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            $this->closet = new Closet($request->session()->get('uid'));
+            $this->closet = new Closet(Auth::id());
             return $next($request);
         });
     }
 
     public function index()
     {
-        return view('user.closet')->with('user', app('user.current'));
+        return view('user.closet')->with('user', Auth::user());
     }
 
     public function getClosetData(Request $request)
@@ -70,7 +71,9 @@ class ClosetController extends Controller
             'name' => 'required|no_special_chars'
         ]);
 
-        if (app('user.current')->getScore() < option('score_per_closet_item')) {
+        $currentUser = Auth::user();
+
+        if ($currentUser->getScore() < option('score_per_closet_item')) {
             return json(trans('user.closet.add.lack-score'), 7);
         }
 
@@ -86,7 +89,7 @@ class ClosetController extends Controller
 
             $this->closet->save();
 
-            app('user.current')->setScore(option('score_per_closet_item'), 'minus');
+            $currentUser->setScore(option('score_per_closet_item'), 'minus');
 
             return json(trans('user.closet.add.success', ['name' => $request->input('name')]), 0);
         } else {
@@ -123,7 +126,7 @@ class ClosetController extends Controller
             $this->closet->save();
 
             if (option('return_score'))
-                app('user.current')->setScore(option('score_per_closet_item'), 'plus');
+                Auth::user()->setScore(option('score_per_closet_item'), 'plus');
 
             return json(trans('user.closet.remove.success'), 0);
         } else {

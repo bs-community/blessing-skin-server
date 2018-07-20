@@ -14,52 +14,38 @@ class MiddlewareTest extends TestCase
     {
         // Not logged in
         $this->get('/user')->assertRedirect('auth/login');
+        $this->assertGuest();
 
         // Normal user
         $this->actAs('normal')
-            ->get('/user')
-            ->assertViewIs('user.index')
-            ->assertSuccessful();
+            ->assertAuthenticated();
 
         // Banned User
         $this->actAs('banned')
             ->get('/user')
             ->assertSee('banned')
-            ->assertDontSee('User Center')
             ->assertStatus(403);
 
         // Binding email
         $noEmailUser = factory(App\Models\User::class)->create(['email' => '']);
-        $this->withSession([
-            'uid' => $noEmailUser->uid,
-            'token' => $noEmailUser->getToken()
-        ])->get('/user')->assertSee('Bind')->assertDontSee('User Center');
+        $this->actingAs($noEmailUser)
+            ->get('/user')
+            ->assertSee('Bind')
+            ->assertDontSee('User Center');
 
-        $this->actAs($noEmailUser)
+        $this->actingAs($noEmailUser)
             ->get('/user?email=email')
             ->assertSee('Bind');
 
         $other = factory(User::class)->create();
-        $this->actAs($noEmailUser)
+        $this->actingAs($noEmailUser)
             ->get('/user?email='.$other->email)
             ->assertSee(trans('auth.bind.registered'));
 
-        $this->actAs($noEmailUser)
+        $this->actingAs($noEmailUser)
             ->get('/user?email=a@b.c')
             ->assertSee('User Center');
         $this->assertEquals('a@b.c', User::find($noEmailUser->uid)->email);
-
-        // Without token
-        $this->withSession([
-            'uid' => 0
-        ])->get('/user')->assertRedirect('/auth/login');
-
-        // Without invalid token
-        $user = factory(User::class)->create();
-        $this->withSession([
-            'uid' => $user->uid,
-            'token' => 'invalid'
-        ])->get('/user')->assertRedirect('/auth/login');
     }
 
     public function testCheckAdministrator()
@@ -177,17 +163,7 @@ class MiddlewareTest extends TestCase
             ->assertViewIs('auth.login')
             ->assertDontSee('User Center');
 
-        $user = factory(\App\Models\User::class)->create();
-
-        $this->withSession(['uid' => $user->uid])
-            ->get('/auth/login')
-            ->assertRedirect('/auth/login');
-
-        $this->withSession(['uid' => $user->uid, 'token' => 'nothing'])
-            ->get('/auth/login')
-            ->assertRedirect('/auth/login');
-
-        $this->actAs('normal')
+        $this->actingAs(factory(User::class)->create())
             ->get('/auth/login')
             ->assertRedirect('/user');
     }

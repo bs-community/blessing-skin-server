@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use Illuminate\Routing\Router;
 use App\Events\ConfigureRoutes;
-use App\Http\Middleware\CheckSessionUserValid;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class RouteServiceProvider extends ServiceProvider
@@ -56,7 +55,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes(Router $router)
     {
         $router->group([
-            'middleware' => ['web', CheckSessionUserValid::class],
+            'middleware' => ['web'],
             'namespace' => $this->namespace,
         ], function ($router) {
             require base_path('routes/web.php');

@@ -37,14 +37,14 @@
                         <ul class="nav navbar-nav">
                             @include('common.language')
 
-                            @if (!is_null($user))
+                            @auth
                                 @include('common.user-menu')
                             @else {{-- Anonymous User --}}
                             <!-- User Account Menu -->
                             <li class="dropdown user user-menu">
                                 <a href="{{ url('auth/login') }}" class="btn btn-login">@lang('general.login')</a>
                             </li>
-                            @endif
+                            @endauth
                         </ul>
                     </div><!-- /.navbar-custom-menu -->
                 </div><!-- /.container-fluid -->
@@ -58,7 +58,7 @@
                     {{ option_localized('site_description') }}
                 </p>
                 <p>
-                    @if (is_null($user))
+                    @guest
                         @if (option('user_can_register'))
                         <a href="{{ url('auth/register') }}" id="btn-register" class="button">@lang('general.register')</a>
                         @else
@@ -66,7 +66,7 @@
                         @endif
                     @else
                     <a href="{{ url('user') }}" class="button">@lang('general.user-center')</a>
-                    @endif
+                    @endguest
                 </p>
             </div>
         </div> <!--/ .container -->

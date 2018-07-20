@@ -95,8 +95,7 @@ class AuthControllerTest extends TestCase
         // Should check captcha if there are too many fails
         $this->withSession(
             [
-                'login_fails' => 4,
-                'phrase' => 'a'
+                'login_fails' => 4
             ]
         )->postJson(
             '/auth/login', [
@@ -129,8 +128,7 @@ class AuthControllerTest extends TestCase
         ])->assertJson(
             [
                 'errno' => 0,
-                'msg' => trans('auth.login.success'),
-                'token' => $user->getToken()
+                'msg' => trans('auth.login.success')
             ]
         )->assertSessionMissing('login_fails');
 
@@ -145,41 +143,28 @@ class AuthControllerTest extends TestCase
         )->assertJson(
             [
                 'errno' => 0,
-                'msg' => trans('auth.login.success'),
-                'token' => $user->getToken()
+                'msg' => trans('auth.login.success')
             ]
-        )->assertCookie('uid', $user->uid)
-            ->assertCookie('token', $user->getToken())
-            ->assertSessionHasAll(
-                [
-                    'uid' => $user->uid,
-                    'token' => $user->getToken()
-                ]
-            );
+        );
+        $this->assertAuthenticated();
     }
 
     public function testLogout()
     {
-        $user = factory(User::class)->create();
-
-        $this->withSession(
-            [
-                'uid' => $user->uid,
-                'token' => $user->getToken()
-            ]
-        )->postJson('/auth/logout')->assertJson(
-            [
-                'errno' => 0,
-                'msg' => trans('auth.logout.success')
-            ]
-        )->assertSessionMissing(['uid', 'token']);
-
-        $this->flushSession();
         $this->postJson('/auth/logout')
             ->assertJson([
                 'errno' => 1,
                 'msg' => trans('auth.logout.fail')
             ]);
+
+        $user = factory(User::class)->create();
+        $this->actingAs($user)->postJson('/auth/logout')->assertJson(
+            [
+                'errno' => 0,
+                'msg' => trans('auth.logout.success')
+            ]
+        );
+        $this->assertGuest();
     }
 
     public function testRegister()
@@ -194,22 +179,10 @@ class AuthControllerTest extends TestCase
     {
         $this->expectsEvents(Events\UserRegistered::class);
 
-        // Should return a warning if `captcha` is wrong
-        $this->withSession(['phrase' => 'a'])
-            ->postJson(
-                '/auth/register', [], [
-                'X-Requested-With' => 'XMLHttpRequest'
-            ])->assertJson([
-                'errno' => 1,
-                'msg' => trans('auth.validation.captcha')
-            ]);
-
-        // Once we have sent session in the last assertion,
-        // we don't need to send it again until we flush it.
         // Should return a warning if `email` is empty
         $this->postJson(
             '/auth/register',
-            ['captcha' => 'a'],
+            [],
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
             'errno' => 1,
@@ -219,23 +192,28 @@ class AuthControllerTest extends TestCase
         // Should return a warning if `email` is invalid
         $this->postJson(
             '/auth/register',
-            [
-                'email' => 'not_an_email',
-                'captcha' => 'a'
-            ],
+            ['email' => 'not_an_email'],
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.email', ['attribute' => 'email'])
         ]);
 
+        // An existed user
+        $existedUser = factory(User::class)->create();
+        $this->postJson(
+            '/auth/register',
+            ['email' => $existedUser->email],
+            ['X-Requested-With' => 'XMLHttpRequest']
+        )->assertJson([
+            'errno' => 1,
+            'msg' => trans('validation.unique', ['attribute' => 'email'])
+        ]);
+
         // Should return a warning if `password` is empty
         $this->postJson(
             '/auth/register',
-            [
-                'email' => 'a@b.c',
-                'captcha' => 'a'
-            ],
+            ['email' => 'a@b.c'],
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
             'errno' => 1,
@@ -247,8 +225,7 @@ class AuthControllerTest extends TestCase
             '/auth/register',
             [
                 'email' => 'a@b.c',
-                'password' => '1',
-                'captcha' => 'a'
+                'password' => '1'
             ],
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
@@ -261,8 +238,7 @@ class AuthControllerTest extends TestCase
             '/auth/register',
             [
                 'email' => 'a@b.c',
-                'password' => str_random(33),
-                'captcha' => 'a'
+                'password' => str_random(33)
             ],
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
@@ -275,8 +251,7 @@ class AuthControllerTest extends TestCase
             '/auth/register',
             [
                 'email' => 'a@b.c',
-                'password' => '12345678',
-                'captcha' => 'a'
+                'password' => '12345678'
             ],
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
@@ -290,8 +265,7 @@ class AuthControllerTest extends TestCase
             [
                 'email' => 'a@b.c',
                 'password' => '12345678',
-                'nickname' => '\\',
-                'captcha' => 'a'
+                'nickname' => '\\'
             ],
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
@@ -305,14 +279,28 @@ class AuthControllerTest extends TestCase
             [
                 'email' => 'a@b.c',
                 'password' => '12345678',
-                'nickname' => str_random(256),
-                'captcha' => 'a'
+                'nickname' => str_random(256)
             ],
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.max.string', ['attribute' => 'nickname', 'max' => 255])
         ]);
+
+        // Should return a warning if `captcha` is empty
+        $this->postJson(
+            '/auth/register',
+            [
+                'email' => 'a@b.c',
+                'password' => '12345678',
+                'nickname' => 'nickname'
+            ],
+            ['X-Requested-With' => 'XMLHttpRequest']
+        )->assertJson([
+            'errno' => 1,
+            'msg' => trans('validation.required', ['attribute' => 'captcha'])
+        ]);
+
 
         // Should be forbidden if registering is closed
         Option::set('user_can_register', false);
@@ -350,21 +338,6 @@ class AuthControllerTest extends TestCase
 
         Option::set('regs_per_ip', 100);
 
-        // Should return a warning if using a duplicated email
-        $existedUser = factory(User::class)->create();
-        $this->postJson(
-            '/auth/register',
-            [
-                'email' => $existedUser->email,
-                'password' => '12345678',
-                'nickname' => 'nickname',
-                'captcha' => 'a'
-            ]
-        )->assertJson([
-            'errno' => 5,
-            'msg' => trans('auth.register.registered')
-        ]);
-
         // Database should be updated if succeeded
         $response = $this->postJson(
             '/auth/register',
@@ -378,10 +351,8 @@ class AuthControllerTest extends TestCase
         $newUser = User::where('email', 'a@b.c')->first();
         $response->assertJson([
             'errno' => 0,
-            'msg' => trans('auth.register.success'),
-            'token' => $newUser->getToken()
-        ])->assertCookie('uid', $newUser->uid)
-            ->assertCookie('token', $newUser->getToken());
+            'msg' => trans('auth.register.success')
+        ]);
         $this->assertTrue($newUser->verifyPassword('12345678'));
         $this->assertDatabaseHas('users', [
             'email' => 'a@b.c',
@@ -390,6 +361,7 @@ class AuthControllerTest extends TestCase
             'ip' => '127.0.0.1',
             'permission' => User::NORMAL
         ]);
+        $this->assertAuthenticated();
     }
 
     public function testForgot()
@@ -529,13 +501,8 @@ class AuthControllerTest extends TestCase
 
     public function testCaptcha()
     {
-        if (!function_exists('imagettfbbox') || getenv('TRAVIS_PHP_VERSION' == '5.5')) {
-            $this->markTestSkipped('There are some problems with PHP 5.5 on Travis CI');
-        }
-
         $this->get('/auth/captcha')
             ->assertSuccessful()
-            ->assertHeader('Content-Type', 'image/png')
-            ->assertSessionHas('phrase');
+            ->assertHeader('Content-Type', 'image/png');
     }
 }

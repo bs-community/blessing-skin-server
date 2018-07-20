@@ -102,10 +102,11 @@ class PlayerControllerTest extends TestCase
 
     public function testDelete()
     {
-        $player = factory(Player::class)->create();
-        $user = $player->user;
+        $user = factory(User::class)->create();
+        $player = factory(Player::class)->create(['uid' => $user->uid]);
+        $score = $user->score;
         $this->expectsEvents(Events\PlayerWillBeDeleted::class);
-        $this->actAs($user)
+        $this->actingAs($user)
             ->postJson('/user/player/delete', ['pid' => $player->pid])
             ->assertJson([
                 'errno' => 0,
@@ -114,7 +115,7 @@ class PlayerControllerTest extends TestCase
         $this->assertNull(Player::find($player->pid));
         $this->expectsEvents(Events\PlayerWasDeleted::class);
         $this->assertEquals(
-            $user->score + option('score_per_player'),
+            $score + option('score_per_player'),
             User::find($user->uid)->score
         );
 
@@ -122,7 +123,7 @@ class PlayerControllerTest extends TestCase
         option(['return_score' => false]);
         $player = factory(Player::class)->create();
         $user = $player->user;
-        $this->actAs($user)
+        $this->actingAs($user)
             ->postJson('/user/player/delete', ['pid' => $player->pid])
             ->assertJson([
                 'errno' => 0,

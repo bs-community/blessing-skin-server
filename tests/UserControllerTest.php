@@ -10,12 +10,6 @@ class UserControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
-    protected function setUp()
-    {
-        parent::setUp();
-        return $this->actAs('normal');
-    }
-
     public function testIndex()
     {
         $user = factory(User::class)->create();
@@ -99,7 +93,8 @@ class UserControllerTest extends TestCase
 
     public function testProfile()
     {
-        $this->get('/user/profile')
+        $this->actAs('normal')
+            ->get('/user/profile')
             ->assertViewHas('user');
     }
 
@@ -245,7 +240,7 @@ class UserControllerTest extends TestCase
         ]);
         $this->assertTrue(User::find($user->uid)->verifyPassword('87654321'));
         // After changed password, user should re-login.
-        $this->get('/user')->assertRedirect('/auth/login');
+        $this->assertGuest();
 
         $user = User::find($user->uid);
         // Change email without `new_email` field
@@ -331,7 +326,7 @@ class UserControllerTest extends TestCase
         ]);
         $this->assertEquals('a@b.c', User::find($user->uid)->email);
         // After changed email, user should re-login.
-        $this->get('/user')->assertRedirect('/auth/login');
+        $this->assertGuest();
 
         $user = User::find($user->uid);
         // Delete account without `password` field

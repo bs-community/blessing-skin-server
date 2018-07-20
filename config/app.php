@@ -162,6 +162,7 @@ return [
         Devitek\Core\Translation\TranslationServiceProvider::class,
         Swiggles\Memcache\MemcacheServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
+        Mews\Captcha\CaptchaServiceProvider::class,
 
         /**
          * Application Service Providers...

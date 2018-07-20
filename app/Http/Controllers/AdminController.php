@@ -11,6 +11,7 @@ use App\Models\Player;
 use App\Models\Texture;
 use Illuminate\Http\Request;
 use App\Services\OptionForm;
+use Illuminate\Support\Facades\Auth;
 use App\Services\Repositories\UserRepository;
 
 class AdminController extends Controller
@@ -247,7 +248,7 @@ class AdminController extends Controller
             return $user->email ?: 'EMPTY';
         })
         ->setRowId('uid')
-        ->addColumn('operations', app('user.current')->getPermission())
+        ->addColumn('operations', Auth::user()->permission)
         ->addColumn('players_count', function ($user) {
             return $user->players->count();
         })
@@ -271,19 +272,20 @@ class AdminController extends Controller
      * Handle ajax request from /admin/users
      *
      * @param  Request $request
-     * @return Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function userAjaxHandler(Request $request, UserRepository $users)
     {
         $action = $request->input('action');
-        $user   = $users->get($request->input('uid'));
+        $user = $users->get($request->input('uid'));
+        $currentUser = Auth::user();
 
         if (! $user) {
             return json(trans('admin.users.operations.non-existent'), 1);
         }
 
-        if ($user->uid !== app('user.current')->uid) {
-            if ($user->permission >= app('user.current')->permission) {
+        if ($user->uid !== $currentUser->uid) {
+            if ($user->permission >= $currentUser->permission) {
                 return json(trans('admin.users.operations.no-permission'), 1);
             }
         }
@@ -367,15 +369,15 @@ class AdminController extends Controller
     public function playerAjaxHandler(Request $request, UserRepository $users)
     {
         $action = $request->input('action');
-
+        $currentUser = Auth::user();
         $player = Player::find($request->input('pid'));
 
         if (! $player) {
             return json(trans('general.unexistent-player'), 1);
         }
 
-        if ($player->user()->first()->uid !== app('user.current')->uid) {
-            if ($player->user->permission >= app('user.current')->permission) {
+        if ($player->user()->first()->uid !== $currentUser->uid) {
+            if ($player->user->permission >= $currentUser->permission) {
                 return json(trans('admin.players.no-permission'), 1);
             }
         }
@@ -445,7 +447,7 @@ class AdminController extends Controller
         $user = $users->get(intval($uid));
         if ($user) {
             return json('success', 0, ['user' => $user->makeHidden([
-                'password', 'ip', 'last_sign_at', 'register_at'
+                'password', 'ip', 'last_sign_at', 'register_at', 'remember_token'
             ])->toArray()]);
         } else {
             return json('No such user.', 1);
