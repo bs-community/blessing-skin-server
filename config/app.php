@@ -168,6 +168,7 @@ return [
          */
         App\Providers\BootServiceProvider::class,
         App\Providers\AppServiceProvider::class,
+        App\Providers\LogServiceProvider::class,
         App\Providers\PluginServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\MemoryServiceProvider::class,
