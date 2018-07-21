@@ -30,7 +30,7 @@ Route::group(['prefix' => 'auth'], function ()
     });
 
     Route::any('/logout',         'AuthController@logout');
-    Route::any('/captcha',        'AuthController@captcha');
+    Route::any('/captcha',        '\Mews\Captcha\CaptchaController@getCaptcha');
 
     Route::post('/login',         'AuthController@handleLogin');
     Route::post('/register',      'AuthController@handleRegister');

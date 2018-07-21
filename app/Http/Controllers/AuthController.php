@@ -187,11 +187,6 @@ class AuthController extends Controller
         return json(trans('auth.reset.success'), 0);
     }
 
-    public function captcha()
-    {
-        return captcha();
-    }
-
     protected function checkCaptcha($request)
     {
         return (strtolower($request->input('captcha')) == strtolower(session('phrase')));
