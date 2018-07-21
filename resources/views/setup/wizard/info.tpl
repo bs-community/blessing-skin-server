@@ -40,7 +40,7 @@
             <th scope="row"><label for="generate_random">{{ trans('setup.wizard.info.secure') }}</label></th>
             <td>
                 <label for="generate_random">
-                    <input name="generate_random" type="checkbox" id="generate_random" size="25" value="on" />
+                    <input name="generate_random" type="checkbox" checked="checked" id="generate_random" size="25" value="on" />
                     {{ trans('setup.wizard.info.secure-notice') }}
                 </label>
             </td>
