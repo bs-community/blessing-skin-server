@@ -493,3 +493,16 @@ if (! function_exists('get_db_config')) {
         return config("database.connections.$type");
     }
 }
+
+if (! function_exists('report')) {
+    /**
+     * Report an exception.
+     *
+     * @param  \Exception  $exception
+     * @return void
+     */
+    function report($exception)
+    {
+        app(Illuminate\Contracts\Debug\ExceptionHandler::class)->report($exception);
+    }
+}
