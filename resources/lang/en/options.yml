@@ -103,6 +103,9 @@ general:
     title: Invalid Textures
     label: Delete invalid textures automatically.
     hint: Delete textures records whose file no longer exists from skinlib.
+  allow_downloading_texture:
+    title: Downloading Textures
+    label: Allow users to directly download the source file of a skinlib item.
   texture_name_regexp:
     title: Texture Name Rules
     hint: The RegExp for validating name of uploaded textures. Leave empty to allow any character except single, double quote and backslash.

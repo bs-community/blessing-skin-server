@@ -103,6 +103,9 @@ general:
     title: 失效材质
     label: 自动删除失效材质
     hint: 自动从皮肤库中删除文件不存在的材质记录
+  allow_downloading_texture:
+    title: 直接下载材质
+    label: 允许用户直接下载皮肤库中材质的原始文件
   texture_name_regexp:
     title: 材质名称规则
     hint: 皮肤库上传材质时名称的正则表达式。留空表示允许使用除半角单双引号、反斜杠以外的任意字符。

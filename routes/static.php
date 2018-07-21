@@ -31,7 +31,7 @@ Route::get('/{api}/textures/{hash}',            'TextureController@textureWithAp
 Route::get('/avatar/{base64_email}.png',        'TextureController@avatar');
 Route::get('/avatar/{size}/{base64_email}.png', 'TextureController@avatarWithSize');
 
-Route::get('/raw/{tid}.png',                    'TextureController@raw');
-
 Route::get('/preview/{tid}.png',                'TextureController@preview');
 Route::get('/preview/{size}/{tid}.png',         'TextureController@previewWithSize');
+
+option('allow_downloading_texture') && Route::get('/raw/{tid}.png', 'TextureController@raw');
