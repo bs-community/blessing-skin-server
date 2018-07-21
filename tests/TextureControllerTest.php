@@ -250,6 +250,6 @@ class TextureControllerTest extends TestCase
         // Texture is deleted
         Storage::disk('textures')->delete($steve->hash);
         $this->get("/raw/{$steve->tid}.png")
-            ->see(trans('general.texture-deleted'));
+            ->assertResponseStatus(404);
     }
 }
