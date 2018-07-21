@@ -406,48 +406,6 @@ if (! function_exists('validate')) {
     }
 }
 
-if (! function_exists('runtime_check')) {
-
-    function runtime_check(array $requirements)
-    {
-        foreach ($requirements['extensions'] as $extension) {
-            if (! extension_loaded($extension)) {
-                die_with_utf8_encoding(
-                    "[Error] You have not installed the $extension extension <br>".
-                    "[错误] 你尚未安装 $extension 扩展！安装方法请自行搜索，蟹蟹。"
-                );
-            }
-        }
-
-        foreach (array_get($requirements, 'write_permission', []) as $dir) {
-            $realPath = realpath(__DIR__."/../$dir");
-
-            if (! file_exists($realPath)) {
-                die_with_utf8_encoding(
-                    "[Error] The directory < $dir > does not exist <br>".
-                    "[错误] 目录 < $dir > 不存在，请在程序根目录下手动创建"
-                );
-            }
-
-            if (! is_writable($realPath)) {
-                die_with_utf8_encoding(
-                    "[Error] The program lacks write permission to directory < $dir > <br>".
-                    "[错误] 程序缺少对 < $dir > 目录的写权限，请手动授权"
-                );
-            }
-        }
-    }
-}
-
-if (! function_exists('die_with_utf8_encoding')) {
-
-    function die_with_utf8_encoding($error)
-    {
-        header('Content-Type: text/html; charset=UTF-8');
-        exit($error);
-    }
-}
-
 if (! function_exists('humanize_db_type')) {
 
     function humanize_db_type($type = null)

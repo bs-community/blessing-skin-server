@@ -55,7 +55,8 @@ class AppServiceProvider extends ServiceProvider
         if (class_exists($className)) {
             $this->app->singleton('cipher', $className);
         } else {
-            die_with_utf8_encoding(sprintf(
+            header('Content-Type: text/html; charset=UTF-8');
+            exit(sprintf(
                 '[Error] Unsupported encryption method: < %1$s >, please check your .env configuration <br>'.
                 '[错误] 不支持的密码加密方式 < %1$s >，请检查你的 .env 配置文件'
             , config('secure.cipher')));
