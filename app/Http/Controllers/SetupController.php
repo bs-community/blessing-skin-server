@@ -283,12 +283,4 @@ class SetupController extends Controller
     {
         return self::checkDirectories();
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function formatValidationErrors(Validator $validator)
-    {
-        return $validator->errors()->all();
-    }
 }
