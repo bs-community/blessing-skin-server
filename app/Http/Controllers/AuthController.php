@@ -40,8 +40,7 @@ class AuthController extends Controller
         $user = $users->get($identification, $authType);
 
         if (session('login_fails', 0) > 3) {
-            if (strtolower($request->input('captcha')) != strtolower(session('phrase')))
-                return json(trans('auth.validation.captcha'), 1);
+            $this->validate($request, ['captcha' => 'required|captcha']);
         }
 
         if (! $user) {

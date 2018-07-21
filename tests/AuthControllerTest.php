@@ -93,19 +93,15 @@ class AuthControllerTest extends TestCase
         $this->flushSession();
 
         // Should check captcha if there are too many fails
-        $this->withSession(
-            [
-                'login_fails' => 4
-            ]
-        )->postJson(
-            '/auth/login', [
-            'identification' => $user->email,
-            'password' => '12345678',
-            'captcha' => 'b'
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('auth.validation.captcha')
-        ]);
+        $this->withSession(['login_fails' => 4])
+            ->postJson(
+                '/auth/login', [
+                'identification' => $user->email,
+                'password' => '12345678',
+            ])->assertJson([
+                'errno' => 1,
+                'msg' => trans('validation.required', ['attribute' => 'captcha'])
+            ]);
 
         $this->flushSession();
 
