@@ -37,16 +37,32 @@ class SetupControllerTest extends TestCase
 
     public function testWelcome()
     {
-        $type = get_db_type();
+        $this->get('/setup')->assertViewIs('setup.wizard.welcome');
+    }
 
-        if ($type === 'SQLite') {
-            $server = get_db_config()['database'];
-        } else {
-            $config = get_db_config();
-            $server = "{$config['username']}@{$config['host']}";
-        }
+    public function testDatabase()
+    {
+        $fake = [
+            'type' => 'mysql',
+            'host' => '127.0.0.1',
+            'port' => '3306',
+            'db' => env('DB_DATABASE'),
+            'username' => env('DB_USERNAME'),
+            'password' => env('DB_PASSWORD'),
+            'prefix' => '',
+        ];
+        File::shouldReceive('get')->with('.env')->andReturn('');
+        File::shouldReceive('put')->with('.env', '');
+        $this->post('/setup/database', $fake)->assertRedirect('/setup/info');
+    }
 
-        $this->get('/setup')->assertSee($type)->assertSee($server);
+    public function testReportDatabaseConnectionError()
+    {
+        $this->post('/setup/database', ['type' => 'sqlite', 'host' => '', 'db' => 'test'])
+            ->assertSee(trans('setup.database.connection-error', [
+                'type' => 'SQLite',
+                'msg' => 'Database (test) does not exist.'
+            ]));
     }
 
     public function testInfo()

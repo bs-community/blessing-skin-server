@@ -448,9 +448,9 @@ if (! function_exists('die_with_utf8_encoding')) {
     }
 }
 
-if (! function_exists('get_db_type')) {
+if (! function_exists('humanize_db_type')) {
 
-    function get_db_type($type = null)
+    function humanize_db_type($type = null)
     {
         $map = [
             'mysql'  => 'MySQL',

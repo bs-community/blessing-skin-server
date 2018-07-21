@@ -1,6 +1,5 @@
 database:
   connection-error: 无法连接至 :type 服务器，请检查你的配置。服务器返回的信息：「:msg」
-  connection-success: 成功连接至 :type 服务器 [:server] ，点击下一步以开始安装。
   table-already-exists: 检测到目标数据库中已存在如下数据表 :tables，它们与本程序即将创建的数据表名称冲突，为了避免原有数据被覆盖，请手动删除它们，或者为本程序选择一个不同的数据表前缀。
 
 file:
@@ -42,6 +41,20 @@ wizard:
     title: 欢迎
     button: 下一步
     text: 欢迎使用 Blessing Skin Server v:version！
+
+  database:
+    title: 填写数据库信息
+    text: 您提供的数据库将用于存储 Blessing Skin 的数据
+
+    type: 数据库类型
+    host: 数据库服务器地址
+    port: 端口
+    username: 数据库用户名
+    password: 数据库密码
+    db: 数据库名称
+    db-notice: 如果您使用 SQLite，那么您应该填写 SQLite 数据库文件的路径，并且无需填写其它信息
+    prefix: 数据表前缀（可选）
+    prefix-notice: 通常您不需要填写此项，除非您有向同一数据库安装多个 Blessing Skin 的需要
 
   info:
     title: 填写信息

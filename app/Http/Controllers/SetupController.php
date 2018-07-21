@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DB;
 use Log;
 use File;
 use Utils;
@@ -17,20 +18,69 @@ use App\Exceptions\PrettyPageException;
 
 class SetupController extends Controller
 {
-    public function welcome()
+    public function database(Request $request)
     {
-        $type = get_db_type();
+        config([
+            'database.connections.temp.driver' => $request->input('type'),
+            'database.connections.temp.host' => $request->input('host'),
+            'database.connections.temp.port' => $request->input('port'),
+            'database.connections.temp.username' => $request->input('username'),
+            'database.connections.temp.password' => $request->input('password'),
+            'database.connections.temp.database' => $request->input('db') == '' ? null : $request->input('db'),
+            'database.connections.temp.prefix' => $request->input('prefix') == '' ? null : $request->input('prefix'),
+        ]);
 
-        if ($type === 'SQLite') {
-            // @codeCoverageIgnoreStart
-            $server = get_db_config()['database'];
-            // @codeCoverageIgnoreEnd
-        } else {
-            $config = get_db_config();
-            $server = "{$config['username']}@{$config['host']}";
+        try {
+            DB::connection('temp')->getPdo();
+        } catch (\Exception $e) {
+            $msg = iconv('gbk', 'utf-8', $e->getMessage());
+            $type = humanize_db_type($request->input('type'));
+
+            throw new PrettyPageException(
+                trans('setup.database.connection-error', compact('msg', 'type')),
+                $e->getCode()
+            );
         }
 
-        return view('setup.wizard.welcome')->with(compact('type', 'server'));
+        $content = File::get('.env');
+        $content = str_replace(
+            'DB_CONNECTION = '.env('DB_CONNECTION'),
+            'DB_CONNECTION = '.$request->input('type'),
+            $content
+        );
+        $content = str_replace(
+            'DB_HOST = '.env('DB_HOST'),
+            'DB_HOST = '.$request->input('host'),
+            $content
+        );
+        $content = str_replace(
+            'DB_PORT = '.env('DB_PORT'),
+            'DB_PORT = '.$request->input('port'),
+            $content
+        );
+        $content = str_replace(
+            'DB_DATABASE = '.env('DB_DATABASE'),
+            'DB_DATABASE = '.$request->input('db'),
+            $content
+        );
+        $content = str_replace(
+            'DB_USERNAME = '.env('DB_USERNAME'),
+            'DB_USERNAME = '.$request->input('username'),
+            $content
+        );
+        $content = str_replace(
+            'DB_PASSWORD = '.env('DB_PASSWORD'),
+            'DB_PASSWORD = '.$request->input('password'),
+            $content
+        );
+        $content = str_replace(
+            'DB_PREFIX = '.env('DB_PREFIX'),
+            'DB_PREFIX = '.$request->input('prefix'),
+            $content
+        );
+        File::put('.env', $content);
+
+        return redirect('setup/info');
     }
 
     public function info()

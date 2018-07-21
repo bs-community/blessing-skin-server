@@ -1,6 +1,5 @@
 database:
   connection-error: "Unable to connect to the target :type database, please check your configuration. The server replied with: :msg"
-  connection-success: Connect to the target :type database [:server] successfully, just click NEXT to start installation.
   table-already-exists: There are some tables already exist in target database, which names conflict with ones we are going to create. To avoid data loss, please manually delete these tables :tables, or set a different table prefix.
 
 file:
@@ -42,6 +41,20 @@ wizard:
     title: Welcome
     button: Next
     text: Welcome to Blessing Skin Server v:version!
+
+  database:
+    title: Database
+    text: The database is used for storing data of Blessing Skin.
+
+    type: Database Type
+    host: Database Host
+    port: Database Port
+    username: Database Username
+    password: Database Password
+    db: Database Name
+    db-notice: You should provide the path to SQLite file and there is no need to fill other blanks if you use SQLite.
+    prefix: Prefix of Database Table (Optional)
+    prefix-notice: You don't need to use this option unless you want to install multiple Blessing Skin Server into one database.
 
   info:
     title: Information needed

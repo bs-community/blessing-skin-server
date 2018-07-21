@@ -65,7 +65,7 @@ class BootServiceProvider extends ServiceProvider
             }
 
             $msg = iconv('gbk', 'utf-8', $e->getMessage());
-            $type = get_db_type();
+            $type = humanize_db_type();
 
             throw new PrettyPageException(
                 trans('setup.database.connection-error', compact('msg', 'type')),
