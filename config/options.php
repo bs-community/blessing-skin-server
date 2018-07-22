@@ -32,6 +32,7 @@ return [
     'update_source'             => 'https://work.prinzeugen.net/update.json',
     'copyright_text'            => '<strong>Copyright &copy; '.getdate()['year'].' <a href="{site_url}">{site_name}</a>.</strong> All rights reserved.',
     'auto_del_invalid_texture'  => 'false',
+    'allow_downloading_texture' => 'true',
     'texture_name_regexp'       => '',
     'return_200_when_notfound'  => 'false',
     'cache_expire_time'         => '31536000',

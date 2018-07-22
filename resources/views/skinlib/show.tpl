@@ -68,10 +68,16 @@
                                     </tr>
                                     <tr>
                                         <td>Hash
+                                            @if (option('allow_downloading_texture'))
                                             <i class="fa fa-question-circle" title="@lang('skinlib.show.download-raw')" data-toggle="tooltip" data-placement="top"></i>
+                                            @endif
                                         </td>
                                         <td>
+                                            @if (option('allow_downloading_texture'))
                                             <a href="{{ url('raw/'.$texture->tid) }}.png" title="{{ $texture->hash }}">{{ substr($texture->hash, 0, 15) }}...</a>
+                                            @else
+                                            <span title="{{ $texture->hash }}">{{ substr($texture->hash, 0, 15) }}...</span>
+                                            @endif
                                         </td>
                                     </tr>
                                     <tr>

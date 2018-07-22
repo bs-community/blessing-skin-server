@@ -201,6 +201,10 @@ class TextureController extends Controller
     }
 
     public function raw($tid) {
+        if (!option('allow_downloading_texture')) {
+            abort(404);
+        }
+
         if ($t = Texture::find($tid)) {
 
             if (Storage::disk('textures')->has($t->hash)) {

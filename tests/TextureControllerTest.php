@@ -249,7 +249,10 @@ class TextureControllerTest extends TestCase
 
         // Texture is deleted
         Storage::disk('textures')->delete($steve->hash);
-        $this->get("/raw/{$steve->tid}.png")
-            ->assertSee(trans('general.texture-deleted'));
+        $this->get("/raw/{$steve->tid}.png")->assertNotFound();
+
+        // Disallow downloading texture directly
+        config(['allow_downloading_texture' => false]);
+        $this->get("/raw/{$steve->tid}.png")->assertNotFound();
     }
 }
