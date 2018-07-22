@@ -2,12 +2,16 @@
 
 namespace App\Providers;
 
+use View;
 use Event;
 use Utils;
+use Parsedown;
 use App\Events;
 use ReflectionException;
 use Illuminate\Support\ServiceProvider;
 use App\Exceptions\PrettyPageException;
+use App\Services\Repositories\UserRepository;
+use App\Services\Repositories\OptionRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,6 +34,8 @@ class AppServiceProvider extends ServiceProvider
         if (option('force_ssl') || Utils::isRequestSecure()) {
             $this->app['url']->forceSchema('https');
         }
+
+        View::addExtension('tpl', 'blade');
 
         Event::listen(Events\RenderingHeader::class, function($event) {
             // Provide some application information for javascript
@@ -56,7 +62,8 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('cipher', 'App\Services\Cipher\\'.config('secure.cipher'));
-        $this->app->singleton('users', \App\Services\Repositories\UserRepository::class);
-        $this->app->singleton('parsedown', \Parsedown::class);
+        $this->app->singleton('parsedown', Parsedown::class);
+        $this->app->singleton('users', UserRepository::class);
+        $this->app->singleton('options', OptionRepository::class);
     }
 }
