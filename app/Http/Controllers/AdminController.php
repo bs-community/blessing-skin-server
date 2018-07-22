@@ -228,7 +228,7 @@ class AdminController extends Controller
         {
             $form->checkbox('force_ssl')->label()->hint();
             $form->checkbox('auto_detect_asset_url')->label()->description();
-            $form->checkbox('return_200_when_notfound')->label()->description();
+            $form->checkbox('return_204_when_notfound')->label()->description();
 
             $form->text('cache_expire_time')->hint(OptionForm::AUTO_DETECT);
 
