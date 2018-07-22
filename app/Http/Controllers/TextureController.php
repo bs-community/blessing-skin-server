@@ -7,6 +7,7 @@ use Option;
 use Storage;
 use Response;
 use Minecraft;
+use Exception;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Player;
@@ -16,6 +17,7 @@ use App\Events\GetSkinPreview;
 use App\Events\GetAvatarPreview;
 use App\Exceptions\PrettyPageException;
 use App\Services\Repositories\UserRepository;
+use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 class TextureController extends Controller
 {
@@ -51,15 +53,19 @@ class TextureController extends Controller
     }
 
     public function texture($hash) {
-        if (Storage::disk('textures')->has($hash)) {
-            return Response::png(Storage::disk('textures')->get($hash), 200, [
-                'Last-Modified'  => Storage::disk('textures')->lastModified($hash),
-                'Accept-Ranges'  => 'bytes',
-                'Content-Length' => Storage::disk('textures')->size($hash),
-            ]);
-        } else {
-            return abort(404);
+        try {
+            if (Storage::disk('textures')->has($hash)) {
+                return Response::png(Storage::disk('textures')->get($hash), 200, [
+                    'Last-Modified'  => Storage::disk('textures')->lastModified($hash),
+                    'Accept-Ranges'  => 'bytes',
+                    'Content-Length' => Storage::disk('textures')->size($hash),
+                ]);
+            }
+        } catch (Exception $e) {
+            report($e);
         }
+
+        return abort(404);
     }
 
     public function textureWithApi($api, $hash) {
@@ -121,22 +127,26 @@ class TextureController extends Controller
             $tid = $user->getAvatarId();
 
             if ($t = Texture::find($tid)) {
-                if (Storage::disk('textures')->has($t->hash)) {
-                    $responses = event(new GetAvatarPreview($t, $size));
+                try {
+                    if (Storage::disk('textures')->has($t->hash)) {
+                        $responses = event(new GetAvatarPreview($t, $size));
 
-                    if (isset($responses[0]) && $responses[0] instanceof \Symfony\Component\HttpFoundation\Response) {
-                        return $responses[0];       // @codeCoverageIgnore
-                    } else {
-                        $png = Minecraft::generateAvatarFromSkin(Storage::disk('textures')->read($t->hash), $size);
+                        if (isset($responses[0]) && $responses[0] instanceof SymfonyResponse) {
+                            return $responses[0];       // @codeCoverageIgnore
+                        } else {
+                            $png = Minecraft::generateAvatarFromSkin(Storage::disk('textures')->read($t->hash), $size);
 
-                        ob_start();
-                        imagepng($png);
-                        imagedestroy($png);
-                        $image = ob_get_contents();
-                        ob_end_clean();
+                            ob_start();
+                            imagepng($png);
+                            imagedestroy($png);
+                            $image = ob_get_contents();
+                            ob_end_clean();
 
-                        return Response::png($image);
+                            return Response::png($image);
+                        }
                     }
+                } catch (Exception $e) {
+                    report($e);
                 }
             }
         }
@@ -159,28 +169,32 @@ class TextureController extends Controller
     public function preview($tid, $size = 250)
     {
         if ($t = Texture::find($tid)) {
-            if (Storage::disk('textures')->has($t->hash)) {
-                $responses = event(new GetSkinPreview($t, $size));
+            try {
+                if (Storage::disk('textures')->has($t->hash)) {
+                    $responses = event(new GetSkinPreview($t, $size));
 
-                if (isset($responses[0]) && $responses[0] instanceof \Symfony\Component\HttpFoundation\Response) {
-                    return $responses[0];      // @codeCoverageIgnore
-                } else {
-                    $binary = Storage::disk('textures')->read($t->hash);
-
-                    if ($t->type == "cape") {
-                        $png = Minecraft::generatePreviewFromCape($binary, $size*0.8, $size*1.125, $size);
+                    if (isset($responses[0]) && $responses[0] instanceof \Symfony\Component\HttpFoundation\Response) {
+                        return $responses[0];      // @codeCoverageIgnore
                     } else {
-                        $png = Minecraft::generatePreviewFromSkin($binary, $size, ($t->type == 'alex'), 'both', 4);
+                        $binary = Storage::disk('textures')->read($t->hash);
+
+                        if ($t->type == "cape") {
+                            $png = Minecraft::generatePreviewFromCape($binary, $size*0.8, $size*1.125, $size);
+                        } else {
+                            $png = Minecraft::generatePreviewFromSkin($binary, $size, ($t->type == 'alex'), 'both', 4);
+                        }
+
+                        ob_start();
+                        imagepng($png);
+                        imagedestroy($png);
+                        $image = ob_get_contents();
+                        ob_end_clean();
+
+                        return Response::png($image);
                     }
-
-                    ob_start();
-                    imagepng($png);
-                    imagedestroy($png);
-                    $image = ob_get_contents();
-                    ob_end_clean();
-
-                    return Response::png($image);
                 }
+            } catch (Exception $e) {
+                report($e);
             }
         }
 
@@ -205,17 +219,9 @@ class TextureController extends Controller
             abort(404);
         }
 
-        if ($t = Texture::find($tid)) {
-
-            if (Storage::disk('textures')->has($t->hash)) {
-                return Response::png(Storage::disk('textures')->get($t->hash));
-            } else {
-                return abort(404, trans('general.texture-deleted'));
-            }
-        } else {
-            return abort(404, trans('skinlib.non-existent'));
-        }
-
+        return ($t = Texture::find($tid))
+            ? $this->texture($t->hash)
+            : abort(404, trans('skinlib.non-existent'));
     }
 
     protected function getPlayerInstance($player_name)

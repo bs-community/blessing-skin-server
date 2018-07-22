@@ -83,6 +83,9 @@ class TextureControllerTest extends TestCase
             ->assertHeader('Accept-Ranges', 'bytes')
             ->assertHeader('Content-Length', Storage::disk('textures')->size($steve->hash))
             ->assertSuccessful();
+
+        Storage::shouldReceive('disk')->with('textures')->andThrow(new Exception);
+        $this->get('/textures/'.$steve->hash)->assertNotFound();
     }
 
     public function testTextureWithApi()
@@ -178,6 +181,10 @@ class TextureControllerTest extends TestCase
         $this->expectsEvents(\App\Events\GetAvatarPreview::class);
         $this->get('/avatar/'.base64_encode($user->email).'.png')
             ->assertHeader('Content-Type', 'image/png');
+
+        Storage::shouldReceive('disk')->with('textures')->andThrow(new Exception);
+        $this->get('/avatar/'.base64_encode($user->email).'.png')
+            ->assertHeader('Content-Type', 'image/png');
     }
 
     public function testAvatarWithSize()
@@ -226,6 +233,10 @@ class TextureControllerTest extends TestCase
             ->andReturn(imagecreatefromstring($png));
         $this->get("/preview/{$cape->tid}.png")
             ->assertHeader('Content-Type', 'image/png');
+
+        Storage::shouldReceive('disk')->with('textures')->andThrow(new Exception);
+        $this->get("/preview/{$steve->tid}.png")
+            ->assertHeader('Content-Type', 'image/png');
     }
 
     public function testPreviewWithSize()
@@ -241,6 +252,7 @@ class TextureControllerTest extends TestCase
 
         // Not found
         $this->get('/raw/0.png')
+            ->assertNotFound()
             ->assertSee(trans('skinlib.non-existent'));
 
         // Success
