@@ -178,41 +178,38 @@ gulp.task('zip', () => {
     console.log(`Zip archive will be saved to ${zipPath}.`);
 
     return gulp.src([
-            '**/*.*',
-            'artisan',
-            'LICENSE',
-            '!.babelrc',
-            '!.eslintrc.js',
-            '!.eslintignore',
-            '!.editorconfig',
-            '!.travis.yml',
-            '!{.env,.env.testing}',
-            '!{.git,.git/**}',
-            '!{.gitignore,.gitmodules,.gitattributes}',
-            '!gulpfile.js',
+            '**/*',
+            '**/.gitignore',
+            '**/.htaccess',
+            '.env.example',
+            // Exclude unnecessary files
+            '!.gitignore',
             '!composer.*',
-            '!yarn.lock',
-            '!plugins/**',
-            'plugins/',
-            '!phpunit.xml',
-            '!package.json',
-            '!{tests,tests/**}',
+            '!gulpfile.js',
             '!ISSUE_TEMPLATE.md',
-            '!{coverage,coverage/**}',
-            '!{node_modules,node_modules/**}',
-            '!storage/textures/**',
+            '!package.json',
+            '!phpunit.xml',
+            '!yarn.lock',
+            // Exclud unnecessary directories
+            '!plugins/**',
             '!resources/assets/{src,src/**}',
             '!resources/assets/dist/**/{maps,maps/**}',
-            // do not pack packages for developments
+            '!resources/lang/overrides/**',
+            '!resources/views/overrides/**',
+            '!storage/textures/**',
+            '!{coverage,coverage/**}',
+            '!{node_modules,node_modules/**,node_modules/**/.gitignore}',
+            '!{tests,tests/**}',
+            // Exclude require-dev packages
             '!vendor/fzaninotto/**',
+            '!vendor/mikey179/**',
             '!vendor/mockery/**',
             '!vendor/phpunit/**',
             '!vendor/symfony/css-selector/**',
             '!vendor/symfony/dom-crawler/**',
-            '!vendor/mikey179/vfsStream/**',
-        ], { dot: true })
+        ])
         .pipe(zip(zipPath))
-        .pipe(notify('Don\'t forget to compile Stylus & ES2015 files before publishing a release!'))
+        .pipe(notify('Don\'t forget to build front-end resources before publishing a release!'))
         .pipe(gulp.dest('../'))
         .pipe(notify({ message: `Zip archive saved to ${zipPath}!` }));
 });
@@ -233,10 +230,11 @@ function convertNpmRelativePath(paths) {
 
 function clearCache() {
     return del([
-        'storage/logs/*',
+        'storage/logs/*.log',
         'storage/testing/*',
         'storage/debugbar/*',
         'storage/update_cache/*',
+        'storage/update_cache',
         'storage/yaml-translation/*',
         'storage/framework/cache/*',
         'storage/framework/sessions/*',
