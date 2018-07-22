@@ -1,6 +1,7 @@
 http:
   msg-403: You have no permission to access this page.
   msg-404: Nothing here.
+  msg-500: Please try again later.
   msg-503: The application is now in maintenance mode.
 
 general:
