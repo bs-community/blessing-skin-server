@@ -239,7 +239,7 @@ if (! function_exists('bs_copyright')) {
 
     function bs_copyright($prefer = null)
     {
-        $prefer = is_null($prefer) ? Option::get('copyright_prefer', 0, false) : $prefer;
+        $prefer = is_null($prefer) ? option_localized('copyright_prefer', 0) : $prefer;
 
         $base64CopyrightText = [
             'UG93ZXJlZCB3aXRoIOKdpCBieSA8YSBocmVmPSJodHRwczovL2dpdGh1Yi5jb20vcHJpbnRlbXB3L2JsZXNzaW5nLXNraW4tc2VydmVyIj5CbGVzc2luZyBTa2luIFNlcnZlcjwvYT4u',

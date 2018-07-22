@@ -12,7 +12,7 @@ homepage:
     description: The given image must have same width and height (leave blank to use default icon).
   copyright_prefer:
     title: Program Copyright
-    description: Any evil modification applied on the footer program copyright (including deleting, modifying author, changing link target) with out permission is <b>FORBIDDEN</b>. The author reserves the right to pursue relevant responsibilities.
+    description: "You can specify a different style of program copyright for each language. To edit a specific language's corresponding program copyright style, please switch to that language and submit your edit. <br><b>Warning:</b> Any evil modification applied on the footer program copyright (including deleting, modifying author, changing link target) with out permission is <b>FORBIDDEN</b>. The author reserves the right to pursue relevant responsibilities."
   copyright_text:
     title: Custom Copyright Text
     description: Placeholders are available in custom copyright text. e.g. <code>{site_name}</code> & <code>{site_url}</code>. You can also specify a different footer for each language. To edit a specific language's corresponding footer, please switch to that language and submit your edit.
