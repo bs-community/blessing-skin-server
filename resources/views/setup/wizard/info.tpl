@@ -46,7 +46,7 @@
             <th scope="row"><label for="generate_random">@lang('setup.wizard.info.secure')</label></th>
             <td>
                 <label for="generate_random">
-                    <input name="generate_random" type="checkbox" id="generate_random" size="25" value="on" />
+                    <input name="generate_random" type="checkbox" id="generate_random" size="25" value="on" checked />
                     @lang('setup.wizard.info.secure-notice')
                 </label>
             </td>
