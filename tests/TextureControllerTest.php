@@ -264,7 +264,7 @@ class TextureControllerTest extends TestCase
         $this->get("/raw/{$steve->tid}.png")->assertNotFound();
 
         // Disallow downloading texture directly
-        config(['allow_downloading_texture' => false]);
+        option(['allow_downloading_texture' => false]);
         $this->get("/raw/{$steve->tid}.png")->assertNotFound();
     }
 }
