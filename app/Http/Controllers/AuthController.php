@@ -160,8 +160,7 @@ class AuthController extends Controller
         try {
             Mail::to($request->input('email'))->send(new ForgotPassword($url));
         } catch (\Exception $e) {
-            // Write the exception to log
-            app(\Illuminate\Foundation\Exceptions\Handler::class)->report($e);
+            report($e);
 
             return json(trans('auth.mail.failed', ['msg' => $e->getMessage()]), 2);
         }
