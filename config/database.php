@@ -109,9 +109,11 @@ return [
         'cluster' => false,
 
         'default' => [
+            'schema' => menv('REDIS_SCHEMA', 'tcp'),
             'host' => menv('REDIS_HOST', 'localhost'),
-            'password' => menv('REDIS_PASSWORD', null),
             'port' => menv('REDIS_PORT', 6379),
+            'path' => menv('REDIS_SOCKET_PATH'),
+            'password' => menv('REDIS_PASSWORD', null),
             'database' => 0,
         ],
 
