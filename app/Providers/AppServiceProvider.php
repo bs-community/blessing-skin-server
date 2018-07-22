@@ -5,7 +5,9 @@ namespace App\Providers;
 use Event;
 use Utils;
 use App\Events;
+use ReflectionException;
 use Illuminate\Support\ServiceProvider;
+use App\Exceptions\PrettyPageException;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -38,6 +40,12 @@ class AppServiceProvider extends ServiceProvider
 
             $event->addContent('<script>var blessing = '.json_encode($blessing).';</script>');
         });
+
+        try {
+            $this->app->make('cipher');
+        } catch (ReflectionException $e) {
+            throw new PrettyPageException(trans('errors.cipher.unsupported', ['cipher' => config('secure.cipher')]));
+        }
     }
 
     /**
@@ -47,18 +55,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Register default cipher
-        $className = "App\Services\Cipher\\".config('secure.cipher');
-
-        if (class_exists($className)) {
-            $this->app->singleton('cipher', $className);
-        } else {
-            die_with_utf8_encoding(sprintf(
-                '[Error] Unsupported encryption method: < %1$s >, please check your .env configuration <br>'.
-                '[错误] 不支持的密码加密方式 < %1$s >，请检查你的 .env 配置文件'
-            , config('secure.cipher')));
-        }
-
+        $this->app->singleton('cipher', 'App\Services\Cipher\\'.config('secure.cipher'));
         $this->app->singleton('users', \App\Services\Repositories\UserRepository::class);
         $this->app->singleton('parsedown', \Parsedown::class);
     }
