@@ -6,6 +6,7 @@ database:
 file:
   permission-error: textures 文件夹创建失败，请确认目录权限是否正确，或者手动放置一个。
   no-dot-env: 找不到配置文件，请将 .env.example 重命名至 .env 并仔细阅读安装指南。
+  dot-env-no-read-permission: 无法读取 .env 配置文件，请检查文件权限。
 
 permissions:
   storage: 无法写入 storage 目录，请检查目录权限是否正确

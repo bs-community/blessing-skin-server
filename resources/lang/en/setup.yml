@@ -6,6 +6,7 @@ database:
 file:
   permission-error: Unable to create textures folder, please check the directory permissions or place one manually.
   no-dot-env: Unable to find environment configuration file. Please rename .env.example to .env (please refer to setup manual).
+  dot-env-no-read-permission: Unable to read .env configuration file. Please check the file permission.
 
 permissions:
   storage: Unable to write to storage directory, please check the permissions.

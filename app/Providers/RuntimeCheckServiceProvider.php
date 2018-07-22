@@ -37,6 +37,10 @@ class RuntimeCheckServiceProvider extends ServiceProvider
             throw new PrettyPageException(trans('setup.file.no-dot-env'), -1);
         }
 
+        if (! is_readable(app()->environmentFile())) {
+            throw new PrettyPageException(trans('setup.file.dot-env-no-read-permission'), -1);
+        }
+
         // Check permissions of storage path
         if (! is_writable(storage_path())) {
             throw new PrettyPageException(trans('setup.permissions.storage'), -1);
