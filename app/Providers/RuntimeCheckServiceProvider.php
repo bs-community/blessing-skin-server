@@ -24,10 +24,13 @@ class RuntimeCheckServiceProvider extends ServiceProvider
         $this->checkFilePermissions();
         $this->checkDatabaseConnection();
 
-        // Skip the installation check when setup or under CLI
-        if (! $request->is('setup*') && PHP_SAPI != "cli") {
-            $this->checkInstallation();
+        // Skip the installation check on setup wizard or under CLI
+        if ($request->is('setup*') || $this->app->runningInConsole()) {
+            return;
         }
+
+        // Redirect to setup wizard if not installed
+        $this->checkInstallation();
     }
 
     protected function checkFilePermissions()
