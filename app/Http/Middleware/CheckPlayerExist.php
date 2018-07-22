@@ -38,12 +38,10 @@ class CheckPlayerExist
         if (! Player::where('player_name', $player_name)->get()->isEmpty())
             return $next($request);
 
-        if (option('return_200_when_notfound')) {
-            return json([
-                'player_name' => $player_name,
-                'errno'       => 404,
-                'msg'         => 'Player Not Found.'
-            ])->header('Cache-Control', 'public, max-age='.option('cache_expire_time'));
+        if (option('return_204_when_notfound')) {
+            return response('', 204, [
+                'Cache-Control' => 'public, max-age='.option('cache_expire_time')
+            ]);
         } else {
             return abort(404, trans('general.unexistent-player'));
         }

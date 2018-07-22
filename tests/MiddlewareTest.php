@@ -111,14 +111,9 @@ class MiddlewareTest extends TestCase
             ->assertResponseStatus(404)
             ->see('Un-existent player');
 
-        Option::set('return_200_when_notfound', true);
+        Option::set('return_204_when_notfound', true);
         $this->get('/nope.json')
-            ->assertResponseStatus(200)
-            ->seeJson([
-                'player_name' => 'nope',
-                'errno' => 404,
-                'msg' => 'Player Not Found.'
-            ]);
+            ->assertResponseStatus(204);
 
         $player = factory(App\Models\Player::class)->create();
         $this->get("/{$player->player_name}.json")

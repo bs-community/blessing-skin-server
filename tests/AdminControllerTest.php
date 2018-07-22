@@ -140,12 +140,12 @@ class AdminControllerTest extends TestCase
         $this->visit('/admin/options')
             ->check('force_ssl')
             ->uncheck('auto_detect_asset_url')
-            ->check('return_200_when_notfound')
+            ->check('return_204_when_notfound')
             ->type('0', 'cache_expire_time')
             ->press('submit_resources');
         $this->assertTrue(option('force_ssl'));
         $this->assertFalse(option('auto_detect_asset_url'));
-        $this->assertTrue(option('return_200_when_notfound'));
+        $this->assertTrue(option('return_204_when_notfound'));
         $this->assertEquals('0', option('cache_expire_time'));
     }
 
