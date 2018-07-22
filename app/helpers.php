@@ -264,14 +264,6 @@ if (! function_exists('bs_custom_copyright')) {
     }
 }
 
-if (! function_exists('bs_announcement')) {
-
-    function bs_announcement()
-    {
-        return app('parsedown')->text(option_localized('announcement'));
-    }
-}
-
 if (! function_exists('bs_nickname')) {
 
     function bs_nickname(User $user = null)

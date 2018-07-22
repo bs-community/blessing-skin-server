@@ -22,7 +22,7 @@ class UserControllerTest extends TestCase
             ->assertViewHas('statistics')
             ->assertSee((string) (1 / $players_count * 100))    // Players
             ->assertSee('0')               // Storage
-            ->assertSee(bs_announcement())
+            ->assertSee((new Parsedown())->text(option_localized('announcement')))
             ->assertSee((string) $user->score);
     }
 

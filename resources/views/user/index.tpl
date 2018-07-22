@@ -96,7 +96,7 @@
                         <h3 class="box-title">@lang('user.announcement')</h3>
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                        {!! bs_announcement() !!}
+                        {!! $announcement !!}
                     </div><!-- /.box-body -->
                 </div>
             </div>

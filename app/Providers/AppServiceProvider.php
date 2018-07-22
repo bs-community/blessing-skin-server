@@ -59,7 +59,6 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton('cipher', 'App\Services\Cipher\\'.config('secure.cipher'));
         $this->app->singleton('users', \App\Services\Repositories\UserRepository::class);
-        $this->app->singleton('parsedown', \Parsedown::class);
 
         Blade::if('admin', function (User $user) {
             return $user->isAdmin();

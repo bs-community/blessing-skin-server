@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App;
 use View;
 use Utils;
+use Parsedown;
 use App\Models\User;
 use App\Models\Texture;
 use Illuminate\Http\Request;
@@ -23,7 +24,8 @@ class UserController extends Controller
             'statistics' => [
                 'players' => $this->calculatePercentageUsed($user->players->count(), option('score_per_player')),
                 'storage' => $this->calculatePercentageUsed($user->getStorageUsed(), option('score_per_storage'))
-            ]
+            ],
+            'announcement' => (new Parsedown())->text(option_localized('announcement'))
         ]);
     }
 
