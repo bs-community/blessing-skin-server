@@ -3,6 +3,7 @@
 namespace App\Services\Repositories;
 
 use DB;
+use PDOException;
 use Illuminate\Support\Arr;
 use Illuminate\Database\QueryException;
 
@@ -17,7 +18,9 @@ class OptionRepository extends Repository
     {
         try {
             $options = DB::table('options')->get();
-        } catch (QueryException $e) {
+        } catch (Exception $e) {
+            $options = [];
+        } catch (PDOException $e) {
             $options = [];
         }
 
@@ -103,6 +106,8 @@ class OptionRepository extends Repository
             }
         } catch (QueryException $e) {
             return;
+        } catch (PDOException $e) {
+            return;
         }
     }
 
@@ -131,6 +136,8 @@ class OptionRepository extends Repository
             // Clear the list
             $this->itemsModified = [];
         } catch (QueryException $e) {
+            return;
+        } catch (PDOException $e) {
             return;
         }
     }
