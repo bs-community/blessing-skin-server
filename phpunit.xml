@@ -16,6 +16,9 @@
   <filter>
     <whitelist processUncoveredFilesFromWhitelist="true">
       <directory suffix=".php">./app</directory>
+      <exclude>
+        <directory suffix=".php">./app/Services/Cipher</directory>
+      </exclude>
     </whitelist>
   </filter>
   <php>
