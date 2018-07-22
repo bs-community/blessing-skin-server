@@ -19,12 +19,17 @@ class BootServiceProvider extends ServiceProvider
         // Detect current locale
         $this->app->call('App\Http\Middleware\DetectLanguagePrefer@detect');
 
-        // Skip the installation check when setup or under CLI
-        if (! $request->is('setup*') && PHP_SAPI != "cli") {
-            $this->checkInstallation();
+        // Skip the installation check when in setup or under CLI
+        if ($request->is('setup*') || $this->app->runningInConsole()) {
+            return;
         }
+
+        $this->checkInstallation();  // @codeCoverageIgnore
     }
 
+    /**
+     * @codeCoverageIgnore
+     */
     protected function checkInstallation()
     {
         // Redirect to setup wizard
