@@ -110,7 +110,7 @@ class UpdateController extends Controller
 
         $action = $request->input('action');
 
-        if (! $this->newVersionAvailable()) return;
+        if (! $this->newVersionAvailable()) return '';
 
         $release_url = $this->getReleaseInfo($this->latestVersion)['release_url'];
         $file_size   = Utils::getRemoteFileSize($release_url);

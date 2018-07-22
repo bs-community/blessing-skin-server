@@ -72,10 +72,10 @@ class UpdateControllerTest extends BrowserKitTestCase
         );
 
         option(['update_source' => vfs\vfsStream::url('root/update.json')]);
-        $time = $this->generateFakeUpdateInfo('4.0.0');
+        $time = $this->generateFakeUpdateInfo('10.0.0');
         $this->visit('/admin/update')
             ->see(config('app.version'))
-            ->see('4.0.0')
+            ->see('10.0.0')
             ->see('test')
             ->see($time);
     }
@@ -92,26 +92,22 @@ class UpdateControllerTest extends BrowserKitTestCase
             ]);
 
         option(['update_source' => vfs\vfsStream::url('root/update.json')]);
-        $this->generateFakeUpdateInfo('4.0.0');
+        $this->generateFakeUpdateInfo('10.0.0');
         $this->get('/admin/update/check')
             ->seeJson([
-                'latest' => '4.0.0',
+                'latest' => '10.0.0',
                 'available' => true
             ]);
     }
 
-    /* HELP WANTED: This test cannot be passed since Laravel 5.3
     public function testDownload()
     {
         option(['update_source' => vfs\vfsStream::url('root/update.json')]);
-        $this->generateFakeUpdateInfo('0.1.0');
-        $this->get('/admin/update/download');
-
         $this->generateFakeUpdateFile();
 
         // Prepare for downloading
         Storage::disk('root')->deleteDirectory('storage/update_cache');
-        $this->generateFakeUpdateInfo('4.0.0');
+        $this->generateFakeUpdateInfo('10.0.0');
         Storage::shouldReceive('disk')
             ->once()
             ->with('root')
@@ -185,15 +181,15 @@ class UpdateControllerTest extends BrowserKitTestCase
             storage_path('update_cache/update.zip')
         );
         File::shouldReceive('copyDirectory')
-            ->with(storage_path('update_cache/4.0.0/vendor'), base_path('vendor'))
+            ->with(storage_path('update_cache/10.0.0/vendor'), base_path('vendor'))
             ->andThrow(new \Exception);
         File::shouldReceive('deleteDirectory')
-            ->with(storage_path('update_cache/4.0.0/vendor'));
+            ->with(storage_path('update_cache/10.0.0/vendor'));
         $this->get('/admin/update/download?action=extract');
 
 
         File::shouldReceive('copyDirectory')
-            ->with(storage_path('update_cache/4.0.0'), base_path())
+            ->with(storage_path('update_cache/10.0.0'), base_path())
             ->andThrow(new Exception);
         File::shouldReceive('deleteDirectory')
             ->with(storage_path('update_cache'));
@@ -209,5 +205,12 @@ class UpdateControllerTest extends BrowserKitTestCase
                 'msg' => trans('general.illegal-parameters')
             ]);
     }
-    */
+
+    public function testNoAvailableUpdate()
+    {
+        option(['update_source' => vfs\vfsStream::url('root/update.json')]);
+        $this->generateFakeUpdateInfo('0.1.0');
+        $this->get('/admin/update/download')->see('');
+    }
+
 }
