@@ -132,7 +132,7 @@ return [
 
     'providers' => [
 
-        /*
+        /**
          * Laravel Framework Service Providers...
          */
         Illuminate\Auth\AuthServiceProvider::class,
@@ -157,7 +157,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         /**
-         * Third-party libraries
+         * Third-party Libraries...
          */
         Swiggles\Memcache\MemcacheServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,

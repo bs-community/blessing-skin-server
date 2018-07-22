@@ -2,15 +2,10 @@
 
 namespace App\Providers;
 
-use DB;
-use View;
-use Utils;
 use Illuminate\Http\Request;
 use Composer\Semver\Comparator;
 use Illuminate\Support\ServiceProvider;
-use App\Exceptions\PrettyPageException;
 use App\Http\Controllers\SetupController;
-use App\Services\Repositories\OptionRepository;
 
 class BootServiceProvider extends ServiceProvider
 {
@@ -51,8 +46,6 @@ class BootServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        View::addExtension('tpl', 'blade');
-
-        $this->app->singleton('options',  OptionRepository::class);
+        //
     }
 }

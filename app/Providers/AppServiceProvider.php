@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use View;
 use Blade;
 use Event;
 use Utils;
@@ -10,6 +11,7 @@ use App\Models\User;
 use ReflectionException;
 use Illuminate\Support\ServiceProvider;
 use App\Exceptions\PrettyPageException;
+use App\Services\Repositories\OptionRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,6 +34,8 @@ class AppServiceProvider extends ServiceProvider
         if (option('force_ssl') || Utils::isRequestSecure()) {
             $this->app['url']->forceScheme('https');
         }
+
+        View::addExtension('tpl', 'blade');
 
         Event::listen(Events\RenderingHeader::class, function($event) {
             // Provide some application information for javascript
@@ -59,6 +63,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton('cipher', 'App\Services\Cipher\\'.config('secure.cipher'));
         $this->app->singleton('users', \App\Services\Repositories\UserRepository::class);
+        $this->app->singleton('options',  OptionRepository::class);
 
         Blade::if('admin', function (User $user) {
             return $user->isAdmin();
