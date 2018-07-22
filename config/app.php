@@ -159,7 +159,6 @@ return [
         /**
          * Third-party libraries
          */
-        Devitek\Core\Translation\TranslationServiceProvider::class,
         Swiggles\Memcache\MemcacheServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
@@ -174,6 +173,7 @@ return [
         App\Providers\MemoryServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ResponseMacroServiceProvider::class,
+        App\Providers\TranslationServiceProvider::class,
         App\Providers\ValidatorExtendServiceProvider::class,
 
     ],
