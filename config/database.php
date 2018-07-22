@@ -109,7 +109,7 @@ return [
         'cluster' => false,
 
         'default' => [
-            'schema' => menv('REDIS_SCHEMA', 'tcp'),
+            'scheme' => menv('REDIS_SCHEME', 'tcp'),
             'host' => menv('REDIS_HOST', 'localhost'),
             'port' => menv('REDIS_PORT', 6379),
             'path' => menv('REDIS_SOCKET_PATH'),
