@@ -159,7 +159,6 @@ return [
         /**
          * Third-party libraries
          */
-        Devitek\Core\Translation\TranslationServiceProvider::class,
         Swiggles\Memcache\MemcacheServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
 
@@ -173,6 +172,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\MemoryServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\TranslationServiceProvider::class,
         App\Providers\ResponseMacroServiceProvider::class,
         App\Providers\ValidatorExtendServiceProvider::class,
 
