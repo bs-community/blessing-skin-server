@@ -95,9 +95,8 @@ class AdminController extends Controller
 
             $form->textarea('copyright_text')->rows(6)->description();
 
-        })->with('copyright_text',
-            option('copyright_text_'.config('app.locale'), option('copyright_text'))
-        )->handle(function () {
+        })->handle(function () {
+            Option::set('copyright_prefer_'.config('app.locale'), request('copyright_prefer'));
             Option::set('copyright_text_'.config('app.locale'), request('copyright_text'));
         });
 
