@@ -14,7 +14,7 @@ class PluginControllerTest extends TestCase
 
         $plugins = [
             'example-plugin' => 'example-plugin_v1.0.0.zip',
-            'avatar-api'     => 'avatar-api_v1.1.0.zip'
+            'avatar-api'     => 'avatar-api_v1.1.1.zip'
         ];
 
         foreach ($plugins as $plugin_name => $filename) {
@@ -80,6 +80,16 @@ class PluginControllerTest extends TestCase
                 'errno' => 1,
                 'msg' => trans('admin.invalid-action')
             ]);
+
+        // Retrieve requirements
+        $this->postJson('/admin/plugins/manage', [
+            'name' => 'avatar-api',
+            'action' => 'requirements'
+        ])->assertJson([
+            'isRequirementsSatisfied' => true,
+            'requirements' => [],
+            'unsatisfiedRequirements' => []
+        ]);
 
         // Enable a plugin with unsatisfied dependencies
         app('plugins')->getPlugin('avatar-api')->setRequirements([
