@@ -433,6 +433,14 @@ class AuthControllerTest extends TestCase
                 'errno' => 2,
                 'msg' => trans('auth.mail.failed', ['msg' => 'A fake exception.'])
             ]);
+
+        // Addition: Mailable test
+        $site_name = option_localized('site_name');
+        $mailable = new ForgotPassword('url');
+        $mailable->build();
+        $this->assertTrue($mailable->hasFrom(config('mail.username'), $site_name));
+        $this->assertEquals(trans('auth.mail.title', ['sitename' => $site_name]), $mailable->subject);
+        $this->assertEquals('auth.mail', $mailable->view);
     }
 
     public function testReset()
