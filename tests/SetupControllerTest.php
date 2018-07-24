@@ -58,7 +58,7 @@ class SetupControllerTest extends TestCase
 
     public function testReportDatabaseConnectionError()
     {
-        $this->post('/setup/database', ['type' => 'sqlite', 'host' => '', 'db' => 'test'])
+        $this->post('/setup/database', ['type' => 'sqlite', 'host' => 'placeholder', 'db' => 'test'])
             ->assertSee(trans('setup.database.connection-error', [
                 'type' => 'SQLite',
                 'msg' => 'Database (test) does not exist.'
