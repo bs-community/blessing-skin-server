@@ -295,6 +295,35 @@ class SkinlibController extends Controller
         }
     }   // @codeCoverageIgnore
 
+    public function model(Request $request) {
+        $this->validate($request, [
+            'tid'      => 'required|integer',
+            'model'    => 'required|in:steve,alex,cape'
+        ]);
+
+        $t = Texture::find($request->input('tid'));
+
+        if (! $t)
+            return json(trans('skinlib.non-existent'), 1);
+
+        if ($t->uploader != $this->user->uid && !$this->user->isAdmin())
+            return json(trans('skinlib.no-permission'), 1);
+
+        $duplicate = Texture::where('hash', $t->hash)
+                            ->where('type', $request->input('model'))
+                            ->where('tid', '<>', $t->tid)
+                            ->first();
+
+        if ($duplicate && $duplicate->public) {
+            return json(trans('skinlib.model.duplicate', ['tid' => $duplicate->tid]), 1);
+        }
+
+        $t->type = $request->input('model');
+        $t->save();
+
+        return json(trans('skinlib.model.success', ['model' => request('model')]), 0);
+    }
+
     /**
      * Check Uploaded Files
      *

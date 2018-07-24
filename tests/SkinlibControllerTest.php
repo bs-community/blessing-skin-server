@@ -933,4 +933,73 @@ class SkinlibControllerTest extends TestCase
             ]);
         $this->assertEquals('new_name', Texture::find($texture->tid)->name);
     }
+
+    public function testChangeModel()
+    {
+        $uploader = factory(User::class)->create();
+        $other = factory(User::class)->create();
+        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+
+        // Non-existed texture
+        $this->actAs($uploader)
+            ->post('/skinlib/model', [
+                'tid' => -1,
+                'model' => 'alex'
+            ])
+            ->seeJson([
+                'errno' => 1,
+                'msg' => trans('skinlib.non-existent')
+            ]);
+
+        // Other user should not be able to change model
+        $this->actAs($other)
+            ->post('/skinlib/model', [
+                'tid' => $texture->tid,
+                'model' => 'alex'
+            ])
+            ->seeJson([
+                'errno' => 1,
+                'msg' => trans('skinlib.no-permission')
+            ]);
+
+        // Administrators should be able to change model
+        $this->actAs('admin')
+            ->post('/skinlib/model', [
+                'tid' => $texture->tid,
+                'model' => 'alex'
+            ])
+            ->seeJson([
+                'errno' => 0,
+                'msg' => trans('skinlib.model.success', ['model' => 'alex'])
+            ]);
+        $this->assertEquals('alex', Texture::find($texture->tid)->type);
+
+        // Uploader should be able to change model
+        $this->actAs($uploader)
+            ->post('/skinlib/model', [
+                'tid' => $texture->tid,
+                'model' => 'steve'
+            ])
+            ->seeJson([
+                'errno' => 0,
+                'msg' => trans('skinlib.model.success', ['model' => 'steve'])
+            ]);
+        $this->assertEquals('steve', Texture::find($texture->tid)->type);
+
+        $duplicate = factory(Texture::class, 'alex')->create([
+            'uploader' => $other->uid,
+            'hash' => $texture->hash
+        ]);
+
+        // Should fail if there is already a texture with same hash and chosen model
+        $this->actAs($uploader)
+            ->post('/skinlib/model', [
+                'tid' => $texture->tid,
+                'model' => 'alex'
+            ])
+            ->seeJson([
+                'errno' => 1,
+                'msg' => trans('skinlib.model.duplicate', ['tid' => $duplicate->tid])
+            ]);
+    }
 }

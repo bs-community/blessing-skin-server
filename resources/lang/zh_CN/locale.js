@@ -67,6 +67,9 @@
             setNewTextureName: '请输入新的材质名称：',
             emptyNewTextureName: '你还没有输入新名称啊',
 
+            // Change Model
+            setNewTextureModel: '请选择新的材质适用模型：',
+
             // Upload
             emptyTextureName: '给你的材质起个名字吧',
             emptyTextureType: '请选择材质的类型',

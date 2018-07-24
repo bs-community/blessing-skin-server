@@ -130,6 +130,47 @@ async function changeTextureName(tid, oldName) {
     }
 }
 
+async function changeTextureModel(tid, oldModel) {
+    const models = {
+        steve: 'steve',
+        alex: 'alex',
+        cape: trans('general.cape')
+    };
+
+    let newTextureModel = '';
+
+    try {
+        newTextureModel = await swal({
+            text: trans('skinlib.setNewTextureModel'),
+            input: 'select',
+            inputValue: oldModel,
+            inputOptions: models,
+            showCancelButton: true,
+            inputClass: 'form-control'
+        });
+    } catch (error) {
+        return;
+    }
+
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('skinlib/model'),
+            dataType: 'json',
+            data: { tid: tid, model: newTextureModel }
+        });
+
+        if (errno === 0) {
+            $('#model').text(models[newTextureModel]);
+            toastr.success(msg);
+        } else {
+            toastr.warning(msg);
+        }
+    } catch (error) {
+        showAjaxError(error);
+    }
+}
+
 /**
  * Update button action & likes of texture.
  *
@@ -231,6 +272,7 @@ if (process.env.NODE_ENV === 'test') {
         ajaxAddToCloset,
         removeFromCloset,
         changeTextureName,
+        changeTextureModel,
         updateTextureStatus,
     };
 }

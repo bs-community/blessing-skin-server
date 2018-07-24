@@ -86,6 +86,7 @@ Route::group(['prefix' => 'skinlib'], function ()
         Route::post('/upload',        'SkinlibController@handleUpload');
 
         Route::post('/rename',        'SkinlibController@rename');
+        Route::post('/model',         'SkinlibController@model');
         Route::post('/privacy',       'SkinlibController@privacy');
         Route::post('/delete',        'SkinlibController@delete');
     });

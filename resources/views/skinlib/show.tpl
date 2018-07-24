@@ -48,10 +48,11 @@
                                 <tbody>
                                     <tr>
                                         <td>{{ trans('skinlib.show.name') }}</td>
-                                        <td id="name">{{ $texture->name }}
-                                            @if (!is_null($user) && ($texture->uploader == $user->uid || $user->isAdmin()))
+                                        <td>
+                                            <span id="name">{{ $texture->name }}</span>
+                                            @if (can_moderate_texture($user, $texture))
                                             <small>
-                                                <a style="cursor: pointer" onclick="changeTextureName({{ $texture->tid }}, '{{ $texture->name }}');">{{ trans('skinlib.show.edit-name') }}</a>
+                                                <a style="cursor: pointer" onclick="changeTextureName({{ $texture->tid }}, '{{ $texture->name }}');">{{ trans('skinlib.show.edit') }}</a>
                                             </small>
                                             @endif
                                         </td>
@@ -59,10 +60,11 @@
                                     <tr>
                                         <td>{{ trans('skinlib.show.model') }}</td>
                                         <td>
-                                            @if ($texture->type == 'cape')
-                                                {{ trans('general.cape') }}
-                                            @else
-                                                {{ $texture->type }}
+                                            <span id="model">{{ $texture->type == 'cape' ? trans('general.cape') : $texture->type }}</span>
+                                            @if (can_moderate_texture($user, $texture))
+                                            <small>
+                                                <a style="cursor: pointer" onclick="changeTextureModel({{ $texture->tid }}, '{{ $texture->type }}');">{{ trans('skinlib.show.edit') }}</a>
+                                            </small>
                                             @endif
                                         </td>
                                     </tr>

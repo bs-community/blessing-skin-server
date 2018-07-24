@@ -506,3 +506,15 @@ if (! function_exists('report')) {
         app(Illuminate\Contracts\Debug\ExceptionHandler::class)->report($exception);
     }
 }
+
+if (! function_exists('can_moderate_texture')) {
+
+    function can_moderate_texture($user, $texture) {
+        if (! $user) {
+            return false;
+        }
+
+        // Only uploader and admins can moderate textures
+        return ($texture->uploader == $user->uid || $user->isAdmin());
+    }
+}

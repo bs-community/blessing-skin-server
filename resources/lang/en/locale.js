@@ -47,6 +47,9 @@
             setNewTextureName: 'Please enter the new texture name:',
             emptyNewTextureName: 'Empty new texture name.',
 
+            // Change Model
+            setNewTextureModel: 'Please select a new texture model:',
+
             // Skinlib
             filter: {
                 skin: '(Any Model)',

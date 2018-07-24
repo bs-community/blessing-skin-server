@@ -503,6 +503,57 @@ describe('tests for "operations" module', () => {
     expect(showAjaxError).toBeCalled();
   });
 
+  it('change texture model', async () => {
+    const fetch = jest.fn()
+      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
+      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'warning' }))
+      .mockReturnValueOnce(Promise.reject());
+    window.fetch = fetch;
+    const url = jest.fn(path => path);
+    window.url = url;
+    const trans = jest.fn(key => key);
+    window.trans = trans;
+    const swal = jest.fn()
+      .mockImplementationOnce(() => Promise.reject())
+      .mockImplementationOnce(() => Promise.resolve('alex'));
+    window.swal = swal;
+    const modal = jest.fn();
+    const toastr = {
+      success: jest.fn(),
+      warning: jest.fn()
+    };
+    window.toastr = toastr;
+    const showAjaxError = jest.fn();
+    window.showAjaxError = showAjaxError;
+
+    document.body.innerHTML = '<div id="model"></div>';
+    const changeTextureModel = require(modulePath).changeTextureModel;
+
+    await changeTextureModel(1, 'steve');
+    expect(fetch).not.toBeCalled();
+
+    await changeTextureModel(1, 'steve');
+    expect(swal).toBeCalledWith(expect.objectContaining({
+      text: trans('skinlib.setNewTextureModel'),
+      input: 'select',
+      inputValue: 'steve',
+    }));
+    expect(fetch).toBeCalledWith({
+      type: 'POST',
+      url: 'skinlib/model',
+      dataType: 'json',
+      data: { tid: 1, model: 'alex' }
+    });
+    expect($('div').text()).toBe('alex');
+    expect(toastr.success).toBeCalledWith('success');
+
+    await changeTextureModel(1, 'steve');
+    expect(toastr.warning).toBeCalledWith('warning');
+
+    await changeTextureModel(1, 'steve');
+    expect(showAjaxError).toBeCalled();
+  });
+
   it('update texture status', () => {
     window.trans = jest.fn(key => key);
     document.body.innerHTML = `
