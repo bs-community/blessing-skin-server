@@ -43,14 +43,14 @@ show:
   uploader: 上传者
   upload-at: 上传日期
 
-  manage-panel: 管理面板
-  delete-texture: 删除材质
-  notice: 材质设为隐私或被删除后将会从每一个收藏者的衣柜中移除。
-  notice-admin: 你可以将此材质设为隐私或删除。这将会使此材质从每一个收藏者的衣柜中移除。
+  manage-panel:
+    title: 管理面板
+    notice: 你可以将此材质设为隐私或删除。这将会使此材质从每一个收藏者的衣柜中移除。
 
   comment: 评论区
   comment-not-available: 本站未开启评论服务
 
+  delete-texture: 删除材质
   deleted: 请求的材质文件已经被删除
   contact-admin: 请联系管理员删除该条目
   private: 请求的材质已经设为隐私，仅上传者和管理员可查看

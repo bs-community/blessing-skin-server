@@ -99,19 +99,8 @@
                         </div><!-- /.box-body -->
                     </div><!-- /.box -->
 
-                    @if (!is_null($user))
-                        @if ($texture->uploader == $user->uid)
-                            @include('common.manage-panel', [
-                                'title'   => trans('skinlib.show.delete-texture')." / ".trans('skinlib.privacy.change-privacy'),
-                                'message' => trans('skinlib.show.notice')
-                            ])
-
-                        @elseif ($user->isAdmin())
-                            @include('common.manage-panel', [
-                                'title'   => trans('skinlib.show.manage-panel'),
-                                'message' => trans('skinlib.show.notice-admin')
-                            ])
-                        @endif
+                    @if ($user && can_moderate_texture($user, $texture))
+                        @include('common.manage-panel')
                     @endif
                 </div>
             </div>

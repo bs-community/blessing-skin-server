@@ -1,10 +1,10 @@
 <div class="box box-danger">
     {{-- Texture Manage Panel --}}
     <div class="box-header with-border">
-        <h3 class="box-title">{{ $title }}</h3>
+        <h3 class="box-title">{{ trans('skinlib.show.manage-panel.title') }}</h3>
     </div><!-- /.box-header -->
     <div class="box-body">
-        <p>{{ $message }}</p>
+        <p>{{ trans('skinlib.show.manage-panel.notice') }}</p>
     </div><!-- /.box-body -->
 
     <div class="box-footer">
