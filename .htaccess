@@ -1,10 +1,26 @@
-RewriteEngine On
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
 
-RewriteBase /
+    RewriteEngine On
 
-RewriteRule (^\.|/\.) - [F]
+    # You may need to uncomment the following line for some hosting environments,
+    # if you have installed to a subdirectory, enter the name here also.
+    #
+    # RewriteBase /
 
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+    # Black list protected files
+    RewriteRule (^\.|/\.) - [F]
+    RewriteRule ^storage/.* - [F]
 
-RewriteRule ^.*$ index.php [L]
+    # Redirect trailing slashes if not a folder
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Handle front controller
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
