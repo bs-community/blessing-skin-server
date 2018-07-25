@@ -30,15 +30,13 @@ forgot:
   close: Password resetting is not available now.
   frequent-mail: You click the send button too fast. Wait for 60 secs, guy.
   unregistered: The email address is not registered.
-
-mail:
-  title: Reset your password on :sitename
-  success: Mail is sent. Will be expired in 1 hour, please check.
+  success: Mail sent, please check your inbox. The link will be expired in 1 hour.
   failed: Fail to send mail, detailed message :msg
-  message: You are receiving this email because this email address was used to reset your password on :sitename
-  ignore: If you haven't signed up on our site, please ignore this email. No unsubscribing is required.
-  reset: Reset your password
-  notice: This mail is sending automatically, no reponses will be sent if you reply.
+  mail:
+    title: Reset your password on :sitename
+    message: You are receiving this email because we received a password reset request for your account on :sitename.
+    reset: "To reset your password, please visit: :url"
+    ignore: If you did not request a password reset, no further action is required.
 
 reset:
   title: Reset Password

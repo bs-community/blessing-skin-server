@@ -30,15 +30,13 @@ forgot:
   close: 本站已关闭重置密码功能
   frequent-mail: 你邮件发送得太频繁啦，过 60 秒后再点发送吧
   unregistered: 该邮箱尚未注册
-
-mail:
-  title: 重置您在 :sitename 上的账户密码
   success: 邮件已发送，一小时内有效，请注意查收。
   failed: 邮件发送失败，详细信息：:msg
-  message: 您收到这封邮件，是因为在 :sitename 的用户重置密码功能使用了您的地址。
-  ignore: 如果您并没有访问过我们的网站，或没有进行上述操作，请忽略这封邮件。 您不需要退订或进行其他进一步的操作。
-  reset: 重置密码
-  notice: 本邮件由系统自动发送，就算你回复了我们也不会回复你哦
+  mail:
+    title: 重置您在 :sitename 上的账户密码
+    message: 您收到这封邮件，是因为有人在 :sitename 的密码重置功能中使用了您的地址。
+    reset: 点击此链接重置您的密码：:url
+    ignore: 如果您并没有访问过我们的网站，或没有进行上述操作，请忽略这封邮件。
 
 reset:
   title: 重置密码

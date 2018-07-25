@@ -193,11 +193,11 @@ class AuthController extends Controller
         $url = Option::get('site_url')."/auth/reset?uid=$uid&token=$token";
 
         try {
-            Mail::send('auth.mail', ['reset_url' => $url], function ($m) use ($request) {
+            Mail::send('mails.password-reset', compact('url'), function ($m) use ($request) {
                 $site_name = option_localized('site_name');
 
                 $m->from(config('mail.username'), $site_name);
-                $m->to($request->input('email'))->subject(trans('auth.mail.title', ['sitename' => $site_name]));
+                $m->to($request->input('email'))->subject(trans('auth.forgot.mail.title', ['sitename' => $site_name]));
             });
 
             Log::info("[Password Reset] Mail has been sent to [{$request->input('email')}] with token [$token]");
@@ -205,12 +205,12 @@ class AuthController extends Controller
             // Write the exception to log
             report($e);
 
-            return json(trans('auth.mail.failed', ['msg' => $e->getMessage()]), 2);
+            return json(trans('auth.forgot.failed', ['msg' => $e->getMessage()]), 2);
         }
 
         Session::put('last_mail_time', time());
 
-        return json(trans('auth.mail.success'), 0);
+        return json(trans('auth.forgot.success'), 0);
     }
 
     public function reset(UserRepository $users, Request $request)
