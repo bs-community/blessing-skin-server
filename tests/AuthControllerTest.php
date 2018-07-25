@@ -76,6 +76,8 @@ class AuthControllerTest extends TestCase
 
         $this->flushSession();
 
+        $loginFailsCacheKey = sha1('login_fails_'.Utils::getClientIp());
+
         // Logging in should be failed if password is wrong
         $this->post(
             '/auth/login', [
@@ -87,17 +89,17 @@ class AuthControllerTest extends TestCase
                 'msg' => trans('auth.validation.password'),
                 'login_fails' => 1
             ]
-        )->assertSessionHas('login_fails', 1);
+        ); // Unable to assert cache content since array driver has unexpected behaviors
 
+        $this->flushCache();
         $this->flushSession();
 
         // Should check captcha if there are too many fails
-        $this->withSession(
-            [
-                'login_fails' => 4,
-                'phrase' => 'a'
-            ]
-        )->post(
+        $this->withCache([
+            $loginFailsCacheKey => 4
+        ])->withSession([
+            'phrase' => 'a'
+        ])->post(
             '/auth/login', [
             'identification' => $user->email,
             'password' => '12345678',
@@ -107,6 +109,7 @@ class AuthControllerTest extends TestCase
             'msg' => trans('auth.validation.captcha')
         ]);
 
+        $this->flushCache();
         $this->flushSession();
 
         // Should return a warning if user isn't existed
@@ -121,8 +124,10 @@ class AuthControllerTest extends TestCase
 
         $this->flushSession();
 
-        // Should clean the `login_fails` session if logged in successfully
-        $this->withSession(['login_fails' => 1])->post('/auth/login', [
+        // Should reset the `login_fails` counter if logged in successfully
+        $this->withCache([
+            $loginFailsCacheKey => 1
+        ])->post('/auth/login', [
             'identification' => $user->email,
             'password' => '12345678'
         ])->seeJson(
@@ -131,8 +136,9 @@ class AuthControllerTest extends TestCase
                 'msg' => trans('auth.login.success'),
                 'token' => $user->getToken()
             ]
-        )->assertSessionMissing('login_fails');
+        )->assertCacheMissing($loginFailsCacheKey);
 
+        $this->flushCache();
         $this->flushSession();
 
         // Logged in should be in success if logged in with player name

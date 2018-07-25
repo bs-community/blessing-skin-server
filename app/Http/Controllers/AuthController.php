@@ -6,6 +6,7 @@ use Log;
 use Mail;
 use View;
 use Utils;
+use Cache;
 use Cookie;
 use Option;
 use Session;
@@ -41,7 +42,11 @@ class AuthController extends Controller
         // it will return a null value.
         $user = $users->get($identification, $authType);
 
-        if (session('login_fails', 0) > 3) {
+        // Require CAPTCHA if user fails to login more than 3 times
+        $loginFailsCacheKey = sha1('login_fails_'.Utils::getClientIp());
+        $loginFails = (int) Cache::get($loginFailsCacheKey, 0);
+
+        if ($loginFails > 3) {
             if (strtolower($request->input('captcha')) != strtolower(session('phrase')))
                 return json(trans('auth.validation.captcha'), 1);
         }
@@ -50,7 +55,7 @@ class AuthController extends Controller
             return json(trans('auth.validation.user'), 2);
         } else {
             if ($user->verifyPassword($request->input('password'))) {
-                Session::forget('login_fails');
+                Cache::forget($loginFailsCacheKey);
 
                 Session::put('uid'  , $user->uid);
                 Session::put('token', $user->getToken());
@@ -68,10 +73,11 @@ class AuthController extends Controller
                 ->withCookie('uid', $user->uid, $time)
                 ->withCookie('token', $user->getToken(), $time);
             } else {
-                Session::put('login_fails', session('login_fails', 0) + 1);
+                // Increase the counter
+                Cache::put($loginFailsCacheKey, ++$loginFails);
 
                 return json(trans('auth.validation.password'), 1, [
-                    'login_fails' => session('login_fails')
+                    'login_fails' => $loginFails
                 ]);
             }
         }
