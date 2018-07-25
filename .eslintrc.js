@@ -1,5 +1,5 @@
 module.exports = {
-    "extends": "eslint:recommended",
+    "extends": ["eslint:recommended", "plugin:vue/essential"],
     "rules": {
         "linebreak-style": ["error", "unix"],
         "quotes": ["warn", "single"],
@@ -29,8 +29,11 @@ module.exports = {
         "TexturePreview": false,
         "handleDataTablesAjaxError": false
     },
+    "parser": "vue-eslint-parser",
     "parserOptions": {
-        "ecmaVersion": 2017
+        "ecmaVersion": 2018,
+        "sourceType": "module",
+        "parser": "babel-eslint"
     },
     "root": true,
     "env":{

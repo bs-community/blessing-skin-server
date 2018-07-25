@@ -7,4 +7,5 @@ declare var blessing: {
   site_name: string
   timezone: string
   version: string
+  route: string
 }

@@ -3,6 +3,7 @@
 .sass-cache
 coverage
 .idea/
+.cache/
 vendor/*
 storage/textures/*
 storage/update_cache/*
@@ -10,4 +11,4 @@ node_modules/*
 yarn-error.log
 _ide_helper.php
 .phpstorm.meta.php
-
+public/
