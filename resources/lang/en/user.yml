@@ -15,7 +15,7 @@ sign-remain-time: Available after :time :unit
 announcement: Announcement
 
 verification:
-  frequent-mail: You click the send button too fast. Wait for :remain secs, guy.
+  frequent-mail: You click the send button too fast. Wait for 60 secs, guy.
   verified: Your account is already verified.
   success: Verification link was sent, please check your inbox.
   failed: We failed to send you the verification link. Detailed message :msg

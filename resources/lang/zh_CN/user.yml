@@ -15,7 +15,7 @@ sign-remain-time: :time :unit 后可签到
 announcement: 公告
 
 verification:
-  frequent-mail: 你邮件发送得太频繁啦，过 :remain 秒后再点发送吧
+  frequent-mail: 你邮件发送得太频繁啦，过 60 秒后再点发送吧
   verified: 你已经验证过邮箱了
   success: 验证邮件已发送，请检查你的收件箱。
   failed: 邮件发送失败，详细信息：:msg

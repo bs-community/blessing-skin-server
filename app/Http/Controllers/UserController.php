@@ -105,7 +105,7 @@ class UserController extends Controller
         $remain = 60 + session('last_mail_time', 0) - time();
 
         if ($remain > 0) {
-            return json(trans('user.verification.frequent-mail', compact('remain')), 1);
+            return json(trans('user.verification.frequent-mail'), 1);
         }
 
         if ($this->user->verified) {
