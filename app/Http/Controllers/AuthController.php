@@ -274,6 +274,25 @@ class AuthController extends Controller
         return json(trans('auth.reset.success'), 0);
     }
 
+    public function verify(Request $request, UserRepository $users)
+    {
+        // Get user instance from repository
+        $user = $users->get($request->get('uid'));
+
+        if (! $user || $user->verified) {
+            throw new PrettyPageException(trans('auth.verify.invalid'), 1);
+        }
+
+        if ($user->verification_token != $request->get('token')) {
+            throw new PrettyPageException(trans('auth.verify.expired'), 1);
+        }
+
+        $user->verified = true;
+        $user->save();
+
+        return view('auth.verify');
+    }
+
     public function captcha()
     {
         $builder = new \Gregwar\Captcha\CaptchaBuilder;

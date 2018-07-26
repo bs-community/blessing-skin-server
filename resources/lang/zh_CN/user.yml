@@ -14,6 +14,22 @@ last-sign: 上次签到于 :time
 sign-remain-time: :time :unit 后可签到
 announcement: 公告
 
+verification:
+  frequent-mail: 你邮件发送得太频繁啦，过 :remain 秒后再点发送吧
+  verified: 你已经验证过邮箱了
+  success: 验证邮件已发送，请检查你的收件箱。
+  failed: 邮件发送失败，详细信息：:msg
+  notice:
+    title: 验证你的邮箱地址
+    message: 你必须验证你的邮箱才能正常使用本站的皮肤托管等功能。没有收到验证邮件？
+    resend: 点击这里再次发送。
+    sending: 正在发送……
+  mail:
+    title: 验证您在 :sitename 上的账户邮箱
+    message: 您收到这封邮件，是因为有人在 :sitename 注册时使用了本邮箱地址。
+    reset: 点击此链接验证您的邮箱：:url
+    ignore: 如果您并没有访问过我们的网站，或没有进行上述操作，请忽略这封邮件。
+
 score-intro:
   title: 积分是个啥？
   introduction: |

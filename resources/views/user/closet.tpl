@@ -19,6 +19,11 @@
 
     <!-- Main content -->
     <section class="content">
+
+        @if (! $user->verified)
+            @include('common.email-verification')
+        @endif
+
         <div class="row">
             <!-- Left col -->
             <div class="col-md-8">

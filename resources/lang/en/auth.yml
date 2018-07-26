@@ -7,6 +7,7 @@ login:
 
 check:
   anonymous: Illegal access. Please log in first.
+  verified: To access this page, you should verify your email address first.
   admin: Only admins are permitted to access this page.
   banned: You are banned on this site. Please contact the admin.
   token: Invalid token. Please log in.
@@ -52,6 +53,14 @@ bind:
   message: You need to fill your email adderss to continue.
   introduction: Email addresses will be used for password resetting. We won't send you any spam.
   registered: The email address is already registered.
+
+verify:
+  title: Email Verification
+  success: Your account was now verified.
+  message: Welcome to :sitename!
+  button: Homepage
+  invalid: Invalid link.
+  expired: This link is expired, please resend a verification email.
 
 validation:
   identification: Invalid format of email or player name.

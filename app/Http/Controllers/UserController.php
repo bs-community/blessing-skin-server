@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App;
+use Mail;
 use View;
 use Utils;
+use Session;
 use App\Models\User;
 use App\Models\Texture;
 use Illuminate\Http\Request;
@@ -24,6 +26,9 @@ class UserController extends Controller
     public function __construct(UserRepository $users)
     {
         $this->user = $users->get(session('uid'));
+
+        // Send email verification link to new users
+        $this->user->verification_token || $this->sendVerificationEmail();
     }
 
     public function index()
@@ -92,6 +97,49 @@ class UserController extends Controller
         $hours = $this->user->getSignRemainingTime() / 3600;
 
         return $hours > 1 ? round($hours) : $hours;
+    }
+
+    public function sendVerificationEmail()
+    {
+        // Rate limit of 60s
+        $remain = 60 + session('last_mail_time', 0) - time();
+
+        if ($remain > 0) {
+            return json(trans('user.verification.frequent-mail', compact('remain')), 1);
+        }
+
+        if ($this->user->verified) {
+            return json(trans('user.verification.verified'), 1);
+        }
+
+        $key = config('app.key');
+        $key = starts_with($key, 'base64:') ? base64_decode(substr($key, 7)) : $key;
+
+        $token = hash_hmac('sha256', str_random(40), $key);
+
+        $this->user->verification_token = $token;
+        $this->user->save();
+
+        $email = $this->user->email;
+        $url = option('site_url')."/auth/verify?uid={$this->user->uid}&token=$token";
+
+        try {
+            Mail::send('mails.email-verification', compact('url'), function ($m) use ($email) {
+                $site_name = option_localized('site_name');
+
+                $m->from(config('mail.username'), $site_name);
+                $m->to($email)->subject(trans('user.verification.mail.title', ['sitename' => $site_name]));
+            });
+        } catch (\Exception $e) {
+            // Write the exception to log
+            report($e);
+
+            return json(trans('user.verification.failed', ['msg' => $e->getMessage()]), 2);
+        }
+
+        Session::put('last_mail_time', time());
+
+        return json(trans('user.verification.success'), 0);
     }
 
     public function profile()

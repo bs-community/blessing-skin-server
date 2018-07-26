@@ -15,6 +15,11 @@
 
     <!-- Main content -->
     <section class="content">
+
+        @if (! $user->verified)
+            @include('common.email-verification')
+        @endif
+
         <div class="row">
             <div class="col-md-6">
                 <div class="box box-primary">
