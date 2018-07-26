@@ -455,13 +455,13 @@ class AuthControllerTest extends TestCase
         Mail::shouldReceive('send')
             ->once()
             ->with(
-                'auth.mail',
-                \Mockery::on(function ($actual) use ($url) {
-                    $this->assertEquals(0, stristr($url, $actual['reset_url']));
+                'mails.password-reset',
+                Mockery::on(function ($actual) use ($url) {
+                    $this->assertEquals(0, stristr($url, $actual['url']));
                     return true;
                 }),
-                \Mockery::on(function (\Closure $closure) use ($user) {
-                    $mock = \Mockery::mock(Illuminate\Mail\Message::class);
+                Mockery::on(function (Closure $closure) use ($user) {
+                    $mock = Mockery::mock(Illuminate\Mail\Message::class);
 
                     $mock->shouldReceive('from')
                         ->once()
@@ -474,7 +474,7 @@ class AuthControllerTest extends TestCase
 
                     $mock->shouldReceive('subject')
                         ->once()
-                        ->with(trans('auth.mail.title', ['sitename' => option_localized('site_name')]));
+                        ->with(trans('auth.forgot.mail.title', ['sitename' => option_localized('site_name')]));
                     $closure($mock);
                     return true;
                 })
@@ -484,13 +484,13 @@ class AuthControllerTest extends TestCase
             'captcha' => 'a'
         ])->seeJson([
             'errno' => 0,
-            'msg' => trans('auth.mail.success')
+            'msg' => trans('auth.forgot.success')
         ])->assertSessionHas('last_mail_time');
 
         // Should handle exception when sending email
         Mail::shouldReceive('send')
             ->once()
-            ->andThrow(new \Mockery\Exception('A fake exception.'));
+            ->andThrow(new Mockery\Exception('A fake exception.'));
         $this->flushSession();
         $this->withSession(['phrase' => 'a'])
             ->post('/auth/forgot', [
@@ -498,7 +498,7 @@ class AuthControllerTest extends TestCase
                 'captcha' => 'a'
             ])->seeJson([
                 'errno' => 2,
-                'msg' => trans('auth.mail.failed', ['msg' => 'A fake exception.'])
+                'msg' => trans('auth.forgot.failed', ['msg' => 'A fake exception.'])
             ]);
     }
 
