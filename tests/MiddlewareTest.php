@@ -62,6 +62,18 @@ class MiddlewareTest extends TestCase
         ])->visit('/user')->seePageIs('/auth/login');
     }
 
+    public function testCheckUserVerified()
+    {
+        $this->actAs('unverified')
+            ->get('/skinlib/upload')
+            ->assertResponseStatus(403)
+            ->see(trans('auth.check.verified'));
+
+        $this->actAs('normal')
+            ->get('/skinlib/upload')
+            ->assertResponseOk();
+    }
+
     public function testCheckAdministrator()
     {
         // Without logged in

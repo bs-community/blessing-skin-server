@@ -30,6 +30,11 @@ class UserControllerTest extends TestCase
             ->see(0)               // Storage
             ->see(bs_announcement())
             ->see($user->score);
+
+        $unverified = factory(User::class, 'unverified')->create();
+        $this->actAs($unverified)
+            ->visit('/user')
+            ->see(trans('user.verification.notice.title'));
     }
 
     public function testSign()
@@ -94,6 +99,82 @@ class UserControllerTest extends TestCase
             ->seeJson([
                 'errno' => 0
             ]);
+    }
+
+    public function testSendVerificationEmail()
+    {
+        $user = factory(User::class, 'unverified')->create();
+        $verified = factory(User::class)->create();
+
+        // Too fast
+        $this->actAs($user)
+            ->withSession([
+                'last_mail_time' => time() - 10
+            ])
+            ->post('/user/email-verification')
+            ->seeJson([
+                'errno' => 1,
+                'msg' => trans('user.verification.frequent-mail')
+            ]);
+        $this->flushSession();
+
+        // Already verified
+        $this->actAs($verified)
+            ->post('/user/email-verification')
+            ->seeJson([
+                'errno' => 1,
+                'msg' => trans('user.verification.verified')
+            ]);
+
+        // Should handle exception when sending email
+        Mail::shouldReceive('send')
+            ->once()
+            ->andThrow(new Mockery\Exception('A fake exception.'));
+        $this->actAs($user)
+            ->post('/user/email-verification')
+            ->seeJson([
+                'errno' => 2,
+                'msg' => trans('user.verification.failed', ['msg' => 'A fake exception.'])
+            ]);
+
+        $user->fresh();
+        $url = option('site_url')."/auth/verify?uid={$user->uid}&token={$user->verification_token}";
+
+        Mail::shouldReceive('send')
+            ->once()
+            ->with(
+                'mails.email-verification',
+                Mockery::on(function ($actual) use ($url) {
+                    $this->assertEquals(0, stristr($url, $actual['url']));
+                    return true;
+                }),
+                Mockery::on(function (Closure $closure) use ($user) {
+                    $mock = Mockery::mock(Illuminate\Mail\Message::class);
+
+                    $mock->shouldReceive('from')
+                        ->once()
+                        ->with(config('mail.username'), option_localized('site_name'));
+
+                    $mock->shouldReceive('to')
+                        ->once()
+                        ->with($user->email)
+                        ->andReturnSelf();
+
+                    $mock->shouldReceive('subject')
+                        ->once()
+                        ->with(trans('user.verification.mail.title', ['sitename' => option_localized('site_name')]));
+                    $closure($mock);
+                    return true;
+                })
+            );
+
+        // Success
+        $this->actAs($user)
+            ->post('/user/email-verification')
+            ->seeJson([
+                'errno' => 0,
+                'msg' => trans('user.verification.success')
+            ])->assertSessionHas('last_mail_time');
     }
 
     public function testProfile()
@@ -329,6 +410,7 @@ class UserControllerTest extends TestCase
             'msg' => trans('user.profile.email.success')
         ]);
         $this->assertEquals('a@b.c', User::find($user->uid)->email);
+        $this->assertEquals(0, User::find($user->uid)->verified);
         // After changed email, user should re-login.
         $this->visit('/user')->seePageIs('/auth/login');
 

@@ -3,6 +3,54 @@
 const $ = require('jquery');
 window.$ = window.jQuery = $;
 
+describe('tests for "verification" module', () => {
+  const modulePath = '../user/verification';
+
+  it('send verification email', async () => {
+    const url = jest.fn(path => path);
+    const swal = jest.fn();
+    const showAjaxError = jest.fn();
+    window.url = url;
+    window.swal = swal;
+    window.showAjaxError = showAjaxError;
+
+    const fetch = jest.fn()
+      .mockImplementationOnce(option => {
+        option.beforeSend();
+        return Promise.resolve({ errno: 0, msg: 'success' });
+      })
+      .mockImplementationOnce(() => Promise.resolve(
+        { errno: 1, msg: 'warning' }
+      ))
+      .mockImplementationOnce(() => Promise.reject(new Error));
+    window.fetch = fetch;
+
+    document.body.innerHTML = `
+      <a id="send-verification-email">Send</a>
+      <span id="sending-indicator" style="display:none;">Sending</span>
+    `;
+
+    require(modulePath);
+
+    await $('a').click();
+    expect(fetch).toBeCalledWith(expect.objectContaining({
+      type: 'POST',
+      url: 'user/email-verification',
+      dataType: 'json'
+    }));
+    expect(swal).toBeCalledWith({ type: 'success', html: 'success' });
+    // I don't know why $(el).is(':visible') does not work here
+    expect($('#send-verification-email').css('display')).toBe('');
+    expect($('#sending-indicator').css('display')).toBe('none');
+
+    await $('a').click();
+    expect(swal).toBeCalledWith({ type: 'warning', html: 'warning' });
+
+    await $('a').click();
+    expect(showAjaxError).toBeCalled();
+  });
+});
+
 describe('tests for "closet" module', () => {
   const modulePath = '../user/closet';
 

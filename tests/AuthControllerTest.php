@@ -664,6 +664,27 @@ class AuthControllerTest extends TestCase
         $this->assertTrue($user->verifyPassword('12345678'));
     }
 
+    public function testVerify()
+    {
+        $user = factory(User::class, 'unverified')->create();
+
+        // Should be forbidden if `uid` or `token` is empty
+        $this->visit('/auth/verify')
+            ->see(trans('auth.verify.invalid'));
+
+        // Should be forbidden if `uid` is invalid
+        $this->visit('/auth/verify?uid=-1&token=nothing')
+            ->see(trans('auth.verify.invalid'));
+
+        // Should be forbidden if `token` is invalid
+        $this->visit("/auth/verify?uid={$user->uid}&token=nothing")
+            ->see(trans('auth.verify.expired'));
+
+        // Success
+        $this->visit("/auth/verify?uid={$user->uid}&token={$user->verification_token}")
+            ->see(trans('auth.verify.success'));
+    }
+
     public function testCaptcha()
     {
         if (!function_exists('imagettfbbox') || getenv('TRAVIS_PHP_VERSION' == '5.5')) {
