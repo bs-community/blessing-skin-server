@@ -208,6 +208,11 @@ class UserController extends Controller
                     return json(trans('user.profile.email.wrong-password'), 1);
 
                 if ($this->user->setEmail($request->input('new_email'))) {
+                    // Set account status to unverified
+                    $this->user->verified = false;
+                    $this->user->verification_token = '';
+                    $this->user->save();
+
                     event(new UserProfileUpdated($action, $this->user));
 
                     return json(trans('user.profile.email.success'), 0)
