@@ -47,6 +47,7 @@ class User extends Model
         'score' => 'integer',
         'avatar' => 'integer',
         'permission' => 'integer',
+        'verified' => 'bool',
     ];
 
     /**
