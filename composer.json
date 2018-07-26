@@ -13,8 +13,7 @@
     "laravel/framework": "5.2.*",
     "devitek/yaml-translation": "^2.0",
     "printempw/laravel-datatables-lite": "^1.0",
-    "composer/semver": "^1.4",
-    "doctrine/dbal": "~2.5.0"
+    "composer/semver": "^1.4"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",

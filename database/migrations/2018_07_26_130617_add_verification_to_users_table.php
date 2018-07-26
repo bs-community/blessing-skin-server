@@ -25,14 +25,8 @@ class AddVerificationToUsersTable extends Migration
      */
     public function down()
     {
-        // Separate these commands apart since
-        // dropping multiple columns within a single migration
-        // while using a SQLite database is not supported.
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('verified');
-        });
-
-        Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('verification_token');
         });
     }
