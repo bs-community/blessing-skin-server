@@ -15,6 +15,7 @@ sign-remain-time: :time :unit 后可签到
 announcement: 公告
 
 verification:
+  disabled: 本站已关闭邮箱验证功能
   frequent-mail: 你邮件发送得太频繁啦，过 60 秒后再点发送吧
   verified: 你已经验证过邮箱了
   success: 验证邮件已发送，请检查你的收件箱。

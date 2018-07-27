@@ -16,7 +16,7 @@
     <!-- Main content -->
     <section class="content">
 
-        @if (! $user->verified)
+        @if (option('require_verification') && !$user->verified)
             @include('common.email-verification')
         @endif
 

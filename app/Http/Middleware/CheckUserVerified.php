@@ -12,7 +12,7 @@ class CheckUserVerified
             return $result;
         }
 
-        if (! $result->verified) {
+        if (option('require_verification') && !$result->verified) {
             abort(403, trans('auth.check.verified'));
         }
 

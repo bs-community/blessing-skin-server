@@ -101,6 +101,10 @@ class UserController extends Controller
 
     public function sendVerificationEmail()
     {
+        if (! option('require_verification')) {
+            return json(trans('user.verification.disabled'), 1);
+        }
+
         // Rate limit of 60s
         $remain = 60 + session('last_mail_time', 0) - time();
 

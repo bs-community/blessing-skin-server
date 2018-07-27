@@ -32,6 +32,12 @@ class UserControllerTest extends TestCase
             ->see($user->score);
 
         $unverified = factory(User::class, 'unverified')->create();
+
+        $this->actAs($unverified)
+            ->visit('/user')
+            ->dontSee(trans('user.verification.notice.title'));
+
+        option(['require_verification' => true]);
         $this->actAs($unverified)
             ->visit('/user')
             ->see(trans('user.verification.notice.title'));
@@ -105,6 +111,16 @@ class UserControllerTest extends TestCase
     {
         $user = factory(User::class, 'unverified')->create();
         $verified = factory(User::class)->create();
+
+        // Should be forbidden if account verification is disabled
+        option(['require_verification' => false]);
+        $this->actAs($user)
+            ->post('/user/email-verification')
+            ->seeJson([
+                'errno' => 1,
+                'msg' => trans('user.verification.disabled')
+            ]);
+        option(['require_verification' => true]);
 
         // Too fast
         $this->actAs($user)

@@ -402,7 +402,7 @@ class AuthControllerTest extends TestCase
         $this->visit('/auth/forgot')->see('Forgot Password');
 
         config(['mail.driver' => '']);
-        $this->visit('/auth/forgot')->see(trans('auth.forgot.close'));
+        $this->visit('/auth/forgot')->see(trans('auth.forgot.disabled'));
     }
 
     public function testHandleForgot()
@@ -421,7 +421,7 @@ class AuthControllerTest extends TestCase
             'captcha' => 'a'
         ])->seeJson([
             'errno' => 1,
-            'msg' => trans('auth.forgot.close')
+            'msg' => trans('auth.forgot.disabled')
         ]);
         config(['mail.driver' => 'smtp']);
 
@@ -648,6 +648,12 @@ class AuthControllerTest extends TestCase
     public function testVerify()
     {
         $user = factory(User::class, 'unverified')->create();
+
+        // Should be forbidden if account verification is disabled
+        option(['require_verification' => false]);
+        $this->visit('/auth/verify')
+            ->see(trans('user.verification.disabled'));
+        option(['require_verification' => true]);
 
         // Should be forbidden if `uid` or `token` is empty
         $this->visit('/auth/verify')

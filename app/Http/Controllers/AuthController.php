@@ -165,7 +165,7 @@ class AuthController extends Controller
         if (config('mail.driver') != "") {
             return view('auth.forgot');
         } else {
-            throw new PrettyPageException(trans('auth.forgot.close'), 8);
+            throw new PrettyPageException(trans('auth.forgot.disabled'), 8);
         }
     }
 
@@ -174,8 +174,9 @@ class AuthController extends Controller
         if (! $this->checkCaptcha($request))
             return json(trans('auth.validation.captcha'), 1);
 
-        if (config('mail.driver') == "")
-            return json(trans('auth.forgot.close'), 1);
+        if (! config('mail.driver')) {
+            return json(trans('auth.forgot.disabled'), 1);
+        }
 
         $rateLimit = 180;
         $lastMailCacheKey = sha1('last_mail_'.Utils::getClientIp());
@@ -273,6 +274,10 @@ class AuthController extends Controller
 
     public function verify(Request $request, UserRepository $users)
     {
+        if (! option('require_verification')) {
+            throw new PrettyPageException(trans('user.verification.disabled'), 1);
+        }
+
         // Get user instance from repository
         $user = $users->get($request->get('uid'));
 

@@ -75,6 +75,9 @@ general:
   user_can_register:
     title: Open Registration
     label: Everyone is allowed to register.
+  require_verification:
+    title: Account Verification
+    label: Users must verify their email address first.
   regs_per_ip: Max accounts of one IP
   ip_get_method:
     title: Get IP via

@@ -171,6 +171,7 @@ class AdminController extends Controller
                 });
 
             $form->checkbox('user_can_register')->label();
+            $form->checkbox('require_verification')->label();
 
             $form->text('regs_per_ip');
 

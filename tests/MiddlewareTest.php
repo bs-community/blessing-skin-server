@@ -64,6 +64,14 @@ class MiddlewareTest extends TestCase
 
     public function testCheckUserVerified()
     {
+        option(['require_verification' => false]);
+
+        $this->actAs('unverified')
+            ->get('/skinlib/upload')
+            ->assertResponseOk();
+
+        option(['require_verification' => true]);
+
         $this->actAs('unverified')
             ->get('/skinlib/upload')
             ->assertResponseStatus(403)
