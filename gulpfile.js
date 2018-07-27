@@ -2,7 +2,6 @@
 
 var gulp        = require('gulp'),
     babel       = require('gulp-babel'),
-    eslint      = require('gulp-eslint'),
     uglify      = require('gulp-uglify'),
     stylus      = require('gulp-stylus'),
     cleanCss    = require('gulp-clean-css'),
@@ -79,20 +78,12 @@ gulp.task('default', ['build']);
 
 // Build the things!
 gulp.task('build', callback => {
-    runSequence('clean', 'lint', ['compile-es6', 'compile-stylus'], 'publish-vendor', 'notify', callback);
+    runSequence('clean', ['compile-es6', 'compile-stylus'], 'publish-vendor', 'notify', callback);
 });
 
 // Send a notification
 gulp.task('notify', () => {
     return gulp.src('').pipe(notify('Assets compiled!'));
-});
-
-// Check JavaScript files with ESLint
-gulp.task('lint', () => {
-    return gulp.src(`${srcPath}/js/**/*.js`)
-        .pipe(eslint())
-        .pipe(eslint.format())
-        .pipe(eslint.failAfterError());
 });
 
 // Concentrate all vendor scripts & styles to one dist file
