@@ -9,7 +9,7 @@
     }]
   ],
   "plugins": [
-    "transform-inline-environment-variables"
+    "transform-node-env-inline"
   ],
   "env": {
     "test": {
