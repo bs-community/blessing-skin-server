@@ -2,8 +2,6 @@ import { mount } from '@vue/test-utils';
 import Previewer from '@/common/Previewer';
 import * as mockedSkinview3d from '../../__mocks__/skinview3d';
 
-jest.mock('skinview3d');
-
 test('initialize skinview3d', () => {
     const wrapper = mount(Previewer);
     expect(wrapper.vm.viewer).toBeInstanceOf(mockedSkinview3d.SkinViewer);
