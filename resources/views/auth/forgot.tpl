@@ -42,8 +42,11 @@
                     <a href="{{ url('auth/login') }}" class="text-center">{{ trans('auth.forgot.login-link') }}</a>
                 </div>
                 <!-- /.col -->
+                <?php $remain = 180 + Cache::get(sha1('last_mail_'.Utils::getClientIp()), 0) - time(); ?>
                 <div class="col-xs-4">
-                    <button id="forgot-button" class="btn btn-primary btn-block btn-flat">{{ trans('auth.forgot.button') }}</button>
+                    <button id="forgot-button" class="btn btn-primary btn-block btn-flat" data-remain="{{ $remain }}">
+                        {{ trans('auth.forgot.button') }}
+                    </button>
                 </div>
                 <!-- /.col -->
             </div>

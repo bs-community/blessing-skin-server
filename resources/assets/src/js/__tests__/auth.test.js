@@ -232,6 +232,8 @@ describe('tests for "register" module', () => {
   });
 });
 
+jest.useFakeTimers();
+
 describe('tests for "forgot" module', () => {
   const modulePath = '../auth/forgot';
 
@@ -263,10 +265,20 @@ describe('tests for "forgot" module', () => {
       <input id="email" />
       <div id="captcha-form"></div>
       <input id="captcha" />
-      <button id="forgot-button"></button>
+      <button id="forgot-button" data-remain="60"></button>
     `;
 
-    require(modulePath);
+    require(modulePath)();
+    expect(setInterval).toHaveBeenCalledTimes(1);
+    jest.runTimersToTime(1000);
+
+    $('button').click();
+    expect($('button').prop('disabled')).toBe(true);
+    expect(fetch).not.toBeCalled();
+
+    jest.runTimersToTime(60000);
+    expect($('button').html()).toBe('auth.send');
+    expect($('button').prop('disabled')).toBe(false);
 
     $('button').click();
     expect(trans).toBeCalledWith('auth.emptyEmail');
@@ -294,7 +306,7 @@ describe('tests for "forgot" module', () => {
         captcha: 'captcha'
       }
     }));
-    expect($('button').html()).toBe('auth.send');
+    expect($('button').html()).toEqual(expect.stringContaining('auth.send'));
     expect($('button').prop('disabled')).toBe(true);
     expect(showMsg).toBeCalledWith('success', 'success');
 
@@ -309,6 +321,8 @@ describe('tests for "forgot" module', () => {
     expect(showAjaxError).toBeCalled();
   });
 });
+
+jest.useRealTimers();
 
 describe('tests for "reset" module', () => {
   const modulePath = '../auth/reset';

@@ -29,7 +29,7 @@ forgot:
   message: 我们将会向您发送一封验证邮件
   login-link: 我又想起来了
   close: 本站已关闭重置密码功能
-  frequent-mail: 你邮件发送得太频繁啦，过 60 秒后再点发送吧
+  frequent-mail: 你邮件发送得太频繁啦，过会儿再点发送吧
   unregistered: 该邮箱尚未注册
   success: 邮件已发送，一小时内有效，请注意查收。
   failed: 邮件发送失败，详细信息：:msg
