@@ -5,11 +5,10 @@ if ($('#player-table').length === 1) {
 }
 
 function initPlayersTable() {
-    const specificUid = getQueryString('uid');
-    const query = specificUid ? `?uid=${specificUid}` : '';
+    const query = location.href.split('?')[1];
 
     $('#player-table').DataTable({
-        ajax: url(`admin/player-data${query}`),
+        ajax: url(`admin/player-data${ query ? ('?'+query) : '' }`),
         scrollY: ($('.content-wrapper').height() - $('.content-header').outerHeight()) * 0.7,
         fnDrawCallback: () => $('[data-toggle="tooltip"]').tooltip(),
         columnDefs: playersTableColumnDefs

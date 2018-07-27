@@ -5,11 +5,10 @@ if ($('#user-table').length === 1) {
 }
 
 function initUsersTable() {
-    const specificUid = getQueryString('uid');
-    const query = specificUid ? `?uid=${specificUid}` : '';
+    const query = location.href.split('?')[1];
 
     $('#user-table').DataTable({
-        ajax: url(`admin/user-data${query}`),
+        ajax: url(`admin/user-data${ query ? ('?'+query) : '' }`),
         scrollY: ($('.content-wrapper').height() - $('.content-header').outerHeight()) * 0.7,
         fnDrawCallback: () => $('[data-toggle="tooltip"]').tooltip(),
         rowCallback: (row, data) => $(row).attr('id', `user-${data.uid}`),

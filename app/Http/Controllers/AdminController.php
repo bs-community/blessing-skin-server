@@ -248,24 +248,24 @@ class AdminController extends Controller
 
     public function getUserData(Request $request)
     {
-        $users = collect();
+        $query = User::select([
+            'uid', 'email', 'nickname', 'score', 'permission', 'verified', 'register_at'
+        ]);
 
         if ($request->has('uid')) {
-            $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'verified', 'register_at'])
-                        ->where('uid', intval($request->input('uid')));
-        } else {
-            $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'verified', 'register_at']);
+            $query->where('uid', $request->get('uid'));
         }
 
-        return Datatables::of($users)->editColumn('email', function ($user) {
-            return $user->email ?: 'EMPTY';
-        })
-        ->setRowId('uid')
-        ->addColumn('operations', app('user.current')->getPermission())
-        ->addColumn('players_count', function ($user) {
-            return Player::where('uid', $user->uid)->count();
-        })
-        ->make(true);
+        return Datatables::of($query)
+            ->setRowId('uid')
+            ->editColumn('email', function ($user) {
+                return $user->email ?: 'EMPTY';
+            })
+            ->addColumn('operations', app('user.current')->getPermission())
+            ->addColumn('players_count', function ($user) {
+                return Player::where('uid', $user->uid)->count();
+            })
+            ->make(true);
     }
 
     /**
@@ -281,15 +281,19 @@ class AdminController extends Controller
 
     public function getPlayerData(Request $request)
     {
-        $players = collect();
+        $query = Player::select([
+            'pid', 'uid', 'player_name', 'preference', 'tid_steve', 'tid_alex', 'tid_cape', 'last_modified'
+        ]);
+
         if ($request->has('uid')) {
-            $players = Player::select(['pid', 'uid', 'player_name', 'preference', 'tid_steve', 'tid_alex', 'tid_cape', 'last_modified'])
-                            ->where('uid', intval($request->input('uid')));
-        } else {
-            $players = Player::select(['pid', 'uid', 'player_name', 'preference', 'tid_steve', 'tid_alex', 'tid_cape', 'last_modified']);
+            $query->where('uid', $request->get('uid'));
         }
 
-        return Datatables::of($players)->setRowId('pid')->make(true);
+        if ($request->has('pid')) {
+            $query->where('pid', $request->get('pid'));
+        }
+
+        return Datatables::of($query)->setRowId('pid')->make(true);
     }
 
     /**
