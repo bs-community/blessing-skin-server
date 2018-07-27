@@ -251,10 +251,10 @@ class AdminController extends Controller
         $users = collect();
 
         if ($request->has('uid')) {
-            $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at'])
+            $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'verified', 'register_at'])
                         ->where('uid', intval($request->input('uid')));
         } else {
-            $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at']);
+            $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'verified', 'register_at']);
         }
 
         return Datatables::of($users)->editColumn('email', function ($user) {
@@ -325,6 +325,13 @@ class AdminController extends Controller
             $user->setEmail($request->input('email'));
 
             return json(trans('admin.users.operations.email.success'), 0);
+
+        } elseif ($action == "verification") {
+
+            $user->verified = !$user->verified;
+            $user->save();
+
+            return json(trans('admin.users.operations.verification.success'), 0);
 
         } elseif ($action == "nickname") {
             $this->validate($request, [

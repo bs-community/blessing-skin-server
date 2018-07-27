@@ -138,6 +138,7 @@
             changeEmail: 'Edit Email',
             changeNickName: 'Edit Nickname',
             changePassword: 'Edit Password',
+            changeVerification: 'Switch Verification Status',
             newUserEmail: 'Please enter the new email:',
             newUserNickname: 'Please enter the new nickname:',
             newUserPassword: 'Please enter the new password:',
@@ -151,6 +152,10 @@
             normal: 'Normal',
             admin: 'Admin',
             superAdmin: 'Super Admin',
+
+            // Verification
+            unverified: 'Unverified',
+            verified: 'Verified',
 
             // Players
             textureType: 'Texture Type',

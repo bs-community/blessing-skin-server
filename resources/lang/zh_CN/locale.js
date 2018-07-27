@@ -140,6 +140,7 @@
             changeEmail: '修改邮箱',
             changeNickName: '修改昵称',
             changePassword: '更改密码',
+            changeVerification: '修改邮箱验证状态',
             newUserEmail: '请输入新邮箱：',
             newUserNickname: '请输入新昵称：',
             newUserPassword: '请输入新密码：',
@@ -153,6 +154,10 @@
             normal: '普通用户',
             admin: '管理员',
             superAdmin: '超级管理员',
+
+            // Verification
+            unverified: '未验证',
+            verified: '已验证',
 
             // Players
             textureType: '材质类型',

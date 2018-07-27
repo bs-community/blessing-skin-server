@@ -16,6 +16,8 @@ users:
     banned: Banned
     admin: Admin
     super-admin: Super Admin
+  verification:
+    title: Account Verification
   operations:
     title: Operations
     non-existent: No such user.
@@ -25,6 +27,8 @@ users:
       change: Edit Email
       existed: :email is existed.
       success: Email changed successfully.
+    verification:
+      success: Account verification status switched successfully.
     nickname:
       change: Edit Nickname
       success: Nickname changed successfully.

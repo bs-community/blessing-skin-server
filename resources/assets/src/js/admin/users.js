@@ -58,10 +58,16 @@ const usersTableColumnDefs = [
     },
     {
         targets: 6,
-        data: 'register_at'
+        data: 'verified',
+        className: 'verification',
+        render: data => trans('admin.' + (data ? 'verified' : 'unverified'))
     },
     {
         targets: 7,
+        data: 'register_at'
+    },
+    {
+        targets: 8,
         data: 'operations',
         searchable: false,
         orderable: false,
@@ -108,6 +114,7 @@ function renderUsersTableOperations(currentUserPermission, type, row) {
         </button>
         <ul class="dropdown-menu">
             <li><a onclick="changeUserEmail(${row.uid});">${trans('admin.changeEmail')}</a></li>
+            <li><a onclick="changeUserVerification(${row.uid});">${trans('admin.changeVerification')}</a></li>
             <li><a onclick="changeUserNickName(${row.uid});">${trans('admin.changeNickName')}</a></li>
             <li><a onclick="changeUserPwd(${row.uid});">${trans('admin.changePassword')}</a></li>
             ${adminOption}
@@ -145,6 +152,31 @@ async function changeUserEmail(uid) {
 
         if (errno === 0) {
             dom.text(newUserEmail);
+
+            toastr.success(msg);
+        } else {
+            toastr.warning(msg);
+        }
+    } catch (error) {
+        showAjaxError(error);
+    }
+}
+
+async function changeUserVerification(uid) {
+    try {
+        const { errno, msg } = await fetch({
+            type: 'POST',
+            url: url('admin/users?action=verification'),
+            dataType: 'json',
+            data: { uid: uid }
+        });
+
+        if (errno === 0) {
+            const original = $(`#user-${uid} > td.verification`).text();
+
+            $(`#user-${uid} > td.verification`).text(
+                original === trans('admin.unverified') ? trans('admin.verified') : trans('admin.unverified')
+            );
 
             toastr.success(msg);
         } else {
@@ -342,5 +374,6 @@ if (process.env.NODE_ENV === 'test') {
         changeAdminStatus,
         deleteUserAccount,
         changeUserNickName,
+        changeUserVerification,
     };
 }
