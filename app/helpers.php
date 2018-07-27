@@ -518,3 +518,16 @@ if (! function_exists('can_moderate_texture')) {
         return ($texture->uploader == $user->uid || $user->isAdmin());
     }
 }
+
+if (! function_exists('generate_random_token')) {
+
+    function generate_random_token($key = null) {
+
+        if (is_null($key)) {
+            $key = config('app.key');
+            $key = starts_with($key, 'base64:') ? base64_decode(substr($key, 7)) : $key;
+        }
+
+        return hash_hmac('sha256', str_random(40), $key);
+    }
+}

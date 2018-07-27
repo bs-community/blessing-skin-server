@@ -112,11 +112,7 @@ class UserController extends Controller
             return json(trans('user.verification.verified'), 1);
         }
 
-        $key = config('app.key');
-        $key = starts_with($key, 'base64:') ? base64_decode(substr($key, 7)) : $key;
-
-        $token = hash_hmac('sha256', str_random(40), $key);
-
+        $token = generate_random_token();
         $this->user->verification_token = $token;
         $this->user->save();
 

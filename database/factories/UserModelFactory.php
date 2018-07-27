@@ -29,7 +29,7 @@ $factory->defineAs(User::class, 'unverified', function (Faker\Generator $faker) 
         'last_sign_at' => $faker->dateTime,
         'register_at' => $faker->dateTime,
         'verified' => 0,
-        'verification_token' => hash_hmac('sha256', str_random(40), 'key')
+        'verification_token' => generate_random_token()
     ];
 });
 
