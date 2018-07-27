@@ -43,9 +43,9 @@ reset:
   title: Reset Password
   button: Reset
   invalid: Invalid link.
-  expired: This link is expired.
-  message: :username, reset your email address here.
-  success: Password resetted successfully.
+  expired: This link is expired, please resend a verification email.
+  message: :username, reset your password here.
+  success: Your password was reset successfully.
 
 bind:
   title: Bind Email

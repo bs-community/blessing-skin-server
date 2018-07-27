@@ -449,11 +449,8 @@ class AuthControllerTest extends TestCase
             'msg' => trans('auth.forgot.unregistered')
         ]);
 
-        $uid = $user->uid;
-        $token = base64_encode(
-            $user->getToken().substr(time(), 4, 6).str_random(16)
-        );
-        $url = Option::get('site_url')."/auth/reset?uid=$uid&token=$token";
+        $token = generate_random_token();
+        $url = Option::get('site_url')."/auth/reset?uid={$user->uid}&token=$token";
         // An email should be send
         // Laravel supports `Mail::fake()` since v5.4, but now we cannot
         // Thanks: https://stackoverflow.com/questions/31120567/unittesting-laravel-5-mail-using-mock
@@ -490,7 +487,10 @@ class AuthControllerTest extends TestCase
         ])->seeJson([
             'errno' => 0,
             'msg' => trans('auth.forgot.success')
-        ])->assertCacheHas($lastMailCacheKey);
+        ])->assertCacheHas([
+            $lastMailCacheKey,
+            "pwd_reset_token_{$user->uid}"
+        ]);
         $this->flushCache();
 
         // Should handle exception when sending email
@@ -514,32 +514,23 @@ class AuthControllerTest extends TestCase
 
         // Should be redirected if `uid` or `token` is empty
         $this->visit('/auth/reset')
-            ->seePageIs('/auth/login')
-            ->see(trans('auth.check.anonymous'));
+            ->seePageIs('/auth/forgot')
+            ->see(trans('auth.reset.invalid'));
 
         // Should be redirected if `uid` is invalid
         $this->visit('/auth/reset?uid=-1&token=nothing')
             ->seePageIs('/auth/forgot')
             ->see(trans('auth.reset.invalid'));
 
-        // Should be redirected if `token` is invalid
-        $this->visit('/auth/reset?uid=' . $user->uid . '&token=nothing')
-            ->seePageIs('/auth/forgot')
-            ->see(trans('auth.reset.invalid'));
-
-        // Should be redirected if expired
-        $token = base64_encode(
-            $user->getToken().substr(time() - 60 * 60 * 2, 4, 6).str_random(16)
-        );
-        $this->visit('/auth/reset?uid=' . $user->uid . '&token=' . $token)
+        // Should be redirected if `token` is invalid or expired
+        $this->visit("/auth/reset?uid={$user->uid}&token=nothing")
             ->seePageIs('/auth/forgot')
             ->see(trans('auth.reset.expired'));
 
         // Success
-        $token = base64_encode(
-            $user->getToken().substr(time(), 4, 6).str_random(16)
-        );
-        $uri = $this->visit('/auth/reset?uid=' . $user->uid . '&token=' . $token)
+        $token = generate_random_token();
+        $uri = $this->withCache(["pwd_reset_token_{$user->uid}" => $token])
+                    ->visit("/auth/reset?uid={$user->uid}&token=$token")
                     ->currentUri;
         $this->assertContains('/auth/reset', $uri);
     }
@@ -611,24 +602,9 @@ class AuthControllerTest extends TestCase
             'msg' => trans('validation.required', ['attribute' => 'token'])
         ]);
 
-        // Should be forbidden if expired
-        $token = base64_encode(
-            $user->getToken().substr(time() - 60 * 60 * 2, 4, 6).str_random(16)
-        );
-        $this->post(
-            '/auth/reset', [
-            'uid' => $user->uid,
-            'password' => '12345678',
-            'token' => $token
-        ])->seeJson([
-            'errno' => 1,
-            'msg' => trans('auth.reset.expired')
-        ]);
+        $token = generate_random_token();
 
         // Should return a warning if the user is not existed
-        $token = base64_encode(
-            $user->getToken().substr(time(), 4, 6).str_random(16)
-        );
         $this->post(
             '/auth/reset', [
             'uid' => -1,
@@ -639,22 +615,23 @@ class AuthControllerTest extends TestCase
             'msg' => trans('auth.reset.invalid')
         ]);
 
-        // Should be forbidden if `token` is invalid
-        $this->post(
+        // Should be forbidden if `token` is invalid or expired
+        $this->withCache(
+            ["pwd_reset_token_{$user->uid}" => $token]
+        )->post(
             '/auth/reset', [
             'uid' => $user->uid,
             'password' => '12345678',
-            'token' => 'invalid'
+            'token' => 'something-else'
         ])->seeJson([
             'errno' => 1,
-            'msg' => trans('auth.reset.invalid')
+            'msg' => trans('auth.reset.expired')
         ]);
 
         // Success
-        $token = base64_encode(
-            $user->getToken().substr(time(), 4, 6).str_random(16)
-        );
-        $this->post(
+        $this->withCache(
+            ["pwd_reset_token_{$user->uid}" => $token]
+        )->post(
             '/auth/reset', [
             'uid' => $user->uid,
             'password' => '12345678',
@@ -663,11 +640,9 @@ class AuthControllerTest extends TestCase
             'errno' => 0,
             'msg' => trans('auth.reset.success')
         ]);
-        // We must re-query the user model,
-        // because the old instance hasn't been changed
-        // after resetting password.
-        $user = User::find($user->uid);
-        $this->assertTrue($user->verifyPassword('12345678'));
+
+        // Re-fetch user data and verify it
+        $this->assertTrue($user->fresh()->verifyPassword('12345678'));
     }
 
     public function testVerify()

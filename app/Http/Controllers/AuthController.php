@@ -198,8 +198,7 @@ class AuthController extends Controller
 
         $uid = $user->uid;
         // Generate token for password resetting
-        $token = base64_encode($user->getToken().substr(time(), 4, 6).str_random(16));
-
+        $token = generate_random_token();
         $url = Option::get('site_url')."/auth/reset?uid=$uid&token=$token";
 
         try {
@@ -216,6 +215,7 @@ class AuthController extends Controller
             return json(trans('auth.forgot.failed', ['msg' => $e->getMessage()]), 2);
         }
 
+        Cache::put("pwd_reset_token_$uid", $token, 60);
         Cache::put($lastMailCacheKey, time(), 60);
 
         return json(trans('auth.forgot.success'), 0);
@@ -223,31 +223,23 @@ class AuthController extends Controller
 
     public function reset(UserRepository $users, Request $request)
     {
-        if ($request->has('uid') && $request->has('token')) {
-            // Get user instance from repository
-            $user = $users->get($request->input('uid'));
+        // Retrieve token from cache
+        $uid = $request->get('uid');
+        $token = Cache::get("pwd_reset_token_$uid");
 
-            if (! $user)
-                return redirect('auth/forgot')->with('msg', trans('auth.reset.invalid'));
+        // Get user instance from repository
+        $user = $users->get($uid);
 
-            // Unpack to get user token & timestamp
-            $decoded   = base64_decode($request->input('token'));
-            $token     = substr($decoded, 0, -22);
-            $timestamp = substr($decoded, strlen($token), 6);
-
-            if ($user->getToken() != $token) {
-                return redirect('auth/forgot')->with('msg', trans('auth.reset.invalid'));
-            }
-
-            // More than 1 hour
-            if ((substr(time(), 4, 6) - $timestamp) > 3600) {
-                return redirect('auth/forgot')->with('msg', trans('auth.reset.expired'));
-            }
-
-            return view('auth.reset')->with('user', $user);
-        } else {
-            return redirect('auth/login')->with('msg', trans('auth.check.anonymous'));
+        if (! $user) {
+            return redirect('auth/forgot')->with('msg', trans('auth.reset.invalid'));
         }
+
+        // No token exist or token mismatch (maybe expired)
+        if (is_null($token) || $token != $request->get('token')) {
+            return redirect('auth/forgot')->with('msg', trans('auth.reset.expired'));
+        }
+
+        return view('auth.reset')->with('user', $user);
     }
 
     public function handleReset(Request $request, UserRepository $users)
@@ -258,26 +250,23 @@ class AuthController extends Controller
             'token'    => 'required',
         ]);
 
-        $decoded   = base64_decode($request->input('token'));
-        $token     = substr($decoded, 0, -22);
-        $timestamp = intval(substr($decoded, strlen($token), 6));
+        // Retrieve token from cache
+        $uid = $request->get('uid');
+        $token = Cache::get("pwd_reset_token_$uid");
 
-        $user = $users->get($request->input('uid'));
-        if (! $user)
-            return json(trans('auth.reset.invalid'), 1);
+        // Get user instance from repository
+        $user = $users->get($uid);
 
-        if ($user->getToken() != $token) {
+        if (! $user) {
             return json(trans('auth.reset.invalid'), 1);
         }
 
-        // More than 1 hour
-        if ((intval(substr(time(), 4, 6)) - $timestamp) > 3600) {
+        // No token exist or token mismatch (maybe expired)
+        if (is_null($token) || $token != $request->get('token')) {
             return json(trans('auth.reset.expired'), 1);
         }
 
-        $users->get($request->input('uid'))->changePasswd($request->input('password'));
-
-        Log::info("[Password Reset] Password of user [{$request->input('uid')}] has been changed");
+        $user->changePasswd($request->get('password'));
 
         return json(trans('auth.reset.success'), 0);
     }
