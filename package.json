@@ -10,14 +10,14 @@
   "license": "GPL-3.0",
   "private": true,
   "scripts": {
-    "build": "parcel build -d public --no-source-maps resources/assets/src/components/bootstrap.js",
+    "build": "parcel build -d public --no-source-maps resources/assets/src/components/index.js",
     "lint": "gulp lint",
     "release": "gulp zip",
     "test": "jest --verbose",
     "test:watch": "jest --watch",
     "test:coverage": "jest --verbose --coverage --coverageDirectory ./coverage/",
     "codecov": "codecov -F js",
-    "dev": "parcel watch -d public resources/assets/src/components/bootstrap.js"
+    "dev": "parcel watch -d public resources/assets/src/components/index.js"
   },
   "dependencies": {
     "admin-lte": "^2.4.2",
@@ -41,8 +41,10 @@
     "vuejs-paginate": "^2.0.1"
   },
   "devDependencies": {
+    "@types/jest": "^23.3.1",
     "@types/jquery": "^3.3.5",
     "@vue/component-compiler-utils": "^2.1.0",
+    "@vue/test-utils": "^1.0.0-beta.21",
     "babel-eslint": "^8.2.6",
     "babel-plugin-transform-inline-environment-variables": "^0.2.0",
     "babel-plugin-transform-remove-console": "^6.9.0",
@@ -61,18 +63,34 @@
     "gulp-stylus": "^2.7.0",
     "gulp-uglify": "^3.0.0",
     "gulp-zip": "^4.1.0",
-    "jest": "^20.0.4",
+    "jest": "^23.4.1",
+    "jest-extended": "^0.7.2",
     "merge2": "^1.2.1",
     "parcel-bundler": "^1.9.7",
     "run-sequence": "^2.2.1",
     "stylus": "^0.54.5",
     "vue-hot-reload-api": "^2.3.0",
+    "vue-jest": "^2.6.0",
     "vue-template-compiler": "^2.5.16"
   },
   "jest": {
-    "timers": "fake"
-  },
-  "optionalDependencies": {
-    "@types/jest": "^20.0.2"
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      ".*\\.vue$": "vue-jest"
+    },
+    "moduleFileExtensions": [
+      "js",
+      "vue",
+      "json",
+      "node"
+    ],
+    "moduleNameMapper": {
+      "^@/(.*)$": "<rootDir>/resources/assets/src/components/$1"
+    },
+    "setupTestFrameworkScriptFile": "<rootDir>/resources/assets/tests/setup.js",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "setup"
+    ]
   }
 }
