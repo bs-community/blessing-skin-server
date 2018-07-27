@@ -91,6 +91,7 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "setup"
-    ]
+    ],
+    "testRegex": "resources/assets/tests/.*\\.(spec|test)\\.js"
   }
 }
