@@ -6,10 +6,6 @@ import swal from 'sweetalert2';
 jest.mock('axios');
 jest.mock('sweetalert2');
 
-window.blessing = {
-    base_url: ''
-};
-
 function factory(opt = {}) {
     return {
         tid: 1,

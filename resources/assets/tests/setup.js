@@ -1,6 +1,10 @@
 import 'jest-extended';
 import Vue from 'vue';
 
+window.blessing = {
+    base_url: ''
+};
+
 Vue.prototype.$t = key => key;
 
 Vue.directive('t', (el, { value }) => {
