@@ -13,9 +13,7 @@
     "build": "parcel build -d public --no-source-maps resources/assets/src/components/index.js",
     "lint": "gulp lint",
     "release": "gulp zip",
-    "test": "jest --verbose",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --verbose --coverage --coverageDirectory ./coverage/",
+    "test": "jest",
     "codecov": "codecov -F js",
     "dev": "parcel watch -d public resources/assets/src/components/index.js"
   },

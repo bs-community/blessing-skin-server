@@ -38,6 +38,6 @@ matrix:
     - echo "Testing JavaScript Code" > /dev/null
     script:
     - yarn run lint
-    - yarn test:coverage
+    - yarn test --verbose --coverage
     after_success:
     - yarn run codecov
