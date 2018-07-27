@@ -89,7 +89,7 @@ class AuthControllerTest extends TestCase
                 'msg' => trans('auth.validation.password'),
                 'login_fails' => 1
             ]
-        ); // Unable to assert cache content since array driver has unexpected behaviors
+        )->assertCacheHas($loginFailsCacheKey);
 
         $this->flushCache();
         $this->flushSession();

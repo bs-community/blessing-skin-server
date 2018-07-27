@@ -74,7 +74,7 @@ class AuthController extends Controller
                 ->withCookie('token', $user->getToken(), $time);
             } else {
                 // Increase the counter
-                Cache::put($loginFailsCacheKey, ++$loginFails);
+                Cache::put($loginFailsCacheKey, ++$loginFails, 60);
 
                 return json(trans('auth.validation.password'), 1, [
                     'login_fails' => $loginFails
