@@ -10,12 +10,13 @@
   "license": "GPL-3.0",
   "private": true,
   "scripts": {
-    "build": "parcel build -d public --no-source-maps resources/assets/src/components/index.js",
+    "dev": "parcel watch -d public resources/assets/src/components/index.js",
+    "build": "parcel build -d public --no-source-maps resources/assets/src/components/index.js && yarn build:polyfill",
+    "build:polyfill": "parcel build -d public --no-source-maps resources/assets/src/js/polyfill.js",
     "lint": "eslint --ext=.js,.vue -f=beauty .",
     "release": "gulp zip",
     "test": "jest",
-    "codecov": "codecov -F js",
-    "dev": "parcel watch -d public resources/assets/src/components/index.js"
+    "codecov": "codecov -F js"
   },
   "dependencies": {
     "admin-lte": "^2.4.2",

@@ -6,6 +6,9 @@
     <script type="text/javascript" src="{{ assets('lang/'.config('app.fallback_locale').'/locale.js') }}"></script>
 @endif
 
+@if (str_contains(request()->userAgent(), ['MSIE', 'Trident']))
+    <script src="{{ url('public/polyfill.js') }}"></script>
+@endif
 @if (isset($module))
     <script type="text/javascript" src="{{ assets('js/'.$module.'.js') }}"></script>
 @endif
