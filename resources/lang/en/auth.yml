@@ -16,6 +16,7 @@ register:
   title: Register
   button: Register
   message: Welcome to :sitename!
+  player-name-intro: Player name in Minecraft, can be changed later
   nickname-intro: Whatever you like expect special characters
   repeat-pwd: Repeat your password
   close: Well, this site doesn't allow any register.
@@ -74,6 +75,7 @@ logout:
   fail: No valid session.
 
 nickname: Nickname
+player-name: Minecraft player name
 email: Email
 identification: Email or player name
 password: Password

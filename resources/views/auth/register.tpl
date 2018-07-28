@@ -26,10 +26,17 @@
                 <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
             </div>
 
+            @if (option('register_with_player_name'))
+            <div class="form-group has-feedback" title="{{ trans('auth.register.player-name-intro') }}" data-placement="top" data-toggle="tooltip">
+                <input id="player-name" type="text" class="form-control" placeholder="{{ trans('auth.player-name') }}">
+                <span class="glyphicon glyphicon-pencil form-control-feedback"></span>
+            </div>
+            @else
             <div class="form-group has-feedback" title="{{ trans('auth.register.nickname-intro') }}" data-placement="top" data-toggle="tooltip">
                 <input id="nickname" type="text" class="form-control" placeholder="{{ trans('auth.nickname') }}">
                 <span class="glyphicon glyphicon-pencil form-control-feedback"></span>
             </div>
+            @endif
 
             <div class="row">
                 <div class="col-xs-8">

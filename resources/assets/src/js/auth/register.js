@@ -9,10 +9,11 @@ $('#register-button').click(e => {
         email: $('#email').val(),
         password: $('#password').val(),
         nickname: $('#nickname').val(),
+        player_name: $('#player-name').val(),
         captcha: $('#captcha').val(),
     };
 
-    (function validate({ email, password, nickname, captcha }, callback) {
+    (function validate({ email, password, nickname, player_name, captcha }, callback) {
         // Massive form validation
         if (email === '') {
             showMsg(trans('auth.emptyEmail'));
@@ -31,9 +32,12 @@ $('#register-button').click(e => {
         } else if (password !== $('#confirm-pwd').val()) {
             showMsg(trans('auth.invalidConfirmPwd'), 'warning');
             $('#confirm-pwd').focus();
-        } else if (nickname === '') {
+        } else if ($('#nickname').length > 0 && nickname === '') {
             showMsg(trans('auth.emptyNickname'));
             $('#nickname').focus();
+        } else if ($('#player-name').length > 0 && player_name === '') {
+            showMsg(trans('auth.emptyPlayerName'));
+            $('#player-name').focus();
         } else if (captcha === '') {
             showMsg(trans('auth.emptyCaptcha'));
             $('#captcha').focus();

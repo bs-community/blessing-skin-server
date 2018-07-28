@@ -275,6 +275,58 @@ class AuthControllerTest extends TestCase
             'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 32])
         ]);
 
+        // The register_with_player_name option is set to true by default.
+        // Should return a warning if `player_name` is empty
+        $this->post(
+            '/auth/register',
+            [
+                'email' => 'a@b.c',
+                'password' => '12345678',
+                'captcha' => 'a'
+            ],
+            ['X-Requested-With' => 'XMLHttpRequest']
+        )->seeJson([
+            'errno' => 1,
+            'msg' => trans('validation.required', ['attribute' => 'Player Name'])
+        ]);
+
+        // Should return a warning if `player_name` is invalid
+        option(['player_name_rule' => 'official']);
+        $this->post(
+            '/auth/register',
+            [
+                'email' => 'a@b.c',
+                'password' => '12345678',
+                'player_name' => '角色名',
+                'captcha' => 'a'
+            ],
+            ['X-Requested-With' => 'XMLHttpRequest']
+        )->seeJson([
+            'errno' => 1,
+            'msg' => trans('validation.player_name', ['attribute' => 'Player Name'])
+        ]);
+
+        // Should return a warning if `player_name` is too long
+        $this->post(
+            '/auth/register',
+            [
+                'email' => 'a@b.c',
+                'password' => '12345678',
+                'player_name' => str_random(option('player_name_length_max') + 10),
+                'captcha' => 'a'
+            ],
+            ['X-Requested-With' => 'XMLHttpRequest']
+        )->seeJson([
+            'errno' => 1,
+            'msg' => trans('validation.max.string', [
+                'attribute' => 'Player Name',
+                'max' => option('player_name_length_max')
+            ])
+        ]);
+
+        // Test registering with nickname
+        option(['register_with_player_name' => false]);
+
         // Should return a warning if `nickname` is empty
         $this->post(
             '/auth/register',

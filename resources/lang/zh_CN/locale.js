@@ -27,6 +27,7 @@
             emptyConfirmPwd: '确认密码不能为空',
             invalidConfirmPwd: '密码和确认的密码不一样诶？',
             emptyNickname: '你还没有填写昵称哦',
+            emptyPlayerName: '你还没有填写角色名哦',
             register: '注册',
             registering: '注册中',
 

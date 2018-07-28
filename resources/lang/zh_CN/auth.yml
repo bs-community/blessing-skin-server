@@ -16,6 +16,7 @@ register:
   title: 注册
   button: 注册
   message: 欢迎使用 :sitename！
+  player-name-intro: 游戏内的角色名，注册后可修改
   nickname-intro: 昵称可使用汉字，不可包含特殊字符
   repeat-pwd: 重复密码
   close: 残念。。本皮肤站已经关闭注册咯 QAQ
@@ -74,6 +75,7 @@ logout:
   fail: 并没有有效的 session
 
 nickname: 昵称
+player-name: 游戏内角色名
 email: Email
 identification: Email 或角色名
 password: 密码

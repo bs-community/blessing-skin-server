@@ -27,6 +27,7 @@
             emptyConfirmPwd: 'Empty confirming password.',
             invalidConfirmPwd: 'Confirming password is not equal with password.',
             emptyNickname: 'Empty nickname.',
+            emptyPlayerName: 'Empty player name.',
             register: 'Register',
             registering: 'Registering',
 

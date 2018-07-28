@@ -12,6 +12,7 @@ use Option;
 use Session;
 use App\Events;
 use App\Models\User;
+use App\Models\Player;
 use Illuminate\Http\Request;
 use App\Exceptions\PrettyPageException;
 use App\Services\Repositories\UserRepository;
@@ -112,14 +113,24 @@ class AuthController extends Controller
         if (! $this->checkCaptcha($request))
             return json(trans('auth.validation.captcha'), 1);
 
-        $this->validate($request, [
-            'email'    => 'required|email',
-            'password' => 'required|min:8|max:32',
-            'nickname' => 'required|no_special_chars|max:255'
-        ]);
-
-        if (! option('user_can_register')) {
+        if (! option('user_can_register'))
             return json(trans('auth.register.close'), 7);
+
+        // Validate nickname or player name
+        $rule = option('register_with_player_name') ?
+            ['player_name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max')] :
+            ['nickname' => 'required|no_special_chars|max:255'];
+        $this->validate($request, array_merge([
+            'email'    => 'required|email',
+            'password' => 'required|min:8|max:32'
+        ], $rule));
+
+        if (option('register_with_player_name')) {
+            event(new Events\CheckPlayerExists($request->get('player_name')));
+
+            if (Player::where('player_name', $request->get('player_name'))->first()) {
+                return json(trans('user.player.add.repeated'), 2);
+            }
         }
 
         // If amount of registered accounts of IP is more than allowed amounts,
@@ -130,15 +141,17 @@ class AuthController extends Controller
             // If the email is already registered,
             // it will return a false value.
             $user = User::register(
-                $request->input('email'),
-                $request->input('password'), function($user) use ($request)
+                $request->get('email'),
+                $request->get('password'), function($user) use ($request)
             {
                 $user->ip           = Utils::getClientIp();
                 $user->score        = option('user_initial_score');
                 $user->register_at  = Utils::getTimeFormatted();
                 $user->last_sign_at = Utils::getTimeFormatted(time() - 86400);
                 $user->permission   = User::NORMAL;
-                $user->nickname     = $request->input('nickname');
+                $user->nickname     = $request->get(
+                    option('register_with_player_name') ? 'player_name' : 'nickname'
+                );
             });
 
             if (! $user) {
@@ -146,6 +159,18 @@ class AuthController extends Controller
             }
 
             event(new Events\UserRegistered($user));
+
+            // Add player with chosen name
+            if (option('register_with_player_name')) {
+                $player = new Player;
+                $player->uid           = $user->uid;
+                $player->player_name   = $request->get('player_name');
+                $player->preference    = 'default';
+                $player->last_modified = Utils::getTimeFormatted();
+                $player->save();
+
+                event(new Events\PlayerWasAdded($player));
+            }
 
             return json([
                 'errno'    => 0,

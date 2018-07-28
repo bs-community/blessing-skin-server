@@ -145,6 +145,7 @@ describe('tests for "register" module', () => {
     document.body.innerHTML = `
       <input id="email" />
       <input id="nickname" />
+      <input id="player-name" />
       <input id="password" />
       <input id="confirm-pwd" />
       <div id="captcha-form"></div>
@@ -194,6 +195,16 @@ describe('tests for "register" module', () => {
     expect($('#confirm-pwd').is(':focus')).toBe(true);
 
     $('#confirm-pwd').val('password');
+
+    // Register with player name
+    $('#nickname').attr('id', 'nickname-alter');
+    $('button').click();
+    expect(trans).toBeCalledWith('auth.emptyPlayerName');
+    expect($('#player-name').is(':focus')).toBe(true);
+
+    // Register with nickname
+    $('#nickname-alter').attr('id', 'nickname');
+    $('#player-name').attr('id', 'player-name-alter');
     $('button').click();
     expect(trans).toBeCalledWith('auth.emptyNickname');
     expect($('#nickname').is(':focus')).toBe(true);
@@ -222,7 +233,23 @@ describe('tests for "register" module', () => {
     expect($('button').prop('disabled')).toBe(true);
     expect(swal).toBeCalledWith({ type: 'success', html: 'success' });
 
+    // Register with player name
+    $('#nickname').attr('id', 'nickname-alter');
+    $('#player-name-alter').attr('id', 'player-name');
+    $('#player-name').val('Player Name');
+
     await $('button').click();
+    expect(fetch).toBeCalledWith(expect.objectContaining({
+      type: 'POST',
+      url: 'auth/register',
+      dataType: 'json',
+      data: {
+        email: 'a@b.c',
+        player_name: 'Player Name',
+        password: 'password',
+        captcha: 'captcha'
+      }
+    }));
     expect(refreshCaptcha).toBeCalled();
     expect(showMsg).toBeCalledWith('warning', 'warning');
     expect($('button').html()).toBe('auth.register');
