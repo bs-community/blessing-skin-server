@@ -1,6 +1,6 @@
 {
   "presets": [
-    ["env", {
+    ["@babel/env", {
       "targets": {
         "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
       },
@@ -9,13 +9,13 @@
     }]
   ],
   "plugins": [
-    "transform-node-env-inline"
+    "@babel/syntax-dynamic-import",
+    "@babel/proposal-optional-catch-binding"
   ],
   "env": {
     "test": {
-      "presets": [["env", { "targets": { "node": "current" } }]],
-      "plugins": [
-        "transform-remove-console"
+      "presets": [
+        ["@babel/env", { "targets": { "node": "current" } }]
       ]
     }
   }

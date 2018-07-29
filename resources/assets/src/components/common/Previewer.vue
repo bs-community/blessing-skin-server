@@ -49,6 +49,7 @@
 
 <script>
 import * as skinview3d from 'skinview3d';
+import SkinSteve from '../../images/textures/steve.png';
 
 export default {
     name: 'Previewer',
@@ -94,7 +95,7 @@ export default {
                 domElement: this.$refs.previewer,
                 width: this.$refs.previewer.clientWidth,
                 height: this.$refs.previewer.clientHeight,
-                skinUrl: this.skin,
+                skinUrl: this.skin || SkinSteve,
                 capeUrl: this.cape
             });
             this.viewer.camera.position.z = this.initPositionZ;

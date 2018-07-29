@@ -1,11 +1,7 @@
 <!-- Bundled styles -->
-<link rel="stylesheet" href="{{ assets('css/style.css') }}">
+<link rel="stylesheet" href="{{ url('public/style.css') }}">
 <!-- AdminLTE color scheme -->
-<link rel="stylesheet" href="{{ assets('css/skins/'.option('color_scheme').'.min.css') }}">
-
-@if (isset($module))
-    <link rel="stylesheet" href="{{ assets('css/'.$module.'.css') }}">
-@endif
+<link rel="stylesheet" href="{{ url('public/skins/'.option('color_scheme').'.min.css') }}">
 
 <!-- User custom styles -->
 <style>{!! option('custom_css') !!}</style>

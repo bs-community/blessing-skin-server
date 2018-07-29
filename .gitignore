@@ -4,6 +4,7 @@
 coverage
 .idea/
 .cache/
+.cache-loader/
 vendor/*
 storage/textures/*
 storage/update_cache/*
