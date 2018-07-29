@@ -40,18 +40,4 @@ rules:
   eqeqeq: error
 
 globals:
-  url: false
-  swal: false
-  fetch: false
-  trans: false
-  logout: false
-  toastr: false
-  isEmpty: false
-  showMsg: false
-  blessing: true
-  debounce: false
-  showModal: false
-  showAjaxError: false
-  getQueryString: false
-  TexturePreview: false
-  handleDataTablesAjaxError: false
+  blessing: false
