@@ -45,7 +45,8 @@ test('rename texture', async () => {
     axios.post
         .mockResolvedValueOnce({ data: { errno: 0 } })
         .mockResolvedValueOnce({ data: { errno: 1 } });
-    swal.mockImplementation(async options => {
+    swal.mockImplementationOnce(() => Promise.reject())
+        .mockImplementation(async options => {
         options.inputValidator('name');
         options.inputValidator().catch(() => {});
         return 'new-name';
@@ -53,6 +54,10 @@ test('rename texture', async () => {
 
     const wrapper = mount(ClosetItem, { propsData: factory() });
     const button = wrapper.findAll('.dropdown-menu > li').at(0).find('a');
+
+    button.trigger('click');
+    await wrapper.vm.$nextTick();
+    expect(axios.post).not.toBeCalled();
 
     button.trigger('click');
     await wrapper.vm.$nextTick();
@@ -71,10 +76,14 @@ test('remove texture', async () => {
     axios.post
         .mockResolvedValueOnce({ data: { errno: 0 } })
         .mockResolvedValueOnce({ data: { errno: 1 } });
-    swal.mockResolvedValue();
+    swal.mockRejectedValueOnce().mockResolvedValue();
 
     const wrapper = mount(ClosetItem, { propsData: factory() });
     const button = wrapper.findAll('.dropdown-menu > li').at(1).find('a');
+
+    button.trigger('click');
+    await wrapper.vm.$nextTick();
+    expect(axios.post).not.toBeCalled();
 
     button.trigger('click');
     await wrapper.vm.$nextTick();
@@ -91,7 +100,7 @@ test('set as avatar', async () => {
     axios.post
         .mockResolvedValueOnce({ data: { errno: 0 } })
         .mockResolvedValueOnce({ data: { errno: 1 } });
-    swal.mockResolvedValue();
+    swal.mockRejectedValueOnce().mockResolvedValue();
     window.$ = jest.fn(() => ({
         each(fn) { fn(); },
         prop() {},
@@ -100,6 +109,10 @@ test('set as avatar', async () => {
 
     const wrapper = mount(ClosetItem, { propsData: factory() });
     const button = wrapper.findAll('.dropdown-menu > li').at(2).find('a');
+
+    button.trigger('click');
+    await wrapper.vm.$nextTick();
+    expect(axios.post).not.toBeCalled();
 
     button.trigger('click');
     await wrapper.vm.$nextTick();

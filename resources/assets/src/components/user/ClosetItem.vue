@@ -69,7 +69,7 @@ export default {
                         value ? resolve() : reject(this.$t('skinlib.emptyNewTextureName'));
                     }))
                 });
-            } catch (error) {
+            } catch {
                 return;
             }
 
@@ -92,7 +92,7 @@ export default {
                     type: 'warning',
                     showCancelButton: true
                 });
-            } catch (error) {
+            } catch {
                 return;
             }
 
@@ -116,7 +116,7 @@ export default {
                     type: 'question',
                     showCancelButton: true
                 });
-            } catch (error) {
+            } catch {
                 return;
             }
 
