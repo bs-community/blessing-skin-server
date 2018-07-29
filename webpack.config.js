@@ -5,7 +5,7 @@ const WebpackBar = require('webpackbar');
 
 const devMode = !process.argv.includes('-p');
 
-module.exports = {
+module.exports = [{
     entry: {
         index: './resources/assets/src/index.js',
         polyfill: './resources/assets/src/js/polyfill.js',
@@ -57,10 +57,6 @@ module.exports = {
                 use: [MiniCssExtractPlugin.loader, 'css-loader']
             },
             {
-                test: /\.ya?ml$/,
-                loader: 'yaml-loader'
-            },
-            {
                 test: /\.(png|jpg|gif|svg|woff2?|eot|ttf)$/,
                 loader: 'url-loader',
                 options: {
@@ -90,4 +86,26 @@ module.exports = {
     },
     devtool: devMode ? 'cheap-module-eval-source-map' : false,
     stats: 'errors-only'
-};
+}, {
+    entry: {
+        en: './resources/lang/en/front-end.yml',
+        zh_CN: './resources/lang/zh_CN/front-end.yml',
+    },
+    output: {
+        path: __dirname + '/public/langs/',
+        filename: '[name].js',
+        library: '__bs_i18n__'
+    },
+    module: {
+        rules: [
+            {
+                test: /\.yml$/,
+                use: [
+                    'json-loader',
+                    'yaml-loader'
+                ]
+            },
+        ]
+    },
+    stats: 'errors-only'
+}];

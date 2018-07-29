@@ -1,21 +1,5 @@
 import Vue from 'vue';
 
-// $.locales       = Object.create(null);
-const currentLocale = null;
-
-/**
- * Load current selected language.
- *
- * @return void
- */
-function loadLocales() {
-    for (const lang in $.locales) {
-        if ($.locales[lang]) {
-            $.currentLocale = $.locales[lang] || Object.create(null);
-        }
-    }
-}
-
 /**
  * Translate according to given key.
  *
@@ -24,12 +8,8 @@ function loadLocales() {
  * @return {string}
  */
 export function trans(key, parameters = {}) {
-    if (!currentLocale) {
-        loadLocales();
-    }
-
     const segments = key.split('.');
-    let temp = $.currentLocale || {};
+    let temp = window.__bs_i18n__ || {};
 
     for (const i in segments) {
         if (!temp[segments[i]]) {
