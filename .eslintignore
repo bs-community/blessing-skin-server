@@ -1,6 +1,11 @@
 node_modules/
 resources/assets/dist/
-resources/assets/src/vendor/
+resources/assets/src/js/admin/
+resources/assets/src/js/auth/
+resources/assets/src/js/common/
+resources/assets/src/js/skinlib/
+resources/assets/src/js/user/
+resources/assets/src/js/__tests__/
 gulpfile.js
 public/
 vendor/
