@@ -25,6 +25,27 @@ class PlayerControllerTest extends TestCase
             ->assertViewHas('user');
     }
 
+    public function testListAll()
+    {
+        $user = factory(User::class)->create();
+        $default = factory(Player::class)->create(['uid' => $user->uid]);
+        $slim = factory(Player::class, 'slim')->create(['uid' => $user->uid]);
+        $this->actingAs($user)
+            ->get('/user/player/list')
+            ->assertJson([
+                [
+                    'pid' => $default->pid,
+                    'player_name' => $default->player_name,
+                    'preference' => $default->preference,
+                ],
+                [
+                    'pid' => $slim->pid,
+                    'player_name' => $slim->player_name,
+                    'preference' => $slim->preference,
+                ]
+            ]);
+    }
+
     public function testAdd()
     {
         // Without player name

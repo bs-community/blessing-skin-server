@@ -54,6 +54,7 @@ Route::group(['middleware' => ['web', 'auth'], 'prefix' => 'user'], function ()
 
     // Player
     Route::any ('/player',               'PlayerController@index');
+    Route::get ('/player/list',          'PlayerController@listAll');
     Route::post('/player/add',           'PlayerController@add');
     Route::any ('/player/show',          'PlayerController@show');
     Route::post('/player/preference',    'PlayerController@setPreference');

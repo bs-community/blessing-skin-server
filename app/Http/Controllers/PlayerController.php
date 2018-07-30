@@ -55,6 +55,14 @@ class PlayerController extends Controller
             ->with('user', $user);
     }
 
+    public function listAll()
+    {
+        return Auth::user()
+            ->players()
+            ->select('pid', 'player_name', 'preference', 'tid_steve', 'tid_alex')
+            ->get();
+    }
+
     public function add(Request $request)
     {
         $user = Auth::user();
