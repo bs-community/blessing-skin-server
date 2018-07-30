@@ -1,9 +1,6 @@
 {
   "presets": [
     ["@babel/env", {
-      "targets": {
-        "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
-      },
       "modules": false,
       "useBuiltIns": "usage"
     }]
@@ -15,7 +12,10 @@
   "env": {
     "test": {
       "presets": [
-        ["@babel/env", { "targets": { "node": "current" } }]
+        ["@babel/env", {
+          "targets": { "node": "current" },
+          "ignoreBrowserslistConfig": true
+        }]
       ]
     }
   }
