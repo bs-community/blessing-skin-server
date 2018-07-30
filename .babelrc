@@ -2,12 +2,19 @@
   "presets": [
     ["@babel/env", {
       "modules": false,
-      "useBuiltIns": "usage"
+      "useBuiltIns": false,
+      "loose": true
     }]
   ],
   "plugins": [
     "@babel/syntax-dynamic-import",
-    "@babel/proposal-optional-catch-binding"
+    "@babel/proposal-optional-catch-binding",
+    ["@babel/plugin-transform-runtime", {
+      "helpers": true,
+      "polyfill": false,
+      "regenerator": true,
+      "moduleName": "@babel/runtime"
+    }]
   ],
   "env": {
     "test": {
