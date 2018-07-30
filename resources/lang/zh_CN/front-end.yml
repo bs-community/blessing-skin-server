@@ -151,6 +151,12 @@ general:
   pagination: '第 :page 页，共 :total 页'
   searchResult: '（关键词 “:keyword” 的搜索结果）'
   noResult: 无结果
+  texturePreview: 材质预览
+  walk: 行走
+  run: 奔跑
+  rotation: 旋转
+  pause: 暂停
+  reset: 重置
 
 vendor:
   fileinput:

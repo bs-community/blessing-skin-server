@@ -1,28 +1,28 @@
 <template>
     <div class="box box-default">
         <div class="box-header with-border">
-            <h3 class="box-title" style="width: 100%;">{!! $title or trans('general.texture-preview') !!}
+            <h3 class="box-title" style="width: 100%;">{{ $t('general.texturePreview') }}
                 <span data-toggle="tooltip" class="badge bg-light-blue">{{ indicator }}</span>
                 <div class="operations">
                     <i
                         @click="toggleRun"
                         data-toggle="tooltip"
                         data-placement="bottom"
-                        title="@lang('general.walk').' / '.trans('general.run')"
+                        :title="$t('general.walk') + ' / ' + $t('general.run')"
                         class="fa fa-forward"
                     ></i>
                     <i
                         @click="toggleRotate"
                         data-toggle="tooltip"
                         data-placement="bottom"
-                        title="@lang('general.rotation')"
+                        :title="$t('general.rotation')"
                         class="fa fa-repeat"
                     ></i>
                     <i
                         @click="togglePause"
                         data-toggle="tooltip"
                         data-placement="bottom"
-                        title="@lang('general.pause')"
+                        :title="$t('general.pause')"
                         class="fa"
                         :class="{ 'fa-pause': !paused, 'fa-play': paused }"
                     ></i>
@@ -30,14 +30,14 @@
                         @click="reset"
                         data-toggle="tooltip"
                         data-placement="bottom"
-                        title="@lang('general.reset')"
+                        :title="$t('general.reset')"
                         class="fa fa-stop"
                     ></i>
                 </div>
             </h3>
         </div><!-- /.box-header -->
         <div class="box-body">
-            <div ref="previewer">
+            <div class="previewer-3d" ref="previewer">
                 <!-- Container for 3D Preview -->
             </div>
         </div><!-- /.box-body -->
