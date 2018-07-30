@@ -17,6 +17,9 @@ module.exports = [{
             'font-awesome/css/font-awesome.min.css',
             'icheck/skins/square/blue.css',
             'toastr/build/toastr.min.css',
+            'typeface-ubuntu',
+            'typeface-minecraft',
+            './resources/assets/src/stylus/common.styl',
         ]
     },
     output: {
@@ -53,6 +56,15 @@ module.exports = [{
             {
                 test: /node_modules.*\.css$/,
                 use: [MiniCssExtractPlugin.loader, 'css-loader']
+            },
+            {
+                test: /common\.styl$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    { loader: 'css-loader', options: { importLoaders: 2 } },
+                    'postcss-loader',
+                    'stylus-loader'
+                ]
             },
             {
                 test: /\.(png|jpg|gif|svg|woff2?|eot|ttf)$/,
