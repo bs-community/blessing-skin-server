@@ -130,7 +130,7 @@ export default {
     },
     watch: {
         skin(url) {
-            this.viewer.skinUrl = url;
+            this.viewer.skinUrl = url || SkinSteve;
         },
         cape(url) {
             this.viewer.capeUrl = url;
