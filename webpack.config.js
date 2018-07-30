@@ -41,12 +41,10 @@ module.exports = [{
                 loader: 'vue-loader'
             },
             {
-                test: /\.(css|styl)$/,
+                test: /\.(css|styl(us)?)$/,
                 exclude: /node_modules/,
                 use: [
-                    devMode
-                        ? 'vue-style-loader'
-                        : MiniCssExtractPlugin.loader,
+                    'vue-style-loader',
                     { loader: 'css-loader', options: { importLoaders: 2 } },
                     'postcss-loader',
                     'stylus-loader'
