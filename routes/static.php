@@ -30,6 +30,8 @@ Route::get('/{api}/textures/{hash}',            'TextureController@textureWithAp
 
 Route::get('/avatar/{base64_email}.png',        'TextureController@avatar');
 Route::get('/avatar/{size}/{base64_email}.png', 'TextureController@avatarWithSize');
+Route::get('/avatar/{tid}',                     'TextureController@avatarByTid');
+Route::get('/avatar/{size}/{tid}',              'TextureController@avatarByTidWithSize');
 
 Route::get('/raw/{tid}.png',                    'TextureController@raw');
 

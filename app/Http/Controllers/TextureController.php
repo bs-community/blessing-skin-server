@@ -117,6 +117,47 @@ class TextureController extends Controller
         } else {
             abort(404, trans('general.texture-not-uploaded', ['type' => $type]));
         }
+    }  // @codeCoverageIgnore
+
+    public function avatarByTid($tid, $size = 128)
+    {
+        if ($t = Texture::find($tid)) {
+            try {
+                if (Storage::disk('textures')->has($t->hash)) {
+                    $responses = event(new GetAvatarPreview($t, $size));
+
+                    if (isset($responses[0]) && $responses[0] instanceof SymfonyResponse) {
+                        return $responses[0];       // @codeCoverageIgnore
+                    } else {
+                        $png = Minecraft::generateAvatarFromSkin(Storage::disk('textures')->read($t->hash), $size);
+
+                        ob_start();
+                        imagepng($png);
+                        imagedestroy($png);
+                        $image = ob_get_contents();
+                        ob_end_clean();
+
+                        return Response::png($image);
+                    }
+                }
+            } catch (Exception $e) {
+                report($e);
+            }
+        }
+
+        $png = imagecreatefromstring(base64_decode(static::getDefaultAvatar()));
+        ob_start();
+        imagepng($png);
+        imagedestroy($png);
+        $image = ob_get_contents();
+        ob_end_clean();
+
+        return Response::png($image);
+    }
+
+    public function avatarByTidWithSize($size, $tid)
+    {
+        return $this->avatarByTid($tid, $size);
     }
 
     public function avatar($base64_email, UserRepository $users, $size = 128)
@@ -124,31 +165,7 @@ class TextureController extends Controller
         $user = $users->get(base64_decode($base64_email), 'email');
 
         if ($user) {
-            $tid = $user->getAvatarId();
-
-            if ($t = Texture::find($tid)) {
-                try {
-                    if (Storage::disk('textures')->has($t->hash)) {
-                        $responses = event(new GetAvatarPreview($t, $size));
-
-                        if (isset($responses[0]) && $responses[0] instanceof SymfonyResponse) {
-                            return $responses[0];       // @codeCoverageIgnore
-                        } else {
-                            $png = Minecraft::generateAvatarFromSkin(Storage::disk('textures')->read($t->hash), $size);
-
-                            ob_start();
-                            imagepng($png);
-                            imagedestroy($png);
-                            $image = ob_get_contents();
-                            ob_end_clean();
-
-                            return Response::png($image);
-                        }
-                    }
-                } catch (Exception $e) {
-                    report($e);
-                }
-            }
+            return $this->avatarByTid($user->getAvatarId());
         }
 
         $png = imagecreatefromstring(base64_decode(static::getDefaultAvatar()));

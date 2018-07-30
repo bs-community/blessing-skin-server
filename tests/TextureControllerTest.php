@@ -161,6 +161,16 @@ class TextureControllerTest extends TestCase
             ->assertSee(trans('general.texture-deleted'));
     }
 
+    public function testAvatarByTid()
+    {
+        $this->get('/avatar/1')->assertHeader('Content-Type', 'image/png');
+    }
+
+    public function testAvatarByTidWithSize()
+    {
+        $this->get('/avatar/50/1')->assertHeader('Content-Type', 'image/png');
+    }
+
     public function testAvatar()
     {
         $base64_email = base64_encode('a@b.c');
