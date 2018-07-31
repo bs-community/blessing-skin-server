@@ -42,6 +42,7 @@
             addToCloset: '添加至衣柜',
             removeFromCloset: '从衣柜中移除',
             setItemName: '给你的皮肤起个名字吧~',
+            applyNotice: '收藏后可以在我的衣柜里将皮肤应用至角色',
             emptyItemName: '你还没有填写要收藏的材质名称啊',
             anonymous: '请先登录',
             private: '私密',

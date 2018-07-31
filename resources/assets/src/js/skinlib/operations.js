@@ -20,6 +20,7 @@ function addToCloset(tid) {
         try {
             const result = await swal({
                 title: trans('skinlib.setItemName'),
+                text: trans('skinlib.applyNotice'),
                 inputValue: name,
                 input: 'text',
                 showCancelButton: true,

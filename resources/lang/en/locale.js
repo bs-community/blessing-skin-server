@@ -42,6 +42,7 @@
             addToCloset: 'Add to closet',
             removeFromCloset: 'Remove from closet',
             setItemName: 'Set a name for this texture',
+            applyNotice: 'You can apply it to player at your closet',
             emptyItemName: 'Empty texture name.',
 
             // Rename
