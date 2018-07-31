@@ -45,6 +45,7 @@
   },
   "scripts": {
     "post-install-cmd": [
+      "unzip -o storage/patches/bs_column_name_patch_180731.zip",
       "unzip -o storage/patches/bs_php72_patch_180224.zip"
     ]
   },
