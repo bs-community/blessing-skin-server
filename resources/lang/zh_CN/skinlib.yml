@@ -24,6 +24,7 @@ item:
   steve: （Steve）
   alex: （Alex）
   cape: （披风）
+  apply: 立即使用
   remove-from-closet: 从衣柜中移除
   add-to-closet: 添加至衣柜
   anonymous: 请先登录

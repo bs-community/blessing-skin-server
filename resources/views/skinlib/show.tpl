@@ -25,6 +25,12 @@
                             <button disabled="disabled" title="{{ trans('skinlib.show.anonymous') }}" class="btn btn-primary pull-right">{{ trans('skinlib.item.add-to-closet') }}</button>
                             @else
 
+                                <a id="quick-apply"
+                                    href="{{ url('user/closet?tid=').$texture->tid }}"
+                                    class="btn btn-success pull-right"
+                                    style="margin-left:12px; {{ $user->getCloset()->has($texture->tid) ? '' : 'display:none;' }}"
+                                >{{ trans('skinlib.item.apply') }}</a>
+
                                 @if ($user->getCloset()->has($texture->tid))
                                 <a onclick="removeFromCloset({{ $texture->tid }});" id="{{ $texture->tid }}" class="btn btn-primary pull-right">{{ trans('skinlib.item.remove-from-closet') }}</a>
                                 @else

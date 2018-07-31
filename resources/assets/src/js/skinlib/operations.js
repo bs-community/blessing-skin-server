@@ -181,16 +181,17 @@ async function changeTextureModel(tid, oldModel) {
  */
 function updateTextureStatus(tid, action) {
     const likes  = parseInt($('#likes').html()) + (action === 'add' ? 1 : -1);
-        action = (action === 'add') ? 'removeFromCloset' : 'addToCloset';
+    const buttonAction = (action === 'add') ? 'removeFromCloset' : 'addToCloset';
 
     $(`a[tid=${tid}]`)
-        .attr('onclick', `${action}(${tid});`)
-        .attr('title', trans(`skinlib.${action}`))
+        .attr('onclick', `${buttonAction}(${tid});`)
+        .attr('title', trans(`skinlib.${buttonAction}`))
         .toggleClass('liked');
     $(`#${tid}`)
-        .attr('onclick', `${action}(${tid});`)
-        .html(trans(`skinlib.${action}`));
+        .attr('onclick', `${buttonAction}(${tid});`)
+        .html(trans(`skinlib.${buttonAction}`));
     $('#likes').html(likes);
+    $('#quick-apply').toggle(action === 'add');
 }
 
 $(document).on('click', '.private-label', async function () {

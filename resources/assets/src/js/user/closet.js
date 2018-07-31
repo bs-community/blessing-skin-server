@@ -2,7 +2,16 @@
 
 'use strict';
 
-$(document).ready(initCloset);
+$(document).ready(async () => {
+    await initCloset();
+
+    const tid = getQueryString('tid');
+
+    // Select closet item if texture id is specified by query string
+    if (tid !== undefined) {
+        $(`[tid=${tid}]`).children('.item-body').click();
+    }
+});
 
 $('body').on('click', '.item-body', async function () {
     $('.item-selected').parent().removeClass('item-selected');
