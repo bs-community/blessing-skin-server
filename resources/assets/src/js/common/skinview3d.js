@@ -20,6 +20,8 @@ function initSkinViewer(cameraPositionZ = 70) {
     $.msp.viewer = new skinview3d.SkinViewer($.msp.config);
     $.msp.viewer.camera.position.z = cameraPositionZ;
 
+    // Disable auto model detection
+    $.msp.viewer.detectModel = false;
     $.msp.viewer.animation = new skinview3d.CompositeAnimation();
 
     // Init all available animations and pause them

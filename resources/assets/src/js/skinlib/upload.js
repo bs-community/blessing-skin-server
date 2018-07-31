@@ -1,4 +1,4 @@
-/* global initSkinViewer, defaultSteveSkin, defaultAlexSkin */
+/* global skinview3d, initSkinViewer, defaultSteveSkin, defaultAlexSkin */
 
 // TODO: Help wanted. This file needs to be tested.
 
@@ -14,11 +14,10 @@ function initUploadListeners() {
         .on('ifToggled', '#type-cape', () => handleFiles())
         .on('change', '#skin-type', function () {
             if ($('#file').prop('files').length === 0) {
-                $.msp.config.slim = ($(this).val() === 'alex');
-                $.msp.config.skinUrl = getDefaultSkin();
-                initSkinViewer();
+                // Load default skin
+                $.msp.viewer.skinUrl = getDefaultSkin();
             }
-            handleFiles();
+            $.msp.viewer.playerObject.skin.slim = ($(this).val() === 'alex');
         })
         .on('ifToggled', '#type-skin', function () {
             $(this).prop('checked') ? $('#skin-type').show() : $('#skin-type').hide();
@@ -66,13 +65,15 @@ function handleFiles(files, type) {
                         if (img.width === img.height || img.width / img.height === 2) {
                             $.msp.config.skinUrl = img.src;
                             $.msp.config.capeUrl = null;
+
+                            // Determine model from texture image
+                            $.msp.config.slim = skinview3d.isSlimSkin(img);
+                            $('#skin-type').val($.msp.config.slim ? 'alex' : 'steve');
                         } else {
                             $.msp.config.skinUrl = getDefaultSkin();
                             toastr.warning(trans('skinlib.badSkinSize'));
                         }
                     }
-
-                    $.msp.config.slim = ($('#skin-type').val() === 'alex');
 
                     initSkinViewer();
 
