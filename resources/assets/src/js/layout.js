@@ -4,13 +4,6 @@ import 'bootstrap-fileinput';
 import 'admin-lte';
 import 'icheck';
 import Vue from 'vue';
-import swal from 'sweetalert2';
-import { trans } from './i18n';
-
-swal.setDefaults({
-    confirmButtonText: trans('general.confirm'),
-    cancelButtonText: trans('general.cancel')
-});
 
 Vue.mixin({
     mounted() {

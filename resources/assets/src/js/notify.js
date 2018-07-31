@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import sweetalert2 from 'sweetalert2';
 import { trans } from './i18n';
 
 /**
@@ -71,3 +72,8 @@ export function showModal(msg, title = 'Message', type = 'default', options = {}
         destroyOnClose && $(this).remove();
     }).modal(options);
 }
+
+export const swal = sweetalert2.mixin({
+    confirmButtonText: trans('general.confirm'),
+    cancelButtonText: trans('general.cancel')
+});

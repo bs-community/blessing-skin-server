@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import swal from 'sweetalert2';
+import { swal } from '../../js/notify';
 import toastr from 'toastr';
 import axios from 'axios';
 
