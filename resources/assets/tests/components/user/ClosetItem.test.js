@@ -45,12 +45,12 @@ test('rename texture', async () => {
     axios.post
         .mockResolvedValueOnce({ data: { errno: 0 } })
         .mockResolvedValueOnce({ data: { errno: 1 } });
-    swal.mockImplementationOnce(() => Promise.reject())
+    swal.mockImplementationOnce(() => Promise.resolve({ dismiss: 'cancel' }))
         .mockImplementation(async options => {
-        options.inputValidator('name');
-        options.inputValidator().catch(() => {});
-        return 'new-name';
-    });
+            options.inputValidator('name');
+            options.inputValidator().catch(() => {});
+            return { value: 'new-name' };
+        });
 
     const wrapper = mount(ClosetItem, { propsData: factory() });
     const button = wrapper.findAll('.dropdown-menu > li').at(0).find('a');
@@ -76,7 +76,9 @@ test('remove texture', async () => {
     axios.post
         .mockResolvedValueOnce({ data: { errno: 0 } })
         .mockResolvedValueOnce({ data: { errno: 1 } });
-    swal.mockRejectedValueOnce().mockResolvedValue();
+    swal
+        .mockResolvedValueOnce({ dismiss: 'cancel' })
+        .mockResolvedValue({});
 
     const wrapper = mount(ClosetItem, { propsData: factory() });
     const button = wrapper.findAll('.dropdown-menu > li').at(1).find('a');
@@ -100,7 +102,9 @@ test('set as avatar', async () => {
     axios.post
         .mockResolvedValueOnce({ data: { errno: 0 } })
         .mockResolvedValueOnce({ data: { errno: 1 } });
-    swal.mockRejectedValueOnce().mockResolvedValue();
+    swal
+        .mockResolvedValueOnce({ dismiss: 'cancel' })
+        .mockResolvedValue({});
     window.$ = jest.fn(() => ({
         each(fn) { fn(); },
         prop() {},

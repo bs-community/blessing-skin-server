@@ -57,19 +57,16 @@ export default {
     },
     methods: {
         async rename() {
-            let newTextureName = '';
-
-            try {
-                newTextureName = await swal({
-                    title: this.$t('user.renameClosetItem'),
-                    input: 'text',
-                    inputValue: this.textureName,
-                    showCancelButton: true,
-                    inputValidator: value => (new Promise((resolve, reject) => {
-                        value ? resolve() : reject(this.$t('skinlib.emptyNewTextureName'));
-                    }))
-                });
-            } catch {
+            const { value: newTextureName, dismiss } = await swal({
+                title: this.$t('user.renameClosetItem'),
+                input: 'text',
+                inputValue: this.textureName,
+                showCancelButton: true,
+                inputValidator: value => (new Promise(resolve => {
+                    value ? resolve() : resolve(this.$t('skinlib.emptyNewTextureName'));
+                }))
+            });
+            if (dismiss) {
                 return;
             }
 
@@ -86,13 +83,12 @@ export default {
             }
         },
         async remove() {
-            try {
-                await swal({
-                    text: this.$t('user.removeFromClosetNotice'),
-                    type: 'warning',
-                    showCancelButton: true
-                });
-            } catch {
+            const { dismiss } = await swal({
+                text: this.$t('user.removeFromClosetNotice'),
+                type: 'warning',
+                showCancelButton: true
+            });
+            if (dismiss) {
                 return;
             }
 
@@ -109,14 +105,13 @@ export default {
             }
         },
         async setAsAvatar() {
-            try {
-                await swal({
-                    title: this.$t('user.setAvatar'),
-                    text: this.$t('user.setAvatarNotice'),
-                    type: 'question',
-                    showCancelButton: true
-                });
-            } catch {
+            const { dismiss } = await swal({
+                title: this.$t('user.setAvatar'),
+                text: this.$t('user.setAvatarNotice'),
+                type: 'question',
+                showCancelButton: true
+            });
+            if (dismiss) {
                 return;
             }
 
