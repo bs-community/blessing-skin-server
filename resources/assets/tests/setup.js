@@ -5,6 +5,8 @@ window.blessing = {
     base_url: ''
 };
 
+console.log = console.warn = console.error = () => {};
+
 Vue.prototype.$t = key => key;
 
 Vue.directive('t', (el, { value }) => {
