@@ -15,11 +15,6 @@ function factory(opt = {}) {
     };
 }
 
-beforeEach(() => {
-    axios.post.mockReset();
-    swal.mockReset();
-});
-
 test('computed values', () => {
     const wrapper = mount(ClosetItem, { propsData: factory() });
     expect(wrapper.find('img').attributes().src).toBe('/preview/1.png');

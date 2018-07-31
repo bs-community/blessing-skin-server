@@ -23,6 +23,9 @@
           "targets": { "node": "current" },
           "ignoreBrowserslistConfig": true
         }]
+      ],
+      "plugins": [
+        "dynamic-import-node"
       ]
     }
   }
