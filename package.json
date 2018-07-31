@@ -91,12 +91,13 @@
       "node"
     ],
     "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/resources/assets/src/components/$1"
+      "^@/(.*)$": "<rootDir>/resources/assets/src/$1"
     },
     "setupTestFrameworkScriptFile": "<rootDir>/resources/assets/tests/setup.js",
     "coveragePathIgnorePatterns": [
       "/node_modules/",
-      "setup"
+      "setup",
+      "assets/src/js"
     ],
     "testRegex": "resources/assets/tests/.*\\.(spec|test)\\.js"
   }

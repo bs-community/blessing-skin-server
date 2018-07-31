@@ -1,10 +1,10 @@
 import { mount } from '@vue/test-utils';
-import ClosetItem from '@/user/ClosetItem';
+import ClosetItem from '@/components/user/ClosetItem';
 import axios from 'axios';
-import { swal } from '@/../js/notify';
+import { swal } from '@/js/notify';
 
 jest.mock('axios');
-jest.mock('@/../js/notify');
+jest.mock('@/js/notify');
 
 function factory(opt = {}) {
     return {

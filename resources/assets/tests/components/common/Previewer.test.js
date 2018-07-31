@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils';
-import Previewer from '@/common/Previewer';
+import Previewer from '@/components/common/Previewer';
 import * as mockedSkinview3d from '../../__mocks__/skinview3d';
 import '../../../src/images/textures/steve.png';
 
