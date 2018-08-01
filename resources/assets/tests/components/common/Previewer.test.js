@@ -1,9 +1,6 @@
 import { mount } from '@vue/test-utils';
 import Previewer from '@/components/common/Previewer';
 import * as mockedSkinview3d from '../../__mocks__/skinview3d';
-import '../../../src/images/textures/steve.png';
-
-jest.mock('../../../src/images/textures/steve.png', () => '');
 
 test('initialize skinview3d', () => {
     const wrapper = mount(Previewer);

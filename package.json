@@ -91,7 +91,8 @@
       "node"
     ],
     "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/resources/assets/src/$1"
+      "^@/(.*)$": "<rootDir>/resources/assets/src/$1",
+      "\\.(png|jpg)$": "<rootDir>/resources/assets/tests/__mocks__/file.js"
     },
     "setupTestFrameworkScriptFile": "<rootDir>/resources/assets/tests/setup.js",
     "coveragePathIgnorePatterns": [
