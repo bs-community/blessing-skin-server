@@ -41,3 +41,4 @@ rules:
 
 globals:
   blessing: false
+  __bs_data__: false

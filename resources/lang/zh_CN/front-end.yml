@@ -93,6 +93,40 @@ user:
       title: 要给哪个角色使用呢？
       empty: 你好像还没有添加任何角色哦
       add: 添加角色
+  profile:
+    avatar:
+      title: 更改头像？
+      notice: 请在衣柜中任意皮肤的右下角「<i class="fa fa-cog"></i>」处选择「设为头像」，将会自动截取该皮肤的头部作为头像哦~ 如果看不到这个图标，请关闭 ADBlock，ABP 之类的广告过滤扩展。
+
+    password:
+      title: 更改密码
+      old: 旧的密码
+      new: 新密码
+      confirm: 确认密码
+      button: 修改密码
+
+    nickname:
+      title: 更改昵称
+      rule: 可使用除一些特殊符号外的任意字符
+
+    email:
+      title: 更改邮箱
+      new: 新邮箱
+      password: 当前密码
+      button: 修改邮箱
+
+    delete:
+      title: 删除账号
+      notice: 确定要删除你在 :site 上的账号吗？
+      admin: 管理员账号不能被删除哟
+      button: 删除我的账户
+      modal-title: 这是危险操作，输入密码以继续
+      modal-notice: |
+        此操作不可恢复！
+        你所上传至皮肤库的材质仍会被保留，但你的角色将被永久删除。
+        我们不提供任何备份，或者神奇的撤销按钮。
+        我们警告过你了，确定要这样做吗？
+      password: 当前密码
 
 admin:
   operationsTitle: 更多操作
@@ -158,6 +192,7 @@ general:
   confirm: 确定
   cancel: 取消
   submit: 提交
+  close: 关闭
   more: 更多
   pagination: '第 :page 页，共 :total 页'
   searchResult: '（关键词 “:keyword” 的搜索结果）'

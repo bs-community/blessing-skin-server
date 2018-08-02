@@ -93,6 +93,39 @@ user:
       title: Which player should be applied to?
       empty: It seems that you own no player...
       add: Add new player
+  profile:
+    avatar:
+      title: Change Avatar?
+      notice: Click the gear icon「<i class="fa fa-cog"></i>」of any skin in your skinlib, then click 「Set as avatar」. We will cut the head segment of that skin for you. If there is no icon like this, please unable the extensions like ADBlock.
+
+    password:
+      title: Change Password
+      old: Old Password
+      new: New Password
+      confirm: Repeat Password
+      button: Change Password
+
+    nickname:
+      title: Change Nickname
+      rule: Whatever you like expect special characters
+
+    email:
+      title: Change Email
+      new: New Email
+      password: Current Password
+      button: Change Email
+
+    delete:
+      title: Delete Account
+      notice: Sure to delete your account on :site?
+      admin: Admin account can not be deleted.
+      button: Delete My Account
+      modal-title: You need to enter your password to continue
+      modal-notice: |
+        You're about to delete your account.
+        This is permanent! No backups, no restores, no magic undo button.
+        We warned you, ok?
+      password: Current Password
 
 admin:
   operationsTitle: Operations
@@ -162,6 +195,7 @@ general:
   confirm: OK
   cancel: Cancel
   submit: Submit
+  close: Close
   more: More
   pagination: 'Page :page, total :total'
   searchResult: '(Search result of keyword ":keyword")'

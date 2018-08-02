@@ -2,7 +2,8 @@ import 'jest-extended';
 import Vue from 'vue';
 
 window.blessing = {
-    base_url: ''
+    base_url: '',
+    site_name: 'Blessing Skin'
 };
 
 console.log = console.warn = console.error = () => {};
