@@ -167,9 +167,14 @@ class UserController extends Controller
                     'password' => 'required|min:6|max:32'
                 ]);
 
+                if ($user->isAdmin())
+                    return json(trans('user.profile.delete.admin'), 1);
+
                 if (! $user->verifyPassword($request->input('password')))
                     return json(trans('user.profile.delete.wrong-password'), 1);
+
                 Auth::logout();
+
                 if ($user->delete()) {
                     session()->flush();
 

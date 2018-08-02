@@ -382,6 +382,16 @@ class UserControllerTest extends TestCase
             'msg' => trans('user.profile.delete.success')
         ]);
         $this->assertNull(User::find($user->uid));
+
+        // Administrator cannot be deleted
+        $this->actAs('admin')
+            ->postJson('/user/profile', [
+            'action' => 'delete',
+            'password' => '87654321'
+        ])->assertJson([
+            'errno' => 1,
+            'msg' => trans('user.profile.delete.admin')
+        ]);
     }
 
     public function testSetAvatar()
