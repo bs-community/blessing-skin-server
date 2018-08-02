@@ -83,6 +83,16 @@ user:
   emptyNewEmail: Empty new email address.
   changeEmail: 'Sure to change your email address to :new_email?'
   emptyDeletePassword: 'Please enter the current password:'
+  typeToSearch: Type to search
+  useAs: Apply...
+  resetSelected: Clear selected
+  closet:
+    use-as:
+      button: Apply...
+      reset: Clear selected
+      title: Which player should be applied to?
+      empty: It seems that you own no player...
+      add: Add new player
 
 admin:
   operationsTitle: Operations
@@ -151,6 +161,7 @@ general:
   confirmLogout: Sure to log out?
   confirm: OK
   cancel: Cancel
+  submit: Submit
   more: More
   pagination: 'Page :page, total :total'
   searchResult: '(Search result of keyword ":keyword")'
