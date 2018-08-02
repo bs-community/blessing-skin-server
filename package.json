@@ -17,6 +17,9 @@
     "codecov": "codecov -F js",
     "postinstall": "rimraf node_modules/jest-runtime/node_modules/babel-core node_modules/jest-config/node_modules/babel-core"
   },
+  "resolutions": {
+    "uglify-es": "npm:terser"
+  },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.55",
     "admin-lte": "^2.4.2",
@@ -52,6 +55,7 @@
     "babel-eslint": "^8.2.6",
     "babel-loader": "^8.0.0-beta.4",
     "babel-plugin-dynamic-import-node": "^2.0.0",
+    "cache-loader": "^1.2.2",
     "codecov": "^3.0.0",
     "copy-webpack-plugin": "^4.5.2",
     "css-loader": "^1.0.0",

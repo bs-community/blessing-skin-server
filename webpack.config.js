@@ -1,6 +1,7 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const WebpackBar = require('webpackbar');
 
 const devMode = !process.argv.includes('-p');
@@ -34,14 +35,17 @@ module.exports = [{
             {
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loader: 'babel-loader',
-                options: {
-                    cacheDirectory: true
-                }
+                use: [
+                    'cache-loader',
+                    'babel-loader'
+                ]
             },
             {
                 test: /\.vue$/,
-                loader: 'vue-loader'
+                use: [
+                    'cache-loader',
+                    'vue-loader'
+                ]
             },
             {
                 test: /\.(css|styl(us)?)$/,
@@ -91,6 +95,15 @@ module.exports = [{
             },
         ]),
     ],
+    optimization: {
+        minimizer: [
+          new UglifyJsPlugin({
+              cache: true,
+              parallel: 4,
+              extractComments: 'lib-license.txt'
+          })
+        ]
+    },
     resolve: {
         extensions: ['.js', '.vue', '.json']
     },
