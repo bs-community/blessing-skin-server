@@ -7263,14 +7263,6 @@ typedarray@^0.0.6, typedarray@~0.0.5:
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
 
-typeface-minecraft@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/typeface-minecraft/-/typeface-minecraft-1.0.0.tgz#1624627ed15eff5fb7e70f19807097a5b13ce1c3"
-
-typeface-ubuntu@^0.0.54:
-  version "0.0.54"
-  resolved "https://registry.yarnpkg.com/typeface-ubuntu/-/typeface-ubuntu-0.0.54.tgz#1219d28be0a86b9a2d779e53d8b89d13de911ac3"
-
 uglify-es@^3.3.4, "uglify-es@npm:terser":
   version "3.8.1"
   resolved "https://registry.yarnpkg.com/terser/-/terser-3.8.1.tgz#cb70070ac9e0a71add169dfb63c0a64fca2738ac"

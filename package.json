@@ -36,8 +36,6 @@
     "skinview3d": "^1.1.0-alpha.4",
     "sweetalert2": "^7.26.9",
     "toastr": "^2.1.4",
-    "typeface-minecraft": "^1.0.0",
-    "typeface-ubuntu": "^0.0.54",
     "vue": "^2.5.16",
     "vuejs-paginate": "^2.0.1"
   },

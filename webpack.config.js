@@ -18,8 +18,6 @@ module.exports = [{
             'font-awesome/css/font-awesome.min.css',
             'icheck/skins/square/blue.css',
             'toastr/build/toastr.min.css',
-            'typeface-ubuntu',
-            'typeface-minecraft',
             './resources/assets/src/stylus/common.styl',
         ]
     },
@@ -71,11 +69,15 @@ module.exports = [{
                 ]
             },
             {
-                test: /\.(png|jpg|gif|svg|woff2?|eot|ttf)$/,
+                test: /\.(png|jpg|gif)$/,
                 loader: 'url-loader',
                 options: {
                     limit: 8192
                 }
+            },
+            {
+                test: /\.(svg|woff2?|eot|ttf)$/,
+                loader: 'file-loader'
             }
         ],
         noParse: /^(vue|jquery)$/
