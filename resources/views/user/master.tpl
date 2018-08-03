@@ -91,8 +91,6 @@
 
     </div><!-- ./wrapper -->
 
-    @yield('pre-script')
-
     <!-- App Scripts -->
     @include('common.dependencies.script', ['module' => 'user'])
 

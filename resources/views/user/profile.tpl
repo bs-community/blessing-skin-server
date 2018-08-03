@@ -17,15 +17,12 @@
     <section class="content"></section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 
-@endsection
-
-@section('pre-script')
 <script>
-Object.defineProperty(window, '__bs_data__', {
-    value: Object.freeze({
-        admin: !!{{ $user->isAdmin() }}
-    }),
-    writable: false
-})
+    Object.defineProperty(window, '__bs_data__', {
+        value: Object.freeze({
+            admin: !!{{ $user->isAdmin() }}
+        }),
+        writable: false
+    })
 </script>
 @endsection
