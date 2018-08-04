@@ -1,7 +1,7 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const UglifyJsWebpackPlugin = require('uglifyjs-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const WebpackBar = require('webpackbar');
 
@@ -104,10 +104,18 @@ module.exports = [{
     ],
     optimization: {
         minimizer: [
-          new UglifyJsPlugin({
+            new UglifyJsWebpackPlugin({
+                parallel: true,
               cache: true,
-              parallel: 4,
-              extractComments: 'lib-license.txt'
+                sourceMap: false,
+                extractComments: {
+                    filename: 'LICENSES'
+                },
+                uglifyOptions: {
+                    output: {
+                        comments: /^\**!|@preserve|@license|@cc_on/
+                    }
+                }
           })
         ]
     },
