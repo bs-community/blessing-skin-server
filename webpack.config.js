@@ -2,6 +2,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const WebpackBar = require('webpackbar');
 
 const devMode = !process.argv.includes('-p');
@@ -96,6 +97,10 @@ module.exports = [{
                 flatten: true
             },
         ]),
+        new BundleAnalyzerPlugin({
+            openAnalyzer: false,
+            analyzerMode: devMode ? 'server' : 'static'
+        }),
     ],
     optimization: {
         minimizer: [

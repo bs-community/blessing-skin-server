@@ -76,6 +76,7 @@
     "vue-loader": "^15.2.6",
     "vue-template-compiler": "^2.5.16",
     "webpack": "^4.16.3",
+    "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^3.1.0",
     "webpackbar": "^2.6.1",
     "yaml-loader": "^0.5.0"
