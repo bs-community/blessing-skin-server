@@ -19,6 +19,7 @@ module.exports = [{
             'font-awesome/css/font-awesome.min.css',
             'icheck/skins/square/blue.css',
             'toastr/build/toastr.min.css',
+            'sweetalert2/dist/sweetalert2.min.css',
             './resources/assets/src/stylus/common.styl',
         ]
     },
@@ -58,13 +59,18 @@ module.exports = [{
             },
             {
                 test: /node_modules.*\.css$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader']
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    { loader: 'css-loader', options: { importLoaders: 1 } },
+                    'csso-loader?-comments',
+                ]
             },
             {
                 test: /common\.styl$/,
                 use: [
                     MiniCssExtractPlugin.loader,
-                    { loader: 'css-loader', options: { importLoaders: 2 } },
+                    { loader: 'css-loader', options: { importLoaders: 3 } },
+                    'csso-loader',
                     'postcss-loader',
                     'stylus-loader'
                 ]
