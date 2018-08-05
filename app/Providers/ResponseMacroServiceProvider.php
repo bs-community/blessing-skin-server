@@ -34,7 +34,6 @@ class ResponseMacroServiceProvider extends ServiceProvider
                 'Content-type'  => 'image/png',
                 'Last-Modified' => format_http_date($last_modified),
                 'Cache-Control' => 'public, max-age='.option('cache_expire_time'),
-                'Expires'       => format_http_date($last_modified + option('cache_expire_time')),
                 'Etag'          => $etag
             ], $header));
         });
