@@ -40,10 +40,8 @@ class TextureController extends Controller
             $content = $player->getJsonProfile(Option::get('api_type'));
         }
 
-        return Response::rawJson($content, 200, [
-            'Last-Modified' => Carbon::createFromTimestamp(
-                $player->getLastModified()
-            )->format('D, d M Y H:i:s \G\M\T')
+        return Response::jsonProfile($content, 200, [
+            'Last-Modified' => strtotime($player->last_modified)
         ]);
     }
 
@@ -52,21 +50,21 @@ class TextureController extends Controller
         return $this->json($player_name, $api);
     }
 
-    public function texture($hash) {
+    public function texture($hash, $headers = [], $message = '') {
         try {
             if (Storage::disk('textures')->has($hash)) {
-                return Response::png(Storage::disk('textures')->get($hash), 200, [
+                return Response::png(Storage::disk('textures')->get($hash), 200, array_merge([
                     'Last-Modified'  => Storage::disk('textures')->lastModified($hash),
                     'Accept-Ranges'  => 'bytes',
                     'Content-Length' => Storage::disk('textures')->size($hash),
-                ]);
+                ], $headers));
             }
         } catch (Exception $e) {
             // Let it fallback to 404
             report($e);
         }
 
-        return abort(404);
+        return abort(404, $message);
     }
 
     public function textureWithApi($api, $hash) {
@@ -105,16 +103,9 @@ class TextureController extends Controller
         $player = $this->getPlayerInstance($player_name);
 
         if ($hash = $player->getTexture($type)) {
-            if (Storage::disk('textures')->has($hash)) {
-                // Cache friendly
-                return Response::png(Storage::disk('textures')->read($hash), 200, [
-                    'Last-Modified'  => $player->getLastModified(),
-                    'Accept-Ranges'  => 'bytes',
-                    'Content-Length' => Storage::disk('textures')->size($hash),
-                ]);
-            } else {
-                abort(404, trans('general.texture-deleted'));
-            }
+            return $this->texture($hash, [
+                'Last-Modified'  => strtotime($player->last_modified)
+            ], trans('general.texture-deleted'));
         } else {
             abort(404, trans('general.texture-not-uploaded', ['type' => $type]));
         }
