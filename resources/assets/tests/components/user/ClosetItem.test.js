@@ -40,10 +40,10 @@ test('rename texture', async () => {
     axios.post
         .mockResolvedValueOnce({ data: { errno: 0 } })
         .mockResolvedValueOnce({ data: { errno: 1 } });
-    swal.mockImplementationOnce(() => Promise.resolve({ dismiss: 'cancel' }))
-        .mockImplementation(async options => {
+    swal.mockImplementationOnce(() => ({ dismiss: 'cancel' }))
+        .mockImplementation(options => {
             options.inputValidator('name');
-            options.inputValidator().catch(() => {});
+            options.inputValidator();
             return { value: 'new-name' };
         });
 

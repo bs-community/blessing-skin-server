@@ -8,18 +8,18 @@
                 <span :title="name">{{ textureName }} <small>({{ type }})</small></span>
             </p>
 
-            <a 
-                :href="linkToSkinlib" 
-                :title="$t('user.viewInSkinlib')" 
-                class="more" 
-                data-toggle="tooltip" 
+            <a
+                :href="linkToSkinlib"
+                :title="$t('user.viewInSkinlib')"
+                class="more"
+                data-toggle="tooltip"
                 data-placement="bottom"
             ><i class="fa fa-share"></i></a>
-            <span 
-                :title="$t('general.more')" 
-                class="more" 
-                data-toggle="dropdown" 
-                aria-haspopup="true" 
+            <span
+                :title="$t('general.more')"
+                class="more"
+                data-toggle="dropdown"
+                aria-haspopup="true"
                 id="more-button"
             ><i class="fa fa-cog"></i></span>
 
@@ -74,9 +74,7 @@ export default {
                 input: 'text',
                 inputValue: this.textureName,
                 showCancelButton: true,
-                inputValidator: value => (new Promise(resolve => {
-                    value ? resolve() : resolve(this.$t('skinlib.emptyNewTextureName'));
-                }))
+                inputValidator: value => !value && this.$t('skinlib.emptyNewTextureName')
             });
             if (dismiss) {
                 return;
