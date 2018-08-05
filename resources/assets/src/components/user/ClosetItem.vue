@@ -8,8 +8,20 @@
                 <span :title="name">{{ textureName }} <small>({{ type }})</small></span>
             </p>
 
-            <a :href="linkToSkinlib" :title="$t('user.viewInSkinlib')" class="more" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-share"></i></a>
-            <span :title="$t('general.more')" class="more" data-toggle="dropdown" aria-haspopup="true" id="more-button"><i class="fa fa-cog"></i></span>
+            <a 
+                :href="linkToSkinlib" 
+                :title="$t('user.viewInSkinlib')" 
+                class="more" 
+                data-toggle="tooltip" 
+                data-placement="bottom"
+            ><i class="fa fa-share"></i></a>
+            <span 
+                :title="$t('general.more')" 
+                class="more" 
+                data-toggle="dropdown" 
+                aria-haspopup="true" 
+                id="more-button"
+            ><i class="fa fa-cog"></i></span>
 
             <ul class="dropup dropdown-menu" aria-labelledby="more-button">
                 <li><a @click="rename" v-t="'user.renameItem'"></a></li>
@@ -42,6 +54,11 @@ export default {
         },
         selected: Boolean
     },
+    data() {
+        return {
+            textureName: this.name
+        };
+    },
     computed: {
         previewLink() {
             return `${blessing.base_url}/preview/${this.tid}.png`;
@@ -49,11 +66,6 @@ export default {
         linkToSkinlib() {
             return `${blessing.base_url}/skinlib/show/${this.tid}`;
         }
-    },
-    data() {
-        return {
-            textureName: this.name
-        };
     },
     methods: {
         async rename() {

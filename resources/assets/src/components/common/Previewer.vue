@@ -89,6 +89,20 @@ export default {
             }
         }
     },
+    watch: {
+        skin(url) {
+            this.viewer.skinUrl = url || SkinSteve;
+        },
+        cape(url) {
+            this.viewer.capeUrl = url;
+        }
+    },
+    mounted() {
+        this.initPreviewer();
+    },
+    beforeDestroy() {
+        this.viewer.dispose();
+    },
     methods: {
         initPreviewer() {
             this.viewer = new skinview3d.SkinViewer({
@@ -128,20 +142,6 @@ export default {
             this.viewer.camera.position.z = 70;
         }
     },
-    watch: {
-        skin(url) {
-            this.viewer.skinUrl = url || SkinSteve;
-        },
-        cape(url) {
-            this.viewer.capeUrl = url;
-        }
-    },
-    mounted() {
-        this.initPreviewer();
-    },
-    beforeDestroy() {
-        this.viewer.dispose();
-    }
 };
 </script>
 

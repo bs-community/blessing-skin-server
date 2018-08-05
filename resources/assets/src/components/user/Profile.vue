@@ -16,17 +16,32 @@
                     <div class="box-body">
                         <div class="form-group">
                             <label v-t="'user.profile.password.old'"></label>
-                            <input type="password" class="form-control" v-model="oldPassword" ref="oldPassword">
+                            <input
+                                type="password"
+                                class="form-control"
+                                v-model="oldPassword"
+                                ref="oldPassword"
+                            >
                         </div>
 
                         <div class="form-group">
                             <label v-t="'user.profile.password.new'"></label>
-                            <input type="password" class="form-control" v-model="newPassword" ref="newPassword">
+                            <input
+                                type="password"
+                                class="form-control"
+                                v-model="newPassword"
+                                ref="newPassword"
+                            >
                         </div>
 
                         <div class="form-group">
                             <label v-t="'user.profile.password.confirm'"></label>
-                            <input type="password" class="form-control" v-model="confirmPassword" ref="confirmPassword">
+                            <input
+                                type="password"
+                                class="form-control"
+                                v-model="confirmPassword"
+                                ref="confirmPassword"
+                            >
                         </div>
                     </div><!-- /.box-body -->
                     <div class="box-footer">
@@ -43,8 +58,8 @@
                 <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title" v-t="'user.profile.nickname.title'"></h3>
-                        </div><!-- /.box-header -->
-                        <div class="box-body">
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
                         <div class="form-group has-feedback">
                             <input
                                 v-model="nickname"
@@ -69,8 +84,8 @@
                 <div class="box box-warning">
                     <div class="box-header with-border">
                         <h3 class="box-title" v-t="'user.profile.email.title'"></h3>
-                        </div><!-- /.box-header -->
-                        <div class="box-body">
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
                         <div class="form-group has-feedback">
                             <input
                                 v-model="email"
@@ -105,8 +120,8 @@
                 <div class="box box-danger">
                     <div class="box-header with-border">
                         <h3 class="box-title" v-t="'user.profile.delete.title'"></h3>
-                        </div><!-- /.box-header -->
-                        <div class="box-body">
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
                         <template v-if="isAdmin">
                             <p v-t="'user.profile.delete.admin'"></p>
                             <button class="btn btn-danger" disabled v-t="'user.profile.delete.button'"></button>
@@ -125,11 +140,21 @@
             </div>
         </div>
 
-        <div id="modal-delete-account" class="modal modal-danger fade" tabindex="-1" role="dialog">
+        <div
+            id="modal-delete-account"
+            class="modal modal-danger fade"
+            tabindex="-1"
+            role="dialog"
+        >
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                        >
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <h4 class="modal-title" v-t="'user.profile.delete.modal-title'"></h4>
@@ -137,12 +162,27 @@
                     <div class="modal-body">
                         <div v-once v-html="nl2br($t('user.profile.delete.modal-notice'))"></div>
                         <br />
-                        <input type="password" class="form-control" v-model="deleteConfirm" :placeholder="$t('user.profile.delete.password')">
+                        <input
+                            type="password"
+                            class="form-control"
+                            v-model="deleteConfirm"
+                            :placeholder="$t('user.profile.delete.password')"
+                        >
                         <br />
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-outline" data-dismiss="modal" v-t="'general.close'"></button>
-                        <a @click="deleteAccount" class="btn btn-outline" v-t="'general.submit'" data-test="deleteAccount"></a>
+                        <button
+                            type="button"
+                            class="btn btn-outline"
+                            data-dismiss="modal"
+                            v-t="'general.close'"
+                        ></button>
+                        <a
+                            @click="deleteAccount"
+                            class="btn btn-outline"
+                            v-t="'general.submit'"
+                            data-test="deleteAccount"
+                        ></a>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->

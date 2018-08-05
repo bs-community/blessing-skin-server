@@ -8,23 +8,46 @@
                     <!-- Tabs within a box -->
                     <ul class="nav nav-tabs">
                         <li :class="{ active: category === 'skin' }">
-                            <a href="#" @click="switchCategory" v-t="'general.skin'" class="category-switch" data-toggle="tab" />
+                            <a 
+                                href="#" 
+                                @click="switchCategory" 
+                                v-t="'general.skin'" 
+                                class="category-switch" 
+                                data-toggle="tab"
+                            />
                         </li>
                         <li :class="{ active: category === 'cape' }">
-                            <a href="#" @click="switchCategory" v-t="'general.cape'" class="category-switch" data-toggle="tab" />
+                            <a 
+                                href="#" 
+                                @click="switchCategory" 
+                                v-t="'general.cape'" 
+                                class="category-switch" 
+                                data-toggle="tab"
+                            />
                         </li>
 
                         <li class="pull-right" style="padding: 7px;">
                             <div class="has-feedback pull-right">
                                 <div class="user-search-form">
-                                    <input type="text" v-model="query" @input="search" class="form-control input-sm" :placeholder="$t('user.typeToSearch')">
+                                    <input 
+                                        type="text" 
+                                        v-model="query" 
+                                        @input="search" 
+                                        class="form-control input-sm" 
+                                        :placeholder="$t('user.typeToSearch')"
+                                    >
                                     <span class="glyphicon glyphicon-search form-control-feedback"></span>
                                 </div>
                             </div>
                         </li>
                     </ul>
                     <div class="tab-content no-padding">
-                        <div v-if="category === 'skin'" class="tab-pane box-body" :class="{ active: category === 'skin' }" id="skin-category">
+                        <div 
+                            v-if="category === 'skin'" 
+                            class="tab-pane box-body" 
+                            :class="{ active: category === 'skin' }" 
+                            id="skin-category"
+                        >
                             <div v-if="skinItems.length === 0" class="empty-msg">
                                 <div v-if="query !== ''" v-t="'general.noResult'"></div>
                                 <div v-else v-t="{ path: 'user.emptyClosetMsg', args: { url: linkToSkin } }" />
@@ -42,7 +65,12 @@
                                 ></closet-item>
                             </div>
                         </div>
-                        <div v-else class="tab-pane box-body" :class="{ active: category === 'cape' }" id="cape-category">
+                        <div 
+                            v-else 
+                            class="tab-pane box-body" 
+                            :class="{ active: category === 'cape' }" 
+                            id="cape-category"
+                        >
                             <div v-if="capeItems.length === 0" class="empty-msg">
                                 <div v-if="query !== ''" v-t="'general.noResult'"></div>
                                 <div v-else v-t="{ path: 'user.emptyClosetMsg', args: { url: linkToCape } }" />
@@ -114,11 +142,21 @@
             </div>
         </div>
 
-        <div id="modal-use-as" class="modal fade" tabindex="-1" role="dialog">
+        <div 
+            id="modal-use-as" 
+            class="modal fade" 
+            tabindex="-1" 
+            role="dialog"
+        >
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <button 
+                            type="button" 
+                            class="close" 
+                            data-dismiss="modal" 
+                            aria-label="Close"
+                        >
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <h4 class="modal-title" v-t="'user.closet.use-as.title'"></h4>
@@ -127,7 +165,12 @@
                         <template v-if="players.length !== 0">
                             <div v-for="player in players" :key="player.pid" class="player-item">
                                 <label class="model-label" :for="player.pid">
-                                    <input type="radio" name="player" :value="player.pid" v-model="selectedPlayer" />
+                                    <input 
+                                        type="radio" 
+                                        name="player" 
+                                        :value="player.pid" 
+                                        v-model="selectedPlayer"
+                                    />
                                     <img :src="avatarUrl(player)" width="35" height="35" />
                                     <span>{{ player.player_name }}</span>
                                 </label>
@@ -179,6 +222,12 @@ export default {
     computed: {
         linkToSkin: () => `${blessing.base_url}/skinlib?filter=skin`,
         linkToCape: () => `${blessing.base_url}/skinlib?filter=cape`,
+    },
+    created() {
+        this.search = debounce(this.loadCloset, 350);
+    },
+    beforeMount() {
+        this.loadCloset();
     },
     methods: {
         search() {},
@@ -265,12 +314,6 @@ export default {
             this.skinUrl = this.capeUrl = '';
         }
     },
-    created() {
-        this.search = debounce(this.loadCloset, 350);
-    },
-    beforeMount() {
-        this.loadCloset();
-    }
 };
 </script>
 

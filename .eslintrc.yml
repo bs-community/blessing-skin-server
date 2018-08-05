@@ -38,6 +38,23 @@ rules:
   prefer-const: warn
   no-var: error
   eqeqeq: error
+  vue/html-closing-bracket-newline:
+    - error
+    - singleline: never
+      multiline: always
+  vue/html-indent:
+    - error
+    - 4
+  vue/max-attributes-per-line:
+    - error
+    - singleline: 3
+      multiline: 1
+  vue/mustache-interpolation-spacing: error
+  vue/no-multi-spaces: error
+  vue/v-bind-style: error
+  vue/v-on-style: error
+  vue/html-quotes: error
+  vue/order-in-components: warn
 
 globals:
   blessing: false
