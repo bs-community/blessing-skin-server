@@ -1,5 +1,6 @@
 <?php
 
+use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
@@ -529,5 +530,19 @@ if (! function_exists('generate_random_token')) {
         }
 
         return hash_hmac('sha256', str_random(40), $key);
+    }
+}
+
+if (! function_exists('format_http_date')) {
+    /**
+     * Format a UNIX timestamp to string for HTTP headers.
+     *
+     * e.g. Wed, 21 Oct 2015 07:28:00 GMT
+     *
+     * @param int $timestamp
+     * @return string
+     */
+    function format_http_date($timestamp) {
+        return Carbon::createFromTimestampUTC($timestamp)->format('D, d M Y H:i:s \G\M\T');
     }
 }
