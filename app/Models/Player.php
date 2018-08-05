@@ -249,7 +249,7 @@ class Player extends Model
         $sec_model = ($model == 'default') ? 'slim' : 'default';
 
         if ($api_type == self::USM_API) {
-            $json['last_update']      = $this->getLastModified();
+            $json['last_update']      = strtotime($this->last_modified);
             $json['model_preference'] = [$model, $sec_model];
         }
 
@@ -274,15 +274,5 @@ class Player extends Model
         // @see http://stackoverflow.com/questions/2215354/php-date-format-when-inserting-into-datetime-in-mysql
         $this->update(['last_modified' => Utils::getTimeFormatted()]);
         return event(new PlayerProfileUpdated($this));
-    }
-
-    /**
-     * Get time of last modified.
-     *
-     * @return int|false
-     */
-    public function getLastModified()
-    {
-        return strtotime($this['last_modified']);
     }
 }

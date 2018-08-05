@@ -16,41 +16,42 @@ class ResponseMacroServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Response::macro('png', function ($src = "", $status = 200, $header = []) {
+        Response::macro('png', function ($src = '', $status = 200, $header = []) {
+            // Handle fucking cache control
             $last_modified = Arr::pull($header, 'Last-Modified', time());
+            $if_modified_since = strtotime(request()->headers->get('If-Modified-Since'));
+            $if_none_match = strtotime(request()->headers->get('If-None-Match'));
             $etag = md5($src);
 
-            // Checking if the client is validating his cache and if it is current.
-            if ((strtotime(Arr::get($_SERVER, 'If-Modified-Since')) == $last_modified) ||
-                    trim(Arr::get($_SERVER, 'HTTP_IF_NONE_MATCH')) == $etag
-            ) {
-                // Client's cache IS current, so we just respond '304 Not Modified'.
+            // Return `304 Not Modified` if given `If-Modified-Since` header
+            // is newer than our `Last-Modified` time or the `Etag` matches.
+            if ($if_modified_since >= $last_modified || $if_none_match == $etag) {
+                $src    = '';
                 $status = 304;
-                $src    = "";
             }
 
-            return Response::stream(function() use ($src, $status) {
-                echo $src;
-            }, $status, array_merge([
+            return Response::make($src, $status, array_merge([
                 'Content-type'  => 'image/png',
-                'Last-Modified' => gmdate('D, d M Y H:i:s', $last_modified).' GMT',
-                'Cache-Control' => 'public, max-age='.option('cache_expire_time'), // 365 days
-                'Expires'       => gmdate('D, d M Y H:i:s', $last_modified + option('cache_expire_time')).' GMT',
+                'Last-Modified' => format_http_date($last_modified),
+                'Cache-Control' => 'public, max-age='.option('cache_expire_time'),
+                'Expires'       => format_http_date($last_modified + option('cache_expire_time')),
                 'Etag'          => $etag
             ], $header));
         });
 
-        Response::macro('rawJson', function ($src = "", $status = 200, $header = []) {
-            $last_modified = Arr::get($header, 'Last-Modified', time());
+        Response::macro('jsonProfile', function ($src = '', $status = 200, $header = []) {
+            $last_modified = Arr::pull($header, 'Last-Modified', time());
+            $if_modified_since = strtotime(request()->headers->get('If-Modified-Since'));
 
-            if (strtotime(Arr::get($_SERVER, 'If-Modified-Since')) >= $last_modified) {
+            if ($if_modified_since && $if_modified_since >= $last_modified) {
+                $src    = '';
                 $status = 304;
-                $src    = "";
             }
 
             return Response::make($src, $status, array_merge([
                 'Content-type'  => 'application/json',
-                'Cache-Control' => 'public, max-age='.option('cache_expire_time') // 365 days
+                'Cache-Control' => 'public, max-age='.option('cache_expire_time'),
+                'Last-Modified' => format_http_date($last_modified),
             ], $header));
         });
     }
