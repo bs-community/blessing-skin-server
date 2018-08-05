@@ -20,16 +20,15 @@ export function showMsg(msg, type = 'info') {
 /**
  * Show modal if error occured when sending an ajax request.
  *
- * @param  {{ response: import('axios').AxiosResponse }} response
+ * @param  {TypeError | string} error
  * @return {void}
  */
-export function showAjaxError({ response }) {
-    if (!response.data) {
+export function showAjaxError(error) {
+    if (!error) {
         return console.warn('Empty Ajax response body.');
     }
 
-    const message = typeof response.data === 'object' ? response.data.message : response.data;
-
+    const message = typeof error === 'string' ? error : error.message;
     showModal(message.replace(/\n/g, '<br />'), trans('general.fatalError'), 'danger');
 }
 

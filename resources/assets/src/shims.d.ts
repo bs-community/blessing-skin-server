@@ -17,5 +17,11 @@ declare global {
 declare module 'vue/types/vue' {
   interface Vue {
     $t(key: string, parameters?: object): string
+
+    $http: {
+      get(url: string, params?: object)
+
+      post(url: string, data?: object)
+    }
   }
 }
