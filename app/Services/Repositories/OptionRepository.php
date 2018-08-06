@@ -18,9 +18,7 @@ class OptionRepository extends Repository
     {
         try {
             $options = DB::table('options')->get();
-        } catch (Exception $e) {
-            $options = [];
-        } catch (PDOException $e) {
+        } catch (QueryException $e) {
             $options = [];
         }
 
