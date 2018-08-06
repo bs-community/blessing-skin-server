@@ -14,7 +14,6 @@ module.exports = [{
         style: [
             'bootstrap/dist/css/bootstrap.min.css',
             'admin-lte/dist/css/AdminLTE.min.css',
-            'datatables.net-bs/css/dataTables.bootstrap.css',
             'bootstrap-fileinput/css/fileinput.min.css',
             'font-awesome/css/font-awesome.min.css',
             'icheck/skins/square/blue.css',

@@ -9,4 +9,9 @@ export default [
         component: () => import('./user/profile'),
         el: '.content'
     },
+    {
+        path: 'admin/users',
+        component: () => import('./admin/users'),
+        el: '.content'
+    },
 ];

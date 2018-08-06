@@ -129,21 +129,24 @@ user:
 
 admin:
   operationsTitle: Operations
+  status: Status
+  playersCount: Players Count
   ban: Ban
   unban: Unban
   setAdmin: Set as admin
   unsetAdmin: Remove admin
-  deleteUser: Delete User
+  deleteUser: Delete
   cannotDeleteAdmin: You can't delete admins.
   cannotDeleteSuperAdmin: You can't delete super admin in this way
   changeEmail: Edit Email
   changeNickName: Edit Nickname
   changePassword: Edit Password
+  changeScore: Edit Score
   newUserEmail: 'Please enter the new email:'
   newUserNickname: 'Please enter the new nickname:'
   newUserPassword: 'Please enter the new password:'
   deleteUserNotice: Are you sure to delete this user? It' permanent.
-  scoreTip: Press ENTER to submit new score
+  newScore: 'Please enter the new score:'
   inspectHisOwner: Click to inspect the owner of this player
   inspectHisPlayers: Click to inspect the players he owns
   banned: Banned
@@ -206,3 +209,17 @@ general:
   rotation: Rotation
   pause: Pause
   reset: Reset
+  user:
+    email: Email
+    nickname: Nick Name
+    score: Score
+    register-at: Registered At
+
+vendor:
+  datatable:
+    search: Search
+    rowsPerPage: Rows per page
+    prev: Prev
+    next: Next
+    of: of
+    all: All

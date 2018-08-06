@@ -27,7 +27,6 @@
     "bootstrap": "^3.3.7",
     "bootstrap-fileinput": "^4.4.7",
     "chart.js": "^2.7.1",
-    "datatables.net-bs": "^1.10.16",
     "es6-promise": "^4.2.4",
     "font-awesome": "^4.7.0",
     "highlight.js": "^9.12.0",
@@ -37,6 +36,7 @@
     "sweetalert2": "^7.26.9",
     "toastr": "^2.1.4",
     "vue": "^2.5.16",
+    "vue-good-table": "^2.12.2",
     "vuejs-paginate": "^2.0.1"
   },
   "devDependencies": {
@@ -96,6 +96,7 @@
     ],
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/resources/assets/src/$1",
+      "\\.css$": "<rootDir>/resources/assets/tests/__mocks__/style.js",
       "\\.(png|jpg)$": "<rootDir>/resources/assets/tests/__mocks__/file.js"
     },
     "setupTestFrameworkScriptFile": "<rootDir>/resources/assets/tests/setup.js",

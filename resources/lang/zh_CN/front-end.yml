@@ -130,21 +130,24 @@ user:
 
 admin:
   operationsTitle: 更多操作
+  status: 状态
+  playersCount: 角色数量
   ban: 封禁
   unban: 解封
   setAdmin: 设为管理员
   unsetAdmin: 解除管理员
-  deleteUser: 删除用户
+  deleteUser: 删除
   cannotDeleteAdmin: 你不能删除管理员账号哦
   cannotDeleteSuperAdmin: 超级管理员账号不能被这样删除的啦
   changeEmail: 修改邮箱
   changeNickName: 修改昵称
   changePassword: 更改密码
+  changeScore: 更改积分
   newUserEmail: 请输入新邮箱：
   newUserNickname: 请输入新昵称：
   newUserPassword: 请输入新密码：
   deleteUserNotice: 真的要删除此用户吗？此操作不可恢复
-  scoreTip: 输入修改后的积分，回车提交
+  newScore: 请输入积分值：
   inspectHisOwner: 点击查看该角色的所有者
   inspectHisPlayers: 点击查看该用户的角色
   banned: 封禁
@@ -203,6 +206,11 @@ general:
   rotation: 旋转
   pause: 暂停
   reset: 重置
+  user:
+    email: 邮箱
+    nickname: 昵称
+    score: 积分
+    register-at: 注册时间
 
 vendor:
   fileinput:
@@ -285,24 +293,10 @@ vendor:
       fullscreen: 全屏
       borderless: 无边界模式
       close: 关闭当前预览
-  datatables:
-    sProcessing: 处理中...
-    sLengthMenu: 显示 _MENU_ 项结果
-    sZeroRecords: 没有匹配结果
-    sInfo: 显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项
-    sInfoEmpty: 显示第 0 至 0 项结果，共 0 项
-    sInfoFiltered: (由 _MAX_ 项结果过滤)
-    sInfoPostFix: ''
-    sSearch: '搜索:'
-    sUrl: ''
-    sEmptyTable: 表中数据为空
-    sLoadingRecords: 载入中...
-    sInfoThousands: ','
-    oPaginate:
-      sFirst: 首页
-      sPrevious: 上页
-      sNext: 下页
-      sLast: 末页
-    oAria:
-      sSortAscending: ': 以升序排列此列'
-      sSortDescending: ': 以降序排列此列'
+  datatable:
+    search: 搜索
+    rowsPerPage: 每页的项目数
+    prev: 上一页
+    next: 下一页
+    of: 共
+    all: 全部

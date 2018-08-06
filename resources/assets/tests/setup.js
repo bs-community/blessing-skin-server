@@ -19,3 +19,8 @@ Vue.directive('t', (el, { value }) => {
         throw new Error('[i18n] Invalid arguments in `v-t` directive.');
     }
 });
+
+Vue.prototype.$http = {
+    get: jest.fn(),
+    post: jest.fn(),
+};
