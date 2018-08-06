@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+import { flushPromises } from '../../utils';
 import Profile from '@/components/user/Profile';
 import axios from 'axios';
 import toastr from 'toastr';
@@ -102,8 +103,7 @@ test('change nickname', async () => {
     expect(swal).toBeCalledWith({ type: 'warning', html: 'w' });
 
     button.trigger('click');
-    await wrapper.vm.$nextTick();
-    await wrapper.vm.$nextTick();
+    await flushPromises();
     expect(swal).toBeCalledWith({ type: 'success', html: 'o' });
 });
 
@@ -146,8 +146,7 @@ test('change email', async () => {
     expect(swal).toBeCalledWith({ type: 'warning', text: 'w' });
 
     button.trigger('click');
-    await wrapper.vm.$nextTick();
-    await wrapper.vm.$nextTick();  // There are two promises, so call it twice.
+    await flushPromises();
     expect(swal).toBeCalledWith({ type: 'success', text: 'o' });
 });
 

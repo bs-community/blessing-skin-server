@@ -1,4 +1,5 @@
 import { mount } from '@vue/test-utils';
+import { flushPromises } from '../../utils';
 import ClosetItem from '@/components/user/ClosetItem';
 import axios from 'axios';
 import { swal } from '@/js/notify';
@@ -86,9 +87,7 @@ test('remove texture', async () => {
     await wrapper.vm.$nextTick();
 
     button.trigger('click');
-    await wrapper.vm.$nextTick();
-
-    await wrapper.vm.$nextTick();
+    await flushPromises();
     expect(wrapper.emitted()['item-removed'][0][0]).toBe(1);
     expect(axios.post).toBeCalledWith('/user/closet/remove', { tid: 1 });
 });
@@ -117,9 +116,7 @@ test('set as avatar', async () => {
     await wrapper.vm.$nextTick();
 
     button.trigger('click');
-    await wrapper.vm.$nextTick();
-
-    await wrapper.vm.$nextTick();
+    await flushPromises();
     expect(axios.post).toBeCalledWith('/user/profile/avatar', { tid: 1 });
     expect(window.$).toBeCalledWith('[alt="User Image"]');
 });
