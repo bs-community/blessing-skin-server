@@ -192,7 +192,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import toastr from 'toastr';
 import { swal } from '../../js/notify';
 
@@ -242,7 +241,7 @@ export default {
                 return;
             }
 
-            const { data: { errno, msg } } = await axios.post(
+            const { errno, msg } = await this.$http.post(
                 '/user/profile?action=password',
                 { current_password: oldPassword, new_password: newPassword }
             );
@@ -269,7 +268,7 @@ export default {
                 return;
             }
 
-            const { data: { errno, msg } } = await axios.post(
+            const { errno, msg } = await this.$http.post(
                 '/user/profile?action=nickname',
                 { new_nickname: nickname }
             );
@@ -302,7 +301,7 @@ export default {
                 return;
             }
 
-            const { data: { errno, msg } } = await axios.post(
+            const { errno, msg } = await this.$http.post(
                 '/user/profile?action=email',
                 { new_email: email, password: this.currentPassword }
             );
@@ -320,7 +319,7 @@ export default {
                 return swal({ type: 'warning', html: this.$t('user.emptyDeletePassword') });
             }
 
-            const { data: { errno, msg } } = await axios.post(
+            const { errno, msg } = await this.$http.post(
                 '/user/profile?action=delete',
                 { password }
             );

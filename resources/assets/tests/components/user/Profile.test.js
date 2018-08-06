@@ -1,11 +1,10 @@
+import Vue from 'vue';
 import { mount } from '@vue/test-utils';
 import { flushPromises } from '../../utils';
 import Profile from '@/components/user/Profile';
-import axios from 'axios';
 import toastr from 'toastr';
 import { swal } from '@/js/notify';
 
-jest.mock('axios');
 jest.mock('@/js/notify');
 
 test('computed values', () => {
@@ -24,36 +23,36 @@ test('convert linebreak', () => {
 
 test('change password', async () => {
     jest.spyOn(toastr, 'info');
-    axios.post
-        .mockResolvedValueOnce({ data: { errno: 1, msg: 'w' } })
-        .mockResolvedValueOnce({ data: { errno: 0, msg: 'o' } });
+    Vue.prototype.$http.post
+        .mockResolvedValueOnce({ errno: 1, msg: 'w' })
+        .mockResolvedValueOnce({ errno: 0, msg: 'o' });
     swal.mockResolvedValue();
     const wrapper = mount(Profile);
     const button = wrapper.find('[data-test=changePassword]');
 
     button.trigger('click');
     expect(toastr.info).toBeCalledWith('user.emptyPassword');
-    expect(axios.post).not.toBeCalled();
+    expect(Vue.prototype.$http.post).not.toBeCalled();
 
     wrapper.setData({ oldPassword: '1' });
     button.trigger('click');
     expect(toastr.info).toBeCalledWith('user.emptyNewPassword');
-    expect(axios.post).not.toBeCalled();
+    expect(Vue.prototype.$http.post).not.toBeCalled();
 
     wrapper.setData({ newPassword: '1' });
     button.trigger('click');
     expect(toastr.info).toBeCalledWith('auth.emptyConfirmPwd');
-    expect(axios.post).not.toBeCalled();
+    expect(Vue.prototype.$http.post).not.toBeCalled();
 
     wrapper.setData({ confirmPassword: '2' });
     button.trigger('click');
     expect(toastr.info).toBeCalledWith('auth.invalidConfirmPwd');
-    expect(axios.post).not.toBeCalled();
+    expect(Vue.prototype.$http.post).not.toBeCalled();
 
     wrapper.setData({ confirmPassword: '1' });
     button.trigger('click');
     await wrapper.vm.$nextTick();
-    expect(axios.post).toBeCalledWith(
+    expect(Vue.prototype.$http.post).toBeCalledWith(
         '/user/profile?action=password',
         { current_password: '1', new_password: '1' }
     );
@@ -65,9 +64,9 @@ test('change password', async () => {
 });
 
 test('change nickname', async () => {
-    axios.post
-        .mockResolvedValueOnce({ data: { errno: 1, msg: 'w' } })
-        .mockResolvedValue({ data: { errno: 0, msg: 'o' } });
+    Vue.prototype.$http.post
+        .mockResolvedValueOnce({ errno: 1, msg: 'w' })
+        .mockResolvedValue({ errno: 0, msg: 'o' });
     swal.mockResolvedValueOnce({})
         .mockResolvedValueOnce({ dismiss: 1 })
         .mockResolvedValue({});
@@ -81,12 +80,12 @@ test('change nickname', async () => {
     const button = wrapper.find('[data-test=changeNickName]');
 
     button.trigger('click');
-    expect(axios.post).not.toBeCalled();
+    expect(Vue.prototype.$http.post).not.toBeCalled();
     expect(swal).toBeCalledWith({ type: 'error', html: 'user.emptyNewNickName' });
 
     wrapper.setData({ nickname: 'nickname' });
     button.trigger('click');
-    expect(axios.post).not.toBeCalled();
+    expect(Vue.prototype.$http.post).not.toBeCalled();
     expect(swal).toBeCalledWith({
         text: 'user.changeNickName',
         type: 'question',
@@ -95,7 +94,7 @@ test('change nickname', async () => {
 
     button.trigger('click');
     await wrapper.vm.$nextTick();
-    expect(axios.post).toBeCalledWith(
+    expect(Vue.prototype.$http.post).toBeCalledWith(
         '/user/profile?action=nickname',
         { new_nickname: 'nickname' }
     );
@@ -108,9 +107,9 @@ test('change nickname', async () => {
 });
 
 test('change email', async () => {
-    axios.post
-        .mockResolvedValueOnce({ data: { errno: 1, msg: 'w' } })
-        .mockResolvedValue({ data: { errno: 0, msg: 'o' } });
+    Vue.prototype.$http.post
+        .mockResolvedValueOnce({ errno: 1, msg: 'w' })
+        .mockResolvedValue({ errno: 0, msg: 'o' });
     swal.mockResolvedValueOnce({})
         .mockResolvedValueOnce({})
         .mockResolvedValueOnce({ dismiss: 1 })
@@ -120,12 +119,12 @@ test('change email', async () => {
 
     button.trigger('click');
     expect(swal).toBeCalledWith({ type: 'error', html: 'user.emptyNewEmail' });
-    expect(axios.post).not.toBeCalled();
+    expect(Vue.prototype.$http.post).not.toBeCalled();
 
     wrapper.setData({ email: 'e' });
     button.trigger('click');
     expect(swal).toBeCalledWith({ type: 'warning', html: 'auth.invalidEmail' });
-    expect(axios.post).not.toBeCalled();
+    expect(Vue.prototype.$http.post).not.toBeCalled();
 
     wrapper.setData({ email: 'a@b.c', currentPassword: 'abc' });
     button.trigger('click');
@@ -134,11 +133,11 @@ test('change email', async () => {
         type: 'question',
         showCancelButton: true
     });
-    expect(axios.post).not.toBeCalled();
+    expect(Vue.prototype.$http.post).not.toBeCalled();
 
     button.trigger('click');
     await wrapper.vm.$nextTick();
-    expect(axios.post).toBeCalledWith(
+    expect(Vue.prototype.$http.post).toBeCalledWith(
         '/user/profile?action=email',
         { new_email: 'a@b.c', password: 'abc' }
     );
@@ -153,19 +152,19 @@ test('change email', async () => {
 test('delete account', async () => {
     window.__bs_data__ = { admin: true };
     swal.mockResolvedValue();
-    axios.post
-        .mockResolvedValueOnce({ data: { errno: 1, msg: 'w' } })
-        .mockResolvedValue({ data: { errno: 0, msg: 'o' } });
+    Vue.prototype.$http.post
+        .mockResolvedValueOnce({ errno: 1, msg: 'w' })
+        .mockResolvedValue({ errno: 0, msg: 'o' });
     const wrapper = mount(Profile);
     const button = wrapper.find('[data-test=deleteAccount]');
 
     button.trigger('click');
     expect(swal).toBeCalledWith({ type: 'warning', html: 'user.emptyDeletePassword' });
-    expect(axios.post).not.toBeCalled();
+    expect(Vue.prototype.$http.post).not.toBeCalled();
 
     wrapper.setData({ deleteConfirm: 'abc' });
     button.trigger('click');
-    expect(axios.post).toBeCalledWith(
+    expect(Vue.prototype.$http.post).toBeCalledWith(
         '/user/profile?action=delete',
         { password: 'abc' }
     );

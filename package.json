@@ -23,7 +23,6 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.55",
     "admin-lte": "^2.4.2",
-    "axios": "^0.18.0",
     "bootstrap": "^3.3.7",
     "bootstrap-fileinput": "^4.4.7",
     "chart.js": "^2.7.1",
@@ -37,7 +36,8 @@
     "toastr": "^2.1.4",
     "vue": "^2.5.16",
     "vue-good-table": "^2.12.2",
-    "vuejs-paginate": "^2.0.1"
+    "vuejs-paginate": "^2.0.1",
+    "whatwg-fetch": "^2.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.54",

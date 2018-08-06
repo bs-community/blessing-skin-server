@@ -8,20 +8,20 @@
                     <!-- Tabs within a box -->
                     <ul class="nav nav-tabs">
                         <li :class="{ active: category === 'skin' }">
-                            <a 
-                                href="#" 
-                                @click="switchCategory" 
-                                v-t="'general.skin'" 
-                                class="category-switch" 
+                            <a
+                                href="#"
+                                @click="switchCategory"
+                                v-t="'general.skin'"
+                                class="category-switch"
                                 data-toggle="tab"
                             />
                         </li>
                         <li :class="{ active: category === 'cape' }">
-                            <a 
-                                href="#" 
-                                @click="switchCategory" 
-                                v-t="'general.cape'" 
-                                class="category-switch" 
+                            <a
+                                href="#"
+                                @click="switchCategory"
+                                v-t="'general.cape'"
+                                class="category-switch"
                                 data-toggle="tab"
                             />
                         </li>
@@ -29,11 +29,11 @@
                         <li class="pull-right" style="padding: 7px;">
                             <div class="has-feedback pull-right">
                                 <div class="user-search-form">
-                                    <input 
-                                        type="text" 
-                                        v-model="query" 
-                                        @input="search" 
-                                        class="form-control input-sm" 
+                                    <input
+                                        type="text"
+                                        v-model="query"
+                                        @input="search"
+                                        class="form-control input-sm"
                                         :placeholder="$t('user.typeToSearch')"
                                     >
                                     <span class="glyphicon glyphicon-search form-control-feedback"></span>
@@ -42,10 +42,10 @@
                         </li>
                     </ul>
                     <div class="tab-content no-padding">
-                        <div 
-                            v-if="category === 'skin'" 
-                            class="tab-pane box-body" 
-                            :class="{ active: category === 'skin' }" 
+                        <div
+                            v-if="category === 'skin'"
+                            class="tab-pane box-body"
+                            :class="{ active: category === 'skin' }"
                             id="skin-category"
                         >
                             <div v-if="skinItems.length === 0" class="empty-msg">
@@ -65,10 +65,10 @@
                                 ></closet-item>
                             </div>
                         </div>
-                        <div 
-                            v-else 
-                            class="tab-pane box-body" 
-                            :class="{ active: category === 'cape' }" 
+                        <div
+                            v-else
+                            class="tab-pane box-body"
+                            :class="{ active: category === 'cape' }"
                             id="cape-category"
                         >
                             <div v-if="capeItems.length === 0" class="empty-msg">
@@ -142,19 +142,19 @@
             </div>
         </div>
 
-        <div 
-            id="modal-use-as" 
-            class="modal fade" 
-            tabindex="-1" 
+        <div
+            id="modal-use-as"
+            class="modal fade"
+            tabindex="-1"
             role="dialog"
         >
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <button 
-                            type="button" 
-                            class="close" 
-                            data-dismiss="modal" 
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
                             aria-label="Close"
                         >
                             <span aria-hidden="true">&times;</span>
@@ -165,10 +165,10 @@
                         <template v-if="players.length !== 0">
                             <div v-for="player in players" :key="player.pid" class="player-item">
                                 <label class="model-label" :for="player.pid">
-                                    <input 
-                                        type="radio" 
-                                        name="player" 
-                                        :value="player.pid" 
+                                    <input
+                                        type="radio"
+                                        name="player"
+                                        :value="player.pid"
                                         v-model="selectedPlayer"
                                     />
                                     <img :src="avatarUrl(player)" width="35" height="35" />
@@ -189,7 +189,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import toastr from 'toastr';
 import Paginate from 'vuejs-paginate';
 import ClosetItem from './ClosetItem';
@@ -232,15 +231,14 @@ export default {
     methods: {
         search() {},
         async loadCloset(page = 1) {
-            const { data: { items, category, total_pages } } = await axios({
-                method: 'GET',
-                url: '/user/closet-data',
-                params: {
+            const { items, category, total_pages } = await this.$http.get(
+                '/user/closet-data',
+                {
                     category: this.category,
                     q: this.query,
                     page,
                 }
-            });
+            );
             this[`${category}TotalPages`] = total_pages;
             this[`${category}Items`] = items;
         },
@@ -262,7 +260,7 @@ export default {
             return `${blessing.base_url}/avatar/35/${tid}`;
         },
         async selectTexture(tid) {
-            const { data: { type, hash } } = await axios.post(`/skinlib/info/${tid}`);
+            const { type, hash } = await this.$http.post(`/skinlib/info/${tid}`);
             if (type === 'cape') {
                 this.capeUrl = `/textures/${hash}`;
                 this.selectedCape = tid;
@@ -272,8 +270,7 @@ export default {
             }
         },
         async applyTexture() {
-            const { data: players } = await axios.get('/user/player/list');
-            this.players = players;
+            this.players = await this.$http.get('/user/player/list');
             setTimeout(() => {
                 $(this.$el).iCheck({
                     radioClass: 'iradio_square-blue',
@@ -292,7 +289,7 @@ export default {
                 return toastr.info(this.$t('user.emptySelectedTexture'));
             }
 
-            const { data: { errno, msg } } = await axios.post(
+            const { errno, msg } = await this.$http.post(
                 '/user/player/set',
                 {
                     pid: this.selectedPlayer,

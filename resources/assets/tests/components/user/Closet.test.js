@@ -1,42 +1,36 @@
+import Vue from 'vue';
 import { mount } from '@vue/test-utils';
 import Closet from '@/components/user/Closet';
 import ClosetItem from '@/components/user/ClosetItem';
 import Previewer from '@/components/common/Previewer';
-import axios from 'axios';
 import toastr from 'toastr';
 import { swal } from '@/js/notify';
 
-jest.mock('axios');
 jest.mock('@/js/notify');
 
 test('fetch closet data before mount', () => {
-    axios.mockResolvedValue({ data: {} });
+    Vue.prototype.$http.get.mockResolvedValue({});
     mount(Closet);
     jest.runAllTicks();
-    expect(axios).toBeCalledWith({
-        method: 'GET',
-        url: '/user/closet-data',
-        params: {
+    expect(Vue.prototype.$http.get).toBeCalledWith(
+        '/user/closet-data',
+        {
             category: 'skin',
             q: '',
             page: 1,
         }
-    });
+    );
 });
 
 test('switch tabs', () => {
-    axios.mockResolvedValue({
-        data: {
-            items: [],
-            category: 'skin',
-            total_pages: 1
-        }
+    Vue.prototype.$http.get.mockResolvedValue({
+        items: [],
+        category: 'skin',
+        total_pages: 1
     }).mockResolvedValueOnce({
-        data: {
-            items: [],
-            category: 'cape',
-            total_pages: 1
-        }
+        items: [],
+        category: 'cape',
+        total_pages: 1
     });
 
     const wrapper = mount(Closet);
@@ -44,32 +38,30 @@ test('switch tabs', () => {
     const tabSkin = wrapper.findAll('.nav-tabs > li').at(0);
     tabSkin.find('a').trigger('click');
     jest.runAllTicks();
-    expect(axios).toBeCalledWith({
-        method: 'GET',
-        url: '/user/closet-data',
-        params: {
+    expect(Vue.prototype.$http.get).toBeCalledWith(
+        '/user/closet-data',
+        {
             category: 'skin',
             q: '',
             page: 1,
         }
-    });
+    );
 
     const tabCape = wrapper.findAll('.nav-tabs > li').at(1);
     tabCape.find('a').trigger('click');
     jest.runAllTicks();
-    expect(axios).toBeCalledWith({
-        method: 'GET',
-        url: '/user/closet-data',
-        params: {
+    expect(Vue.prototype.$http.get).toBeCalledWith(
+        '/user/closet-data',
+        {
             category: 'cape',
             q: '',
             page: 1,
         }
-    });
+    );
 });
 
 test('different categories', () => {
-    axios.mockResolvedValue({ data: {} });
+    Vue.prototype.$http.get.mockResolvedValue({});
 
     const wrapper = mount(Closet);
     expect(wrapper.findAll('.nav-tabs > li').at(0).classes()).toContain('active');
@@ -82,7 +74,7 @@ test('different categories', () => {
 
 test('search textures', () => {
     jest.useFakeTimers();
-    axios.mockResolvedValue({ data: {} });
+    Vue.prototype.$http.get.mockResolvedValue({});
 
     const wrapper = mount(Closet);
     const input = wrapper.find('input');
@@ -90,21 +82,20 @@ test('search textures', () => {
     input.trigger('input');
     jest.runAllTimers();
     jest.runAllTicks();
-    expect(axios).toBeCalledWith({
-        method: 'GET',
-        url: '/user/closet-data',
-        params: {
+    expect(Vue.prototype.$http.get).toBeCalledWith(
+        '/user/closet-data',
+        {
             category: 'skin',
             q: 'q',
             page: 1,
         }
-    });
+    );
 
     jest.useRealTimers();
 });
 
 test('empty closet', () => {
-    axios.mockResolvedValue({ data: {} });
+    Vue.prototype.$http.get.mockResolvedValue({});
     const wrapper = mount(Closet);
     expect(wrapper.find('#skin-category').text()).toContain('user.emptyClosetMsg');
     wrapper.setData({ category: 'cape' });
@@ -112,7 +103,7 @@ test('empty closet', () => {
 });
 
 test('no matched search result', () => {
-    axios.mockResolvedValue({ data: {} });
+    Vue.prototype.$http.get.mockResolvedValue({});
     const wrapper = mount(Closet);
     wrapper.setData({ query: 'q' });
     expect(wrapper.find('#skin-category').text()).toContain('general.noResult');
@@ -121,29 +112,29 @@ test('no matched search result', () => {
 });
 
 test('render items', async () => {
-    axios.mockResolvedValue({ data: {
+    Vue.prototype.$http.get.mockResolvedValue({
         items: [
             { tid: 1 },
             { tid: 2 }
         ],
         category: 'skin',
         total_pages: 1
-    } });
+    });
     const wrapper = mount(Closet);
     await wrapper.vm.$nextTick();
     expect(wrapper.findAll(ClosetItem)).toHaveLength(2);
 });
 
 test('reload closet when page changed', () => {
-    axios.mockResolvedValue({ data: {} });
+    Vue.prototype.$http.get.mockResolvedValue({});
     const wrapper = mount(Closet);
     wrapper.vm.pageChanged();
     jest.runAllTicks();
-    expect(axios).toHaveBeenCalledTimes(2);
+    expect(Vue.prototype.$http.get).toHaveBeenCalledTimes(2);
 });
 
 test('remove skin item', () => {
-    axios.mockResolvedValue({ data: {} });
+    Vue.prototype.$http.get.mockResolvedValue({});
     const wrapper = mount(Closet);
     wrapper.setData({ skinItems: [{ tid: 1 }, { tid: 2 }] });
     wrapper.vm.removeSkinItem(1);
@@ -151,7 +142,7 @@ test('remove skin item', () => {
 });
 
 test('remove cape item', () => {
-    axios.mockResolvedValue({ data: {} });
+    Vue.prototype.$http.get.mockResolvedValue({});
     const wrapper = mount(Closet);
     wrapper.setData({ capeItems: [{ tid: 1 }, { tid: 2 }], category: 'cape' });
     wrapper.vm.removeCapeItem(1);
@@ -159,7 +150,7 @@ test('remove cape item', () => {
 });
 
 test('compute avatar URL', () => {
-    axios.mockResolvedValue({ data: {} });
+    Vue.prototype.$http.get.mockResolvedValue({});
     const wrapper = mount(Closet);
     const { avatarUrl } = wrapper.vm;
     expect(avatarUrl({ preference: 'default', tid_steve: 1 })).toBe('/avatar/35/1');
@@ -167,21 +158,22 @@ test('compute avatar URL', () => {
 });
 
 test('select texture', async () => {
-    axios.mockResolvedValue({ data: {} });
-    axios.post.mockResolvedValueOnce({ data: { type: 'steve', hash: 'a' } })
-        .mockResolvedValueOnce({ data: { type: 'cape', hash: 'b' } });
+    Vue.prototype.$http.get.mockResolvedValue({});
+    Vue.prototype.$http.post
+        .mockResolvedValueOnce({ type: 'steve', hash: 'a' })
+        .mockResolvedValueOnce({ type: 'cape', hash: 'b' });
 
     const wrapper = mount(Closet);
     wrapper.setData({ skinItems: [{ tid: 1 }] });
     wrapper.find(ClosetItem).vm.$emit('select');
     await wrapper.vm.$nextTick();
-    expect(axios.post).toBeCalledWith('/skinlib/info/1');
+    expect(Vue.prototype.$http.post).toBeCalledWith('/skinlib/info/1');
     expect(wrapper.vm.skinUrl).toBe('/textures/a');
 
     wrapper.setData({ skinItems: [], capeItems: [{ tid: 2 }], category: 'cape' });
     wrapper.find(ClosetItem).vm.$emit('select');
     await wrapper.vm.$nextTick();
-    expect(axios.post).toBeCalledWith('/skinlib/info/2');
+    expect(Vue.prototype.$http.post).toBeCalledWith('/skinlib/info/2');
     expect(wrapper.vm.capeUrl).toBe('/textures/b');
 });
 
@@ -197,11 +189,12 @@ test('apply texture', async () => {
             dispatchEvent: () => {}
         }
     }));
-    axios.mockResolvedValue({ data: {} });
-    axios.get.mockResolvedValueOnce({ data: [] })
-        .mockResolvedValueOnce({ data: [
+    Vue.prototype.$http.get
+        .mockResolvedValueOnce({})
+        .mockResolvedValueOnce([])
+        .mockResolvedValueOnce([
             { pid: 1, player_name: 'name', preference: 'default', tid_steve: 10 }
-        ] });
+        ]);
 
     const wrapper = mount(Closet);
     const button = wrapper.find(Previewer).findAll('button').at(0);
@@ -223,9 +216,9 @@ test('apply texture', async () => {
 test('submit applying texture', async () => {
     window.$ = jest.fn(() => ({ modal() {} }));
     jest.spyOn(toastr, 'info');
-    axios.mockResolvedValue({ data: {} });
-    axios.post.mockResolvedValueOnce({ data: { errno: 1 } })
-        .mockResolvedValue({ data: { errno: 0, msg: 'ok' } });
+    Vue.prototype.$http.get.mockResolvedValue({});
+    Vue.prototype.$http.post.mockResolvedValueOnce({ errno: 1 })
+        .mockResolvedValue({ errno: 0, msg: 'ok' });
     const wrapper = mount(Closet);
     const button = wrapper.find('.modal-footer > a:nth-child(2)');
 
@@ -238,7 +231,7 @@ test('submit applying texture', async () => {
 
     wrapper.setData({ selectedSkin: 1 });
     button.trigger('click');
-    expect(axios.post).toBeCalledWith(
+    expect(Vue.prototype.$http.post).toBeCalledWith(
         '/user/player/set',
         {
             pid: 1,
@@ -251,7 +244,7 @@ test('submit applying texture', async () => {
 
     wrapper.setData({ selectedSkin: 0, selectedCape: 1 });
     button.trigger('click');
-    expect(axios.post).toBeCalledWith(
+    expect(Vue.prototype.$http.post).toBeCalledWith(
         '/user/player/set',
         {
             pid: 1,
@@ -266,7 +259,7 @@ test('submit applying texture', async () => {
 });
 
 test('reset selected texture', () => {
-    axios.mockResolvedValue({ data: {} });
+    Vue.prototype.$http.get.mockResolvedValue({});
     const wrapper = mount(Closet);
     wrapper.setData({
         selectedSkin: 1,

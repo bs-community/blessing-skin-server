@@ -1,10 +1,9 @@
+import Vue from 'vue';
 import { mount } from '@vue/test-utils';
 import { flushPromises } from '../../utils';
 import ClosetItem from '@/components/user/ClosetItem';
-import axios from 'axios';
 import { swal } from '@/js/notify';
 
-jest.mock('axios');
 jest.mock('@/js/notify');
 
 function factory(opt = {}) {
@@ -38,9 +37,9 @@ test('click item body', () => {
 });
 
 test('rename texture', async () => {
-    axios.post
-        .mockResolvedValueOnce({ data: { errno: 0 } })
-        .mockResolvedValueOnce({ data: { errno: 1 } });
+    Vue.prototype.$http.post
+        .mockResolvedValueOnce({ errno: 0 })
+        .mockResolvedValueOnce({ errno: 1 });
     swal.mockImplementationOnce(() => ({ dismiss: 'cancel' }))
         .mockImplementation(options => {
             options.inputValidator('name');
@@ -53,25 +52,24 @@ test('rename texture', async () => {
 
     button.trigger('click');
     await wrapper.vm.$nextTick();
-    expect(axios.post).not.toBeCalled();
+    expect(Vue.prototype.$http.post).not.toBeCalled();
 
     button.trigger('click');
     await wrapper.vm.$nextTick();
 
     button.trigger('click');
-    await wrapper.vm.$nextTick();
-
+    await flushPromises();
     expect(wrapper.find('.texture-name > span').text()).toBe('new-name (steve)');
-    expect(axios.post).toBeCalledWith(
+    expect(Vue.prototype.$http.post).toBeCalledWith(
         '/user/closet/rename',
         { tid: 1, new_name: 'new-name' }
     );
 });
 
 test('remove texture', async () => {
-    axios.post
-        .mockResolvedValueOnce({ data: { errno: 0 } })
-        .mockResolvedValueOnce({ data: { errno: 1 } });
+    Vue.prototype.$http.post
+        .mockResolvedValueOnce({ errno: 0 })
+        .mockResolvedValueOnce({ errno: 1 });
     swal
         .mockResolvedValueOnce({ dismiss: 'cancel' })
         .mockResolvedValue({});
@@ -81,7 +79,7 @@ test('remove texture', async () => {
 
     button.trigger('click');
     await wrapper.vm.$nextTick();
-    expect(axios.post).not.toBeCalled();
+    expect(Vue.prototype.$http.post).not.toBeCalled();
 
     button.trigger('click');
     await wrapper.vm.$nextTick();
@@ -89,13 +87,13 @@ test('remove texture', async () => {
     button.trigger('click');
     await flushPromises();
     expect(wrapper.emitted()['item-removed'][0][0]).toBe(1);
-    expect(axios.post).toBeCalledWith('/user/closet/remove', { tid: 1 });
+    expect(Vue.prototype.$http.post).toBeCalledWith('/user/closet/remove', { tid: 1 });
 });
 
 test('set as avatar', async () => {
-    axios.post
-        .mockResolvedValueOnce({ data: { errno: 0 } })
-        .mockResolvedValueOnce({ data: { errno: 1 } });
+    Vue.prototype.$http.post
+        .mockResolvedValueOnce({ errno: 0 })
+        .mockResolvedValueOnce({ errno: 1 });
     swal
         .mockResolvedValueOnce({ dismiss: 'cancel' })
         .mockResolvedValue({});
@@ -110,13 +108,14 @@ test('set as avatar', async () => {
 
     button.trigger('click');
     await wrapper.vm.$nextTick();
-    expect(axios.post).not.toBeCalled();
+    expect(Vue.prototype.$http.post).not.toBeCalled();
 
     button.trigger('click');
     await wrapper.vm.$nextTick();
 
     button.trigger('click');
     await flushPromises();
-    expect(axios.post).toBeCalledWith('/user/profile/avatar', { tid: 1 });
+    await wrapper.vm.$nextTick();
+    expect(Vue.prototype.$http.post).toBeCalledWith('/user/profile/avatar', { tid: 1 });
     expect(window.$).toBeCalledWith('[alt="User Image"]');
 });

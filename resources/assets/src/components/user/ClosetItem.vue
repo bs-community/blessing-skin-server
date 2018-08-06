@@ -35,7 +35,6 @@
 <script>
 import { swal } from '../../js/notify';
 import toastr from 'toastr';
-import axios from 'axios';
 
 export default {
     name: 'ClosetItem',
@@ -80,7 +79,7 @@ export default {
                 return;
             }
 
-            const { data: { errno, msg } } = await axios.post(
+            const { errno, msg } = await this.$http.post(
                 '/user/closet/rename',
                 { tid: this.tid, new_name: newTextureName }
             );
@@ -102,7 +101,7 @@ export default {
                 return;
             }
 
-            const { data: { errno, msg } } = await axios.post(
+            const { errno, msg } = await this.$http.post(
                 '/user/closet/remove',
                 { tid: this.tid }
             );
@@ -125,7 +124,7 @@ export default {
                 return;
             }
 
-            const { data: { errno, msg } } = await axios.post(
+            const { errno, msg } = await this.$http.post(
                 '/user/profile/avatar',
                 { tid: this.tid }
             );
