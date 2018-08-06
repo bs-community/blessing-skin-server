@@ -127,7 +127,7 @@ export default {
     },
     methods: {
         async fetchData() {
-            const { data } = await this.$http.get('/admin/user-data');
+            const { data } = await this.$http.get(`/admin/user-data${location.search}`);
             this.users = data;
         },
         async changeEmail(user) {
