@@ -8,7 +8,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- App Styles -->
-    @include('common.dependencies.style', ['module' => 'index'])
+    @include('common.dependencies.style', ['module' => 'home'])
 </head>
 
 <body class="hold-transition {{ option('color_scheme') }} layout-top-nav">

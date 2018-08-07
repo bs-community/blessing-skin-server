@@ -20,7 +20,8 @@ module.exports = [{
             'toastr/build/toastr.min.css',
             'sweetalert2/dist/sweetalert2.min.css',
             './resources/assets/src/stylus/common.styl',
-        ]
+        ],
+        home: './resources/assets/src/stylus/home.styl'
     },
     output: {
         path: __dirname + '/public',
@@ -65,7 +66,7 @@ module.exports = [{
                 ]
             },
             {
-                test: /common\.styl$/,
+                test: /(common|home)\.styl$/,
                 use: [
                     MiniCssExtractPlugin.loader,
                     { loader: 'css-loader', options: { importLoaders: 3 } },
