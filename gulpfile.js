@@ -238,7 +238,8 @@ function clearCache() {
         'storage/yaml-translation/*',
         'storage/framework/cache/*',
         'storage/framework/sessions/*',
-        'storage/framework/views/*'
+        'storage/framework/views/*',
+        '!storage/framework/sessions/index.html'
     ]);
 }
 
