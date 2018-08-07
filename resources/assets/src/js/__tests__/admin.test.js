@@ -573,7 +573,8 @@ describe('tests for "update" module', () => {
       .mockImplementationOnce(({ beforeSend }) => {
         beforeSend && beforeSend();
         return Promise.resolve({
-          file_size: 5000
+          release_url: 'http://skin.test/update.zip',
+          tmp_path: '/tmp/update.zip'
         });
       })
       .mockImplementationOnce(() => Promise.resolve())
@@ -620,7 +621,6 @@ describe('tests for "update" module', () => {
       dataType: 'json',
     }));
     expect($('#update-button').prop('disabled')).toBe(true);
-    expect($('#file-size').html()).toBe('5000');
     expect(modal).toBeCalledWith({
       backdrop: 'static',
       keyboard: false
@@ -643,23 +643,30 @@ describe('tests for "update" module', () => {
   });
 
   it('download progress polling', async () => {
-    const fetch = jest.fn().mockReturnValueOnce(Promise.resolve({ size: 50 }));
+    const fetch = jest.fn()
+      .mockReturnValueOnce(Promise.resolve([]))
+      .mockReturnValueOnce(Promise.resolve({ total: 810, downloaded: 405 }));
     const url = jest.fn(path => path);
     window.fetch = fetch;
     window.url = url;
 
     document.body.innerHTML = `
-      <div id="imported-progress"></div>
+      <span id="file-size"></span>
+      <div id="download-progress"></div>
       <div class="progress-bar"></div>
     `;
 
     const { progressPolling } = require(modulePath);
-    await progressPolling(100)();
+    await progressPolling();
     expect(fetch).toBeCalledWith({
-      url: 'admin/update/download?action=get-file-size',
+      url: 'admin/update/download?action=get-progress',
       type: 'GET'
     });
-    expect($('#imported-progress').html()).toBe('50.00');
+    expect($('#file-size').html()).toBe('');
+
+    await progressPolling();
+    expect($('#file-size').html()).toBe('810');
+    expect($('#download-progress').html()).toBe('50.00');
     expect($('.progress-bar').css('width')).toBe('50%');
     expect($('.progress-bar').attr('aria-valuenow')).toBe('50.00');
   });

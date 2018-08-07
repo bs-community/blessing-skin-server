@@ -6,8 +6,10 @@ use Arr;
 use Log;
 use Utils;
 use File;
+use Cache;
 use Option;
 use Storage;
+use Exception;
 use ZipArchive;
 use App\Services\OptionForm;
 use Illuminate\Http\Request;
@@ -77,7 +79,7 @@ class UpdateController extends Controller
         })->handle()->always(function($form) {
             try {
                 $response = file_get_contents(option('update_source'));
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $form->addMessage(trans('admin.update.errors.connection').$e->getMessage(), 'danger');
             }
         });
@@ -102,17 +104,23 @@ class UpdateController extends Controller
 
     public function download(Request $request)
     {
-        $action = $request->input('action');
+        if (! $this->newVersionAvailable())
+            return;
 
-        if (! $this->newVersionAvailable()) return;
-
+        $action = $request->get('action');
         $release_url = $this->getReleaseInfo($this->latestVersion)['release_url'];
-        $file_size   = Utils::getRemoteFileSize($release_url);
-        $tmp_path    = session('tmp_path');
+        $tmp_path = Cache::get('tmp_path');
+
+        $client = new \GuzzleHttp\Client();
+        $guzzle_config = [
+            'headers' => ['User-Agent' => config('secure.user_agent')],
+            'verify' => config('secure.certificates')
+        ];
 
         switch ($action) {
             case 'prepare-download':
 
+                Cache::forget('download-progress');
                 $update_cache = storage_path('update_cache');
 
                 if (! is_dir($update_cache)) {
@@ -121,38 +129,50 @@ class UpdateController extends Controller
                     }
                 }
 
-                $tmp_path = $update_cache."/update_".time().".zip";
+                // Set temporary path for the update package
+                $tmp_path = $update_cache.'/update_'.time().'.zip';
+                Cache::put('tmp_path', $tmp_path, 60);
+                Log::info('[Update Wizard] Prepare to download update package', compact('release_url', 'tmp_path'));
 
-                session(['tmp_path' => $tmp_path]);
-
-                return json(compact('release_url', 'tmp_path', 'file_size'));
+                // We won't get remote file size here since HTTP HEAD method is not always reliable
+                return json(compact('release_url', 'tmp_path'));
 
             case 'start-download':
 
-                if (! session()->has('tmp_path')) {
-                    return "No temp path is set.";
+                if (! $tmp_path) {
+                    return 'No temp path available, please try again.';
                 }
 
+                @set_time_limit(0);
+                $GLOBALS['last_downloaded'] = 0;
+
+                Log::info('[Update Wizard] Start downloading update package');
+
                 try {
-                    Utils::download($release_url, $tmp_path);
-
-                } catch (\Exception $e) {
-                    File::delete($tmp_path);
-
+                    $client->request('GET', $release_url, array_merge($guzzle_config, [
+                        'sink' => $tmp_path,
+                        'progress' => function ($total, $downloaded) {
+                            if ($total == 0) return;
+                            // Log current progress per 100 KiB
+                            if ($total == $downloaded || floor($downloaded / 102400) > floor($GLOBALS['last_downloaded'] / 102400)) {
+                                $GLOBALS['last_downloaded'] = $downloaded;
+                                Log::info('[Update Wizard] Download progress (in bytes):', [$total, $downloaded]);
+                                Cache::put('download-progress', compact('total', 'downloaded'), 60);
+                            }
+                        }
+                    ]));
+                } catch (Exception $e) {
+                    @unlink($tmp_path);
                     return response(trans('admin.update.errors.prefix').$e->getMessage());
                 }
 
+                Log::info('[Update Wizard] Finished downloading update package');
+
                 return json(compact('tmp_path'));
 
-            case 'get-file-size':
+            case 'get-progress':
 
-                if (! session()->has('tmp_path')) {
-                    return "No temp path is set.";
-                }
-
-                if (file_exists($tmp_path)) {
-                    return json(['size' => filesize($tmp_path)]);
-                }
+                return json((array) Cache::get('download-progress'));
 
             case 'extract':
 
@@ -166,7 +186,7 @@ class UpdateController extends Controller
                 $res = $zip->open($tmp_path);
 
                 if ($res === true) {
-                    Log::info("[ZipArchive] Extracting file $tmp_path");
+                    Log::info("[Update Wizard] Extracting file $tmp_path");
 
                     if ($zip->extractTo($extract_dir) === false) {
                         return response(trans('admin.update.errors.prefix').'Cannot unzip file.');
@@ -179,29 +199,31 @@ class UpdateController extends Controller
 
                 try {
                     File::copyDirectory("$extract_dir/vendor", base_path('vendor'));
-                } catch (\Exception $e) {
-                    Log::error('[Extracter] Unable to extract vendors', [$e]);
+                } catch (Exception $e) {
+                    report($e);
+                    Log::error('[Update Wizard] Unable to extract vendors');
                     // Skip copying vendor
                     File::deleteDirectory("$extract_dir/vendor");
                 }
 
-
                 try {
                     File::copyDirectory($extract_dir, base_path());
 
-                    Log::info("[Extracter] Covering files");
+                    Log::info('[Update Wizard] Overwrite with extracted files');
 
-                } catch (\Exception $e) {
-                    Log::error("[Extracter] Error occured when covering files", [$e]);
+                } catch (Exception $e) {
+                    report($e);
+                    Log::error('[Update Wizard] Error occured when overwriting files');
 
                     // Response can be returned, while cache will be cleared
                     // @see https://gist.github.com/g-plane/2f88ad582826a78e0a26c33f4319c1e0
                     return response(trans('admin.update.errors.overwrite').$e->getMessage());
                 } finally {
                     File::deleteDirectory(storage_path('update_cache'));
-                    Log::info("[Extracter] Cleaning cache");
+                    Log::info('[Update Wizard] Cleaning cache');
                 }
 
+                Log::info('[Update Wizard] Done');
                 return json(trans('admin.update.complete'), 0);
 
             default:
@@ -219,7 +241,7 @@ class UpdateController extends Controller
 
             try {
                 $response = file_get_contents($url);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 Log::error("[CheckingUpdate] Failed to get update information: ".$e->getMessage());
             }
 

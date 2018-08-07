@@ -1,7 +1,9 @@
 'use strict';
 
 async function downloadUpdates() {
-    console.log('Prepare trno download');
+    console.log('Prepare to download');
+
+    let intervalId;
 
     try {
         const preparation = await fetch({
@@ -10,15 +12,11 @@ async function downloadUpdates() {
             dataType: 'json',
             beforeSend: function() {
                 $('#update-button').html(
-                    '<i class="fa fa-spinner fa-spin"></i> ' + trans('admin.preparing')
-                ).prop('disabled', 'disabled');
+                    `<i class="fa fa-spinner fa-spin"></i> ${ trans('admin.preparing') }`
+                ).prop('disabled', true);
             }
         });
         console.log(preparation);
-
-        const { file_size: fileSize } = preparation;
-
-        $('#file-size').html(fileSize);
 
         $('#modal-start-download').modal({
             'backdrop': 'static',
@@ -27,8 +25,8 @@ async function downloadUpdates() {
 
         console.log('Start downloading');
 
-        // Downloading progress polling
-        const interval_id = setInterval(progressPolling(fileSize), 300);
+        // Start downloading progress polling
+        intervalId = setInterval(progressPolling, 1000);
 
         const download = await fetch({
             url: url('admin/update/download?action=start-download'),
@@ -36,7 +34,7 @@ async function downloadUpdates() {
             dataType: 'json'
         });
 
-        clearInterval(interval_id);
+        clearInterval(intervalId);
 
         console.log('Downloading finished');
         console.log(download);
@@ -51,7 +49,7 @@ async function downloadUpdates() {
             type: 'POST',
             dataType: 'json'
         });
-        
+
         console.log('Package extracted and files are covered');
         $('#modal-start-download').modal('toggle');
 
@@ -65,27 +63,32 @@ async function downloadUpdates() {
         });
     } catch (error) {
         showAjaxError(error);
+        clearInterval(intervalId);
     }
 }
 
-function progressPolling(fileSize) {
-    return async () => {
-        try {
-            const { size } = await fetch({
-                url: url('admin/update/download?action=get-file-size'),
-                type: 'GET'
-            });
-            
-            const progress = (size / fileSize * 100).toFixed(2);
-    
-            $('#imported-progress').html(progress);
-            $('.progress-bar')
-                .css('width', progress + '%')
-                .attr('aria-valuenow', progress);
-        } catch (error) {
-            // No need to show error if failed to get size
+async function progressPolling() {
+    try {
+        const { total, downloaded } = await fetch({
+            url: url('admin/update/download?action=get-progress'),
+            type: 'GET'
+        });
+
+        if (total === undefined) {
+            return;
         }
-    };
+
+        const progress = (downloaded / total * 100).toFixed(2);
+        console.log(`Download progress: ${downloaded}/${total}`);
+
+        $('#file-size').html(total);
+        $('#download-progress').html(progress);
+        $('.progress-bar')
+            .css('width', progress + '%')
+            .attr('aria-valuenow', progress);
+    } catch (error) {
+        // No need to show error if failed to get size
+    }
 }
 
 async function checkForUpdates() {
