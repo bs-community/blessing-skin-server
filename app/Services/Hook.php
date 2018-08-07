@@ -23,10 +23,9 @@ class Hook
      */
     public static function addMenuItem($category, $position, array $menu)
     {
-        $class = $category == "user" ? Events\ConfigureUserMenu::class : Events\ConfigureAdminMenu::class;
+        $class = $category == 'user' ? Events\ConfigureUserMenu::class : Events\ConfigureAdminMenu::class;
 
-        Event::listen($class, function ($event) use ($menu, $position, $category)
-        {
+        Event::listen($class, function ($event) use ($menu, $position, $category) {
             $new = [];
 
             $offset = 0;
@@ -53,29 +52,25 @@ class Hook
      */
     public static function addRoute(Closure $callback)
     {
-        Event::listen(Events\ConfigureRoutes::class, function($event) use ($callback)
-        {
+        Event::listen(Events\ConfigureRoutes::class, function ($event) use ($callback) {
             return call_user_func($callback, $event->router);
         });
     }
 
-    public static function registerPluginTransScripts($id)
+    public static function registerPluginTransScripts($id, $pages = ['*'], $priority = 1)
     {
-        Event::listen(Events\RenderingFooter::class, function($event) use ($id)
-        {
-            $path   = app('plugins')->getPlugin($id)->getPath().'/';
-            $script = 'lang/'.config('app.locale').'/locale.js';
+        $basepath = plugin($id)->getPath().'/';
+        $relative = 'lang/'.config('app.locale').'/locale.js';
 
-            if (file_exists($path.$script)) {
-                $event->addContent('<script src="'.plugin_assets($id, $script).'"></script>');
-            }
-        }, 999);
+        if (file_exists($basepath.$relative)) {
+            static::addScriptFileToPage(plugin_assets($id, $relative), $pages, $priority);
+        }
     }
 
     public static function addStyleFileToPage($urls, $pages = ['*'], $priority = 1)
     {
-        Event::listen(Events\RenderingHeader::class, function($event) use ($urls, $pages)
-        {
+        Event::listen(Events\RenderingHeader::class, function ($event) use ($urls, $pages) {
+
             foreach ($pages as $pattern) {
                 if (! app('request')->is($pattern))
                     continue;
@@ -92,8 +87,8 @@ class Hook
 
     public static function addScriptFileToPage($urls, $pages = ['*'], $priority = 1)
     {
-        Event::listen(Events\RenderingFooter::class, function($event) use ($urls, $pages)
-        {
+        Event::listen(Events\RenderingFooter::class, function ($event) use ($urls, $pages) {
+
             foreach ($pages as $pattern) {
                 if (! app('request')->is($pattern))
                     continue;
