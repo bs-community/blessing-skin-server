@@ -76,7 +76,7 @@ class AuthControllerTest extends TestCase
 
         $this->flushSession();
 
-        $loginFailsCacheKey = sha1('login_fails_'.Utils::getClientIp());
+        $loginFailsCacheKey = sha1('login_fails_'.get_client_ip());
 
         // Logging in should be failed if password is wrong
         $this->post(
@@ -477,7 +477,7 @@ class AuthControllerTest extends TestCase
         ]);
         config(['mail.driver' => 'smtp']);
 
-        $lastMailCacheKey = sha1('last_mail_'.Utils::getClientIp());
+        $lastMailCacheKey = sha1('last_mail_'.get_client_ip());
 
         // Should be forbidden if sending email frequently
         $this->withCache([

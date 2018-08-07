@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Log;
 use File;
-use Utils;
 use Schema;
 use Option;
 use Storage;
@@ -101,10 +100,10 @@ class SetupController extends Controller
             $request->input('email'),
             $request->input('password'), function ($user)
         {
-            $user->ip           = Utils::getClientIp();
+            $user->ip           = get_client_ip();
             $user->score        = option('user_initial_score');
-            $user->register_at  = Utils::getTimeFormatted();
-            $user->last_sign_at = Utils::getTimeFormatted(time() - 86400);
+            $user->register_at  = get_datetime_string();
+            $user->last_sign_at = get_datetime_string(time() - 86400);
             $user->permission   = User::SUPER_ADMIN;
         });
         Log::info("[SetupWizard] Super Admin registered.", ['user' => $user]);

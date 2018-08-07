@@ -258,7 +258,7 @@ if (! function_exists('bs_custom_copyright')) {
 
     function bs_custom_copyright()
     {
-        return Utils::getStringReplaced(option_localized('copyright_text'), [
+        return get_string_replaced(option_localized('copyright_text'), [
             '{site_name}' => option_localized('site_name'),
             '{site_url}' => option('site_url')
         ]);
@@ -544,5 +544,90 @@ if (! function_exists('format_http_date')) {
      */
     function format_http_date($timestamp) {
         return Carbon::createFromTimestampUTC($timestamp)->format('D, d M Y H:i:s \G\M\T');
+    }
+}
+
+if (! function_exists('get_datetime_string')) {
+    /**
+     * Get date time string in "Y-m-d H:i:s" format.
+     *
+     * @param integer $timestamp
+     * @return string
+     */
+    function get_datetime_string($timestamp = 0) {
+        return $timestamp == 0 ? Carbon::now()->toDateTimeString() : Carbon::createFromTimestamp($timestamp)->toDateTimeString();
+    }
+}
+
+if (! function_exists('get_client_ip')) {
+    /**
+     * Return the client IP address.
+     *
+     * We define this function because Symfony's "Request::getClientIp()" method
+     * needs "setTrustedProxies()", which sucks when load balancer is enabled.
+     *
+     * @return string
+     */
+    function get_client_ip() {
+        if (option('ip_get_method') == "0") {
+            // Use `HTTP_X_FORWARDED_FOR` if available first
+            $ip = array_get(
+                $_SERVER,
+                'HTTP_X_FORWARDED_FOR',
+                // Fallback to `HTTP_CLIENT_IP`
+                array_get(
+                    $_SERVER,
+                    'HTTP_CLIENT_IP',
+                    // Fallback to `REMOTE_ADDR`
+                    array_get($_SERVER, 'REMOTE_ADDR')
+                )
+            );
+        } else {
+            $ip = array_get($_SERVER, 'REMOTE_ADDR');
+        }
+
+        return $ip;
+    }
+}
+
+if (! function_exists('get_string_replaced')) {
+    /**
+     * Replace content of string according to given rules.
+     *
+     * @param  string $str
+     * @param  array  $rules
+     * @return string
+     */
+    function get_string_replaced($str, $rules)
+    {
+        foreach ($rules as $search => $replace) {
+            $str = str_replace($search, $replace, $str);
+        }
+        return $str;
+    }
+}
+
+if (! function_exists('is_request_secure')) {
+    /**
+     * Check whether the request is secure or not.
+     * True is always returned when "X-Forwarded-Proto" header is set.
+     *
+     * We define this function because Symfony's "Request::isSecure()" method
+     * needs "setTrustedProxies()" which sucks when load balancer is enabled.
+     *
+     * @return bool
+     */
+    function is_request_secure()
+    {
+        if (array_get($_SERVER, 'HTTPS') == 'on')
+            return true;
+
+        if (array_get($_SERVER, 'HTTP_X_FORWARDED_PROTO') == 'https')
+            return true;
+
+        if (array_get($_SERVER, 'HTTP_X_FORWARDED_SSL') == 'on')
+            return true;
+
+        return false;
     }
 }

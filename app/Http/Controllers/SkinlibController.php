@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use View;
-use Utils;
 use Option;
 use Storage;
 use Session;
@@ -19,6 +18,23 @@ use App\Services\Repositories\UserRepository;
 class SkinlibController extends Controller
 {
     protected $user = null;
+
+    /**
+     * Map error code of file uploading to human-readable text.
+     *
+     * @see http://php.net/manual/en/features.file-upload.errors.php
+     * @var array
+     */
+    public static $phpFileUploadErrors = [
+        0 => 'There is no error, the file uploaded with success',
+        1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
+        2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
+        3 => 'The uploaded file was only partially uploaded',
+        4 => 'No file was uploaded',
+        6 => 'Missing a temporary folder',
+        7 => 'Failed to write file to disk.',
+        8 => 'A PHP extension stopped the file upload.',
+    ];
 
     public function __construct(UserRepository $users)
     {
@@ -167,7 +183,7 @@ class SkinlibController extends Controller
         $t->size      = ceil($request->file('file')->getSize() / 1024);
         $t->public    = ($request->input('public') == 'true') ? "1" : "0";
         $t->uploader  = $this->user->uid;
-        $t->upload_at = Utils::getTimeFormatted();
+        $t->upload_at = get_datetime_string();
 
         $cost = $t->size * (($t->public == "1") ? Option::get('score_per_storage') : Option::get('private_score_per_storage'));
         $cost += option('score_per_closet_item');
@@ -334,7 +350,7 @@ class SkinlibController extends Controller
     {
         if ($file = $request->files->get('file')) {
             if ($file->getError() !== UPLOAD_ERR_OK) {
-                return json(Utils::convertUploadFileError($file->getError()), $file->getError());
+                return json(static::$phpFileUploadErrors[$file->getError()], $file->getError());
             }
         }
 

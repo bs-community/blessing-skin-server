@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use DB;
-use Utils;
 use Carbon\Carbon;
 use App\Events\EncryptUserPassword;
 use Illuminate\Database\Eloquent\Model;
@@ -301,7 +300,7 @@ class User extends Model
             $acquiredScore = rand($scoreLimits[0], $scoreLimits[1]);
 
             $this->setScore($acquiredScore, 'plus');
-            $this->last_sign_at = Utils::getTimeFormatted();
+            $this->last_sign_at = get_datetime_string();
             $this->save();
 
             return $acquiredScore;

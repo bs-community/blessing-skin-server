@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Log;
 use Mail;
 use View;
-use Utils;
 use Cache;
 use Cookie;
 use Option;
@@ -44,7 +43,7 @@ class AuthController extends Controller
         $user = $users->get($identification, $authType);
 
         // Require CAPTCHA if user fails to login more than 3 times
-        $loginFailsCacheKey = sha1('login_fails_'.Utils::getClientIp());
+        $loginFailsCacheKey = sha1('login_fails_'.get_client_ip());
         $loginFails = (int) Cache::get($loginFailsCacheKey, 0);
 
         if ($loginFails > 3) {
@@ -135,54 +134,52 @@ class AuthController extends Controller
 
         // If amount of registered accounts of IP is more than allowed amounts,
         // then reject the register.
-        if (User::where('ip', Utils::getClientIp())->count() < option('regs_per_ip'))
-        {
-            // Register a new user.
-            // If the email is already registered,
-            // it will return a false value.
-            $user = User::register(
-                $request->get('email'),
-                $request->get('password'), function($user) use ($request)
-            {
-                $user->ip           = Utils::getClientIp();
-                $user->score        = option('user_initial_score');
-                $user->register_at  = Utils::getTimeFormatted();
-                $user->last_sign_at = Utils::getTimeFormatted(time() - 86400);
-                $user->permission   = User::NORMAL;
-                $user->nickname     = $request->get(
-                    option('register_with_player_name') ? 'player_name' : 'nickname'
-                );
-            });
-
-            if (! $user) {
-                return json(trans('auth.register.registered'), 5);
-            }
-
-            event(new Events\UserRegistered($user));
-
-            // Add player with chosen name
-            if (option('register_with_player_name')) {
-                $player = new Player;
-                $player->uid           = $user->uid;
-                $player->player_name   = $request->get('player_name');
-                $player->preference    = 'default';
-                $player->last_modified = Utils::getTimeFormatted();
-                $player->save();
-
-                event(new Events\PlayerWasAdded($player));
-            }
-
-            return json([
-                'errno'    => 0,
-                'msg'      => trans('auth.register.success'),
-                'token'    => $user->getToken(),
-            ]) // Set cookies
-            ->withCookie('uid', $user->uid, 60)
-            ->withCookie('token', $user->getToken(), 60);
-
-        } else {
+        if (User::where('ip', get_client_ip())->count() >= option('regs_per_ip')) {
             return json(trans('auth.register.max', ['regs' => option('regs_per_ip')]), 7);
         }
+
+        // Register a new user.
+        // If the email is already registered,
+        // it will return a false value.
+        $user = User::register(
+            $request->get('email'),
+            $request->get('password'), function($user) use ($request)
+        {
+            $user->ip           = get_client_ip();
+            $user->score        = option('user_initial_score');
+            $user->register_at  = get_datetime_string();
+            $user->last_sign_at = get_datetime_string(time() - 86400);
+            $user->permission   = User::NORMAL;
+            $user->nickname     = $request->get(
+                option('register_with_player_name') ? 'player_name' : 'nickname'
+            );
+        });
+
+        if (! $user) {
+            return json(trans('auth.register.registered'), 5);
+        }
+
+        event(new Events\UserRegistered($user));
+
+        // Add player with chosen name
+        if (option('register_with_player_name')) {
+            $player = new Player;
+            $player->uid           = $user->uid;
+            $player->player_name   = $request->get('player_name');
+            $player->preference    = 'default';
+            $player->last_modified = get_datetime_string();
+            $player->save();
+
+            event(new Events\PlayerWasAdded($player));
+        }
+
+        return json([
+            'errno'    => 0,
+            'msg'      => trans('auth.register.success'),
+            'token'    => $user->getToken(),
+        ]) // Set cookies
+        ->withCookie('uid', $user->uid, 60)
+        ->withCookie('token', $user->getToken(), 60);
     }
 
     public function forgot()
@@ -204,7 +201,7 @@ class AuthController extends Controller
         }
 
         $rateLimit = 180;
-        $lastMailCacheKey = sha1('last_mail_'.Utils::getClientIp());
+        $lastMailCacheKey = sha1('last_mail_'.get_client_ip());
         $remain = $rateLimit + Cache::get($lastMailCacheKey, 0) - time();
 
         // Rate limit

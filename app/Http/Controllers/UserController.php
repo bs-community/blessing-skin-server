@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App;
 use Mail;
 use View;
-use Utils;
 use Session;
 use App\Models\User;
 use App\Models\Texture;

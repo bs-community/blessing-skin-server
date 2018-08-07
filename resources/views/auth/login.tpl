@@ -26,7 +26,7 @@
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
 
-            <div class="row" id="captcha-form" style="{{ (Cache::get(sha1('login_fails_'.Utils::getClientIp())) > 3) ? '' : 'display: none;' }}">
+            <div class="row" id="captcha-form" style="{{ (Cache::get(sha1('login_fails_'.get_client_ip())) > 3) ? '' : 'display: none;' }}">
                 <div class="col-xs-8">
                     <div class="form-group has-feedback">
                         <input id="captcha" type="text" class="form-control" placeholder="{{ trans('auth.captcha') }}">

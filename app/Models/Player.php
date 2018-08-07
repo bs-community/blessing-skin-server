@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Event;
-use Utils;
 use Response;
 use App\Models\User;
 use App\Events\GetPlayerJson;
@@ -98,7 +97,7 @@ class Player extends Model
             }
         }
 
-        $this->last_modified = Utils::getTimeFormatted();
+        $this->last_modified = get_datetime_string();
 
         $this->save();
 
@@ -159,7 +158,7 @@ class Player extends Model
     {
         $this->update([
             'preference'    => $type,
-            'last_modified' => Utils::getTimeFormatted()
+            'last_modified' => get_datetime_string()
         ]);
 
         event(new PlayerProfileUpdated($this));
@@ -187,7 +186,7 @@ class Player extends Model
     {
         $this->update([
             'player_name'   => $newName,
-            'last_modified' => Utils::getTimeFormatted()
+            'last_modified' => get_datetime_string()
         ]);
 
         $this->player_name = $newName;
@@ -272,7 +271,7 @@ class Player extends Model
     public function updateLastModified()
     {
         // @see http://stackoverflow.com/questions/2215354/php-date-format-when-inserting-into-datetime-in-mysql
-        $this->update(['last_modified' => Utils::getTimeFormatted()]);
+        $this->update(['last_modified' => get_datetime_string()]);
         return event(new PlayerProfileUpdated($this));
     }
 }
