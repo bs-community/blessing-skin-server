@@ -107,6 +107,6 @@ return [
     |
     */
 
-    'sendmail' => '/usr/sbin/sendmail -bs',
+    'sendmail' => menv('SENDMAIL_COMMAND', '/usr/sbin/sendmail -bs'),
 
 ];
