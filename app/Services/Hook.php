@@ -57,14 +57,25 @@ class Hook
         });
     }
 
-    public static function registerPluginTransScripts($id, $pages = ['*'], $priority = 1)
+    public static function registerPluginTransScripts($id, $pages = ['*'], $priority = 999)
     {
-        $basepath = plugin($id)->getPath().'/';
-        $relative = 'lang/'.config('app.locale').'/locale.js';
+        Event::listen(Events\RenderingFooter::class, function ($event) use ($id, $pages) {
+            foreach ($pages as $pattern) {
+                if (! app('request')->is($pattern))
+                    continue;
 
-        if (file_exists($basepath.$relative)) {
-            static::addScriptFileToPage(plugin_assets($id, $relative), $pages, $priority);
-        }
+                // We will determine current locale in the event callback,
+                // otherwise the locale is not properly detected.
+                $basepath = plugin($id)->getPath().'/';
+                $relative = 'lang/'.config('app.locale').'/locale.js';
+
+                if (file_exists($basepath.$relative)) {
+                    $event->addContent('<script src="'.plugin_assets($id, $relative).'"></script>');
+                }
+
+                return;
+            }
+        }, $priority);
     }
 
     public static function addStyleFileToPage($urls, $pages = ['*'], $priority = 1)
