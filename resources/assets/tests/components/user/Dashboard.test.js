@@ -1,4 +1,3 @@
-import { promisify } from 'util';
 import Vue from 'vue';
 import { mount } from '@vue/test-utils';
 import Dashboard from '@/components/user/Dashboard';
