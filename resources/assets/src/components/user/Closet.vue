@@ -327,6 +327,10 @@ export default {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+
+    small {
+        font-size: 75%;
+    }
 }
 
 .item-footer > .dropdown-menu {
