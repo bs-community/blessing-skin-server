@@ -22,6 +22,7 @@ function initSkinViewer(cameraPositionZ = 70) {
 
     // Disable auto model detection
     $.msp.viewer.detectModel = false;
+    $.msp.viewer.playerObject.skin.slim = $.msp.config.slim;
     $.msp.viewer.animation = new skinview3d.CompositeAnimation();
 
     // Init all available animations and pause them
