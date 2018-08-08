@@ -18,6 +18,13 @@
 
         <div class="row">
             <div class="col-md-6">
+                @if (! App\Http\Controllers\SetupController::checkNewColumnsExist())
+                <div class="callout callout-danger">
+                    <h4><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> {{ trans('setup.integrity-check.title') }}</h4>
+                    <p>{!! trans('setup.integrity-check.description') !!}</p>
+                </div>
+                @endif
+
                 {!! $forms['general']->render() !!}
             </div>
 

@@ -193,7 +193,8 @@ class SetupController extends Controller
      * @param  bool  $returnExisting
      * @return bool|array
      */
-    public static function checkTablesExist($tables = [], $returnExistingTables = false) {
+    public static function checkTablesExist($tables = [], $returnExistingTables = false)
+    {
         $existingTables = [];
         $tables = $tables ?: ['users', 'closets', 'players', 'textures', 'options'];
 
@@ -209,6 +210,28 @@ class SetupController extends Controller
         } else {
             return $returnExistingTables ? $existingTables : false;
         }
+    }
+
+    /**
+     * Check if the given columns exist in specific table.
+     * By default, we will check the columns newly added to users table in BS v3.5.0.
+     *
+     * @param string $table
+     * @param array  $columns
+     * @return void
+     */
+    public static function checkNewColumnsExist($table = 'users', $columns = [])
+    {
+        $existingColumns = [];
+        $columns = $columns ?: ['verified', 'verification_token'];
+
+        foreach ($columns as $column) {
+            if (Schema::hasColumn($table, $column)) {
+                $existingColumns[] = $column;
+            }
+        }
+
+        return count($existingColumns) === count($columns);
     }
 
     public static function checkDirectories()

@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use DB;
+use Schema;
+use Artisan;
 use Illuminate\Http\Request;
 use Composer\Semver\Comparator;
 use Illuminate\Support\ServiceProvider;
@@ -87,6 +89,13 @@ class RuntimeCheckServiceProvider extends ServiceProvider
 
         if (Comparator::greaterThan(config('app.version'), option('version'))) {
             return redirect('/setup/update')->send();
+        }
+
+        if (! SetupController::checkNewColumnsExist()) {
+            // Disable the email verification feature temporarily
+            option(['require_verification' => false]);
+            // Try to prepare the new columns
+            Artisan::call('migrate', ['--force' => true]);
         }
 
         return true;

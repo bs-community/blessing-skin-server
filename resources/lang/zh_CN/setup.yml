@@ -62,3 +62,7 @@ wizard:
   finish:
     title: 安装成功！
     text: Blessing Skin Server 安装完成。您是否还沉浸在愉悦的安装过程中？很遗憾，一切皆已完成！ :)
+
+integrity-check:
+  title: 安装不完全
+  description: 由于某些神秘的原因，我们无法自动完成数据库的更新。<a target="_blank" href="https://github.com/printempw/blessing-skin-server/wiki/%E6%89%8B%E5%8A%A8%E5%AE%89%E8%A3%85-Blessing-Skin#-%E5%8D%87%E7%BA%A7%E8%87%B3-bs-v350">了解详情</a>
