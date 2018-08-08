@@ -126,6 +126,18 @@ user:
         This is permanent! No backups, no restores, no magic undo button.
         We warned you, ok?
       password: Current Password
+  used:
+    title: Resources Used
+    players: Registered players
+    storage: Storage used
+  cur-score: Current Score
+  score-notice: Click the score to show introduction.
+  sign: Sign
+  sign-success: Signed successfully. You got :score scores.
+  time-unit-hour: h
+  time-unit-min: min
+  last-sign: Last signed at :time
+  sign-remain-time: Available after :time :unit
 
 admin:
   operationsTitle: Operations

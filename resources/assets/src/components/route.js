@@ -1,5 +1,10 @@
 export default [
     {
+        path: 'user',
+        component: () => import('./user/dashboard'),
+        el: '#usage-box'
+    },
+    {
         path: 'user/closet',
         component: () => import('./user/closet'),
         el: '.content'

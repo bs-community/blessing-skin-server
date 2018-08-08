@@ -29,6 +29,23 @@ class UserController extends Controller
         ]);
     }
 
+    public function scoreInfo()
+    {
+        $user = Auth::user();
+        return [
+            'user' => [
+                'score' => $user->score,
+                'lastSignAt' => $user->last_sign_at,
+            ],
+            'stats' => [
+                'players' => $this->calculatePercentageUsed($user->players->count(), option('score_per_player')),
+                'storage' => $this->calculatePercentageUsed($user->getStorageUsed(), option('score_per_storage'))
+            ],
+            'signAfterZero' => option('sign_after_zero'),
+            'signGapTime' => option('sign_gap_time')
+        ];
+    }
+
     /**
      * Calculate percentage of resources used by user.
      *

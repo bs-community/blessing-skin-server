@@ -127,6 +127,18 @@ user:
         我们不提供任何备份，或者神奇的撤销按钮。
         我们警告过你了，确定要这样做吗？
       password: 当前密码
+  used:
+    title: 使用情况
+    players: 角色数量
+    storage: 存储空间
+  cur-score: 当前积分
+  score-notice: 点击积分查看说明
+  sign: 签到
+  sign-success: 签到成功，获得了 :score 积分~
+  time-unit-hour: 小时
+  time-unit-min: 分钟
+  last-sign: 上次签到于 :time
+  sign-remain-time: :time :unit后可签到
 
 admin:
   operationsTitle: 更多操作

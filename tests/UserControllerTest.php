@@ -15,15 +15,41 @@ class UserControllerTest extends TestCase
         $user = factory(User::class)->create();
         factory(\App\Models\Player::class)->create(['uid' => $user->uid]);
 
-        $players_count = option('score_per_player') / option('user_initial_score');
         $this->actAs($user)
             ->get('/user')
             ->assertViewHas('user')
             ->assertViewHas('statistics')
-            ->assertSee((string) (1 / $players_count * 100))    // Players
-            ->assertSee('0')               // Storage
             ->assertSee((new Parsedown())->text(option_localized('announcement')))
             ->assertSee((string) $user->score);
+    }
+
+    public function testScoreInfo()
+    {
+        $user = factory(User::class)->create();
+        factory(\App\Models\Player::class)->create(['uid' => $user->uid]);
+
+        $this->actingAs($user)
+            ->get('/user/score-info')
+            ->assertJson([
+                'user' => [
+                    'score' => $user->score,
+                    'lastSignAt' => $user->last_sign_at
+                ],
+                'stats' => [
+                    'players' => [
+                        'used' => 1,
+                        'total' => 11,
+                        'percentage' => 1 / 11 * 100
+                    ],
+                    'storage' => [
+                        'used' => 0,
+                        'total' => $user->score,
+                        'percentage' => 0
+                    ]
+                ],
+                'signAfterZero' => option('sign_after_zero'),
+                'signGapTime' => option('sign_gap_time')
+            ]);
     }
 
     public function testSign()
