@@ -11,6 +11,7 @@ function initUploadListeners() {
 
     $('body')
         .on('change', '#file', () => handleFiles())
+        .on('filebatchselected', '#file', () => handleFiles())
         .on('ifToggled', '#type-cape', () => handleFiles())
         .on('change', '#skin-type', function () {
             if ($('#file').prop('files').length === 0) {
