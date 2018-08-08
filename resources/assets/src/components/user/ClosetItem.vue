@@ -14,7 +14,7 @@
                 class="more"
                 data-toggle="tooltip"
                 data-placement="bottom"
-            ><i class="fas fa-share-alt"></i></a>
+            ><i class="fas fa-share"></i></a>
             <span
                 :title="$t('general.more')"
                 class="more"
