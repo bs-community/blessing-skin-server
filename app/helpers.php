@@ -49,6 +49,18 @@ if (! function_exists('assets')) {
     }
 }
 
+if (! function_exists('webpack_assets')) {
+
+    function webpack_assets($relativeUri)
+    {
+        if (app()->environment('development')) {
+            return "http://127.0.0.1:8080/public/$relativeUri";
+        } else {
+            return url("public/$relativeUri");
+        }
+    }
+}
+
 if (! function_exists('plugin')) {
 
     /**

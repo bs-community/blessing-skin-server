@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -7,7 +8,9 @@ const WebpackBar = require('webpackbar');
 
 const devMode = !process.argv.includes('-p');
 
-module.exports = [{
+/** @type {webpack.Configuration} */
+const config = {
+    mode: devMode ? 'development' : 'production',
     entry: {
         index: './resources/assets/src/index.js',
         polyfill: './resources/assets/src/js/polyfill.js',
@@ -23,7 +26,9 @@ module.exports = [{
             'sweetalert2/dist/sweetalert2.min.css',
             './resources/assets/src/stylus/common.styl',
         ],
-        home: './resources/assets/src/stylus/home.styl'
+        home: './resources/assets/src/stylus/home.styl',
+        'langs/en': './resources/lang/en/front-end.js',
+        'langs/zh_CN': './resources/lang/zh_CN/front-end.js',
     },
     output: {
         path: __dirname + '/public',
@@ -78,6 +83,13 @@ module.exports = [{
                 ]
             },
             {
+                test: /\.yml$/,
+                use: [
+                    'json-loader',
+                    'yaml-loader'
+                ]
+            },
+            {
                 test: /\.(png|jpg|gif)$/,
                 loader: 'url-loader',
                 options: {
@@ -93,7 +105,8 @@ module.exports = [{
     },
     plugins: [
         new VueLoaderPlugin(),
-        new WebpackBar(),
+        // If we are in development mode, we don't concern the build process.
+        devMode ? new webpack.HotModuleReplacementPlugin() : new WebpackBar(),
         new MiniCssExtractPlugin({
             filename: '[name].css',
             chunkFilename: '[id].css'
@@ -132,27 +145,17 @@ module.exports = [{
         extensions: ['.js', '.vue', '.json']
     },
     devtool: devMode ? 'cheap-module-eval-source-map' : false,
-    stats: 'errors-only'
-}, {
-    entry: {
-        en: './resources/lang/en/front-end.yml',
-        zh_CN: './resources/lang/zh_CN/front-end.yml',
-    },
-    output: {
-        path: __dirname + '/public/langs/',
-        filename: '[name].js',
-        library: '__bs_i18n__'
-    },
-    module: {
-        rules: [
-            {
-                test: /\.yml$/,
-                use: [
-                    'json-loader',
-                    'yaml-loader'
-                ]
-            },
-        ]
+    devServer: {
+        headers: {
+            'Access-Control-Allow-Origin': '*'
+        },
+        host: '0.0.0.0',
+        hot: true,
+        inline: true,
+        publicPath: '/public/',
+        stats: 'errors-only'
     },
     stats: 'errors-only'
-}];
+};
+
+module.exports = config;

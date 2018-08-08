@@ -1,19 +1,18 @@
-<script type="text/javascript" src="{{ assets('js/app.js') }}"></script>
-
-@if (file_exists(resource_path('lang/'.config('app.locale').'/locale.js')))
-    <script type="text/javascript" src="{{ assets('lang/'.config('app.locale').'/locale.js') }}"></script>
+@if (file_exists(public_path('langs/'.config('app.locale').'.js')))
+    <script src="{{ url('public/langs/'.config('app.locale').'.js') }}"></script>
 @else
-    <script type="text/javascript" src="{{ assets('lang/'.config('app.fallback_locale').'/locale.js') }}"></script>
+    <script src="{{ assets('lang/'.config('app.fallback_locale').'/locale.js') }}"></script>
 @endif
 
 @if (str_contains(request()->userAgent(), ['MSIE', 'Trident']))
     <script src="{{ url('public/polyfill.js') }}"></script>
 @endif
-@if (isset($module))
-    <script type="text/javascript" src="{{ assets('js/'.$module.'.js') }}"></script>
+@if (false)
+    <script src="{{ assets('js/'.$module.'.js') }}"></script>
 @endif
+<script src="{{ webpack_assets('index.js') }}"></script>
 
 <!-- User custom scripts -->
-<script type="text/javascript">{!! option('custom_js') !!}</script>
+<script>{!! option('custom_js') !!}</script>
 {{-- Content added by plugins dynamically --}}
 {!! bs_footer_extra() !!}

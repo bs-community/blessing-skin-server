@@ -1,10 +1,10 @@
 <!-- Bundled styles -->
-<link rel="stylesheet" href="{{ url('public/style.css') }}">
+<link rel="stylesheet" href="{{ webpack_assets('style.css') }}">
 <!-- AdminLTE color scheme -->
-<link rel="stylesheet" href="{{ url('public/skins/'.option('color_scheme').'.min.css') }}">
+<link rel="stylesheet" href="{{ webpack_assets('skins/'.option('color_scheme').'.min.css') }}">
 
 @if (isset($module))
-    <link rel="stylesheet" href="{{ url('public/'.$module.'.css') }}">
+    <link rel="stylesheet" href="{{ webpack_assets($module . '.css') }}">
 @endif
 
 <!-- User custom styles -->
