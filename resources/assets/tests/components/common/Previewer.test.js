@@ -76,7 +76,7 @@ test('toggle run', () => {
 
 test('toggle rotate', () => {
     const wrapper = mount(Previewer);
-    wrapper.find('.fa-repeat').trigger('click');
+    wrapper.find('.fa-redo-alt').trigger('click');
     expect(wrapper.vm.handles.rotate.paused).toBeTrue();
 });
 

@@ -26,7 +26,7 @@
                                     <th>@lang('user.player.player-name')</th>
                                     <th>
                                       @lang('user.player.preference.title')
-                                      <i class="fa fa-question-circle" title="@lang('user.player.preference.description')" data-toggle="tooltip" data-placement="right"></i>
+                                      <i class="fas fa-question-circle" title="@lang('user.player.preference.description')" data-toggle="tooltip" data-placement="right"></i>
                                     </th>
                                     <th>@lang('user.player.edit')</th>
                                     <th>@lang('user.player.operation')</th>
@@ -58,7 +58,7 @@
                     </div>
                     <div class="box-footer clearfix">
                         <button class="btn btn-primary pull-left" data-toggle="modal" data-target="#modal-add-player">
-                            <i class="fa fa-plus" aria-hidden="true"></i> &nbsp;@lang('user.player.add-player')
+                            <i class="fas fa-plus" aria-hidden="true"></i> &nbsp;@lang('user.player.add-player')
                         </button>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                     <div class="box-header with-border">
                         <h3 class="box-title">@lang('general.notice')</h3>
                         <div class="box-tools pull-right">
-                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i></button>
+                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fas fa-plus"></i></button>
                         </div><!-- /.box-tools -->
                     </div><!-- /.box-header -->
                     <div class="box-body">

@@ -12,7 +12,7 @@
                 <small id="search-indicator"></small>
             </h1>
             <ol class="breadcrumb">
-                <li><i class="fa fa-tags"></i> @lang('skinlib.filter.now-showing')</li>
+                <li><i class="fas fa-tags"></i> @lang('skinlib.filter.now-showing')</li>
                 <li id="filter-indicator"></li>
                 <li id="uploader-indicator"></li>
                 <li class="active" id="sort-indicator"></li>
@@ -33,7 +33,7 @@
                 </div>
 
                 <div class="overlay">
-                    <i class="fa fa-refresh fa-spin"></i>
+                    <i class="fas fa-sync-alt fa-spin"></i>
                     <span>@lang('general.loading')</span>
                 </div>
             </div><!-- /.box -->

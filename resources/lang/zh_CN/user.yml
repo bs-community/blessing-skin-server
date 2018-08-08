@@ -112,7 +112,7 @@ player:
 profile:
   avatar:
     title: 更改头像？
-    notice: 请在衣柜中任意皮肤的右下角「<i class="fa fa-cog"></i>」处选择「设为头像」，将会自动截取该皮肤的头部作为头像哦~ 如果看不到这个图标，请关闭 ADBlock，ABP 之类的广告过滤扩展。
+    notice: 请在衣柜中任意皮肤的右下角「<i class="fas fa-cog"></i>」处选择「设为头像」，将会自动截取该皮肤的头部作为头像哦~ 如果看不到这个图标，请关闭 ADBlock，ABP 之类的广告过滤扩展。
     wrong-type: 披风可不能设置为头像哦~
     success: 设置成功！
 

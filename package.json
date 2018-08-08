@@ -22,12 +22,12 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.55",
+    "@fortawesome/fontawesome-free": "^5.2.0",
     "admin-lte": "^2.4.2",
     "bootstrap": "^3.3.7",
     "bootstrap-fileinput": "^4.4.7",
     "chart.js": "^2.7.1",
     "es6-promise": "^4.2.4",
-    "font-awesome": "^4.7.0",
     "highlight.js": "^9.12.0",
     "icheck": "^1.0.2",
     "jquery": "^3.3.1",

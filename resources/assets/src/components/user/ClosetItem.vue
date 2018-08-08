@@ -14,14 +14,14 @@
                 class="more"
                 data-toggle="tooltip"
                 data-placement="bottom"
-            ><i class="fa fa-share"></i></a>
+            ><i class="fas fa-share-alt"></i></a>
             <span
                 :title="$t('general.more')"
                 class="more"
                 data-toggle="dropdown"
                 aria-haspopup="true"
                 id="more-button"
-            ><i class="fa fa-cog"></i></span>
+            ><i class="fas fa-cog"></i></span>
 
             <ul class="dropup dropdown-menu" aria-labelledby="more-button">
                 <li><a @click="rename" v-t="'user.renameItem'"></a></li>

@@ -33,7 +33,7 @@
                                     @foreach([$color, "$color-light"] as $innerColor)
                                     <tr>
                                         <td>@lang("admin.customize.colors.$innerColor")</td>
-                                        <td><a href="#" data-skin="skin-{{ $innerColor }}" class="btn bg-{{ $color }} btn-xs"><i class="fa fa-eye"></i></a></td>
+                                        <td><a href="#" data-skin="skin-{{ $innerColor }}" class="btn bg-{{ $color }} btn-xs"><i class="far fa-eye"></i></a></td>
                                     </tr>
                                     @endforeach
                                 @endforeach

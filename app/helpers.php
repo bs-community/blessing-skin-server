@@ -213,14 +213,14 @@ if (! function_exists('bs_menu')) {
             $content .= "<li{$attr}>";
 
             if (isset($value['children'])) {
-                $content .= sprintf('<a href="#"><i class="fa %s"></i> <span>%s</span><span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>', $value['icon'], trans($value['title']));
+                $content .= sprintf('<a href="#"><i class="fas %s"></i> &nbsp;<span>%s</span><span class="pull-right-container"><i class="fas fa-angle-left pull-right"></i></span></a>', $value['icon'], trans($value['title']));
 
                 // recurse
                 $content .= '<ul class="treeview-menu">'.bs_menu_render($value['children']).'</ul>';
             } else {
                 if ($value) {
                     $content .= sprintf(
-                        '<a href="%s"><i class="fa %s"></i> <span>%s</span></a>',
+                        '<a href="%s"><i class="fas %s"></i> &nbsp;<span>%s</span></a>',
                         url((string) $value['link']),
                         (string) $value['icon'],
                         trans((string) $value['title'])

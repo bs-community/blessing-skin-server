@@ -42,7 +42,7 @@
         </div><!-- ./box-body -->
         <div class="box-footer">
             <button v-if="canSign" class="btn btn-primary pull-left" @click="sign">
-                <i class="fa fa-calendar-check-o" aria-hidden="true"></i> &nbsp;{{ $t('user.sign') }}
+                <i class="far fa-calendar-check" aria-hidden="true"></i> &nbsp;{{ $t('user.sign') }}
             </button>
             <button
                 v-else
@@ -50,7 +50,7 @@
                 :title="$t('user.last-sign', { time: lastSignAt.toLocaleString() })"
                 disabled
             >
-                <i class="fa fa-calendar-check-o" aria-hidden="true"></i> &nbsp;
+                <i class="far fa-calendar-check" aria-hidden="true"></i> &nbsp;
                 {{ remainingTimeText }}
             </button>
         </div><!-- /.box-footer -->

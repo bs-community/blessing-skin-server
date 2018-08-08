@@ -24,7 +24,7 @@
                             {{ option_localized('site_name') }}
                         </a>
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-                            <i class="fa fa-bars"></i>
+                            <i class="fas fa-bars"></i>
                         </button>
                     </div>
 
@@ -42,7 +42,7 @@
                             <!-- Filters -->
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-filter" aria-hidden="true"></i> @lang('skinlib.general.filter') <span class="caret"></span>
+                                    <i class="fas fa-filter" aria-hidden="true"></i> @lang('skinlib.general.filter') <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a class="filter" data-filter="skin" href="#">@lang('general.skin') <small>@lang('skinlib.filter.any-model')</small></a></li>
@@ -68,7 +68,7 @@
                             <!-- Sort -->
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fa fa-sort-amount-desc" aria-hidden="true"></i> @lang('skinlib.general.sort') <span class="caret"></span>
+                                    <i class="fas fa-sort-amount-down" aria-hidden="true"></i> @lang('skinlib.general.sort') <span class="caret"></span>
                                 </a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a class="sort" data-sort="likes" href="#">@lang('skinlib.sort.most-likes')</a></li>
@@ -90,7 +90,7 @@
                     <!-- Navbar Right Menu -->
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
-                            <li><a href="{{ url('skinlib/upload') }}"><i class="fa fa-upload" aria-hidden="true"></i> <span class="description-text">@lang('skinlib.general.upload-new-skin')</span></a></li>
+                            <li><a href="{{ url('skinlib/upload') }}"><i class="fas fa--fileupload" aria-hidden="true"></i> <span class="description-text">@lang('skinlib.general.upload-new-skin')</span></a></li>
 
                             @include('common.language')
 
@@ -101,7 +101,7 @@
                             <li class="dropdown user user-menu">
                                 <!-- Menu Toggle Button -->
                                 <a href="{{ url('auth/login') }}">
-                                    <i class="fa fa-user"></i>
+                                    <i class="fas fa-user"></i>
                                     <!-- hidden-xs hides the username on small devices so only the image appears. -->
                                     <span class="hidden-xs nickname">@lang('general.anonymous')</span>
                                 </a>

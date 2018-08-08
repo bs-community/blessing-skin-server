@@ -22,7 +22,7 @@
             <!-- Logo -->
             <a href="{{ option('site_url') }}" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini"> <i class="fa fa-bookmark"></i> </span>
+                <span class="logo-mini"> <i class="fas fa-bookmark"></i> </span>
                 <!-- logo for regular state and mobile devices -->
                 <span class="logo-lg">{{ option_localized('site_name') }}</span>
             </a>
@@ -31,6 +31,7 @@
             <nav class="navbar navbar-static-top" role="navigation">
                 <!-- Sidebar toggle button-->
                 <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <i class="fas fa-bars"></i>
                     <span class="sr-only">Toggle navigation</span>
                 </a>
                 <!-- Navbar Right Menu -->
@@ -56,7 +57,7 @@
                     </div>
                     <div class="pull-left info">
                         <p class="nickname">{{ bs_nickname($user) }}</p>
-                        <i class="fa fa-circle text-success"></i> {{ bs_role($user) }}
+                        <i class="fas fa-circle text-success"></i> {{ bs_role($user) }}
                     </div>
                 </div>
 
@@ -66,11 +67,11 @@
                     {!! bs_menu('user') !!}
 
                     <li class="header">@lang('general.explore')</li>
-                    <li><a href="{{ url('skinlib') }}"><i class="fa fa-archive"></i> <span>@lang('general.skinlib')</span></a></li>
+                    <li><a href="{{ url('skinlib') }}"><i class="fas fa-archive"></i> &nbsp;<span>@lang('general.skinlib')</span></a></li>
 
                     @admin($user)
                     <li class="header">@lang('general.manage')</li>
-                    <li><a href="{{ url('admin') }}"><i class="fa fa-cog"></i> <span>@lang('general.admin-panel')</span></a></li>
+                    <li><a href="{{ url('admin') }}"><i class="fas fa-cog"></i> &nbsp;<span>@lang('general.admin-panel')</span></a></li>
                     @endadmin
                 </ul><!-- /.sidebar-menu -->
             </section>

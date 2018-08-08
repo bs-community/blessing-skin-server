@@ -21,7 +21,7 @@
                     <div class="navbar-header">
                         <a href="{{ option('site_url') }}" class="navbar-brand">{{ option_localized('site_name') }}</a>
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-                            <i class="fa fa-bars"></i>
+                            <i class="fas fa-bars"></i>
                         </button>
                     </div>
 
@@ -80,17 +80,17 @@
                 <br>
                 <br>
                 <div class="col-lg-4">
-                    <i class="fa fa-users" aria-hidden="true"></i>
+                    <i class="fas fa-users"></i>
                     <h3>@lang('index.features.multi-player.name')</h3>
                     <p>@lang('index.features.multi-player.desc')</p>
                 </div>
                 <div class="col-lg-4">
-                    <i class="fa fa-share-alt" aria-hidden="true"></i>
+                    <i class="fas fa-share-alt"></i>
                     <h3>@lang('index.features.sharing.name')</h3>
                     <p>@lang('index.features.sharing.desc')</p>
                 </div>
                 <div class="col-lg-4">
-                    <i class="fa fa-cloud" aria-hidden="true"></i>
+                    <i class="fas fa-cloud"></i>
                     <h3>@lang('index.features.free.name')</h3>
                     <p>@lang('index.features.free.desc')</p>
                 </div>

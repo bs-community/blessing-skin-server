@@ -9,21 +9,21 @@
                         data-toggle="tooltip"
                         data-placement="bottom"
                         :title="$t('general.walk') + ' / ' + $t('general.run')"
-                        class="fa fa-forward"
+                        class="fas fa-forward"
                     ></i>
                     <i
                         @click="toggleRotate"
                         data-toggle="tooltip"
                         data-placement="bottom"
                         :title="$t('general.rotation')"
-                        class="fa fa-repeat"
+                        class="fas fa-redo-alt"
                     ></i>
                     <i
                         @click="togglePause"
                         data-toggle="tooltip"
                         data-placement="bottom"
                         :title="$t('general.pause')"
-                        class="fa"
+                        class="fas"
                         :class="{ 'fa-pause': !paused, 'fa-play': paused }"
                     ></i>
                     <i
@@ -31,7 +31,7 @@
                         data-toggle="tooltip"
                         data-placement="bottom"
                         :title="$t('general.reset')"
-                        class="fa fa-stop"
+                        class="fas fa-stop"
                     ></i>
                 </div>
             </h3>

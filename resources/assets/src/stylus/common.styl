@@ -20,6 +20,11 @@ body, h1, h2, h3, h4, h5, h6 {
     font-family: Minecraft;
 }
 
+// AdminLTE 2 is not compatible with Font Awesome 5
+.main-header .sidebar-toggle::before {
+    content: '';
+}
+
 #toast-container > div {
     opacity: 1;
     filter: "alpha(opacity=100)";

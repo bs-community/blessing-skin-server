@@ -32,7 +32,7 @@
                                 @endif
 
                             @endif
-                            <div class="btn likes" title="@lang('skinlib.show.likes')" data-toggle="tooltip" data-placement="top"><i class="fa fa-heart"></i>
+                            <div class="btn likes" title="@lang('skinlib.show.likes')" data-toggle="tooltip" data-placement="top"><i class="fas fa-heart"></i>
                                 <span id="likes">{{ $texture->likes }}</span>
                             </div>
                         </div><!-- /.box-footer -->
@@ -69,7 +69,7 @@
                                     <tr>
                                         <td>Hash
                                             @if (option('allow_downloading_texture'))
-                                            <i class="fa fa-question-circle" title="@lang('skinlib.show.download-raw')" data-toggle="tooltip" data-placement="top"></i>
+                                            <i class="fas fa-question-circle" title="@lang('skinlib.show.download-raw')" data-toggle="tooltip" data-placement="top"></i>
                                             @endif
                                         </td>
                                         <td>

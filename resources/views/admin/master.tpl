@@ -26,7 +26,7 @@
             <!-- Logo -->
             <a href="{{ option('site_url') }}" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini"> <i class="fa fa-bookmark"></i> </span>
+                <span class="logo-mini"> <i class="fas fa-bookmark"></i> </span>
                 <!-- logo for regular state and mobile devices -->
                 <span class="logo-lg">{{ option_localized('site_name') }}</span>
             </a>
@@ -35,6 +35,7 @@
             <nav class="navbar navbar-static-top" role="navigation">
                 <!-- Sidebar toggle button-->
                 <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <i class="fas fa-bars"></i>
                     <span class="sr-only">Toggle navigation</span>
                 </a>
                 <!-- Navbar Right Menu -->
@@ -60,7 +61,7 @@
                     </div>
                     <div class="pull-left info">
                         <p class="nickname">{{ bs_nickname($user) }}</p>
-                        <i class="fa fa-circle text-success"></i> {{ bs_role($user) }}
+                        <i class="fas fa-circle text-success"></i> {{ bs_role($user) }}
                     </div>
                 </div>
 
@@ -70,7 +71,7 @@
                     {!! bs_menu('admin') !!}
 
                     <li class="header">@lang('general.back')</li>
-                    <li><a href="{{ url('user') }}"><i class="fa fa-user"></i> <span>@lang('general.user-center')</span></a></li>
+                    <li><a href="{{ url('user') }}"><i class="fas fa-user"></i> &nbsp;<span>@lang('general.user-center')</span></a></li>
                 </ul><!-- /.sidebar-menu -->
             </section>
             <!-- /.sidebar -->

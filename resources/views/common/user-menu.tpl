@@ -6,7 +6,7 @@
         <!-- The user image in the navbar-->
         <img src="{{ avatar($user, 25) }}" class="user-image" alt="User Image">
         @else
-        <i class="fa fa-user"></i>
+        <i class="fas fa-user"></i>
         @endif
 
         <!-- hidden-xs hides the username on small devices so only the image appears. -->
