@@ -83,7 +83,7 @@
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 
-<script type="text/javascript" src="{{ assets('js/chart.js') }}"></script>
+<script src="{{ url('public/Chart.min.js') }}"></script>
 <script>
     var chartOptions = {!! json_encode($chartOptions) !!};
 

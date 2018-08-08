@@ -104,6 +104,7 @@ module.exports = [{
                 to: 'skins',
                 flatten: true
             },
+            'node_modules/chart.js/dist/Chart.min.js',
         ]),
         new BundleAnalyzerPlugin({
             openAnalyzer: false,
