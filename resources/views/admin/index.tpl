@@ -3,7 +3,7 @@
 @section('title', trans('general.dashboard'))
 
 @section('content')
-
+<style>.info-box > a { color: #333; }</style>
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
