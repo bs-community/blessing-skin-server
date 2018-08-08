@@ -38,7 +38,7 @@ class SetupController extends Controller
 
         // Not installed completely
         if (count($existingTables) > 0) {
-            Log::info('Remaining tables detected, exit setup wizard now', [$existingTables]);
+            Log::info('[SetupWizard] Remaining tables detected, exit now', [$existingTables]);
 
             $existingTables = array_map(function ($item) {
                 return get_db_config()['prefix'].$item;
@@ -70,22 +70,19 @@ class SetupController extends Controller
                 Artisan::call('key:random');
                 Artisan::call('salt:random');
 
-                Log::info("[SetupWizard] Random application key & salt set successfully.", [
-                    'key'  => config('app.key'),
-                    'salt' => config('secure.salt')
-                ]);
+                Log::info('[SetupWizard] Random application key & salt set successfully');
             } else {
                 // @codeCoverageIgnoreStart
-                Log::warning("[SetupWizard] Failed to set application key. No write permission.");
+                Log::warning('[SetupWizard] Failed to set application key since .env is not writable');
                 // @codeCoverageIgnoreEnd
             }
         }
 
         // Create tables
         Artisan::call('migrate', ['--force' => true]);
-        Log::info("[SetupWizard] Tables migrated.");
+        Log::info('[SetupWizard] Database migrated');
 
-        Option::set('site_name', $request->input('site_name'));
+        Option::set('site_name', $request->get('site_name'));
 
         $siteUrl = url('/');
 
@@ -97,8 +94,8 @@ class SetupController extends Controller
 
         // Register super admin
         $user = User::register(
-            $request->input('email'),
-            $request->input('password'), function ($user)
+            $request->get('email'),
+            $request->get('password'), function ($user)
         {
             $user->ip           = get_client_ip();
             $user->score        = option('user_initial_score');
@@ -106,14 +103,14 @@ class SetupController extends Controller
             $user->last_sign_at = get_datetime_string(time() - 86400);
             $user->permission   = User::SUPER_ADMIN;
         });
-        Log::info("[SetupWizard] Super Admin registered.", ['user' => $user]);
+        Log::info('[SetupWizard] Super administrator registered');
 
         $this->createDirectories();
-        Log::info("[SetupWizard] Installation completed.");
+        Log::info('[SetupWizard] Installation completed');
 
         return view('setup.wizard.finish')->with([
-            'email'    => $request->input('email'),
-            'password' => $request->input('password')
+            'email'    => $request->get('email'),
+            'password' => $request->get('password')
         ]);
     }
 
@@ -173,7 +170,7 @@ class SetupController extends Controller
         try {
             Artisan::call('view:clear');
         } catch (\Exception $e) {
-            Log::error('Error occured when processing view:clear', [$e]);
+            Log::error('[UpdateWizard] Error occured when processing view:clear', [$e]);
 
             $files = collect(File::files(storage_path('framework/views')));
             $files->reject(function ($path) {

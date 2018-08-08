@@ -132,7 +132,7 @@ class UpdateController extends Controller
                 // Set temporary path for the update package
                 $tmp_path = $update_cache.'/update_'.time().'.zip';
                 Cache::put('tmp_path', $tmp_path, 60);
-                Log::info('[Update Wizard] Prepare to download update package', compact('release_url', 'tmp_path'));
+                Log::info('[UpdateWizard] Prepare to download update package', compact('release_url', 'tmp_path'));
 
                 // We won't get remote file size here since HTTP HEAD method is not always reliable
                 return json(compact('release_url', 'tmp_path'));
@@ -146,7 +146,7 @@ class UpdateController extends Controller
                 @set_time_limit(0);
                 $GLOBALS['last_downloaded'] = 0;
 
-                Log::info('[Update Wizard] Start downloading update package');
+                Log::info('[UpdateWizard] Start downloading update package');
 
                 try {
                     $client->request('GET', $release_url, array_merge($guzzle_config, [
@@ -156,7 +156,7 @@ class UpdateController extends Controller
                             // Log current progress per 100 KiB
                             if ($total == $downloaded || floor($downloaded / 102400) > floor($GLOBALS['last_downloaded'] / 102400)) {
                                 $GLOBALS['last_downloaded'] = $downloaded;
-                                Log::info('[Update Wizard] Download progress (in bytes):', [$total, $downloaded]);
+                                Log::info('[UpdateWizard] Download progress (in bytes):', [$total, $downloaded]);
                                 Cache::put('download-progress', compact('total', 'downloaded'), 60);
                             }
                         }
@@ -166,7 +166,7 @@ class UpdateController extends Controller
                     return response(trans('admin.update.errors.prefix').$e->getMessage());
                 }
 
-                Log::info('[Update Wizard] Finished downloading update package');
+                Log::info('[UpdateWizard] Finished downloading update package');
 
                 return json(compact('tmp_path'));
 
@@ -186,7 +186,7 @@ class UpdateController extends Controller
                 $res = $zip->open($tmp_path);
 
                 if ($res === true) {
-                    Log::info("[Update Wizard] Extracting file $tmp_path");
+                    Log::info("[UpdateWizard] Extracting file $tmp_path");
 
                     if ($zip->extractTo($extract_dir) === false) {
                         return response(trans('admin.update.errors.prefix').'Cannot unzip file.');
@@ -201,7 +201,7 @@ class UpdateController extends Controller
                     File::copyDirectory("$extract_dir/vendor", base_path('vendor'));
                 } catch (Exception $e) {
                     report($e);
-                    Log::error('[Update Wizard] Unable to extract vendors');
+                    Log::error('[UpdateWizard] Unable to extract vendors');
                     // Skip copying vendor
                     File::deleteDirectory("$extract_dir/vendor");
                 }
@@ -209,21 +209,21 @@ class UpdateController extends Controller
                 try {
                     File::copyDirectory($extract_dir, base_path());
 
-                    Log::info('[Update Wizard] Overwrite with extracted files');
+                    Log::info('[UpdateWizard] Overwrite with extracted files');
 
                 } catch (Exception $e) {
                     report($e);
-                    Log::error('[Update Wizard] Error occured when overwriting files');
+                    Log::error('[UpdateWizard] Error occured when overwriting files');
 
                     // Response can be returned, while cache will be cleared
                     // @see https://gist.github.com/g-plane/2f88ad582826a78e0a26c33f4319c1e0
                     return response(trans('admin.update.errors.overwrite').$e->getMessage());
                 } finally {
                     File::deleteDirectory(storage_path('update_cache'));
-                    Log::info('[Update Wizard] Cleaning cache');
+                    Log::info('[UpdateWizard] Cleaning cache');
                 }
 
-                Log::info('[Update Wizard] Done');
+                Log::info('[UpdateWizard] Done');
                 return json(trans('admin.update.complete'), 0);
 
             default:
