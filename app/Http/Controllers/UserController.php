@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App;
 use Mail;
 use View;
+use Schema;
 use Session;
 use App\Models\User;
 use App\Models\Texture;
@@ -26,8 +27,11 @@ class UserController extends Controller
     {
         $this->user = $users->get(session('uid'));
 
-        // Send email verification link to new users
-        $this->user->verification_token || $this->sendVerificationEmail();
+        // Do nothing if new columns are not ready
+        if (Schema::hasColumn('users', 'verified') && option('require_verification')) {
+            // Send email verification link to newly registered users
+            $this->user->verification_token || $this->sendVerificationEmail();
+        }
     }
 
     public function index()
@@ -100,7 +104,7 @@ class UserController extends Controller
 
     public function sendVerificationEmail()
     {
-        if (! option('require_verification')) {
+        if (!option('require_verification') || !Schema::hasColumn('users', 'verified')) {
             return json(trans('user.verification.disabled'), 1);
         }
 

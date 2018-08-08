@@ -8,6 +8,7 @@ use View;
 use Cache;
 use Cookie;
 use Option;
+use Schema;
 use Session;
 use App\Events;
 use App\Models\User;
@@ -296,14 +297,14 @@ class AuthController extends Controller
 
     public function verify(Request $request, UserRepository $users)
     {
-        if (! option('require_verification')) {
+        if (!option('require_verification') || !Schema::hasColumn('users', 'verified')) {
             throw new PrettyPageException(trans('user.verification.disabled'), 1);
         }
 
         // Get user instance from repository
         $user = $users->get($request->get('uid'));
 
-        if (! $user || $user->verified) {
+        if (!$user || $user->verified) {
             throw new PrettyPageException(trans('auth.verify.invalid'), 1);
         }
 

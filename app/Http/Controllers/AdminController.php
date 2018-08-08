@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Option;
+use Schema;
 use Datatables;
 use App\Events;
 use Carbon\Carbon;
@@ -250,9 +251,12 @@ class AdminController extends Controller
 
     public function getUserData(Request $request)
     {
-        $query = User::select([
-            'uid', 'email', 'nickname', 'score', 'permission', 'verified', 'register_at'
-        ]);
+        // Make it still basically functional if new columns are not ready
+        $columns = array_merge([
+            'uid', 'email', 'nickname', 'score', 'permission', 'register_at'
+        ], Schema::hasColumn('users', 'verified') ? ['verified'] : []);
+
+        $query = User::select($columns);
 
         if ($request->has('uid')) {
             $query->where('uid', $request->get('uid'));
