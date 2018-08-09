@@ -110,8 +110,8 @@
     "testRegex": "resources/assets/tests/.*\\.(spec|test)\\.js"
   },
   "serve": {
+    "clipboard": false,
     "devMiddleware": {
-      "clipboard": false,
       "headers": {
         "Access-Control-Allow-Origin": "*"
       },
