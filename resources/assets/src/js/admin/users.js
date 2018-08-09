@@ -8,11 +8,14 @@ function initUsersTable() {
     const query = location.href.split('?')[1];
 
     $('#user-table').DataTable({
-        ajax: url(`admin/user-data${ query ? ('?'+query) : '' }`),
+        columnDefs: usersTableColumnDefs,
         scrollY: ($('.content-wrapper').height() - $('.content-header').outerHeight()) * 0.7,
         fnDrawCallback: () => $('[data-toggle="tooltip"]').tooltip(),
         rowCallback: (row, data) => $(row).attr('id', `user-${data.uid}`),
-        columnDefs: usersTableColumnDefs
+        ajax: {
+            url: url(`admin/user-data${ query ? ('?'+query) : '' }`),
+            type: 'POST'
+        }
     }).on('xhr.dt', handleDataTablesAjaxError);
 }
 

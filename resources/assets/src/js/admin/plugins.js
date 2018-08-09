@@ -6,9 +6,12 @@ if ($('#plugin-table').length === 1) {
 
 function initPluginsTable() {
     $.pluginsTable = $('#plugin-table').DataTable({
-        ajax: url('admin/plugins/data'),
+        columnDefs: pluginsTableColumnDefs,
         fnDrawCallback: () => $('[data-toggle="tooltip"]').tooltip(),
-        columnDefs: pluginsTableColumnDefs
+        ajax: {
+            url: url('admin/plugins/data'),
+            type: 'POST'
+        }
     }).on('xhr.dt', handleDataTablesAjaxError);
 }
 

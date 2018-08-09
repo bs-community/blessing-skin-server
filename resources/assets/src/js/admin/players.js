@@ -8,10 +8,13 @@ function initPlayersTable() {
     const query = location.href.split('?')[1];
 
     $('#player-table').DataTable({
-        ajax: url(`admin/player-data${ query ? ('?'+query) : '' }`),
+        columnDefs: playersTableColumnDefs,
         scrollY: ($('.content-wrapper').height() - $('.content-header').outerHeight()) * 0.7,
         fnDrawCallback: () => $('[data-toggle="tooltip"]').tooltip(),
-        columnDefs: playersTableColumnDefs
+        ajax: {
+            url: url(`admin/player-data${ query ? ('?'+query) : '' }`),
+            type: 'POST'
+        }
     }).on('xhr.dt', handleDataTablesAjaxError);
 }
 
