@@ -19,4 +19,9 @@ export default [
         component: () => import('./admin/users'),
         el: '.content'
     },
+    {
+        path: 'admin/players',
+        component: () => import('./admin/players'),
+        el: '.content'
+    },
 ];

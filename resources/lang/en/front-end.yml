@@ -165,16 +165,13 @@ admin:
   normal: Normal
   admin: Admin
   superAdmin: Super Admin
-  textureType: Texture Type
-  skin: 'Skin (:model Model)'
-  cape: Cape
-  pid: Texture ID
   pidNotice: >-
-    Please enter the tid of texture. Inputting 0 can clear texture of this
+    Please enter the tid of texture. Inputing 0 can clear texture of this
     player.
   changePlayerTexture: 'Change textures of :player'
   changeTexture: Change Textures
   changePlayerName: Change Player Name
+  changePreference: Toggle Preference
   changeOwner: Change Owner
   deletePlayer: Delete
   changePlayerOwner: 'Please enter the id of user which this player should be transferred to:'
@@ -226,6 +223,12 @@ general:
     nickname: Nick Name
     score: Score
     register-at: Registered At
+  player:
+    owner: Owner
+    player-name: Player Name
+    preference: Preference
+    previews: Texture Previews
+    last-modified: Last Modified
 
 vendor:
   datatable:
