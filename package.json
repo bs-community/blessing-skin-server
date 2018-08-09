@@ -10,7 +10,7 @@
   "license": "GPL-3.0",
   "private": true,
   "scripts": {
-    "dev": "webpack-dev-server",
+    "dev": "webpack-serve",
     "build": "webpack --mode=production -p",
     "lint": "eslint --ext=.js,.vue -f=beauty .",
     "test": "jest",
@@ -79,7 +79,7 @@
     "webpack": "^4.16.3",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-cli": "^3.1.0",
-    "webpack-dev-server": "^3.1.5",
+    "webpack-serve": "^2.0.2",
     "webpackbar": "^2.6.1",
     "yaml-loader": "^0.5.0"
   },
@@ -108,5 +108,16 @@
       "assets/src/js"
     ],
     "testRegex": "resources/assets/tests/.*\\.(spec|test)\\.js"
+  },
+  "serve": {
+    "devMiddleware": {
+      "clipboard": false,
+      "headers": {
+        "Access-Control-Allow-Origin": "*"
+      },
+      "host": "0.0.0.0",
+      "logLevel": "warn",
+      "publicPath": "/public/"
+    }
   }
 }

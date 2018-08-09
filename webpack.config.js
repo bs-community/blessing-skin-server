@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -6,9 +5,9 @@ const UglifyJsWebpackPlugin = require('uglifyjs-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const WebpackBar = require('webpackbar');
 
-const devMode = !process.argv.includes('-p');
+const devMode = process.env.WEBPACK_SERVE;
 
-/** @type {webpack.Configuration} */
+/** @type {import('webpack').Configuration} */
 const config = {
     mode: devMode ? 'development' : 'production',
     entry: {
@@ -105,8 +104,6 @@ const config = {
     },
     plugins: [
         new VueLoaderPlugin(),
-        // If we are in development mode, we don't concern the build process.
-        devMode ? new webpack.HotModuleReplacementPlugin() : new WebpackBar(),
         new MiniCssExtractPlugin({
             filename: '[name].css',
             chunkFilename: '[id].css'
@@ -145,17 +142,11 @@ const config = {
         extensions: ['.js', '.vue', '.json']
     },
     devtool: devMode ? 'cheap-module-eval-source-map' : false,
-    devServer: {
-        headers: {
-            'Access-Control-Allow-Origin': '*'
-        },
-        host: '0.0.0.0',
-        hot: true,
-        inline: true,
-        publicPath: '/public/',
-        stats: 'errors-only'
-    },
     stats: 'errors-only'
 };
+
+if (!devMode) {
+    config.plugins.push(new WebpackBar());
+}
 
 module.exports = config;
