@@ -114,6 +114,11 @@ const config = {
                 to: 'skins',
                 flatten: true
             },
+            {
+                from: 'node_modules/admin-lte/dist/css/skins/_all-skins.min.css',
+                to: 'skins',
+                flatten: true
+            },
             'node_modules/chart.js/dist/Chart.min.js',
         ]),
         new BundleAnalyzerPlugin({

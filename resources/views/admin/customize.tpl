@@ -3,7 +3,7 @@
 @section('title', trans('general.customize'))
 
 @section('style')
-<link rel="stylesheet" href="{{ assets('css/skins/_all-skins.min.css') }}">
+<link rel="stylesheet" href="{{ webpack_assets('skins/_all-skins.min.css') }}">
 @endsection
 
 @section('content')
@@ -22,29 +22,7 @@
 
         <div class="row">
             <div class="col-md-3">
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">@lang('admin.customize.change-color.title')</h3>
-                    </div><!-- /.box-header -->
-                    <div class="box-body no-padding">
-                        <table id="layout-skins-list" class="table table-striped bring-up nth-2-center">
-                            <tbody>
-                                @foreach(['blue', 'yellow', 'green', 'purple', 'red', 'black'] as $color)
-                                    @foreach([$color, "$color-light"] as $innerColor)
-                                    <tr>
-                                        <td>@lang("admin.customize.colors.$innerColor")</td>
-                                        <td><a href="#" data-skin="skin-{{ $innerColor }}" class="btn bg-{{ $color }} btn-xs"><i class="far fa-eye"></i></a></td>
-                                    </tr>
-                                    @endforeach
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div><!-- /.box-body -->
-                    <div class="box-footer">
-                        <button id="color-submit" class="btn btn-primary">@lang('general.submit')</button>
-                    </div>
-                </div><!-- /.box -->
-
+                <div id="change-color"></div><!-- /.box -->
             </div>
 
             <div class="col-md-9">
@@ -58,8 +36,8 @@
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 
-<script type="text/javascript">
-var current_skin = "{{ option('color_scheme') }}";
+<script>
+var currentSkin = "{{ option('color_scheme') }}";
 </script>
 
 @endsection

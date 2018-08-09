@@ -24,4 +24,9 @@ export default [
         component: () => import('./admin/players'),
         el: '.content'
     },
+    {
+        path: 'admin/customize',
+        component: () => import('./admin/customization'),
+        el: '#change-color'
+    },
 ];
