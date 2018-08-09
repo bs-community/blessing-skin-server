@@ -41,10 +41,6 @@ class AdminControllerTest extends BrowserKitTestCase
             ]);
         $this->assertEquals('purple', option('color_scheme'));
 
-        // View
-        $this->visit('/admin/customize')
-            ->see('Change theme color');
-
         $this->visit('/admin/customize')
             ->type('url', 'home_pic_url')
             ->type('url', 'favicon_url')
