@@ -1,32 +1,32 @@
 export default [
     {
         path: 'user',
-        component: () => import('./user/dashboard'),
+        component: () => import('./user/Dashboard'),
         el: '#usage-box'
     },
     {
         path: 'user/closet',
-        component: () => import('./user/closet'),
+        component: () => import('./user/Closet'),
         el: '.content'
     },
     {
         path: 'user/profile',
-        component: () => import('./user/profile'),
+        component: () => import('./user/Profile'),
         el: '.content'
     },
     {
         path: 'admin/users',
-        component: () => import('./admin/users'),
+        component: () => import('./admin/Users'),
         el: '.content'
     },
     {
         path: 'admin/players',
-        component: () => import('./admin/players'),
+        component: () => import('./admin/Players'),
         el: '.content'
     },
     {
         path: 'admin/customize',
-        component: () => import('./admin/customization'),
+        component: () => import('./admin/Customization'),
         el: '#change-color'
     },
 ];
