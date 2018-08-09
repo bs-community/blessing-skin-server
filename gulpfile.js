@@ -1,27 +1,29 @@
 'use strict';
 
-var gulp        = require('gulp'),
+const
     babel       = require('gulp-babel'),
-    eslint      = require('gulp-eslint'),
-    uglify      = require('gulp-uglify'),
-    stylus      = require('gulp-stylus'),
+    chalk       = require('chalk'),
     cleanCss    = require('gulp-clean-css'),
-    del         = require('del'),
-    exec        = require('child_process').exec,
     concat      = require('gulp-concat'),
-    zip         = require('gulp-zip'),
-    replace     = require('gulp-batch-replace'),
-    notify      = require('gulp-notify'),
-    sourcemaps  = require('gulp-sourcemaps'),
+    del         = require('del'),
+    eslint      = require('gulp-eslint'),
+    execSync    = require('child_process').execSync,
+    gulp        = require('gulp'),
     merge       = require('merge2'),
-    runSequence = require('run-sequence');
+    replace     = require('gulp-batch-replace'),
+    runSequence = require('run-sequence'),
+    sourcemaps  = require('gulp-sourcemaps'),
+    stylus      = require('gulp-stylus'),
+    through2    = require('through2'),
+    uglify      = require('gulp-uglify'),
+    zip         = require('gulp-zip');
 
-var version  = require('./package.json').version;
+const version  = require('./package.json').version;
 
-var srcPath  = 'resources/assets/src';
-var distPath = 'resources/assets/dist';
+const srcPath  = 'resources/assets/src';
+const distPath = 'resources/assets/dist';
 
-var vendorScripts = [
+const vendorScripts = [
     'jquery/dist/jquery.min.js',
     'bootstrap/dist/js/bootstrap.min.js',
     'admin-lte/dist/js/adminlte.min.js',
@@ -33,14 +35,14 @@ var vendorScripts = [
     'jqPaginator/dist/1.2.0/jqPaginator.min.js',
 ];
 
-var vendorScriptsToBeMinified = [
+const vendorScriptsToBeMinified = [
     'regenerator-runtime/runtime.js',
     'datatables.net/js/jquery.dataTables.js',
     'datatables.net-bs/js/dataTables.bootstrap.js',
     'resources/assets/dist/js/common.js',
 ];
 
-var vendorStyles = [
+const vendorStyles = [
     'bootstrap/dist/css/bootstrap.min.css',
     'admin-lte/dist/css/AdminLTE.min.css',
     'datatables.net-bs/css/dataTables.bootstrap.css',
@@ -51,22 +53,22 @@ var vendorStyles = [
     'sweetalert2/dist/sweetalert2.min.css',
 ];
 
-var styleReplacements = [
+const styleReplacements = [
     ['blue.png', '"../images/blue.png"'],
     ['blue@2x.png', '"../images/blue@2x.png"'],
     ['../img/loading.gif', '"../images/loading.gif"'],
     ['../img/loading-sm.gif', '"../images/loading-sm.gif"'],
 ];
 
-var scriptReplacements = [];
+const scriptReplacements = [];
 
-var fonts = [
+const fonts = [
     'font-awesome/fonts/**',
     'bootstrap/dist/fonts/**',
     'resources/assets/src/fonts/**',
 ];
 
-var images = [
+const images = [
     'icheck/skins/square/blue.png',
     'icheck/skins/square/blue@2x.png',
     'resources/assets/src/images/**',
@@ -74,17 +76,21 @@ var images = [
     'bootstrap-fileinput/img/loading-sm.gif',
 ];
 
+const argv = require('minimist')(process.argv.slice(2));
+
+// Determine if we are in production mode,
+// run `gulp [task] --production` to enable.
+if (argv.production) {
+    console.log(chalk.green('>> Running in PRODUCTION mode <<'));
+    process.env.NODE_ENV = 'production';
+}
+
 // aka. `yarn run build`
 gulp.task('default', ['build']);
 
 // Build the things!
 gulp.task('build', callback => {
-    runSequence('clean', 'lint', ['compile-es6', 'compile-stylus'], 'publish-vendor', 'notify', callback);
-});
-
-// Send a notification
-gulp.task('notify', () => {
-    return gulp.src('').pipe(notify('Assets compiled!'));
+    runSequence('clean', 'lint', ['compile-scripts', 'compile-stylus'], 'publish-vendor', callback);
 });
 
 // Check JavaScript files with ESLint
@@ -96,40 +102,39 @@ gulp.task('lint', () => {
 });
 
 // Concentrate all vendor scripts & styles to one dist file
-gulp.task('publish-vendor', ['compile-es6'], callback => {
+gulp.task('publish-vendor', callback => {
+    // Collect pre-complied and raw library files
+    const vendorJs = gulp.src(collect(vendorScripts)).pipe(replace(scriptReplacements));
+    const rawVendorJs = gulp.src(collect(vendorScriptsToBeMinified)).pipe(uglify());
     // JavaScript files
-    var js = gulp.src(convertNpmRelativePath(vendorScripts))
-        .pipe(replace(scriptReplacements));
-    var jsToBeMinified = gulp.src(convertNpmRelativePath(vendorScriptsToBeMinified))
-        .pipe(uglify());
-    merge(js, jsToBeMinified)
+    merge(vendorJs, rawVendorJs)
         .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(concat('app.js'))
-        // Remove source mappings in the precompiled files
+        // Remove source mappings in the pre-compiled files
         .pipe(sourcemaps.write({ addComment: false }))
         .pipe(gulp.dest(`${distPath}/js/`));
     // CSS files
-    gulp.src(convertNpmRelativePath(vendorStyles))
+    gulp.src(collect(vendorStyles))
         .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(concat('style.css'))
         .pipe(replace(styleReplacements))
         .pipe(sourcemaps.write({ addComment: false }))
         .pipe(gulp.dest(`${distPath}/css/`));
     // Fonts
-    gulp.src(convertNpmRelativePath(fonts))
+    gulp.src(collect(fonts))
         .pipe(gulp.dest(`${distPath}/fonts/`));
     // Images
-    gulp.src(convertNpmRelativePath(images))
+    gulp.src(collect(images))
         .pipe(gulp.dest(`${distPath}/images/`));
     // AdminLTE skins
-    gulp.src(convertNpmRelativePath(['admin-lte/dist/css/skins/*.min.css']))
+    gulp.src(collect(['admin-lte/dist/css/skins/*.min.css']))
         .pipe(gulp.dest(`${distPath}/css/skins/`));
-    // 3D skin preview
-    gulp.src(convertNpmRelativePath(['three/build/three.min.js', 'skinview3d/build/skinview3d.min.js']))
+    // Libraries for 3D skin preview
+    gulp.src(collect(['three/build/three.min.js', 'skinview3d/build/skinview3d.min.js']))
         .pipe(concat('skinview3d.js'))
         .pipe(gulp.dest(`${distPath}/js/`));
     // Chart.js
-    gulp.src(convertNpmRelativePath(['chart.js/dist/Chart.min.js']))
+    gulp.src(collect(['chart.js/dist/Chart.min.js']))
         .pipe(concat('chart.js'))
         .pipe(gulp.dest(`${distPath}/js/`));
 
@@ -139,99 +144,109 @@ gulp.task('publish-vendor', ['compile-es6'], callback => {
 // Compile stylus to css
 gulp.task('compile-stylus', () => {
     return gulp.src(`${srcPath}/stylus/*.styl`)
-        .pipe(sourcemaps.init())
+        .pipe(dev(sourcemaps.init()))
         .pipe(stylus())
         .pipe(cleanCss())
-        .pipe(sourcemaps.write('./maps'))
+        .pipe(dev(sourcemaps.write('./maps')))
         .pipe(gulp.dest(`${distPath}/css`));
 });
 
 // Compile ES6 scripts to ES5
-gulp.task('compile-es6', callback => {
+gulp.task('compile-scripts', callback => {
     ['common', 'admin', 'auth', 'skinlib', 'user'].forEach(moduleName => {
         return gulp.src(`${srcPath}/js/${moduleName}/*.js`)
-            .pipe(sourcemaps.init())
+            .pipe(dev(sourcemaps.init()))
             .pipe(babel())
             .pipe(concat(`${moduleName}.js`))
             .pipe(uglify())
-            .pipe(sourcemaps.write('./maps'))
+            .pipe(dev(sourcemaps.write('./maps')))
             .pipe(gulp.dest(`${distPath}/js`));
     });
 
     callback();
 });
 
-// Delete cache files
-gulp.task('clean', () => {
+// Delete cache and built files
+gulp.task('clean', callback => {
+    del([`${distPath}/**/*`]);
     clearCache();
-
-    return clearDist();
+    callback();
 });
 
-// Release archive file
+// Release a zip archive file
 // aka. `yarn run release`
 gulp.task('zip', () => {
+    console.log(`Don't forget to run ${ chalk.underline.yellow('gulp build --production') } first!`);
+
+    console.log('Cleaning cache files');
     clearCache();
-    console.log('Cache file deleted');
 
-    exec('composer dump-autoload --no-dev', () => {
-        console.log('Autoload files generated without autoload-dev');
-    });
+    // Generate autoload files without autoload-dev
+    execSync('composer dump-autoload --no-dev', { stdio: 'inherit' });
 
-    let zipPath = `blessing-skin-server-v${version}.zip`;
+    const savePath = argv['save-to'] || '..';
+    const zipFile = `blessing-skin-server-v${version}.zip`;
 
-    console.log(`Zip archive will be saved to ${zipPath}.`);
+    console.log('Zip archive will be saved to ' + chalk.underline.blue(
+        require('path').join(savePath, zipFile)
+    ));
 
     return gulp.src([
-            '**/*',
-            '**/.gitignore',
-            '**/.htaccess',
-            '.env.example',
-            // Exclude unnecessary files
-            '!.gitignore',
-            '!composer.*',
-            '!gulpfile.js',
-            '!ISSUE_TEMPLATE.md',
-            '!package.json',
-            '!phpunit.xml',
-            '!yarn.lock',
-            // Exclud unnecessary directories
-            '!plugins/**',
-            '!resources/assets/{src,src/**}',
-            '!resources/assets/dist/**/{maps,maps/**}',
-            '!resources/lang/overrides/**',
-            '!resources/views/overrides/**',
-            '!storage/textures/**',
-            '!{coverage,coverage/**}',
-            '!{node_modules,node_modules/**,node_modules/**/.gitignore}',
-            '!{tests,tests/**}',
-            // Exclude require-dev packages
-            '!vendor/fzaninotto/**',
-            '!vendor/mikey179/**',
-            '!vendor/mockery/**',
-            '!vendor/phpunit/**',
-            '!vendor/symfony/css-selector/**',
-            '!vendor/symfony/dom-crawler/**',
-        ])
-        .pipe(zip(zipPath))
-        .pipe(notify('Don\'t forget to build front-end resources before publishing a release!'))
-        .pipe(gulp.dest('../'))
-        .pipe(notify({ message: `Zip archive saved to ${zipPath}!` }));
+        '**/*',
+        '**/.gitignore',
+        '**/.htaccess',
+        '.env.example',
+        // Exclude unnecessary files
+        '!.gitignore',
+        '!composer.*',
+        '!gulpfile.js',
+        '!ISSUE_TEMPLATE.md',
+        '!package.json',
+        '!phpunit.xml',
+        '!yarn.lock',
+        // Exclude unnecessary directories
+        '!plugins/**',
+        '!resources/assets/{src,src/**}',
+        '!resources/assets/dist/**/{maps,maps/**}',
+        '!resources/lang/overrides/**',
+        '!resources/views/overrides/**',
+        '!storage/textures/**',
+        '!{coverage,coverage/**}',
+        '!{node_modules,node_modules/**,node_modules/**/.gitignore}',
+        '!{tests,tests/**}',
+        // Exclude require-dev packages
+        '!vendor/fzaninotto/**',
+        '!vendor/mikey179/**',
+        '!vendor/mockery/**',
+        '!vendor/phpunit/**',
+        '!vendor/symfony/css-selector/**',
+        '!vendor/symfony/dom-crawler/**',
+    ])
+    .pipe(zip(zipFile))
+    .pipe(gulp.dest(savePath))
+    .pipe(through2.obj(function (chunk, enc, callback) {
+        console.log('Zip archive saved!');
+        // Generate autoload files with autoload-dev
+        execSync('composer dump-autoload', { stdio: 'inherit' });
+        callback();
+    }));
 });
 
-gulp.task('watch', ['compile-stylus', 'compile-es6'], () => {
-    // watch .scss files
-    gulp.watch(`${srcPath}/stylus/*.scss`, ['compile-stylus'], () => notify('Stylus files compiled!'));
-    // watch .js files
-    gulp.watch(`${srcPath}/js/**/*.js`, ['compile-es6'], () => notify('ES6 scripts compiled!'));
-    gulp.watch(`${srcPath}/js/general.js`, ['publish-vendor']);
+gulp.task('watch', ['compile-stylus', 'compile-scripts'], () => {
+    gulp.watch(`${srcPath}/stylus/*.styl`, ['compile-stylus']);
+    gulp.watch(`${srcPath}/js/**/*.js`, ['compile-scripts']);
+    gulp.watch(`${srcPath}/js/common/*.js`, ['publish-vendor']);
 });
 
-function convertNpmRelativePath(paths) {
+function dev(transformFunction) {
+    return argv.production ? through2.obj() : transformFunction;
+}
+
+const collect = function convertNpmRelativePath(paths) {
     return paths.map(relativePath => {
         return relativePath.startsWith('resources') ? relativePath : `node_modules/${relativePath}`;
     });
-}
+};
 
 function clearCache() {
     return del([
@@ -246,8 +261,4 @@ function clearCache() {
         'storage/framework/views/*',
         '!storage/framework/sessions/index.html'
     ]);
-}
-
-function clearDist() {
-    return del([`${distPath}/**/*`]);
 }

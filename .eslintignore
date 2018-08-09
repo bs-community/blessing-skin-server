@@ -1,4 +1,3 @@
 node_modules/
 resources/assets/dist/
 resources/assets/src/vendor/
-gulpfile.js
