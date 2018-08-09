@@ -103,12 +103,17 @@ gulp.task('publish-vendor', ['compile-es6'], callback => {
     var jsToBeMinified = gulp.src(convertNpmRelativePath(vendorScriptsToBeMinified))
         .pipe(uglify());
     merge(js, jsToBeMinified)
+        .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(concat('app.js'))
+        // Remove source mappings in the precompiled files
+        .pipe(sourcemaps.write({ addComment: false }))
         .pipe(gulp.dest(`${distPath}/js/`));
     // CSS files
     gulp.src(convertNpmRelativePath(vendorStyles))
+        .pipe(sourcemaps.init({ loadMaps: true }))
         .pipe(concat('style.css'))
         .pipe(replace(styleReplacements))
+        .pipe(sourcemaps.write({ addComment: false }))
         .pipe(gulp.dest(`${distPath}/css/`));
     // Fonts
     gulp.src(convertNpmRelativePath(fonts))
