@@ -101,7 +101,7 @@ test('remaining time', async () => {
 
     let wrapper = mount(Dashboard);
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('button').text()).toContain('29');
+    expect(wrapper.find('button').text()).toMatch(/(29)|(30)/);
     expect(wrapper.find('button').text()).toContain('min');
 
     wrapper = mount(Dashboard);
