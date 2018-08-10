@@ -350,4 +350,15 @@ export default {
 .player-item:not(:nth-child(1)) {
     margin-top: 10px;
 }
+
+.breadcrumb {
+    a {
+        margin-right: 10px;
+        color: #444;
+    }
+
+    a:hover {
+        color: #3c8dbc;
+    }
+}
 </style>
