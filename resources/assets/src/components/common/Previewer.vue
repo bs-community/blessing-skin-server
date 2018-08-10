@@ -162,7 +162,7 @@ export default {
 
     i {
         padding: .5em .5em;
-        display: inline !important;
+        display: inline;
     }
 
     i:hover {
