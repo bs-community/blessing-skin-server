@@ -98,23 +98,12 @@ class PluginController extends Controller
 
         return Datatables::of($installed)
             ->setRowId('plugin-{{ $name }}')
-            ->editColumn('title', function ($plugin) {
-                return trans($plugin->title ?: 'EMPTY');
-            })
-            ->editColumn('description', function ($plugin) {
-                return trans($plugin->description ?: 'EMPTY');
-            })
-            ->editColumn('author', function ($plugin) {
-                return ['author' => trans($plugin->author ?: 'EMPTY'), 'url' => $plugin->url];
-            })
+            ->editColumn('title', '{{ trans($title ?: "EMPTY") }}')
+            ->editColumn('description', '{{ trans($description ?: "EMPTY") }}')
+            ->addColumn('enabled', function ($plugin) { return $plugin->isEnabled(); })
+            ->addColumn('config', function ($plugin) { return $plugin->hasConfigView(); })
             ->addColumn('dependencies', function ($plugin) {
                 return $this->getPluginDependencies($plugin);
-            })
-            ->addColumn('status', function ($plugin) {
-                return trans('admin.plugins.status.'.($plugin->isEnabled() ? 'enabled' : 'disabled'));
-            })
-            ->addColumn('operations', function ($plugin) {
-                return ['enabled' => $plugin->isEnabled(), 'hasConfigView' => $plugin->hasConfigView()];
             })
             ->make(true);
     }

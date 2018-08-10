@@ -2,10 +2,6 @@
 
 @section('title', trans('general.plugin-manage'))
 
-@section('style')
-<style> .btn { margin-right: 4px; } </style>
-@endsection
-
 @section('content')
 
 <!-- Content Wrapper. Contains page content -->
@@ -28,19 +24,7 @@
 
         <div class="box">
             <div class="box-body table-bordered">
-                <table id="plugin-table" class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th>{{ trans('admin.plugins.name') }}</th>
-                            <th>{{ trans('admin.plugins.description') }}</th>
-                            <th>{{ trans('admin.plugins.author') }}</th>
-                            <th>{{ trans('admin.plugins.version') }}</th>
-                            <th>{{ trans('admin.plugins.dependencies') }}</th>
-                            <th>{{ trans('admin.plugins.status.title') }}</th>
-                            <th>{{ trans('admin.plugins.operations.title') }}</th>
-                        </tr>
-                    </thead>
-                </table>
+                <table id="plugin-table" class="table table-hover"></table>
             </div>
         </div>
 

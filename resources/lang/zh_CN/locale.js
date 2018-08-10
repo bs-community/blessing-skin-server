@@ -180,16 +180,18 @@
             emptyPlayerName: '您还没填写角色名呢',
 
             // Plugins
-            configurePlugin: '插件配置',
-            noPluginConfigNotice: '插件已被禁用或无配置页',
-            deletePlugin: '删除插件',
+            pluginTitle: '插件',
+            pluginAuthor: '作者',
+            pluginVersion: '版本',
+            enablePlugin: '启用',
+            disablePlugin: '禁用',
+            configurePlugin: '配置',
+            deletePlugin: '删除',
+            confirmDeletion: '真的要删除这个插件吗？',
+            pluginDescription: '描述',
+            pluginDependencies: '依赖关系',
             noDependencies: '无要求',
             whyDependencies: '为什么会这样？',
-            statusEnabled: '已启用',
-            statusDisabled: '已禁用',
-            enablePlugin: '启用插件',
-            disablePlugin: '禁用插件',
-            confirmDeletion: '真的要删除这个插件吗？',
             noDependenciesNotice: '此插件没有声明任何依赖关系，这代表它有可能并不兼容此版本的 Blessing Skin，请将此插件升级至可能的最新版本。强行启用可能导致无法预料的后果。你确定要启用此插件吗？',
 
             // Update

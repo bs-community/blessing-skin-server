@@ -178,16 +178,18 @@
             emptyPlayerName: 'Player name cannot be empty.',
 
             // Plugins
-            configurePlugin: 'Configure',
-            noPluginConfigNotice: 'The plugin has been disabled or no configuration is provided.',
-            deletePlugin: 'Delete',
-            noDependencies: 'No Dependencies',
-            whyDependencies: 'What\'s this?',
-            statusEnabled: 'Enabled',
-            statusDisabled: 'Disabled',
+            pluginTitle: 'Plugin',
+            pluginAuthor: 'Author',
+            pluginVersion: 'Version',
             enablePlugin: 'Enable',
             disablePlugin: 'Disable',
+            configurePlugin: 'Configure',
+            deletePlugin: 'Delete',
             confirmDeletion: 'Are you sure to delete this plugin?',
+            pluginDescription: 'Description',
+            pluginDependencies: 'Dependencies',
+            noDependencies: 'No Dependencies',
+            whyDependencies: 'What\'s this?',
             noDependenciesNotice: 'There is no dependency definition in the plugin. It means that the plugin may be not compatible with the current version of Blessing Skin, and enabling it may cause unexpected problems. Do you really want to enable the plugin?',
 
             // Update

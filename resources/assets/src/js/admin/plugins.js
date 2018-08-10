@@ -8,6 +8,7 @@ function initPluginsTable() {
     $.pluginsTable = $('#plugin-table').DataTable({
         columnDefs: pluginsTableColumnDefs,
         fnDrawCallback: () => $('[data-toggle="tooltip"]').tooltip(),
+        rowCallback: (row, data) => $(row).addClass(data.enabled ? 'plugin-enabled' : ''),
         ajax: {
             url: url('admin/plugins/data'),
             type: 'POST'
@@ -18,27 +19,47 @@ function initPluginsTable() {
 const pluginsTableColumnDefs = [
     {
         targets: 0,
-        data: 'title'
+        data: 'title',
+        title: trans('admin.pluginTitle'),
+        width: '10%',
+        render: (title, type, row) => {
+            const actions = [];
+
+            if (row.enabled) {
+                row.config && actions.push(`<a href="${url('admin/plugins/config/'+row.name)}" class="text-primary">${ trans('admin.configurePlugin') }</a>`);
+                actions.push(`<a onclick="disablePlugin('${row.name}');" class="text-primary">${ trans('admin.disablePlugin') }</a>`);
+            } else {
+                actions.push(
+                    `<a onclick="enablePlugin('${row.name}');" class="text-primary">${ trans('admin.enablePlugin') }</a>`,
+                    `<a onclick="deletePlugin('${row.name}');" class="text-danger">${ trans('admin.deletePlugin') }</a>`
+                );
+            }
+
+            return `
+                <strong>${ title }</strong>
+                <div class="actions">${ actions.join(' | ') }</div>
+            `;
+        }
     },
     {
         targets: 1,
         data: 'description',
+        title: trans('admin.pluginDescription'),
         orderable: false,
-        width: '35%'
+        render: (description, type, row) => {
+            return `
+                <div class="plugin-description"><p>${ description }</p></div>
+                <div class="plugin-version-author">
+                    ${ trans('admin.pluginVersion') } <span class="text-primary">${ row.version }</span> |
+                    ${ trans('admin.pluginAuthor') } <a href="${ row.url }">${ row.author }</a>
+                </div>
+            `;
+        }
     },
     {
         targets: 2,
-        data: 'author',
-        render: data => isEmpty(data.url) ? data.author : `<a href="${data.url}" target="_blank">${data.author}</a>`
-    },
-    {
-        targets: 3,
-        data: 'version',
-        orderable: false
-    },
-    {
-        targets: 4,
         data: 'dependencies',
+        title: trans('admin.pluginDependencies'),
         searchable: false,
         orderable: false,
         render: data => {
@@ -56,35 +77,6 @@ const pluginsTableColumnDefs = [
             }
 
             return result;
-        }
-    },
-    {
-        targets: 5,
-        data: 'status'
-    },
-    {
-        targets: 6,
-        data: 'operations',
-        searchable: false,
-        orderable: false,
-        render: (data, type, row) => {
-            let toggleButton, configViewButton;
-
-            if (data.enabled) {
-                toggleButton = `<a class="btn btn-warning btn-sm" onclick="disablePlugin('${row.name}');">${trans('admin.disablePlugin')}</a>`;
-            } else {
-                toggleButton = `<a class="btn btn-primary btn-sm" onclick="enablePlugin('${row.name}');">${trans('admin.enablePlugin')}</a>`;
-            }
-
-            if (data.enabled && data.hasConfigView) {
-                configViewButton = `<a class="btn btn-default btn-sm" href="${url('/')}admin/plugins/config/${row.name}">${trans('admin.configurePlugin')}</a>`;
-            } else {
-                configViewButton = `<a class="btn btn-default btn-sm" disabled="disabled" title="${trans('admin.noPluginConfigNotice')}" data-toggle="tooltip" data-placement="top">${trans('admin.configurePlugin')}</a>`;
-            }
-
-            const deletePluginButton = `<a class="btn btn-danger btn-sm" onclick="deletePlugin('${row.name}');">${trans('admin.deletePlugin')}</a>`;
-
-            return toggleButton + configViewButton + deletePluginButton;
         }
     }
 ];

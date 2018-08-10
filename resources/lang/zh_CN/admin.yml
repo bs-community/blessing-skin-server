@@ -98,19 +98,7 @@ customize:
     black-light: 黑色主题 - 白色侧边栏
 
 plugins:
-  name: 名称
-  description: 描述
-  author: 作者
-  version: 版本
-  dependencies: 依赖关系
-
-  status:
-    title: 状态
-    enabled: 已启用
-    disabled: 已禁用
-
   operations:
-    title: 操作
     enabled: :plugin 已启用
     unsatisfied:
       notice: 无法启用此插件，因为其仍有未满足的依赖关系。请检查以下插件的版本，更新或安装它们：

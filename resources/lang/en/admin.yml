@@ -98,12 +98,6 @@ customize:
     black-light: Black Light
 
 plugins:
-  name: Name
-  description: Description
-  author: Author
-  version: Version
-  dependencies: Dependencies
-
   status:
     title: Status
     enabled: Enabled
