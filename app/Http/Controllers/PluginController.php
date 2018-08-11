@@ -71,9 +71,6 @@ class PluginController extends Controller
 
                     return json(trans('admin.plugins.operations.enabled', ['plugin' => $plugin->title]), 0);
 
-                case 'requirements':
-                    return json($this->getPluginDependencies($plugin));
-
                 case 'disable':
                     $plugins->disable($name);
 

@@ -407,16 +407,18 @@ describe('tests for "plugins" module', () => {
 
   it('enable a plugin', async () => {
     const fetch = jest.fn()
-      .mockReturnValueOnce(Promise.resolve({ requirements: [] }))
-      .mockReturnValueOnce(Promise.resolve({ requirements: [] }))
       .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
-      .mockReturnValueOnce(Promise.resolve({
-        isRequirementsSatisfied: false,
-        requirements: { 'a': '^1.1.0', 'b': '^2.1.0', 'c': '^3.3.0' },
-        unsatisfiedRequirements: { 'c': '^3.3.0' }
-      }))
       .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'notice', reason: ['reason1', 'reason2'] }))
       .mockReturnValueOnce(Promise.reject());
+    const getPluginDependencies = jest.fn()
+      .mockReturnValueOnce({ dependencies: { requirements: [] } })
+      .mockReturnValue({
+        dependencies: {
+          isRequirementsSatisfied: false,
+          requirements: { 'a': '^1.1.0', 'b': '^2.1.0', 'c': '^3.3.0' },
+          unsatisfiedRequirements: { 'c': '^3.3.0' }
+        }
+      });
     const url = jest.fn(path => path);
     const swal = jest.fn()
       .mockReturnValueOnce(Promise.reject())
@@ -435,23 +437,22 @@ describe('tests for "plugins" module', () => {
     $.pluginsTable = {
       ajax: {
         reload: reloadTable
-      }
+      },
+      row: () => ({
+        data: getPluginDependencies
+      })
     };
 
     const enablePlugin = require(modulePath).enablePlugin;
 
     await enablePlugin('plugin');
-    expect(fetch).toBeCalledWith({
-      type: 'POST',
-      url: 'admin/plugins/manage?action=requirements&name=plugin',
-      dataType: 'json'
-    });
+    expect(getPluginDependencies).toBeCalled();
     expect(swal).toBeCalledWith({
       text: 'admin.noDependenciesNotice',
       type: 'warning',
       showCancelButton: true
     });
-    expect(fetch.mock.calls.length).toBe(1);
+    expect(fetch).not.toBeCalled();
 
     await enablePlugin('plugin');
     expect(fetch).toBeCalledWith({

@@ -82,12 +82,10 @@ const pluginsTableColumnDefs = [
 ];
 
 async function enablePlugin(name) {
+    const dataTable = $.pluginsTable || $.marketTable;
+
     try {
-        const { requirements } = await fetch({
-            type: 'POST',
-            url: url(`admin/plugins/manage?action=requirements&name=${name}`),
-            dataType: 'json'
-        });
+        const { requirements } = dataTable.row(`#plugin-${name}`).data().dependencies;
 
         if (requirements.length === 0) {
             await swal({
@@ -106,7 +104,7 @@ async function enablePlugin(name) {
         if (errno === 0) {
             toastr.success(msg);
 
-            $.pluginsTable.ajax.reload(null, false);
+            dataTable.ajax.reload(null, false);
         } else {
             swal({ type: 'warning', html: `<p>${msg}</p><ul><li>${reason.join('</li><li>')}</li></ul>` });
         }
