@@ -168,12 +168,11 @@ class PluginControllerTest extends TestCase
                     'path',
                     'title',
                     'description',
-                    'author' => ['author', 'url'],
+                    'author',
                     'url',
                     'namespace',
-                    'status',
-                    'dependencies',
-                    'operations' => ['enabled', 'hasConfigView']
+                    'enabled',
+                    'dependencies'
                 ]]
             ]);
     }
