@@ -2,6 +2,14 @@
 
 @section('title', trans('general.plugin-manage'))
 
+@section('style')
+<style>
+/* Fix datatable column width issue caused by AdminLTE.layout.activate() */
+html { height: auto; }
+.content-wrapper { min-height: 0%; }
+</style>
+@endsection
+
 @section('content')
 
 <!-- Content Wrapper. Contains page content -->
