@@ -34,7 +34,7 @@ const config = {
         filename: '[name].js',
         chunkFilename: devMode
             ? '[id].js'
-            : '[id].[chunkhash:7].js'
+            : '[id].[contenthash:7].js'
     },
     module: {
         rules: [
