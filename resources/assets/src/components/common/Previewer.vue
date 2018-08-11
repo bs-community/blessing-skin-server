@@ -1,7 +1,8 @@
 <template>
     <div class="box box-default">
         <div class="box-header with-border">
-            <h3 class="box-title" style="width: 100%;">{{ $t('general.texturePreview') }}
+            <h3 class="box-title" style="width: 100%;">
+                <span v-t="title"></span>
                 <span data-toggle="tooltip" class="badge bg-light-blue">{{ indicator }}</span>
                 <div class="operations">
                     <i
@@ -57,6 +58,9 @@ export default {
         skin: String,
         cape: String,
         closetMode: Boolean,
+        title: {
+            default: 'general.texturePreview'
+        },
         initPositionZ: {
             default: 70
         }

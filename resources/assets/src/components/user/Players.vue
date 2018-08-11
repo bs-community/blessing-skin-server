@@ -1,0 +1,477 @@
+<template>
+    <section class="content">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="box box-primary">
+                    <div class="box-body table-responsive no-padding">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>PID</th>
+                                    <th v-t="'general.player.player-name'"></th>
+                                    <th>
+                                        {{ $t('user.player.preference.title') }}
+                                        <i
+                                            class="fas fa-question-circle"
+                                            :title="$t('user.player.preference.description')"
+                                            data-toggle="tooltip"
+                                            data-placement="right"
+                                        ></i>
+                                    </th>
+                                    <th v-t="'user.player.edit'"></th>
+                                    <th v-t="'user.player.operation'"></th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr
+                                    v-for="player in players"
+                                    :key="player.pid"
+                                    class="player"
+                                    :class="{ 'player-selected': player.pid === selected }"
+                                    @click="preview(player)"
+                                >
+                                    <td class="pid">{{ player.pid }}</td>
+                                    <td class="player-name">{{ player.player_name }}</td>
+                                    <td>
+                                        <select class="form-control" @change="togglePreference(player)">
+                                            <option value="default" :selected="player.preference === 'default'">Default (Steve)</option>
+                                            <option value="slim" :selected="player.preference === 'slim'">Slim (Alex)</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <a
+                                            class="btn btn-default btn-sm"
+                                            @click="changeName(player)"
+                                            v-t="'user.player.edit-pname'"
+                                        ></a>
+                                    </td>
+                                    <td>
+                                        <a
+                                            class="btn btn-warning btn-sm"
+                                            data-toggle="modal"
+                                            data-target="#modal-clear-texture"
+                                            @click="loadICheck"
+                                            v-t="'user.player.delete-texture'"
+                                        ></a>
+                                        <a
+                                            class="btn btn-danger btn-sm"
+                                            @click="deletePlayer(player)"
+                                            v-t="'user.player.delete-player'"
+                                        ></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="box-footer clearfix">
+                        <button class="btn btn-primary pull-left" data-toggle="modal" data-target="#modal-add-player">
+                            <i class="fas fa-plus" aria-hidden="true"></i> &nbsp;{{ $t('user.player.add-player') }}
+                        </button>
+                    </div>
+                </div>
+
+                <div v-once class="box box-default collapsed-box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" v-t="'general.tip'"></h3>
+                        <div class="box-tools pull-right">
+                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fas fa-plus"></i></button>
+                        </div><!-- /.box-tools -->
+                    </div><!-- /.box-header -->
+                    <div class="box-body">
+                        <p v-t="'user.player.login-notice'"></p>
+                    </div><!-- /.box-body -->
+                </div><!-- /.box -->
+            </div>
+
+            <div class="col-md-6">
+                <previewer
+                    v-if="using3dPreviewer"
+                    :skin="skinUrl"
+                    :cape="capeUrl"
+                    title="user.player.player-info"
+                >
+                    <template slot="footer">
+                        <button
+                            class="btn btn-default"
+                            @click="togglePreviewer"
+                            v-t="'user.switch2dPreview'"
+                            data-test="to2d"
+                        ></button>
+                    </template>
+                </previewer>
+                <div v-else class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title" v-t="'user.player.player-info'"></h3>
+                    </div>
+                    <div class="box-body">
+                        <div id="preview-2d">
+                            <p>
+                                {{ $t('user.player.textures.steve') }}
+                                <a v-if="preview2d.steve" :href="`${baseUrl}/skinlib/show/${preview2d.steve}`">
+                                    <img
+                                        class="skin2d"
+                                        :src="`${baseUrl}/preview/64/${preview2d.steve}.png`"
+                                    />
+                                </a>
+                                <span v-else class="skin2d" v-t="'user.player.textures.empty'"></span>
+                            </p>
+
+                            <p>
+                                {{ $t('user.player.textures.alex') }}
+                                <a v-if="preview2d.alex" :href="`${baseUrl}/skinlib/show/${preview2d.alex}`">
+                                    <img
+                                        class="skin2d"
+                                        :src="`${baseUrl}/preview/64/${preview2d.alex}.png`"
+                                    />
+                                </a>
+                                <span v-else class="skin2d" v-t="'user.player.textures.empty'"></span>
+                            </p>
+
+                            <p>
+                                {{ $t('user.player.textures.cape') }}
+                                <a v-if="preview2d.cape" :href="`${baseUrl}/skinlib/show/${preview2d.cape}`">
+                                    <img
+                                        class="skin2d"
+                                        :src="`${baseUrl}/preview/64/${preview2d.cape}.png`"
+                                    />
+                                </a>
+                                <span v-else class="skin2d" v-t="'user.player.textures.empty'"></span>
+                            </p>
+                        </div>
+                    </div><!-- /.box-body -->
+                    <div class="box-footer">
+                        <button
+                            class="btn btn-default"
+                            @click="togglePreviewer"
+                            v-t="'user.switch3dPreview'"
+                        ></button>
+                    </div>
+                </div><!-- /.box -->
+            </div>
+        </div>
+
+        <div
+            id="modal-add-player"
+            class="modal fade"
+            tabindex="-1"
+            role="dialog"
+        >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                        ><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" v-t="'user.player.add-player'"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td class="key" v-t="'general.player.player-name'"></td>
+                                    <td class="value">
+                                        <input
+                                            type="text"
+                                            class="form-control"
+                                            v-model="newPlayer"
+                                        >
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div class="callout callout-info">
+                            <ul style="padding: 0 0 0 20px; margin: 0;">
+                                <li>{{ playerNameRule }}</li>
+                                <li>{{ playerNameLength }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-default"
+                            data-dismiss="modal"
+                            v-t="'general.close'"
+                        ></button>
+                        <a @click="addPlayer" class="btn btn-primary" v-t="'general.submit'"></a>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+
+        <div
+            id="modal-clear-texture"
+            class="modal fade"
+            tabindex="-1"
+            role="dialog"
+        >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                        ><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" v-t="'user.chooseClearTexture'"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <label class="form-group">
+                            <input type="checkbox" v-model="clear.steve"> Default (Steve)
+                        </label>
+                        <br>
+                        <label class="form-group">
+                            <input type="checkbox" v-model="clear.alex"> Slim (Alex)
+                        </label>
+                        <br>
+                        <label class="form-group">
+                            <input type="checkbox" v-model="clear.cape"> {{ $t('general.cape') }}
+                        </label>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-default"
+                            data-dismiss="modal"
+                            v-t="'general.close'"
+                        ></button>
+                        <a @click="clearTexture" class="btn btn-primary" v-t="'general.submit'"></a>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
+    </section>
+</template>
+
+<script>
+import SkinAlex from '../../images/textures/alex.png';
+import { swal } from '../../js/notify';
+import toastr from 'toastr';
+
+export default {
+    name: 'Players',
+    components: {
+        Previewer: () => import('../common/Previewer')
+    },
+    props: {
+        baseUrl: {
+            default: blessing.base_url
+        }
+    },
+    data() {
+        return {
+            players: [],
+            selected: 0,
+            using3dPreviewer: true,
+            skinUrl: '',
+            capeUrl: '',
+            preview2d: {
+                steve: 0,
+                alex: 0,
+                cape: 0
+            },
+            newPlayer: '',
+            clear: {
+                steve: false,
+                alex: false,
+                cape: false
+            }
+        };
+    },
+    computed: {
+        playerNameRule: () => __bs_data__.rule,
+        playerNameLength: () => __bs_data__.length
+    },
+    beforeMount() {
+        this.fetchPlayers();
+    },
+    methods: {
+        async fetchPlayers() {
+            this.players = await this.$http.get('/user/player/list');
+        },
+        togglePreviewer() {
+            this.using3dPreviewer = !this.using3dPreviewer;
+        },
+        async preview(player) {
+            this.selected = player.pid;
+
+            this.preview2d.steve = player.tid_steve;
+            this.preview2d.alex = player.tid_alex;
+            this.preview2d.cape = player.tid_cape;
+
+            if (player.preference === 'default') {
+                if (player.tid_steve) {
+                    const steve = await this.$http.get(`/skinlib/info/${player.tid_steve}`);
+                    this.skinUrl = `${this.baseUrl}/textures/${steve.hash}`;
+                } else {
+                    this.skinUrl = '';
+                }
+            } else {
+                if (player.tid_alex) {
+                    const alex = await this.$http.get(`/skinlib/info/${player.tid_alex}`);
+                    this.skinUrl = `${this.baseUrl}/textures/${alex.hash}`;
+                } else {
+                    this.skinUrl = SkinAlex;
+                }
+            }
+            if (player.tid_cape) {
+                const cape = await this.$http.get(`/skinlib/info/${player.tid_cape}`);
+                this.capeUrl = `${this.baseUrl}/textures/${cape.hash}`;
+            } else {
+                this.capeUrl = '';
+            }
+        },
+        async togglePreference(player) {
+            const preference = player.preference === 'default' ? 'slim' : 'default';
+            const { errno, msg } = await this.$http.post(
+                '/user/player/preference',
+                { pid: player.pid, preference }
+            );
+            if (errno === 0) {
+                player.preference = preference;
+                toastr.success(msg);
+            } else {
+                toastr.warning(msg);
+            }
+        },
+        async changeName(player) {
+            const { dismiss, value } = await swal({
+                title: this.$t('user.changePlayerName'),
+                inputValue: player.player_name,
+                input: 'text',
+                showCancelButton: true,
+                inputValidator: /* istanbul ignore next */ value =>
+                    !value && this.$t('user.emptyPlayerName')
+            });
+            if (dismiss) {
+                return;
+            }
+
+            const { errno, msg } = await this.$http.post(
+                '/user/player/rename',
+                { pid: player.pid, new_player_name: value }
+            );
+            if (errno === 0) {
+                swal({ type: 'success', html: msg });
+                player.player_name = value;
+            } else {
+                swal({ type: 'warning', html: msg });
+            }
+        },
+        loadICheck() {
+            $('input').iCheck({
+                radioClass: 'iradio_square-blue',
+                checkboxClass: 'icheckbox_square-blue'
+            }).on('ifChecked ifUnchecked', function () {
+                $(this)[0].dispatchEvent(new Event('change'));
+            });
+        },
+        async clearTexture() {
+            if (Object.values(this.clear).every(value => !value)) {
+                return toastr.warning(this.$t('user.noClearChoice'));
+            }
+
+            const { errno, msg } = await this.$http.post(
+                '/user/player/texture/clear',
+                { pid: this.selected, ...this.clear }
+            );
+            if (errno === 0) {
+                $('.modal').modal('hide');
+                swal({ type: 'success', text: msg });
+                const player = this.players.find(({ pid }) => pid === this.selected);
+                Object.keys(this.clear)
+                    .filter(type => this.clear[type])
+                    .forEach(type => player[`tid_${type}`] = 0);
+            } else {
+                swal({ type: 'warning', text: msg });
+            }
+        },
+        async deletePlayer(player) {
+            const { dismiss } = await swal({
+                title: this.$t('user.deletePlayer'),
+                text: this.$t('user.deletePlayerNotice'),
+                type: 'warning',
+                showCancelButton: true,
+                cancelButtonColor: '#3085d6',
+                confirmButtonColor: '#d33'
+            });
+            if (dismiss) {
+                return;
+            }
+
+            const { errno, msg } = await this.$http.post(
+                '/user/player/delete',
+                { pid: player.pid }
+            );
+            if (errno === 0) {
+                swal({ type: 'success', html: msg });
+                this.players = this.players.filter(({ pid }) => pid !== player.pid);
+            } else {
+                swal({ type: 'warning', html: msg });
+            }
+        },
+        async addPlayer() {
+            $('.modal').modal('hide');
+            const { errno, msg } = await this.$http.post(
+                '/user/player/add',
+                { player_name: this.newPlayer }
+            );
+            if (errno === 0) {
+                await swal({ type: 'success', html: msg });
+                this.fetchPlayers();
+            } else {
+                swal({ type: 'warning', html: msg });
+            }
+        }
+    }
+};
+</script>
+
+<style lang="stylus">
+.player {
+    cursor: pointer;
+    border-bottom: 1px solid #f4f4f4;
+
+    #preference {
+        height: 31px;
+    }
+
+    .pid, .player-name {
+        padding-top: 13px;
+    }
+}
+
+.player:last-child {
+    border-bottom: none;
+}
+
+.player-selected {
+    background-color: #f5f5f5;
+}
+
+.modal-body > label {
+    margin-bottom: 10px;
+}
+
+.skin2d {
+    float: right;
+    max-height: 64px;
+    width: 64px;
+    font-size: 16px;
+}
+
+#preview-2d > p {
+    height: 64px;
+    line-height: 64px;
+}
+
+.form-group {
+    cursor: pointer;
+}
+</style>

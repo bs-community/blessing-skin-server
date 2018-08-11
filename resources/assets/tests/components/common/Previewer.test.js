@@ -88,3 +88,8 @@ test('reset', () => {
     wrapper.find('.fa-stop').trigger('click');
     expect(mockedSkinview3d.SkinViewer.prototype.dispose).toBeCalled();
 });
+
+test('custom title', () => {
+    const wrapper = mount(Previewer, { propsData: { title: 'custom-title' } });
+    expect(wrapper.text()).toContain('custom-title');
+});

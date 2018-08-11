@@ -1,6 +1,7 @@
 /* eslint-disable no-var */
 import 'core-js/fn/array/includes';
 import 'core-js/fn/array/find';
+import 'core-js/fn/object/values';
 import 'es6-promise/auto';
 import 'whatwg-fetch';
 

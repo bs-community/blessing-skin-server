@@ -10,6 +10,11 @@ export default [
         el: '.content'
     },
     {
+        path: 'user/player',
+        component: () => import('./user/Players'),
+        el: '.content'
+    },
+    {
         path: 'user/profile',
         component: () => import('./user/Profile'),
         el: '.content'

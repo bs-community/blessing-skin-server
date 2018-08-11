@@ -138,6 +138,31 @@ user:
   time-unit-min: min
   last-sign: Last signed at :time
   sign-remain-time: Available after :time :unit
+  player:
+    player-name: Player Name
+    edit: Edit
+    operation: Delete
+    edit-pname: Player name
+    delete-texture: Textures
+    delete-player: Player
+    add-player: Add new player
+    login-notice: Now you can log in with player names you owned instead email address.
+    player-info: Information <small>(click player name to show preview)</small>
+    textures:
+      steve: Steve Model：
+      alex: Alex Model：
+      cape: Cape：
+      empty: Nothing
+    pname-rule: Could only contain letters, numbers and dashes.
+    pname-rule-chinese: Could only contain chinese characters, letters, numbers and dashes.
+    player-name-rule:
+      official: Player name may only contains letters, numbers and underscores.
+      cjk: Player name may contains letters, numbers, underscores and CJK Unified Ideographs.
+      custom: Custom player name rules are applied on this site. Please contact admins for further information.
+    player-name-length: The player name should be at least :min characters and not greater than :max characters.
+    preference:
+      title: Preference
+      description: Default stands for the Steve model with 4-pixel width arms, and Slim for the Alex model with 3-pixel width arms.
 
 admin:
   operationsTitle: Operations
@@ -225,6 +250,7 @@ general:
   submit: Submit
   close: Close
   more: More
+  tip: Tip
   pagination: 'Page :page, total :total'
   searchResult: '(Search result of keyword ":keyword")'
   noResult: No result.
