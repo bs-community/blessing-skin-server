@@ -16,55 +16,20 @@
         <div class="callout callout-warning">{{ Session::pull('msg') }}</div>
         @endif
 
-        <form id="login-form">
-            <div class="form-group has-feedback">
-                <input id="identification" type="email" class="form-control" placeholder="@lang('auth.identification')">
-                <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-            </div>
-            <div class="form-group has-feedback">
-                <input id="password" type="password" class="form-control" placeholder="@lang('auth.password')">
-                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-            </div>
-
-            <div class="row" id="captcha-form" style="{{ (session('login_fails') > 3) ? '' : 'display: none;' }}">
-                <div class="col-xs-8">
-                    <div class="form-group has-feedback">
-                        <input id="captcha" type="text" class="form-control" placeholder="@lang('auth.captcha')">
-                    </div>
-                </div>
-                <!-- /.col -->
-                <div class="col-xs-4">
-                    <img class="pull-right captcha" src="{{ url('auth/captcha?v='.time()) }}" alt="CAPTCHA" title="@lang('auth.change-captcha')" data-placement="top" data-toggle="tooltip">
-                </div>
-                <!-- /.col -->
-            </div>
-
-            <div id="msg" class="callout hide"></div>
-
-            <div class="row">
-                <div class="col-xs-6">
-                    <div class="checkbox icheck" style="margin-top: 0;">
-                        <label for="keep">
-                            <input id="keep" type="checkbox"> @lang('auth.login.keep')
-                        </label>
-                    </div>
-                </div><!-- /.col -->
-                <div class="col-xs-6">
-                    <a class="pull-right" href="{{ url('auth/forgot') }}">@lang('auth.forgot-link')</a>
-                </div><!-- /.col -->
-            </div>
-
-            <div class="row">
-                <div class="col-xs-12">
-                    <button id="login-button" class="btn btn-primary btn-block btn-flat">@lang('auth.login.button')</button>
-                </div><!-- /.col -->
-            </div>
-        </form>
+        <form></form>
         <br>
         <a href="{{ url('auth/register') }}" class="pull-left" style="margin-top: -10px;">@lang('auth.register-link')</a>
     </div>
     <!-- /.login-box-body -->
 </div>
 <!-- /.login-box -->
+
+<script>
+Object.defineProperty(window, '__bs_data__', {
+    get: function () {
+        return Object.freeze({ tooManyFails: {{ session('login_fails') > 3 ? 'true' : 'false' }} })
+    }
+})
+</script>
 
 @endsection

@@ -17,6 +17,15 @@ auth:
   sending: Sending
   reset: Reset
   resetting: Resetting
+  nickname: Nickname
+  email: Email
+  identification: Email or player name
+  password: Password
+  captcha: CAPTCHA
+  change-captcha: Click to change CAPTCHA image.
+  login-link: Already registered? Log in here.
+  forgot-link: Forgot password?
+  keep: Remember me
 
 skinlib:
   addToCloset: Add to closet

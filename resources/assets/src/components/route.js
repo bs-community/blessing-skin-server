@@ -34,4 +34,9 @@ export default [
         component: () => import('./admin/Customization'),
         el: '#change-color'
     },
+    {
+        path: 'auth/login',
+        component: () => import('./auth/Login'),
+        el: 'form'
+    },
 ];
