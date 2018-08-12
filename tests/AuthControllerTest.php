@@ -372,17 +372,9 @@ class AuthControllerTest extends TestCase
     {
         Mail::fake();
 
-        // Should return a warning if `captcha` is wrong
-        $this->withSession(['phrase' => 'a'])->postJson('/auth/forgot', [
-            'captcha' => 'b'
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('auth.validation.captcha')
-        ]);
-
         // Should be forbidden if "forgot password" is closed
         config(['mail.driver' => '']);
-        $this->withSession(['phrase' => 'a'])->postJson('/auth/forgot', [
+        $this->postJson('/auth/forgot', [
             'captcha' => 'a'
         ])->assertJson([
             'errno' => 1,

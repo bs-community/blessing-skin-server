@@ -140,8 +140,9 @@ class AuthController extends Controller
 
     public function handleForgot(Request $request, UserRepository $users)
     {
-        if (! $this->checkCaptcha($request))
-            return json(trans('auth.validation.captcha'), 1);
+        $this->validate($request, [
+            'captcha' => 'required'.(app()->environment('testing') ? '' : '|captcha')
+        ]);
 
         if (config('mail.driver') == "")
             return json(trans('auth.forgot.close'), 1);
