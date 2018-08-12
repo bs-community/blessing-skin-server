@@ -26,3 +26,17 @@ $(document).ready(() => {
 
     $('[data-toggle="tooltip"]').tooltip();
 });
+
+(() => {
+    const list = [
+        {
+            path: 'auth',
+            styl: () => import('../stylus/auth.styl')
+        },
+    ];
+
+    const style = list.find(({ path }) => blessing.route.startsWith(path));
+    if (style) {
+        style.styl();
+    }
+})();

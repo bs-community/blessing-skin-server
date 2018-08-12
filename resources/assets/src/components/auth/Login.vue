@@ -158,15 +158,6 @@ export default {
 </script>
 
 <style lang="stylus">
-.login-logo a {
-    font-family: Minecraft, Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
-    transition: all .2s ease-in-out;
-}
-
-.login-logo a:hover {
-    color: #42a5f5;
-}
-
 #login-button {
     margin-top: 5px;
 }

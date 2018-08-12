@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import './js/public-path';  // Must be first
 import routes from './components/route';
 import './js';
 
@@ -11,11 +12,6 @@ if (process.env.NODE_ENV === 'development') {
     ];
     setTimeout(langs.find(({ lang }) => lang === blessing.locale).load, 0);
 }
-
-// eslint-disable-next-line no-undef
-__webpack_public_path__ = process.env.NODE_ENV === 'development'
-    ? 'http://127.0.0.1:8080/public/'
-    : blessing.base_url + '/public/';
 
 const route = routes.find(route => route.path === blessing.route);
 if (route) {
