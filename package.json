@@ -84,6 +84,7 @@
   },
   "jest": {
     "resetMocks": true,
+    "timers": "fake",
     "transform": {
       "^.+\\.js$": "babel-jest",
       ".*\\.vue$": "vue-jest"

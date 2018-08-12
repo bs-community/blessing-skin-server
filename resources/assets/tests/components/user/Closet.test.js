@@ -73,7 +73,6 @@ test('different categories', () => {
 });
 
 test('search textures', () => {
-    jest.useFakeTimers();
     Vue.prototype.$http.get.mockResolvedValue({});
 
     const wrapper = mount(Closet);
@@ -90,8 +89,6 @@ test('search textures', () => {
             page: 1,
         }
     );
-
-    jest.useRealTimers();
 });
 
 test('empty closet', () => {
@@ -178,7 +175,6 @@ test('select texture', async () => {
 });
 
 test('apply texture', async () => {
-    jest.useFakeTimers();
     window.$ = jest.fn(() => ({
         iCheck: () => ({
             on(evt, cb) {
@@ -209,8 +205,6 @@ test('apply texture', async () => {
         .toHaveProperty('src', '/avatar/35/10');
     expect(wrapper.find('.modal-body').text()).toContain('name');
     jest.runAllTimers();
-
-    jest.useRealTimers();
 });
 
 test('submit applying texture', async () => {
