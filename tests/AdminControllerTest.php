@@ -27,6 +27,7 @@ class AdminControllerTest extends BrowserKitTestCase
     {
         // Check if `color_scheme` is existed or not
         $this->get('/admin/customize?action=color', [
+            'Accept' => 'application/json',
             'X-Requested-With' => 'XMLHttpRequest'
         ])->seeJson([
             'errno' => 1,
@@ -248,7 +249,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->post(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'email'],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ['Accept' => 'application/json', 'X-Requested-With' => 'XMLHttpRequest']
         )->seeJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'email'])
@@ -258,7 +259,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->post(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'email', 'email' => 'invalid'],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ['Accept' => 'application/json', 'X-Requested-With' => 'XMLHttpRequest']
         )->seeJson([
             'errno' => 1,
             'msg' => trans('validation.email', ['attribute' => 'email'])
@@ -290,7 +291,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->post(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'nickname'],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ['Accept' => 'application/json', 'X-Requested-With' => 'XMLHttpRequest']
         )->seeJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'nickname'])
@@ -300,7 +301,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->post(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'nickname', 'nickname' => '\\'],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ['Accept' => 'application/json', 'X-Requested-With' => 'XMLHttpRequest']
         )->seeJson([
             'errno' => 1,
             'msg' => trans('validation.no_special_chars', ['attribute' => 'nickname'])
@@ -323,7 +324,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->post(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'password'],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ['Accept' => 'application/json', 'X-Requested-With' => 'XMLHttpRequest']
         )->seeJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'password'])
@@ -333,7 +334,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->post(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'password', 'password' => '1'],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ['Accept' => 'application/json', 'X-Requested-With' => 'XMLHttpRequest']
         )->seeJson([
             'errno' => 1,
             'msg' => trans('validation.min.string', ['attribute' => 'password', 'min' => 8])
@@ -343,7 +344,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->post(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'password', 'password' => str_random(17)],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ['Accept' => 'application/json', 'X-Requested-With' => 'XMLHttpRequest']
         )->seeJson([
             'errno' => 1,
             'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 16])
@@ -364,7 +365,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->post(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'score'],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ['Accept' => 'application/json', 'X-Requested-With' => 'XMLHttpRequest']
         )->seeJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'score'])
@@ -374,7 +375,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->post(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'score', 'score' => 'string'],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ['Accept' => 'application/json', 'X-Requested-With' => 'XMLHttpRequest']
         )->seeJson([
             'errno' => 1,
             'msg' => trans('validation.integer', ['attribute' => 'score'])
@@ -491,7 +492,10 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->post('/admin/players', [
             'pid' => $player->pid,
             'action' => 'preference'
-        ], ['X-Requested-With' => 'XMLHttpRequest'])->seeJson([
+        ], [
+            'Accept' => 'application/json',
+            'X-Requested-With' => 'XMLHttpRequest'
+        ])->seeJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'preference'])
         ]);
@@ -501,7 +505,10 @@ class AdminControllerTest extends BrowserKitTestCase
             'pid' => $player->pid,
             'action' => 'preference',
             'preference' => 'steve'
-        ], ['X-Requested-With' => 'XMLHttpRequest'])->seeJson([
+        ], [
+            'Accept' => 'application/json',
+            'X-Requested-With' => 'XMLHttpRequest'
+        ])->seeJson([
             'errno' => 1,
             'msg' => trans('validation.preference', ['attribute' => 'preference'])
         ]);
@@ -525,7 +532,10 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->post('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture'
-        ], ['X-Requested-With' => 'XMLHttpRequest'])->seeJson([
+        ], [
+            'Accept' => 'application/json',
+            'X-Requested-With' => 'XMLHttpRequest'
+        ])->seeJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'model'])
         ]);
@@ -535,7 +545,10 @@ class AdminControllerTest extends BrowserKitTestCase
             'pid' => $player->pid,
             'action' => 'texture',
             'model' => 'slim'
-        ], ['X-Requested-With' => 'XMLHttpRequest'])->seeJson([
+        ], [
+            'Accept' => 'application/json',
+            'X-Requested-With' => 'XMLHttpRequest'
+        ])->seeJson([
             'errno' => 1,
             'msg' => trans('validation.model', ['attribute' => 'model'])
         ]);
@@ -545,7 +558,10 @@ class AdminControllerTest extends BrowserKitTestCase
             'pid' => $player->pid,
             'action' => 'texture',
             'model' => 'steve'
-        ], ['X-Requested-With' => 'XMLHttpRequest'])->seeJson([
+        ], [
+            'Accept' => 'application/json',
+            'X-Requested-With' => 'XMLHttpRequest'
+        ])->seeJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'tid'])
         ]);
@@ -556,7 +572,10 @@ class AdminControllerTest extends BrowserKitTestCase
             'action' => 'texture',
             'model' => 'steve',
             'tid' => 'string'
-        ], ['X-Requested-With' => 'XMLHttpRequest'])->seeJson([
+        ], [
+            'Accept' => 'application/json',
+            'X-Requested-With' => 'XMLHttpRequest'
+        ])->seeJson([
             'errno' => 1,
             'msg' => trans('validation.integer', ['attribute' => 'tid'])
         ]);
@@ -657,7 +676,10 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->post('/admin/players', [
             'pid' => $player->pid,
             'action' => 'owner'
-        ], ['X-Requested-With' => 'XMLHttpRequest'])->seeJson([
+        ], [
+            'Accept' => 'application/json',
+            'X-Requested-With' => 'XMLHttpRequest'
+        ])->seeJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'uid'])
         ]);
@@ -667,7 +689,10 @@ class AdminControllerTest extends BrowserKitTestCase
             'pid' => $player->pid,
             'action' => 'owner',
             'uid' => 'string'
-        ], ['X-Requested-With' => 'XMLHttpRequest'])->seeJson([
+        ], [
+            'Accept' => 'application/json',
+            'X-Requested-With' => 'XMLHttpRequest'
+        ])->seeJson([
             'errno' => 1,
             'msg' => trans('validation.integer', ['attribute' => 'uid'])
         ]);
@@ -700,7 +725,10 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->post('/admin/players', [
             'pid' => $player->pid,
             'action' => 'name'
-        ], ['X-Requested-With' => 'XMLHttpRequest'])->seeJson([
+        ], [
+            'Accept' => 'application/json',
+            'X-Requested-With' => 'XMLHttpRequest'
+        ])->seeJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'Name'])
         ]);
