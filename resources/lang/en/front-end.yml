@@ -26,6 +26,9 @@ auth:
   login-link: Already registered? Log in here.
   forgot-link: Forgot password?
   keep: Remember me
+  repeat-pwd: Repeat your password
+  nickname-intro: Whatever you like expect special characters
+  register-button: Register
 
 skinlib:
   addToCloset: Add to closet
