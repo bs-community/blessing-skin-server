@@ -23,5 +23,7 @@ declare module 'vue/types/vue' {
 
       post(url: string, data?: object): { errno?: number, msg?: string }
     }
+
+    $route: string[]
   }
 }

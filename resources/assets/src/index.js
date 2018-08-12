@@ -12,10 +12,15 @@ if (process.env.NODE_ENV === 'development') {
     setTimeout(langs.find(({ lang }) => lang === blessing.locale).load, 0);
 }
 
-const route = routes.find(route => route.path === blessing.route);
-if (route) {
-    new Vue({
-        el: route.el,
-        render: h => h(route.component)
-    });
-}
+(() => {
+    const route = routes.find(
+        route => (new RegExp(`^${route.path}$`, 'i')).test(blessing.route)
+    );
+    if (route) {
+        Vue.prototype.$route = (new RegExp(`^${route.path}$`, 'i')).exec(blessing.route);
+        new Vue({
+            el: route.el,
+            render: h => h(route.component)
+        });
+    }
+})();
