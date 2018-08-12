@@ -92,7 +92,12 @@
     @include('common.dependencies.script', ['module' => 'admin'])
 
     @if (option('check_update'))
-    <script>$(document).ready(checkForUpdates);</script>
+    <script>
+        $(document).ready(() => {
+            checkForUpdates();
+            checkForPluginUpdates();
+        });
+    </script>
     @endif
 
     @if (option('allow_sending_statistics'))

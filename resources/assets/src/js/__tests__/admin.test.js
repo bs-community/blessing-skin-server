@@ -682,6 +682,42 @@ describe('tests for "market" module', () => {
     expect(toastr.success).toBeCalledWith('success');
     expect(reloadTable).toBeCalledWith(null, false);
   });
+
+  it('check for plugin updates', async () => {
+    const fetch = jest.fn()
+      .mockReturnValueOnce(Promise.resolve({
+        available: false,
+        plugins: []
+      }))
+      .mockReturnValueOnce(Promise.resolve({
+        available: true,
+        plugins: [{
+          name: 'hello-dolly',
+          version: '8.1.0'
+        }]
+      }));
+    const url = jest.fn(path => path);
+
+    window.fetch = fetch;
+    window.url = url;
+
+    document.body.innerHTML = `
+      <a id="target" href="admin/plugins/market"><i class="fa fa-shopping-bag"></i> <span>Plugin Market</span></a>
+    `;
+
+    const checkForPluginUpdates = require(modulePath).checkForPluginUpdates;
+
+    await checkForPluginUpdates();
+    expect($('#target').html()).toBe(
+      '<i class="fa fa-shopping-bag"></i> <span>Plugin Market</span>'
+    );
+
+    await checkForPluginUpdates();
+    expect($('#target').html()).toBe(
+      '<i class="fa fa-shopping-bag"></i> <span>Plugin Market</span>'+
+      '<span class="label label-success pull-right">1</span>'
+    );
+  });
 });
 
 describe('tests for "update" module', () => {

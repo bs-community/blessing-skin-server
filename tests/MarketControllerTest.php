@@ -32,7 +32,42 @@ class MarketControllerTest extends TestCase
             'msg' => trans('admin.plugins.market.install-success')
         ]);
         $this->assertTrue(is_dir(base_path('plugins/hello-dolly')));
-        $this->assertFileNotExists(base_path('plugins/hello-dolly_v1.0.0.zip'));
+        $this->assertTrue(empty(glob(base_path('plugins/hello-dolly_*.zip'))));
+    }
+
+    public function testCheckUpdates()
+    {
+        $plugin_dir = base_path('plugins/hello-dolly');
+
+        if (! is_dir($plugin_dir)) {
+            mkdir($plugin_dir);
+        }
+
+        $this->get('/admin/plugins/market/check')
+            ->seeJson([
+                'available' => false,
+                'plugins' => []
+            ]);
+
+        file_put_contents("$plugin_dir/package.json", json_encode([
+            'name' => 'hello-dolly',
+            'version' => '0.0.1',
+            'title' => '',
+            'description' => '',
+            'author' => '',
+            'url' => '',
+            'namespace' => ''
+        ]));
+
+        // Refresh plugin manager
+        $this->app->singleton('plugins', App\Services\PluginManager::class);
+        $this->get('/admin/plugins/market/check')
+            ->seeJsonSubset([
+                'available' => true,
+                'plugins' => [[
+                    'name' => 'hello-dolly'
+                ]]
+            ]);
     }
 
     public function testGetMarketData()

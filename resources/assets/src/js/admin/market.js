@@ -150,8 +150,22 @@ async function updatePlugin(name) {
     });
 }
 
+async function checkForPluginUpdates() {
+    try {
+        const data = await fetch({ url: url('admin/plugins/market/check') });
+        if (data.available === true) {
+            const dom = `<span class="label label-success pull-right">${data.plugins.length}</span>`;
+
+            $(`[href="${url('admin/plugins/market')}"]`).append(dom);
+        }
+    } catch (error) {
+        //
+    }
+}
+
 if (process.env.NODE_ENV === 'test') {
     module.exports = {
+        checkForPluginUpdates,
         initMarketTable,
         installPlugin,
         updatePlugin,

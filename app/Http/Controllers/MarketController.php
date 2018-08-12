@@ -47,6 +47,19 @@ class MarketController extends Controller
         return Datatables::of($plugins)->setRowId('plugin-{{ $name }}')->make(true);
     }
 
+    public function checkUpdates()
+    {
+        $pluginsHaveUpdate = collect($this->getAllAvailablePlugins())->filter(function ($item) {
+            $plugin = plugin($item['name']);
+            return $plugin && Comparator::greaterThan($item['version'], $plugin->version);
+        });
+
+        return json([
+            'available' => !$pluginsHaveUpdate->isEmpty(),
+            'plugins' => array_values($pluginsHaveUpdate->all())
+        ]);
+    }
+
     public function download(Request $request, PluginManager $manager)
     {
         $name = $request->get('name');

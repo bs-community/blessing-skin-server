@@ -131,6 +131,7 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function ()
 
         Route::get ('/market', 'MarketController@showMarket');
         Route::post('/market-data', 'MarketController@getMarketData');
+        Route::get ('/market/check', 'MarketController@checkUpdates');
         Route::post('/market/download', 'MarketController@download');
     });
 
