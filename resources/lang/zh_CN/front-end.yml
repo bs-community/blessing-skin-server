@@ -29,6 +29,9 @@ auth:
   repeat-pwd: 重复密码
   nickname-intro: 昵称可使用汉字，不可包含特殊字符
   register-button: 注册
+  forgot:
+    login-link: 我又想起来了
+    button: 发送
 
 skinlib:
   addToCloset: 添加至衣柜

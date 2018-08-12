@@ -44,4 +44,9 @@ export default [
         component: () => import('./auth/Register'),
         el: 'form'
     },
+    {
+        path: 'auth/forgot',
+        component: () => import('./auth/Forgot'),
+        el: 'form'
+    },
 ];

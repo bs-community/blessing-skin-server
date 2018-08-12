@@ -29,6 +29,9 @@ auth:
   repeat-pwd: Repeat your password
   nickname-intro: Whatever you like expect special characters
   register-button: Register
+  forgot:
+    login-link: I do remember it
+    button: Send
 
 skinlib:
   addToCloset: Add to closet
