@@ -1,7 +1,6 @@
 import Vue from 'vue';
-import './js/public-path';  // Must be first
-import routes from './components/route';
 import './js';
+import routes from './components/route';
 
 Vue.config.productionTip = false;
 
