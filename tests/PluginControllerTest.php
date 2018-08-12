@@ -14,16 +14,14 @@ class PluginControllerTest extends TestCase
 
         $plugins = [
             'example-plugin' => 'example-plugin_v1.0.0.zip',
-            'avatar-api'     => 'avatar-api_v1.1.0.zip'
+            'hello-dolly'    => 'hello-dolly_v1.0.0.zip'
         ];
 
         foreach ($plugins as $plugin_name => $filename) {
             if (! file_exists(base_path('plugins/'.$plugin_name))) {
-                $user_agent = menv('USER_AGENT', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36');
-
                 $context = stream_context_create(['http' => [
                     'method' => 'GET',
-                    'header' => "User-Agent: $user_agent"
+                    'header' => 'User-Agent: '.config('secure.user_agent')
                 ]]);
 
                 file_put_contents(
@@ -56,8 +54,8 @@ class PluginControllerTest extends TestCase
             ->assertResponseStatus(404);
 
         // Plugin is enabled but it doesn't have config view
-        plugin('avatar-api')->setEnabled(true);
-        $this->get('/admin/plugins/config/avatar-api')
+        plugin('hello-dolly')->setEnabled(true);
+        $this->get('/admin/plugins/config/hello-dolly')
             ->see(trans('admin.plugins.operations.no-config-notice'))
             ->assertResponseStatus(404);
 
@@ -77,21 +75,21 @@ class PluginControllerTest extends TestCase
             ]);
 
         // Invalid action
-        $this->post('/admin/plugins/manage', ['name' => 'avatar-api'])
+        $this->post('/admin/plugins/manage', ['name' => 'hello-dolly'])
             ->seeJson([
                 'errno' => 1,
                 'msg' => trans('admin.invalid-action')
             ]);
 
         // Enable a plugin with unsatisfied dependencies
-        app('plugins')->getPlugin('avatar-api')->setRequirements([
+        app('plugins')->getPlugin('hello-dolly')->setRequirements([
             'blessing-skin-server' => '^3.4.0',
             'example-plugin' => '^6.6.6',
             'whatever' => '^1.0.0'
         ]);
         app('plugins')->enable('example-plugin');
         $this->post('/admin/plugins/manage', [
-            'name' => 'avatar-api',
+            'name' => 'hello-dolly',
             'action' => 'enable'
         ])->seeJson([
             'errno' => 1,
@@ -108,42 +106,42 @@ class PluginControllerTest extends TestCase
         ]);
 
         // Enable a plugin
-        app('plugins')->getPlugin('avatar-api')->setRequirements([]);
+        app('plugins')->getPlugin('hello-dolly')->setRequirements([]);
         $this->expectsEvents(App\Events\PluginWasEnabled::class);
         $this->post('/admin/plugins/manage', [
-            'name' => 'avatar-api',
+            'name' => 'hello-dolly',
             'action' => 'enable'
         ])->seeJson([
             'errno' => 0,
             'msg' => trans(
                 'admin.plugins.operations.enabled',
-                ['plugin' => plugin('avatar-api')->title]
+                ['plugin' => plugin('hello-dolly')->title]
             )
         ]);
 
         // Disable a plugin
         $this->post('/admin/plugins/manage', [
-            'name' => 'avatar-api',
+            'name' => 'hello-dolly',
             'action' => 'disable'
         ])->seeJson([
             'errno' => 0,
             'msg' => trans(
                 'admin.plugins.operations.disabled',
-                ['plugin' => plugin('avatar-api')->title]
+                ['plugin' => plugin('hello-dolly')->title]
             )
         ]);
         $this->expectsEvents(App\Events\PluginWasDisabled::class);
 
         // Delete a plugin
         $this->post('/admin/plugins/manage', [
-            'name' => 'avatar-api',
+            'name' => 'hello-dolly',
             'action' => 'delete'
         ])->seeJson([
             'errno' => 0,
             'msg' => trans('admin.plugins.operations.deleted')
         ]);
         $this->expectsEvents(App\Events\PluginWasDeleted::class);
-        $this->assertFalse(file_exists(base_path('plugins/avatar-api/')));
+        $this->assertFalse(file_exists(base_path('plugins/hello-dolly/')));
     }
 
     public function testGetPluginData()
