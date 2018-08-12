@@ -148,7 +148,7 @@ class PluginControllerTest extends TestCase
 
     public function testGetPluginData()
     {
-        $this->get('/admin/plugins/data')
+        $this->post('/admin/plugins/data')
             ->seeJsonStructure([
                 'data' => [[
                     'name',
