@@ -20,7 +20,7 @@
 <script>
     Object.defineProperty(window, '__bs_data__', {
         value: Object.freeze({
-            admin: !!{{ $user->isAdmin() }}
+            admin: {{ (string) $user->isAdmin() ?: 'false' }}
         }),
         writable: false
     })
