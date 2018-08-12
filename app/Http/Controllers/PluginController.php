@@ -11,16 +11,6 @@ use App\Services\PluginManager;
 
 class PluginController extends Controller
 {
-    /**
-     * @codeCoverageIgnore
-     */
-    public function showMarket()
-    {
-        return redirect('/')->setTargetUrl(
-            'https://github.com/printempw/blessing-skin-server/wiki/Plugins'
-        );
-    }
-
     public function showManage()
     {
         return view('admin.plugins');

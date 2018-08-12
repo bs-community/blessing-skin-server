@@ -98,11 +98,6 @@ customize:
     black-light: Black Light
 
 plugins:
-  status:
-    title: Status
-    enabled: Enabled
-    disabled: Disabled
-
   operations:
     title: Operations
     enabled: :plugin has been enabled.
@@ -114,6 +109,14 @@ plugins:
     deleted: The plugin was deleted successfully.
     no-config-notice: The plugin is not installed or doesn't provide configuration page.
     not-found: No such plugin.
+
+  market:
+    connection-error: Unable to connect to the plugins registry. :error
+    non-existent: The plugin :plugin does not exist.
+    download-failed: Unable to download the plugin. :error
+    shasum-failed: The downloaded file failed hash check, please retry.
+    unzip-failed: Unable to extract the plugin. :error
+    install-success: Plugin was installed.
 
   empty: No result
 

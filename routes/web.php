@@ -122,14 +122,16 @@ Route::group(['middleware' => 'admin', 'prefix' => 'admin'], function ()
     Route::post('/players',    'AdminController@playerAjaxHandler');
 
     Route::group(['prefix' => 'plugins'], function () {
-        Route::any ('/market', 'PluginController@showMarket');
-
         // Allow using POST method to get data for DataTables,
         // otherwise it may cause a "414 Request-URI Too Large" error.
-        Route::any ('/data',   'PluginController@getPluginData');
         Route::get ('/manage', 'PluginController@showManage');
+        Route::post('/data',   'PluginController@getPluginData');
         Route::post('/manage', 'PluginController@manage');
         Route::any ('/config/{name}', 'PluginController@config');
+
+        Route::get ('/market', 'MarketController@showMarket');
+        Route::post('/market-data', 'MarketController@getMarketData');
+        Route::post('/market/download', 'MarketController@download');
     });
 
     Route::group(['prefix' => 'update'], function () {
