@@ -5,6 +5,7 @@ const empty = Object.create(null);
 const init = {
     credentials: 'same-origin',
     headers: {
+        'Accept': 'application/json',
         'Content-Type': 'application/json'
     }
 };

@@ -62,7 +62,7 @@ class Handler extends ExceptionHandler
         if ($e instanceof ValidationException) {
             // Quick fix for returning 422
             // @see https://prinzeugen.net/custom-responses-of-laravel-validations/
-            if ($request->expectsJson() || $request->ajax()) {
+            if ($request->expectsJson()) {
                 return response()->json([
                     'errno' => 1,
                     'msg' => $e->validator->errors()->first()
