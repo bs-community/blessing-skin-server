@@ -47,13 +47,12 @@ class MarketControllerTest extends TestCase
                     'description',
                     'author',
                     'dist',
-                    'enabled',
                     'dependencies'
                 ]]
             ]);
 
         // Get plugins info without an valid certificate
         config(['secure.certificates' => '']);
-        $this->setExpectedException('Error')->post('/admin/plugins/market-data');
+        $this->expectException(Exception::class)->post('/admin/plugins/market-data');
     }
 }

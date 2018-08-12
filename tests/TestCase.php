@@ -45,6 +45,33 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
         return $this->withSession(['uid' => $role->uid, 'token' => $role->getToken()]);
     }
 
+    /**
+     * Disable Laravel's exception handling.
+     *
+     * @see https://laracasts.com/discuss/channels/testing/testing-that-exception-was-thrown
+     * @return $this
+     */
+    protected function disableExceptionHandling()
+    {
+        $this->app->instance(App\Exceptions\Handler::class, new FakeExceptionHandler);
+
+        return $this;
+    }
+
+    /**
+     * Set an expected exception.
+     *
+     * @param string $class
+     * @return $this
+     */
+    protected function expectException($class)
+    {
+        $this->disableExceptionHandling();
+        $this->setExpectedException($class);
+
+        return $this;
+    }
+
     protected function tearDown()
     {
         $this->beforeApplicationDestroyed(function () {
