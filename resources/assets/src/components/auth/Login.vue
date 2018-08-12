@@ -135,6 +135,7 @@ export default {
                 }
             );
             if (errno === 0) {
+                this.pending = false;
                 swal({ type: 'success', html: msg });
                 setTimeout(() => {
                     window.location = `${blessing.base_url}/${blessing.redirect_to || 'user'}`;
