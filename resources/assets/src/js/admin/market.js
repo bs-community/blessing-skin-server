@@ -130,14 +130,18 @@ async function updatePlugin(name) {
     const data = $.marketTable.row(`#plugin-${name}`).data();
 
     if (data.installed === false) {
-        swal({ type: 'warning', html: 'not installed' });
+        return swal({ type: 'warning', html: 'not installed' });
     }
 
-    await swal({
-        text: trans('admin.confirmUpdate', { plugin: data.title, old: data.installed, new: data.version }),
-        type: 'warning',
-        showCancelButton: true
-    });
+    try {
+        await swal({
+            text: trans('admin.confirmUpdate', { plugin: data.title, old: data.installed, new: data.version }),
+            type: 'warning',
+            showCancelButton: true
+        });
+    } catch (error) {
+        return;
+    }
 
     installPlugin(name, {
         beforeSend: () => {

@@ -566,6 +566,124 @@ describe('tests for "plugins" module', () => {
   });
 });
 
+describe('tests for "market" module', () => {
+  const modulePath = '../admin/market';
+
+  // TODO: test initializing market table
+
+  it('install a plugin', async () => {
+    const fetch = jest.fn()
+      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }))
+      .mockReturnValueOnce(Promise.resolve({ errno: 1, msg: 'failed' }))
+      .mockReturnValueOnce(Promise.reject());
+    const url = jest.fn(path => path);
+    const swal = jest.fn();
+    const toastr = {
+      success: jest.fn(),
+      warning: jest.fn()
+    };
+    const trans = jest.fn(key => key);
+    const reloadTable = jest.fn();
+    const showAjaxError = jest.fn();
+    window.trans = trans;
+    window.fetch = fetch;
+    window.url = url;
+    window.swal = swal;
+    window.toastr = toastr;
+    window.showAjaxError = showAjaxError;
+    $.marketTable = {
+      ajax: {
+        reload: reloadTable
+      }
+    };
+    document.body.innerHTML = `
+      <tr id="plugin-foo-bar"><button class=".btn">Download</button></tr>
+    `;
+
+    const installPlugin = require(modulePath).installPlugin;
+
+    await installPlugin('foo-bar');
+    expect(fetch).toBeCalledWith({
+      type: 'POST',
+      url: 'admin/plugins/market/download',
+      dataType: 'json',
+      data: { name: 'foo-bar' },
+      beforeSend: expect.any(Function)
+    });
+    expect(swal).not.toBeCalledWith({ type: 'warning' });
+    expect(toastr.success).toBeCalledWith('success');
+    expect(reloadTable).toBeCalledWith(null, false);
+
+    await installPlugin('foo-bar');
+    expect(swal).toBeCalledWith({ type: 'warning', html: 'failed' });
+
+    await installPlugin('foo-bar');
+    expect(showAjaxError).toBeCalled();
+  });
+
+  it('update a plugin', async () => {
+    const fetch = jest.fn()
+      .mockReturnValueOnce(Promise.resolve({ errno: 0, msg: 'success' }));
+    const getPluginRowData = jest.fn()
+      .mockReturnValueOnce({ installed: false })
+      .mockReturnValue({
+        title: 'Foo Bar',
+        version: '5.1.4',
+        installed: '1.1.4'
+      });
+    const url = jest.fn(path => path);
+    const swal = jest.fn()
+      .mockReturnValueOnce(Promise.resolve())
+      .mockReturnValueOnce(Promise.reject())
+      .mockReturnValueOnce(Promise.resolve());
+    const toastr = {
+      success: jest.fn(),
+      warning: jest.fn()
+    };
+    const trans = jest.fn(key => key);
+    const reloadTable = jest.fn();
+    const showAjaxError = jest.fn();
+    window.trans = trans;
+    window.fetch = fetch;
+    window.url = url;
+    window.swal = swal;
+    window.toastr = toastr;
+    window.showAjaxError = showAjaxError;
+    $.marketTable = {
+      ajax: {
+        reload: reloadTable
+      },
+      row: () => ({
+        data: getPluginRowData
+      })
+    };
+    document.body.innerHTML = `
+      <tr id="plugin-foo-bar"><button class=".btn">Update</button></tr>
+    `;
+
+    const updatePlugin = require(modulePath).updatePlugin;
+
+    await updatePlugin('foo-bar');
+    expect(swal).toBeCalledWith({ type: 'warning', html: 'not installed' });
+    expect(fetch).not.toBeCalled();
+
+    await updatePlugin('foo-bar');
+    expect(swal).toBeCalledWith({ type: 'warning', text: 'admin.confirmUpdate', showCancelButton: true });
+    expect(fetch).not.toBeCalled();
+
+    await updatePlugin('foo-bar');
+    expect(fetch).toBeCalledWith({
+      type: 'POST',
+      url: 'admin/plugins/market/download',
+      dataType: 'json',
+      data: { name: 'foo-bar' },
+      beforeSend: expect.any(Function)
+    });
+    expect(toastr.success).toBeCalledWith('success');
+    expect(reloadTable).toBeCalledWith(null, false);
+  });
+});
+
 describe('tests for "update" module', () => {
   const modulePath = '../admin/update';
 
