@@ -49,4 +49,9 @@ export default [
         component: () => import('./auth/Forgot'),
         el: 'form'
     },
+    {
+        path: 'auth/reset/(\\d+)',
+        component: () => import('./auth/Reset'),
+        el: 'form'
+    },
 ];

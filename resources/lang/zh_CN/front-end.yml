@@ -32,6 +32,7 @@ auth:
   forgot:
     login-link: 我又想起来了
     button: 发送
+  reset-button: 重置
 
 skinlib:
   addToCloset: 添加至衣柜

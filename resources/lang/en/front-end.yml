@@ -32,6 +32,7 @@ auth:
   forgot:
     login-link: I do remember it
     button: Send
+  reset-button: Reset
 
 skinlib:
   addToCloset: Add to closet
