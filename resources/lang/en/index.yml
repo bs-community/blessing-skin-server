@@ -1,13 +1,16 @@
 features:
-  multi-player:
+  first:
+    icon: fa-users
     name: Multi Player
     desc: You can add many players with only one account.
 
-  sharing:
+  second:
+    icon: fa-share-alt
     name: Sharing
     desc: Explore the skin library, give a 'like' and share them with your friends.
 
-  free:
+  third:
+    icon: fa-cloud
     name: Free
     desc: It is free forever. No ads. No subscription fees.
 
