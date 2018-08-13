@@ -53,7 +53,7 @@ show:
 
   deleted: 请求的材质文件已经被删除
   contact-admin: 请联系管理员删除该条目
-  private: 请求的材质已经设为隐私，仅上传者和管理员可查看
+  private: 请求的材质已经设为私密，仅上传者和管理员可查看
 
 upload:
   title: 上传材质
@@ -69,11 +69,11 @@ upload:
 
   button: 确认上传
 
-  type-error: 文件格式不对哦
+  type-error: 文件格式不符合要求，请检查你的材质文件
   invalid-size: 不是有效的 :type 文件（宽 :width，高 :height）
   invalid-hd-skin: 不是有效的高清皮肤（宽和高不是 32 的整数倍）
 
-  lack-score: 积分不够啦
+  lack-score: 积分不足
   repeated: 已经有人上传过这个材质了，直接添加到衣柜使用吧~
   success: 材质 :name 上传成功
 
@@ -93,5 +93,5 @@ model:
   success: 材质的适用模型已被修改为 :model
   duplicate: 已经有人上传过适用于该模型的相同材质了，直接去皮肤库收藏使用吧（名称：:tid）
 
-no-permission: 你不是这个材质的上传者哦
+no-permission: 你没有权限修改此材质
 non-existent: 材质不存在

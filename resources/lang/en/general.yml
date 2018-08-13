@@ -19,7 +19,6 @@ plugin-market: Plugin Market
 plugin-configs: Plugin Configs
 customize: Customize
 options: Options
-import-v2: Import Data
 score-options: Score Options
 check-update: Check Update
 download-update: Download Updates
@@ -39,19 +38,19 @@ reset: Reset
 submit: Submit
 
 notice: Notice
-switch-2d-preview: Switch to 2D Preview
+switch-2d-preview: Switch to 2D preview
 
 illegal-parameters: Illegal parameters.
 
 private: Private
 public: Public
 
-unexistent-user: Un-existent user
-unexistent-player: Un-existent player
-player-banned: The owner of this player has been banned
+unexistent-user: No such user.
+unexistent-player: No such player.
+player-banned: The owner of this player has been banned.
 
 texture-deleted: The requested texture has been deleted.
-texture-not-uploaded: The user haven not uploaded the texture of :type model yet.
+texture-not-uploaded: The user haven't uploaded the texture of :type model yet.
 
 operations: Operations
 

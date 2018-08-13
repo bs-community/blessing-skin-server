@@ -41,7 +41,7 @@ class AuthControllerTest extends TestCase
             'X-Requested-With' => 'XMLHttpRequest'
         ])->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => trans('auth.identification')])
+            'msg' => trans('validation.required', ['attribute' => trans('validation.attributes.identification')])
         ]);
 
         // Should return a warning if `password` is empty
@@ -263,7 +263,7 @@ class AuthControllerTest extends TestCase
             ]
         )->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'Player Name'])
+            'msg' => trans('validation.required', ['attribute' => trans('validation.attributes.player_name')])
         ]);
 
         // Should return a warning if `player_name` is invalid
@@ -278,7 +278,7 @@ class AuthControllerTest extends TestCase
             ]
         )->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.player_name', ['attribute' => 'Player Name'])
+            'msg' => trans('validation.player_name', ['attribute' => trans('validation.attributes.player_name')])
         ]);
 
         // Should return a warning if `player_name` is too long
@@ -293,7 +293,7 @@ class AuthControllerTest extends TestCase
         )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.max.string', [
-                'attribute' => 'Player Name',
+                'attribute' => trans('validation.attributes.player_name'),
                 'max' => option('player_name_length_max')
             ])
         ]);

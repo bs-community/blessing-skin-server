@@ -3,13 +3,14 @@ login:
   button: Log In
   message: Log in to manage your skin & players
   keep: Remember me
-  success: Logged in successfully~
+  success: Logged in successfully.
 
 check:
   anonymous: Illegal access. Please log in first.
   verified: To access this page, you should verify your email address first.
   admin: Only admins are permitted to access this page.
   banned: You are banned on this site. Please contact the admin.
+  token: Token expired. Please log in.
 
 register:
   title: Register
@@ -17,10 +18,10 @@ register:
   message: Welcome to :sitename!
   nickname-intro: Whatever you like expect special characters
   repeat-pwd: Repeat your password
-  close: Well, this site doesn't allow any register.
-  success: Registered successfully. Redirecting...
+  close: We don't accept any registration.
+  success: Your account was registered. Redirecting...
   max: You can't register more than :regs accounts.
-  registered: The email address is already registered.
+  registered: The email address was already registered.
 
 forgot:
   title: Forgot Password
@@ -28,10 +29,10 @@ forgot:
   message: We will send you an E-mail to verify.
   login-link: I do remember it
   disabled: Password resetting is not available.
-  frequent-mail: You click the send button too fast. Wait for some minutes, guy.
+  frequent-mail: You click the send button too fast. Wait for some minutes.
   unregistered: The email address is not registered.
-  success: Mail is sent. Will be expired in 1 hour, please check.
-  failed: Fail to send mail, detailed message :msg
+  success: Mail sent, please check your inbox. The link will be expired in 1 hour.
+  failed: Failed to send verification mail. :msg
   message: You are receiving this email because this email address was used to reset your password on :sitename
   ignore: If you haven't signed up on our site, please ignore this email. No unsubscribing is required.
   reset: Reset your password
@@ -53,9 +54,9 @@ reset:
 bind:
   title: Bind Email
   button: Bind
-  message: You need to fill your email adderss to continue.
-  introduction: Email addresses will be used for password resetting. We won't send you any spam.
-  registered: The email address is already registered.
+  message: You need to provide your email adderss to continue.
+  introduction: We won't send you any spam.
+  registered: The email address was already taken.
 
 verify:
   title: Email Verification
@@ -66,14 +67,14 @@ verify:
   expired: This link is expired, please resend a verification email.
 
 validation:
-  identification: Invalid format of email or player name.
+  identification: The email or player name is invalid.
   email: Email format is invalid.
   captcha: Wrong CAPTCHA.
-  user: Unexistent user.
+  user: No such user.
   password: Wrong password.
 
 logout:
-  success: Logged out successfully~
+  success: You are now logged out.
   fail: No valid session.
 
 nickname: Nickname

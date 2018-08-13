@@ -418,7 +418,7 @@ class SkinlibControllerTest extends TestCase
             'X-Requested-With' => 'XMLHttpRequest'
         ])->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'Name'])
+            'msg' => trans('validation.required', ['attribute' => 'name'])
         ]);
 
         // With some special chars
@@ -428,7 +428,7 @@ class SkinlibControllerTest extends TestCase
             'X-Requested-With' => 'XMLHttpRequest'
         ])->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.no_special_chars', ['attribute' => 'Name'])
+            'msg' => trans('validation.no_special_chars', ['attribute' => 'name'])
         ]);
 
         // Specified regular expression for texture name
@@ -439,7 +439,7 @@ class SkinlibControllerTest extends TestCase
             'X-Requested-With' => 'XMLHttpRequest'
         ])->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.regex', ['attribute' => 'Name'])
+            'msg' => trans('validation.regex', ['attribute' => 'name'])
         ]);
         option(['texture_name_regexp' => null]);
 
@@ -450,7 +450,7 @@ class SkinlibControllerTest extends TestCase
             'X-Requested-With' => 'XMLHttpRequest'
         ])->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'File'])
+            'msg' => trans('validation.required', ['attribute' => 'file'])
         ]);
 
         // Too large file
@@ -463,7 +463,7 @@ class SkinlibControllerTest extends TestCase
             'X-Requested-With' => 'XMLHttpRequest'
         ])->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.max.file', ['attribute' => 'File', 'max' => '2'])
+            'msg' => trans('validation.max.file', ['attribute' => 'file', 'max' => '2'])
         ]);
         option(['max_upload_file_size' => 1024]);
 

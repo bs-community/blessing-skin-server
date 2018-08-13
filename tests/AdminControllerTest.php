@@ -736,7 +736,7 @@ class AdminControllerTest extends BrowserKitTestCase
             'Accept' => 'application/json',
         ])->seeJson([
             'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'Name'])
+            'msg' => trans('validation.required', ['attribute' => 'name'])
         ]);
 
         // Rename a player successfully

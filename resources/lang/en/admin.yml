@@ -48,21 +48,21 @@ users:
         success: The account has been banned.
       unban:
         text: Unban
-        success: The account has been unbanned.
-      cant-super-admin: You can't ban super admin.
+        success: The account was not banned anymore.
+      cant-super-admin: You can't ban a super admin.
       cant-admin: Only super admins are able to ban admins.
     delete:
       delete: Delete User
       success: The account has been deleted successfully.
-      cant-super-admin: You can't delete super admin in this way
-      cant-admin: You can't delete admins.
+      cant-super-admin: You can't delete a super admin.
+      cant-admin: You can't delete a admin account.
 
 players:
   no-permission: You have no permission to operate this player.
   operations:
     title: Operations
   preference:
-    success: The preference of player [:player] has been changed to :preference
+    success: The preference of player ":player" has been changed to :preference
   textures:
     change: Change Textures
     non-existent: No such texture tid.:tid
@@ -78,7 +78,7 @@ players:
 
 customize:
   change-color:
-    title: Change theme color
+    title: Change Theme Color
     success: Theme color updated.
 
   colors:
@@ -111,7 +111,7 @@ plugins:
       version: "The version of `:name` does not satisfies the constraint `:constraint`"
     disabled: :plugin has been disabled.
     deleted: The plugin was deleted successfully.
-    no-config-notice: The plugin is not installed or doesn't provide configuration page.
+    no-config-notice: The plugin is not installed or doesn't provide a configuration page.
     not-found: No such plugin.
 
   market:
@@ -147,7 +147,7 @@ update:
 
     downloads:
       text: "Download Link:"
-      link: Click to download full program package.
+      link: Click to download full update package.
 
     check-github: <a href=":url" target="_blank" class="btn btn-default pull-right">Check GitHub Releases</a>
     button: Update Now
@@ -165,7 +165,7 @@ update:
 
   errors:
     prefix: "An error occured: "
-    connection: We can't connect to the update source. :error
+    connection: "Unable to access to current update source. Details:"
     write-permission: Unable to create the cache directory. Please check the permission.
     unzip: "Failed to extract update package. Error code: "
     overwrite: Unable to overwrite files.

@@ -20,10 +20,10 @@ users:
     title: 更多操作
     non-existent: 用户不存在
     no-permission: 你无权操作此用户
-    invalid: 无效 action
+    invalid: 无效的 action
     email:
       change: 修改邮箱
-      existed: :email 已被占用
+      existed: 邮箱 :email 已被占用
       success: 邮箱修改成功
     verification:
       success: 用户的邮箱验证状态已修改
@@ -54,8 +54,8 @@ users:
     delete:
       delete: 删除用户
       success: 账号已被成功删除
-      cant-super-admin: 超级管理员账号不能被这样删除的啦
-      cant-admin: 你不能删除管理员账号哦
+      cant-super-admin: 超级管理员账号不能被删除
+      cant-admin: 无法删除管理员账号
 
 players:
   no-permission: 你无权操作此角色
@@ -88,11 +88,11 @@ customize:
     yellow-light: 黄色主题 - 白色侧边栏
     green: 绿色主题
     green-light: 绿色主题 - 白色侧边栏
-    purple: 基佬紫
+    purple: 紫色主题
     purple-light: 紫色主题 - 白色侧边栏
-    red: 喜庆红（笑）
+    red: 红色主题
     red-light: 红色主题 - 白色侧边栏
-    black: 高端黑
+    black: 黑色主题
     black-light: 黑色主题 - 白色侧边栏
 
 plugins:
@@ -170,9 +170,9 @@ update:
 
   errors:
     prefix: 发生错误：
-    connection: 无法访问当前更新源。详细信息：:error
+    connection: 无法访问当前更新源。详细信息：
     write-permission: 你的服务器不支持自动更新：创建下载缓存文件夹失败，请检查目录权限。
     unzip: 更新包解压缩失败。错误代码：
-    overwrite: 您的服务器不支持自动更新：无法覆盖文件。
+    overwrite: 你的服务器不支持自动更新：无法覆盖文件。
 
 invalid-action: 无效的操作名

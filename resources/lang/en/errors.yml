@@ -18,4 +18,4 @@ plugins:
   directory: We can't approach the path for loading plugins specified by the PLUGINS_DIR in .env file. Please check your configuration. Error :msg
 
 cipher:
-  unsupported: Unsupported encryption method `:cipher`, please check your `.env` configuration
+  unsupported: Unsupported password hashing method `:cipher`, please check your `.env` configuration

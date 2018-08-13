@@ -1,9 +1,9 @@
 general:
   filter: Filter
-  my-upload: Uploaded by Me
+  my-upload: Uploaded by me
   sort: Sort
-  search-textures: Search For Textures
-  upload-new-skin: Upload New Skin
+  search-textures: Search for textures...
+  upload-new-skin: Upload new skin
   no-result: No result.
 
 filter:
@@ -13,12 +13,12 @@ filter:
   any-model: (Any Model)
   steve-model: (Steve Model)
   alex-model: (Alex Model)
-  uploader: User (:name) Uploaded
-  clean-filter: Clean Filter
+  uploader: User (:name) uploaded
+  clean-filter: Clean filter
 
 sort:
-  newest-uploaded: Newestly Uploaded
-  most-likes: Most Likes
+  newest-uploaded: Newestly uploaded
+  most-likes: Most likes
 
 item:
   steve: (Steve)
@@ -31,8 +31,8 @@ item:
 
 show:
   title: Texture Details
-  anonymous: You must login to use closets
-  likes: People who like this
+  anonymous: You must login to use closets.
+  likes: People who liked this
 
   detail: Details
   name: Texture Name
@@ -64,15 +64,15 @@ upload:
   name-rule-regexp: Custom name rules are applied as :regexp
   texture-type: Texture Type
   select-file: Select File
-  private-score-notice: It will spend you more scores to set it as private. You will be charged :score scores for every KB storage.
+  private-score-notice: It will spend you more scores for setting it as private. You will be charged :score scores for per KB storage.
   privacy-notice: Prevent it from being visible at skin library.
-  set-as-private: Make it Private
+  set-as-private: Make it private
 
   button: Upload
 
   type-error: Incorrect mime type of uploaded file.
-  invalid-size: Invalid :type file (Width :width, Height :height)
-  invalid-hd-skin: Invalid HD skin (Width and height can not be devided by 32)
+  invalid-size: Invalid :type file (width :width, height :height)
+  invalid-hd-skin: Invalid HD skin (width and height should be divisible by 32)
 
   lack-score: You don't have enough score to upload this texture.
   repeated: The texture is already uploaded by someone else. You can add it to your closet directly.
@@ -82,9 +82,9 @@ delete:
   success: The texture was deleted successfully.
 
 privacy:
-  change-privacy: Change Privacy
-  set-as-private: Set as Private
-  set-as-public: Set as Public
+  change-privacy: Change privacy
+  set-as-private: Set as private
+  set-as-public: Set as public
   success: The texture was set to :privacy successfully.
 
 rename:
@@ -94,5 +94,5 @@ model:
   success: The texture's model was changed to :model successfully.
   duplicate: "The same texture available for the chosen model already exists in skinlib (Name: :tid). You can add it to your closet directly."
 
-no-permission: You aren't the uploader of this texture.
-non-existent: Non-existent texture.
+no-permission: You have no permission to moderate this texture.
+non-existent: No such texture.

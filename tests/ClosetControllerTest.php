@@ -116,7 +116,7 @@ class ClosetControllerTest extends TestCase
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'Name'])
+            'msg' => trans('validation.required', ['attribute' => 'name'])
         ]);
 
         // `name` field has special characters
@@ -126,7 +126,7 @@ class ClosetControllerTest extends TestCase
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.no_special_chars', ['attribute' => 'Name'])
+            'msg' => trans('validation.no_special_chars', ['attribute' => 'name'])
         ]);
 
         // The user doesn't have enough score to add a texture

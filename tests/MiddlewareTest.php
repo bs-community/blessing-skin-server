@@ -112,11 +112,11 @@ class MiddlewareTest extends TestCase
     {
         $this->getJson('/nope.json')
             ->assertStatus(404)
-            ->assertSee('Un-existent player');
+            ->assertSee(trans('general.unexistent-player'));
 
         $this->get('/skin/nope.png')
             ->assertStatus(404)
-            ->assertSee('Un-existent player');
+            ->assertSee(trans('general.unexistent-player'));
 
         Option::set('return_204_when_notfound', true);
         $this->getJson('/nope.json')->assertStatus(204);
@@ -178,7 +178,7 @@ class MiddlewareTest extends TestCase
     {
         $this->get('/auth/login')
             ->assertViewIs('auth.login')
-            ->assertDontSee('User Center');
+            ->assertDontSee(trans('general.user-center'));
 
         $this->actingAs(factory(User::class)->create())
             ->get('/auth/login')

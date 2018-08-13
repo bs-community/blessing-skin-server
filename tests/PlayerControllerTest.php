@@ -54,7 +54,7 @@ class PlayerControllerTest extends TestCase
         $this->postJson('/user/player/add', [], ['X-Requested-With' => 'XMLHttpRequest'])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'Player Name'])
+                'msg' => trans('validation.required', ['attribute' => trans('validation.attributes.player_name')])
             ]);
 
         // Only A-Za-z0-9_ are allowed
@@ -65,7 +65,7 @@ class PlayerControllerTest extends TestCase
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.player_name', ['attribute' => 'Player Name'])
+            'msg' => trans('validation.player_name', ['attribute' => trans('validation.attributes.player_name')])
         ]);
 
         // Custom player name rule (regexp)
@@ -77,7 +77,7 @@ class PlayerControllerTest extends TestCase
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.player_name', ['attribute' => 'Player Name'])
+            'msg' => trans('validation.player_name', ['attribute' => trans('validation.attributes.player_name')])
         ]);
 
         // Lack of score
@@ -178,7 +178,7 @@ class PlayerControllerTest extends TestCase
                 'X-Requested-With' => 'XMLHttpRequest'
             ])->assertJson([
                 'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'Player Name'])
+                'msg' => trans('validation.required', ['attribute' => trans('validation.attributes.player_name')])
             ]);
 
         // Only A-Za-z0-9_ are allowed
@@ -190,7 +190,7 @@ class PlayerControllerTest extends TestCase
             'X-Requested-With' => 'XMLHttpRequest'
         ])->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.player_name', ['attribute' => 'Player Name'])
+            'msg' => trans('validation.player_name', ['attribute' => trans('validation.attributes.player_name')])
         ]);
 
         // Other invalid characters
@@ -202,7 +202,7 @@ class PlayerControllerTest extends TestCase
             'X-Requested-With' => 'XMLHttpRequest'
         ])->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.player_name', ['attribute' => 'Player Name'])
+            'msg' => trans('validation.player_name', ['attribute' => trans('validation.attributes.player_name')])
         ]);
 
         // Use a duplicated player name
