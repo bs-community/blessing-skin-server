@@ -19,7 +19,7 @@ const marketTableColumnDefs = [
         targets: 0,
         title: trans('admin.pluginTitle'),
         data: 'title',
-        render: title => `<strong>${ title }</strong>`
+        render: (title, type, row) => `<strong>${ title }</strong><div class="plugin-name">${ row.name }</div>`
     },
     {
         targets: 1,

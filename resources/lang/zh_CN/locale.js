@@ -183,6 +183,7 @@
             pluginTitle: '插件',
             pluginAuthor: '作者',
             pluginVersion: '版本',
+            pluginName: '插件标识',
             pluginOperations: '操作',
             pluginDescription: '描述',
             pluginDependencies: '依赖关系',

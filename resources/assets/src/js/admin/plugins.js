@@ -51,7 +51,8 @@ const pluginsTableColumnDefs = [
                 <div class="plugin-description"><p>${ description }</p></div>
                 <div class="plugin-version-author">
                     ${ trans('admin.pluginVersion') } <span class="text-primary">${ row.version }</span> |
-                    ${ trans('admin.pluginAuthor') } <a href="${ row.url }">${ row.author }</a>
+                    ${ trans('admin.pluginAuthor') } <a href="${ row.url }">${ row.author }</a> |
+                    ${ trans('admin.pluginName') } <span>${ row.name }</span>
                 </div>
             `;
         }

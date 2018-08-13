@@ -181,6 +181,7 @@
             pluginTitle: 'Plugin',
             pluginAuthor: 'Author',
             pluginVersion: 'Version',
+            pluginName: 'Name',
             pluginOperations: 'Operations',
             pluginDescription: 'Description',
             pluginDependencies: 'Dependencies',
