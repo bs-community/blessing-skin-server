@@ -80,19 +80,19 @@
                 <br>
                 <br>
                 <div class="col-lg-4">
-                    <i class="fas fa-users"></i>
-                    <h3>@lang('index.features.multi-player.name')</h3>
-                    <p>@lang('index.features.multi-player.desc')</p>
+                    <i class="fas {{ trans('index.features.first.icon') }}" aria-hidden="true"></i>
+                    <h3>{!! trans('index.features.first.name') !!}</h3>
+                    <p>{!! trans('index.features.first.desc') !!}</p>
                 </div>
                 <div class="col-lg-4">
-                    <i class="fas fa-share-alt"></i>
-                    <h3>@lang('index.features.sharing.name')</h3>
-                    <p>@lang('index.features.sharing.desc')</p>
+                    <i class="fas {{ trans('index.features.second.icon') }}" aria-hidden="true"></i>
+                    <h3>{!! trans('index.features.second.name') !!}</h3>
+                    <p>{!! trans('index.features.second.desc') !!}</p>
                 </div>
                 <div class="col-lg-4">
-                    <i class="fas fa-cloud"></i>
-                    <h3>@lang('index.features.free.name')</h3>
-                    <p>@lang('index.features.free.desc')</p>
+                    <i class="fas {{ trans('index.features.third.icon') }}" aria-hidden="true"></i>
+                    <h3>{!! trans('index.features.third.name') !!}</h3>
+                    <p>{!! trans('index.features.third.desc') !!}</p>
                 </div>
             </div>
             <br>
@@ -102,7 +102,7 @@
     <div id="footerwrap">
         <div class="container">
             <div class="col-lg-6">
-                @lang('index.introduction', ['sitename' => option_localized('site_name')])
+                {!! trans('index.introduction', ['sitename' => option_localized('site_name')]) !!}
             </div>
 
             <div class="col-lg-6">

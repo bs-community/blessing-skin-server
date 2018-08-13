@@ -1,13 +1,16 @@
 features:
-  multi-player:
+  first:
+    icon: fa-users
     name: 多角色
     desc: 一个账户可绑定多个游戏角色
 
-  sharing:
+  second:
+    icon: fa-share-alt
     name: 分享
     desc: 浏览皮肤库，添加喜爱的皮肤并与好友分享
 
-  free:
+  third:
+    icon: fa-cloud
     name: 永久免费
     desc: 我们承诺永不收取任何费用
 
