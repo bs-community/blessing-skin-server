@@ -1,5 +1,5 @@
 database:
-  connection-error: 无法连接至 :type 服务器，请检查你的配置。服务器返回的信息：「:msg」
+  connection-error: 无法连接至 :type 服务器，请检查你的配置。服务器返回的信息：:msg
   connection-success: 成功连接至 :type 服务器 [:server] ，点击下一步以开始安装。
   table-already-exists: 检测到目标数据库中已存在如下数据表 :tables，它们与本程序即将创建的数据表名称冲突，为了避免原有数据被覆盖，请手动删除它们，或者为本程序选择一个不同的数据表前缀。
 
@@ -27,7 +27,7 @@ updates:
     title: 还差一小步
     text: |
       欢迎升级至 Blessing Skin Server v:version！
-      我们需要升级您的数据库，点击下一步以继续。
+      我们需要升级你的数据库，点击下一步以继续。
     button: 下一步
 
   success:
@@ -47,12 +47,12 @@ wizard:
   info:
     title: 填写信息
     button: 开始安装
-    text: 您需要填写一些基本信息。无需担心填错，这些信息以后可以再次修改。
+    text: 你需要填写一些基本信息。无需担心填错，这些信息以后可以再次修改。
 
     admin-email: 管理员邮箱
-    admin-notice: 这是<b>唯一</b>的超级管理员账号，可 添加/取消 其他管理员。
+    admin-notice: 这是<b>唯一</b>的超级管理员账号，可添加或移除其他管理员。
     password: 密码
-    pwd-notice: <b>重要：</b>您将需要此密码来登录管理皮肤站，请将其保存在安全的位置。
+    pwd-notice: <b>重要：</b>你将需要此密码来登录管理皮肤站，请将其保存在安全的位置。
     confirm-pwd: 重复密码
     site-name: 站点名称
     site-name-notice: 将会显示在首页以及标题栏
@@ -61,7 +61,7 @@ wizard:
 
   finish:
     title: 安装成功！
-    text: Blessing Skin Server 安装完成。您是否还沉浸在愉悦的安装过程中？很遗憾，一切皆已完成！ :)
+    text: Blessing Skin Server 安装完成。你是否还沉浸在愉悦的安装过程中？很遗憾，一切皆已完成！ :)
 
 integrity-check:
   title: 安装不完全

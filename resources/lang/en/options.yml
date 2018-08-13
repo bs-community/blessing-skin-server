@@ -1,11 +1,11 @@
-option-saved: Option Saved.
+option-saved: Option saved.
 
 homepage:
   title: Homepage
 
   home_pic_url:
     title: Picture URL at Homepage
-    hint: Path relative to homepage or full URL, leave empty to use default image
+    hint: Path relative to homepage or full URL, leave empty to use default image.
   favicon_url:
     title: Website Icon
     hint: Path relative to resources/assets/ or full URL.
@@ -27,7 +27,7 @@ customJsCss:
   custom_js: JavaScript
 
 rate:
-  title: About Scores
+  title: Scores
 
   score_per_storage:
     title: Storage
@@ -71,7 +71,7 @@ general:
     description: You can also specify a different site name and description for each language. To edit a specific language's corresponding site name or description text, please switch to that language and submit your edit.
   site_url:
     title: Site URL
-    hint: Begin with http(s)://, nerver ends with slash
+    hint: Begin with http(s)://, nerver ends with slash.
   user_can_register:
     title: Open Registration
     label: Everyone is allowed to register.
@@ -85,11 +85,11 @@ general:
   ip_get_method:
     title: Get IP via
     HTTP_X_FORWARDED_FOR: HTTP_X_FORWARDED_FOR (can be fabricated)
-    REMOTE_ADDR: REMOTE_ADDR (isn't suit for sites under load balancer)
-    hint: We have no method to get the real IP address of client with PHP.
+    REMOTE_ADDR: REMOTE_ADDR (NOT suitable for sites under load balancer)
+    hint: Unfortunately, we have no method to get the accurate client IP address with pure PHP.
   max_upload_file_size:
     title: Max Upload Size
-    hint: "Limit of PHP in php.ini: :size"
+    hint: "Limit specified in php.ini: :size"
   player_name_rule:
     title: Player Name Rule
     official: Letters, numbers and underscores (Mojang's official rule)
@@ -118,11 +118,11 @@ general:
     placeholder: Regular Expressions
   comment_script:
     title: Comment Script
-    description: Placeholders are available in comment scripts. <code>{tid}</code> will be replaced with texture id, <code>{name}</code> will be replaced with texture name, <code>{url}</code> will be replaced with current URL.
+    description: Placeholder is available, <code>{tid}</code> will be replaced with texture id, <code>{name}</code> will be replaced with texture name, <code>{url}</code> will be replaced with current URL.
   allow_sending_statistics:
     title: Statistics
     label: Send usage statistics anonymously.
-    hint: Information about privacy will nerver be sent.
+    hint: Privacy information will nerver be sent.
 
 announ:
   title: Announcement
@@ -132,30 +132,30 @@ announ:
 
 resources:
   title: Resource Files
-  hint: Please adjust these options when CDN cache is on
+  hint: Please check these options if you enabled CDN for your site.
 
   force_ssl:
     title: Force SSL
-    label: Use HTTPS protocol to load resources forcely.
-    hint: Check SSL available before turning on
+    label: Use HTTPS protocol to load all front-end assets.
+    hint: Please check if SSL really available before turning on.
   auto_detect_asset_url:
     title: Assets URL
     label: Determine assets url automatically.
-    description: Load asset files according to current URL. The site url will be used if this is not enabled. Please unable this if requests don't go through CDN.
+    description: Please unable this if assets URLs are wrongly generated under a CDN. The site url will be used if this is not enabled.
   return_204_when_notfound:
     title: HTTP Response Code
-    label: Return 204 instead of 404 when requesting un-existent player.
-    description: If your CDN doesn't cache 404 pages, please turn this on. A flood of requests to un-existent players will greatly slow down the site.
+    label: Return 204 instead of 404 when requesting non-existent player.
+    description: If your CDN doesn't cache 404 pages, please turn this on. A flood of requests to non-existent players will greatly slow down the site.
   cache_expire_time:
     title: Cache Exipre Time
-    hint: In seconds, 86400 = one day, 31536000 = one year
+    hint: In seconds, 86400 = one day, 31536000 = one year.
 
 update:
   title: Check Update
 
   check_update:
     title: Check Update
-    label: Check update automatically and notify me.
+    label: Check available updates automatically and notify me.
   update_source:
     title: Update Source
-    description: 'Available update source list can be found at: <a href="https://github.com/printempw/blessing-skin-server/wiki/%E6%9B%B4%E6%96%B0%E6%BA%90%E5%88%97%E8%A1%A8">@GitHub Wiki</a>'
+    description: 'Available update source list can be found at: <a href="https://github.com/printempw/blessing-skin-server/wiki/%E6%9B%B4%E6%96%B0%E6%BA%90%E5%88%97%E8%A1%A8">@GitHub Wiki</a>.'

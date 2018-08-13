@@ -706,7 +706,7 @@ class AdminControllerTest extends TestCase
             'action' => 'name'
         ], ['X-Requested-With' => 'XMLHttpRequest'])->seeJson([
             'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'Name'])
+            'msg' => trans('validation.required', ['attribute' => 'name'])
         ]);
 
         // Rename a player successfully

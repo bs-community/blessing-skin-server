@@ -1,12 +1,3 @@
-/*!
- * Blessing Skin English Translations
- *
- * @see https://github.com/printempw/blessing-skin-server
- * @author printempw <h@prinzeugen.net>
- *
- * NOTE: this file must be saved in UTF-8 encoding.
- */
-
 (function ($) {
     'use strict';
 
@@ -81,8 +72,8 @@
             redirecting: 'Redirecting...',
 
             // Change Privacy
-            setAsPrivate: 'Set as Private',
-            setAsPublic: 'Set as Public',
+            setAsPrivate: 'Set as private',
+            setAsPublic: 'Set as public',
             setPublicNotice: 'Sure to set this as public texture?',
 
             deleteNotice: 'Are you sure to delete this texture?'
@@ -99,8 +90,8 @@
             removeItem: 'Remove from closet',
             setAsAvatar: 'Set as avatar',
             viewInSkinlib: 'View in skin library',
-            switch2dPreview: 'Switch to 2D Preview',
-            switch3dPreview: 'Switch to 3D Preview',
+            switch2dPreview: 'Switch to 2D preview',
+            switch3dPreview: 'Switch to 3D preview',
             removeFromClosetNotice: 'Sure to remove this texture from your closet?',
             emptySelectedPlayer: 'No player is selected.',
             emptySelectedTexture: 'No texture is selected.',
@@ -134,17 +125,17 @@
             unban: 'Unban',
             setAdmin: 'Set as admin',
             unsetAdmin: 'Remove admin',
-            deleteUser: 'Delete User',
+            deleteUser: 'Delete user',
             cannotDeleteAdmin: 'You can\'t delete admins.',
-            cannotDeleteSuperAdmin: 'You can\'t delete super admin in this way',
-            changeEmail: 'Edit Email',
-            changeNickName: 'Edit Nickname',
-            changePassword: 'Edit Password',
-            changeVerification: 'Switch Verification Status',
+            cannotDeleteSuperAdmin: 'You can\'t delete super admins.',
+            changeEmail: 'Edit email',
+            changeNickName: 'Edit nickname',
+            changePassword: 'Edit password',
+            changeVerification: 'Switch verification status',
             newUserEmail: 'Please enter the new email:',
             newUserNickname: 'Please enter the new nickname:',
             newUserPassword: 'Please enter the new password:',
-            deleteUserNotice: 'Are you sure to delete this user? It\' permanent.',
+            deleteUserNotice: 'Are you sure to delete this user? It\'s permanent.',
             scoreTip: 'Press ENTER to submit new score',
             inspectHisOwner: 'Click to inspect the owner of this player',
             inspectHisPlayers: 'Click to inspect the players he owns',
@@ -166,14 +157,14 @@
             pid: 'Texture ID',
             pidNotice: 'Please enter the tid of texture. Inputting 0 can clear texture of this player.',
             changePlayerTexture: 'Change textures of :player',
-            changeTexture: 'Change Textures',
-            changePlayerName: 'Change Player Name',
-            changeOwner: 'Change Owner',
+            changeTexture: 'Change textures',
+            changePlayerName: 'Change player name',
+            changeOwner: 'Change owner',
             deletePlayer: 'Delete',
-            changePlayerOwner: 'Please enter the id of user which this player should be transferred to:',
+            changePlayerOwner: 'Please enter the id of user which this player is transfering to:',
             deletePlayerNotice: 'Are you sure to delete this player? It\' permanent.',
             targetUser: 'Target user is :nickname',
-            noSuchUser: 'No such user',
+            noSuchUser: 'No such user.',
             changePlayerNameNotice: 'Please input new player name:',
             emptyPlayerName: 'Player name cannot be empty.',
 
@@ -203,7 +194,7 @@
             // Update
             preparing: 'Preparing',
             downloadCompleted: 'Update package download completed.',
-            extracting: 'Extracting update package..'
+            extracting: 'Extracting update package...'
         },
         general: {
             skin: 'Skin',

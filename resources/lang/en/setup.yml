@@ -1,7 +1,7 @@
 database:
   connection-error: "Unable to connect to the target :type database, please check your configuration. The server replied with: :msg"
   connection-success: Connect to the target :type database [:server] successfully, just click NEXT to start installation.
-  table-already-exists: There are some tables already exist in target database, which names conflict with ones we are going to create. To avoid data loss, please manually delete these tables :tables, or set a different table prefix.
+  table-already-exists: There are some tables already exist in target database, whose names conflict with ones we are going to create. To avoid data loss, please manually delete these tables :tables, or set a different table prefix.
 
 file:
   permission-error: Unable to create textures folder, please check the directory permissions or place one manually.
@@ -16,7 +16,7 @@ disabled-functions:
 
 locked:
   title: Already installed
-  text: You appear to have already installed Blessing Skin Server. To reinstall please clear your old database tables first, or use a new database table prefix.
+  text: It appears that you have already installed Blessing Skin Server. To reinstall, please delete the tables in your database first, or use a new table prefix.
   button: Back to homepage
 
 updates:
@@ -26,7 +26,7 @@ updates:
   welcome:
     title: One more step
     text: |
-      Welcome to update to Blessing Skin Server v:version!
+      Welcome! You are going to update to Blessing Skin Server v:version.
       We need to apply some updates to your database, click NEXT to continue.
     button: Next
 
@@ -47,7 +47,7 @@ wizard:
   info:
     title: Information needed
     button: Run install
-    text: To proceed with the installation fill this form with the details of the initial admin account. Don't worry, you can always change these settings later.
+    text: To proceed with the installation, please fill this form with the details of the initial admin account. Don't worry, you can always change these settings later.
 
     admin-email: Admin Email
     admin-notice: This is the <b>UNIQUE</b> super admin account who can GIVE or CANCEL other users' admin privilege.
@@ -55,7 +55,7 @@ wizard:
     pwd-notice: <b>Attention:</b> You will need the password to log in. Please keep it at a secure place.
     confirm-pwd: Confirm password
     site-name: Site name
-    site-name-notice: This will be shown at title bar and homepage.
+    site-name-notice: This will be shown on every page.
     secure: Security
     secure-notice: Generate random APP_KEY and SALT to make your site secured.
 

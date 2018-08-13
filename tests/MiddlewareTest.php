@@ -125,11 +125,11 @@ class MiddlewareTest extends TestCase
     {
         $this->get('/nope.json')
             ->assertResponseStatus(404)
-            ->see('Un-existent player');
+            ->see(trans('general.unexistent-player'));
 
         $this->get('/skin/nope.png')
             ->assertResponseStatus(404)
-            ->see('Un-existent player');
+            ->see(trans('general.unexistent-player'));
 
         Option::set('return_204_when_notfound', true);
         $this->get('/nope.json')
@@ -192,13 +192,13 @@ class MiddlewareTest extends TestCase
     {
         $this->visit('/auth/login')
             ->seePageIs('/auth/login')
-            ->dontSee('User Center');
+            ->dontSee(trans('general.user-center'));
 
         $user = factory(\App\Models\User::class)->create();
 
         $this->withSession(['uid' => $user->uid])
             ->visit('/auth/login')
-            ->see('Invalid token');
+            ->see(trans('auth.check.token'));
 
         $this->withSession(['uid' => $user->uid, 'token' => 'nothing'])
             ->visit('/auth/login')

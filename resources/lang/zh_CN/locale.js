@@ -1,33 +1,24 @@
-/*!
- * Blessing Skin Chinese Translations
- *
- * @see https://github.com/printempw/blessing-skin-server
- * @author printempw <h@prinzeugen.net>
- *
- * NOTE: this file must be saved in UTF-8 encoding.
- */
-
 (function ($) {
     'use strict';
 
     $.locales['zh_CN'] = {
         auth: {
             // Login
-            emptyIdentification: '你还没有填写邮箱/角色名哦',
-            emptyPassword: '密码要好好填哦',
-            emptyCaptcha: '你还没有填写验证码哦',
+            emptyIdentification: '邮箱/角色名不能为空',
+            emptyPassword: '密码不能为空',
+            emptyCaptcha: '验证码不能为空',
             login: '登录',
             loggingIn: '登录中',
             tooManyFails: '你尝试的次数太多啦，请输入验证码',
 
             // Register
-            emptyEmail: '你还没有填写邮箱哦',
-            invalidEmail: '邮箱格式不正确！',
-            invalidPassword: '无效的密码。密码长度应该大于 8 并小于 32。',
+            emptyEmail: '邮箱不能为空',
+            invalidEmail: '邮箱格式不正确',
+            invalidPassword: '密码长度应该大于 8 并小于 32 个字符',
             emptyConfirmPwd: '确认密码不能为空',
-            invalidConfirmPwd: '密码和确认的密码不一样诶？',
-            emptyNickname: '你还没有填写昵称哦',
-            emptyPlayerName: '你还没有填写角色名哦',
+            invalidConfirmPwd: '确认密码不一致',
+            emptyNickname: '昵称不能为空',
+            emptyPlayerName: '角色名不能为空',
             register: '注册',
             registering: '注册中',
 
@@ -41,9 +32,9 @@
             // Like
             addToCloset: '添加至衣柜',
             removeFromCloset: '从衣柜中移除',
-            setItemName: '给你的皮肤起个名字吧~',
+            setItemName: '为收藏的衣柜物品命名：',
             applyNotice: '收藏后可以在我的衣柜里将皮肤应用至角色',
-            emptyItemName: '你还没有填写要收藏的材质名称啊',
+            emptyItemName: '收藏的衣柜物品名称不能为空',
             anonymous: '请先登录',
             private: '私密',
 
@@ -62,22 +53,22 @@
             },
 
             // Preview
-            badSkinSize: '所选皮肤文件的尺寸不对哦',
-            badCapeSize: '所选披风文件的尺寸不对哦',
+            badSkinSize: '所选的皮肤文件尺寸不符合要求',
+            badCapeSize: '所选的披风文件尺寸不符合要求',
 
             // Rename
             setNewTextureName: '请输入新的材质名称：',
-            emptyNewTextureName: '你还没有输入新名称啊',
+            emptyNewTextureName: '材质名称不能为空',
 
             // Change Model
             setNewTextureModel: '请选择新的材质适用模型：',
 
             // Upload
-            emptyTextureName: '给你的材质起个名字吧',
+            emptyTextureName: '材质名称不能为空',
             emptyTextureType: '请选择材质的类型',
-            emptyUploadFile: '你还没有上传任何文件哦',
-            encodingError: '错误：这张图片编码不对哦',
-            fileExtError: '错误：皮肤文件必须为 PNG 格式',
+            emptyUploadFile: '你还没有选择任何文件',
+            encodingError: '错误：图片文件编码不符合要求',
+            fileExtError: '错误：材质文件必须为 PNG 格式',
             upload: '确认上传',
             uploading: '上传中',
             redirecting: '正在跳转...',
@@ -96,7 +87,7 @@
             timeUnitMin: '分钟',
 
             // Closet
-            emptyClosetMsg: '<p>衣柜里啥都没有哦~</p><p>去<a href=":url">皮肤库</a>看看吧~</p>',
+            emptyClosetMsg: '<p>衣柜里什么都没有哦……</p><p>去<a href=":url">皮肤库</a>看看吧</p>',
             renameItem: '重命名物品',
             removeItem: '从衣柜中移除',
             setAsAvatar: '设为头像',
@@ -104,27 +95,27 @@
             switch2dPreview: '切换 2D 预览',
             switch3dPreview: '切换 3D 预览',
             removeFromClosetNotice: '确定要从衣柜中移除此材质吗？',
-            emptySelectedPlayer: '你还没有选择角色哦',
-            emptySelectedTexture: '你还没有选择要应用的材质哦',
+            emptySelectedPlayer: '请选择要应用选中材质的角色',
+            emptySelectedTexture: '请选择要应用的材质',
             renameClosetItem: '请输入此衣柜物品的新名称：',
 
             // Player
             changePlayerName: '请输入角色名：',
-            emptyPlayerName: '你还没有填写名称哦',
+            emptyPlayerName: '角色名不能为空',
             clearTexture: '确定要重置该用户的皮肤/披风吗？',
-            deletePlayer: '真的要删除该玩家吗？',
+            deletePlayer: '真的要删除该角色吗？',
             deletePlayerNotice: '这将是永久性的删除',
             chooseClearTexture: '选择要删除的材质类型',
-            noClearChoice: '您还没选择要删除的材质类型',
+            noClearChoice: '请选择要删除的材质类型',
 
             // Profile
             setAvatar: '确定要将此材质设置为用户头像吗？',
             setAvatarNotice: '将会自动截取皮肤头部',
-            emptyNewNickName: '你还没有填写新昵称啊',
+            emptyNewNickName: '昵称不能为空',
             changeNickName: '确定要将昵称设置为 :new_nickname 吗？',
             emptyPassword: '原密码不能为空',
-            emptyNewPassword: '新密码要好好填哦',
-            emptyNewEmail: '你还没有填写新邮箱啊',
+            emptyNewPassword: '新密码不能为空',
+            emptyNewEmail: '邮箱不能为空',
             changeEmail: '确定要将用户邮箱更改为 :new_email 吗？',
             emptyDeletePassword: '请先输入当前用户密码'
         },
@@ -137,8 +128,8 @@
             setAdmin: '设为管理员',
             unsetAdmin: '解除管理员',
             deleteUser: '删除用户',
-            cannotDeleteAdmin: '你不能删除管理员账号哦',
-            cannotDeleteSuperAdmin: '超级管理员账号不能被这样删除的啦',
+            cannotDeleteAdmin: '你没有权限删除管理员账号',
+            cannotDeleteSuperAdmin: '超级管理员账号不能被删除',
             changeEmail: '修改邮箱',
             changeNickName: '修改昵称',
             changePassword: '更改密码',
@@ -175,9 +166,9 @@
             changePlayerOwner: '请输入此角色要让渡至的用户 UID：',
             deletePlayerNotice: '真的要删除此角色吗？此操作不可恢复',
             targetUser: '目标用户：:nickname',
-            noSuchUser: '没有这个用户哦~',
+            noSuchUser: '目标用户不存在',
             changePlayerNameNotice: '请输入新的角色名：',
-            emptyPlayerName: '您还没填写角色名呢',
+            emptyPlayerName: '角色名不能为空',
 
             // Plugins
             pluginTitle: '插件',

@@ -6,10 +6,10 @@ used:
 cur-score: 当前积分
 score-notice: 点击积分查看说明
 sign: 签到
-sign-success: 签到成功，获得了 :score 积分~
+sign-success: 签到成功，获得了 :score 积分
 time-unit-hour: 小时
 time-unit-min: 分钟
-cant-sign-until: :time :unit 后才能再次签到哦~
+cant-sign-until: :time :unit 后才能再次签到哦
 last-sign: 上次签到于 :time
 sign-remain-time: :time :unit 后可签到
 announcement: 公告
@@ -32,7 +32,7 @@ verification:
     ignore: 如果您并没有访问过我们的网站，或没有进行上述操作，请忽略这封邮件。
 
 score-intro:
-  title: 积分是个啥？
+  title: 积分是什么？
   introduction: |
     为了防止用户滥用材质上传功能导致占用过多的存储空间，本站已启用积分系统。
     添加角色、上传材质，以及添加皮肤库里的材质到衣柜等操作均会消耗积分。
@@ -59,14 +59,14 @@ closet:
     button: 使用...
     reset: 重置已选材质
     title: 要给哪个角色使用呢？
-    empty: 你好像还没有添加任何角色哦
+    empty: 你还没有添加过任何角色哦
     add: 添加角色
 
   add:
-    success: 材质 :name 收藏成功~
+    success: 材质 :name 收藏成功
     repeated: 你已经收藏过这个材质啦
-    not-found: 并没有这个材质
-    lack-score: 积分不够添加收藏啦
+    not-found: 该材质不存在
+    lack-score: 收藏失败，积分不足
 
   rename:
     title: 重命名物品
@@ -86,7 +86,7 @@ player:
   delete-player: 删除角色
   add-player: 添加新角色
 
-  login-notice: 你现在可以使用你所拥有的角色名来登录皮肤站啦~
+  login-notice: 你可以使用你所拥有的角色名来登录皮肤站。
 
   player-info: 角色信息 <small>（点击角色名以查看预览）</small>
 
@@ -104,15 +104,15 @@ player:
   player-name-length: 角色名最少要求 :min 个字符，最多不超过 :max 个字符。
 
   add:
-    repeated: 该角色名已经被其他人注册掉啦
-    lack-score: 积分不够添加角色啦
+    repeated: 该角色名已被占用
+    lack-score: 添加角色失败，积分不足
     success: 成功添加了角色 :name
 
   delete:
     success: 角色 :name 已被删除
 
   rename:
-    repeated: 此角色名已被他人使用，换一个吧~
+    repeated: 该角色名已被占用
     success: 角色 :old 已更名为 :new
 
   set:
@@ -129,13 +129,13 @@ player:
 profile:
   avatar:
     title: 更改头像？
-    notice: 请在衣柜中任意皮肤的右下角「<i class="fa fa-cog"></i>」处选择「设为头像」，将会自动截取该皮肤的头部作为头像哦~ 如果看不到这个图标，请关闭 ADBlock，ABP 之类的广告过滤扩展。
-    wrong-type: 披风可不能设置为头像哦~
-    success: 设置成功！
+    notice: 在衣柜中任意皮肤的右下角「<i class="fa fa-cog"></i>」图标处点击「设为头像」，即可自动截取该皮肤的头部作为头像。如果看不到这个图标，请尝试关闭你的广告过滤扩展。
+    wrong-type: 披风不能被设置为头像
+    success: 设置成功
 
   password:
     title: 更改密码
-    old: 旧的密码
+    old: 原密码
     new: 新密码
     confirm: 确认密码
     button: 修改密码
@@ -154,13 +154,13 @@ profile:
     password: 当前密码
     button: 修改邮箱
     wrong-password: 密码错误
-    existed: 这个邮箱已经被别人占用啦
+    existed: 此邮箱已被占用
     success: 邮箱修改成功，请重新登录
 
   delete:
     title: 删除账号
     notice: 确定要删除你在 :site 上的账号吗？
-    admin: 管理员账号不能被删除哟
+    admin: 拥有管理员权限的账号不能被删除
     button: 删除我的账户
 
     modal-title: 这是危险操作，输入密码以继续
