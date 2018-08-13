@@ -153,7 +153,7 @@ class AdminControllerTest extends BrowserKitTestCase
 
     public function testGetUserData()
     {
-        $this->visit('/admin/user-data')
+        $this->getJson('/admin/user-data')
             ->seeJsonStructure([
                 'data' => [[
                     'uid',
@@ -168,7 +168,7 @@ class AdminControllerTest extends BrowserKitTestCase
             ]);
 
         $user = factory(User::class)->create();
-        $this->visit('/admin/user-data?uid='.$user->uid)
+        $this->getJson('/admin/user-data?uid='.$user->uid)
             ->seeJsonSubset([
                 'data' => [[
                     'uid' => $user->uid,
@@ -191,7 +191,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $player = factory(Player::class)->create();
         $user = $player->user;
 
-        $this->visit('/admin/player-data')
+        $this->getJson('/admin/player-data')
             ->seeJsonStructure([
                 'data' => [[
                     'pid',
@@ -205,7 +205,7 @@ class AdminControllerTest extends BrowserKitTestCase
                 ]]
             ]);
 
-        $this->visit('/admin/player-data?uid='.$user->uid)
+        $this->getJson('/admin/player-data?uid='.$user->uid)
             ->seeJsonSubset([
                 'data' => [[
                     'pid' => $player->pid,

@@ -1,10 +1,16 @@
 <template>
     <section class="content">
         <vue-good-table
+            mode="remote"
             :rows="players"
+            :totalRows="totalRecords || players.length"
             :columns="columns"
             :search-options="tableOptions.search"
             :pagination-options="tableOptions.pagination"
+            @on-page-change="onPageChange"
+            @on-sort-change="onSortChange"
+            @on-search="onSearch"
+            @on-per-page-change="onPerPageChange"
             styleClass="vgt-table striped"
         >
             <template slot="table-row" slot-scope="props">
@@ -94,6 +100,7 @@ export default {
     data() {
         return {
             players: [],
+            totalRecords: 0,
             columns: [
                 { field: 'pid', label: 'PID', type: 'number' },
                 { field: 'player_name', label: this.$t('general.player.player-name') },
@@ -103,6 +110,13 @@ export default {
                 { field: 'last_modified', label: this.$t('general.player.last-modified') },
                 { field: 'operations', label: this.$t('admin.operationsTitle'), globalSearchDisabled: true, sortable: false },
             ],
+            serverParams: {
+                sortField: 'pid',
+                sortType: 'asc',
+                page: 1,
+                perPage: 10,
+                search: '',
+            },
             tableOptions: {
                 search: {
                     enabled: true,
@@ -124,7 +138,29 @@ export default {
     },
     methods: {
         async fetchData() {
-            this.players = (await this.$http.get(`/admin/player-data${location.search}`)).data;
+            const { data, totalRecords } = await this.$http.get(
+                `/admin/player-data${location.search}`,
+                !location.search && this.serverParams
+            );
+            this.totalRecords = totalRecords;
+            this.players = data;
+        },
+        onPageChange(params) {
+            this.serverParams.page = params.currentPage;
+            this.fetchData();
+        },
+        onPerPageChange(params) {
+            this.serverParams.perPage = params.currentPerPage;
+            this.fetchData();
+        },
+        onSortChange(params) {
+            this.serverParams.sortType = params.sortType;
+            this.serverParams.sortField = this.columns[params.columnIndex].field;
+            this.fetchData();
+        },
+        onSearch(params) {
+            this.serverParams.search = params.searchTerm;
+            this.fetchData();
         },
         async changeTexture(player, model) {
             const { dismiss, value } = await swal({

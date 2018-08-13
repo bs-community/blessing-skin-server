@@ -1,10 +1,16 @@
 <template>
     <section class="content">
         <vue-good-table
+            mode="remote"
             :rows="users"
+            :totalRows="totalRecords || users.length"
             :columns="columns"
             :search-options="tableOptions.search"
             :pagination-options="tableOptions.pagination"
+            @on-page-change="onPageChange"
+            @on-sort-change="onSortChange"
+            @on-search="onSearch"
+            @on-per-page-change="onPerPageChange"
             styleClass="vgt-table striped"
         >
             <template slot="table-row" slot-scope="props">
@@ -96,6 +102,7 @@ export default {
     data() {
         return {
             users: [],
+            totalRecords: 0,
             columns: [
                 { field: 'uid', label: 'UID', type: 'number' },
                 { field: 'email', label: this.$t('general.user.email') },
@@ -106,6 +113,13 @@ export default {
                 { field: 'register_at', label: this.$t('general.user.register-at') },
                 { field: 'operations', label: this.$t('admin.operationsTitle'), sortable: false, globalSearchDisabled: true }
             ],
+            serverParams: {
+                sortField: 'uid',
+                sortType: 'asc',
+                page: 1,
+                perPage: 10,
+                search: '',
+            },
             tableOptions: {
                 search: {
                     enabled: true,
@@ -127,8 +141,29 @@ export default {
     },
     methods: {
         async fetchData() {
-            const { data } = await this.$http.get(`/admin/user-data${location.search}`);
+            const { data, totalRecords } = await this.$http.get(
+                `/admin/user-data${location.search}`,
+                !location.search && this.serverParams
+            );
+            this.totalRecords = totalRecords;
             this.users = data;
+        },
+        onPageChange(params) {
+            this.serverParams.page = params.currentPage;
+            this.fetchData();
+        },
+        onPerPageChange(params) {
+            this.serverParams.perPage = params.currentPerPage;
+            this.fetchData();
+        },
+        onSortChange(params) {
+            this.serverParams.sortType = params.sortType;
+            this.serverParams.sortField = this.columns[params.columnIndex].field;
+            this.fetchData();
+        },
+        onSearch(params) {
+            this.serverParams.search = params.searchTerm;
+            this.fetchData();
         },
         async changeEmail(user) {
             const { dismiss, value } = await swal({

@@ -14,7 +14,41 @@ jest.mock('@/js/i18n', () => ({
 test('fetch data after initializing', () => {
     Vue.prototype.$http.get.mockResolvedValue({ data: [] });
     mount(Users);
-    expect(Vue.prototype.$http.get).toBeCalledWith('/admin/user-data');
+    expect(Vue.prototype.$http.get).toBeCalledWith(
+        '/admin/user-data',
+        { page: 1, perPage: 10, search: '', sortField: 'uid', sortType: 'asc' }
+    );
+});
+
+test('update tables', () => {
+    Vue.prototype.$http.get.mockResolvedValue({
+        data: Array.from({ length: 20 }).map((item, uid) => ({ uid }))
+    });
+    const wrapper = mount(Users);
+
+    wrapper.find('.vgt-input').setValue('abc');
+    expect(Vue.prototype.$http.get).toBeCalledWith(
+        '/admin/user-data',
+        { page: 1, perPage: 10, search: 'abc', sortField: 'uid', sortType: 'asc' }
+    );
+
+    wrapper.vm.onPageChange({ currentPage: 2 });
+    expect(Vue.prototype.$http.get).toBeCalledWith(
+        '/admin/user-data',
+        { page: 2, perPage: 10, search: 'abc', sortField: 'uid', sortType: 'asc' }
+    );
+
+    wrapper.vm.onPerPageChange({ currentPerPage: 5 });
+    expect(Vue.prototype.$http.get).toBeCalledWith(
+        '/admin/user-data',
+        { page: 2, perPage: 5, search: 'abc', sortField: 'uid', sortType: 'asc' }
+    );
+
+    wrapper.vm.onSortChange({ sortType: 'desc', columnIndex: 0 });
+    expect(Vue.prototype.$http.get).toBeCalledWith(
+        '/admin/user-data',
+        { page: 2, perPage: 5, search: 'abc', sortField: 'uid', sortType: 'desc' }
+    );
 });
 
 test('humanize permission', async () => {

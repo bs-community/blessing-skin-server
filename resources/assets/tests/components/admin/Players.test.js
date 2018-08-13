@@ -9,7 +9,41 @@ jest.mock('@/js/notify');
 test('fetch data after initializing', () => {
     Vue.prototype.$http.get.mockResolvedValue({ data: [] });
     mount(Players);
-    expect(Vue.prototype.$http.get).toBeCalledWith('/admin/player-data');
+    expect(Vue.prototype.$http.get).toBeCalledWith(
+        '/admin/player-data',
+        { page: 1, perPage: 10, search: '', sortField: 'pid', sortType: 'asc' }
+    );
+});
+
+test('update tables', async () => {
+    Vue.prototype.$http.get.mockResolvedValue({
+        data: Array.from({ length: 20 }).map((item, pid) => ({ pid }))
+    });
+    const wrapper = mount(Players);
+
+    wrapper.find('.vgt-input').setValue('abc');
+    expect(Vue.prototype.$http.get).toBeCalledWith(
+        '/admin/player-data',
+        { page: 1, perPage: 10, search: 'abc', sortField: 'pid', sortType: 'asc' }
+    );
+
+    wrapper.vm.onPageChange({ currentPage: 2 });
+    expect(Vue.prototype.$http.get).toBeCalledWith(
+        '/admin/player-data',
+        { page: 2, perPage: 10, search: 'abc', sortField: 'pid', sortType: 'asc' }
+    );
+
+    wrapper.vm.onPerPageChange({ currentPerPage: 5 });
+    expect(Vue.prototype.$http.get).toBeCalledWith(
+        '/admin/player-data',
+        { page: 2, perPage: 5, search: 'abc', sortField: 'pid', sortType: 'asc' }
+    );
+
+    wrapper.vm.onSortChange({ sortType: 'desc', columnIndex: 0 });
+    expect(Vue.prototype.$http.get).toBeCalledWith(
+        '/admin/player-data',
+        { page: 2, perPage: 5, search: 'abc', sortField: 'pid', sortType: 'desc' }
+    );
 });
 
 test('change texture', async () => {

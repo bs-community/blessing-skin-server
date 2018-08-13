@@ -105,10 +105,10 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function 
     Route::any('/options',     'AdminController@options');
 
     Route::view('/users',       'admin.users');
-    Route::get ('/user-data',   'AdminController@getUserData');
+    Route::any ('/user-data',   'AdminController@getUserData');
 
     Route::view('/players',     'admin.players');
-    Route::get ('/player-data', 'AdminController@getPlayerData');
+    Route::any ('/player-data', 'AdminController@getPlayerData');
     Route::get ('/user/{uid}',  'AdminController@getOneUser');
 
     // ajax handlers

@@ -238,37 +238,72 @@ class AdminController extends Controller
 
     public function getUserData(Request $request)
     {
-        $users = collect();
+        $isSingleUser = $request->has('uid');
 
-        if ($request->has('uid')) {
+        if ($isSingleUser) {
             $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at'])
-                        ->where('uid', intval($request->input('uid')));
+                        ->where('uid', intval($request->input('uid')))
+                        ->get();
         } else {
-            $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at']);
+            $search = $request->input('search', '');
+            $sortField = $request->input('sortField', 'uid');
+            $sortType = $request->input('sortType', 'asc');
+            $page = $request->input('page', 1);
+            $perPage = $request->input('perPage', 10);
+
+            $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at'])
+                        ->where('uid', 'like', '%' . $search . '%')
+                        ->orWhere('email', 'like', '%' . $search . '%')
+                        ->orWhere('nickname', 'like', '%' . $search . '%')
+                        ->orWhere('score', 'like', '%' . $search . '%')
+                        ->orderBy($sortField, $sortType)
+                        ->offset(($page - 1) * $perPage)
+                        ->limit($perPage)
+                        ->get();
         }
 
-        return Datatables::of($users)->editColumn('email', function ($user) {
-            return $user->email ?: 'EMPTY';
-        })
-        ->setRowId('uid')
-        ->addColumn('operations', Auth::user()->permission)
-        ->addColumn('players_count', function ($user) {
-            return $user->players->count();
-        })
-        ->make(true);
+        $users->transform(function ($user) {
+            $user->operations = auth()->user()->permission;
+            $user->players_count = $user->players->count();
+            return $user;
+        });
+
+        return [
+            'totalRecords' => $isSingleUser ? 1 : User::count(),
+            'data' => $users
+        ];
     }
 
     public function getPlayerData(Request $request)
     {
-        $players = collect();
-        if ($request->has('uid')) {
+        $isSpecifiedUser = $request->has('uid');
+
+        if ($isSpecifiedUser) {
             $players = Player::select(['pid', 'uid', 'player_name', 'preference', 'tid_steve', 'tid_alex', 'tid_cape', 'last_modified'])
-                            ->where('uid', intval($request->input('uid')));
+                            ->where('uid', intval($request->input('uid')))
+                            ->get();
         } else {
-            $players = Player::select(['pid', 'uid', 'player_name', 'preference', 'tid_steve', 'tid_alex', 'tid_cape', 'last_modified']);
+            $search = $request->input('search', '');
+            $sortField = $request->input('sortField', 'pid');
+            $sortType = $request->input('sortType', 'asc');
+            $page = $request->input('page', 1);
+            $perPage = $request->input('perPage', 10);
+
+            $players = Player::select(['pid', 'uid', 'player_name', 'preference', 'tid_steve', 'tid_alex', 'tid_cape', 'last_modified'])
+                            ->where('pid', 'like', '%' . $search . '%')
+                            ->orWhere('uid', 'like', '%' . $search . '%')
+                            ->orWhere('player_name', 'like', '%' . $search . '%')
+                            ->orWhere('preference', 'like', '%' . $search . '%')
+                            ->orderBy($sortField, $sortType)
+                            ->offset(($page - 1) * $perPage)
+                            ->limit($perPage)
+                            ->get();
         }
 
-        return Datatables::of($players)->setRowId('pid')->make(true);
+        return [
+            'totalRecords' => $isSpecifiedUser ? 1 : Player::count(),
+            'data' => $players
+        ];
     }
 
     /**
