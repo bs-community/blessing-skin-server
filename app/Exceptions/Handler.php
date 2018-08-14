@@ -86,6 +86,40 @@ class Handler extends ExceptionHandler
     }
 
     /**
+     * Render the given HttpException.
+     *
+     * @param  \Symfony\Component\HttpKernel\Exception\HttpException  $e
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function renderHttpException(HttpException $e)
+    {
+        $status = $e->getStatusCode();
+        $message = $e->getMessage();
+
+        // Get message from exception itself > translation > standard status texts
+        if (! $message) {
+            if (trans()->has($transKey = "errors.http.msg-{$status}")) {
+                $message = trans($transKey);
+            } else {
+                $message = array_get(Response::$statusTexts, $status, "Status code: $status");
+            }
+        }
+
+        if (request()->ajax()) {
+            return response($message, $status, $e->getHeaders());
+        }
+
+        if (view()->exists("errors.{$status}")) {
+            return response()->view("errors.{$status}", ['exception' => $e], $status, $e->getHeaders());
+        }
+
+        return response()->view('errors.http', [
+            'title' => "HTTP {$status}",
+            'message' => $message
+        ], $status, $e->getHeaders());
+    }
+
+    /**
      * Render an exception using Whoops.
      *
      * @param  Exception $e
@@ -97,28 +131,28 @@ class Handler extends ExceptionHandler
     {
         $whoops = new \Whoops\Run;
         $handler = (request()->isMethod('GET')) ?
-                        new \Whoops\Handler\PrettyPageHandler : new \Whoops\Handler\PlainTextHandler;
+            new \Whoops\Handler\PrettyPageHandler : new \Whoops\Handler\PlainTextHandler;
         $whoops->pushHandler($handler);
 
-        return new Response(
-            $whoops->handleException($e),
-            $code,
-            $headers
-        );
+        return response($whoops->handleException($e), $code, $headers);
     }
 
     /**
-     * Render an exception in a short word.
+     * Render an exception with error messages only.
      *
      * @param  Exception $e
+     * @param  int       $code
+     * @param  array     $headers
      * @return Response
      */
-    protected function renderExceptionInBrief(Exception $e)
+    protected function renderExceptionInBrief(Exception $e, $code = 200, $headers = [])
     {
-        if (request()->isMethod('GET') && !request()->ajax()) {
-            return response()->view('errors.exception', ['message' => $e->getMessage()]);
-        } else {
-            return $e->getMessage();
+        if (request()->ajax()) {
+            return response($e->getMessage(), $code, $headers);
         }
+
+        return response()->view('errors.exception', [
+            'message' => $e->getMessage()
+        ], $code, $headers);
     }
 }
