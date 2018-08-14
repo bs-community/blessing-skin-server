@@ -32,9 +32,9 @@ Vue.use(_Vue => {
     _Vue.prototype.$t = trans;
     _Vue.directive('t', (el, { value }) => {
         if (typeof value === 'string') {
-            el.innerHTML = trans(value);
+            el.textContent = trans(value);
         } else if (typeof value === 'object') {
-            el.innerHTML = trans(value.path, value.args);
+            el.textContent = trans(value.path, value.args);
         } else {
             if (process.env.NODE_ENV !== 'production') {
                 console.warn('[i18n] Invalid arguments in `v-t` directive.');

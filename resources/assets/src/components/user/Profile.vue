@@ -6,7 +6,7 @@
                     <div class="box-header with-border">
                         <h3 class="box-title" v-t="'user.profile.avatar.title'"></h3>
                     </div><!-- /.box-header -->
-                    <div class="box-body" v-t="'user.profile.avatar.notice'"></div><!-- /.box-body -->
+                    <div class="box-body" v-html="$t('user.profile.avatar.notice')"></div><!-- /.box-body -->
                 </div>
 
                 <div class="box box-warning">
@@ -160,7 +160,7 @@
                         <h4 class="modal-title" v-t="'user.profile.delete.modal-title'"></h4>
                     </div>
                     <div class="modal-body">
-                        <div v-once v-html="nl2br($t('user.profile.delete.modal-notice'))"></div>
+                        <div v-once v-text="nl2br($t('user.profile.delete.modal-notice'))"></div>
                         <br />
                         <input
                             type="password"
@@ -256,7 +256,7 @@ export default {
             const { nickname } = this;
 
             if (!nickname) {
-                return swal({ type: 'error', html: this.$t('user.emptyNewNickName') });
+                return swal({ type: 'error', text: this.$t('user.emptyNewNickName') });
             }
 
             const { dismiss } = await swal({
@@ -274,22 +274,22 @@ export default {
             );
             if (errno === 0) {
                 $('.nickname').each(function () {
-                    $(this).html(nickname);
+                    $(this).text(nickname);
                 });
-                return swal({ type: 'success', html: msg });
+                return swal({ type: 'success', text: msg });
             } else {
-                return swal({ type: 'warning', html: msg });
+                return swal({ type: 'warning', text: msg });
             }
         },
         async changeEmail() {
             const { email } = this;
 
             if (!email) {
-                return swal({ type: 'error', html: this.$t('user.emptyNewEmail') });
+                return swal({ type: 'error', text: this.$t('user.emptyNewEmail') });
             }
 
             if (!/\S+@\S+\.\S+/.test(email)) {
-                return swal({ type: 'warning', html: this.$t('auth.invalidEmail') });
+                return swal({ type: 'warning', text: this.$t('auth.invalidEmail') });
             }
 
             const { dismiss } = await swal({
@@ -316,7 +316,7 @@ export default {
             const { deleteConfirm: password } = this;
 
             if (!password) {
-                return swal({ type: 'warning', html: this.$t('user.emptyDeletePassword') });
+                return swal({ type: 'warning', text: this.$t('user.emptyDeletePassword') });
             }
 
             const { errno, msg } = await this.$http.post(
@@ -326,11 +326,11 @@ export default {
             if (errno === 0) {
                 await swal({
                     type: 'success',
-                    html: msg
+                    text: msg
                 });
                 window.location = `${blessing.base_url}/auth/login`;
             } else {
-                return swal({ type: 'warning', html: msg });
+                return swal({ type: 'warning', text: msg });
             }
         }
     }

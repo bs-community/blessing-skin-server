@@ -79,5 +79,5 @@ test('register', async () => {
     button.trigger('click');
     await wrapper.vm.$nextTick();
     jest.runAllTimers();
-    expect(swal).toBeCalledWith({ type: 'success', html: 'ok' });
+    expect(swal).toBeCalledWith({ type: 'success', text: 'ok' });
 });

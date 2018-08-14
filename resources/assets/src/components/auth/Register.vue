@@ -168,7 +168,7 @@ export default {
                 { email, password, nickname, captcha }
             );
             if (errno === 0) {
-                swal({ type: 'success', html: msg });
+                swal({ type: 'success', text: msg });
                 setTimeout(() => {
                     window.location = `${blessing.base_url}/user`;
                 }, 1000);

@@ -48,5 +48,5 @@ test('reset password', async () => {
 
     button.trigger('click');
     await wrapper.vm.$nextTick();
-    expect(swal).toBeCalledWith({ type: 'success', html: 'ok' });
+    expect(swal).toBeCalledWith({ type: 'success', text: 'ok' });
 });

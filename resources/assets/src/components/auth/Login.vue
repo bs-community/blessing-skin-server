@@ -135,13 +135,13 @@ export default {
                 }
             );
             if (errno === 0) {
-                swal({ type: 'success', html: msg });
+                swal({ type: 'success', text: msg });
                 setTimeout(() => {
                     window.location = `${blessing.base_url}/${blessing.redirect_to || 'user'}`;
                 }, 1000);
             } else {
                 if (login_fails > 3 && !this.tooManyFails) {
-                    swal({ type: 'error', html: this.$t('auth.tooManyFails') });
+                    swal({ type: 'error', text: this.$t('auth.tooManyFails') });
                     this.tooManyFails = true;
                 }
                 this.refreshCaptcha();

@@ -249,7 +249,7 @@ test('submit applying texture', async () => {
         }
     );
     await wrapper.vm.$nextTick();
-    expect(swal).toBeCalledWith({ type: 'success', html: 'ok' });
+    expect(swal).toBeCalledWith({ type: 'success', text: 'ok' });
 });
 
 test('reset selected texture', () => {

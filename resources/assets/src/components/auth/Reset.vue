@@ -82,7 +82,7 @@ export default {
                 { password }
             );
             if (errno === 0) {
-                await swal({ type: 'success', html: msg });
+                await swal({ type: 'success', text: msg });
                 window.location = `${blessing.base_url}/auth/login`;
             } else {
                 this.infoMsg = '';

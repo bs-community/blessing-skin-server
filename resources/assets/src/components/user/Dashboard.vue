@@ -129,7 +129,7 @@ export default {
             const result = await this.$http.post('/user/sign');
 
             if (result.errno === 0) {
-                swal({ type: 'success', html: result.msg });
+                swal({ type: 'success', text: result.msg });
 
                 this.score = result.score;
                 this.lastSignAt = new Date();

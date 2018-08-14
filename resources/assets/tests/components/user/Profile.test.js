@@ -74,14 +74,14 @@ test('change nickname', async () => {
         each(fn) {
             fn();
         },
-        html() {}
+        text() {}
     }));
     const wrapper = mount(Profile);
     const button = wrapper.find('[data-test=changeNickName]');
 
     button.trigger('click');
     expect(Vue.prototype.$http.post).not.toBeCalled();
-    expect(swal).toBeCalledWith({ type: 'error', html: 'user.emptyNewNickName' });
+    expect(swal).toBeCalledWith({ type: 'error', text: 'user.emptyNewNickName' });
 
     wrapper.setData({ nickname: 'nickname' });
     button.trigger('click');
@@ -99,11 +99,11 @@ test('change nickname', async () => {
         { new_nickname: 'nickname' }
     );
     await wrapper.vm.$nextTick();
-    expect(swal).toBeCalledWith({ type: 'warning', html: 'w' });
+    expect(swal).toBeCalledWith({ type: 'warning', text: 'w' });
 
     button.trigger('click');
     await flushPromises();
-    expect(swal).toBeCalledWith({ type: 'success', html: 'o' });
+    expect(swal).toBeCalledWith({ type: 'success', text: 'o' });
 });
 
 test('change email', async () => {
@@ -118,12 +118,12 @@ test('change email', async () => {
     const button = wrapper.find('[data-test=changeEmail]');
 
     button.trigger('click');
-    expect(swal).toBeCalledWith({ type: 'error', html: 'user.emptyNewEmail' });
+    expect(swal).toBeCalledWith({ type: 'error', text: 'user.emptyNewEmail' });
     expect(Vue.prototype.$http.post).not.toBeCalled();
 
     wrapper.setData({ email: 'e' });
     button.trigger('click');
-    expect(swal).toBeCalledWith({ type: 'warning', html: 'auth.invalidEmail' });
+    expect(swal).toBeCalledWith({ type: 'warning', text: 'auth.invalidEmail' });
     expect(Vue.prototype.$http.post).not.toBeCalled();
 
     wrapper.setData({ email: 'a@b.c', currentPassword: 'abc' });
@@ -159,7 +159,7 @@ test('delete account', async () => {
     const button = wrapper.find('[data-test=deleteAccount]');
 
     button.trigger('click');
-    expect(swal).toBeCalledWith({ type: 'warning', html: 'user.emptyDeletePassword' });
+    expect(swal).toBeCalledWith({ type: 'warning', text: 'user.emptyDeletePassword' });
     expect(Vue.prototype.$http.post).not.toBeCalled();
 
     wrapper.setData({ deleteConfirm: 'abc' });
@@ -169,9 +169,9 @@ test('delete account', async () => {
         { password: 'abc' }
     );
     await wrapper.vm.$nextTick();
-    expect(swal).toBeCalledWith({ type: 'warning', html: 'w' });
+    expect(swal).toBeCalledWith({ type: 'warning', text: 'w' });
 
     button.trigger('click');
     await wrapper.vm.$nextTick();
-    expect(swal).toBeCalledWith({ type: 'success', html: 'o' });
+    expect(swal).toBeCalledWith({ type: 'success', text: 'o' });
 });

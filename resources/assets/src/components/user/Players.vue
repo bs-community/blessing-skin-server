@@ -358,10 +358,10 @@ export default {
                 { pid: player.pid, new_player_name: value }
             );
             if (errno === 0) {
-                swal({ type: 'success', html: msg });
+                swal({ type: 'success', text: msg });
                 player.player_name = value;
             } else {
-                swal({ type: 'warning', html: msg });
+                swal({ type: 'warning', text: msg });
             }
         },
         loadICheck() {
@@ -410,10 +410,10 @@ export default {
                 { pid: player.pid }
             );
             if (errno === 0) {
-                swal({ type: 'success', html: msg });
+                swal({ type: 'success', text: msg });
                 this.players = this.players.filter(({ pid }) => pid !== player.pid);
             } else {
-                swal({ type: 'warning', html: msg });
+                swal({ type: 'warning', text: msg });
             }
         },
         async addPlayer() {
@@ -423,10 +423,10 @@ export default {
                 { player_name: this.newPlayer }
             );
             if (errno === 0) {
-                await swal({ type: 'success', html: msg });
+                await swal({ type: 'success', text: msg });
                 this.fetchPlayers();
             } else {
-                swal({ type: 'warning', html: msg });
+                swal({ type: 'warning', text: msg });
             }
         }
     }

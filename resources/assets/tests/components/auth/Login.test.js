@@ -50,7 +50,7 @@ test('login', async () => {
 
     button.trigger('click');
     await wrapper.vm.$nextTick();
-    expect(swal).toBeCalledWith({ type: 'error', html: 'auth.tooManyFails' });
+    expect(swal).toBeCalledWith({ type: 'error', text: 'auth.tooManyFails' });
     expect(wrapper.find('img').exists()).toBeTrue();
 
     button.trigger('click');
@@ -65,5 +65,5 @@ test('login', async () => {
     );
     await wrapper.vm.$nextTick();
     jest.runAllTimers();
-    expect(swal).toBeCalledWith({ type: 'success', html: 'ok' });
+    expect(swal).toBeCalledWith({ type: 'success', text: 'ok' });
 });

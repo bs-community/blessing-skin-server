@@ -50,7 +50,7 @@
                         >
                             <div v-if="skinItems.length === 0" class="empty-msg">
                                 <div v-if="query !== ''" v-t="'general.noResult'"></div>
-                                <div v-else v-t="{ path: 'user.emptyClosetMsg', args: { url: linkToSkin } }" />
+                                <div v-else v-html="$t('user.emptyClosetMsg', { url: linkToSkin })" />
                             </div>
                             <div v-else>
                                 <closet-item
@@ -73,7 +73,7 @@
                         >
                             <div v-if="capeItems.length === 0" class="empty-msg">
                                 <div v-if="query !== ''" v-t="'general.noResult'"></div>
-                                <div v-else v-t="{ path: 'user.emptyClosetMsg', args: { url: linkToCape } }" />
+                                <div v-else v-html="$t('user.emptyClosetMsg', { url: linkToCape })" />
                             </div>
                             <div v-else>
                                 <closet-item
@@ -300,7 +300,7 @@ export default {
                 }
             );
             if (errno === 0) {
-                swal({ type: 'success', html: msg });
+                swal({ type: 'success', text: msg });
                 $('#modal-use-as').modal('hide');
             } else {
                 toastr.warning(msg);
