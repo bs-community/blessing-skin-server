@@ -9,6 +9,12 @@ console.log(
     'font-style:italic;', ''
 );
 
+$.ajaxSetup({
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
+
 /**
  * Check if given value is empty.
  *

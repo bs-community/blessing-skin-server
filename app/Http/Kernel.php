@@ -31,6 +31,7 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\AfterSessionBooted::class,
             \App\Http\Middleware\DetectLanguagePrefer::class,
+            \App\Http\Middleware\VerifyCsrfToken::class,
         ],
 
         'static' => [],

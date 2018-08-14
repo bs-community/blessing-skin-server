@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Exception;
 use Illuminate\Http\Response;
 use App\Exceptions\PrettyPageException;
+use Illuminate\Session\TokenMismatchException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -22,6 +23,7 @@ class Handler extends ExceptionHandler
     protected $dontReport = [
         HttpException::class,
         ModelNotFoundException::class,
+        TokenMismatchException::class,
         ValidationException::class,
         PrettyPageException::class,
         MethodNotAllowedHttpException::class,
@@ -52,7 +54,11 @@ class Handler extends ExceptionHandler
         }
 
         if ($e instanceof MethodNotAllowedHttpException) {
-            abort(403, 'Method not allowed.');
+            abort(403, trans('errors.http.method-not-allowed'));
+        }
+
+        if ($e instanceof TokenMismatchException) {
+            return json(trans('errors.http.csrf-token-mismatch'), 1);
         }
 
         if ($e instanceof PrettyPageException) {
