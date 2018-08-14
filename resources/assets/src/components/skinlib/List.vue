@@ -163,10 +163,10 @@ export default {
     },
     data() {
         return {
-            filter: 'skin',
+            filter: queryString('filter', 'skin'),
             uploader: +queryString('uploader', 0),
-            sort: 'time',
-            keyword: '',
+            sort: queryString('sort', 'time'),
+            keyword: queryString('keyword', ''),
             page: 1,
             items: [],
             totalPages: 0,
