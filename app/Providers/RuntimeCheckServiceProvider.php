@@ -84,11 +84,13 @@ class RuntimeCheckServiceProvider extends ServiceProvider
     {
         // Redirect to setup wizard
         if (! SetupController::checkTablesExist()) {
-            return redirect('/setup')->send();
+            redirect('/setup')->send();
+            exit;
         }
 
         if (Comparator::greaterThan(config('app.version'), option('version'))) {
-            return redirect('/setup/update')->send();
+            redirect('/setup/update')->send();
+            exit;
         }
 
         if (! SetupController::checkNewColumnsExist()) {
