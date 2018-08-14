@@ -56,9 +56,6 @@ class SkinlibController extends Controller
         // Keyword to search
         $keyword = $request->input('keyword', '');
 
-        // Check if user logged in
-        $anonymous = !Auth::check();
-
         if ($filter == "skin") {
             $query = Texture::where(function ($innerQuery) {
                 // Nested condition, DO NOT MODIFY
@@ -76,7 +73,7 @@ class SkinlibController extends Controller
             $query = $query->where('uploader', $uploader);
         }
 
-        if ($anonymous) {
+        if (! $currentUser) {
             // Show public textures only to anonymous visitors
             $query = $query->where('public', true);
         } else {
@@ -95,7 +92,7 @@ class SkinlibController extends Controller
                             ->take($itemsPerPage)
                             ->get();
 
-        if (! $anonymous) {
+        if ($currentUser) {
             $closet = new Closet($currentUser->uid);
             foreach ($textures as $item) {
                 $item->liked = $closet->has($item->tid);
@@ -104,7 +101,7 @@ class SkinlibController extends Controller
 
         return response()->json([
             'items'       => $textures,
-            'anonymous'   => $anonymous,
+            'current_uid' => $currentUser ? $currentUser->uid : 0,
             'total_pages' => $totalPages
         ]);
     }

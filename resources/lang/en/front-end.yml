@@ -35,12 +35,16 @@ auth:
   reset-button: Reset
 
 skinlib:
+  reset: Reset Filter
+  nowShowing: Now showing
   addToCloset: Add to closet
   removeFromCloset: Remove from closet
   setItemName: Set a name for this texture
   emptyItemName: Empty texture name.
   setNewTextureName: 'Please enter the new texture name:'
   emptyNewTextureName: Empty new texture name.
+  anyModels: Any Models
+  seeMyUpload: Check My Upload
   filter:
     skin: (Any Model)
     steve: (Steve)
@@ -49,6 +53,7 @@ skinlib:
     uploader: 'User (UID = :uid) Uploaded'
     allUsers: All Users
   sort:
+    title: Sort
     time: Newestly Uploaded
     likes: Most Likes
   badSkinSize: The size of selected skin file is not valid
@@ -276,6 +281,8 @@ general:
   rotation: Rotation
   pause: Pause
   reset: Reset
+  skinlib: Skin Library
+  loading: Loading
   user:
     email: Email
     nickname: Nick Name

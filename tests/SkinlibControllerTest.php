@@ -54,7 +54,7 @@ class SkinlibControllerTest extends TestCase
         $this->getJson('/skinlib/data')
             ->assertJson([
                 'items' => [],
-                'anonymous' => true,
+                'current_uid' => 0,
                 'total_pages' => 0
             ]);
 
@@ -70,7 +70,7 @@ class SkinlibControllerTest extends TestCase
         $this->getJson('/skinlib/data')
             ->assertJson([
                 'items' => $this->serializeTextures($expected),
-                'anonymous' => true,
+                'current_uid' => 0,
                 'total_pages' => 1
             ]);
 
@@ -81,7 +81,7 @@ class SkinlibControllerTest extends TestCase
         $this->getJson('/skinlib/data?filter=steve')
             ->assertJson([
                 'items' => $this->serializeTextures($expected),
-                'anonymous' => true,
+                'current_uid' => 0,
                 'total_pages' => 1
             ]);
 
@@ -89,7 +89,7 @@ class SkinlibControllerTest extends TestCase
         $this->getJson('/skinlib/data?filter=what')
             ->assertJson([
                 'items' => [],
-                'anonymous' => true,
+                'current_uid' => 0,
                 'total_pages' => 0
             ]);
 
@@ -100,7 +100,7 @@ class SkinlibControllerTest extends TestCase
         $this->getJson('/skinlib/data?filter=cape')
             ->assertJson([
                 'items' => $this->serializeTextures($expected),
-                'anonymous' => true,
+                'current_uid' => 0,
                 'total_pages' => 1
             ]);
 
@@ -115,7 +115,7 @@ class SkinlibControllerTest extends TestCase
         $this->getJson('/skinlib/data?uploader='.$uid)
             ->assertJson([
                 'items' => $this->serializeTextures($expected),
-                'anonymous' => true,
+                'current_uid' => 0,
                 'total_pages' => 1
             ]);
 
@@ -123,7 +123,7 @@ class SkinlibControllerTest extends TestCase
         $this->getJson('/skinlib/data?sort=tid')
             ->assertJson([
                 'items' => $this->serializeTextures($skins->sortByDesc('tid')->values()),
-                'anonymous' => true,
+                'current_uid' => 0,
                 'total_pages' => 1
             ]);
 
@@ -139,7 +139,7 @@ class SkinlibControllerTest extends TestCase
         $this->getJson('/skinlib/data?keyword='.$keyword)
             ->assertJson([
                 'items' => $this->serializeTextures($expected),
-                'anonymous' => true,
+                'current_uid' => 0,
                 'total_pages' => 1
             ]);
 
@@ -155,7 +155,7 @@ class SkinlibControllerTest extends TestCase
         $this->getJson('/skinlib/data?sort=likes&keyword='.$keyword)
             ->assertJson([
                 'items' => $this->serializeTextures($expected),
-                'anonymous' => true,
+                'current_uid' => 0,
                 'total_pages' => 1
             ]);
 
@@ -173,13 +173,13 @@ class SkinlibControllerTest extends TestCase
         $this->getJson('/skinlib/data')
             ->assertJson([
                 'items' => $expected,
-                'anonymous' => true,
+                'current_uid' => 0,
                 'total_pages' => 2
             ]);
         $this->getJson('/skinlib/data?page=-5')
             ->assertJson([
                 'items' => $expected,
-                'anonymous' => true,
+                'current_uid' => 0,
                 'total_pages' => 2
             ]);
         $expected = $skins
@@ -191,19 +191,19 @@ class SkinlibControllerTest extends TestCase
         $this->getJson('/skinlib/data?page=2')
             ->assertJson([
                 'items' => $expected,
-                'anonymous' => true,
+                'current_uid' => 0,
                 'total_pages' => 2
             ]);
         $this->getJson('/skinlib/data?page=8')
             ->assertJson([
                 'items' => [],
-                'anonymous' => true,
+                'current_uid' => 0,
                 'total_pages' => 2
             ]);
         $this->getJson('/skinlib/data?items_per_page=-6&page=2')
             ->assertJson([
                 'items' => $expected,
-                'anonymous' => true,
+                'current_uid' => 0,
                 'total_pages' => 2
             ]);
         $expected = $skins
@@ -214,7 +214,7 @@ class SkinlibControllerTest extends TestCase
         $this->getJson('/skinlib/data?page=3&items_per_page=8')
             ->assertJson([
                 'items' => $this->serializeTextures($expected),
-                'anonymous' => true,
+                'current_uid' => 0,
                 'total_pages' => 4
             ]);
 
@@ -234,7 +234,7 @@ class SkinlibControllerTest extends TestCase
         $this->getJson('/skinlib/data')
             ->assertJson([
                 'items' => $expected,
-                'anonymous' => true,
+                'current_uid' => 0,
                 'total_pages' => 2
             ]);
 
@@ -246,7 +246,7 @@ class SkinlibControllerTest extends TestCase
             ->getJson('/skinlib/data')
             ->assertJson([
                 'items' => $expected,
-                'anonymous' => false,
+                'current_uid' => $otherUser->uid,
                 'total_pages' => 2
             ]);
 
@@ -268,7 +268,7 @@ class SkinlibControllerTest extends TestCase
         $this->getJson('/skinlib/data')
             ->assertJson([
                 'items' => $expected,
-                'anonymous' => false,
+                'current_uid' => $otherUser->uid,
                 'total_pages' => 2
             ]);
 
@@ -292,7 +292,7 @@ class SkinlibControllerTest extends TestCase
             ->getJson('/skinlib/data')
             ->assertJson([
                 'items' => $expected,
-                'anonymous' => false,
+                'current_uid' => $uploader->uid,
                 'total_pages' => 2
             ]);
 
@@ -302,7 +302,7 @@ class SkinlibControllerTest extends TestCase
             ->getJson('/skinlib/data')
             ->assertJson([
                 'items' => $expected,
-                'anonymous' => false,
+                'current_uid' => $admin->uid,
                 'total_pages' => 2
             ]);
     }

@@ -54,4 +54,9 @@ export default [
         component: () => import('./auth/Reset'),
         el: 'form'
     },
+    {
+        path: 'skinlib',
+        component: () => import('./skinlib/List'),
+        el: '.content-wrapper'
+    },
 ];

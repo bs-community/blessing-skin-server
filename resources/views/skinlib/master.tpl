@@ -37,60 +37,12 @@
                             <li>
                                 <a href="{{ url('user/closet') }}">@lang('general.my-closet')</a>
                             </li>
-
-                            @unless (isset($with_out_filter))
-                            <!-- Filters -->
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fas fa-filter" aria-hidden="true"></i> @lang('skinlib.general.filter') <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a class="filter" data-filter="skin" href="#">@lang('general.skin') <small>@lang('skinlib.filter.any-model')</small></a></li>
-
-                                    <li><a class="filter" data-filter="steve" href="#">@lang('general.skin') <small>@lang('skinlib.filter.steve-model')</small></a></li>
-
-                                    <li><a class="filter" data-filter="alex" href="#">@lang('general.skin') <small>@lang('skinlib.filter.alex-model')</small></a></li>
-
-                                    <li class="divider"></li>
-
-                                    <li><a class="filter" data-filter="cape" href="#">@lang('general.cape')</a></li>
-
-                                    @if (!is_null($user))
-                                    <li class="divider"></li>
-                                    <li><a class="filter" data-filter="uploader" data-uid="{{ $user->uid }}" href="#">@lang('skinlib.general.my-upload')</a></li>
-                                    @endif
-
-                                    <li class="divider"></li>
-                                    <li><a href="{{ url('skinlib') }}">@lang('skinlib.filter.clean-filter')</a></li>
-                                </ul>
-                            </li>
-
-                            <!-- Sort -->
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <i class="fas fa-sort-amount-down" aria-hidden="true"></i> @lang('skinlib.general.sort') <span class="caret"></span>
-                                </a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a class="sort" data-sort="likes" href="#">@lang('skinlib.sort.most-likes')</a></li>
-                                    <li class="divider"></li>
-                                    <li><a class="sort" data-sort="time" href="#">@lang('skinlib.sort.newest-uploaded')</a></li>
-                                </ul>
-                            </li>
-                            @endunless
                         </ul>
-
-                        @unless (isset($with_out_filter))
-                        <form class="navbar-form navbar-left" id="search-form" role="search">
-                            <div class="form-group">
-                                <input type="text" class="form-control" id="navbar-search-input" name="q" placeholder="@lang('skinlib.general.search-textures')" value="{{ $q or '' }}" />
-                            </div>
-                        </form>
-                        @endunless
                     </div><!-- /.navbar-collapse -->
                     <!-- Navbar Right Menu -->
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
-                            <li><a href="{{ url('skinlib/upload') }}"><i class="fas fa--fileupload" aria-hidden="true"></i> <span class="description-text">@lang('skinlib.general.upload-new-skin')</span></a></li>
+                            <li><a href="{{ url('skinlib/upload') }}"><i class="fas fa-upload" aria-hidden="true"></i> <span class="description-text">@lang('skinlib.general.upload-new-skin')</span></a></li>
 
                             @include('common.language')
 

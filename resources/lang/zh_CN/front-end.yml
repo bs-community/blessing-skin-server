@@ -35,12 +35,16 @@ auth:
   reset-button: 重置
 
 skinlib:
+  reset: 清除筛选
+  nowShowing: 当前正显示
   addToCloset: 添加至衣柜
   removeFromCloset: 从衣柜中移除
   setItemName: 给你的皮肤起个名字吧~
   emptyItemName: 你还没有填写要收藏的材质名称啊
   anonymous: 请先登录
   private: 私密
+  anyModels: 任意模型
+  seeMyUpload: 查看我上传的
   filter:
     skin: （任意模型）
     steve: （Steve）
@@ -49,6 +53,7 @@ skinlib:
     uploader: '用户（UID = :uid）上传'
     allUsers: 所有用户
   sort:
+    title: 排序
     time: 最新上传
     likes: 最多收藏
   badSkinSize: 所选皮肤文件的尺寸不对哦
@@ -270,6 +275,8 @@ general:
   rotation: 旋转
   pause: 暂停
   reset: 重置
+  skinlib: 皮肤库
+  loading: 正在加载
   user:
     email: 邮箱
     nickname: 昵称
