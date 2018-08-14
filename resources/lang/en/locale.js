@@ -199,7 +199,7 @@
         general: {
             skin: 'Skin',
             cape: 'Cape',
-            fatalError: 'Fatal Error (Please contact the author)',
+            fatalError: 'Fatal Error <small>(Please read the <a target="_blank" href="https://github.com/printempw/blessing-skin-server/wiki/FAQ">FAQ</a> before asking questions)</small>',
             confirmLogout: 'Sure to log out?',
             confirm: 'OK',
             cancel: 'Cancel',

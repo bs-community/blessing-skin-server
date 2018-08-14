@@ -201,7 +201,7 @@
         general: {
             skin: '皮肤',
             cape: '披风',
-            fatalError: '严重错误（请联系作者）',
+            fatalError: '严重错误<small>（提问前请先查阅 <a target="_blank" href="https://github.com/printempw/blessing-skin-server/wiki/FAQ">常见问题</a>）</small>',
             confirmLogout: '确定要登出吗？',
             confirm: '确定',
             cancel: '取消',
