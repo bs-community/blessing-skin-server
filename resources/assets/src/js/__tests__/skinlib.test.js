@@ -559,8 +559,9 @@ describe('tests for "operations" module', () => {
     window.trans = jest.fn(key => key);
     document.body.innerHTML = `
       <div id="likes">5</div>
-      <a tid="1"></a>
-      <a id="1"></a>
+      <a id="quick-apply" style="display: none;"></a>
+      <a class="like" tid="1"></a>
+      <a class="btn" id="1"></a>
     `;
     const updateTextureStatus = require(modulePath).updateTextureStatus;
 
@@ -571,6 +572,7 @@ describe('tests for "operations" module', () => {
     expect($('#1').attr('onclick')).toBe('removeFromCloset(1);');
     expect($('#1').html()).toBe('skinlib.removeFromCloset');
     expect($('div').html()).toBe('6');
+    expect($('#quick-apply').css('display')).not.toBe('none');
 
     updateTextureStatus(1, 'remove');
     expect($('a[tid=1]').attr('onclick')).toBe('addToCloset(1);');
@@ -579,6 +581,7 @@ describe('tests for "operations" module', () => {
     expect($('#1').attr('onclick')).toBe('addToCloset(1);');
     expect($('#1').html()).toBe('skinlib.addToCloset');
     expect($('div').html()).toBe('5');
+    expect($('#quick-apply').css('display')).toBe('none');
   });
 
   it('click changing privacy button', async () => {

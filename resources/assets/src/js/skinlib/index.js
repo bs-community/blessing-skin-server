@@ -107,7 +107,8 @@ function renderSkinlibItemComponent(item) {
 
     item.name = $.fn.dataTable.render.text().filter(item.name);
 
-    return `<a href="${ url('skinlib/show/' + item.tid) }">
+    return `
+    <a href="${ url('skinlib/show/' + item.tid) }">
         <div class="item" tid="${ item.tid }">
             <div class="item-body">
                 <img src="${ url('preview/' + item.tid + '.png') }">
@@ -120,6 +121,7 @@ function renderSkinlibItemComponent(item) {
                     </span>
                 </p>
 
+                <span class="pull-right likes-count">${ item.likes }</span>
                 <a title="${title}" class="more like ${liked} ${anonymous}" tid="${ item.tid }" href="javascript:;" data-placement="top" data-toggle="tooltip"><i class="fa fa-heart"></i></a>
 
                 <small class="more private-label ${(item.public === 0) ? '' : 'hide'}" tid="${ item.tid }">
