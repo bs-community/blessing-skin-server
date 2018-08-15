@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Arr;
 use Log;
 use File;
 use Cache;
@@ -16,19 +15,58 @@ use Composer\Semver\Comparator;
 
 class UpdateController extends Controller
 {
-    public $currentVersion;
+    /**
+     * Current application version.
+     *
+     * @var string
+     */
+    protected $currentVersion;
 
-    public $latestVersion;
+    /**
+     * Latest application version in update source.
+     *
+     * @var string
+     */
+    protected $latestVersion;
 
-    public $updateSource;
+    /**
+     * Where to get information of new application versions.
+     *
+     * @var string
+     */
+    protected $updateSource;
 
+    /**
+     * Updates information fetched from update source.
+     *
+     * @var array|null
+     */
     protected $updateInfo;
 
-    public function __construct()
+    /**
+     * Guzzle HTTP client.
+     *
+     * @var \GuzzleHttp\Client
+     */
+    protected $guzzle;
+
+    /**
+     * Default request options for Guzzle HTTP client.
+     *
+     * @var array
+     */
+    protected $guzzleConfig;
+
+    public function __construct(\GuzzleHttp\Client $guzzle)
     {
         $this->updateSource = option('update_source');
-
         $this->currentVersion = config('app.version');
+
+        $this->guzzle = $guzzle;
+        $this->guzzleConfig = [
+            'headers' => ['User-Agent' => config('secure.user_agent')],
+            'verify' => config('secure.certificates')
+        ];
     }
 
     public function showUpdatePage()
@@ -56,7 +94,7 @@ class UpdateController extends Controller
             );
 
             if ($detail = $this->getReleaseInfo($info['latest_version'])) {
-                $info = array_merge($info, Arr::only($detail, [
+                $info = array_merge($info, array_only($detail, [
                     'release_note',
                     'release_url',
                     'release_time',
@@ -68,20 +106,18 @@ class UpdateController extends Controller
             }
 
             if (! $info['new_version_available']) {
-                $info['release_time'] = Arr::get($this->getReleaseInfo($this->currentVersion), 'release_time');
+                $info['release_time'] = array_get($this->getReleaseInfo($this->currentVersion), 'release_time');
             }
         }
 
-        $update = Option::form('update', OptionForm::AUTO_DETECT, function($form)
-        {
-            $form->checkbox('check_update', OptionForm::AUTO_DETECT)->label(OptionForm::AUTO_DETECT);
-            $form->text('update_source', OptionForm::AUTO_DETECT)
-                ->description(OptionForm::AUTO_DETECT);
-        })->handle()->always(function($form) {
+        $update = Option::form('update', OptionForm::AUTO_DETECT, function ($form) {
+            $form->checkbox('check_update')->label();
+            $form->text('update_source')->description();
+        })->handle()->always(function ($form) {
             try {
-                $response = file_get_contents(option('update_source'));
+                $response = $this->guzzle->request('GET', option('update_source'), $this->guzzleConfig)->getBody();
             } catch (Exception $e) {
-                $form->addMessage(trans('admin.update.errors.connection').$e->getMessage(), 'danger');
+                $form->addMessage(trans('admin.update.errors.connection').e($e->getMessage()), 'danger');
             }
         });
 
@@ -116,12 +152,6 @@ class UpdateController extends Controller
         $release_url = $this->getReleaseInfo($this->latestVersion)['release_url'];
         $tmp_path = Cache::get('tmp_path');
 
-        $client = new \GuzzleHttp\Client();
-        $guzzle_config = [
-            'headers' => ['User-Agent' => config('secure.user_agent')],
-            'verify' => config('secure.certificates')
-        ];
-
         switch ($action) {
             case 'prepare-download':
 
@@ -154,7 +184,7 @@ class UpdateController extends Controller
                 Log::info('[Update Wizard] Start downloading update package');
 
                 try {
-                    $client->request('GET', $release_url, array_merge($guzzle_config, [
+                    $this->guzzle->request('GET', $release_url, array_merge($this->guzzleConfig, [
                         'sink' => $tmp_path,
                         'progress' => function ($total, $downloaded) {
                             if ($total == 0) return;
@@ -245,7 +275,7 @@ class UpdateController extends Controller
                 : $this->updateSource;
 
             try {
-                $response = file_get_contents($url);
+                $response = $this->guzzle->request('GET', $url, $this->guzzleConfig)->getBody();
             } catch (Exception $e) {
                 Log::error("[CheckingUpdate] Failed to get update information: ".$e->getMessage());
             }
@@ -253,13 +283,12 @@ class UpdateController extends Controller
             if (isset($response)) {
                 $this->updateInfo = json_decode($response, true);
             }
-
         }
 
-        $this->latestVersion = Arr::get($this->updateInfo, 'latest_version', $this->currentVersion);
+        $this->latestVersion = array_get($this->updateInfo, 'latest_version', $this->currentVersion);
 
         if (! is_null($key)) {
-            return Arr::get($this->updateInfo, $key);
+            return array_get($this->updateInfo, $key);
         }
 
         return $this->updateInfo;
@@ -267,7 +296,7 @@ class UpdateController extends Controller
 
     protected function getReleaseInfo($version)
     {
-        return Arr::get($this->getUpdateInfo('releases'), $version);
+        return array_get($this->getUpdateInfo('releases'), $version);
     }
 
     /**
