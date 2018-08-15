@@ -4,6 +4,7 @@
     </div><!-- /.box-header -->
     <form method="post">
         <input type="hidden" name="option" value="{{ $id }}">
+        {{ csrf_field() }}
         <div class="box-body">
 
             @foreach($messages as $msg)
