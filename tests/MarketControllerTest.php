@@ -6,7 +6,8 @@ use GuzzleHttp\Exception\RequestException;
 
 class MarketControllerTest extends TestCase
 {
-    use GenerateFakePlugins;
+    use MocksGuzzleClient;
+    use GeneratesFakePlugins;
 
     protected function setUp()
     {

@@ -1,6 +1,6 @@
 <?php
 
-trait GenerateFakePlugins
+trait GeneratesFakePlugins
 {
     /**
      * Generate fake content of a plugin's package.json.

@@ -11,7 +11,7 @@ use GuzzleHttp\Exception\RequestException;
  * @see http://docs.guzzlephp.org/en/stable/testing.html
  * @see https://christrombley.me/blog/testing-guzzle-6-responses-with-laravel
  */
-trait MockGuzzleClient
+trait MocksGuzzleClient
 {
     public $guzzleMockHandler;
 

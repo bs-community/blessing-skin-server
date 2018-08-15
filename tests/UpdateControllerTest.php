@@ -10,6 +10,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UpdateControllerTest extends TestCase
 {
+    use MocksGuzzleClient;
     use DatabaseTransactions;
 
     protected function setUp()

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PluginControllerTest extends TestCase
 {
-    use GenerateFakePlugins;
+    use GeneratesFakePlugins;
     use DatabaseTransactions;
 
     protected function setUp()
