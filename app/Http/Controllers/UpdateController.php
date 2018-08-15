@@ -59,7 +59,7 @@ class UpdateController extends Controller
 
     public function __construct(\GuzzleHttp\Client $guzzle)
     {
-        $this->updateSource = option('update_source');
+        $this->updateSource = config('app.update_source');
         $this->currentVersion = config('app.version');
 
         $this->guzzle = $guzzle;
@@ -108,18 +108,15 @@ class UpdateController extends Controller
             }
         }
 
-        $update = Option::form('update', OptionForm::AUTO_DETECT, function ($form) {
-            $form->checkbox('check_update')->label();
-            $form->text('update_source')->description();
-        })->handle()->always(function ($form) {
-            try {
-                $response = $this->guzzle->request('GET', option('update_source'), $this->guzzleConfig)->getBody();
-            } catch (Exception $e) {
-                $form->addMessage(trans('admin.update.errors.connection').e($e->getMessage()), 'danger');
-            }
-        });
+        $connectivity = true;
 
-        return view('admin.update')->with('info', $info)->with('update', $update);
+        try {
+            $this->guzzle->request('GET', $this->updateSource, $this->guzzleConfig);
+        } catch (Exception $e) {
+            $connectivity = $e->getMessage();
+        }
+
+        return view('admin.update', compact('info', 'connectivity'));
     }
 
     public function checkUpdates()

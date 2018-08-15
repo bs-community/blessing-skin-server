@@ -151,16 +151,17 @@ update:
   cautions:
     title: Cautions
     text: |
-      Please choose update source according to your host location.
-      Low-speed connection between update source and your host will cause long-time loading at checking/downloading page.
+      Please choose update source according to your host's network environment.
+      Low-speed connection between update source and your host will cause long-time loading at checking and downloading page.
+      To change the default update source, please refer to <a target="_blank" href="https://github.com/printempw/blessing-skin-server/wiki/%E6%9B%B4%E6%96%B0%E6%BA%90%E5%88%97%E8%A1%A8">this wiki article</a>.
 
   download:
     downloading: Downloading update package...
     size: "Size of package:"
 
-    errors:
+  errors:
     prefix: "An error occured: "
-    connection: "Unable to access to current update source. Details:"
+    connection: We can't connect to the update source. :error
     write-permission: Unable to create the cache directory. Please check the permission.
     unzip: "Failed to extract update package. Error code: "
     overwrite: Unable to overwrite files.

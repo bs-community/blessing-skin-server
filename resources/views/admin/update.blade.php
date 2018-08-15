@@ -64,7 +64,13 @@
                             </tbody>
                         </table>
                         @else
-                        <div class="callout callout-success">{{ trans('admin.update.info.up-to-date') }}</div>
+
+                            @if ($connectivity === true)
+                            <div class="callout callout-success">{{ trans('admin.update.info.up-to-date') }}</div>
+                            @else
+                            <div class="callout callout-danger">{{ trans('admin.update.errors.connection', ['error' => $connectivity]) }}</div>
+                            @endif
+
                         <table class="table">
                             <tbody>
                                 <tr>
@@ -101,10 +107,6 @@
                         <p>{!! nl2br(trans('admin.update.cautions.text')) !!}</p>
                     </div><!-- /.box-body -->
                 </div>
-            </div>
-
-            <div class="col-md-6">
-                {!! $update->render() !!}
             </div>
 
         </div>

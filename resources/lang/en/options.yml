@@ -149,13 +149,3 @@ resources:
   cache_expire_time:
     title: Cache Exipre Time
     hint: In seconds, 86400 = one day, 31536000 = one year.
-
-update:
-  title: Check Update
-
-  check_update:
-    title: Check Update
-    label: Check available updates automatically and notify me.
-  update_source:
-    title: Update Source
-    description: 'Available update source list can be found at: <a href="https://github.com/printempw/blessing-skin-server/wiki/%E6%9B%B4%E6%96%B0%E6%BA%90%E5%88%97%E8%A1%A8">@GitHub Wiki</a>.'
