@@ -92,9 +92,22 @@ trait GenerateFakePlugins
             mkdir($plugin_dir);
         }
 
+        // Generate fake config view
+        if ($config = array_get($info, 'config')) {
+            $views_path = "$plugin_dir/views";
+
+            if (! is_dir($views_path)) {
+                mkdir($views_path);
+            }
+
+            file_put_contents("$views_path/$config", str_random(64));
+        }
+
         file_put_contents("$plugin_dir/package.json", json_encode(
             $this->generateFakePlguinInfo($info)
         ));
+
+        file_put_contents("$plugin_dir/bootstrap.php", "<?php retrun function () { return '{$info['name']}'; };");
     }
 
     /**
