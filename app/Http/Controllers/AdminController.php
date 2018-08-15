@@ -464,7 +464,7 @@ class AdminController extends Controller
             return json(trans('admin.players.delete.success'), 0);
         } elseif ($action == "name") {
             $this->validate($request, [
-                'name' => 'required'
+                'name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max')
             ]);
 
             $player->rename($request->input('name'));
