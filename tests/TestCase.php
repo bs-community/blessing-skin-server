@@ -2,6 +2,7 @@
 
 class TestCase extends Illuminate\Foundation\Testing\TestCase
 {
+    use MockGuzzleClient;
     use InteractsWithCache;
 
     /**
