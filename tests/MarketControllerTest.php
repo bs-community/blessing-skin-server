@@ -5,7 +5,7 @@ class MarketControllerTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        return $this->actAs('admin');
+        return $this->actAs('superAdmin');
     }
 
     public function testShowMarket()

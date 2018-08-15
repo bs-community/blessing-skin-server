@@ -16,7 +16,7 @@ class UpdateControllerTest extends TestCase
 
         vfs\vfsStream::setup();
 
-        return $this->actAs('admin');
+        return $this->actAs('superAdmin');
     }
 
     /**
@@ -136,8 +136,7 @@ class UpdateControllerTest extends TestCase
 
         // Start downloading
         $this->flushCache();
-        $this->actAs('admin')
-            ->get('/admin/update/download?action=start-download')
+        $this->get('/admin/update/download?action=start-download')
             ->see('No temp path available, please try again.');
 
         unlink(storage_path('testing/update.zip'));
@@ -159,8 +158,7 @@ class UpdateControllerTest extends TestCase
 
         // Get file size
         $this->flushCache();
-        $this->actAs('admin')
-            ->get('/admin/update/download?action=get-progress')
+        $this->get('/admin/update/download?action=get-progress')
             ->see('[]');
 
         $this->withCache(['download-progress' => ['total' => 514, 'downloaded' => 114]])

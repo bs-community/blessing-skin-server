@@ -105,6 +105,19 @@ class MiddlewareTest extends TestCase
             ->assertResponseStatus(200);
     }
 
+    public function testCheckSuperAdmin()
+    {
+        // Admin
+        $this->actAs('admin')
+            ->get('/admin/plugins/manage')
+            ->assertResponseStatus(403);
+
+        // Super admin
+        $this->actAs('superAdmin')
+            ->visit('/admin/plugins/manage')
+            ->assertResponseStatus(200);
+    }
+
     public function testCheckInstallation()
     {
         $this->visit('/setup')->see('Already installed');

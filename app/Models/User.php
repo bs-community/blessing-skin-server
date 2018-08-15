@@ -67,6 +67,16 @@ class User extends Model
     }
 
     /**
+     * Check if user is super admin.
+     *
+     * @return bool
+     */
+    public function isSuperAdmin()
+    {
+        return ($this->permission == static::SUPER_ADMIN);
+    }
+
+    /**
      * Get closet instance.
      *
      * @return App\Models\Closet

@@ -9,6 +9,7 @@ check:
   anonymous: 未授权的访问，请先登录
   verified: 你必须验证邮箱后才能访问此页面
   admin: 只有管理员才能访问此页面
+  super-admin: 只有超级管理员才能访问此页面
   banned: 你已被本站封禁，详情请联系站点管理员
   token: 登录状态已过期，请重新登录
 

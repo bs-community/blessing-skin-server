@@ -37,7 +37,7 @@ class PluginControllerTest extends TestCase
             }
         }
 
-        return $this->actAs('admin');
+        return $this->actAs('superAdmin');
     }
 
     public function testShowManage()
