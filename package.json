@@ -25,7 +25,6 @@
     "@fortawesome/fontawesome-free": "^5.2.0",
     "admin-lte": "^2.4.2",
     "bootstrap": "^3.3.7",
-    "bootstrap-fileinput": "^4.4.7",
     "chart.js": "^2.7.1",
     "es6-promise": "^4.2.4",
     "highlight.js": "^9.12.0",
@@ -36,6 +35,7 @@
     "toastr": "^2.1.4",
     "vue": "^2.5.16",
     "vue-good-table": "^2.12.2",
+    "vue-upload-component": "^2.8.11",
     "vuejs-paginate": "^2.0.1",
     "whatwg-fetch": "^2.0.4"
   },

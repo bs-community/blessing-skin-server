@@ -59,4 +59,9 @@ export default [
         component: () => import('./skinlib/List'),
         el: '.content-wrapper'
     },
+    {
+        path: 'skinlib/upload',
+        component: () => import('./skinlib/Upload'),
+        el: '.content'
+    },
 ];

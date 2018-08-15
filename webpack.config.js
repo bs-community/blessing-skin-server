@@ -16,7 +16,6 @@ const config = {
         style: [
             'bootstrap/dist/css/bootstrap.min.css',
             'admin-lte/dist/css/AdminLTE.min.css',
-            'bootstrap-fileinput/css/fileinput.min.css',
             '@fortawesome/fontawesome-free/css/fontawesome.min.css',
             '@fortawesome/fontawesome-free/css/regular.min.css',
             '@fortawesome/fontawesome-free/css/solid.min.css',

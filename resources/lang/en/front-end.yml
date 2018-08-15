@@ -63,13 +63,22 @@ skinlib:
   emptyUploadFile: You have not uploaded any file.
   encodingError: 'Error: Encoding of this file is not accepted.'
   fileExtError: 'Error: Textures should be PNG files.'
-  upload: Upload
   uploading: Uploading
   redirecting: Redirecting...
   setAsPrivate: Set as Private
   setAsPublic: Set as Public
   setPublicNotice: Sure to set this as public texture?
   deleteNotice: Are you sure to delete this texture?
+  upload:
+    texture-name: Texture Name
+    texture-type: Texture Type
+    select-file: Select File
+    privacy-notice: Prevent it from being visible at skin library.
+    set-as-private: Make it Private
+    button: Upload
+    dropZone: Drop a file here
+    remove: Remove
+    cost: (It cost you about :score score)
 
 user:
   signRemainingTime: 'Available after :time :unit'

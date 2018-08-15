@@ -10,7 +10,7 @@ const init = {
     }
 };
 
-async function walkFetch(request) {
+export async function walkFetch(request) {
     try {
         const response = await fetch(request);
         if (response.ok) {
