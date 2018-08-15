@@ -21,7 +21,7 @@ class ValidatorExtendServiceProvider extends ServiceProvider
          * @param $v     validator
          */
         Validator::extend('no_special_chars', function ($a, $value, $p, $v) {
-            return $value === addslashes(trim($value));
+            return $value === e(addslashes(trim($value)));
         });
 
         Validator::extend('player_name', function ($a, $value, $p, $v) {
@@ -65,7 +65,7 @@ class ValidatorExtendServiceProvider extends ServiceProvider
     protected function registerExpiredRules()
     {
         Validator::extend('nickname', function ($a, $value, $p, $v) {
-            return $value === addslashes(trim($value));
+            return $value === e(addslashes(trim($value)));
         });
 
         Validator::extend('playername', function($a, $value, $p, $v) {

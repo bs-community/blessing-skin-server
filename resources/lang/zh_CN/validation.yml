@@ -1,7 +1,7 @@
 # Blessing Skin
 username:         ':attribute 格式错误。'
 player_name:      ':attribute 不符合规则。'
-no_special_chars: ':attribute 不能包含特殊字母。'
+no_special_chars: ':attribute 不能包含特殊字符。'
 preference:       ':attribute 的值必须为 default 或 slim。'
 model:            ':attribute 的值必须为 steve、alex 或 cape。'
 
@@ -73,43 +73,27 @@ unique: ':attribute 已经存在。'
 url: ':attribute 格式不正确。'
 
 custom:
-  attribute-name: { rule-name: custom-message }
+  attribute-name:
+    rule-name: custom-message
   identification:
     required: 邮箱或角色名格式错误
 
 attributes:
-  name: 名称
-  file: 文件
+  email: 邮箱
+  new_email: 新邮箱
   username: 用户名
   identification: 邮箱或角色名
-  new_player_name: 角色名
-  sitename: 站点名称
-  nickname: 昵称
-  player_name: 角色名
-  email: 邮箱
-  first_name: 名
-  last_name: 姓
   password: 密码
   password_confirmation: 确认密码
-  city: 城市
-  country: 国家
-  address: 地址
-  phone: 电话
-  mobile: 手机
-  age: 年龄
-  sex: 性别
-  gender: 性别
-  day: 天
-  month: 月
-  year: 年
-  hour: 时
-  minute: 分
-  second: 秒
-  title: 标题
-  content: 内容
-  description: 描述
-  excerpt: 摘要
-  date: 日期
-  time: 时间
-  available: 可用的
-  size: 大小
+  nickname: 昵称
+  new_nickname: 新昵称
+  player_name: 角色名
+  new_player_name: 新角色名
+  preference: 优先模型
+  model: 模型
+  name: 名称
+  new_name: 新名称
+  score: 积分
+  file: 文件
+  public: 是否公开
+  site_name: 站点名称
