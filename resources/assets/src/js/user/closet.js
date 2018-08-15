@@ -115,26 +115,30 @@ async function initCloset() {
  * @param {{ name: string, tid: number, type: 'steve' | 'alex' | 'cape' }} item
  */
 function renderClosetItemComponent(item) {
+    // Prevent XSS
+    item.name = $.fn.dataTable.render.text().filter(item.name);
+
     return `
     <div class="item" tid="${item.tid}" data-texture-type="${item.type}">
-    <div class="item-body">
-        <img src="${url('/')}preview/${item.tid}.png">
-    </div>
-    <div class="item-footer">
-        <p class="texture-name">
-            <span title="${item.name}">${item.name} <small>(${item.type})</small></span>
-        </p>
+        <div class="item-body">
+            <img src="${url('/')}preview/${item.tid}.png">
+        </div>
+        <div class="item-footer">
+            <p class="texture-name">
+                <span title="${item.name}">${item.name} <small>(${item.type})</small></span>
+            </p>
 
-        <a href="${url('/')}skinlib/show/${item.tid}" title="${trans('user.viewInSkinlib')}" class="more" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-share"></i></a>
-        <span title="${trans('general.more')}" class="more" data-toggle="dropdown" aria-haspopup="true" id="more-button"><i class="fa fa-cog"></i></span>
+            <a href="${url('/')}skinlib/show/${item.tid}" title="${trans('user.viewInSkinlib')}" class="more" data-toggle="tooltip" data-placement="bottom"><i class="fa fa-share"></i></a>
+            <span title="${trans('general.more')}" class="more" data-toggle="dropdown" aria-haspopup="true" id="more-button"><i class="fa fa-cog"></i></span>
 
-        <ul class="dropup dropdown-menu" aria-labelledby="more-button">
-            <li><a onclick="renameClosetItem(${item.tid}, '${item.name}');">${trans('user.renameItem')}</a></li>
-            <li><a onclick="removeFromCloset(${item.tid});">${trans('user.removeItem')}</a></li>
-            <li><a onclick="setAsAvatar(${item.tid});">${trans('user.setAsAvatar')}</a></li>
-        </ul>
+            <ul class="dropup dropdown-menu" aria-labelledby="more-button">
+                <li><a onclick="renameClosetItem(${item.tid}, '${item.name}');">${trans('user.renameItem')}</a></li>
+                <li><a onclick="removeFromCloset(${item.tid});">${trans('user.removeItem')}</a></li>
+                <li><a onclick="setAsAvatar(${item.tid});">${trans('user.setAsAvatar')}</a></li>
+            </ul>
+        </div>
     </div>
-</div>`;
+    `;
 }
 
 /**

@@ -2,6 +2,7 @@
 
 const $ = require('jquery');
 window.$ = window.jQuery = $;
+$.fn.dataTable = { render: { text: () => ({ filter: text => text }) } };
 
 window.getQueryString = jest.fn((key, defaultValue) => defaultValue);
 

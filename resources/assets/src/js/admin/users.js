@@ -38,7 +38,8 @@ const usersTableColumnDefs = [
     },
     {
         targets: 2,
-        data: 'nickname'
+        data: 'nickname',
+        render: $.fn.dataTable.render.text()
     },
     {
         targets: 3,

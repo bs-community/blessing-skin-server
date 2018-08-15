@@ -2,6 +2,11 @@
 
 const $ = require('jquery');
 window.$ = window.jQuery = $;
+$.fn.dataTable = {
+  defaults: {},
+  ext: { errMode: '' },
+  render: { text: () => ({ filter: text => text }) }
+};
 
 jest.useFakeTimers();
 
@@ -1318,7 +1323,6 @@ describe('tests for "common" module', () => {
     const fetch = jest.fn()
       .mockReturnValue(Promise.resolve({ errno: 0, msg: 'Recorded.' }));
 
-    $.fn.dataTable = { defaults: {}, ext: { errMode: '' } };
     window.document.cookie = '';
     window.fetch = fetch;
     window.blessing = {
@@ -1347,7 +1351,6 @@ describe('tests for "common" module', () => {
     const showModal = jest.fn();
     window.trans = jest.fn(t => t);
     window.showModal = showModal;
-    $.fn.dataTable = { defaults: {}, ext: { errMode: '' } };
 
     handleDataTablesAjaxError(undefined, undefined, '{}');
     expect(showModal).not.toBeCalled();

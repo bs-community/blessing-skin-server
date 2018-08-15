@@ -19,30 +19,38 @@ const marketTableColumnDefs = [
         targets: 0,
         title: trans('admin.pluginTitle'),
         data: 'title',
-        render: (title, type, row) => `<strong>${ title }</strong><div class="plugin-name">${ row.name }</div>`
+        render: (title, type, row) => {
+            return $.fn.dataTable.render.text().filter(`
+                <strong>${ title }</strong>
+                <div class="plugin-name">${ row.name }</div>
+            `);
+        }
     },
     {
         targets: 1,
         title: trans('admin.pluginDescription'),
         data: 'description',
+        render: $.fn.dataTable.render.text(),
         orderable: false
     },
     {
         targets: 2,
         title: trans('admin.pluginAuthor'),
         data: 'author',
+        render: $.fn.dataTable.render.text(),
         orderable: false
     },
     {
         targets: 3,
         title: trans('admin.pluginVersion'),
         data: 'version',
+        render: $.fn.dataTable.render.text(),
         orderable: false
     },
     {
         targets: 4,
-        data: 'dependencies',
         title: trans('admin.pluginDependencies'),
+        data: 'dependencies',
         searchable: false,
         orderable: false,
         render: data => {

@@ -36,7 +36,7 @@ const pluginsTableColumnDefs = [
             }
 
             return `
-                <strong>${ title }</strong>
+                <strong>${ $.fn.dataTable.render.text().filter(title) }</strong>
                 <div class="actions">${ actions.join(' | ') }</div>
             `;
         }
@@ -48,7 +48,7 @@ const pluginsTableColumnDefs = [
         orderable: false,
         render: (description, type, row) => {
             return `
-                <div class="plugin-description"><p>${ description }</p></div>
+                <div class="plugin-description"><p>${ $.fn.dataTable.render.text().filter(description) }</p></div>
                 <div class="plugin-version-author">
                     ${ trans('admin.pluginVersion') } <span class="text-primary">${ row.version }</span> |
                     ${ trans('admin.pluginAuthor') } <a href="${ row.url }">${ row.author }</a> |

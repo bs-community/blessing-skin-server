@@ -2,6 +2,7 @@
 
 const $ = require('jquery');
 window.$ = window.jQuery = $;
+$.fn.dataTable = { render: { text: () => ({ filter: text => text }) } };
 
 describe('tests for "verification" module', () => {
   const modulePath = '../user/verification';

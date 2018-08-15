@@ -105,6 +105,8 @@ function renderSkinlibItemComponent(item) {
         title = item.liked ? trans('skinlib.removeFromCloset') : trans('skinlib.addToCloset');
     }
 
+    item.name = $.fn.dataTable.render.text().filter(item.name);
+
     return `<a href="${ url('skinlib/show/' + item.tid) }">
         <div class="item" tid="${ item.tid }">
             <div class="item-body">

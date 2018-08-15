@@ -31,7 +31,8 @@ const playersTableColumnDefs = [
     },
     {
         targets: 2,
-        data: 'player_name'
+        data: 'player_name',
+        render: $.fn.dataTable.render.text()
     },
     {
         targets: 3,
