@@ -1,7 +1,13 @@
 <?php
 
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Exception\RequestException;
+
 class MarketControllerTest extends TestCase
 {
+    use GenerateFakePlugins;
+
     protected function setUp()
     {
         parent::setUp();
@@ -16,7 +22,10 @@ class MarketControllerTest extends TestCase
 
     public function testDownload()
     {
+        $this->setupGuzzleClientMock();
+
         // Try to download a non-existent plugin
+        $this->appendToGuzzleQueue(200, [], $this->generateFakePluginsRegistry());
         $this->post('/admin/plugins/market/download', [
             'name' => 'non-existent-plugin'
         ])->seeJson([
@@ -24,54 +33,100 @@ class MarketControllerTest extends TestCase
             'msg' => trans('admin.plugins.market.non-existent', ['plugin' => 'non-existent-plugin'])
         ]);
 
-        // Download and extract plugin
+        // Can't download due to connection error
+        $this->appendToGuzzleQueue([
+            new Response(200, [], $this->generateFakePluginsRegistry('fake-test-download', '0.0.1')),
+            new RequestException('Connection Error', new Request('GET', 'whatever')),
+        ]);
         $this->post('/admin/plugins/market/download', [
-            'name' => 'hello-dolly'
+            'name' => 'fake-test-download'
+        ])->seeJson([
+            'errno' => 2,
+            'msg' => trans('admin.plugins.market.download-failed', ['error' => 'Connection Error'])
+        ]);
+
+        // Downloaded plugin archive was tampered
+        $fakeArchive = $this->generateFakePluginArchive(['name' => 'fake-test-download', 'version' => '0.0.1']);
+        $this->appendToGuzzleQueue([
+            new Response(200, [], $this->generateFakePluginsRegistry('fake-test-download', '0.0.1')),
+            new Response(200, [], fopen($fakeArchive, 'r')),
+        ]);
+        $this->post('/admin/plugins/market/download', [
+            'name' => 'fake-test-download'
+        ])->seeJson([
+            'errno' => 3,
+            'msg' => trans('admin.plugins.market.shasum-failed')
+        ]);
+
+        // Download and extract plugin
+        $shasum = sha1_file($fakeArchive);
+        $this->appendToGuzzleQueue([
+            new Response(200, [], $this->generateFakePluginsRegistry([
+                [
+                    'name' => 'fake-test-download',
+                    'version' => '0.0.1',
+                    'dist' => [
+                        'url' => 'whatever',
+                        'shasum' => $shasum
+                    ]
+                ]
+            ])),
+            new Response(200, [], fopen($fakeArchive, 'r')),
+        ]);
+        $this->post('/admin/plugins/market/download', [
+            'name' => 'fake-test-download'
         ])->seeJson([
             'errno' => 0,
             'msg' => trans('admin.plugins.market.install-success')
         ]);
-        $this->assertTrue(is_dir(base_path('plugins/hello-dolly')));
-        $this->assertTrue(empty(glob(base_path('plugins/hello-dolly_*.zip'))));
+        $this->assertTrue(is_dir(base_path('plugins/fake-test-download')));
+        $this->assertTrue(empty(glob(base_path('plugins/fake-test-download_*.zip'))));
     }
 
     public function testCheckUpdates()
     {
-        $plugin_dir = base_path('plugins/hello-dolly');
+        $this->setupGuzzleClientMock();
 
-        if (! is_dir($plugin_dir)) {
-            mkdir($plugin_dir);
-        }
-
+        // Not installed
+        $this->appendToGuzzleQueue(200, [], $this->generateFakePluginsRegistry('fake-test-update', '0.0.1'));
         $this->get('/admin/plugins/market/check')
             ->seeJson([
                 'available' => false,
                 'plugins' => []
             ]);
 
-        file_put_contents("$plugin_dir/package.json", json_encode([
-            'name' => 'hello-dolly',
-            'version' => '0.0.1',
-            'title' => '',
-            'description' => '',
-            'author' => '',
-            'url' => '',
-            'namespace' => ''
-        ]));
-
-        // Refresh plugin manager
+        // Generate fake plugin and refresh plugin manager
+        $this->generateFakePlugin(['name' => 'fake-test-update', 'version' => '0.0.1']);
         $this->app->singleton('plugins', App\Services\PluginManager::class);
+
+        // Plugin up-to-date
+        $this->appendToGuzzleQueue(200, [], $this->generateFakePluginsRegistry('fake-test-update', '0.0.1'));
+        $this->get('/admin/plugins/market/check')
+            ->seeJson([
+                'available' => false,
+                'plugins' => []
+            ]);
+
+        // New version available
+        $this->appendToGuzzleQueue(200, [], $this->generateFakePluginsRegistry('fake-test-update', '2.3.3'));
         $this->get('/admin/plugins/market/check')
             ->seeJsonSubset([
                 'available' => true,
                 'plugins' => [[
-                    'name' => 'hello-dolly'
+                    'name' => 'fake-test-update'
                 ]]
             ]);
     }
 
     public function testGetMarketData()
     {
+        $this->setupGuzzleClientMock([
+            new RequestException('Connection Error', new Request('POST', 'whatever')),
+            new Response(200, [], $this->generateFakePluginsRegistry()),
+        ]);
+
+        $this->expectException(Exception::class)->post('/admin/plugins/market-data');
+
         $this->post('/admin/plugins/market-data')
             ->seeJsonStructure([
                 'data' => [[
@@ -85,9 +140,14 @@ class MarketControllerTest extends TestCase
                     'dependencies'
                 ]]
             ]);
+    }
 
-        // Get plugins info without an valid certificate
-        config(['secure.certificates' => '']);
-        $this->expectException(Exception::class)->post('/admin/plugins/market-data');
+    protected function tearDown()
+    {
+        // Clean fake plugins
+        File::deleteDirectory(base_path('plugins/fake-test-download'));
+        File::deleteDirectory(base_path('plugins/fake-test-update'));
+
+        parent::tearDown();
     }
 }
