@@ -30,8 +30,6 @@ return [
     'score_per_player'          => '100',
     'sign_after_zero'           => 'false',
     'version'                   => '',
-    'check_update'              => 'true',
-    'update_source'             => 'https://work.prinzeugen.net/update.json',
     'copyright_text'            => '<strong>Copyright &copy; '.getdate()['year'].' <a href="{site_url}">{site_name}</a>.</strong> All rights reserved.',
     'auto_del_invalid_texture'  => 'false',
     'allow_downloading_texture' => 'true',

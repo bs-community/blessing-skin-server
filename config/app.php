@@ -6,10 +6,23 @@ return [
     | Application Version
     |--------------------------------------------------------------------------
     |
-    | Version of Blessing Skin Server
+    | Version of Blessing Skin Server.
     |
     */
     'version' => '3.4.0',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Update Source
+    |--------------------------------------------------------------------------
+    |
+    | Where to get information of new versions.
+    |
+    */
+    'update_source' => menv(
+        'UPDATE_SOURCE',
+        'https://work.prinzeugen.net/blessing-skin-server/update.json'
+    ),
 
     /*
     |--------------------------------------------------------------------------

@@ -94,9 +94,12 @@
     <!-- App Scripts -->
     @include('common.dependencies.script')
 
-    @if (option('check_update'))
-    <script>$(document).ready(checkForUpdates);</script>
-    @endif
+    <script>
+        $(document).ready(() => {
+            checkForUpdates();
+            checkForPluginUpdates();
+        });
+    </script>
 
     @if (option('allow_sending_statistics'))
     <script>sendFeedback();</script>
