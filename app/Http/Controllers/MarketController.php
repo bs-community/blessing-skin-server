@@ -11,7 +11,35 @@ use App\Services\PluginManager;
 
 class MarketController extends Controller
 {
+    /**
+     * Guzzle HTTP client.
+     *
+     * @var \GuzzleHttp\Client
+     */
+    protected $guzzle;
+
+    /**
+     * Default request options for Guzzle HTTP client.
+     *
+     * @var array
+     */
+    protected $guzzleConfig;
+
+    /**
+     * Cache for plugins registry.
+     *
+     * @var array
+     */
     protected $registryCache;
+
+    public function __construct(\GuzzleHttp\Client $guzzle)
+    {
+        $this->guzzle = $guzzle;
+        $this->guzzleConfig = [
+            'headers' => ['User-Agent' => config('secure.user_agent')],
+            'verify' => config('secure.certificates')
+        ];
+    }
 
     public function showMarket()
     {
@@ -74,15 +102,12 @@ class MarketController extends Controller
         $filename = array_last(explode('/', $url));
         $plugins_dir = $manager->getPluginsDir();
         $tmp_path = $plugins_dir.DIRECTORY_SEPARATOR.$filename;
-        $client = new \GuzzleHttp\Client();
 
         // Download
         try {
-            $client->request('GET', $url, [
-                'headers' => ['User-Agent' => config('secure.user_agent')],
-                'verify' => config('secure.certificates'),
+            $this->guzzle->request('GET', $url, array_merge($this->guzzleConfig, [
                 'sink' => $tmp_path
-            ]);
+            ]));
         } catch (Exception $e) {
             report($e);
             return json(trans('admin.plugins.market.download-failed', ['error' => $e->getMessage()]), 2);
@@ -119,13 +144,10 @@ class MarketController extends Controller
     protected function getAllAvailablePlugins()
     {
         if (! $this->registryCache) {
-            $client = new \GuzzleHttp\Client();
-
             try {
-                $pluginsJson = $client->request('GET', config('plugins.registry'), [
-                    'headers' => ['User-Agent' => config('secure.user_agent')],
-                    'verify' => config('secure.certificates')
-                ])->getBody();
+                $pluginsJson = $this->guzzle->request(
+                    'GET', config('plugins.registry'), $this->guzzleConfig
+                )->getBody();
             } catch (Exception $e) {
                 throw new Exception(trans('admin.plugins.market.connection-error', [
                     'error' => htmlentities($e->getMessage())
