@@ -102,7 +102,7 @@
                 </previewer>
                 <div v-else class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title" v-t="'user.player.player-info'"></h3>
+                        <h3 class="box-title" v-html="$t('user.player.player-info')"></h3>
                     </div>
                     <div class="box-body">
                         <div id="preview-2d">
