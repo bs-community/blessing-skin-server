@@ -38,6 +38,10 @@ rules:
   prefer-const: warn
   no-var: error
   eqeqeq: error
+  indent:
+    - error
+    - 4
+    - SwitchCase: 1
   vue/html-closing-bracket-newline:
     - error
     - singleline: never

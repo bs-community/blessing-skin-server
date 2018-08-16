@@ -129,7 +129,7 @@ const config = {
         minimizer: [
             new UglifyJsWebpackPlugin({
                 parallel: true,
-              cache: true,
+                cache: true,
                 sourceMap: false,
                 extractComments: {
                     filename: 'LICENSES'
@@ -139,7 +139,7 @@ const config = {
                         comments: /^\**!|@preserve|@license|@cc_on/
                     }
                 }
-          })
+            })
         ]
     },
     resolve: {
