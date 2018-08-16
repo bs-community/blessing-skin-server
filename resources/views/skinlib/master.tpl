@@ -8,7 +8,7 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- App Styles -->
-    @include('common.dependencies.style', ['module' => 'skinlib'])
+    @include('common.dependencies.style')
 
     @yield('style')
 </head>
@@ -82,7 +82,7 @@
     </div><!-- ./wrapper -->
 
     <!-- App Scripts -->
-    @include('common.dependencies.script', ['module' => 'skinlib'])
+    @include('common.dependencies.script')
 
     @yield('script')
 

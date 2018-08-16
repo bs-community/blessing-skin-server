@@ -7,9 +7,6 @@
 @if (str_contains(request()->userAgent(), ['MSIE', 'Trident']))
     <script src="{{ url('public/polyfill.js') }}"></script>
 @endif
-@if (false)
-    <script src="{{ assets('js/'.$module.'.js') }}"></script>
-@endif
 <script src="{{ webpack_assets('index.js') }}"></script>
 
 <!-- User custom scripts -->

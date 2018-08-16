@@ -7,7 +7,7 @@
     {!! bs_favicon() !!}
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- App Styles -->
-    @include('common.dependencies.style', ['module' => 'auth'])
+    @include('common.dependencies.style')
 
     <script>blessing.redirect_to = "{{ session('last_requested_path') }}";</script>
 </head>
@@ -22,7 +22,7 @@
     </div>
 
     <!-- App Scripts -->
-    @include('common.dependencies.script', ['module' => 'auth'])
+    @include('common.dependencies.script')
 
     @yield('script')
 </body>

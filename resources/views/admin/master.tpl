@@ -92,7 +92,7 @@
     </div><!-- ./wrapper -->
 
     <!-- App Scripts -->
-    @include('common.dependencies.script', ['module' => 'admin'])
+    @include('common.dependencies.script')
 
     @if (option('check_update'))
     <script>$(document).ready(checkForUpdates);</script>
