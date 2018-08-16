@@ -26,8 +26,9 @@
 
 <script>
 Object.defineProperty(window, '__bs_data__', {
+    configurable: false,
     get: function () {
-        return Object.freeze({ tooManyFails: {{ session('login_fails') > 3 ? 'true' : 'false' }} })
+        return Object.freeze({ tooManyFails: {{ cache(sha1('login_fails_'.Utils::getClientIp())) > 3 ? 'true' : 'false' }} })
     }
 })
 </script>

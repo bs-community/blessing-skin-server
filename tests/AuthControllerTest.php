@@ -77,6 +77,8 @@ class AuthControllerTest extends TestCase
 
         $this->flushSession();
 
+        $loginFailsCacheKey = sha1('login_fails_'.Utils::getClientIp());
+
         // Logging in should be failed if password is wrong
         $this->postJson(
             '/auth/login', [
@@ -88,12 +90,12 @@ class AuthControllerTest extends TestCase
                 'msg' => trans('auth.validation.password'),
                 'login_fails' => 1
             ]
-        )->assertSessionHas('login_fails', 1);
+        );  // Unable to assert cache content since array driver has unexpected behaviors
 
         $this->flushSession();
 
         // Should check captcha if there are too many fails
-        $this->withSession(['login_fails' => 4])
+        $this->withCache([$loginFailsCacheKey => 4])
             ->postJson(
                 '/auth/login', [
                 'identification' => $user->email,
@@ -103,6 +105,7 @@ class AuthControllerTest extends TestCase
                 'msg' => trans('validation.required', ['attribute' => 'captcha'])
             ]);
 
+        $this->flushCache();
         $this->flushSession();
 
         // Should return a warning if user isn't existed
@@ -118,7 +121,8 @@ class AuthControllerTest extends TestCase
         $this->flushSession();
 
         // Should clean the `login_fails` session if logged in successfully
-        $this->withSession(['login_fails' => 1])->postJson('/auth/login', [
+        $this->withCache([$loginFailsCacheKey => 1])
+            ->postJson('/auth/login', [
             'identification' => $user->email,
             'password' => '12345678'
         ])->assertJson(
@@ -126,8 +130,10 @@ class AuthControllerTest extends TestCase
                 'errno' => 0,
                 'msg' => trans('auth.login.success')
             ]
-        )->assertSessionMissing('login_fails');
+        );
+        $this->assertCacheMissing($loginFailsCacheKey);
 
+        $this->flushCache();
         $this->flushSession();
 
         // Logged in should be in success if logged in with player name

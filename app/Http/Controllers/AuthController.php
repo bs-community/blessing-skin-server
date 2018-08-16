@@ -7,8 +7,7 @@ use Log;
 use Mail;
 use View;
 use Utils;
-use Cookie;
-use Option;
+use Cache;
 use Session;
 use App\Events;
 use App\Models\User;
@@ -39,7 +38,11 @@ class AuthController extends Controller
         // it will return a null value.
         $user = $users->get($identification, $authType);
 
-        if (session('login_fails', 0) > 3) {
+        // Require CAPTCHA if user fails to login more than 3 times
+        $loginFailsCacheKey = sha1('login_fails_'.Utils::getClientIp());
+        $loginFails = (int) Cache::get($loginFailsCacheKey, 0);
+
+        if ($loginFails > 3) {
             $this->validate($request, ['captcha' => 'required|captcha']);
         }
 
@@ -53,14 +56,15 @@ class AuthController extends Controller
 
                 event(new Events\UserLoggedIn($user));
 
-                session()->forget('last_requested_path');
+                Cache::forget($loginFailsCacheKey);
 
                 return json(trans('auth.login.success'), 0);
             } else {
-                Session::put('login_fails', session('login_fails', 0) + 1);
+                // Increase the counter
+                Cache::put($loginFailsCacheKey, ++$loginFails);
 
                 return json(trans('auth.validation.password'), 1, [
-                    'login_fails' => session('login_fails')
+                    'login_fails' => $loginFails
                 ]);
             }
         }
