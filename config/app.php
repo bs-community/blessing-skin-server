@@ -113,7 +113,7 @@ return [
     |
     */
 
-    'key' => menv('APP_KEY', 'xrjmRQ/RE3B0ICoYqfWzPYizA7MPZz3fNXdnxQ7Cbcg='),
+    'key' => menv('APP_KEY', 'base64:MfnScX0W/ViN8bZtRt0P481rWP3igcOK80QstjbXUxI='),
 
     'cipher' => 'AES-256-CBC',
 
