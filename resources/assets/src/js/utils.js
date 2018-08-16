@@ -18,9 +18,9 @@ export function debounce(func, delay) {
  * @return {string}
  */
 export function queryString(key, defaultValue) {
-    const result = location.search.match(new RegExp('[?&]'+key+'=([^&]+)', 'i'));
+    const result = location.search.match(new RegExp('[?&]' + key + '=([^&]+)', 'i'));
 
-    if (result === null || result.length < 1){
+    if (result === null || result.length < 1) {
         return defaultValue;
     } else {
         return result[1];

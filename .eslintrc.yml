@@ -38,10 +38,26 @@ rules:
   prefer-const: warn
   no-var: error
   eqeqeq: error
+  block-spacing: error
+  brace-style:
+    - error
+    - 1tbs
+    - allowSingleLine: true
+  comma-spacing: error
   indent:
     - error
     - 4
     - SwitchCase: 1
+  key-spacing:
+    - error
+    - mode: minimum
+  keyword-spacing: error
+  space-before-blocks: error
+  space-infix-ops: error
+  no-unused-expressions:
+    - error
+    - allowShortCircuit: true
+      allowTernary: true
   vue/html-closing-bracket-newline:
     - error
     - singleline: never

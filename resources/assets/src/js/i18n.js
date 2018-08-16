@@ -21,7 +21,7 @@ export function trans(key, parameters = {}) {
 
     for (const i in parameters) {
         if (parameters[i] !== undefined) {
-            temp = temp.replace(':'+i, parameters[i]);
+            temp = temp.replace(':' + i, parameters[i]);
         }
     }
 
