@@ -58,7 +58,10 @@ class Handler extends ExceptionHandler
         }
 
         if ($e instanceof TokenMismatchException) {
-            return json(trans('errors.http.csrf-token-mismatch'), 1);
+            if (request()->ajax()) {
+                return json(trans('errors.http.csrf-token-mismatch'), 1);
+            }
+            abort(403, trans('errors.http.csrf-token-mismatch'));
         }
 
         if ($e instanceof PrettyPageException) {

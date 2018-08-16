@@ -31,7 +31,6 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\AfterSessionBooted::class,
             \App\Http\Middleware\DetectLanguagePrefer::class,
-            \App\Http\Middleware\VerifyCsrfToken::class,
         ],
 
         'static' => [],
@@ -45,6 +44,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
+        'csrf'        => \App\Http\Middleware\VerifyCsrfToken::class,
         'auth'        => \App\Http\Middleware\CheckAuthenticated::class,
         'verified'    => \App\Http\Middleware\CheckUserVerified::class,
         'guest'       => \App\Http\Middleware\RedirectIfAuthenticated::class,
