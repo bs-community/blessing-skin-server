@@ -249,6 +249,38 @@ test('change texture name', async () => {
     expect(wrapper.vm.name).toBe('new-name');
 });
 
+test('change texture model', async () => {
+    Vue.prototype.$http.get.mockResolvedValue({ type: 'steve' });
+    Vue.prototype.$http.post
+        .mockResolvedValueOnce({ errno: 1, msg: '1' })
+        .mockResolvedValue({ errno: 0, msg: '0' });
+    jest.spyOn(toastr, 'warning');
+    swal.mockResolvedValueOnce({ dismiss: 1 })
+        .mockResolvedValue({ value: 'alex' });
+    const wrapper = mount(Show, {
+        mocks: {
+            $route: ['/skinlib/show/1', '1']
+        },
+        stubs: { previewer }
+    });
+    const button = wrapper.findAll('small').at(1).find('a');
+
+    button.trigger('click');
+    expect(Vue.prototype.$http.post).not.toBeCalled();
+
+    button.trigger('click');
+    await flushPromises();
+    expect(Vue.prototype.$http.post).toBeCalledWith(
+        '/skinlib/model',
+        { tid: 1, model: 'alex' }
+    );
+    expect(toastr.warning).toBeCalledWith('1');
+
+    button.trigger('click');
+    await flushPromises();
+    expect(wrapper.vm.type).toBe('alex');
+});
+
 test('toggle privacy', async () => {
     Vue.prototype.$http.get.mockResolvedValue({ public: true });
     Vue.prototype.$http.post

@@ -72,6 +72,7 @@ skinlib:
   setPublicNotice: 要将此材质设置为公开吗？
   setPrivateNotice: 要将此材质设置为私有吗？
   deleteNotice: 真的要删除此材质吗？
+  setNewTextureModel: 请选择新的材质适用模型：
   upload:
     texture-name: 材质名称
     texture-type: 材质类型
@@ -87,7 +88,7 @@ skinlib:
     likes: 收藏人数
     detail: 详细信息
     name: 名称
-    edit-name: 修改名称
+    edit: 修改
     model: 适用模型
     download-raw: 右键另存为即可下载原始皮肤文件
     size: 文件大小

@@ -55,7 +55,7 @@
                                 <td v-t="'skinlib.show.name'"></td>
                                 <td>{{ name }}
                                     <small v-if="uploader === currentUid || admin">
-                                        <a href="#" @click="changeTextureName" v-t="'skinlib.show.edit-name'"></a>
+                                        <a href="#" @click="changeTextureName" v-t="'skinlib.show.edit'"></a>
                                     </small>
                                 </td>
                             </tr>
@@ -64,6 +64,9 @@
                                 <td>
                                     <template v-if="type === 'cape'">{{ $t('general.cape') }}</template>
                                     <template v-else>{{ type }}</template>
+                                    <small v-if="uploader === currentUid || admin">
+                                        <a href="#" @click="changeModel" v-t="'skinlib.show.edit'"></a>
+                                    </small>
                                 </td>
                             </tr>
                             <tr>
@@ -248,6 +251,34 @@ export default {
             );
             if (errno === 0) {
                 this.name = value;
+                toastr.success(msg);
+            } else {
+                toastr.warning(msg);
+            }
+        },
+        async changeModel() {
+            const { dismiss, value } = await swal({
+                text: this.$t('skinlib.setNewTextureModel'),
+                input: 'select',
+                inputValue: this.type,
+                inputOptions: {
+                    steve: 'Steve',
+                    alex: 'Alex',
+                    cape: this.$t('general.cape')
+                },
+                showCancelButton: true,
+                inputClass: 'form-control'
+            });
+            if (dismiss) {
+                return;
+            }
+
+            const { errno, msg } = await this.$http.post(
+                '/skinlib/model',
+                { tid: this.tid, model: value }
+            );
+            if (errno === 0) {
+                this.type = value;
                 toastr.success(msg);
             } else {
                 toastr.warning(msg);

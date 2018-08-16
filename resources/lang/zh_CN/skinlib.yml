@@ -89,5 +89,9 @@ privacy:
 rename:
   success: 材质名称已被成功设置为 :name
 
+model:
+  success: 材质的适用模型已被修改为 :model
+  duplicate: 已经有人上传过适用于该模型的相同材质了，直接去皮肤库收藏使用吧（名称：:tid）
+
 no-permission: 你不是这个材质的上传者哦
 non-existent: 材质不存在
