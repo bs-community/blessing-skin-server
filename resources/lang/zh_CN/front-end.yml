@@ -70,6 +70,7 @@ skinlib:
   setAsPrivate: 设为隐私
   setAsPublic: 设为公开
   setPublicNotice: 要将此材质设置为公开吗？
+  setPrivateNotice: 要将此材质设置为私有吗？
   deleteNotice: 真的要删除此材质吗？
   upload:
     texture-name: 材质名称
@@ -81,6 +82,19 @@ skinlib:
     dropZone: 拖拽文件到这里
     remove: 移除
     cost: （这会消耗您约 :score 积分）
+  show:
+    anonymous: 登录后才能使用衣柜哦
+    likes: 收藏人数
+    detail: 详细信息
+    name: 名称
+    edit-name: 修改名称
+    model: 适用模型
+    download-raw: 右键另存为即可下载原始皮肤文件
+    size: 文件大小
+    uploader: 上传者
+    upload-at: 上传日期
+    delete-texture: 删除材质
+    manage-notice: 材质设为隐私或被删除后将会从每一个收藏者的衣柜中移除。
 
 user:
   signRemainingTime: ':time :unit 后可签到'

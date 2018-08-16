@@ -68,6 +68,7 @@ skinlib:
   setAsPrivate: Set as Private
   setAsPublic: Set as Public
   setPublicNotice: Sure to set this as public texture?
+  setPrivateNotice: Sure to set this as private texture?
   deleteNotice: Are you sure to delete this texture?
   upload:
     texture-name: Texture Name
@@ -79,6 +80,19 @@ skinlib:
     dropZone: Drop a file here
     remove: Remove
     cost: (It cost you about :score score)
+  show:
+    anonymous: You must login to use closets
+    likes: People who like this
+    detail: Details
+    name: Texture Name
+    edit-name: Edit Name
+    model: Applicable Model
+    download-raw: Click to download raw texture
+    size: File Size
+    uploader: Uploader
+    upload-at: Upload At
+    delete-texture: Delete Texture
+    notice: The texture which was deleted or setted to private will be removed from the closet of everyone who had favorited it.
 
 user:
   signRemainingTime: 'Available after :time :unit'

@@ -60,6 +60,11 @@ export default [
         el: '.content-wrapper'
     },
     {
+        path: 'skinlib/show/(\\d+)',
+        component: () => import('./skinlib/Show'),
+        el: '.content > .row:nth-child(1)'
+    },
+    {
         path: 'skinlib/upload',
         component: () => import('./skinlib/Upload'),
         el: '.content'
