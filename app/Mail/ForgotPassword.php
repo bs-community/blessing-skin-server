@@ -14,7 +14,7 @@ class ForgotPassword extends Mailable
     /**
      * @var string
      */
-    public $reset_url = '';
+    public $url = '';
 
     /**
      * Create a new message instance.
@@ -24,7 +24,7 @@ class ForgotPassword extends Mailable
      */
     public function __construct(string $url)
     {
-        $this->reset_url = $url;
+        $this->url = $url;
     }
 
     /**
@@ -37,7 +37,7 @@ class ForgotPassword extends Mailable
         $site_name = option_localized('site_name');
 
         return $this->from(config('mail.username'), $site_name)
-            ->subject(trans('auth.mail.title', ['sitename' => $site_name]))
-            ->view('auth.mail');
+            ->subject(trans('auth.forgot.mail.title', ['sitename' => $site_name]))
+            ->view('mails.password-reset');
     }
 }

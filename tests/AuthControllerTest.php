@@ -412,7 +412,7 @@ class AuthControllerTest extends TestCase
             'captcha' => 'a'
         ])->assertJson([
             'errno' => 0,
-            'msg' => trans('auth.mail.success')
+            'msg' => trans('auth.forgot.success')
         ])->assertSessionHas('last_mail_time');
         Mail::assertSent(ForgotPassword::class, function ($mail) use ($user) {
             return $mail->hasTo($user->email);
@@ -429,7 +429,7 @@ class AuthControllerTest extends TestCase
                 'captcha' => 'a'
             ])->assertJson([
                 'errno' => 2,
-                'msg' => trans('auth.mail.failed', ['msg' => 'A fake exception.'])
+                'msg' => trans('auth.forgot.failed', ['msg' => 'A fake exception.'])
             ]);
 
         // Addition: Mailable test
@@ -437,8 +437,8 @@ class AuthControllerTest extends TestCase
         $mailable = new ForgotPassword('url');
         $mailable->build();
         $this->assertTrue($mailable->hasFrom(config('mail.username'), $site_name));
-        $this->assertEquals(trans('auth.mail.title', ['sitename' => $site_name]), $mailable->subject);
-        $this->assertEquals('auth.mail', $mailable->view);
+        $this->assertEquals(trans('auth.forgot.mail.title', ['sitename' => $site_name]), $mailable->subject);
+        $this->assertEquals('mails.password-reset', $mailable->view);
     }
 
     public function testReset()

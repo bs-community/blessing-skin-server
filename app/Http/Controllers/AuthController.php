@@ -167,12 +167,12 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             report($e);
 
-            return json(trans('auth.mail.failed', ['msg' => $e->getMessage()]), 2);
+            return json(trans('auth.forgot.failed', ['msg' => $e->getMessage()]), 2);
         }
 
         Session::put('last_mail_time', time());
 
-        return json(trans('auth.mail.success'), 0);
+        return json(trans('auth.forgot.success'), 0);
     }
 
     public function reset($uid, UserRepository $users)
