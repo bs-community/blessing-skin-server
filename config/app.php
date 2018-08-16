@@ -178,6 +178,7 @@ return [
         /**
          * Application Service Providers...
          */
+        App\Providers\RuntimeCheckServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\LogServiceProvider::class,
@@ -185,7 +186,6 @@ return [
         App\Providers\PluginServiceProvider::class,
         App\Providers\ResponseMacroServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\RuntimeCheckServiceProvider::class,
         App\Providers\TranslationServiceProvider::class,
         App\Providers\ValidatorExtendServiceProvider::class,
 
