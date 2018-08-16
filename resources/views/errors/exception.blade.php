@@ -9,6 +9,6 @@
 
 <p>{{ $message }}</p>
 
-<p>{!! nl2br(trans('errors.exception.message')) !!}</p>
+{!! nl2p(trans('errors.exception.message')) !!}
 
 @endsection

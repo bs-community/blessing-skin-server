@@ -119,7 +119,7 @@
                 <h4 class="modal-title">{{ trans('user.profile.delete.modal-title') }}</h4>
             </div>
             <div class="modal-body">
-                {!! nl2br(trans('user.profile.delete.modal-notice')) !!}
+                {!! nl2p(trans('user.profile.delete.modal-notice')) !!}
                 <br />
                 <input type="password" class="form-control" id="password" placeholder="{{ trans('user.profile.delete.password') }}">
                 <br />

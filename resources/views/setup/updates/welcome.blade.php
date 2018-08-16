@@ -6,7 +6,7 @@
 @include('setup.wizard.language')
 </h1>
 
-<p>{!! nl2br(trans('setup.updates.welcome.text', ['version' => config('app.version')])) !!}</p>
+{!! nl2p(trans('setup.updates.welcome.text', ['version' => config('app.version')])) !!}
 
 <form method="post" action="" novalidate="novalidate">
     <p class="step">

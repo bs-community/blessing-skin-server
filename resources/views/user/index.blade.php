@@ -113,7 +113,7 @@
             </div>
             <div class="modal-body">
                 <?php list($from, $to) = explode(',', Option::get('sign_score')); ?>
-                {!! nl2br(trans('user.score-intro.introduction', [
+                {!! nl2p(trans('user.score-intro.introduction', [
                     'initial_score' => option('user_initial_score'),
                     'score-from'    => $from,
                     'score-to'      => $to,
