@@ -20,10 +20,11 @@ const marketTableColumnDefs = [
         title: trans('admin.pluginTitle'),
         data: 'title',
         render: (title, type, row) => {
-            return $.fn.dataTable.render.text().filter(`
-                <strong>${ title }</strong>
-                <div class="plugin-name">${ row.name }</div>
-            `);
+            const filter = $.fn.dataTable.render.text().filter;
+            return `
+                <strong>${ filter(title) }</strong>
+                <div class="plugin-name">${ filter(row.name) }</div>
+            `;
         }
     },
     {
