@@ -90,8 +90,14 @@ test('change player name', async () => {
     Vue.prototype.$http.post
         .mockResolvedValueOnce({ errno: 1 })
         .mockResolvedValue({ errno: 0 });
-    swal.mockResolvedValueOnce({ dismiss: 1 })
-        .mockResolvedValue({ value: 'new-name' });
+    swal.mockImplementationOnce(() => ({ dismiss: 1 }))
+        .mockImplementation(({ inputValidator }) => {
+            if (inputValidator) {
+                inputValidator();
+                inputValidator('new-name');
+                return { value: 'new-name' };
+            }
+        });
     const wrapper = mount(Players);
     await wrapper.vm.$nextTick();
     const button = wrapper.find('.btn-default');

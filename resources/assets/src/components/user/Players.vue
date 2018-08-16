@@ -346,8 +346,7 @@ export default {
                 inputValue: player.player_name,
                 input: 'text',
                 showCancelButton: true,
-                inputValidator: /* istanbul ignore next */ value =>
-                    !value && this.$t('user.emptyPlayerName')
+                inputValidator: value => !value && this.$t('user.emptyPlayerName')
             });
             if (dismiss) {
                 return;
