@@ -1338,6 +1338,7 @@ describe('tests for "common" module', () => {
         url: 'https://work.prinzeugen.net/statistics/feedback',
         type: 'POST',
         dataType: 'json',
+        xhr: expect.any(Function),
         data: { site_name: 'inm', site_url: 'http://tdkr.mur', version: '8.1.0' }
     });
     expect(window.document.cookie).not.toBe('');

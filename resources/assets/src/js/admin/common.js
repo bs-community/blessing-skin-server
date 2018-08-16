@@ -31,6 +31,17 @@ async function sendFeedback() {
                 site_name: blessing.site_name,
                 site_url: blessing.base_url,
                 version: blessing.version
+            },
+            xhr: () => {
+                // Don't send 'X-CSRF-TOKEN' header to a cross-origin server
+                // @see https://gist.github.com/7kfpun/a8d1326db44aa7857660
+                const xhr = $.ajaxSettings.xhr();
+                const setRequestHeader = xhr.setRequestHeader;
+                xhr.setRequestHeader = function (name, value) {
+                    if (name === 'X-CSRF-TOKEN') return;
+                    setRequestHeader.call(this, name, value);
+                };
+                return xhr;
             }
         });
         if (errno === 0) {
