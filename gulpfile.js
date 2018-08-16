@@ -214,7 +214,9 @@ gulp.task('zip', () => {
         '!{coverage,coverage/**}',
         '!{node_modules,node_modules/**,node_modules/**/.gitignore}',
         '!{tests,tests/**}',
-        // Exclude require-dev packages
+        // Extracted symbol links are always weird, I don't know exactly why
+        '!vendor/bin/**',
+        // Exclude "require-dev" packages
         '!vendor/fzaninotto/**',
         '!vendor/mikey179/**',
         '!vendor/mockery/**',
