@@ -41,7 +41,7 @@
                                 <tr>
                                     <td class="key">@lang('admin.update.info.release-time')</td>
                                     <td class="value">
-                                        {{ Utils::getTimeFormatted($info['release_time']) }}
+                                        {{ get_datetime_string($info['release_time']) }}
                                     </td>
                                 </tr>
                                 <tr>
@@ -77,7 +77,7 @@
                                     <td class="key">@lang('admin.update.info.release-time')</td>
                                     <td class="value">
                                         @if ($info['release_time'])
-                                        {{ Utils::getTimeFormatted($info['release_time']) }}
+                                        {{ get_datetime_string($info['release_time']) }}
                                         @else
                                         @lang('admin.update.info.pre-release')
                                         @endif

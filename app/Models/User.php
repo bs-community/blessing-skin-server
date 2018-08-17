@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use DB;
-use Utils;
 use Carbon\Carbon;
 use App\Events\EncryptUserPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -64,7 +63,7 @@ class User extends Authenticatable
     /**
      * Get closet instance.
      *
-     * @return App\Models\Closet
+     * @return \App\Models\Closet
      */
     public function getCloset()
     {
@@ -252,7 +251,7 @@ class User extends Authenticatable
             $acquiredScore = rand($scoreLimits[0], $scoreLimits[1]);
 
             $this->setScore($acquiredScore, 'plus');
-            $this->last_sign_at = Utils::getTimeFormatted();
+            $this->last_sign_at = get_datetime_string();
             $this->save();
 
             return $acquiredScore;

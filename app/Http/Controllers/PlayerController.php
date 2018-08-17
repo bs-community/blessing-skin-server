@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use View;
 use Event;
-use Utils;
 use Option;
 use App\Models\User;
 use App\Models\Player;
@@ -88,7 +87,7 @@ class PlayerController extends Controller
         $player->uid           = $user->uid;
         $player->player_name   = $request->input('player_name');
         $player->preference    = "default";
-        $player->last_modified = Utils::getTimeFormatted();
+        $player->last_modified = get_datetime_string();
         $player->save();
 
         event(new PlayerWasAdded($player));

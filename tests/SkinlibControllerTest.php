@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Models\Closet;
 use App\Models\Player;
 use App\Models\Texture;
-use App\Services\Utils;
 use org\bovigo\vfs\vfsStream;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -411,7 +410,7 @@ class SkinlibControllerTest extends TestCase
                 ['file' => $upload]
             )->assertJson([
                 'errno' => UPLOAD_ERR_NO_TMP_DIR,
-                'msg' => Utils::convertUploadFileError(UPLOAD_ERR_NO_TMP_DIR)
+                'msg' => \App\Http\Controllers\SkinlibController::$phpFileUploadErrors[UPLOAD_ERR_NO_TMP_DIR]
             ]);
 
         // Without `name` field

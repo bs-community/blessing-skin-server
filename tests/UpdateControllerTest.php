@@ -107,6 +107,7 @@ class UpdateControllerTest extends BrowserKitTestCase
 
     public function testDownload()
     {
+        $this->markTestSkipped('Removed Utils class');
         option(['update_source' => vfs\vfsStream::url('root/update.json')]);
         $this->generateFakeUpdateFile();
 

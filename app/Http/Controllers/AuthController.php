@@ -6,7 +6,6 @@ use URL;
 use Log;
 use Mail;
 use View;
-use Utils;
 use Cache;
 use Session;
 use App\Events;
@@ -40,7 +39,7 @@ class AuthController extends Controller
         $user = $users->get($identification, $authType);
 
         // Require CAPTCHA if user fails to login more than 3 times
-        $loginFailsCacheKey = sha1('login_fails_'.Utils::getClientIp());
+        $loginFailsCacheKey = sha1('login_fails_'.get_client_ip());
         $loginFails = (int) Cache::get($loginFailsCacheKey, 0);
 
         if ($loginFails > 3) {
@@ -114,45 +113,44 @@ class AuthController extends Controller
         }
 
         // If amount of registered accounts of IP is more than allowed amounts,
-        // reject the registration.
-        if (User::where('ip', Utils::getClientIp())->count() < option('regs_per_ip')) {
-            $user = new User;
-            $user->email = $data['email'];
-            $user->nickname = $data[option('register_with_player_name') ? 'player_name' : 'nickname'];
-            $user->score = option('user_initial_score');
-            $user->avatar = 0;
-            $user->password = User::getEncryptedPwdFromEvent($data['password'], $user)
-                ?: app('cipher')->hash($data['password'], config('secure.salt'));
-            $user->ip = Utils::getClientIp();
-            $user->permission = User::NORMAL;
-            $user->register_at = Utils::getTimeFormatted();
-            $user->last_sign_at = Utils::getTimeFormatted(time() - 86400);
-
-            $user->save();
-
-            event(new Events\UserRegistered($user));
-
-            if (option('register_with_player_name')) {
-                $player = new Player;
-                $player->uid           = $user->uid;
-                $player->player_name   = $request->get('player_name');
-                $player->preference    = 'default';
-                $player->last_modified = Utils::getTimeFormatted();
-                $player->save();
-
-                event(new Events\PlayerWasAdded($player));
-            }
-
-            Auth::login($user);
-
-            return json([
-                'errno' => 0,
-                'msg' => trans('auth.register.success')
-            ]);
-
-        } else {
+        // then reject the register.
+        if (User::where('ip', get_client_ip())->count() >= option('regs_per_ip')) {
             return json(trans('auth.register.max', ['regs' => option('regs_per_ip')]), 7);
         }
+
+        $user = new User;
+        $user->email = $data['email'];
+        $user->nickname = $data[option('register_with_player_name') ? 'player_name' : 'nickname'];
+        $user->score = option('user_initial_score');
+        $user->avatar = 0;
+        $user->password = User::getEncryptedPwdFromEvent($data['password'], $user)
+            ?: app('cipher')->hash($data['password'], config('secure.salt'));
+        $user->ip = get_client_ip();
+        $user->permission = User::NORMAL;
+        $user->register_at = get_datetime_string();
+        $user->last_sign_at = get_datetime_string(time() - 86400);
+
+        $user->save();
+
+        event(new Events\UserRegistered($user));
+
+        if (option('register_with_player_name')) {
+            $player = new Player;
+            $player->uid           = $user->uid;
+            $player->player_name   = $request->get('player_name');
+            $player->preference    = 'default';
+            $player->last_modified = get_datetime_string();
+            $player->save();
+
+            event(new Events\PlayerWasAdded($player));
+        }
+
+        Auth::login($user);
+
+        return json([
+            'errno' => 0,
+            'msg' => trans('auth.register.success')
+        ]);
     }
 
     public function forgot()
@@ -175,7 +173,7 @@ class AuthController extends Controller
         }
 
         $rateLimit = 180;
-        $lastMailCacheKey = sha1('last_mail_'.Utils::getClientIp());
+        $lastMailCacheKey = sha1('last_mail_'.get_client_ip());
         $remain = $rateLimit + Cache::get($lastMailCacheKey, 0) - time();
 
         // Rate limit

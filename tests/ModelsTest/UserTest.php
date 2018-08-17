@@ -3,7 +3,6 @@
 namespace Tests;
 
 use App\Models\User;
-use App\Services\Utils;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -15,7 +14,7 @@ class UserTest extends TestCase
     public function testSign()
     {
         $user = factory(User::class)->make([
-            'last_sign_at' => Utils::getTimeFormatted(time())
+            'last_sign_at' => get_datetime_string(time())
         ]);
         $user->sign();
         $this->assertFalse($user->sign());

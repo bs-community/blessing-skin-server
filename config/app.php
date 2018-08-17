@@ -229,7 +229,6 @@ return [
          * Blessing Skin
          */
         'Option'    => App\Services\Facades\Option::class,
-        'Utils'     => App\Services\Utils::class,
         'Minecraft' => App\Services\Minecraft::class,
     ],
 

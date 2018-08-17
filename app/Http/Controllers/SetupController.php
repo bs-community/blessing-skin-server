@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use DB;
 use Log;
 use File;
-use Utils;
 use Schema;
 use Option;
 use Storage;
@@ -150,10 +149,10 @@ class SetupController extends Controller
         $user->avatar = 0;
         $user->password = User::getEncryptedPwdFromEvent($data['password'], $user)
             ?: app('cipher')->hash($data['password'], config('secure.salt'));
-        $user->ip = Utils::getClientIp();
+        $user->ip = get_client_ip();
         $user->permission = User::SUPER_ADMIN;
-        $user->register_at = Utils::getTimeFormatted();
-        $user->last_sign_at = Utils::getTimeFormatted(time() - 86400);
+        $user->register_at = get_datetime_string();
+        $user->last_sign_at = get_datetime_string(time() - 86400);
 
         $user->save();
 

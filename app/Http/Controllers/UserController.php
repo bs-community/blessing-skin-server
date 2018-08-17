@@ -6,7 +6,6 @@ use App;
 use URL;
 use Mail;
 use View;
-use Utils;
 use Session;
 use Parsedown;
 use App\Models\User;

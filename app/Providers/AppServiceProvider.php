@@ -5,7 +5,6 @@ namespace App\Providers;
 use View;
 use Blade;
 use Event;
-use Utils;
 use App\Events;
 use App\Models\User;
 use ReflectionException;
@@ -85,7 +84,7 @@ class AppServiceProvider extends ServiceProvider
             }
         }
 
-        if (option('force_ssl') || Utils::isRequestSecure()) {
+        if (option('force_ssl') || is_request_secure()) {
             $this->app['url']->forceSchema('https');
         }
     }
