@@ -371,7 +371,7 @@ class AuthControllerTest extends TestCase
         $this->get('/auth/forgot')->assertSee('Forgot Password');
 
         config(['mail.driver' => '']);
-        $this->get('/auth/forgot')->assertSee(trans('auth.forgot.close'));
+        $this->get('/auth/forgot')->assertSee(trans('auth.forgot.disabled'));
     }
 
     public function testHandleForgot()
@@ -384,7 +384,7 @@ class AuthControllerTest extends TestCase
             'captcha' => 'a'
         ])->assertJson([
             'errno' => 1,
-            'msg' => trans('auth.forgot.close')
+            'msg' => trans('auth.forgot.disabled')
         ]);
         config(['mail.driver' => 'smtp']);
 
@@ -499,6 +499,27 @@ class AuthControllerTest extends TestCase
         // after resetting password.
         $user = User::find($user->uid);
         $this->assertTrue($user->verifyPassword('12345678'));
+    }
+
+    public function testVerify()
+    {
+        $url = URL::signedRoute('auth.verify', ['uid' => 1]);
+
+        // Should be forbidden if account verification is disabled
+        option(['require_verification' => false]);
+        $this->get($url)->assertSee(trans('user.verification.disabled'));
+        option(['require_verification' => true]);
+
+        $this->get($url)->assertSee(trans('auth.verify.invalid'));
+
+        $user = factory(User::class)->create();
+        $url = URL::signedRoute('auth.verify', ['uid' => $user->uid]);
+        $this->get($url)->assertSee(trans('auth.verify.invalid'));
+
+        $user = factory(User::class)->create(['verified' => false]);
+        $url = URL::signedRoute('auth.verify', ['uid' => $user->uid]);
+        $this->get($url)->assertViewIs('auth.verify');
+        $this->assertEquals(1, User::find($user->uid)->verified);
     }
 
     public function testCaptcha()

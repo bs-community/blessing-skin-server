@@ -21,4 +21,12 @@
     <section class="content"></section><!-- /.content -->
 </div><!-- /.content-wrapper -->
 
+<script>
+    Object.defineProperty(window, '__bs_data__', {
+        value: Object.freeze({
+            unverified: {{ option('require_verification') && !$user->verified ? 'true' : 'false' }}
+        }),
+        writable: false
+    })
+</script>
 @endsection

@@ -2,6 +2,8 @@
 
 use App\Events;
 use App\Models\User;
+use App\Mail\EmailVerification;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -21,6 +23,11 @@ class UserControllerTest extends TestCase
             ->assertViewHas('statistics')
             ->assertSee((new Parsedown())->text(option_localized('announcement')))
             ->assertSee((string) $user->score);
+
+        $unverified = factory(User::class)->create(['verified' => false]);
+        $this->actAs($unverified)
+            ->get('/user')
+            ->assertDontSee(trans('user.verification.notice.title'));
     }
 
     public function testScoreInfo()
@@ -88,7 +95,6 @@ class UserControllerTest extends TestCase
         // Can sign after 0 o'clock
         option(['sign_after_zero' => true]);
         $diff = \Carbon\Carbon::now()->diffInSeconds(\Carbon\Carbon::tomorrow());
-        $unit = '';
         if ($diff / 3600 >= 1) {
             $diff = round($diff / 3600);
             $unit = 'hour';
@@ -114,6 +120,66 @@ class UserControllerTest extends TestCase
         $this->actAs($user)->postJson('/user/sign')
             ->assertJson([
                 'errno' => 0
+            ]);
+    }
+
+    public function testSendVerificationEmail()
+    {
+        Mail::fake();
+
+        $unverified = factory(User::class)->create(['verified' => false]);
+        $verified = factory(User::class)->create();
+
+        // Should be forbidden if account verification is disabled
+        option(['require_verification' => false]);
+        $this->actingAs($unverified)
+            ->postJson('/user/email-verification')
+            ->assertJson([
+                'errno' => 1,
+                'msg' => trans('user.verification.disabled')
+            ]);
+        option(['require_verification' => true]);
+
+        // Too frequent
+        $this->actingAs($unverified)
+            ->withSession([
+                'last_mail_time' => time() - 10
+            ])
+            ->postJson('/user/email-verification')
+            ->assertJson([
+                'errno' => 1,
+                'msg' => trans('user.verification.frequent-mail')
+            ]);
+        $this->flushSession();
+
+        // Already verified
+        $this->actingAs($verified)
+            ->postJson('/user/email-verification')
+            ->assertJson([
+                'errno' => 1,
+                'msg' => trans('user.verification.verified')
+            ]);
+
+        $this->actingAs($unverified)
+            ->postJson('/user/email-verification')
+            ->assertJson([
+                'errno' => 0,
+                'msg' => trans('user.verification.success')
+            ]);
+        Mail::assertSent(EmailVerification::class, function ($mail) use ($unverified) {
+            return $mail->hasTo($unverified->email);
+        });
+
+        // Should handle exception when sending email
+        Mail::shouldReceive('to')
+            ->once()
+            ->andThrow(new \Mockery\Exception('A fake exception.'));
+        $this->flushSession();
+        $this->actingAs($unverified)
+            ->postJson('/user/email-verification')
+            ->assertJson([
+                'errno' => 2,
+                'msg' => trans('user.verification.failed', ['msg' => 'A fake exception.'])
             ]);
     }
 
@@ -351,10 +417,13 @@ class UserControllerTest extends TestCase
             'msg' => trans('user.profile.email.success')
         ]);
         $this->assertEquals('a@b.c', User::find($user->uid)->email);
+        $this->assertEquals(0, User::find($user->uid)->verified);
         // After changed email, user should re-login.
         $this->assertGuest();
 
         $user = User::find($user->uid);
+        $user->verified = true;
+        $user->save();
         // Delete account without `password` field
         $this->actAs($user)
             ->postJson(

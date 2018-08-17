@@ -7,6 +7,8 @@ import { swal } from '@/js/notify';
 
 jest.mock('@/js/notify');
 
+window.__bs_data__ = { unverified: false };
+
 test('computed values', () => {
     window.__bs_data__ = { admin: true };
     const wrapper = mount(Profile);

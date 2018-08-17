@@ -25,6 +25,10 @@
                 <span v-else-if="props.column.field === 'permission'">
                     {{ props.row | humanizePermission }}
                 </span>
+                <span v-else-if="props.column.field === 'verified'">
+                    <span v-if="props.row.verified" v-t="'admin.verified'"></span>
+                    <span v-else v-t="'admin.unverified'"></span>
+                </span>
                 <div v-else-if="props.column.field === 'operations'">
                     <div class="btn-group">
                         <button
@@ -35,6 +39,7 @@
                         >{{ $t('general.more') }} <span class="caret"></span></button>
                         <ul class="dropdown-menu operations-menu">
                             <li><a @click="changeEmail(props.row)" v-t="'admin.changeEmail'" href="#"></a></li>
+                            <li><a @click="toggleVerification(props.row)" v-t="'admin.toggleVerification'" href="#"></a></li>
                             <li><a @click="changeNickName(props.row)" v-t="'admin.changeNickName'" href="#"></a></li>
                             <li><a @click="changePassword(props.row)" v-t="'admin.changePassword'" href="#"></a></li>
                             <li><a @click="changeScore(props.row)" v-t="'admin.changeScore'" href="#"></a></li>
@@ -110,6 +115,7 @@ export default {
                 { field: 'score', label: this.$t('general.user.score'), type: 'number', width: '102px' },
                 { field: 'players_count', label: this.$t('admin.playersCount'), type: 'number' },
                 { field: 'permission', label: this.$t('admin.status'), globalSearchDisabled: true },
+                { field: 'verified', label: this.$t('admin.verification'), type: 'boolean', globalSearchDisabled: true },
                 { field: 'register_at', label: this.$t('general.user.register-at') },
                 { field: 'operations', label: this.$t('admin.operationsTitle'), sortable: false, globalSearchDisabled: true }
             ],
@@ -187,6 +193,14 @@ export default {
             } else {
                 toastr.warning(msg);
             }
+        },
+        async toggleVerification(user) {
+            const { msg } = await this.$http.post(
+                '/admin/users?action=verification',
+                { uid: user.uid }
+            );
+            user.verified = !user.verified;
+            toastr.success(msg);
         },
         async changeNickName(user) {
             const { dismiss, value } = await swal({

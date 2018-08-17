@@ -25,6 +25,8 @@ users:
       change: 修改邮箱
       existed: :email 已被占用
       success: 邮箱修改成功
+    verification:
+      success: 用户的邮箱验证状态已修改
     nickname:
       change: 修改昵称
       success: 昵称已成功设置为 :new

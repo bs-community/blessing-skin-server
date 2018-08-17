@@ -172,6 +172,7 @@ class AdminController extends Controller
                 });
 
             $form->checkbox('user_can_register')->label();
+            $form->checkbox('require_verification')->label();
 
             $form->text('regs_per_ip');
 
@@ -241,7 +242,7 @@ class AdminController extends Controller
         $isSingleUser = $request->has('uid');
 
         if ($isSingleUser) {
-            $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at'])
+            $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at', 'verified'])
                         ->where('uid', intval($request->input('uid')))
                         ->get();
         } else {
@@ -251,7 +252,7 @@ class AdminController extends Controller
             $page = $request->input('page', 1);
             $perPage = $request->input('perPage', 10);
 
-            $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at'])
+            $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at', 'verified'])
                         ->where('uid', 'like', '%' . $search . '%')
                         ->orWhere('email', 'like', '%' . $search . '%')
                         ->orWhere('nickname', 'like', '%' . $search . '%')
@@ -341,6 +342,11 @@ class AdminController extends Controller
 
             return json(trans('admin.users.operations.email.success'), 0);
 
+        } elseif ($action == "verification") {
+            $user->verified = !$user->verified;
+            $user->save();
+
+            return json(trans('admin.users.operations.verification.success'), 0);
         } elseif ($action == "nickname") {
             $this->validate($request, [
                 'nickname' => 'required|no_special_chars'

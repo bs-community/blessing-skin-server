@@ -138,7 +138,7 @@ class AuthController extends Controller
         if (config('mail.driver') != "") {
             return view('auth.forgot');
         } else {
-            throw new PrettyPageException(trans('auth.forgot.close'), 8);
+            throw new PrettyPageException(trans('auth.forgot.disabled'), 8);
         }
     }
 
@@ -148,8 +148,9 @@ class AuthController extends Controller
             'captcha' => 'required'.(app()->environment('testing') ? '' : '|captcha')
         ]);
 
-        if (config('mail.driver') == "")
-            return json(trans('auth.forgot.close'), 1);
+        if (! config('mail.driver')) {
+            return json(trans('auth.forgot.disabled'), 1);
+        }
 
         if (Session::has('last_mail_time') && (time() - session('last_mail_time')) < 60)
             return json(trans('auth.forgot.frequent-mail'), 1);
@@ -191,9 +192,22 @@ class AuthController extends Controller
         return json(trans('auth.reset.success'), 0);
     }
 
-    protected function checkCaptcha($request)
+    public function verify(UserRepository $users, $uid)
     {
-        return (strtolower($request->input('captcha')) == strtolower(session('phrase')));
+        if (! option('require_verification')) {
+            throw new PrettyPageException(trans('user.verification.disabled'), 1);
+        }
+
+        $user = $users->get($uid);
+
+        if (! $user || $user->verified) {
+            throw new PrettyPageException(trans('auth.verify.invalid'), 1);
+        }
+
+        $user->verified = true;
+        $user->save();
+
+        return view('auth.verify');
     }
 
 }

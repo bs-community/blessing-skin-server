@@ -7,6 +7,7 @@ login:
 
 check:
   anonymous: 非法访问，请先登录
+  verified: 你必须验证邮箱后才能访问此页面
   admin: 看起来你并不是管理员哦
   banned: 你已经被本站封禁啦，请联系管理员解决
 
@@ -26,7 +27,7 @@ forgot:
   button: 发送
   message: 我们将会向您发送一封验证邮件
   login-link: 我又想起来了
-  close: 本站已关闭重置密码功能
+  disabled: 本站已关闭重置密码功能
   frequent-mail: 你邮件发送得太频繁啦，过 60 秒后再点发送吧
   unregistered: 该邮箱尚未注册
   success: 邮件已发送，一小时内有效，请注意查收。
@@ -56,6 +57,13 @@ bind:
   introduction: 邮箱地址仅用于重置密码，我们将不会向您发送任何垃圾邮件
   registered: 该邮箱已被占用
 
+verify:
+  title: 邮箱验证
+  success: 邮箱验证成功
+  message: 欢迎使用 :sitename！
+  button: 返回首页
+  invalid: 无效的链接
+  expired: 链接已失效，请重新发送验证邮件
 
 validation:
   identification: 邮箱或角色名格式错误

@@ -1,5 +1,6 @@
 <template>
     <section class="content">
+        <email-verification />
         <div class="row">
             <div class="col-md-6">
                 <div v-once class="box box-primary">
@@ -192,11 +193,15 @@
 </template>
 
 <script>
+import EmailVerification from './EmailVerification';
 import toastr from 'toastr';
 import { swal } from '../../js/notify';
 
 export default {
     name: 'Profile',
+    components: {
+        EmailVerification,
+    },
     data: () => ({
         oldPassword: '',
         newPassword: '',

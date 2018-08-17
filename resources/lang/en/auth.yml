@@ -7,6 +7,7 @@ login:
 
 check:
   anonymous: Illegal access. Please log in first.
+  verified: To access this page, you should verify your email address first.
   admin: Only admins are permitted to access this page.
   banned: You are banned on this site. Please contact the admin.
 
@@ -26,7 +27,7 @@ forgot:
   button: Send
   message: We will send you an E-mail to verify.
   login-link: I do remember it
-  close: Password resetting is not available now.
+  disabled: Password resetting is not available.
   frequent-mail: You click the send button too fast. Wait for 60 secs, guy.
   unregistered: The email address is not registered.
   success: Mail is sent. Will be expired in 1 hour, please check.
@@ -55,6 +56,14 @@ bind:
   message: You need to fill your email adderss to continue.
   introduction: Email addresses will be used for password resetting. We won't send you any spam.
   registered: The email address is already registered.
+
+verify:
+  title: Email Verification
+  success: Your account was now verified.
+  message: Welcome to :sitename!
+  button: Homepage
+  invalid: Invalid link.
+  expired: This link is expired, please resend a verification email.
 
 validation:
   identification: Invalid format of email or player name.

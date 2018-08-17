@@ -6,6 +6,8 @@ import { swal } from '@/js/notify';
 
 jest.mock('@/js/notify');
 
+window.__bs_data__ = { unverified: false };
+
 function scoreInfo(data = {}) {
     return {
         user: { score: 835, lastSignAt: '2018-08-07 16:06:49' },

@@ -41,6 +41,7 @@ class User extends Authenticatable
         'score' => 'integer',
         'avatar' => 'integer',
         'permission' => 'integer',
+        'verified' => 'bool',
     ];
 
     /**

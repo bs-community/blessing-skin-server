@@ -48,6 +48,26 @@ class MiddlewareTest extends TestCase
         $this->assertEquals('a@b.c', User::find($noEmailUser->uid)->email);
     }
 
+    public function testCheckUserVerified()
+    {
+        $unverified = factory(User::class)->create(['verified' => false]);
+
+        option(['require_verification' => false]);
+        $this->actingAs($unverified)
+            ->get('/skinlib/upload')
+            ->assertSuccessful();
+
+        option(['require_verification' => true]);
+        $this->actingAs($unverified)
+            ->get('/skinlib/upload')
+            ->assertStatus(403)
+            ->assertSee(trans('auth.check.verified'));
+
+        $this->actAs('normal')
+            ->get('/skinlib/upload')
+            ->assertSuccessful();
+    }
+
     public function testCheckAdministrator()
     {
         // Without logged in

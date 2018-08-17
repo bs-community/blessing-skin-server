@@ -46,11 +46,12 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth'   => \App\Http\Middleware\CheckAuthenticated::class,
-        'guest'  => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'admin'  => \App\Http\Middleware\CheckAdministrator::class,
-        'player' => \App\Http\Middleware\CheckPlayerExist::class,
-        'setup'  => \App\Http\Middleware\CheckInstallation::class,
-        'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
+        'auth'     => \App\Http\Middleware\CheckAuthenticated::class,
+        'verified' => \App\Http\Middleware\CheckUserVerified::class,
+        'guest'    => \App\Http\Middleware\RedirectIfAuthenticated::class,
+        'admin'    => \App\Http\Middleware\CheckAdministrator::class,
+        'player'   => \App\Http\Middleware\CheckPlayerExist::class,
+        'setup'    => \App\Http\Middleware\CheckInstallation::class,
+        'signed'   => \Illuminate\Routing\Middleware\ValidateSignature::class,
     ];
 }

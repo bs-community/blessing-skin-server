@@ -35,8 +35,9 @@ Route::group(['prefix' => 'auth'], function ()
     Route::post('/login',         'AuthController@handleLogin');
     Route::post('/register',      'AuthController@handleRegister');
     Route::post('/forgot',        'AuthController@handleForgot');
-
     Route::post('/reset/{uid}',   'AuthController@handleReset')->middleware('signed');
+
+    Route::get ('/verify/{uid}',  'AuthController@verify')->name('auth.verify')->middleware('signed');
 });
 
 /**
@@ -53,16 +54,21 @@ Route::group(['middleware' => ['web', 'auth'], 'prefix' => 'user'], function ()
     Route::post('/profile',              'UserController@handleProfile');
     Route::post('/profile/avatar',       'UserController@setAvatar');
 
+    // Email Verification
+    Route::post('/email-verification',   'UserController@sendVerificationEmail');
+
     // Player
-    Route::any ('/player',               'PlayerController@index');
-    Route::get ('/player/list',          'PlayerController@listAll');
-    Route::post('/player/add',           'PlayerController@add');
-    Route::any ('/player/show',          'PlayerController@show');
-    Route::post('/player/preference',    'PlayerController@setPreference');
-    Route::post('/player/set',           'PlayerController@setTexture');
-    Route::post('/player/texture/clear', 'PlayerController@clearTexture');
-    Route::post('/player/rename',        'PlayerController@rename');
-    Route::post('/player/delete',        'PlayerController@delete');
+    Route::group(['prefix' => 'player', 'middleware' => 'verified'], function () {
+        Route::any ('',               'PlayerController@index');
+        Route::get ('/list',          'PlayerController@listAll');
+        Route::post('/add',           'PlayerController@add');
+        Route::any ('/show',          'PlayerController@show');
+        Route::post('/preference',    'PlayerController@setPreference');
+        Route::post('/set',           'PlayerController@setTexture');
+        Route::post('/texture/clear', 'PlayerController@clearTexture');
+        Route::post('/rename',        'PlayerController@rename');
+        Route::post('/delete',        'PlayerController@delete');
+    });
 
     // Closet
     Route::get ('/closet',               'ClosetController@index');
@@ -82,7 +88,7 @@ Route::group(['prefix' => 'skinlib'], function ()
     Route::any('/show/{tid}',         'SkinlibController@show');
     Route::any('/data',               'SkinlibController@getSkinlibFiltered');
 
-    Route::group(['middleware' => 'auth'], function ()
+    Route::group(['middleware' => ['auth', 'verified']], function ()
     {
         Route::get ('/upload',        'SkinlibController@upload');
         Route::post('/upload',        'SkinlibController@handleUpload');

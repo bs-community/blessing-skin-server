@@ -1,5 +1,6 @@
 <template>
     <section class="content">
+        <email-verification />
         <div class="row">
             <!-- Left col -->
             <div class="col-md-8">
@@ -192,6 +193,7 @@
 import toastr from 'toastr';
 import Paginate from 'vuejs-paginate';
 import ClosetItem from './ClosetItem';
+import EmailVerification from './EmailVerification';
 import { debounce } from '../../js/utils';
 import { swal } from '../../js/notify';
 
@@ -201,6 +203,7 @@ export default {
         Paginate,
         ClosetItem,
         Previewer: () => import('../common/Previewer'),
+        EmailVerification,
     },
     data: () => ({
         category: 'skin',

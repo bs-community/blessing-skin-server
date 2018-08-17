@@ -25,6 +25,8 @@ users:
       change: Edit Email
       existed: :email is existed.
       success: Email changed successfully.
+    verification:
+      success: Account verification status toggled successfully.
     nickname:
       change: Edit Nickname
       success: Nickname changed successfully.

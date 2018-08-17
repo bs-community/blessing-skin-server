@@ -208,6 +208,11 @@ user:
     preference:
       title: Preference
       description: Default stands for the Steve model with 4-pixel width arms, and Slim for the Alex model with 3-pixel width arms.
+  verification:
+    title: Verify Your Account
+    message: You must verify your email address before using the skin hosting service. Haven't received the email?
+    resend: Click here to send again.
+    sending: Sending...
 
 admin:
   operationsTitle: Operations
@@ -221,6 +226,8 @@ admin:
   cannotDeleteAdmin: You can't delete admins.
   cannotDeleteSuperAdmin: You can't delete super admin in this way
   changeEmail: Edit Email
+  verification: Email Verification
+  toggleVerification: Toggle Verification Status
   changeNickName: Edit Nickname
   changePassword: Edit Password
   changeScore: Edit Score
@@ -235,6 +242,8 @@ admin:
   normal: Normal
   admin: Admin
   superAdmin: Super Admin
+  unverified: Unverified
+  verified: Verified
   pidNotice: >-
     Please enter the tid of texture. Inputing 0 can clear texture of this
     player.

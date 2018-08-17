@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App;
+use URL;
+use Mail;
 use View;
 use Utils;
+use Session;
 use Parsedown;
 use App\Models\User;
 use App\Models\Texture;
 use Illuminate\Http\Request;
+use App\Mail\EmailVerification;
 use App\Events\UserProfileUpdated;
 use Illuminate\Support\Facades\Auth;
 use App\Exceptions\PrettyPageException;
@@ -16,6 +20,17 @@ use App\Services\Repositories\UserRepository;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (! Auth::user()->verified) {
+                $this->sendVerificationEmail();
+            }
+
+            return $next($request);
+        })->only(['index', 'profile']);
+    }
+
     public function index()
     {
         $user = Auth::user();
@@ -105,6 +120,40 @@ class UserController extends Controller
         return $hours > 1 ? round($hours) : $hours;
     }
 
+    public function sendVerificationEmail()
+    {
+        if (! option('require_verification')) {
+            return json(trans('user.verification.disabled'), 1);
+        }
+
+        // Rate limit of 60s
+        $remain = 60 + session('last_mail_time', 0) - time();
+
+        if ($remain > 0) {
+            return json(trans('user.verification.frequent-mail'));
+        }
+
+        $user = Auth::user();
+
+        if ($user->verified) {
+            return json(trans('user.verification.verified'), 1);
+        }
+
+        $url = URL::signedRoute('auth.verify', ['uid' => $user->uid]);
+
+        try {
+            Mail::to($user->email)->send(new EmailVerification($url));
+        } catch (\Exception $e) {
+            // Write the exception to log
+            report($e);
+            return json(trans('user.verification.failed', ['msg' => $e->getMessage()]), 2);
+        }
+
+        Session::put('last_mail_time', time());
+
+        return json(trans('user.verification.success'), 0);
+    }
+
     public function profile()
     {
         return view('user.profile')->with('user', Auth::user());
@@ -170,6 +219,10 @@ class UserController extends Controller
                     return json(trans('user.profile.email.wrong-password'), 1);
 
                 if ($user->setEmail($request->input('new_email'))) {
+                    // Set account status to unverified
+                    $user->verified = false;
+                    $user->save();
+
                     event(new UserProfileUpdated($action, $user));
 
                     Auth::logout();

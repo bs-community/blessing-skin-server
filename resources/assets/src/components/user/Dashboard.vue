@@ -1,63 +1,67 @@
 <template>
-    <div class="box">
-        <div class="box-header with-border">
-            <h3 class="box-title" v-t="'user.used.title'"></h3>
-        </div><!-- /.box-header -->
-        <div class="box-body">
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="progress-group">
-                        <span class="progress-text" v-t="'user.used.players'"></span>
-                        <span class="progress-number"><b>{{ playersUsed }}</b> / {{ playersTotal }}</span>
-                        <div class="progress sm">
-                            <div class="progress-bar progress-bar-aqua" :style="{ width: playersPercentage + '%' }"></div>
-                        </div>
-                    </div><!-- /.progress-group -->
-                    <div class="progress-group">
-                        <span class="progress-text" v-t="'user.used.storage'"></span>
-                        <span class="progress-number" id="user-storage">
-                            <template v-if="storageUsed > 1024">
-                                <b>{{ round(storageUsed / 1024) }}</b> / {{ round(storageTotal / 1024) }} MB
-                            </template>
-                            <template v-else>
-                                <b>{{ storageUsed }}</b> / {{ storageTotal }} KB
-                            </template>
-                        </span>
+    <div>
+        <email-verification />
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title" v-t="'user.used.title'"></h3>
+            </div><!-- /.box-header -->
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="progress-group">
+                            <span class="progress-text" v-t="'user.used.players'"></span>
+                            <span class="progress-number"><b>{{ playersUsed }}</b> / {{ playersTotal }}</span>
+                            <div class="progress sm">
+                                <div class="progress-bar progress-bar-aqua" :style="{ width: playersPercentage + '%' }"></div>
+                            </div>
+                        </div><!-- /.progress-group -->
+                        <div class="progress-group">
+                            <span class="progress-text" v-t="'user.used.storage'"></span>
+                            <span class="progress-number" id="user-storage">
+                                <template v-if="storageUsed > 1024">
+                                    <b>{{ round(storageUsed / 1024) }}</b> / {{ round(storageTotal / 1024) }} MB
+                                </template>
+                                <template v-else>
+                                    <b>{{ storageUsed }}</b> / {{ storageTotal }} KB
+                                </template>
+                            </span>
 
-                        <div class="progress sm">
-                            <div class="progress-bar progress-bar-yellow" id="user-storage-bar" :style="{ width: storagePercentage + '%' }"></div>
-                        </div>
-                    </div><!-- /.progress-group -->
-                </div><!-- /.col -->
-                <div class="col-md-4">
-                    <p class="text-center">
-                        <strong v-t="'user.cur-score'"></strong>
-                    </p>
-                    <p id="score" data-toggle="modal" data-target="#modal-score-instruction">
-                        {{ score }}
-                    </p>
-                    <p class="text-center" style="font-size: smaller; margin-top: 20px;" v-t="'user.score-notice'"></p>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- ./box-body -->
-        <div class="box-footer">
-            <button v-if="canSign" class="btn btn-primary pull-left" @click="sign">
-                <i class="far fa-calendar-check" aria-hidden="true"></i> &nbsp;{{ $t('user.sign') }}
-            </button>
-            <button
-                v-else
-                class="btn btn-primary pull-left"
-                :title="$t('user.last-sign', { time: lastSignAt.toLocaleString() })"
-                disabled
-            >
-                <i class="far fa-calendar-check" aria-hidden="true"></i> &nbsp;
-                {{ remainingTimeText }}
-            </button>
-        </div><!-- /.box-footer -->
+                            <div class="progress sm">
+                                <div class="progress-bar progress-bar-yellow" id="user-storage-bar" :style="{ width: storagePercentage + '%' }"></div>
+                            </div>
+                        </div><!-- /.progress-group -->
+                    </div><!-- /.col -->
+                    <div class="col-md-4">
+                        <p class="text-center">
+                            <strong v-t="'user.cur-score'"></strong>
+                        </p>
+                        <p id="score" data-toggle="modal" data-target="#modal-score-instruction">
+                            {{ score }}
+                        </p>
+                        <p class="text-center" style="font-size: smaller; margin-top: 20px;" v-t="'user.score-notice'"></p>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- ./box-body -->
+            <div class="box-footer">
+                <button v-if="canSign" class="btn btn-primary pull-left" @click="sign">
+                    <i class="far fa-calendar-check" aria-hidden="true"></i> &nbsp;{{ $t('user.sign') }}
+                </button>
+                <button
+                    v-else
+                    class="btn btn-primary pull-left"
+                    :title="$t('user.last-sign', { time: lastSignAt.toLocaleString() })"
+                    disabled
+                >
+                    <i class="far fa-calendar-check" aria-hidden="true"></i> &nbsp;
+                    {{ remainingTimeText }}
+                </button>
+            </div><!-- /.box-footer -->
+        </div>
     </div>
 </template>
 
 <script>
+import EmailVerification from './EmailVerification';
 import { swal } from '../../js/notify';
 import toastr from 'toastr';
 
@@ -65,6 +69,9 @@ const ONE_DAY = 24 * 3600 * 1000;
 
 export default {
     name: 'Dashboard',
+    components: {
+        EmailVerification,
+    },
     data: () => ({
         score: 0,
         lastSignAt: new Date(),

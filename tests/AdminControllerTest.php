@@ -768,7 +768,9 @@ class AdminControllerTest extends BrowserKitTestCase
                     'nickname' => $user->nickname,
                     'score' => $user->score,
                     'avatar' => $user->avatar,
-                    'permission' => $user->permission
+                    'permission' => $user->permission,
+                    'verified' => (bool) $user->verified,
+                    'verification_token' => (string) $user->verification_token
                 ]
             ]);
 
