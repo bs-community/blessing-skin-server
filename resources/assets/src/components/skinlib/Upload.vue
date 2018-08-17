@@ -128,14 +128,14 @@ export default {
             isPrivate: false,
             files: [],
             texture: '',
-            uploading: false
+            uploading: false,
+            textureNameRule: __bs_data__.rule,
+            privacyNotice: __bs_data__.privacyNotice,
+            scorePublic: __bs_data__.scorePublic,
+            scorePrivate: __bs_data__.scorePrivate,
         };
     },
     computed: {
-        textureNameRule: () => __bs_data__.rule,
-        privacyNotice: () => __bs_data__.privacyNotice,
-        scorePublic: () => __bs_data__.scorePublic,
-        scorePrivate: () => __bs_data__.scorePrivate,
         scoreCost() {
             const size = Math.round(this.files[0].size / 1024) || 1;
             return size * (this.isPrivate ? this.scorePrivate : this.scorePublic);

@@ -220,11 +220,9 @@ export default {
         capeUrl: '',
         players: [],
         selectedPlayer: 0,
+        linkToSkin: `${blessing.base_url}/skinlib?filter=skin`,
+        linkToCape: `${blessing.base_url}/skinlib?filter=cape`,
     }),
-    computed: {
-        linkToSkin: () => `${blessing.base_url}/skinlib?filter=skin`,
-        linkToCape: () => `${blessing.base_url}/skinlib?filter=cape`,
-    },
     created() {
         this.search = debounce(this.loadCloset, 350);
     },

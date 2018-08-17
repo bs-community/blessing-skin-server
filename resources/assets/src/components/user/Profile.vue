@@ -210,11 +210,9 @@ export default {
         email: '',
         currentPassword: '',
         deleteConfirm: '',
+        siteName: blessing.site_name,
+        isAdmin: __bs_data__.admin
     }),
-    computed: {
-        siteName: () => blessing.site_name,
-        isAdmin: () => __bs_data__.admin
-    },
     methods: {
         nl2br: str => str.replace(/\n/g, '<br>'),
         async changePassword() {

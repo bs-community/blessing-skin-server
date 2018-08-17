@@ -281,12 +281,10 @@ export default {
                 steve: false,
                 alex: false,
                 cape: false
-            }
+            },
+            playerNameRule: __bs_data__.rule,
+            playerNameLength: __bs_data__.length
         };
-    },
-    computed: {
-        playerNameRule: () => __bs_data__.rule,
-        playerNameLength: () => __bs_data__.length
     },
     beforeMount() {
         this.fetchPlayers();
