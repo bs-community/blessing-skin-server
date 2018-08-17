@@ -12,12 +12,12 @@
     <div class="login-box-body">
         <p class="login-box-msg">{{ trans('auth.bind.message') }}</p>
 
-        <form  method="post" id="login-form">
+        <form method="post" id="login-form">
+            {{ csrf_field() }}
             <div class="form-group has-feedback">
                 <input name="email" type="email" class="form-control" placeholder="{{ trans('auth.email') }}">
                 <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
             </div>
-
             <p>{{ trans('auth.bind.introduction') }}</p>
 
             @if (isset($msg))
