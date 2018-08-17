@@ -5,6 +5,7 @@ return [
     'site_name'                 => 'Blessing Skin',
     'site_description'          => 'Open-source PHP Minecraft Skin Hosting Service',
     'user_can_register'         => 'true',
+    'register_with_player_name' => 'true',
     'require_verification'      => 'false',
     'regs_per_ip'               => '3',
     'ip_get_method'             => '0',

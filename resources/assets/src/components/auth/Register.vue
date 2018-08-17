@@ -32,6 +32,23 @@
         </div>
 
         <div
+            v-if="requirePlayer"
+            class="form-group has-feedback"
+            :title="$t('auth.player-name-intro')"
+            data-placement="top"
+            data-toggle="tooltip"
+        >
+            <input
+                v-model="playerName"
+                type="text"
+                class="form-control"
+                :placeholder="$t('auth.player-name')"
+                ref="playerName"
+            >
+            <span class="glyphicon glyphicon-pencil form-control-feedback"></span>
+        </div>
+        <div
+            v-else
             class="form-group has-feedback"
             :title="$t('auth.nickname-intro')"
             data-placement="top"
@@ -108,16 +125,18 @@ export default {
         password: '',
         confirm: '',
         nickname: '',
+        playerName: '',
         captcha: '',
         time: Date.now(),
         infoMsg: '',
         warningMsg: '',
-        pending: false
+        pending: false,
+        requirePlayer: __bs_data__.player
     }),
     methods: {
         async submit() {
             const {
-                email, password, confirm, nickname, captcha
+                email, password, confirm, playerName, nickname, captcha
             } = this;
 
             if (!email) {
@@ -150,7 +169,13 @@ export default {
                 return;
             }
 
-            if (!nickname) {
+            if (this.requirePlayer && !playerName) {
+                this.infoMsg = this.$t('auth.emptyPlayerName');
+                this.$refs.playerName.focus();
+                return;
+            }
+
+            if (!this.requirePlayer && !nickname) {
                 this.infoMsg = this.$t('auth.emptyNickname');
                 this.$refs.nickname.focus();
                 return;
@@ -165,7 +190,11 @@ export default {
             this.pending = true;
             const { errno, msg } = await this.$http.post(
                 '/auth/register',
-                { email, password, nickname, captcha }
+                Object.assign(
+                    {},
+                    { email, password, captcha },
+                    this.requirePlayer ? { player_name: playerName } : { nickname }
+                )
             );
             if (errno === 0) {
                 swal({ type: 'success', text: msg });

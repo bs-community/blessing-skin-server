@@ -75,6 +75,9 @@ general:
   user_can_register:
     title: Open Registration
     label: Everyone is allowed to register.
+  register_with_player_name:
+    title: Register with Player Name
+    label: Require Minecraft's player name when user register
   require_verification:
     title: Account Verification
     label: Users must verify their email address first.

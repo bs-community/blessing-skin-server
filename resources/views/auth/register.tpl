@@ -18,4 +18,14 @@
 </div>
 <!-- /.register-box -->
 
+<script>
+Object.defineProperty(window, '__bs_data__', {
+    get: function () {
+        return Object.freeze({
+            player: {{ option('register_with_player_name') ? 'true' : 'false' }},
+        })
+    },
+    configurable: false
+})
+</script>
 @endsection

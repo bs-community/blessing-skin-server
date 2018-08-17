@@ -11,6 +11,7 @@ auth:
   emptyConfirmPwd: Empty confirming password.
   invalidConfirmPwd: Confirming password is not equal with password.
   emptyNickname: Empty nickname.
+  emptyPlayerName: Empty player name.
   register: Register
   registering: Registering
   send: Send
@@ -18,6 +19,7 @@ auth:
   reset: Reset
   resetting: Resetting
   nickname: Nickname
+  player-name: Minecraft player name
   email: Email
   identification: Email or player name
   password: Password
@@ -28,6 +30,7 @@ auth:
   keep: Remember me
   repeat-pwd: Repeat your password
   nickname-intro: Whatever you like expect special characters
+  player-name-intro: Player name in Minecraft, can be changed later
   register-button: Register
   forgot:
     login-link: I do remember it

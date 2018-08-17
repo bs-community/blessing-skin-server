@@ -247,19 +247,82 @@ class AuthControllerTest extends TestCase
             [
                 'email' => 'a@b.c',
                 'password' => str_random(33)
-            ],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ]
         )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 32])
         ]);
+
+        // The register_with_player_name option is set to true by default.
+        // Should return a warning if `player_name` is empty
+        $this->postJson(
+            '/auth/register',
+            [
+                'email' => 'a@b.c',
+                'password' => '12345678',
+                'captcha' => 'a'
+            ]
+        )->assertJson([
+            'errno' => 1,
+            'msg' => trans('validation.required', ['attribute' => 'Player Name'])
+        ]);
+
+        // Should return a warning if `player_name` is invalid
+        option(['player_name_rule' => 'official']);
+        $this->postJson(
+            '/auth/register',
+            [
+                'email' => 'a@b.c',
+                'password' => '12345678',
+                'player_name' => '角色名',
+                'captcha' => 'a'
+            ]
+        )->assertJson([
+            'errno' => 1,
+            'msg' => trans('validation.player_name', ['attribute' => 'Player Name'])
+        ]);
+
+        // Should return a warning if `player_name` is too long
+        $this->postJson(
+            '/auth/register',
+            [
+                'email' => 'a@b.c',
+                'password' => '12345678',
+                'player_name' => str_random(option('player_name_length_max') + 10),
+                'captcha' => 'a'
+            ]
+        )->assertJson([
+            'errno' => 1,
+            'msg' => trans('validation.max.string', [
+                'attribute' => 'Player Name',
+                'max' => option('player_name_length_max')
+            ])
+        ]);
+
+        // Existed player
+        $player = factory(Player::class)->create();
+        $this->postJson(
+            '/auth/register',
+            [
+                'email' => 'a@b.c',
+                'password' => '12345678',
+                'player_name' => $player->player_name,
+                'captcha' => 'a'
+            ]
+        )->assertJson([
+            'errno' => 2,
+            'msg' => trans('user.player.add.repeated')
+        ]);
+
+        option(['register_with_player_name' => false]);
 
         // Should return a warning if `nickname` is empty
         $this->postJson(
             '/auth/register',
             [
                 'email' => 'a@b.c',
-                'password' => '12345678'
+                'password' => '12345678',
+                'captcha' => 'a'
             ],
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
@@ -273,7 +336,8 @@ class AuthControllerTest extends TestCase
             [
                 'email' => 'a@b.c',
                 'password' => '12345678',
-                'nickname' => '\\'
+                'nickname' => '\\',
+                'captcha' => 'a'
             ],
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
@@ -287,7 +351,8 @@ class AuthControllerTest extends TestCase
             [
                 'email' => 'a@b.c',
                 'password' => '12345678',
-                'nickname' => str_random(256)
+                'nickname' => str_random(256),
+                'captcha' => 'a'
             ],
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
@@ -370,6 +435,19 @@ class AuthControllerTest extends TestCase
             'permission' => User::NORMAL
         ]);
         $this->assertAuthenticated();
+
+        // Require player name
+        option(['register_with_player_name' => false]);
+        $this->postJson(
+            '/auth/register',
+            [
+                'email' => 'a@b.c',
+                'password' => '12345678',
+                'player_name' => 'name',
+                'captcha' => 'a'
+            ]
+        );
+        $this->assertNotNull(Player::where('player_name', 'name'));
     }
 
     public function testForgot()
