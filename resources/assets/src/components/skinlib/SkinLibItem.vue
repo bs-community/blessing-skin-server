@@ -74,6 +74,7 @@ export default {
         async addToCloset() {
             const { dismiss, value } = await swal({
                 title: this.$t('skinlib.setItemName'),
+                text: this.$t('skinlib.applyNotice'),
                 inputValue: this.name,
                 input: 'text',
                 showCancelButton: true,
