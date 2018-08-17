@@ -28,7 +28,7 @@ forgot:
   message: We will send you an E-mail to verify.
   login-link: I do remember it
   disabled: Password resetting is not available.
-  frequent-mail: You click the send button too fast. Wait for 60 secs, guy.
+  frequent-mail: You click the send button too fast. Wait for some minutes, guy.
   unregistered: The email address is not registered.
   success: Mail is sent. Will be expired in 1 hour, please check.
   failed: Fail to send mail, detailed message :msg

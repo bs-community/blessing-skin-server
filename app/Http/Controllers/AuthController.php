@@ -152,8 +152,18 @@ class AuthController extends Controller
             return json(trans('auth.forgot.disabled'), 1);
         }
 
-        if (Session::has('last_mail_time') && (time() - session('last_mail_time')) < 60)
-            return json(trans('auth.forgot.frequent-mail'), 1);
+        $rateLimit = 180;
+        $lastMailCacheKey = sha1('last_mail_'.Utils::getClientIp());
+        $remain = $rateLimit + Cache::get($lastMailCacheKey, 0) - time();
+
+        // Rate limit
+        if ($remain > 0) {
+            return json([
+                'errno' => 2,
+                'msg' => trans('auth.forgot.frequent-mail'),
+                'remain' => $remain
+            ]);
+        }
 
         // Get user instance
         $user = $users->get($request->input('email'), 'email');
@@ -171,7 +181,7 @@ class AuthController extends Controller
             return json(trans('auth.forgot.failed', ['msg' => $e->getMessage()]), 2);
         }
 
-        Session::put('last_mail_time', time());
+        Cache::put($lastMailCacheKey, time(), 60);
 
         return json(trans('auth.forgot.success'), 0);
     }

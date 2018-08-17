@@ -394,16 +394,21 @@ class AuthControllerTest extends TestCase
         ]);
         config(['mail.driver' => 'smtp']);
 
+        $lastMailCacheKey = sha1('last_mail_'.Utils::getClientIp());
+
         // Should be forbidden if sending email frequently
-        $this->withSession(['last_mail_time' => time()])->postJson('/auth/forgot', [
+        $this->withCache([
+            $lastMailCacheKey => time()
+        ])->postJson('/auth/forgot', [
             'captcha' => 'a'
         ])->assertJson([
-            'errno' => 1,
+            'errno' => 2,
             'msg' => trans('auth.forgot.frequent-mail')
         ]);
+        $this->flushCache();
+        $this->flushSession();
 
         // Should return a warning if user is not existed
-        $this->flushSession();
         $user = factory(User::class)->create();
         $this->withSession(['phrase' => 'a'])->postJson('/auth/forgot', [
             'email' => 'nope@nope.net',
@@ -419,7 +424,9 @@ class AuthControllerTest extends TestCase
         ])->assertJson([
             'errno' => 0,
             'msg' => trans('auth.forgot.success')
-        ])->assertSessionHas('last_mail_time');
+        ]);
+        $this->assertCacheHas($lastMailCacheKey);
+        $this->flushCache();
         Mail::assertSent(ForgotPassword::class, function ($mail) use ($user) {
             return $mail->hasTo($user->email);
         });
