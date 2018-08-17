@@ -17,7 +17,6 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \Illuminate\Foundation\Http\Middleware\TrimStrings::class,
-        \App\Http\Middleware\DetectLanguagePrefer::class,
     ];
 
     /**
@@ -33,6 +32,7 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\AfterSessionBooted::class,
+            \App\Http\Middleware\DetectLanguagePrefer::class,
         ],
 
         'static' => [],
