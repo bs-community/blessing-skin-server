@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use App\Services\Minecraft;
 use org\bovigo\vfs\vfsStream;
 use App\Http\Controllers\TextureController;

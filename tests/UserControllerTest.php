@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests;
+
+use Parsedown;
 use App\Events;
 use App\Models\User;
 use App\Mail\EmailVerification;

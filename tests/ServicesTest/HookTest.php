@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use App\Services\Hook;
 
 class HookTest extends TestCase

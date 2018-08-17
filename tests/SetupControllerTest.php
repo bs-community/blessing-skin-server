@@ -1,5 +1,12 @@
 <?php
 
+namespace Tests;
+
+use Mockery;
+use Exception;
+use CreateAllTables;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Testing\WithoutMiddleware;

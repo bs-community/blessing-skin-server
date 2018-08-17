@@ -1,5 +1,8 @@
 <?php
 
+namespace Tests;
+
+use stdClass;
 use App\Events\RenderingHeader;
 use App\Events\RenderingFooter;
 use Illuminate\Support\Facades\Event;

@@ -1,9 +1,14 @@
 <?php
 
+namespace Tests;
+
 use App\Events;
 use App\Models\User;
+use App\Models\Player;
+use App\Services\Utils;
 use App\Mail\ForgotPassword;
 use App\Services\Facades\Option;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -25,7 +30,7 @@ class AuthControllerTest extends TestCase
 
         $user = factory(User::class)->create();
         $user->changePassword('12345678');
-        $player = factory(App\Models\Player::class)->create(
+        $player = factory(Player::class)->create(
             [
                 'uid' => $user->uid
             ]
@@ -90,7 +95,8 @@ class AuthControllerTest extends TestCase
                 'msg' => trans('auth.validation.password'),
                 'login_fails' => 1
             ]
-        );  // Unable to assert cache content since array driver has unexpected behaviors
+        );
+        $this->assertCacheHas($loginFailsCacheKey);
 
         $this->flushSession();
 

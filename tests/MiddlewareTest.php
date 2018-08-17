@@ -1,7 +1,10 @@
 <?php
 
+namespace Tests;
+
 use App\Models\User;
 use App\Services\Facades\Option;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -27,7 +30,7 @@ class MiddlewareTest extends TestCase
             ->assertStatus(403);
 
         // Binding email
-        $noEmailUser = factory(App\Models\User::class)->create(['email' => '']);
+        $noEmailUser = factory(\App\Models\User::class)->create(['email' => '']);
         $this->actingAs($noEmailUser)
             ->get('/user')
             ->assertSee('Bind')
@@ -118,7 +121,7 @@ class MiddlewareTest extends TestCase
         Option::set('return_204_when_notfound', true);
         $this->getJson('/nope.json')->assertStatus(204);
 
-        $player = factory(App\Models\Player::class)->create();
+        $player = factory(\App\Models\Player::class)->create();
         $this->getJson("/{$player->player_name}.json")
             ->assertJson(['username' => $player->player_name]);  // Default is CSL API
 

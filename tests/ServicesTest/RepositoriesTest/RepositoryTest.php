@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use App\Services\Repositories\Repository;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;

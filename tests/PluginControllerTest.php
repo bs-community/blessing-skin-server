@@ -1,5 +1,9 @@
 <?php
 
+namespace Tests;
+
+use App\Events;
+use ZipArchive;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -117,7 +121,7 @@ class PluginControllerTest extends TestCase
 
         // Enable a plugin
         app('plugins')->getPlugin('avatar-api')->setRequirements([]);
-        $this->expectsEvents(App\Events\PluginWasEnabled::class);
+        $this->expectsEvents(Events\PluginWasEnabled::class);
         $this->postJson('/admin/plugins/manage', [
             'name' => 'avatar-api',
             'action' => 'enable'
@@ -140,7 +144,7 @@ class PluginControllerTest extends TestCase
                 ['plugin' => plugin('avatar-api')->title]
             )
         ]);
-        $this->expectsEvents(App\Events\PluginWasDisabled::class);
+        $this->expectsEvents(Events\PluginWasDisabled::class);
 
         // Delete a plugin
         $this->postJson('/admin/plugins/manage', [
@@ -150,7 +154,7 @@ class PluginControllerTest extends TestCase
             'errno' => 0,
             'msg' => trans('admin.plugins.operations.deleted')
         ]);
-        $this->expectsEvents(App\Events\PluginWasDeleted::class);
+        $this->expectsEvents(Events\PluginWasDeleted::class);
         $this->assertFalse(file_exists(base_path('plugins/avatar-api/')));
     }
 

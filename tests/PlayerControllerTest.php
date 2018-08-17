@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use App\Events;
 use App\Models\User;
 use App\Models\Player;

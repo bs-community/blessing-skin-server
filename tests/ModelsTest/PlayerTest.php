@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use App\Models\Player;
 use App\Models\Texture;
 use Illuminate\Foundation\Testing\WithoutMiddleware;

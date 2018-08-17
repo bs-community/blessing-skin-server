@@ -1,5 +1,7 @@
 <?php
 
+namespace Tests;
+
 use App\Models\User;
 use App\Services\Repositories\UserRepository;
 use Illuminate\Foundation\Testing\WithoutMiddleware;

@@ -1,7 +1,15 @@
 <?php
 
-class TestCase extends Illuminate\Foundation\Testing\TestCase
+namespace Tests;
+
+use DB;
+use Artisan;
+use Tests\Concerns\InteractsWithCache;
+
+class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
+    use InteractsWithCache;
+
     /**
      * The base URL to use while testing the application.
      *
@@ -18,7 +26,7 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
     {
         $app = require __DIR__.'/../bootstrap/app.php';
 
-        $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+        $app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
         Artisan::call('migrate:refresh');
 
@@ -41,48 +49,6 @@ class TestCase extends Illuminate\Foundation\Testing\TestCase
             }
         }
         return $this->actingAs($role);
-    }
-
-    /**
-     * Set the cache to the given array.
-     *
-     * @param  array  $data
-     * @param  int    $minutes
-     * @return $this
-     */
-    public function withCache(array $data, $minutes = 60)
-    {
-        foreach ($data as $key => $value) {
-            $this->app['cache.store']->put($key, $value, $minutes);
-        }
-        return $this;
-    }
-
-    /**
-     * Assert that the cache does not have a given key.
-     *
-     * @param  string|array  $key
-     * @return void
-     */
-    public function assertCacheMissing($key)
-    {
-        if (is_array($key)) {
-            foreach ($key as $k) {
-                $this->assertCacheMissing($k);
-            }
-        } else {
-            $this->assertFalse($this->app['cache.store']->has($key), "Cache has unexpected key: $key");
-        }
-    }
-
-    /**
-     * Flush all of the current cache data.
-     *
-     * @return void
-     */
-    public function flushCache()
-    {
-        $this->app['cache.store']->flush();
     }
 
     protected function tearDown()

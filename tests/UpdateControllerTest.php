@@ -1,7 +1,12 @@
 <?php
 
+namespace Tests;
+
+use Exception;
+use ZipArchive;
 use org\bovigo\vfs;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;

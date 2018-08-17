@@ -1,6 +1,12 @@
 <?php
 
-class BrowserKitTestCase extends Laravel\BrowserKitTesting\TestCase
+namespace Tests;
+
+use DB;
+use Artisan;
+use Laravel\BrowserKitTesting\TestCase;
+
+class BrowserKitTestCase extends TestCase
 {
     /**
      * The base URL to use while testing the application.
@@ -18,7 +24,7 @@ class BrowserKitTestCase extends Laravel\BrowserKitTesting\TestCase
     {
         $app = require __DIR__.'/../bootstrap/app.php';
 
-        $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+        $app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
 
         Artisan::call('migrate:refresh');
 

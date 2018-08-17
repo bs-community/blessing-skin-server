@@ -61,7 +61,7 @@ class AuthController extends Controller
                 return json(trans('auth.login.success'), 0);
             } else {
                 // Increase the counter
-                Cache::put($loginFailsCacheKey, ++$loginFails);
+                Cache::put($loginFailsCacheKey, ++$loginFails, 60);
 
                 return json(trans('auth.validation.password'), 1, [
                     'login_fails' => $loginFails
