@@ -13,7 +13,7 @@
 <p><b>@lang('setup.updates.success.tips')</b></p>
 <ul>
     @foreach ($tips as $tip)
-    <li><p>{{ $tip }}</p></li>
+    <li><p>{!! $tip !!}</p></li>
     @endforeach
 </ul>
 @endif
