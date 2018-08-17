@@ -181,6 +181,14 @@ class UserControllerTest extends TestCase
                 'errno' => 2,
                 'msg' => trans('user.verification.failed', ['msg' => 'A fake exception.'])
             ]);
+
+        // Addition: Mailable test
+        $site_name = option_localized('site_name');
+        $mailable = new EmailVerification('url');
+        $mailable->build();
+        $this->assertTrue($mailable->hasFrom(config('mail.username'), $site_name));
+        $this->assertEquals(trans('user.verification.mail.title', ['sitename' => $site_name]), $mailable->subject);
+        $this->assertEquals('mails.email-verification', $mailable->view);
     }
 
     public function testProfile()

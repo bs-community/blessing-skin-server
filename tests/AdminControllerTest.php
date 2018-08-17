@@ -222,7 +222,7 @@ class AdminControllerTest extends BrowserKitTestCase
     public function testUserAjaxHandler()
     {
         // Operate on an not-existed user
-        $this->post('/admin/users')
+        $this->postJson('/admin/users')
             ->seeJson([
                 'errno' => 1,
                 'msg' => trans('admin.users.operations.non-existent')
@@ -231,7 +231,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $user = factory(User::class)->create();
 
         // Operate without `action` field
-        $this->post('/admin/users', ['uid' => $user->uid])
+        $this->postJson('/admin/users', ['uid' => $user->uid])
             ->seeJson([
                 'errno' => 1,
                 'msg' => trans('admin.users.operations.invalid')
@@ -239,34 +239,34 @@ class AdminControllerTest extends BrowserKitTestCase
 
         // An admin operating on a super admin should be forbidden
         $superAdmin = factory(User::class, 'superAdmin')->create();
-        $this->post('/admin/users', ['uid' => $superAdmin->uid])
+        $this->postJson('/admin/users', ['uid' => $superAdmin->uid])
             ->seeJson([
                 'errno' => 1,
                 'msg' => trans('admin.users.operations.no-permission')
             ]);
 
         // Action is `email` but without `email` field
-        $this->post(
+        $this->postJson(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'email'],
-            ['Accept' => 'application/json', 'X-Requested-With' => 'XMLHttpRequest']
+            ['Accept' => 'application/json']
         )->seeJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'email'])
         ]);
 
         // Action is `email` but with an invalid email address
-        $this->post(
+        $this->postJson(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'email', 'email' => 'invalid'],
-            ['Accept' => 'application/json', 'X-Requested-With' => 'XMLHttpRequest']
+            ['Accept' => 'application/json']
         )->seeJson([
             'errno' => 1,
             'msg' => trans('validation.email', ['attribute' => 'email'])
         ]);
 
         // Using an existed email address
-        $this->post(
+        $this->postJson(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'email', 'email' => $superAdmin->email]
         )->seeJson([
@@ -275,7 +275,7 @@ class AdminControllerTest extends BrowserKitTestCase
         ]);
 
         // Set email successfully
-        $this->post(
+        $this->postJson(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'email', 'email' => 'a@b.c']
         )->seeJson([
@@ -287,28 +287,41 @@ class AdminControllerTest extends BrowserKitTestCase
             'email' => 'a@b.c'
         ]);
 
+        // Toggle verification
+        $this->postJson(
+            '/admin/users',
+            ['uid' => $user->uid, 'action' => 'verification']
+        )->seeJson([
+            'errno' => 0,
+            'msg' => trans('admin.users.operations.verification.success')
+        ]);
+        $this->seeInDatabase('users', [
+            'uid' => $user->uid,
+            'verified' => 0
+        ]);
+
         // Action is `nickname` but without `nickname` field
-        $this->post(
+        $this->postJson(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'nickname'],
-            ['Accept' => 'application/json', 'X-Requested-With' => 'XMLHttpRequest']
+            ['Accept' => 'application/json']
         )->seeJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'nickname'])
         ]);
 
         // Action is `nickname` but with an invalid nickname
-        $this->post(
+        $this->postJson(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'nickname', 'nickname' => '\\'],
-            ['Accept' => 'application/json', 'X-Requested-With' => 'XMLHttpRequest']
+            ['Accept' => 'application/json']
         )->seeJson([
             'errno' => 1,
             'msg' => trans('validation.no_special_chars', ['attribute' => 'nickname'])
         ]);
 
         // Set nickname successfully
-        $this->post(
+        $this->postJson(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'nickname', 'nickname' => 'nickname']
         )->seeJson([
@@ -321,37 +334,37 @@ class AdminControllerTest extends BrowserKitTestCase
         ]);
 
         // Action is `password` but without `password` field
-        $this->post(
+        $this->postJson(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'password'],
-            ['Accept' => 'application/json', 'X-Requested-With' => 'XMLHttpRequest']
+            ['Accept' => 'application/json']
         )->seeJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'password'])
         ]);
 
         // Set a too short password
-        $this->post(
+        $this->postJson(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'password', 'password' => '1'],
-            ['Accept' => 'application/json', 'X-Requested-With' => 'XMLHttpRequest']
+            ['Accept' => 'application/json']
         )->seeJson([
             'errno' => 1,
             'msg' => trans('validation.min.string', ['attribute' => 'password', 'min' => 8])
         ]);
 
         // Set a too long password
-        $this->post(
+        $this->postJson(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'password', 'password' => str_random(17)],
-            ['Accept' => 'application/json', 'X-Requested-With' => 'XMLHttpRequest']
+            ['Accept' => 'application/json']
         )->seeJson([
             'errno' => 1,
             'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 16])
         ]);
 
         // Set password successfully
-        $this->post(
+        $this->postJson(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'password', 'password' => '12345678']
         )->seeJson([
@@ -362,27 +375,27 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->assertTrue($user->verifyPassword('12345678'));
 
         // Action is `score` but without `score` field
-        $this->post(
+        $this->postJson(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'score'],
-            ['Accept' => 'application/json', 'X-Requested-With' => 'XMLHttpRequest']
+            ['Accept' => 'application/json']
         )->seeJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'score'])
         ]);
 
         // Action is `score` but with an not-an-integer value
-        $this->post(
+        $this->postJson(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'score', 'score' => 'string'],
-            ['Accept' => 'application/json', 'X-Requested-With' => 'XMLHttpRequest']
+            ['Accept' => 'application/json']
         )->seeJson([
             'errno' => 1,
             'msg' => trans('validation.integer', ['attribute' => 'score'])
         ]);
 
         // Set score successfully
-        $this->post(
+        $this->postJson(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'score', 'score' => 123]
         )->seeJson([
@@ -395,7 +408,7 @@ class AdminControllerTest extends BrowserKitTestCase
         ]);
 
         // Ban a user
-        $this->post('/admin/users', ['uid' => $user->uid, 'action' => 'ban'])
+        $this->postJson('/admin/users', ['uid' => $user->uid, 'action' => 'ban'])
             ->seeJson([
                 'errno' => 0,
                 'msg' => trans('admin.users.operations.ban.ban.success'),
@@ -405,7 +418,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->assertEquals(User::BANNED, $user->getPermission());
 
         // Unban a user
-        $this->post('/admin/users', ['uid' => $user->uid, 'action' => 'ban'])
+        $this->postJson('/admin/users', ['uid' => $user->uid, 'action' => 'ban'])
             ->seeJson([
                 'errno' => 0,
                 'msg' => trans('admin.users.operations.ban.unban.success'),
@@ -415,7 +428,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->assertEquals(User::NORMAL, $user->getPermission());
 
         // Set a user to be an admin
-        $this->post('/admin/users', ['uid' => $user->uid, 'action' => 'admin'])
+        $this->postJson('/admin/users', ['uid' => $user->uid, 'action' => 'admin'])
             ->seeJson([
                 'errno' => 0,
                 'msg' => trans('admin.users.operations.admin.set.success'),
@@ -425,7 +438,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->assertEquals(User::ADMIN, $user->getPermission());
 
         // An admin cannot set another admin to be a normal user
-        $this->post('/admin/users', ['uid' => $user->uid])
+        $this->postJson('/admin/users', ['uid' => $user->uid])
             ->seeJson([
                 'errno' => 1,
                 'msg' => trans('admin.users.operations.no-permission')
@@ -433,7 +446,7 @@ class AdminControllerTest extends BrowserKitTestCase
 
         // Set an admin to be a normal user
         $this->actAs('superAdmin')
-            ->post('/admin/users', ['uid' => $user->uid, 'action' => 'admin'])
+            ->postJson('/admin/users', ['uid' => $user->uid, 'action' => 'admin'])
             ->seeJson([
                 'errno' => 0,
                 'msg' => trans('admin.users.operations.admin.unset.success'),
@@ -443,7 +456,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->assertEquals(User::NORMAL, $user->getPermission());
 
         // Delete a user
-        $this->post('/admin/users', ['uid' => $user->uid, 'action' => 'delete'])
+        $this->postJson('/admin/users', ['uid' => $user->uid, 'action' => 'delete'])
             ->seeJson([
                 'errno' => 0,
                 'msg' => trans('admin.users.operations.delete.success')
@@ -456,7 +469,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $player = factory(Player::class)->create();
 
         // Operate on a not-existed player
-        $this->post('/admin/players', ['pid' => -1])
+        $this->postJson('/admin/players', ['pid' => -1])
             ->seeJson([
                 'errno' => 1,
                 'msg' => trans('general.unexistent-player')
@@ -464,7 +477,7 @@ class AdminControllerTest extends BrowserKitTestCase
 
         // An admin cannot operate another admin's player
         $admin = factory(User::class, 'admin')->create();
-        $this->post(
+        $this->postJson(
             '/admin/players',
             ['pid' => factory(Player::class)->create(['uid' => $admin->uid])->pid]
         )->seeJson([
@@ -472,7 +485,7 @@ class AdminControllerTest extends BrowserKitTestCase
             'msg' => trans('admin.players.no-permission')
         ]);
         $superAdmin = factory(User::class, 'superAdmin')->create();
-        $this->post(
+        $this->postJson(
             '/admin/players',
             ['pid' => factory(Player::class)->create(['uid' => $superAdmin->uid])->pid]
         )->seeJson([
@@ -480,7 +493,7 @@ class AdminControllerTest extends BrowserKitTestCase
             'msg' => trans('admin.players.no-permission')
         ]);
         // For self is OK
-        $this->actAs($admin)->post(
+        $this->actAs($admin)->postJson(
             '/admin/players',
             ['pid' => factory(Player::class)->create(['uid' => $admin->uid])->pid]
         )->seeJson([
@@ -489,32 +502,30 @@ class AdminControllerTest extends BrowserKitTestCase
         ]);
 
         // Change preference without `preference` field
-        $this->post('/admin/players', [
+        $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'preference'
         ], [
             'Accept' => 'application/json',
-            'X-Requested-With' => 'XMLHttpRequest'
         ])->seeJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'preference'])
         ]);
 
         // Change preference but neither `default` nor `slim`
-        $this->post('/admin/players', [
+        $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'preference',
             'preference' => 'steve'
         ], [
             'Accept' => 'application/json',
-            'X-Requested-With' => 'XMLHttpRequest'
         ])->seeJson([
             'errno' => 1,
             'msg' => trans('validation.preference', ['attribute' => 'preference'])
         ]);
 
         // Set preference successfully
-        $this->post('/admin/players', [
+        $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'preference',
             'preference' => 'slim'
@@ -529,59 +540,55 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->assertEquals('slim', $player->preference);
 
         // Change texture without `model` field
-        $this->post('/admin/players', [
+        $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture'
         ], [
             'Accept' => 'application/json',
-            'X-Requested-With' => 'XMLHttpRequest'
         ])->seeJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'model'])
         ]);
 
         // Change texture with invalid model name
-        $this->post('/admin/players', [
+        $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture',
             'model' => 'slim'
         ], [
             'Accept' => 'application/json',
-            'X-Requested-With' => 'XMLHttpRequest'
         ])->seeJson([
             'errno' => 1,
             'msg' => trans('validation.model', ['attribute' => 'model'])
         ]);
 
         // Change texture without `tid` field
-        $this->post('/admin/players', [
+        $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture',
             'model' => 'steve'
         ], [
             'Accept' => 'application/json',
-            'X-Requested-With' => 'XMLHttpRequest'
         ])->seeJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'tid'])
         ]);
 
         // Change texture with a not-integer value
-        $this->post('/admin/players', [
+        $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture',
             'model' => 'steve',
             'tid' => 'string'
         ], [
             'Accept' => 'application/json',
-            'X-Requested-With' => 'XMLHttpRequest'
         ])->seeJson([
             'errno' => 1,
             'msg' => trans('validation.integer', ['attribute' => 'tid'])
         ]);
 
         // Invalid texture
-        $this->post('/admin/players', [
+        $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture',
             'model' => 'steve',
@@ -596,7 +603,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $cape = factory(Texture::class, 'cape')->create();
 
         // Steve
-        $this->post('/admin/players', [
+        $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture',
             'model' => 'steve',
@@ -609,7 +616,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->assertEquals($steve->tid, $player->tid_steve);
 
         // Alex
-        $this->post('/admin/players', [
+        $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture',
             'model' => 'alex',
@@ -622,7 +629,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->assertEquals($alex->tid, $player->tid_alex);
 
         // Cape
-        $this->post('/admin/players', [
+        $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture',
             'model' => 'cape',
@@ -635,7 +642,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->assertEquals($cape->tid, $player->tid_cape);
 
         // Reset texture
-        $this->post('/admin/players', [
+        $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture',
             'model' => 'steve',
@@ -648,7 +655,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->assertEquals(0, $player->tid_steve);
         $this->assertNotEquals(0, $player->tid_alex);
         $this->assertNotEquals(0, $player->tid_cape);
-        $this->post('/admin/players', [
+        $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture',
             'model' => 'alex',
@@ -660,7 +667,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $player = Player::find($player->pid);
         $this->assertEquals(0, $player->tid_alex);
         $this->assertNotEquals(0, $player->tid_cape);
-        $this->post('/admin/players', [
+        $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture',
             'model' => 'cape',
@@ -673,32 +680,30 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->assertEquals(0, $player->tid_cape);
 
         // Change owner without `uid` field
-        $this->post('/admin/players', [
+        $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'owner'
         ], [
             'Accept' => 'application/json',
-            'X-Requested-With' => 'XMLHttpRequest'
         ])->seeJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'uid'])
         ]);
 
         // Change owner with a not-integer `uid` value
-        $this->post('/admin/players', [
+        $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'owner',
             'uid' => 'string'
         ], [
             'Accept' => 'application/json',
-            'X-Requested-With' => 'XMLHttpRequest'
         ])->seeJson([
             'errno' => 1,
             'msg' => trans('validation.integer', ['attribute' => 'uid'])
         ]);
 
         // Change owner to a not-existed user
-        $this->post('/admin/players', [
+        $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'owner',
             'uid' => -1
@@ -709,7 +714,7 @@ class AdminControllerTest extends BrowserKitTestCase
 
         // Change owner successfully
         $user = factory(User::class)->create();
-        $this->post('/admin/players', [
+        $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'owner',
             'uid' => $user->uid
@@ -722,19 +727,18 @@ class AdminControllerTest extends BrowserKitTestCase
         ]);
 
         // Rename a player without `name` field
-        $this->post('/admin/players', [
+        $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'name'
         ], [
             'Accept' => 'application/json',
-            'X-Requested-With' => 'XMLHttpRequest'
         ])->seeJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'Name'])
         ]);
 
         // Rename a player successfully
-        $this->post('/admin/players', [
+        $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'name',
             'name' => 'new_name'
@@ -745,7 +749,7 @@ class AdminControllerTest extends BrowserKitTestCase
         ]);
 
         // Delete a player
-        $this->post('/admin/players', [
+        $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'delete'
         ])->seeJson([
