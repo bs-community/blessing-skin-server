@@ -194,7 +194,7 @@ import toastr from 'toastr';
 import Paginate from 'vuejs-paginate';
 import ClosetItem from './ClosetItem';
 import EmailVerification from './EmailVerification';
-import { debounce } from '../../js/utils';
+import { debounce, queryString } from '../../js/utils';
 import { swal } from '../../js/notify';
 
 export default {
@@ -229,6 +229,14 @@ export default {
     beforeMount() {
         this.loadCloset();
     },
+    mounted() {
+        const tid = +queryString('tid', 0);
+        if (tid) {
+            this.selectTexture(tid);
+            this.applyTexture();
+            $('#modal-use-as').modal();
+        }
+    },
     methods: {
         search() {},
         async loadCloset(page = 1) {
@@ -261,7 +269,7 @@ export default {
             return `${blessing.base_url}/avatar/35/${tid}`;
         },
         async selectTexture(tid) {
-            const { type, hash } = await this.$http.post(`/skinlib/info/${tid}`);
+            const { type, hash } = await this.$http.get(`/skinlib/info/${tid}`);
             if (type === 'cape') {
                 this.capeUrl = `/textures/${hash}`;
                 this.selectedCape = tid;

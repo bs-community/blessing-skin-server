@@ -17,6 +17,13 @@
                     <template v-else>
                         <a
                             v-if="liked"
+                            :href="`${baseUrl}/user/closet?tid=${tid}`"
+                            class="btn btn-success pull-right"
+                            style="margin-left: 12px"
+                            v-t="'skinlib.apply'"
+                        ></a>
+                        <a
+                            v-if="liked"
                             @click="removeFromCloset"
                             class="btn btn-primary pull-right"
                             v-t="'skinlib.removeFromCloset'"

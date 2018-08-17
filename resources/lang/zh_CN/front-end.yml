@@ -49,6 +49,7 @@ skinlib:
   private: 私密
   anyModels: 任意模型
   seeMyUpload: 查看我上传的
+  apply: 立即使用
   filter:
     skin: （任意模型）
     steve: （Steve）

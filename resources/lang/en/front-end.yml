@@ -49,6 +49,7 @@ skinlib:
   emptyNewTextureName: Empty new texture name.
   anyModels: Any Models
   seeMyUpload: Check My Upload
+  apply: Quick Apply
   filter:
     skin: (Any Model)
     steve: (Steve)

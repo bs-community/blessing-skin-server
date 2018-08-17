@@ -157,8 +157,8 @@ test('compute avatar URL', () => {
 });
 
 test('select texture', async () => {
-    Vue.prototype.$http.get.mockResolvedValue({});
-    Vue.prototype.$http.post
+    Vue.prototype.$http.get
+        .mockResolvedValueOnce({})
         .mockResolvedValueOnce({ type: 'steve', hash: 'a' })
         .mockResolvedValueOnce({ type: 'cape', hash: 'b' });
 
@@ -166,13 +166,13 @@ test('select texture', async () => {
     wrapper.setData({ skinItems: [{ tid: 1 }] });
     wrapper.find(ClosetItem).vm.$emit('select');
     await wrapper.vm.$nextTick();
-    expect(Vue.prototype.$http.post).toBeCalledWith('/skinlib/info/1');
+    expect(Vue.prototype.$http.get).toBeCalledWith('/skinlib/info/1');
     expect(wrapper.vm.skinUrl).toBe('/textures/a');
 
     wrapper.setData({ skinItems: [], capeItems: [{ tid: 2 }], category: 'cape' });
     wrapper.find(ClosetItem).vm.$emit('select');
     await wrapper.vm.$nextTick();
-    expect(Vue.prototype.$http.post).toBeCalledWith('/skinlib/info/2');
+    expect(Vue.prototype.$http.get).toBeCalledWith('/skinlib/info/2');
     expect(wrapper.vm.capeUrl).toBe('/textures/b');
 });
 
@@ -270,4 +270,32 @@ test('reset selected texture', () => {
         skinUrl: '',
         capeUrl: ''
     }));
+});
+
+test('select specified texture initially', async () => {
+    window.history.pushState({}, 'title', 'about:blank?tid=1');
+    window.$ = jest.fn(() => ({
+        modal() {},
+        iCheck: () => ({
+            on(evt, cb) {
+                cb();
+            },
+        }),
+        0: {
+            dispatchEvent: () => {}
+        }
+    }));
+    Vue.prototype.$http.get
+        .mockResolvedValueOnce({
+            items: [],
+            category: 'skin',
+            total_pages: 1
+        })
+        .mockResolvedValueOnce({ type: 'cape', hash: '' })
+        .mockResolvedValueOnce([]);
+    const wrapper = mount(Closet);
+    jest.runAllTimers();
+    await wrapper.vm.$nextTick();
+    jest.unmock('@/js/utils');
+    window.history.pushState({}, 'title', 'about:blank');
 });
