@@ -71,8 +71,6 @@ class UpdateController extends Controller
 
     public function showUpdatePage()
     {
-        $this->refreshInfo();
-
         $info = [
             'latest_version'  => '',
             'current_version' => $this->currentVersion,
@@ -123,8 +121,6 @@ class UpdateController extends Controller
 
     public function checkUpdates()
     {
-        $this->refreshInfo();
-
         return json([
             'latest' => $this->getUpdateInfo('latest_version'),
             'available' => $this->newVersionAvailable()
@@ -140,10 +136,8 @@ class UpdateController extends Controller
 
     public function download(Request $request)
     {
-        $this->refreshInfo();
-
         if (! $this->newVersionAvailable())
-            return;
+            return json([]);
 
         $action = $request->get('action');
         $release_url = $this->getReleaseInfo($this->latestVersion)['release_url'];
@@ -157,7 +151,7 @@ class UpdateController extends Controller
 
                 if (! is_dir($update_cache)) {
                     if (false === Storage::disk('root')->makeDirectory('storage/update_cache')) {
-                        return response(trans('admin.update.errors.write-permission'));
+                        return json(trans('admin.update.errors.write-permission'), 1);
                     }
                 }
 
@@ -172,7 +166,7 @@ class UpdateController extends Controller
             case 'start-download':
 
                 if (! $tmp_path) {
-                    return 'No temp path available, please try again.';
+                    return json('No temp path available, please try again.', 1);
                 }
 
                 @set_time_limit(0);
@@ -184,6 +178,7 @@ class UpdateController extends Controller
                     $this->guzzle->request('GET', $release_url, array_merge($this->guzzleConfig, [
                         'sink' => $tmp_path,
                         'progress' => function ($total, $downloaded) {
+                            // @codeCoverageIgnoreStart
                             if ($total == 0) return;
                             // Log current progress per 100 KiB
                             if ($total == $downloaded || floor($downloaded / 102400) > floor($GLOBALS['last_downloaded'] / 102400)) {
@@ -191,11 +186,12 @@ class UpdateController extends Controller
                                 Log::info('[Update Wizard] Download progress (in bytes):', [$total, $downloaded]);
                                 Cache::put('download-progress', compact('total', 'downloaded'), 60);
                             }
+                            // @codeCoverageIgnoreEnd
                         }
                     ]));
                 } catch (Exception $e) {
                     @unlink($tmp_path);
-                    return response(trans('admin.update.errors.prefix').$e->getMessage());
+                    return json(trans('admin.update.errors.prefix').$e->getMessage(), 1);
                 }
 
                 Log::info('[Update Wizard] Finished downloading update package');
@@ -209,7 +205,7 @@ class UpdateController extends Controller
             case 'extract':
 
                 if (! file_exists($tmp_path)) {
-                    return response('No file available');
+                    return json('No file available', 1);
                 }
 
                 $extract_dir = storage_path("update_cache/{$this->latestVersion}");
@@ -221,11 +217,11 @@ class UpdateController extends Controller
                     Log::info("[Update Wizard] Extracting file $tmp_path");
 
                     if ($zip->extractTo($extract_dir) === false) {
-                        return response(trans('admin.update.errors.prefix').'Cannot unzip file.');
+                        return json(trans('admin.update.errors.prefix').'Cannot unzip file.', 1);
                     }
 
                 } else {
-                    return response(trans('admin.update.errors.unzip').$res);
+                    return json(trans('admin.update.errors.unzip').$res, 1);
                 }
                 $zip->close();
 
@@ -249,7 +245,7 @@ class UpdateController extends Controller
 
                     // Response can be returned, while cache will be cleared
                     // @see https://gist.github.com/g-plane/2f88ad582826a78e0a26c33f4319c1e0
-                    return response(trans('admin.update.errors.overwrite').$e->getMessage());
+                    return json(trans('admin.update.errors.overwrite').$e->getMessage(), 1);
                 } finally {
                     File::deleteDirectory(storage_path('update_cache'));
                     Log::info('[Update Wizard] Cleaning cache');
@@ -294,17 +290,6 @@ class UpdateController extends Controller
     protected function getReleaseInfo($version)
     {
         return array_get($this->getUpdateInfo('releases'), $version);
-    }
-
-    /**
-     * Only used in testing.
-     */
-    protected function refreshInfo()
-    {
-        if (config('app.env') == 'testing') {
-            $this->updateSource = option('update_source');
-            $this->currentVersion = config('app.version');
-        }
     }
 
 }

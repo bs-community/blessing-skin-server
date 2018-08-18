@@ -47,7 +47,7 @@
                                 <tr>
                                     <td class="key">@lang('admin.update.info.change-log.text')</td>
                                     <td class="value">
-                                        {!! nl2br($info['release_note']) ?: trans('admin.update.info.change-log.empty') !!}
+                                    {!! nl2p($info['release_note']) ?: trans('admin.update.info.change-log.empty') !!}
                                     </td>
                                 </tr>
                                 <tr>
@@ -104,7 +104,7 @@
                         <h3 class="box-title">@lang('admin.update.cautions.title')</h3>
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                        <p>{!! nl2br(trans('admin.update.cautions.text')) !!}</p>
+                        {!! nl2p(trans('admin.update.cautions.text')) !!}
                     </div><!-- /.box-body -->
                 </div>
             </div>

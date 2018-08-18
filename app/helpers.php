@@ -535,3 +535,18 @@ if (! function_exists('is_request_secure')) {
         return false;
     }
 }
+
+if (! function_exists('nl2p')) {
+    /**
+     * Wrap blocks of text (delimited by \n) in p tags (similar to nl2br).
+     *
+     * @param string $text
+     * @return string
+     */
+    function nl2p($text) {
+        $parts = explode("\n", $text);
+        $result = '<p>'.implode('</p><p>', $parts).'</p>';
+        // Remove empty paragraphs
+        return str_replace('<p></p>', '', $result);
+    }
+}
