@@ -44,8 +44,8 @@ class PluginControllerTest extends TestCase
             ->assertNotFound();
 
         // Plugin has config view
-        plugin('example-plugin')->setEnabled(true);
-        $this->get('/admin/plugins/config/example-plugin')
+        plugin('fake-plugin-with-config-view')->setEnabled(true);
+        $this->get('/admin/plugins/config/fake-plugin-with-config-view')
             ->assertSuccessful();
     }
 
