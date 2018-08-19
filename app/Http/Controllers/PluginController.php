@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use View;
-use Datatables;
 use App\Events;
 use App\Services\Plugin;
 use Illuminate\Http\Request;

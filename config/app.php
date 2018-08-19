@@ -173,7 +173,6 @@ return [
          * Third-party Libraries...
          */
         Swiggles\Memcache\MemcacheServiceProvider::class,
-        Yajra\Datatables\DatatablesServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
 
         /**

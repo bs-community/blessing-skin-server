@@ -12,7 +12,6 @@
     "laravel/framework": "5.6.*",
     "nesbot/carbon": "^1.32.0",
     "devitek/yaml-translation": "^4.1.0",
-    "printempw/laravel-datatables-lite": "^1.0",
     "composer/semver": "^1.4",
     "mews/captcha": "^2.2",
     "guzzlehttp/guzzle": "^6.3"

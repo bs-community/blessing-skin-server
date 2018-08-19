@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Option;
-use Datatables;
 use App\Events;
 use Carbon\Carbon;
 use App\Models\User;
