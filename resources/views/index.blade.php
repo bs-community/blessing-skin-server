@@ -126,7 +126,45 @@
     <!-- App Scripts -->
     @include('common.dependencies.script')
 
-    <script type="text/javascript">
+    <script>
+        function isMobileBrowserScrolling() {
+            var currentWindowWidth  = $(window).width();
+            var currentWindowHeight = $(window).height();
+
+            if ($.cachedWindowWidth === undefined) {
+                $.cachedWindowWidth = currentWindowWidth;
+            }
+
+            if ($.cachedWindowHeight === undefined) {
+                $.cachedWindowHeight = currentWindowHeight;
+            }
+
+            var isWidthChanged  = (currentWindowWidth  !== $.cachedWindowWidth);
+            var isHeightChanged = (currentWindowHeight !== $.cachedWindowHeight);
+
+            // If the window width & height changes simultaneously, the resize can't be fired by scrolling.
+            if (isWidthChanged && isHeightChanged) {
+                return false;
+            }
+
+            // If only width was changed, it also can't be.
+            if (isWidthChanged) {
+                return false;
+            }
+
+            // If width didn't change but height changed ?
+            if (isHeightChanged) {
+                var last = $.lastWindowHeight;
+                $.lastWindowHeight = currentWindowHeight;
+
+                if (last === undefined || currentWindowHeight === last) {
+                    return true;
+                }
+            }
+
+            // If both width & height did not change
+            return false;
+        }
 
         function changeWrapperHeight() {
             var btn = $('p a.button');

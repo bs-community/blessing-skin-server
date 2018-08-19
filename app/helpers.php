@@ -153,7 +153,7 @@ if (! function_exists('bs_favicon')) {
     function bs_favicon()
     {
         // Fallback to default favicon
-        $url = Str::startsWith($url = (option('favicon_url') ?: config('options.favicon_url')), 'http') ? $url : assets($url);
+        $url = Str::startsWith($url = (option('favicon_url') ?: config('options.favicon_url')), 'http') ? $url : url($url);
 
         return <<< ICONS
 <link rel="shortcut icon" href="$url">

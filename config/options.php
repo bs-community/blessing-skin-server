@@ -12,7 +12,7 @@ return [
     'api_type'                  => 'false',
     'announcement'              => 'Welcome to Blessing Skin {version}!',
     'color_scheme'              => 'skin-blue',
-    'home_pic_url'              => './resources/assets/dist/images/bg.jpg',
+    'home_pic_url'              => './public/bg.jpg',
     'custom_css'                => '',
     'custom_js'                 => '',
     'player_name_rule'          => 'official',
@@ -42,5 +42,5 @@ return [
     'plugins_enabled'           => '',
     'copyright_prefer'          => '0',
     'score_per_closet_item'     => '0',
-    'favicon_url'               => 'dist/images/favicon.ico'
+    'favicon_url'               => 'public/favicon.ico'
 ];

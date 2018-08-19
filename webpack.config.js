@@ -25,6 +25,7 @@ const config = {
             './resources/assets/src/stylus/common.styl',
         ],
         home: './resources/assets/src/stylus/home.styl',
+        setup: './resources/assets/src/stylus/setup.styl',
         'langs/en': './resources/lang/en/front-end.js',
         'langs/zh_CN': './resources/lang/zh_CN/front-end.js',
     },
@@ -71,7 +72,7 @@ const config = {
                 ]
             },
             {
-                test: /(common|home)\.styl$/,
+                test: /(common|home|setup)\.styl$/,
                 use: [
                     MiniCssExtractPlugin.loader,
                     { loader: 'css-loader', options: { importLoaders: 3 } },
@@ -119,6 +120,8 @@ const config = {
                 flatten: true
             },
             'node_modules/chart.js/dist/Chart.min.js',
+            'resources/assets/src/images/bg.jpg',
+            'resources/assets/src/images/favicon.ico',
         ]),
         new BundleAnalyzerPlugin({
             openAnalyzer: false,
