@@ -79,29 +79,21 @@ class PluginController extends Controller
 
     public function getPluginData(PluginManager $plugins)
     {
-        $installed = $plugins->getPlugins();
-
-        return Datatables::of($installed)
-            ->setRowId('plugin-{{ $name }}')
-            ->editColumn('title', function ($plugin) {
-                return trans($plugin->title ?: 'EMPTY');
+        return $plugins->getPlugins()
+            ->map(function ($plugin) {
+                return [
+                    'name' => $plugin->name,
+                    'title' => trans($plugin->title ?: 'EMPTY'),
+                    'author' => $plugin->author,
+                    'description' => trans($plugin->description ?: 'EMPTY'),
+                    'version' => $plugin->version,
+                    'url' => $plugin->url,
+                    'enabled' => $plugin->isEnabled(),
+                    'config' => $plugin->hasConfigView(),
+                    'dependencies' => $this->getPluginDependencies($plugin),
+                ];
             })
-            ->editColumn('description', function ($plugin) {
-                return trans($plugin->description ?: 'EMPTY');
-            })
-            ->editColumn('author', function ($plugin) {
-                return ['author' => trans($plugin->author ?: 'EMPTY'), 'url' => $plugin->url];
-            })
-            ->addColumn('dependencies', function ($plugin) {
-                return $this->getPluginDependencies($plugin);
-            })
-            ->addColumn('status', function ($plugin) {
-                return trans('admin.plugins.status.'.($plugin->isEnabled() ? 'enabled' : 'disabled'));
-            })
-            ->addColumn('operations', function ($plugin) {
-                return ['enabled' => $plugin->isEnabled(), 'hasConfigView' => $plugin->hasConfigView()];
-            })
-            ->make(true);
+            ->values();
     }
 
     protected function getPluginDependencies(Plugin $plugin)

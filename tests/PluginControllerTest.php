@@ -4,6 +4,8 @@ namespace Tests;
 
 use App\Events;
 use ZipArchive;
+use Illuminate\Support\Facades\File;
+use Tests\Concerns\GeneratesFakePlugins;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -11,39 +13,16 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class PluginControllerTest extends TestCase
 {
     use DatabaseTransactions;
+    use GeneratesFakePlugins;
 
     protected function setUp()
     {
         parent::setUp();
 
-        $plugins = [
-            'example-plugin' => 'example-plugin_v1.0.0.zip',
-            'avatar-api'     => 'avatar-api_v1.1.1.zip'
-        ];
+        $this->generateFakePlugin(['name' => 'fake-plugin-for-test', 'version' => '1.1.4']);
+        $this->generateFakePlugin(['name' => 'fake-plugin-with-config-view', 'version' => '5.1.4', 'config' => 'config.blade.php']);
 
-        foreach ($plugins as $plugin_name => $filename) {
-            if (! file_exists(base_path('plugins/'.$plugin_name))) {
-                $user_agent = menv('USER_AGENT', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.140 Safari/537.36');
-
-                $context = stream_context_create(['http' => [
-                    'method' => 'GET',
-                    'header' => "User-Agent: $user_agent"
-                ]]);
-
-                file_put_contents(
-                    storage_path('testing/'.$filename),
-                    file_get_contents("https://coding.net/u/printempw/p/bs-plugins-archive/git/raw/master/$filename", false, $context)
-                );
-
-                $zip = new ZipArchive();
-                $zip->open(storage_path('testing/'.$filename));
-                $zip->extractTo(base_path('plugins/'));
-                $zip->close();
-                unlink(storage_path('testing/'.$filename));
-            }
-        }
-
-        return $this->actAs('admin');
+        return $this->actAs('superAdmin');
     }
 
     public function testShowManage()
@@ -55,13 +34,14 @@ class PluginControllerTest extends TestCase
     public function testConfig()
     {
         // Plugin is disabled
-        $this->get('/admin/plugins/config/example-plugin')
-            ->assertStatus(404);
+        $this->get('/admin/plugins/config/fake-plugin-with-config-view')
+            ->assertNotFound();
 
         // Plugin is enabled but it doesn't have config view
-        plugin('avatar-api')->setEnabled(true);
+        plugin('fake-plugin-for-test')->setEnabled(true);
         $this->get('/admin/plugins/config/avatar-api')
-            ->assertStatus(404);
+            ->assertSee(trans('admin.plugins.operations.no-config-notice'))
+            ->assertNotFound();
 
         // Plugin has config view
         plugin('example-plugin')->setEnabled(true);
@@ -79,38 +59,28 @@ class PluginControllerTest extends TestCase
             ]);
 
         // Invalid action
-        $this->postJson('/admin/plugins/manage', ['name' => 'avatar-api'])
+        $this->postJson('/admin/plugins/manage', ['name' => 'fake-plugin-for-test'])
             ->assertJson([
                 'errno' => 1,
                 'msg' => trans('admin.invalid-action')
             ]);
 
-        // Retrieve requirements
-        $this->postJson('/admin/plugins/manage', [
-            'name' => 'avatar-api',
-            'action' => 'requirements'
-        ])->assertJson([
-            'isRequirementsSatisfied' => true,
-            'requirements' => [],
-            'unsatisfiedRequirements' => []
-        ]);
-
         // Enable a plugin with unsatisfied dependencies
-        app('plugins')->getPlugin('avatar-api')->setRequirements([
+        app('plugins')->getPlugin('fake-plugin-for-test')->setRequirements([
             'blessing-skin-server' => '^3.4.0',
-            'example-plugin' => '^6.6.6',
+            'fake-plugin-with-config-view' => '^6.6.6',
             'whatever' => '^1.0.0'
         ]);
-        app('plugins')->enable('example-plugin');
+        app('plugins')->enable('fake-plugin-with-config-view');
         $this->postJson('/admin/plugins/manage', [
-            'name' => 'avatar-api',
+            'name' => 'fake-plugin-for-test',
             'action' => 'enable'
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('admin.plugins.operations.unsatisfied.notice'),
             'reason' => [
                 trans('admin.plugins.operations.unsatisfied.version', [
-                    'name' => 'example-plugin',
+                    'name' => 'fake-plugin-with-config-view',
                     'constraint' => '^6.6.6'
                 ]),
                 trans('admin.plugins.operations.unsatisfied.disabled', [
@@ -120,60 +90,68 @@ class PluginControllerTest extends TestCase
         ]);
 
         // Enable a plugin
-        app('plugins')->getPlugin('avatar-api')->setRequirements([]);
+        app('plugins')->getPlugin('fake-plugin-for-test')->setRequirements([]);
         $this->expectsEvents(Events\PluginWasEnabled::class);
         $this->postJson('/admin/plugins/manage', [
-            'name' => 'avatar-api',
+            'name' => 'fake-plugin-for-test',
             'action' => 'enable'
         ])->assertJson([
             'errno' => 0,
             'msg' => trans(
                 'admin.plugins.operations.enabled',
-                ['plugin' => plugin('avatar-api')->title]
+                ['plugin' => plugin('fake-plugin-for-test')->title]
             )
         ]);
 
         // Disable a plugin
         $this->postJson('/admin/plugins/manage', [
-            'name' => 'avatar-api',
+            'name' => 'fake-plugin-for-test',
             'action' => 'disable'
         ])->assertJson([
             'errno' => 0,
             'msg' => trans(
                 'admin.plugins.operations.disabled',
-                ['plugin' => plugin('avatar-api')->title]
+                ['plugin' => plugin('fake-plugin-for-test')->title]
             )
         ]);
         $this->expectsEvents(Events\PluginWasDisabled::class);
 
         // Delete a plugin
         $this->postJson('/admin/plugins/manage', [
-            'name' => 'avatar-api',
+            'name' => 'fake-plugin-for-test',
             'action' => 'delete'
         ])->assertJson([
             'errno' => 0,
             'msg' => trans('admin.plugins.operations.deleted')
         ]);
         $this->expectsEvents(Events\PluginWasDeleted::class);
-        $this->assertFalse(file_exists(base_path('plugins/avatar-api/')));
+        $this->assertFalse(file_exists(base_path('plugins/fake-plugin-for-test/')));
     }
 
     public function testGetPluginData()
     {
         $this->getJson('/admin/plugins/data')
             ->assertJsonStructure([
-                'data' => [[
+                [
                     'name',
                     'version',
-                    'path',
                     'title',
                     'description',
                     'author',
                     'url',
-                    'namespace',
                     'enabled',
+                    'config',
                     'dependencies'
-                ]]
+                ]
             ]);
+    }
+
+    protected function tearDown()
+    {
+        // Clean fake plugins
+        File::deleteDirectory(base_path('plugins/fake-plugin-for-test'));
+        File::deleteDirectory(base_path('plugins/fake-plugin-with-config-view'));
+
+        parent::tearDown();
     }
 }

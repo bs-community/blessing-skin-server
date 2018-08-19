@@ -260,9 +260,9 @@ admin:
   noSuchUser: 没有这个用户哦~
   changePlayerNameNotice: 请输入新的角色名：
   emptyPlayerName: 您还没填写角色名呢
-  configurePlugin: 插件配置
+  configurePlugin: 配置
   noPluginConfigNotice: 插件已被禁用或无配置页
-  deletePlugin: 删除插件
+  deletePlugin: 删除
   noDependencies: 无要求
   whyDependencies: 为什么会这样？
   statusEnabled: 已启用
@@ -278,8 +278,8 @@ admin:
   updatePlugin: 更新
   pluginUpdating: 正在更新...
   confirmUpdate: 确定将「:plugin」从 :old 升级至 :new？
-  enablePlugin: 启用插件
-  disablePlugin: 禁用插件
+  enablePlugin: 启用
+  disablePlugin: 禁用
   confirmDeletion: 真的要删除这个插件吗？
   noDependenciesNotice: >-
     此插件没有声明任何依赖关系，这代表它有可能并不兼容此版本的 Blessing

@@ -35,6 +35,11 @@ export default [
         el: '#change-color'
     },
     {
+        path: 'admin/plugins/manage',
+        component: () => import('./admin/Plugins'),
+        el: '.content'
+    },
+    {
         path: 'admin/plugins/market',
         component: () => import('./admin/Market'),
         el: '.content'
