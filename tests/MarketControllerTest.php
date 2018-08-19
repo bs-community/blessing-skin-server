@@ -167,6 +167,8 @@ class MarketControllerTest extends TestCase
                     'dependencies'
                 ]
             ]);
+
+        File::deleteDirectory(base_path('plugins/' . $package['name']));
     }
 
     protected function tearDown()
@@ -174,7 +176,6 @@ class MarketControllerTest extends TestCase
         // Clean fake plugins
         File::deleteDirectory(base_path('plugins/fake-test-download'));
         File::deleteDirectory(base_path('plugins/fake-test-update'));
-        File::deleteDirectory(base_path('plugins/fake'));
 
         parent::tearDown();
     }
