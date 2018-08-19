@@ -22,4 +22,14 @@ return [
     |
     */
     'url' => menv('PLUGINS_URL'),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Plugins Market Source
+    |--------------------------------------------------------------------------
+    |
+    | Specify where to get plugins' metadata for plugin market.
+    |
+    */
+    'registry' => menv('PLUGINS_REGISTRY', 'https://coding.net/u/printempw/p/bs-plugins-archive/git/raw/master/plugins.json'),
 ];

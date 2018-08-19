@@ -267,6 +267,17 @@ admin:
   whyDependencies: 为什么会这样？
   statusEnabled: 已启用
   statusDisabled: 已禁用
+  pluginTitle: 插件
+  pluginAuthor: 作者
+  pluginVersion: 版本
+  pluginName: 插件标识
+  pluginDescription: 描述
+  pluginDependencies: 依赖关系
+  installPlugin: 安装
+  pluginInstalling: 正在安装...
+  updatePlugin: 更新
+  pluginUpdating: 正在更新...
+  confirmUpdate: 确定将「:plugin」从 :old 升级至 :new？
   enablePlugin: 启用插件
   disablePlugin: 禁用插件
   confirmDeletion: 真的要删除这个插件吗？

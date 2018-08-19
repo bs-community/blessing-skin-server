@@ -271,6 +271,17 @@ admin:
   whyDependencies: What's this?
   statusEnabled: Enabled
   statusDisabled: Disabled
+  pluginTitle: Plugin
+  pluginAuthor: Author
+  pluginVersion: Version
+  pluginName: Name
+  pluginDescription: Description
+  pluginDependencies: Dependencies
+  installPlugin: Install
+  pluginInstalling: Installing...
+  updatePlugin: Update
+  pluginUpdating: Updating...
+  confirmUpdate: Are you sure to update ":plugin" from :old to :new?
   enablePlugin: Enable
   disablePlugin: Disable
   confirmDeletion: Are you sure to delete this plugin?

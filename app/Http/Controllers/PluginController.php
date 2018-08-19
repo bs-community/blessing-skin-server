@@ -11,7 +11,7 @@ use App\Services\PluginManager;
 
 class PluginController extends Controller
 {
-    public function config($name, Request $request)
+    public function config($name)
     {
         $plugin = plugin($name);
 

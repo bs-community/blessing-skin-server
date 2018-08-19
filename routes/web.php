@@ -123,11 +123,15 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function 
 
     Route::group(['prefix' => 'plugins'], function () {
         Route::get ('/data',   'PluginController@getPluginData');
-        Route::redirect('/market', 'https://github.com/printempw/blessing-skin-server/wiki/Plugins');
 
         Route::view('/manage', 'admin.plugins');
         Route::post('/manage', 'PluginController@manage');
         Route::any ('/config/{name}', 'PluginController@config');
+
+        Route::view('/market', 'admin.market');
+        Route::get ('/market-data', 'MarketController@marketData');
+        Route::get ('/market/check', 'MarketController@checkUpdates');
+        Route::post('/market/download', 'MarketController@download');
     });
 
     Route::group(['prefix' => 'update'], function () {

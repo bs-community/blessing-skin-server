@@ -102,22 +102,25 @@ plugins:
   version: Version
   dependencies: Dependencies
 
-  status:
-    title: Status
-    enabled: Enabled
-    disabled: Disabled
-
   operations:
     title: Operations
     enabled: :plugin has been enabled.
     unsatisfied:
       notice: There are unsatisfied dependencies in the plugin, therefore we can't enable it. Please install or update the plugins listed below.
-      disabled: The <code>:name</code> plugin is not enabled
-      version: The version of <code>:name</code> does not satisfies the constraint <code>:constraint</code>
+      disabled: "The `:name` plugin is not enabled"
+      version: "The version of `:name` does not satisfies the constraint `:constraint`"
     disabled: :plugin has been disabled.
     deleted: The plugin was deleted successfully.
     no-config-notice: The plugin is not installed or doesn't provide configuration page.
     not-found: No such plugin.
+
+  market:
+    connection-error: Unable to connect to the plugins registry. :error
+    non-existent: The plugin :plugin does not exist.
+    download-failed: Unable to download the plugin. :error
+    shasum-failed: The downloaded file failed hash check, please retry.
+    unzip-failed: Unable to extract the plugin. :error
+    install-success: Plugin was installed.
 
   empty: No result
 

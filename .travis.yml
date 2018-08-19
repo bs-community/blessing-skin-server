@@ -6,7 +6,6 @@ git:
 cache:
   directories:
   - vendor
-  - plugins
   - node_modules
 
 env:

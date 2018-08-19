@@ -35,6 +35,11 @@ export default [
         el: '#change-color'
     },
     {
+        path: 'admin/plugins/market',
+        component: () => import('./admin/Market'),
+        el: '.content'
+    },
+    {
         path: 'auth/login',
         component: () => import('./auth/Login'),
         el: 'form'

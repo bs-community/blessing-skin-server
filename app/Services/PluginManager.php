@@ -277,20 +277,24 @@ class PluginManager
     /**
      * Get the unsatisfied requirements of plugin.
      *
-     * @param  string|Plugin $plugin
+     * @param  string|Plugin|array $plugin
      * @return array
      */
     public function getUnsatisfiedRequirements($plugin)
     {
-        if (! $plugin instanceof Plugin) {
-            $plugin = $this->getPlugin($plugin);
-        }
+        if (is_array($plugin)) {
+            $requirements = $plugin;
+        } else {
+            if (! $plugin instanceof Plugin) {
+                $plugin = $this->getPlugin($plugin);
+            }
 
-        if (! $plugin) {
-            throw new \InvalidArgumentException('Plugin with given name does not exist.');
-        }
+            if (! $plugin) {
+                throw new \InvalidArgumentException('Plugin with given name does not exist.');
+            }
 
-        $requirements = $plugin->getRequirements();
+            $requirements = $plugin->getRequirements();
+        }
 
         $unsatisfied = [];
 
@@ -334,7 +338,7 @@ class PluginManager
     /**
      * Whether the plugin's requirements are satisfied.
      *
-     * @param  string|Plugin $plugin
+     * @param  string|Plugin|array $plugin
      * @return bool
      */
     public function isRequirementsSatisfied($plugin)
@@ -347,7 +351,7 @@ class PluginManager
      *
      * @return string
      */
-    protected function getPluginsDir()
+    public function getPluginsDir()
     {
         return config('plugins.directory') ?: base_path('plugins');
     }
