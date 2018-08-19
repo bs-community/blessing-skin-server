@@ -63,6 +63,8 @@ class AppServiceProvider extends ServiceProvider
 
         // Support *.tpl extension name
         View::addExtension('tpl', 'blade');
+        // Make the priority of *.blade.php higher than *.tpl
+        View::addExtension('blade.php', 'blade');
     }
 
     /**
