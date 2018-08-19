@@ -143,31 +143,17 @@ class MarketControllerTest extends TestCase
 
     public function testMarketData()
     {
+        $registry = $this->generateFakePluginsRegistry();
+        $package = json_decode($registry, true)['packages'][0];
+        $this->generateFakePlugin($package);
         $this->setupGuzzleClientMock([
             new RequestException('Connection Error', new Request('POST', 'whatever')),
-            new Response(200, [], $this->generateFakePluginsRegistry()),
+            new Response(200, [], $registry),
         ]);
 
         // Expected an exception, but unable to be asserted.
         $this->getJson('/admin/plugins/market-data');
 
-        $this->getJson('/admin/plugins/market-data')
-            ->assertJsonStructure([
-                [
-                    'name',
-                    'title',
-                    'version',
-                    'installed',
-                    'description',
-                    'author',
-                    'dist',
-                    'dependencies'
-                ]
-            ]);
-
-        // Detect installed plugins
-        $this->appendToGuzzleQueue(200, [], $this->generateFakePluginsRegistry('fake', '0.0.1'));
-        $this->generateFakePlugin(['name' => 'fake', 'version' => '0.0.1']);
         $this->getJson('/admin/plugins/market-data')
             ->assertJsonStructure([
                 [

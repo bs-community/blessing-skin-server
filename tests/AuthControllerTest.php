@@ -436,16 +436,16 @@ class AuthControllerTest extends TestCase
         $this->assertAuthenticated();
 
         // Require player name
-        option(['register_with_player_name' => false]);
+        option(['register_with_player_name' => true]);
         $this->postJson(
             '/auth/register',
             [
-                'email' => 'a@b.c',
+                'email' => 'abc@test.org',
                 'password' => '12345678',
                 'player_name' => 'name',
                 'captcha' => 'a'
             ]
-        );
+        )->assertJson(['errno' => 0]);
         $this->assertNotNull(Player::where('player_name', 'name'));
     }
 
