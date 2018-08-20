@@ -182,7 +182,7 @@ export default {
                 swal({ type: 'warning', text: msg });
             }
         },
-        async deletePlugin({ name }) {
+        async deletePlugin({ name, originalIndex }) {
             const { dismiss } = await swal({
                 text: this.$t('admin.confirmDeletion'),
                 type: 'warning',
@@ -197,8 +197,8 @@ export default {
                 { action: 'delete', name }
             );
             if (errno === 0) {
+                this.$delete(this.plugins, originalIndex);
                 toastr.success(msg);
-                this.plugins = this.plugins.filter(plugin => plugin.name !== name);
             } else {
                 swal({ type: 'warning', text: msg });
             }

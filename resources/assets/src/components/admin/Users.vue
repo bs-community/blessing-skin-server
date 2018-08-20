@@ -288,7 +288,7 @@ export default {
                 toastr.warning(msg);
             }
         },
-        async deleteUser(user) {
+        async deleteUser({ uid, originalIndex }) {
             const { dismiss } = await swal({
                 text: this.$t('admin.deleteUserNotice'),
                 type: 'warning',
@@ -300,10 +300,10 @@ export default {
 
             const { errno, msg } = await this.$http.post(
                 '/admin/users?action=delete',
-                { uid: user.uid }
+                { uid }
             );
             if (errno === 0) {
-                this.users = this.users.filter(({ uid }) => uid !== user.uid);
+                this.$delete(this.users, originalIndex);
                 toastr.success(msg);
             } else {
                 toastr.warning(msg);

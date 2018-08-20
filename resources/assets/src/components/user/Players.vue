@@ -25,7 +25,7 @@
 
                             <tbody>
                                 <tr
-                                    v-for="player in players"
+                                    v-for="(player, index) in players"
                                     :key="player.pid"
                                     class="player"
                                     :class="{ 'player-selected': player.pid === selected }"
@@ -56,7 +56,7 @@
                                         ></a>
                                         <a
                                             class="btn btn-danger btn-sm"
-                                            @click="deletePlayer(player)"
+                                            @click="deletePlayer(player, index)"
                                             v-t="'user.player.delete-player'"
                                         ></a>
                                     </td>
@@ -389,7 +389,7 @@ export default {
                 swal({ type: 'warning', text: msg });
             }
         },
-        async deletePlayer(player) {
+        async deletePlayer(player, index) {
             const { dismiss } = await swal({
                 title: this.$t('user.deletePlayer'),
                 text: this.$t('user.deletePlayerNotice'),
@@ -407,8 +407,8 @@ export default {
                 { pid: player.pid }
             );
             if (errno === 0) {
+                this.$delete(this.players, index);
                 swal({ type: 'success', text: msg });
-                this.players = this.players.filter(({ pid }) => pid !== player.pid);
             } else {
                 swal({ type: 'warning', text: msg });
             }

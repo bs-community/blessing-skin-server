@@ -135,17 +135,17 @@ test('reload closet when page changed', () => {
 test('remove skin item', () => {
     Vue.prototype.$http.get.mockResolvedValue({});
     const wrapper = mount(Closet);
-    wrapper.setData({ skinItems: [{ tid: 1 }, { tid: 2 }] });
-    wrapper.vm.removeSkinItem(1);
-    expect(wrapper.findAll(ClosetItem)).toHaveLength(1);
+    wrapper.setData({ skinItems: [{ tid: 1 }] });
+    wrapper.vm.removeSkinItem(0);
+    expect(wrapper.find('#skin-category').text()).toContain('user.emptyClosetMsg');
 });
 
 test('remove cape item', () => {
     Vue.prototype.$http.get.mockResolvedValue({});
     const wrapper = mount(Closet);
-    wrapper.setData({ capeItems: [{ tid: 1 }, { tid: 2 }], category: 'cape' });
-    wrapper.vm.removeCapeItem(1);
-    expect(wrapper.findAll(ClosetItem)).toHaveLength(1);
+    wrapper.setData({ capeItems: [{ tid: 1 }], category: 'cape' });
+    wrapper.vm.removeCapeItem(0);
+    expect(wrapper.find('#cape-category').text()).toContain('user.emptyClosetMsg');
 });
 
 test('compute avatar URL', () => {

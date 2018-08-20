@@ -159,8 +159,7 @@ test('delete player', async () => {
     expect(wrapper.text()).toContain('to-be-deleted');
 
     button.trigger('click');
-    await flushPromises();  // Finish HTTP request
-    await wrapper.vm.$nextTick();  // Update DOM
+    await flushPromises();
     expect(wrapper.text()).not.toContain('to-be-deleted');
 });
 

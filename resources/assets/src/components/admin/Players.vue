@@ -239,7 +239,7 @@ export default {
                 toastr.warning(msg);
             }
         },
-        async deletePlayer(player) {
+        async deletePlayer({ pid, originalIndex }) {
             const { dismiss } = await swal({
                 text: this.$t('admin.deletePlayerNotice'),
                 type: 'warning',
@@ -251,10 +251,10 @@ export default {
 
             const { errno, msg } = await this.$http.post(
                 '/admin/players?action=delete',
-                { pid: player.pid }
+                { pid }
             );
             if (errno === 0) {
-                this.players = this.players.filter(({ pid }) => pid !== player.pid);
+                this.$delete(this.players, originalIndex);
                 toastr.success(msg);
             } else {
                 toastr.warning(msg);

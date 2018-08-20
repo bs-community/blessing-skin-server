@@ -99,6 +99,7 @@ test('disable plugin', async () => {
     button.trigger('click');
     await flushPromises();
     expect(toastr.success).toBeCalledWith('0');
+    expect(wrapper.text()).toContain('admin.enablePlugin');
 });
 
 test('delete plugin', async () => {
@@ -134,5 +135,5 @@ test('delete plugin', async () => {
 
     button.trigger('click');
     await flushPromises();
-    expect(toastr.success).toBeCalledWith('0');
+    expect(wrapper.text()).toContain('No data');
 });

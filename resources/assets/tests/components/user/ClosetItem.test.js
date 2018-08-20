@@ -86,7 +86,7 @@ test('remove texture', async () => {
 
     button.trigger('click');
     await flushPromises();
-    expect(wrapper.emitted()['item-removed'][0][0]).toBe(1);
+    expect(wrapper.emitted()['item-removed']).toBeTruthy();
     expect(Vue.prototype.$http.post).toBeCalledWith('/user/closet/remove', { tid: 1 });
 });
 

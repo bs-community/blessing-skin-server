@@ -55,14 +55,14 @@
                             </div>
                             <div v-else>
                                 <closet-item
-                                    v-for="item in skinItems"
+                                    v-for="(item, index) in skinItems"
                                     :key="item.tid"
                                     :tid="item.tid"
                                     :name="item.name"
                                     :type="item.type"
                                     :selected="selectedSkin === item.tid"
                                     @select="selectTexture(item.tid)"
-                                    @item-removed="removeSkinItem"
+                                    @item-removed="removeSkinItem(index)"
                                 ></closet-item>
                             </div>
                         </div>
@@ -78,14 +78,14 @@
                             </div>
                             <div v-else>
                                 <closet-item
-                                    v-for="item in capeItems"
+                                    v-for="(item, index) in capeItems"
                                     :key="item.tid"
                                     :tid="item.tid"
                                     :name="item.name"
                                     :type="item.type"
                                     :selected="selectedCape === item.tid"
                                     @select="selectTexture(item.tid)"
-                                    @item-removed="removeCapeItem"
+                                    @item-removed="removeCapeItem(index)"
                                 ></closet-item>
                             </div>
                         </div>
@@ -251,11 +251,11 @@ export default {
             this[`${category}TotalPages`] = total_pages;
             this[`${category}Items`] = items;
         },
-        removeSkinItem(tid) {
-            this.skinItems = this.skinItems.filter(item => item.tid !== tid);
+        removeSkinItem(index) {
+            this.$delete(this.skinItems, index);
         },
-        removeCapeItem(tid) {
-            this.capeItems = this.capeItems.filter(item => item.tid !== tid);
+        removeCapeItem(index) {
+            this.$delete(this.capeItems, index);
         },
         switchCategory() {
             this.category = this.category === 'skin' ? 'cape' : 'skin';

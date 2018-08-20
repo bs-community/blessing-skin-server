@@ -107,7 +107,7 @@ export default {
             );
 
             if (errno === 0) {
-                this.$emit('item-removed', this.tid);
+                this.$emit('item-removed');
                 swal({ type: 'success', text: msg });
             } else {
                 toastr.warning(msg);

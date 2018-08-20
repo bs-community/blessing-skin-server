@@ -191,5 +191,5 @@ test('delete player', async () => {
 
     button.trigger('click');
     await flushPromises();
-    expect(wrapper.vm.players).toHaveLength(0);
+    expect(wrapper.text()).toContain('No data');
 });

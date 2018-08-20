@@ -529,5 +529,5 @@ test('delete user', async () => {
 
     button.trigger('click');
     await flushPromises();
-    expect(wrapper.vm.users).toHaveLength(0);
+    expect(wrapper.text()).toContain('No data');
 });
