@@ -172,7 +172,8 @@ export default {
                 body: data,
                 credentials: 'same-origin',
                 headers: {
-                    Accept: 'application/json'
+                    Accept: 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
                 },
                 method: 'POST'
             });
