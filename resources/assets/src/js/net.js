@@ -1,12 +1,15 @@
 import Vue from 'vue';
 import { showAjaxError } from './notify';
 
+const csrfField = document.querySelector('meta[name="csrf-token"]');
+
 const empty = Object.create(null);
 const init = {
     credentials: 'same-origin',
     headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-CSRF-TOKEN': csrfField && csrfField.content
     }
 };
 

@@ -46,6 +46,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
+        'csrf'     => \App\Http\Middleware\VerifyCsrfToken::class,
         'auth'     => \App\Http\Middleware\CheckAuthenticated::class,
         'verified' => \App\Http\Middleware\CheckUserVerified::class,
         'guest'    => \App\Http\Middleware\RedirectIfAuthenticated::class,

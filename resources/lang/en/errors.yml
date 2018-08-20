@@ -3,6 +3,8 @@ http:
   msg-404: Nothing here.
   msg-500: Please try again later.
   msg-503: The application is now in maintenance mode.
+  method-not-allowed: Method not allowed.
+  csrf-token-mismatch: Token does not match, try reloading the page.
 
 general:
   title: Error occurred
