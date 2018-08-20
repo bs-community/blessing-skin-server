@@ -313,7 +313,7 @@ admin:
 general:
   skin: Skin
   cape: Cape
-  fatalError: Fatal Error (Please contact the author)
+  fatalError: Fatal Error <small><a target="_blank" href="https://github.com/printempw/blessing-skin-server/wiki/FAQ">Possible solutions</a></small>
   confirmLogout: Sure to log out?
   confirm: OK
   cancel: Cancel
