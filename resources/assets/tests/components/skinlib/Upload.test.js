@@ -17,6 +17,11 @@ window.__bs_data__ = {
     scorePublic: 1
 };
 
+const csrf = document.createElement('meta');
+csrf.name = 'csrf-token';
+csrf.content = 'token';
+document.head.appendChild(csrf);
+
 test('display drap and drop notice', () => {
     const wrapper = mount(Upload, {
         stubs: ['file-upload']
@@ -123,7 +128,8 @@ test('upload file', async () => {
         body: expect.any(FormData),
         credentials: 'same-origin',
         headers: {
-            Accept: 'application/json'
+            Accept: 'application/json',
+            'X-CSRF-TOKEN': 'token'
         },
         method: 'POST'
     });
