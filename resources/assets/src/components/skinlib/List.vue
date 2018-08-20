@@ -113,6 +113,7 @@
                                 :name="item.name"
                                 :type="item.type"
                                 :liked="item.liked"
+                                :likes="item.likes"
                                 :isPublic="item.public"
                                 :anonymous="anonymous"
                                 @like-toggled="onLikeToggled(index, $event)"
@@ -244,6 +245,7 @@ export default {
         },
         onLikeToggled(index, action) {
             this.items[index].liked = action;
+            this.items[index].likes += action ? 1 : -1;
         }
     }
 };

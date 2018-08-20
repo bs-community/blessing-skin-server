@@ -172,10 +172,15 @@ test('on page changed', () => {
 
 test('on like toggled', async () => {
     Vue.prototype.$http.get.mockResolvedValue({
-        items: [{ tid: 1, liked: false }], total_pages: 1, current_uid: 0
+        items: [{ tid: 1, liked: false, likes: 0 }], total_pages: 1, current_uid: 0
     });
     const wrapper = mount(List);
     await wrapper.vm.$nextTick();
     wrapper.vm.onLikeToggled(0, true);
     expect(wrapper.vm.items[0].liked).toBeTrue();
+    expect(wrapper.vm.items[0].likes).toBe(1);
+
+    wrapper.vm.onLikeToggled(0, false);
+    expect(wrapper.vm.items[0].liked).toBeFalse();
+    expect(wrapper.vm.items[0].likes).toBe(0);
 });

@@ -18,7 +18,10 @@
                     :class="{ liked, anonymous }"
                     href="#"
                     @click.stop="toggleLiked"
-                ><i class="fas fa-heart"></i></a>
+                >
+                    <i class="fas fa-heart"></i>
+                    <span>{{ likes }}</span>
+                </a>
 
                 <small v-if="!isPublic" class="more private-label">
                     {{ $t('skinlib.private') }}
@@ -41,6 +44,7 @@ export default {
             validator: value => ['steve', 'alex', 'cape'].includes(value)
         },
         liked: Boolean,
+        likes: Number,
         anonymous: Boolean,
         isPublic: Boolean  // `public` is a reserved keyword
     },
