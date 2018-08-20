@@ -141,12 +141,20 @@ const config = {
                     output: {
                         comments: /^\**!|@preserve|@license|@cc_on/
                     }
-                }
+                },
+                exclude: [
+                    /sweetalert2$/,
+                    /node_modules.*jquery$/
+                ]
             })
         ]
     },
     resolve: {
-        extensions: ['.js', '.vue', '.json']
+        extensions: ['.js', '.vue', '.json'],
+        alias: {
+            jquery: 'jquery/dist/jquery.min.js',
+            sweetalert2$: 'sweetalert2/dist/sweetalert2.min.js',
+        },
     },
     devtool: devMode ? 'cheap-module-eval-source-map' : false,
     stats: 'errors-only'
