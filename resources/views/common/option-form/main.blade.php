@@ -3,6 +3,7 @@
         <h3 class="box-title">{{ $title }} {!! $hint or '' !!}</h3>
     </div><!-- /.box-header -->
     <form method="post">
+        @csrf
         <input type="hidden" name="option" value="{{ $id }}">
         <div class="box-body">
 
