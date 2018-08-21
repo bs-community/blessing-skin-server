@@ -153,6 +153,7 @@ class SetupController extends Controller
         $user->permission = User::SUPER_ADMIN;
         $user->register_at = get_datetime_string();
         $user->last_sign_at = get_datetime_string(time() - 86400);
+        $user->verified = true;
 
         $user->save();
 
