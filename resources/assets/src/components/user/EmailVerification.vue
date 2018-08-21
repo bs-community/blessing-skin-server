@@ -1,9 +1,9 @@
 <template>
     <div v-if="!verified" class="callout callout-info">
-        <h4><i class="fa fa-envelope"></i> {{ $t('user.verification.title') }}</h4>
+        <h4><i class="fas fa-envelope"></i> {{ $t('user.verification.title') }}</h4>
         <p>{{ $t('user.verification.message') }}
             <span v-if="pending">
-                <i class="fa fa-spin fa-spinner"></i>
+                <i class="fas fa-spin fa-spinner"></i>
                 {{ $t('user.verification.sending') }}
             </span>
             <a v-else @click="resend" href="#">
