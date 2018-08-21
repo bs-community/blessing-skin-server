@@ -87,7 +87,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         if (option('force_ssl') || is_request_secure()) {
-            $this->app['url']->forceSchema('https');
+            $this->app['url']->forceScheme('https');
         }
     }
 }
