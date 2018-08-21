@@ -9,6 +9,7 @@ check:
   anonymous: Illegal access. Please log in first.
   verified: To access this page, you should verify your email address first.
   admin: Only admins are permitted to access this page.
+  super-admin: Only super admin is permitted to access this page.
   banned: You are banned on this site. Please contact the admin.
   token: Token expired. Please log in.
 

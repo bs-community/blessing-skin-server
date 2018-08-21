@@ -92,6 +92,19 @@ class MiddlewareTest extends TestCase
             ->assertSuccessful();
     }
 
+    public function testCheckSuperAdmin()
+    {
+        // Admin
+        $this->actAs('admin')
+            ->get('/admin/plugins/manage')
+            ->assertForbidden();
+
+        // Super admin
+        $this->actAs('superAdmin')
+            ->get('/admin/plugins/manage')
+            ->assertSuccessful();
+    }
+
     public function testCheckInstallation()
     {
         $this->get('/setup')->assertSee('Already installed');
