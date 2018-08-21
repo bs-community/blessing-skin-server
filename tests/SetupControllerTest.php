@@ -5,6 +5,7 @@ namespace Tests;
 use Mockery;
 use Exception;
 use CreateAllTables;
+use AddVerificationToUsersTable;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
@@ -159,6 +160,9 @@ class SetupControllerTest extends TestCase
             ->once()
             ->andReturnUsing(function () {
                 $migration = new CreateAllTables();
+                $migration->up();
+
+                $migration = new AddVerificationToUsersTable();
                 $migration->up();
             });
         $this->post('/setup/finish', [
