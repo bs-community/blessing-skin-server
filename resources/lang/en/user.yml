@@ -28,7 +28,7 @@ verification:
   mail:
     title: Verify Your Account on :sitename
     message: You are receiving this email because someone registered an account with this email address on :sitename.
-    reset: "Click here to verify your account: :url"
+    reset: 'Click here to verify your account: <a href=":url">:url</a>'
     ignore: If you did not register an account, no further action is required.
 
 score-intro:

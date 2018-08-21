@@ -38,7 +38,7 @@ forgot:
   mail:
     title: Reset your password on :sitename
     message: You are receiving this email because we received a password reset request for your account on :sitename.
-    reset: "To reset your password, please visit: :url"
+    reset: 'To reset your password, please visit: <a href=":url">:url</a>'
     ignore: If you did not request a password reset, no further action is required.
 
 reset:
