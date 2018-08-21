@@ -158,6 +158,13 @@ class PlayerController extends Controller
             $this->player->setTexture([$fieldName => $value]);
         }
 
+        // When user applies an alex skin to a newly added player,
+        // which textures and model preference are all default value,
+        // we will automatically set the player's model preference to "slim".
+        if ($this->player->preference == 'default' && $this->player->tid_steve == 0 && $this->player->tid_alex != 0) {
+            $this->player->setPreference('slim');
+        }
+
         return json(trans('user.player.set.success', ['name' => $this->player->player_name]), 0);
     }
 

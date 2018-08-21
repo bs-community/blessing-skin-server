@@ -247,6 +247,19 @@ class PlayerControllerTest extends TestCase
                 'msg' => trans('skinlib.un-existent')
             ]);
 
+        // Set for "alex" type
+        // Model preference should be automatically set to "slim"
+        $this->postJson('/user/player/set', [
+            'pid' => $player->pid,
+            'tid' => ['alex' => $alex->tid]
+        ])->assertJson([
+            'errno' => 0,
+            'msg' => trans('user.player.set.success', ['name' => $player->player_name])
+        ]);
+        $this->expectsEvents(Events\PlayerProfileUpdated::class);
+        $this->assertEquals(Player::find($player->pid)->preference, 'slim');
+        $this->assertEquals($alex->tid, Player::find($player->pid)->tid_alex);
+
         // Set for "steve" type
         $this->postJson('/user/player/set', [
             'pid' => $player->pid,
@@ -255,18 +268,7 @@ class PlayerControllerTest extends TestCase
             'errno' => 0,
             'msg' => trans('user.player.set.success', ['name' => $player->player_name])
         ]);
-        $this->expectsEvents(Events\PlayerProfileUpdated::class);
         $this->assertEquals($steve->tid, Player::find($player->pid)->tid_steve);
-
-        // Set for "alex" type
-        $this->postJson('/user/player/set', [
-            'pid' => $player->pid,
-            'tid' => ['alex' => $alex->tid]
-        ])->assertJson([
-            'errno' => 0,
-            'msg' => trans('user.player.set.success', ['name' => $player->player_name])
-        ]);
-        $this->assertEquals($alex->tid, Player::find($player->pid)->tid_alex);
 
         // Set for "cape" type
         $this->postJson('/user/player/set', [
