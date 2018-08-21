@@ -6,7 +6,8 @@
     <title>{{ option_localized('site_name') }}</title>
     {!! bs_favicon() !!}
     <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- App Styles -->
     @include('common.dependencies.style', ['module' => 'home'])
 </head>
