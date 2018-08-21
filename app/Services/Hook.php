@@ -39,6 +39,10 @@ class Hook
                 $offset++;
             }
 
+            if ($position >= $offset) {
+                $new[] = $menu;
+            }
+
             $event->menu[$category] = $new;
         });
     }
