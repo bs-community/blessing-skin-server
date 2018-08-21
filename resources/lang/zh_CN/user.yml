@@ -24,8 +24,8 @@ verification:
   mail:
     title: 验证您在 :sitename 上的账户邮箱
     message: 您收到这封邮件，是因为有人在 :sitename 注册时使用了本邮箱地址。
-    reset: 点击此链接验证您的邮箱：:url
-    ignore: 如果您并没有访问过我们的网站，或没有进行上述操作，请忽略这封邮件
+    reset: 点击此链接验证您的邮箱：<a href=":url">:url</a>
+    ignore: 如果您并没有访问过我们的网站，或没有进行上述操作，请忽略这封邮件。
 
 score-intro:
   title: 积分是什么？
