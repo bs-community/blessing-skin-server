@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import { queryStringify } from './utils';
 import { showAjaxError } from './notify';
 
 const csrfField = document.querySelector('meta[name="csrf-token"]');
@@ -27,10 +28,7 @@ export async function walkFetch(request) {
 }
 
 export async function get(url, params = empty) {
-    const qs = Object
-        .keys(params)
-        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
-        .join('&');
+    const qs = queryStringify(params);
 
     return walkFetch(new Request(`${blessing.base_url}${url}${qs && '?' + qs}`, init));
 }

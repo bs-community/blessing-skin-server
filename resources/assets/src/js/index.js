@@ -3,6 +3,7 @@ import './i18n';
 import './net';
 import './layout';
 import './logout';
+import './feedback';
 
 console.log(
     `%c Blessing Skin %c v${blessing.version} %c Made with %c<3%c by printempw.%c https://blessing.studio`,

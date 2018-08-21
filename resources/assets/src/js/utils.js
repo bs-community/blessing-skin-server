@@ -26,3 +26,16 @@ export function queryString(key, defaultValue) {
         return result[1];
     }
 }
+
+/**
+ * Serialize data to URL query string
+ *
+ * @param {object} data
+ * @returns {string}
+ */
+export function queryStringify(params) {
+    return Object
+        .keys(params)
+        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+        .join('&');
+}
