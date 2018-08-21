@@ -1,7 +1,7 @@
 import { queryStringify } from './utils';
 
 async function sendFeedback() {
-    if (document.cookie.replace(/(?:(?:^|.*;\s*)feedback_sent\s*=\s*([^;]*).*$)|^.*$/, '$1') !== '') {
+    if (document.cookie.replace(/(?:(?:^|.*;\s*)feedback_sent\s*=\s*([^;]*).*$)|^.*$/, '$1')) {
         return;
     }
 
