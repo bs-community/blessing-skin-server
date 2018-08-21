@@ -16,10 +16,7 @@ export async function logout() {
 
     const { msg } = await post('/auth/logout');
     setTimeout(() => window.location = blessing.base_url, 1000);
-    swal({
-        type: 'success',
-        html: msg
-    });
+    swal({ type: 'success', text: msg });
 }
 
 $('#logout-button').click(logout);
