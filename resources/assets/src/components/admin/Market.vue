@@ -156,7 +156,7 @@ export default {
         async updatePlugin(plugin) {
             const { dismiss } = await swal({
                 text: this.$t('admin.confirmUpdate', { plugin: plugin.title, old: plugin.installed, new: plugin.version }),
-                type: 'warning',
+                type: 'question',
                 showCancelButton: true
             });
             if (dismiss) {
