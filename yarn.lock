@@ -7475,11 +7475,11 @@ sisteransi@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-0.1.1.tgz#5431447d5f7d1675aac667ccd0b865a4994cb3ce"
 
-skinview3d@^1.1.0-alpha.4:
-  version "1.1.0-alpha.4"
-  resolved "https://registry.yarnpkg.com/skinview3d/-/skinview3d-1.1.0-alpha.4.tgz#8254117a6c5ecbca324dfad79f2ed8692b4a9092"
+skinview3d@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/skinview3d/-/skinview3d-1.1.0.tgz#05b9bdd1faf8727d0ca459ddc8d586ea9e9708d1"
   dependencies:
-    three "^0.94.0"
+    three "^0.95.0"
 
 slash@^1.0.0:
   version "1.0.0"
@@ -7967,9 +7967,9 @@ thenify-all@^1.0.0:
   dependencies:
     any-promise "^1.0.0"
 
-three@^0.94.0:
-  version "0.94.0"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.94.0.tgz#4ce6db7f2bfbf79c2d73444aa6e3cfc08a32d762"
+three@^0.95.0:
+  version "0.95.0"
+  resolved "https://registry.npmjs.org/three/-/three-0.95.0.tgz#b60ea076ba17df9faba9e855b86ab3f541289abf"
 
 throat@^4.0.0:
   version "4.1.0"
