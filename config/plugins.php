@@ -31,5 +31,5 @@ return [
     | Specify where to get plugins' metadata for plugin market.
     |
     */
-    'registry' => menv('PLUGINS_REGISTRY', 'https://coding.net/u/printempw/p/bs-plugins-archive/git/raw/master/plugins.json'),
+    'registry' => menv('PLUGINS_REGISTRY', 'https://work.prinzeugen.net/blessing-skin-server/plugins.json'),
 ];
