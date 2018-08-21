@@ -11,11 +11,12 @@
   "private": true,
   "scripts": {
     "dev": "webpack-serve",
-    "build": "webpack --mode=production -p",
+    "build": "rimraf public && webpack --mode=production -p",
     "lint": "eslint --ext=.js,.vue -f=beauty .",
     "test": "jest",
     "codecov": "codecov -F js",
-    "postinstall": "rimraf node_modules/jest-runtime/node_modules/babel-core node_modules/jest-config/node_modules/babel-core"
+    "postinstall": "rimraf node_modules/jest-runtime/node_modules/babel-core node_modules/jest-config/node_modules/babel-core",
+    "release": "yarn build && node scripts/release.js"
   },
   "resolutions": {
     "uglify-es": "npm:terser"
@@ -43,9 +44,13 @@
     "@babel/plugin-syntax-dynamic-import": "^7.0.0-beta.54",
     "@babel/plugin-transform-runtime": "^7.0.0-beta.55",
     "@babel/preset-env": "^7.0.0-beta.54",
+    "@types/adm-zip": "^0.4.31",
+    "@types/execa": "^0.9.0",
     "@types/jest": "^23.3.1",
     "@types/jquery": "^3.3.5",
+    "@types/listr": "^0.13.0",
     "@vue/test-utils": "^1.0.0-beta.21",
+    "adm-zip": "^0.4.11",
     "autoprefixer": "^9.0.1",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^8.2.6",
@@ -60,10 +65,12 @@
     "eslint": "^5.2.0",
     "eslint-formatter-beauty": "^3.0.0-beta.2",
     "eslint-plugin-vue": "^5.0.0-beta.1",
+    "execa": "^0.11.0",
     "file-loader": "^1.1.11",
     "jest": "^23.4.1",
     "jest-extended": "^0.7.2",
     "json-loader": "^0.5.7",
+    "listr": "^0.14.1",
     "mini-css-extract-plugin": "^0.4.1",
     "postcss-loader": "^2.1.6",
     "rimraf": "^2.6.2",
