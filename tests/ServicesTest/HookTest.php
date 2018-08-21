@@ -13,15 +13,26 @@ class HookTest extends TestCase
     public function testAddMenuItem()
     {
         Hook::addMenuItem('user', 0, [
-            'title' => 'Go to closet',
-            'link' => '/user/closet',
+            'title' => 'Link A',
+            'link' => '/to/a',
             'icon' => 'fa-book'
         ]);
         $this->actAs('normal')
             ->get('/user')
-            ->assertSee('Go to closet')
-            ->assertSee('/user/closet')
+            ->assertSee('Link A')
+            ->assertSee('/to/a')
             ->assertSee('fa-book');
+
+        // Out of bound
+        Hook::addMenuItem('user', 10, [
+            'title' => 'Link B',
+            'link' => '/to/b',
+            'icon' => 'fa-book'
+        ]);
+        $this->actAs('normal')
+            ->get('/user')
+            ->assertSee('Link B')
+            ->assertSee('/to/b');
     }
 
     public function testRegisterPluginTransScripts()
