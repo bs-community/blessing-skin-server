@@ -111,7 +111,7 @@ plugins:
     not-found: No such plugin.
 
   market:
-    connection-error: Unable to connect to the plugins registry. :error
+    connection-error: Unable to connect to the plugins registry (to change the plugins registry URL, please refer to http://t.cn/Rk6X37l). :error
     non-existent: The plugin :plugin does not exist.
     download-failed: Unable to download the plugin. :error
     shasum-failed: The downloaded file failed hash check, please retry.

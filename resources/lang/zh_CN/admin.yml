@@ -110,7 +110,7 @@ plugins:
     not-found: 插件不存在
 
   market:
-    connection-error: 无法连接至插件市场源，错误信息：:error
+    connection-error: 无法连接至插件市场源（更换市场源请参考：http://t.cn/Rk6X37l），错误信息：:error
     non-existent: 插件 :plugin 不存在
     download-failed: 插件下载失败，错误信息：:error
     shasum-failed: 文件校验失败，请尝试重新下载
