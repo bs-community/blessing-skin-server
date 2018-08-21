@@ -159,6 +159,16 @@ input:-webkit-autofill {
     td.value, td.key {
         border-top: 0;
     }
+
+    @media (max-width: 768px) {
+        td.value, td.key {
+            display: block;
+        }
+
+        td.value {
+            width: 90%;
+        }
+    }
 }
 
 .modal-danger .modal-title small {
