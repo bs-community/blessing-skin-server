@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="robots" content="noindex,nofollow" />
     <title>@yield('title') - Blessing Skin Server</title>
-    <link rel="stylesheet" type="text/css" href="{{ assets('css/install.css') }}">
+    <link rel="stylesheet" href="{{ webpack_assets('setup.css') }}">
 </head>
 
 <body class="container">
