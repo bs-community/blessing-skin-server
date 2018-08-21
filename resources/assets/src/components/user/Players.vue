@@ -71,12 +71,9 @@
                     </div>
                 </div>
 
-                <div v-once class="box box-default collapsed-box">
+                <div v-once class="box box-default">
                     <div class="box-header with-border">
                         <h3 class="box-title" v-t="'general.tip'"></h3>
-                        <div class="box-tools pull-right">
-                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fas fa-plus"></i></button>
-                        </div><!-- /.box-tools -->
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         <p v-t="'user.player.login-notice'"></p>
