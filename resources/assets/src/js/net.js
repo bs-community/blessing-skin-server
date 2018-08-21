@@ -5,7 +5,8 @@ import { showAjaxError } from './notify';
 const csrfField = document.querySelector('meta[name="csrf-token"]');
 
 const empty = Object.create(null);
-const init = {
+/** @type Request */
+export const init = {
     credentials: 'same-origin',
     headers: {
         'Accept': 'application/json',

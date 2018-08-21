@@ -3,6 +3,7 @@ import './i18n';
 import './net';
 import './layout';
 import './logout';
+import './check-updates';
 import './feedback';
 
 console.log(
