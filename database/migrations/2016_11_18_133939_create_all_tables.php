@@ -23,7 +23,6 @@ class CreateAllTables extends Migration
             $table->integer('permission')->default('0');
             $table->dateTime('last_sign_at');
             $table->dateTime('register_at');
-            $table->rememberToken();
         });
 
         Schema::create('closets', function (Blueprint $table) {
