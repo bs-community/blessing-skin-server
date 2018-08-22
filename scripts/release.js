@@ -1,4 +1,3 @@
-const { promisify } = require('util');
 const Listr = require('listr');
 const execa = require('execa');
 const rimraf = require('rimraf');
@@ -13,6 +12,7 @@ const tasks = new Listr([
     {
         title: 'Clear cache files',
         task: async () => await Promise.all([
+            'bootstrap/cache/*.php',
             'storage/logs/*.log',
             'storage/testing/*',
             'storage/debugbar/*',
