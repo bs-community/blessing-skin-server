@@ -6,7 +6,6 @@ public/
 resources/lang/
 resources/views/
 routes/
-storage/
 vendor/
 .env.example
 .htaccess

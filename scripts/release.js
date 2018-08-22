@@ -10,6 +10,15 @@ function del(path) {
 
 const tasks = new Listr([
     {
+        title: 'Remove unused front-end files',
+        task: async () => await Promise.all([
+            'report.html',
+            'style.js',
+            'setup.js',
+            'home.js',
+        ].map(item => `public/${item}`).map(del))
+    },
+    {
         title: 'Clear cache files',
         task: async () => await Promise.all([
             'bootstrap/cache/*.php',
