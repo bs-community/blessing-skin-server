@@ -29,6 +29,10 @@ $(document).ready(() => {
 (() => {
     const list = [
         {
+            path: 'admin',
+            styl: () => import('../stylus/admin.styl')
+        },
+        {
             path: 'auth',
             styl: () => import('../stylus/auth.styl')
         },

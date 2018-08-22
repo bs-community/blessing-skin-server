@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- App Styles -->
-    @include('common.dependencies.style', ['module' => 'admin'])
+    @include('common.dependencies.style')
 
     @yield('style')
 </head>
