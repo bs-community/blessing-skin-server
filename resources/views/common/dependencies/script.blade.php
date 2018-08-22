@@ -1,7 +1,7 @@
 @if (file_exists(public_path('langs/'.config('app.locale').'.js')))
     <script src="{{ url('public/langs/'.config('app.locale').'.js') }}"></script>
 @else
-    <script src="{{ assets('lang/'.config('app.fallback_locale').'/locale.js') }}"></script>
+    <script src="{{ url('public/langs/'.config('app.fallback_locale').'.js') }}"></script>
 @endif
 
 @if (str_contains(request()->userAgent(), ['MSIE', 'Trident']))
