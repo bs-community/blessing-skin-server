@@ -195,12 +195,16 @@ export default {
             }
         },
         async toggleVerification(user) {
-            const { msg } = await this.$http.post(
+            const { errno, msg } = await this.$http.post(
                 '/admin/users?action=verification',
                 { uid: user.uid }
             );
-            user.verified = !user.verified;
-            toastr.success(msg);
+            if (errno === 0) {
+                user.verified = !user.verified;
+                toastr.success(msg);
+            } else {
+                toastr.warning(msg);
+            }
         },
         async changeNickName(user) {
             const { dismiss, value } = await swal({

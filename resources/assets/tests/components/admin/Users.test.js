@@ -330,7 +330,9 @@ test('toggle verification', async () => {
     Vue.prototype.$http.get.mockResolvedValue({ data: [
         { uid: 1, verified: false },
     ] });
-    Vue.prototype.$http.post.mockResolvedValue({ errno: 0, msg: '0' });
+    Vue.prototype.$http.post
+        .mockResolvedValueOnce({ errno: 1, msg: '1' })
+        .mockResolvedValueOnce({ errno: 0, msg: '0' });
 
     const wrapper = mount(Users);
     await wrapper.vm.$nextTick();
@@ -342,6 +344,8 @@ test('toggle verification', async () => {
         '/admin/users?action=verification',
         { uid: 1 }
     );
+
+    button.trigger('click');
     await flushPromises();
     expect(wrapper.text()).toContain('admin.verified');
 });
