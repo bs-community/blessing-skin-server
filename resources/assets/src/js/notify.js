@@ -1,5 +1,6 @@
 import $ from 'jquery';
 import sweetalert2 from 'sweetalert2';
+import 'toastr';
 import { trans } from './i18n';
 
 /**
