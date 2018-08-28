@@ -22,7 +22,7 @@
     "uglify-es": "npm:terser"
   },
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.55",
+    "@babel/runtime": "^7.0.0",
     "@fortawesome/fontawesome-free": "^5.2.0",
     "admin-lte": "^2.4.2",
     "bootstrap": "^3.3.7",
@@ -40,10 +40,10 @@
     "whatwg-fetch": "^2.0.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0-beta.54",
-    "@babel/plugin-syntax-dynamic-import": "^7.0.0-beta.54",
-    "@babel/plugin-transform-runtime": "^7.0.0-beta.55",
-    "@babel/preset-env": "^7.0.0-beta.54",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/plugin-transform-runtime": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
     "@types/archiver": "^2.1.2",
     "@types/execa": "^0.9.0",
     "@types/jest": "^23.3.1",

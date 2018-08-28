@@ -10,9 +10,7 @@
     "@babel/syntax-dynamic-import",
     ["@babel/plugin-transform-runtime", {
       "helpers": true,
-      "polyfill": false,
-      "regenerator": true,
-      "moduleName": "@babel/runtime"
+      "regenerator": true
     }]
   ],
   "env": {
