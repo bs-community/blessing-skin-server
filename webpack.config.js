@@ -12,7 +12,6 @@ const config = {
     mode: devMode ? 'development' : 'production',
     entry: {
         index: './resources/assets/src/index.js',
-        polyfill: './resources/assets/src/js/polyfill.js',
         style: [
             'bootstrap/dist/css/bootstrap.min.css',
             'admin-lte/dist/css/AdminLTE.min.css',

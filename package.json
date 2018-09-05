@@ -27,7 +27,6 @@
     "admin-lte": "^2.4.2",
     "bootstrap": "^3.3.7",
     "chart.js": "^2.7.1",
-    "es6-promise": "^4.2.4",
     "icheck": "^1.0.2",
     "jquery": "^3.3.1",
     "skinview3d": "^1.1.0",
@@ -36,8 +35,7 @@
     "vue": "^2.5.16",
     "vue-good-table": "^2.12.2",
     "vue-upload-component": "^2.8.11",
-    "vuejs-paginate": "^2.0.1",
-    "whatwg-fetch": "^2.0.4"
+    "vuejs-paginate": "^2.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
