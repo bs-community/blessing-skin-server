@@ -4,9 +4,6 @@
     <script src="{{ url('public/langs/'.config('app.fallback_locale').'.js') }}"></script>
 @endif
 
-@if (str_contains(request()->userAgent(), ['MSIE', 'Trident']))
-    <script src="{{ url('public/polyfill.js') }}"></script>
-@endif
 <script src="{{ webpack_assets('index.js') }}"></script>
 
 <!-- User custom scripts -->

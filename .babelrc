@@ -1,13 +1,13 @@
 {
   "presets": [
-    ["@babel/env", {
+    ["@babel/preset-env", {
       "modules": false,
       "useBuiltIns": false,
       "loose": true
     }]
   ],
   "plugins": [
-    "@babel/syntax-dynamic-import",
+    "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-transform-async-to-generator",
     ["@babel/plugin-transform-runtime", {
       "helpers": true,
@@ -17,13 +17,13 @@
   "env": {
     "test": {
       "presets": [
-        ["@babel/env", {
+        ["@babel/preset-env", {
           "targets": { "node": "current" },
           "ignoreBrowserslistConfig": true
         }]
       ],
       "plugins": [
-        "dynamic-import-node"
+        "babel-plugin-dynamic-import-node"
       ]
     }
   }
