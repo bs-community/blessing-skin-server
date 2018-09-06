@@ -176,6 +176,7 @@ class MarketControllerTest extends TestCase
         // Clean fake plugins
         File::deleteDirectory(base_path('plugins/fake-test-download'));
         File::deleteDirectory(base_path('plugins/fake-test-update'));
+        File::delete(base_path('plugins/whatever'));
 
         parent::tearDown();
     }

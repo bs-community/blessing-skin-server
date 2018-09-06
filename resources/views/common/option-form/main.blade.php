@@ -1,6 +1,6 @@
 <div class="box box-{{ $type }}">
     <div class="box-header with-border">
-        <h3 class="box-title">{{ $title }} {!! $hint or '' !!}</h3>
+        <h3 class="box-title">{{ $title }} {!! $hint ?? '' !!}</h3>
     </div><!-- /.box-header -->
     <form method="post">
         @csrf
@@ -19,7 +19,7 @@
                     @foreach($items as $item)
                     <tr>
                         @unless ($renderInputTagsOnly)
-                        <td class="key">{{ $item->name }} {!! $item->hint or '' !!}</td>
+                        <td class="key">{{ $item->name }} {!! $item->hint ?? '' !!}</td>
                         @endunless
 
                         <td class="value">

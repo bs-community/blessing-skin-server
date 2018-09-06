@@ -6,7 +6,6 @@ use App\Events;
 use Composer\Semver\Semver;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use App\Events\PluginWasUninstalled;
 use Illuminate\Filesystem\Filesystem;
 use App\Exceptions\PrettyPageException;
 use Illuminate\Contracts\Events\Dispatcher;

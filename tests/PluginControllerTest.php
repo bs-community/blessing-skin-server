@@ -40,7 +40,7 @@ class PluginControllerTest extends TestCase
         // Plugin is enabled but it doesn't have config view
         plugin('fake-plugin-for-test')->setEnabled(true);
         $this->get('/admin/plugins/config/avatar-api')
-            ->assertSee(trans('admin.plugins.operations.no-config-notice'))
+            ->assertSee(e(trans('admin.plugins.operations.no-config-notice')))
             ->assertNotFound();
 
         // Plugin has config view
@@ -91,7 +91,6 @@ class PluginControllerTest extends TestCase
 
         // Enable a plugin
         app('plugins')->getPlugin('fake-plugin-for-test')->setRequirements([]);
-        $this->expectsEvents(Events\PluginWasEnabled::class);
         $this->postJson('/admin/plugins/manage', [
             'name' => 'fake-plugin-for-test',
             'action' => 'enable'
@@ -114,7 +113,6 @@ class PluginControllerTest extends TestCase
                 ['plugin' => plugin('fake-plugin-for-test')->title]
             )
         ]);
-        $this->expectsEvents(Events\PluginWasDisabled::class);
 
         // Delete a plugin
         $this->postJson('/admin/plugins/manage', [
@@ -124,7 +122,6 @@ class PluginControllerTest extends TestCase
             'errno' => 0,
             'msg' => trans('admin.plugins.operations.deleted')
         ]);
-        $this->expectsEvents(Events\PluginWasDeleted::class);
         $this->assertFalse(file_exists(base_path('plugins/fake-plugin-for-test/')));
     }
 

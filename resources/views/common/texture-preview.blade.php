@@ -1,5 +1,5 @@
 <div class="box-header with-border">
-    <h3 class="box-title" style="width: 100%;">{!! $title or trans('general.texture-preview') !!}
+    <h3 class="box-title" style="width: 100%;">{!! $title ?? trans('general.texture-preview') !!}
         <span id="textures-indicator" data-toggle="tooltip" title="" class="badge bg-light-blue"></span>
         <div class="operations">
             <i data-toggle="tooltip" data-placement="bottom" title="@lang('general.walk').' / '.trans('general.run')" class="fa fa-forward"></i>

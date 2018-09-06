@@ -52,7 +52,7 @@ class SetupControllerTest extends TestCase
     {
         $fake = [
             'type' => 'mysql',
-            'host' => '127.0.0.1',
+            'host' => env('DB_HOST'),
             'port' => '3306',
             'db' => env('DB_DATABASE'),
             'username' => env('DB_USERNAME'),
