@@ -67,7 +67,7 @@ class PluginControllerTest extends TestCase
 
         // Enable a plugin with unsatisfied dependencies
         app('plugins')->getPlugin('fake-plugin-for-test')->setRequirements([
-            'blessing-skin-server' => '^3.4.0',
+            'blessing-skin-server' => '^3.4.0 || ^4.0.0',
             'fake-plugin-with-config-view' => '^6.6.6',
             'whatever' => '^1.0.0'
         ]);

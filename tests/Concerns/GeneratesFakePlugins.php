@@ -23,7 +23,7 @@ trait GeneratesFakePlugins
             'url' => 'https://'.str_random(10).'.test',
             'namespace' => str_random(10),
             'require' => [
-                'blessing-skin-server' => '^3.4.0'
+                'blessing-skin-server' => '^3.4.0 || ^4.0.0'
             ]
         ], $info);
     }
