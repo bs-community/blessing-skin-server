@@ -185,7 +185,7 @@ if (! function_exists('bs_menu')) {
                         $availablePluginConfigs[] = [
                             'title' => trans($plugin->title),
                             'link'  => 'admin/plugins/config/'.$plugin->name,
-                            'icon'  => 'fa-circle-o'
+                            'icon'  => 'fa-circle'
                         ];
                     }
                 }
@@ -233,8 +233,9 @@ if (! function_exists('bs_menu')) {
             } else {
                 if ($value) {
                     $content .= sprintf(
-                        '<a href="%s"><i class="fas %s"></i> &nbsp;<span>%s</span></a>',
+                        '<a href="%s"><i class="%s %s"></i> &nbsp;<span>%s</span></a>',
                         url((string) $value['link']),
+                        $value['icon'] == 'fa-circle' ? 'far' : 'fas',
                         (string) $value['icon'],
                         trans((string) $value['title'])
                     );
