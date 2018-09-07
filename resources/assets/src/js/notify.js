@@ -11,7 +11,7 @@ import { trans } from './i18n';
  * @return {void}
  */
 export function showMsg(msg, type = 'info') {
-    $('[id=msg]')
+    $('#msg')
         .removeClass()
         .addClass('callout')
         .addClass(`callout-${type}`)
@@ -30,7 +30,7 @@ export function showAjaxError(error) {
     }
 
     const message = typeof error === 'string' ? error : error.message;
-    showModal(message.replace(/\n/g, '<br />'), trans('general.fatalError'), 'danger');
+    showModal(message.replace(/\n/g, '<br>'), trans('general.fatalError'), 'danger');
 }
 
 /**
@@ -68,7 +68,7 @@ export function showModal(msg, title = 'Message', type = 'default', options = {}
         </div>
     </div>`;
 
-    $(dom).on('hidden.bs.modal', function () {
+    $(dom).on('hidden.bs.modal', /* istanbul ignore next */ function () {
         destroyOnClose && $(this).remove();
     }).modal(options);
 }

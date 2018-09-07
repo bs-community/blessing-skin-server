@@ -107,9 +107,8 @@
     "setupTestFrameworkScriptFile": "<rootDir>/resources/assets/tests/setup.js",
     "coveragePathIgnorePatterns": [
       "/node_modules/",
-      "setup",
-      "utils",
-      "assets/src/js"
+      "<rootDir>/resources/assets/tests/setup",
+      "<rootDir>/resources/assets/tests/utils"
     ],
     "testRegex": "resources/assets/tests/.*\\.(spec|test)\\.js"
   },

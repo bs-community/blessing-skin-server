@@ -1,8 +1,7 @@
 import Vue from 'vue';
+import { emit } from './event';
 import { queryStringify } from './utils';
 import { showAjaxError } from './notify';
-
-const csrfField = document.querySelector('meta[name="csrf-token"]');
 
 const empty = Object.create(null);
 /** @type Request */
@@ -11,11 +10,19 @@ export const init = {
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'X-CSRF-TOKEN': csrfField && csrfField.content
     }
 };
 
+function retrieveToken() {
+    const csrfField = document.querySelector('meta[name="csrf-token"]');
+    return csrfField && csrfField.content;
+}
+
 export async function walkFetch(request) {
+    request.headers['X-CSRF-TOKEN'] = retrieveToken();
+
+    emit('beforeFetch', request);
+
     try {
         const response = await fetch(request);
         if (response.ok) {
