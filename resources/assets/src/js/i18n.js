@@ -11,19 +11,16 @@ export function trans(key, parameters = {}) {
     const segments = key.split('.');
     let temp = window.__bs_i18n__ || {};
 
-    for (const i in segments) {
-        if (!temp[segments[i]]) {
+    for (const segment of segments) {
+        if (!temp[segment]) {
             return key;
         } else {
-            temp = temp[segments[i]];
+            temp = temp[segment];
         }
     }
 
-    for (const i in parameters) {
-        if (parameters[i] !== undefined) {
-            temp = temp.replace(':' + i, parameters[i]);
-        }
-    }
+    Object.keys(parameters)
+        .forEach(slot => temp = temp.replace(`:${slot}`, parameters[slot]));
 
     return temp;
 }
@@ -36,6 +33,7 @@ Vue.use(_Vue => {
         } else if (typeof value === 'object') {
             el.textContent = trans(value.path, value.args);
         } else {
+            /* istanbul ignore next */
             if (process.env.NODE_ENV !== 'production') {
                 console.warn('[i18n] Invalid arguments in `v-t` directive.');
             }
