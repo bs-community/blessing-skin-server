@@ -47,21 +47,20 @@ test('update tables', async () => {
 });
 
 test('change texture', async () => {
+    window.$ = jest.fn(() => ({ modal() {} }));
     Vue.prototype.$http.get.mockResolvedValue({ data: [
         { pid: 1, tid_steve: 0 }
     ] });
     Vue.prototype.$http.post
         .mockResolvedValueOnce({ errno: 1, msg: '1' })
         .mockResolvedValueOnce({ errno: 0, msg: '0' });
-    swal.mockResolvedValueOnce({ dismiss: 1 })
-        .mockResolvedValue({ value: 5 });
 
     const wrapper = mount(Players);
     await wrapper.vm.$nextTick();
-    const button = wrapper.find('[data-test="change-texture"] > li:nth-child(1) > a');
+    const button = wrapper.find('.btn-primary');
+    wrapper.find('.btn-default').trigger('click');
 
-    button.trigger('click');
-    expect(Vue.prototype.$http.post).not.toBeCalled();
+    wrapper.find('.modal-body').find('input').setValue('5');
 
     button.trigger('click');
     await wrapper.vm.$nextTick();
@@ -73,6 +72,7 @@ test('change texture', async () => {
     button.trigger('click');
     await flushPromises();
     expect(wrapper.text()).toContain('5');
+    expect(window.$).toBeCalledWith('.modal');
 });
 
 test('change player name', async () => {
@@ -91,7 +91,7 @@ test('change player name', async () => {
 
     const wrapper = mount(Players);
     await wrapper.vm.$nextTick();
-    const button = wrapper.find('[data-test="operations"] > li:nth-child(1) > a');
+    const button = wrapper.find('[data-test="name"]');
 
     button.trigger('click');
     expect(Vue.prototype.$http.post).not.toBeCalled();
@@ -118,7 +118,7 @@ test('toggle preference', async () => {
 
     const wrapper = mount(Players);
     await wrapper.vm.$nextTick();
-    const button = wrapper.find('[data-test="operations"] > li:nth-child(2) > a');
+    const button = wrapper.find('[data-test="preference"]');
 
     button.trigger('click');
     expect(Vue.prototype.$http.post).toBeCalledWith(
@@ -147,7 +147,7 @@ test('change owner', async () => {
 
     const wrapper = mount(Players);
     await wrapper.vm.$nextTick();
-    const button = wrapper.find('[data-test="operations"] > li:nth-child(3) > a');
+    const button = wrapper.find('[data-test="owner"]');
 
     button.trigger('click');
     expect(Vue.prototype.$http.post).not.toBeCalled();

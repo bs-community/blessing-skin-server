@@ -14,7 +14,25 @@
             styleClass="vgt-table striped"
         >
             <template slot="table-row" slot-scope="props">
-                <span v-if="props.column.field === 'players_count'">
+                <span v-if="props.column.field === 'email'">
+                    {{ props.formattedRow[props.column.field] }}
+                    <a @click="changeEmail(props.row)" :title="$t('admin.changeEmail')" data-test="email">
+                        <i class="fas fa-edit btn-edit"></i>
+                    </a>
+                </span>
+                <span v-else-if="props.column.field === 'nickname'">
+                    {{ props.formattedRow[props.column.field] }}
+                    <a @click="changeNickName(props.row)" :title="$t('admin.changeNickName')" data-test="nickname">
+                        <i class="fas fa-edit btn-edit"></i>
+                    </a>
+                </span>
+                <span v-else-if="props.column.field === 'score'">
+                    {{ props.formattedRow[props.column.field] }}
+                    <a @click="changeScore(props.row)" :title="$t('admin.changeScore')" data-test="score">
+                        <i class="fas fa-edit btn-edit"></i>
+                    </a>
+                </span>
+                <span v-else-if="props.column.field === 'players_count'">
                     <a
                         :href="props.row | playersLink"
                         :title="$t('admin.inspectHisPlayers')"
@@ -28,6 +46,17 @@
                 <span v-else-if="props.column.field === 'verified'">
                     <span v-if="props.row.verified" v-t="'admin.verified'"></span>
                     <span v-else v-t="'admin.unverified'"></span>
+                    <a
+                        @click="toggleVerification(props.row)"
+                        :title="$t('admin.toggleVerification')"
+                        data-test="verification"
+                    >
+                        <i
+                            class="fas btn-edit"
+                            :class="{ 'fa-toggle-on': props.row.verified, 'fa-toggle-off': !props.row.verified }"
+                            style="font-size: 18px;"
+                        ></i>
+                    </a>
                 </span>
                 <div v-else-if="props.column.field === 'operations'">
                     <div class="btn-group">
@@ -37,12 +66,8 @@
                             aria-haspopup="true"
                             aria-expanded="false"
                         >{{ $t('general.more') }} <span class="caret"></span></button>
-                        <ul class="dropdown-menu operations-menu">
-                            <li><a @click="changeEmail(props.row)" v-t="'admin.changeEmail'" href="#"></a></li>
-                            <li><a @click="toggleVerification(props.row)" v-t="'admin.toggleVerification'" href="#"></a></li>
-                            <li><a @click="changeNickName(props.row)" v-t="'admin.changeNickName'" href="#"></a></li>
+                        <ul class="dropdown-menu operations-menu" :class="{ 'row-at-bottom': users.length - props.index < 3 }">
                             <li><a @click="changePassword(props.row)" v-t="'admin.changePassword'" href="#"></a></li>
-                            <li><a @click="changeScore(props.row)" v-t="'admin.changeScore'" href="#"></a></li>
                             <template v-if="props.row.permission < 2">
                                 <li class="divider"></li>
                                 <li v-if="props.row.operations >= 2 && props.row.permission > -1">
@@ -320,5 +345,9 @@ export default {
 <style lang="stylus">
 .operations-menu {
     margin-left -35px
+}
+
+.row-at-bottom {
+    margin-top -100px
 }
 </style>

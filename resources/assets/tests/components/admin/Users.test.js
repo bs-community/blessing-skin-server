@@ -308,7 +308,7 @@ test('change email', async () => {
 
     const wrapper = mount(Users);
     await wrapper.vm.$nextTick();
-    const button = wrapper.find('.operations-menu > li:nth-child(1) > a');
+    const button = wrapper.find('[data-test="email"]');
 
     button.trigger('click');
     expect(Vue.prototype.$http.post).not.toBeCalled();
@@ -336,7 +336,7 @@ test('toggle verification', async () => {
 
     const wrapper = mount(Users);
     await wrapper.vm.$nextTick();
-    const button = wrapper.find('.operations-menu > li:nth-child(2) > a');
+    const button = wrapper.find('[data-test="verification"');
 
     button.trigger('click');
     await wrapper.vm.$nextTick();
@@ -366,7 +366,7 @@ test('change nickname', async () => {
 
     const wrapper = mount(Users);
     await wrapper.vm.$nextTick();
-    const button = wrapper.find('.operations-menu > li:nth-child(3) > a');
+    const button = wrapper.find('[data-test="nickname"]');
 
     button.trigger('click');
     expect(Vue.prototype.$http.post).not.toBeCalled();
@@ -398,7 +398,7 @@ test('change password', async () => {
 
     const wrapper = mount(Users);
     await wrapper.vm.$nextTick();
-    const button = wrapper.find('.operations-menu > li:nth-child(4) > a');
+    const button = wrapper.find('.operations-menu > li:nth-child(1) > a');
 
     button.trigger('click');
     expect(Vue.prototype.$http.post).not.toBeCalled();
@@ -430,7 +430,7 @@ test('change score', async () => {
 
     const wrapper = mount(Users);
     await wrapper.vm.$nextTick();
-    const button = wrapper.find('.operations-menu > li:nth-child(5) > a');
+    const button = wrapper.find('[data-test="score"]');
 
     button.trigger('click');
     expect(Vue.prototype.$http.post).not.toBeCalled();
@@ -458,7 +458,7 @@ test('toggle admin', async () => {
 
     const wrapper = mount(Users);
     await wrapper.vm.$nextTick();
-    const button = wrapper.find('.operations-menu > li:nth-child(7) > a');
+    const button = wrapper.find('.operations-menu > li:nth-child(3) > a');
 
     button.trigger('click');
     await wrapper.vm.$nextTick();
@@ -487,7 +487,7 @@ test('toggle ban', async () => {
 
     const wrapper = mount(Users);
     await wrapper.vm.$nextTick();
-    const button = wrapper.find('.operations-menu > li:nth-child(8) > a');
+    const button = wrapper.find('.operations-menu > li:nth-child(4) > a');
 
     button.trigger('click');
     await wrapper.vm.$nextTick();

@@ -14,13 +14,28 @@
             styleClass="vgt-table striped"
         >
             <template slot="table-row" slot-scope="props">
-                <span v-if="props.column.field === 'uid'">
+                <span v-if="props.column.field === 'player_name'">
+                    {{ props.formattedRow[props.column.field] }}
+                    <a @click="changeName(props.row)" :title="$t('admin.changePlayerName')" data-test="name">
+                        <i class="fas fa-edit btn-edit"></i>
+                    </a>
+                </span>
+                <span v-else-if="props.column.field === 'uid'">
                     <a
                         :href="`${baseUrl}/admin/users?uid=${props.row.uid}`"
                         :title="$t('admin.inspectHisOwner')"
                         data-toggle="tooltip"
                         data-placement="right"
                     >{{ props.formattedRow[props.column.field] }}</a>
+                    <a @click="changeOwner(props.row)" :title="$t('admin.changeOwner')" data-test="owner">
+                        <i class="fas fa-edit btn-edit"></i>
+                    </a>
+                </span>
+                <span v-else-if="props.column.field === 'preference'">
+                    {{ props.formattedRow[props.column.field] }}
+                    <a @click="togglePreference(props.row)" :title="$t('admin.changePreference')" data-test="preference">
+                        <i class="fas fa-edit btn-edit"></i>
+                    </a>
                 </span>
                 <span v-else-if="props.column.field === 'preview'">
                     <a
@@ -43,32 +58,13 @@
                     </a>
                 </span>
                 <span v-else-if="props.column.field === 'operations'">
-                    <div class="btn-group">
-                        <button
-                            class="btn btn-default dropdown-toggle"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                        >{{ $t('admin.changeTexture') }} <span class="caret"></span></button>
-                        <ul class="dropdown-menu" data-test="change-texture">
-                            <li><a @click="changeTexture(props.row, 'steve')" href="#steve">Steve</a></li>
-                            <li><a @click="changeTexture(props.row, 'alex')" href="#alex">Alex</a></li>
-                            <li><a @click="changeTexture(props.row, 'cape')" v-t="'general.cape'" href="#cape"></a></li>
-                        </ul>
-                    </div>
-                    <div class="btn-group">
-                        <button
-                            class="btn btn-default dropdown-toggle"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                        >{{ $t('general.more') }} <span class="caret"></span></button>
-                        <ul class="dropdown-menu" data-test="operations">
-                            <li><a @click="changeName(props.row)" v-t="'admin.changePlayerName'" href="#"></a></li>
-                            <li><a @click="togglePreference(props.row)" v-t="'admin.changePreference'" href="#"></a></li>
-                            <li><a @click="changeOwner(props.row)" v-t="'admin.changeOwner'" href="#"></a></li>
-                        </ul>
-                    </div>
+                    <button
+                        class="btn btn-default"
+                        data-toggle="modal"
+                        data-target="#modal-change-texture"
+                        v-t="'admin.changeTexture'"
+                        @click="textureChanges.originalIndex = props.row.originalIndex"
+                    ></button>
                     <button
                         class="btn btn-danger"
                         v-t="'admin.deletePlayer'"
@@ -78,6 +74,55 @@
                 <span v-else v-text="props.formattedRow[props.column.field]" />
             </template>
         </vue-good-table>
+
+        <div
+            id="modal-change-texture"
+            class="modal fade"
+            tabindex="-1"
+            role="dialog"
+        >
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button
+                            type="button"
+                            class="close"
+                            data-dismiss="modal"
+                            aria-label="Close"
+                        ><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" v-t="'admin.changeTexture'"></h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label v-t="'admin.textureType'" />
+                            <select class="form-control" v-model="textureChanges.model">
+                                <option value="steve">Steve</option>
+                                <option value="alex">Alex</option>
+                                <option value="cape" v-t="'general.cape'"></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>TID</label>
+                            <input
+                                class="form-control"
+                                type="text"
+                                :placeholder="$t('admin.pidNotice')"
+                                v-model.number="textureChanges.tid"
+                            >
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button
+                            type="button"
+                            class="btn btn-default"
+                            data-dismiss="modal"
+                            v-t="'general.close'"
+                        ></button>
+                        <a @click="changeTexture" class="btn btn-primary" v-t="'general.submit'"></a>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
     </section>
 </template>
 
@@ -131,6 +176,11 @@ export default {
                     ofLabel: this.$t('vendor.datatable.of')
                 }
             },
+            textureChanges: {
+                originalIndex: -1,
+                model: 'steve',
+                tid: '',
+            }
         };
     },
     beforeMount() {
@@ -162,23 +212,18 @@ export default {
             this.serverParams.search = params.searchTerm;
             this.fetchData();
         },
-        async changeTexture(player, model) {
-            const { dismiss, value } = await swal({
-                text: this.$t('admin.pidNotice'),
-                input: 'number',
-                inputValue: player[`tid_${model}`]
-            });
-            if (dismiss) {
-                return;
-            }
+        async changeTexture() {
+            const player = this.players[this.textureChanges.originalIndex];
+            const { model, tid } = this.textureChanges;
 
             const { errno, msg } = await this.$http.post(
                 '/admin/players?action=texture',
-                { pid: player.pid, model, tid: value }
+                { pid: player.pid, model, tid }
             );
             if (errno === 0) {
-                player[`tid_${model}`] = value;
+                player[`tid_${model}`] = tid;
                 toastr.success(msg);
+                $('.modal').modal('hide');
             } else {
                 toastr.warning(msg);
             }
