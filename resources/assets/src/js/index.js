@@ -1,6 +1,7 @@
 import './public-path';  // Must be first
 import './i18n';
 import './net';
+import './event';
 import './layout';
 import './logout';
 import './check-updates';
