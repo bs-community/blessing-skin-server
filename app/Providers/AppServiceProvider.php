@@ -65,6 +65,8 @@ class AppServiceProvider extends ServiceProvider
         View::addExtension('tpl', 'blade');
         // Make the priority of *.blade.php higher than *.tpl
         View::addExtension('blade.php', 'blade');
+
+        $this->app->singleton('parsedown', \Parsedown::class);
     }
 
     /**

@@ -7,7 +7,6 @@ use URL;
 use Mail;
 use View;
 use Session;
-use Parsedown;
 use App\Models\User;
 use App\Models\Texture;
 use Illuminate\Http\Request;
@@ -39,7 +38,7 @@ class UserController extends Controller
                 'players' => $this->calculatePercentageUsed($user->players->count(), option('score_per_player')),
                 'storage' => $this->calculatePercentageUsed($user->getStorageUsed(), option('score_per_storage'))
             ],
-            'announcement' => (new Parsedown())->text(option_localized('announcement'))
+            'announcement' => app('parsedown')->text(option_localized('announcement'))
         ]);
     }
 
