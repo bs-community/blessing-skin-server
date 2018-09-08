@@ -16,7 +16,8 @@
                             <a
                                 class="text-primary"
                                 :href="`${baseUrl}/admin/plugins/config/${props.row.name}`"
-                            >{{ $t('admin.configurePlugin') }}</a> |
+                                v-t="'admin.configurePlugin'"
+                            ></a> |
                         </template>
                         <a
                             href="#"
