@@ -66,12 +66,12 @@ test('different categories', () => {
     Vue.prototype.$http.get.mockResolvedValue({});
 
     const wrapper = mount(Closet);
-    expect(wrapper.findAll('.nav-tabs > li').at(0).classes()).toContain('active');
-    expect(wrapper.find('#skin-category').classes()).toContain('active');
+    expect(wrapper.findAll('.nav-tabs > li').at(0).classes('active')).toBeTrue();
+    expect(wrapper.find('#skin-category').classes('active')).toBeTrue();
 
     wrapper.setData({ category: 'cape' });
-    expect(wrapper.findAll('.nav-tabs > li').at(1).classes()).toContain('active');
-    expect(wrapper.find('#cape-category').classes()).toContain('active');
+    expect(wrapper.findAll('.nav-tabs > li').at(1).classes('active')).toBeTrue();
+    expect(wrapper.find('#cape-category').classes('active')).toBeTrue();
 });
 
 test('search textures', () => {
@@ -202,9 +202,8 @@ test('apply texture', async () => {
 
     button.trigger('click');
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('input[type="radio"]').attributes()).toHaveProperty('value', '1');
-    expect(wrapper.find('.model-label > img').attributes())
-        .toHaveProperty('src', '/avatar/35/10');
+    expect(wrapper.find('input[type="radio"]').attributes('value')).toBe('1');
+    expect(wrapper.find('.model-label > img').attributes('src')).toBe('/avatar/35/10');
     expect(wrapper.find('.modal-body').text()).toContain('name');
     jest.runAllTimers();
 });

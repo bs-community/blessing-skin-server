@@ -32,7 +32,7 @@ test('players usage', async () => {
     const wrapper = mount(Dashboard);
     await wrapper.vm.$nextTick();
     expect(wrapper.text()).toContain('3 / 15');
-    expect(wrapper.find('.progress-bar-aqua').attributes().style).toBe('width: 20%;');
+    expect(wrapper.find('.progress-bar-aqua').attributes('style')).toBe('width: 20%;');
 });
 
 test('storage usage', async () => {
@@ -47,12 +47,12 @@ test('storage usage', async () => {
     let wrapper = mount(Dashboard);
     await wrapper.vm.$nextTick();
     expect(wrapper.text()).toContain('5 / 20 KB');
-    expect(wrapper.find('.progress-bar-yellow').attributes().style).toBe('width: 25%;');
+    expect(wrapper.find('.progress-bar-yellow').attributes('style')).toBe('width: 25%;');
 
     wrapper = mount(Dashboard);
     await wrapper.vm.$nextTick();
     expect(wrapper.text()).toContain('2 / 4 MB');
-    expect(wrapper.find('.progress-bar-yellow').attributes().style).toBe('width: 50%;');
+    expect(wrapper.find('.progress-bar-yellow').attributes('style')).toBe('width: 50%;');
 });
 
 test('display score', async () => {
@@ -74,19 +74,19 @@ test('button `sign` state', async () => {
 
     let wrapper = mount(Dashboard);
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('button').attributes()).not.toHaveProperty('disabled');
+    expect(wrapper.find('button').attributes('disabled')).toBeNil();
 
     wrapper = mount(Dashboard);
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('button').attributes()).toHaveProperty('disabled', 'disabled');
+    expect(wrapper.find('button').attributes('disabled')).toBe('disabled');
 
     wrapper = mount(Dashboard);
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('button').attributes()).not.toHaveProperty('disabled');
+    expect(wrapper.find('button').attributes('disabled')).toBeNil();
 
     wrapper = mount(Dashboard);
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('button').attributes()).toHaveProperty('disabled', 'disabled');
+    expect(wrapper.find('button').attributes('disabled')).toBe('disabled');
 });
 
 test('remaining time', async () => {
@@ -138,6 +138,6 @@ test('sign', async () => {
 
     button.trigger('click');
     await wrapper.vm.$nextTick();
-    expect(button.attributes()).toHaveProperty('disabled', 'disabled');
+    expect(button.attributes('disabled')).toBe('disabled');
     expect(wrapper.text()).toContain('3 / 4 KB');
 });

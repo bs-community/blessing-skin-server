@@ -8,7 +8,7 @@ jest.mock('@/js/notify');
 test('show captcha if too many login fails', () => {
     window.__bs_data__ = { tooManyFails: true };
     const wrapper = mount(Login);
-    expect(wrapper.find('img').attributes().src).toMatch(/\/auth\/captcha\?v=\d+/);
+    expect(wrapper.find('img').attributes('src')).toMatch(/\/auth\/captcha\?v=\d+/);
 });
 
 test('click to refresh captcha', () => {

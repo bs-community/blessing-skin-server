@@ -18,8 +18,7 @@ test('require player name', () => {
     window.__bs_data__ = { player: true };
 
     const wrapper = mount(Register);
-    expect(wrapper.findAll('[type="text"]').at(0).attributes())
-        .toHaveProperty('placeholder', 'auth.player-name');
+    expect(wrapper.findAll('[type="text"]').at(0).attributes('placeholder')).toBe('auth.player-name');
 
     window.__bs_data__ = { player: false };
 });

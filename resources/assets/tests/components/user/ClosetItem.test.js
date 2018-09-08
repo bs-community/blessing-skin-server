@@ -17,13 +17,13 @@ function factory(opt = {}) {
 
 test('computed values', () => {
     const wrapper = mount(ClosetItem, { propsData: factory() });
-    expect(wrapper.find('img').attributes().src).toBe('/preview/1.png');
-    expect(wrapper.find('a.more').attributes().href).toBe('/skinlib/show/1');
+    expect(wrapper.find('img').attributes('src')).toBe('/preview/1.png');
+    expect(wrapper.find('a.more').attributes('href')).toBe('/skinlib/show/1');
 });
 
 test('selected item', () => {
     const wrapper = mount(ClosetItem, { propsData: factory({ selected: true }) });
-    expect(wrapper.find('.item').classes()).toContain('item-selected');
+    expect(wrapper.find('.item').classes('item-selected')).toBeTrue();
 });
 
 test('click item body', () => {

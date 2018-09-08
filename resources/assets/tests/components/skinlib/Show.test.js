@@ -30,7 +30,7 @@ test('button for adding to closet should be disabled if not auth', () => {
         },
         stubs: { previewer }
     });
-    expect(wrapper.find('.btn-primary').attributes()).toHaveProperty('disabled', 'disabled');
+    expect(wrapper.find('.btn-primary').attributes('disabled')).toBe('disabled');
 });
 
 test('button for adding to closet should be disabled if auth', () => {
@@ -54,7 +54,7 @@ test('likes count indicator', async () => {
         stubs: { previewer }
     });
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('.likes').attributes().style).toContain('color: rgb(224, 53, 59)');
+    expect(wrapper.find('.likes').attributes('style')).toContain('color: rgb(224, 53, 59)');
     expect(wrapper.find('.likes').text()).toContain('2');
 });
 

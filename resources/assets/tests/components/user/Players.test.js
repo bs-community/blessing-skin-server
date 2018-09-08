@@ -43,7 +43,7 @@ test('click to preview player', async () => {
     await flushPromises();
     expect(Vue.prototype.$http.get).toBeCalledWith('/skinlib/info/1');
     expect(Vue.prototype.$http.get).toBeCalledWith('/skinlib/info/3');
-    expect(wrapper.findAll('.player').at(0).classes()).toContain('player-selected');
+    expect(wrapper.findAll('.player').at(0).classes('player-selected')).toBeTrue();
 
     wrapper.find('tbody > tr:nth-child(2)').trigger('click');
     await flushPromises();

@@ -12,14 +12,8 @@ test('urls', () => {
     const wrapper = mount(SkinLibItem, {
         propsData: { tid: 1 }
     });
-    expect(wrapper.find('a').attributes()).toHaveProperty(
-        'href',
-        '/skinlib/show/1'
-    );
-    expect(wrapper.find('img').attributes()).toHaveProperty(
-        'src',
-        '/preview/1.png'
-    );
+    expect(wrapper.find('a').attributes('href')).toBe('/skinlib/show/1');
+    expect(wrapper.find('img').attributes('src')).toBe('/preview/1.png');
 });
 
 test('render basic information', () => {
@@ -39,7 +33,7 @@ test('anonymous user', () => {
         propsData: { anonymous: true }
     });
     const button = wrapper.find('.more');
-    expect(button.attributes().title).toBe('skinlib.anonymous');
+    expect(button.attributes('title')).toBe('skinlib.anonymous');
     button.trigger('click');
     expect(Vue.prototype.$http.post).not.toBeCalled();
 });
@@ -60,12 +54,12 @@ test('liked state', () => {
     });
     const button = wrapper.find('.like');
 
-    expect(button.attributes()).toHaveProperty('title', 'skinlib.removeFromCloset');
-    expect(button.classes()).toContain('liked');
+    expect(button.attributes('title')).toBe('skinlib.removeFromCloset');
+    expect(button.classes('liked')).toBeTrue();
 
     wrapper.setProps({ liked: false });
-    expect(button.attributes()).toHaveProperty('title', 'skinlib.addToCloset');
-    expect(button.classes()).not.toContain('liked');
+    expect(button.attributes('title')).toBe('skinlib.addToCloset');
+    expect(button.classes('liked')).toBeFalse();
 });
 
 test('remove from closet', async () => {

@@ -73,8 +73,7 @@ test('generate players page link', async () => {
     ] });
     const wrapper = mount(Users);
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('[data-toggle="tooltip"]').attributes())
-        .toHaveProperty('href', '/admin/players?uid=1');
+    expect(wrapper.find('[data-toggle="tooltip"]').attributes('href')).toBe('/admin/players?uid=1');
 });
 
 test('admin option should not be displayed for super admins', async () => {
@@ -235,7 +234,7 @@ test('deletion button should not be displayed for super admins', async () => {
     ] });
     const wrapper = mount(Users);
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('.btn-danger').attributes()).toHaveProperty('disabled', 'disabled');
+    expect(wrapper.find('.btn-danger').attributes('disabled')).toBe('disabled');
 });
 
 test('deletion button should be displayed for admins as super admin', async () => {
@@ -244,7 +243,7 @@ test('deletion button should be displayed for admins as super admin', async () =
     ] });
     const wrapper = mount(Users);
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('.btn-danger').attributes()).not.toHaveProperty('disabled');
+    expect(wrapper.find('.btn-danger').attributes('disabled')).toBeNil();
 });
 
 test('deletion button should be displayed for normal users as super admin', async () => {
@@ -253,7 +252,7 @@ test('deletion button should be displayed for normal users as super admin', asyn
     ] });
     const wrapper = mount(Users);
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('.btn-danger').attributes()).not.toHaveProperty('disabled');
+    expect(wrapper.find('.btn-danger').attributes('disabled')).toBeNil();
 });
 
 test('deletion button should be displayed for banned users as super admin', async () => {
@@ -262,7 +261,7 @@ test('deletion button should be displayed for banned users as super admin', asyn
     ] });
     const wrapper = mount(Users);
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('.btn-danger').attributes()).not.toHaveProperty('disabled');
+    expect(wrapper.find('.btn-danger').attributes('disabled')).toBeNil();
 });
 
 test('deletion button should not be displayed for other admins as admin', async () => {
@@ -271,7 +270,7 @@ test('deletion button should not be displayed for other admins as admin', async 
     ] });
     const wrapper = mount(Users);
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('.btn-danger').attributes()).toHaveProperty('disabled', 'disabled');
+    expect(wrapper.find('.btn-danger').attributes('disabled')).toBe('disabled');
 });
 
 test('deletion button should be displayed for normal users as admin', async () => {
@@ -280,7 +279,7 @@ test('deletion button should be displayed for normal users as admin', async () =
     ] });
     const wrapper = mount(Users);
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('.btn-danger').attributes()).not.toHaveProperty('disabled');
+    expect(wrapper.find('.btn-danger').attributes('disabled')).toBeNil();
 });
 
 test('deletion button should be displayed for banned users as admin', async () => {
@@ -289,7 +288,7 @@ test('deletion button should be displayed for banned users as admin', async () =
     ] });
     const wrapper = mount(Users);
     await wrapper.vm.$nextTick();
-    expect(wrapper.find('.btn-danger').attributes()).not.toHaveProperty('disabled');
+    expect(wrapper.find('.btn-danger').attributes('disabled')).toBeNil();
 });
 
 test('change email', async () => {
