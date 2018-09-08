@@ -11,7 +11,7 @@ test('click to refresh captcha', () => {
     jest.spyOn(Date, 'now');
     const wrapper = mount(Register);
     wrapper.find('img').trigger('click');
-    expect(Date.now).toHaveBeenCalledTimes(2);
+    expect(Date.now).toBeCalledTimes(2);
 });
 
 test('require player name', () => {
@@ -86,7 +86,7 @@ test('register', async () => {
         }
     );
     expect(warning.text()).toBe('fail');
-    expect(Date.now).toHaveBeenCalledTimes(2);
+    expect(Date.now).toBeCalledTimes(2);
 
     button.trigger('click');
     await wrapper.vm.$nextTick();

@@ -191,7 +191,7 @@ test('add player', async () => {
 
     button.trigger('click');
     await flushPromises();
-    expect(Vue.prototype.$http.get).toHaveBeenCalledTimes(2);
+    expect(Vue.prototype.$http.get).toBeCalledTimes(2);
 });
 
 test('clear texture', async () => {

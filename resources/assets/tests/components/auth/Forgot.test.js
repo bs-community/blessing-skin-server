@@ -6,7 +6,7 @@ test('click to refresh captcha', () => {
     jest.spyOn(Date, 'now');
     const wrapper = mount(Forgot);
     wrapper.find('img').trigger('click');
-    expect(Date.now).toHaveBeenCalledTimes(2);
+    expect(Date.now).toBeCalledTimes(2);
 });
 
 test('submit forgot form', async () => {
@@ -42,7 +42,7 @@ test('submit forgot form', async () => {
         { email: 'a@b.c', captcha: 'captcha' }
     );
     expect(warning.text()).toBe('fail');
-    expect(Date.now).toHaveBeenCalledTimes(2);
+    expect(Date.now).toBeCalledTimes(2);
 
     button.trigger('click');
     await wrapper.vm.$nextTick();

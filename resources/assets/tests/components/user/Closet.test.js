@@ -129,7 +129,7 @@ test('reload closet when page changed', () => {
     const wrapper = mount(Closet);
     wrapper.vm.pageChanged();
     jest.runAllTicks();
-    expect(Vue.prototype.$http.get).toHaveBeenCalledTimes(2);
+    expect(Vue.prototype.$http.get).toBeCalledTimes(2);
 });
 
 test('remove skin item', () => {
@@ -273,7 +273,7 @@ test('reset selected texture', () => {
 });
 
 test('select specified texture initially', async () => {
-    window.history.pushState({}, 'title', 'about:blank?tid=1');
+    window.history.pushState({}, 'title', `${location.href}?tid=1`);
     window.$ = jest.fn(() => ({
         modal() {},
         iCheck: () => ({
@@ -297,5 +297,4 @@ test('select specified texture initially', async () => {
     jest.runAllTimers();
     await wrapper.vm.$nextTick();
     jest.unmock('@/js/utils');
-    window.history.pushState({}, 'title', 'about:blank');
 });

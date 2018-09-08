@@ -16,7 +16,7 @@ test('click to refresh captcha', () => {
     jest.spyOn(Date, 'now');
     const wrapper = mount(Login);
     wrapper.find('img').trigger('click');
-    expect(Date.now).toHaveBeenCalledTimes(2);
+    expect(Date.now).toBeCalledTimes(2);
 });
 
 test('login', async () => {

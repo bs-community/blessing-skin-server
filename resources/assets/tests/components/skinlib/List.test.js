@@ -146,7 +146,7 @@ test('reset all filters', async () => {
 
     Vue.prototype.$http.get.mockClear();
     wrapper.find('.btn-warning').trigger('click');
-    expect(Vue.prototype.$http.get).toHaveBeenCalledTimes(1);
+    expect(Vue.prototype.$http.get).toBeCalledTimes(1);
 });
 
 test('is anonymous', () => {

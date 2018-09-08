@@ -13,6 +13,6 @@ test('add listener and emit event', () => {
 
     emitter.emit('a');
 
-    expect(mockA).toHaveBeenCalledTimes(1);
+    expect(mockA).toBeCalledTimes(1);
     expect(mockB).not.toBeCalled();
 });
