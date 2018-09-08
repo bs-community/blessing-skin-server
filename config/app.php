@@ -178,7 +178,7 @@ return [
         /**
          * Application Service Providers...
          */
-        App\Providers\BootServiceProvider::class,
+        App\Providers\RuntimeCheckServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\PluginServiceProvider::class,
         App\Providers\EventServiceProvider::class,

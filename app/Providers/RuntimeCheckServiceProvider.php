@@ -7,7 +7,7 @@ use Composer\Semver\Comparator;
 use Illuminate\Support\ServiceProvider;
 use App\Http\Controllers\SetupController;
 
-class BootServiceProvider extends ServiceProvider
+class RuntimeCheckServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
