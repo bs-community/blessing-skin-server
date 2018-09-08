@@ -18,8 +18,11 @@ function retrieveToken() {
     return csrfField && csrfField.content;
 }
 
+/**
+ * @param {Request} request
+ */
 export async function walkFetch(request) {
-    request.headers['X-CSRF-TOKEN'] = retrieveToken();
+    request.headers.set('X-CSRF-TOKEN', retrieveToken());
 
     emit('beforeFetch', request);
 

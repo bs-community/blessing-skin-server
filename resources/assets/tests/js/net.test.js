@@ -4,15 +4,18 @@ import { showAjaxError } from '@/js/notify';
 
 jest.mock('@/js/notify');
 
+window.Request = function Request(url, init) {
+    this.url = url;
+    Object.keys(init).forEach(key => this[key] = init[key]);
+    this.headers = new Map(Object.entries(init.headers));
+};
+
+
 test('the GET method', async () => {
     const json = jest.fn().mockResolvedValue({});
     window.fetch = jest.fn().mockResolvedValue({
         ok: true,
         json
-    });
-    window.Request = jest.fn(function (url, init) {
-        this.url = url;
-        Object.keys(init).forEach(key => this[key] = init[key]);
     });
 
     await net.get('/abc', { a: 'b' });
@@ -28,10 +31,6 @@ test('the POST method', async () => {
         ok: true,
         json: () => Promise.resolve({})
     });
-    window.Request = jest.fn(function (url, init) {
-        this.url = url;
-        Object.keys(init).forEach(key => this[key] = init[key]);
-    });
 
     const meta = document.createElement('meta');
     meta.name = 'csrf-token';
@@ -43,7 +42,7 @@ test('the POST method', async () => {
     expect(request.url).toBe('/abc');
     expect(request.method).toBe('POST');
     expect(request.body).toBe(JSON.stringify({ a: 'b' }));
-    expect(request.headers['X-CSRF-TOKEN']).toBe('token');
+    expect(request.headers.get('X-CSRF-TOKEN')).toBe('token');
 
     await net.post('/abc');
     expect(window.fetch.mock.calls[1][0].body).toBe('{}');
@@ -64,7 +63,7 @@ test('low level fetch', async () => {
 
     const stub = jest.fn();
     on('beforeFetch', stub);
-    const request = { headers: {} };
+    const request = { headers: new Map() };
 
     await net.walkFetch(request);
     expect(showAjaxError.mock.calls[0][0]).toBeInstanceOf(Error);
