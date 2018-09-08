@@ -1,3 +1,4 @@
+import $ from 'jquery';
 import { post } from './net';
 import { swal } from './notify';
 import { trans } from './i18n';

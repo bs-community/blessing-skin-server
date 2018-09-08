@@ -3,10 +3,12 @@ import Vue from 'vue';
 
 window.blessing = {
     base_url: '',
-    site_name: 'Blessing Skin'
+    site_name: 'Blessing Skin',
+    version: '4.0.0'
 };
 
-console.log = console.warn = console.error = () => {};
+const noop = () => undefined;
+Object.keys(console).forEach(method => console[method] = noop);
 
 Vue.prototype.$t = key => key;
 

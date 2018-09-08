@@ -110,7 +110,7 @@
       "<rootDir>/resources/assets/tests/setup",
       "<rootDir>/resources/assets/tests/utils"
     ],
-    "testRegex": "resources/assets/tests/.*\\.(spec|test)\\.js"
+    "testRegex": "resources/assets/tests/.*\\.(spec|test)\\.js$"
   },
   "serve": {
     "clipboard": false,

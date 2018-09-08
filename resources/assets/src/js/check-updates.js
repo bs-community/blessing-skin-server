@@ -1,6 +1,7 @@
+import $ from 'jquery';
 import { init } from './net';
 
-async function checkForUpdates() {
+export async function checkForUpdates() {
     const response = await fetch(`${blessing.base_url}/admin/update/check`, init);
 
     if (response.ok) {
@@ -13,7 +14,7 @@ async function checkForUpdates() {
     }
 }
 
-async function checkForPluginUpdates() {
+export async function checkForPluginUpdates() {
     const response = await fetch(`${blessing.base_url}/admin/plugins/market/check`, init);
 
     if (response.ok) {
