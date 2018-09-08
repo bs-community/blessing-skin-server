@@ -14,6 +14,13 @@ declare global {
   }
 }
 
+interface Window {
+  bsEmitter: {
+    on(eventName: string, listener: Function): void
+    emit(eventName: string, payload: object): void
+  }
+}
+
 declare module 'vue/types/vue' {
   interface Vue {
     $t(key: string, parameters?: object): string
