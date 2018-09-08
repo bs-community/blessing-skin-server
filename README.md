@@ -4,11 +4,11 @@
 <p align="center"><img src="https://img.blessing.studio/images/2017/01/01/bs-logo.png"></p>
 
 <p align="center">
-<a href="https://travis-ci.org/printempw/blessing-skin-server"><img src="https://img.shields.io/travis/printempw/blessing-skin-server/v4.svg?style=flat-square" alt="Travis Building Status"></a>
-<a href="https://codecov.io/gh/printempw/blessing-skin-server/branch/v4"><img src="https://img.shields.io/codecov/c/github/printempw/blessing-skin-server/v4.svg?style=flat-square" alt="Codecov" /></a>
-<a href="https://github.com/printempw/blessing-skin-server/releases"><img src="https://img.shields.io/github/release/printempw/blessing-skin-server.svg?style=flat-square" alt="Latest Stable Version"></a>
-<img src="https://img.shields.io/badge/PHP-7.1.3+-orange.svg?style=flat-square" alt="PHP 7.1.3+">
-<img src="https://img.shields.io/github/license/printempw/blessing-skin-server.svg?style=flat-square" alt="License">
+<a href="https://travis-ci.org/printempw/blessing-skin-server"><img src="https://flat.badgen.net/travis/printempw/blessing-skin-server/v4" alt="Travis Building Status"></a>
+<a href="https://codecov.io/gh/printempw/blessing-skin-server/branch/v4"><img src="https://flat.badgen.net/codecov/c/github/printempw/blessing-skin-server/v4" alt="Codecov" /></a>
+<a href="https://github.com/printempw/blessing-skin-server/releases"><img src="https://flat.badgen.net/github/releases/printempw/blessing-skin-server" alt="Latest Stable Version"></a>
+<img src="https://flat.badgen.net/badge/PHP/7.1.3+/orange" alt="PHP 7.1.3+">
+<img src="https://flat.badgen.net/github/license/printempw/blessing-skin-server" alt="License">
 <a href="https://twitter.com/printempw"><img src="https://img.shields.io/twitter/follow/printempw.svg?style=social&label=Follow" alt="Twitter Follow"></a>
 </p>
 
