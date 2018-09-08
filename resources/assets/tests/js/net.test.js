@@ -17,7 +17,15 @@ test('the GET method', async () => {
         json
     });
 
+    const stub = jest.fn();
+    on('beforeFetch', stub);
+
     await net.get('/abc', { a: 'b' });
+    expect(stub).toBeCalledWith({
+        method: 'GET',
+        url: '/abc',
+        data: { a: 'b' }
+    });
     expect(window.fetch.mock.calls[0][0].url).toBe('/abc?a=b');
     expect(json).toBeCalled();
 
@@ -36,7 +44,15 @@ test('the POST method', async () => {
     meta.content = 'token';
     document.head.appendChild(meta);
 
+    const stub = jest.fn();
+    on('beforeFetch', stub);
+
     await net.post('/abc', { a: 'b' });
+    expect(stub).toBeCalledWith({
+        method: 'POST',
+        url: '/abc',
+        data: { a: 'b' }
+    });
     const request = window.fetch.mock.calls[0][0];
     expect(request.url).toBe('/abc');
     expect(request.method).toBe('POST');
@@ -60,13 +76,10 @@ test('low level fetch', async () => {
             json
         });
 
-    const stub = jest.fn();
-    on('beforeFetch', stub);
     const request = { headers: new Map() };
 
     await net.walkFetch(request);
     expect(showAjaxError.mock.calls[0][0]).toBeInstanceOf(Error);
-    expect(stub).toBeCalledWith(request);
 
     await net.walkFetch(request);
     expect(showAjaxError).toBeCalledWith('404');
