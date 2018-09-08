@@ -1,6 +1,6 @@
 import $ from 'jquery';
 import sweetalert2 from 'sweetalert2';
-import 'toastr';
+import toastr from 'toastr';
 import { trans } from './i18n';
 
 /**
@@ -77,3 +77,7 @@ export const swal = sweetalert2.mixin({
     confirmButtonText: trans('general.confirm'),
     cancelButtonText: trans('general.cancel')
 });
+
+window.toastr = toastr;
+window.showModal = showModal;
+window.swal = swal;

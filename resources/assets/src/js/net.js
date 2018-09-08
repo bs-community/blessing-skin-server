@@ -68,3 +68,5 @@ Vue.use(_Vue => {
         post,
     };
 });
+
+window.bsAjax = { get, post };
