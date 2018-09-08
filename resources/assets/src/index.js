@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === 'development') {
         new Vue({
             el: route.el,
             mounted() {
-                setTimeout(() => emitter.emit('mounted', { el: route.el }), 0);
+                setTimeout(() => emitter.emit('mounted', { el: route.el }), 100);
             },
             render: h => h(route.component)
         });
