@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import './js';
+import * as emitter from './js/event';
 import routes from './components/route';
 
 Vue.config.productionTip = false;
@@ -20,6 +21,9 @@ if (process.env.NODE_ENV === 'development') {
         Vue.prototype.$route = (new RegExp(`^${route.path}$`, 'i')).exec(blessing.route);
         new Vue({
             el: route.el,
+            mounted() {
+                emitter.emit('mounted', { el: route.el });
+            },
             render: h => h(route.component)
         });
     }

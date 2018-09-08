@@ -10,7 +10,6 @@ window.Request = function Request(url, init) {
     this.headers = new Map(Object.entries(init.headers));
 };
 
-
 test('the GET method', async () => {
     const json = jest.fn().mockResolvedValue({});
     window.fetch = jest.fn().mockResolvedValue({
