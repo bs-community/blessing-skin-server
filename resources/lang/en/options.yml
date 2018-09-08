@@ -101,9 +101,7 @@ general:
     placeholder: Regular Expressions
   player_name_length:
     title: Player Name Length
-    addon1: Minimum
-    addon2: characters, maximum
-    addon3: characters
+    suffix: characters
   api_type: Prefered JSON API
   auto_del_invalid_texture:
     title: Invalid Textures

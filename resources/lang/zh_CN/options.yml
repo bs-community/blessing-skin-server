@@ -101,9 +101,7 @@ general:
     placeholder: 正则表达式，不懂别乱填
   player_name_length:
     title: 角色名长度
-    addon1: 最少
-    addon2: 个字符，最多
-    addon3: 个字符
+    suffix: 个字符
   api_type: 首选 JSON API
   auto_del_invalid_texture:
     title: 失效材质

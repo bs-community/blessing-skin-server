@@ -193,11 +193,10 @@ class AdminController extends Controller
             $form->text('custom_player_name_regexp')->hint()->placeholder();
 
             $form->group('player_name_length')
-                ->addon(trans('options.general.player_name_length.addon1'))
                 ->text('player_name_length_min')
-                ->addon(trans('options.general.player_name_length.addon2'))
+                ->addon('~')
                 ->text('player_name_length_max')
-                ->addon(trans('options.general.player_name_length.addon3'));
+                ->addon(trans('options.general.player_name_length.suffix'));
 
             $form->select('api_type')
                     ->option('0', 'CustomSkinLoader API')
