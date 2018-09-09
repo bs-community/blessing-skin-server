@@ -211,7 +211,7 @@ export default {
         currentPassword: '',
         deleteConfirm: '',
         siteName: blessing.site_name,
-        isAdmin: __bs_data__.admin
+        isAdmin: blessing.extra.admin
     }),
     methods: {
         nl2br: str => str.replace(/\n/g, '<br>'),

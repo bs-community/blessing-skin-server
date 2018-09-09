@@ -17,6 +17,4 @@ export function emit(eventName, payload) {
     bus[eventName] && bus[eventName].forEach(listener => listener(payload));
 }
 
-Object.defineProperty(window, 'bsEmitter', {
-    get: () => Object.freeze({ on, emit })
-});
+blessing.event = { on, emit };

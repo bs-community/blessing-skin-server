@@ -7,14 +7,14 @@ import { swal } from '@/js/notify';
 
 jest.mock('@/js/notify');
 
-window.__bs_data__ = { unverified: false };
+window.blessing.extra = { unverified: false };
 
 test('computed values', () => {
-    window.__bs_data__ = { admin: true };
+    window.blessing.extra = { admin: true };
     const wrapper = mount(Profile);
     expect(wrapper.vm.siteName).toBe('Blessing Skin');
     expect(wrapper.vm.isAdmin).toBeTrue();
-    window.__bs_data__ = { admin: false };
+    window.blessing.extra = { admin: false };
     expect(mount(Profile).vm.isAdmin).toBeFalse();
 });
 
@@ -152,7 +152,7 @@ test('change email', async () => {
 });
 
 test('delete account', async () => {
-    window.__bs_data__ = { admin: true };
+    window.blessing.extra = { admin: true };
     swal.mockResolvedValue();
     Vue.prototype.$http.post
         .mockResolvedValueOnce({ errno: 1, msg: 'w' })

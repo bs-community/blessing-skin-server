@@ -129,10 +129,10 @@ export default {
             files: [],
             texture: '',
             uploading: false,
-            textureNameRule: __bs_data__.rule,
-            privacyNotice: __bs_data__.privacyNotice,
-            scorePublic: __bs_data__.scorePublic,
-            scorePrivate: __bs_data__.scorePrivate,
+            textureNameRule: blessing.extra.rule,
+            privacyNotice: blessing.extra.privacyNotice,
+            scorePublic: blessing.extra.scorePublic,
+            scorePrivate: blessing.extra.scorePrivate,
         };
     },
     computed: {

@@ -11,17 +11,28 @@ declare global {
     timezone: string
     version: string
     route: string
-  }
-}
+    extra: any
+    i18n: object
 
-interface Window {
-  bsEmitter: {
-    on(eventName: string, listener: Function): void
-    emit(eventName: string, payload: object): void
-  },
-  bsAjax: {
-    get(url: string, params?: object): Promise<object>
-    post(url: string, data?: object): Promise<object>
+    fetch: {
+      get(url: string, params?: object): Promise<object>
+      post(url: string, data?: object): Promise<object>
+    }
+
+    event: {
+      on(eventName: string, listener: Function): void
+      emit(eventName: string, payload: object): void
+    }
+
+    notify: {
+      showMsg(message: string, type?: string): void
+      showModal(
+        message: string,
+        title?: string,
+        type?: string,
+        options?: Partial<{ btnText: string, callback: string, destroyOnClose: boolean }>
+      )
+    }
   }
 }
 

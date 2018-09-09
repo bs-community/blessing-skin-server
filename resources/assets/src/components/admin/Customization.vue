@@ -44,7 +44,7 @@ export default {
                 'red',
                 'black',
             ],
-            currentSkin: window.currentSkin
+            currentSkin: blessing.extra.currentSkin
         };
     },
     methods: {

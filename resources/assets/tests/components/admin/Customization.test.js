@@ -2,7 +2,7 @@ import Vue from 'vue';
 import { mount } from '@vue/test-utils';
 import Customization from '@/components/admin/Customization';
 
-window.currentSkin = 'skin-blue';
+window.blessing.extra = { currentSkin: 'skin-blue' };
 
 test('preview color', () => {
     document.body.classList.add('skin-blue');

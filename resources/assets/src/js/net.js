@@ -69,4 +69,4 @@ Vue.use(_Vue => {
     };
 });
 
-window.bsAjax = { get, post };
+blessing.fetch = { get, post };

@@ -6,13 +6,13 @@ import { swal } from '@/js/notify';
 jest.mock('@/js/notify');
 
 test('show captcha if too many login fails', () => {
-    window.__bs_data__ = { tooManyFails: true };
+    window.blessing.extra = { tooManyFails: true };
     const wrapper = mount(Login);
     expect(wrapper.find('img').attributes('src')).toMatch(/\/auth\/captcha\?v=\d+/);
 });
 
 test('click to refresh captcha', () => {
-    window.__bs_data__ = { tooManyFails: true };
+    window.blessing.extra = { tooManyFails: true };
     jest.spyOn(Date, 'now');
     const wrapper = mount(Login);
     wrapper.find('img').trigger('click');
@@ -20,7 +20,7 @@ test('click to refresh captcha', () => {
 });
 
 test('login', async () => {
-    window.__bs_data__ = { tooManyFails: false };
+    window.blessing.extra = { tooManyFails: false };
     Vue.prototype.$http.post
         .mockResolvedValueOnce({ errno: 1, msg: 'fail' })
         .mockResolvedValueOnce({ errno: 1, login_fails: 4 })

@@ -6,13 +6,13 @@ import { swal } from '@/js/notify';
 jest.mock('@/js/notify');
 
 test('message box should not be render if verified', () => {
-    window.__bs_data__ = { unverified: false };
+    window.blessing.extra = { unverified: false };
     const wrapper = mount(EmailVerification);
     expect(wrapper.isEmpty()).toBeTrue();
 });
 
 test('resend email', async () => {
-    window.__bs_data__ = { unverified: true };
+    window.blessing.extra = { unverified: true };
     Vue.prototype.$http.post
         .mockResolvedValueOnce({ errno: 1, msg: '1' })
         .mockResolvedValueOnce({ errno: 0, msg: '0' });

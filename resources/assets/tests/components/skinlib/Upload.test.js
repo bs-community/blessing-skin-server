@@ -10,7 +10,7 @@ jest.mock('toastr');
 jest.mock('@/js/notify');
 jest.mock('@/js/net');
 
-window.__bs_data__ = {
+window.blessing.extra = {
     textureNameRule: 'rule',
     privacyNotice: 'privacyNotice',
     scorePrivate: 10,

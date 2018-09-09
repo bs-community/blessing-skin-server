@@ -22,11 +22,10 @@
 </div><!-- /.content-wrapper -->
 
 <script>
-    Object.defineProperty(window, '__bs_data__', {
-        value: Object.freeze({
+    Object.defineProperty(blessing, 'extra', {
+        get: () => Object.freeze({
             unverified: {{ option('require_verification') && !$user->verified ? 'true' : 'false' }}
-        }),
-        writable: false
+        })
     })
 </script>
 @endsection

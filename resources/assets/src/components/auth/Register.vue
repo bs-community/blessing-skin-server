@@ -131,7 +131,7 @@ export default {
         infoMsg: '',
         warningMsg: '',
         pending: false,
-        requirePlayer: __bs_data__.player
+        requirePlayer: blessing.extra.player
     }),
     methods: {
         async submit() {

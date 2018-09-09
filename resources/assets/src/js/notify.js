@@ -79,5 +79,5 @@ export const swal = sweetalert2.mixin({
 });
 
 window.toastr = toastr;
-window.showModal = showModal;
 window.swal = swal;
+blessing.notify = { showMsg, showModal };

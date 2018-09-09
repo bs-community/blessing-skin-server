@@ -7,7 +7,7 @@ import toastr from 'toastr';
 
 jest.mock('@/js/notify');
 
-window.__bs_data__ = {
+window.blessing.extra = {
     download: true,
     currentUid: 0,
     admin: false,
@@ -35,7 +35,7 @@ test('button for adding to closet should be disabled if not auth', () => {
 
 test('button for adding to closet should be disabled if auth', () => {
     Vue.prototype.$http.get.mockResolvedValue({});
-    Object.assign(window.__bs_data__, { inCloset: true, currentUid: 1 });
+    Object.assign(window.blessing.extra, { inCloset: true, currentUid: 1 });
     const wrapper = mount(Show, {
         mocks: {
             $route: ['/skinlib/show/1', '1']
@@ -82,7 +82,7 @@ test('render basic information', async () => {
 });
 
 test('render action text of editing texture name', async () => {
-    Object.assign(window.__bs_data__, { admin: true });
+    Object.assign(window.blessing.extra, { admin: true });
     Vue.prototype.$http.get.mockResolvedValue({ uploader: 1, name: 'name' });
 
     let wrapper = mount(Show, {
@@ -93,7 +93,7 @@ test('render action text of editing texture name', async () => {
     await wrapper.vm.$nextTick();
     expect(wrapper.contains('small')).toBeTrue();
 
-    Object.assign(window.__bs_data__, { currentUid: 2, admin: false });
+    Object.assign(window.blessing.extra, { currentUid: 2, admin: false });
     wrapper = mount(Show, {
         mocks: {
             $route: ['/skinlib/show/1', '1']
@@ -104,7 +104,7 @@ test('render action text of editing texture name', async () => {
 });
 
 test('render nickname of uploader', () => {
-    Object.assign(window.__bs_data__, { nickname: null });
+    Object.assign(window.blessing.extra, { nickname: null });
     Vue.prototype.$http.get.mockResolvedValue({});
     const wrapper = mount(Show, {
         mocks: {
@@ -115,7 +115,7 @@ test('render nickname of uploader', () => {
 });
 
 test('operation panel should not be rendered if not auth', () => {
-    Object.assign(window.__bs_data__, { currentUid: 0 });
+    Object.assign(window.blessing.extra, { currentUid: 0 });
     Vue.prototype.$http.get.mockResolvedValue({});
     const wrapper = mount(Show, {
         mocks: {
@@ -126,7 +126,7 @@ test('operation panel should not be rendered if not auth', () => {
 });
 
 test('link to downloading texture', async () => {
-    Object.assign(window.__bs_data__, { download: false });
+    Object.assign(window.blessing.extra, { download: false });
     Vue.prototype.$http.get.mockResolvedValue({ hash: '123' });
     const wrapper = mount(Show, {
         mocks: {
@@ -139,7 +139,7 @@ test('link to downloading texture', async () => {
 });
 
 test('add to closet', async () => {
-    Object.assign(window.__bs_data__, { currentUid: 1, inCloset: false });
+    Object.assign(window.blessing.extra, { currentUid: 1, inCloset: false });
     Vue.prototype.$http.get.mockResolvedValue({ name: 'wow', likes: 2 });
     Vue.prototype.$http.post
         .mockResolvedValueOnce({ errno: 1, msg: '1' })
@@ -179,7 +179,7 @@ test('add to closet', async () => {
 });
 
 test('remove from closet', async () => {
-    Object.assign(window.__bs_data__, { currentUid: 1, inCloset: true });
+    Object.assign(window.blessing.extra, { currentUid: 1, inCloset: true });
     Vue.prototype.$http.get.mockResolvedValue({ likes: 2 });
     Vue.prototype.$http.post
         .mockResolvedValueOnce({ errno: 1, msg: '1' })
@@ -213,7 +213,7 @@ test('remove from closet', async () => {
 });
 
 test('change texture name', async () => {
-    Object.assign(window.__bs_data__, { admin: true });
+    Object.assign(window.blessing.extra, { admin: true });
     Vue.prototype.$http.get.mockResolvedValue({ name: 'old-name' });
     Vue.prototype.$http.post
         .mockResolvedValueOnce({ errno: 1, msg: '1' })

@@ -94,7 +94,7 @@ export default {
             captcha: '',
             remember: false,
             time: Date.now(),
-            tooManyFails: __bs_data__.tooManyFails,
+            tooManyFails: blessing.extra.tooManyFails,
             infoMsg: '',
             warningMsg: '',
             pending: false,

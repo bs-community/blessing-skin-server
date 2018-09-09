@@ -19,7 +19,7 @@
 </div><!-- /.content-wrapper -->
 
 <script>
-var __bs_data__ = {
+blessing.extra = {
     rule: "{{ option('texture_name_regexp') ? trans('skinlib.upload.name-rule-regexp', compact('regexp')) : trans('skinlib.upload.name-rule') }}",
     privacyNotice: "@lang('skinlib.upload.private-score-notice', ['score' => option('private_score_per_storage')])",
     scorePublic: {{ option('score_per_storage') }},

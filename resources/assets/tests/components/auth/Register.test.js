@@ -5,7 +5,7 @@ import { swal } from '@/js/notify';
 
 jest.mock('@/js/notify');
 
-window.__bs_data__ = { player: false };
+window.blessing.extra = { player: false };
 
 test('click to refresh captcha', () => {
     jest.spyOn(Date, 'now');
@@ -15,12 +15,12 @@ test('click to refresh captcha', () => {
 });
 
 test('require player name', () => {
-    window.__bs_data__ = { player: true };
+    window.blessing.extra = { player: true };
 
     const wrapper = mount(Register);
     expect(wrapper.findAll('[type="text"]').at(0).attributes('placeholder')).toBe('auth.player-name');
 
-    window.__bs_data__ = { player: false };
+    window.blessing.extra = { player: false };
 });
 
 test('register', async () => {
@@ -94,7 +94,7 @@ test('register', async () => {
 });
 
 test('register with player name', async () => {
-    window.__bs_data__ = { player: true };
+    window.blessing.extra = { player: true };
     Vue.prototype.$http.post.mockResolvedValue({ errno: 0, msg: 'ok' });
     const wrapper = mount(Register);
     const button = wrapper.find('button');

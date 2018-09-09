@@ -6,7 +6,7 @@ test('mount to global', () => {
 });
 
 test('translate text', () => {
-    window.__bs_i18n__ = { a: { b: { c: 'text', d: 'Hi, :name!' } } };
+    window.blessing.i18n = { a: { b: { c: 'text', d: 'Hi, :name!' } } };
     expect(trans('a.b.c')).toBe('text');
     expect(trans('a.b.d')).toBe('Hi, :name!');
     expect(trans('a.b.d', { name: 'me' })).toBe('Hi, me!');

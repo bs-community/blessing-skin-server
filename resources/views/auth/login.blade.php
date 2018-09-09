@@ -25,11 +25,9 @@
 <!-- /.login-box -->
 
 <script>
-Object.defineProperty(window, '__bs_data__', {
+Object.defineProperty(blessing, 'extra', {
     configurable: false,
-    get: function () {
-        return Object.freeze({ tooManyFails: {{ cache(sha1('login_fails_'.get_client_ip())) > 3 ? 'true' : 'false' }} })
-    }
+    get: () => Object.freeze({ tooManyFails: {{ cache(sha1('login_fails_'.get_client_ip())) > 3 ? 'true' : 'false' }} })
 })
 </script>
 

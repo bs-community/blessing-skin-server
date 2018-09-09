@@ -7,9 +7,9 @@ import Vue from 'vue';
  * @param  {object} parameters
  * @return {string}
  */
-export function trans(key, parameters = {}) {
+export function trans(key, parameters = Object.create(null)) {
     const segments = key.split('.');
-    let temp = window.__bs_i18n__ || {};
+    let temp = blessing.i18n || Object.create(null);
 
     for (const segment of segments) {
         if (!temp[segment]) {

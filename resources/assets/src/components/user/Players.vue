@@ -279,8 +279,8 @@ export default {
                 alex: false,
                 cape: false
             },
-            playerNameRule: __bs_data__.rule,
-            playerNameLength: __bs_data__.length
+            playerNameRule: blessing.extra.rule,
+            playerNameLength: blessing.extra.length
         };
     },
     beforeMount() {

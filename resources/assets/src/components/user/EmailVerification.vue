@@ -20,7 +20,7 @@ export default {
     name: 'EmailVerification',
     data() {
         return {
-            verified: !__bs_data__.unverified,
+            verified: !blessing.extra.unverified,
             pending: false,
         };
     },

@@ -8,7 +8,7 @@ import { swal } from '@/js/notify';
 
 jest.mock('@/js/notify');
 
-window.__bs_data__ = { unverified: false };
+window.blessing.extra = { unverified: false };
 
 test('fetch closet data before mount', () => {
     Vue.prototype.$http.get.mockResolvedValue({});

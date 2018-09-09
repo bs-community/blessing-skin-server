@@ -7,7 +7,7 @@ import { swal } from '@/js/notify';
 jest.mock('toastr');
 jest.mock('@/js/notify');
 
-window.__bs_data__ = {
+window.blessing.extra = {
     rule: 'rule',
     length: 'length'
 };

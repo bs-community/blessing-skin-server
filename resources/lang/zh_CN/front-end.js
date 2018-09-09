@@ -1,3 +1,3 @@
 import lang from './front-end.yml';
 
-window.__bs_i18n__ = Object.assign(window.__bs_i18n__ || {}, lang);
+blessing.i18n = Object.assign(blessing.i18n || Object.create(null), lang);

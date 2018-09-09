@@ -159,11 +159,11 @@ export default {
             size: 0,
             uploadAt: '',
             public: true,
-            liked: __bs_data__.inCloset,
-            canBeDownloaded: __bs_data__.download,
-            currentUid: __bs_data__.currentUid,
-            admin: __bs_data__.admin,
-            uploaderNickName: __bs_data__.nickname,
+            liked: blessing.extra.inCloset,
+            canBeDownloaded: blessing.extra.download,
+            currentUid: blessing.extra.currentUid,
+            admin: blessing.extra.admin,
+            uploaderNickName: blessing.extra.nickname,
         };
     },
     computed: {
