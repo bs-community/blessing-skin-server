@@ -69,4 +69,4 @@ Vue.use(_Vue => {
     };
 });
 
-blessing.fetch = { get, post };
+blessing.fetch = { get, post, walkFetch };
