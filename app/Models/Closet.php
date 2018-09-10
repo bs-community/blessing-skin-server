@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use DB;
+use App\Events;
 use Illuminate\Support\Collection;
 
 class Closet
@@ -54,6 +55,8 @@ class Closet
             true
         ));
 
+        event(new Events\ClosetWillBeFiltered($this));
+
         // Traverse items in the closet
         $removedCount = $this->textures->filter(function ($texture) use ($uid) {
             $t = Texture::find($texture['tid']);
@@ -71,6 +74,8 @@ class Closet
         })->each(function ($texture) use ($uid) {
             $this->remove($texture['tid']);
         })->count();
+
+        event(new Events\ClosetWasFiltered($this));
 
         // Return scores if the texture was deleted or set as private
         if (option('return_score')) {
