@@ -50,6 +50,7 @@
 
 <script>
 import * as skinview3d from 'skinview3d';
+import { emit } from '../../js/event';
 import SkinSteve from '../../images/textures/steve.png';
 
 export default {
@@ -103,6 +104,7 @@ export default {
     },
     mounted() {
         this.initPreviewer();
+        emit('skinViewerMounted', this.$refs.previewer);
     },
     beforeDestroy() {
         this.viewer.dispose();

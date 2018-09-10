@@ -1,11 +1,16 @@
 import { mount } from '@vue/test-utils';
 import Previewer from '@/components/common/Previewer';
+import * as emitter from '@/js/event';
 import * as mockedSkinview3d from '../../__mocks__/skinview3d';
 
 test('initialize skinview3d', () => {
+    const stub = jest.fn();
+    emitter.on('skinViewerMounted', stub);
+
     const wrapper = mount(Previewer);
     expect(wrapper.vm.viewer).toBeInstanceOf(mockedSkinview3d.SkinViewer);
     expect(wrapper.vm.viewer.camera.position.z).toBe(70);
+    expect(stub).toBeCalledWith(expect.any(HTMLElement));
 });
 
 test('dispose viewer before destroy', () => {
