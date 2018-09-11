@@ -9,7 +9,6 @@ export const init = {
     credentials: 'same-origin',
     headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
     }
 };
 
@@ -27,11 +26,16 @@ export async function walkFetch(request) {
     try {
         const response = await fetch(request);
         if (response.ok) {
-            return response.json();
+            return response.headers.get('Content-Type') === 'application/json'
+                ? response.json()
+                : response.text();
         } else {
-            showAjaxError(await response.text());
+            const text = await response.text();
+            emit('fetchError', text);
+            showAjaxError(text);
         }
     } catch (error) {
+        emit('fetchError', error);
         showAjaxError(error);
     }
 }
@@ -55,11 +59,16 @@ export async function post(url, data = empty) {
         data
     });
 
-    return walkFetch(new Request(`${blessing.base_url}${url}`, {
-        body: JSON.stringify(data),
+    const isFormData = data instanceof FormData;
+
+    const request = new Request(`${blessing.base_url}${url}`, {
+        body: isFormData ? data : JSON.stringify(data),
         method: 'POST',
         ...init
-    }));
+    });
+    !isFormData && request.headers.set('Content-Type', 'application/json');
+
+    return walkFetch(request);
 }
 
 Vue.use(_Vue => {
@@ -69,4 +78,4 @@ Vue.use(_Vue => {
     };
 });
 
-blessing.fetch = { get, post, walkFetch };
+blessing.fetch = { get, post };

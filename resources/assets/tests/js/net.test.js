@@ -14,7 +14,8 @@ test('the GET method', async () => {
     const json = jest.fn().mockResolvedValue({});
     window.fetch = jest.fn().mockResolvedValue({
         ok: true,
-        json
+        json,
+        headers: new Map([['Content-Type', 'application/json']])
     });
 
     const stub = jest.fn();
@@ -34,10 +35,12 @@ test('the GET method', async () => {
 });
 
 test('the POST method', async () => {
-    window.fetch = jest.fn().mockResolvedValue({
-        ok: true,
-        json: () => Promise.resolve({})
-    });
+    window.fetch = jest.fn()
+        .mockResolvedValue({
+            ok: true,
+            json: () => Promise.resolve({}),
+            headers: new Map([['Content-Type', 'application/json']])
+        });
 
     const meta = document.createElement('meta');
     meta.name = 'csrf-token';
@@ -47,20 +50,29 @@ test('the POST method', async () => {
     const stub = jest.fn();
     on('beforeFetch', stub);
 
+    const formData = new FormData();
+    await net.post('/abc', formData);
+    expect(stub).toBeCalledWith({
+        method: 'POST',
+        url: '/abc',
+        data: formData
+    });
+
     await net.post('/abc', { a: 'b' });
     expect(stub).toBeCalledWith({
         method: 'POST',
         url: '/abc',
         data: { a: 'b' }
     });
-    const request = window.fetch.mock.calls[0][0];
+    const request = window.fetch.mock.calls[1][0];
     expect(request.url).toBe('/abc');
     expect(request.method).toBe('POST');
     expect(request.body).toBe(JSON.stringify({ a: 'b' }));
     expect(request.headers.get('X-CSRF-TOKEN')).toBe('token');
+    expect(request.headers.get('Content-Type')).toBe('application/json');
 
     await net.post('/abc');
-    expect(window.fetch.mock.calls[1][0].body).toBe('{}');
+    expect(window.fetch.mock.calls[2][0].body).toBe('{}');
 });
 
 test('low level fetch', async () => {
@@ -73,17 +85,30 @@ test('low level fetch', async () => {
         })
         .mockResolvedValueOnce({
             ok: true,
-            json
+            json,
+            headers: new Map([['Content-Type', 'application/json']])
+        })
+        .mockResolvedValueOnce({
+            ok: true,
+            headers: new Map(),
+            text: () => Promise.resolve('text')
         });
 
     const request = { headers: new Map() };
 
+    const stub = jest.fn();
+    on('fetchError', stub);
+
     await net.walkFetch(request);
     expect(showAjaxError.mock.calls[0][0]).toBeInstanceOf(Error);
+    expect(stub).toBeCalledWith(expect.any(Error));
 
     await net.walkFetch(request);
     expect(showAjaxError).toBeCalledWith('404');
+    expect(stub).toBeCalledWith('404');
 
     await net.walkFetch(request);
     expect(json).toBeCalled();
+
+    expect(await net.walkFetch(request)).toBe('text');
 });

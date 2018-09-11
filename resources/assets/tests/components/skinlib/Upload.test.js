@@ -4,11 +4,9 @@ import Upload from '@/components/skinlib/Upload';
 import { flushPromises } from '../../utils';
 import toastr from 'toastr';
 import { swal } from '@/js/notify';
-import { walkFetch } from '@/js/net';
 
 jest.mock('toastr');
 jest.mock('@/js/notify');
-jest.mock('@/js/net');
 
 window.blessing.extra = {
     textureNameRule: 'rule',
@@ -96,7 +94,7 @@ test('process input file', () => {
 
 test('upload file', async () => {
     window.Request = jest.fn();
-    walkFetch
+    Vue.prototype.$http.post
         .mockResolvedValueOnce({ errno: 1, msg: '1' })
         .mockResolvedValueOnce({ errno: 0, msg: '0', tid: 1 });
     jest.spyOn(toastr, 'info');
@@ -108,32 +106,23 @@ test('upload file', async () => {
     const button = wrapper.find('.box-footer > button');
 
     button.trigger('click');
-    expect(walkFetch).not.toBeCalled();
+    expect(Vue.prototype.$http.post).not.toBeCalled();
     expect(toastr.info).toBeCalledWith('skinlib.emptyUploadFile');
 
     wrapper.setData({ files: [{ file: {}, name: 't', type: 'image/jpeg' }] });
     button.trigger('click');
-    expect(walkFetch).not.toBeCalled();
+    expect(Vue.prototype.$http.post).not.toBeCalled();
     expect(toastr.info).toBeCalledWith('skinlib.emptyTextureName');
 
     wrapper.find('[type=text]').setValue('t');
     button.trigger('click');
-    expect(walkFetch).not.toBeCalled();
+    expect(Vue.prototype.$http.post).not.toBeCalled();
     expect(toastr.info).toBeCalledWith('skinlib.fileExtError');
 
     wrapper.setData({ files: [{ file: new Blob, name: 't.png', type: 'image/png' }] });
     button.trigger('click');
     await flushPromises();
-    expect(window.Request).toBeCalledWith('/skinlib/upload', {
-        body: expect.any(FormData),
-        credentials: 'same-origin',
-        headers: {
-            Accept: 'application/json',
-            'X-CSRF-TOKEN': 'token'
-        },
-        method: 'POST'
-    });
-    expect(walkFetch).toBeCalledWith(expect.any(window.Request));
+    expect(Vue.prototype.$http.post).toBeCalledWith('/skinlib/upload', expect.any(FormData));
     expect(swal).toBeCalledWith({ type: 'warning', text: '1' });
 
     button.trigger('click');

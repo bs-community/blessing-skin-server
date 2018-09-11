@@ -112,7 +112,6 @@
 <script>
 import FileUpload from 'vue-upload-component';
 import toastr from 'toastr';
-import { walkFetch } from '../../js/net';
 import { swal } from '../../js/notify';
 
 export default {
@@ -168,16 +167,7 @@ export default {
             data.append('public', !this.isPrivate);
 
             this.uploading = true;
-            const request = new Request(`${blessing.base_url}/skinlib/upload`, {
-                body: data,
-                credentials: 'same-origin',
-                headers: {
-                    Accept: 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-                },
-                method: 'POST'
-            });
-            const { errno, msg, tid } = await walkFetch(request);
+            const { errno, msg, tid } = await this.$http.post('/skinlib/upload', data);
             if (errno === 0) {
                 await swal({ type: 'success', text: msg });
                 toastr.info(this.$t('skinlib.redirecting'));
