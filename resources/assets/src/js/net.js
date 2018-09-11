@@ -3,6 +3,13 @@ import { emit } from './event';
 import { queryStringify } from './utils';
 import { showAjaxError } from './notify';
 
+class HTTPError extends Error {
+    constructor(message, response) {
+        super(message);
+        this.response = response;
+    }
+}
+
 const empty = Object.create(null);
 /** @type Request */
 export const init = {
@@ -30,9 +37,8 @@ export async function walkFetch(request) {
                 ? response.json()
                 : response.text();
         } else {
-            const text = await response.text();
-            emit('fetchError', text);
-            showAjaxError(text);
+            const res = response.clone();
+            throw new HTTPError(await response.text(), res);
         }
     } catch (error) {
         emit('fetchError', error);

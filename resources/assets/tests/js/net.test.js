@@ -78,10 +78,11 @@ test('the POST method', async () => {
 test('low level fetch', async () => {
     const json = jest.fn().mockResolvedValue({});
     window.fetch = jest.fn()
-        .mockRejectedValueOnce(new Error)
+        .mockRejectedValueOnce(new Error('network'))
         .mockResolvedValueOnce({
             ok: false,
-            text: () => Promise.resolve('404')
+            text: () => Promise.resolve('404'),
+            clone: () => ({})
         })
         .mockResolvedValueOnce({
             ok: true,
@@ -101,11 +102,13 @@ test('low level fetch', async () => {
 
     await net.walkFetch(request);
     expect(showAjaxError.mock.calls[0][0]).toBeInstanceOf(Error);
+    expect(showAjaxError.mock.calls[0][0]).toHaveProperty('message', 'network');
     expect(stub).toBeCalledWith(expect.any(Error));
 
     await net.walkFetch(request);
-    expect(showAjaxError).toBeCalledWith('404');
-    expect(stub).toBeCalledWith('404');
+    expect(showAjaxError.mock.calls[1][0]).toBeInstanceOf(Error);
+    expect(stub.mock.calls[1][0]).toHaveProperty('message', '404');
+    expect(stub.mock.calls[1][0]).toHaveProperty('response');
 
     await net.walkFetch(request);
     expect(json).toBeCalled();

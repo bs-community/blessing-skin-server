@@ -21,16 +21,11 @@ export function showMsg(msg, type = 'info') {
 /**
  * Show modal if error occured when sending an ajax request.
  *
- * @param  {TypeError | string} error
+ * @param  {Error} error
  * @return {void}
  */
 export function showAjaxError(error) {
-    if (!error) {
-        return console.warn('Empty Ajax response body.');
-    }
-
-    const message = typeof error === 'string' ? error : error.message;
-    showModal(message.replace(/\n/g, '<br>'), trans('general.fatalError'), 'danger');
+    showModal(error.message.replace(/\n/g, '<br>'), trans('general.fatalError'), 'danger');
 }
 
 /**

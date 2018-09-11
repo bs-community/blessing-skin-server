@@ -12,13 +12,9 @@ test('show message', () => {
 });
 
 test('show AJAX error', () => {
-    notify.showAjaxError();  // Can be no arguments
-
     $.fn.modal = function () {
         document.body.innerHTML = this.html();
     };
-    notify.showAjaxError('error\nerror');
-    expect(document.body.innerHTML).toContain('error<br>error');
 
     notify.showAjaxError(new Error('an-error'));
     expect(document.body.innerHTML).toContain('an-error');
