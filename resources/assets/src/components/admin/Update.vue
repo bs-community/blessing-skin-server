@@ -93,7 +93,7 @@ export default {
             const { errno, msg } = await this.$http.post('/admin/update/download', {
                 action
             });
-            if (errno && errno !== 0) {
+            if (errno) {
                 swal({ type: 'error', text: msg });
                 this.updating = false;
             }
