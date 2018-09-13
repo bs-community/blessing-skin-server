@@ -45,6 +45,11 @@ export default [
         el: '.content'
     },
     {
+        path: 'admin/update',
+        component: () => import('./admin/Update'),
+        el: '#update-button'
+    },
+    {
         path: 'auth/login',
         component: () => import('./auth/Login'),
         el: 'form'

@@ -291,9 +291,11 @@ admin:
     may be not compatible with the current version of Blessing Skin, and
     enabling it may cause unexpected problems. Do you really want to enable the
     plugin?
+  updateButton: Update Now
+  updateSize: "Size of package:"
   preparing: Preparing
-  downloadCompleted: Update package download completed.
-  extracting: Extracting update package..
+  downloading: Downloading update package...
+  updateCompleted: Update completed.
   change-color:
     title: Change theme color
     success: Theme color updated.
