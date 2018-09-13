@@ -71,6 +71,22 @@ test('display score cost', () => {
 
 test('process input file', () => {
     window.URL.createObjectURL = jest.fn().mockReturnValue('file-url');
+    jest.spyOn(window, 'Image')
+        .mockImplementationOnce(function () {
+            this.src = '';
+            this.onload = null;
+            Object.defineProperty(this, 'onload', {
+                set: fn => fn()
+            });
+        })
+        .mockImplementationOnce(function () {
+            this.src = '';
+            this.width = 500;
+            this.onload = null;
+            Object.defineProperty(this, 'onload', {
+                set: fn => fn()
+            });
+        });
     const blob = new Blob;
     const wrapper = mount(Upload, {
         stubs: ['file-upload']
@@ -90,6 +106,8 @@ test('process input file', () => {
     expect(wrapper.vm.name).toBe('789');
 
     expect(wrapper.vm.texture).toBe('file-url');
+
+    window.Image.mockRestore();
 });
 
 test('upload file', async () => {

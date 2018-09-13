@@ -48,7 +48,7 @@
                         <div class="form-group">
                             <label for="file" v-t="'skinlib.upload.select-file'"></label>
                             <div class="file-dnd">
-                                <img v-if="hasFile" :src="texture">
+                                <img v-if="hasFile" :src="texture" :width="width2d" />
                                 <h3 v-else v-t="'skinlib.upload.dropZone'"></h3>
                             </div>
                             <file-upload
@@ -132,6 +132,7 @@ export default {
             privacyNotice: blessing.extra.privacyNotice,
             scorePublic: blessing.extra.scorePublic,
             scorePrivate: blessing.extra.scorePrivate,
+            width2d: 64,
         };
     },
     computed: {
@@ -187,6 +188,10 @@ export default {
                 this.name = matched ? matched[1] : file.name;
             }
             this.texture = URL.createObjectURL(file.file);
+
+            const image = new Image();
+            image.src = this.texture;
+            image.onload = () => this.width2d = image.width > 400 ? 400 : image.width;
         },
         remove() {
             this.$refs.upload.clear();
