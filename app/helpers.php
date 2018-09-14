@@ -282,7 +282,7 @@ if (! function_exists('bs_nickname')) {
 
     function bs_nickname(User $user = null)
     {
-        $user = $user ?: app('users')->getCurrentUser();
+        $user = $user ?: auth()->user();
 
         return ($user->getNickName() == '') ? $user->email : $user->getNickName();
     }
@@ -292,7 +292,7 @@ if (! function_exists('bs_role')) {
 
     function bs_role(User $user = null)
     {
-        $user = $user ?: app('users')->getCurrentUser();
+        $user = $user ?: auth()->user();
 
         $roles = [
             User::NORMAL => 'normal',
