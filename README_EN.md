@@ -12,6 +12,8 @@
 <a href="https://twitter.com/printempw"><img src="https://img.shields.io/twitter/follow/printempw.svg?style=social&label=Follow" alt="Twitter Follow"></a>
 </p>
 
+**NOTE: The code of the current branch is of Blessing Skin v4.**
+
 Are you puzzled by losing your custom skins in Minecraft servers runing in offline mode? Now you can easily get them back with the help of Blessing Skin!
 
 Blessing Skin is a web application where you can upload, manage and share your custom skins & capes! Unlike modifying a resource pack, everyone in the game will see the different skins of each other (of course they should register at the same website too).
@@ -69,29 +71,30 @@ For more information, please refer to [Wiki - Introducing plugin system](https:/
 
 Developer Install
 ------------
-If you'd like make some contribution on the project, please deploy it from git first.
+If you'd like make some contribution on the project, please deploy it from GitHub first.
 
 **You'd better have some experience on shell operations to continue.**
+
+Please make sure you have installed the tools below:
+
+- [Git](https://git-scm.org)
+- [Node.js](https://nodejs.org)
+- [Yarn](https://yarnpkg.com)
+- [Composer](https://getcomposer.org)
 
 Clone the code from GitHub and install dependencies:
 
 ```bash
-$ git clone https://github.com/printempw/blessing-skin-server.git
-$ composer install
-$ yarn install
-```
-
-Run the tests (optional):
-
-```bash
-$ yarn test
-$ ./vendor/bin/phpunit
+git clone https://github.com/printempw/blessing-skin-server.git
+cd blessing-skin-server
+composer install
+yarn
 ```
 
 Build the things!
 
 ```bash
-$ yarn run build
+yarn build
 ```
 
 Congrats! You made it. Next, please refer to No.2 of **Quick Install** section.

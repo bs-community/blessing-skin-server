@@ -12,6 +12,8 @@
 <a href="https://twitter.com/printempw"><img src="https://img.shields.io/twitter/follow/printempw.svg?style=social&label=Follow" alt="Twitter Follow"></a>
 </p>
 
+**注意：当前分支上的代码是 Blessing Skin v4 的**
+
 优雅的开源 Minecraft 皮肤站，现在，回应您的等待。
 
 Blessing Skin 是一款能让您上传、管理和分享您的 Minecraft 皮肤和披风的 Web 应用程序。与修改游戏材质包不同的是，所有人都能在游戏中看到各自的皮肤和披风（当然，前提是玩家们要使用同一个皮肤站）。
@@ -68,29 +70,30 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
 
 自行构建
 ------------
-如果你想为此项目作贡献，或者抢先尝试未发布的新功能，你应该先用 Git 上的代码部署。
+如果你想为此项目作贡献，或者抢先尝试未发布的新功能，你应该先用 GitHub 上的代码部署。
 
 **不推荐不熟悉 shell 操作以及不想折腾的用户使用。**
 
-从 Git 上 clone 源码并安装依赖:
+请先确保您安装好以下工具：
+
+- [Git](https://git-scm.org)
+- [Node.js](https://nodejs.org)
+- [Yarn](https://yarnpkg.com)
+- [Composer](https://getcomposer.org)
+
+从 GitHub 上 clone 源码并安装依赖:
 
 ```bash
-$ git clone https://github.com/printempw/blessing-skin-server.git
-$ composer install
-$ yarn install
-```
-
-运行自动化测试（可跳过）：
-
-```bash
-$ yarn test
-$ ./vendor/bin/phpunit
+git clone https://github.com/printempw/blessing-skin-server.git
+cd blessing-skin-server
+composer install
+yarn
 ```
 
 构建前端代码！
 
 ```bash
-$ yarn run build
+yarn build
 ```
 
 接下来请参考「快速安装向导」进行后续安装。
