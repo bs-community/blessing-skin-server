@@ -1,5 +1,5 @@
 - <b>简体中文</b>
-- [English](https://github.com/printempw/blessing-skin-server/blob/master/README_EN.md)
+- [English](./README_EN.md)
 
 <p align="center"><img src="https://img.blessing.studio/images/2017/01/01/bs-logo.png"></p>
 
@@ -12,7 +12,7 @@
 <a href="https://twitter.com/printempw"><img src="https://img.shields.io/twitter/follow/printempw.svg?style=social&label=Follow" alt="Twitter Follow"></a>
 </p>
 
-**注意：当前分支上的代码是 Blessing Skin v4 的**
+**注意：当前分支上的代码是 Blessing Skin v4 的。**
 
 优雅的开源 Minecraft 皮肤站，现在，回应您的等待。
 

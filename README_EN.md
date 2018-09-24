@@ -1,4 +1,4 @@
-- [简体中文](https://github.com/printempw/blessing-skin-server/blob/master/README.md)
+- [简体中文](./README.md)
 - <b>English</b>
 
 <p align="center"><img src="https://img.blessing.studio/images/2017/01/01/bs-logo.png"></p>
