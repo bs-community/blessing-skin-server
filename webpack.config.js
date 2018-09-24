@@ -42,14 +42,7 @@ const config = {
                 exclude: /node_modules/,
                 use: [
                     'cache-loader',
-                    {
-                        loader: 'babel-loader',
-                        options: {
-                            plugins: [
-                                '@babel/plugin-transform-async-to-generator'
-                            ]
-                        }
-                    }
+                    'babel-loader'
                 ]
             },
             {
