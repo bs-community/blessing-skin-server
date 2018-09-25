@@ -17,9 +17,6 @@
     "codecov": "codecov -F js",
     "release": "yarn build && node scripts/release.js"
   },
-  "resolutions": {
-    "uglify-es": "npm:terser"
-  },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
     "@fortawesome/fontawesome-free": "^5.3.1",
@@ -75,6 +72,7 @@
     "style-loader": "^0.23.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
+    "terser-webpack-plugin": "^1.1.0",
     "url-loader": "^1.1.1",
     "vue-jest": "^2.6.0",
     "vue-loader": "^15.4.2",

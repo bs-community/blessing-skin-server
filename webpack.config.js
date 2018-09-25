@@ -1,7 +1,7 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const UglifyJsWebpackPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const WebpackBar = require('webpackbar');
 
@@ -129,14 +129,14 @@ const config = {
     ],
     optimization: {
         minimizer: [
-            new UglifyJsWebpackPlugin({
+            new TerserPlugin({
                 parallel: true,
                 cache: true,
                 sourceMap: false,
                 extractComments: {
                     filename: 'LICENSES'
                 },
-                uglifyOptions: {
+                terserOptions: {
                     output: {
                         comments: /^\**!|@preserve|@license|@cc_on/
                     }
