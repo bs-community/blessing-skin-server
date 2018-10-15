@@ -11,7 +11,7 @@
   "private": true,
   "scripts": {
     "dev": "webpack-serve",
-    "build": "rimraf public && webpack --mode=production -p",
+    "build": "rimraf public && node scripts/build",
     "lint": "eslint --ext=.js,.vue -f=beauty .",
     "test": "jest",
     "codecov": "codecov -F js",
@@ -49,7 +49,7 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^9.0.0",
     "babel-jest": "^23.6.0",
-    "babel-loader": "^8.0.2",
+    "babel-loader": "^8.0.4",
     "babel-plugin-dynamic-import-node": "^2.1.0",
     "cache-loader": "^1.2.2",
     "codecov": "^3.1.0",
@@ -79,7 +79,6 @@
     "vue-template-compiler": "^2.5.17",
     "webpack": "^4.19.1",
     "webpack-bundle-analyzer": "^3.0.2",
-    "webpack-cli": "^3.1.1",
     "webpack-serve": "^2.0.2",
     "webpackbar": "^2.6.3",
     "yaml-loader": "^0.5.0"
