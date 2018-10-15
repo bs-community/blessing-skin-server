@@ -15,8 +15,7 @@
     "lint": "eslint --ext=.js,.vue -f=beauty .",
     "test": "jest",
     "codecov": "codecov -F js",
-    "release": "yarn build && node scripts/release.js",
-    "postinstall": "node scripts/fix-vue-good-table.js"
+    "release": "yarn build && node scripts/release.js"
   },
   "dependencies": {
     "@babel/runtime": "^7.0.0",
@@ -30,7 +29,7 @@
     "sweetalert2": "^7.28.1",
     "toastr": "^2.1.4",
     "vue": "^2.5.17",
-    "vue-good-table": "^2.14.6",
+    "vue-good-table": "^2.15.3",
     "vue-upload-component": "^2.8.13",
     "vuejs-paginate": "^2.0.1"
   },

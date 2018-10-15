@@ -6161,11 +6161,6 @@ lodash.camelcase@^4.3.0:
   resolved "https://registry.yarnpkg.com/lodash.camelcase/-/lodash.camelcase-4.3.0.tgz#b28aa6288a2b9fc651035c7711f65ab6190331a6"
   integrity sha1-soqmKIorn8ZRA1x3EfZathkDMaY=
 
-lodash.clone@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.npmjs.org/lodash.clone/-/lodash.clone-4.5.0.tgz#195870450f5a13192478df4bc3d23d2dea1907b6"
-  integrity sha1-GVhwRQ9aExkkeN9Lw9I9LeoZB7Y=
-
 lodash.clonedeep@^4.5.0:
   version "4.5.0"
   resolved "https://registry.yarnpkg.com/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz#e23f3f9c4f8fbdde872529c1071857a086e5ccef"
@@ -6200,6 +6195,11 @@ lodash.foreach@^4.5.0:
   version "4.5.0"
   resolved "https://registry.npmjs.org/lodash.foreach/-/lodash.foreach-4.5.0.tgz#1a6a35eace401280c7f06dddec35165ab27e3e53"
   integrity sha1-Gmo16s5AEoDH8G3d7DUWWrJ+PlM=
+
+lodash.isequal@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.npmjs.org/lodash.isequal/-/lodash.isequal-4.5.0.tgz#415c4478f2bcc30120c22ce10ed3226f7d3e18e0"
+  integrity sha1-QVxEePK8wwEgwizhDtMib30+GOA=
 
 lodash.isplainobject@^4.0.6:
   version "4.0.6"
@@ -9813,18 +9813,18 @@ vue-eslint-parser@^3.2.1:
     esquery "^1.0.1"
     lodash "^4.17.10"
 
-vue-good-table@^2.14.6:
-  version "2.14.6"
-  resolved "https://registry.npmjs.org/vue-good-table/-/vue-good-table-2.14.6.tgz#06f2265b68fb97413cfec624c2fad0458907484e"
-  integrity sha512-lMCAHEqUdz3rJhGvaQrjm4GtMU47DiMc7fFLXERX+KK5ZcAbshr4mrSozytxVJ0LJbKHXdjUJFbJaEEhsXKoyQ==
+vue-good-table@^2.15.3:
+  version "2.15.3"
+  resolved "https://registry.npmjs.org/vue-good-table/-/vue-good-table-2.15.3.tgz#d399298a1cb6541d130b34bef0f67b9f0b45ff44"
+  integrity sha512-+WbCY4yPDL7h9G36WzittozUb7KmMdoMLHDryPEjOzGSmy0CouaraCrujuCcEJR1lGwCY3ugqv4LICSWTmd7XA==
   dependencies:
     date-fns "2.0.0-alpha.7"
     diacriticless "1.0.1"
     lodash.assign "^4.2.0"
-    lodash.clone "^4.5.0"
     lodash.clonedeep "^4.5.0"
     lodash.filter "^4.6.0"
     lodash.foreach "^4.5.0"
+    lodash.isequal "^4.5.0"
 
 vue-hot-reload-api@^2.3.0:
   version "2.3.0"
