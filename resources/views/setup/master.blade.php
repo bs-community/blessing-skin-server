@@ -5,7 +5,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="robots" content="noindex,nofollow" />
     <title>@lang('setup.wizard.master.title')</title>
-    <link rel="shortcut icon" href="{{ assets('dist/images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ webpack_assets('favicon.ico') }}">
     <link rel="stylesheet" type="text/css" href="{{ webpack_assets('setup.css') }}">
     @yield('style')
 </head>
