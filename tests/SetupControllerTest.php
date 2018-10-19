@@ -59,8 +59,8 @@ class SetupControllerTest extends TestCase
             'password' => env('DB_PASSWORD'),
             'prefix' => '',
         ];
-        File::shouldReceive('get')->with('.env')->andReturn('');
-        File::shouldReceive('put')->with('.env', '');
+        File::shouldReceive('get')->with('..' . DIRECTORY_SEPARATOR . '.env')->andReturn('');
+        File::shouldReceive('put')->with('..' . DIRECTORY_SEPARATOR . '.env', '');
         $this->post('/setup/database', $fake)->assertRedirect('/setup/info');
     }
 
