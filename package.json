@@ -11,7 +11,7 @@
   "private": true,
   "scripts": {
     "dev": "webpack-serve",
-    "build": "rimraf public && node scripts/build",
+    "build": "rimraf public/app && node scripts/build",
     "lint": "eslint --ext=.js,.vue -f=beauty .",
     "test": "jest",
     "codecov": "codecov -F js",

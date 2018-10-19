@@ -57,7 +57,7 @@ if (! function_exists('webpack_assets')) {
         if (app()->environment('development')) {
             return "http://127.0.0.1:8080/public/$relativeUri";
         } else {
-            return url("public/$relativeUri");
+            return url("app/$relativeUri");
         }
     }
 }
