@@ -355,4 +355,19 @@ class PluginManager
         return config('plugins.directory') ?: base_path('plugins');
     }
 
+    /**
+     * Copy plugin assets
+     *
+     * @param Plugin $plugin
+     *
+     * @return bool
+     */
+    public function copyPluginAssets($plugin)
+    {
+        return $this->filesystem->copyDirectory(
+            $this->getPluginsDir() . DIRECTORY_SEPARATOR . $plugin->name . DIRECTORY_SEPARATOR . 'assets',
+            public_path('plugins/' . $plugin->name . '/assets')
+        );
+    }
+
 }

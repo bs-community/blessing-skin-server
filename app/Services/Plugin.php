@@ -104,7 +104,7 @@ class Plugin implements Arrayable, ArrayAccess
 
     public function assets($relativeUri)
     {
-        $baseUrl = config('plugins.url') ?: url('plugins');
+        $baseUrl = config('plugins.url') ?: url('public/plugins');
 
         return "$baseUrl/{$this->getDirname()}/$relativeUri";
     }
