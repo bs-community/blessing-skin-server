@@ -39,6 +39,11 @@ class PluginManager
      */
     protected $plugins;
 
+    /**
+     * @var Collection
+     */
+    protected $enabled;
+
     public function __construct(
         Application $app,
         OptionRepository $option,
@@ -68,7 +73,7 @@ class PluginManager
             }
 
             // traverse plugins dir
-            while($filename = @readdir($resource)) {
+            while ($filename = @readdir($resource)) {
                 if ($filename == '.' || $filename == '..')
                     continue;
 
@@ -134,14 +139,18 @@ class PluginManager
      */
     public function enable($name)
     {
+        if (is_null($this->enabled)) {
+            $this->convertPluginRecord();
+        }
+
         if (! $this->isEnabled($name)) {
             $plugin = $this->getPlugin($name);
 
-            $enabled = $this->getEnabled();
-
-            $enabled[] = $name;
-
-            $this->setEnabled($enabled);
+            $this->enabled->push([
+                'name' => $name,
+                'version' => $plugin->getVersion(),
+            ]);
+            $this->saveEnabled();
 
             $plugin->setEnabled(true);
 
@@ -156,16 +165,20 @@ class PluginManager
      */
     public function disable($name)
     {
-        $enabled = $this->getEnabled();
+        if (is_null($this->enabled)) {
+            $this->convertPluginRecord();
+        }
 
-        if (($k = array_search($name, $enabled)) !== false) {
-            unset($enabled[$k]);
+        $rejected = $this->enabled->reject(function ($item) use ($name) {
+            return $item['name'] == $name;
+        });
 
+        if ($rejected->count() !== $this->enabled->count()) {
             $plugin = $this->getPlugin($name);
-
-            $this->setEnabled($enabled);
-
             $plugin->setEnabled(false);
+
+            $this->enabled = $rejected;
+            $this->saveEnabled();
 
             $this->dispatcher->fire(new Events\PluginWasDisabled($plugin));
         }
@@ -198,6 +211,10 @@ class PluginManager
      */
     public function getEnabledPlugins()
     {
+        if (is_null($this->enabled)) {
+            $this->convertPluginRecord();
+        }
+
         return $this->getPlugins()->only($this->getEnabled());
     }
 
@@ -244,19 +261,23 @@ class PluginManager
      */
     public function getEnabled()
     {
-        return (array) json_decode($this->option->get('plugins_enabled'), true);
+        $enabled = collect(json_decode($this->option->get('plugins_enabled'), true));
+
+        return $enabled->map(function ($item) {
+            if (is_string($item)) {
+                return $item;
+            } else {
+                return $item['name'];
+            }
+        })->values()->toArray();
     }
 
     /**
      * Persist the currently enabled plugins.
-     *
-     * @param array $enabled
      */
-    protected function setEnabled(array $enabled)
+    protected function saveEnabled()
     {
-        $enabled = array_values(array_unique($enabled));
-
-        $this->option->set('plugins_enabled', json_encode($enabled));
+        $this->option->set('plugins_enabled', $this->enabled->values()->toJson());
 
         // ensure to save options
         $this->option->save();
@@ -368,6 +389,31 @@ class PluginManager
             $this->getPluginsDir() . DIRECTORY_SEPARATOR . $plugin->name . DIRECTORY_SEPARATOR . 'assets',
             public_path('plugins/' . $plugin->name . '/assets')
         );
+    }
+
+    /**
+     * Convert `plugins_enabled` field for backward compatibility.
+     *
+     * @return $this
+     */
+    protected function convertPluginRecord()
+    {
+        $list = collect(json_decode($this->option->get('plugins_enabled'), true));
+        $this->enabled = $list->map(function ($item) {
+            if (is_string($item)) {
+                $plugin = $this->getPlugin($item);
+                return [
+                    'name' => $item,
+                    'version' => $plugin->getVersion(),
+                ];
+            } else {
+                return $item;
+            }
+        });
+
+        $this->saveEnabled();
+
+        return $this;
     }
 
 }
