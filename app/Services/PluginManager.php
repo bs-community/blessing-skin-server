@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use Storage;
 use App\Events;
 use Composer\Semver\Semver;
 use Illuminate\Support\Arr;
+use Composer\Semver\Comparator;
 use Illuminate\Support\Collection;
 use Illuminate\Filesystem\Filesystem;
 use App\Exceptions\PrettyPageException;
@@ -63,6 +65,7 @@ class PluginManager
     {
         if (is_null($this->plugins)) {
             $plugins = new Collection();
+            $enabled = $this->getFullEnabled();
 
             $installed = [];
 
@@ -111,6 +114,13 @@ class PluginManager
                 }
 
                 $plugins->put($plugin->name, $plugin);
+
+                if (
+                    $enabled->has($plugin->name) &&
+                    Comparator::notEqualTo($plugin->getVersion(), $enabled->get($plugin->name))
+                ) {
+                    $this->copyPluginAssets($plugin);
+                }
             }
 
             $this->plugins = $plugins->sortBy(function ($plugin, $name) {
@@ -273,6 +283,25 @@ class PluginManager
     }
 
     /**
+     * Return enabled plugins with version information.
+     *
+     * @return Collection
+     */
+    public function getFullEnabled()
+    {
+        $enabled = collect(json_decode($this->option->get('plugins_enabled'), true));
+        $ret = collect();
+
+        $enabled->each(function ($item) use ($ret) {
+            if (is_array($item)) {
+                $ret->put($item['name'], $item['version']);
+            }
+        });
+
+        return $ret;
+    }
+
+    /**
      * Persist the currently enabled plugins.
      */
     protected function saveEnabled()
@@ -385,9 +414,12 @@ class PluginManager
      */
     public function copyPluginAssets($plugin)
     {
+        $dir = public_path('plugins/' . $plugin->name . '/assets');
+        Storage::deleteDirectory($dir);
+
         return $this->filesystem->copyDirectory(
             $this->getPluginsDir() . DIRECTORY_SEPARATOR . $plugin->name . DIRECTORY_SEPARATOR . 'assets',
-            public_path('plugins/' . $plugin->name . '/assets')
+            $dir
         );
     }
 
@@ -407,6 +439,8 @@ class PluginManager
                     'version' => $plugin->getVersion(),
                 ];
             } else {
+                $plugin = $this->getPlugin($item['name']);
+                $item['version'] = $plugin->getVersion();
                 return $item;
             }
         });
