@@ -29,7 +29,7 @@ const config = {
         'langs/zh_CN': './resources/lang/zh_CN/front-end.js',
     },
     output: {
-        path: __dirname + '/public',
+        path: __dirname + '/public/app',
         filename: '[name].js',
         chunkFilename: devMode
             ? '[id].js'

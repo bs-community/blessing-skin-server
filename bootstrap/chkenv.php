@@ -60,8 +60,8 @@
         }
     }
 
-    $autoload = file_get_contents('vendor/autoload.php');
+    $autoload = file_get_contents(__DIR__ . '/../vendor/autoload.php');
     $lines = explode("\n", $autoload);
     $lines[1] = '$GLOBALS["env_checked"] = true;';
-    file_put_contents('vendor/autoload.php', implode("\n", $lines));
+    file_put_contents(__DIR__ . '/../vendor/autoload.php', implode("\n", $lines));
 })();

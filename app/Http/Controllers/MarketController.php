@@ -121,6 +121,7 @@ class MarketController extends Controller
             if ($zip->extractTo($plugins_dir) === false) {
                 return json(trans('admin.plugins.market.unzip-failed', ['error' => 'Unable to extract the file.']), 4);
             }
+            $manager->copyPluginAssets(plugin($name));
         } else {
             return json(trans('admin.plugins.market.unzip-failed', ['error' => $res]), 4);
         }

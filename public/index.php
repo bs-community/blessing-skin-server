@@ -9,9 +9,9 @@
 
 @ini_set('display_errors', 'on');
 
-require __DIR__.'/bootstrap/autoload.php';
+require __DIR__.'/../bootstrap/autoload.php';
 
-if (!isset($GLOBALS['env_checked'])) require __DIR__.'/bootstrap/chkenv.php';
+if (!isset($GLOBALS['env_checked'])) require __DIR__.'/../bootstrap/chkenv.php';
 
 // Process the request
-require __DIR__.'/bootstrap/kernel.php';
+require __DIR__.'/../bootstrap/kernel.php';
