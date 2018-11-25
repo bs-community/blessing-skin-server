@@ -4,11 +4,11 @@
 <p align="center"><img src="https://img.blessing.studio/images/2017/01/01/bs-logo.png"></p>
 
 <p align="center">
-<a href="https://travis-ci.org/printempw/blessing-skin-server"><img src="https://flat.badgen.net/travis/printempw/blessing-skin-server/v4" alt="Travis Building Status"></a>
-<a href="https://codecov.io/gh/printempw/blessing-skin-server/branch/v4"><img src="https://flat.badgen.net/codecov/c/github/printempw/blessing-skin-server/v4" alt="Codecov" /></a>
-<a href="https://github.com/printempw/blessing-skin-server/releases"><img src="https://flat.badgen.net/github/releases/printempw/blessing-skin-server" alt="Latest Stable Version"></a>
+<a href="https://travis-ci.org/bs-community/blessing-skin-server"><img src="https://flat.badgen.net/travis/bs-community/blessing-skin-server/v4" alt="Travis Building Status"></a>
+<a href="https://codecov.io/gh/bs-community/blessing-skin-server/branch/v4"><img src="https://flat.badgen.net/codecov/c/github/bs-community/blessing-skin-server/v4" alt="Codecov" /></a>
+<a href="https://github.com/bs-community/blessing-skin-server/releases"><img src="https://flat.badgen.net/github/releases/bs-community/blessing-skin-server" alt="Latest Stable Version"></a>
 <img src="https://flat.badgen.net/badge/PHP/7.1.3+/orange" alt="PHP 7.1.3+">
-<img src="https://flat.badgen.net/github/license/printempw/blessing-skin-server" alt="License">
+<img src="https://flat.badgen.net/github/license/bs-community/blessing-skin-server" alt="License">
 <a href="https://twitter.com/printempw"><img src="https://img.shields.io/twitter/follow/printempw.svg?style=social&label=Follow" alt="Twitter Follow"></a>
 </p>
 
@@ -43,7 +43,7 @@ Blessing Skin 是一个开源的 PHP 项目，这意味着您可以自由地在�
 Blessing Skin 对您的服务器有一定的要求。_在大多数情况下，下列所需的 PHP 扩展已经开启。_
 
 - 一台支持 URL 重写的主机，Nginx、Apache 或 IIS
-- **PHP >= 7.1.3** [（服务器不支持？）](https://github.com/printempw/blessing-skin-server/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
+- **PHP >= 7.1.3** [（服务器不支持？）](https://github.com/bs-community/blessing-skin-server/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
 - 安装并启用如下 PHP 扩展：
     - OpenSSL
     - PDO
@@ -57,7 +57,7 @@ Blessing Skin 对您的服务器有一定的要求。_在大多数情况下，�
 
 快速使用
 -----------
-请参阅 [Wiki - 快速安装向导](https://github.com/printempw/blessing-skin-server/wiki/%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85%E5%90%91%E5%AF%BC)。
+请参阅 [Wiki - 快速安装向导](https://github.com/bs-community/blessing-skin-server/wiki/%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85%E5%90%91%E5%AF%BC)。
 
 ![screenshot](https://img.blessing.studio/images/2017/07/29/2017-06-16_15.54.16.png)
 
@@ -66,7 +66,7 @@ Blessing Skin 对您的服务器有一定的要求。_在大多数情况下，�
 
 Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样的插件来为您的皮肤站添加功能。
 
-详情请参阅 [Wiki - 插件系统介绍](https://github.com/printempw/blessing-skin-server/wiki/%E6%8F%92%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BB%8B%E7%BB%8D)。
+详情请参阅 [Wiki - 插件系统介绍](https://github.com/bs-community/blessing-skin-server/wiki/%E6%8F%92%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BB%8B%E7%BB%8D)。
 
 自行构建
 ------------
@@ -84,7 +84,7 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
 从 GitHub 上 clone 源码并安装依赖:
 
 ```bash
-git clone https://github.com/printempw/blessing-skin-server.git
+git clone https://github.com/bs-community/blessing-skin-server.git
 cd blessing-skin-server
 composer install
 yarn
@@ -100,7 +100,7 @@ yarn build
 
 问题报告
 ------------
-请参阅 [Wiki - 报告问题的正确姿势](https://github.com/printempw/blessing-skin-server/wiki/%E6%8A%A5%E5%91%8A%E9%97%AE%E9%A2%98%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF)。
+请参阅 [Wiki - 报告问题的正确姿势](https://github.com/bs-community/blessing-skin-server/wiki/%E6%8A%A5%E5%91%8A%E9%97%AE%E9%A2%98%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF)。
 
 版权
 ------------

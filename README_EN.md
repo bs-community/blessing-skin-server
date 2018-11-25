@@ -4,11 +4,11 @@
 <p align="center"><img src="https://img.blessing.studio/images/2017/01/01/bs-logo.png"></p>
 
 <p align="center">
-<a href="https://travis-ci.org/printempw/blessing-skin-server"><img src="https://flat.badgen.net/travis/printempw/blessing-skin-server/v4" alt="Travis Building Status"></a>
-<a href="https://codecov.io/gh/printempw/blessing-skin-server/branch/v4"><img src="https://flat.badgen.net/codecov/c/github/printempw/blessing-skin-server/v4" alt="Codecov" /></a>
-<a href="https://github.com/printempw/blessing-skin-server/releases"><img src="https://flat.badgen.net/github/releases/printempw/blessing-skin-server" alt="Latest Stable Version"></a>
+<a href="https://travis-ci.org/bs-community/blessing-skin-server"><img src="https://flat.badgen.net/travis/bs-community/blessing-skin-server/v4" alt="Travis Building Status"></a>
+<a href="https://codecov.io/gh/bs-community/blessing-skin-server/branch/v4"><img src="https://flat.badgen.net/codecov/c/github/bs-community/blessing-skin-server/v4" alt="Codecov" /></a>
+<a href="https://github.com/bs-community/blessing-skin-server/releases"><img src="https://flat.badgen.net/github/releases/bs-community/blessing-skin-server" alt="Latest Stable Version"></a>
 <img src="https://flat.badgen.net/badge/PHP/7.1.3+/orange" alt="PHP 7.1.3+">
-<img src="https://flat.badgen.net/github/license/printempw/blessing-skin-server" alt="License">
+<img src="https://flat.badgen.net/github/license/bs-community/blessing-skin-server" alt="License">
 <a href="https://twitter.com/printempw"><img src="https://img.shields.io/twitter/follow/printempw.svg?style=social&label=Follow" alt="Twitter Follow"></a>
 </p>
 
@@ -56,7 +56,7 @@ Blessing Skin has only a few system requirements. _In most cases, these PHP exte
 
 Quick Install
 -----------
-1. Download our [latest release](https://github.com/printempw/blessing-skin-server/releases), extract to where you like to installed on.
+1. Download our [latest release](https://github.com/bs-community/blessing-skin-server/releases), extract to where you like to installed on.
 2. Rename `.env.example` to `.env` and configure your database information. (For windows users, just rename it to `.env.`, and the last dot will be removed automatically)
 3. For Nginx users, add [rewrite rules](#configure-the-web-server) to your Nginx configuration
 4. Navigate to `http://your-domain.com/setup` in your browser. If 404 is returned, please check whether the rewrite rules works correctly.
@@ -67,7 +67,7 @@ Plugin System
 
 Blessing Skin provides an elegant and powerful plugin system, and you can attach plenty of functions and customization to your site via installing plugins.
 
-For more information, please refer to [Wiki - Introducing plugin system](https://github.com/printempw/blessing-skin-server/wiki/%E6%8F%92%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BB%8B%E7%BB%8D).
+For more information, please refer to [Wiki - Introducing plugin system](https://github.com/bs-community/blessing-skin-server/wiki/%E6%8F%92%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BB%8B%E7%BB%8D).
 
 Developer Install
 ------------
@@ -85,7 +85,7 @@ Please make sure you have installed the tools below:
 Clone the code from GitHub and install dependencies:
 
 ```bash
-git clone https://github.com/printempw/blessing-skin-server.git
+git clone https://github.com/bs-community/blessing-skin-server.git
 cd blessing-skin-server
 composer install
 yarn
@@ -117,15 +117,15 @@ location ~ /\.env {
 
 Mod Configuration
 ------------
-Please refer to [Wiki - Mod Configuration](https://github.com/printempw/blessing-skin-server/wiki/%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%E7%9A%AE%E8%82%A4-Mod).
+Please refer to [Wiki - Mod Configuration](https://github.com/bs-community/blessing-skin-server/wiki/%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%E7%9A%AE%E8%82%A4-Mod).
 
 ![screenshot](https://img.blessing.studio/images/2017/07/29/2017-06-16_15.54.16.png)
 
 Report Problems
 ------------
-Read [Wiki - FAQ](https://github.com/printempw/blessing-skin-server/wiki/FAQ) and double check if your situation doesn't suit any case mentioned there before reporting.
+Read [Wiki - FAQ](https://github.com/bs-community/blessing-skin-server/wiki/FAQ) and double check if your situation doesn't suit any case mentioned there before reporting.
 
-When reporting a problem, please attach your log file (located at `storage/logs/laravel.log`) and the information of your server where the error occured on. You should also read this [guide](https://github.com/printempw/blessing-skin-server/wiki/%E6%8A%A5%E5%91%8A%E9%97%AE%E9%A2%98%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF) before reporting a problem.
+When reporting a problem, please attach your log file (located at `storage/logs/laravel.log`) and the information of your server where the error occured on. You should also read this [guide](https://github.com/bs-community/blessing-skin-server/wiki/%E6%8A%A5%E5%91%8A%E9%97%AE%E9%A2%98%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF) before reporting a problem.
 
 Copyright & License
 ------------

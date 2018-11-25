@@ -16,7 +16,7 @@ Please make sure you have installed the tools below:
 And run the commands to pull the code:
 
 ```bash
-git clone https://github.com/printempw/blessing-skin-server.git
+git clone https://github.com/bs-community/blessing-skin-server.git
 cd blessing-skin-server
 composer install
 yarn
@@ -68,7 +68,7 @@ Please make sure you have installed EditorConfig extension/plugin in your editor
 然后执行以下命令来拉取代码：
 
 ```bash
-git clone https://github.com/printempw/blessing-skin-server.git
+git clone https://github.com/bs-community/blessing-skin-server.git
 cd blessing-skin-server
 composer install
 yarn
