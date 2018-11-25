@@ -56,8 +56,8 @@ jobs:
       - image: circleci/php:7.1-cli
     environment:
       APP_ENV: testing
-      DB_USERNAME: root
-      DB_DATABASE: circle_test
+      DB_CONNECTION: sqlite
+      DB_DATABASE: storage/testing.sqlite
     steps:
       - attach_workspace:
           at: ~/repo
