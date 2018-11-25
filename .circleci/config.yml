@@ -54,7 +54,6 @@ jobs:
     working_directory: ~/repo
     docker:
       - image: circleci/php:7.1-cli
-      - image: circleci/mariadb:10.2
     environment:
       APP_ENV: testing
       DB_USERNAME: root
