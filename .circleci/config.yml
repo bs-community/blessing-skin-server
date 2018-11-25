@@ -90,12 +90,12 @@ jobs:
           name: Install PHP extension
           command: |
             # https://discuss.circleci.com/t/issue-with-installing-php-extension-gd/26550/6
-            sudo apt-get install -y libpng-dev libsqlite3-dev libzip-dev
-            sudo docker-php-ext-install zip
-            sudo docker-php-ext-configure intl
-            sudo docker-php-ext-install intl
-            sudo -E docker-php-ext-install -j$(nproc) pdo_sqlite
-            sudo -E docker-php-ext-install -j$(nproc) gd
+            apt-get install -y libpng-dev libsqlite3-dev libzip-dev
+            docker-php-ext-install zip
+            docker-php-ext-configure intl
+            docker-php-ext-install intl
+            docker-php-ext-install -j$(nproc) pdo_sqlite
+            docker-php-ext-install -j$(nproc) gd
       - run: touch storage/testing.sqlite
       - run: ./vendor/bin/phpunit
 
