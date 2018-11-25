@@ -18,6 +18,18 @@ steps:
     sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion)
     php -version
   displayName: 'Use PHP version $(phpVersion)'
+  
+- script: |
+    export APP_ENV=testing
+    export DB_CONNECTION=sqlite
+    export DB_DATABASE=storage/testing.sqlite
+  displayName: Set up environment variables
 
 - script: composer install --no-interaction --prefer-dist
   displayName: 'composer install'
+
+- script: touch storage/testing.sqlite
+  displayName: Prepare database
+  
+- script: ./vendor/bin/phpunit
+  displayName: Unit test
