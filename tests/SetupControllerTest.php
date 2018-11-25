@@ -51,9 +51,9 @@ class SetupControllerTest extends TestCase
     public function testDatabase()
     {
         $fake = [
-            'type' => 'mysql',
+            'type' => env('DB_CONNECTION'),
             'host' => env('DB_HOST'),
-            'port' => '3306',
+            'port' => env('DB_PORT'),
             'db' => env('DB_DATABASE'),
             'username' => env('DB_USERNAME'),
             'password' => env('DB_PASSWORD'),

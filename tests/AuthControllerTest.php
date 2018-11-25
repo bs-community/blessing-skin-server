@@ -611,11 +611,4 @@ class AuthControllerTest extends TestCase
         $this->get($url)->assertViewIs('auth.verify');
         $this->assertEquals(1, User::find($user->uid)->verified);
     }
-
-    public function testCaptcha()
-    {
-        $this->get('/auth/captcha')
-            ->assertSuccessful()
-            ->assertHeader('Content-Type', 'image/png');
-    }
 }
