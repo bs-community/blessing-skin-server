@@ -78,7 +78,7 @@ jobs:
   test_php72:
     working_directory: ~/repo
     docker:
-      - image: circleci/php:7.2-cli
+      - image: php:7.2-cli
     environment:
       APP_ENV: testing
       DB_CONNECTION: sqlite
