@@ -1,0 +1,114 @@
+version: 2
+
+jobs:
+  frontend:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "yarn.lock" }}
+          - v1-dependencies-
+      - run: yarn
+      - save_cache:
+          paths:
+            - node_modules
+            - ~/.yarn
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
+      - run: yarn lint
+      - run: yarn test --verbose --coverage
+      - run: yarn codecov
+
+  install:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/php:7.1-cli
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "composer.lock" }}
+          - v1-dependencies-
+      - run:
+          name: Install PHP extension
+          command: |
+            # https://discuss.circleci.com/t/issue-with-installing-php-extension-gd/26550/6
+            sudo apt-get install -y libpng-dev
+            sudo -E docker-php-ext-install -j$(nproc) gd
+      - run: composer install -n --prefer-dist
+      - save_cache:
+          paths:
+            - vendor
+          key: v1-dependencies-{{ checksum "composer.lock" }}
+      - run: cp .env.testing .env
+      - run: php artisan key:random
+      - run: php artisan salt:random
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - .
+
+  test_php71:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/php:7.1-cli
+      - image: circleci/mariadb:10.2
+    environment:
+      APP_ENV: testing
+      DB_USERNAME: root
+      DB_DATABASE: circle_test
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Install PHP extension
+          command: |
+            # https://discuss.circleci.com/t/issue-with-installing-php-extension-gd/26550/6
+            sudo apt-get install -y libpng-dev libsqlite3-dev libzip-dev
+            sudo docker-php-ext-install zip
+            sudo docker-php-ext-configure intl
+            sudo docker-php-ext-install intl
+            sudo -E docker-php-ext-install -j$(nproc) pdo_sqlite
+            sudo -E docker-php-ext-install -j$(nproc) gd
+      - run: touch storage/testing.sqlite
+      - run: ./vendor/bin/phpunit --coverage-clover=coverage.xml
+      - run: bash <(curl -s https://codecov.io/bash) -cF php
+
+  test_php72:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/php:7.2-cli
+    environment:
+      APP_ENV: testing
+      DB_CONNECTION: sqlite
+      DB_DATABASE: storage/testing.sqlite
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Install PHP extension
+          command: |
+            # https://discuss.circleci.com/t/issue-with-installing-php-extension-gd/26550/6
+            sudo apt-get install -y libpng-dev libsqlite3-dev libzip-dev
+            sudo docker-php-ext-install zip
+            sudo docker-php-ext-configure intl
+            sudo docker-php-ext-install intl
+            sudo -E docker-php-ext-install -j$(nproc) pdo_sqlite
+            sudo -E docker-php-ext-install -j$(nproc) gd
+      - run: touch storage/testing.sqlite
+      - run: ./vendor/bin/phpunit
+
+workflows:
+  version: 2
+  install_and_test:
+    jobs:
+      - frontend
+      - install
+      - test_php71:
+          requires:
+            - install
+      - test_php72:
+          requires:
+            - install
