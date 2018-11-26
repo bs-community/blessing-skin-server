@@ -53,7 +53,7 @@ jobs:
   test_php71:
     working_directory: ~/repo
     docker:
-      - image: circleci/php:7.1-cli
+      - image: circleci/php:7.1-stretch
     environment:
       APP_ENV: testing
       DB_CONNECTION: sqlite
@@ -78,7 +78,7 @@ jobs:
   test_php72:
     working_directory: ~/repo
     docker:
-      - image: php:7.2-cli
+      - image: circleci/php:7.2-stretch
     environment:
       APP_ENV: testing
       DB_CONNECTION: sqlite
@@ -90,12 +90,12 @@ jobs:
           name: Install PHP extension
           command: |
             # https://discuss.circleci.com/t/issue-with-installing-php-extension-gd/26550/6
-            apt-get install -y libpng-dev libsqlite3-dev libzip-dev
-            docker-php-ext-install zip
-            docker-php-ext-configure intl
-            docker-php-ext-install intl
-            docker-php-ext-install -j$(nproc) pdo_sqlite
-            docker-php-ext-install -j$(nproc) gd
+            sudo apt-get install -y libpng-dev libsqlite3-dev libzip-dev
+            sudo docker-php-ext-install zip
+            sudo docker-php-ext-configure intl
+            sudo docker-php-ext-install intl
+            sudo -E docker-php-ext-install -j$(nproc) pdo_sqlite
+            sudo -E docker-php-ext-install -j$(nproc) gd
       - run: touch storage/testing.sqlite
       - run: ./vendor/bin/phpunit
 
