@@ -24,7 +24,7 @@ jobs:
   install:
     working_directory: ~/repo
     docker:
-      - image: circleci/php:7.1-cli
+      - image: circleci/php:7.2-cli
     steps:
       - checkout
       - restore_cache:
