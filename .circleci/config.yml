@@ -79,8 +79,8 @@ jobs:
       - image: circleci/mariadb:10.2
     environment:
       APP_ENV: testing
-      DB_USERNAME: $MYSQL_USER
-      DB_DATABASE: $MYSQL_DATABASE
+      DB_USERNAME: root
+      DB_DATABASE: circle_test
     steps:
       - attach_workspace:
           at: ~/repo
