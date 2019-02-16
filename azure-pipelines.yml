@@ -41,7 +41,7 @@ jobs:
       cp .env.testing .env
       php artisan key:random
       php artisan salt:random
-      mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
+      mysql -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS test;'
     displayName: 'Prepare testing environment'
 
   - script: ./vendor/bin/phpunit
