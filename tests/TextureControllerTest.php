@@ -123,7 +123,7 @@ class TextureControllerTest extends TestCase
         ]);
 
         $this->get("/skin/{$player->player_name}.png")
-            ->assertSee(e(trans('general.texture-not-uploaded', ['type' => 'alex'])));
+            ->assertSee(trans('general.texture-not-uploaded', ['type' => 'alex']));
 
         $player->setPreference('default');
         $this->get("/skin/{$player->player_name}.png")
@@ -148,7 +148,7 @@ class TextureControllerTest extends TestCase
         ]);
 
         $this->get("/skin/alex/{$player->player_name}.png")
-            ->assertSee(e(trans('general.texture-not-uploaded', ['type' => 'alex'])));
+            ->assertSee(trans('general.texture-not-uploaded', ['type' => 'alex']));
 
         $player->setPreference('default');
         $this->get("/skin/steve/{$player->player_name}.png")
