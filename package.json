@@ -110,6 +110,9 @@
     ],
     "testRegex": "resources/assets/tests/.*\\.(spec|test)\\.js$"
   },
+  "jest-junit": {
+    "usePathForSuiteName": true
+  },
   "serve": {
     "clipboard": false,
     "devMiddleware": {
