@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Log;
 use Storage;
 use App\Events;
 use Composer\Semver\Semver;
@@ -440,7 +441,9 @@ class PluginManager
                 ];
             } else {
                 $plugin = $this->getPlugin($item['name']);
-                $item['version'] = $plugin->getVersion();
+                if (!empty($plugin)) {
+                    $item['version'] = $plugin->getVersion();
+                }
                 return $item;
             }
         });
