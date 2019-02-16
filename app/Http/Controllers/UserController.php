@@ -92,13 +92,14 @@ class UserController extends Controller
         $user = Auth::user();
         if ($user->canSign()) {
             $acquiredScore = $user->sign();
+            $gap = option('sign_gap_time');
 
             return json([
                 'errno'          => 0,
                 'msg'            => trans('user.sign-success', ['score' => $acquiredScore]),
                 'score'          => $user->getScore(),
                 'storage'        => $this->calculatePercentageUsed($user->getStorageUsed(), option('score_per_storage')),
-                'remaining_time' => $this->getUserSignRemainingTimeWithPrecision($user)
+                'remaining_time' => $gap > 1 ? round($gap) : $gap
             ]);
         } else {
             $remaining_time = $this->getUserSignRemainingTimeWithPrecision();
