@@ -92,15 +92,13 @@ class UserController extends Controller
         $user = Auth::user();
         if ($user->canSign()) {
             $acquiredScore = $user->sign();
-            $user->last_sign_at = get_datetime_string();
-            $user->save();
 
             return json([
                 'errno'          => 0,
                 'msg'            => trans('user.sign-success', ['score' => $acquiredScore]),
                 'score'          => $user->getScore(),
                 'storage'        => $this->calculatePercentageUsed($user->getStorageUsed(), option('score_per_storage')),
-                'remaining_time' => $this->getUserSignRemainingTimeWithPrecision()
+                'remaining_time' => $this->getUserSignRemainingTimeWithPrecision($user)
             ]);
         } else {
             $remaining_time = $this->getUserSignRemainingTimeWithPrecision();
@@ -113,9 +111,9 @@ class UserController extends Controller
         }
     }
 
-    public function getUserSignRemainingTimeWithPrecision()
+    public function getUserSignRemainingTimeWithPrecision($user = null)
     {
-        $hours = Auth::user()->getSignRemainingTime() / 3600;
+        $hours = ($user ?? Auth::user())->getSignRemainingTime() / 3600;
 
         return $hours > 1 ? round($hours) : $hours;
     }
