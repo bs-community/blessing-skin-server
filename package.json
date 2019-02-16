@@ -64,6 +64,7 @@
     "file-loader": "^2.0.0",
     "jest": "^23.6.0",
     "jest-extended": "^0.10.0",
+    "jest-junit": "^6.3.0",
     "json-loader": "^0.5.7",
     "listr": "^0.14.2",
     "mini-css-extract-plugin": "^0.4.3",

@@ -36,8 +36,14 @@ jobs:
       mysql -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS test;'
     displayName: 'Prepare testing environment'
 
-  - script: ./vendor/bin/phpunit
+  - script: ./vendor/bin/phpunit --log-junit junit.xml
     displayName: Test
+
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    inputs:
+      testRunner: JUnit
+      testResultsFiles: './junit.xml'
 
 - job: javascript
   displayName: JavaScript and Vue Test
@@ -53,5 +59,11 @@ jobs:
 
   - script: |
       yarn lint
-      yarn test --verbose --coverage
+      yarn test --ci --reporters=default --reporters=jest-junit --coverage
     displayName: 'Run Test'
+
+  - task: PublishTestResults@2
+    condition: succeededOrFailed()
+    inputs:
+      testRunner: JUnit
+      testResultsFiles: './junit.xml'
