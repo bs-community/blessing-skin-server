@@ -59,7 +59,7 @@ jobs:
 
   - script: |
       yarn lint
-      yarn test --ci --reporters=default --reporters=jest-junit --coverage
+      yarn test --ci --reporters=default --reporters=jest-junit --coverage --coverageReporters=cobertura
     displayName: 'Run Test'
 
   - task: PublishTestResults@2
@@ -67,3 +67,7 @@ jobs:
     inputs:
       testRunner: JUnit
       testResultsFiles: './junit.xml'
+
+  - task: PublishCodeCoverageResults@1
+    codeCoverageTool: cobertura
+    summaryFileLocation: ./coverage/cobertura-coverage.xml
