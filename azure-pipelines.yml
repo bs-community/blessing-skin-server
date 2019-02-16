@@ -69,5 +69,6 @@ jobs:
       testResultsFiles: './junit.xml'
 
   - task: PublishCodeCoverageResults@1
-    codeCoverageTool: cobertura
-    summaryFileLocation: ./coverage/cobertura-coverage.xml
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: ./coverage/cobertura-coverage.xml
