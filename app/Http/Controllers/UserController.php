@@ -92,6 +92,8 @@ class UserController extends Controller
         $user = Auth::user();
         if ($user->canSign()) {
             $acquiredScore = $user->sign();
+            $user->last_sign_at = get_datetime_string();
+            $user->save();
 
             return json([
                 'errno'          => 0,
