@@ -1,0 +1,65 @@
+# PHP
+# Test and package your PHP project.
+# Add steps that run tests, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/php
+
+trigger:
+- master
+
+jobs:
+- job: php
+  displayName: PHP Test
+  pool:
+    vmImage: 'Ubuntu-16.04'
+  strategy:
+    matrix:
+      php71:
+        phpVersion: 7.1
+      php72:
+        phpVersion: 7.2
+  variables:
+    APP_ENV: testing
+    DB_CONNECTION: mysql
+    DB_DATABASE: test
+    DB_USERNAME: root
+    DB_PASSWORD: root
+
+  steps:
+  - script: |
+      sudo update-alternatives --set php /usr/bin/php$(phpVersion)
+      sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
+      sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
+      sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion)
+      sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion)
+      php -version
+    displayName: 'Use PHP version $(phpVersion)'
+
+  - script: composer install --no-interaction --prefer-dist
+    displayName: 'composer install'
+
+  - script: |
+      cp .env.testing .env
+      php artisan key:random
+      php artisan salt:random
+      mysql -e 'CREATE DATABASE IF NOT EXISTS test;'
+    displayName: 'Prepare testing environment'
+
+  - script: ./vendor/bin/phpunit
+    displayName: Test
+
+- job: javascript
+  displayName: JavaScript and Vue Test
+  pool:
+    vmImage: 'Ubuntu-16.04'
+  steps:
+  - task: NodeTool@0 
+    inputs:
+      versionSpec: 10
+
+  - script: yarn
+    displayName: Install dependencies
+
+  - script: |
+      yarn lint
+      yarn test --verbose --coverage
+    displayName: 'Run Test'
