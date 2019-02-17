@@ -1,14 +1,15 @@
 jobs:
-- job: php
-  displayName: PHP Test
+- job: PHP
   pool:
     vmImage: 'Ubuntu-16.04'
   strategy:
     matrix:
-      php71:
+      '7.1':
         phpVersion: 7.1
-      php72:
+      '7.2':
         phpVersion: 7.2
+      '7.3':
+        phpVersion: 7.3
   variables:
     APP_ENV: testing
     DB_CONNECTION: mysql
@@ -45,8 +46,7 @@ jobs:
       testRunner: JUnit
       testResultsFiles: './junit.xml'
 
-- job: javascript
-  displayName: JavaScript and Vue Test
+- job: JavaScript
   pool:
     vmImage: 'Ubuntu-16.04'
   steps:
@@ -59,7 +59,7 @@ jobs:
 
   - script: |
       yarn lint
-      yarn test --ci --reporters=default --reporters=jest-junit --coverage --coverageReporters=cobertura
+      yarn test --ci --reporters=default --reporters=jest-junit --coverage
     displayName: 'Run Test'
 
   - task: PublishTestResults@2
@@ -67,8 +67,3 @@ jobs:
     inputs:
       testRunner: JUnit
       testResultsFiles: './junit.xml'
-
-  - task: PublishCodeCoverageResults@1
-    inputs:
-      codeCoverageTool: Cobertura
-      summaryFileLocation: ./coverage/cobertura-coverage.xml
