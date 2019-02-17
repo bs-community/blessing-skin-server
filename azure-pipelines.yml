@@ -26,6 +26,11 @@ jobs:
       php -version
     displayName: 'Use PHP version $(phpVersion)'
 
+  - task: DownloadPipelineArtifact@0
+    inputs:
+      artifactName: php vendor
+      targetPath: vendor
+
   - script: composer install --no-interaction --prefer-dist
     displayName: 'composer install'
 
@@ -45,11 +50,20 @@ jobs:
       testRunner: JUnit
       testResultsFiles: './junit.xml'
 
+  - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: php vendor
+      targetPath: vendor
+
 - job: javascript
   displayName: JavaScript
   pool:
     vmImage: 'Ubuntu-16.04'
   steps:
+  - task: DownloadPipelineArtifact@0
+    inputs:
+      artifactName: node_modules
+      targetPath: node_modules
 
   - script: yarn
     displayName: Install dependencies
@@ -64,6 +78,11 @@ jobs:
     inputs:
       testRunner: JUnit
       testResultsFiles: './junit.xml'
+
+  - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: node_modules
+      targetPath: node_modules
 
 - job: build
   displayName: Build & Compile
