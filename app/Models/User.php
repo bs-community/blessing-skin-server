@@ -267,7 +267,6 @@ class User extends Authenticatable
      */
     public function getSignRemainingTime()
     {
-        // Convert to timestamp
         $lastSignTime = Carbon::parse($this->getLastSignTime());
 
         if (option('sign_after_zero')) {
@@ -276,7 +275,7 @@ class User extends Authenticatable
             , false);
         }
 
-        return Carbon::now()->diffInSeconds($lastSignTime->addSeconds(option('sign_gap_time') * 3600), false);
+        return Carbon::now()->diffInSeconds($lastSignTime->addHours(option('sign_gap_time')), false);
     }
 
     /**
