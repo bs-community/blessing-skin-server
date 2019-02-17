@@ -12,3 +12,5 @@ node_modules/*
 yarn-error.log
 _ide_helper.php
 .phpstorm.meta.php
+.uini
+junit.xml
