@@ -86,14 +86,16 @@ class UserControllerTest extends TestCase
         $this->postJson('/user/sign')
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans(
+                /* 'msg' => trans(
                     'user.cant-sign-until',
                     [
                         'time' => option('sign_gap_time'),
                         'unit' => trans('user.time-unit-hour')
                     ]
-                )
+                ) */
             ]);
+        $user = User::find($user->uid);
+        $this->assertEquals(option('sign_gap_time'), round($user->getSignRemainingTime() / 3600));
 
         // Can sign after 0 o'clock
         option(['sign_after_zero' => true]);
