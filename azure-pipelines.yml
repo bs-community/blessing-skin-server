@@ -76,6 +76,7 @@ jobs:
   steps:
     - script: yarn
       displayName: Install dependencies
+    - script: mkdir dist
     - script: yarn release dist/blessing-skin-server.zip
       displayName: Generate package
     - task: PublishPipelineArtifact@0
