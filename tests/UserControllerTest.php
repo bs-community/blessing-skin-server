@@ -4,6 +4,7 @@ namespace Tests;
 
 use Parsedown;
 use App\Events;
+use Carbon\Carbon;
 use App\Models\User;
 use App\Mail\EmailVerification;
 use Illuminate\Support\Facades\Mail;
@@ -83,9 +84,9 @@ class UserControllerTest extends TestCase
             ]);
 
         // Remaining time is greater than 0
-        $user->last_sign_at = get_datetime_string();
-        $user->save();
-        $this->postJson('/user/sign')
+        $user = factory(User::class)->create(['last_sign_at' => get_datetime_string()]);
+        $this->actAs($user)
+            ->postJson('/user/sign')
             ->assertJson([
                 'errno' => 1,
                 'msg' => trans(
@@ -99,6 +100,7 @@ class UserControllerTest extends TestCase
 
         // Can sign after 0 o'clock
         option(['sign_after_zero' => true]);
+        $user = factory(User::class)->create(['last_sign_at' => get_datetime_string()]);
         $diff = \Carbon\Carbon::now()->diffInSeconds(\Carbon\Carbon::tomorrow());
         if ($diff / 3600 >= 1) {
             $diff = round($diff / 3600);
@@ -107,7 +109,8 @@ class UserControllerTest extends TestCase
             $diff = round($diff / 60);
             $unit = 'min';
         }
-        $this->postJson('/user/sign')
+        $this->actAs($user)
+            ->postJson('/user/sign')
             ->assertJson([
                 'errno' => 1,
                 'msg' => trans(

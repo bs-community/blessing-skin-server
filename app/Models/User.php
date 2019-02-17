@@ -271,8 +271,9 @@ class User extends Authenticatable
 
         if (option('sign_after_zero')) {
             return Carbon::now()->diffInSeconds(
-                (($lastSignTime <= Carbon::today()) ? $lastSignTime : Carbon::tomorrow())
-            , false);
+                $lastSignTime <= Carbon::today() ? $lastSignTime : Carbon::tomorrow(),
+                false
+            );
         }
 
         return Carbon::now()->diffInSeconds($lastSignTime->addHours(option('sign_gap_time')), false);
