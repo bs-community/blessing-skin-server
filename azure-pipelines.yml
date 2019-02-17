@@ -27,6 +27,7 @@ jobs:
     displayName: 'Use PHP version $(phpVersion)'
 
   - task: DownloadPipelineArtifact@0
+    continueOnError: true
     inputs:
       artifactName: php vendor
       targetPath: vendor
@@ -61,6 +62,7 @@ jobs:
     vmImage: 'Ubuntu-16.04'
   steps:
   - task: DownloadPipelineArtifact@0
+    continueOnError: true
     inputs:
       artifactName: node_modules
       targetPath: node_modules
