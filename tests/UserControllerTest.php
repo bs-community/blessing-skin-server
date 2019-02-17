@@ -85,6 +85,7 @@ class UserControllerTest extends TestCase
 
         // Remaining time is greater than 0
         $user = factory(User::class)->create(['last_sign_at' => get_datetime_string()]);
+        option(['sign_gap_time' => 2]);
         $this->actAs($user)
             ->postJson('/user/sign')
             ->assertJson([
@@ -92,7 +93,7 @@ class UserControllerTest extends TestCase
                 'msg' => trans(
                     'user.cant-sign-until',
                     [
-                        'time' => option('sign_gap_time'),
+                        'time' => 2,
                         'unit' => trans('user.time-unit-hour')
                     ]
                 )
