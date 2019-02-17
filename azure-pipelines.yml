@@ -79,6 +79,6 @@ jobs:
     - script: yarn release blessing-skin-server.zip
       displayName: Generate package
     - task: PublishPipelineArtifact@0
-    inputs:
-      artifactName: 'Package file'
-      targetPath: 'blessing-skin-server.zip'
+      inputs:
+        artifactName: 'Package file'
+        targetPath: 'blessing-skin-server.zip'
