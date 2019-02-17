@@ -64,3 +64,21 @@ jobs:
     inputs:
       testRunner: JUnit
       testResultsFiles: './junit.xml'
+
+- job: build
+  displayName: Build & Compile
+  condition: ne(variables['Build.Reason'], 'PullRequest')
+  dependsOn:
+    - php
+    - javascript
+  pool:
+    vmImage: 'Ubuntu-16.04'
+  steps:
+    - script: yarn
+      displayName: Install dependencies
+    - script: yarn release blessing-skin-server.zip
+      displayName: Generate package
+    - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: 'Package file'
+      targetPath: 'blessing-skin-server.zip'

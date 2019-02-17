@@ -6,7 +6,7 @@ module.exports = function () {
     const list = fs.readFileSync('./zip.txt', 'utf-8').split('\n');
     list.pop();  // Remove the empty line
 
-    const output = fs.createWriteStream(`../blessing-skin-server-v${version}.zip`);
+    const output = fs.createWriteStream(process.argv[2] || `../blessing-skin-server-v${version}.zip`);
     const archive = archiver('zip', { zlib: { level: 9 } });
 
     return new Promise((resolve, reject) => {
@@ -34,3 +34,5 @@ module.exports = function () {
         archive.finalize();
     });
 };
+
+module.exports();
