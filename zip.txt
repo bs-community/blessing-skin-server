@@ -8,7 +8,6 @@ resources/views/
 routes/
 vendor/
 .env.example
-.htaccess
 artisan
 index.php
 LICENSE
