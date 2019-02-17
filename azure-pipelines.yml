@@ -1,5 +1,6 @@
 jobs:
-- job: PHP
+- job: php
+  displayName: PHP
   pool:
     vmImage: 'Ubuntu-16.04'
   strategy:
@@ -44,13 +45,11 @@ jobs:
       testRunner: JUnit
       testResultsFiles: './junit.xml'
 
-- job: JavaScript
+- job: javascript
+  displayName: JavaScript
   pool:
     vmImage: 'Ubuntu-16.04'
   steps:
-  - task: NodeTool@0
-    inputs:
-      versionSpec: 10
 
   - script: yarn
     displayName: Install dependencies
