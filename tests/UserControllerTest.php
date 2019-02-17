@@ -84,7 +84,7 @@ class UserControllerTest extends TestCase
             ]);
 
         // Remaining time is greater than 0
-        $user = factory(User::class)->create(['last_sign_at' => get_datetime_string()]);
+        /*$user = factory(User::class)->create(['last_sign_at' => get_datetime_string()]);
         $this->actAs($user)
             ->postJson('/user/sign')
             ->assertJson([
@@ -96,7 +96,7 @@ class UserControllerTest extends TestCase
                         'unit' => trans('user.time-unit-hour')
                     ]
                 )
-            ]);
+            ]);*/
 
         // Can sign after 0 o'clock
         option(['sign_after_zero' => true]);
