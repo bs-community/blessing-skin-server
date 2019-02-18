@@ -30,6 +30,7 @@ jobs:
     inputs:
       artifactName: php-vendor-$(phpVersion)
       targetPath: vendor
+      pipelineId: $($(Build.BuildId) - 1)
 
   - script: composer install --no-interaction --prefer-dist
     displayName: 'composer install'
