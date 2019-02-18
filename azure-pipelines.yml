@@ -15,7 +15,6 @@ jobs:
     DB_DATABASE: test
     DB_USERNAME: root
     DB_PASSWORD: root
-
   steps:
   - script: |
       sudo update-alternatives --set php /usr/bin/php$(phpVersion)
@@ -29,7 +28,7 @@ jobs:
   - task: DownloadPipelineArtifact@0
     continueOnError: true
     inputs:
-      artifactName: php vendor
+      artifactName: php-vendor-$(phpVersion)
       targetPath: vendor
 
   - script: composer install --no-interaction --prefer-dist
@@ -52,8 +51,9 @@ jobs:
       testResultsFiles: './junit.xml'
 
   - task: PublishPipelineArtifact@0
+    continueOnError: true
     inputs:
-      artifactName: php vendor
+      artifactName: php-vendor-$(phpVersion)
       targetPath: vendor
 
 - job: javascript
@@ -61,12 +61,6 @@ jobs:
   pool:
     vmImage: 'Ubuntu-16.04'
   steps:
-  - task: DownloadPipelineArtifact@0
-    continueOnError: true
-    inputs:
-      artifactName: node_modules
-      targetPath: node_modules
-
   - script: yarn
     displayName: Install dependencies
 
@@ -81,14 +75,9 @@ jobs:
       testRunner: JUnit
       testResultsFiles: './junit.xml'
 
-  - task: PublishPipelineArtifact@0
-    inputs:
-      artifactName: node_modules
-      targetPath: node_modules
-
 - job: build
   displayName: Build & Compile
-  condition: ne(variables['Build.Reason'], 'PullRequest')
+  condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
   dependsOn:
     - php
     - javascript
