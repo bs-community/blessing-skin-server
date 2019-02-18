@@ -26,17 +26,16 @@ jobs:
     displayName: 'Use PHP version $(phpVersion)'
 
   - script: composer install --no-interaction --prefer-dist
-    displayName: 'composer install'
+    displayName: Install dependencies
 
   - script: |
       cp .env.testing .env
       php artisan key:random
       php artisan salt:random
       mysql -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS test;'
-      mkdir junitReports
     displayName: 'Prepare testing environment'
 
-  - script: node scripts/distribute-test.js
+  - script: ./vendor/bin/phpunit --log-junit junit.xml
     displayName: Test
 
   - task: PublishTestResults@2
