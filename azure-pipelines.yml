@@ -4,6 +4,7 @@ jobs:
   pool:
     vmImage: 'Ubuntu-16.04'
   strategy:
+    parallel: 3
     matrix:
       '7.1':
         phpVersion: 7.1
@@ -25,13 +26,6 @@ jobs:
       php -version
     displayName: 'Use PHP version $(phpVersion)'
 
-  - task: DownloadPipelineArtifact@0
-    continueOnError: true
-    inputs:
-      artifactName: php-vendor-$(phpVersion)
-      targetPath: vendor
-      pipelineId: $($(Build.BuildId) - 1)
-
   - script: composer install --no-interaction --prefer-dist
     displayName: 'composer install'
 
@@ -40,9 +34,10 @@ jobs:
       php artisan key:random
       php artisan salt:random
       mysql -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS test;'
+      mkdir junitReports
     displayName: 'Prepare testing environment'
 
-  - script: ./vendor/bin/phpunit --log-junit junit.xml
+  - script: node scripts/distribute-test.js
     displayName: Test
 
   - task: PublishTestResults@2
@@ -50,12 +45,6 @@ jobs:
     inputs:
       testRunner: JUnit
       testResultsFiles: './junit.xml'
-
-  - task: PublishPipelineArtifact@0
-    continueOnError: true
-    inputs:
-      artifactName: php-vendor-$(phpVersion)
-      targetPath: vendor
 
 - job: javascript
   displayName: JavaScript
@@ -88,7 +77,7 @@ jobs:
     - script: yarn
       displayName: Install dependencies
     - script: mkdir dist
-    - script: yarn release dist/blessing-skin-server.zip
+    - script: yarn release dist/blessing-skin-server.zip --ci
       displayName: Generate package
     - task: PublishPipelineArtifact@0
       inputs:

@@ -47,6 +47,7 @@ const tasks = new Listr([
     },
     {
         title: 'Install PHP dependencies for development',
+        enabled: () => !process.argv.includes('--ci'),
         task: () => execa('composer', ['install'])
     },
 ]);
