@@ -241,7 +241,13 @@ class SetupController extends Controller
      * @param  bool  $returnExisting
      * @return bool|array
      */
-    public static function checkTablesExist($tables = [], $returnExistingTables = false) {
+    public static function checkTablesExist($tables = [], $returnExistingTables = false)
+    {
+        if (request()->is('setup') || request()->is('setup/database')) {
+            // We're ready to install Blessing Skin, so skip the checks.
+            return false;
+        }
+
         $existingTables = [];
         $tables = $tables ?: ['users', 'closets', 'players', 'textures', 'options'];
 
