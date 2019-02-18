@@ -4,7 +4,6 @@ jobs:
   pool:
     vmImage: 'Ubuntu-16.04'
   strategy:
-    parallel: 3
     matrix:
       '7.1':
         phpVersion: 7.1
