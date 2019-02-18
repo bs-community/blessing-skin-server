@@ -245,7 +245,11 @@ class SetupController extends Controller
     {
         if (request()->is('setup') || request()->is('setup/database')) {
             // We're ready to install Blessing Skin, so skip the checks.
-            return false;
+            try {
+                DB::connection(env('DB_CONNECTION'))->getPdo();
+            } catch (\Exception $e) {
+                return false;
+            }
         }
 
         $existingTables = [];

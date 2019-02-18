@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use DB;
 use App\Models\User;
 use App\Services\Facades\Option;
 use Illuminate\Support\Facades\Schema;
@@ -115,6 +116,13 @@ class MiddlewareTest extends TestCase
         array_walk($tables, function ($table) {
             Schema::dropIfExists($table);
         });
+        $this->get('/setup')->assertSee(trans(
+            'setup.wizard.welcome.text',
+            ['version' => config('app.version')]
+        ));
+
+        DB::shouldReceive('connection')->once()->andThrow(new \Exception('fake exception'));
+        DB::shouldReceive('disconnect')->andReturnSelf();
         $this->get('/setup')->assertSee(trans(
             'setup.wizard.welcome.text',
             ['version' => config('app.version')]
