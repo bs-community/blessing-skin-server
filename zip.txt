@@ -9,7 +9,6 @@ routes/
 vendor/
 .env.example
 artisan
-index.php
 LICENSE
 README.md
 README_EN.md

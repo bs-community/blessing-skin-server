@@ -91,5 +91,5 @@ jobs:
       displayName: Generate package
     - task: PublishPipelineArtifact@0
       inputs:
-        artifactName: 'Package file'
+        artifactName: 'blessing-skin-server.zip'
         targetPath: dist
