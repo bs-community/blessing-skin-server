@@ -1,7 +1,6 @@
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const TerserPlugin = require('terser-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const WebpackBar = require('webpackbar');
 
@@ -127,27 +126,6 @@ const config = {
             analyzerMode: devMode ? 'server' : 'static'
         }),
     ],
-    optimization: {
-        minimizer: [
-            new TerserPlugin({
-                parallel: true,
-                cache: true,
-                sourceMap: false,
-                extractComments: {
-                    filename: 'LICENSES'
-                },
-                terserOptions: {
-                    output: {
-                        comments: /^\**!|@preserve|@license|@cc_on/
-                    }
-                },
-                exclude: [
-                    /sweetalert2$/,
-                    /node_modules.*jquery$/
-                ]
-            })
-        ]
-    },
     resolve: {
         extensions: ['.js', '.vue', '.json'],
         alias: {

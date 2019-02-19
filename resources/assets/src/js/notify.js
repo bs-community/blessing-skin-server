@@ -1,5 +1,5 @@
 import $ from 'jquery';
-import sweetalert2 from 'sweetalert2';
+import Swal from 'sweetalert2';
 import toastr from 'toastr';
 import { trans } from './i18n';
 
@@ -68,10 +68,17 @@ export function showModal(msg, title = 'Message', type = 'default', options = {}
     }).modal(options);
 }
 
-export const swal = sweetalert2.mixin({
+const swalInstance = Swal.mixin({
     confirmButtonText: trans('general.confirm'),
     cancelButtonText: trans('general.cancel')
 });
+
+/**
+ * @param {import('sweetalert2').SweetAlertOptions} options
+ */
+export function swal(options) {
+    return swalInstance.fire(options);
+}
 
 window.toastr = toastr;
 window.swal = swal;
