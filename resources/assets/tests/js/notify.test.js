@@ -1,5 +1,13 @@
 import $ from 'jquery';
+import Swal from 'sweetalert2';
 import * as notify from '@/js/notify';
+
+jest.mock('sweetalert2', () => ({
+    mixin() {
+        return this;
+    },
+    fire() {}
+}));
 
 test('show message', () => {
     document.body.innerHTML = '<div id=msg class="callout-x"></div>';
@@ -28,4 +36,10 @@ test('show modal', () => {
         callback: () => undefined,
         destroyOnClose: false
     });
+});
+
+test('show sweetalert', () => {
+    jest.spyOn(Swal, 'fire');
+    notify.swal({});
+    expect(Swal.fire).toBeCalled();
 });

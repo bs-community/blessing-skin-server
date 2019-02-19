@@ -71,7 +71,7 @@ test('change texture', async () => {
 
     button.trigger('click');
     await flushPromises();
-    expect(wrapper.text()).toContain('5');
+    expect(wrapper.html()).toContain('/preview/64/5.png');
     expect(window.$).toBeCalledWith('.modal');
 });
 

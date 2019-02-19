@@ -238,6 +238,7 @@ export default {
         }
     },
     methods: {
+        /* istanbul ignore next */
         search() {},
         async loadCloset(page = 1) {
             const { items, category, total_pages } = await this.$http.get(

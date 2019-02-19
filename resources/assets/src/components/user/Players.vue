@@ -373,7 +373,7 @@ export default {
 
             const { errno, msg } = await this.$http.post(
                 '/user/player/texture/clear',
-                { pid: this.selected, ...this.clear }
+                Object.assign({ pid: this.selected }, this.clear)
             );
             if (errno === 0) {
                 $('.modal').modal('hide');
