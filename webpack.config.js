@@ -1,10 +1,10 @@
+const webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const WebpackBar = require('webpackbar');
 
-const devMode = process.env.WEBPACK_SERVE;
+const devMode = !process.argv.includes('--mode=production');
 
 /** @type {import('webpack').Configuration} */
 const config = {
@@ -121,24 +121,29 @@ const config = {
             'resources/assets/src/images/bg.jpg',
             'resources/assets/src/images/favicon.ico',
         ]),
-        new BundleAnalyzerPlugin({
-            openAnalyzer: false,
-            analyzerMode: devMode ? 'server' : 'static'
-        }),
     ],
     resolve: {
-        extensions: ['.js', '.vue', '.json'],
-        alias: {
-            jquery: 'jquery/dist/jquery.min.js',
-            sweetalert2$: 'sweetalert2/dist/sweetalert2.min.js',
-        },
+        extensions: ['.js', '.vue', '.json']
     },
     devtool: devMode ? 'cheap-module-eval-source-map' : false,
+    devServer: {
+        headers: {
+            'Access-Control-Allow-Origin': '*'
+        },
+        host: '0.0.0.0',
+        hot: true,
+        publicPath: '/public/',
+        stats: 'errors-only'
+    },
     stats: 'errors-only'
 };
 
 if (!devMode) {
+    process.env.NODE_ENV = 'production';
     config.plugins.push(new WebpackBar());
+    config.plugins.push(new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify('production') }));
+} else {
+    config.plugins.push(new webpack.HotModuleReplacementPlugin());
 }
 
 module.exports = config;

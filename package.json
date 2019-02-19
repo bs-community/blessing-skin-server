@@ -10,8 +10,8 @@
   "license": "GPL-3.0",
   "private": true,
   "scripts": {
-    "dev": "webpack-serve",
-    "build": "rimraf public/app && node scripts/build",
+    "dev": "webpack-dev-server",
+    "build": "rimraf public/app && webpack --mode=production",
     "lint": "eslint --ext=.js,.vue -f=beauty .",
     "test": "jest",
     "codecov": "codecov -F js",
@@ -77,8 +77,8 @@
     "vue-loader": "^15.6.3",
     "vue-template-compiler": "^2.6.6",
     "webpack": "^4.29.4",
-    "webpack-bundle-analyzer": "^3.0.4",
-    "webpack-serve": "^2.0.2",
+    "webpack-cli": "^3.2.3",
+    "webpack-dev-server": "^3.1.14",
     "webpackbar": "^3.1.5",
     "yaml-loader": "^0.5.0"
   },
@@ -112,16 +112,5 @@
   },
   "jest-junit": {
     "usePathForSuiteName": true
-  },
-  "serve": {
-    "clipboard": false,
-    "devMiddleware": {
-      "headers": {
-        "Access-Control-Allow-Origin": "*"
-      },
-      "host": "0.0.0.0",
-      "logLevel": "warn",
-      "publicPath": "/public/"
-    }
   }
 }
