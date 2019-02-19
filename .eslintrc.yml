@@ -75,6 +75,9 @@ rules:
   vue/v-on-style: error
   vue/html-quotes: error
   vue/order-in-components: warn
+  vue/no-template-shadow: error
+  vue/no-spaces-around-equal-signs-in-attribute: error
+  vue/no-unused-components: warn
 
 globals:
   blessing: false
