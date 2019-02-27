@@ -32,7 +32,7 @@ return [
     'ses' => [
         'key' => env('SES_KEY'),
         'secret' => env('SES_SECRET'),
-        'region' => menv('SES_REGION'),
+        'region' => env('SES_REGION'),
         'guzzle' => [
             'verify' => config('secure.certificates')
         ],

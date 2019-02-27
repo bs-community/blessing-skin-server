@@ -634,7 +634,7 @@ class OptionFormGroup extends OptionFormItem
             $rendered[] = view('common.option-form.'.$item['type'])->with([
                 'id'    => $item['id'],
                 'value' => $item['value'],
-                'placeholder' => array_get($item, 'placeholder')
+                'placeholder' => Arr::get($item, 'placeholder')
             ]);
         }
 

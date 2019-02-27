@@ -54,7 +54,7 @@ return [
         ],
 
         'textures' => [
-            'driver' => menv('FS_DRIVER', 'local'),
+            'driver' => env('FS_DRIVER', 'local'),
             'root' => storage_path('textures'),
         ],
 

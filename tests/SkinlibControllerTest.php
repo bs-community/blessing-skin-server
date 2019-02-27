@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Closet;
 use App\Models\Player;
 use App\Models\Texture;
+use Illuminate\Support\Str;
 use org\bovigo\vfs\vfsStream;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +23,7 @@ class SkinlibControllerTest extends TestCase
      */
     private $vfs_root;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->vfs_root = vfsStream::setup();
@@ -130,11 +131,11 @@ class SkinlibControllerTest extends TestCase
             ]);
 
         // Search
-        $keyword = str_limit($skins->random()->name, 1, '');
+        $keyword = Str::limit($skins->random()->name, 1, '');
         $expected = $skins
             ->filter(function ($texture) use ($keyword) {
-                return str_contains($texture->name, $keyword) ||
-                    str_contains($texture->name, strtolower($keyword));
+                return Str::contains($texture->name, $keyword) ||
+                    Str::contains($texture->name, strtolower($keyword));
             })
             ->sortByDesc('upload_at')
             ->values();
@@ -146,11 +147,11 @@ class SkinlibControllerTest extends TestCase
             ]);
 
         // More than one argument
-        $keyword = str_limit($skins->random()->name, 1, '');
+        $keyword = Str::limit($skins->random()->name, 1, '');
         $expected = $skins
             ->filter(function ($texture) use ($keyword) {
-                return str_contains($texture->name, $keyword) ||
-                    str_contains($texture->name, strtolower($keyword));
+                return Str::contains($texture->name, $keyword) ||
+                    Str::contains($texture->name, strtolower($keyword));
             })
             ->sortByDesc('likes')
             ->values();

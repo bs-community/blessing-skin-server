@@ -20,11 +20,11 @@ class UpdateControllerTest extends TestCase
     use DatabaseTransactions;
     use MocksGuzzleClient;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
-        return $this->actAs('superAdmin');
+        $this->actAs('superAdmin');
     }
 
     public function testShowUpdatePage()

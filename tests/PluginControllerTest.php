@@ -15,14 +15,14 @@ class PluginControllerTest extends TestCase
     use DatabaseTransactions;
     use GeneratesFakePlugins;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
         $this->generateFakePlugin(['name' => 'fake-plugin-for-test', 'version' => '1.1.4']);
         $this->generateFakePlugin(['name' => 'fake-plugin-with-config-view', 'version' => '5.1.4', 'config' => 'config.blade.php']);
 
-        return $this->actAs('superAdmin');
+        $this->actAs('superAdmin');
     }
 
     public function testShowManage()
@@ -143,7 +143,7 @@ class PluginControllerTest extends TestCase
             ]);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // Clean fake plugins
         File::deleteDirectory(base_path('plugins/fake-plugin-for-test'));

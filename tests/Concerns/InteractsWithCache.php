@@ -13,11 +13,12 @@ trait InteractsWithCache
      * Set the cache to the given array.
      *
      * @param  array  $data
+     * @param  int    $seconds
      * @return $this
      */
-    public function withCache(array $data, $minutes = 60)
+    public function withCache(array $data, $seconds = 3600)
     {
-        $this->cache($data, $minutes);
+        $this->cache($data, $seconds);
 
         return $this;
     }
@@ -26,12 +27,13 @@ trait InteractsWithCache
      * Set the cache to the given array.
      *
      * @param  array  $data
+     * @param  int    $seconds
      * @return void
      */
-    public function cache(array $data, $minutes = 60)
+    public function cache(array $data, $seconds = 3600)
     {
         foreach ($data as $key => $value) {
-            $this->app['cache']->put($key, $value, $minutes);
+            $this->app['cache']->put($key, $value, $seconds);
         }
     }
 

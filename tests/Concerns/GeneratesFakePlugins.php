@@ -3,6 +3,8 @@
 namespace Tests\Concerns;
 
 use ZipArchive;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 trait GeneratesFakePlugins
 {
@@ -15,13 +17,13 @@ trait GeneratesFakePlugins
     protected function generateFakePlguinInfo($info = [])
     {
         return array_replace([
-            'name' => str_random(10),
+            'name' => Str::random(10),
             'version' => '0.0.'.rand(1, 9),
-            'title' => str_random(20),
-            'description' => str_random(60),
-            'author' => array_get($info, 'author', str_random(10)),
-            'url' => 'https://'.str_random(10).'.test',
-            'namespace' => str_random(10),
+            'title' => Str::random(20),
+            'description' => Str::random(60),
+            'author' => Arr::get($info, 'author', Str::random(10)),
+            'url' => 'https://'.Str::random(10).'.test',
+            'namespace' => Str::random(10),
             'require' => [
                 'blessing-skin-server' => '^3.4.0 || ^4.0.0'
             ]
@@ -39,8 +41,8 @@ trait GeneratesFakePlugins
         return $this->generateFakePlguinInfo(array_replace([
             'dist' => [
                 'type' => 'zip',
-                'url' => 'https://plugins-registry.test/'.str_random(10).'.zip',
-                'shasum' => strtolower(str_random(40))
+                'url' => 'https://plugins-registry.test/'.Str::random(10).'.zip',
+                'shasum' => strtolower(Str::random(40))
             ]
         ], $info));
     }
@@ -97,14 +99,14 @@ trait GeneratesFakePlugins
         }
 
         // Generate fake config view
-        if ($config = array_get($info, 'config')) {
+        if ($config = Arr::get($info, 'config')) {
             $views_path = "$plugin_dir/views";
 
             if (! is_dir($views_path)) {
                 mkdir($views_path);
             }
 
-            file_put_contents("$views_path/$config", str_random(64));
+            file_put_contents("$views_path/$config", Str::random(64));
         }
 
         file_put_contents("$plugin_dir/package.json", json_encode(
@@ -122,8 +124,8 @@ trait GeneratesFakePlugins
      */
     protected function generateFakePluginArchive($info)
     {
-        $name = array_get($info, 'name');
-        $version = array_get($info, 'version');
+        $name = Arr::get($info, 'name');
+        $version = Arr::get($info, 'version');
         $zipPath = storage_path("testing/{$name}_{$version}.zip");
 
         if (file_exists($zipPath)) {

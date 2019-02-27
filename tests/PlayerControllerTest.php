@@ -14,10 +14,10 @@ class PlayerControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
-        return $this->actAs('normal');
+        $this->actAs('normal');
     }
 
     public function testIndex()

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -23,7 +24,7 @@ class DetectLanguagePrefer
         $locale = $request->input('lang') ?: ($request->cookie('locale') ?: $request->getPreferredLanguage());
 
         // If current locale is an alias of other locale
-        if (($info = array_get(config('locales'), $locale)) && ($alias = array_get($info, 'alias'))) {
+        if (($info = Arr::get(config('locales'), $locale)) && ($alias = Arr::get($info, 'alias'))) {
             $locale = $alias;
         }
 

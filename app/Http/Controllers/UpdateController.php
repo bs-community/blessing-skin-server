@@ -9,6 +9,7 @@ use Option;
 use Storage;
 use Exception;
 use ZipArchive;
+use Illuminate\Support\Arr;
 use App\Services\OptionForm;
 use Illuminate\Http\Request;
 use Composer\Semver\Comparator;
@@ -92,7 +93,7 @@ class UpdateController extends Controller
             );
 
             if ($detail = $this->getReleaseInfo($info['latest_version'])) {
-                $info = array_merge($info, array_only($detail, [
+                $info = array_merge($info, Arr::only($detail, [
                     'release_note',
                     'release_url',
                     'release_time',
@@ -104,7 +105,7 @@ class UpdateController extends Controller
             }
 
             if (! $info['new_version_available']) {
-                $info['release_time'] = array_get($this->getReleaseInfo($this->currentVersion), 'release_time');
+                $info['release_time'] = Arr::get($this->getReleaseInfo($this->currentVersion), 'release_time');
             }
         }
 
@@ -157,7 +158,7 @@ class UpdateController extends Controller
 
                 // Set temporary path for the update package
                 $tmp_path = $update_cache.'/update_'.time().'.zip';
-                Cache::put('tmp_path', $tmp_path, 60);
+                Cache::put('tmp_path', $tmp_path, 3600);
                 Log::info('[Update Wizard] Prepare to download update package', compact('release_url', 'tmp_path'));
 
                 // We won't get remote file size here since HTTP HEAD method is not always reliable
@@ -184,7 +185,7 @@ class UpdateController extends Controller
                             if ($total == $downloaded || floor($downloaded / 102400) > floor($GLOBALS['last_downloaded'] / 102400)) {
                                 $GLOBALS['last_downloaded'] = $downloaded;
                                 Log::info('[Update Wizard] Download progress (in bytes):', [$total, $downloaded]);
-                                Cache::put('download-progress', compact('total', 'downloaded'), 60);
+                                Cache::put('download-progress', compact('total', 'downloaded'), 3600);
                             }
                             // @codeCoverageIgnoreEnd
                         }
@@ -278,10 +279,10 @@ class UpdateController extends Controller
             }
         }
 
-        $this->latestVersion = array_get($this->updateInfo, 'latest_version', $this->currentVersion);
+        $this->latestVersion = Arr::get($this->updateInfo, 'latest_version', $this->currentVersion);
 
         if (! is_null($key)) {
-            return array_get($this->updateInfo, $key);
+            return Arr::get($this->updateInfo, $key);
         }
 
         return $this->updateInfo;
@@ -289,7 +290,7 @@ class UpdateController extends Controller
 
     protected function getReleaseInfo($version)
     {
-        return array_get($this->getUpdateInfo('releases'), $version);
+        return Arr::get($this->getUpdateInfo('releases'), $version);
     }
 
 }

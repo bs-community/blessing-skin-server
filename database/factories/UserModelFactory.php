@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Str;
 
 $factory->define(User::class, function (Faker\Generator $faker) {
     return [
@@ -8,7 +9,7 @@ $factory->define(User::class, function (Faker\Generator $faker) {
         'nickname' => $faker->name,
         'score' => 1000,
         'avatar' => 0,
-        'password' => app('cipher')->hash(str_random(10), config('secure.salt')),
+        'password' => app('cipher')->hash(Str::random(10), config('secure.salt')),
         'ip' => '127.0.0.1',
         'permission' => 0,
         'verified' => true,
@@ -23,7 +24,7 @@ $factory->defineAs(User::class, 'admin', function (Faker\Generator $faker) {
         'nickname' => $faker->name,
         'score' => 1000,
         'avatar' => 0,
-        'password' => app('cipher')->hash(str_random(10), config('secure.salt')),
+        'password' => app('cipher')->hash(Str::random(10), config('secure.salt')),
         'ip' => '127.0.0.1',
         'permission' => 1,
         'verified' => true,
@@ -38,7 +39,7 @@ $factory->defineAs(User::class, 'superAdmin', function (Faker\Generator $faker) 
         'nickname' => $faker->name,
         'score' => 1000,
         'avatar' => 0,
-        'password' => app('cipher')->hash(str_random(10), config('secure.salt')),
+        'password' => app('cipher')->hash(Str::random(10), config('secure.salt')),
         'ip' => '127.0.0.1',
         'permission' => 2,
         'verified' => true,
@@ -53,7 +54,7 @@ $factory->defineAs(User::class, 'banned', function (Faker\Generator $faker) {
         'nickname' => $faker->name,
         'score' => 1000,
         'avatar' => 0,
-        'password' => app('cipher')->hash(str_random(10), config('secure.salt')),
+        'password' => app('cipher')->hash(Str::random(10), config('secure.salt')),
         'ip' => '127.0.0.1',
         'permission' => -1,
         'verified' => true,

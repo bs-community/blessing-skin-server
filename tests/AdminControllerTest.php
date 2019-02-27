@@ -5,6 +5,7 @@ namespace Tests;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
+use Illuminate\Support\Str;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -13,11 +14,11 @@ class AdminControllerTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         // Do not use `WithoutMiddleware` trait
         parent::setUp();
-        return $this->actAs('admin');
+        $this->actAs('admin');
     }
 
     public function testIndex()
@@ -358,7 +359,7 @@ class AdminControllerTest extends BrowserKitTestCase
         // Set a too long password
         $this->postJson(
             '/admin/users',
-            ['uid' => $user->uid, 'action' => 'password', 'password' => str_random(17)],
+            ['uid' => $user->uid, 'action' => 'password', 'password' => Str::random(17)],
             ['Accept' => 'application/json']
         )->seeJson([
             'errno' => 1,

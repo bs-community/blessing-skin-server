@@ -14,10 +14,10 @@ class MarketControllerTest extends TestCase
     use MocksGuzzleClient;
     use GeneratesFakePlugins;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
-        return $this->actAs('superAdmin');
+        $this->actAs('superAdmin');
     }
 
     public function testDownload()
@@ -171,7 +171,7 @@ class MarketControllerTest extends TestCase
         File::deleteDirectory(base_path('plugins/' . $package['name']));
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         // Clean fake plugins
         File::deleteDirectory(base_path('plugins/fake-test-download'));

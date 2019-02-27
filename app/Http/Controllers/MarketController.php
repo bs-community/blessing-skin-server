@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use ZipArchive;
+use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Composer\Semver\Comparator;
 use App\Services\PluginManager;
@@ -54,7 +55,7 @@ class MarketController extends Controller
                 $item['installed'] = false;
             }
 
-            $requirements = array_get($item, 'require', []);
+            $requirements = Arr::get($item, 'require', []);
             unset($item['require']);
 
             $item['dependencies'] = [
@@ -93,7 +94,7 @@ class MarketController extends Controller
 
         // Gather plugin distribution URL
         $url = $metadata['dist']['url'];
-        $filename = array_last(explode('/', $url));
+        $filename = Arr::last(explode('/', $url));
         $plugins_dir = $manager->getPluginsDir();
         $tmp_path = $plugins_dir.DIRECTORY_SEPARATOR.$filename;
 
@@ -152,6 +153,6 @@ class MarketController extends Controller
             $this->registryCache = json_decode($pluginsJson, true);
         }
 
-        return array_get($this->registryCache, 'packages', []);
+        return Arr::get($this->registryCache, 'packages', []);
     }
 }

@@ -5,6 +5,7 @@ namespace Tests;
 use App\Events;
 use App\Models\User;
 use App\Models\Player;
+use Illuminate\Support\Str;
 use App\Mail\ForgotPassword;
 use App\Services\Facades\Option;
 use Illuminate\Support\Facades\URL;
@@ -71,7 +72,7 @@ class AuthControllerTest extends TestCase
         $this->postJson(
             '/auth/login', [
             'identification' => $user->email,
-            'password' => str_random(80)
+            'password' => Str::random(80)
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
         ])->assertJson([
@@ -245,7 +246,7 @@ class AuthControllerTest extends TestCase
             '/auth/register',
             [
                 'email' => 'a@b.c',
-                'password' => str_random(33)
+                'password' => Str::random(33)
             ]
         )->assertJson([
             'errno' => 1,
@@ -287,7 +288,7 @@ class AuthControllerTest extends TestCase
             [
                 'email' => 'a@b.c',
                 'password' => '12345678',
-                'player_name' => str_random(option('player_name_length_max') + 10),
+                'player_name' => Str::random(option('player_name_length_max') + 10),
                 'captcha' => 'a'
             ]
         )->assertJson([
@@ -350,7 +351,7 @@ class AuthControllerTest extends TestCase
             [
                 'email' => 'a@b.c',
                 'password' => '12345678',
-                'nickname' => str_random(256),
+                'nickname' => Str::random(256),
                 'captcha' => 'a'
             ],
             ['X-Requested-With' => 'XMLHttpRequest']
@@ -568,7 +569,7 @@ class AuthControllerTest extends TestCase
         // Should return a warning if `password` is too long
         $this->postJson(
             $url, [
-            'password' => str_random(33)
+            'password' => Str::random(33)
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
         ])->assertJson([

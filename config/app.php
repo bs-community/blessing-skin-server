@@ -19,7 +19,7 @@ return [
     | Where to get information of new versions.
     |
     */
-    'update_source' => menv(
+    'update_source' => env(
         'UPDATE_SOURCE',
         'https://work.prinzeugen.net/blessing-skin-server/update.json'
     ),
@@ -35,7 +35,7 @@ return [
     |
     */
 
-    'env' => menv('APP_ENV', 'production'),
+    'env' => env('APP_ENV', 'production'),
 
     /*
     |--------------------------------------------------------------------------
@@ -48,7 +48,7 @@ return [
     |
     */
 
-    'debug' => menv('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -61,7 +61,7 @@ return [
     |
     */
 
-    'url' => menv('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://localhost'),
 
     /*
     |--------------------------------------------------------------------------
@@ -113,7 +113,7 @@ return [
     |
     */
 
-    'key' => menv('APP_KEY', 'base64:MfnScX0W/ViN8bZtRt0P481rWP3igcOK80QstjbXUxI='),
+    'key' => env('APP_KEY', 'base64:MfnScX0W/ViN8bZtRt0P481rWP3igcOK80QstjbXUxI='),
 
     'cipher' => 'AES-256-CBC',
 
@@ -130,7 +130,7 @@ return [
     |
     */
 
-    'log' => menv('APP_LOG', 'single'),
+    'log' => env('APP_LOG', 'single'),
 
     /*
     |--------------------------------------------------------------------------
