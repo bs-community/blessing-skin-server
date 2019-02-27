@@ -345,58 +345,6 @@ if (! function_exists('option_localized')) {
     }
 }
 
-if (! function_exists('menv')) {
-    /**
-     * Gets the value of an environment variable by getenv() or $_ENV.
-     *
-     * @param  string  $key
-     * @param  mixed   $default
-     * @return mixed
-     */
-    function menv($key, $default = null)
-    {
-        if (function_exists('putenv') && function_exists('getenv')) {
-            // try to read by getenv()
-            $value = getenv($key);
-            env('');
-
-            if ($value === false) {
-                return value($default);
-            }
-        } else {
-            // try to read from $_ENV or $_SERVER
-            if (isset($_ENV[$key])) {
-                $value = $_ENV[$key];
-            } elseif (isset($_SERVER[$key])) {
-                $value = $_SERVER[$key];
-            } else {
-                return value($default);
-            }
-        }
-
-        switch (strtolower($value)) {
-            case 'true':
-            case '(true)':
-                return true;
-            case 'false':
-            case '(false)':
-                return false;
-            case 'empty':
-            case '(empty)':
-                return '';
-            case 'null':
-            case '(null)':
-                return;
-        }
-
-        if (strlen($value) > 1 && Str::startsWith($value, '"') && Str::endsWith($value, '"')) {
-            return substr($value, 1, -1);
-        }
-
-        return $value;
-    }
-}
-
 if (! function_exists('validate')) {
 
     function validate($value, $type)
