@@ -5,6 +5,7 @@ namespace Tests;
 use Mockery;
 use Exception;
 use CreateAllTables;
+use Illuminate\Support\Str;
 use AddVerificationToUsersTable;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
@@ -18,13 +19,13 @@ class SetupControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->dropAllTables();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->dropAllTables();
         Mockery::close();
@@ -107,7 +108,7 @@ class SetupControllerTest extends TestCase
         // Too long nickname
         $this->post('/setup/finish', [
             'email' => 'a@b.c',
-            'nickname' => str_random(256)
+            'nickname' => Str::random(256)
         ])->assertDontSee(trans('setup.wizard.finish.title'));
 
         // Without `password` field
@@ -127,7 +128,7 @@ class SetupControllerTest extends TestCase
         $this->post('/setup/finish', [
             'email' => 'a@b.c',
             'nickname' => 'nickname',
-            'password' => str_random(17)
+            'password' => Str::random(17)
         ])->assertDontSee(trans('setup.wizard.finish.title'));
 
         // Confirmation is not OK

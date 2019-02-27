@@ -165,7 +165,7 @@ class PluginManager
 
             $plugin->setEnabled(true);
 
-            $this->dispatcher->fire(new Events\PluginWasEnabled($plugin));
+            $this->dispatcher->dispatch(new Events\PluginWasEnabled($plugin));
         }
     }
 
@@ -191,7 +191,7 @@ class PluginManager
             $this->enabled = $rejected;
             $this->saveEnabled();
 
-            $this->dispatcher->fire(new Events\PluginWasDisabled($plugin));
+            $this->dispatcher->dispatch(new Events\PluginWasDisabled($plugin));
         }
     }
 
@@ -206,8 +206,8 @@ class PluginManager
 
         $this->disable($name);
 
-        // fire event before deleting plugin files
-        $this->dispatcher->fire(new Events\PluginWasDeleted($plugin));
+        // dispatch event before deleting plugin files
+        $this->dispatcher->dispatch(new Events\PluginWasDeleted($plugin));
 
         $this->filesystem->deleteDirectory($plugin->getPath());
 

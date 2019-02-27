@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Event;
 use App\Events;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use App\Services\PluginManager;
 use Illuminate\Support\ServiceProvider;
@@ -75,7 +76,7 @@ class PluginServiceProvider extends ServiceProvider
             if (file_exists($filename = $event->plugin->getPath()."/callbacks.php")) {
                 $callbacks = require $filename;
 
-                $callback = array_get($callbacks, get_class($event));
+                $callback = Arr::get($callbacks, get_class($event));
 
                 return $callback ? app()->call($callback, [$event->plugin]) : null;
             }

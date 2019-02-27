@@ -10,7 +10,7 @@ return [
     | Defaults to `base_path()."/plugins"`.
     |
     */
-    'directory' => menv('PLUGINS_DIR'),
+    'directory' => env('PLUGINS_DIR'),
 
     /*
     |--------------------------------------------------------------------------
@@ -21,7 +21,7 @@ return [
     | Defaults to `http://site_url/plugins`.
     |
     */
-    'url' => menv('PLUGINS_URL'),
+    'url' => env('PLUGINS_URL'),
 
     /*
     |--------------------------------------------------------------------------
@@ -31,5 +31,5 @@ return [
     | Specify where to get plugins' metadata for plugin market.
     |
     */
-    'registry' => menv('PLUGINS_REGISTRY', 'https://work.prinzeugen.net/blessing-skin-server/plugins.json'),
+    'registry' => env('PLUGINS_REGISTRY', 'https://work.prinzeugen.net/blessing-skin-server/plugins.json'),
 ];

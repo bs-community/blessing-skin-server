@@ -52,7 +52,7 @@ class BrowserKitTestCase extends TestCase
         return $this->actingAs($role);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->beforeApplicationDestroyed(function () {
             DB::disconnect();

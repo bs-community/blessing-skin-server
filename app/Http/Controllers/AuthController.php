@@ -61,7 +61,7 @@ class AuthController extends Controller
                 return json(trans('auth.login.success'), 0);
             } else {
                 // Increase the counter
-                Cache::put($loginFailsCacheKey, ++$loginFails, 60);
+                Cache::put($loginFailsCacheKey, ++$loginFails, 3600);
 
                 return json(trans('auth.validation.password'), 1, [
                     'login_fails' => $loginFails
@@ -201,7 +201,7 @@ class AuthController extends Controller
             return json(trans('auth.forgot.failed', ['msg' => $e->getMessage()]), 2);
         }
 
-        Cache::put($lastMailCacheKey, time(), 60);
+        Cache::put($lastMailCacheKey, time(), 3600);
 
         return json(trans('auth.forgot.success'), 0);
     }

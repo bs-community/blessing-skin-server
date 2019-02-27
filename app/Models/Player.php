@@ -221,7 +221,7 @@ class Player extends Model
         // Support both CustomSkinLoader API & UniSkinAPI
         if ($api_type == self::CSL_API || $api_type == self::USM_API) {
 
-            $responses = Event::fire(new GetPlayerJson($this, $api_type));
+            $responses = Event::dispatch(new GetPlayerJson($this, $api_type));
 
             // If listeners return nothing
             if (isset($responses[0]) && $responses[0] !== null) {

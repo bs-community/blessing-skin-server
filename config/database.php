@@ -26,7 +26,7 @@ return [
     |
     */
 
-    'default' => menv('DB_CONNECTION', 'mysql'),
+    'default' => env('DB_CONNECTION', 'mysql'),
 
     /*
     |--------------------------------------------------------------------------
@@ -48,33 +48,33 @@ return [
 
         'sqlite' => [
             'driver' => 'sqlite',
-            'database' => menv('DB_DATABASE', database_path('database.sqlite')),
-            'prefix' => menv('DB_PREFIX', ''),
+            'database' => env('DB_DATABASE', database_path('database.sqlite')),
+            'prefix' => env('DB_PREFIX', ''),
         ],
 
         'mysql' => [
             'driver' => 'mysql',
-            'host' => menv('DB_HOST', 'localhost'),
-            'port' => menv('DB_PORT', '3306'),
-            'database' => menv('DB_DATABASE', 'forge'),
-            'username' => menv('DB_USERNAME', 'forge'),
-            'password' => menv('DB_PASSWORD', ''),
+            'host' => env('DB_HOST', 'localhost'),
+            'port' => env('DB_PORT', '3306'),
+            'database' => env('DB_DATABASE', 'forge'),
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
-            'prefix' => menv('DB_PREFIX', ''),
+            'prefix' => env('DB_PREFIX', ''),
             'strict' => false,
             'engine' => null,
         ],
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'host' => menv('DB_HOST', 'localhost'),
-            'port' => menv('DB_PORT', '5432'),
-            'database' => menv('DB_DATABASE', 'forge'),
-            'username' => menv('DB_USERNAME', 'forge'),
-            'password' => menv('DB_PASSWORD', ''),
+            'host' => env('DB_HOST', 'localhost'),
+            'port' => env('DB_PORT', '5432'),
+            'database' => env('DB_DATABASE', 'forge'),
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
-            'prefix' => menv('DB_PREFIX', ''),
+            'prefix' => env('DB_PREFIX', ''),
             'schema' => 'public',
         ],
 
@@ -109,11 +109,11 @@ return [
         'cluster' => false,
 
         'default' => [
-            'scheme' => menv('REDIS_SCHEME', 'tcp'),
-            'host' => menv('REDIS_HOST', 'localhost'),
-            'port' => menv('REDIS_PORT', 6379),
-            'path' => menv('REDIS_SOCKET_PATH'),
-            'password' => menv('REDIS_PASSWORD', null),
+            'scheme' => env('REDIS_SCHEME', 'tcp'),
+            'host' => env('REDIS_HOST', 'localhost'),
+            'port' => env('REDIS_PORT', 6379),
+            'path' => env('REDIS_SOCKET_PATH'),
+            'password' => env('REDIS_PASSWORD', null),
             'database' => 0,
         ],
 

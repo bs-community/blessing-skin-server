@@ -130,7 +130,7 @@ if (! function_exists('bs_footer_extra')) {
     {
         $extraContents = [];
 
-        Event::fire(new App\Events\RenderingFooter($extraContents));
+        Event::dispatch(new App\Events\RenderingFooter($extraContents));
 
         return implode("\n", $extraContents);
     }
@@ -142,7 +142,7 @@ if (! function_exists('bs_header_extra')) {
     {
         $extraContents = [];
 
-        Event::fire(new App\Events\RenderingHeader($extraContents));
+        Event::dispatch(new App\Events\RenderingHeader($extraContents));
 
         return implode("\n", $extraContents);
     }
@@ -169,7 +169,7 @@ if (! function_exists('bs_menu')) {
     {
         $menu = config('menu');
 
-        Event::fire($type == "user" ? new App\Events\ConfigureUserMenu($menu)
+        Event::dispatch($type == "user" ? new App\Events\ConfigureUserMenu($menu)
                                 : new App\Events\ConfigureAdminMenu($menu));
 
         if (! isset($menu[$type])) {
@@ -345,57 +345,6 @@ if (! function_exists('option_localized')) {
     }
 }
 
-if (! function_exists('menv')) {
-    /**
-     * Gets the value of an environment variable by getenv() or $_ENV.
-     *
-     * @param  string  $key
-     * @param  mixed   $default
-     * @return mixed
-     */
-    function menv($key, $default = null)
-    {
-        if (function_exists('putenv') && function_exists('getenv')) {
-            // try to read by getenv()
-            $value = getenv($key);
-
-            if ($value === false) {
-                return value($default);
-            }
-        } else {
-            // try to read from $_ENV or $_SERVER
-            if (isset($_ENV[$key])) {
-                $value = $_ENV[$key];
-            } elseif (isset($_SERVER[$key])) {
-                $value = $_SERVER[$key];
-            } else {
-                return value($default);
-            }
-        }
-
-        switch (strtolower($value)) {
-            case 'true':
-            case '(true)':
-                return true;
-            case 'false':
-            case '(false)':
-                return false;
-            case 'empty':
-            case '(empty)':
-                return '';
-            case 'null':
-            case '(null)':
-                return;
-        }
-
-        if (strlen($value) > 1 && Str::startsWith($value, '"') && Str::endsWith($value, '"')) {
-            return substr($value, 1, -1);
-        }
-
-        return $value;
-    }
-}
-
 if (! function_exists('validate')) {
 
     function validate($value, $type)
@@ -476,19 +425,19 @@ if (! function_exists('get_client_ip')) {
     function get_client_ip() {
         if (option('ip_get_method') == "0") {
             // Use `HTTP_X_FORWARDED_FOR` if available first
-            $ip = array_get(
+            $ip = Arr::get(
                 $_SERVER,
                 'HTTP_X_FORWARDED_FOR',
                 // Fallback to `HTTP_CLIENT_IP`
-                array_get(
+                Arr::get(
                     $_SERVER,
                     'HTTP_CLIENT_IP',
                     // Fallback to `REMOTE_ADDR`
-                    array_get($_SERVER, 'REMOTE_ADDR')
+                    Arr::get($_SERVER, 'REMOTE_ADDR')
                 )
             );
         } else {
-            $ip = array_get($_SERVER, 'REMOTE_ADDR');
+            $ip = Arr::get($_SERVER, 'REMOTE_ADDR');
         }
 
         return $ip;
@@ -524,13 +473,13 @@ if (! function_exists('is_request_secure')) {
      */
     function is_request_secure()
     {
-        if (array_get($_SERVER, 'HTTPS') == 'on')
+        if (Arr::get($_SERVER, 'HTTPS') == 'on')
             return true;
 
-        if (array_get($_SERVER, 'HTTP_X_FORWARDED_PROTO') == 'https')
+        if (Arr::get($_SERVER, 'HTTP_X_FORWARDED_PROTO') == 'https')
             return true;
 
-        if (array_get($_SERVER, 'HTTP_X_FORWARDED_SSL') == 'on')
+        if (Arr::get($_SERVER, 'HTTP_X_FORWARDED_SSL') == 'on')
             return true;
 
         return false;

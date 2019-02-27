@@ -4,6 +4,7 @@ namespace App\Models;
 
 use DB;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 use App\Events\EncryptUserPassword;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -101,7 +102,7 @@ class User extends Authenticatable
     {
         $responses = event(new EncryptUserPassword($rawPasswd, $user));
 
-        return array_get($responses, 0);
+        return Arr::get($responses, 0);
     }
 
     /**

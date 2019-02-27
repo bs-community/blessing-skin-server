@@ -6,6 +6,7 @@ use Parsedown;
 use App\Events;
 use Carbon\Carbon;
 use App\Models\User;
+use Illuminate\Support\Str;
 use App\Mail\EmailVerification;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -244,7 +245,7 @@ class UserControllerTest extends TestCase
         // Too long nickname
         $this->postJson('/user/profile', [
             'action' => 'nickname',
-            'new_nickname' => str_random(256)
+            'new_nickname' => Str::random(256)
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
         ])->assertJson([
@@ -290,7 +291,7 @@ class UserControllerTest extends TestCase
         // Too long current password
         $this->postJson('/user/profile', [
             'action' => 'password',
-            'current_password' => str_random(33),
+            'current_password' => Str::random(33),
             'new_password' => '12345678'
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
@@ -315,7 +316,7 @@ class UserControllerTest extends TestCase
         $this->postJson('/user/profile', [
             'action' => 'password',
             'current_password' => '12345678',
-            'new_password' => str_random(33)
+            'new_password' => Str::random(33)
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
         ])->assertJson([
@@ -390,7 +391,7 @@ class UserControllerTest extends TestCase
         $this->postJson('/user/profile', [
             'action' => 'email',
             'new_email' => 'a@b.c',
-            'password' => str_random(33)
+            'password' => Str::random(33)
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
         ])->assertJson([
@@ -466,7 +467,7 @@ class UserControllerTest extends TestCase
         // Too long current password
         $this->postJson('/user/profile', [
             'action' => 'delete',
-            'password' => str_random(33)
+            'password' => Str::random(33)
         ], [
             'X-Requested-With' => 'XMLHttpRequest'
         ])->assertJson([

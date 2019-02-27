@@ -18,11 +18,11 @@ class ClosetControllerTest extends TestCase
      */
     private $user;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
-        return $this->actAs($this->user);
+        $this->actAs($this->user);
     }
 
     public function testIndex()
