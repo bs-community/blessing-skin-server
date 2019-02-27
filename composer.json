@@ -9,7 +9,7 @@
     "swiggles/memcache": "^2.0",
     "doctrine/inflector": "1.1.0",
     "laravel/framework": "5.8.*",
-    "nesbot/carbon": "^1.32.0",
+    "nesbot/carbon": "^2.0",
     "devitek/yaml-translation": "^4.1.0",
     "composer/semver": "^1.4",
     "mews/captcha": "^2.2",
