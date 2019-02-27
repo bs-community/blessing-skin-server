@@ -23,11 +23,7 @@
     "laravel/browser-kit-testing": "~4.0",
     "league/flysystem-memory": "^1.0",
     "mikey179/vfsstream": "^1.6.5",
-<<<<<<< HEAD
     "barryvdh/laravel-ide-helper": "^2.6"
-=======
-    "barryvdh/laravel-ide-helper": "^2.4"
->>>>>>> fix package name
   },
   "autoload": {
     "classmap": [
