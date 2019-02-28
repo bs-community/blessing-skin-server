@@ -9,16 +9,6 @@
                                 <tr>
                                     <th>PID</th>
                                     <th v-t="'general.player.player-name'"></th>
-                                    <th>
-                                        {{ $t('user.player.preference.title') }}
-                                        <i
-                                            class="fas fa-question-circle"
-                                            :title="$t('user.player.preference.description')"
-                                            data-toggle="tooltip"
-                                            data-placement="right"
-                                        ></i>
-                                    </th>
-                                    <th v-t="'user.player.edit'"></th>
                                     <th v-t="'user.player.operation'"></th>
                                 </tr>
                             </thead>
@@ -34,19 +24,11 @@
                                     <td class="pid">{{ player.pid }}</td>
                                     <td class="player-name">{{ player.player_name }}</td>
                                     <td>
-                                        <select class="form-control" @change="togglePreference(player)">
-                                            <option value="default" :selected="player.preference === 'default'">Default (Steve)</option>
-                                            <option value="slim" :selected="player.preference === 'slim'">Slim (Alex)</option>
-                                        </select>
-                                    </td>
-                                    <td>
                                         <a
                                             class="btn btn-default btn-sm"
                                             @click="changeName(player)"
                                             v-t="'user.player.edit-pname'"
                                         ></a>
-                                    </td>
-                                    <td>
                                         <a
                                             class="btn btn-warning btn-sm"
                                             data-toggle="modal"
@@ -220,11 +202,7 @@
                     </div>
                     <div class="modal-body">
                         <label class="form-group">
-                            <input type="checkbox" v-model="clear.steve"> Default (Steve)
-                        </label>
-                        <br>
-                        <label class="form-group">
-                            <input type="checkbox" v-model="clear.alex"> Slim (Alex)
+                            <input type="checkbox" v-model="clear.skin"> {{ $t('general.skin') }}
                         </label>
                         <br>
                         <label class="form-group">
@@ -275,8 +253,7 @@ export default {
             },
             newPlayer: '',
             clear: {
-                steve: false,
-                alex: false,
+                skin: false,
                 cape: false
             },
             playerNameRule: blessing.extra.rule,
@@ -320,19 +297,6 @@ export default {
                 this.capeUrl = `${this.baseUrl}/textures/${cape.hash}`;
             } else {
                 this.capeUrl = '';
-            }
-        },
-        async togglePreference(player) {
-            const preference = player.preference === 'default' ? 'slim' : 'default';
-            const { errno, msg } = await this.$http.post(
-                '/user/player/preference',
-                { pid: player.pid, preference }
-            );
-            if (errno === 0) {
-                player.preference = preference;
-                toastr.success(msg);
-            } else {
-                toastr.warning(msg);
             }
         },
         async changeName(player) {
@@ -431,10 +395,6 @@ export default {
 .player {
     cursor: pointer;
     border-bottom: 1px solid #f4f4f4;
-
-    #preference {
-        height: 31px;
-    }
 
     .pid, .player-name {
         padding-top: 13px;

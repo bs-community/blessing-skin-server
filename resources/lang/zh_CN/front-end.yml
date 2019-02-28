@@ -208,9 +208,6 @@ user:
       cjk: 角色名可使用拉丁字母、数字、下划线以及汉字（中日韩统一表意文字）。
       custom: 本站使用了自定义的角色名规则，详情请咨询站点管理员。
     player-name-length: 角色名最少要求 :min 个字符，最多不超过 :max 个字符。
-    preference:
-      title: 优先模型
-      description: Default 即为默认的 Steve 模型（手臂 4 个像素宽），Slim 即为手臂宽 3 个像素的 Alex 模型。
   verification:
     title: 验证你的邮箱地址
     message: 你必须验证你的邮箱才能正常使用本站的皮肤托管等功能。没有收到验证邮件？

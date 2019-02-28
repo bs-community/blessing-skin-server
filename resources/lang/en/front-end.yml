@@ -210,9 +210,6 @@ user:
       cjk: Player name may contains letters, numbers, underscores and CJK Unified Ideographs.
       custom: Custom player name rules are applied on this site. Please contact admins for further information.
     player-name-length: The player name should be at least :min characters and not greater than :max characters.
-    preference:
-      title: Preference
-      description: Default stands for the Steve model with 4-pixel width arms, and Slim for the Alex model with 3-pixel width arms.
   verification:
     title: Verify Your Account
     message: You must verify your email address before using the skin hosting service. Haven't received the email?
