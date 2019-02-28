@@ -4,7 +4,7 @@
 <p align="center"><img src="https://img.blessing.studio/images/2017/01/01/bs-logo.png"></p>
 
 <p align="center">
-<a href="https://dev.azure.com/blessing-skin/Blessing%20Skin%20Server/_build?definitionId=3"><img src="https://flat.badgen.net/azure-pipelines/blessing-skin/Blessing%20Skin%20Server/blessing-skin-server/v4" alt="Azure Pipelines Status"></a>
+<a href="https://circleci.com/gh/bs-community/blessing-skin-server/tree/v4"><img src="https://flat.badgen.net/circleci/github/bs-community/blessing-skin-server/v4" alt="Azure Pipelines Status"></a>
 <a href="https://codecov.io/gh/bs-community/blessing-skin-server/branch/v4"><img src="https://flat.badgen.net/codecov/c/github/bs-community/blessing-skin-server/v4" alt="Codecov" /></a>
 <a href="https://github.com/bs-community/blessing-skin-server/releases"><img src="https://flat.badgen.net/github/releases/bs-community/blessing-skin-server" alt="Latest Stable Version"></a>
 <img src="https://flat.badgen.net/badge/PHP/7.1.8+/orange" alt="PHP 7.1.8+">
