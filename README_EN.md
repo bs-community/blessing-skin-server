@@ -7,7 +7,7 @@
 <a href="https://dev.azure.com/blessing-skin/Blessing%20Skin%20Server/_build?definitionId=3"><img src="https://flat.badgen.net/azure-pipelines/blessing-skin/Blessing%20Skin%20Server/blessing-skin-server/v4" alt="Azure Pipelines Status"></a>
 <a href="https://codecov.io/gh/bs-community/blessing-skin-server/branch/v4"><img src="https://flat.badgen.net/codecov/c/github/bs-community/blessing-skin-server/v4" alt="Codecov" /></a>
 <a href="https://github.com/bs-community/blessing-skin-server/releases"><img src="https://flat.badgen.net/github/releases/bs-community/blessing-skin-server" alt="Latest Stable Version"></a>
-<img src="https://flat.badgen.net/badge/PHP/7.1.3+/orange" alt="PHP 7.1.3+">
+<img src="https://flat.badgen.net/badge/PHP/7.1.8+/orange" alt="PHP 7.1.8+">
 <img src="https://flat.badgen.net/github/license/bs-community/blessing-skin-server" alt="License">
 <a href="https://twitter.com/printempw"><img src="https://img.shields.io/twitter/follow/printempw.svg?style=social&label=Follow" alt="Twitter Follow"></a>
 </p>
@@ -43,7 +43,7 @@ Requirements
 Blessing Skin has only a few system requirements. _In most cases, these PHP extensions are already enabled._
 
 - Web server with URL rewriting enabled
-- **PHP >= 7.1.3** (use v2.x branch if your server doesn't meet the requirements)
+- **PHP >= 7.1.8** (use v2.x branch if your server doesn't meet the requirements)
 - OpenSSL PHP Extension
 - PDO PHP Extension
 - Mbstring PHP Extension
