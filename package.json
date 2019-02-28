@@ -20,8 +20,7 @@
   "dependencies": {
     "@babel/runtime": "^7.3.1",
     "@fortawesome/fontawesome-free": "^5.7.2",
-    "admin-lte": "^2.4.2",
-    "bootstrap": "^3.3.7",
+    "admin-lte": "^2.4.9",
     "chart.js": "^2.7.3",
     "icheck": "^1.0.2",
     "jquery": "^3.3.1",
