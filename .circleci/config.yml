@@ -1,0 +1,92 @@
+version: 2
+
+jobs:
+  frontend:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "yarn.lock" }}
+          - v1-dependencies-
+      - run: yarn
+      - save_cache:
+          paths:
+            - node_modules
+            - ~/.yarn
+          key: v1-dependencies-{{ checksum "yarn.lock" }}
+      - run: yarn lint
+      - run: yarn test --coverage
+      - run: yarn codecov
+
+  install:
+    working_directory: ~/repo
+    docker:
+      - image: blessingskin/ci:7.1
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "composer.lock" }}
+          - v1-dependencies-
+      - run: composer install -n --prefer-dist
+      - save_cache:
+          paths:
+            - vendor
+          key: v1-dependencies-{{ checksum "composer.lock" }}
+      - run: cp .env.testing .env
+      - run: php artisan key:random
+      - run: php artisan salt:random
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - .
+
+  test_php71:
+    working_directory: ~/repo
+    docker:
+      - image: blessingskin/ci:7.1
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run: touch storage/testing.sqlite
+      - run: ./vendor/bin/phpunit --coverage-clover=coverage.xml
+      - run: bash <(curl -s https://codecov.io/bash) -cF php
+
+  test_php72:
+    working_directory: ~/repo
+    docker:
+      - image: blessingskin/ci:7.2
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run: touch storage/testing.sqlite
+      - run: ./vendor/bin/phpunit
+
+  test_php73:
+    working_directory: ~/repo
+    docker:
+      - image: blessingskin/ci:7.3
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run: touch storage/testing.sqlite
+      - run: ./vendor/bin/phpunit
+
+workflows:
+  version: 2
+  install_and_test:
+    jobs:
+      - frontend
+      - install
+      - test_php71:
+          requires:
+            - install
+      - test_php72:
+          requires:
+            - install
+      - test_php73:
+          requires:
+            - install
