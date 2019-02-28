@@ -4,7 +4,7 @@
 <p align="center"><img src="https://img.blessing.studio/images/2017/01/01/bs-logo.png"></p>
 
 <p align="center">
-<a href="https://circleci.com/gh/bs-community/blessing-skin-server/tree/v4"><img src="https://flat.badgen.net/circleci/github/bs-community/blessing-skin-server/v4" alt="Azure Pipelines Status"></a>
+<a href="https://circleci.com/gh/bs-community/blessing-skin-server/tree/v4"><img src="https://flat.badgen.net/circleci/github/bs-community/blessing-skin-server/v4" alt="Circle CI Status"></a>
 <a href="https://codecov.io/gh/bs-community/blessing-skin-server/branch/v4"><img src="https://flat.badgen.net/codecov/c/github/bs-community/blessing-skin-server/v4" alt="Codecov" /></a>
 <a href="https://github.com/bs-community/blessing-skin-server/releases"><img src="https://flat.badgen.net/github/releases/bs-community/blessing-skin-server" alt="Latest Stable Version"></a>
 <img src="https://flat.badgen.net/badge/PHP/7.1.8+/orange" alt="PHP 7.1.8+">
@@ -129,7 +129,7 @@ When reporting a problem, please attach your log file (located at `storage/logs/
 
 Copyright & License
 ------------
-Copyright 2016-2018 [printempw](https://blessing.studio/) and contributors.
+Copyright 2016-2019 [printempw](https://blessing.studio/) and contributors.
 
 Blessing Skin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 3.
 
