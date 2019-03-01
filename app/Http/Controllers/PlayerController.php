@@ -56,9 +56,24 @@ class PlayerController extends Controller
 
     public function listAll()
     {
-        return Auth::user()
+        $user = Auth::user();
+
+        // This is for v3 compatibility.
+        $user
             ->players()
-            ->select('pid', 'player_name', 'tid_skin')
+            ->select('pid', 'tid_skin', 'tid_steve', 'tid_alex', 'preference')
+            ->where('tid_skin',  -1)
+            ->get()
+            ->each(function ($player) {
+                $player->tid_skin = $player->preference == 'default'
+                    ? $player->tid_steve
+                    : $player->tid_alex;
+                $player->save();
+            });
+
+        return $user
+            ->players()
+            ->select('pid', 'player_name', 'tid_skin', 'tid_cape')
             ->get();
     }
 
