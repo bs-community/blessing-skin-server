@@ -70,19 +70,9 @@ class TextureController extends Controller
         return $this->texture($hash);
     }
 
-    public function skin($player_name, $model = "")
+    public function skin($player_name)
     {
-        $player = $this->getPlayerInstance($player_name);
-
-        $model_preference = ($player->getPreference() == "default") ? "steve" : "alex";
-        $model = ($model == "") ? $model_preference : $model;
-
-        return $this->getBinaryTextureFromPlayer($player_name, $model);
-    }
-
-    public function skinWithModel($model, $player_name)
-    {
-        return $this->skin($player_name, $model);
+        return $this->getBinaryTextureFromPlayer($player_name, 'skin');
     }
 
     public function cape($player_name)
@@ -95,7 +85,7 @@ class TextureController extends Controller
      *
      * @param  string $player_name
      * @param  string $type "steve" or "alex" or "cape".
-     * @return void|Response
+     * @return Response
      */
     protected function getBinaryTextureFromPlayer($player_name, $type)
     {

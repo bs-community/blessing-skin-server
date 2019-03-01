@@ -30,20 +30,13 @@ class PlayerControllerTest extends TestCase
     public function testListAll()
     {
         $user = factory(User::class)->create();
-        $default = factory(Player::class)->create(['uid' => $user->uid]);
-        $slim = factory(Player::class, 'slim')->create(['uid' => $user->uid]);
+        $skin = factory(Player::class)->create(['uid' => $user->uid]);
         $this->actingAs($user)
             ->get('/user/player/list')
             ->assertJson([
                 [
-                    'pid' => $default->pid,
-                    'player_name' => $default->player_name,
-                    'preference' => $default->preference,
-                ],
-                [
-                    'pid' => $slim->pid,
-                    'player_name' => $slim->player_name,
-                    'preference' => $slim->preference,
+                    'pid' => $skin->pid,
+                    'player_name' => $skin->player_name,
                 ]
             ]);
     }
@@ -109,7 +102,6 @@ class PlayerControllerTest extends TestCase
         $this->assertNotNull($player);
         $this->assertEquals($user->uid, $player->uid);
         $this->assertEquals('角色名', $player->player_name);
-        $this->assertEquals('default', $player->preference);
         $this->assertEquals(
             $score - option('score_per_player'),
             User::find($user->uid)->score
@@ -233,42 +225,28 @@ class PlayerControllerTest extends TestCase
     {
         $player = factory(Player::class)->create();
         $user = $player->user;
-        $steve = factory(Texture::class)->create();
-        $alex = factory(Texture::class, 'alex')->create();
+        $skin = factory(Texture::class)->create();
         $cape = factory(Texture::class, 'cape')->create();
 
         // Set a not-existed texture
         $this->actAs($user)
             ->postJson('/user/player/set', [
                 'pid' => $player->pid,
-                'tid' => ['steve' => -1]
+                'tid' => ['skin' => -1]
             ])->assertJson([
                 'errno' => 6,
                 'msg' => trans('skinlib.un-existent')
             ]);
 
-        // Set for "alex" type
-        // Model preference should be automatically set to "slim"
+        // Set for "skin" type
         $this->postJson('/user/player/set', [
             'pid' => $player->pid,
-            'tid' => ['alex' => $alex->tid]
+            'tid' => ['skin' => $skin->tid]
         ])->assertJson([
             'errno' => 0,
             'msg' => trans('user.player.set.success', ['name' => $player->player_name])
         ]);
-        $this->expectsEvents(Events\PlayerProfileUpdated::class);
-        $this->assertEquals(Player::find($player->pid)->preference, 'slim');
-        $this->assertEquals($alex->tid, Player::find($player->pid)->tid_alex);
-
-        // Set for "steve" type
-        $this->postJson('/user/player/set', [
-            'pid' => $player->pid,
-            'tid' => ['steve' => $steve->tid]
-        ])->assertJson([
-            'errno' => 0,
-            'msg' => trans('user.player.set.success', ['name' => $player->player_name])
-        ]);
-        $this->assertEquals($steve->tid, Player::find($player->pid)->tid_steve);
+        $this->assertEquals($skin->tid, Player::find($player->pid)->tid_skin);
 
         // Set for "cape" type
         $this->postJson('/user/player/set', [
@@ -283,28 +261,11 @@ class PlayerControllerTest extends TestCase
         // Invalid texture type is acceptable
         $this->postJson('/user/player/set', [
             'pid' => $player->pid,
-            'tid' => ['nope' => $steve->tid]     // TID must be valid
+            'tid' => ['nope' => $skin->tid]     // TID must be valid
         ])->assertJson([
             'errno' => 0,
             'msg' => trans('user.player.set.success', ['name' => $player->player_name])
         ]);
-
-        // Should be OK if texture type does not match
-        $this->postJson('/user/player/set', [
-            'pid' => $player->pid,
-            'tid' => [
-                'steve' => $alex->tid,
-                'alex' => $cape->tid,
-                'cape' => $steve->tid
-            ]
-        ])->assertJson([
-            'errno' => 0,
-            'msg' => trans('user.player.set.success', ['name' => $player->player_name])
-        ]);
-        $player = Player::find($player->pid);
-        $this->assertEquals($steve->tid, $player->tid_steve);
-        $this->assertEquals($alex->tid, $player->tid_alex);
-        $this->assertEquals($cape->tid, $player->tid_cape);
     }
 
     public function testClearTexture()
@@ -313,9 +274,8 @@ class PlayerControllerTest extends TestCase
         $user = $player->user;
 
         $player->setTexture([
-            'tid_steve' => 1,
-            'tid_alex' => 2,
-            'tid_cape' => 3
+            'tid_skin' => 1,
+            'tid_cape' => 2
         ]);
         $player = Player::find($player->pid);
 
@@ -323,58 +283,14 @@ class PlayerControllerTest extends TestCase
         $this->actAs($user)
             ->postJson('/user/player/texture/clear', [
                 'pid' => $player->pid,
-                'steve' => 1,    // "1" stands for "true"
-                'alex' => 1,
+                'skin' => 1,    // "1" stands for "true"
                 'cape' => 1,
                 'nope' => 1,     // Invalid texture type is acceptable
             ])->assertJson([
                 'errno' => 0,
                 'msg' => trans('user.player.clear.success', ['name' => $player->player_name])
             ]);
-        $this->assertEquals(0, Player::find($player->pid)->tid_steve);
-        $this->assertEquals(0, Player::find($player->pid)->tid_alex);
+        $this->assertEquals(0, Player::find($player->pid)->tid_skin);
         $this->assertEquals(0, Player::find($player->pid)->tid_cape);
-    }
-
-    public function testSetPreference()
-    {
-        // Without `preference` field
-        $player = factory(Player::class)->create();
-        $this->actAs($player->user)
-            ->postJson('/user/player/preference', [
-                'pid' => $player->pid
-            ], [
-                'X-Requested-With' => 'XMLHttpRequest'
-            ])->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'preference'])
-            ]);
-
-        // value of `preference` is invalid
-        $this->postJson('/user/player/preference', [
-            'pid' => $player->pid,
-            'preference' => 'steve'
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest'
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.preference', ['attribute' => 'preference'])
-        ]);
-
-        // Success
-        $this->expectsEvents(Events\PlayerProfileUpdated::class);
-        $this->postJson('/user/player/preference', [
-            'pid' => $player->pid,
-            'preference' => 'slim'
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest'
-        ])->assertJson([
-            'errno' => 0,
-            'msg' => trans(
-                'user.player.preference.success',
-                ['name' => $player->player_name, 'preference' => 'slim']
-            )
-        ]);
-        $this->assertEquals('slim', Player::find($player->pid)->preference);
     }
 }

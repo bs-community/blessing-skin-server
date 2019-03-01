@@ -279,7 +279,7 @@ class AdminController extends Controller
         $isSpecifiedUser = $request->has('uid');
 
         if ($isSpecifiedUser) {
-            $players = Player::select(['pid', 'uid', 'player_name', 'preference', 'tid_steve', 'tid_alex', 'tid_cape', 'last_modified'])
+            $players = Player::select(['pid', 'uid', 'player_name', 'tid_skin', 'tid_cape', 'last_modified'])
                             ->where('uid', intval($request->input('uid')))
                             ->get();
         } else {
@@ -289,11 +289,10 @@ class AdminController extends Controller
             $page = $request->input('page', 1);
             $perPage = $request->input('perPage', 10);
 
-            $players = Player::select(['pid', 'uid', 'player_name', 'preference', 'tid_steve', 'tid_alex', 'tid_cape', 'last_modified'])
+            $players = Player::select(['pid', 'uid', 'player_name', 'tid_skin', 'tid_cape', 'last_modified'])
                             ->where('pid', 'like', '%' . $search . '%')
                             ->orWhere('uid', 'like', '%' . $search . '%')
                             ->orWhere('player_name', 'like', '%' . $search . '%')
-                            ->orWhere('preference', 'like', '%' . $search . '%')
                             ->orderBy($sortField, $sortType)
                             ->offset(($page - 1) * $perPage)
                             ->limit($perPage)
@@ -425,25 +424,16 @@ class AdminController extends Controller
             }
         }
 
-        if ($action == "preference") {
+        if ($action == "texture") {
             $this->validate($request, [
-                'preference' => 'required|preference'
-            ]);
-
-            $player->setPreference($request->input('preference'));
-
-            return json(trans('admin.players.preference.success', ['player' => $player->player_name, 'preference' => $request->input('preference')]), 0);
-
-        } elseif ($action == "texture") {
-            $this->validate($request, [
-                'model' => 'required|model',
-                'tid'   => 'required|integer'
+                'type' => 'required',
+                'tid'  => 'required|integer'
             ]);
 
             if (! Texture::find($request->tid) && $request->tid != 0)
                 return json(trans('admin.players.textures.non-existent', ['tid' => $request->tid]), 1);
 
-            $player->setTexture(['tid_'.$request->model => $request->tid]);
+            $player->setTexture(['tid_'.$request->type => $request->tid]);
 
             return json(trans('admin.players.textures.success', ['player' => $player->player_name]), 0);
 

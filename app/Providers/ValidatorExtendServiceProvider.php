@@ -46,14 +46,6 @@ class ValidatorExtendServiceProvider extends ServiceProvider
             return preg_match($regexp, $value);
         });
 
-        Validator::extend('preference', function ($a, $value, $p, $v) {
-            return preg_match('/^(default|slim)$/', $value);
-        });
-
-        Validator::extend('model', function ($a, $value, $p, $v) {
-            return preg_match('/^(steve|alex|cape)$/', $value);
-        });
-
         $this->registerExpiredRules();
     }
 

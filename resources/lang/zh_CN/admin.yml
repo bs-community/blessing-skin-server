@@ -61,8 +61,6 @@ players:
   no-permission: 你无权操作此角色
   operations:
     title: 更多操作
-  preference:
-    success: 角色 :player 的优先模型已更改至 :preference
   textures:
     change: 更换材质
     non-existent: 材质 tid.:tid 不存在

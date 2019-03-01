@@ -2,7 +2,6 @@
 username:         ':attribute 格式错误。'
 player_name:      ':attribute 不符合规则。'
 no_special_chars: ':attribute 不能包含特殊字符。'
-preference:       ':attribute 的值必须为 default 或 slim。'
 model:            ':attribute 的值必须为 steve、alex 或 cape。'
 
 accepted: ':attribute 必须接受。'
@@ -89,7 +88,6 @@ attributes:
   new_nickname: 新昵称
   player_name: 角色名
   new_player_name: 新角色名
-  preference: 优先模型
   model: 模型
   name: 名称
   new_name: 新名称

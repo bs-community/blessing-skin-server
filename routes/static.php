@@ -21,7 +21,6 @@ Route::group(['middleware' => 'player'], function()
     Route::get('/{api}/{player_name}.json',     'TextureController@jsonWithApi')->where('api', 'usm|csl');
     // Legacy links
     Route::get('/skin/{player_name}.png',       'TextureController@skin');
-    Route::get('/skin/{model}/{pname}.png',     'TextureController@skinWithModel');
     Route::get('/cape/{player_name}.png',       'TextureController@cape');
 });
 

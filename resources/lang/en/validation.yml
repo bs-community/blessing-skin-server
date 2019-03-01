@@ -2,7 +2,6 @@
 username:         ':attribute format is invalid.'
 player_name:      'The :attribute contains invalid character.'
 no_special_chars: 'The :attribute must not contain special characters.'
-preference:       'The :attribute must be default or slim.'
 model:            'The :attribute must be steve, alex or cape.'
 
 accepted: 'The :attribute must be accepted.'

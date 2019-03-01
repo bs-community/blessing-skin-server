@@ -793,14 +793,14 @@ class SkinlibControllerTest extends TestCase
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
         $uploader->score += $texture->size * option('private_score_per_storage');
         $uploader->save();
-        $player = factory(Player::class)->create(['tid_steve' => $texture->tid]);
+        $player = factory(Player::class)->create(['tid_skin' => $texture->tid]);
         $this->postJson('/skinlib/privacy', ['tid' => $texture->tid])
             ->assertJson([
                 'errno' => 0,
                 'msg' => trans('skinlib.privacy.success', ['privacy' => trans('general.private')]),
                 'public' => false
             ]);
-        $this->assertEquals(0, Player::find($player->pid)->tid_steve);
+        $this->assertEquals(0, Player::find($player->pid)->tid_skin);
     }
 
     public function testRename()

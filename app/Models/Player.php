@@ -18,17 +18,14 @@ class Player extends Model
     const CSL_API = 0;
     const USM_API = 1;
 
-    /**
-     * Set of models.
-     */
-    protected static $models = ['steve', 'alex', 'cape'];
+    protected static $types = ['skin', 'cape'];
 
     /**
      * Properties for Eloquent Model.
      */
     public    $primaryKey = 'pid';
     public    $timestamps = false;
-    protected $fillable   = ['uid', 'player_name', 'preference', 'last_modified'];
+    protected $fillable   = ['uid', 'player_name', 'last_modified'];
 
     /**
      * The attributes that should be cast to native types.
@@ -38,8 +35,7 @@ class Player extends Model
     protected $casts = [
         'pid' => 'integer',
         'uid' => 'integer',
-        'tid_steve' => 'integer',
-        'tid_alex' => 'integer',
+        'tid_skin' => 'integer',
         'tid_cape' => 'integer',
     ];
 
@@ -66,15 +62,12 @@ class Player extends Model
     /**
      * Get specific texture of player.
      *
-     * @param  string $type "steve" or "alex" or "cape".
+     * @param  string $type "skin" or "cape".
      * @return string The sha256 hash of texture file.
      */
     public function getTexture($type)
     {
-        if ($type == "skin")
-            $type = ($this->getPreference() == "default") ? "steve" : "alex";
-
-        if (in_array($type, self::$models)) {
+        if (in_array($type, self::$types)) {
             return Texture::find($this["tid_$type"])['hash'];
         }
 
@@ -89,8 +82,8 @@ class Player extends Model
      */
     public function setTexture(Array $tids)
     {
-        foreach (self::$models as $model) {
-            $property = "tid_$model";
+        foreach (self::$types as $type) {
+            $property = "tid_$type";
 
             if (isset($tids[$property])) {
                 $this->$property = $tids[$property];
@@ -113,8 +106,8 @@ class Player extends Model
      */
     public function checkForInvalidTextures()
     {
-        foreach (self::$models as $model) {
-            $property = "tid_$model";
+        foreach (self::$types as $type) {
+            $property = "tid_$type";
 
             if (! Texture::find($this->$property)) {
                 // reset texture
@@ -146,34 +139,6 @@ class Player extends Model
         $this->setTexture($map);
 
         return $this;
-    }
-
-    /**
-     * Set preferred model for the player.
-     *
-     * @param  string $type "slim" or "default".
-     * @return $this
-     */
-    public function setPreference($type)
-    {
-        $this->update([
-            'preference'    => $type,
-            'last_modified' => get_datetime_string()
-        ]);
-
-        event(new PlayerProfileUpdated($this));
-
-        return $this;
-    }
-
-    /**
-     * Get model preference of the player.
-     *
-     * @return string
-     */
-    public function getPreference()
-    {
-        return $this['preference'];
     }
 
     /**
@@ -244,20 +209,15 @@ class Player extends Model
     {
         $json[($api_type == self::CSL_API) ? 'username' : 'player_name'] = $this->player_name;
 
-        $model     = $this->getPreference();
-        $sec_model = ($model == 'default') ? 'slim' : 'default';
+        $texture = Texture::find($this->tid_skin);
+        $model = empty($texture) ? 'default' : ($texture->type === 'steve' ? 'default' : 'slim');
 
         if ($api_type == self::USM_API) {
             $json['last_update']      = strtotime($this->last_modified);
-            $json['model_preference'] = [$model, $sec_model];
+            $json['model_preference'] = [$model];
         }
 
-        if ($this->getTexture('steve') || $this->getTexture('alex')) {
-            // Skins dict order by preference model
-            $json['skins'][$model]     = $this->getTexture($model == "default" ? "steve" : "alex");
-            $json['skins'][$sec_model] = $this->getTexture($sec_model == "default" ? "steve" : "alex");
-        }
-
+        $json['skins'][$model] = $this->getTexture('skin');
         $json['cape'] = $this->getTexture('cape');
 
         return json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);

@@ -14,19 +14,11 @@ class PlayerTest extends TestCase
 
     public function testGetTexture()
     {
-        $steve = factory(Texture::class)->create();
-        $alex = factory(Texture::class, 'alex')->create();
-        $player = factory(Player::class)->create([
-            'tid_steve' => $steve->tid,
-            'tid_alex' => $alex->tid
-        ]);
+        $skin = factory(Texture::class)->create();
+        $player = factory(Player::class)->create(['tid_skin' => $skin->tid]);
 
         $player = Player::find($player->pid);
-        $this->assertEquals($steve->hash, $player->getTexture('skin'));
-
-        $player->setPreference('slim');
-        $player = Player::find($player->pid);
-        $this->assertEquals($alex->hash, $player->getTexture('skin'));
+        $this->assertEquals($skin->hash, $player->getTexture('skin'));
 
         $this->assertFalse($player->getTexture('invalid_type'));
     }

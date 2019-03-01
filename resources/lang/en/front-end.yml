@@ -335,7 +335,6 @@ general:
   player:
     owner: Owner
     player-name: Player Name
-    preference: Preference
     previews: Texture Previews
     last-modified: Last Modified
 

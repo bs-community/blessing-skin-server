@@ -117,11 +117,6 @@ player:
   clear:
     success: 角色 :name 的材质已被成功重置
 
-  preference:
-    title: 优先模型
-    description: Default 即为默认的 Steve 模型（手臂 4 个像素宽），Slim 即为手臂宽 3 个像素的 Alex 模型。
-    success: 角色 :name 的优先模型已更改至 :preference
-
 profile:
   avatar:
     title: 更改头像？

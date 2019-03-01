@@ -66,6 +66,5 @@ player:
   pid: PID
   owner: 拥有者
   player-name: 角色名
-  preference: 优先模型
   previews: 预览材质
   last-modified: 修改时间
