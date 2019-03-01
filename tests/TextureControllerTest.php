@@ -47,15 +47,16 @@ class TextureControllerTest extends TestCase
 
     public function testJsonWithApi()
     {
-        $skin = factory(Texture::class)->create();
-        $player = factory(Player::class)->create(['tid_skin' => $skin->tid]);
+        $steve = factory(Texture::class)->create();
+        $alex = factory(Texture::class, 'alex')->create();
+        $player = factory(Player::class)->create(['tid_skin' => $steve->tid]);
 
         // CSL API
         $this->getJson("/csl/{$player->player_name}.json")
             ->assertJson([
                 'username' => $player->player_name,
                 'skins' => [
-                    'default' => $skin->hash
+                    'default' => $steve->hash
                 ],
                 'cape' => null
             ])->assertHeader('Last-Modified');
@@ -66,10 +67,34 @@ class TextureControllerTest extends TestCase
                 'player_name' => $player->player_name,
                 'model_preference' => ['default'],
                 'skins' => [
-                    'default' => $skin->hash
+                    'default' => $steve->hash
                 ],
                 'cape' => null
             ])->assertHeader('Last-Modified');
+
+        $player->tid_skin = $alex->tid;
+        $player->save();
+
+        // CSL API
+        $this->getJson("/csl/{$player->player_name}.json")
+            ->assertJson([
+                'username' => $player->player_name,
+                'skins' => [
+                    'slim' => $alex->hash
+                ],
+                'cape' => null
+            ]);
+
+        // USM API
+        $this->getJson("/usm/{$player->player_name}.json")
+            ->assertJson([
+                'player_name' => $player->player_name,
+                'model_preference' => ['slim'],
+                'skins' => [
+                    'slim' => $alex->hash
+                ],
+                'cape' => null
+            ]);
     }
 
     public function testTexture()
