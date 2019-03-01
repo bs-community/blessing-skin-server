@@ -31,12 +31,6 @@
                         <i class="fas fa-edit btn-edit"></i>
                     </a>
                 </span>
-                <span v-else-if="props.column.field === 'preference'">
-                    {{ props.formattedRow[props.column.field] }}
-                    <a @click="togglePreference(props.row)" :title="$t('admin.changePreference')" data-test="preference">
-                        <i class="fas fa-edit btn-edit"></i>
-                    </a>
-                </span>
                 <span v-else-if="props.column.field === 'preview'">
                     <a
                         v-if="props.row.tid_steve"
@@ -150,7 +144,6 @@ export default {
                 { field: 'pid', label: 'PID', type: 'number' },
                 { field: 'player_name', label: this.$t('general.player.player-name') },
                 { field: 'uid', label: this.$t('general.player.owner'), type: 'number' },
-                { field: 'preference', label: this.$t('general.player.preference'), globalSearchDisabled: true },
                 { field: 'preview', label: this.$t('general.player.previews'), globalSearchDisabled: true, sortable: false },
                 { field: 'last_modified', label: this.$t('general.player.last-modified') },
                 { field: 'operations', label: this.$t('admin.operationsTitle'), globalSearchDisabled: true, sortable: false },
@@ -245,19 +238,6 @@ export default {
             );
             if (errno === 0) {
                 player.player_name = value;
-                toastr.success(msg);
-            } else {
-                toastr.warning(msg);
-            }
-        },
-        async togglePreference(player) {
-            const preference = player.preference === 'default' ? 'slim' : 'default';
-            const { errno, msg } = await this.$http.post(
-                '/admin/players?action=preference',
-                { pid: player.pid, preference }
-            );
-            if (errno === 0) {
-                player.preference = preference;
                 toastr.success(msg);
             } else {
                 toastr.warning(msg);

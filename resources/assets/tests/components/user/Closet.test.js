@@ -152,8 +152,7 @@ test('compute avatar URL', () => {
     Vue.prototype.$http.get.mockResolvedValue({});
     const wrapper = mount(Closet);
     const { avatarUrl } = wrapper.vm;
-    expect(avatarUrl({ preference: 'default', tid_steve: 1 })).toBe('/avatar/35/1');
-    expect(avatarUrl({ preference: 'slim', tid_alex: 1 })).toBe('/avatar/35/1');
+    expect(avatarUrl({ tid_skin: 1 })).toBe('/avatar/35/1');
 });
 
 test('select texture', async () => {
@@ -191,7 +190,7 @@ test('apply texture', async () => {
         .mockResolvedValueOnce({})
         .mockResolvedValueOnce([])
         .mockResolvedValueOnce([
-            { pid: 1, player_name: 'name', preference: 'default', tid_steve: 10 }
+            { pid: 1, player_name: 'name', tid_skin: 10 }
         ]);
 
     const wrapper = mount(Closet);

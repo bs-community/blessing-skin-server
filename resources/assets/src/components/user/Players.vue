@@ -225,7 +225,6 @@
 </template>
 
 <script>
-import SkinAlex from '../../images/textures/alex.png';
 import { swal } from '../../js/notify';
 import toastr from 'toastr';
 
@@ -277,20 +276,11 @@ export default {
             this.preview2d.alex = player.tid_alex;
             this.preview2d.cape = player.tid_cape;
 
-            if (player.preference === 'default') {
-                if (player.tid_steve) {
-                    const steve = await this.$http.get(`/skinlib/info/${player.tid_steve}`);
-                    this.skinUrl = `${this.baseUrl}/textures/${steve.hash}`;
-                } else {
-                    this.skinUrl = '';
-                }
+            if (player.tid_skin) {
+                const skin = await this.$http.get(`/skinlib/info/${player.tid_skin}`);
+                this.skinUrl = `${this.baseUrl}/textures/${skin.hash}`;
             } else {
-                if (player.tid_alex) {
-                    const alex = await this.$http.get(`/skinlib/info/${player.tid_alex}`);
-                    this.skinUrl = `${this.baseUrl}/textures/${alex.hash}`;
-                } else {
-                    this.skinUrl = SkinAlex;
-                }
+                this.skinUrl = '';
             }
             if (player.tid_cape) {
                 const cape = await this.$http.get(`/skinlib/info/${player.tid_cape}`);

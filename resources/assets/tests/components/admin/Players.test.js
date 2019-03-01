@@ -108,33 +108,6 @@ test('change player name', async () => {
     expect(wrapper.text()).toContain('new');
 });
 
-test('toggle preference', async () => {
-    Vue.prototype.$http.get.mockResolvedValue({ data: [
-        { pid: 1, preference: 'default' }
-    ] });
-    Vue.prototype.$http.post
-        .mockResolvedValueOnce({ errno: 1, msg: '1' })
-        .mockResolvedValue({ errno: 0, msg: '0' });
-
-    const wrapper = mount(Players);
-    await wrapper.vm.$nextTick();
-    const button = wrapper.find('[data-test="preference"]');
-
-    button.trigger('click');
-    expect(Vue.prototype.$http.post).toBeCalledWith(
-        '/admin/players?action=preference',
-        { pid: 1, preference: 'slim' }
-    );
-
-    button.trigger('click');
-    await flushPromises();
-    expect(wrapper.text()).toContain('slim');
-
-    button.trigger('click');
-    await flushPromises();
-    expect(wrapper.text()).toContain('default');
-});
-
 test('change owner', async () => {
     Vue.prototype.$http.get.mockResolvedValue({ data: [
         { pid: 1, uid: 2 }

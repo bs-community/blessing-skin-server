@@ -252,7 +252,6 @@ admin:
   changePlayerTexture: 'Change textures of :player'
   changeTexture: Change Textures
   changePlayerName: Change Player Name
-  changePreference: Toggle Preference
   changeOwner: Change Owner
   textureType: Texture Type
   deletePlayer: Delete

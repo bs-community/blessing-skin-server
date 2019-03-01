@@ -266,8 +266,7 @@ export default {
             this.loadCloset(page);
         },
         avatarUrl(player) {
-            const tid = player.preference === 'default' ? player.tid_steve : player.tid_alex;
-            return `${blessing.base_url}/avatar/35/${tid}`;
+            return `${blessing.base_url}/avatar/35/${player.tid_skin}`;
         },
         async selectTexture(tid) {
             const { type, hash } = await this.$http.get(`/skinlib/info/${tid}`);

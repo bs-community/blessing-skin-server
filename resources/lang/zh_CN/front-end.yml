@@ -248,7 +248,6 @@ admin:
   changePlayerTexture: '更换角色 :player 的材质'
   changeTexture: 更换材质
   changePlayerName: 更改角色名
-  changePreference: 切换模型
   changeOwner: 更换角色拥有者
   deletePlayer: 删除
   changePlayerOwner: 请输入此角色要让渡至的用户 UID：

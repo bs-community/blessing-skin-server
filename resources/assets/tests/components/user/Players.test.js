@@ -28,10 +28,9 @@ test('fetch players data before mount', () => {
 test('click to preview player', async () => {
     Vue.prototype.$http.get
         .mockResolvedValueOnce([
-            { pid: 1, preference: 'default', tid_steve: 1, tid_alex: 2, tid_cape: 3 },
-            { pid: 2, preference: 'default', tid_steve: 0, tid_alex: 2, tid_cape: 0 },
-            { pid: 3, preference: 'slim', tid_steve: 1, tid_alex: 2, tid_cape: 0 },
-            { pid: 4, preference: 'slim', tid_steve: 0, tid_alex: 0, tid_cape: 0 },
+            { pid: 1, tid_skin: 1, tid_cape: 3 },
+            { pid: 2, tid_skin: 0, tid_cape: 0 },
+            { pid: 3, tid_skin: 2, tid_cape: 0 },
         ])
         .mockResolvedValueOnce({ hash: 'a' })
         .mockResolvedValueOnce({ hash: 'b' })
@@ -51,9 +50,6 @@ test('click to preview player', async () => {
     wrapper.find('tbody > tr:nth-child(3)').trigger('click');
     await flushPromises();
     expect(Vue.prototype.$http.get).toBeCalledWith('/skinlib/info/2');
-
-    wrapper.find('tbody > tr:nth-child(4)').trigger('click');
-    await flushPromises();
 });
 
 test('change player name', async () => {
