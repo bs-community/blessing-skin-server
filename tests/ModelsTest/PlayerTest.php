@@ -38,4 +38,23 @@ class PlayerTest extends TestCase
         $this->expectsEvents(\App\Events\PlayerProfileUpdated::class);
         $player->updateLastModified();
     }
+
+    public function testGetTidSkinAttribute()
+    {
+        $player = factory(Player::class)->create([
+            'tid_skin' => -1,
+            'preference' => 'default',
+            'tid_steve' => 5,
+        ]);
+        $this->assertEquals(5, $player->tid_skin);
+        $this->assertEquals(5, Player::find($player->pid)->tid_skin);
+
+        $player = factory(Player::class)->create([
+            'tid_skin' => -1,
+            'preference' => 'slim',
+            'tid_alex' => 6,
+        ]);
+        $this->assertEquals(6, $player->tid_skin);
+        $this->assertEquals(6, Player::find($player->pid)->tid_skin);
+    }
 }

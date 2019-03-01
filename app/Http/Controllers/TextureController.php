@@ -32,14 +32,6 @@ class TextureController extends Controller
     {
         $player = $this->getPlayerInstance($player_name);
 
-        // For v3 compatibility
-        if ($player->tid_skin == -1) {
-            $player->tid_skin = $player->preference == 'default'
-                ? $player->tid_steve
-                : $player->tid_alex;
-            $player->save();
-        }
-
         if ($api == "csl") {
             $content = $player->getJsonProfile(Player::CSL_API);
         } else if ($api == "usm") {

@@ -59,6 +59,18 @@ class Player extends Model
         return $this->belongsTo('App\Models\User', 'uid');
     }
 
+    public function getTidSkinAttribute($value)
+    {
+        if ($value == -1) {
+            $this->tid_skin = $value = $this->preference == 'default'
+                ? $this->tid_steve
+                : $this->tid_alex;
+            $this->save();
+        }
+
+        return $value;
+    }
+
     /**
      * Get specific texture of player.
      *

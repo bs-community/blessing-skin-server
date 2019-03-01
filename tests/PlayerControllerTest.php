@@ -39,40 +39,6 @@ class PlayerControllerTest extends TestCase
                     'player_name' => $player->player_name,
                 ]
             ]);
-        $player->delete();
-
-        $fakeTid = 666;
-        $player = factory(Player::class)->create([
-            'uid' => $user->uid,
-            'tid_skin' => -1,
-            'tid_steve' => $fakeTid,
-            'preference' => 'default'
-        ]);
-        $this->getJson('/user/player/list')
-            ->assertJson([
-                [
-                    'pid' => $player->pid,
-                    'tid_skin' => $fakeTid
-                ]
-            ]);
-        $this->assertEquals($fakeTid, Player::find($player->pid)->tid_skin);
-        $player->delete();
-
-        $fakeTid = 233;
-        $player = factory(Player::class)->create([
-            'uid' => $user->uid,
-            'tid_skin' => -1,
-            'tid_alex' => $fakeTid,
-            'preference' => 'slim'
-        ]);
-        $this->getJson('/user/player/list')
-            ->assertJson([
-                [
-                    'pid' => $player->pid,
-                    'tid_skin' => $fakeTid
-                ]
-            ]);
-        $this->assertEquals($fakeTid, Player::find($player->pid)->tid_skin);
     }
 
     public function testAdd()

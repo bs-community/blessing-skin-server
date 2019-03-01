@@ -43,34 +43,6 @@ class TextureControllerTest extends TestCase
                 ],
                 'cape' => null
             ])->assertHeader('Last-Modified');
-
-        // For v3 compatibility
-        $player = factory(Player::class)->create([
-            'tid_steve' => $steve->tid,
-            'tid_skin' => -1,
-            'preference' => 'default'
-        ]);
-        $this->getJson("/{$player->player_name}.json")
-            ->assertJson([
-                'skins' => [
-                    'default' => $steve->hash
-                ]
-            ]);
-        $this->assertEquals($steve->tid, Player::find($player->pid)->tid_skin);
-
-        $alex = factory(Texture::class, 'alex')->create();
-        $player = factory(Player::class)->create([
-            'tid_alex' => $alex->tid,
-            'tid_skin' => -1,
-            'preference' => 'slim'
-        ]);
-        $this->getJson("/{$player->player_name}.json")
-            ->assertJson([
-                'skins' => [
-                    'slim' => $alex->hash
-                ]
-            ]);
-        $this->assertEquals($alex->tid, Player::find($player->pid)->tid_skin);
     }
 
     public function testJsonWithApi()
