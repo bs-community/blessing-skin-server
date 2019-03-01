@@ -500,7 +500,7 @@ class AdminControllerTest extends BrowserKitTestCase
             'msg' => trans('admin.users.operations.invalid')
         ]);
 
-        // Change texture without `model` field
+        // Change texture without `type` field
         $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture'
@@ -508,26 +508,14 @@ class AdminControllerTest extends BrowserKitTestCase
             'Accept' => 'application/json',
         ])->seeJson([
             'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'model'])
-        ]);
-
-        // Change texture with invalid model name
-        $this->postJson('/admin/players', [
-            'pid' => $player->pid,
-            'action' => 'texture',
-            'model' => 'slim'
-        ], [
-            'Accept' => 'application/json',
-        ])->seeJson([
-            'errno' => 1,
-            'msg' => trans('validation.model', ['attribute' => 'model'])
+            'msg' => trans('validation.required', ['attribute' => 'type'])
         ]);
 
         // Change texture without `tid` field
         $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture',
-            'model' => 'steve'
+            'type' => 'skin'
         ], [
             'Accept' => 'application/json',
         ])->seeJson([
@@ -539,7 +527,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture',
-            'model' => 'steve',
+            'type' => 'skin',
             'tid' => 'string'
         ], [
             'Accept' => 'application/json',
@@ -605,7 +593,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture',
-            'model' => 'cape',
+            'type' => 'cape',
             'tid' => 0
         ])->seeJson([
             'errno' => 0,

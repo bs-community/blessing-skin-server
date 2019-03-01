@@ -83,14 +83,6 @@ player:
 
   login-notice: Now you can log in with player names you owned instead email address.
 
-  player-info: Information <small>(click player name to show preview)</small>
-
-  textures:
-    steve: Steve Model：
-    alex: Alex Model：
-    cape: Cape：
-    empty: Nothing
-
   player-name-rule:
     official: Player name may only contains letters, numbers and underscores.
     cjk: Player name may contains letters, numbers, underscores and CJK Unified Ideographs.

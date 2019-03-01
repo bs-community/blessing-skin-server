@@ -260,8 +260,7 @@ export default {
         async preview(player) {
             this.selected = player.pid;
 
-            this.preview2d.steve = player.tid_steve;
-            this.preview2d.alex = player.tid_alex;
+            this.preview2d.skin = player.tid_skin;
             this.preview2d.cape = player.tid_cape;
 
             if (player.tid_skin) {

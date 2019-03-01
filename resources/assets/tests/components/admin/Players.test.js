@@ -49,7 +49,7 @@ test('update tables', async () => {
 test('change texture', async () => {
     window.$ = jest.fn(() => ({ modal() {} }));
     Vue.prototype.$http.get.mockResolvedValue({ data: [
-        { pid: 1, tid_steve: 0 }
+        { pid: 1, tid_skin: 0 }
     ] });
     Vue.prototype.$http.post
         .mockResolvedValueOnce({ errno: 1, msg: '1' })
@@ -66,7 +66,7 @@ test('change texture', async () => {
     await wrapper.vm.$nextTick();
     expect(Vue.prototype.$http.post).toBeCalledWith(
         '/admin/players?action=texture',
-        { pid: 1, model: 'steve', tid: 5 }
+        { pid: 1, tid: 5, type: 'skin' }
     );
 
     button.trigger('click');
