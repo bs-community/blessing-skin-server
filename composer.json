@@ -13,7 +13,8 @@
     "devitek/yaml-translation": "^4.1.0",
     "composer/semver": "^1.4",
     "mews/captcha": "^2.2",
-    "guzzlehttp/guzzle": "^6.3"
+    "guzzlehttp/guzzle": "^6.3",
+    "doctrine/dbal": "^2.9"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",
