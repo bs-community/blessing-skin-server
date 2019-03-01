@@ -86,36 +86,25 @@
                     <div class="box-body">
                         <div id="preview-2d">
                             <p>
-                                {{ $t('user.player.textures.steve') }}
-                                <a v-if="preview2d.steve" :href="`${baseUrl}/skinlib/show/${preview2d.steve}`">
+                                {{ $t('general.skin') }}
+                                <a v-if="preview2d.skin" :href="`${baseUrl}/skinlib/show/${preview2d.skin}`">
                                     <img
                                         class="skin2d"
                                         :src="`${baseUrl}/preview/64/${preview2d.steve}.png`"
                                     />
                                 </a>
-                                <span v-else class="skin2d" v-t="'user.player.textures.empty'"></span>
+                                <span v-else class="skin2d" v-t="'user.player.texture-empty'"></span>
                             </p>
 
                             <p>
-                                {{ $t('user.player.textures.alex') }}
-                                <a v-if="preview2d.alex" :href="`${baseUrl}/skinlib/show/${preview2d.alex}`">
-                                    <img
-                                        class="skin2d"
-                                        :src="`${baseUrl}/preview/64/${preview2d.alex}.png`"
-                                    />
-                                </a>
-                                <span v-else class="skin2d" v-t="'user.player.textures.empty'"></span>
-                            </p>
-
-                            <p>
-                                {{ $t('user.player.textures.cape') }}
+                                {{ $t('general.cape') }}
                                 <a v-if="preview2d.cape" :href="`${baseUrl}/skinlib/show/${preview2d.cape}`">
                                     <img
                                         class="skin2d"
                                         :src="`${baseUrl}/preview/64/${preview2d.cape}.png`"
                                     />
                                 </a>
-                                <span v-else class="skin2d" v-t="'user.player.textures.empty'"></span>
+                                <span v-else class="skin2d" v-t="'user.player.texture-empty'"></span>
                             </p>
                         </div>
                     </div><!-- /.box-body -->
@@ -246,8 +235,7 @@ export default {
             skinUrl: '',
             capeUrl: '',
             preview2d: {
-                steve: 0,
-                alex: 0,
+                skin: 0,
                 cape: 0
             },
             newPlayer: '',

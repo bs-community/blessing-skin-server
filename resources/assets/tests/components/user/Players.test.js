@@ -137,7 +137,7 @@ test('toggle preview mode', () => {
     Vue.prototype.$http.get.mockResolvedValueOnce([]);
     const wrapper = mount(Players);
     wrapper.find('[data-test="to2d"]').trigger('click');
-    expect(wrapper.text()).toContain('user.player.textures.empty');
+    expect(wrapper.text()).toContain('user.player.texture-empty');
 });
 
 test('add player', async () => {
