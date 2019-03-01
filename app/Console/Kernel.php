@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         Commands\Inspire::class,
         Commands\KeyRandomCommand::class,
         Commands\SaltRandomCommand::class,
+        Commands\MigratePlayersTable::class,
     ];
 
     /**
