@@ -39,8 +39,7 @@ class TextureControllerTest extends TestCase
             ->assertJson([
                 'username' => $player->player_name,
                 'skins' => [
-                    'default' => $steve->hash,
-                    'slim' => null
+                    'default' => $steve->hash
                 ],
                 'cape' => null
             ])->assertHeader('Last-Modified');

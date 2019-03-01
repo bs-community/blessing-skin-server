@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddRememberTokenToUsersTable extends Migration
+class AddTidSkin extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddRememberTokenToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->rememberToken();
+        Schema::table('players', function (Blueprint $table) {
+            $table->integer('tid_skin')->default(-1);
         });
     }
 
@@ -25,8 +25,8 @@ class AddRememberTokenToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('remember_token');
+        Schema::table('players', function (Blueprint $table) {
+            $table->dropColumn('tid_skin');
         });
     }
 }

@@ -138,6 +138,7 @@ class AuthController extends Controller
             $player = new Player;
             $player->uid           = $user->uid;
             $player->player_name   = $request->get('player_name');
+            $player->tid_skin      = 0;
             $player->last_modified = get_datetime_string();
             $player->save();
 
