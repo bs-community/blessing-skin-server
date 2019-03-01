@@ -37,5 +37,7 @@ class MigratePlayersTableTest extends TestCase
                     $this->assertEquals($player->tid_alex, $player->tid_skin);
                 }
             });
+
+        $this->assertEquals(0, Artisan::call('bs:migrate-v4:players-table'));
     }
 }

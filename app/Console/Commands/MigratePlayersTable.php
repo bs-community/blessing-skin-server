@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use DB;
+use App\Models\Player;
 use Illuminate\Console\Command;
 
 class MigratePlayersTable extends Command
@@ -38,13 +38,27 @@ class MigratePlayersTable extends Command
      */
     public function handle()
     {
-        $table = env('DB_PREFIX') . 'players';
+        $players = Player::where('tid_skin', -1)->get();
+        $count = $players->count();
 
-        $this->info('We are going to update your `players` table.');
-        $this->comment('This will take a moment. Please wait...');
+        if ($count == 0) {
+            $this->info('No need to update.');
+            return;
+        }
 
-        $count = DB::update("UPDATE $table SET tid_skin=IF(preference='slim', tid_alex, tid_steve) WHERE tid_skin=-1");
+        $this->info('We are going to update your `players` table. Please wait...');
+        $bar = $this->output->createProgressBar($count);
 
-        $this->info("Congratulations! We've updated $count rows.");
+        $players->each(function ($player) use ($bar) {
+            $player->tid_skin = $player->preference == 'default'
+                ? $player->tid_steve
+                : $player->tid_alex;
+            $player->save();
+
+            $bar->advance();
+        });
+        $bar->finish();
+
+        $this->info("\nCongratulations! We've updated $count rows.");
     }
 }
