@@ -6,16 +6,12 @@ use Event;
 use Option;
 use Storage;
 use Response;
-use Minecraft;
 use Exception;
-use Carbon\Carbon;
-use App\Models\User;
+use Minecraft;
 use App\Models\Player;
 use App\Models\Texture;
-use Illuminate\Http\Request;
 use App\Events\GetSkinPreview;
 use App\Events\GetAvatarPreview;
-use App\Exceptions\PrettyPageException;
 use App\Services\Repositories\UserRepository;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
@@ -28,20 +24,20 @@ class TextureController extends Controller
      * @param  string $api
      * @return \Illuminate\Http\Response
      */
-    public function json($player_name, $api = "")
+    public function json($player_name, $api = '')
     {
         $player = $this->getPlayerInstance($player_name);
 
-        if ($api == "csl") {
+        if ($api == 'csl') {
             $content = $player->getJsonProfile(Player::CSL_API);
-        } else if ($api == "usm") {
+        } elseif ($api == 'usm') {
             $content = $player->getJsonProfile(Player::USM_API);
         } else {
             $content = $player->getJsonProfile(Option::get('api_type'));
         }
 
         return Response::jsonProfile($content, 200, [
-            'Last-Modified' => strtotime($player->last_modified)
+            'Last-Modified' => strtotime($player->last_modified),
         ]);
     }
 
@@ -50,7 +46,8 @@ class TextureController extends Controller
         return $this->json($player_name, $api);
     }
 
-    public function texture($hash, $headers = [], $message = '') {
+    public function texture($hash, $headers = [], $message = '')
+    {
         try {
             if (Storage::disk('textures')->has($hash)) {
                 return Response::png(Storage::disk('textures')->get($hash), 200, array_merge([
@@ -66,7 +63,8 @@ class TextureController extends Controller
         return abort(404, $message);
     }
 
-    public function textureWithApi($api, $hash) {
+    public function textureWithApi($api, $hash)
+    {
         return $this->texture($hash);
     }
 
@@ -93,12 +91,14 @@ class TextureController extends Controller
 
         if ($hash = $player->getTexture($type)) {
             return $this->texture($hash, [
-                'Last-Modified'  => strtotime($player->last_modified)
+                'Last-Modified'  => strtotime($player->last_modified),
             ], trans('general.texture-deleted'));
         } else {
             abort(404, trans('general.texture-not-uploaded', ['type' => $type]));
         }
-    }  // @codeCoverageIgnore
+    }
+
+    // @codeCoverageIgnore
 
     public function avatarByTid($tid, $size = 128)
     {
@@ -162,8 +162,8 @@ class TextureController extends Controller
                     } else {
                         $binary = Storage::disk('textures')->read($t->hash);
 
-                        if ($t->type == "cape") {
-                            $png = Minecraft::generatePreviewFromCape($binary, $size*0.8, $size*1.125, $size);
+                        if ($t->type == 'cape') {
+                            $png = Minecraft::generatePreviewFromCape($binary, $size * 0.8, $size * 1.125, $size);
                         } else {
                             $png = Minecraft::generatePreviewFromSkin($binary, $size, ($t->type == 'alex'), 'both', 4);
                         }
@@ -191,8 +191,9 @@ class TextureController extends Controller
         return $this->preview($tid, $size);
     }
 
-    public function raw($tid) {
-        if (!option('allow_downloading_texture')) {
+    public function raw($tid)
+    {
+        if (! option('allow_downloading_texture')) {
             abort(404);
         }
 

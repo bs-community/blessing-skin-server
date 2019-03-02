@@ -5,12 +5,10 @@ namespace App\Http\Controllers;
 use Log;
 use File;
 use Cache;
-use Option;
 use Storage;
 use Exception;
 use ZipArchive;
 use Illuminate\Support\Arr;
-use App\Services\OptionForm;
 use Illuminate\Http\Request;
 use Composer\Semver\Comparator;
 
@@ -66,7 +64,7 @@ class UpdateController extends Controller
         $this->guzzle = $guzzle;
         $this->guzzleConfig = [
             'headers' => ['User-Agent' => config('secure.user_agent')],
-            'verify' => config('secure.certificates')
+            'verify' => config('secure.certificates'),
         ];
     }
 
@@ -80,7 +78,7 @@ class UpdateController extends Controller
             'pre_release'     => false,
             // Fallback to current time
             'release_time'    => '',
-            'new_version_available' => false
+            'new_version_available' => false,
         ];
 
         // If current update source is available
@@ -97,7 +95,7 @@ class UpdateController extends Controller
                     'release_note',
                     'release_url',
                     'release_time',
-                    'pre_release'
+                    'pre_release',
                 ]));
             } else {
                 // if detailed release info is not given
@@ -124,7 +122,7 @@ class UpdateController extends Controller
     {
         return json([
             'latest' => $this->getUpdateInfo('latest_version'),
-            'available' => $this->newVersionAvailable()
+            'available' => $this->newVersionAvailable(),
         ]);
     }
 
@@ -137,8 +135,9 @@ class UpdateController extends Controller
 
     public function download(Request $request)
     {
-        if (! $this->newVersionAvailable())
+        if (! $this->newVersionAvailable()) {
             return json([]);
+        }
 
         $action = $request->get('action');
         $release_url = $this->getReleaseInfo($this->latestVersion)['release_url'];
@@ -180,7 +179,9 @@ class UpdateController extends Controller
                         'sink' => $tmp_path,
                         'progress' => function ($total, $downloaded) {
                             // @codeCoverageIgnoreStart
-                            if ($total == 0) return;
+                            if ($total == 0) {
+                                return;
+                            }
                             // Log current progress per 100 KiB
                             if ($total == $downloaded || floor($downloaded / 102400) > floor($GLOBALS['last_downloaded'] / 102400)) {
                                 $GLOBALS['last_downloaded'] = $downloaded;
@@ -188,10 +189,11 @@ class UpdateController extends Controller
                                 Cache::put('download-progress', compact('total', 'downloaded'), 3600);
                             }
                             // @codeCoverageIgnoreEnd
-                        }
+                        },
                     ]));
                 } catch (Exception $e) {
                     @unlink($tmp_path);
+
                     return json(trans('admin.update.errors.prefix').$e->getMessage(), 1);
                 }
 
@@ -220,7 +222,6 @@ class UpdateController extends Controller
                     if ($zip->extractTo($extract_dir) === false) {
                         return json(trans('admin.update.errors.prefix').'Cannot unzip file.', 1);
                     }
-
                 } else {
                     return json(trans('admin.update.errors.unzip').$res, 1);
                 }
@@ -239,7 +240,6 @@ class UpdateController extends Controller
                     File::copyDirectory($extract_dir, base_path());
 
                     Log::info('[Update Wizard] Overwrite with extracted files');
-
                 } catch (Exception $e) {
                     report($e);
                     Log::error('[Update Wizard] Error occured when overwriting files');
@@ -253,6 +253,7 @@ class UpdateController extends Controller
                 }
 
                 Log::info('[Update Wizard] Done');
+
                 return json(trans('admin.update.complete'), 0);
 
             default:
@@ -265,13 +266,13 @@ class UpdateController extends Controller
         if (! $this->updateInfo) {
             // Add timestamp to control cdn cache
             $url = starts_with($this->updateSource, 'http')
-                ? $this->updateSource."?v=".substr(time(), 0, -3)
+                ? $this->updateSource.'?v='.substr(time(), 0, -3)
                 : $this->updateSource;
 
             try {
                 $response = $this->guzzle->request('GET', $url, $this->guzzleConfig)->getBody();
             } catch (Exception $e) {
-                Log::error("[CheckingUpdate] Failed to get update information: ".$e->getMessage());
+                Log::error('[CheckingUpdate] Failed to get update information: '.$e->getMessage());
             }
 
             if (isset($response)) {
@@ -292,5 +293,4 @@ class UpdateController extends Controller
     {
         return Arr::get($this->getUpdateInfo('releases'), $version);
     }
-
 }

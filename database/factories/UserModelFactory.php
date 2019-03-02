@@ -14,7 +14,7 @@ $factory->define(User::class, function (Faker\Generator $faker) {
         'permission' => 0,
         'verified' => true,
         'last_sign_at' => $faker->dateTime->format('d-M-Y H:i:s'),
-        'register_at' => $faker->dateTime->format('d-M-Y H:i:s')
+        'register_at' => $faker->dateTime->format('d-M-Y H:i:s'),
     ];
 });
 
@@ -29,7 +29,7 @@ $factory->defineAs(User::class, 'admin', function (Faker\Generator $faker) {
         'permission' => 1,
         'verified' => true,
         'last_sign_at' => $faker->dateTime->format('d-M-Y H:i:s'),
-        'register_at' => $faker->dateTime->format('d-M-Y H:i:s')
+        'register_at' => $faker->dateTime->format('d-M-Y H:i:s'),
     ];
 });
 
@@ -44,7 +44,7 @@ $factory->defineAs(User::class, 'superAdmin', function (Faker\Generator $faker) 
         'permission' => 2,
         'verified' => true,
         'last_sign_at' => $faker->dateTime->format('d-M-Y H:i:s'),
-        'register_at' => $faker->dateTime->format('d-M-Y H:i:s')
+        'register_at' => $faker->dateTime->format('d-M-Y H:i:s'),
     ];
 });
 
@@ -59,6 +59,6 @@ $factory->defineAs(User::class, 'banned', function (Faker\Generator $faker) {
         'permission' => -1,
         'verified' => true,
         'last_sign_at' => $faker->dateTime->format('d-M-Y H:i:s'),
-        'register_at' => $faker->dateTime->format('d-M-Y H:i:s')
+        'register_at' => $faker->dateTime->format('d-M-Y H:i:s'),
     ];
 });

@@ -11,8 +11,6 @@ use Illuminate\Support\Facades\File;
 use Tests\Concerns\MocksGuzzleClient;
 use Illuminate\Support\Facades\Storage;
 use GuzzleHttp\Exception\RequestException;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UpdateControllerTest extends TestCase
@@ -64,7 +62,7 @@ class UpdateControllerTest extends TestCase
         $this->getJson('/admin/update/check')
             ->assertJson([
                 'latest' => null,
-                'available' => false
+                'available' => false,
             ]);
 
         // New version available
@@ -72,7 +70,7 @@ class UpdateControllerTest extends TestCase
         $this->getJson('/admin/update/check')
             ->assertJson([
                 'latest' => '8.9.3',
-                'available' => true
+                'available' => true,
             ]);
     }
 
@@ -99,7 +97,7 @@ class UpdateControllerTest extends TestCase
             ->getJson('/admin/update/download?action=prepare-download')
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('admin.update.errors.write-permission')
+                'msg' => trans('admin.update.errors.write-permission'),
             ]);
 
         // Prepare for downloading
@@ -120,7 +118,7 @@ class UpdateControllerTest extends TestCase
             ->getJson('/admin/update/download?action=start-download')
             ->assertJson([
                 'errno' => 1,
-                'msg' => 'No temp path available, please try again.'
+                'msg' => 'No temp path available, please try again.',
             ]);
 
         // Can't download update package
@@ -130,10 +128,10 @@ class UpdateControllerTest extends TestCase
         ]);
         $this->withCache(['tmp_path' => storage_path('update_cache/update.zip')])
             ->getJson('/admin/update/download?action=start-download');
-            /*->assertJson([
-                'errno' => 1,
-                'msg' => trans('admin.update.errors.prefix')
-            ]);
+        /*->assertJson([
+            'errno' => 1,
+            'msg' => trans('admin.update.errors.prefix')
+        ]);
         $this->assertFileNotExists(storage_path('update_cache/update.zip'))*/
 
         // Download update package
@@ -145,7 +143,7 @@ class UpdateControllerTest extends TestCase
         $this->withCache(['tmp_path' => storage_path('update_cache/update.zip')])
             ->getJson('/admin/update/download?action=start-download')
             ->assertJson([
-                'tmp_path' => storage_path('update_cache/update.zip')
+                'tmp_path' => storage_path('update_cache/update.zip'),
             ]);
         $this->assertFileExists(storage_path('update_cache/update.zip'));
 
@@ -161,7 +159,7 @@ class UpdateControllerTest extends TestCase
             ->getJson('/admin/update/download?action=get-progress')
             ->assertJson([
                 'total' => 514,
-                'downloaded' => 114
+                'downloaded' => 114,
             ]);
 
         // No such zip archive
@@ -170,7 +168,7 @@ class UpdateControllerTest extends TestCase
             ->getJson('/admin/update/download?action=extract')
             ->assertJson([
                 'errno' => 1,
-                'msg' => 'No file available'
+                'msg' => 'No file available',
             ]);
 
         // Can't extract zip archive
@@ -180,7 +178,7 @@ class UpdateControllerTest extends TestCase
             ->getJson('/admin/update/download?action=extract')
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('admin.update.errors.unzip').'19'
+                'msg' => trans('admin.update.errors.unzip').'19',
             ]);
 
         // Extract
@@ -189,7 +187,7 @@ class UpdateControllerTest extends TestCase
             ->getJson('/admin/update/download?action=extract')
             ->assertJson([
                 'errno' => 0,
-                'msg' => trans('admin.update.complete')
+                'msg' => trans('admin.update.complete'),
             ]);
 
         // Can't overwrite vendor directory, skip
@@ -215,7 +213,7 @@ class UpdateControllerTest extends TestCase
             ->getJson('/admin/update/download?action=extract')
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('admin.update.errors.overwrite')
+                'msg' => trans('admin.update.errors.overwrite'),
             ]);
 
         // Invalid action
@@ -223,13 +221,14 @@ class UpdateControllerTest extends TestCase
             ->getJson('/admin/update/download?action=no')
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('general.illegal-parameters')
+                'msg' => trans('general.illegal-parameters'),
             ]);
     }
 
     protected function withNewVersionAvailable()
     {
         $this->appendToGuzzleQueue(200, [], $this->generateFakeUpdateInfo('8.9.3'));
+
         return $this;
     }
 
@@ -247,9 +246,9 @@ class UpdateControllerTest extends TestCase
                     'pre_release' => $preview,
                     'release_time' => $time,
                     'release_note' => 'test',
-                    'release_url' => "https://whatever.test/$version/update.zip"
-                ]
-            ]
+                    'release_url' => "https://whatever.test/$version/update.zip",
+                ],
+            ],
         ]);
     }
 
@@ -268,5 +267,4 @@ class UpdateControllerTest extends TestCase
 
         return $zipPath;
     }
-
 }

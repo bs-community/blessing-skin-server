@@ -5,14 +5,13 @@ namespace App\Http\Controllers;
 use DB;
 use Log;
 use File;
-use Schema;
 use Option;
-use Storage;
+use Schema;
 use Artisan;
+use Storage;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Composer\Semver\Comparator;
-use Illuminate\Validation\Validator;
 use App\Exceptions\PrettyPageException;
 
 class SetupController extends Controller
@@ -41,7 +40,7 @@ class SetupController extends Controller
             );
         }
 
-        $content = File::get('..' . DIRECTORY_SEPARATOR . '.env');
+        $content = File::get('..'.DIRECTORY_SEPARATOR.'.env');
         $content = str_replace(
             'DB_CONNECTION = '.env('DB_CONNECTION'),
             'DB_CONNECTION = '.$request->input('type'),
@@ -77,7 +76,7 @@ class SetupController extends Controller
             'DB_PREFIX = '.$request->input('prefix'),
             $content
         );
-        File::put('..' . DIRECTORY_SEPARATOR . '.env', $content);
+        File::put('..'.DIRECTORY_SEPARATOR.'.env', $content);
 
         return redirect('setup/info');
     }
@@ -112,7 +111,7 @@ class SetupController extends Controller
             'email'     => 'required|email',
             'nickname'  => 'required|no_special_chars|max:255',
             'password'  => 'required|min:8|max:32|confirmed',
-            'site_name' => 'required'
+            'site_name' => 'required',
         ]);
 
         if ($request->has('generate_random')) {
@@ -122,14 +121,14 @@ class SetupController extends Controller
                 Artisan::call('salt:random');
             } else {
                 // @codeCoverageIgnoreStart
-                Log::warning("[SetupWizard] Failed to set application key. No write permission.");
+                Log::warning('[SetupWizard] Failed to set application key. No write permission.');
                 // @codeCoverageIgnoreEnd
             }
         }
 
         // Create tables
         Artisan::call('migrate', ['--force' => true]);
-        Log::info("[SetupWizard] Tables migrated.");
+        Log::info('[SetupWizard] Tables migrated.');
 
         Option::set('site_name', $request->input('site_name'));
 
@@ -139,7 +138,7 @@ class SetupController extends Controller
             $siteUrl = substr($siteUrl, 0, -10);    // @codeCoverageIgnore
         }
 
-        Option::set('site_url',  $siteUrl);
+        Option::set('site_url', $siteUrl);
 
         // Register super admin
         $user = new User;
@@ -161,7 +160,7 @@ class SetupController extends Controller
 
         return view('setup.wizard.finish')->with([
             'email'    => $request->input('email'),
-            'password' => $request->input('password')
+            'password' => $request->input('password'),
         ]);
     }
 
@@ -182,8 +181,8 @@ class SetupController extends Controller
 
         $tips = [];
 
-        while($filename = @readdir($resource)) {
-            if ($filename != "." && $filename != "..") {
+        while ($filename = @readdir($resource)) {
+            if ($filename != '.' && $filename != '..') {
                 preg_match('/update-(.*)-to-(.*).php/', $filename, $matches);
 
                 // Skip if the file is not valid or expired

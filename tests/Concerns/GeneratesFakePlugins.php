@@ -25,8 +25,8 @@ trait GeneratesFakePlugins
             'url' => 'https://'.Str::random(10).'.test',
             'namespace' => Str::random(10),
             'require' => [
-                'blessing-skin-server' => '^3.4.0 || ^4.0.0'
-            ]
+                'blessing-skin-server' => '^3.4.0 || ^4.0.0',
+            ],
         ], $info);
     }
 
@@ -42,8 +42,8 @@ trait GeneratesFakePlugins
             'dist' => [
                 'type' => 'zip',
                 'url' => 'https://plugins-registry.test/'.Str::random(10).'.zip',
-                'shasum' => strtolower(Str::random(40))
-            ]
+                'shasum' => strtolower(Str::random(40)),
+            ],
         ], $info));
     }
 
@@ -61,8 +61,8 @@ trait GeneratesFakePlugins
             $plugins = [
                 [
                     'name' => func_get_arg(0),
-                    'version' => func_get_arg(1)
-                ]
+                    'version' => func_get_arg(1),
+                ],
             ];
         }
 
@@ -80,7 +80,7 @@ trait GeneratesFakePlugins
         }
 
         return json_encode([
-            'packages' => $packages
+            'packages' => $packages,
         ]);
     }
 

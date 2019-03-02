@@ -3,12 +3,9 @@
 namespace Tests;
 
 use stdClass;
-use App\Events\RenderingHeader;
 use App\Events\RenderingFooter;
+use App\Events\RenderingHeader;
 use Illuminate\Support\Facades\Event;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class HomeControllerTest extends TestCase
 {

@@ -8,8 +8,6 @@ use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class TextureControllerTest extends TestCase
@@ -39,9 +37,9 @@ class TextureControllerTest extends TestCase
             ->assertJson([
                 'username' => $player->player_name,
                 'skins' => [
-                    'default' => $steve->hash
+                    'default' => $steve->hash,
                 ],
-                'cape' => null
+                'cape' => null,
             ])->assertHeader('Last-Modified');
     }
 
@@ -56,9 +54,9 @@ class TextureControllerTest extends TestCase
             ->assertJson([
                 'username' => $player->player_name,
                 'skins' => [
-                    'default' => $steve->hash
+                    'default' => $steve->hash,
                 ],
-                'cape' => null
+                'cape' => null,
             ])->assertHeader('Last-Modified');
 
         // USM API
@@ -67,9 +65,9 @@ class TextureControllerTest extends TestCase
                 'player_name' => $player->player_name,
                 'model_preference' => ['default'],
                 'skins' => [
-                    'default' => $steve->hash
+                    'default' => $steve->hash,
                 ],
-                'cape' => null
+                'cape' => null,
             ])->assertHeader('Last-Modified');
 
         $player->tid_skin = $alex->tid;
@@ -81,9 +79,9 @@ class TextureControllerTest extends TestCase
                 'username' => $player->player_name,
                 'skins' => [
                     'slim' => $alex->hash,
-                    'default' => $alex->hash
+                    'default' => $alex->hash,
                 ],
-                'cape' => null
+                'cape' => null,
             ]);
 
         // USM API
@@ -93,9 +91,9 @@ class TextureControllerTest extends TestCase
                 'model_preference' => ['slim'],
                 'skins' => [
                     'slim' => $alex->hash,
-                    'default' => $alex->hash
+                    'default' => $alex->hash,
                 ],
-                'cape' => null
+                'cape' => null,
             ]);
     }
 
@@ -163,7 +161,7 @@ class TextureControllerTest extends TestCase
     {
         $cape = factory(Texture::class, 'cape')->create();
         $player = factory(Player::class)->create([
-            'tid_cape' => $cape->tid
+            'tid_cape' => $cape->tid,
         ]);
 
         $this->get("/cape/{$player->player_name}.png")

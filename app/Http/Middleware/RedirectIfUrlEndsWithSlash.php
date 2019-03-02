@@ -12,7 +12,7 @@ class RedirectIfUrlEndsWithSlash
             $baseUrl = $request->getBaseUrl();
 
             // Try to remove slash at the end of current url
-            $newUrl  = substr($request->getRequestUri(), 0, -1);
+            $newUrl = substr($request->getRequestUri(), 0, -1);
 
             if ($newUrl != $baseUrl) {
                 return redirect(Str::replaceLast($baseUrl, '', $newUrl));

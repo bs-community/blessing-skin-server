@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 use App\Mail\EmailVerification;
 use App\Events\UserProfileUpdated;
 use Illuminate\Support\Facades\Auth;
-use App\Exceptions\PrettyPageException;
 use App\Services\Repositories\UserRepository;
 
 class UserController extends Controller
@@ -32,19 +31,21 @@ class UserController extends Controller
     public function index()
     {
         $user = Auth::user();
+
         return view('user.index')->with([
             'user' => $user,
             'statistics' => [
                 'players' => $this->calculatePercentageUsed($user->players->count(), option('score_per_player')),
-                'storage' => $this->calculatePercentageUsed($user->getStorageUsed(), option('score_per_storage'))
+                'storage' => $this->calculatePercentageUsed($user->getStorageUsed(), option('score_per_storage')),
             ],
-            'announcement' => app('parsedown')->text(option_localized('announcement'))
+            'announcement' => app('parsedown')->text(option_localized('announcement')),
         ]);
     }
 
     public function scoreInfo()
     {
         $user = Auth::user();
+
         return [
             'user' => [
                 'score' => $user->score,
@@ -52,10 +53,10 @@ class UserController extends Controller
             ],
             'stats' => [
                 'players' => $this->calculatePercentageUsed($user->players->count(), option('score_per_player')),
-                'storage' => $this->calculatePercentageUsed($user->getStorageUsed(), option('score_per_storage'))
+                'storage' => $this->calculatePercentageUsed($user->getStorageUsed(), option('score_per_storage')),
             ],
             'signAfterZero' => option('sign_after_zero'),
-            'signGapTime' => option('sign_gap_time')
+            'signGapTime' => option('sign_gap_time'),
         ];
     }
 
@@ -70,8 +71,8 @@ class UserController extends Controller
     {
         $user = Auth::user();
         // Initialize default value to avoid division by zero.
-        $result['used']       = $used;
-        $result['total']      = 'UNLIMITED';
+        $result['used'] = $used;
+        $result['total'] = 'UNLIMITED';
         $result['percentage'] = 0;
 
         if ($rate != 0) {
@@ -99,15 +100,16 @@ class UserController extends Controller
                 'msg'            => trans('user.sign-success', ['score' => $acquiredScore]),
                 'score'          => $user->getScore(),
                 'storage'        => $this->calculatePercentageUsed($user->getStorageUsed(), option('score_per_storage')),
-                'remaining_time' => $gap > 1 ? round($gap) : $gap
+                'remaining_time' => $gap > 1 ? round($gap) : $gap,
             ]);
         } else {
             $remaining_time = $this->getUserSignRemainingTimeWithPrecision();
+
             return json(trans('user.cant-sign-until', [
                 'time' => $remaining_time >= 1
                     ? $remaining_time : round($remaining_time * 60),
                 'unit' => $remaining_time >= 1
-                    ? trans('user.time-unit-hour') : trans('user.time-unit-min')
+                    ? trans('user.time-unit-hour') : trans('user.time-unit-min'),
             ]), 1);
         }
     }
@@ -145,6 +147,7 @@ class UserController extends Controller
         } catch (\Exception $e) {
             // Write the exception to log
             report($e);
+
             return json(trans('user.verification.failed', ['msg' => $e->getMessage()]), 2);
         }
 
@@ -173,13 +176,14 @@ class UserController extends Controller
         switch ($action) {
             case 'nickname':
                 $this->validate($request, [
-                    'new_nickname' => 'required|no_special_chars|max:255'
+                    'new_nickname' => 'required|no_special_chars|max:255',
                 ]);
 
                 $nickname = $request->input('new_nickname');
 
                 if ($user->setNickName($nickname)) {
                     event(new UserProfileUpdated($action, $user));
+
                     return json(trans('user.profile.nickname.success', ['nickname' => $nickname]), 0);
                 }
 
@@ -188,11 +192,12 @@ class UserController extends Controller
             case 'password':
                 $this->validate($request, [
                     'current_password' => 'required|min:6|max:32',
-                    'new_password'     => 'required|min:8|max:32'
+                    'new_password'     => 'required|min:8|max:32',
                 ]);
 
-                if (! $user->verifyPassword($request->input('current_password')))
+                if (! $user->verifyPassword($request->input('current_password'))) {
                     return json(trans('user.profile.password.wrong-password'), 1);
+                }
 
                 if ($user->changePassword($request->input('new_password'))) {
                     event(new UserProfileUpdated($action, $user));
@@ -207,15 +212,16 @@ class UserController extends Controller
             case 'email':
                 $this->validate($request, [
                     'new_email' => 'required|email',
-                    'password'  => 'required|min:6|max:32'
+                    'password'  => 'required|min:6|max:32',
                 ]);
 
                 if ($users->get($request->input('new_email'), 'email')) {
                     return json(trans('user.profile.email.existed'), 1);
                 }
 
-                if (! $user->verifyPassword($request->input('password')))
+                if (! $user->verifyPassword($request->input('password'))) {
                     return json(trans('user.profile.email.wrong-password'), 1);
+                }
 
                 if ($user->setEmail($request->input('new_email'))) {
                     // Set account status to unverified
@@ -233,14 +239,16 @@ class UserController extends Controller
 
             case 'delete':
                 $this->validate($request, [
-                    'password' => 'required|min:6|max:32'
+                    'password' => 'required|min:6|max:32',
                 ]);
 
-                if ($user->isAdmin())
+                if ($user->isAdmin()) {
                     return json(trans('user.profile.delete.admin'), 1);
+                }
 
-                if (! $user->verifyPassword($request->input('password')))
+                if (! $user->verifyPassword($request->input('password'))) {
                     return json(trans('user.profile.delete.wrong-password'), 1);
+                }
 
                 Auth::logout();
 
@@ -250,7 +258,7 @@ class UserController extends Controller
                     return response()
                         ->json([
                             'errno' => 0,
-                            'msg' => trans('user.profile.delete.success')
+                            'msg' => trans('user.profile.delete.success'),
                         ]);
                 }
 
@@ -260,7 +268,9 @@ class UserController extends Controller
                 return json(trans('general.illegal-parameters'), 1);
                 break;
         }
-    }                    // @codeCoverageIgnore
+    }
+
+    // @codeCoverageIgnore
 
     /**
      * Set user avatar.
@@ -270,14 +280,15 @@ class UserController extends Controller
     public function setAvatar(Request $request)
     {
         $this->validate($request, [
-            'tid' => 'required|integer'
+            'tid' => 'required|integer',
         ]);
 
         $result = Texture::find($request->input('tid'));
 
         if ($result) {
-            if ($result->type == "cape")
+            if ($result->type == 'cape') {
                 return json(trans('user.profile.avatar.wrong-type'), 1);
+            }
 
             if (Auth::user()->setAvatar($request->input('tid'))) {
                 return json(trans('user.profile.avatar.success'), 0);
@@ -285,6 +296,7 @@ class UserController extends Controller
         } else {
             return json(trans('skinlib.non-existent'), 1);
         }
-    }                    // @codeCoverageIgnore
+    }
 
+    // @codeCoverageIgnore
 }

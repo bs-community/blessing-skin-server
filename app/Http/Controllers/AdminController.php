@@ -3,13 +3,12 @@
 namespace App\Http\Controllers;
 
 use Option;
-use App\Events;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
-use Illuminate\Http\Request;
 use App\Services\OptionForm;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Repositories\UserRepository;
 
@@ -20,15 +19,15 @@ class AdminController extends Controller
         $today = Carbon::today()->timestamp;
 
         // Prepare data for the graph
-        $data   = [];
+        $data = [];
         $labels = [];
 
         for ($i = 6; $i >= 0; $i--) {
             $time = Carbon::createFromTimestamp($today - $i * 86400);
 
             $labels[] = $time->format('m-d');
-            $data['user_registration'][] = User::like('register_at',  $time->toDateString())->count();
-            $data['texture_uploads'][]   = Texture::like('upload_at', $time->toDateString())->count();
+            $data['user_registration'][] = User::like('register_at', $time->toDateString())->count();
+            $data['texture_uploads'][] = Texture::like('upload_at', $time->toDateString())->count();
         }
 
         $datasets = [
@@ -53,14 +52,14 @@ class AdminController extends Controller
                 'pointHoverBackgroundColor' => '#c1c7d1',
                 'pointHoverBorderColor' => '#c1c7d1',
                 'data' => $data['texture_uploads'],
-            ]
+            ],
         ];
 
         $options = [
             'tooltips' => [
                 'intersect' => false,
-                'mode' => 'index'
-            ]
+                'mode' => 'index',
+            ],
         ];
 
         return view('admin.index', ['chartOptions' => compact('labels', 'datasets', 'options')]);
@@ -68,9 +67,9 @@ class AdminController extends Controller
 
     public function customize(Request $request)
     {
-        if ($request->input('action') == "color") {
+        if ($request->input('action') == 'color') {
             $this->validate($request, [
-                'color_scheme' => 'required'
+                'color_scheme' => 'required',
             ]);
 
             $color_scheme = str_replace('_', '-', $request->input('color_scheme'));
@@ -79,8 +78,7 @@ class AdminController extends Controller
             return json(trans('admin.customize.change-color.success'), 0);
         }
 
-        $homepage = Option::form('homepage', OptionForm::AUTO_DETECT, function($form)
-        {
+        $homepage = Option::form('homepage', OptionForm::AUTO_DETECT, function ($form) {
             $form->text('home_pic_url')->hint();
 
             $form->text('favicon_url')->hint()->description();
@@ -94,14 +92,12 @@ class AdminController extends Controller
                 ->description();
 
             $form->textarea('copyright_text')->rows(6)->description();
-
         })->handle(function () {
             Option::set('copyright_prefer_'.config('app.locale'), request('copyright_prefer'));
             Option::set('copyright_text_'.config('app.locale'), request('copyright_text'));
         });
 
-        $customJsCss = Option::form('customJsCss', OptionForm::AUTO_DETECT, function($form)
-        {
+        $customJsCss = Option::form('customJsCss', OptionForm::AUTO_DETECT, function ($form) {
             $form->textarea('custom_css', 'CSS')->rows(6);
             $form->textarea('custom_js', 'JavaScript')->rows(6);
         })->addMessage()->handle();
@@ -111,8 +107,7 @@ class AdminController extends Controller
 
     public function score()
     {
-        $rate = Option::form('rate', OptionForm::AUTO_DETECT, function($form)
-        {
+        $rate = Option::form('rate', OptionForm::AUTO_DETECT, function ($form) {
             $form->group('score_per_storage')->text('score_per_storage')->addon();
 
             $form->group('private_score_per_storage')
@@ -126,11 +121,9 @@ class AdminController extends Controller
             $form->group('score_per_player')->text('score_per_player')->addon();
 
             $form->text('user_initial_score');
-
         })->handle();
 
-        $sign = Option::form('sign', OptionForm::AUTO_DETECT, function($form)
-        {
+        $sign = Option::form('sign', OptionForm::AUTO_DETECT, function ($form) {
             $form->group('sign_score')
                 ->text('sign_score_from')->addon(trans('options.sign.sign_score.addon1'))
                 ->text('sign_score_to')->addon(trans('options.sign.sign_score.addon2'));
@@ -138,12 +131,12 @@ class AdminController extends Controller
             $form->group('sign_gap_time')->text('sign_gap_time')->addon();
 
             $form->checkbox('sign_after_zero')->label()->hint();
-        })->after(function() {
+        })->after(function () {
             $sign_score = request('sign_score_from').','.request('sign_score_to');
             Option::set('sign_score', $sign_score);
         })->with([
             'sign_score_from' => @explode(',', option('sign_score'))[0],
-            'sign_score_to'   => @explode(',', option('sign_score'))[1]
+            'sign_score_to'   => @explode(',', option('sign_score'))[1],
         ])->handle();
 
         return view('admin.score', ['forms' => compact('rate', 'sign')]);
@@ -151,8 +144,7 @@ class AdminController extends Controller
 
     public function options()
     {
-        $general = Option::form('general', OptionForm::AUTO_DETECT, function($form)
-        {
+        $general = Option::form('general', OptionForm::AUTO_DETECT, function ($form) {
             $form->text('site_name');
             $form->text('site_description')->description();
 
@@ -211,7 +203,6 @@ class AdminController extends Controller
             $form->textarea('comment_script')->rows(6)->description();
 
             $form->checkbox('allow_sending_statistics')->label()->hint();
-
         })->handle(function () {
             Option::set('site_name_'.config('app.locale'), request('site_name'));
             Option::set('site_description_'.config('app.locale'), request('site_description'));
@@ -223,14 +214,12 @@ class AdminController extends Controller
             Option::set('announcement_'.config('app.locale'), request('announcement'));
         });
 
-        $resources = Option::form('resources', OptionForm::AUTO_DETECT, function($form)
-        {
+        $resources = Option::form('resources', OptionForm::AUTO_DETECT, function ($form) {
             $form->checkbox('force_ssl')->label()->hint();
             $form->checkbox('auto_detect_asset_url')->label()->description();
             $form->checkbox('return_204_when_notfound')->label()->description();
 
             $form->text('cache_expire_time')->hint(OptionForm::AUTO_DETECT);
-
         })->type('warning')->hint(OptionForm::AUTO_DETECT)->handle();
 
         return view('admin.options')->with('forms', compact('general', 'resources', 'announ'));
@@ -252,10 +241,10 @@ class AdminController extends Controller
             $perPage = $request->input('perPage', 10);
 
             $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at', 'verified'])
-                        ->where('uid', 'like', '%' . $search . '%')
-                        ->orWhere('email', 'like', '%' . $search . '%')
-                        ->orWhere('nickname', 'like', '%' . $search . '%')
-                        ->orWhere('score', 'like', '%' . $search . '%')
+                        ->where('uid', 'like', '%'.$search.'%')
+                        ->orWhere('email', 'like', '%'.$search.'%')
+                        ->orWhere('nickname', 'like', '%'.$search.'%')
+                        ->orWhere('score', 'like', '%'.$search.'%')
                         ->orderBy($sortField, $sortType)
                         ->offset(($page - 1) * $perPage)
                         ->limit($perPage)
@@ -265,12 +254,13 @@ class AdminController extends Controller
         $users->transform(function ($user) {
             $user->operations = auth()->user()->permission;
             $user->players_count = $user->players->count();
+
             return $user;
         });
 
         return [
             'totalRecords' => $isSingleUser ? 1 : User::count(),
-            'data' => $users
+            'data' => $users,
         ];
     }
 
@@ -290,9 +280,9 @@ class AdminController extends Controller
             $perPage = $request->input('perPage', 10);
 
             $players = Player::select(['pid', 'uid', 'player_name', 'tid_skin', 'tid_cape', 'last_modified'])
-                            ->where('pid', 'like', '%' . $search . '%')
-                            ->orWhere('uid', 'like', '%' . $search . '%')
-                            ->orWhere('player_name', 'like', '%' . $search . '%')
+                            ->where('pid', 'like', '%'.$search.'%')
+                            ->orWhere('uid', 'like', '%'.$search.'%')
+                            ->orWhere('player_name', 'like', '%'.$search.'%')
                             ->orderBy($sortField, $sortType)
                             ->offset(($page - 1) * $perPage)
                             ->limit($perPage)
@@ -301,12 +291,12 @@ class AdminController extends Controller
 
         return [
             'totalRecords' => $isSpecifiedUser ? 1 : Player::count(),
-            'data' => $players
+            'data' => $players,
         ];
     }
 
     /**
-     * Handle ajax request from /admin/users
+     * Handle ajax request from /admin/users.
      *
      * @param  Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -327,9 +317,9 @@ class AdminController extends Controller
             }
         }
 
-        if ($action == "email") {
+        if ($action == 'email') {
             $this->validate($request, [
-                'email' => 'required|email'
+                'email' => 'required|email',
             ]);
 
             if ($users->get($request->input('email'), 'email')) {
@@ -339,42 +329,38 @@ class AdminController extends Controller
             $user->setEmail($request->input('email'));
 
             return json(trans('admin.users.operations.email.success'), 0);
-
-        } elseif ($action == "verification") {
-            $user->verified = !$user->verified;
+        } elseif ($action == 'verification') {
+            $user->verified = ! $user->verified;
             $user->save();
 
             return json(trans('admin.users.operations.verification.success'), 0);
-        } elseif ($action == "nickname") {
+        } elseif ($action == 'nickname') {
             $this->validate($request, [
-                'nickname' => 'required|no_special_chars'
+                'nickname' => 'required|no_special_chars',
             ]);
 
             $user->setNickName($request->input('nickname'));
 
             return json(trans('admin.users.operations.nickname.success', [
-                'new' => $request->input('nickname')
+                'new' => $request->input('nickname'),
             ]), 0);
-
-        } elseif ($action == "password") {
+        } elseif ($action == 'password') {
             $this->validate($request, [
-                'password' => 'required|min:8|max:16'
+                'password' => 'required|min:8|max:16',
             ]);
 
             $user->changePassword($request->input('password'));
 
             return json(trans('admin.users.operations.password.success'), 0);
-
-        } elseif ($action == "score") {
+        } elseif ($action == 'score') {
             $this->validate($request, [
-                'score' => 'required|integer'
+                'score' => 'required|integer',
             ]);
 
             $user->setScore($request->input('score'));
 
             return json(trans('admin.users.operations.score.success'), 0);
-
-        } elseif ($action == "ban") {
+        } elseif ($action == 'ban') {
             $permission = $user->getPermission() == User::BANNED ? User::NORMAL : User::BANNED;
 
             $user->setPermission($permission);
@@ -382,10 +368,9 @@ class AdminController extends Controller
             return json([
                 'errno'      => 0,
                 'msg'        => trans('admin.users.operations.ban.'.($permission == User::BANNED ? 'ban' : 'unban').'.success'),
-                'permission' => $user->getPermission()
+                'permission' => $user->getPermission(),
             ]);
-
-        } elseif ($action == "admin") {
+        } elseif ($action == 'admin') {
             $permission = $user->getPermission() == User::ADMIN ? User::NORMAL : User::ADMIN;
 
             $user->setPermission($permission);
@@ -393,10 +378,9 @@ class AdminController extends Controller
             return json([
                 'errno'      => 0,
                 'msg'        => trans('admin.users.operations.admin.'.($permission == User::ADMIN ? 'set' : 'unset').'.success'),
-                'permission' => $user->getPermission()
+                'permission' => $user->getPermission(),
             ]);
-
-        } elseif ($action == "delete") {
+        } elseif ($action == 'delete') {
             $user->delete();
 
             return json(trans('admin.users.operations.delete.success'), 0);
@@ -406,7 +390,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Handle ajax request from /admin/players
+     * Handle ajax request from /admin/players.
      */
     public function playerAjaxHandler(Request $request, UserRepository $users)
     {
@@ -424,40 +408,40 @@ class AdminController extends Controller
             }
         }
 
-        if ($action == "texture") {
+        if ($action == 'texture') {
             $this->validate($request, [
                 'type' => 'required',
-                'tid'  => 'required|integer'
+                'tid'  => 'required|integer',
             ]);
 
-            if (! Texture::find($request->tid) && $request->tid != 0)
+            if (! Texture::find($request->tid) && $request->tid != 0) {
                 return json(trans('admin.players.textures.non-existent', ['tid' => $request->tid]), 1);
+            }
 
             $player->setTexture(['tid_'.$request->type => $request->tid]);
 
             return json(trans('admin.players.textures.success', ['player' => $player->player_name]), 0);
-
-        } elseif ($action == "owner") {
+        } elseif ($action == 'owner') {
             $this->validate($request, [
-                'uid'   => 'required|integer'
+                'uid'   => 'required|integer',
             ]);
 
             $user = $users->get($request->input('uid'));
 
-            if (! $user)
+            if (! $user) {
                 return json(trans('admin.users.operations.non-existent'), 1);
+            }
 
             $player->setOwner($request->input('uid'));
 
             return json(trans('admin.players.owner.success', ['player' => $player->player_name, 'user' => $user->getNickName()]), 0);
-
-        } elseif ($action == "delete") {
+        } elseif ($action == 'delete') {
             $player->delete();
 
             return json(trans('admin.players.delete.success'), 0);
-        } elseif ($action == "name") {
+        } elseif ($action == 'name') {
             $this->validate($request, [
-                'name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max')
+                'name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max'),
             ]);
 
             $player->rename($request->input('name'));
@@ -469,7 +453,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Get one user information
+     * Get one user information.
      *
      * @param  string $uid
      * @param  UserRepository $users
@@ -480,11 +464,10 @@ class AdminController extends Controller
         $user = $users->get(intval($uid));
         if ($user) {
             return json('success', 0, ['user' => $user->makeHidden([
-                'password', 'ip', 'last_sign_at', 'register_at', 'remember_token'
+                'password', 'ip', 'last_sign_at', 'register_at', 'remember_token',
             ])->toArray()]);
         } else {
             return json('No such user.', 1);
         }
     }
-
 }

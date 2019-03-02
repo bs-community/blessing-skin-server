@@ -5,9 +5,6 @@ namespace Tests;
 use Faker;
 use Artisan;
 use App\Models\Player;
-use App\Console\Commands\MigratePlayersTable;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class MigratePlayersTableTest extends TestCase

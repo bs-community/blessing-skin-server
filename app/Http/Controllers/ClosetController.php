@@ -7,10 +7,8 @@ use Option;
 use App\Models\User;
 use App\Models\Closet;
 use App\Models\Texture;
-use App\Models\ClosetModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Exceptions\PrettyPageException;
 
 class ClosetController extends Controller
 {
@@ -25,6 +23,7 @@ class ClosetController extends Controller
     {
         $this->middleware(function ($request, $next) {
             $this->closet = new Closet(Auth::id());
+
             return $next($request);
         });
     }
@@ -37,9 +36,9 @@ class ClosetController extends Controller
     public function getClosetData(Request $request)
     {
         $category = $request->input('category', 'skin');
-        $page     = abs($request->input('page', 1));
+        $page = abs($request->input('page', 1));
         $per_page = (int) $request->input('perPage', 6);
-        $q        = $request->input('q', null);
+        $q = $request->input('q', null);
 
         $per_page = $per_page > 0 ? $per_page : 6;
 
@@ -60,7 +59,7 @@ class ClosetController extends Controller
         return response()->json([
             'category'    => $category,
             'items'       => $items->forPage($page, $per_page)->values(),
-            'total_pages' => $total_pages
+            'total_pages' => $total_pages,
         ]);
     }
 
@@ -68,7 +67,7 @@ class ClosetController extends Controller
     {
         $this->validate($request, [
             'tid'  => 'required|integer',
-            'name' => 'required|no_special_chars'
+            'name' => 'required|no_special_chars',
         ]);
 
         $currentUser = Auth::user();
@@ -101,11 +100,12 @@ class ClosetController extends Controller
     {
         $this->validate($request, [
             'tid' => 'required|integer',
-            'new_name' => 'required|no_special_chars'
+            'new_name' => 'required|no_special_chars',
         ]);
 
         if ($this->closet->rename($request->tid, $request->new_name)) {
             $this->closet->save();
+
             return json(trans('user.closet.rename.success', ['name' => $request->new_name]), 0);
         } else {
             return json(trans('user.closet.remove.non-existent'), 1);
@@ -115,7 +115,7 @@ class ClosetController extends Controller
     public function remove(Request $request)
     {
         $this->validate($request, [
-            'tid'  => 'required|integer'
+            'tid'  => 'required|integer',
         ]);
 
         if ($this->closet->remove($request->tid)) {
@@ -125,13 +125,13 @@ class ClosetController extends Controller
 
             $this->closet->save();
 
-            if (option('return_score'))
+            if (option('return_score')) {
                 Auth::user()->setScore(option('score_per_closet_item'), 'plus');
+            }
 
             return json(trans('user.closet.remove.success'), 0);
         } else {
             return json(trans('user.closet.remove.non-existent'), 1);
         }
     }
-
 }

@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use View;
-use App\Events;
 use App\Services\Plugin;
 use Illuminate\Http\Request;
 use App\Services\PluginManager;
@@ -47,7 +45,7 @@ class PluginController extends Controller
                         return json([
                             'errno' => 1,
                             'msg' => trans('admin.plugins.operations.unsatisfied.notice'),
-                            'reason' => $reason
+                            'reason' => $reason,
                         ]);
                     }
 
@@ -99,7 +97,7 @@ class PluginController extends Controller
         return [
             'isRequirementsSatisfied' => $plugins->isRequirementsSatisfied($plugin),
             'requirements' => $plugin->getRequirements(),
-            'unsatisfiedRequirements' => $plugins->getUnsatisfiedRequirements($plugin)
+            'unsatisfiedRequirements' => $plugins->getUnsatisfiedRequirements($plugin),
         ];
     }
 }

@@ -17,14 +17,15 @@ class UserRepository extends Repository
      */
     public function has($identification, $type = 'uid')
     {
-        if ($type == "uid") {
+        if ($type == 'uid') {
             return Arr::has($this->items, $identification);
         } else {
-            return (bool) Arr::where((array) $this->items, function($value) use ($identification, $type) {
-                if (property_exists($value, $type))
+            return (bool) Arr::where((array) $this->items, function ($value) use ($identification, $type) {
+                if (property_exists($value, $type)) {
                     return false;
+                }
 
-                return ($value->$type == $identification);
+                return $value->$type == $identification;
             });
         }
     }
@@ -39,12 +40,12 @@ class UserRepository extends Repository
     public function get($identification, $type = 'uid')
     {
         if (! $this->has($identification, $type)) {
-            if ($type == "username") {
+            if ($type == 'username') {
                 $player = Player::where('player_name', $identification)->first();
 
                 if ($player) {
                     $identification = $player->uid;
-                    $type = "uid";
+                    $type = 'uid';
                 } else {
                     return null;
                 }
@@ -54,21 +55,24 @@ class UserRepository extends Repository
 
             if ($user) {
                 $this->set($user->uid, $user);
+
                 return $user;
             }
 
             return null;
         }
 
-        $result = Arr::where((array) $this->items, function($value) use ($identification, $type) {
-            if (property_exists($value, $type))
+        $result = Arr::where((array) $this->items, function ($value) use ($identification, $type) {
+            if (property_exists($value, $type)) {
                 return false;
+            }
 
-            return ($value->$type == $identification);
+            return $value->$type == $identification;
         });
 
         // Return first element
         reset($result);
+
         return current($result);
     }
 

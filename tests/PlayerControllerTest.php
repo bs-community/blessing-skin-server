@@ -6,8 +6,6 @@ use App\Events;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PlayerControllerTest extends TestCase
@@ -37,7 +35,7 @@ class PlayerControllerTest extends TestCase
                 [
                     'pid' => $player->pid,
                     'player_name' => $player->player_name,
-                ]
+                ],
             ]);
     }
 
@@ -47,7 +45,7 @@ class PlayerControllerTest extends TestCase
         $this->postJson('/user/player/add', [], ['X-Requested-With' => 'XMLHttpRequest'])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => trans('validation.attributes.player_name')])
+                'msg' => trans('validation.required', ['attribute' => trans('validation.attributes.player_name')]),
             ]);
 
         // Only A-Za-z0-9_ are allowed
@@ -58,7 +56,7 @@ class PlayerControllerTest extends TestCase
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.player_name', ['attribute' => trans('validation.attributes.player_name')])
+            'msg' => trans('validation.player_name', ['attribute' => trans('validation.attributes.player_name')]),
         ]);
 
         // Custom player name rule (regexp)
@@ -70,7 +68,7 @@ class PlayerControllerTest extends TestCase
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.player_name', ['attribute' => trans('validation.attributes.player_name')])
+            'msg' => trans('validation.player_name', ['attribute' => trans('validation.attributes.player_name')]),
         ]);
 
         // Lack of score
@@ -82,7 +80,7 @@ class PlayerControllerTest extends TestCase
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
             'errno' => 7,
-            'msg' => trans('user.player.add.lack-score')
+            'msg' => trans('user.player.add.lack-score'),
         ]);
         $this->expectsEvents(Events\CheckPlayerExists::class);
 
@@ -91,10 +89,10 @@ class PlayerControllerTest extends TestCase
         $user = factory(User::class)->create();
         $score = $user->score;
         $this->actAs($user)->postJson('/user/player/add', [
-            'player_name' => '角色名'
+            'player_name' => '角色名',
         ])->assertJson([
             'errno' => 0,
-            'msg' => trans('user.player.add.success', ['name' => '角色名'])
+            'msg' => trans('user.player.add.success', ['name' => '角色名']),
         ]);
         $this->expectsEvents(Events\PlayerWillBeAdded::class);
         $this->expectsEvents(Events\PlayerWasAdded::class);
@@ -111,7 +109,7 @@ class PlayerControllerTest extends TestCase
         $this->postJson('/user/player/add', ['player_name' => '角色名'])
             ->assertJson([
                 'errno' => 6,
-                'msg' => trans('user.player.add.repeated')
+                'msg' => trans('user.player.add.repeated'),
             ]);
     }
 
@@ -125,7 +123,7 @@ class PlayerControllerTest extends TestCase
             ->postJson('/user/player/delete', ['pid' => $player->pid])
             ->assertJson([
                 'errno' => 0,
-                'msg' => trans('user.player.delete.success', ['name' => $player->player_name])
+                'msg' => trans('user.player.delete.success', ['name' => $player->player_name]),
             ]);
         $this->assertNull(Player::find($player->pid));
         $this->expectsEvents(Events\PlayerWasDeleted::class);
@@ -142,7 +140,7 @@ class PlayerControllerTest extends TestCase
             ->postJson('/user/player/delete', ['pid' => $player->pid])
             ->assertJson([
                 'errno' => 0,
-                'msg' => trans('user.player.delete.success', ['name' => $player->player_name])
+                'msg' => trans('user.player.delete.success', ['name' => $player->player_name]),
             ]);
         $this->assertEquals(
             $user->score,
@@ -167,57 +165,57 @@ class PlayerControllerTest extends TestCase
             ->postJson('/user/player/rename', [
                 'pid' => $player->pid,
             ], [
-                'X-Requested-With' => 'XMLHttpRequest'
+                'X-Requested-With' => 'XMLHttpRequest',
             ])->assertJson([
                 'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => trans('validation.attributes.player_name')])
+                'msg' => trans('validation.required', ['attribute' => trans('validation.attributes.player_name')]),
             ]);
 
         // Only A-Za-z0-9_ are allowed
         option(['player_name_rule' => 'official']);
-        $this->postJson('/user/player/rename',[
+        $this->postJson('/user/player/rename', [
             'pid' => $player->pid,
-            'new_player_name' => '角色名'
+            'new_player_name' => '角色名',
         ], [
-            'X-Requested-With' => 'XMLHttpRequest'
+            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.player_name', ['attribute' => trans('validation.attributes.player_name')])
+            'msg' => trans('validation.player_name', ['attribute' => trans('validation.attributes.player_name')]),
         ]);
 
         // Other invalid characters
         option(['player_name_rule' => 'cjk']);
         $this->postJson('/user/player/rename', [
             'pid' => $player->pid,
-            'new_player_name' => '\\'
+            'new_player_name' => '\\',
         ], [
-            'X-Requested-With' => 'XMLHttpRequest'
+            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.player_name', ['attribute' => trans('validation.attributes.player_name')])
+            'msg' => trans('validation.player_name', ['attribute' => trans('validation.attributes.player_name')]),
         ]);
 
         // Use a duplicated player name
         $name = factory(Player::class)->create()->player_name;
         $this->postJson('/user/player/rename', [
             'pid' => $player->pid,
-            'new_player_name' => $name
+            'new_player_name' => $name,
         ])->assertJson([
             'errno' => 6,
-            'msg' => trans('user.player.rename.repeated')
+            'msg' => trans('user.player.rename.repeated'),
         ]);
 
         // Success
         $this->expectsEvents(Events\PlayerProfileUpdated::class);
         $this->postJson('/user/player/rename', [
             'pid' => $player->pid,
-            'new_player_name' => 'new_name'
+            'new_player_name' => 'new_name',
         ])->assertJson([
             'errno' => 0,
             'msg' => trans(
                 'user.player.rename.success',
                 ['old' => $player->player_name, 'new' => 'new_name']
-            )
+            ),
         ]);
     }
 
@@ -232,39 +230,39 @@ class PlayerControllerTest extends TestCase
         $this->actAs($user)
             ->postJson('/user/player/set', [
                 'pid' => $player->pid,
-                'tid' => ['skin' => -1]
+                'tid' => ['skin' => -1],
             ])->assertJson([
                 'errno' => 6,
-                'msg' => trans('skinlib.un-existent')
+                'msg' => trans('skinlib.un-existent'),
             ]);
 
         // Set for "skin" type
         $this->postJson('/user/player/set', [
             'pid' => $player->pid,
-            'tid' => ['skin' => $skin->tid]
+            'tid' => ['skin' => $skin->tid],
         ])->assertJson([
             'errno' => 0,
-            'msg' => trans('user.player.set.success', ['name' => $player->player_name])
+            'msg' => trans('user.player.set.success', ['name' => $player->player_name]),
         ]);
         $this->assertEquals($skin->tid, Player::find($player->pid)->tid_skin);
 
         // Set for "cape" type
         $this->postJson('/user/player/set', [
             'pid' => $player->pid,
-            'tid' => ['cape' => $cape->tid]
+            'tid' => ['cape' => $cape->tid],
         ])->assertJson([
             'errno' => 0,
-            'msg' => trans('user.player.set.success', ['name' => $player->player_name])
+            'msg' => trans('user.player.set.success', ['name' => $player->player_name]),
         ]);
         $this->assertEquals($cape->tid, Player::find($player->pid)->tid_cape);
 
         // Invalid texture type is acceptable
         $this->postJson('/user/player/set', [
             'pid' => $player->pid,
-            'tid' => ['nope' => $skin->tid]     // TID must be valid
+            'tid' => ['nope' => $skin->tid],     // TID must be valid
         ])->assertJson([
             'errno' => 0,
-            'msg' => trans('user.player.set.success', ['name' => $player->player_name])
+            'msg' => trans('user.player.set.success', ['name' => $player->player_name]),
         ]);
     }
 
@@ -275,7 +273,7 @@ class PlayerControllerTest extends TestCase
 
         $player->setTexture([
             'tid_skin' => 1,
-            'tid_cape' => 2
+            'tid_cape' => 2,
         ]);
         $player = Player::find($player->pid);
 
@@ -288,7 +286,7 @@ class PlayerControllerTest extends TestCase
                 'nope' => 1,     // Invalid texture type is acceptable
             ])->assertJson([
                 'errno' => 0,
-                'msg' => trans('user.player.clear.success', ['name' => $player->player_name])
+                'msg' => trans('user.player.clear.success', ['name' => $player->player_name]),
             ]);
         $this->assertEquals(0, Player::find($player->pid)->tid_skin);
         $this->assertEquals(0, Player::find($player->pid)->tid_cape);

@@ -25,6 +25,7 @@ class Texture extends Model
     public function setPrivacy($public)
     {
         $this->public = $public;
+
         return $this->save();
     }
 

@@ -2,8 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App;
-use Session;
 use Illuminate\Support\Facades\Auth;
 
 class RedirectIfAuthenticated

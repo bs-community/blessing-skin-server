@@ -24,7 +24,6 @@ class OptionRepository extends Repository
         foreach ($options as $option) {
             $this->items[$option->option_name] = $option->option_value;
         }
-
     }
 
     /**
@@ -43,7 +42,9 @@ class OptionRepository extends Repository
 
         $value = Arr::get($this->items, $key, $default);
 
-        if ($raw) return $value;
+        if ($raw) {
+            return $value;
+        }
 
         switch (strtolower($value)) {
             case 'true':
@@ -141,7 +142,7 @@ class OptionRepository extends Repository
      * @param  array  $array
      * @return array
      */
-    public function only(Array $array)
+    public function only(array $array)
     {
         $result = [];
 
@@ -155,7 +156,7 @@ class OptionRepository extends Repository
     }
 
     /**
-     * Save all modified options into database
+     * Save all modified options into database.
      */
     public function __destruct()
     {

@@ -3,11 +3,8 @@
 namespace App\Http\Middleware;
 
 use App;
-use View;
-use Http;
-use Cookie;
-use Session;
 use Closure;
+use Session;
 use App\Models\User;
 use App\Events\UserAuthenticated;
 use Illuminate\Support\Facades\Auth;
@@ -17,7 +14,6 @@ class CheckAuthenticated
     public function handle($request, Closure $next)
     {
         if (Auth::check()) {
-
             $user = Auth::user();
 
             if ($user->permission == User::BANNED) {
@@ -27,14 +23,13 @@ class CheckAuthenticated
             }
 
             // Ask for filling email
-            if ($user->email == "") {
+            if ($user->email == '') {
                 return $this->askForFillingEmail($request, $next);
             }
 
             event(new UserAuthenticated($user));
 
             return $next($request);
-
         } else {
             $this->flashLastRequestedPath();
 
@@ -48,7 +43,6 @@ class CheckAuthenticated
 
         if (isset($request->email)) {
             if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
-
                 if (User::where('email', $request->email)->get()->isEmpty()) {
                     $user->setEmail($request->email);
 

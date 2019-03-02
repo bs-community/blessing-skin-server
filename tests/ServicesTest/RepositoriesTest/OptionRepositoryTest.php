@@ -3,8 +3,6 @@
 namespace Tests;
 
 use App\Services\Repositories\OptionRepository;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class OptionRepositoryTest extends TestCase
@@ -23,7 +21,7 @@ class OptionRepositoryTest extends TestCase
         $repo = new OptionRepository();
         $repo->set([
             'k1' => 'v1',
-            'k2' => 'v2'
+            'k2' => 'v2',
         ]);
         $this->assertEquals('v1', $repo->get('k1'));
         $this->assertEquals('v2', $repo->get('k2'));
@@ -39,7 +37,7 @@ class OptionRepositoryTest extends TestCase
         ]);
         $this->assertArraySubset([
             'k1' => 'v1',
-            'k2' => 'v2'
+            'k2' => 'v2',
         ], $repo->only(['k1', 'k2']));
     }
 }

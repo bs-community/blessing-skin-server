@@ -2,46 +2,42 @@
 
 use Carbon\Carbon;
 use App\Models\User;
-use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 if (! function_exists('get_base_url')) {
-
     function get_base_url()
     {
-        $base_url  = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? "https://" : "http://";
-        $base_url .= $_SERVER["SERVER_NAME"];
-        $base_url .= ($_SERVER["SERVER_PORT"] == "80") ? "" : (":".$_SERVER["SERVER_PORT"]);
+        $base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
+        $base_url .= $_SERVER['SERVER_NAME'];
+        $base_url .= ($_SERVER['SERVER_PORT'] == '80') ? '' : (':'.$_SERVER['SERVER_PORT']);
 
         return $base_url;
     }
 }
 
 if (! function_exists('get_current_url')) {
-
     function get_current_url()
     {
-        return get_base_url().$_SERVER["REQUEST_URI"];
+        return get_base_url().$_SERVER['REQUEST_URI'];
     }
 }
 
 if (! function_exists('avatar')) {
-
     function avatar(User $user, $size)
     {
-        $fname = base64_encode($user->email).".png?tid=".$user->getAvatarId();
+        $fname = base64_encode($user->email).'.png?tid='.$user->getAvatarId();
 
         return url("avatar/$size/$fname");
     }
 }
 
 if (! function_exists('assets')) {
-
     function assets($relativeUri)
     {
         // Add query string to fresh cache
         if (Str::startsWith($relativeUri, 'css') || Str::startsWith($relativeUri, 'js')) {
-            return url("resources/assets/dist/$relativeUri")."?v=".config('app.version');
+            return url("resources/assets/dist/$relativeUri").'?v='.config('app.version');
         } elseif (Str::startsWith($relativeUri, 'lang')) {
             return url("resources/$relativeUri");
         } else {
@@ -51,7 +47,6 @@ if (! function_exists('assets')) {
 }
 
 if (! function_exists('webpack_assets')) {
-
     function webpack_assets($relativeUri)
     {
         if (app()->environment('development')) {
@@ -75,19 +70,17 @@ if (! function_exists('plugin')) {
 }
 
 if (! function_exists('plugin_assets')) {
-
     function plugin_assets($id, $relativeUri)
     {
         if ($plugin = plugin($id)) {
             return $plugin->assets($relativeUri);
         } else {
-            throw new InvalidArgumentException("No such plugin.");
+            throw new InvalidArgumentException('No such plugin.');
         }
     }
 }
 
 if (! function_exists('json')) {
-
     function json()
     {
         $args = func_get_args();
@@ -98,19 +91,18 @@ if (! function_exists('json')) {
             // The third argument is array of extra fields
             return Response::json(array_merge([
                 'errno' => $args[1],
-                'msg'   => $args[0]
+                'msg'   => $args[0],
             ], $args[2]));
         } else {
             return Response::json([
                 'errno' => Arr::get($args, 1, 1),
-                'msg'   => $args[0]
+                'msg'   => $args[0],
             ]);
         }
     }
 }
 
 if (! function_exists('bs_hash_file')) {
-
     function bs_hash_file(Illuminate\Http\UploadedFile $file)
     {
         // Try to get hash from event listener
@@ -125,7 +117,6 @@ if (! function_exists('bs_hash_file')) {
 }
 
 if (! function_exists('bs_footer_extra')) {
-
     function bs_footer_extra()
     {
         $extraContents = [];
@@ -137,7 +128,6 @@ if (! function_exists('bs_footer_extra')) {
 }
 
 if (! function_exists('bs_header_extra')) {
-
     function bs_header_extra()
     {
         $extraContents = [];
@@ -149,7 +139,6 @@ if (! function_exists('bs_header_extra')) {
 }
 
 if (! function_exists('bs_favicon')) {
-
     function bs_favicon()
     {
         // Fallback to default favicon
@@ -164,12 +153,11 @@ ICONS;
 }
 
 if (! function_exists('bs_menu')) {
-
     function bs_menu($type)
     {
         $menu = config('menu');
 
-        Event::dispatch($type == "user" ? new App\Events\ConfigureUserMenu($menu)
+        Event::dispatch($type == 'user' ? new App\Events\ConfigureUserMenu($menu)
                                 : new App\Events\ConfigureAdminMenu($menu));
 
         if (! isset($menu[$type])) {
@@ -185,7 +173,7 @@ if (! function_exists('bs_menu')) {
                         $availablePluginConfigs[] = [
                             'title' => trans($plugin->title),
                             'link'  => 'admin/plugins/config/'.$plugin->name,
-                            'icon'  => 'fa-circle'
+                            'icon'  => 'fa-circle',
                         ];
                     }
                 }
@@ -193,6 +181,7 @@ if (! function_exists('bs_menu')) {
                 // Don't display this menu item when no plugin config is available
                 if (count($availablePluginConfigs) > 0) {
                     $item['children'] = array_merge($item['children'], $availablePluginConfigs);
+
                     return $item;
                 }
             } else {
@@ -205,7 +194,7 @@ if (! function_exists('bs_menu')) {
 
     function bs_menu_render($data)
     {
-        $content = "";
+        $content = '';
 
         foreach ($data as $key => $value) {
             $active = app('request')->is(@$value['link']);
@@ -250,7 +239,6 @@ if (! function_exists('bs_menu')) {
 }
 
 if (! function_exists('bs_copyright')) {
-
     function bs_copyright($prefer = null)
     {
         $prefer = is_null($prefer) ? option_localized('copyright_prefer', 0) : $prefer;
@@ -260,7 +248,7 @@ if (! function_exists('bs_copyright')) {
             'UG93ZXJlZCBieSA8YSBocmVmPSJodHRwczovL2dpdGh1Yi5jb20vcHJpbnRlbXB3L2JsZXNzaW5nLXNraW4tc2VydmVyIj5CbGVzc2luZyBTa2luIFNlcnZlcjwvYT4u',
             'UHJvdWRseSBwb3dlcmVkIGJ5IDxhIGhyZWY9Imh0dHBzOi8vZ2l0aHViLmNvbS9wcmludGVtcHcvYmxlc3Npbmctc2tpbi1zZXJ2ZXIiPkJsZXNzaW5nIFNraW4gU2VydmVyPC9hPi4=',
             '55SxIDxhIGhyZWY9Imh0dHBzOi8vZ2l0aHViLmNvbS9wcmludGVtcHcvYmxlc3Npbmctc2tpbi1zZXJ2ZXIiPkJsZXNzaW5nIFNraW4gU2VydmVyPC9hPiDlvLrlipvpqbHliqgu',
-            '6Ieq6LGq5Zyw6YeH55SoIDxhIGhyZWY9Imh0dHBzOi8vZ2l0aHViLmNvbS9wcmludGVtcHcvYmxlc3Npbmctc2tpbi1zZXJ2ZXIiPkJsZXNzaW5nIFNraW4gU2VydmVyPC9hPi4='
+            '6Ieq6LGq5Zyw6YeH55SoIDxhIGhyZWY9Imh0dHBzOi8vZ2l0aHViLmNvbS9wcmludGVtcHcvYmxlc3Npbmctc2tpbi1zZXJ2ZXIiPkJsZXNzaW5nIFNraW4gU2VydmVyPC9hPi4=',
         ];
 
         return base64_decode(Arr::get($base64CopyrightText, $prefer, $base64CopyrightText[0]));
@@ -268,18 +256,16 @@ if (! function_exists('bs_copyright')) {
 }
 
 if (! function_exists('bs_custom_copyright')) {
-
     function bs_custom_copyright()
     {
         return get_string_replaced(option_localized('copyright_text'), [
             '{site_name}' => option_localized('site_name'),
-            '{site_url}' => option('site_url')
+            '{site_url}' => option('site_url'),
         ]);
     }
 }
 
 if (! function_exists('bs_nickname')) {
-
     function bs_nickname(User $user = null)
     {
         $user = $user ?: auth()->user();
@@ -289,7 +275,6 @@ if (! function_exists('bs_nickname')) {
 }
 
 if (! function_exists('bs_role')) {
-
     function bs_role(User $user = null)
     {
         $user = $user ?: auth()->user();
@@ -298,7 +283,7 @@ if (! function_exists('bs_role')) {
             User::NORMAL => 'normal',
             User::BANNED => 'banned',
             User::ADMIN  => 'admin',
-            User::SUPER_ADMIN => 'super-admin'
+            User::SUPER_ADMIN => 'super-admin',
         ];
 
         $role = Arr::get($roles, $user->getPermission());
@@ -330,6 +315,7 @@ if (! function_exists('option')) {
             foreach ($key as $innerKey => $innerValue) {
                 $options->set($innerKey, $innerValue);
             }
+
             return;
         }
 
@@ -338,7 +324,6 @@ if (! function_exists('option')) {
 }
 
 if (! function_exists('option_localized')) {
-
     function option_localized($key = null, $default = null, $raw = false)
     {
         return option($key.'_'.config('app.locale'), option($key));
@@ -346,7 +331,6 @@ if (! function_exists('option_localized')) {
 }
 
 if (! function_exists('validate')) {
-
     function validate($value, $type)
     {
         switch ($type) {
@@ -355,20 +339,19 @@ if (! function_exists('validate')) {
                 break;
 
             default:
-                # code...
+                // code...
                 break;
         }
     }
 }
 
 if (! function_exists('humanize_db_type')) {
-
     function humanize_db_type($type = null)
     {
         $map = [
             'mysql'  => 'MySQL',
             'sqlite' => 'SQLite',
-            'pgsql'  => 'PostgreSQL'
+            'pgsql'  => 'PostgreSQL',
         ];
 
         $type = $type ?: config('database.default');
@@ -378,7 +361,6 @@ if (! function_exists('humanize_db_type')) {
 }
 
 if (! function_exists('get_db_config')) {
-
     function get_db_config($type = null)
     {
         $type = $type ?: config('database.default');
@@ -396,7 +378,8 @@ if (! function_exists('format_http_date')) {
      * @param int $timestamp
      * @return string
      */
-    function format_http_date($timestamp) {
+    function format_http_date($timestamp)
+    {
         return Carbon::createFromTimestampUTC($timestamp)->format('D, d M Y H:i:s \G\M\T');
     }
 }
@@ -405,10 +388,11 @@ if (! function_exists('get_datetime_string')) {
     /**
      * Get date time string in "Y-m-d H:i:s" format.
      *
-     * @param integer $timestamp
+     * @param int $timestamp
      * @return string
      */
-    function get_datetime_string($timestamp = 0) {
+    function get_datetime_string($timestamp = 0)
+    {
         return $timestamp == 0 ? Carbon::now()->toDateTimeString() : Carbon::createFromTimestamp($timestamp)->toDateTimeString();
     }
 }
@@ -422,8 +406,9 @@ if (! function_exists('get_client_ip')) {
      *
      * @return string
      */
-    function get_client_ip() {
-        if (option('ip_get_method') == "0") {
+    function get_client_ip()
+    {
+        if (option('ip_get_method') == '0') {
             // Use `HTTP_X_FORWARDED_FOR` if available first
             $ip = Arr::get(
                 $_SERVER,
@@ -457,6 +442,7 @@ if (! function_exists('get_string_replaced')) {
         foreach ($rules as $search => $replace) {
             $str = str_replace($search, $replace, $str);
         }
+
         return $str;
     }
 }
@@ -473,14 +459,17 @@ if (! function_exists('is_request_secure')) {
      */
     function is_request_secure()
     {
-        if (Arr::get($_SERVER, 'HTTPS') == 'on')
+        if (Arr::get($_SERVER, 'HTTPS') == 'on') {
             return true;
+        }
 
-        if (Arr::get($_SERVER, 'HTTP_X_FORWARDED_PROTO') == 'https')
+        if (Arr::get($_SERVER, 'HTTP_X_FORWARDED_PROTO') == 'https') {
             return true;
+        }
 
-        if (Arr::get($_SERVER, 'HTTP_X_FORWARDED_SSL') == 'on')
+        if (Arr::get($_SERVER, 'HTTP_X_FORWARDED_SSL') == 'on') {
             return true;
+        }
 
         return false;
     }
@@ -493,7 +482,8 @@ if (! function_exists('nl2p')) {
      * @param string $text
      * @return string
      */
-    function nl2p($text) {
+    function nl2p($text)
+    {
         $parts = explode("\n", $text);
         $result = '<p>'.implode('</p><p>', $parts).'</p>';
         // Remove empty paragraphs

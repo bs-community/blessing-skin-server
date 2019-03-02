@@ -3,11 +3,8 @@
 namespace App\Models;
 
 use Event;
-use Response;
-use App\Models\User;
 use App\Events\GetPlayerJson;
 use App\Events\PlayerProfileUpdated;
-use App\Exceptions\PrettyPageException;
 use Illuminate\Database\Eloquent\Model;
 
 class Player extends Model
@@ -23,9 +20,9 @@ class Player extends Model
     /**
      * Properties for Eloquent Model.
      */
-    public    $primaryKey = 'pid';
-    public    $timestamps = false;
-    protected $fillable   = ['uid', 'player_name', 'last_modified'];
+    public $primaryKey = 'pid';
+    public $timestamps = false;
+    protected $fillable = ['uid', 'player_name', 'last_modified'];
 
     /**
      * The attributes that should be cast to native types.
@@ -92,7 +89,7 @@ class Player extends Model
      * @param  array $tids
      * @return $this
      */
-    public function setTexture(Array $tids)
+    public function setTexture(array $tids)
     {
         foreach (self::$types as $type) {
             $property = "tid_$type";
@@ -163,7 +160,7 @@ class Player extends Model
     {
         $this->update([
             'player_name'   => $newName,
-            'last_modified' => get_datetime_string()
+            'last_modified' => get_datetime_string(),
         ]);
 
         $this->player_name = $newName;
@@ -179,7 +176,8 @@ class Player extends Model
      * @param  int $uid
      * @return $this
      */
-    public function setOwner($uid) {
+    public function setOwner($uid)
+    {
         $this->update(['uid' => $uid]);
 
         event(new PlayerProfileUpdated($this));
@@ -197,7 +195,6 @@ class Player extends Model
     {
         // Support both CustomSkinLoader API & UniSkinAPI
         if ($api_type == self::CSL_API || $api_type == self::USM_API) {
-
             $responses = Event::dispatch(new GetPlayerJson($this, $api_type));
 
             // If listeners return nothing
@@ -225,7 +222,7 @@ class Player extends Model
         $model = empty($texture) ? 'default' : ($texture->type === 'steve' ? 'default' : 'slim');
 
         if ($api_type == self::USM_API) {
-            $json['last_update']      = strtotime($this->last_modified);
+            $json['last_update'] = strtotime($this->last_modified);
             $json['model_preference'] = [$model];
         }
 
@@ -248,6 +245,7 @@ class Player extends Model
     {
         // @see http://stackoverflow.com/questions/2215354/php-date-format-when-inserting-into-datetime-in-mysql
         $this->update(['last_modified' => get_datetime_string()]);
+
         return event(new PlayerProfileUpdated($this));
     }
 }

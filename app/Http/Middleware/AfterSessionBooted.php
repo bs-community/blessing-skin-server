@@ -11,7 +11,7 @@ class AfterSessionBooted
      *
      * @var array
      */
-    static $jobs;
+    public static $jobs;
 
     /**
      * Handle an incoming request.
