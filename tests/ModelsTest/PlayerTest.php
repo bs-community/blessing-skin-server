@@ -30,13 +30,6 @@ class PlayerTest extends TestCase
         $this->assertNull($player->getJsonProfile(-1));
     }
 
-    public function testUpdateLastModified()
-    {
-        $player = factory(Player::class)->make();
-        $this->expectsEvents(\App\Events\PlayerProfileUpdated::class);
-        $player->updateLastModified();
-    }
-
     public function testGetTidSkinAttribute()
     {
         $player = factory(Player::class)->create([

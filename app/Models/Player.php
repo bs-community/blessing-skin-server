@@ -9,6 +9,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Player extends Model
 {
+    public const CREATED_AT = null;
+    public const UPDATED_AT = 'last_modified';
+
     /**
      * Json APIs.
      */
@@ -21,7 +24,6 @@ class Player extends Model
      * Properties for Eloquent Model.
      */
     public $primaryKey = 'pid';
-    public $timestamps = false;
     protected $fillable = ['uid', 'player_name', 'last_modified'];
 
     /**
@@ -99,8 +101,6 @@ class Player extends Model
             }
         }
 
-        $this->last_modified = get_datetime_string();
-
         $this->save();
 
         event(new PlayerProfileUpdated($this));
@@ -159,8 +159,7 @@ class Player extends Model
     public function rename($newName)
     {
         $this->update([
-            'player_name'   => $newName,
-            'last_modified' => get_datetime_string(),
+            'player_name' => $newName,
         ]);
 
         $this->player_name = $newName;
@@ -234,18 +233,5 @@ class Player extends Model
         $json['cape'] = $this->getTexture('cape');
 
         return json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-    }
-
-    /**
-     * Update the date of last modified.
-     *
-     * @return mixed
-     */
-    public function updateLastModified()
-    {
-        // @see http://stackoverflow.com/questions/2215354/php-date-format-when-inserting-into-datetime-in-mysql
-        $this->update(['last_modified' => get_datetime_string()]);
-
-        return event(new PlayerProfileUpdated($this));
     }
 }
