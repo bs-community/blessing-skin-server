@@ -6,8 +6,6 @@ use DB;
 use App\Models\User;
 use App\Services\Facades\Option;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class MiddlewareTest extends TestCase
@@ -111,7 +109,7 @@ class MiddlewareTest extends TestCase
         $this->get('/setup')->assertSee('Already installed');
 
         $tables = [
-            'closets', 'migrations', 'options', 'players', 'textures', 'users'
+            'closets', 'migrations', 'options', 'players', 'textures', 'users',
         ];
         array_walk($tables, function ($table) {
             Schema::dropIfExists($table);
@@ -154,17 +152,17 @@ class MiddlewareTest extends TestCase
         $this->actAs($user)
             ->postJson('/user/player/rename', [
                 'pid' => -1,
-                'new_player_name' => 'name'
+                'new_player_name' => 'name',
             ])->assertJson([
                 'errno' => 1,
-                'msg' => trans('general.unexistent-player')
+                'msg' => trans('general.unexistent-player'),
             ]);
         $this->actAs($user)
             ->postJson('/user/player/rename', [
                 'pid' => $player->pid,
-                'new_player_name' => 'name'
+                'new_player_name' => 'name',
             ])->assertJson([
-                'errno' => 0
+                'errno' => 0,
             ]);
     }
 
@@ -180,18 +178,18 @@ class MiddlewareTest extends TestCase
 
         $this->actAs($other_user)
             ->postJson('/user/player/rename', [
-                'pid' => $player->pid
+                'pid' => $player->pid,
             ])->assertJson([
                 'errno' => 1,
-                'msg' => trans('admin.players.no-permission')
+                'msg' => trans('admin.players.no-permission'),
             ]);
 
         $this->actAs($owner)
             ->postJson('/user/player/rename', [
                 'pid' => $player->pid,
-                'new_player_name' => 'name'
+                'new_player_name' => 'name',
             ])->assertJson([
-                'errno' => 0
+                'errno' => 0,
             ]);
     }
 

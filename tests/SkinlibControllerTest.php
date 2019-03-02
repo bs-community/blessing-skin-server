@@ -10,8 +10,6 @@ use Illuminate\Support\Str;
 use org\bovigo\vfs\vfsStream;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SkinlibControllerTest extends TestCase
@@ -29,7 +27,8 @@ class SkinlibControllerTest extends TestCase
         $this->vfs_root = vfsStream::setup();
     }
 
-    protected function serializeTextures($textures) {
+    protected function serializeTextures($textures)
+    {
         return $textures
             ->map(function ($texture) {
                 return [
@@ -41,7 +40,7 @@ class SkinlibControllerTest extends TestCase
                     'size' => $texture->size,
                     'uploader' => $texture->uploader,
                     'public' => $texture->public,
-                    'upload_at' => $texture->upload_at->format('Y-m-d H:i:s')
+                    'upload_at' => $texture->upload_at->format('Y-m-d H:i:s'),
                 ];
             })
             ->all();
@@ -58,7 +57,7 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'items' => [],
                 'current_uid' => 0,
-                'total_pages' => 0
+                'total_pages' => 0,
             ]);
 
         $steves = factory(Texture::class)->times(5)->create();
@@ -74,7 +73,7 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'items' => $this->serializeTextures($expected),
                 'current_uid' => 0,
-                'total_pages' => 1
+                'total_pages' => 1,
             ]);
 
         // Only steve
@@ -85,7 +84,7 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'items' => $this->serializeTextures($expected),
                 'current_uid' => 0,
-                'total_pages' => 1
+                'total_pages' => 1,
             ]);
 
         // Invalid type
@@ -93,7 +92,7 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'items' => [],
                 'current_uid' => 0,
-                'total_pages' => 0
+                'total_pages' => 0,
             ]);
 
         // Only capes
@@ -104,7 +103,7 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'items' => $this->serializeTextures($expected),
                 'current_uid' => 0,
-                'total_pages' => 1
+                'total_pages' => 1,
             ]);
 
         // Only specified uploader
@@ -119,7 +118,7 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'items' => $this->serializeTextures($expected),
                 'current_uid' => 0,
-                'total_pages' => 1
+                'total_pages' => 1,
             ]);
 
         // Sort by `tid`
@@ -127,7 +126,7 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'items' => $this->serializeTextures($skins->sortByDesc('tid')->values()),
                 'current_uid' => 0,
-                'total_pages' => 1
+                'total_pages' => 1,
             ]);
 
         // Search
@@ -143,7 +142,7 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'items' => $this->serializeTextures($expected),
                 'current_uid' => 0,
-                'total_pages' => 1
+                'total_pages' => 1,
             ]);
 
         // More than one argument
@@ -159,7 +158,7 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'items' => $this->serializeTextures($expected),
                 'current_uid' => 0,
-                'total_pages' => 1
+                'total_pages' => 1,
             ]);
 
         // Pagination
@@ -177,13 +176,13 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'items' => $expected,
                 'current_uid' => 0,
-                'total_pages' => 2
+                'total_pages' => 2,
             ]);
         $this->getJson('/skinlib/data?page=-5')
             ->assertJson([
                 'items' => $expected,
                 'current_uid' => 0,
-                'total_pages' => 2
+                'total_pages' => 2,
             ]);
         $expected = $skins
             ->sortByDesc('upload_at')
@@ -195,19 +194,19 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'items' => $expected,
                 'current_uid' => 0,
-                'total_pages' => 2
+                'total_pages' => 2,
             ]);
         $this->getJson('/skinlib/data?page=8')
             ->assertJson([
                 'items' => [],
                 'current_uid' => 0,
-                'total_pages' => 2
+                'total_pages' => 2,
             ]);
         $this->getJson('/skinlib/data?items_per_page=-6&page=2')
             ->assertJson([
                 'items' => $expected,
                 'current_uid' => 0,
-                'total_pages' => 2
+                'total_pages' => 2,
             ]);
         $expected = $skins
             ->sortByDesc('upload_at')
@@ -218,7 +217,7 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'items' => $this->serializeTextures($expected),
                 'current_uid' => 0,
-                'total_pages' => 4
+                'total_pages' => 4,
             ]);
 
         // Add some private textures
@@ -238,7 +237,7 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'items' => $expected,
                 'current_uid' => 0,
-                'total_pages' => 2
+                'total_pages' => 2,
             ]);
 
         // Other users should not see someone's private textures
@@ -250,7 +249,7 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'items' => $expected,
                 'current_uid' => $otherUser->uid,
-                'total_pages' => 2
+                'total_pages' => 2,
             ]);
 
         // A user has added a texture from skin library to his closet
@@ -272,7 +271,7 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'items' => $expected,
                 'current_uid' => $otherUser->uid,
-                'total_pages' => 2
+                'total_pages' => 2,
             ]);
 
         // Uploader can see his private textures
@@ -296,7 +295,7 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'items' => $expected,
                 'current_uid' => $uploader->uid,
-                'total_pages' => 2
+                'total_pages' => 2,
             ]);
 
         // Administrators can see private textures
@@ -306,7 +305,7 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'items' => $expected,
                 'current_uid' => $admin->uid,
-                'total_pages' => 2
+                'total_pages' => 2,
             ]);
     }
 
@@ -340,7 +339,7 @@ class SkinlibControllerTest extends TestCase
         $uploader = factory(User::class)->create();
         $texture = factory(Texture::class)->create([
             'uploader' => $uploader->uid,
-            'public' => false
+            'public' => false,
         ]);
         Storage::disk('textures')->put($texture->hash, '');
         $this->get('/skinlib/show/'.$texture->tid)
@@ -378,7 +377,7 @@ class SkinlibControllerTest extends TestCase
                 'size' => $texture->size,
                 'uploader' => $texture->uploader,
                 'public' => $texture->public,
-                'upload_at' => $texture->upload_at->format('Y-m-d H:i:s')
+                'upload_at' => $texture->upload_at->format('Y-m-d H:i:s'),
             ]);
     }
 
@@ -411,47 +410,47 @@ class SkinlibControllerTest extends TestCase
                 ['file' => $upload]
             )->assertJson([
                 'errno' => UPLOAD_ERR_NO_TMP_DIR,
-                'msg' => \App\Http\Controllers\SkinlibController::$phpFileUploadErrors[UPLOAD_ERR_NO_TMP_DIR]
+                'msg' => \App\Http\Controllers\SkinlibController::$phpFileUploadErrors[UPLOAD_ERR_NO_TMP_DIR],
             ]);
 
         // Without `name` field
         $this->postJson('/skinlib/upload', [], [
-            'X-Requested-With' => 'XMLHttpRequest'
+            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'name'])
+            'msg' => trans('validation.required', ['attribute' => 'name']),
         ]);
 
         // With some special chars
         $this->postJson('/skinlib/upload', [
-            'name' => '\\'
+            'name' => '\\',
         ], [
-            'X-Requested-With' => 'XMLHttpRequest'
+            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.no_special_chars', ['attribute' => 'name'])
+            'msg' => trans('validation.no_special_chars', ['attribute' => 'name']),
         ]);
 
         // Specified regular expression for texture name
         option(['texture_name_regexp' => '/\\d+/']);
         $this->postJson('/skinlib/upload', [
-            'name' => 'abc'
+            'name' => 'abc',
         ], [
-            'X-Requested-With' => 'XMLHttpRequest'
+            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.regex', ['attribute' => 'name'])
+            'msg' => trans('validation.regex', ['attribute' => 'name']),
         ]);
         option(['texture_name_regexp' => null]);
 
         // Without file
         $this->postJson('/skinlib/upload', [
-            'name' => 'texture'
+            'name' => 'texture',
         ], [
-            'X-Requested-With' => 'XMLHttpRequest'
+            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'file'])
+            'msg' => trans('validation.required', ['attribute' => 'file']),
         ]);
 
         // Too large file
@@ -459,24 +458,24 @@ class SkinlibControllerTest extends TestCase
         $upload = UploadedFile::fake()->create('large.png', 5);
         $this->postJson('/skinlib/upload', [
             'name' => 'texture',
-            'file' => $upload
+            'file' => $upload,
         ], [
-            'X-Requested-With' => 'XMLHttpRequest'
+            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.max.file', ['attribute' => 'file', 'max' => '2'])
+            'msg' => trans('validation.max.file', ['attribute' => 'file', 'max' => '2']),
         ]);
         option(['max_upload_file_size' => 1024]);
 
         // Without `public` field
         $this->postJson('/skinlib/upload', [
             'name' => 'texture',
-            'file' => 'content'    // Though it is not a file, it is OK
+            'file' => 'content',    // Though it is not a file, it is OK
         ], [
-            'X-Requested-With' => 'XMLHttpRequest'
+            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'public'])
+            'msg' => trans('validation.required', ['attribute' => 'public']),
         ]);
 
         // Not a PNG image
@@ -485,11 +484,11 @@ class SkinlibControllerTest extends TestCase
             [
                 'name' => 'texture',
                 'public' => 'true',
-                'file' => UploadedFile::fake()->create('fake', 5)
+                'file' => UploadedFile::fake()->create('fake', 5),
             ]
         )->assertJson([
             'errno' => 1,
-            'msg' => trans('skinlib.upload.type-error')
+            'msg' => trans('skinlib.upload.type-error'),
         ]);
 
         // No texture type is specified
@@ -498,11 +497,11 @@ class SkinlibControllerTest extends TestCase
             [
                 'name' => 'texture',
                 'public' => 'true',
-                'file' => UploadedFile::fake()->image('texture.png', 64, 32)
+                'file' => UploadedFile::fake()->image('texture.png', 64, 32),
             ]
         )->assertJson([
             'errno' => 1,
-            'msg' => trans('general.illegal-parameters')
+            'msg' => trans('general.illegal-parameters'),
         ]);
 
         // Invalid skin size
@@ -512,7 +511,7 @@ class SkinlibControllerTest extends TestCase
                 'name' => 'texture',
                 'public' => 'true',
                 'type' => 'steve',
-                'file' => UploadedFile::fake()->image('texture.png', 64, 30)
+                'file' => UploadedFile::fake()->image('texture.png', 64, 30),
             ]
         )->assertJson([
             'errno' => 1,
@@ -521,9 +520,9 @@ class SkinlibControllerTest extends TestCase
                 [
                     'type' => trans('general.skin'),
                     'width' => 64,
-                    'height' => 30
+                    'height' => 30,
                 ]
-            )
+            ),
         ]);
         $this->postJson(
             '/skinlib/upload',
@@ -531,7 +530,7 @@ class SkinlibControllerTest extends TestCase
                 'name' => 'texture',
                 'public' => 'true',
                 'type' => 'alex',
-                'file' => UploadedFile::fake()->image('texture.png', 100, 50)
+                'file' => UploadedFile::fake()->image('texture.png', 100, 50),
             ]
         )->assertJson([
             'errno' => 1,
@@ -540,9 +539,9 @@ class SkinlibControllerTest extends TestCase
                 [
                     'type' => trans('general.skin'),
                     'width' => 100,
-                    'height' => 50
+                    'height' => 50,
                 ]
-            )
+            ),
         ]);
         $this->postJson(
             '/skinlib/upload',
@@ -550,7 +549,7 @@ class SkinlibControllerTest extends TestCase
                 'name' => 'texture',
                 'public' => 'true',
                 'type' => 'cape',
-                'file' => UploadedFile::fake()->image('texture.png', 64, 30)
+                'file' => UploadedFile::fake()->image('texture.png', 64, 30),
             ]
         )->assertJson([
             'errno' => 1,
@@ -559,9 +558,9 @@ class SkinlibControllerTest extends TestCase
                 [
                     'type' => trans('general.cape'),
                     'width' => 64,
-                    'height' => 30
+                    'height' => 30,
                 ]
-            )
+            ),
         ]);
 
         $upload = UploadedFile::fake()->image('texture.png', 64, 32);
@@ -575,16 +574,16 @@ class SkinlibControllerTest extends TestCase
                     'name' => 'texture',
                     'public' => 'true',
                     'type' => 'steve',
-                    'file' => $upload
+                    'file' => $upload,
                 ]
             )
             ->assertJson([
                 'errno' => 7,
-                'msg' => trans('skinlib.upload.lack-score')
+                'msg' => trans('skinlib.upload.lack-score'),
             ]);
 
         $user = factory(User::class)->create([
-            'score' => (int) option('score_per_closet_item') + (int) option('score_per_storage')
+            'score' => (int) option('score_per_closet_item') + (int) option('score_per_storage'),
         ]);
         $this->actAs($user)->postJson(
             '/skinlib/upload',
@@ -592,11 +591,11 @@ class SkinlibControllerTest extends TestCase
                 'name' => 'texture',
                 'public' => 'false',  // Private texture cost more scores
                 'type' => 'steve',
-                'file' => $upload
+                'file' => $upload,
             ]
         )->assertJson([
             'errno' => 7,
-            'msg' => trans('skinlib.upload.lack-score')
+            'msg' => trans('skinlib.upload.lack-score'),
         ]);
         $response = $this->postJson(
             '/skinlib/upload',
@@ -604,14 +603,14 @@ class SkinlibControllerTest extends TestCase
                 'name' => 'texture',
                 'public' => 'true',    // Public texture
                 'type' => 'steve',
-                'file' => $upload
+                'file' => $upload,
             ]
         );
         $t = Texture::where('name', 'texture')->first();
         $response->assertJson([
             'errno' => 0,
             'msg' => trans('skinlib.upload.success', ['name' => 'texture']),
-            'tid' => $t->tid
+            'tid' => $t->tid,
         ]);
         Storage::disk('textures')->assertExists($t->hash);
         $user = User::find($user->uid);
@@ -632,12 +631,12 @@ class SkinlibControllerTest extends TestCase
                     'name' => 'texture',
                     'public' => 'true',
                     'type' => 'steve',
-                    'file' => $upload
+                    'file' => $upload,
                 ]
             )->assertJson([
                 'errno' => 0,
                 'msg' => trans('skinlib.upload.repeated'),
-                'tid' => $t->tid
+                'tid' => $t->tid,
             ]);
 
         unlink(storage_path('framework/testing/disks/textures/'.$t->hash));
@@ -655,7 +654,7 @@ class SkinlibControllerTest extends TestCase
             ->postJson('/skinlib/delete', ['tid' => -1])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('skinlib.non-existent')
+                'msg' => trans('skinlib.non-existent'),
             ]);
 
         // Other user should not be able to delete
@@ -663,7 +662,7 @@ class SkinlibControllerTest extends TestCase
             ->postJson('/skinlib/delete', ['tid' => $texture->tid])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('skinlib.no-permission')
+                'msg' => trans('skinlib.no-permission'),
             ]);
 
         // Administrators can delete it
@@ -671,7 +670,7 @@ class SkinlibControllerTest extends TestCase
             ->postJson('/skinlib/delete', ['tid' => $texture->tid])
             ->assertJson([
                 'errno' => 0,
-                'msg' => trans('skinlib.delete.success')
+                'msg' => trans('skinlib.delete.success'),
             ]);
         $this->assertNull(Texture::find($texture->tid));
 
@@ -683,7 +682,7 @@ class SkinlibControllerTest extends TestCase
         $this->postJson('/skinlib/delete', ['tid' => $texture->tid])
             ->assertJson([
                 'errno' => 0,
-                'msg' => trans('skinlib.delete.success')
+                'msg' => trans('skinlib.delete.success'),
             ]);
         $this->assertNull(Texture::find($texture->tid));
         $this->assertTrue(Storage::disk('textures')->exists($texture->hash));
@@ -693,7 +692,7 @@ class SkinlibControllerTest extends TestCase
         $this->postJson('/skinlib/delete', ['tid' => $texture->tid])
             ->assertJson([
                 'errno' => 0,
-                'msg' => trans('skinlib.delete.success')
+                'msg' => trans('skinlib.delete.success'),
             ]);
         $this->assertNull(Texture::find($texture->tid));
         $this->assertFalse(Storage::disk('textures')->exists($texture->hash));
@@ -705,7 +704,7 @@ class SkinlibControllerTest extends TestCase
             ->postJson('/skinlib/delete', ['tid' => $texture->tid])
             ->assertJson([
                 'errno' => 0,
-                'msg' => trans('skinlib.delete.success')
+                'msg' => trans('skinlib.delete.success'),
             ]);
         $this->assertEquals(
             $uploader->score + $texture->size * option('score_per_storage'),
@@ -715,13 +714,13 @@ class SkinlibControllerTest extends TestCase
         $uploader = User::find($uploader->uid);
         $texture = factory(Texture::class)->create([
             'uploader' => $uploader->uid,
-            'public' => false
+            'public' => false,
         ]);
         $this->actAs($uploader)
             ->postJson('/skinlib/delete', ['tid' => $texture->tid])
             ->assertJson([
                 'errno' => 0,
-                'msg' => trans('skinlib.delete.success')
+                'msg' => trans('skinlib.delete.success'),
             ]);
         $this->assertEquals(
             $uploader->score + $texture->size * option('private_score_per_storage'),
@@ -740,7 +739,7 @@ class SkinlibControllerTest extends TestCase
             ->postJson('/skinlib/privacy', ['tid' => -1])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('skinlib.non-existent')
+                'msg' => trans('skinlib.non-existent'),
             ]);
 
         // Other user should not be able to set privacy
@@ -748,7 +747,7 @@ class SkinlibControllerTest extends TestCase
             ->postJson('/skinlib/privacy', ['tid' => $texture->tid])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('skinlib.no-permission')
+                'msg' => trans('skinlib.no-permission'),
             ]);
 
         // Administrators can change it
@@ -759,7 +758,7 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'errno' => 0,
                 'msg' => trans('skinlib.privacy.success', ['privacy' => trans('general.private')]),
-                'public' => false
+                'public' => false,
             ]);
         $this->assertEquals(0, Texture::find($texture->tid)->public);
 
@@ -771,7 +770,7 @@ class SkinlibControllerTest extends TestCase
             ->postJson('/skinlib/privacy', ['tid' => $texture->tid])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('skinlib.upload.lack-score')
+                'msg' => trans('skinlib.upload.lack-score'),
             ]);
         $this->assertEquals(1, Texture::find($texture->tid)->public);
 
@@ -784,7 +783,7 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'errno' => 0,
                 'msg' => trans('skinlib.privacy.success', ['privacy' => trans('general.private')]),
-                'public' => false
+                'public' => false,
             ]);
         $this->assertEquals(0, User::find($uploader->uid)->score);
 
@@ -798,7 +797,7 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'errno' => 0,
                 'msg' => trans('skinlib.privacy.success', ['privacy' => trans('general.private')]),
-                'public' => false
+                'public' => false,
             ]);
         $this->assertEquals(0, Player::find($player->pid)->tid_skin);
     }
@@ -812,77 +811,77 @@ class SkinlibControllerTest extends TestCase
         // Without `tid` field
         $this->actAs($uploader)
             ->postJson('/skinlib/rename', [], [
-                'X-Requested-With' => 'XMLHttpRequest'
+                'X-Requested-With' => 'XMLHttpRequest',
             ])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'tid'])
+                'msg' => trans('validation.required', ['attribute' => 'tid']),
             ]);
 
         // `tid` is not a integer
         $this->postJson('/skinlib/rename', [
-                'tid' => 'str'
+                'tid' => 'str',
             ], [
-                'X-Requested-With' => 'XMLHttpRequest'
+                'X-Requested-With' => 'XMLHttpRequest',
             ])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('validation.integer', ['attribute' => 'tid'])
+                'msg' => trans('validation.integer', ['attribute' => 'tid']),
             ]);
 
         // Without `new_name` field
         $this->postJson('/skinlib/rename', [
-                'tid' => $texture->tid
+                'tid' => $texture->tid,
             ], [
-                'X-Requested-With' => 'XMLHttpRequest'
+                'X-Requested-With' => 'XMLHttpRequest',
             ])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'new name'])
+                'msg' => trans('validation.required', ['attribute' => 'new name']),
             ]);
 
         // `new_name` has special chars
         $this->postJson('/skinlib/rename', [
                 'tid' => $texture->tid,
-                'new_name' => '\\'
+                'new_name' => '\\',
             ], [
-                'X-Requested-With' => 'XMLHttpRequest'
+                'X-Requested-With' => 'XMLHttpRequest',
             ])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('validation.no_special_chars', ['attribute' => 'new name'])
+                'msg' => trans('validation.no_special_chars', ['attribute' => 'new name']),
             ]);
 
         // Non-existed texture
         $this->postJson('/skinlib/rename', [
                 'tid' => -1,
-                'new_name' => 'name'
+                'new_name' => 'name',
             ])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('skinlib.non-existent')
+                'msg' => trans('skinlib.non-existent'),
             ]);
 
         // Other user should not be able to rename
         $this->actAs($other)
             ->postJson('/skinlib/rename', [
                 'tid' => $texture->tid,
-                'new_name' => 'name'
+                'new_name' => 'name',
             ])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('skinlib.no-permission')
+                'msg' => trans('skinlib.no-permission'),
             ]);
 
         // Administrators should be able to rename
         $this->actAs('admin')
             ->postJson('/skinlib/rename', [
                 'tid' => $texture->tid,
-                'new_name' => 'name'
+                'new_name' => 'name',
             ])
             ->assertJson([
                 'errno' => 0,
-                'msg' => trans('skinlib.rename.success', ['name' => 'name'])
+                'msg' => trans('skinlib.rename.success', ['name' => 'name']),
             ]);
         $this->assertEquals('name', Texture::find($texture->tid)->name);
 
@@ -890,11 +889,11 @@ class SkinlibControllerTest extends TestCase
         $this->actAs($uploader)
             ->postJson('/skinlib/rename', [
                 'tid' => $texture->tid,
-                'new_name' => 'new_name'
+                'new_name' => 'new_name',
             ])
             ->assertJson([
                 'errno' => 0,
-                'msg' => trans('skinlib.rename.success', ['name' => 'new_name'])
+                'msg' => trans('skinlib.rename.success', ['name' => 'new_name']),
             ]);
         $this->assertEquals('new_name', Texture::find($texture->tid)->name);
     }
@@ -909,33 +908,33 @@ class SkinlibControllerTest extends TestCase
         $this->actAs($uploader)
             ->postJson('/skinlib/model', [
                 'tid' => -1,
-                'model' => 'alex'
+                'model' => 'alex',
             ])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('skinlib.non-existent')
+                'msg' => trans('skinlib.non-existent'),
             ]);
 
         // Other user should not be able to change model
         $this->actAs($other)
             ->postJson('/skinlib/model', [
                 'tid' => $texture->tid,
-                'model' => 'alex'
+                'model' => 'alex',
             ])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('skinlib.no-permission')
+                'msg' => trans('skinlib.no-permission'),
             ]);
 
         // Administrators should be able to change model
         $this->actAs('admin')
             ->postJson('/skinlib/model', [
                 'tid' => $texture->tid,
-                'model' => 'alex'
+                'model' => 'alex',
             ])
             ->assertJson([
                 'errno' => 0,
-                'msg' => trans('skinlib.model.success', ['model' => 'alex'])
+                'msg' => trans('skinlib.model.success', ['model' => 'alex']),
             ]);
         $this->assertEquals('alex', Texture::find($texture->tid)->type);
 
@@ -943,28 +942,28 @@ class SkinlibControllerTest extends TestCase
         $this->actAs($uploader)
             ->postJson('/skinlib/model', [
                 'tid' => $texture->tid,
-                'model' => 'steve'
+                'model' => 'steve',
             ])
             ->assertJson([
                 'errno' => 0,
-                'msg' => trans('skinlib.model.success', ['model' => 'steve'])
+                'msg' => trans('skinlib.model.success', ['model' => 'steve']),
             ]);
         $this->assertEquals('steve', Texture::find($texture->tid)->type);
 
         $duplicate = factory(Texture::class, 'alex')->create([
             'uploader' => $other->uid,
-            'hash' => $texture->hash
+            'hash' => $texture->hash,
         ]);
 
         // Should fail if there is already a texture with same hash and chosen model
         $this->actAs($uploader)
             ->postJson('/skinlib/model', [
                 'tid' => $texture->tid,
-                'model' => 'alex'
+                'model' => 'alex',
             ])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('skinlib.model.duplicate', ['name' => $duplicate->name])
+                'msg' => trans('skinlib.model.duplicate', ['name' => $duplicate->name]),
             ]);
 
         // Allow private texture
@@ -973,11 +972,11 @@ class SkinlibControllerTest extends TestCase
         $this->actAs($uploader)
             ->postJson('/skinlib/model', [
                 'tid' => $texture->tid,
-                'model' => 'alex'
+                'model' => 'alex',
             ])
             ->assertJson([
                 'errno' => 0,
-                'msg' => trans('skinlib.model.success', ['model' => 'alex'])
+                'msg' => trans('skinlib.model.success', ['model' => 'alex']),
             ]);
     }
 }

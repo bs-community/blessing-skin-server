@@ -18,14 +18,14 @@ return [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),
         'guzzle' => [
-            'verify' => config('secure.certificates')
+            'verify' => config('secure.certificates'),
         ],
     ],
 
     'mandrill' => [
         'secret' => env('MANDRILL_SECRET'),
         'guzzle' => [
-            'verify' => config('secure.certificates')
+            'verify' => config('secure.certificates'),
         ],
     ],
 
@@ -34,14 +34,14 @@ return [
         'secret' => env('SES_SECRET'),
         'region' => env('SES_REGION'),
         'guzzle' => [
-            'verify' => config('secure.certificates')
+            'verify' => config('secure.certificates'),
         ],
     ],
 
     'sparkpost' => [
         'secret' => env('SPARKPOST_SECRET'),
         'guzzle' => [
-            'verify' => config('secure.certificates')
+            'verify' => config('secure.certificates'),
         ],
     ],
 

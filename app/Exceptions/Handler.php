@@ -4,13 +4,12 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Http\Response;
-use App\Exceptions\PrettyPageException;
 use Illuminate\Session\TokenMismatchException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class Handler extends ExceptionHandler
@@ -74,10 +73,11 @@ class Handler extends ExceptionHandler
             if ($request->expectsJson()) {
                 return response()->json([
                     'errno' => 1,
-                    'msg' => $e->validator->errors()->first()
+                    'msg' => $e->validator->errors()->first(),
                 ]);
             } else {
                 $request->session()->flash('errors', $e->validator->errors());
+
                 return redirect()->back();
             }
         }
@@ -87,7 +87,7 @@ class Handler extends ExceptionHandler
                 return parent::render($request, $e);
             } else {
                 // Hide exception details if we are not in debug mode
-                if (config('app.debug') && !$request->ajax()) {
+                if (config('app.debug') && ! $request->ajax()) {
                     return $this->renderExceptionWithWhoops($e);
                 } else {
                     return $this->renderExceptionInBrief($e);
@@ -126,7 +126,7 @@ class Handler extends ExceptionHandler
      */
     protected function renderExceptionInBrief(Exception $e)
     {
-        if (request()->isMethod('GET') && !request()->ajax()) {
+        if (request()->isMethod('GET') && ! request()->ajax()) {
             return response()->view('errors.exception', ['message' => $e->getMessage()]);
         } else {
             return response($e->getMessage());

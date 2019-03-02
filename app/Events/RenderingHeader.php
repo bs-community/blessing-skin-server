@@ -28,7 +28,7 @@ class RenderingHeader extends Event
     {
         if ($content) {
             if (! is_string($content)) {
-                throw new \Exception("Can not add non-string content", 1);
+                throw new \Exception('Can not add non-string content', 1);
             }
 
             $this->contents[] = $content;

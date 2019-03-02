@@ -5,8 +5,7 @@
  * @Last Modified by:   printempw
  * @Last Modified time: 2016-08-27 18:21:15
  */
-
-if (Option::get('update_source') == "github") {
+if (Option::get('update_source') == 'github') {
     Option::set('update_source', 'nyavm');
 }
 

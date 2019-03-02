@@ -7,7 +7,7 @@ abstract class BaseCipher implements EncryptInterface
     /**
      * {@inheritdoc}
      */
-    public function hash($value, $salt = "")
+    public function hash($value, $salt = '')
     {
         //
     }
@@ -15,7 +15,7 @@ abstract class BaseCipher implements EncryptInterface
     /**
      * {@inheritdoc}
      */
-    public function verify($password, $hash, $salt = "")
+    public function verify($password, $hash, $salt = '')
     {
         return hash_equals($hash, $this->hash($password, $salt));
     }

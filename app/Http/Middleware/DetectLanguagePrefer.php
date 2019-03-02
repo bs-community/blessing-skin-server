@@ -33,5 +33,4 @@ class DetectLanguagePrefer
             session(['locale' => config('app.locale')]);
         };
     }
-
 }

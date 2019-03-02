@@ -13,9 +13,9 @@ class User extends Authenticatable
     /**
      * Permissions.
      */
-    const BANNED      = -1;
-    const NORMAL      = 0;
-    const ADMIN       = 1;
+    const BANNED = -1;
+    const NORMAL = 0;
+    const ADMIN = 1;
     const SUPER_ADMIN = 2;
 
     /**
@@ -27,8 +27,8 @@ class User extends Authenticatable
     /**
      * Properties for Eloquent Model.
      */
-    public $primaryKey  = 'uid';
-    public $timestamps  = false;
+    public $primaryKey = 'uid';
+    public $timestamps = false;
     protected $fillable = ['email', 'nickname', 'permission'];
 
     /**
@@ -58,7 +58,7 @@ class User extends Authenticatable
      */
     public function isAdmin()
     {
-        return ($this->permission >= static::ADMIN);
+        return $this->permission >= static::ADMIN;
     }
 
     /**
@@ -154,6 +154,7 @@ class User extends Authenticatable
     public function setEmail($new_email)
     {
         $this->email = $new_email;
+
         return $this->save();
     }
 
@@ -167,7 +168,7 @@ class User extends Authenticatable
         if (! $this->uid) {
             return trans('general.unexistent-user');
         } else {
-            return ($this->nickname == "") ? $this->email : $this->nickname;
+            return ($this->nickname == '') ? $this->email : $this->nickname;
         }
     }
 
@@ -180,6 +181,7 @@ class User extends Authenticatable
     public function setNickName($newNickName)
     {
         $this->nickname = $newNickName;
+
         return $this->save();
     }
 
@@ -200,7 +202,7 @@ class User extends Authenticatable
      * @param string $mode What operation should be done, set, plus or minus.
      * @return bool
      */
-    public function setScore($score, $mode = "set")
+    public function setScore($score, $mode = 'set')
     {
         switch ($mode) {
             case 'set':
@@ -215,6 +217,7 @@ class User extends Authenticatable
                 $this->score -= $score;
                 break;
         }
+
         return $this->save();
     }
 
@@ -229,7 +232,7 @@ class User extends Authenticatable
             $this->storageUsed = 0;
 
             $result = DB::table('textures')
-                        ->select(DB::raw("SUM(size) AS total_size"))
+                        ->select(DB::raw('SUM(size) AS total_size'))
                         ->where('uploader', $this->uid)
                         ->first()->total_size;
 
@@ -247,7 +250,6 @@ class User extends Authenticatable
     public function sign()
     {
         if ($this->canSign()) {
-
             $scoreLimits = explode(',', option('sign_score'));
             $acquiredScore = rand($scoreLimits[0], $scoreLimits[1]);
 
@@ -287,7 +289,7 @@ class User extends Authenticatable
      */
     public function canSign()
     {
-        return ($this->getSignRemainingTime() <= 0);
+        return $this->getSignRemainingTime() <= 0;
     }
 
     /**
@@ -319,6 +321,7 @@ class User extends Authenticatable
     public function setAvatar($tid)
     {
         $this->avatar = $tid;
+
         return $this->save();
     }
 

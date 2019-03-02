@@ -65,8 +65,9 @@ class Hook
     {
         Event::listen(Events\RenderingFooter::class, function ($event) use ($id, $pages) {
             foreach ($pages as $pattern) {
-                if (! app('request')->is($pattern))
+                if (! app('request')->is($pattern)) {
                     continue;
+                }
 
                 // We will determine current locale in the event callback,
                 // otherwise the locale is not properly detected.
@@ -85,10 +86,10 @@ class Hook
     public static function addStyleFileToPage($urls, $pages = ['*'], $priority = 1)
     {
         Event::listen(Events\RenderingHeader::class, function ($event) use ($urls, $pages) {
-
             foreach ($pages as $pattern) {
-                if (! app('request')->is($pattern))
+                if (! app('request')->is($pattern)) {
                     continue;
+                }
 
                 foreach ((array) $urls as $url) {
                     $event->addContent("<link rel=\"stylesheet\" href=\"$url\">");
@@ -96,17 +97,16 @@ class Hook
 
                 return;
             }
-
         }, $priority);
     }
 
     public static function addScriptFileToPage($urls, $pages = ['*'], $priority = 1)
     {
         Event::listen(Events\RenderingFooter::class, function ($event) use ($urls, $pages) {
-
             foreach ($pages as $pattern) {
-                if (! app('request')->is($pattern))
+                if (! app('request')->is($pattern)) {
                     continue;
+                }
 
                 foreach ((array) $urls as $url) {
                     $event->addContent("<script src=\"$url\"></script>");
@@ -114,7 +114,6 @@ class Hook
 
                 return;
             }
-
         }, $priority);
     }
 }

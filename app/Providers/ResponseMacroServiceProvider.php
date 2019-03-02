@@ -26,7 +26,7 @@ class ResponseMacroServiceProvider extends ServiceProvider
             // Return `304 Not Modified` if given `If-Modified-Since` header
             // is newer than our `Last-Modified` time or the `Etag` matches.
             if ($if_modified_since >= $last_modified || $if_none_match == $etag) {
-                $src    = '';
+                $src = '';
                 $status = 304;
             }
 
@@ -34,7 +34,7 @@ class ResponseMacroServiceProvider extends ServiceProvider
                 'Content-type'  => 'image/png',
                 'Last-Modified' => format_http_date($last_modified),
                 'Cache-Control' => 'public, max-age='.option('cache_expire_time'),
-                'Etag'          => $etag
+                'Etag'          => $etag,
             ], $header));
         });
 
@@ -43,7 +43,7 @@ class ResponseMacroServiceProvider extends ServiceProvider
             $if_modified_since = strtotime(request()->headers->get('If-Modified-Since'));
 
             if ($if_modified_since && $if_modified_since >= $last_modified) {
-                $src    = '';
+                $src = '';
                 $status = 304;
             }
 
