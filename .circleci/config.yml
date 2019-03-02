@@ -80,7 +80,7 @@ workflows:
   install_and_test:
     jobs:
       - frontend
-      - install
+      - composer
       - php7.1:
           requires:
             - composer
