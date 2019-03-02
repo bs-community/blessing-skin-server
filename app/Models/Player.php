@@ -230,8 +230,10 @@ class Player extends Model
         }
 
         $skinHash = $this->getTexture('skin');
+        if ($model == 'slim') {
+            $json['skins']['slim'] = $skinHash;
+        }
         $json['skins']['default'] = $skinHash;
-        $json['skins'][$model] = $skinHash;
         $json['cape'] = $this->getTexture('cape');
 
         return json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
