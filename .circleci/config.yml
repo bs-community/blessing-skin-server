@@ -21,7 +21,7 @@ jobs:
       - run: yarn test --coverage
       - run: yarn codecov
 
-  install:
+  composer:
     working_directory: ~/repo
     docker:
       - image: blessingskin/ci:7.1
@@ -44,7 +44,7 @@ jobs:
           paths:
             - .
 
-  test_php71:
+  php7.1:
     working_directory: ~/repo
     docker:
       - image: blessingskin/ci:7.1
@@ -55,7 +55,7 @@ jobs:
       - run: ./vendor/bin/phpunit --coverage-clover=coverage.xml
       - run: bash <(curl -s https://codecov.io/bash) -cF php
 
-  test_php72:
+  php7.2:
     working_directory: ~/repo
     docker:
       - image: blessingskin/ci:7.2
@@ -65,7 +65,7 @@ jobs:
       - run: touch storage/testing.sqlite
       - run: ./vendor/bin/phpunit
 
-  test_php73:
+  php7.3:
     working_directory: ~/repo
     docker:
       - image: blessingskin/ci:7.3
@@ -81,12 +81,12 @@ workflows:
     jobs:
       - frontend
       - install
-      - test_php71:
+      - php7.1:
           requires:
-            - install
-      - test_php72:
+            - composer
+      - php7.2:
           requires:
-            - install
-      - test_php73:
+            - composer
+      - php7.3:
           requires:
-            - install
+            - composer
