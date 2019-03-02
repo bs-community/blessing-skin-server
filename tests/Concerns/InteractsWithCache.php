@@ -72,6 +72,7 @@ trait InteractsWithCache
     {
         if (is_array($key)) {
             $this->assertCacheHasAll($key);
+
             return $this;
         }
 
@@ -80,6 +81,7 @@ trait InteractsWithCache
         } else {
             $this->assertEquals($value, $this->app['cache.store']->get($key));
         }
+
         return $this;
     }
 

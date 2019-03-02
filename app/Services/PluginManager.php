@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use Log;
 use Storage;
 use App\Events;
 use Composer\Semver\Semver;
@@ -53,8 +52,8 @@ class PluginManager
         Dispatcher $dispatcher,
         Filesystem $filesystem
     ) {
-        $this->app        = $app;
-        $this->option     = $option;
+        $this->app = $app;
+        $this->option = $option;
         $this->dispatcher = $dispatcher;
         $this->filesystem = $filesystem;
     }
@@ -78,8 +77,9 @@ class PluginManager
 
             // traverse plugins dir
             while ($filename = @readdir($resource)) {
-                if ($filename == '.' || $filename == '..')
+                if ($filename == '.' || $filename == '..') {
                     continue;
+                }
 
                 $path = $this->getPluginsDir().DIRECTORY_SEPARATOR.$filename;
 
@@ -91,7 +91,6 @@ class PluginManager
                         $installed[$filename] = json_decode($this->filesystem->get($packageJsonPath), true);
                     }
                 }
-
             }
             closedir($resource);
 
@@ -110,7 +109,7 @@ class PluginManager
                 if ($plugins->has($plugin->name)) {
                     throw new PrettyPageException(trans('errors.plugins.duplicate', [
                         'dir1' => $plugin->getDirname(),
-                        'dir2' => $plugins->get($plugin->name)->getDirname()
+                        'dir2' => $plugins->get($plugin->name)->getDirname(),
                     ]), 5);
                 }
 
@@ -354,7 +353,7 @@ class PluginManager
                 if (! Semver::satisfies(config('app.version'), $versionConstraint)) {
                     $unsatisfied['blessing-skin-server'] = [
                         'version' => config('app.version'),
-                        'constraint' => $versionConstraint
+                        'constraint' => $versionConstraint,
                     ];
                 }
 
@@ -363,10 +362,10 @@ class PluginManager
 
             $requiredPlugin = $this->getPlugin($name);
 
-            if (!$requiredPlugin || !$requiredPlugin->isEnabled()) {
+            if (! $requiredPlugin || ! $requiredPlugin->isEnabled()) {
                 $unsatisfied[$name] = [
                     'version' => null,
-                    'constraint' => $versionConstraint
+                    'constraint' => $versionConstraint,
                 ];
 
                 continue;
@@ -375,7 +374,7 @@ class PluginManager
             if (! Semver::satisfies($requiredPlugin->getVersion(), $versionConstraint)) {
                 $unsatisfied[$name] = [
                     'version' => $requiredPlugin->getVersion(),
-                    'constraint' => $versionConstraint
+                    'constraint' => $versionConstraint,
                 ];
 
                 continue;
@@ -407,7 +406,7 @@ class PluginManager
     }
 
     /**
-     * Copy plugin assets
+     * Copy plugin assets.
      *
      * @param Plugin $plugin
      *
@@ -415,11 +414,11 @@ class PluginManager
      */
     public function copyPluginAssets($plugin)
     {
-        $dir = public_path('plugins/' . $plugin->name . '/assets');
+        $dir = public_path('plugins/'.$plugin->name.'/assets');
         Storage::deleteDirectory($dir);
 
         return $this->filesystem->copyDirectory(
-            $this->getPluginsDir() . DIRECTORY_SEPARATOR . $plugin->name . DIRECTORY_SEPARATOR . 'assets',
+            $this->getPluginsDir().DIRECTORY_SEPARATOR.$plugin->name.DIRECTORY_SEPARATOR.'assets',
             $dir
         );
     }
@@ -435,15 +434,17 @@ class PluginManager
         $this->enabled = $list->map(function ($item) {
             if (is_string($item)) {
                 $plugin = $this->getPlugin($item);
+
                 return [
                     'name' => $item,
                     'version' => $plugin->getVersion(),
                 ];
             } else {
                 $plugin = $this->getPlugin($item['name']);
-                if (!empty($plugin)) {
+                if (! empty($plugin)) {
                     $item['version'] = $plugin->getVersion();
                 }
+
                 return $item;
             }
         });
@@ -452,5 +453,4 @@ class PluginManager
 
         return $this;
     }
-
 }

@@ -4,8 +4,6 @@ namespace Tests;
 
 use App\Models\Player;
 use App\Models\Texture;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PlayerTest extends TestCase

@@ -12,7 +12,7 @@ class PrettyPageException extends \Exception
      * @param  bool   $render Whether to show a error page.
      * @return void
      */
-    public function __construct($message = "Error occured.", $code = -1, $render = false)
+    public function __construct($message = 'Error occured.', $code = -1, $render = false)
     {
         parent::__construct($message, $code);
 

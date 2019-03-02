@@ -9,10 +9,8 @@ use Illuminate\Support\Str;
 use AddVerificationToUsersTable;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SetupControllerTest extends TestCase
@@ -35,7 +33,7 @@ class SetupControllerTest extends TestCase
     protected function dropAllTables()
     {
         $tables = [
-            'closets', 'migrations', 'options', 'players', 'textures', 'users'
+            'closets', 'migrations', 'options', 'players', 'textures', 'users',
         ];
         array_walk($tables, function ($table) {
             Schema::dropIfExists($table);
@@ -60,8 +58,8 @@ class SetupControllerTest extends TestCase
             'password' => env('DB_PASSWORD'),
             'prefix' => '',
         ];
-        File::shouldReceive('get')->with('..' . DIRECTORY_SEPARATOR . '.env')->andReturn('');
-        File::shouldReceive('put')->with('..' . DIRECTORY_SEPARATOR . '.env', '');
+        File::shouldReceive('get')->with('..'.DIRECTORY_SEPARATOR.'.env')->andReturn('');
+        File::shouldReceive('put')->with('..'.DIRECTORY_SEPARATOR.'.env', '');
         $this->post('/setup/database', $fake)->assertRedirect('/setup/info');
     }
 
@@ -70,7 +68,7 @@ class SetupControllerTest extends TestCase
         $this->post('/setup/database', ['type' => 'sqlite', 'host' => 'placeholder', 'db' => 'test'])
             ->assertSee(trans('setup.database.connection-error', [
                 'type' => 'SQLite',
-                'msg' => 'Database (test) does not exist.'
+                'msg' => 'Database (test) does not exist.',
             ]));
     }
 
@@ -96,39 +94,39 @@ class SetupControllerTest extends TestCase
 
         // Empty nickname
         $this->post('/setup/finish', [
-            'email' => 'a@b.c'
+            'email' => 'a@b.c',
         ])->assertDontSee(trans('setup.wizard.finish.title'));
 
         // Invalid characters in nickname
         $this->post('/setup/finish', [
             'email' => 'a@b.c',
-            'nickname' => '\\'
+            'nickname' => '\\',
         ])->assertDontSee(trans('setup.wizard.finish.title'));
 
         // Too long nickname
         $this->post('/setup/finish', [
             'email' => 'a@b.c',
-            'nickname' => Str::random(256)
+            'nickname' => Str::random(256),
         ])->assertDontSee(trans('setup.wizard.finish.title'));
 
         // Without `password` field
         $this->post('/setup/finish', [
             'email' => 'a@b.c',
-            'nickname' => 'nickname'
+            'nickname' => 'nickname',
         ])->assertDontSee(trans('setup.wizard.finish.title'));
 
         // Password is too short
         $this->post('/setup/finish', [
             'email' => 'a@b.c',
             'nickname' => 'nickname',
-            'password' => '1'
+            'password' => '1',
         ])->assertDontSee(trans('setup.wizard.finish.title'));
 
         // Password is too long
         $this->post('/setup/finish', [
             'email' => 'a@b.c',
             'nickname' => 'nickname',
-            'password' => Str::random(17)
+            'password' => Str::random(17),
         ])->assertDontSee(trans('setup.wizard.finish.title'));
 
         // Confirmation is not OK
@@ -136,7 +134,7 @@ class SetupControllerTest extends TestCase
             'email' => 'a@b.c',
             'nickname' => 'nickname',
             'password' => '12345678',
-            'password_confirmation' => '12345679'
+            'password_confirmation' => '12345679',
         ])->assertDontSee(trans('setup.wizard.finish.title'));
 
         // Without `site_name` field
@@ -144,7 +142,7 @@ class SetupControllerTest extends TestCase
             'email' => 'a@b.c',
             'nickname' => 'nickname',
             'password' => '12345678',
-            'password_confirmation' => '12345678'
+            'password_confirmation' => '12345678',
         ])->assertDontSee(trans('setup.wizard.finish.title'));
 
         // Regenerate keys
@@ -172,7 +170,7 @@ class SetupControllerTest extends TestCase
             'password' => '12345678',
             'password_confirmation' => '12345678',
             'site_name' => 'bs',
-            'generate_random' => true
+            'generate_random' => true,
         ])->assertSee(trans('setup.wizard.finish.title'))
             ->assertSee('a@b.c')
             ->assertSee('12345678');

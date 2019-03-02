@@ -5,8 +5,6 @@ namespace Tests;
 use App\Models\User;
 use App\Models\Closet;
 use App\Models\Texture;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ClosetTest extends TestCase
@@ -27,7 +25,7 @@ class ClosetTest extends TestCase
         $other = factory(User::class)->create();
         $texture = factory(Texture::class)->create([
             'uploader' => $other->uid,
-            'public' => false
+            'public' => false,
         ]);
         $user = factory(User::class)->create();
         $closet = new Closet($user->uid);

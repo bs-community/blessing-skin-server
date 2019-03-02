@@ -6,8 +6,8 @@ use Exception;
 use ZipArchive;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
-use Composer\Semver\Comparator;
 use App\Services\PluginManager;
+use Composer\Semver\Comparator;
 
 class MarketController extends Controller
 {
@@ -37,7 +37,7 @@ class MarketController extends Controller
         $this->guzzle = $guzzle;
         $this->guzzleConfig = [
             'headers' => ['User-Agent' => config('secure.user_agent')],
-            'verify' => config('secure.certificates')
+            'verify' => config('secure.certificates'),
         ];
     }
 
@@ -61,7 +61,7 @@ class MarketController extends Controller
             $item['dependencies'] = [
                 'isRequirementsSatisfied' => $manager->isRequirementsSatisfied($requirements),
                 'requirements' => $requirements,
-                'unsatisfiedRequirements' => $manager->getUnsatisfiedRequirements($requirements)
+                'unsatisfiedRequirements' => $manager->getUnsatisfiedRequirements($requirements),
             ];
 
             return $item;
@@ -74,12 +74,13 @@ class MarketController extends Controller
     {
         $pluginsHaveUpdate = collect($this->getAllAvailablePlugins())->filter(function ($item) {
             $plugin = plugin($item['name']);
+
             return $plugin && Comparator::greaterThan($item['version'], $plugin->version);
         });
 
         return json([
             'available' => $pluginsHaveUpdate->isNotEmpty(),
-            'plugins' => $pluginsHaveUpdate->values()->all()
+            'plugins' => $pluginsHaveUpdate->values()->all(),
         ]);
     }
 
@@ -101,16 +102,18 @@ class MarketController extends Controller
         // Download
         try {
             $this->guzzle->request('GET', $url, array_merge($this->guzzleConfig, [
-                'sink' => $tmp_path
+                'sink' => $tmp_path,
             ]));
         } catch (Exception $e) {
             report($e);
+
             return json(trans('admin.plugins.market.download-failed', ['error' => $e->getMessage()]), 2);
         }
 
         // Check file's sha1 hash
         if (sha1_file($tmp_path) !== $metadata['dist']['shasum']) {
             @unlink($tmp_path);
+
             return json(trans('admin.plugins.market.shasum-failed'), 3);
         }
 
@@ -146,7 +149,7 @@ class MarketController extends Controller
                 )->getBody();
             } catch (Exception $e) {
                 throw new Exception(trans('admin.plugins.market.connection-error', [
-                    'error' => htmlentities($e->getMessage())
+                    'error' => htmlentities($e->getMessage()),
                 ]));
             }
 

@@ -4,9 +4,9 @@ namespace App\Services;
 
 use Option;
 use ReflectionClass;
+use BadMethodCallException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use BadMethodCallException;
 
 class OptionForm
 {
@@ -20,19 +20,19 @@ class OptionForm
     protected $title;
 
     protected $hint;
-    protected $type  = 'primary';
+    protected $type = 'primary';
     protected $items = [];
 
     protected $values = [];
 
-    protected $buttons  = [];
+    protected $buttons = [];
     protected $messages = [];
 
     protected $hookBefore;
     protected $hookAfter;
     protected $alwaysCallback = null;
 
-    protected $renderWithOutTable  = false;
+    protected $renderWithOutTable = false;
     protected $renderInputTagsOnly = false;
     protected $renderWithOutSubmitButton = false;
 
@@ -145,7 +145,7 @@ class OptionForm
             'href'  => '',
             'text'  => 'BUTTON',
             'type'  => 'button',
-            'name'  => ''
+            'name'  => '',
         ], $info);
 
         $classes = "btn btn-{$info['style']} ".implode(' ', (array) Arr::get($info, 'class'));
@@ -166,7 +166,7 @@ class OptionForm
      * @param  string $style
      * @return $this
      */
-    public function addMessage($msg = self::AUTO_DETECT, $style = "info")
+    public function addMessage($msg = self::AUTO_DETECT, $style = 'info')
     {
         if ($msg == self::AUTO_DETECT) {
             $msg = trans("options.$this->id.message");
@@ -178,7 +178,7 @@ class OptionForm
     }
 
     /**
-     * Add callback which will be executed before handling options
+     * Add callback which will be executed before handling options.
      *
      * @param callable $callback
      * @return $this
@@ -191,7 +191,7 @@ class OptionForm
     }
 
     /**
-     * Add callback which will be executed after handling options
+     * Add callback which will be executed after handling options.
      *
      * @param callable $callback
      * @return $this
@@ -229,7 +229,7 @@ class OptionForm
         if (isset($matches[2])) {
             return [
                 'id'     => $matches[1],
-                'offset' => $matches[2]
+                'offset' => $matches[2],
             ];
         }
 
@@ -256,13 +256,13 @@ class OptionForm
                 call_user_func($this->hookBefore, $this);
             }
 
-            $postOptionQueue  = [];
+            $postOptionQueue = [];
             $arrayOptionQueue = [];
 
             foreach ($this->items as $item) {
                 if ($item instanceof OptionFormGroup) {
                     foreach ($item->items as $innerItem) {
-                        if ($innerItem['type'] == "text") {
+                        if ($innerItem['type'] == 'text') {
                             $postOptionQueue[] = new OptionFormText($innerItem['id']);
                         }
                     }
@@ -273,9 +273,9 @@ class OptionForm
             }
 
             foreach ($postOptionQueue as $item) {
-                if ($item instanceof OptionFormCheckbox && !isset($allPostData[$item->id])) {
+                if ($item instanceof OptionFormCheckbox && ! isset($allPostData[$item->id])) {
                     // preset value for checkboxes which are not checked
-                    $allPostData[$item->id] = "false";
+                    $allPostData[$item->id] = 'false';
                 }
 
                 // Str::is('*[*]', $item->id)
@@ -392,7 +392,7 @@ class OptionForm
                 'style' => 'primary',
                 'text'  => trans('general.submit'),
                 'type'  => 'submit',
-                'name'  => 'submit_'.$this->id
+                'name'  => 'submit_'.$this->id,
             ]);
         }
 
@@ -432,7 +432,7 @@ class OptionFormItem
 
     public function __construct($id, $name = null)
     {
-        $this->id   = $id;
+        $this->id = $id;
         $this->name = $name;
     }
 
@@ -468,7 +468,7 @@ class OptionFormItem
         return $this;
     }
 
-    public function disabled($disabled = "disabled")
+    public function disabled($disabled = 'disabled')
     {
         $this->disabled = "disabled=\"$disabled\"";
 
@@ -493,9 +493,7 @@ class OptionFormItem
      */
     public function render()
     {
-        return;
     }
-
 }
 
 class OptionFormText extends OptionFormItem
@@ -520,7 +518,7 @@ class OptionFormText extends OptionFormItem
             'id' => $this->id,
             'value' => $this->value,
             'disabled' => $this->disabled,
-            'placeholder' => $this->placeholder
+            'placeholder' => $this->placeholder,
         ]);
     }
 }
@@ -546,7 +544,7 @@ class OptionFormCheckbox extends OptionFormItem
             'id'    => $this->id,
             'value' => $this->value,
             'label' => $this->label,
-            'disabled' => $this->disabled
+            'disabled' => $this->disabled,
         ]);
     }
 }
@@ -568,7 +566,7 @@ class OptionFormTextarea extends OptionFormItem
             'id'    => $this->id,
             'rows'  => $this->rows,
             'value' => $this->value,
-            'disabled' => $this->disabled
+            'disabled' => $this->disabled,
         ]);
     }
 }
@@ -590,7 +588,7 @@ class OptionFormSelect extends OptionFormItem
             'id'       => $this->id,
             'options'  => $this->options,
             'selected' => $this->value,
-            'disabled' => $this->disabled
+            'disabled' => $this->disabled,
         ]);
     }
 }
@@ -634,7 +632,7 @@ class OptionFormGroup extends OptionFormItem
             $rendered[] = view('common.option-form.'.$item['type'])->with([
                 'id'    => $item['id'],
                 'value' => $item['value'],
-                'placeholder' => Arr::get($item, 'placeholder')
+                'placeholder' => Arr::get($item, 'placeholder'),
             ]);
         }
 

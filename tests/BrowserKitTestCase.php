@@ -49,6 +49,7 @@ class BrowserKitTestCase extends TestCase
                 $role = factory(\App\Models\User::class, $role)->create();
             }
         }
+
         return $this->actingAs($role);
     }
 

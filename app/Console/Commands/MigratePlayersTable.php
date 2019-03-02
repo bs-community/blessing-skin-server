@@ -43,6 +43,7 @@ class MigratePlayersTable extends Command
 
         if ($count == 0) {
             $this->info('No need to update.');
+
             return;
         }
 

@@ -25,7 +25,7 @@ class Closet
     private $textures;
 
     /**
-     * Indicates if closet has been modified
+     * Indicates if closet has been modified.
      *
      * @var array
      */
@@ -39,13 +39,13 @@ class Closet
     public function __construct($uid)
     {
         $this->uid = $uid;
-        $this->db  = DB::table('closets');
+        $this->db = DB::table('closets');
 
         // Create a new closet if not exists
         if ($this->db->where('uid', $uid)->count() == 0) {
             $this->db->insert([
                 'uid'      => $uid,
-                'textures' => '[]'
+                'textures' => '[]',
             ]);
         }
 
@@ -66,7 +66,7 @@ class Closet
                 return true;
             }
 
-            if (!$t->public && $t->uploader != $uid && !app('users')->get($uid)->isAdmin()) {
+            if (! $t->public && $t->uploader != $uid && ! app('users')->get($uid)->isAdmin()) {
                 return true;
             }
 
@@ -92,7 +92,7 @@ class Closet
      * @param  string $category "skin" or "cape" or "all".
      * @return array
      */
-    public function getItems($category = "all")
+    public function getItems($category = 'all')
     {
         $textures = Texture::whereIn('tid', $this->textures->pluck('tid')->all())
                         ->get()
@@ -100,15 +100,16 @@ class Closet
                             $in_closet = $this->textures
                                             ->where('tid', $texture->tid)
                                             ->first();
+
                             return [
                                 'tid' => $texture->tid,
                                 'name' => $in_closet['name'],
                                 'type' => $texture->type,
-                                'add_at' => $in_closet['add_at']
+                                'add_at' => $in_closet['add_at'],
                             ];
                         })
                         ->sortByDesc('add_at');
-        if ($category == "all") {
+        if ($category == 'all') {
             return $textures->values()->all();
         } elseif ($category == 'cape') {
             return $textures->filter(function ($texture) {
@@ -137,7 +138,7 @@ class Closet
         $this->textures->push([
             'tid'    => (int) $tid,
             'name'   => $name,
-            'add_at' => time()
+            'add_at' => time(),
         ]);
 
         $this->closet_modified = true;
@@ -157,7 +158,7 @@ class Closet
     }
 
     /**
-     * Get one texture info
+     * Get one texture info.
      *
      * @param  int        $tid
      * @return array|null Result
@@ -170,7 +171,7 @@ class Closet
     /**
      * Rename closet item.
      *
-     * @param  integer $tid
+     * @param  int $tid
      * @param  string  $newName
      * @return bool
      */
@@ -184,6 +185,7 @@ class Closet
             if ($texture['tid'] == $tid) {
                 $texture['name'] = $newName;
             }
+
             return $texture;
         });
 
@@ -208,6 +210,7 @@ class Closet
         });
 
         $this->closet_modified = true;
+
         return true;
     }
 
@@ -259,6 +262,7 @@ class Closet
         foreach (DB::table('closets')->pluck('uid') as $uid) {
             $result[] = new Closet($uid);
         }
+
         return $result;
     }
 }

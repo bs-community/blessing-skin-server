@@ -42,5 +42,5 @@ return [
     'plugins_enabled'           => '',
     'copyright_prefer'          => '0',
     'score_per_closet_item'     => '0',
-    'favicon_url'               => 'app/favicon.ico'
+    'favicon_url'               => 'app/favicon.ico',
 ];

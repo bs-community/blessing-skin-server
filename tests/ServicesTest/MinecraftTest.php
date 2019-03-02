@@ -5,9 +5,6 @@ namespace Tests;
 use App\Services\Minecraft;
 use org\bovigo\vfs\vfsStream;
 use App\Http\Controllers\TextureController;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class MinecraftTest extends TestCase
 {

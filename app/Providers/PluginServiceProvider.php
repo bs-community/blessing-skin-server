@@ -30,13 +30,13 @@ class PluginServiceProvider extends ServiceProvider
 
         foreach ($plugins->getPlugins() as $plugin) {
             if ($plugin->isEnabled()) {
-                $src_paths[$plugin->getNameSpace()] = $plugin->getPath()."/src";
+                $src_paths[$plugin->getNameSpace()] = $plugin->getPath().'/src';
                 // Add paths of views
-                $finder->addNamespace($plugin->getNameSpace(), $plugin->getPath()."/views");
+                $finder->addNamespace($plugin->getNameSpace(), $plugin->getPath().'/views');
             }
 
             // Always add paths of translation files for namespace hints
-            $loader->addNamespace($plugin->getNameSpace(), $plugin->getPath()."/lang");
+            $loader->addNamespace($plugin->getNameSpace(), $plugin->getPath().'/lang');
         }
 
         $this->registerPluginCallbackListener();
@@ -73,7 +73,7 @@ class PluginServiceProvider extends ServiceProvider
             Events\PluginWasDisabled::class,
         ], function ($event) {
             // Call callback functions of plugin
-            if (file_exists($filename = $event->plugin->getPath()."/callbacks.php")) {
+            if (file_exists($filename = $event->plugin->getPath().'/callbacks.php')) {
                 $callbacks = require $filename;
 
                 $callback = Arr::get($callbacks, get_class($event));
@@ -105,7 +105,7 @@ class PluginServiceProvider extends ServiceProvider
             foreach ((array) array_keys($paths) as $namespace) {
                 if ($namespace != '' && mb_strpos($class, $namespace) === 0) {
                     // Parse real file path
-                    $path = $paths[$namespace].Str::replaceFirst($namespace, '', $class).".php";
+                    $path = $paths[$namespace].Str::replaceFirst($namespace, '', $class).'.php';
                     $path = str_replace('\\', '/', $path);
 
                     if (file_exists($path)) {

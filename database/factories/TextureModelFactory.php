@@ -11,7 +11,7 @@ $factory->define(Texture::class, function (Faker\Generator $faker) {
         'size' => rand(1, 2048),
         'uploader' => factory(App\Models\User::class)->create()->uid,
         'public' => true,
-        'upload_at' => $faker->dateTime
+        'upload_at' => $faker->dateTime,
     ];
 });
 
@@ -24,7 +24,7 @@ $factory->defineAs(Texture::class, 'alex', function (Faker\Generator $faker) {
         'size' => rand(1, 2048),
         'uploader' => factory(App\Models\User::class)->create()->uid,
         'public' => true,
-        'upload_at' => $faker->dateTime
+        'upload_at' => $faker->dateTime,
     ];
 });
 
@@ -37,6 +37,6 @@ $factory->defineAs(Texture::class, 'cape', function (Faker\Generator $faker) {
         'size' => rand(1, 2048),
         'uploader' => factory(App\Models\User::class)->create()->uid,
         'public' => true,
-        'upload_at' => $faker->dateTime
+        'upload_at' => $faker->dateTime,
     ];
 });

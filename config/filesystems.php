@@ -59,7 +59,7 @@ return [
         ],
 
         'testing' => [
-            'driver' => 'memory'
+            'driver' => 'memory',
         ],
 
     ],

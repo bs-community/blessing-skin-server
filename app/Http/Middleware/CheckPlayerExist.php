@@ -14,7 +14,7 @@ class CheckPlayerExist
             if (is_null(Player::find($request->input('pid')))) {
                 return response()->json([
                     'errno' => 1,
-                    'msg' => trans('general.unexistent-player')
+                    'msg' => trans('general.unexistent-player'),
                 ]);
             } else {
                 return $next($request);
@@ -32,15 +32,18 @@ class CheckPlayerExist
         $responses = event(new CheckPlayerExists($player_name));
 
         foreach ($responses as $r) {
-            if ($r) return $next($request);    // @codeCoverageIgnore
+            if ($r) {
+                return $next($request);
+            }    // @codeCoverageIgnore
         }
 
-        if (! Player::where('player_name', $player_name)->get()->isEmpty())
+        if (! Player::where('player_name', $player_name)->get()->isEmpty()) {
             return $next($request);
+        }
 
         if (option('return_204_when_notfound')) {
             return response('', 204, [
-                'Cache-Control' => 'public, max-age='.option('cache_expire_time')
+                'Cache-Control' => 'public, max-age='.option('cache_expire_time'),
             ]);
         } else {
             return abort(404, trans('general.unexistent-player'));

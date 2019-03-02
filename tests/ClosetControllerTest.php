@@ -5,8 +5,6 @@ namespace Tests;
 use App\Models\User;
 use App\Models\Closet;
 use App\Models\Texture;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ClosetControllerTest extends TestCase
@@ -44,7 +42,7 @@ class ClosetControllerTest extends TestCase
             ->assertJsonStructure([
                 'category',
                 'total_pages',
-                'items' => [['tid', 'name', 'type', 'add_at']]
+                'items' => [['tid', 'name', 'type', 'add_at']],
             ]);
 
         // Responsive
@@ -67,8 +65,8 @@ class ClosetControllerTest extends TestCase
                     'tid' => $cape->tid,
                     'name' => 'custom_name',
                     'type' => 'cape',
-                    'add_at' => $closet->get($cape->tid)['add_at']
-                ]]
+                    'add_at' => $closet->get($cape->tid)['add_at'],
+                ]],
             ]);
 
         // Search by keyword
@@ -81,8 +79,8 @@ class ClosetControllerTest extends TestCase
                     'tid' => $random->tid,
                     'name' => $random->name,
                     'type' => $random->type,
-                    'add_at' => $closet->get($random->tid)['add_at']
-                ]]
+                    'add_at' => $closet->get($random->tid)['add_at'],
+                ]],
             ]);
     }
 
@@ -96,7 +94,7 @@ class ClosetControllerTest extends TestCase
         $this->postJson('/user/closet/add', [], ['X-Requested-With' => 'XMLHttpRequest'])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'tid'])
+                'msg' => trans('validation.required', ['attribute' => 'tid']),
             ]);
 
         // `tid` is not a integer
@@ -106,7 +104,7 @@ class ClosetControllerTest extends TestCase
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.integer', ['attribute' => 'tid'])
+            'msg' => trans('validation.integer', ['attribute' => 'tid']),
         ]);
 
         // Missing `name` field
@@ -116,7 +114,7 @@ class ClosetControllerTest extends TestCase
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'name'])
+            'msg' => trans('validation.required', ['attribute' => 'name']),
         ]);
 
         // `name` field has special characters
@@ -126,7 +124,7 @@ class ClosetControllerTest extends TestCase
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.no_special_chars', ['attribute' => 'name'])
+            'msg' => trans('validation.no_special_chars', ['attribute' => 'name']),
         ]);
 
         // The user doesn't have enough score to add a texture
@@ -136,7 +134,7 @@ class ClosetControllerTest extends TestCase
             ['tid' => $texture->tid, 'name' => $name]
         )->assertJson([
             'errno' => 7,
-            'msg' => trans('user.closet.add.lack-score')
+            'msg' => trans('user.closet.add.lack-score'),
         ]);
 
         // Add a not-existed texture
@@ -146,7 +144,7 @@ class ClosetControllerTest extends TestCase
             ['tid' => -1, 'name' => 'my']
         )->assertJson([
             'errno' => 1,
-            'msg' => trans('user.closet.add.not-found')
+            'msg' => trans('user.closet.add.not-found'),
         ]);
 
         // Add a texture successfully
@@ -155,7 +153,7 @@ class ClosetControllerTest extends TestCase
             ['tid' => $texture->tid, 'name' => $name]
         )->assertJson([
             'errno' => 0,
-            'msg' => trans('user.closet.add.success', ['name' => $name])
+            'msg' => trans('user.closet.add.success', ['name' => $name]),
         ]);
         $this->assertEquals($texture->likes + 1, Texture::find($texture->tid)->likes);
         $this->user = User::find($this->user->uid);
@@ -169,7 +167,7 @@ class ClosetControllerTest extends TestCase
             ['tid' => $texture->tid, 'name' => $name]
         )->assertJson([
             'errno' => 1,
-            'msg' => trans('user.closet.add.repeated')
+            'msg' => trans('user.closet.add.repeated'),
         ]);
     }
 
@@ -182,7 +180,7 @@ class ClosetControllerTest extends TestCase
         $this->postJson('/user/closet/rename', [], ['X-Requested-With' => 'XMLHttpRequest'])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'tid'])
+                'msg' => trans('validation.required', ['attribute' => 'tid']),
             ]);
 
         // `tid` is not a integer
@@ -192,7 +190,7 @@ class ClosetControllerTest extends TestCase
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.integer', ['attribute' => 'tid'])
+            'msg' => trans('validation.integer', ['attribute' => 'tid']),
         ]);
 
         // Missing `new_name` field
@@ -202,7 +200,7 @@ class ClosetControllerTest extends TestCase
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'new name'])
+            'msg' => trans('validation.required', ['attribute' => 'new name']),
         ]);
 
         // `new_name` field has special characters
@@ -212,7 +210,7 @@ class ClosetControllerTest extends TestCase
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.no_special_chars', ['attribute' => 'new name'])
+            'msg' => trans('validation.no_special_chars', ['attribute' => 'new name']),
         ]);
 
         // Rename a not-existed texture
@@ -221,7 +219,7 @@ class ClosetControllerTest extends TestCase
             ['tid' => -1, 'new_name' => $name]
         )->assertJson([
             'errno' => 1,
-            'msg' => trans('user.closet.remove.non-existent')
+            'msg' => trans('user.closet.remove.non-existent'),
         ]);
 
         // Rename a closet item successfully
@@ -234,7 +232,7 @@ class ClosetControllerTest extends TestCase
             ['tid' => $texture->tid, 'new_name' => $name]
         )->assertJson([
             'errno' => 0,
-            'msg' => trans('user.closet.rename.success', ['name' => 'new'])
+            'msg' => trans('user.closet.rename.success', ['name' => 'new']),
         ]);
         $closet->save();
         $closet = new Closet($this->user->uid);
@@ -249,7 +247,7 @@ class ClosetControllerTest extends TestCase
         $this->postJson('/user/closet/remove', [], ['X-Requested-With' => 'XMLHttpRequest'])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'tid'])
+                'msg' => trans('validation.required', ['attribute' => 'tid']),
             ]);
 
         // `tid` is not a integer
@@ -259,7 +257,7 @@ class ClosetControllerTest extends TestCase
             ['X-Requested-With' => 'XMLHttpRequest']
         )->assertJson([
             'errno' => 1,
-            'msg' => trans('validation.integer', ['attribute' => 'tid'])
+            'msg' => trans('validation.integer', ['attribute' => 'tid']),
         ]);
 
         // Rename a not-existed texture
@@ -268,7 +266,7 @@ class ClosetControllerTest extends TestCase
             ['tid' => -1]
         )->assertJson([
             'errno' => 1,
-            'msg' => trans('user.closet.remove.non-existent')
+            'msg' => trans('user.closet.remove.non-existent'),
         ]);
 
         // Should return score if `return_score` is true
@@ -281,7 +279,7 @@ class ClosetControllerTest extends TestCase
             ['tid' => $texture->tid]
         )->assertJson([
             'errno' => 0,
-            'msg' => trans('user.closet.remove.success')
+            'msg' => trans('user.closet.remove.success'),
         ]);
         $closet = new Closet($this->user->uid);
         $this->assertEquals($texture->likes - 1, Texture::find($texture->tid)->likes);
@@ -300,7 +298,7 @@ class ClosetControllerTest extends TestCase
             ['tid' => $texture->tid]
         )->assertJson([
             'errno' => 0,
-            'msg' => trans('user.closet.remove.success')
+            'msg' => trans('user.closet.remove.success'),
         ]);
         $closet = new Closet($this->user->uid);
         $this->assertEquals($texture->likes - 1, Texture::find($texture->tid)->likes);
