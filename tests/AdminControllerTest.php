@@ -200,9 +200,7 @@ class AdminControllerTest extends BrowserKitTestCase
                     'pid',
                     'uid',
                     'player_name',
-                    'preference',
-                    'tid_steve',
-                    'tid_alex',
+                    'tid_skin',
                     'tid_cape',
                     'last_modified'
                 ]]
@@ -214,9 +212,7 @@ class AdminControllerTest extends BrowserKitTestCase
                     'pid' => $player->pid,
                     'uid' => $user->uid,
                     'player_name' => $player->player_name,
-                    'preference' => $player->preference,
-                    'tid_steve' => $player->tid_steve,
-                    'tid_alex' => $player->tid_alex,
+                    'tid_skin' => $player->tid_skin,
                     'tid_cape' => $player->tid_cape
                 ]]
             ]);
@@ -504,45 +500,7 @@ class AdminControllerTest extends BrowserKitTestCase
             'msg' => trans('admin.users.operations.invalid')
         ]);
 
-        // Change preference without `preference` field
-        $this->postJson('/admin/players', [
-            'pid' => $player->pid,
-            'action' => 'preference'
-        ], [
-            'Accept' => 'application/json',
-        ])->seeJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'preference'])
-        ]);
-
-        // Change preference but neither `default` nor `slim`
-        $this->postJson('/admin/players', [
-            'pid' => $player->pid,
-            'action' => 'preference',
-            'preference' => 'steve'
-        ], [
-            'Accept' => 'application/json',
-        ])->seeJson([
-            'errno' => 1,
-            'msg' => trans('validation.preference', ['attribute' => 'preference'])
-        ]);
-
-        // Set preference successfully
-        $this->postJson('/admin/players', [
-            'pid' => $player->pid,
-            'action' => 'preference',
-            'preference' => 'slim'
-        ])->seeJson([
-            'errno' => 0,
-            'msg' => trans(
-                'admin.players.preference.success',
-                ['player' => $player->player_name, 'preference' => 'slim']
-            )
-        ]);
-        $player = Player::find($player->pid);
-        $this->assertEquals('slim', $player->preference);
-
-        // Change texture without `model` field
+        // Change texture without `type` field
         $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture'
@@ -550,26 +508,14 @@ class AdminControllerTest extends BrowserKitTestCase
             'Accept' => 'application/json',
         ])->seeJson([
             'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'model'])
-        ]);
-
-        // Change texture with invalid model name
-        $this->postJson('/admin/players', [
-            'pid' => $player->pid,
-            'action' => 'texture',
-            'model' => 'slim'
-        ], [
-            'Accept' => 'application/json',
-        ])->seeJson([
-            'errno' => 1,
-            'msg' => trans('validation.model', ['attribute' => 'model'])
+            'msg' => trans('validation.required', ['attribute' => 'type'])
         ]);
 
         // Change texture without `tid` field
         $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture',
-            'model' => 'steve'
+            'type' => 'skin'
         ], [
             'Accept' => 'application/json',
         ])->seeJson([
@@ -581,7 +527,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture',
-            'model' => 'steve',
+            'type' => 'skin',
             'tid' => 'string'
         ], [
             'Accept' => 'application/json',
@@ -594,48 +540,34 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture',
-            'model' => 'steve',
+            'type' => 'skin',
             'tid' => -1
         ])->seeJson([
             'errno' => 1,
             'msg' => trans('admin.players.textures.non-existent', ['tid' => -1])
         ]);
 
-        $steve = factory(Texture::class)->create();
-        $alex = factory(Texture::class, 'alex')->create();
+        $skin = factory(Texture::class)->create();
         $cape = factory(Texture::class, 'cape')->create();
 
-        // Steve
+        // Skin
         $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture',
-            'model' => 'steve',
-            'tid' => $steve->tid
+            'type' => 'skin',
+            'tid' => $skin->tid
         ])->seeJson([
             'errno' => 0,
             'msg' => trans('admin.players.textures.success', ['player' => $player->player_name])
         ]);
         $player = Player::find($player->pid);
-        $this->assertEquals($steve->tid, $player->tid_steve);
-
-        // Alex
-        $this->postJson('/admin/players', [
-            'pid' => $player->pid,
-            'action' => 'texture',
-            'model' => 'alex',
-            'tid' => $alex->tid
-        ])->seeJson([
-            'errno' => 0,
-            'msg' => trans('admin.players.textures.success', ['player' => $player->player_name])
-        ]);
-        $player = Player::find($player->pid);
-        $this->assertEquals($alex->tid, $player->tid_alex);
+        $this->assertEquals($skin->tid, $player->tid_skin);
 
         // Cape
         $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture',
-            'model' => 'cape',
+            'type' => 'cape',
             'tid' => $cape->tid
         ])->seeJson([
             'errno' => 0,
@@ -648,32 +580,20 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture',
-            'model' => 'steve',
+            'type' => 'skin',
             'tid' => 0
         ])->seeJson([
             'errno' => 0,
             'msg' => trans('admin.players.textures.success', ['player' => $player->player_name])
         ]);
         $player = Player::find($player->pid);
-        $this->assertEquals(0, $player->tid_steve);
-        $this->assertNotEquals(0, $player->tid_alex);
+        $this->assertEquals(0, $player->tid_skin);
         $this->assertNotEquals(0, $player->tid_cape);
+
         $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'texture',
-            'model' => 'alex',
-            'tid' => 0
-        ])->seeJson([
-            'errno' => 0,
-            'msg' => trans('admin.players.textures.success', ['player' => $player->player_name])
-        ]);
-        $player = Player::find($player->pid);
-        $this->assertEquals(0, $player->tid_alex);
-        $this->assertNotEquals(0, $player->tid_cape);
-        $this->postJson('/admin/players', [
-            'pid' => $player->pid,
-            'action' => 'texture',
-            'model' => 'cape',
+            'type' => 'cape',
             'tid' => 0
         ])->seeJson([
             'errno' => 0,

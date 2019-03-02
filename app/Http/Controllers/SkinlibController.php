@@ -271,7 +271,7 @@ class SkinlibController extends Controller
             return json(trans('skinlib.upload.lack-score'), 1);
         }
 
-        $type = $t->type;
+        $type = $t->type == 'cape' ? 'cape' : 'skin';
         Player::where("tid_$type", $t->tid)
             ->where('uid', '<>', session('uid'))
             ->get()

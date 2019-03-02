@@ -42,7 +42,7 @@ class PlayerController extends Controller
         });
 
         $this->middleware([CheckPlayerExist::class, CheckPlayerOwner::class], [
-            'only' => ['delete', 'rename', 'setTexture', 'clearTexture', 'setPreference']
+            'only' => ['delete', 'rename', 'setTexture', 'clearTexture']
         ]);
     }
 
@@ -58,7 +58,7 @@ class PlayerController extends Controller
     {
         return Auth::user()
             ->players()
-            ->select('pid', 'player_name', 'preference', 'tid_steve', 'tid_alex')
+            ->select('pid', 'player_name', 'tid_skin', 'tid_cape')
             ->get();
     }
 
@@ -86,7 +86,7 @@ class PlayerController extends Controller
 
         $player->uid           = $user->uid;
         $player->player_name   = $request->input('player_name');
-        $player->preference    = "default";
+        $player->tid_skin      = 0;
         $player->last_modified = get_datetime_string();
         $player->save();
 
@@ -153,16 +153,9 @@ class PlayerController extends Controller
                 return json(trans('skinlib.un-existent'), 6);
             }
 
-            $fieldName = "tid_{$texture->type}";
+            $fieldName = $texture->type == 'cape' ? 'tid_cape' : 'tid_skin';
 
             $this->player->setTexture([$fieldName => $value]);
-        }
-
-        // When user applies an alex skin to a newly added player,
-        // which textures and model preference are all default value,
-        // we will automatically set the player's model preference to "slim".
-        if ($this->player->preference == 'default' && $this->player->tid_steve == 0 && $this->player->tid_alex != 0) {
-            $this->player->setPreference('slim');
         }
 
         return json(trans('user.player.set.success', ['name' => $this->player->player_name]), 0);
@@ -170,24 +163,13 @@ class PlayerController extends Controller
 
     public function clearTexture(Request $request)
     {
-        $types = array_filter(['steve', 'alex', 'cape'], function ($type) use ($request) {
+        $types = array_filter(['skin', 'cape'], function ($type) use ($request) {
             return $request->input($type);
         });
 
         $this->player->clearTexture($types);
 
         return json(trans('user.player.clear.success', ['name' => $this->player->player_name]), 0);
-    }
-
-    public function setPreference(Request $request)
-    {
-        $this->validate($request, [
-            'preference' => 'required|preference'
-        ]);
-
-        $this->player->setPreference($request->preference);
-
-        return json(trans('user.player.preference.success', ['name' => $this->player->player_name, 'preference' => $request->preference]), 0);
     }
 
 }

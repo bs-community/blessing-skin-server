@@ -31,24 +31,12 @@
                         <i class="fas fa-edit btn-edit"></i>
                     </a>
                 </span>
-                <span v-else-if="props.column.field === 'preference'">
-                    {{ props.formattedRow[props.column.field] }}
-                    <a @click="togglePreference(props.row)" :title="$t('admin.changePreference')" data-test="preference">
-                        <i class="fas fa-edit btn-edit"></i>
-                    </a>
-                </span>
                 <span v-else-if="props.column.field === 'preview'">
                     <a
-                        v-if="props.row.tid_steve"
-                        :href="`${baseUrl}/skinlib/show/${props.row.tid_steve}`"
+                        v-if="props.row.tid_skin"
+                        :href="`${baseUrl}/skinlib/show/${props.row.tid_skin}`"
                     >
-                        <img :src="`${baseUrl}/preview/64/${props.row.tid_steve}.png`" width="64">
-                    </a>
-                    <a
-                        v-if="props.row.tid_alex"
-                        :href="`${baseUrl}/skinlib/show/${props.row.tid_alex}`"
-                    >
-                        <img :src="`${baseUrl}/preview/64/${props.row.tid_alex}.png`" width="64">
+                        <img :src="`${baseUrl}/preview/64/${props.row.tid_skin}.png`" width="64">
                     </a>
                     <a
                         v-if="props.row.tid_cape"
@@ -95,9 +83,8 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label v-t="'admin.textureType'" />
-                            <select class="form-control" v-model="textureChanges.model">
-                                <option value="steve">Steve</option>
-                                <option value="alex">Alex</option>
+                            <select class="form-control" v-model="textureChanges.type">
+                                <option value="skin" v-t="'general.skin'"></option>
                                 <option value="cape" v-t="'general.cape'"></option>
                             </select>
                         </div>
@@ -150,7 +137,6 @@ export default {
                 { field: 'pid', label: 'PID', type: 'number' },
                 { field: 'player_name', label: this.$t('general.player.player-name') },
                 { field: 'uid', label: this.$t('general.player.owner'), type: 'number' },
-                { field: 'preference', label: this.$t('general.player.preference'), globalSearchDisabled: true },
                 { field: 'preview', label: this.$t('general.player.previews'), globalSearchDisabled: true, sortable: false },
                 { field: 'last_modified', label: this.$t('general.player.last-modified') },
                 { field: 'operations', label: this.$t('admin.operationsTitle'), globalSearchDisabled: true, sortable: false },
@@ -178,7 +164,7 @@ export default {
             },
             textureChanges: {
                 originalIndex: -1,
-                model: 'steve',
+                type: 'skin',
                 tid: '',
             }
         };
@@ -214,14 +200,14 @@ export default {
         },
         async changeTexture() {
             const player = this.players[this.textureChanges.originalIndex];
-            const { model, tid } = this.textureChanges;
+            const { type, tid } = this.textureChanges;
 
             const { errno, msg } = await this.$http.post(
                 '/admin/players?action=texture',
-                { pid: player.pid, model, tid }
+                { pid: player.pid, type, tid }
             );
             if (errno === 0) {
-                player[`tid_${model}`] = tid;
+                player[`tid_${type}`] = tid;
                 toastr.success(msg);
                 $('.modal').modal('hide');
             } else {
@@ -245,19 +231,6 @@ export default {
             );
             if (errno === 0) {
                 player.player_name = value;
-                toastr.success(msg);
-            } else {
-                toastr.warning(msg);
-            }
-        },
-        async togglePreference(player) {
-            const preference = player.preference === 'default' ? 'slim' : 'default';
-            const { errno, msg } = await this.$http.post(
-                '/admin/players?action=preference',
-                { pid: player.pid, preference }
-            );
-            if (errno === 0) {
-                player.preference = preference;
                 toastr.success(msg);
             } else {
                 toastr.warning(msg);

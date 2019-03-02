@@ -61,8 +61,6 @@ players:
   no-permission: You have no permission to operate this player.
   operations:
     title: Operations
-  preference:
-    success: The preference of player ":player" has been changed to :preference
   textures:
     change: Change Textures
     non-existent: No such texture tid.:tid

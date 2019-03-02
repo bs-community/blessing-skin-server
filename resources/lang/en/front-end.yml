@@ -198,11 +198,7 @@ user:
     add-player: Add new player
     login-notice: Now you can log in with player names you owned instead email address.
     player-info: Information <small>(click player name to show preview)</small>
-    textures:
-      steve: Steve Model：
-      alex: Alex Model：
-      cape: Cape：
-      empty: Nothing
+    texture-empty: Nothing
     pname-rule: Could only contain letters, numbers and dashes.
     pname-rule-chinese: Could only contain chinese characters, letters, numbers and dashes.
     player-name-rule:
@@ -210,9 +206,6 @@ user:
       cjk: Player name may contains letters, numbers, underscores and CJK Unified Ideographs.
       custom: Custom player name rules are applied on this site. Please contact admins for further information.
     player-name-length: The player name should be at least :min characters and not greater than :max characters.
-    preference:
-      title: Preference
-      description: Default stands for the Steve model with 4-pixel width arms, and Slim for the Alex model with 3-pixel width arms.
   verification:
     title: Verify Your Account
     message: You must verify your email address before using the skin hosting service. Haven't received the email?
@@ -255,7 +248,6 @@ admin:
   changePlayerTexture: 'Change textures of :player'
   changeTexture: Change Textures
   changePlayerName: Change Player Name
-  changePreference: Toggle Preference
   changeOwner: Change Owner
   textureType: Texture Type
   deletePlayer: Delete
@@ -343,7 +335,6 @@ general:
   player:
     owner: Owner
     player-name: Player Name
-    preference: Preference
     previews: Texture Previews
     last-modified: Last Modified
 

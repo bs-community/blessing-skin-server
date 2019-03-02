@@ -198,19 +198,12 @@ user:
     add-player: 添加新角色
     login-notice: 你现在可以使用你所拥有的角色名来登录皮肤站啦~
     player-info: 角色信息 <small>（点击角色名以查看预览）</small>
-    textures:
-      steve: Steve 模型的皮肤：
-      alex: Alex 模型的皮肤：
-      cape: 披风：
-      empty: 未上传
+    texture-empty: 未上传
     player-name-rule:
       official: 角色名只能包含拉丁字母、数字以及下划线。
       cjk: 角色名可使用拉丁字母、数字、下划线以及汉字（中日韩统一表意文字）。
       custom: 本站使用了自定义的角色名规则，详情请咨询站点管理员。
     player-name-length: 角色名最少要求 :min 个字符，最多不超过 :max 个字符。
-    preference:
-      title: 优先模型
-      description: Default 即为默认的 Steve 模型（手臂 4 个像素宽），Slim 即为手臂宽 3 个像素的 Alex 模型。
   verification:
     title: 验证你的邮箱地址
     message: 你必须验证你的邮箱才能正常使用本站的皮肤托管等功能。没有收到验证邮件？
@@ -251,7 +244,6 @@ admin:
   changePlayerTexture: '更换角色 :player 的材质'
   changeTexture: 更换材质
   changePlayerName: 更改角色名
-  changePreference: 切换模型
   changeOwner: 更换角色拥有者
   deletePlayer: 删除
   changePlayerOwner: 请输入此角色要让渡至的用户 UID：
@@ -337,7 +329,6 @@ general:
   player:
     owner: 拥有者
     player-name: 角色名
-    preference: 优先模型
     previews: 预览材质
     last-modified: 修改时间
 

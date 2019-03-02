@@ -14,19 +14,11 @@ class PlayerTest extends TestCase
 
     public function testGetTexture()
     {
-        $steve = factory(Texture::class)->create();
-        $alex = factory(Texture::class, 'alex')->create();
-        $player = factory(Player::class)->create([
-            'tid_steve' => $steve->tid,
-            'tid_alex' => $alex->tid
-        ]);
+        $skin = factory(Texture::class)->create();
+        $player = factory(Player::class)->create(['tid_skin' => $skin->tid]);
 
         $player = Player::find($player->pid);
-        $this->assertEquals($steve->hash, $player->getTexture('skin'));
-
-        $player->setPreference('slim');
-        $player = Player::find($player->pid);
-        $this->assertEquals($alex->hash, $player->getTexture('skin'));
+        $this->assertEquals($skin->hash, $player->getTexture('skin'));
 
         $this->assertFalse($player->getTexture('invalid_type'));
     }
@@ -45,5 +37,24 @@ class PlayerTest extends TestCase
         $player = factory(Player::class)->make();
         $this->expectsEvents(\App\Events\PlayerProfileUpdated::class);
         $player->updateLastModified();
+    }
+
+    public function testGetTidSkinAttribute()
+    {
+        $player = factory(Player::class)->create([
+            'tid_skin' => -1,
+            'preference' => 'default',
+            'tid_steve' => 5,
+        ]);
+        $this->assertEquals(5, $player->tid_skin);
+        $this->assertEquals(5, Player::find($player->pid)->tid_skin);
+
+        $player = factory(Player::class)->create([
+            'tid_skin' => -1,
+            'preference' => 'slim',
+            'tid_alex' => 6,
+        ]);
+        $this->assertEquals(6, $player->tid_skin);
+        $this->assertEquals(6, Player::find($player->pid)->tid_skin);
     }
 }

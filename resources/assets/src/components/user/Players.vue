@@ -9,16 +9,6 @@
                                 <tr>
                                     <th>PID</th>
                                     <th v-t="'general.player.player-name'"></th>
-                                    <th>
-                                        {{ $t('user.player.preference.title') }}
-                                        <i
-                                            class="fas fa-question-circle"
-                                            :title="$t('user.player.preference.description')"
-                                            data-toggle="tooltip"
-                                            data-placement="right"
-                                        ></i>
-                                    </th>
-                                    <th v-t="'user.player.edit'"></th>
                                     <th v-t="'user.player.operation'"></th>
                                 </tr>
                             </thead>
@@ -34,19 +24,11 @@
                                     <td class="pid">{{ player.pid }}</td>
                                     <td class="player-name">{{ player.player_name }}</td>
                                     <td>
-                                        <select class="form-control" @change="togglePreference(player)">
-                                            <option value="default" :selected="player.preference === 'default'">Default (Steve)</option>
-                                            <option value="slim" :selected="player.preference === 'slim'">Slim (Alex)</option>
-                                        </select>
-                                    </td>
-                                    <td>
                                         <a
                                             class="btn btn-default btn-sm"
                                             @click="changeName(player)"
                                             v-t="'user.player.edit-pname'"
                                         ></a>
-                                    </td>
-                                    <td>
                                         <a
                                             class="btn btn-warning btn-sm"
                                             data-toggle="modal"
@@ -104,36 +86,25 @@
                     <div class="box-body">
                         <div id="preview-2d">
                             <p>
-                                {{ $t('user.player.textures.steve') }}
-                                <a v-if="preview2d.steve" :href="`${baseUrl}/skinlib/show/${preview2d.steve}`">
+                                {{ $t('general.skin') }}
+                                <a v-if="preview2d.skin" :href="`${baseUrl}/skinlib/show/${preview2d.skin}`">
                                     <img
                                         class="skin2d"
                                         :src="`${baseUrl}/preview/64/${preview2d.steve}.png`"
                                     />
                                 </a>
-                                <span v-else class="skin2d" v-t="'user.player.textures.empty'"></span>
+                                <span v-else class="skin2d" v-t="'user.player.texture-empty'"></span>
                             </p>
 
                             <p>
-                                {{ $t('user.player.textures.alex') }}
-                                <a v-if="preview2d.alex" :href="`${baseUrl}/skinlib/show/${preview2d.alex}`">
-                                    <img
-                                        class="skin2d"
-                                        :src="`${baseUrl}/preview/64/${preview2d.alex}.png`"
-                                    />
-                                </a>
-                                <span v-else class="skin2d" v-t="'user.player.textures.empty'"></span>
-                            </p>
-
-                            <p>
-                                {{ $t('user.player.textures.cape') }}
+                                {{ $t('general.cape') }}
                                 <a v-if="preview2d.cape" :href="`${baseUrl}/skinlib/show/${preview2d.cape}`">
                                     <img
                                         class="skin2d"
                                         :src="`${baseUrl}/preview/64/${preview2d.cape}.png`"
                                     />
                                 </a>
-                                <span v-else class="skin2d" v-t="'user.player.textures.empty'"></span>
+                                <span v-else class="skin2d" v-t="'user.player.texture-empty'"></span>
                             </p>
                         </div>
                     </div><!-- /.box-body -->
@@ -220,11 +191,7 @@
                     </div>
                     <div class="modal-body">
                         <label class="form-group">
-                            <input type="checkbox" v-model="clear.steve"> Default (Steve)
-                        </label>
-                        <br>
-                        <label class="form-group">
-                            <input type="checkbox" v-model="clear.alex"> Slim (Alex)
+                            <input type="checkbox" v-model="clear.skin"> {{ $t('general.skin') }}
                         </label>
                         <br>
                         <label class="form-group">
@@ -247,7 +214,6 @@
 </template>
 
 <script>
-import SkinAlex from '../../images/textures/alex.png';
 import { swal } from '../../js/notify';
 import toastr from 'toastr';
 
@@ -269,14 +235,12 @@ export default {
             skinUrl: '',
             capeUrl: '',
             preview2d: {
-                steve: 0,
-                alex: 0,
+                skin: 0,
                 cape: 0
             },
             newPlayer: '',
             clear: {
-                steve: false,
-                alex: false,
+                skin: false,
                 cape: false
             },
             playerNameRule: blessing.extra.rule,
@@ -296,43 +260,20 @@ export default {
         async preview(player) {
             this.selected = player.pid;
 
-            this.preview2d.steve = player.tid_steve;
-            this.preview2d.alex = player.tid_alex;
+            this.preview2d.skin = player.tid_skin;
             this.preview2d.cape = player.tid_cape;
 
-            if (player.preference === 'default') {
-                if (player.tid_steve) {
-                    const steve = await this.$http.get(`/skinlib/info/${player.tid_steve}`);
-                    this.skinUrl = `${this.baseUrl}/textures/${steve.hash}`;
-                } else {
-                    this.skinUrl = '';
-                }
+            if (player.tid_skin) {
+                const skin = await this.$http.get(`/skinlib/info/${player.tid_skin}`);
+                this.skinUrl = `${this.baseUrl}/textures/${skin.hash}`;
             } else {
-                if (player.tid_alex) {
-                    const alex = await this.$http.get(`/skinlib/info/${player.tid_alex}`);
-                    this.skinUrl = `${this.baseUrl}/textures/${alex.hash}`;
-                } else {
-                    this.skinUrl = SkinAlex;
-                }
+                this.skinUrl = '';
             }
             if (player.tid_cape) {
                 const cape = await this.$http.get(`/skinlib/info/${player.tid_cape}`);
                 this.capeUrl = `${this.baseUrl}/textures/${cape.hash}`;
             } else {
                 this.capeUrl = '';
-            }
-        },
-        async togglePreference(player) {
-            const preference = player.preference === 'default' ? 'slim' : 'default';
-            const { errno, msg } = await this.$http.post(
-                '/user/player/preference',
-                { pid: player.pid, preference }
-            );
-            if (errno === 0) {
-                player.preference = preference;
-                toastr.success(msg);
-            } else {
-                toastr.warning(msg);
             }
         },
         async changeName(player) {
@@ -431,10 +372,6 @@ export default {
 .player {
     cursor: pointer;
     border-bottom: 1px solid #f4f4f4;
-
-    #preference {
-        height: 31px;
-    }
 
     .pid, .player-name {
         padding-top: 13px;

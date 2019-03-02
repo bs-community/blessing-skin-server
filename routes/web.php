@@ -63,7 +63,6 @@ Route::group(['middleware' => ['web', 'auth'], 'prefix' => 'user'], function ()
         Route::get ('/list',          'PlayerController@listAll');
         Route::post('/add',           'PlayerController@add');
         Route::any ('/show',          'PlayerController@show');
-        Route::post('/preference',    'PlayerController@setPreference');
         Route::post('/set',           'PlayerController@setTexture');
         Route::post('/texture/clear', 'PlayerController@clearTexture');
         Route::post('/rename',        'PlayerController@rename');

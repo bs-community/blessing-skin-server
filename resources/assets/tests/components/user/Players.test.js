@@ -28,10 +28,9 @@ test('fetch players data before mount', () => {
 test('click to preview player', async () => {
     Vue.prototype.$http.get
         .mockResolvedValueOnce([
-            { pid: 1, preference: 'default', tid_steve: 1, tid_alex: 2, tid_cape: 3 },
-            { pid: 2, preference: 'default', tid_steve: 0, tid_alex: 2, tid_cape: 0 },
-            { pid: 3, preference: 'slim', tid_steve: 1, tid_alex: 2, tid_cape: 0 },
-            { pid: 4, preference: 'slim', tid_steve: 0, tid_alex: 0, tid_cape: 0 },
+            { pid: 1, tid_skin: 1, tid_cape: 3 },
+            { pid: 2, tid_skin: 0, tid_cape: 0 },
+            { pid: 3, tid_skin: 2, tid_cape: 0 },
         ])
         .mockResolvedValueOnce({ hash: 'a' })
         .mockResolvedValueOnce({ hash: 'b' })
@@ -51,35 +50,6 @@ test('click to preview player', async () => {
     wrapper.find('tbody > tr:nth-child(3)').trigger('click');
     await flushPromises();
     expect(Vue.prototype.$http.get).toBeCalledWith('/skinlib/info/2');
-
-    wrapper.find('tbody > tr:nth-child(4)').trigger('click');
-    await flushPromises();
-});
-
-test('toggle preference', async () => {
-    Vue.prototype.$http.get
-        .mockResolvedValueOnce([
-            { pid: 1, preference: 'default' },
-            { pid: 2, preference: 'slim' }
-        ]);
-    Vue.prototype.$http.post
-        .mockResolvedValueOnce({ errno: 1 })
-        .mockResolvedValue({ errno: 0 });
-    const wrapper = mount(Players);
-    await wrapper.vm.$nextTick();
-
-    wrapper.findAll('select').at(0).trigger('change');
-    expect(Vue.prototype.$http.post).toBeCalledWith(
-        '/user/player/preference',
-        { pid: 1, preference: 'slim' }
-    );
-
-    wrapper.findAll('select').at(1).trigger('change');
-    await flushPromises();
-    expect(Vue.prototype.$http.post).toBeCalledWith(
-        '/user/player/preference',
-        { pid: 2, preference: 'default' }
-    );
 });
 
 test('change player name', async () => {
@@ -167,7 +137,7 @@ test('toggle preview mode', () => {
     Vue.prototype.$http.get.mockResolvedValueOnce([]);
     const wrapper = mount(Players);
     wrapper.find('[data-test="to2d"]').trigger('click');
-    expect(wrapper.text()).toContain('user.player.textures.empty');
+    expect(wrapper.text()).toContain('user.player.texture-empty');
 });
 
 test('add player', async () => {
@@ -197,7 +167,7 @@ test('add player', async () => {
 test('clear texture', async () => {
     window.$ = jest.fn(() => ({ modal() {} }));
     Vue.prototype.$http.get.mockResolvedValueOnce([
-        { pid: 1, tid_steve: 1, tid_alex: 0, tid_cape: 0 }
+        { pid: 1, tid_skin: 1, tid_cape: 0 }
     ]);
     Vue.prototype.$http.post
         .mockResolvedValueOnce({ errno: 1 })
@@ -214,7 +184,7 @@ test('clear texture', async () => {
     button.trigger('click');
     expect(Vue.prototype.$http.post).toBeCalledWith(
         '/user/player/texture/clear',
-        { pid: 1, steve: true, alex: false, cape: false }
+        { pid: 1, skin: true, cape: false }
     );
 
     button.trigger('click');

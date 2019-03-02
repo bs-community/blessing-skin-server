@@ -26,7 +26,7 @@ class TextureControllerTest extends TestCase
             ->assertStatus(404);
 
         // Player is banned
-        $player = factory(Player::class)->create(['tid_steve' => $steve->tid]);
+        $player = factory(Player::class)->create(['tid_skin' => $steve->tid]);
         $player->user->setPermission(User::BANNED);
         $this->get("/{$player->player_name}.json")
             ->assertSee(trans('general.player-banned'))
@@ -39,8 +39,7 @@ class TextureControllerTest extends TestCase
             ->assertJson([
                 'username' => $player->player_name,
                 'skins' => [
-                    'default' => $steve->hash,
-                    'slim' => null
+                    'default' => $steve->hash
                 ],
                 'cape' => null
             ])->assertHeader('Last-Modified');
@@ -49,15 +48,15 @@ class TextureControllerTest extends TestCase
     public function testJsonWithApi()
     {
         $steve = factory(Texture::class)->create();
-        $player = factory(Player::class)->create(['tid_steve' => $steve->tid]);
+        $alex = factory(Texture::class, 'alex')->create();
+        $player = factory(Player::class)->create(['tid_skin' => $steve->tid]);
 
         // CSL API
         $this->getJson("/csl/{$player->player_name}.json")
             ->assertJson([
                 'username' => $player->player_name,
                 'skins' => [
-                    'default' => $steve->hash,
-                    'slim' => null
+                    'default' => $steve->hash
                 ],
                 'cape' => null
             ])->assertHeader('Last-Modified');
@@ -66,13 +65,38 @@ class TextureControllerTest extends TestCase
         $this->getJson("/usm/{$player->player_name}.json")
             ->assertJson([
                 'player_name' => $player->player_name,
-                'model_preference' => ['default', 'slim'],
+                'model_preference' => ['default'],
                 'skins' => [
-                    'default' => $steve->hash,
-                    'slim' => null
+                    'default' => $steve->hash
                 ],
                 'cape' => null
             ])->assertHeader('Last-Modified');
+
+        $player->tid_skin = $alex->tid;
+        $player->save();
+
+        // CSL API
+        $this->getJson("/csl/{$player->player_name}.json")
+            ->assertJson([
+                'username' => $player->player_name,
+                'skins' => [
+                    'default' => $alex->hash,
+                    'slim' => $alex->hash
+                ],
+                'cape' => null
+            ]);
+
+        // USM API
+        $this->getJson("/usm/{$player->player_name}.json")
+            ->assertJson([
+                'player_name' => $player->player_name,
+                'model_preference' => ['slim'],
+                'skins' => [
+                    'default' => $alex->hash,
+                    'slim' => $alex->hash
+                ],
+                'cape' => null
+            ]);
     }
 
     public function testTexture()
@@ -115,44 +139,24 @@ class TextureControllerTest extends TestCase
 
     public function testSkin()
     {
-        $steve = factory(Texture::class)->create();
-        $player = factory(Player::class)->create([
-            'preference' => 'slim',
-            'tid_steve' => $steve->tid,
-            'tid_alex' => 0
-        ]);
+        $skin = factory(Texture::class)->create();
+        $player = factory(Player::class)->create();
 
         $this->get("/skin/{$player->player_name}.png")
-            ->assertSee(trans('general.texture-not-uploaded', ['type' => 'alex']));
+            ->assertSee(trans('general.texture-not-uploaded', ['type' => 'skin']));
 
-        $player->setPreference('default');
+        $player->tid_skin = $skin->tid;
+        $player->save();
         $this->get("/skin/{$player->player_name}.png")
             ->assertSee(trans('general.texture-deleted'));
 
-        Storage::disk('textures')->put($steve->hash, '');
+        Storage::disk('textures')->put($skin->hash, '');
         $this->get("/skin/{$player->player_name}.png")
             ->assertHeader('Content-Type', 'image/png')
             ->assertHeader('Last-Modified')
             ->assertHeader('Accept-Ranges', 'bytes')
-            ->assertHeader('Content-Length', Storage::disk('textures')->size($steve->hash))
+            ->assertHeader('Content-Length', Storage::disk('textures')->size($skin->hash))
             ->assertSuccessful();
-    }
-
-    public function testSkinWithModel()
-    {
-        $steve = factory(Texture::class)->create();
-        $player = factory(Player::class)->create([
-            'preference' => 'slim',
-            'tid_steve' => $steve->tid,
-            'tid_alex' => 0
-        ]);
-
-        $this->get("/skin/alex/{$player->player_name}.png")
-            ->assertSee(trans('general.texture-not-uploaded', ['type' => 'alex']));
-
-        $player->setPreference('default');
-        $this->get("/skin/steve/{$player->player_name}.png")
-            ->assertSee(trans('general.texture-deleted'));
     }
 
     public function testCape()
