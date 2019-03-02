@@ -229,7 +229,9 @@ class Player extends Model
             $json['model_preference'] = [$model];
         }
 
-        $json['skins'][$model] = $this->getTexture('skin');
+        $skinHash = $this->getTexture('skin');
+        $json['skins']['default'] = $skinHash;
+        $json['skins'][$model] = $skinHash;
         $json['cape'] = $this->getTexture('cape');
 
         return json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
