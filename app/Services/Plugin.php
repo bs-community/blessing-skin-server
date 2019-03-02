@@ -294,7 +294,7 @@ class Plugin implements Arrayable, ArrayAccess
         return (array) array_merge([
             'name'          => $this->name,
             'version'       => $this->getVersion(),
-            'path'          => $this->path
+            'path'          => $this->path,
         ], $this->packageInfo);
     }
 }

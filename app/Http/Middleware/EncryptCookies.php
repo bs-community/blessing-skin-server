@@ -2,8 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
-use Session;
 use Illuminate\Cookie\Middleware\EncryptCookies as BaseEncrypter;
 
 class EncryptCookies extends BaseEncrypter

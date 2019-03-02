@@ -39,7 +39,7 @@ trait MocksGuzzleClient
      * Add responses to Guzzle client's mock queue.
      * Pass a Response or RequestException instance, or an array of them.
      *
-     * @param array|Response|RequestException|integer $response
+     * @param array|Response|RequestException|int $response
      * @param array       $headers
      * @param string      $body
      * @param string      $version
@@ -55,6 +55,7 @@ trait MocksGuzzleClient
             foreach ($response as $single) {
                 $this->appendToGuzzleQueue($single);
             }
+
             return;
         }
 

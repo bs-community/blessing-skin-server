@@ -2,10 +2,7 @@
 
 namespace Tests;
 
-use App\Models\User;
 use App\Services\Repositories\UserRepository;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserRepositoryTest extends TestCase

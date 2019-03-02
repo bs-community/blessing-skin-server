@@ -9,8 +9,8 @@ use App\Events;
 use App\Models\User;
 use ReflectionException;
 use Illuminate\Support\Arr;
-use Illuminate\Support\ServiceProvider;
 use App\Exceptions\PrettyPageException;
+use Illuminate\Support\ServiceProvider;
 use App\Services\Repositories\OptionRepository;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
             return $user->isAdmin();
         });
 
-        Event::listen(Events\RenderingHeader::class, function($event) {
+        Event::listen(Events\RenderingHeader::class, function ($event) {
             // Provide some application information for javascript
             $blessing = array_merge(Arr::except(config('app'), ['key', 'providers', 'aliases', 'cipher', 'log', 'url']), [
                 'base_url' => url('/'),
@@ -56,7 +56,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->singleton('cipher', 'App\Services\Cipher\\'.config('secure.cipher'));
         $this->app->singleton('users', \App\Services\Repositories\UserRepository::class);
-        $this->app->singleton('options',  OptionRepository::class);
+        $this->app->singleton('options', OptionRepository::class);
 
         if ($this->app->environment() !== 'production') {
             $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);

@@ -15,10 +15,8 @@ use App\Events\CheckPlayerExists;
 use App\Events\PlayerWillBeAdded;
 use App\Events\PlayerWillBeDeleted;
 use Illuminate\Support\Facades\Auth;
-use App\Exceptions\PrettyPageException;
 use App\Http\Middleware\CheckPlayerExist;
 use App\Http\Middleware\CheckPlayerOwner;
-use App\Services\Repositories\UserRepository;
 
 class PlayerController extends Controller
 {
@@ -42,13 +40,14 @@ class PlayerController extends Controller
         });
 
         $this->middleware([CheckPlayerExist::class, CheckPlayerOwner::class], [
-            'only' => ['delete', 'rename', 'setTexture', 'clearTexture']
+            'only' => ['delete', 'rename', 'setTexture', 'clearTexture'],
         ]);
     }
 
     public function index()
     {
         $user = Auth::user();
+
         return view('user.player')
             ->with('players', $user->players->toArray())
             ->with('user', $user);
@@ -67,7 +66,7 @@ class PlayerController extends Controller
         $user = Auth::user();
 
         $this->validate($request, [
-            'player_name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max')
+            'player_name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max'),
         ]);
 
         event(new CheckPlayerExists($request->input('player_name')));
@@ -84,9 +83,9 @@ class PlayerController extends Controller
 
         $player = new Player;
 
-        $player->uid           = $user->uid;
-        $player->player_name   = $request->input('player_name');
-        $player->tid_skin      = 0;
+        $player->uid = $user->uid;
+        $player->player_name = $request->input('player_name');
+        $player->tid_skin = 0;
         $player->last_modified = get_datetime_string();
         $player->save();
 
@@ -122,7 +121,7 @@ class PlayerController extends Controller
     public function rename(Request $request)
     {
         $this->validate($request, [
-            'new_player_name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max')
+            'new_player_name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max'),
         ]);
 
         $newName = $request->input('new_player_name');
@@ -171,5 +170,4 @@ class PlayerController extends Controller
 
         return json(trans('user.player.clear.success', ['name' => $this->player->player_name]), 0);
     }
-
 }

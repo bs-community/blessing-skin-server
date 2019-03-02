@@ -14,7 +14,7 @@ class ValidatorExtendServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        /**
+        /*
          * @param $a     attribute
          * @param $value value
          * @param $p     parameters
@@ -60,7 +60,7 @@ class ValidatorExtendServiceProvider extends ServiceProvider
             return $value === e(addslashes(trim($value)));
         });
 
-        Validator::extend('playername', function($a, $value, $p, $v) {
+        Validator::extend('playername', function ($a, $value, $p, $v) {
             return preg_match('/^([A-Za-z0-9_]+)$/', $value);
         });
 

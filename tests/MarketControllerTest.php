@@ -27,10 +27,10 @@ class MarketControllerTest extends TestCase
         // Try to download a non-existent plugin
         $this->appendToGuzzleQueue(200, [], $this->generateFakePluginsRegistry());
         $this->postJson('/admin/plugins/market/download', [
-            'name' => 'non-existent-plugin'
+            'name' => 'non-existent-plugin',
         ])->assertJson([
             'errno' => 1,
-            'msg' => trans('admin.plugins.market.non-existent', ['plugin' => 'non-existent-plugin'])
+            'msg' => trans('admin.plugins.market.non-existent', ['plugin' => 'non-existent-plugin']),
         ]);
 
         // Can't download due to connection error
@@ -39,10 +39,10 @@ class MarketControllerTest extends TestCase
             new RequestException('Connection Error', new Request('GET', 'whatever')),
         ]);
         $this->postJson('/admin/plugins/market/download', [
-            'name' => 'fake-test-download'
+            'name' => 'fake-test-download',
         ])->assertJson([
             'errno' => 2,
-            'msg' => trans('admin.plugins.market.download-failed', ['error' => 'Connection Error'])
+            'msg' => trans('admin.plugins.market.download-failed', ['error' => 'Connection Error']),
         ]);
 
         // Downloaded plugin archive was tampered
@@ -52,10 +52,10 @@ class MarketControllerTest extends TestCase
             new Response(200, [], fopen($fakeArchive, 'r')),
         ]);
         $this->postJson('/admin/plugins/market/download', [
-            'name' => 'fake-test-download'
+            'name' => 'fake-test-download',
         ])->assertJson([
             'errno' => 3,
-            'msg' => trans('admin.plugins.market.shasum-failed')
+            'msg' => trans('admin.plugins.market.shasum-failed'),
         ]);
 
         // Download and extract plugin
@@ -67,17 +67,17 @@ class MarketControllerTest extends TestCase
                     'version' => '0.0.1',
                     'dist' => [
                         'url' => 'whatever',
-                        'shasum' => $shasum
-                    ]
-                ]
+                        'shasum' => $shasum,
+                    ],
+                ],
             ])),
             new Response(200, [], fopen($fakeArchive, 'r')),
         ]);
         $this->postJson('/admin/plugins/market/download', [
-            'name' => 'fake-test-download'
+            'name' => 'fake-test-download',
         ])->assertJson([
             'errno' => 0,
-            'msg' => trans('admin.plugins.market.install-success')
+            'msg' => trans('admin.plugins.market.install-success'),
         ]);
         $this->assertTrue(is_dir(base_path('plugins/fake-test-download')));
         $this->assertTrue(empty(glob(base_path('plugins/fake-test-download_*.zip'))));
@@ -92,17 +92,17 @@ class MarketControllerTest extends TestCase
                     'version' => '0.0.1',
                     'dist' => [
                         'url' => 'whatever',
-                        'shasum' => $shasum
-                    ]
-                ]
+                        'shasum' => $shasum,
+                    ],
+                ],
             ])),
             new Response(200, [], fopen($fakeArchive, 'r')),
         ]);
         $this->postJson('/admin/plugins/market/download', [
-            'name' => 'fake-test-download'
+            'name' => 'fake-test-download',
         ])->assertJson([
             'errno' => 4,
-            'msg' => trans('admin.plugins.market.unzip-failed', ['error' => 19])
+            'msg' => trans('admin.plugins.market.unzip-failed', ['error' => 19]),
         ]);
     }
 
@@ -115,7 +115,7 @@ class MarketControllerTest extends TestCase
         $this->getJson('/admin/plugins/market/check')
             ->assertJson([
                 'available' => false,
-                'plugins' => []
+                'plugins' => [],
             ]);
 
         // Generate fake plugin and refresh plugin manager
@@ -127,7 +127,7 @@ class MarketControllerTest extends TestCase
         $this->getJson('/admin/plugins/market/check')
             ->assertJson([
                 'available' => false,
-                'plugins' => []
+                'plugins' => [],
             ]);
 
         // New version available
@@ -136,8 +136,8 @@ class MarketControllerTest extends TestCase
             ->assertJson([
                 'available' => true,
                 'plugins' => [[
-                    'name' => 'fake-test-update'
-                ]]
+                    'name' => 'fake-test-update',
+                ]],
             ]);
     }
 
@@ -164,11 +164,11 @@ class MarketControllerTest extends TestCase
                     'description',
                     'author',
                     'dist',
-                    'dependencies'
-                ]
+                    'dependencies',
+                ],
             ]);
 
-        File::deleteDirectory(base_path('plugins/' . $package['name']));
+        File::deleteDirectory(base_path('plugins/'.$package['name']));
     }
 
     protected function tearDown(): void

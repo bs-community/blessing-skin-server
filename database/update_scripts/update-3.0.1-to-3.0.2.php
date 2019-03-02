@@ -5,12 +5,11 @@
  * @Last Modified by:   printempw
  * @Last Modified time: 2016-08-29 13:47:13
  */
-
 $options = [
     'avatar_query_string' => '0',
     'version'             => '',
     'check_update'        => '1',
-    'update_source'       => 'github'
+    'update_source'       => 'github',
 ];
 
 foreach ($options as $key => $value) {

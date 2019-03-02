@@ -145,7 +145,7 @@ return [
 
     'providers' => [
 
-        /**
+        /*
          * Laravel Framework Service Providers...
          */
         Illuminate\Auth\AuthServiceProvider::class,
@@ -170,13 +170,13 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Illuminate\Notifications\NotificationServiceProvider::class,
 
-        /**
+        /*
          * Third-party Libraries...
          */
         Swiggles\Memcache\MemcacheServiceProvider::class,
         Mews\Captcha\CaptchaServiceProvider::class,
 
-        /**
+        /*
          * Application Service Providers...
          */
         App\Providers\RuntimeCheckServiceProvider::class,
@@ -237,7 +237,7 @@ return [
         'Str' => Illuminate\Support\Str::class,
         'Arr' => Illuminate\Support\Arr::class,
 
-        /**
+        /*
          * Blessing Skin
          */
         'Option'    => App\Services\Facades\Option::class,

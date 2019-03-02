@@ -10,7 +10,7 @@ class GetPlayerJson extends Event
 
     /**
      * CSL_API = 0
-     * USM_API = 1
+     * USM_API = 1.
      *
      * @var int
      */
@@ -25,7 +25,7 @@ class GetPlayerJson extends Event
      */
     public function __construct(Player $player, $apiType)
     {
-        $this->player   = $player;
-        $this->apiType  = $apiType;
+        $this->player = $player;
+        $this->apiType = $apiType;
     }
 }

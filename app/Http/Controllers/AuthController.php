@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use URL;
-use Log;
 use Mail;
 use View;
 use Cache;
@@ -23,13 +22,13 @@ class AuthController extends Controller
     {
         $this->validate($request, [
             'identification' => 'required',
-            'password'       => 'required|min:6|max:32'
+            'password'       => 'required|min:6|max:32',
         ]);
 
         $identification = $request->input('identification');
 
         // Guess type of identification
-        $authType = (validate($identification, 'email')) ? "email" : "username";
+        $authType = (validate($identification, 'email')) ? 'email' : 'username';
 
         event(new Events\UserTryToLogin($identification, $authType));
 
@@ -64,7 +63,7 @@ class AuthController extends Controller
                 Cache::put($loginFailsCacheKey, ++$loginFails, 3600);
 
                 return json(trans('auth.validation.password'), 1, [
-                    'login_fails' => $loginFails
+                    'login_fails' => $loginFails,
                 ]);
             }
         }
@@ -74,6 +73,7 @@ class AuthController extends Controller
     {
         if (Auth::check()) {
             Auth::logout();
+
             return json(trans('auth.logout.success'), 0);
         } else {
             return json(trans('auth.logout.fail'), 1);
@@ -101,7 +101,7 @@ class AuthController extends Controller
         $data = $this->validate($request, array_merge([
             'email'    => 'required|email|unique:users',
             'password' => 'required|min:8|max:32',
-            'captcha'  => 'required'.(app()->environment('testing') ? '' : '|captcha')
+            'captcha'  => 'required'.(app()->environment('testing') ? '' : '|captcha'),
         ], $rule));
 
         if (option('register_with_player_name')) {
@@ -136,9 +136,9 @@ class AuthController extends Controller
 
         if (option('register_with_player_name')) {
             $player = new Player;
-            $player->uid           = $user->uid;
-            $player->player_name   = $request->get('player_name');
-            $player->tid_skin      = 0;
+            $player->uid = $user->uid;
+            $player->player_name = $request->get('player_name');
+            $player->tid_skin = 0;
             $player->last_modified = get_datetime_string();
             $player->save();
 
@@ -149,13 +149,13 @@ class AuthController extends Controller
 
         return json([
             'errno' => 0,
-            'msg' => trans('auth.register.success')
+            'msg' => trans('auth.register.success'),
         ]);
     }
 
     public function forgot()
     {
-        if (config('mail.driver') != "") {
+        if (config('mail.driver') != '') {
             return view('auth.forgot');
         } else {
             throw new PrettyPageException(trans('auth.forgot.disabled'), 8);
@@ -165,7 +165,7 @@ class AuthController extends Controller
     public function handleForgot(Request $request, UserRepository $users)
     {
         $this->validate($request, [
-            'captcha' => 'required'.(app()->environment('testing') ? '' : '|captcha')
+            'captcha' => 'required'.(app()->environment('testing') ? '' : '|captcha'),
         ]);
 
         if (! config('mail.driver')) {
@@ -181,15 +181,16 @@ class AuthController extends Controller
             return json([
                 'errno' => 2,
                 'msg' => trans('auth.forgot.frequent-mail'),
-                'remain' => $remain
+                'remain' => $remain,
             ]);
         }
 
         // Get user instance
         $user = $users->get($request->input('email'), 'email');
 
-        if (! $user)
+        if (! $user) {
             return json(trans('auth.forgot.unregistered'), 1);
+        }
 
         $url = URL::temporarySignedRoute('auth.reset', now()->addHour(), ['uid' => $user->uid]);
 
@@ -239,5 +240,4 @@ class AuthController extends Controller
 
         return view('auth.verify');
     }
-
 }

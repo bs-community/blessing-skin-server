@@ -48,6 +48,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
                 $role = factory(\App\Models\User::class, $role)->create();
             }
         }
+
         return $this->actingAs($role);
     }
 

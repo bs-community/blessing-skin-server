@@ -3,9 +3,6 @@
 namespace Tests;
 
 use App\Services\Repositories\Repository;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class RepositoryTest extends TestCase
 {
@@ -34,7 +31,7 @@ class RepositoryTest extends TestCase
 
         $repo->set([
             'k2' => 'v2',
-            'k3' => 'v3'
+            'k3' => 'v3',
         ]);
         $this->assertEquals('v2', $repo->get('k2'));
         $this->assertEquals('v3', $repo->get('k3'));
@@ -53,14 +50,14 @@ class RepositoryTest extends TestCase
         $repo->set('k1', 'v1');
         $repo->set([
             'k2' => 'v2',
-            'k3' => 'v3'
+            'k3' => 'v3',
         ]);
         $repo->push('a');
         $this->assertArraySubset([
             'k1' => 'v1',
             'k2' => 'v2',
             'k3' => 'v3',
-            0 => 'a'
+            0 => 'a',
         ], $repo->all());
     }
 
@@ -70,7 +67,8 @@ class RepositoryTest extends TestCase
         $repo->set('k1', 'v1');
         $this->assertEquals(
             'v1',
-            $repo->remember('k1', function () {})
+            $repo->remember('k1', function () {
+            })
         );
 
         $this->assertEquals(
@@ -90,7 +88,7 @@ class RepositoryTest extends TestCase
 
         $repo->set([
             'k2' => 'v2',
-            'k3' => 'v3'
+            'k3' => 'v3',
         ]);
         $repo->forget(['k2', 'k3']);
         $this->assertFalse($repo->has('k2'));

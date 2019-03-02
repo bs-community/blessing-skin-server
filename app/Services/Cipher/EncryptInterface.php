@@ -11,7 +11,7 @@ interface EncryptInterface
      * @param  string $salt
      * @return string
      */
-    public function hash($value, $salt = "");
+    public function hash($value, $salt = '');
 
     /**
      * Verifies that the given hash matches the given password.

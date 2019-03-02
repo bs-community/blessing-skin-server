@@ -15,7 +15,7 @@ class HookTest extends TestCase
         Hook::addMenuItem('user', 0, [
             'title' => 'Link A',
             'link' => '/to/a',
-            'icon' => 'fa-book'
+            'icon' => 'fa-book',
         ]);
         $this->actAs('normal')
             ->get('/user')
@@ -27,7 +27,7 @@ class HookTest extends TestCase
         Hook::addMenuItem('user', 10, [
             'title' => 'Link B',
             'link' => '/to/b',
-            'icon' => 'fa-book'
+            'icon' => 'fa-book',
         ]);
         $this->actAs('normal')
             ->get('/user')

@@ -2,7 +2,7 @@
 
 namespace App\Events;
 
-use \Illuminate\Http\UploadedFile;
+use Illuminate\Http\UploadedFile;
 
 class HashingFile extends Event
 {
