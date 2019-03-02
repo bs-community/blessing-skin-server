@@ -80,8 +80,8 @@ class TextureControllerTest extends TestCase
             ->assertJson([
                 'username' => $player->player_name,
                 'skins' => [
-                    'default' => $alex->hash,
-                    'slim' => $alex->hash
+                    'slim' => $alex->hash,
+                    'default' => $alex->hash
                 ],
                 'cape' => null
             ]);
@@ -92,8 +92,8 @@ class TextureControllerTest extends TestCase
                 'player_name' => $player->player_name,
                 'model_preference' => ['slim'],
                 'skins' => [
-                    'default' => $alex->hash,
-                    'slim' => $alex->hash
+                    'slim' => $alex->hash,
+                    'default' => $alex->hash
                 ],
                 'cape' => null
             ]);
