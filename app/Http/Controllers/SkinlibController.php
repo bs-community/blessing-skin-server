@@ -288,13 +288,13 @@ class SkinlibController extends Controller
 
         @$users->get($t->uploader)->setScore($score_diff, 'plus');
 
-        if ($t->setPrivacy(! $t->public)) {
-            return json([
-                'errno'  => 0,
-                'msg'    => trans('skinlib.privacy.success', ['privacy' => (! $t->public ? trans('general.private') : trans('general.public'))]),
-                'public' => $t->public,
-            ]);
-        }
+        $t->public = !$t->public;
+        $t->save();
+        return json([
+            'errno'  => 0,
+            'msg'    => trans('skinlib.privacy.success', ['privacy' => (! $t->public ? trans('general.private') : trans('general.public'))]),
+            'public' => $t->public,
+        ]);
     }
 
     // @codeCoverageIgnore

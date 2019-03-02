@@ -22,13 +22,6 @@ class Texture extends Model
         'public' => 'boolean',
     ];
 
-    public function setPrivacy($public)
-    {
-        $this->public = $public;
-
-        return $this->save();
-    }
-
     public function scopeLike($query, $field, $value)
     {
         return $query->where($field, 'LIKE', "%$value%");
