@@ -102,10 +102,6 @@
         });
     </script>
 
-    @if (option('allow_sending_statistics'))
-    <script>sendFeedback();</script>
-    @endif
-
     @yield('script')
 </body>
 </html>

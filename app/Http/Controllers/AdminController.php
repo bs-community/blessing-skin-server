@@ -201,8 +201,6 @@ class AdminController extends Controller
             $form->text('texture_name_regexp')->hint()->placeholder();
 
             $form->textarea('comment_script')->rows(6)->description();
-
-            $form->checkbox('allow_sending_statistics')->label()->hint();
         })->handle(function () {
             Option::set('site_name_'.config('app.locale'), request('site_name'));
             Option::set('site_description_'.config('app.locale'), request('site_description'));

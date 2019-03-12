@@ -110,7 +110,6 @@ class AdminControllerTest extends BrowserKitTestCase
             ->select('1', 'api_type')
             ->check('auto_del_invalid_texture')
             ->type('code', 'comment_script')
-            ->uncheck('allow_sending_statistics')
             ->press('submit_general');
         $this->assertEquals('My Site', option_localized('site_name'));
         $this->assertEquals('hi', option_localized('site_description'));
@@ -124,7 +123,6 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->assertEquals('1', option('api_type'));
         $this->assertTrue(option('auto_del_invalid_texture'));
         $this->assertEquals('code', option('comment_script'));
-        $this->assertFalse(option('allow_sending_statistics'));
 
         $this->visit('/admin/options')
             ->type('http://blessing.skin/index.php', 'site_url')

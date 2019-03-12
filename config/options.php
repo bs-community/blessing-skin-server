@@ -20,7 +20,6 @@ return [
     'player_name_length_min'    => '3',
     'player_name_length_max'    => '16',
     'comment_script'            => '',
-    'allow_sending_statistics'  => 'true',
     'user_initial_score'        => '1000',
     'sign_gap_time'             => '24',
     'sign_score'                => '10,100',

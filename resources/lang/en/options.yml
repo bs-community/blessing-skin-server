@@ -117,10 +117,6 @@ general:
   comment_script:
     title: Comment Script
     description: Placeholder is available, <code>{tid}</code> will be replaced with texture id, <code>{name}</code> will be replaced with texture name, <code>{url}</code> will be replaced with current URL.
-  allow_sending_statistics:
-    title: Statistics
-    label: Send usage statistics anonymously.
-    hint: Privacy information will nerver be sent.
 
 announ:
   title: Announcement
