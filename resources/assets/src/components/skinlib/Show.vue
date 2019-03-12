@@ -25,14 +25,23 @@
                         <a
                             v-if="liked"
                             @click="removeFromCloset"
+                            style="margin-left: 12px"
                             class="btn btn-primary pull-right"
                             v-t="'skinlib.removeFromCloset'"
                         ></a>
                         <a
                             v-else
                             @click="addToCloset"
+                            style="margin-left: 12px"
                             class="btn btn-primary pull-right"
                             v-t="'skinlib.addToCloset'"
+                        ></a>
+                        <a
+                            v-if="canBeDownloaded"
+                            class="btn btn-default pull-right"
+                            v-t="'skinlib.show.download'"
+                            :href="`${baseUrl}/raw/${tid}.png`"
+                            :download="`${name}`.png"
                         ></a>
                     </template>
                     <div
@@ -77,22 +86,9 @@
                                 </td>
                             </tr>
                             <tr>
-                                <td>TID</td>
-                                <td>{{ tid }}</td>
-                            </tr>
-                            <tr>
-                                <td>Hash
-                                    <i
-                                        v-if="canBeDownloaded"
-                                        class="fas fa-question-circle"
-                                        :title="$t('skinlib.show.download-raw')"
-                                        data-toggle="tooltip"
-                                        data-placement="top"
-                                    ></i>
-                                </td>
+                                <td>Hash</td>
                                 <td>
-                                    <a v-if="canBeDownloaded" :href="`${baseUrl}/raw/${tid}.png`" :title="hash">{{ hash.slice(0, 15) }}...</a>
-                                    <span v-else :title="hash">{{ hash.slice(0, 15) }}...</span>
+                                    <span :title="hash">{{ hash.slice(0, 15) }}...</span>
                                 </td>
                             </tr>
                             <tr>

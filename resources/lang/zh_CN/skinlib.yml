@@ -38,7 +38,6 @@ show:
   name: 名称
   edit-name: 修改名称
   model: 适用模型
-  download-raw: 右键另存为即可下载原始皮肤文件
   size: 文件大小
   uploader: 上传者
   upload-at: 上传日期

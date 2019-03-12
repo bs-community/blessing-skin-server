@@ -95,10 +95,10 @@ skinlib:
     name: 名称
     edit: 修改
     model: 适用模型
-    download-raw: 右键另存为即可下载原始皮肤文件
     size: 文件大小
     uploader: 上传者
     upload-at: 上传日期
+    download: 下载材质
     delete-texture: 删除材质
     manage-notice: 材质设为隐私或被删除后将会从每一个收藏者的衣柜中移除。
 
