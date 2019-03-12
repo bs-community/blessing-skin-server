@@ -14,3 +14,6 @@ _ide_helper.php
 .phpstorm.meta.php
 .uini
 junit.xml
+storage/*.db
+storage/*.sqlite
+.vscode
