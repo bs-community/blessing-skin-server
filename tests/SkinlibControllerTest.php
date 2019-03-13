@@ -403,29 +403,22 @@ class SkinlibControllerTest extends TestCase
             ]);
 
         // Without `name` field
-        $this->postJson('/skinlib/upload', [], [
-            'X-Requested-With' => 'XMLHttpRequest',
-        ])->assertJson([
+        $this->postJson('/skinlib/upload')->assertJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'name']),
         ]);
 
         // With some special chars
-        $this->postJson('/skinlib/upload', [
-            'name' => '\\',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.no_special_chars', ['attribute' => 'name']),
-        ]);
+        $this->postJson('/skinlib/upload', ['name' => '\\'])
+            ->assertJson([
+                'errno' => 1,
+                'msg' => trans('validation.no_special_chars', ['attribute' => 'name']),
+            ]);
 
         // Specified regular expression for texture name
         option(['texture_name_regexp' => '/\\d+/']);
         $this->postJson('/skinlib/upload', [
             'name' => 'abc',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.regex', ['attribute' => 'name']),
@@ -435,8 +428,6 @@ class SkinlibControllerTest extends TestCase
         // Without file
         $this->postJson('/skinlib/upload', [
             'name' => 'texture',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'file']),
@@ -448,8 +439,6 @@ class SkinlibControllerTest extends TestCase
         $this->postJson('/skinlib/upload', [
             'name' => 'texture',
             'file' => $upload,
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.max.file', ['attribute' => 'file', 'max' => '2']),
@@ -460,8 +449,6 @@ class SkinlibControllerTest extends TestCase
         $this->postJson('/skinlib/upload', [
             'name' => 'texture',
             'file' => 'content',    // Though it is not a file, it is OK
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'public']),
@@ -799,9 +786,7 @@ class SkinlibControllerTest extends TestCase
 
         // Without `tid` field
         $this->actAs($uploader)
-            ->postJson('/skinlib/rename', [], [
-                'X-Requested-With' => 'XMLHttpRequest',
-            ])
+            ->postJson('/skinlib/rename')
             ->assertJson([
                 'errno' => 1,
                 'msg' => trans('validation.required', ['attribute' => 'tid']),
@@ -810,8 +795,6 @@ class SkinlibControllerTest extends TestCase
         // `tid` is not a integer
         $this->postJson('/skinlib/rename', [
                 'tid' => 'str',
-            ], [
-                'X-Requested-With' => 'XMLHttpRequest',
             ])
             ->assertJson([
                 'errno' => 1,
@@ -821,8 +804,6 @@ class SkinlibControllerTest extends TestCase
         // Without `new_name` field
         $this->postJson('/skinlib/rename', [
                 'tid' => $texture->tid,
-            ], [
-                'X-Requested-With' => 'XMLHttpRequest',
             ])
             ->assertJson([
                 'errno' => 1,
@@ -833,8 +814,6 @@ class SkinlibControllerTest extends TestCase
         $this->postJson('/skinlib/rename', [
                 'tid' => $texture->tid,
                 'new_name' => '\\',
-            ], [
-                'X-Requested-With' => 'XMLHttpRequest',
             ])
             ->assertJson([
                 'errno' => 1,

@@ -91,7 +91,7 @@ class ClosetControllerTest extends TestCase
         option(['score_per_closet_item' => 10]);
 
         // Missing `tid` field
-        $this->postJson('/user/closet/add', [], ['X-Requested-With' => 'XMLHttpRequest'])
+        $this->postJson('/user/closet/add')
             ->assertJson([
                 'errno' => 1,
                 'msg' => trans('validation.required', ['attribute' => 'tid']),
@@ -100,8 +100,7 @@ class ClosetControllerTest extends TestCase
         // `tid` is not a integer
         $this->postJson(
             '/user/closet/add',
-            ['tid' => 'string'],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ['tid' => 'string']
         )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.integer', ['attribute' => 'tid']),
@@ -110,8 +109,7 @@ class ClosetControllerTest extends TestCase
         // Missing `name` field
         $this->postJson(
             '/user/closet/add',
-            ['tid' => 0],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ['tid' => 0]
         )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'name']),
@@ -120,8 +118,7 @@ class ClosetControllerTest extends TestCase
         // `name` field has special characters
         $this->postJson(
             '/user/closet/add',
-            ['tid' => 0, 'name' => '\\'],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ['tid' => 0, 'name' => '\\']
         )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.no_special_chars', ['attribute' => 'name']),
@@ -177,7 +174,7 @@ class ClosetControllerTest extends TestCase
         $name = 'new';
 
         // Missing `tid` field
-        $this->postJson('/user/closet/rename', [], ['X-Requested-With' => 'XMLHttpRequest'])
+        $this->postJson('/user/closet/rename')
             ->assertJson([
                 'errno' => 1,
                 'msg' => trans('validation.required', ['attribute' => 'tid']),
@@ -186,8 +183,7 @@ class ClosetControllerTest extends TestCase
         // `tid` is not a integer
         $this->postJson(
             '/user/closet/rename',
-            ['tid' => 'string'],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ['tid' => 'string']
         )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.integer', ['attribute' => 'tid']),
@@ -196,8 +192,7 @@ class ClosetControllerTest extends TestCase
         // Missing `new_name` field
         $this->postJson(
             '/user/closet/rename',
-            ['tid' => 0],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ['tid' => 0]
         )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'new name']),
@@ -206,8 +201,7 @@ class ClosetControllerTest extends TestCase
         // `new_name` field has special characters
         $this->postJson(
             '/user/closet/rename',
-            ['tid' => 0, 'new_name' => '\\'],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ['tid' => 0, 'new_name' => '\\']
         )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.no_special_chars', ['attribute' => 'new name']),
@@ -244,7 +238,7 @@ class ClosetControllerTest extends TestCase
         $texture = factory(Texture::class)->create();
 
         // Missing `tid` field
-        $this->postJson('/user/closet/remove', [], ['X-Requested-With' => 'XMLHttpRequest'])
+        $this->postJson('/user/closet/remove')
             ->assertJson([
                 'errno' => 1,
                 'msg' => trans('validation.required', ['attribute' => 'tid']),
@@ -253,8 +247,7 @@ class ClosetControllerTest extends TestCase
         // `tid` is not a integer
         $this->postJson(
             '/user/closet/remove',
-            ['tid' => 'string'],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ['tid' => 'string']
         )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.integer', ['attribute' => 'tid']),

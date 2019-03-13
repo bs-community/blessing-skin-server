@@ -28,13 +28,11 @@ class AdminControllerTest extends BrowserKitTestCase
     public function testCustomize()
     {
         // Check if `color_scheme` is existed or not
-        $this->get('/admin/customize?action=color', [
-            'Accept' => 'application/json',
-            'X-Requested-With' => 'XMLHttpRequest',
-        ])->seeJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'color scheme']),
-        ]);
+        $this->getJson('/admin/customize?action=color')
+            ->seeJson([
+                'errno' => 1,
+                'msg' => trans('validation.required', ['attribute' => 'color scheme']),
+            ]);
 
         // Change color
         $this->get('/admin/customize?action=color&color_scheme=purple')

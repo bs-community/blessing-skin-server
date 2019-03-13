@@ -42,7 +42,7 @@ class PlayerControllerTest extends TestCase
     public function testAdd()
     {
         // Without player name
-        $this->postJson('/user/player/add', [], ['X-Requested-With' => 'XMLHttpRequest'])
+        $this->postJson('/user/player/add')
             ->assertJson([
                 'errno' => 1,
                 'msg' => trans('validation.required', ['attribute' => trans('validation.attributes.player_name')]),
@@ -52,8 +52,7 @@ class PlayerControllerTest extends TestCase
         option(['player_name_rule' => 'official']);
         $this->postJson(
             '/user/player/add',
-            ['player_name' => '角色名'],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ['player_name' => '角色名']
         )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.player_name', ['attribute' => trans('validation.attributes.player_name')]),
@@ -64,8 +63,7 @@ class PlayerControllerTest extends TestCase
         option(['custom_player_name_regexp' => '/^([0-9]+)$/']);
         $this->postJson(
             '/user/player/add',
-            ['player_name' => 'yjsnpi'],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ['player_name' => 'yjsnpi']
         )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.player_name', ['attribute' => trans('validation.attributes.player_name')]),
@@ -76,8 +74,7 @@ class PlayerControllerTest extends TestCase
         $user = factory(User::class)->create(['score' => 0]);
         $this->actAs($user)->postJson(
             '/user/player/add',
-            ['player_name' => 'no_score'],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ['player_name' => 'no_score']
         )->assertJson([
             'errno' => 7,
             'msg' => trans('user.player.add.lack-score'),
@@ -164,9 +161,8 @@ class PlayerControllerTest extends TestCase
         $this->actAs($user)
             ->postJson('/user/player/rename', [
                 'pid' => $player->pid,
-            ], [
-                'X-Requested-With' => 'XMLHttpRequest',
-            ])->assertJson([
+            ])
+            ->assertJson([
                 'errno' => 1,
                 'msg' => trans('validation.required', ['attribute' => trans('validation.attributes.player_name')]),
             ]);
@@ -176,8 +172,6 @@ class PlayerControllerTest extends TestCase
         $this->postJson('/user/player/rename', [
             'pid' => $player->pid,
             'new_player_name' => '角色名',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.player_name', ['attribute' => trans('validation.attributes.player_name')]),
@@ -188,9 +182,8 @@ class PlayerControllerTest extends TestCase
         $this->postJson('/user/player/rename', [
             'pid' => $player->pid,
             'new_player_name' => '\\',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
-        ])->assertJson([
+        ])
+        ->assertJson([
             'errno' => 1,
             'msg' => trans('validation.player_name', ['attribute' => trans('validation.attributes.player_name')]),
         ]);

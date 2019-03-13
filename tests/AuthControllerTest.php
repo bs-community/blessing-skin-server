@@ -35,21 +35,16 @@ class AuthControllerTest extends TestCase
         );
 
         // Should return a warning if `identification` is empty
-        $this->postJson(
-            '/auth/login', [], [
-            'X-Requested-With' => 'XMLHttpRequest',
-        ])->assertJson([
+        $this->postJson('/auth/login')
+            ->assertJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => trans('validation.attributes.identification')]),
         ]);
 
         // Should return a warning if `password` is empty
         $this->postJson(
-            '/auth/login', [
-            'identification' => $user->email,
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
-        ])->assertJson([
+            '/auth/login', ['identification' => $user->email]
+        )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'password']),
         ]);
@@ -59,8 +54,6 @@ class AuthControllerTest extends TestCase
             '/auth/login', [
             'identification' => $user->email,
             'password' => '123',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.min.string', ['attribute' => 'password', 'min' => 6]),
@@ -71,8 +64,6 @@ class AuthControllerTest extends TestCase
             '/auth/login', [
             'identification' => $user->email,
             'password' => Str::random(80),
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 32]),
@@ -186,20 +177,16 @@ class AuthControllerTest extends TestCase
         $this->expectsEvents(Events\UserRegistered::class);
 
         // Should return a warning if `email` is empty
-        $this->postJson(
-            '/auth/register',
-            [],
-            ['X-Requested-With' => 'XMLHttpRequest']
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'email']),
-        ]);
+        $this->postJson('/auth/register')
+            ->assertJson([
+                'errno' => 1,
+                'msg' => trans('validation.required', ['attribute' => 'email']),
+            ]);
 
         // Should return a warning if `email` is invalid
         $this->postJson(
             '/auth/register',
-            ['email' => 'not_an_email'],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ['email' => 'not_an_email']
         )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.email', ['attribute' => 'email']),
@@ -209,8 +196,7 @@ class AuthControllerTest extends TestCase
         $existedUser = factory(User::class)->create();
         $this->postJson(
             '/auth/register',
-            ['email' => $existedUser->email],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ['email' => $existedUser->email]
         )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.unique', ['attribute' => 'email']),
@@ -219,8 +205,7 @@ class AuthControllerTest extends TestCase
         // Should return a warning if `password` is empty
         $this->postJson(
             '/auth/register',
-            ['email' => 'a@b.c'],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ['email' => 'a@b.c']
         )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'password']),
@@ -232,8 +217,7 @@ class AuthControllerTest extends TestCase
             [
                 'email' => 'a@b.c',
                 'password' => '1',
-            ],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ]
         )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.min.string', ['attribute' => 'password', 'min' => 8]),
@@ -321,8 +305,7 @@ class AuthControllerTest extends TestCase
                 'email' => 'a@b.c',
                 'password' => '12345678',
                 'captcha' => 'a',
-            ],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ]
         )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'nickname']),
@@ -336,8 +319,7 @@ class AuthControllerTest extends TestCase
                 'password' => '12345678',
                 'nickname' => '\\',
                 'captcha' => 'a',
-            ],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ]
         )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.no_special_chars', ['attribute' => 'nickname']),
@@ -351,8 +333,7 @@ class AuthControllerTest extends TestCase
                 'password' => '12345678',
                 'nickname' => Str::random(256),
                 'captcha' => 'a',
-            ],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ]
         )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.max.string', ['attribute' => 'nickname', 'max' => 255]),
@@ -365,8 +346,7 @@ class AuthControllerTest extends TestCase
                 'email' => 'a@b.c',
                 'password' => '12345678',
                 'nickname' => 'nickname',
-            ],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ]
         )->assertJson([
             'errno' => 1,
             'msg' => trans('validation.required', ['attribute' => 'captcha']),
@@ -381,8 +361,7 @@ class AuthControllerTest extends TestCase
                 'password' => '12345678',
                 'nickname' => 'nickname',
                 'captcha' => 'a',
-            ],
-            ['X-Requested-With' => 'XMLHttpRequest']
+            ]
         )->assertJson([
             'errno' => 7,
             'msg' => trans('auth.register.close'),
@@ -544,20 +523,16 @@ class AuthControllerTest extends TestCase
         $url = URL::temporarySignedRoute('auth.reset', now()->addHour(), ['uid' => $user->uid]);
 
         // Should return a warning if `password` is empty
-        $this->postJson(
-            $url, [], [
-            'X-Requested-With' => 'XMLHttpRequest',
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'password']),
-        ]);
+        $this->postJson($url)
+            ->assertJson([
+                'errno' => 1,
+                'msg' => trans('validation.required', ['attribute' => 'password']),
+            ]);
 
         // Should return a warning if `password` is too short
         $this->postJson(
             $url, [
             'password' => '123',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.min.string', ['attribute' => 'password', 'min' => 8]),
@@ -567,8 +542,6 @@ class AuthControllerTest extends TestCase
         $this->postJson(
             $url, [
             'password' => Str::random(33),
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 32]),

@@ -219,21 +219,16 @@ class UserControllerTest extends TestCase
             ]);
 
         // Change nickname without `new_nickname` field
-        $this->postJson('/user/profile', [
-            'action' => 'nickname',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'new nickname']),
-        ]);
+        $this->postJson('/user/profile', ['action' => 'nickname'])
+            ->assertJson([
+                'errno' => 1,
+                'msg' => trans('validation.required', ['attribute' => 'new nickname']),
+            ]);
 
         // Invalid nickname
         $this->postJson('/user/profile', [
             'action' => 'nickname',
             'new_nickname' => '\\',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.no_special_chars', ['attribute' => 'new nickname']),
@@ -243,8 +238,6 @@ class UserControllerTest extends TestCase
         $this->postJson('/user/profile', [
             'action' => 'nickname',
             'new_nickname' => Str::random(256),
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.max.string', ['attribute' => 'new nickname', 'max' => 255]),
@@ -255,8 +248,6 @@ class UserControllerTest extends TestCase
         $this->postJson('/user/profile', [
             'action' => 'nickname',
             'new_nickname' => 'nickname',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 0,
             'msg' => trans('user.profile.nickname.success', ['nickname' => 'nickname']),
@@ -264,22 +255,17 @@ class UserControllerTest extends TestCase
         $this->assertEquals('nickname', User::find($user->uid)->nickname);
 
         // Change password without `current_password` field
-        $this->postJson('/user/profile', [
-            'action' => 'password',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'current password']),
-        ]);
+        $this->postJson('/user/profile', ['action' => 'password'])
+            ->assertJson([
+                'errno' => 1,
+                'msg' => trans('validation.required', ['attribute' => 'current password']),
+            ]);
 
         // Too short current password
         $this->postJson('/user/profile', [
             'action' => 'password',
             'current_password' => '1',
             'new_password' => '12345678',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.min.string', ['attribute' => 'current password', 'min' => 6]),
@@ -290,8 +276,6 @@ class UserControllerTest extends TestCase
             'action' => 'password',
             'current_password' => Str::random(33),
             'new_password' => '12345678',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.max.string', ['attribute' => 'current password', 'max' => 32]),
@@ -302,8 +286,6 @@ class UserControllerTest extends TestCase
             'action' => 'password',
             'current_password' => '12345678',
             'new_password' => '1',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.min.string', ['attribute' => 'new password', 'min' => 8]),
@@ -314,8 +296,6 @@ class UserControllerTest extends TestCase
             'action' => 'password',
             'current_password' => '12345678',
             'new_password' => Str::random(33),
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.max.string', ['attribute' => 'new password', 'max' => 32]),
@@ -326,8 +306,6 @@ class UserControllerTest extends TestCase
             'action' => 'password',
             'current_password' => '1234567',
             'new_password' => '87654321',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('user.profile.password.wrong-password'),
@@ -339,8 +317,6 @@ class UserControllerTest extends TestCase
             'action' => 'password',
             'current_password' => '12345678',
             'new_password' => '87654321',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 0,
             'msg' => trans('user.profile.password.success'),
@@ -354,8 +330,8 @@ class UserControllerTest extends TestCase
         $this->actAs($user)
             ->postJson(
                 '/user/profile',
-                ['action' => 'email'],
-                ['X-Requested-With' => 'XMLHttpRequest'])
+                ['action' => 'email']
+            )
             ->assertJson([
                 'errno' => 1,
                 'msg' => trans('validation.required', ['attribute' => 'new email']),
@@ -365,8 +341,6 @@ class UserControllerTest extends TestCase
         $this->postJson('/user/profile', [
             'action' => 'email',
             'new_email' => 'not_an_email',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.email', ['attribute' => 'new email']),
@@ -377,8 +351,6 @@ class UserControllerTest extends TestCase
             'action' => 'email',
             'new_email' => 'a@b.c',
             'password' => '1',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.min.string', ['attribute' => 'password', 'min' => 6]),
@@ -389,8 +361,6 @@ class UserControllerTest extends TestCase
             'action' => 'email',
             'new_email' => 'a@b.c',
             'password' => Str::random(33),
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 32]),
@@ -401,8 +371,6 @@ class UserControllerTest extends TestCase
             'action' => 'email',
             'new_email' => $user->email,
             'password' => '87654321',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('user.profile.email.existed'),
@@ -413,8 +381,6 @@ class UserControllerTest extends TestCase
             'action' => 'email',
             'new_email' => 'a@b.c',
             'password' => '7654321',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('user.profile.email.wrong-password'),
@@ -425,8 +391,6 @@ class UserControllerTest extends TestCase
             'action' => 'email',
             'new_email' => 'a@b.c',
             'password' => '87654321',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 0,
             'msg' => trans('user.profile.email.success'),
@@ -443,8 +407,8 @@ class UserControllerTest extends TestCase
         $this->actAs($user)
             ->postJson(
                 '/user/profile',
-                ['action' => 'delete'],
-                ['X-Requested-With' => 'XMLHttpRequest'])
+                ['action' => 'delete']
+            )
             ->assertJson([
                 'errno' => 1,
                 'msg' => trans('validation.required', ['attribute' => 'password']),
@@ -454,8 +418,6 @@ class UserControllerTest extends TestCase
         $this->postJson('/user/profile', [
             'action' => 'delete',
             'password' => '1',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.min.string', ['attribute' => 'password', 'min' => 6]),
@@ -465,8 +427,6 @@ class UserControllerTest extends TestCase
         $this->postJson('/user/profile', [
             'action' => 'delete',
             'password' => Str::random(33),
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 32]),
@@ -476,8 +436,6 @@ class UserControllerTest extends TestCase
         $this->postJson('/user/profile', [
             'action' => 'delete',
             'password' => '7654321',
-        ], [
-            'X-Requested-With' => 'XMLHttpRequest',
         ])->assertJson([
             'errno' => 1,
             'msg' => trans('user.profile.delete.wrong-password'),
@@ -512,9 +470,7 @@ class UserControllerTest extends TestCase
 
         // Without `tid` field
         $this->actAs($user)
-            ->postJson('/user/profile/avatar', [], [
-                'X-Requested-With' => 'XMLHttpRequest',
-            ])
+            ->postJson('/user/profile/avatar')
             ->assertJson([
                 'errno' => 1,
                 'msg' => trans('validation.required', ['attribute' => 'tid']),
@@ -522,11 +478,7 @@ class UserControllerTest extends TestCase
 
         // TID is not a integer
         $this->actAs($user)
-            ->postJson('/user/profile/avatar', [
-                'tid' => 'string',
-            ], [
-                'X-Requested-With' => 'XMLHttpRequest',
-            ])
+            ->postJson('/user/profile/avatar', ['tid' => 'string'])
             ->assertJson([
                 'errno' => 1,
                 'msg' => trans('validation.integer', ['attribute' => 'tid']),
