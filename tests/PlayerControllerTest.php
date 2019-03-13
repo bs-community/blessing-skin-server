@@ -34,7 +34,7 @@ class PlayerControllerTest extends TestCase
             ->assertJson([
                 [
                     'pid' => $player->pid,
-                    'player_name' => $player->player_name,
+                    'name' => $player->name,
                 ],
             ]);
     }
@@ -96,10 +96,10 @@ class PlayerControllerTest extends TestCase
         ]);
         $this->expectsEvents(Events\PlayerWillBeAdded::class);
         $this->expectsEvents(Events\PlayerWasAdded::class);
-        $player = Player::where('player_name', '角色名')->first();
+        $player = Player::where('name', '角色名')->first();
         $this->assertNotNull($player);
         $this->assertEquals($user->uid, $player->uid);
-        $this->assertEquals('角色名', $player->player_name);
+        $this->assertEquals('角色名', $player->name);
         $this->assertEquals(
             $score - option('score_per_player'),
             User::find($user->uid)->score
@@ -123,7 +123,7 @@ class PlayerControllerTest extends TestCase
             ->postJson('/user/player/delete', ['pid' => $player->pid])
             ->assertJson([
                 'errno' => 0,
-                'msg' => trans('user.player.delete.success', ['name' => $player->player_name]),
+                'msg' => trans('user.player.delete.success', ['name' => $player->name]),
             ]);
         $this->assertNull(Player::find($player->pid));
         $this->expectsEvents(Events\PlayerWasDeleted::class);
@@ -140,7 +140,7 @@ class PlayerControllerTest extends TestCase
             ->postJson('/user/player/delete', ['pid' => $player->pid])
             ->assertJson([
                 'errno' => 0,
-                'msg' => trans('user.player.delete.success', ['name' => $player->player_name]),
+                'msg' => trans('user.player.delete.success', ['name' => $player->name]),
             ]);
         $this->assertEquals(
             $user->score,
@@ -196,7 +196,7 @@ class PlayerControllerTest extends TestCase
         ]);
 
         // Use a duplicated player name
-        $name = factory(Player::class)->create()->player_name;
+        $name = factory(Player::class)->create()->name;
         $this->postJson('/user/player/rename', [
             'pid' => $player->pid,
             'new_player_name' => $name,
@@ -214,7 +214,7 @@ class PlayerControllerTest extends TestCase
             'errno' => 0,
             'msg' => trans(
                 'user.player.rename.success',
-                ['old' => $player->player_name, 'new' => 'new_name']
+                ['old' => $player->name, 'new' => 'new_name']
             ),
         ]);
     }
@@ -242,7 +242,7 @@ class PlayerControllerTest extends TestCase
             'tid' => ['skin' => $skin->tid],
         ])->assertJson([
             'errno' => 0,
-            'msg' => trans('user.player.set.success', ['name' => $player->player_name]),
+            'msg' => trans('user.player.set.success', ['name' => $player->name]),
         ]);
         $this->assertEquals($skin->tid, Player::find($player->pid)->tid_skin);
 
@@ -252,7 +252,7 @@ class PlayerControllerTest extends TestCase
             'tid' => ['cape' => $cape->tid],
         ])->assertJson([
             'errno' => 0,
-            'msg' => trans('user.player.set.success', ['name' => $player->player_name]),
+            'msg' => trans('user.player.set.success', ['name' => $player->name]),
         ]);
         $this->assertEquals($cape->tid, Player::find($player->pid)->tid_cape);
 
@@ -262,7 +262,7 @@ class PlayerControllerTest extends TestCase
             'tid' => ['nope' => $skin->tid],     // TID must be valid
         ])->assertJson([
             'errno' => 0,
-            'msg' => trans('user.player.set.success', ['name' => $player->player_name]),
+            'msg' => trans('user.player.set.success', ['name' => $player->name]),
         ]);
     }
 
@@ -286,7 +286,7 @@ class PlayerControllerTest extends TestCase
                 'nope' => 1,     // Invalid texture type is acceptable
             ])->assertJson([
                 'errno' => 0,
-                'msg' => trans('user.player.clear.success', ['name' => $player->player_name]),
+                'msg' => trans('user.player.clear.success', ['name' => $player->name]),
             ]);
         $this->assertEquals(0, Player::find($player->pid)->tid_skin);
         $this->assertEquals(0, Player::find($player->pid)->tid_cape);

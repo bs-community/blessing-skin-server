@@ -24,7 +24,7 @@ class Player extends Model
      * Properties for Eloquent Model.
      */
     public $primaryKey = 'pid';
-    protected $fillable = ['uid', 'player_name', 'last_modified'];
+    protected $fillable = ['uid', 'name', 'last_modified'];
 
     /**
      * The attributes that should be cast to native types.
@@ -147,10 +147,10 @@ class Player extends Model
     public function rename($newName)
     {
         $this->update([
-            'player_name' => $newName,
+            'name' => $newName,
         ]);
 
-        $this->player_name = $newName;
+        $this->name = $newName;
 
         event(new PlayerProfileUpdated($this));
 
@@ -203,7 +203,7 @@ class Player extends Model
      */
     public function generateJsonProfile($api_type)
     {
-        $json[($api_type == self::CSL_API) ? 'username' : 'player_name'] = $this->player_name;
+        $json[($api_type == self::CSL_API) ? 'username' : 'player_name'] = $this->name;
 
         $texture = Texture::find($this->tid_skin);
         $model = empty($texture) ? 'default' : ($texture->type === 'steve' ? 'default' : 'slim');

@@ -173,7 +173,7 @@
                                         v-model="selectedPlayer"
                                     />
                                     <img :src="avatarUrl(player)" width="35" height="35" />
-                                    <span>{{ player.player_name }}</span>
+                                    <span>{{ player.name }}</span>
                                 </label>
                             </div>
                         </template>

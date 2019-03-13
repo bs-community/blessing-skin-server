@@ -55,7 +55,7 @@ test('click to preview player', async () => {
 test('change player name', async () => {
     Vue.prototype.$http.get
         .mockResolvedValueOnce([
-            { pid: 1, player_name: 'old' },
+            { pid: 1, name: 'old' },
         ]);
     Vue.prototype.$http.post
         .mockResolvedValueOnce({ errno: 1 })
@@ -111,7 +111,7 @@ test('load iCheck', async () => {
 test('delete player', async () => {
     Vue.prototype.$http.get
         .mockResolvedValueOnce([
-            { pid: 1, player_name: 'to-be-deleted' },
+            { pid: 1, name: 'to-be-deleted' },
         ]);
     Vue.prototype.$http.post
         .mockResolvedValueOnce({ errno: 1 })

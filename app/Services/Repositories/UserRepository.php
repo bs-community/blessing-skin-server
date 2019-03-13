@@ -41,7 +41,7 @@ class UserRepository extends Repository
     {
         if (! $this->has($identification, $type)) {
             if ($type == 'username') {
-                $player = Player::where('player_name', $identification)->first();
+                $player = Player::where('name', $identification)->first();
 
                 if ($player) {
                     $identification = $player->uid;

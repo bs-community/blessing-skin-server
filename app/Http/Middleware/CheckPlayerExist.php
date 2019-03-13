@@ -37,7 +37,7 @@ class CheckPlayerExist
             }    // @codeCoverageIgnore
         }
 
-        if (! Player::where('player_name', $player_name)->get()->isEmpty()) {
+        if (! Player::where('name', $player_name)->get()->isEmpty()) {
             return $next($request);
         }
 

@@ -14,7 +14,7 @@
             styleClass="vgt-table striped"
         >
             <template slot="table-row" slot-scope="props">
-                <span v-if="props.column.field === 'player_name'">
+                <span v-if="props.column.field === 'name'">
                     {{ props.formattedRow[props.column.field] }}
                     <a @click="changeName(props.row)" :title="$t('admin.changePlayerName')" data-test="name">
                         <i class="fas fa-edit btn-edit"></i>
@@ -135,7 +135,7 @@ export default {
             totalRecords: 0,
             columns: [
                 { field: 'pid', label: 'PID', type: 'number' },
-                { field: 'player_name', label: this.$t('general.player.player-name') },
+                { field: 'name', label: this.$t('general.player.player-name') },
                 { field: 'uid', label: this.$t('general.player.owner'), type: 'number' },
                 { field: 'preview', label: this.$t('general.player.previews'), globalSearchDisabled: true, sortable: false },
                 { field: 'last_modified', label: this.$t('general.player.last-modified') },
@@ -218,7 +218,7 @@ export default {
             const { dismiss, value } = await swal({
                 text: this.$t('admin.changePlayerNameNotice'),
                 input: 'text',
-                inputValue: player.player_name,
+                inputValue: player.name,
                 inputValidator: name => !name && this.$t('admin.emptyPlayerName')
             });
             if (dismiss) {
@@ -230,7 +230,7 @@ export default {
                 { pid: player.pid, name: value }
             );
             if (errno === 0) {
-                player.player_name = value;
+                player.name = value;
                 toastr.success(msg);
             } else {
                 toastr.warning(msg);

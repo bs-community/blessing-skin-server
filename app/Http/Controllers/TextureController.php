@@ -204,7 +204,7 @@ class TextureController extends Controller
 
     protected function getPlayerInstance($player_name)
     {
-        $player = Player::where('player_name', $player_name)->first();
+        $player = Player::where('name', $player_name)->first();
 
         if ($player->isBanned()) {
             abort(403, trans('general.player-banned'));

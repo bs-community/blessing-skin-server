@@ -141,11 +141,11 @@ class MiddlewareTest extends TestCase
         $this->getJson('/nope.json')->assertStatus(204);
 
         $player = factory(\App\Models\Player::class)->create();
-        $this->getJson("/{$player->player_name}.json")
-            ->assertJson(['username' => $player->player_name]);  // Default is CSL API
+        $this->getJson("/{$player->name}.json")
+            ->assertJson(['username' => $player->name]);  // Default is CSL API
 
         $this->expectsEvents(\App\Events\CheckPlayerExists::class);
-        $this->getJson("/{$player->player_name}.json");
+        $this->getJson("/{$player->name}.json");
 
         $player = factory(\App\Models\Player::class)->create();
         $user = $player->user;

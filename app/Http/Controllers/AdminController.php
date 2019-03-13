@@ -267,7 +267,7 @@ class AdminController extends Controller
         $isSpecifiedUser = $request->has('uid');
 
         if ($isSpecifiedUser) {
-            $players = Player::select(['pid', 'uid', 'player_name', 'tid_skin', 'tid_cape', 'last_modified'])
+            $players = Player::select(['pid', 'uid', 'name', 'tid_skin', 'tid_cape', 'last_modified'])
                             ->where('uid', intval($request->input('uid')))
                             ->get();
         } else {
@@ -277,10 +277,10 @@ class AdminController extends Controller
             $page = $request->input('page', 1);
             $perPage = $request->input('perPage', 10);
 
-            $players = Player::select(['pid', 'uid', 'player_name', 'tid_skin', 'tid_cape', 'last_modified'])
+            $players = Player::select(['pid', 'uid', 'name', 'tid_skin', 'tid_cape', 'last_modified'])
                             ->where('pid', 'like', '%'.$search.'%')
                             ->orWhere('uid', 'like', '%'.$search.'%')
-                            ->orWhere('player_name', 'like', '%'.$search.'%')
+                            ->orWhere('name', 'like', '%'.$search.'%')
                             ->orderBy($sortField, $sortType)
                             ->offset(($page - 1) * $perPage)
                             ->limit($perPage)
@@ -418,7 +418,7 @@ class AdminController extends Controller
 
             $player->setTexture(['tid_'.$request->type => $request->tid]);
 
-            return json(trans('admin.players.textures.success', ['player' => $player->player_name]), 0);
+            return json(trans('admin.players.textures.success', ['player' => $player->name]), 0);
         } elseif ($action == 'owner') {
             $this->validate($request, [
                 'uid'   => 'required|integer',
@@ -432,7 +432,7 @@ class AdminController extends Controller
 
             $player->setOwner($request->input('uid'));
 
-            return json(trans('admin.players.owner.success', ['player' => $player->player_name, 'user' => $user->getNickName()]), 0);
+            return json(trans('admin.players.owner.success', ['player' => $player->name, 'user' => $user->getNickName()]), 0);
         } elseif ($action == 'delete') {
             $player->delete();
 
@@ -444,7 +444,7 @@ class AdminController extends Controller
 
             $player->rename($request->input('name'));
 
-            return json(trans('admin.players.name.success', ['player' => $player->player_name]), 0, ['name' => $player->player_name]);
+            return json(trans('admin.players.name.success', ['player' => $player->name]), 0, ['name' => $player->name]);
         } else {
             return json(trans('admin.users.operations.invalid'), 1);
         }

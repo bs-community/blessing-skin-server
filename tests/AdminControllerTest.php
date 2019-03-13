@@ -196,7 +196,7 @@ class AdminControllerTest extends BrowserKitTestCase
                 'data' => [[
                     'pid',
                     'uid',
-                    'player_name',
+                    'name',
                     'tid_skin',
                     'tid_cape',
                     'last_modified',
@@ -208,7 +208,7 @@ class AdminControllerTest extends BrowserKitTestCase
                 'data' => [[
                     'pid' => $player->pid,
                     'uid' => $user->uid,
-                    'player_name' => $player->player_name,
+                    'name' => $player->name,
                     'tid_skin' => $player->tid_skin,
                     'tid_cape' => $player->tid_cape,
                 ]],
@@ -555,7 +555,7 @@ class AdminControllerTest extends BrowserKitTestCase
             'tid' => $skin->tid,
         ])->seeJson([
             'errno' => 0,
-            'msg' => trans('admin.players.textures.success', ['player' => $player->player_name]),
+            'msg' => trans('admin.players.textures.success', ['player' => $player->name]),
         ]);
         $player = Player::find($player->pid);
         $this->assertEquals($skin->tid, $player->tid_skin);
@@ -568,7 +568,7 @@ class AdminControllerTest extends BrowserKitTestCase
             'tid' => $cape->tid,
         ])->seeJson([
             'errno' => 0,
-            'msg' => trans('admin.players.textures.success', ['player' => $player->player_name]),
+            'msg' => trans('admin.players.textures.success', ['player' => $player->name]),
         ]);
         $player = Player::find($player->pid);
         $this->assertEquals($cape->tid, $player->tid_cape);
@@ -581,7 +581,7 @@ class AdminControllerTest extends BrowserKitTestCase
             'tid' => 0,
         ])->seeJson([
             'errno' => 0,
-            'msg' => trans('admin.players.textures.success', ['player' => $player->player_name]),
+            'msg' => trans('admin.players.textures.success', ['player' => $player->name]),
         ]);
         $player = Player::find($player->pid);
         $this->assertEquals(0, $player->tid_skin);
@@ -594,7 +594,7 @@ class AdminControllerTest extends BrowserKitTestCase
             'tid' => 0,
         ])->seeJson([
             'errno' => 0,
-            'msg' => trans('admin.players.textures.success', ['player' => $player->player_name]),
+            'msg' => trans('admin.players.textures.success', ['player' => $player->name]),
         ]);
         $player = Player::find($player->pid);
         $this->assertEquals(0, $player->tid_cape);
@@ -642,7 +642,7 @@ class AdminControllerTest extends BrowserKitTestCase
             'errno' => 0,
             'msg' => trans(
                 'admin.players.owner.success',
-                ['player' => $player->player_name, 'user' => $user->nickname]
+                ['player' => $player->name, 'user' => $user->nickname]
             ),
         ]);
 

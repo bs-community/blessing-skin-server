@@ -107,7 +107,7 @@ class AuthController extends Controller
         if (option('register_with_player_name')) {
             event(new Events\CheckPlayerExists($request->get('player_name')));
 
-            if (Player::where('player_name', $request->get('player_name'))->first()) {
+            if (Player::where('name', $request->get('player_name'))->first()) {
                 return json(trans('user.player.add.repeated'), 2);
             }
         }
@@ -137,7 +137,7 @@ class AuthController extends Controller
         if (option('register_with_player_name')) {
             $player = new Player;
             $player->uid = $user->uid;
-            $player->player_name = $request->get('player_name');
+            $player->name = $request->get('player_name');
             $player->tid_skin = 0;
             $player->save();
 

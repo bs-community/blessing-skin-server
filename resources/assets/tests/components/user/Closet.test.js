@@ -190,7 +190,7 @@ test('apply texture', async () => {
         .mockResolvedValueOnce({})
         .mockResolvedValueOnce([])
         .mockResolvedValueOnce([
-            { pid: 1, player_name: 'name', tid_skin: 10 }
+            { pid: 1, name: 'name', tid_skin: 10 }
         ]);
 
     const wrapper = mount(Closet);

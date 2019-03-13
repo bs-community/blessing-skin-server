@@ -22,7 +22,7 @@
                                     @click="preview(player)"
                                 >
                                     <td class="pid">{{ player.pid }}</td>
-                                    <td class="player-name">{{ player.player_name }}</td>
+                                    <td class="player-name">{{ player.name }}</td>
                                     <td>
                                         <a
                                             class="btn btn-default btn-sm"
@@ -279,7 +279,7 @@ export default {
         async changeName(player) {
             const { dismiss, value } = await swal({
                 title: this.$t('user.changePlayerName'),
-                inputValue: player.player_name,
+                inputValue: player.name,
                 input: 'text',
                 showCancelButton: true,
                 inputValidator: value => !value && this.$t('user.emptyPlayerName')
@@ -294,7 +294,7 @@ export default {
             );
             if (errno === 0) {
                 swal({ type: 'success', text: msg });
-                player.player_name = value;
+                player.name = value;
             } else {
                 swal({ type: 'warning', text: msg });
             }

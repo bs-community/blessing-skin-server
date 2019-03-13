@@ -77,7 +77,7 @@ test('change texture', async () => {
 
 test('change player name', async () => {
     Vue.prototype.$http.get.mockResolvedValue({ data: [
-        { pid: 1, player_name: 'old' }
+        { pid: 1, name: 'old' }
     ] });
     Vue.prototype.$http.post
         .mockResolvedValueOnce({ errno: 1, msg: '1' })
@@ -139,7 +139,7 @@ test('change owner', async () => {
 
 test('delete player', async () => {
     Vue.prototype.$http.get.mockResolvedValue({ data: [
-        { pid: 1, player_name: 'to-be-deleted' }
+        { pid: 1, name: 'to-be-deleted' }
     ] });
     Vue.prototype.$http.post
         .mockResolvedValueOnce({ errno: 1, msg: '1' })

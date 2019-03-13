@@ -57,7 +57,7 @@ class PlayerController extends Controller
     {
         return Auth::user()
             ->players()
-            ->select('pid', 'player_name', 'tid_skin', 'tid_cape')
+            ->select('pid', 'name', 'tid_skin', 'tid_cape')
             ->get();
     }
 
@@ -71,7 +71,7 @@ class PlayerController extends Controller
 
         event(new CheckPlayerExists($request->input('player_name')));
 
-        if (! Player::where('player_name', $request->input('player_name'))->get()->isEmpty()) {
+        if (! Player::where('name', $request->input('player_name'))->get()->isEmpty()) {
             return json(trans('user.player.add.repeated'), 6);
         }
 
@@ -84,7 +84,7 @@ class PlayerController extends Controller
         $player = new Player;
 
         $player->uid = $user->uid;
-        $player->player_name = $request->input('player_name');
+        $player->name = $request->input('player_name');
         $player->tid_skin = 0;
         $player->save();
 
@@ -97,7 +97,7 @@ class PlayerController extends Controller
 
     public function delete()
     {
-        $playerName = $this->player->player_name;
+        $playerName = $this->player->name;
 
         event(new PlayerWillBeDeleted($this->player));
 
@@ -125,11 +125,11 @@ class PlayerController extends Controller
 
         $newName = $request->input('new_player_name');
 
-        if (! Player::where('player_name', $newName)->get()->isEmpty()) {
+        if (! Player::where('name', $newName)->get()->isEmpty()) {
             return json(trans('user.player.rename.repeated'), 6);
         }
 
-        $oldName = $this->player->player_name;
+        $oldName = $this->player->name;
 
         $this->player->rename($newName);
 
@@ -156,7 +156,7 @@ class PlayerController extends Controller
             $this->player->setTexture([$fieldName => $value]);
         }
 
-        return json(trans('user.player.set.success', ['name' => $this->player->player_name]), 0);
+        return json(trans('user.player.set.success', ['name' => $this->player->name]), 0);
     }
 
     public function clearTexture(Request $request)
@@ -167,6 +167,6 @@ class PlayerController extends Controller
 
         $this->player->clearTexture($types);
 
-        return json(trans('user.player.clear.success', ['name' => $this->player->player_name]), 0);
+        return json(trans('user.player.clear.success', ['name' => $this->player->name]), 0);
     }
 }

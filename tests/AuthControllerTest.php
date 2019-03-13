@@ -143,7 +143,7 @@ class AuthControllerTest extends TestCase
         // Logged in should be in success if logged in with player name
         $this->postJson(
             '/auth/login', [
-            'identification' => $player->player_name,
+            'identification' => $player->name,
             'password' => '12345678',
         ]
         )->assertJson(
@@ -304,7 +304,7 @@ class AuthControllerTest extends TestCase
             [
                 'email' => 'a@b.c',
                 'password' => '12345678',
-                'player_name' => $player->player_name,
+                'player_name' => $player->name,
                 'captcha' => 'a',
             ]
         )->assertJson([
@@ -444,7 +444,7 @@ class AuthControllerTest extends TestCase
                 'captcha' => 'a',
             ]
         )->assertJson(['errno' => 0]);
-        $this->assertNotNull(Player::where('player_name', 'name'));
+        $this->assertNotNull(Player::where('player', 'name'));
     }
 
     public function testForgot()
