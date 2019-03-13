@@ -23,7 +23,6 @@
     "phpunit/phpunit": "~7.0",
     "laravel/browser-kit-testing": "~4.0",
     "league/flysystem-memory": "^1.0",
-    "mikey179/vfsstream": "^1.6.5",
     "barryvdh/laravel-ide-helper": "^2.6",
     "laravel/tinker": "^1.0"
   },
@@ -46,5 +45,11 @@
   },
   "config": {
     "preferred-install": "dist"
+  },
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://packagist.org/"
+    }
   }
 }

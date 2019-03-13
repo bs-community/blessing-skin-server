@@ -3,26 +3,30 @@
 namespace Tests;
 
 use App\Services\Minecraft;
-use org\bovigo\vfs\vfsStream;
+use Illuminate\Http\Testing\FileFactory;
 use App\Http\Controllers\TextureController;
 
 class MinecraftTest extends TestCase
 {
+    private $fileFactory;
+
     protected function setUp(): void
     {
         parent::setUp();
-        vfsStream::setup();
+        $this->fileFactory = new FileFactory();
     }
 
     public function testGenerateAvatarFromSkin()
     {
-        imagepng(imagecreatetruecolor(64, 32), vfsStream::url('root/skin.png'));
-        $avatar = Minecraft::generateAvatarFromSkin(file_get_contents(vfsStream::url('root/skin.png')), 50);
+        $file = $this->fileFactory->image('skin.png');
+
+        imagepng(imagecreatetruecolor(64, 32), $file->path());
+        $avatar = Minecraft::generateAvatarFromSkin(file_get_contents($file->path()), 50);
         $this->assertEquals(50, imagesx($avatar));
         $this->assertEquals(50, imagesy($avatar));
 
-        imagepng(imagecreatetruecolor(128, 64), vfsStream::url('root/skin.png'));
-        $avatar = Minecraft::generateAvatarFromSkin(file_get_contents(vfsStream::url('root/skin.png')), 50);
+        imagepng(imagecreatetruecolor(128, 64), $file->path());
+        $avatar = Minecraft::generateAvatarFromSkin(file_get_contents($file->path()), 50);
         $this->assertEquals(50, imagesx($avatar));
         $this->assertEquals(50, imagesy($avatar));
 
@@ -35,16 +39,18 @@ class MinecraftTest extends TestCase
 
     public function testGeneratePreviewFromSkin()
     {
-        imagepng(imagecreatetruecolor(64, 32), vfsStream::url('root/skin.png'));
+        $file = $this->fileFactory->image('skin.png');
+
+        imagepng(imagecreatetruecolor(64, 32), $file->path());
         $preview = Minecraft::generatePreviewFromSkin(
-            file_get_contents(vfsStream::url('root/skin.png')), 50, false, 'front'
+            file_get_contents($file->path()), 50, false, 'front'
         );
         $this->assertEquals(25, imagesx($preview));
         $this->assertEquals(50, imagesy($preview));
 
-        imagepng(imagecreatetruecolor(64, 32), vfsStream::url('root/skin.png'));
+        imagepng(imagecreatetruecolor(64, 32), $file->path());
         $preview = Minecraft::generatePreviewFromSkin(
-            file_get_contents(vfsStream::url('root/skin.png')),
+            file_get_contents($file->path()),
             50,
             true, // Alex model
             'both',
@@ -53,9 +59,9 @@ class MinecraftTest extends TestCase
         $this->assertEquals(56, imagesx($preview));
         $this->assertEquals(50, imagesy($preview));
 
-        imagepng(imagecreatetruecolor(64, 64), vfsStream::url('root/skin.png'));
+        imagepng(imagecreatetruecolor(64, 64), $file->path());
         $preview = Minecraft::generatePreviewFromSkin(
-            file_get_contents(vfsStream::url('root/skin.png')),
+            file_get_contents($file->path()),
             100,
             true, // Alex model
             'both',
@@ -64,13 +70,13 @@ class MinecraftTest extends TestCase
         $this->assertEquals(125, imagesx($preview));
         $this->assertEquals(100, imagesy($preview));
 
-        imagepng(imagecreatetruecolor(128, 64), vfsStream::url('root/skin.png'));
-        $preview = Minecraft::generatePreviewFromSkin(file_get_contents(vfsStream::url('root/skin.png')), 50);
+        imagepng(imagecreatetruecolor(128, 64), $file->path());
+        $preview = Minecraft::generatePreviewFromSkin(file_get_contents($file->path()), 50);
         $this->assertEquals(56, imagesx($preview));
         $this->assertEquals(50, imagesy($preview));
 
-        imagepng(imagecreatetruecolor(128, 128), vfsStream::url('root/skin.png'));
-        $preview = Minecraft::generatePreviewFromSkin(file_get_contents(vfsStream::url('root/skin.png')), 50);
+        imagepng(imagecreatetruecolor(128, 128), $file->path());
+        $preview = Minecraft::generatePreviewFromSkin(file_get_contents($file->path()), 50);
         $this->assertEquals(56, imagesx($preview));
         $this->assertEquals(50, imagesy($preview));
 
@@ -86,14 +92,16 @@ class MinecraftTest extends TestCase
 
     public function testGeneratePreviewFromCape()
     {
-        imagepng(imagecreatetruecolor(128, 64), vfsStream::url('root/cape.png'));
-        $preview = Minecraft::generatePreviewFromCape(file_get_contents(vfsStream::url('root/cape.png')), 64);
+        $file = $this->fileFactory->image('cape.png');
+
+        imagepng(imagecreatetruecolor(128, 64), $file->path());
+        $preview = Minecraft::generatePreviewFromCape(file_get_contents($file->path()), 64);
         $this->assertEquals(40, imagesx($preview));
         $this->assertEquals(64, imagesy($preview));
 
-        imagepng(imagecreatetruecolor(128, 64), vfsStream::url('root/cape.png'));
+        imagepng(imagecreatetruecolor(128, 64), $file->path());
         $preview = Minecraft::generatePreviewFromCape(
-            file_get_contents(vfsStream::url('root/cape.png')),
+            file_get_contents($file->path()),
             64,
             281,
             250

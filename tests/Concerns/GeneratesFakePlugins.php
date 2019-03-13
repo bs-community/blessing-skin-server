@@ -92,7 +92,7 @@ trait GeneratesFakePlugins
      */
     protected function generateFakePlugin($info)
     {
-        $plugin_dir = base_path("plugins/{$info['name']}");
+        $plugin_dir = config('plugins.directory').DIRECTORY_SEPARATOR.$info['name'];
 
         if (! is_dir($plugin_dir)) {
             mkdir($plugin_dir);

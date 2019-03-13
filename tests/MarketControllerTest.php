@@ -79,8 +79,10 @@ class MarketControllerTest extends TestCase
             'errno' => 0,
             'msg' => trans('admin.plugins.market.install-success'),
         ]);
-        $this->assertTrue(is_dir(base_path('plugins/fake-test-download')));
-        $this->assertTrue(empty(glob(base_path('plugins/fake-test-download_*.zip'))));
+        $this->assertTrue(is_dir(config('plugins.directory').DIRECTORY_SEPARATOR.'fake-test-download'));
+        $this->assertTrue(
+            empty(glob(config('plugins.directory').DIRECTORY_SEPARATOR.'plugins/fake-test-download_*.zip'))
+        );
 
         // Broken archive
         file_put_contents($fakeArchive, 'broken');
@@ -174,9 +176,9 @@ class MarketControllerTest extends TestCase
     protected function tearDown(): void
     {
         // Clean fake plugins
-        File::deleteDirectory(base_path('plugins/fake-test-download'));
-        File::deleteDirectory(base_path('plugins/fake-test-update'));
-        File::delete(base_path('plugins/whatever'));
+        File::deleteDirectory(config('plugins.directory').DIRECTORY_SEPARATOR.'fake-test-download');
+        File::deleteDirectory(config('plugins.directory').DIRECTORY_SEPARATOR.'fake-test-update');
+        File::delete(config('plugins.directory').DIRECTORY_SEPARATOR.'whatever');
 
         parent::tearDown();
     }

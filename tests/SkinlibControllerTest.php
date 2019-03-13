@@ -7,7 +7,6 @@ use App\Models\Closet;
 use App\Models\Player;
 use App\Models\Texture;
 use Illuminate\Support\Str;
-use org\bovigo\vfs\vfsStream;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -15,17 +14,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class SkinlibControllerTest extends TestCase
 {
     use DatabaseTransactions;
-
-    /**
-     * @var \org\bovigo\vfs\vfsStreamDirectory
-     */
-    private $vfs_root;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->vfs_root = vfsStream::setup();
-    }
 
     protected function serializeTextures($textures)
     {
@@ -311,6 +299,8 @@ class SkinlibControllerTest extends TestCase
 
     public function testShow()
     {
+        Storage::fake('textures');
+
         // Cannot find texture
         $this->get('/skinlib/show/1')
             ->assertSee(trans('skinlib.show.deleted'));
@@ -394,11 +384,10 @@ class SkinlibControllerTest extends TestCase
         Storage::fake('textures');
 
         // Some error occurred when uploading file
-        $file = vfsStream::newFile('test.png')
-            ->at($this->vfs_root);
+        $file = UploadedFile::fake()->image('test.png');
         $upload = new UploadedFile(
-            $file->url(),
-            $file->getName(),
+            $file->path(),
+            'test.png',
             'image/png',
             50,
             UPLOAD_ERR_NO_TMP_DIR,
