@@ -40,8 +40,9 @@ class MigratePlayersTable extends Command
      */
     public function handle()
     {
-        if (!Schema::hasColumn('players', 'tid_steve')) {
+        if (! Schema::hasColumn('players', 'tid_steve')) {
             $this->info('No need to update.');
+
             return;
         }
 
@@ -51,6 +52,7 @@ class MigratePlayersTable extends Command
         if ($count == 0) {
             $this->dropColumn();
             $this->info('No need to update.');
+
             return;
         }
 
