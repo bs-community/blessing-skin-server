@@ -2,8 +2,10 @@
 
 namespace App\Console\Commands;
 
+use Schema;
 use App\Models\Player;
 use Illuminate\Console\Command;
+use Illuminate\Database\Schema\Blueprint;
 
 class MigratePlayersTable extends Command
 {
@@ -38,12 +40,17 @@ class MigratePlayersTable extends Command
      */
     public function handle()
     {
+        if (!Schema::hasColumn('players', 'tid_steve')) {
+            $this->info('No need to update.');
+            return;
+        }
+
         $players = Player::where('tid_skin', -1)->get();
         $count = $players->count();
 
         if ($count == 0) {
+            $this->dropColumn();
             $this->info('No need to update.');
-
             return;
         }
 
@@ -58,8 +65,18 @@ class MigratePlayersTable extends Command
 
             $bar->advance();
         });
+
+        $this->dropColumn();
+
         $bar->finish();
 
         $this->info("\nCongratulations! We've updated $count rows.");
+    }
+
+    private function dropColumn()
+    {
+        Schema::table('players', function (Blueprint $table) {
+            $table->dropColumn(['tid_steve', 'tid_alex', 'preference']);
+        });
     }
 }

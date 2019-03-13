@@ -34,9 +34,6 @@ class CreateAllTables extends Migration
             $table->increments('pid');
             $table->integer('uid');
             $table->string('player_name', 50);
-            $table->string('preference', 10);
-            $table->integer('tid_steve')->default('0');
-            $table->integer('tid_alex')->default('0');
             $table->integer('tid_cape')->default('0');
             $table->dateTime('last_modified');
         });
