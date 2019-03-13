@@ -45,7 +45,7 @@ class HookTest extends TestCase
         $this->get('/')
             ->assertSee('fake-plugin-with-i18n/lang/en/locale.js');
 
-        File::deleteDirectory(config('plugins.directory').DIRECTORY_SEPARATOR.'plugins/fake-plugin-with-i18n');
+        File::deleteDirectory(config('plugins.directory').DIRECTORY_SEPARATOR.'fake-plugin-with-i18n');
     }
 
     public function testAddStyleFileToPage()

@@ -143,7 +143,7 @@ class PluginControllerTest extends TestCase
     {
         // Clean fake plugins
         File::deleteDirectory(config('plugins.directory').DIRECTORY_SEPARATOR.'fake-plugin-for-test');
-        File::deleteDirectory(config('plugins.directory').DIRECTORY_SEPARATOR.'plugins/fake-plugin-with-config-view');
+        File::deleteDirectory(config('plugins.directory').DIRECTORY_SEPARATOR.'fake-plugin-with-config-view');
 
         parent::tearDown();
     }

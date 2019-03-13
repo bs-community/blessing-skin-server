@@ -81,7 +81,7 @@ class MarketControllerTest extends TestCase
         ]);
         $this->assertTrue(is_dir(config('plugins.directory').DIRECTORY_SEPARATOR.'fake-test-download'));
         $this->assertTrue(
-            empty(glob(config('plugins.directory').DIRECTORY_SEPARATOR.'plugins/fake-test-download_*.zip'))
+            empty(glob(config('plugins.directory').DIRECTORY_SEPARATOR.'fake-test-download_*.zip'))
         );
 
         // Broken archive
@@ -170,7 +170,7 @@ class MarketControllerTest extends TestCase
                 ],
             ]);
 
-        File::deleteDirectory(base_path('plugins/'.$package['name']));
+        File::deleteDirectory(config('plugins.directory').DIRECTORY_SEPARATOR.$package['name']);
     }
 
     protected function tearDown(): void
