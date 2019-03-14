@@ -45,6 +45,7 @@ class ClosetController extends Controller
         // Pagination
         $items = $closet->get()->map(function ($t) {
             $t->name = $t->pivot->item_name;
+
             return $t;
         });
         $totalPages = ceil($items->count() / $perPage);
@@ -98,6 +99,7 @@ class ClosetController extends Controller
         }
 
         $user->closet()->updateExistingPivot($request->tid, ['item_name' => $request->new_name]);
+
         return json(trans('user.closet.rename.success', ['name' => $request->new_name]), 0);
     }
 

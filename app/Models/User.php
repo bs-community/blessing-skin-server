@@ -318,6 +318,7 @@ class User extends Authenticatable
     public function delete()
     {
         Player::where('uid', $this->uid)->delete();
+
         return parent::delete();
     }
 
