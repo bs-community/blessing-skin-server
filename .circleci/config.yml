@@ -81,8 +81,7 @@ jobs:
       - image: blessingskin/ci:release-tool
     steps:
       - run: git clone https://github.com/bs-community/release-tool.git .
-      - run: chmod +x ./release.sh
-      - run: ./release.sh
+      - run: sh ./release.sh
 
 workflows:
   version: 2
@@ -106,5 +105,7 @@ workflows:
             - php7.3
             - frontend
           filters:
+            branches:
+              ignore: /.*/
             tags:
               only: /^v\d+\.\d+\.\d+/
