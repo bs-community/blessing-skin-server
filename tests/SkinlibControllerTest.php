@@ -272,7 +272,7 @@ class SkinlibControllerTest extends TestCase
             ])
             ->decodeResponseJson('items');
         $this->assertTrue(collect($items)->every(function ($item) {
-            return ! $item['liked'];
+            return !$item['liked'];
         }));
 
         // A user has added a texture from skin library to his closet
@@ -281,7 +281,7 @@ class SkinlibControllerTest extends TestCase
         $this->getJson('/skinlib/data')
             ->assertJson([
                 'items' => [
-                    ['tid' => $texture->tid, 'liked' => true],
+                    ['tid' => $texture->tid, 'liked' => true]
                 ],
                 'current_uid' => $otherUser->uid,
                 'total_pages' => 2,
@@ -812,6 +812,8 @@ class SkinlibControllerTest extends TestCase
 
         // Without returning score
         option(['return_score' => false]);
+        $uploader->score += $texture->size * option('private_score_per_storage');
+        $uploader->save();
         $texture = factory(Texture::class)->create(['public' => 'false', 'uploader' => $uploader->uid]);
         $other = factory(User::class)->create();
         $other->closet()->attach($texture->tid, ['item_name' => 'a']);
