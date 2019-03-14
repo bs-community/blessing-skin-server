@@ -78,7 +78,7 @@ jobs:
   release:
     working_directory: ~/workspace
     docker:
-      - image: blessingskin/ci:release
+      - image: blessingskin/ci:release-tool
     steps:
       - run: git clone https://github.com/bs-community/release-tool.git .
       - run: chmod +x ./release.sh
@@ -107,4 +107,4 @@ workflows:
             - frontend
           filters:
             tags:
-              only: /^\d+\.\d+\.\d+/
+              only: /^v\d+\.\d+\.\d+/
