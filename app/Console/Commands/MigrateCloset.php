@@ -40,8 +40,9 @@ class MigrateCloset extends Command
      */
     public function handle()
     {
-        if (!Schema::hasTable('closets')) {
+        if (! Schema::hasTable('closets')) {
             $this->info('Nothing to do.');
+
             return;
         }
 

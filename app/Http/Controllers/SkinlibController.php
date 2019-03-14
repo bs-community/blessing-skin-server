@@ -211,6 +211,7 @@ class SkinlibController extends Controller
         $user->setScore($cost, 'minus');
 
         $user->closet()->attach($t->tid, ['item_name' => $t->name]);
+
         return json(trans('skinlib.upload.success', ['name' => $request->input('name')]), 0, [
             'tid' => $t->tid,
         ]);

@@ -272,7 +272,7 @@ class SkinlibControllerTest extends TestCase
             ])
             ->decodeResponseJson('items');
         $this->assertTrue(collect($items)->every(function ($item) {
-            return !$item['liked'];
+            return ! $item['liked'];
         }));
 
         // A user has added a texture from skin library to his closet
@@ -281,7 +281,7 @@ class SkinlibControllerTest extends TestCase
         $this->getJson('/skinlib/data')
             ->assertJson([
                 'items' => [
-                    ['tid' => $texture->tid, 'liked' => true]
+                    ['tid' => $texture->tid, 'liked' => true],
                 ],
                 'current_uid' => $otherUser->uid,
                 'total_pages' => 2,
