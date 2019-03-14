@@ -252,7 +252,7 @@ class SetupController extends Controller
         }
 
         $existingTables = [];
-        $tables = $tables ?: ['users', 'closets', 'players', 'textures', 'options'];
+        $tables = $tables ?: ['users', 'user_closet', 'players', 'textures', 'options'];
 
         foreach ($tables as $tableName) {
             // Table prefix will be added automatically

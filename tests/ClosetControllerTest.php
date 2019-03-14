@@ -3,7 +3,6 @@
 namespace Tests;
 
 use App\Models\User;
-use App\Models\Closet;
 use App\Models\Texture;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -31,18 +30,16 @@ class ClosetControllerTest extends TestCase
     public function testGetClosetData()
     {
         $textures = factory(Texture::class, 10)->create();
-        $closet = new Closet($this->user->uid);
-        $textures->each(function ($texture) use ($closet) {
-            $closet->add($texture->tid, $texture->name);
+        $textures->each(function ($t) {
+            $this->user->closet()->attach($t->tid, ['item_name' => $t->name]);
         });
-        $closet->save();
 
         // Use default query parameters
         $this->getJson('/user/closet-data')
             ->assertJsonStructure([
                 'category',
                 'total_pages',
-                'items' => [['tid', 'name', 'type', 'add_at']],
+                'items' => [['tid', 'name', 'type']],
             ]);
 
         // Responsive
@@ -55,8 +52,7 @@ class ClosetControllerTest extends TestCase
 
         // Get capes
         $cape = factory(Texture::class, 'cape')->create();
-        $closet->add($cape->tid, 'custom_name');
-        $closet->save();
+        $this->user->closet()->attach($cape->tid, ['item_name' => 'custom_name']);
         $this->getJson('/user/closet-data?category=cape')
             ->assertJson([
                 'category' => 'cape',
@@ -65,7 +61,6 @@ class ClosetControllerTest extends TestCase
                     'tid' => $cape->tid,
                     'name' => 'custom_name',
                     'type' => 'cape',
-                    'add_at' => $closet->get($cape->tid)['add_at'],
                 ]],
             ]);
 
@@ -79,7 +74,6 @@ class ClosetControllerTest extends TestCase
                     'tid' => $random->tid,
                     'name' => $random->name,
                     'type' => $random->type,
-                    'add_at' => $closet->get($random->tid)['add_at'],
                 ]],
             ]);
     }
@@ -87,6 +81,7 @@ class ClosetControllerTest extends TestCase
     public function testAdd()
     {
         $texture = factory(Texture::class)->create();
+        $likes = $texture->likes;
         $name = 'my';
         option(['score_per_closet_item' => 10]);
 
@@ -152,11 +147,10 @@ class ClosetControllerTest extends TestCase
             'errno' => 0,
             'msg' => trans('user.closet.add.success', ['name' => $name]),
         ]);
-        $this->assertEquals($texture->likes + 1, Texture::find($texture->tid)->likes);
+        $this->assertEquals($likes + 1, Texture::find($texture->tid)->likes);
         $this->user = User::find($this->user->uid);
         $this->assertEquals(90, $this->user->score);
-        $closet = new Closet($this->user->uid);
-        $this->assertTrue($closet->has($texture->tid));
+        $this->assertEquals(1, $this->user->closet()->count());
 
         // If the texture is duplicated, should be warned
         $this->postJson(
@@ -217,10 +211,7 @@ class ClosetControllerTest extends TestCase
         ]);
 
         // Rename a closet item successfully
-        $closet = new Closet($this->user->uid);
-        $closet->add($texture->tid, 'name');
-        $closet->save();
-        $closet = new Closet($this->user->uid);
+        $this->user->closet()->attach($texture->tid, ['item_name' => 'name']);
         $this->postJson(
             '/user/closet/rename',
             ['tid' => $texture->tid, 'new_name' => $name]
@@ -228,14 +219,13 @@ class ClosetControllerTest extends TestCase
             'errno' => 0,
             'msg' => trans('user.closet.rename.success', ['name' => 'new']),
         ]);
-        $closet->save();
-        $closet = new Closet($this->user->uid);
-        $this->assertFalse(collect($closet->getItems())->where('name', 'new')->isEmpty());
+        $this->assertEquals(1, $this->user->closet()->where('item_name', 'new')->count());
     }
 
     public function testRemove()
     {
         $texture = factory(Texture::class)->create();
+        $likes = $texture->likes;
 
         // Missing `tid` field
         $this->postJson('/user/closet/remove')
@@ -263,9 +253,7 @@ class ClosetControllerTest extends TestCase
         ]);
 
         // Should return score if `return_score` is true
-        $closet = new Closet($this->user->uid);
-        $closet->add($texture->tid, 'name');
-        $closet->save();
+        $this->user->closet()->attach($texture->tid, ['item_name' => 'name']);
         $score = $this->user->score;
         $this->postJson(
             '/user/closet/remove',
@@ -274,17 +262,15 @@ class ClosetControllerTest extends TestCase
             'errno' => 0,
             'msg' => trans('user.closet.remove.success'),
         ]);
-        $closet = new Closet($this->user->uid);
-        $this->assertEquals($texture->likes - 1, Texture::find($texture->tid)->likes);
+        $this->assertEquals($likes, Texture::find($texture->tid)->likes);
         $this->assertEquals($score + option('score_per_closet_item'), $this->user->score);
-        $this->assertFalse($closet->has($texture->tid));
+        $this->assertEquals(0, $this->user->closet()->count());
 
         $texture = Texture::find($texture->tid);
+        $likes = $texture->likes;
         // Should not return score if `return_score` is false
         option(['return_score' => false]);
-        $closet = new Closet($this->user->uid);
-        $closet->add($texture->tid, 'name');
-        $closet->save();
+        $this->user->closet()->attach($texture->tid, ['item_name' => 'name']);
         $score = $this->user->score;
         $this->postJson(
             '/user/closet/remove',
@@ -293,9 +279,8 @@ class ClosetControllerTest extends TestCase
             'errno' => 0,
             'msg' => trans('user.closet.remove.success'),
         ]);
-        $closet = new Closet($this->user->uid);
-        $this->assertEquals($texture->likes - 1, Texture::find($texture->tid)->likes);
+        $this->assertEquals($likes, Texture::find($texture->tid)->likes);
         $this->assertEquals($score, $this->user->score);
-        $this->assertFalse($closet->has($texture->tid));
+        $this->assertEquals(0, $this->user->closet()->count());
     }
 }

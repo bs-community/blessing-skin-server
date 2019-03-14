@@ -5,29 +5,12 @@ namespace App\Http\Controllers;
 use View;
 use Option;
 use App\Models\User;
-use App\Models\Closet;
 use App\Models\Texture;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ClosetController extends Controller
 {
-    /**
-     * Instance of Closet.
-     *
-     * @var \App\Models\Closet
-     */
-    private $closet;
-
-    public function __construct()
-    {
-        $this->middleware(function ($request, $next) {
-            $this->closet = new Closet(Auth::id());
-
-            return $next($request);
-        });
-    }
-
     public function index()
     {
         return view('user.closet')->with('user', Auth::user());
@@ -37,29 +20,39 @@ class ClosetController extends Controller
     {
         $category = $request->input('category', 'skin');
         $page = abs($request->input('page', 1));
-        $per_page = (int) $request->input('perPage', 6);
+        $perPage = (int) $request->input('perPage', 6);
         $q = $request->input('q', null);
 
-        $per_page = $per_page > 0 ? $per_page : 6;
+        $perPage = $perPage > 0 ? $perPage : 6;
 
-        $items = collect();
+        $user = auth()->user();
+        $closet = $user->closet();
 
-        if ($q) {
-            // Do search
-            $items = $this->closet->getItems($category)->filter(function ($item) use ($q) {
-                return stristr($item['name'], $q);
-            });
+        if ($category == 'cape') {
+            $closet = $closet->where('type', 'cape');
         } else {
-            $items = $this->closet->getItems($category);
+            $closet = $closet->where(function ($query) {
+                return $query->where('type', 'steve')->orWhere('type', 'alex');
+            });
         }
 
+        if ($q) {
+            $closet = $closet->where('item_name', 'like', "%$q%");
+        }
+
+        $closet->offset(($page - 1) * $perPage)->limit($perPage);
+
         // Pagination
-        $total_pages = ceil($items->count() / $per_page);
+        $items = $closet->get()->map(function ($t) {
+            $t->name = $t->pivot->item_name;
+            return $t;
+        });
+        $totalPages = ceil($items->count() / $perPage);
 
         return response()->json([
             'category'    => $category,
-            'items'       => $items->forPage($page, $per_page)->values(),
-            'total_pages' => $total_pages,
+            'items'       => $items,
+            'total_pages' => $totalPages,
         ]);
     }
 
@@ -70,9 +63,9 @@ class ClosetController extends Controller
             'name' => 'required|no_special_chars',
         ]);
 
-        $currentUser = Auth::user();
+        $user = Auth::user();
 
-        if ($currentUser->getScore() < option('score_per_closet_item')) {
+        if ($user->getScore() < option('score_per_closet_item')) {
             return json(trans('user.closet.add.lack-score'), 7);
         }
 
@@ -81,19 +74,14 @@ class ClosetController extends Controller
             return json(trans('user.closet.add.not-found'), 1);
         }
 
-        if ($this->closet->add($tid, $request->name)) {
-            $t = Texture::find($tid);
-            $t->likes += 1;
-            $t->save();
-
-            $this->closet->save();
-
-            $currentUser->setScore(option('score_per_closet_item'), 'minus');
-
-            return json(trans('user.closet.add.success', ['name' => $request->input('name')]), 0);
-        } else {
+        if ($user->closet()->where('tid', $request->tid)->count() > 0) {
             return json(trans('user.closet.add.repeated'), 1);
         }
+
+        $user->closet()->attach($tid, ['item_name' => $request->name]);
+        $user->setScore(option('score_per_closet_item'), 'minus');
+
+        return json(trans('user.closet.add.success', ['name' => $request->input('name')]), 0);
     }
 
     public function rename(Request $request)
@@ -103,35 +91,34 @@ class ClosetController extends Controller
             'new_name' => 'required|no_special_chars',
         ]);
 
-        if ($this->closet->rename($request->tid, $request->new_name)) {
-            $this->closet->save();
+        $user = auth()->user();
 
-            return json(trans('user.closet.rename.success', ['name' => $request->new_name]), 0);
-        } else {
+        if ($user->closet()->where('tid', $request->tid)->count() == 0) {
             return json(trans('user.closet.remove.non-existent'), 1);
         }
+
+        $user->closet()->updateExistingPivot($request->tid, ['item_name' => $request->new_name]);
+        return json(trans('user.closet.rename.success', ['name' => $request->new_name]), 0);
     }
 
     public function remove(Request $request)
     {
         $this->validate($request, [
-            'tid'  => 'required|integer',
+            'tid' => 'required|integer',
         ]);
 
-        if ($this->closet->remove($request->tid)) {
-            $t = Texture::find($request->tid);
-            $t->likes = $t->likes - 1;
-            $t->save();
+        $user = auth()->user();
 
-            $this->closet->save();
-
-            if (option('return_score')) {
-                Auth::user()->setScore(option('score_per_closet_item'), 'plus');
-            }
-
-            return json(trans('user.closet.remove.success'), 0);
-        } else {
+        if ($user->closet()->where('tid', $request->tid)->count() == 0) {
             return json(trans('user.closet.remove.non-existent'), 1);
         }
+
+        $user->closet()->detach($request->tid);
+
+        if (option('return_score')) {
+            $user->setScore(option('score_per_closet_item'), 'plus');
+        }
+
+        return json(trans('user.closet.remove.success'), 0);
     }
 }

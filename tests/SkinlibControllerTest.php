@@ -3,7 +3,6 @@
 namespace Tests;
 
 use App\Models\User;
-use App\Models\Closet;
 use App\Models\Player;
 use App\Models\Texture;
 use Illuminate\Support\Str;
@@ -14,25 +13,6 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 class SkinlibControllerTest extends TestCase
 {
     use DatabaseTransactions;
-
-    protected function serializeTextures($textures)
-    {
-        return $textures
-            ->map(function ($texture) {
-                return [
-                    'tid' => $texture->tid,
-                    'name' => $texture->name,
-                    'type' => $texture->type,
-                    'likes' => $texture->likes,
-                    'hash' => $texture->hash,
-                    'size' => $texture->size,
-                    'uploader' => $texture->uploader,
-                    'public' => $texture->public,
-                    'upload_at' => $texture->upload_at->format('Y-m-d H:i:s'),
-                ];
-            })
-            ->all();
-    }
 
     public function testIndex()
     {
@@ -54,26 +34,28 @@ class SkinlibControllerTest extends TestCase
         $capes = factory(Texture::class, 'cape')->times(5)->create();
 
         // Default arguments
-        $expected = $skins
-            ->sortByDesc('upload_at')
-            ->values();     // WTF! DO NOT FORGET IT!!
-        $this->getJson('/skinlib/data')
+        $items = $this->getJson('/skinlib/data')
             ->assertJson([
-                'items' => $this->serializeTextures($expected),
                 'current_uid' => 0,
                 'total_pages' => 1,
-            ]);
+            ])
+            ->decodeResponseJson('items');
+        $this->assertCount(10, $items);
+        $this->assertTrue(collect($items)->every(function ($item) {
+            return $item['type'] == 'steve' || $item['type'] == 'alex';
+        }));
 
         // Only steve
-        $expected = $steves
-            ->sortByDesc('upload_at')
-            ->values();
-        $this->getJson('/skinlib/data?filter=steve')
+        $items = $this->getJson('/skinlib/data?filter=steve')
             ->assertJson([
-                'items' => $this->serializeTextures($expected),
                 'current_uid' => 0,
                 'total_pages' => 1,
-            ]);
+            ])
+            ->decodeResponseJson('items');
+        $this->assertCount(5, $items);
+        $this->assertTrue(collect($items)->every(function ($item) {
+            return $item['type'] == 'steve';
+        }));
 
         // Invalid type
         $this->getJson('/skinlib/data?filter=what')
@@ -84,70 +66,87 @@ class SkinlibControllerTest extends TestCase
             ]);
 
         // Only capes
-        $expected = $capes
-            ->sortByDesc('upload_at')
-            ->values();
-        $this->getJson('/skinlib/data?filter=cape')
+        $items = $this->getJson('/skinlib/data?filter=cape')
             ->assertJson([
-                'items' => $this->serializeTextures($expected),
                 'current_uid' => 0,
                 'total_pages' => 1,
-            ]);
+            ])
+            ->decodeResponseJson('items');
+        $this->assertCount(5, $items);
+        $this->assertTrue(collect($items)->every(function ($item) {
+            return $item['type'] == 'cape';
+        }));
 
         // Only specified uploader
         $uid = $skins->random()->uploader;
-        $expected = $skins
+        $owned = $skins
             ->filter(function ($texture) use ($uid) {
                 return $texture->uploader == $uid;
-            })
-            ->sortByDesc('upload_at')
-            ->values();
-        $this->getJson('/skinlib/data?uploader='.$uid)
+            });
+        $items = $this->getJson('/skinlib/data?uploader='.$uid)
             ->assertJson([
-                'items' => $this->serializeTextures($expected),
                 'current_uid' => 0,
                 'total_pages' => 1,
-            ]);
+            ])
+            ->decodeResponseJson('items');
+        $this->assertCount($owned->count(), $items);
+        $this->assertTrue(collect($items)->every(function ($item) use ($uid) {
+            return $item['uploader'] == $uid;
+        }));
 
         // Sort by `tid`
-        $this->getJson('/skinlib/data?sort=tid')
+        $ordered = $skins->sortByDesc('tid')->map(function ($skin) {
+            return $skin->tid;
+        })->values();
+        $items = $this->getJson('/skinlib/data?sort=tid')
             ->assertJson([
-                'items' => $this->serializeTextures($skins->sortByDesc('tid')->values()),
                 'current_uid' => 0,
                 'total_pages' => 1,
-            ]);
+            ])
+            ->decodeResponseJson('items');
+        $items = array_map(function ($item) {
+            return $item['tid'];
+        }, $items);
+        $this->assertArraySubset($ordered, $items);
 
         // Search
         $keyword = Str::limit($skins->random()->name, 1, '');
-        $expected = $skins
+        $keyworded = $skins
             ->filter(function ($texture) use ($keyword) {
                 return Str::contains($texture->name, $keyword) ||
                     Str::contains($texture->name, strtolower($keyword));
-            })
-            ->sortByDesc('upload_at')
-            ->values();
-        $this->getJson('/skinlib/data?keyword='.$keyword)
+            });
+        $items = $this->getJson('/skinlib/data?keyword='.$keyword)
             ->assertJson([
-                'items' => $this->serializeTextures($expected),
                 'current_uid' => 0,
                 'total_pages' => 1,
-            ]);
+            ])
+            ->decodeResponseJson('items');
+        $this->assertCount($keyworded->count(), $items);
 
         // More than one argument
         $keyword = Str::limit($skins->random()->name, 1, '');
-        $expected = $skins
+        $filtered = $skins
             ->filter(function ($texture) use ($keyword) {
                 return Str::contains($texture->name, $keyword) ||
                     Str::contains($texture->name, strtolower($keyword));
             })
-            ->sortByDesc('likes')
+            ->sortByDesc('size')
+            ->map(function ($skin) {
+                return $skin->tid;
+            })
             ->values();
-        $this->getJson('/skinlib/data?sort=likes&keyword='.$keyword)
+        $items = $this->getJson('/skinlib/data?sort=size&keyword='.$keyword)
             ->assertJson([
-                'items' => $this->serializeTextures($expected),
                 'current_uid' => 0,
                 'total_pages' => 1,
-            ]);
+            ])
+            ->decodeResponseJson('items');
+        $items = array_map(function ($item) {
+            return $item['tid'];
+        }, $items);
+        $this->assertCount($filtered->count(), $items);
+        $this->assertArraySubset($filtered, $items);
 
         // Pagination
         $steves = factory(Texture::class)
@@ -155,58 +154,88 @@ class SkinlibControllerTest extends TestCase
             ->create()
             ->merge($steves);
         $skins = $steves->merge($alexs);
-        $expected = $skins
+        $page1 = $skins
             ->sortByDesc('upload_at')
             ->values()
+            ->map(function ($skin) {
+                return $skin->tid;
+            })
             ->forPage(1, 20);
-        $expected = $this->serializeTextures($expected);
-        $this->getJson('/skinlib/data')
+        $items = $this->getJson('/skinlib/data')
             ->assertJson([
-                'items' => $expected,
                 'current_uid' => 0,
                 'total_pages' => 2,
-            ]);
-        $this->getJson('/skinlib/data?page=-5')
+            ])
+            ->decodeResponseJson('items');
+        $items = array_map(function ($item) {
+            return $item['tid'];
+        }, $items);
+        $this->assertCount(20, $items);
+        $this->assertArraySubset($page1, $items);
+        $items = $this->getJson('/skinlib/data?page=-5')
             ->assertJson([
-                'items' => $expected,
                 'current_uid' => 0,
                 'total_pages' => 2,
-            ]);
-        $expected = $skins
+            ])
+            ->decodeResponseJson('items');
+        $items = array_map(function ($item) {
+            return $item['tid'];
+        }, $items);
+        $this->assertCount(20, $items);
+        $this->assertArraySubset($page1, $items);
+        $page2 = $skins
             ->sortByDesc('upload_at')
-            ->values()
+            ->map(function ($skin) {
+                return $skin->tid;
+            })
             ->forPage(2, 20)
             ->values();
-        $expected = $this->serializeTextures($expected);
-        $this->getJson('/skinlib/data?page=2')
+        $items = $this->getJson('/skinlib/data?page=2')
             ->assertJson([
-                'items' => $expected,
                 'current_uid' => 0,
                 'total_pages' => 2,
-            ]);
+            ])
+            ->decodeResponseJson('items');
+        $items = array_map(function ($item) {
+            return $item['tid'];
+        }, $items);
+        $this->assertCount(5, $items);
+        $this->assertArraySubset($page2, $items);
         $this->getJson('/skinlib/data?page=8')
             ->assertJson([
                 'items' => [],
                 'current_uid' => 0,
                 'total_pages' => 2,
             ]);
-        $this->getJson('/skinlib/data?items_per_page=-6&page=2')
+        $items = $this->getJson('/skinlib/data?items_per_page=-6&page=2')
             ->assertJson([
-                'items' => $expected,
                 'current_uid' => 0,
                 'total_pages' => 2,
-            ]);
-        $expected = $skins
+            ])
+            ->decodeResponseJson('items');
+        $items = array_map(function ($item) {
+            return $item['tid'];
+        }, $items);
+        $this->assertCount($page2->count(), $items);
+        $this->assertArraySubset($page2, $items);
+        $page3 = $skins
             ->sortByDesc('upload_at')
-            ->values()
+            ->map(function ($skin) {
+                return $skin->tid;
+            })
             ->forPage(3, 8)
             ->values();
-        $this->getJson('/skinlib/data?page=3&items_per_page=8')
+        $items = $this->getJson('/skinlib/data?page=3&items_per_page=8')
             ->assertJson([
-                'items' => $this->serializeTextures($expected),
                 'current_uid' => 0,
                 'total_pages' => 4,
-            ]);
+            ])
+            ->decodeResponseJson('items');
+        $items = array_map(function ($item) {
+            return $item['tid'];
+        }, $items);
+        $this->assertCount($page3->count(), $items);
+        $this->assertArraySubset($page3, $items);
 
         // Add some private textures
         $uploader = factory(User::class)->create();
@@ -216,85 +245,82 @@ class SkinlibControllerTest extends TestCase
             ->create(['public' => false, 'uploader' => $uploader->uid]);
 
         // If not logged in, private textures should not be shown
-        $expected = $skins
+        $paged = $skins
             ->sortByDesc('upload_at')
+            ->map(function ($skin) {
+                return $skin->tid;
+            })
             ->values()
             ->forPage(1, 20);
-        $expected = $this->serializeTextures($expected);
-        $this->getJson('/skinlib/data')
+        $items = $this->getJson('/skinlib/data')
             ->assertJson([
-                'items' => $expected,
                 'current_uid' => 0,
                 'total_pages' => 2,
-            ]);
+            ])
+            ->decodeResponseJson('items');
+        $items = array_map(function ($item) {
+            return $item['tid'];
+        }, $items);
+        $this->assertArraySubset($paged, $items);
 
         // Other users should not see someone's private textures
-        for ($i = 0, $length = count($expected); $i < $length; $i++) {
-            $expected[$i]['liked'] = false;
-        }
-        $this->actAs($otherUser)
+        $items = $this->actAs($otherUser)
             ->getJson('/skinlib/data')
             ->assertJson([
-                'items' => $expected,
                 'current_uid' => $otherUser->uid,
                 'total_pages' => 2,
-            ]);
+            ])
+            ->decodeResponseJson('items');
+        $this->assertTrue(collect($items)->every(function ($item) {
+            return !$item['liked'];
+        }));
 
         // A user has added a texture from skin library to his closet
-        $texture = $skins
-            ->sortByDesc('upload_at')
-            ->values()
-            ->first();
-        $closet = new Closet($otherUser->uid);
-        $closet->add($texture->tid, $texture->name);
-        $closet->save();
-        for ($i = 0, $length = count($expected); $i < $length; $i++) {
-            if ($expected[$i]['tid'] == $texture->tid) {
-                $expected[$i]['liked'] = true;
-            } else {
-                $expected[$i]['liked'] = false;
-            }
-        }
+        $texture = $skins->sortByDesc('upload_at')->values()->first();
+        $otherUser->closet()->attach($texture->tid, ['item_name' => $texture->name]);
         $this->getJson('/skinlib/data')
             ->assertJson([
-                'items' => $expected,
+                'items' => [
+                    ['tid' => $texture->tid, 'liked' => true]
+                ],
                 'current_uid' => $otherUser->uid,
                 'total_pages' => 2,
             ]);
 
         // Uploader can see his private textures
-        $expected = $skins
+        $withPrivate = $skins
             ->merge($private)
             ->sortByDesc('upload_at')
+            ->map(function ($skin) {
+                return $skin->tid;
+            })
             ->values()
             ->forPage(1, 20);
-        $expected = $this->serializeTextures($expected);
-        for ($i = 0, $length = count($expected); $i < $length; $i++) {
-            // The reason we use `false` here is that some textures just were
-            // uploaded by this user, but these textures are not in his closet.
-            // By default(not in testing like now), when you uploaded a texture,
-            // that texture will be added to your closet.
-            // So here, we can assume that a user upload some textures, but he
-            // has deleted them from his closet.
-            $expected[$i]['liked'] = false;
-        }
-        $this->actAs($uploader)
+        $items = $this->actAs($uploader)
             ->getJson('/skinlib/data')
             ->assertJson([
-                'items' => $expected,
                 'current_uid' => $uploader->uid,
                 'total_pages' => 2,
-            ]);
+            ])
+            ->decodeResponseJson('items');
+        $items = array_map(function ($item) {
+            return $item['tid'];
+        }, $items);
+        $this->assertArraySubset($withPrivate, $items);
 
         // Administrators can see private textures
         $admin = factory(User::class, 'admin')->create();
-        $this->actAs($admin)
+        $items = $this->actAs($admin)
             ->getJson('/skinlib/data')
             ->assertJson([
-                'items' => $expected,
                 'current_uid' => $admin->uid,
                 'total_pages' => 2,
-            ]);
+            ])
+            ->decodeResponseJson('items');
+        $items = array_map(function ($item) {
+            return $item['tid'];
+        }, $items);
+        $this->assertArraySubset($withPrivate, $items);
     }
 
     public function testShow()
@@ -769,6 +795,8 @@ class SkinlibControllerTest extends TestCase
         $uploader->score += $texture->size * option('private_score_per_storage');
         $uploader->save();
         $player = factory(Player::class)->create(['tid_skin' => $texture->tid]);
+        $other = factory(User::class)->create();
+        $other->closet()->attach($texture->tid, ['item_name' => 'a']);
         $this->postJson('/skinlib/privacy', ['tid' => $texture->tid])
             ->assertJson([
                 'errno' => 0,
@@ -776,6 +804,26 @@ class SkinlibControllerTest extends TestCase
                 'public' => false,
             ]);
         $this->assertEquals(0, Player::find($player->pid)->tid_skin);
+        $this->assertEquals(0, $other->closet()->count());
+        $this->assertEquals(
+            $other->score + option('score_per_closet_item'),
+            User::find($other->uid)->score
+        );
+
+        // Without returning score
+        option(['return_score' => false]);
+        $texture = factory(Texture::class)->create(['public' => 'false', 'uploader' => $uploader->uid]);
+        $other = factory(User::class)->create();
+        $other->closet()->attach($texture->tid, ['item_name' => 'a']);
+        $this->postJson('/skinlib/privacy', ['tid' => $texture->tid])
+            ->assertJson([
+                'errno' => 0,
+                'public' => false,
+            ]);
+        $this->assertEquals(
+            $other->score,
+            User::find($other->uid)->score
+        );
     }
 
     public function testRename()

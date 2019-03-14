@@ -25,11 +25,6 @@ class CreateAllTables extends Migration
             $table->dateTime('register_at');
         });
 
-        Schema::create('closets', function (Blueprint $table) {
-            $table->increments('uid');
-            $table->longText('textures');
-        });
-
         Schema::create('players', function (Blueprint $table) {
             $table->increments('pid');
             $table->integer('uid');
@@ -42,7 +37,6 @@ class CreateAllTables extends Migration
             $table->increments('tid');
             $table->string('name', 50);
             $table->string('type', 10);
-            $table->integer('likes');
             $table->string('hash', 64);
             $table->integer('size');
             $table->integer('uploader');
@@ -65,7 +59,6 @@ class CreateAllTables extends Migration
     public function down()
     {
         Schema::drop('users');
-        Schema::drop('closets');
         Schema::drop('players');
         Schema::drop('textures');
         Schema::drop('options');

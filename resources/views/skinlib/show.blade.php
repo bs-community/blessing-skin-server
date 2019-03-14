@@ -47,7 +47,7 @@ Object.defineProperty(blessing, 'extra', {
         download: {{ option('allow_downloading_texture') ? 'true' : 'false' }},
         currentUid: {{ is_null($user) ? '0' : $user->uid }},
         admin: {{ $user && $user->isAdmin() ? 'true' : 'false' }},
-        inCloset: {{ $user && $user->getCloset()->has($texture->tid) ? 'true' : 'false' }},
+        inCloset: {{ $user && $user->closet()->where('tid', $texture->tid)->count() > 0 ? 'true' : 'false' }},
         nickname: @php echo ($up = app('users')->get($texture->uploader)) ? '"'.$up->nickname.'"' : 'null' @endphp
     })
 })

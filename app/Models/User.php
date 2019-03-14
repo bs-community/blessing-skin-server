@@ -19,12 +19,6 @@ class User extends Authenticatable
     const SUPER_ADMIN = 2;
 
     /**
-     * Instance of Closet.
-     * @var \App\Models\Closet
-     */
-    protected $closet;
-
-    /**
      * Properties for Eloquent Model.
      */
     public $primaryKey = 'uid';
@@ -61,18 +55,9 @@ class User extends Authenticatable
         return $this->permission >= static::ADMIN;
     }
 
-    /**
-     * Get closet instance.
-     *
-     * @return \App\Models\Closet
-     */
-    public function getCloset()
+    public function closet()
     {
-        if (! $this->closet) {
-            $this->closet = new Closet($this->uid);
-        }
-
-        return $this->closet;
+        return $this->belongsToMany(Texture::class, 'user_closet')->withPivot('item_name');
     }
 
     /**
@@ -332,11 +317,7 @@ class User extends Authenticatable
      */
     public function delete()
     {
-        // Delete the players he owned
         Player::where('uid', $this->uid)->delete();
-        // Delete his closet
-        DB::table('closets')->where('uid', $this->uid)->delete();
-
         return parent::delete();
     }
 

@@ -7,7 +7,6 @@ use Option;
 use Session;
 use Storage;
 use App\Models\User;
-use App\Models\Closet;
 use App\Models\Player;
 use App\Models\Texture;
 use Illuminate\Http\Request;
@@ -48,7 +47,7 @@ class SkinlibController extends Controller
      */
     public function getSkinlibFiltered(Request $request)
     {
-        $currentUser = Auth::user();
+        $user = Auth::user();
 
         // Available filters: skin, steve, alex, cape
         $filter = $request->input('filter', 'skin');
@@ -74,7 +73,7 @@ class SkinlibController extends Controller
         if ($filter == 'skin') {
             $query = Texture::where(function ($innerQuery) {
                 // Nested condition, DO NOT MODIFY
-                $innerQuery->where('type', '=', 'steve')->orWhere('type', '=', 'alex');
+                $innerQuery->where('type', 'steve')->orWhere('type', 'alex');
             });
         } else {
             $query = Texture::where('type', $filter);
@@ -88,14 +87,14 @@ class SkinlibController extends Controller
             $query = $query->where('uploader', $uploader);
         }
 
-        if (! $currentUser) {
+        if (! $user) {
             // Show public textures only to anonymous visitors
             $query = $query->where('public', true);
         } else {
             // Show private textures when show uploaded textures of current user
-            if ($uploader != $currentUser->uid && ! $currentUser->isAdmin()) {
-                $query = $query->where(function ($innerQuery) use ($currentUser) {
-                    $innerQuery->where('public', true)->orWhere('uploader', '=', $currentUser->uid);
+            if ($uploader != $user->uid && ! $user->isAdmin()) {
+                $query = $query->where(function ($innerQuery) use ($user) {
+                    $innerQuery->where('public', true)->orWhere('uploader', '=', $user->uid);
                 });
             }
         }
@@ -107,16 +106,16 @@ class SkinlibController extends Controller
                             ->take($itemsPerPage)
                             ->get();
 
-        if ($currentUser) {
-            $closet = new Closet($currentUser->uid);
+        if ($user) {
+            $closet = $user->closet()->get();
             foreach ($textures as $item) {
-                $item->liked = $closet->has($item->tid);
+                $item->liked = $closet->contains('tid', $item->tid);
             }
         }
 
         return response()->json([
             'items'       => $textures,
-            'current_uid' => $currentUser ? $currentUser->uid : 0,
+            'current_uid' => $user ? $user->uid : 0,
             'total_pages' => $totalPages,
         ]);
     }
@@ -152,7 +151,7 @@ class SkinlibController extends Controller
     public function info($tid)
     {
         if ($t = Texture::find($tid)) {
-            return json($t->toArray());
+            return json(array_merge($t->toArray(), ['likes' => $t->likes]));
         } else {
             return json([]);
         }
@@ -176,7 +175,6 @@ class SkinlibController extends Controller
         $t = new Texture();
         $t->name = $request->input('name');
         $t->type = $request->input('type');
-        $t->likes = 1;
         $t->hash = bs_hash_file($request->file('file'));
         $t->size = ceil($request->file('file')->getSize() / 1024);
         $t->public = $request->input('public') == 'true';
@@ -212,11 +210,10 @@ class SkinlibController extends Controller
 
         $user->setScore($cost, 'minus');
 
-        if ($user->getCloset()->add($t->tid, $t->name)) {
-            return json(trans('skinlib.upload.success', ['name' => $request->input('name')]), 0, [
-                'tid'   => $t->tid,
-            ]);
-        }
+        $user->closet()->attach($t->tid, ['item_name' => $t->name]);
+        return json(trans('skinlib.upload.success', ['name' => $request->input('name')]), 0, [
+            'tid' => $t->tid,
+        ]);
     }
 
     // @codeCoverageIgnore
@@ -281,10 +278,14 @@ class SkinlibController extends Controller
         $type = $t->type == 'cape' ? 'cape' : 'skin';
         Player::where("tid_$type", $t->tid)
             ->where('uid', '<>', session('uid'))
-            ->get()
-            ->each(function ($player) use ($type) {
-                $player->setTexture(["tid_$type" => 0]);
-            });
+            ->update(["tid_$type" => 0]);
+
+        $t->likers()->get()->each(function ($user) use ($t) {
+            $user->closet()->detach($t->tid);
+            if (option('return_score')) {
+                $user->setScore(option('score_per_closet_item'), 'plus');
+            }
+        });
 
         @$users->get($t->uploader)->setScore($score_diff, 'plus');
 

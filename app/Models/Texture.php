@@ -16,14 +16,23 @@ class Texture extends Model
      */
     protected $casts = [
         'tid' => 'integer',
-        'likes' => 'integer',
         'size' => 'integer',
         'uploader' => 'integer',
         'public' => 'boolean',
     ];
 
+    public function getLikesAttribute()
+    {
+        return $this->likers()->count();
+    }
+
     public function scopeLike($query, $field, $value)
     {
         return $query->where($field, 'LIKE', "%$value%");
+    }
+
+    public function likers()
+    {
+        return $this->belongsToMany(User::class, 'user_closet')->withPivot('item_name');
     }
 }

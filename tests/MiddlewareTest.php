@@ -109,7 +109,7 @@ class MiddlewareTest extends TestCase
         $this->get('/setup')->assertSee('Already installed');
 
         $tables = [
-            'closets', 'migrations', 'options', 'players', 'textures', 'users',
+            'user_closet', 'migrations', 'options', 'players', 'textures', 'users',
         ];
         array_walk($tables, function ($table) {
             Schema::dropIfExists($table);
