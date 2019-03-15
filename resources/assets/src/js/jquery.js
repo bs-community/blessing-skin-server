@@ -1,3 +1,4 @@
-import $ from 'jquery';
+import $ from 'jquery'
 
-window.$ = window.jQuery = $;
+// eslint-disable-next-line no-multi-assign
+window.$ = window.jQuery = $

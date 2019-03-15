@@ -1,5 +1,5 @@
 export default {
-    success() {},
-    warning() {},
-    info() {},
-};
+  success() {},
+  warning() {},
+  info() {},
+}

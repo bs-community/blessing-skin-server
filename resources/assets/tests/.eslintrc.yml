@@ -1,0 +1,6 @@
+env:
+  jest: true
+
+rules:
+  no-empty-function: 0
+  func-names: 0

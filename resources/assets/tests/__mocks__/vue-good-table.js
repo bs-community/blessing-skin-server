@@ -1,3 +1,3 @@
-import VueGoodTable from './vgt.vue';
+import VueGoodTable from './vgt.vue'
 
-export { VueGoodTable };
+export { VueGoodTable }

@@ -1,7 +1,8 @@
-import $ from 'jquery';
-import Swal from 'sweetalert2';
-import toastr from 'toastr';
-import { trans } from './i18n';
+/* eslint-disable max-params */
+import $ from 'jquery'
+import Swal from 'sweetalert2'
+import toastr from 'toastr'
+import { trans } from './i18n'
 
 /**
  * Show message to div#msg with level
@@ -11,11 +12,11 @@ import { trans } from './i18n';
  * @return {void}
  */
 export function showMsg(msg, type = 'info') {
-    $('#msg')
-        .removeClass()
-        .addClass('callout')
-        .addClass(`callout-${type}`)
-        .html(msg);
+  $('#msg')
+    .removeClass()
+    .addClass('callout')
+    .addClass(`callout-${type}`)
+    .html(msg)
 }
 
 /**
@@ -25,7 +26,7 @@ export function showMsg(msg, type = 'info') {
  * @return {void}
  */
 export function showAjaxError(error) {
-    showModal(error.message.replace(/\n/g, '<br>'), trans('general.fatalError'), 'danger');
+  showModal(error.message.replace(/\n/g, '<br>'), trans('general.fatalError'), 'danger')
 }
 
 /**
@@ -38,12 +39,12 @@ export function showAjaxError(error) {
  * @return {void}
  */
 export function showModal(msg, title = 'Message', type = 'default', options = {}) {
-    const btnType = (type !== 'default') ? 'btn-outline' : 'btn-primary';
-    const btnText = options.btnText || 'OK';
-    const onClick = (options.callback === undefined) ? 'data-dismiss="modal"' : `onclick="${options.callback}"`;
-    const destroyOnClose = (options.destroyOnClose === false) ? false : true;
+  const btnType = type === 'default' ? 'btn-primary' : 'btn-outline'
+  const btnText = options.btnText || 'OK'
+  const onClick = options.callback === undefined ? 'data-dismiss="modal"' : `onclick="${options.callback}"`
+  const destroyOnClose = options.destroyOnClose !== false
 
-    const dom = `
+  const dom = `
     <div class="modal modal-${type} fade in">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -61,25 +62,27 @@ export function showModal(msg, title = 'Message', type = 'default', options = {}
                 </div>
             </div>
         </div>
-    </div>`;
+    </div>`
 
-    $(dom).on('hidden.bs.modal', /* istanbul ignore next */ function () {
-        destroyOnClose && $(this).remove();
-    }).modal(options);
+  $(dom).on('hidden.bs.modal', /* istanbul ignore next */ function modal() {
+    // eslint-disable-next-line no-invalid-this
+    destroyOnClose && $(this).remove()
+  })
+    .modal(options)
 }
 
 const swalInstance = Swal.mixin({
-    confirmButtonText: trans('general.confirm'),
-    cancelButtonText: trans('general.cancel')
-});
+  confirmButtonText: trans('general.confirm'),
+  cancelButtonText: trans('general.cancel'),
+})
 
 /**
  * @param {import('sweetalert2').SweetAlertOptions} options
  */
 export function swal(options) {
-    return swalInstance.fire(options);
+  return swalInstance.fire(options)
 }
 
-window.toastr = toastr;
-window.swal = swal;
-blessing.notify = { showMsg, showModal };
+window.toastr = toastr
+window.swal = swal
+blessing.notify = { showMsg, showModal }
