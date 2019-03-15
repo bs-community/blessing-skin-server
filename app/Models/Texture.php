@@ -17,7 +17,7 @@ class Texture extends Model
     ];
 
     protected $appends = [
-        'likes'
+        'likes',
     ];
 
     public function getLikesAttribute()
