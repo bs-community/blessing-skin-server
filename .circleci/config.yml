@@ -75,14 +75,6 @@ jobs:
       - run: touch storage/testing.sqlite
       - run: ./vendor/bin/phpunit
 
-  release:
-    working_directory: ~/workspace
-    docker:
-      - image: blessingskin/ci:release-tool
-    steps:
-      - run: git clone https://github.com/bs-community/release-tool.git .
-      - run: sh ./release.sh
-
 workflows:
   version: 2
   install_and_test:
@@ -98,9 +90,3 @@ workflows:
       - php7.3:
           requires:
             - composer
-      - release:
-          requires:
-            - php7.1
-            - php7.2
-            - php7.3
-            - frontend

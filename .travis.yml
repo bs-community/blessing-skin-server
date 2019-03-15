@@ -1,0 +1,39 @@
+language: php
+
+nodejs: 10
+php: 7.3
+
+install:
+- composer install --no-dev
+- rm -rf vendor/bin
+- yarn
+
+script:
+- yarn build
+- cp .env.example .env
+- zip -9 -r blessing-skin-server-$TRAVIS_TAG.zip \
+    app \
+    bootstrap \
+    config \
+    database \
+    plugins \
+    public \
+    resources/lang \
+    resources/views \
+    routes \
+    storage \
+    vendor \
+    .env \
+    artisan \
+    LICENSE \
+    README.md \
+  README_EN.md
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  file: blessing-skin-server-$TRAVIS_TAG.zip
+  draft: true
+  skip_cleanup: true
+  on:
+    tags: true
