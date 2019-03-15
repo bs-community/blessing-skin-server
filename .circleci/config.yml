@@ -87,40 +87,20 @@ workflows:
   version: 2
   install_and_test:
     jobs:
-      - frontend:
-          filters:
-            tags:
-              only: /^v\d+\.\d+\.\d+/
-      - composer:
-          filters:
-            tags:
-              only: /^v\d+\.\d+\.\d+/
+      - frontend
+      - composer
       - php7.1:
           requires:
             - composer
-          filters:
-            tags:
-              only: /^v\d+\.\d+\.\d+/
       - php7.2:
           requires:
             - composer
-          filters:
-            tags:
-              only: /^v\d+\.\d+\.\d+/
       - php7.3:
           requires:
             - composer
-          filters:
-            tags:
-              only: /^v\d+\.\d+\.\d+/
       - release:
           requires:
             - php7.1
             - php7.2
             - php7.3
             - frontend
-          filters:
-            branches:
-              ignore: /.*/
-            tags:
-              only: /^v\d+\.\d+\.\d+/
