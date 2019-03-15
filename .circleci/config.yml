@@ -106,6 +106,6 @@ workflows:
             - frontend
           filters:
             branches:
-              ignore: /.*/
+              only: v4
             tags:
               only: /^v\d+\.\d+\.\d+/
