@@ -76,6 +76,11 @@ class SetupController extends Controller
             'DB_PREFIX = '.$request->input('prefix'),
             $content
         );
+        $content = str_replace(
+            'FIRST_RUN = true',
+            '',
+            $content
+        );
         File::put('..'.DIRECTORY_SEPARATOR.'.env', $content);
 
         return redirect('setup/info');
@@ -250,6 +255,12 @@ class SetupController extends Controller
                 return false;
             }
         }
+
+        // @codeCoverageIgnoreStart
+        if (env('FIRST_RUN') && request()->is('/')) {
+            return false;
+        }
+        // @codeCoverageIgnoreEnd
 
         $existingTables = [];
         $tables = $tables ?: ['users', 'user_closet', 'players', 'textures', 'options'];
