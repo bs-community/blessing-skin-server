@@ -1,6 +1,6 @@
 language: php
 
-nodejs: 10
+node_js: 10
 php: 7.3
 
 install:
