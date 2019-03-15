@@ -151,7 +151,7 @@ class SkinlibController extends Controller
     public function info($tid)
     {
         if ($t = Texture::find($tid)) {
-            return json(array_merge($t->toArray(), ['likes' => $t->likes]));
+            return json($t->toArray());
         } else {
             return json([]);
         }
