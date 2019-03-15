@@ -1,5 +1,4 @@
 import './jquery' // jQuery first
-import 'bootstrap'
 import 'admin-lte'
 import 'icheck'
 import Vue from 'vue'
