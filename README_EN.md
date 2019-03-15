@@ -6,10 +6,9 @@
 <p align="center">
 <a href="https://circleci.com/gh/bs-community/blessing-skin-server/tree/v4"><img src="https://flat.badgen.net/circleci/github/bs-community/blessing-skin-server/v4" alt="Circle CI Status"></a>
 <a href="https://codecov.io/gh/bs-community/blessing-skin-server/branch/v4"><img src="https://flat.badgen.net/codecov/c/github/bs-community/blessing-skin-server/v4" alt="Codecov" /></a>
-<a href="https://github.com/bs-community/blessing-skin-server/releases"><img src="https://flat.badgen.net/github/releases/bs-community/blessing-skin-server" alt="Latest Stable Version"></a>
+<a href="https://github.com/bs-community/blessing-skin-server/releases"><img src="https://flat.badgen.net/github/release/bs-community/blessing-skin-server" alt="Latest Stable Version"></a>
 <img src="https://flat.badgen.net/badge/PHP/7.1.8+/orange" alt="PHP 7.1.8+">
 <img src="https://flat.badgen.net/github/license/bs-community/blessing-skin-server" alt="License">
-<a href="https://twitter.com/printempw"><img src="https://img.shields.io/twitter/follow/printempw.svg?style=social&label=Follow" alt="Twitter Follow"></a>
 </p>
 
 **NOTE: The code of the current branch is of Blessing Skin v4.**
@@ -18,7 +17,7 @@ Are you puzzled by losing your custom skins in Minecraft servers runing in offli
 
 Blessing Skin is a web application where you can upload, manage and share your custom skins & capes! Unlike modifying a resource pack, everyone in the game will see the different skins of each other (of course they should register at the same website too).
 
-Blessing Skin is an open-source project written in PHP, which means you can deploy it freely on your own web server! Here is a [live demo](http://skin.prinzeugen.net/).
+Blessing Skin is an open-source project written in PHP, which means you can deploy it freely on your own web server!
 
 Features
 -----------

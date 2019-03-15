@@ -6,10 +6,9 @@
 <p align="center">
 <a href="https://circleci.com/gh/bs-community/blessing-skin-server/tree/v4"><img src="https://flat.badgen.net/circleci/github/bs-community/blessing-skin-server/v4" alt="Circle CI Status"></a>
 <a href="https://codecov.io/gh/bs-community/blessing-skin-server/branch/v4"><img src="https://flat.badgen.net/codecov/c/github/bs-community/blessing-skin-server/v4" alt="Codecov" /></a>
-<a href="https://github.com/bs-community/blessing-skin-server/releases"><img src="https://flat.badgen.net/github/releases/bs-community/blessing-skin-server" alt="Latest Stable Version"></a>
+<a href="https://github.com/bs-community/blessing-skin-server/releases"><img src="https://flat.badgen.net/github/release/bs-community/blessing-skin-server" alt="Latest Stable Version"></a>
 <img src="https://flat.badgen.net/badge/PHP/7.1.8+/orange" alt="PHP 7.1.8+">
 <img src="https://flat.badgen.net/github/license/bs-community/blessing-skin-server" alt="License">
-<a href="https://twitter.com/printempw"><img src="https://img.shields.io/twitter/follow/printempw.svg?style=social&label=Follow" alt="Twitter Follow"></a>
 </p>
 
 **注意：当前分支上的代码是 Blessing Skin v4 的。**
@@ -18,7 +17,7 @@
 
 Blessing Skin 是一款能让您上传、管理和分享您的 Minecraft 皮肤和披风的 Web 应用程序。与修改游戏材质包不同的是，所有人都能在游戏中看到各自的皮肤和披风（当然，前提是玩家们要使用同一个皮肤站）。
 
-Blessing Skin 是一个开源的 PHP 项目，这意味着您可以自由地在您的服务器上部署它。这里有一个 [演示站点](http://skin.prinzeugen.net/)。
+Blessing Skin 是一个开源的 PHP 项目，这意味着您可以自由地在您的服务器上部署它。
 
 特性
 -----------
