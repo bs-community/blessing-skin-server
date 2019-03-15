@@ -812,6 +812,7 @@ class SkinlibControllerTest extends TestCase
 
         // Without returning score
         option(['return_score' => false]);
+        $uploader->refresh();
         $uploader->score += $texture->size * option('private_score_per_storage');
         $uploader->save();
         $texture = factory(Texture::class)->create(['public' => 'false', 'uploader' => $uploader->uid]);
