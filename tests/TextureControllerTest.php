@@ -305,10 +305,9 @@ class TextureControllerTest extends TestCase
         $this->get("/avatar/player/1/{$player->name}.png")->assertNotFound();
 
         // Success
-        Storage::disk('textures')->putFileAs(
-            '.',
-            UploadedFile::fake()->image('avatar.png', 64, 64),
-            $texture->hash
+        Storage::disk('textures')->put(
+            $texture->hash,
+            file_get_contents(resource_path('assets/src/images/textures/steve.png'))
         );
         $this->get("/avatar/player/20/{$player->name}.png")
             ->assertSuccessful();

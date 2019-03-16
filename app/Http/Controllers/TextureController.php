@@ -214,21 +214,17 @@ class TextureController extends Controller
         $hash = $player->getTexture('skin');
         if (Storage::disk('textures')->has($hash)) {
             $key = "avatar-{$hash}-{$size}";
-            $content = Cache::rememberForever($key, function () use ($hash, $size) {
-                $png = Minecraft::generateAvatarFromSkin(
-                    Storage::disk('textures')->read($hash),
-                    $size
-                );
-                ob_start();
-                imagepng($png);
-                $image = ob_get_contents();
-                ob_end_clean();
-                imagedestroy($png);
+            $png = Minecraft::generateAvatarFromSkin(
+                Storage::disk('textures')->read($hash),
+                $size
+            );
+            ob_start();
+            imagepng($png);
+            $image = ob_get_contents();
+            ob_end_clean();
+            imagedestroy($png);
 
-                return $image;
-            });
-
-            return response($content)->withHeaders(['content-type' => 'image/png']);
+            return Response::png($image);
         }
 
         return abort(404);
