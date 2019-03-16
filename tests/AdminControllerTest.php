@@ -137,11 +137,18 @@ class AdminControllerTest extends BrowserKitTestCase
             ->uncheck('auto_detect_asset_url')
             ->check('return_204_when_notfound')
             ->type('0', 'cache_expire_time')
+            ->type('url/', 'cdn_address')
             ->press('submit_resources');
         $this->assertTrue(option('force_ssl'));
         $this->assertFalse(option('auto_detect_asset_url'));
         $this->assertTrue(option('return_204_when_notfound'));
         $this->assertEquals('0', option('cache_expire_time'));
+        $this->visit('/')->see('url/app/index.js');
+
+        $this->visit('/admin/options')
+            ->type('', 'cdn_address')
+            ->press('submit_resources');
+        $this->visit('/')->dontSee('url/app/index.js');
     }
 
     public function testUsers()

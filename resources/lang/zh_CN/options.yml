@@ -143,3 +143,9 @@ resources:
   cache_expire_time:
     title: 缓存失效时间
     hint: 秒数，86400 = 一天，31536000 = 一年
+  cdn_address:
+    title: 前端资源文件 CDN
+    hint: 如果地址不对将导致前端文件无法加载
+    description: |
+      填写的 CDN 地址必须是 <code>/public</code> 目录的镜像，此目录下的所有文件都将会从 CDN 加载。<br>
+      <b>测试方法</b>：检查 <code>{填写的地址}/app/index.js</code> 是否能够访问。

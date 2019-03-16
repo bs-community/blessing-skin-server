@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
+use Illuminate\Support\Str;
 use App\Services\OptionForm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -218,7 +219,23 @@ class AdminController extends Controller
             $form->checkbox('return_204_when_notfound')->label()->description();
 
             $form->text('cache_expire_time')->hint(OptionForm::AUTO_DETECT);
-        })->type('warning')->hint(OptionForm::AUTO_DETECT)->handle();
+            $form->text('cdn_address')
+                ->hint(OptionForm::AUTO_DETECT)
+                ->description(OptionForm::AUTO_DETECT);
+        })
+            ->type('warning')
+            ->hint(OptionForm::AUTO_DETECT)
+            ->after(function () {
+                $cdnAddress = request('cdn_address');
+                if ($cdnAddress == null) {
+                    $cdnAddress = '';
+                }
+                if (Str::endsWith($cdnAddress, '/')) {
+                    $cdnAddress = substr($cdnAddress, 0, -1);
+                }
+                Option::set('cdn_address', $cdnAddress);
+            })
+            ->handle();
 
         return view('admin.options')->with('forms', compact('general', 'resources', 'announ'));
     }
