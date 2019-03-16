@@ -232,9 +232,9 @@ class TextureController extends Controller
         return abort(404);
     }
 
-    protected function getPlayerInstance($name)
+    protected function getPlayerInstance($player_name)
     {
-        $player = Player::where('name', $name)->first();
+        $player = Player::where('name', $player_name)->first();
 
         if ($player->isBanned()) {
             abort(403, trans('general.player-banned'));
