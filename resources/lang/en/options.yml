@@ -150,3 +150,14 @@ resources:
       The CDN URL you give must refer to a mirror of <code>/public</code> directory,
       all the files of that directory will be loaded as CDN.<br>
       <b>How to verify?</b> Verify if <code>{Your CDN URL}/app/index.js</code> can be accessed.
+
+meta:
+  title: SEO <meta> tags
+  meta_keywords:
+    title: Keywords
+    hint: Split with commas.
+  meta_description:
+    title: Description
+    hint: Description defined in "general options" will be used if you left it empty.
+  meta_extras:
+    title: Other Custom <meta> Tags

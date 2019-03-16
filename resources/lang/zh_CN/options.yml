@@ -149,3 +149,14 @@ resources:
     description: |
       填写的 CDN 地址必须是 <code>/public</code> 目录的镜像，此目录下的所有文件都将会从 CDN 加载。<br>
       <b>测试方法</b>：检查 <code>{填写的地址}/app/index.js</code> 是否能够访问。
+
+meta:
+  title: SEO <meta> 标签
+  meta_keywords:
+    title: 关键词
+    hint: 使用半角逗号分隔
+  meta_description:
+    title: 描述
+    hint: 留空以使用 站点配置 中的站点描述
+  meta_extras:
+    title: 其它自定义 <meta> 标签

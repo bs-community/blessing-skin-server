@@ -237,7 +237,14 @@ class AdminController extends Controller
             })
             ->handle();
 
-        return view('admin.options')->with('forms', compact('general', 'resources', 'announ'));
+        $meta = Option::form('meta', OptionForm::AUTO_DETECT, function ($form) {
+          $form->text('meta_keywords')->hint(OptionForm::AUTO_DETECT);
+          $form->text('meta_description')->hint(OptionForm::AUTO_DETECT);
+          $form->textarea('meta_extras')->rows(3);
+        })->handle();
+
+        return view('admin.options')
+            ->with('forms', compact('general', 'resources', 'announ', 'meta'));
     }
 
     public function getUserData(Request $request)

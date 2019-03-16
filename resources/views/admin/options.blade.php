@@ -25,6 +25,8 @@
                 {!! $forms['announ']->render() !!}
 
                 {!! $forms['resources']->render() !!}
+
+                {!! $forms['meta']->render() !!}
             </div>
 
         </div>
