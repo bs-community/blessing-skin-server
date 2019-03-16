@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Cache;
 use Event;
 use Option;
 use Storage;
@@ -202,9 +203,38 @@ class TextureController extends Controller
             : abort(404, trans('skinlib.non-existent'));
     }
 
-    protected function getPlayerInstance($player_name)
+    public function avatarByPlayer($size, $name)
     {
-        $player = Player::where('name', $player_name)->first();
+        $player = Player::where('name', $name)->first();
+
+        if (! $player) {
+            return abort(404);
+        }
+
+        $hash = $player->getTexture('skin');
+        if (Storage::disk('textures')->has($hash)) {
+            $key = "avatar-{$hash}-{$size}";
+            $content = Cache::rememberForever($key, function () use ($hash, $size) {
+                $png = Minecraft::generateAvatarFromSkin(
+                    Storage::disk('textures')->read($hash),
+                    $size
+                );
+                ob_start();
+                imagepng($png);
+                $image = ob_get_contents();
+                ob_end_clean();
+                imagedestroy($png);
+                return $image;
+            });
+            return response($content)->withHeaders(['content-type' => 'image/png']);
+        }
+
+        return abort(404);
+    }
+
+    protected function getPlayerInstance($name)
+    {
+        $player = Player::where('name', $name)->first();
 
         if ($player->isBanned()) {
             abort(403, trans('general.player-banned'));

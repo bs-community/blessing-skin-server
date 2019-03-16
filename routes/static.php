@@ -26,6 +26,7 @@ Route::group(['middleware' => 'player'], function () {
 Route::get('/textures/{hash}', 'TextureController@texture');
 Route::get('/{api}/textures/{hash}', 'TextureController@textureWithApi')->where('api', 'usm|csl');
 
+Route::get('/avatar/player/{size}/{name}.png', 'TextureController@avatarByPlayer');
 Route::get('/avatar/{base64_email}.png', 'TextureController@avatar');
 Route::get('/avatar/{size}/{base64_email}.png', 'TextureController@avatarWithSize');
 Route::get('/avatar/{tid}', 'TextureController@avatarByTid');

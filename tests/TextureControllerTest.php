@@ -2,17 +2,21 @@
 
 namespace Tests;
 
+use Cache;
 use Mockery;
 use Exception;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
+use Illuminate\Http\UploadedFile;
+use Tests\Concerns\InteractsWithCache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class TextureControllerTest extends TestCase
 {
     use DatabaseTransactions;
+    use InteractsWithCache;
 
     public function testJson()
     {
@@ -283,5 +287,32 @@ class TextureControllerTest extends TestCase
         // Disallow downloading texture directly
         option(['allow_downloading_texture' => false]);
         $this->get("/raw/{$steve->tid}.png")->assertNotFound();
+    }
+
+    public function testAvatarByPlayer()
+    {
+        Storage::fake('textures');
+
+        // No such player.
+        $this->get('/avatar/player/1/abc.png')->assertNotFound();
+
+        // No such texture.
+        $player = factory(Player::class)->create();
+        $this->get("/avatar/player/1/{$player->name}.png")->assertNotFound();
+
+        $texture = factory(Texture::class)->create();
+        $player->tid_skin = $texture->tid;
+        $player->save();
+        $this->get("/avatar/player/1/{$player->name}.png")->assertNotFound();
+
+        // Success
+        Storage::disk('textures')->putFileAs(
+            '.',
+            UploadedFile::fake()->image('avatar.png', 64, 64),
+            $texture->hash,
+        );
+        $this->get("/avatar/player/20/{$player->name}.png")
+            ->assertSuccessful();
+        Storage::disk('textures')->delete($texture->hash);
     }
 }
