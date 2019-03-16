@@ -811,10 +811,7 @@ class SkinlibControllerTest extends TestCase
         );
 
         // Without returning score
-        option(['return_score' => false]);
-        $uploader->refresh();
-        $uploader->score += $texture->size * option('private_score_per_storage');
-        $uploader->save();
+        option(['return_score' => false, 'private_score_per_storage' => 0]);
         $texture = factory(Texture::class)->create(['public' => 'false', 'uploader' => $uploader->uid]);
         $other = factory(User::class)->create();
         $other->closet()->attach($texture->tid, ['item_name' => 'a']);
@@ -823,10 +820,7 @@ class SkinlibControllerTest extends TestCase
                 'errno' => 0,
                 'public' => false,
             ]);
-        $this->assertEquals(
-            $other->score,
-            User::find($other->uid)->score
-        );
+        $this->assertEquals($other->score, User::find($other->uid)->score);
     }
 
     public function testRename()
