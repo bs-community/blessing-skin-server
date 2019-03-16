@@ -212,7 +212,6 @@ class TextureController extends Controller
 
         $hash = $player->getTexture('skin');
         if (Storage::disk('textures')->has($hash)) {
-            $key = "avatar-{$hash}-{$size}";
             $png = Minecraft::generateAvatarFromSkin(
                 Storage::disk('textures')->read($hash),
                 $size
