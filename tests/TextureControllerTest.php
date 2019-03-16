@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use Cache;
 use Mockery;
 use Exception;
 use App\Models\User;
