@@ -224,8 +224,10 @@ class TextureController extends Controller
                 $image = ob_get_contents();
                 ob_end_clean();
                 imagedestroy($png);
+
                 return $image;
             });
+
             return response($content)->withHeaders(['content-type' => 'image/png']);
         }
 
