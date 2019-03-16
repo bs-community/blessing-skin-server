@@ -24,7 +24,8 @@
     "laravel/browser-kit-testing": "~4.0",
     "league/flysystem-memory": "^1.0",
     "barryvdh/laravel-ide-helper": "^2.6",
-    "laravel/tinker": "^1.0"
+    "laravel/tinker": "^1.0",
+    "barryvdh/laravel-debugbar": "^3.2"
   },
   "autoload": {
     "classmap": [
