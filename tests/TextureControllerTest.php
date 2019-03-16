@@ -309,7 +309,7 @@ class TextureControllerTest extends TestCase
         Storage::disk('textures')->putFileAs(
             '.',
             UploadedFile::fake()->image('avatar.png', 64, 64),
-            $texture->hash,
+            $texture->hash
         );
         $this->get("/avatar/player/20/{$player->name}.png")
             ->assertSuccessful();
