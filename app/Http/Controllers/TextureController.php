@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Cache;
 use Event;
 use Option;
 use Storage;
