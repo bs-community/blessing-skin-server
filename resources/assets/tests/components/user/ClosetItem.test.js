@@ -87,6 +87,7 @@ test('remove texture', async () => {
   expect(wrapper.emitted()['item-removed']).toBeTruthy()
   expect(Vue.prototype.$http.post).toBeCalledWith('/user/closet/remove', { tid: 1 })
 })
+
 test('set as avatar', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 0 })
@@ -120,4 +121,10 @@ test('set as avatar', async () => {
   await wrapper.vm.$nextTick()
   expect(Vue.prototype.$http.post).toBeCalledWith('/user/profile/avatar', { tid: 1 })
   expect(window.$).toBeCalledWith('[alt="User Image"]')
+})
+
+test('no avatar option if texture is cape', () => {
+  const wrapper = mount(ClosetItem, { propsData: factory({ type: 'cape' }) })
+  const button = wrapper.findAll('.dropdown-menu > li').at(2)
+  expect(button.isEmpty()).toBeTrue()
 })

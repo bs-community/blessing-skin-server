@@ -26,7 +26,7 @@
       <ul class="dropup dropdown-menu" aria-labelledby="more-button">
         <li><a v-t="'user.renameItem'" @click="rename" /></li>
         <li><a v-t="'user.removeItem'" @click="remove" /></li>
-        <li><a v-t="'user.setAsAvatar'" @click="setAsAvatar" /></li>
+        <li><a v-if="type !== 'cape'" v-t="'user.setAsAvatar'" @click="setAsAvatar" /></li>
       </ul>
     </div>
   </div>
