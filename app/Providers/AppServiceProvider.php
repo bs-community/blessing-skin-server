@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use View;
 use Blade;
 use Event;
 use App\Events;
@@ -57,12 +56,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('cipher', 'App\Services\Cipher\\'.config('secure.cipher'));
         $this->app->singleton('users', \App\Services\Repositories\UserRepository::class);
         $this->app->singleton('options', OptionRepository::class);
-
-        // Support *.tpl extension name
-        View::addExtension('tpl', 'blade');
-        // Make the priority of *.blade.php higher than *.tpl
-        View::addExtension('blade.php', 'blade');
-
         $this->app->singleton('parsedown', \Parsedown::class);
     }
 
