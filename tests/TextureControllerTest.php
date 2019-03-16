@@ -7,7 +7,6 @@ use Exception;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
-use Illuminate\Http\UploadedFile;
 use Tests\Concerns\InteractsWithCache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
