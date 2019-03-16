@@ -130,6 +130,27 @@ test('link to downloading texture', async () => {
   expect(wrapper.contains('a[title="123"]')).toBeFalse()
   expect(wrapper.contains('span[title="123"]')).toBeTrue()
 })
+test('set as avatar', () => {
+  Object.assign(window.blessing.extra, { currentUid: 1, inCloset: true })
+  Vue.prototype.$http.get.mockResolvedValueOnce({ type: 'steve' })
+    .mockResolvedValueOnce({ type: 'cape' })
+  const wrapper = mount(Show, {
+    mocks: {
+      $route: ['/skinlib/show/1', '1'],
+    },
+    stubs: { previewer },
+  })
+  wrapper.find('button.btn-default').trigger('click')
+  expect(swal).toBeCalled()
+
+  const noSetAsAvatar = mount(Show, {
+    mocks: {
+      $route: ['/skinlib/show/1', '1'],
+    },
+    stubs: { previewer },
+  })
+  expect(noSetAsAvatar.find('button.btn-default').isEmpty()).toBeTrue()
+})
 test('add to closet', async () => {
   Object.assign(window.blessing.extra, { currentUid: 1, inCloset: false })
   Vue.prototype.$http.get.mockResolvedValue({ name: 'wow', likes: 2 })

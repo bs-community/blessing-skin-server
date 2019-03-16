@@ -19,22 +19,25 @@
               v-if="liked"
               v-t="'skinlib.apply'"
               :href="`${baseUrl}/user/closet?tid=${tid}`"
-              class="btn btn-success pull-right"
-              style="margin-left: 12px"
+              class="btn btn-success pull-right pulled-right-btn"
             />
             <a
               v-if="liked"
               v-t="'skinlib.removeFromCloset'"
-              style="margin-left: 12px"
-              class="btn btn-primary pull-right"
+              class="btn btn-primary pull-right pulled-right-btn"
               @click="removeFromCloset"
             />
             <a
               v-else
               v-t="'skinlib.addToCloset'"
-              style="margin-left: 12px"
-              class="btn btn-primary pull-right"
+              class="btn btn-primary pull-right pulled-right-btn"
               @click="addToCloset"
+            />
+            <button
+              v-if="type !== 'cape'"
+              v-t="'user.setAsAvatar'"
+              class="btn btn-default pull-right pulled-right-btn"
+              @click="setAsAvatar"
             />
             <a
               v-if="canBeDownloaded"
@@ -138,12 +141,14 @@
 <script>
 import toastr from 'toastr'
 import { swal } from '../../js/notify'
+import setAsAvatar from '../mixins/setAsAvatar'
 
 export default {
   name: 'Show',
   components: {
     Previewer: () => import('../common/Previewer'),
   },
+  mixins: [setAsAvatar],
   props: {
     baseUrl: {
       type: String,
@@ -345,5 +350,9 @@ export default {
 <style lang="stylus">
 .table > tbody > tr > td {
     border-top: 0;
+}
+
+.pulled-right-btn {
+    margin-left: 12px;
 }
 </style>

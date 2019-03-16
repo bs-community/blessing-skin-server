@@ -35,9 +35,11 @@
 <script>
 import toastr from 'toastr'
 import { swal } from '../../js/notify'
+import setAsAvatar from '../mixins/setAsAvatar'
 
 export default {
   name: 'ClosetItem',
+  mixins: [setAsAvatar],
   props: {
     tid: {
       type: Number,
@@ -107,33 +109,6 @@ export default {
       if (errno === 0) {
         this.$emit('item-removed')
         swal({ type: 'success', text: msg })
-      } else {
-        toastr.warning(msg)
-      }
-    },
-    async setAsAvatar() {
-      const { dismiss } = await swal({
-        title: this.$t('user.setAvatar'),
-        text: this.$t('user.setAvatarNotice'),
-        type: 'question',
-        showCancelButton: true,
-      })
-      if (dismiss) {
-        return
-      }
-
-      const { errno, msg } = await this.$http.post(
-        '/user/profile/avatar',
-        { tid: this.tid }
-      )
-      if (errno === 0) {
-        toastr.success(msg)
-
-        // Refresh avatars
-        $('[alt="User Image"]').each(function it() {
-          // eslint-disable-next-line no-invalid-this
-          $(this).prop('src', `${$(this).attr('src')}?${new Date().getTime()}`)
-        })
       } else {
         toastr.warning(msg)
       }
