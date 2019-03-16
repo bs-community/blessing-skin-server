@@ -58,11 +58,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('users', \App\Services\Repositories\UserRepository::class);
         $this->app->singleton('options', OptionRepository::class);
 
-        if ($this->app->environment() !== 'production') {
-            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
-            $this->app->register(\Laravel\Tinker\TinkerServiceProvider::class);
-        }
-
         // Support *.tpl extension name
         View::addExtension('tpl', 'blade');
         // Make the priority of *.blade.php higher than *.tpl
