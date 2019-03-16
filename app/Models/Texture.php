@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Texture extends Model
 {
     public $primaryKey = 'tid';
-    public $timestamps = false;
+    public const CREATED_AT = 'upload_at';
+    public const UPDATED_AT = null;
 
     protected $casts = [
         'tid' => 'integer',

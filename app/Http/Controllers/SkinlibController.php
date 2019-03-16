@@ -179,7 +179,6 @@ class SkinlibController extends Controller
         $t->size = ceil($request->file('file')->getSize() / 1024);
         $t->public = $request->input('public') == 'true';
         $t->uploader = $user->uid;
-        $t->upload_at = get_datetime_string();
 
         $cost = $t->size * ($t->public ? Option::get('score_per_storage') : Option::get('private_score_per_storage'));
         $cost += option('score_per_closet_item');
