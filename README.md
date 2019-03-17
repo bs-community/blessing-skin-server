@@ -99,7 +99,7 @@ yarn build
 
 国际化（i18n）
 ------------
-Blessing Skin 可支持多种语言，当前支持英语(`en`)和简体中文（`zh_CN`）。
+Blessing Skin 可支持多种语言，当前支持英语（`en`）和简体中文（`zh_CN`）。
 
 当然，您也可以添加您自己的语言。请参阅 [Wiki - 添加其它语言 [i18n]](https://github.com/bs-community/blessing-skin-server/wiki/%E6%B7%BB%E5%8A%A0%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80-%5Bi18n%5D)
 
