@@ -282,15 +282,22 @@ class UserController extends Controller
         $this->validate($request, [
             'tid' => 'required|integer',
         ]);
+        $tid = $request->input('tid');
+        $user = auth()->user();
 
-        $result = Texture::find($request->input('tid'));
+        if ($tid == 0) {
+            $user->avatar = 0;
+            $user->save();
+            return json(trans('user.profile.avatar.success'), 0);
+        }
 
+        $result = Texture::find($tid);
         if ($result) {
             if ($result->type == 'cape') {
                 return json(trans('user.profile.avatar.wrong-type'), 1);
             }
 
-            if (Auth::user()->setAvatar($request->input('tid'))) {
+            if ($user->setAvatar($tid)) {
                 return json(trans('user.profile.avatar.success'), 0);
             }
         } else {

@@ -126,6 +126,8 @@ user:
   noClearChoice: You haven't choose any types
   setAvatar: Sure to set this as your avatar?
   setAvatarNotice: The head segment of skin will bu used.
+  resetAvatar: Reset Avatar
+  resetAvatarConfirm: Are you sure to reset your avatar?
   emptyNewNickName: Empty new nickname.
   changeNickName: 'Sure to set your nickname to :new_nickname?'
   emptyPassword: Original password is required.

@@ -21,6 +21,31 @@ test('convert linebreak', () => {
   const wrapper = mount(Profile)
   expect(wrapper.vm.nl2br('a\nb\nc')).toBe('a<br>b<br>c')
 })
+
+test('reset avatar', async () => {
+  jest.spyOn(toastr, 'success')
+  swal.mockResolvedValueOnce({})
+    .mockResolvedValueOnce({ dismiss: 1 })
+    .mockResolvedValue({})
+  Vue.prototype.$http.post.mockResolvedValue({ msg: 'ok' })
+  const wrapper = mount(Profile)
+  const button = wrapper.find('[data-test=resetAvatar]')
+  document.body.innerHTML += '<img alt="User Image" src="a">'
+
+  button.trigger('click')
+  expect(Vue.prototype.$http.post).not.toBeCalled()
+
+  button.trigger('click')
+  await wrapper.vm.$nextTick()
+  expect(Vue.prototype.$http.post).toBeCalledWith(
+    '/user/profile/avatar',
+    { tid: 0 }
+  )
+  await flushPromises()
+  expect(toastr.success).toBeCalledWith('ok')
+  expect(document.querySelector('img').src).toMatch(/\d+$/)
+})
+
 test('change password', async () => {
   jest.spyOn(toastr, 'info')
   Vue.prototype.$http.post

@@ -9,6 +9,14 @@
           </div><!-- /.box-header -->
           <!-- eslint-disable-next-line vue/no-v-html -->
           <div class="box-body" v-html="$t('user.profile.avatar.notice')" /><!-- /.box-body -->
+          <div class="box-footer">
+            <button
+              v-t="'user.resetAvatar'"
+              class="btn btn-primary pull-right"
+              data-test="resetAvatar"
+              @click="resetAvatar"
+            />
+          </div>
         </div>
 
         <div class="box box-warning">
@@ -215,6 +223,24 @@ export default {
   }),
   methods: {
     nl2br: str => str.replace(/\n/g, '<br>'),
+    async resetAvatar() {
+      const { dismiss } = await swal({
+        title: this.$t('user.resetAvatarConfirm'),
+        type: 'question',
+        showCancelButton: true,
+      })
+      if (dismiss) {
+        return
+      }
+
+      const { msg } = await this.$http.post(
+        '/user/profile/avatar',
+        { tid: 0 }
+      )
+      toastr.success(msg)
+      Array.from(document.querySelectorAll('[alt="User Image"]'))
+        .forEach(el => (el.src += `?${new Date().getTime()}`))
+    },
     async changePassword() {
       const {
         oldPassword, newPassword, confirmPassword,

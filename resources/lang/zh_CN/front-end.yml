@@ -126,6 +126,8 @@ user:
   noClearChoice: 您还没选择要删除的材质类型
   setAvatar: 确定要将此材质设置为用户头像吗？
   setAvatarNotice: 将会自动截取皮肤头部
+  resetAvatar: 重置头像
+  resetAvatarConfirm: 确定要重置头像吗？
   emptyNewNickName: 你还没有填写新昵称啊
   changeNickName: '确定要将昵称设置为 :new_nickname 吗？'
   emptyPassword: 原密码不能为空

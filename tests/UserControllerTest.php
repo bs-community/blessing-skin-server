@@ -487,7 +487,7 @@ class UserControllerTest extends TestCase
         // Texture cannot be found
         $this->actAs($user)
             ->postJson('/user/profile/avatar', [
-                'tid' => 0,
+                'tid' => -1,
             ])
             ->assertJson([
                 'errno' => 1,
@@ -514,5 +514,10 @@ class UserControllerTest extends TestCase
                 'msg' => trans('user.profile.avatar.success'),
             ]);
         $this->assertEquals($steve->tid, User::find($user->uid)->avatar);
+
+        // Reset avatar
+        $this->postJson('/user/profile/avatar', ['tid' => 0])
+            ->assertJson(['errno' => 0,]);
+        $this->assertEquals(0, User::find($user->uid)->avatar);
     }
 }
