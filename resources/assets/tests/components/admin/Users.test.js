@@ -75,6 +75,7 @@ test('humanize permission', async () => {
   expect(text).toContain('admin.admin')
   expect(text).toContain('admin.superAdmin')
 })
+
 test('generate players page link', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -85,6 +86,7 @@ test('generate players page link', async () => {
   await wrapper.vm.$nextTick()
   expect(wrapper.find('[data-toggle="tooltip"]').attributes('href')).toBe('/admin/players?uid=1')
 })
+
 test('admin option should not be displayed for super admins', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -97,6 +99,7 @@ test('admin option should not be displayed for super admins', async () => {
   expect(text).not.toContain('admin.setAdmin')
   expect(text).not.toContain('admin.unsetAdmin')
 })
+
 test('banning option should not be displayed for super admins', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -109,6 +112,7 @@ test('banning option should not be displayed for super admins', async () => {
   expect(text).not.toContain('admin.ban')
   expect(text).not.toContain('admin.unban')
 })
+
 test('admin option should be displayed for admin as super admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -123,6 +127,7 @@ test('admin option should be displayed for admin as super admin', async () => {
   expect(text).toContain('admin.unsetAdmin')
   expect(text).not.toContain('admin.setAdmin')
 })
+
 test('banning option should not be displayed for admin as super admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -137,6 +142,7 @@ test('banning option should not be displayed for admin as super admin', async ()
   expect(text).not.toContain('admin.ban')
   expect(text).not.toContain('admin.unban')
 })
+
 test('admin option should be displayed for normal users as super admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -151,6 +157,7 @@ test('admin option should be displayed for normal users as super admin', async (
   expect(text).toContain('admin.setAdmin')
   expect(text).not.toContain('admin.unsetAdmin')
 })
+
 test('banning option should be displayed for normal users as super admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -165,6 +172,7 @@ test('banning option should be displayed for normal users as super admin', async
   expect(text).toContain('admin.ban')
   expect(text).not.toContain('admin.unban')
 })
+
 test('admin option should not be displayed for banned users as super admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -179,6 +187,7 @@ test('admin option should not be displayed for banned users as super admin', asy
   expect(text).not.toContain('admin.setAdmin')
   expect(text).not.toContain('admin.unsetAdmin')
 })
+
 test('banning option should be displayed for banned users as super admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -192,6 +201,7 @@ test('banning option should be displayed for banned users as super admin', async
   const text = wrapper.find('.vgt-table').text()
   expect(text).toContain('admin.unban')
 })
+
 test('admin option should not be displayed for other admins as admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -206,6 +216,7 @@ test('admin option should not be displayed for other admins as admin', async () 
   expect(text).not.toContain('admin.setAdmin')
   expect(text).not.toContain('admin.unsetAdmin')
 })
+
 test('banning option should not be displayed for other admins as admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -220,6 +231,7 @@ test('banning option should not be displayed for other admins as admin', async (
   expect(text).not.toContain('admin.ban')
   expect(text).not.toContain('admin.unban')
 })
+
 test('admin option should not be displayed for normal users as admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -234,6 +246,7 @@ test('admin option should not be displayed for normal users as admin', async () 
   expect(text).not.toContain('admin.setAdmin')
   expect(text).not.toContain('admin.unsetAdmin')
 })
+
 test('banning option should be displayed for normal users as admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -248,6 +261,7 @@ test('banning option should be displayed for normal users as admin', async () =>
   expect(text).toContain('admin.ban')
   expect(text).not.toContain('admin.unban')
 })
+
 test('admin option should not be displayed for banned users as admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -262,6 +276,7 @@ test('admin option should not be displayed for banned users as admin', async () 
   expect(text).not.toContain('admin.setAdmin')
   expect(text).not.toContain('admin.unsetAdmin')
 })
+
 test('banning option should be displayed for banned users as admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -275,6 +290,7 @@ test('banning option should be displayed for banned users as admin', async () =>
   const text = wrapper.find('.vgt-table').text()
   expect(text).toContain('admin.unban')
 })
+
 test('deletion button should not be displayed for super admins', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -285,6 +301,7 @@ test('deletion button should not be displayed for super admins', async () => {
   await wrapper.vm.$nextTick()
   expect(wrapper.find('.btn-danger').attributes('disabled')).toBe('disabled')
 })
+
 test('deletion button should be displayed for admins as super admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -297,6 +314,7 @@ test('deletion button should be displayed for admins as super admin', async () =
   await wrapper.vm.$nextTick()
   expect(wrapper.find('.btn-danger').attributes('disabled')).toBeNil()
 })
+
 test('deletion button should be displayed for normal users as super admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -309,6 +327,7 @@ test('deletion button should be displayed for normal users as super admin', asyn
   await wrapper.vm.$nextTick()
   expect(wrapper.find('.btn-danger').attributes('disabled')).toBeNil()
 })
+
 test('deletion button should be displayed for banned users as super admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -321,6 +340,7 @@ test('deletion button should be displayed for banned users as super admin', asyn
   await wrapper.vm.$nextTick()
   expect(wrapper.find('.btn-danger').attributes('disabled')).toBeNil()
 })
+
 test('deletion button should not be displayed for other admins as admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -333,6 +353,7 @@ test('deletion button should not be displayed for other admins as admin', async 
   await wrapper.vm.$nextTick()
   expect(wrapper.find('.btn-danger').attributes('disabled')).toBe('disabled')
 })
+
 test('deletion button should be displayed for normal users as admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -345,6 +366,7 @@ test('deletion button should be displayed for normal users as admin', async () =
   await wrapper.vm.$nextTick()
   expect(wrapper.find('.btn-danger').attributes('disabled')).toBeNil()
 })
+
 test('deletion button should be displayed for banned users as admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -357,6 +379,7 @@ test('deletion button should be displayed for banned users as admin', async () =
   await wrapper.vm.$nextTick()
   expect(wrapper.find('.btn-danger').attributes('disabled')).toBeNil()
 })
+
 test('change email', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -391,6 +414,7 @@ test('change email', async () => {
   await flushPromises()
   expect(wrapper.text()).toContain('d@e.f')
 })
+
 test('toggle verification', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -415,6 +439,7 @@ test('toggle verification', async () => {
   await flushPromises()
   expect(wrapper.text()).toContain('admin.verified')
 })
+
 test('change nickname', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -449,6 +474,7 @@ test('change nickname', async () => {
   await flushPromises()
   expect(wrapper.text()).toContain('new')
 })
+
 test('change password', async () => {
   jest.spyOn(toastr, 'success')
   jest.spyOn(toastr, 'warning')
@@ -484,6 +510,7 @@ test('change password', async () => {
   await flushPromises()
   expect(toastr.warning).toBeCalledWith('1')
 })
+
 test('change score', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -515,6 +542,7 @@ test('change score', async () => {
   await flushPromises()
   expect(wrapper.text()).toContain('45')
 })
+
 test('toggle admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -547,6 +575,7 @@ test('toggle admin', async () => {
   await flushPromises()
   expect(wrapper.text()).toContain('admin.normal')
 })
+
 test('toggle ban', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -579,6 +608,7 @@ test('toggle ban', async () => {
   await flushPromises()
   expect(wrapper.text()).toContain('admin.ban')
 })
+
 test('delete user', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [

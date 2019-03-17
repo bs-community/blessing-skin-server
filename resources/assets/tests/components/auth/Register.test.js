@@ -13,6 +13,7 @@ test('click to refresh captcha', () => {
   wrapper.find('img').trigger('click')
   expect(Date.now).toBeCalledTimes(2)
 })
+
 test('require player name', () => {
   window.blessing.extra = { player: true }
 
@@ -22,6 +23,7 @@ test('require player name', () => {
 
   window.blessing.extra = { player: false }
 })
+
 test('register', async () => {
   jest.spyOn(Date, 'now')
   Vue.prototype.$http.post
@@ -97,6 +99,7 @@ test('register', async () => {
   jest.runAllTimers()
   expect(swal).toBeCalledWith({ type: 'success', text: 'ok' })
 })
+
 test('register with player name', async () => {
   window.blessing.extra = { player: true }
   Vue.prototype.$http.post.mockResolvedValue({ errno: 0, msg: 'ok' })

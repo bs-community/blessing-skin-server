@@ -12,6 +12,7 @@ test('preview color', () => {
   expect(document.body.classList.contains('skin-blue')).toBeFalse()
   expect(document.body.classList.contains('skin-yellow')).toBeTrue()
 })
+
 test('submit color', () => {
   Vue.prototype.$http.post.mockResolvedValue({ errno: 0, msg: '' })
   const wrapper = mount(Customization)

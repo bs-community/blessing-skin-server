@@ -32,6 +32,7 @@ test('button for adding to closet should be disabled if not auth', () => {
   })
   expect(wrapper.find('.btn-primary').attributes('disabled')).toBe('disabled')
 })
+
 test('button for adding to closet should be disabled if auth', () => {
   Vue.prototype.$http.get.mockResolvedValue({})
   Object.assign(window.blessing.extra, { inCloset: true, currentUid: 1 })
@@ -43,6 +44,7 @@ test('button for adding to closet should be disabled if auth', () => {
   })
   expect(wrapper.find('.btn-primary').text()).toBe('skinlib.removeFromCloset')
 })
+
 test('likes count indicator', async () => {
   Vue.prototype.$http.get.mockResolvedValue({ likes: 2 })
   const wrapper = mount(Show, {
@@ -55,6 +57,7 @@ test('likes count indicator', async () => {
   expect(wrapper.find('.likes').attributes('style')).toContain('color: rgb(224, 53, 59)')
   expect(wrapper.find('.likes').text()).toContain('2')
 })
+
 test('render basic information', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     name: 'my-texture',
@@ -77,6 +80,7 @@ test('render basic information', async () => {
   expect(text).toContain('2018')
   expect(text).toContain('author')
 })
+
 test('render action text of editing texture name', async () => {
   Object.assign(window.blessing.extra, { admin: true })
   Vue.prototype.$http.get.mockResolvedValue({ uploader: 1, name: 'name' })
@@ -98,6 +102,7 @@ test('render action text of editing texture name', async () => {
   await wrapper.vm.$nextTick()
   expect(wrapper.contains('small')).toBeFalse()
 })
+
 test('render nickname of uploader', () => {
   Object.assign(window.blessing.extra, { nickname: null })
   Vue.prototype.$http.get.mockResolvedValue({})
@@ -108,6 +113,7 @@ test('render nickname of uploader', () => {
   })
   expect(wrapper.text()).toContain('general.unexistent-user')
 })
+
 test('operation panel should not be rendered if not auth', () => {
   Object.assign(window.blessing.extra, { currentUid: 0 })
   Vue.prototype.$http.get.mockResolvedValue({})
@@ -118,6 +124,7 @@ test('operation panel should not be rendered if not auth', () => {
   })
   expect(wrapper.contains('.box-warning')).toBeFalse()
 })
+
 test('link to downloading texture', async () => {
   Object.assign(window.blessing.extra, { download: false })
   Vue.prototype.$http.get.mockResolvedValue({ hash: '123' })
@@ -130,6 +137,7 @@ test('link to downloading texture', async () => {
   expect(wrapper.contains('a[title="123"]')).toBeFalse()
   expect(wrapper.contains('span[title="123"]')).toBeTrue()
 })
+
 test('set as avatar', () => {
   Object.assign(window.blessing.extra, { currentUid: 1, inCloset: true })
   Vue.prototype.$http.get.mockResolvedValueOnce({ type: 'steve' })
@@ -151,6 +159,7 @@ test('set as avatar', () => {
   })
   expect(noSetAsAvatar.find('button.btn-default').isEmpty()).toBeTrue()
 })
+
 test('add to closet', async () => {
   Object.assign(window.blessing.extra, { currentUid: 1, inCloset: false })
   Vue.prototype.$http.get.mockResolvedValue({ name: 'wow', likes: 2 })
@@ -190,6 +199,7 @@ test('add to closet', async () => {
   expect(wrapper.vm.likes).toBe(3)
   expect(wrapper.vm.liked).toBeTrue()
 })
+
 test('remove from closet', async () => {
   Object.assign(window.blessing.extra, { currentUid: 1, inCloset: true })
   Vue.prototype.$http.get.mockResolvedValue({ likes: 2 })
@@ -223,6 +233,7 @@ test('remove from closet', async () => {
   expect(wrapper.vm.likes).toBe(1)
   expect(wrapper.vm.liked).toBeFalse()
 })
+
 test('change texture name', async () => {
   Object.assign(window.blessing.extra, { admin: true })
   Vue.prototype.$http.get.mockResolvedValue({ name: 'old-name' })
@@ -259,6 +270,7 @@ test('change texture name', async () => {
   await flushPromises()
   expect(wrapper.vm.name).toBe('new-name')
 })
+
 test('change texture model', async () => {
   Vue.prototype.$http.get.mockResolvedValue({ type: 'steve' })
   Vue.prototype.$http.post
@@ -291,6 +303,7 @@ test('change texture model', async () => {
   await flushPromises()
   expect(wrapper.vm.type).toBe('alex')
 })
+
 test('toggle privacy', async () => {
   Vue.prototype.$http.get.mockResolvedValue({ public: true })
   Vue.prototype.$http.post
@@ -326,6 +339,7 @@ test('toggle privacy', async () => {
   await flushPromises()
   expect(wrapper.vm.public).toBeTrue()
 })
+
 test('delete texture', async () => {
   Vue.prototype.$http.get.mockResolvedValue({})
   Vue.prototype.$http.post

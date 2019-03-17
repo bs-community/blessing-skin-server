@@ -23,6 +23,7 @@ test('render dependencies', async () => {
   expect(wrapper.find('span.label.bg-green').text()).toBe('a: ^1.0.0')
   expect(wrapper.find('span.label.bg-red').text()).toBe('c: ^2.0.0')
 })
+
 test('render operation buttons', async () => {
   Vue.prototype.$http.get.mockResolvedValue([
     {
@@ -47,6 +48,7 @@ test('render operation buttons', async () => {
   expect(tbody.find('tr:nth-child(3)').text()).toContain('admin.enablePlugin')
   expect(tbody.find('tr:nth-child(4)').text()).toContain('admin.installPlugin')
 })
+
 test('install plugin', async () => {
   Vue.prototype.$http.get.mockResolvedValue([
     {
@@ -70,6 +72,7 @@ test('install plugin', async () => {
   await wrapper.vm.$nextTick()
   expect(wrapper.text()).toContain('admin.enablePlugin')
 })
+
 test('update plugin', async () => {
   Vue.prototype.$http.get.mockResolvedValue([
     {

@@ -17,6 +17,7 @@ test('computed values', () => {
   window.blessing.extra = { admin: false }
   expect(mount(Profile).vm.isAdmin).toBeFalse()
 })
+
 test('convert linebreak', () => {
   const wrapper = mount(Profile)
   expect(wrapper.vm.nl2br('a\nb\nc')).toBe('a<br>b<br>c')
@@ -87,6 +88,7 @@ test('change password', async () => {
   await wrapper.vm.$nextTick()
   expect(swal).toBeCalledWith({ type: 'success', text: 'o' })
 })
+
 test('change nickname', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: 'w' })
@@ -129,6 +131,7 @@ test('change nickname', async () => {
   await flushPromises()
   expect(swal).toBeCalledWith({ type: 'success', text: 'o' })
 })
+
 test('change email', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: 'w' })
@@ -171,6 +174,7 @@ test('change email', async () => {
   await flushPromises()
   expect(swal).toBeCalledWith({ type: 'success', text: 'o' })
 })
+
 test('delete account', async () => {
   window.blessing.extra = { admin: true }
   swal.mockResolvedValue()

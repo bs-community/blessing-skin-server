@@ -15,6 +15,7 @@ test('urls', () => {
   expect(wrapper.find('a').attributes('href')).toBe('/skinlib/show/1')
   expect(wrapper.find('img').attributes('src')).toBe('/preview/1.png')
 })
+
 test('render basic information', () => {
   const wrapper = mount(SkinLibItem, {
     propsData: {
@@ -26,6 +27,7 @@ test('render basic information', () => {
   expect(wrapper.text()).toContain('test')
   expect(wrapper.text()).toContain('skinlib.filter.steve')
 })
+
 test('anonymous user', () => {
   const wrapper = mount(SkinLibItem, {
     propsData: { anonymous: true },
@@ -35,6 +37,7 @@ test('anonymous user', () => {
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
 })
+
 test('private texture', () => {
   const wrapper = mount(SkinLibItem, {
     propsData: { isPublic: false },
@@ -44,6 +47,7 @@ test('private texture', () => {
   wrapper.setProps({ isPublic: true })
   expect(wrapper.text()).not.toContain('skinlib.private')
 })
+
 test('liked state', () => {
   const wrapper = mount(SkinLibItem, {
     propsData: { liked: true, anonymous: false },
@@ -57,6 +61,7 @@ test('liked state', () => {
   expect(button.attributes('title')).toBe('skinlib.addToCloset')
   expect(button.classes('liked')).toBeFalse()
 })
+
 test('remove from closet', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
@@ -86,6 +91,7 @@ test('remove from closet', async () => {
   await flushPromises()
   expect(wrapper.emitted('like-toggled')[0]).toEqual([false])
 })
+
 test('add to closet', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: '1' })

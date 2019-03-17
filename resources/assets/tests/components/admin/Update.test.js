@@ -14,6 +14,7 @@ test('button should be disabled if update is unavailable', () => {
   const wrapper = mount(Update)
   expect(wrapper.find('.btn').attributes('disabled')).toBe('disabled')
 })
+
 test('perform update', async () => {
   window.$ = jest.fn(() => ({
     modal() {},

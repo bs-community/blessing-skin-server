@@ -10,6 +10,7 @@ test('message box should not be render if verified', () => {
   const wrapper = mount(EmailVerification)
   expect(wrapper.isEmpty()).toBeTrue()
 })
+
 test('resend email', async () => {
   window.blessing.extra = { unverified: true }
   Vue.prototype.$http.post

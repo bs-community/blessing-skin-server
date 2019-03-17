@@ -10,6 +10,7 @@ test('show captcha if too many login fails', () => {
   const wrapper = mount(Login)
   expect(wrapper.find('img').attributes('src')).toMatch(/\/auth\/captcha\?v=\d+/)
 })
+
 test('click to refresh captcha', () => {
   window.blessing.extra = { tooManyFails: true }
   jest.spyOn(Date, 'now')
@@ -17,6 +18,7 @@ test('click to refresh captcha', () => {
   wrapper.find('img').trigger('click')
   expect(Date.now).toBeCalledTimes(2)
 })
+
 test('login', async () => {
   window.blessing.extra = { tooManyFails: false }
   Vue.prototype.$http.post

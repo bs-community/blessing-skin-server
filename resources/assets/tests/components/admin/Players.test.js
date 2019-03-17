@@ -85,6 +85,7 @@ test('change texture', async () => {
   expect(wrapper.html()).toContain('/preview/64/5.png')
   expect(window.$).toBeCalledWith('.modal')
 })
+
 test('change player name', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -117,6 +118,7 @@ test('change player name', async () => {
   await flushPromises()
   expect(wrapper.text()).toContain('new')
 })
+
 test('change owner', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
@@ -146,6 +148,7 @@ test('change owner', async () => {
   await flushPromises()
   expect(wrapper.text()).toContain('3')
 })
+
 test('delete player', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [

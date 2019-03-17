@@ -33,6 +33,7 @@ test('the GET method', async () => {
   await net.get('/abc')
   expect(window.fetch.mock.calls[1][0].url).toBe('/abc')
 })
+
 test('the POST method', async () => {
   window.fetch = jest.fn()
     .mockResolvedValue({
@@ -74,6 +75,7 @@ test('the POST method', async () => {
   await net.post('/abc')
   expect(window.fetch.mock.calls[2][0].body).toBe('{}')
 })
+
 test('low level fetch', async () => {
   const json = jest.fn().mockResolvedValue({})
   window.fetch = jest.fn()

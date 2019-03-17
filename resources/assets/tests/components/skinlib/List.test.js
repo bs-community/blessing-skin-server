@@ -22,6 +22,7 @@ test('empty skin library', () => {
   const wrapper = mount(List)
   expect(wrapper.text()).toContain('general.noResult')
 })
+
 test('toggle texture type', () => {
   Vue.prototype.$http.get.mockResolvedValue({
     items: [], total_pages: 0, current_uid: 0,
@@ -114,6 +115,7 @@ test('sort items', () => {
   )
   expect(wrapper.text()).toContain('skinlib.sort.time')
 })
+
 test('search by keyword', () => {
   Vue.prototype.$http.get.mockResolvedValue({
     items: [], total_pages: 0, current_uid: 0,
@@ -162,6 +164,7 @@ test('reset all filters', () => {
   wrapper.find('.btn-warning').trigger('click')
   expect(Vue.prototype.$http.get).toBeCalledTimes(1)
 })
+
 test('is anonymous', () => {
   Vue.prototype.$http.get.mockResolvedValue({
     items: [], total_pages: 0, current_uid: 0,
@@ -169,6 +172,7 @@ test('is anonymous', () => {
   const wrapper = mount(List)
   expect(wrapper.vm.anonymous).toBeTrue()
 })
+
 test('on page changed', () => {
   Vue.prototype.$http.get.mockResolvedValue({
     items: [], total_pages: 0, current_uid: 0,

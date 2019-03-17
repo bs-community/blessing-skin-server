@@ -30,6 +30,7 @@ test('display drap and drop notice', () => {
   wrapper.setData({ files: [{}] })
   expect(wrapper.contains('img')).toBeTrue()
 })
+
 test('button for removing texture', () => {
   const wrapper = mount(Upload, {
     stubs: ['file-upload'],
@@ -46,6 +47,7 @@ test('button for removing texture', () => {
   button.trigger('click')
   expect(wrapper.vm.texture).toBe('')
 })
+
 test('notice should be display if texture is private', () => {
   const wrapper = mount(Upload, {
     stubs: ['file-upload'],
@@ -54,6 +56,7 @@ test('notice should be display if texture is private', () => {
   wrapper.find('[type=checkbox]').setChecked()
   expect(wrapper.find('.callout').text()).toBe('privacyNotice')
 })
+
 test('display score cost', () => {
   const origin = Vue.prototype.$t
   Vue.prototype.$t = (key, args) => `${key}${JSON.stringify(args)}`
@@ -67,6 +70,7 @@ test('display score cost', () => {
 
   Vue.prototype.$t = origin
 })
+
 test('process input file', () => {
   window.URL.createObjectURL = jest.fn().mockReturnValue('file-url')
   jest.spyOn(window, 'Image')
@@ -107,6 +111,7 @@ test('process input file', () => {
 
   window.Image.mockRestore()
 })
+
 test('upload file', async () => {
   window.Request = jest.fn()
   Vue.prototype.$http.post

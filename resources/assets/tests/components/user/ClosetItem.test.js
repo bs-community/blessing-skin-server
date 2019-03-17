@@ -20,10 +20,12 @@ test('computed values', () => {
   expect(wrapper.find('img').attributes('src')).toBe('/preview/1.png')
   expect(wrapper.find('a.more').attributes('href')).toBe('/skinlib/show/1')
 })
+
 test('selected item', () => {
   const wrapper = mount(ClosetItem, { propsData: factory({ selected: true }) })
   expect(wrapper.find('.item').classes('item-selected')).toBeTrue()
 })
+
 test('click item body', () => {
   const wrapper = mount(ClosetItem, { propsData: factory() })
 
@@ -33,6 +35,7 @@ test('click item body', () => {
   wrapper.find('.item-body').trigger('click')
   expect(wrapper.emitted().select).toBeTruthy()
 })
+
 test('rename texture', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 0 })

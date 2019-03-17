@@ -18,11 +18,13 @@ test('display player name constraints', () => {
   expect(text).toContain('rule')
   expect(text).toContain('length')
 })
+
 test('fetch players data before mount', () => {
   Vue.prototype.$http.get.mockResolvedValue([])
   mount(Players)
   expect(Vue.prototype.$http.get).toBeCalledWith('/user/player/list')
 })
+
 test('click to preview player', async () => {
   Vue.prototype.$http.get
     .mockResolvedValueOnce([
@@ -56,6 +58,7 @@ test('click to preview player', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.get).toBeCalledWith('/skinlib/info/2')
 })
+
 test('change player name', async () => {
   Vue.prototype.$http.get
     .mockResolvedValueOnce([
@@ -89,6 +92,7 @@ test('change player name', async () => {
   await flushPromises()
   expect(wrapper.text()).toContain('new-name')
 })
+
 test('load iCheck', async () => {
   Vue.prototype.$http.get
     .mockResolvedValueOnce([
@@ -109,6 +113,7 @@ test('load iCheck', async () => {
   wrapper.find('.btn-warning').trigger('click')
   expect(window.$).toBeCalled()
 })
+
 test('delete player', async () => {
   Vue.prototype.$http.get
     .mockResolvedValueOnce([
@@ -133,12 +138,14 @@ test('delete player', async () => {
   await flushPromises()
   expect(wrapper.text()).not.toContain('to-be-deleted')
 })
+
 test('toggle preview mode', () => {
   Vue.prototype.$http.get.mockResolvedValueOnce([])
   const wrapper = mount(Players)
   wrapper.find('[data-test="to2d"]').trigger('click')
   expect(wrapper.text()).toContain('user.player.texture-empty')
 })
+
 test('add player', async () => {
   window.$ = jest.fn(() => ({ modal() {} }))
   Vue.prototype.$http.get.mockResolvedValueOnce([])
@@ -163,6 +170,7 @@ test('add player', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.get).toBeCalledTimes(2)
 })
+
 test('clear texture', async () => {
   window.$ = jest.fn(() => ({ modal() {} }))
   Vue.prototype.$http.get.mockResolvedValueOnce([

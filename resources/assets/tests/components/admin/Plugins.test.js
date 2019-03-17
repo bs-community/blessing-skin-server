@@ -24,6 +24,7 @@ test('render dependencies', async () => {
   expect(wrapper.find('span.label.bg-green').text()).toBe('a: ^1.0.0')
   expect(wrapper.find('span.label.bg-red').text()).toBe('c: ^2.0.0')
 })
+
 test('render operation buttons', async () => {
   Vue.prototype.$http.get.mockResolvedValue([
     {
@@ -46,6 +47,7 @@ test('render operation buttons', async () => {
   expect(tbody.find('tr:nth-child(3)').text()).toContain('admin.enablePlugin')
   expect(tbody.find('tr:nth-child(3)').text()).toContain('admin.deletePlugin')
 })
+
 test('enable plugin', async () => {
   Vue.prototype.$http.get.mockResolvedValue([
     {
@@ -95,6 +97,7 @@ test('enable plugin', async () => {
   await flushPromises()
   expect(wrapper.text()).toContain('admin.disablePlugin')
 })
+
 test('disable plugin', async () => {
   jest.spyOn(toastr, 'success')
   Vue.prototype.$http.get.mockResolvedValue([
@@ -120,6 +123,7 @@ test('disable plugin', async () => {
   expect(toastr.success).toBeCalledWith('0')
   expect(wrapper.text()).toContain('admin.enablePlugin')
 })
+
 test('delete plugin', async () => {
   jest.spyOn(toastr, 'success')
   Vue.prototype.$http.get.mockResolvedValue([

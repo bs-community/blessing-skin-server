@@ -18,6 +18,7 @@ test('show message', () => {
   expect(element.hasClass('callout-info')).toBeTrue()
   expect(element.html()).toBe('hi')
 })
+
 test('show AJAX error', () => {
   $.fn.modal = function () {
     document.body.innerHTML = this.html()
@@ -25,6 +26,7 @@ test('show AJAX error', () => {
   notify.showAjaxError(new Error('an-error'))
   expect(document.body.innerHTML).toContain('an-error')
 })
+
 test('show modal', () => {
   notify.showModal('message')
   expect($('.modal-title').html()).toBe('Message')
@@ -34,6 +36,7 @@ test('show modal', () => {
     destroyOnClose: false,
   })
 })
+
 test('show sweetalert', () => {
   jest.spyOn(Swal, 'fire')
   notify.swal({})

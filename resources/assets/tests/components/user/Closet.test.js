@@ -74,6 +74,7 @@ test('different categories', () => {
     .classes('active')).toBeTrue()
   expect(wrapper.find('#cape-category').classes('active')).toBeTrue()
 })
+
 test('search textures', () => {
   Vue.prototype.$http.get.mockResolvedValue({})
 
@@ -100,6 +101,7 @@ test('empty closet', () => {
   wrapper.setData({ category: 'cape' })
   expect(wrapper.find('#cape-category').text()).toContain('user.emptyClosetMsg')
 })
+
 test('no matched search result', () => {
   Vue.prototype.$http.get.mockResolvedValue({})
   const wrapper = mount(Closet)
@@ -108,6 +110,7 @@ test('no matched search result', () => {
   wrapper.setData({ category: 'cape' })
   expect(wrapper.find('#cape-category').text()).toContain('general.noResult')
 })
+
 test('render items', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     items: [
@@ -121,6 +124,7 @@ test('render items', async () => {
   await wrapper.vm.$nextTick()
   expect(wrapper.findAll(ClosetItem)).toHaveLength(2)
 })
+
 test('reload closet when page changed', () => {
   Vue.prototype.$http.get.mockResolvedValue({})
   const wrapper = mount(Closet)
@@ -128,6 +132,7 @@ test('reload closet when page changed', () => {
   jest.runAllTicks()
   expect(Vue.prototype.$http.get).toBeCalledTimes(2)
 })
+
 test('remove skin item', () => {
   Vue.prototype.$http.get.mockResolvedValue({})
   const wrapper = mount(Closet)
@@ -135,6 +140,7 @@ test('remove skin item', () => {
   wrapper.vm.removeSkinItem(0)
   expect(wrapper.find('#skin-category').text()).toContain('user.emptyClosetMsg')
 })
+
 test('remove cape item', () => {
   Vue.prototype.$http.get.mockResolvedValue({})
   const wrapper = mount(Closet)
@@ -142,12 +148,14 @@ test('remove cape item', () => {
   wrapper.vm.removeCapeItem(0)
   expect(wrapper.find('#cape-category').text()).toContain('user.emptyClosetMsg')
 })
+
 test('compute avatar URL', () => {
   Vue.prototype.$http.get.mockResolvedValue({})
   const wrapper = mount(Closet)
   const { avatarUrl } = wrapper.vm
   expect(avatarUrl({ tid_skin: 1 })).toBe('/avatar/35/1')
 })
+
 test('select texture', async () => {
   Vue.prototype.$http.get
     .mockResolvedValueOnce({})
@@ -169,6 +177,7 @@ test('select texture', async () => {
   expect(Vue.prototype.$http.get).toBeCalledWith('/skinlib/info/2')
   expect(wrapper.vm.capeUrl).toBe('/textures/b')
 })
+
 test('apply texture', async () => {
   window.$ = jest.fn(() => ({
     iCheck: () => ({
@@ -203,6 +212,7 @@ test('apply texture', async () => {
   expect(wrapper.find('.modal-body').text()).toContain('name')
   jest.runAllTimers()
 })
+
 test('submit applying texture', async () => {
   window.$ = jest.fn(() => ({ modal() {} }))
   jest.spyOn(toastr, 'info')
@@ -246,6 +256,7 @@ test('submit applying texture', async () => {
   await wrapper.vm.$nextTick()
   expect(swal).toBeCalledWith({ type: 'success', text: 'ok' })
 })
+
 test('reset selected texture', () => {
   Vue.prototype.$http.get.mockResolvedValue({})
   const wrapper = mount(Closet)
@@ -265,6 +276,7 @@ test('reset selected texture', () => {
     capeUrl: '',
   }))
 })
+
 test('select specified texture initially', async () => {
   window.history.pushState({}, 'title', `${location.href}?tid=1`)
   window.$ = jest.fn(() => ({

@@ -30,6 +30,7 @@ test('check for BS updates', async () => {
   await checkForUpdates()
   expect(document.querySelector('a').innerHTML).toContain('4.0.0')
 })
+
 test('check for plugins updates', async () => {
   window.fetch = jest.fn()
     .mockResolvedValueOnce({ ok: false })

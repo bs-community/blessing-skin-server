@@ -8,6 +8,7 @@ test('click to refresh captcha', () => {
   wrapper.find('img').trigger('click')
   expect(Date.now).toBeCalledTimes(2)
 })
+
 test('submit forgot form', async () => {
   jest.spyOn(Date, 'now')
   Vue.prototype.$http.post

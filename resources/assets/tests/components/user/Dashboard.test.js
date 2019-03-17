@@ -31,6 +31,7 @@ test('fetch score info', () => {
   mount(Dashboard)
   expect(Vue.prototype.$http.get).toBeCalledWith('/user/score-info')
 })
+
 test('players usage', async () => {
   Vue.prototype.$http.get.mockResolvedValue(scoreInfo())
   const wrapper = mount(Dashboard)
@@ -38,6 +39,7 @@ test('players usage', async () => {
   expect(wrapper.text()).toContain('3 / 15')
   expect(wrapper.find('.progress-bar-aqua').attributes('style')).toBe('width: 20%;')
 })
+
 test('storage usage', async () => {
   Vue.prototype.$http.get
     .mockResolvedValueOnce(scoreInfo())
@@ -61,12 +63,14 @@ test('storage usage', async () => {
   expect(wrapper.text()).toContain('2 / 4 MB')
   expect(wrapper.find('.progress-bar-yellow').attributes('style')).toBe('width: 50%;')
 })
+
 test('display score', async () => {
   Vue.prototype.$http.get.mockResolvedValue(scoreInfo())
   const wrapper = mount(Dashboard)
   await wrapper.vm.$nextTick()
   expect(wrapper.find('#score').text()).toContain('835')
 })
+
 test('button `sign` state', async () => {
   Vue.prototype.$http.get
     .mockResolvedValueOnce(scoreInfo({ signAfterZero: true }))
@@ -93,6 +97,7 @@ test('button `sign` state', async () => {
   await wrapper.vm.$nextTick()
   expect(wrapper.find('button').attributes('disabled')).toBe('disabled')
 })
+
 test('remaining time', async () => {
   const origin = Vue.prototype.$t
   Vue.prototype.$t = (key, args) => key + JSON.stringify(args)
@@ -117,6 +122,7 @@ test('remaining time', async () => {
 
   Vue.prototype.$t = origin
 })
+
 test('sign', async () => {
   jest.spyOn(toastr, 'warning')
   swal.mockResolvedValue()
