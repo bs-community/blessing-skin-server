@@ -120,7 +120,7 @@ Please refer to [Wiki - Mod Configuration](https://github.com/bs-community/bless
 
 ![screenshot](https://img.blessing.studio/images/2017/07/29/2017-06-16_15.54.16.png)
 
-Internationalization (i18n)
+Internationalization
 ------------
 Blessing Skin can support multiple languages, currently support English (`en`) and Simplfied Chinese (`zh_CN`).
 
