@@ -18,7 +18,7 @@ Vue.mixin({
   },
 })
 
-$(document).ready(() => {
+document.addEventListener('loadend', () => {
   $('input').iCheck({
     radioClass: 'iradio_square-blue',
     checkboxClass: 'icheckbox_square-blue',
@@ -26,6 +26,7 @@ $(document).ready(() => {
 
   $('[data-toggle="tooltip"]').tooltip()
 })
+
 ;(() => {
   const list = [
     {

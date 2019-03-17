@@ -5,21 +5,6 @@ import toastr from 'toastr'
 import { trans } from './i18n'
 
 /**
- * Show message to div#msg with level
- *
- * @param  {string} msg
- * @param  {string} type
- * @return {void}
- */
-export function showMsg(msg, type = 'info') {
-  $('#msg')
-    .removeClass()
-    .addClass('callout')
-    .addClass(`callout-${type}`)
-    .html(msg)
-}
-
-/**
  * Show modal if error occured when sending an ajax request.
  *
  * @param  {Error} error
@@ -64,10 +49,11 @@ export function showModal(msg, title = 'Message', type = 'default', options = {}
         </div>
     </div>`
 
-  $(dom).on('hidden.bs.modal', /* istanbul ignore next */ function modal() {
+  $(dom)
+    .on('hidden.bs.modal', /* istanbul ignore next */ function modal() {
     // eslint-disable-next-line no-invalid-this
-    destroyOnClose && $(this).remove()
-  })
+      destroyOnClose && $(this).remove()
+    })
     .modal(options)
 }
 
@@ -85,4 +71,4 @@ export function swal(options) {
 
 window.toastr = toastr
 window.swal = swal
-blessing.notify = { showMsg, showModal }
+blessing.notify = { showModal }

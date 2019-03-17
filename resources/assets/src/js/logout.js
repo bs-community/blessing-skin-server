@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import { post } from './net'
 import { swal } from './notify'
 import { trans } from './i18n'
@@ -20,4 +19,8 @@ export async function logout() {
   swal({ type: 'success', text: msg })
 }
 
-$('#logout-button').click(logout)
+const button = document.querySelector('#logout-button')
+/* istanbul ignore next, not all pages contains this button. */
+if (button) {
+  button.addEventListener('click', logout)
+}

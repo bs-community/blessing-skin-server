@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import { init } from './net'
 
 export async function checkForUpdates() {
@@ -7,12 +6,11 @@ export async function checkForUpdates() {
   if (response.ok) {
     const data = await response.json()
     if (data.available) {
-      const dom = `
-      <span class="pull-right-container">
-        <span class="label label-primary pull-right">v${data.latest}</span>
-      </span>`
-
-      $(`[href="${blessing.base_url}/admin/update"]`).append(dom)
+      document.querySelector(`[href="${blessing.base_url}/admin/update"]`)
+        .innerHTML += `
+        <span class="pull-right-container">
+          <span class="label label-primary pull-right">v${data.latest}</span>
+        </span>`
     }
   }
 }
@@ -23,12 +21,11 @@ export async function checkForPluginUpdates() {
   if (response.ok) {
     const data = await response.json()
     if (data.available) {
-      const dom = `
-      <span class="pull-right-container">
-        <span class="label label-success pull-right">${data.plugins.length}</span>
-      </span>`
-
-      $(`[href="${blessing.base_url}/admin/plugins/market"]`).append(dom)
+      document.querySelector(`[href="${blessing.base_url}/admin/plugins/market"]`)
+        .innerHTML += `
+        <span class="pull-right-container">
+          <span class="label label-success pull-right">${data.plugins.length}</span>
+        </span>`
     }
   }
 }

@@ -9,16 +9,6 @@ jest.mock('sweetalert2', () => ({
   fire() {},
 }))
 
-test('show message', () => {
-  document.body.innerHTML = '<div id=msg class="callout-x"></div>'
-  notify.showMsg('hi')
-
-  const element = $('#msg')
-  expect(element.hasClass('callout')).toBeTrue()
-  expect(element.hasClass('callout-info')).toBeTrue()
-  expect(element.html()).toBe('hi')
-})
-
 test('show AJAX error', () => {
   $.fn.modal = function () {
     document.body.innerHTML = this.html()

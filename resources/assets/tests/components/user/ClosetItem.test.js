@@ -98,19 +98,11 @@ test('set as avatar', async () => {
   swal
     .mockResolvedValueOnce({ dismiss: 'cancel' })
     .mockResolvedValue({})
-  window.$ = jest.fn(() => ({
-    each(fn) {
-      fn()
-    },
-    prop() {},
-    attr() {
-      return ''
-    },
-  }))
 
   const wrapper = mount(ClosetItem, { propsData: factory() })
   const button = wrapper.findAll('.dropdown-menu > li').at(2)
     .find('a')
+  document.body.innerHTML += '<img alt="User Image" src="a">'
 
   button.trigger('click')
   await wrapper.vm.$nextTick()
@@ -123,7 +115,7 @@ test('set as avatar', async () => {
   await flushPromises()
   await wrapper.vm.$nextTick()
   expect(Vue.prototype.$http.post).toBeCalledWith('/user/profile/avatar', { tid: 1 })
-  expect(window.$).toBeCalledWith('[alt="User Image"]')
+  expect(document.querySelector('img').src).toMatch(/\d+$/)
 })
 
 test('no avatar option if texture is cape', () => {

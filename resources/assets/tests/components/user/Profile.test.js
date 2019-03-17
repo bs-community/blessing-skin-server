@@ -96,14 +96,9 @@ test('change nickname', async () => {
   swal.mockResolvedValueOnce({})
     .mockResolvedValueOnce({ dismiss: 1 })
     .mockResolvedValue({})
-  window.$ = jest.fn(() => ({
-    each(fn) {
-      fn()
-    },
-    text() {},
-  }))
   const wrapper = mount(Profile)
   const button = wrapper.find('[data-test=changeNickName]')
+  document.body.innerHTML += '<span class="nickname"></span>'
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
@@ -130,6 +125,7 @@ test('change nickname', async () => {
   button.trigger('click')
   await flushPromises()
   expect(swal).toBeCalledWith({ type: 'success', text: 'o' })
+  expect(document.querySelector('.nickname').textContent).toBe('nickname')
 })
 
 test('change email', async () => {

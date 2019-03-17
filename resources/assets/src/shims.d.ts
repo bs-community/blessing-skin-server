@@ -25,7 +25,6 @@ declare global {
     }
 
     notify: {
-      showMsg(message: string, type?: string): void
       showModal(
         message: string,
         title?: string,

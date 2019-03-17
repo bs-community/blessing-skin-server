@@ -96,10 +96,10 @@
     @include('common.dependencies.script')
 
     <script>
-        $(document).ready(() => {
-            checkForUpdates();
-            checkForPluginUpdates();
-        });
+        document.addEventListener('loadend', () => {
+            checkForUpdates()
+            checkForPluginUpdates()
+        })
     </script>
 
     @yield('script')

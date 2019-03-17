@@ -21,10 +21,8 @@ export default {
       if (errno === 0) {
         toastr.success(msg)
 
-        $('[alt="User Image"]').each(function it() {
-          // eslint-disable-next-line no-invalid-this
-          $(this).prop('src', `${$(this).attr('src')}?${new Date().getTime()}`)
-        })
+        Array.from(document.querySelectorAll('[alt="User Image"]'))
+          .forEach(el => (el.src += `?${new Date().getTime()}`))
       } else {
         toastr.warning(msg)
       }

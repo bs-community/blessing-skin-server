@@ -301,10 +301,8 @@ export default {
         { new_nickname: nickname }
       )
       if (errno === 0) {
-        $('.nickname').each(function it() {
-          // eslint-disable-next-line no-invalid-this
-          $(this).text(nickname)
-        })
+        Array.from(document.querySelectorAll('.nickname'))
+          .forEach(el => (el.textContent = nickname))
         return swal({ type: 'success', text: msg })
       }
       return swal({ type: 'warning', text: msg })
