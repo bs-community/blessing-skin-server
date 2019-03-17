@@ -30,12 +30,12 @@ Blessing Skin 是一个开源的 PHP 项目，这意味着您可以自由地在�
     - 多处 UI/UX 优化只为更好的用户体验
 - 安全
     - 支持多种安全密码 Hash 算法
-    - 注册可要求 Email 验证（插件）
+    - 注册可要求 Email 验证
     - 防止恶意请求的积分系统
 - 强大的可扩展性
     - 多种多样的插件
-    - 支持与 Authme/Discuz 等程序的用户数据对接
-    - 支持自定义 Yggdrasil API 外置登录系统
+    - 支持与 Authme/Discuz 等程序的用户数据对接（插件）
+    - 支持自定义 Yggdrasil API 外置登录系统（插件）
 
 环境要求
 -----------
@@ -96,6 +96,14 @@ yarn build
 ```
 
 接下来请参考「快速安装向导」进行后续安装。
+
+国际化（i18n）
+------------
+Blessing Skin 可支持多种语言，当前支持英语（`en`）和简体中文（`zh_CN`）。
+
+当然，您也可以添加您自己的语言。请参阅 [Wiki - 添加其它语言 [i18n]](https://github.com/bs-community/blessing-skin-server/wiki/%E6%B7%BB%E5%8A%A0%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80-%5Bi18n%5D)
+
+如果您愿意将您的翻译贡献出来，欢迎参与 [我们的 Crowdin 项目](https://crowdin.com/project/bs-i18n)。
 
 问题报告
 ------------

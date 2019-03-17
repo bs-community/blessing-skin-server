@@ -30,12 +30,12 @@ Features
     - Many tweaks for a better UI/UX
 - Security
     - Support many secure password hash algorithms
-    - Email verification for registration (available as plugin)
+    - Email verification for registration
     - Score system for preventing evil requests
 - Incredibly extensible
     - Plenty of plugins available
-    - Integration with Authme/CrazyLogin/Discuz
-    - Support custom Yggdrasil API authentication
+    - Integration with Authme/CrazyLogin/Discuz (available as plugin)
+    - Support custom Yggdrasil API authentication (available as plugin)
 
 Requirements
 -----------
@@ -119,6 +119,14 @@ Mod Configuration
 Please refer to [Wiki - Mod Configuration](https://github.com/bs-community/blessing-skin-server/wiki/%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%E7%9A%AE%E8%82%A4-Mod).
 
 ![screenshot](https://img.blessing.studio/images/2017/07/29/2017-06-16_15.54.16.png)
+
+Internationalization
+------------
+Blessing Skin supports multiple languages, while currently supporting English (`en`) and Simplified Chinese (`zh_CN`).
+
+Of course, you can add your own language. Please check [Wiki - Add other language [i18n]](https://github.com/bs-community/blessing-skin-server/wiki/%E6%B7%BB%E5%8A%A0%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80-%5Bi18n%5D) (Simplified Chinese only).
+
+If you are willing to contribute your translation, welcome to join [our Crowdin project](https://crowdin.com/project/bs-i18n).
 
 Report Problems
 ------------
