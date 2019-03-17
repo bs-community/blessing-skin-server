@@ -101,7 +101,7 @@ yarn build
 ------------
 Blessing Skin 可支持多种语言，当前支持英语(`en`)和简体中文（`zh_CN`）。
 
-当然，你也可以添加你自己的语言。请参阅 [Wiki - 添加其他语言 [i18n]](https://github.com/bs-community/blessing-skin-server/wiki/%E6%B7%BB%E5%8A%A0%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80-%5Bi18n%5D)
+当然，您也可以添加您自己的语言。请参阅 [Wiki - 添加其它语言 [i18n]](https://github.com/bs-community/blessing-skin-server/wiki/%E6%B7%BB%E5%8A%A0%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80-%5Bi18n%5D)
 
 如果您愿意将您的翻译贡献出来，欢迎参与 [我们的 Crowdin 项目](https://crowdin.com/project/bs-i18n)。
 
