@@ -377,40 +377,32 @@ export default {
 </script>
 
 <style lang="stylus">
-.player {
-    cursor: pointer;
-    border-bottom: 1px solid #f4f4f4;
+.player
+  cursor pointer
+  border-bottom 1px solid #f4f4f4
 
-    .pid, .player-name {
-        padding-top: 13px;
-    }
-}
+  .pid, .player-name
+    padding-top 13px
 
-.player:last-child {
-    border-bottom: none;
-}
+.player:last-child
+  border-bottom none
 
-.player-selected {
-    background-color: #f5f5f5;
-}
+.player-selected
+  background-color #f5f5f5
 
-.modal-body > label {
-    margin-bottom: 10px;
-}
+.modal-body > label
+  margin-bottom 10px
 
-.skin2d {
-    float: right;
-    max-height: 64px;
-    width: 64px;
-    font-size: 16px;
-}
+.skin2d
+  float right
+  max-height 64px
+  width 64px
+  font-size 16px
 
-#preview-2d > p {
-    height: 64px;
-    line-height: 64px;
-}
+#preview-2d > p
+  height 64px
+  line-height 64px
 
-.form-group {
-    cursor: pointer;
-}
+.form-group
+  cursor pointer
 </style>

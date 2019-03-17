@@ -331,50 +331,39 @@ export default {
 </script>
 
 <style lang="stylus">
-.empty-msg {
-    text-align: center;
-    font-size: 16px;
-    padding: 10px 0;
-}
+.empty-msg
+  text-align center
+  font-size 16px
+  padding 10px 0
 
-.texture-name {
-    width: 65%;
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.texture-name
+  width 65%
+  display inline-block
+  overflow hidden
+  text-overflow ellipsis
+  white-space nowrap
 
-    small {
-        font-size: 75%;
-    }
-}
+  small
+    font-size 75%
 
-.item-footer > .dropdown-menu {
-    margin-left: 180px;
-}
+.item-footer > .dropdown-menu
+  margin-left 180px
 
-.box-title {
-    a {
-        color: #6d6d6d;
-    }
+.box-title
+  a
+    color #6d6d6d
 
-    a.selected {
-        color: #3c8dbc;
-    }
-}
+  a.selected
+    color #3c8dbc
 
-.player-item:not(:nth-child(1)) {
-    margin-top: 10px;
-}
+.player-item:not(:nth-child(1))
+  margin-top 10px
 
-.breadcrumb {
-    a {
-        margin-right: 10px;
-        color: #444;
-    }
+.breadcrumb
+  a
+    margin-right 10px
+    color #444
 
-    a:hover {
-        color: #3c8dbc;
-    }
-}
+  a:hover
+    color #3c8dbc
 </style>

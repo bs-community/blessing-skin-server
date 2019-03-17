@@ -153,15 +153,13 @@ export default {
 </script>
 
 <style lang="stylus">
-#score {
-    font-family: Minecraft;
-    font-size: 50px;
-    text-align: center;
-    margin-top: 20px;
-    cursor: help;
-}
+#score
+  font-family Minecraft
+  font-size 50px
+  text-align center
+  margin-top 20px
+  cursor help
 
-.progress {
-    margin-top: 4px;
-}
+.progress
+  margin-top 4px
 </style>

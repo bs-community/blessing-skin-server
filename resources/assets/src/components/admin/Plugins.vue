@@ -216,28 +216,22 @@ export default {
 </script>
 
 <style lang="stylus">
-.actions {
-    margin-top: 5px;
-    color: #ddd;
-}
+.actions
+  margin-top 5px
+  color #ddd
 
-.plugin-version-author {
-    color: #777;
-    font-size: small;
-    a {
-        color: #337ab7;
-    }
-}
+.plugin-version-author
+  color #777
+  font-size small
+    a
+      color #337ab7
 
-.plugin > td:first-child {
-    border-left: 5px solid transparent;
-}
+.plugin > td:first-child
+  border-left 5px solid transparent
 
-.plugin-enabled {
-    background-color: #f7fcfe;
-}
+.plugin-enabled
+  background-color #f7fcfe
 
-.plugin-enabled > td:first-child {
-    border-left: 5px solid #3c8dbc;
-}
+.plugin-enabled > td:first-child
+  border-left 5px solid #3c8dbc
 </style>

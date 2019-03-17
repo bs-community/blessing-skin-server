@@ -348,11 +348,9 @@ export default {
 </script>
 
 <style lang="stylus">
-.table > tbody > tr > td {
-    border-top: 0;
-}
+.table > tbody > tr > td
+  border-top 0
 
-.pulled-right-btn {
-    margin-left: 12px;
-}
+.pulled-right-btn
+  margin-left 12px
 </style>

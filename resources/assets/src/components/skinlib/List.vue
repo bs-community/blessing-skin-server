@@ -256,23 +256,19 @@ export default {
 </script>
 
 <style lang="stylus">
-.overlay span {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-left: -40px;
-    margin-top: 25px;
-    color: #000;
-    font-size: 20px;
-}
+.overlay span
+  position absolute
+  top 50%
+  left 50%
+  margin-left -40px
+  margin-top 25px
+  color #000
+  font-size 20px
 
-@media (min-width: 768px) {
-    .filter-btn {
-        margin-left: 25px;
-    }
-}
+@media (min-width: 768px)
+  .filter-btn
+    margin-left 25px
 
-.btn-tail {
-    margin-left: 6px;
-}
+.btn-tail
+  margin-left 6px
 </style>

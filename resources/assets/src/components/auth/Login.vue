@@ -163,7 +163,6 @@ export default {
 </script>
 
 <style lang="stylus">
-#login-button {
-    margin-top: 5px;
-}
+#login-button
+  margin-top 5px
 </style>

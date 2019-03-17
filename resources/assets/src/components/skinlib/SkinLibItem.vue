@@ -129,40 +129,30 @@ export default {
 </script>
 
 <style lang="stylus">
-.texture-name {
-    width: 65%;
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
+.texture-name
+  width 65%
+  display inline-block
+  overflow hidden
+  text-overflow ellipsis
+  white-space nowrap
 
-@media (min-width: 1200px) {
-    .item {
-        width: 250px;
-    }
+@media (min-width: 1200px)
+  .item
+    width 250px
 
-    .item-body > img {
-        margin-left: 50px;
-    }
+  .item-body > img
+    margin-left 50px
 
-    .texture-name {
-        width: 65%;
-    }
-}
+  .texture-name
+    width 65%
 
-.item-footer {
-    a {
-        color: #fff;
-    }
+.item-footer
+  a
+    color #fff
 
-    .like:hover,
-    .liked {
-        color: #e0353b;
-    }
-}
+  .like:hover, .liked
+    color #e0353b
 
-.private-label {
-    margin-top: 2px;
-}
+.private-label
+  margin-top 2px
 </style>

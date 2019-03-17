@@ -153,28 +153,22 @@ export default {
 </script>
 
 <style lang="stylus">
-@media (min-width: 992px) {
-    .previewer-3d {
-        min-height: 500px;
-    }
-}
+@media (min-width: 992px)
+  .previewer-3d
+    min-height 500px
 
-.previewer-3d canvas {
-    cursor: move;
-}
+.previewer-3d canvas
+  cursor move
 
-.operations {
-    display: inline;
-    float: right;
+.operations
+  display inline
+  float right
 
-    i {
-        padding: .5em .5em;
-        display: inline;
-    }
+  i
+    padding .5em .5em
+    display inline
 
-    i:hover {
-        color: #555;
-        cursor: pointer;
-    }
-}
+  i:hover
+    color #555
+    cursor pointer
 </style>

@@ -204,17 +204,15 @@ export default {
 </script>
 
 <style lang="stylus">
-.file-dnd {
-    min-height: 256px;
-    margin-bottom: 15px;
-    border: 1px solid #ddd;
-    border-radius: 2px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.file-dnd
+  min-height 256px
+  margin-bottom 15px
+  border 1px solid #ddd
+  border-radius 2px
+  display flex
+  justify-content center
+  align-items center
 
-    h3 {
-        color: #aaa;
-    }
-}
+  h3
+    color #aaa
 </style>

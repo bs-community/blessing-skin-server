@@ -1,176 +1,135 @@
-font_stack = Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif;
+font_stack = Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif
 
-@font-face {
-    font-family: 'Ubuntu';
-    src: url('../fonts/ubuntu.woff2') format('woff2'),
-         url('../fonts/ubuntu.woff') format('woff');
-}
+@font-face
+  font-family 'Ubuntu'
+  src url('../fonts/ubuntu.woff2') format('woff2'), url('../fonts/ubuntu.woff') format('woff')
 
-@font-face {
-    font-family: 'Minecraft';
-    src: url('../fonts/minecraft.woff2')  format('woff2'),
-         url('../fonts/minecraft.woff')   format('woff');
-}
+@font-face
+  font-family 'Minecraft'
+  src url('../fonts/minecraft.woff2') format('woff2'), url('../fonts/minecraft.woff') format('woff')
 
-body, h1, h2, h3, h4, h5, h6 {
-    font-family: font_stack;
-}
+body, h1, h2, h3, h4, h5, h6
+  font-family font_stack
 
-.logo-lg, .navbar-brand {
-    font-family: Minecraft;
-}
+.logo-lg, .navbar-brand
+  font-family Minecraft
 
 // AdminLTE 2 is not compatible with Font Awesome 5
-.main-header .sidebar-toggle::before {
-    content: '';
-}
+.main-header .sidebar-toggle::before
+  content ''
 
-#toast-container > div {
-    opacity: 1;
-    filter: "alpha(opacity=100)";
-}
+#toast-container > div
+  opacity 1
+  filter 'alpha(opacity=100)'
 
-.swal2-popup {
-  font-size: 1.6rem !important;
-}
+.swal2-popup
+  font-size 1.6rem !important
 
-.item {
-    display: block;
-    background: #EFF1F0;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-    border-radius: 2px;
-    float: left;
-    position: relative;
-    margin-right: 20px;
-    margin-bottom: 20px;
-    cursor: pointer;
-    width: 210px;
-    height: 196px;
-    transition: box-shadow 0.1s ease-in-out 0s;
-}
+.item
+  display block
+  background #EFF1F0
+  box-shadow 0 1px 1px rgba(0, 0, 0, 0.1)
+  border-radius 2px
+  float left
+  position relative
+  margin-right 20px
+  margin-bottom 20px
+  cursor pointer
+  width 210px
+  height 196px
+  transition box-shadow 0.1s ease-in-out 0s
 
-.item-body {
-    height: 166px;
+.item-body
+  height 166px
 
-    img {
-        max-width: 100%;
-        margin-left: 30px;
-        margin-top: 16px;
-        width: 150px;
-    }
-}
+  img
+    max-width 100%
+    margin-left 30px
+    margin-top 16px
+    width 150px
 
-@media (max-width: 756px) {
-    .item {
-        width: 45%;
-        margin-right: 5%;
-    }
+@media (max-width: 756px)
+  .item
+    width 45%
+    margin-right 5%
 
-    .item-body > img {
-        margin-left: 25%;
-    }
+  .item-body > img
+    margin-left 25%
 
-    .texture-name {
-        width: 65%;
-    }
-}
+  .texture-name
+    width 65%
 
-@media (max-width: 520px) {
-    .item {
-        width: 100%;
-    }
+@media (max-width: 520px)
+  .item
+    width 100%
 
-    .item-body > img {
-        margin-left: 30%;
-    }
+  .item-body > img
+    margin-left 30%
 
-    .texture-name {
-        width: 80%;
-    }
-}
+  .texture-name
+    width 80%
 
-.item:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-}
+.item:hover
+  box-shadow 0 6px 12px rgba(0, 0, 0, 0.175)
 
-.item-selected {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-}
+.item-selected
+  box-shadow 0 6px 12px rgba(0, 0, 0, 0.175)
 
-.item-footer {
-    background: #50b3ec;
-    color: #fff;
-    font-size: 16px;
-    height: 30px;
-    padding: 3px 8px;
+.item-footer
+  background #50b3ec
+  color #fff
+  font-size 16px
+  height 30px
+  padding 3px 8px
 
-    .more {
-        float: right;
-        margin-left: 6px;
-        margin-right: 3px;
-        color: #fff;
-    }
+  .more
+    float right
+    margin-left 6px
+    margin-right 3px
+    color #fff
 
-    .more:hover {
-        color: #dadada;
-    }
+  .more:hover
+    color #dadada
 
-    small {
-        font-size: 50%;
-    }
-}
+  small
+    font-size 50%
 
-.box-footer > p {
-    margin: 6px 15px 5px 0;
-}
+.box-footer > p
+  margin 6px 15px 5px 0
 
-@media (max-width: 767px) {
+@media (max-width: 767px)
+  .wrapper .main-header .navbar .dropdown-menu li.locale
+    a
+      color #777
 
-    .wrapper .main-header .navbar .dropdown-menu li.locale {
-        a {
-            color: #777;
-        }
+    a:hover
+      background-color #e1e3e9
+      color #333
 
-        a:hover {
-            background-color: #e1e3e9;
-            color: #333;
-        }
-    }
+  /* hide the text on mobile phone pages */
+  .description-text
+    display none
 
-    /* hide the text on mobile phone pages */
-    .description-text {
-        display: none;
-    }
-}
+.key
+  vertical-align middle
 
-.key {
-    vertical-align: middle;
-}
-.value {
-    width: 70%;
-}
+.value
+  width 70%
 
-.table > tbody > tr {
-    td.value, td.key {
-        border-top: 0;
-    }
+.table > tbody > tr
+  td.value, td.key
+    border-top 0
 
-    @media (max-width: 768px) {
-        td.value, td.key {
-            display: block;
-        }
+  @media (max-width: 768px)
+    td.value, td.key
+      display block
 
-        td.value {
-            width: 90%;
-        }
-    }
-}
+    td.value
+      width 90%
 
-.modal-danger .modal-title small {
-    color: #fff;
+.modal-danger .modal-title small
+  color #fff
 
-    a {
-        text-decoration: underline;
-        color: #fff;
-    }
-}
+  a
+    text-decoration underline
+    color #fff

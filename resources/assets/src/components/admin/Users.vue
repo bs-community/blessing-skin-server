@@ -361,11 +361,9 @@ export default {
 </script>
 
 <style lang="stylus">
-.operations-menu {
-    margin-left -35px
-}
+.operations-menu
+  margin-left -35px
 
-.row-at-bottom {
-    margin-top -100px
-}
+.row-at-bottom
+  margin-top -100px
 </style>
