@@ -1,7 +1,11 @@
+import Vue from 'vue'
 import toastr from 'toastr'
 import { swal } from '../../js/notify'
 
-export default {
+export default Vue.extend<{
+  name: string,
+  tid: number
+}, { addClosetItem(): Promise<void> }, {}>({
   methods: {
     async addClosetItem() {
       const { dismiss, value } = await swal({
@@ -10,7 +14,7 @@ export default {
         inputValue: this.name,
         input: 'text',
         showCancelButton: true,
-        inputValidator: val => !val && this.$t('skinlib.emptyItemName'),
+        inputValidator: val => (!val && this.$t('skinlib.emptyItemName')) || null,
       })
       if (dismiss) {
         return
@@ -24,8 +28,8 @@ export default {
         swal({ type: 'success', text: msg })
         this.$emit('like-toggled', true)
       } else {
-        toastr.warning(msg)
+        toastr.warning(msg!)
       }
     },
   },
-}
+})

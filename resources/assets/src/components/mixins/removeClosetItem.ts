@@ -1,7 +1,11 @@
+import Vue from 'vue'
 import toastr from 'toastr'
 import { swal } from '../../js/notify'
 
-export default {
+export default Vue.extend<{
+  name: string,
+  tid: number
+}, { removeClosetItem(): Promise<void> }, {}>({
   methods: {
     async removeClosetItem() {
       const { dismiss } = await swal({
@@ -21,8 +25,8 @@ export default {
         this.$emit('item-removed')
         swal({ type: 'success', text: msg })
       } else {
-        toastr.warning(msg)
+        toastr.warning(msg!)
       }
     },
   },
-}
+})
