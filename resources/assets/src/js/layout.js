@@ -1,4 +1,3 @@
-import './jquery' // jQuery first
 import 'bootstrap' // eslint-disable-line import/no-extraneous-dependencies
 import 'admin-lte'
 import 'icheck'

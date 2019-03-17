@@ -5,7 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const WebpackBar = require('webpackbar')
 
-const devMode = !process.argv.includes('--mode=production')
+const devMode = !process.argv.includes('-p')
 
 /** @type {import('webpack').Configuration} */
 const config = {
@@ -73,7 +73,7 @@ const config = {
         ],
       },
       {
-        test: /\.yml$/,
+        test: /\.ya?ml$/,
         use: ['json-loader', 'yaml-loader'],
       },
       {
@@ -86,6 +86,19 @@ const config = {
       {
         test: /\.(svg|woff2?|eot|ttf)$/,
         loader: 'file-loader',
+      },
+      {
+        test: require.resolve('jquery'),
+        use: [
+          {
+            loader: 'expose-loader',
+            options: 'jQuery',
+          },
+          {
+            loader: 'expose-loader',
+            options: '$',
+          },
+        ],
       },
     ],
     noParse: /^(vue|jquery)$/,
@@ -131,13 +144,7 @@ const config = {
 if (devMode) {
   config.plugins.push(new webpack.HotModuleReplacementPlugin())
 } else {
-  process.env.NODE_ENV = 'production'
   config.plugins.push(new WebpackBar())
-  config.plugins.push(
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('production'),
-    })
-  )
 }
 
 module.exports = config
