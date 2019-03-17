@@ -163,38 +163,15 @@ test('set as avatar', () => {
 test('add to closet', async () => {
   Object.assign(window.blessing.extra, { currentUid: 1, inCloset: false })
   Vue.prototype.$http.get.mockResolvedValue({ name: 'wow', likes: 2 })
-  Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
-    .mockResolvedValue({ errno: 0, msg: '' })
-  jest.spyOn(toastr, 'warning')
-  swal.mockImplementationOnce(() => ({ dismiss: 1 }))
-    .mockImplementation(({ inputValidator }) => {
-      if (inputValidator) {
-        inputValidator()
-        inputValidator('wow')
-      }
-      return { value: 'wow' }
-    })
+  Vue.prototype.$http.post.mockResolvedValue({ errno: 0, msg: '' })
+  swal.mockResolvedValue({})
   const wrapper = mount(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
     },
     stubs: { previewer },
   })
-  const button = wrapper.find('.btn-primary')
-
-  button.trigger('click')
-  expect(Vue.prototype.$http.post).not.toBeCalled()
-
-  button.trigger('click')
-  await flushPromises()
-  expect(Vue.prototype.$http.post).toBeCalledWith(
-    '/user/closet/add',
-    { tid: 1, name: 'wow' }
-  )
-  expect(toastr.warning).toBeCalledWith('1')
-
-  button.trigger('click')
+  wrapper.find('.btn-primary').trigger('click')
   await flushPromises()
   expect(wrapper.vm.likes).toBe(3)
   expect(wrapper.vm.liked).toBeTrue()
@@ -203,32 +180,15 @@ test('add to closet', async () => {
 test('remove from closet', async () => {
   Object.assign(window.blessing.extra, { currentUid: 1, inCloset: true })
   Vue.prototype.$http.get.mockResolvedValue({ likes: 2 })
-  Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
-    .mockResolvedValue({ errno: 0, msg: '' })
-  jest.spyOn(toastr, 'warning')
-  swal.mockResolvedValueOnce({ dismiss: 1 })
-    .mockResolvedValue({})
+  Vue.prototype.$http.post.mockResolvedValue({ errno: 0 })
+  swal.mockResolvedValue({})
   const wrapper = mount(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
     },
     stubs: { previewer },
   })
-  const button = wrapper.find('.btn-primary')
-
-  button.trigger('click')
-  expect(Vue.prototype.$http.post).not.toBeCalled()
-
-  button.trigger('click')
-  await flushPromises()
-  expect(Vue.prototype.$http.post).toBeCalledWith(
-    '/user/closet/remove',
-    { tid: 1 }
-  )
-  expect(toastr.warning).toBeCalledWith('1')
-
-  button.trigger('click')
+  wrapper.find('.btn-primary').trigger('click')
   await flushPromises()
   expect(wrapper.vm.likes).toBe(1)
   expect(wrapper.vm.liked).toBeFalse()

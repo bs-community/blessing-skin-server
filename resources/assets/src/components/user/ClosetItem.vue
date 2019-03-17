@@ -25,7 +25,7 @@
 
       <ul class="dropup dropdown-menu" aria-labelledby="more-button">
         <li><a v-t="'user.renameItem'" @click="rename" /></li>
-        <li><a v-t="'user.removeItem'" @click="remove" /></li>
+        <li><a v-t="'user.removeItem'" @click="removeClosetItem" /></li>
         <li><a v-if="type !== 'cape'" v-t="'user.setAsAvatar'" @click="setAsAvatar" /></li>
       </ul>
     </div>
@@ -36,10 +36,14 @@
 import toastr from 'toastr'
 import { swal } from '../../js/notify'
 import setAsAvatar from '../mixins/setAsAvatar'
+import removeClosetItem from '../mixins/removeClosetItem'
 
 export default {
   name: 'ClosetItem',
-  mixins: [setAsAvatar],
+  mixins: [
+    removeClosetItem,
+    setAsAvatar,
+  ],
   props: {
     tid: {
       type: Number,
@@ -88,27 +92,6 @@ export default {
       if (errno === 0) {
         this.textureName = newTextureName
         toastr.success(msg)
-      } else {
-        toastr.warning(msg)
-      }
-    },
-    async remove() {
-      const { dismiss } = await swal({
-        text: this.$t('user.removeFromClosetNotice'),
-        type: 'warning',
-        showCancelButton: true,
-      })
-      if (dismiss) {
-        return
-      }
-
-      const { errno, msg } = await this.$http.post(
-        '/user/closet/remove',
-        { tid: this.tid }
-      )
-      if (errno === 0) {
-        this.$emit('item-removed')
-        swal({ type: 'success', text: msg })
       } else {
         toastr.warning(msg)
       }

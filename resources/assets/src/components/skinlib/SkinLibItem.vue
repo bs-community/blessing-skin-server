@@ -32,11 +32,15 @@
 </template>
 
 <script>
-import toastr from 'toastr'
-import { swal } from '../../js/notify'
+import addClosetItem from '../mixins/addClosetItem'
+import removeClosetItem from '../mixins/removeClosetItem'
 
 export default {
   name: 'SkinLibItem',
+  mixins: [
+    addClosetItem,
+    removeClosetItem,
+  ],
   props: {
     tid: Number,
     name: String,
@@ -74,55 +78,12 @@ export default {
       if (this.liked) {
         this.removeFromCloset()
       } else {
-        this.addToCloset()
-      }
-    },
-    async addToCloset() {
-      const { dismiss, value } = await swal({
-        title: this.$t('skinlib.setItemName'),
-        text: this.$t('skinlib.applyNotice'),
-        inputValue: this.name,
-        input: 'text',
-        showCancelButton: true,
-        inputValidator: val => !val && this.$t('skinlib.emptyItemName'),
-      })
-      if (dismiss) {
-        return
-      }
-
-      const { errno, msg } = await this.$http.post(
-        '/user/closet/add',
-        { tid: this.tid, name: value }
-      )
-      if (errno === 0) {
-        swal({ type: 'success', text: msg })
-        this.$emit('like-toggled', true)
-      } else {
-        toastr.warning(msg)
+        this.addClosetItem()
       }
     },
     async removeFromCloset() {
-      const { dismiss } = await swal({
-        text: this.$t('user.removeFromClosetNotice'),
-        type: 'warning',
-        showCancelButton: true,
-        cancelButtonColor: '#3085d6',
-        confirmButtonColor: '#d33',
-      })
-      if (dismiss) {
-        return
-      }
-
-      const { errno, msg } = await this.$http.post(
-        '/user/closet/remove',
-        { tid: this.tid }
-      )
-      if (errno === 0) {
-        this.$emit('like-toggled', false)
-        swal({ type: 'success', text: msg })
-      } else {
-        toastr.warning(msg)
-      }
+      this.$once('item-removed', () => this.$emit('like-toggled', false))
+      await this.removeClosetItem()
     },
   },
 }

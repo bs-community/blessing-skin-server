@@ -142,13 +142,19 @@
 import toastr from 'toastr'
 import { swal } from '../../js/notify'
 import setAsAvatar from '../mixins/setAsAvatar'
+import addClosetItem from '../mixins/addClosetItem'
+import removeClosetItem from '../mixins/removeClosetItem'
 
 export default {
   name: 'Show',
   components: {
     Previewer: () => import('../common/Previewer'),
   },
-  mixins: [setAsAvatar],
+  mixins: [
+    addClosetItem,
+    removeClosetItem,
+    setAsAvatar,
+  ],
   props: {
     baseUrl: {
       type: String,
@@ -200,53 +206,18 @@ export default {
       this.public = !!data.public
     },
     async addToCloset() {
-      const { dismiss, value } = await swal({
-        title: this.$t('skinlib.setItemName'),
-        text: this.$t('skinlib.applyNotice'),
-        inputValue: this.name,
-        input: 'text',
-        showCancelButton: true,
-        inputValidator: val => !val && this.$t('skinlib.emptyItemName'),
-      })
-      if (dismiss) {
-        return
-      }
-
-      const { errno, msg } = await this.$http.post(
-        '/user/closet/add',
-        { tid: this.tid, name: value }
-      )
-      if (errno === 0) {
+      this.$once('like-toggled', () => {
         this.liked = true
         this.likes += 1
-        swal({ type: 'success', text: msg })
-      } else {
-        toastr.warning(msg)
-      }
+      })
+      await this.addClosetItem()
     },
     async removeFromCloset() {
-      const { dismiss } = await swal({
-        text: this.$t('user.removeFromClosetNotice'),
-        type: 'warning',
-        showCancelButton: true,
-        cancelButtonColor: '#3085d6',
-        confirmButtonColor: '#d33',
-      })
-      if (dismiss) {
-        return
-      }
-
-      const { errno, msg } = await this.$http.post(
-        '/user/closet/remove',
-        { tid: this.tid }
-      )
-      if (errno === 0) {
+      this.$once('item-removed', () => {
         this.liked = false
         this.likes -= 1
-        swal({ type: 'success', text: msg })
-      } else {
-        toastr.warning(msg)
-      }
+      })
+      await this.removeClosetItem()
     },
     async changeTextureName() {
       const { dismiss, value } = await swal({
