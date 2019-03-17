@@ -1,13 +1,18 @@
+import Vue from 'vue'
 import * as net from '@/js/net'
 import { on } from '@/js/event'
 import { showAjaxError } from '@/js/notify'
 
 jest.mock('@/js/notify')
 
-window.Request = function Request(url, init) {
-  this.url = url
-  Object.keys(init).forEach(key => (this[key] = init[key]))
-  this.headers = new Map(Object.entries(init.headers))
+;(window as Window & { Request: any }).Request = class {
+  headers: Map<string, string>
+
+  constructor(public url: string, init: Request) {
+    this.url = url
+    Object.assign(this, init)
+    this.headers = new Map(Object.entries(init.headers))
+  }
 }
 
 test('the GET method', async () => {
@@ -96,23 +101,28 @@ test('low level fetch', async () => {
       text: () => Promise.resolve('text'),
     })
 
-  const request = { headers: new Map() }
+  const request: RequestInit = { headers: new Headers() }
 
   const stub = jest.fn()
   on('fetchError', stub)
 
-  await net.walkFetch(request)
+  await net.walkFetch(request as Request)
   expect(showAjaxError.mock.calls[0][0]).toBeInstanceOf(Error)
   expect(showAjaxError.mock.calls[0][0]).toHaveProperty('message', 'network')
   expect(stub).toBeCalledWith(expect.any(Error))
 
-  await net.walkFetch(request)
+  await net.walkFetch(request as Request)
   expect(showAjaxError.mock.calls[1][0]).toBeInstanceOf(Error)
   expect(stub.mock.calls[1][0]).toHaveProperty('message', '404')
   expect(stub.mock.calls[1][0]).toHaveProperty('response')
 
-  await net.walkFetch(request)
+  await net.walkFetch(request as Request)
   expect(json).toBeCalled()
 
-  expect(await net.walkFetch(request)).toBe('text')
+  expect(await net.walkFetch(request as Request)).toBe('text')
+})
+
+test('inject to Vue instance', () => {
+  expect(typeof Vue.prototype.$http.get).toBe('function')
+  expect(typeof Vue.prototype.$http.post).toBe('function')
 })

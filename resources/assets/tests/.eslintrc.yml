@@ -4,3 +4,4 @@ env:
 rules:
   no-empty-function: 0
   func-names: 0
+  no-extra-parens: 0

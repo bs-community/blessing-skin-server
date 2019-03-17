@@ -5,6 +5,7 @@ module.exports = api => ({
         useBuiltIns: false,
         loose: true,
       }],
+      '@babel/preset-typescript',
     ],
     plugins: [
       '@babel/plugin-syntax-dynamic-import',
@@ -19,6 +20,7 @@ module.exports = api => ({
       ['@babel/preset-env', {
         targets: { esmodules: true },
       }],
+      '@babel/preset-typescript',
     ],
     plugins: [
       '@babel/plugin-syntax-dynamic-import',
@@ -29,6 +31,7 @@ module.exports = api => ({
       ['@babel/preset-env', {
         targets: { node: 'current' },
       }],
+      '@babel/preset-typescript',
     ],
     plugins: [
       'babel-plugin-dynamic-import-node',

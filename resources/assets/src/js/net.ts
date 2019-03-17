@@ -4,30 +4,28 @@ import { queryStringify } from './utils'
 import { showAjaxError } from './notify'
 
 class HTTPError extends Error {
-  constructor(message, response) {
+  response: Response
+
+  constructor(message: string, response: Response) {
     super(message)
     this.response = response
   }
 }
 
 const empty = Object.create(null)
-/** @type Request */
-export const init = {
+export const init: RequestInit = {
   credentials: 'same-origin',
-  headers: {
+  headers: new Headers({
     Accept: 'application/json',
-  },
+  }),
 }
 
 function retrieveToken() {
-  const csrfField = document.querySelector('meta[name="csrf-token"]')
-  return csrfField && csrfField.content
+  const csrfField: HTMLMetaElement | null = document.querySelector('meta[name="csrf-token"]')
+  return (csrfField && csrfField.content) || ''
 }
 
-/**
- * @param {Request} request
- */
-export async function walkFetch(request) {
+export async function walkFetch(request: Request): Promise<any> {
   request.headers.set('X-CSRF-TOKEN', retrieveToken())
 
   try {
@@ -45,7 +43,7 @@ export async function walkFetch(request) {
   }
 }
 
-export function get(url, params = empty) {
+export function get(url: string, params = empty): Promise<any> {
   emit('beforeFetch', {
     method: 'GET',
     url,
@@ -57,7 +55,7 @@ export function get(url, params = empty) {
   return walkFetch(new Request(`${blessing.base_url}${url}${qs && `?${qs}`}`, init))
 }
 
-export function post(url, data = empty) {
+export function post(url: string, data = empty): Promise<any> {
   emit('beforeFetch', {
     method: 'POST',
     url,
@@ -77,10 +75,9 @@ export function post(url, data = empty) {
 }
 
 Vue.use(_Vue => {
-  _Vue.prototype.$http = {
-    get,
-    post,
-  }
+  Object.defineProperty(_Vue.prototype, '$http', {
+    get: () => ({ get, post }),
+  })
 })
 
 blessing.fetch = { get, post }

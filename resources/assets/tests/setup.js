@@ -8,6 +8,12 @@ window.blessing = {
   version: '4.0.0',
 }
 
+window.Headers = class extends Map {
+  constructor(headers = {}) {
+    super(Object.entries(headers))
+  }
+}
+
 const noop = () => undefined
 // eslint-disable-next-line no-console
 Object.keys(console).forEach(method => (console[method] = noop))

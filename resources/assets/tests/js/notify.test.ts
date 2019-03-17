@@ -10,6 +10,7 @@ jest.mock('sweetalert2', () => ({
 }))
 
 test('show AJAX error', () => {
+  // @ts-ignore
   $.fn.modal = function () {
     document.body.innerHTML = this.html()
   }

@@ -36,7 +36,7 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(t|j)s$/,
         exclude: /node_modules/,
         use: ['cache-loader', 'babel-loader'],
       },
@@ -103,8 +103,7 @@ const config = {
         flatten: true,
       },
       {
-        from:
-                    'node_modules/admin-lte/dist/css/skins/_all-skins.min.css',
+        from: 'node_modules/admin-lte/dist/css/skins/_all-skins.min.css',
         to: 'skins',
         flatten: true,
       },
@@ -114,7 +113,7 @@ const config = {
     ]),
   ],
   resolve: {
-    extensions: ['.js', '.vue', '.json'],
+    extensions: ['.js', '.ts', '.vue', '.json'],
   },
   devtool: devMode ? 'cheap-module-eval-source-map' : false,
   devServer: {

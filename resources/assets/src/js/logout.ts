@@ -15,7 +15,7 @@ export async function logout() {
   }
 
   const { msg } = await post('/auth/logout')
-  setTimeout(() => (window.location = blessing.base_url), 1000)
+  setTimeout(() => (window.location.href = blessing.base_url), 1000)
   swal({ type: 'success', text: msg })
 }
 

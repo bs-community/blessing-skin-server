@@ -2,31 +2,23 @@
 import $ from 'jquery'
 import Swal from 'sweetalert2'
 import toastr from 'toastr'
+import { ModalOptions } from '../shims'
 import { trans } from './i18n'
 
-/**
- * Show modal if error occured when sending an ajax request.
- *
- * @param  {Error} error
- * @return {void}
- */
-export function showAjaxError(error) {
+export function showAjaxError(error: Error): void {
   showModal(error.message.replace(/\n/g, '<br>'), trans('general.fatalError'), 'danger')
 }
 
-/**
- * Show a bootstrap modal.
- *
- * @param  {string} msg      Modal content
- * @param  {string} title    Modal title
- * @param  {string} type     Modal type, default|info|success|warning|error
- * @param  {object} options  All $.fn.modal options, plus { btnText, callback, destroyOnClose }
- * @return {void}
- */
-export function showModal(msg, title = 'Message', type = 'default', options = {}) {
+export function showModal(
+  msg: string, title = 'Message',
+  type = 'default',
+  options: ModalOptions = {}
+): void {
   const btnType = type === 'default' ? 'btn-primary' : 'btn-outline'
   const btnText = options.btnText || 'OK'
-  const onClick = options.callback === undefined ? 'data-dismiss="modal"' : `onclick="${options.callback}"`
+  const onClick = options.callback === undefined
+    ? 'data-dismiss="modal"'
+    : `onclick="${options.callback}"`
   const destroyOnClose = options.destroyOnClose !== false
 
   const dom = `
@@ -51,9 +43,9 @@ export function showModal(msg, title = 'Message', type = 'default', options = {}
 
   $(dom)
     .on('hidden.bs.modal', /* istanbul ignore next */ function modal() {
-    // eslint-disable-next-line no-invalid-this
       destroyOnClose && $(this).remove()
     })
+    // @ts-ignore
     .modal(options)
 }
 
@@ -62,13 +54,9 @@ const swalInstance = Swal.mixin({
   cancelButtonText: trans('general.cancel'),
 })
 
-/**
- * @param {import('sweetalert2').SweetAlertOptions} options
- */
-export function swal(options) {
+export function swal(options: import('sweetalert2').SweetAlertOptions) {
   return swalInstance.fire(options)
 }
 
-window.toastr = toastr
-window.swal = swal
-blessing.notify = { showModal }
+Object.assign(window, { toastr, swal })
+Object.assign(blessing, { notify: { showModal } })

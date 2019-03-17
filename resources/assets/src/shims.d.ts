@@ -1,7 +1,9 @@
+/* eslint-disable camelcase */
 import Vue from 'vue'
+import * as JQuery from 'jquery'
 
 declare global {
-  var blessing: {
+  let blessing: {
     base_url: string
     debug: boolean
     env: string
@@ -47,4 +49,10 @@ declare module 'vue/types/vue' {
 
     $route: string[]
   }
+}
+
+interface ModalOptions {
+  btnText?: string,
+  callback?: CallableFunction,
+  destroyOnClose?: boolean
 }

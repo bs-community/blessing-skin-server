@@ -1,0 +1,22 @@
+{
+  "extends": "@gplane/tsconfig",
+  "compilerOptions": {
+    "declaration": false,
+    "allowJs": true,
+    "target": "es2015",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/js/*": [
+        "./resources/assets/tests/ts-shims/*",
+        "./resources/assets/src/js/*"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "vendor"
+  ]
+}

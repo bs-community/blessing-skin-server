@@ -1,27 +1,26 @@
 import Vue from 'vue'
 
-/**
- * Translate according to given key.
- *
- * @param  {string} key
- * @param  {object} parameters
- * @return {string}
- */
-export function trans(key, parameters = Object.create(null)) {
+export function trans(key: string, parameters = Object.create(null)): string {
   const segments = key.split('.')
-  let temp = blessing.i18n || Object.create(null)
+  let temp = (blessing.i18n || Object.create(null)) as { [k: string]: string | { [k: string]: string } }
+  let result = ''
 
   for (const segment of segments) {
     if (!temp[segment]) {
       return key
     }
-    temp = temp[segment]
+    const middle = temp[segment]
+    if (typeof middle === 'string') {
+      result = middle
+    } else {
+      temp = middle
+    }
   }
 
   Object.keys(parameters)
-    .forEach(slot => (temp = temp.replace(`:${slot}`, parameters[slot])))
+    .forEach(slot => (result = result.replace(`:${slot}`, parameters[slot])))
 
-  return temp
+  return result
 }
 
 Vue.use(_Vue => {
@@ -41,4 +40,5 @@ Vue.use(_Vue => {
     }
   })
 })
+
 window.trans = trans
