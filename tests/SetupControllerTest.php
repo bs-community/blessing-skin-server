@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use DB;
 use Mockery;
 use Exception;
 use CreateAllTables;
@@ -61,6 +62,11 @@ class SetupControllerTest extends TestCase
         File::shouldReceive('get')->with('..'.DIRECTORY_SEPARATOR.'.env')->andReturn('');
         File::shouldReceive('put')->with('..'.DIRECTORY_SEPARATOR.'.env', '');
         $this->post('/setup/database', $fake)->assertRedirect('/setup/info');
+
+        $this->get('/setup/database')->assertRedirect('/setup/info');
+        DB::shouldReceive('getPdo')->andThrow(new Exception());
+        DB::shouldReceive('disconnect')->andReturn(true);
+        $this->get('/setup/database')->assertViewIs('setup.wizard.database');
     }
 
     public function testReportDatabaseConnectionError()

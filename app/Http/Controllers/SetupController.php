@@ -18,6 +18,15 @@ class SetupController extends Controller
 {
     public function database(Request $request)
     {
+        if ($request->isMethod('get')) {
+            try {
+                DB::getPdo();
+                return redirect('setup/info');
+            } catch (\Exception $e) {
+                return view('setup.wizard.database');
+            }
+        }
+
         config([
             'database.connections.temp.driver' => $request->input('type'),
             'database.connections.temp.host' => $request->input('host'),
@@ -273,7 +282,7 @@ class SetupController extends Controller
         }
 
         if (count($existingTables) == count($tables)) {
-            return true;
+            return $returnExistingTables ? $existingTables : true;
         } else {
             return $returnExistingTables ? $existingTables : false;
         }
