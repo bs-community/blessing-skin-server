@@ -21,11 +21,6 @@ class SetupController extends Controller
         if ($request->isMethod('get')) {
             try {
                 DB::getPdo();
-
-                $content = File::get('..'.DIRECTORY_SEPARATOR.'.env');
-                $content = str_replace('FIRST_RUN = true', '', $content);
-                File::put('..'.DIRECTORY_SEPARATOR.'.env', $content);
-
                 return redirect('setup/info');
             } catch (\Exception $e) {
                 return view('setup.wizard.database');
