@@ -5,6 +5,7 @@ module.exports = {
         const args = node.arguments
         if (
           node.callee.name === 'test' &&
+          args.length >= 2 &&
           args[0].type === 'Literal' &&
           args[1].type === 'ArrowFunctionExpression'
         ) {
