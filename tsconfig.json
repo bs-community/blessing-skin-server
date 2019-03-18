@@ -15,6 +15,9 @@
       ],
       "@/components/*": [
         "./resources/assets/src/components/*"
+      ],
+      "@/views/*": [
+        "./resources/assets/src/views/*"
       ]
     }
   },
