@@ -8,49 +8,22 @@ index:
   user-registration: User Registration
 
 users:
-  players-count:
-    title: Players Count
-  status:
-    title: Status
-    normal: Normal
-    banned: Banned
-    admin: Admin
-    super-admin: Super Admin
   operations:
-    title: Operations
     non-existent: No such user.
     no-permission: You have no permission to operate this user.
     invalid: Invalid action.
     email:
-      change: Edit Email
       existed: :email is existed.
       success: Email changed successfully.
     verification:
       success: Account verification status toggled successfully.
     nickname:
-      change: Edit Nickname
       success: Nickname changed successfully.
     password:
-     change: Edit Password
      success: Password changed successfully.
     score:
       success: Score changed successfully.
-    admin:
-      set:
-        text: Set as Admin
-        success: The account has been set as admin.
-      unset:
-        text: Remove Admin
-        success: The account's admin privilege has been removed.
-    ban:
-      ban:
-        text: Ban
-        success: The account has been banned.
-      unban:
-        text: Unban
-        success: The account was not banned anymore.
-      cant-super-admin: You can't ban a super admin.
-      cant-admin: Only super admins are able to ban admins.
+    permission: Permission updated.
     delete:
       delete: Delete User
       success: The account has been deleted successfully.

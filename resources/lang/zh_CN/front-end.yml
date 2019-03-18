@@ -214,26 +214,24 @@ user:
 
 admin:
   operationsTitle: 更多操作
-  status: 状态
+  permission: 权限
   playersCount: 角色数量
-  ban: 封禁
-  unban: 解封
-  setAdmin: 设为管理员
-  unsetAdmin: 解除管理员
   deleteUser: 删除
   cannotDeleteAdmin: 你不能删除管理员账号哦
   cannotDeleteSuperAdmin: 超级管理员账号不能被这样删除的啦
   changeEmail: 修改邮箱
+  newUserEmail: 请输入新邮箱：
   verification: 邮箱验证
   toggleVerification: 修改邮箱验证状态
   changeNickName: 修改昵称
-  changePassword: 更改密码
-  changeScore: 更改积分
-  newUserEmail: 请输入新邮箱：
   newUserNickname: 请输入新昵称：
+  changePassword: 更改密码
   newUserPassword: 请输入新密码：
-  deleteUserNotice: 真的要删除此用户吗？此操作不可恢复
+  changeScore: 更改积分
   newScore: 请输入积分值：
+  changePermission: 更改权限
+  newPermission: 请选择新的权限：
+  deleteUserNotice: 真的要删除此用户吗？此操作不可恢复
   inspectHisOwner: 点击查看该角色的所有者
   inspectHisPlayers: 点击查看该用户的角色
   banned: 封禁

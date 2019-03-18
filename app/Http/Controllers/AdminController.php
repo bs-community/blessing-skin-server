@@ -333,10 +333,8 @@ class AdminController extends Controller
             return json(trans('admin.users.operations.non-existent'), 1);
         }
 
-        if ($user->uid !== $currentUser->uid) {
-            if ($user->permission >= $currentUser->permission) {
-                return json(trans('admin.users.operations.no-permission'), 1);
-            }
+        if ($user->uid !== $currentUser->uid && $user->permission >= $currentUser->permission) {
+            return json(trans('admin.users.operations.no-permission'), 1);
         }
 
         if ($action == 'email') {
@@ -382,25 +380,15 @@ class AdminController extends Controller
             $user->setScore($request->input('score'));
 
             return json(trans('admin.users.operations.score.success'), 0);
-        } elseif ($action == 'ban') {
-            $permission = $user->getPermission() == User::BANNED ? User::NORMAL : User::BANNED;
-
-            $user->setPermission($permission);
-
-            return json([
-                'errno'      => 0,
-                'msg'        => trans('admin.users.operations.ban.'.($permission == User::BANNED ? 'ban' : 'unban').'.success'),
-                'permission' => $user->getPermission(),
-            ]);
-        } elseif ($action == 'admin') {
-            $permission = $user->getPermission() == User::ADMIN ? User::NORMAL : User::ADMIN;
-
-            $user->setPermission($permission);
+        } elseif ($action == 'permission') {
+            $user->permission = $this->validate($request, [
+                'permission' => 'required|in:-1,0,1'
+            ])['permission'];
+            $user->save();
 
             return json([
-                'errno'      => 0,
-                'msg'        => trans('admin.users.operations.admin.'.($permission == User::ADMIN ? 'set' : 'unset').'.success'),
-                'permission' => $user->getPermission(),
+                'errno' => 0,
+                'msg'   => trans('admin.users.operations.permission'),
             ]);
         } elseif ($action == 'delete') {
             $user->delete();

@@ -8,49 +8,22 @@ index:
   user-registration: 用户注册
 
 users:
-  players-count:
-    title: 拥有角色数
-  status:
-    title: 状态
-    normal: 普通用户
-    banned: 封禁
-    admin: 管理员
-    super-admin: 超级管理员
   operations:
-    title: 更多操作
     non-existent: 用户不存在
     no-permission: 你无权操作此用户
     invalid: 无效的 action
     email:
-      change: 修改邮箱
       existed: 邮箱 :email 已被占用
       success: 邮箱修改成功
     verification:
       success: 用户的邮箱验证状态已修改
     nickname:
-      change: 修改昵称
       success: 昵称已成功设置为 :new
     password:
-      change: 更改密码
       success: 密码修改成功
     score:
       success: 积分修改成功
-    admin:
-      set:
-        text: 设为管理员
-        success: 账号已被设置为管理员
-      unset:
-        text: 解除管理员
-        success: 账号已被解除管理员
-    ban:
-      ban:
-        text: 封禁
-        success: 账号已被封禁
-      unban:
-        text: 解封
-        success: 账号已被解封
-      cant-super-admin: 无法封禁超级管理员
-      cant-admin: 非超级管理员无法封禁普通管理员
+    permission: 权限已更改
     delete:
       delete: 删除用户
       success: 账号已被成功删除

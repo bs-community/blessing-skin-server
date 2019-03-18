@@ -41,7 +41,15 @@
           >{{ props.formattedRow[props.column.field] }}</a>
         </span>
         <span v-else-if="props.column.field === 'permission'">
-          {{ props.row | humanizePermission }}
+          <span>{{ props.row | humanizePermission }}</span>
+          <a
+            v-if="props.row.permission < 1 || (props.row.operations === 2 && props.row.permission < 2)"
+            :title="$t('admin.changePermission')"
+            data-test="permission"
+            @click="changePermission(props.row)"
+          >
+            <i class="fas fa-edit btn-edit" />
+          </a>
         </span>
         <span v-else-if="props.column.field === 'verified'">
           <span v-if="props.row.verified" v-t="'admin.verified'" />
@@ -59,36 +67,11 @@
           </a>
         </span>
         <div v-else-if="props.column.field === 'operations'">
-          <div class="btn-group">
-            <button
-              class="btn btn-default dropdown-toggle"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              {{ $t('general.more') }} <span class="caret" />
-            </button>
-            <ul class="dropdown-menu operations-menu" :class="{ 'row-at-bottom': users.length - props.index < 3 }">
-              <li><a v-t="'admin.changePassword'" href="#" @click="changePassword(props.row)" /></li>
-              <template v-if="props.row.permission < 2">
-                <li class="divider" />
-                <li v-if="props.row.operations >= 2 && props.row.permission > -1">
-                  <a
-                    v-t="props.row.permission === 0 ? 'admin.setAdmin' : 'admin.unsetAdmin'"
-                    href="#"
-                    @click="toggleAdmin(props.row)"
-                  />
-                </li>
-                <li v-if="props.row.permission < 1">
-                  <a
-                    v-t="props.row.permission === 0 ? 'admin.ban' : 'admin.unban'"
-                    href="#"
-                    @click="toggleBan(props.row)"
-                  />
-                </li>
-              </template>
-            </ul>
-          </div>
+          <button
+            v-t="'admin.changePassword'"
+            class="btn btn-default"
+            @click="changePassword(props.row)"
+          />
           <button
             v-t="'admin.deleteUser'"
             :disabled="props.row.permission >= 2 || (props.row.operations === 1 && props.row.permission >= 1)"
@@ -152,7 +135,7 @@ export default {
           field: 'players_count', label: this.$t('admin.playersCount'), type: 'number',
         },
         {
-          field: 'permission', label: this.$t('admin.status'), globalSearchDisabled: true,
+          field: 'permission', label: this.$t('admin.permission'), globalSearchDisabled: true,
         },
         {
           field: 'verified', label: this.$t('admin.verification'), type: 'boolean', globalSearchDisabled: true,
@@ -311,25 +294,32 @@ export default {
         toastr.warning(msg)
       }
     },
-    async toggleAdmin(user) {
-      const { errno, msg } = await this.$http.post(
-        '/admin/users?action=admin',
-        { uid: user.uid }
-      )
-      if (errno === 0) {
-        user.permission = ~user.permission + 2
-        toastr.success(msg)
-      } else {
-        toastr.warning(msg)
+    async changePermission(user) {
+      const operator = user.operations
+      const options = {
+        '-1': this.$t('admin.banned'),
+        0: this.$t('admin.normal'),
       }
-    },
-    async toggleBan(user) {
-      const { errno, msg } = await this.$http.post(
-        '/admin/users?action=ban',
-        { uid: user.uid }
-      )
+      if (operator === 2) {
+        options[1] = this.$t('admin.admin')
+      }
+
+      const { dismiss, value } = await swal({
+        text: this.$t('admin.newPermission'),
+        input: 'radio',
+        inputOptions: options,
+        showCancelButton: true,
+      })
+      if (dismiss) {
+        return
+      }
+
+      const { errno, msg } = await this.$http.post('/admin/users?action=permission', {
+        uid: user.uid,
+        permission: value,
+      })
       if (errno === 0) {
-        user.permission = ~user.permission
+        user.permission = +value
         toastr.success(msg)
       } else {
         toastr.warning(msg)

@@ -93,7 +93,7 @@ test('generate players page link', async () => {
   expect(wrapper.find('[data-toggle="tooltip"]').attributes('href')).toBe('/admin/players?uid=1')
 })
 
-test('admin option should not be displayed for super admins', async () => {
+test('permission option should not be displayed for super admins', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
       { uid: 1, permission: 2 },
@@ -101,25 +101,10 @@ test('admin option should not be displayed for super admins', async () => {
   })
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
-  const text = wrapper.find('.vgt-table').text()
-  expect(text).not.toContain('admin.setAdmin')
-  expect(text).not.toContain('admin.unsetAdmin')
+  expect(wrapper.find('[data-test=permission]').exists()).toBeFalse()
 })
 
-test('banning option should not be displayed for super admins', async () => {
-  Vue.prototype.$http.get.mockResolvedValue({
-    data: [
-      { uid: 1, permission: 2 },
-    ],
-  })
-  const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
-  const text = wrapper.find('.vgt-table').text()
-  expect(text).not.toContain('admin.ban')
-  expect(text).not.toContain('admin.unban')
-})
-
-test('admin option should be displayed for admin as super admin', async () => {
+test('permission option should be displayed for admin as super admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
       {
@@ -129,27 +114,10 @@ test('admin option should be displayed for admin as super admin', async () => {
   })
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
-  const text = wrapper.find('.vgt-table').text()
-  expect(text).toContain('admin.unsetAdmin')
-  expect(text).not.toContain('admin.setAdmin')
+  expect(wrapper.find('[data-test=permission]').exists()).toBeTrue()
 })
 
-test('banning option should not be displayed for admin as super admin', async () => {
-  Vue.prototype.$http.get.mockResolvedValue({
-    data: [
-      {
-        uid: 1, permission: 1, operations: 2,
-      },
-    ],
-  })
-  const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
-  const text = wrapper.find('.vgt-table').text()
-  expect(text).not.toContain('admin.ban')
-  expect(text).not.toContain('admin.unban')
-})
-
-test('admin option should be displayed for normal users as super admin', async () => {
+test('permission option should be displayed for normal users as super admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
       {
@@ -159,27 +127,10 @@ test('admin option should be displayed for normal users as super admin', async (
   })
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
-  const text = wrapper.find('.vgt-table').text()
-  expect(text).toContain('admin.setAdmin')
-  expect(text).not.toContain('admin.unsetAdmin')
+  expect(wrapper.find('[data-test=permission]').exists()).toBeTrue()
 })
 
-test('banning option should be displayed for normal users as super admin', async () => {
-  Vue.prototype.$http.get.mockResolvedValue({
-    data: [
-      {
-        uid: 1, permission: 0, operations: 2,
-      },
-    ],
-  })
-  const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
-  const text = wrapper.find('.vgt-table').text()
-  expect(text).toContain('admin.ban')
-  expect(text).not.toContain('admin.unban')
-})
-
-test('admin option should not be displayed for banned users as super admin', async () => {
+test('permission option should be displayed for banned users as super admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
       {
@@ -189,26 +140,10 @@ test('admin option should not be displayed for banned users as super admin', asy
   })
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
-  const text = wrapper.find('.vgt-table').text()
-  expect(text).not.toContain('admin.setAdmin')
-  expect(text).not.toContain('admin.unsetAdmin')
+  expect(wrapper.find('[data-test=permission]').exists()).toBeTrue()
 })
 
-test('banning option should be displayed for banned users as super admin', async () => {
-  Vue.prototype.$http.get.mockResolvedValue({
-    data: [
-      {
-        uid: 1, permission: -1, operations: 2,
-      },
-    ],
-  })
-  const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
-  const text = wrapper.find('.vgt-table').text()
-  expect(text).toContain('admin.unban')
-})
-
-test('admin option should not be displayed for other admins as admin', async () => {
+test('permission option should not be displayed for other admins as admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
       {
@@ -218,27 +153,10 @@ test('admin option should not be displayed for other admins as admin', async () 
   })
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
-  const text = wrapper.find('.vgt-table').text()
-  expect(text).not.toContain('admin.setAdmin')
-  expect(text).not.toContain('admin.unsetAdmin')
+  expect(wrapper.find('[data-test=permission]').exists()).toBeFalse()
 })
 
-test('banning option should not be displayed for other admins as admin', async () => {
-  Vue.prototype.$http.get.mockResolvedValue({
-    data: [
-      {
-        uid: 1, permission: 1, operations: 1,
-      },
-    ],
-  })
-  const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
-  const text = wrapper.find('.vgt-table').text()
-  expect(text).not.toContain('admin.ban')
-  expect(text).not.toContain('admin.unban')
-})
-
-test('admin option should not be displayed for normal users as admin', async () => {
+test('permission option should be displayed for normal users as admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
       {
@@ -248,27 +166,10 @@ test('admin option should not be displayed for normal users as admin', async () 
   })
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
-  const text = wrapper.find('.vgt-table').text()
-  expect(text).not.toContain('admin.setAdmin')
-  expect(text).not.toContain('admin.unsetAdmin')
+  expect(wrapper.find('[data-test=permission]').exists()).toBeTrue()
 })
 
-test('banning option should be displayed for normal users as admin', async () => {
-  Vue.prototype.$http.get.mockResolvedValue({
-    data: [
-      {
-        uid: 1, permission: 0, operations: 1,
-      },
-    ],
-  })
-  const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
-  const text = wrapper.find('.vgt-table').text()
-  expect(text).toContain('admin.ban')
-  expect(text).not.toContain('admin.unban')
-})
-
-test('admin option should not be displayed for banned users as admin', async () => {
+test('permission option should be displayed for banned users as admin', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
       {
@@ -278,23 +179,7 @@ test('admin option should not be displayed for banned users as admin', async () 
   })
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
-  const text = wrapper.find('.vgt-table').text()
-  expect(text).not.toContain('admin.setAdmin')
-  expect(text).not.toContain('admin.unsetAdmin')
-})
-
-test('banning option should be displayed for banned users as admin', async () => {
-  Vue.prototype.$http.get.mockResolvedValue({
-    data: [
-      {
-        uid: 1, permission: -1, operations: 1,
-      },
-    ],
-  })
-  const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
-  const text = wrapper.find('.vgt-table').text()
-  expect(text).toContain('admin.unban')
+  expect(wrapper.find('[data-test=permission]').exists()).toBeTrue()
 })
 
 test('deletion button should not be displayed for super admins', async () => {
@@ -501,7 +386,7 @@ test('change password', async () => {
 
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
-  const button = wrapper.find('.operations-menu > li:nth-child(1) > a')
+  const button = wrapper.find('.btn-default')
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
@@ -553,70 +438,61 @@ test('change score', async () => {
   expect(wrapper.text()).toContain('45')
 })
 
-test('toggle admin', async () => {
-  Vue.prototype.$http.get.mockResolvedValue({
-    data: [
-      {
-        uid: 1, permission: 0, operations: 2,
-      },
-    ],
-  })
+test('change permission', async () => {
+  Vue.prototype.$http.get
+    .mockResolvedValueOnce({
+      data: [
+        {
+          uid: 1, permission: 0, operations: 2,
+        },
+      ],
+    })
+    .mockResolvedValueOnce({
+      data: [
+        {
+          uid: 1, permission: 0, operations: 1,
+        },
+      ],
+    })
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
     .mockResolvedValue({ errno: 0, msg: '0' })
+  swal
+    .mockResolvedValueOnce({ dismiss: 1 })
+    .mockResolvedValueOnce({ value: 1 })
+    .mockResolvedValueOnce({ value: -1 })
 
-  const wrapper = mount(Users)
+  let wrapper = mount(Users)
   await wrapper.vm.$nextTick()
-  const button = wrapper.find('.operations-menu > li:nth-child(3) > a')
+  let button = wrapper.find('[data-test=permission]')
+
+  button.trigger('click')
+  expect(swal.mock.calls[0][0].inputOptions).toStrictEqual({
+    '-1': 'admin.banned',
+    0: 'admin.normal',
+    1: 'admin.admin',
+  })
+  expect(Vue.prototype.$http.post).not.toBeCalled()
 
   button.trigger('click')
   await wrapper.vm.$nextTick()
   expect(Vue.prototype.$http.post).toBeCalledWith(
-    '/admin/users?action=admin',
-    { uid: 1 }
+    '/admin/users?action=permission',
+    { uid: 1, permission: 1 }
   )
   expect(wrapper.text()).toContain('admin.normal')
 
-  button.trigger('click')
-  await flushPromises()
-  expect(wrapper.text()).toContain('admin.admin')
+  wrapper = mount(Users)
+  await wrapper.vm.$nextTick()
+  button = wrapper.find('[data-test=permission]')
 
   button.trigger('click')
-  await flushPromises()
-  expect(wrapper.text()).toContain('admin.normal')
-})
-
-test('toggle ban', async () => {
-  Vue.prototype.$http.get.mockResolvedValue({
-    data: [
-      {
-        uid: 1, permission: 0, operations: 2,
-      },
-    ],
+  expect(swal.mock.calls[2][0].inputOptions).toStrictEqual({
+    '-1': 'admin.banned',
+    0: 'admin.normal',
   })
-  Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
-    .mockResolvedValue({ errno: 0, msg: '0' })
-
-  const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
-  const button = wrapper.find('.operations-menu > li:nth-child(4) > a')
-
-  button.trigger('click')
-  await wrapper.vm.$nextTick()
-  expect(Vue.prototype.$http.post).toBeCalledWith(
-    '/admin/users?action=ban',
-    { uid: 1 }
-  )
-  expect(wrapper.text()).toContain('admin.ban')
-
-  button.trigger('click')
   await flushPromises()
   expect(wrapper.text()).toContain('admin.banned')
-
-  button.trigger('click')
-  await flushPromises()
-  expect(wrapper.text()).toContain('admin.ban')
 })
 
 test('delete user', async () => {

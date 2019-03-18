@@ -418,53 +418,29 @@ class AdminControllerTest extends BrowserKitTestCase
             'score' => 123,
         ]);
 
-        // Ban a user
-        $this->postJson('/admin/users', ['uid' => $user->uid, 'action' => 'ban'])
-            ->seeJson([
-                'errno' => 0,
-                'msg' => trans('admin.users.operations.ban.ban.success'),
-                'permission' => User::BANNED,
-            ]);
+        // Invalid permission value
+        $this->postJson('/admin/users', [
+            'uid' => $user->uid,
+            'action' => 'permission',
+            'permission' => -2
+        ])->seeJson([
+            'errno' => 1,
+            'msg' => trans('validation.in', ['attribute' => 'permission']),
+        ]);
+        $user = User::find($user->uid);
+        $this->assertEquals(User::NORMAL, $user->getPermission());
+
+        // Update permission successfully
+        $this->postJson('/admin/users', [
+            'uid' => $user->uid,
+            'action' => 'permission',
+            'permission' => -1
+        ])->seeJson([
+            'errno' => 0,
+            'msg' => trans('admin.users.operations.permission'),
+        ]);
         $user = User::find($user->uid);
         $this->assertEquals(User::BANNED, $user->getPermission());
-
-        // Unban a user
-        $this->postJson('/admin/users', ['uid' => $user->uid, 'action' => 'ban'])
-            ->seeJson([
-                'errno' => 0,
-                'msg' => trans('admin.users.operations.ban.unban.success'),
-                'permission' => User::NORMAL,
-            ]);
-        $user = User::find($user->uid);
-        $this->assertEquals(User::NORMAL, $user->getPermission());
-
-        // Set a user to be an admin
-        $this->postJson('/admin/users', ['uid' => $user->uid, 'action' => 'admin'])
-            ->seeJson([
-                'errno' => 0,
-                'msg' => trans('admin.users.operations.admin.set.success'),
-                'permission' => User::ADMIN,
-            ]);
-        $user = User::find($user->uid);
-        $this->assertEquals(User::ADMIN, $user->getPermission());
-
-        // An admin cannot set another admin to be a normal user
-        $this->postJson('/admin/users', ['uid' => $user->uid])
-            ->seeJson([
-                'errno' => 1,
-                'msg' => trans('admin.users.operations.no-permission'),
-            ]);
-
-        // Set an admin to be a normal user
-        $this->actAs('superAdmin')
-            ->postJson('/admin/users', ['uid' => $user->uid, 'action' => 'admin'])
-            ->seeJson([
-                'errno' => 0,
-                'msg' => trans('admin.users.operations.admin.unset.success'),
-                'permission' => User::NORMAL,
-            ]);
-        $user = User::find($user->uid);
-        $this->assertEquals(User::NORMAL, $user->getPermission());
 
         // Delete a user
         $this->postJson('/admin/users', ['uid' => $user->uid, 'action' => 'delete'])

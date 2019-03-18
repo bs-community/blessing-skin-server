@@ -218,24 +218,22 @@ admin:
   operationsTitle: Operations
   status: Status
   playersCount: Players Count
-  ban: Ban
-  unban: Unban
-  setAdmin: Set as admin
-  unsetAdmin: Remove admin
   deleteUser: Delete
   cannotDeleteAdmin: You can't delete admins.
   cannotDeleteSuperAdmin: You can't delete super admin in this way
   changeEmail: Edit Email
+  newUserEmail: 'Please enter the new email:'
   verification: Email Verification
   toggleVerification: Toggle Verification Status
   changeNickName: Edit Nickname
-  changePassword: Edit Password
-  changeScore: Edit Score
-  newUserEmail: 'Please enter the new email:'
   newUserNickname: 'Please enter the new nickname:'
+  changePassword: Edit Password
   newUserPassword: 'Please enter the new password:'
-  deleteUserNotice: Are you sure to delete this user? It' permanent.
+  changeScore: Edit Score
   newScore: 'Please enter the new score:'
+  changePermission: Change permission
+  newPermission: 'Please select new permission:'
+  deleteUserNotice: Are you sure to delete this user? It' permanent.
   inspectHisOwner: Click to inspect the owner of this player
   inspectHisPlayers: Click to inspect the players he owns
   banned: Banned
