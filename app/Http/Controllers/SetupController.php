@@ -261,26 +261,10 @@ class SetupController extends Controller
      */
     public static function checkTablesExist($tables = [], $returnExistingTables = false)
     {
-        if (request()->is('setup') || request()->is('setup/database')) {
-            // We're ready to install Blessing Skin, so skip the checks.
-            try {
-                DB::connection(env('DB_CONNECTION'))->getPdo();
-            } catch (\Exception $e) {
-                return false;
-            }
-        }
-
-        // @codeCoverageIgnoreStart
-        if (env('FIRST_RUN') && request()->is('/')) {
-            return false;
-        }
-        // @codeCoverageIgnoreEnd
-
         $existingTables = [];
         $tables = $tables ?: ['users', 'user_closet', 'players', 'textures', 'options'];
 
         foreach ($tables as $tableName) {
-            // Table prefix will be added automatically
             if (Schema::hasTable($tableName)) {
                 $existingTables[] = $tableName;
             }

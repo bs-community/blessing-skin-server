@@ -78,6 +78,11 @@ return [
             'schema' => 'public',
         ],
 
+        'dummy' => [
+            'driver' => 'sqlite',
+            'database' => '',
+        ],
+
     ],
 
     /*

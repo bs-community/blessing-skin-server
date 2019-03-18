@@ -118,13 +118,6 @@ class MiddlewareTest extends TestCase
             'setup.wizard.welcome.text',
             ['version' => config('app.version')]
         ));
-
-        DB::shouldReceive('connection')->once()->andThrow(new \Exception('fake exception'));
-        DB::shouldReceive('disconnect')->andReturnSelf();
-        $this->get('/setup')->assertSee(trans(
-            'setup.wizard.welcome.text',
-            ['version' => config('app.version')]
-        ));
     }
 
     public function testCheckPlayerExist()
