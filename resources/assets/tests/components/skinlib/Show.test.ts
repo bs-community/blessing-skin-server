@@ -1,11 +1,19 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import Show from '@/components/skinlib/Show'
+import Show from '@/components/skinlib/Show.vue'
 import toastr from 'toastr'
 import { flushPromises } from '../../utils'
 import { swal } from '@/js/notify'
 
 jest.mock('@/js/notify')
+
+type Component = Vue & {
+  liked: boolean
+  likes: number
+  public: boolean
+  name: string
+  type: 'steve' | 'alex' | 'cape'
+}
 
 window.blessing.extra = {
   download: true,
@@ -15,12 +23,11 @@ window.blessing.extra = {
   inCloset: false,
 }
 
-/** @type {import('Vue').ComponentOptions} */
-const previewer = {
+const previewer = Vue.extend({
   render(h) {
     return h('div', this.$slots.footer)
   },
-}
+})
 
 test('button for adding to closet should be disabled if not auth', () => {
   Vue.prototype.$http.get.mockResolvedValue({})
@@ -165,7 +172,7 @@ test('add to closet', async () => {
   Vue.prototype.$http.get.mockResolvedValue({ name: 'wow', likes: 2 })
   Vue.prototype.$http.post.mockResolvedValue({ errno: 0, msg: '' })
   swal.mockResolvedValue({})
-  const wrapper = mount(Show, {
+  const wrapper = mount<Component>(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
     },
@@ -182,7 +189,7 @@ test('remove from closet', async () => {
   Vue.prototype.$http.get.mockResolvedValue({ likes: 2 })
   Vue.prototype.$http.post.mockResolvedValue({ errno: 0 })
   swal.mockResolvedValue({})
-  const wrapper = mount(Show, {
+  const wrapper = mount<Component>(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
     },
@@ -201,13 +208,15 @@ test('change texture name', async () => {
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
     .mockResolvedValue({ errno: 0, msg: '0' })
   jest.spyOn(toastr, 'warning')
-  swal.mockImplementationOnce(() => ({ dismiss: 1 }))
+  swal.mockImplementationOnce(() => Promise.resolve({ dismiss: 1 }))
     .mockImplementation(({ inputValidator }) => {
-      inputValidator()
-      inputValidator('new-name')
-      return { value: 'new-name' }
+      if (inputValidator) {
+        inputValidator('')
+        inputValidator('new-name')
+      }
+      return Promise.resolve({ value: 'new-name' })
     })
-  const wrapper = mount(Show, {
+  const wrapper = mount<Component>(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
     },
@@ -239,7 +248,7 @@ test('change texture model', async () => {
   jest.spyOn(toastr, 'warning')
   swal.mockResolvedValueOnce({ dismiss: 1 })
     .mockResolvedValue({ value: 'alex' })
-  const wrapper = mount(Show, {
+  const wrapper = mount<Component>(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
     },
@@ -272,7 +281,7 @@ test('toggle privacy', async () => {
   jest.spyOn(toastr, 'warning')
   swal.mockResolvedValueOnce({ dismiss: 1 })
     .mockResolvedValue({})
-  const wrapper = mount(Show, {
+  const wrapper = mount<Component>(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
     },

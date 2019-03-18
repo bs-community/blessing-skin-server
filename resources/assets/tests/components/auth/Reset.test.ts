@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import Reset from '@/components/auth/Reset'
+import Reset from '@/components/auth/Reset.vue'
 import { swal } from '@/js/notify'
 
 jest.mock('@/js/notify')

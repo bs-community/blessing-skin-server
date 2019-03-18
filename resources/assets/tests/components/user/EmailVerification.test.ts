@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import EmailVerification from '@/components/user/EmailVerification'
+import EmailVerification from '@/components/user/EmailVerification.vue'
 import { swal } from '@/js/notify'
 
 jest.mock('@/js/notify')

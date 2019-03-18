@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
-import Players from '@/components/user/Players'
+import Players from '@/components/user/Players.vue'
 import { swal } from '@/js/notify'
 
 jest.mock('toastr')
@@ -67,13 +67,13 @@ test('change player name', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1 })
     .mockResolvedValue({ errno: 0 })
-  swal.mockImplementationOnce(() => ({ dismiss: 1 }))
+  swal.mockImplementationOnce(() => Promise.resolve({ dismiss: 1 }))
     .mockImplementation(({ inputValidator }) => {
       if (inputValidator) {
-        inputValidator()
+        inputValidator('')
         inputValidator('new-name')
-        return { value: 'new-name' }
       }
+      return Promise.resolve({ value: 'new-name' })
     })
   const wrapper = mount(Players)
   await wrapper.vm.$nextTick()
@@ -100,7 +100,7 @@ test('load iCheck', async () => {
     ])
   window.$ = jest.fn(() => ({
     iCheck: () => ({
-      on(evt, cb) {
+      on(_: Event, cb: CallableFunction) {
         cb()
       },
     }),

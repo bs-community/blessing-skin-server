@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
-import Players from '@/components/admin/Players'
+import Players from '@/components/admin/Players.vue'
 import { swal } from '@/js/notify'
 
 jest.mock('@/js/notify')
@@ -18,10 +18,16 @@ test('fetch data after initializing', () => {
 })
 
 test('update tables', () => {
+  interface Methods {
+    onPageChange(options: { currentPage: number }): void
+    onPerPageChange(options: { currentPerPage: number }): void
+    onSortChange(options: { sortType: 'asc' | 'desc', columnIndex: number }): void
+  }
+
   Vue.prototype.$http.get.mockResolvedValue({
-    data: Array.from({ length: 20 }).map((item, pid) => ({ pid })),
+    data: Array.from({ length: 20 }).map((_, pid) => ({ pid })),
   })
-  const wrapper = mount(Players)
+  const wrapper = mount<Vue & Methods>(Players)
 
   wrapper.find('.vgt-input').setValue('abc')
   expect(Vue.prototype.$http.get).toBeCalledWith(
@@ -83,7 +89,7 @@ test('change texture', async () => {
   button.trigger('click')
   await flushPromises()
   expect(wrapper.html()).toContain('/preview/64/5.png')
-  expect(window.$).toBeCalledWith('.modal')
+  expect($).toBeCalledWith('.modal')
 })
 
 test('change player name', async () => {
@@ -95,11 +101,13 @@ test('change player name', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
     .mockResolvedValueOnce({ errno: 0, msg: '0' })
-  swal.mockImplementationOnce(() => ({ dismiss: 1 }))
+  swal.mockImplementationOnce(() => Promise.resolve({ dismiss: 1 }))
     .mockImplementation(options => {
-      options.inputValidator()
-      options.inputValidator('new')
-      return { value: 'new' }
+      if (options.inputValidator) {
+        options.inputValidator('')
+        options.inputValidator('new')
+      }
+      return Promise.resolve({ value: 'new' })
     })
   const wrapper = mount(Players)
   await wrapper.vm.$nextTick()

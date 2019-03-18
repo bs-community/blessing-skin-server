@@ -29,7 +29,7 @@ test('perform update', async () => {
 
   button.trigger('click')
   await flushPromises()
-  expect(window.$).not.toBeCalled()
+  expect($).not.toBeCalled()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/update/download',
     { action: 'prepare-download' }
@@ -37,7 +37,7 @@ test('perform update', async () => {
   button.trigger('click')
   jest.runOnlyPendingTimers()
   await flushPromises()
-  expect(window.$).toBeCalled()
+  expect($).toBeCalled()
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/admin/update/download',
     { action: 'get-progress' }

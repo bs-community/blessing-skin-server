@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import Plugins from '@/components/admin/Plugins'
+import Plugins from '@/components/admin/Plugins.vue'
 import toastr from 'toastr'
 import { flushPromises } from '../../utils'
 import { swal } from '@/js/notify'

@@ -1,7 +1,7 @@
 /* eslint-disable no-mixed-operators */
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import Dashboard from '@/components/user/Dashboard'
+import Dashboard from '@/components/user/Dashboard.vue'
 import toastr from 'toastr'
 import { swal } from '@/js/notify'
 
@@ -125,7 +125,7 @@ test('remaining time', async () => {
 
 test('sign', async () => {
   jest.spyOn(toastr, 'warning')
-  swal.mockResolvedValue()
+  swal.mockResolvedValue({})
   Vue.prototype.$http.get.mockResolvedValue(scoreInfo({
     user: { lastSignAt: Date.now() - 30 * 3600 * 1000 },
   }))

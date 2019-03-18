@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import Forgot from '@/components/auth/Forgot'
+import Forgot from '@/components/auth/Forgot.vue'
 
 test('click to refresh captcha', () => {
   jest.spyOn(Date, 'now')

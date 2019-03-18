@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import SkinLibItem from '@/components/skinlib/SkinLibItem'
+import SkinLibItem from '@/components/skinlib/SkinLibItem.vue'
 import toastr from 'toastr'
 import { flushPromises } from '../../utils'
 import { swal } from '@/js/notify'
@@ -79,13 +79,13 @@ test('add to closet', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
     .mockResolvedValue({ errno: 0 })
-  swal.mockImplementationOnce(() => ({ dismiss: 1 }))
+  swal.mockImplementationOnce(() => Promise.resolve({ dismiss: 1 }))
     .mockImplementation(({ inputValidator }) => {
       if (inputValidator) {
-        inputValidator()
+        inputValidator('')
         inputValidator('name')
       }
-      return { value: 'name' }
+      return Promise.resolve({ value: 'name' })
     })
   jest.spyOn(toastr, 'warning')
   const wrapper = mount(SkinLibItem, {

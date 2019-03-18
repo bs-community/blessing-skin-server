@@ -9,7 +9,10 @@ interface Window {
 
   blessing: {
     i18n: object
+    extra: object
   }
 
   fetch: jest.Mock
+
+  $: jest.Mock
 }

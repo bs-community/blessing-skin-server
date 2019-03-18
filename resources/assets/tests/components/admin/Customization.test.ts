@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import Customization from '@/components/admin/Customization'
+import Customization from '@/components/admin/Customization.vue'
 
 window.blessing.extra = { currentSkin: 'skin-blue' }
 

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
-import ClosetItem from '@/components/user/ClosetItem'
+import ClosetItem from '@/components/user/ClosetItem.vue'
 import { swal } from '@/js/notify'
 
 jest.mock('@/js/notify')
@@ -40,11 +40,13 @@ test('rename texture', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 0 })
     .mockResolvedValueOnce({ errno: 1 })
-  swal.mockImplementationOnce(() => ({ dismiss: 'cancel' }))
+  swal.mockImplementationOnce(() => Promise.resolve({ dismiss: 1 }))
     .mockImplementation(options => {
-      options.inputValidator('name')
-      options.inputValidator()
-      return { value: 'new-name' }
+      if (options.inputValidator) {
+        options.inputValidator('name')
+        options.inputValidator('')
+      }
+      return Promise.resolve({ value: 'new-name' })
     })
   const wrapper = mount(ClosetItem, { propsData: factory() })
   const button = wrapper.findAll('.dropdown-menu > li').at(0)
@@ -71,7 +73,7 @@ test('remove texture', async () => {
     .mockResolvedValueOnce({ errno: 0 })
     .mockResolvedValueOnce({ errno: 1 })
   swal
-    .mockResolvedValueOnce({ dismiss: 'cancel' })
+    .mockResolvedValueOnce({ dismiss: 1 })
     .mockResolvedValue({})
 
   const wrapper = mount(ClosetItem, { propsData: factory() })
@@ -96,7 +98,7 @@ test('set as avatar', async () => {
     .mockResolvedValueOnce({ errno: 0 })
     .mockResolvedValueOnce({ errno: 1 })
   swal
-    .mockResolvedValueOnce({ dismiss: 'cancel' })
+    .mockResolvedValueOnce({ dismiss: 1 })
     .mockResolvedValue({})
 
   const wrapper = mount(ClosetItem, { propsData: factory() })
@@ -115,7 +117,7 @@ test('set as avatar', async () => {
   await flushPromises()
   await wrapper.vm.$nextTick()
   expect(Vue.prototype.$http.post).toBeCalledWith('/user/profile/avatar', { tid: 1 })
-  expect(document.querySelector('img').src).toMatch(/\d+$/)
+  expect(document.querySelector('img')!.src).toMatch(/\d+$/)
 })
 
 test('no avatar option if texture is cape', () => {

@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import { flushPromises } from '../../utils'
-import Users from '@/components/admin/Users'
+import Users from '@/components/admin/Users.vue'
 import toastr from 'toastr'
 import { swal } from '@/js/notify'
 import '@/js/i18n'
+import { flushPromises } from '../../utils'
 
 jest.mock('@/js/notify')
 jest.mock('@/js/i18n', () => ({
-  trans: key => key,
+  trans: (key: string) => key,
 }))
 
 test('fetch data after initializing', () => {
@@ -23,10 +23,16 @@ test('fetch data after initializing', () => {
 })
 
 test('update tables', () => {
+  interface Methods {
+    onPageChange(options: { currentPage: number }): void
+    onPerPageChange(options: { currentPerPage: number }): void
+    onSortChange(options: { sortType: 'asc' | 'desc', columnIndex: number }): void
+  }
+
   Vue.prototype.$http.get.mockResolvedValue({
-    data: Array.from({ length: 20 }).map((item, uid) => ({ uid })),
+    data: Array.from({ length: 20 }).map((_, uid) => ({ uid })),
   })
-  const wrapper = mount(Users)
+  const wrapper = mount<Vue & Methods>(Users)
 
   wrapper.find('.vgt-input').setValue('abc')
   expect(Vue.prototype.$http.get).toBeCalledWith(
@@ -389,11 +395,13 @@ test('change email', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
     .mockResolvedValueOnce({ errno: 0, msg: '0' })
-  swal.mockImplementationOnce(() => ({ dismiss: 1 }))
+  swal.mockImplementationOnce(() => Promise.resolve({ dismiss: 1 }))
     .mockImplementation(options => {
-      options.inputValidator()
-      options.inputValidator('value')
-      return { value: 'd@e.f' }
+      if (options.inputValidator) {
+        options.inputValidator('')
+        options.inputValidator('value')
+      }
+      return Promise.resolve({ value: 'd@e.f' })
     })
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
@@ -449,11 +457,13 @@ test('change nickname', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
     .mockResolvedValueOnce({ errno: 0, msg: '0' })
-  swal.mockImplementationOnce(() => ({ dismiss: 1 }))
+  swal.mockImplementationOnce(() => Promise.resolve({ dismiss: 1 }))
     .mockImplementation(options => {
-      options.inputValidator()
-      options.inputValidator('value')
-      return { value: 'new' }
+      if (options.inputValidator) {
+        options.inputValidator('')
+        options.inputValidator('value')
+      }
+      return Promise.resolve({ value: 'new' })
     })
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()

@@ -1,8 +1,7 @@
 /* eslint-disable accessor-pairs */
-/* eslint-disable no-invalid-this */
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import Upload from '@/components/skinlib/Upload'
+import Upload from '@/components/skinlib/Upload.vue'
 import { flushPromises } from '../../utils'
 import toastr from 'toastr'
 import { swal } from '@/js/notify'
@@ -32,14 +31,12 @@ test('display drap and drop notice', () => {
 })
 
 test('button for removing texture', () => {
-  const wrapper = mount(Upload, {
+  const wrapper = mount<Vue & { texture: string }>(Upload, {
     stubs: ['file-upload'],
   })
-  wrapper.vm.$refs = {
-    upload: {
-      clear: jest.fn(),
-    },
-  }
+  Object.defineProperty(wrapper.vm.$refs.upload, 'clear', {
+    get: () => jest.fn(),
+  })
   const button = wrapper.find('.btn-default')
   expect(button.isVisible()).toBeFalse()
   wrapper.setData({ files: [{}] })
@@ -73,15 +70,15 @@ test('display score cost', () => {
 
 test('process input file', () => {
   window.URL.createObjectURL = jest.fn().mockReturnValue('file-url')
-  jest.spyOn(window, 'Image')
-    .mockImplementationOnce(function () {
+  ;(window as Window & { Image: jest.Mock }).Image = jest.fn()
+    .mockImplementationOnce(function (this: HTMLImageElement) {
       this.src = ''
       this.onload = null
       Object.defineProperty(this, 'onload', {
         set: fn => fn(),
       })
     })
-    .mockImplementationOnce(function () {
+    .mockImplementationOnce(function (this: HTMLImageElement) {
       this.src = ''
       this.width = 500
       this.onload = null
@@ -90,7 +87,12 @@ test('process input file', () => {
       })
     })
   const blob = new Blob()
-  const wrapper = mount(Upload, {
+  type Component = Vue & {
+    name: string
+    texture: string
+    inputFile(attrs?: { file: Blob, name: string }): void
+  }
+  const wrapper = mount<Component>(Upload, {
     stubs: ['file-upload'],
   })
 
@@ -109,18 +111,18 @@ test('process input file', () => {
 
   expect(wrapper.vm.texture).toBe('file-url')
 
-  window.Image.mockRestore()
+  ;(window as Window & { Image: jest.Mock }).Image.mockRestore()
 })
 
 test('upload file', async () => {
-  window.Request = jest.fn()
+  (window as Window & { Request: jest.Mock }).Request = jest.fn()
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
     .mockResolvedValueOnce({
       errno: 0, msg: '0', tid: 1,
     })
   jest.spyOn(toastr, 'info')
-  swal.mockReturnValue()
+  swal.mockReturnValue(Promise.resolve({}))
 
   const wrapper = mount(Upload, {
     stubs: ['file-upload'],

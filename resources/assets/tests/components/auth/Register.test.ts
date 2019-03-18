@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import Register from '@/components/auth/Register'
+import Register from '@/components/auth/Register.vue'
 import { swal } from '@/js/notify'
 
 jest.mock('@/js/notify')

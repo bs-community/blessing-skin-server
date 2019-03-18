@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
-import Profile from '@/components/user/Profile'
+import Profile from '@/components/user/Profile.vue'
 import toastr from 'toastr'
 import { swal } from '@/js/notify'
 
@@ -11,15 +11,15 @@ window.blessing.extra = { unverified: false }
 
 test('computed values', () => {
   window.blessing.extra = { admin: true }
-  const wrapper = mount(Profile)
+  const wrapper = mount<Vue & { siteName: string, isAdmin: boolean }>(Profile)
   expect(wrapper.vm.siteName).toBe('Blessing Skin')
   expect(wrapper.vm.isAdmin).toBeTrue()
   window.blessing.extra = { admin: false }
-  expect(mount(Profile).vm.isAdmin).toBeFalse()
+  expect(mount<Vue & { isAdmin: boolean }>(Profile).vm.isAdmin).toBeFalse()
 })
 
 test('convert linebreak', () => {
-  const wrapper = mount(Profile)
+  const wrapper = mount<Vue & { nl2br(input: string): string }>(Profile)
   expect(wrapper.vm.nl2br('a\nb\nc')).toBe('a<br>b<br>c')
 })
 
@@ -44,7 +44,7 @@ test('reset avatar', async () => {
   )
   await flushPromises()
   expect(toastr.success).toBeCalledWith('ok')
-  expect(document.querySelector('img').src).toMatch(/\d+$/)
+  expect(document.querySelector('img')!.src).toMatch(/\d+$/)
 })
 
 test('change password', async () => {
@@ -52,7 +52,7 @@ test('change password', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: 'w' })
     .mockResolvedValueOnce({ errno: 0, msg: 'o' })
-  swal.mockResolvedValue()
+  swal.mockResolvedValue({})
   const wrapper = mount(Profile)
   const button = wrapper.find('[data-test=changePassword]')
 
@@ -125,7 +125,7 @@ test('change nickname', async () => {
   button.trigger('click')
   await flushPromises()
   expect(swal).toBeCalledWith({ type: 'success', text: 'o' })
-  expect(document.querySelector('.nickname').textContent).toBe('nickname')
+  expect(document.querySelector('.nickname')!.textContent).toBe('nickname')
 })
 
 test('change email', async () => {
@@ -173,7 +173,7 @@ test('change email', async () => {
 
 test('delete account', async () => {
   window.blessing.extra = { admin: true }
-  swal.mockResolvedValue()
+  swal.mockResolvedValue({})
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: 'w' })
     .mockResolvedValue({ errno: 0, msg: 'o' })

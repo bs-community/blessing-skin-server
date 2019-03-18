@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import Closet from '@/components/user/Closet'
-import ClosetItem from '@/components/user/ClosetItem'
-import Previewer from '@/components/common/Previewer'
+import Closet from '@/components/user/Closet.vue'
+import ClosetItem from '@/components/user/ClosetItem.vue'
+import Previewer from '@/components/common/Previewer.vue'
 import toastr from 'toastr'
 import { swal } from '@/js/notify'
 
@@ -80,7 +80,7 @@ test('search textures', () => {
 
   const wrapper = mount(Closet)
   const input = wrapper.find('input')
-  input.element.value = 'q'
+  ;(input.element as HTMLInputElement).value = 'q'
   input.trigger('input')
   jest.runAllTimers()
   jest.runAllTicks()
@@ -127,7 +127,7 @@ test('render items', async () => {
 
 test('reload closet when page changed', () => {
   Vue.prototype.$http.get.mockResolvedValue({})
-  const wrapper = mount(Closet)
+  const wrapper = mount<Vue & { pageChanged(): void }>(Closet)
   wrapper.vm.pageChanged()
   jest.runAllTicks()
   expect(Vue.prototype.$http.get).toBeCalledTimes(2)
@@ -135,7 +135,7 @@ test('reload closet when page changed', () => {
 
 test('remove skin item', () => {
   Vue.prototype.$http.get.mockResolvedValue({})
-  const wrapper = mount(Closet)
+  const wrapper = mount<Vue & { removeSkinItem(tid: number): void }>(Closet)
   wrapper.setData({ skinItems: [{ tid: 1 }] })
   wrapper.vm.removeSkinItem(0)
   expect(wrapper.find('#skin-category').text()).toContain('user.emptyClosetMsg')
@@ -143,7 +143,7 @@ test('remove skin item', () => {
 
 test('remove cape item', () => {
   Vue.prototype.$http.get.mockResolvedValue({})
-  const wrapper = mount(Closet)
+  const wrapper = mount<Vue & { removeCapeItem(tid: number): void }>(Closet)
   wrapper.setData({ capeItems: [{ tid: 1 }], category: 'cape' })
   wrapper.vm.removeCapeItem(0)
   expect(wrapper.find('#cape-category').text()).toContain('user.emptyClosetMsg')
@@ -151,7 +151,8 @@ test('remove cape item', () => {
 
 test('compute avatar URL', () => {
   Vue.prototype.$http.get.mockResolvedValue({})
-  const wrapper = mount(Closet)
+  // eslint-disable-next-line camelcase
+  const wrapper = mount<Vue & { avatarUrl(player: { tid_skin: number }): string }>(Closet)
   const { avatarUrl } = wrapper.vm
   expect(avatarUrl({ tid_skin: 1 })).toBe('/avatar/35/1')
 })
@@ -162,7 +163,7 @@ test('select texture', async () => {
     .mockResolvedValueOnce({ type: 'steve', hash: 'a' })
     .mockResolvedValueOnce({ type: 'cape', hash: 'b' })
 
-  const wrapper = mount(Closet)
+  const wrapper = mount<Vue & { skinUrl: string, capeUrl: string }>(Closet)
   wrapper.setData({ skinItems: [{ tid: 1 }] })
   wrapper.find(ClosetItem).vm.$emit('select')
   await wrapper.vm.$nextTick()
@@ -181,7 +182,7 @@ test('select texture', async () => {
 test('apply texture', async () => {
   window.$ = jest.fn(() => ({
     iCheck: () => ({
-      on(evt, cb) {
+      on(_: Event, cb: CallableFunction) {
         cb()
       },
     }),
@@ -282,7 +283,7 @@ test('select specified texture initially', async () => {
   window.$ = jest.fn(() => ({
     modal() {},
     iCheck: () => ({
-      on(evt, cb) {
+      on(_: Event, cb: CallableFunction) {
         cb()
       },
     }),

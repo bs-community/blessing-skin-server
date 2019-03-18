@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import Market from '@/components/admin/Market'
+import Market from '@/components/admin/Market.vue'
 import { flushPromises } from '../../utils'
 import { swal } from '@/js/notify'
 

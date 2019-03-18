@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import List from '@/components/skinlib/List'
+import List from '@/components/skinlib/List.vue'
 
 test('fetch data before mounting', () => {
   Vue.prototype.$http.get.mockResolvedValue({
@@ -169,7 +169,7 @@ test('is anonymous', () => {
   Vue.prototype.$http.get.mockResolvedValue({
     items: [], total_pages: 0, current_uid: 0,
   })
-  const wrapper = mount(List)
+  const wrapper = mount<Vue & { anonymous: boolean }>(List)
   expect(wrapper.vm.anonymous).toBeTrue()
 })
 
@@ -177,7 +177,7 @@ test('on page changed', () => {
   Vue.prototype.$http.get.mockResolvedValue({
     items: [], total_pages: 0, current_uid: 0,
   })
-  const wrapper = mount(List)
+  const wrapper = mount<Vue & { pageChanged(page: number): void }>(List)
   jest.runAllTimers()
   wrapper.vm.pageChanged(2)
   expect(Vue.prototype.$http.get).toBeCalledWith(
@@ -196,7 +196,10 @@ test('on like toggled', async () => {
     total_pages: 1,
     current_uid: 0,
   })
-  const wrapper = mount(List)
+  const wrapper = mount<Vue & {
+    onLikeToggled(tid: number, like: boolean): void,
+    items: Array<{ liked: boolean, likes: number }>
+  }>(List)
   await wrapper.vm.$nextTick()
   wrapper.vm.onLikeToggled(0, true)
   expect(wrapper.vm.items[0].liked).toBeTrue()

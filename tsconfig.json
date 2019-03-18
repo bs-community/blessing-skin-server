@@ -12,6 +12,9 @@
       "@/js/*": [
         "./resources/assets/tests/ts-shims/*",
         "./resources/assets/src/js/*"
+      ],
+      "@/components/*": [
+        "./resources/assets/src/components/*"
       ]
     }
   },
