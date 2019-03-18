@@ -8,6 +8,11 @@ index:
   user-registration: 用户注册
 
 users:
+  status:
+    normal: 普通用户
+    banned: 封禁
+    admin: 管理员
+    super-admin: 超级管理员
   operations:
     non-existent: 用户不存在
     no-permission: 你无权操作此用户

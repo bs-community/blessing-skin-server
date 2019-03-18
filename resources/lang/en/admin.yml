@@ -8,6 +8,11 @@ index:
   user-registration: User Registration
 
 users:
+  status:
+    normal: Normal
+    banned: Banned
+    admin: Admin
+    super-admin: Super Admin
   operations:
     non-existent: No such user.
     no-permission: You have no permission to operate this user.
