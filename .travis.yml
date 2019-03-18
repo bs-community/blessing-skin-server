@@ -9,7 +9,8 @@ before_deploy:
 - node -v
 - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.15.2
 - export PATH="$HOME/.yarn/bin:$PATH"
-- curl -sSL https://raw.githubusercontent.com/bs-community/release-script/master/release.sh | bash
+- chmod +x ./scripts/release.sh
+- RELEASE_TAG=$TRAVIS_TAG ./scripts/release.sh
 
 deploy:
   provider: releases
