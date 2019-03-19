@@ -13,20 +13,24 @@ if (process.env.NODE_ENV === 'development') {
   setTimeout(langs.find(({ lang }) => lang === blessing.locale).load, 0)
 }
 
-(() => {
+{
   const route = routes.find(
     // eslint-disable-next-line no-shadow
     route => (new RegExp(`^${route.path}$`, 'i')).test(blessing.route)
   )
   if (route) {
-    Vue.prototype.$route = (new RegExp(`^${route.path}$`, 'i')).exec(blessing.route)
-    // eslint-disable-next-line no-new
-    new Vue({
-      el: route.el,
-      mounted() {
-        setTimeout(() => emitter.emit('mounted', { el: route.el }), 100)
-      },
-      render: h => h(route.component),
-    })
+    if (route.component) {
+      Vue.prototype.$route = (new RegExp(`^${route.path}$`, 'i')).exec(blessing.route)
+      // eslint-disable-next-line no-new
+      new Vue({
+        el: route.el,
+        mounted() {
+          setTimeout(() => emitter.emit('mounted', { el: route.el }), 100)
+        },
+        render: h => h(route.component),
+      })
+    } else if (route.script) {
+      route.script()
+    }
   }
-})()
+}
