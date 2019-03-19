@@ -129,15 +129,8 @@ class SetupController extends Controller
         ]);
 
         if ($request->has('generate_random')) {
-            // Generate new APP_KEY & SALT randomly
-            if (is_writable(app()->environmentFile())) {
-                Artisan::call('key:random');
-                Artisan::call('salt:random');
-            } else {
-                // @codeCoverageIgnoreStart
-                Log::warning('[SetupWizard] Failed to set application key. No write permission.');
-                // @codeCoverageIgnoreEnd
-            }
+            Artisan::call('key:random');
+            Artisan::call('salt:random');
         }
 
         // Create tables
