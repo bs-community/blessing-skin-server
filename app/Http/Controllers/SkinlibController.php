@@ -55,10 +55,6 @@ class SkinlibController extends Controller
         // Filter result by uploader's uid
         $uploader = intval($request->input('uploader', 0));
 
-        // Available sorting methods: time, likes
-        $sort = $request->input('sort', 'time');
-        $sortBy = ($sort == 'time') ? 'upload_at' : $sort;
-
         // Current page
         $page = $request->input('page', 1);
         $currentPage = ($page <= 0) ? 1 : $page;
@@ -101,10 +97,21 @@ class SkinlibController extends Controller
 
         $totalPages = ceil($query->count() / $itemsPerPage);
 
-        $textures = $query->orderBy($sortBy, 'desc')
-                            ->skip(($currentPage - 1) * $itemsPerPage)
+        // Available sorting methods: time
+        $sort = $request->input('sort', 'time');
+        $sortBy = ($sort == 'time') ? 'upload_at' : $sort;
+        // `likes` property is not actually existed in database.
+        if ($sortBy != 'likes') {
+            $query = $query->orderBy($sortBy, 'desc');
+        }
+
+        $textures = $query->skip(($currentPage - 1) * $itemsPerPage)
                             ->take($itemsPerPage)
                             ->get();
+
+        if ($sortBy == 'likes') {
+            $textures = $textures->sortByDesc('likes')->values();
+        }
 
         if ($user) {
             $closet = $user->closet()->get();
