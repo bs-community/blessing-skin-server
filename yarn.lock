@@ -939,6 +939,13 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
+"@types/echarts@^4.1.7":
+  version "4.1.7"
+  resolved "https://registry.npmjs.org/@types/echarts/-/echarts-4.1.7.tgz#40df9d259272a57e9299eef127d417d49af12aeb"
+  integrity sha512-Kc3n0r7Hdz/3ASAZD1lRyo5Kd8boMAkOboopNqf5Lwj+yc+MjiMvVBcFho5g26Kc+lXfgT2E76m4Rw2ERvDNNg==
+  dependencies:
+    "@types/zrender" "*"
+
 "@types/istanbul-lib-coverage@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@types/istanbul-lib-coverage/-/istanbul-lib-coverage-1.1.0.tgz#2cc2ca41051498382b43157c8227fea60363f94a"
@@ -1016,6 +1023,11 @@
   version "12.0.9"
   resolved "https://registry.yarnpkg.com/@types/yargs/-/yargs-12.0.9.tgz#693e76a52f61a2f1e7fb48c0eef167b95ea4ffd0"
   integrity sha512-sCZy4SxP9rN2w30Hlmg5dtdRwgYQfYRiLo9usw8X9cxlf+H4FqM1xX7+sNH7NNKVdbXMJWqva7iyy+fxh/V7fA==
+
+"@types/zrender@*":
+  version "4.0.0"
+  resolved "https://registry.npmjs.org/@types/zrender/-/zrender-4.0.0.tgz#a6806f12ec4eccaaebd9b0d816f049aca6188fbd"
+  integrity sha512-s89GOIeKFiod2KSqHkfd2rzx+T2DVu7ihZCBEBnhFrzvQPUmzvDSBot9Fi1DfMQm9Odg+rTqoMGC38RvrwJK2w==
 
 "@typescript-eslint/eslint-plugin@^1.4.2":
   version "1.4.2"
@@ -2156,26 +2168,6 @@ chart.js@1.0.*:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-1.0.2.tgz#ad57d2229cfd8ccf5955147e8121b4911e69dfe7"
 
-chart.js@^2.7.3:
-  version "2.7.3"
-  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-2.7.3.tgz#cdb61618830bf216dc887e2f7b1b3c228b73c57e"
-  dependencies:
-    chartjs-color "^2.1.0"
-    moment "^2.10.2"
-
-chartjs-color-string@^0.5.0:
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/chartjs-color-string/-/chartjs-color-string-0.5.0.tgz#8d3752d8581d86687c35bfe2cb80ac5213ceb8c1"
-  dependencies:
-    color-name "^1.0.0"
-
-chartjs-color@^2.1.0:
-  version "2.2.0"
-  resolved "https://registry.npmjs.org/chartjs-color/-/chartjs-color-2.2.0.tgz#84a2fb755787ed85c39dd6dd8c7b1d88429baeae"
-  dependencies:
-    chartjs-color-string "^0.5.0"
-    color-convert "^0.5.3"
-
 chokidar@^2.0.0:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-2.1.2.tgz#9c23ea40b01638439e0513864d362aeacc5ad058"
@@ -2316,10 +2308,6 @@ collection-visit@^1.0.0:
   dependencies:
     map-visit "^1.0.0"
     object-visit "^1.0.0"
-
-color-convert@^0.5.3:
-  version "0.5.3"
-  resolved "https://registry.yarnpkg.com/color-convert/-/color-convert-0.5.3.tgz#bdb6c69ce660fadffe0b0007cc447e1b9f7282bd"
 
 color-convert@^1.9.0, color-convert@^1.9.1:
   version "1.9.3"
@@ -3145,6 +3133,13 @@ ecc-jsbn@~0.1.1:
   dependencies:
     jsbn "~0.1.0"
     safer-buffer "^2.1.0"
+
+echarts@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.npmjs.org/echarts/-/echarts-4.1.0.tgz#d588c95f73c1a9928b9c73d5b769751c3185bcdc"
+  integrity sha512-gP1e1fNnAj9KJpTDLXV21brklbfJlqeINmpQDJCDta9TX3cPoqyQOiDVcEPzbOVHqgBRgTOwNxC5iGwJ89014A==
+  dependencies:
+    zrender "4.0.4"
 
 ee-first@1.1.1:
   version "1.1.1"
@@ -5864,10 +5859,6 @@ module-deps@^6.0.0:
     subarg "^1.0.0"
     through2 "^2.0.0"
     xtend "^4.0.0"
-
-moment@^2.10.2:
-  version "2.22.2"
-  resolved "https://registry.npmjs.org/moment/-/moment-2.22.2.tgz#3c257f9839fc0e93ff53149632239eb90783ff66"
 
 moment@^2.24.0:
   version "2.24.0"
@@ -8947,3 +8938,8 @@ yargs@^12.0.2, yargs@^12.0.4:
     which-module "^2.0.0"
     y18n "^3.2.1 || ^4.0.0"
     yargs-parser "^11.1.1"
+
+zrender@4.0.4:
+  version "4.0.4"
+  resolved "https://registry.npmjs.org/zrender/-/zrender-4.0.4.tgz#910e60d888f00c9599073f23758dd23345fe48fd"
+  integrity sha512-03Vd/BDl/cPXp8E61f5+Xbgr/a4vDyFA+uUtUc1s+5KgcPbyY2m+78R/9LQwkR6QwFYHG8qk25Q8ESGs/qpkZw==

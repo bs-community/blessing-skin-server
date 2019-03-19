@@ -120,7 +120,6 @@ const config = {
         to: 'skins',
         flatten: true,
       },
-      'node_modules/chart.js/dist/Chart.min.js',
       'resources/assets/src/images/bg.jpg',
       'resources/assets/src/images/favicon.ico',
     ]),

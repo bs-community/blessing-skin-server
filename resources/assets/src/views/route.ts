@@ -20,6 +20,10 @@ export default [
     el: '.content',
   },
   {
+    path: 'admin',
+    script: () => import('./admin/Dashboard'),
+  },
+  {
     path: 'admin/users',
     component: () => import('./admin/Users.vue'),
     el: '.content',

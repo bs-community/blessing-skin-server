@@ -20,7 +20,7 @@
     "@babel/runtime": "^7.3.4",
     "@fortawesome/fontawesome-free": "^5.7.2",
     "admin-lte": "^2.4.10",
-    "chart.js": "^2.7.3",
+    "echarts": "^4.1.0",
     "icheck": "^1.0.2",
     "jquery": "^3.3.1",
     "skinview3d": "^1.1.0",
@@ -38,6 +38,7 @@
     "@babel/preset-env": "^7.3.4",
     "@babel/preset-typescript": "^7.3.3",
     "@gplane/tsconfig": "^1.0.0",
+    "@types/echarts": "^4.1.7",
     "@types/jest": "^24.0.11",
     "@types/jquery": "^3.3.9",
     "@types/toastr": "^2.1.36",
@@ -155,7 +156,13 @@
           "no-unused-vars": 0,
           "no-invalid-this": 0,
           "indent": 0,
-          "@typescript-eslint/indent": [2, 2, { "SwitchCase": 1 }]
+          "@typescript-eslint/indent": [
+            2,
+            2,
+            {
+              "SwitchCase": 1
+            }
+          ]
         }
       }
     ]

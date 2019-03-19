@@ -67,14 +67,9 @@
                 <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">@lang('admin.index.overview')</h3>
-                        <div class="box-tools pull-right">
-                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fas fa-minus"></i></button>
-                            <button class="btn btn-box-tool" data-widget="remove"><i class="fas fa-times"></i></button>
-                        </div>
                     </div>
                     <div class="box-body">
-                        <canvas id="overview" width="400" height="200"></canvas>
-                        <div class="chart"></div>
+                        <canvas height="500" width="600" id="chart"></canvas>
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
             </div>
@@ -82,18 +77,4 @@
 
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
-
-<script src="{{ webpack_assets('Chart.min.js') }}"></script>
-<script>
-    var chartOptions = {!! json_encode($chartOptions) !!};
-
-    var chart = new Chart(document.getElementById('overview').getContext('2d'), {
-        type: 'line',
-        data: {
-            labels: chartOptions.labels,
-            datasets: chartOptions.datasets
-        },
-        options: chartOptions.options
-    });
-</script>
 @endsection

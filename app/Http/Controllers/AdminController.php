@@ -15,55 +15,29 @@ use App\Services\Repositories\UserRepository;
 
 class AdminController extends Controller
 {
-    public function index()
+    public function chartData()
     {
         $today = Carbon::today()->timestamp;
+        $xAxis = [];
+        $userRegistration = [];
+        $textureUploads = [];
 
-        // Prepare data for the graph
-        $data = [];
-        $labels = [];
-
-        for ($i = 6; $i >= 0; $i--) {
+        for ($i = 30; $i >= 0; $i--) {
             $time = Carbon::createFromTimestamp($today - $i * 86400);
 
-            $labels[] = $time->format('m-d');
-            $data['user_registration'][] = User::like('register_at', $time->toDateString())->count();
-            $data['texture_uploads'][] = Texture::like('upload_at', $time->toDateString())->count();
+            $xAxis[] = $time->format('m-d');
+            $userRegistration[] = User::like('register_at', $time->toDateString())->count();
+            $textureUploads[] = Texture::like('upload_at', $time->toDateString())->count();
         }
 
-        $datasets = [
-            [
-                'label' => trans('admin.index.user-registration'),
-                'backgroundColor' => 'rgba(60, 141, 188, 0.6)',
-                'borderColor' => '#3c8dbc',
-                'pointRadius' => 0,
-                'pointBorderColor' => '#3c8dbc',
-                'pointBackgroundColor' => '#3c8dbc',
-                'pointHoverBackgroundColor' => '#3c8dbc',
-                'pointHoverBorderColor' => '#3c8dbc',
-                'data' => $data['user_registration'],
+        return [
+            'labels' => [
+                trans('admin.index.user-registration'),
+                trans('admin.index.texture-uploads')
             ],
-            [
-                'label' => trans('admin.index.texture-uploads'),
-                'backgroundColor' => 'rgba(210, 214, 222, 0.6)',
-                'borderColor' => '#d2d6de',
-                'pointRadius' => 0,
-                'pointBorderColor' => '#c1c7d1',
-                'pointBackgroundColor' => '#c1c7d1',
-                'pointHoverBackgroundColor' => '#c1c7d1',
-                'pointHoverBorderColor' => '#c1c7d1',
-                'data' => $data['texture_uploads'],
-            ],
+            'xAxis' => $xAxis,
+            'data' => [$userRegistration, $textureUploads]
         ];
-
-        $options = [
-            'tooltips' => [
-                'intersect' => false,
-                'mode' => 'index',
-            ],
-        ];
-
-        return view('admin.index', ['chartOptions' => compact('labels', 'datasets', 'options')]);
     }
 
     public function customize(Request $request)

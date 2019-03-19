@@ -20,9 +20,9 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->actAs('admin');
     }
 
-    public function testIndex()
+    public function testChartData()
     {
-        $this->visit('/admin')->seePageIs('/admin');
+        $this->getJson('/admin/chart')->seeJsonStructure(['labels', 'xAxis', 'data']);
     }
 
     public function testCustomize()

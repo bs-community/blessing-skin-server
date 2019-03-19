@@ -97,7 +97,8 @@ Route::group(['prefix' => 'skinlib'], function () {
  * Admin Panel
  */
 Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function () {
-    Route::get('/', 'AdminController@index');
+    Route::view('/', 'admin.index');
+    Route::get('/chart', 'AdminController@chartData');
 
     Route::any('/customize', 'AdminController@customize');
     Route::any('/score', 'AdminController@score');
