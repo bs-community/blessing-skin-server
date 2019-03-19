@@ -19,6 +19,9 @@ if (process.env.NODE_ENV === 'development') {
     route => (new RegExp(`^${route.path}$`, 'i')).test(blessing.route)
   )
   if (route) {
+    if (route.module) {
+      Promise.all(route.module.map(m => m()))
+    }
     if (route.component) {
       Vue.prototype.$route = (new RegExp(`^${route.path}$`, 'i')).exec(blessing.route)
       // eslint-disable-next-line no-new
@@ -29,8 +32,6 @@ if (process.env.NODE_ENV === 'development') {
         },
         render: h => h(route.component),
       })
-    } else if (route.script) {
-      route.script()
     }
   }
 }

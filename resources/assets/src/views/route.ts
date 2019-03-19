@@ -21,7 +21,7 @@ export default [
   },
   {
     path: 'admin',
-    script: () => import('./admin/Dashboard'),
+    module: [() => import('./admin/Dashboard')],
   },
   {
     path: 'admin/users',
