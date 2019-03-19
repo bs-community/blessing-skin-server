@@ -23,7 +23,6 @@ const config = {
       'sweetalert2/dist/sweetalert2.min.css',
       './resources/assets/src/stylus/common.styl',
     ],
-    home: './resources/assets/src/stylus/home.styl',
     setup: './resources/assets/src/stylus/setup.styl',
     'langs/en': './resources/lang/en/front-end.js',
     'langs/zh_CN': './resources/lang/zh_CN/front-end.js',

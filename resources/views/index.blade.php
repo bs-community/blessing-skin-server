@@ -10,7 +10,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('common.seo-meta-tags')
     <!-- App Styles -->
-    @include('common.dependencies.style', ['module' => 'home'])
+    @include('common.dependencies.style')
 </head>
 
 <body class="hold-transition {{ option('color_scheme') }} layout-top-nav">

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import './js'
 import * as emitter from './js/event'
-import routes from './views/route'
+import routes from './route'
 
 Vue.config.productionTip = false
 
