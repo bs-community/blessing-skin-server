@@ -27,25 +27,31 @@ class AdminController extends Controller
 
         $oneMonthAgo = Carbon::createFromTimestamp($today - 30 * 86400);
 
+        $grouping = function ($field) {
+            return function ($item) use ($field) {
+                return substr($item->$field, 5, 5);
+            };
+        };
+        $mapping = function ($item) {
+            return count($item);
+        };
+        $aligning = function ($data) {
+            return function ($day) use ($data) {
+                return $data->get($day) ?? 0;
+            };
+        };
+
         $userRegistration = User::where('register_at', '>=', $oneMonthAgo)
             ->select('register_at')
             ->get()
-            ->groupBy(function ($user) {
-                return substr($user->register_at, 5, 5);
-            })
-            ->map(function ($item) {
-                return count($item);
-            });
+            ->groupBy($grouping('register_at'))
+            ->map($mapping);
 
         $textureUploads = Texture::where('upload_at', '>=', $oneMonthAgo)
             ->select('upload_at')
             ->get()
-            ->groupBy(function ($texture) {
-                return substr($texture->upload_at, 5, 5);
-            })
-            ->map(function ($item) {
-                return count($item);
-            });
+            ->groupBy($grouping('upload_at'))
+            ->map($mapping);
 
         return [
             'labels' => [
@@ -54,12 +60,8 @@ class AdminController extends Controller
             ],
             'xAxis' => $xAxis,
             'data' => [
-                $xAxis->map(function ($day) use ($userRegistration) {
-                    return $userRegistration->get($day) ?? 0;
-                }),
-                $xAxis->map(function ($day) use ($textureUploads) {
-                    return $textureUploads->get($day) ?? 0;
-                }),
+                $xAxis->map($aligning($userRegistration)),
+                $xAxis->map($aligning($textureUploads)),
             ]
         ];
     }
