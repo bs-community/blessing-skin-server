@@ -22,7 +22,12 @@ class AdminControllerTest extends BrowserKitTestCase
 
     public function testChartData()
     {
-        $this->getJson('/admin/chart')->seeJsonStructure(['labels', 'xAxis', 'data']);
+        $this->getJson('/admin/chart')
+            ->seeJson(['labels' => [
+                trans('admin.index.user-registration'),
+                trans('admin.index.texture-uploads')
+            ]])
+            ->seeJsonStructure(['labels', 'xAxis', 'data']);
     }
 
     public function testCustomize()

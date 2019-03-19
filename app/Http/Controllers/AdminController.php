@@ -10,6 +10,7 @@ use App\Models\Texture;
 use Illuminate\Support\Str;
 use App\Services\OptionForm;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Repositories\UserRepository;
 
@@ -18,17 +19,33 @@ class AdminController extends Controller
     public function chartData()
     {
         $today = Carbon::today()->timestamp;
-        $xAxis = [];
-        $userRegistration = [];
-        $textureUploads = [];
 
-        for ($i = 30; $i >= 0; $i--) {
-            $time = Carbon::createFromTimestamp($today - $i * 86400);
+        $xAxis = Collection::times(30, function ($number) use ($today) {
+            $time = Carbon::createFromTimestamp($today - (31 - $number) * 86400);
+            return $time->format('m-d');
+        });
 
-            $xAxis[] = $time->format('m-d');
-            $userRegistration[] = User::like('register_at', $time->toDateString())->count();
-            $textureUploads[] = Texture::like('upload_at', $time->toDateString())->count();
-        }
+        $oneMonthAgo = Carbon::createFromTimestamp($today - 30 * 86400);
+
+        $userRegistration = User::where('register_at', '>=', $oneMonthAgo)
+            ->select('register_at')
+            ->get()
+            ->groupBy(function ($user) {
+                return substr($user->register_at, 5, 5);
+            })
+            ->map(function ($item) {
+                return count($item);
+            });
+
+        $textureUploads = Texture::where('upload_at', '>=', $oneMonthAgo)
+            ->select('upload_at')
+            ->get()
+            ->groupBy(function ($texture) {
+                return substr($texture->upload_at, 5, 5);
+            })
+            ->map(function ($item) {
+                return count($item);
+            });
 
         return [
             'labels' => [
@@ -36,7 +53,14 @@ class AdminController extends Controller
                 trans('admin.index.texture-uploads')
             ],
             'xAxis' => $xAxis,
-            'data' => [$userRegistration, $textureUploads]
+            'data' => [
+                $xAxis->map(function ($day) use ($userRegistration) {
+                    return $userRegistration->get($day) ?? 0;
+                }),
+                $xAxis->map(function ($day) use ($textureUploads) {
+                    return $textureUploads->get($day) ?? 0;
+                }),
+            ]
         ];
     }
 
