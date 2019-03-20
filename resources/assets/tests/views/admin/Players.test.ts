@@ -17,48 +17,6 @@ test('fetch data after initializing', () => {
   )
 })
 
-test('update tables', () => {
-  interface Methods {
-    onPageChange(options: { currentPage: number }): void
-    onPerPageChange(options: { currentPerPage: number }): void
-    onSortChange(options: { sortType: 'asc' | 'desc', columnIndex: number }): void
-  }
-
-  Vue.prototype.$http.get.mockResolvedValue({
-    data: Array.from({ length: 20 }).map((_, pid) => ({ pid })),
-  })
-  const wrapper = mount<Vue & Methods>(Players)
-
-  wrapper.find('.vgt-input').setValue('abc')
-  expect(Vue.prototype.$http.get).toBeCalledWith(
-    '/admin/player-data',
-    {
-      page: 1, perPage: 10, search: 'abc', sortField: 'pid', sortType: 'asc',
-    }
-  )
-  wrapper.vm.onPageChange({ currentPage: 2 })
-  expect(Vue.prototype.$http.get).toBeCalledWith(
-    '/admin/player-data',
-    {
-      page: 2, perPage: 10, search: 'abc', sortField: 'pid', sortType: 'asc',
-    }
-  )
-  wrapper.vm.onPerPageChange({ currentPerPage: 5 })
-  expect(Vue.prototype.$http.get).toBeCalledWith(
-    '/admin/player-data',
-    {
-      page: 2, perPage: 5, search: 'abc', sortField: 'pid', sortType: 'asc',
-    }
-  )
-  wrapper.vm.onSortChange({ sortType: 'desc', columnIndex: 0 })
-  expect(Vue.prototype.$http.get).toBeCalledWith(
-    '/admin/player-data',
-    {
-      page: 2, perPage: 5, search: 'abc', sortField: 'pid', sortType: 'desc',
-    }
-  )
-})
-
 test('change texture', async () => {
   window.$ = jest.fn(() => ({ modal() {} }))
   Vue.prototype.$http.get.mockResolvedValue({

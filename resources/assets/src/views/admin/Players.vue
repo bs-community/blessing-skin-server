@@ -120,12 +120,18 @@ import { VueGoodTable } from 'vue-good-table'
 import 'vue-good-table/dist/vue-good-table.min.css'
 import toastr from 'toastr'
 import { swal } from '../../js/notify'
+import tableOptions from '../../components/mixins/tableOptions'
+import serverTable from '../../components/mixins/serverTable'
 
 export default {
   name: 'PlayersManagement',
   components: {
     VueGoodTable,
   },
+  mixins: [
+    tableOptions,
+    serverTable,
+  ],
   props: {
     baseUrl: {
       type: String,
@@ -135,7 +141,6 @@ export default {
   data() {
     return {
       players: [],
-      totalRecords: 0,
       columns: [
         {
           field: 'pid', label: 'PID', type: 'number',
@@ -154,24 +159,6 @@ export default {
       ],
       serverParams: {
         sortField: 'pid',
-        sortType: 'asc',
-        page: 1,
-        perPage: 10,
-        search: '',
-      },
-      tableOptions: {
-        search: {
-          enabled: true,
-          placeholder: this.$t('vendor.datatable.search'),
-        },
-        pagination: {
-          enabled: true,
-          nextLabel: this.$t('vendor.datatable.next'),
-          prevLabel: this.$t('vendor.datatable.prev'),
-          rowsPerPageLabel: this.$t('vendor.datatable.rowsPerPage'),
-          allLabel: this.$t('vendor.datatable.all'),
-          ofLabel: this.$t('vendor.datatable.of'),
-        },
       },
       textureChanges: {
         originalIndex: -1,
@@ -191,23 +178,6 @@ export default {
       )
       this.totalRecords = totalRecords
       this.players = data
-    },
-    onPageChange(params) {
-      this.serverParams.page = params.currentPage
-      this.fetchData()
-    },
-    onPerPageChange(params) {
-      this.serverParams.perPage = params.currentPerPage
-      this.fetchData()
-    },
-    onSortChange(params) {
-      this.serverParams.sortType = params.sortType
-      this.serverParams.sortField = this.columns[params.columnIndex].field
-      this.fetchData()
-    },
-    onSearch(params) {
-      this.serverParams.search = params.searchTerm
-      this.fetchData()
     },
     async changeTexture() {
       const player = this.players[this.textureChanges.originalIndex]

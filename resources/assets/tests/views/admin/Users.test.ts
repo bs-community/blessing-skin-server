@@ -22,48 +22,6 @@ test('fetch data after initializing', () => {
   )
 })
 
-test('update tables', () => {
-  interface Methods {
-    onPageChange(options: { currentPage: number }): void
-    onPerPageChange(options: { currentPerPage: number }): void
-    onSortChange(options: { sortType: 'asc' | 'desc', columnIndex: number }): void
-  }
-
-  Vue.prototype.$http.get.mockResolvedValue({
-    data: Array.from({ length: 20 }).map((_, uid) => ({ uid })),
-  })
-  const wrapper = mount<Vue & Methods>(Users)
-
-  wrapper.find('.vgt-input').setValue('abc')
-  expect(Vue.prototype.$http.get).toBeCalledWith(
-    '/admin/user-data',
-    {
-      page: 1, perPage: 10, search: 'abc', sortField: 'uid', sortType: 'asc',
-    }
-  )
-  wrapper.vm.onPageChange({ currentPage: 2 })
-  expect(Vue.prototype.$http.get).toBeCalledWith(
-    '/admin/user-data',
-    {
-      page: 2, perPage: 10, search: 'abc', sortField: 'uid', sortType: 'asc',
-    }
-  )
-  wrapper.vm.onPerPageChange({ currentPerPage: 5 })
-  expect(Vue.prototype.$http.get).toBeCalledWith(
-    '/admin/user-data',
-    {
-      page: 2, perPage: 5, search: 'abc', sortField: 'uid', sortType: 'asc',
-    }
-  )
-  wrapper.vm.onSortChange({ sortType: 'desc', columnIndex: 0 })
-  expect(Vue.prototype.$http.get).toBeCalledWith(
-    '/admin/user-data',
-    {
-      page: 2, perPage: 5, search: 'abc', sortField: 'uid', sortType: 'desc',
-    }
-  )
-})
-
 test('humanize permission', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: [

@@ -79,12 +79,16 @@ import { VueGoodTable } from 'vue-good-table'
 import 'vue-good-table/dist/vue-good-table.min.css'
 import toastr from 'toastr'
 import { swal } from '../../js/notify'
+import tableOptions from '../../components/mixins/tableOptions'
 
 export default {
   name: 'Plugins',
   components: {
     VueGoodTable,
   },
+  mixins: [
+    tableOptions,
+  ],
   props: {
     baseUrl: {
       type: String,
@@ -111,20 +115,6 @@ export default {
           globalSearchDisabled: true,
         },
       ],
-      tableOptions: {
-        search: {
-          enabled: true,
-          placeholder: this.$t('vendor.datatable.search'),
-        },
-        pagination: {
-          enabled: true,
-          nextLabel: this.$t('vendor.datatable.next'),
-          prevLabel: this.$t('vendor.datatable.prev'),
-          rowsPerPageLabel: this.$t('vendor.datatable.rowsPerPage'),
-          allLabel: this.$t('vendor.datatable.all'),
-          ofLabel: this.$t('vendor.datatable.of'),
-        },
-      },
     }
   },
   beforeMount() {
