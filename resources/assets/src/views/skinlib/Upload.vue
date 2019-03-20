@@ -75,6 +75,9 @@
             <div v-if="isPrivate" class="callout callout-info">
               <p>{{ privacyNotice }}</p>
             </div>
+            <div v-if="!isPrivate && award" class="callout callout-success">
+              <p>{{ $t('skinlib.upload.award', { score: award }) }}</p>
+            </div>
           </div><!-- /.box-body -->
 
           <div class="box-footer">
@@ -130,6 +133,7 @@ export default {
       privacyNotice: blessing.extra.privacyNotice,
       scorePublic: blessing.extra.scorePublic,
       scorePrivate: blessing.extra.scorePrivate,
+      award: +blessing.extra.award,
       width2d: 64,
     }
   },

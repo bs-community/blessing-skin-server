@@ -93,6 +93,15 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->assertEquals('233,666', option('sign_score'));
         $this->assertEquals('7', option('sign_gap_time'));
         $this->assertTrue(option('sign_after_zero'));
+
+        $this->visit('/admin/score')
+            ->type('1', 'score_award_per_texture')
+            ->uncheck('take_back_scores_after_deletion')
+            ->type('1', 'score_award_per_like')
+            ->press('submit_sharing');
+        $this->assertEquals('1', option('score_award_per_texture'));
+        $this->assertFalse(option('take_back_scores_after_deletion'));
+        $this->assertEquals('1', option('score_award_per_like'));
     }
 
     public function testOptions()

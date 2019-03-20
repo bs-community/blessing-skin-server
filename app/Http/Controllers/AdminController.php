@@ -141,7 +141,17 @@ class AdminController extends Controller
             'sign_score_to'   => @explode(',', option('sign_score'))[1],
         ])->handle();
 
-        return view('admin.score', ['forms' => compact('rate', 'sign')]);
+        $sharing = Option::form('sharing', OptionForm::AUTO_DETECT, function ($form) {
+            $form->group('score_award_per_texture')
+                ->text('score_award_per_texture')
+                ->addon(trans('general.user.score'));
+            $form->checkbox('take_back_scores_after_deletion')->label();
+            $form->group('score_award_per_like')
+                ->text('score_award_per_like')
+                ->addon(trans('general.user.score'));
+        })->handle();
+
+        return view('admin.score', ['forms' => compact('rate', 'sign', 'sharing')]);
     }
 
     public function options()
@@ -215,9 +225,9 @@ class AdminController extends Controller
         });
 
         $meta = Option::form('meta', OptionForm::AUTO_DETECT, function ($form) {
-          $form->text('meta_keywords')->hint(OptionForm::AUTO_DETECT);
-          $form->text('meta_description')->hint(OptionForm::AUTO_DETECT);
-          $form->textarea('meta_extras')->rows(6);
+            $form->text('meta_keywords')->hint();
+            $form->text('meta_description')->hint();
+            $form->textarea('meta_extras')->rows(6);
         })->handle();
 
         return view('admin.options')

@@ -22,6 +22,8 @@
 
             <div class="col-md-6">
                 {!! $forms['sign']->render() !!}
+
+                {!! $forms['sharing']->render() !!}
             </div>
 
         </div>

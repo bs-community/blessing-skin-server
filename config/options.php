@@ -42,4 +42,12 @@ return [
     'copyright_prefer'          => '0',
     'score_per_closet_item'     => '0',
     'favicon_url'               => 'app/favicon.ico',
+    'enable_redis'              => 'false',
+    'score_award_per_texture'   => '0',
+    'take_back_scores_after_deletion' => 'true',
+    'score_award_per_like'      => '0',
+    'meta_keywords'             => '',
+    'meta_description'          => '',
+    'meta_extras'               => '',
+    'cdn_address'               => '',
 ];

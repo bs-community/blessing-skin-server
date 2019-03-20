@@ -62,6 +62,17 @@ sign:
     label: Users can sign in after 0 everyday.
     hint: The above option will be ignored if this is checked.
 
+sharing:
+  title: Awarding Sharing
+
+  score_award_per_texture:
+    title: Uploader will be rewarded for each uploading texture with
+  take_back_scores_after_deletion:
+    title: Return scores
+    label: Return scores if uploader setting private or deleting texture.
+  score_award_per_like:
+    title: Each time the texture is collected, uploader will be rewarded with
+
 general:
   title: General Options
 

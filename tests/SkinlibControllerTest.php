@@ -554,6 +554,9 @@ class SkinlibControllerTest extends TestCase
             'errno' => 7,
             'msg' => trans('skinlib.upload.lack-score'),
         ]);
+
+        // Success
+        option(['score_award_per_texture' => 2]);
         $response = $this->postJson(
             '/skinlib/upload',
             [
@@ -571,7 +574,7 @@ class SkinlibControllerTest extends TestCase
         ]);
         Storage::disk('textures')->assertExists($t->hash);
         $user = User::find($user->uid);
-        $this->assertEquals(0, $user->score);
+        $this->assertEquals(2, $user->score);
         $this->assertEquals('texture', $t->name);
         $this->assertEquals('steve', $t->type);
         $this->assertEquals(1, $t->likes);
@@ -683,6 +686,47 @@ class SkinlibControllerTest extends TestCase
             $uploader->score + $texture->size * option('private_score_per_storage'),
             User::find($uploader->uid)->score
         );
+
+        option(['return_score' => false]);
+
+        // Return the award
+        option(['score_award_per_texture' => 5]);
+        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+        $uploader->refresh();
+        $this->actAs($uploader)
+            ->postJson('/skinlib/delete', ['tid' => $texture->tid])
+            ->assertJson(['errno' => 0]);
+        $this->assertEquals($uploader->score - 5, User::find($uploader->uid)->score);
+        // Option disabled
+        option(['take_back_scores_after_deletion' => false]);
+        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+        $uploader->refresh();
+        $this->actAs($uploader)
+            ->postJson('/skinlib/delete', ['tid' => $texture->tid])
+            ->assertJson(['errno' => 0]);
+        $this->assertEquals($uploader->score, User::find($uploader->uid)->score);
+        // Private texture
+        $texture = factory(Texture::class)->create([
+            'uploader' => $uploader->uid,
+            'public' => false
+        ]);
+        $uploader->refresh();
+        $this->actAs($uploader)
+            ->postJson('/skinlib/delete', ['tid' => $texture->tid])
+            ->assertJson(['errno' => 0]);
+        $this->assertEquals($uploader->score, User::find($uploader->uid)->score);
+
+        // Remove from closet
+        option(['return_score' => true]);
+        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+        $other->closet()->attach($texture->tid, ['item_name' => 'a']);
+        $other->score = 0;
+        $other->save();
+        $this->actAs($uploader)
+            ->postJson('/skinlib/delete', ['tid' => $texture->tid])
+            ->assertJson(['errno' => 0]);
+        $other->refresh();
+        $this->assertEquals(option('score_per_closet_item'), $other->score);
     }
 
     public function testPrivacy()
@@ -764,6 +808,18 @@ class SkinlibControllerTest extends TestCase
             $other->score + option('score_per_closet_item'),
             User::find($other->uid)->score
         );
+
+        // Take back the score
+        option(['score_award_per_texture' => 5]);
+        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+        $uploader->score = $texture->size * (
+            option('private_score_per_storage') - option('score_per_storage')
+        );
+        $uploader->score += option('score_award_per_texture');
+        $uploader->save();
+        $this->postJson('/skinlib/privacy', ['tid' => $texture->tid])
+            ->assertJson(['errno' => 0]);
+        $this->assertEquals(0, User::find($uploader->uid)->score);
 
         // Without returning score
         option(['return_score' => false, 'private_score_per_storage' => 0]);

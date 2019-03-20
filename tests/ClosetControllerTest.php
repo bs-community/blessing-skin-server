@@ -80,7 +80,8 @@ class ClosetControllerTest extends TestCase
 
     public function testAdd()
     {
-        $texture = factory(Texture::class)->create();
+        $uploader = factory(User::class)->create(['score' => 0]);
+        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
         $likes = $texture->likes;
         $name = 'my';
         option(['score_per_closet_item' => 10]);
@@ -140,6 +141,7 @@ class ClosetControllerTest extends TestCase
         ]);
 
         // Add a texture successfully
+        option(['score_award_per_like' => 5]);
         $this->postJson(
             '/user/closet/add',
             ['tid' => $texture->tid, 'name' => $name]
@@ -151,6 +153,8 @@ class ClosetControllerTest extends TestCase
         $this->user = User::find($this->user->uid);
         $this->assertEquals(90, $this->user->score);
         $this->assertEquals(1, $this->user->closet()->count());
+        $uploader->refresh();
+        $this->assertEquals(5, $uploader->score);
 
         // If the texture is duplicated, should be warned
         $this->postJson(
@@ -224,7 +228,8 @@ class ClosetControllerTest extends TestCase
 
     public function testRemove()
     {
-        $texture = factory(Texture::class)->create();
+        $uploader = factory(User::class)->create(['score' => 5]);
+        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
         $likes = $texture->likes;
 
         // Missing `tid` field
@@ -253,6 +258,7 @@ class ClosetControllerTest extends TestCase
         ]);
 
         // Should return score if `return_score` is true
+        option(['score_award_per_like' => 5]);
         $this->user->closet()->attach($texture->tid, ['item_name' => 'name']);
         $score = $this->user->score;
         $this->postJson(
@@ -265,6 +271,8 @@ class ClosetControllerTest extends TestCase
         $this->assertEquals($likes, Texture::find($texture->tid)->likes);
         $this->assertEquals($score + option('score_per_closet_item'), $this->user->score);
         $this->assertEquals(0, $this->user->closet()->count());
+        $uploader->refresh();
+        $this->assertEquals(0, $uploader->score);
 
         $texture = Texture::find($texture->tid);
         $likes = $texture->likes;

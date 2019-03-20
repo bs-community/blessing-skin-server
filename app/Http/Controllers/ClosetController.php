@@ -71,7 +71,8 @@ class ClosetController extends Controller
         }
 
         $tid = $request->tid;
-        if (! Texture::find($tid)) {
+        $texture = Texture::find($tid);
+        if (! $texture) {
             return json(trans('user.closet.add.not-found'), 1);
         }
 
@@ -81,6 +82,12 @@ class ClosetController extends Controller
 
         $user->closet()->attach($tid, ['item_name' => $request->name]);
         $user->setScore(option('score_per_closet_item'), 'minus');
+
+        $uploader = User::find($texture->uploader);
+        if ($uploader && $uploader->uid != $user->uid) {
+            $uploader->score += option('score_award_per_like', 0);
+            $uploader->save();
+        }
 
         return json(trans('user.closet.add.success', ['name' => $request->input('name')]), 0);
     }
@@ -108,18 +115,23 @@ class ClosetController extends Controller
         $this->validate($request, [
             'tid' => 'required|integer',
         ]);
+        $tid = $request->tid;
 
         $user = auth()->user();
 
-        if ($user->closet()->where('tid', $request->tid)->count() == 0) {
+        if ($user->closet()->where('tid', $tid)->count() == 0) {
             return json(trans('user.closet.remove.non-existent'), 1);
         }
 
-        $user->closet()->detach($request->tid);
+        $user->closet()->detach($tid);
 
         if (option('return_score')) {
             $user->setScore(option('score_per_closet_item'), 'plus');
         }
+
+        $uploader = User::find(Texture::find($tid)->uploader);
+        $uploader->score -= option('score_award_per_like', 0);
+        $uploader->save();
 
         return json(trans('user.closet.remove.success'), 0);
     }

@@ -23,7 +23,8 @@ blessing.extra = {
     rule: "{{ option('texture_name_regexp') ? trans('skinlib.upload.name-rule-regexp', compact('regexp')) : trans('skinlib.upload.name-rule') }}",
     privacyNotice: "@lang('skinlib.upload.private-score-notice', ['score' => option('private_score_per_storage')])",
     scorePublic: {{ option('score_per_storage') }},
-    scorePrivate: {{ option('private_score_per_storage') }}
+    scorePrivate: {{ option('private_score_per_storage') }},
+    award: {{ option('score_award_per_texture') }},
 }
 </script>
 @endsection

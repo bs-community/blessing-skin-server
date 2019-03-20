@@ -14,6 +14,7 @@ window.blessing.extra = {
   privacyNotice: 'privacyNotice',
   scorePrivate: 10,
   scorePublic: 1,
+  award: 0,
 }
 
 const csrf = document.createElement('meta')
@@ -162,4 +163,15 @@ test('upload file', async () => {
   jest.runAllTimers()
   expect(swal).toBeCalledWith({ type: 'success', text: '0' })
   expect(toastr.info).toBeCalledWith('skinlib.redirecting')
+})
+
+test('show notice about awarding', () => {
+  const wrapper = mount(Upload)
+  expect(wrapper.find('.callout-success').exists()).toBeFalse()
+
+  wrapper.setData({ award: 5 })
+  expect(wrapper.find('.callout-success').exists()).toBeTrue()
+
+  wrapper.find('[type=checkbox]').setChecked()
+  expect(wrapper.find('.callout-success').exists()).toBeFalse()
 })

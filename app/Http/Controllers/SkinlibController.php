@@ -189,6 +189,7 @@ class SkinlibController extends Controller
 
         $cost = $t->size * ($t->public ? Option::get('score_per_storage') : Option::get('private_score_per_storage'));
         $cost += option('score_per_closet_item');
+        $cost -= option('score_award_per_texture', 0);
 
         if ($user->getScore() < $cost) {
             return json(trans('skinlib.upload.lack-score'), 7);
@@ -243,18 +244,28 @@ class SkinlibController extends Controller
             Storage::disk('textures')->delete($result->hash);
         }
 
-        if (option('return_score')) {
-            if ($u = $users->get($result->uploader)) {
-                if ($result->public) {
-                    $u->setScore(
-                        $result->size * option('score_per_storage'), 'plus'
-                    );
-                } else {
-                    $u->setScore(
-                        $result->size * option('private_score_per_storage'), 'plus'
-                    );
-                }
+        $result->likers()->get()->each(function ($user) use ($result) {
+            $user->closet()->detach($result->tid);
+            if (option('return_score')) {
+                $user->setScore(option('score_per_closet_item'), 'plus');
             }
+        });
+
+        if ($u = $users->get($result->uploader)) {
+            $ret = 0;
+            if (option('return_score')) {
+                $ret += $result->size * (
+                    $result->public
+                        ? option('score_per_storage')
+                        : option('private_score_per_storage')
+                );
+            }
+
+            if ($result->public && option('take_back_scores_after_deletion', true)) {
+                $ret -= option('score_award_per_texture', 0);
+            }
+
+            $u->setScore($ret, 'plus');
         }
 
         if ($result->delete()) {
@@ -278,6 +289,9 @@ class SkinlibController extends Controller
         }
 
         $score_diff = $t->size * (option('private_score_per_storage') - option('score_per_storage')) * ($t->public ? -1 : 1);
+        if ($t->public && option('take_back_scores_after_deletion', true)) {
+            $score_diff -= option('score_award_per_texture', 0);
+        }
         if ($users->get($t->uploader)->getScore() + $score_diff < 0) {
             return json(trans('skinlib.upload.lack-score'), 1);
         }

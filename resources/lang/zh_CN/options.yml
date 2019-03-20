@@ -62,6 +62,17 @@ sign:
     label: 每天零点后可签到
     hint: 勾选后将无视上一条，每天零时后均可签到
 
+sharing:
+  title: 奖励分享
+
+  score_award_per_texture:
+    title: 每上传一个材质奖励
+  take_back_scores_after_deletion:
+    title: 回收积分
+    label: 改为私有或删除上传的材质后收回奖励积分
+  score_award_per_like:
+    title: 材质每被收藏一次奖励上传者
+
 general:
   title: 常规选项
 
