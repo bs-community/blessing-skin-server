@@ -47,7 +47,7 @@ class AppServiceProvider extends ServiceProvider
         }
 
         try {
-            if (Redis::ping()) {
+            if (option('enable_redis') && Redis::ping()) {
                 config(['cache.default'  => 'redis']);
                 config(['session.driver' => 'redis']);
             }
