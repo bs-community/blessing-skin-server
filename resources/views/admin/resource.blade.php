@@ -1,6 +1,6 @@
 @extends('admin.master')
 
-@section('title', trans('general.options'))
+@section('title', trans('general.res-options'))
 
 @section('content')
 
@@ -9,7 +9,7 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            @lang('general.options')
+            @lang('general.res-options')
         </h1>
     </section>
 
@@ -18,13 +18,10 @@
 
         <div class="row">
             <div class="col-md-6">
-                {!! $forms['general']->render() !!}
+                {!! $forms['resources']->render() !!}
             </div>
 
             <div class="col-md-6">
-                {!! $forms['announ']->render() !!}
-
-                {!! $forms['meta']->render() !!}
             </div>
 
         </div>

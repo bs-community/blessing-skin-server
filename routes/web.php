@@ -103,6 +103,7 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function 
     Route::any('/customize', 'AdminController@customize');
     Route::any('/score', 'AdminController@score');
     Route::any('/options', 'AdminController@options');
+    Route::any('/resource', 'AdminController@resource');
 
     Route::view('/users', 'admin.users');
     Route::any('/user-data', 'AdminController@getUserData');

@@ -21,10 +21,11 @@ $menu['admin'] = [
     ['title' => 'general.player-manage',  'link' => 'admin/players',        'icon' => 'fa-gamepad'],
     ['title' => 'general.customize',      'link' => 'admin/customize',      'icon' => 'fa-paint-brush'],
     ['title' => 'general.score-options',  'link' => 'admin/score',          'icon' => 'fa-credit-card'],
+    ['title' => 'general.options',        'link' => 'admin/options',        'icon' => 'fa-cog'],
+    ['title' => 'general.res-options',    'link' => 'admin/resource',       'icon' => 'fa-atom'],
     ['title' => 'general.plugin-market',  'link' => 'admin/plugins/market', 'icon' => 'fa-shopping-bag'],
     ['title' => 'general.plugin-manage',  'link' => 'admin/plugins/manage', 'icon' => 'fa-plug'],
     ['title' => 'general.plugin-configs', 'id'   => 'plugin-configs',       'icon' => 'fa-cogs', 'children' => []],
-    ['title' => 'general.options',        'link' => 'admin/options',        'icon' => 'fa-cog'],
     ['title' => 'general.check-update',   'link' => 'admin/update',         'icon' => 'fa-arrow-up'],
 ];
 

@@ -138,6 +138,19 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->assertEquals('announcement', option('announcement'));
 
         $this->visit('/admin/options')
+            ->type('kw', 'meta_keywords')
+            ->type('desc', 'meta_description')
+            ->type('<!-- nothing -->', 'meta_extras')
+            ->press('submit_meta');
+        $this->visit('/')
+            ->see('<meta name="keywords" content="kw">')
+            ->see('<meta name="description" content="desc">')
+            ->see('<!-- nothing -->');
+    }
+
+    public function testResource()
+    {
+        $this->visit('/admin/resource')
             ->check('force_ssl')
             ->uncheck('auto_detect_asset_url')
             ->check('return_204_when_notfound')
@@ -150,20 +163,10 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->assertEquals('0', option('cache_expire_time'));
         $this->visit('/')->see('url/app/index.js');
 
-        $this->visit('/admin/options')
+        $this->visit('/admin/resource')
             ->type('', 'cdn_address')
             ->press('submit_resources');
         $this->visit('/')->dontSee('url/app/index.js');
-
-        $this->visit('/admin/options')
-            ->type('kw', 'meta_keywords')
-            ->type('desc', 'meta_description')
-            ->type('<!-- nothing -->', 'meta_extras')
-            ->press('submit_meta');
-        $this->visit('/')
-            ->see('<meta name="keywords" content="kw">')
-            ->see('<meta name="description" content="desc">')
-            ->see('<!-- nothing -->');
     }
 
     public function testUsers()

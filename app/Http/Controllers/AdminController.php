@@ -213,6 +213,18 @@ class AdminController extends Controller
             Option::set('announcement_'.config('app.locale'), request('announcement'));
         });
 
+        $meta = Option::form('meta', OptionForm::AUTO_DETECT, function ($form) {
+          $form->text('meta_keywords')->hint(OptionForm::AUTO_DETECT);
+          $form->text('meta_description')->hint(OptionForm::AUTO_DETECT);
+          $form->textarea('meta_extras')->rows(6);
+        })->handle();
+
+        return view('admin.options')
+            ->with('forms', compact('general', 'announ', 'meta'));
+    }
+
+    public function resource()
+    {
         $resources = Option::form('resources', OptionForm::AUTO_DETECT, function ($form) {
             $form->checkbox('force_ssl')->label()->hint();
             $form->checkbox('auto_detect_asset_url')->label()->description();
@@ -223,7 +235,7 @@ class AdminController extends Controller
                 ->hint(OptionForm::AUTO_DETECT)
                 ->description(OptionForm::AUTO_DETECT);
         })
-            ->type('warning')
+            ->type('primary')
             ->hint(OptionForm::AUTO_DETECT)
             ->after(function () {
                 $cdnAddress = request('cdn_address');
@@ -237,14 +249,8 @@ class AdminController extends Controller
             })
             ->handle();
 
-        $meta = Option::form('meta', OptionForm::AUTO_DETECT, function ($form) {
-          $form->text('meta_keywords')->hint(OptionForm::AUTO_DETECT);
-          $form->text('meta_description')->hint(OptionForm::AUTO_DETECT);
-          $form->textarea('meta_extras')->rows(3);
-        })->handle();
-
-        return view('admin.options')
-            ->with('forms', compact('general', 'resources', 'announ', 'meta'));
+        return view('admin.resource')
+            ->with('forms', compact('resources'));
     }
 
     public function getUserData(Request $request)
