@@ -16,11 +16,11 @@
     <!-- Main content -->
     <section class="content">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-7">
                 <div class="box" id="usage-box"></div><!-- /.box -->
             </div><!-- /.col -->
 
-            <div class="col-md-4">
+            <div class="col-md-5">
                 <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">@lang('user.announcement')</h3>
