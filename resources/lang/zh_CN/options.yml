@@ -124,6 +124,17 @@ announ:
   announcement:
     description: 可使用 Markdown 进行排版。每种支持的语言都可以对应不同的站点公告，如果想要编辑某种特定语言下的公告，请在右上角切换至该语言后再提交修改。
 
+meta:
+  title: SEO <meta> 标签
+  meta_keywords:
+    title: 关键词
+    hint: 使用半角逗号分隔
+  meta_description:
+    title: 描述
+    hint: 留空以使用 站点配置 中的站点描述
+  meta_extras:
+    title: 其它自定义 <meta> 标签
+
 resources:
   title: 资源文件配置
   hint: 如果启用了 CDN 缓存请适当修改这些配置
@@ -150,13 +161,10 @@ resources:
       填写的 CDN 地址必须是 <code>/public</code> 目录的镜像，此目录下的所有文件都将会从 CDN 加载。<br>
       <b>测试方法</b>：检查 <code>{填写的地址}/app/index.js</code> 是否能够访问。
 
-meta:
-  title: SEO <meta> 标签
-  meta_keywords:
-    title: 关键词
-    hint: 使用半角逗号分隔
-  meta_description:
-    title: 描述
-    hint: 留空以使用 站点配置 中的站点描述
-  meta_extras:
-    title: 其它自定义 <meta> 标签
+redis:
+  enable_redis:
+    title: 启用
+    label: 使用 Redis
+  connect:
+    success: 成功连接 Redis 服务器。
+    failed: '连接 Redis 服务器失败。错误消息： :msg'

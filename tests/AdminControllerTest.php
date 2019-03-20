@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Redis;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
@@ -167,6 +168,18 @@ class AdminControllerTest extends BrowserKitTestCase
             ->type('', 'cdn_address')
             ->press('submit_resources');
         $this->visit('/')->dontSee('url/app/index.js');
+
+        $this->visit('/admin/resource')
+            ->check('enable_redis')
+            ->press('submit_redis');
+        $this->assertTrue(option('enable_redis'));
+
+        Redis::shouldReceive('ping')->once()->andReturn(true);
+        $this->visit('/admin/resource')->see(trans('options.redis.connect.success'));
+
+        Redis::shouldReceive('ping')->once()->andThrow(new \Exception('fake'));
+        $this->visit('/admin/resource')
+            ->see(trans('options.redis.connect.failed', ['msg' => 'fake']));
     }
 
     public function testUsers()

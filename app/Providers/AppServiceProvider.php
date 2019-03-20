@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Blade;
 use Event;
+use Redis;
 use App\Events;
 use App\Models\User;
 use ReflectionException;
@@ -43,6 +44,15 @@ class AppServiceProvider extends ServiceProvider
             $this->app->make('cipher');
         } catch (ReflectionException $e) {
             throw new PrettyPageException(trans('errors.cipher.unsupported', ['cipher' => config('secure.cipher')]));
+        }
+
+        try {
+            if (Redis::ping()) {
+                config(['cache.default'  => 'redis']);
+                config(['session.driver' => 'redis']);
+            }
+        } catch (\Exception $e) {
+            //
         }
     }
 

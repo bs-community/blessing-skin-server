@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Redis;
 use Option;
 use Carbon\Carbon;
 use App\Models\User;
@@ -249,8 +250,26 @@ class AdminController extends Controller
             })
             ->handle();
 
+        $redis = Option::form('redis', 'Redis', function ($form) {
+            $form->checkbox('enable_redis')->label();
+        });
+
+        if (option('enable_redis')) {
+            try {
+                Redis::ping();
+                $redis->addMessage(trans('options.redis.connect.success'), 'success');
+            } catch (\Exception $e) {
+                $redis->addMessage(
+                    trans('options.redis.connect.failed', ['msg' => $e->getMessage()]),
+                    'danger'
+                );
+            }
+        }
+
+        $redis->handle();
+
         return view('admin.resource')
-            ->with('forms', compact('resources'));
+            ->with('forms', compact('resources', 'redis'));
     }
 
     public function getUserData(Request $request)

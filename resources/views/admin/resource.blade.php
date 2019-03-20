@@ -22,6 +22,7 @@
             </div>
 
             <div class="col-md-6">
+                {!! $forms['redis']->render() !!}
             </div>
 
         </div>

@@ -124,6 +124,17 @@ announ:
   announcement:
     description: Styling with Markdown is supported. You can also specify a different announcement for each language. To edit a specific language's corresponding announcement, please switch to that language and submit your edit.
 
+meta:
+  title: SEO <meta> tags
+  meta_keywords:
+    title: Keywords
+    hint: Split with commas.
+  meta_description:
+    title: Description
+    hint: Description defined in "general options" will be used if you left it empty.
+  meta_extras:
+    title: Other Custom <meta> Tags
+
 resources:
   title: Resource Files
   hint: Please check these options if you enabled CDN for your site.
@@ -151,13 +162,10 @@ resources:
       all the files of that directory will be loaded as CDN.<br>
       <b>How to verify?</b> Verify if <code>{Your CDN URL}/app/index.js</code> can be accessed.
 
-meta:
-  title: SEO <meta> tags
-  meta_keywords:
-    title: Keywords
-    hint: Split with commas.
-  meta_description:
-    title: Description
-    hint: Description defined in "general options" will be used if you left it empty.
-  meta_extras:
-    title: Other Custom <meta> Tags
+redis:
+  enable_redis:
+    title: Enable
+    label: Enable Redis
+  connect:
+    success: Connected to Redis server successfully.
+    failed: 'Failed to connect Redis server. Error: :msg'
