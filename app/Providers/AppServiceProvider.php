@@ -35,6 +35,7 @@ class AppServiceProvider extends ServiceProvider
                 'base_url' => url('/'),
                 'site_name' => option_localized('site_name'),
                 'route' => request()->path(),
+                'extra' => [],
             ]);
 
             $event->addContent('<script>var blessing = '.json_encode($blessing).';</script>');

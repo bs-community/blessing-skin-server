@@ -89,14 +89,6 @@ class Plugin implements Arrayable, ArrayAccess
         return isset($this->{$name}) || $this->packageInfoAttribute(snake_case($name, '-'));
     }
 
-    /**
-     * Dot notation getter for composer.json attributes.
-     *
-     * @see https://laravel.com/docs/5.1/helpers#arrays
-     *
-     * @param $name
-     * @return mixed
-     */
     public function packageInfoAttribute($name)
     {
         return Arr::get($this->packageInfo, $name);
@@ -104,9 +96,9 @@ class Plugin implements Arrayable, ArrayAccess
 
     public function assets($relativeUri)
     {
-        $baseUrl = config('plugins.url') ?: url('public/plugins');
+        $baseUrl = config('plugins.url') ?: url('plugins');
 
-        return "$baseUrl/{$this->getDirname()}/$relativeUri";
+        return "$baseUrl/{$this->getDirname()}/assets/$relativeUri";
     }
 
     /**

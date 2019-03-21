@@ -99,7 +99,7 @@ class PluginManager
                 // Instantiates an Plugin object using the package path and package.json file.
                 $plugin = new Plugin($this->getPluginsDir().DIRECTORY_SEPARATOR.$dirname, $package);
 
-                // Per default all plugins are installed if they are registered in composer.
+                // Each default all plugins are installed if they are registered in composer.
                 $plugin->setDirname($dirname);
                 $plugin->setInstalled(true);
                 $plugin->setNameSpace(Arr::get($package, 'namespace'));
@@ -163,6 +163,8 @@ class PluginManager
             $this->saveEnabled();
 
             $plugin->setEnabled(true);
+
+            $this->copyPluginAssets($plugin);
 
             $this->dispatcher->dispatch(new Events\PluginWasEnabled($plugin));
         }
@@ -414,12 +416,16 @@ class PluginManager
      */
     public function copyPluginAssets($plugin)
     {
-        $dir = public_path('plugins/'.$plugin->name.'/assets');
+        $dir = public_path('plugins/'.$plugin->name);
         Storage::deleteDirectory($dir);
 
-        return $this->filesystem->copyDirectory(
+        $this->filesystem->copyDirectory(
             $this->getPluginsDir().DIRECTORY_SEPARATOR.$plugin->name.DIRECTORY_SEPARATOR.'assets',
-            $dir
+            $dir.'/assets'
+        );
+        $this->filesystem->copyDirectory(
+            $this->getPluginsDir().DIRECTORY_SEPARATOR.$plugin->name.DIRECTORY_SEPARATOR.'lang',
+            $dir.'/lang'
         );
     }
 

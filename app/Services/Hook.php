@@ -71,12 +71,12 @@ class Hook
 
                 // We will determine current locale in the event callback,
                 // otherwise the locale is not properly detected.
-                $basepath = plugin($id)->getPath().'/';
+                $basepath = config('plugins.url') ?: url('plugins').'/'.$id.'/';
                 $relative = 'lang/'.config('app.locale').'/locale.js';
 
-                if (file_exists($basepath.$relative)) {
-                    $event->addContent('<script src="'.plugin_assets($id, $relative).'"></script>');
-                }
+                $event->addContent(
+                    '<script src="'.$basepath.$relative.'"></script>'
+                );
 
                 return;
             }
