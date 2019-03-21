@@ -170,7 +170,8 @@
             <h4 v-t="'user.profile.delete.modal-title'" class="modal-title" />
           </div>
           <div class="modal-body">
-            <div v-once v-text="nl2br($t('user.profile.delete.modal-notice'))" />
+            <!-- eslint-disable-next-line vue/no-v-html -->
+            <div v-once v-html="nl2br($t('user.profile.delete.modal-notice'))" />
             <br>
             <input
               v-model="deleteConfirm"
