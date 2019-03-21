@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Cache;
-use Redis;
 use Option;
 use Carbon\Carbon;
 use App\Models\User;
@@ -14,6 +13,7 @@ use App\Services\OptionForm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redis;
 use App\Services\Repositories\UserRepository;
 
 class AdminController extends Controller

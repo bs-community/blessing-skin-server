@@ -4,11 +4,11 @@ namespace App\Providers;
 
 use Blade;
 use Event;
-use Redis;
 use App\Events;
 use App\Models\User;
 use ReflectionException;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Redis;
 use App\Exceptions\PrettyPageException;
 use Illuminate\Support\ServiceProvider;
 use App\Services\Repositories\OptionRepository;
