@@ -17,12 +17,20 @@
     <section class="content">
 
         <div class="row">
+            <div class="col-md-12">
+                <div class="callout callout-warning">@lang('options.res-warning')</div>
+            </div>
+        </div>
+
+        <div class="row">
             <div class="col-md-6">
                 {!! $forms['resources']->render() !!}
+
+                {!! $forms['redis']->render() !!}
             </div>
 
             <div class="col-md-6">
-                {!! $forms['redis']->render() !!}
+                {!! $forms['cache']->render() !!}
             </div>
 
         </div>

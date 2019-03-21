@@ -111,14 +111,7 @@ class TextureController extends Controller
                         return $responses[0];       // @codeCoverageIgnore
                     } else {
                         $png = Minecraft::generateAvatarFromSkin(Storage::disk('textures')->read($t->hash), $size);
-
-                        ob_start();
-                        imagepng($png);
-                        imagedestroy($png);
-                        $image = ob_get_contents();
-                        ob_end_clean();
-
-                        return Response::png($image);
+                        return Response::png(png($png));
                     }
                 }
             } catch (Exception $e) {
@@ -168,13 +161,7 @@ class TextureController extends Controller
                             $png = Minecraft::generatePreviewFromSkin($binary, $size, ($t->type == 'alex'), 'both', 4);
                         }
 
-                        ob_start();
-                        imagepng($png);
-                        imagedestroy($png);
-                        $image = ob_get_contents();
-                        ob_end_clean();
-
-                        return Response::png($image);
+                        return Response::png(png($png));
                     }
                 }
             } catch (Exception $e) {
@@ -216,13 +203,8 @@ class TextureController extends Controller
                 Storage::disk('textures')->read($hash),
                 $size
             );
-            ob_start();
-            imagepng($png);
-            $image = ob_get_contents();
-            ob_end_clean();
-            imagedestroy($png);
 
-            return Response::png($image);
+            return Response::png(png($png));
         }
 
         return abort(404);

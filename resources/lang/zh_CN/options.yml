@@ -146,6 +146,8 @@ meta:
   meta_extras:
     title: 其它自定义 <meta> 标签
 
+res-warning: 本页面仅供高级用户使用。如果您不清楚这些设置的含义，请不要随意修改它们！
+
 resources:
   title: 资源文件配置
   hint: 如果启用了 CDN 缓存请适当修改这些配置
@@ -176,6 +178,24 @@ redis:
   enable_redis:
     title: 启用
     label: 使用 Redis
+    description: Redis 将被用于存储缓存和 Session 等。
   connect:
     success: 成功连接 Redis 服务器。
     failed: '连接 Redis 服务器失败。错误消息： :msg'
+
+cache:
+  title: 缓存配置
+  clear: 清除缓存
+  cleared: 缓存已清除。
+  driver: 当前缓存驱动为 「:driver」
+
+  enable_avatar_cache:
+    title: 头像
+    label: 启用头像缓存
+  enable_preview_cache:
+    title: 材质预览
+    label: 启用材质预览缓存
+  enable_json_cache:
+    label: 启用 Json Profile 缓存
+  enable_notfound_cache:
+    label: 启用「角色存在与否」的缓存

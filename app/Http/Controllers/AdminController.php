@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Cache;
 use Redis;
 use Option;
 use Carbon\Carbon;
@@ -234,7 +235,7 @@ class AdminController extends Controller
             ->with('forms', compact('general', 'announ', 'meta'));
     }
 
-    public function resource()
+    public function resource(Request $request)
     {
         $resources = Option::form('resources', OptionForm::AUTO_DETECT, function ($form) {
             $form->checkbox('force_ssl')->label()->hint();
@@ -261,7 +262,7 @@ class AdminController extends Controller
             ->handle();
 
         $redis = Option::form('redis', 'Redis', function ($form) {
-            $form->checkbox('enable_redis')->label();
+            $form->checkbox('enable_redis')->label()->description();
         });
 
         if (option('enable_redis')) {
@@ -278,8 +279,30 @@ class AdminController extends Controller
 
         $redis->handle();
 
+        $cache = Option::form('cache', OptionForm::AUTO_DETECT, function ($form) {
+            $form->checkbox('enable_avatar_cache')->label();
+            $form->checkbox('enable_preview_cache')->label();
+            $form->checkbox('enable_json_cache', 'JSON Profile')->label();
+            $form->checkbox('enable_notfound_cache', '404')->label();
+        })
+            ->type('warning')
+            ->addButton([
+                'text' => trans('options.cache.clear'),
+                'type' => 'a',
+                'class' => 'pull-right',
+                'style' => 'warning',
+                'href' => '?clear-cache',
+            ])
+            ->addMessage(trans('options.cache.driver', ['driver' => config('cache.default')]), 'info');
+
+        if ($request->has('clear-cache')) {
+            Cache::flush();
+            $cache->addMessage(trans('options.cache.cleared'), 'success');
+        }
+        $cache->handle();
+
         return view('admin.resource')
-            ->with('forms', compact('resources', 'redis'));
+            ->with('forms', compact('resources', 'redis', 'cache'));
     }
 
     public function getUserData(Request $request)

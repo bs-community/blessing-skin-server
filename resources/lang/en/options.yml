@@ -146,6 +146,8 @@ meta:
   meta_extras:
     title: Other Custom <meta> Tags
 
+res-warning: This page is ONLY for advanced users. If you aren't familiar with these, please don't modify them!
+
 resources:
   title: Resource Files
   hint: Please check these options if you enabled CDN for your site.
@@ -177,6 +179,24 @@ redis:
   enable_redis:
     title: Enable
     label: Enable Redis
+    description: Redis will be used to store cache, session and etc.
   connect:
     success: Connected to Redis server successfully.
     failed: 'Failed to connect Redis server. Error: :msg'
+
+cache:
+  title: Cache Configuration
+  clear: Clear Cache
+  cleared: Cache has been cleared.
+  driver: Current cache driver is 「:driver」.
+
+  enable_avatar_cache:
+    title: Avatar
+    label: Enable caching avatar
+  enable_preview_cache:
+    title: Texture Preivew
+    label: Enable caching texture preivew
+  enable_json_cache:
+    label: Enable caching Json Profile
+  enable_notfound_cache:
+    label: Enable caching whether player is existed or not
