@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Models\User;
+use App\Models\Player;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserTest extends TestCase
@@ -25,5 +26,21 @@ class UserTest extends TestCase
             trans('general.unexistent-user'),
             $user->getNickName()
         );
+    }
+
+    public function testGetPlayerNameAttribute()
+    {
+        $user = factory(User::class)->create();
+        $player = factory(Player::class)->create(['uid' => $user->uid]);
+        $this->assertEquals($player->name, $user->player_name);
+    }
+
+    public function testSetPlayerNameAttribute()
+    {
+        $user = factory(User::class)->create();
+        $player = factory(Player::class)->create(['uid' => $user->uid]);
+        $user->player_name = 'a';
+        $player->refresh();
+        $this->assertEquals('a', $player->name);
     }
 }

@@ -295,6 +295,7 @@ class AuthControllerTest extends TestCase
             'errno' => 2,
             'msg' => trans('user.player.add.repeated'),
         ]);
+        $this->assertNull(User::where('email', 'a@b.c')->first());
 
         option(['register_with_player_name' => false]);
 

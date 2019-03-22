@@ -508,11 +508,17 @@ class AdminController extends Controller
 
             return json(trans('admin.players.delete.success'), 0);
         } elseif ($action == 'name') {
-            $this->validate($request, [
+            $name = $this->validate($request, [
                 'name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max'),
-            ]);
+            ])['name'];
 
-            $player->rename($request->input('name'));
+            $player->rename($name);
+
+            if (option('single_player', false)) {
+                $owner = $player->user;
+                $owner->nickname = $name;
+                $owner->save();
+            }
 
             return json(trans('admin.players.name.success', ['player' => $player->name]), 0, ['name' => $player->name]);
         } else {

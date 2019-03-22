@@ -61,6 +61,27 @@ class User extends Authenticatable
     }
 
     /**
+     * Retrieve the player name of first player.
+     */
+    public function getPlayerNameAttribute()
+    {
+        $player = $this->players->first();
+        return $player ? $player->name : '';
+    }
+
+    /**
+     * Update the player name of first player.
+     */
+    public function setPlayerNameAttribute($value)
+    {
+        $player = $this->players->first();
+        if ($player) {
+            $player->name = $value;
+            $player->save();
+        }
+    }
+
+    /**
      * Check if given password is correct.
      *
      * @param  string $rawPasswd

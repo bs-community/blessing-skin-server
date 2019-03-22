@@ -65,6 +65,10 @@ class PlayerController extends Controller
     {
         $user = Auth::user();
 
+        if (option('single_player', false)) {
+            return json(trans('user.player.add.single'), 1);
+        }
+
         $this->validate($request, [
             'player_name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max'),
         ]);
@@ -99,6 +103,10 @@ class PlayerController extends Controller
     {
         $playerName = $this->player->name;
 
+        if (option('single_player', false)) {
+            return json(trans('user.player.delete.single'), 1);
+        }
+
         event(new PlayerWillBeDeleted($this->player));
 
         $this->player->delete();
@@ -132,6 +140,12 @@ class PlayerController extends Controller
         $oldName = $this->player->name;
 
         $this->player->rename($newName);
+
+        if (option('single_player', false)) {
+            $user = auth()->user();
+            $user->nickname = $newName;
+            $user->save();
+        }
 
         return json(trans('user.player.rename.success', ['old' => $oldName, 'new' => $newName]), 0);
     }
@@ -168,5 +182,35 @@ class PlayerController extends Controller
         $this->player->clearTexture($types);
 
         return json(trans('user.player.clear.success', ['name' => $this->player->name]), 0);
+    }
+
+    public function bind(Request $request)
+    {
+        $name = $this->validate($request, [
+            'player' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max'),
+        ])['player'];
+        $user = Auth::user();
+
+        event(new CheckPlayerExists($name));
+        $player = Player::where('name', $name)->first();
+        if (! $player) {
+            event(new PlayerWillBeAdded($name));
+
+            $player = new Player;
+            $player->uid = $user->uid;
+            $player->name = $name;
+            $player->tid_skin = 0;
+            $player->save();
+
+            event(new PlayerWasAdded($player));
+        } elseif ($player->uid != $user->uid) {
+            return json(trans('user.player.rename.repeated'), 1);
+        }
+
+        $user->players()->where('name', '<>', $name)->delete();
+        $user->nickname = $name;
+        $user->save();
+
+        return json(trans('user.player.bind.success'), 0);
     }
 }

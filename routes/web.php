@@ -41,7 +41,10 @@ Route::group(['prefix' => 'auth'], function () {
 /*
  * User Center
  */
-Route::group(['middleware' => ['web', 'auth'], 'prefix' => 'user'], function () {
+Route::group([
+    'middleware' => ['web', 'auth', \App\Http\Middleware\RequireBindPlayer::class],
+    'prefix' => 'user'
+], function () {
     Route::any('', 'UserController@index');
     Route::get('/score-info', 'UserController@scoreInfo');
     Route::post('/sign', 'UserController@sign');
@@ -64,6 +67,8 @@ Route::group(['middleware' => ['web', 'auth'], 'prefix' => 'user'], function () 
         Route::post('/texture/clear', 'PlayerController@clearTexture');
         Route::post('/rename', 'PlayerController@rename');
         Route::post('/delete', 'PlayerController@delete');
+        Route::view('/bind', 'user.bind');
+        Route::post('/bind', 'PlayerController@bind');
     });
 
     // Closet

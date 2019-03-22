@@ -139,6 +139,8 @@ user:
   typeToSearch: 输入即搜索
   useAs: 使用...
   resetSelected: 重置已选材质
+  bindNewPlayer: 您现在需要创建一个角色，才能继续使用我们的服务。这个角色将与您的账号绑定。
+  bindExistedPlayer: 您现在需要选择一个角色，才能继续使用我们的服务。这个角色将与您的账号绑定。其它角色将被删除。
   closet:
     use-as:
       button: 使用...
@@ -322,6 +324,7 @@ general:
   reset: 重置
   skinlib: 皮肤库
   loading: 正在加载
+  wait: 请稍等...
   user:
     email: 邮箱
     nickname: 昵称

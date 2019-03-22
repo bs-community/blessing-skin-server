@@ -12,7 +12,7 @@
     <div class="login-box-body">
         <p class="login-box-msg">@lang('auth.bind.message')</p>
 
-        <form  method="post" id="login-form">
+        <form method="post" id="login-form">
             @csrf
             <div class="form-group has-feedback">
                 <input name="email" type="email" class="form-control" placeholder="@lang('auth.email')">

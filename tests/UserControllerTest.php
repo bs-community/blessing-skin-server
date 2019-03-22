@@ -243,6 +243,13 @@ class UserControllerTest extends TestCase
             'msg' => trans('validation.max.string', ['attribute' => 'new nickname', 'max' => 255]),
         ]);
 
+        // Single player
+        option(['single_player' => true]);
+        factory(\App\Models\Player::class)->create(['uid' => $user->uid]);
+        $this->postJson('/user/profile', ['action' => 'nickname'])
+            ->assertJson(['errno' => 1, 'msg' => trans('user.profile.nickname.single')]);
+        option(['single_player' => false]);
+
         // Change nickname successfully
         $this->expectsEvents(Events\UserProfileUpdated::class);
         $this->postJson('/user/profile', [

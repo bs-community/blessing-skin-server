@@ -4,6 +4,7 @@ namespace Tests;
 
 use DB;
 use App\Models\User;
+use App\Models\Player;
 use App\Services\Facades\Option;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -195,5 +196,23 @@ class MiddlewareTest extends TestCase
         $this->actingAs(factory(User::class)->create())
             ->get('/auth/login')
             ->assertRedirect('/user');
+    }
+
+    public function testRequireBindPlayer()
+    {
+        $user = factory(User::class)->create();
+        $this->actAs($user)->get('/user')->assertViewIs('user.index');
+        $this->get('/user/player/bind')->assertRedirect('/user');
+
+        option(['single_player' => true]);
+
+        $this->getJson('/user/player/list')->assertHeader('content-type', 'application/json');
+
+        $this->get('/user/player/bind')->assertViewIs('user.bind');
+        $this->get('/user')->assertRedirect('/user/player/bind');
+
+        factory(Player::class)->create(['uid' => $user->uid]);
+        $this->get('/user')->assertViewIs('user.index');
+        $this->get('/user/player/bind')->assertRedirect('/user');
     }
 }

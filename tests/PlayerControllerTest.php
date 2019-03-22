@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Event;
 use App\Events;
 use App\Models\User;
 use App\Models\Player;
@@ -108,6 +109,14 @@ class PlayerControllerTest extends TestCase
                 'errno' => 6,
                 'msg' => trans('user.player.add.repeated'),
             ]);
+
+        // Single player
+        option(['single_player' => true]);
+        $this->postJson('/user/player/add', ['player_name' => 'abc'])
+            ->assertJson([
+                'errno' => 1,
+                'msg' => trans('user.player.add.single'),
+            ]);
     }
 
     public function testDelete()
@@ -143,6 +152,17 @@ class PlayerControllerTest extends TestCase
             $user->score,
             User::find($user->uid)->score
         );
+
+        // Single player
+        option(['single_player' => true]);
+        $player = factory(Player::class)->create(['uid' => $user->uid]);
+        $this->actingAs($user)
+            ->postJson('/user/player/delete', ['pid' => $player->pid])
+            ->assertJson([
+                'errno' => 1,
+                'msg' => trans('user.player.delete.single'),
+            ]);
+        $this->assertNotNull(Player::find($player->pid));
     }
 
     public function testShow()
@@ -210,6 +230,14 @@ class PlayerControllerTest extends TestCase
                 ['old' => $player->name, 'new' => 'new_name']
             ),
         ]);
+
+        // Single player
+        option(['single_player' => true]);
+        $this->postJson('/user/player/rename', [
+            'pid' => $player->pid,
+            'new_player_name' => 'abc',
+        ])->assertJson(['errno' => 0]);
+        $this->assertEquals('abc', $player->user->nickname);
     }
 
     public function testSetTexture()
@@ -283,5 +311,45 @@ class PlayerControllerTest extends TestCase
             ]);
         $this->assertEquals(0, Player::find($player->pid)->tid_skin);
         $this->assertEquals(0, Player::find($player->pid)->tid_cape);
+    }
+
+    public function testBind()
+    {
+        Event::fake();
+        option(['single_player' => true]);
+        $user = factory(User::class)->create();
+
+        $this->actAs($user)->postJson('/user/player/bind')
+            ->assertJson([
+                'errno' => 1,
+                'msg' => trans('validation.required', ['attribute' => 'player']),
+            ]);
+
+        $this->postJson('/user/player/bind', ['player' => 'abc'])
+            ->assertJson([
+                'errno' => 0,
+                'msg' => trans('user.player.bind.success')
+            ]);
+        Event::assertDispatched(Events\CheckPlayerExists::class);
+        Event::assertDispatched(Events\PlayerWillBeAdded::class);
+        Event::assertDispatched(Events\PlayerWasAdded::class);
+        $player = Player::where('name', 'abc')->first();
+        $this->assertNotNull($player);
+        $this->assertEquals($user->uid, $player->uid);
+        $this->assertEquals('abc', $player->name);
+        $user->refresh();
+        $this->assertEquals('abc', $user->nickname);
+
+        $player2 = factory(Player::class)->create();
+        $player3 = factory(Player::class)->create(['uid' => $user->uid]);
+        $this->postJson('/user/player/bind', ['player' => $player2->name])
+            ->assertJson([
+                'errno' => 1,
+                'msg' => trans('user.player.rename.repeated')
+            ]);
+
+        $this->postJson('/user/player/bind', ['player' => $player->name])
+            ->assertJson(['errno' => 0]);
+        $this->assertNull(Player::where('name', $player3->name)->first());
     }
 }

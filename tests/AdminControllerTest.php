@@ -711,6 +711,16 @@ class AdminControllerTest extends BrowserKitTestCase
             'name' => 'new_name',
         ]);
 
+        // Single player
+        option(['single_player' => true]);
+        $this->postJson('/admin/players', [
+            'pid' => $player->pid,
+            'action' => 'name',
+            'name' => 'abc',
+        ])->seeJson(['errno' => 0]);
+        $player->refresh();
+        $this->assertEquals('abc', $player->user->nickname);
+
         // Delete a player
         $this->postJson('/admin/players', [
             'pid' => $player->pid,

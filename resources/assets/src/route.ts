@@ -19,6 +19,11 @@ export default [
     el: '.content',
   },
   {
+    path: 'user/player/bind',
+    component: () => import('./views/user/Bind.vue'),
+    el: 'form',
+  },
+  {
     path: 'user/profile',
     component: () => import('./views/user/Profile.vue'),
     el: '.content',

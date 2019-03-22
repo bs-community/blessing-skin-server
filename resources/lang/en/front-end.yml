@@ -139,6 +139,8 @@ user:
   typeToSearch: Type to search
   useAs: Apply...
   resetSelected: Clear selected
+  bindNewPlayer: You're required to create a player to go ahead. This player will be bound with your account.
+  bindExistedPlayer: You're required to select a player to go ahead. This player will be bound with your account. Other players will be deleted.
   closet:
     use-as:
       button: Apply...
@@ -328,6 +330,7 @@ general:
   reset: Reset
   skinlib: Skin Library
   loading: Loading
+  wait: Please wait...
   user:
     email: Email
     nickname: Nick Name
