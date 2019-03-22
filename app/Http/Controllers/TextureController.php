@@ -132,7 +132,7 @@ class TextureController extends Controller
         $user = $users->get(base64_decode($base64_email), 'email');
 
         if ($user) {
-            return $this->avatarByTid($user->getAvatarId(), $size);
+            return $this->avatarByTid($user->avatar, $size);
         }
 
         return response()->file(storage_path('static_textures/avatar.png'));

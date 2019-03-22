@@ -27,12 +27,14 @@ class TextureControllerTest extends TestCase
 
         // Player is banned
         $player = factory(Player::class)->create(['tid_skin' => $steve->tid]);
-        $player->user->setPermission(User::BANNED);
+        $player->user->permission = User::BANNED;
+        $player->user->save();
         $this->get("/{$player->name}.json")
             ->assertSee(trans('general.player-banned'))
             ->assertStatus(403);
 
-        $player->user->setPermission(User::NORMAL);
+        $player->user->permission = User::NORMAL;
+        $player->user->save();
 
         // Default API is CSL API
         $this->getJson("/{$player->name}.json")

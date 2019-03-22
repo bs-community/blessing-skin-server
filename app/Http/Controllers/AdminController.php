@@ -404,7 +404,8 @@ class AdminController extends Controller
                 return json(trans('admin.users.operations.email.existed', ['email' => $request->input('email')]), 1);
             }
 
-            $user->setEmail($request->input('email'));
+            $user->email = $request->input('email');
+            $user->save();
 
             return json(trans('admin.users.operations.email.success'), 0);
         } elseif ($action == 'verification') {
@@ -417,7 +418,8 @@ class AdminController extends Controller
                 'nickname' => 'required|no_special_chars',
             ]);
 
-            $user->setNickName($request->input('nickname'));
+            $user->nickname = $request->input('nickname');
+            $user->save();
 
             return json(trans('admin.users.operations.nickname.success', [
                 'new' => $request->input('nickname'),
@@ -486,7 +488,9 @@ class AdminController extends Controller
                 return json(trans('admin.players.textures.non-existent', ['tid' => $request->tid]), 1);
             }
 
-            $player->setTexture(['tid_'.$request->type => $request->tid]);
+            $field = 'tid_'.$request->type;
+            $player->$field = $request->tid;
+            $player->save();
 
             return json(trans('admin.players.textures.success', ['player' => $player->name]), 0);
         } elseif ($action == 'owner') {
@@ -500,9 +504,10 @@ class AdminController extends Controller
                 return json(trans('admin.users.operations.non-existent'), 1);
             }
 
-            $player->setOwner($request->input('uid'));
+            $player->uid = $request->input('uid');
+            $player->save();
 
-            return json(trans('admin.players.owner.success', ['player' => $player->name, 'user' => $user->getNickName()]), 0);
+            return json(trans('admin.players.owner.success', ['player' => $player->name, 'user' => $user->nickname]), 0);
         } elseif ($action == 'delete') {
             $player->delete();
 
@@ -512,7 +517,8 @@ class AdminController extends Controller
                 'name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max'),
             ])['name'];
 
-            $player->rename($name);
+            $player->name = $name;
+            $player->save();
 
             if (option('single_player', false)) {
                 $owner = $player->user;

@@ -10,7 +10,7 @@
     </div>
 
     <div class="login-box-body">
-        <p class="login-box-msg">@lang('auth.reset.message', ['username' => $user->getNickName()])</p>
+        <p class="login-box-msg">@lang('auth.reset.message', ['username' => $user->nickname])</p>
 
         <form></form>
     </div>

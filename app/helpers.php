@@ -19,7 +19,7 @@ if (! function_exists('get_base_url')) {
 if (! function_exists('avatar')) {
     function avatar(User $user, $size)
     {
-        $fname = base64_encode($user->email).'.png?tid='.$user->getAvatarId();
+        $fname = base64_encode($user->email).'.png?tid='.$user->avatar;
 
         return url("avatar/$size/$fname");
     }
@@ -259,7 +259,7 @@ if (! function_exists('bs_role')) {
             User::SUPER_ADMIN => 'super-admin',
         ];
 
-        $role = Arr::get($roles, $user->getPermission());
+        $role = Arr::get($roles, $user->permission);
 
         return trans("admin.users.status.$role");
     }

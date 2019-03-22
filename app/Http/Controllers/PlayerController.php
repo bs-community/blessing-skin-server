@@ -32,7 +32,13 @@ class PlayerController extends Controller
         $this->middleware(function ($request, $next) {
             if ($request->has('pid')) {
                 if ($this->player = Player::find($request->pid)) {
-                    $this->player->checkForInvalidTextures();
+                    foreach (['skin', 'cape'] as $type) {
+                        $field = "tid_$type";
+                        if (! Texture::find($this->player->$field)) {
+                            $this->player->$field = 0;
+                        }
+                    }
+                    $this->player->save();
                 }
             }
 
@@ -79,7 +85,7 @@ class PlayerController extends Controller
             return json(trans('user.player.add.repeated'), 6);
         }
 
-        if ($user->getScore() < Option::get('score_per_player')) {
+        if ($user->score < Option::get('score_per_player')) {
             return json(trans('user.player.add.lack-score'), 7);
         }
 
@@ -138,8 +144,8 @@ class PlayerController extends Controller
         }
 
         $oldName = $this->player->name;
-
-        $this->player->rename($newName);
+        $this->player->name = $newName;
+        $this->player->save();
 
         if (option('single_player', false)) {
             $user = auth()->user();
@@ -150,12 +156,6 @@ class PlayerController extends Controller
         return json(trans('user.player.rename.success', ['old' => $oldName, 'new' => $newName]), 0);
     }
 
-    /**
-     * A wrapper of Player::setTexture().
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function setTexture(Request $request)
     {
         foreach ($request->input('tid') as $key => $value) {
@@ -165,9 +165,10 @@ class PlayerController extends Controller
                 return json(trans('skinlib.un-existent'), 6);
             }
 
-            $fieldName = $texture->type == 'cape' ? 'tid_cape' : 'tid_skin';
+            $field = $texture->type == 'cape' ? 'tid_cape' : 'tid_skin';
 
-            $this->player->setTexture([$fieldName => $value]);
+            $this->player->$field = $value;
+            $this->player->save();
         }
 
         return json(trans('user.player.set.success', ['name' => $this->player->name]), 0);
@@ -175,12 +176,13 @@ class PlayerController extends Controller
 
     public function clearTexture(Request $request)
     {
-        $types = array_filter(['skin', 'cape'], function ($type) use ($request) {
-            return $request->input($type);
-        });
-
-        $this->player->clearTexture($types);
-
+        array_map(function ($type) use ($request) {
+            if ($request->input($type)) {
+                $field = "tid_$type";
+                $this->player->$field = 0;
+            }
+        }, ['skin', 'cape']);
+        $this->player->save();
         return json(trans('user.player.clear.success', ['name' => $this->player->name]), 0);
     }
 

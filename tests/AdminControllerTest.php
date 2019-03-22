@@ -480,7 +480,7 @@ class AdminControllerTest extends BrowserKitTestCase
             'msg' => trans('validation.in', ['attribute' => 'permission']),
         ]);
         $user = User::find($user->uid);
-        $this->assertEquals(User::NORMAL, $user->getPermission());
+        $this->assertEquals(User::NORMAL, $user->permission);
 
         // Update permission successfully
         $this->postJson('/admin/users', [
@@ -492,7 +492,7 @@ class AdminControllerTest extends BrowserKitTestCase
             'msg' => trans('admin.users.operations.permission'),
         ]);
         $user = User::find($user->uid);
-        $this->assertEquals(User::BANNED, $user->getPermission());
+        $this->assertEquals(User::BANNED, $user->permission);
 
         // Delete a user
         $this->postJson('/admin/users', ['uid' => $user->uid, 'action' => 'delete'])

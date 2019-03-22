@@ -19,15 +19,6 @@ class UserTest extends TestCase
         $this->assertFalse($user->sign());
     }
 
-    public function testGetNickName()
-    {
-        $user = new User();
-        $this->assertEquals(
-            trans('general.unexistent-user'),
-            $user->getNickName()
-        );
-    }
-
     public function testGetPlayerNameAttribute()
     {
         $user = factory(User::class)->create();

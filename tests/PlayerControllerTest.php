@@ -174,6 +174,7 @@ class PlayerControllerTest extends TestCase
 
     public function testRename()
     {
+        Event::fake();
         $player = factory(Player::class)->create();
         $user = $player->user;
 
@@ -219,7 +220,6 @@ class PlayerControllerTest extends TestCase
         ]);
 
         // Success
-        $this->expectsEvents(Events\PlayerProfileUpdated::class);
         $this->postJson('/user/player/rename', [
             'pid' => $player->pid,
             'new_player_name' => 'new_name',
@@ -230,6 +230,7 @@ class PlayerControllerTest extends TestCase
                 ['old' => $player->name, 'new' => 'new_name']
             ),
         ]);
+        Event::assertDispatched(Events\PlayerProfileUpdated::class);
 
         // Single player
         option(['single_player' => true]);
@@ -289,16 +290,15 @@ class PlayerControllerTest extends TestCase
 
     public function testClearTexture()
     {
+        Event::fake();
         $player = factory(Player::class)->create();
         $user = $player->user;
 
-        $player->setTexture([
-            'tid_skin' => 1,
-            'tid_cape' => 2,
-        ]);
-        $player = Player::find($player->pid);
+        $player->tid_skin = 1;
+        $player->tid_cape = 2;
+        $player->save();
+        $player->refresh();
 
-        $this->expectsEvents(Events\PlayerProfileUpdated::class);
         $this->actAs($user)
             ->postJson('/user/player/texture/clear', [
                 'pid' => $player->pid,
@@ -311,6 +311,7 @@ class PlayerControllerTest extends TestCase
             ]);
         $this->assertEquals(0, Player::find($player->pid)->tid_skin);
         $this->assertEquals(0, Player::find($player->pid)->tid_cape);
+        Event::assertDispatched(Events\PlayerProfileUpdated::class);
     }
 
     public function testBind()

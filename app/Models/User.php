@@ -131,77 +131,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Get user permission.
-     *
-     * @return int
-     */
-    public function getPermission()
-    {
-        return $this->permission;
-    }
-
-    /**
-     * Set user permission.
-     *
-     * @param  int $permission
-     * @return bool
-     */
-    public function setPermission($permission)
-    {
-        return $this->update(['permission' => $permission]);
-    }
-
-    /**
-     * Set new email for user.
-     *
-     * @param  string $new_email
-     * @return bool
-     */
-    public function setEmail($new_email)
-    {
-        $this->email = $new_email;
-
-        return $this->save();
-    }
-
-    /**
-     * Return Email if nickname is not set.
-     *
-     * @return string
-     */
-    public function getNickName()
-    {
-        if (! $this->uid) {
-            return trans('general.unexistent-user');
-        } else {
-            return ($this->nickname == '') ? $this->email : $this->nickname;
-        }
-    }
-
-    /**
-     * Set nickname for the user.
-     *
-     * @param  string $newNickName
-     * @return bool
-     */
-    public function setNickName($newNickName)
-    {
-        $this->nickname = $newNickName;
-
-        return $this->save();
-    }
-
-    /**
-     * Get current score of user.
-     *
-     * @return int
-     */
-    public function getScore()
-    {
-        return $this->score;
-    }
-
-    /**
      * Set user score.
      *
      * @param int $score
@@ -276,7 +205,7 @@ class User extends Authenticatable
      */
     public function getSignRemainingTime()
     {
-        $lastSignTime = Carbon::parse($this->getLastSignTime());
+        $lastSignTime = Carbon::parse($this->last_sign_at);
 
         if (option('sign_after_zero')) {
             return Carbon::now()->diffInSeconds(
@@ -296,39 +225,6 @@ class User extends Authenticatable
     public function canSign()
     {
         return $this->getSignRemainingTime() <= 0;
-    }
-
-    /**
-     * Get the last time of signing in.
-     *
-     * @return string Formatted time string.
-     */
-    public function getLastSignTime()
-    {
-        return $this->last_sign_at;
-    }
-
-    /**
-     * Get the texture id of user's avatar.
-     *
-     * @return int
-     */
-    public function getAvatarId()
-    {
-        return $this->avatar;
-    }
-
-    /**
-     * Set user avatar.
-     *
-     * @param  int $tid
-     * @return bool
-     */
-    public function setAvatar($tid)
-    {
-        $this->avatar = $tid;
-
-        return $this->save();
     }
 
     /**

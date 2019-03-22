@@ -66,7 +66,7 @@ class ClosetController extends Controller
 
         $user = Auth::user();
 
-        if ($user->getScore() < option('score_per_closet_item')) {
+        if ($user->score < option('score_per_closet_item')) {
             return json(trans('user.closet.add.lack-score'), 7);
         }
 

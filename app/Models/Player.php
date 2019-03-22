@@ -12,25 +12,14 @@ class Player extends Model
     public const CREATED_AT = null;
     public const UPDATED_AT = 'last_modified';
 
-    /**
-     * Json APIs.
-     */
     const CSL_API = 0;
     const USM_API = 1;
 
     protected static $types = ['skin', 'cape'];
 
-    /**
-     * Properties for Eloquent Model.
-     */
     public $primaryKey = 'pid';
     protected $fillable = ['uid', 'name', 'last_modified'];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
     protected $casts = [
         'pid' => 'integer',
         'uid' => 'integer',
@@ -38,21 +27,15 @@ class Player extends Model
         'tid_cape' => 'integer',
     ];
 
-    /**
-     * Check if the player is banned.
-     *
-     * @return bool
-     */
+    protected $dispatchesEvents = [
+        'updated' => PlayerProfileUpdated::class,
+    ];
+
     public function isBanned()
     {
-        return $this->user->getPermission() == User::BANNED;
+        return $this->user->permission == User::BANNED;
     }
 
-    /**
-     * Return the owner of the player.
-     *
-     * @return \App\Models\User
-     */
     public function user()
     {
         return $this->belongsTo('App\Models\User', 'uid');
@@ -73,111 +56,6 @@ class Player extends Model
         return false;
     }
 
-    /**
-     * Set textures for the player.
-     *
-     * @param  array $tids
-     * @return $this
-     */
-    public function setTexture(array $tids)
-    {
-        foreach (self::$types as $type) {
-            $property = "tid_$type";
-
-            if (isset($tids[$property])) {
-                $this->$property = $tids[$property];
-            }
-        }
-
-        $this->save();
-
-        event(new PlayerProfileUpdated($this));
-
-        return $this;
-    }
-
-    /**
-     * Check and delete invalid textures from player profile.
-     *
-     * @return $this
-     */
-    public function checkForInvalidTextures()
-    {
-        foreach (self::$types as $type) {
-            $property = "tid_$type";
-
-            if (! Texture::find($this->$property)) {
-                // reset texture
-                $this->$property = 0;
-            }
-        }
-
-        $this->save();
-
-        return $this;
-    }
-
-    /**
-     * Clear the textures of player.
-     *
-     * @param  array|string $types
-     * @return $this
-     */
-    public function clearTexture($types)
-    {
-        $types = (array) $types;
-
-        $map = [];
-
-        foreach ($types as $type) {
-            $map["tid_$type"] = 0;
-        }
-
-        $this->setTexture($map);
-
-        return $this;
-    }
-
-    /**
-     * Rename the player.
-     *
-     * @param  string $newName
-     * @return $this
-     */
-    public function rename($newName)
-    {
-        $this->update([
-            'name' => $newName,
-        ]);
-
-        $this->name = $newName;
-
-        event(new PlayerProfileUpdated($this));
-
-        return $this;
-    }
-
-    /**
-     * Set a new owner for the player.
-     *
-     * @param  int $uid
-     * @return $this
-     */
-    public function setOwner($uid)
-    {
-        $this->update(['uid' => $uid]);
-
-        event(new PlayerProfileUpdated($this));
-
-        return $this;
-    }
-
-    /**
-     * Get Json profile of player.
-     *
-     * @param  int $api_type Which API to use, 0 for CustomSkinAPI, 1 for UniSkinAPI
-     * @return string        User profile in json format
-     */
     public function getJsonProfile($api_type)
     {
         // Support both CustomSkinLoader API & UniSkinAPI
@@ -195,12 +73,6 @@ class Player extends Model
         }
     }
 
-    /**
-     * Generate player profile in json format.
-     *
-     * @param  int $api_type
-     * @return string
-     */
     public function generateJsonProfile($api_type)
     {
         $json[($api_type == self::CSL_API) ? 'username' : 'player_name'] = $this->name;

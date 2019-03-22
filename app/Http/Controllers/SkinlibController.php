@@ -191,7 +191,7 @@ class SkinlibController extends Controller
         $cost += option('score_per_closet_item');
         $cost -= option('score_award_per_texture', 0);
 
-        if ($user->getScore() < $cost) {
+        if ($user->score < $cost) {
             return json(trans('skinlib.upload.lack-score'), 7);
         }
 
@@ -292,7 +292,7 @@ class SkinlibController extends Controller
         if ($t->public && option('take_back_scores_after_deletion', true)) {
             $score_diff -= option('score_award_per_texture', 0);
         }
-        if ($users->get($t->uploader)->getScore() + $score_diff < 0) {
+        if ($users->get($t->uploader)->score + $score_diff < 0) {
             return json(trans('skinlib.upload.lack-score'), 1);
         }
 

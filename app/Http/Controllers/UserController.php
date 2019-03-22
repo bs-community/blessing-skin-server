@@ -76,7 +76,7 @@ class UserController extends Controller
         $result['percentage'] = 0;
 
         if ($rate != 0) {
-            $result['total'] = $used + floor($user->getScore() / $rate);
+            $result['total'] = $used + floor($user->score / $rate);
             $result['percentage'] = $result['total'] ? $used / $result['total'] * 100 : 100;
         }
 
@@ -98,7 +98,7 @@ class UserController extends Controller
             return json([
                 'errno'          => 0,
                 'msg'            => trans('user.sign-success', ['score' => $acquiredScore]),
-                'score'          => $user->getScore(),
+                'score'          => $user->score,
                 'storage'        => $this->calculatePercentageUsed($user->getStorageUsed(), option('score_per_storage')),
                 'remaining_time' => $gap > 1 ? round($gap) : $gap,
             ]);
@@ -184,14 +184,11 @@ class UserController extends Controller
                 ]);
 
                 $nickname = $request->input('new_nickname');
+                $user->nickname = $nickname;
+                $user->save();
+                event(new UserProfileUpdated($action, $user));
 
-                if ($user->setNickName($nickname)) {
-                    event(new UserProfileUpdated($action, $user));
-
-                    return json(trans('user.profile.nickname.success', ['nickname' => $nickname]), 0);
-                }
-
-                break;   // @codeCoverageIgnore
+                return json(trans('user.profile.nickname.success', ['nickname' => $nickname]), 0);
 
             case 'password':
                 $this->validate($request, [
@@ -227,19 +224,15 @@ class UserController extends Controller
                     return json(trans('user.profile.email.wrong-password'), 1);
                 }
 
-                if ($user->setEmail($request->input('new_email'))) {
-                    // Set account status to unverified
-                    $user->verified = false;
-                    $user->save();
+                $user->email = $request->input('new_email');
+                $user->verified = false;
+                $user->save();
 
-                    event(new UserProfileUpdated($action, $user));
+                event(new UserProfileUpdated($action, $user));
 
-                    Auth::logout();
+                Auth::logout();
 
-                    return json(trans('user.profile.email.success'), 0);
-                }
-
-                break;   // @codeCoverageIgnore
+                return json(trans('user.profile.email.success'), 0);
 
             case 'delete':
                 $this->validate($request, [
@@ -301,9 +294,9 @@ class UserController extends Controller
                 return json(trans('user.profile.avatar.wrong-type'), 1);
             }
 
-            if ($user->setAvatar($tid)) {
-                return json(trans('user.profile.avatar.success'), 0);
-            }
+            $user->avatar = $tid;
+            $user->save();
+            return json(trans('user.profile.avatar.success'), 0);
         } else {
             return json(trans('skinlib.non-existent'), 1);
         }
