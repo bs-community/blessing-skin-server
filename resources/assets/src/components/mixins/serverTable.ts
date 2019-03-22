@@ -2,16 +2,19 @@ import Vue from 'vue'
 
 export default Vue.extend({
   data: () => ({
-    columns: [] as Array<{ field: string }>,
+    columns: [{ field: 'id' }],
     totalRecords: 0,
     serverParams: {
-      sortField: '',
+      sortField: 'id',
       sortType: 'asc',
       page: 1,
       perPage: 10,
       search: '',
     },
   }),
+  created() {
+    this.serverParams.sortField = this.columns[0].field
+  },
   methods: {
     fetchData(): Promise<void> {
       return Promise.resolve()

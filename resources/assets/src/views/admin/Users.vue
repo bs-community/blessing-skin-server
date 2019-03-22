@@ -150,9 +150,6 @@ export default {
           field: 'operations', label: this.$t('admin.operationsTitle'), sortable: false, globalSearchDisabled: true,
         },
       ],
-      serverParams: {
-        sortField: 'uid',
-      },
     }
   },
   beforeMount() {

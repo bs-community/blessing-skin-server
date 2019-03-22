@@ -157,9 +157,6 @@ export default {
           field: 'operations', label: this.$t('admin.operationsTitle'), globalSearchDisabled: true, sortable: false,
         },
       ],
-      serverParams: {
-        sortField: 'pid',
-      },
       textureChanges: {
         originalIndex: -1,
         type: 'skin',
