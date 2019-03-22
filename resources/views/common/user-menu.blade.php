@@ -10,7 +10,7 @@
         @endif
 
         <!-- hidden-xs hides the username on small devices so only the image appears. -->
-        <span class="hidden-xs nickname">{{ bs_nickname($user) }}</span>
+        <span class="hidden-xs nickname">{{ $user->nickname ?? $user->email }}</span>
     </a>
     <ul class="dropdown-menu">
         <!-- The user image in the menu -->

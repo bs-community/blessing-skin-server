@@ -137,25 +137,6 @@ class OptionRepository extends Repository
     }
 
     /**
-     * Return the options with key in the given array.
-     *
-     * @param  array  $array
-     * @return array
-     */
-    public function only(array $array)
-    {
-        $result = [];
-
-        foreach ($this->items as $key => $value) {
-            if (in_array($key, $array)) {
-                $result[$key] = $value;
-            }
-        }
-
-        return $result;
-    }
-
-    /**
      * Save all modified options into database.
      */
     public function __destruct()

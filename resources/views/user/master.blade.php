@@ -57,7 +57,7 @@
                         <img src="{{ avatar($user, 45) }}" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p class="nickname">{{ bs_nickname($user) }}</p>
+                        <p class="nickname">{{ $user->nickname ?? $user->email }}</p>
                         <i class="fas fa-circle text-success"></i> {{ bs_role($user) }}
                     </div>
                 </div>

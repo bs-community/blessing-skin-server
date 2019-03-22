@@ -2,10 +2,9 @@
 
 namespace App\Services\Repositories;
 
-use ArrayAccess;
 use Illuminate\Support\Arr;
 
-class Repository implements ArrayAccess // Illuminate\Contracts\Cache\Repository
+class Repository
 {
     /**
      * All of the items.
@@ -63,103 +62,5 @@ class Repository implements ArrayAccess // Illuminate\Contracts\Cache\Repository
             Arr::set($this->items, $key, $value);
             $this->itemsModified[] = $key;
         }
-    }
-
-    /**
-     * Push an item into the repository.
-     *
-     * @param  mixed $item
-     * @return void
-     */
-    public function push($item)
-    {
-        array_push($this->items, $item);
-    }
-
-    /**
-     * Get all of the items stored in the repository.
-     *
-     * @return array
-     */
-    public function all()
-    {
-        return $this->items;
-    }
-
-    /**
-     * Get an item from the repository, or store the default value.
-     *
-     * @param  string    $key
-     * @param  callable  $callback
-     * @return mixed
-     */
-    public function remember($key, callable $callback)
-    {
-        // If the item exists in the repository we will just return this immediately
-        // otherwise we will execute the given Closure and repository the result
-        // of that execution for the given number of minutes in storage.
-        if (! is_null($value = $this->get($key))) {
-            return $value;
-        }
-
-        $this->set($key, $value = $callback());
-
-        return $value;
-    }
-
-    /**
-     * Remove an item from the repository.
-     *
-     * @param  string|array $key
-     * @return void
-     */
-    public function forget($key)
-    {
-        Arr::forget($this->items, $key);
-    }
-
-    /**
-     * Determine if the given option option exists.
-     *
-     * @param  string  $key
-     * @return bool
-     */
-    public function offsetExists($key)
-    {
-        return $this->has($key);
-    }
-
-    /**
-     * Get a option option.
-     *
-     * @param  string  $key
-     * @return mixed
-     */
-    public function offsetGet($key)
-    {
-        return $this->get($key);
-    }
-
-    /**
-     * Set a option option.
-     *
-     * @param  string  $key
-     * @param  mixed  $value
-     * @return void
-     */
-    public function offsetSet($key, $value)
-    {
-        $this->set($key, $value);
-    }
-
-    /**
-     * Unset a option option.
-     *
-     * @param  string  $key
-     * @return void
-     */
-    public function offsetUnset($key)
-    {
-        $this->forget($key);
     }
 }

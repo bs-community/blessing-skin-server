@@ -14,6 +14,7 @@ class OptionRepositoryTest extends TestCase
         $repo = new OptionRepository();
         $repo->set('k1', '(null)');
         $this->assertNull($repo->get('k1'));
+        $this->assertNull(option()->get('k1'));
     }
 
     public function testSet()
@@ -25,19 +26,5 @@ class OptionRepositoryTest extends TestCase
         ]);
         $this->assertEquals('v1', $repo->get('k1'));
         $this->assertEquals('v2', $repo->get('k2'));
-    }
-
-    public function testOnly()
-    {
-        $repo = new OptionRepository();
-        $repo->set([
-            'k1' => 'v1',
-            'k2' => 'v2',
-            'k3' => 'v3',
-        ]);
-        $this->assertArraySubset([
-            'k1' => 'v1',
-            'k2' => 'v2',
-        ], $repo->only(['k1', 'k2']));
     }
 }

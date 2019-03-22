@@ -24,6 +24,8 @@ class AdminControllerTest extends BrowserKitTestCase
 
     public function testChartData()
     {
+        factory(User::class)->create();
+        factory(Texture::class)->create();
         $this->getJson('/admin/chart')
             ->seeJson(['labels' => [
                 trans('admin.index.user-registration'),

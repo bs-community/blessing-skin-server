@@ -16,13 +16,6 @@ if (! function_exists('get_base_url')) {
     }
 }
 
-if (! function_exists('get_current_url')) {
-    function get_current_url()
-    {
-        return get_base_url().$_SERVER['REQUEST_URI'];
-    }
-}
-
 if (! function_exists('avatar')) {
     function avatar(User $user, $size)
     {
@@ -32,25 +25,13 @@ if (! function_exists('avatar')) {
     }
 }
 
-if (! function_exists('assets')) {
-    function assets($relativeUri)
-    {
-        // Add query string to fresh cache
-        if (Str::startsWith($relativeUri, 'css') || Str::startsWith($relativeUri, 'js')) {
-            return url("resources/assets/dist/$relativeUri").'?v='.config('app.version');
-        } elseif (Str::startsWith($relativeUri, 'lang')) {
-            return url("resources/$relativeUri");
-        } else {
-            return url("resources/assets/$relativeUri");
-        }
-    }
-}
-
 if (! function_exists('webpack_assets')) {
     function webpack_assets($relativeUri)
     {
         if (app()->environment('development')) {
+            // @codeCoverageIgnoreStart
             return "http://127.0.0.1:8080/public/$relativeUri";
+            // @codeCoverageIgnoreEnd
         } else {
             $cdn = option('cdn_address');
             return $cdn ? "$cdn/app/$relativeUri" : url("app/$relativeUri");
@@ -263,15 +244,6 @@ if (! function_exists('bs_custom_copyright')) {
             '{site_name}' => option_localized('site_name'),
             '{site_url}' => option('site_url'),
         ]);
-    }
-}
-
-if (! function_exists('bs_nickname')) {
-    function bs_nickname(User $user = null)
-    {
-        $user = $user ?: auth()->user();
-
-        return ($user->getNickName() == '') ? $user->email : $user->getNickName();
     }
 }
 

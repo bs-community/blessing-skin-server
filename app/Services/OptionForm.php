@@ -485,15 +485,6 @@ class OptionFormItem
 
         return $this;
     }
-
-    /**
-     * Render option item. Should be extended.
-     *
-     * @return \Illuminate\View\View|string
-     */
-    public function render()
-    {
-    }
 }
 
 class OptionFormText extends OptionFormItem

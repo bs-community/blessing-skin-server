@@ -26,7 +26,11 @@
                         <div class="box-body">
                             @if (option('comment_script') != "")
                             <!-- Comment Start -->
-                            {!! get_string_replaced(option('comment_script'), ['{tid}' => $texture->tid, '{name}' => $texture->name, '{url}' => get_current_url()]) !!}
+                            {!! get_string_replaced(option('comment_script'), [
+                                '{tid}' => $texture->tid,
+                                '{name}' => $texture->name,
+                                '{url}' => get_base_url().$_SERVER['REQUEST_URI']
+                            ]) !!}
                             <!-- Comment End -->
                             @else
                             <p style="text-align: center; margin: 30px 0;">@lang('skinlib.show.comment-not-available')</p>

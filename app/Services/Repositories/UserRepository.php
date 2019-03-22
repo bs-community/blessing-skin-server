@@ -75,9 +75,4 @@ class UserRepository extends Repository
 
         return current($result);
     }
-
-    public function getCurrentUser()
-    {
-        return auth()->user();
-    }
 }
