@@ -38,6 +38,8 @@ class User extends Authenticatable
         'verified' => 'bool',
     ];
 
+    protected $hidden = ['password', 'remember_token'];
+
     /**
      * Storage size used by user in KiB.
      *
