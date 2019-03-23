@@ -20,9 +20,7 @@
 
 <script>
 Object.defineProperty(blessing, 'extra', {
-    get: () => Object.freeze({
-        player: {{ option('register_with_player_name') ? 'true' : 'false' }},
-    }),
+    get: () => Object.freeze(@json($extra)),
     configurable: false
 })
 </script>

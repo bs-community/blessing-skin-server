@@ -38,6 +38,7 @@ class UserController extends Controller
                 'storage' => $this->calculatePercentageUsed($user->getStorageUsed(), option('score_per_storage')),
             ],
             'announcement' => app('parsedown')->text(option_localized('announcement')),
+            'extra' => ['unverified' => option('require_verification') && ! $user->verified],
         ]);
     }
 
@@ -157,7 +158,13 @@ class UserController extends Controller
 
     public function profile()
     {
-        return view('user.profile')->with('user', Auth::user());
+        $user = Auth::user();
+        return view('user.profile')
+            ->with('user', $user)
+            ->with('extra', [
+                'unverified' => option('require_verification') && ! $user->verified,
+                'admin' => $user->isAdmin(),
+            ]);
     }
 
     public function handleProfile(Request $request)

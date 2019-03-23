@@ -74,10 +74,8 @@
 </div><!-- /.modal -->
 
 <script>
-    Object.defineProperty(blessing, 'extra', {
-        get: () => Object.freeze({
-            unverified: {{ option('require_verification') && !$user->verified ? 'true' : 'false' }}
-        })
-    })
+Object.defineProperty(blessing, 'extra', {
+    get: () => Object.freeze(@json($extra))
+})
 </script>
 @endsection

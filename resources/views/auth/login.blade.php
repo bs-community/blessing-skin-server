@@ -27,7 +27,7 @@
 <script>
 Object.defineProperty(blessing, 'extra', {
     configurable: false,
-    get: () => Object.freeze({ tooManyFails: {{ cache(sha1('login_fails_'.get_client_ip())) > 3 ? 'true' : 'false' }} })
+    get: () => Object.freeze(@json(['tooManyFails' => cache(sha1('login_fails_'.get_client_ip())) > 3]))
 })
 </script>
 

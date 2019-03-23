@@ -151,7 +151,14 @@ class SkinlibController extends Controller
         return view('skinlib.show')
             ->with('texture', $texture)
             ->with('with_out_filter', true)
-            ->with('user', $user);
+            ->with('user', $user)
+            ->with('extra', [
+                'download' => option('allow_downloading_texture'),
+                'currentUid' => $user ? $user->uid : 0,
+                'admin' => $user && $user->isAdmin(),
+                'inCloset' => $user && $user->closet()->where('tid', $texture->tid)->count() > 0,
+                'nickname' => ($up = User::find($texture->uploader)) ? $up->nickname : null
+            ]);
     }
 
     public function info($tid)
@@ -167,6 +174,18 @@ class SkinlibController extends Controller
     {
         return view('skinlib.upload')
             ->with('user', Auth::user())
+            ->with('extra', [
+                'rule' => ($regexp = option('texture_name_regexp'))
+                    ? trans('skinlib.upload.name-rule-regexp', compact('regexp'))
+                    : trans('skinlib.upload.name-rule'),
+                'privacyNotice' => trans(
+                    'skinlib.upload.private-score-notice',
+                    ['score' => option('private_score_per_storage')]
+                ),
+                'scorePublic' => intval(option('score_per_storage')),
+                'scorePrivate' => intval(option('private_score_per_storage')),
+                'award' => intval(option('score_award_per_texture')),
+            ])
             ->with('with_out_filter', true);
     }
 

@@ -18,12 +18,9 @@
 </div><!-- /.content-wrapper -->
 
 <script>
-    Object.defineProperty(blessing, 'extra', {
-        configurable: false,
-        get: () => Object.freeze({
-            admin: {{ (string) $user->isAdmin() ?: 'false' }},
-            unverified: {{ option('require_verification') && !$user->verified ? 'true' : 'false' }}
-        }),
-    })
+Object.defineProperty(blessing, 'extra', {
+    configurable: false,
+    get: () => Object.freeze(@json($extra)),
+})
 </script>
 @endsection

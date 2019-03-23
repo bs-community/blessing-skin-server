@@ -56,7 +56,14 @@ class PlayerController extends Controller
 
         return view('user.player')
             ->with('players', $user->players->toArray())
-            ->with('user', $user);
+            ->with('user', $user)
+            ->with('extra', [
+                'rule' => trans('user.player.player-name-rule.'.option('player_name_rule')),
+                'length' => trans(
+                    'user.player.player-name-length',
+                    ['min' => option('player_name_length_min'), 'max' => option('player_name_length_max')]
+                )
+            ]);
     }
 
     public function listAll()

@@ -37,9 +37,7 @@
 </div><!-- /.content-wrapper -->
 
 <script>
-blessing.extra = {
-    currentSkin: "{{ option('color_scheme') }}"
-};
+blessing.extra = @json($extra);
 </script>
 
 @endsection

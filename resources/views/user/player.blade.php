@@ -18,10 +18,7 @@
 </div><!-- /.content-wrapper -->
 
 <script>
-blessing.extra = {
-    rule: "@lang('user.player.player-name-rule.'.option('player_name_rule'))",
-    length: "@lang('user.player.player-name-length', ['min' => option('player_name_length_min'), 'max' => option('player_name_length_max')])"
-}
+blessing.extra = @json($extra)
 </script>
 
 @endsection

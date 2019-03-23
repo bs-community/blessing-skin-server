@@ -115,7 +115,8 @@ class UpdateController extends Controller
             $connectivity = $e->getMessage();
         }
 
-        return view('admin.update', compact('info', 'connectivity'));
+        $extra = ['canUpdate' => $info['new_version_available']];
+        return view('admin.update', compact('info', 'connectivity', 'extra'));
     }
 
     public function checkUpdates()

@@ -83,7 +83,7 @@ class AuthController extends Controller
     public function register()
     {
         if (option('user_can_register')) {
-            return view('auth.register');
+            return view('auth.register', ['extra' => ['player' => option('register_with_player_name')]]);
         } else {
             throw new PrettyPageException(trans('auth.register.close'), 7);
         }

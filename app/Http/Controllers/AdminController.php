@@ -104,7 +104,10 @@ class AdminController extends Controller
             $form->textarea('custom_js', 'JavaScript')->rows(6);
         })->addMessage()->handle();
 
-        return view('admin.customize', ['forms' => compact('homepage', 'customJsCss')]);
+        return view('admin.customize', [
+            'forms' => compact('homepage', 'customJsCss'),
+            'extra' => ['currentSkin' => option('color_scheme')]
+        ]);
     }
 
     public function score()

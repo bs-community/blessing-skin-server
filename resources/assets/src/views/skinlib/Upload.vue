@@ -133,7 +133,7 @@ export default {
       privacyNotice: blessing.extra.privacyNotice,
       scorePublic: blessing.extra.scorePublic,
       scorePrivate: blessing.extra.scorePrivate,
-      award: +blessing.extra.award,
+      award: blessing.extra.award,
       width2d: 64,
     }
   },

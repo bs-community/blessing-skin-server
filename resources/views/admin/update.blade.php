@@ -133,9 +133,7 @@
 </div><!-- /.modal -->
 
 <script>
-blessing.extra = {
-    canUpdate: {{ $info['new_version_available'] ? 'true' : 'false' }}
-}
+blessing.extra = @json($extra)
 </script>
 
 @endsection
