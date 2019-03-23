@@ -11,11 +11,6 @@ class ExecuteInstallation extends Command
 
     protected $description = 'Execute installation and create a super administrator.';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function handle()
     {
         $this->call('key:random');
