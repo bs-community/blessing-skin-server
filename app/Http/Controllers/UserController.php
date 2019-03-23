@@ -13,7 +13,6 @@ use Illuminate\Http\Request;
 use App\Mail\EmailVerification;
 use App\Events\UserProfileUpdated;
 use Illuminate\Support\Facades\Auth;
-use App\Services\Repositories\UserRepository;
 
 class UserController extends Controller
 {
@@ -161,14 +160,7 @@ class UserController extends Controller
         return view('user.profile')->with('user', Auth::user());
     }
 
-    /**
-     * Handle changing user profile.
-     *
-     * @param  Request $request
-     * @param  UserRepository $users
-     * @return mixed
-     */
-    public function handleProfile(Request $request, UserRepository $users)
+    public function handleProfile(Request $request)
     {
         $action = $request->input('action', '');
         $user = Auth::user();
@@ -216,7 +208,7 @@ class UserController extends Controller
                     'password'  => 'required|min:6|max:32',
                 ]);
 
-                if ($users->get($request->input('new_email'), 'email')) {
+                if (User::where('email', $request->new_email)->count() > 0) {
                     return json(trans('user.profile.email.existed'), 1);
                 }
 

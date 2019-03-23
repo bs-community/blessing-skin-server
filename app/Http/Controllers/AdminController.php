@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
-use App\Services\Repositories\UserRepository;
 
 class AdminController extends Controller
 {
@@ -375,16 +374,10 @@ class AdminController extends Controller
         ];
     }
 
-    /**
-     * Handle ajax request from /admin/users.
-     *
-     * @param  Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function userAjaxHandler(Request $request, UserRepository $users)
+    public function userAjaxHandler(Request $request)
     {
         $action = $request->input('action');
-        $user = $users->get($request->input('uid'));
+        $user = User::find($request->uid);
         $currentUser = Auth::user();
 
         if (! $user) {
@@ -400,7 +393,7 @@ class AdminController extends Controller
                 'email' => 'required|email',
             ]);
 
-            if ($users->get($request->input('email'), 'email')) {
+            if (User::where('email', $request->email)->count() != 0) {
                 return json(trans('admin.users.operations.email.existed', ['email' => $request->input('email')]), 1);
             }
 
@@ -459,10 +452,7 @@ class AdminController extends Controller
         }
     }
 
-    /**
-     * Handle ajax request from /admin/players.
-     */
-    public function playerAjaxHandler(Request $request, UserRepository $users)
+    public function playerAjaxHandler(Request $request)
     {
         $action = $request->input('action');
         $currentUser = Auth::user();
@@ -498,7 +488,7 @@ class AdminController extends Controller
                 'uid'   => 'required|integer',
             ]);
 
-            $user = $users->get($request->input('uid'));
+            $user = User::find($request->uid);
 
             if (! $user) {
                 return json(trans('admin.users.operations.non-existent'), 1);
@@ -532,16 +522,9 @@ class AdminController extends Controller
         }
     }
 
-    /**
-     * Get one user information.
-     *
-     * @param  string $uid
-     * @param  UserRepository $users
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function getOneUser($uid, UserRepository $users)
+    public function getOneUser($uid)
     {
-        $user = $users->get(intval($uid));
+        $user = User::find($uid);
         if ($user) {
             return json('success', 0, ['user' => $user->makeHidden([
                 'password', 'ip', 'last_sign_at', 'register_at', 'remember_token',

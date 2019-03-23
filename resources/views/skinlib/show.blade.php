@@ -52,7 +52,7 @@ Object.defineProperty(blessing, 'extra', {
         currentUid: {{ is_null($user) ? '0' : $user->uid }},
         admin: {{ $user && $user->isAdmin() ? 'true' : 'false' }},
         inCloset: {{ $user && $user->closet()->where('tid', $texture->tid)->count() > 0 ? 'true' : 'false' }},
-        nickname: @php echo ($up = app('users')->get($texture->uploader)) ? '"'.$up->nickname.'"' : 'null' @endphp
+        nickname: @php echo ($up = \App\Models\User::find($texture->uploader)) ? '"'.$up->nickname.'"' : 'null' @endphp
     })
 })
 </script>

@@ -8,6 +8,8 @@ use Illuminate\Database\QueryException;
 
 class OptionRepository extends Repository
 {
+    protected $items = [];
+
     /**
      * Create a new option repository.
      *

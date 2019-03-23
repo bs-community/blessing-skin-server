@@ -14,11 +14,10 @@ use App\Mail\ForgotPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Exceptions\PrettyPageException;
-use App\Services\Repositories\UserRepository;
 
 class AuthController extends Controller
 {
-    public function handleLogin(Request $request, UserRepository $users)
+    public function handleLogin(Request $request)
     {
         $this->validate($request, [
             'identification' => 'required',
@@ -28,14 +27,16 @@ class AuthController extends Controller
         $identification = $request->input('identification');
 
         // Guess type of identification
-        $authType = (validate($identification, 'email')) ? 'email' : 'username';
+        $authType = filter_var($identification, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
         event(new Events\UserTryToLogin($identification, $authType));
 
-        // Get user instance from repository.
-        // If the given identification is not registered yet,
-        // it will return a null value.
-        $user = $users->get($identification, $authType);
+        if ($authType == 'email') {
+            $user = User::where('email', $identification)->first();
+        } else {
+            $player = Player::where('name', $identification)->first();
+            $user = $player ? $player->user : null;
+        }
 
         // Require CAPTCHA if user fails to login more than 3 times
         $loginFailsCacheKey = sha1('login_fails_'.get_client_ip());
@@ -73,7 +74,6 @@ class AuthController extends Controller
     {
         if (Auth::check()) {
             Auth::logout();
-
             return json(trans('auth.logout.success'), 0);
         } else {
             return json(trans('auth.logout.fail'), 1);
@@ -161,7 +161,7 @@ class AuthController extends Controller
         }
     }
 
-    public function handleForgot(Request $request, UserRepository $users)
+    public function handleForgot(Request $request)
     {
         $this->validate($request, [
             'captcha' => 'required'.(app()->environment('testing') ? '' : '|captcha'),
@@ -184,8 +184,7 @@ class AuthController extends Controller
             ]);
         }
 
-        // Get user instance
-        $user = $users->get($request->input('email'), 'email');
+        $user = User::where('email', $request->email)->first();
 
         if (! $user) {
             return json(trans('auth.forgot.unregistered'), 1);
@@ -206,29 +205,29 @@ class AuthController extends Controller
         return json(trans('auth.forgot.success'), 0);
     }
 
-    public function reset($uid, UserRepository $users)
+    public function reset($uid)
     {
-        return view('auth.reset')->with('user', $users->get($uid));
+        return view('auth.reset')->with('user', User::find($uid));
     }
 
-    public function handleReset($uid, Request $request, UserRepository $users)
+    public function handleReset($uid, Request $request)
     {
         $validated = $this->validate($request, [
             'password' => 'required|min:8|max:32',
         ]);
 
-        $users->get($uid)->changePassword($validated['password']);
+        User::find($uid)->changePassword($validated['password']);
 
         return json(trans('auth.reset.success'), 0);
     }
 
-    public function verify(UserRepository $users, $uid)
+    public function verify($uid)
     {
         if (! option('require_verification')) {
             throw new PrettyPageException(trans('user.verification.disabled'), 1);
         }
 
-        $user = $users->get($uid);
+        $user = User::find($uid);
 
         if (! $user || $user->verified) {
             throw new PrettyPageException(trans('auth.verify.invalid'), 1);

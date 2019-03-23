@@ -12,7 +12,6 @@ use App\Models\Texture;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
-use App\Services\Repositories\UserRepository;
 
 class SkinlibController extends Controller
 {
@@ -226,7 +225,7 @@ class SkinlibController extends Controller
 
     // @codeCoverageIgnore
 
-    public function delete(Request $request, UserRepository $users)
+    public function delete(Request $request)
     {
         $result = Texture::find($request->tid);
         $user = Auth::user();
@@ -251,7 +250,7 @@ class SkinlibController extends Controller
             }
         });
 
-        if ($u = $users->get($result->uploader)) {
+        if ($u = User::find($result->uploader)) {
             $ret = 0;
             if (option('return_score')) {
                 $ret += $result->size * (
@@ -275,7 +274,7 @@ class SkinlibController extends Controller
 
     // @codeCoverageIgnore
 
-    public function privacy(Request $request, UserRepository $users)
+    public function privacy(Request $request)
     {
         $t = Texture::find($request->input('tid'));
         $user = Auth::user();
@@ -288,11 +287,12 @@ class SkinlibController extends Controller
             return json(trans('skinlib.no-permission'), 1);
         }
 
+        $uploader = User::find($t->uploader);
         $score_diff = $t->size * (option('private_score_per_storage') - option('score_per_storage')) * ($t->public ? -1 : 1);
         if ($t->public && option('take_back_scores_after_deletion', true)) {
             $score_diff -= option('score_award_per_texture', 0);
         }
-        if ($users->get($t->uploader)->score + $score_diff < 0) {
+        if ($uploader->score + $score_diff < 0) {
             return json(trans('skinlib.upload.lack-score'), 1);
         }
 
@@ -308,7 +308,7 @@ class SkinlibController extends Controller
             }
         });
 
-        @$users->get($t->uploader)->setScore($score_diff, 'plus');
+        @$uploader->setScore($score_diff, 'plus');
 
         $t->public = ! $t->public;
         $t->save();

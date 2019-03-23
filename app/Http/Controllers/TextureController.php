@@ -8,11 +8,11 @@ use Storage;
 use Response;
 use Exception;
 use Minecraft;
+use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
 use App\Events\GetSkinPreview;
 use App\Events\GetAvatarPreview;
-use App\Services\Repositories\UserRepository;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 class TextureController extends Controller
@@ -127,9 +127,9 @@ class TextureController extends Controller
         return $this->avatarByTid($tid, $size);
     }
 
-    public function avatar($base64_email, UserRepository $users, $size = 128)
+    public function avatar($base64_email, $size = 128)
     {
-        $user = $users->get(base64_decode($base64_email), 'email');
+        $user = User::where('email', base64_decode($base64_email))->first();
 
         if ($user) {
             return $this->avatarByTid($user->avatar, $size);
@@ -138,9 +138,9 @@ class TextureController extends Controller
         return response()->file(storage_path('static_textures/avatar.png'));
     }
 
-    public function avatarWithSize($size, $base64_email, UserRepository $users)
+    public function avatarWithSize($size, $base64_email)
     {
-        return $this->avatar($base64_email, $users, $size);
+        return $this->avatar($base64_email, $size);
     }
 
     public function preview($tid, $size = 250)

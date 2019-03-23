@@ -303,21 +303,6 @@ if (! function_exists('option_localized')) {
     }
 }
 
-if (! function_exists('validate')) {
-    function validate($value, $type)
-    {
-        switch ($type) {
-            case 'email':
-                return (bool) filter_var($value, FILTER_VALIDATE_EMAIL);
-                break;
-
-            default:
-                // code...
-                break;
-        }
-    }
-}
-
 if (! function_exists('humanize_db_type')) {
     function humanize_db_type($type = null)
     {

@@ -28,11 +28,7 @@ class AuthControllerTest extends TestCase
 
         $user = factory(User::class)->create();
         $user->changePassword('12345678');
-        $player = factory(Player::class)->create(
-            [
-                'uid' => $user->uid,
-            ]
-        );
+        $player = factory(Player::class)->create(['uid' => $user->uid]);
 
         // Should return a warning if `identification` is empty
         $this->postJson('/auth/login')
