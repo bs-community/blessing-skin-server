@@ -13,7 +13,6 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        Commands\Inspire::class,
         Commands\KeyRandomCommand::class,
         Commands\SaltRandomCommand::class,
         Commands\MigratePlayersTable::class,
