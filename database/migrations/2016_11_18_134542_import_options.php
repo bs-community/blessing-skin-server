@@ -31,8 +31,6 @@ class ImportOptions extends Migration
         foreach ($options as $key => $value) {
             Option::set($key, $value);
         }
-
-        Option::save();
     }
 
     /**

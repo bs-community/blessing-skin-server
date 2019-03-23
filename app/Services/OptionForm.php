@@ -275,7 +275,7 @@ class OptionForm
             foreach ($postOptionQueue as $item) {
                 if ($item instanceof OptionFormCheckbox && ! isset($allPostData[$item->id])) {
                     // preset value for checkboxes which are not checked
-                    $allPostData[$item->id] = 'false';
+                    $allPostData[$item->id] = false;
                 }
 
                 // Str::is('*[*]', $item->id)
@@ -295,7 +295,7 @@ class OptionForm
             }
 
             foreach ($arrayOptionQueue as $key => $value) {
-                Option::set($key, serialize($value));
+                Option::set($key, $value);
             }
 
             if (! is_null($this->hookAfter)) {

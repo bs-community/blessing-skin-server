@@ -285,10 +285,7 @@ if (! function_exists('option')) {
         }
 
         if (is_array($key)) {
-            foreach ($key as $innerKey => $innerValue) {
-                $options->set($innerKey, $innerValue);
-            }
-
+            $options->set($key);
             return;
         }
 

@@ -2,16 +2,16 @@
 
 namespace Tests;
 
-use App\Services\Repositories\OptionRepository;
+use App\Services\Option;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class OptionRepositoryTest extends TestCase
+class OptionTest extends TestCase
 {
     use DatabaseTransactions;
 
     public function testGet()
     {
-        $repo = new OptionRepository();
+        $repo = new Option();
         $repo->set('k1', '(null)');
         $this->assertNull($repo->get('k1'));
         $this->assertNull(option()->get('k1'));
@@ -19,7 +19,7 @@ class OptionRepositoryTest extends TestCase
 
     public function testSet()
     {
-        $repo = new OptionRepository();
+        $repo = new Option();
         $repo->set([
             'k1' => 'v1',
             'k2' => 'v2',

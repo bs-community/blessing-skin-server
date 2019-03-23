@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Storage;
 use App\Events;
+use App\Services\Option;
 use Composer\Semver\Semver;
 use Illuminate\Support\Arr;
 use Composer\Semver\Comparator;
@@ -11,7 +12,6 @@ use Illuminate\Support\Collection;
 use Illuminate\Filesystem\Filesystem;
 use App\Exceptions\PrettyPageException;
 use Illuminate\Contracts\Events\Dispatcher;
-use App\Services\Repositories\OptionRepository;
 use Illuminate\Contracts\Foundation\Application;
 
 class PluginManager
@@ -22,7 +22,7 @@ class PluginManager
     protected $app;
 
     /**
-     * @var OptionRepository
+     * @var Option
      */
     protected $option;
 
@@ -48,7 +48,7 @@ class PluginManager
 
     public function __construct(
         Application $app,
-        OptionRepository $option,
+        Option $option,
         Dispatcher $dispatcher,
         Filesystem $filesystem
     ) {
@@ -309,9 +309,6 @@ class PluginManager
     protected function saveEnabled()
     {
         $this->option->set('plugins_enabled', $this->enabled->values()->toJson());
-
-        // ensure to save options
-        $this->option->save();
     }
 
     /**

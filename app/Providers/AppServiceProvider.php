@@ -11,7 +11,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Redis;
 use App\Exceptions\PrettyPageException;
 use Illuminate\Support\ServiceProvider;
-use App\Services\Repositories\OptionRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -65,7 +64,7 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('cipher', 'App\Services\Cipher\\'.config('secure.cipher'));
-        $this->app->singleton('options', OptionRepository::class);
+        $this->app->singleton('options', \App\Services\Option::class);
         $this->app->singleton('parsedown', \Parsedown::class);
     }
 
