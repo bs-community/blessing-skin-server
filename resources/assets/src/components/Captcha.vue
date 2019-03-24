@@ -1,7 +1,11 @@
 <template>
   <div v-if="recaptcha" class="row">
     <div class="col-xs-12" style="padding-bottom: 5px">
-      <vue-recaptcha :sitekey="recaptcha" @verify="$emit('change', $event)" />
+      <vue-recaptcha
+        ref="recaptcha"
+        :sitekey="recaptcha"
+        @verify="$emit('change', $event)"
+      />
     </div>
   </div>
   <div v-else class="row">
@@ -52,7 +56,11 @@ export default {
   },
   methods: {
     refreshCaptcha() {
-      this.time = Date.now()
+      if (this.recaptcha) {
+        this.$refs.recaptcha.reset()
+      } else {
+        this.time = Date.now()
+      }
     },
   },
 }
