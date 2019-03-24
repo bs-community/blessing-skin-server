@@ -23,6 +23,8 @@ test('login', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: 'fail' })
     .mockResolvedValueOnce({ errno: 1, login_fails: 4 })
+    .mockResolvedValueOnce({ errno: 1, login_fails: 4 })
+    .mockResolvedValueOnce({ errno: 1, login_fails: 4 })
     .mockResolvedValueOnce({ errno: 0, msg: 'ok' })
   const wrapper = mount(Login, { stubs: { Captcha } })
   const form = wrapper.find('form')
@@ -51,8 +53,21 @@ test('login', async () => {
 
   form.trigger('submit')
   await wrapper.vm.$nextTick()
-  expect(Vue.prototype.$alert).toBeCalledWith('auth.tooManyFails', { type: 'error' })
+  expect(Vue.prototype.$alert).toBeCalledWith('auth.tooManyFails.captcha', { type: 'error' })
   expect(wrapper.find('img').exists()).toBeTrue()
+
+  wrapper.setData({
+    recaptcha: 'sitekey', invisible: true, tooManyFails: false,
+  })
+  form.trigger('submit')
+  await wrapper.vm.$nextTick()
+
+  wrapper.setData({
+    recaptcha: 'sitekey', invisible: false, tooManyFails: false,
+  })
+  form.trigger('submit')
+  await wrapper.vm.$nextTick()
+  expect(Vue.prototype.$alert).toBeCalledWith('auth.tooManyFails.recaptcha', { type: 'error' })
 
   wrapper.find('[type="checkbox"]').setChecked()
   form.trigger('submit')

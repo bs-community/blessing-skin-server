@@ -4,7 +4,9 @@ auth:
   emptyCaptcha: Empty captcha.
   login: Log In
   loggingIn: Logging In
-  tooManyFails: You fails too many times! Please enter the CAPTCHA.
+  tooManyFails:
+    captcha: You fails too many times! Please enter the CAPTCHA.
+    recaptcha: You fails too many times! Please pass the reCAPTCHA challenge.
   emptyEmail: Empty email address.
   invalidEmail: Invalid format of email address.
   invalidPassword: Invalid password. The length of password should between 8 and 32.

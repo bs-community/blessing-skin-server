@@ -68,6 +68,8 @@ export default {
       password: '',
       remember: false,
       tooManyFails: blessing.extra.tooManyFails,
+      recaptcha: blessing.extra.recaptcha,
+      invisible: blessing.extra.invisible,
       infoMsg: '',
       warningMsg: '',
       pending: false,
@@ -112,7 +114,13 @@ export default {
         }, 1000)
       } else {
         if (loginFails > 3 && !this.tooManyFails) {
-          this.$alert(this.$t('auth.tooManyFails'), { type: 'error' })
+          if (this.recaptcha) {
+            if (!this.invisible) {
+              this.$alert(this.$t('auth.tooManyFails.recaptcha'), { type: 'error' })
+            }
+          } else {
+            this.$alert(this.$t('auth.tooManyFails.captcha'), { type: 'error' })
+          }
           this.tooManyFails = true
         }
         this.infoMsg = ''
