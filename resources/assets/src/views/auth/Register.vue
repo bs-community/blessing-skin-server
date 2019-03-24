@@ -64,30 +64,7 @@
       <span class="glyphicon glyphicon-pencil form-control-feedback" />
     </div>
 
-    <div class="row">
-      <div class="col-xs-8">
-        <div class="form-group has-feedback">
-          <input
-            ref="captcha"
-            v-model="captcha"
-            type="text"
-            class="form-control"
-            :placeholder="$t('auth.captcha')"
-          >
-        </div>
-      </div>
-      <div class="col-xs-4">
-        <img
-          class="pull-right captcha"
-          :src="`${baseUrl}/auth/captcha?v=${time}`"
-          alt="CAPTCHA"
-          :title="$t('auth.change-captcha')"
-          data-placement="top"
-          data-toggle="tooltip"
-          @click="refreshCaptcha"
-        >
-      </div>
-    </div>
+    <captcha ref="captcha" @change="updateCaptcha" />
 
     <div class="callout callout-info" :class="{ hide: !infoMsg }">{{ infoMsg }}</div>
     <div class="callout callout-warning" :class="{ hide: !warningMsg }">{{ warningMsg }}</div>
@@ -114,9 +91,17 @@
 
 <script>
 import { swal } from '../../js/notify'
+import Captcha from '../../components/Captcha.vue'
+import updateCaptcha from '../../components/mixins/updateCaptcha'
 
 export default {
   name: 'Register',
+  components: {
+    Captcha,
+  },
+  mixins: [
+    updateCaptcha,
+  ],
   props: {
     baseUrl: {
       type: String,
@@ -130,7 +115,6 @@ export default {
     nickname: '',
     playerName: '',
     captcha: '',
-    time: Date.now(),
     infoMsg: '',
     warningMsg: '',
     pending: false,
@@ -184,12 +168,6 @@ export default {
         return
       }
 
-      if (!captcha) {
-        this.infoMsg = this.$t('auth.emptyCaptcha')
-        this.$refs.captcha.focus()
-        return
-      }
-
       this.pending = true
       const { errno, msg } = await this.$http.post(
         '/auth/register',
@@ -207,12 +185,9 @@ export default {
       } else {
         this.infoMsg = ''
         this.warningMsg = msg
-        this.refreshCaptcha()
+        this.$refs.captcha.refreshCaptcha()
         this.pending = false
       }
-    },
-    refreshCaptcha() {
-      this.time = Date.now()
     },
   },
 }

@@ -25,6 +25,8 @@
                 {!! $forms['announ']->render() !!}
 
                 {!! $forms['meta']->render() !!}
+
+                {!! $forms['recaptcha']->render() !!}
             </div>
 
         </div>

@@ -28,6 +28,7 @@
     "toastr": "^2.1.4",
     "vue": "^2.6.9",
     "vue-good-table": "^2.16.3",
+    "vue-recaptcha": "^1.1.1",
     "vue-upload-component": "^2.8.19",
     "vuejs-paginate": "^2.1.0"
   },

@@ -21,30 +21,7 @@
       <span class="glyphicon glyphicon-lock form-control-feedback" />
     </div>
 
-    <div v-if="tooManyFails" class="row">
-      <div class="col-xs-8">
-        <div class="form-group has-feedback">
-          <input
-            ref="captcha"
-            v-model="captcha"
-            type="text"
-            class="form-control"
-            :placeholder="$t('auth.captcha')"
-          >
-        </div>
-      </div>
-      <div class="col-xs-4">
-        <img
-          class="pull-right captcha"
-          :src="`${baseUrl}/auth/captcha?v=${time}`"
-          alt="CAPTCHA"
-          :title="$t('auth.change-captcha')"
-          data-placement="top"
-          data-toggle="tooltip"
-          @click="refreshCaptcha"
-        >
-      </div>
-    </div>
+    <captcha v-if="tooManyFails" ref="captcha" @change="updateCaptcha" />
 
     <div class="callout callout-info" :class="{ hide: !infoMsg }">{{ infoMsg }}</div>
     <div class="callout callout-warning" :class="{ hide: !warningMsg }">{{ warningMsg }}</div>
@@ -81,9 +58,17 @@
 
 <script>
 import { swal } from '../../js/notify'
+import Captcha from '../../components/Captcha.vue'
+import updateCaptcha from '../../components/mixins/updateCaptcha'
 
 export default {
   name: 'Login',
+  components: {
+    Captcha,
+  },
+  mixins: [
+    updateCaptcha,
+  ],
   props: {
     baseUrl: {
       type: String,
@@ -96,7 +81,6 @@ export default {
       password: '',
       captcha: '',
       remember: false,
-      time: Date.now(),
       tooManyFails: blessing.extra.tooManyFails,
       infoMsg: '',
       warningMsg: '',
@@ -118,12 +102,6 @@ export default {
       if (!password) {
         this.infoMsg = this.$t('auth.emptyPassword')
         this.$refs.password.focus()
-        return
-      }
-
-      if (this.tooManyFails && !captcha) {
-        this.infoMsg = this.$t('auth.emptyCaptcha')
-        this.$refs.captcha.focus()
         return
       }
 
@@ -149,14 +127,11 @@ export default {
           swal({ type: 'error', text: this.$t('auth.tooManyFails') })
           this.tooManyFails = true
         }
-        this.refreshCaptcha()
         this.infoMsg = ''
         this.warningMsg = msg
         this.pending = false
+        this.$refs.captcha.refreshCaptcha()
       }
-    },
-    refreshCaptcha() {
-      this.time = Date.now()
     },
   },
 }

@@ -17,7 +17,7 @@
     <!-- /.form-box -->
 </div>
 <!-- /.register-box -->
-
+@include('common.recaptcha')
 <script>
 Object.defineProperty(blessing, 'extra', {
     get: () => Object.freeze(@json($extra)),

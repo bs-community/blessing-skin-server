@@ -10,6 +10,7 @@ use Session;
 use App\Events;
 use App\Models\User;
 use App\Models\Player;
+use App\Rules\Captcha;
 use App\Mail\ForgotPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -43,7 +44,7 @@ class AuthController extends Controller
         $loginFails = (int) Cache::get($loginFailsCacheKey, 0);
 
         if ($loginFails > 3) {
-            $this->validate($request, ['captcha' => 'required|captcha']);
+            $this->validate($request, ['captcha' => ['required', new Captcha]]);
         }
 
         if (! $user) {
@@ -83,7 +84,12 @@ class AuthController extends Controller
     public function register()
     {
         if (option('user_can_register')) {
-            return view('auth.register', ['extra' => ['player' => option('register_with_player_name')]]);
+            return view('auth.register', [
+                'extra' => [
+                    'player' => option('register_with_player_name'),
+                    'recaptcha' => option('recaptcha_sitekey'),
+                ]
+            ]);
         } else {
             throw new PrettyPageException(trans('auth.register.close'), 7);
         }
@@ -101,7 +107,7 @@ class AuthController extends Controller
         $data = $this->validate($request, array_merge([
             'email'    => 'required|email|unique:users',
             'password' => 'required|min:8|max:32',
-            'captcha'  => 'required'.(app()->environment('testing') ? '' : '|captcha'),
+            'captcha'  => ['required', new Captcha],
         ], $rule));
 
         if (option('register_with_player_name')) {

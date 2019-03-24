@@ -146,6 +146,11 @@ meta:
   meta_extras:
     title: 其它自定义 <meta> 标签
 
+recaptcha:
+  recaptcha_mirror:
+    title: 第三方镜像
+    label: 国内用户请勾选此项
+
 res-warning: 本页面仅供高级用户使用。如果您不清楚这些设置的含义，请不要随意修改它们！
 
 resources:

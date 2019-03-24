@@ -23,11 +23,14 @@
     <!-- /.login-box-body -->
 </div>
 <!-- /.login-box -->
-
+@include('common.recaptcha')
 <script>
 Object.defineProperty(blessing, 'extra', {
     configurable: false,
-    get: () => Object.freeze(@json(['tooManyFails' => cache(sha1('login_fails_'.get_client_ip())) > 3]))
+    get: () => Object.freeze(@json([
+        'tooManyFails' => cache(sha1('login_fails_'.get_client_ip())) > 3,
+        'recaptcha' => option('recaptcha_sitekey'),
+    ]))
 })
 </script>
 

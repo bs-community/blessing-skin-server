@@ -11,14 +11,6 @@ test('show captcha if too many login fails', () => {
   expect(wrapper.find('img').attributes('src')).toMatch(/\/auth\/captcha\?v=\d+/)
 })
 
-test('click to refresh captcha', () => {
-  window.blessing.extra = { tooManyFails: true }
-  jest.spyOn(Date, 'now')
-  const wrapper = mount(Login)
-  wrapper.find('img').trigger('click')
-  expect(Date.now).toBeCalledTimes(2)
-})
-
 test('login', async () => {
   window.blessing.extra = { tooManyFails: false }
   Vue.prototype.$http.post
@@ -54,9 +46,6 @@ test('login', async () => {
   await wrapper.vm.$nextTick()
   expect(swal).toBeCalledWith({ type: 'error', text: 'auth.tooManyFails' })
   expect(wrapper.find('img').exists()).toBeTrue()
-
-  button.trigger('click')
-  expect(info.text()).toBe('auth.emptyCaptcha')
 
   wrapper.find('[type="text"]').setValue('a')
   wrapper.find('[type="checkbox"]').setChecked()

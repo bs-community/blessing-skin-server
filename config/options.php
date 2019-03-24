@@ -50,4 +50,7 @@ return [
     'meta_description'          => '',
     'meta_extras'               => '',
     'cdn_address'               => '',
+    'recaptcha_sitekey'         => '',
+    'recaptcha_secretkey'       => '',
+    'recaptcha_mirror'          => 'false',
 ];

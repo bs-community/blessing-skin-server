@@ -233,8 +233,14 @@ class AdminController extends Controller
             $form->textarea('meta_extras')->rows(6);
         })->handle();
 
+        $recaptcha = Option::form('recaptcha', 'reCAPTCHA', function ($form) {
+            $form->text('recaptcha_sitekey', 'sitekey');
+            $form->text('recaptcha_secretkey', 'secretkey');
+            $form->checkbox('recaptcha_mirror')->label();
+        })->handle();
+
         return view('admin.options')
-            ->with('forms', compact('general', 'announ', 'meta'));
+            ->with('forms', compact('general', 'announ', 'meta', 'recaptcha'));
     }
 
     public function resource(Request $request)

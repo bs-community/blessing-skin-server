@@ -7,13 +7,6 @@ jest.mock('@/js/notify')
 
 window.blessing.extra = { player: false }
 
-test('click to refresh captcha', () => {
-  jest.spyOn(Date, 'now')
-  const wrapper = mount(Register)
-  wrapper.find('img').trigger('click')
-  expect(Date.now).toBeCalledTimes(2)
-})
-
 test('require player name', () => {
   window.blessing.extra = { player: true }
 
@@ -74,10 +67,6 @@ test('register', async () => {
 
   wrapper.findAll('[type="text"]').at(0)
     .setValue('abc')
-  button.trigger('click')
-  expect(Vue.prototype.$http.post).not.toBeCalled()
-  expect(info.text()).toBe('auth.emptyCaptcha')
-
   wrapper.findAll('[type="text"]').at(1)
     .setValue('captcha')
   button.trigger('click')
