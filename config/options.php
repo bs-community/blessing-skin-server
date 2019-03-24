@@ -52,5 +52,4 @@ return [
     'cdn_address'               => '',
     'recaptcha_sitekey'         => '',
     'recaptcha_secretkey'       => '',
-    'recaptcha_mirror'          => 'false',
 ];

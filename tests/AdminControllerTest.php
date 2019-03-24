@@ -163,11 +163,9 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->visit('/admin/options')
             ->type('key', 'recaptcha_sitekey')
             ->type('secret', 'recaptcha_secretkey')
-            ->check('recaptcha_mirror')
             ->press('submit_recaptcha');
         $this->assertEquals('key', option('recaptcha_sitekey'));
         $this->assertEquals('secret', option('recaptcha_secretkey'));
-        $this->assertTrue(option('recaptcha_mirror'));
     }
 
     public function testResource()

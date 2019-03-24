@@ -15,10 +15,7 @@ class Captcha implements Rule
         $secretkey = option('recaptcha_secretkey');
         if ($secretkey) {
             $client = new \GuzzleHttp\Client();
-            $url = option('recaptcha_mirror')
-                ? 'https://www.recaptcha.net/recaptcha/api/siteverify'
-                : 'https://www.google.com/recaptcha/api/siteverify';
-            $response = $client->post($url, [
+            $response = $client->post('https://www.recaptcha.net/recaptcha/api/siteverify', [
                 'form_params' => [
                     'secret' => $secretkey,
                     'response' => $value,
