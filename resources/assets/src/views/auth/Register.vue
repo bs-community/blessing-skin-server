@@ -64,7 +64,7 @@
       <span class="glyphicon glyphicon-pencil form-control-feedback" />
     </div>
 
-    <captcha ref="captcha" @change="updateCaptcha" />
+    <captcha ref="captcha" />
 
     <div class="callout callout-info" :class="{ hide: !infoMsg }">{{ infoMsg }}</div>
     <div class="callout callout-warning" :class="{ hide: !warningMsg }">{{ warningMsg }}</div>
@@ -118,7 +118,7 @@ export default {
   methods: {
     async submit() {
       const {
-        email, password, confirm, playerName, nickname, captcha,
+        email, password, confirm, playerName, nickname,
       } = this
 
       if (!email) {
