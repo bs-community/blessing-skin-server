@@ -3,8 +3,9 @@
     <div class="col-xs-12" style="padding-bottom: 5px">
       <vue-recaptcha
         ref="recaptcha"
+        :size="invisible ? 'invisible' : ''"
         :sitekey="recaptcha"
-        @verify="$emit('change', $event)"
+        @verify="onVerify"
       />
     </div>
   </div>
@@ -13,10 +14,10 @@
       <div class="form-group has-feedback">
         <input
           ref="captcha"
+          v-model="value"
           type="text"
           class="form-control"
           :placeholder="$t('auth.captcha')"
-          @input="$emit('change', $event.target.value)"
         >
       </div>
     </div>
@@ -50,11 +51,26 @@ export default {
   },
   data() {
     return {
+      value: '',
       time: Date.now(),
       recaptcha: blessing.extra.recaptcha,
+      invisible: blessing.extra.invisible,
     }
   },
   methods: {
+    execute() {
+      return new Promise(resolve => {
+        if (this.invisible) {
+          this.$refs.recaptcha.$once('verify', resolve)
+          this.$refs.recaptcha.execute()
+        } else {
+          resolve(this.value)
+        }
+      })
+    },
+    onVerify(response) {
+      this.value = response
+    },
     refreshCaptcha() {
       if (this.recaptcha) {
         this.$refs.recaptcha.reset()

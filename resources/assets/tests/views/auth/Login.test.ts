@@ -5,6 +5,16 @@ import { swal } from '@/js/notify'
 
 jest.mock('@/js/notify')
 
+const Captcha = Vue.extend({
+  methods: {
+    execute() {
+      return Promise.resolve('a')
+    },
+    refreshCaptcha() { /* */ },
+  },
+  template: '<img>',
+})
+
 test('show captcha if too many login fails', () => {
   window.blessing.extra = { tooManyFails: true }
   const wrapper = mount(Login)
@@ -17,22 +27,22 @@ test('login', async () => {
     .mockResolvedValueOnce({ errno: 1, msg: 'fail' })
     .mockResolvedValueOnce({ errno: 1, login_fails: 4 })
     .mockResolvedValueOnce({ errno: 0, msg: 'ok' })
-  const wrapper = mount(Login)
-  const button = wrapper.find('button')
+  const wrapper = mount(Login, { stubs: { Captcha } })
+  const form = wrapper.find('form')
   const info = wrapper.find('.callout-info')
   const warning = wrapper.find('.callout-warning')
 
-  button.trigger('click')
+  form.trigger('submit')
   expect(Vue.prototype.$http.post).not.toBeCalled()
   expect(info.text()).toBe('auth.emptyIdentification')
 
   wrapper.find('[type="email"]').setValue('a@b.c')
-  button.trigger('click')
+  form.trigger('submit')
   expect(Vue.prototype.$http.post).not.toBeCalled()
   expect(info.text()).toBe('auth.emptyPassword')
 
   wrapper.find('[type="password"]').setValue('123')
-  button.trigger('click')
+  form.trigger('submit')
   await wrapper.vm.$nextTick()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/auth/login',
@@ -42,14 +52,14 @@ test('login', async () => {
   )
   expect(warning.text()).toBe('fail')
 
-  button.trigger('click')
+  form.trigger('submit')
   await wrapper.vm.$nextTick()
   expect(swal).toBeCalledWith({ type: 'error', text: 'auth.tooManyFails' })
   expect(wrapper.find('img').exists()).toBeTrue()
 
-  wrapper.find('[type="text"]').setValue('a')
   wrapper.find('[type="checkbox"]').setChecked()
-  button.trigger('click')
+  form.trigger('submit')
+  await wrapper.vm.$nextTick()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/auth/login',
     {

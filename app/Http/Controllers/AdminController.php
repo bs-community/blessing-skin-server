@@ -236,6 +236,7 @@ class AdminController extends Controller
         $recaptcha = Option::form('recaptcha', 'reCAPTCHA', function ($form) {
             $form->text('recaptcha_sitekey', 'sitekey');
             $form->text('recaptcha_secretkey', 'secretkey');
+            $form->checkbox('recaptcha_invisible')->label();
         })->handle();
 
         return view('admin.options')

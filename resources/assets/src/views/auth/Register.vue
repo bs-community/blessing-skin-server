@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.prevent="submit">
     <div class="form-group has-feedback">
       <input
         ref="email"
@@ -80,7 +80,7 @@
         <button
           v-else
           class="btn btn-primary btn-block btn-flat"
-          @click.prevent="submit"
+          type="submit"
         >
           {{ $t('auth.register-button') }}
         </button>
@@ -92,16 +92,12 @@
 <script>
 import { swal } from '../../js/notify'
 import Captcha from '../../components/Captcha.vue'
-import updateCaptcha from '../../components/mixins/updateCaptcha'
 
 export default {
   name: 'Register',
   components: {
     Captcha,
   },
-  mixins: [
-    updateCaptcha,
-  ],
   props: {
     baseUrl: {
       type: String,
@@ -114,7 +110,6 @@ export default {
     confirm: '',
     nickname: '',
     playerName: '',
-    captcha: '',
     infoMsg: '',
     warningMsg: '',
     pending: false,
@@ -174,7 +169,7 @@ export default {
         Object.assign({
           email,
           password,
-          captcha,
+          captcha: await this.$refs.captcha.execute(),
         }, this.requirePlayer ? { player_name: playerName } : { nickname })
       )
       if (errno === 0) {

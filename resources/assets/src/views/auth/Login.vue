@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.prevent="login">
     <div class="form-group has-feedback">
       <input
         ref="identification"
@@ -21,7 +21,7 @@
       <span class="glyphicon glyphicon-lock form-control-feedback" />
     </div>
 
-    <captcha v-if="tooManyFails" ref="captcha" @change="updateCaptcha" />
+    <captcha v-if="tooManyFails" ref="captcha" />
 
     <div class="callout callout-info" :class="{ hide: !infoMsg }">{{ infoMsg }}</div>
     <div class="callout callout-warning" :class="{ hide: !warningMsg }">{{ warningMsg }}</div>
@@ -47,7 +47,7 @@
         <button
           v-else
           class="btn btn-primary btn-block btn-flat"
-          @click.prevent="login"
+          type="submit"
         >
           {{ $t('auth.login') }}
         </button>
@@ -59,16 +59,12 @@
 <script>
 import { swal } from '../../js/notify'
 import Captcha from '../../components/Captcha.vue'
-import updateCaptcha from '../../components/mixins/updateCaptcha'
 
 export default {
   name: 'Login',
   components: {
     Captcha,
   },
-  mixins: [
-    updateCaptcha,
-  ],
   props: {
     baseUrl: {
       type: String,
@@ -79,7 +75,6 @@ export default {
     return {
       identification: '',
       password: '',
-      captcha: '',
       remember: false,
       tooManyFails: blessing.extra.tooManyFails,
       infoMsg: '',
@@ -90,7 +85,7 @@ export default {
   methods: {
     async login() {
       const {
-        identification, password, captcha, remember,
+        identification, password, remember,
       } = this
 
       if (!identification) {
@@ -114,7 +109,9 @@ export default {
           identification,
           password,
           keep: remember,
-          captcha: this.tooManyFails ? captcha : undefined,
+          captcha: this.tooManyFails
+            ? await this.$refs.captcha.execute()
+            : void 0,
         }
       )
       if (errno === 0) {

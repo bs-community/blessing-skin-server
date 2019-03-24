@@ -2,10 +2,20 @@ import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import Register from '@/views/auth/Register.vue'
 import { swal } from '@/js/notify'
+import { flushPromises } from '../../utils'
 
 jest.mock('@/js/notify')
 
 window.blessing.extra = { player: false }
+
+const Captcha = Vue.extend({
+  methods: {
+    execute() {
+      return Promise.resolve('captcha')
+    },
+    refreshCaptcha() { /* */ },
+  },
+})
 
 test('require player name', () => {
   window.blessing.extra = { player: true }
@@ -22,54 +32,52 @@ test('register', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: 'fail' })
     .mockResolvedValueOnce({ errno: 0, msg: 'ok' })
-  const wrapper = mount(Register)
-  const button = wrapper.find('button')
+  const wrapper = mount(Register, { stubs: { Captcha } })
+  const form = wrapper.find('form')
   const info = wrapper.find('.callout-info')
   const warning = wrapper.find('.callout-warning')
 
-  button.trigger('click')
+  form.trigger('submit')
   expect(Vue.prototype.$http.post).not.toBeCalled()
   expect(info.text()).toBe('auth.emptyEmail')
 
   wrapper.find('[type="email"]').setValue('a')
-  button.trigger('click')
+  form.trigger('submit')
   expect(Vue.prototype.$http.post).not.toBeCalled()
   expect(info.text()).toBe('auth.invalidEmail')
 
   wrapper.find('[type="email"]').setValue('a@b.c')
-  button.trigger('click')
+  form.trigger('submit')
   expect(Vue.prototype.$http.post).not.toBeCalled()
   expect(info.text()).toBe('auth.emptyPassword')
 
   wrapper.findAll('[type="password"]').at(0)
     .setValue('123456')
-  button.trigger('click')
+  form.trigger('submit')
   expect(Vue.prototype.$http.post).not.toBeCalled()
   expect(info.text()).toBe('auth.invalidPassword')
 
   wrapper.findAll('[type="password"]').at(0)
     .setValue('12345678')
-  button.trigger('click')
+  form.trigger('submit')
   expect(Vue.prototype.$http.post).not.toBeCalled()
   expect(info.text()).toBe('auth.invalidConfirmPwd')
 
   wrapper.findAll('[type="password"]').at(1)
     .setValue('123456')
-  button.trigger('click')
+  form.trigger('submit')
   expect(Vue.prototype.$http.post).not.toBeCalled()
   expect(info.text()).toBe('auth.invalidConfirmPwd')
 
   wrapper.findAll('[type="password"]').at(1)
     .setValue('12345678')
-  button.trigger('click')
+  form.trigger('submit')
   expect(Vue.prototype.$http.post).not.toBeCalled()
   expect(info.text()).toBe('auth.emptyNickname')
 
   wrapper.findAll('[type="text"]').at(0)
     .setValue('abc')
-  wrapper.findAll('[type="text"]').at(1)
-    .setValue('captcha')
-  button.trigger('click')
+  form.trigger('submit')
   await wrapper.vm.$nextTick()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/auth/register',
@@ -80,11 +88,11 @@ test('register', async () => {
       captcha: 'captcha',
     }
   )
-  expect(warning.text()).toBe('fail')
-  expect(Date.now).toBeCalledTimes(2)
-
-  button.trigger('click')
   await wrapper.vm.$nextTick()
+  expect(warning.text()).toBe('fail')
+
+  form.trigger('submit')
+  await flushPromises()
   jest.runAllTimers()
   expect(swal).toBeCalledWith({ type: 'success', text: 'ok' })
 })
@@ -92,24 +100,22 @@ test('register', async () => {
 test('register with player name', async () => {
   window.blessing.extra = { player: true }
   Vue.prototype.$http.post.mockResolvedValue({ errno: 0, msg: 'ok' })
-  const wrapper = mount(Register)
-  const button = wrapper.find('button')
+  const wrapper = mount(Register, { stubs: { Captcha } })
+  const form = wrapper.find('form')
   const info = wrapper.find('.callout-info')
   wrapper.find('[type="email"]').setValue('a@b.c')
   wrapper.findAll('[type="password"]').at(0)
     .setValue('12345678')
   wrapper.findAll('[type="password"]').at(1)
     .setValue('12345678')
-  wrapper.findAll('[type="text"]').at(1)
-    .setValue('captcha')
 
-  button.trigger('click')
+  form.trigger('submit')
   expect(Vue.prototype.$http.post).not.toBeCalled()
   expect(info.text()).toBe('auth.emptyPlayerName')
 
   wrapper.findAll('[type="text"]').at(0)
     .setValue('abc')
-  button.trigger('click')
+  form.trigger('submit')
   await wrapper.vm.$nextTick()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/auth/register',

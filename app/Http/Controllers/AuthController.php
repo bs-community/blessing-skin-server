@@ -88,6 +88,7 @@ class AuthController extends Controller
                 'extra' => [
                     'player' => option('register_with_player_name'),
                     'recaptcha' => option('recaptcha_sitekey'),
+                    'invisible' => (bool) option('recaptcha_invisible'),
                 ]
             ]);
         } else {

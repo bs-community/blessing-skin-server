@@ -146,6 +146,11 @@ meta:
   meta_extras:
     title: 其它自定义 <meta> 标签
 
+recaptcha:
+  recaptcha_invisible:
+    title: 隐藏
+    label: 开启隐藏式人机验证模式
+
 res-warning: 本页面仅供高级用户使用。如果您不清楚这些设置的含义，请不要随意修改它们！
 
 resources:

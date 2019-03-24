@@ -146,6 +146,11 @@ meta:
   meta_extras:
     title: Other Custom <meta> Tags
 
+recaptcha:
+  recaptcha_invisible:
+    title: Invisible
+    label: Enable Invisible Mode
+
 res-warning: This page is ONLY for advanced users. If you aren't familiar with these, please don't modify them!
 
 resources:

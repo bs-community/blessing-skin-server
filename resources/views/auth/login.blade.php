@@ -24,13 +24,17 @@
 </div>
 <!-- /.login-box -->
 @include('common.recaptcha')
+@php
+$extra = [
+    'tooManyFails' => cache(sha1('login_fails_'.get_client_ip())) > 3,
+    'recaptcha' => option('recaptcha_sitekey'),
+    'invisible' => (bool) option('recaptcha_invisible'),
+];
+@endphp
 <script>
 Object.defineProperty(blessing, 'extra', {
     configurable: false,
-    get: () => Object.freeze(@json([
-        'tooManyFails' => cache(sha1('login_fails_'.get_client_ip())) > 3,
-        'recaptcha' => option('recaptcha_sitekey'),
-    ]))
+    get: () => Object.freeze(@json($extra))
 })
 </script>
 
