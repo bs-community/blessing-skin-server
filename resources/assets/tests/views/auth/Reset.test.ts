@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import Reset from '@/views/auth/Reset.vue'
-import { swal } from '@/js/notify'
-
-jest.mock('@/js/notify')
 
 test('reset password', async () => {
   Vue.prototype.$http.post
@@ -52,5 +49,5 @@ test('reset password', async () => {
 
   button.trigger('click')
   await wrapper.vm.$nextTick()
-  expect(swal).toBeCalledWith({ type: 'success', text: 'ok' })
+  expect(Vue.prototype.$message.success).toBeCalledWith('ok')
 })

@@ -1,12 +1,8 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import SkinLibItem from '@/components/SkinLibItem.vue'
-import toastr from 'toastr'
+import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../utils'
-import { swal } from '@/js/notify'
-
-jest.mock('@/js/notify')
-jest.mock('toastr')
 
 test('urls', () => {
   const wrapper = mount(SkinLibItem, {
@@ -64,7 +60,7 @@ test('liked state', () => {
 
 test('remove from closet', async () => {
   Vue.prototype.$http.post.mockResolvedValue({ errno: 0 })
-  swal.mockResolvedValue({})
+  Vue.prototype.$confirm.mockResolvedValue('confirm')
   const wrapper = mount(SkinLibItem, {
     propsData: {
       tid: 1, liked: true, anonymous: false,
@@ -79,15 +75,15 @@ test('add to closet', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
     .mockResolvedValue({ errno: 0 })
-  swal.mockImplementationOnce(() => Promise.resolve({ dismiss: 1 }))
-    .mockImplementation(({ inputValidator }) => {
+  Vue.prototype.$prompt
+    .mockImplementationOnce(() => Promise.reject())
+    .mockImplementation((_, { inputValidator }) => {
       if (inputValidator) {
         inputValidator('')
         inputValidator('name')
       }
-      return Promise.resolve({ value: 'name' })
+      return Promise.resolve({ value: 'name' } as MessageBoxData)
     })
-  jest.spyOn(toastr, 'warning')
   const wrapper = mount(SkinLibItem, {
     propsData: {
       tid: 1, liked: false, anonymous: false,
@@ -104,7 +100,7 @@ test('add to closet', async () => {
     '/user/closet/add',
     { tid: 1, name: 'name' }
   )
-  expect(toastr.warning).toBeCalledWith('1')
+  expect(Vue.prototype.$message.warning).toBeCalledWith('1')
 
   button.trigger('click')
   await flushPromises()

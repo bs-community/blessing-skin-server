@@ -3,11 +3,6 @@ import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import Upload from '@/views/skinlib/Upload.vue'
 import { flushPromises } from '../../utils'
-import toastr from 'toastr'
-import { swal } from '@/js/notify'
-
-jest.mock('toastr')
-jest.mock('@/js/notify')
 
 window.blessing.extra = {
   textureNameRule: 'rule',
@@ -122,8 +117,6 @@ test('upload file', async () => {
     .mockResolvedValueOnce({
       errno: 0, msg: '0', tid: 1,
     })
-  jest.spyOn(toastr, 'info')
-  swal.mockReturnValue(Promise.resolve({}))
 
   const wrapper = mount(Upload, {
     stubs: ['file-upload'],
@@ -132,7 +125,7 @@ test('upload file', async () => {
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
-  expect(toastr.info).toBeCalledWith('skinlib.emptyUploadFile')
+  expect(Vue.prototype.$message.error).toBeCalledWith('skinlib.emptyUploadFile')
 
   wrapper.setData({
     files: [{
@@ -141,12 +134,12 @@ test('upload file', async () => {
   })
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
-  expect(toastr.info).toBeCalledWith('skinlib.emptyTextureName')
+  expect(Vue.prototype.$message.error).toBeCalledWith('skinlib.emptyTextureName')
 
   wrapper.find('[type=text]').setValue('t')
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
-  expect(toastr.info).toBeCalledWith('skinlib.fileExtError')
+  expect(Vue.prototype.$message.error).toBeCalledWith('skinlib.fileExtError')
 
   wrapper.setData({
     files: [{
@@ -156,13 +149,12 @@ test('upload file', async () => {
   button.trigger('click')
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith('/skinlib/upload', expect.any(FormData))
-  expect(swal).toBeCalledWith({ type: 'warning', text: '1' })
+  expect(Vue.prototype.$message.error).toBeCalledWith('1')
 
   button.trigger('click')
   await flushPromises()
   jest.runAllTimers()
-  expect(swal).toBeCalledWith({ type: 'success', text: '0' })
-  expect(toastr.info).toBeCalledWith('skinlib.redirecting')
+  expect(Vue.prototype.$message.success).toBeCalledWith('0')
 })
 
 test('show notice about awarding', () => {

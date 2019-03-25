@@ -139,8 +139,6 @@
 </template>
 
 <script>
-import toastr from 'toastr'
-import { swal } from '../../js/notify'
 import setAsAvatar from '../../components/mixins/setAsAvatar'
 import addClosetItem from '../../components/mixins/addClosetItem'
 import removeClosetItem from '../../components/mixins/removeClosetItem'
@@ -220,14 +218,13 @@ export default {
       await this.removeClosetItem()
     },
     async changeTextureName() {
-      const { dismiss, value } = await swal({
-        text: this.$t('skinlib.setNewTextureName'),
-        input: 'text',
-        inputValue: this.name,
-        showCancelButton: true,
-        inputValidator: name => !name && this.$t('skinlib.emptyNewTextureName'),
-      })
-      if (dismiss) {
+      let value
+      try {
+        ({ value } = await this.$prompt(this.$t('skinlib.setNewTextureName'), {
+          inputValue: this.name,
+          inputValidator: name => !!name || this.$t('skinlib.emptyNewTextureName'),
+        }))
+      } catch {
         return
       }
 
@@ -237,27 +234,30 @@ export default {
       )
       if (errno === 0) {
         this.name = value
-        toastr.success(msg)
+        this.$message.success(msg)
       } else {
-        toastr.warning(msg)
+        this.$message.error(msg)
       }
     },
     async changeModel() {
-      const { dismiss, value } = await swal({
-        text: this.$t('skinlib.setNewTextureModel'),
-        input: 'select',
-        inputValue: this.type,
-        inputOptions: {
-          steve: 'Steve',
-          alex: 'Alex',
-          cape: this.$t('general.cape'),
-        },
-        showCancelButton: true,
-        inputClass: 'form-control',
-      })
-      if (dismiss) {
+      const h = this.$createElement
+      const vnode = h('div', null, [
+        h('span', null, this.$t('skinlib.setNewTextureModel')),
+        h('select', { attrs: { selectedIndex: 0 } }, [
+          h('option', { attrs: { value: 'steve' } }, 'Steve'),
+          h('option', { attrs: { value: 'alex' } }, 'Alex'),
+          h('option', { attrs: { value: 'cape' } }, this.$t('general.cape')),
+        ]),
+      ])
+      try {
+        await this.$msgbox({
+          message: vnode,
+          showCancelButton: true,
+        })
+      } catch {
         return
       }
+      const value = ['steve', 'alex', 'cape'][vnode.children[1].elm.selectedIndex]
 
       const { errno, msg } = await this.$http.post(
         '/skinlib/model',
@@ -265,20 +265,20 @@ export default {
       )
       if (errno === 0) {
         this.type = value
-        toastr.success(msg)
+        this.$message.success(msg)
       } else {
-        toastr.warning(msg)
+        this.$message.warning(msg)
       }
     },
     async togglePrivacy() {
-      const { dismiss } = await swal({
-        text: this.public
-          ? this.$t('skinlib.setPrivateNotice')
-          : this.$t('skinlib.setPublicNotice'),
-        type: 'warning',
-        showCancelButton: true,
-      })
-      if (dismiss) {
+      try {
+        await this.$confirm(
+          this.public
+            ? this.$t('skinlib.setPrivateNotice')
+            : this.$t('skinlib.setPublicNotice'),
+          { type: 'warning' }
+        )
+      } catch {
         return
       }
 
@@ -287,19 +287,19 @@ export default {
         { tid: this.tid }
       )
       if (errno === 0) {
-        toastr.success(msg)
+        this.$message.success(msg)
         this.public = !this.public
       } else {
-        toastr.warning(msg)
+        this.$message.warning(msg)
       }
     },
     async deleteTexture() {
-      const { dismiss } = await swal({
-        text: this.$t('skinlib.deleteNotice'),
-        type: 'warning',
-        showCancelButton: true,
-      })
-      if (dismiss) {
+      try {
+        await this.$confirm(
+          this.$t('skinlib.deleteNotice'),
+          { type: 'warning' }
+        )
+      } catch {
         return
       }
 
@@ -308,10 +308,10 @@ export default {
         { tid: this.tid }
       )
       if (errno === 0) {
-        await swal({ type: 'success', text: msg })
-        window.location = `${this.baseUrl}/skinlib`
+        this.$message.success(msg)
+        setTimeout(() => (window.location = `${this.baseUrl}/skinlib`), 1000)
       } else {
-        swal({ type: 'warning', text: msg })
+        this.$message.warning(msg)
       }
     },
   },

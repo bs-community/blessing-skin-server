@@ -1,10 +1,8 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
+import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../utils'
 import ClosetItem from '@/components/ClosetItem.vue'
-import { swal } from '@/js/notify'
-
-jest.mock('@/js/notify')
 
 function factory(opt = {}) {
   return {
@@ -40,13 +38,13 @@ test('rename texture', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 0 })
     .mockResolvedValueOnce({ errno: 1 })
-  swal.mockImplementationOnce(() => Promise.resolve({ dismiss: 1 }))
-    .mockImplementation(options => {
+  Vue.prototype.$prompt.mockImplementationOnce(() => Promise.reject(new Error()))
+    .mockImplementation((_, options) => {
       if (options.inputValidator) {
         options.inputValidator('name')
         options.inputValidator('')
       }
-      return Promise.resolve({ value: 'new-name' })
+      return Promise.resolve({ value: 'new-name' } as MessageBoxData)
     })
   const wrapper = mount(ClosetItem, { propsData: factory() })
   const button = wrapper.findAll('.dropdown-menu > li').at(0)
@@ -72,9 +70,9 @@ test('remove texture', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 0 })
     .mockResolvedValueOnce({ errno: 1 })
-  swal
-    .mockResolvedValueOnce({ dismiss: 1 })
-    .mockResolvedValue({})
+  Vue.prototype.$confirm
+    .mockRejectedValueOnce({})
+    .mockResolvedValue('confirm')
 
   const wrapper = mount(ClosetItem, { propsData: factory() })
   const button = wrapper.findAll('.dropdown-menu > li').at(1)
@@ -97,9 +95,9 @@ test('set as avatar', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 0 })
     .mockResolvedValueOnce({ errno: 1 })
-  swal
-    .mockResolvedValueOnce({ dismiss: 1 })
-    .mockResolvedValue({})
+  Vue.prototype.$confirm
+    .mockRejectedValueOnce({})
+    .mockResolvedValue('confirm')
 
   const wrapper = mount(ClosetItem, { propsData: factory() })
   const button = wrapper.findAll('.dropdown-menu > li').at(2)

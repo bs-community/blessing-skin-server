@@ -33,8 +33,6 @@
 </template>
 
 <script>
-import toastr from 'toastr'
-
 export default {
   name: 'Customization',
   data() {
@@ -52,7 +50,7 @@ export default {
       const { msg } = await this.$http.post('/admin/customize?action=color', {
         color_scheme: this.currentSkin,
       })
-      toastr.success(msg)
+      this.$message.success(msg)
     },
   },
 }

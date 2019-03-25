@@ -13,6 +13,7 @@ module.exports = api => ({
         helpers: true,
         regenerator: true,
       }],
+      '@babel/plugin-proposal-optional-catch-binding',
     ],
   },
   development: {
@@ -24,6 +25,7 @@ module.exports = api => ({
     ],
     plugins: [
       '@babel/plugin-syntax-dynamic-import',
+      '@babel/plugin-proposal-optional-catch-binding',
     ],
   },
   test: {
@@ -35,6 +37,7 @@ module.exports = api => ({
     ],
     plugins: [
       'babel-plugin-dynamic-import-node',
+      '@babel/plugin-proposal-optional-catch-binding',
     ],
   },
 })[api.env()]

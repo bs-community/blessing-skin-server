@@ -2,10 +2,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import Dashboard from '@/views/user/Dashboard.vue'
-import toastr from 'toastr'
-import { swal } from '@/js/notify'
-
-jest.mock('@/js/notify')
 
 window.blessing.extra = { unverified: false }
 
@@ -124,8 +120,6 @@ test('remaining time', async () => {
 })
 
 test('sign', async () => {
-  jest.spyOn(toastr, 'warning')
-  swal.mockResolvedValue({})
   Vue.prototype.$http.get.mockResolvedValue(scoreInfo({
     user: { lastSignAt: Date.now() - 30 * 3600 * 1000 },
   }))
@@ -143,7 +137,7 @@ test('sign', async () => {
   button.trigger('click')
   await wrapper.vm.$nextTick()
   expect(Vue.prototype.$http.post).toBeCalledWith('/user/sign')
-  expect(toastr.warning).toBeCalledWith('1')
+  expect(Vue.prototype.$message.warning).toBeCalledWith('1')
 
   button.trigger('click')
   await wrapper.vm.$nextTick()

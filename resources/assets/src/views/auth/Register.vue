@@ -90,7 +90,6 @@
 </template>
 
 <script>
-import { swal } from '../../js/notify'
 import Captcha from '../../components/Captcha.vue'
 
 export default {
@@ -173,7 +172,7 @@ export default {
         }, this.requirePlayer ? { player_name: playerName } : { nickname })
       )
       if (errno === 0) {
-        swal({ type: 'success', text: msg })
+        this.$message.success(msg)
         setTimeout(() => {
           window.location = `${blessing.base_url}/user`
         }, 1000)

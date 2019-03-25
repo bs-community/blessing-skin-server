@@ -1,7 +1,5 @@
 /* eslint-disable max-params */
 import $ from 'jquery'
-import Swal from 'sweetalert2'
-import toastr from 'toastr'
 import { ModalOptions } from '../shims'
 import { trans } from './i18n'
 
@@ -49,14 +47,4 @@ export function showModal(
     .modal(options)
 }
 
-const swalInstance = Swal.mixin({
-  confirmButtonText: trans('general.confirm'),
-  cancelButtonText: trans('general.cancel'),
-})
-
-export function swal(options: import('sweetalert2').SweetAlertOptions) {
-  return swalInstance.fire(options)
-}
-
-Object.assign(window, { toastr, swal })
 Object.assign(blessing, { notify: { showModal } })

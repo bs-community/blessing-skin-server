@@ -37,8 +37,6 @@
 </template>
 
 <script>
-import { swal } from '../../js/notify'
-
 export default {
   name: 'BindPlayer',
   data() {
@@ -66,7 +64,7 @@ export default {
       )
       this.pending = false
       if (errno === 0) {
-        await swal({ text: msg, type: 'success' })
+        await this.$alert({ message: msg, type: 'success' })
         window.location.href = `${blessing.base_url}/user`
       } else {
         this.message = msg

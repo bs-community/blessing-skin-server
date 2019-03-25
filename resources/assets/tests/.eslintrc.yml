@@ -5,3 +5,4 @@ rules:
   no-empty-function: 0
   func-names: 0
   no-extra-parens: 0
+  prefer-promise-reject-errors: 0

@@ -3,10 +3,6 @@ import { mount } from '@vue/test-utils'
 import Closet from '@/views/user/Closet.vue'
 import ClosetItem from '@/components/ClosetItem.vue'
 import Previewer from '@/components/Previewer.vue'
-import toastr from 'toastr'
-import { swal } from '@/js/notify'
-
-jest.mock('@/js/notify')
 
 window.blessing.extra = { unverified: false }
 
@@ -216,7 +212,6 @@ test('apply texture', async () => {
 
 test('submit applying texture', async () => {
   window.$ = jest.fn(() => ({ modal() {} }))
-  jest.spyOn(toastr, 'info')
   Vue.prototype.$http.get.mockResolvedValue({})
   Vue.prototype.$http.post.mockResolvedValueOnce({ errno: 1 })
     .mockResolvedValue({ errno: 0, msg: 'ok' })
@@ -224,11 +219,11 @@ test('submit applying texture', async () => {
   const button = wrapper.find('.modal-footer > a:nth-child(2)')
 
   button.trigger('click')
-  expect(toastr.info).toBeCalledWith('user.emptySelectedPlayer')
+  expect(Vue.prototype.$message.info).toBeCalledWith('user.emptySelectedPlayer')
 
   wrapper.setData({ selectedPlayer: 1 })
   button.trigger('click')
-  expect(toastr.info).toBeCalledWith('user.emptySelectedTexture')
+  expect(Vue.prototype.$message.info).toBeCalledWith('user.emptySelectedTexture')
 
   wrapper.setData({ selectedSkin: 1 })
   button.trigger('click')
@@ -255,7 +250,7 @@ test('submit applying texture', async () => {
     }
   )
   await wrapper.vm.$nextTick()
-  expect(swal).toBeCalledWith({ type: 'success', text: 'ok' })
+  expect(Vue.prototype.$message.success).toBeCalledWith('ok')
 })
 
 test('reset selected texture', () => {

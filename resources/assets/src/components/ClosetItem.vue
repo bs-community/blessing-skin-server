@@ -33,8 +33,6 @@
 </template>
 
 <script>
-import toastr from 'toastr'
-import { swal } from '../js/notify'
 import setAsAvatar from './mixins/setAsAvatar'
 import removeClosetItem from './mixins/removeClosetItem'
 
@@ -74,14 +72,17 @@ export default {
   },
   methods: {
     async rename() {
-      const { value: newTextureName, dismiss } = await swal({
-        title: this.$t('user.renameClosetItem'),
-        input: 'text',
-        inputValue: this.textureName,
-        showCancelButton: true,
-        inputValidator: value => !value && this.$t('skinlib.emptyNewTextureName'),
-      })
-      if (dismiss) {
+      let newTextureName
+      try {
+        ({ value: newTextureName } = await this.$prompt(
+          this.$t('user.renameClosetItem'),
+          {
+            inputValue: this.textureName,
+            showCancelButton: true,
+            inputValidator: value => !!value || this.$t('skinlib.emptyNewTextureName'),
+          }
+        ))
+      } catch {
         return
       }
 
@@ -91,9 +92,9 @@ export default {
       )
       if (errno === 0) {
         this.textureName = newTextureName
-        toastr.success(msg)
+        this.$message.success(msg)
       } else {
-        toastr.warning(msg)
+        this.$message.warning(msg)
       }
     },
   },

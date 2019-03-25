@@ -1,12 +1,10 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import Users from '@/views/admin/Users.vue'
-import toastr from 'toastr'
-import { swal } from '@/js/notify'
 import '@/js/i18n'
+import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../../utils'
 
-jest.mock('@/js/notify')
 jest.mock('@/js/i18n', () => ({
   trans: (key: string) => key,
 }))
@@ -238,13 +236,14 @@ test('change email', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
     .mockResolvedValueOnce({ errno: 0, msg: '0' })
-  swal.mockImplementationOnce(() => Promise.resolve({ dismiss: 1 }))
-    .mockImplementation(options => {
+  Vue.prototype.$prompt
+    .mockImplementationOnce(() => Promise.reject())
+    .mockImplementation((_, options) => {
       if (options.inputValidator) {
         options.inputValidator('')
         options.inputValidator('value')
       }
-      return Promise.resolve({ value: 'd@e.f' })
+      return Promise.resolve({ value: 'd@e.f' } as MessageBoxData)
     })
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
@@ -300,13 +299,14 @@ test('change nickname', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
     .mockResolvedValueOnce({ errno: 0, msg: '0' })
-  swal.mockImplementationOnce(() => Promise.resolve({ dismiss: 1 }))
-    .mockImplementation(options => {
+  Vue.prototype.$prompt
+    .mockImplementationOnce(() => Promise.reject())
+    .mockImplementation((_, options) => {
       if (options.inputValidator) {
         options.inputValidator('')
         options.inputValidator('value')
       }
-      return Promise.resolve({ value: 'new' })
+      return Promise.resolve({ value: 'new' } as MessageBoxData)
     })
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
@@ -329,8 +329,6 @@ test('change nickname', async () => {
 })
 
 test('change password', async () => {
-  jest.spyOn(toastr, 'success')
-  jest.spyOn(toastr, 'warning')
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
       { uid: 1 },
@@ -339,8 +337,9 @@ test('change password', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 0, msg: '0' })
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
-  swal.mockResolvedValueOnce({ dismiss: 1 })
-    .mockResolvedValue({ value: 'password' })
+  Vue.prototype.$prompt
+    .mockRejectedValueOnce('')
+    .mockResolvedValue({ value: 'password' }as MessageBoxData)
 
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
@@ -356,12 +355,12 @@ test('change password', async () => {
     { uid: 1, password: 'password' }
   )
   await flushPromises()
-  expect(toastr.success).toBeCalledWith('0')
+  expect(Vue.prototype.$message.success).toBeCalledWith('0')
 
 
   button.trigger('click')
   await flushPromises()
-  expect(toastr.warning).toBeCalledWith('1')
+  expect(Vue.prototype.$message.warning).toBeCalledWith('1')
 })
 
 test('change score', async () => {
@@ -373,8 +372,9 @@ test('change score', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
     .mockResolvedValueOnce({ errno: 0, msg: '0' })
-  swal.mockResolvedValueOnce({ dismiss: 1 })
-    .mockResolvedValue({ value: '45' })
+  Vue.prototype.$prompt
+    .mockRejectedValueOnce('')
+    .mockResolvedValue({ value: '45' }as MessageBoxData)
 
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
@@ -415,21 +415,37 @@ test('change permission', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
     .mockResolvedValue({ errno: 0, msg: '0' })
-  swal
-    .mockResolvedValueOnce({ dismiss: 1 })
-    .mockResolvedValueOnce({ value: 1 })
-    .mockResolvedValueOnce({ value: -1 })
+  Vue.prototype.$msgbox
+    .mockImplementationOnce(() => Promise.reject())
+    .mockImplementationOnce(options => {
+      if (options.message) {
+        const vnode = options.message as Vue.VNode
+        const elm = document.createElement('select')
+        elm.appendChild(document.createElement('option'))
+        elm.appendChild(document.createElement('option'))
+        elm.appendChild(document.createElement('option'))
+        elm.selectedIndex = 2
+        ;(vnode.children as Vue.VNode[])[1].elm = elm
+      }
+      return Promise.resolve({} as MessageBoxData)
+    })
+    .mockImplementation(options => {
+      if (options.message) {
+        const vnode = options.message as Vue.VNode
+        const elm = document.createElement('select')
+        elm.appendChild(document.createElement('option'))
+        elm.appendChild(document.createElement('option'))
+        elm.selectedIndex = 0
+        ;(vnode.children as Vue.VNode[])[1].elm = elm
+      }
+      return Promise.resolve({} as MessageBoxData)
+    })
 
   let wrapper = mount(Users)
   await wrapper.vm.$nextTick()
   let button = wrapper.find('[data-test=permission]')
 
   button.trigger('click')
-  expect(swal.mock.calls[0][0].inputOptions).toStrictEqual({
-    '-1': 'admin.banned',
-    0: 'admin.normal',
-    1: 'admin.admin',
-  })
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   button.trigger('click')
@@ -445,10 +461,6 @@ test('change permission', async () => {
   button = wrapper.find('[data-test=permission]')
 
   button.trigger('click')
-  expect(swal.mock.calls[2][0].inputOptions).toStrictEqual({
-    '-1': 'admin.banned',
-    0: 'admin.normal',
-  })
   await flushPromises()
   expect(wrapper.text()).toContain('admin.banned')
 })
@@ -462,8 +474,9 @@ test('delete user', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
     .mockResolvedValue({ errno: 0, msg: '0' })
-  swal.mockResolvedValueOnce({ dismiss: 1 })
-    .mockResolvedValue({})
+  Vue.prototype.$confirm
+    .mockRejectedValueOnce('')
+    .mockResolvedValue('confirm')
 
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()

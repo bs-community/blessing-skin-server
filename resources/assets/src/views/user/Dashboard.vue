@@ -65,8 +65,6 @@
 </template>
 
 <script>
-import toastr from 'toastr'
-import { swal } from '../../js/notify'
 import EmailVerification from '../../components/EmailVerification.vue'
 
 const ONE_DAY = 24 * 3600 * 1000
@@ -138,14 +136,13 @@ export default {
       const result = await this.$http.post('/user/sign')
 
       if (result.errno === 0) {
-        swal({ type: 'success', text: result.msg })
-
+        this.$message.success(result.msg)
         this.score = result.score
         this.lastSignAt = new Date()
         this.storageUsed = result.storage.used
         this.storageTotal = result.storage.total
       } else {
-        toastr.warning(result.msg)
+        this.$message.warning(result.msg)
       }
     },
   },

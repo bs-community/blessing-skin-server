@@ -2,9 +2,6 @@ import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import Market from '@/views/admin/Market.vue'
 import { flushPromises } from '../../utils'
-import { swal } from '@/js/notify'
-
-jest.mock('@/js/notify')
 
 test('render dependencies', async () => {
   Vue.prototype.$http.get.mockResolvedValue([
@@ -85,8 +82,9 @@ test('update plugin', async () => {
   ])
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
-  swal.mockResolvedValueOnce({ dismiss: 1 })
-    .mockResolvedValue({})
+  Vue.prototype.$confirm
+    .mockRejectedValueOnce('')
+    .mockResolvedValue('confirm')
   const wrapper = mount(Market)
   await flushPromises()
   const button = wrapper.find('button')
@@ -117,19 +115,19 @@ test('enable installed plugin', async () => {
       errno: 1, msg: '1', reason: ['`a<div></div>`b'],
     })
     .mockResolvedValue({ errno: 0, msg: '0' })
-  swal.mockResolvedValueOnce({ dismiss: 1 })
-    .mockResolvedValueOnce({})
+  Vue.prototype.$confirm
+    .mockRejectedValueOnce('')
+    .mockResolvedValue('confirm')
   const wrapper = mount(Market)
   await flushPromises()
   const buttons = wrapper.findAll('button')
 
   buttons.at(0).trigger('click')
   await flushPromises()
-  expect(swal).toBeCalledWith({
-    text: 'admin.noDependenciesNotice',
-    type: 'warning',
-    showCancelButton: true,
-  })
+  expect(Vue.prototype.$confirm).toBeCalledWith(
+    'admin.noDependenciesNotice',
+    { type: 'warning' }
+  )
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   buttons.at(0).trigger('click')
@@ -138,10 +136,13 @@ test('enable installed plugin', async () => {
     '/admin/plugins/manage',
     { action: 'enable', name: 'a' }
   )
-  expect(swal).toBeCalledWith({
-    type: 'warning',
-    html: '<p>1</p><ul><li>`a&lt;div&gt;&lt;/div&gt;`b</li></ul>',
-  })
+  expect(Vue.prototype.$alert).toBeCalledWith(
+    '<p>1</p><ul><li>`a&lt;div&gt;&lt;/div&gt;`b</li></ul>',
+    {
+      type: 'warning',
+      dangerouslyUseHTMLString: true,
+    }
+  )
 
   buttons.at(1).trigger('click')
   await flushPromises()

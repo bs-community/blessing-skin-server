@@ -88,9 +88,7 @@
 <script>
 import { VueGoodTable } from 'vue-good-table'
 import 'vue-good-table/dist/vue-good-table.min.css'
-import toastr from 'toastr'
 import { trans } from '../../js/i18n'
-import { swal } from '../../js/notify'
 import tableOptions from '../../components/mixins/tableOptions'
 import serverTable from '../../components/mixins/serverTable'
 
@@ -165,14 +163,13 @@ export default {
       this.users = data
     },
     async changeEmail(user) {
-      const { dismiss, value } = await swal({
-        text: this.$t('admin.newUserEmail'),
-        showCancelButton: true,
-        input: 'email',
-        inputValue: user.email,
-        inputValidator: val => !val && this.$t('auth.emptyEmail'),
-      })
-      if (dismiss) {
+      let value
+      try {
+        ({ value } = await this.$prompt(this.$t('admin.newUserEmail'), {
+          inputValue: user.email,
+          inputValidator: val => !!val || this.$t('auth.emptyEmail'),
+        }))
+      } catch {
         return
       }
 
@@ -182,9 +179,9 @@ export default {
       )
       if (errno === 0) {
         user.email = value
-        toastr.success(msg)
+        this.$message.success(msg)
       } else {
-        toastr.warning(msg)
+        this.$message.warning(msg)
       }
     },
     async toggleVerification(user) {
@@ -194,20 +191,19 @@ export default {
       )
       if (errno === 0) {
         user.verified = !user.verified
-        toastr.success(msg)
+        this.$message.success(msg)
       } else {
-        toastr.warning(msg)
+        this.$message.warning(msg)
       }
     },
     async changeNickName(user) {
-      const { dismiss, value } = await swal({
-        text: this.$t('admin.newUserNickname'),
-        showCancelButton: true,
-        input: 'text',
-        inputValue: user.nickname,
-        inputValidator: val => !val && this.$t('auth.emptyNickname'),
-      })
-      if (dismiss) {
+      let value
+      try {
+        ({ value } = await this.$prompt(this.$t('admin.newUserNickname'), {
+          inputValue: user.nickname,
+          inputValidator: val => !!val || this.$t('auth.emptyNickname'),
+        }))
+      } catch {
         return
       }
 
@@ -217,18 +213,18 @@ export default {
       )
       if (errno === 0) {
         user.nickname = value
-        toastr.success(msg)
+        this.$message.success(msg)
       } else {
-        toastr.warning(msg)
+        this.$message.warning(msg)
       }
     },
     async changePassword(user) {
-      const { dismiss, value } = await swal({
-        text: this.$t('admin.newUserPassword'),
-        showCancelButton: true,
-        input: 'password',
-      })
-      if (dismiss) {
+      let value
+      try {
+        ({ value } = await this.$prompt(this.$t('admin.newUserPassword'), {
+          inputType: 'password',
+        }))
+      } catch {
         return
       }
 
@@ -236,16 +232,16 @@ export default {
         '/admin/users?action=password',
         { uid: user.uid, password: value }
       )
-      errno === 0 ? toastr.success(msg) : toastr.warning(msg)
+      errno === 0 ? this.$message.success(msg) : this.$message.warning(msg)
     },
     async changeScore(user) {
-      const { dismiss, value } = await swal({
-        text: this.$t('admin.newScore'),
-        showCancelButton: true,
-        input: 'number',
-        inputValue: user.score,
-      })
-      if (dismiss) {
+      let value
+      try {
+        ({ value } = await this.$prompt(this.$t('admin.newScore'), {
+          inputType: 'number',
+          inputValue: user.score,
+        }))
+      } catch {
         return
       }
       const score = Number.parseInt(value)
@@ -256,30 +252,39 @@ export default {
       )
       if (errno === 0) {
         user.score = score
-        toastr.success(msg)
+        this.$message.success(msg)
       } else {
-        toastr.warning(msg)
+        this.$message.warning(msg)
       }
     },
     async changePermission(user) {
       const operator = user.operations
-      const options = {
-        '-1': this.$t('admin.banned'),
-        0: this.$t('admin.normal'),
-      }
+      const options = [
+        this.$t('admin.banned'),
+        this.$t('admin.normal'),
+      ]
       if (operator === 2) {
-        options[1] = this.$t('admin.admin')
+        options.push(this.$t('admin.admin'))
       }
+      const h = this.$createElement
+      const vnode = h('div', null, [
+        h('span', null, this.$t('admin.newPermission')),
+        h(
+          'select',
+          { attrs: { selectedIndex: 0 } },
+          options.map(option => h('option', null, option))
+        ),
+      ])
 
-      const { dismiss, value } = await swal({
-        text: this.$t('admin.newPermission'),
-        input: 'radio',
-        inputOptions: options,
-        showCancelButton: true,
-      })
-      if (dismiss) {
+      try {
+        await this.$msgbox({
+          message: vnode,
+          showCancelButton: true,
+        })
+      } catch {
         return
       }
+      const value = vnode.children[1].elm.selectedIndex - 1
 
       const { errno, msg } = await this.$http.post('/admin/users?action=permission', {
         uid: user.uid,
@@ -287,18 +292,17 @@ export default {
       })
       if (errno === 0) {
         user.permission = +value
-        toastr.success(msg)
+        this.$message.success(msg)
       } else {
-        toastr.warning(msg)
+        this.$message.warning(msg)
       }
     },
     async deleteUser({ uid, originalIndex }) {
-      const { dismiss } = await swal({
-        text: this.$t('admin.deleteUserNotice'),
-        type: 'warning',
-        showCancelButton: true,
-      })
-      if (dismiss) {
+      try {
+        await this.$confirm(this.$t('admin.deleteUserNotice'), {
+          type: 'warning',
+        })
+      } catch {
         return
       }
 
@@ -308,9 +312,9 @@ export default {
       )
       if (errno === 0) {
         this.$delete(this.users, originalIndex)
-        toastr.success(msg)
+        this.$message.success(msg)
       } else {
-        toastr.warning(msg)
+        this.$message.warning(msg)
       }
     },
   },

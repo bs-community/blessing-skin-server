@@ -2,10 +2,6 @@ import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
 import Profile from '@/views/user/Profile.vue'
-import toastr from 'toastr'
-import { swal } from '@/js/notify'
-
-jest.mock('@/js/notify')
 
 window.blessing.extra = { unverified: false }
 
@@ -24,10 +20,9 @@ test('convert linebreak', () => {
 })
 
 test('reset avatar', async () => {
-  jest.spyOn(toastr, 'success')
-  swal.mockResolvedValueOnce({})
-    .mockResolvedValueOnce({ dismiss: 1 })
-    .mockResolvedValue({})
+  Vue.prototype.$confirm
+    .mockRejectedValueOnce('close')
+    .mockResolvedValue('confirm')
   Vue.prototype.$http.post.mockResolvedValue({ msg: 'ok' })
   const wrapper = mount(Profile)
   const button = wrapper.find('[data-test=resetAvatar]')
@@ -43,36 +38,34 @@ test('reset avatar', async () => {
     { tid: 0 }
   )
   await flushPromises()
-  expect(toastr.success).toBeCalledWith('ok')
+  expect(Vue.prototype.$message.success).toBeCalledWith('ok')
   expect(document.querySelector('img')!.src).toMatch(/\d+$/)
 })
 
 test('change password', async () => {
-  jest.spyOn(toastr, 'info')
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: 'w' })
     .mockResolvedValueOnce({ errno: 0, msg: 'o' })
-  swal.mockResolvedValue({})
   const wrapper = mount(Profile)
   const button = wrapper.find('[data-test=changePassword]')
 
   button.trigger('click')
-  expect(toastr.info).toBeCalledWith('user.emptyPassword')
+  expect(Vue.prototype.$message.error).toBeCalledWith('user.emptyPassword')
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   wrapper.setData({ oldPassword: '1' })
   button.trigger('click')
-  expect(toastr.info).toBeCalledWith('user.emptyNewPassword')
+  expect(Vue.prototype.$message.error).toBeCalledWith('user.emptyNewPassword')
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   wrapper.setData({ newPassword: '1' })
   button.trigger('click')
-  expect(toastr.info).toBeCalledWith('auth.emptyConfirmPwd')
+  expect(Vue.prototype.$message.error).toBeCalledWith('auth.emptyConfirmPwd')
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   wrapper.setData({ confirmPassword: '2' })
   button.trigger('click')
-  expect(toastr.info).toBeCalledWith('auth.invalidConfirmPwd')
+  expect(Vue.prototype.$message.error).toBeCalledWith('auth.invalidConfirmPwd')
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   wrapper.setData({ confirmPassword: '1' })
@@ -82,36 +75,32 @@ test('change password', async () => {
     '/user/profile?action=password',
     { current_password: '1', new_password: '1' }
   )
-  expect(swal).toBeCalledWith({ type: 'warning', text: 'w' })
+  expect(Vue.prototype.$alert).toBeCalledWith('w', { type: 'warning' })
 
   button.trigger('click')
   await wrapper.vm.$nextTick()
-  expect(swal).toBeCalledWith({ type: 'success', text: 'o' })
+  expect(Vue.prototype.$alert).toBeCalledWith('o')
 })
 
 test('change nickname', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: 'w' })
     .mockResolvedValue({ errno: 0, msg: 'o' })
-  swal.mockResolvedValueOnce({})
-    .mockResolvedValueOnce({ dismiss: 1 })
-    .mockResolvedValue({})
+  Vue.prototype.$confirm
+    .mockRejectedValueOnce('close')
+    .mockResolvedValue('confirm')
   const wrapper = mount(Profile)
   const button = wrapper.find('[data-test=changeNickName]')
   document.body.innerHTML += '<span class="nickname"></span>'
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
-  expect(swal).toBeCalledWith({ type: 'error', text: 'user.emptyNewNickName' })
+  expect(Vue.prototype.$alert).toBeCalledWith('user.emptyNewNickName', { type: 'error' })
 
   wrapper.setData({ nickname: 'nickname' })
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
-  expect(swal).toBeCalledWith({
-    text: 'user.changeNickName',
-    type: 'question',
-    showCancelButton: true,
-  })
+  expect(Vue.prototype.$confirm).toBeCalledWith('user.changeNickName')
 
   button.trigger('click')
   await wrapper.vm.$nextTick()
@@ -120,11 +109,11 @@ test('change nickname', async () => {
     { new_nickname: 'nickname' }
   )
   await wrapper.vm.$nextTick()
-  expect(swal).toBeCalledWith({ type: 'warning', text: 'w' })
+  expect(Vue.prototype.$alert).toBeCalledWith('w', { type: 'warning' })
 
   button.trigger('click')
   await flushPromises()
-  expect(swal).toBeCalledWith({ type: 'success', text: 'o' })
+  expect(Vue.prototype.$message.success).toBeCalledWith('o')
   expect(document.querySelector('.nickname')!.textContent).toBe('nickname')
 })
 
@@ -132,29 +121,24 @@ test('change email', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: 'w' })
     .mockResolvedValue({ errno: 0, msg: 'o' })
-  swal.mockResolvedValueOnce({})
-    .mockResolvedValueOnce({})
-    .mockResolvedValueOnce({ dismiss: 1 })
-    .mockResolvedValue({})
+  Vue.prototype.$confirm
+    .mockRejectedValueOnce('close')
+    .mockResolvedValue('confirm')
   const wrapper = mount(Profile)
   const button = wrapper.find('[data-test=changeEmail]')
 
   button.trigger('click')
-  expect(swal).toBeCalledWith({ type: 'error', text: 'user.emptyNewEmail' })
+  expect(Vue.prototype.$alert).toBeCalledWith('user.emptyNewEmail', { type: 'error' })
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   wrapper.setData({ email: 'e' })
   button.trigger('click')
-  expect(swal).toBeCalledWith({ type: 'warning', text: 'auth.invalidEmail' })
+  expect(Vue.prototype.$alert).toBeCalledWith('auth.invalidEmail', { type: 'warning' })
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   wrapper.setData({ email: 'a@b.c', currentPassword: 'abc' })
   button.trigger('click')
-  expect(swal).toBeCalledWith({
-    text: 'user.changeEmail',
-    type: 'question',
-    showCancelButton: true,
-  })
+  expect(Vue.prototype.$confirm).toBeCalledWith('user.changeEmail')
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   button.trigger('click')
@@ -164,16 +148,15 @@ test('change email', async () => {
     { new_email: 'a@b.c', password: 'abc' }
   )
   await wrapper.vm.$nextTick()
-  expect(swal).toBeCalledWith({ type: 'warning', text: 'w' })
+  expect(Vue.prototype.$alert).toBeCalledWith('w', { type: 'warning' })
 
   button.trigger('click')
   await flushPromises()
-  expect(swal).toBeCalledWith({ type: 'success', text: 'o' })
+  expect(Vue.prototype.$message.success).toBeCalledWith('o')
 })
 
 test('delete account', async () => {
   window.blessing.extra = { admin: true }
-  swal.mockResolvedValue({})
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: 'w' })
     .mockResolvedValue({ errno: 0, msg: 'o' })
@@ -181,7 +164,7 @@ test('delete account', async () => {
   const button = wrapper.find('[data-test=deleteAccount]')
 
   button.trigger('click')
-  expect(swal).toBeCalledWith({ type: 'warning', text: 'user.emptyDeletePassword' })
+  expect(Vue.prototype.$alert).toBeCalledWith('user.emptyDeletePassword', { type: 'error' })
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   wrapper.setData({ deleteConfirm: 'abc' })
@@ -191,9 +174,9 @@ test('delete account', async () => {
     { password: 'abc' }
   )
   await wrapper.vm.$nextTick()
-  expect(swal).toBeCalledWith({ type: 'warning', text: 'w' })
+  expect(Vue.prototype.$alert).toBeCalledWith('w', { type: 'warning' })
 
   button.trigger('click')
   await wrapper.vm.$nextTick()
-  expect(swal).toBeCalledWith({ type: 'success', text: 'o' })
+  expect(Vue.prototype.$alert).toBeCalledWith('o', { type: 'success' })
 })

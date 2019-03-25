@@ -34,3 +34,14 @@ Vue.prototype.$http = {
   get: jest.fn(),
   post: jest.fn(),
 }
+
+Vue.prototype.$message = {
+  info: jest.fn(),
+  success: jest.fn(),
+  warning: jest.fn(),
+  error: jest.fn(),
+}
+Vue.prototype.$msgbox = jest.fn()
+Vue.prototype.$alert = jest.fn()
+Vue.prototype.$confirm = jest.fn()
+Vue.prototype.$prompt = jest.fn()

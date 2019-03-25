@@ -57,7 +57,6 @@
 </template>
 
 <script>
-import { swal } from '../../js/notify'
 import Captcha from '../../components/Captcha.vue'
 
 export default {
@@ -115,13 +114,13 @@ export default {
         }
       )
       if (errno === 0) {
-        swal({ type: 'success', text: msg })
+        this.$message.success(msg)
         setTimeout(() => {
           window.location = `${blessing.base_url}/${blessing.redirect_to || 'user'}`
         }, 1000)
       } else {
         if (loginFails > 3 && !this.tooManyFails) {
-          swal({ type: 'error', text: this.$t('auth.tooManyFails') })
+          this.$alert(this.$t('auth.tooManyFails'), { type: 'error' })
           this.tooManyFails = true
         }
         this.infoMsg = ''

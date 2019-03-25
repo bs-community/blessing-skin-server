@@ -49,8 +49,6 @@
 </template>
 
 <script>
-import { swal } from '../../js/notify'
-
 const POLLING_INTERVAL = 500
 
 export default {
@@ -85,7 +83,7 @@ export default {
 
       this.updating = false
       if (this.downloaded) {
-        await swal({ type: 'success', text: this.$t('admin.updateCompleted') })
+        await this.$alert(this.$t('admin.updateCompleted'), { type: 'success' })
         window.location = blessing.base_url
       }
     },
@@ -94,7 +92,7 @@ export default {
         action,
       })
       if (errno) {
-        swal({ type: 'error', text: msg })
+        this.$alert(msg, { type: 'error' })
         this.updating = false
       }
     },

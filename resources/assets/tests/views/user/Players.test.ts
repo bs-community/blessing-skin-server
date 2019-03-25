@@ -1,11 +1,8 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
+import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../../utils'
 import Players from '@/views/user/Players.vue'
-import { swal } from '@/js/notify'
-
-jest.mock('toastr')
-jest.mock('@/js/notify')
 
 window.blessing.extra = {
   rule: 'rule',
@@ -67,13 +64,13 @@ test('change player name', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1 })
     .mockResolvedValue({ errno: 0 })
-  swal.mockImplementationOnce(() => Promise.resolve({ dismiss: 1 }))
-    .mockImplementation(({ inputValidator }) => {
+  Vue.prototype.$prompt.mockImplementationOnce(() => Promise.reject('cancel'))
+    .mockImplementation((_, { inputValidator }) => {
       if (inputValidator) {
         inputValidator('')
         inputValidator('new-name')
       }
-      return Promise.resolve({ value: 'new-name' })
+      return Promise.resolve({ value: 'new-name' } as MessageBoxData)
     })
   const wrapper = mount(Players)
   await wrapper.vm.$nextTick()
@@ -122,8 +119,9 @@ test('delete player', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1 })
     .mockResolvedValue({ errno: 0 })
-  swal.mockResolvedValueOnce({ dismiss: 1 })
-    .mockResolvedValue({})
+  Vue.prototype.$confirm
+    .mockRejectedValueOnce({})
+    .mockResolvedValue('confirm')
   const wrapper = mount(Players)
   await wrapper.vm.$nextTick()
   const button = wrapper.find('.btn-danger')
@@ -201,5 +199,5 @@ test('clear texture', async () => {
   )
   button.trigger('click')
   await flushPromises()
-  expect(swal).toBeCalledWith({ type: 'success', text: 'ok' })
+  expect(Vue.prototype.$message.success).toBeCalledWith('ok')
 })
