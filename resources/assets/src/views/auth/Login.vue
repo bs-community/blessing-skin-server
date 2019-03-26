@@ -28,11 +28,7 @@
 
     <div class="row">
       <div class="col-xs-6">
-        <div class="checkbox icheck" style="margin-top: 0;">
-          <label>
-            <input v-model="remember" type="checkbox"> {{ $t('auth.keep') }}
-          </label>
-        </div>
+        <el-switch v-model="remember" :active-text="$t('auth.keep')" />
       </div>
       <div class="col-xs-6">
         <a v-t="'auth.forgot-link'" class="pull-right" :href="`${baseUrl}/auth/forgot`" />
@@ -41,16 +37,12 @@
 
     <div class="row">
       <div class="col-xs-12">
-        <button v-if="pending" disabled class="btn btn-primary btn-block btn-flat">
-          <i class="fa fa-spinner fa-spin" /> {{ $t('auth.loggingIn') }}
-        </button>
-        <button
-          v-else
-          class="btn btn-primary btn-block btn-flat"
-          type="submit"
-        >
-          {{ $t('auth.login') }}
-        </button>
+        <el-button type="primary" native-type="submit" :disabled="pending">
+          <template v-if="pending">
+            <i class="fa fa-spinner fa-spin" /> {{ $t('auth.loggingIn') }}
+          </template>
+          <span v-else>{{ $t('auth.login') }}</span>
+        </el-button>
       </div>
     </div>
   </form>
@@ -136,4 +128,8 @@ export default {
 <style lang="stylus">
 #login-button
   margin-top 5px
+
+.el-button
+  margin-top 10px
+  width 100%
 </style>
