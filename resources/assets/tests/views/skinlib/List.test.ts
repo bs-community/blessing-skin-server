@@ -1,6 +1,47 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
+import { Button } from 'element-ui'
 import List from '@/views/skinlib/List.vue'
+
+jest.mock('element-ui/lib/select', () => ({
+  install(vue: typeof Vue) {
+    vue.component('ElSelect', {
+      render(h) {
+        return h('select', {
+          on: {
+            change: (event: Event) => this.$emit(
+              'change',
+              (event.target as HTMLSelectElement).value
+            ),
+          },
+          attrs: {
+            value: this.value,
+          },
+        }, this.$slots.default)
+      },
+      props: {
+        value: String,
+      },
+      model: {
+        prop: 'value',
+        event: 'change',
+      },
+    })
+  },
+}))
+jest.mock('element-ui/lib/option', () => ({
+  install(vue: typeof Vue) {
+    vue.component('ElOption', {
+      render(h) {
+        return h('option', { attrs: { value: this.value } }, this.label)
+      },
+      props: {
+        label: String,
+        value: String,
+      },
+    })
+  },
+}))
 
 test('fetch data before mounting', () => {
   Vue.prototype.$http.get.mockResolvedValue({
@@ -27,17 +68,13 @@ test('toggle texture type', () => {
   Vue.prototype.$http.get.mockResolvedValue({
     items: [], total_pages: 0, current_uid: 0,
   })
-  window.$ = jest.fn(() => ({
-    iCheck() {},
-  }))
   const wrapper = mount(List)
+  const select = wrapper.find({ name: 'ElSelect' })
   const breadcrumb = wrapper.find('.breadcrumb')
-
-  jest.runAllTimers()
   expect(breadcrumb.text()).toContain('skinlib.filter.skin')
 
-  wrapper.find('[value=steve]').setChecked()
-  jest.runAllTimers()
+  select.setValue('steve')
+  select.trigger('change')
   expect(breadcrumb.text()).toContain('skinlib.filter.steve')
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/skinlib/data',
@@ -45,8 +82,8 @@ test('toggle texture type', () => {
       filter: 'steve', uploader: 0, sort: 'time', keyword: '', page: 1,
     }
   )
-  wrapper.find('[value=alex]').setChecked()
-  jest.runAllTimers()
+  select.setValue('alex')
+  select.trigger('change')
   expect(breadcrumb.text()).toContain('skinlib.filter.alex')
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/skinlib/data',
@@ -54,8 +91,8 @@ test('toggle texture type', () => {
       filter: 'alex', uploader: 0, sort: 'time', keyword: '', page: 1,
     }
   )
-  wrapper.find('[value=cape]').setChecked()
-  jest.runAllTimers()
+  select.setValue('cape')
+  select.trigger('change')
   expect(breadcrumb.text()).toContain('general.cape')
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/skinlib/data',
@@ -72,9 +109,10 @@ test('check specified uploader', async () => {
   const wrapper = mount(List)
   await wrapper.vm.$nextTick()
   const breadcrumb = wrapper.find('.breadcrumb')
-  const button = wrapper.find('.btn-default')
-
-  jest.runAllTimers()
+  const button = wrapper
+    .find('.advanced-filter')
+    .findAll(Button)
+    .at(2)
   expect(breadcrumb.text()).toContain('skinlib.filter.allUsers')
 
   button.trigger('click')
@@ -92,9 +130,9 @@ test('sort items', () => {
     items: [], total_pages: 0, current_uid: 0,
   })
   const wrapper = mount(List)
-  const sortByLikes = wrapper.find('.dropdown-menu > li:nth-child(1) > a')
-  const sortByTime = wrapper.find('.dropdown-menu > li:nth-child(2) > a')
-  jest.runAllTimers()
+  const buttons = wrapper.find('.advanced-filter').findAll(Button)
+  const sortByLikes = buttons.at(0)
+  const sortByTime = buttons.at(1)
 
   sortByLikes.trigger('click')
   expect(Vue.prototype.$http.get).toBeCalledWith(
@@ -104,7 +142,6 @@ test('sort items', () => {
     }
   )
   expect(wrapper.text()).toContain('skinlib.sort.likes')
-  jest.runAllTimers()
 
   sortByTime.trigger('click')
   expect(Vue.prototype.$http.get).toBeCalledWith(
@@ -121,10 +158,8 @@ test('search by keyword', () => {
     items: [], total_pages: 0, current_uid: 0,
   })
   const wrapper = mount(List)
-  const searchBox = wrapper.find('input[type=text]')
-  jest.runAllTimers()
 
-  searchBox.setValue('a')
+  wrapper.setData({ keyword: 'a' })
   wrapper.find('form').trigger('submit')
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/skinlib/data',
@@ -132,10 +167,9 @@ test('search by keyword', () => {
       filter: 'skin', uploader: 0, sort: 'time', keyword: 'a', page: 1,
     }
   )
-  jest.runAllTimers()
 
-  searchBox.setValue('b')
-  wrapper.find('.input-group-btn > button').trigger('click')
+  wrapper.setData({ keyword: 'b' })
+  wrapper.find('[data-test="btn-search"]').trigger('click')
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/skinlib/data',
     {
@@ -145,23 +179,18 @@ test('search by keyword', () => {
 })
 
 test('reset all filters', () => {
-  window.$ = jest.fn(() => ({
-    iCheck() {},
-  }))
   Vue.prototype.$http.get.mockResolvedValue({
     items: [], total_pages: 0, current_uid: 0,
   })
   const wrapper = mount(List)
-  jest.runAllTimers()
-  wrapper.find('input[value=cape]').setChecked()
-  jest.runAllTimers()
-  wrapper.find('input[type=text]').setValue('abc')
-  jest.runAllTimers()
-  wrapper.find('.dropdown-menu > li:nth-child(1) > a').trigger('click')
-  jest.runAllTimers()
+  wrapper.findAll('option').at(3)
+    .setSelected()
+  wrapper.setData({ keyword: 'abc' })
+  const buttons = wrapper.find('.advanced-filter').findAll(Button)
+  buttons.at(1).trigger('click')
 
   Vue.prototype.$http.get.mockClear()
-  wrapper.find('.btn-warning').trigger('click')
+  buttons.at(3).trigger('click')
   expect(Vue.prototype.$http.get).toBeCalledTimes(1)
 })
 
@@ -178,7 +207,6 @@ test('on page changed', () => {
     items: [], total_pages: 0, current_uid: 0,
   })
   const wrapper = mount<Vue & { pageChanged(page: number): void }>(List)
-  jest.runAllTimers()
   wrapper.vm.pageChanged(2)
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/skinlib/data',

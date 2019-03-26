@@ -49,8 +49,7 @@ skinlib:
   emptyItemName: Empty texture name.
   setNewTextureName: 'Please enter the new texture name:'
   emptyNewTextureName: Empty new texture name.
-  anyModels: Any Models
-  seeMyUpload: Check My Upload
+  seeMyUpload: My Uploads
   apply: Quick Apply
   filter:
     skin: (Any Model)
@@ -61,7 +60,7 @@ skinlib:
     allUsers: All Users
   sort:
     title: Sort
-    time: Newestly Uploaded
+    time: Latest
     likes: Most Likes
   badSkinSize: The size of selected skin file is not valid
   badCapeSize: The size of selected cape file is not valid
