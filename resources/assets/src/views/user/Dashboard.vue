@@ -198,7 +198,28 @@ export default {
 
 .usage-circle
   padding-top 10px
+  padding-bottom 7px
+  padding-left 33%
+  .el-progress__text
+    padding-left 50%
 
-.usage-label
-  padding-right 20%
+  @media (min-width 768px)
+    padding-left 20%
+    .el-progress__text
+      padding-left 28%
+
+  @media (min-width 992px)
+    padding-left 0%
+    .el-progress__text
+      padding-left 0%
+
+  @media (min-width 1200px)
+    padding-left 20%
+    .el-progress__text
+      padding-left 28%
+
+  @media (min-width 3600px)
+    padding-left 38%
+    .el-progress__text
+      padding-left 60%
 </style>
