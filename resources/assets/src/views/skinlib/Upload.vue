@@ -6,42 +6,15 @@
           <div class="box-body">
             <div class="form-group">
               <label v-t="'skinlib.upload.texture-name'" for="name" />
-              <input
-                v-model="name"
-                class="form-control"
-                type="text"
-                :placeholder="textureNameRule"
-              >
+              <el-input v-model="name" :placeholder="textureNameRule" clearable />
             </div>
 
             <div class="form-group">
               <label v-t="'skinlib.upload.texture-type'" />
               <br>
-              <label>
-                <input
-                  v-model="type"
-                  type="radio"
-                  name="type"
-                  value="steve"
-                  checked
-                > Steve
-              </label>&nbsp;
-              <label>
-                <input
-                  v-model="type"
-                  type="radio"
-                  name="type"
-                  value="alex"
-                > Alex
-              </label>&nbsp;
-              <label>
-                <input
-                  v-model="type"
-                  type="radio"
-                  name="type"
-                  value="cape"
-                > {{ $t('general.cape') }}
-              </label>
+              <el-radio v-model="type" label="steve">Steve</el-radio>
+              <el-radio v-model="type" label="alex">Alex</el-radio>
+              <el-radio v-model="type" label="cape">{{ $t('general.cape') }}</el-radio>
             </div>
 
             <div class="form-group">
@@ -58,45 +31,53 @@
                 drop=".file-dnd"
                 @input-file="inputFile"
               >
-                <span class="btn btn-primary">
+                <el-button type="primary" size="medium">
                   {{ $t('skinlib.upload.select-file') }}
-                </span>
+                </el-button>
               </file-upload>
-              <button
+              <el-button
                 v-show="hasFile"
-                class="btn btn-default pull-right"
+                size="medium"
+                class="pull-right"
+                data-test="remove"
                 @click="remove"
               >
                 <i class="fas fa-trash-alt" />
                 {{ $t('skinlib.upload.remove') }}
-              </button>
-            </div>
-
-            <div v-if="isPrivate" class="callout callout-info">
-              <p>{{ privacyNotice }}</p>
-            </div>
-            <div v-if="!isPrivate && award" class="callout callout-success">
-              <p>{{ $t('skinlib.upload.award', { score: award }) }}</p>
+              </el-button>
             </div>
           </div><!-- /.box-body -->
 
           <div class="box-footer">
-            <label
-              for="private"
+            <el-switch
+              v-model="isPrivate"
+              :active-text="$t('skinlib.upload.set-as-private')"
               class="pull-right"
               :title="$t('skinlib.upload.privacy-notice')"
-              data-placement="top"
-              data-toggle="tooltip"
+            />
+            <el-button
+              v-if="uploading"
+              type="success"
+              size="medium"
+              disabled
             >
-              <input v-model="isPrivate" type="checkbox"> {{ $t('skinlib.upload.set-as-private') }}
-            </label>
-            <button v-if="uploading" class="btn btn-primary" disabled>
               <i class="fa fa-spinner fa-spin" /> {{ $t('skinlib.uploading') }}
-            </button>
-            <button v-else class="btn btn-primary" @click="upload">
+            </el-button>
+            <el-button
+              v-else
+              type="success"
+              size="medium"
+              @click="upload"
+            >
               {{ $t('skinlib.upload.button') }}
-            </button>
+            </el-button>
             &nbsp; {{ hasFile && $t('skinlib.upload.cost', { score: scoreCost }) }}
+            <div v-if="isPrivate" class="callout callout-info bottom-notice">
+              <p>{{ privacyNotice }}</p>
+            </div>
+            <div v-if="!isPrivate && award" class="callout callout-success bottom-notice">
+              <p>{{ $t('skinlib.upload.award', { score: award }) }}</p>
+            </div>
           </div>
         </div><!-- /.box -->
       </div>
@@ -111,7 +92,12 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import FileUpload from 'vue-upload-component'
+import 'element-ui/lib/theme-chalk/radio.css'
+import Radio from 'element-ui/lib/radio'
+
+Vue.use(Radio)
 
 export default {
   name: 'Upload',
@@ -216,4 +202,7 @@ export default {
 
   h3
     color #aaa
+
+.bottom-notice
+  margin-top 10px
 </style>
