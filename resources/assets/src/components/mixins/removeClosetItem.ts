@@ -1,6 +1,4 @@
 import Vue from 'vue'
-import toastr from 'toastr'
-import { swal } from '../../js/notify'
 
 export default Vue.extend<{
   name: string,
@@ -8,12 +6,12 @@ export default Vue.extend<{
 }, { removeClosetItem(): Promise<void> }, {}>({
   methods: {
     async removeClosetItem() {
-      const { dismiss } = await swal({
-        text: this.$t('user.removeFromClosetNotice'),
-        type: 'warning',
-        showCancelButton: true,
-      })
-      if (dismiss) {
+      try {
+        await this.$confirm(
+          this.$t('user.removeFromClosetNotice'),
+          { type: 'warning' }
+        )
+      } catch {
         return
       }
 
@@ -23,9 +21,9 @@ export default Vue.extend<{
       )
       if (errno === 0) {
         this.$emit('item-removed')
-        swal({ type: 'success', text: msg })
+        this.$message.success(msg!)
       } else {
-        toastr.warning(msg!)
+        this.$message.warning(msg!)
       }
     },
   },

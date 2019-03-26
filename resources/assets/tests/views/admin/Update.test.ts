@@ -2,9 +2,6 @@ import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
 import Update from '@/views/admin/Update.vue'
-import '@/js/notify'
-
-jest.mock('@/js/notify')
 
 afterEach(() => {
   window.blessing.extra = { canUpdate: true }

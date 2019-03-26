@@ -219,9 +219,6 @@
 </template>
 
 <script>
-import toastr from 'toastr'
-import { swal } from '../../js/notify'
-
 export default {
   name: 'Players',
   components: {
@@ -283,14 +280,13 @@ export default {
       }
     },
     async changeName(player) {
-      const { dismiss, value } = await swal({
-        title: this.$t('user.changePlayerName'),
-        inputValue: player.name,
-        input: 'text',
-        showCancelButton: true,
-        inputValidator: val => !val && this.$t('user.emptyPlayerName'),
-      })
-      if (dismiss) {
+      let value
+      try {
+        ({ value } = await this.$prompt(this.$t('user.changePlayerName'), {
+          inputValue: player.name,
+          inputValidator: val => !!val || this.$t('user.emptyPlayerName'),
+        }))
+      } catch {
         return
       }
 
@@ -299,10 +295,10 @@ export default {
         { pid: player.pid, new_player_name: value }
       )
       if (errno === 0) {
-        swal({ type: 'success', text: msg })
+        this.$message.success(msg)
         player.name = value
       } else {
-        swal({ type: 'warning', text: msg })
+        this.$message.warning(msg)
       }
     },
     loadICheck() {
@@ -317,7 +313,7 @@ export default {
     },
     async clearTexture() {
       if (Object.values(this.clear).every(value => !value)) {
-        return toastr.warning(this.$t('user.noClearChoice'))
+        return this.$message.warning(this.$t('user.noClearChoice'))
       }
 
       const { errno, msg } = await this.$http.post(
@@ -326,25 +322,22 @@ export default {
       )
       if (errno === 0) {
         $('.modal').modal('hide')
-        swal({ type: 'success', text: msg })
+        this.$message.success(msg)
         const player = this.players.find(({ pid }) => pid === this.selected)
         Object.keys(this.clear)
           .filter(type => this.clear[type])
           .forEach(type => (player[`tid_${type}`] = 0))
       } else {
-        swal({ type: 'warning', text: msg })
+        this.$message.warning(msg)
       }
     },
     async deletePlayer(player, index) {
-      const { dismiss } = await swal({
-        title: this.$t('user.deletePlayer'),
-        text: this.$t('user.deletePlayerNotice'),
-        type: 'warning',
-        showCancelButton: true,
-        cancelButtonColor: '#3085d6',
-        confirmButtonColor: '#d33',
-      })
-      if (dismiss) {
+      try {
+        await this.$confirm(this.$t('user.deletePlayerNotice'), {
+          title: this.$t('user.deletePlayer'),
+          type: 'warning',
+        })
+      } catch {
         return
       }
 
@@ -354,9 +347,9 @@ export default {
       )
       if (errno === 0) {
         this.$delete(this.players, index)
-        swal({ type: 'success', text: msg })
+        this.$message.success(msg)
       } else {
-        swal({ type: 'warning', text: msg })
+        this.$message.warning(msg)
       }
     },
     async addPlayer() {
@@ -366,10 +359,10 @@ export default {
         { player_name: this.newPlayer }
       )
       if (errno === 0) {
-        await swal({ type: 'success', text: msg })
+        this.$message.success(msg)
         this.fetchPlayers()
       } else {
-        swal({ type: 'warning', text: msg })
+        this.$message.warning(msg)
       }
     },
   },

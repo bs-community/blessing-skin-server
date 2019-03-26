@@ -77,8 +77,6 @@
 <script>
 import { VueGoodTable } from 'vue-good-table'
 import 'vue-good-table/dist/vue-good-table.min.css'
-import toastr from 'toastr'
-import { swal } from '../../js/notify'
 import tableOptions from '../../components/mixins/tableOptions'
 
 export default {
@@ -131,12 +129,12 @@ export default {
       name, dependencies: { requirements }, originalIndex,
     }) {
       if (requirements.length === 0) {
-        const { dismiss } = await swal({
-          text: this.$t('admin.noDependenciesNotice'),
-          type: 'warning',
-          showCancelButton: true,
-        })
-        if (dismiss) {
+        try {
+          await this.$confirm(
+            this.$t('admin.noDependenciesNotice'),
+            { type: 'warning' }
+          )
+        } catch {
           return
         }
       }
@@ -148,7 +146,7 @@ export default {
         { action: 'enable', name }
       )
       if (errno === 0) {
-        toastr.success(msg)
+        this.$message.success(msg)
         this.$set(this.plugins[originalIndex], 'enabled', true)
       } else {
         const div = document.createElement('div')
@@ -162,9 +160,9 @@ export default {
           ul.appendChild(li)
         })
         div.appendChild(ul)
-        swal({
+        this.$alert(div.innerHTML.replace(/`([\w-_]+)`/g, '<code>$1</code>'), {
+          dangerouslyUseHTMLString: true,
           type: 'warning',
-          html: div.innerHTML.replace(/`([\w-_]+)`/g, '<code>$1</code>'),
         })
       }
     },
@@ -174,19 +172,16 @@ export default {
         { action: 'disable', name }
       )
       if (errno === 0) {
-        toastr.success(msg)
+        this.$message.success(msg)
         this.plugins[originalIndex].enabled = false
       } else {
-        swal({ type: 'warning', text: msg })
+        this.$message.warning(msg)
       }
     },
     async deletePlugin({ name, originalIndex }) {
-      const { dismiss } = await swal({
-        text: this.$t('admin.confirmDeletion'),
-        type: 'warning',
-        showCancelButton: true,
-      })
-      if (dismiss) {
+      try {
+        await this.$confirm(this.$t('admin.confirmDeletion'), { type: 'warning' })
+      } catch {
         return
       }
 
@@ -196,9 +191,9 @@ export default {
       )
       if (errno === 0) {
         this.$delete(this.plugins, originalIndex)
-        toastr.success(msg)
+        this.$message.success(msg)
       } else {
-        swal({ type: 'warning', text: msg })
+        this.$message.warning(msg)
       }
     },
   },

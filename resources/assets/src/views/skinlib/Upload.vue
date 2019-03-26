@@ -112,8 +112,6 @@
 
 <script>
 import FileUpload from 'vue-upload-component'
-import toastr from 'toastr'
-import { swal } from '../../js/notify'
 
 export default {
   name: 'Upload',
@@ -149,17 +147,17 @@ export default {
   methods: {
     async upload() {
       if (!this.hasFile) {
-        toastr.info(this.$t('skinlib.emptyUploadFile'))
+        this.$message.error(this.$t('skinlib.emptyUploadFile'))
         return
       }
 
       if (!this.name) {
-        toastr.info(this.$t('skinlib.emptyTextureName'))
+        this.$message.error(this.$t('skinlib.emptyTextureName'))
         return
       }
 
       if (!/image\/(x-)?png/.test(this.files[0].type)) {
-        toastr.info(this.$t('skinlib.fileExtError'))
+        this.$message.error(this.$t('skinlib.fileExtError'))
         return
       }
 
@@ -174,13 +172,12 @@ export default {
         errno, msg, tid,
       } = await this.$http.post('/skinlib/upload', data)
       if (errno === 0) {
-        await swal({ type: 'success', text: msg })
-        toastr.info(this.$t('skinlib.redirecting'))
+        this.$message.success(msg)
         setTimeout(() => {
           window.location = `${blessing.base_url}/skinlib/show/${tid}`
         }, 1000)
       } else {
-        await swal({ type: 'warning', text: msg })
+        this.$message.error(msg)
         this.uploading = false
       }
     },

@@ -39,8 +39,6 @@
 </template>
 
 <script>
-import { swal } from '../../js/notify'
-
 export default {
   name: 'Reset',
   data() {
@@ -81,7 +79,7 @@ export default {
         { password }
       )
       if (errno === 0) {
-        await swal({ type: 'success', text: msg })
+        this.$message.success(msg)
         window.location = `${blessing.base_url}/auth/login`
       } else {
         this.infoMsg = ''

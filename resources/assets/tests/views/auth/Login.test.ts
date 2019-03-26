@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import Login from '@/views/auth/Login.vue'
-import { swal } from '@/js/notify'
-
-jest.mock('@/js/notify')
 
 const Captcha = Vue.extend({
   methods: {
@@ -54,7 +51,7 @@ test('login', async () => {
 
   form.trigger('submit')
   await wrapper.vm.$nextTick()
-  expect(swal).toBeCalledWith({ type: 'error', text: 'auth.tooManyFails' })
+  expect(Vue.prototype.$alert).toBeCalledWith('auth.tooManyFails', { type: 'error' })
   expect(wrapper.find('img').exists()).toBeTrue()
 
   wrapper.find('[type="checkbox"]').setChecked()
@@ -68,5 +65,5 @@ test('login', async () => {
   )
   await wrapper.vm.$nextTick()
   jest.runAllTimers()
-  expect(swal).toBeCalledWith({ type: 'success', text: 'ok' })
+  expect(Vue.prototype.$message.success).toBeCalledWith('ok')
 })

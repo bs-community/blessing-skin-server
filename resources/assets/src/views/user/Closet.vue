@@ -191,10 +191,8 @@
 </template>
 
 <script>
-import toastr from 'toastr'
 import Paginate from 'vuejs-paginate'
 import { debounce, queryString } from '../../js/utils'
-import { swal } from '../../js/notify'
 import ClosetItem from '../../components/ClosetItem.vue'
 import EmailVerification from '../../components/EmailVerification.vue'
 
@@ -296,11 +294,11 @@ export default {
     },
     async submitApplyTexture() {
       if (!this.selectedPlayer) {
-        return toastr.info(this.$t('user.emptySelectedPlayer'))
+        return this.$message.info(this.$t('user.emptySelectedPlayer'))
       }
 
       if (!this.selectedSkin && !this.selectedCape) {
-        return toastr.info(this.$t('user.emptySelectedTexture'))
+        return this.$message.info(this.$t('user.emptySelectedTexture'))
       }
 
       const { errno, msg } = await this.$http.post(
@@ -314,10 +312,10 @@ export default {
         }
       )
       if (errno === 0) {
-        swal({ type: 'success', text: msg })
+        this.$message.success(msg)
         $('#modal-use-as').modal('hide')
       } else {
-        toastr.warning(msg)
+        this.$message.warning(msg)
       }
     },
     resetSelected() {

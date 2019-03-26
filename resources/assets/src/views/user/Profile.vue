@@ -202,8 +202,6 @@
 </template>
 
 <script>
-import toastr from 'toastr'
-import { swal } from '../../js/notify'
 import EmailVerification from '../../components/EmailVerification.vue'
 
 export default {
@@ -225,12 +223,9 @@ export default {
   methods: {
     nl2br: str => str.replace(/\n/g, '<br>'),
     async resetAvatar() {
-      const { dismiss } = await swal({
-        title: this.$t('user.resetAvatarConfirm'),
-        type: 'question',
-        showCancelButton: true,
-      })
-      if (dismiss) {
+      try {
+        await this.$confirm(this.$t('user.resetAvatarConfirm'))
+      } catch {
         return
       }
 
@@ -238,7 +233,7 @@ export default {
         '/user/profile/avatar',
         { tid: 0 }
       )
-      toastr.success(msg)
+      this.$message.success(msg)
       Array.from(document.querySelectorAll('[alt="User Image"]'))
         .forEach(el => (el.src += `?${new Date().getTime()}`))
     },
@@ -248,25 +243,25 @@ export default {
       } = this
 
       if (!oldPassword) {
-        toastr.info(this.$t('user.emptyPassword'))
+        this.$message.error(this.$t('user.emptyPassword'))
         this.$refs.oldPassword.focus()
         return
       }
 
       if (!newPassword) {
-        toastr.info(this.$t('user.emptyNewPassword'))
+        this.$message.error(this.$t('user.emptyNewPassword'))
         this.$refs.newPassword.focus()
         return
       }
 
       if (!confirmPassword) {
-        toastr.info(this.$t('auth.emptyConfirmPwd'))
+        this.$message.error(this.$t('auth.emptyConfirmPwd'))
         this.$refs.confirmPassword.focus()
         return
       }
 
       if (newPassword !== confirmPassword) {
-        toastr.info(this.$t('auth.invalidConfirmPwd'))
+        this.$message.error(this.$t('auth.invalidConfirmPwd'))
         this.$refs.confirmPassword.focus()
         return
       }
@@ -276,24 +271,21 @@ export default {
         { current_password: oldPassword, new_password: newPassword }
       )
       if (errno === 0) {
-        await swal({ type: 'success', text: msg })
+        await this.$alert(msg)
         return (window.location = `${blessing.base_url}/auth/login`)
       }
-      return swal({ type: 'warning', text: msg })
+      return this.$alert(msg, { type: 'warning' })
     },
     async changeNickName() {
       const { nickname } = this
 
       if (!nickname) {
-        return swal({ type: 'error', text: this.$t('user.emptyNewNickName') })
+        return this.$alert(this.$t('user.emptyNewNickName'), { type: 'error' })
       }
 
-      const { dismiss } = await swal({
-        text: this.$t('user.changeNickName', { new_nickname: nickname }),
-        type: 'question',
-        showCancelButton: true,
-      })
-      if (dismiss) {
+      try {
+        await this.$confirm(this.$t('user.changeNickName', { new_nickname: nickname }))
+      } catch {
         return
       }
 
@@ -304,27 +296,24 @@ export default {
       if (errno === 0) {
         Array.from(document.querySelectorAll('.nickname'))
           .forEach(el => (el.textContent = nickname))
-        return swal({ type: 'success', text: msg })
+        return this.$message.success(msg)
       }
-      return swal({ type: 'warning', text: msg })
+      return this.$alert(msg, { type: 'warning' })
     },
     async changeEmail() {
       const { email } = this
 
       if (!email) {
-        return swal({ type: 'error', text: this.$t('user.emptyNewEmail') })
+        return this.$alert(this.$t('user.emptyNewEmail'), { type: 'error' })
       }
 
       if (!/\S+@\S+\.\S+/.test(email)) {
-        return swal({ type: 'warning', text: this.$t('auth.invalidEmail') })
+        return this.$alert(this.$t('auth.invalidEmail'), { type: 'warning' })
       }
 
-      const { dismiss } = await swal({
-        text: this.$t('user.changeEmail', { new_email: email }),
-        type: 'question',
-        showCancelButton: true,
-      })
-      if (dismiss) {
+      try {
+        await this.$confirm(this.$t('user.changeEmail', { new_email: email }))
+      } catch {
         return
       }
 
@@ -333,16 +322,16 @@ export default {
         { new_email: email, password: this.currentPassword }
       )
       if (errno === 0) {
-        await swal({ type: 'success', text: msg })
+        await this.$message.success(msg)
         return (window.location = `${blessing.base_url}/auth/login`)
       }
-      return swal({ type: 'warning', text: msg })
+      return this.$alert(msg, { type: 'warning' })
     },
     async deleteAccount() {
       const { deleteConfirm: password } = this
 
       if (!password) {
-        return swal({ type: 'warning', text: this.$t('user.emptyDeletePassword') })
+        return this.$alert(this.$t('user.emptyDeletePassword'), { type: 'error' })
       }
 
       const { errno, msg } = await this.$http.post(
@@ -350,13 +339,10 @@ export default {
         { password }
       )
       if (errno === 0) {
-        await swal({
-          type: 'success',
-          text: msg,
-        })
+        await this.$alert(msg, { type: 'success' })
         window.location = `${blessing.base_url}/auth/login`
       } else {
-        return swal({ type: 'warning', text: msg })
+        return this.$alert(msg, { type: 'warning' })
       }
     },
   },

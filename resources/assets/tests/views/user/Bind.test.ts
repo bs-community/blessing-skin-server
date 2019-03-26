@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import Bind from '@/views/user/Bind.vue'
-import { swal } from '@/js/notify'
-
-jest.mock('@/js/notify')
 
 test('list existed players', async () => {
   Vue.prototype.$http.get
@@ -27,7 +24,6 @@ test('submit', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: 'fail' })
     .mockResolvedValueOnce({ errno: 0, msg: 'ok' })
-  swal.mockResolvedValue({})
 
   const wrapper = mount(Bind)
   wrapper.find('input').setValue('abc')
@@ -38,5 +34,5 @@ test('submit', async () => {
 
   wrapper.find('button').trigger('click')
   await wrapper.vm.$nextTick()
-  expect(swal).toBeCalledWith({ text: 'ok', type: 'success' })
+  expect(Vue.prototype.$alert).toBeCalledWith({ message: 'ok', type: 'success' })
 })

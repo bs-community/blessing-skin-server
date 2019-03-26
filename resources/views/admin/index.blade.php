@@ -69,7 +69,7 @@
                         <h3 class="box-title">@lang('admin.index.overview')</h3>
                     </div>
                     <div class="box-body">
-                        <canvas height="500" width="600" id="chart"></canvas>
+                        <div id="chart"></div>
                     </div><!-- /.box-body -->
                 </div><!-- /.box -->
             </div>

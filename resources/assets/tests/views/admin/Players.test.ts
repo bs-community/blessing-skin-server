@@ -1,10 +1,8 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
+import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../../utils'
 import Players from '@/views/admin/Players.vue'
-import { swal } from '@/js/notify'
-
-jest.mock('@/js/notify')
 
 test('fetch data after initializing', () => {
   Vue.prototype.$http.get.mockResolvedValue({ data: [] })
@@ -59,13 +57,14 @@ test('change player name', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
     .mockResolvedValueOnce({ errno: 0, msg: '0' })
-  swal.mockImplementationOnce(() => Promise.resolve({ dismiss: 1 }))
-    .mockImplementation(options => {
+  Vue.prototype.$prompt
+    .mockImplementationOnce(() => Promise.reject())
+    .mockImplementation((_, options) => {
       if (options.inputValidator) {
         options.inputValidator('')
         options.inputValidator('new')
       }
-      return Promise.resolve({ value: 'new' })
+      return Promise.resolve({ value: 'new' } as MessageBoxData)
     })
   const wrapper = mount(Players)
   await wrapper.vm.$nextTick()
@@ -94,8 +93,9 @@ test('change owner', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
     .mockResolvedValueOnce({ errno: 0, msg: '0' })
-  swal.mockResolvedValueOnce({ dismiss: 1 })
-    .mockResolvedValue({ value: '3' })
+  Vue.prototype.$prompt
+    .mockRejectedValueOnce('')
+    .mockResolvedValue({ value: '3' } as MessageBoxData)
 
   const wrapper = mount(Players)
   await wrapper.vm.$nextTick()
@@ -124,8 +124,9 @@ test('delete player', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
     .mockResolvedValueOnce({ errno: 0, msg: '0' })
-  swal.mockResolvedValueOnce({ dismiss: 1 })
-    .mockResolvedValue({})
+  Vue.prototype.$confirm
+    .mockRejectedValueOnce('')
+    .mockResolvedValue('confirm')
 
   const wrapper = mount(Players)
   await wrapper.vm.$nextTick()

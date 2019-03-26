@@ -15,8 +15,6 @@
 </template>
 
 <script>
-import { swal } from '../js/notify'
-
 export default {
   name: 'EmailVerification',
   data() {
@@ -29,7 +27,11 @@ export default {
     async resend() {
       this.pending = true
       const { errno, msg } = await this.$http.post('/user/email-verification')
-      swal({ type: errno === 0 ? 'success' : 'warning', text: msg })
+      if (errno === 0) {
+        this.$message.success(msg)
+      } else {
+        this.$message.error(msg)
+      }
       this.pending = false
     },
   },

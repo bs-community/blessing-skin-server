@@ -15,12 +15,12 @@ const config = {
     style: [
       'bootstrap/dist/css/bootstrap.min.css',
       'admin-lte/dist/css/AdminLTE.min.css',
+      'element-ui/lib/theme-chalk/base.css',
+      './resources/assets/src/element.scss',
       '@fortawesome/fontawesome-free/css/fontawesome.min.css',
       '@fortawesome/fontawesome-free/css/regular.min.css',
       '@fortawesome/fontawesome-free/css/solid.min.css',
       'icheck/skins/square/blue.css',
-      'toastr/build/toastr.min.css',
-      'sweetalert2/dist/sweetalert2.min.css',
       './resources/assets/src/stylus/common.styl',
     ],
     setup: './resources/assets/src/stylus/setup.styl',
@@ -54,11 +54,12 @@ const config = {
         ],
       },
       {
-        test: /node_modules.*\.css$/,
+        test: /((node_modules.*)|element)\.(sa|sc|c)ss$/,
         use: [
-          MiniCssExtractPlugin.loader,
-          { loader: 'css-loader', options: { importLoaders: 1 } },
-          'csso-loader?-comments',
+          devMode ? 'style-loader?hmr=true' : MiniCssExtractPlugin.loader,
+          { loader: 'css-loader', options: { importLoaders: 2 } },
+          'postcss-loader',
+          'sass-loader',
         ],
       },
       {
@@ -84,7 +85,7 @@ const config = {
       },
       {
         test: /\.(svg|woff2?|eot|ttf)$/,
-        loader: 'file-loader',
+        loader: devMode ? 'url-loader' : 'file-loader',
       },
       {
         test: require.resolve('jquery'),

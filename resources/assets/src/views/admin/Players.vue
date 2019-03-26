@@ -118,8 +118,6 @@
 <script>
 import { VueGoodTable } from 'vue-good-table'
 import 'vue-good-table/dist/vue-good-table.min.css'
-import toastr from 'toastr'
-import { swal } from '../../js/notify'
 import tableOptions from '../../components/mixins/tableOptions'
 import serverTable from '../../components/mixins/serverTable'
 
@@ -188,20 +186,20 @@ export default {
       )
       if (errno === 0) {
         player[`tid_${type}`] = tid
-        toastr.success(msg)
+        this.$message.success(msg)
         $('.modal').modal('hide')
       } else {
-        toastr.warning(msg)
+        this.$message.warning(msg)
       }
     },
     async changeName(player) {
-      const { dismiss, value } = await swal({
-        text: this.$t('admin.changePlayerNameNotice'),
-        input: 'text',
-        inputValue: player.name,
-        inputValidator: name => !name && this.$t('admin.emptyPlayerName'),
-      })
-      if (dismiss) {
+      let value
+      try {
+        ({ value } = await this.$prompt(this.$t('admin.changePlayerNameNotice'), {
+          inputValue: player.name,
+          inputValidator: name => !!name || this.$t('admin.emptyPlayerName'),
+        }))
+      } catch {
         return
       }
 
@@ -211,18 +209,18 @@ export default {
       )
       if (errno === 0) {
         player.name = value
-        toastr.success(msg)
+        this.$message.success(msg)
       } else {
-        toastr.warning(msg)
+        this.$message.warning(msg)
       }
     },
     async changeOwner(player) {
-      const { dismiss, value } = await swal({
-        text: this.$t('admin.changePlayerOwner'),
-        input: 'number',
-        inputValue: player.uid,
-      })
-      if (dismiss) {
+      let value
+      try {
+        ({ value } = await this.$prompt(this.$t('admin.changePlayerOwner'), {
+          inputValue: player.uid,
+        }))
+      } catch {
         return
       }
 
@@ -232,18 +230,17 @@ export default {
       )
       if (errno === 0) {
         player.uid = value
-        toastr.success(msg)
+        this.$message.success(msg)
       } else {
-        toastr.warning(msg)
+        this.$message.warning(msg)
       }
     },
     async deletePlayer({ pid, originalIndex }) {
-      const { dismiss } = await swal({
-        text: this.$t('admin.deletePlayerNotice'),
-        type: 'warning',
-        showCancelButton: true,
-      })
-      if (dismiss) {
+      try {
+        await this.$confirm(this.$t('admin.deletePlayerNotice'), {
+          type: 'warning',
+        })
+      } catch {
         return
       }
 
@@ -253,9 +250,9 @@ export default {
       )
       if (errno === 0) {
         this.$delete(this.players, originalIndex)
-        toastr.success(msg)
+        this.$message.success(msg)
       } else {
-        toastr.warning(msg)
+        this.$message.warning(msg)
       }
     },
   },

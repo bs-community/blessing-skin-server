@@ -57,7 +57,6 @@
 </template>
 
 <script>
-import { swal } from '../../js/notify'
 import Captcha from '../../components/Captcha.vue'
 
 export default {
@@ -117,7 +116,7 @@ export default {
         }
       )
       if (errno === 0) {
-        swal({ type: 'success', text: msg })
+        this.$message.success(msg)
         setTimeout(() => {
           window.location = `${blessing.base_url}/${blessing.redirect_to || 'user'}`
         }, 1000)
@@ -125,10 +124,10 @@ export default {
         if (loginFails > 3 && !this.tooManyFails) {
           if (this.recaptcha) {
             if (!this.invisible) {
-              swal({ type: 'error', text: this.$t('auth.tooManyFails.recaptcha') })
+              this.$alert(this.$t('auth.tooManyFails.recaptcha'), { type: 'error' })
             }
           } else {
-            swal({ type: 'error', text: this.$t('auth.tooManyFails.captcha') })
+            this.$alert(this.$t('auth.tooManyFails.captcha'), { type: 'error' })
           }
           this.tooManyFails = true
         }

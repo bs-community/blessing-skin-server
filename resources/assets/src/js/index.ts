@@ -2,6 +2,7 @@ import './public-path' // Must be first
 import './i18n'
 import './net'
 import './event'
+import './element'
 import './layout'
 import './logout'
 import './check-updates'

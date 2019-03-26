@@ -1,9 +1,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import EmailVerification from '@/components/EmailVerification.vue'
-import { swal } from '@/js/notify'
-
-jest.mock('@/js/notify')
 
 test('message box should not be render if verified', () => {
   window.blessing.extra = { unverified: false }
@@ -21,9 +18,9 @@ test('resend email', async () => {
 
   button.trigger('click')
   await wrapper.vm.$nextTick()
-  expect(swal).toBeCalledWith({ type: 'warning', text: '1' })
+  expect(Vue.prototype.$message.error).toBeCalledWith('1')
 
   button.trigger('click')
   await wrapper.vm.$nextTick()
-  expect(swal).toBeCalledWith({ type: 'success', text: '0' })
+  expect(Vue.prototype.$message.success).toBeCalledWith('0')
 })

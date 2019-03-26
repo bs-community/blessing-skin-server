@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import Vue from 'vue'
+import { Message, MessageBox } from 'element-ui'
 import * as JQuery from 'jquery'
 
 declare global {

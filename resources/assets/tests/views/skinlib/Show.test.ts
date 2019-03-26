@@ -1,11 +1,8 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import Show from '@/views/skinlib/Show.vue'
-import toastr from 'toastr'
+import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../../utils'
-import { swal } from '@/js/notify'
-
-jest.mock('@/js/notify')
 
 type Component = Vue & {
   liked: boolean
@@ -156,7 +153,7 @@ test('set as avatar', () => {
     stubs: { previewer },
   })
   wrapper.find('button.btn-default').trigger('click')
-  expect(swal).toBeCalled()
+  expect(Vue.prototype.$confirm).toBeCalled()
 
   const noSetAsAvatar = mount(Show, {
     mocks: {
@@ -171,7 +168,7 @@ test('add to closet', async () => {
   Object.assign(window.blessing.extra, { currentUid: 1, inCloset: false })
   Vue.prototype.$http.get.mockResolvedValue({ name: 'wow', likes: 2 })
   Vue.prototype.$http.post.mockResolvedValue({ errno: 0, msg: '' })
-  swal.mockResolvedValue({})
+  Vue.prototype.$prompt.mockResolvedValue({ value: 'a' } as MessageBoxData)
   const wrapper = mount<Component>(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
@@ -188,7 +185,6 @@ test('remove from closet', async () => {
   Object.assign(window.blessing.extra, { currentUid: 1, inCloset: true })
   Vue.prototype.$http.get.mockResolvedValue({ likes: 2 })
   Vue.prototype.$http.post.mockResolvedValue({ errno: 0 })
-  swal.mockResolvedValue({})
   const wrapper = mount<Component>(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
@@ -207,14 +203,14 @@ test('change texture name', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
     .mockResolvedValue({ errno: 0, msg: '0' })
-  jest.spyOn(toastr, 'warning')
-  swal.mockImplementationOnce(() => Promise.resolve({ dismiss: 1 }))
-    .mockImplementation(({ inputValidator }) => {
+  Vue.prototype.$prompt
+    .mockImplementationOnce(() => Promise.reject('cancel'))
+    .mockImplementation((_, { inputValidator }) => {
       if (inputValidator) {
         inputValidator('')
         inputValidator('new-name')
       }
-      return Promise.resolve({ value: 'new-name' })
+      return Promise.resolve({ value: 'new-name' } as MessageBoxData)
     })
   const wrapper = mount<Component>(Show, {
     mocks: {
@@ -233,7 +229,7 @@ test('change texture name', async () => {
     '/skinlib/rename',
     { tid: 1, new_name: 'new-name' }
   )
-  expect(toastr.warning).toBeCalledWith('1')
+  expect(Vue.prototype.$message.error).toBeCalledWith('1')
 
   button.trigger('click')
   await flushPromises()
@@ -245,9 +241,19 @@ test('change texture model', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
     .mockResolvedValue({ errno: 0, msg: '0' })
-  jest.spyOn(toastr, 'warning')
-  swal.mockResolvedValueOnce({ dismiss: 1 })
-    .mockResolvedValue({ value: 'alex' })
+  Vue.prototype.$msgbox
+    .mockImplementationOnce(() => Promise.reject())
+    .mockImplementation(options => {
+      if (options.message) {
+        const vnode = options.message as Vue.VNode
+        const elm = document.createElement('select')
+        elm.appendChild(document.createElement('option'))
+        elm.appendChild(document.createElement('option'))
+        elm.selectedIndex = 1
+        ;(vnode.children as Vue.VNode[])[1].elm = elm
+      }
+      return Promise.resolve({} as MessageBoxData)
+    })
   const wrapper = mount<Component>(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
@@ -266,7 +272,7 @@ test('change texture model', async () => {
     '/skinlib/model',
     { tid: 1, model: 'alex' }
   )
-  expect(toastr.warning).toBeCalledWith('1')
+  expect(Vue.prototype.$message.warning).toBeCalledWith('1')
 
   button.trigger('click')
   await flushPromises()
@@ -278,9 +284,9 @@ test('toggle privacy', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
     .mockResolvedValue({ errno: 0, msg: '0' })
-  jest.spyOn(toastr, 'warning')
-  swal.mockResolvedValueOnce({ dismiss: 1 })
-    .mockResolvedValue({})
+  Vue.prototype.$confirm
+    .mockRejectedValueOnce('')
+    .mockResolvedValue('confirm')
   const wrapper = mount<Component>(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
@@ -298,7 +304,7 @@ test('toggle privacy', async () => {
     '/skinlib/privacy',
     { tid: 1 }
   )
-  expect(toastr.warning).toBeCalledWith('1')
+  expect(Vue.prototype.$message.warning).toBeCalledWith('1')
 
   button.trigger('click')
   await flushPromises()
@@ -314,8 +320,9 @@ test('delete texture', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ errno: 1, msg: '1' })
     .mockResolvedValue({ errno: 0, msg: '0' })
-  swal.mockResolvedValueOnce({ dismiss: 1 })
-    .mockResolvedValue({})
+  Vue.prototype.$confirm
+    .mockRejectedValueOnce('')
+    .mockResolvedValue('confirm')
   const wrapper = mount(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
@@ -333,9 +340,10 @@ test('delete texture', async () => {
     '/skinlib/delete',
     { tid: 1 }
   )
-  expect(swal).toBeCalledWith({ type: 'warning', text: '1' })
+  expect(Vue.prototype.$message.warning).toBeCalledWith('1')
 
   button.trigger('click')
   await flushPromises()
-  expect(swal).toBeCalledWith({ type: 'success', text: '0' })
+  jest.runAllTimers()
+  expect(Vue.prototype.$message.success).toBeCalledWith('0')
 })

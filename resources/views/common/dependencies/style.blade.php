@@ -1,4 +1,7 @@
 <!-- Bundled styles -->
+@if (app()->environment('development'))
+    <script src="{{ webpack_assets('style.js') }}"></script>
+@endif
 <link rel="stylesheet" href="{{ webpack_assets('style.css') }}">
 <!-- AdminLTE color scheme -->
 <link rel="stylesheet" href="{{ webpack_assets('skins/'.option('color_scheme').'.min.css') }}">

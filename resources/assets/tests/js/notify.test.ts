@@ -1,13 +1,5 @@
 import $ from 'jquery'
-import Swal from 'sweetalert2'
 import * as notify from '@/js/notify'
-
-jest.mock('sweetalert2', () => ({
-  mixin() {
-    return this
-  },
-  fire() {},
-}))
 
 test('show AJAX error', () => {
   // @ts-ignore
@@ -26,10 +18,4 @@ test('show modal', () => {
     callback: () => undefined,
     destroyOnClose: false,
   })
-})
-
-test('show sweetalert', () => {
-  jest.spyOn(Swal, 'fire')
-  notify.swal({})
-  expect(Swal.fire).toBeCalled()
 })
