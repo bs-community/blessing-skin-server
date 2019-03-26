@@ -1,3 +1,5 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
+import 'zrender/lib/svg/svg'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
 import 'echarts/lib/component/dataZoom'
@@ -11,8 +13,8 @@ interface ChartData {
   data: number[][]
 }
 
-async function createChart(el: HTMLCanvasElement) {
-  const chart = echarts.init(el)
+async function createChart(el: HTMLDivElement) {
+  const chart = echarts.init(el, void 0, { renderer: 'svg' })
   chart.setOption({
     tooltip: {
       trigger: 'axis',
@@ -71,6 +73,7 @@ async function createChart(el: HTMLCanvasElement) {
         type: 'category',
         boundaryGap: false,
         data: chartData.xAxis,
+        axisLabel: { margin: 16 },
       },
     ],
     series: chartData.labels.map(
@@ -89,7 +92,7 @@ async function createChart(el: HTMLCanvasElement) {
   return chart
 }
 
-const el = document.querySelector('canvas')
+const el = document.querySelector<HTMLDivElement>('#chart')
 if (el) {
   createChart(el)
 }
