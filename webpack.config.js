@@ -20,7 +20,6 @@ const config = {
       '@fortawesome/fontawesome-free/css/fontawesome.min.css',
       '@fortawesome/fontawesome-free/css/regular.min.css',
       '@fortawesome/fontawesome-free/css/solid.min.css',
-      'icheck/skins/square/blue.css',
       './resources/assets/src/stylus/common.styl',
     ],
     setup: './resources/assets/src/stylus/setup.styl',

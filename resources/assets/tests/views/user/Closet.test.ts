@@ -176,16 +176,6 @@ test('select texture', async () => {
 })
 
 test('apply texture', async () => {
-  window.$ = jest.fn(() => ({
-    iCheck: () => ({
-      on(_: Event, cb: CallableFunction) {
-        cb()
-      },
-    }),
-    0: {
-      dispatchEvent: () => {},
-    },
-  }))
   Vue.prototype.$http.get
     .mockResolvedValueOnce({})
     .mockResolvedValueOnce([])
@@ -277,14 +267,6 @@ test('select specified texture initially', async () => {
   window.history.pushState({}, 'title', `${location.href}?tid=1`)
   window.$ = jest.fn(() => ({
     modal() {},
-    iCheck: () => ({
-      on(_: Event, cb: CallableFunction) {
-        cb()
-      },
-    }),
-    0: {
-      dispatchEvent: () => {},
-    },
   }))
   Vue.prototype.$http.get
     .mockResolvedValueOnce({

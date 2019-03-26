@@ -281,16 +281,6 @@ export default {
     },
     async applyTexture() {
       this.players = await this.$http.get('/user/player/list')
-      setTimeout(() => {
-        $(this.$el).iCheck({
-          radioClass: 'iradio_square-blue',
-          checkboxClass: 'icheckbox_square-blue',
-        })
-          .on('ifChanged', function onChanged() {
-            // eslint-disable-next-line no-invalid-this
-            $(this)[0].dispatchEvent(new Event('change'))
-          })
-      }, 0)
     },
     async submitApplyTexture() {
       if (!this.selectedPlayer) {

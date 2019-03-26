@@ -34,7 +34,6 @@
                       class="btn btn-warning btn-sm"
                       data-toggle="modal"
                       data-target="#modal-clear-texture"
-                      @click="loadICheck"
                     />
                     <a
                       v-t="'user.player.delete-player'"
@@ -300,16 +299,6 @@ export default {
       } else {
         this.$message.warning(msg)
       }
-    },
-    loadICheck() {
-      $('input').iCheck({
-        radioClass: 'iradio_square-blue',
-        checkboxClass: 'icheckbox_square-blue',
-      })
-        .on('ifChecked ifUnchecked', function onChange() {
-          // eslint-disable-next-line no-invalid-this
-          $(this)[0].dispatchEvent(new Event('change'))
-        })
     },
     async clearTexture() {
       if (Object.values(this.clear).every(value => !value)) {
