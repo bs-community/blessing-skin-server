@@ -1,7 +1,26 @@
 /* eslint-disable no-mixed-operators */
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
+import { Button } from 'element-ui'
 import Dashboard from '@/views/user/Dashboard.vue'
+
+jest.mock('@tweenjs/tween.js', () => ({
+  Tween: class <T> {
+    data: T
+
+    constructor(data: T) {
+      this.data = data
+    }
+
+    to(data: Partial<T>, _: number) {
+      Object.assign(this.data, data)
+      return this
+    }
+
+    start() {}
+  },
+  update() {},
+}))
 
 window.blessing.extra = { unverified: false }
 
@@ -33,7 +52,6 @@ test('players usage', async () => {
   const wrapper = mount(Dashboard)
   await wrapper.vm.$nextTick()
   expect(wrapper.text()).toContain('3 / 15')
-  expect(wrapper.find('.progress-bar-aqua').attributes('style')).toBe('width: 20%;')
 })
 
 test('storage usage', async () => {
@@ -52,12 +70,10 @@ test('storage usage', async () => {
   let wrapper = mount(Dashboard)
   await wrapper.vm.$nextTick()
   expect(wrapper.text()).toContain('5 / 20 KB')
-  expect(wrapper.find('.progress-bar-yellow').attributes('style')).toBe('width: 25%;')
 
   wrapper = mount(Dashboard)
   await wrapper.vm.$nextTick()
   expect(wrapper.text()).toContain('2 / 4 MB')
-  expect(wrapper.find('.progress-bar-yellow').attributes('style')).toBe('width: 50%;')
 })
 
 test('display score', async () => {
@@ -79,19 +95,19 @@ test('button `sign` state', async () => {
 
   let wrapper = mount(Dashboard)
   await wrapper.vm.$nextTick()
-  expect(wrapper.find('button').attributes('disabled')).toBeNil()
+  expect(wrapper.find(Button).attributes('disabled')).toBeNil()
 
   wrapper = mount(Dashboard)
   await wrapper.vm.$nextTick()
-  expect(wrapper.find('button').attributes('disabled')).toBe('disabled')
+  expect(wrapper.find(Button).attributes('disabled')).toBe('disabled')
 
   wrapper = mount(Dashboard)
   await wrapper.vm.$nextTick()
-  expect(wrapper.find('button').attributes('disabled')).toBeNil()
+  expect(wrapper.find(Button).attributes('disabled')).toBeNil()
 
   wrapper = mount(Dashboard)
   await wrapper.vm.$nextTick()
-  expect(wrapper.find('button').attributes('disabled')).toBe('disabled')
+  expect(wrapper.find(Button).attributes('disabled')).toBe('disabled')
 })
 
 test('remaining time', async () => {
@@ -108,13 +124,13 @@ test('remaining time', async () => {
 
   let wrapper = mount(Dashboard)
   await wrapper.vm.$nextTick()
-  expect(wrapper.find('button').text()).toMatch(/(29)|(30)/)
-  expect(wrapper.find('button').text()).toContain('min')
+  expect(wrapper.find(Button).text()).toMatch(/(29)|(30)/)
+  expect(wrapper.find(Button).text()).toContain('min')
 
   wrapper = mount(Dashboard)
   await wrapper.vm.$nextTick()
-  expect(wrapper.find('button').text()).toContain('23')
-  expect(wrapper.find('button').text()).toContain('hour')
+  expect(wrapper.find(Button).text()).toContain('23')
+  expect(wrapper.find(Button).text()).toContain('hour')
 
   Vue.prototype.$t = origin
 })
@@ -131,7 +147,7 @@ test('sign', async () => {
       storage: { used: 3, total: 4 },
     })
   const wrapper = mount(Dashboard)
-  const button = wrapper.find('button')
+  const button = wrapper.find(Button)
   await wrapper.vm.$nextTick()
 
   button.trigger('click')

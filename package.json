@@ -19,6 +19,7 @@
   "dependencies": {
     "@babel/runtime": "^7.3.4",
     "@fortawesome/fontawesome-free": "^5.7.2",
+    "@tweenjs/tween.js": "^17.3.0",
     "admin-lte": "^2.4.10",
     "echarts": "^4.1.0",
     "element-theme-chalk": "^2.6.3",
