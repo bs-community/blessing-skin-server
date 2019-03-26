@@ -1,7 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import 'jest-extended'
 import Vue from 'vue'
-import { Button } from 'element-ui'
+import {
+  Button,
+  Input,
+} from 'element-ui'
 
 window.blessing = {
   base_url: '',
@@ -37,6 +40,7 @@ Vue.prototype.$http = {
 }
 
 Vue.use(Button)
+Vue.use(Input)
 Vue.prototype.$message = {
   info: jest.fn(),
   success: jest.fn(),
