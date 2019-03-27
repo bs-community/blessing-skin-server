@@ -14,7 +14,7 @@ const config = {
     index: './resources/assets/src/index.js',
     style: [
       'bootstrap/dist/css/bootstrap.min.css',
-      'admin-lte/dist/css/AdminLTE.min.css',
+      'admin-lte/dist/css/alt/AdminLTE-without-plugins.min.css',
       'element-ui/lib/theme-chalk/base.css',
       './resources/assets/src/element.scss',
       '@fortawesome/fontawesome-free/css/fontawesome.min.css',

@@ -1,5 +1,4 @@
 import 'bootstrap' // eslint-disable-line import/no-extraneous-dependencies
-import 'admin-lte'
 import Vue from 'vue'
 
 Vue.mixin({
