@@ -19,22 +19,22 @@ test('submit forgot form', async () => {
     .mockResolvedValueOnce({ errno: 1, msg: 'fail' })
     .mockResolvedValueOnce({ errno: 0, msg: 'ok' })
   const wrapper = mount(Forgot, { stubs: { Captcha } })
-  const button = wrapper.find('button')
+  const form = wrapper.find('form')
   const info = wrapper.find('.callout-info')
   const warning = wrapper.find('.callout-warning')
   const success = wrapper.find('.callout-success')
 
-  button.trigger('click')
+  form.trigger('submit')
   expect(Vue.prototype.$http.post).not.toBeCalled()
   expect(info.text()).toBe('auth.emptyEmail')
 
   wrapper.find('[type="email"]').setValue('a')
-  button.trigger('click')
+  form.trigger('submit')
   expect(Vue.prototype.$http.post).not.toBeCalled()
   expect(info.text()).toBe('auth.invalidEmail')
 
   wrapper.find('[type="email"]').setValue('a@b.c')
-  button.trigger('click')
+  form.trigger('submit')
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/auth/forgot',
@@ -42,7 +42,7 @@ test('submit forgot form', async () => {
   )
   expect(warning.text()).toBe('fail')
 
-  button.trigger('click')
+  form.trigger('submit')
   await flushPromises()
   expect(success.text()).toBe('ok')
 })

@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.prevent="submit">
     <div class="form-group has-feedback">
       <input
         ref="email"
@@ -18,20 +18,16 @@
     <div class="callout callout-warning" :class="{ hide: !warningMsg }">{{ warningMsg }}</div>
 
     <div class="row">
-      <div class="col-xs-8">
+      <div class="col-xs-7">
         <a v-t="'auth.forgot.login-link'" :href="`${baseUrl}/auth/login`" class="text-center" />
       </div>
-      <div class="col-xs-4">
-        <button v-if="pending" disabled class="btn btn-primary btn-block btn-flat">
-          <i class="fa fa-spinner fa-spin" /> {{ $t('auth.sending') }}
-        </button>
-        <button
-          v-else
-          class="btn btn-primary btn-block btn-flat"
-          @click.prevent="submit"
-        >
-          {{ $t('auth.forgot.button') }}
-        </button>
+      <div class="col-xs-5">
+        <el-button type="primary" native-type="submit" :disabled="pending">
+          <template v-if="pending">
+            <i class="fa fa-spinner fa-spin" /> {{ $t('auth.sending') }}
+          </template>
+          <span v-else>{{ $t('auth.forgot.button') }}</span>
+        </el-button>
       </div>
     </div>
   </form>

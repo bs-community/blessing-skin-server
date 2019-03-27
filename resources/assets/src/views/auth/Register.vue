@@ -70,20 +70,16 @@
     <div class="callout callout-warning" :class="{ hide: !warningMsg }">{{ warningMsg }}</div>
 
     <div class="row">
-      <div class="col-xs-8">
+      <div class="col-xs-7">
         <a v-t="'auth.login-link'" :href="`${baseUrl}/auth/login`" class="text-center" />
       </div>
-      <div class="col-xs-4">
-        <button v-if="pending" disabled class="btn btn-primary btn-block btn-flat">
-          <i class="fa fa-spinner fa-spin" /> {{ $t('auth.registering') }}
-        </button>
-        <button
-          v-else
-          class="btn btn-primary btn-block btn-flat"
-          type="submit"
-        >
-          {{ $t('auth.register-button') }}
-        </button>
+      <div class="col-xs-5">
+        <el-button type="primary" native-type="submit" :disabled="pending">
+          <template v-if="pending">
+            <i class="fa fa-spinner fa-spin" /> {{ $t('auth.registering') }}
+          </template>
+          <span v-else>{{ $t('auth.register-button') }}</span>
+        </el-button>
       </div>
     </div>
   </form>

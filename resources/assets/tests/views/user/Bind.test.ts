@@ -26,13 +26,14 @@ test('submit', async () => {
     .mockResolvedValueOnce({ errno: 0, msg: 'ok' })
 
   const wrapper = mount(Bind)
+  const form = wrapper.find('form')
   wrapper.find('input').setValue('abc')
 
-  wrapper.find('button').trigger('click')
+  form.trigger('submit')
   await wrapper.vm.$nextTick()
   expect(wrapper.find('.callout').text()).toBe('fail')
 
-  wrapper.find('button').trigger('click')
+  form.trigger('submit')
   await wrapper.vm.$nextTick()
   expect(Vue.prototype.$alert).toBeCalledWith({ message: 'ok', type: 'success' })
 })

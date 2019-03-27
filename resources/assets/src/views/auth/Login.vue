@@ -131,5 +131,4 @@ export default {
 
 .el-button
   margin-top 10px
-  width 100%
 </style>
