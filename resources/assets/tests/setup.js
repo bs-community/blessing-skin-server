@@ -4,6 +4,7 @@ import Vue from 'vue'
 import {
   Button,
   Input,
+  Switch,
 } from 'element-ui'
 
 window.blessing = {
@@ -41,6 +42,7 @@ Vue.prototype.$http = {
 
 Vue.use(Button)
 Vue.use(Input)
+Vue.use(Switch)
 Vue.prototype.$message = {
   info: jest.fn(),
   success: jest.fn(),

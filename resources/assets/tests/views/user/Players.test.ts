@@ -90,27 +90,6 @@ test('change player name', async () => {
   expect(wrapper.text()).toContain('new-name')
 })
 
-test('load iCheck', async () => {
-  Vue.prototype.$http.get
-    .mockResolvedValueOnce([
-      { pid: 1 },
-    ])
-  window.$ = jest.fn(() => ({
-    iCheck: () => ({
-      on(_: Event, cb: CallableFunction) {
-        cb()
-      },
-    }),
-    0: {
-      dispatchEvent: () => {},
-    },
-  }))
-  const wrapper = mount(Players)
-  await wrapper.vm.$nextTick()
-  wrapper.find('.btn-warning').trigger('click')
-  expect(window.$).toBeCalled()
-})
-
 test('delete player', async () => {
   Vue.prototype.$http.get
     .mockResolvedValueOnce([

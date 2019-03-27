@@ -33,7 +33,7 @@ test('button for removing texture', () => {
   Object.defineProperty(wrapper.vm.$refs.upload, 'clear', {
     get: () => jest.fn(),
   })
-  const button = wrapper.find('.btn-default')
+  const button = wrapper.find('[data-test=remove]')
   expect(button.isVisible()).toBeFalse()
   wrapper.setData({ files: [{}] })
   expect(button.isVisible()).toBeTrue()

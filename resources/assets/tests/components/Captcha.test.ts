@@ -17,8 +17,8 @@ test('display recaptcha', () => {
 })
 
 test('refresh recaptcha', () => {
-  const wrapper = mount<Vue & { refreshCaptcha(): void }>(Captcha)
-  wrapper.vm.refreshCaptcha()
+  const wrapper = mount<Vue & { refresh(): void }>(Captcha)
+  wrapper.vm.refresh()
 })
 
 test('recaptcha verified', () => {

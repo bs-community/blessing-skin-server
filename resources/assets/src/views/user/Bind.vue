@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.prevent="submit">
     <div v-if="players.length">
       <p v-t="'user.bindExistedPlayer'" />
       <div class="form-group">
@@ -23,16 +23,13 @@
 
     <div v-show="message" class="callout callout-warning" v-text="message" />
 
-    <button v-if="pending" class="btn btn-primary btn-block btn-flat" disabled>
-      <i class="fa fa-spinner fa-spin" /> {{ $t('general.wait') }}
-    </button>
-    <button
-      v-else
-      class="btn btn-primary btn-block btn-flat"
-      @click.prevent="submit"
-    >
-      {{ $t('general.submit') }}
-    </button>
+
+    <el-button type="primary" native-type="submit" :disabled="pending">
+      <template v-if="pending">
+        <i class="fa fa-spinner fa-spin" /> {{ $t('general.wait') }}
+      </template>
+      <span v-else>{{ $t('general.submit') }}</span>
+    </el-button>
   </form>
 </template>
 

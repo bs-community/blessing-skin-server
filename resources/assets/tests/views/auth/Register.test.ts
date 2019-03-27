@@ -10,7 +10,7 @@ const Captcha = Vue.extend({
     execute() {
       return Promise.resolve('captcha')
     },
-    refreshCaptcha() { /* */ },
+    refresh() { /* */ },
   },
 })
 

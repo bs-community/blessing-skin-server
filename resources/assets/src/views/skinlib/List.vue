@@ -52,7 +52,7 @@
                   <el-button plain @click="uploader = currentUid">
                     {{ $t('skinlib.seeMyUpload') }}
                   </el-button>
-                  <el-button type="info" plain @click="reset">
+                  <el-button plain @click="reset">
                     {{ $t('skinlib.reset') }}
                   </el-button>
                 </el-button-group>
@@ -111,12 +111,14 @@
 <script>
 import Vue from 'vue'
 import Paginate from 'vuejs-paginate'
+import ButtonGroup from 'element-ui/lib/button-group'
 import 'element-ui/lib/theme-chalk/select.css'
 import Select from 'element-ui/lib/select'
 import Option from 'element-ui/lib/option'
 import { queryString } from '../../js/utils'
 import SkinLibItem from '../../components/SkinLibItem.vue'
 
+Vue.use(ButtonGroup)
 Vue.use(Select)
 Vue.use(Option)
 

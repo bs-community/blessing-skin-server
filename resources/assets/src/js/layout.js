@@ -1,32 +1,11 @@
-import 'bootstrap' // eslint-disable-line import/no-extraneous-dependencies
-import 'admin-lte'
-import 'icheck'
-import Vue from 'vue'
+/* eslint-disable import/no-extraneous-dependencies */
+import 'bootstrap/js/dropdown'
+import 'bootstrap/js/modal'
+import 'admin-lte/build/js/Layout'
+import 'admin-lte/build/js/PushMenu'
+import 'admin-lte/build/js/Tree'
 
-Vue.mixin({
-  mounted() {
-    $(this.$el).iCheck({
-      radioClass: 'iradio_square-blue',
-      checkboxClass: 'icheckbox_square-blue',
-    })
-      .on('ifChecked ifUnchecked', function onChange() {
-        // eslint-disable-next-line no-invalid-this
-        $(this)[0].dispatchEvent(new Event('change'))
-      })
-    $('[data-toggle="tooltip"]').tooltip()
-  },
-})
-
-document.addEventListener('loadend', () => {
-  $('input').iCheck({
-    radioClass: 'iradio_square-blue',
-    checkboxClass: 'icheckbox_square-blue',
-  })
-
-  $('[data-toggle="tooltip"]').tooltip()
-})
-
-;(() => {
+(() => {
   const list = [
     {
       path: 'admin',

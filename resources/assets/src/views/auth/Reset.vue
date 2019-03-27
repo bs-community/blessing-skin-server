@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <form @submit.prevent="reset">
     <div class="form-group has-feedback">
       <input
         ref="password"
@@ -25,14 +25,14 @@
     <div class="callout callout-warning" :class="{ hide: !warningMsg }">{{ warningMsg }}</div>
 
     <div class="row">
-      <div class="col-xs-8" />
-      <div class="col-xs-4">
-        <button v-if="pending" disabled class="btn btn-primary btn-block btn-flat">
-          <i class="fa fa-spinner fa-spin" /> {{ $t('auth.resetting') }}
-        </button>
-        <button v-else class="btn btn-primary btn-block btn-flat" @click.prevent="reset">
-          {{ $t('auth.reset-button') }}
-        </button>
+      <div class="col-xs-7" />
+      <div class="col-xs-5">
+        <el-button type="primary" native-type="submit" :disabled="pending">
+          <template v-if="pending">
+            <i class="fa fa-spinner fa-spin" /> {{ $t('auth.resetting') }}
+          </template>
+          <span v-else>{{ $t('auth.reset-button') }}</span>
+        </el-button>
       </div>
     </div>
   </form>
