@@ -80,6 +80,7 @@
 
 <script>
 import Vue from 'vue'
+import 'element-ui/lib/theme-chalk/progress.css'
 import Progress from 'element-ui/lib/progress'
 import Tween from '@tweenjs/tween.js'
 import EmailVerification from '../../components/EmailVerification.vue'
