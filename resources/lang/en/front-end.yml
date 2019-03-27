@@ -218,7 +218,7 @@ user:
 
 admin:
   operationsTitle: Operations
-  status: Status
+  permission: Permission
   playersCount: Players Count
   deleteUser: Delete
   cannotDeleteAdmin: You can't delete admins.
