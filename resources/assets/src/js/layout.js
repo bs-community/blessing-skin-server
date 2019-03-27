@@ -1,17 +1,11 @@
-import 'bootstrap' // eslint-disable-line import/no-extraneous-dependencies
-import Vue from 'vue'
+/* eslint-disable import/no-extraneous-dependencies */
+import 'bootstrap/js/dropdown'
+import 'bootstrap/js/modal'
+import 'admin-lte/build/js/Layout'
+import 'admin-lte/build/js/PushMenu'
+import 'admin-lte/build/js/Tree'
 
-Vue.mixin({
-  mounted() {
-    $('[data-toggle="tooltip"]').tooltip()
-  },
-})
-
-document.addEventListener('loadend', () => {
-  $('[data-toggle="tooltip"]').tooltip()
-})
-
-;(() => {
+(() => {
   const list = [
     {
       path: 'admin',
