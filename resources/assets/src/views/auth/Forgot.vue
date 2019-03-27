@@ -11,30 +11,7 @@
       <span class="glyphicon glyphicon-envelope form-control-feedback" />
     </div>
 
-    <div class="row">
-      <div class="col-xs-8">
-        <div class="form-group has-feedback">
-          <input
-            ref="captcha"
-            v-model="captcha"
-            type="text"
-            class="form-control"
-            :placeholder="$t('auth.captcha')"
-          >
-        </div>
-      </div>
-      <div class="col-xs-4">
-        <img
-          class="pull-right captcha"
-          :src="`${baseUrl}/auth/captcha?v=${time}`"
-          alt="CAPTCHA"
-          :title="$t('auth.change-captcha')"
-          data-placement="top"
-          data-toggle="tooltip"
-          @click="refreshCaptcha"
-        >
-      </div>
-    </div>
+    <captcha ref="captcha" />
 
     <div class="callout callout-success" :class="{ hide: !successMsg }">{{ successMsg }}</div>
     <div class="callout callout-info" :class="{ hide: !infoMsg }">{{ infoMsg }}</div>
@@ -61,8 +38,13 @@
 </template>
 
 <script>
+import Captcha from '../../components/Captcha.vue'
+
 export default {
   name: 'Forgot',
+  components: {
+    Captcha,
+  },
   props: {
     baseUrl: {
       type: String,
@@ -71,8 +53,6 @@ export default {
   },
   data: () => ({
     email: '',
-    captcha: '',
-    time: Date.now(),
     successMsg: '',
     infoMsg: '',
     warningMsg: '',
@@ -80,7 +60,7 @@ export default {
   }),
   methods: {
     async submit() {
-      const { email, captcha } = this
+      const { email } = this
 
       if (!email) {
         this.infoMsg = this.$t('auth.emptyEmail')
@@ -94,16 +74,10 @@ export default {
         return
       }
 
-      if (!captcha) {
-        this.infoMsg = this.$t('auth.emptyCaptcha')
-        this.$refs.captcha.focus()
-        return
-      }
-
       this.pending = true
       const { errno, msg } = await this.$http.post(
         '/auth/forgot',
-        { email, captcha }
+        { email, captcha: await this.$refs.captcha.execute() }
       )
       if (errno === 0) {
         this.infoMsg = ''
@@ -113,12 +87,9 @@ export default {
       } else {
         this.infoMsg = ''
         this.warningMsg = msg
-        this.refreshCaptcha()
         this.pending = false
+        this.$refs.captcha.refreshCaptcha()
       }
-    },
-    refreshCaptcha() {
-      this.time = Date.now()
     },
   },
 }

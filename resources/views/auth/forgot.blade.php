@@ -22,5 +22,11 @@
     <!-- /.login-box-body -->
 </div>
 <!-- /.login-box -->
-
+@include('common.recaptcha')
+<script>
+Object.defineProperty(blessing, 'extra', {
+    get: () => Object.freeze(@json($extra)),
+    configurable: false
+})
+</script>
 @endsection

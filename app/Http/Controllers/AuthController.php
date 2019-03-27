@@ -162,7 +162,12 @@ class AuthController extends Controller
     public function forgot()
     {
         if (config('mail.driver') != '') {
-            return view('auth.forgot');
+            return view('auth.forgot', [
+                'extra' => [
+                    'recaptcha' => option('recaptcha_sitekey'),
+                    'invisible' => (bool) option('recaptcha_invisible'),
+                ]
+            ]);
         } else {
             throw new PrettyPageException(trans('auth.forgot.disabled'), 8);
         }
