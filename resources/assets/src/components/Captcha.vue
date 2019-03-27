@@ -29,7 +29,7 @@
         :title="$t('auth.change-captcha')"
         data-placement="top"
         data-toggle="tooltip"
-        @click="refreshCaptcha"
+        @click="refresh"
       >
     </div>
   </div>
@@ -71,7 +71,7 @@ export default {
     onVerify(response) {
       this.value = response
     },
-    refreshCaptcha() {
+    refresh() {
       if (this.recaptcha) {
         this.$refs.recaptcha.reset()
       } else {

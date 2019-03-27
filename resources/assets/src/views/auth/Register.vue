@@ -179,7 +179,7 @@ export default {
       } else {
         this.infoMsg = ''
         this.warningMsg = msg
-        this.$refs.captcha.refreshCaptcha()
+        this.$refs.captcha.refresh()
         this.pending = false
       }
     },

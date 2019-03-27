@@ -88,7 +88,7 @@ export default {
         this.infoMsg = ''
         this.warningMsg = msg
         this.pending = false
-        this.$refs.captcha.refreshCaptcha()
+        this.$refs.captcha.refresh()
       }
     },
   },
