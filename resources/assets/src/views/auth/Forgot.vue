@@ -22,7 +22,12 @@
         <a v-t="'auth.forgot.login-link'" :href="`${baseUrl}/auth/login`" class="text-center" />
       </div>
       <div class="col-xs-5">
-        <el-button type="primary" native-type="submit" :disabled="pending">
+        <el-button
+          type="primary"
+          native-type="submit"
+          :disabled="pending"
+          class="auth-btn"
+        >
           <template v-if="pending">
             <i class="fa fa-spinner fa-spin" /> {{ $t('auth.sending') }}
           </template>
