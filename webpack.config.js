@@ -23,8 +23,6 @@ const config = {
       './resources/assets/src/stylus/common.styl',
     ],
     setup: './resources/assets/src/stylus/setup.styl',
-    'langs/en': './resources/lang/en/front-end.js',
-    'langs/zh_CN': './resources/lang/zh_CN/front-end.js',
   },
   output: {
     path: `${__dirname}/public/app`,
@@ -65,8 +63,7 @@ const config = {
         test: /(common|home|setup)\.styl$/,
         use: [
           MiniCssExtractPlugin.loader,
-          { loader: 'css-loader', options: { importLoaders: 3 } },
-          'csso-loader',
+          { loader: 'css-loader', options: { importLoaders: 2 } },
           'postcss-loader',
           'stylus-loader',
         ],
