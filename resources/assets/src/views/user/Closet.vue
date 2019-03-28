@@ -192,7 +192,7 @@
 
 <script>
 import Paginate from 'vuejs-paginate'
-import { debounce, queryString } from '../../js/utils'
+import { debounce, queryString } from '../../scripts/utils'
 import ClosetItem from '../../components/ClosetItem.vue'
 import EmailVerification from '../../components/EmailVerification.vue'
 

@@ -1,9 +1,9 @@
 import Vue from 'vue'
-import * as net from '@/js/net'
-import { on } from '@/js/event'
-import { showAjaxError } from '@/js/notify'
+import * as net from '@/scripts/net'
+import { on } from '@/scripts/event'
+import { showAjaxError } from '@/scripts/notify'
 
-jest.mock('@/js/notify')
+jest.mock('@/scripts/notify')
 
 ;(window as Window & { Request: any }).Request = class {
   headers: Map<string, string>

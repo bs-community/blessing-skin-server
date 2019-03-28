@@ -1,4 +1,4 @@
-import * as utils from '@/js/utils'
+import * as utils from '@/scripts/utils'
 
 test('debounce', () => {
   const stub = jest.fn()

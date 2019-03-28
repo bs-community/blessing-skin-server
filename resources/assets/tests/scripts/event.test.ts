@@ -1,4 +1,4 @@
-import * as emitter from '@/js/event'
+import * as emitter from '@/scripts/event'
 
 test('add listener and emit event', () => {
   const mockA = jest.fn()

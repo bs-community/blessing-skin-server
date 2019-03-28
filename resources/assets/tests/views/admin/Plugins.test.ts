@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import Plugins from '@/views/admin/Plugins.vue'
 import { flushPromises } from '../../utils'
 
-jest.mock('@/js/notify')
+jest.mock('@/scripts/notify')
 
 test('render dependencies', async () => {
   Vue.prototype.$http.get.mockResolvedValue([

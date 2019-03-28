@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import Previewer from '@/components/Previewer.vue'
-import * as emitter from '@/js/event'
+import * as emitter from '@/scripts/event'
 import * as mockedSkinview3d from '../__mocks__/skinview3d'
 
 type Viewer = Vue & { viewer: mockedSkinview3d.SkinViewer }

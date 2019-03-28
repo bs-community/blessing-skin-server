@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import * as notify from '@/js/notify'
+import * as notify from '@/scripts/notify'
 
 test('show AJAX error', () => {
   // @ts-ignore

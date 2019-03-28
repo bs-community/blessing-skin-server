@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import Users from '@/views/admin/Users.vue'
-import '@/js/i18n'
+import '@/scripts/i18n'
 import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../../utils'
 
-jest.mock('@/js/i18n', () => ({
+jest.mock('@/scripts/i18n', () => ({
   trans: (key: string) => key,
 }))
 

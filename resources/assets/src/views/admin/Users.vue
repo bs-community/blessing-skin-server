@@ -88,7 +88,7 @@
 <script>
 import { VueGoodTable } from 'vue-good-table'
 import 'vue-good-table/dist/vue-good-table.min.css'
-import { trans } from '../../js/i18n'
+import { trans } from '../../scripts/i18n'
 import tableOptions from '../../components/mixins/tableOptions'
 import serverTable from '../../components/mixins/serverTable'
 

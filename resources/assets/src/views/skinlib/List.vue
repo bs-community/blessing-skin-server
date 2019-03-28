@@ -115,7 +115,7 @@ import ButtonGroup from 'element-ui/lib/button-group'
 import 'element-ui/lib/theme-chalk/select.css'
 import Select from 'element-ui/lib/select'
 import Option from 'element-ui/lib/option'
-import { queryString } from '../../js/utils'
+import { queryString } from '../../scripts/utils'
 import SkinLibItem from '../../components/SkinLibItem.vue'
 
 Vue.use(ButtonGroup)

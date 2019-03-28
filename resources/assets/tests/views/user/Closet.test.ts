@@ -279,5 +279,5 @@ test('select specified texture initially', async () => {
   const wrapper = mount(Closet)
   jest.runAllTimers()
   await wrapper.vm.$nextTick()
-  jest.unmock('@/js/utils')
+  jest.unmock('@/scripts/utils')
 })

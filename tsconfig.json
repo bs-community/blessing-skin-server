@@ -9,9 +9,9 @@
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
-      "@/js/*": [
+      "@/scripts/*": [
         "./resources/assets/tests/ts-shims/*",
-        "./resources/assets/src/js/*"
+        "./resources/assets/src/scripts/*"
       ],
       "@/components/*": [
         "./resources/assets/src/components/*"

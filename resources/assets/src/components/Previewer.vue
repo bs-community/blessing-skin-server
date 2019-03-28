@@ -50,7 +50,7 @@
 
 <script>
 import * as skinview3d from 'skinview3d'
-import { emit } from '../js/event'
+import { emit } from '../scripts/event'
 import SkinSteve from '../images/textures/steve.png'
 
 export default {

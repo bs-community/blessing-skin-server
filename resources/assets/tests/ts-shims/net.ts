@@ -1,4 +1,4 @@
-import * as net from '../../src/js/net'
+import * as net from '../../src/scripts/net'
 
 export const init = {} as typeof net.init
 

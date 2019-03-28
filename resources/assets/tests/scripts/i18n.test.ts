@@ -1,4 +1,4 @@
-import { trans } from '@/js/i18n'
+import { trans } from '@/scripts/i18n'
 import Vue from 'vue'
 
 test('mount to global', () => {

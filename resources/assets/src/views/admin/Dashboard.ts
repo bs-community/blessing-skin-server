@@ -5,7 +5,7 @@ import 'echarts/lib/chart/line'
 import 'echarts/lib/component/dataZoom'
 import 'echarts/lib/component/legend'
 import 'echarts/lib/component/tooltip'
-import { get } from '../../js/net'
+import { get } from '../../scripts/net'
 
 interface ChartData {
   labels: string[]

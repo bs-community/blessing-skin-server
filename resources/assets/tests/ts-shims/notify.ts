@@ -1,4 +1,4 @@
-import * as notify from '../../src/js/notify'
+import * as notify from '../../src/scripts/notify'
 
 export const showAjaxError = {} as jest.Mock<
   ReturnType<typeof notify.showAjaxError>,

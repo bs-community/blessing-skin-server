@@ -1,8 +1,8 @@
 import {
   checkForUpdates,
   checkForPluginUpdates,
-} from '@/js/check-updates'
-import { init } from '@/js/net'
+} from '@/scripts/check-updates'
+import { init } from '@/scripts/net'
 
 test('check for BS updates', async () => {
   window.fetch = jest.fn()

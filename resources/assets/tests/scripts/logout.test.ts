@@ -1,9 +1,9 @@
-import { logout } from '@/js/logout'
-import { post } from '@/js/net'
-import { MessageBox } from '@/js/element'
+import { logout } from '@/scripts/logout'
+import { post } from '@/scripts/net'
+import { MessageBox } from '@/scripts/element'
 
-jest.mock('@/js/net')
-jest.mock('@/js/element')
+jest.mock('@/scripts/net')
+jest.mock('@/scripts/element')
 
 test('log out', async () => {
   MessageBox.confirm

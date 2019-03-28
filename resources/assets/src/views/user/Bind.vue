@@ -72,7 +72,7 @@ export default {
 </script>
 
 <style lang="stylus">
-@import "../../stylus/auth.styl"
+@import "../../styles/auth.styl"
 
 .player-select
   width 100%
