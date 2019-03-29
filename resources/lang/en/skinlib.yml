@@ -49,7 +49,6 @@ show:
   notice-admin: You are able to delete this texture or make it private. The operations will make it removed from the closet of everyone who had favorited it.
 
   comment: Comment
-  comment-not-available: Comment is not available.
 
   deleted: The requested texture was already deleted.
   contact-admin: Please contact the admins to remove this entry.

@@ -17,28 +17,24 @@
         <section class="content">
             <div class="row"></div>
 
+            @if (option('comment_script'))
             <div class="row">
                 <div class="col-md-12">
                     <div class="box box-default">
                         <div class="box-header with-border">
                             <h3 class="box-title">@lang('skinlib.show.comment')</h3>
-                        </div><!-- /.box-header -->
+                        </div>
                         <div class="box-body">
-                            @if (option('comment_script') != "")
-                            <!-- Comment Start -->
                             {!! get_string_replaced(option('comment_script'), [
                                 '{tid}' => $texture->tid,
                                 '{name}' => $texture->name,
                                 '{url}' => get_base_url().$_SERVER['REQUEST_URI']
                             ]) !!}
-                            <!-- Comment End -->
-                            @else
-                            <p style="text-align: center; margin: 30px 0;">@lang('skinlib.show.comment-not-available')</p>
-                            @endif
-                        </div><!-- /.box-body -->
-                    </div><!-- /.box -->
+                        </div>
+                    </div>
                 </div>
             </div>
+            @endif
 
         </section><!-- /.content -->
     </div><!-- /.container -->
