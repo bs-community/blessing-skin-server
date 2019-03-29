@@ -75,7 +75,42 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
 
 ### Sponsors
 
+<table>
+<tbody>
+    <tr>
+        <td align=center>
+            <a href="https://afdian.net/u/68d07bf851fc11e98e5652540025c377">
+                <img src="https://pic.afdiancdn.com/default/avatar/default-avatar@2x.png?imageView2/1/w/120/h/120">
+                <br>
+                Paji
+            </a>
+        </td>
+    </tr>
+</tbody>
+</table>
+
 ### Backers
+
+<table>
+<tbody>
+    <tr>
+        <td align=center>
+            <a href="https://afdian.net/u/a08078a051fc11e9ab4c52540025c377">
+                <img src="https://pic.afdiancdn.com/default/avatar/default-avatar@2x.png?imageView2/1/w/75/h/75">
+                <br>
+                pppwaw
+            </a>
+        </td>
+        <td align=center>
+            <a href="https://afdian.net/@tnqzh123">
+                <img src="https://pic.afdiancdn.com/user/97a0416ca47211e8849452540025c377/avatar/d2f6d8d489cb952ff29740e715b067c0_w768_h768_s211.jpg?imageView2/1/w/75/h/75">
+                <br>
+                Little_Qiu
+            </a>
+        </td>
+    </tr>
+</tbody>
+</table>
 
 ## Developer Install
 
