@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
+import { Button } from 'element-ui'
 import Show from '@/views/skinlib/Show.vue'
 import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../../utils'
@@ -34,7 +35,7 @@ test('button for adding to closet should be disabled if not auth', () => {
     },
     stubs: { previewer },
   })
-  expect(wrapper.find('.btn-primary').attributes('disabled')).toBe('disabled')
+  expect(wrapper.find(Button).attributes('disabled')).toBe('disabled')
 })
 
 test('button for adding to closet should be disabled if auth', () => {
@@ -46,7 +47,7 @@ test('button for adding to closet should be disabled if auth', () => {
     },
     stubs: { previewer },
   })
-  expect(wrapper.find('.btn-primary').text()).toBe('skinlib.removeFromCloset')
+  expect(wrapper.find('[data-test="removeFromCloset"]').exists()).toBeTrue()
 })
 
 test('likes count indicator', async () => {
@@ -126,7 +127,7 @@ test('operation panel should not be rendered if not auth', () => {
       $route: ['/skinlib/show/1', '1'],
     },
   })
-  expect(wrapper.contains('.box-warning')).toBeFalse()
+  expect(wrapper.find('.box-warning').exists()).toBeFalse()
 })
 
 test('link to downloading texture', async () => {
@@ -142,26 +143,30 @@ test('link to downloading texture', async () => {
   expect(wrapper.contains('span[title="123"]')).toBeTrue()
 })
 
-test('set as avatar', () => {
+test('set as avatar', async () => {
   Object.assign(window.blessing.extra, { currentUid: 1, inCloset: true })
   Vue.prototype.$http.get.mockResolvedValueOnce({ type: 'steve' })
-    .mockResolvedValueOnce({ type: 'cape' })
   const wrapper = mount(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
     },
     stubs: { previewer },
   })
-  wrapper.find('button.btn-default').trigger('click')
+  await wrapper.vm.$nextTick()
+  wrapper.find('[data-test="setAsAvatar"]').trigger('click')
   expect(Vue.prototype.$confirm).toBeCalled()
+})
 
-  const noSetAsAvatar = mount(Show, {
+test('hide "set avatar" button when texture is cape', async () => {
+  Vue.prototype.$http.get.mockResolvedValueOnce({ type: 'cape' })
+  const wrapper = mount(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
     },
     stubs: { previewer },
   })
-  expect(noSetAsAvatar.find('button.btn-default').isEmpty()).toBeTrue()
+  await wrapper.vm.$nextTick()
+  expect(wrapper.find('[data-test="setAsAvatar"]').exists()).toBeFalse()
 })
 
 test('add to closet', async () => {
@@ -175,7 +180,7 @@ test('add to closet', async () => {
     },
     stubs: { previewer },
   })
-  wrapper.find('.btn-primary').trigger('click')
+  wrapper.find('[data-test="addToCloset"]').trigger('click')
   await flushPromises()
   expect(wrapper.vm.likes).toBe(3)
   expect(wrapper.vm.liked).toBeTrue()
@@ -191,7 +196,7 @@ test('remove from closet', async () => {
     },
     stubs: { previewer },
   })
-  wrapper.find('.btn-primary').trigger('click')
+  wrapper.find('[data-test="removeFromCloset"]').trigger('click')
   await flushPromises()
   expect(wrapper.vm.likes).toBe(1)
   expect(wrapper.vm.liked).toBeFalse()
@@ -293,7 +298,10 @@ test('toggle privacy', async () => {
     },
     stubs: { previewer },
   })
-  const button = wrapper.find('.btn-warning')
+  const button = wrapper
+    .find('.box-warning')
+    .findAll(Button)
+    .at(0)
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
@@ -329,7 +337,10 @@ test('delete texture', async () => {
     },
     stubs: { previewer },
   })
-  const button = wrapper.find('.btn-danger')
+  const button = wrapper
+    .find('.box-warning')
+    .findAll(Button)
+    .at(1)
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()

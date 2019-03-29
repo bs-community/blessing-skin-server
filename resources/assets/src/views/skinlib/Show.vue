@@ -7,53 +7,57 @@
         :init-position-z="60"
       >
         <template slot="footer">
-          <button
-            v-if="!auth"
-            v-t="'skinlib.addToCloset'"
-            disabled
-            :title="$t('skinlib.show.anonymous')"
-            class="btn btn-primary pull-right"
-          />
+          <el-button v-if="!auth" disabled :title="$t('skinlib.show.anonymous')">
+            {{ $t('skinlib.addToCloset') }}
+          </el-button>
           <template v-else>
             <a
               v-if="liked"
-              v-t="'skinlib.apply'"
+              native-type="a"
               :href="`${baseUrl}/user/closet?tid=${tid}`"
-              class="btn btn-success pull-right pulled-right-btn"
-            />
-            <a
+              class="el-button el-button--success el-button--medium"
+            >
+              {{ $t('skinlib.apply') }}
+            </a>
+            <el-button
               v-if="liked"
-              v-t="'skinlib.removeFromCloset'"
-              class="btn btn-primary pull-right pulled-right-btn"
+              type="primary"
+              size="medium"
+              data-test="removeFromCloset"
               @click="removeFromCloset"
-            />
-            <a
+            >
+              {{ $t('skinlib.removeFromCloset') }}
+            </el-button>
+            <el-button
               v-else
-              v-t="'skinlib.addToCloset'"
-              class="btn btn-primary pull-right pulled-right-btn"
+              type="primary"
+              size="medium"
+              data-test="addToCloset"
               @click="addToCloset"
-            />
-            <button
+            >
+              {{ $t('skinlib.addToCloset') }}
+            </el-button>
+            <el-button
               v-if="type !== 'cape'"
-              v-t="'user.setAsAvatar'"
-              class="btn btn-default pull-right pulled-right-btn"
+              size="medium"
+              data-test="setAsAvatar"
               @click="setAsAvatar"
-            />
+            >
+              {{ $t('user.setAsAvatar') }}
+            </el-button>
             <a
               v-if="canBeDownloaded"
               v-t="'skinlib.show.download'"
-              class="btn btn-default pull-right"
+              class="el-button el-button--default el-button--medium"
               :href="`${baseUrl}/raw/${tid}.png`"
               :download="`${name}`.png"
             />
           </template>
           <div
-            class="btn likes"
+            class="btn likes pull-right"
             style="cursor: auto;"
             :style="{ color: liked ? '#e0353b' : '#333' }"
             :title="$t('skinlib.show.likes')"
-            data-toggle="tooltip"
-            data-placement="top"
           >
             <i class="fas fa-heart" />
             <span>{{ likes }}</span>
@@ -130,8 +134,10 @@
         </div><!-- /.box-body -->
 
         <div class="box-footer">
-          <a v-t="togglePrivacyText" class="btn btn-warning" @click="togglePrivacy" />
-          <a v-t="'skinlib.show.delete-texture'" class="btn btn-danger pull-right" @click="deleteTexture" />
+          <el-button type="warning" @click="togglePrivacy">{{ $t(togglePrivacyText) }}</el-button>
+          <el-button type="danger" class="pull-right" @click="deleteTexture">
+            {{ $t('skinlib.show.delete-texture') }}
+          </el-button>
         </div><!-- /.box-footer -->
       </div>
     </div>
@@ -321,7 +327,4 @@ export default {
 <style lang="stylus">
 .table > tbody > tr > td
   border-top 0
-
-.pulled-right-btn
-  margin-left 12px
 </style>
