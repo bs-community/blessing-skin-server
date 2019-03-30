@@ -250,7 +250,14 @@ class SetupController extends Controller
     public static function checkTablesExist($tables = [], $returnExistingTables = false)
     {
         $existingTables = [];
-        $tables = $tables ?: ['users', 'user_closet', 'players', 'textures', 'options'];
+        $tables = $tables ?: [
+            'users',
+            'user_closet',
+            'players',
+            'textures',
+            'options',
+            'reports',
+        ];
 
         foreach ($tables as $tableName) {
             if (Schema::hasTable($tableName)) {

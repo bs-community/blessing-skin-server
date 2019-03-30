@@ -50,7 +50,7 @@ skinlib:
   setNewTextureName: 'Please enter the new texture name:'
   emptyNewTextureName: Empty new texture name.
   seeMyUpload: My Uploads
-  apply: Quick Apply
+  apply: Apply
   filter:
     skin: (Any Model)
     steve: (Steve)
@@ -69,6 +69,7 @@ skinlib:
   emptyUploadFile: You have not uploaded any file.
   encodingError: 'Error: Encoding of this file is not accepted.'
   fileExtError: 'Error: Textures should be PNG files.'
+  showContentPolicy: Read content policy
   uploading: Uploading
   redirecting: Redirecting...
   setAsPrivate: Set as Private
@@ -98,9 +99,14 @@ skinlib:
     size: File Size
     uploader: Uploader
     upload-at: Upload At
-    download: Download Texture
+    download: Download
     delete-texture: Delete Texture
     manage-notice: The texture which was deleted or setted to private will be removed from the closet of everyone who had favorited it.
+  report:
+    title: Report
+    reason: Tell us reason please.
+    positive: To encourage positive contributions to the skinlib, we will reward who reported inappropriate content with :score scores. However, if any malicious reporting behaviors were found, all scores rewarded will be taken back.
+    negative: To mitigate the impact of malicious reports, we will require :score scores for submitting a texture report. Don't worry. The suspended scores and additional reward will be sent to your account after your report reviewed by administrators.
 
 user:
   signRemainingTime: 'Available after :time :unit'
@@ -308,6 +314,21 @@ admin:
     red-light: Red Light
     black: Black
     black-light: Black Light
+
+report:
+  tid: Texture ID
+  reporter: Reporter
+  reason: Reason
+  status-title: Status
+  status:
+    - Pending
+    - Resolved
+    - Rejected
+  time: Report Time
+  check: Details
+  delete: Delete
+  ban: Ban
+  reject: Reject
 
 general:
   skin: Skin

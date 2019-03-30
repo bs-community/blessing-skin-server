@@ -128,6 +128,12 @@ class AdminController extends Controller
             $form->text('user_initial_score');
         })->handle();
 
+        $report = Option::form('report', OptionForm::AUTO_DETECT, function ($form) {
+            $form->text('reporter_score_modification')->description();
+
+            $form->text('reporter_reward_score');
+        })->handle();
+
         $sign = Option::form('sign', OptionForm::AUTO_DETECT, function ($form) {
             $form->group('sign_score')
                 ->text('sign_score_from')->addon(trans('options.sign.sign_score.addon1'))
@@ -154,7 +160,7 @@ class AdminController extends Controller
                 ->addon(trans('general.user.score'));
         })->handle();
 
-        return view('admin.score', ['forms' => compact('rate', 'sign', 'sharing')]);
+        return view('admin.score', ['forms' => compact('rate', 'report', 'sign', 'sharing')]);
     }
 
     public function options()
@@ -215,10 +221,13 @@ class AdminController extends Controller
 
             $form->text('texture_name_regexp')->hint()->placeholder();
 
+            $form->textarea('content_policy')->rows(3)->description();
+
             $form->textarea('comment_script')->rows(6)->description();
         })->handle(function () {
             Option::set('site_name_'.config('app.locale'), request('site_name'));
             Option::set('site_description_'.config('app.locale'), request('site_description'));
+            Option::set('content_policy_'.config('app.locale'), request('content_policy'));
         });
 
         $announ = Option::form('announ', OptionForm::AUTO_DETECT, function ($form) {

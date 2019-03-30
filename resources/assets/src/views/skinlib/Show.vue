@@ -52,6 +52,14 @@
               :href="`${baseUrl}/raw/${tid}.png`"
               :download="`${name}`.png"
             />
+            <el-button
+              type="warning"
+              size="medium"
+              data-test="report"
+              @click="report"
+            >
+              {{ $t('skinlib.report.title') }}
+            </el-button>
           </template>
           <div
             class="btn likes pull-right"
@@ -181,6 +189,7 @@ export default {
       currentUid: blessing.extra.currentUid,
       admin: blessing.extra.admin,
       uploaderNickName: blessing.extra.nickname,
+      reportScore: blessing.extra.report,
     }
   },
   computed: {
@@ -316,6 +325,35 @@ export default {
       if (errno === 0) {
         this.$message.success(msg)
         setTimeout(() => (window.location = `${this.baseUrl}/skinlib`), 1000)
+      } else {
+        this.$message.warning(msg)
+      }
+    },
+    async report() {
+      const message = (() => {
+        if (this.reportScore > 0) {
+          return this.$t('skinlib.report.positive', { score: this.reportScore })
+        } else if (this.reportScore < 0) {
+          return this.$t('skinlib.report.negative', { score: -this.reportScore })
+        }
+        return ''
+      })()
+      let reason
+      try {
+        ({ value: reason } = await this.$prompt(message, {
+          title: this.$t('skinlib.report.title'),
+          inputPlaceholder: this.$t('skinlib.report.reason'),
+        }))
+      } catch {
+        return
+      }
+
+      const { errno, msg } = await this.$http.post(
+        '/skinlib/report',
+        { tid: this.tid, reason }
+      )
+      if (errno === 0) {
+        this.$message.success(msg)
       } else {
         this.$message.warning(msg)
       }

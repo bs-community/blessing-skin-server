@@ -47,6 +47,15 @@ rate:
     addon: 积分 = 一个角色
   user_initial_score: 新用户默认积分
 
+report:
+  title: 材质举报
+
+  reporter_score_modification:
+    title: 提交举报所需积分
+    description: 举报材质时【奖励】或者【扣除】举报者一定的积分。设置为正数表示奖励相应积分，设置为负数时表示扣除相应积分，设置为 0 可关闭本功能。举报时扣除积分可以一定程度上减少恶意举报，如果举报通过后，扣除的积分将会被返还。
+  reporter_reward_score:
+    title: 举报通过后奖励积分
+
 sign:
   title: 签到配置
 
@@ -125,6 +134,9 @@ general:
     title: 材质名称规则
     hint: 皮肤库上传材质时名称的正则表达式。留空表示允许使用除半角单双引号、反斜杠以外的任意字符。
     placeholder: 正则表达式，不懂别乱填
+  content_policy:
+    title: 材质内容策略
+    description: 在材质上传页面将会显示此内容，支持 Markdown。如果想要编辑某种特定语言下的内容政策，请在右上角切换至该语言后再提交修改。
   comment_script:
     title: 评论代码
     description: 评论代码内可使用占位符，<code>{tid}</code> 将会被自动替换为材质的 id，<code>{name}</code> 会被替换为材质名称，<code>{url}</code> 会被替换为当前页面地址。

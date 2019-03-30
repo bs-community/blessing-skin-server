@@ -157,7 +157,8 @@ class SkinlibController extends Controller
                 'currentUid' => $user ? $user->uid : 0,
                 'admin' => $user && $user->isAdmin(),
                 'inCloset' => $user && $user->closet()->where('tid', $texture->tid)->count() > 0,
-                'nickname' => ($up = User::find($texture->uploader)) ? $up->nickname : null
+                'nickname' => ($up = User::find($texture->uploader)) ? $up->nickname : null,
+                'report' => intval(option('reporter_score_modification', 0)),
             ]);
     }
 
@@ -185,6 +186,7 @@ class SkinlibController extends Controller
                 'scorePublic' => intval(option('score_per_storage')),
                 'scorePrivate' => intval(option('private_score_per_storage')),
                 'award' => intval(option('score_award_per_texture')),
+                'contentPolicy' => app('parsedown')->text(option_localized('content_policy')),
             ])
             ->with('with_out_filter', true);
     }

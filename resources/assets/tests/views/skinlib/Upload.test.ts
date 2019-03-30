@@ -10,6 +10,7 @@ window.blessing.extra = {
   scorePrivate: 10,
   scorePublic: 1,
   award: 0,
+  contentPolicy: 'the policy',
 }
 
 const csrf = document.createElement('meta')
@@ -166,4 +167,12 @@ test('show notice about awarding', () => {
 
   wrapper.find('[type=checkbox]').setChecked()
   expect(wrapper.find('.callout-success').exists()).toBeFalse()
+})
+
+test('show content policy', () => {
+  const wrapper = mount(Upload)
+  wrapper.find('a').trigger('click')
+  expect(Vue.prototype.$alert).toBeCalledWith('the policy', {
+    dangerouslyUseHTMLString: true,
+  })
 })

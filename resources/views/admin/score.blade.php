@@ -18,6 +18,8 @@
         <div class="row">
             <div class="col-md-6">
                 {!! $forms['rate']->render() !!}
+
+                {!! $forms['report']->render() !!}
             </div>
 
             <div class="col-md-6">

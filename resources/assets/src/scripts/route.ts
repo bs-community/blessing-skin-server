@@ -24,6 +24,11 @@ export default [
     el: 'form',
   },
   {
+    path: 'user/reports',
+    component: () => import('../views/user/Report.vue'),
+    el: '.content',
+  },
+  {
     path: 'user/profile',
     component: () => import('../views/user/Profile.vue'),
     el: '.content',
@@ -40,6 +45,11 @@ export default [
   {
     path: 'admin/players',
     component: () => import('../views/admin/Players.vue'),
+    el: '.content',
+  },
+  {
+    path: 'admin/reports',
+    component: () => import('../views/admin/Reports.vue'),
     el: '.content',
   },
   {

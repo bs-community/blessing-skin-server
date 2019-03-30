@@ -46,7 +46,11 @@
                 {{ $t('skinlib.upload.remove') }}
               </el-button>
             </div>
-          </div><!-- /.box-body -->
+
+            <a href="#" @click="showContentPolicy">
+              {{ $t('skinlib.showContentPolicy') }}
+            </a>
+          </div>
 
           <div class="box-footer">
             <el-switch
@@ -118,6 +122,7 @@ export default {
       scorePublic: blessing.extra.scorePublic,
       scorePrivate: blessing.extra.scorePrivate,
       award: blessing.extra.award,
+      contentPolicy: blessing.extra.contentPolicy,
       width2d: 64,
     }
   },
@@ -185,6 +190,11 @@ export default {
     remove() {
       this.$refs.upload.clear()
       this.texture = ''
+    },
+    showContentPolicy() {
+      this.$alert(this.contentPolicy, {
+        dangerouslyUseHTMLString: true,
+      })
     },
   },
 }

@@ -27,7 +27,7 @@ test('change sort type', () => {
       { field: '2' },
     ],
   })
-  wrapper.vm.onSortChange({ sortType: 'desc', columnIndex: 2 })
+  wrapper.vm.onSortChange([{ type: 'desc', field: '2' }])
   expect(wrapper.vm.fetchData).toBeCalled()
   expect(wrapper.vm.serverParams.sortType).toBe('desc')
   expect(wrapper.vm.serverParams.sortField).toBe('2')

@@ -34,7 +34,13 @@ class SetupControllerTest extends TestCase
     protected function dropAllTables()
     {
         $tables = [
-            'user_closet', 'migrations', 'options', 'players', 'textures', 'users',
+            'user_closet',
+            'migrations',
+            'options',
+            'players',
+            'textures',
+            'users',
+            'reports',
         ];
         array_walk($tables, function ($table) {
             Schema::dropIfExists($table);

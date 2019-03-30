@@ -88,6 +88,13 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->assertEquals('500', option('user_initial_score'));
 
         $this->visit('/admin/score')
+            ->type('1', 'reporter_score_modification')
+            ->type('2', 'reporter_reward_score')
+            ->press('submit_report');
+        $this->assertEquals('1', option('reporter_score_modification'));
+        $this->assertEquals('2', option('reporter_reward_score'));
+
+        $this->visit('/admin/score')
             ->type('233', 'sign_score_from')
             ->type('666', 'sign_score_to')
             ->type('7', 'sign_gap_time')
@@ -125,6 +132,7 @@ class AdminControllerTest extends BrowserKitTestCase
             ->type('/^([0-9]+)$/', 'custom_player_name_regexp')
             ->select('1', 'api_type')
             ->check('auto_del_invalid_texture')
+            ->type('policy', 'content_policy')
             ->type('code', 'comment_script')
             ->press('submit_general');
         $this->assertEquals('My Site', option_localized('site_name'));
@@ -138,6 +146,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->assertEquals('/^([0-9]+)$/', option('custom_player_name_regexp'));
         $this->assertEquals('1', option('api_type'));
         $this->assertTrue(option('auto_del_invalid_texture'));
+        $this->assertEquals('policy', option_localized('content_policy'));
         $this->assertEquals('code', option('comment_script'));
 
         $this->visit('/admin/options')
@@ -148,7 +157,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->visit('/admin/options')
             ->type('announcement', 'announcement')
             ->press('submit_announ');
-        $this->assertEquals('announcement', option('announcement'));
+        $this->assertEquals('announcement', option_localized('announcement'));
 
         $this->visit('/admin/options')
             ->type('kw', 'meta_keywords')

@@ -12,8 +12,10 @@ anonymous: Guest
 back: Back
 dashboard: Dashboard
 my-closet: Closet
+my-reports: Reports
 player-manage: Players
 user-manage: Users
+report-manage: Reports
 plugin-manage: Plugins
 plugin-market: Plugin Market
 plugin-configs: Plugin Configs
@@ -37,6 +39,7 @@ pause: Pause
 reset: Reset
 
 submit: Submit
+op-success: Operated successfully.
 
 notice: Notice
 switch-2d-preview: Switch to 2D preview

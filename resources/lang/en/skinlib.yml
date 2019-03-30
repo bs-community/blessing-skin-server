@@ -94,3 +94,7 @@ model:
 
 no-permission: You have no permission to moderate this texture.
 non-existent: No such texture.
+
+report:
+  duplicate: You have already reported this texture. The administrators will review it as soon as possible. You can also track the status of your report at User Center.
+  success: Thanks for reporting! The administrators will review it as soon as possible.

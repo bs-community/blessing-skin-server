@@ -151,4 +151,6 @@ update:
     unzip: 更新包解压缩失败。错误代码：
     overwrite: 你的服务器不支持自动更新：无法覆盖文件。
 
+report-reviewed: 这一条举报已经处理过了。
+
 invalid-action: 无效的操作名

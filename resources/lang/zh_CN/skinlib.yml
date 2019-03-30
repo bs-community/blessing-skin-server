@@ -93,3 +93,7 @@ model:
 
 no-permission: 你没有权限修改此材质
 non-existent: 材质不存在
+
+report:
+  duplicate: 您已经举报过该材质了，请耐心等待管理员处理。您可以在用户中心查看举报的处理进度。
+  success: 举报已提交，请等待管理员处理

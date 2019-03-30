@@ -27,9 +27,9 @@ export default Vue.extend({
       this.serverParams.perPage = params.currentPerPage
       this.fetchData()
     },
-    onSortChange(params: { sortType: 'asc' | 'desc', columnIndex: number }) {
-      this.serverParams.sortType = params.sortType
-      this.serverParams.sortField = this.columns[params.columnIndex].field
+    onSortChange([params]: { type: 'asc' | 'desc', field: string }[]) {
+      this.serverParams.sortType = params.type
+      this.serverParams.sortField = params.field
       this.fetchData()
     },
     onSearch(params: { searchTerm: string }) {

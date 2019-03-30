@@ -358,3 +358,52 @@ test('delete texture', async () => {
   jest.runAllTimers()
   expect(Vue.prototype.$message.success).toBeCalledWith('0')
 })
+
+test('report texture', async () => {
+  Vue.prototype.$http.get.mockResolvedValue({ report: 0 })
+  Vue.prototype.$http.post
+    .mockResolvedValueOnce({ errno: 1, msg: 'duplicated' })
+    .mockResolvedValue({ errno: 0, msg: 'success' })
+  Vue.prototype.$prompt
+    .mockRejectedValueOnce('')
+    .mockRejectedValueOnce('')
+    .mockResolvedValue({ value: 'reason' } as MessageBoxData)
+  const wrapper = mount(Show, {
+    mocks: {
+      $route: ['/skinlib/show/1', '1'],
+    },
+    stubs: { previewer },
+  })
+
+  const button = wrapper.find('[data-test=report]')
+  button.trigger('click')
+  expect(Vue.prototype.$prompt).toBeCalledWith('', {
+    title: 'skinlib.report.title',
+    inputPlaceholder: 'skinlib.report.reason',
+  })
+  expect(Vue.prototype.$http.post).not.toBeCalled()
+
+  wrapper.setData({ reportScore: -5 })
+  button.trigger('click')
+  expect(Vue.prototype.$prompt).toBeCalledWith('skinlib.report.negative', {
+    title: 'skinlib.report.title',
+    inputPlaceholder: 'skinlib.report.reason',
+  })
+
+  wrapper.setData({ reportScore: 5 })
+  button.trigger('click')
+  expect(Vue.prototype.$prompt).toBeCalledWith('skinlib.report.positive', {
+    title: 'skinlib.report.title',
+    inputPlaceholder: 'skinlib.report.reason',
+  })
+  await flushPromises()
+  expect(Vue.prototype.$http.post).toBeCalledWith(
+    '/skinlib/report',
+    { tid: 1, reason: 'reason' }
+  )
+  expect(Vue.prototype.$message.warning).toBeCalledWith('duplicated')
+
+  button.trigger('click')
+  await flushPromises()
+  expect(Vue.prototype.$message.success).toBeCalledWith('success')
+})

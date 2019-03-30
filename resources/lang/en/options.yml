@@ -47,6 +47,15 @@ rate:
     addon: scores = 1 player
   user_initial_score: User Initial Score
 
+report:
+  title: Reporting Textures
+
+  reporter_score_modification:
+    title: Scores for Submitting an Report
+    description: Set a positive integer value to reward user who submits new reports. Set to a negative value will require scores for submitting reports, and the suspended scores will be available if user's report was resolved. Set to 0 to disable.
+  reporter_reward_score:
+    title: Reward the Reporter with Scores If Report Resolved
+
 sign:
   title: Signing
 
@@ -125,6 +134,9 @@ general:
     title: Texture Name Rules
     hint: The RegExp for validating name of uploaded textures. Leave empty to allow any character except single, double quote and backslash.
     placeholder: Regular Expressions
+  content_policy:
+    title: Content Policy
+    description: Display content policy at texture uploading page, supporting Markdown. To edit a specific language's corresponding content policy, please switch to that language and submit your edit.
   comment_script:
     title: Comment Script
     description: Placeholder is available, <code>{tid}</code> will be replaced with texture id, <code>{name}</code> will be replaced with texture name, <code>{url}</code> will be replaced with current URL.

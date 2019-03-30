@@ -146,4 +146,6 @@ update:
     unzip: "Failed to extract update package. Error code: "
     overwrite: Unable to overwrite files.
 
+report-reviewed: This report has been processed.
+
 invalid-action: Invalid action

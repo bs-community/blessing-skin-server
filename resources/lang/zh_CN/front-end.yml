@@ -71,6 +71,7 @@ skinlib:
   emptyUploadFile: 你还没有上传任何文件哦
   encodingError: 错误：这张图片编码不对哦
   fileExtError: 错误：皮肤文件必须为 PNG 格式
+  showContentPolicy: 查看内容策略
   uploading: 上传中
   redirecting: 正在跳转...
   setAsPrivate: 设为隐私
@@ -100,9 +101,14 @@ skinlib:
     size: 文件大小
     uploader: 上传者
     upload-at: 上传日期
-    download: 下载材质
+    download: 下载
     delete-texture: 删除材质
     manage-notice: 材质设为隐私或被删除后将会从每一个收藏者的衣柜中移除。
+  report:
+    title: 举报
+    reason: 请填写举报原因
+    positive: 为鼓励用户积极维护皮肤库的环境，每举报一个材质你可以获得 :score 积分的奖励。但是，如果被发现有恶意举报等行为，奖励的积分将会被全部收回，并且有可能受到额外的惩罚。
+    negative: 为了减轻恶意举报带来的工作量，我们会在你提交举报时扣除 :score 积分。不用担心，举报通过后暂扣的积分将会全部返还，并且可以获得额外的积分奖励。
 
 user:
   signRemainingTime: ':time :unit 后可签到'
@@ -302,6 +308,21 @@ admin:
     red-light: 红色主题 - 白色侧边栏
     black: 高端黑
     black-light: 黑色主题 - 白色侧边栏
+
+report:
+  tid: 材质 ID
+  reporter: 举报人
+  reason: 举报原因
+  status-title: 状态
+  status:
+    - 正在处理
+    - 处理完成
+    - 已被拒绝
+  time: 举报时间
+  check: 查看
+  delete: 删除
+  ban: 封禁
+  reject: 拒绝举报
 
 general:
   skin: 皮肤

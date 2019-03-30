@@ -49,6 +49,9 @@ Route::group([
     Route::get('/score-info', 'UserController@scoreInfo');
     Route::post('/sign', 'UserController@sign');
 
+    Route::get('/reports', 'ReportController@viewTrack');
+    Route::get('/report-list', 'ReportController@track');
+
     // Profile
     Route::get('/profile', 'UserController@profile');
     Route::post('/profile', 'UserController@handleProfile');
@@ -95,6 +98,7 @@ Route::group(['prefix' => 'skinlib'], function () {
         Route::post('/rename', 'SkinlibController@rename');
         Route::post('/privacy', 'SkinlibController@privacy');
         Route::post('/delete', 'SkinlibController@delete');
+        Route::post('/report', 'ReportController@submit');
     });
 });
 
@@ -111,15 +115,17 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function 
     Route::any('/resource', 'AdminController@resource');
 
     Route::view('/users', 'admin.users');
+    Route::post('/users', 'AdminController@userAjaxHandler');
     Route::any('/user-data', 'AdminController@getUserData');
 
     Route::view('/players', 'admin.players');
+    Route::post('/players', 'AdminController@playerAjaxHandler');
     Route::any('/player-data', 'AdminController@getPlayerData');
     Route::get('/user/{uid}', 'AdminController@getOneUser');
 
-    // ajax handlers
-    Route::post('/users', 'AdminController@userAjaxHandler');
-    Route::post('/players', 'AdminController@playerAjaxHandler');
+    Route::view('/reports', 'admin.reports');
+    Route::post('/reports', 'ReportController@review');
+    Route::any('/report-data', 'ReportController@manage');
 
     Route::group(['prefix' => 'plugins', 'middleware' => 'super-admin'], function () {
         Route::get('/data', 'PluginController@getPluginData');
