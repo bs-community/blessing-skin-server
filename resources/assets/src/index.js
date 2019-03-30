@@ -12,8 +12,15 @@ async function loadI18n() {
     { lang: 'en', load: () => import('../../lang/en/front-end.yml') },
     { lang: 'zh_CN', load: () => import('../../lang/zh_CN/front-end.yml') },
   ]
-  const texts = await langs.find(({ lang }) => lang === blessing.locale).load()
-  blessing.i18n = Object.assign(blessing.i18n || Object.create(null), texts)
+  const texts = await langs.find(({ lang }) => lang === blessing.locale)
+  if (texts) {
+    blessing.i18n = Object.assign(blessing.i18n || Object.create(null), await texts.load())
+  } else {
+    blessing.i18n = Object.assign(
+      blessing.i18n || Object.create(null),
+      (await langs.find(({ lang }) => lang === blessing.fallback_locale)).load()
+    )
+  }
 }
 
 function loadModules() {
