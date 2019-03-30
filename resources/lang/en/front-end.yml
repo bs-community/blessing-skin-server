@@ -203,10 +203,10 @@ user:
   player:
     player-name: Player Name
     edit: Edit
-    operation: Delete
-    edit-pname: Player name
-    delete-texture: Textures
-    delete-player: Player
+    operation: Operations
+    edit-pname: Edit Name
+    delete-texture: Clear Textures
+    delete-player: Delete
     add-player: Add new player
     login-notice: Now you can log in with player names you owned instead email address.
     player-info: Information <small>(click player name to show preview)</small>
