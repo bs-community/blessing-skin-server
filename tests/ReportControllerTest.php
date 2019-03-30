@@ -5,11 +5,11 @@ namespace Tests;
 use App\Models\User;
 use App\Models\Report;
 use App\Models\Texture;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ReportControllerTest extends TestCase
 {
-    use RefreshDatabase;
+    use DatabaseTransactions;
 
     public function testSubmit()
     {
