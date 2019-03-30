@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2162eae4563ac76271b1d28c41922981",
+    "content-hash": "2a99bbb70d29bc4590fd5b3733a4fdef",
     "packages": [
         {
             "name": "composer/semver",
@@ -934,16 +934,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.8.0",
+            "version": "v5.8.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "e6c8aa0e39d8f91068ad1c299546536e9f25ef63"
+                "reference": "3f0a5744a866ae3ae0ca84f47080501714af01ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/e6c8aa0e39d8f91068ad1c299546536e9f25ef63",
-                "reference": "e6c8aa0e39d8f91068ad1c299546536e9f25ef63",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/3f0a5744a866ae3ae0ca84f47080501714af01ba",
+                "reference": "3f0a5744a866ae3ae0ca84f47080501714af01ba",
                 "shasum": ""
             },
             "require": {
@@ -1077,7 +1077,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-02-26T15:42:06+00:00"
+            "time": "2019-03-26T17:19:10+00:00"
         },
         {
             "name": "league/flysystem",
@@ -5857,7 +5857,16 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": ">=7.1.8"
+        "php": ">=7.1.8",
+        "ext-zip": "*",
+        "ext-openssl": "*",
+        "ext-pdo": "*",
+        "ext-mbstring": "*",
+        "ext-tokenizer": "*",
+        "ext-gd": "*",
+        "ext-xml": "*",
+        "ext-ctype": "*",
+        "ext-json": "*"
     },
     "platform-dev": []
 }

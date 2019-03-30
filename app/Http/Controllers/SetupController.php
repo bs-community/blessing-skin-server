@@ -22,8 +22,10 @@ class SetupController extends Controller
             try {
                 DB::getPdo();
                 return redirect('setup/info');
+                // @codeCoverageIgnoreStart
             } catch (\Exception $e) {
                 return view('setup.wizard.database');
+                // @codeCoverageIgnoreEnd
             }
         }
 

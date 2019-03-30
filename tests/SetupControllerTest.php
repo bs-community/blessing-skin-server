@@ -70,9 +70,6 @@ class SetupControllerTest extends TestCase
         $this->post('/setup/database', $fake)->assertRedirect('/setup/info');
 
         $this->get('/setup/database')->assertRedirect('/setup/info');
-        DB::shouldReceive('getPdo')->andThrow(new Exception());
-        DB::shouldReceive('disconnect')->andReturn(true);
-        $this->get('/setup/database')->assertViewIs('setup.wizard.database');
     }
 
     public function testReportDatabaseConnectionError()
