@@ -13,7 +13,7 @@
       @on-search="onSearch"
       @on-per-page-change="onPerPageChange"
     >
-      <template slot="table-row" slot-scope="props">
+      <template #table-row="props">
         <span v-if="props.column.field === 'email'">
           {{ props.formattedRow[props.column.field] }}
           <a :title="$t('admin.changeEmail')" data-test="email" @click="changeEmail(props.row)">

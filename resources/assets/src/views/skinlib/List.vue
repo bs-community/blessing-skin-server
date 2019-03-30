@@ -29,15 +29,19 @@
                   :placeholder="$t('vendor.datatable.search')"
                   clearable
                 >
-                  <el-select slot="prepend" v-model="filter" class="texture-type-select">
-                    <el-option :label="$t('general.skin')" value="skin" />
-                    <el-option label="Steve" value="steve" />
-                    <el-option label="Alex" value="alex" />
-                    <el-option :label="$t('general.cape')" value="cape" />
-                  </el-select>
-                  <el-button slot="append" data-test="btn-search" @click="fetchData">
-                    {{ $t('general.submit') }}
-                  </el-button>
+                  <template #prepend>
+                    <el-select v-model="filter" class="texture-type-select">
+                      <el-option :label="$t('general.skin')" value="skin" />
+                      <el-option label="Steve" value="steve" />
+                      <el-option label="Alex" value="alex" />
+                      <el-option :label="$t('general.cape')" value="cape" />
+                    </el-select>
+                  </template>
+                  <template #append>
+                    <el-button data-test="btn-search" @click="fetchData">
+                      {{ $t('general.submit') }}
+                    </el-button>
+                  </template>
                 </el-input>
               </form>
 

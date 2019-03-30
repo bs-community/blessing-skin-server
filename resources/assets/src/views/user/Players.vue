@@ -69,7 +69,7 @@
           :cape="capeUrl"
           title="user.player.player-info"
         >
-          <template slot="footer">
+          <template #footer>
             <button
               v-t="'user.switch2dPreview'"
               class="btn btn-default"

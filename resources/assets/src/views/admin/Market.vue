@@ -7,7 +7,7 @@
       :pagination-options="tableOptions.pagination"
       style-class="vgt-table striped"
     >
-      <template slot="table-row" slot-scope="props">
+      <template #table-row="props">
         <span v-if="props.column.field === 'title'">
           <strong>{{ props.formattedRow[props.column.field] }}</strong>
           <div>{{ props.row.name }}</div>

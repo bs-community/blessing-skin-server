@@ -8,7 +8,7 @@
       style-class="vgt-table striped"
       :row-style-class="rowStyleClassFn"
     >
-      <template slot="table-row" slot-scope="props">
+      <template #table-row="props">
         <span v-if="props.column.field === 'title'">
           <strong>{{ props.formattedRow[props.column.field] }}</strong>
           <div v-if="props.row.enabled" class="actions">

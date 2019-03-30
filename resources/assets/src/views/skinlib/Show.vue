@@ -6,7 +6,7 @@
         :cape="type === 'cape' ? textureUrl : ''"
         :init-position-z="60"
       >
-        <template slot="footer">
+        <template #footer>
           <el-button v-if="!auth" disabled :title="$t('skinlib.show.anonymous')">
             {{ $t('skinlib.addToCloset') }}
           </el-button>

@@ -126,7 +126,7 @@
       <!-- Right col -->
       <div class="col-md-4">
         <previewer closet-mode :skin="skinUrl" :cape="capeUrl">
-          <template slot="footer">
+          <template #footer>
             <button
               v-t="'user.useAs'"
               class="btn btn-primary"
