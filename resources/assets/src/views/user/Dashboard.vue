@@ -8,47 +8,62 @@
       <div class="box-body">
         <div class="row">
           <div class="col-md-1" />
-          <div class="col-md-3">
-            <div class="text-center usage-label">
-              <b v-t="'user.used.players'" />
-            </div>
-            <el-progress
-              type="circle"
-              :percentage="playersPercentage"
-              status="text"
-              color="#00c0ef"
-              class="usage-circle"
-            >
-              <b>{{ playersUsed }}</b> / {{ playersTotal }}
-            </el-progress>
-          </div>
-          <div class="col-md-3">
-            <div class="text-center usage-label">
-              <b v-t="'user.used.storage'" />
-            </div>
-            <el-progress
-              type="circle"
-              :percentage="storagePercentage"
-              status="text"
-              color="#f39c12"
-              class="usage-circle"
-            >
-              <template v-if="storageUsed > 1024">
-                <b>{{ round(storageUsed / 1024) }}</b> / {{ round(storageTotal / 1024) }} MB
-              </template>
-              <template v-else>
-                <b>{{ storageUsed }}</b> / {{ storageTotal }} KB
-              </template>
-            </el-progress>
+          <div class="col-md-6">
+            <table border="0">
+              <tbody>
+                <tr>
+                  <td class="text-center">
+                    <b v-t="'user.used.players'" />
+                  </td>
+                  <td class="circle-gap" />
+                  <td class="text-center">
+                    <b v-t="'user.used.storage'" />
+                  </td>
+                </tr>
+                <tr class="line-gap" />
+                <tr>
+                  <td>
+                    <el-progress
+                      type="circle"
+                      :percentage="~~playersPercentage"
+                      color="#00429B"
+                    />
+                  </td>
+                  <td class="circle-gap" />
+                  <td>
+                    <el-progress
+                      type="circle"
+                      :percentage="~~storagePercentage"
+                      color="#008C95"
+                    />
+                  </td>
+                </tr>
+                <tr class="line-gap" />
+                <tr>
+                  <td class="text-center">
+                    <b>{{ playersUsed }}</b> / {{ playersTotal }}
+                  </td>
+                  <td class="circle-gap" />
+                  <td class="text-center">
+                    <template v-if="storageUsed > 1024">
+                      <b>{{ ~~(storageUsed / 1024) }}</b> / {{ ~~(storageTotal / 1024) }} MB
+                    </template>
+                    <template v-else>
+                      <b>{{ storageUsed }}</b> / {{ storageTotal }} KB
+                    </template>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
           <div class="col-md-4">
-            <p class="text-center">
+            <p class="text-center score-title">
               <strong v-t="'user.cur-score'" />
             </p>
             <p id="score" data-toggle="modal" data-target="#modal-score-instruction">
               {{ animatedScore }}
             </p>
-            <p v-t="'user.score-notice'" class="text-center" style="font-size: smaller; margin-top: 20px;" />
+            <p v-t="'user.score-notice'" class="text-center score-notice" />
           </div><!-- /.col -->
         </div><!-- /.row -->
       </div><!-- ./box-body -->
@@ -171,7 +186,6 @@ export default {
       this.storageTotal = data.stats.storage.total
       this.score = data.user.score
     },
-    round: Math.round,
     async sign() {
       const result = await this.$http.post('/user/sign')
 
@@ -190,6 +204,18 @@ export default {
 </script>
 
 <style lang="stylus">
+.circle-gap
+  width 14%
+
+.line-gap
+  height 12px
+
+.score-title
+  margin-top 5px
+
+  @media (max-width 768px)
+    margin-top 12px
+
 #score
   font-family Minecraft
   font-size 50px
@@ -197,30 +223,7 @@ export default {
   margin-top 20px
   cursor help
 
-.usage-circle
-  padding-top 10px
-  padding-bottom 7px
-  padding-left 33%
-  .el-progress__text
-    padding-left 50%
-
-  @media (min-width 768px)
-    padding-left 20%
-    .el-progress__text
-      padding-left 28%
-
-  @media (min-width 992px)
-    padding-left 0%
-    .el-progress__text
-      padding-left 0%
-
-  @media (min-width 1200px)
-    padding-left 20%
-    .el-progress__text
-      padding-left 28%
-
-  @media (min-width 3600px)
-    padding-left 38%
-    .el-progress__text
-      padding-left 60%
+.score-notice
+  font-size smaller
+  margin-top 20px
 </style>
