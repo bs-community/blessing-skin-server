@@ -47,7 +47,7 @@
               </el-button>
             </div>
 
-            <a href="#" @click="showContentPolicy">
+            <a v-if="contentPolicy" href="#" @click="showContentPolicy">
               {{ $t('skinlib.showContentPolicy') }}
             </a>
           </div>
