@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import loadI18n from './scripts/i18n-text'
 import './scripts'
 import * as emitter from './scripts/event'
 import routes from './scripts/route'
@@ -6,22 +7,6 @@ import routes from './scripts/route'
 Vue.config.productionTip = false
 
 loadI18n().then(loadModules)
-
-async function loadI18n() {
-  const langs = [
-    { lang: 'en', load: () => import('../../lang/en/front-end.yml') },
-    { lang: 'zh_CN', load: () => import('../../lang/zh_CN/front-end.yml') },
-  ]
-  const texts = await langs.find(({ lang }) => lang === blessing.locale)
-  if (texts) {
-    blessing.i18n = Object.assign(blessing.i18n || Object.create(null), await texts.load())
-  } else {
-    blessing.i18n = Object.assign(
-      blessing.i18n || Object.create(null),
-      (await langs.find(({ lang }) => lang === blessing.fallback_locale)).load()
-    )
-  }
-}
 
 function loadModules() {
   const route = routes.find(
