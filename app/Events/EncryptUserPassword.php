@@ -8,18 +8,18 @@ class EncryptUserPassword extends Event
 {
     public $user;
 
-    public $rawPassword;
+    public $rawPasswd;
 
     /**
      * Create a new event instance.
      *
-     * @param  string $rawPassword
+     * @param  string $rawPasswd
      * @param  User   $user
      * @return void
      */
-    public function __construct($rawPassword, User $user)
+    public function __construct($rawPasswd, User $user)
     {
-        $this->rawPassword = $rawPassword;
+        $this->rawPasswd = $rawPasswd;
         $this->user = $user;
     }
 }
