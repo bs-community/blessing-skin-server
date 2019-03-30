@@ -155,10 +155,8 @@ Blessing Skin 可支持多种语言，当前支持英语（`en`）和简体中�
 
 ## 版权
 
-Copyright 2016-2019 The Blessing Community
+MIT License
 
-Blessing Skin 是基于 GNU General Public License version 3 开放源代码的自由软件，你可以遵照 GPLv3 协议来修改或重新发布本程序。
-
-**例外情况**：任何为 Blessing Skin 皮肤站程序开发、调用了 Blessing Skin 插件 API 的插件程序，在未使用 Blessing Skin 程序源代码的情况下，无须采用 GPLv3 协议，也不强制要求开放插件源代码。
+Copyright (c) 2016-present The Blessing Skin Community
 
 程序原作者为 [@printempw](https://blessing.studio/)，转载请注明。

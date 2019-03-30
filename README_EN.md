@@ -180,8 +180,6 @@ When reporting a problem, please attach your log file (located at `storage/logs/
 
 ## Copyright & License
 
-Copyright 2016-2019 The Blessing Community
+MIT License
 
-Blessing Skin is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 3.
-
-**Exception**: Any plugin developed for Blessing Skin, is not required to adopt GPLv3 License nor release its source code, provided no source code from Blessing Skin is contained in the plugin.
+Copyright (c) 2016-present The Blessing Skin Community

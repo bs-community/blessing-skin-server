@@ -7,7 +7,7 @@
     "url": "https://github.com/bs-community/blessing-skin-server"
   },
   "author": "printempw",
-  "license": "GPL-3.0",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server",
