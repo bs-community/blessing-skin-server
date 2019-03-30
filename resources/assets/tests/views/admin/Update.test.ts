@@ -9,7 +9,7 @@ afterEach(() => {
 test('button should be disabled if update is unavailable', () => {
   window.blessing.extra = { canUpdate: false }
   const wrapper = mount(Update)
-  expect(wrapper.find('.btn').attributes('disabled')).toBe('disabled')
+  expect(wrapper.find('button').attributes('disabled')).toBe('disabled')
 })
 
 test('perform update', async () => {
@@ -22,7 +22,7 @@ test('perform update', async () => {
   Vue.prototype.$http.get
     .mockResolvedValue({ total: 2048, downloaded: 2048 })
   const wrapper = mount(Update)
-  const button = wrapper.find('.btn')
+  const button = wrapper.find('button')
 
   button.trigger('click')
   await flushPromises()

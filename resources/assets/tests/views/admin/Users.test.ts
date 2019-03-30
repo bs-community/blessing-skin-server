@@ -2,6 +2,7 @@ import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import Users from '@/views/admin/Users.vue'
 import '@/scripts/i18n'
+import { Button } from 'element-ui'
 import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../../utils'
 
@@ -146,7 +147,7 @@ test('deletion button should not be displayed for super admins', async () => {
   })
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
-  expect(wrapper.find('.btn-danger').attributes('disabled')).toBe('disabled')
+  expect(wrapper.find('[data-test="deleteUser"]').attributes('disabled')).toBe('disabled')
 })
 
 test('deletion button should be displayed for admins as super admin', async () => {
@@ -159,7 +160,7 @@ test('deletion button should be displayed for admins as super admin', async () =
   })
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
-  expect(wrapper.find('.btn-danger').attributes('disabled')).toBeNil()
+  expect(wrapper.find('[data-test="deleteUser"]').attributes('disabled')).toBeNil()
 })
 
 test('deletion button should be displayed for normal users as super admin', async () => {
@@ -172,7 +173,7 @@ test('deletion button should be displayed for normal users as super admin', asyn
   })
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
-  expect(wrapper.find('.btn-danger').attributes('disabled')).toBeNil()
+  expect(wrapper.find('[data-test="deleteUser"]').attributes('disabled')).toBeNil()
 })
 
 test('deletion button should be displayed for banned users as super admin', async () => {
@@ -185,7 +186,7 @@ test('deletion button should be displayed for banned users as super admin', asyn
   })
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
-  expect(wrapper.find('.btn-danger').attributes('disabled')).toBeNil()
+  expect(wrapper.find('[data-test="deleteUser"]').attributes('disabled')).toBeNil()
 })
 
 test('deletion button should not be displayed for other admins as admin', async () => {
@@ -198,7 +199,7 @@ test('deletion button should not be displayed for other admins as admin', async 
   })
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
-  expect(wrapper.find('.btn-danger').attributes('disabled')).toBe('disabled')
+  expect(wrapper.find('[data-test="deleteUser"]').attributes('disabled')).toBe('disabled')
 })
 
 test('deletion button should be displayed for normal users as admin', async () => {
@@ -211,7 +212,7 @@ test('deletion button should be displayed for normal users as admin', async () =
   })
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
-  expect(wrapper.find('.btn-danger').attributes('disabled')).toBeNil()
+  expect(wrapper.find('[data-test="deleteUser"]').attributes('disabled')).toBeNil()
 })
 
 test('deletion button should be displayed for banned users as admin', async () => {
@@ -224,7 +225,7 @@ test('deletion button should be displayed for banned users as admin', async () =
   })
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
-  expect(wrapper.find('.btn-danger').attributes('disabled')).toBeNil()
+  expect(wrapper.find('[data-test="deleteUser"]').attributes('disabled')).toBeNil()
 })
 
 test('change email', async () => {
@@ -343,7 +344,7 @@ test('change password', async () => {
 
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
-  const button = wrapper.find('.btn-default')
+  const button = wrapper.findAll(Button).at(0)
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
@@ -480,7 +481,7 @@ test('delete user', async () => {
 
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
-  const button = wrapper.find('.btn-danger')
+  const button = wrapper.findAll(Button).at(1)
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()

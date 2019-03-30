@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
+import { Button } from 'element-ui'
 import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../../utils'
 import Players from '@/views/user/Players.vue'
@@ -74,7 +75,7 @@ test('change player name', async () => {
     })
   const wrapper = mount(Players)
   await wrapper.vm.$nextTick()
-  const button = wrapper.find('.btn-default')
+  const button = wrapper.findAll(Button).at(0)
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
@@ -103,7 +104,7 @@ test('delete player', async () => {
     .mockResolvedValue('confirm')
   const wrapper = mount(Players)
   await wrapper.vm.$nextTick()
-  const button = wrapper.find('.btn-danger')
+  const button = wrapper.findAll(Button).at(2)
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
@@ -130,8 +131,7 @@ test('add player', async () => {
     .mockResolvedValueOnce({ errno: 1 })
     .mockResolvedValue({ errno: 0 })
   const wrapper = mount(Players)
-  const button = wrapper.findAll('.modal-footer').at(0)
-    .find('a')
+  const button = wrapper.find('[data-test=addPlayer]')
   wrapper.find('input[type="text"]').setValue('the-new')
 
   button.trigger('click')
@@ -160,8 +160,7 @@ test('clear texture', async () => {
     .mockResolvedValue({ errno: 0, msg: 'ok' })
   const wrapper = mount(Players)
   await wrapper.vm.$nextTick()
-  const button = wrapper.findAll('.modal-footer').at(1)
-    .find('a')
+  const button = wrapper.find('[data-test=clearTexture]')
   wrapper.find('.player').trigger('click')
 
   button.trigger('click')

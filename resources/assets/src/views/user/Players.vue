@@ -24,31 +24,33 @@
                   <td class="pid">{{ player.pid }}</td>
                   <td class="player-name">{{ player.name }}</td>
                   <td>
-                    <a
-                      v-t="'user.player.edit-pname'"
-                      class="btn btn-default btn-sm"
-                      @click="changeName(player)"
-                    />
-                    <a
-                      v-t="'user.player.delete-texture'"
-                      class="btn btn-warning btn-sm"
+                    <el-button size="medium" @click="changeName(player)">
+                      {{ $t('user.player.edit-pname') }}
+                    </el-button>
+                    <el-button
+                      size="medium"
+                      type="warning"
                       data-toggle="modal"
                       data-target="#modal-clear-texture"
-                    />
-                    <a
-                      v-t="'user.player.delete-player'"
-                      class="btn btn-danger btn-sm"
+                    >
+                      {{ $t('user.player.delete-texture') }}
+                    </el-button>
+                    <el-button
+                      size="medium"
+                      type="danger"
                       @click="deletePlayer(player, index)"
-                    />
+                    >
+                      {{ $t('user.player.delete-player') }}
+                    </el-button>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
           <div class="box-footer clearfix">
-            <button class="btn btn-primary pull-left" data-toggle="modal" data-target="#modal-add-player">
+            <el-button type="primary" data-toggle="modal" data-target="#modal-add-player">
               <i class="fas fa-plus" aria-hidden="true" /> &nbsp;{{ $t('user.player.add-player') }}
-            </button>
+            </el-button>
           </div>
         </div>
 
@@ -70,12 +72,9 @@
           title="user.player.player-info"
         >
           <template #footer>
-            <button
-              v-t="'user.switch2dPreview'"
-              class="btn btn-default"
-              data-test="to2d"
-              @click="togglePreviewer"
-            />
+            <el-button data-test="to2d" @click="togglePreviewer">
+              {{ $t('user.switch2dPreview') }}
+            </el-button>
           </template>
         </previewer>
         <div v-else class="box">
@@ -109,11 +108,9 @@
             </div>
           </div><!-- /.box-body -->
           <div class="box-footer">
-            <button
-              v-t="'user.switch3dPreview'"
-              class="btn btn-default"
-              @click="togglePreviewer"
-            />
+            <el-button @click="togglePreviewer">
+              {{ $t('user.switch3dPreview') }}
+            </el-button>
           </div>
         </div><!-- /.box -->
       </div>
@@ -162,13 +159,10 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button
-              v-t="'general.close'"
-              type="button"
-              class="btn btn-default"
-              data-dismiss="modal"
-            />
-            <a v-t="'general.submit'" class="btn btn-primary" @click="addPlayer" />
+            <el-button data-dismiss="modal">{{ $t('general.close') }}</el-button>
+            <el-button type="primary" data-test="addPlayer" @click="addPlayer">
+              {{ $t('general.submit') }}
+            </el-button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -203,13 +197,10 @@
             </label>
           </div>
           <div class="modal-footer">
-            <button
-              v-t="'general.close'"
-              type="button"
-              class="btn btn-default"
-              data-dismiss="modal"
-            />
-            <a v-t="'general.submit'" class="btn btn-primary" @click="clearTexture" />
+            <el-button data-dismiss="modal">{{ $t('general.close') }}</el-button>
+            <el-button type="primary" data-test="clearTexture" @click="clearTexture">
+              {{ $t('general.submit') }}
+            </el-button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->

@@ -67,7 +67,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">@lang('general.close')</button>
+                <button class="el-button" data-dismiss="modal">@lang('general.close')</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

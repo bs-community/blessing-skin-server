@@ -10,12 +10,9 @@
           <!-- eslint-disable-next-line vue/no-v-html -->
           <div class="box-body" v-html="$t('user.profile.avatar.notice')" /><!-- /.box-body -->
           <div class="box-footer">
-            <button
-              v-t="'user.resetAvatar'"
-              class="btn btn-primary pull-right"
-              data-test="resetAvatar"
-              @click="resetAvatar"
-            />
+            <el-button type="primary" data-test="resetAvatar" @click="resetAvatar">
+              {{ $t('user.resetAvatar') }}
+            </el-button>
           </div>
         </div>
 
@@ -55,12 +52,9 @@
             </div>
           </div><!-- /.box-body -->
           <div class="box-footer">
-            <button
-              v-t="'user.profile.password.button'"
-              class="btn btn-primary"
-              data-test="changePassword"
-              @click="changePassword"
-            />
+            <el-button type="primary" data-test="changePassword" @click="changePassword">
+              {{ $t('user.profile.password.button') }}
+            </el-button>
           </div>
         </div><!-- /.box -->
       </div>
@@ -82,12 +76,9 @@
             </div>
           </div><!-- /.box-body -->
           <div class="box-footer">
-            <button
-              v-t="'general.submit'"
-              class="btn btn-primary"
-              data-test="changeNickName"
-              @click="changeNickName"
-            />
+            <el-button type="primary" data-test="changeNickName" @click="changeNickName">
+              {{ $t('general.submit') }}
+            </el-button>
           </div>
         </div>
 
@@ -118,12 +109,9 @@
             </div>
           </div><!-- /.box-body -->
           <div class="box-footer">
-            <button
-              v-t="'user.profile.email.button'"
-              class="btn btn-warning"
-              data-test="changeEmail"
-              @click="changeEmail"
-            />
+            <el-button type="primary" data-test="changeEmail" @click="changeEmail">
+              {{ $t('user.profile.email.button') }}
+            </el-button>
           </div>
         </div>
 
@@ -134,16 +122,15 @@
           <div class="box-body">
             <template v-if="isAdmin">
               <p v-t="'user.profile.delete.admin'" />
-              <button v-t="'user.profile.delete.button'" class="btn btn-danger" disabled />
+              <el-button type="danger" disabled>
+                {{ $t('user.profile.delete.button') }}
+              </el-button>
             </template>
             <template v-else>
               <p v-t="{ path: 'user.profile.delete.notice', args: { site: siteName } }" />
-              <button
-                v-t="'user.profile.delete.button'"
-                class="btn btn-danger"
-                data-toggle="modal"
-                data-target="#modal-delete-account"
-              />
+              <el-button type="danger" data-toggle="modal" data-target="#modal-delete-account">
+                {{ $t('user.profile.delete.button') }}
+              </el-button>
             </template>
           </div><!-- /.box-body -->
         </div>

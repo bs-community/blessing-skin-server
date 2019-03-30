@@ -30,9 +30,10 @@
         </span>
         <span v-else-if="props.column.field === 'operations'">
           <template v-if="props.row.installed">
-            <button
+            <el-button
               v-if="props.row.update_available"
-              class="btn btn-success btn-sm"
+              type="success"
+              size="medium"
               :disabled="installing === props.row.name"
               @click="updatePlugin(props.row)"
             >
@@ -42,17 +43,27 @@
               <template v-else>
                 <i class="fas fa-sync-alt" /> {{ $t('admin.updatePlugin') }}
               </template>
-            </button>
-            <button v-else-if="props.row.enabled" class="btn btn-primary btn-sm" disabled>
+            </el-button>
+            <el-button
+              v-else-if="props.row.enabled"
+              type="primary"
+              size="medium"
+              disabled
+            >
               <i class="fas fa-check" /> {{ $t('admin.statusEnabled') }}
-            </button>
-            <button v-else class="btn btn-primary btn-sm" @click="enablePlugin(props.row)">
+            </el-button>
+            <el-button
+              v-else
+              type="primary"
+              size="medium"
+              @click="enablePlugin(props.row)"
+            >
               <i class="fas fa-plug" /> {{ $t('admin.enablePlugin') }}
-            </button>
+            </el-button>
           </template>
-          <button
+          <el-button
             v-else
-            class="btn btn-default btn-sm"
+            size="medium"
             :disabled="installing === props.row.name"
             @click="installPlugin(props.row)"
           >
@@ -62,7 +73,7 @@
             <template v-else>
               <i class="fas fa-download" /> {{ $t('admin.installPlugin') }}
             </template>
-          </button>
+          </el-button>
         </span>
         <span v-else v-text="props.formattedRow[props.column.field]" />
       </template>

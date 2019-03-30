@@ -46,18 +46,17 @@
           </a>
         </span>
         <span v-else-if="props.column.field === 'operations'">
-          <button
-            v-t="'admin.changeTexture'"
-            class="btn btn-default"
+          <el-button
             data-toggle="modal"
             data-target="#modal-change-texture"
+            size="medium"
             @click="textureChanges.originalIndex = props.row.originalIndex"
-          />
-          <button
-            v-t="'admin.deletePlayer'"
-            class="btn btn-danger"
+          >{{ $t('admin.changeTexture') }}</el-button>
+          <el-button
+            type="danger"
+            size="medium"
             @click="deletePlayer(props.row)"
-          />
+          >{{ $t('admin.deletePlayer') }}</el-button>
         </span>
         <span v-else v-text="props.formattedRow[props.column.field]" />
       </template>
@@ -101,13 +100,10 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button
-              v-t="'general.close'"
-              type="button"
-              class="btn btn-default"
-              data-dismiss="modal"
-            />
-            <a v-t="'general.submit'" class="btn btn-primary" @click="changeTexture" />
+            <el-button data-dismiss="modal">{{ $t('general.close') }}</el-button>
+            <el-button type="primary" data-test="changeTexture" @click="changeTexture">
+              {{ $t('general.submit') }}
+            </el-button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->

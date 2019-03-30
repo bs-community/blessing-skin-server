@@ -206,7 +206,7 @@ test('submit applying texture', async () => {
   Vue.prototype.$http.post.mockResolvedValueOnce({ errno: 1 })
     .mockResolvedValue({ errno: 0, msg: 'ok' })
   const wrapper = mount(Closet)
-  const button = wrapper.find('.modal-footer > a:nth-child(2)')
+  const button = wrapper.find('[data-test=submitApplyTexture]')
 
   button.trigger('click')
   expect(Vue.prototype.$message.info).toBeCalledWith('user.emptySelectedPlayer')
@@ -252,9 +252,7 @@ test('reset selected texture', () => {
     skinUrl: 'a',
     capeUrl: 'b',
   })
-  wrapper.find(Previewer).findAll('button')
-    .at(1)
-    .trigger('click')
+  wrapper.find('[data-test="resetSelected"]').trigger('click')
   expect(wrapper.vm).toEqual(expect.objectContaining({
     selectedSkin: 0,
     selectedCape: 0,

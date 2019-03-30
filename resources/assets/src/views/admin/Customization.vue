@@ -27,7 +27,9 @@
       </table>
     </div>
     <div class="box-footer">
-      <button v-t="'general.submit'" class="btn btn-primary" @click="submit" />
+      <el-button type="primary" @click="submit">
+        {{ $t('general.submit') }}
+      </el-button>
     </div>
   </div>
 </template>

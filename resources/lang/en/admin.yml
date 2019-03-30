@@ -125,7 +125,7 @@ update:
       text: "Download Link:"
       link: Click to download full update package.
 
-    check-github: <a href=":url" target="_blank" class="btn btn-default pull-right">Check GitHub Releases</a>
+    check-github: <a href=":url" target="_blank" class="el-button pull-right">Check GitHub Releases</a>
     button: Update Now
 
   cautions:

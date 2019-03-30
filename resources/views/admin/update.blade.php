@@ -95,7 +95,7 @@
                     </div><!-- /.box-body -->
                     <div class="box-footer">
                         <span id="update-button"></span>
-                        {!! trans('admin.update.info.check-github', ['url' => 'https://github.com/printempw/blessing-skin-server/releases']) !!}
+                        {!! trans('admin.update.info.check-github', ['url' => 'https://github.com/bs-community/blessing-skin-server/releases']) !!}
                     </div>
                 </div>
 

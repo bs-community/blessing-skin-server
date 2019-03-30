@@ -130,7 +130,7 @@ update:
       text: 下载地址：
       link: 点击下载完整安装包
 
-    check-github: <a href=":url" target="_blank" class="btn btn-default pull-right">查看 GitHub Releases</a>
+    check-github: <a href=":url" target="_blank" class="el-button pull-right">查看 GitHub Releases</a>
     button: 马上升级
 
   cautions:

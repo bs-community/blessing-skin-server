@@ -127,18 +127,17 @@
       <div class="col-md-4">
         <previewer closet-mode :skin="skinUrl" :cape="capeUrl">
           <template #footer>
-            <button
-              v-t="'user.useAs'"
-              class="btn btn-primary"
+            <el-button
+              type="primary"
               data-toggle="modal"
               data-target="#modal-use-as"
               @click="applyTexture"
-            />
-            <button
-              v-t="'user.resetSelected'"
-              class="btn btn-default pull-right"
-              @click="resetSelected"
-            />
+            >
+              {{ $t('user.useAs') }}
+            </el-button>
+            <el-button data-test="resetSelected" class="pull-right" @click="resetSelected">
+              {{ $t('user.resetSelected') }}
+            </el-button>
           </template>
         </previewer>
       </div>
@@ -181,8 +180,10 @@
             <p v-else v-t="'user.closet.use-as.empty'" />
           </div>
           <div class="modal-footer">
-            <a v-t="'user.closet.use-as.add'" href="./player" class="btn btn-default pull-left" />
-            <a v-t="'general.submit'" class="btn btn-primary" @click="submitApplyTexture" />
+            <a v-t="'user.closet.use-as.add'" href="./player" class="el-button pull-left" />
+            <el-button type="primary" data-test="submitApplyTexture" @click="submitApplyTexture">
+              {{ $t('general.submit') }}
+            </el-button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->

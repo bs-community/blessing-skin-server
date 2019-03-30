@@ -1,14 +1,14 @@
 <template>
   <span>
-    <button
+    <el-button
       v-if="!updating"
-      class="btn btn-primary"
+      type="primary"
       :disabled="!canUpdate"
       @click="update"
-    >{{ $t('admin.updateButton') }}</button>
-    <button v-else disabled class="btn btn-primary">
+    >{{ $t('admin.updateButton') }}</el-button>
+    <el-button v-else disabled type="primary">
       <i class="fa fa-spinner fa-spin" /> {{ $t('admin.preparing') }}
-    </button>
+    </el-button>
 
     <div
       id="modal-start-download"
@@ -19,12 +19,11 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button
-              type="button"
+            <el-button
               class="close"
               data-dismiss="modal"
               aria-label="Close"
-            ><span aria-hidden="true">&times;</span></button>
+            ><span aria-hidden="true">&times;</span></el-button>
             <h4 v-t="'admin.downloading'" class="modal-title" />
           </div>
           <div class="modal-body">

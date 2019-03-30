@@ -67,17 +67,18 @@
           </a>
         </span>
         <div v-else-if="props.column.field === 'operations'">
-          <button
-            v-t="'admin.changePassword'"
-            class="btn btn-default"
-            @click="changePassword(props.row)"
-          />
-          <button
-            v-t="'admin.deleteUser'"
+          <el-button size="medium" @click="changePassword(props.row)">
+            {{ $t('admin.changePassword') }}
+          </el-button>
+          <el-button
             :disabled="props.row.permission >= 2 || (props.row.operations === 1 && props.row.permission >= 1)"
-            class="btn btn-danger"
+            type="danger"
+            size="medium"
+            data-test="deleteUser"
             @click="deleteUser(props.row)"
-          />
+          >
+            {{ $t('admin.deleteUser') }}
+          </el-button>
         </div>
         <span v-else v-text="props.formattedRow[props.column.field]" />
       </template>
