@@ -19,6 +19,6 @@ class Webpack
 
     public function __get($path)
     {
-        return url('app').'/'.Arr::get($this->manifest, $path, '');
+        return Arr::get($this->manifest, $path, '');
     }
 }

@@ -12,6 +12,6 @@ class WebpackTest extends TestCase
         File::shouldReceive('exists')->andReturn(true);
         File::shouldReceive('get')->andReturn(json_encode(['a' => 'b']));
         $key = 'a';
-        $this->assertEquals('http://localhost/app/b', app('webpack')->$key);
+        $this->assertEquals('b', app('webpack')->$key);
     }
 }

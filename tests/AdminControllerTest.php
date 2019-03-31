@@ -192,7 +192,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->assertFalse(option('auto_detect_asset_url'));
         $this->assertTrue(option('return_204_when_notfound'));
         $this->assertEquals('0', option('cache_expire_time'));
-        $this->visit('/')->see('url/app/index.js');
+        $this->visit('/')->see('url/app/');
 
         $this->visit('/admin/resource')
             ->type('', 'cdn_address')

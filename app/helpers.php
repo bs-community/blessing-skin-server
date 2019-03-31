@@ -33,8 +33,9 @@ if (! function_exists('webpack_assets')) {
             return "http://127.0.0.1:8080/public/$relativeUri";
             // @codeCoverageIgnoreEnd
         } else {
+            $path = app('webpack')->$relativeUri;
             $cdn = option('cdn_address');
-            return $cdn ? "$cdn/app/$relativeUri" : app('webpack')->$relativeUri;
+            return $cdn ? "$cdn/app/$path" : url("/app/$path");
         }
     }
 }
