@@ -23,38 +23,38 @@
         <tr class="form-field form-required">
             <th scope="row"><label for="host">@lang('setup.wizard.database.host')</label></th>
             <td>
-                <input name="host" type="text" id="host" size="25" value="127.0.0.1" />
+                <input name="host" type="text" id="host" size="25" value="{{ env('DB_HOST') }}" />
             </td>
         </tr>
         <tr class="form-field form-required">
             <th scope="row"><label for="port">@lang('setup.wizard.database.port')</label></th>
             <td>
-                <input name="port" type="text" id="port" size="25" value="3306" />
+                <input name="port" type="text" id="port" size="25" value="{{ env('DB_PORT') }}" />
             </td>
         </tr>
         <tr class="form-field form-required">
             <th scope="row"><label for="username">@lang('setup.wizard.database.username')</label></th>
             <td>
-                <input name="username" type="text" id="username" size="25" value="" />
+                <input name="username" type="text" id="username" size="25" value="{{ env('DB_USERNAME') }}" />
             </td>
         </tr>
         <tr class="form-field form-required">
             <th scope="row"><label for="password">@lang('setup.wizard.database.password')</label></th>
             <td>
-                <input type="password" name="password" id="password" class="regular-text" autocomplete="off" />
+                <input type="password" name="password" id="password" class="regular-text" value="{{ env('DB_PASSWORD') }}" />
             </td>
         </tr>
         <tr class="form-field form-required">
             <th scope="row"><label for="db">@lang('setup.wizard.database.db')</label></th>
             <td>
-                <input name="db" type="text" id="db" size="25" value="" />
+                <input name="db" type="text" id="db" size="25" value="{{ env('DB_DATABASE') }}" />
                 <p>@lang('setup.wizard.database.db-notice')</p>
             </td>
         </tr>
         <tr>
             <th scope="row"><label for="prefix">@lang('setup.wizard.database.prefix')</label></th>
             <td>
-                <input name="prefix" type="text" id="prefix" size="25" value="" />
+                <input name="prefix" type="text" id="prefix" size="25" value="{{ env('DB_PREFIX') }}" />
                 <p>@lang('setup.wizard.database.prefix-notice')</p>
             </td>
         </tr>
