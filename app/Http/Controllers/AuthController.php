@@ -86,7 +86,7 @@ class AuthController extends Controller
         if (option('user_can_register')) {
             return view('auth.register', [
                 'extra' => [
-                    'player' => option('register_with_player_name'),
+                    'player' => (bool) option('register_with_player_name'),
                     'recaptcha' => option('recaptcha_sitekey'),
                     'invisible' => (bool) option('recaptcha_invisible'),
                 ]
