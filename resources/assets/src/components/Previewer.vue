@@ -100,6 +100,10 @@ export default {
       this.viewer.skinUrl = url || SkinSteve
     },
     cape(url) {
+      if (!url) {
+        this.viewer.playerObject.cape.visible = false
+        return
+      }
       this.viewer.capeUrl = url
     },
   },

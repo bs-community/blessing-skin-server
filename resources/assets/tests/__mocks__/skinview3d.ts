@@ -1,5 +1,8 @@
 /* eslint-disable max-params */
 /* eslint-disable max-classes-per-file */
+import {
+  PlayerObject, SkinObject, CapeObject,
+} from 'skinview3d'
 
 export class SkinViewer {
   disposed: boolean
@@ -12,6 +15,8 @@ export class SkinViewer {
 
   camera: { position: { z: number } }
 
+  playerObject: PlayerObject
+
   constructor() {
     this.skinUrl = ''
     this.capeUrl = ''
@@ -21,6 +26,10 @@ export class SkinViewer {
       position: {
         z: 0,
       },
+    }
+    this.playerObject = {
+      skin: {} as SkinObject,
+      cape: {} as CapeObject,
     }
   }
 
