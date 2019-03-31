@@ -51,7 +51,7 @@ class SetupController extends Controller
             );
         }
 
-        $content = File::get('..'.DIRECTORY_SEPARATOR.'.env');
+        $content = File::get(base_path('.env'));
         $content = str_replace(
             'DB_CONNECTION = '.env('DB_CONNECTION'),
             'DB_CONNECTION = '.$request->input('type'),
@@ -87,12 +87,7 @@ class SetupController extends Controller
             'DB_PREFIX = '.$request->input('prefix'),
             $content
         );
-        $content = str_replace(
-            'FIRST_RUN = true',
-            '',
-            $content
-        );
-        File::put('..'.DIRECTORY_SEPARATOR.'.env', $content);
+        File::put(base_path('.env'), $content);
 
         return redirect('setup/info');
     }
