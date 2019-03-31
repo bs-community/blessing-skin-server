@@ -94,4 +94,15 @@ class Player extends Model
 
         return json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
+
+    /**
+     * TODO: This is only for compatibility of 3rd plugins.
+     * Remove this in next major version.
+     *
+     * @deprecated
+     */
+    public function getPlayerNameAttribute()
+    {
+        return $this->name;
+    }
 }

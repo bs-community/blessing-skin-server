@@ -29,4 +29,10 @@ class PlayerTest extends TestCase
         $player = factory(Player::class)->make();
         $this->assertNull($player->getJsonProfile(-1));
     }
+
+    public function testGetPlayerName()
+    {
+        $player = factory(Player::class)->make();
+        $this->assertEquals($player->name, $player->player_name);
+    }
 }
