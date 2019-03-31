@@ -49,7 +49,7 @@ Route::group([
     Route::get('/score-info', 'UserController@scoreInfo');
     Route::post('/sign', 'UserController@sign');
 
-    Route::get('/reports', 'ReportController@viewTrack');
+    Route::view('/reports', 'user.report');
     Route::get('/report-list', 'ReportController@track');
 
     // Profile

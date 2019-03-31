@@ -21,9 +21,7 @@ class PlayerControllerTest extends TestCase
 
     public function testIndex()
     {
-        $this->get('/user/player?pid=5')
-            ->assertViewHas('players')
-            ->assertViewHas('user');
+        $this->get('/user/player?pid=5')->assertViewIs('user.player');
     }
 
     public function testListAll()

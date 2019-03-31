@@ -24,7 +24,7 @@ class ClosetControllerTest extends TestCase
 
     public function testIndex()
     {
-        $this->get('/user/closet')->assertViewHas('user');
+        $this->get('/user/closet')->assertViewIs('user.closet');
     }
 
     public function testGetClosetData()

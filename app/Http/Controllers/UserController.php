@@ -32,7 +32,6 @@ class UserController extends Controller
         $user = Auth::user();
 
         return view('user.index')->with([
-            'user' => $user,
             'statistics' => [
                 'players' => $this->calculatePercentageUsed($user->players->count(), option('score_per_player')),
                 'storage' => $this->calculatePercentageUsed($user->getStorageUsed(), option('score_per_storage')),
@@ -160,7 +159,6 @@ class UserController extends Controller
     {
         $user = Auth::user();
         return view('user.profile')
-            ->with('user', $user)
             ->with('extra', [
                 'unverified' => option('require_verification') && ! $user->verified,
                 'admin' => $user->isAdmin(),

@@ -14,6 +14,10 @@
     @yield('style')
 </head>
 
+@php
+    $user = auth()->user();
+@endphp
+
 <body class="hold-transition {{ option('color_scheme') }} sidebar-mini">
     <div class="wrapper">
 

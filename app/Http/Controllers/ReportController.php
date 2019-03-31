@@ -40,11 +40,6 @@ class ReportController extends Controller
         return json(trans('skinlib.report.success'), 0);
     }
 
-    public function viewTrack()
-    {
-        return view('user.report', ['user' => auth()->user()]);
-    }
-
     public function track()
     {
         return Report::where('reporter', auth()->id())

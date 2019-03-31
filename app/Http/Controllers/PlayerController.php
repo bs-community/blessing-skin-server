@@ -52,11 +52,7 @@ class PlayerController extends Controller
 
     public function index()
     {
-        $user = Auth::user();
-
         return view('user.player')
-            ->with('players', $user->players->toArray())
-            ->with('user', $user)
             ->with('extra', [
                 'rule' => trans('user.player.player-name-rule.'.option('player_name_rule')),
                 'length' => trans(

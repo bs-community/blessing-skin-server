@@ -14,7 +14,6 @@ class ClosetController extends Controller
     public function index()
     {
         return view('user.closet')
-            ->with('user', Auth::user())
             ->with('extra', ['unverified' => option('require_verification') && ! $user->verified]);
     }
 

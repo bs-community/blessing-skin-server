@@ -21,7 +21,6 @@ class UserControllerTest extends TestCase
 
         $this->actAs($user)
             ->get('/user')
-            ->assertViewHas('user')
             ->assertViewHas('statistics')
             ->assertSee((new Parsedown())->text(option_localized('announcement')))
             ->assertSee((string) $user->score);
@@ -200,9 +199,7 @@ class UserControllerTest extends TestCase
 
     public function testProfile()
     {
-        $this->actAs('normal')
-            ->get('/user/profile')
-            ->assertViewHas('user');
+        $this->actAs('normal')->get('/user/profile')->assertViewIs('user.profile');
     }
 
     public function testHandleProfile()

@@ -71,12 +71,6 @@ class ReportControllerTest extends TestCase
             ]);
     }
 
-    public function testViewTrack()
-    {
-        $user = factory(User::class)->create();
-        $this->actAs($user)->get('/user/reports')->assertViewIs('user.report');
-    }
-
     public function testTrack()
     {
         $user = factory(User::class)->create();
