@@ -130,6 +130,18 @@ test('operation panel should not be rendered if not auth', () => {
   expect(wrapper.find('.box-warning').exists()).toBeFalse()
 })
 
+test('download texture', async () => {
+  Object.assign(window.blessing.extra, { currentUid: 1 })
+  Vue.prototype.$http.get.mockResolvedValue({ tid: 1, name: 'abc' })
+  const wrapper = mount(Show, {
+    mocks: {
+      $route: ['/skinlib/show/1', '1'],
+    },
+  })
+  await wrapper.vm.$nextTick()
+  wrapper.find('[data-test="download"]').trigger('click')
+})
+
 test('link to downloading texture', async () => {
   Object.assign(window.blessing.extra, { download: false })
   Vue.prototype.$http.get.mockResolvedValue({ hash: '123' })

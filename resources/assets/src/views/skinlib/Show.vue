@@ -45,13 +45,14 @@
             >
               {{ $t('user.setAsAvatar') }}
             </el-button>
-            <a
+            <el-button
               v-if="canBeDownloaded"
-              v-t="'skinlib.show.download'"
-              class="el-button el-button--default el-button--medium"
-              :href="`${baseUrl}/raw/${tid}.png`"
-              :download="`${name}`.png"
-            />
+              size="medium"
+              data-test="download"
+              @click="download"
+            >
+              {{ $t('skinlib.show.download') }}
+            </el-button>
             <el-button
               type="warning"
               size="medium"
@@ -231,6 +232,13 @@ export default {
         this.likes -= 1
       })
       await this.removeClosetItem()
+    },
+    download() {
+      const a = document.createElement('a')
+      a.href = `${this.baseUrl}/raw/${this.tid}.png`
+      a.download = `${this.name}.png`
+      const event = new MouseEvent('click')
+      a.dispatchEvent(event)
     },
     async changeTextureName() {
       let value
