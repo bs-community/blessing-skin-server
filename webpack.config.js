@@ -27,7 +27,7 @@ const config = {
   },
   output: {
     path: `${__dirname}/public/app`,
-    filename: '[name].[contenthash:7].js',
+    filename: devMode ? '[name].js' : '[name].[contenthash:7].js',
     chunkFilename: devMode ? '[id].js' : '[id].[contenthash:7].js',
   },
   module: {
@@ -103,8 +103,8 @@ const config = {
   plugins: [
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
-      filename: '[name].[contenthash:7].css',
-      chunkFilename: '[id].[contenthash:7].css',
+      filename: devMode ? '[name].css' : '[name].[contenthash:7].css',
+      chunkFilename: devMode ? '[id].css' : '[id].[contenthash:7].css',
     }),
     new CopyWebpackPlugin([
       {
