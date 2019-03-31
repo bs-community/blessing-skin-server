@@ -6,10 +6,7 @@ class CheckUserVerified
 {
     public function handle($request, \Closure $next)
     {
-        if (option('require_verification') && ! auth()->user()->verified) {
-            abort(403, trans('auth.check.verified'));
-        }
-
+        abort_if(option('require_verification') && ! auth()->user()->verified, 403, trans('auth.check.verified'));
         return $next($request);
     }
 }

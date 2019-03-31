@@ -9,10 +9,7 @@ class CheckSuperAdmin
 {
     public function handle($request, Closure $next)
     {
-        if (auth()->user()->permission != User::SUPER_ADMIN) {
-            abort(403, trans('auth.check.super-admin'));
-        }
-
+        abort_if(auth()->user()->permission != User::SUPER_ADMIN, 403, trans('auth.check.super-admin'));
         return $next($request);
     }
 }
