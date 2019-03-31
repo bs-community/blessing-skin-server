@@ -4,6 +4,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const WebpackBar = require('webpackbar')
+const ManifestPlugin = require('webpack-manifest-plugin')
 
 const devMode = !process.argv.includes('-p')
 
@@ -26,7 +27,7 @@ const config = {
   },
   output: {
     path: `${__dirname}/public/app`,
-    filename: '[name].js',
+    filename: '[name].[contenthash:7].js',
     chunkFilename: devMode ? '[id].js' : '[id].[contenthash:7].js',
   },
   module: {
@@ -102,8 +103,8 @@ const config = {
   plugins: [
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css',
+      filename: '[name].[contenthash:7].css',
+      chunkFilename: '[id].[contenthash:7].css',
     }),
     new CopyWebpackPlugin([
       {
@@ -119,6 +120,7 @@ const config = {
       'resources/assets/src/images/bg.jpg',
       'resources/assets/src/images/favicon.ico',
     ]),
+    new ManifestPlugin(),
   ],
   resolve: {
     extensions: ['.js', '.ts', '.vue', '.json'],

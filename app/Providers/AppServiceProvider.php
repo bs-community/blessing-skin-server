@@ -66,6 +66,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('cipher', 'App\Services\Cipher\\'.config('secure.cipher'));
         $this->app->singleton('options', \App\Services\Option::class);
         $this->app->singleton('parsedown', \Parsedown::class);
+        $this->app->singleton('webpack', \App\Services\Webpack::class);
     }
 
     /**

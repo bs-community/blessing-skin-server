@@ -34,7 +34,7 @@ if (! function_exists('webpack_assets')) {
             // @codeCoverageIgnoreEnd
         } else {
             $cdn = option('cdn_address');
-            return $cdn ? "$cdn/app/$relativeUri" : url("app/$relativeUri");
+            return $cdn ? "$cdn/app/$relativeUri" : app('webpack')->$relativeUri;
         }
     }
 }
