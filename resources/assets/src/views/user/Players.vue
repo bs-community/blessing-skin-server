@@ -116,57 +116,7 @@
       </div>
     </div>
 
-    <div
-      id="modal-add-player"
-      class="modal fade"
-      tabindex="-1"
-      role="dialog"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <h4 v-t="'user.player.add-player'" class="modal-title" />
-          </div>
-          <div class="modal-body">
-            <table class="table">
-              <tbody>
-                <tr>
-                  <td v-t="'general.player.player-name'" class="key" />
-                  <td class="value">
-                    <input
-                      v-model="newPlayer"
-                      type="text"
-                      class="form-control"
-                    >
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-
-            <div class="callout callout-info">
-              <ul style="padding: 0 0 0 20px; margin: 0;">
-                <li>{{ playerNameRule }}</li>
-                <li>{{ playerNameLength }}</li>
-              </ul>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <el-button data-dismiss="modal">{{ $t('general.close') }}</el-button>
-            <el-button type="primary" data-test="addPlayer" @click="addPlayer">
-              {{ $t('general.submit') }}
-            </el-button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div>
+    <add-player-dialog @add="fetchPlayers" />
 
     <div
       id="modal-clear-texture"
@@ -209,9 +159,12 @@
 </template>
 
 <script>
+import AddPlayerDialog from '../../components/AddPlayerDialog.vue'
+
 export default {
   name: 'Players',
   components: {
+    AddPlayerDialog,
     Previewer: () => import('../../components/Previewer.vue'),
   },
   props: {
@@ -231,13 +184,10 @@ export default {
         skin: 0,
         cape: 0,
       },
-      newPlayer: '',
       clear: {
         skin: false,
         cape: false,
       },
-      playerNameRule: blessing.extra.rule,
-      playerNameLength: blessing.extra.length,
     }
   },
   beforeMount() {
@@ -332,19 +282,6 @@ export default {
         this.$message.warning(msg)
       }
     },
-    async addPlayer() {
-      $('.modal').modal('hide')
-      const { errno, msg } = await this.$http.post(
-        '/user/player/add',
-        { player_name: this.newPlayer }
-      )
-      if (errno === 0) {
-        this.$message.success(msg)
-        this.fetchPlayers()
-      } else {
-        this.$message.warning(msg)
-      }
-    },
   },
 }
 </script>
@@ -362,9 +299,6 @@ export default {
 
 .player-selected
   background-color #f5f5f5
-
-.modal-body > label
-  margin-bottom 10px
 
 .skin2d
   float right

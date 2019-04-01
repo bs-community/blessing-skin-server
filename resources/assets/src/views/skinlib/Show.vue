@@ -11,14 +11,16 @@
             {{ $t('skinlib.addToCloset') }}
           </el-button>
           <template v-else>
-            <a
+            <el-button
               v-if="liked"
-              native-type="a"
-              :href="`${baseUrl}/user/closet?tid=${tid}`"
-              class="el-button el-button--success el-button--medium"
+              type="success"
+              size="medium"
+              data-toggle="modal"
+              data-target="#modal-use-as"
+              @click="fetchPlayersList"
             >
               {{ $t('skinlib.apply') }}
-            </a>
+            </el-button>
             <el-button
               v-if="liked"
               type="primary"
@@ -150,6 +152,13 @@
         </div><!-- /.box-footer -->
       </div>
     </div>
+
+    <apply-to-player-dialog
+      ref="useAs"
+      :allow-add="false"
+      :skin="type !== 'cape' ? tid : 0"
+      :cape="type === 'cape' ? tid : 0"
+    />
   </div>
 </template>
 
@@ -157,10 +166,12 @@
 import setAsAvatar from '../../components/mixins/setAsAvatar'
 import addClosetItem from '../../components/mixins/addClosetItem'
 import removeClosetItem from '../../components/mixins/removeClosetItem'
+import ApplyToPlayerDialog from '../../components/ApplyToPlayerDialog.vue'
 
 export default {
   name: 'Show',
   components: {
+    ApplyToPlayerDialog,
     Previewer: () => import('../../components/Previewer.vue'),
   },
   mixins: [
@@ -365,6 +376,9 @@ export default {
       } else {
         this.$message.warning(msg)
       }
+    },
+    fetchPlayersList() {
+      this.$refs.useAs.fetchList()
     },
   },
 }

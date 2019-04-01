@@ -131,7 +131,7 @@
               type="primary"
               data-toggle="modal"
               data-target="#modal-use-as"
-              @click="applyTexture"
+              @click="fetchPlayersList"
             >
               {{ $t('user.useAs') }}
             </el-button>
@@ -142,52 +142,8 @@
         </previewer>
       </div>
     </div>
-
-    <div
-      id="modal-use-as"
-      class="modal fade"
-      tabindex="-1"
-      role="dialog"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-            <h4 v-t="'user.closet.use-as.title'" class="modal-title" />
-          </div>
-          <div class="modal-body">
-            <template v-if="players.length !== 0">
-              <div v-for="player in players" :key="player.pid" class="player-item">
-                <label class="model-label" :for="player.pid">
-                  <input
-                    v-model="selectedPlayer"
-                    type="radio"
-                    name="player"
-                    :value="player.pid"
-                  >
-                  <img :src="avatarUrl(player)" width="35" height="35">
-                  <span>{{ player.name }}</span>
-                </label>
-              </div>
-            </template>
-            <p v-else v-t="'user.closet.use-as.empty'" />
-          </div>
-          <div class="modal-footer">
-            <a v-t="'user.closet.use-as.add'" href="./player" class="el-button pull-left" />
-            <el-button type="primary" data-test="submitApplyTexture" @click="submitApplyTexture">
-              {{ $t('general.submit') }}
-            </el-button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+    <apply-to-player-dialog ref="useAs" :skin="selectedSkin" :cape="selectedCape" />
+    <add-player-dialog @add="fetchPlayersList" />
   </section><!-- /.content -->
 </template>
 
@@ -196,6 +152,8 @@ import Paginate from 'vuejs-paginate'
 import { debounce, queryString } from '../../scripts/utils'
 import ClosetItem from '../../components/ClosetItem.vue'
 import EmailVerification from '../../components/EmailVerification.vue'
+import AddPlayerDialog from '../../components/AddPlayerDialog.vue'
+import ApplyToPlayerDialog from '../../components/ApplyToPlayerDialog.vue'
 
 export default {
   name: 'Closet',
@@ -204,6 +162,8 @@ export default {
     ClosetItem,
     Previewer: () => import('../../components/Previewer.vue'),
     EmailVerification,
+    AddPlayerDialog,
+    ApplyToPlayerDialog,
   },
   data: () => ({
     category: 'skin',
@@ -218,8 +178,6 @@ export default {
     skinUrl: '',
     selectedCape: 0,
     capeUrl: '',
-    players: [],
-    selectedPlayer: 0,
     linkToSkin: `${blessing.base_url}/skinlib?filter=skin`,
     linkToCape: `${blessing.base_url}/skinlib?filter=cape`,
   }),
@@ -233,7 +191,7 @@ export default {
     const tid = +queryString('tid', 0)
     if (tid) {
       this.selectTexture(tid)
-      this.applyTexture()
+      this.fetchPlayersList()
       $('#modal-use-as').modal()
     }
   },
@@ -267,9 +225,6 @@ export default {
     pageChanged(page) {
       this.loadCloset(page)
     },
-    avatarUrl(player) {
-      return `${blessing.base_url}/avatar/35/${player.tid_skin}`
-    },
     async selectTexture(tid) {
       const { type, hash } = await this.$http.get(`/skinlib/info/${tid}`)
       if (type === 'cape') {
@@ -280,40 +235,14 @@ export default {
         this.selectedSkin = tid
       }
     },
-    async applyTexture() {
-      this.players = await this.$http.get('/user/player/list')
-    },
-    async submitApplyTexture() {
-      if (!this.selectedPlayer) {
-        return this.$message.info(this.$t('user.emptySelectedPlayer'))
-      }
-
-      if (!this.selectedSkin && !this.selectedCape) {
-        return this.$message.info(this.$t('user.emptySelectedTexture'))
-      }
-
-      const { errno, msg } = await this.$http.post(
-        '/user/player/set',
-        {
-          pid: this.selectedPlayer,
-          tid: {
-            skin: this.selectedSkin || undefined,
-            cape: this.selectedCape || undefined,
-          },
-        }
-      )
-      if (errno === 0) {
-        this.$message.success(msg)
-        $('#modal-use-as').modal('hide')
-      } else {
-        this.$message.warning(msg)
-      }
-    },
     resetSelected() {
       this.selectedSkin = 0
       this.selectedCape = 0
       this.skinUrl = ''
       this.capeUrl = ''
+    },
+    fetchPlayersList() {
+      this.$refs.useAs.fetchList()
     },
   },
 }
@@ -344,9 +273,6 @@ export default {
 
   a.selected
     color #3c8dbc
-
-.player-item:not(:nth-child(1))
-  margin-top 10px
 
 .breadcrumb
   a

@@ -419,3 +419,17 @@ test('report texture', async () => {
   await flushPromises()
   expect(Vue.prototype.$message.success).toBeCalledWith('success')
 })
+
+test('apply texture to player', () => {
+  Vue.prototype.$http.get
+    .mockResolvedValue({})
+    .mockResolvedValue([])
+  const wrapper = mount(Show, {
+    mocks: {
+      $route: ['/skinlib/show/1', '1'],
+    },
+    stubs: { previewer },
+  })
+  wrapper.find('[data-target="#modal-use-as"]').trigger('click')
+  expect(wrapper.find('[data-target="#modal-add-player"]').exists()).toBeFalse()
+})

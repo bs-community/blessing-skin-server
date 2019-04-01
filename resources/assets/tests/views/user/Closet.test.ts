@@ -145,14 +145,6 @@ test('remove cape item', () => {
   expect(wrapper.find('#cape-category').text()).toContain('user.emptyClosetMsg')
 })
 
-test('compute avatar URL', () => {
-  Vue.prototype.$http.get.mockResolvedValue({})
-  // eslint-disable-next-line camelcase
-  const wrapper = mount<Vue & { avatarUrl(player: { tid_skin: number }): string }>(Closet)
-  const { avatarUrl } = wrapper.vm
-  expect(avatarUrl({ tid_skin: 1 })).toBe('/avatar/35/1')
-})
-
 test('select texture', async () => {
   Vue.prototype.$http.get
     .mockResolvedValueOnce({})
@@ -198,49 +190,6 @@ test('apply texture', async () => {
   expect(wrapper.find('.model-label > img').attributes('src')).toBe('/avatar/35/10')
   expect(wrapper.find('.modal-body').text()).toContain('name')
   jest.runAllTimers()
-})
-
-test('submit applying texture', async () => {
-  window.$ = jest.fn(() => ({ modal() {} }))
-  Vue.prototype.$http.get.mockResolvedValue({})
-  Vue.prototype.$http.post.mockResolvedValueOnce({ errno: 1 })
-    .mockResolvedValue({ errno: 0, msg: 'ok' })
-  const wrapper = mount(Closet)
-  const button = wrapper.find('[data-test=submitApplyTexture]')
-
-  button.trigger('click')
-  expect(Vue.prototype.$message.info).toBeCalledWith('user.emptySelectedPlayer')
-
-  wrapper.setData({ selectedPlayer: 1 })
-  button.trigger('click')
-  expect(Vue.prototype.$message.info).toBeCalledWith('user.emptySelectedTexture')
-
-  wrapper.setData({ selectedSkin: 1 })
-  button.trigger('click')
-  expect(Vue.prototype.$http.post).toBeCalledWith(
-    '/user/player/set',
-    {
-      pid: 1,
-      tid: {
-        skin: 1,
-        cape: undefined,
-      },
-    }
-  )
-  wrapper.setData({ selectedSkin: 0, selectedCape: 1 })
-  button.trigger('click')
-  expect(Vue.prototype.$http.post).toBeCalledWith(
-    '/user/player/set',
-    {
-      pid: 1,
-      tid: {
-        skin: undefined,
-        cape: 1,
-      },
-    }
-  )
-  await wrapper.vm.$nextTick()
-  expect(Vue.prototype.$message.success).toBeCalledWith('ok')
 })
 
 test('reset selected texture', () => {

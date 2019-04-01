@@ -127,22 +127,11 @@ test('toggle preview mode', () => {
 test('add player', async () => {
   window.$ = jest.fn(() => ({ modal() {} }))
   Vue.prototype.$http.get.mockResolvedValueOnce([])
-  Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1 })
-    .mockResolvedValue({ errno: 0 })
+  Vue.prototype.$http.post.mockResolvedValue({ errno: 0 })
   const wrapper = mount(Players)
   const button = wrapper.find('[data-test=addPlayer]')
+
   wrapper.find('input[type="text"]').setValue('the-new')
-
-  button.trigger('click')
-  expect(Vue.prototype.$http.post).toBeCalledWith(
-    '/user/player/add',
-    { player_name: 'the-new' }
-  )
-  await flushPromises()
-  await wrapper.vm.$nextTick()
-  expect(wrapper.text()).not.toContain('the-new')
-
   button.trigger('click')
   await flushPromises()
   expect(Vue.prototype.$http.get).toBeCalledTimes(2)

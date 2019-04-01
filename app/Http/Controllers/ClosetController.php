@@ -14,7 +14,14 @@ class ClosetController extends Controller
     public function index()
     {
         return view('user.closet')
-            ->with('extra', ['unverified' => option('require_verification') && ! $user->verified]);
+            ->with('extra', [
+                'unverified' => option('require_verification') && ! $user->verified,
+                'rule' => trans('user.player.player-name-rule.'.option('player_name_rule')),
+                'length' => trans(
+                    'user.player.player-name-length',
+                    ['min' => option('player_name_length_min'), 'max' => option('player_name_length_max')]
+                ),
+            ]);
     }
 
     public function getClosetData(Request $request)
