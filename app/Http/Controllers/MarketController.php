@@ -19,13 +19,6 @@ class MarketController extends Controller
     protected $guzzle;
 
     /**
-     * Default request options for Guzzle HTTP client.
-     *
-     * @var array
-     */
-    protected $guzzleConfig;
-
-    /**
      * Cache for plugins registry.
      *
      * @var array
@@ -35,10 +28,6 @@ class MarketController extends Controller
     public function __construct(\GuzzleHttp\Client $guzzle)
     {
         $this->guzzle = $guzzle;
-        $this->guzzleConfig = [
-            'headers' => ['User-Agent' => config('secure.user_agent')],
-            'verify' => config('secure.certificates'),
-        ];
     }
 
     public function marketData()
@@ -101,9 +90,7 @@ class MarketController extends Controller
 
         // Download
         try {
-            $this->guzzle->request('GET', $url, array_merge($this->guzzleConfig, [
-                'sink' => $tmp_path,
-            ]));
+            $this->guzzle->request('GET', $url, ['sink' => $tmp_path]);
         } catch (Exception $e) {
             report($e);
 
@@ -145,7 +132,7 @@ class MarketController extends Controller
         if (app()->environment('testing') || ! $this->registryCache) {
             try {
                 $pluginsJson = $this->guzzle->request(
-                    'GET', config('plugins.registry'), $this->guzzleConfig
+                    'GET', config('plugins.registry')
                 )->getBody();
             } catch (Exception $e) {
                 throw new Exception(trans('admin.plugins.market.connection-error', [
