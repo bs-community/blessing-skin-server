@@ -1,7 +1,10 @@
 export default [
   {
     path: '/',
-    module: [() => import('../styles/home.styl')],
+    module: [
+      () => import('../styles/home.styl'),
+      () => import('./home-page'),
+    ],
   },
   {
     path: 'user',

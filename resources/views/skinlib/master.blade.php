@@ -87,11 +87,5 @@
     @include('common.dependencies.script')
 
     @yield('script')
-
-    <script>
-        if ($('.navbar').height() > 50) {
-            $('.description-text').hide();
-        }
-    </script>
 </body>
 </html>

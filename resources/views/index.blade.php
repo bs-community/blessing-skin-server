@@ -15,7 +15,7 @@
 
 <body class="hold-transition {{ option('color_scheme') }} layout-top-nav">
 
-    <div class="hp-wrapper" style="background-image: url('{{ $home_pic_url }}');">
+    <div class="hp-wrapper" style="background-image: url('{{ $home_pic_url }}'); height: 100vh;">
         <!-- Navigation -->
         <header class="main-header transparent">
             <nav class="navbar navbar-fixed-top">
@@ -127,72 +127,5 @@
 
     <!-- App Scripts -->
     @include('common.dependencies.script')
-
-    <script>
-        function isMobileBrowserScrolling() {
-            var currentWindowWidth  = $(window).width();
-            var currentWindowHeight = $(window).height();
-
-            if ($.cachedWindowWidth === undefined) {
-                $.cachedWindowWidth = currentWindowWidth;
-            }
-
-            if ($.cachedWindowHeight === undefined) {
-                $.cachedWindowHeight = currentWindowHeight;
-            }
-
-            var isWidthChanged  = (currentWindowWidth  !== $.cachedWindowWidth);
-            var isHeightChanged = (currentWindowHeight !== $.cachedWindowHeight);
-
-            // If the window width & height changes simultaneously, the resize can't be fired by scrolling.
-            if (isWidthChanged && isHeightChanged) {
-                return false;
-            }
-
-            // If only width was changed, it also can't be.
-            if (isWidthChanged) {
-                return false;
-            }
-
-            // If width didn't change but height changed ?
-            if (isHeightChanged) {
-                var last = $.lastWindowHeight;
-                $.lastWindowHeight = currentWindowHeight;
-
-                if (last === undefined || currentWindowHeight === last) {
-                    return true;
-                }
-            }
-
-            // If both width & height did not change
-            return false;
-        }
-
-        function changeWrapperHeight() {
-            var btn = $('p a.button');
-            var bottom = btn.offset().top + btn.height() + 80;
-
-            if (bottom > $(window).height()) {
-                $('.hp-wrapper').height(bottom + 'px');
-            } else {
-                $('.hp-wrapper').height($(window).height() + 'px');
-            }
-        }
-
-        function changeHeaderTransparency() {
-            if ($(window).scrollTop() >= ($(window).height() * 2 / 3)) {
-                $('.main-header').removeClass('transparent');
-            } else {
-                $('.main-header').addClass('transparent');
-            }
-        }
-
-        $(window)
-            .scroll(changeHeaderTransparency)
-            .ready(changeWrapperHeight)
-            .resize(function () {
-                isMobileBrowserScrolling() ? null : changeWrapperHeight();
-            });
-    </script>
 </body>
 </html>
