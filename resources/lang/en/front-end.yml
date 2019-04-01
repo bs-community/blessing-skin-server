@@ -333,7 +333,7 @@ report:
 general:
   skin: Skin
   cape: Cape
-  fatalError: Fatal Error <small><a target="_blank" href="https://github.com/printempw/blessing-skin-server/wiki/FAQ">Possible solutions</a></small>
+  fatalError: Fatal Error <small><a target="_blank" href="https://github.com/bs-community/blessing-skin-server/wiki/FAQ">Possible solutions</a></small>
   confirmLogout: Sure to log out?
   confirm: OK
   cancel: Cancel

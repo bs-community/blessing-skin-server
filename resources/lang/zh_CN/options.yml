@@ -21,7 +21,7 @@ customJsCss:
   title: 自定义 CSS/JavaScript
   message: |
     内容将会被追加至每个页面的 &lt;style&gt; 和 &lt;script&gt; 标签中。<br>
-    - 这里有一些有用的示例：<a href="https://github.com/printempw/blessing-skin-server/wiki/Examples-of-custom-CSS-JavaScript">「自定义 CSS JavaScript」功能的一些实例@GitHub WiKi</a>
+    - 这里有一些有用的示例：<a href="https://github.com/bs-community/blessing-skin-server/wiki/Examples-of-custom-CSS-JavaScript">「自定义 CSS JavaScript」功能的一些实例@GitHub WiKi</a>
 
   custom_css: CSS
   custom_js: JavaScript

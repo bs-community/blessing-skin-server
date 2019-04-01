@@ -138,7 +138,7 @@ update:
     text: |
       请根据你的主机所在位置（国内/国外）选择更新源。
       如错选至相对于你的主机速度较慢的源，可能会造成检查与下载更新页面长时间无响应。
-      如何更换更新源？<a target="_blank" href="https://github.com/printempw/blessing-skin-server/wiki/%E6%9B%B4%E6%96%B0%E6%BA%90%E5%88%97%E8%A1%A8">点击了解详情</a>。
+      如何更换更新源？<a target="_blank" href="https://github.com/bs-community/blessing-skin-server/wiki/%E6%9B%B4%E6%96%B0%E6%BA%90%E5%88%97%E8%A1%A8">点击了解详情</a>。
 
   download:
     downloading: 正在下载更新包

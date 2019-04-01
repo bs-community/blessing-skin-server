@@ -11,7 +11,7 @@
 </head>
 
 <body class="container">
-<p id="logo"><a href="https://github.com/printempw/blessing-skin-server" tabindex="-1">Blessing Skin Server</a></p>
+<p id="logo"><a href="https://github.com/bs-community/blessing-skin-server" tabindex="-1">Blessing Skin Server</a></p>
 
 @yield('content')
 

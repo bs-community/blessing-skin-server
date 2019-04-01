@@ -1,5 +1,5 @@
 {
-  "name": "printempw/blessing-skin-server",
+  "name": "bs-community/blessing-skin-server",
   "description": "A web application brings your custom skins back in offline Minecraft servers.",
   "license": "MIT",
   "require": {

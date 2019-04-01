@@ -327,7 +327,7 @@ report:
 general:
   skin: 皮肤
   cape: 披风
-  fatalError: 严重错误 <small> <a target="_blank" href="https://github.com/printempw/blessing-skin-server/wiki/FAQ">可能的解决方法</a></small>
+  fatalError: 严重错误 <small> <a target="_blank" href="https://github.com/bs-community/blessing-skin-server/wiki/FAQ">可能的解决方法</a></small>
   confirmLogout: 确定要登出吗？
   confirm: 确定
   cancel: 取消

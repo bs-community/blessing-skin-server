@@ -21,7 +21,7 @@ customJsCss:
   title: Custom CSS/JavaScript
   message: |
     The contents will be attached to &lt;style&gt; and &lt;script&gt; tags.<br>
-    - Here are some useful examples: <a href="https://github.com/printempw/blessing-skin-server/wiki/Examples-of-custom-CSS-JavaScript">Examples of Custom CSS JavaScript @GitHub WiKi</a>
+    - Here are some useful examples: <a href="https://github.com/bs-community/blessing-skin-server/wiki/Examples-of-custom-CSS-JavaScript">Examples of Custom CSS JavaScript @GitHub WiKi</a>
 
   custom_css: CSS
   custom_js: JavaScript
