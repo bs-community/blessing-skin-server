@@ -18,6 +18,7 @@ class CacheSkinPreviewTest extends TestCase
 
     public function testHandle()
     {
+        Storage::fake('textures');
         Event::listen(GetSkinPreview::class, CacheSkinPreview::class);
 
         $skin = factory(Texture::class)->create();

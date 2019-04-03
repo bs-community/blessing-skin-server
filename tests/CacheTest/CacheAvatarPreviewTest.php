@@ -18,6 +18,7 @@ class CacheAvatarPreviewTest extends TestCase
 
     public function testHandle()
     {
+        Storage::fake('textures');
         Event::listen(GetAvatarPreview::class, CacheAvatarPreview::class);
 
         $texture = factory(Texture::class)->create();

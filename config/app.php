@@ -179,7 +179,6 @@ return [
         App\Providers\AppServiceProvider::class,
         App\Providers\PluginServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-        App\Providers\MemoryServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ResponseMacroServiceProvider::class,
         App\Providers\TranslationServiceProvider::class,

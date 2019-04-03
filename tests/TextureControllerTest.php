@@ -103,6 +103,7 @@ class TextureControllerTest extends TestCase
 
     public function testTexture()
     {
+        Storage::fake('textures');
         $steve = factory(Texture::class)->create();
         Storage::disk('textures')->put($steve->hash, '');
         $this->get('/textures/nope')
@@ -121,6 +122,7 @@ class TextureControllerTest extends TestCase
 
     public function testTextureWithApi()
     {
+        Storage::fake('textures');
         $steve = factory(Texture::class)->create();
         Storage::disk('textures')->put($steve->hash, '');
 
@@ -141,6 +143,7 @@ class TextureControllerTest extends TestCase
 
     public function testSkin()
     {
+        Storage::fake('textures');
         $skin = factory(Texture::class)->create();
         $player = factory(Player::class)->create();
 
@@ -184,6 +187,7 @@ class TextureControllerTest extends TestCase
 
     public function testAvatar()
     {
+        Storage::fake('textures');
         $base64_email = base64_encode('a@b.c');
         $this->get("/avatar/$base64_email.png")
             ->assertHeader('Content-Type', 'image/png');
@@ -210,6 +214,7 @@ class TextureControllerTest extends TestCase
 
     public function testAvatarWithSize()
     {
+        Storage::fake('textures');
         $steve = factory(Texture::class)->create();
         $png = base64_decode(\App\Http\Controllers\TextureController::getDefaultSteveSkin());
         Storage::disk('textures')->put($steve->hash, $png);
@@ -228,6 +233,7 @@ class TextureControllerTest extends TestCase
 
     public function testPreview()
     {
+        Storage::fake('textures');
         $steve = factory(Texture::class)->create();
         $cape = factory(Texture::class, 'cape')->create();
 
@@ -268,6 +274,7 @@ class TextureControllerTest extends TestCase
 
     public function testRaw()
     {
+        Storage::fake('textures');
         $steve = factory(Texture::class)->create();
         Storage::disk('textures')->put($steve->hash, '');
 
