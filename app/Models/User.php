@@ -83,32 +83,26 @@ class User extends Authenticatable
         }
     }
 
-    /**
-     * Check if given password is correct.
-     *
-     * @param  string $rawPasswd
-     * @return bool
-     */
-    public function verifyPassword($rawPasswd)
+    public function verifyPassword($raw)
     {
         // Compare directly if any responses is returned by event dispatcher
-        if ($result = static::getEncryptedPwdFromEvent($rawPasswd, $this)) {
+        if ($result = static::getEncryptedPwdFromEvent($raw, $this)) {
             return hash_equals($this->password, $result);     // @codeCoverageIgnore
         }
 
-        return app('cipher')->verify($rawPasswd, $this->password, config('secure.salt'));
+        return app('cipher')->verify($raw, $this->password, config('secure.salt'));
     }
 
     /**
      * Try to get encrypted password from event dispatcher.
      *
-     * @param  string $rawPasswd
+     * @param  string $raw
      * @param  User   $user
      * @return mixed
      */
-    public static function getEncryptedPwdFromEvent($rawPasswd, User $user)
+    public static function getEncryptedPwdFromEvent($raw, User $user)
     {
-        $responses = event(new EncryptUserPassword($rawPasswd, $user));
+        $responses = event(new EncryptUserPassword($raw, $user));
 
         return Arr::get($responses, 0);
     }
