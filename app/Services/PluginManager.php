@@ -438,6 +438,11 @@ class PluginManager
             if (is_string($item)) {
                 $plugin = $this->getPlugin($item);
 
+                // If we cannot read the package of that plugin, just return it as-is.
+                if (is_null($plugin)) {
+                    return $item;
+                }
+
                 return [
                     'name' => $item,
                     'version' => $plugin->getVersion(),
