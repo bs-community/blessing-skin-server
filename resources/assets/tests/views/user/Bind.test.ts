@@ -35,5 +35,5 @@ test('submit', async () => {
 
   form.trigger('submit')
   await wrapper.vm.$nextTick()
-  expect(Vue.prototype.$alert).toBeCalledWith({ message: 'ok', type: 'success' })
+  expect(Vue.prototype.$alert).toBeCalledWith('ok')
 })

@@ -61,7 +61,7 @@ export default {
       )
       this.pending = false
       if (errno === 0) {
-        await this.$alert({ message: msg, type: 'success' })
+        await this.$alert(msg)
         window.location.href = `${blessing.base_url}/user`
       } else {
         this.message = msg
