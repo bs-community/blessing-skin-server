@@ -35,7 +35,7 @@ test('login', async () => {
   expect(Vue.prototype.$http.post).not.toBeCalled()
   expect(info.text()).toBe('auth.emptyIdentification')
 
-  wrapper.find('[type="email"]').setValue('a@b.c')
+  wrapper.find('input').setValue('a@b.c')
   form.trigger('submit')
   expect(Vue.prototype.$http.post).not.toBeCalled()
   expect(info.text()).toBe('auth.emptyPassword')
