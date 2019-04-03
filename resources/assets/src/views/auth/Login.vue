@@ -4,7 +4,6 @@
       <input
         ref="identification"
         v-model="identification"
-        type="email"
         class="form-control"
         :placeholder="$t('auth.identification')"
       >
