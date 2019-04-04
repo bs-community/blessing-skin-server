@@ -550,7 +550,7 @@ class AdminControllerTest extends BrowserKitTestCase
             'msg' => trans('admin.players.no-permission'),
         ]);
         // For self is OK
-        $this->actAs($admin)->postJson(
+        $this->actingAs($admin)->postJson(
             '/admin/players',
             ['pid' => factory(Player::class)->create(['uid' => $admin->uid])->pid]
         )->seeJson([

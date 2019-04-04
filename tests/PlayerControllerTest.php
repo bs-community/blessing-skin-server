@@ -71,7 +71,7 @@ class PlayerControllerTest extends TestCase
         // Lack of score
         option(['player_name_rule' => 'official']);
         $user = factory(User::class)->create(['score' => 0]);
-        $this->actAs($user)->postJson(
+        $this->actingAs($user)->postJson(
             '/user/player/add',
             ['player_name' => 'no_score']
         )->assertJson([
@@ -84,7 +84,7 @@ class PlayerControllerTest extends TestCase
         option(['player_name_rule' => 'cjk']);
         $user = factory(User::class)->create();
         $score = $user->score;
-        $this->actAs($user)->postJson('/user/player/add', [
+        $this->actingAs($user)->postJson('/user/player/add', [
             'player_name' => '角色名',
         ])->assertJson([
             'errno' => 0,
@@ -177,7 +177,7 @@ class PlayerControllerTest extends TestCase
         $user = $player->user;
 
         // Without new player name
-        $this->actAs($user)
+        $this->actingAs($user)
             ->postJson('/user/player/rename', [
                 'pid' => $player->pid,
             ])
@@ -247,7 +247,7 @@ class PlayerControllerTest extends TestCase
         $cape = factory(Texture::class, 'cape')->create();
 
         // Set a not-existed texture
-        $this->actAs($user)
+        $this->actingAs($user)
             ->postJson('/user/player/set', [
                 'pid' => $player->pid,
                 'tid' => ['skin' => -1],
@@ -297,7 +297,7 @@ class PlayerControllerTest extends TestCase
         $player->save();
         $player->refresh();
 
-        $this->actAs($user)
+        $this->actingAs($user)
             ->postJson('/user/player/texture/clear', [
                 'pid' => $player->pid,
                 'skin' => 1,    // "1" stands for "true"
@@ -318,7 +318,7 @@ class PlayerControllerTest extends TestCase
         option(['single_player' => true]);
         $user = factory(User::class)->create();
 
-        $this->actAs($user)->postJson('/user/player/bind')
+        $this->actingAs($user)->postJson('/user/player/bind')
             ->assertJson([
                 'errno' => 1,
                 'msg' => trans('validation.required', ['attribute' => 'player']),

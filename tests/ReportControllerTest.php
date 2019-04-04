@@ -17,7 +17,7 @@ class ReportControllerTest extends TestCase
         $texture = factory(Texture::class)->create();
 
         // Without `tid` field
-        $this->actAs($user)
+        $this->actingAs($user)
             ->postJson('/skinlib/report')
             ->assertJson([
                 'errno' => 1,
@@ -82,7 +82,7 @@ class ReportControllerTest extends TestCase
         $report->status = Report::PENDING;
         $report->save();
 
-        $this->actAs($user)
+        $this->actingAs($user)
             ->getJson('/user/report-list')
             ->assertJson([[
                 'tid' => 1,
@@ -105,7 +105,7 @@ class ReportControllerTest extends TestCase
         $report->status = Report::PENDING;
         $report->save();
 
-        $this->actAs($reporter)
+        $this->actingAs($reporter)
             ->getJson('/admin/report-data')
             ->assertJson([
                 'totalRecords' => 1,
@@ -137,7 +137,7 @@ class ReportControllerTest extends TestCase
         $report->refresh();
 
         // Without `id` field
-        $this->actAs($reporter)
+        $this->actingAs($reporter)
             ->postJson('/admin/reports')
             ->assertJson([
                 'errno' => 1,

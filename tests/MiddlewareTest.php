@@ -143,7 +143,7 @@ class MiddlewareTest extends TestCase
 
         $player = factory(\App\Models\Player::class)->create();
         $user = $player->user;
-        $this->actAs($user)
+        $this->actingAs($user)
             ->postJson('/user/player/rename', [
                 'pid' => -1,
                 'new_player_name' => 'name',
@@ -151,7 +151,7 @@ class MiddlewareTest extends TestCase
                 'errno' => 1,
                 'msg' => trans('general.unexistent-player'),
             ]);
-        $this->actAs($user)
+        $this->actingAs($user)
             ->postJson('/user/player/rename', [
                 'pid' => $player->pid,
                 'new_player_name' => 'name',
@@ -166,11 +166,11 @@ class MiddlewareTest extends TestCase
         $player = factory(\App\Models\Player::class)->create();
         $owner = $player->user;
 
-        $this->actAs($other_user)
+        $this->actingAs($other_user)
             ->get('/user/player')
             ->assertSuccessful();
 
-        $this->actAs($other_user)
+        $this->actingAs($other_user)
             ->postJson('/user/player/rename', [
                 'pid' => $player->pid,
             ])->assertJson([
@@ -178,7 +178,7 @@ class MiddlewareTest extends TestCase
                 'msg' => trans('admin.players.no-permission'),
             ]);
 
-        $this->actAs($owner)
+        $this->actingAs($owner)
             ->postJson('/user/player/rename', [
                 'pid' => $player->pid,
                 'new_player_name' => 'name',
@@ -201,7 +201,7 @@ class MiddlewareTest extends TestCase
     public function testRequireBindPlayer()
     {
         $user = factory(User::class)->create();
-        $this->actAs($user)->get('/user')->assertViewIs('user.index');
+        $this->actingAs($user)->get('/user')->assertViewIs('user.index');
         $this->get('/user/player/bind')->assertRedirect('/user');
 
         option(['single_player' => true]);

@@ -19,14 +19,14 @@ class UserControllerTest extends TestCase
         $user = factory(User::class)->create();
         factory(\App\Models\Player::class)->create(['uid' => $user->uid]);
 
-        $this->actAs($user)
+        $this->actingAs($user)
             ->get('/user')
             ->assertViewHas('statistics')
             ->assertSee((new Parsedown())->text(option_localized('announcement')))
             ->assertSee((string) $user->score);
 
         $unverified = factory(User::class)->create(['verified' => false]);
-        $this->actAs($unverified)
+        $this->actingAs($unverified)
             ->get('/user')
             ->assertDontSee(trans('user.verification.notice.title'));
     }
@@ -66,7 +66,7 @@ class UserControllerTest extends TestCase
         $user = factory(User::class)->create();
 
         // Success
-        $this->actAs($user)
+        $this->actingAs($user)
             ->postJson('/user/sign')
             ->assertJson([
                 'errno' => 0,
@@ -83,7 +83,7 @@ class UserControllerTest extends TestCase
         // Remaining time is greater than 0
         $user = factory(User::class)->create(['last_sign_at' => get_datetime_string()]);
         option(['sign_gap_time' => 2]);
-        $this->actAs($user)
+        $this->actingAs($user)
             ->postJson('/user/sign')
             ->assertJson([
                 'errno' => 1,
@@ -107,7 +107,7 @@ class UserControllerTest extends TestCase
             $diff = round($diff / 60);
             $unit = 'min';
         }
-        $this->actAs($user)
+        $this->actingAs($user)
             ->postJson('/user/sign')
             ->assertJson([
                 'errno' => 1,
@@ -123,7 +123,7 @@ class UserControllerTest extends TestCase
         $user = factory(User::class)->create([
             'last_sign_at' => \Carbon\Carbon::today()->toDateTimeString(),
         ]);
-        $this->actAs($user)->postJson('/user/sign')
+        $this->actingAs($user)->postJson('/user/sign')
             ->assertJson([
                 'errno' => 0,
             ]);
@@ -208,7 +208,7 @@ class UserControllerTest extends TestCase
         $user->changePassword('12345678');
 
         // Invalid action
-        $this->actAs($user)
+        $this->actingAs($user)
             ->postJson('/user/profile')
             ->assertJson([
                 'errno' => 1,
@@ -331,7 +331,7 @@ class UserControllerTest extends TestCase
 
         $user = User::find($user->uid);
         // Change email without `new_email` field
-        $this->actAs($user)
+        $this->actingAs($user)
             ->postJson(
                 '/user/profile',
                 ['action' => 'email']
@@ -408,7 +408,7 @@ class UserControllerTest extends TestCase
         $user->verified = true;
         $user->save();
         // Delete account without `password` field
-        $this->actAs($user)
+        $this->actingAs($user)
             ->postJson(
                 '/user/profile',
                 ['action' => 'delete']
@@ -473,7 +473,7 @@ class UserControllerTest extends TestCase
         $cape = factory(\App\Models\Texture::class, 'cape')->create();
 
         // Without `tid` field
-        $this->actAs($user)
+        $this->actingAs($user)
             ->postJson('/user/profile/avatar')
             ->assertJson([
                 'errno' => 1,
@@ -481,7 +481,7 @@ class UserControllerTest extends TestCase
             ]);
 
         // TID is not a integer
-        $this->actAs($user)
+        $this->actingAs($user)
             ->postJson('/user/profile/avatar', ['tid' => 'string'])
             ->assertJson([
                 'errno' => 1,
@@ -489,7 +489,7 @@ class UserControllerTest extends TestCase
             ]);
 
         // Texture cannot be found
-        $this->actAs($user)
+        $this->actingAs($user)
             ->postJson('/user/profile/avatar', [
                 'tid' => -1,
             ])
@@ -499,7 +499,7 @@ class UserControllerTest extends TestCase
             ]);
 
         // Use cape
-        $this->actAs($user)
+        $this->actingAs($user)
             ->postJson('/user/profile/avatar', [
                 'tid' => $cape->tid,
             ])
@@ -509,7 +509,7 @@ class UserControllerTest extends TestCase
             ]);
 
         // Success
-        $this->actAs($user)
+        $this->actingAs($user)
             ->postJson('/user/profile/avatar', [
                 'tid' => $steve->tid,
             ])

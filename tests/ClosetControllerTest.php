@@ -19,7 +19,7 @@ class ClosetControllerTest extends TestCase
     {
         parent::setUp();
         $this->user = factory(User::class)->create();
-        $this->actAs($this->user);
+        $this->actingAs($this->user);
     }
 
     public function testIndex()
