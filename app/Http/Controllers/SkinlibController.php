@@ -199,10 +199,16 @@ class SkinlibController extends Controller
             return $response;
         }
 
+        $file = $request->file('file');
+        $responses = event(new \App\Events\HashingFile($file));
+        if (isset($responses[0]) && is_string($responses[0])) {
+            return $responses[0];  // @codeCoverageIgnore
+        }
+
         $t = new Texture();
         $t->name = $request->input('name');
         $t->type = $request->input('type');
-        $t->hash = bs_hash_file($request->file('file'));
+        $t->hash = hash_file('sha256', $file);
         $t->size = ceil($request->file('file')->getSize() / 1024);
         $t->public = $request->input('public') == 'true';
         $t->uploader = $user->uid;
