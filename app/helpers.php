@@ -16,15 +16,6 @@ if (! function_exists('get_base_url')) {
     }
 }
 
-if (! function_exists('avatar')) {
-    function avatar(User $user, $size)
-    {
-        $fname = base64_encode($user->email).'.png?tid='.$user->avatar;
-
-        return url("avatar/$size/$fname");
-    }
-}
-
 if (! function_exists('webpack_assets')) {
     function webpack_assets($relativeUri)
     {
@@ -104,20 +95,6 @@ if (! function_exists('bs_header_extra')) {
         Event::dispatch(new App\Events\RenderingHeader($extraContents));
 
         return implode("\n", $extraContents);
-    }
-}
-
-if (! function_exists('bs_favicon')) {
-    function bs_favicon()
-    {
-        // Fallback to default favicon
-        $url = Str::startsWith($url = (option('favicon_url') ?: config('options.favicon_url')), 'http') ? $url : url($url);
-
-        return <<< ICONS
-<link rel="shortcut icon" href="$url">
-<link rel="icon" type="image/png" href="$url" sizes="192x192">
-<link rel="apple-touch-icon" href="$url" sizes="180x180">
-ICONS;
     }
 }
 
@@ -221,34 +198,6 @@ if (! function_exists('bs_copyright')) {
         ];
 
         return base64_decode(Arr::get($base64CopyrightText, $prefer, $base64CopyrightText[0]));
-    }
-}
-
-if (! function_exists('bs_custom_copyright')) {
-    function bs_custom_copyright()
-    {
-        return get_string_replaced(option_localized('copyright_text'), [
-            '{site_name}' => option_localized('site_name'),
-            '{site_url}' => option('site_url'),
-        ]);
-    }
-}
-
-if (! function_exists('bs_role')) {
-    function bs_role(User $user = null)
-    {
-        $user = $user ?: auth()->user();
-
-        $roles = [
-            User::NORMAL => 'normal',
-            User::BANNED => 'banned',
-            User::ADMIN  => 'admin',
-            User::SUPER_ADMIN => 'super-admin',
-        ];
-
-        $role = Arr::get($roles, $user->permission);
-
-        return trans("admin.users.status.$role");
     }
 }
 

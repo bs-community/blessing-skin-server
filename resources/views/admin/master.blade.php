@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>@yield('title') - {{ option_localized('site_name') }}</title>
-    {!! bs_favicon() !!}
+    @include('common.favicon')
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -54,18 +54,7 @@
 
             <!-- sidebar: style can be found in sidebar.less -->
             <section class="sidebar">
-
-                <!-- Sidebar user panel (optional) -->
-                <div class="user-panel">
-                    <div class="pull-left image">
-                        <img src="{{ avatar($user, 45) }}" alt="User Image">
-                    </div>
-                    <div class="pull-left info">
-                        <p class="nickname">{{ $user->nickname ?? $user->email }}</p>
-                        <i class="fas fa-circle text-success"></i> {{ bs_role($user) }}
-                    </div>
-                </div>
-
+                @include('common.user-panel')
                 <!-- Sidebar Menu -->
                 <ul class="sidebar-menu tree" data-widget="tree">
                     <li class="header">@lang('general.admin-panel')</li>
@@ -87,7 +76,7 @@
                 {!! bs_copyright() !!}
             </div>
             <!-- Default to the left -->
-            {!! bs_custom_copyright() !!}
+            @include('common.custom-copyright')
         </footer>
 
     </div><!-- ./wrapper -->

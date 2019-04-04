@@ -4,7 +4,7 @@
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         @if (app('request')->is('skinlib*') || app('request')->is('/'))
         <!-- The user image in the navbar-->
-        <img src="{{ avatar($user, 25) }}" class="user-image" alt="User Image">
+        <img src="{{ url("avatar/25/".base64_encode($user->email).'.png?tid='.$user->avatar) }}" class="user-image" alt="User Image">
         @else
         <i class="fas fa-user"></i>
         @endif
@@ -15,7 +15,7 @@
     <ul class="dropdown-menu">
         <!-- The user image in the menu -->
         <li class="user-header">
-            <img src="{{ avatar($user, 128) }}" alt="User Image">
+            <img src="{{ url("avatar/128/".base64_encode($user->email).'.png?tid='.$user->avatar) }}" alt="User Image">
             <p>{{ $user->email }}</p>
         </li>
         @admin($user)
