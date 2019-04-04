@@ -7,14 +7,12 @@ use Exception;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
-use Tests\Concerns\InteractsWithCache;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class TextureControllerTest extends TestCase
 {
     use DatabaseTransactions;
-    use InteractsWithCache;
 
     public function testJson()
     {

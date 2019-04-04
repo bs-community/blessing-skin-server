@@ -4,13 +4,10 @@ namespace Tests;
 
 use DB;
 use Artisan;
-use Tests\Concerns\InteractsWithCache;
 use Laravel\BrowserKitTesting\TestCase;
 
 class BrowserKitTestCase extends TestCase
 {
-    use InteractsWithCache;
-
     /**
      * The base URL to use while testing the application.
      *

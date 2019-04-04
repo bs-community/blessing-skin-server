@@ -4,12 +4,9 @@ namespace Tests;
 
 use DB;
 use Artisan;
-use Tests\Concerns\InteractsWithCache;
 
 class TestCase extends \Illuminate\Foundation\Testing\TestCase
 {
-    use InteractsWithCache;
-
     /**
      * The base URL to use while testing the application.
      *

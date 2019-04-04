@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Cache;
 use App\Events;
 use App\Models\User;
 use App\Models\Player;
@@ -81,13 +82,13 @@ class AuthControllerTest extends TestCase
                 'login_fails' => 1,
             ]
         );
-        $this->assertCacheHas($loginFailsCacheKey);
+        $this->assertTrue(Cache::has($loginFailsCacheKey));
 
         $this->flushSession();
 
         // Should check captcha if there are too many fails
-        $this->withCache([$loginFailsCacheKey => 4])
-            ->postJson(
+        Cache::put($loginFailsCacheKey, 4);
+        $this->postJson(
                 '/auth/login', [
                 'identification' => $user->email,
                 'password' => '12345678',
@@ -96,7 +97,7 @@ class AuthControllerTest extends TestCase
                 'msg' => trans('validation.required', ['attribute' => 'captcha']),
             ]);
 
-        $this->flushCache();
+        Cache::flush();
         $this->flushSession();
 
         // Should return a warning if user isn't existed
@@ -112,8 +113,8 @@ class AuthControllerTest extends TestCase
         $this->flushSession();
 
         // Should clean the `login_fails` session if logged in successfully
-        $this->withCache([$loginFailsCacheKey => 1])
-            ->postJson('/auth/login', [
+        Cache::put($loginFailsCacheKey, 1);
+        $this->postJson('/auth/login', [
             'identification' => $user->email,
             'password' => '12345678',
         ])->assertJson(
@@ -122,9 +123,9 @@ class AuthControllerTest extends TestCase
                 'msg' => trans('auth.login.success'),
             ]
         );
-        $this->assertCacheMissing($loginFailsCacheKey);
+        $this->assertFalse(Cache::has($loginFailsCacheKey));
 
-        $this->flushCache();
+        Cache::flush();
         $this->flushSession();
 
         // Logged in should be in success if logged in with player name
@@ -448,15 +449,14 @@ class AuthControllerTest extends TestCase
         $lastMailCacheKey = sha1('last_mail_'.get_client_ip());
 
         // Should be forbidden if sending email frequently
-        $this->withCache([
-            $lastMailCacheKey => time(),
-        ])->postJson('/auth/forgot', [
+        Cache::put($lastMailCacheKey, time());
+        $this->postJson('/auth/forgot', [
             'captcha' => 'a',
         ])->assertJson([
             'errno' => 2,
             'msg' => trans('auth.forgot.frequent-mail'),
         ]);
-        $this->flushCache();
+        Cache::flush();
         $this->flushSession();
 
         // Should return a warning if user is not existed
@@ -476,8 +476,8 @@ class AuthControllerTest extends TestCase
             'errno' => 0,
             'msg' => trans('auth.forgot.success'),
         ]);
-        $this->assertCacheHas($lastMailCacheKey);
-        $this->flushCache();
+        $this->assertTrue(Cache::has($lastMailCacheKey));
+        Cache::flush();
         Mail::assertSent(ForgotPassword::class, function ($mail) use ($user) {
             return $mail->hasTo($user->email);
         });

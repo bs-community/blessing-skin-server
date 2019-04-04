@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Cache;
 use Exception;
 use ZipArchive;
 use Carbon\Carbon;
@@ -109,11 +110,11 @@ class UpdateControllerTest extends TestCase
         $this->withNewVersionAvailable()
             ->getJson('/admin/update/download?action=prepare-download')
             ->assertJsonStructure(['release_url', 'tmp_path']);
-        $this->seeInCache('tmp_path')
-            ->assertCacheMissing('download-progress');
+        $this->assertTrue(Cache::has('tmp_path'));
+        $this->assertFalse(Cache::has('download-progress'));
 
         // Start downloading
-        $this->flushCache();
+        Cache::flush();
         $this->withNewVersionAvailable()
             ->getJson('/admin/update/download?action=start-download')
             ->assertJson([
@@ -126,13 +127,8 @@ class UpdateControllerTest extends TestCase
             new Response(200, [], $this->generateFakeUpdateInfo('8.9.3')),
             new RequestException('Connection Error', new Request('GET', 'whatever')),
         ]);
-        $this->withCache(['tmp_path' => storage_path('update_cache/update.zip')])
-            ->getJson('/admin/update/download?action=start-download');
-        /*->assertJson([
-            'errno' => 1,
-            'msg' => trans('admin.update.errors.prefix')
-        ]);
-        $this->assertFileNotExists(storage_path('update_cache/update.zip'))*/
+        Cache::put('tmp_path', storage_path('update_cache/update.zip'));
+        $this->getJson('/admin/update/download?action=start-download');
 
         // Download update package
         $fakeUpdatePackage = $this->generateFakeUpdateFile();
@@ -140,22 +136,22 @@ class UpdateControllerTest extends TestCase
             new Response(200, [], $this->generateFakeUpdateInfo('8.9.3')),
             new Response(200, [], fopen($fakeUpdatePackage, 'r')),
         ]);
-        $this->withCache(['tmp_path' => storage_path('update_cache/update.zip')])
-            ->getJson('/admin/update/download?action=start-download')
+        Cache::put('tmp_path', storage_path('update_cache/update.zip'));
+        $this->getJson('/admin/update/download?action=start-download')
             ->assertJson([
                 'tmp_path' => storage_path('update_cache/update.zip'),
             ]);
         $this->assertFileExists(storage_path('update_cache/update.zip'));
 
         // No download progress available
-        $this->flushCache();
+        Cache::flush();
         $this->withNewVersionAvailable()
             ->getJson('/admin/update/download?action=get-progress')
             ->assertJson([]);
 
         // Get download progress
+        Cache::put('download-progress', ['total' => 514, 'downloaded' => 114]);
         $this->withNewVersionAvailable()
-            ->withCache(['download-progress' => ['total' => 514, 'downloaded' => 114]])
             ->getJson('/admin/update/download?action=get-progress')
             ->assertJson([
                 'total' => 514,
@@ -163,8 +159,8 @@ class UpdateControllerTest extends TestCase
             ]);
 
         // No such zip archive
+        Cache::put('tmp_path', storage_path('update_cache/nope.zip'));
         $this->withNewVersionAvailable()
-            ->withCache(['tmp_path' => storage_path('update_cache/nope.zip')])
             ->getJson('/admin/update/download?action=extract')
             ->assertJson([
                 'errno' => 1,
@@ -173,8 +169,8 @@ class UpdateControllerTest extends TestCase
 
         // Can't extract zip archive
         file_put_contents(storage_path('update_cache/update.zip'), 'text');
+        Cache::put('tmp_path', storage_path('update_cache/update.zip'));
         $this->withNewVersionAvailable()
-            ->withCache(['tmp_path' => storage_path('update_cache/update.zip')])
             ->getJson('/admin/update/download?action=extract')
             ->assertJson([
                 'errno' => 1,
