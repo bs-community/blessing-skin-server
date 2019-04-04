@@ -41,8 +41,13 @@ test('display characters captcha', async () => {
   blessing.extra = {}
   const wrapper = mount<Vue & { execute(): Promise<string> }>(Captcha)
   expect(wrapper.find('img').exists()).toBeTrue()
-  wrapper.find('input').setValue('abc')
+  const input = wrapper.find('input')
+  input.setValue('abc')
   expect(await wrapper.vm.execute()).toBe('abc')
+
+  wrapper.setData({ invisible: true })
+  input.setValue('123')
+  expect(await wrapper.vm.execute()).toBe('123')
 })
 
 test('refresh captcha', () => {

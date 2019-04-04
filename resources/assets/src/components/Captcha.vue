@@ -60,7 +60,7 @@ export default {
   methods: {
     execute() {
       return new Promise(resolve => {
-        if (this.invisible) {
+        if (this.recaptcha && this.invisible) {
           this.$refs.recaptcha.$once('verify', resolve)
           this.$refs.recaptcha.execute()
         } else {
