@@ -6,26 +6,31 @@ use Illuminate\Contracts\Validation\Rule;
 
 class Captcha implements Rule
 {
+    protected $client;
+
+    public function __construct(\GuzzleHttp\Client $client)
+    {
+        $this->client = $client;
+    }
+
     public function passes($attribute, $value)
     {
-        if (app()->environment('testing')) {
-            return true;
-        }
-
         $secretkey = option('recaptcha_secretkey');
         if ($secretkey) {
-            $client = new \GuzzleHttp\Client();
-            $response = $client->post('https://www.recaptcha.net/recaptcha/api/siteverify', [
-                'form_params' => [
-                    'secret' => $secretkey,
-                    'response' => $value,
-                ]
-            ]);
-            if ($response->getStatusCode() == 200) {
-                $body = json_decode((string) $response->getBody());
-                return $body->success;
+            try {
+                $response = $this->client->post('https://www.recaptcha.net/recaptcha/api/siteverify', [
+                    'form_params' => [
+                        'secret' => $secretkey,
+                        'response' => $value,
+                    ]
+                ]);
+                if ($response->getStatusCode() == 200) {
+                    $body = json_decode((string) $response->getBody());
+                    return $body->success;
+                }
+            } catch (\GuzzleHttp\Exception\RequestException $e) {
+                return false;
             }
-            return false;
         }
 
         return captcha_check($value);

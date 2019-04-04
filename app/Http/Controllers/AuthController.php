@@ -18,7 +18,7 @@ use App\Exceptions\PrettyPageException;
 
 class AuthController extends Controller
 {
-    public function handleLogin(Request $request)
+    public function handleLogin(Request $request, Captcha $captcha)
     {
         $this->validate($request, [
             'identification' => 'required',
@@ -44,7 +44,7 @@ class AuthController extends Controller
         $loginFails = (int) Cache::get($loginFailsCacheKey, 0);
 
         if ($loginFails > 3) {
-            $this->validate($request, ['captcha' => ['required', new Captcha]]);
+            $this->validate($request, ['captcha' => ['required', $captcha]]);
         }
 
         if (! $user) {
@@ -96,7 +96,7 @@ class AuthController extends Controller
         }
     }
 
-    public function handleRegister(Request $request)
+    public function handleRegister(Request $request, Captcha $captcha)
     {
         if (! option('user_can_register')) {
             return json(trans('auth.register.close'), 7);
@@ -108,7 +108,7 @@ class AuthController extends Controller
         $data = $this->validate($request, array_merge([
             'email'    => 'required|email|unique:users',
             'password' => 'required|min:8|max:32',
-            'captcha'  => ['required', new Captcha],
+            'captcha'  => ['required', $captcha],
         ], $rule));
 
         if (option('register_with_player_name')) {
@@ -173,10 +173,10 @@ class AuthController extends Controller
         }
     }
 
-    public function handleForgot(Request $request)
+    public function handleForgot(Request $request, Captcha $captcha)
     {
         $this->validate($request, [
-            'captcha' => ['required', new Captcha],
+            'captcha' => ['required', $captcha],
         ]);
 
         if (! config('mail.driver')) {

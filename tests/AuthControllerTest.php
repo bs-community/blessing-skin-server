@@ -17,6 +17,19 @@ class AuthControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        app()->instance(\App\Rules\Captcha::class, new class extends \App\Rules\Captcha {
+            public function __construct(\GuzzleHttp\Client $client = null) {}
+
+            public function passes($attribute, $value)
+            {
+                return true;
+            }
+        });
+    }
+
     public function testLogin()
     {
         $this->get('/auth/login')->assertSee('Log in');
