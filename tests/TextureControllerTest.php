@@ -313,12 +313,11 @@ class TextureControllerTest extends TestCase
         // Success
         $png = base64_decode(\App\Http\Controllers\TextureController::getDefaultSteveSkin());
         Storage::disk('textures')->put($texture->hash, $png);
-        $mock = Mockery::mock('overload:Minecraft');
-        $mock->shouldReceive('generatePreviewFromSkin')
+        Mockery::mock('overload:Minecraft')
+            ->shouldReceive('generateAvatarFromSkin')
             ->once()
             ->andReturn(imagecreatefromstring($png));
-        $this->get("/avatar/player/20/{$player->name}.png")
-            ->assertSuccessful();
+        $this->get("/avatar/player/20/{$player->name}.png")->assertSuccessful();
         Storage::disk('textures')->delete($texture->hash);
     }
 }
