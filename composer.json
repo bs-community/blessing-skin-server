@@ -13,7 +13,6 @@
     "ext-xml": "*",
     "ext-ctype": "*",
     "ext-json": "*",
-    "filp/whoops": "^2.1",
     "predis/predis": "~1.0",
     "swiggles/memcache": "^2.0",
     "doctrine/inflector": "1.1.0",
