@@ -116,16 +116,7 @@ update:
       latest: 最新版本：
       current: 当前版本：
 
-    release-time: 发布时间：
     pre-release: 当前版本为未发布测试版
-
-    change-log:
-      text: 更新日志：
-      empty: 无内容
-
-    downloads:
-      text: 下载地址：
-      link: 点击下载完整安装包
 
     check-github: <a href=":url" target="_blank" class="el-button pull-right">查看 GitHub Releases</a>
     button: 马上升级

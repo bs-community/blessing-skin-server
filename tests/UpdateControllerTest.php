@@ -39,11 +39,7 @@ class UpdateControllerTest extends TestCase
         // New version available
         $time = time();
         $this->appendToGuzzleQueue(200, [], $this->generateFakeUpdateInfo('8.9.3', false, $time));
-        $this->get('/admin/update')
-            ->assertSee(config('app.version'))
-            ->assertSee('8.9.3')
-            ->assertSee('test')
-            ->assertSee(Carbon::createFromTimestamp($time)->toDateTimeString());
+        $this->get('/admin/update')->assertSee(config('app.version'))->assertSee('8.9.3');
 
         // Now using pre-release version
         $this->appendToGuzzleQueue(200, [], $this->generateFakeUpdateInfo('0.0.1', false, $time));
