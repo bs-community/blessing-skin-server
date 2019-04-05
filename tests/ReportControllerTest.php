@@ -19,24 +19,15 @@ class ReportControllerTest extends TestCase
         // Without `tid` field
         $this->actingAs($user)
             ->postJson('/skinlib/report')
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'tid'])
-            ]);
+            ->assertJsonValidationErrors('tid');
 
         // Invalid texture
         $this->postJson('/skinlib/report', ['tid' => $texture->tid - 1])
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.exists', ['attribute' => 'tid'])
-            ]);
+            ->assertJsonValidationErrors('tid');
 
         // Without `reason` field
         $this->postJson('/skinlib/report', ['tid' => $texture->tid])
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'reason'])
-            ]);
+            ->assertJsonValidationErrors('reason');
 
         // Lack of score
         $user->score = 0;
@@ -139,31 +130,19 @@ class ReportControllerTest extends TestCase
         // Without `id` field
         $this->actingAs($reporter)
             ->postJson('/admin/reports')
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'id'])
-            ]);
+            ->assertJsonValidationErrors('id');
 
         // Not existed
         $this->postJson('/admin/reports', ['id' => $report->id - 1])
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.exists', ['attribute' => 'id'])
-            ]);
+            ->assertJsonValidationErrors('id');
 
         // Without `action` field
         $this->postJson('/admin/reports', ['id' => $report->id])
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'action'])
-            ]);
+            ->assertJsonValidationErrors('action');
 
         // Invalid action
         $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'a'])
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.in', ['attribute' => 'action'])
-            ]);
+            ->assertJsonValidationErrors('action');
 
         // Only process pending report
         $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'reject'])

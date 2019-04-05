@@ -17,21 +17,4 @@ class Handler extends ExceptionHandler
         ValidationException::class,
         PrettyPageException::class,
     ];
-
-    public function render($request, Exception $e)
-    {
-        if ($e instanceof ValidationException) {
-            if ($request->expectsJson()) {
-                return response()->json([
-                    'errno' => 1,
-                    'msg' => $e->validator->errors()->first(),
-                ]);
-            } else {
-                $request->session()->flash('errors', $e->validator->errors());
-                return redirect()->back();
-            }
-        }
-
-        return parent::render($request, $e);
-    }
 }

@@ -122,6 +122,24 @@ test('low level fetch', async () => {
   expect(await net.walkFetch(request as Request)).toBe('text')
 })
 
+test('process Laravel validation errors', async () => {
+  window.fetch = jest.fn().mockResolvedValue({
+    status: 422,
+    json() {
+      return Promise.resolve({
+        errors: { name: ['required'] },
+      })
+    },
+  })
+
+  const result: {
+    errno: number,
+    msg: string
+  } = await net.walkFetch({ headers: new Headers() } as Request)
+  expect(result.errno).toBe(1)
+  expect(result.msg).toBe('required')
+})
+
 test('inject to Vue instance', () => {
   expect(typeof Vue.prototype.$http.get).toBe('function')
   expect(typeof Vue.prototype.$http.post).toBe('function')

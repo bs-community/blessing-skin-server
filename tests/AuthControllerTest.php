@@ -45,39 +45,26 @@ class AuthControllerTest extends TestCase
         $player = factory(Player::class)->create(['uid' => $user->uid]);
 
         // Should return a warning if `identification` is empty
-        $this->postJson('/auth/login')
-            ->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => trans('validation.attributes.identification')]),
-        ]);
+        $this->postJson('/auth/login')->assertJsonValidationErrors('identification');
 
         // Should return a warning if `password` is empty
         $this->postJson(
             '/auth/login', ['identification' => $user->email]
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'password']),
-        ]);
+        )->assertJsonValidationErrors('password');
 
         // Should return a warning if length of `password` is lower than 6
         $this->postJson(
             '/auth/login', [
             'identification' => $user->email,
             'password' => '123',
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.min.string', ['attribute' => 'password', 'min' => 6]),
-        ]);
+        ])->assertJsonValidationErrors('password');
 
         // Should return a warning if length of `password` is greater than 32
         $this->postJson(
             '/auth/login', [
             'identification' => $user->email,
             'password' => Str::random(80),
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 32]),
-        ]);
+        ])->assertJsonValidationErrors('password');
 
         $this->flushSession();
 
@@ -105,10 +92,7 @@ class AuthControllerTest extends TestCase
                 '/auth/login', [
                 'identification' => $user->email,
                 'password' => '12345678',
-            ])->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'captcha']),
-            ]);
+            ])->assertJsonValidationErrors('captcha');
 
         Cache::flush();
         $this->flushSession();
@@ -187,39 +171,26 @@ class AuthControllerTest extends TestCase
         $this->expectsEvents(Events\UserRegistered::class);
 
         // Should return a warning if `email` is empty
-        $this->postJson('/auth/register')
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'email']),
-            ]);
+        $this->postJson('/auth/register')->assertJsonValidationErrors('email');
 
         // Should return a warning if `email` is invalid
         $this->postJson(
             '/auth/register',
             ['email' => 'not_an_email']
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.email', ['attribute' => 'email']),
-        ]);
+        )->assertJsonValidationErrors('email');
 
         // An existed user
         $existedUser = factory(User::class)->create();
         $this->postJson(
             '/auth/register',
             ['email' => $existedUser->email]
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.unique', ['attribute' => 'email']),
-        ]);
+        )->assertJsonValidationErrors('email');
 
         // Should return a warning if `password` is empty
         $this->postJson(
             '/auth/register',
             ['email' => 'a@b.c']
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'password']),
-        ]);
+        )->assertJsonValidationErrors('password');
 
         // Should return a warning if length of `password` is lower than 8
         $this->postJson(
@@ -228,10 +199,7 @@ class AuthControllerTest extends TestCase
                 'email' => 'a@b.c',
                 'password' => '1',
             ]
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.min.string', ['attribute' => 'password', 'min' => 8]),
-        ]);
+        )->assertJsonValidationErrors('password');
 
         // Should return a warning if length of `password` is greater than 32
         $this->postJson(
@@ -240,10 +208,7 @@ class AuthControllerTest extends TestCase
                 'email' => 'a@b.c',
                 'password' => Str::random(33),
             ]
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 32]),
-        ]);
+        )->assertJsonValidationErrors('password');
 
         // The register_with_player_name option is set to true by default.
         // Should return a warning if `player_name` is empty
@@ -254,10 +219,7 @@ class AuthControllerTest extends TestCase
                 'password' => '12345678',
                 'captcha' => 'a',
             ]
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => trans('validation.attributes.player_name')]),
-        ]);
+        )->assertJsonValidationErrors('player_name');
 
         // Should return a warning if `player_name` is invalid
         option(['player_name_rule' => 'official']);
@@ -269,10 +231,7 @@ class AuthControllerTest extends TestCase
                 'player_name' => '角色名',
                 'captcha' => 'a',
             ]
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.player_name', ['attribute' => trans('validation.attributes.player_name')]),
-        ]);
+        )->assertJsonValidationErrors('player_name');
 
         // Should return a warning if `player_name` is too long
         $this->postJson(
@@ -283,13 +242,7 @@ class AuthControllerTest extends TestCase
                 'player_name' => Str::random(option('player_name_length_max') + 10),
                 'captcha' => 'a',
             ]
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.max.string', [
-                'attribute' => trans('validation.attributes.player_name'),
-                'max' => option('player_name_length_max'),
-            ]),
-        ]);
+        )->assertJsonValidationErrors('player_name');
 
         // Existed player
         $player = factory(Player::class)->create();
@@ -317,10 +270,7 @@ class AuthControllerTest extends TestCase
                 'password' => '12345678',
                 'captcha' => 'a',
             ]
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'nickname']),
-        ]);
+        )->assertJsonValidationErrors('nickname');
 
         // Should return a warning if `nickname` is invalid
         $this->postJson(
@@ -331,10 +281,7 @@ class AuthControllerTest extends TestCase
                 'nickname' => '\\',
                 'captcha' => 'a',
             ]
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.no_special_chars', ['attribute' => 'nickname']),
-        ]);
+        )->assertJsonValidationErrors('nickname');
 
         // Should return a warning if `nickname` is too long
         $this->postJson(
@@ -345,10 +292,7 @@ class AuthControllerTest extends TestCase
                 'nickname' => Str::random(256),
                 'captcha' => 'a',
             ]
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.max.string', ['attribute' => 'nickname', 'max' => 255]),
-        ]);
+        )->assertJsonValidationErrors('nickname');
 
         // Should return a warning if `captcha` is empty
         $this->postJson(
@@ -358,10 +302,7 @@ class AuthControllerTest extends TestCase
                 'password' => '12345678',
                 'nickname' => 'nickname',
             ]
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'captcha']),
-        ]);
+        )->assertJsonValidationErrors('captcha');
 
         // Should be forbidden if registering is closed
         Option::set('user_can_register', false);
@@ -533,29 +474,19 @@ class AuthControllerTest extends TestCase
         $url = URL::temporarySignedRoute('auth.reset', now()->addHour(), ['uid' => $user->uid]);
 
         // Should return a warning if `password` is empty
-        $this->postJson($url)
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'password']),
-            ]);
+        $this->postJson($url)->assertJsonValidationErrors('password');
 
         // Should return a warning if `password` is too short
         $this->postJson(
             $url, [
             'password' => '123',
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.min.string', ['attribute' => 'password', 'min' => 8]),
-        ]);
+        ])->assertJsonValidationErrors('password');
 
         // Should return a warning if `password` is too long
         $this->postJson(
             $url, [
             'password' => Str::random(33),
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 32]),
-        ]);
+        ])->assertJsonValidationErrors('password');
 
         // Success
         $this->postJson(

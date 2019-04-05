@@ -35,6 +35,19 @@ export async function walkFetch(request: Request): Promise<any> {
         ? response.json()
         : response.text()
     }
+
+    // Process validation errors from Laravel.
+    if (response.status === 422) {
+      const { errors }: {
+        message: string,
+        errors: { [field: string]: string[] }
+      } = await response.json()
+      return {
+        errno: 1,
+        msg: Object.keys(errors).map(field => errors[field][0])[0],
+      }
+    }
+
     const res = response.clone()
     throw new HTTPError(await response.text(), res)
   } catch (error) {

@@ -38,10 +38,7 @@ class AdminControllerTest extends BrowserKitTestCase
     {
         // Check if `color_scheme` is existed or not
         $this->getJson('/admin/customize?action=color')
-            ->seeJson([
-                'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'color scheme']),
-            ]);
+            ->seeJsonStructure(['errors' => ['color_scheme']]);
 
         // Change color
         $this->get('/admin/customize?action=color&color_scheme=purple')
@@ -331,20 +328,14 @@ class AdminControllerTest extends BrowserKitTestCase
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'email'],
             ['Accept' => 'application/json']
-        )->seeJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'email']),
-        ]);
+        )->seeJsonStructure(['errors' => ['email']]);
 
         // Action is `email` but with an invalid email address
         $this->postJson(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'email', 'email' => 'invalid'],
             ['Accept' => 'application/json']
-        )->seeJson([
-            'errno' => 1,
-            'msg' => trans('validation.email', ['attribute' => 'email']),
-        ]);
+        )->seeJsonStructure(['errors' => ['email']]);
 
         // Using an existed email address
         $this->postJson(
@@ -386,20 +377,14 @@ class AdminControllerTest extends BrowserKitTestCase
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'nickname'],
             ['Accept' => 'application/json']
-        )->seeJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'nickname']),
-        ]);
+        )->seeJsonStructure(['errors' => ['nickname']]);
 
         // Action is `nickname` but with an invalid nickname
         $this->postJson(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'nickname', 'nickname' => '\\'],
             ['Accept' => 'application/json']
-        )->seeJson([
-            'errno' => 1,
-            'msg' => trans('validation.no_special_chars', ['attribute' => 'nickname']),
-        ]);
+        )->seeJsonStructure(['errors' => ['nickname']]);
 
         // Set nickname successfully
         $this->postJson(
@@ -419,30 +404,21 @@ class AdminControllerTest extends BrowserKitTestCase
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'password'],
             ['Accept' => 'application/json']
-        )->seeJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'password']),
-        ]);
+        )->seeJsonStructure(['errors' => ['password']]);
 
         // Set a too short password
         $this->postJson(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'password', 'password' => '1'],
             ['Accept' => 'application/json']
-        )->seeJson([
-            'errno' => 1,
-            'msg' => trans('validation.min.string', ['attribute' => 'password', 'min' => 8]),
-        ]);
+        )->seeJsonStructure(['errors' => ['password']]);
 
         // Set a too long password
         $this->postJson(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'password', 'password' => Str::random(17)],
             ['Accept' => 'application/json']
-        )->seeJson([
-            'errno' => 1,
-            'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 16]),
-        ]);
+        )->seeJsonStructure(['errors' => ['password']]);
 
         // Set password successfully
         $this->postJson(
@@ -460,20 +436,14 @@ class AdminControllerTest extends BrowserKitTestCase
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'score'],
             ['Accept' => 'application/json']
-        )->seeJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'score']),
-        ]);
+        )->seeJsonStructure(['errors' => ['score']]);
 
         // Action is `score` but with an not-an-integer value
         $this->postJson(
             '/admin/users',
             ['uid' => $user->uid, 'action' => 'score', 'score' => 'string'],
             ['Accept' => 'application/json']
-        )->seeJson([
-            'errno' => 1,
-            'msg' => trans('validation.integer', ['attribute' => 'score']),
-        ]);
+        )->seeJsonStructure(['errors' => ['score']]);
 
         // Set score successfully
         $this->postJson(
@@ -493,10 +463,7 @@ class AdminControllerTest extends BrowserKitTestCase
             'uid' => $user->uid,
             'action' => 'permission',
             'permission' => -2
-        ])->seeJson([
-            'errno' => 1,
-            'msg' => trans('validation.in', ['attribute' => 'permission']),
-        ]);
+        ])->seeJsonStructure(['errors' => ['permission']]);
         $user = User::find($user->uid);
         $this->assertEquals(User::NORMAL, $user->permission);
 
@@ -564,10 +531,7 @@ class AdminControllerTest extends BrowserKitTestCase
             'action' => 'texture',
         ], [
             'Accept' => 'application/json',
-        ])->seeJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'type']),
-        ]);
+        ])->seeJsonStructure(['errors' => ['type']]);
 
         // Change texture without `tid` field
         $this->postJson('/admin/players', [
@@ -576,10 +540,7 @@ class AdminControllerTest extends BrowserKitTestCase
             'type' => 'skin',
         ], [
             'Accept' => 'application/json',
-        ])->seeJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'tid']),
-        ]);
+        ])->seeJsonStructure(['errors' => ['tid']]);
 
         // Change texture with a not-integer value
         $this->postJson('/admin/players', [
@@ -589,10 +550,7 @@ class AdminControllerTest extends BrowserKitTestCase
             'tid' => 'string',
         ], [
             'Accept' => 'application/json',
-        ])->seeJson([
-            'errno' => 1,
-            'msg' => trans('validation.integer', ['attribute' => 'tid']),
-        ]);
+        ])->seeJsonStructure(['errors' => ['tid']]);
 
         // Invalid texture
         $this->postJson('/admin/players', [
@@ -666,10 +624,7 @@ class AdminControllerTest extends BrowserKitTestCase
             'action' => 'owner',
         ], [
             'Accept' => 'application/json',
-        ])->seeJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'uid']),
-        ]);
+        ])->seeJsonStructure(['errors' => ['uid']]);
 
         // Change owner with a not-integer `uid` value
         $this->postJson('/admin/players', [
@@ -678,10 +633,7 @@ class AdminControllerTest extends BrowserKitTestCase
             'uid' => 'string',
         ], [
             'Accept' => 'application/json',
-        ])->seeJson([
-            'errno' => 1,
-            'msg' => trans('validation.integer', ['attribute' => 'uid']),
-        ]);
+        ])->seeJsonStructure(['errors' => ['uid']]);
 
         // Change owner to a not-existed user
         $this->postJson('/admin/players', [
@@ -713,10 +665,7 @@ class AdminControllerTest extends BrowserKitTestCase
             'action' => 'name',
         ], [
             'Accept' => 'application/json',
-        ])->seeJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'name']),
-        ]);
+        ])->seeJsonStructure(['errors' => ['name']]);
 
         // Rename a player successfully
         $this->postJson('/admin/players', [

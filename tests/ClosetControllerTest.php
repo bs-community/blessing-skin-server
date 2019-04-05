@@ -87,38 +87,25 @@ class ClosetControllerTest extends TestCase
         option(['score_per_closet_item' => 10]);
 
         // Missing `tid` field
-        $this->postJson('/user/closet/add')
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'tid']),
-            ]);
+        $this->postJson('/user/closet/add')->assertJsonValidationErrors('tid');
 
         // `tid` is not a integer
         $this->postJson(
             '/user/closet/add',
             ['tid' => 'string']
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.integer', ['attribute' => 'tid']),
-        ]);
+        )->assertJsonValidationErrors('tid');
 
         // Missing `name` field
         $this->postJson(
             '/user/closet/add',
             ['tid' => 0]
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'name']),
-        ]);
+        )->assertJsonValidationErrors('name');
 
         // `name` field has special characters
         $this->postJson(
             '/user/closet/add',
             ['tid' => 0, 'name' => '\\']
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.no_special_chars', ['attribute' => 'name']),
-        ]);
+        )->assertJsonValidationErrors('name');
 
         // The user doesn't have enough score to add a texture
         $this->user->setScore(0);
@@ -172,38 +159,25 @@ class ClosetControllerTest extends TestCase
         $name = 'new';
 
         // Missing `tid` field
-        $this->postJson('/user/closet/rename')
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'tid']),
-            ]);
+        $this->postJson('/user/closet/rename')->assertJsonValidationErrors('tid');
 
         // `tid` is not a integer
         $this->postJson(
             '/user/closet/rename',
             ['tid' => 'string']
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.integer', ['attribute' => 'tid']),
-        ]);
+        )->assertJsonValidationErrors('tid');
 
         // Missing `new_name` field
         $this->postJson(
             '/user/closet/rename',
             ['tid' => 0]
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'new name']),
-        ]);
+        )->assertJsonValidationErrors('new_name');
 
         // `new_name` field has special characters
         $this->postJson(
             '/user/closet/rename',
             ['tid' => 0, 'new_name' => '\\']
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.no_special_chars', ['attribute' => 'new name']),
-        ]);
+        )->assertJsonValidationErrors('new_name');
 
         // Rename a not-existed texture
         $this->postJson(
@@ -233,20 +207,13 @@ class ClosetControllerTest extends TestCase
         $likes = $texture->likes;
 
         // Missing `tid` field
-        $this->postJson('/user/closet/remove')
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'tid']),
-            ]);
+        $this->postJson('/user/closet/remove')->assertJsonValidationErrors('tid');
 
         // `tid` is not a integer
         $this->postJson(
             '/user/closet/remove',
             ['tid' => 'string']
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.integer', ['attribute' => 'tid']),
-        ]);
+        )->assertJsonValidationErrors('tid');
 
         // Rename a not-existed texture
         $this->postJson(

@@ -384,35 +384,23 @@ class SkinlibControllerTest extends TestCase
             ]);
 
         // Without `name` field
-        $this->postJson('/skinlib/upload')->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'name']),
-        ]);
+        $this->postJson('/skinlib/upload')->assertJsonValidationErrors('name');
 
         // With some special chars
         $this->postJson('/skinlib/upload', ['name' => '\\'])
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.no_special_chars', ['attribute' => 'name']),
-            ]);
+            ->assertJsonValidationErrors('name');
 
         // Specified regular expression for texture name
         option(['texture_name_regexp' => '/\\d+/']);
         $this->postJson('/skinlib/upload', [
             'name' => 'abc',
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.regex', ['attribute' => 'name']),
-        ]);
+        ])->assertJsonValidationErrors('name');
         option(['texture_name_regexp' => null]);
 
         // Without file
         $this->postJson('/skinlib/upload', [
             'name' => 'texture',
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'file']),
-        ]);
+        ])->assertJsonValidationErrors('file');
 
         // Too large file
         option(['max_upload_file_size' => 2]);
@@ -420,20 +408,14 @@ class SkinlibControllerTest extends TestCase
         $this->postJson('/skinlib/upload', [
             'name' => 'texture',
             'file' => $upload,
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.max.file', ['attribute' => 'file', 'max' => '2']),
-        ]);
+        ])->assertJsonValidationErrors('file');
         option(['max_upload_file_size' => 1024]);
 
         // Without `public` field
         $this->postJson('/skinlib/upload', [
             'name' => 'texture',
             'file' => 'content',    // Though it is not a file, it is OK
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.required', ['attribute' => 'public']),
-        ]);
+        ])->assertJsonValidationErrors('public');
 
         // Not a PNG image
         $this->postJson(
@@ -843,38 +825,26 @@ class SkinlibControllerTest extends TestCase
         // Without `tid` field
         $this->actingAs($uploader)
             ->postJson('/skinlib/rename')
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'tid']),
-            ]);
+            ->assertJsonValidationErrors('tid');
 
         // `tid` is not a integer
         $this->postJson('/skinlib/rename', [
                 'tid' => 'str',
             ])
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.integer', ['attribute' => 'tid']),
-            ]);
+            ->assertJsonValidationErrors('tid');
 
         // Without `new_name` field
         $this->postJson('/skinlib/rename', [
                 'tid' => $texture->tid,
             ])
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'new name']),
-            ]);
+            ->assertJsonValidationErrors('new_name');
 
         // `new_name` has special chars
         $this->postJson('/skinlib/rename', [
                 'tid' => $texture->tid,
                 'new_name' => '\\',
             ])
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.no_special_chars', ['attribute' => 'new name']),
-            ]);
+            ->assertJsonValidationErrors('new_name');
 
         // Non-existed texture
         $this->postJson('/skinlib/rename', [

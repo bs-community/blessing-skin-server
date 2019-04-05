@@ -41,21 +41,14 @@ class PlayerControllerTest extends TestCase
     public function testAdd()
     {
         // Without player name
-        $this->postJson('/user/player/add')
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => trans('validation.attributes.player_name')]),
-            ]);
+        $this->postJson('/user/player/add')->assertJsonValidationErrors('player_name');
 
         // Only A-Za-z0-9_ are allowed
         option(['player_name_rule' => 'official']);
         $this->postJson(
             '/user/player/add',
             ['player_name' => '角色名']
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.player_name', ['attribute' => trans('validation.attributes.player_name')]),
-        ]);
+        )->assertJsonValidationErrors('player_name');
 
         // Custom player name rule (regexp)
         option(['player_name_rule' => 'custom']);
@@ -63,10 +56,7 @@ class PlayerControllerTest extends TestCase
         $this->postJson(
             '/user/player/add',
             ['player_name' => 'yjsnpi']
-        )->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.player_name', ['attribute' => trans('validation.attributes.player_name')]),
-        ]);
+        )->assertJsonValidationErrors('player_name');
 
         // Lack of score
         option(['player_name_rule' => 'official']);
@@ -181,31 +171,21 @@ class PlayerControllerTest extends TestCase
             ->postJson('/user/player/rename', [
                 'pid' => $player->pid,
             ])
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => trans('validation.attributes.player_name')]),
-            ]);
+            ->assertJsonValidationErrors('new_player_name');
 
         // Only A-Za-z0-9_ are allowed
         option(['player_name_rule' => 'official']);
         $this->postJson('/user/player/rename', [
             'pid' => $player->pid,
             'new_player_name' => '角色名',
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.player_name', ['attribute' => trans('validation.attributes.player_name')]),
-        ]);
+        ])->assertJsonValidationErrors('new_player_name');
 
         // Other invalid characters
         option(['player_name_rule' => 'cjk']);
         $this->postJson('/user/player/rename', [
             'pid' => $player->pid,
             'new_player_name' => '\\',
-        ])
-        ->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.player_name', ['attribute' => trans('validation.attributes.player_name')]),
-        ]);
+        ])->assertJsonValidationErrors('new_player_name');
 
         // Use a duplicated player name
         $name = factory(Player::class)->create()->name;
@@ -318,11 +298,9 @@ class PlayerControllerTest extends TestCase
         option(['single_player' => true]);
         $user = factory(User::class)->create();
 
-        $this->actingAs($user)->postJson('/user/player/bind')
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'player']),
-            ]);
+        $this->actingAs($user)
+            ->postJson('/user/player/bind')
+            ->assertJsonValidationErrors('player');
 
         $this->postJson('/user/player/bind', ['player' => 'abc'])
             ->assertJson([

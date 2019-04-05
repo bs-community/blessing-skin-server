@@ -217,28 +217,19 @@ class UserControllerTest extends TestCase
 
         // Change nickname without `new_nickname` field
         $this->postJson('/user/profile', ['action' => 'nickname'])
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'new nickname']),
-            ]);
+            ->assertJsonValidationErrors('new_nickname');
 
         // Invalid nickname
         $this->postJson('/user/profile', [
             'action' => 'nickname',
             'new_nickname' => '\\',
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.no_special_chars', ['attribute' => 'new nickname']),
-        ]);
+        ])->assertJsonValidationErrors('new_nickname');
 
         // Too long nickname
         $this->postJson('/user/profile', [
             'action' => 'nickname',
             'new_nickname' => Str::random(256),
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.max.string', ['attribute' => 'new nickname', 'max' => 255]),
-        ]);
+        ])->assertJsonValidationErrors('new_nickname');
 
         // Single player
         option(['single_player' => true]);
@@ -260,50 +251,35 @@ class UserControllerTest extends TestCase
 
         // Change password without `current_password` field
         $this->postJson('/user/profile', ['action' => 'password'])
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'current password']),
-            ]);
+            ->assertJsonValidationErrors('current_password');
 
         // Too short current password
         $this->postJson('/user/profile', [
             'action' => 'password',
             'current_password' => '1',
             'new_password' => '12345678',
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.min.string', ['attribute' => 'current password', 'min' => 6]),
-        ]);
+        ])->assertJsonValidationErrors('current_password');
 
         // Too long current password
         $this->postJson('/user/profile', [
             'action' => 'password',
             'current_password' => Str::random(33),
             'new_password' => '12345678',
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.max.string', ['attribute' => 'current password', 'max' => 32]),
-        ]);
+        ])->assertJsonValidationErrors('current_password');
 
         // Too short new password
         $this->postJson('/user/profile', [
             'action' => 'password',
             'current_password' => '12345678',
             'new_password' => '1',
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.min.string', ['attribute' => 'new password', 'min' => 8]),
-        ]);
+        ])->assertJsonValidationErrors('new_password');
 
         // Too long new password
         $this->postJson('/user/profile', [
             'action' => 'password',
             'current_password' => '12345678',
             'new_password' => Str::random(33),
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.max.string', ['attribute' => 'new password', 'max' => 32]),
-        ]);
+        ])->assertJsonValidationErrors('new_password');
 
         // Wrong old password
         $this->postJson('/user/profile', [
@@ -336,39 +312,27 @@ class UserControllerTest extends TestCase
                 '/user/profile',
                 ['action' => 'email']
             )
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'new email']),
-            ]);
+            ->assertJsonValidationErrors('new_email');
 
         // Invalid email
         $this->postJson('/user/profile', [
             'action' => 'email',
             'new_email' => 'not_an_email',
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.email', ['attribute' => 'new email']),
-        ]);
+        ])->assertJsonValidationErrors('new_email');
 
         // Too short current password
         $this->postJson('/user/profile', [
             'action' => 'email',
             'new_email' => 'a@b.c',
             'password' => '1',
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.min.string', ['attribute' => 'password', 'min' => 6]),
-        ]);
+        ])->assertJsonValidationErrors('password');
 
         // Too long current password
         $this->postJson('/user/profile', [
             'action' => 'email',
             'new_email' => 'a@b.c',
             'password' => Str::random(33),
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 32]),
-        ]);
+        ])->assertJsonValidationErrors('password');
 
         // Use a duplicated email
         $this->postJson('/user/profile', [
@@ -413,28 +377,19 @@ class UserControllerTest extends TestCase
                 '/user/profile',
                 ['action' => 'delete']
             )
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'password']),
-            ]);
+            ->assertJsonValidationErrors('password');
 
         // Too short current password
         $this->postJson('/user/profile', [
             'action' => 'delete',
             'password' => '1',
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.min.string', ['attribute' => 'password', 'min' => 6]),
-        ]);
+        ])->assertJsonValidationErrors('password');
 
         // Too long current password
         $this->postJson('/user/profile', [
             'action' => 'delete',
             'password' => Str::random(33),
-        ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('validation.max.string', ['attribute' => 'password', 'max' => 32]),
-        ]);
+        ])->assertJsonValidationErrors('password');
 
         // Wrong password
         $this->postJson('/user/profile', [
@@ -475,18 +430,12 @@ class UserControllerTest extends TestCase
         // Without `tid` field
         $this->actingAs($user)
             ->postJson('/user/profile/avatar')
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.required', ['attribute' => 'tid']),
-            ]);
+            ->assertJsonValidationErrors('tid');
 
         // TID is not a integer
         $this->actingAs($user)
             ->postJson('/user/profile/avatar', ['tid' => 'string'])
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('validation.integer', ['attribute' => 'tid']),
-            ]);
+            ->assertJsonValidationErrors('tid');
 
         // Texture cannot be found
         $this->actingAs($user)
