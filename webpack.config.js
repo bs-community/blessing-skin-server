@@ -132,7 +132,6 @@ const config = {
     },
     host: '0.0.0.0',
     hot: true,
-    publicPath: '/public/',
     stats: 'errors-only',
   },
   stats: 'errors-only',

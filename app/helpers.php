@@ -21,7 +21,7 @@ if (! function_exists('webpack_assets')) {
     {
         if (app()->environment('development')) {
             // @codeCoverageIgnoreStart
-            return "http://127.0.0.1:8080/public/$relativeUri";
+            return "http://127.0.0.1:8080/$relativeUri";
             // @codeCoverageIgnoreEnd
         } else {
             $path = app('webpack')->$relativeUri;
