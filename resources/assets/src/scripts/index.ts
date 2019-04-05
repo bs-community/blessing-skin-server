@@ -16,10 +16,8 @@ import './check-updates'
 
 // eslint-disable-next-line no-console
 console.log(
-  `%c Blessing Skin %c v${blessing.version} %c Made with %c<3%c by printempw.%c https://blessing.studio`,
-  'color:#fadfa3;background:#030307;padding:5px 0;margin:10px 0;',
-  'background:#fadfa3;padding:5px 0;',
+  `%c Blessing Skin %c v${blessing.version} %c`,
+  'color:#fff;background:#00843d;padding:5px 0;margin:10px 0;',
+  'background:#f3d03e;padding:5px 0;',
   'font-style:italic;',
-  'color:red;',
-  'font-style:italic;', ''
 )
