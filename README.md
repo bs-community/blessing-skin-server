@@ -114,6 +114,13 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
                 麻花
             </a>
         </td>
+        <td align=center>
+            <a href="https://afdian.net/@mgcraft">
+                <img src="https://pic.afdiancdn.com/user/de46a20a56f111e981a452540025c377/avatar/ab13b606230af1b5f5879538d9e37c43_w640_h640_s22.jpeg?imageView2/1/w/75/h/75">
+                <br>
+                Mangocraft
+            </a>
+        </td>
     </tr>
 </tbody>
 </table>
