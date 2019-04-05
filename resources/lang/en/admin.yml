@@ -91,11 +91,8 @@ plugins:
     not-found: No such plugin.
 
   market:
-    connection-error: Unable to connect to the plugins registry (to change the plugins registry URL, please refer to http://t.cn/Rk6X37l). :error
+    connection-error: Unable to connect to the plugins registry. :error
     non-existent: The plugin :plugin does not exist.
-    download-failed: Unable to download the plugin. :error
-    shasum-failed: The downloaded file failed hash check, please retry.
-    unzip-failed: Unable to extract the plugin. :error
     install-success: Plugin was installed.
 
   empty: No result
@@ -140,11 +137,13 @@ update:
     size: "Size of package:"
 
   errors:
-    prefix: "An error occured: "
     connection: "Unable to access to current update source. Details:"
-    write-permission: Unable to create the cache directory. Please check the permission.
-    unzip: "Failed to extract update package. Error code: "
-    overwrite: Unable to overwrite files.
+
+download:
+  errors:
+    download: 'Failed to download. Error: :error'
+    shasum: File validation failed. Please download again.
+    unzip: Failed to unpack files.
 
 report-reviewed: This report has been processed.
 

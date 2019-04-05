@@ -288,8 +288,6 @@ admin:
     此插件没有声明任何依赖关系，这代表它有可能并不兼容此版本的 Blessing
     Skin，请将此插件升级至可能的最新版本。强行启用可能导致无法预料的后果。你确定要启用此插件吗？
   updateButton: 马上升级
-  updateSize: 更新包大小：
-  preparing: 正在准备
   downloading: 正在下载更新包
   updateCompleted: 更新完成
   change-color:

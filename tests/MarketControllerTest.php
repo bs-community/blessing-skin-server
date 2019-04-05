@@ -4,6 +4,7 @@ namespace Tests;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use App\Services\PackageManager;
 use Illuminate\Support\Facades\File;
 use Tests\Concerns\MocksGuzzleClient;
 use Tests\Concerns\GeneratesFakePlugins;
@@ -33,79 +34,19 @@ class MarketControllerTest extends TestCase
             'msg' => trans('admin.plugins.market.non-existent', ['plugin' => 'non-existent-plugin']),
         ]);
 
-        // Can't download due to connection error
-        $this->appendToGuzzleQueue([
-            new Response(200, [], $this->generateFakePluginsRegistry('fake-test-download', '0.0.1')),
-            new RequestException('Connection Error', new Request('GET', 'whatever')),
-        ]);
+        // Download
+        $fakeRegistry = $this->generateFakePluginsRegistry('fake-test-download', '0.0.1');
+        $this->appendToGuzzleQueue([new Response(200, [], $fakeRegistry)]);
+        app()->instance(PackageManager::class, new Concerns\FakePackageManager(null, true));
         $this->postJson('/admin/plugins/market/download', [
             'name' => 'fake-test-download',
-        ])->assertJson([
-            'errno' => 2,
-            'msg' => trans('admin.plugins.market.download-failed', ['error' => 'Connection Error']),
-        ]);
+        ])->assertJson(['errno' => 1]);
 
-        // Downloaded plugin archive was tampered
-        $fakeArchive = $this->generateFakePluginArchive(['name' => 'fake-test-download', 'version' => '0.0.1']);
-        $this->appendToGuzzleQueue([
-            new Response(200, [], $this->generateFakePluginsRegistry('fake-test-download', '0.0.1')),
-            new Response(200, [], fopen($fakeArchive, 'r')),
-        ]);
+        $this->appendToGuzzleQueue([new Response(200, [], $fakeRegistry)]);
+        app()->bind(PackageManager::class, Concerns\FakePackageManager::class);
         $this->postJson('/admin/plugins/market/download', [
             'name' => 'fake-test-download',
-        ])->assertJson([
-            'errno' => 3,
-            'msg' => trans('admin.plugins.market.shasum-failed'),
-        ]);
-
-        // Download and extract plugin
-        $shasum = sha1_file($fakeArchive);
-        $this->appendToGuzzleQueue([
-            new Response(200, [], $this->generateFakePluginsRegistry([
-                [
-                    'name' => 'fake-test-download',
-                    'version' => '0.0.1',
-                    'dist' => [
-                        'url' => 'whatever',
-                        'shasum' => $shasum,
-                    ],
-                ],
-            ])),
-            new Response(200, [], fopen($fakeArchive, 'r')),
-        ]);
-        $this->postJson('/admin/plugins/market/download', [
-            'name' => 'fake-test-download',
-        ])->assertJson([
-            'errno' => 0,
-            'msg' => trans('admin.plugins.market.install-success'),
-        ]);
-        $this->assertTrue(is_dir(config('plugins.directory').DIRECTORY_SEPARATOR.'fake-test-download'));
-        $this->assertTrue(
-            empty(glob(config('plugins.directory').DIRECTORY_SEPARATOR.'fake-test-download_*.zip'))
-        );
-
-        // Broken archive
-        file_put_contents($fakeArchive, 'broken');
-        $shasum = sha1_file($fakeArchive);
-        $this->appendToGuzzleQueue([
-            new Response(200, [], $this->generateFakePluginsRegistry([
-                [
-                    'name' => 'fake-test-download',
-                    'version' => '0.0.1',
-                    'dist' => [
-                        'url' => 'whatever',
-                        'shasum' => $shasum,
-                    ],
-                ],
-            ])),
-            new Response(200, [], fopen($fakeArchive, 'r')),
-        ]);
-        $this->postJson('/admin/plugins/market/download', [
-            'name' => 'fake-test-download',
-        ])->assertJson([
-            'errno' => 4,
-            'msg' => trans('admin.plugins.market.unzip-failed', ['error' => 19]),
-        ]);
+        ])->assertJson(['errno' => 0, 'msg' => trans('admin.plugins.market.install-success')]);
     }
 
     public function testCheckUpdates()

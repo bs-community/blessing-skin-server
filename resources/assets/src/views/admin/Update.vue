@@ -7,11 +7,11 @@
       @click="update"
     >{{ $t('admin.updateButton') }}</el-button>
     <el-button v-else disabled type="primary">
-      <i class="fa fa-spinner fa-spin" /> {{ $t('admin.preparing') }}
+      <i class="fa fa-spinner fa-spin" /> {{ $t('admin.downloading') }}
     </el-button>
 
     <div
-      id="modal-start-download"
+      id="modal-download"
       class="modal fade"
       tabindex="-1"
       role="dialog"
@@ -19,15 +19,9 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <el-button
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            ><span aria-hidden="true">&times;</span></el-button>
             <h4 v-t="'admin.downloading'" class="modal-title" />
           </div>
           <div class="modal-body">
-            <p>{{ $t('admin.updateSize') }}<span>{{ total }}</span> KB</p>
             <div class="progress">
               <div
                 class="progress-bar progress-bar-striped active"
@@ -37,7 +31,7 @@
                 aria-valuemax="100"
                 :style="{ width: `${percentage}%` }"
               >
-                <span>{{ ~~percentage }}</span>%
+                <span>{{ percentage }}</span>%
               </div>
             </div>
           </div>
@@ -55,54 +49,35 @@ export default {
   data: () => ({
     canUpdate: blessing.extra.canUpdate,
     updating: false,
-    total: 0,
-    downloaded: 0,
+    percentage: 0,
   }),
-  computed: {
-    percentage() {
-      return this.downloaded / this.total * 100
-    },
-  },
   methods: {
     async update() {
       this.updating = true
-
-      await this.takeAction('prepare-download')
-
-      this.updating && $('#modal-start-download').modal({
+      $('#modal-download').modal({
         backdrop: 'static',
         keyboard: false,
       })
 
-      setTimeout(this.polling, POLLING_INTERVAL)
-
-      this.updating && await this.takeAction('start-download')
-
-      this.updating && await this.takeAction('extract')
-
+      setTimeout(() => this.polling(), POLLING_INTERVAL)
+      const { errno, msg } = await this.$http.post(
+        '/admin/update/download',
+        { action: 'download' }
+      )
       this.updating = false
-      if (this.downloaded) {
-        await this.$alert(this.$t('admin.updateCompleted'), { type: 'success' })
-        window.location = blessing.base_url
-      }
-    },
-    async takeAction(action) {
-      const { errno, msg } = await this.$http.post('/admin/update/download', {
-        action,
-      })
       if (errno) {
         this.$alert(msg, { type: 'error' })
-        this.updating = false
+        return
       }
+      await this.$alert(this.$t('admin.updateCompleted'), { type: 'success' })
+      window.location = blessing.base_url
     },
     async polling() {
-      const { downloaded, total } = await this.$http.get(
+      const percentage = await this.$http.get(
         '/admin/update/download',
-        { action: 'get-progress' }
+        { action: 'progress' }
       )
-      this.downloaded = ~~(+downloaded / 1024)
-      this.total = ~~(+total / 1024)
-
+      this.percentage = ~~percentage * 100
       this.updating && setTimeout(this.polling, POLLING_INTERVAL)
     },
   },

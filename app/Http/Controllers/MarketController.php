@@ -8,6 +8,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Services\PluginManager;
 use Composer\Semver\Comparator;
+use App\Services\PackageManager;
 
 class MarketController extends Controller
 {
@@ -73,7 +74,7 @@ class MarketController extends Controller
         ]);
     }
 
-    public function download(Request $request, PluginManager $manager)
+    public function download(Request $request, PluginManager $manager, PackageManager $package)
     {
         $name = $request->get('name');
         $metadata = $this->getPluginMetadata($name);
@@ -82,43 +83,16 @@ class MarketController extends Controller
             return json(trans('admin.plugins.market.non-existent', ['plugin' => $name]), 1);
         }
 
-        // Gather plugin distribution URL
         $url = $metadata['dist']['url'];
         $filename = Arr::last(explode('/', $url));
-        $plugins_dir = $manager->getPluginsDir();
-        $tmp_path = $plugins_dir.DIRECTORY_SEPARATOR.$filename;
+        $pluginsDir = $manager->getPluginsDir();
+        $path = storage_path("packages/$filename");
 
-        // Download
         try {
-            $this->guzzle->request('GET', $url, ['sink' => $tmp_path]);
+            $package->download($url, $path, $metadata['dist']['shasum'])->extract($pluginsDir);
         } catch (Exception $e) {
-            report($e);
-
-            return json(trans('admin.plugins.market.download-failed', ['error' => $e->getMessage()]), 2);
+            return json($e->getMessage(), 1);
         }
-
-        // Check file's sha1 hash
-        if (sha1_file($tmp_path) !== $metadata['dist']['shasum']) {
-            @unlink($tmp_path);
-
-            return json(trans('admin.plugins.market.shasum-failed'), 3);
-        }
-
-        // Unzip
-        $zip = new ZipArchive();
-        $res = $zip->open($tmp_path);
-
-        if ($res === true) {
-            if ($zip->extractTo($plugins_dir) === false) {
-                return json(trans('admin.plugins.market.unzip-failed', ['error' => 'Unable to extract the file.']), 4);
-            }
-            $manager->copyPluginAssets(plugin($name));
-        } else {
-            return json(trans('admin.plugins.market.unzip-failed', ['error' => $res]), 4);
-        }
-        $zip->close();
-        @unlink($tmp_path);
-
         return json(trans('admin.plugins.market.install-success'), 0);
     }
 

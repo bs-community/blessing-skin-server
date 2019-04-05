@@ -96,11 +96,8 @@ plugins:
     not-found: 插件不存在
 
   market:
-    connection-error: 无法连接至插件市场源（更换市场源请参考：http://t.cn/Rk6X37l），错误信息：:error
+    connection-error: 无法连接至插件市场源，错误信息：:error
     non-existent: 插件 :plugin 不存在
-    download-failed: 插件下载失败，错误信息：:error
-    shasum-failed: 文件校验失败，请尝试重新下载
-    unzip-failed: 插件解压缩失败，错误信息：:error
     install-success: 插件安装成功
 
   empty: 无结果
@@ -145,11 +142,13 @@ update:
     size: 更新包大小：
 
   errors:
-    prefix: 发生错误：
     connection: 无法访问当前更新源。详细信息：
-    write-permission: 你的服务器不支持自动更新：创建下载缓存文件夹失败，请检查目录权限。
-    unzip: 更新包解压缩失败。错误代码：
-    overwrite: 你的服务器不支持自动更新：无法覆盖文件。
+
+download:
+  errors:
+    download: 下载失败。原因：:error
+    shasum: 文件校验失败，请重新下载。
+    unzip: 解压失败。
 
 report-reviewed: 这一条举报已经处理过了。
 

@@ -17,34 +17,35 @@ test('perform update', async () => {
     modal() {},
   }))
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1 })
+    .mockResolvedValueOnce({ errno: 1, msg: 'fail' })
     .mockResolvedValue({})
-  Vue.prototype.$http.get
-    .mockResolvedValue({ total: 2048, downloaded: 2048 })
   const wrapper = mount(Update)
   const button = wrapper.find('button')
 
   button.trigger('click')
   await flushPromises()
-  expect($).not.toBeCalled()
-  expect(Vue.prototype.$http.post).toBeCalledWith(
-    '/admin/update/download',
-    { action: 'prepare-download' }
-  )
+  expect(Vue.prototype.$alert).toBeCalledWith('fail', { type: 'error' })
+
   button.trigger('click')
   jest.runOnlyPendingTimers()
   await flushPromises()
   expect($).toBeCalled()
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/admin/update/download',
-    { action: 'get-progress' }
+    { action: 'progress' }
   )
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/update/download',
-    { action: 'start-download' }
+    { action: 'download' }
   )
-  expect(Vue.prototype.$http.post).toBeCalledWith(
+})
+
+test('polling for querying download progress', async () => {
+  const wrapper = mount<Vue & { polling(): Promise<void> }>(Update)
+  wrapper.setData({ updating: true })
+  await wrapper.vm.polling()
+  expect(Vue.prototype.$http.get).toBeCalledWith(
     '/admin/update/download',
-    { action: 'extract' }
+    { action: 'progress' }
   )
 })

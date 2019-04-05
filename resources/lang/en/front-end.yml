@@ -294,9 +294,7 @@ admin:
     enabling it may cause unexpected problems. Do you really want to enable the
     plugin?
   updateButton: Update Now
-  updateSize: "Size of package:"
-  preparing: Preparing
-  downloading: Downloading update package...
+  downloading: Downloading...
   updateCompleted: Update completed.
   change-color:
     title: Change theme color

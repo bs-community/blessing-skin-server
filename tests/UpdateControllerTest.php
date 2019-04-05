@@ -4,10 +4,10 @@ namespace Tests;
 
 use Cache;
 use Exception;
-use ZipArchive;
 use Carbon\Carbon;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use App\Services\PackageManager;
 use Illuminate\Support\Facades\File;
 use Tests\Concerns\MocksGuzzleClient;
 use Illuminate\Support\Facades\Storage;
@@ -22,7 +22,6 @@ class UpdateControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
         $this->actAs('superAdmin');
     }
 
@@ -83,149 +82,29 @@ class UpdateControllerTest extends TestCase
         $this->getJson('/admin/update/download')
             ->assertDontSee(trans('general.illegal-parameters'));
 
-        // Lack write permission
-        $this->appendToGuzzleQueue(200, [], $this->generateFakeUpdateInfo('8.9.3'));
-        File::deleteDirectory(storage_path('update_cache'));
-        Storage::shouldReceive('disk')
-            ->with('root')
-            ->once()
-            ->andReturnSelf();
-        Storage::shouldReceive('makeDirectory')
-            ->with('storage/update_cache')
-            ->once()
-            ->andReturn(false);
-        $this->withNewVersionAvailable()
-            ->getJson('/admin/update/download?action=prepare-download')
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('admin.update.errors.write-permission'),
-            ]);
-
-        // Prepare for downloading
-        mkdir(storage_path('update_cache'));
+        // Download
         $this->appendToGuzzleQueue([
             new Response(200, [], $this->generateFakeUpdateInfo('8.9.3')),
             new Response(200, [], $this->generateFakeUpdateInfo('8.9.3')),
         ]);
-        $this->withNewVersionAvailable()
-            ->getJson('/admin/update/download?action=prepare-download')
-            ->assertJsonStructure(['release_url', 'tmp_path']);
-        $this->assertTrue(Cache::has('tmp_path'));
-        $this->assertFalse(Cache::has('download-progress'));
-
-        // Start downloading
-        Cache::flush();
-        $this->withNewVersionAvailable()
-            ->getJson('/admin/update/download?action=start-download')
-            ->assertJson([
-                'errno' => 1,
-                'msg' => 'No temp path available, please try again.',
-            ]);
-
-        // Can't download update package
-        $this->appendToGuzzleQueue([
-            new Response(200, [], $this->generateFakeUpdateInfo('8.9.3')),
-            new RequestException('Connection Error', new Request('GET', 'whatever')),
-        ]);
-        Cache::put('tmp_path', storage_path('update_cache/update.zip'));
-        $this->getJson('/admin/update/download?action=start-download');
-
-        // Download update package
-        $fakeUpdatePackage = $this->generateFakeUpdateFile();
-        $this->appendToGuzzleQueue([
-            new Response(200, [], $this->generateFakeUpdateInfo('8.9.3')),
-            new Response(200, [], fopen($fakeUpdatePackage, 'r')),
-        ]);
-        Cache::put('tmp_path', storage_path('update_cache/update.zip'));
-        $this->getJson('/admin/update/download?action=start-download')
-            ->assertJson([
-                'tmp_path' => storage_path('update_cache/update.zip'),
-            ]);
-        $this->assertFileExists(storage_path('update_cache/update.zip'));
-
-        // No download progress available
-        Cache::flush();
-        $this->withNewVersionAvailable()
-            ->getJson('/admin/update/download?action=get-progress')
-            ->assertJson([]);
+        app()->instance(PackageManager::class, new Concerns\FakePackageManager(null, true));
+        $this->getJson('/admin/update/download?action=download')
+            ->assertJson(['errno' => 1]);
+        app()->bind(PackageManager::class, Concerns\FakePackageManager::class);
+        $this->getJson('/admin/update/download?action=download')
+            ->assertJson(['errno' => 0, 'msg' => trans('admin.update.complete')]);
 
         // Get download progress
-        Cache::put('download-progress', ['total' => 514, 'downloaded' => 114]);
-        $this->withNewVersionAvailable()
-            ->getJson('/admin/update/download?action=get-progress')
-            ->assertJson([
-                'total' => 514,
-                'downloaded' => 114,
-            ]);
-
-        // No such zip archive
-        Cache::put('tmp_path', storage_path('update_cache/nope.zip'));
-        $this->withNewVersionAvailable()
-            ->getJson('/admin/update/download?action=extract')
-            ->assertJson([
-                'errno' => 1,
-                'msg' => 'No file available',
-            ]);
-
-        // Can't extract zip archive
-        file_put_contents(storage_path('update_cache/update.zip'), 'text');
-        Cache::put('tmp_path', storage_path('update_cache/update.zip'));
-        $this->withNewVersionAvailable()
-            ->getJson('/admin/update/download?action=extract')
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('admin.update.errors.unzip').'19',
-            ]);
-
-        // Extract
-        copy(storage_path('testing/update.zip'), storage_path('update_cache/update.zip'));
-        $this->withNewVersionAvailable()
-            ->getJson('/admin/update/download?action=extract')
-            ->assertJson([
-                'errno' => 0,
-                'msg' => trans('admin.update.complete'),
-            ]);
-
-        // Can't overwrite vendor directory, skip
-        mkdir(storage_path('update_cache'));
-        copy(storage_path('testing/update.zip'), storage_path('update_cache/update.zip'));
-        File::shouldReceive('copyDirectory')
-            ->with(storage_path('update_cache/8.9.3/vendor'), base_path('vendor'))
-            ->andThrow(new Exception);
-        File::shouldReceive('deleteDirectory')
-            ->with(storage_path('update_cache/8.9.3/vendor'));
-        $this->withNewVersionAvailable()
-            ->getJson('/admin/update/download?action=extract');
-
-        // Can't apply update package
-        File::shouldReceive('copyDirectory')
-            ->with(storage_path('update_cache/8.9.3'), base_path())
-            ->andThrow(new Exception);
-        File::shouldReceive('deleteDirectory')
-            ->with(storage_path('update_cache'));
-        File::shouldReceive('deleteDirectory')
-            ->with(storage_path('update_cache'));
-        $this->withNewVersionAvailable()
-            ->getJson('/admin/update/download?action=extract')
-            ->assertJson([
-                'errno' => 1,
-                'msg' => trans('admin.update.errors.overwrite'),
-            ]);
+        $this->getJson('/admin/update/download?action=progress')
+            ->assertSee('0');
 
         // Invalid action
-        $this->withNewVersionAvailable()
-            ->getJson('/admin/update/download?action=no')
+        $this->appendToGuzzleQueue(200, [], $this->generateFakeUpdateInfo('8.9.3'));
+        $this->getJson('/admin/update/download?action=no')
             ->assertJson([
                 'errno' => 1,
                 'msg' => trans('general.illegal-parameters'),
             ]);
-    }
-
-    protected function withNewVersionAvailable()
-    {
-        $this->appendToGuzzleQueue(200, [], $this->generateFakeUpdateInfo('8.9.3'));
-
-        return $this;
     }
 
     protected function generateFakeUpdateInfo($version, $preview = false, $time = null)
@@ -246,21 +125,5 @@ class UpdateControllerTest extends TestCase
                 ],
             ],
         ]);
-    }
-
-    protected function generateFakeUpdateFile()
-    {
-        $zipPath = storage_path('testing/update.zip');
-
-        if (file_exists($zipPath)) {
-            unlink($zipPath);
-        }
-
-        $zip = new ZipArchive();
-        $zip->open($zipPath, ZipArchive::CREATE);
-        $zip->addEmptyDir('coverage');
-        $zip->close();
-
-        return $zipPath;
     }
 }
