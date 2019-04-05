@@ -50,9 +50,9 @@ class HookTest extends TestCase
         @mkdir($path = config('plugins.directory').DIRECTORY_SEPARATOR.'fake-plugin-with-i18n/lang/en', 0755, true);
         file_put_contents("$path/locale.js", '');
 
-        Hook::registerPluginTransScripts('fake-plugin-with-i18n');
-        $this->get('/')
-            ->assertSee('fake-plugin-with-i18n/lang/en/locale.js');
+        Hook::registerPluginTransScripts('fake-plugin-with-i18n', ['/']);
+        $this->get('/')->assertSee('fake-plugin-with-i18n/lang/en/locale.js');
+        $this->get('/skinlib')->assertDontSee('fake-plugin-with-i18n/lang/en/locale.js');
 
         File::deleteDirectory(config('plugins.directory').DIRECTORY_SEPARATOR.'fake-plugin-with-i18n');
     }
