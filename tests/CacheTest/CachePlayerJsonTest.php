@@ -18,7 +18,9 @@ class CachePlayerJsonTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        Event::subscribe(CachePlayerJson::class);
+        option(['enable_json_cache' => true]);
+        $provider = new \App\Providers\EventServiceProvider(app());
+        $provider->boot();
     }
 
     public function testRemember()

@@ -18,8 +18,10 @@ class CacheAvatarPreviewTest extends TestCase
 
     public function testHandle()
     {
+        option(['enable_avatar_cache' => true]);
+        $provider = new \App\Providers\EventServiceProvider(app());
+        $provider->boot();
         Storage::fake('textures');
-        Event::listen(GetAvatarPreview::class, CacheAvatarPreview::class);
 
         $texture = factory(Texture::class)->create();
         Storage::disk('textures')

@@ -17,7 +17,9 @@ class CachePlayerExistsTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        Event::subscribe(CachePlayerExists::class);
+        option(['enable_notfound_cache' => true]);
+        $provider = new \App\Providers\EventServiceProvider(app());
+        $provider->boot();
     }
 
     public function testRemember()
