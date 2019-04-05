@@ -92,6 +92,7 @@ class MarketControllerTest extends TestCase
         $this->setupGuzzleClientMock([
             new RequestException('Connection Error', new Request('POST', 'whatever')),
             new Response(200, [], $registry),
+            new Response(200, [], json_encode(array_merge(json_decode($registry, true), ['version' => 0]))),
         ]);
 
         // Expected an exception, but unable to be asserted.
@@ -112,6 +113,10 @@ class MarketControllerTest extends TestCase
             ]);
 
         File::deleteDirectory(config('plugins.directory').DIRECTORY_SEPARATOR.$package['name']);
+
+        $this
+            ->getJson('/admin/plugins/market-data')
+            ->assertJson(['message' => 'Only version 1 of market registry is accepted.']);
     }
 
     protected function tearDown(): void

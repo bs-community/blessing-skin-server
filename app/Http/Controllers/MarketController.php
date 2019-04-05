@@ -103,6 +103,7 @@ class MarketController extends Controller
 
     protected function getAllAvailablePlugins()
     {
+        $registryVersion = 1;
         if (app()->environment('testing') || ! $this->registryCache) {
             try {
                 $pluginsJson = $this->guzzle->request(
@@ -115,6 +116,10 @@ class MarketController extends Controller
             }
 
             $this->registryCache = json_decode($pluginsJson, true);
+            $received = Arr::get($this->registryCache, 'version');
+            if (is_int($received) && $received != $registryVersion) {
+                throw new Exception("Only version $registryVersion of market registry is accepted.");
+            }
         }
 
         return Arr::get($this->registryCache, 'packages', []);
