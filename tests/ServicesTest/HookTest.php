@@ -35,6 +35,15 @@ class HookTest extends TestCase
             ->assertSee('/to/b');
     }
 
+    public function testAddRoute()
+    {
+        Hook::addRoute(function ($route) {
+            $route->any('/test-hook', function () {});
+        });
+        event(new \App\Events\ConfigureRoutes(resolve(\Illuminate\Routing\Router::class)));
+        $this->get('/test-hook')->assertSuccessful();
+    }
+
     public function testRegisterPluginTransScripts()
     {
         $this->generateFakePlugin(['name' => 'fake-plugin-with-i18n', 'version' => '0.0.1']);

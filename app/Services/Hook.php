@@ -48,11 +48,9 @@ class Hook
     }
 
     /**
-     * Add a route. A router instance will be passed to the given callback.
+     * Add routes. A router instance will be passed to the given callback.
      *
      * @param Closure $callback
-     *
-     * TODO: Needs to be tested.
      */
     public static function addRoute(Closure $callback)
     {
