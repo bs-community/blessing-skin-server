@@ -29,8 +29,6 @@ class DetectLanguagePrefer
         }
 
         app()->setLocale($locale);
-        AfterSessionBooted::$jobs[] = function () {
-            session(['locale' => config('app.locale')]);
-        };
+        session(['locale' => config('app.locale')]);
     }
 }
