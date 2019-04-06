@@ -129,6 +129,8 @@ class AdminControllerTest extends BrowserKitTestCase
             ->type('/^([0-9]+)$/', 'custom_player_name_regexp')
             ->select('1', 'api_type')
             ->check('auto_del_invalid_texture')
+            ->uncheck('allow_downloading_texture')
+            ->type('abc', 'texture_name_regexp')
             ->type('policy', 'content_policy')
             ->type('code', 'comment_script')
             ->press('submit_general');
@@ -143,6 +145,8 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->assertEquals('/^([0-9]+)$/', option('custom_player_name_regexp'));
         $this->assertEquals('1', option('api_type'));
         $this->assertTrue(option('auto_del_invalid_texture'));
+        $this->assertFalse(option('allow_downloading_texture'));
+        $this->assertEquals('abc', option('texture_name_regexp'));
         $this->assertEquals('policy', option_localized('content_policy'));
         $this->assertEquals('code', option('comment_script'));
 

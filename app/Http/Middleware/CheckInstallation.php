@@ -9,7 +9,7 @@ class CheckInstallation
     public function handle($request, \Closure $next)
     {
         if (env('DB_CONNECTION') == 'dummy') {
-            return $next($request);
+            return $next($request); // @codeCoverageIgnore
         }
 
         if (SetupController::checkTablesExist()) {

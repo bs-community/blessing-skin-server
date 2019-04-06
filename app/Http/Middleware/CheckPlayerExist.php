@@ -32,9 +32,11 @@ class CheckPlayerExist
         $responses = event(new CheckPlayerExists($player_name));
 
         foreach ($responses as $r) {
+            // @codeCoverageIgnoreStart
             if ($r) {
                 return $next($request);
-            }    // @codeCoverageIgnore
+            }
+            // @codeCoverageIgnoreEnd
         }
 
         if (! Player::where('name', $player_name)->get()->isEmpty()) {

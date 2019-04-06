@@ -358,6 +358,9 @@ class SkinlibControllerTest extends TestCase
             ->get('/skinlib/upload')
             ->assertViewHas('user')
             ->assertViewHas('with_out_filter', true);
+
+        option(['texture_name_regexp' => 'abc']);
+        $this->get('/skinlib/upload')->assertViewHas('extra');
     }
 
     public function testHandleUpload()
