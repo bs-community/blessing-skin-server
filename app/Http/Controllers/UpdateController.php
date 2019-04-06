@@ -3,11 +3,7 @@
 namespace App\Http\Controllers;
 
 use Log;
-use File;
-use Cache;
-use Storage;
 use Exception;
-use ZipArchive;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Composer\Semver\Comparator;
@@ -15,127 +11,46 @@ use App\Services\PackageManager;
 
 class UpdateController extends Controller
 {
-    /**
-     * Current application version.
-     *
-     * @var string
-     */
     protected $currentVersion;
-
-    /**
-     * Latest application version in update source.
-     *
-     * @var string
-     */
-    protected $latestVersion;
-
-    /**
-     * Where to get information of new application versions.
-     *
-     * @var string
-     */
     protected $updateSource;
-
-    /**
-     * Updates information fetched from update source.
-     *
-     * @var array|null
-     */
-    protected $updateInfo;
-
-    /**
-     * Guzzle HTTP client.
-     *
-     * @var \GuzzleHttp\Client
-     */
     protected $guzzle;
+    protected $error;
+    protected $info = [];
 
     public function __construct(\GuzzleHttp\Client $guzzle)
     {
         $this->updateSource = config('app.update_source');
         $this->currentVersion = config('app.version');
-
         $this->guzzle = $guzzle;
     }
 
     public function showUpdatePage()
     {
         $info = [
-            'latest_version'  => '',
-            'current_version' => $this->currentVersion,
-            'release_note'    => '',
-            'release_url'     => '',
-            'pre_release'     => false,
-            // Fallback to current time
-            'release_time'    => '',
-            'new_version_available' => false,
+            'latest'  => Arr::get($this->getUpdateInfo(), 'latest'),
+            'current' => $this->currentVersion,
         ];
-
-        // If current update source is available
-        if ($this->getUpdateInfo()) {
-            $info['latest_version'] = $this->getUpdateInfo('latest_version');
-
-            $info['new_version_available'] = Comparator::greaterThan(
-                $info['latest_version'],
-                $info['current_version']
-            );
-
-            if ($detail = $this->getReleaseInfo($info['latest_version'])) {
-                $info = array_merge($info, Arr::only($detail, [
-                    'release_note',
-                    'release_url',
-                    'release_time',
-                    'pre_release',
-                ]));
-            } else {
-                // if detailed release info is not given
-                $info['new_version_available'] = false;
-            }
-
-            if (! $info['new_version_available']) {
-                $info['release_time'] = Arr::get($this->getReleaseInfo($this->currentVersion), 'release_time');
-            }
-        }
-
-        $connectivity = true;
-
-        try {
-            $this->guzzle->request('GET', $this->updateSource);
-        } catch (Exception $e) {
-            $connectivity = $e->getMessage();
-        }
-
-        $extra = ['canUpdate' => $info['new_version_available']];
-        return view('admin.update', compact('info', 'connectivity', 'extra'));
+        $error = $this->error;
+        $extra = ['canUpdate' => $this->canUpdate()];
+        return view('admin.update', compact('info', 'error', 'extra'));
     }
 
     public function checkUpdates()
     {
-        return json([
-            'latest' => $this->getUpdateInfo('latest_version'),
-            'available' => $this->newVersionAvailable(),
-        ]);
-    }
-
-    protected function newVersionAvailable()
-    {
-        $latest = $this->getUpdateInfo('latest_version');
-
-        return Comparator::greaterThan($latest, $this->currentVersion) && $this->getReleaseInfo($latest);
+        return json(['available' => $this->canUpdate()]);
     }
 
     public function download(Request $request, PackageManager $package)
     {
-        if (! $this->newVersionAvailable()) {
+        if (! $this->canUpdate()) {
             return json([]);
         }
 
-        $url = $this->getReleaseInfo($this->latestVersion)['release_url'];
-        $path = storage_path('packages/bs_'.$this->latestVersion.'.zip');
+        $path = storage_path('packages/bs_'.$this->info['latest'].'.zip');
         switch ($request->get('action')) {
             case 'download':
                 try {
-                    $package->download($url, $path)->extract(base_path());
+                    $package->download($this->info['url'], $path)->extract(base_path());
                     return json(trans('admin.update.complete'), 0);
                 } catch (Exception $e) {
                     report($e);
@@ -148,36 +63,28 @@ class UpdateController extends Controller
         }
     }
 
-    protected function getUpdateInfo($key = null)
+    protected function getUpdateInfo()
     {
-        if (! $this->updateInfo) {
-            // Add timestamp to control cdn cache
-            $url = starts_with($this->updateSource, 'http')
-                ? $this->updateSource.'?v='.substr(time(), 0, -3)
-                : $this->updateSource;
-
+        $acceptableSpec = 1;
+        if (! $this->info) {
             try {
-                $response = $this->guzzle->request('GET', $url)->getBody();
+                $json = $this->guzzle->request('GET', $this->updateSource)->getBody();
+                $info = json_decode($json, true);
+                if (Arr::get($info, 'spec') == $acceptableSpec) {
+                    $this->info = $info;
+                } else {
+                    $this->error = trans('admin.update.spec');
+                }
             } catch (Exception $e) {
-                Log::error('[CheckingUpdate] Failed to get update information: '.$e->getMessage());
-            }
-
-            if (isset($response)) {
-                $this->updateInfo = json_decode($response, true);
+                $this->error = $e->getMessage();
             }
         }
-
-        $this->latestVersion = Arr::get($this->updateInfo, 'latest_version', $this->currentVersion);
-
-        if (! is_null($key)) {
-            return Arr::get($this->updateInfo, $key);
-        }
-
-        return $this->updateInfo;
+        return $this->info;
     }
 
-    protected function getReleaseInfo($version)
+    protected function canUpdate()
     {
-        return Arr::get($this->getUpdateInfo('releases'), $version);
+        $this->getUpdateInfo();
+        return Comparator::greaterThan(Arr::get($this->info, 'latest'), $this->currentVersion);
     }
 }

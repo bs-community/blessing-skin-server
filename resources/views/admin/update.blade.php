@@ -22,20 +22,20 @@
                         <h3 class="box-title">@lang('admin.update.info.title')</h3>
                     </div><!-- /.box-header -->
                     <div class="box-body">
-                        @if ($info['new_version_available'])
+                        @if ($extra['canUpdate'])
                         <div class="callout callout-info">@lang('admin.update.info.available')</div>
                         <table class="table">
                             <tbody>
                                 <tr>
                                     <td class="key">@lang('admin.update.info.versions.latest')</td>
                                     <td class="value">
-                                        v{{ $info['latest_version'] }}
+                                        v{{ $info['latest'] }}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td class="key">@lang('admin.update.info.versions.current')</td>
                                     <td class="value">
-                                        v{{ $info['current_version'] }}
+                                        v{{ $info['current'] }}
                                     </td>
                                 </tr>
 
@@ -43,10 +43,10 @@
                         </table>
                         @else
 
-                            @if ($connectivity === true)
-                            <div class="callout callout-success">{{ trans('admin.update.info.up-to-date') }}</div>
+                            @if (is_string($error))
+                            <div class="callout callout-danger">{{ trans('admin.update.errors.connection', ['error' => $error]) }}</div>
                             @else
-                            <div class="callout callout-danger">{{ trans('admin.update.errors.connection', ['error' => $connectivity]) }}</div>
+                            <div class="callout callout-success">{{ trans('admin.update.info.up-to-date') }}</div>
                             @endif
 
                         <table class="table">
@@ -54,7 +54,7 @@
                                 <tr>
                                     <td class="key">@lang('admin.update.info.versions.current')</td>
                                     <td class="value">
-                                        v{{ $info['current_version'] }}
+                                        v{{ $info['current'] }}
                                     </td>
                                 </tr>
                             </tbody>

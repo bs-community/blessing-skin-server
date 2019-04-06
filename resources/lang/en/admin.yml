@@ -105,16 +105,15 @@ update:
 
     up-to-date: Already up-to-date.
     available: New version available.
-    pre-release-warning: This update is a pre-release, please double check before updating.
 
     versions:
       latest: "Latest Version:"
       current: "Current Version:"
 
-    pre-release: You are now using pre-release version.
-
     check-github: <a href=":url" target="_blank" class="el-button pull-right">Check GitHub Releases</a>
     button: Update Now
+
+  spec: Current update source is not supported.
 
   cautions:
     title: Cautions
@@ -128,7 +127,7 @@ update:
     size: "Size of package:"
 
   errors:
-    connection: "Unable to access to current update source. Details:"
+    connection: "Unable to access to current update source. Details: :error"
 
 download:
   errors:

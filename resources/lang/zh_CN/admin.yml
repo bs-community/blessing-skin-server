@@ -110,16 +110,15 @@ update:
 
     up-to-date: 已更新至最新版本。
     available: 有更新可用。
-    pre-release-warning: 本次更新为预发布版，请谨慎选择是否更新。
 
     versions:
       latest: 最新版本：
       current: 当前版本：
 
-    pre-release: 当前版本为未发布测试版
-
     check-github: <a href=":url" target="_blank" class="el-button pull-right">查看 GitHub Releases</a>
     button: 马上升级
+
+  spec: 不支持当前的更新源。
 
   cautions:
     title: 注意事项
@@ -133,7 +132,7 @@ update:
     size: 更新包大小：
 
   errors:
-    connection: 无法访问当前更新源。详细信息：
+    connection: 无法访问当前更新源。详细信息：:error
 
 download:
   errors:

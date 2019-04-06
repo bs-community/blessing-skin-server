@@ -32,18 +32,20 @@ class UpdateControllerTest extends TestCase
         // Can't connect to update source
         $this->appendToGuzzleQueue([
             new RequestException('Connection Error', new Request('GET', 'whatever')),
-            new RequestException('Connection Error', new Request('GET', 'whatever')),
         ]);
         $this->get('/admin/update')->assertSee(config('app.version'));
 
-        // New version available
-        $time = time();
-        $this->appendToGuzzleQueue(200, [], $this->generateFakeUpdateInfo('8.9.3', false, $time));
-        $this->get('/admin/update')->assertSee(config('app.version'))->assertSee('8.9.3');
+        // Missing `spec` field
+        $this->appendToGuzzleQueue([
+            new Response(200, [], json_encode(['latest' => '8.9.3', 'url' => ''])),
+        ]);
+        $this->get('/admin/update')->assertSee(trans('admin.update.spec'));
 
-        // Now using pre-release version
-        $this->appendToGuzzleQueue(200, [], $this->generateFakeUpdateInfo('0.0.1', false, $time));
-        $this->get('/admin/update');
+        // New version available
+        $this->appendToGuzzleQueue([
+            new Response(200, [], $this->mockFakeUpdateInfo('8.9.3')),
+        ]);
+        $this->get('/admin/update')->assertSee(config('app.version'))->assertSee('8.9.3');
     }
 
     public function testCheckUpdates()
@@ -53,21 +55,12 @@ class UpdateControllerTest extends TestCase
         // Update source is unavailable
         $this->appendToGuzzleQueue([
             new RequestException('Connection Error', new Request('GET', 'whatever')),
-            new RequestException('Connection Error', new Request('GET', 'whatever')),
         ]);
-        $this->getJson('/admin/update/check')
-            ->assertJson([
-                'latest' => null,
-                'available' => false,
-            ]);
+        $this->getJson('/admin/update/check')->assertJson(['available' => false]);
 
         // New version available
-        $this->appendToGuzzleQueue(200, [], $this->generateFakeUpdateInfo('8.9.3', false, time()));
-        $this->getJson('/admin/update/check')
-            ->assertJson([
-                'latest' => '8.9.3',
-                'available' => true,
-            ]);
+        $this->appendToGuzzleQueue(200, [], $this->mockFakeUpdateInfo('8.9.3'));
+        $this->getJson('/admin/update/check')->assertJson(['available' => true]);
     }
 
     public function testDownload()
@@ -80,8 +73,8 @@ class UpdateControllerTest extends TestCase
 
         // Download
         $this->appendToGuzzleQueue([
-            new Response(200, [], $this->generateFakeUpdateInfo('8.9.3')),
-            new Response(200, [], $this->generateFakeUpdateInfo('8.9.3')),
+            new Response(200, [], $this->mockFakeUpdateInfo('8.9.3')),
+            new Response(200, [], $this->mockFakeUpdateInfo('8.9.3')),
         ]);
         app()->instance(PackageManager::class, new Concerns\FakePackageManager(null, true));
         $this->getJson('/admin/update/download?action=download')
@@ -95,7 +88,7 @@ class UpdateControllerTest extends TestCase
             ->assertSee('0');
 
         // Invalid action
-        $this->appendToGuzzleQueue(200, [], $this->generateFakeUpdateInfo('8.9.3'));
+        $this->appendToGuzzleQueue(200, [], $this->mockFakeUpdateInfo('8.9.3'));
         $this->getJson('/admin/update/download?action=no')
             ->assertJson([
                 'errno' => 1,
@@ -103,23 +96,12 @@ class UpdateControllerTest extends TestCase
             ]);
     }
 
-    protected function generateFakeUpdateInfo($version, $preview = false, $time = null)
+    protected function mockFakeUpdateInfo($version)
     {
-        $time = $time ?: time();
-
         return json_encode([
-            'app_name' => 'blessing-skin-server',
-            'latest_version' => $version,
-            'update_time' => $time,
-            'releases' => [
-                $version => [
-                    'version' => $version,
-                    'pre_release' => $preview,
-                    'release_time' => $time,
-                    'release_note' => 'test',
-                    'release_url' => "https://whatever.test/$version/update.zip",
-                ],
-            ],
+            'spec' => 1,
+            'latest' => $version,
+            'url' => "https://whatever.test/$version/update.zip",
         ]);
     }
 }
