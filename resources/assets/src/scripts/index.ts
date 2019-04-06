@@ -13,11 +13,3 @@ import './event'
 import './element'
 import './logout'
 import './check-updates'
-
-// eslint-disable-next-line no-console
-console.log(
-  `%c Blessing Skin %c v${blessing.version} %c`,
-  'color:#fff;background:#00843d;padding:5px 0;margin:10px 0;',
-  'background:#f3d03e;padding:5px 0;',
-  'font-style:italic;',
-)
