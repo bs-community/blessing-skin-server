@@ -18,7 +18,7 @@ jobs:
             - ~/.yarn
           key: v1-dependencies-{{ checksum "yarn.lock" }}
       - run: yarn lint
-      - run: yarn test --coverage
+      - run: yarn test --coverage -w=2
       - run: yarn codecov
 
   composer:
