@@ -245,14 +245,6 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Player', 'uid');
     }
 
-    /**
-     * Expand like scope for Eloquent Model.
-     */
-    public function scopeLike($query, $field, $value)
-    {
-        return $query->where($field, 'LIKE', "%$value%");
-    }
-
     public function getAuthIdentifier()
     {
         return $this->uid;
