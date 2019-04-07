@@ -28,7 +28,7 @@
                             {!! get_string_replaced(option('comment_script'), [
                                 '{tid}' => $texture->tid,
                                 '{name}' => $texture->name,
-                                '{url}' => get_base_url().$_SERVER['REQUEST_URI']
+                                '{url}' => request()->url()
                             ]) !!}
                         </div>
                     </div>

@@ -5,24 +5,11 @@ use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-if (! function_exists('get_base_url')) {
-    function get_base_url()
-    {
-        $base_url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') ? 'https://' : 'http://';
-        $base_url .= $_SERVER['SERVER_NAME'];
-        $base_url .= ($_SERVER['SERVER_PORT'] == '80') ? '' : (':'.$_SERVER['SERVER_PORT']);
-
-        return $base_url;
-    }
-}
-
 if (! function_exists('webpack_assets')) {
     function webpack_assets($relativeUri)
     {
         if (app()->environment('development')) {
-            // @codeCoverageIgnoreStart
-            return "http://127.0.0.1:8080/$relativeUri";
-            // @codeCoverageIgnoreEnd
+            return "http://127.0.0.1:8080/$relativeUri"; // @codeCoverageIgnore
         } else {
             $path = app('webpack')->$relativeUri;
             $cdn = option('cdn_address');
