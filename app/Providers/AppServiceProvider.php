@@ -40,6 +40,7 @@ class AppServiceProvider extends ServiceProvider
             $event->addContent('<script>var blessing = '.json_encode($blessing).';</script>');
         });
 
+        // @codeCoverageIgnoreStart
         try {
             $this->app->make('cipher');
         } catch (ReflectionException $e) {
@@ -54,6 +55,7 @@ class AppServiceProvider extends ServiceProvider
         } catch (\Exception $e) {
             //
         }
+        // @codeCoverageIgnoreEnd
     }
 
     /**
