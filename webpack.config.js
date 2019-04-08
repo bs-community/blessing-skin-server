@@ -13,6 +13,7 @@ const config = {
   mode: devMode ? 'development' : 'production',
   entry: {
     index: './resources/assets/src/index.js',
+    'check-updates': './resources/assets/src/scripts/check-updates.ts',
     style: [
       'bootstrap/dist/css/bootstrap.min.css',
       'admin-lte/dist/css/alt/AdminLTE-without-plugins.min.css',

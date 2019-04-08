@@ -1,4 +1,11 @@
-import { init } from './net'
+// KEEP THIS FILE DEPENDENCIES FREE!
+
+const init: RequestInit = {
+  credentials: 'same-origin',
+  headers: new Headers({
+    Accept: 'application/json',
+  }),
+}
 
 export async function checkForUpdates(): Promise<void> {
   const response = await fetch(`${blessing.base_url}/admin/update/check`, init)
@@ -9,7 +16,7 @@ export async function checkForUpdates(): Promise<void> {
     if (data.available && el) {
       el.innerHTML += `
         <span class="pull-right-container">
-          <span class="label label-primary pull-right">v${data.latest}</span>
+          <span class="label label-primary pull-right">1</span>
         </span>`
     }
   }
@@ -30,7 +37,8 @@ export async function checkForPluginUpdates(): Promise<void> {
   }
 }
 
-Object.assign(window, {
-  checkForUpdates,
-  checkForPluginUpdates,
-})
+// istanbul ignore next
+if (process.env.NODE_ENV !== 'test') {
+  checkForUpdates()
+  checkForPluginUpdates()
+}

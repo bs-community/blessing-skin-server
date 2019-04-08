@@ -13,7 +13,7 @@ test('check for BS updates', async () => {
     })
     .mockResolvedValueOnce({
       ok: true,
-      json: () => Promise.resolve({ available: true, latest: '4.0.0' }),
+      json: () => Promise.resolve({ available: true }),
     })
 
   document.body.innerHTML = '<a href="/admin/update"></a>'
@@ -26,7 +26,7 @@ test('check for BS updates', async () => {
   expect(document.querySelector('a')!.innerHTML).toBe('')
 
   await checkForUpdates()
-  expect(document.querySelector('a')!.innerHTML).toContain('4.0.0')
+  expect(document.querySelector('a')!.innerHTML).toContain('1')
 })
 
 test('check for plugins updates', async () => {

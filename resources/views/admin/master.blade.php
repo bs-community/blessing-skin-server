@@ -83,14 +83,7 @@
 
     <!-- App Scripts -->
     @include('common.dependencies.script')
-
-    <script>
-        document.addEventListener('loadend', () => {
-            checkForUpdates()
-            checkForPluginUpdates()
-        })
-    </script>
-
+    <script defer src="{{ webpack_assets('check-updates.js') }}"></script>
     @yield('script')
 </body>
 </html>
