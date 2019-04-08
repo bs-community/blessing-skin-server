@@ -89,8 +89,8 @@ class AdminController extends Controller
                     ->option('0', 'Powered with ❤ by Blessing Skin Server.')
                     ->option('1', 'Powered by Blessing Skin Server.')
                     ->option('2', 'Proudly powered by Blessing Skin Server.')
-                    ->option('3', '由 Blessing Skin Server 强力驱动.')
-                    ->option('4', '自豪地采用 Blessing Skin Server.')
+                    ->option('3', '由 Blessing Skin Server 强力驱动。')
+                    ->option('4', '自豪地采用 Blessing Skin Server。')
                 ->description();
 
             $form->textarea('copyright_text')->rows(6)->description();

@@ -78,7 +78,7 @@
         <footer class="main-footer">
             <!-- YOU CAN NOT MODIFIY THE COPYRIGHT TEXT W/O PERMISSION -->
             <div id="copyright-text" class="pull-right hidden-xs">
-                {!! bs_copyright() !!}
+                @include('common.copyright')
             </div>
             <!-- Default to the left -->
             @include('common.custom-copyright')
