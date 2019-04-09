@@ -33,7 +33,7 @@ class RuntimeCheckServiceProvider extends ServiceProvider
     protected function checkInstallation()
     {
         // Redirect to setup wizard
-        if (env('DB_CONNECTION') == 'dummy' || ! SetupController::checkTablesExist()) {
+        if (config('database.default') == 'dummy' || ! SetupController::checkTablesExist()) {
             return redirect('/setup')->send();
         }
 

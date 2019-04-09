@@ -16,7 +16,7 @@
  */
 Route::group(['prefix' => 'setup'], function () {
     Route::group(['middleware' => 'setup'], function () {
-        Route::view('/', 'setup.wizard.welcome');
+        Route::any('/', 'SetupController@welcome');
         Route::any('/database', 'SetupController@database');
         Route::get('/info', 'SetupController@info');
         Route::post('/finish', 'SetupController@finish');

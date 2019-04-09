@@ -16,6 +16,17 @@ use App\Exceptions\PrettyPageException;
 
 class SetupController extends Controller
 {
+    public function welcome()
+    {
+        // @codeCoverageIgnoreStart
+        if (! File::exists(base_path('.env'))) {
+            File::copy(base_path('.env.example'), base_path('.env'));
+        }
+        // @codeCoverageIgnoreEnd
+
+        return view('setup.wizard.welcome');
+    }
+
     public function database(Request $request)
     {
         if ($request->isMethod('get')) {
@@ -35,8 +46,8 @@ class SetupController extends Controller
             'database.connections.temp.port' => $request->input('port'),
             'database.connections.temp.username' => $request->input('username'),
             'database.connections.temp.password' => $request->input('password'),
-            'database.connections.temp.database' => $request->input('db') == '' ? null : $request->input('db'),
-            'database.connections.temp.prefix' => $request->input('prefix') == '' ? null : $request->input('prefix'),
+            'database.connections.temp.database' => $request->input('db'),
+            'database.connections.temp.prefix' => $request->input('prefix'),
         ]);
 
         try {
@@ -52,38 +63,38 @@ class SetupController extends Controller
         }
 
         $content = File::get(base_path('.env'));
-        $content = str_replace(
-            'DB_CONNECTION = '.env('DB_CONNECTION'),
+        $content = preg_replace(
+            '/DB_CONNECTION.+/',
             'DB_CONNECTION = '.$request->input('type'),
             $content
         );
-        $content = str_replace(
-            'DB_HOST = '.env('DB_HOST'),
+        $content = preg_replace(
+            '/DB_HOST.+/',
             'DB_HOST = '.$request->input('host'),
             $content
         );
-        $content = str_replace(
-            'DB_PORT = '.env('DB_PORT'),
+        $content = preg_replace(
+            '/DB_PORT.+/',
             'DB_PORT = '.$request->input('port'),
             $content
         );
-        $content = str_replace(
-            'DB_DATABASE = '.env('DB_DATABASE'),
+        $content = preg_replace(
+            '/DB_DATABASE.+/',
             'DB_DATABASE = '.$request->input('db'),
             $content
         );
-        $content = str_replace(
-            'DB_USERNAME = '.env('DB_USERNAME'),
+        $content = preg_replace(
+            '/DB_USERNAME.+/',
             'DB_USERNAME = '.$request->input('username'),
             $content
         );
-        $content = str_replace(
-            'DB_PASSWORD = '.env('DB_PASSWORD'),
+        $content = preg_replace(
+            '/DB_PASSWORD.+/',
             'DB_PASSWORD = '.$request->input('password'),
             $content
         );
-        $content = str_replace(
-            'DB_PREFIX = '.env('DB_PREFIX'),
+        $content = preg_replace(
+            '/DB_PREFIX.+/',
             'DB_PREFIX = '.$request->input('prefix'),
             $content
         );

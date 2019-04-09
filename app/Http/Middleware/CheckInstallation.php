@@ -8,7 +8,7 @@ class CheckInstallation
 {
     public function handle($request, \Closure $next)
     {
-        if (env('DB_CONNECTION') == 'dummy') {
+        if (config('database.default') == 'dummy') {
             return $next($request); // @codeCoverageIgnore
         }
 

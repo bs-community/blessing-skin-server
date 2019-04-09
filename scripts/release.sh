@@ -4,7 +4,6 @@ composer install --no-dev
 rm -rf vendor/bin
 yarn
 yarn build
-cp .env.example .env
 zip -9 -r blessing-skin-server-$RELEASE_TAG.zip \
   app \
   bootstrap \
@@ -17,7 +16,7 @@ zip -9 -r blessing-skin-server-$RELEASE_TAG.zip \
   routes \
   storage \
   vendor \
-  .env \
+  .env.example \
   artisan \
   LICENSE \
   README.md \
