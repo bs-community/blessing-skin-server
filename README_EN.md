@@ -80,9 +80,9 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
     <tr>
         <td align=center>
             <a href="https://afdian.net/u/68d07bf851fc11e98e5652540025c377">
-                <img src="https://pic.afdiancdn.com/default/avatar/default-avatar@2x.png?imageView2/1/w/120/h/120">
+                <img src="https://pic.afdiancdn.com/user/68d07bf851fc11e98e5652540025c377/avatar/59b21c3d053a595086d4b6cf88877bfa_w640_h640_s57.jpg?imageView2/1/w/120/h/120">
                 <br>
-                Paji
+                dz_paji
             </a>
         </td>
     </tr>
