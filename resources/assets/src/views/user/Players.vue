@@ -89,7 +89,7 @@
                 <a v-if="preview2d.skin" :href="`${baseUrl}/skinlib/show/${preview2d.skin}`">
                   <img
                     class="skin2d"
-                    :src="`${baseUrl}/preview/64/${preview2d.steve}.png`"
+                    :src="`${baseUrl}/preview/64/${preview2d.skin}.png`"
                   >
                 </a>
                 <span v-else v-t="'user.player.texture-empty'" class="skin2d" />

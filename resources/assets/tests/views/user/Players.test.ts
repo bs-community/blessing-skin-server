@@ -35,10 +35,14 @@ test('click to preview player', async () => {
       {
         pid: 3, tid_skin: 2, tid_cape: 0,
       },
+      {
+        pid: 4, tid_skin: 0, tid_cape: 5,
+      },
     ])
     .mockResolvedValueOnce({ hash: 'a' })
     .mockResolvedValueOnce({ hash: 'b' })
     .mockResolvedValueOnce({ hash: 'c' })
+    .mockResolvedValueOnce({ hash: 'd' })
   const wrapper = mount(Players)
   await wrapper.vm.$nextTick()
 
@@ -55,6 +59,12 @@ test('click to preview player', async () => {
   wrapper.find('tbody > tr:nth-child(3)').trigger('click')
   await flushPromises()
   expect(Vue.prototype.$http.get).toBeCalledWith('/skinlib/info/2')
+
+  wrapper.find('[data-test="to2d"]').trigger('click')
+  expect(wrapper.find('img').attributes('src')).toBe('/preview/64/2.png')
+  wrapper.find('tbody > tr:nth-child(4)').trigger('click')
+  await flushPromises()
+  expect(wrapper.find('img').attributes('src')).toBe('/preview/64/5.png')
 })
 
 test('change player name', async () => {
