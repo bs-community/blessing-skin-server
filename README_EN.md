@@ -11,8 +11,6 @@
 <img src="https://flat.badgen.net/github/license/bs-community/blessing-skin-server" alt="License">
 </p>
 
-**NOTE: The code of the current branch is of Blessing Skin v4.**
-
 Are you puzzled by losing your custom skins in Minecraft servers runing in offline mode? Now you can easily get them back with the help of Blessing Skin!
 
 Blessing Skin is a web application where you can upload, manage and share your custom skins & capes! Unlike modifying a resource pack, everyone in the game will see the different skins of each other (of course they should register at the same website too).

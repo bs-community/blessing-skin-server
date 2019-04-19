@@ -11,8 +11,6 @@
 <img src="https://flat.badgen.net/github/license/bs-community/blessing-skin-server" alt="License">
 </p>
 
-**注意：当前分支上的代码是 Blessing Skin v4 的。**
-
 优雅的开源 Minecraft 皮肤站，现在，回应您的等待。
 
 Blessing Skin 是一款能让您上传、管理和分享您的 Minecraft 皮肤和披风的 Web 应用程序。与修改游戏材质包不同的是，所有人都能在游戏中看到各自的皮肤和披风（当然，前提是玩家们要使用同一个皮肤站）。
