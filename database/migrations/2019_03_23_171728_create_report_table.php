@@ -8,15 +8,17 @@ class CreateReportTable extends Migration
 {
     public function up()
     {
-        Schema::create('reports', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('tid');
-            $table->integer('uploader');
-            $table->integer('reporter');
-            $table->longText('reason');
-            $table->integer('status');
-            $table->dateTime('report_at');
-        });
+        if (! Schema::hasTable('reports')) {
+            Schema::create('reports', function (Blueprint $table) {
+                $table->increments('id');
+                $table->integer('tid');
+                $table->integer('uploader');
+                $table->integer('reporter');
+                $table->longText('reason');
+                $table->integer('status');
+                $table->dateTime('report_at');
+            });
+        }
     }
 
     public function down()
