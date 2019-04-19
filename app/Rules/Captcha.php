@@ -22,10 +22,11 @@ class Captcha implements Rule
                     'form_params' => [
                         'secret' => $secretkey,
                         'response' => $value,
-                    ]
+                    ],
                 ]);
                 if ($response->getStatusCode() == 200) {
                     $body = json_decode((string) $response->getBody());
+
                     return $body->success;
                 }
             } catch (\GuzzleHttp\Exception\RequestException $e) {

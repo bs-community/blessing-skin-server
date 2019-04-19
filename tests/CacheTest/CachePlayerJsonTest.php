@@ -6,8 +6,6 @@ use Cache;
 use Event;
 use App\Models\Player;
 use App\Events\GetPlayerJson;
-use Illuminate\Http\UploadedFile;
-use App\Listeners\CachePlayerJson;
 use App\Events\PlayerProfileUpdated;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 

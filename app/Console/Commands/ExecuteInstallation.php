@@ -15,6 +15,7 @@ class ExecuteInstallation extends Command
     {
         if (\App\Http\Controllers\SetupController::checkTablesExist()) {
             $this->info('You have installed Blessing Skin Server. Nothing to do.');
+
             return;
         }
 

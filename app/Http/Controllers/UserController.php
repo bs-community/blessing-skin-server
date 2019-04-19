@@ -158,6 +158,7 @@ class UserController extends Controller
     public function profile()
     {
         $user = Auth::user();
+
         return view('user.profile')
             ->with('extra', [
                 'unverified' => option('require_verification') && ! $user->verified,
@@ -282,6 +283,7 @@ class UserController extends Controller
         if ($tid == 0) {
             $user->avatar = 0;
             $user->save();
+
             return json(trans('user.profile.avatar.success'), 0);
         }
 
@@ -293,6 +295,7 @@ class UserController extends Controller
 
             $user->avatar = $tid;
             $user->save();
+
             return json(trans('user.profile.avatar.success'), 0);
         } else {
             return json(trans('skinlib.non-existent'), 1);

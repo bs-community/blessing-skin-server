@@ -71,17 +71,11 @@ class Plugin
         $this->packageInfo = $packageInfo;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function __get($name)
     {
         return $this->packageInfoAttribute(snake_case($name, '-'));
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function __isset($name)
     {
         return isset($this->{$name}) || $this->packageInfoAttribute(snake_case($name, '-'));

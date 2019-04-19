@@ -32,6 +32,7 @@ class SetupController extends Controller
         if ($request->isMethod('get')) {
             try {
                 DB::getPdo();
+
                 return redirect('setup/info');
                 // @codeCoverageIgnoreStart
             } catch (\Exception $e) {

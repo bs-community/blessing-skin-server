@@ -17,6 +17,7 @@ class CacheAvatarPreview
 
         $content = Cache::rememberForever($key, function () use ($texture, $size) {
             $res = Storage::disk('textures')->read($texture->hash);
+
             return png(Minecraft::generateAvatarFromSkin($res, $size));
         });
 

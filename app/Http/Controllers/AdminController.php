@@ -23,6 +23,7 @@ class AdminController extends Controller
 
         $xAxis = Collection::times(30, function ($number) use ($today) {
             $time = Carbon::createFromTimestamp($today - (31 - $number) * 86400);
+
             return $time->format('m-d');
         });
 
@@ -57,13 +58,13 @@ class AdminController extends Controller
         return [
             'labels' => [
                 trans('admin.index.user-registration'),
-                trans('admin.index.texture-uploads')
+                trans('admin.index.texture-uploads'),
             ],
             'xAxis' => $xAxis,
             'data' => [
                 $xAxis->map($aligning($userRegistration)),
                 $xAxis->map($aligning($textureUploads)),
-            ]
+            ],
         ];
     }
 
@@ -108,7 +109,7 @@ class AdminController extends Controller
 
         return view('admin.customize', [
             'forms' => compact('homepage', 'customJsCss'),
-            'extra' => ['currentSkin' => option('color_scheme')]
+            'extra' => ['currentSkin' => option('color_scheme')],
         ]);
     }
 
@@ -455,7 +456,7 @@ class AdminController extends Controller
             return json(trans('admin.users.operations.score.success'), 0);
         } elseif ($action == 'permission') {
             $user->permission = $this->validate($request, [
-                'permission' => 'required|in:-1,0,1'
+                'permission' => 'required|in:-1,0,1',
             ])['permission'];
             $user->save();
 

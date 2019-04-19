@@ -75,6 +75,7 @@ class AuthController extends Controller
     {
         if (Auth::check()) {
             Auth::logout();
+
             return json(trans('auth.logout.success'), 0);
         } else {
             return json(trans('auth.logout.fail'), 1);
@@ -89,7 +90,7 @@ class AuthController extends Controller
                     'player' => (bool) option('register_with_player_name'),
                     'recaptcha' => option('recaptcha_sitekey'),
                     'invisible' => (bool) option('recaptcha_invisible'),
-                ]
+                ],
             ]);
         } else {
             throw new PrettyPageException(trans('auth.register.close'), 7);
@@ -166,7 +167,7 @@ class AuthController extends Controller
                 'extra' => [
                     'recaptcha' => option('recaptcha_sitekey'),
                     'invisible' => (bool) option('recaptcha_invisible'),
-                ]
+                ],
             ]);
         } else {
             throw new PrettyPageException(trans('auth.forgot.disabled'), 8);

@@ -305,7 +305,7 @@ class PlayerControllerTest extends TestCase
         $this->postJson('/user/player/bind', ['player' => 'abc'])
             ->assertJson([
                 'errno' => 0,
-                'msg' => trans('user.player.bind.success')
+                'msg' => trans('user.player.bind.success'),
             ]);
         Event::assertDispatched(Events\CheckPlayerExists::class);
         Event::assertDispatched(Events\PlayerWillBeAdded::class);
@@ -322,7 +322,7 @@ class PlayerControllerTest extends TestCase
         $this->postJson('/user/player/bind', ['player' => $player2->name])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('user.player.rename.repeated')
+                'msg' => trans('user.player.rename.repeated'),
             ]);
 
         $this->postJson('/user/player/bind', ['player' => $player->name])

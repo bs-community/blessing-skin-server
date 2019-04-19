@@ -693,7 +693,7 @@ class SkinlibControllerTest extends TestCase
         // Private texture
         $texture = factory(Texture::class)->create([
             'uploader' => $uploader->uid,
-            'public' => false
+            'public' => false,
         ]);
         $uploader->refresh();
         $this->actingAs($uploader)

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Log;
 use Exception;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
@@ -32,6 +31,7 @@ class UpdateController extends Controller
         ];
         $error = $this->error;
         $extra = ['canUpdate' => $this->canUpdate()];
+
         return view('admin.update', compact('info', 'error', 'extra'));
     }
 
@@ -51,9 +51,11 @@ class UpdateController extends Controller
             case 'download':
                 try {
                     $package->download($this->info['url'], $path)->extract(base_path());
+
                     return json(trans('admin.update.complete'), 0);
                 } catch (Exception $e) {
                     report($e);
+
                     return json($e->getMessage(), 1);
                 }
             case 'progress':
@@ -79,12 +81,14 @@ class UpdateController extends Controller
                 $this->error = $e->getMessage();
             }
         }
+
         return $this->info;
     }
 
     protected function canUpdate()
     {
         $this->getUpdateInfo();
+
         return Comparator::greaterThan(Arr::get($this->info, 'latest'), $this->currentVersion);
     }
 }

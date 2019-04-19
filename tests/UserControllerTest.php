@@ -470,7 +470,7 @@ class UserControllerTest extends TestCase
 
         // Reset avatar
         $this->postJson('/user/profile/avatar', ['tid' => 0])
-            ->assertJson(['errno' => 0,]);
+            ->assertJson(['errno' => 0]);
         $this->assertEquals(0, User::find($user->uid)->avatar);
     }
 }

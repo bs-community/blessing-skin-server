@@ -27,7 +27,7 @@ class CacheSkinPreview
         });
 
         return response()->png($content, 200, [
-            'Last-Modified' => Storage::disk('textures')->lastModified($texture->hash)
+            'Last-Modified' => Storage::disk('textures')->lastModified($texture->hash),
         ]);
     }
 }

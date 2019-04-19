@@ -6,8 +6,6 @@ use Cache;
 use Event;
 use App\Events;
 use App\Models\Player;
-use Illuminate\Http\UploadedFile;
-use App\Listeners\CachePlayerExists;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CachePlayerExistsTest extends TestCase

@@ -28,7 +28,7 @@ class PackageManager
         try {
             $this->guzzle->request('GET', $url, [
                 'sink' => $path,
-                'progress' => $this->onProgress
+                'progress' => $this->onProgress,
             ]);
         } catch (Exception $e) {
             throw new Exception(trans('admin.download.errors.download', ['error' => $e->getMessage()]));

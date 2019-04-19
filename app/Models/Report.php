@@ -9,7 +9,7 @@ class Report extends Model
     public const CREATED_AT = 'report_at';
     public const UPDATED_AT = null;
 
-    public const PENDING  = 0;
+    public const PENDING = 0;
     public const RESOLVED = 1;
     public const REJECTED = 2;
 

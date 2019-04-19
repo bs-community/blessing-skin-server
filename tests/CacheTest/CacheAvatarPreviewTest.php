@@ -9,7 +9,6 @@ use Storage;
 use App\Models\Texture;
 use App\Events\GetAvatarPreview;
 use Illuminate\Http\UploadedFile;
-use App\Listeners\CacheAvatarPreview;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CacheAvatarPreviewTest extends TestCase

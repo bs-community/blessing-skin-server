@@ -29,7 +29,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->getJson('/admin/chart')
             ->seeJson(['labels' => [
                 trans('admin.index.user-registration'),
-                trans('admin.index.texture-uploads')
+                trans('admin.index.texture-uploads'),
             ]])
             ->seeJsonStructure(['labels', 'xAxis', 'data']);
     }
@@ -468,7 +468,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->postJson('/admin/users', [
             'uid' => $user->uid,
             'action' => 'permission',
-            'permission' => -2
+            'permission' => -2,
         ])->seeJsonStructure(['errors' => ['permission']]);
         $user = User::find($user->uid);
         $this->assertEquals(User::NORMAL, $user->permission);
@@ -477,7 +477,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->postJson('/admin/users', [
             'uid' => $user->uid,
             'action' => 'permission',
-            'permission' => -1
+            'permission' => -1,
         ])->seeJson([
             'errno' => 0,
             'msg' => trans('admin.users.operations.permission'),
