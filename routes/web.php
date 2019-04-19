@@ -43,7 +43,7 @@ Route::group(['prefix' => 'auth'], function () {
  */
 Route::group([
     'middleware' => ['web', 'auth', \App\Http\Middleware\RequireBindPlayer::class],
-    'prefix' => 'user'
+    'prefix' => 'user',
 ], function () {
     Route::any('', 'UserController@index');
     Route::get('/score-info', 'UserController@scoreInfo');

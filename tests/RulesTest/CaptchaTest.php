@@ -28,7 +28,7 @@ class CaptchaTest extends TestCase
         option(['recaptcha_secretkey' => 'secret']);
         $mock = new MockHandler([
             new Response(403),
-            new Response(200, [], json_encode(['success' => true]))
+            new Response(200, [], json_encode(['success' => true])),
         ]);
         $handler = HandlerStack::create($mock);
         $client = new Client(['handler' => $handler]);

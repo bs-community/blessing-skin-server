@@ -36,7 +36,7 @@ class ReportControllerTest extends TestCase
         $this->postJson('/skinlib/report', ['tid' => $texture->tid, 'reason' => 'reason'])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('skinlib.upload.lack-score')
+                'msg' => trans('skinlib.upload.lack-score'),
             ]);
 
         // Success
@@ -44,7 +44,7 @@ class ReportControllerTest extends TestCase
         $this->postJson('/skinlib/report', ['tid' => $texture->tid, 'reason' => 'reason'])
             ->assertJson([
                 'errno' => 0,
-                'msg' => trans('skinlib.report.success')
+                'msg' => trans('skinlib.report.success'),
             ]);
         $user->refresh();
         $this->assertEquals(5, $user->score);
@@ -58,7 +58,7 @@ class ReportControllerTest extends TestCase
         $this->postJson('/skinlib/report', ['tid' => $texture->tid, 'reason' => 'reason'])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('skinlib.report.duplicate')
+                'msg' => trans('skinlib.report.duplicate'),
             ]);
     }
 
@@ -108,7 +108,7 @@ class ReportControllerTest extends TestCase
                     'status' => Report::PENDING,
                     'uploaderName' => $uploader->nickname,
                     'reporterName' => $reporter->nickname,
-                ]]
+                ]],
             ]);
     }
 
@@ -148,7 +148,7 @@ class ReportControllerTest extends TestCase
         $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'reject'])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('admin.report-reviewed')
+                'msg' => trans('admin.report-reviewed'),
             ]);
 
         // Reject
@@ -159,7 +159,7 @@ class ReportControllerTest extends TestCase
             ->assertJson([
                 'errno' => 0,
                 'msg' => trans('general.op-success'),
-                'status' => Report::REJECTED
+                'status' => Report::REJECTED,
             ]);
         $report->refresh();
         $reporter->refresh();
@@ -186,7 +186,7 @@ class ReportControllerTest extends TestCase
             ->assertJson([
                 'errno' => 0,
                 'msg' => trans('general.op-success'),
-                'status' => Report::RESOLVED
+                'status' => Report::RESOLVED,
             ]);
         $report->refresh();
         $reporter->refresh();
@@ -207,7 +207,7 @@ class ReportControllerTest extends TestCase
             ->assertJson([
                 'errno' => 0,
                 'msg' => trans('general.op-success'),
-                'status' => Report::RESOLVED
+                'status' => Report::RESOLVED,
             ]);
         $reporter->refresh();
         $this->assertEquals(User::BANNED, $uploader->permission);
@@ -223,7 +223,7 @@ class ReportControllerTest extends TestCase
         $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'ban'])
             ->assertJson([
                 'errno' => 1,
-                'msg' => trans('admin.users.operations.no-permission')
+                'msg' => trans('admin.users.operations.no-permission'),
             ]);
         $report->refresh();
         $this->assertEquals(Report::PENDING, $report->status);

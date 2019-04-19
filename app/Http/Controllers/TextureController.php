@@ -111,6 +111,7 @@ class TextureController extends Controller
                         return $responses[0];       // @codeCoverageIgnore
                     } else {
                         $png = Minecraft::generateAvatarFromSkin(Storage::disk('textures')->read($t->hash), $size);
+
                         return Response::png(png($png));
                     }
                 }
@@ -209,6 +210,7 @@ class TextureController extends Controller
     {
         $player = Player::where('name', $player_name)->first();
         abort_if($player->isBanned(), 403, trans('general.player-banned'));
+
         return $player;
     }
 

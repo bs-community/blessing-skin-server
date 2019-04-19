@@ -3,7 +3,6 @@
 namespace App\Listeners;
 
 use Cache;
-use Storage;
 use App\Events;
 use App\Models\Player;
 use Illuminate\Events\Dispatcher;
@@ -25,6 +24,7 @@ class CachePlayerExists
 
             if (! $player) {
                 Cache::forever($key, '1');
+
                 return false;
             } else {
                 return true;

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use ZipArchive;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Services\PluginManager;
@@ -93,6 +92,7 @@ class MarketController extends Controller
         } catch (Exception $e) {
             return json($e->getMessage(), 1);
         }
+
         return json(trans('admin.plugins.market.install-success'), 0);
     }
 

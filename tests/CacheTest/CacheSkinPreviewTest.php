@@ -9,7 +9,6 @@ use Storage;
 use App\Models\Texture;
 use App\Events\GetSkinPreview;
 use Illuminate\Http\UploadedFile;
-use App\Listeners\CacheSkinPreview;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CacheSkinPreviewTest extends TestCase

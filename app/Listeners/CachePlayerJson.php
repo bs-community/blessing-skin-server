@@ -3,7 +3,6 @@
 namespace App\Listeners;
 
 use Cache;
-use Storage;
 use App\Models\Player;
 use App\Events\GetPlayerJson;
 use App\Events\PlayerProfileUpdated;

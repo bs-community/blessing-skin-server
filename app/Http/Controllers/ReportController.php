@@ -14,7 +14,7 @@ class ReportController extends Controller
     {
         $data = $this->validate($request, [
             'tid' => 'required|exists:textures',
-            'reason' => 'required'
+            'reason' => 'required',
         ]);
         $reporter = auth()->user();
 
@@ -71,6 +71,7 @@ class ReportController extends Controller
                             if ($report->informer) {
                                 $report->reporterName = $report->informer->nickname;
                             }
+
                             return $report;
                         });
 
@@ -84,7 +85,7 @@ class ReportController extends Controller
     {
         $data = $this->validate($request, [
             'id' => 'required|exists:reports',
-            'action' => ['required', Rule::in(['delete', 'ban', 'reject'])]
+            'action' => ['required', Rule::in(['delete', 'ban', 'reject'])],
         ]);
         $report = Report::find($data['id']);
 
@@ -102,6 +103,7 @@ class ReportController extends Controller
             }
             $report->status = Report::REJECTED;
             $report->save();
+
             return json(trans('general.op-success'), 0, ['status' => Report::REJECTED]);
         }
 

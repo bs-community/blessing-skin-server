@@ -58,7 +58,7 @@ class PlayerController extends Controller
                 'length' => trans(
                     'user.player.player-name-length',
                     ['min' => option('player_name_length_min'), 'max' => option('player_name_length_max')]
-                )
+                ),
             ]);
     }
 
@@ -186,6 +186,7 @@ class PlayerController extends Controller
             }
         }, ['skin', 'cape']);
         $this->player->save();
+
         return json(trans('user.player.clear.success', ['name' => $this->player->name]), 0);
     }
 

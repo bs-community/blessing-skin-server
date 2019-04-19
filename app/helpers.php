@@ -3,7 +3,6 @@
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
 if (! function_exists('webpack_assets')) {
     function webpack_assets($relativeUri)
@@ -13,6 +12,7 @@ if (! function_exists('webpack_assets')) {
         } else {
             $path = app('webpack')->$relativeUri;
             $cdn = option('cdn_address');
+
             return $cdn ? "$cdn/app/$path" : url("/app/$path");
         }
     }
@@ -192,6 +192,7 @@ if (! function_exists('option')) {
 
         if (is_array($key)) {
             $options->set($key);
+
             return;
         }
 
@@ -360,6 +361,7 @@ if (! function_exists('png')) {
         $image = ob_get_contents();
         ob_end_clean();
         imagedestroy($resource);
+
         return $image;
     }
 }

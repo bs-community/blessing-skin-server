@@ -68,6 +68,7 @@ class User extends Authenticatable
     public function getPlayerNameAttribute()
     {
         $player = $this->players->first();
+
         return $player ? $player->name : '';
     }
 

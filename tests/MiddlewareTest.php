@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use DB;
 use App\Models\User;
 use App\Models\Player;
 use App\Services\Facades\Option;

@@ -4,7 +4,6 @@ namespace App\Services;
 
 use Storage;
 use App\Events;
-use App\Services\Option;
 use Composer\Semver\Semver;
 use Illuminate\Support\Arr;
 use Composer\Semver\Comparator;

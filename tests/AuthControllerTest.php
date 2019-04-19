@@ -21,7 +21,9 @@ class AuthControllerTest extends TestCase
     {
         parent::setUp();
         app()->instance(\App\Rules\Captcha::class, new class extends \App\Rules\Captcha {
-            public function __construct(\GuzzleHttp\Client $client = null) {}
+            public function __construct(\GuzzleHttp\Client $client = null)
+            {
+            }
 
             public function passes($attribute, $value)
             {
