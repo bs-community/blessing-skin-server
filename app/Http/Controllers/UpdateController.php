@@ -70,7 +70,11 @@ class UpdateController extends Controller
         $acceptableSpec = 1;
         if (! $this->info) {
             try {
-                $json = $this->guzzle->request('GET', $this->updateSource)->getBody();
+                $json = $this->guzzle->request(
+                    'GET',
+                    $this->updateSource,
+                    ['verify' => resource_path('misc/ca-bundle.crt')],
+                )->getBody();
                 $info = json_decode($json, true);
                 if (Arr::get($info, 'spec') == $acceptableSpec) {
                     $this->info = $info;
