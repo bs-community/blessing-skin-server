@@ -56,4 +56,5 @@ return [
     'reporter_score_modification' => '0',
     'reporter_reward_score'     => '0',
     'content_policy'            => '',
+    'transparent_navbar'        => 'false',
 ];

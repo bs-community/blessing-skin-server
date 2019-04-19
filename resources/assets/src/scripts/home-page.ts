@@ -12,6 +12,9 @@ function handler() {
   }
 }
 
-window.addEventListener('load', handler)
+/* istanbul ignore next */
+if (blessing.extra.transparent_navbar) {
+  window.addEventListener('load', handler)
+}
 
 export default handler

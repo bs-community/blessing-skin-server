@@ -85,6 +85,8 @@ class AdminController extends Controller
 
             $form->text('favicon_url')->hint()->description();
 
+            $form->checkbox('transparent_navbar')->label();
+
             $form->select('copyright_prefer')
                     ->option('0', 'Powered with ❤ by Blessing Skin Server.')
                     ->option('1', 'Powered by Blessing Skin Server.')

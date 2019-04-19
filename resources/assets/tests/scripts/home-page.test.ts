@@ -1,5 +1,9 @@
 import handler from '@/scripts/home-page'
 
+window.blessing.extra = {
+  transparent_navbar: false,
+}
+
 test('should be transparent at top', () => {
   Object.assign(window, { innerHeight: 900 })
   document.body.innerHTML = '<header class="main-header"></header>'

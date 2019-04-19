@@ -17,7 +17,7 @@
 
     <div class="hp-wrapper" style="background-image: url('{{ $home_pic_url }}'); height: 100vh;">
         <!-- Navigation -->
-        <header class="main-header transparent">
+        <header class="main-header {{ $transparent_navbar ? 'transparent' : ''}}">
             <nav class="navbar navbar-fixed-top">
                 <div class="container">
                     <div class="navbar-header">
@@ -124,6 +124,10 @@
             @include('common.custom-copyright')
         </div>
     </div>
+
+    <script>
+    blessing.extra = @json(['transparent_navbar' => $transparent_navbar])
+    </script>
 
     <!-- App Scripts -->
     @include('common.dependencies.script')

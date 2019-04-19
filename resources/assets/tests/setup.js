@@ -11,6 +11,7 @@ window.blessing = {
   base_url: '',
   site_name: 'Blessing Skin',
   version: '4.0.0',
+  extra: {},
 }
 
 window.Headers = class extends Map {

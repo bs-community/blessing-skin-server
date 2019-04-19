@@ -51,11 +51,13 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->visit('/admin/customize')
             ->type('url', 'home_pic_url')
             ->type('url', 'favicon_url')
+            ->check('transparent_navbar')
             ->select('1', 'copyright_prefer')
             ->type('copyright', 'copyright_text')
             ->press('submit_homepage');
         $this->assertEquals('url', option('home_pic_url'));
         $this->assertEquals('url', option('favicon_url'));
+        $this->assertTrue(option('transparent_navbar'));
         $this->assertEquals('1', option('copyright_prefer'));
         $this->assertEquals('copyright', option('copyright_text'));
 
