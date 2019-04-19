@@ -13,6 +13,7 @@ zip -9 -r blessing-skin-server-$RELEASE_TAG.zip \
   public \
   resources/lang \
   resources/views \
+  resources/misc \
   routes \
   storage \
   vendor \
