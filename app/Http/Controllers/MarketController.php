@@ -109,7 +109,7 @@ class MarketController extends Controller
                 $pluginsJson = $this->guzzle->request(
                     'GET',
                     config('plugins.registry'),
-                    ['verify' => resource_path('misc/ca-bundle.crt')],
+                    ['verify' => resource_path('misc/ca-bundle.crt')]
                 )->getBody();
             } catch (Exception $e) {
                 throw new Exception(trans('admin.plugins.market.connection-error', [
