@@ -15,7 +15,7 @@ class ClosetController extends Controller
     {
         return view('user.closet')
             ->with('extra', [
-                'unverified' => option('require_verification') && ! $user->verified,
+                'unverified' => option('require_verification') && ! auth()->user()->verified,
                 'rule' => trans('user.player.player-name-rule.'.option('player_name_rule')),
                 'length' => trans(
                     'user.player.player-name-length',
