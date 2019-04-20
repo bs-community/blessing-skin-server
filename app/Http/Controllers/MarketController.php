@@ -85,7 +85,7 @@ class MarketController extends Controller
         $url = $metadata['dist']['url'];
         $filename = Arr::last(explode('/', $url));
         $pluginsDir = $manager->getPluginsDir();
-        $path = storage_path("packages/$filename");
+        $path = storage_path("packages/$name".'_'.$metadata['version'].'.zip');
 
         try {
             $package->download($url, $path, $metadata['dist']['shasum'])->extract($pluginsDir);
