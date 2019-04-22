@@ -105,25 +105,30 @@ class MarketController extends Controller
     {
         $registryVersion = 1;
         if (app()->environment('testing') || ! $this->registryCache) {
-            try {
-                $pluginsJson = $this->guzzle->request(
-                    'GET',
-                    config('plugins.registry'),
-                    ['verify' => resource_path('misc/ca-bundle.crt')]
-                )->getBody();
-            } catch (Exception $e) {
-                throw new Exception(trans('admin.plugins.market.connection-error', [
-                    'error' => htmlentities($e->getMessage()),
-                ]));
-            }
+            $registries = collect(explode(',', config('plugins.registry')));
+            $this->registryCache = $registries->map(function ($registry) use ($registryVersion) {
+                try {
+                    $pluginsJson = $this->guzzle->request(
+                        'GET',
+                        trim($registry),
+                        ['verify' => resource_path('misc/ca-bundle.crt')]
+                    )->getBody();
+                } catch (Exception $e) {
+                    throw new Exception(trans('admin.plugins.market.connection-error', [
+                        'error' => htmlentities($e->getMessage()),
+                    ]));
+                }
 
-            $this->registryCache = json_decode($pluginsJson, true);
-            $received = Arr::get($this->registryCache, 'version');
-            if (is_int($received) && $received != $registryVersion) {
-                throw new Exception("Only version $registryVersion of market registry is accepted.");
-            }
+                $registryData = json_decode($pluginsJson, true);
+                $received = Arr::get($registryData, 'version');
+                if (is_int($received) && $received != $registryVersion) {
+                    throw new Exception("Only version $registryVersion of market registry is accepted.");
+                }
+
+                return Arr::get($registryData, 'packages', []);
+            })->flatten(1);
         }
 
-        return Arr::get($this->registryCache, 'packages', []);
+        return $this->registryCache;
     }
 }
