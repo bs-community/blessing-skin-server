@@ -181,7 +181,7 @@ class PluginManager
         }
 
         $rejected = $this->enabled->reject(function ($item) use ($name) {
-            return $item['name'] == $name;
+            return is_string($item) ? $item == $name : $item['name'] == $name;
         });
 
         if ($rejected->count() !== $this->enabled->count()) {
