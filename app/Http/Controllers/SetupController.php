@@ -227,10 +227,7 @@ class SetupController extends Controller
             }
         }
 
-        if (! $updateScriptExist) {
-            // If there is no update script given
-            Option::set('version', config('app.version'));
-        }
+        Option::set('version', config('app.version'));
 
         // Clear all compiled view files
         try {

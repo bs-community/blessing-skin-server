@@ -215,7 +215,7 @@ class SetupControllerTest extends TestCase
         config(['options.new_option' => 'value']);
         $this->post('/setup/update')->assertViewHas('tips');
         $this->assertEquals('value', option('new_option'));
-        $this->assertEquals('3.1.1', option('version'));
+        $this->assertEquals('100.0.0', option('version'));
         unlink(database_path("update_scripts/update-$current_version-to-100.0.0.php"));
 
         option(['version' => '3.0.0']);   // Fake old version
