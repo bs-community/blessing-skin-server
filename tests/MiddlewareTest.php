@@ -214,4 +214,10 @@ class MiddlewareTest extends TestCase
         $this->get('/user')->assertViewIs('user.index');
         $this->get('/user/player/bind')->assertRedirect('/user');
     }
+
+    public function testForbiddenIE()
+    {
+        $this->get('/', ['user-agent' => 'MSIE'])->assertSee(trans('errors.http.ie'));
+        $this->get('/', ['user-agent' => 'Trident'])->assertSee(trans('errors.http.ie'));
+    }
 }
