@@ -22,18 +22,18 @@ export default Vue.extend({
       }
 
       const {
-        errno, msg, reason,
+        code, message, reason,
       } = await this.$http.post(
         '/admin/plugins/manage',
         { action: 'enable', name }
-      ) as { errno: number, msg: string, reason: string[] }
-      if (errno === 0) {
-        this.$message.success(msg)
+      ) as { code: number, message: string, reason: string[] }
+      if (code === 0) {
+        this.$message.success(message)
         this.$set(this.plugins[originalIndex], 'enabled', true)
       } else {
         const div = document.createElement('div')
         const p = document.createElement('p')
-        p.textContent = msg
+        p.textContent = message
         div.appendChild(p)
         const ul = document.createElement('ul')
         reason.forEach(item => {

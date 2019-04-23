@@ -155,8 +155,8 @@ class AuthController extends Controller
         Auth::login($user);
 
         return json([
-            'errno' => 0,
-            'msg' => trans('auth.register.success'),
+            'code' => 0,
+            'message' => trans('auth.register.success'),
         ]);
     }
 
@@ -191,8 +191,8 @@ class AuthController extends Controller
         // Rate limit
         if ($remain > 0) {
             return json([
-                'errno' => 2,
-                'msg' => trans('auth.forgot.frequent-mail'),
+                'code' => 2,
+                'message' => trans('auth.forgot.frequent-mail'),
                 'remain' => $remain,
             ]);
         }

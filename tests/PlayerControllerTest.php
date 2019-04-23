@@ -65,8 +65,8 @@ class PlayerControllerTest extends TestCase
             '/user/player/add',
             ['player_name' => 'no_score']
         )->assertJson([
-            'errno' => 7,
-            'msg' => trans('user.player.add.lack-score'),
+            'code' => 7,
+            'message' => trans('user.player.add.lack-score'),
         ]);
         $this->expectsEvents(Events\CheckPlayerExists::class);
 
@@ -77,8 +77,8 @@ class PlayerControllerTest extends TestCase
         $this->actingAs($user)->postJson('/user/player/add', [
             'player_name' => '角色名',
         ])->assertJson([
-            'errno' => 0,
-            'msg' => trans('user.player.add.success', ['name' => '角色名']),
+            'code' => 0,
+            'message' => trans('user.player.add.success', ['name' => '角色名']),
         ]);
         $this->expectsEvents(Events\PlayerWillBeAdded::class);
         $this->expectsEvents(Events\PlayerWasAdded::class);
@@ -94,16 +94,16 @@ class PlayerControllerTest extends TestCase
         // Add a existed player
         $this->postJson('/user/player/add', ['player_name' => '角色名'])
             ->assertJson([
-                'errno' => 6,
-                'msg' => trans('user.player.add.repeated'),
+                'code' => 6,
+                'message' => trans('user.player.add.repeated'),
             ]);
 
         // Single player
         option(['single_player' => true]);
         $this->postJson('/user/player/add', ['player_name' => 'abc'])
             ->assertJson([
-                'errno' => 1,
-                'msg' => trans('user.player.add.single'),
+                'code' => 1,
+                'message' => trans('user.player.add.single'),
             ]);
     }
 
@@ -116,8 +116,8 @@ class PlayerControllerTest extends TestCase
         $this->actingAs($user)
             ->postJson('/user/player/delete', ['pid' => $player->pid])
             ->assertJson([
-                'errno' => 0,
-                'msg' => trans('user.player.delete.success', ['name' => $player->name]),
+                'code' => 0,
+                'message' => trans('user.player.delete.success', ['name' => $player->name]),
             ]);
         $this->assertNull(Player::find($player->pid));
         $this->expectsEvents(Events\PlayerWasDeleted::class);
@@ -133,8 +133,8 @@ class PlayerControllerTest extends TestCase
         $this->actingAs($user)
             ->postJson('/user/player/delete', ['pid' => $player->pid])
             ->assertJson([
-                'errno' => 0,
-                'msg' => trans('user.player.delete.success', ['name' => $player->name]),
+                'code' => 0,
+                'message' => trans('user.player.delete.success', ['name' => $player->name]),
             ]);
         $this->assertEquals(
             $user->score,
@@ -147,8 +147,8 @@ class PlayerControllerTest extends TestCase
         $this->actingAs($user)
             ->postJson('/user/player/delete', ['pid' => $player->pid])
             ->assertJson([
-                'errno' => 1,
-                'msg' => trans('user.player.delete.single'),
+                'code' => 1,
+                'message' => trans('user.player.delete.single'),
             ]);
         $this->assertNotNull(Player::find($player->pid));
     }
@@ -193,8 +193,8 @@ class PlayerControllerTest extends TestCase
             'pid' => $player->pid,
             'new_player_name' => $name,
         ])->assertJson([
-            'errno' => 6,
-            'msg' => trans('user.player.rename.repeated'),
+            'code' => 6,
+            'message' => trans('user.player.rename.repeated'),
         ]);
 
         // Success
@@ -202,8 +202,8 @@ class PlayerControllerTest extends TestCase
             'pid' => $player->pid,
             'new_player_name' => 'new_name',
         ])->assertJson([
-            'errno' => 0,
-            'msg' => trans(
+            'code' => 0,
+            'message' => trans(
                 'user.player.rename.success',
                 ['old' => $player->name, 'new' => 'new_name']
             ),
@@ -215,7 +215,7 @@ class PlayerControllerTest extends TestCase
         $this->postJson('/user/player/rename', [
             'pid' => $player->pid,
             'new_player_name' => 'abc',
-        ])->assertJson(['errno' => 0]);
+        ])->assertJson(['code' => 0]);
         $this->assertEquals('abc', $player->user->nickname);
     }
 
@@ -232,8 +232,8 @@ class PlayerControllerTest extends TestCase
                 'pid' => $player->pid,
                 'tid' => ['skin' => -1],
             ])->assertJson([
-                'errno' => 6,
-                'msg' => trans('skinlib.un-existent'),
+                'code' => 6,
+                'message' => trans('skinlib.un-existent'),
             ]);
 
         // Set for "skin" type
@@ -241,8 +241,8 @@ class PlayerControllerTest extends TestCase
             'pid' => $player->pid,
             'tid' => ['skin' => $skin->tid],
         ])->assertJson([
-            'errno' => 0,
-            'msg' => trans('user.player.set.success', ['name' => $player->name]),
+            'code' => 0,
+            'message' => trans('user.player.set.success', ['name' => $player->name]),
         ]);
         $this->assertEquals($skin->tid, Player::find($player->pid)->tid_skin);
 
@@ -251,8 +251,8 @@ class PlayerControllerTest extends TestCase
             'pid' => $player->pid,
             'tid' => ['cape' => $cape->tid],
         ])->assertJson([
-            'errno' => 0,
-            'msg' => trans('user.player.set.success', ['name' => $player->name]),
+            'code' => 0,
+            'message' => trans('user.player.set.success', ['name' => $player->name]),
         ]);
         $this->assertEquals($cape->tid, Player::find($player->pid)->tid_cape);
 
@@ -261,8 +261,8 @@ class PlayerControllerTest extends TestCase
             'pid' => $player->pid,
             'tid' => ['nope' => $skin->tid],     // TID must be valid
         ])->assertJson([
-            'errno' => 0,
-            'msg' => trans('user.player.set.success', ['name' => $player->name]),
+            'code' => 0,
+            'message' => trans('user.player.set.success', ['name' => $player->name]),
         ]);
     }
 
@@ -284,8 +284,8 @@ class PlayerControllerTest extends TestCase
                 'cape' => 1,
                 'nope' => 1,     // Invalid texture type is acceptable
             ])->assertJson([
-                'errno' => 0,
-                'msg' => trans('user.player.clear.success', ['name' => $player->name]),
+                'code' => 0,
+                'message' => trans('user.player.clear.success', ['name' => $player->name]),
             ]);
         $this->assertEquals(0, Player::find($player->pid)->tid_skin);
         $this->assertEquals(0, Player::find($player->pid)->tid_cape);
@@ -304,8 +304,8 @@ class PlayerControllerTest extends TestCase
 
         $this->postJson('/user/player/bind', ['player' => 'abc'])
             ->assertJson([
-                'errno' => 0,
-                'msg' => trans('user.player.bind.success'),
+                'code' => 0,
+                'message' => trans('user.player.bind.success'),
             ]);
         Event::assertDispatched(Events\CheckPlayerExists::class);
         Event::assertDispatched(Events\PlayerWillBeAdded::class);
@@ -321,12 +321,12 @@ class PlayerControllerTest extends TestCase
         $player3 = factory(Player::class)->create(['uid' => $user->uid]);
         $this->postJson('/user/player/bind', ['player' => $player2->name])
             ->assertJson([
-                'errno' => 1,
-                'msg' => trans('user.player.rename.repeated'),
+                'code' => 1,
+                'message' => trans('user.player.rename.repeated'),
             ]);
 
         $this->postJson('/user/player/bind', ['player' => $player->name])
-            ->assertJson(['errno' => 0]);
+            ->assertJson(['code' => 0]);
         $this->assertNull(Player::where('name', $player3->name)->first());
     }
 }

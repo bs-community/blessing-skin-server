@@ -164,7 +164,7 @@ export default {
       }
 
       this.pending = true
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/auth/register',
         Object.assign({
           email,
@@ -172,14 +172,14 @@ export default {
           captcha: await this.$refs.captcha.execute(),
         }, this.requirePlayer ? { player_name: playerName } : { nickname })
       )
-      if (errno === 0) {
-        this.$message.success(msg)
+      if (code === 0) {
+        this.$message.success(message)
         setTimeout(() => {
           window.location = `${blessing.base_url}/user`
         }, 1000)
       } else {
         this.infoMsg = ''
-        this.warningMsg = msg
+        this.warningMsg = message
         this.$refs.captcha.refresh()
         this.pending = false
       }

@@ -57,9 +57,9 @@ test('enable plugin', async () => {
   ])
   Vue.prototype.$http.post
     .mockResolvedValueOnce({
-      errno: 1, msg: '1', reason: ['`a<div></div>`b'],
+      code: 1, message: '1', reason: ['`a<div></div>`b'],
     })
-    .mockResolvedValue({ errno: 0, msg: '0' })
+    .mockResolvedValue({ code: 0, message: '0' })
   Vue.prototype.$confirm
     .mockRejectedValueOnce('')
     .mockResolvedValue('confirm')
@@ -105,8 +105,8 @@ test('disable plugin', async () => {
     },
   ])
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
-    .mockResolvedValue({ errno: 0, msg: '0' })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
+    .mockResolvedValue({ code: 0, message: '0' })
   const wrapper = mount(Plugins)
   await flushPromises()
   const button = wrapper.find('.actions').find('a')
@@ -130,8 +130,8 @@ test('delete plugin', async () => {
     },
   ])
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
-    .mockResolvedValue({ errno: 0, msg: '0' })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
+    .mockResolvedValue({ code: 0, message: '0' })
   Vue.prototype.$confirm
     .mockRejectedValueOnce('')
     .mockResolvedValue('confirm')

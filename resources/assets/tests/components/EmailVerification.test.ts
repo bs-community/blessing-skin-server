@@ -11,8 +11,8 @@ test('message box should not be render if verified', () => {
 test('resend email', async () => {
   window.blessing.extra = { unverified: true }
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
-    .mockResolvedValueOnce({ errno: 0, msg: '0' })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
+    .mockResolvedValueOnce({ code: 0, message: '0' })
   const wrapper = mount(EmailVerification)
   const button = wrapper.find('a')
 

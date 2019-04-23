@@ -11,9 +11,9 @@ export async function logout() {
     return
   }
 
-  const { msg } = await post('/auth/logout')
+  const { message } = await post('/auth/logout')
   setTimeout(() => (window.location.href = blessing.base_url), 1000)
-  Message.success(msg)
+  Message.success(message)
 }
 
 const button = document.querySelector('#logout-button')

@@ -15,15 +15,15 @@ export default Vue.extend<{
         return
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/user/closet/remove',
         { tid: this.tid }
       )
-      if (errno === 0) {
+      if (code === 0) {
         this.$emit('item-removed')
-        this.$message.success(msg!)
+        this.$message.success(message!)
       } else {
-        this.$message.warning(msg!)
+        this.$message.warning(message!)
       }
     },
   },

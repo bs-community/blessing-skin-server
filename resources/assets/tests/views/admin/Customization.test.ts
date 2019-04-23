@@ -14,7 +14,7 @@ test('preview color', () => {
 })
 
 test('submit color', () => {
-  Vue.prototype.$http.post.mockResolvedValue({ errno: 0, msg: '' })
+  Vue.prototype.$http.post.mockResolvedValue({ code: 0, message: '' })
   const wrapper = mount(Customization)
   wrapper.findAll('a').at(4)
     .trigger('click')

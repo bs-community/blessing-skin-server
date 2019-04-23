@@ -12,8 +12,8 @@ test('add player', async () => {
   window.$ = jest.fn(() => ({ modal() {} }))
   Vue.prototype.$http.get.mockResolvedValueOnce([])
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: 'fail' })
-    .mockResolvedValue({ errno: 0, msg: 'ok' })
+    .mockResolvedValueOnce({ code: 1, message: 'fail' })
+    .mockResolvedValue({ code: 0, message: 'ok' })
   const wrapper = mount(AddPlayerDialog)
   const button = wrapper.find('[data-test=addPlayer]')
   wrapper.find('input[type="text"]').setValue('the-new')

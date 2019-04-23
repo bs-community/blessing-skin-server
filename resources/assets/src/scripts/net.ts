@@ -43,8 +43,8 @@ export async function walkFetch(request: Request): Promise<any> {
         errors: { [field: string]: string[] }
       } = await response.json()
       return {
-        errno: 1,
-        msg: Object.keys(errors).map(field => errors[field][0])[0],
+        code: 1,
+        message: Object.keys(errors).map(field => errors[field][0])[0],
       }
     }
 

@@ -14,17 +14,17 @@ export default Vue.extend<{
         return
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/user/profile/avatar',
         { tid: this.tid }
       )
-      if (errno === 0) {
-        this.$message.success(msg!)
+      if (code === 0) {
+        this.$message.success(message!)
 
         Array.from(document.querySelectorAll<HTMLImageElement>('[alt="User Image"]'))
           .forEach(el => (el.src += `?${new Date().getTime()}`))
       } else {
-        this.$message.warning(msg!)
+        this.$message.warning(message!)
       }
     },
   },

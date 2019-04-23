@@ -82,7 +82,7 @@ export default {
         return this.$message.info(this.$t('user.emptySelectedTexture'))
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/user/player/set',
         {
           pid: this.selected,
@@ -92,11 +92,11 @@ export default {
           },
         }
       )
-      if (errno === 0) {
-        this.$message.success(msg)
+      if (code === 0) {
+        this.$message.success(message)
         $('#modal-use-as').modal('hide')
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
     avatarUrl(player) {

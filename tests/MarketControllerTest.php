@@ -30,8 +30,8 @@ class MarketControllerTest extends TestCase
         $this->postJson('/admin/plugins/market/download', [
             'name' => 'non-existent-plugin',
         ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('admin.plugins.market.non-existent', ['plugin' => 'non-existent-plugin']),
+            'code' => 1,
+            'message' => trans('admin.plugins.market.non-existent', ['plugin' => 'non-existent-plugin']),
         ]);
 
         // Download
@@ -40,13 +40,13 @@ class MarketControllerTest extends TestCase
         app()->instance(PackageManager::class, new Concerns\FakePackageManager(null, true));
         $this->postJson('/admin/plugins/market/download', [
             'name' => 'fake-test-download',
-        ])->assertJson(['errno' => 1]);
+        ])->assertJson(['code' => 1]);
 
         $this->appendToGuzzleQueue([new Response(200, [], $fakeRegistry)]);
         app()->bind(PackageManager::class, Concerns\FakePackageManager::class);
         $this->postJson('/admin/plugins/market/download', [
             'name' => 'fake-test-download',
-        ])->assertJson(['errno' => 0, 'msg' => trans('admin.plugins.market.install-success')]);
+        ])->assertJson(['code' => 0, 'message' => trans('admin.plugins.market.install-success')]);
     }
 
     public function testCheckUpdates()

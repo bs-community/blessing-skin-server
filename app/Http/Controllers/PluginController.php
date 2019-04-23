@@ -43,8 +43,8 @@ class PluginController extends Controller
                         }
 
                         return json([
-                            'errno' => 1,
-                            'msg' => trans('admin.plugins.operations.unsatisfied.notice'),
+                            'code' => 1,
+                            'message' => trans('admin.plugins.operations.unsatisfied.notice'),
                             'reason' => $reason,
                         ]);
                     }

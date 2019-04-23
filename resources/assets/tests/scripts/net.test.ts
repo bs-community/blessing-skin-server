@@ -133,11 +133,11 @@ test('process Laravel validation errors', async () => {
   })
 
   const result: {
-    errno: number,
-    msg: string
+    code: number,
+    message: string
   } = await net.walkFetch({ headers: new Headers() } as Request)
-  expect(result.errno).toBe(1)
-  expect(result.msg).toBe('required')
+  expect(result.code).toBe(1)
+  expect(result.message).toBe('required')
 })
 
 test('inject to Vue instance', () => {

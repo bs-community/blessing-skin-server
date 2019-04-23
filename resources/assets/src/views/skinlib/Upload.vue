@@ -160,15 +160,15 @@ export default {
 
       this.uploading = true
       const {
-        errno, msg, tid,
+        code, message, tid,
       } = await this.$http.post('/skinlib/upload', data)
-      if (errno === 0) {
-        this.$message.success(msg)
+      if (code === 0) {
+        this.$message.success(message)
         setTimeout(() => {
           window.location = `${blessing.base_url}/skinlib/show/${tid}`
         }, 1000)
       } else {
-        this.$message.error(msg)
+        this.$message.error(message)
         this.uploading = false
       }
     },

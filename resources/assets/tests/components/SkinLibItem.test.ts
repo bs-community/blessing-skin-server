@@ -59,7 +59,7 @@ test('liked state', () => {
 })
 
 test('remove from closet', async () => {
-  Vue.prototype.$http.post.mockResolvedValue({ errno: 0 })
+  Vue.prototype.$http.post.mockResolvedValue({ code: 0 })
   Vue.prototype.$confirm.mockResolvedValue('confirm')
   const wrapper = mount(SkinLibItem, {
     propsData: {
@@ -73,8 +73,8 @@ test('remove from closet', async () => {
 
 test('add to closet', async () => {
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
-    .mockResolvedValue({ errno: 0 })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
+    .mockResolvedValue({ code: 0 })
   Vue.prototype.$prompt
     .mockImplementationOnce(() => Promise.reject())
     .mockImplementation((_, { inputValidator }) => {

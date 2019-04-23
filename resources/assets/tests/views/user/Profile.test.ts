@@ -23,7 +23,7 @@ test('reset avatar', async () => {
   Vue.prototype.$confirm
     .mockRejectedValueOnce('close')
     .mockResolvedValue('confirm')
-  Vue.prototype.$http.post.mockResolvedValue({ msg: 'ok' })
+  Vue.prototype.$http.post.mockResolvedValue({ message: 'ok' })
   const wrapper = mount(Profile)
   const button = wrapper.find('[data-test=resetAvatar]')
   document.body.innerHTML += '<img alt="User Image" src="a">'
@@ -44,8 +44,8 @@ test('reset avatar', async () => {
 
 test('change password', async () => {
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: 'w' })
-    .mockResolvedValueOnce({ errno: 0, msg: 'o' })
+    .mockResolvedValueOnce({ code: 1, message: 'w' })
+    .mockResolvedValueOnce({ code: 0, message: 'o' })
   const wrapper = mount(Profile)
   const button = wrapper.find('[data-test=changePassword]')
 
@@ -84,8 +84,8 @@ test('change password', async () => {
 
 test('change nickname', async () => {
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: 'w' })
-    .mockResolvedValue({ errno: 0, msg: 'o' })
+    .mockResolvedValueOnce({ code: 1, message: 'w' })
+    .mockResolvedValue({ code: 0, message: 'o' })
   Vue.prototype.$confirm
     .mockRejectedValueOnce('close')
     .mockResolvedValue('confirm')
@@ -119,8 +119,8 @@ test('change nickname', async () => {
 
 test('change email', async () => {
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: 'w' })
-    .mockResolvedValue({ errno: 0, msg: 'o' })
+    .mockResolvedValueOnce({ code: 1, message: 'w' })
+    .mockResolvedValue({ code: 0, message: 'o' })
   Vue.prototype.$confirm
     .mockRejectedValueOnce('close')
     .mockResolvedValue('confirm')
@@ -158,8 +158,8 @@ test('change email', async () => {
 test('delete account', async () => {
   window.blessing.extra = { admin: true }
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: 'w' })
-    .mockResolvedValue({ errno: 0, msg: 'o' })
+    .mockResolvedValueOnce({ code: 1, message: 'w' })
+    .mockResolvedValue({ code: 0, message: 'o' })
   const wrapper = mount(Profile)
   const button = wrapper.find('[data-test=deleteAccount]')
 

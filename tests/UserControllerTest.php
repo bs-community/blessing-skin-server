@@ -69,8 +69,8 @@ class UserControllerTest extends TestCase
         $this->actingAs($user)
             ->postJson('/user/sign')
             ->assertJson([
-                'errno' => 0,
-                'msg' => trans('user.sign-success', ['score' => 50]),
+                'code' => 0,
+                'message' => trans('user.sign-success', ['score' => 50]),
                 'score' => option('user_initial_score') + 50,
                 'storage' => [
                     'percentage' => 0,
@@ -86,8 +86,8 @@ class UserControllerTest extends TestCase
         $this->actingAs($user)
             ->postJson('/user/sign')
             ->assertJson([
-                'errno' => 1,
-                'msg' => trans(
+                'code' => 1,
+                'message' => trans(
                     'user.cant-sign-until',
                     [
                         'time' => 2,
@@ -110,8 +110,8 @@ class UserControllerTest extends TestCase
         $this->actingAs($user)
             ->postJson('/user/sign')
             ->assertJson([
-                'errno' => 1,
-                'msg' => trans(
+                'code' => 1,
+                'message' => trans(
                     'user.cant-sign-until',
                     [
                         'time' => $diff,
@@ -125,7 +125,7 @@ class UserControllerTest extends TestCase
         ]);
         $this->actingAs($user)->postJson('/user/sign')
             ->assertJson([
-                'errno' => 0,
+                'code' => 0,
             ]);
     }
 
@@ -141,8 +141,8 @@ class UserControllerTest extends TestCase
         $this->actingAs($unverified)
             ->postJson('/user/email-verification')
             ->assertJson([
-                'errno' => 1,
-                'msg' => trans('user.verification.disabled'),
+                'code' => 1,
+                'message' => trans('user.verification.disabled'),
             ]);
         option(['require_verification' => true]);
 
@@ -153,8 +153,8 @@ class UserControllerTest extends TestCase
             ])
             ->postJson('/user/email-verification')
             ->assertJson([
-                'errno' => 1,
-                'msg' => trans('user.verification.frequent-mail'),
+                'code' => 1,
+                'message' => trans('user.verification.frequent-mail'),
             ]);
         $this->flushSession();
 
@@ -162,15 +162,15 @@ class UserControllerTest extends TestCase
         $this->actingAs($verified)
             ->postJson('/user/email-verification')
             ->assertJson([
-                'errno' => 1,
-                'msg' => trans('user.verification.verified'),
+                'code' => 1,
+                'message' => trans('user.verification.verified'),
             ]);
 
         $this->actingAs($unverified)
             ->postJson('/user/email-verification')
             ->assertJson([
-                'errno' => 0,
-                'msg' => trans('user.verification.success'),
+                'code' => 0,
+                'message' => trans('user.verification.success'),
             ]);
         Mail::assertSent(EmailVerification::class, function ($mail) use ($unverified) {
             return $mail->hasTo($unverified->email);
@@ -184,8 +184,8 @@ class UserControllerTest extends TestCase
         $this->actingAs($unverified)
             ->postJson('/user/email-verification')
             ->assertJson([
-                'errno' => 2,
-                'msg' => trans('user.verification.failed', ['msg' => 'A fake exception.']),
+                'code' => 2,
+                'message' => trans('user.verification.failed', ['msg' => 'A fake exception.']),
             ]);
 
         // Addition: Mailable test
@@ -211,8 +211,8 @@ class UserControllerTest extends TestCase
         $this->actingAs($user)
             ->postJson('/user/profile')
             ->assertJson([
-                'errno' => 1,
-                'msg' => trans('general.illegal-parameters'),
+                'code' => 1,
+                'message' => trans('general.illegal-parameters'),
             ]);
 
         // Change nickname without `new_nickname` field
@@ -235,7 +235,7 @@ class UserControllerTest extends TestCase
         option(['single_player' => true]);
         factory(\App\Models\Player::class)->create(['uid' => $user->uid]);
         $this->postJson('/user/profile', ['action' => 'nickname'])
-            ->assertJson(['errno' => 1, 'msg' => trans('user.profile.nickname.single')]);
+            ->assertJson(['code' => 1, 'message' => trans('user.profile.nickname.single')]);
         option(['single_player' => false]);
 
         // Change nickname successfully
@@ -244,8 +244,8 @@ class UserControllerTest extends TestCase
             'action' => 'nickname',
             'new_nickname' => 'nickname',
         ])->assertJson([
-            'errno' => 0,
-            'msg' => trans('user.profile.nickname.success', ['nickname' => 'nickname']),
+            'code' => 0,
+            'message' => trans('user.profile.nickname.success', ['nickname' => 'nickname']),
         ]);
         $this->assertEquals('nickname', User::find($user->uid)->nickname);
 
@@ -287,8 +287,8 @@ class UserControllerTest extends TestCase
             'current_password' => '1234567',
             'new_password' => '87654321',
         ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('user.profile.password.wrong-password'),
+            'code' => 1,
+            'message' => trans('user.profile.password.wrong-password'),
         ]);
 
         // Change password successfully
@@ -298,8 +298,8 @@ class UserControllerTest extends TestCase
             'current_password' => '12345678',
             'new_password' => '87654321',
         ])->assertJson([
-            'errno' => 0,
-            'msg' => trans('user.profile.password.success'),
+            'code' => 0,
+            'message' => trans('user.profile.password.success'),
         ]);
         $this->assertTrue(User::find($user->uid)->verifyPassword('87654321'));
         // After changed password, user should re-login.
@@ -340,8 +340,8 @@ class UserControllerTest extends TestCase
             'new_email' => $user->email,
             'password' => '87654321',
         ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('user.profile.email.existed'),
+            'code' => 1,
+            'message' => trans('user.profile.email.existed'),
         ]);
 
         // Wrong password
@@ -350,8 +350,8 @@ class UserControllerTest extends TestCase
             'new_email' => 'a@b.c',
             'password' => '7654321',
         ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('user.profile.email.wrong-password'),
+            'code' => 1,
+            'message' => trans('user.profile.email.wrong-password'),
         ]);
 
         // Change email successfully
@@ -360,8 +360,8 @@ class UserControllerTest extends TestCase
             'new_email' => 'a@b.c',
             'password' => '87654321',
         ])->assertJson([
-            'errno' => 0,
-            'msg' => trans('user.profile.email.success'),
+            'code' => 0,
+            'message' => trans('user.profile.email.success'),
         ]);
         $this->assertEquals('a@b.c', User::find($user->uid)->email);
         $this->assertEquals(0, User::find($user->uid)->verified);
@@ -396,8 +396,8 @@ class UserControllerTest extends TestCase
             'action' => 'delete',
             'password' => '7654321',
         ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('user.profile.delete.wrong-password'),
+            'code' => 1,
+            'message' => trans('user.profile.delete.wrong-password'),
         ]);
 
         // Delete account successfully
@@ -405,8 +405,8 @@ class UserControllerTest extends TestCase
             'action' => 'delete',
             'password' => '87654321',
         ])->assertJson([
-            'errno' => 0,
-            'msg' => trans('user.profile.delete.success'),
+            'code' => 0,
+            'message' => trans('user.profile.delete.success'),
         ]);
         $this->assertNull(User::find($user->uid));
 
@@ -416,8 +416,8 @@ class UserControllerTest extends TestCase
             'action' => 'delete',
             'password' => '87654321',
         ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('user.profile.delete.admin'),
+            'code' => 1,
+            'message' => trans('user.profile.delete.admin'),
         ]);
     }
 
@@ -443,8 +443,8 @@ class UserControllerTest extends TestCase
                 'tid' => -1,
             ])
             ->assertJson([
-                'errno' => 1,
-                'msg' => trans('skinlib.non-existent'),
+                'code' => 1,
+                'message' => trans('skinlib.non-existent'),
             ]);
 
         // Use cape
@@ -453,8 +453,8 @@ class UserControllerTest extends TestCase
                 'tid' => $cape->tid,
             ])
             ->assertJson([
-                'errno' => 1,
-                'msg' => trans('user.profile.avatar.wrong-type'),
+                'code' => 1,
+                'message' => trans('user.profile.avatar.wrong-type'),
             ]);
 
         // Success
@@ -463,14 +463,14 @@ class UserControllerTest extends TestCase
                 'tid' => $steve->tid,
             ])
             ->assertJson([
-                'errno' => 0,
-                'msg' => trans('user.profile.avatar.success'),
+                'code' => 0,
+                'message' => trans('user.profile.avatar.success'),
             ]);
         $this->assertEquals($steve->tid, User::find($user->uid)->avatar);
 
         // Reset avatar
         $this->postJson('/user/profile/avatar', ['tid' => 0])
-            ->assertJson(['errno' => 0]);
+            ->assertJson(['code' => 0]);
         $this->assertEquals(0, User::find($user->uid)->avatar);
     }
 }

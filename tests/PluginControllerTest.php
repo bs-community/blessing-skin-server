@@ -50,15 +50,15 @@ class PluginControllerTest extends TestCase
         // An not-existed plugin
         $this->postJson('/admin/plugins/manage', ['name' => 'nope'])
             ->assertJson([
-                'errno' => 1,
-                'msg' => trans('admin.plugins.operations.not-found'),
+                'code' => 1,
+                'message' => trans('admin.plugins.operations.not-found'),
             ]);
 
         // Invalid action
         $this->postJson('/admin/plugins/manage', ['name' => 'fake-plugin-for-test'])
             ->assertJson([
-                'errno' => 1,
-                'msg' => trans('admin.invalid-action'),
+                'code' => 1,
+                'message' => trans('admin.invalid-action'),
             ]);
 
         // Enable a plugin with unsatisfied dependencies
@@ -72,8 +72,8 @@ class PluginControllerTest extends TestCase
             'name' => 'fake-plugin-for-test',
             'action' => 'enable',
         ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('admin.plugins.operations.unsatisfied.notice'),
+            'code' => 1,
+            'message' => trans('admin.plugins.operations.unsatisfied.notice'),
             'reason' => [
                 trans('admin.plugins.operations.unsatisfied.version', [
                     'name' => 'fake-plugin-with-config-view',
@@ -91,8 +91,8 @@ class PluginControllerTest extends TestCase
             'name' => 'fake-plugin-for-test',
             'action' => 'enable',
         ])->assertJson([
-            'errno' => 0,
-            'msg' => trans(
+            'code' => 0,
+            'message' => trans(
                 'admin.plugins.operations.enabled',
                 ['plugin' => plugin('fake-plugin-for-test')->title]
             ),
@@ -103,8 +103,8 @@ class PluginControllerTest extends TestCase
             'name' => 'fake-plugin-for-test',
             'action' => 'disable',
         ])->assertJson([
-            'errno' => 0,
-            'msg' => trans(
+            'code' => 0,
+            'message' => trans(
                 'admin.plugins.operations.disabled',
                 ['plugin' => plugin('fake-plugin-for-test')->title]
             ),
@@ -115,8 +115,8 @@ class PluginControllerTest extends TestCase
             'name' => 'fake-plugin-for-test',
             'action' => 'delete',
         ])->assertJson([
-            'errno' => 0,
-            'msg' => trans('admin.plugins.operations.deleted'),
+            'code' => 0,
+            'message' => trans('admin.plugins.operations.deleted'),
         ]);
         $this->assertFalse(file_exists(base_path('plugins/fake-plugin-for-test/')));
     }

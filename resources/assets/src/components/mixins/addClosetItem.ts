@@ -22,15 +22,15 @@ export default Vue.extend<{
         return
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/user/closet/add',
         { tid: this.tid, name: value }
       )
-      if (errno === 0) {
-        this.$message.success(msg!)
+      if (code === 0) {
+        this.$message.success(message!)
         this.$emit('like-toggled', true)
       } else {
-        this.$message.warning(msg!)
+        this.$message.warning(message!)
       }
     },
   },

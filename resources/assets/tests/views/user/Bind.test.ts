@@ -22,8 +22,8 @@ test('show input box', async () => {
 test('submit', async () => {
   Vue.prototype.$http.get.mockResolvedValue([])
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: 'fail' })
-    .mockResolvedValueOnce({ errno: 0, msg: 'ok' })
+    .mockResolvedValueOnce({ code: 1, message: 'fail' })
+    .mockResolvedValueOnce({ code: 0, message: 'ok' })
 
   const wrapper = mount(Bind)
   const form = wrapper.find('form')

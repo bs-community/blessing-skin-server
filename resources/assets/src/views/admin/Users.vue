@@ -174,27 +174,27 @@ export default {
         return
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/admin/users?action=email',
         { uid: user.uid, email: value }
       )
-      if (errno === 0) {
+      if (code === 0) {
         user.email = value
-        this.$message.success(msg)
+        this.$message.success(message)
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
     async toggleVerification(user) {
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/admin/users?action=verification',
         { uid: user.uid }
       )
-      if (errno === 0) {
+      if (code === 0) {
         user.verified = !user.verified
-        this.$message.success(msg)
+        this.$message.success(message)
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
     async changeNickName(user) {
@@ -208,15 +208,15 @@ export default {
         return
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/admin/users?action=nickname',
         { uid: user.uid, nickname: value }
       )
-      if (errno === 0) {
+      if (code === 0) {
         user.nickname = value
-        this.$message.success(msg)
+        this.$message.success(message)
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
     async changePassword(user) {
@@ -229,11 +229,11 @@ export default {
         return
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/admin/users?action=password',
         { uid: user.uid, password: value }
       )
-      errno === 0 ? this.$message.success(msg) : this.$message.warning(msg)
+      code === 0 ? this.$message.success(message) : this.$message.warning(message)
     },
     async changeScore(user) {
       let value
@@ -247,15 +247,15 @@ export default {
       }
       const score = Number.parseInt(value)
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/admin/users?action=score',
         { uid: user.uid, score }
       )
-      if (errno === 0) {
+      if (code === 0) {
         user.score = score
-        this.$message.success(msg)
+        this.$message.success(message)
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
     async changePermission(user) {
@@ -287,15 +287,15 @@ export default {
       }
       const value = vnode.children[1].elm.selectedIndex - 1
 
-      const { errno, msg } = await this.$http.post('/admin/users?action=permission', {
+      const { code, message } = await this.$http.post('/admin/users?action=permission', {
         uid: user.uid,
         permission: value,
       })
-      if (errno === 0) {
+      if (code === 0) {
         user.permission = +value
-        this.$message.success(msg)
+        this.$message.success(message)
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
     async deleteUser({ uid, originalIndex }) {
@@ -307,15 +307,15 @@ export default {
         return
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/admin/users?action=delete',
         { uid }
       )
-      if (errno === 0) {
+      if (code === 0) {
         this.$delete(this.users, originalIndex)
-        this.$message.success(msg)
+        this.$message.success(message)
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
   },

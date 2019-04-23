@@ -21,8 +21,8 @@ class CheckPlayerOwner
 
             if ($player->uid != auth()->id()) {
                 return response()->json([
-                    'errno' => 1,
-                    'msg' => trans('admin.players.no-permission'),
+                    'code' => 1,
+                    'message' => trans('admin.players.no-permission'),
                 ]);
             }
         }

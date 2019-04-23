@@ -73,10 +73,10 @@ class UpdateControllerTest extends TestCase
         ]);
         app()->instance(PackageManager::class, new Concerns\FakePackageManager(null, true));
         $this->getJson('/admin/update/download?action=download')
-            ->assertJson(['errno' => 1]);
+            ->assertJson(['code' => 1]);
         app()->bind(PackageManager::class, Concerns\FakePackageManager::class);
         $this->getJson('/admin/update/download?action=download')
-            ->assertJson(['errno' => 0, 'msg' => trans('admin.update.complete')]);
+            ->assertJson(['code' => 0, 'message' => trans('admin.update.complete')]);
 
         // Get download progress
         $this->getJson('/admin/update/download?action=progress')
@@ -86,8 +86,8 @@ class UpdateControllerTest extends TestCase
         $this->appendToGuzzleQueue(200, [], $this->mockFakeUpdateInfo('8.9.3'));
         $this->getJson('/admin/update/download?action=no')
             ->assertJson([
-                'errno' => 1,
-                'msg' => trans('general.illegal-parameters'),
+                'code' => 1,
+                'message' => trans('general.illegal-parameters'),
             ]);
     }
 

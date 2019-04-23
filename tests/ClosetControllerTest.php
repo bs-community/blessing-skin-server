@@ -113,8 +113,8 @@ class ClosetControllerTest extends TestCase
             '/user/closet/add',
             ['tid' => $texture->tid, 'name' => $name]
         )->assertJson([
-            'errno' => 7,
-            'msg' => trans('user.closet.add.lack-score'),
+            'code' => 7,
+            'message' => trans('user.closet.add.lack-score'),
         ]);
 
         // Add a not-existed texture
@@ -123,8 +123,8 @@ class ClosetControllerTest extends TestCase
             '/user/closet/add',
             ['tid' => -1, 'name' => 'my']
         )->assertJson([
-            'errno' => 1,
-            'msg' => trans('user.closet.add.not-found'),
+            'code' => 1,
+            'message' => trans('user.closet.add.not-found'),
         ]);
 
         // Add a texture successfully
@@ -133,8 +133,8 @@ class ClosetControllerTest extends TestCase
             '/user/closet/add',
             ['tid' => $texture->tid, 'name' => $name]
         )->assertJson([
-            'errno' => 0,
-            'msg' => trans('user.closet.add.success', ['name' => $name]),
+            'code' => 0,
+            'message' => trans('user.closet.add.success', ['name' => $name]),
         ]);
         $this->assertEquals($likes + 1, Texture::find($texture->tid)->likes);
         $this->user = User::find($this->user->uid);
@@ -148,8 +148,8 @@ class ClosetControllerTest extends TestCase
             '/user/closet/add',
             ['tid' => $texture->tid, 'name' => $name]
         )->assertJson([
-            'errno' => 1,
-            'msg' => trans('user.closet.add.repeated'),
+            'code' => 1,
+            'message' => trans('user.closet.add.repeated'),
         ]);
     }
 
@@ -184,8 +184,8 @@ class ClosetControllerTest extends TestCase
             '/user/closet/rename',
             ['tid' => -1, 'new_name' => $name]
         )->assertJson([
-            'errno' => 1,
-            'msg' => trans('user.closet.remove.non-existent'),
+            'code' => 1,
+            'message' => trans('user.closet.remove.non-existent'),
         ]);
 
         // Rename a closet item successfully
@@ -194,8 +194,8 @@ class ClosetControllerTest extends TestCase
             '/user/closet/rename',
             ['tid' => $texture->tid, 'new_name' => $name]
         )->assertJson([
-            'errno' => 0,
-            'msg' => trans('user.closet.rename.success', ['name' => 'new']),
+            'code' => 0,
+            'message' => trans('user.closet.rename.success', ['name' => 'new']),
         ]);
         $this->assertEquals(1, $this->user->closet()->where('item_name', 'new')->count());
     }
@@ -220,8 +220,8 @@ class ClosetControllerTest extends TestCase
             '/user/closet/remove',
             ['tid' => -1]
         )->assertJson([
-            'errno' => 1,
-            'msg' => trans('user.closet.remove.non-existent'),
+            'code' => 1,
+            'message' => trans('user.closet.remove.non-existent'),
         ]);
 
         // Should return score if `return_score` is true
@@ -232,8 +232,8 @@ class ClosetControllerTest extends TestCase
             '/user/closet/remove',
             ['tid' => $texture->tid]
         )->assertJson([
-            'errno' => 0,
-            'msg' => trans('user.closet.remove.success'),
+            'code' => 0,
+            'message' => trans('user.closet.remove.success'),
         ]);
         $this->assertEquals($likes, Texture::find($texture->tid)->likes);
         $this->assertEquals($score + option('score_per_closet_item'), $this->user->score);
@@ -251,8 +251,8 @@ class ClosetControllerTest extends TestCase
             '/user/closet/remove',
             ['tid' => $texture->tid]
         )->assertJson([
-            'errno' => 0,
-            'msg' => trans('user.closet.remove.success'),
+            'code' => 0,
+            'message' => trans('user.closet.remove.success'),
         ]);
         $this->assertEquals($likes, Texture::find($texture->tid)->likes);
         $this->assertEquals($score, $this->user->score);

@@ -9,7 +9,7 @@ test('log out', async () => {
   MessageBox.confirm
     .mockRejectedValueOnce('cancel')
     .mockResolvedValue('confirm')
-  post.mockResolvedValue({ msg: '' })
+  post.mockResolvedValue({ message: '' })
 
   await logout()
   expect(post).not.toBeCalled()

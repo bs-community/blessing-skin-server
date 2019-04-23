@@ -189,14 +189,14 @@ export default {
     async sign() {
       const result = await this.$http.post('/user/sign')
 
-      if (result.errno === 0) {
-        this.$message.success(result.msg)
+      if (result.code === 0) {
+        this.$message.success(result.message)
         this.score = result.score
         this.lastSignAt = new Date()
         this.storageUsed = result.storage.used
         this.storageTotal = result.storage.total
       } else {
-        this.$message.warning(result.msg)
+        this.$message.warning(result.message)
       }
     },
   },

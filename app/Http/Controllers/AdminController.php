@@ -461,8 +461,8 @@ class AdminController extends Controller
             $user->save();
 
             return json([
-                'errno' => 0,
-                'msg'   => trans('admin.users.operations.permission'),
+                'code' => 0,
+                'message' => trans('admin.users.operations.permission'),
             ]);
         } elseif ($action == 'delete') {
             $user->delete();

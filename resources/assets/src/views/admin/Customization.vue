@@ -49,10 +49,10 @@ export default {
       this.currentSkin = `skin-${color}`
     },
     async submit() {
-      const { msg } = await this.$http.post('/admin/customize?action=color', {
+      const { message } = await this.$http.post('/admin/customize?action=color', {
         color_scheme: this.currentSkin,
       })
-      this.$message.success(msg)
+      this.$message.success(message)
     },
   },
 }

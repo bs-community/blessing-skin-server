@@ -95,8 +95,8 @@ class UserController extends Controller
             $gap = option('sign_gap_time');
 
             return json([
-                'errno'          => 0,
-                'msg'            => trans('user.sign-success', ['score' => $acquiredScore]),
+                'code'           => 0,
+                'message'        => trans('user.sign-success', ['score' => $acquiredScore]),
                 'score'          => $user->score,
                 'storage'        => $this->calculatePercentageUsed($user->getStorageUsed(), option('score_per_storage')),
                 'remaining_time' => $gap > 1 ? round($gap) : $gap,
@@ -252,8 +252,8 @@ class UserController extends Controller
 
                     return response()
                         ->json([
-                            'errno' => 0,
-                            'msg' => trans('user.profile.delete.success'),
+                            'code' => 0,
+                            'message' => trans('user.profile.delete.success'),
                         ]);
                 }
 

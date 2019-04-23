@@ -53,8 +53,8 @@ test('install plugin', async () => {
     },
   ])
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
-    .mockResolvedValueOnce({ errno: 0, msg: '0' })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
+    .mockResolvedValueOnce({ code: 0, message: '0' })
   const wrapper = mount(Market)
   await flushPromises()
   const button = wrapper.find('button')
@@ -81,7 +81,7 @@ test('update plugin', async () => {
     },
   ])
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
   Vue.prototype.$confirm
     .mockRejectedValueOnce('')
     .mockResolvedValue('confirm')

@@ -79,16 +79,16 @@ export default {
       }
 
       this.pending = true
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         `/auth/reset/${this.uid}${location.search}`,
         { password }
       )
-      if (errno === 0) {
-        this.$message.success(msg)
+      if (code === 0) {
+        this.$message.success(message)
         window.location = `${blessing.base_url}/auth/login`
       } else {
         this.infoMsg = ''
-        this.warningMsg = msg
+        this.warningMsg = message
         this.pending = false
       }
     },

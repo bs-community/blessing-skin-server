@@ -174,18 +174,18 @@ export default {
       const player = this.players[this.textureChanges.originalIndex]
       const { type, tid } = this.textureChanges
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/admin/players?action=texture',
         {
           pid: player.pid, type, tid,
         }
       )
-      if (errno === 0) {
+      if (code === 0) {
         player[`tid_${type}`] = tid
-        this.$message.success(msg)
+        this.$message.success(message)
         $('.modal').modal('hide')
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
     async changeName(player) {
@@ -199,15 +199,15 @@ export default {
         return
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/admin/players?action=name',
         { pid: player.pid, name: value }
       )
-      if (errno === 0) {
+      if (code === 0) {
         player.name = value
-        this.$message.success(msg)
+        this.$message.success(message)
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
     async changeOwner(player) {
@@ -220,15 +220,15 @@ export default {
         return
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/admin/players?action=owner',
         { pid: player.pid, uid: value }
       )
-      if (errno === 0) {
+      if (code === 0) {
         player.uid = value
-        this.$message.success(msg)
+        this.$message.success(message)
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
     async deletePlayer({ pid, originalIndex }) {
@@ -240,15 +240,15 @@ export default {
         return
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/admin/players?action=delete',
         { pid }
       )
-      if (errno === 0) {
+      if (code === 0) {
         this.$delete(this.players, originalIndex)
-        this.$message.success(msg)
+        this.$message.success(message)
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
   },

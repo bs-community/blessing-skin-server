@@ -35,16 +35,16 @@ class ReportControllerTest extends TestCase
         option(['reporter_score_modification' => -5]);
         $this->postJson('/skinlib/report', ['tid' => $texture->tid, 'reason' => 'reason'])
             ->assertJson([
-                'errno' => 1,
-                'msg' => trans('skinlib.upload.lack-score'),
+                'code' => 1,
+                'message' => trans('skinlib.upload.lack-score'),
             ]);
 
         // Success
         option(['reporter_score_modification' => 5]);
         $this->postJson('/skinlib/report', ['tid' => $texture->tid, 'reason' => 'reason'])
             ->assertJson([
-                'errno' => 0,
-                'msg' => trans('skinlib.report.success'),
+                'code' => 0,
+                'message' => trans('skinlib.report.success'),
             ]);
         $user->refresh();
         $this->assertEquals(5, $user->score);
@@ -57,8 +57,8 @@ class ReportControllerTest extends TestCase
         // Prevent duplication
         $this->postJson('/skinlib/report', ['tid' => $texture->tid, 'reason' => 'reason'])
             ->assertJson([
-                'errno' => 1,
-                'msg' => trans('skinlib.report.duplicate'),
+                'code' => 1,
+                'message' => trans('skinlib.report.duplicate'),
             ]);
     }
 
@@ -147,8 +147,8 @@ class ReportControllerTest extends TestCase
         // Only process pending report
         $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'reject'])
             ->assertJson([
-                'errno' => 1,
-                'msg' => trans('admin.report-reviewed'),
+                'code' => 1,
+                'message' => trans('admin.report-reviewed'),
             ]);
 
         // Reject
@@ -157,8 +157,8 @@ class ReportControllerTest extends TestCase
         $score = $reporter->score;
         $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'reject'])
             ->assertJson([
-                'errno' => 0,
-                'msg' => trans('general.op-success'),
+                'code' => 0,
+                'message' => trans('general.op-success'),
                 'status' => Report::REJECTED,
             ]);
         $report->refresh();
@@ -172,7 +172,7 @@ class ReportControllerTest extends TestCase
         option(['reporter_score_modification' => 5]);
         $score = $reporter->score;
         $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'reject'])
-            ->assertJson(['errno' => 0]);
+            ->assertJson(['code' => 0]);
         $reporter->refresh();
         $this->assertEquals($score - 5, $reporter->score);
 
@@ -184,8 +184,8 @@ class ReportControllerTest extends TestCase
         $score = $reporter->score;
         $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'delete'])
             ->assertJson([
-                'errno' => 0,
-                'msg' => trans('general.op-success'),
+                'code' => 0,
+                'message' => trans('general.op-success'),
                 'status' => Report::RESOLVED,
             ]);
         $report->refresh();
@@ -205,8 +205,8 @@ class ReportControllerTest extends TestCase
         $score = $reporter->score;
         $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'ban'])
             ->assertJson([
-                'errno' => 0,
-                'msg' => trans('general.op-success'),
+                'code' => 0,
+                'message' => trans('general.op-success'),
                 'status' => Report::RESOLVED,
             ]);
         $reporter->refresh();
@@ -222,8 +222,8 @@ class ReportControllerTest extends TestCase
         $uploader->save();
         $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'ban'])
             ->assertJson([
-                'errno' => 1,
-                'msg' => trans('admin.users.operations.no-permission'),
+                'code' => 1,
+                'message' => trans('admin.users.operations.no-permission'),
             ]);
         $report->refresh();
         $this->assertEquals(Report::PENDING, $report->status);

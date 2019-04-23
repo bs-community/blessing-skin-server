@@ -140,16 +140,16 @@ export default {
     async installPlugin({ name, originalIndex }) {
       this.installing = name
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/admin/plugins/market/download',
         { name }
       )
-      if (errno === 0) {
-        this.$message.success(msg)
+      if (code === 0) {
+        this.$message.success(message)
         this.plugins[originalIndex].update_available = false
         this.plugins[originalIndex].installed = true
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
 
       this.installing = ''

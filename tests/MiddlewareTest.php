@@ -147,15 +147,15 @@ class MiddlewareTest extends TestCase
                 'pid' => -1,
                 'new_player_name' => 'name',
             ])->assertJson([
-                'errno' => 1,
-                'msg' => trans('general.unexistent-player'),
+                'code' => 1,
+                'message' => trans('general.unexistent-player'),
             ]);
         $this->actingAs($user)
             ->postJson('/user/player/rename', [
                 'pid' => $player->pid,
                 'new_player_name' => 'name',
             ])->assertJson([
-                'errno' => 0,
+                'code' => 0,
             ]);
     }
 
@@ -173,8 +173,8 @@ class MiddlewareTest extends TestCase
             ->postJson('/user/player/rename', [
                 'pid' => $player->pid,
             ])->assertJson([
-                'errno' => 1,
-                'msg' => trans('admin.players.no-permission'),
+                'code' => 1,
+                'message' => trans('admin.players.no-permission'),
             ]);
 
         $this->actingAs($owner)
@@ -182,7 +182,7 @@ class MiddlewareTest extends TestCase
                 'pid' => $player->pid,
                 'new_player_name' => 'name',
             ])->assertJson([
-                'errno' => 0,
+                'code' => 0,
             ]);
     }
 

@@ -27,8 +27,8 @@ test('require player name', () => {
 test('register', async () => {
   jest.spyOn(Date, 'now')
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: 'fail' })
-    .mockResolvedValueOnce({ errno: 0, msg: 'ok' })
+    .mockResolvedValueOnce({ code: 1, message: 'fail' })
+    .mockResolvedValueOnce({ code: 0, message: 'ok' })
   const wrapper = mount(Register, { stubs: { Captcha } })
   const form = wrapper.find('form')
   const info = wrapper.find('.callout-info')
@@ -96,7 +96,7 @@ test('register', async () => {
 
 test('register with player name', async () => {
   window.blessing.extra = { player: true }
-  Vue.prototype.$http.post.mockResolvedValue({ errno: 0, msg: 'ok' })
+  Vue.prototype.$http.post.mockResolvedValue({ code: 0, message: 'ok' })
   const wrapper = mount(Register, { stubs: { Captcha } })
   const form = wrapper.find('form')
   const info = wrapper.find('.callout-info')

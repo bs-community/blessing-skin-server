@@ -86,15 +86,15 @@ export default {
         return
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/user/closet/rename',
         { tid: this.tid, new_name: newTextureName }
       )
-      if (errno === 0) {
+      if (code === 0) {
         this.textureName = newTextureName
-        this.$message.success(msg)
+        this.$message.success(message)
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
   },

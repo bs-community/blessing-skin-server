@@ -21,11 +21,11 @@ test('show captcha if too many login fails', () => {
 test('login', async () => {
   window.blessing.extra = { tooManyFails: false }
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: 'fail' })
-    .mockResolvedValueOnce({ errno: 1, login_fails: 4 })
-    .mockResolvedValueOnce({ errno: 1, login_fails: 4 })
-    .mockResolvedValueOnce({ errno: 1, login_fails: 4 })
-    .mockResolvedValueOnce({ errno: 0, msg: 'ok' })
+    .mockResolvedValueOnce({ code: 1, message: 'fail' })
+    .mockResolvedValueOnce({ code: 1, login_fails: 4 })
+    .mockResolvedValueOnce({ code: 1, login_fails: 4 })
+    .mockResolvedValueOnce({ code: 1, login_fails: 4 })
+    .mockResolvedValueOnce({ code: 0, message: 'ok' })
   const wrapper = mount(Login, { stubs: { Captcha } })
   const form = wrapper.find('form')
   const info = wrapper.find('.callout-info')

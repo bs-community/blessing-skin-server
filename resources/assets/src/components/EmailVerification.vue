@@ -26,11 +26,11 @@ export default {
   methods: {
     async resend() {
       this.pending = true
-      const { errno, msg } = await this.$http.post('/user/email-verification')
-      if (errno === 0) {
-        this.$message.success(msg)
+      const { code, message } = await this.$http.post('/user/email-verification')
+      if (code === 0) {
+        this.$message.success(message)
       } else {
-        this.$message.error(msg)
+        this.$message.error(message)
       }
       this.pending = false
     },

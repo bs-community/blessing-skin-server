@@ -114,9 +114,9 @@ test('process input file', () => {
 test('upload file', async () => {
   (window as Window & { Request: jest.Mock }).Request = jest.fn()
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
     .mockResolvedValueOnce({
-      errno: 0, msg: '0', tid: 1,
+      code: 0, message: '0', tid: 1,
     })
 
   const wrapper = mount(Upload, {

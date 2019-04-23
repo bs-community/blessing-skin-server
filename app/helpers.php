@@ -51,13 +51,13 @@ if (! function_exists('json')) {
         } elseif (count($args) == 3 && is_array($args[2])) {
             // The third argument is array of extra fields
             return Response::json(array_merge([
-                'errno' => $args[1],
-                'msg'   => $args[0],
+                'code' => $args[1],
+                'message' => $args[0],
             ], $args[2]));
         } else {
             return Response::json([
-                'errno' => Arr::get($args, 1, 1),
-                'msg'   => $args[0],
+                'code' => Arr::get($args, 1, 1),
+                'message' => $args[0],
             ]);
         }
     }

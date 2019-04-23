@@ -140,9 +140,9 @@ test('sign', async () => {
     user: { lastSignAt: Date.now() - 30 * 3600 * 1000 },
   }))
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
     .mockResolvedValueOnce({
-      errno: 0,
+      code: 0,
       score: 233,
       storage: { used: 3, total: 4 },
     })

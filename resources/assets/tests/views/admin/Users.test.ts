@@ -235,8 +235,8 @@ test('change email', async () => {
     ],
   })
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
-    .mockResolvedValueOnce({ errno: 0, msg: '0' })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
+    .mockResolvedValueOnce({ code: 0, message: '0' })
   Vue.prototype.$prompt
     .mockImplementationOnce(() => Promise.reject())
     .mockImplementation((_, options) => {
@@ -273,8 +273,8 @@ test('toggle verification', async () => {
     ],
   })
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
-    .mockResolvedValueOnce({ errno: 0, msg: '0' })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
+    .mockResolvedValueOnce({ code: 0, message: '0' })
 
   const wrapper = mount(Users)
   await wrapper.vm.$nextTick()
@@ -298,8 +298,8 @@ test('change nickname', async () => {
     ],
   })
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
-    .mockResolvedValueOnce({ errno: 0, msg: '0' })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
+    .mockResolvedValueOnce({ code: 0, message: '0' })
   Vue.prototype.$prompt
     .mockImplementationOnce(() => Promise.reject())
     .mockImplementation((_, options) => {
@@ -336,8 +336,8 @@ test('change password', async () => {
     ],
   })
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 0, msg: '0' })
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
+    .mockResolvedValueOnce({ code: 0, message: '0' })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
   Vue.prototype.$prompt
     .mockRejectedValueOnce('')
     .mockResolvedValue({ value: 'password' }as MessageBoxData)
@@ -371,8 +371,8 @@ test('change score', async () => {
     ],
   })
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
-    .mockResolvedValueOnce({ errno: 0, msg: '0' })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
+    .mockResolvedValueOnce({ code: 0, message: '0' })
   Vue.prototype.$prompt
     .mockRejectedValueOnce('')
     .mockResolvedValue({ value: '45' }as MessageBoxData)
@@ -414,8 +414,8 @@ test('change permission', async () => {
       ],
     })
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
-    .mockResolvedValue({ errno: 0, msg: '0' })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
+    .mockResolvedValue({ code: 0, message: '0' })
   Vue.prototype.$msgbox
     .mockImplementationOnce(() => Promise.reject())
     .mockImplementationOnce(options => {
@@ -473,8 +473,8 @@ test('delete user', async () => {
     ],
   })
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
-    .mockResolvedValue({ errno: 0, msg: '0' })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
+    .mockResolvedValue({ code: 0, message: '0' })
   Vue.prototype.$confirm
     .mockRejectedValueOnce('')
     .mockResolvedValue('confirm')

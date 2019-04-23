@@ -73,8 +73,8 @@ test('change player name', async () => {
       { pid: 1, name: 'old' },
     ])
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1 })
-    .mockResolvedValue({ errno: 0 })
+    .mockResolvedValueOnce({ code: 1 })
+    .mockResolvedValue({ code: 0 })
   Vue.prototype.$prompt.mockImplementationOnce(() => Promise.reject('cancel'))
     .mockImplementation((_, { inputValidator }) => {
       if (inputValidator) {
@@ -107,8 +107,8 @@ test('delete player', async () => {
       { pid: 1, name: 'to-be-deleted' },
     ])
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1 })
-    .mockResolvedValue({ errno: 0 })
+    .mockResolvedValueOnce({ code: 1 })
+    .mockResolvedValue({ code: 0 })
   Vue.prototype.$confirm
     .mockRejectedValueOnce({})
     .mockResolvedValue('confirm')
@@ -137,7 +137,7 @@ test('toggle preview mode', () => {
 test('add player', async () => {
   window.$ = jest.fn(() => ({ modal() {} }))
   Vue.prototype.$http.get.mockResolvedValueOnce([])
-  Vue.prototype.$http.post.mockResolvedValue({ errno: 0 })
+  Vue.prototype.$http.post.mockResolvedValue({ code: 0 })
   const wrapper = mount(Players)
   const button = wrapper.find('[data-test=addPlayer]')
 
@@ -155,8 +155,8 @@ test('clear texture', async () => {
     },
   ])
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1 })
-    .mockResolvedValue({ errno: 0, msg: 'ok' })
+    .mockResolvedValueOnce({ code: 1 })
+    .mockResolvedValue({ code: 0, message: 'ok' })
   const wrapper = mount(Players)
   await wrapper.vm.$nextTick()
   const button = wrapper.find('[data-test=clearTexture]')

@@ -36,8 +36,8 @@ test('click item body', () => {
 
 test('rename texture', async () => {
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 0 })
-    .mockResolvedValueOnce({ errno: 1 })
+    .mockResolvedValueOnce({ code: 0 })
+    .mockResolvedValueOnce({ code: 1 })
   Vue.prototype.$prompt.mockImplementationOnce(() => Promise.reject(new Error()))
     .mockImplementation((_, options) => {
       if (options.inputValidator) {
@@ -68,8 +68,8 @@ test('rename texture', async () => {
 
 test('remove texture', async () => {
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 0 })
-    .mockResolvedValueOnce({ errno: 1 })
+    .mockResolvedValueOnce({ code: 0 })
+    .mockResolvedValueOnce({ code: 1 })
   Vue.prototype.$confirm
     .mockRejectedValueOnce({})
     .mockResolvedValue('confirm')
@@ -93,8 +93,8 @@ test('remove texture', async () => {
 
 test('set as avatar', async () => {
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 0 })
-    .mockResolvedValueOnce({ errno: 1 })
+    .mockResolvedValueOnce({ code: 0 })
+    .mockResolvedValueOnce({ code: 1 })
   Vue.prototype.$confirm
     .mockRejectedValueOnce({})
     .mockResolvedValue('confirm')

@@ -184,7 +184,7 @@ test('hide "set avatar" button when texture is cape', async () => {
 test('add to closet', async () => {
   Object.assign(window.blessing.extra, { currentUid: 1, inCloset: false })
   Vue.prototype.$http.get.mockResolvedValue({ name: 'wow', likes: 2 })
-  Vue.prototype.$http.post.mockResolvedValue({ errno: 0, msg: '' })
+  Vue.prototype.$http.post.mockResolvedValue({ code: 0, message: '' })
   Vue.prototype.$prompt.mockResolvedValue({ value: 'a' } as MessageBoxData)
   const wrapper = mount<Component>(Show, {
     mocks: {
@@ -201,7 +201,7 @@ test('add to closet', async () => {
 test('remove from closet', async () => {
   Object.assign(window.blessing.extra, { currentUid: 1, inCloset: true })
   Vue.prototype.$http.get.mockResolvedValue({ likes: 2 })
-  Vue.prototype.$http.post.mockResolvedValue({ errno: 0 })
+  Vue.prototype.$http.post.mockResolvedValue({ code: 0 })
   const wrapper = mount<Component>(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
@@ -218,8 +218,8 @@ test('change texture name', async () => {
   Object.assign(window.blessing.extra, { admin: true })
   Vue.prototype.$http.get.mockResolvedValue({ name: 'old-name' })
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
-    .mockResolvedValue({ errno: 0, msg: '0' })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
+    .mockResolvedValue({ code: 0, message: '0' })
   Vue.prototype.$prompt
     .mockImplementationOnce(() => Promise.reject('cancel'))
     .mockImplementation((_, { inputValidator }) => {
@@ -256,8 +256,8 @@ test('change texture name', async () => {
 test('change texture model', async () => {
   Vue.prototype.$http.get.mockResolvedValue({ type: 'steve' })
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
-    .mockResolvedValue({ errno: 0, msg: '0' })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
+    .mockResolvedValue({ code: 0, message: '0' })
   Vue.prototype.$msgbox
     .mockImplementationOnce(() => Promise.reject())
     .mockImplementation(options => {
@@ -299,8 +299,8 @@ test('change texture model', async () => {
 test('toggle privacy', async () => {
   Vue.prototype.$http.get.mockResolvedValue({ public: true })
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
-    .mockResolvedValue({ errno: 0, msg: '0' })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
+    .mockResolvedValue({ code: 0, message: '0' })
   Vue.prototype.$confirm
     .mockRejectedValueOnce('')
     .mockResolvedValue('confirm')
@@ -338,8 +338,8 @@ test('toggle privacy', async () => {
 test('delete texture', async () => {
   Vue.prototype.$http.get.mockResolvedValue({})
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
-    .mockResolvedValue({ errno: 0, msg: '0' })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
+    .mockResolvedValue({ code: 0, message: '0' })
   Vue.prototype.$confirm
     .mockRejectedValueOnce('')
     .mockResolvedValue('confirm')
@@ -374,8 +374,8 @@ test('delete texture', async () => {
 test('report texture', async () => {
   Vue.prototype.$http.get.mockResolvedValue({ report: 0 })
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: 'duplicated' })
-    .mockResolvedValue({ errno: 0, msg: 'success' })
+    .mockResolvedValueOnce({ code: 1, message: 'duplicated' })
+    .mockResolvedValue({ code: 0, message: 'success' })
   Vue.prototype.$prompt
     .mockRejectedValueOnce('')
     .mockRejectedValueOnce('')

@@ -128,15 +128,15 @@ export default {
       return row.enabled ? 'plugin-enabled' : 'plugin'
     },
     async disablePlugin({ name, originalIndex }) {
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/admin/plugins/manage',
         { action: 'disable', name }
       )
-      if (errno === 0) {
-        this.$message.success(msg)
+      if (code === 0) {
+        this.$message.success(message)
         this.plugins[originalIndex].enabled = false
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
     async deletePlugin({ name, originalIndex }) {
@@ -146,15 +146,15 @@ export default {
         return
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/admin/plugins/manage',
         { action: 'delete', name }
       )
-      if (errno === 0) {
+      if (code === 0) {
         this.$delete(this.plugins, originalIndex)
-        this.$message.success(msg)
+        this.$message.success(message)
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
   },

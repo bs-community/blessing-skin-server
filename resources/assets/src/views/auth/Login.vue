@@ -99,7 +99,7 @@ export default {
 
       this.pending = true
       const {
-        errno, msg, login_fails: loginFails,
+        code, message, login_fails: loginFails,
       } = await this.$http.post(
         '/auth/login',
         {
@@ -111,8 +111,8 @@ export default {
             : void 0,
         }
       )
-      if (errno === 0) {
-        this.$message.success(msg)
+      if (code === 0) {
+        this.$message.success(message)
         setTimeout(() => {
           window.location = `${blessing.base_url}/${blessing.redirect_to || 'user'}`
         }, 1000)
@@ -128,7 +128,7 @@ export default {
           this.tooManyFails = true
         }
         this.infoMsg = ''
-        this.warningMsg = msg
+        this.warningMsg = message
         this.pending = false
         this.$refs.captcha.refresh()
       }

@@ -216,11 +216,11 @@ export default {
         return
       }
 
-      const { msg } = await this.$http.post(
+      const { message } = await this.$http.post(
         '/user/profile/avatar',
         { tid: 0 }
       )
-      this.$message.success(msg)
+      this.$message.success(message)
       Array.from(document.querySelectorAll('[alt="User Image"]'))
         .forEach(el => (el.src += `?${new Date().getTime()}`))
     },
@@ -253,15 +253,15 @@ export default {
         return
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/user/profile?action=password',
         { current_password: oldPassword, new_password: newPassword }
       )
-      if (errno === 0) {
-        await this.$alert(msg)
+      if (code === 0) {
+        await this.$alert(message)
         return (window.location = `${blessing.base_url}/auth/login`)
       }
-      return this.$alert(msg, { type: 'warning' })
+      return this.$alert(message, { type: 'warning' })
     },
     async changeNickName() {
       const { nickname } = this
@@ -276,16 +276,16 @@ export default {
         return
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/user/profile?action=nickname',
         { new_nickname: nickname }
       )
-      if (errno === 0) {
+      if (code === 0) {
         Array.from(document.querySelectorAll('.nickname'))
           .forEach(el => (el.textContent = nickname))
-        return this.$message.success(msg)
+        return this.$message.success(message)
       }
-      return this.$alert(msg, { type: 'warning' })
+      return this.$alert(message, { type: 'warning' })
     },
     async changeEmail() {
       const { email } = this
@@ -304,15 +304,15 @@ export default {
         return
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/user/profile?action=email',
         { new_email: email, password: this.currentPassword }
       )
-      if (errno === 0) {
-        await this.$message.success(msg)
+      if (code === 0) {
+        await this.$message.success(message)
         return (window.location = `${blessing.base_url}/auth/login`)
       }
-      return this.$alert(msg, { type: 'warning' })
+      return this.$alert(message, { type: 'warning' })
     },
     async deleteAccount() {
       const { deleteConfirm: password } = this
@@ -321,15 +321,15 @@ export default {
         return this.$alert(this.$t('user.emptyDeletePassword'), { type: 'error' })
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/user/profile?action=delete',
         { password }
       )
-      if (errno === 0) {
-        await this.$alert(msg, { type: 'success' })
+      if (code === 0) {
+        await this.$alert(message, { type: 'success' })
         window.location = `${blessing.base_url}/auth/login`
       } else {
-        return this.$alert(msg, { type: 'warning' })
+        return this.$alert(message, { type: 'warning' })
       }
     },
   },

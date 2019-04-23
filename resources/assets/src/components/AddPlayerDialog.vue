@@ -60,16 +60,16 @@ export default {
   },
   methods: {
     async addPlayer() {
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/user/player/add',
         { player_name: this.name }
       )
-      if (errno === 0) {
+      if (code === 0) {
         $('#modal-add-player').modal('hide')
-        this.$message.success(msg)
+        this.$message.success(message)
         this.$emit('add')
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
   },

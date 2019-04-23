@@ -55,16 +55,16 @@ export default {
     },
     async submit() {
       this.pending = true
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/user/player/bind',
         { player: this.selected }
       )
       this.pending = false
-      if (errno === 0) {
-        await this.$alert(msg)
+      if (code === 0) {
+        await this.$alert(message)
         window.location.href = `${blessing.base_url}/user`
       } else {
-        this.message = msg
+        this.message = message
       }
     },
   },

@@ -230,15 +230,15 @@ export default {
         return
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/user/player/rename',
         { pid: player.pid, new_player_name: value }
       )
-      if (errno === 0) {
-        this.$message.success(msg)
+      if (code === 0) {
+        this.$message.success(message)
         player.name = value
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
     async clearTexture() {
@@ -246,19 +246,19 @@ export default {
         return this.$message.warning(this.$t('user.noClearChoice'))
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/user/player/texture/clear',
         Object.assign({ pid: this.selected }, this.clear)
       )
-      if (errno === 0) {
+      if (code === 0) {
         $('.modal').modal('hide')
-        this.$message.success(msg)
+        this.$message.success(message)
         const player = this.players.find(({ pid }) => pid === this.selected)
         Object.keys(this.clear)
           .filter(type => this.clear[type])
           .forEach(type => (player[`tid_${type}`] = 0))
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
     async deletePlayer(player, index) {
@@ -271,15 +271,15 @@ export default {
         return
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/user/player/delete',
         { pid: player.pid }
       )
-      if (errno === 0) {
+      if (code === 0) {
         this.$delete(this.players, index)
-        this.$message.success(msg)
+        this.$message.success(message)
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
   },

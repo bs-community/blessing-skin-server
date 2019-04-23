@@ -122,16 +122,16 @@ export default {
     },
     async resolve(report, action) {
       const {
-        errno, msg, status,
+        code, message, status,
       } = await this.$http.post(
         '/admin/reports',
         { id: report.id, action }
       )
-      if (errno === 0) {
-        this.$message.success(msg)
+      if (code === 0) {
+        this.$message.success(message)
         report.status = status
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
   },

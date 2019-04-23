@@ -8,7 +8,7 @@ export function showAjaxError(error: Error): void {
 }
 
 export function showModal(
-  msg: string, title = 'Message',
+  message: string, title = 'Message',
   type = 'default',
   options: ModalOptions = {}
 ): void {
@@ -30,7 +30,7 @@ export function showModal(
                     <h4 class="modal-title">${title}</h4>
                 </div>
                 <div class="modal-body">
-                    <p>${msg}</p>
+                    <p>${message}</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" ${onClick} class="btn ${btnType}">${btnText}</button>

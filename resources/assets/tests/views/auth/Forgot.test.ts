@@ -16,8 +16,8 @@ const Captcha = Vue.extend({
 test('submit forgot form', async () => {
   jest.spyOn(Date, 'now')
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: 'fail' })
-    .mockResolvedValueOnce({ errno: 0, msg: 'ok' })
+    .mockResolvedValueOnce({ code: 1, message: 'fail' })
+    .mockResolvedValueOnce({ code: 0, message: 'ok' })
   const wrapper = mount(Forgot, { stubs: { Captcha } })
   const form = wrapper.find('form')
   const info = wrapper.find('.callout-info')

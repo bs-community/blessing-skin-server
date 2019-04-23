@@ -24,8 +24,8 @@ test('change texture', async () => {
     ],
   })
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
-    .mockResolvedValueOnce({ errno: 0, msg: '0' })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
+    .mockResolvedValueOnce({ code: 0, message: '0' })
 
   const wrapper = mount(Players)
   await wrapper.vm.$nextTick()
@@ -59,8 +59,8 @@ test('change player name', async () => {
     ],
   })
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
-    .mockResolvedValueOnce({ errno: 0, msg: '0' })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
+    .mockResolvedValueOnce({ code: 0, message: '0' })
   Vue.prototype.$prompt
     .mockImplementationOnce(() => Promise.reject())
     .mockImplementation((_, options) => {
@@ -95,8 +95,8 @@ test('change owner', async () => {
     ],
   })
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
-    .mockResolvedValueOnce({ errno: 0, msg: '0' })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
+    .mockResolvedValueOnce({ code: 0, message: '0' })
   Vue.prototype.$prompt
     .mockRejectedValueOnce('')
     .mockResolvedValue({ value: '3' } as MessageBoxData)
@@ -126,8 +126,8 @@ test('delete player', async () => {
     ],
   })
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: '1' })
-    .mockResolvedValueOnce({ errno: 0, msg: '0' })
+    .mockResolvedValueOnce({ code: 1, message: '1' })
+    .mockResolvedValueOnce({ code: 0, message: '0' })
   Vue.prototype.$confirm
     .mockRejectedValueOnce('')
     .mockResolvedValue('confirm')

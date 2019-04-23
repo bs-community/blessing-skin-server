@@ -4,8 +4,8 @@ import Reset from '@/views/auth/Reset.vue'
 
 test('reset password', async () => {
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: 'fail' })
-    .mockResolvedValueOnce({ errno: 0, msg: 'ok' })
+    .mockResolvedValueOnce({ code: 1, message: 'fail' })
+    .mockResolvedValueOnce({ code: 0, message: 'ok' })
   const wrapper = mount(Reset, {
     mocks: {
       $route: ['/auth/reset/1', '1'],

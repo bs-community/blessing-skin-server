@@ -17,7 +17,7 @@ test('perform update', async () => {
     modal() {},
   }))
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: 'fail' })
+    .mockResolvedValueOnce({ code: 1, message: 'fail' })
     .mockResolvedValue({})
   const wrapper = mount(Update)
   const button = wrapper.find('button')

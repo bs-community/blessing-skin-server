@@ -262,15 +262,15 @@ export default {
         return
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/skinlib/rename',
         { tid: this.tid, new_name: value }
       )
-      if (errno === 0) {
+      if (code === 0) {
         this.name = value
-        this.$message.success(msg)
+        this.$message.success(message)
       } else {
-        this.$message.error(msg)
+        this.$message.error(message)
       }
     },
     async changeModel() {
@@ -293,15 +293,15 @@ export default {
       }
       const value = ['steve', 'alex', 'cape'][vnode.children[1].elm.selectedIndex]
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/skinlib/model',
         { tid: this.tid, model: value }
       )
-      if (errno === 0) {
+      if (code === 0) {
         this.type = value
-        this.$message.success(msg)
+        this.$message.success(message)
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
     async togglePrivacy() {
@@ -316,15 +316,15 @@ export default {
         return
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/skinlib/privacy',
         { tid: this.tid }
       )
-      if (errno === 0) {
-        this.$message.success(msg)
+      if (code === 0) {
+        this.$message.success(message)
         this.public = !this.public
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
     async deleteTexture() {
@@ -337,19 +337,19 @@ export default {
         return
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/skinlib/delete',
         { tid: this.tid }
       )
-      if (errno === 0) {
-        this.$message.success(msg)
+      if (code === 0) {
+        this.$message.success(message)
         setTimeout(() => (window.location = `${this.baseUrl}/skinlib`), 1000)
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
     async report() {
-      const message = (() => {
+      const prompt = (() => {
         if (this.reportScore > 0) {
           return this.$t('skinlib.report.positive', { score: this.reportScore })
         } else if (this.reportScore < 0) {
@@ -359,7 +359,7 @@ export default {
       })()
       let reason
       try {
-        ({ value: reason } = await this.$prompt(message, {
+        ({ value: reason } = await this.$prompt(prompt, {
           title: this.$t('skinlib.report.title'),
           inputPlaceholder: this.$t('skinlib.report.reason'),
         }))
@@ -367,14 +367,14 @@ export default {
         return
       }
 
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/skinlib/report',
         { tid: this.tid, reason }
       )
-      if (errno === 0) {
-        this.$message.success(msg)
+      if (code === 0) {
+        this.$message.success(message)
       } else {
-        this.$message.warning(msg)
+        this.$message.warning(message)
       }
     },
     fetchPlayersList() {

@@ -36,9 +36,9 @@ test('link to skin library', async () => {
 test('delete texture', async () => {
   Vue.prototype.$http.get.mockResolvedValue({ data: [{ id: 1, status: 0 }] })
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ errno: 1, msg: 'fail' })
+    .mockResolvedValueOnce({ code: 1, message: 'fail' })
     .mockResolvedValue({
-      errno: 0, msg: 'ok', status: 1,
+      code: 0, message: 'ok', status: 1,
     })
   const wrapper = mount(Reports)
   await wrapper.vm.$nextTick()
@@ -62,7 +62,7 @@ test('ban uploader', async () => {
   Vue.prototype.$http.get.mockResolvedValue({ data: [{ id: 1, status: 0 }] })
   Vue.prototype.$http.post
     .mockResolvedValue({
-      errno: 0, msg: 'ok', status: 1,
+      code: 0, message: 'ok', status: 1,
     })
   const wrapper = mount(Reports)
   await wrapper.vm.$nextTick()
@@ -82,7 +82,7 @@ test('reject', async () => {
   Vue.prototype.$http.get.mockResolvedValue({ data: [{ id: 1, status: 0 }] })
   Vue.prototype.$http.post
     .mockResolvedValue({
-      errno: 0, msg: 'ok', status: 2,
+      code: 0, message: 'ok', status: 2,
     })
   const wrapper = mount(Reports)
   await wrapper.vm.$nextTick()

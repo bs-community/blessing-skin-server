@@ -60,13 +60,13 @@ export default {
       })
 
       setTimeout(() => this.polling(), POLLING_INTERVAL)
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/admin/update/download',
         { action: 'download' }
       )
       this.updating = false
-      if (errno) {
-        this.$alert(msg, { type: 'error' })
+      if (code) {
+        this.$alert(message, { type: 'error' })
         return
       }
       await this.$alert(this.$t('admin.updateCompleted'), { type: 'success' })

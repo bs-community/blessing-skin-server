@@ -76,18 +76,18 @@ export default {
       }
 
       this.pending = true
-      const { errno, msg } = await this.$http.post(
+      const { code, message } = await this.$http.post(
         '/auth/forgot',
         { email, captcha: await this.$refs.captcha.execute() }
       )
-      if (errno === 0) {
+      if (code === 0) {
         this.infoMsg = ''
         this.warningMsg = ''
-        this.successMsg = msg
+        this.successMsg = message
         this.pending = false
       } else {
         this.infoMsg = ''
-        this.warningMsg = msg
+        this.warningMsg = message
         this.pending = false
         this.$refs.captcha.refresh()
       }

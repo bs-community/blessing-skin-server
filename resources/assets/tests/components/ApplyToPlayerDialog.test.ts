@@ -5,8 +5,8 @@ import ApplyToPlayerDialog from '@/components/ApplyToPlayerDialog.vue'
 test('submit applying texture', async () => {
   window.$ = jest.fn(() => ({ modal() {} }))
   Vue.prototype.$http.get.mockResolvedValue([{ pid: 1 }])
-  Vue.prototype.$http.post.mockResolvedValueOnce({ errno: 1 })
-    .mockResolvedValue({ errno: 0, msg: 'ok' })
+  Vue.prototype.$http.post.mockResolvedValueOnce({ code: 1 })
+    .mockResolvedValue({ code: 0, message: 'ok' })
   const wrapper = mount(ApplyToPlayerDialog)
   const button = wrapper.find('[data-test=submit]')
 

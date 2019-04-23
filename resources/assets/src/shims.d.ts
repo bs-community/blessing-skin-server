@@ -45,7 +45,7 @@ declare module 'vue/types/vue' {
     $http: {
       get(url: string, params?: object)
 
-      post(url: string, data?: object): { errno?: number, msg?: string }
+      post(url: string, data?: object): { code?: number, message?: string }
     }
 
     $route: string[]

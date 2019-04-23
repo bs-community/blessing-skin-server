@@ -79,8 +79,8 @@ class AuthControllerTest extends TestCase
             'password' => 'wrong-password',
         ])->assertJson(
             [
-                'errno' => 1,
-                'msg' => trans('auth.validation.password'),
+                'code' => 1,
+                'message' => trans('auth.validation.password'),
                 'login_fails' => 1,
             ]
         );
@@ -105,8 +105,8 @@ class AuthControllerTest extends TestCase
             'identification' => 'nope@nope.net',
             'password' => '12345678',
         ])->assertJson([
-            'errno' => 2,
-            'msg' => trans('auth.validation.user'),
+            'code' => 2,
+            'message' => trans('auth.validation.user'),
         ]);
 
         $this->flushSession();
@@ -118,8 +118,8 @@ class AuthControllerTest extends TestCase
             'password' => '12345678',
         ])->assertJson(
             [
-                'errno' => 0,
-                'msg' => trans('auth.login.success'),
+                'code' => 0,
+                'message' => trans('auth.login.success'),
             ]
         );
         $this->assertFalse(Cache::has($loginFailsCacheKey));
@@ -135,8 +135,8 @@ class AuthControllerTest extends TestCase
         ]
         )->assertJson(
             [
-                'errno' => 0,
-                'msg' => trans('auth.login.success'),
+                'code' => 0,
+                'message' => trans('auth.login.success'),
             ]
         );
         $this->assertAuthenticated();
@@ -146,15 +146,15 @@ class AuthControllerTest extends TestCase
     {
         $this->postJson('/auth/logout')
             ->assertJson([
-                'errno' => 1,
-                'msg' => trans('auth.logout.fail'),
+                'code' => 1,
+                'message' => trans('auth.logout.fail'),
             ]);
 
         $user = factory(User::class)->create();
         $this->actingAs($user)->postJson('/auth/logout')->assertJson(
             [
-                'errno' => 0,
-                'msg' => trans('auth.logout.success'),
+                'code' => 0,
+                'message' => trans('auth.logout.success'),
             ]
         );
         $this->assertGuest();
@@ -257,8 +257,8 @@ class AuthControllerTest extends TestCase
                 'captcha' => 'a',
             ]
         )->assertJson([
-            'errno' => 2,
-            'msg' => trans('user.player.add.repeated'),
+            'code' => 2,
+            'message' => trans('user.player.add.repeated'),
         ]);
         $this->assertNull(User::where('email', 'a@b.c')->first());
 
@@ -317,8 +317,8 @@ class AuthControllerTest extends TestCase
                 'captcha' => 'a',
             ]
         )->assertJson([
-            'errno' => 7,
-            'msg' => trans('auth.register.close'),
+            'code' => 7,
+            'message' => trans('auth.register.close'),
         ]);
 
         // Reopen for test
@@ -335,8 +335,8 @@ class AuthControllerTest extends TestCase
                 'captcha' => 'a',
             ]
         )->assertJson([
-            'errno' => 7,
-            'msg' => trans('auth.register.max', ['regs' => option('regs_per_ip')]),
+            'code' => 7,
+            'message' => trans('auth.register.max', ['regs' => option('regs_per_ip')]),
         ]);
 
         Option::set('regs_per_ip', 100);
@@ -353,8 +353,8 @@ class AuthControllerTest extends TestCase
         );
         $newUser = User::where('email', 'a@b.c')->first();
         $response->assertJson([
-            'errno' => 0,
-            'msg' => trans('auth.register.success'),
+            'code' => 0,
+            'message' => trans('auth.register.success'),
         ]);
         $this->assertTrue($newUser->verifyPassword('12345678'));
         $this->assertDatabaseHas('users', [
@@ -376,7 +376,7 @@ class AuthControllerTest extends TestCase
                 'player_name' => 'name',
                 'captcha' => 'a',
             ]
-        )->assertJson(['errno' => 0]);
+        )->assertJson(['code' => 0]);
         $this->assertNotNull(Player::where('player', 'name'));
     }
 
@@ -397,8 +397,8 @@ class AuthControllerTest extends TestCase
         $this->postJson('/auth/forgot', [
             'captcha' => 'a',
         ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('auth.forgot.disabled'),
+            'code' => 1,
+            'message' => trans('auth.forgot.disabled'),
         ]);
         config(['mail.driver' => 'smtp']);
 
@@ -409,8 +409,8 @@ class AuthControllerTest extends TestCase
         $this->postJson('/auth/forgot', [
             'captcha' => 'a',
         ])->assertJson([
-            'errno' => 2,
-            'msg' => trans('auth.forgot.frequent-mail'),
+            'code' => 2,
+            'message' => trans('auth.forgot.frequent-mail'),
         ]);
         Cache::flush();
         $this->flushSession();
@@ -421,16 +421,16 @@ class AuthControllerTest extends TestCase
             'email' => 'nope@nope.net',
             'captcha' => 'a',
         ])->assertJson([
-            'errno' => 1,
-            'msg' => trans('auth.forgot.unregistered'),
+            'code' => 1,
+            'message' => trans('auth.forgot.unregistered'),
         ]);
 
         $this->postJson('/auth/forgot', [
             'email' => $user->email,
             'captcha' => 'a',
         ])->assertJson([
-            'errno' => 0,
-            'msg' => trans('auth.forgot.success'),
+            'code' => 0,
+            'message' => trans('auth.forgot.success'),
         ]);
         $this->assertTrue(Cache::has($lastMailCacheKey));
         Cache::flush();
@@ -448,8 +448,8 @@ class AuthControllerTest extends TestCase
                 'email' => $user->email,
                 'captcha' => 'a',
             ])->assertJson([
-                'errno' => 2,
-                'msg' => trans('auth.forgot.failed', ['msg' => 'A fake exception.']),
+                'code' => 2,
+                'message' => trans('auth.forgot.failed', ['msg' => 'A fake exception.']),
             ]);
 
         // Addition: Mailable test
@@ -495,8 +495,8 @@ class AuthControllerTest extends TestCase
             $url, [
             'password' => '12345678',
         ])->assertJson([
-            'errno' => 0,
-            'msg' => trans('auth.reset.success'),
+            'code' => 0,
+            'message' => trans('auth.reset.success'),
         ]);
         // We must re-query the user model,
         // because the old instance hasn't been changed
