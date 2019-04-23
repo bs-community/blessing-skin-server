@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Route;
 use Illuminate\Routing\Router;
 use App\Events\ConfigureRoutes;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -40,6 +41,8 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapStaticRoutes($router);
 
         $this->mapWebRoutes($router);
+
+        $this->mapApiRoutes();
 
         event(new ConfigureRoutes($router));
     }
@@ -96,5 +99,20 @@ class RouteServiceProvider extends ServiceProvider
         ], function ($router) {
             require base_path('routes/static.php');
         });
+    }
+
+    /**
+     * Define the "api" routes for the application.
+     *
+     * These routes are typically stateless.
+     *
+     * @return void
+     */
+    protected function mapApiRoutes()
+    {
+        Route::prefix('api')
+             ->middleware('api')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/api.php'));
     }
 }

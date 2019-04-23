@@ -22,7 +22,8 @@
     "composer/semver": "^1.4",
     "mews/captcha": "^2.2",
     "guzzlehttp/guzzle": "^6.3",
-    "doctrine/dbal": "^2.9"
+    "doctrine/dbal": "^2.9",
+    "tymon/jwt-auth": "dev-develop"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",

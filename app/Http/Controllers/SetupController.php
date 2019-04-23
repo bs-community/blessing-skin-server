@@ -141,6 +141,7 @@ class SetupController extends Controller
             Artisan::call('key:random');
             Artisan::call('salt:random');
         }
+        Artisan::call('jwt:secret', ['--no-interaction' => true]);
 
         // Create tables
         Artisan::call('migrate', ['--force' => true]);

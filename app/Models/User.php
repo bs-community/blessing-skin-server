@@ -6,9 +6,10 @@ use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use App\Events\EncryptUserPassword;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     /**
      * Permissions.
@@ -214,21 +215,11 @@ class User extends Authenticatable
         return Carbon::now()->diffInSeconds($lastSignTime->addHours(option('sign_gap_time')), false);
     }
 
-    /**
-     * Check if signing in is available now.
-     *
-     * @return bool
-     */
     public function canSign()
     {
         return $this->getSignRemainingTime() <= 0;
     }
 
-    /**
-     * Delete the user.
-     *
-     * @return bool
-     */
     public function delete()
     {
         Player::where('uid', $this->uid)->delete();
@@ -236,11 +227,6 @@ class User extends Authenticatable
         return parent::delete();
     }
 
-    /**
-     * Get the players which are owned by the user.
-     *
-     * @return Illuminate\Database\Eloquent\Collection
-     */
     public function players()
     {
         return $this->hasMany('App\Models\Player', 'uid');
@@ -249,5 +235,15 @@ class User extends Authenticatable
     public function getAuthIdentifier()
     {
         return $this->uid;
+    }
+
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }

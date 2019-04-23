@@ -34,6 +34,11 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\ForbiddenIE::class,
         ],
 
+        'api' => [
+            'throttle:60,1',
+            'bindings',
+        ],
+
         'static' => [],
     ];
 
@@ -47,6 +52,8 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'csrf'        => \App\Http\Middleware\VerifyCsrfToken::class,
         'auth'        => \App\Http\Middleware\CheckAuthenticated::class,
+        'auth.jwt'    => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
+        'bindings'    => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'verified'    => \App\Http\Middleware\CheckUserVerified::class,
         'guest'       => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'admin'       => \App\Http\Middleware\CheckAdministrator::class,
@@ -54,5 +61,6 @@ class Kernel extends HttpKernel
         'player'      => \App\Http\Middleware\CheckPlayerExist::class,
         'setup'       => \App\Http\Middleware\CheckInstallation::class,
         'signed'      => \Illuminate\Routing\Middleware\ValidateSignature::class,
+        'throttle'    => \Illuminate\Routing\Middleware\ThrottleRequests::class,
     ];
 }

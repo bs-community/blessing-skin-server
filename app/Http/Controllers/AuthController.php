@@ -251,4 +251,20 @@ class AuthController extends Controller
 
         return view('auth.verify');
     }
+
+    public function apiLogin(Request $request)
+    {
+        $token = Auth::guard('api')->attempt([
+            'email' => $request->email,
+            'password' => $request->password
+        ]);
+
+        return json(compact('token'));
+    }
+
+    public function apiLogout()
+    {
+        Auth::guard('api')->logout();
+        return response('', 204);
+    }
 }

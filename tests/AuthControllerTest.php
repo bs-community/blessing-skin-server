@@ -525,4 +525,31 @@ class AuthControllerTest extends TestCase
         $this->get($url)->assertViewIs('auth.verify');
         $this->assertEquals(1, User::find($user->uid)->verified);
     }
+
+    public function testApiLogin()
+    {
+        $user = factory(User::class)->create();
+        $user->changePassword('12345678');
+
+        $this->postJson('/api/auth/login')->assertJson(['token' => false]);
+        $token = $this->postJson('/api/auth/login', [
+            'email' => $user->email,
+            'password' => '12345678'
+        ])->decodeResponseJson('token');
+        $this->assertTrue(is_string($token));
+    }
+
+    public function testApiLogout()
+    {
+        $user = factory(User::class)->create();
+        $user->changePassword('12345678');
+        $token = $this->postJson('/api/auth/login', [
+            'email' => $user->email,
+            'password' => '12345678'
+        ])->decodeResponseJson('token');
+
+        $this->post('/api/auth/logout', [], [
+            'Authorization' => "Bearer $token"
+        ])->assertStatus(204);
+    }
 }

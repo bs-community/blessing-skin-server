@@ -164,6 +164,10 @@ class SetupControllerTest extends TestCase
             ->once()
             ->andReturn(true);
         Artisan::shouldReceive('call')
+            ->with('jwt:secret', ['--no-interaction' => true])
+            ->once()
+            ->andReturn(true);
+        Artisan::shouldReceive('call')
             ->with('migrate', ['--force' => true])
             ->once()
             ->andReturnUsing(function () {
