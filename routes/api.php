@@ -7,6 +7,6 @@ Route::prefix('auth')->group(function ($route) {
 });
 
 Route::prefix('user')->middleware('auth.jwt')->group(function ($route) {
-    $route->post('sign', 'UserController@sign');
+    $route->put('sign', 'UserController@sign');
 });
 
