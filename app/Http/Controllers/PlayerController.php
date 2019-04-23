@@ -31,15 +31,7 @@ class PlayerController extends Controller
     {
         $this->middleware(function ($request, $next) {
             if ($request->has('pid')) {
-                if ($this->player = Player::find($request->pid)) {
-                    foreach (['skin', 'cape'] as $type) {
-                        $field = "tid_$type";
-                        if (! Texture::find($this->player->$field)) {
-                            $this->player->$field = 0;
-                        }
-                    }
-                    $this->player->save();
-                }
+                $this->player = Player::find($request->pid);
             }
 
             return $next($request);

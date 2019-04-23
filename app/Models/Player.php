@@ -28,6 +28,7 @@ class Player extends Model
     ];
 
     protected $dispatchesEvents = [
+        'retrieved' => \App\Events\PlayerRetrieved::class,
         'updated' => PlayerProfileUpdated::class,
     ];
 
