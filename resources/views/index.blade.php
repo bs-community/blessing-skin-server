@@ -126,7 +126,7 @@
     </div>
 
     <script>
-    blessing.extra = @json(['transparent_navbar' => $transparent_navbar])
+    blessing.extra = @json(['transparent_navbar' => (bool) $transparent_navbar])
     </script>
 
     <!-- App Scripts -->
