@@ -83,13 +83,13 @@ class PlayerController extends Controller
             return json(trans('user.player.add.single'), 1);
         }
 
-        $this->validate($request, [
-            'player_name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max'),
-        ]);
+        $name = $this->validate($request, [
+            'name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max'),
+        ])['name'];
 
-        event(new CheckPlayerExists($request->input('player_name')));
+        event(new CheckPlayerExists($name));
 
-        if (! Player::where('name', $request->input('player_name'))->get()->isEmpty()) {
+        if (! Player::where('name', $name)->get()->isEmpty()) {
             return json(trans('user.player.add.repeated'), 6);
         }
 
@@ -97,12 +97,12 @@ class PlayerController extends Controller
             return json(trans('user.player.add.lack-score'), 7);
         }
 
-        event(new PlayerWillBeAdded($request->input('player_name')));
+        event(new PlayerWillBeAdded($name));
 
         $player = new Player;
 
         $player->uid = $user->uid;
-        $player->name = $request->input('player_name');
+        $player->name = $name;
         $player->tid_skin = 0;
         $player->save();
 
@@ -110,7 +110,7 @@ class PlayerController extends Controller
 
         $user->setScore(option('score_per_player'), 'minus');
 
-        return json(trans('user.player.add.success', ['name' => $request->input('player_name')]), 0);
+        return json(trans('user.player.add.success', ['name' => $name]), 0);
     }
 
     public function delete()

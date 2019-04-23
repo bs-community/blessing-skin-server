@@ -8,5 +8,7 @@ Route::prefix('auth')->group(function ($route) {
 
 Route::prefix('user')->middleware('auth.jwt')->group(function ($route) {
     $route->put('sign', 'UserController@sign');
+
+    $route->post('player', 'PlayerController@add');
 });
 

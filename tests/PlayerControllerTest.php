@@ -41,29 +41,29 @@ class PlayerControllerTest extends TestCase
     public function testAdd()
     {
         // Without player name
-        $this->postJson('/user/player/add')->assertJsonValidationErrors('player_name');
+        $this->postJson('/user/player/add')->assertJsonValidationErrors('name');
 
         // Only A-Za-z0-9_ are allowed
         option(['player_name_rule' => 'official']);
         $this->postJson(
             '/user/player/add',
-            ['player_name' => '角色名']
-        )->assertJsonValidationErrors('player_name');
+            ['name' => '角色名']
+        )->assertJsonValidationErrors('name');
 
         // Custom player name rule (regexp)
         option(['player_name_rule' => 'custom']);
         option(['custom_player_name_regexp' => '/^([0-9]+)$/']);
         $this->postJson(
             '/user/player/add',
-            ['player_name' => 'yjsnpi']
-        )->assertJsonValidationErrors('player_name');
+            ['name' => 'yjsnpi']
+        )->assertJsonValidationErrors('name');
 
         // Lack of score
         option(['player_name_rule' => 'official']);
         $user = factory(User::class)->create(['score' => 0]);
         $this->actingAs($user)->postJson(
             '/user/player/add',
-            ['player_name' => 'no_score']
+            ['name' => 'no_score']
         )->assertJson([
             'code' => 7,
             'message' => trans('user.player.add.lack-score'),
@@ -75,7 +75,7 @@ class PlayerControllerTest extends TestCase
         $user = factory(User::class)->create();
         $score = $user->score;
         $this->actingAs($user)->postJson('/user/player/add', [
-            'player_name' => '角色名',
+            'name' => '角色名',
         ])->assertJson([
             'code' => 0,
             'message' => trans('user.player.add.success', ['name' => '角色名']),
@@ -92,7 +92,7 @@ class PlayerControllerTest extends TestCase
         );
 
         // Add a existed player
-        $this->postJson('/user/player/add', ['player_name' => '角色名'])
+        $this->postJson('/user/player/add', ['name' => '角色名'])
             ->assertJson([
                 'code' => 6,
                 'message' => trans('user.player.add.repeated'),
@@ -100,7 +100,7 @@ class PlayerControllerTest extends TestCase
 
         // Single player
         option(['single_player' => true]);
-        $this->postJson('/user/player/add', ['player_name' => 'abc'])
+        $this->postJson('/user/player/add', ['name' => 'abc'])
             ->assertJson([
                 'code' => 1,
                 'message' => trans('user.player.add.single'),
