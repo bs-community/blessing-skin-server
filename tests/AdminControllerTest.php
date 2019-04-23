@@ -681,7 +681,6 @@ class AdminControllerTest extends BrowserKitTestCase
         ])->seeJson([
             'code' => 0,
             'message' => trans('admin.players.name.success', ['player' => 'new_name']),
-            'name' => 'new_name',
         ]);
 
         // Single player
@@ -689,7 +688,6 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'name',
-            'name' => 'abc',
         ])->seeJson(['code' => 0]);
         $player->refresh();
         $this->assertEquals('abc', $player->user->nickname);
@@ -703,31 +701,5 @@ class AdminControllerTest extends BrowserKitTestCase
             'message' => trans('admin.players.delete.success'),
         ]);
         $this->assertNull(Player::find($player->pid));
-    }
-
-    public function testGetOneUser()
-    {
-        $user = factory(User::class)->create();
-        $this->get('/admin/user/'.$user->uid)
-            ->seeJson([
-                'code' => 0,
-                'message' => 'success',
-                'user' => [
-                    'uid' => $user->uid,
-                    'email' => $user->email,
-                    'nickname' => $user->nickname,
-                    'score' => $user->score,
-                    'avatar' => $user->avatar,
-                    'permission' => $user->permission,
-                    'verified' => (bool) $user->verified,
-                    'verification_token' => (string) $user->verification_token,
-                ],
-            ]);
-
-        $this->get('/admin/user/-1')
-            ->seeJson([
-                'code' => 1,
-                'message' => 'No such user.',
-            ]);
     }
 }

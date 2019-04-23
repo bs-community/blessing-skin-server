@@ -121,7 +121,6 @@ Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function 
     Route::view('/players', 'admin.players');
     Route::post('/players', 'AdminController@playerAjaxHandler');
     Route::any('/player-data', 'AdminController@getPlayerData');
-    Route::get('/user/{uid}', 'AdminController@getOneUser');
 
     Route::view('/reports', 'admin.reports');
     Route::post('/reports', 'ReportController@review');

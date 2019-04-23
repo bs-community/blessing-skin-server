@@ -538,21 +538,9 @@ class AdminController extends Controller
                 $owner->save();
             }
 
-            return json(trans('admin.players.name.success', ['player' => $player->name]), 0, ['name' => $player->name]);
+            return json(trans('admin.players.name.success', ['player' => $player->name]), 0);
         } else {
             return json(trans('admin.users.operations.invalid'), 1);
-        }
-    }
-
-    public function getOneUser($uid)
-    {
-        $user = User::find($uid);
-        if ($user) {
-            return json('success', 0, ['user' => $user->makeHidden([
-                'password', 'ip', 'last_sign_at', 'register_at', 'remember_token',
-            ])->toArray()]);
-        } else {
-            return json('No such user.', 1);
         }
     }
 }
