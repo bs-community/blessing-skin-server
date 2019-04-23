@@ -195,7 +195,7 @@ export default {
   },
   methods: {
     async fetchPlayers() {
-      this.players = await this.$http.get('/user/player/list')
+      this.players = (await this.$http.get('/user/player/list')).data
     },
     togglePreviewer() {
       this.using3dPreviewer = !this.using3dPreviewer
@@ -207,13 +207,13 @@ export default {
       this.preview2d.cape = player.tid_cape
 
       if (player.tid_skin) {
-        const skin = await this.$http.get(`/skinlib/info/${player.tid_skin}`)
+        const { data: skin } = await this.$http.get(`/skinlib/info/${player.tid_skin}`)
         this.skinUrl = `${this.baseUrl}/textures/${skin.hash}`
       } else {
         this.skinUrl = ''
       }
       if (player.tid_cape) {
-        const cape = await this.$http.get(`/skinlib/info/${player.tid_cape}`)
+        const { data: cape } = await this.$http.get(`/skinlib/info/${player.tid_cape}`)
         this.capeUrl = `${this.baseUrl}/textures/${cape.hash}`
       } else {
         this.capeUrl = ''

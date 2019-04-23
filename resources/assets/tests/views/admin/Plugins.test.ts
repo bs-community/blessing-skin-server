@@ -57,7 +57,7 @@ test('enable plugin', async () => {
   ])
   Vue.prototype.$http.post
     .mockResolvedValueOnce({
-      code: 1, message: '1', reason: ['`a<div></div>`b'],
+      code: 1, message: '1', data: { reason: ['`a<div></div>`b'] },
     })
     .mockResolvedValue({ code: 0, message: '0' })
   Vue.prototype.$confirm

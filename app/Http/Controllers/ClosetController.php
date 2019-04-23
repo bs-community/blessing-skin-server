@@ -58,9 +58,9 @@ class ClosetController extends Controller
         });
         $totalPages = ceil($items->count() / $perPage);
 
-        return response()->json([
-            'category'    => $category,
-            'items'       => $items,
+        return json('', 0, [
+            'category' => $category,
+            'items' => $items,
             'total_pages' => $totalPages,
         ]);
     }

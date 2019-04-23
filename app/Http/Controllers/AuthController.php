@@ -154,10 +154,7 @@ class AuthController extends Controller
 
         Auth::login($user);
 
-        return json([
-            'code' => 0,
-            'message' => trans('auth.register.success'),
-        ]);
+        return json(trans('auth.register.success'), 0);
     }
 
     public function forgot()
@@ -190,11 +187,7 @@ class AuthController extends Controller
 
         // Rate limit
         if ($remain > 0) {
-            return json([
-                'code' => 2,
-                'message' => trans('auth.forgot.frequent-mail'),
-                'remain' => $remain,
-            ]);
+            return json(trans('auth.forgot.frequent-mail'), 2);
         }
 
         $user = User::where('email', $request->email)->first();

@@ -7,7 +7,7 @@ import Previewer from '@/components/Previewer.vue'
 window.blessing.extra = { unverified: false }
 
 test('fetch closet data before mount', () => {
-  Vue.prototype.$http.get.mockResolvedValue({})
+  Vue.prototype.$http.get.mockResolvedValue({ data: {} })
   mount(Closet)
   jest.runAllTicks()
   expect(Vue.prototype.$http.get).toBeCalledWith(
@@ -22,13 +22,17 @@ test('fetch closet data before mount', () => {
 
 test('switch tabs', () => {
   Vue.prototype.$http.get.mockResolvedValue({
-    items: [],
-    category: 'skin',
-    total_pages: 1,
+    data: {
+      items: [],
+      category: 'skin',
+      total_pages: 1,
+    },
   }).mockResolvedValueOnce({
-    items: [],
-    category: 'cape',
-    total_pages: 1,
+    data: {
+      items: [],
+      category: 'cape',
+      total_pages: 1,
+    },
   })
 
   const wrapper = mount(Closet)
@@ -58,7 +62,7 @@ test('switch tabs', () => {
 })
 
 test('different categories', () => {
-  Vue.prototype.$http.get.mockResolvedValue({})
+  Vue.prototype.$http.get.mockResolvedValue({ data: {} })
 
   const wrapper = mount(Closet)
   expect(wrapper.findAll('.nav-tabs > li').at(0)
@@ -72,7 +76,7 @@ test('different categories', () => {
 })
 
 test('search textures', () => {
-  Vue.prototype.$http.get.mockResolvedValue({})
+  Vue.prototype.$http.get.mockResolvedValue({ data: {} })
 
   const wrapper = mount(Closet)
   const input = wrapper.find('input')
@@ -91,7 +95,7 @@ test('search textures', () => {
 })
 
 test('empty closet', () => {
-  Vue.prototype.$http.get.mockResolvedValue({})
+  Vue.prototype.$http.get.mockResolvedValue({ data: {} })
   const wrapper = mount(Closet)
   expect(wrapper.find('#skin-category').text()).toContain('user.emptyClosetMsg')
   wrapper.setData({ category: 'cape' })
@@ -99,7 +103,7 @@ test('empty closet', () => {
 })
 
 test('no matched search result', () => {
-  Vue.prototype.$http.get.mockResolvedValue({})
+  Vue.prototype.$http.get.mockResolvedValue({ data: {} })
   const wrapper = mount(Closet)
   wrapper.setData({ query: 'q' })
   expect(wrapper.find('#skin-category').text()).toContain('general.noResult')
@@ -109,12 +113,14 @@ test('no matched search result', () => {
 
 test('render items', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
-    items: [
-      { tid: 1 },
-      { tid: 2 },
-    ],
-    category: 'skin',
-    total_pages: 1,
+    data: {
+      items: [
+        { tid: 1 },
+        { tid: 2 },
+      ],
+      category: 'skin',
+      total_pages: 1,
+    },
   })
   const wrapper = mount(Closet)
   await wrapper.vm.$nextTick()
@@ -122,7 +128,7 @@ test('render items', async () => {
 })
 
 test('reload closet when page changed', () => {
-  Vue.prototype.$http.get.mockResolvedValue({})
+  Vue.prototype.$http.get.mockResolvedValue({ data: {} })
   const wrapper = mount<Vue & { pageChanged(): void }>(Closet)
   wrapper.vm.pageChanged()
   jest.runAllTicks()
@@ -130,7 +136,7 @@ test('reload closet when page changed', () => {
 })
 
 test('remove skin item', () => {
-  Vue.prototype.$http.get.mockResolvedValue({})
+  Vue.prototype.$http.get.mockResolvedValue({ data: {} })
   const wrapper = mount<Vue & { removeSkinItem(tid: number): void }>(Closet)
   wrapper.setData({ skinItems: [{ tid: 1 }] })
   wrapper.vm.removeSkinItem(0)
@@ -138,7 +144,7 @@ test('remove skin item', () => {
 })
 
 test('remove cape item', () => {
-  Vue.prototype.$http.get.mockResolvedValue({})
+  Vue.prototype.$http.get.mockResolvedValue({ data: {} })
   const wrapper = mount<Vue & { removeCapeItem(tid: number): void }>(Closet)
   wrapper.setData({ capeItems: [{ tid: 1 }], category: 'cape' })
   wrapper.vm.removeCapeItem(0)
@@ -147,9 +153,9 @@ test('remove cape item', () => {
 
 test('select texture', async () => {
   Vue.prototype.$http.get
-    .mockResolvedValueOnce({})
-    .mockResolvedValueOnce({ type: 'steve', hash: 'a' })
-    .mockResolvedValueOnce({ type: 'cape', hash: 'b' })
+    .mockResolvedValueOnce({ data: {} })
+    .mockResolvedValueOnce({ data: { type: 'steve', hash: 'a' } })
+    .mockResolvedValueOnce({ data: { type: 'cape', hash: 'b' } })
 
   const wrapper = mount<Vue & { skinUrl: string, capeUrl: string }>(Closet)
   wrapper.setData({ skinItems: [{ tid: 1 }] })
@@ -169,13 +175,15 @@ test('select texture', async () => {
 
 test('apply texture', async () => {
   Vue.prototype.$http.get
-    .mockResolvedValueOnce({})
-    .mockResolvedValueOnce([])
-    .mockResolvedValueOnce([
-      {
-        pid: 1, name: 'name', tid_skin: 10,
-      },
-    ])
+    .mockResolvedValueOnce({ data: {} })
+    .mockResolvedValueOnce({ data: [] })
+    .mockResolvedValueOnce({
+      data: [
+        {
+          pid: 1, name: 'name', tid_skin: 10,
+        },
+      ],
+    })
 
   const wrapper = mount(Closet)
   const button = wrapper.find(Previewer).findAll('button')
@@ -193,7 +201,7 @@ test('apply texture', async () => {
 })
 
 test('reset selected texture', () => {
-  Vue.prototype.$http.get.mockResolvedValue({})
+  Vue.prototype.$http.get.mockResolvedValue({ data: {} })
   const wrapper = mount(Closet)
   wrapper.setData({
     selectedSkin: 1,
@@ -217,11 +225,13 @@ test('select specified texture initially', async () => {
   }))
   Vue.prototype.$http.get
     .mockResolvedValueOnce({
-      items: [],
-      category: 'skin',
-      total_pages: 1,
+      data: {
+        items: [],
+        category: 'skin',
+        total_pages: 1,
+      },
     })
-    .mockResolvedValueOnce({ type: 'cape', hash: '' })
+    .mockResolvedValueOnce({ data: { type: 'cape', hash: '' } })
     .mockResolvedValueOnce([])
   const wrapper = mount(Closet)
   jest.runAllTimers()

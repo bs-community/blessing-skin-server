@@ -176,7 +176,9 @@ export default {
     async fetchData() {
       this.pending = true
       const {
-        items, total_pages: totalPages, current_uid: currentUid,
+        data: {
+          items, total_pages: totalPages, current_uid: currentUid,
+        },
       } = await this.$http.get(
         '/skinlib/data',
         {

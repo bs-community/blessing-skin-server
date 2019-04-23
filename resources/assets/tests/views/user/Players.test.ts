@@ -11,6 +11,7 @@ window.blessing.extra = {
 }
 
 test('display player name constraints', () => {
+  Vue.prototype.$http.get.mockResolvedValue({ data: [] })
   const wrapper = mount(Players)
   const text = wrapper.text()
   expect(text).toContain('rule')
@@ -18,31 +19,33 @@ test('display player name constraints', () => {
 })
 
 test('fetch players data before mount', () => {
-  Vue.prototype.$http.get.mockResolvedValue([])
+  Vue.prototype.$http.get.mockResolvedValue({ data: [] })
   mount(Players)
   expect(Vue.prototype.$http.get).toBeCalledWith('/user/player/list')
 })
 
 test('click to preview player', async () => {
   Vue.prototype.$http.get
-    .mockResolvedValueOnce([
-      {
-        pid: 1, tid_skin: 1, tid_cape: 3,
-      },
-      {
-        pid: 2, tid_skin: 0, tid_cape: 0,
-      },
-      {
-        pid: 3, tid_skin: 2, tid_cape: 0,
-      },
-      {
-        pid: 4, tid_skin: 0, tid_cape: 5,
-      },
-    ])
-    .mockResolvedValueOnce({ hash: 'a' })
-    .mockResolvedValueOnce({ hash: 'b' })
-    .mockResolvedValueOnce({ hash: 'c' })
-    .mockResolvedValueOnce({ hash: 'd' })
+    .mockResolvedValueOnce({
+      data: [
+        {
+          pid: 1, tid_skin: 1, tid_cape: 3,
+        },
+        {
+          pid: 2, tid_skin: 0, tid_cape: 0,
+        },
+        {
+          pid: 3, tid_skin: 2, tid_cape: 0,
+        },
+        {
+          pid: 4, tid_skin: 0, tid_cape: 5,
+        },
+      ],
+    })
+    .mockResolvedValueOnce({ data: { hash: 'a' } })
+    .mockResolvedValueOnce({ data: { hash: 'b' } })
+    .mockResolvedValueOnce({ data: { hash: 'c' } })
+    .mockResolvedValueOnce({ data: { hash: 'd' } })
   const wrapper = mount(Players)
   await wrapper.vm.$nextTick()
 
@@ -69,9 +72,11 @@ test('click to preview player', async () => {
 
 test('change player name', async () => {
   Vue.prototype.$http.get
-    .mockResolvedValueOnce([
-      { pid: 1, name: 'old' },
-    ])
+    .mockResolvedValue({
+      data: [
+        { pid: 1, name: 'old' },
+      ],
+    })
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1 })
     .mockResolvedValue({ code: 0 })
@@ -103,9 +108,11 @@ test('change player name', async () => {
 
 test('delete player', async () => {
   Vue.prototype.$http.get
-    .mockResolvedValueOnce([
-      { pid: 1, name: 'to-be-deleted' },
-    ])
+    .mockResolvedValueOnce({
+      data: [
+        { pid: 1, name: 'to-be-deleted' },
+      ],
+    })
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1 })
     .mockResolvedValue({ code: 0 })
@@ -128,7 +135,7 @@ test('delete player', async () => {
 })
 
 test('toggle preview mode', () => {
-  Vue.prototype.$http.get.mockResolvedValueOnce([])
+  Vue.prototype.$http.get.mockResolvedValueOnce({ data: [] })
   const wrapper = mount(Players)
   wrapper.find('[data-test="to2d"]').trigger('click')
   expect(wrapper.text()).toContain('user.player.texture-empty')
@@ -136,7 +143,7 @@ test('toggle preview mode', () => {
 
 test('add player', async () => {
   window.$ = jest.fn(() => ({ modal() {} }))
-  Vue.prototype.$http.get.mockResolvedValueOnce([])
+  Vue.prototype.$http.get.mockResolvedValueOnce({ data: [] })
   Vue.prototype.$http.post.mockResolvedValue({ code: 0 })
   const wrapper = mount(Players)
   const button = wrapper.find('[data-test=addPlayer]')
@@ -149,11 +156,13 @@ test('add player', async () => {
 
 test('clear texture', async () => {
   window.$ = jest.fn(() => ({ modal() {} }))
-  Vue.prototype.$http.get.mockResolvedValueOnce([
-    {
-      pid: 1, tid_skin: 1, tid_cape: 0,
-    },
-  ])
+  Vue.prototype.$http.get.mockResolvedValueOnce({
+    data: [
+      {
+        pid: 1, tid_skin: 1, tid_cape: 0,
+      },
+    ],
+  })
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1 })
     .mockResolvedValue({ code: 0, message: 'ok' })

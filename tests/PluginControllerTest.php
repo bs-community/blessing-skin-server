@@ -74,15 +74,17 @@ class PluginControllerTest extends TestCase
         ])->assertJson([
             'code' => 1,
             'message' => trans('admin.plugins.operations.unsatisfied.notice'),
-            'reason' => [
-                trans('admin.plugins.operations.unsatisfied.version', [
-                    'name' => 'fake-plugin-with-config-view',
-                    'constraint' => '^6.6.6',
-                ]),
-                trans('admin.plugins.operations.unsatisfied.disabled', [
-                    'name' => 'whatever',
-                ]),
-            ],
+            'data' => [
+                'reason' => [
+                    trans('admin.plugins.operations.unsatisfied.version', [
+                        'name' => 'fake-plugin-with-config-view',
+                        'constraint' => '^6.6.6',
+                    ]),
+                    trans('admin.plugins.operations.unsatisfied.disabled', [
+                        'name' => 'whatever',
+                    ]),
+                ],
+            ]
         ]);
 
         // Enable a plugin

@@ -65,7 +65,6 @@ Route::group([
         Route::any('', 'PlayerController@index');
         Route::get('/list', 'PlayerController@listAll');
         Route::post('/add', 'PlayerController@add');
-        Route::any('/show', 'PlayerController@show');
         Route::post('/set', 'PlayerController@setTexture');
         Route::post('/texture/clear', 'PlayerController@clearTexture');
         Route::post('/rename', 'PlayerController@rename');

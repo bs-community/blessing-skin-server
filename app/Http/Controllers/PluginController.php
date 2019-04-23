@@ -42,11 +42,7 @@ class PluginController extends Controller
                             }
                         }
 
-                        return json([
-                            'code' => 1,
-                            'message' => trans('admin.plugins.operations.unsatisfied.notice'),
-                            'reason' => $reason,
-                        ]);
+                        return json(trans('admin.plugins.operations.unsatisfied.notice'), 1, compact('reason'));
                     }
 
                     $plugins->enable($name);

@@ -116,7 +116,7 @@ test('upload file', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: '1' })
     .mockResolvedValueOnce({
-      code: 0, message: '0', tid: 1,
+      code: 0, message: '0', data: { tid: 1 },
     })
 
   const wrapper = mount(Upload, {

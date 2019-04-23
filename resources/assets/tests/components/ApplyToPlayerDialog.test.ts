@@ -4,7 +4,7 @@ import ApplyToPlayerDialog from '@/components/ApplyToPlayerDialog.vue'
 
 test('submit applying texture', async () => {
   window.$ = jest.fn(() => ({ modal() {} }))
-  Vue.prototype.$http.get.mockResolvedValue([{ pid: 1 }])
+  Vue.prototype.$http.get.mockResolvedValue({ data: [{ pid: 1 }] })
   Vue.prototype.$http.post.mockResolvedValueOnce({ code: 1 })
     .mockResolvedValue({ code: 0, message: 'ok' })
   const wrapper = mount(ApplyToPlayerDialog)
@@ -46,7 +46,7 @@ test('submit applying texture', async () => {
 })
 
 test('compute avatar URL', () => {
-  Vue.prototype.$http.get.mockResolvedValue({})
+  Vue.prototype.$http.get.mockResolvedValue({ data: {} })
   // eslint-disable-next-line camelcase
   const wrapper = mount<Vue & { avatarUrl(player: { tid_skin: number }): string }>(ApplyToPlayerDialog)
   const { avatarUrl } = wrapper.vm

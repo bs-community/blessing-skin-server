@@ -12,10 +12,7 @@ class CheckPlayerExist
     {
         if ($request->has('pid') && $request->isMethod('post')) {
             if (is_null(Player::find($request->input('pid')))) {
-                return response()->json([
-                    'code' => 1,
-                    'message' => trans('general.unexistent-player'),
-                ]);
+                return json(trans('general.unexistent-player'), 1);
             } else {
                 return $next($request);
             }

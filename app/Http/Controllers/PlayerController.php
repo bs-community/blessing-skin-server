@@ -64,10 +64,15 @@ class PlayerController extends Controller
 
     public function listAll()
     {
-        return Auth::user()
-            ->players()
-            ->select('pid', 'name', 'tid_skin', 'tid_cape')
-            ->get();
+        return json(
+            '',
+            0,
+            Auth::user()
+                ->players()
+                ->select('pid', 'name', 'tid_skin', 'tid_cape')
+                ->get()
+                ->toArray()
+        );
     }
 
     public function add(Request $request)
@@ -127,11 +132,6 @@ class PlayerController extends Controller
         event(new PlayerWasDeleted($playerName));
 
         return json(trans('user.player.delete.success', ['name' => $playerName]), 0);
-    }
-
-    public function show()
-    {
-        return response()->json($this->player->toArray());
     }
 
     public function rename(Request $request)

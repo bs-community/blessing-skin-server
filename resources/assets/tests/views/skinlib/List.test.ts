@@ -45,7 +45,9 @@ jest.mock('element-ui/lib/option', () => ({
 
 test('fetch data before mounting', () => {
   Vue.prototype.$http.get.mockResolvedValue({
-    items: [], total_pages: 0, current_uid: 0,
+    data: {
+      items: [], total_pages: 0, current_uid: 0,
+    },
   })
   mount(List)
   expect(Vue.prototype.$http.get).toBeCalledWith(
@@ -58,7 +60,9 @@ test('fetch data before mounting', () => {
 
 test('empty skin library', () => {
   Vue.prototype.$http.get.mockResolvedValue({
-    items: [], total_pages: 0, current_uid: 0,
+    data: {
+      items: [], total_pages: 0, current_uid: 0,
+    },
   })
   const wrapper = mount(List)
   expect(wrapper.text()).toContain('general.noResult')
@@ -66,7 +70,9 @@ test('empty skin library', () => {
 
 test('toggle texture type', () => {
   Vue.prototype.$http.get.mockResolvedValue({
-    items: [], total_pages: 0, current_uid: 0,
+    data: {
+      items: [], total_pages: 0, current_uid: 0,
+    },
   })
   const wrapper = mount(List)
   const select = wrapper.find({ name: 'ElSelect' })
@@ -104,7 +110,9 @@ test('toggle texture type', () => {
 
 test('check specified uploader', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
-    items: [], total_pages: 0, current_uid: 1,
+    data: {
+      items: [], total_pages: 0, current_uid: 1,
+    },
   })
   const wrapper = mount(List)
   await wrapper.vm.$nextTick()
@@ -127,7 +135,9 @@ test('check specified uploader', async () => {
 
 test('sort items', () => {
   Vue.prototype.$http.get.mockResolvedValue({
-    items: [], total_pages: 0, current_uid: 0,
+    data: {
+      items: [], total_pages: 0, current_uid: 0,
+    },
   })
   const wrapper = mount(List)
   const buttons = wrapper.find('.advanced-filter').findAll(Button)
@@ -155,7 +165,9 @@ test('sort items', () => {
 
 test('search by keyword', () => {
   Vue.prototype.$http.get.mockResolvedValue({
-    items: [], total_pages: 0, current_uid: 0,
+    data: {
+      items: [], total_pages: 0, current_uid: 0,
+    },
   })
   const wrapper = mount(List)
 
@@ -180,7 +192,9 @@ test('search by keyword', () => {
 
 test('reset all filters', () => {
   Vue.prototype.$http.get.mockResolvedValue({
-    items: [], total_pages: 0, current_uid: 0,
+    data: {
+      items: [], total_pages: 0, current_uid: 0,
+    },
   })
   const wrapper = mount(List)
   wrapper.findAll('option').at(3)
@@ -196,7 +210,9 @@ test('reset all filters', () => {
 
 test('is anonymous', () => {
   Vue.prototype.$http.get.mockResolvedValue({
-    items: [], total_pages: 0, current_uid: 0,
+    data: {
+      items: [], total_pages: 0, current_uid: 0,
+    },
   })
   const wrapper = mount<Vue & { anonymous: boolean }>(List)
   expect(wrapper.vm.anonymous).toBeTrue()
@@ -204,7 +220,9 @@ test('is anonymous', () => {
 
 test('on page changed', () => {
   Vue.prototype.$http.get.mockResolvedValue({
-    items: [], total_pages: 0, current_uid: 0,
+    data: {
+      items: [], total_pages: 0, current_uid: 0,
+    },
   })
   const wrapper = mount<Vue & { pageChanged(page: number): void }>(List)
   wrapper.vm.pageChanged(2)
@@ -218,11 +236,13 @@ test('on page changed', () => {
 
 test('on like toggled', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
-    items: [{
-      tid: 1, liked: false, likes: 0,
-    }],
-    total_pages: 1,
-    current_uid: 0,
+    data: {
+      items: [{
+        tid: 1, liked: false, likes: 0,
+      }],
+      total_pages: 1,
+      current_uid: 0,
+    },
   })
   const wrapper = mount<Vue & {
     onLikeToggled(tid: number, like: boolean): void,

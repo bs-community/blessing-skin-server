@@ -176,7 +176,7 @@ export default {
   },
   methods: {
     async fetchScoreInfo() {
-      const data = await this.$http.get('/user/score-info')
+      const { data } = await this.$http.get('/user/score-info')
       this.lastSignAt = new Date(data.user.lastSignAt)
       this.signAfterZero = data.signAfterZero
       this.signGap = data.signGapTime * 3600 * 1000
@@ -187,16 +187,18 @@ export default {
       this.score = data.user.score
     },
     async sign() {
-      const result = await this.$http.post('/user/sign')
+      const {
+        code, message, data,
+      } = await this.$http.post('/user/sign')
 
-      if (result.code === 0) {
-        this.$message.success(result.message)
-        this.score = result.score
+      if (code === 0) {
+        this.$message.success(message)
+        this.score = data.score
         this.lastSignAt = new Date()
-        this.storageUsed = result.storage.used
-        this.storageTotal = result.storage.total
+        this.storageUsed = data.storage.used
+        this.storageTotal = data.storage.total
       } else {
-        this.$message.warning(result.message)
+        this.$message.warning(message)
       }
     },
   },

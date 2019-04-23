@@ -688,6 +688,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->postJson('/admin/players', [
             'pid' => $player->pid,
             'action' => 'name',
+            'name' => 'abc',
         ])->seeJson(['code' => 0]);
         $player->refresh();
         $this->assertEquals('abc', $player->user->nickname);

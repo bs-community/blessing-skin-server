@@ -30,12 +30,12 @@ class PlayerControllerTest extends TestCase
         $player = factory(Player::class)->create(['uid' => $user->uid]);
         $this->actingAs($user)
             ->get('/user/player/list')
-            ->assertJson([
+            ->assertJson(['data' => [
                 [
                     'pid' => $player->pid,
                     'name' => $player->name,
                 ],
-            ]);
+            ]]);
     }
 
     public function testAdd()
@@ -151,13 +151,6 @@ class PlayerControllerTest extends TestCase
                 'message' => trans('user.player.delete.single'),
             ]);
         $this->assertNotNull(Player::find($player->pid));
-    }
-
-    public function testShow()
-    {
-        $player = factory(Player::class)->create(['last_modified' => '2017-11-11 22:51:00']);
-        $this->get('/user/player/show?pid='.$player->pid)
-            ->assertJson($player->toArray());
     }
 
     public function testRename()

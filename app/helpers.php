@@ -50,10 +50,11 @@ if (! function_exists('json')) {
             return Response::json($args[0]);
         } elseif (count($args) == 3 && is_array($args[2])) {
             // The third argument is array of extra fields
-            return Response::json(array_merge([
+            return Response::json([
                 'code' => $args[1],
                 'message' => $args[0],
-            ], $args[2]));
+                'data' => $args[2],
+            ]);
         } else {
             return Response::json([
                 'code' => Arr::get($args, 1, 1),

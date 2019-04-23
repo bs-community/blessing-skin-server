@@ -159,7 +159,7 @@ class ReportControllerTest extends TestCase
             ->assertJson([
                 'code' => 0,
                 'message' => trans('general.op-success'),
-                'status' => Report::REJECTED,
+                'data' => ['status' => Report::REJECTED],
             ]);
         $report->refresh();
         $reporter->refresh();
@@ -186,7 +186,7 @@ class ReportControllerTest extends TestCase
             ->assertJson([
                 'code' => 0,
                 'message' => trans('general.op-success'),
-                'status' => Report::RESOLVED,
+                'data' => ['status' => Report::RESOLVED],
             ]);
         $report->refresh();
         $reporter->refresh();
@@ -207,7 +207,7 @@ class ReportControllerTest extends TestCase
             ->assertJson([
                 'code' => 0,
                 'message' => trans('general.op-success'),
-                'status' => Report::RESOLVED,
+                'data' => ['status' => Report::RESOLVED],
             ]);
         $reporter->refresh();
         $this->assertEquals(User::BANNED, $uploader->permission);

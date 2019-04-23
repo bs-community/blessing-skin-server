@@ -20,10 +20,7 @@ class CheckPlayerOwner
             $player = Player::find($pid);
 
             if ($player->uid != auth()->id()) {
-                return response()->json([
-                    'code' => 1,
-                    'message' => trans('admin.players.no-permission'),
-                ]);
+                return json(trans('admin.players.no-permission'), 1);
             }
         }
 

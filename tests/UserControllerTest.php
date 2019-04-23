@@ -38,7 +38,7 @@ class UserControllerTest extends TestCase
 
         $this->actingAs($user)
             ->get('/user/score-info')
-            ->assertJson([
+            ->assertJson(['data' => [
                 'user' => [
                     'score' => $user->score,
                     'lastSignAt' => $user->last_sign_at,
@@ -57,7 +57,7 @@ class UserControllerTest extends TestCase
                 ],
                 'signAfterZero' => option('sign_after_zero'),
                 'signGapTime' => option('sign_gap_time'),
-            ]);
+            ]]);
     }
 
     public function testSign()
@@ -71,13 +71,15 @@ class UserControllerTest extends TestCase
             ->assertJson([
                 'code' => 0,
                 'message' => trans('user.sign-success', ['score' => 50]),
-                'score' => option('user_initial_score') + 50,
-                'storage' => [
-                    'percentage' => 0,
-                    'total' => option('user_initial_score') + 50,
-                    'used' => 0,
-                ],
-                'remaining_time' => (int) option('sign_gap_time'),
+                'data' => [
+                    'score' => option('user_initial_score') + 50,
+                    'storage' => [
+                        'percentage' => 0,
+                        'total' => option('user_initial_score') + 50,
+                        'used' => 0,
+                    ],
+                    'remaining_time' => (int) option('sign_gap_time'),
+                ]
             ]);
 
         // Remaining time is greater than 0
@@ -123,10 +125,7 @@ class UserControllerTest extends TestCase
         $user = factory(User::class)->create([
             'last_sign_at' => \Carbon\Carbon::today()->toDateTimeString(),
         ]);
-        $this->actingAs($user)->postJson('/user/sign')
-            ->assertJson([
-                'code' => 0,
-            ]);
+        $this->actingAs($user)->postJson('/user/sign')->assertJson(['code' => 0]);
     }
 
     public function testSendVerificationEmail()

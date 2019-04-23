@@ -26,18 +26,20 @@ window.blessing.extra = { unverified: false }
 
 function scoreInfo(data = {}) {
   return {
-    user: { score: 835, lastSignAt: '2018-08-07 16:06:49' },
-    stats: {
-      players: {
-        used: 3, total: 15, percentage: 20,
+    data: {
+      user: { score: 835, lastSignAt: '2018-08-07 16:06:49' },
+      stats: {
+        players: {
+          used: 3, total: 15, percentage: 20,
+        },
+        storage: {
+          used: 5, total: 20, percentage: 25,
+        },
       },
-      storage: {
-        used: 5, total: 20, percentage: 25,
-      },
+      signAfterZero: false,
+      signGapTime: '24',
+      ...data,
     },
-    signAfterZero: false,
-    signGapTime: '24',
-    ...data,
   }
 }
 
@@ -140,11 +142,15 @@ test('sign', async () => {
     user: { lastSignAt: Date.now() - 30 * 3600 * 1000 },
   }))
   Vue.prototype.$http.post
-    .mockResolvedValueOnce({ code: 1, message: '1' })
+    .mockResolvedValueOnce({
+      code: 1, message: '1', data: {},
+    })
     .mockResolvedValueOnce({
       code: 0,
-      score: 233,
-      storage: { used: 3, total: 4 },
+      data: {
+        score: 233,
+        storage: { used: 3, total: 4 },
+      },
     })
   const wrapper = mount(Dashboard)
   const button = wrapper.find(Button)

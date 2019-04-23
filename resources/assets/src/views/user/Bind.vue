@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     async fetchPlayers() {
-      const players = await this.$http.get('/user/player/list')
+      const players = (await this.$http.get('/user/player/list')).data
       this.players = players.map(player => player.name)
       ;[this.selected] = this.players
     },

@@ -45,7 +45,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        return [
+        return json('', 0, [
             'user' => [
                 'score' => $user->score,
                 'lastSignAt' => $user->last_sign_at,
@@ -56,7 +56,7 @@ class UserController extends Controller
             ],
             'signAfterZero' => option('sign_after_zero'),
             'signGapTime' => option('sign_gap_time'),
-        ];
+        ]);
     }
 
     /**
@@ -94,11 +94,9 @@ class UserController extends Controller
             $acquiredScore = $user->sign();
             $gap = option('sign_gap_time');
 
-            return json([
-                'code'           => 0,
-                'message'        => trans('user.sign-success', ['score' => $acquiredScore]),
-                'score'          => $user->score,
-                'storage'        => $this->calculatePercentageUsed($user->getStorageUsed(), option('score_per_storage')),
+            return json(trans('user.sign-success', ['score' => $acquiredScore]), 0, [
+                'score' => $user->score,
+                'storage' => $this->calculatePercentageUsed($user->getStorageUsed(), option('score_per_storage')),
                 'remaining_time' => $gap > 1 ? round($gap) : $gap,
             ]);
         } else {
@@ -130,7 +128,7 @@ class UserController extends Controller
         $remain = 60 + session('last_mail_time', 0) - time();
 
         if ($remain > 0) {
-            return json(trans('user.verification.frequent-mail'));
+            return json(trans('user.verification.frequent-mail'), 1);
         }
 
         $user = Auth::user();
@@ -250,11 +248,7 @@ class UserController extends Controller
                 if ($user->delete()) {
                     session()->flush();
 
-                    return response()
-                        ->json([
-                            'code' => 0,
-                            'message' => trans('user.profile.delete.success'),
-                        ]);
+                    return json(trans('user.profile.delete.success'), 0);
                 }
 
                 break;   // @codeCoverageIgnore

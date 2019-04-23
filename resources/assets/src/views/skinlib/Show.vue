@@ -220,7 +220,7 @@ export default {
   },
   methods: {
     async fetchData() {
-      const data = await this.$http.get(`/skinlib/info/${this.tid}`)
+      const { data = {} } = await this.$http.get(`/skinlib/info/${this.tid}`)
       this.name = data.name
       this.type = data.type
       this.likes = data.likes

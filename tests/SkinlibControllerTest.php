@@ -22,11 +22,11 @@ class SkinlibControllerTest extends TestCase
     public function testGetSkinlibFiltered()
     {
         $this->getJson('/skinlib/data')
-            ->assertJson([
+            ->assertJson(['data' => [
                 'items' => [],
                 'current_uid' => 0,
                 'total_pages' => 0,
-            ]);
+            ]]);
 
         $steves = factory(Texture::class)->times(5)->create();
         $alexs = factory(Texture::class, 'alex')->times(5)->create();
@@ -35,11 +35,11 @@ class SkinlibControllerTest extends TestCase
 
         // Default arguments
         $items = $this->getJson('/skinlib/data')
-            ->assertJson([
+            ->assertJson(['data' => [
                 'current_uid' => 0,
                 'total_pages' => 1,
-            ])
-            ->decodeResponseJson('items');
+            ]])
+            ->decodeResponseJson('data')['items'];
         $this->assertCount(10, $items);
         $this->assertTrue(collect($items)->every(function ($item) {
             return $item['type'] == 'steve' || $item['type'] == 'alex';
@@ -47,11 +47,11 @@ class SkinlibControllerTest extends TestCase
 
         // Only steve
         $items = $this->getJson('/skinlib/data?filter=steve')
-            ->assertJson([
+            ->assertJson(['data' => [
                 'current_uid' => 0,
                 'total_pages' => 1,
-            ])
-            ->decodeResponseJson('items');
+            ]])
+            ->decodeResponseJson('data')['items'];
         $this->assertCount(5, $items);
         $this->assertTrue(collect($items)->every(function ($item) {
             return $item['type'] == 'steve';
@@ -59,19 +59,19 @@ class SkinlibControllerTest extends TestCase
 
         // Invalid type
         $this->getJson('/skinlib/data?filter=what')
-            ->assertJson([
+            ->assertJson(['data' => [
                 'items' => [],
                 'current_uid' => 0,
                 'total_pages' => 0,
-            ]);
+            ]]);
 
         // Only capes
         $items = $this->getJson('/skinlib/data?filter=cape')
-            ->assertJson([
+            ->assertJson(['data' => [
                 'current_uid' => 0,
                 'total_pages' => 1,
-            ])
-            ->decodeResponseJson('items');
+            ]])
+            ->decodeResponseJson('data')['items'];
         $this->assertCount(5, $items);
         $this->assertTrue(collect($items)->every(function ($item) {
             return $item['type'] == 'cape';
@@ -84,11 +84,11 @@ class SkinlibControllerTest extends TestCase
                 return $texture->uploader == $uid;
             });
         $items = $this->getJson('/skinlib/data?uploader='.$uid)
-            ->assertJson([
+            ->assertJson(['data' => [
                 'current_uid' => 0,
                 'total_pages' => 1,
-            ])
-            ->decodeResponseJson('items');
+            ]])
+            ->decodeResponseJson('data')['items'];
         $this->assertCount($owned->count(), $items);
         $this->assertTrue(collect($items)->every(function ($item) use ($uid) {
             return $item['uploader'] == $uid;
@@ -99,11 +99,11 @@ class SkinlibControllerTest extends TestCase
             return $skin->tid;
         })->values();
         $items = $this->getJson('/skinlib/data?sort=tid')
-            ->assertJson([
+            ->assertJson(['data' => [
                 'current_uid' => 0,
                 'total_pages' => 1,
-            ])
-            ->decodeResponseJson('items');
+            ]])
+            ->decodeResponseJson('data')['items'];
         $items = array_map(function ($item) {
             return $item['tid'];
         }, $items);
@@ -113,11 +113,11 @@ class SkinlibControllerTest extends TestCase
         $user = factory(User::class)->create();
         $user->closet()->attach($skins->random()->tid, ['item_name' => 'name']);
         $items = $this->getJson('/skinlib/data?sort=likes')
-            ->assertJson([
+            ->assertJson(['data' => [
                 'current_uid' => 0,
                 'total_pages' => 1,
-            ])
-            ->decodeResponseJson('items');
+            ]])
+            ->decodeResponseJson('data')['items'];
         $this->assertEquals(1, $items[0]['likes']);
         $this->assertEquals(0, $items[1]['likes']);
 
@@ -129,11 +129,11 @@ class SkinlibControllerTest extends TestCase
                     Str::contains($texture->name, strtolower($keyword));
             });
         $items = $this->getJson('/skinlib/data?keyword='.$keyword)
-            ->assertJson([
+            ->assertJson(['data' => [
                 'current_uid' => 0,
                 'total_pages' => 1,
-            ])
-            ->decodeResponseJson('items');
+            ]])
+            ->decodeResponseJson('data')['items'];
         $this->assertCount($keyworded->count(), $items);
 
         // More than one argument
@@ -149,11 +149,11 @@ class SkinlibControllerTest extends TestCase
             })
             ->values();
         $items = $this->getJson('/skinlib/data?sort=size&keyword='.$keyword)
-            ->assertJson([
+            ->assertJson(['data' => [
                 'current_uid' => 0,
                 'total_pages' => 1,
-            ])
-            ->decodeResponseJson('items');
+            ]])
+            ->decodeResponseJson('data')['items'];
         $items = array_map(function ($item) {
             return $item['tid'];
         }, $items);
@@ -167,47 +167,47 @@ class SkinlibControllerTest extends TestCase
             ->merge($steves);
         $skins = $steves->merge($alexs);
         $items = $this->getJson('/skinlib/data')
-            ->assertJson([
+            ->assertJson(['data' => [
                 'current_uid' => 0,
                 'total_pages' => 2,
-            ])
-            ->decodeResponseJson('items');
+            ]])
+            ->decodeResponseJson('data')['items'];
         $this->assertCount(20, $items);
         $items = $this->getJson('/skinlib/data?page=-5')
-            ->assertJson([
+            ->assertJson(['data' => [
                 'current_uid' => 0,
                 'total_pages' => 2,
-            ])
-            ->decodeResponseJson('items');
+            ]])
+            ->decodeResponseJson('data')['items'];
         $this->assertCount(20, $items);
         $page2Count = $skins->forPage(2, 20)->count();
         $items = $this->getJson('/skinlib/data?page=2')
-            ->assertJson([
+            ->assertJson(['data' => [
                 'current_uid' => 0,
                 'total_pages' => 2,
-            ])
-            ->decodeResponseJson('items');
+            ]])
+            ->decodeResponseJson('data')['items'];
         $this->assertCount(5, $items);
         $this->getJson('/skinlib/data?page=8')
-            ->assertJson([
+            ->assertJson(['data' => [
                 'items' => [],
                 'current_uid' => 0,
                 'total_pages' => 2,
-            ]);
+            ]]);
         $items = $this->getJson('/skinlib/data?items_per_page=-6&page=2')
-            ->assertJson([
+            ->assertJson(['data' => [
                 'current_uid' => 0,
                 'total_pages' => 2,
-            ])
-            ->decodeResponseJson('items');
+            ]])
+            ->decodeResponseJson('data')['items'];
         $this->assertCount($page2Count, $items);
         $page3Count = $skins->forPage(3, 8)->count();
         $items = $this->getJson('/skinlib/data?page=3&items_per_page=8')
-            ->assertJson([
+            ->assertJson(['data' => [
                 'current_uid' => 0,
                 'total_pages' => 4,
-            ])
-            ->decodeResponseJson('items');
+            ]])
+            ->decodeResponseJson('data')['items'];
         $this->assertCount($page3Count, $items);
 
         // Add some private textures
@@ -219,11 +219,11 @@ class SkinlibControllerTest extends TestCase
 
         // If not logged in, private textures should not be shown
         $items = $this->getJson('/skinlib/data')
-            ->assertJson([
+            ->assertJson(['data' => [
                 'current_uid' => 0,
                 'total_pages' => 2,
-            ])
-            ->decodeResponseJson('items');
+            ]])
+            ->decodeResponseJson('data')['items'];
         $this->assertTrue(collect($items)->every(function ($item) {
             return $item['public'] == true;
         }));
@@ -231,11 +231,11 @@ class SkinlibControllerTest extends TestCase
         // Other users should not see someone's private textures
         $items = $this->actingAs($otherUser)
             ->getJson('/skinlib/data')
-            ->assertJson([
+            ->assertJson(['data' => [
                 'current_uid' => $otherUser->uid,
                 'total_pages' => 2,
-            ])
-            ->decodeResponseJson('items');
+            ]])
+            ->decodeResponseJson('data')['items'];
         $this->assertTrue(collect($items)->every(function ($item) {
             return ! $item['liked'];
         }));
@@ -244,22 +244,22 @@ class SkinlibControllerTest extends TestCase
         $texture = $skins->sortByDesc('upload_at')->values()->first();
         $otherUser->closet()->attach($texture->tid, ['item_name' => $texture->name]);
         $this->getJson('/skinlib/data')
-            ->assertJson([
+            ->assertJson(['data' => [
                 'items' => [
                     ['tid' => $texture->tid, 'liked' => true],
                 ],
                 'current_uid' => $otherUser->uid,
                 'total_pages' => 2,
-            ]);
+            ]]);
 
         // Uploader can see his private textures
         $items = $this->actingAs($uploader)
             ->getJson('/skinlib/data')
-            ->assertJson([
+            ->assertJson(['data' => [
                 'current_uid' => $uploader->uid,
                 'total_pages' => 2,
-            ])
-            ->decodeResponseJson('items');
+            ]])
+            ->decodeResponseJson('data')['items'];
         $this->assertTrue(collect($items)->contains(function ($item) {
             return $item['public'] == false;
         }));
@@ -268,11 +268,11 @@ class SkinlibControllerTest extends TestCase
         $admin = factory(User::class, 'admin')->create();
         $items = $this->actingAs($admin)
             ->getJson('/skinlib/data')
-            ->assertJson([
+            ->assertJson(['data' => [
                 'current_uid' => $admin->uid,
                 'total_pages' => 2,
-            ])
-            ->decodeResponseJson('items');
+            ]])
+            ->decodeResponseJson('data')['items'];
         $this->assertTrue(collect($items)->contains(function ($item) {
             return $item['public'] == false;
         }));
@@ -335,11 +335,11 @@ class SkinlibControllerTest extends TestCase
     public function testInfo()
     {
         // Non-existed texture
-        $this->get('/skinlib/info/1')->assertJson([]);
+        $this->get('/skinlib/info/1')->assertNotFound();
 
         $texture = factory(Texture::class)->create();
         $this->get('/skinlib/info/'.$texture->tid)
-            ->assertJson([
+            ->assertJson(['data' => [
                 'tid' => $texture->tid,
                 'name' => $texture->name,
                 'type' => $texture->type,
@@ -349,7 +349,7 @@ class SkinlibControllerTest extends TestCase
                 'uploader' => $texture->uploader,
                 'public' => $texture->public,
                 'upload_at' => $texture->upload_at->format('Y-m-d H:i:s'),
-            ]);
+            ]]);
     }
 
     public function testUpload()
@@ -555,7 +555,7 @@ class SkinlibControllerTest extends TestCase
         $response->assertJson([
             'code' => 0,
             'message' => trans('skinlib.upload.success', ['name' => 'texture']),
-            'tid' => $t->tid,
+            'data' => ['tid' => $t->tid],
         ]);
         Storage::disk('textures')->assertExists($t->hash);
         $user = User::find($user->uid);
@@ -581,7 +581,7 @@ class SkinlibControllerTest extends TestCase
             )->assertJson([
                 'code' => 0,
                 'message' => trans('skinlib.upload.repeated'),
-                'tid' => $t->tid,
+                'data' => ['tid' => $t->tid],
             ]);
 
         unlink(storage_path('framework/testing/disks/textures/'.$t->hash));
@@ -744,7 +744,6 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'code' => 0,
                 'message' => trans('skinlib.privacy.success', ['privacy' => trans('general.private')]),
-                'public' => false,
             ]);
         $this->assertEquals(0, Texture::find($texture->tid)->public);
 
@@ -769,7 +768,6 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'code' => 0,
                 'message' => trans('skinlib.privacy.success', ['privacy' => trans('general.private')]),
-                'public' => false,
             ]);
         $this->assertEquals(0, User::find($uploader->uid)->score);
 
@@ -785,7 +783,6 @@ class SkinlibControllerTest extends TestCase
             ->assertJson([
                 'code' => 0,
                 'message' => trans('skinlib.privacy.success', ['privacy' => trans('general.private')]),
-                'public' => false,
             ]);
         $this->assertEquals(0, Player::find($player->pid)->tid_skin);
         $this->assertEquals(0, $other->closet()->count());
@@ -812,10 +809,7 @@ class SkinlibControllerTest extends TestCase
         $other = factory(User::class)->create();
         $other->closet()->attach($texture->tid, ['item_name' => 'a']);
         $this->postJson('/skinlib/privacy', ['tid' => $texture->tid])
-            ->assertJson([
-                'code' => 0,
-                'public' => false,
-            ]);
+            ->assertJson(['code' => 0]);
         $this->assertEquals($other->score, User::find($other->uid)->score);
     }
 

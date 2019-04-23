@@ -160,7 +160,7 @@ export default {
 
       this.uploading = true
       const {
-        code, message, tid,
+        code, message, data: { tid } = { tid: 0 },
       } = await this.$http.post('/skinlib/upload', data)
       if (code === 0) {
         this.$message.success(message)

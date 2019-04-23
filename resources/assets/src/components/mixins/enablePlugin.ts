@@ -22,11 +22,11 @@ export default Vue.extend({
       }
 
       const {
-        code, message, reason,
+        code, message, data: { reason } = { reason: [] },
       } = await this.$http.post(
         '/admin/plugins/manage',
         { action: 'enable', name }
-      ) as { code: number, message: string, reason: string[] }
+      ) as { code: number, message: string, data: { reason: string[] } }
       if (code === 0) {
         this.$message.success(message)
         this.$set(this.plugins[originalIndex], 'enabled', true)

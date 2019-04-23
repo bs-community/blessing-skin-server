@@ -200,7 +200,9 @@ export default {
     search() {}, // eslint-disable-line no-empty-function
     async loadCloset(page = 1) {
       const {
-        items, category, total_pages: totalPages,
+        data: {
+          items, category, total_pages: totalPages,
+        },
       } = await this.$http.get(
         '/user/closet-data',
         {
@@ -226,7 +228,7 @@ export default {
       this.loadCloset(page)
     },
     async selectTexture(tid) {
-      const { type, hash } = await this.$http.get(`/skinlib/info/${tid}`)
+      const { data: { type, hash } } = await this.$http.get(`/skinlib/info/${tid}`)
       if (type === 'cape') {
         this.capeUrl = `/textures/${hash}`
         this.selectedCape = tid

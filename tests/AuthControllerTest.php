@@ -81,7 +81,7 @@ class AuthControllerTest extends TestCase
             [
                 'code' => 1,
                 'message' => trans('auth.validation.password'),
-                'login_fails' => 1,
+                'data' => ['login_fails' => 1],
             ]
         );
         $this->assertTrue(Cache::has($loginFailsCacheKey));

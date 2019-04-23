@@ -37,24 +37,26 @@ class ClosetControllerTest extends TestCase
         // Use default query parameters
         $this->getJson('/user/closet-data')
             ->assertJsonStructure([
-                'category',
-                'total_pages',
-                'items' => [['tid', 'name', 'type']],
+                'data' => [
+                    'category',
+                    'total_pages',
+                    'items' => [['tid', 'name', 'type']],
+                ]
             ]);
 
         // Responsive
-        $result = $this->json('get', '/user/closet-data?perPage=0')->json();
+        $result = $this->json('get', '/user/closet-data?perPage=0')->json()['data'];
         $this->assertCount(6, $result['items']);
-        $result = $this->json('get', '/user/closet-data?perPage=8')->json();
+        $result = $this->json('get', '/user/closet-data?perPage=8')->json()['data'];
         $this->assertCount(8, $result['items']);
-        $result = $this->json('get', '/user/closet-data?perPage=8&page=2')->json();
+        $result = $this->json('get', '/user/closet-data?perPage=8&page=2')->json()['data'];
         $this->assertCount(2, $result['items']);
 
         // Get capes
         $cape = factory(Texture::class, 'cape')->create();
         $this->user->closet()->attach($cape->tid, ['item_name' => 'custom_name']);
         $this->getJson('/user/closet-data?category=cape')
-            ->assertJson([
+            ->assertJson(['data' => [
                 'category' => 'cape',
                 'total_pages' => 1,
                 'items' => [[
@@ -62,12 +64,12 @@ class ClosetControllerTest extends TestCase
                     'name' => 'custom_name',
                     'type' => 'cape',
                 ]],
-            ]);
+            ]]);
 
         // Search by keyword
         $random = $textures->random();
         $this->getJson('/user/closet-data?q='.$random->name)
-            ->assertJson([
+            ->assertJson(['data' => [
                 'category' => 'skin',
                 'total_pages' => 1,
                 'items' => [[
@@ -75,7 +77,7 @@ class ClosetControllerTest extends TestCase
                     'name' => $random->name,
                     'type' => $random->type,
                 ]],
-            ]);
+            ]]);
     }
 
     public function testAdd()

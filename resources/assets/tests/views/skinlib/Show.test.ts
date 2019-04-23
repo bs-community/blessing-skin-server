@@ -28,7 +28,7 @@ const previewer = Vue.extend({
 })
 
 test('button for adding to closet should be disabled if not auth', () => {
-  Vue.prototype.$http.get.mockResolvedValue({})
+  Vue.prototype.$http.get.mockResolvedValue({ data: {} })
   const wrapper = mount(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
@@ -39,7 +39,7 @@ test('button for adding to closet should be disabled if not auth', () => {
 })
 
 test('button for adding to closet should be disabled if auth', () => {
-  Vue.prototype.$http.get.mockResolvedValue({})
+  Vue.prototype.$http.get.mockResolvedValue({ data: {} })
   Object.assign(window.blessing.extra, { inCloset: true, currentUid: 1 })
   const wrapper = mount(Show, {
     mocks: {
@@ -51,7 +51,7 @@ test('button for adding to closet should be disabled if auth', () => {
 })
 
 test('likes count indicator', async () => {
-  Vue.prototype.$http.get.mockResolvedValue({ likes: 2 })
+  Vue.prototype.$http.get.mockResolvedValue({ data: { likes: 2 } })
   const wrapper = mount(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
@@ -65,11 +65,13 @@ test('likes count indicator', async () => {
 
 test('render basic information', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
-    name: 'my-texture',
-    type: 'alex',
-    hash: '123',
-    size: 2,
-    upload_at: '2018',
+    data: {
+      name: 'my-texture',
+      type: 'alex',
+      hash: '123',
+      size: 2,
+      upload_at: '2018',
+    },
   })
   const wrapper = mount(Show, {
     mocks: {
@@ -88,7 +90,7 @@ test('render basic information', async () => {
 
 test('render action text of editing texture name', async () => {
   Object.assign(window.blessing.extra, { admin: true })
-  Vue.prototype.$http.get.mockResolvedValue({ uploader: 1, name: 'name' })
+  Vue.prototype.$http.get.mockResolvedValue({ data: { uploader: 1, name: 'name' } })
 
   let wrapper = mount(Show, {
     mocks: {
@@ -110,7 +112,7 @@ test('render action text of editing texture name', async () => {
 
 test('render nickname of uploader', () => {
   Object.assign(window.blessing.extra, { nickname: null })
-  Vue.prototype.$http.get.mockResolvedValue({})
+  Vue.prototype.$http.get.mockResolvedValue({ data: {} })
   const wrapper = mount(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
@@ -121,7 +123,7 @@ test('render nickname of uploader', () => {
 
 test('operation panel should not be rendered if not auth', () => {
   Object.assign(window.blessing.extra, { currentUid: 0 })
-  Vue.prototype.$http.get.mockResolvedValue({})
+  Vue.prototype.$http.get.mockResolvedValue({ data: {} })
   const wrapper = mount(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
@@ -132,7 +134,7 @@ test('operation panel should not be rendered if not auth', () => {
 
 test('download texture', async () => {
   Object.assign(window.blessing.extra, { currentUid: 1 })
-  Vue.prototype.$http.get.mockResolvedValue({ tid: 1, name: 'abc' })
+  Vue.prototype.$http.get.mockResolvedValue({ data: { tid: 1, name: 'abc' } })
   const wrapper = mount(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
@@ -144,7 +146,7 @@ test('download texture', async () => {
 
 test('link to downloading texture', async () => {
   Object.assign(window.blessing.extra, { download: false })
-  Vue.prototype.$http.get.mockResolvedValue({ hash: '123' })
+  Vue.prototype.$http.get.mockResolvedValue({ data: { hash: '123' } })
   const wrapper = mount(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
@@ -157,7 +159,7 @@ test('link to downloading texture', async () => {
 
 test('set as avatar', async () => {
   Object.assign(window.blessing.extra, { currentUid: 1, inCloset: true })
-  Vue.prototype.$http.get.mockResolvedValueOnce({ type: 'steve' })
+  Vue.prototype.$http.get.mockResolvedValueOnce({ data: { type: 'steve' } })
   const wrapper = mount(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
@@ -170,7 +172,7 @@ test('set as avatar', async () => {
 })
 
 test('hide "set avatar" button when texture is cape', async () => {
-  Vue.prototype.$http.get.mockResolvedValueOnce({ type: 'cape' })
+  Vue.prototype.$http.get.mockResolvedValueOnce({ data: { type: 'cape' } })
   const wrapper = mount(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
@@ -183,7 +185,7 @@ test('hide "set avatar" button when texture is cape', async () => {
 
 test('add to closet', async () => {
   Object.assign(window.blessing.extra, { currentUid: 1, inCloset: false })
-  Vue.prototype.$http.get.mockResolvedValue({ name: 'wow', likes: 2 })
+  Vue.prototype.$http.get.mockResolvedValue({ data: { name: 'wow', likes: 2 } })
   Vue.prototype.$http.post.mockResolvedValue({ code: 0, message: '' })
   Vue.prototype.$prompt.mockResolvedValue({ value: 'a' } as MessageBoxData)
   const wrapper = mount<Component>(Show, {
@@ -200,7 +202,7 @@ test('add to closet', async () => {
 
 test('remove from closet', async () => {
   Object.assign(window.blessing.extra, { currentUid: 1, inCloset: true })
-  Vue.prototype.$http.get.mockResolvedValue({ likes: 2 })
+  Vue.prototype.$http.get.mockResolvedValue({ data: { likes: 2 } })
   Vue.prototype.$http.post.mockResolvedValue({ code: 0 })
   const wrapper = mount<Component>(Show, {
     mocks: {
@@ -216,7 +218,7 @@ test('remove from closet', async () => {
 
 test('change texture name', async () => {
   Object.assign(window.blessing.extra, { admin: true })
-  Vue.prototype.$http.get.mockResolvedValue({ name: 'old-name' })
+  Vue.prototype.$http.get.mockResolvedValue({ data: { name: 'old-name' } })
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: '1' })
     .mockResolvedValue({ code: 0, message: '0' })
@@ -254,7 +256,7 @@ test('change texture name', async () => {
 })
 
 test('change texture model', async () => {
-  Vue.prototype.$http.get.mockResolvedValue({ type: 'steve' })
+  Vue.prototype.$http.get.mockResolvedValue({ data: { type: 'steve' } })
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: '1' })
     .mockResolvedValue({ code: 0, message: '0' })
@@ -297,7 +299,7 @@ test('change texture model', async () => {
 })
 
 test('toggle privacy', async () => {
-  Vue.prototype.$http.get.mockResolvedValue({ public: true })
+  Vue.prototype.$http.get.mockResolvedValue({ data: { public: true } })
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: '1' })
     .mockResolvedValue({ code: 0, message: '0' })
@@ -336,7 +338,7 @@ test('toggle privacy', async () => {
 })
 
 test('delete texture', async () => {
-  Vue.prototype.$http.get.mockResolvedValue({})
+  Vue.prototype.$http.get.mockResolvedValue({ data: {} })
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: '1' })
     .mockResolvedValue({ code: 0, message: '0' })
@@ -372,7 +374,7 @@ test('delete texture', async () => {
 })
 
 test('report texture', async () => {
-  Vue.prototype.$http.get.mockResolvedValue({ report: 0 })
+  Vue.prototype.$http.get.mockResolvedValue({ data: { report: 0 } })
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: 'duplicated' })
     .mockResolvedValue({ code: 0, message: 'success' })
@@ -422,7 +424,7 @@ test('report texture', async () => {
 
 test('apply texture to player', () => {
   Vue.prototype.$http.get
-    .mockResolvedValue({})
+    .mockResolvedValue({ data: {} })
     .mockResolvedValue([])
   const wrapper = mount(Show, {
     mocks: {

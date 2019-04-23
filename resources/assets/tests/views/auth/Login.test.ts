@@ -22,9 +22,9 @@ test('login', async () => {
   window.blessing.extra = { tooManyFails: false }
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: 'fail' })
-    .mockResolvedValueOnce({ code: 1, login_fails: 4 })
-    .mockResolvedValueOnce({ code: 1, login_fails: 4 })
-    .mockResolvedValueOnce({ code: 1, login_fails: 4 })
+    .mockResolvedValueOnce({ code: 1, data: { login_fails: 4 } })
+    .mockResolvedValueOnce({ code: 1, data: { login_fails: 4 } })
+    .mockResolvedValueOnce({ code: 1, data: { login_fails: 4 } })
     .mockResolvedValueOnce({ code: 0, message: 'ok' })
   const wrapper = mount(Login, { stubs: { Captcha } })
   const form = wrapper.find('form')

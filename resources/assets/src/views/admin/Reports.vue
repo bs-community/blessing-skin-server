@@ -122,14 +122,14 @@ export default {
     },
     async resolve(report, action) {
       const {
-        code, message, status,
+        code, message, data,
       } = await this.$http.post(
         '/admin/reports',
         { id: report.id, action }
       )
       if (code === 0) {
         this.$message.success(message)
-        report.status = status
+        report.status = data.status
       } else {
         this.$message.warning(message)
       }

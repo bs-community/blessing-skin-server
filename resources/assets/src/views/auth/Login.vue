@@ -99,7 +99,7 @@ export default {
 
       this.pending = true
       const {
-        code, message, login_fails: loginFails,
+        code, message, data: { login_fails: loginFails } = { login_fails: 0 },
       } = await this.$http.post(
         '/auth/login',
         {

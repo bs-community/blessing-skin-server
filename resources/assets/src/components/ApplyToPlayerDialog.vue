@@ -71,7 +71,7 @@ export default {
   },
   methods: {
     async fetchList() {
-      this.players = await this.$http.get('/user/player/list')
+      this.players = (await this.$http.get('/user/player/list')).data
     },
     async submit() {
       if (!this.selected) {

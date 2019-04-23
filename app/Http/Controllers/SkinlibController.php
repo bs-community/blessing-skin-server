@@ -119,8 +119,8 @@ class SkinlibController extends Controller
             }
         }
 
-        return response()->json([
-            'items'       => $textures,
+        return json('', 0, [
+            'items' => $textures,
             'current_uid' => $user ? $user->uid : 0,
             'total_pages' => $totalPages,
         ]);
@@ -165,9 +165,9 @@ class SkinlibController extends Controller
     public function info($tid)
     {
         if ($t = Texture::find($tid)) {
-            return json($t->toArray());
+            return json('', 0, $t->toArray());
         } else {
-            return json([]);
+            return abort(404);
         }
     }
 
@@ -228,9 +228,7 @@ class SkinlibController extends Controller
                 // if the texture already uploaded was set to private,
                 // then allow to re-upload it.
                 if ($result->type == $t->type && $result->public) {
-                    return json(trans('skinlib.upload.repeated'), 0, [
-                        'tid' => $result->tid,
-                    ]);
+                    return json(trans('skinlib.upload.repeated'), 0, ['tid' => $result->tid]);
                 }
             }
         }
@@ -340,11 +338,10 @@ class SkinlibController extends Controller
         $t->public = ! $t->public;
         $t->save();
 
-        return json([
-            'code' => 0,
-            'message' => trans('skinlib.privacy.success', ['privacy' => (! $t->public ? trans('general.private') : trans('general.public'))]),
-            'public' => $t->public,
-        ]);
+        return json(
+            trans('skinlib.privacy.success', ['privacy' => (! $t->public ? trans('general.private') : trans('general.public'))]),
+            0
+        );
     }
 
     // @codeCoverageIgnore

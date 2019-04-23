@@ -4,7 +4,7 @@ import Bind from '@/views/user/Bind.vue'
 
 test('list existed players', async () => {
   Vue.prototype.$http.get
-    .mockResolvedValue([{ name: 'a' }, { name: 'b' }])
+    .mockResolvedValue({ data: [{ name: 'a' }, { name: 'b' }] })
   const wrapper = mount(Bind)
   await wrapper.vm.$nextTick()
   const options = wrapper.findAll('option')
@@ -12,7 +12,7 @@ test('list existed players', async () => {
 })
 
 test('show input box', async () => {
-  Vue.prototype.$http.get.mockResolvedValue([])
+  Vue.prototype.$http.get.mockResolvedValue({ data: [] })
   const wrapper = mount(Bind)
   await wrapper.vm.$nextTick()
   const input = wrapper.find('input')
@@ -20,7 +20,7 @@ test('show input box', async () => {
 })
 
 test('submit', async () => {
-  Vue.prototype.$http.get.mockResolvedValue([])
+  Vue.prototype.$http.get.mockResolvedValue({ data: [] })
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: 'fail' })
     .mockResolvedValueOnce({ code: 0, message: 'ok' })
