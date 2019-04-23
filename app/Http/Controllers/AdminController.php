@@ -483,10 +483,12 @@ class AdminController extends Controller
             return json(trans('general.unexistent-player'), 1);
         }
 
-        if ($player->user()->first()->uid !== $currentUser->uid) {
-            if ($player->user->permission >= $currentUser->permission) {
-                return json(trans('admin.players.no-permission'), 1);
-            }
+        $owner = $player->user;
+        if (
+            $owner && $owner->uid !== $currentUser->uid &&
+            $owner->permission >= $currentUser->permission
+        ) {
+            return json(trans('admin.players.no-permission'), 1);
         }
 
         if ($action == 'texture') {
@@ -506,7 +508,7 @@ class AdminController extends Controller
             return json(trans('admin.players.textures.success', ['player' => $player->name]), 0);
         } elseif ($action == 'owner') {
             $this->validate($request, [
-                'uid'   => 'required|integer',
+                'uid' => 'required|integer',
             ]);
 
             $user = User::find($request->uid);
@@ -531,8 +533,7 @@ class AdminController extends Controller
             $player->name = $name;
             $player->save();
 
-            if (option('single_player', false)) {
-                $owner = $player->user;
+            if (option('single_player', false) && $owner) {
                 $owner->nickname = $name;
                 $owner->save();
             }
