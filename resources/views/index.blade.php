@@ -22,9 +22,6 @@
                 <div class="container">
                     <div class="navbar-header">
                         <a href="{{ option('site_url') }}" class="navbar-brand">{{ option_localized('site_name') }}</a>
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-                            <i class="fas fa-bars"></i>
-                        </button>
                     </div>
 
                     <!-- Collect the nav links, forms, and other content for toggling -->
