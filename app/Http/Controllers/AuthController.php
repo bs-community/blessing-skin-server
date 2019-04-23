@@ -267,4 +267,9 @@ class AuthController extends Controller
         Auth::guard('api')->logout();
         return response('', 204);
     }
+
+    public function apiRefresh()
+    {
+        return json(['token' => Auth::guard('api')->refresh()]);
+    }
 }

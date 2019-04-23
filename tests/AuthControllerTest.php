@@ -552,4 +552,19 @@ class AuthControllerTest extends TestCase
             'Authorization' => "Bearer $token"
         ])->assertStatus(204);
     }
+
+    public function testApiRefresh()
+    {
+        $user = factory(User::class)->create();
+        $user->changePassword('12345678');
+        $token = $this->postJson('/api/auth/login', [
+            'email' => $user->email,
+            'password' => '12345678'
+        ])->decodeResponseJson('token');
+
+        $token = $this->postJson('/api/auth/refresh', [], [
+            'Authorization' => "Bearer $token"
+        ])->decodeResponseJson('token');
+        $this->assertTrue(is_string($token));
+    }
 }
