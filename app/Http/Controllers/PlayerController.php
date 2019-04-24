@@ -20,23 +20,8 @@ use App\Http\Middleware\CheckPlayerOwner;
 
 class PlayerController extends Controller
 {
-    /**
-     * Player Instance.
-     *
-     * @var \App\Models\Player
-     */
-    private $player;
-
     public function __construct()
     {
-        $this->middleware(function ($request, $next) {
-            if ($request->has('pid')) {
-                $this->player = Player::find($request->pid);
-            }
-
-            return $next($request);
-        });
-
         $this->middleware([CheckPlayerExist::class, CheckPlayerOwner::class], [
             'only' => ['delete', 'rename', 'setTexture', 'clearTexture'],
         ]);
@@ -102,20 +87,21 @@ class PlayerController extends Controller
 
         $user->setScore(option('score_per_player'), 'minus');
 
-        return json(trans('user.player.add.success', ['name' => $name]), 0);
+        return json(trans('user.player.add.success', ['name' => $name]), 0, $player->toArray());
     }
 
-    public function delete()
+    public function delete($pid)
     {
-        $playerName = $this->player->name;
+        $player = Player::find($pid);
+        $playerName = $player->name;
 
         if (option('single_player', false)) {
             return json(trans('user.player.delete.single'), 1);
         }
 
-        event(new PlayerWillBeDeleted($this->player));
+        event(new PlayerWillBeDeleted($player));
 
-        $this->player->delete();
+        $player->delete();
 
         if (option('return_score')) {
             Auth::user()->setScore(Option::get('score_per_player'), 'plus');
@@ -126,21 +112,20 @@ class PlayerController extends Controller
         return json(trans('user.player.delete.success', ['name' => $playerName]), 0);
     }
 
-    public function rename(Request $request)
+    public function rename(Request $request, $pid)
     {
-        $this->validate($request, [
-            'new_player_name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max'),
-        ]);
-
-        $newName = $request->input('new_player_name');
+        $newName = $this->validate($request, [
+            'name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max'),
+        ])['name'];
+        $player = Player::find($pid);
 
         if (! Player::where('name', $newName)->get()->isEmpty()) {
             return json(trans('user.player.rename.repeated'), 6);
         }
 
-        $oldName = $this->player->name;
-        $this->player->name = $newName;
-        $this->player->save();
+        $oldName = $player->name;
+        $player->name = $newName;
+        $player->save();
 
         if (option('single_player', false)) {
             $user = auth()->user();
@@ -148,38 +133,40 @@ class PlayerController extends Controller
             $user->save();
         }
 
-        return json(trans('user.player.rename.success', ['old' => $oldName, 'new' => $newName]), 0);
+        return json(trans('user.player.rename.success', ['old' => $oldName, 'new' => $newName]), 0, $player->toArray());
     }
 
-    public function setTexture(Request $request)
+    public function setTexture(Request $request, $pid)
     {
-        foreach ($request->input('tid') as $key => $value) {
-            $texture = Texture::find($value);
+        $player = Player::find($pid);
+        foreach (['skin', 'cape'] as $type) {
+            if ($tid = $request->input($type)) {
+                $texture = Texture::find($tid);
+                if (! $texture) {
+                    return json(trans('skinlib.non-existent'), 1);
+                }
 
-            if (! $texture) {
-                return json(trans('skinlib.un-existent'), 6);
+                $field = "tid_$type";
+                $player->$field = $tid;
+                $player->save();
             }
-
-            $field = $texture->type == 'cape' ? 'tid_cape' : 'tid_skin';
-
-            $this->player->$field = $value;
-            $this->player->save();
         }
 
-        return json(trans('user.player.set.success', ['name' => $this->player->name]), 0);
+        return json(trans('user.player.set.success', ['name' => $player->name]), 0, $player->toArray());
     }
 
-    public function clearTexture(Request $request)
+    public function clearTexture(Request $request, $pid)
     {
-        array_map(function ($type) use ($request) {
-            if ($request->input($type)) {
+        $player = Player::find($pid);
+        array_map(function ($type) use ($request, $player) {
+            if ($request->has($type)) {
                 $field = "tid_$type";
-                $this->player->$field = 0;
+                $player->$field = 0;
             }
-        }, ['skin', 'cape']);
-        $this->player->save();
+        }, $request->input('type') ?? ['skin', 'cape']);
+        $player->save();
 
-        return json(trans('user.player.clear.success', ['name' => $this->player->name]), 0);
+        return json(trans('user.player.clear.success', ['name' => $player->name]), 0, $player->toArray());
     }
 
     public function bind(Request $request)

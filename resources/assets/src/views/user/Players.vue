@@ -231,8 +231,8 @@ export default {
       }
 
       const { code, message } = await this.$http.post(
-        '/user/player/rename',
-        { pid: player.pid, new_player_name: value }
+        `/user/player/rename/${player.pid}`,
+        { name: value }
       )
       if (code === 0) {
         this.$message.success(message)
@@ -247,8 +247,8 @@ export default {
       }
 
       const { code, message } = await this.$http.post(
-        '/user/player/texture/clear',
-        Object.assign({ pid: this.selected }, this.clear)
+        `/user/player/texture/clear/${this.selected}`,
+        this.clear
       )
       if (code === 0) {
         $('.modal').modal('hide')
@@ -271,10 +271,7 @@ export default {
         return
       }
 
-      const { code, message } = await this.$http.post(
-        '/user/player/delete',
-        { pid: player.pid }
-      )
+      const { code, message } = await this.$http.post(`/user/player/delete/${player.pid}`)
       if (code === 0) {
         this.$delete(this.players, index)
         this.$message.success(message)

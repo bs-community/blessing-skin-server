@@ -65,10 +65,10 @@ Route::group([
         Route::any('', 'PlayerController@index');
         Route::get('/list', 'PlayerController@listAll');
         Route::post('/add', 'PlayerController@add');
-        Route::post('/set', 'PlayerController@setTexture');
-        Route::post('/texture/clear', 'PlayerController@clearTexture');
-        Route::post('/rename', 'PlayerController@rename');
-        Route::post('/delete', 'PlayerController@delete');
+        Route::post('/set/{pid}', 'PlayerController@setTexture');
+        Route::post('/texture/clear/{pid}', 'PlayerController@clearTexture');
+        Route::post('/rename/{pid}', 'PlayerController@rename');
+        Route::post('/delete/{pid}', 'PlayerController@delete');
         Route::view('/bind', 'user.bind');
         Route::post('/bind', 'PlayerController@bind');
     });

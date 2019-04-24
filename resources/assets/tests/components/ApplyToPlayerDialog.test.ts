@@ -20,25 +20,19 @@ test('submit applying texture', async () => {
   wrapper.setProps({ skin: 1 })
   button.trigger('click')
   expect(Vue.prototype.$http.post).toBeCalledWith(
-    '/user/player/set',
+    '/user/player/set/1',
     {
-      pid: 1,
-      tid: {
-        skin: 1,
-        cape: undefined,
-      },
+      skin: 1,
+      cape: undefined,
     }
   )
   wrapper.setProps({ skin: 0, cape: 1 })
   button.trigger('click')
   expect(Vue.prototype.$http.post).toBeCalledWith(
-    '/user/player/set',
+    '/user/player/set/1',
     {
-      pid: 1,
-      tid: {
-        skin: undefined,
-        cape: 1,
-      },
+      skin: undefined,
+      cape: 1,
     }
   )
   await wrapper.vm.$nextTick()

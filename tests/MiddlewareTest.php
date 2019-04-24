@@ -143,19 +143,10 @@ class MiddlewareTest extends TestCase
         $player = factory(\App\Models\Player::class)->create();
         $user = $player->user;
         $this->actingAs($user)
-            ->postJson('/user/player/rename', [
-                'pid' => -1,
-                'new_player_name' => 'name',
-            ])->assertJson([
+            ->postJson('/user/player/rename/-1', ['name' => 'name'])
+            ->assertJson([
                 'code' => 1,
                 'message' => trans('general.unexistent-player'),
-            ]);
-        $this->actingAs($user)
-            ->postJson('/user/player/rename', [
-                'pid' => $player->pid,
-                'new_player_name' => 'name',
-            ])->assertJson([
-                'code' => 0,
             ]);
     }
 
@@ -170,19 +161,10 @@ class MiddlewareTest extends TestCase
             ->assertSuccessful();
 
         $this->actingAs($other_user)
-            ->postJson('/user/player/rename', [
-                'pid' => $player->pid,
-            ])->assertJson([
+            ->postJson('/user/player/rename/'.$player->pid)
+            ->assertJson([
                 'code' => 1,
                 'message' => trans('admin.players.no-permission'),
-            ]);
-
-        $this->actingAs($owner)
-            ->postJson('/user/player/rename', [
-                'pid' => $player->pid,
-                'new_player_name' => 'name',
-            ])->assertJson([
-                'code' => 0,
             ]);
     }
 

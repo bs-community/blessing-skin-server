@@ -98,8 +98,8 @@ test('change player name', async () => {
   button.trigger('click')
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
-    '/user/player/rename',
-    { pid: 1, new_player_name: 'new-name' }
+    '/user/player/rename/1',
+    { name: 'new-name' }
   )
   button.trigger('click')
   await flushPromises()
@@ -127,6 +127,8 @@ test('delete player', async () => {
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   button.trigger('click')
+  await flushPromises()
+  expect(Vue.prototype.$http.post).toBeCalledWith('/user/player/delete/1')
   expect(wrapper.text()).toContain('to-be-deleted')
 
   button.trigger('click')
@@ -178,9 +180,9 @@ test('clear texture', async () => {
     .setChecked()
   button.trigger('click')
   expect(Vue.prototype.$http.post).toBeCalledWith(
-    '/user/player/texture/clear',
+    '/user/player/texture/clear/1',
     {
-      pid: 1, skin: true, cape: false,
+      skin: true, cape: false,
     }
   )
   button.trigger('click')

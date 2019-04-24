@@ -114,7 +114,7 @@ class PlayerControllerTest extends TestCase
         $score = $user->score;
         $this->expectsEvents(Events\PlayerWillBeDeleted::class);
         $this->actingAs($user)
-            ->postJson('/user/player/delete', ['pid' => $player->pid])
+            ->postJson('/user/player/delete/'.$player->pid)
             ->assertJson([
                 'code' => 0,
                 'message' => trans('user.player.delete.success', ['name' => $player->name]),
@@ -131,7 +131,7 @@ class PlayerControllerTest extends TestCase
         $player = factory(Player::class)->create();
         $user = $player->user;
         $this->actingAs($user)
-            ->postJson('/user/player/delete', ['pid' => $player->pid])
+            ->postJson('/user/player/delete/'.$player->pid)
             ->assertJson([
                 'code' => 0,
                 'message' => trans('user.player.delete.success', ['name' => $player->name]),
@@ -145,7 +145,7 @@ class PlayerControllerTest extends TestCase
         option(['single_player' => true]);
         $player = factory(Player::class)->create(['uid' => $user->uid]);
         $this->actingAs($user)
-            ->postJson('/user/player/delete', ['pid' => $player->pid])
+            ->postJson('/user/player/delete/'.$player->pid)
             ->assertJson([
                 'code' => 1,
                 'message' => trans('user.player.delete.single'),
@@ -161,54 +161,42 @@ class PlayerControllerTest extends TestCase
 
         // Without new player name
         $this->actingAs($user)
-            ->postJson('/user/player/rename', [
-                'pid' => $player->pid,
-            ])
-            ->assertJsonValidationErrors('new_player_name');
+            ->postJson('/user/player/rename/'.$player->pid)
+            ->assertJsonValidationErrors('name');
 
         // Only A-Za-z0-9_ are allowed
         option(['player_name_rule' => 'official']);
-        $this->postJson('/user/player/rename', [
-            'pid' => $player->pid,
-            'new_player_name' => '角色名',
-        ])->assertJsonValidationErrors('new_player_name');
+        $this->postJson('/user/player/rename/'.$player->pid, ['name' => '角色名'])
+            ->assertJsonValidationErrors('name');
 
         // Other invalid characters
         option(['player_name_rule' => 'cjk']);
-        $this->postJson('/user/player/rename', [
-            'pid' => $player->pid,
-            'new_player_name' => '\\',
-        ])->assertJsonValidationErrors('new_player_name');
+        $this->postJson('/user/player/rename/'.$player->pid, ['name' => '\\'])
+            ->assertJsonValidationErrors('name');
 
         // Use a duplicated player name
         $name = factory(Player::class)->create()->name;
-        $this->postJson('/user/player/rename', [
-            'pid' => $player->pid,
-            'new_player_name' => $name,
-        ])->assertJson([
-            'code' => 6,
-            'message' => trans('user.player.rename.repeated'),
-        ]);
+        $this->postJson('/user/player/rename/'.$player->pid, ['name' => $name])
+            ->assertJson([
+                'code' => 6,
+                'message' => trans('user.player.rename.repeated'),
+            ]);
 
         // Success
-        $this->postJson('/user/player/rename', [
-            'pid' => $player->pid,
-            'new_player_name' => 'new_name',
-        ])->assertJson([
-            'code' => 0,
-            'message' => trans(
-                'user.player.rename.success',
-                ['old' => $player->name, 'new' => 'new_name']
-            ),
-        ]);
+        $this->postJson('/user/player/rename/'.$player->pid, ['name' => 'new_name'])
+            ->assertJson([
+                'code' => 0,
+                'message' => trans(
+                    'user.player.rename.success',
+                    ['old' => $player->name, 'new' => 'new_name']
+                ),
+            ]);
         Event::assertDispatched(Events\PlayerProfileUpdated::class);
 
         // Single player
         option(['single_player' => true]);
-        $this->postJson('/user/player/rename', [
-            'pid' => $player->pid,
-            'new_player_name' => 'abc',
-        ])->assertJson(['code' => 0]);
+        $this->postJson('/user/player/rename/'.$player->pid, ['name' => 'abc'])
+            ->assertJson(['code' => 0]);
         $this->assertEquals('abc', $player->user->nickname);
     }
 
@@ -221,42 +209,27 @@ class PlayerControllerTest extends TestCase
 
         // Set a not-existed texture
         $this->actingAs($user)
-            ->postJson('/user/player/set', [
-                'pid' => $player->pid,
-                'tid' => ['skin' => -1],
-            ])->assertJson([
-                'code' => 6,
-                'message' => trans('skinlib.un-existent'),
+            ->postJson('/user/player/set/'.$player->pid, ['skin' => -1])
+            ->assertJson([
+                'code' => 1,
+                'message' => trans('skinlib.non-existent'),
             ]);
 
         // Set for "skin" type
-        $this->postJson('/user/player/set', [
-            'pid' => $player->pid,
-            'tid' => ['skin' => $skin->tid],
-        ])->assertJson([
-            'code' => 0,
-            'message' => trans('user.player.set.success', ['name' => $player->name]),
-        ]);
+        $this->postJson('/user/player/set/'.$player->pid, ['skin' => $skin->tid])
+            ->assertJson([
+                'code' => 0,
+                'message' => trans('user.player.set.success', ['name' => $player->name]),
+            ]);
         $this->assertEquals($skin->tid, Player::find($player->pid)->tid_skin);
 
         // Set for "cape" type
-        $this->postJson('/user/player/set', [
-            'pid' => $player->pid,
-            'tid' => ['cape' => $cape->tid],
-        ])->assertJson([
-            'code' => 0,
-            'message' => trans('user.player.set.success', ['name' => $player->name]),
-        ]);
+        $this->postJson('/user/player/set/'.$player->pid, ['cape' => $cape->tid])
+            ->assertJson([
+                'code' => 0,
+                'message' => trans('user.player.set.success', ['name' => $player->name]),
+            ]);
         $this->assertEquals($cape->tid, Player::find($player->pid)->tid_cape);
-
-        // Invalid texture type is acceptable
-        $this->postJson('/user/player/set', [
-            'pid' => $player->pid,
-            'tid' => ['nope' => $skin->tid],     // TID must be valid
-        ])->assertJson([
-            'code' => 0,
-            'message' => trans('user.player.set.success', ['name' => $player->name]),
-        ]);
     }
 
     public function testClearTexture()
@@ -271,8 +244,7 @@ class PlayerControllerTest extends TestCase
         $player->refresh();
 
         $this->actingAs($user)
-            ->postJson('/user/player/texture/clear', [
-                'pid' => $player->pid,
+            ->postJson('/user/player/texture/clear/'.$player->pid, [
                 'skin' => 1,    // "1" stands for "true"
                 'cape' => 1,
                 'nope' => 1,     // Invalid texture type is acceptable
@@ -283,6 +255,9 @@ class PlayerControllerTest extends TestCase
         $this->assertEquals(0, Player::find($player->pid)->tid_skin);
         $this->assertEquals(0, Player::find($player->pid)->tid_cape);
         Event::assertDispatched(Events\PlayerProfileUpdated::class);
+
+        $this->postJson('/user/player/texture/clear/'.$player->pid, ['type' => ['skin']])
+            ->assertJson(['code' => 0]);
     }
 
     public function testBind()

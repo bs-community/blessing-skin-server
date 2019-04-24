@@ -83,13 +83,10 @@ export default {
       }
 
       const { code, message } = await this.$http.post(
-        '/user/player/set',
+        `/user/player/set/${this.selected}`,
         {
-          pid: this.selected,
-          tid: {
-            skin: this.skin || undefined,
-            cape: this.cape || undefined,
-          },
+          skin: this.skin || undefined,
+          cape: this.cape || undefined,
         }
       )
       if (code === 0) {
