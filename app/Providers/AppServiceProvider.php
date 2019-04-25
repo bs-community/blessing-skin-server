@@ -29,14 +29,15 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Event::listen(Events\RenderingHeader::class, function ($event) {
-            // Provide some application information for javascript
-            $blessing = array_merge(Arr::except(config('app'), ['key', 'providers', 'aliases', 'cipher', 'log', 'url']), [
+            $blessing = [
+                'version' => config('app.version'),
+                'locale' => config('app.locale'),
+                'fallback_locale' => config('app.fallback_locale'),
                 'base_url' => url('/'),
                 'site_name' => option_localized('site_name'),
                 'route' => request()->path(),
                 'extra' => [],
-            ]);
-
+            ];
             $event->addContent('<script>var blessing = '.json_encode($blessing).';</script>');
         });
 
