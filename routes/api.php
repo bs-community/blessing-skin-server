@@ -1,19 +1,20 @@
 <?php
 
-Route::prefix('auth')->group(function ($route) {
-    $route->post('login', 'AuthController@jwtLogin');
-    $route->post('logout', 'AuthController@jwtLogout')->middleware('auth:jwt');
-    $route->post('refresh', 'AuthController@jwtRefresh')->middleware('auth:jwt');
+Route::prefix('auth')->group(function () {
+    Route::post('login', 'AuthController@jwtLogin');
+    Route::post('logout', 'AuthController@jwtLogout')->middleware('auth:jwt');
+    Route::post('refresh', 'AuthController@jwtRefresh')->middleware('auth:jwt');
 });
 
-Route::prefix('user')->middleware('auth:jwt')->group(function ($route) {
-    $route->put('sign', 'UserController@sign');
-
-    $route->get('players', 'PlayerController@listAll');
-    $route->post('players', 'PlayerController@add');
-    $route->delete('players/{pid}', 'PlayerController@delete');
-    $route->put('players/{pid}/name', 'PlayerController@rename');
-    $route->put('players/{pid}/textures', 'PlayerController@setTexture');
-    $route->delete('players/{pid}/textures', 'PlayerController@clearTexture');
+Route::prefix('user')->middleware('auth:jwt')->group(function () {
+    Route::put('sign', 'UserController@sign');
 });
 
+Route::prefix('players')->middleware('auth:jwt')->group(function () {
+    Route::get('', 'PlayerController@listAll');
+    Route::post('', 'PlayerController@add');
+    Route::delete('{pid}', 'PlayerController@delete');
+    Route::put('{pid}/name', 'PlayerController@rename');
+    Route::put('{pid}/textures', 'PlayerController@setTexture');
+    Route::delete('{pid}/textures', 'PlayerController@clearTexture');
+});
