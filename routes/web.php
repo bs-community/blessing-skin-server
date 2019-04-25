@@ -82,6 +82,9 @@ Route::group([
     Route::post('/closet/add', 'ClosetController@add');
     Route::post('/closet/remove', 'ClosetController@remove');
     Route::post('/closet/rename', 'ClosetController@rename');
+
+    // OAuth2 Management
+    Route::view('/oauth/manage', 'user.oauth');
 });
 
 /*

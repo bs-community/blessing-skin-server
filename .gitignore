@@ -17,3 +17,5 @@ junit.xml
 storage/*.db
 storage/*.sqlite
 .vscode
+storage/oauth-public.key
+storage/oauth-private.key

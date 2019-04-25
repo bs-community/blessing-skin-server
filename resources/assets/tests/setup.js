@@ -1,3 +1,4 @@
+/* eslint-disable max-classes-per-file */
 /* eslint-disable import/no-extraneous-dependencies */
 import 'jest-extended'
 import Vue from 'vue'
@@ -17,6 +18,14 @@ window.blessing = {
 window.Headers = class extends Map {
   constructor(headers = {}) {
     super(Object.entries(headers))
+  }
+}
+
+window.Request = class {
+  constructor(url, init) {
+    this.url = url
+    Object.assign(this, init)
+    this.headers = new Map(Object.entries(init.headers || {}))
   }
 }
 

@@ -5,12 +5,15 @@ namespace App\Models;
 use DB;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
+use Laravel\Passport\HasApiTokens;
 use App\Events\EncryptUserPassword;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject
 {
+    use HasApiTokens;
+
     /**
      * Permissions.
      */

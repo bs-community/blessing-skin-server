@@ -14,6 +14,13 @@ $menu['user'] = [
     ['title' => 'general.player-manage',  'link' => 'user/player',  'icon' => 'fa-users'],
     ['title' => 'general.my-reports',     'link' => 'user/reports', 'icon' => 'fa-flag'],
     ['title' => 'general.profile',        'link' => 'user/profile', 'icon' => 'fa-user'],
+    [
+        'title' => 'general.developer',
+        'icon' => 'fa-code-branch',
+        'children' => [
+            ['title' => 'general.oauth-manage', 'link' => 'user/oauth/manage', 'icon' => 'fa-feather-alt'],
+        ],
+    ],
 ];
 
 $menu['admin'] = [

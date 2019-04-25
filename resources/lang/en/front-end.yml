@@ -223,6 +223,15 @@ user:
     message: You must verify your email address before using the skin hosting service. Haven't received the email?
     resend: Click here to send again.
     sending: Sending...
+  oauth:
+    id: Client ID
+    name: App Name
+    secret: Client Secret
+    redirect: Callback URL
+    modifyName: Modify app name.
+    modifyUrl: Modify callback URL.
+    create: Create New App
+    confirmRemove: Are you sure to delete this app? You won't be able to undo this.
 
 admin:
   operationsTitle: Operations

@@ -13,6 +13,8 @@ back: 返回
 dashboard: 仪表盘
 my-closet: 我的衣柜
 my-reports: 我的举报
+developer: 开发者
+oauth-manage: OAuth2 应用
 player-manage: 角色管理
 user-manage: 用户管理
 report-manage: 举报管理
@@ -39,6 +41,7 @@ pause: 暂停
 reset: 重置
 
 submit: 提交
+cancel: 取消
 op-success: 操作成功
 
 notice: 提示

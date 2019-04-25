@@ -13,6 +13,8 @@ back: Back
 dashboard: Dashboard
 my-closet: Closet
 my-reports: Reports
+developer: Developers
+oauth-manage: OAuth2 Apps
 player-manage: Players
 user-manage: Users
 report-manage: Reports
@@ -39,6 +41,7 @@ pause: Pause
 reset: Reset
 
 submit: Submit
+cancel: Cancel
 op-success: Operated successfully.
 
 notice: Notice

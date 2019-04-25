@@ -23,7 +23,8 @@
     "mews/captcha": "^2.2",
     "guzzlehttp/guzzle": "^6.3",
     "doctrine/dbal": "^2.9",
-    "tymon/jwt-auth": "dev-develop"
+    "tymon/jwt-auth": "dev-develop",
+    "laravel/passport": "^7.2"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.4",

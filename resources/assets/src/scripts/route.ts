@@ -37,6 +37,11 @@ export default [
     el: '.content',
   },
   {
+    path: 'user/oauth/manage',
+    component: () => import('../views/user/OAuth.vue'),
+    el: '.content',
+  },
+  {
     path: 'admin',
     module: [() => import('../views/admin/Dashboard')],
   },

@@ -91,8 +91,14 @@ if (! function_exists('bs_menu')) {
     {
         $menu = config('menu');
 
-        Event::dispatch($type == 'user' ? new App\Events\ConfigureUserMenu($menu)
-                                : new App\Events\ConfigureAdminMenu($menu));
+        switch ($type) {
+            case 'user':
+                event(new App\Events\ConfigureUserMenu($menu));
+                break;
+            case 'admin':
+                event(new App\Events\ConfigureAdminMenu($menu));
+                break;
+        }
 
         if (! isset($menu[$type])) {
             throw new InvalidArgumentException;

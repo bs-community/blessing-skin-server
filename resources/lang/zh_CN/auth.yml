@@ -78,6 +78,12 @@ logout:
   success: 登出成功
   fail: 未找到已保存的登录信息
 
+oauth:
+  authorization:
+    title: 授权
+    introduction: 第三方应用 :name 正在向您请求获取权限。
+    button: 授权
+
 nickname: 昵称
 email: Email
 identification: Email 或角色名

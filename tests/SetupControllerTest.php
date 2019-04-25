@@ -83,9 +83,12 @@ class SetupControllerTest extends TestCase
 
     public function testInfo()
     {
-        $this->get('/setup/info')
-            ->assertViewIs('setup.wizard.info');
-
+        $this->get('/setup/info')->assertViewIs('setup.wizard.info');
+        Schema::dropIfExists('oauth_auth_codes');
+        Schema::dropIfExists('oauth_access_tokens');
+        Schema::dropIfExists('oauth_clients');
+        Schema::dropIfExists('oauth_personal_access_clients');
+        Schema::dropIfExists('oauth_refresh_tokens');
         Artisan::call('migrate:refresh');
         Schema::drop('users');
         $this->get('/setup/info')->assertSee('already exist');
@@ -165,6 +168,10 @@ class SetupControllerTest extends TestCase
             ->andReturn(true);
         Artisan::shouldReceive('call')
             ->with('jwt:secret', ['--no-interaction' => true])
+            ->once()
+            ->andReturn(true);
+        Artisan::shouldReceive('call')
+            ->with('passport:keys', ['--no-interaction' => true])
             ->once()
             ->andReturn(true);
         Artisan::shouldReceive('call')

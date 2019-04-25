@@ -78,6 +78,12 @@ logout:
   success: You are now logged out.
   fail: No valid session.
 
+oauth:
+  authorization:
+    title: Authorization
+    introduction: A 3rd-party application ":name" is requesting permission to access your account.
+    button: Authorize
+
 nickname: Nickname
 email: Email
 identification: Email or player name

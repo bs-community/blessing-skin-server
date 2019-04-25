@@ -221,6 +221,15 @@ user:
     message: 你必须验证你的邮箱才能正常使用本站的皮肤托管等功能。没有收到验证邮件？
     resend: 点击这里再次发送。
     sending: 正在发送……
+  oauth:
+    id: 客户端  ID
+    name: 应用名
+    secret: 客户端 Secret
+    redirect: 回调 URL
+    modifyName: 更改应用名
+    modifyUrl: 更改回调 URL
+    create: 创建应用
+    confirmRemove: 确认要删除这个应用吗？此操作不可撤销。
 
 admin:
   operationsTitle: 更多操作

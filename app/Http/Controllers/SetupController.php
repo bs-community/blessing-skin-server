@@ -142,6 +142,7 @@ class SetupController extends Controller
             Artisan::call('salt:random');
         }
         Artisan::call('jwt:secret', ['--no-interaction' => true]);
+        Artisan::call('passport:keys', ['--no-interaction' => true]);
 
         // Create tables
         Artisan::call('migrate', ['--force' => true]);
