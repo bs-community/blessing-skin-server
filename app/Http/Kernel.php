@@ -17,6 +17,7 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
         \Illuminate\Foundation\Http\Middleware\TrimStrings::class,
         \App\Http\Middleware\ConvertEmptyStringsToNull::class,
+        \App\Http\Middleware\DetectLanguagePrefer::class,
     ];
 
     /**
@@ -26,12 +27,12 @@ class Kernel extends HttpKernel
      */
     protected $middlewareGroups = [
         'web' => [
-            \App\Http\Middleware\EncryptCookies::class,
+            \Illuminate\Cookie\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
-            \App\Http\Middleware\DetectLanguagePrefer::class,
             \App\Http\Middleware\ForbiddenIE::class,
+            \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class
         ],
 
         'api' => [
@@ -39,7 +40,12 @@ class Kernel extends HttpKernel
             'bindings',
         ],
 
-        'static' => [],
+        'authorize' => [
+            'auth:web',
+            \App\Http\Middleware\RejectBannedUser::class,
+            \App\Http\Middleware\EnsureEmailFilled::class,
+            \App\Http\Middleware\FireUserAuthenticated::class,
+        ],
     ];
 
     /**
@@ -50,9 +56,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'csrf'        => \App\Http\Middleware\VerifyCsrfToken::class,
-        'auth'        => \App\Http\Middleware\CheckAuthenticated::class,
-        'auth.jwt'    => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,
+        'auth'        => \App\Http\Middleware\Authenticate::class,
         'bindings'    => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'verified'    => \App\Http\Middleware\CheckUserVerified::class,
         'guest'       => \App\Http\Middleware\RedirectIfAuthenticated::class,

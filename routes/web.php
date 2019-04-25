@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware;
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -34,7 +36,8 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/register', 'AuthController@handleRegister');
     Route::post('/forgot', 'AuthController@handleForgot');
     Route::post('/reset/{uid}', 'AuthController@handleReset')->middleware('signed');
-
+    Route::view('/bind', 'auth.bind')->middleware(['authorize', Middleware\EnsureEmailFilled::class]);
+    Route::post('/bind', 'AuthController@fillEmail')->middleware(['authorize', Middleware\EnsureEmailFilled::class]);
     Route::get('/verify/{uid}', 'AuthController@verify')->name('auth.verify')->middleware('signed');
 });
 
@@ -42,7 +45,7 @@ Route::group(['prefix' => 'auth'], function () {
  * User Center
  */
 Route::group([
-    'middleware' => ['web', 'auth', \App\Http\Middleware\RequireBindPlayer::class],
+    'middleware' => ['authorize', Middleware\RequireBindPlayer::class],
     'prefix' => 'user',
 ], function () {
     Route::any('', 'UserController@index');
@@ -90,7 +93,9 @@ Route::group(['prefix' => 'skinlib'], function () {
     Route::any('/show/{tid}', 'SkinlibController@show');
     Route::any('/data', 'SkinlibController@getSkinlibFiltered');
 
-    Route::group(['middleware' => ['auth', 'verified']], function () {
+    Route::group([
+        'middleware' => ['authorize', 'verified']
+    ], function () {
         Route::get('/upload', 'SkinlibController@upload');
         Route::post('/upload', 'SkinlibController@handleUpload');
         Route::post('/model', 'SkinlibController@model');
@@ -104,7 +109,7 @@ Route::group(['prefix' => 'skinlib'], function () {
 /*
  * Admin Panel
  */
-Route::group(['middleware' => ['auth', 'admin'], 'prefix' => 'admin'], function () {
+Route::group(['middleware' => ['authorize', 'admin'], 'prefix' => 'admin'], function () {
     Route::view('/', 'admin.index');
     Route::get('/chart', 'AdminController@chartData');
 

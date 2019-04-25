@@ -505,6 +505,19 @@ class AuthControllerTest extends TestCase
         $this->assertTrue($user->verifyPassword('12345678'));
     }
 
+    public function testFillEmail()
+    {
+        $user = factory(User::class)->create(['email' => '']);
+        $other = factory(User::class)->create();
+        $this->actingAs($user)->post('/auth/bind')->assertRedirect('/');
+        $this->actingAs($user)->post('/auth/bind', ['email' => 'a'])->assertRedirect('/');
+        $this->actingAs($user)->post('/auth/bind', ['email' => $other->email])->assertRedirect('/');
+
+        $this->actingAs($user)->post('/auth/bind', ['email' => 'a@b.c'])->assertRedirect('/user');
+        $user->refresh();
+        $this->assertEquals('a@b.c', $user->email);
+    }
+
     public function testVerify()
     {
         $url = URL::signedRoute('auth.verify', ['uid' => 1]);

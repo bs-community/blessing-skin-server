@@ -16,9 +16,6 @@ class RuntimeCheckServiceProvider extends ServiceProvider
      */
     public function boot(Request $request)
     {
-        // Detect current locale
-        $this->app->call('App\Http\Middleware\DetectLanguagePrefer@detect');
-
         // Skip the installation check when in setup or under CLI
         if ($request->is('setup*') || $this->app->runningInConsole()) {
             return;

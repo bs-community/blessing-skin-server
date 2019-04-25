@@ -58,7 +58,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes(Router $router)
     {
         $router->group([
-            'middleware' => ['web', 'csrf'],
+            'middleware' => ['web'],
             'namespace' => $this->namespace,
         ], function ($router) {
             require base_path('routes/web.php');
@@ -93,10 +93,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapStaticRoutes(Router $router)
     {
-        $router->group([
-            'middleware' => 'static',
-            'namespace' => $this->namespace,
-        ], function ($router) {
+        $router->group(['namespace' => $this->namespace], function ($router) {
             require base_path('routes/static.php');
         });
     }

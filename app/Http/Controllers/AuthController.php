@@ -227,6 +227,15 @@ class AuthController extends Controller
         return json(trans('auth.reset.success'), 0);
     }
 
+    public function fillEmail(Request $request)
+    {
+        $email = $this->validate($request, ['email' => 'required|email|unique:users'])['email'];
+        $user = $request->user();
+        $user->email = $email;
+        $user->save();
+        return redirect('/user');
+    }
+
     public function verify($uid)
     {
         if (! option('require_verification')) {

@@ -6,7 +6,7 @@ Route::prefix('auth')->group(function ($route) {
     $route->post('refresh', 'AuthController@apiRefresh')->middleware('auth.jwt');
 });
 
-Route::prefix('user')->middleware('auth.jwt')->group(function ($route) {
+Route::prefix('user')->middleware('auth:api')->group(function ($route) {
     $route->put('sign', 'UserController@sign');
 
     $route->get('players', 'PlayerController@listAll');

@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Event;
 use App\Models\User;
 use App\Models\Player;
 use App\Services\Facades\Option;
@@ -12,42 +13,10 @@ class MiddlewareTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function testCheckAuthenticated()
+    public function testAuthenticate()
     {
-        // Not logged in
         $this->get('/user')->assertRedirect('auth/login');
-        $this->assertGuest();
-
-        // Normal user
-        $this->actAs('normal')
-            ->assertAuthenticated();
-
-        // Banned User
-        $this->actAs('banned')
-            ->get('/user')
-            ->assertSee('banned')
-            ->assertStatus(403);
-
-        // Binding email
-        $noEmailUser = factory(\App\Models\User::class)->create(['email' => '']);
-        $this->actingAs($noEmailUser)
-            ->get('/user')
-            ->assertSee('Bind')
-            ->assertDontSee('User Center');
-
-        $this->actingAs($noEmailUser)
-            ->get('/user?email=email')
-            ->assertSee('Bind');
-
-        $other = factory(User::class)->create();
-        $this->actingAs($noEmailUser)
-            ->get('/user?email='.$other->email)
-            ->assertSee(trans('auth.bind.registered'));
-
-        $this->actingAs($noEmailUser)
-            ->get('/user?email=a@b.c')
-            ->assertSee('User Center');
-        $this->assertEquals('a@b.c', User::find($noEmailUser->uid)->email);
+        $this->actAs('normal')->assertAuthenticated();
     }
 
     public function testCheckUserVerified()
@@ -168,6 +137,26 @@ class MiddlewareTest extends TestCase
             ]);
     }
 
+    public function testEnsureEmailFilled()
+    {
+        $noEmailUser = factory(User::class)->create(['email' => '']);
+        $this->actingAs($noEmailUser)->get('/user')->assertRedirect('/auth/bind');
+
+        $normalUser = factory(User::class)->create();
+        $this->actingAs($normalUser)->get('/auth/bind')->assertRedirect('/user');
+    }
+
+    public function testFireUserAuthenticated()
+    {
+        Event::fake();
+        $user = factory(User::class)->create();
+        $this->actingAs($user)->get('/user');
+        Event::assertDispatched(\App\Events\UserAuthenticated::class, function ($event) use ($user) {
+            $this->assertEquals($user->uid, $event->user->uid);
+            return true;
+        });
+    }
+
     public function testRedirectIfAuthenticated()
     {
         $this->get('/auth/login')
@@ -177,6 +166,15 @@ class MiddlewareTest extends TestCase
         $this->actingAs(factory(User::class)->create())
             ->get('/auth/login')
             ->assertRedirect('/user');
+    }
+
+    public function testRejectBannedUser()
+    {
+        $user = factory(User::class, 'banned')->create();
+        $this->actingAs($user)->get('/user')->assertForbidden();
+        $this->get('/user', ['accept' => 'application/json'])
+            ->assertForbidden()
+            ->assertJson(['code' => -1, 'message' => trans('auth.check.banned')]);
     }
 
     public function testRequireBindPlayer()

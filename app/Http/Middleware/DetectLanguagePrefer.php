@@ -10,25 +10,13 @@ class DetectLanguagePrefer
 {
     public function handle($request, \Closure $next)
     {
-        $response = $next($request);
-
-        if ($response instanceof Response) {
-            $response->cookie('locale', config('app.locale'));
-        }
-
-        return $response;
-    }
-
-    public function detect(Request $request)
-    {
-        $locale = $request->input('lang') ?: ($request->cookie('locale') ?: $request->getPreferredLanguage());
-
-        // If current locale is an alias of other locale
+        $locale = $request->input('lang') ?? session('locale') ?? $request->getPreferredLanguage();
         if (($info = Arr::get(config('locales'), $locale)) && ($alias = Arr::get($info, 'alias'))) {
             $locale = $alias;
         }
-
         app()->setLocale($locale);
-        session(['locale' => config('app.locale')]);
+        session(['locale' => $locale]);
+
+        return $next($request);
     }
 }

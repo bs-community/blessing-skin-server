@@ -12,7 +12,7 @@
     <div class="login-box-body">
         <p class="login-box-msg">@lang('auth.bind.message')</p>
 
-        <form method="post" id="login-form">
+        <form method="post" id="login-form" action="{{ url('/auth/bind') }}">
             @csrf
             <div class="form-group has-feedback">
                 <input name="email" type="email" class="form-control" placeholder="@lang('auth.email')">
@@ -21,8 +21,8 @@
 
             <p>@lang('auth.bind.introduction')</p>
 
-            @if (isset($msg))
-            <div id="msg" class="callout callout-warning">{{ $msg }}</div>
+            @if ($errors->count() > 0)
+            <div id="msg" class="callout callout-warning">{{ $errors->first() }}</div>
             @endif
 
             <div class="row">
