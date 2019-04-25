@@ -254,9 +254,9 @@ class AuthController extends Controller
         return view('auth.verify');
     }
 
-    public function apiLogin(Request $request)
+    public function jwtLogin(Request $request)
     {
-        $token = Auth::guard('api')->attempt([
+        $token = Auth::guard('jwt')->attempt([
             'email' => $request->email,
             'password' => $request->password
         ]);
@@ -264,14 +264,14 @@ class AuthController extends Controller
         return json(compact('token'));
     }
 
-    public function apiLogout()
+    public function jwtLogout()
     {
-        Auth::guard('api')->logout();
+        Auth::guard('jwt')->logout();
         return response('', 204);
     }
 
-    public function apiRefresh()
+    public function jwtRefresh()
     {
-        return json(['token' => Auth::guard('api')->refresh()]);
+        return json(['token' => Auth::guard('jwt')->refresh()]);
     }
 }
