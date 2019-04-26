@@ -81,6 +81,7 @@ class PlayerController extends Controller
         $player->uid = $user->uid;
         $player->name = $name;
         $player->tid_skin = 0;
+        $player->tid_cape = 0;
         $player->save();
 
         event(new PlayerWasAdded($player));
