@@ -259,7 +259,7 @@ class AuthController extends Controller
         $token = Auth::guard('jwt')->attempt([
             'email' => $request->email,
             'password' => $request->password
-        ]);
+        ]) ?: '';
 
         return json(compact('token'));
     }

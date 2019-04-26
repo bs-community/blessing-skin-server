@@ -550,6 +550,11 @@ class AuthControllerTest extends TestCase
             'password' => '12345678'
         ])->decodeResponseJson('token');
         $this->assertTrue(is_string($token));
+
+        $this->postJson('/api/auth/login', [
+            'email' => $user->email,
+            'password' => '123456789'
+        ])->assertJson(['token' => '']);
     }
 
     public function testApiLogout()
