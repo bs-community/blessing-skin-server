@@ -22,6 +22,8 @@ class ExecuteInstallation extends Command
         $this->call('key:random');
         $this->call('salt:random');
         $this->call('migrate', ['--force' => true]);
+        $this->call('jwt:secret', ['--no-interaction' => true]);
+        $this->call('passport:keys', ['--no-interaction' => true]);
 
         $siteUrl = url('/');
         if (ends_with($siteUrl, '/index.php')) {
