@@ -160,11 +160,14 @@ class PlayerController extends Controller
     {
         $player = Player::find($pid);
         array_map(function ($type) use ($request, $player) {
-            if ($request->has($type)) {
+            if (
+                $request->has($type) ||
+                ($request->has('type') && in_array($type, $request->input('type')))
+            ) {
                 $field = "tid_$type";
                 $player->$field = 0;
             }
-        }, $request->input('type') ?? ['skin', 'cape']);
+        }, ['skin', 'cape']);
         $player->save();
 
         return json(trans('user.player.clear.success', ['name' => $player->name]), 0, $player->toArray());

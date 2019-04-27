@@ -1,7 +1,9 @@
 use crate::auth::login;
 use crate::types::JsonBody;
+use rusqlite::{params, Connection};
 use serde::Deserialize;
 use serde_json::json;
+use std::env;
 
 #[derive(Deserialize)]
 struct Player {
@@ -61,6 +63,80 @@ fn modify_player_name() {
 
     let player = body.data().unwrap();
     assert_eq!(player.name, String::from("kotenbu"));
+}
+
+#[test]
+fn modify_textures() {
+    let conn = Connection::open(env::var("DB_DATABASE").unwrap()).unwrap();
+    conn.execute(
+        "INSERT INTO textures (name, type, hash, size, uploader, public, upload_at)
+            VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
+        params!["steve", "steve", "abc", 1, 1, 1, "2019-01-01 00:00:00"],
+    )
+    .unwrap();
+    conn.execute(
+        "INSERT INTO textures (name, type, hash, size, uploader, public, upload_at)
+            VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
+        params!["cape", "cape", "def", 1, 1, 1, "2019-01-01 00:00:00"],
+    )
+    .unwrap();
+
+    let client = reqwest::Client::new();
+    let body = client
+        .put("http://127.0.0.1:32123/api/players/1/textures")
+        .header("Authorization", login())
+        .json(&json!({"skin": 1}))
+        .send()
+        .unwrap()
+        .json::<JsonBody<Player>>()
+        .unwrap();
+    assert!(body.is_success());
+    let player = body.data().unwrap();
+    assert_eq!(player.tid_skin, 1);
+    assert_eq!(player.tid_cape, 0);
+
+    let body = client
+        .put("http://127.0.0.1:32123/api/players/1/textures")
+        .header("Authorization", login())
+        .json(&json!({"cape": 2}))
+        .send()
+        .unwrap()
+        .json::<JsonBody<Player>>()
+        .unwrap();
+    assert!(body.is_success());
+    let player = body.data().unwrap();
+    assert_eq!(player.tid_skin, 1);
+    assert_eq!(player.tid_cape, 2);
+}
+
+#[test]
+fn modify_textures_reset() {
+    let client = reqwest::Client::new();
+    let body = client
+        .delete("http://127.0.0.1:32123/api/players/1/textures")
+        .header("Authorization", login())
+        .json(&json!({"cape": 1}))
+        .send()
+        .unwrap()
+        .json::<JsonBody<Player>>()
+        .unwrap();
+    assert!(body.is_success());
+    let player = body.data().unwrap();
+    assert_eq!(player.tid_skin, 1);
+    assert_eq!(player.tid_cape, 0);
+
+    let body = client
+        .delete("http://127.0.0.1:32123/api/players/1/textures")
+        .header("Authorization", login())
+        .json(&json!({"type": ["skin", "cape"]}))
+        .send()
+        .unwrap()
+        .json::<JsonBody<Player>>()
+        .unwrap();
+    assert!(body.is_success());
+    let player = body.data().unwrap();
+    assert_eq!(player.tid_skin, 0);
+    assert_eq!(player.tid_cape, 0);
 }
 
 #[test]
