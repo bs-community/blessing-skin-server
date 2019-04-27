@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e
+
 export APP_ENV="testing"
 export DB_CONNECTION="sqlite"
 export DB_DATABASE="/tmp/test.db"
