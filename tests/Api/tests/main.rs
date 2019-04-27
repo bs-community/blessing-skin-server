@@ -5,4 +5,7 @@ mod types;
 mod auth;
 
 #[cfg(test)]
+mod user;
+
+#[cfg(test)]
 mod players;

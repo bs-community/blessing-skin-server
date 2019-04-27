@@ -7,6 +7,7 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::prefix('user')->middleware('auth:jwt,oauth')->group(function () {
+    Route::get('', 'UserController@user');
     Route::put('sign', 'UserController@sign');
 });
 

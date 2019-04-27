@@ -27,6 +27,11 @@ class UserController extends Controller
         })->only(['index', 'profile']);
     }
 
+    public function user()
+    {
+        return json('', 0, auth()->user()->makeHidden(['password', 'ip', 'remember_token'])->toArray());
+    }
+
     public function index()
     {
         $user = Auth::user();
