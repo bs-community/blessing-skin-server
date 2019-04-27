@@ -175,7 +175,7 @@ class User extends Authenticatable implements JWTSubject
             $this->storageUsed = $result ?: 0;
         }
 
-        return $this->storageUsed;
+        return (int) $this->storageUsed;
     }
 
     /**

@@ -11,6 +11,20 @@ struct User {
     pub score: u32,
 }
 
+#[derive(Deserialize)]
+struct SignResult {
+    pub score: u32,
+    pub storage: Usage,
+    pub remaining_time: u8,
+}
+
+#[derive(Deserialize)]
+struct Usage {
+    pub used: u32,
+    pub total: u32,
+    pub percentage: f32,
+}
+
 #[test]
 fn fetch_user_info() {
     let client = reqwest::Client::new();
@@ -29,4 +43,21 @@ fn fetch_user_info() {
     assert_eq!(user.nickname, String::from("hyouka"));
     assert_eq!(user.avatar, 0);
     assert_eq!(user.score, 1000);
+}
+
+#[test]
+fn sign() {
+    let client = reqwest::Client::new();
+    let body = client
+        .put("http://127.0.0.1:32123/api/user/sign")
+        .header("Authorization", login())
+        .send()
+        .unwrap()
+        .json::<JsonBody<SignResult>>()
+        .unwrap();
+    assert!(body.is_success());
+
+    let sign_result = body.data().unwrap();
+    assert!(sign_result.score > 1000);
+    assert!(sign_result.remaining_time > 0);
 }
