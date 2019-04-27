@@ -19,7 +19,9 @@ class ExecuteInstallation extends Command
             return;
         }
 
-        $this->call('key:random');
+        if (config('app.env') != 'testing') {
+            $this->call('key:random');
+        }
         $this->call('salt:random');
         $this->call('migrate', ['--force' => true]);
         $this->call('jwt:secret', ['--no-interaction' => true]);

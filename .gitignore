@@ -9,6 +9,7 @@ vendor/*
 storage/textures/*
 storage/update_cache/*
 node_modules/*
+target/
 yarn-error.log
 _ide_helper.php
 .phpstorm.meta.php

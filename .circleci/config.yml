@@ -75,6 +75,23 @@ jobs:
       - run: touch storage/testing.sqlite
       - run: ./vendor/bin/phpunit
 
+  api_test:
+    working_directory: ~/repo
+    docker:
+      - image: blessingskin/ci:rust
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "Cargo.lock" }}
+          - v1-dependencies-
+      - run: ./scripts/api-test.sh
+      - save_cache:
+          paths:
+            - target
+          key: v1-dependencies-{{ checksum "Cargo.lock" }}
+
 workflows:
   version: 2
   install_and_test:
@@ -88,5 +105,8 @@ workflows:
           requires:
             - composer
       - php7.3:
+          requires:
+            - composer
+      - api_test:
           requires:
             - composer

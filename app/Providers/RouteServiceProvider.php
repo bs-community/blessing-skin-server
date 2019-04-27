@@ -111,7 +111,9 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapApiRoutes()
     {
         Route::prefix('api')
-             ->middleware('api')
+             ->middleware(
+                 config('app.env') == 'testing' ? ['api'] : ['api', 'throttle:60,1']
+             )
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
     }
