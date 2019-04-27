@@ -12,7 +12,7 @@ const devMode = !process.argv.includes('-p')
 const config = {
   mode: devMode ? 'development' : 'production',
   entry: {
-    index: './resources/assets/src/index.js',
+    index: './resources/assets/src/index.ts',
     'check-updates': './resources/assets/src/scripts/check-updates.ts',
     style: [
       'bootstrap/dist/css/bootstrap.min.css',

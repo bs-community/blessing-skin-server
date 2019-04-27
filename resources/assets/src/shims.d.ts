@@ -48,7 +48,7 @@ declare module 'vue/types/vue' {
       post(url: string, data?: object): { code?: number, message?: string }
     }
 
-    $route: string[]
+    $route: RegExpExecArray | null
   }
 }
 
