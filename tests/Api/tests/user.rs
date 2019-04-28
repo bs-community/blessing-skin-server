@@ -60,4 +60,13 @@ fn sign() {
     let sign_result = body.data().unwrap();
     assert!(sign_result.score > 1000);
     assert!(sign_result.remaining_time > 0);
+
+    let body = client
+        .put("http://127.0.0.1:32123/api/user/sign")
+        .header("Authorization", login())
+        .send()
+        .unwrap()
+        .json::<JsonBody<SignResult>>()
+        .unwrap();
+    assert!(!body.is_success());
 }
