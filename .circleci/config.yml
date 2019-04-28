@@ -90,6 +90,7 @@ jobs:
       - save_cache:
           paths:
             - target
+            - /usr/local/cargo
           key: v1-dependencies-{{ checksum "Cargo.lock" }}
 
 workflows:
