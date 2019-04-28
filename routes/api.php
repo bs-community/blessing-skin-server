@@ -19,3 +19,10 @@ Route::prefix('players')->middleware('auth:jwt,oauth')->group(function () {
     Route::put('{pid}/textures', 'PlayerController@setTexture');
     Route::delete('{pid}/textures', 'PlayerController@clearTexture');
 });
+
+Route::prefix('closet')->middleware('auth:jwt,oauth')->group(function () {
+    Route::get('', 'ClosetController@getClosetData');
+    Route::post('', 'ClosetController@add');
+    Route::put('{tid}', 'ClosetController@rename');
+    Route::delete('{tid}', 'ClosetController@remove');
+});

@@ -84,6 +84,10 @@ class ClosetController extends Controller
             return json(trans('user.closet.add.not-found'), 1);
         }
 
+        if (! $texture->public && $texture->uploader != $user->uid) {
+            return json(trans('skinlib.show.private'), 1);
+        }
+
         if ($user->closet()->where('tid', $request->tid)->count() > 0) {
             return json(trans('user.closet.add.repeated'), 1);
         }
@@ -100,31 +104,22 @@ class ClosetController extends Controller
         return json(trans('user.closet.add.success', ['name' => $request->input('name')]), 0);
     }
 
-    public function rename(Request $request)
+    public function rename(Request $request, $tid)
     {
-        $this->validate($request, [
-            'tid' => 'required|integer',
-            'new_name' => 'required|no_special_chars',
-        ]);
-
+        $this->validate($request, ['name' => 'required|no_special_chars']);
         $user = auth()->user();
 
         if ($user->closet()->where('tid', $request->tid)->count() == 0) {
             return json(trans('user.closet.remove.non-existent'), 1);
         }
 
-        $user->closet()->updateExistingPivot($request->tid, ['item_name' => $request->new_name]);
+        $user->closet()->updateExistingPivot($request->tid, ['item_name' => $request->name]);
 
-        return json(trans('user.closet.rename.success', ['name' => $request->new_name]), 0);
+        return json(trans('user.closet.rename.success', ['name' => $request->name]), 0);
     }
 
-    public function remove(Request $request)
+    public function remove($tid)
     {
-        $this->validate($request, [
-            'tid' => 'required|integer',
-        ]);
-        $tid = $request->tid;
-
         $user = auth()->user();
 
         if ($user->closet()->where('tid', $tid)->count() == 0) {

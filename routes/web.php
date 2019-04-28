@@ -80,8 +80,8 @@ Route::group([
     Route::get('/closet', 'ClosetController@index');
     Route::get('/closet-data', 'ClosetController@getClosetData');
     Route::post('/closet/add', 'ClosetController@add');
-    Route::post('/closet/remove', 'ClosetController@remove');
-    Route::post('/closet/rename', 'ClosetController@rename');
+    Route::post('/closet/remove/{tid}', 'ClosetController@remove');
+    Route::post('/closet/rename/{tid}', 'ClosetController@rename');
 
     // OAuth2 Management
     Route::view('/oauth/manage', 'user.oauth');

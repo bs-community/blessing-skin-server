@@ -87,8 +87,8 @@ export default {
       }
 
       const { code, message } = await this.$http.post(
-        '/user/closet/rename',
-        { tid: this.tid, new_name: newTextureName }
+        `/user/closet/rename/${this.tid}`,
+        { new_name: newTextureName }
       )
       if (code === 0) {
         this.textureName = newTextureName

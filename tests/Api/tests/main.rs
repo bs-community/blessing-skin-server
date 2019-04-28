@@ -1,11 +1,14 @@
 #[cfg(test)]
-mod types;
-
-#[cfg(test)]
 mod auth;
 
 #[cfg(test)]
-mod user;
+mod closet;
 
 #[cfg(test)]
 mod players;
+
+#[cfg(test)]
+mod types;
+
+#[cfg(test)]
+mod user;

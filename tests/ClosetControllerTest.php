@@ -129,8 +129,21 @@ class ClosetControllerTest extends TestCase
             'message' => trans('user.closet.add.not-found'),
         ]);
 
-        // Add a texture successfully
+        // Texture is private
         option(['score_award_per_like' => 5]);
+        $privateTexture = factory(Texture::class)->create([
+            'public' => false,
+            'uploader' => $uploader->uid + 1,
+        ]);
+        $this->postJson(
+            '/user/closet/add',
+            ['tid' => $privateTexture->tid, 'name' => $name]
+        )->assertJson([
+            'code' => 1,
+            'message' => trans('skinlib.show.private'),
+        ]);
+
+        // Add a texture successfully
         $this->postJson(
             '/user/closet/add',
             ['tid' => $texture->tid, 'name' => $name]
@@ -160,46 +173,28 @@ class ClosetControllerTest extends TestCase
         $texture = factory(Texture::class)->create();
         $name = 'new';
 
-        // Missing `tid` field
-        $this->postJson('/user/closet/rename')->assertJsonValidationErrors('tid');
-
-        // `tid` is not a integer
-        $this->postJson(
-            '/user/closet/rename',
-            ['tid' => 'string']
-        )->assertJsonValidationErrors('tid');
-
-        // Missing `new_name` field
-        $this->postJson(
-            '/user/closet/rename',
-            ['tid' => 0]
-        )->assertJsonValidationErrors('new_name');
+        // Missing `name` field
+        $this->postJson('/user/closet/rename/0')->assertJsonValidationErrors('name');
 
         // `new_name` field has special characters
-        $this->postJson(
-            '/user/closet/rename',
-            ['tid' => 0, 'new_name' => '\\']
-        )->assertJsonValidationErrors('new_name');
+        $this->postJson('/user/closet/rename/0', ['name' => '\\'])
+            ->assertJsonValidationErrors('name');
 
         // Rename a not-existed texture
-        $this->postJson(
-            '/user/closet/rename',
-            ['tid' => -1, 'new_name' => $name]
-        )->assertJson([
-            'code' => 1,
-            'message' => trans('user.closet.remove.non-existent'),
-        ]);
+        $this->postJson('/user/closet/rename/-1', ['name' => $name])
+            ->assertJson([
+                'code' => 1,
+                'message' => trans('user.closet.remove.non-existent'),
+            ]);
 
         // Rename a closet item successfully
         $this->user->closet()->attach($texture->tid, ['item_name' => 'name']);
-        $this->postJson(
-            '/user/closet/rename',
-            ['tid' => $texture->tid, 'new_name' => $name]
-        )->assertJson([
-            'code' => 0,
-            'message' => trans('user.closet.rename.success', ['name' => 'new']),
-        ]);
-        $this->assertEquals(1, $this->user->closet()->where('item_name', 'new')->count());
+        $this->postJson('/user/closet/rename/'.$texture->tid, ['name' => $name])
+            ->assertJson([
+                'code' => 0,
+                'message' => trans('user.closet.rename.success', ['name' => $name]),
+            ]);
+        $this->assertEquals(1, $this->user->closet()->where('item_name', $name)->count());
     }
 
     public function testRemove()
@@ -208,35 +203,22 @@ class ClosetControllerTest extends TestCase
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
         $likes = $texture->likes;
 
-        // Missing `tid` field
-        $this->postJson('/user/closet/remove')->assertJsonValidationErrors('tid');
-
-        // `tid` is not a integer
-        $this->postJson(
-            '/user/closet/remove',
-            ['tid' => 'string']
-        )->assertJsonValidationErrors('tid');
-
         // Rename a not-existed texture
-        $this->postJson(
-            '/user/closet/remove',
-            ['tid' => -1]
-        )->assertJson([
-            'code' => 1,
-            'message' => trans('user.closet.remove.non-existent'),
-        ]);
+        $this->postJson('/user/closet/remove/-1')
+            ->assertJson([
+                'code' => 1,
+                'message' => trans('user.closet.remove.non-existent'),
+            ]);
 
         // Should return score if `return_score` is true
         option(['score_award_per_like' => 5]);
         $this->user->closet()->attach($texture->tid, ['item_name' => 'name']);
         $score = $this->user->score;
-        $this->postJson(
-            '/user/closet/remove',
-            ['tid' => $texture->tid]
-        )->assertJson([
-            'code' => 0,
-            'message' => trans('user.closet.remove.success'),
-        ]);
+        $this->postJson('/user/closet/remove/'.$texture->tid)
+            ->assertJson([
+                'code' => 0,
+                'message' => trans('user.closet.remove.success'),
+            ]);
         $this->assertEquals($likes, Texture::find($texture->tid)->likes);
         $this->assertEquals($score + option('score_per_closet_item'), $this->user->score);
         $this->assertEquals(0, $this->user->closet()->count());
@@ -249,13 +231,7 @@ class ClosetControllerTest extends TestCase
         option(['return_score' => false]);
         $this->user->closet()->attach($texture->tid, ['item_name' => 'name']);
         $score = $this->user->score;
-        $this->postJson(
-            '/user/closet/remove',
-            ['tid' => $texture->tid]
-        )->assertJson([
-            'code' => 0,
-            'message' => trans('user.closet.remove.success'),
-        ]);
+        $this->postJson('/user/closet/remove/'.$texture->tid)->assertJson(['code' => 0]);
         $this->assertEquals($likes, Texture::find($texture->tid)->likes);
         $this->assertEquals($score, $this->user->score);
         $this->assertEquals(0, $this->user->closet()->count());

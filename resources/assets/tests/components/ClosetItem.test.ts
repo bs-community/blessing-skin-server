@@ -61,8 +61,8 @@ test('rename texture', async () => {
   await flushPromises()
   expect(wrapper.find('.texture-name > span').text()).toBe('new-name (steve)')
   expect(Vue.prototype.$http.post).toBeCalledWith(
-    '/user/closet/rename',
-    { tid: 1, new_name: 'new-name' }
+    '/user/closet/rename/1',
+    { new_name: 'new-name' }
   )
 })
 
@@ -88,7 +88,7 @@ test('remove texture', async () => {
   button.trigger('click')
   await flushPromises()
   expect(wrapper.emitted()['item-removed']).toBeTruthy()
-  expect(Vue.prototype.$http.post).toBeCalledWith('/user/closet/remove', { tid: 1 })
+  expect(Vue.prototype.$http.post).toBeCalledWith('/user/closet/remove/1')
 })
 
 test('set as avatar', async () => {

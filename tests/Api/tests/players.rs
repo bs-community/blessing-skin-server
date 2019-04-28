@@ -1,9 +1,7 @@
 use crate::auth::login;
 use crate::types::JsonBody;
-use rusqlite::{params, Connection};
 use serde::Deserialize;
 use serde_json::json;
-use std::env;
 
 #[derive(Deserialize)]
 struct Player {
@@ -67,20 +65,6 @@ fn modify_player_name() {
 
 #[test]
 fn modify_textures() {
-    let conn = Connection::open(env::var("DB_DATABASE").unwrap()).unwrap();
-    conn.execute(
-        "INSERT INTO textures (name, type, hash, size, uploader, public, upload_at)
-            VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
-        params!["steve", "steve", "abc", 1, 1, 1, "2019-01-01 00:00:00"],
-    )
-    .unwrap();
-    conn.execute(
-        "INSERT INTO textures (name, type, hash, size, uploader, public, upload_at)
-            VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
-        params!["cape", "cape", "def", 1, 1, 1, "2019-01-01 00:00:00"],
-    )
-    .unwrap();
-
     let client = reqwest::Client::new();
     let body = client
         .put("http://127.0.0.1:32123/api/players/1/textures")
