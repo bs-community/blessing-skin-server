@@ -1,9 +1,10 @@
 <template>
-  <div class="item" :class="{ 'item-selected': selected }">
-    <div class="item-body" @click="$emit('select')">
+  <texture-item :class="{ 'item-selected': selected }">
+    <div @click="$emit('select')">
       <img :src="previewLink">
     </div>
-    <div class="item-footer">
+
+    <template #footer :class="{ 'item-selected': selected }">
       <p class="texture-name">
         <span :title="name">{{ textureName }} <small>({{ type }})</small></span>
       </p>
@@ -28,16 +29,20 @@
         <li><a v-t="'user.removeItem'" @click="removeClosetItem" /></li>
         <li><a v-if="type !== 'cape'" v-t="'user.setAsAvatar'" @click="setAsAvatar" /></li>
       </ul>
-    </div>
-  </div>
+    </template>
+  </texture-item>
 </template>
 
 <script>
+import TextureItem from './TextureItem.vue'
 import setAsAvatar from './mixins/setAsAvatar'
 import removeClosetItem from './mixins/removeClosetItem'
 
 export default {
   name: 'ClosetItem',
+  components: {
+    TextureItem,
+  },
   mixins: [
     removeClosetItem,
     setAsAvatar,

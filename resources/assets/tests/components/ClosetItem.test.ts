@@ -30,7 +30,7 @@ test('click item body', () => {
   wrapper.find('.item').trigger('click')
   expect(wrapper.emitted().select).toBeUndefined()
 
-  wrapper.find('.item-body').trigger('click')
+  wrapper.find('.item-body > div').trigger('click')
   expect(wrapper.emitted().select).toBeTruthy()
 })
 

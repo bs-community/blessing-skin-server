@@ -1,11 +1,11 @@
 <template>
   <a :href="urlToDetail">
-    <div class="item">
+    <texture-item>
       <div class="item-body">
         <img :src="urlToPreview">
       </div>
 
-      <div class="item-footer">
+      <template #footer>
         <p class="texture-name">
           <span :title="name">{{ name }}
             <small>{{ $t('skinlib.filter.' + type) }}</small>
@@ -26,17 +26,21 @@
         <small v-if="!isPublic" class="more private-label">
           {{ $t('skinlib.private') }}
         </small>
-      </div>
-    </div>
+      </template>
+    </texture-item>
   </a>
 </template>
 
 <script>
+import TextureItem from './TextureItem.vue'
 import addClosetItem from './mixins/addClosetItem'
 import removeClosetItem from './mixins/removeClosetItem'
 
 export default {
   name: 'SkinLibItem',
+  components: {
+    TextureItem,
+  },
   mixins: [
     addClosetItem,
     removeClosetItem,
