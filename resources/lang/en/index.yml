@@ -1,4 +1,6 @@
 features:
+  index: Features
+
   first:
     icon: fa-users
     name: Multi Player

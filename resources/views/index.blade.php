@@ -75,7 +75,7 @@
     <div id="intro">
         <div class="container">
             <div class="row text-center">
-                <h1>Features</h1>
+                <h1>{!! trans('index.features.title') !!}</h1>
                 <br>
                 <br>
                 <div class="col-lg-4">
