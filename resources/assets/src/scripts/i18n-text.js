@@ -1,4 +1,5 @@
 import elementLocale from 'element-ui/lib/locale'
+import { emit } from './event'
 
 const langs = {
   en: {
@@ -17,6 +18,7 @@ async function load(language) {
     (async () => {
       const text = await loadBS()
       blessing.i18n = Object.assign(blessing.i18n || Object.create(null), text)
+      emit('i18nLoaded', blessing.i18n)
     })(),
     (async () => {
       elementLocale.use((await loadElement()).default)
