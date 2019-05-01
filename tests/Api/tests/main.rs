@@ -5,6 +5,9 @@ mod auth;
 mod closet;
 
 #[cfg(test)]
+mod misc;
+
+#[cfg(test)]
 mod players;
 
 #[cfg(test)]

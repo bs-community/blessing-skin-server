@@ -1,5 +1,7 @@
 <?php
 
+Route::any('/', 'HomeController@apiRoot');
+
 Route::prefix('auth')->group(function () {
     Route::post('login', 'AuthController@jwtLogin');
     Route::post('logout', 'AuthController@jwtLogout')->middleware('auth:jwt');

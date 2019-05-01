@@ -178,6 +178,22 @@ if (! function_exists('bs_menu')) {
     }
 }
 
+if (! function_exists('bs_copyright')) {
+    function bs_copyright()
+    {
+        return Arr::get(
+            [
+                'Powered with ❤ by Blessing Skin Server.',
+                'Powered by Blessing Skin Server.',
+                'Proudly powered by Blessing Skin Server.',
+                '由 Blessing Skin Server 强力驱动。',
+                '自豪地采用 Blessing Skin Server。'
+            ],
+            option_localized('copyright_prefer', 0)
+        );
+    }
+}
+
 if (! function_exists('option')) {
     /**
      * Get / set the specified option value.

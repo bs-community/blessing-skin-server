@@ -42,4 +42,9 @@ class HomeControllerTest extends TestCase
         });
         $this->get('/');
     }
+
+    public function testApiRoot()
+    {
+        $this->get('/api')->assertJson(['spec' => 0]);
+    }
 }
