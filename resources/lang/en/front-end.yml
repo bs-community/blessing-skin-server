@@ -87,7 +87,7 @@ skinlib:
     button: Upload
     dropZone: Drop a file here
     remove: Remove
-    cost: (It cost you about :score score)
+    cost: (It costs you about :score score)
     award: You'll be awarded :score score(s) by uploading public texture.
   show:
     anonymous: You must login to use closets
