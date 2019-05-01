@@ -74,7 +74,10 @@
             >
               {{ $t('skinlib.upload.button') }}
             </el-button>
-            &nbsp; {{ hasFile && $t('skinlib.upload.cost', { score: scoreCost }) }}
+            &nbsp;
+            <div v-if="hasFile" class="callout callout-info bottom-notice">
+              <p>{{ $t('skinlib.upload.cost', { score: scoreCost }) }}</p>
+            </div>
             <div v-if="isPrivate" class="callout callout-info bottom-notice">
               <p>{{ privacyNotice }}</p>
             </div>

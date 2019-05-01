@@ -89,7 +89,7 @@ skinlib:
     button: 确认上传
     dropZone: 拖拽文件到这里
     remove: 移除
-    cost: （这会消耗您约 :score 积分）
+    cost: 这会消耗您约 :score 积分。
     award: 上传公开材质至皮肤库可以获得 :score 积分奖励。
   show:
     anonymous: 登录后才能使用衣柜哦
