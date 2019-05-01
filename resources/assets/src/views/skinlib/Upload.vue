@@ -47,9 +47,8 @@
               </el-button>
             </div>
 
-            <a v-if="contentPolicy" href="#" @click="showContentPolicy">
-              {{ $t('skinlib.showContentPolicy') }}
-            </a>
+            <!-- eslint-disable-next-line vue/no-v-html -->
+            <div v-if="contentPolicy" class="callout callout-warning" v-html="contentPolicy" />
           </div>
 
           <div class="box-footer">
@@ -190,11 +189,6 @@ export default {
     remove() {
       this.$refs.upload.clear()
       this.texture = ''
-    },
-    showContentPolicy() {
-      this.$alert(this.contentPolicy, {
-        dangerouslyUseHTMLString: true,
-      })
     },
   },
 }

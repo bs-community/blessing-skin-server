@@ -46,9 +46,9 @@ test('notice should be display if texture is private', () => {
   const wrapper = mount(Upload, {
     stubs: ['file-upload'],
   })
-  expect(wrapper.contains('.callout')).toBeFalse()
+  expect(wrapper.contains('.callout-info')).toBeFalse()
   wrapper.find('[type=checkbox]').setChecked()
-  expect(wrapper.find('.callout').text()).toBe('privacyNotice')
+  expect(wrapper.find('.callout-info').text()).toBe('privacyNotice')
 })
 
 test('display score cost', () => {
@@ -171,8 +171,5 @@ test('show notice about awarding', () => {
 
 test('show content policy', () => {
   const wrapper = mount(Upload)
-  wrapper.find('a').trigger('click')
-  expect(Vue.prototype.$alert).toBeCalledWith('the policy', {
-    dangerouslyUseHTMLString: true,
-  })
+  expect(wrapper.find('.callout-warning').exists()).toBeTrue()
 })
