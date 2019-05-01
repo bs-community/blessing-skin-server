@@ -40,6 +40,8 @@ class PlayerControllerTest extends TestCase
 
     public function testAdd()
     {
+        Event::fake();
+
         // Without player name
         $this->postJson('/user/player/add')->assertJsonValidationErrors('name');
 
@@ -68,7 +70,7 @@ class PlayerControllerTest extends TestCase
             'code' => 7,
             'message' => trans('user.player.add.lack-score'),
         ]);
-        $this->expectsEvents(Events\CheckPlayerExists::class);
+        Event::assertDispatched(Events\CheckPlayerExists::class);
 
         // Allowed to use CJK characters
         option(['player_name_rule' => 'cjk']);
@@ -80,8 +82,8 @@ class PlayerControllerTest extends TestCase
             'code' => 0,
             'message' => trans('user.player.add.success', ['name' => '角色名']),
         ]);
-        $this->expectsEvents(Events\PlayerWillBeAdded::class);
-        $this->expectsEvents(Events\PlayerWasAdded::class);
+        Event::assertDispatched(Events\PlayerWillBeAdded::class);
+        Event::assertDispatched(Events\PlayerWasAdded::class);
         $player = Player::where('name', '角色名')->first();
         $this->assertNotNull($player);
         $this->assertEquals($user->uid, $player->uid);
@@ -109,10 +111,11 @@ class PlayerControllerTest extends TestCase
 
     public function testDelete()
     {
+        Event::fake();
+
         $user = factory(User::class)->create();
         $player = factory(Player::class)->create(['uid' => $user->uid]);
         $score = $user->score;
-        $this->expectsEvents(Events\PlayerWillBeDeleted::class);
         $this->actingAs($user)
             ->postJson('/user/player/delete/'.$player->pid)
             ->assertJson([
@@ -120,7 +123,8 @@ class PlayerControllerTest extends TestCase
                 'message' => trans('user.player.delete.success', ['name' => $player->name]),
             ]);
         $this->assertNull(Player::find($player->pid));
-        $this->expectsEvents(Events\PlayerWasDeleted::class);
+        Event::assertDispatched(Events\PlayerWillBeDeleted::class);
+        Event::assertDispatched(Events\PlayerWasDeleted::class);
         $this->assertEquals(
             $score + option('score_per_player'),
             User::find($user->uid)->score

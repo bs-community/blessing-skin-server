@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Cache;
+use Event;
 use App\Events;
 use App\Models\User;
 use App\Models\Player;
@@ -39,8 +40,7 @@ class AuthControllerTest extends TestCase
 
     public function testHandleLogin()
     {
-        $this->expectsEvents(Events\UserTryToLogin::class);
-        $this->expectsEvents(Events\UserLoggedIn::class);
+        Event::fake();
 
         $user = factory(User::class)->create();
         $user->changePassword('12345678');
@@ -124,6 +124,9 @@ class AuthControllerTest extends TestCase
         );
         $this->assertFalse(Cache::has($loginFailsCacheKey));
 
+        Event::assertDispatched(Events\UserTryToLogin::class);
+        Event::assertDispatched(Events\UserLoggedIn::class);
+
         Cache::flush();
         $this->flushSession();
 
@@ -170,7 +173,7 @@ class AuthControllerTest extends TestCase
 
     public function testHandleRegister()
     {
-        $this->expectsEvents(Events\UserRegistered::class);
+        Event::fake();
 
         // Should return a warning if `email` is empty
         $this->postJson('/auth/register')->assertJsonValidationErrors('email');
@@ -365,6 +368,7 @@ class AuthControllerTest extends TestCase
             'permission' => User::NORMAL,
         ]);
         $this->assertAuthenticated();
+        Event::assertDispatched(Events\UserRegistered::class);
 
         // Require player name
         option(['register_with_player_name' => true]);

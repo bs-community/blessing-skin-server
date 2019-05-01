@@ -30,10 +30,12 @@ class CheckPlayerExist
 
         $responses = event(new CheckPlayerExists($player_name));
 
-        foreach ($responses as $r) {
+        if (is_array($responses)) {
             // @codeCoverageIgnoreStart
-            if ($r) {
-                return $next($request);
+            foreach ($responses as $r) {
+                if ($r) {
+                    return $next($request);
+                }
             }
             // @codeCoverageIgnoreEnd
         }

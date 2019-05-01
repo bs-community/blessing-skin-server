@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Event;
 use Mockery;
 use Exception;
 use App\Models\User;
@@ -185,6 +186,8 @@ class TextureControllerTest extends TestCase
 
     public function testAvatar()
     {
+        Event::fake();
+
         Storage::fake('textures');
         $base64_email = base64_encode('a@b.c');
         $this->get("/avatar/$base64_email.png")
@@ -201,9 +204,9 @@ class TextureControllerTest extends TestCase
             ->once()
             ->andReturn(imagecreatefromstring($png));
 
-        $this->expectsEvents(\App\Events\GetAvatarPreview::class);
         $this->get('/avatar/'.base64_encode($user->email).'.png')
             ->assertHeader('Content-Type', 'image/png');
+        Event::assertDispatched(\App\Events\GetAvatarPreview::class);
 
         Storage::shouldReceive('disk')->with('textures')->andThrow(new Exception);
         $this->get('/avatar/'.base64_encode($user->email).'.png')
@@ -212,7 +215,9 @@ class TextureControllerTest extends TestCase
 
     public function testAvatarWithSize()
     {
+        Event::fake();
         Storage::fake('textures');
+
         $steve = factory(Texture::class)->create();
         $png = base64_decode(\App\Http\Controllers\TextureController::getDefaultSteveSkin());
         Storage::disk('textures')->put($steve->hash, $png);
@@ -224,14 +229,16 @@ class TextureControllerTest extends TestCase
             ->once()
             ->andReturn(imagecreatefromstring($png));
 
-        $this->expectsEvents(\App\Events\GetAvatarPreview::class);
         $this->get('/avatar/50/'.base64_encode($user->email).'.png')
             ->assertHeader('Content-Type', 'image/png');
+        Event::fake(\App\Events\GetAvatarPreview::class);
     }
 
     public function testPreview()
     {
+        Event::fake();
         Storage::fake('textures');
+
         $steve = factory(Texture::class)->create();
         $cape = factory(Texture::class, 'cape')->create();
 
@@ -249,9 +256,9 @@ class TextureControllerTest extends TestCase
         $mock->shouldReceive('generatePreviewFromSkin')
             ->once()
             ->andReturn(imagecreatefromstring($png));
-        $this->expectsEvents(\App\Events\GetSkinPreview::class);
         $this->get("/preview/{$steve->tid}.png")
             ->assertHeader('Content-Type', 'image/png');
+        Event::fake(\App\Events\GetSkinPreview::class);
 
         $mock->shouldReceive('generatePreviewFromCape')
             ->once()

@@ -91,6 +91,8 @@ class MiddlewareTest extends TestCase
 
     public function testCheckPlayerExist()
     {
+        Event::fake();
+
         $this->getJson('/nope.json')
             ->assertStatus(404)
             ->assertSee(trans('general.unexistent-player'));
@@ -106,8 +108,8 @@ class MiddlewareTest extends TestCase
         $this->getJson("/{$player->name}.json")
             ->assertJson(['username' => $player->name]);  // Default is CSL API
 
-        $this->expectsEvents(\App\Events\CheckPlayerExists::class);
         $this->getJson("/{$player->name}.json");
+        Event::assertDispatched(\App\Events\CheckPlayerExists::class);
 
         $player = factory(\App\Models\Player::class)->create();
         $user = $player->user;

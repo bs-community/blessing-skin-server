@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Event;
 use Parsedown;
 use App\Events;
 use App\Models\User;
@@ -219,6 +220,7 @@ class UserControllerTest extends TestCase
 
     public function testHandleProfile()
     {
+        Event::fake();
         $user = factory(User::class)->create();
         $user->changePassword('12345678');
 
@@ -254,7 +256,6 @@ class UserControllerTest extends TestCase
         option(['single_player' => false]);
 
         // Change nickname successfully
-        $this->expectsEvents(Events\UserProfileUpdated::class);
         $this->postJson('/user/profile', [
             'action' => 'nickname',
             'new_nickname' => 'nickname',
@@ -263,6 +264,7 @@ class UserControllerTest extends TestCase
             'message' => trans('user.profile.nickname.success', ['nickname' => 'nickname']),
         ]);
         $this->assertEquals('nickname', User::find($user->uid)->nickname);
+        Event::assertDispatched(Events\UserProfileUpdated::class);
 
         // Change password without `current_password` field
         $this->postJson('/user/profile', ['action' => 'password'])
@@ -307,7 +309,6 @@ class UserControllerTest extends TestCase
         ]);
 
         // Change password successfully
-        $this->expectsEvents(Events\EncryptUserPassword::class);
         $this->postJson('/user/profile', [
             'action' => 'password',
             'current_password' => '12345678',
@@ -316,6 +317,7 @@ class UserControllerTest extends TestCase
             'code' => 0,
             'message' => trans('user.profile.password.success'),
         ]);
+        Event::assertDispatched(Events\EncryptUserPassword::class);
         $this->assertTrue(User::find($user->uid)->verifyPassword('87654321'));
         // After changed password, user should re-login.
         $this->assertGuest();
