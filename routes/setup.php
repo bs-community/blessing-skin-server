@@ -14,14 +14,12 @@
 /**
  * Setup Wizard.
  */
-Route::group(['prefix' => 'setup'], function () {
-    Route::group(['middleware' => 'setup'], function () {
-        Route::any('/', 'SetupController@welcome');
-        Route::any('/database', 'SetupController@database');
-        Route::get('/info', 'SetupController@info');
-        Route::post('/finish', 'SetupController@finish');
-    });
-
-    Route::get('/update', 'SetupController@update');
-    Route::post('/update', 'SetupController@doUpdate');
+Route::group(['middleware' => 'setup'], function () {
+    Route::any('/', 'SetupController@welcome');
+    Route::any('/database', 'SetupController@database');
+    Route::get('/info', 'SetupController@info');
+    Route::post('/finish', 'SetupController@finish');
 });
+
+Route::get('/update', 'SetupController@update');
+Route::post('/update', 'SetupController@doUpdate');

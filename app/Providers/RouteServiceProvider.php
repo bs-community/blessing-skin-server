@@ -78,12 +78,9 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapSetupRoutes(Router $router)
     {
-        $router->group([
-            'middleware' => 'web',
-            'namespace' => $this->namespace,
-        ], function ($router) {
-            require base_path('routes/setup.php');
-        });
+        Route::prefix('setup')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/setup.php'));
     }
 
     /**
