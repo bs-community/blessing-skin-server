@@ -41,12 +41,14 @@ async function createChart(el: HTMLDivElement) {
     ],
     yAxis: [
       {
-        type: 'category',
+        type: 'value',
+        minInterval: 1,
         boundaryGap: false,
         position: 'left',
       },
       {
-        type: 'category',
+        type: 'value',
+        minInterval: 1,
         boundaryGap: false,
         position: 'right',
       },
