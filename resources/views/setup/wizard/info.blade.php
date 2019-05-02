@@ -8,6 +8,7 @@
 <p>@lang('setup.wizard.info.text')</p>
 
 <form id="setup" method="post" action="{{ url('setup/finish') }}" novalidate="novalidate">
+    @csrf
     <table class="form-table">
         <tr>
             <th scope="row"><label for="email">@lang('setup.wizard.info.admin-email')</label></th>

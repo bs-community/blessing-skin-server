@@ -8,6 +8,7 @@
 <p>@lang('setup.wizard.database.text')</p>
 
 <form id="setup" method="post" action="{{ url('setup/database') }}" novalidate="novalidate">
+    @csrf
     <table class="form-table">
         <tr class="form-field form-required">
             <th scope="row"><label for="type">@lang('setup.wizard.database.type')</label></th>
