@@ -146,15 +146,14 @@ test('download texture', async () => {
 
 test('link to downloading texture', async () => {
   Object.assign(window.blessing.extra, { download: false })
-  Vue.prototype.$http.get.mockResolvedValue({ data: { hash: '123' } })
+  Vue.prototype.$http.get.mockResolvedValue({ data: { name: '', hash: '123' } })
   const wrapper = mount(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
     },
   })
   await wrapper.vm.$nextTick()
-  expect(wrapper.contains('a[title="123"]')).toBeFalse()
-  expect(wrapper.contains('span[title="123"]')).toBeTrue()
+  expect(wrapper.find('span[title="123"]').exists()).toBeTrue()
 })
 
 test('set as avatar', async () => {
@@ -434,4 +433,19 @@ test('apply texture to player', () => {
   })
   wrapper.find('[data-target="#modal-use-as"]').trigger('click')
   expect(wrapper.find('[data-target="#modal-add-player"]').exists()).toBeFalse()
+})
+
+test('truncate too long texture name', async () => {
+  Vue.prototype.$http.get.mockResolvedValue({
+    data: {
+      name: 'very-very-long-texture-name',
+    },
+  })
+  const wrapper = mount(Show, {
+    mocks: {
+      $route: ['/skinlib/show/1', '1'],
+    },
+  })
+  await wrapper.vm.$nextTick()
+  expect(wrapper.find('.box-primary').text()).toContain('very-very-long-...')
 })

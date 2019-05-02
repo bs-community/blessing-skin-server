@@ -88,7 +88,7 @@
               <tr>
                 <td v-t="'skinlib.show.name'" />
                 <td>
-                  {{ name }}
+                  {{ name.length > 15 ? `${name.slice(0, 15)}...` : name }}
                   <small v-if="uploader === currentUid || admin">
                     <a v-t="'skinlib.show.edit'" href="#" @click="changeTextureName" />
                   </small>
