@@ -90,7 +90,7 @@ class Plugin
     {
         $baseUrl = config('plugins.url') ?: url('plugins');
 
-        return "$baseUrl/{$this->getDirname()}/assets/$relativeUri";
+        return "$baseUrl/{$this->getDirname()}/assets/$relativeUri?v=".$this->version;
     }
 
     /**
