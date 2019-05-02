@@ -43,6 +43,12 @@ async function createChart(el: HTMLDivElement) {
       {
         type: 'category',
         boundaryGap: false,
+        position: 'left',
+      },
+      {
+        type: 'category',
+        boundaryGap: false,
+        position: 'right',
       },
     ],
     series: [
@@ -85,6 +91,7 @@ async function createChart(el: HTMLDivElement) {
         data: chartData.data[index],
         smooth: true,
         symbol: 'roundRect',
+        yAxisIndex: index,
       })
     ),
   })
