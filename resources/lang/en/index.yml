@@ -4,7 +4,7 @@ features:
   first:
     icon: fa-users
     name: Multi Player
-    desc: You can add multiple players with only one account.
+    desc: You can add multiple players within one registered account.
 
   second:
     icon: fa-share-alt
