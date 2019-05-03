@@ -34,6 +34,9 @@ updates:
     text: Blessing Skin Server has been successfully updated to v:version.
     tips: "Update Tips:"
 
+  changelog:
+    title: Release Note
+
 wizard:
   master:
     title: Install Wizard - Blessing Skin Server

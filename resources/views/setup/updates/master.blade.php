@@ -11,10 +11,20 @@
 
 <body class="container">
 <p id="logo">
-    <a href="https://github.com/bs-community/blessing-skin-server" tabindex="-1">Blessing Skin Server</a>
+    <a href="https://github.com/bs-community/blessing-skin-server" tabindex="-1">
+    {{ option_localized('site_name') }}
+    </a>
 </p>
 
 @yield('content')
 
+<script>
+    function refreshWithLangPrefer() {
+        var e = document.getElementById("language-chooser");
+        var lang = e.options[e.selectedIndex].value;
+
+        window.location = "?lang="+lang;
+    }
+</script>
 </body>
 </html>

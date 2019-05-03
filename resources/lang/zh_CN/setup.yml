@@ -33,6 +33,9 @@ updates:
     text: 数据库升级成功，欢迎使用 Blessing Skin Server v:version！
     tips: 升级提示：
 
+  changelog:
+    title: 更新日志
+
 wizard:
   master:
     title: Blessing Skin Server 安装程序

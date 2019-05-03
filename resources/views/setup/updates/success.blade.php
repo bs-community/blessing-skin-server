@@ -19,6 +19,6 @@
 @endif
 
 <p class="step">
-    <a href="{{ url('/') }}" class="button button-large">@lang('general.index')</a>
+    <a href="{{ url('/setup/changelog') }}" class="button button-large">@lang('setup.updates.welcome.button')</a>
 </p>
 @endsection
