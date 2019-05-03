@@ -48,9 +48,10 @@ class ClosetController extends Controller
             $closet = $closet->where('item_name', 'like', "%$q%");
         }
 
+        $total = $closet->count();
         $closet->offset(($page - 1) * $perPage)->limit($perPage);
 
-        $totalPages = ceil($closet->count() / $perPage);
+        $totalPages = ceil($total / $perPage);
         $items = $closet->get()->map(function ($t) {
             $t->name = $t->pivot->item_name;
 

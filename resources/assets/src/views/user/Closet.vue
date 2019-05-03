@@ -213,6 +213,7 @@ export default {
       )
       this[`${category}TotalPages`] = totalPages
       this[`${category}Items`] = items
+      this[`${category}CurrentPages`] = page
     },
     removeSkinItem(index) {
       this.$delete(this.skinItems, index)
@@ -222,7 +223,7 @@ export default {
     },
     switchCategory() {
       this.category = this.category === 'skin' ? 'cape' : 'skin'
-      this.loadCloset()
+      this.loadCloset(this[`${this.category}CurrentPages`])
     },
     pageChanged(page) {
       this.loadCloset(page)
