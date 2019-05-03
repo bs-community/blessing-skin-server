@@ -5,7 +5,7 @@
         <span class="description-text">{{ config('locales.'.App::getLocale(), config('locales.'.config('app.fallback_locale')))['short_name'] }}</span>
         <span class="caret"></span>
     </a>
-    <ul class="dropdown-menu" role="menu">
+    <ul class="dropdown-menu" role="menu" id="language-menu">
         @foreach(config('locales') as $code => $langInfo)
             @if (!isset($langInfo['alias']))
                 <?php
