@@ -1,7 +1,5 @@
 <?php
 
-use Artisan;
-
 \Illuminate\Console\Application::starting(function ($artisan) {
     $artisan->resolveCommands([\Laravel\Passport\Console\KeysCommand::class]);
 });
