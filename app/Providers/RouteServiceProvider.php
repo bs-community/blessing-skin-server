@@ -80,6 +80,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('setup')
             ->namespace($this->namespace)
+            ->middleware('web')
             ->group(base_path('routes/setup.php'));
     }
 
