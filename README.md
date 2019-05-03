@@ -126,6 +126,13 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
                 Mangocraft
             </a>
         </td>
+        <td align=center>
+            <a href="https://afdian.net/@acilicraft">
+                <img src="https://pic.afdiancdn.com/user/63d4adac633311e98d9d52540025c377/avatar/50c279016873b7907ce7b901de1f560c_w577_h525_s248.jpg?imageView2/1/w/75/h/75">
+                <br>
+                Andy_Chuck
+            </a>
+        </td>
     </tr>
 </tbody>
 </table>
