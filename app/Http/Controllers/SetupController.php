@@ -200,8 +200,6 @@ class SetupController extends Controller
         $resource = opendir(database_path('update_scripts'));
         $updateScriptExist = false;
 
-        $tips = [];
-
         while ($filename = @readdir($resource)) {
             if ($filename != '.' && $filename != '..') {
                 preg_match('/update-(.*)-to-(.*).php/', $filename, $matches);
@@ -212,15 +210,7 @@ class SetupController extends Controller
                     continue;
                 }
 
-                $result = require database_path('update_scripts')."/$filename";
-
-                if (is_array($result)) {
-                    // Push the tip into array
-                    foreach ($result as $tip) {
-                        $tips[] = $tip;
-                    }
-                }
-
+                $tips = require database_path('update_scripts')."/$filename";
                 $updateScriptExist = true;
             }
         }
@@ -231,22 +221,9 @@ class SetupController extends Controller
                 Option::set($key, $value);
             }
         }
-
         Option::set('version', config('app.version'));
 
-        // Clear all compiled view files
-        try {
-            Artisan::call('view:clear');
-        } catch (\Exception $e) {
-            Log::error('Error occured when processing view:clear', [$e]);
-
-            $files = collect(File::files(storage_path('framework/views')));
-            $files->reject(function ($path) {
-                return ends_with($path, '.gitignore');
-            })->each(function ($path) {
-                File::delete($path);
-            });
-        }
+        Artisan::call('view:clear');
 
         return view('setup.updates.success', ['tips' => $tips]);
     }

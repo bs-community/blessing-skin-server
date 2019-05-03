@@ -220,9 +220,6 @@ class SetupControllerTest extends TestCase
             database_path("update_scripts/update-$current_version-to-100.0.0.php")
         );    // Just a fixture
 
-        Artisan::shouldReceive('call')
-            ->with('view:clear')
-            ->andThrow(new Exception());
         config(['options.new_option' => 'value']);
         $this->post('/setup/update')->assertViewHas('tips');
         $this->assertEquals('value', option('new_option'));
