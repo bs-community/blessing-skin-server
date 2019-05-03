@@ -50,13 +50,12 @@ class ClosetController extends Controller
 
         $closet->offset(($page - 1) * $perPage)->limit($perPage);
 
-        // Pagination
+        $totalPages = ceil($closet->count() / $perPage);
         $items = $closet->get()->map(function ($t) {
             $t->name = $t->pivot->item_name;
 
             return $t;
         });
-        $totalPages = ceil($items->count() / $perPage);
 
         return json('', 0, [
             'category' => $category,
