@@ -225,7 +225,7 @@ class SetupController extends Controller
 
         Artisan::call('view:clear');
 
-        return view('setup.updates.success', ['tips' => $tips]);
+        return view('setup.updates.success', ['tips' => $tips ?? []]);
     }
 
     /**
