@@ -9,7 +9,7 @@
 <p>@lang('setup.updates.success.text', ['version' => config('app.version')])</p>
 
 {{-- if any tip is given --}}
-@if (is_array($tips))
+@if (is_array($tips) && count($tips) > 0)
 <p><b>@lang('setup.updates.success.tips')</b></p>
 <ul>
     @foreach ($tips as $tip)
