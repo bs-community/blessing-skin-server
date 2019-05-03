@@ -221,13 +221,13 @@ class SetupControllerTest extends TestCase
         );    // Just a fixture
 
         config(['options.new_option' => 'value']);
-        $this->post('/setup/update')->assertViewHas('tips');
+        $this->get('/setup/exec-update')->assertViewHas('tips');
         $this->assertEquals('value', option('new_option'));
         $this->assertEquals('100.0.0', option('version'));
         unlink(database_path("update_scripts/update-$current_version-to-100.0.0.php"));
 
         option(['version' => '3.0.0']);   // Fake old version
-        $this->post('/setup/update');
+        $this->get('/setup/exec-update');
         $this->assertEquals('100.0.0', option('version'));
     }
 

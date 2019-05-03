@@ -21,6 +21,6 @@ Route::group(['middleware' => 'setup'], function () {
     Route::post('/finish', 'SetupController@finish');
 });
 
-Route::get('/update', 'SetupController@update');
-Route::post('/update', 'SetupController@doUpdate');
+Route::any('/update', 'SetupController@update');
+Route::any('/exec-update', 'SetupController@doUpdate');
 Route::view('/changelog', 'setup.updates.changelog');
