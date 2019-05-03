@@ -121,9 +121,11 @@ class MarketController extends Controller
 
                 $registryData = json_decode($pluginsJson, true);
                 $received = Arr::get($registryData, 'version');
-                if (is_int($received) && $received != $registryVersion) {
-                    throw new Exception("Only version $registryVersion of market registry is accepted.");
-                }
+                abort_if(
+                    is_int($received) && $received != $registryVersion,
+                    500,
+                    "Only version $registryVersion of market registry is accepted."
+                );
 
                 return Arr::get($registryData, 'packages', []);
             })->flatten(1);
