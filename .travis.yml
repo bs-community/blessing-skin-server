@@ -23,5 +23,5 @@ deploy:
 after_deploy:
 - curl -s -o github-release.tar.bz2 -L https://github.com/aktau/github-release/releases/download/v0.7.2/linux-amd64-github-release.tar.bz2
 - tar -xf github-release.tar.bz2
-- export CHANGELOG=$(cat resources/misc/changelogs/en/$RELEASE_TAG.md && echo "\n---\n" && cat resources/misc/changelogs/zh_CN/$RELEASE_TAG.md)
-- ./bin/linux/amd64/github-release -v edit -u bs-community -r blessing-skin-server -t $RELEASE_TAG -d $CHANGELOG
+- export CHANGELOG=$(cat resources/misc/changelogs/en/$TRAVIS_TAG.md && echo "\n---\n" && cat resources/misc/changelogs/zh_CN/$TRAVIS_TAG.md)
+- ./bin/linux/amd64/github-release -v edit -u bs-community -r blessing-skin-server -t $TRAVIS_TAG -d $CHANGELOG
