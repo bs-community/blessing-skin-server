@@ -32,3 +32,4 @@ git add .
 git commit -m "Publish"
 git remote add origin https://blessing-skin:$AZURE_TOKEN@dev.azure.com/blessing-skin/Blessing%20Skin%20Server/_git/Blessing%20Skin%20Server
 git push -f origin master
+cd ..
