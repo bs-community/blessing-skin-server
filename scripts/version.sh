@@ -6,4 +6,7 @@ sed -i "0,/$CURRENT/s/$CURRENT/$NEW_VERSION/" package.json config/app.php
 git add package.json config/app.php
 git commit -m "Bump version to $NEW_VERSION"
 git tag -a $NEW_VERSION -m $NEW_VERSION
-git push --follow-tags origin master
+git checkout master
+git merge dev
+git push --all --follow-tags
+git checkout dev
