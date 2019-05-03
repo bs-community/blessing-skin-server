@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/indent */
 import * as notify from '../../src/scripts/notify'
 
 export const showAjaxError = {} as jest.Mock<
