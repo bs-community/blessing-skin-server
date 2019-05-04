@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import './public-path' // Must be first
 import 'jquery'
+import 'bootstrap/js/collapse'
 import 'bootstrap/js/dropdown'
 import 'bootstrap/js/modal'
 import 'bootstrap/js/transition'
