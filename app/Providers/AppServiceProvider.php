@@ -31,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(Events\RenderingHeader::class, function ($event) {
             $blessing = [
                 'version' => config('app.version'),
+                'commit' => app('webpack')->commit,
                 'locale' => config('app.locale'),
                 'fallback_locale' => config('app.fallback_locale'),
                 'base_url' => url('/'),

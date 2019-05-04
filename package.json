@@ -11,7 +11,7 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server",
-    "build": "rimraf public/app && webpack --mode=production -p",
+    "build": "rimraf public/app && webpack --mode=production -p && node --experimental-modules scripts/commitish.mjs",
     "lint": "eslint --ext=.js,.vue,.ts -f=beauty .",
     "test": "tsc -p . && jest",
     "codecov": "codecov -F js"
