@@ -97,8 +97,8 @@ class SkinlibController extends Controller
         $totalPages = ceil($query->count() / $itemsPerPage);
 
         $sort = $request->input('sort', 'time');
-        $sortBy = ($sort == 'time') ? 'upload_at' : $sort;
-        $query->withCount('likers as likes');
+        $sortBy = $sort == 'time' ? 'upload_at' : ($sort == 'likes' ? 'likers_count' : $sort);
+        $query->withCount('likers');
         $query = $query->orderBy($sortBy, 'desc');
 
         $textures = $query->skip(($currentPage - 1) * $itemsPerPage)->take($itemsPerPage)->get();
