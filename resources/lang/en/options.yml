@@ -11,7 +11,7 @@ homepage:
     hint: Path relative to resources/assets/ or full URL.
     description: The given image must have same width and height (leave blank to use default icon).
   transparent_navbar:
-    title:  Transparent Navigation Bar
+    title: Transparent Navigation Bar
     label: This will enable transparent navigation bar of home page, but it will turn to be normal if page is scrolled to bottom.
   copyright_prefer:
     title: Program Copyright

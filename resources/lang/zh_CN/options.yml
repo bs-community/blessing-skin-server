@@ -11,7 +11,7 @@ homepage:
     hint: 相对 resources/assets/ 的路径或者完整的 URL
     description: 所使用的图像必须具有相同的宽度和高度（留空以使用默认图标）
   transparent_navbar:
-    title:  首页导航栏透明
+    title: 首页导航栏透明
     label: 开启后首页顶部的导航栏将透明化，但页面滚动到底部时会变为不透明。
   copyright_prefer:
     title: 程序版权信息
