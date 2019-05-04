@@ -101,6 +101,7 @@
 <script>
 import Vue from 'vue'
 import FileUpload from 'vue-upload-component'
+import { isSlimSkin } from 'skinview3d'
 import 'element-ui/lib/theme-chalk/radio.css'
 import Radio from 'element-ui/lib/radio'
 
@@ -188,7 +189,10 @@ export default {
 
       const image = new Image()
       image.src = this.texture
-      image.onload = () => (this.width2d = image.width > 400 ? 400 : image.width)
+      image.onload = () => {
+        this.width2d = image.width > 400 ? 400 : image.width
+        this.type = isSlimSkin(image) ? 'alex' : 'steve'
+      }
     },
     remove() {
       this.$refs.upload.clear()

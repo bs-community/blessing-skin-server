@@ -5,6 +5,7 @@ import Vue from 'vue'
 import {
   Button,
   Input,
+  Radio,
   Switch,
 } from 'element-ui'
 
@@ -52,6 +53,7 @@ Vue.prototype.$http = {
 
 Vue.use(Button)
 Vue.use(Input)
+Vue.use(Radio)
 Vue.use(Switch)
 Vue.prototype.$message = {
   info: jest.fn(),

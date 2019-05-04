@@ -49,3 +49,7 @@ export function createOrbitControls() {}
 export const WalkingAnimation = { paused: false }
 export const RunningAnimation = { paused: false }
 export const RotatingAnimation = { paused: false }
+
+export function isSlimSkin() {
+  return false
+}
