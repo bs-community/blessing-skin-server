@@ -4,6 +4,7 @@
       <previewer
         :skin="type !== 'cape' && textureUrl"
         :cape="type === 'cape' ? textureUrl : ''"
+        :model="type"
         :init-position-z="60"
       >
         <template #footer>

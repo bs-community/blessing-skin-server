@@ -91,6 +91,7 @@
         <previewer
           :skin="type !== 'cape' && texture"
           :cape="type === 'cape' ? texture : ''"
+          :model="type"
         />
       </div>
     </div>

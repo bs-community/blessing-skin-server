@@ -58,6 +58,10 @@ export default {
   props: {
     skin: String,
     cape: String,
+    model: {
+      type: String,
+      default: 'steve',
+    },
     closetMode: Boolean,
     title: {
       type: String,
@@ -105,6 +109,9 @@ export default {
         return
       }
       this.viewer.capeUrl = url
+    },
+    model(value) {
+      this.viewer.playerObject.skin.slim = value === 'alex'
     },
   },
   mounted() {

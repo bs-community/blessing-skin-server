@@ -180,6 +180,7 @@ export default {
       using3dPreviewer: true,
       skinUrl: '',
       capeUrl: '',
+      model: 'steve',
       preview2d: {
         skin: 0,
         cape: 0,
@@ -209,6 +210,7 @@ export default {
       if (player.tid_skin) {
         const { data: skin } = await this.$http.get(`/skinlib/info/${player.tid_skin}`)
         this.skinUrl = `${this.baseUrl}/textures/${skin.hash}`
+        this.model = skin.type
       } else {
         this.skinUrl = ''
       }

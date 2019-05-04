@@ -176,6 +176,7 @@ export default {
     capeTotalPages: 1,
     selectedSkin: 0,
     skinUrl: '',
+    model: 'steve',
     selectedCape: 0,
     capeUrl: '',
     linkToSkin: `${blessing.base_url}/skinlib?filter=skin`,
@@ -236,6 +237,7 @@ export default {
       } else {
         this.skinUrl = `/textures/${hash}`
         this.selectedSkin = tid
+        this.model = type
       }
     },
     resetSelected() {
