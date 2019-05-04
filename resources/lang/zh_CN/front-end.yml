@@ -222,7 +222,7 @@ user:
     resend: 点击这里再次发送。
     sending: 正在发送……
   oauth:
-    id: 客户端  ID
+    id: 客户端 ID
     name: 应用名
     secret: 客户端 Secret
     redirect: 回调 URL
