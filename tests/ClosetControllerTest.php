@@ -219,7 +219,7 @@ class ClosetControllerTest extends TestCase
                 'code' => 0,
                 'message' => trans('user.closet.remove.success'),
             ]);
-        $this->assertEquals($likes, Texture::find($texture->tid)->likes);
+        $this->assertEquals($likes - 1, Texture::find($texture->tid)->likes);
         $this->assertEquals($score + option('score_per_closet_item'), $this->user->score);
         $this->assertEquals(0, $this->user->closet()->count());
         $uploader->refresh();
@@ -232,7 +232,7 @@ class ClosetControllerTest extends TestCase
         $this->user->closet()->attach($texture->tid, ['item_name' => 'name']);
         $score = $this->user->score;
         $this->postJson('/user/closet/remove/'.$texture->tid)->assertJson(['code' => 0]);
-        $this->assertEquals($likes, Texture::find($texture->tid)->likes);
+        $this->assertEquals($likes - 1, Texture::find($texture->tid)->likes);
         $this->assertEquals($score, $this->user->score);
         $this->assertEquals(0, $this->user->closet()->count());
     }

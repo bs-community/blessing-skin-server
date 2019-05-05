@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         Commands\MigratePlayersTable::class,
         Commands\MigrateCloset::class,
         Commands\ExecuteInstallation::class,
+        Commands\RegressLikesField::class,
     ];
 
     /**

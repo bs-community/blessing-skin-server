@@ -109,18 +109,6 @@ class SkinlibControllerTest extends TestCase
         }, $items);
         $this->assertArraySubset($ordered, $items);
 
-        // Sort by `likes`
-        $user = factory(User::class)->create();
-        $user->closet()->attach($skins->random()->tid, ['item_name' => 'name']);
-        $items = $this->getJson('/skinlib/data?sort=likes')
-            ->assertJson(['data' => [
-                'current_uid' => 0,
-                'total_pages' => 1,
-            ]])
-            ->decodeResponseJson('data')['items'];
-        $this->assertEquals(1, $items[0]['likes']);
-        $this->assertEquals(0, $items[1]['likes']);
-
         // Search
         $keyword = Str::limit($skins->random()->name, 1, '');
         $keyworded = $skins

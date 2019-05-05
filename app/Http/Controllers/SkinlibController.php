@@ -97,8 +97,7 @@ class SkinlibController extends Controller
         $totalPages = ceil($query->count() / $itemsPerPage);
 
         $sort = $request->input('sort', 'time');
-        $sortBy = $sort == 'time' ? 'upload_at' : ($sort == 'likes' ? 'likers_count' : $sort);
-        $query->withCount('likers');
+        $sortBy = $sort == 'time' ? 'upload_at' : $sort;
         $query = $query->orderBy($sortBy, 'desc');
 
         $textures = $query->skip(($currentPage - 1) * $itemsPerPage)->take($itemsPerPage)->get();
@@ -228,10 +227,10 @@ class SkinlibController extends Controller
             Storage::disk('textures')->put($t->hash, file_get_contents($request->file('file')));
         }
 
+        $t->likes++;
         $t->save();
 
         $user->setScore($cost, 'minus');
-
         $user->closet()->attach($t->tid, ['item_name' => $t->name]);
 
         return json(trans('skinlib.upload.success', ['name' => $request->input('name')]), 0, [
@@ -243,47 +242,47 @@ class SkinlibController extends Controller
 
     public function delete(Request $request)
     {
-        $result = Texture::find($request->tid);
+        $texture = Texture::find($request->tid);
         $user = Auth::user();
 
-        if (! $result) {
+        if (! $texture) {
             return json(trans('skinlib.non-existent'), 1);
         }
 
-        if ($result->uploader != $user->uid && ! $user->isAdmin()) {
+        if ($texture->uploader != $user->uid && ! $user->isAdmin()) {
             return json(trans('skinlib.no-permission'), 1);
         }
 
         // check if file occupied
-        if (Texture::where('hash', $result->hash)->count() == 1) {
-            Storage::disk('textures')->delete($result->hash);
+        if (Texture::where('hash', $texture->hash)->count() == 1) {
+            Storage::disk('textures')->delete($texture->hash);
         }
 
-        $result->likers()->get()->each(function ($user) use ($result) {
-            $user->closet()->detach($result->tid);
+        $texture->likers()->get()->each(function ($user) use ($texture) {
+            $user->closet()->detach($texture->tid);
             if (option('return_score')) {
                 $user->setScore(option('score_per_closet_item'), 'plus');
             }
         });
 
-        if ($u = User::find($result->uploader)) {
+        if ($u = User::find($texture->uploader)) {
             $ret = 0;
             if (option('return_score')) {
-                $ret += $result->size * (
-                    $result->public
+                $ret += $texture->size * (
+                    $texture->public
                         ? option('score_per_storage')
                         : option('private_score_per_storage')
                 );
             }
 
-            if ($result->public && option('take_back_scores_after_deletion', true)) {
+            if ($texture->public && option('take_back_scores_after_deletion', true)) {
                 $ret -= option('score_award_per_texture', 0);
             }
 
             $u->setScore($ret, 'plus');
         }
 
-        if ($result->delete()) {
+        if ($texture->delete()) {
             return json(trans('skinlib.delete.success'), 0);
         }
     }
@@ -322,6 +321,7 @@ class SkinlibController extends Controller
             if (option('return_score')) {
                 $user->setScore(option('score_per_closet_item'), 'plus');
             }
+            $t->likes--;
         });
 
         @$uploader->setScore($score_diff, 'plus');

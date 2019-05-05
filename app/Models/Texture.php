@@ -15,16 +15,8 @@ class Texture extends Model
         'size' => 'integer',
         'uploader' => 'integer',
         'public' => 'boolean',
+        'likes' => 'integer',
     ];
-
-    protected $appends = [
-        'likes',
-    ];
-
-    public function getLikesAttribute()
-    {
-        return $this->likers()->count();
-    }
 
     public function scopeLike($query, $field, $value)
     {
