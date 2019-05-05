@@ -11,6 +11,7 @@ class ConvertEmptyStringsToNull extends Converter
         'admin/options',
         'admin/score',
         'admin/resource',
+        'admin/customize',
     ];
 
     public function handle($request, Closure $next)
