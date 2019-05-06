@@ -9,7 +9,7 @@
         <div class="row">
           <div class="col-md-1" />
           <div class="col-md-6">
-            <table border="0">
+            <table class="usage-table" border="0">
               <tbody>
                 <tr>
                   <td class="text-center">
@@ -206,6 +206,9 @@ export default {
 </script>
 
 <style lang="stylus">
+.usage-table
+  margin 0 auto
+
 .circle-gap
   width 14%
 
