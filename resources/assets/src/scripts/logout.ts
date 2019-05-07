@@ -1,4 +1,4 @@
-import { Message, MessageBox } from './element'
+import { Message, MessageBox } from 'element-ui'
 import { post } from './net'
 import { trans } from './i18n'
 

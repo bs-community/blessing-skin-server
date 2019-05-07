@@ -1,45 +1,57 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import { Button } from 'element-ui'
+// @ts-ignore
+import Button from 'element-ui/lib/button'
 import List from '@/views/skinlib/List.vue'
 
-jest.mock('element-ui/lib/select', () => ({
-  install(vue: typeof Vue) {
-    vue.component('ElSelect', {
-      render(h) {
-        return h('select', {
-          on: {
-            change: (event: Event) => this.$emit(
-              'change',
-              (event.target as HTMLSelectElement).value
-            ),
-          },
-          attrs: {
-            value: this.value,
-          },
-        }, this.$slots.default)
-      },
-      props: {
-        value: String,
-      },
-      model: {
-        prop: 'value',
-        event: 'change',
-      },
-    })
+jest.mock('element-ui', () => ({
+  Select: {
+    install(vue: typeof Vue) {
+      vue.component('ElSelect', {
+        render(h) {
+          return h('select', {
+            on: {
+              change: (event: Event) => this.$emit(
+                'change',
+                (event.target as HTMLSelectElement).value
+              ),
+            },
+            attrs: {
+              value: this.value,
+            },
+          }, this.$slots.default)
+        },
+        props: {
+          value: String,
+        },
+        model: {
+          prop: 'value',
+          event: 'change',
+        },
+      })
+    },
   },
-}))
-jest.mock('element-ui/lib/option', () => ({
-  install(vue: typeof Vue) {
-    vue.component('ElOption', {
-      render(h) {
-        return h('option', { attrs: { value: this.value } }, this.label)
-      },
-      props: {
-        label: String,
-        value: String,
-      },
-    })
+  Option: {
+    install(vue: typeof Vue) {
+      vue.component('ElOption', {
+        render(h) {
+          return h('option', { attrs: { value: this.value } }, this.label)
+        },
+        props: {
+          label: String,
+          value: String,
+        },
+      })
+    },
+  },
+  ButtonGroup: {
+    install(vue: typeof Vue) {
+      vue.component('ElButtonGroup', {
+        render(h) {
+          return h('div', {}, this.$slots.default)
+        },
+      })
+    },
   },
 }))
 

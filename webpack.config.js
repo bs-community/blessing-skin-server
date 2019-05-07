@@ -36,7 +36,22 @@ const config = {
       {
         test: /\.(t|j)s$/,
         exclude: /node_modules/,
-        use: ['cache-loader', 'babel-loader'],
+        use: [
+          'cache-loader',
+          {
+            loader: 'babel-loader',
+            options: {
+              plugins: [
+                ['babel-plugin-import', {
+                  libraryName: 'element-ui',
+                  libraryDirectory: 'lib',
+                  camel2DashComponentName: true,
+                  style: name => `${name.replace('lib/', 'lib/theme-chalk/')}.css`,
+                }],
+              ],
+            },
+          },
+        ],
       },
       {
         test: /\.vue$/,

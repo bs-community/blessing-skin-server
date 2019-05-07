@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 import Vue from 'vue'
-import { Message, MessageBox } from 'element-ui'
 import * as JQuery from 'jquery'
 
 declare global {
@@ -16,6 +15,7 @@ declare global {
     route: string
     extra: any
     i18n: object
+    ui: object
 
     fetch: {
       get(url: string, params?: object): Promise<object>

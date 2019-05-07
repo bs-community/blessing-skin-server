@@ -115,10 +115,9 @@
 <script>
 import Vue from 'vue'
 import Paginate from 'vuejs-paginate'
-import ButtonGroup from 'element-ui/lib/button-group'
-import 'element-ui/lib/theme-chalk/select.css'
-import Select from 'element-ui/lib/select'
-import Option from 'element-ui/lib/option'
+import {
+  ButtonGroup, Select, Option,
+} from 'element-ui'
 import { queryString } from '../../scripts/utils'
 import SkinLibItem from '../../components/SkinLibItem.vue'
 

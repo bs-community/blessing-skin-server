@@ -1,12 +1,12 @@
 import { logout } from '@/scripts/logout'
 import { post } from '@/scripts/net'
-import { MessageBox } from '@/scripts/element'
+import { MessageBox } from 'element-ui'
 
+jest.mock('element-ui')
 jest.mock('@/scripts/net')
-jest.mock('@/scripts/element')
 
 test('log out', async () => {
-  MessageBox.confirm
+  jest.spyOn(MessageBox, 'confirm')
     .mockRejectedValueOnce('cancel')
     .mockResolvedValue('confirm')
   post.mockResolvedValue({ message: '' })

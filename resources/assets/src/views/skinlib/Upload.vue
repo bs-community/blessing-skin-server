@@ -102,8 +102,7 @@
 import Vue from 'vue'
 import FileUpload from 'vue-upload-component'
 import { isSlimSkin } from 'skinview3d'
-import 'element-ui/lib/theme-chalk/radio.css'
-import Radio from 'element-ui/lib/radio'
+import { Radio } from 'element-ui'
 
 Vue.use(Radio)
 
