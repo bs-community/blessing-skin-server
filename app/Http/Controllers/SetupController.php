@@ -137,9 +137,6 @@ class SetupController extends Controller
             'site_name' => 'required',
         ]);
 
-        \Illuminate\Console\Application::starting(function ($artisan) {
-            $artisan->resolveCommands([\Laravel\Passport\Console\KeysCommand::class]);
-        });
         if ($request->has('generate_random')) {
             Artisan::call('key:random');
             Artisan::call('salt:random');

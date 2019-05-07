@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        \Laravel\Passport\Console\KeysCommand::class,
         Commands\KeyRandomCommand::class,
         Commands\SaltRandomCommand::class,
         Commands\MigratePlayersTable::class,
@@ -20,16 +21,4 @@ class Kernel extends ConsoleKernel
         Commands\ExecuteInstallation::class,
         Commands\RegressLikesField::class,
     ];
-
-    /**
-     * Define the application's command schedule.
-     *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
-     * @return void
-     */
-    protected function schedule(Schedule $schedule)
-    {
-        $schedule->command('inspire')
-                 ->hourly();
-    }
 }
