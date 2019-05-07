@@ -15,6 +15,14 @@ Vue.prototype.$alert = MessageBox.alert
 Vue.prototype.$confirm = MessageBox.confirm
 Vue.prototype.$prompt = MessageBox.prompt
 
+blessing.ui = {
+  message: Message,
+  msgbox: MessageBox,
+  alert: MessageBox.alert,
+  confirm: MessageBox.confirm,
+  prompt: MessageBox.prompt,
+}
+
 export {
   Message,
   MessageBox,
