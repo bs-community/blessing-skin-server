@@ -258,36 +258,9 @@ class SkinlibController extends Controller
             Storage::disk('textures')->delete($texture->hash);
         }
 
-        $texture->likers()->get()->each(function ($user) use ($texture) {
-            $user->closet()->detach($texture->tid);
-            if (option('return_score')) {
-                $user->setScore(option('score_per_closet_item'), 'plus');
-            }
-        });
-
-        if ($u = User::find($texture->uploader)) {
-            $ret = 0;
-            if (option('return_score')) {
-                $ret += $texture->size * (
-                    $texture->public
-                        ? option('score_per_storage')
-                        : option('private_score_per_storage')
-                );
-            }
-
-            if ($texture->public && option('take_back_scores_after_deletion', true)) {
-                $ret -= option('score_award_per_texture', 0);
-            }
-
-            $u->setScore($ret, 'plus');
-        }
-
-        if ($texture->delete()) {
-            return json(trans('skinlib.delete.success'), 0);
-        }
+        $texture->delete();
+        return json(trans('skinlib.delete.success'), 0);
     }
-
-    // @codeCoverageIgnore
 
     public function privacy(Request $request)
     {
@@ -334,8 +307,6 @@ class SkinlibController extends Controller
             0
         );
     }
-
-    // @codeCoverageIgnore
 
     public function rename(Request $request)
     {

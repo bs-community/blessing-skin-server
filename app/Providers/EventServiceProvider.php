@@ -18,6 +18,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\PlayerRetrieved' => [
             'App\Listeners\ResetInvalidTextureForPlayer',
         ],
+        'App\Events\TextureDeleting' => [
+            'App\Listeners\TextureRemoved',
+        ],
     ];
 
     /**

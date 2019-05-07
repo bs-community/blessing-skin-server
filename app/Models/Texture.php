@@ -18,6 +18,10 @@ class Texture extends Model
         'likes' => 'integer',
     ];
 
+    protected $dispatchesEvents = [
+        'deleting' => \App\Events\TextureDeleting::class,
+    ];
+
     public function scopeLike($query, $field, $value)
     {
         return $query->where($field, 'LIKE', "%$value%");

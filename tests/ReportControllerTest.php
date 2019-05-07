@@ -177,7 +177,11 @@ class ReportControllerTest extends TestCase
         $this->assertEquals($score - 5, $reporter->score);
 
         // Delete texture
-        option(['reporter_score_modification' => -7]);
+        option([
+            'reporter_score_modification' => -7,
+            'return_score' => false,
+            'take_back_scores_after_deletion' => false,
+        ]);
         $report->refresh();
         $report->status = Report::PENDING;
         $report->save();
