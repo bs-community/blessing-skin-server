@@ -4,8 +4,9 @@
     "declaration": false,
     "allowJs": true,
     "target": "es2015",
-    "module": "esnext",
+    "module": "commonjs",
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "noEmit": true,
     "baseUrl": ".",
     "paths": {
