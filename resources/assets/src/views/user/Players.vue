@@ -191,8 +191,11 @@ export default {
       },
     }
   },
-  beforeMount() {
-    this.fetchPlayers()
+  async beforeMount() {
+    await this.fetchPlayers()
+    if (this.players.length === 1) {
+      this.preview(this.players[0])
+    }
   },
   methods: {
     async fetchPlayers() {

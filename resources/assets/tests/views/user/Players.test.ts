@@ -18,10 +18,21 @@ test('display player name constraints', () => {
   expect(text).toContain('length')
 })
 
-test('fetch players data before mount', () => {
-  Vue.prototype.$http.get.mockResolvedValue({ data: [] })
+test('fetch players data before mount', async () => {
+  Vue.prototype.$http.get
+    .mockResolvedValueOnce({ data: [] })
+    .mockResolvedValueOnce({
+      data: [{
+        pid: 1, tid_skin: 1, tid_cape: 0,
+      }],
+    })
+    .mockResolvedValueOnce({ data: {} })
   mount(Players)
   expect(Vue.prototype.$http.get).toBeCalledWith('/user/player/list')
+
+  mount(Players)
+  await flushPromises()
+  expect(Vue.prototype.$http.get).toBeCalledWith('/skinlib/info/1')
 })
 
 test('click to preview player', async () => {
@@ -158,13 +169,16 @@ test('add player', async () => {
 
 test('clear texture', async () => {
   window.$ = jest.fn(() => ({ modal() {} }))
-  Vue.prototype.$http.get.mockResolvedValueOnce({
-    data: [
-      {
-        pid: 1, tid_skin: 1, tid_cape: 0,
-      },
-    ],
-  })
+  Vue.prototype.$http.get
+    .mockResolvedValueOnce({
+      data: [
+        {
+          pid: 1, tid_skin: 1, tid_cape: 0,
+        },
+      ],
+    })
+    .mockResolvedValueOnce({ data: {} })
+    .mockResolvedValueOnce({ data: {} })
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1 })
     .mockResolvedValue({ code: 0, message: 'ok' })
