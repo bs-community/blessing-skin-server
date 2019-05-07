@@ -21,7 +21,7 @@ class AdminController extends Controller
     {
         $today = Carbon::today()->timestamp;
 
-        $xAxis = Collection::times(30, function ($number) use ($today) {
+        $xAxis = Collection::times(31, function ($number) use ($today) {
             $time = Carbon::createFromTimestamp($today - (31 - $number) * 86400);
 
             return $time->format('m-d');
