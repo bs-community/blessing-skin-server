@@ -23,7 +23,7 @@
         <div class="box box-default">
           <div class="box-header">
             <div class="form-group row">
-              <form class="col-md-6" @submit.prevent="fetchData">
+              <form class="col-md-6" @submit.prevent="submitSearch">
                 <el-input
                   v-model="keyword"
                   :placeholder="$t('vendor.datatable.search')"
@@ -38,7 +38,7 @@
                     </el-select>
                   </template>
                   <template #append>
-                    <el-button data-test="btn-search" @click="fetchData">
+                    <el-button data-test="btn-search" @click="submitSearch">
                       {{ $t('general.submit') }}
                     </el-button>
                   </template>
@@ -118,7 +118,7 @@ import Paginate from 'vuejs-paginate'
 import {
   ButtonGroup, Select, Option,
 } from 'element-ui'
-import { queryString } from '../../scripts/utils'
+import { queryString, queryStringify } from '../../scripts/utils'
 import SkinLibItem from '../../components/SkinLibItem.vue'
 
 Vue.use(ButtonGroup)
@@ -137,7 +137,7 @@ export default {
       uploader: +queryString('uploader', 0),
       sort: queryString('sort', 'time'),
       keyword: queryString('keyword', ''),
-      page: 1,
+      page: +queryString('page', 1),
       items: [],
       totalPages: 0,
       currentUid: 0,
@@ -160,12 +160,15 @@ export default {
   watch: {
     filter() {
       this.fetchData()
+      this.updateQueryString()
     },
     uploader() {
       this.fetchData()
+      this.updateQueryString()
     },
     sort() {
       this.fetchData()
+      this.updateQueryString()
     },
   },
   beforeMount() {
@@ -193,9 +196,24 @@ export default {
       this.currentUid = currentUid
       this.pending = false
     },
+    updateQueryString() {
+      const qs = queryStringify({
+        filter: this.filter,
+        uploader: this.uploader,
+        sort: this.sort,
+        keyword: this.keyword,
+        page: this.page,
+      })
+      window.history.pushState(null, '', `skinlib?${qs}`)
+    },
+    submitSearch() {
+      this.fetchData()
+      this.updateQueryString()
+    },
     pageChanged(page) {
       this.page = page
       this.fetchData()
+      this.updateQueryString()
     },
     reset() {
       this.filter = 'skin'

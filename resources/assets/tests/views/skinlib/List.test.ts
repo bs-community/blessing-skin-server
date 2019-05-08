@@ -2,6 +2,7 @@ import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 // @ts-ignore
 import Button from 'element-ui/lib/button'
+import { queryString } from '@/scripts/utils'
 import List from '@/views/skinlib/List.vue'
 
 jest.mock('element-ui', () => ({
@@ -55,6 +56,10 @@ jest.mock('element-ui', () => ({
   },
 }))
 
+beforeEach(() => {
+  window.history.pushState(null, '', 'skinlib')
+})
+
 test('fetch data before mounting', () => {
   Vue.prototype.$http.get.mockResolvedValue({
     data: {
@@ -100,6 +105,7 @@ test('toggle texture type', () => {
       filter: 'steve', uploader: 0, sort: 'time', keyword: '', page: 1,
     }
   )
+  expect(queryString('filter')).toBe('steve')
   select.setValue('alex')
   select.trigger('change')
   expect(breadcrumb.text()).toContain('skinlib.filter.alex')
@@ -109,6 +115,7 @@ test('toggle texture type', () => {
       filter: 'alex', uploader: 0, sort: 'time', keyword: '', page: 1,
     }
   )
+  expect(queryString('filter')).toBe('alex')
   select.setValue('cape')
   select.trigger('change')
   expect(breadcrumb.text()).toContain('general.cape')
@@ -118,6 +125,7 @@ test('toggle texture type', () => {
       filter: 'cape', uploader: 0, sort: 'time', keyword: '', page: 1,
     }
   )
+  expect(queryString('filter')).toBe('cape')
 })
 
 test('check specified uploader', async () => {
@@ -143,6 +151,7 @@ test('check specified uploader', async () => {
       filter: 'skin', uploader: 1, sort: 'time', keyword: '', page: 1,
     }
   )
+  expect(queryString('uploader')).toBe('1')
 })
 
 test('sort items', () => {
@@ -164,6 +173,7 @@ test('sort items', () => {
     }
   )
   expect(wrapper.text()).toContain('skinlib.sort.likes')
+  expect(queryString('sort')).toBe('likes')
 
   sortByTime.trigger('click')
   expect(Vue.prototype.$http.get).toBeCalledWith(
@@ -173,6 +183,7 @@ test('sort items', () => {
     }
   )
   expect(wrapper.text()).toContain('skinlib.sort.time')
+  expect(queryString('sort')).toBe('time')
 })
 
 test('search by keyword', () => {
@@ -191,6 +202,7 @@ test('search by keyword', () => {
       filter: 'skin', uploader: 0, sort: 'time', keyword: 'a', page: 1,
     }
   )
+  expect(queryString('keyword')).toBe('a')
 
   wrapper.setData({ keyword: 'b' })
   wrapper.find('[data-test="btn-search"]').trigger('click')
@@ -200,6 +212,7 @@ test('search by keyword', () => {
       filter: 'skin', uploader: 0, sort: 'time', keyword: 'b', page: 1,
     }
   )
+  expect(queryString('keyword')).toBe('b')
 })
 
 test('reset all filters', () => {
@@ -244,6 +257,7 @@ test('on page changed', () => {
       filter: 'skin', uploader: 0, sort: 'time', keyword: '', page: 2,
     }
   )
+  expect(queryString('page')).toBe('2')
 })
 
 test('on like toggled', async () => {
