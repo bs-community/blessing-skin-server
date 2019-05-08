@@ -36,12 +36,12 @@
           />
         </div>
       </h3>
-    </div><!-- /.box-header -->
+    </div>
     <div class="box-body">
       <div ref="previewer" class="previewer-3d">
         <!-- Container for 3D Preview -->
       </div>
-    </div><!-- /.box-body -->
+    </div>
     <div v-if="$slots.footer" class="box-footer">
       <slot name="footer" />
     </div>
@@ -144,7 +144,7 @@ export default {
     },
     toggleRun() {
       this.handles.run.paused = !this.handles.run.paused
-      this.handles.walk.paused = !this.handles.walk.paused
+      this.handles.walk.paused = false
     },
     toggleRotate() {
       this.handles.rotate.paused = !this.handles.rotate.paused

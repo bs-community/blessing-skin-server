@@ -87,7 +87,7 @@ test('toggle run', () => {
   const wrapper = mount<Vue & Handles>(Previewer)
   wrapper.find('.fa-forward').trigger('click')
   expect(wrapper.vm.handles.run.paused).toBeFalse()
-  expect(wrapper.vm.handles.walk.paused).toBeTrue()
+  expect(wrapper.vm.handles.walk.paused).toBeFalse()
 })
 
 test('toggle rotate', () => {
