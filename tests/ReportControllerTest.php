@@ -144,12 +144,9 @@ class ReportControllerTest extends TestCase
         $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'a'])
             ->assertJsonValidationErrors('action');
 
-        // Only process pending report
+        // Allow to process again
         $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'reject'])
-            ->assertJson([
-                'code' => 1,
-                'message' => trans('admin.report-reviewed'),
-            ]);
+            ->assertJson(['code' => 0]);
 
         // Reject
         $report->status = Report::PENDING;

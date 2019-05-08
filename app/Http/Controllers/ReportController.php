@@ -89,14 +89,11 @@ class ReportController extends Controller
         ]);
         $report = Report::find($data['id']);
 
-        if ($report->status != Report::PENDING) {
-            return json(trans('admin.report-reviewed'), 1);
-        }
-
         if ($data['action'] == 'reject') {
             if (
                 $report->informer &&
-                ($score = option('reporter_score_modification', 0)) > 0
+                ($score = option('reporter_score_modification', 0)) > 0 &&
+                $report->status == Report::PENDING
             ) {
                 $report->informer->score -= $score;
                 $report->informer->save();
@@ -120,14 +117,16 @@ class ReportController extends Controller
                 break;
         }
 
+        if ($report->status == Report::PENDING) {
+            if (($score = option('reporter_score_modification', 0)) < 0) {
+                $report->informer->score -= $score;
+            }
+            $report->informer->score += option('reporter_reward_score', 0);
+            $report->informer->save();
+        }
+
         $report->status = Report::RESOLVED;
         $report->save();
-
-        if (($score = option('reporter_score_modification', 0)) < 0) {
-            $report->informer->score -= $score;
-        }
-        $report->informer->score += option('reporter_reward_score', 0);
-        $report->informer->save();
 
         return json(trans('general.op-success'), 0, ['status' => Report::RESOLVED]);
     }
