@@ -1,5 +1,11 @@
-import elementLocale from 'element-ui/lib/locale'
+import { locale as elementLocale } from 'element-ui'
 import { emit } from './event'
+
+declare module 'element-ui/types/element-ui' {
+  export const locale: {
+    use(i18n: any): void
+  }
+}
 
 const langs = {
   en: {
@@ -12,7 +18,7 @@ const langs = {
   },
 }
 
-async function load(language) {
+async function load(language: import('../shims').I18n) {
   const { bs: loadBS, element: loadElement } = langs[language]
   await Promise.all([
     (async () => {

@@ -46,7 +46,12 @@ const config = {
                   libraryName: 'element-ui',
                   libraryDirectory: 'lib',
                   camel2DashComponentName: true,
-                  style: name => `${name.replace('lib/', 'lib/theme-chalk/')}.css`,
+                  style: name => {
+                    if (name.includes('locale')) {
+                      return false
+                    }
+                    return `${name.replace('lib/', 'lib/theme-chalk/')}.css`
+                  },
                 }],
               ],
             },

@@ -2,13 +2,15 @@
 import Vue from 'vue'
 import * as JQuery from 'jquery'
 
+type I18n = 'en' | 'zh_CN'
+
 declare global {
   let blessing: {
     base_url: string
     debug: boolean
     env: string
-    fallback_locale: string
-    locale: string
+    fallback_locale: I18n
+    locale: I18n
     site_name: string
     timezone: string
     version: string

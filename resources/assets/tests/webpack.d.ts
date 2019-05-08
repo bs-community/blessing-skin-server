@@ -8,3 +8,11 @@ declare module '*.vue' {
 declare module '*.styl' {
   export default {}
 }
+
+declare module '*.yml' {
+  export default {}
+}
+
+declare module 'element-ui/lib/locale/lang/*' {
+  export default {}
+}
