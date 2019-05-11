@@ -217,6 +217,7 @@ export default {
         this.model = skin.type
       } else {
         this.skinUrl = ''
+        this.model = 'steve'
       }
       if (player.tid_cape) {
         const { data: cape } = await this.$http.get(`/skinlib/info/${player.tid_cape}`)
