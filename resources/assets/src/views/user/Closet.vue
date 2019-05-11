@@ -125,7 +125,12 @@
 
       <!-- Right col -->
       <div class="col-md-4">
-        <previewer closet-mode :skin="skinUrl" :cape="capeUrl" :model="model">
+        <previewer
+          closet-mode
+          :skin="skinUrl"
+          :cape="capeUrl"
+          :model="model"
+        >
           <template #footer>
             <el-button
               type="primary"
