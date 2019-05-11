@@ -13,7 +13,7 @@ try {
 } catch (\Exception $e) {
     $tips[] = nl2br(implode("\n", [
         '您需要打开终端或 PowerShell 来执行这条命令：<code>php artisan passport:keys</code>',
-        'You need to open terminal or PowerShell and execute: <code>php artisan passport:keys</code>'
+        'You need to open terminal or PowerShell and execute: <code>php artisan passport:keys</code>',
     ]));
 }
 

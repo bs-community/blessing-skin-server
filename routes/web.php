@@ -97,7 +97,7 @@ Route::group(['prefix' => 'skinlib'], function () {
     Route::any('/data', 'SkinlibController@getSkinlibFiltered');
 
     Route::group([
-        'middleware' => ['authorize', 'verified']
+        'middleware' => ['authorize', 'verified'],
     ], function () {
         Route::get('/upload', 'SkinlibController@upload');
         Route::post('/upload', 'SkinlibController@handleUpload');

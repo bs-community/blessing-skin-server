@@ -84,7 +84,7 @@ class PluginControllerTest extends TestCase
                         'name' => 'whatever',
                     ]),
                 ],
-            ]
+            ],
         ]);
 
         // Enable a plugin

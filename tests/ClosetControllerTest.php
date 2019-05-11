@@ -41,7 +41,7 @@ class ClosetControllerTest extends TestCase
                     'category',
                     'total_pages',
                     'items' => [['tid', 'name', 'type']],
-                ]
+                ],
             ]);
 
         // Responsive

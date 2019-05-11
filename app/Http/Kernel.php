@@ -32,7 +32,7 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\ForbiddenIE::class,
-            \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class
+            \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
         ],
 
         'api' => [
