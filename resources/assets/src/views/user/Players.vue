@@ -69,6 +69,7 @@
           v-if="using3dPreviewer"
           :skin="skinUrl"
           :cape="capeUrl"
+          :model="model"
           title="user.player.player-info"
         >
           <template #footer>
