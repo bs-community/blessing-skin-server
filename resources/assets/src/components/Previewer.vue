@@ -127,6 +127,7 @@ export default {
         domElement: this.$refs.previewer,
         width: this.$refs.previewer.clientWidth,
         height: this.$refs.previewer.clientHeight,
+        detectModel: false,
         skinUrl: this.skin || SkinSteve,
         capeUrl: this.cape,
       })
