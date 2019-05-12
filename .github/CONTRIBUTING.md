@@ -1,58 +1,10 @@
-# Contributing Guideline
-
-Welcome to contributing to Blessing Skin!
-
-## Development
-
-### Environment Setup
-
-Please make sure you have installed the tools below:
-
-- [Git](https://git-scm.org)
-- [Node.js](https://nodejs.org)
-- [Yarn](https://yarnpkg.com)
-- [Composer](https://getcomposer.org)
-
-And run the commands to pull the code:
-
-```bash
-git clone https://github.com/bs-community/blessing-skin-server.git
-cd blessing-skin-server
-composer install
-yarn
-```
-
-Then run `cp .env.example .env`. Don't forget to configure the `.env` file.
-
-### Developing
-
-Front-end code need to be built before running Blessing Skin.
-
-If the `APP_ENV` is `development` in `.env` file, you need to run `yarn dev` and keep that process running. That will let front-end resource be loaded correctly, and the page will gain the ability of hot reload.
-
-If the `APP_ENV` equals to other value, you need to run `yarn build` first. This operation will build and compress the front-end resource. Generally, this should be used for production.
-
-### Testing
-
-Test front-end code:
-
-```bash
-yarn test
-```
-
-Test PHP code:
-
-```bash
-./vendor/bin/phpunit
-```
-
-## Code Convention
-
-Please make sure you have installed EditorConfig extension/plugin in your editor or IDE. It's recommended to install the plugin for ESLint if you are developing front-end. (You can also run `yarn lint` to check the code.)
-
 # 贡献指南
 
 欢迎您为 Blessing Skin 作出贡献！
+
+## 分支约定
+
+不管是直接 push 代码还是提交 Pull Request，都必须使 commit 指向 `dev` 分支。
 
 ## 开发
 
@@ -80,7 +32,7 @@ yarn
 
 运行 Blessing Skin 前，前端代码需要并构建。
 
-当 `.env` 中的 `APP_ENV` 为 `development` 时，您需要先执行 `yarn dev` 并保持此进程的运行。这样 Blessing Skin 的前端资源才能被正确加载，同时使页面带有热重载功能。
+当 `.env` 中的 `APP_ENV` 为 `development` 时，您需要先执行 `yarn dev` 并保持此进程的运行。这样 Blessing Skin 的前端资源才能被正确加载，同时使页面带有热重载功能。（有时热重载可能会失效，此时需要您手动刷新页面）
 
 当 `APP_ENV` 为其它值时，您需要事先执行 `yarn build`。此命令将构建并压缩前端资源。通常用于生产环境。
 
@@ -92,6 +44,8 @@ yarn
 yarn test
 ```
 
+请尽量保证前端测试的覆盖率为 100%。
+
 进行 PHP 代码测试：
 
 ```bash
@@ -101,3 +55,13 @@ yarn test
 ## 代码规范
 
 请确保您的编辑器或 IDE 安装好 EditorConfig 插件。如果进行前端开发，推荐安装上 ESLint 插件。（您也可以通过执行 `yarn lint` 进行检查）
+
+## 发布
+
+> 本节仅针对本项目的维护成员。
+
+首先请确保您当前处于 `dev` 分支。然后，运行 `yarn new-version <action>` 即可发布新版本，不需要其它人工操作。
+
+其中 `action` 参数是必需的，且只能为 `patch`、`minor`、`major` 中的其中一个。
+
+另外，可以不定期地将 `dev` 上的 commits 合并到 `master` 分支，以满足一些想尝鲜的用户。但尽管如此，这不意味着 `dev` 分支是随意的—— `dev` 分支上的功能、特性可以是未完成的，但不应该影响用户的使用，因为也允许用户使用 `dev` 分支上的代码去体验新特性。
