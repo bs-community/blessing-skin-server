@@ -129,9 +129,6 @@
     "globals": {
       "blessing": "readonly"
     },
-    "settings": {
-      "projectRulesDir": "resources/assets/eslint-rules"
-    },
     "rules": {
       "camelcase": [
         2,
