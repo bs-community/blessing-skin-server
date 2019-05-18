@@ -38,7 +38,7 @@ test('button for adding to closet should be disabled if not auth', () => {
   expect(wrapper.find(Button).attributes('disabled')).toBe('disabled')
 })
 
-test('button for adding to closet should be disabled if auth', () => {
+test('button for adding to closet should be enabled if auth', () => {
   Vue.prototype.$http.get.mockResolvedValue({ data: {} })
   Object.assign(window.blessing.extra, { inCloset: true, currentUid: 1 })
   const wrapper = mount(Show, {
@@ -130,6 +130,28 @@ test('operation panel should not be rendered if not auth', () => {
     },
   })
   expect(wrapper.find('.box-warning').exists()).toBeFalse()
+})
+
+test('operation panel should not be rendered if not privileged', () => {
+  Object.assign(window.blessing.extra, { currentUid: 2 })
+  Vue.prototype.$http.get.mockResolvedValue({ data: { uploader: 1 } })
+  const wrapper = mount(Show, {
+    mocks: {
+      $route: ['/skinlib/show/1', '1'],
+    },
+  })
+  expect(wrapper.find('.box-warning').exists()).toBeFalse()
+})
+
+test('operation panel should be rendered if privileged', () => {
+  Object.assign(window.blessing.extra, { currentUid: 1 })
+  Vue.prototype.$http.get.mockResolvedValue({ data: { uploader: 1 } })
+  const wrapper = mount(Show, {
+    mocks: {
+      $route: ['/skinlib/show/1', '1'],
+    },
+  })
+  expect(wrapper.find('.box-warning').exists()).toBeTrue()
 })
 
 test('download texture', async () => {
