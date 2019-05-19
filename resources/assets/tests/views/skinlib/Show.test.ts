@@ -38,7 +38,7 @@ test('button for adding to closet should be disabled if not auth', () => {
   expect(wrapper.find(Button).attributes('disabled')).toBe('disabled')
 })
 
-test('button for adding to closet should be disabled if auth', () => {
+test('button for adding to closet should be enabled if auth', () => {
   Vue.prototype.$http.get.mockResolvedValue({ data: {} })
   Object.assign(window.blessing.extra, { inCloset: true, currentUid: 1 })
   const wrapper = mount(Show, {
@@ -121,15 +121,40 @@ test('render nickname of uploader', () => {
   expect(wrapper.text()).toContain('general.unexistent-user')
 })
 
-test('operation panel should not be rendered if not auth', () => {
+test('operation panel should not be rendered if user is anonymous', async () => {
   Object.assign(window.blessing.extra, { currentUid: 0 })
-  Vue.prototype.$http.get.mockResolvedValue({ data: {} })
+  Vue.prototype.$http.get.mockResolvedValue({ data: { uploader: 1 } })
   const wrapper = mount(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
     },
   })
+  await wrapper.vm.$nextTick()
   expect(wrapper.find('.box-warning').exists()).toBeFalse()
+})
+
+test('operation panel should not be rendered if not privileged', async () => {
+  Object.assign(window.blessing.extra, { currentUid: 2 })
+  Vue.prototype.$http.get.mockResolvedValue({ data: { uploader: 1 } })
+  const wrapper = mount(Show, {
+    mocks: {
+      $route: ['/skinlib/show/1', '1'],
+    },
+  })
+  await wrapper.vm.$nextTick()
+  expect(wrapper.find('.box-warning').exists()).toBeFalse()
+})
+
+test('operation panel should be rendered if privileged', async () => {
+  Object.assign(window.blessing.extra, { currentUid: 1 })
+  Vue.prototype.$http.get.mockResolvedValue({ data: { uploader: 1 } })
+  const wrapper = mount(Show, {
+    mocks: {
+      $route: ['/skinlib/show/1', '1'],
+    },
+  })
+  await wrapper.vm.$nextTick()
+  expect(wrapper.find('.box-warning').exists()).toBeTrue()
 })
 
 test('download texture', async () => {

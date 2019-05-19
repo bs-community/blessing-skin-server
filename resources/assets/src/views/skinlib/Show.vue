@@ -8,7 +8,7 @@
         :init-position-z="60"
       >
         <template #footer>
-          <el-button v-if="!auth" disabled :title="$t('skinlib.show.anonymous')">
+          <el-button v-if="anonymous" disabled :title="$t('skinlib.show.anonymous')">
             {{ $t('skinlib.addToCloset') }}
           </el-button>
           <template v-else>
@@ -90,7 +90,7 @@
                 <td v-t="'skinlib.show.name'" />
                 <td>
                   {{ name.length > 15 ? `${name.slice(0, 15)}...` : name }}
-                  <small v-if="uploader === currentUid || admin">
+                  <small v-if="hasEditPermission">
                     <a v-t="'skinlib.show.edit'" href="#" @click="changeTextureName" />
                   </small>
                 </td>
@@ -100,7 +100,7 @@
                 <td>
                   <template v-if="type === 'cape'">{{ $t('general.cape') }}</template>
                   <template v-else>{{ type }}</template>
-                  <small v-if="uploader === currentUid || admin">
+                  <small v-if="hasEditPermission">
                     <a v-t="'skinlib.show.edit'" href="#" @click="changeModel" />
                   </small>
                 </td>
@@ -137,7 +137,7 @@
         </div><!-- /.box-body -->
       </div><!-- /.box -->
 
-      <div v-if="auth" class="box box-warning">
+      <div v-if="hasEditPermission" class="box box-warning">
         <div class="box-header with-border">
           <h3 v-t="'admin.operationsTitle'" class="box-title" />
         </div><!-- /.box-header -->
@@ -206,8 +206,11 @@ export default {
     }
   },
   computed: {
-    auth() {
-      return !!this.currentUid
+    anonymous() {
+      return !this.currentUid
+    },
+    hasEditPermission() {
+      return this.uploader === this.currentUid || this.admin
     },
     togglePrivacyText() {
       return this.public ? 'skinlib.setAsPrivate' : 'skinlib.setAsPublic'
@@ -222,14 +225,8 @@ export default {
   methods: {
     async fetchData() {
       const { data = {} } = await this.$http.get(`/skinlib/info/${this.tid}`)
-      this.name = data.name
-      this.type = data.type
-      this.likes = data.likes
-      this.hash = data.hash
-      this.uploader = data.uploader
-      this.size = data.size
+      Object.assign(this.$data, data)
       this.uploadAt = data.upload_at
-      this.public = !!data.public
     },
     async addToCloset() {
       this.$once('like-toggled', () => {
