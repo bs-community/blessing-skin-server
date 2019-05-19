@@ -233,6 +233,7 @@ class AuthController extends Controller
         $user = $request->user();
         $user->email = $email;
         $user->save();
+
         return redirect('/user');
     }
 
@@ -258,7 +259,7 @@ class AuthController extends Controller
     {
         $token = Auth::guard('jwt')->attempt([
             'email' => $request->email,
-            'password' => $request->password
+            'password' => $request->password,
         ]) ?: '';
 
         return json(compact('token'));
@@ -267,6 +268,7 @@ class AuthController extends Controller
     public function jwtLogout()
     {
         Auth::guard('jwt')->logout();
+
         return response('', 204);
     }
 

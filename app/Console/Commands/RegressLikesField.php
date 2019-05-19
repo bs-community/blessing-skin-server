@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use Schema;
 use App\Models\Texture;
 use Illuminate\Console\Command;
 

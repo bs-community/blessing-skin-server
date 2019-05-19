@@ -187,7 +187,7 @@ if (! function_exists('bs_copyright')) {
                 'Powered by Blessing Skin Server.',
                 'Proudly powered by Blessing Skin Server.',
                 '由 Blessing Skin Server 强力驱动。',
-                '自豪地采用 Blessing Skin Server。'
+                '自豪地采用 Blessing Skin Server。',
             ],
             option_localized('copyright_prefer', 0)
         );

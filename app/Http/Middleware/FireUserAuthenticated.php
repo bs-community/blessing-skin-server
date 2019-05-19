@@ -11,6 +11,7 @@ class FireUserAuthenticated
         if (auth()->check()) {
             event(new \App\Events\UserAuthenticated($request->user()));
         }
+
         return $next($request);
     }
 }

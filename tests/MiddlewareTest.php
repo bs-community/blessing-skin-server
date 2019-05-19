@@ -155,6 +155,7 @@ class MiddlewareTest extends TestCase
         $this->actingAs($user)->get('/user');
         Event::assertDispatched(\App\Events\UserAuthenticated::class, function ($event) use ($user) {
             $this->assertEquals($user->uid, $event->user->uid);
+
             return true;
         });
     }

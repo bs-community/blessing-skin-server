@@ -551,13 +551,13 @@ class AuthControllerTest extends TestCase
         $this->postJson('/api/auth/login')->assertJson(['token' => false]);
         $token = $this->postJson('/api/auth/login', [
             'email' => $user->email,
-            'password' => '12345678'
+            'password' => '12345678',
         ])->decodeResponseJson('token');
         $this->assertTrue(is_string($token));
 
         $this->postJson('/api/auth/login', [
             'email' => $user->email,
-            'password' => '123456789'
+            'password' => '123456789',
         ])->assertJson(['token' => '']);
     }
 
@@ -567,11 +567,11 @@ class AuthControllerTest extends TestCase
         $user->changePassword('12345678');
         $token = $this->postJson('/api/auth/login', [
             'email' => $user->email,
-            'password' => '12345678'
+            'password' => '12345678',
         ])->decodeResponseJson('token');
 
         $this->post('/api/auth/logout', [], [
-            'Authorization' => "Bearer $token"
+            'Authorization' => "Bearer $token",
         ])->assertStatus(204);
     }
 
@@ -581,11 +581,11 @@ class AuthControllerTest extends TestCase
         $user->changePassword('12345678');
         $token = $this->postJson('/api/auth/login', [
             'email' => $user->email,
-            'password' => '12345678'
+            'password' => '12345678',
         ])->decodeResponseJson('token');
 
         $token = $this->postJson('/api/auth/refresh', [], [
-            'Authorization' => "Bearer $token"
+            'Authorization' => "Bearer $token",
         ])->decodeResponseJson('token');
         $this->assertTrue(is_string($token));
     }

@@ -7,7 +7,6 @@ use Event;
 use App\Events;
 use App\Models\User;
 use ReflectionException;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Redis;
 use App\Exceptions\PrettyPageException;
 use Illuminate\Support\ServiceProvider;
