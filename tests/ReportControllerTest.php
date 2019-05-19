@@ -251,7 +251,7 @@ class ReportControllerTest extends TestCase
         $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'ban'])
             ->assertJson([
                 'code' => 1,
-                'message' => trans('admin.users.operations.no-permission'),
+                'message' => trans('admin.users.operations.non-existent'),
             ]);
     }
 }
