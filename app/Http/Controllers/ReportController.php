@@ -106,7 +106,16 @@ class ReportController extends Controller
 
         switch ($data['action']) {
             case 'delete':
-                $report->texture->delete();
+                if ($report->texture) {
+                    $report->texture->delete();
+                } else {
+                    // The texture has been deleted by its uploader
+                    // We will return the score, but will not give the informer any reward
+                    self::returnScore($report);
+                    $report->status = Report::RESOLVED;
+                    $report->save();
+                    return json(trans('general.texture-deleted'), 0, ['status' => Report::RESOLVED]);
+                }
                 break;
             case 'ban':
                 $uploader = User::find($report->uploader);
@@ -121,17 +130,24 @@ class ReportController extends Controller
                 break;
         }
 
-        if ($report->status == Report::PENDING) {
-            if (($score = option('reporter_score_modification', 0)) < 0) {
-                $report->informer->score -= $score;
-            }
-            $report->informer->score += option('reporter_reward_score', 0);
-            $report->informer->save();
-        }
-
+        self::returnScore($report);
+        self::giveAward($report);
         $report->status = Report::RESOLVED;
         $report->save();
 
         return json(trans('general.op-success'), 0, ['status' => Report::RESOLVED]);
+    }
+
+    static function returnScore($report) {
+        if ($report->status == Report::PENDING && ($score = option('reporter_score_modification', 0)) < 0) {
+            $report->informer->score -= $score;
+            $report->informer->save();
+        }
+    }
+    static function giveAward($report) {
+        if ($report->status == Report::PENDING) {
+            $report->informer->score += option('reporter_reward_score', 0);
+            $report->informer->save();
+        }
     }
 }

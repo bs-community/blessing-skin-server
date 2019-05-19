@@ -218,6 +218,40 @@ class ReportControllerTest extends TestCase
         $this->assertEquals($score + 7, $reporter->score);
     }
 
+    public function testReviewDeleteNonExistentTexture()
+    {
+        $uploader = factory(User::class)->create();
+        $reporter = factory(User::class)->create();
+        $admin = factory(User::class, 'admin')->create();
+        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+
+        $report = new Report;
+        $report->tid = $texture->tid;
+        $report->uploader = $uploader->uid;
+        $report->reporter = $reporter->uid;
+        $report->reason = 'test';
+        $report->status = Report::PENDING;
+        $report->save();
+        $report->refresh();
+
+        option([
+            'reporter_reward_score' => 6,
+            'reporter_score_modification' => -7,
+        ]);
+        $score = $reporter->score;
+        $texture->delete();
+        $this->actingAs($admin)
+            ->postJson('/admin/reports', ['id' => $report->id, 'action' => 'delete'])
+            ->assertJson([
+                'code' => 0,
+                'message' => trans('general.texture-deleted'),
+                'data' => ['status' => Report::RESOLVED],
+            ]);
+        $report->refresh();
+        $this->assertEquals(Report::RESOLVED, $report->status);
+        $this->assertEquals($score, $reporter->score);
+    }
+
     public function testReviewBan()
     {
         $uploader = factory(User::class)->create();
