@@ -27,7 +27,7 @@ class UserControllerTest extends TestCase
                     'email' => $user->email,
                     'nickname' => $user->nickname,
                     'score' => $user->score,
-                ]
+                ],
             ]);
     }
 
@@ -96,7 +96,7 @@ class UserControllerTest extends TestCase
                         'used' => 0,
                     ],
                     'remaining_time' => (int) option('sign_gap_time'),
-                ]
+                ],
             ]);
 
         // Remaining time is greater than 0

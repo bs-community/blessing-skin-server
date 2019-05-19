@@ -13,6 +13,7 @@ class Authenticate extends Middleware
                 'last_requested_path' => $request->path(),
                 'msg' => trans('auth.check.anonymous'),
             ]);
+
             return '/auth/login';
         }
     }

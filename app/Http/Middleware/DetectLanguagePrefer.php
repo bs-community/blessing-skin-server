@@ -4,8 +4,6 @@ namespace App\Http\Middleware;
 
 use Cookie;
 use Illuminate\Support\Arr;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class DetectLanguagePrefer
 {
@@ -17,6 +15,7 @@ class DetectLanguagePrefer
         }
         app()->setLocale($locale);
         Cookie::queue('locale', $locale);
+
         return $next($request);
     }
 }

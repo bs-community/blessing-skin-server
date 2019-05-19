@@ -259,6 +259,7 @@ class SkinlibController extends Controller
         }
 
         $texture->delete();
+
         return json(trans('skinlib.delete.success'), 0);
     }
 
