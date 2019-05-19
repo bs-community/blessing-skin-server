@@ -114,17 +114,8 @@ class ReportControllerTest extends TestCase
 
     public function testReview()
     {
-        $uploader = factory(User::class)->create();
-        $reporter = factory(User::class)->create();
         $admin = factory(User::class, 'admin')->create();
-        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
-
         $report = new Report;
-        $report->tid = $texture->tid;
-        $report->uploader = $uploader->uid;
-        $report->reporter = $reporter->uid;
-        $report->reason = 'test';
-        $report->status = Report::REJECTED;
         $report->save();
         $report->refresh();
 
@@ -148,57 +139,9 @@ class ReportControllerTest extends TestCase
         // Allow to process again
         $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'reject'])
             ->assertJson(['code' => 0]);
-
-        // Reject
-        $report->status = Report::PENDING;
-        $report->save();
-        $score = $reporter->score;
-        $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'reject'])
-            ->assertJson([
-                'code' => 0,
-                'message' => trans('general.op-success'),
-                'data' => ['status' => Report::REJECTED],
-            ]);
-        $report->refresh();
-        $reporter->refresh();
-        $this->assertEquals(Report::REJECTED, $report->status);
-        $this->assertEquals($score, $reporter->score);
-
-        $report->refresh();
-        $report->status = Report::PENDING;
-        $report->save();
-        option(['reporter_score_modification' => 5]);
-        $score = $reporter->score;
-        $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'reject'])
-            ->assertJson(['code' => 0]);
-        $reporter->refresh();
-        $this->assertEquals($score - 5, $reporter->score);
-
-        // Delete texture
-        option([
-            'reporter_score_modification' => -7,
-            'return_score' => false,
-            'take_back_scores_after_deletion' => false,
-        ]);
-        $report->refresh();
-        $report->status = Report::PENDING;
-        $report->save();
-        $score = $reporter->score;
-        $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'delete'])
-            ->assertJson([
-                'code' => 0,
-                'message' => trans('general.op-success'),
-                'data' => ['status' => Report::RESOLVED],
-            ]);
-        $report->refresh();
-        $reporter->refresh();
-        $this->assertEquals(Report::RESOLVED, $report->status);
-        $this->assertNull(Texture::find($texture->tid));
-        $this->assertEquals($score + 7, $reporter->score);
-        option(['reporter_score_modification' => 0]);
     }
-    
-    public function testBanUploader()
+
+    public function testReviewReject()
     {
         $uploader = factory(User::class)->create();
         $reporter = factory(User::class)->create();
@@ -210,14 +153,89 @@ class ReportControllerTest extends TestCase
         $report->uploader = $uploader->uid;
         $report->reporter = $reporter->uid;
         $report->reason = 'test';
-        $report->status = Report::REJECTED;
-        $report->save();
-        $report->refresh();
-        
-        option(['reporter_reward_score' => 6]);
-        $report->refresh();
         $report->status = Report::PENDING;
         $report->save();
+        $report->refresh();
+
+        // Should not cost score
+        $score = $reporter->score;
+        $this->actingAs($admin)
+            ->postJson('/admin/reports', ['id' => $report->id, 'action' => 'reject'])
+            ->assertJson([
+                'code' => 0,
+                'message' => trans('general.op-success'),
+                'data' => ['status' => Report::REJECTED],
+            ]);
+        $report->refresh();
+        $reporter->refresh();
+        $this->assertEquals(Report::REJECTED, $report->status);
+        $this->assertEquals($score, $reporter->score);
+
+        // Should cost score
+        $report->status = Report::PENDING;
+        $report->save();
+        option(['reporter_score_modification' => 5]);
+        $score = $reporter->score;
+        $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'reject'])
+            ->assertJson(['code' => 0]);
+        $reporter->refresh();
+        $this->assertEquals($score - 5, $reporter->score);
+    }
+
+    public function testReviewDelete()
+    {
+        $uploader = factory(User::class)->create();
+        $reporter = factory(User::class)->create();
+        $admin = factory(User::class, 'admin')->create();
+        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+
+        $report = new Report;
+        $report->tid = $texture->tid;
+        $report->uploader = $uploader->uid;
+        $report->reporter = $reporter->uid;
+        $report->reason = 'test';
+        $report->status = Report::PENDING;
+        $report->save();
+        $report->refresh();
+
+        option([
+            'reporter_score_modification' => -7,
+            'return_score' => false,
+            'take_back_scores_after_deletion' => false,
+        ]);
+        $score = $reporter->score;
+        $this->actingAs($admin)
+            ->postJson('/admin/reports', ['id' => $report->id, 'action' => 'delete'])
+            ->assertJson([
+                'code' => 0,
+                'message' => trans('general.op-success'),
+                'data' => ['status' => Report::RESOLVED],
+            ]);
+        $report->refresh();
+        $reporter->refresh();
+        $this->assertEquals(Report::RESOLVED, $report->status);
+        $this->assertNull(Texture::find($texture->tid));
+        $this->assertEquals($score + 7, $reporter->score);
+    }
+
+    public function testReviewBan()
+    {
+        $uploader = factory(User::class)->create();
+        $reporter = factory(User::class)->create();
+        $admin = factory(User::class, 'admin')->create();
+        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+
+        $report = new Report;
+        $report->tid = $texture->tid;
+        $report->uploader = $uploader->uid;
+        $report->reporter = $reporter->uid;
+        $report->reason = 'test';
+        $report->status = Report::PENDING;
+        $report->save();
+        $report->refresh();
+
+        // Uploader should be banned
+        option(['reporter_reward_score' => 6]);
         $score = $reporter->score;
         $this->actingAs($admin)
             ->postJson('/admin/reports', ['id' => $report->id, 'action' => 'ban'])
@@ -232,6 +250,7 @@ class ReportControllerTest extends TestCase
         $this->assertEquals($score + 6, $reporter->score);
         option(['reporter_reward_score' => 0]);
 
+        // Should not ban admin uploader
         $report->refresh();
         $report->status = Report::PENDING;
         $report->save();
@@ -245,7 +264,9 @@ class ReportControllerTest extends TestCase
             ]);
         $report->refresh();
         $this->assertEquals(Report::PENDING, $report->status);
-        
+        $this->assertEquals(User::ADMIN, $uploader->permission);
+
+        // Uploader has deleted its account
         $report->uploader = -1;
         $report->save();
         $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'ban'])
