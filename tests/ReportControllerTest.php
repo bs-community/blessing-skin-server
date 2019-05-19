@@ -115,7 +115,8 @@ class ReportControllerTest extends TestCase
     public function testReview()
     {
         $uploader = factory(User::class)->create();
-        $reporter = factory(User::class, 'admin')->create();
+        $reporter = factory(User::class)->create();
+        $admin = factory(User::class, 'admin')->create();
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
 
         $report = new Report;
@@ -128,7 +129,7 @@ class ReportControllerTest extends TestCase
         $report->refresh();
 
         // Without `id` field
-        $this->actingAs($reporter)
+        $this->actingAs($admin)
             ->postJson('/admin/reports')
             ->assertJsonValidationErrors('id');
 
@@ -200,9 +201,7 @@ class ReportControllerTest extends TestCase
         option(['reporter_reward_score' => 6]);
         $report->refresh();
         $report->status = Report::PENDING;
-        $report->reporter = $uploader->uid; // I REPORT MYSELF. (我 举 报 我 自 己)
         $report->save();
-        $reporter = $uploader;
         $score = $reporter->score;
         $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'ban'])
             ->assertJson([
@@ -211,6 +210,7 @@ class ReportControllerTest extends TestCase
                 'data' => ['status' => Report::RESOLVED],
             ]);
         $reporter->refresh();
+        $uploader->refresh();
         $this->assertEquals(User::BANNED, $uploader->permission);
         $this->assertEquals($score + 6, $reporter->score);
         option(['reporter_reward_score' => 0]);
