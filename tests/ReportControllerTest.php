@@ -196,8 +196,24 @@ class ReportControllerTest extends TestCase
         $this->assertNull(Texture::find($texture->tid));
         $this->assertEquals($score + 7, $reporter->score);
         option(['reporter_score_modification' => 0]);
+    }
+    
+    public function testBanUploader()
+    {
+        $uploader = factory(User::class)->create();
+        $reporter = factory(User::class)->create();
+        $admin = factory(User::class, 'admin')->create();
+        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
 
-        // Ban uploader
+        $report = new Report;
+        $report->tid = $texture->tid;
+        $report->uploader = $uploader->uid;
+        $report->reporter = $reporter->uid;
+        $report->reason = 'test';
+        $report->status = Report::REJECTED;
+        $report->save();
+        $report->refresh();
+        
         option(['reporter_reward_score' => 6]);
         $report->refresh();
         $report->status = Report::PENDING;
@@ -228,5 +244,13 @@ class ReportControllerTest extends TestCase
             ]);
         $report->refresh();
         $this->assertEquals(Report::PENDING, $report->status);
+        
+        $report->uploader = -1;
+        $report->save();
+        $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'ban'])
+            ->assertJson([
+                'code' => 1,
+                'message' => trans('admin.users.operations.no-permission'),
+            ]);
     }
 }
