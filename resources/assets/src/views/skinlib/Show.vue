@@ -225,7 +225,7 @@ export default {
   methods: {
     async fetchData() {
       const { data = {} } = await this.$http.get(`/skinlib/info/${this.tid}`)
-      Object.assign(this, data)
+      Object.assign(this.$data, data)
       this.uploadAt = data.upload_at
     },
     async addToCloset() {
