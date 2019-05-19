@@ -115,7 +115,14 @@ class ReportControllerTest extends TestCase
     public function testReview()
     {
         $admin = factory(User::class, 'admin')->create();
+        $texture = factory(Texture::class)->create(['uploader' => $admin->uid]);
+
         $report = new Report;
+        $report->tid = $texture->tid;
+        $report->uploader = $admin->uid;
+        $report->reporter = $admin->uid;
+        $report->reason = 'test';
+        $report->status = Report::PENDING;
         $report->save();
         $report->refresh();
 
