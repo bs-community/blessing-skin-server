@@ -225,14 +225,8 @@ export default {
   methods: {
     async fetchData() {
       const { data = {} } = await this.$http.get(`/skinlib/info/${this.tid}`)
-      this.name = data.name
-      this.type = data.type
-      this.likes = data.likes
-      this.hash = data.hash
-      this.uploader = data.uploader
-      this.size = data.size
+      Object.assign(this, data)
       this.uploadAt = data.upload_at
-      this.public = !!data.public
     },
     async addToCloset() {
       this.$once('like-toggled', () => {

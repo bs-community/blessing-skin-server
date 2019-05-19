@@ -121,18 +121,19 @@ test('render nickname of uploader', () => {
   expect(wrapper.text()).toContain('general.unexistent-user')
 })
 
-test('operation panel should not be rendered if not auth', () => {
+test('operation panel should not be rendered if user is anonymous', async () => {
   Object.assign(window.blessing.extra, { currentUid: 0 })
-  Vue.prototype.$http.get.mockResolvedValue({ data: {} })
+  Vue.prototype.$http.get.mockResolvedValue({ data: { uploader: 1 } })
   const wrapper = mount(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
     },
   })
+  await wrapper.vm.$nextTick()
   expect(wrapper.find('.box-warning').exists()).toBeFalse()
 })
 
-test('operation panel should not be rendered if not privileged', () => {
+test('operation panel should not be rendered if not privileged', async () => {
   Object.assign(window.blessing.extra, { currentUid: 2 })
   Vue.prototype.$http.get.mockResolvedValue({ data: { uploader: 1 } })
   const wrapper = mount(Show, {
@@ -140,10 +141,11 @@ test('operation panel should not be rendered if not privileged', () => {
       $route: ['/skinlib/show/1', '1'],
     },
   })
+  await wrapper.vm.$nextTick()
   expect(wrapper.find('.box-warning').exists()).toBeFalse()
 })
 
-test('operation panel should be rendered if privileged', () => {
+test('operation panel should be rendered if privileged', async () => {
   Object.assign(window.blessing.extra, { currentUid: 1 })
   Vue.prototype.$http.get.mockResolvedValue({ data: { uploader: 1 } })
   const wrapper = mount(Show, {
@@ -151,6 +153,7 @@ test('operation panel should be rendered if privileged', () => {
       $route: ['/skinlib/show/1', '1'],
     },
   })
+  await wrapper.vm.$nextTick()
   expect(wrapper.find('.box-warning').exists()).toBeTrue()
 })
 
