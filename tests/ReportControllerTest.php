@@ -219,7 +219,8 @@ class ReportControllerTest extends TestCase
         $report->status = Report::PENDING;
         $report->save();
         $score = $reporter->score;
-        $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'ban'])
+        $this->actingAs($admin)
+            ->postJson('/admin/reports', ['id' => $report->id, 'action' => 'ban'])
             ->assertJson([
                 'code' => 0,
                 'message' => trans('general.op-success'),
