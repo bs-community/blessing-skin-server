@@ -109,11 +109,15 @@ class ReportController extends Controller
                 $report->texture->delete();
                 break;
             case 'ban':
-                if (auth()->user()->permission <= $report->informer->permission) {
+                $uploader = User::find($report->uploader);
+                if (! $uploader) {
+                    return json(trans('admin.users.operations.non-existent'), 1);
+                }
+                if (auth()->user()->permission <= $uploader->permission) {
                     return json(trans('admin.users.operations.no-permission'), 1);
                 }
-                $report->informer->permission = User::BANNED;
-                $report->informer->save();
+                $uploader->permission = User::BANNED;
+                $uploader->save();
                 break;
         }
 
