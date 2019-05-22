@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Route;
+use Illuminate\Support\Str;
 use Illuminate\Routing\Router;
 use Laravel\Passport\Passport;
 use App\Events\ConfigureRoutes;
@@ -45,7 +46,12 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapApiRoutes();
 
-        Passport::routes(null, ['middleware' => ['verified']]);
+        Passport::routes();
+        foreach ($router->getRoutes()->getRoutesByName() as $name => $route) {
+            if (Str::startsWith($name, ['passport.authorizations', 'passport.tokens', 'passport.clients'])) {
+                $route->middleware('verified');
+            }
+        }
 
         event(new ConfigureRoutes($router));
     }
