@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import * as net from '@/scripts/net'
 import { on } from '@/scripts/event'
-import { showAjaxError } from '@/scripts/notify'
+import { showAjaxError, showModal } from '@/scripts/notify'
 
 jest.mock('@/scripts/notify')
 
@@ -77,7 +77,14 @@ test('low level fetch', async () => {
     .mockRejectedValueOnce(new Error('network'))
     .mockResolvedValueOnce({
       ok: false,
+      headers: new Map(),
       text: () => Promise.resolve('404'),
+      clone: () => ({}),
+    })
+    .mockResolvedValueOnce({
+      ok: false,
+      json: () => Promise.resolve({ message: 'error' }),
+      headers: new Map([['Content-Type', 'application/json']]),
       clone: () => ({}),
     })
     .mockResolvedValueOnce({
@@ -107,20 +114,34 @@ test('low level fetch', async () => {
   expect(stub.mock.calls[1][0]).toHaveProperty('response')
 
   await net.walkFetch(request as Request)
+  expect(showAjaxError.mock.calls[2][0]).toBeInstanceOf(Error)
+  expect(stub.mock.calls[2][0]).toHaveProperty('message', 'error')
+  expect(stub.mock.calls[2][0]).toHaveProperty('response')
+
+  await net.walkFetch(request as Request)
   expect(json).toBeCalled()
 
   expect(await net.walkFetch(request as Request)).toBe('text')
 })
 
-test('process Laravel validation errors', async () => {
-  window.fetch = jest.fn().mockResolvedValue({
-    status: 422,
-    json() {
-      return Promise.resolve({
-        errors: { name: ['required'] },
-      })
-    },
-  })
+test('process backend errors', async () => {
+  window.fetch = jest.fn()
+    .mockResolvedValueOnce({
+      status: 422,
+      headers: new Map([['Content-Type', 'application/json']]),
+      json() {
+        return Promise.resolve({
+          errors: { name: ['required'] },
+        })
+      },
+    })
+    .mockResolvedValueOnce({
+      status: 403,
+      headers: new Map([['Content-Type', 'application/json']]),
+      json() {
+        return Promise.resolve({ message: 'forbidden' })
+      },
+    })
 
   const result: {
     code: number,
@@ -128,6 +149,9 @@ test('process Laravel validation errors', async () => {
   } = await net.walkFetch({ headers: new Headers() } as Request)
   expect(result.code).toBe(1)
   expect(result.message).toBe('required')
+
+  await net.walkFetch({ headers: new Headers() } as Request)
+  expect(showModal).toBeCalledWith('forbidden', undefined, 'warning')
 })
 
 test('inject to Vue instance', () => {

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { emit } from './event'
 import { queryStringify } from './utils'
-import { showAjaxError } from './notify'
+import { showAjaxError, showModal } from './notify'
 
 class HTTPError extends Error {
   response: Response
@@ -30,26 +30,27 @@ export async function walkFetch(request: Request): Promise<any> {
 
   try {
     const response = await fetch(request)
+    const body = response.headers.get('Content-Type') === 'application/json'
+      ? await response.json()
+      : await response.text()
     if (response.ok) {
-      return response.headers.get('Content-Type') === 'application/json'
-        ? response.json()
-        : response.text()
+      return body
     }
 
     // Process validation errors from Laravel.
     if (response.status === 422) {
-      const { errors }: {
-        message: string,
-        errors: { [field: string]: string[] }
-      } = await response.json()
+      const { errors }: { message: string, errors: { [field: string]: string[] } } = body
       return {
         code: 1,
         message: Object.keys(errors).map(field => errors[field][0])[0],
       }
+    } else if (response.status === 403) {
+      showModal(body.message, undefined, 'warning')
+      return
     }
 
     const res = response.clone()
-    throw new HTTPError(await response.text(), res)
+    throw new HTTPError(body.message || body, res)
   } catch (error) {
     emit('fetchError', error)
     showAjaxError(error)
