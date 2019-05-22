@@ -37,6 +37,13 @@ class MiddlewareTest extends TestCase
         $this->actAs('normal')
             ->get('/skinlib/upload')
             ->assertSuccessful();
+
+        $user = factory(User::class)->create(['verified' => false]);
+        $this->actingAs($user)->get('/user/oauth/manage')->assertForbidden();
+        $this->getJson('/oauth/clients')->assertForbidden();
+        $user->verified = true;
+        $user->save();
+        $this->getJson('/oauth/clients')->assertSuccessful();
     }
 
     public function testCheckAdministrator()

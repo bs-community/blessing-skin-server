@@ -84,7 +84,7 @@ Route::group([
     Route::post('/closet/rename/{tid}', 'ClosetController@rename');
 
     // OAuth2 Management
-    Route::view('/oauth/manage', 'user.oauth');
+    Route::view('/oauth/manage', 'user.oauth')->middleware('verified');
 });
 
 /*

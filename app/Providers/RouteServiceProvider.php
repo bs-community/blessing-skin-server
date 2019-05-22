@@ -45,7 +45,7 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->mapApiRoutes();
 
-        Passport::routes();
+        Passport::routes(null, ['middleware' => ['verified']]);
 
         event(new ConfigureRoutes($router));
     }
