@@ -11,6 +11,7 @@ test('the GET method', async () => {
     ok: true,
     json,
     headers: new Map([['Content-Type', 'application/json']]),
+    clone: () => ({}),
   })
 
   const stub = jest.fn()
@@ -35,6 +36,7 @@ test('the POST method', async () => {
       ok: true,
       json: () => Promise.resolve({}),
       headers: new Map([['Content-Type', 'application/json']]),
+      clone: () => ({}),
     })
 
   const meta = document.createElement('meta')
@@ -91,11 +93,13 @@ test('low level fetch', async () => {
       ok: true,
       json,
       headers: new Map([['Content-Type', 'application/json']]),
+      clone: () => ({}),
     })
     .mockResolvedValueOnce({
       ok: true,
       headers: new Map(),
       text: () => Promise.resolve('text'),
+      clone: () => ({}),
     })
 
   const request: RequestInit = { headers: new Headers() }
@@ -134,6 +138,7 @@ test('process backend errors', async () => {
           errors: { name: ['required'] },
         })
       },
+      clone: () => ({}),
     })
     .mockResolvedValueOnce({
       status: 403,
@@ -141,6 +146,7 @@ test('process backend errors', async () => {
       json() {
         return Promise.resolve({ message: 'forbidden' })
       },
+      clone: () => ({}),
     })
 
   const result: {

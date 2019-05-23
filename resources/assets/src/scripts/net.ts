@@ -30,6 +30,7 @@ export async function walkFetch(request: Request): Promise<any> {
 
   try {
     const response = await fetch(request)
+    const cloned = response.clone()
     const body = response.headers.get('Content-Type') === 'application/json'
       ? await response.json()
       : await response.text()
@@ -49,8 +50,7 @@ export async function walkFetch(request: Request): Promise<any> {
       return
     }
 
-    const res = response.clone()
-    throw new HTTPError(body.message || body, res)
+    throw new HTTPError(body.message || body, cloned)
   } catch (error) {
     emit('fetchError', error)
     showAjaxError(error)
