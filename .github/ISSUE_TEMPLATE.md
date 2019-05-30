@@ -1,7 +1,7 @@
 <!-- 在提交一个新 issue 前，请先阅读以下内容： -->
 <!-- Before opening a new issue, please make sure to READ the articles below: -->
-<!-- * FAQ 常见问题：     https://git.io/vAkNl -->
-<!-- * 报告问题的正确姿势：https://git.io/vAkNc -->
+<!-- * FAQ 常见问题：     https://git.io/fjRtn -->
+<!-- * 报告问题的正确姿势：https://git.io/fjRtc -->
 
 <!-- 把下面模板中的占位文字删除，并按照你的情况认真填写，谢谢 -->
 <!-- Please remove the placeholders and fill in the template according to your situation. -->
