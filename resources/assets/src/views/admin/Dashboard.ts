@@ -58,14 +58,24 @@ async function createChart(el: HTMLDivElement) {
         name: '',
         type: 'line',
         stack: '',
-        areaStyle: {},
+        itemStyle: {
+          color: '#B5F079',
+        },
+        areaStyle: {
+          color: '#B5F079',
+        },
         data: [],
       },
       {
         name: '',
         type: 'line',
         stack: '',
-        areaStyle: {},
+        itemStyle: {
+          color: '#6FADEB',
+        },
+        areaStyle: {
+          color: '#6FADEB',
+        },
         data: [],
       },
     ],
@@ -88,11 +98,9 @@ async function createChart(el: HTMLDivElement) {
       (label: string, index: number): echarts.EChartOption.SeriesLine => ({
         name: label,
         type: 'line',
-        stack: 'total',
-        areaStyle: {},
         data: chartData.data[index],
         smooth: true,
-        symbol: 'roundRect',
+        symbol: 'circle',
         yAxisIndex: index,
       })
     ),
