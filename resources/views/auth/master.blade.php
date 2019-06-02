@@ -7,6 +7,7 @@
     @include('common.favicon')
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    @include('common.theme-color')
     @include('common.seo-meta-tags')
     <!-- App Styles -->
     @include('common.dependencies.style')
