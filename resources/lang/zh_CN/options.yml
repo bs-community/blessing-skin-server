@@ -133,6 +133,8 @@ general:
   allow_downloading_texture:
     title: 直接下载材质
     label: 允许用户直接下载皮肤库中材质的原始文件
+  status_code_for_private:
+    title: 拒绝访问私密材质时的 HTTP 代码
   texture_name_regexp:
     title: 材质名称规则
     hint: 皮肤库上传材质时名称的正则表达式。留空表示允许使用除半角单双引号、反斜杠以外的任意字符。

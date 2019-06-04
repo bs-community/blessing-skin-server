@@ -302,6 +302,12 @@ class SkinlibControllerTest extends TestCase
         ]);
         Storage::disk('textures')->put($texture->hash, '');
         $this->get('/skinlib/show/'.$texture->tid)
+            ->assertForbidden()
+            ->assertSee(trans('skinlib.show.private'));
+
+        option(['status_code_for_private' => 404]);
+        $this->get('/skinlib/show/'.$texture->tid)
+            ->assertNotFound()
             ->assertSee(trans('skinlib.show.private'));
 
         // Other user should not see private texture

@@ -222,6 +222,10 @@ class AdminController extends Controller
 
             $form->checkbox('allow_downloading_texture')->label();
 
+            $form->select('status_code_for_private')
+                ->option('403', '403 Forbidden')
+                ->option('404', '404 Not Found');
+
             $form->text('texture_name_regexp')->hint()->placeholder();
 
             $form->textarea('content_policy')->rows(3)->description();

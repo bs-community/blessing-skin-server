@@ -132,6 +132,7 @@ class AdminControllerTest extends BrowserKitTestCase
             ->select('1', 'api_type')
             ->check('auto_del_invalid_texture')
             ->uncheck('allow_downloading_texture')
+            ->select('404', 'status_code_for_private')
             ->type('abc', 'texture_name_regexp')
             ->type('policy', 'content_policy')
             ->type('code', 'comment_script')
@@ -148,6 +149,7 @@ class AdminControllerTest extends BrowserKitTestCase
         $this->assertEquals('1', option('api_type'));
         $this->assertTrue(option('auto_del_invalid_texture'));
         $this->assertFalse(option('allow_downloading_texture'));
+        $this->assertEquals('404', option('status_code_for_private'));
         $this->assertEquals('abc', option('texture_name_regexp'));
         $this->assertEquals('policy', option_localized('content_policy'));
         $this->assertEquals('code', option('comment_script'));

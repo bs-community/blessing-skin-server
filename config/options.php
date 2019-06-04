@@ -57,4 +57,5 @@ return [
     'reporter_reward_score'     => '0',
     'content_policy'            => '',
     'transparent_navbar'        => 'false',
+    'status_code_for_private'   => '403',
 ];
