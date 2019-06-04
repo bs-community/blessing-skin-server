@@ -41,12 +41,12 @@ class AdminControllerTest extends BrowserKitTestCase
             ->seeJsonStructure(['errors' => ['color_scheme']]);
 
         // Change color
-        $this->get('/admin/customize?action=color&color_scheme=purple')
+        $this->get('/admin/customize?action=color&color_scheme=skin-purple')
             ->seeJson([
                 'code' => 0,
                 'message' => trans('admin.customize.change-color.success'),
             ]);
-        $this->assertEquals('purple', option('color_scheme'));
+        $this->assertEquals('skin-purple', option('color_scheme'));
 
         $this->visit('/admin/customize')
             ->type('url', 'home_pic_url')
