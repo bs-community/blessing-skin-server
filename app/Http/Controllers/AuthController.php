@@ -53,7 +53,7 @@ class AuthController extends Controller
             if ($user->verifyPassword($request->input('password'))) {
                 Session::forget('login_fails');
 
-                Auth::login($user, $request->input('keep') == 'true');
+                Auth::login($user, $request->input('keep'));
 
                 event(new Events\UserLoggedIn($user));
 
