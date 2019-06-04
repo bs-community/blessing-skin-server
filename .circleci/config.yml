@@ -7,10 +7,10 @@ jobs:
       - image: circleci/node:10
     steps:
       - checkout
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "yarn.lock" }}
-          - v1-dependencies-
+      # - restore_cache:
+      #     keys:
+      #     - v1-dependencies-{{ checksum "yarn.lock" }}
+      #     - v1-dependencies-
       - run: yarn
       - save_cache:
           paths:
