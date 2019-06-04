@@ -97,6 +97,13 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
                 ExDragine
             </a>
         </td>
+        <td align=center>
+            <a href="https://afdian.net/@akkariin">
+                <img src="https://pic.afdiancdn.com/user/f3f747da859011e98ebe52540025c377/avatar/14752883229fa9f346884dec196a4b8a_w256_h256_s35.jpg?imageView2/1/w/120/h/120">
+                <br>
+                Akkariin
+            </a>
+        </td>
     </tr>
 </tbody>
 </table>
