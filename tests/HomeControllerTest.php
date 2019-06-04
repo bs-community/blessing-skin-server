@@ -45,6 +45,11 @@ class HomeControllerTest extends TestCase
 
     public function testApiRoot()
     {
-        $this->get('/api')->assertJson(['spec' => 0]);
+        $this->get('/api')->assertJson([
+            'blessing_skin' => config('app.version'),
+            'spec' => 0,
+            'copyright' => bs_copyright(),
+            'site_name' => option('site_name'),
+        ]);
     }
 }
