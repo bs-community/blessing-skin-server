@@ -62,8 +62,9 @@ export default [
   },
   {
     path: 'admin/customize',
-    component: () => import('../views/admin/Customization.vue'),
-    el: '#change-color',
+    module: [
+      () => import('../views/admin/Customization'),
+    ],
   },
   {
     path: 'admin/plugins/manage',

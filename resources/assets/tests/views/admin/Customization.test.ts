@@ -1,26 +1,10 @@
-import Vue from 'vue'
-import { mount } from '@vue/test-utils'
-import Customization from '@/views/admin/Customization.vue'
-
-window.blessing.extra = { currentSkin: 'skin-blue' }
+import handler from '@/views/admin/Customization'
 
 test('preview color', () => {
   document.body.classList.add('skin-blue')
-  const wrapper = mount(Customization)
-  wrapper.findAll('a').at(2)
-    .trigger('click')
-  expect(document.body.classList.contains('skin-blue')).toBeFalse()
-  expect(document.body.classList.contains('skin-yellow')).toBeTrue()
-})
+  const target = document.createElement('input')
+  target.value = 'skin-purple'
+  handler({ target } as any as Event)
 
-test('submit color', () => {
-  Vue.prototype.$http.post.mockResolvedValue({ code: 0, message: '' })
-  const wrapper = mount(Customization)
-  wrapper.findAll('a').at(4)
-    .trigger('click')
-  wrapper.find('button').trigger('click')
-  expect(Vue.prototype.$http.post).toBeCalledWith(
-    '/admin/customize?action=color',
-    { color_scheme: 'skin-green' }
-  )
+  expect(document.body.classList.contains('skin-purple')).toBeTrue()
 })

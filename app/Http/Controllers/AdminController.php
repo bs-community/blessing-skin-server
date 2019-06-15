@@ -70,17 +70,6 @@ class AdminController extends Controller
 
     public function customize(Request $request)
     {
-        if ($request->input('action') == 'color') {
-            $this->validate($request, [
-                'color_scheme' => 'required',
-            ]);
-
-            $color_scheme = str_replace('_', '-', $request->input('color_scheme'));
-            option(['color_scheme' => $color_scheme]);
-
-            return json(trans('admin.customize.change-color.success'), 0);
-        }
-
         $homepage = Option::form('homepage', OptionForm::AUTO_DETECT, function ($form) {
             $form->text('home_pic_url')->hint();
 
@@ -107,10 +96,12 @@ class AdminController extends Controller
             $form->textarea('custom_js', 'JavaScript')->rows(6);
         })->addMessage()->handle();
 
-        return view('admin.customize', [
-            'forms' => compact('homepage', 'customJsCss'),
-            'extra' => ['currentSkin' => option('color_scheme')],
-        ]);
+        if ($request->isMethod('post') && $request->input('action') == 'color') {
+            $color = $this->validate($request, ['color' => 'required'])['color'];
+            option(['color_scheme' => $color]);
+        }
+
+        return view('admin.customize', ['forms' => compact('homepage', 'customJsCss')]);
     }
 
     public function score()

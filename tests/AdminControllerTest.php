@@ -36,16 +36,10 @@ class AdminControllerTest extends BrowserKitTestCase
 
     public function testCustomize()
     {
-        // Check if `color_scheme` is existed or not
-        $this->getJson('/admin/customize?action=color')
-            ->seeJsonStructure(['errors' => ['color_scheme']]);
-
         // Change color
-        $this->get('/admin/customize?action=color&color_scheme=skin-purple')
-            ->seeJson([
-                'code' => 0,
-                'message' => trans('admin.customize.change-color.success'),
-            ]);
+        $this->visit('/admin/customize')
+            ->select('skin-purple', 'color')
+            ->press('submit_color');
         $this->assertEquals('skin-purple', option('color_scheme'));
 
         $this->visit('/admin/customize')
