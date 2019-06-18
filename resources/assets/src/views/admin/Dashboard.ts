@@ -20,9 +20,6 @@ async function createChart(el: HTMLDivElement) {
       trigger: 'axis',
       axisPointer: {
         type: 'cross',
-        label: {
-          backgroundColor: '#6a7985',
-        },
       },
     },
     dataZoom: [
