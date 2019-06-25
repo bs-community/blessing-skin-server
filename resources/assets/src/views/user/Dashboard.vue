@@ -73,6 +73,7 @@
           class="btn btn-primary pull-left"
           type="primary"
           round
+          :disabled="signing"
           @click="sign"
         >
           <i class="far fa-calendar-check" aria-hidden="true" /> &nbsp;{{ $t('user.sign') }}
@@ -114,6 +115,7 @@ export default {
     lastSignAt: new Date(),
     signAfterZero: false,
     signGap: 0,
+    signing: false,
     playersUsed: 0,
     playersTotal: 1,
     storageUsed: 0,
@@ -186,6 +188,7 @@ export default {
       this.score = data.user.score
     },
     async sign() {
+      this.signing = true
       const {
         code, message, data,
       } = await this.$http.post('/user/sign')
@@ -199,6 +202,7 @@ export default {
       } else {
         this.$message.warning(message)
       }
+      this.signing = false
     },
   },
 }

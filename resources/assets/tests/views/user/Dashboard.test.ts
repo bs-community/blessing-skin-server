@@ -166,3 +166,12 @@ test('sign', async () => {
   expect(button.attributes('disabled')).toBe('disabled')
   expect(wrapper.text()).toContain('3 / 4 KB')
 })
+
+test('disable button when signing', () => {
+  Vue.prototype.$http.get.mockResolvedValue(scoreInfo())
+  const wrapper = mount(Dashboard)
+  const button = wrapper.find(Button)
+  expect(button.attributes('disabled')).toBeFalsy()
+  wrapper.setData({ signing: true })
+  expect(button.attributes('disabled')).toBeTruthy()
+})
