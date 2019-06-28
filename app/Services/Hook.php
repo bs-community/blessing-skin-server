@@ -5,6 +5,7 @@ namespace App\Services;
 use Event;
 use Closure;
 use App\Events;
+use Illuminate\Support\Str;
 
 class Hook
 {
@@ -23,7 +24,7 @@ class Hook
      */
     public static function addMenuItem($category, $position, array $menu)
     {
-        $class = $category == 'user' ? Events\ConfigureUserMenu::class : Events\ConfigureAdminMenu::class;
+        $class = 'App\Events\Configure'.Str::title($category).'Menu';
 
         Event::listen($class, function ($event) use ($menu, $position, $category) {
             $new = [];

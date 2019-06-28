@@ -62,7 +62,7 @@
                     {!! bs_menu('user') !!}
 
                     <li class="header">@lang('general.explore')</li>
-                    <li><a href="{{ url('skinlib') }}"><i class="fas fa-archive"></i> &nbsp;<span>@lang('general.skinlib')</span></a></li>
+                    {!! bs_menu('explore') !!}
 
                     @admin($user)
                     <li class="header">@lang('general.manage')</li>

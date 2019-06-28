@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 if (! function_exists('webpack_assets')) {
     function webpack_assets($relativeUri)
@@ -94,6 +95,9 @@ if (! function_exists('bs_menu')) {
         switch ($type) {
             case 'user':
                 event(new App\Events\ConfigureUserMenu($menu));
+                break;
+            case 'explore':
+                event(new App\Events\ConfigureExploreMenu($menu));
                 break;
             case 'admin':
                 event(new App\Events\ConfigureAdminMenu($menu));

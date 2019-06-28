@@ -38,4 +38,8 @@ $menu['admin'] = [
     ['title' => 'general.check-update',   'link' => 'admin/update',         'icon' => 'fa-arrow-up'],
 ];
 
+$menu['explore'] = [
+    ['title' => 'general.skinlib',         'link' => 'skinlib',              'icon' => 'fa-archive'],
+];
+
 return $menu;
