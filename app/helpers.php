@@ -166,8 +166,9 @@ if (! function_exists('bs_menu')) {
             } else {
                 if ($value) {
                     $content .= sprintf(
-                        '<a href="%s"><i class="%s %s"></i> &nbsp;<span>%s</span></a>',
+                        '<a href="%s" %s><i class="%s %s"></i> &nbsp;<span>%s</span></a>',
                         url((string) $value['link']),
+                        Arr::get($value, 'new-tab') ? 'target="_blank"' : '',
                         $value['icon'] == 'fa-circle' ? 'far' : 'fas',
                         (string) $value['icon'],
                         trans((string) $value['title'])

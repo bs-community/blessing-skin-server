@@ -16,11 +16,12 @@ class HookTest extends TestCase
             'title' => 'Link A',
             'link' => '/to/a',
             'icon' => 'fa-book',
+            'new-tab' => true,
         ]);
         $this->actAs('normal')
             ->get('/user')
             ->assertSee('Link A')
-            ->assertSee('/to/a')
+            ->assertSee('/to/a" target="_blank"')
             ->assertSee('fa-book');
 
         // Out of bound

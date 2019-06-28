@@ -18,7 +18,8 @@ class Hook
      * [
      *     'title' => 'Title',       # will be translated by translator
      *     'link'  => 'user/config', # route link
-     *     'icon'  => 'fa-book'      # font-awesome icon
+     *     'icon'  => 'fa-book',     # font-awesome icon
+     *     'new-tab' => false,        # open the link in new tab or not, false by default
      * ]
      * @return void
      */
