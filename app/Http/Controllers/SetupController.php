@@ -145,7 +145,13 @@ class SetupController extends Controller
         Artisan::call('passport:keys', ['--no-interaction' => true]);
 
         // Create tables
-        Artisan::call('migrate', ['--force' => true]);
+        Artisan::call('migrate', [
+            '--force' => true,
+            '--path' => [
+                'database/migrations',
+                'vendor/laravel/passport/database/migrations'
+            ]
+          ]);
         Log::info('[SetupWizard] Tables migrated.');
 
         Option::set('site_name', $request->input('site_name'));

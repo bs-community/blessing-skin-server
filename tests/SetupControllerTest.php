@@ -175,7 +175,13 @@ class SetupControllerTest extends TestCase
             ->once()
             ->andReturn(true);
         Artisan::shouldReceive('call')
-            ->with('migrate', ['--force' => true])
+            ->with('migrate', [
+                '--force' => true,
+                '--path' => [
+                    'database/migrations',
+                    'vendor/laravel/passport/database/migrations'
+                ]
+            ])
             ->once()
             ->andReturnUsing(function () {
                 $migration = new CreateAllTables();
