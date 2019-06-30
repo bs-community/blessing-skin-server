@@ -159,7 +159,7 @@ profile:
     title: 删除账号
     notice: 确定要删除你在 :site 上的账号吗？
     admin: 拥有管理员权限的账号不能被删除
-    button: 删除我的账户
+    button: 删除我的账号
 
     modal-title: 这是危险操作，输入密码以继续
     modal-notice: |
