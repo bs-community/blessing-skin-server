@@ -20,6 +20,7 @@ const config = {
       'element-ui/lib/theme-chalk/base.css',
       './resources/assets/src/styles/element.scss',
       '@fortawesome/fontawesome-free/css/fontawesome.min.css',
+      '@fortawesome/fontawesome-free/css/regular.min.css',
       '@fortawesome/fontawesome-free/css/solid.min.css',
       './resources/assets/src/styles/common.styl',
     ],
