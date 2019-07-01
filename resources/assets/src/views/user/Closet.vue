@@ -26,6 +26,13 @@
                 @click="switchCategory"
               />
             </li>
+            <li>
+              <a
+                v-t="'user.closet.upload'"
+                :href="`${baseUrl}/skinlib/upload`"
+                class="category-switch"
+              />
+            </li>
 
             <li class="pull-right" style="padding: 7px;">
               <div class="has-feedback pull-right">
@@ -169,6 +176,12 @@ export default {
     EmailVerification,
     AddPlayerDialog,
     ApplyToPlayerDialog,
+  },
+  props: {
+    baseUrl: {
+      type: String,
+      default: blessing.base_url,
+    },
   },
   data: () => ({
     category: 'skin',

@@ -42,8 +42,6 @@ score-intro:
     closet: :score socres = 1 closet item
 
 closet:
-  upload: Upload Texture
-  search: Search Texture
   type-to-search: Type to search
   switch-category: Switch Category
   view: View in skin library

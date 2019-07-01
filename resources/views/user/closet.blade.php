@@ -11,10 +11,6 @@
         <h1>
             @lang('general.my-closet')
         </h1>
-        <div class="breadcrumb">
-            <a href="{{ url('skinlib/upload') }}"><i class="fas fa-file-upload"></i> @lang('user.closet.upload')</a>
-            <a href="{{ url('skinlib') }}"><i class="fas fa-search"></i> @lang('user.closet.search')</a>
-        </div>
     </section>
 
     <!-- Main content -->

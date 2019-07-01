@@ -43,8 +43,6 @@ score-intro:
     closet: :score 积分 = 1 个衣柜收藏
 
 closet:
-  upload: 上传材质
-  search: 搜索材质
   type-to-search: 输入即搜索
   switch-category: 切换分类
   view: 在皮肤库中查看
