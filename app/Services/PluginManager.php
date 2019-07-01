@@ -68,6 +68,9 @@ class PluginManager
 
             $installed = [];
 
+            $cwd = getcwd();
+            chdir(base_path());
+
             try {
                 $resource = opendir($this->getPluginsDir());
             } catch (\Exception $e) {
@@ -125,6 +128,8 @@ class PluginManager
             $this->plugins = $plugins->sortBy(function ($plugin, $name) {
                 return $plugin->name;
             });
+
+            chdir($cwd);
         }
 
         return $this->plugins;
@@ -400,7 +405,7 @@ class PluginManager
      */
     public function getPluginsDir()
     {
-        return config('plugins.directory') ?: base_path('plugins');
+        return config('plugins.directory') ? realpath(config('plugins.directory')) : base_path('plugins');
     }
 
     /**
