@@ -9,7 +9,8 @@ if (! function_exists('webpack_assets')) {
     function webpack_assets($relativeUri)
     {
         if (app()->environment('development')) {
-            return "http://127.0.0.1:8080/$relativeUri"; // @codeCoverageIgnore
+            $host = parse_url(url('/'), PHP_URL_HOST);
+            return "http://$host:8080/$relativeUri"; // @codeCoverageIgnore
         } else {
             $path = app('webpack')->$relativeUri;
             $cdn = option('cdn_address');
