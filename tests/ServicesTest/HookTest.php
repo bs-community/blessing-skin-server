@@ -84,4 +84,12 @@ class HookTest extends TestCase
         $this->get('/skinlib')
             ->assertSee('<script src="/script/pattern"></script>');
     }
+
+    public function testAddUserBadge()
+    {
+        Hook::addUserBadge('hi', 'green');
+        $this->actAs('normal')
+            ->get('/user')
+            ->assertSee('<small class="label bg-green">hi</small>');
+    }
 }

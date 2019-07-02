@@ -53,8 +53,6 @@ class Hook
 
     /**
      * Add routes. A router instance will be passed to the given callback.
-     *
-     * @param Closure $callback
      */
     public static function addRoute(Closure $callback): void
     {
@@ -117,5 +115,15 @@ class Hook
                 return;
             }
         }, $priority);
+    }
+
+    public static function addUserBadge(string $text, $color = 'primary'): void
+    {
+        Event::listen(
+            Events\RenderingBadges::class,
+            function (Events\RenderingBadges $event) use ($text, $color) {
+                $event->badges[] = [$text, $color];
+            }
+        );
     }
 }
