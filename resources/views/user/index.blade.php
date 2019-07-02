@@ -24,6 +24,11 @@
                 <div class="box box-primary">
                     <div class="box-header with-border">
                         <h3 class="box-title">@lang('user.announcement')</h3>
+                        @if (auth()->user()->isAdmin())
+                            <a href="{{ url('/admin/options') }}">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        @endif
                     </div><!-- /.box-header -->
                     <div class="box-body">
                         {!! $announcement !!}
