@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests\Concerns;
 
-class FakePackageManager extends \App\Services\PackageManager
+use App\Services\PackageManager;
+
+class FakePackageManager extends PackageManager
 {
     private $throw;
 
@@ -12,7 +16,7 @@ class FakePackageManager extends \App\Services\PackageManager
         $this->throw = $throw;
     }
 
-    public function download($url, $path, $shasum = null)
+    public function download(string $url, string $path, $shasum = null): PackageManager
     {
         if ($this->throw) {
             throw new \Exception('');
@@ -21,13 +25,13 @@ class FakePackageManager extends \App\Services\PackageManager
         }
     }
 
-    public function extract($destination)
+    public function extract(string $destination): void
     {
-        return true;
+        //
     }
 
-    public function progress()
+    public function progress(): float
     {
-        return '0';
+        return 0.0;
     }
 }

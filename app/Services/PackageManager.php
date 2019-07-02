@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use Cache;
@@ -20,7 +22,7 @@ class PackageManager
         };
     }
 
-    public function download($url, $path, $shasum = null)
+    public function download(string $url, string $path, $shasum = null): self
     {
         $this->path = $path;
         $this->cacheKey = "download_$url";
@@ -44,7 +46,7 @@ class PackageManager
         return $this;
     }
 
-    public function extract($destination)
+    public function extract(string $destination): void
     {
         $zip = new \ZipArchive();
         $resource = $zip->open($this->path);
@@ -57,7 +59,7 @@ class PackageManager
         }
     }
 
-    public function progress()
+    public function progress(): float
     {
         $progress = unserialize(Cache::get($this->cacheKey));
         if ($progress['total'] == 0) {

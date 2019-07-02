@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use File;
@@ -17,7 +19,7 @@ class Webpack
         }
     }
 
-    public function __get($path)
+    public function __get(string $path)
     {
         return Arr::get($this->manifest, $path, '');
     }

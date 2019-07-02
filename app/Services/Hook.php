@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use Event;
@@ -23,7 +25,7 @@ class Hook
      * ]
      * @return void
      */
-    public static function addMenuItem($category, $position, array $menu)
+    public static function addMenuItem(string $category, int $position, array $menu): void
     {
         $class = 'App\Events\Configure'.Str::title($category).'Menu';
 
@@ -54,14 +56,14 @@ class Hook
      *
      * @param Closure $callback
      */
-    public static function addRoute(Closure $callback)
+    public static function addRoute(Closure $callback): void
     {
         Event::listen(Events\ConfigureRoutes::class, function ($event) use ($callback) {
             return call_user_func($callback, $event->router);
         });
     }
 
-    public static function registerPluginTransScripts($id, $pages = ['*'], $priority = 999)
+    public static function registerPluginTransScripts(string $id, $pages = ['*'], $priority = 999): void
     {
         Event::listen(Events\RenderingFooter::class, function ($event) use ($id, $pages) {
             foreach ($pages as $pattern) {
@@ -83,7 +85,7 @@ class Hook
         }, $priority);
     }
 
-    public static function addStyleFileToPage($urls, $pages = ['*'], $priority = 1)
+    public static function addStyleFileToPage($urls, $pages = ['*'], $priority = 1): void
     {
         Event::listen(Events\RenderingHeader::class, function ($event) use ($urls, $pages) {
             foreach ($pages as $pattern) {
@@ -100,7 +102,7 @@ class Hook
         }, $priority);
     }
 
-    public static function addScriptFileToPage($urls, $pages = ['*'], $priority = 1)
+    public static function addScriptFileToPage($urls, $pages = ['*'], $priority = 1): void
     {
         Event::listen(Events\RenderingFooter::class, function ($event) use ($urls, $pages) {
             foreach ($pages as $pattern) {

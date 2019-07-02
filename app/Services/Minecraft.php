@@ -14,7 +14,7 @@ class Minecraft
      * @param  string $view   Which side of head to be captured, defaults to 'f' for front view.
      * @return resource
      */
-    public static function generateAvatarFromSkin($binary, $height, $view = 'f')
+    public static function generateAvatarFromSkin(string $binary, int $height, string $view = 'f')
     {
         $src = imagecreatefromstring($binary);
         $dest = imagecreatetruecolor($height, $height);
@@ -47,7 +47,7 @@ class Minecraft
      * @param  int    $gap    Gap size between front & back preview in relative pixel.
      * @return resource
      */
-    public static function generatePreviewFromSkin($binary, $height, $alex = false, $side = 'both', $gap = 4)
+    public static function generatePreviewFromSkin(string $binary, int $height, $alex = false, $side = 'both', $gap = 4)
     {
         $src = imagecreatefromstring($binary);
 
@@ -172,7 +172,7 @@ class Minecraft
      * @param  int    $fillHeight Set the value to 0 to disable.
      * @return resource
      */
-    public static function generatePreviewFromCape($binary, $height, $fillWidth = 0, $fillHeight = 0)
+    public static function generatePreviewFromCape(string $binary, int $height, $fillWidth = 0, $fillHeight = 0)
     {
         $src = imagecreatefromstring($binary);
         $ratio = imagesx($src) / 64;

@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 if (! function_exists('webpack_assets')) {
-    function webpack_assets($relativeUri)
+    function webpack_assets(string $relativeUri): string
     {
         if (app()->environment('development')) {
             // @codeCoverageIgnoreStart
@@ -23,19 +25,14 @@ if (! function_exists('webpack_assets')) {
 }
 
 if (! function_exists('plugin')) {
-
-    /**
-     * @param string $id
-     * @return \App\Services\Plugin
-     */
-    function plugin($id)
+    function plugin(string $id)
     {
         return app('plugins')->getPlugin($id);
     }
 }
 
 if (! function_exists('plugin_assets')) {
-    function plugin_assets($id, $relativeUri)
+    function plugin_assets(string $id, string $relativeUri): string
     {
         if ($plugin = plugin($id)) {
             return $plugin->assets($relativeUri);
@@ -69,7 +66,7 @@ if (! function_exists('json')) {
 }
 
 if (! function_exists('bs_footer_extra')) {
-    function bs_footer_extra()
+    function bs_footer_extra(): string
     {
         $extraContents = [];
 
@@ -80,7 +77,7 @@ if (! function_exists('bs_footer_extra')) {
 }
 
 if (! function_exists('bs_header_extra')) {
-    function bs_header_extra()
+    function bs_header_extra(): string
     {
         $extraContents = [];
 
@@ -91,7 +88,7 @@ if (! function_exists('bs_header_extra')) {
 }
 
 if (! function_exists('bs_menu')) {
-    function bs_menu($type)
+    function bs_menu(string $type): string
     {
         $menu = config('menu');
 
@@ -139,7 +136,7 @@ if (! function_exists('bs_menu')) {
         return bs_menu_render($menu[$type]);
     }
 
-    function bs_menu_render($data)
+    function bs_menu_render(array $data): string
     {
         $content = '';
 
@@ -187,7 +184,7 @@ if (! function_exists('bs_menu')) {
 }
 
 if (! function_exists('bs_copyright')) {
-    function bs_copyright()
+    function bs_copyright(): string
     {
         return Arr::get(
             [
@@ -239,7 +236,7 @@ if (! function_exists('option_localized')) {
 }
 
 if (! function_exists('humanize_db_type')) {
-    function humanize_db_type($type = null)
+    function humanize_db_type($type = null): string
     {
         $map = [
             'mysql'  => 'MySQL',
@@ -271,7 +268,7 @@ if (! function_exists('format_http_date')) {
      * @param int $timestamp
      * @return string
      */
-    function format_http_date($timestamp)
+    function format_http_date($timestamp): string
     {
         return Carbon::createFromTimestampUTC($timestamp)->format('D, d M Y H:i:s \G\M\T');
     }
@@ -284,7 +281,7 @@ if (! function_exists('get_datetime_string')) {
      * @param int $timestamp
      * @return string
      */
-    function get_datetime_string($timestamp = 0)
+    function get_datetime_string($timestamp = 0): string
     {
         return $timestamp == 0 ? Carbon::now()->toDateTimeString() : Carbon::createFromTimestamp($timestamp)->toDateTimeString();
     }
@@ -299,7 +296,7 @@ if (! function_exists('get_client_ip')) {
      *
      * @return string
      */
-    function get_client_ip()
+    function get_client_ip(): string
     {
         if (option('ip_get_method') == '0') {
             // Use `HTTP_X_FORWARDED_FOR` if available first
@@ -330,7 +327,7 @@ if (! function_exists('get_string_replaced')) {
      * @param  array  $rules
      * @return string
      */
-    function get_string_replaced($str, $rules)
+    function get_string_replaced(string $str, array $rules): string
     {
         foreach ($rules as $search => $replace) {
             $str = str_replace($search, $replace, $str);
@@ -350,7 +347,7 @@ if (! function_exists('is_request_secure')) {
      *
      * @return bool
      */
-    function is_request_secure()
+    function is_request_secure(): bool
     {
         if (Arr::get($_SERVER, 'HTTPS') == 'on') {
             return true;
@@ -375,7 +372,7 @@ if (! function_exists('nl2p')) {
      * @param string $text
      * @return string
      */
-    function nl2p($text)
+    function nl2p(string $text): string
     {
         $parts = explode("\n", $text);
         $result = '<p>'.implode('</p><p>', $parts).'</p>';

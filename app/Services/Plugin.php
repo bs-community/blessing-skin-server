@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 /**
  * @property string $name
@@ -61,79 +64,71 @@ class Plugin
      */
     protected $enabled = false;
 
-    /**
-     * @param       $path
-     * @param array $packageInfo
-     */
-    public function __construct($path, $packageInfo)
+    public function __construct(string $path, array $packageInfo)
     {
         $this->path = $path;
         $this->packageInfo = $packageInfo;
     }
 
-    public function __get($name)
+    public function __get(string $name)
     {
-        return $this->packageInfoAttribute(snake_case($name, '-'));
+        return $this->packageInfoAttribute(Str::snake($name, '-'));
     }
 
-    public function __isset($name)
+    public function __isset(string $name)
     {
         return isset($this->{$name}) || $this->packageInfoAttribute(snake_case($name, '-'));
     }
 
-    public function packageInfoAttribute($name)
+    public function packageInfoAttribute(string $name)
     {
         return Arr::get($this->packageInfo, $name);
     }
 
-    public function assets($relativeUri)
+    public function assets(string $relativeUri): string
     {
         $baseUrl = config('plugins.url') ?: url('plugins');
 
         return "$baseUrl/{$this->getDirname()}/assets/$relativeUri?v=".$this->version;
     }
 
-    /**
-     * @param bool $installed
-     * @return Plugin
-     */
-    public function setInstalled($installed)
+    public function setInstalled(bool $installed): self
     {
         $this->installed = $installed;
 
         return $this;
     }
 
-    public function getDirname()
+    public function getDirname(): string
     {
         return $this->dirname;
     }
 
-    public function setDirname($dirname)
+    public function setDirname(string $dirname): self
     {
         $this->dirname = $dirname;
 
         return $this;
     }
 
-    public function getNameSpace()
+    public function getNameSpace(): string
     {
         return $this->namespace;
     }
 
-    public function setNameSpace($namespace)
+    public function setNameSpace(string $namespace): self
     {
         $this->namespace = $namespace;
 
         return $this;
     }
 
-    public function getViewPath($name)
+    public function getViewPath(string $name): string
     {
         return $this->getViewPathByFileName("$name.tpl");
     }
 
-    public function getViewPathByFileName($filename)
+    public function getViewPathByFileName(string $filename): string
     {
         return $this->path."/views/$filename";
     }
@@ -143,74 +138,50 @@ class Plugin
         return $this->hasConfigView() ? view()->file($this->getViewPathByFileName(Arr::get($this->packageInfo, 'config'))) : null;
     }
 
-    public function hasConfigView()
+    public function hasConfigView(): bool
     {
         $filename = Arr::get($this->packageInfo, 'config');
 
         return $filename && file_exists($this->getViewPathByFileName($filename));
     }
 
-    /**
-     * @param string $version
-     * @return Plugin
-     */
-    public function setVersion($version)
+    public function setVersion(string $version): self
     {
         $this->version = $version;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getVersion()
+    public function getVersion(): string
     {
         return $this->version;
     }
 
-    /**
-     * @param array $require
-     * @return Plugin
-     */
-    public function setRequirements($require)
+    public function setRequirements(array $require): self
     {
         $this->require = $require;
 
         return $this;
     }
 
-    /**
-     * @return array
-     */
-    public function getRequirements()
+    public function getRequirements(): array
     {
         return (array) $this->require;
     }
 
-    /**
-     * @param bool $enabled
-     * @return Plugin
-     */
-    public function setEnabled($enabled)
+    public function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return $this->enabled;
     }
 
-    /**
-     * @return string
-     */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
