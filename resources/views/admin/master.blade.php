@@ -84,7 +84,9 @@
 
     <!-- App Scripts -->
     @include('common.dependencies.script')
-    <script defer src="{{ webpack_assets('check-updates.js') }}"></script>
+    @if ($user->permission >= \App\Models\User::SUPER_ADMIN)
+        <script defer src="{{ webpack_assets('check-updates.js') }}"></script>
+    @endif
     @yield('script')
 </body>
 </html>
