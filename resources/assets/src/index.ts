@@ -23,7 +23,7 @@ function loadModules() {
       new Vue({
         el: route.el,
         mounted() {
-          setTimeout(() => emitter.emit('mounted', { el: route.el }), 100)
+          this.$nextTick(() => emitter.emit('mounted', { el: route.el }))
         },
         render: h => h(route.component),
       })
