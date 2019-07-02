@@ -167,6 +167,7 @@
 import setAsAvatar from '../../components/mixins/setAsAvatar'
 import addClosetItem from '../../components/mixins/addClosetItem'
 import removeClosetItem from '../../components/mixins/removeClosetItem'
+import emitMounted from '../../components/mixins/emitMounted'
 import ApplyToPlayerDialog from '../../components/ApplyToPlayerDialog.vue'
 
 export default {
@@ -176,6 +177,7 @@ export default {
     Previewer: () => import('../../components/Previewer.vue'),
   },
   mixins: [
+    emitMounted,
     addClosetItem,
     removeClosetItem,
     setAsAvatar,

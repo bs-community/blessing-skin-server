@@ -166,6 +166,7 @@ import ClosetItem from '../../components/ClosetItem.vue'
 import EmailVerification from '../../components/EmailVerification.vue'
 import AddPlayerDialog from '../../components/AddPlayerDialog.vue'
 import ApplyToPlayerDialog from '../../components/ApplyToPlayerDialog.vue'
+import emitMounted from '../../components/mixins/emitMounted'
 
 export default {
   name: 'Closet',
@@ -177,6 +178,9 @@ export default {
     AddPlayerDialog,
     ApplyToPlayerDialog,
   },
+  mixins: [
+    emitMounted,
+  ],
   props: {
     baseUrl: {
       type: String,

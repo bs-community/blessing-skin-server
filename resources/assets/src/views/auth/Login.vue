@@ -54,12 +54,16 @@
 
 <script>
 import Captcha from '../../components/Captcha.vue'
+import emitMounted from '../../components/mixins/emitMounted'
 
 export default {
   name: 'Login',
   components: {
     Captcha,
   },
+  mixins: [
+    emitMounted,
+  ],
   props: {
     baseUrl: {
       type: String,

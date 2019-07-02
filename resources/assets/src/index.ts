@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import loadI18n from './scripts/i18n-text'
 import './scripts'
-import * as emitter from './scripts/event'
 import routes from './scripts/route'
 
 Vue.config.productionTip = false
@@ -22,9 +21,6 @@ function loadModules() {
       // eslint-disable-next-line no-new
       new Vue({
         el: route.el,
-        mounted() {
-          this.$nextTick(() => emitter.emit('mounted', { el: route.el }))
-        },
         render: h => h(route.component),
       })
     }

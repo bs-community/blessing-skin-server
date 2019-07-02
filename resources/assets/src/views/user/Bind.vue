@@ -34,8 +34,13 @@
 </template>
 
 <script>
+import emitMounted from '../../components/mixins/emitMounted'
+
 export default {
   name: 'BindPlayer',
+  mixins: [
+    emitMounted,
+  ],
   data() {
     return {
       players: [],

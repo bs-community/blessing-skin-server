@@ -79,6 +79,7 @@ import { VueGoodTable } from 'vue-good-table'
 import 'vue-good-table/dist/vue-good-table.min.css'
 import enablePlugin from '../../components/mixins/enablePlugin'
 import tableOptions from '../../components/mixins/tableOptions'
+import emitMounted from '../../components/mixins/emitMounted'
 
 export default {
   name: 'Plugins',
@@ -86,6 +87,7 @@ export default {
     VueGoodTable,
   },
   mixins: [
+    emitMounted,
     enablePlugin,
     tableOptions,
   ],

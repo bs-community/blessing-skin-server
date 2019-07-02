@@ -120,6 +120,7 @@ import {
 } from 'element-ui'
 import { queryString, queryStringify } from '../../scripts/utils'
 import SkinLibItem from '../../components/SkinLibItem.vue'
+import emitMounted from '../../components/mixins/emitMounted'
 
 Vue.use(ButtonGroup)
 Vue.use(Select)
@@ -131,6 +132,9 @@ export default {
     Paginate,
     SkinLibItem,
   },
+  mixins: [
+    emitMounted,
+  ],
   data() {
     return {
       filter: queryString('filter', 'skin'),

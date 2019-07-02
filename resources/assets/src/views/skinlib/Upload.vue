@@ -103,6 +103,7 @@ import Vue from 'vue'
 import FileUpload from 'vue-upload-component'
 import { isSlimSkin } from 'skinview3d'
 import { Radio } from 'element-ui'
+import emitMounted from '../../components/mixins/emitMounted'
 
 Vue.use(Radio)
 
@@ -112,6 +113,9 @@ export default {
     Previewer: () => import('../../components/Previewer.vue'),
     FileUpload,
   },
+  mixins: [
+    emitMounted,
+  ],
   data() {
     return {
       name: '',

@@ -99,6 +99,7 @@ import Vue from 'vue'
 import { Progress } from 'element-ui'
 import Tween from '@tweenjs/tween.js'
 import EmailVerification from '../../components/EmailVerification.vue'
+import emitMounted from '../../components/mixins/emitMounted'
 
 Vue.use(Progress)
 
@@ -109,6 +110,9 @@ export default {
   components: {
     EmailVerification,
   },
+  mixins: [
+    emitMounted,
+  ],
   data: () => ({
     score: 0,
     tweenedScore: 0,

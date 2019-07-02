@@ -92,6 +92,7 @@ import 'vue-good-table/dist/vue-good-table.min.css'
 import { trans } from '../../scripts/i18n'
 import tableOptions from '../../components/mixins/tableOptions'
 import serverTable from '../../components/mixins/serverTable'
+import emitMounted from '../../components/mixins/emitMounted'
 
 export default {
   name: 'UsersManagement',
@@ -118,6 +119,7 @@ export default {
     },
   },
   mixins: [
+    emitMounted,
     tableOptions,
     serverTable,
   ],

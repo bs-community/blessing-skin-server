@@ -190,12 +190,16 @@
 
 <script>
 import EmailVerification from '../../components/EmailVerification.vue'
+import emitMounted from '../../components/mixins/emitMounted'
 
 export default {
   name: 'Profile',
   components: {
     EmailVerification,
   },
+  mixins: [
+    emitMounted,
+  ],
   data: () => ({
     oldPassword: '',
     newPassword: '',

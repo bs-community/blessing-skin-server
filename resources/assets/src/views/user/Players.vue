@@ -161,6 +161,7 @@
 
 <script>
 import AddPlayerDialog from '../../components/AddPlayerDialog.vue'
+import emitMounted from '../../components/mixins/emitMounted'
 
 export default {
   name: 'Players',
@@ -168,6 +169,9 @@ export default {
     AddPlayerDialog,
     Previewer: () => import('../../components/Previewer.vue'),
   },
+  mixins: [
+    emitMounted,
+  ],
   props: {
     baseUrl: {
       type: String,

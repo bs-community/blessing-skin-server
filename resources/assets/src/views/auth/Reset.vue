@@ -44,8 +44,13 @@
 </template>
 
 <script>
+import emitMounted from '../../components/mixins/emitMounted'
+
 export default {
   name: 'Reset',
+  mixins: [
+    emitMounted,
+  ],
   data() {
     return {
       uid: +this.$route[1],

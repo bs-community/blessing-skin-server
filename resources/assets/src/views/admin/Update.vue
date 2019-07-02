@@ -42,10 +42,15 @@
 </template>
 
 <script>
+import emitMounted from '../../components/mixins/emitMounted'
+
 const POLLING_INTERVAL = 500
 
 export default {
   name: 'UpdateButton',
+  mixins: [
+    emitMounted,
+  ],
   data: () => ({
     canUpdate: blessing.extra.canUpdate,
     updating: false,
