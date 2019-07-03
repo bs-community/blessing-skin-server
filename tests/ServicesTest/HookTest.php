@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use App\Models\User;
 use App\Services\Hook;
 use Illuminate\Support\Facades\File;
 use Tests\Concerns\GeneratesFakePlugins;
@@ -91,5 +92,15 @@ class HookTest extends TestCase
         $this->actAs('normal')
             ->get('/user')
             ->assertSee('<small class="label bg-green">hi</small>');
+    }
+
+    public function testSendNotification()
+    {
+        $user = factory(User::class)->create();
+        Hook::sendNotification([$user], 'Ibara Mayaka');
+        $this->actingAs($user)
+            ->get('/user')
+            ->assertSee('<span class="label label-warning">1</span>')
+            ->assertSee('Ibara Mayaka');
     }
 }

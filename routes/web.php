@@ -49,6 +49,7 @@ Route::group([
     'prefix' => 'user',
 ], function () {
     Route::any('', 'UserController@index');
+    Route::get('/notifications/{id}', 'UserController@readNotification');
     Route::get('/score-info', 'UserController@scoreInfo');
     Route::post('/sign', 'UserController@sign');
 
@@ -115,6 +116,7 @@ Route::group(['prefix' => 'skinlib'], function () {
 Route::group(['middleware' => ['authorize', 'admin'], 'prefix' => 'admin'], function () {
     Route::view('/', 'admin.index');
     Route::get('/chart', 'AdminController@chartData');
+    Route::post('/notifications/send', 'AdminController@sendNotification');
 
     Route::any('/customize', 'AdminController@customize');
     Route::any('/score', 'AdminController@score');

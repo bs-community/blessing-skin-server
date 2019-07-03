@@ -13,6 +13,7 @@ cant-sign-until: You can't sign in in :time :unit
 last-sign: Last signed at :time
 sign-remain-time: Available after :time :unit
 announcement: Announcement
+no-unread: No new notifications.
 
 verification:
   disabled: Email verification is not available.

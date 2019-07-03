@@ -6,6 +6,7 @@ use Event;
 use Parsedown;
 use App\Events;
 use App\Models\User;
+use App\Notifications;
 use Illuminate\Support\Str;
 use App\Mail\EmailVerification;
 use Illuminate\Support\Facades\Mail;
@@ -489,5 +490,23 @@ class UserControllerTest extends TestCase
         $this->postJson('/user/profile/avatar', ['tid' => 0])
             ->assertJson(['code' => 0]);
         $this->assertEquals(0, User::find($user->uid)->avatar);
+    }
+
+    public function testReadNotification()
+    {
+        $user = factory(User::class)->create();
+        $user->notify(new Notifications\SiteMessage('Hyouka', 'Kotenbu?'));
+        $user->refresh();
+        $notification = $user->unreadNotifications->first();
+
+        $this->actingAs($user)
+            ->get('/user/notifications/'.$notification->id)
+            ->assertJson([
+                'title' => $notification->data['title'],
+                'content' => app('parsedown')->text($notification->data['content']),
+                'time' => $notification->created_at->toDateTimeString(),
+            ]);
+        $notification->refresh();
+        $this->assertNotNull($notification->read_at);
     }
 }

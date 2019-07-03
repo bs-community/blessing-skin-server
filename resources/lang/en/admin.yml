@@ -7,6 +7,19 @@ index:
   texture-uploads: Texture Uploads
   user-registration: User Registration
 
+notifications:
+  send:
+    title: Send Notification
+    success: Sent successfully!
+  receiver:
+    title: Receiver
+    all: All Users
+    normal: Normal Users
+    uid: Specified UID
+    email: Specified Email
+  title: Title
+  content: Content (Markdown is supported.)
+
 users:
   status:
     normal: Normal

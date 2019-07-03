@@ -37,15 +37,20 @@
                             <li class="active">
                                 <a href="{{ url('skinlib') }}">@lang('general.skinlib')</a>
                             </li>
+                            @auth
                             <li>
                                 <a href="{{ url('user/closet') }}">@lang('general.my-closet')</a>
                             </li>
+                            @endauth
                         </ul>
                     </div><!-- /.navbar-collapse -->
                     <!-- Navbar Right Menu -->
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
+                            @auth
                             <li><a href="{{ url('skinlib/upload') }}"><i class="fas fa-upload" aria-hidden="true"></i> <span class="description-text">@lang('skinlib.general.upload-new-skin')</span></a></li>
+                            @include('common.notifications-menu')
+                            @endauth
 
                             @include('common.language')
 

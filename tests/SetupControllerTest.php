@@ -41,6 +41,12 @@ class SetupControllerTest extends TestCase
             'textures',
             'users',
             'reports',
+            'oauth_auth_codes',
+            'oauth_access_tokens',
+            'oauth_clients',
+            'oauth_personal_access_clients',
+            'oauth_refresh_tokens',
+            'notifications',
         ];
         array_walk($tables, function ($table) {
             Schema::dropIfExists($table);
@@ -84,11 +90,6 @@ class SetupControllerTest extends TestCase
     public function testInfo()
     {
         $this->get('/setup/info')->assertViewIs('setup.wizard.info');
-        Schema::dropIfExists('oauth_auth_codes');
-        Schema::dropIfExists('oauth_access_tokens');
-        Schema::dropIfExists('oauth_clients');
-        Schema::dropIfExists('oauth_personal_access_clients');
-        Schema::dropIfExists('oauth_refresh_tokens');
         Artisan::call('migrate:refresh');
         Schema::drop('users');
         $this->get('/setup/info')->assertSee('already exist');

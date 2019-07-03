@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Cache;
 use Option;
+use Notification;
 use Carbon\Carbon;
 use App\Models\User;
+use App\Notifications;
 use App\Models\Player;
 use App\Models\Texture;
 use Illuminate\Support\Str;
@@ -66,6 +68,38 @@ class AdminController extends Controller
                 $xAxis->map($aligning($textureUploads)),
             ],
         ];
+    }
+
+    public function sendNotification(Request $request)
+    {
+        $data = $this->validate($request, [
+            'receiver' => 'required|in:all,normal,uid,email',
+            'uid' => 'required_if:receiver,uid|nullable|integer|exists:users',
+            'email' => 'required_if:receiver,email|nullable|email|exists:users',
+            'title' => 'required|max:20',
+            'content' => 'string|nullable',
+        ]);
+
+        $notification = new Notifications\SiteMessage($data['title'], $data['content']);
+
+        switch ($data['receiver']) {
+            case 'all':
+                $users = User::all();
+                break;
+            case 'normal':
+                $users = User::where('permission', User::NORMAL)->get();
+                break;
+            case 'uid':
+                $users = User::where('uid', $data['uid'])->get();
+                break;
+            case 'email':
+                $users = User::where('email', $data['email'])->get();
+                break;
+        }
+        Notification::send($users, $notification);
+
+        session(['sentResult' => trans('admin.notifications.send.success')]);
+        return redirect('/admin');
     }
 
     public function customize(Request $request)

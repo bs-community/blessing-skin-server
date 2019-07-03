@@ -69,6 +69,63 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">@lang('admin.notifications.send.title')</h3>
+                    </div>
+                    <form method="post" action="{{ url('/admin/notifications/send') }}">
+                        @csrf
+                        <div class="box-body">
+                            @if ($errors->any())
+                                <div class="callout callout-danger">{{ $errors->first() }}</div>
+                            @endif
+                            @if ($sentResult = Session::pull('sentResult'))
+                                <div class="callout callout-success">{{ $sentResult }}</div>
+                            @endif
+                            <div class="form-group">
+                                <label>@lang('admin.notifications.receiver.title')</label>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="receiver" value="all" required>
+                                        @lang('admin.notifications.receiver.all')
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="receiver" value="normal" required>
+                                        @lang('admin.notifications.receiver.normal')
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="receiver" value="uid" required>
+                                        @lang('admin.notifications.receiver.uid') &nbsp;
+                                        <input type="number" name="uid" class="form-control">
+                                    </label>
+                                </div>
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="receiver" value="email" required>
+                                        @lang('admin.notifications.receiver.email') &nbsp;
+                                        <input type="email" name="email" class="form-control">
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>@lang('admin.notifications.title')</label>
+                                <input type="text" name="title" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label>@lang('admin.notifications.content')</label>
+                                <textarea name="content" class="form-control" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="box-footer">
+                            <input type="submit" value="@lang('general.submit')" class="el-button el-button--primary">
+                        </div>
+                    </form>
+                </div>
             </div>
 
             <div class="col-md-6">
@@ -78,8 +135,8 @@
                     </div>
                     <div class="box-body">
                         <div id="chart"></div>
-                    </div><!-- /.box-body -->
-                </div><!-- /.box -->
+                    </div>
+                </div>
             </div>
         </div>
 

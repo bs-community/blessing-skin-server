@@ -43,6 +43,8 @@
                 <!-- Navbar Right Menu -->
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
+                        @include('common.notifications-menu')
+
                         @include('common.language')
 
                         @include('common.user-menu')

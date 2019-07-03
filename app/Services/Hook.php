@@ -7,6 +7,8 @@ namespace App\Services;
 use Event;
 use Closure;
 use App\Events;
+use Notification;
+use App\Notifications;
 use Illuminate\Support\Str;
 
 class Hook
@@ -125,5 +127,10 @@ class Hook
                 $event->badges[] = [$text, $color];
             }
         );
+    }
+
+    public static function sendNotification($users, string $title, $content = ''): void
+    {
+        Notification::send($users, new Notifications\SiteMessage($title, $content));
     }
 }

@@ -13,6 +13,7 @@ cant-sign-until: :time :unit 后才能再次签到哦
 last-sign: 上次签到于 :time
 sign-remain-time: :time :unit 后可签到
 announcement: 公告
+no-unread: 无未读通知
 
 
 verification:

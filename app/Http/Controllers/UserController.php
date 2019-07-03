@@ -301,5 +301,20 @@ class UserController extends Controller
         }
     }
 
-    // @codeCoverageIgnore
+    public function readNotification($id)
+    {
+        $notification = auth()
+            ->user()
+            ->unreadNotifications
+            ->first(function ($notification) use ($id) {
+                return $notification->id === $id;
+            });
+        $notification->markAsRead();
+
+        return [
+            'title' => $notification->data['title'],
+            'content' => app('parsedown')->text($notification->data['content']),
+            'time' => $notification->created_at->toDateTimeString(),
+        ];
+    }
 }
