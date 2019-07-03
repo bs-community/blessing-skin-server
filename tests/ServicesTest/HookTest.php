@@ -100,7 +100,7 @@ class HookTest extends TestCase
         Hook::sendNotification([$user], 'Ibara Mayaka');
         $this->actingAs($user)
             ->get('/user')
-            ->assertSee('<span class="label label-warning">1</span>')
+            ->assertSee('<span class="label label-warning notifications-counter">1</span>')
             ->assertSee('Ibara Mayaka');
     }
 }
