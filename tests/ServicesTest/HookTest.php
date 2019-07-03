@@ -103,4 +103,17 @@ class HookTest extends TestCase
             ->assertSee('<span class="label label-warning notifications-counter">1</span>')
             ->assertSee('Ibara Mayaka');
     }
+
+    public function testPushMiddleware()
+    {
+        Hook::pushMiddleware(get_class(new class {
+            public function handle($request, $next)
+            {
+                $response = $next($request);
+                $response->header('X-Middleware-Test', 'value');
+                return $response;
+            }
+        }));
+        $this->get('/')->assertHeader('X-Middleware-Test');
+    }
 }

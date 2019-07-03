@@ -133,4 +133,9 @@ class Hook
     {
         Notification::send($users, new Notifications\SiteMessage($title, $content));
     }
+
+    public static function pushMiddleware($middleware)
+    {
+        app()->make('Illuminate\Contracts\Http\Kernel')->pushMiddleware($middleware);
+    }
 }
