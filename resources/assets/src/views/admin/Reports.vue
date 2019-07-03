@@ -102,6 +102,8 @@ export default {
     }
   },
   mounted() {
+    this.sortField = 'report_at'
+    this.sortType = 'desc'
     this.fetchData()
   },
   methods: {
