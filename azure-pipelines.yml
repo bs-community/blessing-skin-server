@@ -1,6 +1,8 @@
 trigger:
 - master
 
+pr: none
+
 pool:
   vmImage: 'ubuntu-latest'
 
@@ -49,6 +51,12 @@ steps:
     fi
   displayName: 'Archive files'
 
+- task: InstallSSHKey@0
+  inputs:
+    hostName: 'ssh.dev.azure.com'
+    sshPublicKey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCq3Lv+bo4SbS5JWYvJz1SH1+m1tXFap0cUChE15NA3s0DRoZj1oO7rgBBXKGmlLeP+wUzgGmDBexrqs/JsYzQfjQcZrnNvX2CRhslHxjs8EcjSjbMbjC9aBmK8taRNq6Mw3BD/393yvldsJEFCTezlBMv5ZR5Rz3VamzjT8/nFnGhdMXVaDwZZiwMv/bA6vCKXxGOqpqKaGc7A+EsvMLEWtzpcsU69bRXxb4OGKone+SJlRqP9h6eaHcfhLzWTSywESQsAOo16VaIJ+nS9Y+lTEy1oEqCCJnQ3z2JrP3LYiaZ2UFVbHYbvUl1KHGzNfMgkXG5gFZwARJu1L07d4oR4vVqZ98G0A4KDzGCg+ltMc7gz3a6QxNqYLwBbotvtAqKd3+0d7BcJ47WXznebbYv509OUaXxtLMQwIoWsDzBGj230u2XY20XnK64ceb8K1IqoHZL74JLfxyidyxWsQ4UPiOw62CY/9tX5+qS4qyDgps1zaybYAVM+/K62eu06CJaXxw4P51QLw3Qk2Awoi3gNcLwVjwjVNVi0qB7oXklNvL949+fesNgK3l77cIlC3xMEd+K9RbNL1xKU5VSFw4bc/+quQd4GXtajmPEgdxloP5q5nalN72rUThDpcJaXDot0LqxWTyMV45393Vg136KqVJr+I8UCTfI2yrqwYf6+dw== gplane@BS-dev'
+    sshKeySecureFile: 'ssh-key'
+
 - script: |
     (git log -1 --pretty="%s" | grep -P 'Bump version to \d+\.\d+\.\d+') > /dev/null 2>&1
     if [ $? -eq 0 ]
@@ -80,7 +88,7 @@ steps:
       git init
       git add .
       git commit -m "Publish"
-      git remote add origin https://blessing-skin:$AZURE_TOKEN@dev.azure.com/blessing-skin/Blessing%20Skin%20Server/_git/Blessing%20Skin%20Server
+      git remote add origin git@ssh.dev.azure.com:v3/blessing-skin/Blessing%20Skin%20Server/Blessing%20Skin%20Server
       git push -f origin master
       cd ..
     fi
