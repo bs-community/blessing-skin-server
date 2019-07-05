@@ -7,7 +7,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 variables:
-  RELEASE_TAG: '4.3.4'
+  RELEASE_TAG: '4.3.5'
 
 steps:
 - script: |
