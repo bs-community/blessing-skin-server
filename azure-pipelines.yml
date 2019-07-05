@@ -75,6 +75,8 @@ steps:
       cd dist
       cp ../blessing-skin-server-$RELEASE_TAG.zip blessing-skin-server-$RELEASE_TAG.zip
       echo "{\"spec\":2,\"php\":\"7.1.8\",\"latest\":\"$RELEASE_TAG\",\"url\":\"https://dev.azure.com/blessing-skin/51010f6d-9f99-40f1-a262-0a67f788df32/_apis/git/repositories/a9ff8df7-6dc3-4ff8-bb22-4871d3a43936/Items?path=%2Fblessing-skin-server-$RELEASE_TAG.zip\"}" > update_2.json
+      git config --global user.email "g-plane@hotmail.com"
+      git config --global user.name "Pig Fang"
       git init
       git add .
       git commit -m "Publish"
