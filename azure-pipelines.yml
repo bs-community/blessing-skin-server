@@ -1,0 +1,90 @@
+trigger:
+- master
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  RELEASE_TAG: $(Build.SourceBranchName)
+
+steps:
+- script: |
+    sudo update-alternatives --set php /usr/bin/php7.3
+    php -version
+  displayName: 'Use PHP version 7.3'
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+
+- script: |
+    composer install --no-interaction --prefer-dist --no-dev
+    rm -rf vendor/bin
+  displayName: 'composer install'
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+
+- script: |
+    yarn
+    yarn build
+  displayName: 'Build front end'
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+
+- script: |
+    zip -9 -r blessing-skin-server-$RELEASE_TAG.zip \
+      app \
+      bootstrap \
+      config \
+      database \
+      plugins \
+      public \
+      resources/lang \
+      resources/views \
+      resources/misc \
+      routes \
+      storage \
+      vendor \
+      .env.example \
+      artisan \
+      LICENSE \
+      README.md \
+      README_EN.md
+    mkdir dist
+    cd dist
+    cp ../blessing-skin-server-$RELEASE_TAG.zip blessing-skin-server-$RELEASE_TAG.zip
+    cd ..
+  displayName: 'Archive files'
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+
+- script: |
+    cd dist
+    echo "{\"spec\":2,\"php\":\"7.1.8\",\"latest\":\"$RELEASE_TAG\",\"url\":\"https://dev.azure.com/blessing-skin/51010f6d-9f99-40f1-a262-0a67f788df32/_apis/git/repositories/a9ff8df7-6dc3-4ff8-bb22-4871d3a43936/Items?path=%2Fblessing-skin-server-$RELEASE_TAG.zip\"}" > update_2.json
+    git init
+    git add .
+    git commit -m "Publish"
+    git remote add origin https://blessing-skin:$AZURE_TOKEN@dev.azure.com/blessing-skin/Blessing%20Skin%20Server/_git/Blessing%20Skin%20Server
+    git push -f origin master
+    cd ..
+  displayName: 'Create update source info'
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+
+- script: |
+    (cat resources/misc/changelogs/zh_CN/$RELEASE_TAG.md && echo "\n---\n" && cat resources/misc/changelogs/en/$RELEASE_TAG.md) > changelog.md
+  displayName: 'Generate changelog'
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+
+- task: GitHubRelease@0
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags/')
+  displayName: 'Create GitHub Release'
+  inputs:
+    gitHubConnection: g-plane
+    repositoryName: '$(Build.Repository.Name)'
+    action: 'create'
+    target: '$(Build.SourceVersion)'
+    tagSource: 'auto'
+    releaseNotesSource: 'file'
+    releaseNotesFile: 'changelog.md'
+    assets: 'dist/blessing-skin-server-$(Build.SourceBranchName).zip'
+    addChangeLog: false
