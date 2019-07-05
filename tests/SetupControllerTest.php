@@ -18,12 +18,6 @@ class SetupControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->dropAllTables();
-    }
-
     protected function tearDown(): void
     {
         $this->dropAllTables();
@@ -57,11 +51,13 @@ class SetupControllerTest extends TestCase
 
     public function testWelcome()
     {
+        $this->dropAllTables();
         $this->get('/setup')->assertViewIs('setup.wizard.welcome');
     }
 
     public function testDatabase()
     {
+        $this->dropAllTables();
         $fake = [
             'type' => env('DB_CONNECTION'),
             'host' => env('DB_HOST'),
@@ -80,6 +76,7 @@ class SetupControllerTest extends TestCase
 
     public function testReportDatabaseConnectionError()
     {
+        $this->dropAllTables();
         $this->post('/setup/database', ['type' => 'sqlite', 'host' => 'placeholder', 'db' => 'test'])
             ->assertSee(trans('setup.database.connection-error', [
                 'type' => 'SQLite',
@@ -89,6 +86,7 @@ class SetupControllerTest extends TestCase
 
     public function testInfo()
     {
+        $this->dropAllTables();
         $this->get('/setup/info')->assertViewIs('setup.wizard.info');
         Artisan::call('migrate:refresh');
         Schema::drop('users');
@@ -97,6 +95,7 @@ class SetupControllerTest extends TestCase
 
     public function testFinish()
     {
+        $this->dropAllTables();
         // Without `email` field
         $this->post('/setup/finish')
             ->assertDontSee(trans('setup.wizard.finish.title'));
@@ -210,7 +209,8 @@ class SetupControllerTest extends TestCase
 
     public function testUpdate()
     {
-        $this->get('/setup/update')
+        $this->actAs('superAdmin')
+            ->get('/setup/update')
             ->assertSee(trans('setup.locked.text'));
 
         option(['version' => '0.1.0']);
@@ -228,7 +228,7 @@ class SetupControllerTest extends TestCase
         );    // Just a fixture
 
         config(['options.new_option' => 'value']);
-        $this->get('/setup/exec-update')->assertViewHas('tips');
+        $this->actAs('superAdmin')->get('/setup/exec-update')->assertViewHas('tips');
         $this->assertEquals('value', option('new_option'));
         $this->assertEquals('100.0.0', option('version'));
         unlink(database_path("update_scripts/update-$current_version-to-100.0.0.php"));

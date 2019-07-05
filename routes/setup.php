@@ -21,6 +21,8 @@ Route::group(['middleware' => 'setup'], function () {
     Route::post('/finish', 'SetupController@finish');
 });
 
-Route::any('/update', 'SetupController@update');
-Route::any('/exec-update', 'SetupController@doUpdate');
-Route::view('/changelog', 'setup.updates.changelog');
+Route::group(['middleware' => ['authorize', App\Http\Middleware\LockUpdatePage::class]], function () {
+    Route::any('/update', 'SetupController@update');
+    Route::any('/exec-update', 'SetupController@doUpdate');
+    Route::view('/changelog', 'setup.updates.changelog');
+});

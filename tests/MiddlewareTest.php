@@ -210,4 +210,10 @@ class MiddlewareTest extends TestCase
         $this->get('/', ['user-agent' => 'MSIE'])->assertSee(trans('errors.http.ie'));
         $this->get('/', ['user-agent' => 'Trident'])->assertSee(trans('errors.http.ie'));
     }
+
+    public function testLockUpdatePage()
+    {
+        $this->actAs('admin')->get('/setup/changelog')->assertStatus(503);
+        $this->actAs('superAdmin')->get('/setup/changelog')->assertStatus(200);
+    }
 }
