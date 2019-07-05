@@ -50,8 +50,11 @@ class AppServiceProvider extends ServiceProvider
 
         try {
             if (option('enable_redis') && Redis::ping()) {
-                config(['cache.default'  => 'redis']);
-                config(['session.driver' => 'redis']);
+                config([
+                    'cache.default'  => 'redis',
+                    'session.driver' => 'redis',
+                    'queue.default' => 'redis',
+                ]);
             }
         } catch (\Exception $e) {
             //

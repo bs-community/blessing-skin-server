@@ -41,6 +41,7 @@ class SetupControllerTest extends TestCase
             'oauth_personal_access_clients',
             'oauth_refresh_tokens',
             'notifications',
+            'jobs',
         ];
         array_walk($tables, function ($table) {
             Schema::dropIfExists($table);

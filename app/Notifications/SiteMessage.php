@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Notifications;
 
+use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SiteMessage extends Notification
+class SiteMessage extends Notification implements ShouldQueue
 {
+    use Queueable;
+
     public $title;
 
     public $content;
