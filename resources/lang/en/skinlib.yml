@@ -42,9 +42,7 @@ show:
   uploader: Uploader
   upload-at: Upload At
 
-  manage-panel: Manage Panel
   delete-texture: Delete Texture
-
   notice: The texture which was deleted or setted to private will be removed from the closet of everyone who had favorited it.
   notice-admin: You are able to delete this texture or make it private. The operations will make it removed from the closet of everyone who had favorited it.
 
