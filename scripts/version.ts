@@ -20,7 +20,7 @@ function git(args: readonly string[]) {
 }
 
 (async () => {
-  const files = ['./config/app.php', './package.json', './azure-pipelines.yml']
+  const files = ['./config/app.php', './package.json']
   await Promise.all(files.map(saveVersion))
   await git(['add'].concat(files))
   await git(['commit', '-m', `Bump version to ${next}`])
