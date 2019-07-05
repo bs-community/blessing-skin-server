@@ -126,8 +126,6 @@ update:
     check-github: <a href=":url" target="_blank" class="el-button pull-right">Check GitHub Releases</a>
     button: Update Now
 
-  spec: Current update source is not supported.
-
   cautions:
     title: Cautions
     text: |
@@ -141,6 +139,8 @@ update:
 
   errors:
     connection: "Unable to access to current update source. Details: :error"
+    spec: Current update source is not supported.
+    php: Your PHP version is too low to update. Requires :version or later.
 
 download:
   errors:

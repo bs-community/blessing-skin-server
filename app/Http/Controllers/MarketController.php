@@ -104,7 +104,7 @@ class MarketController extends Controller
     protected function getAllAvailablePlugins()
     {
         $registryVersion = 1;
-        if (app()->environment('testing') || ! $this->registryCache) {
+        if (app()->runningUnitTests() || ! $this->registryCache) {
             $registries = collect(explode(',', config('plugins.registry')));
             $this->registryCache = $registries->map(function ($registry) use ($registryVersion) {
                 try {

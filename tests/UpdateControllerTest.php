@@ -32,9 +32,17 @@ class UpdateControllerTest extends TestCase
 
         // Missing `spec` field
         $this->appendToGuzzleQueue([
-            new Response(200, [], json_encode(['latest' => '8.9.3', 'url' => ''])),
+            new Response(200, [], $this->mockFakeUpdateInfo('8.9.3', ['spec' => 0])),
+            // Weird. Don't remove the following line, or the tests will fail.
+            new Response(200, [], $this->mockFakeUpdateInfo('8.9.3', ['php' => '100.0.0'])),
         ]);
-        $this->get('/admin/update')->assertSee(trans('admin.update.spec'));
+        $this->get('/admin/update')->assertSee(trans('admin.update.errors.spec'));
+
+        // Low PHP version
+        $this->appendToGuzzleQueue([
+            new Response(200, [], $this->mockFakeUpdateInfo('8.9.3', ['php' => '100.0.0'])),
+        ]);
+        $this->get('/admin/update')->assertSee(trans('admin.update.errors.php', ['version' => '100.0.0']));
 
         // New version available
         $this->appendToGuzzleQueue([
@@ -91,12 +99,13 @@ class UpdateControllerTest extends TestCase
             ]);
     }
 
-    protected function mockFakeUpdateInfo($version)
+    protected function mockFakeUpdateInfo(string $version, $extra = [])
     {
-        return json_encode([
-            'spec' => 1,
+        return json_encode(array_merge([
+            'spec' => 2,
+            'php' => '7.1.8',
             'latest' => $version,
             'url' => "https://whatever.test/$version/update.zip",
-        ]);
+        ], $extra));
     }
 }

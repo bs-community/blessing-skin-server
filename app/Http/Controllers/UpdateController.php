@@ -67,8 +67,8 @@ class UpdateController extends Controller
 
     protected function getUpdateInfo()
     {
-        $acceptableSpec = 1;
-        if (! $this->info) {
+        $acceptableSpec = 2;
+        if (app()->runningUnitTests() || ! $this->info) {
             try {
                 $json = $this->guzzle->request(
                     'GET',
@@ -79,7 +79,7 @@ class UpdateController extends Controller
                 if (Arr::get($info, 'spec') == $acceptableSpec) {
                     $this->info = $info;
                 } else {
-                    $this->error = trans('admin.update.spec');
+                    $this->error = trans('admin.update.errors.spec');
                 }
             } catch (Exception $e) {
                 $this->error = $e->getMessage();
@@ -92,6 +92,12 @@ class UpdateController extends Controller
     protected function canUpdate()
     {
         $this->getUpdateInfo();
+
+        $php = Arr::get($this->info, 'php');
+        if (Comparator::lessThan(PHP_VERSION, $php)) {
+            $this->error = trans('admin.update.errors.php', ['version' => $php]);
+            return false;
+        }
 
         return Comparator::greaterThan(Arr::get($this->info, 'latest'), $this->currentVersion);
     }

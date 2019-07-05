@@ -131,8 +131,6 @@ update:
     check-github: <a href=":url" target="_blank" class="el-button pull-right">查看 GitHub Releases</a>
     button: 马上升级
 
-  spec: 不支持当前的更新源。
-
   cautions:
     title: 注意事项
     text: |
@@ -146,6 +144,8 @@ update:
 
   errors:
     connection: 无法访问当前更新源。详细信息：:error
+    spec: 不支持当前的更新源。
+    php: PHP 版本过低，至少需要 :version。
 
 download:
   errors:
