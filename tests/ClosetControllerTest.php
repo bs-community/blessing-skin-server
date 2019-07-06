@@ -178,7 +178,7 @@ class ClosetControllerTest extends TestCase
 
         // `new_name` field has special characters
         $this->postJson('/user/closet/rename/0', ['new_name' => '\\'])
-            ->assertJsonValidationErrors('name');
+            ->assertJsonValidationErrors('new_name');
 
         // Rename a not-existed texture
         $this->postJson('/user/closet/rename/-1', ['new_name' => $name])
