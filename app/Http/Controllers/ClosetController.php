@@ -109,16 +109,16 @@ class ClosetController extends Controller
 
     public function rename(Request $request, $tid)
     {
-        $this->validate($request, ['name' => 'required|no_special_chars']);
+        $this->validate($request, ['new_name' => 'required|no_special_chars']);
         $user = auth()->user();
 
         if ($user->closet()->where('tid', $request->tid)->count() == 0) {
             return json(trans('user.closet.remove.non-existent'), 1);
         }
 
-        $user->closet()->updateExistingPivot($request->tid, ['item_name' => $request->name]);
+        $user->closet()->updateExistingPivot($request->tid, ['item_name' => $request->new_name]);
 
-        return json(trans('user.closet.rename.success', ['name' => $request->name]), 0);
+        return json(trans('user.closet.rename.success', ['name' => $request->new_name]), 0);
     }
 
     public function remove($tid)
