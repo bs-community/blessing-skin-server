@@ -174,14 +174,14 @@ class ClosetControllerTest extends TestCase
         $name = 'new';
 
         // Missing `name` field
-        $this->postJson('/user/closet/rename/0')->assertJsonValidationErrors('name');
+        $this->postJson('/user/closet/rename/0')->assertJsonValidationErrors('new_name');
 
         // `new_name` field has special characters
-        $this->postJson('/user/closet/rename/0', ['name' => '\\'])
+        $this->postJson('/user/closet/rename/0', ['new_name' => '\\'])
             ->assertJsonValidationErrors('name');
 
         // Rename a not-existed texture
-        $this->postJson('/user/closet/rename/-1', ['name' => $name])
+        $this->postJson('/user/closet/rename/-1', ['new_name' => $name])
             ->assertJson([
                 'code' => 1,
                 'message' => trans('user.closet.remove.non-existent'),
@@ -189,10 +189,10 @@ class ClosetControllerTest extends TestCase
 
         // Rename a closet item successfully
         $this->user->closet()->attach($texture->tid, ['item_name' => 'name']);
-        $this->postJson('/user/closet/rename/'.$texture->tid, ['name' => $name])
+        $this->postJson('/user/closet/rename/'.$texture->tid, ['new_name' => $name])
             ->assertJson([
                 'code' => 0,
-                'message' => trans('user.closet.rename.success', ['name' => $name]),
+                'message' => trans('user.closet.rename.success', ['new_name' => $name]),
             ]);
         $this->assertEquals(1, $this->user->closet()->where('item_name', $name)->count());
     }
