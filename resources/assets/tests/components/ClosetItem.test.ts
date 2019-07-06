@@ -62,7 +62,7 @@ test('rename texture', async () => {
   expect(wrapper.find('.texture-name > span').text()).toBe('new-name (steve)')
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/user/closet/rename/1',
-    { new_name: 'new-name' }
+    { name: 'new-name' }
   )
 })
 
