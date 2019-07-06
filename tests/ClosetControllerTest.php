@@ -192,7 +192,7 @@ class ClosetControllerTest extends TestCase
         $this->postJson('/user/closet/rename/'.$texture->tid, ['new_name' => $name])
             ->assertJson([
                 'code' => 0,
-                'message' => trans('user.closet.rename.success', ['new_name' => $name]),
+                'message' => trans('user.closet.rename.success', ['name' => $name]),
             ]);
         $this->assertEquals(1, $this->user->closet()->where('item_name', $name)->count());
     }
