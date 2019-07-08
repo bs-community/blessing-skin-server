@@ -37,20 +37,28 @@ export async function walkFetch(request: Request): Promise<any> {
     if (response.ok) {
       return body
     }
+    let message = body.message
 
-    // Process validation errors from Laravel.
     if (response.status === 422) {
+      // Process validation errors from Laravel.
       const { errors }: { message: string, errors: { [field: string]: string[] } } = body
       return {
         code: 1,
         message: Object.keys(errors).map(field => errors[field][0])[0],
       }
     } else if (response.status === 403) {
-      showModal(body.message, undefined, 'warning')
+      showModal(message, undefined, 'warning')
       return
     }
 
-    throw new HTTPError(body.message || body, cloned)
+    if (body.exception && Array.isArray(body.trace)) {
+      const trace = (body.trace as { file: string, line: number }[])
+        .map((t, i) => `[${i + 1}] ${t.file}#L${t.line}`)
+        .join('\n')
+      message = `${message}\n<details>${trace}</details>`
+    }
+
+    throw new HTTPError(message || body, cloned)
   } catch (error) {
     emit('fetchError', error)
     showAjaxError(error)

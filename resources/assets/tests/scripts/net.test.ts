@@ -148,6 +148,21 @@ test('process backend errors', async () => {
       },
       clone: () => ({}),
     })
+    .mockResolvedValueOnce({
+      status: 500,
+      headers: new Map([['Content-Type', 'application/json']]),
+      json() {
+        return Promise.resolve({
+          message: 'fake exception',
+          exception: true,
+          trace: [
+            { file: 'k.php', line: 2 },
+            { file: 'v.php', line: 3 },
+          ],
+        })
+      },
+      clone: () => ({}),
+    })
 
   const result: {
     code: number,
@@ -158,6 +173,11 @@ test('process backend errors', async () => {
 
   await net.walkFetch({ headers: new Headers() } as Request)
   expect(showModal).toBeCalledWith('forbidden', undefined, 'warning')
+
+  await net.walkFetch({ headers: new Headers() } as Request)
+  expect(showAjaxError.mock.calls[0][0].message).toBe(
+    'fake exception\n<details>[1] k.php#L2\n[2] v.php#L3</details>'
+  )
 })
 
 test('inject to Vue instance', () => {
