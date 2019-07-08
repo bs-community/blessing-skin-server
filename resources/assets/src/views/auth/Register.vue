@@ -7,6 +7,7 @@
         type="email"
         class="form-control"
         :placeholder="$t('auth.email')"
+        required
       >
       <span class="glyphicon glyphicon-envelope form-control-feedback" />
     </div>
@@ -17,6 +18,9 @@
         type="password"
         class="form-control"
         :placeholder="$t('auth.password')"
+        required
+        minlength="8"
+        maxlength="32"
       >
       <span class="glyphicon glyphicon-lock form-control-feedback" />
     </div>
@@ -27,6 +31,9 @@
         type="password"
         class="form-control"
         :placeholder="$t('auth.repeat-pwd')"
+        required
+        minlength="8"
+        maxlength="32"
       >
       <span class="glyphicon glyphicon-log-in form-control-feedback" />
     </div>
@@ -44,6 +51,7 @@
         type="text"
         class="form-control"
         :placeholder="$t('auth.player-name')"
+        required
       >
       <span class="glyphicon glyphicon-pencil form-control-feedback" />
     </div>
@@ -60,6 +68,7 @@
         type="text"
         class="form-control"
         :placeholder="$t('auth.nickname')"
+        required
       >
       <span class="glyphicon glyphicon-pencil form-control-feedback" />
     </div>
@@ -125,45 +134,9 @@ export default {
         email, password, confirm, playerName, nickname,
       } = this
 
-      if (!email) {
-        this.infoMsg = this.$t('auth.emptyEmail')
-        this.$refs.email.focus()
-        return
-      }
-
-      if (!/\S+@\S+\.\S+/.test(email)) {
-        this.infoMsg = this.$t('auth.invalidEmail')
-        this.$refs.email.focus()
-        return
-      }
-
-      if (!password) {
-        this.infoMsg = this.$t('auth.emptyPassword')
-        this.$refs.password.focus()
-        return
-      }
-
-      if (password.length < 8 || password.length > 32) {
-        this.infoMsg = this.$t('auth.invalidPassword')
-        this.$refs.password.focus()
-        return
-      }
-
       if (password !== confirm) {
         this.infoMsg = this.$t('auth.invalidConfirmPwd')
         this.$refs.confirm.focus()
-        return
-      }
-
-      if (this.requirePlayer && !playerName) {
-        this.infoMsg = this.$t('auth.emptyPlayerName')
-        this.$refs.playerName.focus()
-        return
-      }
-
-      if (!this.requirePlayer && !nickname) {
-        this.infoMsg = this.$t('auth.emptyNickname')
-        this.$refs.nickname.focus()
         return
       }
 

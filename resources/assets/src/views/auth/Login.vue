@@ -6,6 +6,7 @@
         v-model="identification"
         class="form-control"
         :placeholder="$t('auth.identification')"
+        required
       >
       <span class="glyphicon glyphicon-envelope form-control-feedback" />
     </div>
@@ -16,13 +17,13 @@
         type="password"
         class="form-control"
         :placeholder="$t('auth.password')"
+        required
       >
       <span class="glyphicon glyphicon-lock form-control-feedback" />
     </div>
 
     <captcha v-if="tooManyFails" ref="captcha" />
 
-    <div class="callout callout-info" :class="{ hide: !infoMsg }">{{ infoMsg }}</div>
     <div class="callout callout-warning" :class="{ hide: !warningMsg }">{{ warningMsg }}</div>
 
     <div class="row">
@@ -78,7 +79,6 @@ export default {
       tooManyFails: blessing.extra.tooManyFails,
       recaptcha: blessing.extra.recaptcha,
       invisible: blessing.extra.invisible,
-      infoMsg: '',
       warningMsg: '',
       pending: false,
     }
@@ -88,18 +88,6 @@ export default {
       const {
         identification, password, remember,
       } = this
-
-      if (!identification) {
-        this.infoMsg = this.$t('auth.emptyIdentification')
-        this.$refs.identification.focus()
-        return
-      }
-
-      if (!password) {
-        this.infoMsg = this.$t('auth.emptyPassword')
-        this.$refs.password.focus()
-        return
-      }
 
       this.pending = true
       const {
@@ -131,7 +119,6 @@ export default {
           }
           this.tooManyFails = true
         }
-        this.infoMsg = ''
         this.warningMsg = message
         this.pending = false
         this.$refs.captcha.refresh()

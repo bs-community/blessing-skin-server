@@ -7,6 +7,9 @@
         type="password"
         class="form-control"
         :placeholder="$t('auth.password')"
+        required
+        minlength="8"
+        maxlength="32"
       >
       <span class="glyphicon glyphicon-lock form-control-feedback" />
     </div>
@@ -17,6 +20,9 @@
         type="password"
         class="form-control"
         :placeholder="$t('auth.repeat-pwd')"
+        required
+        minlength="8"
+        maxlength="32"
       >
       <span class="glyphicon glyphicon-log-in form-control-feedback" />
     </div>
@@ -64,18 +70,6 @@ export default {
   methods: {
     async reset() {
       const { password, confirm } = this
-
-      if (!password) {
-        this.infoMsg = this.$t('auth.emptyPassword')
-        this.$refs.password.focus()
-        return
-      }
-
-      if (password.length < 8 || password.length > 32) {
-        this.infoMsg = this.$t('auth.invalidPassword')
-        this.$refs.password.focus()
-        return
-      }
 
       if (password !== confirm) {
         this.infoMsg = this.$t('auth.invalidConfirmPwd')

@@ -20,18 +20,8 @@ test('submit forgot form', async () => {
     .mockResolvedValueOnce({ code: 0, message: 'ok' })
   const wrapper = mount(Forgot, { stubs: { Captcha } })
   const form = wrapper.find('form')
-  const info = wrapper.find('.callout-info')
   const warning = wrapper.find('.callout-warning')
   const success = wrapper.find('.callout-success')
-
-  form.trigger('submit')
-  expect(Vue.prototype.$http.post).not.toBeCalled()
-  expect(info.text()).toBe('auth.emptyEmail')
-
-  wrapper.find('[type="email"]').setValue('a')
-  form.trigger('submit')
-  expect(Vue.prototype.$http.post).not.toBeCalled()
-  expect(info.text()).toBe('auth.invalidEmail')
 
   wrapper.find('[type="email"]').setValue('a@b.c')
   form.trigger('submit')

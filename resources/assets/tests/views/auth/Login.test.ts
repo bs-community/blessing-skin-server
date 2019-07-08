@@ -28,18 +28,9 @@ test('login', async () => {
     .mockResolvedValueOnce({ code: 0, message: 'ok' })
   const wrapper = mount(Login, { stubs: { Captcha } })
   const form = wrapper.find('form')
-  const info = wrapper.find('.callout-info')
   const warning = wrapper.find('.callout-warning')
 
-  form.trigger('submit')
-  expect(Vue.prototype.$http.post).not.toBeCalled()
-  expect(info.text()).toBe('auth.emptyIdentification')
-
   wrapper.find('input').setValue('a@b.c')
-  form.trigger('submit')
-  expect(Vue.prototype.$http.post).not.toBeCalled()
-  expect(info.text()).toBe('auth.emptyPassword')
-
   wrapper.find('[type="password"]').setValue('123')
   form.trigger('submit')
   await wrapper.vm.$nextTick()

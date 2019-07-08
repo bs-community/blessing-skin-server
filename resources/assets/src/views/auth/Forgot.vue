@@ -7,6 +7,7 @@
         type="email"
         class="form-control"
         :placeholder="$t('auth.email')"
+        required
       >
       <span class="glyphicon glyphicon-envelope form-control-feedback" />
     </div>
@@ -14,7 +15,6 @@
     <captcha ref="captcha" />
 
     <div class="callout callout-success" :class="{ hide: !successMsg }">{{ successMsg }}</div>
-    <div class="callout callout-info" :class="{ hide: !infoMsg }">{{ infoMsg }}</div>
     <div class="callout callout-warning" :class="{ hide: !warningMsg }">{{ warningMsg }}</div>
 
     <div class="row">
@@ -59,7 +59,6 @@ export default {
   data: () => ({
     email: '',
     successMsg: '',
-    infoMsg: '',
     warningMsg: '',
     pending: false,
   }),
@@ -67,30 +66,16 @@ export default {
     async submit() {
       const { email } = this
 
-      if (!email) {
-        this.infoMsg = this.$t('auth.emptyEmail')
-        this.$refs.email.focus()
-        return
-      }
-
-      if (!/\S+@\S+\.\S+/.test(email)) {
-        this.infoMsg = this.$t('auth.invalidEmail')
-        this.$refs.email.focus()
-        return
-      }
-
       this.pending = true
       const { code, message } = await this.$http.post(
         '/auth/forgot',
         { email, captcha: await this.$refs.captcha.execute() }
       )
       if (code === 0) {
-        this.infoMsg = ''
         this.warningMsg = ''
         this.successMsg = message
         this.pending = false
       } else {
-        this.infoMsg = ''
         this.warningMsg = message
         this.pending = false
         this.$refs.captcha.refresh()

@@ -34,32 +34,9 @@ test('register', async () => {
   const info = wrapper.find('.callout-info')
   const warning = wrapper.find('.callout-warning')
 
-  form.trigger('submit')
-  expect(Vue.prototype.$http.post).not.toBeCalled()
-  expect(info.text()).toBe('auth.emptyEmail')
-
-  wrapper.find('[type="email"]').setValue('a')
-  form.trigger('submit')
-  expect(Vue.prototype.$http.post).not.toBeCalled()
-  expect(info.text()).toBe('auth.invalidEmail')
-
   wrapper.find('[type="email"]').setValue('a@b.c')
-  form.trigger('submit')
-  expect(Vue.prototype.$http.post).not.toBeCalled()
-  expect(info.text()).toBe('auth.emptyPassword')
-
-  wrapper.findAll('[type="password"]').at(0)
-    .setValue('123456')
-  form.trigger('submit')
-  expect(Vue.prototype.$http.post).not.toBeCalled()
-  expect(info.text()).toBe('auth.invalidPassword')
-
   wrapper.findAll('[type="password"]').at(0)
     .setValue('12345678')
-  form.trigger('submit')
-  expect(Vue.prototype.$http.post).not.toBeCalled()
-  expect(info.text()).toBe('auth.invalidConfirmPwd')
-
   wrapper.findAll('[type="password"]').at(1)
     .setValue('123456')
   form.trigger('submit')
@@ -68,10 +45,6 @@ test('register', async () => {
 
   wrapper.findAll('[type="password"]').at(1)
     .setValue('12345678')
-  form.trigger('submit')
-  expect(Vue.prototype.$http.post).not.toBeCalled()
-  expect(info.text()).toBe('auth.emptyNickname')
-
   wrapper.findAll('[type="text"]').at(0)
     .setValue('abc')
   form.trigger('submit')
@@ -99,17 +72,11 @@ test('register with player name', async () => {
   Vue.prototype.$http.post.mockResolvedValue({ code: 0, message: 'ok' })
   const wrapper = mount(Register, { stubs: { Captcha } })
   const form = wrapper.find('form')
-  const info = wrapper.find('.callout-info')
   wrapper.find('[type="email"]').setValue('a@b.c')
   wrapper.findAll('[type="password"]').at(0)
     .setValue('12345678')
   wrapper.findAll('[type="password"]').at(1)
     .setValue('12345678')
-
-  form.trigger('submit')
-  expect(Vue.prototype.$http.post).not.toBeCalled()
-  expect(info.text()).toBe('auth.emptyPlayerName')
-
   wrapper.findAll('[type="text"]').at(0)
     .setValue('abc')
   form.trigger('submit')

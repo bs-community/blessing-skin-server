@@ -18,6 +18,7 @@
           type="text"
           class="form-control"
           :placeholder="$t('auth.captcha')"
+          required
         >
       </div>
     </div>
