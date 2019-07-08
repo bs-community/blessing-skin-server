@@ -2,7 +2,6 @@
   <form @submit.prevent="submit">
     <div class="form-group has-feedback">
       <input
-        ref="email"
         v-model="email"
         type="email"
         class="form-control"
@@ -13,7 +12,6 @@
     </div>
     <div class="form-group has-feedback">
       <input
-        ref="password"
         v-model="password"
         type="password"
         class="form-control"
@@ -46,7 +44,6 @@
       data-toggle="tooltip"
     >
       <input
-        ref="playerName"
         v-model="playerName"
         type="text"
         class="form-control"
@@ -63,7 +60,6 @@
       data-toggle="tooltip"
     >
       <input
-        ref="nickname"
         v-model="nickname"
         type="text"
         class="form-control"

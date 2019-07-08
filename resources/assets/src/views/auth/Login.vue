@@ -2,7 +2,6 @@
   <form @submit.prevent="login">
     <div class="form-group has-feedback">
       <input
-        ref="identification"
         v-model="identification"
         class="form-control"
         :placeholder="$t('auth.identification')"
@@ -12,7 +11,6 @@
     </div>
     <div class="form-group has-feedback">
       <input
-        ref="password"
         v-model="password"
         type="password"
         class="form-control"

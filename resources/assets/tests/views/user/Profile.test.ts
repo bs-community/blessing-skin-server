@@ -47,29 +47,17 @@ test('change password', async () => {
     .mockResolvedValueOnce({ code: 1, message: 'w' })
     .mockResolvedValueOnce({ code: 0, message: 'o' })
   const wrapper = mount(Profile)
-  const button = wrapper.find('[data-test=changePassword]')
-
-  button.trigger('click')
-  expect(Vue.prototype.$message.error).toBeCalledWith('user.emptyPassword')
-  expect(Vue.prototype.$http.post).not.toBeCalled()
+  const form = wrapper.find('[data-test=changePassword]')
 
   wrapper.setData({ oldPassword: '1' })
-  button.trigger('click')
-  expect(Vue.prototype.$message.error).toBeCalledWith('user.emptyNewPassword')
-  expect(Vue.prototype.$http.post).not.toBeCalled()
-
   wrapper.setData({ newPassword: '1' })
-  button.trigger('click')
-  expect(Vue.prototype.$message.error).toBeCalledWith('auth.emptyConfirmPwd')
-  expect(Vue.prototype.$http.post).not.toBeCalled()
-
   wrapper.setData({ confirmPassword: '2' })
-  button.trigger('click')
+  form.trigger('submit')
   expect(Vue.prototype.$message.error).toBeCalledWith('auth.invalidConfirmPwd')
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   wrapper.setData({ confirmPassword: '1' })
-  button.trigger('click')
+  form.trigger('submit')
   await wrapper.vm.$nextTick()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/user/profile?action=password',
@@ -77,7 +65,7 @@ test('change password', async () => {
   )
   expect(Vue.prototype.$alert).toBeCalledWith('w', { type: 'warning' })
 
-  button.trigger('click')
+  form.trigger('submit')
   await wrapper.vm.$nextTick()
   expect(Vue.prototype.$alert).toBeCalledWith('o')
 })
@@ -90,19 +78,15 @@ test('change nickname', async () => {
     .mockRejectedValueOnce('close')
     .mockResolvedValue('confirm')
   const wrapper = mount(Profile)
-  const button = wrapper.find('[data-test=changeNickName]')
+  const form = wrapper.find('[data-test=changeNickName]')
   document.body.innerHTML += '<span class="nickname"></span>'
 
-  button.trigger('click')
-  expect(Vue.prototype.$http.post).not.toBeCalled()
-  expect(Vue.prototype.$alert).toBeCalledWith('user.emptyNewNickName', { type: 'error' })
-
   wrapper.setData({ nickname: 'nickname' })
-  button.trigger('click')
+  form.trigger('submit')
   expect(Vue.prototype.$http.post).not.toBeCalled()
   expect(Vue.prototype.$confirm).toBeCalledWith('user.changeNickName')
 
-  button.trigger('click')
+  form.trigger('submit')
   await wrapper.vm.$nextTick()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/user/profile?action=nickname',
@@ -111,7 +95,7 @@ test('change nickname', async () => {
   await wrapper.vm.$nextTick()
   expect(Vue.prototype.$alert).toBeCalledWith('w', { type: 'warning' })
 
-  button.trigger('click')
+  form.trigger('submit')
   await flushPromises()
   expect(Vue.prototype.$message.success).toBeCalledWith('o')
   expect(document.querySelector('.nickname')!.textContent).toBe('nickname')
@@ -125,23 +109,14 @@ test('change email', async () => {
     .mockRejectedValueOnce('close')
     .mockResolvedValue('confirm')
   const wrapper = mount(Profile)
-  const button = wrapper.find('[data-test=changeEmail]')
-
-  button.trigger('click')
-  expect(Vue.prototype.$alert).toBeCalledWith('user.emptyNewEmail', { type: 'error' })
-  expect(Vue.prototype.$http.post).not.toBeCalled()
-
-  wrapper.setData({ email: 'e' })
-  button.trigger('click')
-  expect(Vue.prototype.$alert).toBeCalledWith('auth.invalidEmail', { type: 'warning' })
-  expect(Vue.prototype.$http.post).not.toBeCalled()
+  const form = wrapper.find('[data-test=changeEmail]')
 
   wrapper.setData({ email: 'a@b.c', currentPassword: 'abc' })
-  button.trigger('click')
+  form.trigger('submit')
   expect(Vue.prototype.$confirm).toBeCalledWith('user.changeEmail')
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
-  button.trigger('click')
+  form.trigger('submit')
   await wrapper.vm.$nextTick()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/user/profile?action=email',
@@ -150,7 +125,7 @@ test('change email', async () => {
   await wrapper.vm.$nextTick()
   expect(Vue.prototype.$alert).toBeCalledWith('w', { type: 'warning' })
 
-  button.trigger('click')
+  form.trigger('submit')
   await flushPromises()
   expect(Vue.prototype.$message.success).toBeCalledWith('o')
 })
@@ -161,14 +136,10 @@ test('delete account', async () => {
     .mockResolvedValueOnce({ code: 1, message: 'w' })
     .mockResolvedValue({ code: 0, message: 'o' })
   const wrapper = mount(Profile)
-  const button = wrapper.find('[data-test=deleteAccount]')
-
-  button.trigger('click')
-  expect(Vue.prototype.$alert).toBeCalledWith('user.emptyDeletePassword', { type: 'error' })
-  expect(Vue.prototype.$http.post).not.toBeCalled()
+  const form = wrapper.find('[data-test=deleteAccount]')
 
   wrapper.setData({ deleteConfirm: 'abc' })
-  button.trigger('click')
+  form.trigger('submit')
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/user/profile?action=delete',
     { password: 'abc' }
@@ -176,7 +147,7 @@ test('delete account', async () => {
   await wrapper.vm.$nextTick()
   expect(Vue.prototype.$alert).toBeCalledWith('w', { type: 'warning' })
 
-  button.trigger('click')
+  form.trigger('submit')
   await wrapper.vm.$nextTick()
   expect(Vue.prototype.$alert).toBeCalledWith('o', { type: 'success' })
 })

@@ -2,7 +2,6 @@
   <form @submit.prevent="reset">
     <div class="form-group has-feedback">
       <input
-        ref="password"
         v-model="password"
         type="password"
         class="form-control"

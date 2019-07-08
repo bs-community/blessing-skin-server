@@ -2,7 +2,6 @@
   <form @submit.prevent="submit">
     <div class="form-group has-feedback">
       <input
-        ref="email"
         v-model="email"
         type="email"
         class="form-control"

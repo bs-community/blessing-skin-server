@@ -16,7 +16,7 @@
           </div>
         </div>
 
-        <div class="box box-warning">
+        <form class="box box-warning" data-test="changePassword" @submit.prevent="changePassword">
           <div class="box-header with-border">
             <h3 v-t="'user.profile.password.title'" class="box-title" />
           </div><!-- /.box-header -->
@@ -24,20 +24,22 @@
             <div class="form-group">
               <label v-t="'user.profile.password.old'" />
               <input
-                ref="oldPassword"
                 v-model="oldPassword"
                 type="password"
                 class="form-control"
+                required
               >
             </div>
 
             <div class="form-group">
               <label v-t="'user.profile.password.new'" />
               <input
-                ref="newPassword"
                 v-model="newPassword"
                 type="password"
                 class="form-control"
+                required
+                minlength="8"
+                maxlength="32"
               >
             </div>
 
@@ -48,41 +50,44 @@
                 v-model="confirmPassword"
                 type="password"
                 class="form-control"
+                required
+                minlength="8"
+                maxlength="32"
               >
             </div>
           </div><!-- /.box-body -->
           <div class="box-footer">
-            <el-button type="primary" data-test="changePassword" @click="changePassword">
+            <el-button type="primary" native-type="submit">
               {{ $t('user.profile.password.button') }}
             </el-button>
           </div>
-        </div><!-- /.box -->
+        </form><!-- /.box -->
       </div>
       <div class="col-md-6">
-        <div class="box box-primary">
+        <form class="box box-primary" data-test="changeNickName" @submit.prevent="changeNickName">
           <div class="box-header with-border">
             <h3 v-t="'user.profile.nickname.title'" class="box-title" />
           </div><!-- /.box-header -->
           <div class="box-body">
             <div class="form-group has-feedback">
               <input
-                ref="nickname"
                 v-model="nickname"
                 type="text"
                 class="form-control"
                 :placeholder="$t('user.profile.nickname.rule')"
+                required
               >
               <span class="glyphicon glyphicon-user form-control-feedback" />
             </div>
           </div><!-- /.box-body -->
           <div class="box-footer">
-            <el-button type="primary" data-test="changeNickName" @click="changeNickName">
+            <el-button type="primary" native-type="submit">
               {{ $t('general.submit') }}
             </el-button>
           </div>
-        </div>
+        </form>
 
-        <div class="box box-warning">
+        <form class="box box-warning" data-test="changeEmail" @submit.prevent="changeEmail">
           <div class="box-header with-border">
             <h3 v-t="'user.profile.email.title'" class="box-title" />
           </div><!-- /.box-header -->
@@ -94,6 +99,7 @@
                 type="email"
                 class="form-control"
                 :placeholder="$t('user.profile.email.new')"
+                required
               >
               <span class="glyphicon glyphicon-envelope form-control-feedback" />
             </div>
@@ -104,16 +110,17 @@
                 type="password"
                 class="form-control"
                 :placeholder="$t('user.profile.email.password')"
+                required
               >
               <span class="glyphicon glyphicon-lock form-control-feedback" />
             </div>
           </div><!-- /.box-body -->
           <div class="box-footer">
-            <el-button type="primary" data-test="changeEmail" @click="changeEmail">
+            <el-button type="primary" native-type="submit">
               {{ $t('user.profile.email.button') }}
             </el-button>
           </div>
-        </div>
+        </form>
 
         <div class="box box-danger">
           <div class="box-header with-border">
@@ -143,7 +150,7 @@
       tabindex="-1"
       role="dialog"
     >
-      <div class="modal-dialog">
+      <form class="modal-dialog" data-test="deleteAccount" @submit.prevent="deleteAccount">
         <div class="modal-content">
           <div class="modal-header">
             <button
@@ -165,6 +172,7 @@
               type="password"
               class="form-control"
               :placeholder="$t('user.profile.delete.password')"
+              required
             >
             <br>
           </div>
@@ -175,15 +183,14 @@
               class="btn btn-outline"
               data-dismiss="modal"
             />
-            <a
+            <button
               v-t="'general.submit'"
+              type="submit"
               class="btn btn-outline"
-              data-test="deleteAccount"
-              @click="deleteAccount"
             />
           </div>
         </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
+      </form><!-- /.modal-dialog -->
     </div><!-- /.modal -->
   </section><!-- /.content -->
 </template>
@@ -233,24 +240,6 @@ export default {
         oldPassword, newPassword, confirmPassword,
       } = this
 
-      if (!oldPassword) {
-        this.$message.error(this.$t('user.emptyPassword'))
-        this.$refs.oldPassword.focus()
-        return
-      }
-
-      if (!newPassword) {
-        this.$message.error(this.$t('user.emptyNewPassword'))
-        this.$refs.newPassword.focus()
-        return
-      }
-
-      if (!confirmPassword) {
-        this.$message.error(this.$t('auth.emptyConfirmPwd'))
-        this.$refs.confirmPassword.focus()
-        return
-      }
-
       if (newPassword !== confirmPassword) {
         this.$message.error(this.$t('auth.invalidConfirmPwd'))
         this.$refs.confirmPassword.focus()
@@ -269,10 +258,6 @@ export default {
     },
     async changeNickName() {
       const { nickname } = this
-
-      if (!nickname) {
-        return this.$alert(this.$t('user.emptyNewNickName'), { type: 'error' })
-      }
 
       try {
         await this.$confirm(this.$t('user.changeNickName', { new_nickname: nickname }))
@@ -294,14 +279,6 @@ export default {
     async changeEmail() {
       const { email } = this
 
-      if (!email) {
-        return this.$alert(this.$t('user.emptyNewEmail'), { type: 'error' })
-      }
-
-      if (!/\S+@\S+\.\S+/.test(email)) {
-        return this.$alert(this.$t('auth.invalidEmail'), { type: 'warning' })
-      }
-
       try {
         await this.$confirm(this.$t('user.changeEmail', { new_email: email }))
       } catch {
@@ -320,10 +297,6 @@ export default {
     },
     async deleteAccount() {
       const { deleteConfirm: password } = this
-
-      if (!password) {
-        return this.$alert(this.$t('user.emptyDeletePassword'), { type: 'error' })
-      }
 
       const { code, message } = await this.$http.post(
         '/user/profile?action=delete',
