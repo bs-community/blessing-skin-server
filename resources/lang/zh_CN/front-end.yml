@@ -1,13 +1,10 @@
 auth:
-  emptyCaptcha: 你还没有填写验证码哦
   login: 登录
   loggingIn: 登录中
   tooManyFails:
     captcha: 你尝试的次数太多啦，请输入验证码
     recaptcha: 你尝试的次数太多啦，请通过 reCAPTCHA 人机验证
   emptyEmail: 你还没有填写邮箱哦
-  invalidEmail: 邮箱格式不正确！
-  emptyConfirmPwd: 确认密码不能为空
   invalidConfirmPwd: 密码和确认的密码不一样诶？
   emptyNickname: 你还没有填写昵称哦
   register: 注册
@@ -132,13 +129,8 @@ user:
   setAvatarNotice: 将会自动截取皮肤头部
   resetAvatar: 重置头像
   resetAvatarConfirm: 确定要重置头像吗？
-  emptyNewNickName: 你还没有填写新昵称啊
   changeNickName: '确定要将昵称设置为 :new_nickname 吗？'
-  emptyPassword: 原密码不能为空
-  emptyNewPassword: 新密码要好好填哦
-  emptyNewEmail: 你还没有填写新邮箱啊
   changeEmail: '确定要将用户邮箱更改为 :new_email 吗？'
-  emptyDeletePassword: 请先输入当前用户密码
   typeToSearch: 输入即搜索
   useAs: 使用...
   resetSelected: 重置已选材质

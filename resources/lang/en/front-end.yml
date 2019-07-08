@@ -1,13 +1,10 @@
 auth:
-  emptyCaptcha: Empty captcha.
   login: Log In
   loggingIn: Logging In
   tooManyFails:
     captcha: You fails too many times! Please enter the CAPTCHA.
     recaptcha: You fails too many times! Please pass the reCAPTCHA challenge.
   emptyEmail: Empty email address.
-  invalidEmail: Invalid format of email address.
-  emptyConfirmPwd: Empty confirming password.
   invalidConfirmPwd: Confirming password is not equal with password.
   emptyNickname: Empty nickname.
   register: Register
@@ -132,13 +129,8 @@ user:
   setAvatarNotice: The head segment of skin will bu used.
   resetAvatar: Reset Avatar
   resetAvatarConfirm: Are you sure to reset your avatar?
-  emptyNewNickName: Empty new nickname.
   changeNickName: 'Sure to set your nickname to :new_nickname?'
-  emptyPassword: Original password is required.
-  emptyNewPassword: Empty new password.
-  emptyNewEmail: Empty new email address.
   changeEmail: 'Sure to change your email address to :new_email?'
-  emptyDeletePassword: 'Please enter the current password:'
   typeToSearch: Type to search
   useAs: Apply...
   resetSelected: Clear selected
