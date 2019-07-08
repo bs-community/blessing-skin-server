@@ -1,6 +1,4 @@
 auth:
-  emptyIdentification: 你还没有填写邮箱/角色名哦
-  emptyPassword: 密码要好好填哦
   emptyCaptcha: 你还没有填写验证码哦
   login: 登录
   loggingIn: 登录中
@@ -9,11 +7,9 @@ auth:
     recaptcha: 你尝试的次数太多啦，请通过 reCAPTCHA 人机验证
   emptyEmail: 你还没有填写邮箱哦
   invalidEmail: 邮箱格式不正确！
-  invalidPassword: 无效的密码。密码长度应该大于 8 并小于 32。
   emptyConfirmPwd: 确认密码不能为空
   invalidConfirmPwd: 密码和确认的密码不一样诶？
   emptyNickname: 你还没有填写昵称哦
-  emptyPlayerName: 你还没有填写角色名哦
   register: 注册
   registering: 注册中
   send: 发送

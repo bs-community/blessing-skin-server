@@ -1,6 +1,4 @@
 auth:
-  emptyIdentification: Empty email/player name.
-  emptyPassword: Password is required.
   emptyCaptcha: Empty captcha.
   login: Log In
   loggingIn: Logging In
@@ -9,11 +7,9 @@ auth:
     recaptcha: You fails too many times! Please pass the reCAPTCHA challenge.
   emptyEmail: Empty email address.
   invalidEmail: Invalid format of email address.
-  invalidPassword: Invalid password. The length of password should between 8 and 32.
   emptyConfirmPwd: Empty confirming password.
   invalidConfirmPwd: Confirming password is not equal with password.
   emptyNickname: Empty nickname.
-  emptyPlayerName: Empty player name.
   register: Register
   registering: Registering
   send: Send
