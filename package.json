@@ -160,6 +160,7 @@
           "no-undef": 0,
           "no-unused-vars": 0,
           "no-invalid-this": 0,
+          "no-extra-parens": 0,
           "indent": 0,
           "@typescript-eslint/indent": [
             2,
