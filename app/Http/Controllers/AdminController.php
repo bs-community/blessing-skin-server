@@ -111,6 +111,8 @@ class AdminController extends Controller
 
             $form->checkbox('transparent_navbar')->label();
 
+            $form->checkbox('hide_intro')->label();
+
             $form->select('copyright_prefer')
                     ->option('0', 'Powered with ❤ by Blessing Skin Server.')
                     ->option('1', 'Powered by Blessing Skin Server.')

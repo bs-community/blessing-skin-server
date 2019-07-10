@@ -11,11 +11,33 @@
     @include('common.seo-meta-tags')
     <!-- App Styles -->
     @include('common.dependencies.style')
+    <style>
+        .hp-wrapper {
+            background-image: url('{{ $home_pic_url }}');
+            height: 100vh;
+        }
+
+        @if (option('hide_intro'))
+        #copyright {
+            color: white;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            padding: 0 50px 16px 50px;
+        }
+        @else
+        #copyright {
+            background: #222;
+            padding: 16px 0 20px;
+            color: white;
+        }
+        @endif
+    </style>
 </head>
 
 <body class="hold-transition {{ option('color_scheme') }} layout-top-nav">
 
-    <div class="hp-wrapper" style="background-image: url('{{ $home_pic_url }}'); height: 100vh;">
+    <div class="hp-wrapper">
         <!-- Navigation -->
         <header class="main-header {{ $transparent_navbar ? 'transparent' : ''}}">
             <nav class="navbar navbar-fixed-top">
@@ -69,8 +91,23 @@
                 </p>
             </div>
         </div> <!--/ .container -->
+
+        @if (option('hide_intro'))
+        <div id="copyright">
+            <!-- Designed by Pratt -->
+            <div class="container">
+                <!-- YOU CAN NOT MODIFIY THE COPYRIGHT TEXT W/O PERMISSION -->
+                <div id="copyright-text" class="pull-right hidden-xs">
+                    @include('common.copyright')
+                </div>
+                <!-- Default to the left -->
+                @include('common.custom-copyright')
+            </div>
+        </div>
+        @endif
     </div><!--/ #headerwrap -->
 
+    @if (! option('hide_intro'))
     <!-- INTRO WRAP -->
     <div id="intro">
         <div class="container">
@@ -109,7 +146,9 @@
             </div>
         </div>
     </div>
+    @endif
 
+    @if (! option('hide_intro'))
     <div id="copyright">
         <!-- Designed by Pratt -->
         <div class="container">
@@ -121,6 +160,7 @@
             @include('common.custom-copyright')
         </div>
     </div>
+    @endif
 
     <script>
     blessing.extra = @json(['transparent_navbar' => (bool) $transparent_navbar])

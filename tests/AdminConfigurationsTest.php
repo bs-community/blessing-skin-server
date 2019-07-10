@@ -31,12 +31,14 @@ class AdminConfigurationsTest extends BrowserKitTestCase
             ->type('url', 'home_pic_url')
             ->type('url', 'favicon_url')
             ->check('transparent_navbar')
+            ->check('hide_intro')
             ->select('1', 'copyright_prefer')
             ->type('copyright', 'copyright_text')
             ->press('submit_homepage');
         $this->assertEquals('url', option('home_pic_url'));
         $this->assertEquals('url', option('favicon_url'));
         $this->assertTrue(option('transparent_navbar'));
+        $this->assertTrue(option('hide_intro'));
         $this->assertEquals('1', option('copyright_prefer'));
         $this->assertEquals('copyright', option('copyright_text'));
 
