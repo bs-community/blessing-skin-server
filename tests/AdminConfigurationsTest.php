@@ -32,6 +32,7 @@ class AdminConfigurationsTest extends BrowserKitTestCase
             ->type('url', 'favicon_url')
             ->check('transparent_navbar')
             ->check('hide_intro')
+            ->check('fixed_bg')
             ->select('1', 'copyright_prefer')
             ->type('copyright', 'copyright_text')
             ->press('submit_homepage');
@@ -39,6 +40,7 @@ class AdminConfigurationsTest extends BrowserKitTestCase
         $this->assertEquals('url', option('favicon_url'));
         $this->assertTrue(option('transparent_navbar'));
         $this->assertTrue(option('hide_intro'));
+        $this->assertTrue(option('fixed_bg'));
         $this->assertEquals('1', option('copyright_prefer'));
         $this->assertEquals('copyright', option('copyright_text'));
 

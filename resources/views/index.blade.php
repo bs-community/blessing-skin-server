@@ -13,7 +13,11 @@
     @include('common.dependencies.style')
     <style>
         .hp-wrapper {
+            @if (option('fixed_bg'))
+            background-color: rgba(0, 0, 0, 0);
+            @else
             background-image: url('{{ $home_pic_url }}');
+            @endif
             height: 100vh;
         }
 
@@ -38,6 +42,9 @@
 <body class="hold-transition {{ option('color_scheme') }} layout-top-nav">
 
     <div class="hp-wrapper">
+        @if (option('fixed_bg'))
+        <div id="fixed-bg" style="background-image: url('{{ $home_pic_url }}')"></div>
+        @endif
         <!-- Navigation -->
         <header class="main-header {{ $transparent_navbar ? 'transparent' : ''}}">
             <nav class="navbar navbar-fixed-top">

@@ -16,6 +16,9 @@ homepage:
   hide_intro:
     title: Hide Introduction at Bottom
     label: Scroll bar will be disabled if this option is enabled, as version 2.x.
+  fixed_bg:
+    title: Fixed Background
+    label: This option will make background fixed, not scrolled with scroll bar.
   copyright_prefer:
     title: Program Copyright
     description: "You can specify a different style of program copyright for each language. To edit a specific language's corresponding program copyright style, please switch to that language and submit your edit. <br><b>Warning:</b> Any evil modification applied on the footer program copyright (including deleting, modifying author, changing link target) with out permission is <b>FORBIDDEN</b>. The author reserves the right to pursue relevant responsibilities."

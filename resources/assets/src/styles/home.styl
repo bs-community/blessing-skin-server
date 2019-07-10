@@ -2,7 +2,6 @@ body
   font-size 16px
 
 .layout-top-nav > .hp-wrapper
-  background-color #eaeaea
   // background image settings
   background-size cover
   background-repeat no-repeat
@@ -162,6 +161,13 @@ hr
 .hp-wrapper
   width 100%
 
+#fixed-bg
+  position fixed
+  z-index -1
+  height 100vh
+  width 100%
+  background-size cover
+
 /* ==========================================================================
 Wrap Sections
 ========================================================================== */
@@ -169,6 +175,7 @@ Wrap Sections
 #intro
   padding 50px 0 50px
   border-top #bdc3c7 solid 5px
+  background-color white
 
   i
     font-size 80px
