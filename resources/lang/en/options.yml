@@ -8,7 +8,7 @@ homepage:
     hint: Path relative to homepage or full URL, leave empty to use default image.
   favicon_url:
     title: Website Icon
-    hint: Path relative to resources/assets/ or full URL.
+    hint: Path relative to public/ or full URL.
     description: The given image must have same width and height (leave blank to use default icon).
   transparent_navbar:
     title: Transparent Navigation Bar
