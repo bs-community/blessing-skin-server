@@ -10,7 +10,7 @@ class Authenticate extends Middleware
     {
         if (! $request->expectsJson()) {
             session([
-                'last_requested_path' => $request->path(),
+                'last_requested_path' => $request->fullUrl(),
                 'msg' => trans('auth.check.anonymous'),
             ]);
 

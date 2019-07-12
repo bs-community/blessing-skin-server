@@ -11,8 +11,6 @@
     @include('common.seo-meta-tags')
     <!-- App Styles -->
     @include('common.dependencies.style')
-
-    <script>blessing.redirect_to = "{{ session('last_requested_path') }}";</script>
 </head>
 
 <body class="hold-transition login-page">

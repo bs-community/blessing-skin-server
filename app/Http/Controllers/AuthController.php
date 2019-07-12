@@ -59,7 +59,9 @@ class AuthController extends Controller
 
                 Cache::forget($loginFailsCacheKey);
 
-                return json(trans('auth.login.success'), 0);
+                return json(trans('auth.login.success'), 0, [
+                    'redirectTo' => $request->session()->pull('last_requested_path', url('/user')),
+                ]);
             } else {
                 // Increase the counter
                 Cache::put($loginFailsCacheKey, ++$loginFails, 3600);

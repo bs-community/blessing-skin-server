@@ -25,7 +25,7 @@ test('login', async () => {
     .mockResolvedValueOnce({ code: 1, data: { login_fails: 4 } })
     .mockResolvedValueOnce({ code: 1, data: { login_fails: 4 } })
     .mockResolvedValueOnce({ code: 1, data: { login_fails: 4 } })
-    .mockResolvedValueOnce({ code: 0, message: 'ok' })
+    .mockResolvedValueOnce({ code: 0, message: 'ok', data: { redirectTo: '' } })
   const wrapper = mount(Login, { stubs: { Captcha } })
   const form = wrapper.find('form')
   const warning = wrapper.find('.callout-warning')

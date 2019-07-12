@@ -89,7 +89,7 @@ export default {
 
       this.pending = true
       const {
-        code, message, data: { login_fails: loginFails } = { login_fails: 0 },
+        code, message, data: { login_fails: loginFails, redirectTo } = { login_fails: 0 },
       } = await this.$http.post(
         '/auth/login',
         {
@@ -103,9 +103,7 @@ export default {
       )
       if (code === 0) {
         this.$message.success(message)
-        setTimeout(() => {
-          window.location = `${blessing.base_url}/${blessing.redirect_to || 'user'}`
-        }, 1000)
+        setTimeout(() => (window.location = redirectTo), 1000)
       } else {
         if (loginFails > 3 && !this.tooManyFails) {
           if (this.recaptcha) {
