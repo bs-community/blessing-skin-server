@@ -114,8 +114,15 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
 <tbody>
     <tr>
         <td align=center>
-            <a href="https://afdian.net/u/a08078a051fc11e9ab4c52540025c377">
+            <a href="https://afdian.net/u/4d9a803ea8a211e9ba9052540025c377">
                 <img src="https://pic.afdiancdn.com/default/avatar/default-avatar@2x.png?imageView2/1/w/75/h/75">
+                <br>
+                爱发电用户_4ft3
+            </a>
+        </td>
+        <td align=center>
+            <a href="https://afdian.net/u/a08078a051fc11e9ab4c52540025c377">
+                <img src="https://pic.afdiancdn.com/user/a08078a051fc11e9ab4c52540025c377/avatar/9e25e37208832a1a41893ad1bd30a398_w628_h626_s39.jpg?imageView2/1/w/75/h/75">
                 <br>
                 pppwaw
             </a>
