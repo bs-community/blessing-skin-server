@@ -19,6 +19,9 @@ homepage:
   fixed_bg:
     title: Fixed Background
     label: This option will make background fixed, not scrolled with scroll bar.
+  hide_pray_for_kyoto_animation:
+    title: Hide "Pray for Kyoto Animation."
+    label: This won't let that message be displayed at bottom of page.
   copyright_prefer:
     title: Program Copyright
     description: "You can specify a different style of program copyright for each language. To edit a specific language's corresponding program copyright style, please switch to that language and submit your edit. <br><b>Warning:</b> Any evil modification applied on the footer program copyright (including deleting, modifying author, changing link target) with out permission is <b>FORBIDDEN</b>. The author reserves the right to pursue relevant responsibilities."

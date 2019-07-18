@@ -115,6 +115,8 @@ class AdminController extends Controller
 
             $form->checkbox('fixed_bg')->label();
 
+            $form->checkbox('hide_pray_for_kyoto_animation')->label();
+
             $form->select('copyright_prefer')
                     ->option('0', 'Powered with ❤ by Blessing Skin Server.')
                     ->option('1', 'Powered by Blessing Skin Server.')

@@ -19,6 +19,9 @@ homepage:
   fixed_bg:
     title: 固定首页背景
     label: 开启后背景不会随页面滚动而滚动
+  hide_pray_for_kyoto_animation:
+    title: 隐藏「为京阿尼祈福」
+    label: 开启后该条文本将不会显示在页面下方版权处
   copyright_prefer:
     title: 程序版权信息
     description: 每种支持的语言都可以对应不同的程序版权信息，如果想要编辑某种特定语言下的版权信息，请在右上角切换至该语言后再提交修改。<b>对于任何恶意修改页面右下角的版权信息（包括不限于删除、修改作者信息、修改链接指向）的用户，作者保留对其追究责任的权利。</b>
