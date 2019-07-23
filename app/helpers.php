@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 if (! function_exists('webpack_assets')) {
     function webpack_assets(string $relativeUri): string
     {
-        if (app()->environment('development')) {
+        if (env('WEBPACK_ENV', 'production') == 'development') {
             // @codeCoverageIgnoreStart
             $host = parse_url(url('/'), PHP_URL_HOST);
             return "http://$host:8080/$relativeUri";
