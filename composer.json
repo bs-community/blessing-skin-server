@@ -34,7 +34,8 @@
     "laravel/browser-kit-testing": "~4.0",
     "laravel/tinker": "^1.0",
     "barryvdh/laravel-debugbar": "^3.2",
-    "filp/whoops": "^2.3"
+    "filp/whoops": "^2.3",
+    "beyondcode/laravel-dump-server": "^1.2"
   },
   "autoload": {
     "classmap": [
