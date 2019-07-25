@@ -103,6 +103,13 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
                 Akkariin
             </a>
         </td>
+        <td align=center>
+            <a href="https://afdian.net/@xiaoye">
+                <img src="https://pic.afdiancdn.com/user/3cab3390efed11e88ad552540025c377/avatar/23b9e2fabc1c11019cc67cc075673544_w640_h640_s32.jpg?imageView2/1/w/120/h/120">
+                <br>
+                星域联盟_晓夜
+            </a>
+        </td>
     </tr>
 </tbody>
 </table>
