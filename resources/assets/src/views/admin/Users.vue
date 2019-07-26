@@ -138,7 +138,7 @@ export default {
           field: 'score', label: this.$t('general.user.score'), type: 'number', width: '102px',
         },
         {
-          field: 'players_count', label: this.$t('admin.playersCount'), type: 'number',
+          field: 'players_count', label: this.$t('admin.playersCount'), type: 'number', sortable: false,
         },
         {
           field: 'permission', label: this.$t('admin.permission'), globalSearchDisabled: true,

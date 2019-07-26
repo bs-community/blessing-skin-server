@@ -143,12 +143,14 @@ export default {
         },
         { field: 'name', label: this.$t('general.player.player-name') },
         {
-          field: 'uid', label: this.$t('general.player.owner'), type: 'number',
+          field: 'uid', label: this.$t('general.player.owner'), type: 'number', sortable: false,
         },
         {
           field: 'preview', label: this.$t('general.player.previews'), globalSearchDisabled: true, sortable: false,
         },
-        { field: 'last_modified', label: this.$t('general.player.last-modified') },
+        {
+          field: 'last_modified', label: this.$t('general.player.last-modified'), sortable: false,
+        },
         {
           field: 'operations', label: this.$t('admin.operationsTitle'), globalSearchDisabled: true, sortable: false,
         },
