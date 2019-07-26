@@ -65,6 +65,11 @@ return [
             'driver' => 'errorlog',
             'level' => 'debug',
         ],
+
+        'black-hole' => [
+            'driver' => 'monolog',
+            'handler' => Monolog\Handler\NullHandler::class,
+        ],
     ],
 
 ];
