@@ -135,12 +135,14 @@ class Plugin
 
     public function getConfigView()
     {
-        return $this->hasConfigView() ? view()->file($this->getViewPathByFileName(Arr::get($this->packageInfo, 'config'))) : null;
+        return $this->hasConfigView()
+            ? view()->file($this->getViewPathByFileName(Arr::get($this->packageInfo, 'config', 'config.blade.php')))
+            : null;
     }
 
     public function hasConfigView(): bool
     {
-        $filename = Arr::get($this->packageInfo, 'config');
+        $filename = Arr::get($this->packageInfo, 'config', 'config.blade.php');
 
         return $filename && file_exists($this->getViewPathByFileName($filename));
     }
