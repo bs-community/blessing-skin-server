@@ -51,6 +51,7 @@ Blessing Skin 对您的服务器有一定的要求。_在大多数情况下，�
     - Ctype
     - JSON
     - fileinfo
+    - zip
 
 ## 快速使用
 

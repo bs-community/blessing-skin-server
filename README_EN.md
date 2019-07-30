@@ -50,6 +50,7 @@ Blessing Skin has only a few system requirements. _In most cases, these PHP exte
 - Ctype PHP Extension
 - JSON PHP Extension
 - fileinfo PHP Extension
+- zip PHP Extension
 
 ## Quick Install
 
