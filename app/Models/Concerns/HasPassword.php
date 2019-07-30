@@ -21,7 +21,6 @@ trait HasPassword
      * Try to get encrypted password from event dispatcher.
      *
      * @param  string $raw
-     * @param  User   $user
      * @return mixed
      */
     public function getEncryptedPwdFromEvent($raw)
