@@ -90,7 +90,7 @@ class UserController extends Controller
 
     protected function getStorageUsed(User $user)
     {
-        return Texture::where('uploader', $user->uid)->select('size')->sum('size') ?: 0;
+        return Texture::where('uploader', $user->uid)->select('size')->sum('size');
     }
 
     /**
