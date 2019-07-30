@@ -110,7 +110,8 @@ class ClosetControllerTest extends TestCase
         )->assertJsonValidationErrors('name');
 
         // The user doesn't have enough score to add a texture
-        $this->user->setScore(0);
+        $this->user->score = 0;
+        $this->user->save();
         $this->postJson(
             '/user/closet/add',
             ['tid' => $texture->tid, 'name' => $name]
@@ -120,7 +121,8 @@ class ClosetControllerTest extends TestCase
         ]);
 
         // Add a not-existed texture
-        $this->user->setScore(100);
+        $this->user->score = 100;
+        $this->user->save();
         $this->postJson(
             '/user/closet/add',
             ['tid' => -1, 'name' => 'my']

@@ -10,15 +10,6 @@ class UserTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function testSign()
-    {
-        $user = factory(User::class)->make([
-            'last_sign_at' => get_datetime_string(time()),
-        ]);
-        $user->sign();
-        $this->assertFalse($user->sign());
-    }
-
     public function testGetPlayerNameAttribute()
     {
         $user = factory(User::class)->create();

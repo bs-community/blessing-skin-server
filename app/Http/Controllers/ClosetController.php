@@ -93,7 +93,8 @@ class ClosetController extends Controller
         }
 
         $user->closet()->attach($tid, ['item_name' => $request->name]);
-        $user->setScore(option('score_per_closet_item'), 'minus');
+        $user->score -= option('score_per_closet_item');
+        $user->save();
 
         $texture->likes++;
         $texture->save();
@@ -132,7 +133,8 @@ class ClosetController extends Controller
         $user->closet()->detach($tid);
 
         if (option('return_score')) {
-            $user->setScore(option('score_per_closet_item'), 'plus');
+            $user->score += option('score_per_closet_item');
+            $user->save();
         }
 
         $texture = Texture::find($tid);

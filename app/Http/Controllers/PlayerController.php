@@ -86,7 +86,8 @@ class PlayerController extends Controller
 
         event(new PlayerWasAdded($player));
 
-        $user->setScore(option('score_per_player'), 'minus');
+        $user->score -= option('score_per_player');
+        $user->save();
 
         return json(trans('user.player.add.success', ['name' => $name]), 0, $player->toArray());
     }
@@ -105,7 +106,9 @@ class PlayerController extends Controller
         $player->delete();
 
         if (option('return_score')) {
-            Auth::user()->setScore(Option::get('score_per_player'), 'plus');
+            $user = auth()->user();
+            $user->score += option('score_per_player');
+            $user->save();
         }
 
         event(new PlayerWasDeleted($playerName));

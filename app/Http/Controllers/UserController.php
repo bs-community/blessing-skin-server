@@ -7,6 +7,7 @@ use URL;
 use Mail;
 use View;
 use Session;
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Texture;
 use Illuminate\Http\Request;
@@ -39,7 +40,7 @@ class UserController extends Controller
         return view('user.index')->with([
             'statistics' => [
                 'players' => $this->calculatePercentageUsed($user->players->count(), option('score_per_player')),
-                'storage' => $this->calculatePercentageUsed($user->getStorageUsed(), option('score_per_storage')),
+                'storage' => $this->calculatePercentageUsed($this->getStorageUsed($user), option('score_per_storage')),
             ],
             'announcement' => app('parsedown')->text(option_localized('announcement')),
             'extra' => ['unverified' => option('require_verification') && ! $user->verified],
@@ -57,7 +58,7 @@ class UserController extends Controller
             ],
             'stats' => [
                 'players' => $this->calculatePercentageUsed($user->players->count(), option('score_per_player')),
-                'storage' => $this->calculatePercentageUsed($user->getStorageUsed(), option('score_per_storage')),
+                'storage' => $this->calculatePercentageUsed($this->getStorageUsed($user), option('score_per_storage')),
             ],
             'signAfterZero' => option('sign_after_zero'),
             'signGapTime' => option('sign_gap_time'),
@@ -87,6 +88,11 @@ class UserController extends Controller
         return $result;
     }
 
+    protected function getStorageUsed(User $user)
+    {
+        return Texture::where('uploader', $user->uid)->select('size')->sum('size') ?: 0;
+    }
+
     /**
      * Handle user signing.
      *
@@ -95,17 +101,22 @@ class UserController extends Controller
     public function sign()
     {
         $user = Auth::user();
-        if ($user->canSign()) {
-            $acquiredScore = $user->sign();
+        if ($this->getSignRemainingTime($user) <= 0) {
+            $scoreLimits = explode(',', option('sign_score'));
+            $acquiredScore = rand($scoreLimits[0], $scoreLimits[1]);
+
+            $user->score += $acquiredScore;
+            $user->last_sign_at = Carbon::now()->toDateTimeString();
+            $user->save();
             $gap = option('sign_gap_time');
 
             return json(trans('user.sign-success', ['score' => $acquiredScore]), 0, [
                 'score' => $user->score,
-                'storage' => $this->calculatePercentageUsed($user->getStorageUsed(), option('score_per_storage')),
+                'storage' => $this->calculatePercentageUsed($this->getStorageUsed($user), option('score_per_storage')),
                 'remaining_time' => $gap > 1 ? round($gap) : $gap,
             ]);
         } else {
-            $remaining_time = $this->getUserSignRemainingTimeWithPrecision();
+            $remaining_time = $this->getUserSignRemainingTimeWithPrecision($user);
 
             return json(trans('user.cant-sign-until', [
                 'time' => $remaining_time >= 1
@@ -116,11 +127,25 @@ class UserController extends Controller
         }
     }
 
-    public function getUserSignRemainingTimeWithPrecision($user = null)
+    protected function getUserSignRemainingTimeWithPrecision(User $user)
     {
-        $hours = ($user ?? Auth::user())->getSignRemainingTime() / 3600;
+        $hours = $this->getSignRemainingTime($user) / 3600;
 
         return $hours > 1 ? round($hours) : $hours;
+    }
+
+    protected function getSignRemainingTime(User $user)
+    {
+        $lastSignTime = Carbon::parse($user->last_sign_at);
+
+        if (option('sign_after_zero')) {
+            return Carbon::now()->diffInSeconds(
+                $lastSignTime <= Carbon::today() ? $lastSignTime : Carbon::tomorrow(),
+                false
+            );
+        }
+
+        return Carbon::now()->diffInSeconds($lastSignTime->addHours(option('sign_gap_time')), false);
     }
 
     public function sendVerificationEmail()

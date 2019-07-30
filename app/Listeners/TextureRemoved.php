@@ -11,7 +11,8 @@ class TextureRemoved
         $texture->likers()->get()->each(function ($user) use ($texture) {
             $user->closet()->detach($texture->tid);
             if (option('return_score')) {
-                $user->setScore(option('score_per_closet_item'), 'plus');
+                $user->score += option('score_per_closet_item');
+                $user->save();
             }
         });
 
@@ -29,7 +30,8 @@ class TextureRemoved
                 $ret -= option('score_award_per_texture', 0);
             }
 
-            $uploader->setScore($ret, 'plus');
+            $uploader->score += $ret;
+            $uploader->save();
         }
     }
 }

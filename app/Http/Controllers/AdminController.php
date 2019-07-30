@@ -486,7 +486,8 @@ class AdminController extends Controller
                 'score' => 'required|integer',
             ]);
 
-            $user->setScore($request->input('score'));
+            $user->score = $request->input('score');
+            $user->save();
 
             return json(trans('admin.users.operations.score.success'), 0);
         } elseif ($action == 'permission') {

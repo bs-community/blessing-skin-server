@@ -230,8 +230,9 @@ class SkinlibController extends Controller
         $t->likes++;
         $t->save();
 
-        $user->setScore($cost, 'minus');
+        $user->score -= $cost;
         $user->closet()->attach($t->tid, ['item_name' => $t->name]);
+        $user->save();
 
         return json(trans('skinlib.upload.success', ['name' => $request->input('name')]), 0, [
             'tid' => $t->tid,
@@ -293,12 +294,14 @@ class SkinlibController extends Controller
         $t->likers()->get()->each(function ($user) use ($t) {
             $user->closet()->detach($t->tid);
             if (option('return_score')) {
-                $user->setScore(option('score_per_closet_item'), 'plus');
+                $user->score += option('score_per_closet_item');
+                $user->save();
             }
             $t->likes--;
         });
 
-        @$uploader->setScore($score_diff, 'plus');
+        $uploader->score += $score_diff;
+        $uploader->save();
 
         $t->public = ! $t->public;
         $t->save();
