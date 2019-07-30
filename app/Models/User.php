@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Arr;
 use Laravel\Passport\HasApiTokens;
-use App\Events\EncryptUserPassword;
+use App\Models\Concerns\HasPassword;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,6 +11,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
+    use HasPassword;
     use HasApiTokens;
 
     const BANNED = -1;
@@ -57,42 +57,6 @@ class User extends Authenticatable implements JWTSubject
             $player->name = $value;
             $player->save();
         }
-    }
-
-    public function verifyPassword($raw)
-    {
-        // Compare directly if any responses is returned by event dispatcher
-        if ($result = static::getEncryptedPwdFromEvent($raw, $this)) {
-            return hash_equals($this->password, $result);     // @codeCoverageIgnore
-        }
-
-        return app('cipher')->verify($raw, $this->password, config('secure.salt'));
-    }
-
-    /**
-     * Try to get encrypted password from event dispatcher.
-     *
-     * @param  string $raw
-     * @param  User   $user
-     * @return mixed
-     */
-    public static function getEncryptedPwdFromEvent($raw, User $user)
-    {
-        $responses = event(new EncryptUserPassword($raw, $user));
-        return Arr::get($responses, 0);
-    }
-
-    /**
-     * Change password of the user.
-     *
-     * @param  string $password New password that will be set.
-     * @return bool
-     */
-    public function changePassword($password)
-    {
-        $responses = event(new EncryptUserPassword($password, $this));
-        $this->password = Arr::get($responses, 0, app('cipher')->hash($password, config('secure.salt')));
-        return $this->save();
     }
 
     public function delete()

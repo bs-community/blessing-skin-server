@@ -170,8 +170,7 @@ class SetupController extends Controller
         $user->nickname = $data['nickname'];
         $user->score = option('user_initial_score');
         $user->avatar = 0;
-        $user->password = User::getEncryptedPwdFromEvent($data['password'], $user)
-            ?: app('cipher')->hash($data['password'], config('secure.salt'));
+        $user->password = app('cipher')->hash($data['password'], config('secure.salt'));
         $user->ip = get_client_ip();
         $user->permission = User::SUPER_ADMIN;
         $user->register_at = get_datetime_string();

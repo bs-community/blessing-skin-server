@@ -133,7 +133,7 @@ class AuthController extends Controller
         $user->nickname = $data[option('register_with_player_name') ? 'player_name' : 'nickname'];
         $user->score = option('user_initial_score');
         $user->avatar = 0;
-        $user->password = User::getEncryptedPwdFromEvent($data['password'], $user)
+        $user->password = $user->getEncryptedPwdFromEvent($data['password'])
             ?: app('cipher')->hash($data['password'], config('secure.salt'));
         $user->ip = get_client_ip();
         $user->permission = User::NORMAL;
