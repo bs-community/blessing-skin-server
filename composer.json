@@ -24,17 +24,17 @@
     "guzzlehttp/guzzle": "^6.3",
     "doctrine/dbal": "^2.9",
     "tymon/jwt-auth": "dev-develop",
-    "laravel/passport": "^7.2"
+    "laravel/passport": "^7.3"
   },
   "require-dev": {
-    "fzaninotto/faker": "~1.4",
-    "mockery/mockery": "^1.1.0",
+    "fzaninotto/faker": "~1.8",
+    "mockery/mockery": "^1.2.2",
     "phpdocumentor/reflection-docblock": "3.2.2",
     "phpunit/phpunit": "~7.0",
     "laravel/browser-kit-testing": "~4.0",
     "laravel/tinker": "^1.0",
     "barryvdh/laravel-debugbar": "^3.2",
-    "filp/whoops": "^2.3",
+    "filp/whoops": "^2.4",
     "beyondcode/laravel-dump-server": "^1.2"
   },
   "autoload": {
