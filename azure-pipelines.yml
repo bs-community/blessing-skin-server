@@ -1,0 +1,12 @@
+trigger:
+- master
+- dev
+
+pr: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+- pwsh: ./scripts/release.ps1
+  displayName: 'Release'
