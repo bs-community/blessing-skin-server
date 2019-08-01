@@ -38,7 +38,7 @@ class PackageManager
         }
 
         Cache::forget($this->cacheKey);
-        if (is_string($shasum) && sha1_file($path) != $shasum) {
+        if (is_string($shasum) && sha1_file($path) != strtolower($shasum)) {
             @unlink($path);
             throw new Exception(trans('admin.download.errors.shasum'));
         }
