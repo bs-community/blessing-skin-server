@@ -203,7 +203,7 @@ resources:
     hint: 如果地址不对将导致前端文件无法加载
     description: |
       填写的 CDN 地址必须是 <code>/public</code> 目录的镜像，此目录下的所有文件都将会从 CDN 加载。<br>
-      <b>测试方法</b>：检查 <code>{填写的地址}/app/index.js</code> 是否能够访问。
+      <b>测试方法</b>：检查 <code>{填写的地址}/app/manifest.json</code> 是否能够访问。
 
 redis:
   enable_redis:

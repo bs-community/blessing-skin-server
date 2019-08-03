@@ -204,7 +204,7 @@ resources:
     description: |
       The CDN URL you give must refer to a mirror of <code>/public</code> directory,
       all the files of that directory will be loaded as CDN.<br>
-      <b>How to verify?</b> Verify if <code>{Your CDN URL}/app/index.js</code> can be accessed.
+      <b>How to verify?</b> Verify if <code>{Your CDN URL}/app/manifest.json</code> can be accessed.
 
 redis:
   enable_redis:
