@@ -23,7 +23,7 @@ class Captcha implements Rule
                         'secret' => $secretkey,
                         'response' => $value,
                     ],
-                    'verify' => resource_path('misc/ca-bundle.crt'),
+                    'verify' => \Composer\CaBundle\CaBundle::getSystemCaRootBundlePath(),
                 ]);
                 if ($response->getStatusCode() == 200) {
                     $body = json_decode((string) $response->getBody());

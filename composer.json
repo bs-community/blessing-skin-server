@@ -24,7 +24,8 @@
     "guzzlehttp/guzzle": "^6.3",
     "doctrine/dbal": "^2.9",
     "tymon/jwt-auth": "dev-develop",
-    "laravel/passport": "^7.3"
+    "laravel/passport": "^7.3",
+    "composer/ca-bundle": "^1.2"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.8",

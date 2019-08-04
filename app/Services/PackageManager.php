@@ -31,7 +31,7 @@ class PackageManager
             $this->guzzle->request('GET', $url, [
                 'sink' => $path,
                 'progress' => $this->onProgress,
-                'verify' => resource_path('misc/ca-bundle.crt'),
+                'verify' => \Composer\CaBundle\CaBundle::getSystemCaRootBundlePath(),
             ]);
         } catch (Exception $e) {
             throw new Exception(trans('admin.download.errors.download', ['error' => $e->getMessage()]));

@@ -73,7 +73,7 @@ class UpdateController extends Controller
                 $json = $this->guzzle->request(
                     'GET',
                     $this->updateSource,
-                    ['verify' => resource_path('misc/ca-bundle.crt')]
+                    ['verify' => \Composer\CaBundle\CaBundle::getSystemCaRootBundlePath()]
                 )->getBody();
                 $info = json_decode($json, true);
                 if (Arr::get($info, 'spec') == $acceptableSpec) {
