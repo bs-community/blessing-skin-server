@@ -18,7 +18,7 @@ use App\Exceptions\PrettyPageException;
 
 class AuthController extends Controller
 {
-    public function handleLogin(Request $request, Captcha $captcha)
+    public function handleLogin(Request $request, Captcha $captcha, User $users)
     {
         $this->validate($request, [
             'identification' => 'required',
@@ -33,7 +33,7 @@ class AuthController extends Controller
         event(new Events\UserTryToLogin($identification, $authType));
 
         if ($authType == 'email') {
-            $user = User::where('email', $identification)->first();
+            $user = $users->where('email', $identification)->first();
         } else {
             $player = Player::where('name', $identification)->first();
             $user = $player ? $player->user : null;
@@ -99,7 +99,7 @@ class AuthController extends Controller
         }
     }
 
-    public function handleRegister(Request $request, Captcha $captcha)
+    public function handleRegister(Request $request, Captcha $captcha, User $users)
     {
         if (! option('user_can_register')) {
             return json(trans('auth.register.close'), 7);
@@ -124,7 +124,7 @@ class AuthController extends Controller
 
         // If amount of registered accounts of IP is more than allowed amounts,
         // then reject the register.
-        if (User::where('ip', get_client_ip())->count() >= option('regs_per_ip')) {
+        if ($users->where('ip', get_client_ip())->count() >= option('regs_per_ip')) {
             return json(trans('auth.register.max', ['regs' => option('regs_per_ip')]), 7);
         }
 
@@ -173,7 +173,7 @@ class AuthController extends Controller
         }
     }
 
-    public function handleForgot(Request $request, Captcha $captcha)
+    public function handleForgot(Request $request, Captcha $captcha, User $users)
     {
         $this->validate($request, [
             'captcha' => ['required', $captcha],
@@ -192,7 +192,7 @@ class AuthController extends Controller
             return json(trans('auth.forgot.frequent-mail'), 2);
         }
 
-        $user = User::where('email', $request->email)->first();
+        $user = $users->where('email', $request->email)->first();
 
         if (! $user) {
             return json(trans('auth.forgot.unregistered'), 1);
@@ -213,18 +213,18 @@ class AuthController extends Controller
         return json(trans('auth.forgot.success'), 0);
     }
 
-    public function reset($uid)
+    public function reset(User $users, $uid)
     {
-        return view('auth.reset')->with('user', User::find($uid));
+        return view('auth.reset')->with('user', $users->find($uid));
     }
 
-    public function handleReset($uid, Request $request)
+    public function handleReset(Request $request, User $users, $uid)
     {
         $validated = $this->validate($request, [
             'password' => 'required|min:8|max:32',
         ]);
 
-        User::find($uid)->changePassword($validated['password']);
+        $users->find($uid)->changePassword($validated['password']);
 
         return json(trans('auth.reset.success'), 0);
     }
@@ -239,13 +239,13 @@ class AuthController extends Controller
         return redirect('/user');
     }
 
-    public function verify($uid)
+    public function verify(User $users, $uid)
     {
         if (! option('require_verification')) {
             throw new PrettyPageException(trans('user.verification.disabled'), 1);
         }
 
-        $user = User::find($uid);
+        $user = $users->find($uid);
 
         if (! $user || $user->verified) {
             throw new PrettyPageException(trans('auth.verify.invalid'), 1);

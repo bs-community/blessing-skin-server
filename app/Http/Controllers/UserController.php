@@ -194,7 +194,7 @@ class UserController extends Controller
             ]);
     }
 
-    public function handleProfile(Request $request)
+    public function handleProfile(Request $request, User $users)
     {
         $action = $request->input('action', '');
         $user = Auth::user();
@@ -242,7 +242,7 @@ class UserController extends Controller
                     'password'  => 'required|min:6|max:32',
                 ]);
 
-                if (User::where('email', $request->new_email)->count() > 0) {
+                if ($users->where('email', $request->new_email)->count() > 0) {
                     return json(trans('user.profile.email.existed'), 1);
                 }
 

@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use View;
-use Option;
 use App\Models\User;
 use App\Models\Texture;
 use Illuminate\Http\Request;
@@ -65,7 +63,7 @@ class ClosetController extends Controller
         ]);
     }
 
-    public function add(Request $request)
+    public function add(Request $request, User $users)
     {
         $this->validate($request, [
             'tid'  => 'required|integer',
@@ -99,7 +97,7 @@ class ClosetController extends Controller
         $texture->likes++;
         $texture->save();
 
-        $uploader = User::find($texture->uploader);
+        $uploader = $users->find($texture->uploader);
         if ($uploader && $uploader->uid != $user->uid) {
             $uploader->score += option('score_award_per_like', 0);
             $uploader->save();
@@ -122,7 +120,7 @@ class ClosetController extends Controller
         return json(trans('user.closet.rename.success', ['name' => $request->name]), 0);
     }
 
-    public function remove($tid)
+    public function remove(User $users, $tid)
     {
         $user = auth()->user();
 
@@ -141,7 +139,7 @@ class ClosetController extends Controller
         $texture->likes--;
         $texture->save();
 
-        $uploader = User::find($texture->uploader);
+        $uploader = $users->find($texture->uploader);
         $uploader->score -= option('score_award_per_like', 0);
         $uploader->save();
 

@@ -21,7 +21,7 @@
                     <div class="col-md-6">
                         <div class="small-box bg-aqua">
                             <div class="inner">
-                                <h3>{{ App\Models\User::count() }}</h3>
+                                <h3>{{ resolve(\App\Models\User::class)->count() }}</h3>
                                 <p>@lang('admin.index.total-users')</p>
                             </div>
                             <div class="icon"><i class="fas fa-users"></i></div>

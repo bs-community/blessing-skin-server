@@ -47,7 +47,7 @@ class ReportController extends Controller
             ->get();
     }
 
-    public function manage(Request $request)
+    public function manage(Request $request, User $users)
     {
         $search = $request->input('search', '');
         $sortField = $request->input('sortField', 'report_at');
@@ -63,8 +63,8 @@ class ReportController extends Controller
                         ->limit($perPage)
                         ->get()
                         ->makeHidden(['informer'])
-                        ->map(function ($report) {
-                            $uploader = User::find($report->uploader);
+                        ->map(function ($report) use ($users) {
+                            $uploader = $users->find($report->uploader);
                             if ($uploader) {
                                 $report->uploaderName = $uploader->nickname;
                             }
@@ -81,7 +81,7 @@ class ReportController extends Controller
         ];
     }
 
-    public function review(Request $request)
+    public function review(Request $request, User $users)
     {
         $data = $this->validate($request, [
             'id' => 'required|exists:reports',
@@ -118,7 +118,7 @@ class ReportController extends Controller
                 }
                 break;
             case 'ban':
-                $uploader = User::find($report->uploader);
+                $uploader = $users->find($report->uploader);
                 if (! $uploader) {
                     return json(trans('admin.users.operations.non-existent'), 1);
                 }

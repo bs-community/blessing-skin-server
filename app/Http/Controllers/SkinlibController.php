@@ -116,7 +116,7 @@ class SkinlibController extends Controller
         ]);
     }
 
-    public function show($tid)
+    public function show(User $users, $tid)
     {
         $texture = Texture::find($tid);
         $user = Auth::user();
@@ -147,7 +147,7 @@ class SkinlibController extends Controller
                 'currentUid' => $user ? $user->uid : 0,
                 'admin' => $user && $user->isAdmin(),
                 'inCloset' => $user && $user->closet()->where('tid', $texture->tid)->count() > 0,
-                'nickname' => ($up = User::find($texture->uploader)) ? $up->nickname : null,
+                'nickname' => ($up = $users->find($texture->uploader)) ? $up->nickname : null,
                 'report' => intval(option('reporter_score_modification', 0)),
             ]);
     }
@@ -264,10 +264,10 @@ class SkinlibController extends Controller
         return json(trans('skinlib.delete.success'), 0);
     }
 
-    public function privacy(Request $request)
+    public function privacy(Request $request, User $users)
     {
         $t = Texture::find($request->input('tid'));
-        $user = Auth::user();
+        $user = $request->user();
 
         if (! $t) {
             return json(trans('skinlib.non-existent'), 1);
@@ -277,7 +277,7 @@ class SkinlibController extends Controller
             return json(trans('skinlib.no-permission'), 1);
         }
 
-        $uploader = User::find($t->uploader);
+        $uploader = $users->find($t->uploader);
         $score_diff = $t->size * (option('private_score_per_storage') - option('score_per_storage')) * ($t->public ? -1 : 1);
         if ($t->public && option('take_back_scores_after_deletion', true)) {
             $score_diff -= option('score_award_per_texture', 0);
@@ -318,7 +318,7 @@ class SkinlibController extends Controller
             'tid'      => 'required|integer',
             'new_name' => 'required|no_special_chars',
         ]);
-        $user = Auth::user();
+        $user = $request->user();
         $t = Texture::find($request->input('tid'));
 
         if (! $t) {
@@ -340,7 +340,7 @@ class SkinlibController extends Controller
 
     public function model(Request $request)
     {
-        $user = Auth::user();
+        $user = $request->user();
         $data = $this->validate($request, [
             'tid'      => 'required|integer',
             'model'    => 'required|in:steve,alex,cape',
