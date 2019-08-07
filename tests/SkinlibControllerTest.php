@@ -97,7 +97,7 @@ class SkinlibControllerTest extends TestCase
         // Sort by `tid`
         $ordered = $skins->sortByDesc('tid')->map(function ($skin) {
             return $skin->tid;
-        })->values();
+        })->values()->all();
         $items = $this->getJson('/skinlib/data?sort=tid')
             ->assertJson(['data' => [
                 'current_uid' => 0,
@@ -107,7 +107,7 @@ class SkinlibControllerTest extends TestCase
         $items = array_map(function ($item) {
             return $item['tid'];
         }, $items);
-        $this->assertArraySubset($ordered, $items);
+        $this->assertEquals($ordered, $items);
 
         // Search
         $keyword = Str::limit($skins->random()->name, 1, '');
@@ -135,7 +135,8 @@ class SkinlibControllerTest extends TestCase
             ->map(function ($skin) {
                 return $skin->tid;
             })
-            ->values();
+            ->values()
+            ->all();
         $items = $this->getJson('/skinlib/data?sort=size&keyword='.$keyword)
             ->assertJson(['data' => [
                 'current_uid' => 0,
@@ -145,8 +146,8 @@ class SkinlibControllerTest extends TestCase
         $items = array_map(function ($item) {
             return $item['tid'];
         }, $items);
-        $this->assertCount($filtered->count(), $items);
-        $this->assertArraySubset($filtered, $items);
+        $this->assertCount(count($filtered), $items);
+        $this->assertEquals($filtered, $items);
 
         // Pagination
         $steves = factory(Texture::class)
