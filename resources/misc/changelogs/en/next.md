@@ -5,6 +5,7 @@
 ## Tweaked
 
 - Tweaked policy of retrieve CA cert for GuzzleHttp.
+- Refactor account system.
 
 ## Fixed
 
