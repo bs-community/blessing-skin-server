@@ -53,7 +53,6 @@ class User extends Authenticatable implements JWTSubject
             'last_sign_at',
             'register_at',
             'verified',
-            'remember_token',
         ];
         array_walk($columns, function ($column) {
             static::$mappings[$column] = Arr::get(static::$mappings, $column, $column);
@@ -207,16 +206,6 @@ class User extends Authenticatable implements JWTSubject
     public function setVerifiedAttribute($value)
     {
         $this->attributes[static::$mappings['verified']] = $value;
-    }
-
-    public function getRememberTokenAttribute()
-    {
-        return $this->attributes[static::$mappings['remember_token']];
-    }
-
-    public function setRememberTokenAttribute($value)
-    {
-        $this->attributes[static::$mappings['remember_token']] = $value;
     }
 
     public function getPlayerNameAttribute()

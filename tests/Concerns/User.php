@@ -17,6 +17,5 @@ class User extends Model
         'last_sign_at' => 'bs_last_sign_at',
         'register_at' => 'bs_register_at',
         'verified' => 'bs_verified',
-        'remember_token' => 'bs_remember_token',
     ];
 }
