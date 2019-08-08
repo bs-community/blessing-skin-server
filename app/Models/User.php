@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Arr;
 use Laravel\Passport\HasApiTokens;
 use App\Models\Concerns\HasPassword;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject
@@ -19,7 +21,7 @@ class User extends Authenticatable implements JWTSubject
     const ADMIN = 1;
     const SUPER_ADMIN = 2;
 
-    public $primaryKey = 'uid';
+    protected $primaryKey = 'uid';
     public $timestamps = false;
     protected $fillable = ['email', 'nickname', 'permission'];
 
@@ -33,6 +35,65 @@ class User extends Authenticatable implements JWTSubject
 
     protected $hidden = ['password', 'remember_token'];
 
+    protected static $mappings = [];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        $columns = [
+            'uid',
+            'email',
+            'nickname',
+            'score',
+            'avatar',
+            'password',
+            'ip',
+            'permission',
+            'last_sign_at',
+            'register_at',
+            'verified',
+            'remember_token',
+        ];
+        array_walk($columns, function ($column) {
+            static::$mappings[$column] = Arr::get(static::$mappings, $column, $column);
+        });
+
+        static::addGlobalScope(function (Builder $builder) {
+            $query = $builder->getQuery();
+
+            $mapItem = function ($item) {
+                if (Arr::has(static::$mappings, $item['column'])) {
+                    $item['column'] = static::$mappings[$item['column']];
+                }
+                return $item;
+            };
+            $mapColumn = function ($column) {
+                if (Arr::has(static::$mappings, $column)) {
+                    return static::$mappings[$column];
+                }
+                return $column;
+            };
+
+            $query->wheres = array_map($mapItem, $query->wheres);
+            if ($query->columns) {
+                $query->columns = array_map($mapColumn, $query->columns);
+            }
+            if ($query->orders) {
+                $query->orders = array_map($mapItem, $query->orders);
+            }
+            if ($query->groups) {
+                $query->groups = array_map($mapColumn, $query->groups);
+            }
+            if ($query->havings) {
+                $query->havings = array_map($mapItem, $query->havings);
+            }
+
+            $builder->setQuery($query);
+            return $builder;
+        });
+    }
+
     public function isAdmin()
     {
         return $this->permission >= static::ADMIN;
@@ -41,6 +102,121 @@ class User extends Authenticatable implements JWTSubject
     public function closet()
     {
         return $this->belongsToMany(Texture::class, 'user_closet')->withPivot('item_name');
+    }
+
+    public function getUidAttribute()
+    {
+        return $this->attributes[$this->primaryKey];
+    }
+
+    public function getEmailAttribute()
+    {
+        return $this->attributes[static::$mappings['email']];
+    }
+
+    public function setEmailAttribute($value)
+    {
+        $this->attributes[static::$mappings['email']] = $value;
+    }
+
+    public function getNicknameAttribute()
+    {
+        return $this->attributes[static::$mappings['nickname']];
+    }
+
+    public function setNicknameAttribute($value)
+    {
+        $this->attributes[static::$mappings['nickname']] = $value;
+    }
+
+    public function getScoreAttribute()
+    {
+        return $this->attributes[static::$mappings['score']];
+    }
+
+    public function setScoreAttribute($value)
+    {
+        $this->attributes[static::$mappings['score']] = $value;
+    }
+
+    public function getAvatarAttribute()
+    {
+        return $this->attributes[static::$mappings['avatar']];
+    }
+
+    public function setAvatarAttribute($value)
+    {
+        $this->attributes[static::$mappings['avatar']] = $value;
+    }
+
+    public function getPasswordAttribute()
+    {
+        return $this->attributes[static::$mappings['password']];
+    }
+
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes[static::$mappings['password']] = $value;
+    }
+
+    public function getIpAttribute()
+    {
+        return $this->attributes[static::$mappings['ip']];
+    }
+
+    public function setIpAttribute($value)
+    {
+        $this->attributes[static::$mappings['ip']] = $value;
+    }
+
+    public function getPermissionAttribute()
+    {
+        return $this->attributes[static::$mappings['permission']];
+    }
+
+    public function setPermissionAttribute($value)
+    {
+        $this->attributes[static::$mappings['permission']] = $value;
+    }
+
+    public function getLastSignAtAttribute()
+    {
+        return $this->attributes[static::$mappings['last_sign_at']];
+    }
+
+    public function setLastSignAtAttribute($value)
+    {
+        $this->attributes[static::$mappings['last_sign_at']] = $value;
+    }
+
+    public function getRegisterAtAttribute()
+    {
+        return $this->attributes[static::$mappings['register_at']];
+    }
+
+    public function setRegisterAtAttribute($value)
+    {
+        $this->attributes[static::$mappings['register_at']] = $value;
+    }
+
+    public function getVerifiedAttribute()
+    {
+        return $this->attributes[static::$mappings['verified']];
+    }
+
+    public function setVerifiedAttribute($value)
+    {
+        $this->attributes[static::$mappings['verified']] = $value;
+    }
+
+    public function getRememberTokenAttribute()
+    {
+        return $this->attributes[static::$mappings['remember_token']];
+    }
+
+    public function setRememberTokenAttribute($value)
+    {
+        $this->attributes[static::$mappings['remember_token']] = $value;
     }
 
     public function getPlayerNameAttribute()
