@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 use Cache;
 use Storage;
-use Minecraft;
+use App\Services\Minecraft;
 
 class CacheSkinPreview
 {
