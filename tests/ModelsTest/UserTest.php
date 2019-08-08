@@ -16,26 +16,49 @@ class UserTest extends TestCase
 
     public function testConvertQuery()
     {
-        $this->assertStringContainsString(
-            'where `bs_email`',
-            ExtendedUser::where('email', '')->toSql()
-        );
-        $this->assertStringContainsString(
-            'select `bs_email` from',
-            ExtendedUser::select(['email'])->toSql()
-        );
-        $this->assertStringContainsString(
-            'order by `bs_score`',
-            ExtendedUser::orderBy('score')->toSql()
-        );
-        $this->assertStringContainsString(
-            'group by `bs_permission`',
-            ExtendedUser::groupBy('permission')->toSql()
-        );
-        $this->assertStringContainsString(
-            'having `bs_permission`',
-            ExtendedUser::having('permission')->toSql()
-        );
+        if (config('database.default') == 'mysql') {
+            $this->assertStringContainsString(
+                'where `bs_email`',
+                ExtendedUser::where('email', '')->toSql()
+            );
+            $this->assertStringContainsString(
+                'select `bs_email` from',
+                ExtendedUser::select(['email'])->toSql()
+            );
+            $this->assertStringContainsString(
+                'order by `bs_score`',
+                ExtendedUser::orderBy('score')->toSql()
+            );
+            $this->assertStringContainsString(
+                'group by `bs_permission`',
+                ExtendedUser::groupBy('permission')->toSql()
+            );
+            $this->assertStringContainsString(
+                'having `bs_permission`',
+                ExtendedUser::having('permission')->toSql()
+            );
+        } else {
+            $this->assertStringContainsString(
+                'where "bs_email"',
+                ExtendedUser::where('email', '')->toSql()
+            );
+            $this->assertStringContainsString(
+                'select "bs_email" from',
+                ExtendedUser::select(['email'])->toSql()
+            );
+            $this->assertStringContainsString(
+                'order by "bs_score"',
+                ExtendedUser::orderBy('score')->toSql()
+            );
+            $this->assertStringContainsString(
+                'group by "bs_permission"',
+                ExtendedUser::groupBy('permission')->toSql()
+            );
+            $this->assertStringContainsString(
+                'having "bs_permission"',
+                ExtendedUser::having('permission')->toSql()
+            );
+        }
     }
 
     public function testGetUidAttribute()
