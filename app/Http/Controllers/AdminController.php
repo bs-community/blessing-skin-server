@@ -521,7 +521,7 @@ class AdminController extends Controller
 
         $owner = $player->user;
         if (
-            $owner && $owner->uid != $currentUser->uid &&
+            $owner && $owner->uid !== $currentUser->uid &&
             $owner->permission >= $currentUser->permission
         ) {
             return json(trans('admin.players.no-permission'), 1);

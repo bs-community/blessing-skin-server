@@ -105,7 +105,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function getUidAttribute()
     {
-        return $this->attributes[$this->primaryKey];
+        return intval($this->attributes[$this->primaryKey]);
     }
 
     public function getEmailAttribute()
@@ -130,7 +130,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function getScoreAttribute()
     {
-        return $this->attributes[static::$mappings['score']];
+        return intval($this->attributes[static::$mappings['score']]);
     }
 
     public function setScoreAttribute($value)
@@ -140,7 +140,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function getAvatarAttribute()
     {
-        return $this->attributes[static::$mappings['avatar']];
+        return intval($this->attributes[static::$mappings['avatar']]);
     }
 
     public function setAvatarAttribute($value)
@@ -170,7 +170,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function getPermissionAttribute()
     {
-        return $this->attributes[static::$mappings['permission']];
+        return intval($this->attributes[static::$mappings['permission']]);
     }
 
     public function setPermissionAttribute($value)
@@ -200,7 +200,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function getVerifiedAttribute()
     {
-        return $this->attributes[static::$mappings['verified']];
+        return boolval($this->attributes[static::$mappings['verified']]);
     }
 
     public function setVerifiedAttribute($value)
