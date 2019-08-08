@@ -68,10 +68,7 @@ class User extends Authenticatable implements JWTSubject
                 return $item;
             };
             $mapColumn = function ($column) {
-                if (Arr::has(static::$mappings, $column)) {
-                    return static::$mappings[$column];
-                }
-                return $column;
+                return Arr::get(static::$mappings, $column, $column);
             };
 
             $query->wheres = array_map($mapItem, $query->wheres);
