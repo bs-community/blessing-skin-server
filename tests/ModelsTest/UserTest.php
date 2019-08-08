@@ -224,24 +224,6 @@ class UserTest extends TestCase
         });
     }
 
-    public function testRememberTokenAttribute()
-    {
-        factory(User::class)->create();
-        Schema::table('users', function (Blueprint $table) {
-            $table->renameColumn('remember_token', 'bs_remember_token');
-        });
-        $user = ExtendedUser::first();
-        $this->assertEquals($user->getAttribute('bs_remember_token'), $user->remember_token);
-
-        $user->remember_token = 'abc';
-        $user->save();
-        $this->assertDatabaseHas('users', ['bs_remember_token' => 'abc']);
-
-        Schema::table('users', function (Blueprint $table) {
-            $table->renameColumn('bs_remember_token', 'remember_token');
-        });
-    }
-
     public function testGetPlayerNameAttribute()
     {
         $user = factory(User::class)->create();
