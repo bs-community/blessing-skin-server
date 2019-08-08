@@ -10,3 +10,4 @@
 
 - Some fields at administration panel shouldn't be sortable.
 - Add missing l10n text.
+- Fixed that model was reset after resetting skin previewing.

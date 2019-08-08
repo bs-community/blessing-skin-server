@@ -102,9 +102,14 @@ test('reset', () => {
       this.disposed = true
     }.bind(new mockedSkinview3d.SkinViewer())
   )
-  const wrapper = mount(Previewer)
+  const wrapper = mount<Viewer>(Previewer, {
+    propsData: {
+      model: 'alex',
+    },
+  })
   wrapper.find('.fa-stop').trigger('click')
   expect(mockedSkinview3d.SkinViewer.prototype.dispose).toBeCalled()
+  expect(wrapper.vm.viewer.playerObject.skin.slim).toBeTrue()
 })
 
 test('custom title', () => {

@@ -159,6 +159,7 @@ export default {
       this.handles.run.paused = true
       this.handles.rotate.paused = true
       this.viewer.camera.position.z = 70
+      this.viewer.playerObject.skin.slim = this.model === 'alex'
     },
   },
 }
