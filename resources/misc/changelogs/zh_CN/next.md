@@ -1,6 +1,8 @@
 ## 新增
 
 - 插件系统：`config.blade.php` 为默认情况下配置视图文件名
+- 支持以 `php artisan plugin:enable {name}` 的方式开启插件
+- 支持以 `php artisan plugin:disable {name}` 的方式关闭插件
 
 ## 调整
 

@@ -1,6 +1,8 @@
 ## Added
 
 - Plugin system: `config.blade.php` as default config file name.
+- Allow to enable a plugin by running `php artisan plugin:enable {name}`.
+- Allow to disable a plugin by running `php artisan plugin:disable {name}`.
 
 ## Tweaked
 

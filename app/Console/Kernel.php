@@ -19,5 +19,7 @@ class Kernel extends ConsoleKernel
         Commands\MigrateCloset::class,
         Commands\ExecuteInstallation::class,
         Commands\RegressLikesField::class,
+        Commands\EnablePlugin::class,
+        Commands\DisablePlugin::class,
     ];
 }
