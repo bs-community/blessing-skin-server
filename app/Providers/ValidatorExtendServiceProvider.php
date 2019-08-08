@@ -46,9 +46,4 @@ class ValidatorExtendServiceProvider extends ServiceProvider
             return preg_match($regexp, $value);
         });
     }
-
-    public function register()
-    {
-        //
-    }
 }

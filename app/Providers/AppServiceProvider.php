@@ -14,6 +14,19 @@ use Illuminate\Support\ServiceProvider;
 class AppServiceProvider extends ServiceProvider
 {
     /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->singleton('cipher', 'App\Services\Cipher\\'.config('secure.cipher'));
+        $this->app->singleton('options', \App\Services\Option::class);
+        $this->app->singleton('parsedown', \Parsedown::class);
+        $this->app->singleton('webpack', \App\Services\Webpack::class);
+    }
+
+    /**
      * Bootstrap any application services.
      *
      * @return void
@@ -61,19 +74,6 @@ class AppServiceProvider extends ServiceProvider
             //
         }
         // @codeCoverageIgnoreEnd
-    }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        $this->app->singleton('cipher', 'App\Services\Cipher\\'.config('secure.cipher'));
-        $this->app->singleton('options', \App\Services\Option::class);
-        $this->app->singleton('parsedown', \Parsedown::class);
-        $this->app->singleton('webpack', \App\Services\Webpack::class);
     }
 
     /**

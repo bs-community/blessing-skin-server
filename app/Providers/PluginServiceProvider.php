@@ -12,6 +12,16 @@ use Illuminate\Support\ServiceProvider;
 class PluginServiceProvider extends ServiceProvider
 {
     /**
+     * Register any application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->singleton('plugins', PluginManager::class);
+    }
+
+    /**
      * Bootstrap any application services.
      *
      * @return void
@@ -81,16 +91,6 @@ class PluginServiceProvider extends ServiceProvider
                 return $callback ? app()->call($callback, [$event->plugin]) : null;
             }
         });
-    }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        $this->app->singleton('plugins', PluginManager::class);
     }
 
     /**

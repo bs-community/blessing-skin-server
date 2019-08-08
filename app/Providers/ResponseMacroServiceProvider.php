@@ -54,14 +54,4 @@ class ResponseMacroServiceProvider extends ServiceProvider
             ], $header));
         });
     }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
-    }
 }
