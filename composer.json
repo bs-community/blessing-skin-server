@@ -25,7 +25,8 @@
     "doctrine/dbal": "^2.9",
     "tymon/jwt-auth": "dev-develop",
     "laravel/passport": "^7.3",
-    "composer/ca-bundle": "^1.2"
+    "composer/ca-bundle": "^1.2",
+    "tormjens/eventy": "^0.5.7"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.8",
