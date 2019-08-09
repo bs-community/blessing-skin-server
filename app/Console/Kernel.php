@@ -17,9 +17,9 @@ class Kernel extends ConsoleKernel
         Commands\SaltRandomCommand::class,
         Commands\MigratePlayersTable::class,
         Commands\MigrateCloset::class,
-        Commands\ExecuteInstallation::class,
+        Commands\BsInstallCommand::class,
         Commands\RegressLikesField::class,
-        Commands\EnablePlugin::class,
-        Commands\DisablePlugin::class,
+        Commands\PluginEnableCommand::class,
+        Commands\PluginDisableCommand::class,
     ];
 }

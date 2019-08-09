@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Services\PluginManager;
 use Illuminate\Console\Command;
 
-class EnablePlugin extends Command
+class PluginEnableCommand extends Command
 {
     /**
      * The name and signature of the console command.

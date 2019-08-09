@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Models\User;
 use Illuminate\Console\Command;
 
-class ExecuteInstallation extends Command
+class BsInstallCommand extends Command
 {
     protected $signature = 'bs:install {email} {password} {nickname}';
 
@@ -27,11 +27,7 @@ class ExecuteInstallation extends Command
         $this->call('jwt:secret', ['--no-interaction' => true]);
         $this->call('passport:keys', ['--no-interaction' => true]);
 
-        $siteUrl = url('/');
-        if (ends_with($siteUrl, '/index.php')) {
-            $siteUrl = substr($siteUrl, 0, -10);
-        }
-        option(['site_url' => $siteUrl]);
+        option(['site_url' => url('/')]);
 
         $admin = new User;
         $admin->email = $this->argument('email');

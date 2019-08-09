@@ -4,7 +4,7 @@ namespace Tests;
 
 use App\Services\PluginManager;
 
-class DisablePluginTest extends TestCase
+class PluginDisableCommandTest extends TestCase
 {
     public function testDisablePlugin()
     {

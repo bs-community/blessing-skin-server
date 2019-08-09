@@ -4,7 +4,7 @@ namespace Tests;
 
 use App\Services\PluginManager;
 
-class EnablePluginTest extends TestCase
+class PluginEnableCommandTest extends TestCase
 {
     public function testEnablePlugin()
     {
