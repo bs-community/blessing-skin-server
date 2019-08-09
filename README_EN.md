@@ -7,7 +7,7 @@
 <a href="https://circleci.com/gh/bs-community/blessing-skin-server"><img src="https://flat.badgen.net/circleci/github/bs-community/blessing-skin-server" alt="Circle CI Status"></a>
 <a href="https://codecov.io/gh/bs-community/blessing-skin-server/branch"><img src="https://flat.badgen.net/codecov/c/github/bs-community/blessing-skin-server" alt="Codecov" /></a>
 <a href="https://github.com/bs-community/blessing-skin-server/releases"><img src="https://flat.badgen.net/github/release/bs-community/blessing-skin-server" alt="Latest Stable Version"></a>
-<img src="https://flat.badgen.net/badge/PHP/7.1.8+/orange" alt="PHP 7.1.8+">
+<img src="https://flat.badgen.net/badge/PHP/7.2.12+/orange" alt="PHP 7.2.12+">
 <img src="https://flat.badgen.net/github/license/bs-community/blessing-skin-server" alt="License">
 </p>
 
@@ -40,7 +40,7 @@ Blessing Skin is an open-source project written in PHP, which means you can depl
 Blessing Skin has only a few system requirements. _In most cases, these PHP extensions are already enabled._
 
 - Web server with URL rewriting enabled
-- **PHP >= 7.1.8** (use v2.x branch if your server doesn't meet the requirements)
+- **PHP >= 7.2.12** (use v2.x branch if your server doesn't meet the requirements)
 - OpenSSL PHP Extension
 - PDO PHP Extension
 - Mbstring PHP Extension

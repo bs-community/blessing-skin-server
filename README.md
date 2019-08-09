@@ -7,7 +7,7 @@
 <a href="https://circleci.com/gh/bs-community/blessing-skin-server"><img src="https://flat.badgen.net/circleci/github/bs-community/blessing-skin-server" alt="Circle CI Status"></a>
 <a href="https://codecov.io/gh/bs-community/blessing-skin-server/branch"><img src="https://flat.badgen.net/codecov/c/github/bs-community/blessing-skin-server" alt="Codecov" /></a>
 <a href="https://github.com/bs-community/blessing-skin-server/releases"><img src="https://flat.badgen.net/github/release/bs-community/blessing-skin-server" alt="Latest Stable Version"></a>
-<img src="https://flat.badgen.net/badge/PHP/7.1.8+/orange" alt="PHP 7.1.8+">
+<img src="https://flat.badgen.net/badge/PHP/7.2.12+/orange" alt="PHP 7.2.12+">
 <img src="https://flat.badgen.net/github/license/bs-community/blessing-skin-server" alt="License">
 </p>
 
@@ -40,7 +40,7 @@ Blessing Skin 是一个开源的 PHP 项目，这意味着您可以自由地在�
 Blessing Skin 对您的服务器有一定的要求。_在大多数情况下，下列所需的 PHP 扩展已经开启。_
 
 - 一台支持 URL 重写的主机，Nginx、Apache 或 IIS
-- **PHP >= 7.1.8** [（服务器不支持？）](https://github.com/bs-community/blessing-skin-server/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
+- **PHP >= 7.2.12** [（服务器不支持？）](https://github.com/bs-community/blessing-skin-server/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
 - 安装并启用如下 PHP 扩展：
     - OpenSSL
     - PDO

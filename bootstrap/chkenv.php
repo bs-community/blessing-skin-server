@@ -7,10 +7,10 @@
         exit($error);
     }
 
-    if (version_compare(PHP_VERSION, '7.1.8', '<')) {
+    if (version_compare(PHP_VERSION, '7.2.12', '<')) {
         die_with_utf8_encoding(
-            '[Error] Blessing Skin requires PHP version >= 7.1.8, you are now using '.PHP_VERSION.'<br>'.
-            '[错误] 你的 PHP 版本过低（'.PHP_VERSION.'），Blessing Skin 要求至少为 7.1.8'
+            '[Error] Blessing Skin requires PHP version >= 7.2.12, you are now using '.PHP_VERSION.'<br>'.
+            '[错误] 你的 PHP 版本过低（'.PHP_VERSION.'），Blessing Skin 要求至少为 7.2.12'
         );
     }
 
