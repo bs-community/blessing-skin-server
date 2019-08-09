@@ -15,10 +15,7 @@ class Kernel extends ConsoleKernel
         \Laravel\Passport\Console\KeysCommand::class,
         Commands\KeyRandomCommand::class,
         Commands\SaltRandomCommand::class,
-        Commands\MigratePlayersTable::class,
-        Commands\MigrateCloset::class,
         Commands\BsInstallCommand::class,
-        Commands\RegressLikesField::class,
         Commands\PluginEnableCommand::class,
         Commands\PluginDisableCommand::class,
     ];
