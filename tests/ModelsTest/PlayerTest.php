@@ -21,12 +21,10 @@ class PlayerTest extends TestCase
         $this->assertFalse($player->getTexture('invalid_type'));
     }
 
-    /**
-     * @expectedException InvalidArgumentException
-     */
     public function testGetJsonProfile()
     {
         $player = factory(Player::class)->make();
+        $this->expectException(\InvalidArgumentException::class);
         $this->assertNull($player->getJsonProfile(-1));
     }
 
