@@ -65,6 +65,6 @@ class SaltRandomCommand extends Command
      */
     protected function generateRandomSalt()
     {
-        return bin2hex(random_bytes(16));
+        return bin2hex(resolve(\Illuminate\Contracts\Encryption\Encrypter::class)->generateKey('AES-128-CBC'));
     }
 }

@@ -18,7 +18,6 @@
       <directory suffix=".php">./app</directory>
       <exclude>
         <directory suffix=".php">./app/Services/Cipher</directory>
-        <directory suffix=".php">./app/Console</directory>
       </exclude>
     </whitelist>
   </filter>

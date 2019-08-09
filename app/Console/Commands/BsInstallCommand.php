@@ -19,11 +19,15 @@ class BsInstallCommand extends Command
             return;
         }
 
-        $this->call('key:generate');
-        $this->call('salt:random');
         $this->call('migrate', ['--force' => true]);
-        $this->call('jwt:secret', ['--no-interaction' => true]);
-        $this->call('passport:keys', ['--no-interaction' => true]);
+        if (! $this->getLaravel()->runningUnitTests()) {
+            // @codeCoverageIgnoreStart
+            $this->call('key:generate');
+            $this->call('salt:random');
+            $this->call('jwt:secret', ['--no-interaction' => true]);
+            $this->call('passport:keys', ['--no-interaction' => true]);
+            // @codeCoverageIgnoreEnd
+        }
 
         option(['site_url' => url('/')]);
 
