@@ -123,11 +123,6 @@ class Plugin
         return $this;
     }
 
-    public function getViewPath(string $name): string
-    {
-        return $this->getViewPathByFileName("$name.tpl");
-    }
-
     public function getViewPathByFileName(string $filename): string
     {
         return $this->path."/views/$filename";
