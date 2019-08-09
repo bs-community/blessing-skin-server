@@ -160,7 +160,7 @@ class SetupControllerTest extends TestCase
 
         // Regenerate keys
         Artisan::shouldReceive('call')
-            ->with('key:random')
+            ->with('key:generate')
             ->once()
             ->andReturn(true);
         Artisan::shouldReceive('call')

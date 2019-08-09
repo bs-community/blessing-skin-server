@@ -13,7 +13,6 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         \Laravel\Passport\Console\KeysCommand::class,
-        Commands\KeyRandomCommand::class,
         Commands\SaltRandomCommand::class,
         Commands\BsInstallCommand::class,
         Commands\PluginEnableCommand::class,

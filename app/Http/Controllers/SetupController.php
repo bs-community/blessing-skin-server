@@ -138,7 +138,7 @@ class SetupController extends Controller
         ]);
 
         if ($request->has('generate_random')) {
-            Artisan::call('key:random');
+            Artisan::call('key:generate');
             Artisan::call('salt:random');
         }
         Artisan::call('jwt:secret', ['--no-interaction' => true]);

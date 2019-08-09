@@ -37,7 +37,7 @@ jobs:
             - vendor
           key: v1-dependencies-{{ checksum "composer.lock" }}
       - run: cp .env.testing .env
-      - run: php artisan key:random
+      - run: php artisan key:generate
       - run: php artisan salt:random
       - persist_to_workspace:
           root: ~/repo

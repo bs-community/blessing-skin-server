@@ -19,9 +19,7 @@ class BsInstallCommand extends Command
             return;
         }
 
-        if (config('app.env') != 'testing') {
-            $this->call('key:random');
-        }
+        $this->call('key:generate');
         $this->call('salt:random');
         $this->call('migrate', ['--force' => true]);
         $this->call('jwt:secret', ['--no-interaction' => true]);
