@@ -39,7 +39,7 @@ Blessing Skin is an open-source project written in PHP, which means you can depl
 
 Blessing Skin has only a few system requirements. _In most cases, these PHP extensions are already enabled._
 
-- Web server with URL rewriting enabled
+- Web server with URL rewriting enabled (Nginx or Apache)
 - **PHP >= 7.2.12** (use v2.x branch if your server doesn't meet the requirements)
 - OpenSSL PHP Extension
 - PDO PHP Extension
@@ -199,7 +199,7 @@ Congrats! You made it. Next, please refer to No.2 of **Quick Install** section.
 
 ## Configure the Web Server
 
-For Apache (most of the virtual hosts) and IIS users, there is already a pre-configured file for you. What you need is just to enjoy!
+For Apache (most of the virtual hosts) users, there is already a pre-configured file for you. What you need is just to enjoy!
 
 For Nginx users, **please add the following rules** to your Nginx configuration file:
 
