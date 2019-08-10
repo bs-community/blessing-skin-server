@@ -20,3 +20,4 @@
 
 - Removed Artisan command `php artisan key:random`.
 - Removed Artisan commands of migration for v3 to v4.
+- Dropped support of IIS.

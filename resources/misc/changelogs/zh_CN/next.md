@@ -20,3 +20,4 @@
 
 - 移除 Artisan 命令：`php artisan key:random`
 - 移除为 v3 迁移到 v4 而编写的 Artisan 命令
+- 放弃对 IIS 的支持
