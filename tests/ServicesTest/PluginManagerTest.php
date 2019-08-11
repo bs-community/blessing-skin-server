@@ -21,7 +21,6 @@ class PluginManagerTest extends TestCase
 
     public function testPreventBootAgain()
     {
-        $this->markTestSkipped('TODO');
         // TODO: modify asserting 0 times here
         $this->mock(Filesystem::class, function ($mock) {
             $mock->shouldReceive('directories')->times(1);
@@ -32,12 +31,14 @@ class PluginManagerTest extends TestCase
 
     public function testRegisterAutoload()
     {
+        $dir = config('plugins.directory');
         config(['plugins.directory' => storage_path('mocks')]);
+
         $this->assertFalse(class_exists('Fake\Faker'));
         $manager = $this->rebootPluginManager(app('plugins'));
         $this->assertTrue(class_exists('Fake\Faker'));
 
-        config(['plugins.directory' => env('PLUGINS_DIR')]);
+        config(['plugins.directory' => $dir]);
     }
 
     public function testReportDuplicatedPlugins()
