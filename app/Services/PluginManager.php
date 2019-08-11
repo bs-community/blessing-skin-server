@@ -3,9 +3,11 @@
 namespace App\Services;
 
 use Storage;
+use Exception;
 use App\Events;
 use Composer\Semver\Semver;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Composer\Semver\Comparator;
 use Illuminate\Support\Collection;
 use Illuminate\Filesystem\Filesystem;
@@ -15,6 +17,11 @@ use Illuminate\Contracts\Foundation\Application;
 
 class PluginManager
 {
+    /**
+     * @var bool
+     */
+    protected $booted = false;
+
     /**
      * @var Application
      */
@@ -55,6 +62,68 @@ class PluginManager
         $this->option = $option;
         $this->dispatcher = $dispatcher;
         $this->filesystem = $filesystem;
+    }
+
+    /**
+     * Boot all enabled plugins.
+     */
+    public function boot()
+    {
+        if ($this->booted) {
+            return;
+        }
+
+        $this->enabled = collect(json_decode($this->option->get('plugins_enabled', '[]'), true));
+        $plugins = collect();
+
+        collect($this->filesystem->directories($this->getPluginsDir()))
+            ->filter(function ($directory) {
+                return $this->filesystem->exists($directory.DIRECTORY_SEPARATOR.'package.json');
+            })
+            ->each(function ($directory) use (&$plugins) {
+                $manifest = json_decode(
+                    $this->filesystem->get($directory.DIRECTORY_SEPARATOR.'package.json'),
+                    true
+                );
+
+                $name = $manifest['name'];
+                if ($plugins->has($name)) {
+                    throw new PrettyPageException(trans('errors.plugins.duplicate', [
+                        'dir1' => $plugins->get($name)->getPath(),
+                        'dir2' => $directory,
+                    ]), 5);
+                }
+
+                $plugins->put($name, new Plugin($directory, $manifest));
+            });
+
+        // disable unsatisfied here
+
+        $this->registerAutoload($plugins->mapWithKeys(function ($plugin) {
+            return [$plugin->namespace => $plugin->getPath().'/src'];
+        }));
+
+        $this->booted = true;
+    }
+
+    /**
+     * @param Collection $paths
+     */
+    protected function registerAutoload($paths)
+    {
+        spl_autoload_register(function ($class) use ($paths) {
+            $paths->each(function ($path, $namespace) use ($class) {
+                if ($namespace != '' && mb_strpos($class, $namespace) === 0) {
+                    // Parse real file path
+                    $path = $path.Str::replaceFirst($namespace, '', $class).'.php';
+                    $path = str_replace('\\', '/', $path);
+
+                    if ($this->filesystem->exists($path)) {
+                        $this->filesystem->getRequire($path);
+                    }
+                }
+            });
+        });
     }
 
     /**
