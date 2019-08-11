@@ -19,7 +19,7 @@ class PluginManagerTest extends TestCase
         return $manager;
     }
 
-    public function testPreventBootAgain()
+    public function testPreventBootingAgain()
     {
         // TODO: modify asserting 0 times here
         $this->mock(Filesystem::class, function ($mock) {
@@ -27,18 +27,6 @@ class PluginManagerTest extends TestCase
         });
         app('plugins')->boot();
         app('plugins')->boot();
-    }
-
-    public function testRegisterAutoload()
-    {
-        $dir = config('plugins.directory');
-        config(['plugins.directory' => storage_path('mocks')]);
-
-        $this->assertFalse(class_exists('Fake\Faker'));
-        $manager = $this->rebootPluginManager(app('plugins'));
-        $this->assertTrue(class_exists('Fake\Faker'));
-
-        config(['plugins.directory' => $dir]);
     }
 
     public function testReportDuplicatedPlugins()
@@ -81,5 +69,17 @@ class PluginManagerTest extends TestCase
             'dir2' => '/yuko',
         ]));
         $manager = $this->rebootPluginManager(app('plugins'));
+    }
+
+    public function testRegisterAutoload()
+    {
+        $dir = config('plugins.directory');
+        config(['plugins.directory' => storage_path('mocks')]);
+
+        $this->assertFalse(class_exists('Fake\Faker'));
+        $manager = $this->rebootPluginManager(app('plugins'));
+        $this->assertTrue(class_exists('Fake\Faker'));
+
+        config(['plugins.directory' => $dir]);
     }
 }
