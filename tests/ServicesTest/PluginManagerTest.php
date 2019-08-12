@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Event;
 use ReflectionClass;
 use App\Services\PluginManager;
 use Illuminate\Filesystem\Filesystem;
@@ -82,6 +83,48 @@ class PluginManagerTest extends TestCase
         $manager = $this->rebootPluginManager(app('plugins'));
     }
 
+    public function testDetectVersionChanged()
+    {
+        option(['plugins_enabled' => json_encode([['name' => 'mayaka', 'version' => '0.0.0']])]);
+        Event::fake();
+        $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('directories')
+                ->with(base_path('plugins'))
+                ->once()
+                ->andReturn(collect(['/mayaka']));
+
+            $mock->shouldReceive('exists')
+                ->with('/mayaka'.DIRECTORY_SEPARATOR.'package.json')
+                ->once()
+                ->andReturn(true);
+
+            $mock->shouldReceive('get')
+                ->with('/mayaka'.DIRECTORY_SEPARATOR.'package.json')
+                ->once()
+                ->andReturn(json_encode([
+                    'name' => 'mayaka',
+                    'version' => '0.1.0',
+                ]));
+
+            $mock->shouldReceive('exists')
+                ->with('/mayaka/vendor/autoload.php')
+                ->once()
+                ->andReturn(false);
+            $mock->shouldReceive('exists')
+                ->with('/mayaka/bootstrap.php')
+                ->once()
+                ->andReturn(false);
+        });
+
+        $manager = $this->rebootPluginManager(app('plugins'));
+        Event::assertDispatched(\App\Events\PluginVersionChanged::class, function ($event) {
+            $this->assertEquals('0.1.0', $event->plugin->version);
+            return true;
+        });
+
+        option(['plugins_enabled' => '[]']);
+    }
+
     public function testLoadComposer()
     {
         option(['plugins_enabled' => json_encode([['name' => 'mayaka', 'version' => '0.0.0']])]);
@@ -151,7 +194,6 @@ class PluginManagerTest extends TestCase
                 ->with('/mayaka/vendor/autoload.php')
                 ->once()
                 ->andReturn(false);
-
             $mock->shouldReceive('exists')
                 ->with('/mayaka/bootstrap.php')
                 ->once()

@@ -97,6 +97,12 @@ class PluginManager
                 $plugin = new Plugin($directory, $manifest);
                 if ($this->enabled->contains('name', $name)) {
                     $plugin->setEnabled(true);
+                    if (Comparator::notEqualTo(
+                        $manifest['version'],
+                        $this->enabled->firstWhere('name', $name)['version']
+                    )) {
+                        $this->dispatcher->dispatch(new Events\PluginVersionChanged($plugin));
+                    }
                 }
                 $plugins->put($name, $plugin);
             });

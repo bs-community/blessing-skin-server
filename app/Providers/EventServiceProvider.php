@@ -21,6 +21,12 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\TextureDeleting' => [
             'App\Listeners\TextureRemoved',
         ],
+        'App\Events\PluginWasEnabled' => [
+            'App\Listeners\CopyPluginAssets',
+        ],
+        'App\Events\PluginVersionChanged' => [
+            'App\Listeners\CopyPluginAssets',
+        ],
     ];
 
     /**
