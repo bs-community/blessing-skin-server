@@ -4,6 +4,7 @@ namespace Tests;
 
 use Event;
 use ReflectionClass;
+use App\Services\Plugin;
 use App\Services\PluginManager;
 use Illuminate\Filesystem\Filesystem;
 
@@ -258,6 +259,48 @@ class PluginManagerTest extends TestCase
         $manager = $this->rebootPluginManager(app('plugins'));
 
         option(['plugins_enabled' => '[]']);
+    }
+
+    public function testLifecycleHooks()
+    {
+        $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('directories')
+                ->with(base_path('plugins'))
+                ->once()
+                ->andReturn(collect(['/mayaka']));
+
+            $mock->shouldReceive('exists')
+                ->with('/mayaka'.DIRECTORY_SEPARATOR.'package.json')
+                ->once()
+                ->andReturn(true);
+
+            $mock->shouldReceive('get')
+                ->with('/mayaka'.DIRECTORY_SEPARATOR.'package.json')
+                ->once()
+                ->andReturn(json_encode([
+                    'name' => 'mayaka',
+                    'version' => '0.0.0',
+                    'namespace' => 'Mayaka',
+                ]));
+
+            $mock->shouldReceive('exists')
+                ->with('/mayaka/callbacks.php')
+                ->once()
+                ->andReturn(true);
+
+            $mock->shouldReceive('getRequire')
+                ->with('/mayaka/callbacks.php')
+                ->once()
+                ->andReturn([
+                    \App\Events\PluginWasDeleted::class => function ($plugin) {
+                        $this->assertInstanceOf(Plugin::class, $plugin);
+                        $this->assertEquals('mayaka', $plugin->name);
+                    },
+                ]);
+        });
+
+        $manager = $this->rebootPluginManager(app('plugins'));
+        event(new \App\Events\PluginWasDeleted(new Plugin('/mayaka', ['name' => 'mayaka'])));
     }
 
     public function testRegisterAutoload()

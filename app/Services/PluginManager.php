@@ -121,6 +121,7 @@ class PluginManager
         $this->loadVendor($enabled);
         $this->loadViewsAndTranslations($enabled);
         $this->loadBootstrapper($enabled);
+        $this->registerLifecycleHooks();
 
         $this->booted = true;
     }
@@ -191,6 +192,25 @@ class PluginManager
             $path = $plugin->getPath().'/bootstrap.php';
             if ($this->filesystem->exists($path)) {
                 $this->app->call($this->filesystem->getRequire($path));
+            }
+        });
+    }
+
+    protected function registerLifecycleHooks()
+    {
+        $this->dispatcher->listen([
+            Events\PluginWasEnabled::class,
+            Events\PluginWasDisabled::class,
+            Events\PluginWasDeleted::class,
+        ], function ($event) {
+            $plugin = $event->plugin;
+            $path = $plugin->getPath().'/callbacks.php';
+            if ($this->filesystem->exists($path)) {
+                $callbacks = $this->filesystem->getRequire($path);
+                $callback = Arr::get($callbacks, get_class($event));
+                if ($callback) {
+                    return $this->app->call($callback, [$plugin]);
+                }
             }
         });
     }
