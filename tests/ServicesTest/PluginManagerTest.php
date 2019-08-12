@@ -33,17 +33,17 @@ class PluginManagerTest extends TestCase
     {
         $this->mock(Filesystem::class, function ($mock) {
             $mock->shouldReceive('directories')
-                ->with(config('plugins.directory'))
+                ->with(base_path('plugins'))
                 ->once()
                 ->andReturn(collect(['/nano', '/yuko']));
 
             $mock->shouldReceive('exists')
-                ->with('/nano/package.json')
+                ->with('/nano'.DIRECTORY_SEPARATOR.'package.json')
                 ->once()
                 ->andReturn(true);
 
             $mock->shouldReceive('get')
-                ->with('/nano/package.json')
+                ->with('/nano'.DIRECTORY_SEPARATOR.'package.json')
                 ->once()
                 ->andReturn(json_encode([
                     'name' => 'fake',
@@ -51,12 +51,12 @@ class PluginManagerTest extends TestCase
                 ]));
 
             $mock->shouldReceive('exists')
-                ->with('/yuko/package.json')
+                ->with('/yuko'.DIRECTORY_SEPARATOR.'package.json')
                 ->once()
                 ->andReturn(true);
 
             $mock->shouldReceive('get')
-                ->with('/yuko/package.json')
+                ->with('/yuko'.DIRECTORY_SEPARATOR.'package.json')
                 ->once()
                 ->andReturn(json_encode([
                     'name' => 'fake',
