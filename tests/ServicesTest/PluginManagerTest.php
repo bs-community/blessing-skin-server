@@ -31,7 +31,7 @@ class PluginManagerTest extends TestCase
         app('plugins')->boot();
     }
 
-    public function testDoNotLoadDisabled()
+    public function testNotLoadDisabled()
     {
         $dir = config('plugins.directory');
         config(['plugins.directory' => storage_path('mocks')]);
@@ -40,6 +40,34 @@ class PluginManagerTest extends TestCase
         $this->assertFalse(class_exists('Fake\Faker'));
 
         config(['plugins.directory' => $dir]);
+    }
+
+    public function testNotLoadUnsatisfied()
+    {
+        $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('directories')
+                ->with(base_path('plugins'))
+                ->once()
+                ->andReturn(collect(['/nano']));
+
+            $mock->shouldReceive('exists')
+                ->with('/nano'.DIRECTORY_SEPARATOR.'package.json')
+                ->once()
+                ->andReturn(true);
+
+            $mock->shouldReceive('get')
+                ->with('/nano'.DIRECTORY_SEPARATOR.'package.json')
+                ->once()
+                ->andReturn(json_encode([
+                    'name' => 'fake',
+                    'version' => '0.0.0',
+                    'require' => ['blessing-skin-server' => '0.0.0'],
+                ]));
+
+            $mock->shouldNotReceive('getRequire');
+        });
+
+        $manager = $this->rebootPluginManager(app('plugins'));
     }
 
     public function testReportDuplicatedPlugins()
@@ -315,5 +343,36 @@ class PluginManagerTest extends TestCase
 
         config(['plugins.directory' => $dir]);
         option(['plugins_enabled' => '[]']);
+    }
+
+    public function testGetUnsatisfied()
+    {
+        $manager = app('plugins');
+
+        $plugin = new Plugin('', ['require' => ['blessing-skin-server' => '^0.0.0']]);
+        $info = $manager->getUnsatisfied($plugin)->get('blessing-skin-server');
+        $this->assertEquals(config('app.version'), $info['version']);
+        $this->assertEquals('^0.0.0', $info['constraint']);
+
+        $plugin = new Plugin('', ['require' => ['php' => '^0.0.0']]);
+        $info = $manager->getUnsatisfied($plugin)->get('php');
+        $this->assertEquals(PHP_VERSION, $info['version']);
+        $this->assertEquals('^0.0.0', $info['constraint']);
+
+        $plugin = new Plugin('', ['require' => ['another-plugin' => '0.0.*']]);
+        $info = $manager->getUnsatisfied($plugin)->get('another-plugin');
+        $this->assertNull($info['version']);
+        $this->assertEquals('0.0.*', $info['constraint']);
+
+        $reflection = new ReflectionClass($manager);
+        $property = $reflection->getProperty('enabled');
+        $property->setAccessible(true);
+        $property->setValue($manager, collect([['name' => 'another-plugin', 'version' => '1.2.3']]));
+        $info = $manager->getUnsatisfied($plugin)->get('another-plugin');
+        $this->assertEquals('1.2.3', $info['version']);
+        $this->assertEquals('0.0.*', $info['constraint']);
+
+        $plugin = new Plugin('', ['require' => ['another-plugin' => '^1.0.0']]);
+        $this->assertFalse($manager->getUnsatisfied($plugin)->has('another-plugin'));
     }
 }

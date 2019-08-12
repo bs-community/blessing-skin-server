@@ -62,6 +62,7 @@ class PluginManager
         $this->option = $option;
         $this->dispatcher = $dispatcher;
         $this->filesystem = $filesystem;
+        $this->enabled = collect();
     }
 
     /**
@@ -95,6 +96,10 @@ class PluginManager
                 }
 
                 $plugin = new Plugin($directory, $manifest);
+                $plugins->put($name, $plugin);
+                if ($this->getUnsatisfied($plugin)->isNotEmpty()) {
+                    $this->disable($plugin);
+                }
                 if ($this->enabled->contains('name', $name)) {
                     $plugin->setEnabled(true);
                     if (Comparator::notEqualTo(
@@ -104,10 +109,7 @@ class PluginManager
                         $this->dispatcher->dispatch(new Events\PluginVersionChanged($plugin));
                     }
                 }
-                $plugins->put($name, $plugin);
             });
-
-        // disable unsatisfied here
 
         $enabled = $plugins->filter(function ($plugin) {
             return $plugin->isEnabled();
@@ -482,6 +484,35 @@ class PluginManager
     public function isEnabled($pluginName)
     {
         return in_array($pluginName, $this->getEnabled());
+    }
+
+    /**
+     * @param Plugin $plugin
+     * @return Collection
+     */
+    public function getUnsatisfied(Plugin $plugin)
+    {
+        return collect(Arr::get($plugin->getManifest(), 'require', []))
+            ->mapWithKeys(function ($constraint, $name) {
+                if ($name == 'blessing-skin-server') {
+                    $version = config('app.version');
+                    return (! Semver::satisfies($version, $constraint))
+                        ? [$name => compact('version', 'constraint')]
+                        : [];
+                } elseif ($name == 'php') {
+                    $version = PHP_VERSION;
+                    return (! Semver::satisfies($version, $constraint))
+                        ? [$name => compact('version', 'constraint')]
+                        : [];
+                } elseif (! $this->enabled->contains('name', $name)) {
+                    return [$name => ['version' => null, 'constraint' => $constraint]];
+                } else {
+                    $version = $this->enabled->firstWhere('name', $name)['version'];
+                    return (! Semver::satisfies($version, $constraint))
+                        ? [$name => compact('version', 'constraint')]
+                        : [];
+                }
+            });
     }
 
     /**

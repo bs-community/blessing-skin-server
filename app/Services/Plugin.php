@@ -85,6 +85,11 @@ class Plugin
         return Arr::get($this->packageInfo, $name);
     }
 
+    public function getManifest()
+    {
+        return $this->packageInfo;
+    }
+
     public function assets(string $relativeUri): string
     {
         $baseUrl = config('plugins.url') ?: url('plugins');
