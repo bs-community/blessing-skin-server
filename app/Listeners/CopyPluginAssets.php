@@ -16,7 +16,7 @@ class CopyPluginAssets
         $this->filesystem = $filesystem;
     }
 
-    public function handle(\App\Events\PluginVersionChanged $event)
+    public function handle($event)
     {
         $plugin = $event->plugin;
         $dir = public_path('plugins/'.$plugin->name);
