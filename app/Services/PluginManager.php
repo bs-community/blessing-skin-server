@@ -103,18 +103,25 @@ class PluginManager
 
         // disable unsatisfied here
 
+        $enabled = $plugins->filter(function ($plugin) {
+            return $plugin->isEnabled();
+        });
+
         $this->registerAutoload(
-            $plugins->filter(function ($plugin) {
-                return $plugin->isEnabled();
-            })->mapWithKeys(function ($plugin) {
+            $enabled->mapWithKeys(function ($plugin) {
                 return [$plugin->namespace => $plugin->getPath().'/src'];
             })
         );
+        $this->loadVendor($enabled);
+        $this->loadViewsAndTranslations($enabled);
+        $this->loadBootstrapper($enabled);
 
         $this->booted = true;
     }
 
     /**
+     * Register classes autoloading.
+     *
      * @param Collection $paths
      */
     protected function registerAutoload($paths)
@@ -131,6 +138,54 @@ class PluginManager
                     }
                 }
             });
+        });
+    }
+
+    /**
+     * Load Composer dumped autoload file.
+     *
+     * @param Collection $enabled
+     */
+    protected function loadVendor($enabled)
+    {
+        $enabled->each(function ($plugin) {
+            $path = $plugin->getPath().'/vendor/autoload.php';
+            if ($this->filesystem->exists($path)) {
+                $this->filesystem->getRequire($path);
+            }
+        });
+    }
+
+    /**
+     * Load views and translations.
+     *
+     * @param Collection $enabled
+     */
+    protected function loadViewsAndTranslations($enabled)
+    {
+        $translations = $this->app->make('translation.loader');
+        $view = $this->app->make('view');
+        $enabled->each(function ($plugin) use (&$translations, &$view) {
+            $namespace = $plugin->namespace;
+            $path = $plugin->getPath();
+
+            $translations->addNamespace($namespace, $path.'/lang');
+            $view->addNamespace($namespace, $path.'/views');
+        });
+    }
+
+    /**
+     * Load plugin's bootstrapper.
+     *
+     * @param Collection $enabled
+     */
+    protected function loadBootstrapper($enabled)
+    {
+        $enabled->each(function ($plugin) {
+            $path = $plugin->getPath().'/bootstrap.php';
+            if ($this->filesystem->exists($path)) {
+                $this->app->call($this->filesystem->getRequire($path));
+            }
         });
     }
 

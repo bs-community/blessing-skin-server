@@ -111,7 +111,7 @@ class Plugin
         return $this;
     }
 
-    public function getNameSpace(): string
+    public function getNamespace(): string
     {
         return $this->namespace;
     }

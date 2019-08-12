@@ -82,6 +82,142 @@ class PluginManagerTest extends TestCase
         $manager = $this->rebootPluginManager(app('plugins'));
     }
 
+    public function testLoadComposer()
+    {
+        option(['plugins_enabled' => json_encode([['name' => 'mayaka', 'version' => '0.0.0']])]);
+        $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('directories')
+                ->with(base_path('plugins'))
+                ->once()
+                ->andReturn(collect(['/mayaka']));
+
+            $mock->shouldReceive('exists')
+                ->with('/mayaka'.DIRECTORY_SEPARATOR.'package.json')
+                ->once()
+                ->andReturn(true);
+
+            $mock->shouldReceive('get')
+                ->with('/mayaka'.DIRECTORY_SEPARATOR.'package.json')
+                ->once()
+                ->andReturn(json_encode([
+                    'name' => 'mayaka',
+                    'version' => '0.0.0',
+                ]));
+
+            $mock->shouldReceive('exists')
+                ->with('/mayaka/vendor/autoload.php')
+                ->once()
+                ->andReturn(true);
+
+            $mock->shouldReceive('getRequire')
+                ->with('/mayaka/vendor/autoload.php')
+                ->once();
+
+            $mock->shouldReceive('exists')
+                ->with('/mayaka/bootstrap.php')
+                ->once()
+                ->andReturn(false);
+        });
+
+        $manager = $this->rebootPluginManager(app('plugins'));
+
+        option(['plugins_enabled' => '[]']);
+    }
+
+    public function testLoadViewsAndTranslations()
+    {
+        option(['plugins_enabled' => json_encode([['name' => 'mayaka', 'version' => '0.0.0']])]);
+        $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('directories')
+                ->with(base_path('plugins'))
+                ->once()
+                ->andReturn(collect(['/mayaka']));
+
+            $mock->shouldReceive('exists')
+                ->with('/mayaka'.DIRECTORY_SEPARATOR.'package.json')
+                ->once()
+                ->andReturn(true);
+
+            $mock->shouldReceive('get')
+                ->with('/mayaka'.DIRECTORY_SEPARATOR.'package.json')
+                ->once()
+                ->andReturn(json_encode([
+                    'name' => 'mayaka',
+                    'version' => '0.0.0',
+                    'namespace' => 'Mayaka',
+                ]));
+
+            $mock->shouldReceive('exists')
+                ->with('/mayaka/vendor/autoload.php')
+                ->once()
+                ->andReturn(false);
+
+            $mock->shouldReceive('exists')
+                ->with('/mayaka/bootstrap.php')
+                ->once()
+                ->andReturn(false);
+        });
+        $this->mock('view', function ($mock) {
+            $mock->shouldReceive('addNamespace')
+                ->withArgs(['Mayaka', '/mayaka/views'])
+                ->once();
+        });
+        $this->instance('translation.loader', \Mockery::mock(\App\Services\TranslationLoader::class, function ($mock) {
+            $mock->shouldReceive('addNamespace')
+                ->withArgs(['Mayaka', '/mayaka/lang'])
+                ->once();
+        }));
+
+        $manager = $this->rebootPluginManager(app('plugins'));
+
+        option(['plugins_enabled' => '[]']);
+    }
+
+    public function testLoadBootstrapper()
+    {
+        option(['plugins_enabled' => json_encode([['name' => 'mayaka', 'version' => '0.0.0']])]);
+        $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('directories')
+                ->with(base_path('plugins'))
+                ->once()
+                ->andReturn(collect(['/mayaka']));
+
+            $mock->shouldReceive('exists')
+                ->with('/mayaka'.DIRECTORY_SEPARATOR.'package.json')
+                ->once()
+                ->andReturn(true);
+
+            $mock->shouldReceive('get')
+                ->with('/mayaka'.DIRECTORY_SEPARATOR.'package.json')
+                ->once()
+                ->andReturn(json_encode([
+                    'name' => 'mayaka',
+                    'version' => '0.0.0',
+                ]));
+
+            $mock->shouldReceive('exists')
+                ->with('/mayaka/vendor/autoload.php')
+                ->once()
+                ->andReturn(false);
+
+            $mock->shouldReceive('exists')
+                ->with('/mayaka/bootstrap.php')
+                ->once()
+                ->andReturn(true);
+
+            $mock->shouldReceive('getRequire')
+                ->with('/mayaka/bootstrap.php')
+                ->once()
+                ->andReturn(function (\Illuminate\Contracts\Events\Dispatcher $events) {
+                    $this->assertTrue(method_exists($events, 'listen'));
+                });
+        });
+
+        $manager = $this->rebootPluginManager(app('plugins'));
+
+        option(['plugins_enabled' => '[]']);
+    }
+
     public function testRegisterAutoload()
     {
         $dir = config('plugins.directory');

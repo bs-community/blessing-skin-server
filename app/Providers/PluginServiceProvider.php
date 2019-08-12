@@ -40,13 +40,13 @@ class PluginServiceProvider extends ServiceProvider
 
         foreach ($plugins->getPlugins() as $plugin) {
             if ($plugin->isEnabled()) {
-                $src_paths[$plugin->getNameSpace()] = $plugin->getPath().'/src';
+                $src_paths[$plugin->getNamespace()] = $plugin->getPath().'/src';
                 // Add paths of views
-                $finder->addNamespace($plugin->getNameSpace(), $plugin->getPath().'/views');
+                $finder->addNamespace($plugin->getNamespace(), $plugin->getPath().'/views');
             }
 
             // Always add paths of translation files for namespace hints
-            $loader->addNamespace($plugin->getNameSpace(), $plugin->getPath().'/lang');
+            $loader->addNamespace($plugin->getNamespace(), $plugin->getPath().'/lang');
         }
 
         $this->registerPluginCallbackListener();
