@@ -94,14 +94,22 @@ class PluginManager
                     ]), 5);
                 }
 
-                $plugins->put($name, new Plugin($directory, $manifest));
+                $plugin = new Plugin($directory, $manifest);
+                if ($this->enabled->contains('name', $name)) {
+                    $plugin->setEnabled(true);
+                }
+                $plugins->put($name, $plugin);
             });
 
         // disable unsatisfied here
 
-        $this->registerAutoload($plugins->mapWithKeys(function ($plugin) {
-            return [$plugin->namespace => $plugin->getPath().'/src'];
-        }));
+        $this->registerAutoload(
+            $plugins->filter(function ($plugin) {
+                return $plugin->isEnabled();
+            })->mapWithKeys(function ($plugin) {
+                return [$plugin->namespace => $plugin->getPath().'/src'];
+            })
+        );
 
         $this->booted = true;
     }

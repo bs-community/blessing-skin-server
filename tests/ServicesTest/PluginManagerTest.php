@@ -29,6 +29,17 @@ class PluginManagerTest extends TestCase
         app('plugins')->boot();
     }
 
+    public function testDoNotLoadDisabled()
+    {
+        $dir = config('plugins.directory');
+        config(['plugins.directory' => storage_path('mocks')]);
+
+        $manager = $this->rebootPluginManager(app('plugins'));
+        $this->assertFalse(class_exists('Fake\Faker'));
+
+        config(['plugins.directory' => $dir]);
+    }
+
     public function testReportDuplicatedPlugins()
     {
         $this->mock(Filesystem::class, function ($mock) {
@@ -75,11 +86,13 @@ class PluginManagerTest extends TestCase
     {
         $dir = config('plugins.directory');
         config(['plugins.directory' => storage_path('mocks')]);
+        option(['plugins_enabled' => json_encode([['name' => 'fake', 'version' => '0.0.0']])]);
 
         $this->assertFalse(class_exists('Fake\Faker'));
         $manager = $this->rebootPluginManager(app('plugins'));
         $this->assertTrue(class_exists('Fake\Faker'));
 
         config(['plugins.directory' => $dir]);
+        option(['plugins_enabled' => '[]']);
     }
 }
