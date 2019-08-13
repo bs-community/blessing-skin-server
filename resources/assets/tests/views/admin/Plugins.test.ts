@@ -7,11 +7,11 @@ jest.mock('@/scripts/notify')
 
 test('render dependencies', async () => {
   Vue.prototype.$http.get.mockResolvedValue([
-    { name: 'a', dependencies: { requirements: [] } },
+    { name: 'a', dependencies: { all: {}, unsatisfied: {} } },
     {
       name: 'b',
       dependencies: {
-        requirements: { a: '^1.0.0', c: '^2.0.0' }, unsatisfiedRequirements: { c: {} },
+        all: { a: '^1.0.0', c: '^2.0.0' }, unsatisfied: { c: '' },
       },
     },
   ])
@@ -26,13 +26,13 @@ test('render dependencies', async () => {
 test('render operation buttons', async () => {
   Vue.prototype.$http.get.mockResolvedValue([
     {
-      name: 'a', dependencies: { requirements: [] }, enabled: true, config: true,
+      name: 'a', dependencies: { all: {}, unsatisfied: {} }, enabled: true, config: true,
     },
     {
-      name: 'b', dependencies: { requirements: [] }, enabled: true, config: false,
+      name: 'b', dependencies: { all: {}, unsatisfied: {} }, enabled: true, config: false,
     },
     {
-      name: 'c', dependencies: { requirements: [] }, enabled: false,
+      name: 'c', dependencies: { all: {}, unsatisfied: {} }, enabled: false,
     },
   ])
   const wrapper = mount(Plugins)
@@ -49,10 +49,10 @@ test('render operation buttons', async () => {
 test('enable plugin', async () => {
   Vue.prototype.$http.get.mockResolvedValue([
     {
-      name: 'a', dependencies: { requirements: [] }, enabled: false,
+      name: 'a', dependencies: { all: {}, unsatisfied: {} }, enabled: false,
     },
     {
-      name: 'b', dependencies: { requirements: {} }, enabled: false,
+      name: 'b', dependencies: { all: {}, unsatisfied: {} }, enabled: false,
     },
   ])
   Vue.prototype.$http.post
@@ -101,7 +101,7 @@ test('enable plugin', async () => {
 test('disable plugin', async () => {
   Vue.prototype.$http.get.mockResolvedValue([
     {
-      name: 'a', dependencies: { requirements: [] }, enabled: true, config: false,
+      name: 'a', dependencies: { all: {}, unsatisfied: {} }, enabled: true, config: false,
     },
   ])
   Vue.prototype.$http.post
@@ -126,7 +126,7 @@ test('disable plugin', async () => {
 test('delete plugin', async () => {
   Vue.prototype.$http.get.mockResolvedValue([
     {
-      name: 'a', dependencies: { requirements: [] }, enabled: false,
+      name: 'a', dependencies: { all: {}, unsatisfied: {} }, enabled: false,
     },
   ])
   Vue.prototype.$http.post

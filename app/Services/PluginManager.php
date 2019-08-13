@@ -66,15 +66,20 @@ class PluginManager
     }
 
     /**
-     * Boot all enabled plugins.
+     * Get all installed plugins.
+     *
+     * @return Collection
      */
-    public function boot()
+    public function all()
     {
-        if ($this->booted) {
-            return;
+        if (filled($this->plugins)) {
+            return $this->plugins;
         }
 
-        $this->enabled = collect(json_decode($this->option->get('plugins_enabled', '[]'), true));
+        $this->enabled = collect(json_decode($this->option->get('plugins_enabled', '[]'), true))
+            ->mapWithKeys(function ($item) {
+                return [$item['name'] => ['version' => $item['version']]];
+            });
         $plugins = collect();
 
         collect($this->filesystem->directories($this->getPluginsDir()))
@@ -100,18 +105,31 @@ class PluginManager
                 if ($this->getUnsatisfied($plugin)->isNotEmpty()) {
                     $this->disable($plugin);
                 }
-                if ($this->enabled->contains('name', $name)) {
+                if ($this->enabled->has($name)) {
                     $plugin->setEnabled(true);
                     if (Comparator::notEqualTo(
                         $manifest['version'],
-                        $this->enabled->firstWhere('name', $name)['version']
+                        $this->enabled->get($name)['version']
                     )) {
                         $this->dispatcher->dispatch(new Events\PluginVersionChanged($plugin));
                     }
                 }
             });
 
-        $enabled = $plugins->filter(function ($plugin) {
+        $this->plugins = $plugins;
+        return $plugins;
+    }
+
+    /**
+     * Boot all enabled plugins.
+     */
+    public function boot()
+    {
+        if ($this->booted) {
+            return;
+        }
+
+        $enabled = $this->all()->filter(function ($plugin) {
             return $plugin->isEnabled();
         });
 
@@ -218,6 +236,14 @@ class PluginManager
     }
 
     /**
+     * @return Plugin|null
+     */
+    public function get(string $name)
+    {
+        return $this->all()->get($name);
+    }
+
+    /**
      * @return Collection
      */
     public function getPlugins()
@@ -313,22 +339,12 @@ class PluginManager
      */
     public function enable($name)
     {
-        if (is_null($this->enabled)) {
-            $this->convertPluginRecord();
-        }
-
-        if (! $this->isEnabled($name)) {
-            $plugin = $this->getPlugin($name);
-
-            $this->enabled->push([
-                'name' => $name,
-                'version' => $plugin->getVersion(),
-            ]);
+        $plugin = $this->get($name);
+        if (! $plugin->isEnabled($name)) {
+            $this->enabled->put($name, ['version' => $plugin->version]);
             $this->saveEnabled();
 
             $plugin->setEnabled(true);
-
-            $this->copyPluginAssets($plugin);
 
             $this->dispatcher->dispatch(new Events\PluginWasEnabled($plugin));
         }
@@ -365,7 +381,7 @@ class PluginManager
      *
      * @param string $name
      */
-    public function uninstall($name)
+    public function delete($name)
     {
         $plugin = $this->getPlugin($name);
 
@@ -387,10 +403,6 @@ class PluginManager
      */
     public function getEnabledPlugins()
     {
-        if (is_null($this->enabled)) {
-            $this->convertPluginRecord();
-        }
-
         return $this->getPlugins()->only($this->getEnabled());
     }
 
@@ -472,7 +484,9 @@ class PluginManager
      */
     protected function saveEnabled()
     {
-        $this->option->set('plugins_enabled', $this->enabled->values()->toJson());
+        $this->option->set('plugins_enabled', $this->enabled->map(function ($info, $name) {
+            //
+        })->toJson());
     }
 
     /**
@@ -504,10 +518,10 @@ class PluginManager
                     return (! Semver::satisfies($version, $constraint))
                         ? [$name => compact('version', 'constraint')]
                         : [];
-                } elseif (! $this->enabled->contains('name', $name)) {
+                } elseif (! $this->enabled->has($name)) {
                     return [$name => ['version' => null, 'constraint' => $constraint]];
                 } else {
-                    $version = $this->enabled->firstWhere('name', $name)['version'];
+                    $version = $this->enabled->get($name)['version'];
                     return (! Semver::satisfies($version, $constraint))
                         ? [$name => compact('version', 'constraint')]
                         : [];
@@ -617,41 +631,5 @@ class PluginManager
             $this->getPluginsDir().DIRECTORY_SEPARATOR.$plugin->name.DIRECTORY_SEPARATOR.'lang',
             $dir.'/lang'
         );
-    }
-
-    /**
-     * Convert `plugins_enabled` field for backward compatibility.
-     *
-     * @return $this
-     */
-    protected function convertPluginRecord()
-    {
-        $list = collect(json_decode($this->option->get('plugins_enabled'), true));
-        $this->enabled = $list->map(function ($item) {
-            if (is_string($item)) {
-                $plugin = $this->getPlugin($item);
-
-                // If we cannot read the package of that plugin, just return it as-is.
-                if (is_null($plugin)) {
-                    return $item;
-                }
-
-                return [
-                    'name' => $item,
-                    'version' => $plugin->getVersion(),
-                ];
-            } else {
-                $plugin = $this->getPlugin($item['name']);
-                if (! empty($plugin)) {
-                    $item['version'] = $plugin->getVersion();
-                }
-
-                return $item;
-            }
-        });
-
-        $this->saveEnabled();
-
-        return $this;
     }
 }

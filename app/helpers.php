@@ -25,9 +25,9 @@ if (! function_exists('webpack_assets')) {
 }
 
 if (! function_exists('plugin')) {
-    function plugin(string $id)
+    function plugin(string $name)
     {
-        return app('plugins')->getPlugin($id);
+        return app('plugins')->get($name);
     }
 }
 

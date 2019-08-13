@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use App\Services\Plugin;
+use App\Services\PluginManager;
 use Illuminate\Support\Facades\File;
 use Tests\Concerns\GeneratesFakePlugins;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -14,10 +16,6 @@ class PluginControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-
-        $this->generateFakePlugin(['name' => 'fake-plugin-for-test', 'version' => '1.1.4']);
-        $this->generateFakePlugin(['name' => 'fake-plugin-with-config-view', 'version' => '5.1.4', 'config' => 'config.blade.php']);
-
         $this->actAs('superAdmin');
     }
 
@@ -29,24 +27,114 @@ class PluginControllerTest extends TestCase
 
     public function testConfig()
     {
+        option(['plugins_enabled' => json_encode([
+            ['name' => 'fake3', 'version' => '0.0.0'],
+            ['name' => 'fake4', 'version' => '0.0.0'],
+        ])]);
+        $this->mock(PluginManager::class, function ($mock) {
+            $mock->shouldReceive('get')
+                ->with('fake1')
+                ->once()
+                ->andReturn(null);
+
+            $mock->shouldReceive('get')
+                ->with('fake2')
+                ->once()
+                ->andReturn(new Plugin('', []));
+
+            $mock->shouldReceive('get')
+                ->with('fake3')
+                ->once()
+                ->andReturn(new Plugin('', []));
+
+            $plugin = new Plugin(resource_path(''), ['config' => 'common/favicon.blade.php']);
+            $plugin->setEnabled(true);
+            $mock->shouldReceive('get')
+                ->with('fake4')
+                ->once()
+                ->andReturn($plugin);
+        });
+
+        // No such plugin.
+        $this->get('/admin/plugins/config/fake1')
+            ->assertNotFound();
+
         // Plugin is disabled
-        $this->get('/admin/plugins/config/fake-plugin-with-config-view')
+        $this->get('/admin/plugins/config/fake2')
             ->assertNotFound();
 
         // Plugin is enabled but it doesn't have config view
-        plugin('fake-plugin-for-test')->setEnabled(true);
-        $this->get('/admin/plugins/config/avatar-api')
+        $this->get('/admin/plugins/config/fake3')
             ->assertSee(trans('admin.plugins.operations.no-config-notice'))
             ->assertNotFound();
 
         // Plugin has config view
-        plugin('fake-plugin-with-config-view')->setEnabled(true);
-        $this->get('/admin/plugins/config/fake-plugin-with-config-view')
+        $this->get('/admin/plugins/config/fake4')
             ->assertSuccessful();
+
+        option(['plugins_enabled' => '[]']);
     }
 
     public function testManage()
     {
+        $this->mock(PluginManager::class, function ($mock) {
+            $mock->shouldReceive('get')
+                ->with('nope')
+                ->once()
+                ->andReturn(null);
+
+            $mock->shouldReceive('get')
+                ->with('fake1')
+                ->once()
+                ->andReturn(new Plugin('', []));
+
+            $mock->shouldReceive('get')
+                ->with('fake2')
+                ->once()
+                ->andReturn(new Plugin('', ['name' => 'fake2']));
+            $mock->shouldReceive('getUnsatisfied')
+                ->withArgs(function ($plugin) {
+                    $this->assertEquals('fake2', $plugin->name);
+                    return true;
+                })
+                ->once()
+                ->andReturn(collect([
+                    'dep' => ['version' => '0.0.0', 'constraint' => '^6.6.6'],
+                    'whatever' => ['version' => null, 'constraint' => '^1.2.3'],
+                ]));
+
+            $mock->shouldReceive('get')
+                ->with('fake3')
+                ->once()
+                ->andReturn(new Plugin('', ['name' => 'fake3', 'title' => 'Fake']));
+            $mock->shouldReceive('enable')
+                ->with('fake3')
+                ->once();
+            $mock->shouldReceive('getUnsatisfied')
+                ->withArgs(function ($plugin) {
+                    $this->assertEquals('fake3', $plugin->name);
+                    return true;
+                })
+                ->once()
+                ->andReturn(collect([]));
+
+            $mock->shouldReceive('get')
+                ->with('fake4')
+                ->once()
+                ->andReturn(new Plugin('', ['name' => 'fake4', 'title' => 'Fake']));
+            $mock->shouldReceive('disable')
+                ->with('fake4')
+                ->once();
+
+            $mock->shouldReceive('get')
+                ->with('fake5')
+                ->once()
+                ->andReturn(new Plugin('', ['name' => 'fake5', 'title' => 'Fake']));
+            $mock->shouldReceive('delete')
+                ->with('fake5')
+                ->once();
+        });
+
         // An not-existed plugin
         $this->postJson('/admin/plugins/manage', ['name' => 'nope'])
             ->assertJson([
@@ -55,21 +143,15 @@ class PluginControllerTest extends TestCase
             ]);
 
         // Invalid action
-        $this->postJson('/admin/plugins/manage', ['name' => 'fake-plugin-for-test'])
+        $this->postJson('/admin/plugins/manage', ['name' => 'fake1'])
             ->assertJson([
                 'code' => 1,
                 'message' => trans('admin.invalid-action'),
             ]);
 
         // Enable a plugin with unsatisfied dependencies
-        app('plugins')->getPlugin('fake-plugin-for-test')->setRequirements([
-            'blessing-skin-server' => '^3.4.0 || ^4.0.0',
-            'fake-plugin-with-config-view' => '^6.6.6',
-            'whatever' => '^1.0.0',
-        ]);
-        app('plugins')->enable('fake-plugin-with-config-view');
         $this->postJson('/admin/plugins/manage', [
-            'name' => 'fake-plugin-for-test',
+            'name' => 'fake2',
             'action' => 'enable',
         ])->assertJson([
             'code' => 1,
@@ -77,7 +159,7 @@ class PluginControllerTest extends TestCase
             'data' => [
                 'reason' => [
                     trans('admin.plugins.operations.unsatisfied.version', [
-                        'name' => 'fake-plugin-with-config-view',
+                        'name' => 'dep',
                         'constraint' => '^6.6.6',
                     ]),
                     trans('admin.plugins.operations.unsatisfied.disabled', [
@@ -88,43 +170,57 @@ class PluginControllerTest extends TestCase
         ]);
 
         // Enable a plugin
-        app('plugins')->getPlugin('fake-plugin-for-test')->setRequirements([]);
         $this->postJson('/admin/plugins/manage', [
-            'name' => 'fake-plugin-for-test',
+            'name' => 'fake3',
             'action' => 'enable',
         ])->assertJson([
             'code' => 0,
             'message' => trans(
                 'admin.plugins.operations.enabled',
-                ['plugin' => plugin('fake-plugin-for-test')->title]
+                ['plugin' => 'Fake']
             ),
         ]);
 
         // Disable a plugin
         $this->postJson('/admin/plugins/manage', [
-            'name' => 'fake-plugin-for-test',
+            'name' => 'fake4',
             'action' => 'disable',
         ])->assertJson([
             'code' => 0,
             'message' => trans(
                 'admin.plugins.operations.disabled',
-                ['plugin' => plugin('fake-plugin-for-test')->title]
+                ['plugin' => 'Fake']
             ),
         ]);
 
         // Delete a plugin
         $this->postJson('/admin/plugins/manage', [
-            'name' => 'fake-plugin-for-test',
+            'name' => 'fake5',
             'action' => 'delete',
         ])->assertJson([
             'code' => 0,
             'message' => trans('admin.plugins.operations.deleted'),
         ]);
-        $this->assertFalse(file_exists(base_path('plugins/fake-plugin-for-test/')));
     }
 
     public function testGetPluginData()
     {
+        $this->mock(PluginManager::class, function ($mock) {
+            $mock->shouldReceive('all')
+                ->once()
+                ->andReturn(collect([new Plugin('', [
+                    'name' => 'a',
+                    'version' => '0.0.0',
+                    'title' => ''
+                ])]));
+            $mock->shouldReceive('getUnsatisfied')
+                ->withArgs(function ($plugin) {
+                    $this->assertEquals('a', $plugin->name);
+                    return true;
+                })
+                ->once()
+                ->andReturn(collect(['b' => null]));
+        });
         $this->getJson('/admin/plugins/data')
             ->assertJsonStructure([
                 [
@@ -139,14 +235,5 @@ class PluginControllerTest extends TestCase
                     'dependencies',
                 ],
             ]);
-    }
-
-    protected function tearDown(): void
-    {
-        // Clean fake plugins
-        File::deleteDirectory(config('plugins.directory').DIRECTORY_SEPARATOR.'fake-plugin-for-test');
-        File::deleteDirectory(config('plugins.directory').DIRECTORY_SEPARATOR.'fake-plugin-with-config-view');
-
-        parent::tearDown();
     }
 }

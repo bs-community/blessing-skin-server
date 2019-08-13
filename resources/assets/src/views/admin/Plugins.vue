@@ -54,16 +54,16 @@
         </span>
         <span v-else-if="props.column.field === 'dependencies'">
           <span
-            v-if="props.row.dependencies.requirements.length === 0"
+            v-if="Object.keys(props.row.dependencies.all).length === 0"
           ><i v-t="'admin.noDependencies'" /></span>
           <div v-else>
             <span
-              v-for="(semver, dep) in props.row.dependencies.requirements"
-              :key="dep"
+              v-for="(constraint, name) in props.row.dependencies.all"
+              :key="name"
               class="label"
-              :class="`bg-${dep in props.row.dependencies.unsatisfiedRequirements ? 'red' : 'green'}`"
+              :class="`bg-${name in props.row.dependencies.unsatisfied ? 'red' : 'green'}`"
             >
-              {{ dep }}: {{ semver }}
+              {{ name }}: {{ constraint }}
               <br>
             </span>
           </div>

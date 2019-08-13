@@ -4,13 +4,13 @@ export default Vue.extend({
   data: () => ({ plugins: [] }),
   methods: {
     async enablePlugin({
-      name, dependencies: { requirements }, originalIndex,
+      name, dependencies: { all }, originalIndex,
     }: {
       name: string,
-      dependencies: { requirements: string[] },
+      dependencies: { all: { [name: string]: string } },
       originalIndex: number
     }) {
-      if (requirements.length === 0) {
+      if (Object.keys(all).length === 0) {
         try {
           await this.$confirm(
             this.$t('admin.noDependenciesNotice'),

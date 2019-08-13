@@ -8,10 +8,9 @@ use App\Services\PluginManager;
 
 class PluginController extends Controller
 {
-    public function config($name)
+    public function config(PluginManager $plugins, $name)
     {
-        $plugin = plugin($name);
-
+        $plugin = $plugins->get($name);
         if ($plugin && $plugin->isEnabled() && $plugin->hasConfigView()) {
             return $plugin->getConfigView();
         } else {
@@ -21,7 +20,8 @@ class PluginController extends Controller
 
     public function manage(Request $request, PluginManager $plugins)
     {
-        $plugin = plugin($name = $request->get('name'));
+        $name = $request->input('name');
+        $plugin = $plugins->get($name);
 
         if ($plugin) {
             // Pass the plugin title through the translator.
@@ -29,18 +29,16 @@ class PluginController extends Controller
 
             switch ($request->get('action')) {
                 case 'enable':
-                    if (! $plugins->isRequirementsSatisfied($plugin)) {
-                        $reason = [];
-
-                        foreach ($plugins->getUnsatisfiedRequirements($plugin) as $name => $detail) {
+                    $requirements = $plugins->getUnsatisfied($plugin);
+                    if ($requirements->isNotEmpty()) {
+                        $reason = $requirements->map(function ($detail, $name) {
                             $constraint = $detail['constraint'];
-
                             if (! $detail['version']) {
-                                $reason[] = trans('admin.plugins.operations.unsatisfied.disabled', compact('name'));
+                                return trans('admin.plugins.operations.unsatisfied.disabled', compact('name'));
                             } else {
-                                $reason[] = trans('admin.plugins.operations.unsatisfied.version', compact('name', 'constraint'));
+                                return trans('admin.plugins.operations.unsatisfied.version', compact('name', 'constraint'));
                             }
-                        }
+                        })->values()->all();
 
                         return json(trans('admin.plugins.operations.unsatisfied.notice'), 1, compact('reason'));
                     }
@@ -55,7 +53,7 @@ class PluginController extends Controller
                     return json(trans('admin.plugins.operations.disabled', ['plugin' => $plugin->title]), 0);
 
                 case 'delete':
-                    $plugins->uninstall($name);
+                    $plugins->delete($name);
 
                     return json(trans('admin.plugins.operations.deleted'), 0);
 
@@ -69,8 +67,8 @@ class PluginController extends Controller
 
     public function getPluginData(PluginManager $plugins)
     {
-        return $plugins->getPlugins()
-            ->map(function ($plugin) {
+        return $plugins->all()
+            ->map(function ($plugin) use ($plugins) {
                 return [
                     'name' => $plugin->name,
                     'title' => trans($plugin->title ?: 'EMPTY'),
@@ -80,20 +78,12 @@ class PluginController extends Controller
                     'url' => $plugin->url,
                     'enabled' => $plugin->isEnabled(),
                     'config' => $plugin->hasConfigView(),
-                    'dependencies' => $this->getPluginDependencies($plugin),
+                    'dependencies' => [
+                        'all' => $plugin->require,
+                        'unsatisfied' => $plugins->getUnsatisfied($plugin),
+                    ],
                 ];
             })
             ->values();
-    }
-
-    protected function getPluginDependencies(Plugin $plugin)
-    {
-        $plugins = app('plugins');
-
-        return [
-            'isRequirementsSatisfied' => $plugins->isRequirementsSatisfied($plugin),
-            'requirements' => $plugin->getRequirements(),
-            'unsatisfiedRequirements' => $plugins->getUnsatisfiedRequirements($plugin),
-        ];
     }
 }

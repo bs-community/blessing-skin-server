@@ -23,7 +23,6 @@ class PluginManagerTest extends TestCase
 
     public function testPreventBootingAgain()
     {
-        // TODO: modify asserting 0 times here
         $this->mock(Filesystem::class, function ($mock) {
             $mock->shouldReceive('directories')->times(1);
         });
@@ -367,7 +366,7 @@ class PluginManagerTest extends TestCase
         $reflection = new ReflectionClass($manager);
         $property = $reflection->getProperty('enabled');
         $property->setAccessible(true);
-        $property->setValue($manager, collect([['name' => 'another-plugin', 'version' => '1.2.3']]));
+        $property->setValue($manager, collect(['another-plugin' => ['version' => '1.2.3']]));
         $info = $manager->getUnsatisfied($plugin)->get('another-plugin');
         $this->assertEquals('1.2.3', $info['version']);
         $this->assertEquals('0.0.*', $info['constraint']);
