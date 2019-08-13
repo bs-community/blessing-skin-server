@@ -4,14 +4,11 @@ namespace Tests;
 
 use App\Services\Plugin;
 use App\Services\PluginManager;
-use Illuminate\Support\Facades\File;
-use Tests\Concerns\GeneratesFakePlugins;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PluginControllerTest extends TestCase
 {
     use DatabaseTransactions;
-    use GeneratesFakePlugins;
 
     protected function setUp(): void
     {

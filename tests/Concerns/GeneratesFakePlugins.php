@@ -115,31 +115,4 @@ trait GeneratesFakePlugins
 
         file_put_contents("$plugin_dir/bootstrap.php", "<?php return function () { return '{$info['name']}'; };");
     }
-
-    /**
-     * Generate a fake zip archive of given plugin.
-     *
-     * @param array $info Plugin information.
-     * @return string     File path of generated zip archive.
-     */
-    protected function generateFakePluginArchive($info)
-    {
-        $name = Arr::get($info, 'name');
-        $version = Arr::get($info, 'version');
-        $zipPath = storage_path("testing/{$name}_{$version}.zip");
-
-        if (file_exists($zipPath)) {
-            unlink($zipPath);
-        }
-
-        $zip = new ZipArchive();
-        $zip->open($zipPath, ZipArchive::CREATE);
-        $zip->addEmptyDir($name);
-        $zip->addFromString("$name/package.json", json_encode(
-            $this->generateFakePlguinInfo($info)
-        ));
-        $zip->close();
-
-        return $zipPath;
-    }
 }

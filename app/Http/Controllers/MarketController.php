@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Services\Plugin;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use App\Services\PluginManager;
@@ -30,11 +31,10 @@ class MarketController extends Controller
         $this->guzzle = $guzzle;
     }
 
-    public function marketData()
+    public function marketData(PluginManager $manager)
     {
-        $plugins = collect($this->getAllAvailablePlugins())->map(function ($item) {
-            $plugin = plugin($item['name']);
-            $manager = app('plugins');
+        $plugins = collect($this->getAllAvailablePlugins())->map(function ($item) use ($manager) {
+            $plugin = $manager->get($item['name']);
 
             if ($plugin) {
                 $item['enabled'] = $plugin->isEnabled();
@@ -48,9 +48,8 @@ class MarketController extends Controller
             unset($item['require']);
 
             $item['dependencies'] = [
-                'isRequirementsSatisfied' => $manager->isRequirementsSatisfied($requirements),
-                'requirements' => $requirements,
-                'unsatisfiedRequirements' => $manager->getUnsatisfiedRequirements($requirements),
+                'all' => $requirements,
+                'unsatisfied' => $manager->getUnsatisfied(new Plugin('', $item)),
             ];
 
             return $item;
@@ -59,13 +58,13 @@ class MarketController extends Controller
         return $plugins;
     }
 
-    public function checkUpdates()
+    public function checkUpdates(PluginManager $manager)
     {
-        $pluginsHaveUpdate = collect($this->getAllAvailablePlugins())->filter(function ($item) {
-            $plugin = plugin($item['name']);
-
-            return $plugin && Comparator::greaterThan($item['version'], $plugin->version);
-        });
+        $pluginsHaveUpdate = collect($this->getAllAvailablePlugins())
+            ->filter(function ($item) use ($manager) {
+                $plugin = $manager->get($item['name']);
+                return $plugin && Comparator::greaterThan($item['version'], $plugin->version);
+            });
 
         return json([
             'available' => $pluginsHaveUpdate->isNotEmpty(),
@@ -98,7 +97,7 @@ class MarketController extends Controller
 
     protected function getPluginMetadata($name)
     {
-        return collect($this->getAllAvailablePlugins())->where('name', $name)->first();
+        return collect($this->getAllAvailablePlugins())->firstWhere('name', $name);
     }
 
     protected function getAllAvailablePlugins()
