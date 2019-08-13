@@ -124,21 +124,21 @@ if (! function_exists('bs_menu')) {
 
         $menu[$type] = array_map(function ($item) {
             if (Arr::get($item, 'id') === 'plugin-configs') {
-                $availablePluginConfigs = [];
-
-                foreach (app('plugins')->getEnabledPlugins() as $plugin) {
-                    if ($plugin->hasConfigView()) {
-                        $availablePluginConfigs[] = [
+                 $pluginConfigs = app('plugins')->getEnabledPlugins()
+                    ->filter(function ($plugin) {
+                        return $plugin->hasConfigView();
+                    })
+                    ->map(function ($plugin) {
+                        return [
                             'title' => trans($plugin->title),
                             'link'  => 'admin/plugins/config/'.$plugin->name,
                             'icon'  => 'fa-circle',
                         ];
-                    }
-                }
+                    });
 
                 // Don't display this menu item when no plugin config is available
-                if (count($availablePluginConfigs) > 0) {
-                    $item['children'] = array_merge($item['children'], $availablePluginConfigs);
+                if ($pluginConfigs->isNotEmpty()) {
+                    $item['children'] = array_merge($item['children'], $pluginConfigs->values()->all());
 
                     return $item;
                 }

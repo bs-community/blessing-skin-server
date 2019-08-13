@@ -7,12 +7,6 @@ namespace App\Services;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-/**
- * @property string $name
- * @property string $description
- * @property string $title
- * @property array  $author
- */
 class Plugin
 {
     /**
@@ -23,39 +17,11 @@ class Plugin
     protected $path;
 
     /**
-     * The directory name where the plugin installed.
-     *
-     * @var string
-     */
-    protected $dirname;
-
-    /**
      * package.json of the package.
      *
      * @var array
      */
-    protected $packageInfo;
-
-    /**
-     * Whether the plugin is installed.
-     *
-     * @var bool
-     */
-    protected $installed = true;
-
-    /**
-     * The installed version of the plugin.
-     *
-     * @var string
-     */
-    protected $version;
-
-    /**
-     * The namespace used by the plugin.
-     *
-     * @var string
-     */
-    protected $namespace;
+    protected $manifest;
 
     /**
      * Whether the plugin is enabled.
@@ -64,71 +30,40 @@ class Plugin
      */
     protected $enabled = false;
 
-    public function __construct(string $path, array $packageInfo)
+    public function __construct(string $path, array $manifest)
     {
         $this->path = $path;
-        $this->packageInfo = $packageInfo;
+        $this->manifest = $manifest;
     }
 
     public function __get(string $name)
     {
-        return $this->packageInfoAttribute(Str::snake($name, '-'));
+        return $this->getManifestAttr(Str::snake($name, '-'));
     }
 
     public function __isset(string $name)
     {
-        return isset($this->{$name}) || $this->packageInfoAttribute(snake_case($name, '-'));
-    }
-
-    public function packageInfoAttribute(string $name)
-    {
-        return Arr::get($this->packageInfo, $name);
+        return isset($this->{$name}) || $this->getManifestAttr(Str::snake($name, '-'));
     }
 
     public function getManifest()
     {
-        return $this->packageInfo;
+        return $this->manifest;
+    }
+
+    public function getManifestAttr(string $name, $default = null)
+    {
+        return Arr::get($this->manifest, $name, $default);
     }
 
     public function assets(string $relativeUri): string
     {
         $baseUrl = config('plugins.url') ?: url('plugins');
 
-        return "$baseUrl/{$this->getDirname()}/assets/$relativeUri?v=".$this->version;
+        return "$baseUrl/{$this->name}/assets/$relativeUri?v=".$this->version;
     }
 
-    public function setInstalled(bool $installed): self
-    {
-        $this->installed = $installed;
-
-        return $this;
-    }
-
-    public function getDirname(): string
-    {
-        return $this->dirname;
-    }
-
-    public function setDirname(string $dirname): self
-    {
-        $this->dirname = $dirname;
-
-        return $this;
-    }
-
-    public function getNamespace(): string
-    {
-        return $this->namespace;
-    }
-
-    public function setNameSpace(string $namespace): self
-    {
-        $this->namespace = $namespace;
-
-        return $this;
-    }
-
-    public function getViewPathByFileName(string $filename): string
+    public function getViewPath(string $filename): string
     {
         return $this->path."/views/$filename";
     }
@@ -136,39 +71,15 @@ class Plugin
     public function getConfigView()
     {
         return $this->hasConfigView()
-            ? view()->file($this->getViewPathByFileName(Arr::get($this->packageInfo, 'config', 'config.blade.php')))
+            ? view()->file($this->getViewPath(Arr::get($this->manifest, 'config', 'config.blade.php')))
             : null;
     }
 
     public function hasConfigView(): bool
     {
-        $filename = Arr::get($this->packageInfo, 'config', 'config.blade.php');
+        $filename = Arr::get($this->manifest, 'config', 'config.blade.php');
 
-        return $filename && file_exists($this->getViewPathByFileName($filename));
-    }
-
-    public function setVersion(string $version): self
-    {
-        $this->version = $version;
-
-        return $this;
-    }
-
-    public function getVersion(): string
-    {
-        return $this->version;
-    }
-
-    public function setRequirements(array $require): self
-    {
-        $this->require = $require;
-
-        return $this;
-    }
-
-    public function getRequirements(): array
-    {
-        return (array) $this->require;
+        return $filename && file_exists($this->getViewPath($filename));
     }
 
     public function setEnabled(bool $enabled): self
