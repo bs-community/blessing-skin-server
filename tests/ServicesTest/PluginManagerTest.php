@@ -461,12 +461,12 @@ class PluginManagerTest extends TestCase
         $this->assertNull(plugin('nope'));
         $this->assertInstanceOf(Plugin::class, plugin('fake'));
 
-        $this->expectExceptionMessage('No such plugin.');
-        plugin_assets('nope', 'relative');
-
         $this->assertEquals(
             url('plugins').'/fake/assets/relative?v=1',
             plugin_assets('fake', 'relative')
         );
+
+        $this->expectExceptionMessage('No such plugin.');
+        plugin_assets('nope', 'relative');
     }
 }

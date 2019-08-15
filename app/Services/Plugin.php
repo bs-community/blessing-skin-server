@@ -41,11 +41,6 @@ class Plugin
         return $this->getManifestAttr(Str::snake($name, '-'));
     }
 
-    public function __isset(string $name)
-    {
-        return isset($this->{$name}) || $this->getManifestAttr(Str::snake($name, '-'));
-    }
-
     public function getManifest()
     {
         return $this->manifest;
