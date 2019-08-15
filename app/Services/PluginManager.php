@@ -111,6 +111,7 @@ class PluginManager
                         $manifest['version'],
                         $this->enabled->get($name)['version']
                     )) {
+                        $this->enabled->put($name, $manifest['version']);
                         $this->dispatcher->dispatch(new Events\PluginVersionChanged($plugin));
                     }
                 }
@@ -129,9 +130,7 @@ class PluginManager
             return;
         }
 
-        $enabled = $this->all()->filter(function ($plugin) {
-            return $plugin->isEnabled();
-        });
+        $enabled = $this->getEnabledPlugins();
 
         $this->registerAutoload(
             $enabled->mapWithKeys(function ($plugin) {
@@ -243,14 +242,11 @@ class PluginManager
         return $this->all()->get($name);
     }
 
-    /**
-     * @param string $name
-     */
-    public function enable($name)
+    public function enable($plugin)
     {
-        $plugin = $this->get($name);
-        if (! $plugin->isEnabled($name)) {
-            $this->enabled->put($name, ['version' => $plugin->version]);
+        $plugin = is_string($plugin) ? $this->get($plugin) : $plugin;
+        if ($plugin && ! $plugin->isEnabled()) {
+            $this->enabled->put($plugin->name, ['version' => $plugin->version]);
             $this->saveEnabled();
 
             $plugin->setEnabled(true);
@@ -259,46 +255,32 @@ class PluginManager
         }
     }
 
-    /**
-     * @param string $name
-     */
-    public function disable($name)
+    public function disable($plugin)
     {
-        if (is_null($this->enabled)) {
-            $this->convertPluginRecord();
-        }
-
-        $rejected = $this->enabled->reject(function ($item) use ($name) {
-            return is_string($item) ? $item == $name : $item['name'] == $name;
-        });
-
-        if ($rejected->count() !== $this->enabled->count()) {
-            $plugin = $this->getPlugin($name);
-            $plugin->setEnabled(false);
-
-            $this->enabled = $rejected;
+        $plugin = is_string($plugin) ? $this->get($plugin) : $plugin;
+        if ($plugin && $plugin->isEnabled()) {
+            $this->enabled->pull($plugin->name);
             $this->saveEnabled();
+
+            $plugin->setEnabled(false);
 
             $this->dispatcher->dispatch(new Events\PluginWasDisabled($plugin));
         }
     }
 
-    /**
-     * @param string $name
-     */
-    public function delete($name)
+    public function delete($plugin)
     {
-        $plugin = $this->getPlugin($name);
+        $plugin = is_string($plugin) ? $this->get($plugin) : $plugin;
+        if ($plugin) {
+            $this->disable($plugin);
 
-        $this->disable($name);
+            // dispatch event before deleting plugin files
+            $this->dispatcher->dispatch(new Events\PluginWasDeleted($plugin));
 
-        // dispatch event before deleting plugin files
-        $this->dispatcher->dispatch(new Events\PluginWasDeleted($plugin));
+            $this->filesystem->deleteDirectory($plugin->getPath());
 
-        $this->filesystem->deleteDirectory($plugin->getPath());
-
-        // refresh plugin list
-        $this->plugins = null;
+            $this->plugins->pull($plugin->name);
+        }
     }
 
     /**

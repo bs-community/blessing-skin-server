@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Event;
+use App\Events;
 use ReflectionClass;
 use App\Services\Plugin;
 use App\Services\PluginManager;
@@ -373,5 +374,79 @@ class PluginManagerTest extends TestCase
 
         $plugin = new Plugin('', ['require' => ['another-plugin' => '^1.0.0']]);
         $this->assertFalse($manager->getUnsatisfied($plugin)->has('another-plugin'));
+    }
+
+    public function testEnable()
+    {
+        Event::fake();
+
+        $manager = app('plugins');
+        $reflection = new ReflectionClass($manager);
+        $property = $reflection->getProperty('plugins');
+        $property->setAccessible(true);
+        $plugin = new Plugin('', ['name' => 'fake']);
+        $property->setValue($manager, collect(['fake' => $plugin]));
+
+        $manager->enable('fake');
+        Event::assertDispatched(Events\PluginWasEnabled::class, function ($event) {
+            $this->assertEquals('fake', $event->plugin->name);
+            return true;
+        });
+        $this->assertTrue($manager->getEnabledPlugins()->has('fake'));
+        $this->assertEquals(
+            'fake',
+            json_decode(resolve(\App\Services\Option::class)->get('plugins_enabled'), true)[0]['name']
+        );
+    }
+
+    public function testDisable()
+    {
+        Event::fake();
+
+        $manager = app('plugins');
+        $reflection = new ReflectionClass($manager);
+        $property = $reflection->getProperty('plugins');
+        $property->setAccessible(true);
+        $plugin = new Plugin('', ['name' => 'fake']);
+        $plugin->setEnabled(true);
+        $property->setValue($manager, collect(['fake' => $plugin]));
+
+        $manager->disable('fake');
+        Event::assertDispatched(Events\PluginWasDisabled::class, function ($event) {
+            $this->assertEquals('fake', $event->plugin->name);
+            return true;
+        });
+        $this->assertFalse($manager->getEnabledPlugins()->has('fake'));
+        $this->assertCount(0, json_decode(resolve(\App\Services\Option::class)->get('plugins_enabled'), true));
+    }
+
+    public function testDelete()
+    {
+        Event::fake();
+        $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('directories')->andReturn(collect([]));
+            $mock->shouldReceive('deleteDirectory')->with('/fake')->once();
+        });
+
+        $manager = app('plugins');
+        $reflection = new ReflectionClass($manager);
+        $property = $reflection->getProperty('plugins');
+        $property->setAccessible(true);
+        $plugin = new Plugin('/fake', ['name' => 'fake']);
+        $plugin->setEnabled(true);
+        $property->setValue($manager, collect(['fake' => $plugin]));
+
+        $manager->delete('fake');
+        Event::assertDispatched(Events\PluginWasDisabled::class, function ($event) {
+            $this->assertEquals('fake', $event->plugin->name);
+            return true;
+        });
+        Event::assertDispatched(Events\PluginWasDeleted::class, function ($event) {
+            $this->assertEquals('fake', $event->plugin->name);
+            return true;
+        });
+        $this->assertFalse($manager->getEnabledPlugins()->has('fake'));
+        $this->assertCount(0, json_decode(resolve(\App\Services\Option::class)->get('plugins_enabled'), true));
+        $this->assertTrue($manager->all()->isEmpty());
     }
 }
