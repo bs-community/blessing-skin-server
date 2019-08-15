@@ -53,9 +53,9 @@
           </div>
         </span>
         <span v-else-if="props.column.field === 'dependencies'">
-          <span
-            v-if="Object.keys(props.row.dependencies.all).length === 0"
-          ><i v-t="'admin.noDependencies'" /></span>
+          <span v-if="Object.keys(props.row.dependencies.all).length === 0">
+            <i v-t="'admin.noDependencies'" />
+          </span>
           <div v-else>
             <span
               v-for="(constraint, name) in props.row.dependencies.all"

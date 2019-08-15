@@ -52,7 +52,7 @@ test('enable plugin', async () => {
       name: 'a', dependencies: { all: {}, unsatisfied: {} }, enabled: false,
     },
     {
-      name: 'b', dependencies: { all: {}, unsatisfied: {} }, enabled: false,
+      name: 'b', dependencies: { all: { c: '' }, unsatisfied: {} }, enabled: false,
     },
   ])
   Vue.prototype.$http.post

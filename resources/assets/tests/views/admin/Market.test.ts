@@ -5,11 +5,11 @@ import { flushPromises } from '../../utils'
 
 test('render dependencies', async () => {
   Vue.prototype.$http.get.mockResolvedValue([
-    { name: 'a', dependencies: { requirements: [] } },
+    { name: 'a', dependencies: { all: {}, unsatisfied: {} } },
     {
       name: 'b',
       dependencies: {
-        requirements: { a: '^1.0.0', c: '^2.0.0' }, unsatisfiedRequirements: { c: {} },
+        all: { a: '^1.0.0', c: '^2.0.0' }, unsatisfied: { c: {} },
       },
     },
   ])
@@ -24,16 +24,16 @@ test('render dependencies', async () => {
 test('render operation buttons', async () => {
   Vue.prototype.$http.get.mockResolvedValue([
     {
-      name: 'a', dependencies: { requirements: [] }, installed: true, update_available: true,
+      name: 'a', dependencies: { all: {}, unsatisfied: {} }, installed: true, update_available: true,
     },
     {
-      name: 'b', dependencies: { requirements: [] }, installed: true, enabled: true,
+      name: 'b', dependencies: { all: {}, unsatisfied: {} }, installed: true, enabled: true,
     },
     {
-      name: 'c', dependencies: { requirements: [] }, installed: true,
+      name: 'c', dependencies: { all: {}, unsatisfied: {} }, installed: true,
     },
     {
-      name: 'd', dependencies: { requirements: [] }, installed: false,
+      name: 'd', dependencies: { all: {}, unsatisfied: {} }, installed: false,
     },
   ])
   const wrapper = mount(Market)
@@ -49,7 +49,7 @@ test('render operation buttons', async () => {
 test('install plugin', async () => {
   Vue.prototype.$http.get.mockResolvedValue([
     {
-      name: 'd', dependencies: { requirements: [] }, installed: false,
+      name: 'd', dependencies: { all: {}, unsatisfied: {} }, installed: false,
     },
   ])
   Vue.prototype.$http.post
@@ -75,7 +75,7 @@ test('update plugin', async () => {
     {
       name: 'a',
       version: '2.0.0',
-      dependencies: { requirements: [] },
+      dependencies: { all: {}, unsatisfied: {} },
       installed: '1.0.0',
       update_available: true,
     },
