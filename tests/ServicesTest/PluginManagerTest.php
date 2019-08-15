@@ -449,4 +449,24 @@ class PluginManagerTest extends TestCase
         $this->assertCount(0, json_decode(resolve(\App\Services\Option::class)->get('plugins_enabled'), true));
         $this->assertTrue($manager->all()->isEmpty());
     }
+
+    public function testHelpers()
+    {
+        $manager = app('plugins');
+        $reflection = new ReflectionClass($manager);
+        $property = $reflection->getProperty('plugins');
+        $property->setAccessible(true);
+        $property->setValue($manager, collect(['fake' => new Plugin('', ['name' => 'fake', 'version' => '1'])]));
+
+        $this->assertNull(plugin('nope'));
+        $this->assertInstanceOf(Plugin::class, plugin('fake'));
+
+        $this->expectExceptionMessage('No such plugin.');
+        plugin_assets('nope', 'relative');
+
+        $this->assertEquals(
+            url('plugins').'/fake/assets/relative?v=1',
+            plugin_assets('fake', 'relative')
+        );
+    }
 }

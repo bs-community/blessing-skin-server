@@ -32,9 +32,10 @@ if (! function_exists('plugin')) {
 }
 
 if (! function_exists('plugin_assets')) {
-    function plugin_assets(string $id, string $relativeUri): string
+    function plugin_assets(string $name, string $relativeUri): string
     {
-        if ($plugin = plugin($id)) {
+        $plugin = plugin($name);
+        if ($plugin) {
             return $plugin->assets($relativeUri);
         } else {
             throw new InvalidArgumentException('No such plugin.');
