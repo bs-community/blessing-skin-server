@@ -4,13 +4,9 @@ namespace Tests;
 
 use App\Models\User;
 use App\Services\Hook;
-use Illuminate\Support\Facades\File;
-use Tests\Concerns\GeneratesFakePlugins;
 
 class HookTest extends TestCase
 {
-    use GeneratesFakePlugins;
-
     public function testAddMenuItem()
     {
         Hook::addMenuItem('user', 0, [
@@ -49,15 +45,9 @@ class HookTest extends TestCase
 
     public function testRegisterPluginTransScripts()
     {
-        $this->generateFakePlugin(['name' => 'fake-plugin-with-i18n', 'version' => '0.0.1']);
-        @mkdir($path = config('plugins.directory').DIRECTORY_SEPARATOR.'fake-plugin-with-i18n/lang/en', 0755, true);
-        file_put_contents("$path/locale.js", '');
-
         Hook::registerPluginTransScripts('fake-plugin-with-i18n', ['/']);
         $this->get('/')->assertSee('fake-plugin-with-i18n/lang/en/locale.js');
         $this->get('/skinlib')->assertDontSee('fake-plugin-with-i18n/lang/en/locale.js');
-
-        File::deleteDirectory(config('plugins.directory').DIRECTORY_SEPARATOR.'fake-plugin-with-i18n');
     }
 
     public function testAddStyleFileToPage()

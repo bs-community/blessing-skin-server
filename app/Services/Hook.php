@@ -16,7 +16,7 @@ class Hook
     /**
      * Add an item to menu.
      *
-     * @param string  $category  'user' or 'admin'
+     * @param string  $category  'user' or 'admin' or 'explore'
      * @param int  $position  Where to insert the given item, start from 0.
      * @param array  $menu  e.g.
      * [
@@ -63,17 +63,17 @@ class Hook
         });
     }
 
-    public static function registerPluginTransScripts(string $id, $pages = ['*'], $priority = 999): void
+    public static function registerPluginTransScripts(string $name, $pages = ['*'], $priority = 999): void
     {
-        Event::listen(Events\RenderingFooter::class, function ($event) use ($id, $pages) {
+        Event::listen(Events\RenderingFooter::class, function ($event) use ($name, $pages) {
             foreach ($pages as $pattern) {
-                if (! app('request')->is($pattern)) {
+                if (! request()->is($pattern)) {
                     continue;
                 }
 
                 // We will determine current locale in the event callback,
                 // otherwise the locale is not properly detected.
-                $basepath = config('plugins.url') ?: url('plugins').'/'.$id.'/';
+                $basepath = config('plugins.url') ?: url('plugins').'/'.$name.'/';
                 $relative = 'lang/'.config('app.locale').'/locale.js';
 
                 $event->addContent(
@@ -89,7 +89,7 @@ class Hook
     {
         Event::listen(Events\RenderingHeader::class, function ($event) use ($urls, $pages) {
             foreach ($pages as $pattern) {
-                if (! app('request')->is($pattern)) {
+                if (! request()->is($pattern)) {
                     continue;
                 }
 
@@ -106,7 +106,7 @@ class Hook
     {
         Event::listen(Events\RenderingFooter::class, function ($event) use ($urls, $pages) {
             foreach ($pages as $pattern) {
-                if (! app('request')->is($pattern)) {
+                if (! request()->is($pattern)) {
                     continue;
                 }
 
