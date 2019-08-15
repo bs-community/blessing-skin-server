@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use DB;
 use Mockery;
 use Exception;
 use CreateAllTables;
@@ -180,8 +179,8 @@ class SetupControllerTest extends TestCase
                 '--force' => true,
                 '--path' => [
                     'database/migrations',
-                    'vendor/laravel/passport/database/migrations'
-                ]
+                    'vendor/laravel/passport/database/migrations',
+                ],
             ])
             ->once()
             ->andReturnUsing(function () {

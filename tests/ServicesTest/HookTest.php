@@ -101,6 +101,7 @@ class HookTest extends TestCase
             {
                 $response = $next($request);
                 $response->header('X-Middleware-Test', 'value');
+
                 return $response;
             }
         }));

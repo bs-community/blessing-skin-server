@@ -114,6 +114,7 @@ class ReportController extends Controller
                     self::returnScore($report);
                     $report->status = Report::RESOLVED;
                     $report->save();
+
                     return json(trans('general.texture-deleted'), 0, ['status' => Report::RESOLVED]);
                 }
                 break;
@@ -138,13 +139,16 @@ class ReportController extends Controller
         return json(trans('general.op-success'), 0, ['status' => Report::RESOLVED]);
     }
 
-    static function returnScore($report) {
+    public static function returnScore($report)
+    {
         if ($report->status == Report::PENDING && ($score = option('reporter_score_modification', 0)) < 0) {
             $report->informer->score -= $score;
             $report->informer->save();
         }
     }
-    static function giveAward($report) {
+
+    public static function giveAward($report)
+    {
         if ($report->status == Report::PENDING) {
             $report->informer->score += option('reporter_reward_score', 0);
             $report->informer->save();

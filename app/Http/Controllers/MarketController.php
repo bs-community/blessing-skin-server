@@ -63,6 +63,7 @@ class MarketController extends Controller
         $pluginsHaveUpdate = collect($this->getAllAvailablePlugins())
             ->filter(function ($item) use ($manager) {
                 $plugin = $manager->get($item['name']);
+
                 return $plugin && Comparator::greaterThan($item['version'], $plugin->version);
             });
 

@@ -2,10 +2,6 @@
 
 namespace App\Providers;
 
-use Event;
-use App\Events;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 use App\Services\PluginManager;
 use Illuminate\Support\ServiceProvider;
 

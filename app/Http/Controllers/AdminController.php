@@ -7,8 +7,8 @@ use Option;
 use Notification;
 use Carbon\Carbon;
 use App\Models\User;
-use App\Notifications;
 use App\Models\Player;
+use App\Notifications;
 use App\Models\Texture;
 use Illuminate\Support\Str;
 use App\Services\OptionForm;
@@ -99,6 +99,7 @@ class AdminController extends Controller
         Notification::send($users, $notification);
 
         session(['sentResult' => trans('admin.notifications.send.success')]);
+
         return redirect('/admin');
     }
 

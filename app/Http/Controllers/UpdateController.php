@@ -96,6 +96,7 @@ class UpdateController extends Controller
         $php = Arr::get($this->info, 'php');
         if (Comparator::lessThan(PHP_VERSION, $php)) {
             $this->error = trans('admin.update.errors.php', ['version' => $php]);
+
             return false;
         }
 

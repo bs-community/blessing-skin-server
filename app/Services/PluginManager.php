@@ -2,8 +2,6 @@
 
 namespace App\Services;
 
-use Storage;
-use Exception;
 use App\Events;
 use Composer\Semver\Semver;
 use Illuminate\Support\Arr;
@@ -118,6 +116,7 @@ class PluginManager
             });
 
         $this->plugins = $plugins;
+
         return $plugins;
     }
 
@@ -313,11 +312,13 @@ class PluginManager
             ->mapWithKeys(function ($constraint, $name) {
                 if ($name == 'blessing-skin-server') {
                     $version = config('app.version');
+
                     return (! Semver::satisfies($version, $constraint))
                         ? [$name => compact('version', 'constraint')]
                         : [];
                 } elseif ($name == 'php') {
                     $version = PHP_VERSION;
+
                     return (! Semver::satisfies($version, $constraint))
                         ? [$name => compact('version', 'constraint')]
                         : [];
@@ -325,6 +326,7 @@ class PluginManager
                     return [$name => ['version' => null, 'constraint' => $constraint]];
                 } else {
                     $version = $this->enabled->get($name)['version'];
+
                     return (! Semver::satisfies($version, $constraint))
                         ? [$name => compact('version', 'constraint')]
                         : [];

@@ -3,7 +3,6 @@
 namespace Tests;
 
 use File;
-use App\Services\Webpack;
 
 class WebpackTest extends TestCase
 {

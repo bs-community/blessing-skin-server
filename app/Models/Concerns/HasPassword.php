@@ -26,6 +26,7 @@ trait HasPassword
     public function getEncryptedPwdFromEvent($raw)
     {
         $responses = event(new EncryptUserPassword($raw, $this));
+
         return Arr::get($responses, 0);
     }
 
@@ -39,6 +40,7 @@ trait HasPassword
     {
         $responses = event(new EncryptUserPassword($password, $this));
         $this->password = Arr::get($responses, 0, app('cipher')->hash($password, config('secure.salt')));
+
         return $this->save();
     }
 }

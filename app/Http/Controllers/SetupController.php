@@ -149,8 +149,8 @@ class SetupController extends Controller
             '--force' => true,
             '--path' => [
                 'database/migrations',
-                'vendor/laravel/passport/database/migrations'
-            ]
+                'vendor/laravel/passport/database/migrations',
+            ],
           ]);
         Log::info('[SetupWizard] Tables migrated.');
 

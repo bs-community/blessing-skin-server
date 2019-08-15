@@ -65,6 +65,7 @@ class User extends Authenticatable implements JWTSubject
                 if (Arr::has(static::$mappings, $item['column'])) {
                     $item['column'] = static::$mappings[$item['column']];
                 }
+
                 return $item;
             };
             $mapColumn = function ($column) {
@@ -86,6 +87,7 @@ class User extends Authenticatable implements JWTSubject
             }
 
             $builder->setQuery($query);
+
             return $builder;
         });
     }

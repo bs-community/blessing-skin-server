@@ -34,6 +34,7 @@ class Handler extends ExceptionHandler
                 })
                 ->map(function ($trace) {
                     $trace['file'] = str_replace(base_path().DIRECTORY_SEPARATOR, '', $trace['file']);
+
                     return $trace;
                 })
                 ->filter(function ($trace) {

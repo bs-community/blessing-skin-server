@@ -11,6 +11,7 @@ class FilterTest extends TestCase
                 ->withArgs(function ($hook, $callback) {
                     $this->assertEquals('my.hook', $hook);
                     $this->assertEquals('Filtered text', $callback('text'));
+
                     return true;
                 })
                 ->once();

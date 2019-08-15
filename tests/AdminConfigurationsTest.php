@@ -4,7 +4,6 @@ namespace Tests;
 
 use Cache;
 use Redis;
-use App\Models\User;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
