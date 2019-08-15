@@ -10,6 +10,7 @@ class LockUpdatePage
     public function handle($request, Closure $next)
     {
         abort_if($request->user()->permission < User::SUPER_ADMIN, 503);
+
         return $next($request);
     }
 }

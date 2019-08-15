@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Carbon\Carbon;
-use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
@@ -13,8 +12,9 @@ if (! function_exists('webpack_assets')) {
         if (env('WEBPACK_ENV', 'production') == 'development') {
             // @codeCoverageIgnoreStart
             $host = parse_url(url('/'), PHP_URL_HOST);
+
             return "http://$host:8080/$relativeUri";
-            // @codeCoverageIgnoreEnd
+        // @codeCoverageIgnoreEnd
         } else {
             $path = app('webpack')->$relativeUri;
             $cdn = option('cdn_address');
@@ -125,7 +125,7 @@ if (! function_exists('bs_menu')) {
 
         $menu[$type] = array_map(function ($item) {
             if (Arr::get($item, 'id') === 'plugin-configs') {
-                 $pluginConfigs = app('plugins')->getEnabledPlugins()
+                $pluginConfigs = app('plugins')->getEnabledPlugins()
                     ->filter(function ($plugin) {
                         return $plugin->hasConfigView();
                     })

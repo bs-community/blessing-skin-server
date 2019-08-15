@@ -92,6 +92,7 @@ class PluginControllerTest extends TestCase
             $mock->shouldReceive('getUnsatisfied')
                 ->withArgs(function ($plugin) {
                     $this->assertEquals('fake2', $plugin->name);
+
                     return true;
                 })
                 ->once()
@@ -110,6 +111,7 @@ class PluginControllerTest extends TestCase
             $mock->shouldReceive('getUnsatisfied')
                 ->withArgs(function ($plugin) {
                     $this->assertEquals('fake3', $plugin->name);
+
                     return true;
                 })
                 ->once()
@@ -208,11 +210,12 @@ class PluginControllerTest extends TestCase
                 ->andReturn(collect([new Plugin('', [
                     'name' => 'a',
                     'version' => '0.0.0',
-                    'title' => ''
+                    'title' => '',
                 ])]));
             $mock->shouldReceive('getUnsatisfied')
                 ->withArgs(function ($plugin) {
                     $this->assertEquals('a', $plugin->name);
+
                     return true;
                 })
                 ->once()

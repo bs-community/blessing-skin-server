@@ -3,7 +3,6 @@
 namespace Tests;
 
 use Schema;
-use Artisan;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 

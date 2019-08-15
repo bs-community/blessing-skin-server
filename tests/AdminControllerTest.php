@@ -4,8 +4,8 @@ namespace Tests;
 
 use Notification;
 use App\Models\User;
-use App\Notifications;
 use App\Models\Player;
+use App\Notifications;
 use App\Models\Texture;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
@@ -53,6 +53,7 @@ class AdminControllerTest extends TestCase
             Notifications\SiteMessage::class,
             function ($notification) {
                 $this->assertEquals('all users', $notification->title);
+
                 return true;
             }
         );
@@ -70,6 +71,7 @@ class AdminControllerTest extends TestCase
             function ($notification) {
                 $this->assertEquals('normal only', $notification->title);
                 $this->assertEquals('hi', $notification->content);
+
                 return true;
             }
         );
@@ -88,6 +90,7 @@ class AdminControllerTest extends TestCase
             Notifications\SiteMessage::class,
             function ($notification) {
                 $this->assertEquals('uid', $notification->title);
+
                 return true;
             }
         );
@@ -106,6 +109,7 @@ class AdminControllerTest extends TestCase
             Notifications\SiteMessage::class,
             function ($notification) {
                 $this->assertEquals('email', $notification->title);
+
                 return true;
             }
         );

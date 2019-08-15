@@ -19,6 +19,7 @@ class PluginManagerTest extends TestCase
         $property->setValue($manager, false);
 
         $manager->boot();
+
         return $manager;
     }
 
@@ -148,6 +149,7 @@ class PluginManagerTest extends TestCase
         $manager = $this->rebootPluginManager(app('plugins'));
         Event::assertDispatched(\App\Events\PluginVersionChanged::class, function ($event) {
             $this->assertEquals('0.1.0', $event->plugin->version);
+
             return true;
         });
 
@@ -390,6 +392,7 @@ class PluginManagerTest extends TestCase
         $manager->enable('fake');
         Event::assertDispatched(Events\PluginWasEnabled::class, function ($event) {
             $this->assertEquals('fake', $event->plugin->name);
+
             return true;
         });
         $this->assertTrue($manager->getEnabledPlugins()->has('fake'));
@@ -414,6 +417,7 @@ class PluginManagerTest extends TestCase
         $manager->disable('fake');
         Event::assertDispatched(Events\PluginWasDisabled::class, function ($event) {
             $this->assertEquals('fake', $event->plugin->name);
+
             return true;
         });
         $this->assertFalse($manager->getEnabledPlugins()->has('fake'));
@@ -439,10 +443,12 @@ class PluginManagerTest extends TestCase
         $manager->delete('fake');
         Event::assertDispatched(Events\PluginWasDisabled::class, function ($event) {
             $this->assertEquals('fake', $event->plugin->name);
+
             return true;
         });
         Event::assertDispatched(Events\PluginWasDeleted::class, function ($event) {
             $this->assertEquals('fake', $event->plugin->name);
+
             return true;
         });
         $this->assertFalse($manager->getEnabledPlugins()->has('fake'));
