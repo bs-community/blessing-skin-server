@@ -37,11 +37,22 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
+        list($from, $to) = explode(',', option('sign_score'));
+        $scoreIntro = nl2br(trans('user.score-intro.introduction', [
+            'initial_score' => option('user_initial_score'),
+            'score-from'    => $from,
+            'score-to'      => $to,
+            'return-score'  => option('return_score')
+                ? trans('user.score-intro.will-return-score')
+                : trans('user.score-intro.no-return-score')
+        ]));
+
         return view('user.index')->with([
             'statistics' => [
                 'players' => $this->calculatePercentageUsed($user->players->count(), option('score_per_player')),
                 'storage' => $this->calculatePercentageUsed($this->getStorageUsed($user), option('score_per_storage')),
             ],
+            'scoreIntro' => $scoreIntro,
             'announcement' => app('parsedown')->text(option_localized('announcement')),
             'extra' => ['unverified' => option('require_verification') && ! $user->verified],
         ]);

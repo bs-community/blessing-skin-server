@@ -8,9 +8,7 @@
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>
-            @lang('general.dashboard')
-        </h1>
+        <h1>@lang('general.dashboard')</h1>
     </section>
 
     <!-- Main content -->
@@ -49,16 +47,8 @@
                 <h4 class="modal-title">@lang('user.score-intro.title')</h4>
             </div>
             <div class="modal-body">
-                <?php list($from, $to) = explode(',', Option::get('sign_score')); ?>
-                {!! nl2br(trans('user.score-intro.introduction', [
-                    'initial_score' => option('user_initial_score'),
-                    'score-from'    => $from,
-                    'score-to'      => $to,
-                    'return-score'  => option('return_score') ? trans('user.score-intro.will-return-score') : trans('user.score-intro.no-return-score')
-                ])) !!}
-
+                {!! $scoreIntro !!}
                 <hr />
-
                 <div class="row">
                     <div class="col-md-4">
                         <p class="text-center">@lang('user.score-intro.rates.storage', ['score' => option('score_per_storage')])</p>
