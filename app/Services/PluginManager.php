@@ -75,6 +75,9 @@ class PluginManager
         }
 
         $this->enabled = collect(json_decode($this->option->get('plugins_enabled', '[]'), true))
+            ->reject(function ($item) {
+                return is_string($item);
+            })
             ->mapWithKeys(function ($item) {
                 return [$item['name'] => ['version' => $item['version']]];
             });
