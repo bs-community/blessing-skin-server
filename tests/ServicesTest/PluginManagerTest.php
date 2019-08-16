@@ -341,7 +341,22 @@ class PluginManagerTest extends TestCase
 
         $this->assertFalse(class_exists('Fake\Faker'));
         $manager = $this->rebootPluginManager(app('plugins'));
-        $this->assertTrue(class_exists('Fake\Faker'));
+        $this->assertTrue(class_exists('Fake\FakeServiceProvider'));
+
+        config(['plugins.directory' => $dir]);
+        option(['plugins_enabled' => '[]']);
+    }
+
+    public function testRegisterServiceProviders()
+    {
+        Event::fake();
+
+        $dir = config('plugins.directory');
+        config(['plugins.directory' => storage_path('mocks')]);
+        option(['plugins_enabled' => json_encode([['name' => 'fake', 'version' => '0.0.0']])]);
+
+        $manager = $this->rebootPluginManager(app('plugins'));
+        Event::assertDispatched('provider.loaded');
 
         config(['plugins.directory' => $dir]);
         option(['plugins_enabled' => '[]']);

@@ -141,6 +141,7 @@ class PluginManager
         );
         $this->loadVendor($enabled);
         $this->loadViewsAndTranslations($enabled);
+        $this->registerServiceProviders($enabled);
         $this->loadBootstrapper($enabled);
         $this->registerLifecycleHooks();
 
@@ -199,6 +200,22 @@ class PluginManager
 
             $translations->addNamespace($namespace, $path.'/lang');
             $view->addNamespace($namespace, $path.'/views');
+        });
+    }
+
+    /**
+     * @param Collection $enabled
+     */
+    protected function registerServiceProviders($enabled)
+    {
+        $enabled->each(function ($plugin) {
+            $providers = Arr::get($plugin->getManifest(), 'enchants.providers', []);
+            array_walk($providers, function ($provider) use ($plugin) {
+                $class = Str::start(Str::finish($provider, 'ServiceProvider'), $plugin->namespace.'\\');
+                if (class_exists($class)) {
+                    $this->app->register($class);
+                }
+            });
         });
     }
 
