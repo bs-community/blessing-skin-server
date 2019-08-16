@@ -269,9 +269,8 @@ class SetupController extends Controller
         try {
             foreach ($directories as $dir) {
                 if (! Storage::disk('root')->has($dir)) {
-                    // Try to mkdir
                     if (! Storage::disk('root')->makeDirectory($dir)) {
-                        return false;
+                        return false; // @codeCoverageIgnore
                     }
                 }
             }
