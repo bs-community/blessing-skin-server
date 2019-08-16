@@ -28,6 +28,12 @@ class PluginDisableCommand extends Command
      */
     public function handle(PluginManager $plugins)
     {
-        $plugins->disable($this->argument('name'));
+        $plugin = $plugins->get($this->argument('name'));
+        if ($plugin) {
+            $plugins->disable($this->argument('name'));
+            $this->info(trans('admin.plugins.operations.disabled', ['plugin' => $plugin->title]));
+        } else {
+            $this->warn(trans('admin.plugins.operations.not-found'));
+        }
     }
 }
