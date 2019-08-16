@@ -132,106 +132,91 @@ class PluginManager
             return;
         }
 
-        $enabled = $this->getEnabledPlugins();
-
-        $this->registerAutoload(
-            $enabled->mapWithKeys(function ($plugin) {
-                return [$plugin->namespace => $plugin->getPath().'/src'];
-            })
-        );
-        $this->loadVendor($enabled);
-        $this->loadViewsAndTranslations($enabled);
-        $this->registerServiceProviders($enabled);
-        $this->loadBootstrapper($enabled);
+        $this->getEnabledPlugins()->each(function ($plugin) {
+            $this->bootPlugin($plugin);
+        });
         $this->registerLifecycleHooks();
 
         $this->booted = true;
     }
 
     /**
-     * Register classes autoloading.
-     *
-     * @param Collection $paths
+     * Boot one plugin.
      */
-    protected function registerAutoload($paths)
+    public function bootPlugin(Plugin $plugin)
     {
-        spl_autoload_register(function ($class) use ($paths) {
-            $paths->each(function ($path, $namespace) use ($class) {
-                if ($namespace != '' && mb_strpos($class, $namespace) === 0) {
-                    // Parse real file path
-                    $path = $path.Str::replaceFirst($namespace, '', $class).'.php';
-                    $path = str_replace('\\', '/', $path);
+        $this->registerAutoload($plugin);
+        $this->loadVendor($plugin);
+        $this->loadViewsAndTranslations($plugin);
+        $this->registerServiceProviders($plugin);
+        $this->loadBootstrapper($plugin);
+    }
 
-                    if ($this->filesystem->exists($path)) {
-                        $this->filesystem->getRequire($path);
-                    }
+    /**
+     * Register classes autoloading.
+     */
+    protected function registerAutoload(Plugin $plugin)
+    {
+        spl_autoload_register(function ($class) use ($plugin) {
+            $namespace = $plugin->namespace;
+            $path = $plugin->getPath().'/src';
+            if ($namespace != '' && mb_strpos($class, $namespace) === 0) {
+                // Parse real file path
+                $path = $path.Str::replaceFirst($namespace, '', $class).'.php';
+                $path = str_replace('\\', '/', $path);
+
+                if ($this->filesystem->exists($path)) {
+                    $this->filesystem->getRequire($path);
                 }
-            });
+            }
         });
     }
 
     /**
      * Load Composer dumped autoload file.
-     *
-     * @param Collection $enabled
      */
-    protected function loadVendor($enabled)
+    protected function loadVendor(Plugin $plugin)
     {
-        $enabled->each(function ($plugin) {
-            $path = $plugin->getPath().'/vendor/autoload.php';
-            if ($this->filesystem->exists($path)) {
-                $this->filesystem->getRequire($path);
-            }
-        });
+        $path = $plugin->getPath().'/vendor/autoload.php';
+        if ($this->filesystem->exists($path)) {
+            $this->filesystem->getRequire($path);
+        }
     }
 
     /**
      * Load views and translations.
-     *
-     * @param Collection $enabled
      */
-    protected function loadViewsAndTranslations($enabled)
+    protected function loadViewsAndTranslations(Plugin $plugin)
     {
         $translations = $this->app->make('translation.loader');
         $view = $this->app->make('view');
-        $enabled->each(function ($plugin) use (&$translations, &$view) {
-            $namespace = $plugin->namespace;
-            $path = $plugin->getPath();
+        $namespace = $plugin->namespace;
+        $path = $plugin->getPath();
 
-            $translations->addNamespace($namespace, $path.'/lang');
-            $view->addNamespace($namespace, $path.'/views');
-        });
+        $translations->addNamespace($namespace, $path.'/lang');
+        $view->addNamespace($namespace, $path.'/views');
     }
 
-    /**
-     * @param Collection $enabled
-     */
-    protected function registerServiceProviders($enabled)
+    protected function registerServiceProviders(Plugin $plugin)
     {
-        $enabled->each(function ($plugin) {
-            $providers = Arr::get($plugin->getManifest(), 'enchants.providers', []);
-            array_walk($providers, function ($provider) use ($plugin) {
-                $class = Str::start(Str::finish($provider, 'ServiceProvider'), $plugin->namespace.'\\');
-                if (class_exists($class)) {
-                    $this->app->register($class);
-                }
-            });
+        $providers = Arr::get($plugin->getManifest(), 'enchants.providers', []);
+        array_walk($providers, function ($provider) use ($plugin) {
+            $class = Str::start(Str::finish($provider, 'ServiceProvider'), $plugin->namespace.'\\');
+            if (class_exists($class)) {
+                $this->app->register($class);
+            }
         });
     }
 
     /**
      * Load plugin's bootstrapper.
-     *
-     * @param Collection $enabled
      */
-    protected function loadBootstrapper($enabled)
+    protected function loadBootstrapper(Plugin $plugin)
     {
-        $enabled->each(function ($plugin) {
-            $path = $plugin->getPath().'/bootstrap.php';
-            if ($this->filesystem->exists($path)) {
-                $this->app->call($this->filesystem->getRequire($path));
-            }
-        });
+        $path = $plugin->getPath().'/bootstrap.php';
+        if ($this->filesystem->exists($path)) {
+            $this->app->call($this->filesystem->getRequire($path));
+        }
     }
 
     protected function registerLifecycleHooks()
