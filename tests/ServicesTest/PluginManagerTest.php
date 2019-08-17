@@ -401,10 +401,14 @@ class PluginManagerTest extends TestCase
         $reflection = new ReflectionClass($manager);
         $property = $reflection->getProperty('plugins');
         $property->setAccessible(true);
-        $plugin = new Plugin('', ['name' => 'fake']);
-        $property->setValue($manager, collect(['fake' => $plugin]));
+        $property->setValue($manager, collect([
+            'fake' => new Plugin('', ['name' => 'fake']),
+            'dep' => new Plugin('', ['name' => 'dep', 'require' => ['a' => '*']]),
+        ]));
 
-        $manager->enable('fake');
+        $this->assertFalse($manager->enable('nope'));
+
+        $this->assertTrue($manager->enable('fake'));
         Event::assertDispatched(Events\PluginWasEnabled::class, function ($event) {
             $this->assertEquals('fake', $event->plugin->name);
 
@@ -415,6 +419,8 @@ class PluginManagerTest extends TestCase
             'fake',
             json_decode(resolve(\App\Services\Option::class)->get('plugins_enabled'), true)[0]['name']
         );
+
+        $this->assertTrue($manager->enable('dep')['unsatisfied']->isNotEmpty());
     }
 
     public function testDisable()

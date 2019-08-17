@@ -28,11 +28,12 @@ class PluginEnableCommand extends Command
      */
     public function handle(PluginManager $plugins)
     {
-        $plugin = $plugins->get($this->argument('name'));
-        if ($plugin) {
-            $plugins->enable($this->argument('name'));
+        $name = $this->argument('name');
+        $result = $plugins->enable($name);
+        if ($result === true) {
+            $plugin = $plugins->get($name);
             $this->info(trans('admin.plugins.operations.enabled', ['plugin' => $plugin->title]));
-        } else {
+        } elseif ($result === false) {
             $this->warn(trans('admin.plugins.operations.not-found'));
         }
     }

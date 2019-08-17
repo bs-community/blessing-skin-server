@@ -89,17 +89,15 @@ class PluginControllerTest extends TestCase
                 ->with('fake2')
                 ->once()
                 ->andReturn(new Plugin('', ['name' => 'fake2']));
-            $mock->shouldReceive('getUnsatisfied')
-                ->withArgs(function ($plugin) {
-                    $this->assertEquals('fake2', $plugin->name);
-
-                    return true;
-                })
+            $mock->shouldReceive('enable')
+                ->with('fake2')
                 ->once()
-                ->andReturn(collect([
-                    'dep' => ['version' => '0.0.0', 'constraint' => '^6.6.6'],
-                    'whatever' => ['version' => null, 'constraint' => '^1.2.3'],
-                ]));
+                ->andReturn([
+                    'unsatisfied' => collect([
+                        'dep' => ['version' => '0.0.0', 'constraint' => '^6.6.6'],
+                        'whatever' => ['version' => null, 'constraint' => '^1.2.3'],
+                    ]),
+                ]);
 
             $mock->shouldReceive('get')
                 ->with('fake3')
@@ -107,15 +105,8 @@ class PluginControllerTest extends TestCase
                 ->andReturn(new Plugin('', ['name' => 'fake3', 'title' => 'Fake']));
             $mock->shouldReceive('enable')
                 ->with('fake3')
-                ->once();
-            $mock->shouldReceive('getUnsatisfied')
-                ->withArgs(function ($plugin) {
-                    $this->assertEquals('fake3', $plugin->name);
-
-                    return true;
-                })
                 ->once()
-                ->andReturn(collect([]));
+                ->andReturn(true);
 
             $mock->shouldReceive('get')
                 ->with('fake4')

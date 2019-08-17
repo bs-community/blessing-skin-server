@@ -246,16 +246,28 @@ class PluginManager
         return $this->all()->get($name);
     }
 
+    /**
+     * @return bool|array Return `true` if succeeded, or return information if failed.
+     */
     public function enable($plugin)
     {
         $plugin = is_string($plugin) ? $this->get($plugin) : $plugin;
         if ($plugin && ! $plugin->isEnabled()) {
+            $unsatisfied = $this->getUnsatisfied($plugin);
+            if ($unsatisfied->isNotEmpty()) {
+                return compact('unsatisfied');
+            }
+
             $this->enabled->put($plugin->name, ['version' => $plugin->version]);
             $this->saveEnabled();
 
             $plugin->setEnabled(true);
 
             $this->dispatcher->dispatch(new Events\PluginWasEnabled($plugin));
+
+            return true;
+        } else {
+            return false;
         }
     }
 

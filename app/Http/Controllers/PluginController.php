@@ -29,9 +29,12 @@ class PluginController extends Controller
 
             switch ($request->get('action')) {
                 case 'enable':
-                    $requirements = $plugins->getUnsatisfied($plugin);
-                    if ($requirements->isNotEmpty()) {
-                        $reason = $requirements->map(function ($detail, $name) {
+                    $result = $plugins->enable($name);
+
+                    if ($result === true) {
+                        return json(trans('admin.plugins.operations.enabled', ['plugin' => $plugin->title]), 0);
+                    } else {
+                        $reason = $result['unsatisfied']->map(function ($detail, $name) {
                             $constraint = $detail['constraint'];
                             if (! $detail['version']) {
                                 return trans('admin.plugins.operations.unsatisfied.disabled', compact('name'));
@@ -42,10 +45,6 @@ class PluginController extends Controller
 
                         return json(trans('admin.plugins.operations.unsatisfied.notice'), 1, compact('reason'));
                     }
-
-                    $plugins->enable($name);
-
-                    return json(trans('admin.plugins.operations.enabled', ['plugin' => $plugin->title]), 0);
 
                 case 'disable':
                     $plugins->disable($name);

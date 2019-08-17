@@ -10,12 +10,12 @@ class PluginEnableCommandTest extends TestCase
     public function testEnablePlugin()
     {
         $this->mock(PluginManager::class, function ($mock) {
-            $mock->shouldReceive('get')->with('nope')->once()->andReturn(null);
             $mock->shouldReceive('get')
                 ->with('my-plugin')
                 ->once()
                 ->andReturn(new Plugin('', ['title' => 'My Plugin']));
-            $mock->shouldReceive('enable')->with('my-plugin')->once();
+            $mock->shouldReceive('enable')->with('nope')->once()->andReturn(false);
+            $mock->shouldReceive('enable')->with('my-plugin')->once()->andReturn(true);
         });
 
         $this->artisan('plugin:enable nope')
