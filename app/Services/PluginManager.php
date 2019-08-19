@@ -83,7 +83,11 @@ class PluginManager
             });
         $plugins = collect();
 
-        collect($this->filesystem->directories($this->getPluginsDir()))
+        $this->getPluginsDirs()
+            ->flatMap(function ($directory) {
+                return $this->filesystem->directories($directory);
+            })
+            ->unique()
             ->filter(function ($directory) {
                 return $this->filesystem->exists($directory.DIRECTORY_SEPARATOR.'package.json');
             })
@@ -365,10 +369,18 @@ class PluginManager
     /**
      * The plugins path.
      *
-     * @return string
+     * @return Collection
      */
-    public function getPluginsDir()
+    public function getPluginsDirs()
     {
-        return config('plugins.directory') ? realpath(config('plugins.directory')) : base_path('plugins');
+        $config = config('plugins.directory');
+        if ($config) {
+            return collect(preg_split('/,\s*/', $config))
+                ->map(function ($directory) {
+                    return realpath($directory) ?: $directory;
+                });
+        } else {
+            return collect([base_path('plugins')]);
+        }
     }
 }

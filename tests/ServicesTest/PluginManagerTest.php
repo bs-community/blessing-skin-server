@@ -496,4 +496,37 @@ class PluginManagerTest extends TestCase
         $this->expectExceptionMessage('No such plugin.');
         plugin_assets('nope', 'relative');
     }
+
+    public function testReadMultipleDirectories()
+    {
+        $old = config('plugins.directory');
+        config(['plugins.directory' => '/kumiko,/reina']);
+
+        $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('directories')
+                ->with('/kumiko')
+                ->once()
+                ->andReturn(collect(['/a', '/b']));
+            $mock->shouldReceive('directories')
+                ->with('/reina')
+                ->once()
+                ->andReturn(collect(['/b', '/c']));
+
+            $mock->shouldReceive('exists')
+                ->with('/a'.DIRECTORY_SEPARATOR.'package.json')
+                ->once()
+                ->andReturn(false);
+            $mock->shouldReceive('exists')
+                ->with('/b'.DIRECTORY_SEPARATOR.'package.json')
+                ->once()
+                ->andReturn(false);
+            $mock->shouldReceive('exists')
+                ->with('/c'.DIRECTORY_SEPARATOR.'package.json')
+                ->once()
+                ->andReturn(false);
+        });
+        app('plugins')->all();
+
+        config(['plugins.directory' => $old]);
+    }
 }
