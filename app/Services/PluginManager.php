@@ -132,7 +132,11 @@ class PluginManager
             return;
         }
 
-        $this->getEnabledPlugins()->each(function ($plugin) {
+        $enabled = $this->getEnabledPlugins();
+        $enabled->each(function ($plugin) {
+            $this->registerPlugin($plugin);
+        });
+        $enabled->each(function ($plugin) {
             $this->bootPlugin($plugin);
         });
         $this->registerLifecycleHooks();
@@ -141,13 +145,20 @@ class PluginManager
     }
 
     /**
-     * Boot one plugin.
+     * Register resources of a plugin.
      */
-    public function bootPlugin(Plugin $plugin)
+    public function registerPlugin(Plugin $plugin)
     {
         $this->registerAutoload($plugin);
         $this->loadVendor($plugin);
         $this->loadViewsAndTranslations($plugin);
+    }
+
+    /**
+     * Boot a plugin.
+     */
+    public function bootPlugin(Plugin $plugin)
+    {
         $this->registerServiceProviders($plugin);
         $this->loadBootstrapper($plugin);
     }
