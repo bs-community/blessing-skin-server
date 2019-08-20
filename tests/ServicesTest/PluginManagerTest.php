@@ -499,9 +499,14 @@ class PluginManagerTest extends TestCase
 
     public function testDefaultPluginsDirectory()
     {
+        $old = config('plugins.directory');
+        config(['plugins.directory' => null]);
+
         $directories = app('plugins')->getPluginsDirs();
         $this->assertEquals(1, $directories->count());
         $this->assertEquals(base_path('plugins'), $directories->first());
+
+        config(['plugins.directory' => $old]);
     }
 
     public function testReadMultipleDirectories()
