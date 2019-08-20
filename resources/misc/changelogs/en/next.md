@@ -1,8 +1,11 @@
 ## Added
 
 - Plugin system: `config.blade.php` as default config file name.
+- Plugin system: Allow to registering service providers automatically.
+- Plugin system: Added Filters API.
 - Allow to enable a plugin by running `php artisan plugin:enable {name}`.
 - Allow to disable a plugin by running `php artisan plugin:disable {name}`.
+- Support multiple plugins directories. (Splited by comma in ".env" file.)
 
 ## Tweaked
 

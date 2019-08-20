@@ -1,8 +1,11 @@
 ## 新增
 
 - 插件系统：`config.blade.php` 为默认情况下配置视图文件名
+- 插件系统：支持自动注册服务容器（Service Provider）
+- 插件系统：新增 Filters API
 - 支持以 `php artisan plugin:enable {name}` 的方式开启插件
 - 支持以 `php artisan plugin:disable {name}` 的方式关闭插件
+- 支持指定多个插件目录（在 .env 文件中以逗号分隔）
 
 ## 调整
 
