@@ -497,6 +497,13 @@ class PluginManagerTest extends TestCase
         plugin_assets('nope', 'relative');
     }
 
+    public function testDefaultPluginsDirectory()
+    {
+        $directories = app('plugins')->getPluginsDirs();
+        $this->assertEquals(1, $directories->count());
+        $this->assertEquals(base_path('plugins'), $directories->first());
+    }
+
     public function testReadMultipleDirectories()
     {
         $old = config('plugins.directory');
