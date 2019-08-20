@@ -9,10 +9,7 @@ class PluginServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->singleton(PluginManager::class);
-        $this->app->singleton('plugins', function ($app) {
-            return $app->make(PluginManager::class);
-        });
+        $this->app->singleton('plugins', PluginManager::class);
     }
 
     public function boot(PluginManager $plugins)
