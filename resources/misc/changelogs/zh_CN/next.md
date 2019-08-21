@@ -5,6 +5,7 @@
 - 插件系统：新增 Filters API
 - 支持以 `php artisan plugin:enable {name}` 的方式开启插件
 - 支持以 `php artisan plugin:disable {name}` 的方式关闭插件
+- 允许通过 `php artisan options:cache` 命令缓存站点选项
 - 支持指定多个插件目录（在 .env 文件中以逗号分隔）
 
 ## 调整

@@ -5,6 +5,7 @@
 - Plugin system: Added Filters API.
 - Allow to enable a plugin by running `php artisan plugin:enable {name}`.
 - Allow to disable a plugin by running `php artisan plugin:disable {name}`.
+- Allow to cache options by running `php artisan options:cache`.
 - Support multiple plugins directories. (Splited by comma in ".env" file.)
 
 ## Tweaked

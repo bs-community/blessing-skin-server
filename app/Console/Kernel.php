@@ -17,5 +17,6 @@ class Kernel extends ConsoleKernel
         Commands\BsInstallCommand::class,
         Commands\PluginEnableCommand::class,
         Commands\PluginDisableCommand::class,
+        Commands\OptionsCacheCommand::class,
     ];
 }

@@ -73,4 +73,9 @@ class Option
     {
         return $this->items->has($key);
     }
+
+    public function all(): array
+    {
+        return $this->items->all();
+    }
 }
