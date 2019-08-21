@@ -107,7 +107,7 @@ class PluginManager
 
                 $plugin = new Plugin($directory, $manifest);
                 $plugins->put($name, $plugin);
-                if ($this->getUnsatisfied($plugin)->isNotEmpty()) {
+                if ($this->getUnsatisfied($plugin)->isNotEmpty() || $this->getConflicts($plugin)->isNotEmpty()) {
                     $this->disable($plugin);
                 }
                 if ($this->enabled->has($name)) {
