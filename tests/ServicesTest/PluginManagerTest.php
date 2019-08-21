@@ -393,6 +393,26 @@ class PluginManagerTest extends TestCase
         $this->assertFalse($manager->getUnsatisfied($plugin)->has('another-plugin'));
     }
 
+    public function testGetConflicts()
+    {
+        $manager = app('plugins');
+
+        $plugin = new Plugin('/', ['enchants' => ['conflicts' => ['a' => '*', 'b' => '^1.2.0']]]);
+        $reflection = new ReflectionClass($manager);
+        $property = $reflection->getProperty('enabled');
+        $property->setAccessible(true);
+        $property->setValue($manager, collect(['b' => ['version' => '1.2.3']]));
+
+        $conflicts = $manager->getConflicts($plugin);
+        $this->assertNull($conflicts->get('a'));
+        $info = $conflicts->get('b');
+        $this->assertEquals('1.2.3', $info['version']);
+        $this->assertEquals('^1.2.0', $info['constraint']);
+
+        $plugin = new Plugin('/', ['enchants' => ['conflicts' => ['b' => '^0.0.0']]]);
+        $this->assertNull($manager->getConflicts($plugin)->get('b'));
+    }
+
     public function testEnable()
     {
         Event::fake();

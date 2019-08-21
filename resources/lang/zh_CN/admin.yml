@@ -100,9 +100,10 @@ plugins:
     title: 操作
     enabled: :plugin 已启用
     unsatisfied:
-      notice: 无法启用此插件，因为其仍有未满足的依赖关系。请检查以下插件的版本，更新或安装它们：
-      disabled: "`:name` 插件未启用"
-      version: "`:name` 的版本不符合要求 `:constraint`"
+      notice: 无法启用此插件，因为其仍有冲突或未满足的依赖关系。请检查以下插件的版本，更新或安装它们并禁用存在冲突的插件：
+      disabled: ':name 插件未启用'
+      version: ':name 的版本不符合要求 `:constraint`'
+      conflict: ':name 插件与此插件不能同时运行'
     disabled: :plugin 已禁用
     deleted: 插件已被成功删除
     no-config-notice: 插件未安装或未提供配置页面

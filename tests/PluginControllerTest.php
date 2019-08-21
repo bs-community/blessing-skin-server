@@ -97,6 +97,9 @@ class PluginControllerTest extends TestCase
                         'dep' => ['version' => '0.0.0', 'constraint' => '^6.6.6'],
                         'whatever' => ['version' => null, 'constraint' => '^1.2.3'],
                     ]),
+                    'conflicts' => collect([
+                        'conf' => ['version' => '1.2.3', 'constraint' => '^1.0.0'],
+                    ]),
                 ]);
 
             $mock->shouldReceive('get')
@@ -152,9 +155,8 @@ class PluginControllerTest extends TestCase
                         'name' => 'dep',
                         'constraint' => '^6.6.6',
                     ]),
-                    trans('admin.plugins.operations.unsatisfied.disabled', [
-                        'name' => 'whatever',
-                    ]),
+                    trans('admin.plugins.operations.unsatisfied.disabled', ['name' => 'whatever']),
+                    trans('admin.plugins.operations.unsatisfied.conflict', ['name' => 'conf']),
                 ],
             ],
         ]);

@@ -269,8 +269,9 @@ class PluginManager
         $plugin = is_string($plugin) ? $this->get($plugin) : $plugin;
         if ($plugin && ! $plugin->isEnabled()) {
             $unsatisfied = $this->getUnsatisfied($plugin);
-            if ($unsatisfied->isNotEmpty()) {
-                return compact('unsatisfied');
+            $conflicts = $this->getConflicts($plugin);
+            if ($unsatisfied->isNotEmpty() || $conflicts->isNotEmpty()) {
+                return compact('unsatisfied', 'conflicts');
             }
 
             $this->enabled->put($plugin->name, ['version' => $plugin->version]);
@@ -335,7 +336,6 @@ class PluginManager
     }
 
     /**
-     * @param Plugin $plugin
      * @return Collection
      */
     public function getUnsatisfied(Plugin $plugin)
@@ -362,6 +362,22 @@ class PluginManager
                     return (! Semver::satisfies($version, $constraint))
                         ? [$name => compact('version', 'constraint')]
                         : [];
+                }
+            });
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getConflicts(Plugin $plugin)
+    {
+        return collect($plugin->getManifestAttr('enchants.conflicts', []))
+            ->mapWithKeys(function ($constraint, $name) {
+                $info = $this->enabled->get($name);
+                if ($info && Semver::satisfies($info['version'], $constraint)) {
+                    return [$name => ['version' => $info['version'], 'constraint' => $constraint]];
+                } else {
+                    return [];
                 }
             });
     }
