@@ -9,6 +9,7 @@ use Closure;
 use App\Events;
 use Notification;
 use App\Notifications;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class Hook
@@ -131,7 +132,7 @@ class Hook
 
     public static function sendNotification($users, string $title, $content = ''): void
     {
-        Notification::send($users, new Notifications\SiteMessage($title, $content));
+        Notification::send(Arr::wrap($users), new Notifications\SiteMessage($title, $content));
     }
 
     public static function pushMiddleware($middleware)
