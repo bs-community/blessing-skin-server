@@ -4,14 +4,21 @@ namespace App\Services;
 
 use DB;
 use Illuminate\Support\Arr;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Database\QueryException;
 
 class Option
 {
     protected $items;
 
-    public function __construct()
+    public function __construct(Filesystem $filesystem)
     {
+        $cachePath = storage_path('options/cache.php');
+        if ($filesystem->exists($cachePath)) {
+            $this->items = collect($filesystem->getRequire($cachePath));
+            return;
+        }
+
         try {
             $this->items = DB::table('options')->get()->mapWithKeys(function ($item) {
                 return [$item->option_name => $item->option_value];
