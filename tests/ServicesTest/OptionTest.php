@@ -36,6 +36,7 @@ class OptionTest extends TestCase
             $mock->shouldReceive('getRequire')->with($path)->once()->andReturn(['k' => 'v']);
         });
 
+        app()->forgetInstance(Option::class);
         $options = resolve(Option::class);
         $this->assertEquals('v', $options->get('k'));
     }

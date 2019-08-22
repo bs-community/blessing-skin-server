@@ -21,7 +21,8 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('cipher', 'App\Services\Cipher\\'.config('secure.cipher'));
-        $this->app->singleton('options', \App\Services\Option::class);
+        $this->app->singleton(\App\Services\Option::class);
+        $this->app->alias(\App\Services\Option::class, 'options');
         $this->app->singleton('parsedown', \Parsedown::class);
         $this->app->singleton('webpack', \App\Services\Webpack::class);
     }
