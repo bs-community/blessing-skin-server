@@ -34,7 +34,7 @@ class OptionForm
 
     protected $renderWithOutTable = false;
     protected $renderInputTagsOnly = false;
-    protected $renderWithOutSubmitButton = false;
+    protected $renderWithoutSubmitButton = false;
 
     /**
      * Create a new option form instance.
@@ -244,7 +244,7 @@ class OptionForm
      */
     public function handle(callable $callback = null)
     {
-        $request = app('request');
+        $request = request();
         $allPostData = $request->all();
 
         if ($request->isMethod('POST') && Arr::get($allPostData, 'option') == $this->id) {
@@ -368,9 +368,9 @@ class OptionForm
         return $this;
     }
 
-    public function renderWithOutSubmitButton()
+    public function renderWithoutSubmitButton()
     {
-        $this->renderWithOutSubmitButton = true;
+        $this->renderWithoutSubmitButton = true;
 
         return $this;
     }
@@ -387,7 +387,7 @@ class OptionForm
         }
 
         // attach submit button to the form
-        if (! $this->renderWithOutSubmitButton) {
+        if (! $this->renderWithoutSubmitButton) {
             $this->addButton([
                 'style' => 'primary',
                 'text'  => trans('general.submit'),
