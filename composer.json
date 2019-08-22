@@ -26,7 +26,9 @@
     "tymon/jwt-auth": "dev-develop",
     "laravel/passport": "^7.3",
     "composer/ca-bundle": "^1.2",
-    "tormjens/eventy": "^0.5.7"
+    "tormjens/eventy": "^0.5.7",
+    "symfony/dom-crawler": "^4.3",
+    "symfony/css-selector": "^4.3"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.8",

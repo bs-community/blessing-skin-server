@@ -4,6 +4,7 @@ namespace Tests;
 
 use Illuminate\Support\Str;
 use App\Services\OptionForm;
+use Symfony\Component\DomCrawler\Crawler;
 
 class OptionFormTest extends TestCase
 {
@@ -78,9 +79,9 @@ class OptionFormTest extends TestCase
         $form = new OptionForm('test', 'test');
         $form->text('text');
         $form->renderInputTagsOnly();
-        $html = $form->render();
-        $this->assertFalse(Str::contains($html, '<td class="key">'));
-        $this->assertTrue(Str::contains($html, '<td class="value">'));
+        $crawler = new Crawler($form->render());
+        $this->assertCount(0, $crawler->filter('td.key'));
+        $this->assertCount(1, $crawler->filter('td.value'));
     }
 
     public function testRenderWithoutSubmitButton()
@@ -88,7 +89,25 @@ class OptionFormTest extends TestCase
         $form = new OptionForm('test', 'test');
         $form->text('text');
         $form->renderWithoutSubmitButton();
-        $html = $form->render();
-        $this->assertFalse(Str::contains($html, '<button'));
+        $crawler = new Crawler($form->render());
+        $this->assertCount(0, $crawler->filter('button'));
+    }
+
+    public function testDisallowInvalidType()
+    {
+        $this->expectException(\BadMethodCallException::class);
+        $form = new OptionForm('test', 'test');
+        $form->nope();
+    }
+
+    public function testAddMessage()
+    {
+        $form = new OptionForm('test', 'test');
+        $form->addMessage();
+        $form->addMessage('greeting', 'warning');
+
+        $crawler = new Crawler($form->render());
+        $this->assertEquals(trans('options.test.message'), $crawler->filter('.callout-info')->text());
+        $this->assertEquals('greeting', $crawler->filter('.callout-warning')->text());
     }
 }
