@@ -12,23 +12,8 @@ use Illuminate\Filesystem\Filesystem;
 
 class PluginManagerTest extends TestCase
 {
-    public function rebootPluginManager(PluginManager $manager)
-    {
-        $reflection = new ReflectionClass($manager);
-        $property = $reflection->getProperty('booted');
-        $property->setAccessible(true);
-        $property->setValue($manager, false);
-
-        $manager->boot();
-
-        return $manager;
-    }
-
     public function testPreventBootingAgain()
     {
-        $this->mock(Option::class, function ($mock) {
-            $mock->shouldReceive('get')->with('plugins_enabled', '[]')->andReturn('[]');
-        });
         $this->mock(Filesystem::class, function ($mock) {
             $mock->shouldReceive('directories')->times(0);
         });
