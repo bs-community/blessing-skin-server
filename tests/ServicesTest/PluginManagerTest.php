@@ -5,6 +5,7 @@ namespace Tests;
 use Event;
 use App\Events;
 use ReflectionClass;
+use App\Services\Option;
 use App\Services\Plugin;
 use App\Services\PluginManager;
 use Illuminate\Filesystem\Filesystem;
@@ -25,6 +26,9 @@ class PluginManagerTest extends TestCase
 
     public function testPreventBootingAgain()
     {
+        $this->mock(Option::class, function ($mock) {
+            $mock->shouldReceive('get')->with('plugins_enabled', '[]')->andReturn('[]');
+        });
         $this->mock(Filesystem::class, function ($mock) {
             $mock->shouldReceive('directories')->times(1);
         });
@@ -45,6 +49,9 @@ class PluginManagerTest extends TestCase
 
     public function testNotLoadUnsatisfied()
     {
+        $this->mock(Option::class, function ($mock) {
+            $mock->shouldReceive('get')->with('plugins_enabled', '[]')->andReturn('[]');
+        });
         $this->mock(Filesystem::class, function ($mock) {
             $mock->shouldReceive('directories')
                 ->with(base_path('plugins'))
@@ -73,6 +80,9 @@ class PluginManagerTest extends TestCase
 
     public function testReportDuplicatedPlugins()
     {
+        $this->mock(Option::class, function ($mock) {
+            $mock->shouldReceive('get')->with('plugins_enabled', '[]')->andReturn('[]');
+        });
         $this->mock(Filesystem::class, function ($mock) {
             $mock->shouldReceive('directories')
                 ->with(base_path('plugins'))
@@ -115,8 +125,12 @@ class PluginManagerTest extends TestCase
 
     public function testDetectVersionChanged()
     {
-        option(['plugins_enabled' => json_encode([['name' => 'mayaka', 'version' => '0.0.0']])]);
         Event::fake();
+        $this->mock(Option::class, function ($mock) {
+            $mock->shouldReceive('get')
+                ->with('plugins_enabled', '[]')
+                ->andReturn(json_encode([['name' => 'mayaka', 'version' => '0.0.0']]));
+        });
         $this->mock(Filesystem::class, function ($mock) {
             $mock->shouldReceive('directories')
                 ->with(base_path('plugins'))
@@ -152,13 +166,15 @@ class PluginManagerTest extends TestCase
 
             return true;
         });
-
-        option(['plugins_enabled' => '[]']);
     }
 
     public function testLoadComposer()
     {
-        option(['plugins_enabled' => json_encode([['name' => 'mayaka', 'version' => '0.0.0']])]);
+        $this->mock(Option::class, function ($mock) {
+            $mock->shouldReceive('get')
+                ->with('plugins_enabled', '[]')
+                ->andReturn(json_encode([['name' => 'mayaka', 'version' => '0.0.0']]));
+        });
         $this->mock(Filesystem::class, function ($mock) {
             $mock->shouldReceive('directories')
                 ->with(base_path('plugins'))
@@ -194,13 +210,15 @@ class PluginManagerTest extends TestCase
         });
 
         $manager = $this->rebootPluginManager(app('plugins'));
-
-        option(['plugins_enabled' => '[]']);
     }
 
     public function testLoadViewsAndTranslations()
     {
-        option(['plugins_enabled' => json_encode([['name' => 'mayaka', 'version' => '0.0.0']])]);
+        $this->mock(Option::class, function ($mock) {
+            $mock->shouldReceive('get')
+                ->with('plugins_enabled', '[]')
+                ->andReturn(json_encode([['name' => 'mayaka', 'version' => '0.0.0']]));
+        });
         $this->mock(Filesystem::class, function ($mock) {
             $mock->shouldReceive('directories')
                 ->with(base_path('plugins'))
@@ -242,13 +260,15 @@ class PluginManagerTest extends TestCase
         }));
 
         $manager = $this->rebootPluginManager(app('plugins'));
-
-        option(['plugins_enabled' => '[]']);
     }
 
     public function testLoadBootstrapper()
     {
-        option(['plugins_enabled' => json_encode([['name' => 'mayaka', 'version' => '0.0.0']])]);
+        $this->mock(Option::class, function ($mock) {
+            $mock->shouldReceive('get')
+                ->with('plugins_enabled', '[]')
+                ->andReturn(json_encode([['name' => 'mayaka', 'version' => '0.0.0']]));
+        });
         $this->mock(Filesystem::class, function ($mock) {
             $mock->shouldReceive('directories')
                 ->with(base_path('plugins'))
@@ -287,12 +307,13 @@ class PluginManagerTest extends TestCase
         });
 
         $manager = $this->rebootPluginManager(app('plugins'));
-
-        option(['plugins_enabled' => '[]']);
     }
 
     public function testLifecycleHooks()
     {
+        $this->mock(Option::class, function ($mock) {
+            $mock->shouldReceive('get')->with('plugins_enabled', '[]')->andReturn('[]');
+        });
         $this->mock(Filesystem::class, function ($mock) {
             $mock->shouldReceive('directories')
                 ->with(base_path('plugins'))
@@ -337,14 +358,17 @@ class PluginManagerTest extends TestCase
     {
         $dir = config('plugins.directory');
         config(['plugins.directory' => storage_path('mocks')]);
-        option(['plugins_enabled' => json_encode([['name' => 'fake', 'version' => '0.0.0']])]);
+        $this->mock(Option::class, function ($mock) {
+            $mock->shouldReceive('get')
+                ->with('plugins_enabled', '[]')
+                ->andReturn(json_encode([['name' => 'fake', 'version' => '0.0.0']]));
+        });
 
         $this->assertFalse(class_exists('Fake\Faker'));
         $manager = $this->rebootPluginManager(app('plugins'));
         $this->assertTrue(class_exists('Fake\FakeServiceProvider'));
 
         config(['plugins.directory' => $dir]);
-        option(['plugins_enabled' => '[]']);
     }
 
     public function testRegisterServiceProviders()
@@ -353,13 +377,16 @@ class PluginManagerTest extends TestCase
 
         $dir = config('plugins.directory');
         config(['plugins.directory' => storage_path('mocks')]);
-        option(['plugins_enabled' => json_encode([['name' => 'fake', 'version' => '0.0.0']])]);
+        $this->mock(Option::class, function ($mock) {
+            $mock->shouldReceive('get')
+                ->with('plugins_enabled', '[]')
+                ->andReturn(json_encode([['name' => 'fake', 'version' => '0.0.0']]));
+        });
 
         $manager = $this->rebootPluginManager(app('plugins'));
         Event::assertDispatched('provider.loaded');
 
         config(['plugins.directory' => $dir]);
-        option(['plugins_enabled' => '[]']);
     }
 
     public function testGetUnsatisfied()
@@ -468,6 +495,13 @@ class PluginManagerTest extends TestCase
     public function testDelete()
     {
         Event::fake();
+        $this->mock(Option::class, function ($mock) {
+            $mock->shouldReceive('get')
+                ->with('plugins_enabled', '[]')
+                ->andReturn(json_encode([['name' => 'fake', 'version' => '0.0.0']]));
+            $mock->shouldReceive('set')
+                ->with('plugins_enabled', '[]');
+        });
         $this->mock(Filesystem::class, function ($mock) {
             $mock->shouldReceive('directories')->andReturn(collect([]));
             $mock->shouldReceive('deleteDirectory')->with('/fake')->once();
@@ -493,7 +527,6 @@ class PluginManagerTest extends TestCase
             return true;
         });
         $this->assertFalse($manager->getEnabledPlugins()->has('fake'));
-        $this->assertCount(0, json_decode(resolve(\App\Services\Option::class)->get('plugins_enabled'), true));
         $this->assertTrue($manager->all()->isEmpty());
     }
 
@@ -534,6 +567,9 @@ class PluginManagerTest extends TestCase
         $old = config('plugins.directory');
         config(['plugins.directory' => '/kumiko,/reina']);
 
+        $this->mock(Option::class, function ($mock) {
+            $mock->shouldReceive('get')->with('plugins_enabled', '[]')->andReturn('[]');
+        });
         $this->mock(Filesystem::class, function ($mock) {
             $mock->shouldReceive('directories')
                 ->with('/kumiko')
