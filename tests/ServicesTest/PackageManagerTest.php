@@ -21,7 +21,6 @@ class PackageManagerTest extends TestCase
     {
         $mock = new MockHandler([
             new Response(200, [], 'contents'),
-            new Response(200, [], 'contents'),
             new RequestException('error', new Request('GET', 'url')),
         ]);
         $handler = HandlerStack::create($mock);
@@ -34,11 +33,20 @@ class PackageManagerTest extends TestCase
             $package->download('url', storage_path('packages/temp'))
         );
 
-        $this->expectException(Exception::class);
-        $package->download('url', storage_path('packages/temp'), 'deadbeef');
-
-        $this->expectException(Exception::class);
+        $this->expectExceptionMessage(trans('admin.download.errors.download', ['error' => 'error']));
         $package->download('url', storage_path('packages/temp'));
+    }
+
+    public function testShasumCheck()
+    {
+        $mock = new MockHandler([new Response(200, [], 'contents')]);
+        $handler = HandlerStack::create($mock);
+        $client = new Client(['handler' => $handler]);
+        $this->instance(Client::class, $client);
+
+        $package = resolve(PackageManager::class);
+        $this->expectExceptionMessage(trans('admin.download.errors.shasum'));
+        $package->download('url', storage_path('packages/temp'), 'deadbeef');
     }
 
     public function testExtract()
