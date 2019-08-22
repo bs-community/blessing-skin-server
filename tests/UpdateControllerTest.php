@@ -79,10 +79,16 @@ class UpdateControllerTest extends TestCase
             new Response(200, [], $this->mockFakeUpdateInfo('8.9.3')),
             new Response(200, [], $this->mockFakeUpdateInfo('8.9.3')),
         ]);
-        app()->instance(PackageManager::class, new Concerns\FakePackageManager(null, true));
+        $this->mock(PackageManager::class, function ($mock) {
+            $mock->shouldReceive('download')->andThrow(new \Exception('ddd'));
+        });
         $this->getJson('/admin/update/download?action=download')
             ->assertJson(['code' => 1]);
-        app()->bind(PackageManager::class, Concerns\FakePackageManager::class);
+        $this->mock(PackageManager::class, function ($mock) {
+            $mock->shouldReceive('download')->andReturnSelf();
+            $mock->shouldReceive('extract')->andReturn(true);
+            $mock->shouldReceive('progress');
+        });
         $this->getJson('/admin/update/download?action=download')
             ->assertJson(['code' => 0, 'message' => trans('admin.update.complete')]);
 

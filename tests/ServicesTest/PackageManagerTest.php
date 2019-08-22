@@ -12,6 +12,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use App\Services\PackageManager;
 use GuzzleHttp\Handler\MockHandler;
+use Illuminate\Filesystem\Filesystem;
 use GuzzleHttp\Exception\RequestException;
 
 class PackageManagerTest extends TestCase
@@ -25,8 +26,9 @@ class PackageManagerTest extends TestCase
         ]);
         $handler = HandlerStack::create($mock);
         $client = new Client(['handler' => $handler]);
+        $this->instance(Client::class, $client);
 
-        $package = new PackageManager($client);
+        $package = resolve(PackageManager::class);
         $this->assertInstanceOf(
             PackageManager::class,
             $package->download('url', storage_path('packages/temp'))
@@ -41,26 +43,33 @@ class PackageManagerTest extends TestCase
 
     public function testExtract()
     {
-        $mock = new MockHandler([new Response(200, [], 'contents')]);
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
-        $package = new PackageManager($client);
-        $path = storage_path('packages/temp.zip');
+        $this->mock(ZipArchive::class, function ($mock) {
+            $mock->shouldReceive('open')
+                ->twice()
+                ->andReturn(true, false);
 
-        $package->download('url', $path);
-        $zip = new ZipArchive();
-        $this->assertTrue($zip->open($path, ZipArchive::OVERWRITE));
-        $this->assertTrue($zip->addEmptyDir('zip-test'));
-        $zip->close();
-        $package->extract(storage_path('testing'));
+            $mock->shouldReceive('extractTo')
+                ->with('dest')
+                ->once()
+                ->andReturn(true);
+
+            $mock->shouldReceive('close')->once();
+        });
+        $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('delete')->once();
+        });
+        $package = resolve(PackageManager::class);
+
+        // The call below is expected success.
+        $package->extract('dest');
 
         $this->expectException(Exception::class);
-        $package->download('url', $path)->extract(storage_path('testing'));
+        $package->extract('dest');
     }
 
     public function testProgress()
     {
-        $package = new PackageManager(new Client());
+        $package = resolve(PackageManager::class);
         $reflect = new ReflectionClass($package);
         $property = $reflect->getProperty('cacheKey');
         $property->setAccessible(true);
@@ -75,7 +84,7 @@ class PackageManagerTest extends TestCase
 
     public function testOnProgress()
     {
-        $package = new PackageManager(new Client());
+        $package = resolve(PackageManager::class);
         $reflect = new ReflectionClass($package);
         $property = $reflect->getProperty('cacheKey');
         $property->setAccessible(true);

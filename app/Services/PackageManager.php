@@ -6,6 +6,8 @@ namespace App\Services;
 
 use Cache;
 use Exception;
+use ZipArchive;
+use Illuminate\Filesystem\Filesystem;
 
 class PackageManager
 {
@@ -14,9 +16,20 @@ class PackageManager
     protected $cacheKey;
     protected $onProgress;
 
-    public function __construct(\GuzzleHttp\Client $guzzle)
-    {
+    /** @var Filesystem */
+    protected $filesystem;
+
+    /** @var ZipArchive */
+    protected $zipper;
+
+    public function __construct(
+        \GuzzleHttp\Client $guzzle,
+        Filesystem $filesystem,
+        ZipArchive $zipper
+    ) {
         $this->guzzle = $guzzle;
+        $this->filesystem = $filesystem;
+        $this->zipper = $zipper;
         $this->onProgress = function ($total, $done) {
             Cache::put($this->cacheKey, serialize(['total' => $total, 'done' => $done]));
         };
@@ -39,7 +52,7 @@ class PackageManager
 
         Cache::forget($this->cacheKey);
         if (is_string($shasum) && sha1_file($path) != strtolower($shasum)) {
-            @unlink($path);
+            $this->filesystem->delete($path);
             throw new Exception(trans('admin.download.errors.shasum'));
         }
 
@@ -48,12 +61,12 @@ class PackageManager
 
     public function extract(string $destination): void
     {
-        $zip = new \ZipArchive();
+        $zip = $this->zipper;
         $resource = $zip->open($this->path);
 
         if ($resource === true && $zip->extractTo($destination)) {
             $zip->close();
-            @unlink($this->path);
+            $this->filesystem->delete($this->path);
         } else {
             throw new Exception(trans('admin.download.errors.unzip'));
         }
