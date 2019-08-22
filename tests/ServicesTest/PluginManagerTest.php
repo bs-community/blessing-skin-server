@@ -30,10 +30,9 @@ class PluginManagerTest extends TestCase
             $mock->shouldReceive('get')->with('plugins_enabled', '[]')->andReturn('[]');
         });
         $this->mock(Filesystem::class, function ($mock) {
-            $mock->shouldReceive('directories')->times(1);
+            $mock->shouldReceive('directories')->times(0);
         });
-        app('plugins')->boot();
-        app('plugins')->boot();
+        resolve(PluginManager::class)->boot();
     }
 
     public function testNotLoadDisabled()
@@ -41,7 +40,8 @@ class PluginManagerTest extends TestCase
         $dir = config('plugins.directory');
         config(['plugins.directory' => storage_path('mocks')]);
 
-        $manager = $this->rebootPluginManager(app('plugins'));
+        app()->forgetInstance(PluginManager::class);
+        resolve(PluginManager::class)->boot();
         $this->assertFalse(class_exists('Fake\Faker'));
 
         config(['plugins.directory' => $dir]);
@@ -75,7 +75,8 @@ class PluginManagerTest extends TestCase
             $mock->shouldNotReceive('getRequire');
         });
 
-        $manager = $this->rebootPluginManager(app('plugins'));
+        app()->forgetInstance(PluginManager::class);
+        resolve(PluginManager::class)->boot();
     }
 
     public function testReportDuplicatedPlugins()
@@ -120,7 +121,8 @@ class PluginManagerTest extends TestCase
             'dir1' => '/nano',
             'dir2' => '/yuko',
         ]));
-        $manager = $this->rebootPluginManager(app('plugins'));
+        app()->forgetInstance(PluginManager::class);
+        resolve(PluginManager::class)->boot();
     }
 
     public function testDetectVersionChanged()
@@ -160,7 +162,8 @@ class PluginManagerTest extends TestCase
                 ->andReturn(false);
         });
 
-        $manager = $this->rebootPluginManager(app('plugins'));
+        app()->forgetInstance(PluginManager::class);
+        resolve(PluginManager::class)->boot();
         Event::assertDispatched(\App\Events\PluginVersionChanged::class, function ($event) {
             $this->assertEquals('0.1.0', $event->plugin->version);
 
@@ -209,7 +212,8 @@ class PluginManagerTest extends TestCase
                 ->andReturn(false);
         });
 
-        $manager = $this->rebootPluginManager(app('plugins'));
+        app()->forgetInstance(PluginManager::class);
+        resolve(PluginManager::class)->boot();
     }
 
     public function testLoadViewsAndTranslations()
@@ -259,7 +263,8 @@ class PluginManagerTest extends TestCase
                 ->once();
         }));
 
-        $manager = $this->rebootPluginManager(app('plugins'));
+        app()->forgetInstance(PluginManager::class);
+        resolve(PluginManager::class)->boot();
     }
 
     public function testLoadBootstrapper()
@@ -306,7 +311,8 @@ class PluginManagerTest extends TestCase
                 });
         });
 
-        $manager = $this->rebootPluginManager(app('plugins'));
+        app()->forgetInstance(PluginManager::class);
+        resolve(PluginManager::class)->boot();
     }
 
     public function testLifecycleHooks()
@@ -350,7 +356,8 @@ class PluginManagerTest extends TestCase
                 ]);
         });
 
-        $manager = $this->rebootPluginManager(app('plugins'));
+        app()->forgetInstance(PluginManager::class);
+        resolve(PluginManager::class)->boot();
         event(new \App\Events\PluginWasDeleted(new Plugin('/mayaka', ['name' => 'mayaka'])));
     }
 
@@ -365,7 +372,8 @@ class PluginManagerTest extends TestCase
         });
 
         $this->assertFalse(class_exists('Fake\Faker'));
-        $manager = $this->rebootPluginManager(app('plugins'));
+        app()->forgetInstance(PluginManager::class);
+        resolve(PluginManager::class)->boot();
         $this->assertTrue(class_exists('Fake\FakeServiceProvider'));
 
         config(['plugins.directory' => $dir]);
@@ -383,7 +391,8 @@ class PluginManagerTest extends TestCase
                 ->andReturn(json_encode([['name' => 'fake', 'version' => '0.0.0']]));
         });
 
-        $manager = $this->rebootPluginManager(app('plugins'));
+        app()->forgetInstance(PluginManager::class);
+        resolve(PluginManager::class)->boot();
         Event::assertDispatched('provider.loaded');
 
         config(['plugins.directory' => $dir]);
@@ -391,7 +400,7 @@ class PluginManagerTest extends TestCase
 
     public function testGetUnsatisfied()
     {
-        $manager = app('plugins');
+        $manager = resolve(PluginManager::class);
 
         $plugin = new Plugin('', ['require' => ['blessing-skin-server' => '^0.0.0']]);
         $info = $manager->getUnsatisfied($plugin)->get('blessing-skin-server');
@@ -444,7 +453,8 @@ class PluginManagerTest extends TestCase
     {
         Event::fake();
 
-        $manager = app('plugins');
+        app()->forgetInstance(PluginManager::class);
+        $manager = resolve(PluginManager::class);
         $reflection = new ReflectionClass($manager);
         $property = $reflection->getProperty('plugins');
         $property->setAccessible(true);
@@ -474,7 +484,8 @@ class PluginManagerTest extends TestCase
     {
         Event::fake();
 
-        $manager = app('plugins');
+        app()->forgetInstance(PluginManager::class);
+        $manager = resolve(PluginManager::class);
         $reflection = new ReflectionClass($manager);
         $property = $reflection->getProperty('plugins');
         $property->setAccessible(true);
@@ -507,7 +518,8 @@ class PluginManagerTest extends TestCase
             $mock->shouldReceive('deleteDirectory')->with('/fake')->once();
         });
 
-        $manager = app('plugins');
+        app()->forgetInstance(PluginManager::class);
+        $manager = resolve(PluginManager::class);
         $reflection = new ReflectionClass($manager);
         $property = $reflection->getProperty('plugins');
         $property->setAccessible(true);
@@ -593,7 +605,8 @@ class PluginManagerTest extends TestCase
                 ->once()
                 ->andReturn(false);
         });
-        app('plugins')->all();
+        app()->forgetInstance(PluginManager::class);
+        resolve(PluginManager::class)->all();
 
         config(['plugins.directory' => $old]);
     }
