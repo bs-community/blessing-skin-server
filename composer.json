@@ -26,9 +26,7 @@
     "tymon/jwt-auth": "dev-develop",
     "laravel/passport": "^7.3",
     "composer/ca-bundle": "^1.2",
-    "tormjens/eventy": "^0.5.7",
-    "symfony/dom-crawler": "^4.3",
-    "symfony/css-selector": "^4.3"
+    "tormjens/eventy": "^0.5.7"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.8",
@@ -39,7 +37,9 @@
     "laravel/tinker": "^1.0",
     "barryvdh/laravel-debugbar": "^3.2",
     "filp/whoops": "^2.4",
-    "beyondcode/laravel-dump-server": "^1.2"
+    "beyondcode/laravel-dump-server": "^1.2",
+    "symfony/dom-crawler": "^4.3",
+    "symfony/css-selector": "^4.3"
   },
   "autoload": {
     "classmap": [
