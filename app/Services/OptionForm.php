@@ -32,7 +32,7 @@ class OptionForm
     protected $hookAfter;
     protected $alwaysCallback = null;
 
-    protected $renderWithOutTable = false;
+    protected $renderWithoutTable = false;
     protected $renderInputTagsOnly = false;
     protected $renderWithoutSubmitButton = false;
 
@@ -43,12 +43,12 @@ class OptionForm
      * @param  string  $title
      * @return void
      */
-    public function __construct($id, $title)
+    public function __construct($id, $title = self::AUTO_DETECT)
     {
         $this->id = $id;
 
         if ($title == self::AUTO_DETECT) {
-            $this->title = trans("options.$this->id.title");
+            $this->title = trans("options.$id.title");
         } else {
             $this->title = $title;
         }
@@ -217,26 +217,6 @@ class OptionForm
     }
 
     /**
-     * Parse id formatted as *[*]. Return id & offset when succeed.
-     *
-     * @param  string $id
-     * @return bool|array
-     */
-    protected function parseIdWithOffset($id)
-    {
-        preg_match('/(.*)\[(.*)\]/', $id, $matches);
-
-        if (isset($matches[2])) {
-            return [
-                'id'     => $matches[1],
-                'offset' => $matches[2],
-            ];
-        }
-
-        return false;
-    }
-
-    /**
      * Handle the HTTP post request and update modified options.
      *
      * @param  callable $callback
@@ -257,7 +237,6 @@ class OptionForm
             }
 
             $postOptionQueue = [];
-            $arrayOptionQueue = [];
 
             foreach ($this->items as $item) {
                 if ($item instanceof OptionFormGroup) {
@@ -278,24 +257,11 @@ class OptionForm
                     $allPostData[$item->id] = false;
                 }
 
-                // Str::is('*[*]', $item->id)
-                if (false !== ($result = $this->parseIdWithOffset($item->id))) {
-                    // Push array option value to cache.
-                    // Values of post ids like *[*] is collected as arrays in $allPostData
-                    // automatically by Laravel.
-                    $arrayOptionQueue[$result['id']] = $allPostData[$result['id']];
-                    continue;
-                }
-
                 // Compare with raw option value
                 if (($data = Arr::get($allPostData, $item->id)) != option($item->id, null, true)) {
                     $formatted = is_null($item->format) ? $data : call_user_func($item->format, $data);
                     Option::set($item->id, $formatted);
                 }
-            }
-
-            foreach ($arrayOptionQueue as $key => $value) {
-                Option::set($key, $value);
             }
 
             if (! is_null($this->hookAfter)) {
@@ -316,18 +282,7 @@ class OptionForm
      */
     protected function getValueById($id)
     {
-        if (false === ($result = $this->parseIdWithOffset($id))) {
-            return Arr::get($this->values, $id, option_localized($id));
-        } else {
-            $option = Arr::get(
-                $this->values,
-                $result['id'],
-                // Fallback to load from options
-                @unserialize(option_localized($result['id']))
-            );
-
-            return Arr::get($option, $result['offset']);
-        }
+        return Arr::get($this->values, $id, option_localized($id));
     }
 
     /**
@@ -354,9 +309,9 @@ class OptionForm
         }
     }
 
-    public function renderWithOutTable()
+    public function renderWithoutTable()
     {
-        $this->renderWithOutTable = true;
+        $this->renderWithoutTable = true;
 
         return $this;
     }

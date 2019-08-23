@@ -271,7 +271,7 @@ class AdminController extends Controller
 
         $announ = Option::form('announ', OptionForm::AUTO_DETECT, function ($form) {
             $form->textarea('announcement')->rows(10)->description();
-        })->renderWithOutTable()->handle(function () {
+        })->renderWithoutTable()->handle(function () {
             Option::set('announcement_'.config('app.locale'), request('announcement'));
         });
 

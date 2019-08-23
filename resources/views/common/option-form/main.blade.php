@@ -11,7 +11,7 @@
             {!! $msg !!}
             @endforeach
 
-            @if ($renderWithOutTable)
+            @if ($renderWithoutTable)
                 @each('common.option-form.item', $items, 'item')
             @else
             <table class="table">
