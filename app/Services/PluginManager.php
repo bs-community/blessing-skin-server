@@ -230,7 +230,7 @@ class PluginManager
     {
         $path = $plugin->getPath().'/bootstrap.php';
         if ($this->filesystem->exists($path)) {
-            $this->app->call($this->filesystem->getRequire($path));
+            $this->app->call($this->filesystem->getRequire($path), ['plugin' => $plugin]);
         }
     }
 

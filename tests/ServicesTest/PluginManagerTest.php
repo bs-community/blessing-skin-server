@@ -291,8 +291,9 @@ class PluginManagerTest extends TestCase
             $mock->shouldReceive('getRequire')
                 ->with('/mayaka/bootstrap.php')
                 ->once()
-                ->andReturn(function (\Illuminate\Contracts\Events\Dispatcher $events) {
+                ->andReturn(function (\Illuminate\Contracts\Events\Dispatcher $events, Plugin $plugin) {
                     $this->assertTrue(method_exists($events, 'listen'));
+                    $this->assertEquals('mayaka', $plugin->name);
                 });
         });
 
