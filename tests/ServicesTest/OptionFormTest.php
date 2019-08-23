@@ -208,6 +208,35 @@ class OptionFormTest extends TestCase
         $this->assertCount(0, $crawler->filter('button'));
     }
 
+    public function testDefaultRender()
+    {
+        $form = new OptionForm('test');
+        $form->handle();
+        $crawler = new Crawler($form->render());
+        $button = $crawler->filter('button');
+        $this->assertStringContainsString('el-button--primary', $button->attr('class'));
+        $this->assertEquals(trans('general.submit'), $button->text());
+        $this->assertEquals('submit', $button->attr('type'));
+        $this->assertEquals('submit_test', $button->attr('name'));
+    }
+
+    public function testHandle()
+    {
+        $form = new OptionForm('test');
+        $form->text('t')->format(function ($data) {
+            return "formatted $data";
+        });
+
+        $request = request();
+        $request->setMethod('POST');
+        $request->merge(['option' => 'test', 't' => 'value']);
+
+        $form->handle();
+        $crawler = new Crawler($form->render());
+        $this->assertEquals(trans('options.option-saved'), $crawler->filter('.callout-success')->text());
+        $this->assertEquals('formatted value', option('t'));
+    }
+
     public function testToString()
     {
         $form = new OptionForm('test');
