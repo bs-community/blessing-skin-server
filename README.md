@@ -40,7 +40,7 @@ Blessing Skin 是一个开源的 PHP 项目，这意味着您可以自由地在�
 Blessing Skin 对您的服务器有一定的要求。_在大多数情况下，下列所需的 PHP 扩展已经开启。_
 
 - 一台支持 URL 重写的主机，Nginx 或 Apache
-- **PHP >= 7.2.12** [（服务器不支持？）](https://github.com/bs-community/blessing-skin-server/wiki/%E7%89%88%E6%9C%AC%E8%AF%B4%E6%98%8E)
+- **PHP >= 7.2.12** [（服务器不支持？）](https://blessing.netlify.com/versions.html)
 - 安装并启用如下 PHP 扩展：
     - OpenSSL
     - PDO
@@ -55,15 +55,13 @@ Blessing Skin 对您的服务器有一定的要求。_在大多数情况下，�
 
 ## 快速使用
 
-请参阅 [Wiki - 快速安装向导](https://github.com/bs-community/blessing-skin-server/wiki/%E5%BF%AB%E9%80%9F%E5%AE%89%E8%A3%85%E5%90%91%E5%AF%BC)。
+请参阅 [安装指南](https://blessing.netlify.com/setup.html)。
 
 ![screenshot](https://img.blessing.studio/images/2017/07/29/2017-06-16_15.54.16.png)
 
 ## 插件系统
 
 Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样的插件来为您的皮肤站添加功能。
-
-详情请参阅 [Wiki - 插件系统介绍](https://github.com/bs-community/blessing-skin-server/wiki/%E6%8F%92%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BB%8B%E7%BB%8D)。
 
 ## 支持并赞助 Blessing Skin
 
@@ -200,13 +198,13 @@ yarn build
 
 Blessing Skin 可支持多种语言，当前支持英语（`en`）和简体中文（`zh_CN`）。
 
-当然，您也可以添加您自己的语言。请参阅 [Wiki - 添加其它语言 [i18n]](https://github.com/bs-community/blessing-skin-server/wiki/%E6%B7%BB%E5%8A%A0%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80-%5Bi18n%5D)
+当然，您也可以添加您自己的语言。请参阅 [添加其它语言](https://blessing.netlify.com/i18n.html)
 
 如果您愿意将您的翻译贡献出来，欢迎参与 [我们的 Crowdin 项目](https://crowdin.com/project/bs-i18n)。
 
 ## 问题报告
 
-请参阅 [Wiki - 报告问题的正确姿势](https://github.com/bs-community/blessing-skin-server/wiki/%E6%8A%A5%E5%91%8A%E9%97%AE%E9%A2%98%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF)。
+请参阅 [报告问题的正确姿势](https://blessing.netlify.com/report.html)。
 
 ## 版权
 

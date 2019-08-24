@@ -132,7 +132,7 @@ update:
     text: |
       Please choose update source according to your host's network environment.
       Low-speed connection between update source and your host will cause long-time loading at checking and downloading page.
-      To change the default update source, please refer to <a target="_blank" href="https://github.com/bs-community/blessing-skin-server/wiki/%E6%9B%B4%E6%96%B0%E6%BA%90%E5%88%97%E8%A1%A8">this wiki article</a>.
+      To change the default update source, please refer to <a target="_blank" href="https://blessing.netlify.com/update-sources.html">this article</a>.
 
   download:
     downloading: Downloading update package...

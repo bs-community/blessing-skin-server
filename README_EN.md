@@ -64,8 +64,6 @@ Blessing Skin has only a few system requirements. _In most cases, these PHP exte
 
 Blessing Skin provides an elegant and powerful plugin system, and you can attach plenty of functions and customization to your site via installing plugins.
 
-For more information, please refer to [Wiki - Introducing plugin system](https://github.com/bs-community/blessing-skin-server/wiki/%E6%8F%92%E4%BB%B6%E7%B3%BB%E7%BB%9F%E4%BB%8B%E7%BB%8D).
-
 ## Supporting Blessing Skin
 
 Welcome to sponsoring Blessing Skin if this software is useful for you!
@@ -215,7 +213,7 @@ location ~ /\.env {
 
 ## Mod Configuration
 
-Please refer to [Wiki - Mod Configuration](https://github.com/bs-community/blessing-skin-server/wiki/%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%E7%9A%AE%E8%82%A4-Mod).
+Please refer to [Mod Configuration](https://blessing.netlify.com/en/mod.html).
 
 ![screenshot](https://img.blessing.studio/images/2017/07/29/2017-06-16_15.54.16.png)
 
@@ -223,15 +221,15 @@ Please refer to [Wiki - Mod Configuration](https://github.com/bs-community/bless
 
 Blessing Skin supports multiple languages, while currently supporting English (`en`) and Simplified Chinese (`zh_CN`).
 
-Of course, you can add your own language. Please check [Wiki - Add other language [i18n]](https://github.com/bs-community/blessing-skin-server/wiki/%E6%B7%BB%E5%8A%A0%E5%85%B6%E4%BB%96%E8%AF%AD%E8%A8%80-%5Bi18n%5D) (Simplified Chinese only).
+Of course, you can add your own language. Please check [Add other language [i18n]](https://blessing.netlify.com/i18n.html) (Simplified Chinese only).
 
 If you are willing to contribute your translation, welcome to join [our Crowdin project](https://crowdin.com/project/bs-i18n).
 
 ## Report Bugs
 
-Read [Wiki - FAQ](https://github.com/bs-community/blessing-skin-server/wiki/FAQ) and double check if your situation doesn't suit any case mentioned there before reporting.
+Read [FAQ](https://blessing.netlify.com/faq.html) and double check if your situation doesn't suit any case mentioned there before reporting.
 
-When reporting a problem, please attach your log file (located at `storage/logs/laravel.log`) and the information of your server where the error occured on. You should also read this [guide](https://github.com/bs-community/blessing-skin-server/wiki/%E6%8A%A5%E5%91%8A%E9%97%AE%E9%A2%98%E7%9A%84%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF) before reporting a problem.
+When reporting a problem, please attach your log file (located at `storage/logs/laravel.log`) and the information of your server where the error occured on. You should also read this [guide](https://blessing.netlify.com/report.html) before reporting a problem.
 
 ## Copyright & License
 
