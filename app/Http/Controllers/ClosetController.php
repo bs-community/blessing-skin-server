@@ -97,7 +97,7 @@ class ClosetController extends Controller
         $texture->likes++;
         $texture->save();
 
-        $uploader = $users->find($texture->uploader);
+        $uploader = User::find($texture->uploader);
         if ($uploader && $uploader->uid != $user->uid) {
             $uploader->score += option('score_award_per_like', 0);
             $uploader->save();
@@ -139,7 +139,7 @@ class ClosetController extends Controller
         $texture->likes--;
         $texture->save();
 
-        $uploader = $users->find($texture->uploader);
+        $uploader = User::find($texture->uploader);
         $uploader->score -= option('score_award_per_like', 0);
         $uploader->save();
 

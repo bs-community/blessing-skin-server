@@ -45,7 +45,7 @@ class AdminController extends Controller
             };
         };
 
-        $userRegistration = $users->where('register_at', '>=', $oneMonthAgo)
+        $userRegistration = User::where('register_at', '>=', $oneMonthAgo)
             ->select('register_at')
             ->get()
             ->groupBy($grouping('register_at'))
@@ -84,16 +84,16 @@ class AdminController extends Controller
 
         switch ($data['receiver']) {
             case 'all':
-                $users = $users->all();
+                $users = User::all();
                 break;
             case 'normal':
-                $users = $users->where('permission', User::NORMAL)->get();
+                $users = User::where('permission', User::NORMAL)->get();
                 break;
             case 'uid':
-                $users = $users->where('uid', $data['uid'])->get();
+                $users = User::where('uid', $data['uid'])->get();
                 break;
             case 'email':
-                $users = $users->where('email', $data['email'])->get();
+                $users = User::where('email', $data['email'])->get();
                 break;
         }
         Notification::send($users, $notification);
@@ -366,7 +366,7 @@ class AdminController extends Controller
         $isSingleUser = $request->has('uid');
 
         if ($isSingleUser) {
-            $users = $users->select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at', 'verified'])
+            $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at', 'verified'])
                         ->where('uid', intval($request->input('uid')))
                         ->get();
         } else {
@@ -376,7 +376,7 @@ class AdminController extends Controller
             $page = $request->input('page', 1);
             $perPage = $request->input('perPage', 10);
 
-            $users = $users->select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at', 'verified'])
+            $users = User::select(['uid', 'email', 'nickname', 'score', 'permission', 'register_at', 'verified'])
                         ->where('uid', 'like', '%'.$search.'%')
                         ->orWhere('email', 'like', '%'.$search.'%')
                         ->orWhere('nickname', 'like', '%'.$search.'%')
@@ -395,7 +395,7 @@ class AdminController extends Controller
         });
 
         return [
-            'totalRecords' => $isSingleUser ? 1 : $users->count(),
+            'totalRecords' => $isSingleUser ? 1 : User::count(),
             'data' => $users,
         ];
     }
@@ -434,7 +434,7 @@ class AdminController extends Controller
     public function userAjaxHandler(Request $request, User $users)
     {
         $action = $request->input('action');
-        $user = $users->find($request->uid);
+        $user = User::find($request->uid);
         $currentUser = Auth::user();
 
         if (! $user) {
@@ -450,7 +450,7 @@ class AdminController extends Controller
                 'email' => 'required|email',
             ]);
 
-            if ($users->where('email', $request->email)->count() != 0) {
+            if (User::where('email', $request->email)->count() != 0) {
                 return json(trans('admin.users.operations.email.existed', ['email' => $request->input('email')]), 1);
             }
 
@@ -548,7 +548,7 @@ class AdminController extends Controller
                 'uid' => 'required|integer',
             ]);
 
-            $user = $users->find($request->uid);
+            $user = User::find($request->uid);
 
             if (! $user) {
                 return json(trans('admin.users.operations.non-existent'), 1);

@@ -64,7 +64,7 @@ class ReportController extends Controller
                         ->get()
                         ->makeHidden(['informer'])
                         ->map(function ($report) use ($users) {
-                            $uploader = $users->find($report->uploader);
+                            $uploader = User::find($report->uploader);
                             if ($uploader) {
                                 $report->uploaderName = $uploader->nickname;
                             }
@@ -119,7 +119,7 @@ class ReportController extends Controller
                 }
                 break;
             case 'ban':
-                $uploader = $users->find($report->uploader);
+                $uploader = User::find($report->uploader);
                 if (! $uploader) {
                     return json(trans('admin.users.operations.non-existent'), 1);
                 }

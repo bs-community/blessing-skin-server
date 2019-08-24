@@ -253,7 +253,7 @@ class UserController extends Controller
                     'password'  => 'required|min:6|max:32',
                 ]);
 
-                if ($users->where('email', $request->new_email)->count() > 0) {
+                if (User::where('email', $request->new_email)->count() > 0) {
                     return json(trans('user.profile.email.existed'), 1);
                 }
 

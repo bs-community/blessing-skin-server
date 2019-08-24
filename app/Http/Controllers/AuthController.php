@@ -33,7 +33,7 @@ class AuthController extends Controller
         event(new Events\UserTryToLogin($identification, $authType));
 
         if ($authType == 'email') {
-            $user = $users->where('email', $identification)->first();
+            $user = User::where('email', $identification)->first();
         } else {
             $player = Player::where('name', $identification)->first();
             $user = $player ? $player->user : null;
@@ -124,7 +124,7 @@ class AuthController extends Controller
 
         // If amount of registered accounts of IP is more than allowed amounts,
         // then reject the register.
-        if ($users->where('ip', get_client_ip())->count() >= option('regs_per_ip')) {
+        if (User::where('ip', get_client_ip())->count() >= option('regs_per_ip')) {
             return json(trans('auth.register.max', ['regs' => option('regs_per_ip')]), 7);
         }
 
@@ -192,7 +192,7 @@ class AuthController extends Controller
             return json(trans('auth.forgot.frequent-mail'), 2);
         }
 
-        $user = $users->where('email', $request->email)->first();
+        $user = User::where('email', $request->email)->first();
 
         if (! $user) {
             return json(trans('auth.forgot.unregistered'), 1);
@@ -215,7 +215,7 @@ class AuthController extends Controller
 
     public function reset(User $users, $uid)
     {
-        return view('auth.reset')->with('user', $users->find($uid));
+        return view('auth.reset')->with('user', User::find($uid));
     }
 
     public function handleReset(Request $request, User $users, $uid)
@@ -224,7 +224,7 @@ class AuthController extends Controller
             'password' => 'required|min:8|max:32',
         ]);
 
-        $users->find($uid)->changePassword($validated['password']);
+        User::find($uid)->changePassword($validated['password']);
 
         return json(trans('auth.reset.success'), 0);
     }
@@ -245,7 +245,7 @@ class AuthController extends Controller
             throw new PrettyPageException(trans('user.verification.disabled'), 1);
         }
 
-        $user = $users->find($uid);
+        $user = User::find($uid);
 
         if (! $user || $user->verified) {
             throw new PrettyPageException(trans('auth.verify.invalid'), 1);

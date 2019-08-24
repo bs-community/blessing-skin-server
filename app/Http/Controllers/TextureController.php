@@ -130,7 +130,7 @@ class TextureController extends Controller
 
     public function avatar(User $users, $base64_email, $size = 128)
     {
-        $user = $users->where('email', base64_decode($base64_email))->first();
+        $user = User::where('email', base64_decode($base64_email))->first();
 
         if ($user) {
             return $this->avatarByTid($user->avatar, $size);

@@ -147,7 +147,7 @@ class SkinlibController extends Controller
                 'currentUid' => $user ? $user->uid : 0,
                 'admin' => $user && $user->isAdmin(),
                 'inCloset' => $user && $user->closet()->where('tid', $texture->tid)->count() > 0,
-                'nickname' => ($up = $users->find($texture->uploader)) ? $up->nickname : null,
+                'nickname' => ($up = User::find($texture->uploader)) ? $up->nickname : null,
                 'report' => intval(option('reporter_score_modification', 0)),
             ]);
     }
@@ -277,7 +277,7 @@ class SkinlibController extends Controller
             return json(trans('skinlib.no-permission'), 1);
         }
 
-        $uploader = $users->find($t->uploader);
+        $uploader = User::find($t->uploader);
         $score_diff = $t->size * (option('private_score_per_storage') - option('score_per_storage')) * ($t->public ? -1 : 1);
         if ($t->public && option('take_back_scores_after_deletion', true)) {
             $score_diff -= option('score_award_per_texture', 0);
