@@ -89,6 +89,18 @@ class PluginControllerTest extends TestCase
                 ->with('fake2')
                 ->once()
                 ->andReturn(new Plugin('', ['name' => 'fake2']));
+            $mock->shouldReceive('get')
+                ->with('dep')
+                ->once()
+                ->andReturn(new Plugin('', ['title' => 'dep']));
+            $mock->shouldReceive('get')
+                ->with('whatever')
+                ->once()
+                ->andReturn(null);
+                $mock->shouldReceive('get')
+                ->with('conf')
+                ->once()
+                ->andReturn(new Plugin('', ['title' => 'conf']));
             $mock->shouldReceive('enable')
                 ->with('fake2')
                 ->once()
@@ -152,11 +164,11 @@ class PluginControllerTest extends TestCase
             'data' => [
                 'reason' => [
                     trans('admin.plugins.operations.unsatisfied.version', [
-                        'name' => 'dep',
+                        'title' => 'dep',
                         'constraint' => '^6.6.6',
                     ]),
                     trans('admin.plugins.operations.unsatisfied.disabled', ['name' => 'whatever']),
-                    trans('admin.plugins.operations.unsatisfied.conflict', ['name' => 'conf']),
+                    trans('admin.plugins.operations.unsatisfied.conflict', ['title' => 'conf']),
                 ],
             ],
         ]);

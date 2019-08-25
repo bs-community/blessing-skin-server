@@ -96,9 +96,9 @@ plugins:
     enabled: :plugin has been enabled.
     unsatisfied:
       notice: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't enable it. Please install or update the plugins listed below, and disable those have conflicts.
-      disabled: 'The :name plugin is not enabled.'
-      version: 'The version of :name does not satisfies the constraint `:constraint`.'
-      conflict: 'The :name plugin cannot run with this plugin at the same time.'
+      disabled: 'The ":name" plugin is not enabled.'
+      version: 'The version of ":title" does not satisfies the constraint ":constraint".'
+      conflict: 'The ":title" plugin cannot run with this plugin at the same time.'
     disabled: :plugin has been disabled.
     deleted: The plugin was deleted successfully.
     no-config-notice: The plugin is not installed or doesn't provide a configuration page.

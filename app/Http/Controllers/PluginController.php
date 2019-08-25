@@ -34,17 +34,21 @@ class PluginController extends Controller
                     if ($result === true) {
                         return json(trans('admin.plugins.operations.enabled', ['plugin' => $plugin->title]), 0);
                     } else {
-                        $unsatisfied = $result['unsatisfied']->map(function ($detail, $name) {
+                        $unsatisfied = $result['unsatisfied']->map(function ($detail, $name) use ($plugins) {
                             $constraint = $detail['constraint'];
                             if (! $detail['version']) {
+                                $plugin = $plugins->get($name);
+                                $name = $plugin ? trans($plugin->title) : $name;
                                 return trans('admin.plugins.operations.unsatisfied.disabled', compact('name'));
                             } else {
-                                return trans('admin.plugins.operations.unsatisfied.version', compact('name', 'constraint'));
+                                $title = trans($plugins->get($name)->title);
+                                return trans('admin.plugins.operations.unsatisfied.version', compact('title', 'constraint'));
                             }
                         })->values()->all();
 
-                        $conflicts = $result['conflicts']->map(function ($detail, $name) {
-                            return trans('admin.plugins.operations.unsatisfied.conflict', compact('name'));
+                        $conflicts = $result['conflicts']->map(function ($detail, $name) use ($plugins) {
+                            $title = trans($plugins->get($name)->title);
+                            return trans('admin.plugins.operations.unsatisfied.conflict', compact('title'));
                         })->values()->all();
 
                         $reason = array_merge($unsatisfied, $conflicts);

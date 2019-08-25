@@ -31,21 +31,12 @@ export default Vue.extend({
         this.$message.success(message)
         this.$set(this.plugins[originalIndex], 'enabled', true)
       } else {
-        const div = document.createElement('div')
-        const p = document.createElement('p')
-        p.textContent = message
-        div.appendChild(p)
-        const ul = document.createElement('ul')
-        reason.forEach(item => {
-          const li = document.createElement('li')
-          li.textContent = item
-          ul.appendChild(li)
-        })
-        div.appendChild(ul)
-        this.$alert(div.innerHTML.replace(/`([\w-_]+)`/g, '<code>$1</code>'), {
-          dangerouslyUseHTMLString: true,
-          type: 'warning',
-        })
+        const h = this.$createElement
+        const vnode = h('div', {}, [
+          h('p', message),
+          h('ul', {}, reason.map(item => h('li', item)))
+        ])
+        this.$alert('', { message: vnode, type: 'warning' })
       }
     },
   },

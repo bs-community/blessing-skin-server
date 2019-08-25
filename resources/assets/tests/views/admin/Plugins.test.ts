@@ -57,7 +57,7 @@ test('enable plugin', async () => {
   ])
   Vue.prototype.$http.post
     .mockResolvedValueOnce({
-      code: 1, message: '1', data: { reason: ['`a<div></div>`b'] },
+      code: 1, message: '1', data: { reason: ['abc'] },
     })
     .mockResolvedValue({ code: 0, message: '0' })
   Vue.prototype.$confirm
@@ -83,13 +83,10 @@ test('enable plugin', async () => {
     '/admin/plugins/manage',
     { action: 'enable', name: 'a' }
   )
-  expect(Vue.prototype.$alert).toBeCalledWith(
-    '<p>1</p><ul><li>`a&lt;div&gt;&lt;/div&gt;`b</li></ul>',
-    {
-      type: 'warning',
-      dangerouslyUseHTMLString: true,
-    }
-  )
+  expect(Vue.prototype.$alert).toBeCalledWith('', ({
+    type: 'warning',
+    message: expect.anything()
+  }))
 
   wrapper.findAll('.actions').at(1)
     .find('a')
