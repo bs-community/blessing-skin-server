@@ -136,6 +136,10 @@ class PluginManager
             return;
         }
 
+        $this->all()->each(function ($plugin) {
+            $this->loadViewsAndTranslations($plugin);
+        });
+
         $enabled = $this->getEnabledPlugins();
         $enabled->each(function ($plugin) {
             $this->registerPlugin($plugin);
@@ -155,7 +159,6 @@ class PluginManager
     {
         $this->registerAutoload($plugin);
         $this->loadVendor($plugin);
-        $this->loadViewsAndTranslations($plugin);
     }
 
     /**

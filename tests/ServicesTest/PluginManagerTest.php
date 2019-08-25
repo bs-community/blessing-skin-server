@@ -212,7 +212,7 @@ class PluginManagerTest extends TestCase
             $mock->shouldReceive('directories')
                 ->with(base_path('plugins'))
                 ->once()
-                ->andReturn(collect(['/mayaka']));
+                ->andReturn(collect(['/mayaka', '/chitanda']));
 
             $mock->shouldReceive('exists')
                 ->with('/mayaka'.DIRECTORY_SEPARATOR.'package.json')
@@ -236,15 +236,37 @@ class PluginManagerTest extends TestCase
                 ->with('/mayaka/bootstrap.php')
                 ->once()
                 ->andReturn(false);
+
+            $mock->shouldReceive('exists')
+                ->with('/chitanda'.DIRECTORY_SEPARATOR.'package.json')
+                ->once()
+                ->andReturn(true);
+
+            $mock->shouldReceive('get')
+                ->with('/chitanda'.DIRECTORY_SEPARATOR.'package.json')
+                ->once()
+                ->andReturn(json_encode([
+                    'name' => 'chitanda',
+                    'version' => '0.0.0',
+                    'namespace' => 'Chitanda',
+                ]));
         });
         $this->mock('view', function ($mock) {
             $mock->shouldReceive('addNamespace')
                 ->withArgs(['Mayaka', '/mayaka/views'])
                 ->once();
+
+            $mock->shouldReceive('addNamespace')
+                ->withArgs(['Chitanda', '/chitanda/views'])
+                ->once();
         });
         $this->instance('translation.loader', \Mockery::mock(\App\Services\TranslationLoader::class, function ($mock) {
             $mock->shouldReceive('addNamespace')
                 ->withArgs(['Mayaka', '/mayaka/lang'])
+                ->once();
+
+            $mock->shouldReceive('addNamespace')
+                ->withArgs(['Chitanda', '/chitanda/lang'])
                 ->once();
         }));
 
