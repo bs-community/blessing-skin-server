@@ -85,7 +85,7 @@ test('enable plugin', async () => {
   )
   expect(Vue.prototype.$alert).toBeCalledWith('', ({
     type: 'warning',
-    message: expect.anything()
+    message: expect.anything(),
   }))
 
   wrapper.findAll('.actions').at(1)

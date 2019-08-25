@@ -34,7 +34,7 @@ export default Vue.extend({
         const h = this.$createElement
         const vnode = h('div', {}, [
           h('p', message),
-          h('ul', {}, reason.map(item => h('li', item)))
+          h('ul', {}, reason.map(item => h('li', item))),
         ])
         this.$alert('', { message: vnode, type: 'warning' })
       }
