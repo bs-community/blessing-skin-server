@@ -7,6 +7,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
 use Composer\Semver\Comparator;
 use App\Services\PackageManager;
+use Illuminate\Filesystem\Filesystem;
 
 class UpdateController extends Controller
 {
@@ -40,7 +41,7 @@ class UpdateController extends Controller
         return json(['available' => $this->canUpdate()]);
     }
 
-    public function download(Request $request, PackageManager $package)
+    public function download(Request $request, PackageManager $package, Filesystem $filesystem)
     {
         if (! $this->canUpdate()) {
             return json([]);
@@ -51,6 +52,9 @@ class UpdateController extends Controller
             case 'download':
                 try {
                     $package->download($this->info['url'], $path)->extract(base_path());
+
+                    // Delete options cache. This allows us to update the version info which is recorded as an option.
+                    $filesystem->delete(storage_path('options/cache.php'));
 
                     return json(trans('admin.update.complete'), 0);
                 } catch (Exception $e) {
