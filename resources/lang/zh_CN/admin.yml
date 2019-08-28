@@ -85,6 +85,14 @@ customize:
     black-light: 黑色主题 - 白色侧边栏
 
 status:
+  info: 信息
+  health: 健康
+  bs:
+    name: Blessing Skin
+    version: 版本
+    env: 应用环境
+    debug: 是否处于调试状态
+    laravel: Laravel 版本
   server:
     name: 服务器
     php: PHP 版本
@@ -98,6 +106,7 @@ status:
     username: 用户名
     database: 数据库
     prefix: 数据表前缀
+  plugins: 已开启的插件 (:amount)
 
 plugins:
   name: 名称

@@ -85,6 +85,14 @@ customize:
     black-light: Black Light
 
 status:
+  info: Information
+  health: Health
+  bs:
+    name: Blessing Skin
+    version: Version
+    env: Application Environment
+    debug: Debugging or Not?
+    laravel: Laravel Version
   server:
     name: Server
     php: PHP Version
@@ -98,6 +106,7 @@ status:
     username: Username
     database: Database
     prefix: Table Prefix
+  plugins: Enabled Plugins (:amount)
 
 plugins:
   name: Name

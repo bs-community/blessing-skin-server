@@ -10,10 +10,11 @@
 
     <section class="content">
         <div class="row">
-            <div class="col-md-2"></div>
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div class="box">
-                    <div class="box-header"></div>
+                    <div class="box-header">
+                        <h3 class="box-title">@lang('admin.status.info')</h3>
+                    </div>
                     <div class="box-body">
                         <table class="table table-bordered table-striped">
                             <tbody>
@@ -28,12 +29,21 @@
                                 </tr>
                                 @endforeach
                                 @endforeach
+                                <tr>
+                                    <th colspan="2">@lang('admin.status.plugins', ['amount' => $plugins->count()])</th>
+                                </tr>
+                                @foreach ($plugins as $plugin)
+                                <tr>
+                                    <td>{{ $plugin['title'] }}</td>
+                                    <td>{{ $plugin['version'] }}</td>
+                                </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-            <div class="col-md-2"></div>
+            <div class="col-md-6"></div>
         </div>
     </section>
 </div>

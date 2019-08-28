@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Player;
 use App\Notifications;
 use App\Models\Texture;
+use App\Services\Plugin;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -118,9 +119,19 @@ class AdminControllerTest extends TestCase
 
     public function testStatus()
     {
+        $this->mock(\App\Services\PluginManager::class, function ($mock) {
+            $mock->shouldReceive('getEnabledPlugins')
+                ->andReturn(collect([
+                    'a' => new Plugin('', ['title' => 'MyPlugin', 'version' => '0.0.0'])
+                ]));
+        });
+
         $this->get('/admin/status')
             ->assertSee(PHP_VERSION)
-            ->assertSee(humanize_db_type());
+            ->assertSee(humanize_db_type())
+            ->assertSee('(1)')
+            ->assertSee('MyPlugin')
+            ->assertSee('0.0.0');
     }
 
     public function testUsers()

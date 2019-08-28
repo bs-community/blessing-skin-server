@@ -43,6 +43,8 @@ reset: Reset
 
 submit: Submit
 cancel: Cancel
+yes: Yes
+no: No
 op-success: Operated successfully.
 unknown: Unknown
 

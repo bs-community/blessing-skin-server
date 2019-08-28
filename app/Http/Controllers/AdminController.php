@@ -14,6 +14,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use App\Services\OptionForm;
 use Illuminate\Http\Request;
+use App\Services\PluginManager;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
@@ -362,12 +363,21 @@ class AdminController extends Controller
             ->with('forms', compact('resources', 'redis', 'cache'));
     }
 
-    public function status(Request $request)
+    public function status(Request $request, PluginManager $plugins)
     {
         $db = get_db_config();
+        $enabledPlugins = $plugins->getEnabledPlugins()->map(function ($plugin) {
+            return ['title' => trans($plugin->title), 'version' => $plugin->version];
+        });
 
         return view('admin.status')
             ->with('detail', [
+                'bs' => [
+                    'version' => config('app.version'),
+                    'env' => config('app.env'),
+                    'debug' => config('app.debug') ? trans('general.yes') : trans('general.no'),
+                    'laravel' => app()->version(),
+                ],
                 'server' => [
                     'php' => PHP_VERSION,
                     'web' => $request->server('SERVER_SOFTWARE', trans('general.unknown')),
@@ -381,7 +391,8 @@ class AdminController extends Controller
                     'database' => Arr::get($db, 'database'),
                     'prefix' => Arr::get($db, 'prefix'),
                 ],
-            ]);
+            ])
+            ->with('plugins', $enabledPlugins);
     }
 
     public function getUserData(Request $request, User $users)
