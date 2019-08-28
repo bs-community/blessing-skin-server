@@ -84,6 +84,21 @@ customize:
     black: Black
     black-light: Black Light
 
+status:
+  server:
+    name: Server
+    php: PHP Version
+    web: Web Server Software
+    os: OS
+  db:
+    name: Database
+    type: Server
+    host: Host
+    port: Port
+    username: Username
+    database: Database
+    prefix: Table Prefix
+
 plugins:
   name: Name
   description: Description

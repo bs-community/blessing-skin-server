@@ -84,6 +84,21 @@ customize:
     black: 黑色主题
     black-light: 黑色主题 - 白色侧边栏
 
+status:
+  server:
+    name: 服务器
+    php: PHP 版本
+    web: Web 服务软件
+    os: 操作系统
+  db:
+    name: 数据库
+    type: 服务器类型
+    host: 主机
+    port: 端口
+    username: 用户名
+    database: 数据库
+    prefix: 数据表前缀
+
 plugins:
   name: 名称
   description: 描述

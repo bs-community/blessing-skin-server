@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Player;
 use App\Notifications;
 use App\Models\Texture;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use App\Services\OptionForm;
 use Illuminate\Http\Request;
@@ -363,11 +364,24 @@ class AdminController extends Controller
 
     public function status(Request $request)
     {
-        return view('admin.status', [
-            'phpVersion' => PHP_VERSION,
-            'webSoftware' => $request->server('SERVER_SOFTWARE', trans('general.unknown')),
-            'os' => sprintf('%s %s %s', php_uname('s'), php_uname('r'), php_uname('m')),
-        ]);
+        $db = get_db_config();
+
+        return view('admin.status')
+            ->with('detail', [
+                'server' => [
+                    'php' => PHP_VERSION,
+                    'web' => $request->server('SERVER_SOFTWARE', trans('general.unknown')),
+                    'os' => sprintf('%s %s %s', php_uname('s'), php_uname('r'), php_uname('m')),
+                ],
+                'db' => [
+                    'type' => humanize_db_type(),
+                    'host' => Arr::get($db, 'host', ''),
+                    'port' => Arr::get($db, 'port', ''),
+                    'username' => Arr::get($db, 'username'),
+                    'database' => Arr::get($db, 'database'),
+                    'prefix' => Arr::get($db, 'prefix'),
+                ],
+            ]);
     }
 
     public function getUserData(Request $request, User $users)

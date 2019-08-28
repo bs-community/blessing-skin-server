@@ -116,6 +116,13 @@ class AdminControllerTest extends TestCase
         Notification::assertNotSentTo($admin, Notifications\SiteMessage::class);
     }
 
+    public function testStatus()
+    {
+        $this->get('/admin/status')
+            ->assertSee(PHP_VERSION)
+            ->assertSee(humanize_db_type());
+    }
+
     public function testUsers()
     {
         $this->get('/admin/users')->assertSee(trans('general.user-manage'));

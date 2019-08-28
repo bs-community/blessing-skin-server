@@ -254,7 +254,7 @@ if (! function_exists('humanize_db_type')) {
     function humanize_db_type($type = null): string
     {
         $map = [
-            'mysql'  => 'MySQL',
+            'mysql'  => 'MySQL/MariaDB',
             'sqlite' => 'SQLite',
             'pgsql'  => 'PostgreSQL',
         ];
