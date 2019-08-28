@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -38,7 +39,8 @@ class Handler extends ExceptionHandler
                     return $trace;
                 })
                 ->filter(function ($trace) {
-                    return \Illuminate\Support\Str::startsWith($trace['file'], 'app');
+                    return Str::startsWith($trace['file'], 'app') ||
+                        Str::contains($trace['file'], resolve('plugins')->getPluginsDirs()->all());
                 })
                 ->values(),
         ];

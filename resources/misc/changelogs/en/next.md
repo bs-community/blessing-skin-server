@@ -19,6 +19,7 @@
 - Some fields at administration panel shouldn't be sortable.
 - Add missing l10n text.
 - Fixed that model was reset after resetting skin previewing.
+- Fixed that error stack doesn't show paths from plugins when AJAX has an error.
 
 ## Removed
 
