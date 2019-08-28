@@ -25,6 +25,7 @@ customize: 个性化
 options: 站点配置
 score-options: 积分配置
 res-options: 资源配置
+status: 运行状态
 check-update: 检查更新
 download-update: 下载更新
 close: 关闭
@@ -43,6 +44,7 @@ reset: 重置
 submit: 提交
 cancel: 取消
 op-success: 操作成功
+unknown: 未知
 
 notice: 提示
 switch-2d-preview: 切换 2D 预览

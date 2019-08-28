@@ -361,6 +361,15 @@ class AdminController extends Controller
             ->with('forms', compact('resources', 'redis', 'cache'));
     }
 
+    public function status(Request $request)
+    {
+        return view('admin.status', [
+            'phpVersion' => PHP_VERSION,
+            'webSoftware' => $request->server('SERVER_SOFTWARE', trans('general.unknown')),
+            'os' => sprintf('%s %s %s', php_uname('s'), php_uname('r'), php_uname('m')),
+        ]);
+    }
+
     public function getUserData(Request $request, User $users)
     {
         $isSingleUser = $request->has('uid');

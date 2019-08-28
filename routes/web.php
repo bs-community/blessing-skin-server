@@ -123,6 +123,8 @@ Route::group(['middleware' => ['authorize', 'admin'], 'prefix' => 'admin'], func
     Route::any('/options', 'AdminController@options');
     Route::any('/resource', 'AdminController@resource');
 
+    Route::get('/status', 'AdminController@status');
+
     Route::view('/users', 'admin.users');
     Route::post('/users', 'AdminController@userAjaxHandler');
     Route::any('/user-data', 'AdminController@getUserData');

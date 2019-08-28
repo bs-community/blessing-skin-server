@@ -25,6 +25,7 @@ customize: Customize
 options: Options
 score-options: Score Options
 res-options: Resource Options
+status: Status
 check-update: Check Update
 download-update: Download Updates
 close: Close
@@ -43,6 +44,7 @@ reset: Reset
 submit: Submit
 cancel: Cancel
 op-success: Operated successfully.
+unknown: Unknown
 
 notice: Notice
 switch-2d-preview: Switch to 2D preview
