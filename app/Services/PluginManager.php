@@ -116,7 +116,7 @@ class PluginManager
                         $manifest['version'],
                         $this->enabled->get($name)['version']
                     )) {
-                        $this->enabled->put($name, $manifest['version']);
+                        $this->enabled->put($name, ['version' => $manifest['version']]);
                         $this->dispatcher->dispatch(new Events\PluginVersionChanged($plugin));
                     }
                 }
