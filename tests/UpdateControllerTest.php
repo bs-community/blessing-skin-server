@@ -112,7 +112,7 @@ class UpdateControllerTest extends TestCase
     {
         return json_encode(array_merge([
             'spec' => 2,
-            'php' => '7.2.12',
+            'php' => '7.2.0',
             'latest' => $version,
             'url' => "https://whatever.test/$version/update.zip",
         ], $extra));
