@@ -1,6 +1,11 @@
 import Vue from 'vue'
 import {
-  Button, Input, Message, MessageBox, Switch, Notification
+  Button,
+  Input,
+  Message,
+  MessageBox,
+  Switch,
+  Notification,
 } from 'element-ui'
 
 Vue.use(Button)
