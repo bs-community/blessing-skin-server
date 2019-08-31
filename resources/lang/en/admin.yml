@@ -92,6 +92,7 @@ status:
     version: Version
     env: Application Environment
     debug: Debugging or Not?
+    commit: Commit
     laravel: Laravel Version
   server:
     name: Server

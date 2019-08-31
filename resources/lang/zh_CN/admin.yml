@@ -92,6 +92,7 @@ status:
     version: 版本
     env: 应用环境
     debug: 是否处于调试状态
+    commit: 提交
     laravel: Laravel 版本
   server:
     name: 服务器
