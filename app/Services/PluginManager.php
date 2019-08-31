@@ -233,7 +233,18 @@ class PluginManager
     {
         $path = $plugin->getPath().'/bootstrap.php';
         if ($this->filesystem->exists($path)) {
-            $this->app->call($this->filesystem->getRequire($path), ['plugin' => $plugin]);
+            try {
+                $this->app->call($this->filesystem->getRequire($path), ['plugin' => $plugin]);
+            } catch (\Throwable $th) {
+                report($th);
+                if (is_a($th, \Exception::class)) {
+                    $handler = $this->app->make(\App\Exceptions\Handler::class);
+                    if (! $handler->shouldReport($th)) {
+                        throw $th;
+                    }
+                }
+                $this->dispatcher->dispatch(new Events\PluginBootFailed($plugin));
+            }
         }
     }
 

@@ -323,6 +323,59 @@ class PluginManagerTest extends TestCase
         resolve(PluginManager::class)->boot();
     }
 
+    public function testHandleBootstrapperExceptions()
+    {
+        Event::fake();
+        $this->mock(Option::class, function ($mock) {
+            $mock->shouldReceive('get')
+                ->with('plugins_enabled', '[]')
+                ->andReturn(json_encode([['name' => 'mayaka', 'version' => '0.0.0']]));
+        });
+        $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('directories')
+                ->with(base_path('plugins'))
+                ->andReturn(collect(['/mayaka']));
+
+            $mock->shouldReceive('exists')
+                ->with('/mayaka'.DIRECTORY_SEPARATOR.'package.json')
+                ->andReturn(true);
+
+            $mock->shouldReceive('get')
+                ->with('/mayaka'.DIRECTORY_SEPARATOR.'package.json')
+                ->andReturn(json_encode([
+                    'name' => 'mayaka',
+                    'version' => '0.0.0',
+                ]));
+
+            $mock->shouldReceive('exists')
+                ->with('/mayaka/vendor/autoload.php')
+                ->andReturn(false);
+
+            $mock->shouldReceive('exists')
+                ->with('/mayaka/bootstrap.php')
+                ->andReturn(true);
+
+            $mock->shouldReceive('getRequire')
+                ->with('/mayaka/bootstrap.php')
+                ->andReturn(function () {
+                    throw new \Exception();
+                }, function () {
+                    abort(500);
+                });
+        });
+
+        app()->forgetInstance(PluginManager::class);
+        resolve(PluginManager::class)->boot();
+        Event::assertDispatched(Events\PluginBootFailed::class, function ($event) {
+            $this->assertEquals('mayaka', $event->plugin->name);
+            return true;
+        });
+
+        app()->forgetInstance(PluginManager::class);
+        $this->expectException(\Symfony\Component\HttpKernel\Exception\HttpException::class);
+        resolve(PluginManager::class)->boot();
+    }
+
     public function testLifecycleHooks()
     {
         $this->mock(Option::class, function ($mock) {
