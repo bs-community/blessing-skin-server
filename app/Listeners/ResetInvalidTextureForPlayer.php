@@ -4,7 +4,7 @@ namespace App\Listeners;
 
 class ResetInvalidTextureForPlayer
 {
-    public function handle(\App\Events\PlayerRetrieved $event)
+    public function handle($event)
     {
         $player = $event->player;
 

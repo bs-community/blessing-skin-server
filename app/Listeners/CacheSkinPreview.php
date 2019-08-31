@@ -8,7 +8,7 @@ use App\Services\Minecraft;
 
 class CacheSkinPreview
 {
-    public function handle(\App\Events\GetSkinPreview $event)
+    public function handle($event)
     {
         $texture = $event->texture;
         $size = $event->size;

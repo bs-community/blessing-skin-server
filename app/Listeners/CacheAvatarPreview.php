@@ -5,11 +5,10 @@ namespace App\Listeners;
 use Cache;
 use Storage;
 use App\Services\Minecraft;
-use App\Events\GetAvatarPreview;
 
 class CacheAvatarPreview
 {
-    public function handle(GetAvatarPreview $event)
+    public function handle($event)
     {
         $texture = $event->texture;
         $size = $event->size;

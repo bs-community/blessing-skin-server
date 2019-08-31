@@ -15,7 +15,7 @@ class CachePlayerExists
         $events->listen(Events\PlayerWasAdded::class, [$this, 'forget']);
     }
 
-    public function remember(Events\CheckPlayerExists $event)
+    public function remember($event)
     {
         $key = "notfound-{$event->playerName}";
 
@@ -34,7 +34,7 @@ class CachePlayerExists
         }
     }
 
-    public function forget(Events\PlayerWasAdded $event)
+    public function forget($event)
     {
         Cache::forget("notfound-{$event->player->name}");
     }

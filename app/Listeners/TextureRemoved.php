@@ -6,17 +6,7 @@ use App\Models\User;
 
 class TextureRemoved
 {
-    /**
-     * @var User
-     */
-    protected $users;
-
-    public function __construct(User $users)
-    {
-        $this->users = $users;
-    }
-
-    public function handle(\App\Events\TextureDeleting $event)
+    public function handle($event)
     {
         $texture = $event->texture;
 
@@ -28,7 +18,7 @@ class TextureRemoved
             }
         });
 
-        if ($uploader = $this->users->find($texture->uploader)) {
+        if ($uploader = User::find($texture->uploader)) {
             $ret = 0;
             if (option('return_score')) {
                 $ret += $texture->size * (
