@@ -185,9 +185,12 @@ class PlayerControllerTest extends TestCase
                 'code' => 6,
                 'message' => trans('user.player.rename.repeated'),
             ]);
+        Event::assertDispatched('player.renaming');
 
         // Success
-        $this->postJson('/user/player/rename/'.$player->pid, ['name' => 'new_name'])
+        Event::fake();
+        $pid = $player->pid;
+        $this->postJson('/user/player/rename/'.$pid, ['name' => 'new_name'])
             ->assertJson([
                 'code' => 0,
                 'message' => trans(
@@ -196,6 +199,16 @@ class PlayerControllerTest extends TestCase
                 ),
             ]);
         Event::assertDispatched(Events\PlayerProfileUpdated::class);
+        Event::assertDispatched('player.renaming', function ($event, $player, $newName) use ($pid) {
+            $this->assertEquals($pid, $player->pid);
+            $this->assertEquals('new_name', $newName);
+            return true;
+        });
+        Event::assertDispatched('player.renamed', function ($event, $player, $oldName) use ($pid) {
+            $this->assertEquals($pid, $player->pid);
+            $this->assertNotEquals('new_name', $oldName);
+            return true;
+        });
 
         // Single player
         option(['single_player' => true]);

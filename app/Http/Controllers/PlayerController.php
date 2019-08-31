@@ -17,6 +17,7 @@ use App\Events\PlayerWillBeDeleted;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\CheckPlayerExist;
 use App\Http\Middleware\CheckPlayerOwner;
+use Illuminate\Contracts\Events\Dispatcher;
 
 class PlayerController extends Controller
 {
@@ -116,12 +117,14 @@ class PlayerController extends Controller
         return json(trans('user.player.delete.success', ['name' => $playerName]), 0);
     }
 
-    public function rename(Request $request, $pid)
+    public function rename(Request $request, Dispatcher $dispatcher, $pid)
     {
         $newName = $this->validate($request, [
             'name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max'),
         ])['name'];
         $player = Player::find($pid);
+
+        $dispatcher->dispatch('player.renaming', $player, $newName);
 
         if (! Player::where('name', $newName)->get()->isEmpty()) {
             return json(trans('user.player.rename.repeated'), 6);
@@ -136,6 +139,8 @@ class PlayerController extends Controller
             $user->nickname = $newName;
             $user->save();
         }
+
+        $dispatcher->dispatch('player.renamed', $player, $oldName);
 
         return json(trans('user.player.rename.success', ['old' => $oldName, 'new' => $newName]), 0, $player->toArray());
     }
