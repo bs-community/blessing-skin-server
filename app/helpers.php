@@ -73,13 +73,6 @@ if (! function_exists('add_filter')) {
     }
 }
 
-if (! function_exists('apply_filters')) {
-    function apply_filters()
-    {
-        return call_user_func_array([app('eventy'), 'filter'], func_get_args());
-    }
-}
-
 if (! function_exists('bs_footer_extra')) {
     function bs_footer_extra(): string
     {

@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use Eventy;
+
 class FilterTest extends TestCase
 {
     public function testAddFilter()
@@ -21,19 +23,11 @@ class FilterTest extends TestCase
         });
     }
 
-    public function testApplyFilters()
-    {
-        $this->mock('eventy', function ($mock) {
-            $mock->shouldReceive('filter')->withArgs(['my.hook', 'value'])->once();
-        });
-        apply_filters('my.hook', 'value');
-    }
-
     public function testIntegration()
     {
         add_filter('hook.test', function ($value) {
             return $value.'ed';
         });
-        $this->assertEquals('tested', apply_filters('hook.test', 'test'));
+        $this->assertEquals('tested', Eventy::filter('hook.test', 'test'));
     }
 }

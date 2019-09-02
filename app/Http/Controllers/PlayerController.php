@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use View;
 use Event;
+use Eventy;
 use Option;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
+use App\Services\Rejection;
 use Illuminate\Http\Request;
 use App\Events\PlayerWasAdded;
 use App\Events\PlayerWasDeleted;
@@ -125,6 +127,11 @@ class PlayerController extends Controller
         $player = Player::find($pid);
 
         $dispatcher->dispatch('player.renaming', [$player, $newName]);
+
+        $can = Eventy::filter('can_rename_player', $player, $newName);
+        if ($can instanceof Rejection) {
+            return json($can->getReason(), 1);
+        }
 
         if (! Player::where('name', $newName)->get()->isEmpty()) {
             return json(trans('user.player.rename.repeated'), 6);
