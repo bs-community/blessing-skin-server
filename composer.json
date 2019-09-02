@@ -39,7 +39,8 @@
     "filp/whoops": "^2.4",
     "beyondcode/laravel-dump-server": "^1.2",
     "symfony/dom-crawler": "^4.3",
-    "symfony/css-selector": "^4.3"
+    "symfony/css-selector": "^4.3",
+    "barryvdh/laravel-ide-helper": "^2.6"
   },
   "autoload": {
     "classmap": [
