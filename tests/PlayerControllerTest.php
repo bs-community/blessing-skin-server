@@ -199,12 +199,14 @@ class PlayerControllerTest extends TestCase
                 ),
             ]);
         Event::assertDispatched(Events\PlayerProfileUpdated::class);
-        Event::assertDispatched('player.renaming', function ($event, $player, $newName) use ($pid) {
+        Event::assertDispatched('player.renaming', function ($event, $payload) use ($pid) {
+            [$player, $newName] = $payload;
             $this->assertEquals($pid, $player->pid);
             $this->assertEquals('new_name', $newName);
             return true;
         });
-        Event::assertDispatched('player.renamed', function ($event, $player, $oldName) use ($pid) {
+        Event::assertDispatched('player.renamed', function ($event, $payload) use ($pid) {
+            [$player, $oldName] = $payload;
             $this->assertEquals($pid, $player->pid);
             $this->assertNotEquals('new_name', $oldName);
             return true;

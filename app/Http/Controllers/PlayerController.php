@@ -124,7 +124,7 @@ class PlayerController extends Controller
         ])['name'];
         $player = Player::find($pid);
 
-        $dispatcher->dispatch('player.renaming', $player, $newName);
+        $dispatcher->dispatch('player.renaming', [$player, $newName]);
 
         if (! Player::where('name', $newName)->get()->isEmpty()) {
             return json(trans('user.player.rename.repeated'), 6);
@@ -140,7 +140,7 @@ class PlayerController extends Controller
             $user->save();
         }
 
-        $dispatcher->dispatch('player.renamed', $player, $oldName);
+        $dispatcher->dispatch('player.renamed', [$player, $oldName]);
 
         return json(trans('user.player.rename.success', ['old' => $oldName, 'new' => $newName]), 0, $player->toArray());
     }
