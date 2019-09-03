@@ -192,7 +192,7 @@ class PlayerControllerTest extends TestCase
         // Rejected by filter
         $filter = resolve(Filter::class);
         $pid = $player->pid;
-        $filter->add('can_rename_player', function ($player, $newName) {
+        $filter->add('user_can_rename_player', function ($can, $player, $newName) {
             $this->assertEquals('new', $newName);
             return new Rejection('rejected');
         });
@@ -202,7 +202,7 @@ class PlayerControllerTest extends TestCase
                 'code' => 1,
                 'message' => 'rejected',
             ]);
-        $filter->remove('can_rename_player');
+        $filter->remove('user_can_rename_player');
 
         // Success
         Event::fake();

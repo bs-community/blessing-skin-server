@@ -22,21 +22,17 @@ class Filter
         ]);
     }
 
-    public function apply(string $hook, array $payload)
+    public function apply(string $hook, $init, $args = [])
     {
         $listeners = $this->getListeners($hook);
         if ($listeners->isNotEmpty()) {
-            $value = $payload[0];
-            unset($payload[0]);
-            $args = array_values($payload);
-
             return $this->listeners[$hook]
                 ->sortByDesc('priority')
                 ->reduce(function ($carry, $item) use ($args) {
                     return call_user_func($item['callback'], $carry, ...$args);
-                }, $value);
+                }, $init);
         } else {
-            return $payload[0];
+            return $init;
         }
     }
 

@@ -17,7 +17,7 @@ class FilterTest extends TestCase
     public function testApply()
     {
         $filter = new Filter();
-        $this->assertEquals('value', $filter->apply('hook', ['value', 'add']));
+        $this->assertEquals('value', $filter->apply('hook', 'value', ['add']));
 
         $filter->add('hook', function ($value, $addition) {
             $this->assertEquals('add', $addition);
@@ -29,7 +29,7 @@ class FilterTest extends TestCase
         $filter->add('hook', function ($value) {
             return $value.'_high';
         }, 30);
-        $this->assertEquals('value_high_medium_low', $filter->apply('hook', ['value', 'add']));
+        $this->assertEquals('value_high_medium_low', $filter->apply('hook', 'value', ['add']));
     }
 
     public function testRemove()
