@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use View;
 use Option;
 use Session;
@@ -11,7 +12,6 @@ use App\Models\Player;
 use App\Models\Texture;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
 
 class SkinlibController extends Controller
 {

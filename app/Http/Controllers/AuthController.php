@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use URL;
+use Auth;
 use Mail;
 use View;
 use Cache;
@@ -13,7 +14,6 @@ use App\Models\Player;
 use App\Rules\Captcha;
 use App\Mail\ForgotPassword;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Exceptions\PrettyPageException;
 
 class AuthController extends Controller

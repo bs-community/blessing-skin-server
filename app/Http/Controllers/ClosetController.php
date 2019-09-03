@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Models\User;
 use App\Models\Texture;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class ClosetController extends Controller
 {

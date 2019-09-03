@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use Illuminate\Support\Facades\Auth;
+use Auth;
 
 class RedirectIfAuthenticated
 {

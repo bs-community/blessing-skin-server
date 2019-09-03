@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App;
 use URL;
+use Auth;
 use Mail;
 use View;
 use Session;
@@ -13,7 +14,6 @@ use App\Models\Texture;
 use Illuminate\Http\Request;
 use App\Mail\EmailVerification;
 use App\Events\UserProfileUpdated;
-use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {

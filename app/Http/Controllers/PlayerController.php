@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use View;
 use Event;
 use Option;
@@ -16,7 +17,6 @@ use App\Events\PlayerWasDeleted;
 use App\Events\CheckPlayerExists;
 use App\Events\PlayerWillBeAdded;
 use App\Events\PlayerWillBeDeleted;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\CheckPlayerExist;
 use App\Http\Middleware\CheckPlayerOwner;
 use Illuminate\Contracts\Events\Dispatcher;
