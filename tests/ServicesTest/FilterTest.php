@@ -2,32 +2,51 @@
 
 namespace Tests;
 
-use Eventy;
+use App\Services\Filter;
 
 class FilterTest extends TestCase
 {
-    public function testAddFilter()
+    public function testAdd()
     {
-        $this->mock('eventy', function ($mock) {
-            $mock->shouldReceive('addFilter')
-                ->withArgs(function ($hook, $callback) {
-                    $this->assertEquals('my.hook', $hook);
-                    $this->assertEquals('Filtered text', $callback('text'));
-
-                    return true;
-                })
-                ->once();
-        });
-        add_filter('my.hook', function ($value) {
-            return "Filtered $value";
-        });
+        $filter = new Filter();
+        $filter->add('hook', function () {});
+        $filter->add('hook', function () {}, 10);
+        $this->assertCount(2, $filter->getListeners('hook'));
     }
 
-    public function testIntegration()
+    public function testApply()
     {
-        add_filter('hook.test', function ($value) {
-            return $value.'ed';
+        $filter = new Filter();
+        $this->assertEquals('value', $filter->apply('hook', ['value', 'add']));
+
+        $filter->add('hook', function ($value, $addition) {
+            $this->assertEquals('add', $addition);
+            return $value.'_medium';
         });
-        $this->assertEquals('tested', Eventy::filter('hook.test', 'test'));
+        $filter->add('hook', function ($value) {
+            return $value.'_low';
+        }, 10);
+        $filter->add('hook', function ($value) {
+            return $value.'_high';
+        }, 30);
+        $this->assertEquals('value_high_medium_low', $filter->apply('hook', ['value', 'add']));
+    }
+
+    public function testRemove()
+    {
+        $filter = new Filter();
+        $filter->remove('hook');
+        $this->assertCount(0, $filter->getListeners('hook'));
+
+        $filter->add('hook', function () {});
+        $this->assertCount(1, $filter->getListeners('hook'));
+        $filter->remove('hook');
+        $this->assertCount(0, $filter->getListeners('hook'));
+    }
+
+    public function testGetListeners()
+    {
+        $filter = new Filter();
+        $this->assertCount(0, $filter->getListeners('hook'));
     }
 }

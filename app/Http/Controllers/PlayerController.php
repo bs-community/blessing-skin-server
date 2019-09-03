@@ -4,11 +4,11 @@ namespace App\Http\Controllers;
 
 use View;
 use Event;
-use Eventy;
 use Option;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
+use App\Services\Filter;
 use App\Services\Rejection;
 use Illuminate\Http\Request;
 use App\Events\PlayerWasAdded;
@@ -119,8 +119,12 @@ class PlayerController extends Controller
         return json(trans('user.player.delete.success', ['name' => $playerName]), 0);
     }
 
-    public function rename(Request $request, Dispatcher $dispatcher, $pid)
-    {
+    public function rename(
+        Request $request,
+        Dispatcher $dispatcher,
+        Filter $filter,
+        $pid
+    ) {
         $newName = $this->validate($request, [
             'name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max'),
         ])['name'];
@@ -128,7 +132,7 @@ class PlayerController extends Controller
 
         $dispatcher->dispatch('player.renaming', [$player, $newName]);
 
-        $can = Eventy::filter('can_rename_player', $player, $newName);
+        $can = $filter->apply('can_rename_player', [$player, $newName]);
         if ($can instanceof Rejection) {
             return json($can->getReason(), 1);
         }

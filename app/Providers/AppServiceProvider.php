@@ -25,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->alias(\App\Services\Option::class, 'options');
         $this->app->singleton('parsedown', \Parsedown::class);
         $this->app->singleton('webpack', \App\Services\Webpack::class);
+        $this->app->singleton(\App\Services\Filter::class);
     }
 
     /**

@@ -3,11 +3,11 @@
 namespace Tests;
 
 use Event;
-use Eventy;
 use App\Events;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
+use App\Services\Filter;
 use App\Services\Rejection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -190,17 +190,19 @@ class PlayerControllerTest extends TestCase
         Event::assertDispatched('player.renaming');
 
         // Rejected by filter
+        $filter = resolve(Filter::class);
         $pid = $player->pid;
-        Eventy::addFilter('can_rename_player', function ($player) {
+        $filter->add('can_rename_player', function ($player, $newName) {
+            $this->assertEquals('new', $newName);
             return new Rejection('rejected');
-        }, 20, 1);
+        });
         $name = factory(Player::class)->create()->name;
         $this->postJson('/user/player/rename/'.$player->pid, ['name' => 'new'])
             ->assertJson([
                 'code' => 1,
                 'message' => 'rejected',
             ]);
-        Eventy::removeAllFilters('can_rename_player');
+        $filter->remove('can_rename_player');
 
         // Success
         Event::fake();
