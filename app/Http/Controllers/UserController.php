@@ -40,7 +40,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        list($from, $to) = explode(',', option('sign_score'));
+        [$from, $to] = explode(',', option('sign_score'));
         $scoreIntro = nl2br(trans('user.score-intro.introduction', [
             'initial_score' => option('user_initial_score'),
             'score-from'    => $from,
@@ -79,14 +79,7 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Calculate percentage of resources used by user.
-     *
-     * @param  int $used
-     * @param  int $rate
-     * @return array
-     */
-    protected function calculatePercentageUsed($used, $rate)
+    protected function calculatePercentageUsed(int $used, int $rate): array
     {
         $user = Auth::user();
         // Initialize default value to avoid division by zero.
@@ -107,18 +100,11 @@ class UserController extends Controller
         return Texture::where('uploader', $user->uid)->select('size')->sum('size');
     }
 
-    /**
-     * Handle user signing.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function sign()
     {
         $user = Auth::user();
         if ($this->getSignRemainingTime($user) <= 0) {
-            $scoreLimits = explode(',', option('sign_score'));
-            $acquiredScore = rand($scoreLimits[0], $scoreLimits[1]);
-
+            $acquiredScore = rand(...explode(',', option('sign_score')));
             $user->score += $acquiredScore;
             $user->last_sign_at = Carbon::now()->toDateTimeString();
             $user->save();
