@@ -170,11 +170,6 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         /*
-         * Third-party Libraries...
-         */
-        Swiggles\Memcache\MemcacheServiceProvider::class,
-
-        /*
          * Application Service Providers...
          */
         App\Providers\RuntimeCheckServiceProvider::class,
