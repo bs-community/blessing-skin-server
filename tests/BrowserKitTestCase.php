@@ -28,8 +28,6 @@ class BrowserKitTestCase extends TestCase
 
         Artisan::call('migrate:refresh');
 
-        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-
         return $app;
     }
 
@@ -48,13 +46,5 @@ class BrowserKitTestCase extends TestCase
         }
 
         return $this->actingAs($role);
-    }
-
-    protected function tearDown(): void
-    {
-        $this->beforeApplicationDestroyed(function () {
-            DB::disconnect();
-        });
-        parent::tearDown();
     }
 }

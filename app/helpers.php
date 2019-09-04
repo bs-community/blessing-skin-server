@@ -299,21 +299,13 @@ if (! function_exists('get_client_ip')) {
      */
     function get_client_ip(): string
     {
+        $request = request();
         if (option('ip_get_method') == '0') {
-            // Use `HTTP_X_FORWARDED_FOR` if available first
-            $ip = Arr::get(
-                $_SERVER,
-                'HTTP_X_FORWARDED_FOR',
-                // Fallback to `HTTP_CLIENT_IP`
-                Arr::get(
-                    $_SERVER,
-                    'HTTP_CLIENT_IP',
-                    // Fallback to `REMOTE_ADDR`
-                    Arr::get($_SERVER, 'REMOTE_ADDR')
-                )
-            );
+            $ip = $request->server('HTTP_X_FORWARDED_FOR')
+                ?? $request->server('HTTP_CLIENT_IP')
+                ?? $request->server('REMOTE_ADDR');
         } else {
-            $ip = Arr::get($_SERVER, 'REMOTE_ADDR');
+            $ip = $request->server('REMOTE_ADDR');
         }
 
         return $ip;
@@ -350,15 +342,16 @@ if (! function_exists('is_request_secure')) {
      */
     function is_request_secure(): bool
     {
-        if (Arr::get($_SERVER, 'HTTPS') == 'on') {
+        $request = request();
+        if ($request->server('HTTPS') == 'on') {
             return true;
         }
 
-        if (Arr::get($_SERVER, 'HTTP_X_FORWARDED_PROTO') == 'https') {
+        if ($request->server('HTTP_X_FORWARDED_PROTO') == 'https') {
             return true;
         }
 
-        if (Arr::get($_SERVER, 'HTTP_X_FORWARDED_SSL') == 'on') {
+        if ($request->server('HTTP_X_FORWARDED_SSL') == 'on') {
             return true;
         }
 
