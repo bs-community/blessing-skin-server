@@ -11,9 +11,12 @@ use Session;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Texture;
+use App\Services\Filter;
+use App\Services\Rejection;
 use Illuminate\Http\Request;
 use App\Mail\EmailVerification;
 use App\Events\UserProfileUpdated;
+use Illuminate\Contracts\Events\Dispatcher;
 
 class UserController extends Controller
 {
@@ -205,10 +208,18 @@ class UserController extends Controller
             ]);
     }
 
-    public function handleProfile(Request $request, User $users)
+    public function handleProfile(Request $request, Filter $filter, Dispatcher $dispatcher)
     {
         $action = $request->input('action', '');
         $user = Auth::user();
+        $addition = $request->except('action');
+
+        $can = $filter->apply('user_can_edit_profile', true, [$action, $addition]);
+        if ($can instanceof Rejection) {
+            return json($can->getReason(), 1);
+        }
+
+        $dispatcher->dispatch('user.profile.updating', [$user, $action, $addition]);
 
         switch ($action) {
             case 'nickname':
@@ -223,6 +234,8 @@ class UserController extends Controller
                 $nickname = $request->input('new_nickname');
                 $user->nickname = $nickname;
                 $user->save();
+
+                $dispatcher->dispatch('user.profile.updated', [$user, $action, $addition]);
                 event(new UserProfileUpdated($action, $user));
 
                 return json(trans('user.profile.nickname.success', ['nickname' => $nickname]), 0);
@@ -238,6 +251,7 @@ class UserController extends Controller
                 }
 
                 if ($user->changePassword($request->input('new_password'))) {
+                    $dispatcher->dispatch('user.profile.updated', [$user, $action, $addition]);
                     event(new UserProfileUpdated($action, $user));
 
                     Auth::logout();
@@ -265,6 +279,7 @@ class UserController extends Controller
                 $user->verified = false;
                 $user->save();
 
+                $dispatcher->dispatch('user.profile.updated', [$user, $action, $addition]);
                 event(new UserProfileUpdated($action, $user));
 
                 Auth::logout();
@@ -286,7 +301,10 @@ class UserController extends Controller
 
                 Auth::logout();
 
+                $dispatcher->dispatch('user.deleting', [$user]);
+
                 if ($user->delete()) {
+                    $dispatcher->dispatch('user.deleted', [$user]);
                     session()->flush();
 
                     return json(trans('user.profile.delete.success'), 0);
@@ -302,34 +320,38 @@ class UserController extends Controller
 
     // @codeCoverageIgnore
 
-    /**
-     * Set user avatar.
-     *
-     * @param Request $request
-     */
-    public function setAvatar(Request $request)
+    public function setAvatar(Request $request, Filter $filter, Dispatcher $dispatcher)
     {
-        $this->validate($request, [
-            'tid' => 'required|integer',
-        ]);
+        $this->validate($request, ['tid' => 'required|integer']);
         $tid = $request->input('tid');
         $user = auth()->user();
+
+        $can = $filter->apply('user_can_update_avatar', true, [$user, $tid]);
+        if ($can instanceof Rejection) {
+            return json($can->getReason(), 1);
+        }
+
+        $dispatcher->dispatch('user.avatar.updating', [$user, $tid]);
 
         if ($tid == 0) {
             $user->avatar = 0;
             $user->save();
 
+            $dispatcher->dispatch('user.avatar.updated', [$user, $tid]);
+
             return json(trans('user.profile.avatar.success'), 0);
         }
 
-        $result = Texture::find($tid);
-        if ($result) {
-            if ($result->type == 'cape') {
+        $texture = Texture::find($tid);
+        if ($texture) {
+            if ($texture->type == 'cape') {
                 return json(trans('user.profile.avatar.wrong-type'), 1);
             }
 
             $user->avatar = $tid;
             $user->save();
+
+            $dispatcher->dispatch('user.avatar.updated', [$user, $tid]);
 
             return json(trans('user.profile.avatar.success'), 0);
         } else {

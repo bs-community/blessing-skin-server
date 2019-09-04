@@ -7,6 +7,8 @@ use Parsedown;
 use App\Events;
 use App\Models\User;
 use App\Notifications;
+use App\Services\Filter;
+use App\Services\Rejection;
 use Illuminate\Support\Str;
 use App\Mail\EmailVerification;
 use Illuminate\Support\Facades\Mail;
@@ -224,6 +226,19 @@ class UserControllerTest extends TestCase
         Event::fake();
         $user = factory(User::class)->create();
         $user->changePassword('12345678');
+        $uid = $user->uid;
+
+        // Rejected by filter
+        $filter = resolve(Filter::class);
+        $filter->add('user_can_edit_profile', function ($can, $action, $addition) {
+            $this->assertEquals('nope', $action);
+            $this->assertEquals([], $addition);
+            return new Rejection('rejected');
+        });
+        $this->actingAs($user)
+            ->postJson('/user/profile', ['action' => 'nope'])
+            ->assertJson(['code' => 1, 'message' => 'rejected']);
+        $filter->remove('user_can_edit_profile');
 
         // Invalid action
         $this->actingAs($user)
@@ -232,6 +247,13 @@ class UserControllerTest extends TestCase
                 'code' => 1,
                 'message' => trans('general.illegal-parameters'),
             ]);
+        Event::assertDispatched('user.profile.updating', function ($eventName, $payload) use ($uid) {
+            [$user, $action, $addition] = $payload;
+            $this->assertEquals($uid, $user->uid);
+            $this->assertEquals('', $action);
+            $this->assertEquals([], $addition);
+            return true;
+        });
 
         // Change nickname without `new_nickname` field
         $this->postJson('/user/profile', ['action' => 'nickname'])
@@ -265,7 +287,15 @@ class UserControllerTest extends TestCase
             'message' => trans('user.profile.nickname.success', ['nickname' => 'nickname']),
         ]);
         $this->assertEquals('nickname', User::find($user->uid)->nickname);
+        Event::assertDispatched('user.profile.updated', function ($eventName, $payload) use ($uid) {
+            [$user, $action, $addition] = $payload;
+            $this->assertEquals($uid, $user->uid);
+            $this->assertEquals('nickname', $action);
+            $this->assertEquals(['new_nickname' => 'nickname'], $addition);
+            return true;
+        });
         Event::assertDispatched(Events\UserProfileUpdated::class);
+        Event::fake();
 
         // Change password without `current_password` field
         $this->postJson('/user/profile', ['action' => 'password'])
@@ -318,10 +348,21 @@ class UserControllerTest extends TestCase
             'code' => 0,
             'message' => trans('user.profile.password.success'),
         ]);
+        Event::assertDispatched('user.profile.updated', function ($eventName, $payload) use ($uid) {
+            [$user, $action, $addition] = $payload;
+            $this->assertEquals($uid, $user->uid);
+            $this->assertEquals('password', $action);
+            $this->assertEquals([
+                'current_password' => '12345678',
+                'new_password' => '87654321',
+            ], $addition);
+            return true;
+        });
         Event::assertDispatched(Events\EncryptUserPassword::class);
         $this->assertTrue(User::find($user->uid)->verifyPassword('87654321'));
         // After changed password, user should re-login.
         $this->assertGuest();
+        Event::fake();
 
         $user = User::find($user->uid);
         // Change email without `new_email` field
@@ -381,10 +422,21 @@ class UserControllerTest extends TestCase
             'code' => 0,
             'message' => trans('user.profile.email.success'),
         ]);
+        Event::assertDispatched('user.profile.updated', function ($eventName, $payload) use ($uid) {
+            [$user, $action, $addition] = $payload;
+            $this->assertEquals($uid, $user->uid);
+            $this->assertEquals('email', $action);
+            $this->assertEquals([
+                'new_email' => 'a@b.c',
+                'password' => '87654321',
+            ], $addition);
+            return true;
+        });
         $this->assertEquals('a@b.c', User::find($user->uid)->email);
         $this->assertEquals(0, User::find($user->uid)->verified);
         // After changed email, user should re-login.
         $this->assertGuest();
+        Event::fake();
 
         $user = User::find($user->uid);
         $user->verified = true;
@@ -426,6 +478,14 @@ class UserControllerTest extends TestCase
             'code' => 0,
             'message' => trans('user.profile.delete.success'),
         ]);
+        Event::assertDispatched('user.deleting', function ($eventName, $payload) use ($uid) {
+            $this->assertEquals($uid, $payload[0]->uid);
+            return true;
+        });
+        Event::assertDispatched('user.deleted', function ($eventName, $payload) use ($uid) {
+            $this->assertEquals($uid, $payload[0]->uid);
+            return true;
+        });
         $this->assertNull(User::find($user->uid));
 
         // Administrator cannot be deleted
@@ -442,6 +502,7 @@ class UserControllerTest extends TestCase
     public function testSetAvatar()
     {
         $user = factory(User::class)->create();
+        $uid = $user->uid;
         $steve = factory(\App\Models\Texture::class)->create();
         $cape = factory(\App\Models\Texture::class, 'cape')->create();
 
@@ -457,9 +518,7 @@ class UserControllerTest extends TestCase
 
         // Texture cannot be found
         $this->actingAs($user)
-            ->postJson('/user/profile/avatar', [
-                'tid' => -1,
-            ])
+            ->postJson('/user/profile/avatar', ['tid' => -1])
             ->assertJson([
                 'code' => 1,
                 'message' => trans('skinlib.non-existent'),
@@ -467,29 +526,65 @@ class UserControllerTest extends TestCase
 
         // Use cape
         $this->actingAs($user)
-            ->postJson('/user/profile/avatar', [
-                'tid' => $cape->tid,
-            ])
+            ->postJson('/user/profile/avatar', ['tid' => $cape->tid])
             ->assertJson([
                 'code' => 1,
                 'message' => trans('user.profile.avatar.wrong-type'),
             ]);
 
         // Success
+        Event::fake();
         $this->actingAs($user)
-            ->postJson('/user/profile/avatar', [
-                'tid' => $steve->tid,
-            ])
+            ->postJson('/user/profile/avatar', ['tid' => $steve->tid])
             ->assertJson([
                 'code' => 0,
                 'message' => trans('user.profile.avatar.success'),
             ]);
         $this->assertEquals($steve->tid, User::find($user->uid)->avatar);
+        Event::assertDispatched(
+            'user.avatar.updating',
+            function ($eventName, $payload) use ($uid, $steve) {
+                [$user, $tid] = $payload;
+                $this->assertEquals($uid, $user->uid);
+                $this->assertEquals($steve->tid, $tid);
+                return true;
+            }
+        );
+        Event::assertDispatched(
+            'user.avatar.updated',
+            function ($eventName, $payload) use ($uid, $steve) {
+                [$user, $tid] = $payload;
+                $this->assertEquals($uid, $user->uid);
+                $this->assertEquals($steve->tid, $tid);
+                return true;
+            }
+        );
 
         // Reset avatar
+        Event::fake();
         $this->postJson('/user/profile/avatar', ['tid' => 0])
             ->assertJson(['code' => 0]);
         $this->assertEquals(0, User::find($user->uid)->avatar);
+        Event::assertDispatched(
+            'user.avatar.updated',
+            function ($eventName, $payload) use ($uid) {
+                [$user, $tid] = $payload;
+                $this->assertEquals($uid, $user->uid);
+                $this->assertEquals(0, $tid);
+                return true;
+            }
+        );
+
+        // Rejected by filter
+        $filter = resolve(Filter::class);
+        $filter->add('user_can_update_avatar', function ($can, $user, $tid) use ($uid, $steve) {
+            $this->assertEquals($uid, $user->uid);
+            $this->assertEquals($steve->tid, $tid);
+            return new Rejection('rejected');
+        });
+        $this->actingAs($user)
+            ->postJson('/user/profile/avatar', ['tid' => $steve->tid])
+            ->assertJson(['code' => 1, 'message' => 'rejected']);
     }
 
     public function testReadNotification()
