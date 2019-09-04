@@ -27,7 +27,7 @@ class Filter
         $listeners = $this->getListeners($hook);
         if ($listeners->isNotEmpty()) {
             return $this->listeners[$hook]
-                ->sortByDesc('priority')
+                ->sortBy('priority')
                 ->reduce(function ($carry, $item) use ($args) {
                     return call_user_func($item['callback'], $carry, ...$args);
                 }, $init);
