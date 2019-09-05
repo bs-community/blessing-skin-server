@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use Gregwar\Captcha\CaptchaBuilder;
 use Illuminate\Contracts\Validation\Rule;
 
 class Captcha implements Rule
@@ -35,7 +36,8 @@ class Captcha implements Rule
             }
         }
 
-        return captcha_check($value);
+        $builder = new CaptchaBuilder(session()->pull('captcha'));
+        return $builder->testPhrase($value);
     }
 
     public function message()

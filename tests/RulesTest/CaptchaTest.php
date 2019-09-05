@@ -12,15 +12,16 @@ class CaptchaTest extends TestCase
 {
     public function testCharactersCaptcha()
     {
-        app()->instance('captcha', new class {
-            public function check()
-            {
-                return true;
-            }
-        });
+        session(['captcha' => 'abc']);
         $rule = resolve(Captcha::class);
-        $this->assertTrue($rule->passes('captcha', 'any'));
+        $this->assertFalse($rule->passes('captcha', 'abcd'));
         $this->assertEquals(trans('validation.captcha'), $rule->message());
+        $this->assertNull(session('captcha'));
+
+        session(['captcha' => 'abc']);
+        $rule = resolve(Captcha::class);
+        $this->assertTrue($rule->passes('captcha', 'abc'));
+        $this->assertNull(session('captcha'));
     }
 
     public function testRecaptcha()

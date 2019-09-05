@@ -19,7 +19,7 @@
     "nesbot/carbon": "^2.0",
     "devitek/yaml-translation": "^4.1.0",
     "composer/semver": "^1.4",
-    "mews/captcha": "^2.2",
+    "gregwar/captcha": "1.*",
     "guzzlehttp/guzzle": "^6.3",
     "doctrine/dbal": "^2.9",
     "tymon/jwt-auth": "dev-develop",

@@ -229,6 +229,16 @@ class AuthController extends Controller
         return json(trans('auth.reset.success'), 0);
     }
 
+    public function captcha(\Gregwar\Captcha\CaptchaBuilder $builder)
+    {
+        $builder->build(100, 34);
+        session(['captcha' => $builder->getPhrase()]);
+        return response($builder->output(), 200, [
+            'Content-Type' => 'image/jpeg',
+            'Cache-Control' => 'no-store',
+        ]);
+    }
+
     public function fillEmail(Request $request)
     {
         $email = $this->validate($request, ['email' => 'required|email|unique:users'])['email'];
