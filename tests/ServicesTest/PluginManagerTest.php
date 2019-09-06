@@ -260,7 +260,7 @@ class PluginManagerTest extends TestCase
                 ->withArgs(['Chitanda', '/chitanda/views'])
                 ->once();
         });
-        $this->instance('translation.loader', \Mockery::mock(\App\Services\TranslationLoader::class, function ($mock) {
+        $this->instance('translation.loader', \Mockery::mock(\App\Services\Translations\Loader::class, function ($mock) {
             $mock->shouldReceive('addNamespace')
                 ->withArgs(['Mayaka', '/mayaka/lang'])
                 ->once();

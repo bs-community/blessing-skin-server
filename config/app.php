@@ -176,7 +176,6 @@ return [
         App\Providers\PluginServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ResponseMacroServiceProvider::class,
-        App\Providers\TranslationServiceProvider::class,
         App\Providers\ValidatorExtendServiceProvider::class,
 
     ],

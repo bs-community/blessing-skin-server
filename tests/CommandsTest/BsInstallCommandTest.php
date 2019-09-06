@@ -30,6 +30,7 @@ class BsInstallCommandTest extends TestCase
             'oauth_refresh_tokens',
             'notifications',
             'jobs',
+            'language_lines',
         ];
         array_walk($tables, function ($table) {
             Schema::dropIfExists($table);

@@ -34,7 +34,6 @@ forgot:
   unregistered: The email address is not registered.
   success: Mail sent, please check your inbox. The link will be expired in 1 hour.
   failed: Failed to send verification mail. :msg
-  message: You are receiving this email because this email address was used to reset your password on :sitename
   ignore: If you haven't signed up on our site, please ignore this email. No unsubscribing is required.
   reset: Reset your password
   notice: This mail is sending automatically, no reponses will be sent if you reply.

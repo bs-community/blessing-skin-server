@@ -206,12 +206,13 @@ class PluginManager
      */
     protected function loadViewsAndTranslations(Plugin $plugin)
     {
-        $translations = $this->app->make('translation.loader');
-        $view = $this->app->make('view');
         $namespace = $plugin->namespace;
         $path = $plugin->getPath();
 
+        $translations = $this->app->make('translation.loader');
         $translations->addNamespace($namespace, $path.'/lang');
+
+        $view = $this->app->make('view');
         $view->addNamespace($namespace, $path.'/views');
     }
 

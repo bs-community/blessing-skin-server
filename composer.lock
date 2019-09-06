@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6a5e7188b9f242f23c36e54da0dada9b",
+    "content-hash": "b867f3af8526a05f22ad605d89ca0f26",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -186,52 +186,6 @@
                 "symmetric key cryptography"
             ],
             "time": "2018-07-24T23:27:56+00:00"
-        },
-        {
-            "name": "devitek/yaml-translation",
-            "version": "4.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Devitek/laravel-yaml-translation.git",
-                "reference": "2b7e5bcef203e77cfa887471bd4016114b4caaf4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Devitek/laravel-yaml-translation/zipball/2b7e5bcef203e77cfa887471bd4016114b4caaf4",
-                "reference": "2b7e5bcef203e77cfa887471bd4016114b4caaf4",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "~5.5",
-                "illuminate/translation": "~5.5",
-                "php": ">=7.0",
-                "symfony/yaml": "3.*"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Devitek\\Core\\Translation\\TranslationServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Devitek\\": "src/Devitek"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Thomas SIEFFERT",
-                    "email": "thomas.sieffert@devitek.fr"
-                }
-            ],
-            "description": "Add YAML file support to Laravel TranslationServiceProvider",
-            "time": "2017-09-28T12:37:17+00:00"
         },
         {
             "name": "doctrine/cache",
@@ -2396,6 +2350,67 @@
             "time": "2018-07-19T23:38:55+00:00"
         },
         {
+            "name": "spatie/laravel-translation-loader",
+            "version": "2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-translation-loader.git",
+                "reference": "ea131d50aea0fcb8854244fa028dc0f587b76260"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-translation-loader/zipball/ea131d50aea0fcb8854244fa028dc0f587b76260",
+                "reference": "ea131d50aea0fcb8854244fa028dc0f587b76260",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/translation": "~5.8.0|^6.0",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "orchestra/testbench": "~3.8.0|^4.0",
+                "phpunit/phpunit": "^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\TranslationLoader\\TranslationServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\TranslationLoader\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Store your language lines in the database, yaml or other sources",
+            "homepage": "https://github.com/spatie/laravel-translation-loader",
+            "keywords": [
+                "database",
+                "db",
+                "i8n",
+                "language",
+                "laravel",
+                "laravel-translation-loader",
+                "spatie",
+                "translate"
+            ],
+            "time": "2019-09-04T08:06:16+00:00"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "v6.2.1",
             "source": {
@@ -3942,20 +3957,20 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v3.4.30",
+            "version": "v4.3.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",
-                "reference": "051d045c684148060ebfc9affb7e3f5e0899d40b"
+                "reference": "5a0b7c32dc3ec56fd4abae8a4a71b0cf05013686"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/051d045c684148060ebfc9affb7e3f5e0899d40b",
-                "reference": "051d045c684148060ebfc9affb7e3f5e0899d40b",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/5a0b7c32dc3ec56fd4abae8a4a71b0cf05013686",
+                "reference": "5a0b7c32dc3ec56fd4abae8a4a71b0cf05013686",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5.9|>=7.0.8",
+                "php": "^7.1.3",
                 "symfony/polyfill-ctype": "~1.8"
             },
             "conflict": {
@@ -3970,7 +3985,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.4-dev"
+                    "dev-master": "4.3-dev"
                 }
             },
             "autoload": {
@@ -3997,7 +4012,7 @@
             ],
             "description": "Symfony Yaml Component",
             "homepage": "https://symfony.com",
-            "time": "2019-07-24T13:01:31+00:00"
+            "time": "2019-08-20T14:27:59+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

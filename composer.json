@@ -17,14 +17,15 @@
     "doctrine/inflector": "1.1.0",
     "laravel/framework": "5.8.*",
     "nesbot/carbon": "^2.0",
-    "devitek/yaml-translation": "^4.1.0",
     "composer/semver": "^1.4",
     "gregwar/captcha": "1.*",
     "guzzlehttp/guzzle": "^6.3",
     "doctrine/dbal": "^2.9",
     "tymon/jwt-auth": "dev-develop",
     "laravel/passport": "^7.3",
-    "composer/ca-bundle": "^1.2"
+    "composer/ca-bundle": "^1.2",
+    "spatie/laravel-translation-loader": "^2.4",
+    "symfony/yaml": "^4.3"
   },
   "require-dev": {
     "fzaninotto/faker": "~1.8",
