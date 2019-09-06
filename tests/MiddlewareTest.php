@@ -6,6 +6,7 @@ use Event;
 use App\Models\User;
 use App\Models\Player;
 use App\Services\Facades\Option;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -84,16 +85,28 @@ class MiddlewareTest extends TestCase
     {
         $this->get('/setup')->assertSee('Already installed');
 
-        $tables = [
-            'user_closet', 'migrations', 'options', 'players', 'textures', 'users',
-        ];
-        array_walk($tables, function ($table) {
-            Schema::dropIfExists($table);
+        $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('exists')
+                ->with(storage_path('install.lock'))
+                ->twice()
+                ->andReturn(false);
+            $mock->shouldReceive('exists')
+                ->with(base_path('.env'))
+                ->andReturn(true);
         });
         $this->get('/setup')->assertSee(trans(
             'setup.wizard.welcome.text',
             ['version' => config('app.version')]
         ));
+
+        $this->actAs('superAdmin');
+        $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('exists')
+                ->with(storage_path('install.lock'))
+                ->andReturn(true);
+        });
+        config(['app.version' => '100.0.0']);
+        $this->get('/setup/update')->assertSee(trans('setup.updates.welcome.title'));
     }
 
     public function testCheckPlayerExist()
@@ -178,6 +191,28 @@ class MiddlewareTest extends TestCase
             ->assertRedirect('/user');
     }
 
+    public function testRedirectToSetup()
+    {
+        $current = config('app.version');
+        config(['app.version' => '100.0.0']);
+        $this->get('/')->assertStatus(503);
+        $this->actAs('superAdmin')->get('/')->assertRedirect('/setup/update');
+        config(['app.version' => $current]);
+
+        $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('exists')
+                ->with(storage_path('install.lock'))
+                ->andReturn(true, false, false);
+
+            $mock->shouldReceive('exists')
+                ->with(base_path('.env'))
+                ->andReturn(true);
+        });
+        $this->get('/')->assertViewIs('index');
+        $this->get('/setup')->assertViewIs('setup.wizard.welcome');
+        $this->get('/')->assertRedirect('/setup');
+    }
+
     public function testRejectBannedUser()
     {
         $user = factory(User::class, 'banned')->create();
@@ -209,11 +244,5 @@ class MiddlewareTest extends TestCase
     {
         $this->get('/', ['user-agent' => 'MSIE'])->assertSee(trans('errors.http.ie'));
         $this->get('/', ['user-agent' => 'Trident'])->assertSee(trans('errors.http.ie'));
-    }
-
-    public function testLockUpdatePage()
-    {
-        $this->actAs('admin')->get('/setup/changelog')->assertStatus(503);
-        $this->actAs('superAdmin')->get('/setup/changelog')->assertStatus(200);
     }
 }

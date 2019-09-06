@@ -4,6 +4,7 @@ namespace Tests;
 
 use Schema;
 use App\Models\User;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class BsInstallCommandTest extends TestCase
@@ -15,25 +16,15 @@ class BsInstallCommandTest extends TestCase
         $this->artisan('bs:install ibara.mayaka@hyouka.test 12345678 mayaka')
             ->expectsOutput('You have installed Blessing Skin Server. Nothing to do.');
 
-        $tables = [
-            'user_closet',
-            'migrations',
-            'options',
-            'players',
-            'textures',
-            'users',
-            'reports',
-            'oauth_auth_codes',
-            'oauth_access_tokens',
-            'oauth_clients',
-            'oauth_personal_access_clients',
-            'oauth_refresh_tokens',
-            'notifications',
-            'jobs',
-            'language_lines',
-        ];
-        array_walk($tables, function ($table) {
-            Schema::dropIfExists($table);
+        $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('exists')
+                ->with(storage_path('install.lock'))
+                ->once()
+                ->andReturn(false);
+            $mock->shouldReceive('put')
+                ->with(storage_path('install.lock'), '')
+                ->once()
+                ->andReturn(true);
         });
 
         $this->artisan('bs:install ibara.mayaka@hyouka.test 12345678 mayaka')

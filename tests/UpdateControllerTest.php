@@ -91,6 +91,7 @@ class UpdateControllerTest extends TestCase
         });
         $this->mock(\Illuminate\Filesystem\Filesystem::class, function ($mock) {
             $mock->shouldReceive('delete')->with(storage_path('options/cache.php'))->once();
+            $mock->shouldReceive('exists')->with(storage_path('install.lock'))->andReturn(true);
         });
         $this->getJson('/admin/update/download?action=download')
             ->assertJson(['code' => 0, 'message' => trans('admin.update.complete')]);

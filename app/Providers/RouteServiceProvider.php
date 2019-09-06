@@ -21,16 +21,6 @@ class RouteServiceProvider extends ServiceProvider
     protected $namespace = 'App\Http\Controllers';
 
     /**
-     * Define your route model bindings, pattern filters, etc.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        parent::boot();
-    }
-
-    /**
      * Define the routes for the application.
      *
      * @param  \Illuminate\Routing\Router  $router
@@ -38,8 +28,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map(Router $router)
     {
-        $this->mapSetupRoutes($router);
-
         $this->mapStaticRoutes($router);
 
         $this->mapWebRoutes($router);
@@ -72,22 +60,6 @@ class RouteServiceProvider extends ServiceProvider
         ], function ($router) {
             require base_path('routes/web.php');
         });
-    }
-
-    /**
-     * Define the "setup" routes for the application.
-     *
-     * The routes for setup wizard.
-     *
-     * @param  \Illuminate\Routing\Router  $router
-     * @return void
-     */
-    protected function mapSetupRoutes(Router $router)
-    {
-        Route::prefix('setup')
-            ->namespace($this->namespace)
-            ->middleware('web')
-            ->group(base_path('routes/setup.php'));
     }
 
     /**

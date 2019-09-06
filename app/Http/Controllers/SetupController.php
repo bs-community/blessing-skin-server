@@ -6,23 +6,22 @@ use DB;
 use Log;
 use File;
 use Option;
-use Schema;
 use Artisan;
-use Storage;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Composer\Semver\Comparator;
+use Illuminate\Filesystem\Filesystem;
 use App\Exceptions\PrettyPageException;
+use Symfony\Component\Finder\SplFileInfo;
 
 class SetupController extends Controller
 {
-    public function welcome()
+    public function welcome(Filesystem $filesystem)
     {
-        // @codeCoverageIgnoreStart
-        if (! File::exists(base_path('.env'))) {
-            File::copy(base_path('.env.example'), base_path('.env'));
+        if (! $filesystem->exists(base_path('.env'))) {
+            $filesystem->copy(base_path('.env.example'), base_path('.env'));
         }
-        // @codeCoverageIgnoreEnd
 
         return view('setup.wizard.welcome');
     }
@@ -104,31 +103,7 @@ class SetupController extends Controller
         return redirect('setup/info');
     }
 
-    public function info()
-    {
-        $existingTables = static::checkTablesExist([], true);
-
-        // Not installed completely
-        if (count($existingTables) > 0) {
-            Log::info('Remaining tables detected, exit setup wizard now', [$existingTables]);
-
-            $existingTables = array_map(function ($item) {
-                return get_db_config()['prefix'].$item;
-            }, $existingTables);
-
-            throw new PrettyPageException(trans('setup.database.table-already-exists', ['tables' => json_encode($existingTables)]), 1);
-        }
-
-        // @codeCoverageIgnoreStart
-        if (! function_exists('escapeshellarg')) {
-            throw new PrettyPageException(trans('setup.disabled-functions.escapeshellarg'), 1);
-        }
-        // @codeCoverageIgnoreEnd
-
-        return view('setup.wizard.info');
-    }
-
-    public function finish(Request $request)
+    public function finish(Request $request, Filesystem $filesystem)
     {
         $data = $this->validate($request, [
             'email'     => 'required|email',
@@ -158,7 +133,7 @@ class SetupController extends Controller
 
         $siteUrl = url('/');
 
-        if (ends_with($siteUrl, '/index.php')) {
+        if (Str::endsWith($siteUrl, '/index.php')) {
             $siteUrl = substr($siteUrl, 0, -10);    // @codeCoverageIgnore
         }
 
@@ -179,7 +154,7 @@ class SetupController extends Controller
 
         $user->save();
 
-        $this->createDirectories();
+        $filesystem->put(storage_path('install.lock'), '');
 
         return view('setup.wizard.finish')->with([
             'email'    => $request->input('email'),
@@ -187,102 +162,22 @@ class SetupController extends Controller
         ]);
     }
 
-    public function update()
+    public function update(Filesystem $filesystem)
     {
-        if (Comparator::lessThanOrEqualTo(config('app.version'), option('version'))) {
-            // No updates available
-            return view('setup.locked');
-        }
+        collect($filesystem->files(database_path('update_scripts')))
+            ->filter(function (SplFileInfo $file) {
+                $name = $file->getFilenameWithoutExtension();
+                return preg_match('/^\d+\.\d+\.\d+$/', $name) > 0
+                    && Comparator::greaterThanOrEqualTo($name, option('version'));
+            })
+            ->each(function (SplFileInfo $file) use ($filesystem) {
+                $filesystem->getRequire($file->getPathname());
+            });
 
-        return view('setup.updates.welcome');
-    }
-
-    public function doUpdate()
-    {
-        $resource = opendir(database_path('update_scripts'));
-        $updateScriptExist = false;
-
-        while ($filename = @readdir($resource)) {
-            if ($filename != '.' && $filename != '..') {
-                preg_match('/update-(.*)-to-(.*).php/', $filename, $matches);
-
-                // Skip if the file is not valid or expired
-                if (! isset($matches[2]) ||
-                    Comparator::lessThan($matches[2], config('app.version'))) {
-                    continue;
-                }
-
-                $tips = require database_path('update_scripts')."/$filename";
-                $updateScriptExist = true;
-            }
-        }
-        closedir($resource);
-
-        foreach (config('options') as $key => $value) {
-            if (! Option::has($key)) {
-                Option::set($key, $value);
-            }
-        }
-        Option::set('version', config('app.version'));
-
+        option(['version' => config('app.version')]);
         Artisan::call('view:clear');
+        $filesystem->put(storage_path('install.lock'), '');
 
-        return view('setup.updates.success', ['tips' => $tips ?? []]);
-    }
-
-    /**
-     * Check if the given tables exist in current database.
-     *
-     * @param  array $tables
-     * @param  bool  $returnExisting
-     * @return bool|array
-     */
-    public static function checkTablesExist($tables = [], $returnExistingTables = false)
-    {
-        $existingTables = [];
-        $tables = $tables ?: [
-            'users',
-            'user_closet',
-            'players',
-            'textures',
-            'options',
-            'reports',
-        ];
-
-        foreach ($tables as $tableName) {
-            if (Schema::hasTable($tableName)) {
-                $existingTables[] = $tableName;
-            }
-        }
-
-        if (count($existingTables) == count($tables)) {
-            return $returnExistingTables ? $existingTables : true;
-        } else {
-            return $returnExistingTables ? $existingTables : false;
-        }
-    }
-
-    public static function checkDirectories()
-    {
-        $directories = ['storage/textures', 'plugins'];
-
-        try {
-            foreach ($directories as $dir) {
-                if (! Storage::disk('root')->has($dir)) {
-                    if (! Storage::disk('root')->makeDirectory($dir)) {
-                        return false; // @codeCoverageIgnore
-                    }
-                }
-            }
-
-            return true;
-        } catch (\Exception $e) {
-            return false;
-        }
-    }
-
-    protected function createDirectories()
-    {
-        return self::checkDirectories();
+        return view('setup.updates.success');
     }
 }

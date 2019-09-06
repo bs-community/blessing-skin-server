@@ -2,62 +2,48 @@
 
 namespace Tests;
 
-use Mockery;
-use Exception;
-use CreateAllTables;
 use Illuminate\Support\Str;
-use AddVerificationToUsersTable;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Schema;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Finder\SplFileInfo;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SetupControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
-    protected function tearDown(): void
-    {
-        $this->dropAllTables();
-        Mockery::close();
-        parent::tearDown();
-    }
-
-    protected function dropAllTables()
-    {
-        $tables = [
-            'user_closet',
-            'migrations',
-            'options',
-            'players',
-            'textures',
-            'users',
-            'reports',
-            'oauth_auth_codes',
-            'oauth_access_tokens',
-            'oauth_clients',
-            'oauth_personal_access_clients',
-            'oauth_refresh_tokens',
-            'notifications',
-            'jobs',
-        ];
-        array_walk($tables, function ($table) {
-            Schema::dropIfExists($table);
-        });
-
-        return $this;
-    }
-
     public function testWelcome()
     {
-        $this->dropAllTables();
+        $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('exists')
+                ->with(storage_path('install.lock'))
+                ->andReturn(false);
+            $mock->shouldReceive('exists')
+                ->with(base_path('.env'))
+                ->once()
+                ->andReturn(false);
+            $mock->shouldReceive('copy')
+                ->with(base_path('.env.example'), base_path('.env'))
+                ->once()
+                ->andReturn(true);
+        });
         $this->get('/setup')->assertViewIs('setup.wizard.welcome');
     }
 
     public function testDatabase()
     {
-        $this->dropAllTables();
+        $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('exists')
+                ->with(storage_path('install.lock'))
+                ->atLeast(1)
+                ->andReturn(false);
+            $mock->shouldReceive('put')
+                ->with(storage_path('install.lock'), '')
+                ->atLeast(1)
+                ->andReturn(true);
+        });
+
         $fake = [
             'type' => env('DB_CONNECTION'),
             'host' => env('DB_HOST'),
@@ -76,7 +62,17 @@ class SetupControllerTest extends TestCase
 
     public function testReportDatabaseConnectionError()
     {
-        $this->dropAllTables();
+        $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('exists')
+                ->with(storage_path('install.lock'))
+                ->atLeast(1)
+                ->andReturn(false);
+            $mock->shouldReceive('put')
+                ->with(storage_path('install.lock'), '')
+                ->atLeast(1)
+                ->andReturn(true);
+        });
+
         $this->post('/setup/database', ['type' => 'sqlite', 'host' => 'placeholder', 'db' => 'test'])
             ->assertSee(trans('setup.database.connection-error', [
                 'type' => 'SQLite',
@@ -84,18 +80,19 @@ class SetupControllerTest extends TestCase
             ]));
     }
 
-    public function testInfo()
-    {
-        $this->dropAllTables();
-        $this->get('/setup/info')->assertViewIs('setup.wizard.info');
-        Artisan::call('migrate:refresh');
-        Schema::drop('users');
-        $this->get('/setup/info')->assertSee('already exist');
-    }
-
     public function testFinish()
     {
-        $this->dropAllTables();
+        $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('exists')
+                ->with(storage_path('install.lock'))
+                ->atLeast(1)
+                ->andReturn(false);
+            $mock->shouldReceive('put')
+                ->with(storage_path('install.lock'), '')
+                ->atLeast(1)
+                ->andReturn(true);
+        });
+
         // Without `email` field
         $this->post('/setup/finish')
             ->assertDontSee(trans('setup.wizard.finish.title'));
@@ -183,13 +180,7 @@ class SetupControllerTest extends TestCase
                 ],
             ])
             ->once()
-            ->andReturnUsing(function () {
-                $migration = new CreateAllTables();
-                $migration->up();
-
-                $migration = new AddVerificationToUsersTable();
-                $migration->up();
-            });
+            ->andReturn(true);
         $this->post('/setup/finish', [
             'email' => 'a@b.c',
             'nickname' => 'nickname',
@@ -209,47 +200,41 @@ class SetupControllerTest extends TestCase
 
     public function testUpdate()
     {
-        $this->actAs('superAdmin')
-            ->get('/setup/update')
-            ->assertSee(trans('setup.locked.text'));
+        $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('exists')
+                ->with(storage_path('install.lock'))
+                ->andReturn(true);
 
-        option(['version' => '0.1.0']);
-        $this->get('/setup/update')
-            ->assertSee(trans('setup.updates.welcome.title'));
-    }
+            $mock->shouldReceive('put')
+                ->with(storage_path('install.lock'), '')
+                ->once()
+                ->andReturn(true);
 
-    public function testDoUpdate()
-    {
-        $current_version = config('app.version');
+            $mock->shouldReceive('files')
+                ->with(database_path('update_scripts'))
+                ->once()
+                ->andReturn([
+                    new SplFileInfo('/1.0.0.php', '', ''),
+                    new SplFileInfo('/99.0.0.php', '', ''),
+                    new SplFileInfo('/100.0.0.php', '', ''),
+                ]);
+
+            $mock->shouldNotReceive('getRequire')->with('/1.0.0.php');
+
+            $mock->shouldReceive('getRequire')
+                ->with('/99.0.0.php')
+                ->once();
+
+            $mock->shouldReceive('getRequire')
+                ->with('/100.0.0.php')
+                ->once();
+        });
+        Artisan::shouldReceive('call')->with('view:clear')->once();
         config(['app.version' => '100.0.0']);
-        copy(
-            database_path('update_scripts/update-3.1-to-3.1.1.php'),
-            database_path("update_scripts/update-$current_version-to-100.0.0.php")
-        );    // Just a fixture
 
-        config(['options.new_option' => 'value']);
-        $this->actAs('superAdmin')->get('/setup/exec-update')->assertViewHas('tips');
-        $this->assertEquals('value', option('new_option'));
+        $this->actAs('superAdmin')
+            ->get('/setup/exec-update')
+            ->assertViewIs('setup.updates.success');
         $this->assertEquals('100.0.0', option('version'));
-        unlink(database_path("update_scripts/update-$current_version-to-100.0.0.php"));
-
-        option(['version' => '3.0.0']);   // Fake old version
-        $this->get('/setup/exec-update');
-        $this->assertEquals('100.0.0', option('version'));
-    }
-
-    public function testCheckDirectories()
-    {
-        Storage::shouldReceive('disk')
-            ->with('root')
-            ->andReturnSelf();
-        Storage::shouldReceive('has')
-            ->with('storage/textures')
-            ->andReturn(false);
-        Storage::shouldReceive('makeDirectory')
-            ->with('storage/textures')
-            ->andThrow(new Exception());
-
-        $this->assertFalse(\App\Http\Controllers\SetupController::checkDirectories());
     }
 }

@@ -2,17 +2,15 @@
 
 namespace App\Http\Middleware;
 
+use Illuminate\Filesystem\Filesystem;
 use App\Http\Controllers\SetupController;
 
 class CheckInstallation
 {
     public function handle($request, \Closure $next)
     {
-        if (config('database.default') == 'dummy') {
-            return $next($request); // @codeCoverageIgnore
-        }
-
-        if (SetupController::checkTablesExist()) {
+        $hasLock = resolve(Filesystem::class)->exists(storage_path('install.lock'));
+        if ($hasLock && ! $request->is('setup/*update')) {
             return response()->view('setup.locked');
         }
 

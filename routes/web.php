@@ -156,3 +156,21 @@ Route::group(['middleware' => ['authorize', 'admin'], 'prefix' => 'admin'], func
         Route::any('/download', 'UpdateController@download');
     });
 });
+
+/**
+ * Setup and Update
+ */
+Route::group(['prefix' => 'setup'], function () {
+    Route::group(['middleware' => 'setup'], function () {
+        Route::any('/', 'SetupController@welcome');
+        Route::any('/database', 'SetupController@database');
+        Route::view('/info', 'setup.wizard.info');
+        Route::post('/finish', 'SetupController@finish');
+    });
+
+    Route::group(['middleware' => 'authorize'], function () {
+        Route::view('/update', 'setup.updates.welcome')->middleware('setup');
+        Route::any('/exec-update', 'SetupController@update')->middleware('setup');
+        Route::view('/changelog', 'setup.updates.changelog');
+    });
+});

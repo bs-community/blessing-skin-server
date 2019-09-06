@@ -20,4 +20,5 @@ storage/*.sqlite
 .vscode
 storage/oauth-public.key
 storage/oauth-private.key
+storage/install.lock
 .phpunit.result.cache

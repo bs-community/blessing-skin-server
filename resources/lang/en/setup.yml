@@ -15,7 +15,7 @@ disabled-functions:
 
 locked:
   title: Already installed
-  text: It appears that you have already installed Blessing Skin Server. To reinstall, please delete the tables in your database first, or use a new table prefix.
+  text: It appears that you have already installed Blessing Skin Server. To reinstall, please delete the "install.lock" file under "storage" directory.
   button: Back to homepage
 
 updates:

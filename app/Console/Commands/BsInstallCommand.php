@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\User;
 use Illuminate\Console\Command;
+use Illuminate\Filesystem\Filesystem;
 
 class BsInstallCommand extends Command
 {
@@ -11,9 +12,9 @@ class BsInstallCommand extends Command
 
     protected $description = 'Execute installation and create a super administrator.';
 
-    public function handle()
+    public function handle(Filesystem $filesystem)
     {
-        if (\App\Http\Controllers\SetupController::checkTablesExist()) {
+        if ($filesystem->exists(storage_path('install.lock'))) {
             $this->info('You have installed Blessing Skin Server. Nothing to do.');
 
             return;
@@ -43,6 +44,8 @@ class BsInstallCommand extends Command
         $admin->last_sign_at = get_datetime_string(time() - 86400);
         $admin->verified = true;
         $admin->save();
+
+        $filesystem->put(storage_path('install.lock'), '');
 
         $this->info('Installation completed!');
         $this->info('We recommend to modify your "Site URL" option if incorrect.');

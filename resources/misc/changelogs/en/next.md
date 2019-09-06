@@ -14,6 +14,7 @@
 - Tweaked policy of retrieve CA cert for GuzzleHttp.
 - Refactor account system.
 - PHP version requirement is increased to 7.2.0.
+- Use `install.lock` file to detect status of installation.
 
 ## Fixed
 
