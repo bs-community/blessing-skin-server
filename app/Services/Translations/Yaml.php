@@ -15,7 +15,7 @@ class Yaml
         $this->cache = $cache;
     }
 
-    public function loadYaml(string $path): array
+    public function parse(string $path): array
     {
         $key = 'yaml-trans-'.md5($path).'-'.filemtime($path);
 

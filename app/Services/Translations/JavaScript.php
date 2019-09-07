@@ -38,4 +38,14 @@ class JavaScript
 
         return url("lang/$locale.js?t=$compiledModified");
     }
+
+    public function plugin(string $locale): string
+    {
+        $path = public_path("lang/${locale}_plugin.js");
+        if ($this->filesystem->exists($path)) {
+            return url("lang/${locale}_plugin.js?t=".$this->filesystem->lastModified($path));
+        }
+
+        return '';
+    }
 }

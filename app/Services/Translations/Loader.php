@@ -13,7 +13,7 @@ class Loader extends TranslationLoaderManager
         $full = "{$path}/{$locale}/{$group}.yml";
 
         return count($translations) === 0 && $this->files->exists($full)
-            ? resolve(Yaml::class)->loadYaml($full)
+            ? resolve(Yaml::class)->parse($full)
             : [];
     }
 }

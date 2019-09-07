@@ -65,4 +65,25 @@ class JavaScriptTest extends TestCase
 
         $this->assertEquals(url('lang/en.js?t=1'), resolve(JavaScript::class)->generate('en'));
     }
+
+    public function testPlugin()
+    {
+        $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('exists')
+                ->with(public_path('lang/en_plugin.js'))
+                ->twice()
+                ->andReturn(false, true);
+            $mock->shouldReceive('lastModified')
+                ->with(public_path('lang/en_plugin.js'))
+                ->once()
+                ->andReturn(1);
+        });
+
+        $this->assertEquals('', resolve(JavaScript::class)->plugin('en'));
+
+        $this->assertEquals(
+            url('lang/en_plugin.js?t=1'),
+            resolve(JavaScript::class)->plugin('en')
+        );
+    }
 }

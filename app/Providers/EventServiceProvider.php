@@ -23,9 +23,11 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\PluginWasEnabled' => [
             'App\Listeners\CopyPluginAssets',
+            'App\Listeners\GeneratePluginTranslations',
         ],
         'App\Events\PluginVersionChanged' => [
             'App\Listeners\CopyPluginAssets',
+            'App\Listeners\GeneratePluginTranslations',
         ],
         'App\Events\PluginBootFailed' => [
             'App\Listeners\NotifyFailedPlugin',
