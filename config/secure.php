@@ -9,6 +9,6 @@ return [
     | Load them from env to config, preventing cache problems
     |
     */
-    'cipher' => env('PWD_METHOD', 'SALTED2MD5'),
+    'cipher' => env('PWD_METHOD', 'BCRYPT'),
     'salt'   => env('SALT', ''),
 ];
