@@ -165,6 +165,7 @@ class SetupController extends Controller
         collect($filesystem->files(database_path('update_scripts')))
             ->filter(function (SplFileInfo $file) {
                 $name = $file->getFilenameWithoutExtension();
+
                 return preg_match('/^\d+\.\d+\.\d+$/', $name) > 0
                     && Comparator::greaterThanOrEqualTo($name, option('version'));
             })

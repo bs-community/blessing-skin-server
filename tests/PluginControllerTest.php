@@ -97,7 +97,7 @@ class PluginControllerTest extends TestCase
                 ->with('whatever')
                 ->once()
                 ->andReturn(null);
-                $mock->shouldReceive('get')
+            $mock->shouldReceive('get')
                 ->with('conf')
                 ->once()
                 ->andReturn(new Plugin('', ['title' => 'conf']));

@@ -233,6 +233,7 @@ class AuthController extends Controller
     {
         $builder->build(100, 34);
         session(['captcha' => $builder->getPhrase()]);
+
         return response($builder->output(), 200, [
             'Content-Type' => 'image/jpeg',
             'Cache-Control' => 'no-store',

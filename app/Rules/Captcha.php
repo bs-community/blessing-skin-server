@@ -37,6 +37,7 @@ class Captcha implements Rule
         }
 
         $builder = new CaptchaBuilder(session()->pull('captcha'));
+
         return $builder->testPhrase($value);
     }
 

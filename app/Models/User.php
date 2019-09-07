@@ -2,12 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Arr;
 use Laravel\Passport\HasApiTokens;
 use App\Models\Concerns\HasPassword;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject

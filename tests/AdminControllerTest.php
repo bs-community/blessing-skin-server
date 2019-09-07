@@ -123,7 +123,7 @@ class AdminControllerTest extends TestCase
         $this->mock(\App\Services\PluginManager::class, function ($mock) {
             $mock->shouldReceive('getEnabledPlugins')
                 ->andReturn(collect([
-                    'a' => new Plugin('', ['title' => 'MyPlugin', 'version' => '0.0.0'])
+                    'a' => new Plugin('', ['title' => 'MyPlugin', 'version' => '0.0.0']),
                 ]));
         });
 

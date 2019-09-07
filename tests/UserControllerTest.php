@@ -233,6 +233,7 @@ class UserControllerTest extends TestCase
         $filter->add('user_can_edit_profile', function ($can, $action, $addition) {
             $this->assertEquals('nope', $action);
             $this->assertEquals([], $addition);
+
             return new Rejection('rejected');
         });
         $this->actingAs($user)
@@ -252,6 +253,7 @@ class UserControllerTest extends TestCase
             $this->assertEquals($uid, $user->uid);
             $this->assertEquals('', $action);
             $this->assertEquals([], $addition);
+
             return true;
         });
 
@@ -292,6 +294,7 @@ class UserControllerTest extends TestCase
             $this->assertEquals($uid, $user->uid);
             $this->assertEquals('nickname', $action);
             $this->assertEquals(['new_nickname' => 'nickname'], $addition);
+
             return true;
         });
         Event::assertDispatched(Events\UserProfileUpdated::class);
@@ -356,6 +359,7 @@ class UserControllerTest extends TestCase
                 'current_password' => '12345678',
                 'new_password' => '87654321',
             ], $addition);
+
             return true;
         });
         Event::assertDispatched(Events\EncryptUserPassword::class);
@@ -430,6 +434,7 @@ class UserControllerTest extends TestCase
                 'new_email' => 'a@b.c',
                 'password' => '87654321',
             ], $addition);
+
             return true;
         });
         $this->assertEquals('a@b.c', User::find($user->uid)->email);
@@ -480,10 +485,12 @@ class UserControllerTest extends TestCase
         ]);
         Event::assertDispatched('user.deleting', function ($eventName, $payload) use ($uid) {
             $this->assertEquals($uid, $payload[0]->uid);
+
             return true;
         });
         Event::assertDispatched('user.deleted', function ($eventName, $payload) use ($uid) {
             $this->assertEquals($uid, $payload[0]->uid);
+
             return true;
         });
         $this->assertNull(User::find($user->uid));
@@ -547,6 +554,7 @@ class UserControllerTest extends TestCase
                 [$user, $tid] = $payload;
                 $this->assertEquals($uid, $user->uid);
                 $this->assertEquals($steve->tid, $tid);
+
                 return true;
             }
         );
@@ -556,6 +564,7 @@ class UserControllerTest extends TestCase
                 [$user, $tid] = $payload;
                 $this->assertEquals($uid, $user->uid);
                 $this->assertEquals($steve->tid, $tid);
+
                 return true;
             }
         );
@@ -571,6 +580,7 @@ class UserControllerTest extends TestCase
                 [$user, $tid] = $payload;
                 $this->assertEquals($uid, $user->uid);
                 $this->assertEquals(0, $tid);
+
                 return true;
             }
         );
@@ -580,6 +590,7 @@ class UserControllerTest extends TestCase
         $filter->add('user_can_update_avatar', function ($can, $user, $tid) use ($uid, $steve) {
             $this->assertEquals($uid, $user->uid);
             $this->assertEquals($steve->tid, $tid);
+
             return new Rejection('rejected');
         });
         $this->actingAs($user)

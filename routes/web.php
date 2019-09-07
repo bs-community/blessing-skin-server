@@ -157,7 +157,7 @@ Route::group(['middleware' => ['authorize', 'admin'], 'prefix' => 'admin'], func
     });
 });
 
-/**
+/*
  * Setup and Update
  */
 Route::group(['prefix' => 'setup'], function () {

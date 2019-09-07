@@ -2,11 +2,8 @@
 
 namespace Tests;
 
-use Schema;
-use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Player;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class UserTest extends TestCase

@@ -26,6 +26,7 @@ class Yaml implements TranslationLoader
     public function loadYaml(string $path): array
     {
         $key = 'yaml-trans-'.md5($path).'-'.filemtime($path);
+
         return $this->cache->rememberForever($key, function () use ($path) {
             return YamlParser::parseFile($path);
         });

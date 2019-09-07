@@ -9,8 +9,10 @@ class FilterTest extends TestCase
     public function testAdd()
     {
         $filter = new Filter();
-        $filter->add('hook', function () {});
-        $filter->add('hook', function () {}, 10);
+        $filter->add('hook', function () {
+        });
+        $filter->add('hook', function () {
+        }, 10);
         $this->assertCount(2, $filter->getListeners('hook'));
     }
 
@@ -21,6 +23,7 @@ class FilterTest extends TestCase
 
         $filter->add('hook', function ($value, $addition) {
             $this->assertEquals('add', $addition);
+
             return $value.'_medium';
         });
         $filter->add('hook', function ($value) {
@@ -38,7 +41,8 @@ class FilterTest extends TestCase
         $filter->remove('hook');
         $this->assertCount(0, $filter->getListeners('hook'));
 
-        $filter->add('hook', function () {});
+        $filter->add('hook', function () {
+        });
         $this->assertCount(1, $filter->getListeners('hook'));
         $filter->remove('hook');
         $this->assertCount(0, $filter->getListeners('hook'));
