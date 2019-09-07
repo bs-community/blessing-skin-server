@@ -21,7 +21,7 @@ use Illuminate\Support\Collection;
 
 class AdminController extends Controller
 {
-    public function chartData(User $users)
+    public function chartData()
     {
         $today = Carbon::today()->timestamp;
 
@@ -72,7 +72,7 @@ class AdminController extends Controller
         ];
     }
 
-    public function sendNotification(Request $request, User $users)
+    public function sendNotification(Request $request)
     {
         $data = $this->validate($request, [
             'receiver' => 'required|in:all,normal,uid,email',
@@ -396,7 +396,7 @@ class AdminController extends Controller
             ->with('plugins', $enabledPlugins);
     }
 
-    public function getUserData(Request $request, User $users)
+    public function getUserData(Request $request)
     {
         $isSingleUser = $request->has('uid');
 
@@ -466,7 +466,7 @@ class AdminController extends Controller
         ];
     }
 
-    public function userAjaxHandler(Request $request, User $users)
+    public function userAjaxHandler(Request $request)
     {
         $action = $request->input('action');
         $user = User::find($request->uid);
@@ -545,7 +545,7 @@ class AdminController extends Controller
         }
     }
 
-    public function playerAjaxHandler(Request $request, User $users)
+    public function playerAjaxHandler(Request $request)
     {
         $action = $request->input('action');
         $currentUser = Auth::user();

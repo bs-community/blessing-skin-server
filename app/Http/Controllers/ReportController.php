@@ -47,7 +47,7 @@ class ReportController extends Controller
             ->get();
     }
 
-    public function manage(Request $request, User $users)
+    public function manage(Request $request)
     {
         $search = $request->input('search', '');
         $sortField = $request->input('sortField', 'report_at');
@@ -63,7 +63,7 @@ class ReportController extends Controller
                         ->limit($perPage)
                         ->get()
                         ->makeHidden(['informer'])
-                        ->map(function ($report) use ($users) {
+                        ->map(function ($report) {
                             $uploader = User::find($report->uploader);
                             if ($uploader) {
                                 $report->uploaderName = $uploader->nickname;
@@ -81,7 +81,7 @@ class ReportController extends Controller
         ];
     }
 
-    public function review(Request $request, User $users)
+    public function review(Request $request)
     {
         $data = $this->validate($request, [
             'id' => 'required|exists:reports',

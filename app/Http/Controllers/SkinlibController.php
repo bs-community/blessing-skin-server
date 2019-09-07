@@ -116,7 +116,7 @@ class SkinlibController extends Controller
         ]);
     }
 
-    public function show(User $users, $tid)
+    public function show($tid)
     {
         $texture = Texture::find($tid);
         $user = Auth::user();
@@ -264,7 +264,7 @@ class SkinlibController extends Controller
         return json(trans('skinlib.delete.success'), 0);
     }
 
-    public function privacy(Request $request, User $users)
+    public function privacy(Request $request)
     {
         $t = Texture::find($request->input('tid'));
         $user = $request->user();

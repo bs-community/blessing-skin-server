@@ -128,7 +128,7 @@ class TextureController extends Controller
         return $this->avatarByTid($tid, $size);
     }
 
-    public function avatar(User $users, $base64_email, $size = 128)
+    public function avatar($base64_email, $size = 128)
     {
         $user = User::where('email', base64_decode($base64_email))->first();
 
@@ -139,9 +139,9 @@ class TextureController extends Controller
         return response()->file(storage_path('static_textures/avatar.png'));
     }
 
-    public function avatarWithSize(User $users, $size, $base64_email)
+    public function avatarWithSize($size, $base64_email)
     {
-        return $this->avatar($users, $base64_email, $size);
+        return $this->avatar($base64_email, $size);
     }
 
     public function preview($tid, $size = 250)

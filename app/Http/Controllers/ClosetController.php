@@ -63,7 +63,7 @@ class ClosetController extends Controller
         ]);
     }
 
-    public function add(Request $request, User $users)
+    public function add(Request $request)
     {
         $this->validate($request, [
             'tid'  => 'required|integer',
@@ -120,7 +120,7 @@ class ClosetController extends Controller
         return json(trans('user.closet.rename.success', ['name' => $request->name]), 0);
     }
 
-    public function remove(User $users, $tid)
+    public function remove($tid)
     {
         $user = auth()->user();
 

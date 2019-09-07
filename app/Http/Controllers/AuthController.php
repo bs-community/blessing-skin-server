@@ -18,7 +18,7 @@ use App\Exceptions\PrettyPageException;
 
 class AuthController extends Controller
 {
-    public function handleLogin(Request $request, Captcha $captcha, User $users)
+    public function handleLogin(Request $request, Captcha $captcha)
     {
         $this->validate($request, [
             'identification' => 'required',
@@ -99,7 +99,7 @@ class AuthController extends Controller
         }
     }
 
-    public function handleRegister(Request $request, Captcha $captcha, User $users)
+    public function handleRegister(Request $request, Captcha $captcha)
     {
         if (! option('user_can_register')) {
             return json(trans('auth.register.close'), 7);
@@ -173,7 +173,7 @@ class AuthController extends Controller
         }
     }
 
-    public function handleForgot(Request $request, Captcha $captcha, User $users)
+    public function handleForgot(Request $request, Captcha $captcha)
     {
         $this->validate($request, [
             'captcha' => ['required', $captcha],
@@ -213,12 +213,12 @@ class AuthController extends Controller
         return json(trans('auth.forgot.success'), 0);
     }
 
-    public function reset(User $users, $uid)
+    public function reset($uid)
     {
         return view('auth.reset')->with('user', User::find($uid));
     }
 
-    public function handleReset(Request $request, User $users, $uid)
+    public function handleReset(Request $request, $uid)
     {
         $validated = $this->validate($request, [
             'password' => 'required|min:8|max:32',
@@ -250,7 +250,7 @@ class AuthController extends Controller
         return redirect('/user');
     }
 
-    public function verify(User $users, $uid)
+    public function verify($uid)
     {
         if (! option('require_verification')) {
             throw new PrettyPageException(trans('user.verification.disabled'), 1);
