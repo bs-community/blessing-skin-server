@@ -194,6 +194,7 @@ class PlayerControllerTest extends TestCase
         $pid = $player->pid;
         $filter->add('user_can_rename_player', function ($can, $player, $newName) {
             $this->assertEquals('new', $newName);
+
             return new Rejection('rejected');
         });
         $name = factory(Player::class)->create()->name;
@@ -219,12 +220,14 @@ class PlayerControllerTest extends TestCase
             [$player, $newName] = $payload;
             $this->assertEquals($pid, $player->pid);
             $this->assertEquals('new_name', $newName);
+
             return true;
         });
         Event::assertDispatched('player.renamed', function ($event, $payload) use ($pid) {
             [$player, $oldName] = $payload;
             $this->assertEquals($pid, $player->pid);
             $this->assertNotEquals('new_name', $oldName);
+
             return true;
         });
 

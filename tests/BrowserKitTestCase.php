@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use DB;
 use Artisan;
 use Laravel\BrowserKitTesting\TestCase;
 

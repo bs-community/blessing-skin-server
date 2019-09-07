@@ -39,15 +39,18 @@ class PluginController extends Controller
                             if (! $detail['version']) {
                                 $plugin = $plugins->get($name);
                                 $name = $plugin ? trans($plugin->title) : $name;
+
                                 return trans('admin.plugins.operations.unsatisfied.disabled', compact('name'));
                             } else {
                                 $title = trans($plugins->get($name)->title);
+
                                 return trans('admin.plugins.operations.unsatisfied.version', compact('title', 'constraint'));
                             }
                         })->values()->all();
 
                         $conflicts = $result['conflicts']->map(function ($detail, $name) use ($plugins) {
                             $title = trans($plugins->get($name)->title);
+
                             return trans('admin.plugins.operations.unsatisfied.conflict', compact('title'));
                         })->values()->all();
 

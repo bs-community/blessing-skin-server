@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use DB;
 use Artisan;
 
 class TestCase extends \Illuminate\Foundation\Testing\TestCase

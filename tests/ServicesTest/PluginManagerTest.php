@@ -368,6 +368,7 @@ class PluginManagerTest extends TestCase
         resolve(PluginManager::class)->boot();
         Event::assertDispatched(Events\PluginBootFailed::class, function ($event) {
             $this->assertEquals('mayaka', $event->plugin->name);
+
             return true;
         });
 

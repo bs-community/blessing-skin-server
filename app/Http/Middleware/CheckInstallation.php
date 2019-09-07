@@ -3,7 +3,6 @@
 namespace App\Http\Middleware;
 
 use Illuminate\Filesystem\Filesystem;
-use App\Http\Controllers\SetupController;
 
 class CheckInstallation
 {

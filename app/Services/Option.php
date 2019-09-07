@@ -16,6 +16,7 @@ class Option
         $cachePath = storage_path('options/cache.php');
         if ($filesystem->exists($cachePath)) {
             $this->items = collect($filesystem->getRequire($cachePath));
+
             return;
         }
 

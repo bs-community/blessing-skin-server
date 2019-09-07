@@ -47,7 +47,7 @@ class UserController extends Controller
             'score-to'      => $to,
             'return-score'  => option('return_score')
                 ? trans('user.score-intro.will-return-score')
-                : trans('user.score-intro.no-return-score')
+                : trans('user.score-intro.no-return-score'),
         ]));
 
         return view('user.index')->with([

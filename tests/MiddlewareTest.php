@@ -7,7 +7,6 @@ use App\Models\User;
 use App\Models\Player;
 use App\Services\Facades\Option;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class MiddlewareTest extends TestCase
