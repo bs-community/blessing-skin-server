@@ -26,6 +26,7 @@ class AdminControllerTest extends TestCase
     public function testChartData()
     {
         factory(User::class)->create();
+        factory(User::class)->create(['register_at' => '2019-01-01 00:00:00']);
         factory(Texture::class)->create();
         $this->getJson('/admin/chart')
             ->assertJson(['labels' => [

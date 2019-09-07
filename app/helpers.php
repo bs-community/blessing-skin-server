@@ -16,7 +16,7 @@ if (! function_exists('webpack_assets')) {
             return "http://$host:8080/$relativeUri";
         // @codeCoverageIgnoreEnd
         } else {
-            $path = app('webpack')->$relativeUri;
+            $path = resolve(\App\Services\Webpack::class)->$relativeUri;
             $cdn = option('cdn_address');
 
             return $cdn ? "$cdn/app/$path" : url("/app/$path");

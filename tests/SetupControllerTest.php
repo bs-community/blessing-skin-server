@@ -3,15 +3,20 @@
 namespace Tests;
 
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\File;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Artisan;
 use Symfony\Component\Finder\SplFileInfo;
+use Illuminate\Contracts\Console\Kernel as Artisan;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SetupControllerTest extends TestCase
 {
     use DatabaseTransactions;
+
+    public function setUp(): void
+    {
+        parent::setUp();
+        $this->spy(\App\Services\Webpack::class);
+    }
 
     public function testWelcome()
     {
@@ -42,6 +47,15 @@ class SetupControllerTest extends TestCase
                 ->with(storage_path('install.lock'), '')
                 ->atLeast(1)
                 ->andReturn(true);
+
+            $mock->shouldReceive('get')
+                ->with(base_path('.env'))
+                ->once()
+                ->andReturn('DB_CONNECTION = abc');
+            $mock->shouldReceive('put')
+                ->with(base_path('.env'), 'DB_CONNECTION = '.env('DB_CONNECTION'))
+                ->once()
+                ->andReturn(true);
         });
 
         $fake = [
@@ -53,31 +67,21 @@ class SetupControllerTest extends TestCase
             'password' => env('DB_PASSWORD'),
             'prefix' => '',
         ];
-        File::shouldReceive('get')->with(base_path('.env'))->andReturn('');
-        File::shouldReceive('put')->with(base_path('.env'), '');
         $this->post('/setup/database', $fake)->assertRedirect('/setup/info');
-
         $this->get('/setup/database')->assertRedirect('/setup/info');
-    }
 
-    public function testReportDatabaseConnectionError()
-    {
-        $this->mock(Filesystem::class, function ($mock) {
-            $mock->shouldReceive('exists')
-                ->with(storage_path('install.lock'))
-                ->atLeast(1)
-                ->andReturn(false);
-            $mock->shouldReceive('put')
-                ->with(storage_path('install.lock'), '')
-                ->atLeast(1)
-                ->andReturn(true);
+        $this->mock(\Illuminate\Database\DatabaseManager::class, function ($mock) {
+            $mock->shouldReceive('connection')->andThrow(new \Exception())->once();
         });
+        $this->post('/setup/database', ['type' => 'sqlite'])
+            ->assertSee(
+                trans('setup.database.connection-error', ['type' => 'SQLite', 'msg' => ''])
+            );
 
-        $this->post('/setup/database', ['type' => 'sqlite', 'host' => 'placeholder', 'db' => 'test'])
-            ->assertSee(trans('setup.database.connection-error', [
-                'type' => 'SQLite',
-                'msg' => 'Database (test) does not exist.',
-            ]));
+        $this->mock(\Illuminate\Database\Connection::class, function ($mock) {
+            $mock->shouldReceive('getPdo')->andThrow(new \Exception());
+        });
+        $this->get('/setup/database')->assertViewIs('setup.wizard.database');
     }
 
     public function testFinish()
@@ -154,33 +158,25 @@ class SetupControllerTest extends TestCase
             'password_confirmation' => '12345678',
         ])->assertDontSee(trans('setup.wizard.finish.title'));
 
-        // Regenerate keys
-        Artisan::shouldReceive('call')
-            ->with('key:generate')
-            ->once()
-            ->andReturn(true);
-        Artisan::shouldReceive('call')
-            ->with('salt:random')
-            ->once()
-            ->andReturn(true);
-        Artisan::shouldReceive('call')
-            ->with('jwt:secret', ['--no-interaction' => true])
-            ->once()
-            ->andReturn(true);
-        Artisan::shouldReceive('call')
-            ->with('passport:keys', ['--no-interaction' => true])
-            ->once()
-            ->andReturn(true);
-        Artisan::shouldReceive('call')
-            ->with('migrate', [
-                '--force' => true,
-                '--path' => [
-                    'database/migrations',
-                    'vendor/laravel/passport/database/migrations',
-                ],
-            ])
-            ->once()
-            ->andReturn(true);
+        $this->spy(Artisan::class, function ($spy) {
+            $spy->shouldReceive('call')->with('key:generate')->once();
+            $spy->shouldReceive('call')->with('salt:random')->once();
+            $spy->shouldReceive('call')
+                ->with('jwt:secret', ['--no-interaction' => true])
+                ->once();
+            $spy->shouldReceive('call')
+                ->with('passport:keys', ['--no-interaction' => true])
+                ->once();
+            $spy->shouldReceive('call')
+                ->with('migrate', [
+                    '--force' => true,
+                    '--path' => [
+                        'database/migrations',
+                        'vendor/laravel/passport/database/migrations',
+                    ],
+                ])
+                ->once();
+        });
         $this->post('/setup/finish', [
             'email' => 'a@b.c',
             'nickname' => 'nickname',
@@ -229,7 +225,9 @@ class SetupControllerTest extends TestCase
                 ->with('/100.0.0.php')
                 ->once();
         });
-        Artisan::shouldReceive('call')->with('view:clear')->once();
+        $this->spy(Artisan::class, function ($spy) {
+            $spy->shouldReceive('call')->with('view:clear')->once();
+        });
         config(['app.version' => '100.0.0']);
 
         $this->actAs('superAdmin')

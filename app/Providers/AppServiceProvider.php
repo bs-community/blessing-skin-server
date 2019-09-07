@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(\App\Services\Option::class);
         $this->app->alias(\App\Services\Option::class, 'options');
         $this->app->singleton('parsedown', \Parsedown::class);
-        $this->app->singleton('webpack', \App\Services\Webpack::class);
+        $this->app->singleton(\App\Services\Webpack::class);
         $this->app->singleton(\App\Services\Filter::class);
     }
 
@@ -45,7 +45,7 @@ class AppServiceProvider extends ServiceProvider
         Event::listen(Events\RenderingHeader::class, function ($event) {
             $blessing = [
                 'version' => config('app.version'),
-                'commit' => app('webpack')->commit,
+                'commit' => resolve(\App\Services\Webpack::class)->commit,
                 'locale' => config('app.locale'),
                 'fallback_locale' => config('app.fallback_locale'),
                 'base_url' => url('/'),

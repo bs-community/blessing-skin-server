@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-use Log;
-use File;
-use Option;
-use Artisan;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Composer\Semver\Comparator;
+use Illuminate\Database\Connection;
 use Illuminate\Filesystem\Filesystem;
 use App\Exceptions\PrettyPageException;
+use Illuminate\Database\DatabaseManager;
 use Symfony\Component\Finder\SplFileInfo;
+use Illuminate\Contracts\Console\Kernel as Artisan;
 
 class SetupController extends Controller
 {
@@ -26,17 +24,19 @@ class SetupController extends Controller
         return view('setup.wizard.welcome');
     }
 
-    public function database(Request $request)
-    {
+    public function database(
+        Request $request,
+        Filesystem $filesystem,
+        Connection $connection,
+        DatabaseManager $manager
+    ) {
         if ($request->isMethod('get')) {
             try {
-                DB::getPdo();
+                $connection->getPdo();
 
                 return redirect('setup/info');
-                // @codeCoverageIgnoreStart
             } catch (\Exception $e) {
                 return view('setup.wizard.database');
-                // @codeCoverageIgnoreEnd
             }
         }
 
@@ -51,7 +51,7 @@ class SetupController extends Controller
         ]);
 
         try {
-            DB::connection('temp')->getPdo();
+            $manager->connection('temp')->getPdo();
         } catch (\Exception $e) {
             $msg = iconv('gbk', 'utf-8', $e->getMessage());
             $type = humanize_db_type($request->input('type'));
@@ -62,7 +62,7 @@ class SetupController extends Controller
             );
         }
 
-        $content = File::get(base_path('.env'));
+        $content = $filesystem->get(base_path('.env'));
         $content = preg_replace(
             '/DB_CONNECTION.+/',
             'DB_CONNECTION = '.$request->input('type'),
@@ -98,12 +98,12 @@ class SetupController extends Controller
             'DB_PREFIX = '.$request->input('prefix'),
             $content
         );
-        File::put(base_path('.env'), $content);
+        $filesystem->put(base_path('.env'), $content);
 
         return redirect('setup/info');
     }
 
-    public function finish(Request $request, Filesystem $filesystem)
+    public function finish(Request $request, Filesystem $filesystem, Artisan $artisan)
     {
         $data = $this->validate($request, [
             'email'     => 'required|email',
@@ -113,31 +113,29 @@ class SetupController extends Controller
         ]);
 
         if ($request->has('generate_random')) {
-            Artisan::call('key:generate');
-            Artisan::call('salt:random');
+            $artisan->call('key:generate');
+            $artisan->call('salt:random');
         }
-        Artisan::call('jwt:secret', ['--no-interaction' => true]);
-        Artisan::call('passport:keys', ['--no-interaction' => true]);
+        $artisan->call('jwt:secret', ['--no-interaction' => true]);
+        $artisan->call('passport:keys', ['--no-interaction' => true]);
 
         // Create tables
-        Artisan::call('migrate', [
+        $artisan->call('migrate', [
             '--force' => true,
             '--path' => [
                 'database/migrations',
                 'vendor/laravel/passport/database/migrations',
             ],
           ]);
-        Log::info('[SetupWizard] Tables migrated.');
-
-        Option::set('site_name', $request->input('site_name'));
 
         $siteUrl = url('/');
-
         if (Str::endsWith($siteUrl, '/index.php')) {
             $siteUrl = substr($siteUrl, 0, -10);    // @codeCoverageIgnore
         }
-
-        Option::set('site_url', $siteUrl);
+        option([
+            'site_name' => $request->input('site_name'),
+            'site_url' => $siteUrl,
+        ]);
 
         // Register super admin
         $user = new User;
@@ -162,7 +160,7 @@ class SetupController extends Controller
         ]);
     }
 
-    public function update(Filesystem $filesystem)
+    public function update(Filesystem $filesystem, Artisan $artisan)
     {
         collect($filesystem->files(database_path('update_scripts')))
             ->filter(function (SplFileInfo $file) {
@@ -175,7 +173,7 @@ class SetupController extends Controller
             });
 
         option(['version' => config('app.version')]);
-        Artisan::call('view:clear');
+        $artisan->call('view:clear');
         $filesystem->put(storage_path('install.lock'), '');
 
         return view('setup.updates.success');

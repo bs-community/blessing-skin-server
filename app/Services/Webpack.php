@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use File;
 use Illuminate\Support\Arr;
+use Illuminate\Filesystem\Filesystem;
 
 class Webpack
 {
     protected $manifest = [];
 
-    public function __construct()
+    public function __construct(Filesystem $filesystem)
     {
         $path = public_path('app/manifest.json');
-        if (File::exists($path)) {
-            $this->manifest = json_decode(File::get($path), true);
+        if ($filesystem->exists($path)) {
+            $this->manifest = json_decode($filesystem->get($path), true);
         }
     }
 

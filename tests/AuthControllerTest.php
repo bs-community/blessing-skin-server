@@ -509,6 +509,20 @@ class AuthControllerTest extends TestCase
         $this->assertTrue($user->verifyPassword('12345678'));
     }
 
+    public function testCaptcha()
+    {
+        $this->mock(\Gregwar\Captcha\CaptchaBuilder::class, function ($mock) {
+            $mock->shouldReceive('build')->with(100, 34)->once();
+            $mock->shouldReceive('getPhrase')->once()->andReturn('くみこ');
+            $mock->shouldReceive('output')->once()->andReturn('');
+        });
+        $this->get('/auth/captcha')
+            ->assertSuccessful()
+            ->assertHeader('Content-Type', 'image/jpeg')
+            ->assertHeader('Cache-Control', 'no-store, private')
+            ->assertSessionHas('captcha', 'くみこ');
+    }
+
     public function testFillEmail()
     {
         $user = factory(User::class)->create(['email' => '']);

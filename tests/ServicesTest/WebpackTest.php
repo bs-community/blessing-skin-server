@@ -2,15 +2,24 @@
 
 namespace Tests;
 
-use File;
+use Illuminate\Filesystem\Filesystem;
 
 class WebpackTest extends TestCase
 {
     public function testManifest()
     {
-        File::shouldReceive('exists')->andReturn(true);
-        File::shouldReceive('get')->andReturn(json_encode(['a' => 'b']));
-        $key = 'a';
-        $this->assertEquals('b', app('webpack')->$key);
+        $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('exists')
+                ->with(public_path('app/manifest.json'))
+                ->once()
+                ->andReturn(true);
+
+            $mock->shouldReceive('get')
+                ->with(public_path('app/manifest.json'))
+                ->once()
+                ->andReturn(json_encode(['a' => 'b']));
+        });
+        $this->assertEquals('b', resolve(\App\Services\Webpack::class)->{'a'});
+        $this->assertEquals('', resolve(\App\Services\Webpack::class)->{'nope'});
     }
 }

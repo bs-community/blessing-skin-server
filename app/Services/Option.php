@@ -76,11 +76,6 @@ class Option
         }
     }
 
-    public function has($key)
-    {
-        return $this->items->has($key);
-    }
-
     public function all(): array
     {
         return $this->items->all();
