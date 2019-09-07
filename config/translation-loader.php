@@ -8,7 +8,6 @@ return [
      */
     'translation_loaders' => [
         Spatie\TranslationLoader\TranslationLoaders\Db::class,
-        App\Services\Translations\Yaml::class,
     ],
 
     /*

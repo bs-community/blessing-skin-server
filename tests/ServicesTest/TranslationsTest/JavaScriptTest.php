@@ -2,8 +2,8 @@
 
 namespace Tests;
 
+use Illuminate\Support\Str;
 use Illuminate\Cache\Repository;
-use App\Services\Translations\Yaml;
 use Illuminate\Filesystem\Filesystem;
 use App\Services\Translations\JavaScript;
 
@@ -23,7 +23,11 @@ class JavaScriptTest extends TestCase
                 ->once()
                 ->andReturn(1);
             $mock->shouldReceive('put')
-                ->with(public_path('lang/en.js'), 'blessing.i18n={"a":"b"}')
+                ->withArgs(function ($path, $content) {
+                    $this->assertEquals(public_path('lang/en.js'), $path);
+                    $this->assertTrue(Str::startsWith($content, 'blessing.i18n'));
+                    return true;
+                })
                 ->once()
                 ->andReturn(1);
         });
@@ -35,12 +39,6 @@ class JavaScriptTest extends TestCase
             $mock->shouldReceive('put')
                 ->with('front-end-trans-en', 1)
                 ->once();
-        });
-        $this->mock(Yaml::class, function ($mock) {
-            $mock->shouldReceive('loadYaml')
-                ->with(resource_path('lang/en/front-end.yml'))
-                ->once()
-                ->andReturn(['a' => 'b']);
         });
 
         $this->assertEquals(url('lang/en.js?t=1'), resolve(JavaScript::class)->generate('en'));

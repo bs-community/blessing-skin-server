@@ -4,9 +4,8 @@ namespace App\Services\Translations;
 
 use Illuminate\Contracts\Cache\Repository;
 use Symfony\Component\Yaml\Yaml as YamlParser;
-use Spatie\TranslationLoader\TranslationLoaders\TranslationLoader;
 
-class Yaml implements TranslationLoader
+class Yaml
 {
     /** @var Repository */
     protected $cache;
@@ -14,13 +13,6 @@ class Yaml implements TranslationLoader
     public function __construct(Repository $cache)
     {
         $this->cache = $cache;
-    }
-
-    public function loadTranslations(string $locale, string $group): array
-    {
-        $path = resource_path("lang/$locale/$group.yml");
-
-        return file_exists($path) ? $this->loadYaml($path) : [];
     }
 
     public function loadYaml(string $path): array
