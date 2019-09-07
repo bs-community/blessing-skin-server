@@ -288,22 +288,6 @@ admin:
   updateButton: 马上升级
   downloading: 正在下载更新包
   updateCompleted: 更新完成
-  change-color:
-    title: 更改配色
-    success: 修改配色成功
-  colors:
-    blue: 蓝色主题（默认）
-    blue-light: 蓝色主题 - 白色侧边栏
-    yellow: 黄色主题
-    yellow-light: 黄色主题 - 白色侧边栏
-    green: 绿色主题
-    green-light: 绿色主题 - 白色侧边栏
-    purple: 基佬紫
-    purple-light: 紫色主题 - 白色侧边栏
-    red: 喜庆红（笑）
-    red-light: 红色主题 - 白色侧边栏
-    black: 高端黑
-    black-light: 黑色主题 - 白色侧边栏
 
 report:
   tid: 材质 ID

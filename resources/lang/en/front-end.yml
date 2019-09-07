@@ -296,22 +296,6 @@ admin:
   updateButton: Update Now
   downloading: Downloading...
   updateCompleted: Update completed.
-  change-color:
-    title: Change theme color
-    success: Theme color updated.
-  colors:
-    blue: Blue (Default)
-    blue-light: Blue Light
-    yellow: Yellow
-    yellow-light: Yellow Light
-    green: Green
-    green-light: Green Light
-    purple: Purple
-    purple-light: Purple Light
-    red: Red
-    red-light: Red Light
-    black: Black
-    black-light: Black Light
 
 report:
   tid: Texture ID

@@ -50,4 +50,10 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         return $this->actingAs($role);
     }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->spy(\App\Services\Translations\JavaScript::class);
+    }
 }

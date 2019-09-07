@@ -52,7 +52,6 @@ class AppServiceProvider extends ServiceProvider
                 'site_name' => option_localized('site_name'),
                 'route' => request()->path(),
                 'extra' => [],
-                'i18n' => ['_' => null],
             ];
             $event->addContent('<script>var blessing = '.json_encode($blessing).';</script>');
         });

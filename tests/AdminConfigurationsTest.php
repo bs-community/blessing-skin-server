@@ -4,6 +4,7 @@ namespace Tests;
 
 use Cache;
 use Redis;
+use Mockery;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -15,6 +16,10 @@ class AdminConfigurationsTest extends BrowserKitTestCase
     {
         // Do not use `WithoutMiddleware` trait
         parent::setUp();
+        $this->instance(
+            \App\Services\Translations\JavaScript::class,
+            Mockery::spy(\App\Services\Translations\JavaScript::class)
+        );
         $this->actAs('admin');
     }
 

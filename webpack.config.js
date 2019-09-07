@@ -91,10 +91,6 @@ const config = {
         ],
       },
       {
-        test: /\.ya?ml$/,
-        use: ['json-loader', 'yaml-loader'],
-      },
-      {
         test: /\.(png|jpg|gif)$/,
         loader: 'url-loader',
         options: {
