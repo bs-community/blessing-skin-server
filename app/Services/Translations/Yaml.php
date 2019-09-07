@@ -2,22 +2,17 @@
 
 namespace App\Services\Translations;
 
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Contracts\Cache\Repository;
 use Symfony\Component\Yaml\Yaml as YamlParser;
 use Spatie\TranslationLoader\TranslationLoaders\TranslationLoader;
 
 class Yaml implements TranslationLoader
 {
-    /** @var Filesystem */
-    protected $files;
-
     /** @var Repository */
     protected $cache;
 
-    public function __construct(Filesystem $files, Repository $cache)
+    public function __construct(Repository $cache)
     {
-        $this->files = $files;
         $this->cache = $cache;
     }
 
