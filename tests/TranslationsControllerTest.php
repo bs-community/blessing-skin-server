@@ -58,7 +58,9 @@ class TranslationsControllerTest extends TestCase
             'key' => 'submit',
             'text' => 'submit',
         ])->assertRedirect('/admin/i18n');
-        $this->get('/admin/i18n')->assertSee(trans('admin.i18n.added'));
+        $this->get('/admin/i18n')
+            ->assertSee(trans('admin.i18n.added'))
+            ->assertSessionMissing('success');
     }
 
     public function testUpdate()
