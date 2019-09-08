@@ -343,19 +343,9 @@ if (! function_exists('is_request_secure')) {
     function is_request_secure(): bool
     {
         $request = request();
-        if ($request->server('HTTPS') == 'on') {
-            return true;
-        }
-
-        if ($request->server('HTTP_X_FORWARDED_PROTO') == 'https') {
-            return true;
-        }
-
-        if ($request->server('HTTP_X_FORWARDED_SSL') == 'on') {
-            return true;
-        }
-
-        return false;
+        return $request->server('HTTPS') === 'on'
+            || $request->server('HTTP_X_FORWARDED_PROTO') === 'https'
+            || $request->server('HTTP_X_FORWARDED_SSL') === 'on';
     }
 }
 
