@@ -77,9 +77,9 @@ export function get(url: string, params = empty): Promise<any> {
   return walkFetch(new Request(`${blessing.base_url}${url}${qs && `?${qs}`}`, init))
 }
 
-export function post(url: string, data = empty): Promise<any> {
+function nonGet(method: string, url: string, data: any): Promise<any> {
   emit('beforeFetch', {
-    method: 'POST',
+    method: method.toUpperCase(),
     url,
     data,
   })
@@ -88,7 +88,7 @@ export function post(url: string, data = empty): Promise<any> {
 
   const request = new Request(`${blessing.base_url}${url}`, {
     body: isFormData ? data : JSON.stringify(data),
-    method: 'POST',
+    method: method.toUpperCase(),
     ...init,
   })
   !isFormData && request.headers.set('Content-Type', 'application/json')
@@ -96,10 +96,26 @@ export function post(url: string, data = empty): Promise<any> {
   return walkFetch(request)
 }
 
+export function post(url: string, data = empty): Promise<any> {
+  return nonGet('POST', url, data)
+}
+
+export function put(url: string, data = empty): Promise<any> {
+  return nonGet('PUT', url, data)
+}
+
+export function del(url: string, data = empty): Promise<any> {
+  return nonGet('DELETE', url, data)
+}
+
 Vue.use(_Vue => {
   Object.defineProperty(_Vue.prototype, '$http', {
-    get: () => ({ get, post }),
+    get: () => ({
+      get, post, put, del,
+    }),
   })
 })
 
-blessing.fetch = { get, post }
+blessing.fetch = {
+  get, post, put, del,
+}

@@ -8,6 +8,8 @@ declare module 'vue/types/vue' {
       $http: {
         get: jest.Mock<any>
         post: jest.Mock<any>
+        put: jest.Mock<any>
+        del: jest.Mock<any>
       },
       $message: {
         info: jest.Mock<ReturnType<typeof Message>, Parameters<typeof Message>>

@@ -22,6 +22,8 @@ declare global {
     fetch: {
       get(url: string, params?: object): Promise<object>
       post(url: string, data?: object): Promise<object>
+      put(url: string, data?: object): Promise<object>
+      del(url: string, data?: object): Promise<object>
     }
 
     event: {
@@ -46,8 +48,9 @@ declare module 'vue/types/vue' {
 
     $http: {
       get(url: string, params?: object)
-
       post(url: string, data?: object): { code?: number, message?: string }
+      put(url: string, data?: object): { code?: number, message?: string }
+      del(url: string, data?: object): { code?: number, message?: string }
     }
 
     $route: RegExpExecArray | null

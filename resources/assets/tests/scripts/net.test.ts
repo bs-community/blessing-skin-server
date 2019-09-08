@@ -73,6 +73,46 @@ test('the POST method', async () => {
   expect(window.fetch.mock.calls[2][0].body).toBe('{}')
 })
 
+test('the PUT method', () => {
+  const fetch = jest.fn()
+  window.fetch = fetch
+
+  const stub = jest.fn()
+  on('beforeFetch', stub)
+
+  net.put('/abc')
+  expect(fetch).toBeCalled()
+  // eslint-disable-next-line prefer-destructuring
+  const request = fetch.mock.calls[0][0]
+  expect(request.method).toBe('PUT')
+
+  expect(stub).toBeCalledWith({
+    method: 'PUT',
+    url: '/abc',
+    data: {},
+  })
+})
+
+test('the DELETE method', () => {
+  const fetch = jest.fn()
+  window.fetch = fetch
+
+  const stub = jest.fn()
+  on('beforeFetch', stub)
+
+  net.del('/abc')
+  expect(fetch).toBeCalled()
+  // eslint-disable-next-line prefer-destructuring
+  const request = fetch.mock.calls[0][0]
+  expect(request.method).toBe('DELETE')
+
+  expect(stub).toBeCalledWith({
+    method: 'DELETE',
+    url: '/abc',
+    data: {},
+  })
+})
+
 test('low level fetch', async () => {
   const json = jest.fn().mockResolvedValue({})
   window.fetch = jest.fn()
