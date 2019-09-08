@@ -66,6 +66,17 @@ class JavaScriptTest extends TestCase
         $this->assertEquals(url('lang/en.js?t=1'), resolve(JavaScript::class)->generate('en'));
     }
 
+    public function testResetTime()
+    {
+        $this->spy(Repository::class, function ($spy) {
+            $spy->shouldReceive('put')
+                ->with('front-end-trans-en', 0)
+                ->once();
+        });
+
+        resolve(JavaScript::class)->resetTime('en');
+    }
+
     public function testPlugin()
     {
         $this->mock(Filesystem::class, function ($mock) {

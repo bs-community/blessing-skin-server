@@ -288,6 +288,15 @@ admin:
   updateButton: 马上升级
   downloading: 正在下载更新包
   updateCompleted: 更新完成
+  i18n:
+    group: 分组
+    key: 键
+    text: 文本
+    empty: （空）
+    modify: 修改
+    delete: 删除
+    updating: 请输入新的文本内容：
+    confirmDelete: 确认删除吗？此操作不可恢复。
 
 report:
   tid: 材质 ID

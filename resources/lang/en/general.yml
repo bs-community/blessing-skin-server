@@ -22,6 +22,7 @@ plugin-manage: Plugins
 plugin-market: Plugin Market
 plugin-configs: Plugin Configs
 customize: Customize
+i18n: Internationalization
 options: Options
 score-options: Score Options
 res-options: Resource Options

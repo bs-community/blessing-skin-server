@@ -84,6 +84,16 @@ customize:
     black: 黑色主题
     black-light: 黑色主题 - 白色侧边栏
 
+i18n:
+  add: 添加新条目
+  added: 条目增加成功
+  updated: 条目更新成功
+  deleted: 条目已删除
+  group: 分组
+  key: 键
+  text: 文本
+  tip: 如何使用本页面的功能？
+
 status:
   info: 信息
   health: 健康

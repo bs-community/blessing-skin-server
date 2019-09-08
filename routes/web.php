@@ -137,6 +137,14 @@ Route::group(['middleware' => ['authorize', 'admin'], 'prefix' => 'admin'], func
     Route::post('/reports', 'ReportController@review');
     Route::any('/report-data', 'ReportController@manage');
 
+    Route::group(['prefix' => 'i18n'], function () {
+        Route::view('', 'admin.i18n');
+        Route::get('list', 'TranslationsController@list');
+        Route::post('', 'TranslationsController@create');
+        Route::put('', 'TranslationsController@update');
+        Route::delete('', 'TranslationsController@delete');
+    });
+
     Route::group(['prefix' => 'plugins', 'middleware' => 'super-admin'], function () {
         Route::get('/data', 'PluginController@getPluginData');
 

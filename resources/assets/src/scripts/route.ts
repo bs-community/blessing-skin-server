@@ -67,6 +67,11 @@ export default [
     ],
   },
   {
+    path: 'admin/i18n',
+    component: () => import('../views/admin/Translations.vue'),
+    el: '#table',
+  },
+  {
     path: 'admin/plugins/manage',
     component: () => import('../views/admin/Plugins.vue'),
     el: '.content',

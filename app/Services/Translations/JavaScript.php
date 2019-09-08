@@ -39,6 +39,11 @@ class JavaScript
         return url("lang/$locale.js?t=$compiledModified");
     }
 
+    public function resetTime(string $locale): void
+    {
+        $this->cache->put($this->prefix.$locale, 0);
+    }
+
     public function plugin(string $locale): string
     {
         $path = public_path("lang/${locale}_plugin.js");

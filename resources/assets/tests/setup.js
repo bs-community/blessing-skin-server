@@ -49,6 +49,8 @@ Vue.directive('t', (el, { value }) => {
 Vue.prototype.$http = {
   get: jest.fn(),
   post: jest.fn(),
+  put: jest.fn(),
+  del: jest.fn(),
 }
 
 Vue.use(Button)

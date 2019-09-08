@@ -296,6 +296,15 @@ admin:
   updateButton: Update Now
   downloading: Downloading...
   updateCompleted: Update completed.
+  i18n:
+    group: Group
+    key: Key
+    text: Text
+    empty: (Empty)
+    modify: Modify
+    delete: Delete
+    updating: 'Please type new text:'
+    confirmDelete: Are you sure? This is irreversible.
 
 report:
   tid: Texture ID

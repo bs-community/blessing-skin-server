@@ -29,6 +29,7 @@ $menu['admin'] = [
     ['title' => 'general.player-manage',  'link' => 'admin/players',        'icon' => 'fa-gamepad'],
     ['title' => 'general.report-manage',  'link' => 'admin/reports',        'icon' => 'fa-flag'],
     ['title' => 'general.customize',      'link' => 'admin/customize',      'icon' => 'fa-paint-brush'],
+    ['title' => 'general.i18n',           'link' => 'admin/i18n',           'icon' => 'fa-globe'],
     ['title' => 'general.score-options',  'link' => 'admin/score',          'icon' => 'fa-credit-card'],
     ['title' => 'general.options',        'link' => 'admin/options',        'icon' => 'fa-cog'],
     ['title' => 'general.res-options',    'link' => 'admin/resource',       'icon' => 'fa-atom'],

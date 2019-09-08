@@ -84,6 +84,16 @@ customize:
     black: Black
     black-light: Black Light
 
+i18n:
+  add: Add New Language Line
+  added: Language line added.
+  updated: Language line updated.
+  deleted: Language line deleted.
+  group: Group
+  key: Key
+  text: Text
+  tip: How can I use this page?
+
 status:
   info: Information
   health: Health
