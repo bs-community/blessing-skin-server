@@ -82,6 +82,7 @@ class PluginManager
                 return [$item['name'] => ['version' => $item['version']]];
             });
         $plugins = collect();
+        $versionChanged = [];
 
         $this->getPluginsDirs()
             ->flatMap(function ($directory) {
@@ -91,7 +92,7 @@ class PluginManager
             ->filter(function ($directory) {
                 return $this->filesystem->exists($directory.DIRECTORY_SEPARATOR.'package.json');
             })
-            ->each(function ($directory) use (&$plugins) {
+            ->each(function ($directory) use (&$plugins, &$versionChanged) {
                 $manifest = json_decode(
                     $this->filesystem->get($directory.DIRECTORY_SEPARATOR.'package.json'),
                     true
@@ -117,12 +118,18 @@ class PluginManager
                         $this->enabled->get($name)['version']
                     )) {
                         $this->enabled->put($name, ['version' => $manifest['version']]);
-                        $this->dispatcher->dispatch(new Events\PluginVersionChanged($plugin));
+                        $versionChanged[] = $plugin;
                     }
                 }
             });
 
         $this->plugins = $plugins;
+        if (count($versionChanged) > 0) {
+            $this->saveEnabled();
+        }
+        array_walk($versionChanged, function ($plugin) {
+            $this->dispatcher->dispatch('plugin.versionChanged', [$plugin]);
+        });
 
         return $plugins;
     }

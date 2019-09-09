@@ -117,6 +117,12 @@ class PluginManagerTest extends TestCase
             $mock->shouldReceive('get')
                 ->with('plugins_enabled', '[]')
                 ->andReturn(json_encode([['name' => 'mayaka', 'version' => '0.0.0']]));
+            $mock->shouldReceive('set')
+                ->with(
+                    'plugins_enabled',
+                    json_encode([['name' => 'mayaka', 'version' => '0.1.0']])
+                )
+                ->once();
         });
         $this->mock(Filesystem::class, function ($mock) {
             $mock->shouldReceive('directories')
@@ -149,8 +155,8 @@ class PluginManagerTest extends TestCase
 
         app()->forgetInstance(PluginManager::class);
         resolve(PluginManager::class)->boot();
-        Event::assertDispatched(\App\Events\PluginVersionChanged::class, function ($event) {
-            $this->assertEquals('0.1.0', $event->plugin->version);
+        Event::assertDispatched('plugin.versionChanged', function ($eventName, $payload) {
+            $this->assertEquals('0.1.0', $payload[0]->version);
 
             return true;
         });

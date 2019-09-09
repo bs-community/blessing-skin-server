@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Services\Plugin;
 use Illuminate\Filesystem\Filesystem;
 
 class CopyPluginAssets
@@ -18,7 +19,7 @@ class CopyPluginAssets
 
     public function handle($event)
     {
-        $plugin = $event->plugin;
+        $plugin = $event instanceof Plugin ? $event : $event->plugin;
         $dir = public_path('plugins/'.$plugin->name);
         $this->filesystem->deleteDirectory($dir);
 

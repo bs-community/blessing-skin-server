@@ -25,7 +25,7 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\CopyPluginAssets',
             'App\Listeners\GeneratePluginTranslations',
         ],
-        'App\Events\PluginVersionChanged' => [
+        'plugin.versionChanged' => [
             'App\Listeners\CopyPluginAssets',
             'App\Listeners\GeneratePluginTranslations',
         ],

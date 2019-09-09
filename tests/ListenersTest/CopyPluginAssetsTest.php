@@ -23,6 +23,6 @@ class CopyPluginAssetsTest extends TestCase
                 ->once();
         });
 
-        event(new \App\Events\PluginVersionChanged($plugin));
+        event('plugin.versionChanged', [$plugin]);
     }
 }
