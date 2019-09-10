@@ -45,23 +45,18 @@
     foreach ($requirements['write_permission'] as $dir) {
         $realPath = realpath(__DIR__."/../$dir");
 
-        if (! file_exists($realPath)) {
+        if (! is_writable($realPath)) {
             die_with_utf8_encoding(
-                "[Error] The directory < $dir > does not exist <br>".
-                "[错误] 目录 < $dir > 不存在，请在程序根目录下手动创建。"
+                "[Error] The directory '$dir' is not writable. <br>".
+                "[错误] 目录 '$dir' 不可写，请检查该目录的权限。"
             );
         }
 
         if (! is_writable($realPath)) {
             die_with_utf8_encoding(
-                "[Error] The program lacks write permission to directory < $dir > <br>".
-                "[错误] 程序缺少对 < $dir > 目录的写权限，请手动授权。"
+                "[Error] The program lacks write permission to directory '$dir' <br>".
+                "[错误] 程序缺少对 '$dir' 目录的写权限，请手动授权。"
             );
         }
     }
-
-    $autoload = file_get_contents(__DIR__.'/../vendor/autoload.php');
-    $lines = explode("\n", $autoload);
-    $lines[1] = '$GLOBALS["env_checked"] = true;';
-    file_put_contents(__DIR__.'/../vendor/autoload.php', implode("\n", $lines));
 })();
