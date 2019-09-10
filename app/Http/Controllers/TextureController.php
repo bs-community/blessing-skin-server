@@ -7,23 +7,18 @@ use Option;
 use Storage;
 use Response;
 use Exception;
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
 use App\Services\Minecraft;
+use Illuminate\Support\Arr;
 use App\Events\GetSkinPreview;
 use App\Events\GetAvatarPreview;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 class TextureController extends Controller
 {
-    /**
-     * Return Player Profile formatted in JSON.
-     *
-     * @param  string $player_name
-     * @param  string $api
-     * @return \Illuminate\Http\Response
-     */
     public function json($player_name, $api = '')
     {
         $player = $this->getPlayerInstance($player_name);
@@ -33,11 +28,12 @@ class TextureController extends Controller
         } elseif ($api == 'usm') {
             $content = $player->getJsonProfile(Player::USM_API);
         } else {
-            $content = $player->getJsonProfile(Option::get('api_type'));
+            $content = $player->getJsonProfile(option('api_type'));
         }
 
-        return Response::jsonProfile($content, 200, [
-            'Last-Modified' => strtotime($player->last_modified),
+        return response($content, 200, [
+            'Content-type' => 'application/json',
+            'Last-Modified' => $player->last_modified,
         ]);
     }
 
@@ -50,9 +46,9 @@ class TextureController extends Controller
     {
         try {
             if (Storage::disk('textures')->has($hash)) {
-                return Response::png(Storage::disk('textures')->get($hash), 200, array_merge([
-                    'Last-Modified'  => Storage::disk('textures')->lastModified($hash),
-                    'Accept-Ranges'  => 'bytes',
+                return $this->outputImage(Storage::disk('textures')->get($hash), array_merge([
+                    'Last-Modified' => Storage::disk('textures')->lastModified($hash),
+                    'Accept-Ranges' => 'bytes',
                     'Content-Length' => Storage::disk('textures')->size($hash),
                 ], $headers));
             }
@@ -90,15 +86,15 @@ class TextureController extends Controller
         $player = $this->getPlayerInstance($player_name);
 
         if ($hash = $player->getTexture($type)) {
-            return $this->texture($hash, [
-                'Last-Modified'  => strtotime($player->last_modified),
-            ], trans('general.texture-deleted'));
+            return $this->texture(
+                $hash,
+                ['Last-Modified'  => $player->last_modified],
+                trans('general.texture-deleted')
+            );
         } else {
             abort(404, trans('general.texture-not-uploaded', ['type' => $type]));
         }
     }
-
-    // @codeCoverageIgnore
 
     public function avatarByTid($tid, $size = 128)
     {
@@ -110,9 +106,11 @@ class TextureController extends Controller
                     if (isset($responses[0]) && $responses[0] instanceof SymfonyResponse) {
                         return $responses[0];       // @codeCoverageIgnore
                     } else {
-                        $png = Minecraft::generateAvatarFromSkin(Storage::disk('textures')->read($t->hash), $size);
+                        $png = Minecraft::generateAvatarFromSkin(
+                            Storage::disk('textures')->read($t->hash), $size
+                        );
 
-                        return Response::png(png($png));
+                        return $this->outputImage(png($png));
                     }
                 }
             } catch (Exception $e) {
@@ -157,12 +155,16 @@ class TextureController extends Controller
                         $binary = Storage::disk('textures')->read($t->hash);
 
                         if ($t->type == 'cape') {
-                            $png = Minecraft::generatePreviewFromCape($binary, $size * 0.8, $size * 1.125, $size);
+                            $png = Minecraft::generatePreviewFromCape(
+                                $binary, $size * 0.8, $size * 1.125, $size
+                            );
                         } else {
-                            $png = Minecraft::generatePreviewFromSkin($binary, $size, ($t->type == 'alex'), 'both', 4);
+                            $png = Minecraft::generatePreviewFromSkin(
+                                $binary, $size, ($t->type == 'alex'), 'both', 4
+                            );
                         }
 
-                        return Response::png(png($png));
+                        return $this->outputImage(png($png));
                     }
                 }
             } catch (Exception $e) {
@@ -200,10 +202,32 @@ class TextureController extends Controller
                 $size
             );
 
-            return Response::png(png($png));
+            return $this->outputImage(png($png));
         }
 
         return abort(404);
+    }
+
+    protected function outputImage($content, $headers = [])
+    {
+        $request = request();
+
+        $ifNoneMatch = $request->header('If-None-Match');
+        $eTag = md5($content);
+
+        $ifModifiedSince = Carbon::parse($request->header('If-Modified-Since', 0));
+        $lastModified = Carbon::parse(Arr::pull($headers, 'Last-Modified', time()));
+
+        if ($eTag === $ifNoneMatch || $lastModified <= $ifModifiedSince) {
+            return response(null)->withHeaders($headers)->setNotModified();
+        }
+
+        return response($content, 200, $headers)->withHeaders([
+            'Content-Type' => 'image/png',
+            'ETag' => $eTag,
+            'Last-Modified' => $lastModified->toRfc7231String(),
+            'Cache-Control' => 'max-age='.option('cache_expire_time').', public',
+        ]);
     }
 
     protected function getPlayerInstance($player_name)

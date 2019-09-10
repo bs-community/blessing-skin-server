@@ -20,6 +20,6 @@ class CacheAvatarPreview
             return png(Minecraft::generateAvatarFromSkin($res, $size));
         });
 
-        return response()->png($content);
+        return response($content, 200, ['Content-Type' => 'image/png']);
     }
 }

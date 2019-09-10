@@ -114,7 +114,7 @@ return [
     |
     */
 
-    'key' => env('APP_KEY', 'base64:MfnScX0W/ViN8bZtRt0P481rWP3igcOK80QstjbXUxI='),
+    'key' => env('APP_KEY'),
 
     'cipher' => 'AES-256-CBC',
 
@@ -174,7 +174,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\PluginServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\ResponseMacroServiceProvider::class,
         App\Providers\ValidatorExtendServiceProvider::class,
 
     ],

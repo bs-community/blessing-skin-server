@@ -48,17 +48,17 @@ if (! function_exists('json')) {
     {
         $args = func_get_args();
 
-        if (count($args) == 1 && is_array($args[0])) {
-            return Response::json($args[0]);
-        } elseif (count($args) == 3 && is_array($args[2])) {
+        if (count($args) === 1 && is_array($args[0])) {
+            return response()->json($args[0]);
+        } elseif (count($args) === 3 && is_array($args[2])) {
             // The third argument is array of extra fields
-            return Response::json([
+            return response()->json([
                 'code' => $args[1],
                 'message' => $args[0],
                 'data' => $args[2],
             ]);
         } else {
-            return Response::json([
+            return response()->json([
                 'code' => Arr::get($args, 1, 1),
                 'message' => $args[0],
             ]);

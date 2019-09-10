@@ -5,6 +5,7 @@ namespace Tests;
 use Event;
 use Mockery;
 use Exception;
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
@@ -111,9 +112,19 @@ class TextureControllerTest extends TestCase
         $this->get('/textures/'.$steve->hash)
             ->assertHeader('Content-Type', 'image/png')
             ->assertHeader('Last-Modified')
+            ->assertHeader('ETag')
+            ->assertHeader('Cache-Control', 'max-age='.option('cache_expire_time').', public')
             ->assertHeader('Accept-Ranges', 'bytes')
             ->assertHeader('Content-Length', Storage::disk('textures')->size($steve->hash))
             ->assertSuccessful();
+
+        // Cache test
+        $this->get('/textures/'.$steve->hash, [
+            'If-None-Match' => md5(''),
+        ])->assertStatus(304);
+        $this->get('/textures/'.$steve->hash, [
+            'If-Modified-Since' => Carbon::now()->addHours(1)->toRfc7231String(),
+        ])->assertStatus(304);
 
         Storage::shouldReceive('disk')->with('textures')->andThrow(new Exception);
         $this->get('/textures/'.$steve->hash)->assertNotFound();
