@@ -3,8 +3,8 @@
 namespace Tests;
 
 use Cache;
-use Redis;
 use Mockery;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 

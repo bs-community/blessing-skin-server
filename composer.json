@@ -15,7 +15,7 @@
     "ext-json": "*",
     "predis/predis": "~1.0",
     "doctrine/inflector": "1.1.0",
-    "laravel/framework": "5.8.*",
+    "laravel/framework": "^6.0",
     "nesbot/carbon": "^2.0",
     "composer/semver": "^1.4",
     "gregwar/captcha": "1.*",

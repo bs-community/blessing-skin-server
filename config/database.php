@@ -106,15 +106,34 @@ return [
 
     'redis' => [
 
-        'cluster' => false,
+        // Phpredis is recommended,
+        // however, most of Blessing Skin users don't use redis,
+        // so keep `predis` as default value.
+        // Otherwise, an error will be thrown if phpredis is not installed.
+        'client' => env('REDIS_CLIENT', 'predis'),
+
+        'options' => [
+            'cluster' => env('REDIS_CLUSTER', 'redis'),
+            'prefix' => env(
+                'REDIS_PREFIX',
+                Illuminate\Support\Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'
+            ),
+        ],
 
         'default' => [
-            'scheme' => env('REDIS_SCHEME', 'tcp'),
-            'host' => env('REDIS_HOST', 'localhost'),
-            'port' => env('REDIS_PORT', 6379),
-            'path' => env('REDIS_SOCKET_PATH'),
+            'url' => env('REDIS_URL'),
+            'host' => env('REDIS_HOST', '127.0.0.1'),
             'password' => env('REDIS_PASSWORD', null),
-            'database' => 0,
+            'port' => env('REDIS_PORT', 6379),
+            'database' => env('REDIS_DB', 0),
+        ],
+
+        'cache' => [
+            'url' => env('REDIS_URL'),
+            'host' => env('REDIS_HOST', '127.0.0.1'),
+            'password' => env('REDIS_PASSWORD', null),
+            'port' => env('REDIS_PORT', 6379),
+            'database' => env('REDIS_CACHE_DB', 1),
         ],
 
     ],
