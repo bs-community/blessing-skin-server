@@ -260,21 +260,6 @@ if (! function_exists('get_db_config')) {
     }
 }
 
-if (! function_exists('format_http_date')) {
-    /**
-     * Format a UNIX timestamp to string for HTTP headers.
-     *
-     * e.g. Wed, 21 Oct 2015 07:28:00 GMT
-     *
-     * @param int $timestamp
-     * @return string
-     */
-    function format_http_date($timestamp): string
-    {
-        return Carbon::createFromTimestampUTC($timestamp)->format('D, d M Y H:i:s \G\M\T');
-    }
-}
-
 if (! function_exists('get_datetime_string')) {
     /**
      * Get date time string in "Y-m-d H:i:s" format.
