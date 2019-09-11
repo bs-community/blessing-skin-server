@@ -1,0 +1,16 @@
+name: CI
+
+on:
+  push:
+    branches:
+    - dev
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
