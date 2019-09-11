@@ -27,6 +27,7 @@ jobs:
     - name: Install dependencies
       run: |
         choco install composer
+        refreshenv
         composer install --prefer-dist --no-progress --no-suggest
     - name: Run tests
       run: |
