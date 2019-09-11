@@ -13,12 +13,10 @@ jobs:
     - name: Run tests
       run: |
         php -v
-        touch ./storage/testing.sqlite
+        mysql -uroot -proot -e 'create database if not exists test;'
         ./vendor/bin/phpunit
       env:
         APP_ENV: testing
-        DB_CONNECTION: sqlite
-        DB_DATABASE: storage/testing.sqlite
   frontend:
    name: Front End
    runs-on: ubuntu-latest
