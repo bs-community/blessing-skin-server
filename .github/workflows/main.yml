@@ -25,12 +25,14 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
+      run: |
+        choco install composer
+        composer install --prefer-dist --no-progress --no-suggest
     - name: Run tests
       run: |
         php.exe -v
-        New-Item ./storage/testing.sqlite
-        ./vendor/bin/phpunit
+        pwsh.exe -c New-Item ./storage/testing.sqlite
+        pwsh.exe -c ./vendor/bin/phpunit
       env:
         APP_ENV: testing
         DB_CONNECTION: sqlite
