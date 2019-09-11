@@ -19,26 +19,6 @@ jobs:
         APP_ENV: testing
         DB_CONNECTION: sqlite
         DB_DATABASE: storage/testing.sqlite
-  windows:
-    name: 'Windows'
-    runs-on: windows-latest
-    steps:
-    - uses: actions/checkout@v1
-    - name: Install Composer
-      run: |
-        choco install composer
-        refreshenv
-    - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
-    - name: Run tests
-      run: |
-        php.exe -v
-        pwsh.exe -c New-Item ./storage/testing.sqlite
-        pwsh.exe -c ./vendor/bin/phpunit
-      env:
-        APP_ENV: testing
-        DB_CONNECTION: sqlite
-        DB_DATABASE: storage/testing.sqlite
   frontend:
    name: Front End
    runs-on: ubuntu-latest
