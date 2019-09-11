@@ -800,6 +800,8 @@ class SkinlibControllerTest extends TestCase
 
         // Without returning score
         option(['return_score' => false, 'private_score_per_storage' => 0]);
+        $uploader->score += 1000;
+        $uploader->save();
         $texture = factory(Texture::class)->create(['public' => 'false', 'uploader' => $uploader->uid]);
         $other = factory(User::class)->create();
         $other->closet()->attach($texture->tid, ['item_name' => 'a']);
