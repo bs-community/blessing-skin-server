@@ -24,11 +24,12 @@ jobs:
     runs-on: windows-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Install dependencies
+    - name: Install Composer
       run: |
         choco install composer
         refreshenv
-        composer install --prefer-dist --no-progress --no-suggest
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
     - name: Run tests
       run: |
         php.exe -v
