@@ -19,7 +19,7 @@ jobs:
         APP_ENV: testing
         DB_CONNECTION: sqlite
         DB_DATABASE: storage/testing.sqlite
- windows:
+  windows:
     name: 'Windows'
     runs-on: windows-latest
     steps:
