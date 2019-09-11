@@ -3,10 +3,9 @@ name: CI
 on: [push]
 
 jobs:
-  build:
-
+  php73:
+    name: 'PHP 7.3'
     runs-on: ubuntu-latest
-    
     steps:
     - uses: actions/checkout@v1
     - name: Install dependencies
