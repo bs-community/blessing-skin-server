@@ -1,0 +1,30 @@
+name: CI
+
+on: [push]
+
+jobs:
+  php73:
+    name: PHP 7.3
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+    - name: Run tests
+      run: |
+        php -v
+        mysql -uroot -proot -e 'create database if not exists test;'
+        ./vendor/bin/phpunit
+      env:
+        APP_ENV: testing
+  frontend:
+   name: Front End
+   runs-on: ubuntu-latest
+   steps:
+   - uses: actions/checkout@v1
+   - name: Install dependencies
+     run: yarn
+   - name: Run tests
+     run: |
+       yarn lint
+       yarn test

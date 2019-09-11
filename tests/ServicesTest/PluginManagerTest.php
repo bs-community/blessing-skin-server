@@ -475,9 +475,11 @@ class PluginManagerTest extends TestCase
         $this->assertEquals(config('app.version'), $info['version']);
         $this->assertEquals('^0.0.0', $info['constraint']);
 
+        preg_match('/(\d+\.\d+\.\d+)/', PHP_VERSION, $matches);
+        $version = $matches[1];
         $plugin = new Plugin('', ['require' => ['php' => '^0.0.0']]);
         $info = $manager->getUnsatisfied($plugin)->get('php');
-        $this->assertEquals(PHP_VERSION, $info['version']);
+        $this->assertEquals($version, $info['version']);
         $this->assertEquals('^0.0.0', $info['constraint']);
 
         $plugin = new Plugin('', ['require' => ['another-plugin' => '0.0.*']]);
