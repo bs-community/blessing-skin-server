@@ -51,9 +51,9 @@ class SetupControllerTest extends TestCase
             $mock->shouldReceive('get')
                 ->with(base_path('.env'))
                 ->once()
-                ->andReturn('DB_CONNECTION = abc');
+                ->andReturn('DB_CONNECTION=abc');
             $mock->shouldReceive('put')
-                ->with(base_path('.env'), 'DB_CONNECTION = '.env('DB_CONNECTION'))
+                ->with(base_path('.env'), 'DB_CONNECTION='.env('DB_CONNECTION'))
                 ->once()
                 ->andReturn(true);
         });

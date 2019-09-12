@@ -65,37 +65,37 @@ class SetupController extends Controller
         $content = $filesystem->get(base_path('.env'));
         $content = preg_replace(
             '/DB_CONNECTION.+/',
-            'DB_CONNECTION = '.$request->input('type'),
+            'DB_CONNECTION='.$request->input('type', ''),
             $content
         );
         $content = preg_replace(
             '/DB_HOST.+/',
-            'DB_HOST = '.$request->input('host'),
+            'DB_HOST='.$request->input('host', ''),
             $content
         );
         $content = preg_replace(
             '/DB_PORT.+/',
-            'DB_PORT = '.$request->input('port'),
+            'DB_PORT='.$request->input('port', ''),
             $content
         );
         $content = preg_replace(
             '/DB_DATABASE.+/',
-            'DB_DATABASE = '.$request->input('db'),
+            'DB_DATABASE='.$request->input('db', ''),
             $content
         );
         $content = preg_replace(
             '/DB_USERNAME.+/',
-            'DB_USERNAME = '.$request->input('username'),
+            'DB_USERNAME='.$request->input('username', ''),
             $content
         );
         $content = preg_replace(
             '/DB_PASSWORD.+/',
-            'DB_PASSWORD = '.$request->input('password'),
+            'DB_PASSWORD='.$request->input('password', ''),
             $content
         );
         $content = preg_replace(
             '/DB_PREFIX.+/',
-            'DB_PREFIX = '.$request->input('prefix'),
+            'DB_PREFIX='.$request->input('prefix', ''),
             $content
         );
         $filesystem->put(base_path('.env'), $content);
