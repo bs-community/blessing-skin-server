@@ -98,7 +98,9 @@ class UpdateController extends Controller
         $this->getUpdateInfo();
 
         $php = Arr::get($this->info, 'php');
-        if (Comparator::lessThan(PHP_VERSION, $php)) {
+        preg_match('/(\d+\.\d+\.\d+)/', PHP_VERSION, $matches);
+        $version = $matches[1];
+        if (Comparator::lessThan($version, $php)) {
             $this->error = trans('admin.update.errors.php', ['version' => $php]);
 
             return false;
