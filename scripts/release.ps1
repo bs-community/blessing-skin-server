@@ -13,7 +13,7 @@ Install-Module PSGitHub -Force
 Write-Host "'PSGitHub' has been installed." -ForegroundColor Green
 
 # Install dependencies
-composer install --no-dev
+composer install --no-dev --prefer-dist --no-suggest --no-progress
 Remove-Item vendor/bin -Recurse -Force
 yarn
 yarn build
@@ -43,8 +43,13 @@ git push -f "https://anything:$azureToken@dev.azure.com/blessing-skin/Blessing%2
 Write-Host "Update source is pushed to Azure Repos." -ForegroundColor Green
 
 $githubToken = $env:GITHUB_TOKEN | ConvertTo-SecureString -AsPlainText -Force
-$enChangelog = Get-Content "../resources/misc/changelogs/en/$current.md"
-$changelog = "`n---`n" + $enChangelog
+$changelogPath = "../resources/misc/changelogs/en/$current.md"
+if (Test-Path $changelogPath) {
+    $enChangelog = Get-Content $changelogPath
+    $changelog = "`n---`n" + $enChangelog
+} else {
+    $changelog = ''
+}
 $release = New-GitHubRelease -Token $githubToken -Owner 'bs-community' -Repository 'blessing-skin-server' -TagName $current -ReleaseNote $changelog -PreRelease
 try {
     New-GitHubReleaseAsset -Token $githubToken -Owner 'bs-community' -Repository 'blessing-skin-server'  -ReleaseId $release.Id -Path $zip
