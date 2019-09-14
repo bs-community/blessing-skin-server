@@ -59,7 +59,7 @@ class AppServiceProvider extends ServiceProvider
         // @codeCoverageIgnoreStart
         try {
             $this->app->make('cipher');
-        } catch (ReflectionException $e) {
+        } catch (\Illuminate\Contracts\Container\BindingResolutionException $e) {
             throw new PrettyPageException(trans('errors.cipher.unsupported', ['cipher' => config('secure.cipher')]));
         }
 
