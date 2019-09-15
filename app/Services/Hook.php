@@ -86,7 +86,7 @@ class Hook
         }, $priority);
     }
 
-    public static function addStyleFileToPage($urls, $pages = ['*'], $priority = 1): void
+    public static function addStyleFileToPage($urls, $pages = ['*']): void
     {
         Event::listen(Events\RenderingHeader::class, function ($event) use ($urls, $pages) {
             foreach ($pages as $pattern) {
@@ -100,10 +100,10 @@ class Hook
 
                 return;
             }
-        }, $priority);
+        });
     }
 
-    public static function addScriptFileToPage($urls, $pages = ['*'], $priority = 1): void
+    public static function addScriptFileToPage($urls, $pages = ['*']): void
     {
         Event::listen(Events\RenderingFooter::class, function ($event) use ($urls, $pages) {
             foreach ($pages as $pattern) {
@@ -117,7 +117,7 @@ class Hook
 
                 return;
             }
-        }, $priority);
+        });
     }
 
     public static function addUserBadge(string $text, $color = 'primary'): void
