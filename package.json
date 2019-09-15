@@ -13,7 +13,7 @@
     "dev": "webpack-dev-server",
     "build": "rimraf public/app && webpack --mode=production -p && ts-node scripts/commitish.ts",
     "lint": "eslint --ext=.js,.vue,.ts -f=beauty .",
-    "test": "tsc -p . && jest",
+    "test": "jest",
     "new-version": "ts-node scripts/version.ts",
     "codecov": "codecov -F js"
   },
