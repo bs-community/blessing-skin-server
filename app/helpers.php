@@ -7,20 +7,9 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 if (! function_exists('webpack_assets')) {
-    function webpack_assets(string $relativeUri): string
+    function webpack_assets(string $path): string
     {
-        if (env('WEBPACK_ENV', 'production') == 'development') {
-            // @codeCoverageIgnoreStart
-            $host = parse_url(url('/'), PHP_URL_HOST);
-
-            return "http://$host:8080/$relativeUri";
-        // @codeCoverageIgnoreEnd
-        } else {
-            $path = resolve(\App\Services\Webpack::class)->$relativeUri;
-            $cdn = option('cdn_address');
-
-            return $cdn ? "$cdn/app/$path" : url("/app/$path");
-        }
+        return resolve(\App\Services\Webpack::class)->url($path);
     }
 }
 
