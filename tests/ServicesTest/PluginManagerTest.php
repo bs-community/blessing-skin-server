@@ -23,7 +23,7 @@ class PluginManagerTest extends TestCase
     public function testNotLoadDisabled()
     {
         $dir = config('plugins.directory');
-        config(['plugins.directory' => storage_path('mocks')]);
+        config(['plugins.directory' => base_path('tests/__mocks__')]);
 
         app()->forgetInstance(PluginManager::class);
         resolve(PluginManager::class)->boot();
@@ -207,7 +207,26 @@ class PluginManagerTest extends TestCase
         resolve(PluginManager::class)->boot();
     }
 
-    public function testLoadViewsAndTranslations()
+    public function testLoadViews()
+    {
+        $dir = config('plugins.directory');
+        config(['plugins.directory' => base_path('tests/__mocks__')]);
+        $this->mock(Option::class, function ($mock) {
+            $mock->shouldReceive('get')
+                ->with('plugins_enabled', '[]')
+                ->andReturn(json_encode([
+                    ['name' => 'fake-with-views', 'version' => '0.0.0'],
+                ]));
+        });
+
+        app()->forgetInstance(PluginManager::class);
+        resolve(PluginManager::class)->boot();
+        $this->assertTrue(view()->exists('FakeWithViews::example'));
+
+        config(['plugins.directory' => $dir]);
+    }
+
+    public function testLoadTranslations()
     {
         $this->mock(Option::class, function ($mock) {
             $mock->shouldReceive('get')
@@ -256,15 +275,6 @@ class PluginManagerTest extends TestCase
                     'version' => '0.0.0',
                     'namespace' => 'Chitanda',
                 ]));
-        });
-        $this->mock('view', function ($mock) {
-            $mock->shouldReceive('addNamespace')
-                ->withArgs(['Mayaka', '/mayaka/views'])
-                ->once();
-
-            $mock->shouldReceive('addNamespace')
-                ->withArgs(['Chitanda', '/chitanda/views'])
-                ->once();
         });
         $this->instance('translation.loader', \Mockery::mock(\App\Services\Translations\Loader::class, function ($mock) {
             $mock->shouldReceive('addNamespace')
@@ -432,7 +442,7 @@ class PluginManagerTest extends TestCase
     public function testRegisterAutoload()
     {
         $dir = config('plugins.directory');
-        config(['plugins.directory' => storage_path('mocks')]);
+        config(['plugins.directory' => base_path('tests/__mocks__')]);
         $this->mock(Option::class, function ($mock) {
             $mock->shouldReceive('get')
                 ->with('plugins_enabled', '[]')
@@ -452,7 +462,7 @@ class PluginManagerTest extends TestCase
         Event::fake();
 
         $dir = config('plugins.directory');
-        config(['plugins.directory' => storage_path('mocks')]);
+        config(['plugins.directory' => base_path('tests/__mocks__')]);
         $this->mock(Option::class, function ($mock) {
             $mock->shouldReceive('get')
                 ->with('plugins_enabled', '[]')
