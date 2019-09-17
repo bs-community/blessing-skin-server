@@ -1,0 +1,91 @@
+{% extends 'admin.base' %}
+
+{% block title %}{{ trans('general.check-update') }}{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-6">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">{{ trans('admin.update.info.title') }}</h3>
+        </div>
+        <div class="box-body">
+          {% if extra.canUpdate %}
+          <div class="callout callout-info">
+            {{ trans('admin.update.info.available') }}
+          </div>
+          <table class="table">
+            <tbody>
+              <tr>
+                <td class="key">{{ trans('admin.update.info.versions.latest') }}</td>
+                <td class="value">
+                  v{{ info.latest }}
+                </td>
+              </tr>
+              <tr>
+                <td class="key">{{ trans('admin.update.info.versions.current') }}</td>
+                <td class="value">
+                  v{{ info.current }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          {% else %}
+            {% if error is not empty %}
+              <div class="callout callout-danger">
+                {{ trans('admin.update.errors.connection', {error: error}) }}
+              </div>
+            {% else %}
+              <div class="callout callout-success">
+                {{ trans('admin.update.info.up-to-date') }}
+              </div>
+            {% endif %}
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td class="key">
+                    {{ trans('admin.update.info.versions.current') }}</td>
+                  <td class="value">
+                    v{{ info.current }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          {% endif %}
+        </div>
+        <div class="box-footer">
+          <span id="update-button"></span>
+          <a
+            target="_blank"
+            class="el-button pull-right"
+            href="https://github.com/bs-community/blessing-skin-server/releases"
+          >
+            {{ trans('admin.update.info.check-github') }}
+          </a>
+        </div>
+      </div>
+
+      <div class="box box-default">
+        <div class="box-header with-border">
+          <h3 class="box-title">
+            {{ trans('admin.update.cautions.title') }}
+          </h3>
+        </div>
+        <div class="box-body">
+          {% for text in trans('admin.update.cautions.text')|split('\n') %}
+            <p>{{ text }}</p>
+          {% endfor %}
+          <a target="_blank" href="https://blessing.netlify.com/update-sources.html">
+            {{ trans('admin.update.cautions.link') }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block before_foot %}
+  <script>
+    blessing.extra = {{ extra|json_encode|raw }}
+  </script>
+{% endblock %}

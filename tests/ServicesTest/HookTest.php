@@ -18,7 +18,8 @@ class HookTest extends TestCase
         $this->actAs('normal')
             ->get('/user')
             ->assertSee('Link A')
-            ->assertSee('/to/a" target="_blank"')
+            ->assertSee('/to/a')
+            ->assertSee('target="_blank"')
             ->assertSee('fa-book');
 
         // Out of bound

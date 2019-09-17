@@ -1,16 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    @include('shared.head')
     <title>{{ option_localized('site_name') }}</title>
-    @include('common.favicon')
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    @include('common.seo-meta-tags')
-    <!-- App Styles -->
-    @include('common.dependencies.style')
     <style>
         .hp-wrapper {
             @if (option('fixed_bg'))
@@ -63,10 +55,10 @@
                     <!-- Navbar Right Menu -->
                     <div class="navbar-custom-menu">
                         <ul class="nav navbar-nav">
-                            @include('common.language')
+                            @include('shared.languages')
 
                             @auth
-                                @include('common.user-menu')
+                                @include('shared.user-menu')
                             @else {{-- Anonymous User --}}
                             <!-- User Account Menu -->
                             <li class="dropdown user user-menu">

@@ -159,15 +159,16 @@ update:
       latest: "Latest Version:"
       current: "Current Version:"
 
-    check-github: <a href=":url" target="_blank" class="el-button pull-right">Check GitHub Releases</a>
+    check-github: Check GitHub Releases
     button: Update Now
 
   cautions:
     title: Cautions
+    link: check out this.
     text: |
       Please choose update source according to your host's network environment.
       Low-speed connection between update source and your host will cause long-time loading at checking and downloading page.
-      To change the default update source, please refer to <a target="_blank" href="https://blessing.netlify.com/update-sources.html">this article</a>.
+      To change the default update source,
 
   download:
     downloading: Downloading update package...

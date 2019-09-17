@@ -1,0 +1,16 @@
+{% extends 'admin.base' %}
+
+{% block title %}{{ trans('general.options') }}{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-6">
+      {{ forms.general.render()|raw }}
+    </div>
+    <div class="col-md-6">
+      {{ forms.announ.render()|raw }}
+      {{ forms.meta.render()|raw }}
+      {{ forms.recaptcha.render()|raw }}
+    </div>
+  </div>
+{% endblock %}

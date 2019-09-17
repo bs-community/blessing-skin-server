@@ -1,0 +1,18 @@
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<meta name="theme-color" content="{{ theme_color }}">
+<meta name="keywords" content="{{ seo.keywords }}">
+<meta name="description" content="{{ seo.description }}">
+{{ seo.extra|striptags('<meta>')|raw }}
+
+<link rel="shortcut icon" href="{{ favicon }}">
+<link rel="icon" type="image/png" href="{{ favicon }}" sizes="192x192">
+<link rel="apple-touch-icon" href="{{ favicon }}" sizes="180x180">
+
+{% for style in styles %}
+  <link rel="stylesheet" href="{{ style }}">
+{% endfor %}
+<style>{{ inline_css|striptags }}</style>
+{{ extra_head|join('\n')|raw }}

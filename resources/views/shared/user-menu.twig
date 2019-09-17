@@ -1,0 +1,47 @@
+<li class="dropdown user user-menu">
+  <!-- Menu Toggle Button -->
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+    {% if tiny_avatar %}
+      <img src="{{ tiny_avatar }}" class="user-image" alt="User Image">
+    {% else %}
+      <i class="fas fa-user"></i>
+    {% endif %}
+    <!-- hidden-xs hides the username on small devices so only the image appears. -->
+    <span class="hidden-xs nickname">{{ user.nickname ?? user.email }}</span>
+  </a>
+
+  <ul class="dropdown-menu">
+    <li class="user-header">
+      <img src="{{ avatar }}" alt="User Image">
+      <p>{{ user.email }}</p>
+    </li>
+    {% if user.admin %}
+      <li class="user-body">
+        <div class="row">
+          <div class="col-xs-4 text-center">
+            <a href="{{ url('admin') }}">{{ trans('general.admin-panel') }}</a>
+          </div>
+          <div class="col-xs-4 text-center">
+            <a href="{{ url('admin/users') }}">{{ trans('general.user-manage') }}</a>
+          </div>
+          <div class="col-xs-4 text-center">
+            <a href="{{ url('admin/options') }}">{{ trans('general.options') }}</a>
+          </div>
+        </div>
+      </li>
+    {% endif %}
+    <!-- Menu Footer-->
+    <li class="user-footer">
+      <div class="pull-left">
+        <a href="{{ url('user') }}" class="btn btn-default btn-flat">
+          {{ trans('general.user-center') }}
+        </a>
+      </div>
+      <div class="pull-right">
+        <button id="logout-button" class="btn btn-default btn-flat">
+          {{ trans('general.logout') }}
+        </button>
+      </div>
+    </li>
+  </ul>
+</li>

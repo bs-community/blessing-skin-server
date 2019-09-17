@@ -77,102 +77,6 @@ if (! function_exists('bs_header_extra')) {
     }
 }
 
-if (! function_exists('bs_menu')) {
-    function bs_menu(string $type): string
-    {
-        $menu = config('menu');
-
-        switch ($type) {
-            case 'user':
-                event(new App\Events\ConfigureUserMenu($menu));
-                break;
-            case 'explore':
-                event(new App\Events\ConfigureExploreMenu($menu));
-                break;
-            case 'admin':
-                event(new App\Events\ConfigureAdminMenu($menu));
-                break;
-        }
-
-        if (! isset($menu[$type])) {
-            throw new InvalidArgumentException;
-        }
-
-        $menu[$type] = array_map(function ($item) {
-            if (Arr::get($item, 'id') === 'plugin-configs') {
-                $pluginConfigs = app('plugins')->getEnabledPlugins()
-                    ->filter(function ($plugin) {
-                        return $plugin->hasConfigView();
-                    })
-                    ->map(function ($plugin) {
-                        return [
-                            'title' => trans($plugin->title),
-                            'link'  => 'admin/plugins/config/'.$plugin->name,
-                            'icon'  => 'fa-circle',
-                        ];
-                    });
-
-                // Don't display this menu item when no plugin config is available
-                if ($pluginConfigs->isNotEmpty()) {
-                    $item['children'] = array_merge($item['children'], $pluginConfigs->values()->all());
-
-                    return $item;
-                }
-            } else {
-                return $item;
-            }
-        }, $menu[$type]);
-
-        return bs_menu_render($menu[$type]);
-    }
-
-    function bs_menu_render(array $data): string
-    {
-        $content = '';
-
-        foreach ($data as $key => $value) {
-            $active = app('request')->is(@$value['link']);
-
-            // also set parent as active if any child is active
-            foreach ((array) @$value['children'] as $childKey => $childValue) {
-                if (app('request')->is(@$childValue['link'])) {
-                    $active = true;
-                }
-            }
-
-            $classes = [];
-            $active ? ($classes[] = 'active menu-open') : null;
-            isset($value['children']) ? ($classes[] = 'treeview') : null;
-
-            $attr = count($classes) ? sprintf(' class="%s"', implode(' ', $classes)) : '';
-
-            $content .= "<li{$attr}>";
-
-            if (isset($value['children'])) {
-                $content .= sprintf('<a href="#"><i class="fas %s"></i> &nbsp;<span>%s</span><span class="pull-right-container"><i class="fas fa-angle-left pull-right"></i></span></a>', $value['icon'], trans($value['title']));
-
-                // recurse
-                $content .= '<ul class="treeview-menu">'.bs_menu_render($value['children']).'</ul>';
-            } else {
-                if ($value) {
-                    $content .= sprintf(
-                        '<a href="%s" %s><i class="%s %s"></i> &nbsp;<span>%s</span></a>',
-                        url((string) $value['link']),
-                        Arr::get($value, 'new-tab') ? 'target="_blank"' : '',
-                        $value['icon'] == 'fa-circle' ? 'far' : 'fas',
-                        (string) $value['icon'],
-                        trans((string) $value['title'])
-                    );
-                }
-            }
-
-            $content .= '</li>';
-        }
-
-        return $content;
-    }
-}
-
 if (! function_exists('bs_copyright')) {
     function bs_copyright(): string
     {
@@ -320,22 +224,6 @@ if (! function_exists('is_request_secure')) {
         return $request->server('HTTPS') === 'on'
             || $request->server('HTTP_X_FORWARDED_PROTO') === 'https'
             || $request->server('HTTP_X_FORWARDED_SSL') === 'on';
-    }
-}
-
-if (! function_exists('nl2p')) {
-    /**
-     * Wrap blocks of text (delimited by \n) in p tags (similar to nl2br).
-     *
-     * @param string $text
-     * @return string
-     */
-    function nl2p(string $text): string
-    {
-        $parts = explode("\n", $text);
-        $result = '<p>'.implode('</p><p>', $parts).'</p>';
-        // Remove empty paragraphs
-        return str_replace('<p></p>', '', $result);
     }
 }
 

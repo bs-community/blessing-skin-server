@@ -154,12 +154,12 @@ class AdminConfigurationsTest extends BrowserKitTestCase
         $this->visit('/admin/options')
             ->type('kw', 'meta_keywords')
             ->type('desc', 'meta_description')
-            ->type('<!-- nothing -->', 'meta_extras')
+            ->type('<meta>', 'meta_extras')
             ->press('submit_meta');
         $this->visit('/')
             ->see('<meta name="keywords" content="kw">')
             ->see('<meta name="description" content="desc">')
-            ->see('<!-- nothing -->');
+            ->see('<meta>');
 
         $this->visit('/admin/options')
             ->type('key', 'recaptcha_sitekey')

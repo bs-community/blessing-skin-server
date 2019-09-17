@@ -114,7 +114,7 @@ Route::group(['prefix' => 'skinlib'], function () {
  * Admin Panel
  */
 Route::group(['middleware' => ['authorize', 'admin'], 'prefix' => 'admin'], function () {
-    Route::view('/', 'admin.index');
+    Route::get('/', 'AdminController@index');
     Route::get('/chart', 'AdminController@chartData');
     Route::post('/notifications/send', 'AdminController@sendNotification');
 

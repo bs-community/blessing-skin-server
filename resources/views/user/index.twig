@@ -1,0 +1,68 @@
+{% extends 'user.base' %}
+
+{% block title %}{{ trans('general.dashboard') }}{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-7">
+      <div class="box" id="usage-box">
+        <div class="box-header with-border"></div>
+        <div class="box-body"></div>
+        <div class="box-footer"></div>
+      </div>
+    </div>
+
+    <div class="col-md-5">
+      <div class="box box-primary">
+        <div class="box-header with-border">
+          <h3 class="box-title">{{ trans('user.announcement') }}</h3>
+          {% if auth_user().admin %}
+            <a href="{{ url('/admin/options') }}">
+              <i class="fas fa-edit"></i>
+            </a>
+          {% endif %}
+        </div>
+        <div class="box-body">
+          {{ announcement|raw }}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block before_foot %}
+  <div id="modal-score-instruction" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">{{ trans('user.score-intro.title') }}</h4>
+        </div>
+        <div class="modal-body">
+          {{ score_intro|nl2br }}
+          <hr />
+          <div class="row">
+            {% for key, value in rates %}
+              <div class="col-md-4">
+                <p class="text-center">
+                  {{ trans("user.score-intro.rates.#{key}", {score: value}) }}
+                </p>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="el-button" data-dismiss="modal">{{ trans('general.close') }}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    Object.defineProperty(blessing, 'extra', {
+      get: () => Object.freeze({{ extra|json_encode|raw }})
+    })
+  </script>
+{% endblock %}

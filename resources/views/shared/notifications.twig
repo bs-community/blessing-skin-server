@@ -1,0 +1,25 @@
+<li class="dropdown notifications-menu">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+    <i class="fas fa-bell"></i>
+    {% if amount > 0 %}
+      <span class="label label-warning notifications-counter">{{ amount }}</span>
+    {% endif %}
+  </a>
+  <ul class="dropdown-menu">
+    {% if amount == 0 %}
+      <li class="header text-center">{{ trans('user.no-unread') }}</li>
+    {% else %}
+      <li>
+        <ul class="menu notifications-list">
+          {% for notification in notifications %}
+            <li>
+              <a href="#" data-nid="{{ notification.id }}">
+                <i class="far fa-circle text-aqua"></i> {{ notification.data.title }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      </li>
+    {% endif %}
+  </ul>
+</li>

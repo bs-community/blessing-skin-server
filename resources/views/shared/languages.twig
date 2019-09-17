@@ -1,0 +1,14 @@
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+    <i class="fas fa-language" aria-hidden="true"></i>
+    <span class="description-text">{{ current }}</span>
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu" id="language-menu">
+    {% for lang in langs %}
+      <li class="locale">
+        <a href="{{ lang.url }}">{{ lang.name }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+</li>

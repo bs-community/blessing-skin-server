@@ -1,0 +1,23 @@
+{% extends 'admin.base' %}
+
+{% block title %}{{ trans('general.res-options') }}{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-12">
+      <div class="callout callout-warning">
+        {{ trans('options.res-warning') }}
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      {{ forms.resources.render()|raw }}
+      {{ forms.redis.render()|raw }}
+    </div>
+    <div class="col-md-6">
+      {{ forms.cache.render()|raw }}
+    </div>
+  </div>
+{% endblock %}

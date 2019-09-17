@@ -1,0 +1,20 @@
+<div class="user-panel">
+  <div class="pull-left image">
+    <img src="{{ avatar }}" alt="User Image">
+  </div>
+  <div class="pull-left info">
+    <p class="nickname">{{ user.nickname ?? user.email }}</p>
+    <i class="fas fa-circle text-success"></i> {{ role }}
+    {% if badges|length == 1 %}
+      <small class="label bg-{{ badges[0][1] }}">{{ badges[0][0] }}</small>
+    {% endif %}
+  </div>
+</div>
+
+{% if badges|length > 1 %}
+  <div class="user-panel" style="padding-top: 0">
+    {% for badge in badges %}
+      <small class="label bg-{{ badge[1] }}">{{ badge[0] }}</small>
+    {% endfor %}
+  </div>
+{% endif %}

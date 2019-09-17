@@ -1,0 +1,27 @@
+<li class="{{ item.classes|join(' ') }}">
+  {% if item.children %}
+    <a href="#">
+      <i class="fas {{ item.icon }}"></i> &nbsp;
+      <span>{{ trans(item.title) }}</span>
+      <span class="pull-right-container">
+        <i class="fas fa-angle-left pull-right"></i>
+      </span>
+    </a>
+    <ul class="treeview-menu">
+      {% for child in item.children %}
+        {{ include('shared.side-menu-item', {item: child}) }}
+      {% endfor %}
+    </ul>
+  {% else %}
+    <a
+      href="{{ url(item.link) }}"
+      {% if attribute(item, 'new-tab') %}
+        target="_blank"
+        rel="noopener noreferrer"
+      {% endif %}
+    >
+      <i class="{{ item.icon == 'fa-circle' ? 'far' : 'fas' }} {{ item.icon }}"></i>
+      &nbsp;<span>{{ trans(item.title) }}</span>
+    </a>
+  {% endif %}
+</li>

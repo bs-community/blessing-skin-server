@@ -1,0 +1,8 @@
+{% for script in scripts %}
+  <script src="{{ script }}"></script>
+{% endfor %}
+
+<script>
+  {{ inline_js|striptags('<div><span><ul><li><p><a><img><i>')|raw }}
+</script>
+{{ extra_foot|join('\n')|raw }}

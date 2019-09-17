@@ -1,0 +1,44 @@
+<aside class="main-sidebar">
+  <section class="sidebar">
+    {{ include('shared.user-panel') }}
+    <ul class="sidebar-menu tree" data-widget="tree">
+
+      {% if scope == 'user' %}
+
+        <li class="header">{{ trans('general.user-center') }}</li>
+        {{ include('shared.side-menu', {type: 'user'}) }}
+        <li class="header">{{ trans('general.explore') }}</li>
+        {{ include('shared.side-menu', {type: 'explore'}) }}
+        {% if auth_user().admin %}
+          <li class="header">{{ trans('general.manage') }}</li>
+          <li>
+            <a href="{{ url('admin') }}">
+              <i class="fas fa-cog"></i> &nbsp;
+              <span>{{ trans('general.admin-panel') }}</span>
+            </a>
+          </li>
+        {% endif %}
+
+      {% elseif scope == 'admin' %}
+
+        <li class="header">{{ trans('general.admin-panel') }}</li>
+        {{ include('shared.side-menu', {type: 'admin'}) }}
+        <li class="header">{{ trans('general.back') }}</li>
+        <li>
+          <a href="{{ url('user') }}">
+            <i class="fas fa-user"></i> &nbsp;
+            <span>{{ trans('general.user-center') }}</span>
+          </a>
+        </li>
+        <li>
+          <a href="{{ url('skinlib') }}">
+            <i class="fas fa-archive"></i> &nbsp;
+            <span>{{ trans('general.skinlib') }}</span>
+          </a>
+        </li>
+
+      {% endif %}
+
+    </ul>
+  </section>
+</aside>

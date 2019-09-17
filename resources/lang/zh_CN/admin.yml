@@ -164,15 +164,16 @@ update:
       latest: 最新版本：
       current: 当前版本：
 
-    check-github: <a href=":url" target="_blank" class="el-button pull-right">查看 GitHub Releases</a>
+    check-github: 查看 GitHub Releases
     button: 马上升级
 
   cautions:
     title: 注意事项
+    link: 点击了解详情
     text: |
       请根据你的主机所在位置（国内/国外）选择更新源。
       如错选至相对于你的主机速度较慢的源，可能会造成检查与下载更新页面长时间无响应。
-      如何更换更新源？<a target="_blank" href="https://blessing.netlify.com/update-sources.html">点击了解详情</a>。
+      如何更换更新源？
 
   download:
     downloading: 正在下载更新包

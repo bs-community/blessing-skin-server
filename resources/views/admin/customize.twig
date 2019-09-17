@@ -1,0 +1,74 @@
+{% extends 'admin.base' %}
+
+{% block title %}{{ trans('general.customize') }}{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-3">
+      <form class="box box-primary" method="post" action="{{ url('/admin/customize?action=color') }}">
+        {{ csrf_field() }}
+        <div class="box-header with-border">
+          <h3 class="box-title">
+            {{ trans('admin.customize.change-color.title') }}
+          </h3>
+        </div>
+        <div class="box-body no-padding">
+          <table class="table table-striped bring-up nth-2-center" id="change-color">
+            <tbody>
+              {% for color in colors %}
+                <tr>
+                  <td>{{ trans("admin.customize.colors.#{color}") }}</td>
+                  <td>
+                    <label>
+                      <input
+                        type="radio"
+                        name="color"
+                        value="skin-{{ color }}"
+                        style="display: none;"
+                      >
+                      <span class="btn bg-{{ color }} btn-xs">
+                        <i class="far fa-eye"></i>
+                      </span>
+                    </label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>{{ trans("admin.customize.colors.#{color}-light") }}</td>
+                  <td>
+                    <label>
+                      <input
+                        type="radio"
+                        name="color"
+                        value="skin-{{ color }}-light"
+                        style="display: none;"
+                      >
+                      <span class="btn bg-{{ color }} btn-xs">
+                        <i class="far fa-eye"></i>
+                      </span>
+                    </label>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="box-footer">
+          <input
+            type="submit"
+            class="el-button el-button--primary"
+            value="{{ trans('general.submit') }}"
+            name="submit_color"
+          >
+        </div>
+      </form>
+    </div>
+    <div class="col-md-9">
+      {{ forms.homepage|raw }}
+      {{ forms.custom_js_css|raw }}
+    </div>
+  </div>
+{% endblock %}
+
+{% block before_foot %}
+  <link rel="stylesheet" href="{{ skins_css }}">
+{% endblock %}

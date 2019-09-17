@@ -1,0 +1,12 @@
+{% extends 'user.base' %}
+
+{% block title %}{{ trans('general.profile') }}{% endblock %}
+
+{% block before_foot %}
+  <script>
+    Object.defineProperty(blessing, 'extra', {
+      configurable: false,
+      get: () => Object.freeze({{ extra|json_encode|raw }}),
+    })
+  </script>
+{% endblock %}

@@ -21,6 +21,18 @@ use Illuminate\Support\Facades\Redis;
 
 class AdminController extends Controller
 {
+    public function index()
+    {
+        return view('admin.index', [
+            'sum' => [
+                'users' => User::count(),
+                'players' => Player::count(),
+                'textures' => Texture::count(),
+                'storage' => Texture::select('size')->sum('size'),
+            ],
+        ]);
+    }
+
     public function chartData()
     {
         $today = Carbon::today()->timestamp;
@@ -105,7 +117,7 @@ class AdminController extends Controller
         return redirect('/admin');
     }
 
-    public function customize(Request $request)
+    public function customize(Request $request, \App\Services\Webpack $webpack)
     {
         $homepage = Option::form('homepage', OptionForm::AUTO_DETECT, function ($form) {
             $form->text('home_pic_url')->hint();
@@ -142,7 +154,14 @@ class AdminController extends Controller
             option(['color_scheme' => $color]);
         }
 
-        return view('admin.customize', ['forms' => compact('homepage', 'customJsCss')]);
+        return view('admin.customize', [
+            'colors' => ['blue', 'yellow', 'green', 'purple', 'red', 'black'],
+            'skins_css' => $webpack->url('skins/_all-skins.min.css'),
+            'forms' => [
+                'homepage' => $homepage,
+                'custom_js_css' => $customJsCss,
+            ],
+        ]);
     }
 
     public function score()

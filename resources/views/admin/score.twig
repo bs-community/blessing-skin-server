@@ -1,0 +1,16 @@
+{% extends 'admin.base' %}
+
+{% block title %}{{ trans('general.score-options') }}{% endblock %}
+
+{% block content %}
+  <div class="row">
+    <div class="col-md-6">
+      {{ forms.rate.render()|raw }}
+      {{ forms.report.render()|raw }}
+    </div>
+    <div class="col-md-6">
+      {{ forms.sign.render()|raw }}
+      {{ forms.sharing.render()|raw }}
+    </div>
+  </div>
+{% endblock %}

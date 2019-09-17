@@ -1,0 +1,11 @@
+{% extends 'user.base' %}
+
+{% block title %}{{ trans('general.my-closet') }}{% endblock %}
+
+{% block before_foot %}
+  <script>
+    Object.defineProperty(blessing, 'extra', {
+      get: () => Object.freeze({{ extra|json_encode|raw }})
+    })
+  </script>
+{% endblock %}

@@ -188,7 +188,7 @@ return [
         App\Providers\PluginServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ValidatorExtendServiceProvider::class,
-
+        App\Providers\ViewServiceProvider::class,
     ],
 
     /*

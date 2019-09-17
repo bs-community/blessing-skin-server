@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {{ include('shared.head') }}
+    <title>{% block title %}{% endblock %} - {{ site_name }}</title>
+  </head>
+
+  <body class="hold-transition {{ color_scheme }} sidebar-mini">
+    <div class="wrapper">
+      {{ include('shared.header') }}
+      {{ include('shared.sidebar', {scope: 'admin'}) }}
+      <div class="content-wrapper">
+        <section class="content-header">
+          <h1>{{ block('title') }}</h1>
+        </section>
+        <section class="content">
+          {% block content %}{% endblock %}
+        </section>
+      </div>
+      {{ include('shared.footer') }}
+    </div>
+    {% block before_foot %}{% endblock %}
+    {{ include('shared.foot') }}
+  </body>
+</html>
