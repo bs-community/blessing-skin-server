@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Redis;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class AdminConfigurationsTest extends BrowserKitTestCase
+class AdminFormsTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 
