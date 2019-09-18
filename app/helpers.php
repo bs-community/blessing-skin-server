@@ -55,44 +55,6 @@ if (! function_exists('json')) {
     }
 }
 
-if (! function_exists('bs_footer_extra')) {
-    function bs_footer_extra(): string
-    {
-        $extraContents = [];
-
-        Event::dispatch(new App\Events\RenderingFooter($extraContents));
-
-        return implode("\n", $extraContents);
-    }
-}
-
-if (! function_exists('bs_header_extra')) {
-    function bs_header_extra(): string
-    {
-        $extraContents = [];
-
-        Event::dispatch(new App\Events\RenderingHeader($extraContents));
-
-        return implode("\n", $extraContents);
-    }
-}
-
-if (! function_exists('bs_copyright')) {
-    function bs_copyright(): string
-    {
-        return Arr::get(
-            [
-                'Powered with ❤ by Blessing Skin Server.',
-                'Powered by Blessing Skin Server.',
-                'Proudly powered by Blessing Skin Server.',
-                '由 Blessing Skin Server 强力驱动。',
-                '自豪地采用 Blessing Skin Server。',
-            ],
-            option_localized('copyright_prefer', 0)
-        );
-    }
-}
-
 if (! function_exists('option')) {
     /**
      * Get / set the specified option value.

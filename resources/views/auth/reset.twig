@@ -1,0 +1,10 @@
+{% extends 'auth.base' %}
+
+{% block title %}{{ trans('auth.reset.title') }}{% endblock %}
+
+{% block content %}
+  <p class="login-box-msg">
+    {{ trans('auth.reset.message', {username: user.nickname}) }}
+  </p>
+  <form></form>
+{% endblock %}

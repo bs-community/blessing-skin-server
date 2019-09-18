@@ -17,7 +17,9 @@
           {% block content %}{% endblock %}
         </section>
       </div>
-      {{ include('shared.footer') }}
+      <footer class="main-footer">
+        {{ include('shared.copyright') }}
+      </footer>
     </div>
     {% block before_foot %}{% endblock %}
     {{ include('shared.foot') }}

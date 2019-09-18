@@ -32,11 +32,6 @@ class SkinlibController extends Controller
         8 => 'A PHP extension stopped the file upload.',
     ];
 
-    public function index()
-    {
-        return view('skinlib.index', ['user' => Auth::user()]);
-    }
-
     /**
      * Get skin library data filtered.
      * Available Query String: filter, uploader, page, sort, keyword, items_per_page.
@@ -138,10 +133,18 @@ class SkinlibController extends Controller
             }
         }
 
+        $commentScript = get_string_replaced(
+            option('comment_script'),
+            [
+                '{tid}' => $texture->tid,
+                '{name}' => $texture->name,
+                '{url}' => request()->url(),
+            ]
+        );
+
         return view('skinlib.show')
             ->with('texture', $texture)
-            ->with('with_out_filter', true)
-            ->with('user', $user)
+            ->with('comment_script', $commentScript)
             ->with('extra', [
                 'download' => option('allow_downloading_texture'),
                 'currentUid' => $user ? $user->uid : 0,
@@ -164,7 +167,6 @@ class SkinlibController extends Controller
     public function upload()
     {
         return view('skinlib.upload')
-            ->with('user', Auth::user())
             ->with('extra', [
                 'rule' => ($regexp = option('texture_name_regexp'))
                     ? trans('skinlib.upload.name-rule-regexp', compact('regexp'))
@@ -177,8 +179,7 @@ class SkinlibController extends Controller
                 'scorePrivate' => intval(option('private_score_per_storage')),
                 'award' => intval(option('score_award_per_texture')),
                 'contentPolicy' => app('parsedown')->text(option_localized('content_policy')),
-            ])
-            ->with('with_out_filter', true);
+            ]);
     }
 
     public function handleUpload(Request $request)

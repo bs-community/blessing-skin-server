@@ -44,7 +44,7 @@ class PluginControllerTest extends TestCase
                 ->once()
                 ->andReturn(new Plugin('', []));
 
-            $plugin = new Plugin(resource_path(''), ['config' => 'common/favicon.blade.php']);
+            $plugin = new Plugin(resource_path(''), ['config' => 'shared/head.twig']);
             $plugin->setEnabled(true);
             $mock->shouldReceive('get')
                 ->with('fake4')

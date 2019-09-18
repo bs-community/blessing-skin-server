@@ -29,7 +29,7 @@ class RedirectToSetupTest extends TestCase
                 ->with(base_path('.env'))
                 ->andReturn(true);
         });
-        $this->get('/')->assertViewIs('index');
+        $this->get('/')->assertViewIs('home');
         $this->get('/setup')->assertViewIs('setup.wizard.welcome');
         $this->get('/')->assertRedirect('/setup');
     }

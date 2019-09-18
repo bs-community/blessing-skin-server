@@ -1,0 +1,23 @@
+{% extends 'auth.base' %}
+
+{% block title %}{{ trans('auth.forgot.title') }}{% endblock %}
+
+{% block content %}
+  <p class="login-box-msg">{{ trans('auth.forgot.message') }}</p>
+  {% if session_has('msg') %}
+    <div class="callout callout-warning">{{ session_pull('msg') }}</div>
+  {% endif %}
+  <form></form>
+{% endblock %}
+
+{% block before_foot %}
+  {% if enable_recaptcha %}
+    <script src="{{ recaptcha_url }}" async defer></script>
+  {% endif %}
+  <script>
+    Object.defineProperty(blessing, 'extra', {
+      configurable: false,
+      get: () => Object.freeze({{ extra|json_encode|raw }})
+    })
+  </script>
+{% endblock %}

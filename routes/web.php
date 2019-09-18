@@ -23,7 +23,7 @@ Route::get('/locale/{lang}', 'HomeController@locale');
  */
 Route::group(['prefix' => 'auth'], function () {
     Route::group(['middleware' => 'guest'], function () {
-        Route::view('/login', 'auth.login');
+        Route::get('/login', 'AuthController@login');
         Route::get('/register', 'AuthController@register');
         Route::get('/forgot', 'AuthController@forgot');
         Route::get('/reset/{uid}', 'AuthController@reset')->name('auth.reset')->middleware('signed');
@@ -92,7 +92,7 @@ Route::group([
  * Skin Library
  */
 Route::group(['prefix' => 'skinlib'], function () {
-    Route::get('', 'SkinlibController@index');
+    Route::view('', 'skinlib.index');
     Route::any('/info/{tid}', 'SkinlibController@info');
     Route::any('/show/{tid}', 'SkinlibController@show');
     Route::any('/data', 'SkinlibController@getSkinlibFiltered');

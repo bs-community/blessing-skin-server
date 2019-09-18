@@ -11,7 +11,9 @@
         @include('shared.header')
         @include('shared.sidebar', ['scope' => 'user'])
         @yield('content')
-        @include('shared.footer')
+        <footer class="main-footer">
+            @include('shared.footer')
+        </footer>
     </div>
 
     @include('shared.foot')

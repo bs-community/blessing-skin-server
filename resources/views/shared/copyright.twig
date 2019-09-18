@@ -1,0 +1,19 @@
+{% set repo = 'https://github.com/bs-community/blessing-skin-server' %}
+
+<!-- YOU CAN NOT MODIFIY THE COPYRIGHT TEXT W/O PERMISSION -->
+<div id="copyright-text" class="pull-right hidden-xs">
+  {% if copyright == 0 %}
+    Powered with ❤ by <a href="{{ repo }}">Blessing Skin Server</a>.
+  {% elseif copyright == 1 %}
+    Powered by <a href="{{ repo }}">Blessing Skin Server</a>.
+  {% elseif copyright == 2 %}
+    Proudly powered by <a href="{{ repo }}">Blessing Skin Server</a>.
+  {% elseif copyright == 3 %}
+    由 <a href="{{ repo }}">Blessing Skin Server</a> 强力驱动。
+  {% else %}
+    自豪地采用 <a href="{{ repo }}">Blessing Skin Server</a>。
+  {% endif %}
+</div>
+
+<!-- Default to the left -->
+{{ custom_copyright|raw }}

@@ -48,7 +48,7 @@ class HomeControllerTest extends TestCase
         $this->get('/api')->assertJson([
             'blessing_skin' => config('app.version'),
             'spec' => 0,
-            'copyright' => bs_copyright(),
+            'copyright' => 'Powered with ❤ by Blessing Skin Server.',
             'site_name' => option('site_name'),
         ]);
     }

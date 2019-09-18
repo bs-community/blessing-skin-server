@@ -1,0 +1,19 @@
+{% extends 'auth.base' %}
+
+{% block title %}{{ trans('auth.verify.title') }}{% endblock %}
+
+{% block content %}
+  <p class="login-box-msg">
+    {{ trans('auth.verify.message', {sitename: site_name}) }}
+  </p>
+  <div class="callout callout-success">
+    <i class="icon fa fa-check"></i> {{ trans('auth.verify.success') }}
+  </div>
+  <div class="row">
+    <div class="col-xs-6 pull-right">
+      <a href="{{ url('/') }}" class="btn btn-primary btn-block btn-flat">
+        {{ trans('auth.verify.button') }}
+      </a>
+    </div>
+  </div>
+{% endblock %}

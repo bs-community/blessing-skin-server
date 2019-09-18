@@ -14,11 +14,6 @@ class SkinlibControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function testIndex()
-    {
-        $this->get('/skinlib')->assertViewHas('user');
-    }
-
     public function testGetSkinlibFiltered()
     {
         $this->getJson('/skinlib/data')
@@ -290,10 +285,7 @@ class SkinlibControllerTest extends TestCase
         // Show a texture
         $texture = factory(Texture::class)->create();
         Storage::disk('textures')->put($texture->hash, '');
-        $this->get('/skinlib/show/'.$texture->tid)
-            ->assertViewHas('texture')
-            ->assertViewHas('with_out_filter', true)
-            ->assertViewHas('user');
+        $this->get('/skinlib/show/'.$texture->tid)->assertViewHas('texture');
 
         // Guest should not see private texture
         $uploader = factory(User::class)->create();
@@ -349,10 +341,7 @@ class SkinlibControllerTest extends TestCase
 
     public function testUpload()
     {
-        $this->actAs('normal')
-            ->get('/skinlib/upload')
-            ->assertViewHas('user')
-            ->assertViewHas('with_out_filter', true);
+        $this->actAs('normal')->get('/skinlib/upload');
 
         option(['texture_name_regexp' => 'abc']);
         $this->get('/skinlib/upload')->assertViewHas('extra');

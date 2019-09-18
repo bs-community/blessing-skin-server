@@ -1,0 +1,22 @@
+{% extends 'auth.base' %}
+
+{% block title %}{{ trans('auth.register.title') }}{% endblock %}
+
+{% block content %}
+  <p class="login-box-msg">
+    {{ trans('auth.register.message', {sitename: site_name}) }}
+  </p>
+  <form></form>
+{% endblock %}
+
+{% block before_foot %}
+  {% if enable_recaptcha %}
+    <script src="{{ recaptcha_url }}" async defer></script>
+  {% endif %}
+  <script>
+    Object.defineProperty(blessing, 'extra', {
+      configurable: false,
+      get: () => Object.freeze({{ extra|json_encode|raw }})
+    })
+  </script>
+{% endblock %}

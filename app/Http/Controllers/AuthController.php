@@ -18,6 +18,17 @@ use App\Exceptions\PrettyPageException;
 
 class AuthController extends Controller
 {
+    public function login()
+    {
+        return view('auth.login', [
+            'extra' => [
+                'tooManyFails' => cache(sha1('login_fails_'.get_client_ip())) > 3,
+                'recaptcha' => option('recaptcha_sitekey'),
+                'invisible' => (bool) option('recaptcha_invisible'),
+            ],
+        ]);
+    }
+
     public function handleLogin(Request $request, Captcha $captcha)
     {
         $this->validate($request, [
@@ -88,6 +99,7 @@ class AuthController extends Controller
     {
         if (option('user_can_register')) {
             return view('auth.register', [
+                'site_name' => option_localized('site_name'),
                 'extra' => [
                     'player' => (bool) option('register_with_player_name'),
                     'recaptcha' => option('recaptcha_sitekey'),
@@ -265,7 +277,7 @@ class AuthController extends Controller
         $user->verified = true;
         $user->save();
 
-        return view('auth.verify');
+        return view('auth.verify', ['site_name' => option_localized('site_name')]);
     }
 
     public function jwtLogin(Request $request)

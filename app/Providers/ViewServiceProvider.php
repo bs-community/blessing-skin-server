@@ -10,7 +10,7 @@ class ViewServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        View::composer(['*.base', 'shared.header'], function ($view) {
+        View::composer(['home', '*.base', 'shared.header'], function ($view) {
             $view->with([
                 'site_name' => option_localized('site_name'),
                 'color_scheme' => option('color_scheme'),
@@ -35,7 +35,7 @@ class ViewServiceProvider extends ServiceProvider
 
         View::composer('shared.user-panel', Composers\UserPanelComposer::class);
 
-        View::composer('shared.footer', function ($view) {
+        View::composer('shared.copyright', function ($view) {
             $customCopyright = get_string_replaced(
                 option_localized('copyright_text'),
                 [
@@ -50,5 +50,14 @@ class ViewServiceProvider extends ServiceProvider
         });
 
         View::composer('shared.foot', Composers\FootComposer::class);
+
+        View::composer('auth.*', function ($view) {
+            $view->with('enable_recaptcha', (bool) option('recaptcha_sitekey'));
+            $view->with(
+                'recaptcha_url',
+                'https://www.recaptcha.net/recaptcha/api.js'
+                .'?onload=vueRecaptchaApiLoaded&render=explicit'
+            );
+        });
     }
 }

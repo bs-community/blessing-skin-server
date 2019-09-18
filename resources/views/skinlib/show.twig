@@ -1,0 +1,41 @@
+{% extends 'skinlib.base' %}
+
+{% block title %}{{ texture.name }}{% endblock %}
+
+{% block content %}
+  <div class="content-wrapper">
+    <div class="container">
+      <section class="content-header">
+        <h1>{{ trans('skinlib.show.title') }}</h1>
+      </section>
+
+      <section class="content">
+        <div class="row"></div>
+
+        {% if comment_script %}
+          <div class="row">
+            <div class="col-md-12">
+              <div class="box box-default">
+                <div class="box-header with-border">
+                  <h3 class="box-title">{{ trans('skinlib.show.comment') }}</h3>
+                </div>
+                <div class="box-body">
+                  {{ comment_script|raw }}
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </section>
+    </div>
+  </div>
+{% endblock %}
+
+{% block before_foot %}
+<script>
+  Object.defineProperty(blessing, 'extra', {
+    configurable: false,
+    get: () => Object.freeze({{ extra|json_encode|raw }})
+  })
+</script>
+{% endblock %}
