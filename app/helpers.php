@@ -6,13 +6,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-if (! function_exists('webpack_assets')) {
-    function webpack_assets(string $path): string
-    {
-        return resolve(\App\Services\Webpack::class)->url($path);
-    }
-}
-
 if (! function_exists('plugin')) {
     function plugin(string $name)
     {
