@@ -5,7 +5,6 @@ import {
   Message,
   MessageBox,
   Switch,
-  Notification,
 } from 'element-ui'
 
 Vue.use(Button)
@@ -26,5 +25,4 @@ blessing.ui = {
   alert: MessageBox.alert,
   confirm: MessageBox.confirm,
   prompt: MessageBox.prompt,
-  notify: Notification,
 }

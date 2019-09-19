@@ -24,7 +24,6 @@ class NotifyFailedPluginTest extends TestCase
         $this->actAs('admin');
         event(new Events\PluginBootFailed($plugin));
         event(new Events\RenderingFooter($content));
-        $this->assertCount(1, $content);
-        $this->assertStringContainsString('blessing.ui.notify', $content[0]);
+        $this->assertStringContainsString('blessing.ui.message', $content[0]);
     }
 }
