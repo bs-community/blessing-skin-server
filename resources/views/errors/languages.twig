@@ -1,0 +1,10 @@
+<select id="language-chooser">
+  {% for code, locale in config('locales') %}
+    {% if locale.alias is empty %}
+      <option
+        value="{{ code }}"
+        {{ code == app.getLocale() ? 'selected="selected"' }}
+      >{{ locale.name }}</option>
+    {% endif %}
+  {% endfor %}
+</select>

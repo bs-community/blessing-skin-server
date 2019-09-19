@@ -1,0 +1,18 @@
+{% extends 'setup.base' %}
+
+{% block subtitle %}{{ trans('setup.wizard.finish.title') }}{% endblock %}
+
+{% block content %}
+  <p>{{ trans('setup.wizard.finish.text') }}</p>
+  <table class="form-table install-success">
+    <tr>
+      <th>{{ trans('auth.email') }}</th>
+      <td>{{ email }}</td>
+    </tr>
+  </table>
+  <p class="step">
+    <a href="{{ url('/') }}" class="button button-large">
+      {{ trans('general.index') }}
+    </a>
+  </p>
+{% endblock %}

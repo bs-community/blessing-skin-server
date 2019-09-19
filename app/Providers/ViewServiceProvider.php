@@ -3,12 +3,13 @@
 namespace App\Providers;
 
 use View;
+use App\Services\Webpack;
 use App\Http\View\Composers;
 use Illuminate\Support\ServiceProvider;
 
 class ViewServiceProvider extends ServiceProvider
 {
-    public function boot()
+    public function boot(Webpack $webpack)
     {
         View::composer(['home', '*.base', 'shared.header'], function ($view) {
             $view->with([
@@ -58,6 +59,17 @@ class ViewServiceProvider extends ServiceProvider
                 'https://www.recaptcha.net/recaptcha/api.js'
                 .'?onload=vueRecaptchaApiLoaded&render=explicit'
             );
+        });
+
+        View::composer(['errors.*', 'setup.*'], function ($view) use ($webpack) {
+            $view->with([
+                'styles' => [
+                    $webpack->url('setup.css'),
+                ],
+                'scripts' => [
+                    $webpack->url('language-chooser.js'),
+                ],
+            ]);
         });
     }
 }

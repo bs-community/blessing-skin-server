@@ -1,0 +1,16 @@
+{% extends 'setup.base' %}
+
+{% block title %}{{ trans('setup.updates.master.title') }}{% endblock %}
+
+{% block subtitle %}{{ trans('setup.updates.success.title') }}{% endblock %}
+
+{% block content %}
+  <p>
+    {{ trans('setup.updates.success.text', {version: config('app.version')}) }}
+  </p>
+  <p class="step">
+    <a href="{{ url('/') }}" class="button button-large">
+      {{ trans('setup.updates.welcome.button') }}
+    </a>
+  </p>
+{% endblock %}

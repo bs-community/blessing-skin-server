@@ -158,7 +158,7 @@ class TextureControllerTest extends TestCase
         $player = factory(Player::class)->create();
 
         $this->get("/skin/{$player->name}.png")
-            ->assertSee(trans('general.texture-not-uploaded', ['type' => 'skin']));
+            ->assertSee(e(trans('general.texture-not-uploaded', ['type' => 'skin'])));
 
         $player->tid_skin = $skin->tid;
         $player->save();

@@ -171,7 +171,7 @@ class AuthControllerTest extends TestCase
         $this->get('/auth/register')->assertSee('Register');
 
         option(['user_can_register' => false]);
-        $this->get('/auth/register')->assertSee(trans('auth.register.close'));
+        $this->get('/auth/register')->assertSee(e(trans('auth.register.close')));
     }
 
     public function testHandleRegister()

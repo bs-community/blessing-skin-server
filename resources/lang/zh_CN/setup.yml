@@ -65,10 +65,10 @@ wizard:
     text: 你需要填写一些基本信息。无需担心填错，这些信息以后可以再次修改。
 
     admin-email: 管理员邮箱
-    admin-notice: 这是<b>唯一</b>的超级管理员账号，可添加或移除其他管理员。
+    admin-notice: 这是唯一的超级管理员账号，可添加或移除其他管理员。
     nickname: 昵称
     password: 密码
-    pwd-notice: <b>重要：</b>你将需要此密码来登录管理皮肤站，请将其保存在安全的位置。
+    pwd-notice: 重要：你将需要此密码来登录管理皮肤站，请将其保存在安全的位置。
     confirm-pwd: 重复密码
     site-name: 站点名称
     site-name-notice: 将会显示在首页以及标题栏

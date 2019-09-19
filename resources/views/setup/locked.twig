@@ -1,0 +1,12 @@
+{% extends 'setup.base' %}
+
+{% block subtitle %}{{ trans('setup.locked.title') }}{% endblock %}
+
+{% block content %}
+  <p>{{ trans('setup.locked.text') }}</p>
+  <p class="step">
+    <a href="{{ url('/') }}" class="button button-large">
+      {{ trans('setup.locked.button') }}
+    </a>
+  </p>
+{% endblock %}

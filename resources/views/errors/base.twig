@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="robots" content="noindex,nofollow">
+    <title>{% block title %}{% endblock %} - {{ site_name }}</title>
+    {% for style in styles %}
+      <link rel="stylesheet" href="{{ style }}">
+    {% endfor %}
+  </head>
+
+  <body class="container">
+    <p id="logo">
+      <a href="{{ url('/') }}" tabindex="-1">{{ site_name }}</a>
+    </p>
+    <h1>
+      {% block subtitle %}{{ block('title') }}{% endblock %}
+      {{ include('errors.languages') }}
+    </h1>
+    {% block message %}{% endblock %}
+    {% for script in scripts %}
+      <script src="{{ script }}"></script>
+    {% endfor %}
+  </body>
+</html>

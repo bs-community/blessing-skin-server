@@ -1,0 +1,136 @@
+{% extends 'setup.base' %}
+
+{% block subtitle %}{{ trans('setup.wizard.database.title') }}{% endblock %}
+
+{% block content %}
+  <p>{{ trans('setup.wizard.database.text') }}</p>
+  <form
+    id="setup"
+    method="post"
+    action="{{ url('setup/database') }}"
+    novalidate="novalidate"
+  >
+    {{ csrf_field() }}
+    <table class="form-table">
+      <tr class="form-field form-required">
+        <th scope="row">
+          <label for="type">{{ trans('setup.wizard.database.type') }}</label>
+        </th>
+        <td>
+          <input name="type" type="radio" value="mysql" id="type-mysql" checked>
+          <label for="type-mysql">MySQL / MariaDB</label>
+          <input name="type" type="radio" value="pgsql" id="type-pgsql">
+          <label for="type-pgsql">PostgreSQL</label>
+          <input name="type" type="radio" value="sqlite" id="type-sqlite">
+          <label for="type-sqlite">SQLite</label>
+        </td>
+      </tr>
+      <tr class="form-field form-required">
+        <th scope="row">
+          <label for="host">{{ trans('setup.wizard.database.host') }}</label>
+        </th>
+        <td>
+          <input
+            name="host"
+            type="text"
+            id="host"
+            size="25"
+            value="{{ host }}"
+          >
+        </td>
+      </tr>
+      <tr class="form-field form-required">
+        <th scope="row">
+          <label for="port">{{ trans('setup.wizard.database.port') }}</label>
+        </th>
+        <td>
+          <input
+            name="port"
+            type="text"
+            id="port"
+            size="25"
+            value="{{ port }}"
+          >
+        </td>
+      </tr>
+      <tr class="form-field form-required">
+        <th scope="row">
+          <label for="username">{{ trans('setup.wizard.database.username') }}</label>
+        </th>
+        <td>
+          <input
+            name="username"
+            type="text"
+            id="username"
+            size="25"
+            value="{{ username }}"
+          >
+        </td>
+      </tr>
+      <tr class="form-field form-required">
+        <th scope="row">
+          <label for="password">{{ trans('setup.wizard.database.password') }}</label>
+        </th>
+        <td>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            class="regular-text"
+            value="{{ password }}"
+          >
+        </td>
+      </tr>
+      <tr class="form-field form-required">
+        <th scope="row">
+          <label for="db">{{ trans('setup.wizard.database.db') }}</label>
+        </th>
+        <td>
+          <input
+            name="db"
+            type="text"
+            id="db"
+            size="25"
+            value="{{ database }}"
+          >
+          <p>{{ trans('setup.wizard.database.db-notice') }}</p>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">
+          <label for="prefix">{{ trans('setup.wizard.database.prefix') }}</label>
+        </th>
+        <td>
+          <input
+            name="prefix"
+            type="text"
+            id="prefix"
+            size="25"
+            value="{{ prefix }}"
+          >
+          <p>{{ trans('setup.wizard.database.prefix-notice') }}</p>
+        </td>
+      </tr>
+    </table>
+
+    {% if errors.any %}
+      <div class="alert alert-warning" role="alert">
+        <ul>
+          {% for error in errors.all %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    <p class="step">
+      <input
+        type="submit"
+        name="submit"
+        id="submit"
+        class="button button-large"
+        value="{{ trans('setup.wizard.welcome.button') }}"
+      >
+    </p>
+</form>
+{% endblock %}

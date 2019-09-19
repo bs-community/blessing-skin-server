@@ -185,8 +185,7 @@ class SetupControllerTest extends TestCase
             'site_name' => 'bs',
             'generate_random' => true,
         ])->assertSee(trans('setup.wizard.finish.title'))
-            ->assertSee('a@b.c')
-            ->assertSee('12345678');
+            ->assertSee('a@b.c');
         $superAdmin = \App\Models\User::find(1);
         $this->assertEquals('a@b.c', $superAdmin->email);
         $this->assertTrue($superAdmin->verifyPassword('12345678'));

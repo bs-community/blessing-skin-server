@@ -14,6 +14,7 @@ const config = {
   entry: {
     index: './resources/assets/src/index.ts',
     'check-updates': './resources/assets/src/scripts/check-updates.ts',
+    'language-chooser': './resources/assets/src/scripts/language-chooser.ts',
     style: [
       'bootstrap/dist/css/bootstrap.min.css',
       'admin-lte/dist/css/alt/AdminLTE-without-plugins.min.css',

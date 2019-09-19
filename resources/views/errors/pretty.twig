@@ -1,0 +1,8 @@
+{% extends 'errors.base' %}
+
+{% block title %}{{ trans('errors.general.title') }}{% endblock %}
+
+{% block message %}
+  <p>{{ trans('errors.exception.code', {code: code}) }}</p>
+  <p>{{ trans('errors.exception.detail', {msg: message})|nl2br }}</p>
+{% endblock %}

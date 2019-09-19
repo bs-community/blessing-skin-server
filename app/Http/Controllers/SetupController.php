@@ -36,7 +36,14 @@ class SetupController extends Controller
 
                 return redirect('setup/info');
             } catch (\Exception $e) {
-                return view('setup.wizard.database');
+                return view('setup.wizard.database', [
+                    'host' => env('DB_HOST'),
+                    'port' => env('DB_PORT'),
+                    'username' => env('DB_USERNAME'),
+                    'password' => env('DB_PASSWORD'),
+                    'database' => env('DB_DATABASE'),
+                    'prefix' => env('DB_PREFIX'),
+                ]);
             }
         }
 
@@ -155,8 +162,7 @@ class SetupController extends Controller
         $filesystem->put(storage_path('install.lock'), '');
 
         return view('setup.wizard.finish')->with([
-            'email'    => $request->input('email'),
-            'password' => $request->input('password'),
+            'email' => $request->input('email'),
         ]);
     }
 

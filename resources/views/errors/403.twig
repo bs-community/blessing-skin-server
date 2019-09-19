@@ -1,0 +1,9 @@
+{% extends 'errors.base' %}
+
+{% block title %}403 Forbidden{% endblock %}
+
+{% block message %}
+  <p>
+    {{ trans('errors.exception.detail', {msg: exception.message ?: trans('errors.http.msg-403')}) }}
+  </p>
+{% endblock %}
