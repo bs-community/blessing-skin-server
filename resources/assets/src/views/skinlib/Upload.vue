@@ -102,10 +102,11 @@
 import Vue from 'vue'
 import FileUpload from 'vue-upload-component'
 import { isSlimSkin } from 'skinview3d'
-import { Radio } from 'element-ui'
+import { Radio, Switch } from 'element-ui'
 import emitMounted from '../../components/mixins/emitMounted'
 
 Vue.use(Radio)
+Vue.use(Switch)
 
 export default {
   name: 'Upload',

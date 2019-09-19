@@ -52,8 +52,12 @@
 </template>
 
 <script>
+import Vue from 'vue'
+import { Switch } from 'element-ui'
 import Captcha from '../../components/Captcha.vue'
 import emitMounted from '../../components/mixins/emitMounted'
+
+Vue.use(Switch)
 
 export default {
   name: 'Login',

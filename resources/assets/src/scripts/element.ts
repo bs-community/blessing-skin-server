@@ -4,12 +4,10 @@ import {
   Input,
   Message,
   MessageBox,
-  Switch,
 } from 'element-ui'
 
 Vue.use(Button)
 Vue.use(Input)
-Vue.use(Switch)
 
 Object.assign(Vue.prototype, {
   $message: Message,
