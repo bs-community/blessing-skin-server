@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Services\Webpack;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use App\Services\Translations\JavaScript;
 use Illuminate\Contracts\Events\Dispatcher;
 
@@ -52,6 +53,9 @@ class FootComposer
         }
         if ($this->request->is('admin*') && auth()->user()->permission >= User::SUPER_ADMIN) {
             $scripts[] = $this->webpack->url('check-updates.js');
+        }
+        if (Str::startsWith(config('app.asset.env'), 'dev')) {
+            $scripts[] = $this->webpack->url('style.js');
         }
         $scripts[] = $this->webpack->url('index.js');
 

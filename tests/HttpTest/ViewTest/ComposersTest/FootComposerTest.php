@@ -25,6 +25,7 @@ class FootComposerTest extends TestCase
         $crawler = new Crawler($this->get('/user')->getContent());
         $this->assertCount(0, $crawler->filter('#disallowed'));
 
+        config(['app.asset.env' => 'development']);
         $this->mock(JavaScript::class, function ($mock) {
             $mock->shouldReceive('generate')
                 ->with('en')
@@ -42,6 +43,10 @@ class FootComposerTest extends TestCase
                 ->with('check-updates.js')
                 ->once()
                 ->andReturn('check-updates.js');
+            $mock->shouldReceive('url')
+                ->with('style.js')
+                ->atLeast(1)
+                ->andReturn('style.js');
             $mock->shouldReceive('url')
                 ->with('index.js')
                 ->twice()
