@@ -3,6 +3,8 @@ const fs = require('fs')
 const webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const TerserJSPlugin = require('terser-webpack-plugin')
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const WebpackBar = require('webpackbar')
 const ManifestPlugin = require('webpack-manifest-plugin')
@@ -77,7 +79,7 @@ const config = {
       {
         test: /((node_modules.*)|element)\.(sa|sc|c)ss$/,
         use: [
-          devMode ? 'style-loader?hmr=true' : MiniCssExtractPlugin.loader,
+          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
           { loader: 'css-loader', options: { importLoaders: 2 } },
           'postcss-loader',
           'sass-loader',
@@ -142,6 +144,9 @@ const config = {
   ],
   resolve: {
     extensions: ['.js', '.ts', '.vue', '.json'],
+  },
+  optimization: {
+    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
   },
   devtool: devMode ? 'cheap-module-eval-source-map' : false,
   devServer: {
