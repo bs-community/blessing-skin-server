@@ -1,4 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
+const fs = require('fs')
 const webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -138,7 +139,6 @@ const config = {
       'resources/assets/src/images/bg.jpg',
       'resources/assets/src/images/favicon.ico',
     ]),
-    new ManifestPlugin(),
   ],
   resolve: {
     extensions: ['.js', '.ts', '.vue', '.json'],
@@ -150,15 +150,29 @@ const config = {
     },
     host: '0.0.0.0',
     hot: true,
+    hotOnly: true,
+    public: getDevServerUrl(),
     stats: 'errors-only',
   },
   stats: 'errors-only',
 }
 
 if (devMode) {
+  config.plugins.push(new webpack.NamedModulesPlugin())
   config.plugins.push(new webpack.HotModuleReplacementPlugin())
 } else {
   config.plugins.push(new WebpackBar())
+  config.plugins.push(new ManifestPlugin())
 }
 
 module.exports = config
+
+function getDevServerUrl() {
+  const matches = /ASSET_URL=(.*)/.exec(fs.readFileSync('.env', 'utf8'))
+  if (!matches) {
+    return
+  }
+
+  const url = new URL(matches[1])
+  return `${url.host}:8080`
+}
