@@ -34,6 +34,15 @@ yarn
 
 当 `.env` 中的 `APP_ENV` 为 `development` 时，您需要先执行 `yarn dev` 并保持此进程的运行。这样 Blessing Skin 的前端资源才能被正确加载，同时使页面带有热重载功能。（有时热重载可能会失效，此时需要您手动刷新页面）
 
+另外，在运行 `yarn dev` 即运行 `webpack-dev-server` 时，由于 `webpack-dev-server` 的端口往往与 Blessing Skin 的端口不同，因此有可能导致热重载失败。此时可以在 Nginx 中添加以下配置：
+
+```
+location ~* \w+\.hot-update\.json$ {
+    rewrite (\w+\.hot-update\.json)$ /$1 break;
+    proxy_pass http://$host:8080;
+}
+```
+
 当 `APP_ENV` 为其它值时，您需要事先执行 `yarn build`。此命令将构建并压缩前端资源。通常用于生产环境。
 
 ### 测试
