@@ -15,7 +15,7 @@
     "ext-json": "*",
     "predis/predis": "~1.0",
     "doctrine/inflector": "1.1.0",
-    "laravel/framework": "^6.0",
+    "laravel/framework": "6.*",
     "nesbot/carbon": "^2.0",
     "composer/semver": "^1.4",
     "gregwar/captcha": "1.*",
@@ -68,7 +68,8 @@
     ]
   },
   "config": {
-    "preferred-install": "dist"
+    "preferred-install": "dist",
+    "sort-packages": true
   },
   "repositories": {
     "packagist": {

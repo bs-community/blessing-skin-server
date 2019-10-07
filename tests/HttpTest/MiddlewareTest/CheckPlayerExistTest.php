@@ -24,7 +24,7 @@ class CheckPlayerExistTest extends TestCase
             ->assertSee(trans('general.unexistent-player'));
 
         option(['return_204_when_notfound' => true]);
-        $this->getJson('/nope.json')->assertStatus(204);
+        $this->getJson('/nope.json')->assertNoContent();
 
         $player = factory(Player::class)->create();
         $this->getJson("/{$player->name}.json")

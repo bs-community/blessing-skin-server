@@ -589,7 +589,7 @@ class AuthControllerTest extends TestCase
 
         $this->post('/api/auth/logout', [], [
             'Authorization' => "Bearer $token",
-        ])->assertStatus(204);
+        ])->assertNoContent();
     }
 
     public function testApiRefresh()
