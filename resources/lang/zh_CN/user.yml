@@ -1,21 +1,19 @@
+---
 used:
   title: 使用情况
   players: 角色数量
   storage: 存储空间
-
 cur-score: 当前积分
 score-notice: 点击积分查看说明
 sign: 签到
 sign-success: 签到成功，获得了 :score 积分
 time-unit-hour: 小时
 time-unit-min: 分钟
-cant-sign-until: :time :unit 后才能再次签到哦
+cant-sign-until: ':time :unit 后才能再次签到哦'
 last-sign: 上次签到于 :time
-sign-remain-time: :time :unit 后可签到
+sign-remain-time: ':time :unit 后可签到'
 announcement: 公告
 no-unread: 无未读通知
-
-
 verification:
   disabled: 本站已关闭邮箱验证功能
   frequent-mail: 你邮件发送得太频繁啦，过 60 秒后再点发送吧
@@ -25,9 +23,8 @@ verification:
   mail:
     title: 验证您在 :sitename 上的账户邮箱
     message: 您收到这封邮件，是因为有人在 :sitename 注册时使用了本邮箱地址。
-    reset: 点击此链接验证您的邮箱：<a href=":url">:url</a>
+    reset: '点击此链接验证您的邮箱：<a href=":url">:url</a>'
     ignore: 如果您并没有访问过我们的网站，或没有进行上述操作，请忽略这封邮件。
-
 score-intro:
   title: 积分是什么？
   introduction: |
@@ -39,39 +36,33 @@ score-intro:
   will-return-score: 删除已经添加的角色、已上传的材质、衣柜中的收藏物品时将会返还相应积分。
   no-return-score: 删除已经添加的角色、已上传的材质、衣柜中的收藏物品时不会返还相应积分。
   rates:
-    storage: :score 积分 = 1 KB 存储空间
-    player: :score 积分 = 1 个角色
-    closet: :score 积分 = 1 个衣柜收藏
-
+    storage: ':score 积分 = 1 KB 存储空间'
+    player: ':score 积分 = 1 个角色'
+    closet: ':score 积分 = 1 个衣柜收藏'
 closet:
   type-to-search: 输入即搜索
   switch-category: 切换分类
   view: 在皮肤库中查看
   more: 更多
   set-avatar: 设为头像
-
   use-as:
     button: 使用...
     reset: 重置已选材质
     title: 要给哪个角色使用呢？
     empty: 你还没有添加过任何角色哦
     add: 添加角色
-
   add:
     success: 材质 :name 收藏成功
     repeated: 你已经收藏过这个材质啦
     not-found: 该材质不存在
     lack-score: 收藏失败，积分不足
-
   rename:
     title: 重命名物品
     success: 衣柜物品成功重命名至 :name
-
   remove:
     title: 从衣柜中移除
     success: 材质已从衣柜中移除
     non-existent: 衣柜中不存在此材质
-
 player:
   player-name: 角色名称
   edit: 编辑
@@ -80,55 +71,36 @@ player:
   delete-texture: 删除材质
   delete-player: 删除角色
   add-player: 添加新角色
-
   login-notice: 你可以使用你所拥有的角色名来登录皮肤站。
-
-  player-info: 角色信息 <small>（点击角色名以查看预览）</small>
-
-  textures:
-    steve: Steve 模型的皮肤：
-    alex: Alex 模型的皮肤：
-    cape: 披风：
-    empty: 未上传
-
   player-name-rule:
     official: 角色名只能包含拉丁字母、数字以及下划线。
     cjk: 角色名可使用拉丁字母、数字、下划线以及汉字（中日韩统一表意文字）。
     custom: 本站使用了自定义的角色名规则，详情请咨询站点管理员。
-
   player-name-length: 角色名最少要求 :min 个字符，最多不超过 :max 个字符。
-
   add:
     repeated: 该角色名已被占用
     lack-score: 添加角色失败，积分不足
     single: 您必须拥有且只有一个角色，因此您不能添加更多角色。
     success: 成功添加了角色 :name
-
   delete:
     single: 您必须拥有且只有一个角色，因此您不能删除。
     success: 角色 :name 已被删除
-
   rename:
     repeated: 该角色名已被占用
     success: 角色 :old 已更名为 :new
-
   set:
     success: 材质已成功应用至角色 :name
-
   clear:
     success: 角色 :name 的材质已被成功重置
-
   bind:
     title: 绑定角色
     success: 绑定成功
-
 profile:
   avatar:
     title: 更改头像？
     notice: 在衣柜中任意皮肤的右下角「<i class="fa fa-cog"></i>」图标处点击「设为头像」，即可自动截取该皮肤的头部作为头像。如果看不到这个图标，请尝试关闭你的广告过滤扩展。
     wrong-type: 披风不能被设置为头像
     success: 设置成功
-
   password:
     title: 更改密码
     old: 原密码
@@ -137,14 +109,12 @@ profile:
     button: 修改密码
     wrong-password: 原密码错误
     success: 密码修改成功，请重新登录
-
   nickname:
     title: 更改昵称
     empty: 当前未设置昵称，
     rule: 可使用除一些特殊符号外的任意字符
     single: 您不能更改昵称，因为我们已将角色与您的账号进行了绑定。
     success: 昵称已成功设置为 :nickname
-
   email:
     title: 更改邮箱
     new: 新邮箱
@@ -153,13 +123,11 @@ profile:
     wrong-password: 密码错误
     existed: 此邮箱已被占用
     success: 邮箱修改成功，请重新登录
-
   delete:
     title: 删除账号
     notice: 确定要删除你在 :site 上的账号吗？
     admin: 拥有管理员权限的账号不能被删除
     button: 删除我的账号
-
     modal-title: 这是危险操作，输入密码以继续
     modal-notice: |
       此操作不可恢复！
@@ -167,6 +135,5 @@ profile:
       我们不提供任何备份，或者神奇的撤销按钮。
       我们警告过你了，确定要这样做吗？
     password: 当前密码
-
     wrong-password: 密码错误
     success: 账号已被成功删除

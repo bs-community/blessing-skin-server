@@ -1,0 +1,67 @@
+---
+database:
+  connection-error: "Unable to connect to the target :type database, please check your configuration. The server replied with: :msg"
+  connection-success: Connect to the target :type database [:server] successfully, just click NEXT to start installation.
+  table-already-exists: There are some tables already exist in target database, whose names conflict with ones we are going to create. To avoid data loss, please manually delete these tables :tables, or set a different table prefix.
+file:
+  permission-error: Unable to create textures folder, please check the directory permissions or place one manually.
+  no-dot-env: Unable to find environment configuration file. Please rename .env.example to .env (please refer to setup manual).
+permissions:
+  storage: Unable to write to storage directory, please check the permissions.
+disabled-functions:
+  escapeshellarg: "The escapeshellarg function is disabled in your php.ini configuration. Please contact your web hosting provider to enable it or perform the installation manually: http://t.cn/REzBZUe"
+locked:
+  title: Already installed
+  text: It appears that you have already installed Blessing Skin Server. To reinstall, please delete the "install.lock" file under "storage" directory.
+  button: Back to homepage
+updates:
+  master:
+    title: Update Wizard - Blessing Skin Server
+  welcome:
+    title: One more step
+    text: |
+      Welcome! You are going to update to Blessing Skin Server v:version.
+      We need to apply some updates to your database, click NEXT to continue.
+    button: Next
+  success:
+    title: Update complete
+    text: Blessing Skin Server has been successfully updated to v:version.
+    tips: "Update Tips:"
+  changelog:
+    title: Release Note
+wizard:
+  master:
+    title: Install Wizard - Blessing Skin Server
+  welcome:
+    title: Welcome
+    button: Next
+    text: Welcome to Blessing Skin Server v:version!
+  database:
+    title: Database
+    text: The database is used for storing data of Blessing Skin.
+    type: Database Type
+    host: Database Host
+    port: Database Port
+    username: Database Username
+    password: Database Password
+    db: Database Name
+    db-notice: You should provide the path to SQLite file and there is no need to fill other blanks if you use SQLite.
+    prefix: Prefix of Database Table (Optional)
+    prefix-notice: You don't need to use this option unless you want to install multiple Blessing Skin Server into one database.
+  info:
+    title: Information needed
+    button: Run install
+    text: To proceed with the installation, please fill this form with the details of the initial admin account. Don't worry, you can always change these settings later.
+    admin-email: Admin Email
+    admin-notice: This is the UNIQUE super admin account who can GIVE or CANCEL other users' admin privilege.
+    nickname: Nickname
+    password: Password
+    pwd-notice: 'Attention: You will need the password to log in. Please keep it at a secure place.'
+    confirm-pwd: Confirm password
+    site-name: Site name
+    site-name-notice: This will be shown on every page.
+    secure: Security
+    secure-notice: Generate random APP_KEY and SALT to make your site secured.
+  finish:
+    title: Installation complete
+    text: Blessing Skin Server has been installed. Thank you, and enjoy!

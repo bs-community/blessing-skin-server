@@ -1,0 +1,138 @@
+---
+used:
+  title: Resources Used
+  players: Registered players
+  storage: Storage used
+cur-score: Current Score
+score-notice: Click the score to show introduction.
+sign: Sign
+sign-success: Signed successfully. You got :score scores.
+time-unit-hour: h
+time-unit-min: min
+cant-sign-until: You can't sign in in :time :unit
+last-sign: Last signed at :time
+sign-remain-time: Available after :time :unit
+announcement: Announcement
+no-unread: No new notifications.
+verification:
+  disabled: Email verification is not available.
+  frequent-mail: You click the send button too fast. Wait for 60 secs, guy.
+  verified: Your account is already verified.
+  success: Verification link was sent, please check your inbox.
+  failed: We failed to send you the verification link. Detailed message :msg
+  mail:
+    title: Verify Your Account on :sitename
+    message: You are receiving this email because someone registered an account with this email address on :sitename.
+    reset: 'Click here to verify your account: <a href=":url">:url</a>'
+    ignore: If you did not register an account, no further action is required.
+score-intro:
+  title: What is score?
+  introduction: |
+    We use score system to prevent the behaviors like uplaoding huge amount of textures and registering players casually.
+    Either adding players, uplaoding textures or adding a skinlib item to your closet will consume scores.
+    :return-score
+
+    New users will get :initial_score scores initially, and you can acquire :score-from ~ :score-to scores by daily signing in.
+  will-return-score: The score will be returned if you deleted players, uploaded textures or closet items.
+  no-return-score: The score will NOT be returned if you deleted players, uploaded textures or closet items.
+  rates:
+    storage: ':score scores = 1 KB storage'
+    player: ':score scores = 1 player'
+    closet: ':score socres = 1 closet item'
+closet:
+  type-to-search: Type to search
+  switch-category: Switch Category
+  view: View in skin library
+  more: More
+  set-avatar: Set as avatar
+  use-as:
+    button: Apply...
+    reset: Clear selected
+    title: Which player should be applied to?
+    empty: It seems that you own no player...
+    add: Add a new player
+  add:
+    success: Added :name to closet successfully.
+    repeated: You have already added this texture.
+    not-found: We cannot find this texture.
+    lack-score: You don't have enough score to add it to closet.
+  rename:
+    title: Rename item
+    success: The item is successfully renamed to :name
+  remove:
+    title: Remove from closet
+    success: The texture was removed from closet successfully.
+    non-existent: The texture does not exist in your closet.
+player:
+  player-name: Player Name
+  edit: Edit
+  operation: Delete
+  edit-pname: Player name
+  delete-texture: Textures
+  delete-player: Player
+  add-player: Add new player
+  login-notice: Now you can log in with player names you owned instead email address.
+  player-name-rule:
+    official: Player name may only contains letters, numbers and underscores.
+    cjk: Player name may contains letters, numbers, underscores and CJK Unified Ideographs.
+    custom: Custom player name rules are applied on this site. Please contact admins for further information.
+  player-name-length: The player name should be at least :min characters and not greater than :max characters.
+  add:
+    repeated: The player name is already registered.
+    lack-score: You don't have enough score to add a player.
+    single: You must own exactly ONE player so you can't add more.
+    success: Player :name was added successfully.
+  delete:
+    single: You must own exactly ONE player so you can't delete it.
+    success: Player :name was deleted successfully.
+  rename:
+    repeated: This player name is occupied. Please choose another one.
+    success: Player :old was renamed to :new
+  set:
+    success: The texture was applied to player :name successfully.
+  clear:
+    success: The textures of player :name was resetted successfully.
+  bind:
+    title: Bind Players
+    success: Bound successfully!
+profile:
+  avatar:
+    title: Change Avatar?
+    notice: Click the gear icon "<i class="fa fa-cog"></i>" of any skin in your closet, then click "Set as avatar". We will cut the head segment of that skin for you. If there is no icon like this, please try to unable your ADs blocking extension.
+    wrong-type: You can't set a cape as avatar.
+    success: New avatar was set successfully.
+  password:
+    title: Change Password
+    old: Old Password
+    new: New Password
+    confirm: Repeat Password
+    button: Change password
+    wrong-password: Wrong original password.
+    success: Password updated successfully, please log in again.
+  nickname:
+    title: Change Nickname
+    empty: No nickname is set now.
+    rule: Whatever you like expect special characters
+    single: You're not allowed to update nickname, because we've bound your player with your account.
+    success: Nickname is successfully updated to :nickname
+  email:
+    title: Change Email
+    new: New Email
+    password: Current Password
+    button: Change email
+    wrong-password: Wrong password.
+    existed: This email address is occupied.
+    success: Email address updated successfully, please log in again.
+  delete:
+    title: Delete Account
+    notice: Sure to delete your account on :site?
+    admin: Admin account can not be deleted.
+    button: Delete my account
+    modal-title: You need to enter your password to continue
+    modal-notice: |
+      You're about to delete your account.
+      This is permanent! No backups, no restores, no magic undo button.
+      We warned you, ok?
+    password: Current Password
+    wrong-password: Wrong password.
+    success: Your account is deleted successfully.

@@ -1,3 +1,4 @@
+---
 auth:
   login: 登录
   loggingIn: 登录中
@@ -14,8 +15,8 @@ auth:
   reset: 重置
   resetting: 重置中
   nickname: 昵称
-  email: Email
   player-name: 游戏内角色名
+  email: 电子邮箱
   identification: Email 或角色名
   password: 密码
   captcha: 请输入验证码
@@ -31,8 +32,9 @@ auth:
     login-link: 我又想起来了
     button: 发送
   reset-button: 重置
-
 skinlib:
+  private: 私密
+  anonymous: 请先登录
   reset: 清除筛选
   nowShowing: 当前正显示
   addToCloset: 添加至衣柜
@@ -40,15 +42,15 @@ skinlib:
   setItemName: 给你的皮肤起个名字吧~
   applyNotice: 收藏后可以在我的衣柜里将皮肤应用至角色
   emptyItemName: 你还没有填写要收藏的材质名称啊
-  anonymous: 请先登录
-  private: 私密
+  setNewTextureName: '请输入新的材质名称：'
+  emptyNewTextureName: 你还没有输入新名称啊
   seeMyUpload: 我上传的
   apply: 立即使用
   filter:
-    skin: （任意模型）
-    steve: （Steve）
-    alex: （Alex）
-    cape: （披风）
+    skin: '（任意模型）'
+    steve: '（Steve）'
+    alex: '（Alex）'
+    cape: '（披风）'
     uploader: '用户（UID = :uid）上传'
     allUsers: 所有用户
   sort:
@@ -57,13 +59,11 @@ skinlib:
     likes: 最多收藏
   badSkinSize: 所选皮肤文件的尺寸不对哦
   badCapeSize: 所选披风文件的尺寸不对哦
-  setNewTextureName: 请输入新的材质名称：
-  emptyNewTextureName: 你还没有输入新名称啊
   emptyTextureName: 给你的材质起个名字吧
   emptyTextureType: 请选择材质的类型
   emptyUploadFile: 你还没有上传任何文件哦
-  encodingError: 错误：这张图片编码不对哦
-  fileExtError: 错误：皮肤文件必须为 PNG 格式
+  encodingError: '错误：这张图片编码不对哦'
+  fileExtError: '错误：皮肤文件必须为 PNG 格式'
   showContentPolicy: 查看内容策略
   uploading: 上传中
   redirecting: 正在跳转...
@@ -72,7 +72,7 @@ skinlib:
   setPublicNotice: 要将此材质设置为公开吗？
   setPrivateNotice: 要将此材质设置为私有吗？
   deleteNotice: 真的要删除此材质吗？
-  setNewTextureModel: 请选择新的材质适用模型：
+  setNewTextureModel: "请选择新的材质适用模型："
   upload:
     texture-name: 材质名称
     texture-type: 材质类型
@@ -102,12 +102,12 @@ skinlib:
     reason: 请填写举报原因
     positive: 为鼓励用户积极维护皮肤库的环境，每举报一个材质你可以获得 :score 积分的奖励。但是，如果被发现有恶意举报等行为，奖励的积分将会被全部收回，并且有可能受到额外的惩罚。
     negative: 为了减轻恶意举报带来的工作量，我们会在你提交举报时扣除 :score 积分。不用担心，举报通过后暂扣的积分将会全部返还，并且可以获得额外的积分奖励。
-
 user:
   signRemainingTime: ':time :unit 后可签到'
   timeUnitHour: 小时
   timeUnitMin: 分钟
-  emptyClosetMsg: '<p>衣柜里啥都没有哦~</p><p>去<a href=":url">皮肤库</a>看看吧~</p>'
+  emptyClosetMsg: >-
+    <p>衣柜里啥都没有哦~</p><p>去<a href=":url">皮肤库</a>看看吧~</p>
   renameItem: 重命名物品
   removeItem: 从衣柜中移除
   setAsAvatar: 设为头像
@@ -117,8 +117,8 @@ user:
   removeFromClosetNotice: 确定要从衣柜中移除此材质吗？
   emptySelectedPlayer: 你还没有选择角色哦
   emptySelectedTexture: 你还没有选择要应用的材质哦
-  renameClosetItem: 请输入此衣柜物品的新名称：
-  changePlayerName: 请输入角色名：
+  renameClosetItem: '请输入此衣柜物品的新名称：'
+  changePlayerName: '请输入角色名：'
   emptyPlayerName: 你还没有填写名称哦
   clearTexture: 确定要重置该用户的皮肤/披风吗？
   deletePlayer: 真的要删除该玩家吗？
@@ -148,24 +148,20 @@ user:
     avatar:
       title: 更改头像？
       notice: 请在衣柜中任意皮肤的右下角「<i class="fas fa-cog"></i>」处选择「设为头像」，将会自动截取该皮肤的头部作为头像哦~ 如果看不到这个图标，请关闭 ADBlock，ABP 之类的广告过滤扩展。
-
     password:
       title: 更改密码
       old: 旧的密码
       new: 新密码
       confirm: 确认密码
       button: 修改密码
-
     nickname:
       title: 更改昵称
       rule: 可使用除一些特殊符号外的任意字符
-
     email:
       title: 更改邮箱
       new: 新邮箱
       password: 当前密码
       button: 修改邮箱
-
     delete:
       title: 删除账号
       notice: 确定要删除你在 :site 上的账号吗？
@@ -189,8 +185,9 @@ user:
   time-unit-hour: 小时
   time-unit-min: 分钟
   last-sign: 上次签到于 :time
-  sign-remain-time: :time :unit后可签到
+  sign-remain-time: ':time :unit后可签到'
   player:
+    player-name: 角色名
     edit: 编辑
     operation: 操作
     edit-pname: 修改角色名
@@ -219,7 +216,6 @@ user:
     modifyUrl: 更改回调 URL
     create: 创建应用
     confirmRemove: 确认要删除这个应用吗？此操作不可撤销。
-
 admin:
   operationsTitle: 更多操作
   permission: 权限
@@ -228,17 +224,17 @@ admin:
   cannotDeleteAdmin: 你不能删除管理员账号哦
   cannotDeleteSuperAdmin: 超级管理员账号不能被这样删除的啦
   changeEmail: 修改邮箱
-  newUserEmail: 请输入新邮箱：
+  newUserEmail: '请输入新邮箱：'
   verification: 邮箱验证
   toggleVerification: 修改邮箱验证状态
   changeNickName: 修改昵称
-  newUserNickname: 请输入新昵称：
+  newUserNickname: '请输入新昵称：'
   changePassword: 更改密码
-  newUserPassword: 请输入新密码：
+  newUserPassword: '请输入新密码：'
   changeScore: 更改积分
-  newScore: 请输入积分值：
+  newScore: '请输入积分值：'
   changePermission: 更改权限
-  newPermission: 请选择新的权限：
+  newPermission: '请选择新的权限：'
   deleteUserNotice: 真的要删除此用户吗？此操作不可恢复
   inspectHisOwner: 点击查看该角色的所有者
   inspectHisPlayers: 点击查看该用户的角色
@@ -248,18 +244,19 @@ admin:
   superAdmin: 超级管理员
   unverified: 未验证
   verified: 已验证
-  pidNotice: 输入要更换的材质的 TID，输入 0 即可清除该角色的材质
+  pidNotice: >-
+    输入要更换的材质的 TID，输入 0 即可清除该角色的材质
   changePlayerTexture: '更换角色 :player 的材质'
   changeTexture: 更换材质
   changePlayerName: 更改角色名
   changeOwner: 更换角色拥有者
-  deletePlayer: 删除
-  changePlayerOwner: 请输入此角色要让渡至的用户 UID：
   textureType: 材质类型
+  deletePlayer: 删除
+  changePlayerOwner: '请输入此角色要让渡至的用户 UID：'
   deletePlayerNotice: 真的要删除此角色吗？此操作不可恢复
   targetUser: '目标用户：:nickname'
   noSuchUser: 没有这个用户哦~
-  changePlayerNameNotice: 请输入新的角色名：
+  changePlayerNameNotice: '请输入新的角色名：'
   emptyPlayerName: 您还没填写角色名呢
   configurePlugin: 配置
   noPluginConfigNotice: 插件已被禁用或无配置页
@@ -283,8 +280,7 @@ admin:
   disablePlugin: 禁用
   confirmDeletion: 真的要删除这个插件吗？
   noDependenciesNotice: >-
-    此插件没有声明任何依赖关系，这代表它有可能并不兼容此版本的 Blessing
-    Skin，请将此插件升级至可能的最新版本。强行启用可能导致无法预料的后果。你确定要启用此插件吗？
+    此插件没有声明任何依赖关系，这代表它有可能并不兼容此版本的 Blessing Skin，请将此插件升级至可能的最新版本。强行启用可能导致无法预料的后果。你确定要启用此插件吗？
   updateButton: 马上升级
   downloading: 正在下载更新包
   updateCompleted: 更新完成
@@ -292,12 +288,11 @@ admin:
     group: 分组
     key: 键
     text: 文本
-    empty: （空）
+    empty: '（空）'
     modify: 修改
     delete: 删除
-    updating: 请输入新的文本内容：
+    updating: '请输入新的文本内容：'
     confirmDelete: 确认删除吗？此操作不可恢复。
-
 report:
   tid: 材质 ID
   reporter: 举报人
@@ -312,7 +307,6 @@ report:
   delete: 删除
   ban: 封禁
   reject: 拒绝举报
-
 general:
   skin: 皮肤
   cape: 披风
@@ -346,7 +340,6 @@ general:
     player-name: 角色名
     previews: 预览材质
     last-modified: 修改时间
-
 vendor:
   datatable:
     search: 搜索
