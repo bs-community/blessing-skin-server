@@ -1,10 +1,10 @@
+---
 login:
   title: 登录
   button: 登录
   message: 登录以管理你的角色与皮肤
   keep: 保持登录状态
   success: 登录成功，欢迎回来
-
 check:
   anonymous: 未授权的访问，请先登录
   verified: 你必须验证邮箱后才能访问此页面
@@ -12,7 +12,6 @@ check:
   super-admin: 只有超级管理员才能访问此页面
   banned: 你已被本站封禁，详情请联系站点管理员
   token: 登录状态已过期，请重新登录
-
 register:
   title: 注册
   button: 注册
@@ -23,7 +22,6 @@ register:
   success: 注册成功，正在跳转...
   max: 你在本站注册的账号已达到上限 :regs 个，无法继续注册
   registered: 此邮箱已被占用
-
 forgot:
   title: 忘记密码
   button: 发送
@@ -40,24 +38,21 @@ forgot:
   mail:
     title: 重置您在 :sitename 上的账户密码
     message: 您收到这封邮件，是因为有人在 :sitename 的密码重置功能中使用了您的地址。
-    reset: 点击此链接重置您的密码：<a href=":url">:url</a>
+    reset: '点击此链接重置您的密码：<a href=":url">:url</a>'
     ignore: 如果您并没有访问过我们的网站，或没有进行上述操作，请忽略这封邮件。
-
 reset:
   title: 重置密码
   button: 重置
   invalid: 无效的链接
   expired: 链接已过期
-  message: :username，在这里重置你的密码
+  message: ':username，在这里重置你的密码'
   success: 密码重置成功
-
 bind:
   title: 绑定邮箱
   button: 绑定
   message: 你需要绑定邮箱地址以继续使用本站
   introduction: 邮箱地址仅用于重置密码，我们不会向您发送任何垃圾邮件
   registered: 此邮箱已被占用
-
 verify:
   title: 邮箱验证
   success: 邮箱验证成功
@@ -65,26 +60,22 @@ verify:
   button: 返回首页
   invalid: 无效的链接
   expired: 链接已失效，请重新发送验证邮件
-
 validation:
   identification: 邮箱或角色名格式错误
   email: 邮箱格式错误
   captcha: 验证码填写错误
   user: 用户不存在
   password: 密码错误
-
 logout:
   success: 登出成功
   fail: 未找到已保存的登录信息
-
 oauth:
   authorization:
     title: 授权
     introduction: 第三方应用 :name 正在向您请求获取权限。
     button: 授权
-
 nickname: 昵称
-email: Email
+email: 电子邮箱
 identification: Email 或角色名
 password: 密码
 captcha: 请输入验证码
