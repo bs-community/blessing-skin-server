@@ -1,8 +1,7 @@
+---
 option-saved: 设置已保存。
-
 homepage:
   title: 首页配置
-
   home_pic_url:
     title: 首页图片地址
     hint: 相对于首页的路径或者完整的 URL，留空以使用默认背景
@@ -21,23 +20,19 @@ homepage:
     label: 开启后背景不会随页面滚动而滚动
   copyright_prefer:
     title: 程序版权信息
-    description: 每种支持的语言都可以对应不同的程序版权信息，如果想要编辑某种特定语言下的版权信息，请在右上角切换至该语言后再提交修改。<b>对于任何恶意修改页面右下角的版权信息（包括不限于删除、修改作者信息、修改链接指向）的用户，作者保留对其追究责任的权利。</b>
+    description: "每种支持的语言都可以对应不同的程序版权信息，如果想要编辑某种特定语言下的版权信息，请在右上角切换至该语言后再提交修改。<b>对于任何恶意修改页面右下角的版权信息（包括不限于删除、修改作者信息、修改链接指向）的用户，作者保留对其追究责任的权利。</b>"
   copyright_text:
-    title:　自定义版权文字
+    title: 自定义版权文字
     description: 自定义版权文字内可使用占位符，<code>{site_name}</code> 将会被自动替换为站点名称，<code>{site_url}</code> 会被替换为站点地址。每种支持的语言都可以对应不同的自定义版权文字，如果想要编辑某种特定语言下的版权文字，请在右上角切换至该语言后再提交修改。
-
 customJsCss:
   title: 自定义 CSS/JavaScript
   message: |
     内容将会被追加至每个页面的 &lt;style&gt; 和 &lt;script&gt; 标签中。<br>
     - 这里有一些有用的示例：<a href="https://blessing.netlify.com/css-js.html">「自定义 CSS JavaScript」功能的一些实例</a>
-
   custom_css: CSS
   custom_js: JavaScript
-
 rate:
   title: 积分换算
-
   score_per_storage:
     title: 存储
     addon: 积分 = 1 KB
@@ -55,19 +50,15 @@ rate:
     title: 角色
     addon: 积分 = 一个角色
   user_initial_score: 新用户默认积分
-
 report:
   title: 材质举报
-
   reporter_score_modification:
     title: 提交举报所需积分
     description: 举报材质时【奖励】或者【扣除】举报者一定的积分。设置为正数表示奖励相应积分，设置为负数时表示扣除相应积分，设置为 0 可关闭本功能。举报时扣除积分可以一定程度上减少恶意举报，如果举报通过后，扣除的积分将会被返还。
   reporter_reward_score:
     title: 举报通过后奖励积分
-
 sign:
   title: 签到配置
-
   sign_score:
     title: 签到获得积分
     addon1: 积分 ~
@@ -79,10 +70,8 @@ sign:
     title: 签到时间
     label: 每天零点后可签到
     hint: 勾选后将无视上一条，每天零时后均可签到
-
 sharing:
   title: 奖励分享
-
   score_award_per_texture:
     title: 每上传一个材质奖励
   take_back_scores_after_deletion:
@@ -90,10 +79,8 @@ sharing:
     label: 改为私有或删除上传的材质后收回奖励积分
   score_award_per_like:
     title: 材质每被收藏一次奖励上传者
-
 general:
   title: 常规选项
-
   site_name: 站点标题
   site_description:
     title: 站点描述
@@ -118,7 +105,7 @@ general:
     hint: 皮肤站单靠 PHP 是无法获取客户端真实 IP 的，原因请自行搜索。
   max_upload_file_size:
     title: 最大允许上传大小
-    hint: PHP 限制：:size，定义在 php.ini 中。
+    hint: "PHP 限制：:size，定义在 php.ini 中。"
   player_name_rule:
     title: 角色名规则
     official: 大小写字母数字下划线（Mojang 官方的用户名规则）
@@ -151,13 +138,10 @@ general:
   comment_script:
     title: 评论代码
     description: 评论代码内可使用占位符，<code>{tid}</code> 将会被自动替换为材质的 id，<code>{name}</code> 会被替换为材质名称，<code>{url}</code> 会被替换为当前页面地址。
-
 announ:
   title: 站点公告
-
   announcement:
     description: 可使用 Markdown 进行排版。每种支持的语言都可以对应不同的站点公告，如果想要编辑某种特定语言下的公告，请在右上角切换至该语言后再提交修改。
-
 meta:
   title: SEO <meta> 标签
   meta_keywords:
@@ -168,18 +152,14 @@ meta:
     hint: 留空以使用 站点配置 中的站点描述
   meta_extras:
     title: 其它自定义 <meta> 标签
-
 recaptcha:
   recaptcha_invisible:
     title: 隐藏
     label: 开启隐藏式人机验证模式
-
 res-warning: 本页面仅供高级用户使用。如果您不清楚这些设置的含义，请不要随意修改它们！
-
 resources:
   title: 资源文件配置
   hint: 如果启用了 CDN 缓存请适当修改这些配置
-
   force_ssl:
     title: 强制 SSL
     label: 强制使用 HTTPS 协议加载资源
@@ -201,7 +181,6 @@ resources:
     description: |
       填写的 CDN 地址必须是 <code>/public</code> 目录的镜像，此目录下的所有文件都将会从 CDN 加载。<br>
       <b>测试方法</b>：检查 <code>{填写的地址}/app/manifest.json</code> 是否能够访问。
-
 redis:
   enable_redis:
     title: 启用
@@ -210,13 +189,11 @@ redis:
   connect:
     success: 成功连接 Redis 服务器。
     failed: '连接 Redis 服务器失败。错误消息： :msg'
-
 cache:
   title: 缓存配置
   clear: 清除缓存
   cleared: 缓存已清除。
   driver: 当前缓存驱动为 「:driver」
-
   enable_avatar_cache:
     title: 头像
     label: 启用头像缓存
