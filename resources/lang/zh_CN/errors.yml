@@ -1,3 +1,4 @@
+---
 http:
   msg-403: 你没有权限查看此页面
   msg-404: 这里啥都没有哦
@@ -6,21 +7,17 @@ http:
   method-not-allowed: 不允许的 HTTP 请求方法
   csrf-token-mismatch: Token 不正确，请尝试刷新页面
   ie: 本站不支持 Internet Explorer，请使用其它现代浏览器（如 Firefox 或 Chrome）。
-
 general:
   title: 出现错误
-
 exception:
   code: '错误码：:code'
   detail: '详细信息：:msg'
   message: |
     如果你是访客，这说明网站程序出现了一些错误，请稍后再试或者联系站长。
     如果你是站长，那么请开启 .env 中的 APP_DEBUG 查看详细信息。
-
 plugins:
-  duplicate: 【插件定义重复】:dir1 目录下的插件与 :dir2 目录下的插件使用了相同的 name 定义并造成了冲突。请检查你的插件目录，移除其中一个插件或者使用不同的 name 属性。
+  duplicate: '【插件定义重复】:dir1 目录下的插件与 :dir2 目录下的插件使用了相同的 name 定义并造成了冲突。请检查你的插件目录，移除其中一个插件或者使用不同的 name 属性。'
   directory: 配置文件 .env 中指定的插件加载目录（PLUGINS_DIR）不存在或无法打开，请检查你的配置。错误信息：:msg
-  boot: 「:plugin」插件存在错误，无法加载。
-
+  boot: '「:plugin」插件存在错误，无法加载。'
 cipher:
   unsupported: 不支持的密码加密方式 `:cipher`，请检查你的 .env 配置文件
