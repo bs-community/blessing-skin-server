@@ -1,0 +1,169 @@
+---
+index:
+  total-users: Registered Users
+  total-players: Players
+  total-textures: Uploaded Textures
+  disk-usage: Disk Usage
+  overview: Overview
+  texture-uploads: Texture Uploads
+  user-registration: User Registration
+notifications:
+  send:
+    title: Send Notification
+    success: Sent successfully!
+  receiver:
+    title: Receiver
+    all: All Users
+    normal: Normal Users
+    uid: Specified UID
+    email: Specified Email
+  title: Title
+  content: Content (Markdown is supported.)
+users:
+  status:
+    normal: Normal
+    banned: Banned
+    admin: Admin
+    super-admin: Super Admin
+  operations:
+    non-existent: No such user.
+    no-permission: You have no permission to operate this user.
+    invalid: Invalid action.
+    email:
+      existed: ':email is existed.'
+      success: Email changed successfully.
+    verification:
+      success: Account verification status toggled successfully.
+    nickname:
+      success: Nickname changed successfully.
+    password:
+      success: Password changed successfully.
+    score:
+      success: Score changed successfully.
+    permission: Permission updated.
+    delete:
+      delete: Delete User
+      success: The account has been deleted successfully.
+      cant-super-admin: You can't delete a super admin.
+      cant-admin: You can't delete a admin account.
+players:
+  no-permission: You have no permission to operate this player.
+  operations:
+    title: Operations
+  textures:
+    change: Change Textures
+    non-existent: No such texture tid.:tid
+    success: The textures of :player has been updated.
+  name:
+    success: Player name has been updated to :player
+  owner:
+    change: Change Owner
+    success: The player :player was transferred to user :user.
+  delete:
+    delete: Delete
+    success: The player has been deleted successfully.
+customize:
+  change-color:
+    title: Change Theme Color
+    success: Theme color updated.
+  colors:
+    blue: Blue (Default)
+    blue-light: Blue Light
+    yellow: Yellow
+    yellow-light: Yellow Light
+    green: Green
+    green-light: Green Light
+    purple: Purple
+    purple-light: Purple Light
+    red: Red
+    red-light: Red Light
+    black: Black
+    black-light: Black Light
+i18n:
+  add: Add New Language Line
+  added: Language line added.
+  updated: Language line updated.
+  deleted: Language line deleted.
+  group: Group
+  key: Key
+  text: Text
+  tip: How can I use this page?
+status:
+  info: Information
+  health: Health
+  bs:
+    name: Blessing Skin
+    version: Version
+    env: Application Environment
+    debug: Debugging or Not?
+    commit: Commit
+    laravel: Laravel Version
+  server:
+    name: Server
+    php: PHP Version
+    web: Web Server Software
+    os: OS
+  db:
+    name: Database
+    type: Server
+    host: Host
+    port: Port
+    username: Username
+    database: Database
+    prefix: Table Prefix
+  plugins: Enabled Plugins (:amount)
+plugins:
+  name: Name
+  description: Description
+  author: Author
+  version: Version
+  dependencies: Dependencies
+  operations:
+    title: Operations
+    enabled: ':plugin has been enabled.'
+    unsatisfied:
+      notice: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't enable it. Please install or update the plugins listed below, and disable those have conflicts.
+      disabled: 'The ":name" plugin is not enabled.'
+      version: 'The version of ":title" does not satisfies the constraint ":constraint".'
+      conflict: 'The ":title" plugin cannot run with this plugin at the same time.'
+    disabled: ':plugin has been disabled.'
+    deleted: The plugin was deleted successfully.
+    no-config-notice: The plugin is not installed or doesn't provide a configuration page.
+    not-found: No such plugin.
+  market:
+    connection-error: Unable to connect to the plugins registry. :error
+    non-existent: The plugin :plugin does not exist.
+    install-success: Plugin was installed.
+  empty: No result
+update:
+  complete: Update completed
+  info:
+    title: Update Information
+    up-to-date: Already up-to-date.
+    available: New version available.
+    versions:
+      latest: "Latest Version:"
+      current: "Current Version:"
+    check-github: Check GitHub Releases
+    button: Update Now
+  cautions:
+    title: Cautions
+    link: check out this.
+    text: |
+      Please choose update source according to your host's network environment.
+      Low-speed connection between update source and your host will cause long-time loading at checking and downloading page.
+      To change the default update source,
+  download:
+    downloading: Downloading update package...
+    size: "Size of package:"
+  errors:
+    connection: "Unable to access to current update source. Details: :error"
+    spec: Current update source is not supported.
+    php: Your PHP version is too low to update. Requires :version or later.
+download:
+  errors:
+    download: 'Failed to download. Error: :error'
+    shasum: File validation failed. Please download again.
+    unzip: Failed to unpack files.
+report-reviewed: This report has been processed.
+invalid-action: Invalid action
