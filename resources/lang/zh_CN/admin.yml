@@ -12,7 +12,7 @@ notifications:
     title: 发送通知
     success: 发送成功
   receiver:
-    title: 通知对象
+    title: 接收者
     all: 所有用户
     normal: 普通用户
     uid: 指定 UID
