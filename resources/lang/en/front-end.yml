@@ -202,8 +202,6 @@ user:
     login-notice: Now you can log in with player names you owned instead email address.
     player-info: Information <small>(click player name to show preview)</small>
     texture-empty: Nothing
-    pname-rule: Could only contain letters, numbers and dashes.
-    pname-rule-chinese: Could only contain chinese characters, letters, numbers and dashes.
     player-name-rule:
       official: Player name may only contains letters, numbers and underscores.
       cjk: Player name may contains letters, numbers, underscores and CJK Unified Ideographs.
