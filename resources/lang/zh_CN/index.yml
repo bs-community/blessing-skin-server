@@ -13,5 +13,5 @@ features:
     icon: fa-cloud
     name: 永久免费
     desc: 我们承诺永不收取任何费用
-introduction: ':sitename 提供 Minecraft 角色皮肤的上传以及托管服务。配合 CustomSkinLoader 等换肤 MOD，你可以为你的游戏角色设置皮肤与披风，并让其他玩家在游戏中看到。'
+introduction: ':sitename 提供 Minecraft 角色皮肤的上传以及托管服务。配合 CustomSkinLoader 等换肤 Mod，你可以为你的游戏角色设置皮肤与披风，并让其他玩家在游戏中看到。'
 start: 开始使用
