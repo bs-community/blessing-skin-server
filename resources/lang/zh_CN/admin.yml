@@ -1,3 +1,4 @@
+---
 index:
   total-users: 注册用户
   total-players: 角色总数
@@ -6,7 +7,6 @@ index:
   overview: 概览
   texture-uploads: 材质上传
   user-registration: 用户注册
-
 notifications:
   send:
     title: 发送通知
@@ -19,7 +19,6 @@ notifications:
     email: 指定邮箱
   title: 标题
   content: 内容（可使用 Markdown）
-
 users:
   status:
     normal: 普通用户
@@ -47,7 +46,6 @@ users:
       success: 账号已被成功删除
       cant-super-admin: 超级管理员账号不能被删除
       cant-admin: 无法删除管理员账号
-
 players:
   no-permission: 你无权操作此角色
   operations:
@@ -64,12 +62,10 @@ players:
   delete:
     delete: 删除角色
     success: 角色已被成功删除
-
 customize:
   change-color:
     title: 更改配色
     success: 修改配色成功
-
   colors:
     blue: 蓝色主题（默认）
     blue-light: 蓝色主题 - 白色侧边栏
@@ -83,7 +79,6 @@ customize:
     red-light: 红色主题 - 白色侧边栏
     black: 黑色主题
     black-light: 黑色主题 - 白色侧边栏
-
 i18n:
   add: 添加新条目
   added: 条目增加成功
@@ -93,7 +88,6 @@ i18n:
   key: 键
   text: 文本
   tip: 如何使用本页面的功能？
-
 status:
   info: 信息
   health: 健康
@@ -118,55 +112,40 @@ status:
     database: 数据库
     prefix: 数据表前缀
   plugins: 已开启的插件 (:amount)
-
 plugins:
   name: 名称
   description: 描述
   author: 作者
   version: 版本
   dependencies: 依赖关系
-
-  status:
-    title: 状态
-    enabled: 已启用
-    disabled: 已禁用
-
   operations:
     title: 操作
-    enabled: :plugin 已启用
+    enabled: ':plugin 已启用'
     unsatisfied:
       notice: 无法启用此插件，因为其仍有冲突或未满足的依赖关系。请检查以下插件的版本，更新或安装它们并禁用存在冲突的插件：
       disabled: '「:name」插件未启用'
       version: '「:title」的版本不符合要求 ":constraint"'
       conflict: '「:title」插件与此插件不能同时运行'
-    disabled: :plugin 已禁用
+    disabled: ':plugin 已禁用'
     deleted: 插件已被成功删除
     no-config-notice: 插件未安装或未提供配置页面
     not-found: 插件不存在
-
   market:
     connection-error: 无法连接至插件市场源，错误信息：:error
     non-existent: 插件 :plugin 不存在
     install-success: 插件安装成功
-
   empty: 无结果
-
 update:
   complete: 更新完成
-
   info:
     title: 更新信息
-
     up-to-date: 已更新至最新版本。
     available: 有更新可用。
-
     versions:
-      latest: 最新版本：
-      current: 当前版本：
-
+      latest: "最新版本："
+      current: "当前版本："
     check-github: 查看 GitHub Releases
     button: 马上升级
-
   cautions:
     title: 注意事项
     link: 点击了解详情
@@ -174,22 +153,17 @@ update:
       请根据你的主机所在位置（国内/国外）选择更新源。
       如错选至相对于你的主机速度较慢的源，可能会造成检查与下载更新页面长时间无响应。
       如何更换更新源？
-
   download:
     downloading: 正在下载更新包
-    size: 更新包大小：
-
+    size: "更新包大小："
   errors:
-    connection: 无法访问当前更新源。详细信息：:error
+    connection: "无法访问当前更新源。详细信息：:error"
     spec: 不支持当前的更新源。
     php: PHP 版本过低，至少需要 :version。
-
 download:
   errors:
-    download: 下载失败。原因：:error
+    download: '下载失败。原因：:error'
     shasum: 文件校验失败，请重新下载。
     unzip: 解压失败。
-
 report-reviewed: 这一条举报已经处理过了。
-
 invalid-action: 无效的操作名
