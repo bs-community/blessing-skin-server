@@ -1,22 +1,22 @@
 ---
 http:
-  msg-403: You have no permission to access this page.
-  msg-404: Nothing here.
-  msg-500: Please try again later.
-  msg-503: The application is now in maintenance mode.
-  method-not-allowed: Method not allowed.
-  csrf-token-mismatch: Token does not match, try reloading the page.
-  ie: We don't support Internet Explorer. Please switch to other modern browsers, such as Firefox or Chrome.
+  msg-403: No tiene permiso para accesar esta página.
+  msg-404: No hay nada.
+  msg-500: Por favor intente más tarde.
+  msg-503: La aplicación está ahora en modo de mantenimiento.
+  method-not-allowed: Método no permitido.
+  csrf-token-mismatch: El token no coincide, intente recargar la página.
+  ie: No soportamos Internet Explorer. Por favor, cambia a otro navegador moderno, como Firefox o Chrome.
 general:
-  title: Error occurred
+  title: Se produjo un error
 exception:
-  code: 'Error code: :code'
-  detail: 'Details: :msg'
+  code: 'Código de error: :code'
+  detail: 'Detalles: :msg'
   message: |
-    Whoops, looks like something went wrong. (enable APP_DEBUG in .env to see details)
+    Ups, parece que algo salió mal. (habilita APP_DEBUG en .env para ver detalles)
 plugins:
-  duplicate: The plugin [:dir1] has a duplicated plugin name definition which is same to plugin [:dir2]. Please check your plugins directory, remove one of them or use another name definition.
-  directory: We can't approach the path for loading plugins specified by the PLUGINS_DIR in .env file. Please check your configuration. Error :msg
-  boot: There is something wrong with plugin ":plugin".
+  duplicate: El plugin [:dir1] tiene una definición de nombre de plugin duplicado que es igual al plugin [:dir2]. Por favor, comprueba tu directorio de plugins, elimina uno de ellos o usa otra definición de nombre.
+  directory: No podemos acercarnos a la ruta para cargar los plugins especificados por PLUGINS_DIR en el archivo .env. Por favor, compruebe su configuración. Error :msg
+  boot: Hay algo mal con el plugin ":plugin".
 cipher:
-  unsupported: Unsupported password hashing method `:cipher`, please check your `.env` configuration
+  unsupported: Método de hashing de contraseñas no soportado `:cipher`, por favor comprueba su configuración `.env`
