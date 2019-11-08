@@ -1,22 +1,22 @@
 ---
 database:
-  connection-error: "Unable to connect to the target :type database, please check your configuration. The server replied with: :msg"
-  connection-success: Connect to the target :type database [:server] successfully, just click NEXT to start installation.
-  table-already-exists: There are some tables already exist in target database, whose names conflict with ones we are going to create. To avoid data loss, please manually delete these tables :tables, or set a different table prefix.
+  connection-error: "No se puede conectar a la base de datos :type, favor comprobar su configuración. El servidor respondió con: :msg"
+  connection-success: Se conectó a la base de datos de destino :type [:server] con éxito, haga clic en SIGUIENTE para iniciar la instalación.
+  table-already-exists: Ya existen algunas tablas en la base de datos de destino, cuyos nombres entran en conflicto con las que vamos a crear. Para evitar pérdida de datos, por favor elimine manualmente estas tablas :tables, o establezca un prefijo de tabla diferente.
 file:
-  permission-error: Unable to create textures folder, please check the directory permissions or place one manually.
-  no-dot-env: Unable to find environment configuration file. Please rename .env.example to .env (please refer to setup manual).
+  permission-error: No se puede crear la carpeta de texturas, por favor compruebe los permisos del directorio o coloque uno manualmente.
+  no-dot-env: No se puede encontrar el archivo de configuración de entorno. Por favor, renombre .env.example a .env (consulte el manual de configuración).
 permissions:
-  storage: Unable to write to storage directory, please check the permissions.
+  storage: No se puede escribir en el directorio de almacenamiento, por favor compruebe los permisos.
 disabled-functions:
-  escapeshellarg: "The escapeshellarg function is disabled in your php.ini configuration. Please contact your web hosting provider to enable it or perform the installation manually: http://t.cn/REzBZUe"
+  escapeshellarg: "La función escapeshellarg está deshabilitada en la configuración de php.ini. Por favor, póngase en contacto con su proveedor de alojamiento web para habilitarla o realizar la instalación manualmente: http://t.cn/REzBZUe"
 locked:
-  title: Already installed
-  text: It appears that you have already installed Blessing Skin Server. To reinstall, please delete the "install.lock" file under "storage" directory.
-  button: Back to homepage
+  title: Ya instalado
+  text: Parece que ya tienes instalado Blessing Skin Server. Para reinstalar, por favor elimine primero las tablas en su base de datos, o use un nuevo prefijo de tabla.
+  button: Volver al inicio
 updates:
   master:
-    title: Update Wizard - Blessing Skin Server
+    title: Asistente de actualizacones - Blessing Skin Server
   welcome:
     title: One more step
     text: |
