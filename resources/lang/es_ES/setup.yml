@@ -18,50 +18,50 @@ updates:
   master:
     title: Asistente de actualizacones - Blessing Skin Server
   welcome:
-    title: One more step
+    title: Un paso más
     text: |
-      Welcome! You are going to update to Blessing Skin Server v:version.
-      We need to apply some updates to your database, click NEXT to continue.
-    button: Next
+      ¡Bienvenido! Vas a actualizar a Blessing Skin Server v:version.
+      Necesitamos aplicar algunas actualizaciones a tu base de datos, haz clic en NEXT para continuar.
+    button: Siguiente
   success:
-    title: Update complete
-    text: Blessing Skin Server has been successfully updated to v:version.
-    tips: "Update Tips:"
+    title: Actualización finalizada
+    text: Blessing Skin Server se ha actualizado correctamente a v:version.
+    tips: "Consejos de actualización:"
   changelog:
-    title: Release Note
+    title: Notas de lanzamiento
 wizard:
   master:
-    title: Install Wizard - Blessing Skin Server
+    title: Asistente de actualizacones - Blessing Skin Server
   welcome:
-    title: Welcome
-    button: Next
-    text: Welcome to Blessing Skin Server v:version!
+    title: Bienvenido
+    button: Siguiente
+    text: Bienvenido a Blessing Skin Server v:version!
   database:
-    title: Database
-    text: The database is used for storing data of Blessing Skin.
-    type: Database Type
-    host: Database Host
-    port: Database Port
-    username: Database Username
-    password: Database Password
-    db: Database Name
-    db-notice: You should provide the path to SQLite file and there is no need to fill other blanks if you use SQLite.
-    prefix: Prefix of Database Table (Optional)
-    prefix-notice: You don't need to use this option unless you want to install multiple Blessing Skin Server into one database.
+    title: Base de datos
+    text: La base de datos se utiliza para almacenar datos de Blessing Skin.
+    type: Tipo de base de datos
+    host: Host de base de datos
+    port: Puerto de base de datos
+    username: Usuario de base de datos
+    password: Contraseña de base de datos
+    db: Nombre de base de datos
+    db-notice: Debería proporcionar la ruta al archivo SQLite; no hay necesidad de llenar otros espacios en blanco si lo usa.
+    prefix: Prefijo de tabla de base de datos (opcional)
+    prefix-notice: No necesita utilizar esta opción a menos que desee instalar múltiples instancias de Blessing Skin Server en una base de datos.
   info:
-    title: Information needed
-    button: Run install
-    text: To proceed with the installation, please fill this form with the details of the initial admin account. Don't worry, you can always change these settings later.
-    admin-email: Admin Email
-    admin-notice: This is the UNIQUE super admin account who can GIVE or CANCEL other users' admin privilege.
-    nickname: Nickname
-    password: Password
-    pwd-notice: 'Attention: You will need the password to log in. Please keep it at a secure place.'
-    confirm-pwd: Confirm password
-    site-name: Site name
-    site-name-notice: This will be shown on every page.
-    secure: Security
-    secure-notice: Generate random APP_KEY and SALT to make your site secured.
+    title: Información necesaria
+    button: Ejecutar instalación
+    text: Para continuar con la instalación, por favor rellene este formulario con los detalles de la cuenta de administrador inicial. No te preocupes, siempre puedes cambiar estos ajustes más tarde.
+    admin-email: Correo del administrador
+    admin-notice: Esta es la cuenta de super administrador ÚNICA que puede DAR o CANCELAR los privilegios de administrador de otros usuarios.
+    nickname: Apodo
+    password: Contraseña
+    pwd-notice: 'Atención: Necesitará la contraseña para iniciar sesión. Por favor, guárdelo en un lugar seguro.'
+    confirm-pwd: Confirmar contraseña
+    site-name: Nombre del sitio
+    site-name-notice: Esto se mostrará en todas las páginas.
+    secure: Seguridad
+    secure-notice: Generar al azar APP_KEY y SALT para hacer su sitio seguro.
   finish:
-    title: Installation complete
-    text: Blessing Skin Server has been installed. Thank you, and enjoy!
+    title: Instalación completada
+    text: Blessing Skin Server ha sido instalado. ¡Gracias y disfrútalo!
