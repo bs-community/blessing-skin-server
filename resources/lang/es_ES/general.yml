@@ -1,72 +1,72 @@
 ---
-index: Homepage
-skinlib: Skin Library
-user-center: User Center
-logout: Log Out
-login: Log In
-register: Register Now
-profile: User Profile
-admin-panel: Admin Panel
-explore: Explore
-manage: Manage
-anonymous: Guest
-back: Back
-dashboard: Dashboard
-my-closet: Closet
-my-reports: Reports
-developer: Advanced
-oauth-manage: OAuth2 Apps
-player-manage: Players
-user-manage: Users
-report-manage: Reports
+index: Inicio
+skinlib: Colección de skins
+user-center: Centro de usuario
+logout: Cerrar sesión
+login: Iniciar sesión
+register: Crear cuenta
+profile: Perfil de usuario
+admin-panel: Panel de administración
+explore: Explorar
+manage: Gestionar
+anonymous: Visitante
+back: Volver
+dashboard: Cuadro de mandos
+my-closet: Armario
+my-reports: Informes
+developer: Avanzado
+oauth-manage: Aplicaciones OAuth2
+player-manage: Jugadores
+user-manage: Usuarios
+report-manage: Informes
 plugin-manage: Plugins
-plugin-market: Plugin Market
-plugin-configs: Plugin Configs
-customize: Customize
-i18n: Internationalization
-options: Options
-score-options: Score Options
-res-options: Resource Options
-status: Status
-check-update: Check Update
-download-update: Download Updates
-close: Close
+plugin-market: Mercado de plugins
+plugin-configs: Configs de plugins
+customize: Personalizar
+i18n: Internacionalización
+options: Opciones
+score-options: Opciones de puntaje
+res-options: Opciones de recursos
+status: Estado
+check-update: Comprobar actualización
+download-update: Descargar actualizaciones
+close: Cerrar
 skin: Skin
-cape: Cape
-loading: Loading
-texture-preview: Texture Preview
-walk: Walk
-run: Run
-rotation: Rotation
-pause: Pause
-reset: Reset
-submit: Submit
-cancel: Cancel
+cape: Capa
+loading: Cargando
+texture-preview: Preestreno de textura
+walk: Caminar
+run: Correr
+rotation: Girar
+pause: Pausar
+reset: Resetear
+submit: Aceptar
+cancel: Cancelar
 yes: true
 no: false
-op-success: Operated successfully.
-unknown: Unknown
-notice: Notice
-switch-2d-preview: Switch to 2D preview
-illegal-parameters: Illegal parameters.
-private: Private
-public: Public
-unexistent-user: No such user.
-unexistent-player: No such player.
-player-banned: The owner of this player has been banned.
-texture-deleted: The requested texture has been deleted.
-texture-not-uploaded: The user haven't uploaded the texture of :type model yet.
-operations: Operations
+op-success: Operado con éxito.
+unknown: Desconocido
+notice: Aviso
+switch-2d-preview: Cambiar a preestreno 2D
+illegal-parameters: Parámetros ilegales.
+private: Privado
+public: Público
+unexistent-user: No existe este usuario.
+unexistent-player: No existe tal jugador.
+player-banned: El dueño de este jugador ha sido baneado.
+texture-deleted: La textura solicitada ha sido borrada.
+texture-not-uploaded: El usuario no ha subido la textura del modelo :type todavía.
+operations: Operaciones
 user:
   uid: UID
   email: Email
-  nickname: Nickname
-  password: Password
-  score: Score
-  register-at: Registered At
+  nickname: Apodo
+  password: Contraseña
+  score: Puntuación
+  register-at: Registrado el
 player:
   pid: PID
-  owner: Owner
-  player-name: Player Name
-  previews: Texture Previews
-  last-modified: Last Modified
+  owner: Dueño
+  player-name: Nombre de jugador
+  previews: Preestreno de textura
+  last-modified: Últim actualiz
