@@ -1,12 +1,12 @@
 ---
 index:
-  total-users: Registered Users
-  total-players: Players
-  total-textures: Uploaded Textures
-  disk-usage: Disk Usage
-  overview: Overview
-  texture-uploads: Texture Uploads
-  user-registration: User Registration
+  total-users: Usuarios registrados
+  total-players: Jugadores
+  total-textures: Texturas subidas
+  disk-usage: Uso del disco
+  overview: Resumen
+  texture-uploads: Subidas de texturas
+  user-registration: Registro de usuario
 notifications:
   send:
     title: Send Notification
