@@ -9,87 +9,87 @@ index:
   user-registration: Registro de usuario
 notifications:
   send:
-    title: Send Notification
-    success: Sent successfully!
+    title: Enviar notificación
+    success: '¡Enviado con éxito!'
   receiver:
-    title: Receiver
-    all: All Users
-    normal: Normal Users
-    uid: Specified UID
-    email: Specified Email
-  title: Title
-  content: Content (Markdown is supported.)
+    title: Receptor
+    all: Todos los usuarios
+    normal: Usuarios normales
+    uid: UID especificado
+    email: Email especificado
+  title: Título
+  content: Contenido (Markdown está soportado).
 users:
   status:
     normal: Normal
-    banned: Banned
+    banned: Baneado
     admin: Admin
     super-admin: Super Admin
   operations:
-    non-existent: No such user.
-    no-permission: You have no permission to operate this user.
-    invalid: Invalid action.
+    non-existent: No existe tal usuario.
+    no-permission: No tienes permiso para operar este usuario.
+    invalid: Acción inválida.
     email:
-      existed: ':email is existed.'
-      success: Email changed successfully.
+      existed: ':email existe.'
+      success: Email cambiado con éxito.
     verification:
-      success: Account verification status toggled successfully.
+      success: Estado de verificación de la cuenta cambiado con éxito.
     nickname:
-      success: Nickname changed successfully.
+      success: El apodo se ha modificado con éxito.
     password:
-      success: Password changed successfully.
+      success: Contraseña cambiada con éxito.
     score:
-      success: Score changed successfully.
-    permission: Permission updated.
+      success: Puntuación cambiada con éxito.
+    permission: Permiso actualizado.
     delete:
-      delete: Delete User
-      success: The account has been deleted successfully.
-      cant-super-admin: You can't delete a super admin.
-      cant-admin: You can't delete a admin account.
+      delete: Eliminar usuario
+      success: La cuenta ha sido eliminada con éxito.
+      cant-super-admin: No puedes eliminar a un superadmin.
+      cant-admin: No puedes eliminar una cuenta de administrador.
 players:
-  no-permission: You have no permission to operate this player.
+  no-permission: No tienes permiso para operar este jugador.
   operations:
-    title: Operations
+    title: Operaciones
   textures:
-    change: Change Textures
-    non-existent: No such texture tid.:tid
-    success: The textures of :player has been updated.
+    change: Modificar texturas
+    non-existent: Textura Inexistente tid.:tid
+    success: Las texturas de :player han sido actualizadas.
   name:
-    success: Player name has been updated to :player
+    success: El nombre del jugador ha sido actualizado a :player
   owner:
-    change: Change Owner
-    success: The player :player was transferred to user :user.
+    change: Cambiar propietario
+    success: El jugador :player fue transferido al usuario :user.
   delete:
-    delete: Delete
-    success: The player has been deleted successfully.
+    delete: Eliminar
+    success: El jugador ha sido eliminado correctamente.
 customize:
   change-color:
-    title: Change Theme Color
-    success: Theme color updated.
+    title: Cambiar color del tema
+    success: Color del tema actualizado.
   colors:
-    blue: Blue (Default)
-    blue-light: Blue Light
-    yellow: Yellow
-    yellow-light: Yellow Light
-    green: Green
-    green-light: Green Light
-    purple: Purple
-    purple-light: Purple Light
-    red: Red
-    red-light: Red Light
-    black: Black
-    black-light: Black Light
+    blue: Azul (por defecto)
+    blue-light: Azul claro
+    yellow: Amarillo
+    yellow-light: Amarillo claro
+    green: Verde
+    green-light: Verde claro
+    purple: Morado
+    purple-light: Morado claro
+    red: Rojo
+    red-light: Rojo claro
+    black: Negro
+    black-light: Oscuro
 i18n:
-  add: Add New Language Line
-  added: Language line added.
-  updated: Language line updated.
-  deleted: Language line deleted.
-  group: Group
-  key: Key
-  text: Text
-  tip: How can I use this page?
+  add: Añadir nueva línea de idioma
+  added: Línea de idioma añadida.
+  updated: Línea de idioma actualizada.
+  deleted: Línea de idioma eliminada.
+  group: Grupo
+  key: Clave
+  text: Texto
+  tip: '¿Cómo puedo usar esta página?'
 status:
-  info: Information
+  info: Información
   health: Health
   bs:
     name: Blessing Skin
