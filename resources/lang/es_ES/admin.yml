@@ -158,12 +158,12 @@ update:
     size: "Tamaño del paquete:"
   errors:
     connection: "No se puede acceder a la fuente de actualización actual. Detalles: :error"
-    spec: Current update source is not supported.
-    php: Your PHP version is too low to update. Requires :version or later.
+    spec: La fuente de actualización actual no está soportada.
+    php: Tu versión de PHP es demasiado baja para actualizar. Requiere :version o posterior.
 download:
   errors:
-    download: 'Failed to download. Error: :error'
-    shasum: File validation failed. Please download again.
-    unzip: Failed to unpack files.
-report-reviewed: This report has been processed.
-invalid-action: Invalid action
+    download: 'Error al descargar. Error: :error'
+    shasum: La validación del archivo ha fallado. Por favor, descargue de nuevo.
+    unzip: Error al desempaquetar archivos.
+report-reviewed: Este informe ha sido procesado.
+invalid-action: Acción inválida
