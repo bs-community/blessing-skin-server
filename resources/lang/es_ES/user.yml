@@ -13,126 +13,126 @@ cant-sign-until: No puedes iniciar sesión en :time :unit
 last-sign: Última firma en :time
 sign-remain-time: Disponible después de :time :unit
 announcement: Anuncio
-no-unread: No new notifications.
+no-unread: No hay notificaciones nuevas.
 verification:
-  disabled: Email verification is not available.
-  frequent-mail: You click the send button too fast. Wait for 60 secs, guy.
-  verified: Your account is already verified.
-  success: Verification link was sent, please check your inbox.
-  failed: We failed to send you the verification link. Detailed message :msg
+  disabled: La verificación del correo electrónico no está disponible.
+  frequent-mail: Haces clic en el botón de enviar demasiado rápido. Espera 60 segundos, tío.
+  verified: Tu cuenta ya está verificada.
+  success: El enlace de verificación fue enviado, por favor comprueba tu bandeja de entrada.
+  failed: No hemos podido enviarte el enlace de verificación. Mensaje detallado :msg
   mail:
-    title: Verify Your Account on :sitename
-    message: You are receiving this email because someone registered an account with this email address on :sitename.
-    reset: 'Click here to verify your account: <a href=":url">:url</a>'
-    ignore: If you did not register an account, no further action is required.
+    title: Verifique su cuenta en :sitename
+    message: Está recibiendo este correo electrónico porque alguien registró una cuenta con esta dirección en :sitename.
+    reset: 'Haga clic aquí para verificar su cuenta: <a href=":url">:url</a>'
+    ignore: Si no registraste una cuenta, no se requiere ninguna acción adicional.
 score-intro:
-  title: What is score?
+  title: '¿Qué es la puntuación?'
   introduction: |
-    We use score system to prevent the behaviors like uplaoding huge amount of textures and registering players casually.
-    Either adding players, uplaoding textures or adding a skinlib item to your closet will consume scores.
+    Utilizamos el sistema de puntuación para prevenir comportamientos como la subida de gran cantidades de texturas y el registro de jugadores casualmente.
+    Agregando jugadores, subiendo texturas o añadiendo un elemento skinlib a tu armario consumirá puntuaciones.
     :return-score
 
-    New users will get :initial_score scores initially, and you can acquire :score-from ~ :score-to scores by daily signing in.
-  will-return-score: The score will be returned if you deleted players, uploaded textures or closet items.
-  no-return-score: The score will NOT be returned if you deleted players, uploaded textures or closet items.
+    Nuevos usuarios obtendrán :initial_score inicialmente, y puedes adquirir puntajes :score-from ~ :score-to iniciando su sesión diariamente.
+  will-return-score: La puntuación se devolverá si eliminas jugadores, texturas subidas o elementos de armario.
+  no-return-score: La puntuación NO se devolverá si eliminas jugadores, texturas subidas o elementos de armario.
   rates:
-    storage: ':score scores = 1 KB storage'
-    player: ':score scores = 1 player'
-    closet: ':score socres = 1 closet item'
+    storage: ':score puntajes = 1 KB de almacenamiento'
+    player: ':score puntajes = 1 jugador'
+    closet: ':score puntajes = 1 elemento de armario'
 closet:
-  type-to-search: Type to search
-  switch-category: Switch Category
-  view: View in skin library
-  more: More
-  set-avatar: Set as avatar
+  type-to-search: Escriba para buscar
+  switch-category: Cambiar categoría
+  view: Ver en la colección de skins
+  more: Más
+  set-avatar: Establecer como avatar
   use-as:
-    button: Apply...
-    reset: Clear selected
-    title: Which player should be applied to?
-    empty: It seems that you own no player...
-    add: Add a new player
+    button: Aplicar...
+    reset: Borrar seleccionado
+    title: '¿A qué jugador se debe aplicar?'
+    empty: Parece que no tienes jugador...
+    add: Añadir un nuevo jugador
   add:
-    success: Added :name to closet successfully.
-    repeated: You have already added this texture.
-    not-found: We cannot find this texture.
-    lack-score: You don't have enough score to add it to closet.
+    success: Añadido :name al armario con éxito.
+    repeated: Ya has añadido esta textura.
+    not-found: No podemos encontrar esta textura.
+    lack-score: No tienes suficiente puntuación para añadirlo al armario.
   rename:
-    title: Rename item
-    success: The item is successfully renamed to :name
+    title: Renombrar elemento
+    success: El elemento se renombró correctamente a :name
   remove:
-    title: Remove from closet
-    success: The texture was removed from closet successfully.
-    non-existent: The texture does not exist in your closet.
+    title: Retirar de armario
+    success: La textura se ha retirado del armario con éxito.
+    non-existent: La textura no existe en su armario.
 player:
-  player-name: Player Name
-  edit: Edit
-  operation: Delete
-  edit-pname: Player name
-  delete-texture: Textures
-  delete-player: Player
-  add-player: Add new player
-  login-notice: Now you can log in with player names you owned instead email address.
+  player-name: Nombre del jugador
+  edit: Editar
+  operation: Eliminar
+  edit-pname: Nombre del jugador
+  delete-texture: Texturas
+  delete-player: Jugador
+  add-player: Añadir nuevo jugador
+  login-notice: Ahora puede iniciar su sesión con los nombres de jugadores que posees en el lugar de una dirección de correo electrónico.
   player-name-rule:
-    official: Player name may only contains letters, numbers and underscores.
-    cjk: Player name may contains letters, numbers, underscores and CJK Unified Ideographs.
-    custom: Custom player name rules are applied on this site. Please contact admins for further information.
-  player-name-length: The player name should be at least :min characters and not greater than :max characters.
+    official: El nombre del jugador sólo puede contener letras, números y guiones bajos.
+    cjk: El nombre del jugador puede contener letras, números, guiones bajos e ideógrafos unificados de CJK.
+    custom: Las reglas de nombre del jugador personalizadas se aplican en este sitio Por favor, contacte a los administradores para obtener más información.
+  player-name-length: El nombre del jugador debe tener al menos :min caracteres y no más de :max caracteres.
   add:
-    repeated: The player name is already registered.
-    lack-score: You don't have enough score to add a player.
-    single: You must own exactly ONE player so you can't add more.
-    success: Player :name was added successfully.
+    repeated: El nombre del jugador ya está registrado.
+    lack-score: No tienes suficiente puntuación para añadir un jugador.
+    single: Debes poseer exactamente UN jugador para que no puedas añadir más.
+    success: Jugador :name se agregó exitosamente.
   delete:
-    single: You must own exactly ONE player so you can't delete it.
-    success: Player :name was deleted successfully.
+    single: Debes poseer exactamente UN jugador para que no puedas eliminarlo.
+    success: Jugador :name fue eliminado exitosamente.
   rename:
-    repeated: This player name is occupied. Please choose another one.
-    success: Player :old was renamed to :new
+    repeated: Este nombre de jugador está ocupado. Por favor, elija otro.
+    success: Jugador :old fue renombrado a :new
   set:
-    success: The texture was applied to player :name successfully.
+    success: La textura se aplicó al jugador :name con éxito.
   clear:
-    success: The textures of player :name was resetted successfully.
+    success: Las texturas del jugador :name se restablecieron con éxito.
   bind:
-    title: Bind Players
-    success: Bound successfully!
+    title: Vincular jugadores
+    success: '¡Vinculados con éxito!'
 profile:
   avatar:
-    title: Change Avatar?
-    notice: Click the gear icon "<i class="fa fa-cog"></i>" of any skin in your closet, then click "Set as avatar". We will cut the head segment of that skin for you. If there is no icon like this, please try to unable your ADs blocking extension.
-    wrong-type: You can't set a cape as avatar.
-    success: New avatar was set successfully.
+    title: '¿Cambiar avatar?'
+    notice: Haz clic en el icono del engranaje "<i class="fa fa-cog"></i>" de cualquier aspecto de tu armario, luego haz clic en "Establecer como avatar". Cortaremos el segmento de cabeza de ese skin para ti. Si no hay ningún icono como este, por favor intenta desabilitando su bloqueador de anuncios.
+    wrong-type: No puedes establecer una capa como avatar.
+    success: Nuevo avatar se ha establecido correctamente.
   password:
-    title: Change Password
-    old: Old Password
-    new: New Password
-    confirm: Repeat Password
-    button: Change password
-    wrong-password: Wrong original password.
-    success: Password updated successfully, please log in again.
+    title: Cambiar contraseña
+    old: Contraseña antigua
+    new: Contraseña nueva
+    confirm: Repetir contraseña
+    button: Cambiar contraseña
+    wrong-password: Contraseña original incorrecta.
+    success: Contraseña actualizada con éxito, por favor inicie sesión de nuevo.
   nickname:
-    title: Change Nickname
-    empty: No nickname is set now.
-    rule: Whatever you like expect special characters
-    single: You're not allowed to update nickname, because we've bound your player with your account.
-    success: Nickname is successfully updated to :nickname
+    title: Cambiar apodo
+    empty: No se hay apodo asignado ahora.
+    rule: Lo que quieras excepto caracteres especiales
+    single: No tienes permiso para actualizar el apodo porque hemos vinculado su cuenta a su jugador.
+    success: Apodo actualizado correctamente a :nickname
   email:
-    title: Change Email
-    new: New Email
-    password: Current Password
-    button: Change email
-    wrong-password: Wrong password.
-    existed: This email address is occupied.
-    success: Email address updated successfully, please log in again.
+    title: Cambiar email
+    new: Nuevo email
+    password: Contraseña actual
+    button: Cambiar email
+    wrong-password: Contraseña incorrecta.
+    existed: Esta dirección de correo electrónico está ocupada.
+    success: Dirección de correo electrónico actualizada con éxito, por favor inicie sesión de nuevo.
   delete:
-    title: Delete Account
-    notice: Sure to delete your account on :site?
-    admin: Admin account can not be deleted.
-    button: Delete my account
-    modal-title: You need to enter your password to continue
+    title: Eliminar cuenta
+    notice: '¿Seguro que quieres eliminar su cuenta en :site?'
+    admin: La cuenta de administrador no puede ser eliminada.
+    button: Borrar mi cuenta
+    modal-title: Necesita introducir su contraseña para continuar
     modal-notice: |
-      You're about to delete your account.
-      This is permanent! No backups, no restores, no magic undo button.
-      We warned you, ok?
-    password: Current Password
-    wrong-password: Wrong password.
-    success: Your account is deleted successfully.
+      Está a punto de eliminar su cuenta.
+      ¡Esto es permanente! Sin copias de seguridad, sin restauraciones, sin botón mágico.
+      Le advertimos, ¿bien?
+    password: Contraseña actual
+    wrong-password: Contraseña incorrecta.
+    success: Su cuenta se ha eliminado con éxito.
