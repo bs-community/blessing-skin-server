@@ -1,18 +1,18 @@
 ---
 used:
-  title: Resources Used
-  players: Registered players
-  storage: Storage used
-cur-score: Current Score
-score-notice: Click the score to show introduction.
-sign: Sign
-sign-success: Signed successfully. You got :score scores.
+  title: Recursos usados
+  players: Jugadores registrados
+  storage: Almacenamiento usado
+cur-score: Puntuación actual
+score-notice: Haga clic en la puntuación para mostrar la introducción.
+sign: Firmar
+sign-success: Firmado con éxito. Obtuviste :score puntuaciones.
 time-unit-hour: h
 time-unit-min: min
-cant-sign-until: You can't sign in in :time :unit
-last-sign: Last signed at :time
-sign-remain-time: Available after :time :unit
-announcement: Announcement
+cant-sign-until: No puedes iniciar sesión en :time :unit
+last-sign: Última firma en :time
+sign-remain-time: Disponible después de :time :unit
+announcement: Anuncio
 no-unread: No new notifications.
 verification:
   disabled: Email verification is not available.
