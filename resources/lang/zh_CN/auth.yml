@@ -2,7 +2,7 @@
 login:
   title: 登录
   button: 登录
-  message: 登录以管理你的角色与皮肤
+  message: 登录以管理您的角色与皮肤
   keep: 保持登录状态
   success: 登录成功，欢迎回来
 check:
@@ -17,11 +17,11 @@ register:
   button: 注册
   message: 欢迎使用 :sitename！
   nickname-intro: 昵称可使用汉字，不可包含特殊字符
-  repeat-pwd: 重复密码
+  repeat-pwd: 再次输入密码
   close: 本站已关闭注册
   success: 注册成功，正在跳转...
   max: 你在本站注册的账号已达到上限 :regs 个，无法继续注册
-  registered: 此邮箱已被占用
+  registered: 此邮箱已被使用
 forgot:
   title: 忘记密码
   button: 发送
