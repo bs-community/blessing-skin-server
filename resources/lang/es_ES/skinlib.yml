@@ -1,80 +1,80 @@
 ---
 general:
-  filter: Filter
-  my-upload: Uploaded by me
-  sort: Sort
-  search-textures: Search for textures...
-  upload-new-skin: Upload new skin
-  no-result: No result.
+  filter: Filtro
+  my-upload: Subido por mí
+  sort: Ordenar
+  search-textures: Buscar texturas...
+  upload-new-skin: Subir nuevo skin
+  no-result: Sin resultados.
 filter:
-  now-showing: Now showing
+  now-showing: Mostrando ahora
   skin: Skin
-  cape: Cape
-  any-model: (Any Model)
-  steve-model: (Steve Model)
-  alex-model: (Alex Model)
-  uploader: User (:name) uploaded
-  clean-filter: Clean filter
+  cape: Capa
+  any-model: (Cualquier modelo)
+  steve-model: (Modelo Steve)
+  alex-model: (Modelo Alex)
+  uploader: Subido por usuario (:name)
+  clean-filter: Limpiar filtro
 sort:
-  newest-uploaded: Newestly uploaded
-  most-likes: Most likes
+  newest-uploaded: Recientemente subido
+  most-likes: Más popular
 item:
   steve: (Steve)
   alex: (Alex)
-  cape: (Cape)
-  remove-from-closet: Remove from closet
-  add-to-closet: Add to closet
-  anonymous: Please login first
-  private: Private
+  cape: (Capa)
+  remove-from-closet: Retirar de armario
+  add-to-closet: Añadir a armario
+  anonymous: Inicie sesión primero
+  private: Privado
 show:
-  title: Texture Details
-  anonymous: You must login to use closets.
-  likes: People who liked this
-  detail: Details
-  name: Texture Name
-  edit-name: Edit Name
-  model: Applicable Model
-  size: File Size
-  uploader: Uploader
-  upload-at: Upload At
-  delete-texture: Delete Texture
-  notice: The texture which was deleted or setted to private will be removed from the closet of everyone who had favorited it.
-  notice-admin: You are able to delete this texture or make it private. The operations will make it removed from the closet of everyone who had favorited it.
-  comment: Comment
-  deleted: The requested texture was already deleted.
-  contact-admin: Please contact the admins to remove this entry.
-  private: The requested texture is private and only visible to the uploader and admins.
+  title: Detalles de textura
+  anonymous: Debe iniciar sesión para usar armarios.
+  likes: Gente a la que le gustó esto
+  detail: Detalles
+  name: Nombre de textura
+  edit-name: Editar nombre
+  model: Modelo aplicable
+  size: Tamaño del archivo
+  uploader: Subidor
+  upload-at: Subido el
+  delete-texture: Borrar textura
+  notice: La textura que fue eliminada o puesta en privado será eliminada del armario de todos los que la habían favorecido.
+  notice-admin: Puede eliminar esta textura o hacerla privado. Las operaciones la eliminarán del armario de todos los que la habían favorecido.
+  comment: Comentario
+  deleted: La textura solicitada ya ha sido eliminada.
+  contact-admin: Póngase en contacto con los administradores para eliminar esta entrada.
+  private: La textura solicitada es privada y sólo visible para el subidor y los administradores.
 upload:
-  title: Upload Texture
-  texture-name: Texture Name
-  name-rule: Less than 32 characters and must not contain any special one.
-  name-rule-regexp: Custom name rules are applied as :regexp
-  texture-type: Texture Type
-  select-file: Select File
-  private-score-notice: It will spend you more scores for setting it as private. You will be charged :score scores for per KB storage.
-  privacy-notice: Prevent it from being visible at skin library.
-  set-as-private: Make it private
-  button: Upload
-  type-error: Incorrect mime type of uploaded file.
-  invalid-size: Invalid :type file (width :width, height :height)
-  invalid-hd-skin: Invalid HD skin (width and height should be divisible by 32)
-  lack-score: You don't have enough score to upload this texture.
-  repeated: The texture is already uploaded by someone else. You can add it to your closet directly.
-  success: Texture :name was uploaded successfully.
+  title: Subir textura
+  texture-name: Nombre de textura
+  name-rule: Menos de 32 caracteres y no debe contener ninguno especial.
+  name-rule-regexp: Las reglas de nombre personalizado se aplican como :regexp
+  texture-type: Tipo de textura
+  select-file: Seleccionar archivo
+  private-score-notice: Se gastarán más puntuaciones por configurarlo como privado. Se le cobrará :score por cada almacenamiento KB.
+  privacy-notice: Evitar que sea visible en la colección de skins.
+  set-as-private: Marcar privado
+  button: Subir
+  type-error: Tipo de archivo mime incorrecto subido.
+  invalid-size: Archivo :type no válido (ancho :width, altura :height)
+  invalid-hd-skin: Skin HD inválida (ancho y altura debe ser divisible por 32)
+  lack-score: No tienes suficiente puntuación para subir esta textura.
+  repeated: La textura ya está cargada por otra persona. Puede añadirla a su armario directamente.
+  success: Textura :name se ha subido exitosamente.
 delete:
-  success: The texture was deleted successfully.
+  success: La textura se eliminó con éxito.
 privacy:
-  change-privacy: Change privacy
-  set-as-private: Set as private
-  set-as-public: Set as public
-  success: The texture was set to :privacy successfully.
+  change-privacy: Cambiar privacidad
+  set-as-private: Establecer como privado
+  set-as-public: Establecer como público
+  success: La textura se estableció como :privacy con éxito.
 rename:
-  success: The texture was renamed to :name successfully.
+  success: La textura fue renombrada a :name con éxito.
 model:
-  success: The texture's model was changed to :model successfully.
-  duplicate: "The same texture available for the chosen model already exists in skinlib (Name: :tid). You can add it to your closet directly."
-no-permission: You have no permission to moderate this texture.
-non-existent: No such texture.
+  success: El modelo de la textura se cambió a :model con éxito.
+  duplicate: "La misma textura disponible para el modelo elegido ya existe en skinlib (Tid: :tid). Puede añadirla a su armario directamente."
+no-permission: No tienes permiso para moderar esta textura.
+non-existent: No existe la textura.
 report:
-  duplicate: You have already reported this texture. The administrators will review it as soon as possible. You can also track the status of your report at User Center.
-  success: Thanks for reporting! The administrators will review it as soon as possible.
+  duplicate: Ya ha reportado esta textura. Los administradores la revisarán tan pronto sea posible. También puede rastrear el estado de su informe en el Centro de usuarios.
+  success: '¡Gracias por reportar! Los administradores lo revisarán tan pronto sea posible.'
