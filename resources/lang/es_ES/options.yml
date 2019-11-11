@@ -1,207 +1,207 @@
 ---
-option-saved: Option saved.
+option-saved: Opción guardada.
 homepage:
-  title: Homepage
+  title: Inicio
   home_pic_url:
-    title: Picture URL at Homepage
-    hint: Path relative to homepage or full URL, leave empty to use default image.
+    title: URL de la imagen en la página de inicio
+    hint: Ruta relativa a la página de inicio o URL completa, dejar en blanco para usar la imagen por defecto.
   favicon_url:
-    title: Website Icon
-    hint: Path relative to public/ or full URL.
-    description: The given image must have same width and height (leave blank to use default icon).
+    title: Icono del sitio web
+    hint: Ruta relativa a public/ o URL completa.
+    description: La imagen dada debe tener el mismo ancho y altura (dejar en blanco para usar el icono por defecto).
   transparent_navbar:
-    title: Transparent Navigation Bar
-    label: This will enable transparent navigation bar of home page, but it will turn to be normal if page is scrolled to bottom.
+    title: Barra de navegación transparente
+    label: Esto activará la barra de navegación transparente de la página de inicio, pero se convertirá en normal si la página se desplaza hacia abajo.
   hide_intro:
-    title: Hide Introduction at Bottom
-    label: Scroll bar will be disabled if this option is enabled, as version 2.x.
+    title: Ocultar introducción en la parte inferior
+    label: La barra de desplazamiento se desactivará si esta opción está activada, desde versión 2.x.
   fixed_bg:
-    title: Fixed Background
-    label: This option will make background fixed, not scrolled with scroll bar.
+    title: Fondo fijo
+    label: Esta opción hará que el fondo sea fijo, no desplazado con la barra de desplazamiento.
   copyright_prefer:
-    title: Program Copyright
-    description: "You can specify a different style of program copyright for each language. To edit a specific language's corresponding program copyright style, please switch to that language and submit your edit. <br><b>Warning:</b> Any evil modification applied on the footer program copyright (including deleting, modifying author, changing link target) with out permission is <b>FORBIDDEN</b>. The author reserves the right to pursue relevant responsibilities."
+    title: Copyright del programa
+    description: "Puede especificar un estilo diferente de copyright del programa para cada idioma. Para editar el correspondiente estilo de copyright de un idioma específico, por favor cambie a ese idioma y someta su edición. <br><b>Advertencia:</b> Cualquier modificación mala aplicada al copyright del programa de pie de página (incluyendo eliminación, modificando el autor, cambiando el destino del enlace) sin permiso es <b>FORBIDO</b>. El autor se reserva el derecho a asumir las responsabilidades pertinentes."
   copyright_text:
-    title: Custom Copyright Text
-    description: Placeholders are available in custom copyright text. e.g. <code>{site_name}</code> & <code>{site_url}</code>. You can also specify a different footer for each language. To edit a specific language's corresponding footer, please switch to that language and submit your edit.
+    title: Texto personalizado de copyright
+    description: Los marcadores de posición están disponibles en el texto de copyright personalizado. ej. <code>{site_name}</code> & <code>{site_url}</code>. También puedes especificar un pie de página diferente para cada idioma. Para editar el pie de página de un idioma específico, por favor cambie a ese idioma y someta su edición.
 customJsCss:
-  title: Custom CSS/JavaScript
+  title: CSS/JavaScript personalizado
   message: |
-    The contents will be attached to &lt;style&gt; and &lt;script&gt; tags.<br>
-    - Here are some useful examples: <a href="https://blessing.netlify.com/css-js.html">Examples of Custom CSS & JavaScript</a>
+    El contenido se adjuntará a etiquetas &lt;style&gt; y &lt;script&gt;.<br>
+    - Aquí hay algunos ejemplos útiles: <a href="https://blessing.netlify.com/css-js.html">Ejemplos de JavaScript y CSS personalizado</a>
   custom_css: CSS
   custom_js: JavaScript
 rate:
-  title: Scores
+  title: Puntuaciones
   score_per_storage:
-    title: Storage
-    addon: scores = 1 KB
+    title: Almacenamiento
+    addon: puntuaciones = 1 KB
   private_score_per_storage:
-    title: Private Storage
-    addon: scores = 1 KB
-    hint: Uploading private textures will cost more scores.
+    title: Almacenamiento privado
+    addon: puntuaciones = 1 KB
+    hint: Subir texturas privadas costará más puntuaciones.
   score_per_closet_item:
-    title: Favorites
-    addon: score = 1 closet item
+    title: Favoritos
+    addon: puntuación = 1 elemento de armario
   return_score:
-    title: Score Return
-    label: Return scores back to user after deleting players/textures/closet items.
+    title: Puntuación de retorno
+    label: Devuelve las puntuaciones al usuario después de eliminar jugadores/texturas/elementos de armario.
   score_per_player:
-    title: Players
-    addon: scores = 1 player
-  user_initial_score: User Initial Score
+    title: Jugadores
+    addon: puntuaciones = 1 jugador
+  user_initial_score: Puntuación inicial del usuario
 report:
-  title: Reporting Textures
+  title: Reportando texturas
   reporter_score_modification:
-    title: Scores for Submitting an Report
-    description: Set a positive integer value to reward user who submits new reports. Set to a negative value will require scores for submitting reports, and the suspended scores will be available if user's report was resolved. Set to 0 to disable.
+    title: Puntuaciones para enviar un informe
+    description: Establece un valor entero positivo para recompensar al usuario que envía nuevos informes. Establecer a un valor negativo requerirá puntuaciones para enviar informes, y las puntuaciones suspendidas estarán disponibles si el informe del usuario fue resuelto. Establecer a 0 para desactivar.
   reporter_reward_score:
-    title: Reward the Reporter with Scores If Report Resolved
+    title: Recompensa al reportador con puntuaciones si el informe se resuelve
 sign:
-  title: Signing
+  title: Firmando
   sign_score:
-    title: Score Granted
-    addon1: scores ~
-    addon2: scores
+    title: Puntuación concedida
+    addon1: puntuaciones ~
+    addon2: puntuaciones
   sign_gap_time:
-    title: Gap Time
-    addon: hours
+    title: Tiempo de hueco
+    addon: horas
   sign_after_zero:
-    title: Time
-    label: Users can sign in after 0 everyday.
-    hint: The above option will be ignored if this is checked.
+    title: Hora
+    label: Los usuarios pueden iniciar sesión después de 0 todos los días.
+    hint: La opción anterior será ignorada si esto está marcado.
 sharing:
-  title: Awarding Sharing
+  title: Concesionando el compartir
   score_award_per_texture:
-    title: Uploader will be rewarded for each uploading texture with
+    title: El cargador será recompensado por cada textura cargada con
   take_back_scores_after_deletion:
-    title: Return scores
-    label: Return scores if uploader setting private or deleting texture.
+    title: Retornación de puntuaciones
+    label: Devolver puntuaciones si la configuración del cargador es privada o si se elimina la textura.
   score_award_per_like:
-    title: Each time the texture is collected, uploader will be rewarded with
+    title: Cada vez que la textura es recolectada, el cargador será recompensado con
 general:
-  title: General Options
-  site_name: Site Name
+  title: Opciones generales
+  site_name: Nombre del sitio
   site_description:
-    title: Site Description
-    description: You can also specify a different site name and description for each language. To edit a specific language's corresponding site name or description text, please switch to that language and submit your edit.
+    title: Descripción del sitio
+    description: También puede especificar un nombre y una descripción del sitio para cada idioma. Para editar el nombre o la descripción del sitio web de un idioma específico, por favor cambie a ese idioma y someta su edición.
   site_url:
-    title: Site URL
-    hint: Begin with http(s)://, nerver ends with slash.
+    title: URL del sitio
+    hint: Comienza con http(s)://, nunca termina con una barra.
   user_can_register:
-    title: Open Registration
-    label: Everyone is allowed to register.
+    title: Registro abierto
+    label: A todo el mundo se le permite registrarse.
   register_with_player_name:
-    title: Register with Player Name
-    label: Require Minecraft's player name when user register
+    title: Registrar con el nombre del jugador
+    label: Requerir el nombre del jugador de Minecraft cuando el usuario se registre
   require_verification:
-    title: Account Verification
-    label: Users must verify their email address first.
-  regs_per_ip: Max accounts of one IP
+    title: Verificación de cuenta
+    label: Los usuarios primero deben verificar su dirección de correo electrónico.
+  regs_per_ip: Cuentas máximas de un IP
   ip_get_method:
-    title: Get IP via
-    HTTP_X_FORWARDED_FOR: HTTP_X_FORWARDED_FOR (can be fabricated)
-    REMOTE_ADDR: REMOTE_ADDR (NOT suitable for sites under load balancer)
-    hint: Unfortunately, we have no method to get the accurate client IP address with pure PHP.
+    title: Obtener IP vía
+    HTTP_X_FORWARDED_FOR: HTTP_X_FORWARDED_FOR (puede ser fabricado)
+    REMOTE_ADDR: REMOTE_ADDR (NO adecuado para sitios bajo balanceador de carga)
+    hint: Desafortunadamente, no tenemos ningún método para obtener la dirección IP del cliente con puro PHP.
   max_upload_file_size:
-    title: Max Upload Size
-    hint: "Limit specified in php.ini: :size"
+    title: Tamaño máximo de subida
+    hint: "Límite especificado en php.ini: :size"
   player_name_rule:
-    title: Player Name Rule
-    official: Letters, numbers and underscores (Mojang's official rule)
-    cjk: Allow CJK Unified Ideographs
-    custom: Use custom rules (regular expression)
+    title: Regla de nombre de jugador
+    official: Letras, números y guiones bajos (regla oficial de Mojang)
+    cjk: Permitir Ideografías unificadas CJK
+    custom: Usar reglas personalizadas (expresión regular)
   custom_player_name_regexp:
-    title: Custom Player Name Rules
-    hint: Only takes effect when the above option is set to 'custom'. Leave empty to allow any character.
-    placeholder: Regular Expressions
+    title: Reglas de nombre de jugador personalizadas
+    hint: Sólo tiene efecto cuando la opción anterior se establece en 'personalizar'. Dejar en blanco para permitir cualquier carácter.
+    placeholder: Expresiones regulares
   player_name_length:
-    title: Player Name Length
-    suffix: characters
-  api_type: Prefered JSON API
+    title: Longitud del nombre de jugador
+    suffix: caracteres
+  api_type: API JSON preferida
   auto_del_invalid_texture:
-    title: Invalid Textures
-    label: Delete invalid textures automatically.
-    hint: Delete textures records whose file no longer exists from skinlib.
+    title: Texturas no válidas
+    label: Borrar texturas no válidas automáticamente.
+    hint: Eliminar registros de texturas cuyos archivos ya no existen en skinlib.
   allow_downloading_texture:
-    title: Downloading Textures
-    label: Allow users to directly download the source file of a skinlib item.
+    title: Descargando texturas
+    label: Permite a los usuarios descargar directamente el archivo fuente de un elemento skinlib.
   status_code_for_private:
-    title: HTTP Code for Rejecting Accessing Private Textures
+    title: Código HTTP para rechazar el acceso a texturas privadas
   texture_name_regexp:
-    title: Texture Name Rules
-    hint: The RegExp for validating name of uploaded textures. Leave empty to allow any character except single, double quote and backslash.
-    placeholder: Regular Expressions
+    title: Reglas de nombre de textura
+    hint: RegExp para validar el nombre de las texturas subidas. Dejar en blanco para permitir cualquier carácter excepto una comilla individual, doble y barra invertida.
+    placeholder: Expresiones regulares
   content_policy:
-    title: Content Policy
-    description: Display content policy at texture uploading page, supporting Markdown. To edit a specific language's corresponding content policy, please switch to that language and submit your edit.
+    title: Política de contenido
+    description: Muestra la política de contenido en la página de subida de texturas, apoyando a Markdown. Para editar la correspondiente política de contenido de un idioma específico, por favor cambie a ese idioma y someta su edición.
   comment_script:
-    title: Comment Script
-    description: Placeholder is available, <code>{tid}</code> will be replaced with texture id, <code>{name}</code> will be replaced with texture name, <code>{url}</code> will be replaced with current URL.
+    title: Script de comentarios
+    description: El marcador de posición está disponible, <code>{tid}</code> será reemplazado por el id de la textura, <code>{name}</code> será reemplazado por el nombre de la textura, <code>{url}</code> será reemplazado por la URL actual.
 announ:
-  title: Announcement
+  title: Anuncio
   announcement:
-    description: Styling with Markdown is supported. You can also specify a different announcement for each language. To edit a specific language's corresponding announcement, please switch to that language and submit your edit.
+    description: El estilo con Markdown es compatible. También puedes especificar un anuncio diferente para cada idioma. Para editar el anuncio correspondiente de un idioma específico, por favor cambie a ese idioma y someta su edición.
 meta:
-  title: SEO <meta> tags
+  title: Etiquetas SEO <meta>
   meta_keywords:
-    title: Keywords
-    hint: Split with commas.
+    title: Palabras clave
+    hint: Dividir con comas.
   meta_description:
-    title: Description
-    hint: Description defined in "general options" will be used if you left it empty.
+    title: Descripción
+    hint: Descripción definida en "Opciones generales" se utilizará si la deja vacía.
   meta_extras:
-    title: Other Custom <meta> Tags
+    title: Otras etiquetas personalizadas <meta>
 recaptcha:
   recaptcha_invisible:
     title: Invisible
-    label: Enable Invisible Mode
-res-warning: This page is ONLY for advanced users. If you aren't familiar with these, please don't modify them!
+    label: Activar modo invisible
+res-warning: Esta página es SOLO para usuarios avanzados. Si no estás familiarizado con estos, ¡por favor no las modifiques!
 resources:
-  title: Resource Files
-  hint: Please check these options if you enabled CDN for your site.
+  title: Archivos de recursos
+  hint: Por favor, compruebe estas opciones si ha habilitado CDN para su sitio.
   force_ssl:
-    title: Force SSL
-    label: Use HTTPS protocol to load all front-end assets.
-    hint: Please check if SSL really available before turning on.
+    title: Forzar SSL
+    label: Utilizar el protocolo HTTPS para cargar todos los assets del front-end.
+    hint: Por favor, compruebe si SSL está realmente disponible antes de activar.
   auto_detect_asset_url:
-    title: Assets URL
-    label: Determine assets url automatically.
-    description: Please unable this if assets URLs are wrongly generated under a CDN. The site url will be used if this is not enabled.
+    title: URL de assets
+    label: Determinar la url de assets automáticamente.
+    description: Por favor, deshabilite esto si las URL de los assets se generan incorrectamente bajo un CDN. Se utilizará la url del sitio si esto no está habilitado.
   return_204_when_notfound:
-    title: HTTP Response Code
-    label: Return 204 instead of 404 when requesting non-existent player.
-    description: If your CDN doesn't cache 404 pages, please turn this on. A flood of requests to non-existent players will greatly slow down the site.
+    title: Código de respuesta HTTP
+    label: Devuelve 204 en lugar de 404 cuando solicite un jugador inexistente.
+    description: Si tu CDN no almacena en caché páginas 404, por favor activa esta opción. Un aluvión de peticiones a jugadores inexistentes ralentizará enormemente el sitio.
   cache_expire_time:
-    title: Cache Exipre Time
-    hint: In seconds, 86400 = one day, 31536000 = one year.
+    title: Tiempo de expiración caché
+    hint: En segundos, 86400 = un día, 31536000 = un año.
   cdn_address:
-    title: Front-end Assets CDN
-    hint: Front-end files won't be loaded if URL is unavailable.
+    title: CDN de assets de front-end
+    hint: Los archivos front-end no se cargarán si la URL no está disponible.
     description: |
-      The CDN URL you give must refer to a mirror of <code>/public</code> directory,
-      all the files of that directory will be loaded as CDN.<br>
-      <b>How to verify?</b> Verify if <code>{Your CDN URL}/app/manifest.json</code> can be accessed.
+      La URL del CDN debe referirse a una réplica del directorio <code>/public</code>,
+      todos los archivos de ese directorio se cargarán como CDN.<br>
+      <b>¿Cómo verificar?</b> Verifica si <code>{Your CDN URL}/app/manifest.json</code> puede ser accedido.
 redis:
   enable_redis:
-    title: Enable
-    label: Enable Redis
-    description: Redis will be used to store cache, session and etc.
+    title: Habilitar
+    label: Habilitar Redis
+    description: Redis se utilizará para almacenar caché, sesión y etc.
   connect:
-    success: Connected to Redis server successfully.
-    failed: 'Failed to connect Redis server. Error: :msg'
+    success: Conectado al servidor de Redis con éxito.
+    failed: 'Error al conectar el servidor de Redis. Error: :msg'
 cache:
-  title: Cache Configuration
-  clear: Clear Cache
-  cleared: Cache has been cleared.
-  driver: Current cache driver is 「:driver」.
+  title: Configuración de caché
+  clear: Limpiar caché
+  cleared: La caché ha sido borrada.
+  driver: El controlador de caché actual es :driver.
   enable_avatar_cache:
     title: Avatar
-    label: Enable caching avatar
+    label: Habilitar avatar de caché
   enable_preview_cache:
-    title: Texture Preivew
-    label: Enable caching texture preivew
+    title: Preestreno de textura
+    label: Habilitar el preestreno de textura en caché
   enable_json_cache:
-    label: Enable caching Json Profile
+    label: Habilitar el perfil de Json en caché
   enable_notfound_cache:
-    label: Enable caching whether player is existed or not
+    label: Habilitar el almacenamiento en caché si el jugador existe o no
