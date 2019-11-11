@@ -2,7 +2,7 @@
 login:
   title: 登录
   button: 登录
-  message: 登录以管理你的角色与皮肤
+  message: 登录以管理您的角色与皮肤
   keep: 保持登录状态
   success: 登录成功，欢迎回来
 check:

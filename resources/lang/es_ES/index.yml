@@ -1,17 +1,17 @@
 ---
 features:
-  title: Features
+  title: Funciones
   first:
     icon: fa-users
-    name: Multi Player
-    desc: You can add multiple players within one registered account.
+    name: Multijugador
+    desc: Puedes añadir multiples jugadores con sólo una cuenta.
   second:
     icon: fa-share-square
-    name: Sharing
-    desc: Explore the skin library, send a "like" and share them with your friends.
+    name: Compartiendo
+    desc: Explora la colección de skin, deja un "like" y compártelos con tus amigos.
   third:
     icon: fa-cloud
-    name: Free
-    desc: It is free forever. No ads. No subscription fees.
-introduction: ':sitename provides the service of uploading and hosting Minecraft skins. By coordinating with skin mods (e.g. CustomSkinLoader), you can choose skin and cape for your game character, and make it visible to other players in Minecraft.'
-start: Join Us
+    name: Gratis
+    desc: Es gratis para para siempre. No hay anuncios. Tampoco suscripciones.
+introduction: ':sitename provee el servicio de subida y alojamiente de skins de Minecraft. Coordenando con skin mods (como CustomSkinLoader), puedes escoger skins y capas para tu personaje, y hacerlo visible para otros jugadores.'
+start: Únete a nosotros

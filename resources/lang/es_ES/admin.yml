@@ -1,169 +1,169 @@
 ---
 index:
-  total-users: Registered Users
-  total-players: Players
-  total-textures: Uploaded Textures
-  disk-usage: Disk Usage
-  overview: Overview
-  texture-uploads: Texture Uploads
-  user-registration: User Registration
+  total-users: Usuarios registrados
+  total-players: Jugadores
+  total-textures: Texturas subidas
+  disk-usage: Uso del disco
+  overview: Resumen
+  texture-uploads: Subidas de texturas
+  user-registration: Registro de usuario
 notifications:
   send:
-    title: Send Notification
-    success: Sent successfully!
+    title: Enviar notificación
+    success: '¡Enviado con éxito!'
   receiver:
-    title: Receiver
-    all: All Users
-    normal: Normal Users
-    uid: Specified UID
-    email: Specified Email
-  title: Title
-  content: Content (Markdown is supported.)
+    title: Receptor
+    all: Todos los usuarios
+    normal: Usuarios normales
+    uid: UID especificado
+    email: Email especificado
+  title: Título
+  content: Contenido (Markdown está soportado).
 users:
   status:
     normal: Normal
-    banned: Banned
+    banned: Baneado
     admin: Admin
     super-admin: Super Admin
   operations:
-    non-existent: No such user.
-    no-permission: You have no permission to operate this user.
-    invalid: Invalid action.
+    non-existent: No existe tal usuario.
+    no-permission: No tienes permiso para operar este usuario.
+    invalid: Acción inválida.
     email:
-      existed: ':email is existed.'
-      success: Email changed successfully.
+      existed: ':email existe.'
+      success: Email cambiado con éxito.
     verification:
-      success: Account verification status toggled successfully.
+      success: Estado de verificación de la cuenta cambiado con éxito.
     nickname:
-      success: Nickname changed successfully.
+      success: El apodo se ha modificado con éxito.
     password:
-      success: Password changed successfully.
+      success: Contraseña cambiada con éxito.
     score:
-      success: Score changed successfully.
-    permission: Permission updated.
+      success: Puntuación cambiada con éxito.
+    permission: Permiso actualizado.
     delete:
-      delete: Delete User
-      success: The account has been deleted successfully.
-      cant-super-admin: You can't delete a super admin.
-      cant-admin: You can't delete a admin account.
+      delete: Eliminar usuario
+      success: La cuenta ha sido eliminada con éxito.
+      cant-super-admin: No puedes eliminar a un superadmin.
+      cant-admin: No puedes eliminar una cuenta de administrador.
 players:
-  no-permission: You have no permission to operate this player.
+  no-permission: No tienes permiso para operar este jugador.
   operations:
-    title: Operations
+    title: Operaciones
   textures:
-    change: Change Textures
-    non-existent: No such texture tid.:tid
-    success: The textures of :player has been updated.
+    change: Modificar texturas
+    non-existent: Textura Inexistente tid.:tid
+    success: Las texturas de :player han sido actualizadas.
   name:
-    success: Player name has been updated to :player
+    success: El nombre del jugador ha sido actualizado a :player
   owner:
-    change: Change Owner
-    success: The player :player was transferred to user :user.
+    change: Cambiar propietario
+    success: El jugador :player fue transferido al usuario :user.
   delete:
-    delete: Delete
-    success: The player has been deleted successfully.
+    delete: Eliminar
+    success: El jugador ha sido eliminado correctamente.
 customize:
   change-color:
-    title: Change Theme Color
-    success: Theme color updated.
+    title: Cambiar color del tema
+    success: Color del tema actualizado.
   colors:
-    blue: Blue (Default)
-    blue-light: Blue Light
-    yellow: Yellow
-    yellow-light: Yellow Light
-    green: Green
-    green-light: Green Light
-    purple: Purple
-    purple-light: Purple Light
-    red: Red
-    red-light: Red Light
-    black: Black
-    black-light: Black Light
+    blue: Azul (por defecto)
+    blue-light: Azul claro
+    yellow: Amarillo
+    yellow-light: Amarillo claro
+    green: Verde
+    green-light: Verde claro
+    purple: Morado
+    purple-light: Morado claro
+    red: Rojo
+    red-light: Rojo claro
+    black: Negro
+    black-light: Oscuro
 i18n:
-  add: Add New Language Line
-  added: Language line added.
-  updated: Language line updated.
-  deleted: Language line deleted.
-  group: Group
-  key: Key
-  text: Text
-  tip: How can I use this page?
+  add: Añadir nueva línea de idioma
+  added: Línea de idioma añadida.
+  updated: Línea de idioma actualizada.
+  deleted: Línea de idioma eliminada.
+  group: Grupo
+  key: Clave
+  text: Texto
+  tip: '¿Cómo puedo usar esta página?'
 status:
-  info: Information
-  health: Health
+  info: Información
+  health: Salud
   bs:
     name: Blessing Skin
-    version: Version
-    env: Application Environment
-    debug: Debugging or Not?
+    version: Versión
+    env: Entorno de aplicación
+    debug: '¿Depurar o no?'
     commit: Commit
-    laravel: Laravel Version
+    laravel: Versión de Laravel
   server:
-    name: Server
-    php: PHP Version
-    web: Web Server Software
-    os: OS
+    name: Servidor
+    php: Versión de PHP
+    web: Software del servidor web
+    os: SO
   db:
-    name: Database
-    type: Server
+    name: Base de datos
+    type: Servidor
     host: Host
-    port: Port
-    username: Username
-    database: Database
-    prefix: Table Prefix
-  plugins: Enabled Plugins (:amount)
+    port: Puerto
+    username: Usuario
+    database: Base de datos
+    prefix: Prefijo de tabla
+  plugins: Plugins habilitados (:amount)
 plugins:
-  name: Name
-  description: Description
-  author: Author
-  version: Version
-  dependencies: Dependencies
+  name: Nombre
+  description: Descripción
+  author: Autor
+  version: Versión
+  dependencies: Dependencias
   operations:
-    title: Operations
-    enabled: ':plugin has been enabled.'
+    title: Operaciones
+    enabled: ':plugin ha sido habilitado.'
     unsatisfied:
-      notice: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't enable it. Please install or update the plugins listed below, and disable those have conflicts.
-      disabled: 'The ":name" plugin is not enabled.'
-      version: 'The version of ":title" does not satisfies the constraint ":constraint".'
-      conflict: 'The ":title" plugin cannot run with this plugin at the same time.'
-    disabled: ':plugin has been disabled.'
-    deleted: The plugin was deleted successfully.
-    no-config-notice: The plugin is not installed or doesn't provide a configuration page.
-    not-found: No such plugin.
+      notice: Hay conflictos o dependencias insatisfechas en el plugin, por lo tanto no podemos activarlo. Por favor, instale o actualice los plugins listados a continuación, y desactive los que tienen conflictos.
+      disabled: 'El plugin ":name" no está habilitado.'
+      version: 'La versión de ":title" no satisface la restricción ":constraint".'
+      conflict: 'El plugin ":title" no puede ejecutarse con este plugin al mismo tiempo.'
+    disabled: ':plugin ha sido deshabilitado.'
+    deleted: El plugin se eliminó con éxito.
+    no-config-notice: El plugin no está instalado o no proporciona una página de configuración.
+    not-found: No existe dicho plugin.
   market:
-    connection-error: Unable to connect to the plugins registry. :error
-    non-existent: The plugin :plugin does not exist.
-    install-success: Plugin was installed.
-  empty: No result
+    connection-error: No se puede conectar al registro de plugins. :error
+    non-existent: El plugin :plugin no existe.
+    install-success: Se instaló el plugin.
+  empty: Sin resultados
 update:
-  complete: Update completed
+  complete: Actualización completada
   info:
-    title: Update Information
-    up-to-date: Already up-to-date.
-    available: New version available.
+    title: Actualizar información
+    up-to-date: Ya está actualizado.
+    available: Nueva versión disponible.
     versions:
-      latest: "Latest Version:"
-      current: "Current Version:"
-    check-github: Check GitHub Releases
-    button: Update Now
+      latest: "Última versión:"
+      current: "Versión actual:"
+    check-github: Comprobar versiones de GitHub
+    button: Actualizar ahora
   cautions:
-    title: Cautions
-    link: check out this.
+    title: Precauciones
+    link: compruebe esto.
     text: |
-      Please choose update source according to your host's network environment.
-      Low-speed connection between update source and your host will cause long-time loading at checking and downloading page.
-      To change the default update source,
+      Por favor, elija la fuente de actualización según el entorno de red de su host.
+      La conexión de baja velocidad entre la fuente de actualización y su host causará una carga lenta a la hora de comprobar y descargar la página.
+      Para cambiar la fuente de actualización por defecto,
   download:
-    downloading: Downloading update package...
-    size: "Size of package:"
+    downloading: Descargando paquete de actualización...
+    size: "Tamaño del paquete:"
   errors:
-    connection: "Unable to access to current update source. Details: :error"
-    spec: Current update source is not supported.
-    php: Your PHP version is too low to update. Requires :version or later.
+    connection: "No se puede acceder a la fuente de actualización actual. Detalles: :error"
+    spec: La fuente de actualización actual no está soportada.
+    php: Tu versión de PHP es demasiado baja para actualizar. Requiere :version o posterior.
 download:
   errors:
-    download: 'Failed to download. Error: :error'
-    shasum: File validation failed. Please download again.
-    unzip: Failed to unpack files.
-report-reviewed: This report has been processed.
-invalid-action: Invalid action
+    download: 'Error al descargar. Error: :error'
+    shasum: La validación del archivo ha fallado. Por favor, descargue de nuevo.
+    unzip: Error al desempaquetar archivos.
+report-reviewed: Este informe ha sido procesado.
+invalid-action: Acción inválida
