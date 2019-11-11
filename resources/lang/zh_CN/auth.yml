@@ -17,11 +17,11 @@ register:
   button: 注册
   message: 欢迎使用 :sitename！
   nickname-intro: 昵称可使用汉字，不可包含特殊字符
-  repeat-pwd: 重复密码
+  repeat-pwd: 再次输入密码
   close: 本站已关闭注册
   success: 注册成功，正在跳转...
   max: 你在本站注册的账号已达到上限 :regs 个，无法继续注册
-  registered: 此邮箱已被占用
+  registered: 此邮箱已被使用
 forgot:
   title: 忘记密码
   button: 发送
