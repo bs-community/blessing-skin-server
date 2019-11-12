@@ -23,10 +23,12 @@
 git clone https://github.com/bs-community/blessing-skin-server.git
 cd blessing-skin-server
 composer install
+cp .env.example .env
 yarn
+php artisan key:generate
 ```
 
-然后执行 `cp .env.example .env`，并在 `.env` 中配置好您的环境信息。
+然后在 `.env` 中配置好您的环境信息，务必设置好 `ASSET_URL`，否则无法编译前端资源。
 
 ### 进行开发
 
