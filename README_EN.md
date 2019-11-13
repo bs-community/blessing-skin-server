@@ -223,7 +223,7 @@ Blessing Skin supports multiple languages, while currently supporting English (`
 
 Of course, you can add your own language. Please check [Add other language [i18n]](https://blessing.netlify.com/i18n.html) (Simplified Chinese only).
 
-If you are willing to contribute your translation, welcome to join [our Crowdin project](https://crowdin.com/project/bs-i18n).
+If you are willing to contribute your translation, welcome to join [our Crowdin project](https://crowdin.com/project/blessing-skin).
 
 ## Report Bugs
 
