@@ -11,7 +11,15 @@ class RedirectToSetup
     public function handle($request, Closure $next)
     {
         $version = config('app.version');
-        if (! $request->is('setup*') && Comparator::greaterThan($version, option('version', $version))) {
+        $hasLock = resolve(Filesystem::class)->exists(storage_path('install.lock'));
+
+        // If lock isn't existed, it means that BS isn't installed.
+        // Database is unavailable at this time, so we should disable the loader.
+        if (! $hasLock) {
+            config(['translation-loader.translation_loaders' => []]);
+        }
+
+        if ($hasLock && ! $request->is('setup*') && Comparator::greaterThan($version, option('version', $version))) {
             $user = $request->user();
             if ($user && $user->isAdmin()) {
                 return redirect('/setup/update');
@@ -20,7 +28,6 @@ class RedirectToSetup
             }
         }
 
-        $hasLock = resolve(Filesystem::class)->exists(storage_path('install.lock'));
         if ($hasLock || $request->is('setup*')) {
             return $next($request);
         }

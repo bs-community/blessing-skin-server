@@ -32,5 +32,6 @@ class RedirectToSetupTest extends TestCase
         $this->get('/')->assertViewIs('home');
         $this->get('/setup')->assertViewIs('setup.wizard.welcome');
         $this->get('/')->assertRedirect('/setup');
+        $this->assertEquals([], config('translation-loader.translation_loaders'));
     }
 }
