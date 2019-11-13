@@ -23,4 +23,8 @@ return [
     'en_US' => [
         'alias' => 'en',
     ],
+    'es_ES' => [
+        'name' => 'Español',
+        'short_name' => 'ES'
+    ],
 ];
