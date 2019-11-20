@@ -5,18 +5,28 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Report;
 use App\Models\Texture;
+use App\Services\Filter;
+use App\Services\Rejection;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Contracts\Events\Dispatcher;
 
 class ReportController extends Controller
 {
-    public function submit(Request $request)
+    public function submit(Request $request, Dispatcher $dispatcher, Filter $filter)
     {
         $data = $this->validate($request, [
             'tid' => 'required|exists:textures',
             'reason' => 'required',
         ]);
         $reporter = auth()->user();
+
+        $can = $filter->apply('user_can_report', true, [$data['tid'], $data['reason'], $reporter]);
+        if ($can instanceof Rejection) {
+            return json($can->getReason(), 1);
+        }
+
+        $dispatcher->dispatch('report.submitting', [$data['tid'], $data['reason'], $reporter]);
 
         if (Report::where('reporter', $reporter->uid)->where('tid', $data['tid'])->count() > 0) {
             return json(trans('skinlib.report.duplicate'), 1);
@@ -36,6 +46,8 @@ class ReportController extends Controller
         $report->reason = $data['reason'];
         $report->status = Report::PENDING;
         $report->save();
+
+        $dispatcher->dispatch('report.submitted', [$report]);
 
         return json(trans('skinlib.report.success'), 0);
     }
@@ -81,15 +93,18 @@ class ReportController extends Controller
         ];
     }
 
-    public function review(Request $request)
+    public function review(Request $request, Dispatcher $dispatcher)
     {
         $data = $this->validate($request, [
             'id' => 'required|exists:reports',
             'action' => ['required', Rule::in(['delete', 'ban', 'reject'])],
         ]);
+        $action = $data['action'];
         $report = Report::find($data['id']);
 
-        if ($data['action'] == 'reject') {
+        $dispatcher->dispatch('report.reviewing', [$report, $action]);
+
+        if ($action == 'reject') {
             if (
                 $report->informer &&
                 ($score = option('reporter_score_modification', 0)) > 0 &&
@@ -101,19 +116,25 @@ class ReportController extends Controller
             $report->status = Report::REJECTED;
             $report->save();
 
+            $dispatcher->dispatch('report.rejected', [$report]);
+
             return json(trans('general.op-success'), 0, ['status' => Report::REJECTED]);
         }
 
-        switch ($data['action']) {
+        switch ($action) {
             case 'delete':
-                if ($report->texture) {
-                    $report->texture->delete();
+                $texture = $report->texture;
+                if ($texture) {
+                    $texture->delete();
+                    $dispatcher->dispatch('texture.deleted', [$texture]);
                 } else {
                     // The texture has been deleted by its uploader
                     // We will return the score, but will not give the informer any reward
                     self::returnScore($report);
                     $report->status = Report::RESOLVED;
                     $report->save();
+
+                    $dispatcher->dispatch('report.resolved', [$report, $action]);
 
                     return json(trans('general.texture-deleted'), 0, ['status' => Report::RESOLVED]);
                 }
@@ -128,6 +149,7 @@ class ReportController extends Controller
                 }
                 $uploader->permission = User::BANNED;
                 $uploader->save();
+                $dispatcher->dispatch('user.banned', [$uploader]);
                 break;
         }
 
@@ -135,6 +157,8 @@ class ReportController extends Controller
         self::giveAward($report);
         $report->status = Report::RESOLVED;
         $report->save();
+
+        $dispatcher->dispatch('report.resolved', [$report, $action]);
 
         return json(trans('general.op-success'), 0, ['status' => Report::RESOLVED]);
     }
