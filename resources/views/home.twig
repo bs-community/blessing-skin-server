@@ -37,7 +37,7 @@
         <div id="fixed-bg" style="background-image: url('{{ home_pic_url }}')"></div>
       {% endif %}
 
-      <header class="main-header {{ transparent_navbar ? 'transparent'}}">
+      <header class="main-header {{ transparent_navbar ? 'transparent' }}">
         <nav class="navbar navbar-fixed-top">
           <div class="container">
             <div class="navbar-header">
@@ -147,7 +147,7 @@
     {% endif %}
 
     <script>
-      blessing.extra = { transparent_navbar: {{ transparent_navbar }} }
+      blessing.extra = { transparent_navbar: {{ transparent_navbar ? 'true' : 'false' }} }
     </script>
     {{ include('shared.foot') }}
   </body>
