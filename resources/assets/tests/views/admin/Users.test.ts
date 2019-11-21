@@ -31,7 +31,7 @@ test('humanize permission', async () => {
     ],
   })
   const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const text = wrapper.find('.vgt-table').text()
   expect(text).toContain('admin.banned')
   expect(text).toContain('admin.normal')
@@ -46,7 +46,7 @@ test('generate players page link', async () => {
     ],
   })
   const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('[data-toggle="tooltip"]').attributes('href')).toBe('/admin/players?uid=1')
 })
 
@@ -57,7 +57,7 @@ test('permission option should not be displayed for super admins', async () => {
     ],
   })
   const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('[data-test=permission]').exists()).toBeFalse()
 })
 
@@ -70,7 +70,7 @@ test('permission option should be displayed for admin as super admin', async () 
     ],
   })
   const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('[data-test=permission]').exists()).toBeTrue()
 })
 
@@ -83,7 +83,7 @@ test('permission option should be displayed for normal users as super admin', as
     ],
   })
   const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('[data-test=permission]').exists()).toBeTrue()
 })
 
@@ -96,7 +96,7 @@ test('permission option should be displayed for banned users as super admin', as
     ],
   })
   const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('[data-test=permission]').exists()).toBeTrue()
 })
 
@@ -109,7 +109,7 @@ test('permission option should not be displayed for other admins as admin', asyn
     ],
   })
   const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('[data-test=permission]').exists()).toBeFalse()
 })
 
@@ -122,7 +122,7 @@ test('permission option should be displayed for normal users as admin', async ()
     ],
   })
   const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('[data-test=permission]').exists()).toBeTrue()
 })
 
@@ -135,7 +135,7 @@ test('permission option should be displayed for banned users as admin', async ()
     ],
   })
   const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('[data-test=permission]').exists()).toBeTrue()
 })
 
@@ -146,7 +146,7 @@ test('deletion button should not be displayed for super admins', async () => {
     ],
   })
   const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('[data-test="deleteUser"]').attributes('disabled')).toBe('disabled')
 })
 
@@ -159,7 +159,7 @@ test('deletion button should be displayed for admins as super admin', async () =
     ],
   })
   const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('[data-test="deleteUser"]').attributes('disabled')).toBeNil()
 })
 
@@ -172,7 +172,7 @@ test('deletion button should be displayed for normal users as super admin', asyn
     ],
   })
   const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('[data-test="deleteUser"]').attributes('disabled')).toBeNil()
 })
 
@@ -185,7 +185,7 @@ test('deletion button should be displayed for banned users as super admin', asyn
     ],
   })
   const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('[data-test="deleteUser"]').attributes('disabled')).toBeNil()
 })
 
@@ -198,7 +198,7 @@ test('deletion button should not be displayed for other admins as admin', async 
     ],
   })
   const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('[data-test="deleteUser"]').attributes('disabled')).toBe('disabled')
 })
 
@@ -211,7 +211,7 @@ test('deletion button should be displayed for normal users as admin', async () =
     ],
   })
   const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('[data-test="deleteUser"]').attributes('disabled')).toBeNil()
 })
 
@@ -224,7 +224,7 @@ test('deletion button should be displayed for banned users as admin', async () =
     ],
   })
   const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('[data-test="deleteUser"]').attributes('disabled')).toBeNil()
 })
 
@@ -247,14 +247,14 @@ test('change email', async () => {
       return Promise.resolve({ value: 'd@e.f' } as MessageBoxData)
     })
   const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const button = wrapper.find('[data-test="email"]')
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/users?action=email',
     { uid: 1, email: 'd@e.f' }
@@ -277,11 +277,11 @@ test('toggle verification', async () => {
     .mockResolvedValueOnce({ code: 0, message: '0' })
 
   const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const button = wrapper.find('[data-test="verification"')
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/users?action=verification',
     { uid: 1 }
@@ -310,14 +310,14 @@ test('change nickname', async () => {
       return Promise.resolve({ value: 'new' } as MessageBoxData)
     })
   const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const button = wrapper.find('[data-test="nickname"]')
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/users?action=nickname',
     { uid: 1, nickname: 'new' }
@@ -343,14 +343,14 @@ test('change password', async () => {
     .mockResolvedValue({ value: 'password' }as MessageBoxData)
 
   const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const button = wrapper.findAll(Button).at(0)
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/users?action=password',
     { uid: 1, password: 'password' }
@@ -378,14 +378,14 @@ test('change score', async () => {
     .mockResolvedValue({ value: '45' }as MessageBoxData)
 
   const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const button = wrapper.find('[data-test="score"]')
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/users?action=score',
     { uid: 1, score: 45 }
@@ -443,14 +443,14 @@ test('change permission', async () => {
     })
 
   let wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   let button = wrapper.find('[data-test=permission]')
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/users?action=permission',
     { uid: 1, permission: 1 }
@@ -458,7 +458,7 @@ test('change permission', async () => {
   expect(wrapper.text()).toContain('admin.normal')
 
   wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   button = wrapper.find('[data-test=permission]')
 
   button.trigger('click')
@@ -480,14 +480,14 @@ test('delete user', async () => {
     .mockResolvedValue('confirm')
 
   const wrapper = mount(Users)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const button = wrapper.findAll(Button).at(1)
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/users?action=delete',
     { uid: 1 }

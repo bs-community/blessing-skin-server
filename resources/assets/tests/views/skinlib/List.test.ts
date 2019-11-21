@@ -2,6 +2,7 @@ import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 // @ts-ignore
 import Button from 'element-ui/lib/button'
+import { flushPromises } from '../../utils'
 import { queryString } from '@/scripts/utils'
 import List from '@/views/skinlib/List.vue'
 
@@ -135,7 +136,7 @@ test('check specified uploader', async () => {
     },
   })
   const wrapper = mount(List)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const breadcrumb = wrapper.find('.breadcrumb')
   const button = wrapper
     .find('.advanced-filter')
@@ -274,7 +275,7 @@ test('on like toggled', async () => {
     onLikeToggled(tid: number, like: boolean): void,
     items: Array<{ liked: boolean, likes: number }>
   }>(List)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   wrapper.vm.onLikeToggled(0, true)
   expect(wrapper.vm.items[0].liked).toBeTrue()
   expect(wrapper.vm.items[0].likes).toBe(1)

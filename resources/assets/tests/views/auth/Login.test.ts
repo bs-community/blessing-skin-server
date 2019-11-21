@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
+import { flushPromises } from '../../utils'
 import Login from '@/views/auth/Login.vue'
 
 const Captcha = Vue.extend({
@@ -35,7 +36,7 @@ test('login', async () => {
   wrapper.find('input').setValue('a@b.c')
   wrapper.find('[type="password"]').setValue('123')
   form.trigger('submit')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/auth/login',
     {
@@ -45,7 +46,7 @@ test('login', async () => {
   expect(warning.text()).toBe('fail')
 
   form.trigger('submit')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$alert).toBeCalledWith('auth.tooManyFails.captcha', { type: 'error' })
   expect(wrapper.find('img').exists()).toBeTrue()
 
@@ -53,25 +54,25 @@ test('login', async () => {
     recaptcha: 'sitekey', invisible: true, tooManyFails: false,
   })
   form.trigger('submit')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
 
   wrapper.setData({
     recaptcha: 'sitekey', invisible: false, tooManyFails: false,
   })
   form.trigger('submit')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$alert).toBeCalledWith('auth.tooManyFails.recaptcha', { type: 'error' })
 
   wrapper.find('[type="checkbox"]').setChecked()
   form.trigger('submit')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/auth/login',
     {
       identification: 'a@b.c', password: '123', keep: true, captcha: 'a',
     }
   )
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   jest.runAllTimers()
   expect(Vue.prototype.$message.success).toBeCalledWith('ok')
 })

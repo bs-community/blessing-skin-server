@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
+import { flushPromises } from '../../utils'
 import Reset from '@/views/auth/Reset.vue'
 
 test('reset password', async () => {
@@ -30,10 +31,10 @@ test('reset password', async () => {
     '/auth/reset/1', // Ignore `location.search`
     { password: '12345678' }
   )
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(warning.text()).toBe('fail')
 
   form.trigger('submit')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$message.success).toBeCalledWith('ok')
 })

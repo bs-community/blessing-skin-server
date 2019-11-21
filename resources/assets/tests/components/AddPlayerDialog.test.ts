@@ -24,7 +24,7 @@ test('add player', async () => {
     { name: 'the-new' }
   )
   await flushPromises()
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.text()).not.toContain('the-new')
   expect(Vue.prototype.$message.warning).toBeCalledWith('fail')
 

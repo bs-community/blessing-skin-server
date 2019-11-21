@@ -48,7 +48,7 @@ test('register', async () => {
   wrapper.findAll('[type="text"]').at(0)
     .setValue('abc')
   form.trigger('submit')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/auth/register',
     {
@@ -58,7 +58,7 @@ test('register', async () => {
       captcha: 'captcha',
     }
   )
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(warning.text()).toBe('fail')
 
   form.trigger('submit')
@@ -80,7 +80,7 @@ test('register with player name', async () => {
   wrapper.findAll('[type="text"]').at(0)
     .setValue('abc')
   form.trigger('submit')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/auth/register',
     {

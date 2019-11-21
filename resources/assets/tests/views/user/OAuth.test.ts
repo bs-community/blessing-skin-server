@@ -15,7 +15,7 @@ test('basic render', async () => {
     { id: 1 },
   ])
   const wrapper = mount(OAuth)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.findAll('[data-test=remove]')).toHaveLength(1)
 })
 
@@ -26,7 +26,7 @@ test('create app', async () => {
     .mockResolvedValueOnce({ message: 'fail' })
     .mockResolvedValueOnce({ id: 1, name: 'name' })
   const wrapper = mount(OAuth)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
 
   const button = wrapper.find('[data-test=create]')
   const inputs = wrapper.findAll('.value')
@@ -36,7 +36,7 @@ test('create app', async () => {
     .setValue('https://example.com/')
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/oauth/clients',
     { name: 'name', redirect: 'https://example.com/' }
@@ -44,7 +44,7 @@ test('create app', async () => {
   expect(Vue.prototype.$message.warning).toBeCalledWith('fail')
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.text()).toContain('name')
 })
 
@@ -59,11 +59,11 @@ test('modify name', async () => {
     .mockRejectedValueOnce('')
     .mockResolvedValue({ value: 'new-name' } as MessageBoxData)
   const wrapper = mount(OAuth)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const button = wrapper.find('[data-test=name]')
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(walkFetch).not.toBeCalled()
 
   button.trigger('click')
@@ -93,11 +93,11 @@ test('modify redirect', async () => {
     .mockRejectedValueOnce('')
     .mockResolvedValue({ value: 'https://example.net/' } as MessageBoxData)
   const wrapper = mount(OAuth)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const button = wrapper.find('[data-test=callback]')
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(walkFetch).not.toBeCalled()
 
   button.trigger('click')
@@ -125,7 +125,7 @@ test('remove app', async () => {
     .mockResolvedValue('confirm')
 
   const wrapper = mount(OAuth)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const button = wrapper.find('[data-test=remove]')
 
   button.trigger('click')

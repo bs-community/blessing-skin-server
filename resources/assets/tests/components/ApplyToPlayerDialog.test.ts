@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
+import { flushPromises } from '../utils'
 import ApplyToPlayerDialog from '@/components/ApplyToPlayerDialog.vue'
 
 test('submit applying texture', async () => {
@@ -35,7 +36,7 @@ test('submit applying texture', async () => {
       cape: 1,
     }
   )
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$message.success).toBeCalledWith('ok')
 })
 

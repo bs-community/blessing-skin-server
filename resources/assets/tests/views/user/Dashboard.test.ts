@@ -2,6 +2,7 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { Button } from 'element-ui'
+import { flushPromises } from '../../utils'
 import Dashboard from '@/views/user/Dashboard.vue'
 
 jest.mock('@tweenjs/tween.js', () => ({
@@ -52,7 +53,7 @@ test('fetch score info', () => {
 test('players usage', async () => {
   Vue.prototype.$http.get.mockResolvedValue(scoreInfo())
   const wrapper = mount(Dashboard)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.text()).toContain('3 / 15')
 })
 
@@ -70,18 +71,18 @@ test('storage usage', async () => {
       },
     }))
   let wrapper = mount(Dashboard)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.text()).toContain('5 / 20 KB')
 
   wrapper = mount(Dashboard)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.text()).toContain('2 / 4 MB')
 })
 
 test('display score', async () => {
   Vue.prototype.$http.get.mockResolvedValue(scoreInfo())
   const wrapper = mount(Dashboard)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('#score').text()).toContain('835')
 })
 
@@ -96,19 +97,19 @@ test('button `sign` state', async () => {
     .mockResolvedValueOnce(scoreInfo({ user: { lastSignAt: Date.now() } }))
 
   let wrapper = mount(Dashboard)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find(Button).attributes('disabled')).toBeNil()
 
   wrapper = mount(Dashboard)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find(Button).attributes('disabled')).toBe('disabled')
 
   wrapper = mount(Dashboard)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find(Button).attributes('disabled')).toBeNil()
 
   wrapper = mount(Dashboard)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find(Button).attributes('disabled')).toBe('disabled')
 })
 
@@ -125,12 +126,12 @@ test('remaining time', async () => {
     }))
 
   let wrapper = mount(Dashboard)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find(Button).text()).toMatch(/(29)|(30)/)
   expect(wrapper.find(Button).text()).toContain('min')
 
   wrapper = mount(Dashboard)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find(Button).text()).toContain('23')
   expect(wrapper.find(Button).text()).toContain('hour')
 
@@ -154,15 +155,15 @@ test('sign', async () => {
     })
   const wrapper = mount(Dashboard)
   const button = wrapper.find(Button)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith('/user/sign')
   expect(Vue.prototype.$message.warning).toBeCalledWith('1')
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(button.attributes('disabled')).toBe('disabled')
   expect(wrapper.text()).toContain('3 / 4 KB')
 })

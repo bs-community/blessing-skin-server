@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
+import { flushPromises } from '../../utils'
 import Report from '@/views/user/Report.vue'
 
 test('basic render', async () => {
@@ -9,7 +10,7 @@ test('basic render', async () => {
     },
   ])
   const wrapper = mount(Report)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
 
   expect(wrapper.find('a').attributes('href')).toBe('/skinlib/show/1')
   expect(wrapper.text()).toContain('report.status.1')

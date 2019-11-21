@@ -1,12 +1,13 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
+import { flushPromises } from '../../utils'
 import Bind from '@/views/user/Bind.vue'
 
 test('list existed players', async () => {
   Vue.prototype.$http.get
     .mockResolvedValue({ data: [{ name: 'a' }, { name: 'b' }] })
   const wrapper = mount(Bind)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const options = wrapper.findAll('option')
   expect(options).toHaveLength(2)
 })
@@ -14,7 +15,7 @@ test('list existed players', async () => {
 test('show input box', async () => {
   Vue.prototype.$http.get.mockResolvedValue({ data: [] })
   const wrapper = mount(Bind)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const input = wrapper.find('input')
   expect(input.exists()).toBeTrue()
 })
@@ -30,10 +31,10 @@ test('submit', async () => {
   wrapper.find('input').setValue('abc')
 
   form.trigger('submit')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('.callout').text()).toBe('fail')
 
   form.trigger('submit')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$alert).toBeCalledWith('ok')
 })

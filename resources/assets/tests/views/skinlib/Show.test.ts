@@ -58,7 +58,7 @@ test('likes count indicator', async () => {
     },
     stubs: { previewer },
   })
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('.likes').attributes('style')).toContain('color: rgb(224, 53, 59)')
   expect(wrapper.find('.likes').text()).toContain('2')
 })
@@ -78,7 +78,7 @@ test('render basic information', async () => {
       $route: ['/skinlib/show/1', '1'],
     },
   })
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const text = wrapper.find('.box-primary').text()
   expect(text).toContain('my-texture')
   expect(text).toContain('alex')
@@ -97,7 +97,7 @@ test('render action text of editing texture name', async () => {
       $route: ['/skinlib/show/1', '1'],
     },
   })
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.contains('small')).toBeTrue()
 
   Object.assign(window.blessing.extra, { currentUid: 2, admin: false })
@@ -106,7 +106,7 @@ test('render action text of editing texture name', async () => {
       $route: ['/skinlib/show/1', '1'],
     },
   })
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.contains('small')).toBeFalse()
 })
 
@@ -129,7 +129,7 @@ test('operation panel should not be rendered if user is anonymous', async () => 
       $route: ['/skinlib/show/1', '1'],
     },
   })
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('.box-warning').exists()).toBeFalse()
 })
 
@@ -141,7 +141,7 @@ test('operation panel should not be rendered if not privileged', async () => {
       $route: ['/skinlib/show/1', '1'],
     },
   })
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('.box-warning').exists()).toBeFalse()
 })
 
@@ -153,7 +153,7 @@ test('operation panel should be rendered if privileged', async () => {
       $route: ['/skinlib/show/1', '1'],
     },
   })
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('.box-warning').exists()).toBeTrue()
 })
 
@@ -165,7 +165,7 @@ test('download texture', async () => {
       $route: ['/skinlib/show/1', '1'],
     },
   })
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   wrapper.find('[data-test="download"]').trigger('click')
 })
 
@@ -177,7 +177,7 @@ test('link to downloading texture', async () => {
       $route: ['/skinlib/show/1', '1'],
     },
   })
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('span[title="123"]').exists()).toBeTrue()
 })
 
@@ -190,7 +190,7 @@ test('set as avatar', async () => {
     },
     stubs: { previewer },
   })
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   wrapper.find('[data-test="setAsAvatar"]').trigger('click')
   expect(Vue.prototype.$confirm).toBeCalled()
 })
@@ -203,7 +203,7 @@ test('hide "set avatar" button when texture is cape', async () => {
     },
     stubs: { previewer },
   })
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('[data-test="setAsAvatar"]').exists()).toBeFalse()
 })
 
@@ -471,6 +471,6 @@ test('truncate too long texture name', async () => {
       $route: ['/skinlib/show/1', '1'],
     },
   })
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('.box-primary').text()).toContain('very-very-long-...')
 })

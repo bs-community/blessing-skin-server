@@ -51,11 +51,11 @@ test('rename texture', async () => {
     .find('a')
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
 
   button.trigger('click')
   await flushPromises()
@@ -79,11 +79,11 @@ test('remove texture', async () => {
     .find('a')
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
 
   button.trigger('click')
   await flushPromises()
@@ -105,15 +105,15 @@ test('set as avatar', async () => {
   document.body.innerHTML += '<img alt="User Image" src="a">'
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
 
   button.trigger('click')
   await flushPromises()
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith('/user/profile/avatar', { tid: 1 })
   expect(document.querySelector('img')!.src).toMatch(/\d+$/)
 })

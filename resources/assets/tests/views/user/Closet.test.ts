@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
+import { flushPromises } from '../../utils'
 import Closet from '@/views/user/Closet.vue'
 import ClosetItem from '@/components/ClosetItem.vue'
 import Previewer from '@/components/Previewer.vue'
@@ -123,7 +124,7 @@ test('render items', async () => {
     },
   })
   const wrapper = mount(Closet)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.findAll(ClosetItem)).toHaveLength(2)
 })
 
@@ -160,7 +161,7 @@ test('select texture', async () => {
   const wrapper = mount<Vue & { skinUrl: string, capeUrl: string }>(Closet)
   wrapper.setData({ skinItems: [{ tid: 1 }] })
   wrapper.find(ClosetItem).vm.$emit('select')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.get).toBeCalledWith('/skinlib/info/1')
   expect(wrapper.vm.skinUrl).toBe('/textures/a')
 
@@ -168,7 +169,7 @@ test('select texture', async () => {
     skinItems: [], capeItems: [{ tid: 2 }], category: 'cape',
   })
   wrapper.find(ClosetItem).vm.$emit('select')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.get).toBeCalledWith('/skinlib/info/2')
   expect(wrapper.vm.capeUrl).toBe('/textures/b')
 })
@@ -193,7 +194,7 @@ test('apply texture', async () => {
   expect(wrapper.find('.modal-body').text()).toContain('user.closet.use-as.empty')
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('input[type="radio"]').attributes('value')).toBe('1')
   expect(wrapper.find('.model-label > img').attributes('src')).toBe('/avatar/35/10')
   expect(wrapper.find('.modal-body').text()).toContain('name')
@@ -233,8 +234,8 @@ test('select specified texture initially', async () => {
     })
     .mockResolvedValueOnce({ data: { type: 'cape', hash: '' } })
     .mockResolvedValueOnce([])
-  const wrapper = mount(Closet)
+  mount(Closet)
   jest.runAllTimers()
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   jest.unmock('@/scripts/utils')
 })

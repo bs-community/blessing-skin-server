@@ -32,7 +32,7 @@ test('reset avatar', async () => {
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/user/profile/avatar',
     { tid: 0 }
@@ -58,7 +58,7 @@ test('change password', async () => {
 
   wrapper.setData({ confirmPassword: '1' })
   form.trigger('submit')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/user/profile?action=password',
     { current_password: '1', new_password: '1' }
@@ -66,7 +66,7 @@ test('change password', async () => {
   expect(Vue.prototype.$alert).toBeCalledWith('w', { type: 'warning' })
 
   form.trigger('submit')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$alert).toBeCalledWith('o')
 })
 
@@ -87,12 +87,12 @@ test('change nickname', async () => {
   expect(Vue.prototype.$confirm).toBeCalledWith('user.changeNickName')
 
   form.trigger('submit')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/user/profile?action=nickname',
     { new_nickname: 'nickname' }
   )
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$alert).toBeCalledWith('w', { type: 'warning' })
 
   form.trigger('submit')
@@ -117,12 +117,12 @@ test('change email', async () => {
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   form.trigger('submit')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/user/profile?action=email',
     { new_email: 'a@b.c', password: 'abc' }
   )
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$alert).toBeCalledWith('w', { type: 'warning' })
 
   form.trigger('submit')
@@ -144,10 +144,10 @@ test('delete account', async () => {
     '/user/profile?action=delete',
     { password: 'abc' }
   )
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$alert).toBeCalledWith('w', { type: 'warning' })
 
   form.trigger('submit')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$alert).toBeCalledWith('o', { type: 'success' })
 })

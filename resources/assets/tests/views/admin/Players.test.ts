@@ -28,7 +28,7 @@ test('change texture', async () => {
     .mockResolvedValueOnce({ code: 0, message: '0' })
 
   const wrapper = mount(Players)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const button = wrapper.find('[data-test=changeTexture]')
   wrapper
     .findAll(Button)
@@ -39,7 +39,7 @@ test('change texture', async () => {
     .setValue('5')
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/players?action=texture',
     {
@@ -71,14 +71,14 @@ test('change player name', async () => {
       return Promise.resolve({ value: 'new' } as MessageBoxData)
     })
   const wrapper = mount(Players)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const button = wrapper.find('[data-test="name"]')
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/players?action=name',
     { pid: 1, name: 'new' }
@@ -102,14 +102,14 @@ test('change owner', async () => {
     .mockResolvedValue({ value: '3' } as MessageBoxData)
 
   const wrapper = mount(Players)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const button = wrapper.find('[data-test="owner"]')
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/players?action=owner',
     { pid: 1, uid: '3' }
@@ -133,14 +133,14 @@ test('delete player', async () => {
     .mockResolvedValue('confirm')
 
   const wrapper = mount(Players)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const button = wrapper.findAll(Button).at(1)
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/players?action=delete',
     { pid: 1 }

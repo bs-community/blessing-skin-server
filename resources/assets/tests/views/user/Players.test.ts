@@ -58,7 +58,7 @@ test('click to preview player', async () => {
     .mockResolvedValueOnce({ data: { hash: 'c' } })
     .mockResolvedValueOnce({ data: { hash: 'd' } })
   const wrapper = mount(Players)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
 
   wrapper.find('tbody > tr:nth-child(1)').trigger('click')
   await flushPromises()
@@ -100,7 +100,7 @@ test('change player name', async () => {
       return Promise.resolve({ value: 'new-name' } as MessageBoxData)
     })
   const wrapper = mount(Players)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const button = wrapper.findAll(Button).at(0)
 
   button.trigger('click')
@@ -131,7 +131,7 @@ test('delete player', async () => {
     .mockRejectedValueOnce({})
     .mockResolvedValue('confirm')
   const wrapper = mount(Players)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const button = wrapper.findAll(Button).at(2)
 
   button.trigger('click')
@@ -183,7 +183,7 @@ test('clear texture', async () => {
     .mockResolvedValueOnce({ code: 1 })
     .mockResolvedValue({ code: 0, message: 'ok' })
   const wrapper = mount(Players)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const button = wrapper.find('[data-test=clearTexture]')
   wrapper.find('.player').trigger('click')
 

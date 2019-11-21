@@ -66,7 +66,7 @@ test('install plugin', async () => {
     { name: 'd' }
   )
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.text()).toContain('admin.enablePlugin')
 })
 

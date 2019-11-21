@@ -16,7 +16,7 @@ test('basic render', async () => {
     }],
   })
   const wrapper = mount(Reports)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const text = wrapper.text()
   expect(text).toContain('a (UID: 1)')
   expect(text).toContain('b (UID: 2)')
@@ -29,7 +29,7 @@ test('link to skin library', async () => {
     data: [{ id: 1, tid: 1 }],
   })
   const wrapper = mount(Reports)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(wrapper.find('a').attributes('href')).toBe('/skinlib/show/1')
 })
 
@@ -41,7 +41,7 @@ test('delete texture', async () => {
       code: 0, message: 'ok', data: { status: 1 },
     })
   const wrapper = mount(Reports)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const button = wrapper.findAll('a').at(1)
 
   button.trigger('click')
@@ -65,7 +65,7 @@ test('ban uploader', async () => {
       code: 0, message: 'ok', data: { status: 1 },
     })
   const wrapper = mount(Reports)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const button = wrapper.findAll('a').at(2)
 
   button.trigger('click')
@@ -85,7 +85,7 @@ test('reject', async () => {
       code: 0, message: 'ok', data: { status: 2 },
     })
   const wrapper = mount(Reports)
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   const button = wrapper.find('button')
 
   button.trigger('click')

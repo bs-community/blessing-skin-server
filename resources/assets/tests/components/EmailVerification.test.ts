@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
+import { flushPromises } from '../utils'
 import EmailVerification from '@/components/EmailVerification.vue'
 
 test('message box should not be render if verified', () => {
@@ -17,10 +18,10 @@ test('resend email', async () => {
   const button = wrapper.find('a')
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$message.error).toBeCalledWith('1')
 
   button.trigger('click')
-  await wrapper.vm.$nextTick()
+  await flushPromises()
   expect(Vue.prototype.$message.success).toBeCalledWith('0')
 })
