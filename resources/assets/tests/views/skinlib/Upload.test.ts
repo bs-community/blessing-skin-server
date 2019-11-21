@@ -69,7 +69,7 @@ test('display score cost', () => {
 
 test('process input file', () => {
   window.URL.createObjectURL = jest.fn().mockReturnValue('file-url')
-  ;(window as Window & { Image: jest.Mock }).Image = jest.fn()
+  ;(window as Window & typeof globalThis & { Image: jest.Mock }).Image = jest.fn()
     .mockImplementationOnce(function (this: HTMLImageElement) {
       this.src = ''
       this.onload = null
@@ -116,11 +116,11 @@ test('process input file', () => {
 
   expect(wrapper.vm.texture).toBe('file-url')
 
-  ;(window as Window & { Image: jest.Mock }).Image.mockRestore()
+  ;(window as Window & typeof globalThis & { Image: jest.Mock }).Image.mockRestore()
 })
 
 test('upload file', async () => {
-  (window as Window & { Request: jest.Mock }).Request = jest.fn()
+  (window as Window & typeof globalThis & { Request: jest.Mock }).Request = jest.fn()
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: '1' })
     .mockResolvedValueOnce({
