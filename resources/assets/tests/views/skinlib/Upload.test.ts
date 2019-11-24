@@ -130,7 +130,7 @@ test('upload file', async () => {
   const wrapper = mount(Upload, {
     stubs: ['file-upload'],
   })
-  const button = wrapper.find('.box-footer > button')
+  const button = wrapper.find('.btn-success')
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()

@@ -16,17 +16,17 @@ test('check for BS updates', async () => {
       json: () => Promise.resolve({ available: true }),
     })
 
-  document.body.innerHTML = '<a href="/admin/update"></a>'
+  document.body.innerHTML = '<a href="/admin/update"><p></p></a>'
 
   await checkForUpdates()
   expect(window.fetch).toBeCalledWith('/admin/update/check', init)
-  expect(document.querySelector('a')!.innerHTML).toBe('')
+  expect(document.querySelector('p')!.innerHTML).toBe('')
 
   await checkForUpdates()
-  expect(document.querySelector('a')!.innerHTML).toBe('')
+  expect(document.querySelector('p')!.innerHTML).toBe('')
 
   await checkForUpdates()
-  expect(document.querySelector('a')!.innerHTML).toContain('1')
+  expect(document.querySelector('p')!.innerHTML).toContain('New')
 })
 
 test('check for plugins updates', async () => {
@@ -41,17 +41,17 @@ test('check for plugins updates', async () => {
       json: () => Promise.resolve({ available: true, plugins: [{}] }),
     })
 
-  document.body.innerHTML = '<a href="/admin/plugins/market"></a>'
+  document.body.innerHTML = '<a href="/admin/plugins/market"><p></p></a>'
 
   await checkForPluginUpdates()
   expect(window.fetch).toBeCalledWith('/admin/plugins/market/check', init)
-  expect(document.querySelector('a')!.innerHTML).toBe('')
+  expect(document.querySelector('p')!.innerHTML).toBe('')
 
   await checkForPluginUpdates()
-  expect(document.querySelector('a')!.innerHTML).toBe('')
+  expect(document.querySelector('p')!.innerHTML).toBe('')
 
   await checkForPluginUpdates()
-  expect(document.querySelector('a')!.innerHTML).toContain('1')
+  expect(document.querySelector('p')!.innerHTML).toContain('1')
 })
 
 test('do not update anything if element not found', async () => {

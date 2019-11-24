@@ -1,5 +1,5 @@
 <template>
-  <section class="content">
+  <div class="container-fluid">
     <vue-good-table
       :rows="plugins"
       :columns="columns"
@@ -20,7 +20,7 @@
             <span
               v-for="(constraint, name) in props.row.dependencies.all"
               :key="name"
-              class="label"
+              class="badge"
               :class="`bg-${name in props.row.dependencies.unsatisfied ? 'red' : 'green'}`"
             >
               {{ name }}: {{ constraint }}
@@ -30,10 +30,9 @@
         </span>
         <span v-else-if="props.column.field === 'operations'">
           <template v-if="props.row.installed">
-            <el-button
+            <button
               v-if="props.row.update_available"
-              type="success"
-              size="medium"
+              class="btn btn-success"
               :disabled="installing === props.row.name"
               @click="updatePlugin(props.row)"
             >
@@ -43,27 +42,17 @@
               <template v-else>
                 <i class="fas fa-sync-alt" /> {{ $t('admin.updatePlugin') }}
               </template>
-            </el-button>
-            <el-button
-              v-else-if="props.row.enabled"
-              type="primary"
-              size="medium"
-              disabled
-            >
+            </button>
+            <button v-else-if="props.row.enabled" class="btn btn-primary" disabled>
               <i class="fas fa-check" /> {{ $t('admin.statusEnabled') }}
-            </el-button>
-            <el-button
-              v-else
-              type="primary"
-              size="medium"
-              @click="enablePlugin(props.row)"
-            >
+            </button>
+            <button v-else class="btn btn-primary" @click="enablePlugin(props.row)">
               <i class="fas fa-plug" /> {{ $t('admin.enablePlugin') }}
-            </el-button>
+            </button>
           </template>
-          <el-button
+          <button
             v-else
-            size="medium"
+            class="btn btn-default"
             :disabled="installing === props.row.name"
             @click="installPlugin(props.row)"
           >
@@ -73,12 +62,12 @@
             <template v-else>
               <i class="fas fa-download" /> {{ $t('admin.installPlugin') }}
             </template>
-          </el-button>
+          </button>
         </span>
         <span v-else v-text="props.formattedRow[props.column.field]" />
       </template>
     </vue-good-table>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -115,6 +104,7 @@ export default {
           label: this.$t('admin.pluginVersion'),
           sortable: false,
           globalSearchDisabled: true,
+          width: '5%',
         },
         {
           field: 'dependencies',
@@ -127,6 +117,7 @@ export default {
           label: this.$t('admin.operationsTitle'),
           sortable: false,
           globalSearchDisabled: true,
+          width: '12%',
         },
       ],
       installing: '',

@@ -11,11 +11,14 @@ class OptionFormTest extends TestCase
     {
         $form = new OptionForm('test');
         $crawler = new Crawler($form->render());
-        $this->assertEquals(trans('options.test.title'), trim($crawler->filter('.box-title')->text()));
+        $this->assertEquals(
+            trans('options.test.title'),
+            trim($crawler->filter('.card-title')->text())
+        );
 
         $form = new OptionForm('test', 'test');
         $crawler = new Crawler($form->render());
-        $this->assertEquals('test', trim($crawler->filter('.box-title')->text()));
+        $this->assertEquals('test', trim($crawler->filter('.card-title')->text()));
     }
 
     public function testDisallowInvalidType()
@@ -25,17 +28,17 @@ class OptionFormTest extends TestCase
         $form->nope();
     }
 
-    public function testRenderBoxType()
+    public function testRenderCardType()
     {
         $form = new OptionForm('test');
         $crawler = new Crawler($form->render());
-        $this->assertCount(1, $crawler->filter('.box-primary'));
+        $this->assertCount(1, $crawler->filter('.card-primary'));
 
         $form = new OptionForm('test');
         $returned = $form->type('warning');
         $this->assertSame($form, $returned);
         $crawler = new Crawler($form->render());
-        $this->assertCount(1, $crawler->filter('.box-warning'));
+        $this->assertCount(1, $crawler->filter('.card-warning'));
     }
 
     public function testRenderHint()
@@ -83,15 +86,15 @@ class OptionFormTest extends TestCase
         $crawler = new Crawler($form->render());
         $a = $crawler->filter('a');
         $this->assertEquals('http://example.com', $a->attr('href'));
-        $this->assertEquals('el-button el-button--default a b', $a->attr('class'));
+        $this->assertEquals('btn btn-default a b', $a->attr('class'));
         $this->assertEquals('link', $a->text());
 
-        $button = $crawler->filter('button.el-button--primary');
+        $button = $crawler->filter('button.btn-primary');
         $this->assertEquals('press me', $button->text());
         $this->assertEquals('btn', $button->attr('name'));
         $this->assertEquals('button', $button->attr('type'));
 
-        $button = $crawler->filter('button.el-button--warning');
+        $button = $crawler->filter('button.btn-warning');
         $this->assertEquals('submit', $button->attr('type'));
     }
 
@@ -213,7 +216,7 @@ class OptionFormTest extends TestCase
         $form->handle();
         $crawler = new Crawler($form->render());
         $button = $crawler->filter('button');
-        $this->assertStringContainsString('el-button--primary', $button->attr('class'));
+        $this->assertStringContainsString('btn-primary', $button->attr('class'));
         $this->assertEquals(trans('general.submit'), $button->text());
         $this->assertEquals('submit', $button->attr('type'));
         $this->assertEquals('submit_test', $button->attr('name'));
@@ -240,6 +243,6 @@ class OptionFormTest extends TestCase
     {
         $form = new OptionForm('test');
         $crawler = new Crawler(sprintf('%s', $form));
-        $this->assertCount(1, $crawler->filter('div.box'));
+        $this->assertCount(1, $crawler->filter('div.card'));
     }
 }

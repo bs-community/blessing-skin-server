@@ -1,9 +1,11 @@
 <template>
-  <div class="box box-default">
-    <div class="box-header with-border">
-      <h3 class="box-title" style="width: 100%;">
-        <span v-html="$t(title)" /> <!-- eslint-disable-line vue/no-v-html -->
-        <span data-toggle="tooltip" class="badge bg-light-blue">{{ indicator }}</span>
+  <div class="card">
+    <div class="card-header">
+      <div class="d-flex justify-content-between">
+        <h3 class="card-title">
+          <span v-html="$t(title)" /> <!-- eslint-disable-line vue/no-v-html -->
+          <span class="badge bg-olive">{{ indicator }}</span>
+        </h3>
         <div class="operations">
           <i
             data-toggle="tooltip"
@@ -35,14 +37,14 @@
             @click="reset"
           />
         </div>
-      </h3>
+      </div>
     </div>
-    <div class="box-body">
+    <div class="card-body">
       <div ref="previewer" class="previewer-3d">
         <!-- Container for 3D Preview -->
       </div>
     </div>
-    <div v-if="$slots.footer" class="box-footer">
+    <div v-if="$slots.footer" class="card-footer">
       <slot name="footer" />
     </div>
   </div>
@@ -174,14 +176,10 @@ export default {
   cursor move
 
 .operations
-  display inline
-  float right
-
   i
     padding .5em .5em
     display inline
-
-  i:hover
-    color #555
-    cursor pointer
+    &:hover
+      color #555
+      cursor pointer
 </style>

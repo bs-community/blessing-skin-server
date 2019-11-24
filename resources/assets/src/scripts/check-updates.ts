@@ -12,12 +12,9 @@ export async function checkForUpdates(): Promise<void> {
 
   if (response.ok) {
     const data = await response.json()
-    const el = document.querySelector(`[href="${blessing.base_url}/admin/update"]`)
+    const el = document.querySelector(`[href="${blessing.base_url}/admin/update"] p`)
     if (data.available && el) {
-      el.innerHTML += `
-        <span class="pull-right-container">
-          <span class="label label-primary pull-right">1</span>
-        </span>`
+      el.innerHTML += '<span class="right badge badge-primary">New</span>'
     }
   }
 }
@@ -27,12 +24,9 @@ export async function checkForPluginUpdates(): Promise<void> {
 
   if (response.ok) {
     const data = await response.json()
-    const el = document.querySelector(`[href="${blessing.base_url}/admin/plugins/market"]`)
+    const el = document.querySelector(`[href="${blessing.base_url}/admin/plugins/market"] p`)
     if (data.available && el) {
-      el.innerHTML += `
-        <span class="pull-right-container">
-          <span class="label label-success pull-right">${data.plugins.length}</span>
-        </span>`
+      el.innerHTML += `<span class="right badge badge-success">${data.plugins.length}</span>`
     }
   }
 }

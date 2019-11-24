@@ -6,7 +6,7 @@
     @yield('style')
 </head>
 
-<body class="hold-transition {{ option('color_scheme') }} sidebar-mini">
+<body class="hold-transition sidebar-mini">
     <div class="wrapper">
         @include('shared.header')
         @include('shared.sidebar', ['scope' => 'admin'])

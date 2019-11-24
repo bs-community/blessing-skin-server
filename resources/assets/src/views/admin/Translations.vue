@@ -9,12 +9,12 @@
     >
       <template #table-row="props">
         <span v-if="props.column.field === 'operations'">
-          <el-button size="medium" @click="modify(props.row)">
+          <button class="btn btn-default" @click="modify(props.row)">
             {{ $t('admin.i18n.modify') }}
-          </el-button>
-          <el-button type="danger" size="medium" @click="remove(props.row)">
+          </button>
+          <button class="btn btn-danger" @click="remove(props.row)">
             {{ $t('admin.i18n.delete') }}
-          </el-button>
+          </button>
         </span>
         <span v-else-if="props.column.field === 'text'">
           <span v-if="props.row.text" v-text="props.formattedRow[props.column.field]" />

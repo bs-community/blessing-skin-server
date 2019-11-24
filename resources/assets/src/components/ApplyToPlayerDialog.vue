@@ -8,6 +8,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
+          <h4 v-t="'user.closet.use-as.title'" class="modal-title" />
           <button
             type="button"
             class="close"
@@ -16,7 +17,6 @@
           >
             <span aria-hidden="true">&times;</span>
           </button>
-          <h4 v-t="'user.closet.use-as.title'" class="modal-title" />
         </div>
         <div class="modal-body">
           <template v-if="players.length !== 0">
@@ -35,17 +35,18 @@
           </template>
           <p v-else v-t="'user.closet.use-as.empty'" />
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer d-flex justify-content-between">
           <a
             v-if="allowAdd"
             v-t="'user.closet.use-as.add'"
             data-toggle="modal"
             data-target="#modal-add-player"
-            class="el-button pull-left"
+            class="btn btn-default"
+            href="#"
           />
-          <el-button type="primary" data-test="submit" @click="submit">
+          <button class="btn btn-primary" data-test="submit" @click="submit">
             {{ $t('general.submit') }}
-          </el-button>
+          </button>
         </div>
       </div>
     </div>

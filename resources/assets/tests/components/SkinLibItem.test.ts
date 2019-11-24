@@ -28,7 +28,7 @@ test('anonymous user', () => {
   const wrapper = mount(SkinLibItem, {
     propsData: { anonymous: true },
   })
-  const button = wrapper.find('.more')
+  const button = wrapper.find('.btn-like')
   expect(button.attributes('title')).toBe('skinlib.anonymous')
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
@@ -48,7 +48,7 @@ test('liked state', () => {
   const wrapper = mount(SkinLibItem, {
     propsData: { liked: true, anonymous: false },
   })
-  const button = wrapper.find('.like')
+  const button = wrapper.find('.btn-like')
 
   expect(button.attributes('title')).toBe('skinlib.removeFromCloset')
   expect(button.classes('liked')).toBeTrue()
@@ -66,7 +66,7 @@ test('remove from closet', async () => {
       tid: 1, liked: true, anonymous: false,
     },
   })
-  wrapper.find('.like').trigger('click')
+  wrapper.find('.btn-like').trigger('click')
   await flushPromises()
   expect(wrapper.emitted('like-toggled')[0]).toEqual([false])
 })
@@ -89,7 +89,7 @@ test('add to closet', async () => {
       tid: 1, liked: false, anonymous: false,
     },
   })
-  const button = wrapper.find('.like')
+  const button = wrapper.find('.btn-like')
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()

@@ -1,13 +1,11 @@
-<li class="{{ item.classes|join(' ') }}">
+<li class="nav-item {{ item.classes|join(' ') }}">
   {% if item.children %}
-    <a href="#">
-      <i class="fas {{ item.icon }}"></i> &nbsp;
-      <span>{{ trans(item.title) }}</span>
-      <span class="pull-right-container">
-        <i class="fas fa-angle-left pull-right"></i>
-      </span>
+    <a class="nav-link" href="#">
+      <i class="nav-icon fas {{ item.icon }}"></i>
+      <p>{{ trans(item.title) }}</p>
+      <i class="right fas fa-angle-left"></i>
     </a>
-    <ul class="treeview-menu">
+    <ul class="nav nav-treeview">
       {% for child in item.children %}
         {{ include('shared.side-menu-item', {item: child}) }}
       {% endfor %}
@@ -15,13 +13,14 @@
   {% else %}
     <a
       href="{{ url(item.link) }}"
+      class="nav-link"
       {% if attribute(item, 'new-tab') %}
         target="_blank"
         rel="noopener noreferrer"
       {% endif %}
     >
-      <i class="{{ item.icon == 'fa-circle' ? 'far' : 'fas' }} {{ item.icon }}"></i>
-      &nbsp;<span>{{ trans(item.title) }}</span>
+      <i class="nav-icon {{ item.icon == 'fa-circle' ? 'far' : 'fas' }} {{ item.icon }}"></i>
+      &nbsp;<p>{{ trans(item.title) }}</p>
     </a>
   {% endif %}
 </li>

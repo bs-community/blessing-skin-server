@@ -5,14 +5,14 @@
 {% block content %}
   <div class="row">
     <div class="col-md-3">
-      <form class="box box-primary" method="post" action="{{ url('/admin/customize?action=color') }}">
+      <form class="card box-primary" method="post" action="{{ url('/admin/customize?action=color') }}">
         {{ csrf_field() }}
-        <div class="box-header with-border">
-          <h3 class="box-title">
+        <div class="card-header">
+          <h3 class="card-title">
             {{ trans('admin.customize.change-color.title') }}
           </h3>
         </div>
-        <div class="box-body no-padding">
+        <div class="card-body p-0">
           <table class="table table-striped bring-up nth-2-center" id="change-color">
             <tbody>
               {% for color in colors %}
@@ -52,10 +52,10 @@
             </tbody>
           </table>
         </div>
-        <div class="box-footer">
+        <div class="card-footer">
           <input
             type="submit"
-            class="el-button el-button--primary"
+            class="btn btn-primary"
             value="{{ trans('general.submit') }}"
             name="submit_color"
           >

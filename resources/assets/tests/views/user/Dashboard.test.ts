@@ -1,7 +1,6 @@
 /* eslint-disable no-mixed-operators */
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import { Button } from 'element-ui'
 import { flushPromises } from '../../utils'
 import Dashboard from '@/views/user/Dashboard.vue'
 
@@ -98,19 +97,19 @@ test('button `sign` state', async () => {
 
   let wrapper = mount(Dashboard)
   await flushPromises()
-  expect(wrapper.find(Button).attributes('disabled')).toBeNil()
+  expect(wrapper.find('button').attributes('disabled')).toBeNil()
 
   wrapper = mount(Dashboard)
   await flushPromises()
-  expect(wrapper.find(Button).attributes('disabled')).toBe('disabled')
+  expect(wrapper.find('button').attributes('disabled')).toBe('disabled')
 
   wrapper = mount(Dashboard)
   await flushPromises()
-  expect(wrapper.find(Button).attributes('disabled')).toBeNil()
+  expect(wrapper.find('button').attributes('disabled')).toBeNil()
 
   wrapper = mount(Dashboard)
   await flushPromises()
-  expect(wrapper.find(Button).attributes('disabled')).toBe('disabled')
+  expect(wrapper.find('button').attributes('disabled')).toBe('disabled')
 })
 
 test('remaining time', async () => {
@@ -127,13 +126,13 @@ test('remaining time', async () => {
 
   let wrapper = mount(Dashboard)
   await flushPromises()
-  expect(wrapper.find(Button).text()).toMatch(/(29)|(30)/)
-  expect(wrapper.find(Button).text()).toContain('min')
+  expect(wrapper.find('button').text()).toMatch(/(29)|(30)/)
+  expect(wrapper.find('button').text()).toContain('min')
 
   wrapper = mount(Dashboard)
   await flushPromises()
-  expect(wrapper.find(Button).text()).toContain('23')
-  expect(wrapper.find(Button).text()).toContain('hour')
+  expect(wrapper.find('button').text()).toContain('23')
+  expect(wrapper.find('button').text()).toContain('hour')
 
   Vue.prototype.$t = origin
 })
@@ -154,7 +153,7 @@ test('sign', async () => {
       },
     })
   const wrapper = mount(Dashboard)
-  const button = wrapper.find(Button)
+  const button = wrapper.find('button')
   await flushPromises()
 
   button.trigger('click')
@@ -171,7 +170,7 @@ test('sign', async () => {
 test('disable button when signing', () => {
   Vue.prototype.$http.get.mockResolvedValue(scoreInfo())
   const wrapper = mount(Dashboard)
-  const button = wrapper.find(Button)
+  const button = wrapper.find('button')
   expect(button.attributes('disabled')).toBeFalsy()
   wrapper.setData({ signing: true })
   expect(button.attributes('disabled')).toBeTruthy()

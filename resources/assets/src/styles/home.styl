@@ -6,87 +6,28 @@ body
   background-size cover
   background-repeat no-repeat
   background-position center 0
+  height 100vh
 
-  .main-header
-    .navbar
-      transition color 0.25s ease-in-out, border-color 0.25s ease-in-out, background-color 0.25s ease-in-out
+  .navbar-brand
+    font-family Minecraft, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif
+    border-right 0
 
-      .navbar-custom-menu .navbar-nav > li
-        a.btn.btn-login
-          background-color transparent
-          border-radius 5px
-          border 1px solid #fff
-          color #fff !important
-          margin-top 7px
-          margin-left 10px
-          padding 8px 20px
-          transition border-color 0.25s ease-in-out, background-color 0.3s ease-in-out
+  .navbar
+    transition color 0.25s ease-in-out, border-color 0.25s ease-in-out, background-color 0.25s ease-in-out
 
-        a.btn.btn-login:hover, a.btn.btn-login:focus
-          background-color #006acc !important
-
-    .navbar-brand
-      font-family Minecraft, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif
-      border-right 0
-
-  .main-header.transparent
-    .navbar-brand
+  .transparent
+    .navbar-brand, .navbar-header > a
       color #5e5e5e
 
-    .navbar-header > a
-      color #5e5e5e
-
-    .navbar
+    &.navbar
       background-color rgba(255, 255, 255, 0.2)
 
-      .navbar-nav
-        li
-          a
-            border 0
-            color #5e5e5e
-
-          a:hover
-            background rgba(0, 0, 0, 0.1)
-            color #f6f6f6
-
-          .active > a
-            background rgba(0, 0, 0, 0.1)
-            color #f6f6f6
-
-      .user-menu li
-        a.btn
-          border 1px solid #ddd
-          color #5e5e5e
-
-        a:hover
-          background-color transparent
-
-        a.btn:hover
-          background-color #e7e7e7
-          border-color #adadad
-
-      .navbar-custom-menu .navbar-nav > li
-        a.btn.btn-login
-          background-color #0078e7
-          border 1px solid #0078e7
-
-    .nickname
-      color #5e5e5e
-
-  .content-wrapper
-    background-color transparent
-    border none
-
-  .main-footer
-    background-color transparent
-    border none
-
-    div
-      color #fff !important
-
-      a
-        color #fff !important
-
+      .navbar-nav li a
+        border 0
+        color #5e5e5e
+        &:hover
+          background rgba(0, 0, 0, 0.2)
+          color #f6f6f6
 
 .splash
   width 80%
@@ -138,7 +79,7 @@ body
   .splash-head
     font-size 300%
 
-.container .button
+.button
   color white
   padding 0.8em 2.5em
   border-radius 5px
@@ -147,7 +88,8 @@ body
   font-size 120%
   transition color 0.25s ease-in-out, border-color 0.25s ease-in-out, background-color 0.25s ease-in-out
 
-.container .button:hover
+.button:hover
+  color white
   background-color rgba(255, 255, 255, 0.2)
 
 hr
@@ -201,3 +143,14 @@ Wrap Sections
     .col-lg-6:last-child
       text-align right
       padding-top 20px
+
+#copyright
+  color #fff
+  &.with-intro
+    background #222
+    padding 16px 0 20px
+  &.without-intro
+    position fixed
+    bottom 0
+    width 100%
+    padding 0 50px 16px 50px

@@ -1,5 +1,5 @@
 <template>
-  <section class="content">
+  <div class="container-fluid">
     <vue-good-table
       :rows="plugins"
       :columns="columns"
@@ -60,7 +60,7 @@
             <span
               v-for="(constraint, name) in props.row.dependencies.all"
               :key="name"
-              class="label"
+              class="badge"
               :class="`bg-${name in props.row.dependencies.unsatisfied ? 'red' : 'green'}`"
             >
               {{ name }}: {{ constraint }}
@@ -71,7 +71,7 @@
         <span v-else v-text="props.formattedRow[props.column.field]" />
       </template>
     </vue-good-table>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -174,8 +174,11 @@ export default {
     a
       color #337ab7
 
-.plugin > td:first-child
-  border-left 5px solid transparent
+.plugin:nth-of-type(2n+1) > td:first-child
+  border-left 5px solid rgba(51, 68, 109, 0.03)
+
+.plugin:nth-of-type(2n) > td:first-child
+  border-left 5px solid #fff
 
 .plugin-enabled
   background-color #f7fcfe

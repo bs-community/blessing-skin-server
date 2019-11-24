@@ -8,82 +8,84 @@
         :init-position-z="60"
       >
         <template #footer>
-          <el-button v-if="anonymous" disabled :title="$t('skinlib.show.anonymous')">
-            {{ $t('skinlib.addToCloset') }}
-          </el-button>
-          <template v-else>
-            <el-button
-              v-if="liked"
-              type="success"
-              size="medium"
-              data-toggle="modal"
-              data-target="#modal-use-as"
-              @click="fetchPlayersList"
-            >
-              {{ $t('skinlib.apply') }}
-            </el-button>
-            <el-button
-              v-if="liked"
-              type="primary"
-              size="medium"
-              data-test="removeFromCloset"
-              @click="removeFromCloset"
-            >
-              {{ $t('skinlib.removeFromCloset') }}
-            </el-button>
-            <el-button
-              v-else
-              type="primary"
-              size="medium"
-              data-test="addToCloset"
-              @click="addToCloset"
-            >
-              {{ $t('skinlib.addToCloset') }}
-            </el-button>
-            <el-button
-              v-if="type !== 'cape'"
-              size="medium"
-              data-test="setAsAvatar"
-              @click="setAsAvatar"
-            >
-              {{ $t('user.setAsAvatar') }}
-            </el-button>
-            <el-button
-              v-if="canBeDownloaded"
-              size="medium"
-              data-test="download"
-              @click="download"
-            >
-              {{ $t('skinlib.show.download') }}
-            </el-button>
-            <el-button
-              type="warning"
-              size="medium"
-              data-test="report"
-              @click="report"
-            >
-              {{ $t('skinlib.report.title') }}
-            </el-button>
-          </template>
-          <div
-            class="btn likes pull-right"
-            style="cursor: auto;"
-            :style="{ color: liked ? '#e0353b' : '#333' }"
-            :title="$t('skinlib.show.likes')"
+          <button
+            v-if="anonymous"
+            class="btn btn-outline-secondary"
+            disabled
+            :title="$t('skinlib.show.anonymous')"
           >
-            <i class="fas fa-heart" />
-            <span>{{ likes }}</span>
+            {{ $t('skinlib.addToCloset') }}
+          </button>
+          <div v-else class="d-flex justify-content-between">
+            <div>
+              <button
+                v-if="liked"
+                class="btn btn-outline-success mr-2"
+                data-toggle="modal"
+                data-target="#modal-use-as"
+                @click="fetchPlayersList"
+              >
+                {{ $t('skinlib.apply') }}
+              </button>
+              <button
+                v-if="liked"
+                class="btn btn-outline-primary mr-2"
+                data-test="removeFromCloset"
+                @click="removeFromCloset"
+              >
+                {{ $t('skinlib.removeFromCloset') }}
+              </button>
+              <button
+                v-else
+                class="btn btn-outline-primary mr-2"
+                data-test="addToCloset"
+                @click="addToCloset"
+              >
+                {{ $t('skinlib.addToCloset') }}
+              </button>
+              <button
+                v-if="type !== 'cape'"
+                class="btn btn-outline-info mr-2"
+                data-test="setAsAvatar"
+                @click="setAsAvatar"
+              >
+                {{ $t('user.setAsAvatar') }}
+              </button>
+              <button
+                v-if="canBeDownloaded"
+                class="btn btn-outline-info mr-2"
+                data-test="download"
+                @click="download"
+              >
+                {{ $t('skinlib.show.download') }}
+              </button>
+              <button
+                class="btn btn-outline-info mr-2"
+                data-test="report"
+                @click="report"
+              >
+                {{ $t('skinlib.report.title') }}
+              </button>
+            </div>
+            <div
+              class="pt-2 likes"
+              :class="[liked ? 'text-red' : 'text-gray']"
+              :title="$t('skinlib.show.likes')"
+            >
+              <i class="fas fa-heart" />
+              <span>{{ likes }}</span>
+            </div>
           </div>
         </template>
       </previewer>
     </div>
 
     <div class="col-md-4">
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <h3 v-t="'skinlib.show.detail'" class="box-title" />
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 v-t="'skinlib.show.detail'" class="card-title" />
         </div>
-        <div class="box-body">
+        <div class="card-body">
           <table class="table">
             <tbody>
               <tr>
@@ -98,8 +100,8 @@
               <tr>
                 <td v-t="'skinlib.show.model'" />
                 <td>
-                  <template v-if="type === 'cape'">{{ $t('general.cape') }}</template>
-                  <template v-else>{{ type }}</template>
+                  <span v-if="type === 'cape'">{{ $t('general.cape') }}</span>
+                  <span v-else>{{ type }}</span>
                   <small v-if="hasEditPermission">
                     <a v-t="'skinlib.show.edit'" href="#" @click="changeModel" />
                   </small>
@@ -117,16 +119,12 @@
               </tr>
               <tr>
                 <td v-t="'skinlib.show.uploader'" />
-                <template v-if="uploaderNickName !== null">
-                  <td>
-                    <a
-                      :href="`${baseUrl}/skinlib?filter=${type === 'cape' ? 'cape' : 'skin'}&uploader=${uploader}`"
-                    >{{ uploaderNickName }}</a>
-                  </td>
-                </template>
-                <template v-else>
-                  <td><span v-t="'general.unexistent-user'" /></td>
-                </template>
+                <td v-if="uploaderNickName !== null">
+                  <a
+                    :href="`${baseUrl}/skinlib?filter=${type === 'cape' ? 'cape' : 'skin'}&uploader=${uploader}`"
+                  >{{ uploaderNickName }}</a>
+                </td>
+                <td v-else><span v-t="'general.unexistent-user'" /></td>
               </tr>
               <tr>
                 <td v-t="'skinlib.show.upload-at'" />
@@ -134,23 +132,27 @@
               </tr>
             </tbody>
           </table>
-        </div><!-- /.box-body -->
-      </div><!-- /.box -->
+        </div>
+      </div>
 
-      <div v-if="hasEditPermission" class="box box-warning">
-        <div class="box-header with-border">
-          <h3 v-t="'admin.operationsTitle'" class="box-title" />
-        </div><!-- /.box-header -->
-        <div class="box-body">
+      <div v-if="hasEditPermission" class="card card-warning">
+        <div class="card-header">
+          <h3 v-t="'admin.operationsTitle'" class="card-title" />
+        </div>
+        <div class="card-body">
           <p v-t="'skinlib.show.manage-notice'" />
-        </div><!-- /.box-body -->
+        </div>
 
-        <div class="box-footer">
-          <el-button type="warning" @click="togglePrivacy">{{ $t(togglePrivacyText) }}</el-button>
-          <el-button type="danger" class="pull-right" @click="deleteTexture">
-            {{ $t('skinlib.show.delete-texture') }}
-          </el-button>
-        </div><!-- /.box-footer -->
+        <div class="card-footer">
+          <div class="container d-flex justify-content-between">
+            <button class="btn btn-warning" @click="togglePrivacy">
+              {{ $t(togglePrivacyText) }}
+            </button>
+            <button class="btn btn-danger" @click="deleteTexture">
+              {{ $t('skinlib.show.delete-texture') }}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 

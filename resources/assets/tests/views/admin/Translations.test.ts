@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import { Button } from 'element-ui'
 import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../../utils'
 import Translations from '@/views/admin/Translations.vue'
@@ -34,7 +33,7 @@ test('modify line', async () => {
 
   const wrapper = mount(Translations)
   await flushPromises()
-  const button = wrapper.findAll(Button).at(0)
+  const button = wrapper.find('.btn-default')
 
   button.trigger('click')
   await flushPromises()
@@ -72,7 +71,7 @@ test('delete line', async () => {
 
   const wrapper = mount(Translations)
   await flushPromises()
-  const button = wrapper.findAll(Button).at(1)
+  const button = wrapper.find('.btn-danger')
 
   button.trigger('click')
   await flushPromises()

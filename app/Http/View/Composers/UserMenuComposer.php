@@ -18,18 +18,12 @@ class UserMenuComposer
     public function compose(View $view)
     {
         $user = auth()->user();
-        $view->with('user', $user);
+        $email = base64_encode($user->email);
+        $avatar = $user->avatar;
 
-        if ($this->request->is('skinlib*') || $this->request->is('/')) {
-            $view->with(
-                'tiny_avatar',
-                url('avatar/25/'.base64_encode($user->email).'.png?tid='.$user->avatar)
-            );
-        }
-
-        $view->with(
-            'avatar',
-            url('avatar/128/'.base64_encode($user->email).'.png?tid='.$user->avatar)
-        );
+        $view->with([
+            'user' => $user,
+            'avatar' => url('avatar/25/'.$email.'.png?tid='.$avatar),
+        ]);
     }
 }

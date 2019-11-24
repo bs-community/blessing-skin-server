@@ -5,27 +5,36 @@
 {% block content %}
   <div class="content-wrapper">
     <div class="container">
-      <section class="content-header">
-        <h1>{{ trans('skinlib.show.title') }}</h1>
-      </section>
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="d-flex justify-content-between flex-wrap">
+            <div>
+              <h1 class="m-0 text-dark">{{ trans('skinlib.show.title') }}</h1>
+            </div>
+            <div>
+              <div class="breadcrumb"></div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <section class="content">
-        <div class="row"></div>
+        <div class="container-fluid">
+          <div class="row"></div>
 
-        {% if comment_script %}
-          <div class="row">
-            <div class="col-md-12">
-              <div class="box box-default">
-                <div class="box-header with-border">
-                  <h3 class="box-title">{{ trans('skinlib.show.comment') }}</h3>
+          {% if comment_script %}
+            <div class="container-fluid p-0">
+              <div class="card">
+                <div class="card-header">
+                  <h3 class="card-title">{{ trans('skinlib.show.comment') }}</h3>
                 </div>
-                <div class="box-body">
+                <div class="card-body">
                   {{ comment_script|raw }}
                 </div>
               </div>
             </div>
-          </div>
-        {% endif %}
+          {% endif %}
+        </div>
       </section>
     </div>
   </div>

@@ -17,8 +17,8 @@ test('render dependencies', async () => {
   await flushPromises()
 
   expect(wrapper.text()).toContain('admin.noDependencies')
-  expect(wrapper.find('span.label.bg-green').text()).toBe('a: ^1.0.0')
-  expect(wrapper.find('span.label.bg-red').text()).toBe('c: ^2.0.0')
+  expect(wrapper.find('span.badge.bg-green').text()).toBe('a: ^1.0.0')
+  expect(wrapper.find('span.badge.bg-red').text()).toBe('c: ^2.0.0')
 })
 
 test('render operation buttons', async () => {

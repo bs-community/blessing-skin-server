@@ -1,47 +1,31 @@
-<li class="dropdown user user-menu">
-  <!-- Menu Toggle Button -->
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-    {% if tiny_avatar %}
-      <img src="{{ tiny_avatar }}" class="user-image" alt="User Image">
-    {% else %}
-      <i class="fas fa-user"></i>
-    {% endif %}
-    <!-- hidden-xs hides the username on small devices so only the image appears. -->
-    <span class="hidden-xs nickname">{{ user.nickname ?? user.email }}</span>
+<li class="nav-item dropdown user-menu">
+  <a href="#" class="nav-link" data-toggle="dropdown">
+    <img src="{{ avatar }}" class="user-image img-circle elevation-2" alt="User Image">
+    <span class="d-none d-md-inline d-sm-block">{{ user.nickname ?? user.email }}</span>
   </a>
 
-  <ul class="dropdown-menu">
-    <li class="user-header">
-      <img src="{{ avatar }}" alt="User Image">
-      <p>{{ user.email }}</p>
-    </li>
+  <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+    <a class="dropdown-item" href="{{ url('user') }}">
+      {{ trans('general.user-center') }}
+    </a>
+    <a class="dropdown-item" href="{{ url('user/profile') }}">
+      {{ trans('general.profile') }}
+    </a>
+    <div class="dropdown-divider"></div>
     {% if user.admin %}
-      <li class="user-body">
-        <div class="row">
-          <div class="col-xs-4 text-center">
-            <a href="{{ url('admin') }}">{{ trans('general.admin-panel') }}</a>
-          </div>
-          <div class="col-xs-4 text-center">
-            <a href="{{ url('admin/users') }}">{{ trans('general.user-manage') }}</a>
-          </div>
-          <div class="col-xs-4 text-center">
-            <a href="{{ url('admin/options') }}">{{ trans('general.options') }}</a>
-          </div>
-        </div>
-      </li>
+      <a class="dropdown-item" href="{{ url('admin') }}">
+        {{ trans('general.admin-panel') }}
+      </a>
+      <a class="dropdown-item" href="{{ url('admin/users') }}">
+        {{ trans('general.user-manage') }}
+      </a>
+      <a class="dropdown-item" href="{{ url('admin/reports') }}">
+        {{ trans('general.report-manage') }}
+      </a>
+      <div class="dropdown-divider"></div>
     {% endif %}
-    <!-- Menu Footer-->
-    <li class="user-footer">
-      <div class="pull-left">
-        <a href="{{ url('user') }}" class="btn btn-default btn-flat">
-          {{ trans('general.user-center') }}
-        </a>
-      </div>
-      <div class="pull-right">
-        <button id="logout-button" class="btn btn-default btn-flat">
-          {{ trans('general.logout') }}
-        </button>
-      </div>
-    </li>
-  </ul>
+    <a class="dropdown-item" href="#" id="logout-button">
+      {{ trans('general.logout') }}
+    </a>
+  </div>
 </li>

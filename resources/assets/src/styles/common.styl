@@ -1,41 +1,12 @@
 @import './auth'
 @import './admin'
 
-font_stack = Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei', sans-serif
-
-@font-face
-  font-family 'Ubuntu'
-  src url('../fonts/ubuntu.woff2') format('woff2'), url('../fonts/ubuntu.woff') format('woff')
-
 @font-face
   font-family 'Minecraft'
   src url('../fonts/minecraft.woff2') format('woff2'), url('../fonts/minecraft.woff') format('woff')
 
-body, h1, h2, h3, h4, h5, h6
-  font-family font_stack
-
-.logo-lg, .navbar-brand
+.brand-link, .navbar-brand
   font-family Minecraft
-
-// AdminLTE 2 is not compatible with Font Awesome 5
-.main-header .sidebar-toggle::before
-  content ''
-
-.box-footer > p
-  margin 6px 15px 5px 0
-
-@media (max-width: 767px)
-  .dropdown-menu > li.locale
-    a
-      color #777
-
-    a:hover
-      background-color #e1e3e9
-      color #333
-
-  /* hide the text on mobile phone pages */
-  .description-text
-    display none
 
 .key
   vertical-align middle
@@ -54,15 +25,8 @@ body, h1, h2, h3, h4, h5, h6
     td.value
       width 90%
 
-.main-header .navbar .user-menu .user-image
-  border-radius 10%
+.breadcrumb
+  font-size 14px
 
-.navbar-nav > .user-menu > .dropdown-menu > li.user-header
-  height unset
-
-#language-menu li
-  a
-    color #777
-  a:hover
-    background-color #e1e3e9
-    color #333
+.user-panel .info
+  cursor default

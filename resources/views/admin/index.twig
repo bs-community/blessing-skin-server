@@ -7,7 +7,7 @@
     <div class="col-md-6">
       <div class="row">
         <div class="col-md-6">
-          <div class="small-box bg-aqua">
+          <div class="small-box bg-info">
             <div class="inner">
               <h3>{{ sum.users }}</h3>
               <p>{{ trans('admin.index.total-users') }}</p>
@@ -61,13 +61,13 @@
         </div>
       </div>
 
-      <div class="box">
-        <div class="box-header with-border">
-          <h3 class="box-title">{{ trans('admin.notifications.send.title') }}</h3>
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">{{ trans('admin.notifications.send.title') }}</h3>
         </div>
         <form method="post" action="{{ url('/admin/notifications/send') }}">
           {{ csrf_field() }}
-          <div class="box-body">
+          <div class="card-body">
             {% if errors.any %}
               <div class="callout callout-danger">{{ errors.first }}</div>
             {% endif %}
@@ -113,11 +113,11 @@
               <textarea name="content" class="form-control" rows="3"></textarea>
             </div>
           </div>
-          <div class="box-footer">
+          <div class="card-footer">
             <input
               type="submit"
               value="{{ trans('general.submit') }}"
-              class="el-button el-button--primary"
+              class="btn btn-primary"
             >
           </div>
         </form>
@@ -125,11 +125,11 @@
     </div>
 
     <div class="col-md-6">
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <h3 class="box-title">{{ trans('admin.index.overview') }}</h3>
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">{{ trans('admin.index.overview') }}</h3>
         </div>
-        <div class="box-body"><div id="chart"></div></div>
+        <div class="card-body"><div id="chart"></div></div>
       </div>
     </div>
   </div>

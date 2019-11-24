@@ -13,7 +13,6 @@ class UserPanelComposerTest extends TestCase
         $this->actingAs($user);
 
         $this->get('/user')
-            ->assertSee(trans('admin.users.status.normal'))
             ->assertSee(
                 url('avatar/45/'.base64_encode($user->email).'.png?tid='.$user->avatar)
             );
@@ -28,6 +27,6 @@ class UserPanelComposerTest extends TestCase
             $event->badges[] = ['Pro', 'purple'];
         });
 
-        $this->get('/user')->assertSee('<small class="label bg-purple">Pro</small>');
+        $this->get('/user')->assertSee('<span class="badge bg-purple mb-1">Pro</span>');
     }
 }

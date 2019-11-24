@@ -2,8 +2,8 @@
   <form @submit.prevent="submit">
     <div v-if="players.length">
       <p v-t="'user.bindExistedPlayer'" />
-      <div class="form-group">
-        <select v-model="selected" class="player-select">
+      <div class="form-group mb-3">
+        <select v-model="selected" class="form-control player-select">
           <option v-for="name in players" :key="name">{{ name }}</option>
         </select>
       </div>
@@ -11,25 +11,23 @@
 
     <div v-else>
       <p v-t="'user.bindNewPlayer'" />
-      <div class="form-group has-feedback">
+      <div class="form-group mb-3">
         <input
           v-model="selected"
           class="form-control"
           :placeholder="$t('general.player.player-name')"
         >
-        <span class="glyphicon glyphicon-user form-control-feedback" />
       </div>
     </div>
 
-    <div v-show="message" class="callout callout-warning" v-text="message" />
+    <div v-show="message" class="alert alert-warning" v-text="message" />
 
-
-    <el-button type="primary" native-type="submit" :disabled="pending">
+    <button class="btn btn-primary float-right" type="submit" :disabled="pending">
       <template v-if="pending">
         <i class="fa fa-spinner fa-spin" /> {{ $t('general.wait') }}
       </template>
       <span v-else>{{ $t('general.submit') }}</span>
-    </el-button>
+    </button>
   </form>
 </template>
 

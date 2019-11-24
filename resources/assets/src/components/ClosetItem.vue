@@ -1,48 +1,51 @@
 <template>
-  <texture-item :class="{ 'item-selected': selected }">
-    <div @click="$emit('select')">
-      <img :src="previewLink">
+  <div class="card mr-3 mb-3 closet-item" :class="{ shadow: selected }">
+    <div class="card-body texture-img" @click="$emit('select')">
+      <img class="card-img-top" :src="previewLink">
     </div>
+    <div class="card-footer pb-2 pt-2 pl-1 pr-1">
+      <div class="container d-flex justify-content-between">
+        <span data-test="name" :title="name">
+          {{ textureName }} <small>({{ type }})</small>
+        </span>
 
-    <template #footer :class="{ 'item-selected': selected }">
-      <p class="texture-name">
-        <span :title="name">{{ textureName }} <small>({{ type }})</small></span>
-      </p>
-
-      <a
-        :href="linkToSkinlib"
-        :title="$t('user.viewInSkinlib')"
-        class="more"
-        data-toggle="tooltip"
-        data-placement="bottom"
-      ><i class="fas fa-share" /></a>
-      <span
-        id="more-button"
-        :title="$t('general.more')"
-        class="more"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-      ><i class="fas fa-cog" /></span>
-
-      <ul class="dropup dropdown-menu" aria-labelledby="more-button">
-        <li><a v-t="'user.renameItem'" @click="rename" /></li>
-        <li><a v-t="'user.removeItem'" @click="removeClosetItem" /></li>
-        <li><a v-if="type !== 'cape'" v-t="'user.setAsAvatar'" @click="setAsAvatar" /></li>
-      </ul>
-    </template>
-  </texture-item>
+        <a class="float-right dropdown">
+          <span
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            <i class="fas fa-cog text-gray" />
+          </span>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="#" @click="rename">
+              {{ $t('user.renameItem') }}
+            </a>
+            <a class="dropdown-item" href="#" @click="removeClosetItem">
+              {{ $t('user.removeItem') }}
+            </a>
+            <a :href="linkToSkinlib" class="dropdown-item">
+              {{ $t('user.viewInSkinlib') }}
+            </a>
+            <a
+              v-if="type !== 'cape'"
+              class="dropdown-item"
+              href="#"
+              @click="setAsAvatar"
+            >{{ $t('user.setAsAvatar') }}</a>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import TextureItem from './TextureItem.vue'
 import setAsAvatar from './mixins/setAsAvatar'
 import removeClosetItem from './mixins/removeClosetItem'
 
 export default {
   name: 'ClosetItem',
-  components: {
-    TextureItem,
-  },
   mixins: [
     removeClosetItem,
     setAsAvatar,
@@ -105,3 +108,19 @@ export default {
   },
 }
 </script>
+
+<style lang="stylus">
+.closet-item
+  width 235px
+  transition-property box-shadow
+  transition-duration 0.3s
+  &:hover
+    box-shadow 0 .5rem 1rem rgba(0,0,0,.15)
+    cursor pointer
+
+  .fa-cog:hover
+    color #000
+
+.texture-img
+  background #eff1f0
+</style>

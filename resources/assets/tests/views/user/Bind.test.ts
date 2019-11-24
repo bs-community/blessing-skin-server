@@ -32,7 +32,7 @@ test('submit', async () => {
 
   form.trigger('submit')
   await flushPromises()
-  expect(wrapper.find('.callout').text()).toBe('fail')
+  expect(wrapper.find('.alert').text()).toBe('fail')
 
   form.trigger('submit')
   await flushPromises()

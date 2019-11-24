@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import { Button } from 'element-ui'
 import Show from '@/views/skinlib/Show.vue'
 import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../../utils'
@@ -35,7 +34,7 @@ test('button for adding to closet should be disabled if not auth', () => {
     },
     stubs: { previewer },
   })
-  expect(wrapper.find(Button).attributes('disabled')).toBe('disabled')
+  expect(wrapper.find('.btn').attributes('disabled')).toBe('disabled')
 })
 
 test('button for adding to closet should be enabled if auth', () => {
@@ -59,7 +58,7 @@ test('likes count indicator', async () => {
     stubs: { previewer },
   })
   await flushPromises()
-  expect(wrapper.find('.likes').attributes('style')).toContain('color: rgb(224, 53, 59)')
+  expect(wrapper.find('.likes').classes()).toContain('text-red')
   expect(wrapper.find('.likes').text()).toContain('2')
 })
 
@@ -79,7 +78,7 @@ test('render basic information', async () => {
     },
   })
   await flushPromises()
-  const text = wrapper.find('.box-primary').text()
+  const text = wrapper.find('.card-primary').text()
   expect(text).toContain('my-texture')
   expect(text).toContain('alex')
   expect(text).toContain('123...')
@@ -130,7 +129,7 @@ test('operation panel should not be rendered if user is anonymous', async () => 
     },
   })
   await flushPromises()
-  expect(wrapper.find('.box-warning').exists()).toBeFalse()
+  expect(wrapper.find('.card-warning').exists()).toBeFalse()
 })
 
 test('operation panel should not be rendered if not privileged', async () => {
@@ -142,7 +141,7 @@ test('operation panel should not be rendered if not privileged', async () => {
     },
   })
   await flushPromises()
-  expect(wrapper.find('.box-warning').exists()).toBeFalse()
+  expect(wrapper.find('.card-warning').exists()).toBeFalse()
 })
 
 test('operation panel should be rendered if privileged', async () => {
@@ -154,7 +153,7 @@ test('operation panel should be rendered if privileged', async () => {
     },
   })
   await flushPromises()
-  expect(wrapper.find('.box-warning').exists()).toBeTrue()
+  expect(wrapper.find('.card-warning').exists()).toBeTrue()
 })
 
 test('download texture', async () => {
@@ -303,7 +302,9 @@ test('change texture model', async () => {
     },
     stubs: { previewer },
   })
-  const button = wrapper.findAll('small').at(1)
+  const button = wrapper
+    .findAll('small')
+    .at(1)
     .find('a')
 
   button.trigger('click')
@@ -336,10 +337,7 @@ test('toggle privacy', async () => {
     },
     stubs: { previewer },
   })
-  const button = wrapper
-    .find('.box-warning')
-    .findAll(Button)
-    .at(0)
+  const button = wrapper.find('.btn-warning')
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
@@ -375,10 +373,7 @@ test('delete texture', async () => {
     },
     stubs: { previewer },
   })
-  const button = wrapper
-    .find('.box-warning')
-    .findAll(Button)
-    .at(1)
+  const button = wrapper.find('.btn-danger')
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
@@ -472,5 +467,5 @@ test('truncate too long texture name', async () => {
     },
   })
   await flushPromises()
-  expect(wrapper.find('.box-primary').text()).toContain('very-very-long-...')
+  expect(wrapper.find('.card-primary').text()).toContain('very-very-long-...')
 })

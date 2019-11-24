@@ -5,24 +5,25 @@
 {% block content %}
   <div class="row">
     <div class="col-md-7">
-      <div class="box" id="usage-box">
-        <div class="box-header with-border"></div>
-        <div class="box-body"></div>
-        <div class="box-footer"></div>
+      <div class="card" id="usage-box">
+        <div class="card-header"></div>
+        <div class="card-body"></div>
+        <div class="card-footer"></div>
       </div>
     </div>
 
     <div class="col-md-5">
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <h3 class="box-title">{{ trans('user.announcement') }}</h3>
+      <div class="card card-primary card-outline">
+        <div class="card-header">
+          <h3 class="card-title">{{ trans('user.announcement') }}</h3>
           {% if auth_user().admin %}
+            &nbsp;
             <a href="{{ url('/admin/options') }}">
               <i class="fas fa-edit"></i>
             </a>
           {% endif %}
         </div>
-        <div class="box-body">
+        <div class="card-body">
           {{ announcement|raw }}
         </div>
       </div>
@@ -32,13 +33,13 @@
 
 {% block before_foot %}
   <div id="modal-score-instruction" class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
+          <h4 class="modal-title">{{ trans('user.score-intro.title') }}</h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-          <h4 class="modal-title">{{ trans('user.score-intro.title') }}</h4>
         </div>
         <div class="modal-body">
           {{ score_intro|nl2br }}
@@ -54,7 +55,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button class="el-button" data-dismiss="modal">{{ trans('general.close') }}</button>
+          <button class="btn btn-default" data-dismiss="modal">{{ trans('general.close') }}</button>
         </div>
       </div>
     </div>

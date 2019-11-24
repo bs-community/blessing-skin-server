@@ -1,67 +1,66 @@
 <template>
-  <section class="content">
+  <div class="container-fluid">
     <email-verification />
     <div class="row">
-      <!-- Left col -->
       <div class="col-md-8">
-        <!-- Custom tabs -->
-        <div class="nav-tabs-custom">
-          <!-- Tabs within a box -->
-          <ul class="nav nav-tabs">
-            <li :class="{ active: category === 'skin' }">
-              <a
-                v-t="'general.skin'"
-                href="#"
-                class="category-switch"
-                data-toggle="tab"
-                @click="switchCategory"
-              />
-            </li>
-            <li :class="{ active: category === 'cape' }">
-              <a
-                v-t="'general.cape'"
-                href="#"
-                class="category-switch"
-                data-toggle="tab"
-                @click="switchCategory"
-              />
-            </li>
-            <li>
-              <a
-                v-t="'user.closet.upload'"
-                :href="`${baseUrl}/skinlib/upload`"
-                class="category-switch"
-              />
-            </li>
-
-            <li class="pull-right" style="padding: 7px;">
-              <div class="has-feedback pull-right">
-                <div class="user-search-form">
-                  <input
-                    v-model="query"
-                    type="text"
-                    class="form-control input-sm"
-                    :placeholder="$t('user.typeToSearch')"
-                    @input="search"
+        <div class="card card-primary card-tabs">
+          <div class="card-header p-0 pt-1 pl-1">
+            <div class="d-flex justify-content-between">
+              <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    :class="{ active: category === 'skin' }"
+                    href="#"
+                    data-toggle="pill"
+                    role="tab"
+                    @click="switchCategory"
                   >
-                  <span class="glyphicon glyphicon-search form-control-feedback" />
-                </div>
+                    {{ $t('general.skin') }}
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    :class="{ active: category === 'cape' }"
+                    href="#"
+                    @click="switchCategory"
+                  >
+                    {{ $t('general.cape') }}
+                  </a>
+                </li>
+                <li class="nav-item d-none d-md-block">
+                  <a
+                    v-t="'user.closet.upload'"
+                    :href="`${baseUrl}/skinlib/upload`"
+                    class="nav-link"
+                  />
+                </li>
+              </ul>
+              <div class="mr-3 my-2 my-lg-0">
+                <input
+                  v-model="query"
+                  class="form-control mr-sm-2"
+                  type="search"
+                  aria-label="Search"
+                  :placeholder="$t('user.typeToSearch')"
+                  @input="search"
+                >
               </div>
-            </li>
-          </ul>
-          <div class="tab-content no-padding">
+            </div>
+          </div>
+          <div class="card-body">
             <div
               v-if="category === 'skin'"
               id="skin-category"
-              class="tab-pane box-body"
               :class="{ active: category === 'skin' }"
             >
-              <div v-if="skinItems.length === 0" class="empty-msg">
+              <div v-if="skinItems.length === 0" class="text-center p-3">
                 <div v-if="query !== ''" v-t="'general.noResult'" />
                 <!-- eslint-disable-next-line vue/no-v-html -->
                 <div v-else v-html="$t('user.emptyClosetMsg', { url: linkToSkin })" />
               </div>
-              <div v-else>
+              <div v-else class="d-flex flex-wrap">
                 <closet-item
                   v-for="(item, index) in skinItems"
                   :key="item.tid"
@@ -77,10 +76,9 @@
             <div
               v-else
               id="cape-category"
-              class="tab-pane box-body"
               :class="{ active: category === 'cape' }"
             >
-              <div v-if="capeItems.length === 0" class="empty-msg">
+              <div v-if="capeItems.length === 0" class="text-center p-3">
                 <div v-if="query !== ''" v-t="'general.noResult'" />
                 <!-- eslint-disable-next-line vue/no-v-html -->
                 <div v-else v-html="$t('user.emptyClosetMsg', { url: linkToCape })" />
@@ -99,13 +97,19 @@
               </div>
             </div>
           </div>
-          <div class="box-footer">
+          <div class="card-footer">
             <paginate
               v-if="category === 'skin'"
               v-model="skinCurrentPage"
               :page-count="skinTotalPages"
-              class="pull-right"
+              class="float-right"
               container-class="pagination pagination-sm no-margin"
+              page-class="page-item"
+              page-link-class="page-link"
+              prev-class="page-item"
+              prev-link-class="page-link"
+              next-class="page-item"
+              next-link-class="page-link"
               first-button-text="«"
               prev-text="‹"
               next-text="›"
@@ -117,8 +121,14 @@
               v-else
               v-model="capeCurrentPages"
               :page-count="capeTotalPages"
-              class="pull-right"
+              class="float-right"
               container-class="pagination pagination-sm no-margin"
+              page-class="page-item"
+              page-link-class="page-link"
+              prev-class="page-item"
+              prev-link-class="page-link"
+              next-class="page-item"
+              next-link-class="page-link"
               first-button-text="«"
               prev-text="‹"
               next-text="›"
@@ -127,10 +137,9 @@
               :first-last-button="true"
             />
           </div>
-        </div><!-- /.nav-tabs-custom -->
+        </div>
       </div>
 
-      <!-- Right col -->
       <div class="col-md-4">
         <previewer
           closet-mode
@@ -139,24 +148,26 @@
           :model="model"
         >
           <template #footer>
-            <el-button
-              type="primary"
-              data-toggle="modal"
-              data-target="#modal-use-as"
-              @click="fetchPlayersList"
-            >
-              {{ $t('user.useAs') }}
-            </el-button>
-            <el-button data-test="resetSelected" class="pull-right" @click="resetSelected">
-              {{ $t('user.resetSelected') }}
-            </el-button>
+            <div class="d-flex justify-content-between">
+              <button
+                class="btn btn-primary"
+                data-toggle="modal"
+                data-target="#modal-use-as"
+                @click="fetchPlayersList"
+              >
+                {{ $t('user.useAs') }}
+              </button>
+              <button class="btn btn-default" data-test="resetSelected" @click="resetSelected">
+                {{ $t('user.resetSelected') }}
+              </button>
+            </div>
           </template>
         </previewer>
       </div>
     </div>
     <apply-to-player-dialog ref="useAs" :skin="selectedSkin" :cape="selectedCape" />
     <add-player-dialog @add="fetchPlayersList" />
-  </section><!-- /.content -->
+  </div>
 </template>
 
 <script>
@@ -274,38 +285,3 @@ export default {
   },
 }
 </script>
-
-<style lang="stylus">
-.empty-msg
-  text-align center
-  font-size 16px
-  padding 10px 0
-
-.texture-name
-  width 65%
-  display inline-block
-  overflow hidden
-  text-overflow ellipsis
-  white-space nowrap
-
-  small
-    font-size 75%
-
-.item-footer > .dropdown-menu
-  margin-left 180px
-
-.box-title
-  a
-    color #6d6d6d
-
-  a.selected
-    color #3c8dbc
-
-.breadcrumb
-  a
-    margin-right 10px
-    color #444
-
-  a:hover
-    color #3c8dbc
-</style>

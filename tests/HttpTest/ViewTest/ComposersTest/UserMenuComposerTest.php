@@ -10,16 +10,6 @@ class UserMenuComposerTest extends TestCase
     {
         $user = factory(User::class)->make();
         $this->actingAs($user)
-            ->get('/user')
-            ->assertSee(
-                url('avatar/128/'.base64_encode($user->email).'.png?tid='.$user->avatar)
-            );
-    }
-
-    public function testTinyAvatar()
-    {
-        $user = factory(User::class)->make();
-        $this->actingAs($user)
             ->get('/')
             ->assertSee(
                 url('avatar/25/'.base64_encode($user->email).'.png?tid='.$user->avatar)
@@ -31,7 +21,7 @@ class UserMenuComposerTest extends TestCase
             );
         $this->actingAs($user)
             ->get('/user')
-            ->assertDontSee(
+            ->assertSee(
                 url('avatar/25/'.base64_encode($user->email).'.png?tid='.$user->avatar)
             );
     }

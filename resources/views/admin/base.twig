@@ -5,16 +5,27 @@
     <title>{% block title %}{% endblock %} - {{ site_name }}</title>
   </head>
 
-  <body class="hold-transition {{ color_scheme }} sidebar-mini">
+  <body class="hold-transition sidebar-mini">
     <div class="wrapper">
       {{ include('shared.header') }}
       {{ include('shared.sidebar', {scope: 'admin'}) }}
       <div class="content-wrapper">
-        <section class="content-header">
-          <h1>{{ block('title') }}</h1>
-        </section>
+        <div class="content-header">
+          <div class="container-fluid">
+            <div class="d-flex justify-content-between flex-wrap">
+              <div>
+                <h1 class="m-0 text-dark">{{ block('title') }}</h1>
+              </div>
+              <div>
+                <div class="breadcrumb"></div>
+              </div>
+            </div>
+          </div>
+        </div>
         <section class="content">
-          {% block content %}{% endblock %}
+          <div class="container-fluid">
+            {% block content %}{% endblock %}
+          </div>
         </section>
       </div>
       <footer class="main-footer">

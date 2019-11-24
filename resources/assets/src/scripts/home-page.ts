@@ -1,5 +1,5 @@
 function handler() {
-  const header = document.querySelector('.main-header')
+  const header = document.querySelector('.navbar')
   /* istanbul ignore else */
   if (header) {
     window.addEventListener('scroll', () => {

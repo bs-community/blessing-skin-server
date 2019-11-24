@@ -20,23 +20,25 @@ export function showModal(
   const destroyOnClose = options.destroyOnClose !== false
 
   const dom = `
-    <div class="modal modal-${type} fade in">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                    <h4 class="modal-title">${title}</h4>
-                </div>
-                <div class="modal-body">
-                    <p>${message}</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" ${onClick} class="btn ${btnType}">${btnText}</button>
-                </div>
-            </div>
+    <div class="modal fade in">
+      <div class="modal-dialog">
+        <div class="modal-content bg-${type}">
+          <div class="modal-header">
+            <h4 class="modal-title">${title}</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>${message}</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" ${onClick} class="btn btn-outline-light ${btnType}">
+              ${btnText}
+            </button>
+          </div>
         </div>
+      </div>
     </div>`
 
   $(dom)

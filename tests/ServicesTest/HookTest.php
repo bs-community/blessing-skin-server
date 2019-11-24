@@ -4,6 +4,7 @@ namespace Tests;
 
 use App\Models\User;
 use App\Services\Hook;
+use Symfony\Component\DomCrawler\Crawler;
 
 class HookTest extends TestCase
 {
@@ -82,17 +83,19 @@ class HookTest extends TestCase
         Hook::addUserBadge('hi', 'green');
         $this->actAs('normal')
             ->get('/user')
-            ->assertSee('<small class="label bg-green">hi</small>');
+            ->assertSee('<span class="badge bg-green mb-1">hi</span>');
     }
 
     public function testSendNotification()
     {
         $user = factory(User::class)->create();
         Hook::sendNotification([$user], 'Ibara Mayaka');
-        $this->actingAs($user)
+        $html = $this->actingAs($user)
             ->get('/user')
-            ->assertSee('<span class="label label-warning notifications-counter">1</span>')
-            ->assertSee('Ibara Mayaka');
+            ->assertSee('Ibara Mayaka')
+            ->getContent();
+        $crawler = new Crawler($html);
+        $this->assertEquals('1', trim($crawler->filter('.badge-warning')->text()));
     }
 
     public function testPushMiddleware()

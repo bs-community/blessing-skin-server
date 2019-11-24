@@ -1,12 +1,17 @@
 <template>
-  <section class="content">
+  <div class="container-fluid">
     <div class="row">
       <div class="col-md-6">
-        <div class="box box-primary">
-          <div class="box-body">
+        <div class="card card-primary">
+          <div class="card-body">
             <div class="form-group">
               <label v-t="'skinlib.upload.texture-name'" for="name" />
-              <el-input v-model="name" :placeholder="textureNameRule" clearable />
+              <input
+                v-model="name"
+                type="text"
+                :placeholder="textureNameRule"
+                class="form-control"
+              >
             </div>
 
             <div class="form-group">
@@ -31,50 +36,40 @@
                 drop=".file-dnd"
                 @input-file="inputFile"
               >
-                <el-button type="primary" size="medium">
+                <button class="btn btn-primary">
                   {{ $t('skinlib.upload.select-file') }}
-                </el-button>
+                </button>
               </file-upload>
-              <el-button
+              <button
                 v-show="hasFile"
-                size="medium"
-                class="pull-right"
+                class="btn btn-danger float-right"
                 data-test="remove"
                 @click="remove"
               >
                 <i class="fas fa-trash-alt" />
                 {{ $t('skinlib.upload.remove') }}
-              </el-button>
+              </button>
             </div>
 
             <!-- eslint-disable-next-line vue/no-v-html -->
             <div v-if="contentPolicy" class="callout callout-warning" v-html="contentPolicy" />
           </div>
 
-          <div class="box-footer">
-            <el-switch
-              v-model="isPrivate"
-              :active-text="$t('skinlib.upload.set-as-private')"
-              class="pull-right"
-              :title="$t('skinlib.upload.privacy-notice')"
-            />
-            <el-button
-              v-if="uploading"
-              type="success"
-              size="medium"
-              disabled
-            >
-              <i class="fa fa-spinner fa-spin" /> {{ $t('skinlib.uploading') }}
-            </el-button>
-            <el-button
-              v-else
-              type="success"
-              size="medium"
-              @click="upload"
-            >
-              {{ $t('skinlib.upload.button') }}
-            </el-button>
-            &nbsp;
+          <div class="card-footer">
+            <div class="container pl-0 pr-0 d-flex justify-content-between">
+              <el-switch
+                v-model="isPrivate"
+                class="mt-2"
+                :active-text="$t('skinlib.upload.set-as-private')"
+                :title="$t('skinlib.upload.privacy-notice')"
+              />
+              <button v-if="uploading" class="btn btn-success" disabled>
+                <i class="fa fa-spinner fa-spin" /> {{ $t('skinlib.uploading') }}
+              </button>
+              <button v-else class="btn btn-success" @click="upload">
+                {{ $t('skinlib.upload.button') }}
+              </button>
+            </div>
             <div v-if="hasFile" class="callout callout-info bottom-notice">
               <p>{{ $t('skinlib.upload.cost', { score: scoreCost }) }}</p>
             </div>
@@ -85,7 +80,7 @@
               <p>{{ $t('skinlib.upload.award', { score: award }) }}</p>
             </div>
           </div>
-        </div><!-- /.box -->
+        </div>
       </div>
       <div class="col-md-6">
         <previewer
@@ -95,7 +90,7 @@
         />
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>

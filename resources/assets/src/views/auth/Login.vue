@@ -1,15 +1,19 @@
 <template>
   <form @submit.prevent="login">
-    <div class="form-group has-feedback">
+    <div class="input-group mb-3">
       <input
         v-model="identification"
         class="form-control"
         :placeholder="$t('auth.identification')"
         required
       >
-      <span class="glyphicon glyphicon-envelope form-control-feedback" />
+      <div class="input-group-append">
+        <div class="input-group-text">
+          <span class="fas fa-envelope" />
+        </div>
+      </div>
     </div>
-    <div class="form-group has-feedback">
+    <div class="input-group mb-3">
       <input
         v-model="password"
         type="password"
@@ -17,37 +21,37 @@
         :placeholder="$t('auth.password')"
         required
       >
-      <span class="glyphicon glyphicon-lock form-control-feedback" />
+      <div class="input-group-append">
+        <div class="input-group-text">
+          <span class="fas fa-lock" />
+        </div>
+      </div>
     </div>
 
     <captcha v-if="tooManyFails" ref="captcha" />
 
-    <div class="callout callout-warning" :class="{ hide: !warningMsg }">{{ warningMsg }}</div>
+    <div class="alert alert-warning" :class="{ 'd-none': !warningMsg }">
+      <i class="icon fas fa-exclamation-triangle" />
+      {{ warningMsg }}
+    </div>
 
-    <div class="row">
-      <div class="col-xs-6">
+    <div class="d-flex justify-content-between mb-3">
+      <div>
         <el-switch v-model="remember" :active-text="$t('auth.keep')" />
       </div>
-      <div class="col-xs-6">
-        <a v-t="'auth.forgot-link'" class="pull-right" :href="`${baseUrl}/auth/forgot`" />
-      </div>
+      <a v-t="'auth.forgot-link'" :href="`${baseUrl}/auth/forgot`" />
     </div>
 
-    <div class="row">
-      <div class="col-xs-12">
-        <el-button
-          type="primary"
-          native-type="submit"
-          :disabled="pending"
-          class="auth-btn"
-        >
-          <template v-if="pending">
-            <i class="fa fa-spinner fa-spin" /> {{ $t('auth.loggingIn') }}
-          </template>
-          <span v-else>{{ $t('auth.login') }}</span>
-        </el-button>
-      </div>
-    </div>
+    <button
+      class="btn btn-block btn-primary"
+      type="submit"
+      :disabled="pending"
+    >
+      <template v-if="pending">
+        <i class="fa fa-spinner fa-spin" /> {{ $t('auth.loggingIn') }}
+      </template>
+      <span v-else>{{ $t('auth.login') }}</span>
+    </button>
   </form>
 </template>
 
@@ -127,11 +131,3 @@ export default {
   },
 }
 </script>
-
-<style lang="stylus">
-#login-button
-  margin-top 5px
-
-.el-button
-  margin-top 10px
-</style>

@@ -11,8 +11,10 @@
         <a href="{{ url('/') }}">{{ site_name }}</a>
       </div>
 
-      <div class="login-box-body">
-        {% block content %}{% endblock %}
+      <div class="card">
+        <div class="card-body login-card-body">
+          {% block content %}{% endblock %}
+        </div>
       </div>
     </div>
 

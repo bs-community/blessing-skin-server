@@ -1,61 +1,8 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-// @ts-ignore
-import Button from 'element-ui/lib/button'
 import { flushPromises } from '../../utils'
 import { queryString } from '@/scripts/utils'
 import List from '@/views/skinlib/List.vue'
-
-jest.mock('element-ui', () => ({
-  Select: {
-    install(vue: typeof Vue) {
-      vue.component('ElSelect', {
-        render(h) {
-          return h('select', {
-            on: {
-              change: (event: Event) => this.$emit(
-                'change',
-                (event.target as HTMLSelectElement).value
-              ),
-            },
-            attrs: {
-              value: this.value,
-            },
-          }, this.$slots.default)
-        },
-        props: {
-          value: String,
-        },
-        model: {
-          prop: 'value',
-          event: 'change',
-        },
-      })
-    },
-  },
-  Option: {
-    install(vue: typeof Vue) {
-      vue.component('ElOption', {
-        render(h) {
-          return h('option', { attrs: { value: this.value } }, this.label)
-        },
-        props: {
-          label: String,
-          value: String,
-        },
-      })
-    },
-  },
-  ButtonGroup: {
-    install(vue: typeof Vue) {
-      vue.component('ElButtonGroup', {
-        render(h) {
-          return h('div', {}, this.$slots.default)
-        },
-      })
-    },
-  },
-}))
 
 beforeEach(() => {
   window.history.pushState(null, '', 'skinlib')
@@ -93,22 +40,42 @@ test('toggle texture type', () => {
     },
   })
   const wrapper = mount(List)
-  const select = wrapper.find({ name: 'ElSelect' })
+  const options = wrapper.findAll('.dropdown-item')
+  const btnSkin = options.at(0)
+  const btnSteve = options.at(1)
+  const btnAlex = options.at(2)
+  const btnCape = options.at(3)
+  const dropdownToggle = wrapper.find('.dropdown-toggle')
   const breadcrumb = wrapper.find('.breadcrumb')
+
+  expect(btnSkin.classes()).toContain('active')
+  expect(btnSteve.classes()).not.toContain('active')
+  expect(btnAlex.classes()).not.toContain('active')
+  expect(btnCape.classes()).not.toContain('active')
+  expect(dropdownToggle.text()).toContain('general.skin')
   expect(breadcrumb.text()).toContain('skinlib.filter.skin')
 
-  select.setValue('steve')
-  select.trigger('change')
+  btnSteve.trigger('click')
+  expect(btnSkin.classes()).not.toContain('active')
+  expect(btnSteve.classes()).toContain('active')
+  expect(btnAlex.classes()).not.toContain('active')
+  expect(btnCape.classes()).not.toContain('active')
+  expect(dropdownToggle.text()).toContain('Steve')
   expect(breadcrumb.text()).toContain('skinlib.filter.steve')
+  expect(queryString('filter')).toBe('steve')
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/skinlib/data',
     {
       filter: 'steve', uploader: 0, sort: 'time', keyword: '', page: 1,
     }
   )
-  expect(queryString('filter')).toBe('steve')
-  select.setValue('alex')
-  select.trigger('change')
+
+  btnAlex.trigger('click')
+  expect(btnSkin.classes()).not.toContain('active')
+  expect(btnSteve.classes()).not.toContain('active')
+  expect(btnAlex.classes()).toContain('active')
+  expect(btnCape.classes()).not.toContain('active')
+  expect(dropdownToggle.text()).toContain('Alex')
   expect(breadcrumb.text()).toContain('skinlib.filter.alex')
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/skinlib/data',
@@ -117,8 +84,13 @@ test('toggle texture type', () => {
     }
   )
   expect(queryString('filter')).toBe('alex')
-  select.setValue('cape')
-  select.trigger('change')
+
+  btnCape.trigger('click')
+  expect(btnSkin.classes()).not.toContain('active')
+  expect(btnSteve.classes()).not.toContain('active')
+  expect(btnAlex.classes()).not.toContain('active')
+  expect(btnCape.classes()).toContain('active')
+  expect(dropdownToggle.text()).toContain('general.cape')
   expect(breadcrumb.text()).toContain('general.cape')
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/skinlib/data',
@@ -138,13 +110,11 @@ test('check specified uploader', async () => {
   const wrapper = mount(List)
   await flushPromises()
   const breadcrumb = wrapper.find('.breadcrumb')
-  const button = wrapper
-    .find('.advanced-filter')
-    .findAll(Button)
-    .at(2)
+  const button = wrapper.findAll('.bg-olive').at(2)
   expect(breadcrumb.text()).toContain('skinlib.filter.allUsers')
 
   button.trigger('click')
+  expect(button.classes()).toContain('active')
   expect(breadcrumb.text()).toContain('skinlib.filter.uploader')
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/skinlib/data',
@@ -162,7 +132,7 @@ test('sort items', () => {
     },
   })
   const wrapper = mount(List)
-  const buttons = wrapper.find('.advanced-filter').findAll(Button)
+  const buttons = wrapper.findAll('.bg-olive')
   const sortByLikes = buttons.at(0)
   const sortByTime = buttons.at(1)
 
@@ -174,6 +144,7 @@ test('sort items', () => {
     }
   )
   expect(wrapper.text()).toContain('skinlib.sort.likes')
+  expect(sortByLikes.classes()).toContain('active')
   expect(queryString('sort')).toBe('likes')
 
   sortByTime.trigger('click')
@@ -184,6 +155,7 @@ test('sort items', () => {
     }
   )
   expect(wrapper.text()).toContain('skinlib.sort.time')
+  expect(sortByTime.classes()).toContain('active')
   expect(queryString('sort')).toBe('time')
 })
 
@@ -194,8 +166,9 @@ test('search by keyword', () => {
     },
   })
   const wrapper = mount(List)
+  const input = wrapper.find('[data-test="keyword"]')
 
-  wrapper.setData({ keyword: 'a' })
+  input.setValue('a')
   wrapper.find('form').trigger('submit')
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/skinlib/data',
@@ -205,7 +178,7 @@ test('search by keyword', () => {
   )
   expect(queryString('keyword')).toBe('a')
 
-  wrapper.setData({ keyword: 'b' })
+  input.setValue('b')
   wrapper.find('[data-test="btn-search"]').trigger('click')
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/skinlib/data',
@@ -223,10 +196,12 @@ test('reset all filters', () => {
     },
   })
   const wrapper = mount(List)
-  wrapper.findAll('option').at(3)
-    .setSelected()
+  wrapper
+    .findAll('.dropdown-item')
+    .at(3)
+    .trigger('click')
   wrapper.setData({ keyword: 'abc' })
-  const buttons = wrapper.find('.advanced-filter').findAll(Button)
+  const buttons = wrapper.findAll('.bg-olive')
   buttons.at(1).trigger('click')
 
   Vue.prototype.$http.get.mockClear()

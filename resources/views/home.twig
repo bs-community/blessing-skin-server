@@ -10,69 +10,46 @@
         {% else %}
           background-image: url('{{ home_pic_url }}');
         {% endif %}
-        height: 100vh;
       }
-
-      {% if hide_intro %}
-        #copyright {
-          color: white;
-          position: fixed;
-          bottom: 0;
-          width: 100%;
-          padding: 0 50px 16px 50px;
-        }
-      {% else %}
-        #copyright {
-          background: #222;
-          padding: 16px 0 20px;
-          color: white;
-        }
-      {% endif %}
     </style>
   </head>
 
-  <body class="hold-transition {{ color_scheme }} layout-top-nav">
+  <body class="hold-transition layout-top-nav">
     <div class="hp-wrapper">
       {% if fixed_bg %}
         <div id="fixed-bg" style="background-image: url('{{ home_pic_url }}')"></div>
       {% endif %}
 
-      <header class="main-header {{ transparent_navbar ? 'transparent' }}">
-        <nav class="navbar navbar-fixed-top">
-          <div class="container">
-            <div class="navbar-header">
-              <a href="{{ url('/') }}" class="navbar-brand">{{ site_name }}</a>
-            </div>
-
-            <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
-              <ul class="nav navbar-nav">
-                <li class="active">
-                  <a href="{{ url('/') }}">{{ trans('general.index') }}</a>
-                </li>
-                <li>
-                  <a href="{{ url('skinlib') }}">{{ trans('general.skinlib') }}</a>
-                </li>
-              </ul>
-            </div>
-
-            <div class="navbar-custom-menu">
-              <ul class="nav navbar-nav">
-                {{ include('shared.languages') }}
-
-                {% if auth_check() %}
-                  {{ include('shared.user-menu') }}
-                {% else %}
-                  <li class="dropdown user user-menu">
-                    <a href="{{ url('auth/login') }}" class="btn btn-login">
-                      {{ trans('general.login') }}
-                    </a>
-                  </li>
-                {% endif %}
-              </ul>
-            </div>
+      <nav class="navbar navbar-expand fixed-top navbar-light navbar-white
+        ml-0 {{ transparent_navbar ? 'transparent' }}"
+      >
+        <div class="container">
+          <div class="navbar-header">
+            <a href="{{ url('/') }}" class="navbar-brand">{{ site_name }}</a>
           </div>
-        </nav>
-      </header>
+
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link" href="{{ url('skinlib') }}">{{ trans('general.skinlib') }}</a>
+              </li>
+
+              {{ include('shared.languages') }}
+
+              {% if auth_check() %}
+                {{ include('shared.user-menu') }}
+              {% else %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url('auth/login') }}">
+                    <i class="icon fas fa-sign-in-alt"></i>
+                    {{ trans('general.login') }}
+                  </a>
+                </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
 
       <div class="container">
         <div class="splash">
@@ -87,11 +64,11 @@
               </a>
             {% else %}
               {% if user_can_register %}
-                <a href="{{ url('auth/register') }}" id="btn-register" class="button">
+                <a href="{{ url('auth/register') }}" class="button">
                   {{ trans('general.register') }}
                 </a>
               {% else %}
-                <a href="{{ url('auth/login') }}" id="btn-close-register" class="button">
+                <a href="{{ url('auth/login') }}" class="button">
                   {{ trans('general.login') }}
                 </a>
               {% endif %}
@@ -101,7 +78,7 @@
       </div>
 
       {% if hide_intro %}
-        <div id="copyright">
+        <div id="copyright" class="without-intro">
           <div class="container">
             {{ include('shared.copyright') }}
           </div>
@@ -112,34 +89,36 @@
     {% if not hide_intro %}
       <div id="intro">
         <div class="container">
-          <div class="row text-center">
+          <div class="text-center">
             <h1>{{ trans('index.features.title') }}</h1>
             <br>
             <br>
-            {% for item in ['first', 'second', 'third'] %}
-              <div class="col-lg-4">
-                <i class="fas {{ trans("index.features.#{item}.icon") }}" aria-hidden="true"></i>
-                <h3>{{ trans("index.features.#{item}.name") }}</h3>
-                <p>{{ trans("index.features.#{item}.desc") }}</p>
-              </div>
-            {% endfor %}
+            <div class="container d-flex">
+              {% for item in ['first', 'second', 'third'] %}
+                <div class="col-lg-4">
+                  <i class="fas {{ trans("index.features.#{item}.icon") }} mb-3" aria-hidden="true"></i>
+                  <h3>{{ trans("index.features.#{item}.name") }}</h3>
+                  <p>{{ trans("index.features.#{item}.desc") }}</p>
+                </div>
+              {% endfor %}
+            </div>
           </div>
           <br>
         </div>
       </div>
       <div id="footerwrap">
-        <div class="container">
+        <div class="container d-flex">
           <div class="col-lg-6">
             {{ trans('index.introduction', {sitename: site_name}) }}
           </div>
           <div class="col-lg-6">
-            <a href="{{ url('auth/register') }}" id="btn-register" class="button">
+            <a href="{{ url('auth/register') }}" class="button">
               {{ trans('index.start') }}
             </a>
           </div>
         </div>
       </div>
-      <div id="copyright">
+      <div id="copyright" class="with-intro">
         <div class="container">
           {{ include('shared.copyright') }}
         </div>

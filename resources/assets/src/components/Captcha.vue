@@ -1,6 +1,6 @@
 <template>
   <div v-if="recaptcha" class="row">
-    <div class="col-xs-12" style="padding-bottom: 5px">
+    <div class="d-block ml-2 pb-3">
       <vue-recaptcha
         ref="recaptcha"
         :size="invisible ? 'invisible' : ''"
@@ -9,22 +9,20 @@
       />
     </div>
   </div>
-  <div v-else class="row">
-    <div class="col-xs-8">
-      <div class="form-group has-feedback">
-        <input
-          ref="captcha"
-          v-model="value"
-          type="text"
-          class="form-control"
-          :placeholder="$t('auth.captcha')"
-          required
-        >
-      </div>
+  <div v-else class="d-flex">
+    <div class="form-group mb-3 mr-2">
+      <input
+        ref="captcha"
+        v-model="value"
+        type="text"
+        class="form-control"
+        :placeholder="$t('auth.captcha')"
+        required
+      >
     </div>
-    <div class="col-xs-4">
+    <div>
       <img
-        class="pull-right captcha"
+        class="captcha"
         :src="`${baseUrl}/auth/captcha?v=${time}`"
         alt="CAPTCHA"
         :title="$t('auth.change-captcha')"

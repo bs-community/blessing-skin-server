@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import { Button } from 'element-ui'
 import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../../utils'
 import Players from '@/views/admin/Players.vue'
@@ -30,13 +29,9 @@ test('change texture', async () => {
   const wrapper = mount(Players)
   await flushPromises()
   const button = wrapper.find('[data-test=changeTexture]')
-  wrapper
-    .findAll(Button)
-    .at(0)
-    .trigger('click')
+  wrapper.findAll('.btn-default').trigger('click')
 
-  wrapper.find('.modal-body').find('input')
-    .setValue('5')
+  wrapper.find('.modal-body input').setValue('5')
 
   button.trigger('click')
   await flushPromises()
@@ -134,7 +129,7 @@ test('delete player', async () => {
 
   const wrapper = mount(Players)
   await flushPromises()
-  const button = wrapper.findAll(Button).at(1)
+  const button = wrapper.find('.btn-danger')
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()

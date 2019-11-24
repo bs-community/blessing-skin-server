@@ -31,7 +31,7 @@ test('login', async () => {
     })
   const wrapper = mount(Login, { stubs: { Captcha } })
   const form = wrapper.find('form')
-  const warning = wrapper.find('.callout-warning')
+  const warning = wrapper.find('.alert-warning')
 
   wrapper.find('input').setValue('a@b.c')
   wrapper.find('[type="password"]').setValue('123')

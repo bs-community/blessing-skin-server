@@ -1,60 +1,47 @@
 <template>
   <div>
     <email-verification />
-    <div class="box">
-      <div class="box-header with-border">
-        <h3 v-t="'user.used.title'" class="box-title" />
-      </div><!-- /.box-header -->
-      <div class="box-body">
+    <div class="card card-primary card-outline">
+      <div class="card-header">
+        <h3 v-t="'user.used.title'" class="card-title" />
+      </div>
+      <div class="card-body">
         <div class="row">
           <div class="col-md-1" />
           <div class="col-md-6">
-            <table class="usage-table" border="0">
-              <tbody>
-                <tr>
-                  <td class="text-center">
-                    <b v-t="'user.used.players'" />
-                  </td>
-                  <td class="circle-gap" />
-                  <td class="text-center">
-                    <b v-t="'user.used.storage'" />
-                  </td>
-                </tr>
-                <tr class="line-gap" />
-                <tr>
-                  <td>
-                    <el-progress
-                      type="circle"
-                      :percentage="~~playersPercentage"
-                      color="#00429B"
-                    />
-                  </td>
-                  <td class="circle-gap" />
-                  <td>
-                    <el-progress
-                      type="circle"
-                      :percentage="~~storagePercentage"
-                      color="#008C95"
-                    />
-                  </td>
-                </tr>
-                <tr class="line-gap" />
-                <tr>
-                  <td class="text-center">
-                    <b>{{ playersUsed }}</b> / {{ playersTotal }}
-                  </td>
-                  <td class="circle-gap" />
-                  <td class="text-center">
-                    <template v-if="storageUsed > 1024">
-                      <b>{{ ~~(storageUsed / 1024) }}</b> / {{ ~~(storageTotal / 1024) }} MB
-                    </template>
-                    <template v-else>
-                      <b>{{ storageUsed }}</b> / {{ storageTotal }} KB
-                    </template>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="info-box bg-teal">
+              <span class="info-box-icon">
+                <i class="fas fa-gamepad" />
+              </span>
+              <div class="info-box-content">
+                <span class="info-box-text">{{ $t('user.used.players') }}</span>
+                <span class="info-box-number">
+                  <b>{{ playersUsed }}</b> / {{ playersTotal }}
+                </span>
+                <div class="progress">
+                  <div class="progress-bar" :style="{ width: playersPercentage + '%' }" />
+                </div>
+              </div>
+            </div>
+            <div class="info-box bg-maroon">
+              <span class="info-box-icon">
+                <i class="fas fa-hdd" />
+              </span>
+              <div class="info-box-content">
+                <span class="info-box-text">{{ $t('user.used.storage') }}</span>
+                <span class="info-box-number">
+                  <template v-if="storageUsed > 1024">
+                    <b>{{ ~~(storageUsed / 1024) }}</b> / {{ ~~(storageTotal / 1024) }} MB
+                  </template>
+                  <template v-else>
+                    <b>{{ storageUsed }}</b> / {{ storageTotal }} KB
+                  </template>
+                </span>
+                <div class="progress">
+                  <div class="progress-bar" :style="{ width: storagePercentage + '%' }" />
+                </div>
+              </div>
+            </div>
           </div>
           <div class="col-md-4">
             <p class="text-center score-title">
@@ -64,44 +51,36 @@
               {{ animatedScore }}
             </p>
             <p v-t="'user.score-notice'" class="text-center score-notice" />
-          </div><!-- /.col -->
-        </div><!-- /.row -->
-      </div><!-- ./box-body -->
-      <div class="box-footer">
-        <el-button
+          </div>
+        </div>
+      </div>
+      <div class="card-footer">
+        <button
           v-if="canSign"
-          class="btn btn-primary pull-left"
-          type="primary"
-          round
+          class="btn bg-gradient-primary pl-5 pr-5"
           :disabled="signing"
           @click="sign"
         >
           <i class="far fa-calendar-check" aria-hidden="true" /> &nbsp;{{ $t('user.sign') }}
-        </el-button>
-        <el-button
+        </button>
+        <button
           v-else
-          class="btn btn-primary pull-left"
-          type="primary"
-          round
+          class="btn bg-gradient-primary pl-4 pr-4"
           :title="$t('user.last-sign', { time: lastSignAt.toLocaleString() })"
           disabled
         >
           <i class="far fa-calendar-check" aria-hidden="true" /> &nbsp;
           {{ remainingTimeText }}
-        </el-button>
-      </div><!-- /.box-footer -->
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import Vue from 'vue'
-import { Progress } from 'element-ui'
 import Tween from '@tweenjs/tween.js'
 import EmailVerification from '../../components/EmailVerification.vue'
 import emitMounted from '../../components/mixins/emitMounted'
-
-Vue.use(Progress)
 
 const ONE_DAY = 24 * 3600 * 1000
 
@@ -213,15 +192,6 @@ export default {
 </script>
 
 <style lang="stylus">
-.usage-table
-  margin 0 auto
-
-.circle-gap
-  width 14%
-
-.line-gap
-  height 12px
-
 .score-title
   margin-top 5px
 

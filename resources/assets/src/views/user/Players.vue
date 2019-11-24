@@ -1,9 +1,9 @@
 <template>
-  <section class="content">
+  <div class="container-fluid">
     <div class="row">
       <div class="col-md-6">
-        <div class="box box-primary">
-          <div class="box-body table-responsive no-padding">
+        <div class="card card-primary">
+          <div class="card-body table-responsive p-0">
             <table class="table table-hover">
               <thead>
                 <tr>
@@ -24,44 +24,39 @@
                   <td class="pid">{{ player.pid }}</td>
                   <td class="player-name">{{ player.name }}</td>
                   <td>
-                    <el-button size="medium" @click="changeName(player)">
+                    <button class="btn btn-default" @click="changeName(player)">
                       {{ $t('user.player.edit-pname') }}
-                    </el-button>
-                    <el-button
-                      size="medium"
-                      type="warning"
+                    </button>
+                    <button
+                      class="btn btn-warning"
                       data-toggle="modal"
                       data-target="#modal-clear-texture"
                     >
                       {{ $t('user.player.delete-texture') }}
-                    </el-button>
-                    <el-button
-                      size="medium"
-                      type="danger"
-                      @click="deletePlayer(player, index)"
-                    >
+                    </button>
+                    <button class="btn btn-danger" @click="deletePlayer(player, index)">
                       {{ $t('user.player.delete-player') }}
-                    </el-button>
+                    </button>
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div class="box-footer clearfix">
-            <el-button type="primary" data-toggle="modal" data-target="#modal-add-player">
-              <i class="fas fa-plus" aria-hidden="true" /> &nbsp;{{ $t('user.player.add-player') }}
-            </el-button>
+          <div class="card-footer">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#modal-add-player">
+              <i class="fas fa-plus" aria-hidden="true" />&nbsp;{{ $t('user.player.add-player') }}
+            </button>
           </div>
         </div>
 
-        <div v-once class="box box-default">
-          <div class="box-header with-border">
-            <h3 v-t="'general.tip'" class="box-title" />
-          </div><!-- /.box-header -->
-          <div class="box-body">
+        <div v-once class="card">
+          <div class="card-header">
+            <h3 v-t="'general.tip'" class="card-title" />
+          </div>
+          <div class="card-body">
             <p v-t="'user.player.login-notice'" />
-          </div><!-- /.box-body -->
-        </div><!-- /.box -->
+          </div>
+        </div>
       </div>
 
       <div class="col-md-6">
@@ -73,17 +68,17 @@
           title="user.player.player-info"
         >
           <template #footer>
-            <el-button data-test="to2d" @click="togglePreviewer">
+            <button class="btn btn-default" data-test="to2d" @click="togglePreviewer">
               {{ $t('user.switch2dPreview') }}
-            </el-button>
+            </button>
           </template>
         </previewer>
-        <div v-else class="box">
-          <div class="box-header with-border">
+        <div v-else class="card">
+          <div class="card-header card-outline">
             <!-- eslint-disable-next-line vue/no-v-html -->
-            <h3 class="box-title" v-html="$t('user.player.player-info')" />
+            <h3 class="card-title" v-html="$t('user.player.player-info')" />
           </div>
-          <div class="box-body">
+          <div class="card-body">
             <div id="preview-2d">
               <p>
                 {{ $t('general.skin') }}
@@ -107,13 +102,13 @@
                 <span v-else v-t="'user.player.texture-empty'" class="skin2d" />
               </p>
             </div>
-          </div><!-- /.box-body -->
-          <div class="box-footer">
-            <el-button @click="togglePreviewer">
-              {{ $t('user.switch3dPreview') }}
-            </el-button>
           </div>
-        </div><!-- /.box -->
+          <div class="card-footer">
+            <button class="btn btn-default" @click="togglePreviewer">
+              {{ $t('user.switch3dPreview') }}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -128,6 +123,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
+            <h4 v-t="'user.chooseClearTexture'" class="modal-title" />
             <button
               type="button"
               class="close"
@@ -136,7 +132,6 @@
             >
               <span aria-hidden="true">&times;</span>
             </button>
-            <h4 v-t="'user.chooseClearTexture'" class="modal-title" />
           </div>
           <div class="modal-body">
             <label class="form-group">
@@ -147,16 +142,18 @@
               <input v-model="clear.cape" type="checkbox"> {{ $t('general.cape') }}
             </label>
           </div>
-          <div class="modal-footer">
-            <el-button data-dismiss="modal">{{ $t('general.close') }}</el-button>
-            <el-button type="primary" data-test="clearTexture" @click="clearTexture">
+          <div class="modal-footer d-flex justify-content-between">
+            <button class="btn btn-default" data-dismiss="modal">
+              {{ $t('general.close') }}
+            </button>
+            <button class="btn btn-primary" data-test="clearTexture" @click="clearTexture">
               {{ $t('general.submit') }}
-            </el-button>
+            </button>
           </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -317,7 +314,4 @@ export default {
 #preview-2d > p
   height 64px
   line-height 64px
-
-.form-group
-  cursor pointer
 </style>

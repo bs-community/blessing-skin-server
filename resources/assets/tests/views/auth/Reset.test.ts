@@ -13,8 +13,8 @@ test('reset password', async () => {
     },
   })
   const form = wrapper.find('form')
-  const info = wrapper.find('.callout-info')
-  const warning = wrapper.find('.callout-warning')
+  const info = wrapper.find('.alert-info')
+  const warning = wrapper.find('.alert-warning')
 
   wrapper.findAll('[type="password"]').at(0)
     .setValue('12345678')

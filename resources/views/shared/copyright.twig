@@ -1,7 +1,7 @@
 {% set repo = 'https://github.com/bs-community/blessing-skin-server' %}
 
 <!-- YOU CAN NOT MODIFIY THE COPYRIGHT TEXT W/O PERMISSION -->
-<div id="copyright-text" class="pull-right hidden-xs">
+<div id="copyright-text" class="float-right d-none d-sm-inline">
   {% if copyright == 0 %}
     Powered with ❤ by <a href="{{ repo }}">Blessing Skin Server</a>.
   {% elseif copyright == 1 %}
@@ -15,5 +15,4 @@
   {% endif %}
 </div>
 
-<!-- Default to the left -->
 {{ custom_copyright|raw }}

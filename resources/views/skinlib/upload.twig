@@ -5,10 +5,21 @@
 {% block content %}
   <div class="content-wrapper">
     <div class="container">
-      <section class="content-header">
-        <h1>{{ block('title') }}</h1>
+      <div class="content-header">
+        <div class="container-fluid">
+          <div class="d-flex justify-content-between flex-wrap">
+            <div>
+              <h1 class="m-0 text-dark">{{ block('title') }}</h1>
+            </div>
+            <div>
+              <div class="breadcrumb"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <section class="content">
+        <div class="container-fluid"></div>
       </section>
-      <section class="content"></section>
     </div>
   </div>
 {% endblock %}

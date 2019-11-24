@@ -5,7 +5,9 @@
 {% block content %}
   <p class="login-box-msg">{{ trans('auth.forgot.message') }}</p>
   {% if session_has('msg') %}
-    <div class="callout callout-warning">{{ session_pull('msg') }}</div>
+    <div class="alert alert-warning">
+      {{ session_pull('msg') }}
+    </div>
   {% endif %}
   <form></form>
 {% endblock %}

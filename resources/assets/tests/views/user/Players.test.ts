@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import { Button } from 'element-ui'
 import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../../utils'
 import Players from '@/views/user/Players.vue'
@@ -101,7 +100,7 @@ test('change player name', async () => {
     })
   const wrapper = mount(Players)
   await flushPromises()
-  const button = wrapper.findAll(Button).at(0)
+  const button = wrapper.find('.btn-default')
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
@@ -132,7 +131,7 @@ test('delete player', async () => {
     .mockResolvedValue('confirm')
   const wrapper = mount(Players)
   await flushPromises()
-  const button = wrapper.findAll(Button).at(2)
+  const button = wrapper.findAll('.btn-danger')
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()

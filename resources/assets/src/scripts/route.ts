@@ -14,12 +14,12 @@ export default [
   {
     path: 'user/closet',
     component: () => import('../views/user/Closet.vue'),
-    el: '.content',
+    el: '.content > .container-fluid',
   },
   {
     path: 'user/player',
     component: () => import('../views/user/Players.vue'),
-    el: '.content',
+    el: '.content > .container-fluid',
   },
   {
     path: 'user/player/bind',
@@ -29,36 +29,38 @@ export default [
   {
     path: 'user/reports',
     component: () => import('../views/user/Report.vue'),
-    el: '.content',
+    el: '.content > .container-fluid',
   },
   {
     path: 'user/profile',
     component: () => import('../views/user/Profile.vue'),
-    el: '.content',
+    el: '.content > .container-fluid',
   },
   {
     path: 'user/oauth/manage',
     component: () => import('../views/user/OAuth.vue'),
-    el: '.content',
+    el: '.content > .container-fluid',
   },
   {
     path: 'admin',
-    module: [() => import('../views/admin/Dashboard')],
+    module: [
+      () => import('../views/admin/Dashboard'),
+    ],
   },
   {
     path: 'admin/users',
     component: () => import('../views/admin/Users.vue'),
-    el: '.content',
+    el: '.content > .container-fluid',
   },
   {
     path: 'admin/players',
     component: () => import('../views/admin/Players.vue'),
-    el: '.content',
+    el: '.content > .container-fluid',
   },
   {
     path: 'admin/reports',
     component: () => import('../views/admin/Reports.vue'),
-    el: '.content',
+    el: '.content > .container-fluid',
   },
   {
     path: 'admin/customize',
@@ -74,12 +76,12 @@ export default [
   {
     path: 'admin/plugins/manage',
     component: () => import('../views/admin/Plugins.vue'),
-    el: '.content',
+    el: '.content > .container-fluid',
   },
   {
     path: 'admin/plugins/market',
     component: () => import('../views/admin/Market.vue'),
-    el: '.content',
+    el: '.content > .container-fluid',
   },
   {
     path: 'admin/update',
@@ -114,11 +116,11 @@ export default [
   {
     path: 'skinlib/show/(\\d+)',
     component: () => import('../views/skinlib/Show.vue'),
-    el: '.content > .row:nth-child(1)',
+    el: '.content > .container-fluid > .row:nth-child(1)',
   },
   {
     path: 'skinlib/upload',
     component: () => import('../views/skinlib/Upload.vue'),
-    el: '.content',
+    el: '.content > .container-fluid',
   },
 ]

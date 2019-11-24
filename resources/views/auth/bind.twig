@@ -6,29 +6,31 @@
   <p class="login-box-msg">{{ trans('auth.bind.message') }}</p>
   <form method="post" id="login-form" action="{{ url('/auth/bind') }}">
     {{ csrf_field() }}
-    <div class="form-group has-feedback">
+    <div class="input-group mb-3">
       <input
         name="email"
         type="email"
         class="form-control"
         placeholder="{{ trans('auth.email') }}"
       >
-      <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+      <div class="input-group-append">
+        <div class="input-group-text">
+          <span class="fas fa-envelope" />
+        </div>
+      </div>
     </div>
 
     <p>{{ trans('auth.bind.introduction') }}</p>
 
     {% if errors.any %}
-      <div id="msg" class="callout callout-warning">{{ errors.first }}</div>
+      <div class="alert alert-warning">
+        <i class="icon fas fa-exclamation-triangle" />
+        {{ errors.first }}
+      </div>
     {% endif %}
 
-    <div class="row">
-      <div class="col-xs-8"></div>
-      <div class="col-xs-4">
-        <button type="submit" class="btn btn-primary btn-block btn-flat">
-          {{ trans('auth.bind.button') }}
-        </button>
-      </div>
-    </div>
+    <button type="submit" class="btn btn-primary btn-block mt-3">
+      {{ trans('auth.bind.button') }}
+    </button>
   </form>
 {% endblock %}

@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="submit">
-    <div class="form-group has-feedback">
+    <div class="input-group mb-3">
       <input
         v-model="email"
         type="email"
@@ -8,9 +8,13 @@
         :placeholder="$t('auth.email')"
         required
       >
-      <span class="glyphicon glyphicon-envelope form-control-feedback" />
+      <div class="input-group-append">
+        <div class="input-group-text">
+          <span class="fas fa-envelope" />
+        </div>
+      </div>
     </div>
-    <div class="form-group has-feedback">
+    <div class="input-group mb-3">
       <input
         v-model="password"
         type="password"
@@ -20,9 +24,13 @@
         minlength="8"
         maxlength="32"
       >
-      <span class="glyphicon glyphicon-lock form-control-feedback" />
+      <div class="input-group-append">
+        <div class="input-group-text">
+          <span class="fas fa-lock" />
+        </div>
+      </div>
     </div>
-    <div class="form-group has-feedback">
+    <div class="input-group mb-3">
       <input
         ref="confirm"
         v-model="confirm"
@@ -33,12 +41,16 @@
         minlength="8"
         maxlength="32"
       >
-      <span class="glyphicon glyphicon-log-in form-control-feedback" />
+      <div class="input-group-append">
+        <div class="input-group-text">
+          <span class="fas fa-sign-in-alt" />
+        </div>
+      </div>
     </div>
 
     <div
       v-if="requirePlayer"
-      class="form-group has-feedback"
+      class="input-group mb-3"
       :title="$t('auth.player-name-intro')"
       data-placement="top"
       data-toggle="tooltip"
@@ -50,11 +62,15 @@
         :placeholder="$t('auth.player-name')"
         required
       >
-      <span class="glyphicon glyphicon-pencil form-control-feedback" />
+      <div class="input-group-append">
+        <div class="input-group-text">
+          <span class="fas fa-gamepad" />
+        </div>
+      </div>
     </div>
     <div
       v-else
-      class="form-group has-feedback"
+      class="input-group mb-3"
       :title="$t('auth.nickname-intro')"
       data-placement="top"
       data-toggle="tooltip"
@@ -66,30 +82,37 @@
         :placeholder="$t('auth.nickname')"
         required
       >
-      <span class="glyphicon glyphicon-pencil form-control-feedback" />
+      <div class="input-group-append">
+        <div class="input-group-text">
+          <span class="fas fa-gamepad" />
+        </div>
+      </div>
     </div>
 
     <captcha ref="captcha" />
 
-    <div class="callout callout-info" :class="{ hide: !infoMsg }">{{ infoMsg }}</div>
-    <div class="callout callout-warning" :class="{ hide: !warningMsg }">{{ warningMsg }}</div>
+    <div class="alert alert-info" :class="{ 'd-none': !infoMsg }">
+      <i class="icon fas fa-info" />
+      {{ infoMsg }}
+    </div>
+    <div class="alert alert-warning" :class="{ 'd-none': !warningMsg }">
+      <i class="icon fas fa-exclamation-triangle" />
+      {{ warningMsg }}
+    </div>
 
-    <div class="row">
-      <div class="col-xs-7">
-        <a v-t="'auth.login-link'" :href="`${baseUrl}/auth/login`" class="text-center" />
-      </div>
-      <div class="col-xs-5">
-        <el-button
-          type="primary"
-          native-type="submit"
+    <div class="d-flex justify-content-between mb-3">
+      <a v-t="'auth.login-link'" :href="`${baseUrl}/auth/login`" class="text-center" />
+      <div>
+        <button
+          class="btn btn-primary"
+          type="submit"
           :disabled="pending"
-          class="auth-btn"
         >
           <template v-if="pending">
             <i class="fa fa-spinner fa-spin" /> {{ $t('auth.registering') }}
           </template>
           <span v-else>{{ $t('auth.register-button') }}</span>
-        </el-button>
+        </button>
       </div>
     </div>
   </form>

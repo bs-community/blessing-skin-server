@@ -57,7 +57,6 @@ class SideMenuComposer
         }
 
         if (Arr::has($item, 'children')) {
-            $classes[] = 'treeview';
             $item['children'] = array_map(function ($item) {
                 return $this->transform($item);
             }, $item['children']);

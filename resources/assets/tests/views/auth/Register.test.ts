@@ -31,8 +31,8 @@ test('register', async () => {
     .mockResolvedValueOnce({ code: 0, message: 'ok' })
   const wrapper = mount(Register, { stubs: { Captcha } })
   const form = wrapper.find('form')
-  const info = wrapper.find('.callout-info')
-  const warning = wrapper.find('.callout-warning')
+  const info = wrapper.find('.alert-info')
+  const warning = wrapper.find('.alert-warning')
 
   wrapper.find('[type="email"]').setValue('a@b.c')
   wrapper.findAll('[type="password"]').at(0)

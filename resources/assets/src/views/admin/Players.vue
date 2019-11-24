@@ -1,5 +1,5 @@
 <template>
-  <section class="content">
+  <div class="container-fluid">
     <vue-good-table
       mode="remote"
       :rows="players"
@@ -46,17 +46,17 @@
           </a>
         </span>
         <span v-else-if="props.column.field === 'operations'">
-          <el-button
+          <button
             data-toggle="modal"
             data-target="#modal-change-texture"
-            size="medium"
+            class="btn btn-default"
             @click="textureChanges.originalIndex = props.row.originalIndex"
-          >{{ $t('admin.changeTexture') }}</el-button>
-          <el-button
-            type="danger"
-            size="medium"
-            @click="deletePlayer(props.row)"
-          >{{ $t('admin.deletePlayer') }}</el-button>
+          >
+            {{ $t('admin.changeTexture') }}
+          </button>
+          <button class="btn btn-danger" @click="deletePlayer(props.row)">
+            {{ $t('admin.deletePlayer') }}
+          </button>
         </span>
         <span v-else v-text="props.formattedRow[props.column.field]" />
       </template>
@@ -71,6 +71,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
+            <h4 v-t="'admin.changeTexture'" class="modal-title" />
             <button
               type="button"
               class="close"
@@ -79,7 +80,6 @@
             >
               <span aria-hidden="true">&times;</span>
             </button>
-            <h4 v-t="'admin.changeTexture'" class="modal-title" />
           </div>
           <div class="modal-body">
             <div class="form-group">
@@ -99,16 +99,18 @@
               >
             </div>
           </div>
-          <div class="modal-footer">
-            <el-button data-dismiss="modal">{{ $t('general.close') }}</el-button>
-            <el-button type="primary" data-test="changeTexture" @click="changeTexture">
+          <div class="modal-footer d-flex justify-content-between">
+            <button class="btn btn-default" data-dismiss="modal">
+              {{ $t('general.close') }}
+            </button>
+            <button class="btn btn-primary" data-test="changeTexture" @click="changeTexture">
               {{ $t('general.submit') }}
-            </el-button>
+            </button>
           </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>

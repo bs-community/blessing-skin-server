@@ -1,13 +1,13 @@
 <template>
-  <section class="content">
-    <el-button
+  <div class="container-fluid">
+    <button
       type="primary"
-      class="btn-create-app"
+      class="btn-create-app btn btn-primary"
       data-toggle="modal"
       data-target="#modal-create"
     >
       {{ $t('user.oauth.create') }}
-    </el-button>
+    </button>
     <vue-good-table
       :rows="clients"
       :columns="columns"
@@ -39,9 +39,9 @@
           </a>
         </span>
         <span v-else-if="props.column.field === 'operations'">
-          <el-button type="danger" data-test="remove" @click="remove(props.row)">
+          <button class="btn btn-danger" data-test="remove" @click="remove(props.row)">
             {{ $t('report.delete') }}
-          </el-button>
+          </button>
         </span>
         <span v-else>
           {{ props.formattedRow[props.column.field] }}
@@ -58,6 +58,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
+            <h4 v-t="'user.oauth.create'" class="modal-title" />
             <button
               type="button"
               class="close"
@@ -66,7 +67,6 @@
             >
               <span aria-hidden="true">&times;</span>
             </button>
-            <h4 v-t="'user.oauth.create'" class="modal-title" />
           </div>
           <div class="modal-body">
             <table class="table">
@@ -74,28 +74,30 @@
                 <tr>
                   <td v-t="'user.oauth.name'" class="key" />
                   <td class="value">
-                    <el-input v-model="name" type="text" />
+                    <input v-model="name" class="form-control" type="text">
                   </td>
                 </tr>
                 <tr>
                   <td v-t="'user.oauth.redirect'" class="key" />
                   <td class="value">
-                    <el-input v-model="callback" type="text" />
+                    <input v-model="callback" class="form-control" type="text">
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <div class="modal-footer">
-            <el-button data-dismiss="modal">{{ $t('general.close') }}</el-button>
-            <el-button type="primary" data-test="create" @click="create">
+          <div class="modal-footer d-flex justify-content-between">
+            <button class="btn btn-default" data-dismiss="modal">
+              {{ $t('general.close') }}
+            </button>
+            <button class="btn btn-primary" data-test="create" @click="create">
               {{ $t('general.submit') }}
-            </el-button>
+            </button>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script>

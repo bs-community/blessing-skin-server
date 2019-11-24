@@ -38,8 +38,10 @@ test('switch tabs', () => {
 
   const wrapper = mount(Closet)
 
-  const tabSkin = wrapper.findAll('.nav-tabs > li').at(0)
-  tabSkin.find('a').trigger('click')
+  wrapper
+    .findAll('.nav-link')
+    .at(0)
+    .trigger('click')
   jest.runAllTicks()
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/user/closet-data',
@@ -49,8 +51,10 @@ test('switch tabs', () => {
       page: 1,
     }
   )
-  const tabCape = wrapper.findAll('.nav-tabs > li').at(1)
-  tabCape.find('a').trigger('click')
+  wrapper
+    .findAll('.nav-link')
+    .at(1)
+    .trigger('click')
   jest.runAllTicks()
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/user/closet-data',
@@ -66,13 +70,21 @@ test('different categories', () => {
   Vue.prototype.$http.get.mockResolvedValue({ data: {} })
 
   const wrapper = mount(Closet)
-  expect(wrapper.findAll('.nav-tabs > li').at(0)
-    .classes('active')).toBeTrue()
+  expect(
+    wrapper
+      .findAll('.nav-link')
+      .at(0)
+      .classes('active')
+  ).toBeTrue()
   expect(wrapper.find('#skin-category').classes('active')).toBeTrue()
 
   wrapper.setData({ category: 'cape' })
-  expect(wrapper.findAll('.nav-tabs > li').at(1)
-    .classes('active')).toBeTrue()
+  expect(
+    wrapper
+      .findAll('.nav-link')
+      .at(1)
+      .classes('active')
+  ).toBeTrue()
   expect(wrapper.find('#cape-category').classes('active')).toBeTrue()
 })
 

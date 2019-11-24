@@ -20,8 +20,8 @@ test('submit forgot form', async () => {
     .mockResolvedValueOnce({ code: 0, message: 'ok' })
   const wrapper = mount(Forgot, { stubs: { Captcha } })
   const form = wrapper.find('form')
-  const warning = wrapper.find('.callout-warning')
-  const success = wrapper.find('.callout-success')
+  const warning = wrapper.find('.alert-warning')
+  const success = wrapper.find('.alert-success')
 
   wrapper.find('[type="email"]').setValue('a@b.c')
   form.trigger('submit')

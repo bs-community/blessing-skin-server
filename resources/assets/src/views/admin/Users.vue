@@ -1,5 +1,5 @@
 <template>
-  <section class="content">
+  <div class="container-fluid">
     <vue-good-table
       mode="remote"
       :rows="users"
@@ -62,28 +62,26 @@
             <i
               class="fas btn-edit"
               :class="{ 'fa-toggle-on': props.row.verified, 'fa-toggle-off': !props.row.verified }"
-              style="font-size: 18px;"
             />
           </a>
         </span>
         <div v-else-if="props.column.field === 'operations'">
-          <el-button size="medium" @click="changePassword(props.row)">
+          <button class="btn btn-default" @click="changePassword(props.row)">
             {{ $t('admin.changePassword') }}
-          </el-button>
-          <el-button
+          </button>
+          <button
             :disabled="props.row.permission >= 2 || (props.row.operations === 1 && props.row.permission >= 1)"
-            type="danger"
-            size="medium"
+            class="btn btn-danger"
             data-test="deleteUser"
             @click="deleteUser(props.row)"
           >
             {{ $t('admin.deleteUser') }}
-          </el-button>
+          </button>
         </div>
         <span v-else v-text="props.formattedRow[props.column.field]" />
       </template>
     </vue-good-table>
-  </section>
+  </div>
 </template>
 
 <script>
@@ -327,6 +325,13 @@ export default {
 <style lang="stylus">
 .operations-menu
   margin-left -35px
+
+.fa-edit
+  cursor pointer
+
+.fa-toggle-on, .fa-toggle-off
+  font-size 18px
+  cursor pointer
 
 .row-at-bottom
   margin-top -100px

@@ -2,71 +2,122 @@
   <div class="content-wrapper">
     <div class="container">
       <!-- Content Header (Page header) -->
-      <section class="content-header">
-        <h1>{{ $t('general.skinlib') }}</h1>
-        <ol class="breadcrumb">
-          <li><i class="fas fa-tags" /> {{ $t('skinlib.nowShowing') }}</li>
-          <li>
-            <span v-if="filter === 'cape'" v-t="'general.cape'" />
-            <span v-else>
-              {{ $t('general.skin') }}
-              {{ $t('skinlib.filter.' + filter) }}
-            </span>
-          </li>
-          <li>{{ uploaderIndicator }}</li>
-          <li class="active">{{ sortIndicator }}</li>
-        </ol>
-      </section>
+      <div class="content-header">
+        <div class="container-fluid d-flex justify-content-between flex-wrap">
+          <h1>{{ $t('general.skinlib') }}</h1>
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+              <i class="fas fa-tags" /> {{ $t('skinlib.nowShowing') }}
+            </li>
+            <li class="breadcrumb-item">
+              <span v-if="filter === 'cape'" v-t="'general.cape'" />
+              <span v-else>
+                {{ $t('general.skin') }}
+                {{ $t('skinlib.filter.' + filter) }}
+              </span>
+            </li>
+            <li class="breadcrumb-item">{{ uploaderIndicator }}</li>
+            <li class="breadcrumb-item active">{{ sortIndicator }}</li>
+          </ol>
+        </div>
+      </div>
 
       <!-- Main content -->
       <section class="content">
-        <div class="box box-default">
-          <div class="box-header">
-            <div class="form-group row">
-              <form class="col-md-6" @submit.prevent="submitSearch">
-                <el-input
-                  v-model="keyword"
-                  :placeholder="$t('vendor.datatable.search')"
-                  clearable
-                >
-                  <template #prepend>
-                    <el-select v-model="filter" class="texture-type-select">
-                      <el-option :label="$t('general.skin')" value="skin" />
-                      <el-option label="Steve" value="steve" />
-                      <el-option label="Alex" value="alex" />
-                      <el-option :label="$t('general.cape')" value="cape" />
-                    </el-select>
-                  </template>
-                  <template #append>
-                    <el-button data-test="btn-search" @click="submitSearch">
+        <div class="card">
+          <div class="card-body">
+            <div class="form-group pt-0 mb-3 d-flex justify-content-between">
+              <form @submit.prevent="submitSearch">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <button
+                      class="btn btn-default dropdown-toggle"
+                      type="button"
+                      data-toggle="dropdown"
+                    >
+                      {{ filterText }}
+                    </button>
+                    <div class="dropdown-menu">
+                      <button
+                        class="dropdown-item"
+                        :class="{ active: filter === 'skin' }"
+                        @click="filter = 'skin'"
+                      >
+                        {{ $t('general.skin') }}
+                      </button>
+                      <button
+                        class="dropdown-item"
+                        :class="{ active: filter === 'steve' }"
+                        @click="filter = 'steve'"
+                      >
+                        Steve
+                      </button>
+                      <button
+                        class="dropdown-item"
+                        :class="{ active: filter === 'alex' }"
+                        @click="filter = 'alex'"
+                      >
+                        Alex
+                      </button>
+                      <button
+                        class="dropdown-item"
+                        :class="{ active: filter === 'cape' }"
+                        @click="filter = 'cape'"
+                      >
+                        {{ $t('general.cape') }}
+                      </button>
+                    </div>
+                  </div>
+                  <input
+                    v-model="keyword"
+                    class="form-control"
+                    type="text"
+                    data-test="keyword"
+                    :placeholder="$t('vendor.datatable.search')"
+                  >
+                  <div class="input-group-append">
+                    <button
+                      class="btn btn-primary pl-3 pr-3"
+                      data-test="btn-search"
+                      @click="submitSearch"
+                    >
                       {{ $t('general.submit') }}
-                    </el-button>
-                  </template>
-                </el-input>
+                    </button>
+                  </div>
+                </div>
               </form>
 
-              <div class="col-md-6 advanced-filter">
-                <el-button-group class="pull-right">
-                  <el-button plain @click="sort = 'likes'">
+              <div class="d-none d-sm-block">
+                <div class="btn-group">
+                  <button
+                    class="btn bg-olive"
+                    :class="{ active: sort === 'likes' }"
+                    @click="sort = 'likes'"
+                  >
                     {{ $t('skinlib.sort.likes') }}
-                  </el-button>
-                  <el-button plain @click="sort = 'time'">
+                  </button>
+                  <button
+                    class="btn bg-olive"
+                    :class="{ active: sort === 'time' }"
+                    @click="sort = 'time'"
+                  >
                     {{ $t('skinlib.sort.time') }}
-                  </el-button>
-                  <el-button plain @click="uploader = currentUid">
+                  </button>
+                  <button
+                    class="btn bg-olive"
+                    :class="{ active: uploader === currentUid }"
+                    @click="uploader = currentUid"
+                  >
                     {{ $t('skinlib.seeMyUpload') }}
-                  </el-button>
-                  <el-button plain @click="reset">
+                  </button>
+                  <button class="btn bg-olive" @click="reset">
                     {{ $t('skinlib.reset') }}
-                  </el-button>
-                </el-button-group>
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
 
-          <!-- Container of Skin Library -->
-          <div class="box-body">
-            <template v-if="items.length">
+            <div v-if="items.length" class="d-flex flex-wrap">
               <skin-lib-item
                 v-for="(item, index) in items"
                 :key="item.tid"
@@ -79,8 +130,8 @@
                 :anonymous="anonymous"
                 @like-toggled="onLikeToggled(index, $event)"
               />
-            </template>
-            <p v-else style="text-align: center; margin: 30px 0;">
+            </div>
+            <p v-else class="text-center m-5">
               {{ $t('general.noResult') }}
             </p>
           </div>
@@ -89,8 +140,14 @@
             <paginate
               v-model="page"
               :page-count="totalPages"
-              class="pull-right"
+              class="float-right mr-3"
               container-class="pagination pagination-sm no-margin"
+              page-class="page-item"
+              page-link-class="page-link"
+              prev-class="page-item"
+              prev-link-class="page-link"
+              next-class="page-item"
+              next-link-class="page-link"
               first-button-text="«"
               prev-text="‹"
               next-text="›"
@@ -106,25 +163,17 @@
               {{ $t('general.loading') }}
             </span>
           </div>
-        </div><!-- /.box -->
-      </section><!-- /.content -->
-    </div><!-- /.container -->
-  </div><!-- /.content-wrapper -->
+        </div>
+      </section>
+    </div>
+  </div>
 </template>
 
 <script>
-import Vue from 'vue'
 import Paginate from 'vuejs-paginate'
-import {
-  ButtonGroup, Select, Option,
-} from 'element-ui'
 import { queryString, queryStringify } from '../../scripts/utils'
 import SkinLibItem from '../../components/SkinLibItem.vue'
 import emitMounted from '../../components/mixins/emitMounted'
-
-Vue.use(ButtonGroup)
-Vue.use(Select)
-Vue.use(Option)
 
 export default {
   name: 'SkinLibrary',
@@ -156,6 +205,16 @@ export default {
       return this.uploader
         ? this.$t('skinlib.filter.uploader', { uid: this.uploader })
         : this.$t('skinlib.filter.allUsers')
+    },
+    filterText() {
+      switch (this.filter) {
+        case 'steve':
+          return 'Steve'
+        case 'alex':
+          return 'Alex'
+        default:
+          return this.$t(`general.${this.filter}`)
+      }
     },
     sortIndicator() {
       return this.$t(`skinlib.sort.${this.sort}`)
@@ -243,14 +302,4 @@ export default {
   margin-top 25px
   color #000
   font-size 20px
-
-.texture-type-select
-  width 90px
-
-.advanced-filter
-  @media (max-width 850px)
-    display none
-
-.btn-tail
-  margin-left 6px
 </style>

@@ -364,7 +364,7 @@ class AdminController extends Controller
             ->addButton([
                 'text' => trans('options.cache.clear'),
                 'type' => 'a',
-                'class' => 'pull-right',
+                'class' => 'float-right',
                 'style' => 'warning',
                 'href' => '?clear-cache',
             ])

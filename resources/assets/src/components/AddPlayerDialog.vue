@@ -8,6 +8,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
+          <h4 v-t="'user.player.add-player'" class="modal-title" />
           <button
             type="button"
             class="close"
@@ -16,7 +17,6 @@
           >
             <span aria-hidden="true">&times;</span>
           </button>
-          <h4 v-t="'user.player.add-player'" class="modal-title" />
         </div>
         <div class="modal-body">
           <table class="table">
@@ -24,24 +24,26 @@
               <tr>
                 <td v-t="'general.player.player-name'" class="key" />
                 <td class="value">
-                  <el-input v-model="name" type="text" />
+                  <input v-model="name" class="form-control" type="text">
                 </td>
               </tr>
             </tbody>
           </table>
 
           <div class="callout callout-info">
-            <ul style="padding: 0 0 0 20px; margin: 0;">
+            <ul class="m-0 p-0 pl-3">
               <li>{{ rule }}</li>
               <li>{{ length }}</li>
             </ul>
           </div>
         </div>
-        <div class="modal-footer">
-          <el-button data-dismiss="modal">{{ $t('general.close') }}</el-button>
-          <el-button type="primary" data-test="addPlayer" @click="addPlayer">
+        <div class="modal-footer d-flex justify-content-between">
+          <button class="btn btn-default" data-dismiss="modal">
+            {{ $t('general.close') }}
+          </button>
+          <button class="btn btn-primary" data-test="addPlayer" @click="addPlayer">
             {{ $t('general.submit') }}
-          </el-button>
+          </button>
         </div>
       </div>
     </div>

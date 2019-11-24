@@ -5,71 +5,61 @@
     <title>{% block title %}{% endblock %} - {{ site_name }}</title>
   </head>
 
-  <body class="hold-transition {{ color_scheme }} layout-top-nav">
+  <body class="hold-transition layout-top-nav">
     <div class="wrapper">
-      <header class="main-header">
-        <nav class="navbar navbar-static-top">
-          <div class="container">
-            <div class="navbar-header">
-              <a href="{{ url('/') }}" class="navbar-brand">{{ site_name }}</a>
-              <button
-                type="button"
-                class="navbar-toggle collapsed"
-                data-toggle="collapse"
-                data-target="#navbar-collapse"
-              >
-                <i class="fas fa-bars"></i>
-              </button>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
-              <ul class="nav navbar-nav">
-                <li class="active">
-                  <a href="{{ url('skinlib') }}">{{ trans('general.skinlib') }}</a>
-                </li>
-                {% if auth_check() %}
-                  <li>
-                    <a href="{{ url('user/closet') }}">
-                      {{ trans('general.my-closet') }}
-                    </a>
-                  </li>
-                {% endif %}
-              </ul>
-            </div>
-
-            <!-- Navbar Right Menu -->
-            <div class="navbar-custom-menu">
-              <ul class="nav navbar-nav">
-                {% if auth_check() %}
-                  <li>
-                    <a href="{{ url('skinlib/upload') }}">
-                      <i class="fas fa-upload" aria-hidden="true"></i>&nbsp;
-                      <span class="description-text">
-                        {{ trans('skinlib.general.upload-new-skin') }}
-                      </span>
-                    </a>
-                  </li>
-                  {{ include('shared.notifications') }}
-                {% endif %}
-                {{ include('shared.languages') }}
-                {% if auth_check() %}
-                  {{ include('shared.user-menu') }}
-                {% else %}
-                  <li class="dropdown user user-menu">
-                    <a href="{{ url('auth/login') }}">
-                      <i class="fas fa-user"></i>
-                      <span class="hidden-xs nickname">
-                        {{ trans('general.anonymous') }}
-                      </span>
-                    </a>
-                  </li>
-                {% endif %}
-              </ul>
-            </div>
+      <nav class="navbar navbar-expand navbar-light navbar-white ml-0">
+        <div class="container">
+          <div class="navbar-header">
+            <a href="{{ url('/') }}" class="navbar-brand">{{ site_name }}</a>
           </div>
-        </nav>
-      </header>
+
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+              <li class="nav-item active">
+                <a class="nav-link" href="{{ url('skinlib') }}">
+                  {{ trans('general.skinlib') }}
+                </a>
+              </li>
+              {% if auth_check() %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url('user/closet') }}">
+                    {{ trans('general.my-closet') }}
+                  </a>
+                </li>
+              {% endif %}
+            </ul>
+          </div>
+
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+              {% if auth_check() %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url('skinlib/upload') }}">
+                    <i class="fas fa-upload" aria-hidden="true"></i>&nbsp;
+                    <span class="d-none d-sm-inline">
+                      {{ trans('skinlib.general.upload-new-skin') }}
+                    </span>
+                  </a>
+                </li>
+                {{ include('shared.notifications') }}
+              {% endif %}
+              {{ include('shared.languages') }}
+              {% if auth_check() %}
+                {{ include('shared.user-menu') }}
+              {% else %}
+                <li class="nav-item">
+                  <a class="nav-link" href="{{ url('auth/login') }}">
+                    <i class="fas fa-user"></i>
+                    <span class="d-none d-sm-inline">
+                      {{ trans('general.anonymous') }}
+                    </span>
+                  </a>
+                </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+      </nav>
 
       {% block content %}{% endblock %}
 

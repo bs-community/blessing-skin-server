@@ -21,7 +21,10 @@ const config = {
     'language-chooser': './resources/assets/src/scripts/language-chooser.ts',
     style: [
       'bootstrap/dist/css/bootstrap.min.css',
-      'admin-lte/dist/css/alt/AdminLTE-without-plugins.min.css',
+      'admin-lte/dist/css/alt/adminlte.core.min.css',
+      'admin-lte/dist/css/alt/adminlte.components.min.css',
+      'admin-lte/dist/css/alt/adminlte.extra-components.min.css',
+      'admin-lte/dist/css/alt/adminlte.pages.min.css',
       'element-ui/lib/theme-chalk/base.css',
       './resources/assets/src/styles/element.scss',
       '@fortawesome/fontawesome-free/css/fontawesome.min.css',
@@ -134,16 +137,6 @@ const config = {
       chunkFilename: devMode ? '[id].css' : '[id].[contenthash:7].css',
     }),
     new CopyWebpackPlugin([
-      {
-        from: 'node_modules/admin-lte/dist/css/skins/skin-*.min.css',
-        to: 'skins',
-        flatten: true,
-      },
-      {
-        from: 'node_modules/admin-lte/dist/css/skins/_all-skins.min.css',
-        to: 'skins',
-        flatten: true,
-      },
       'resources/assets/src/images/bg.jpg',
       'resources/assets/src/images/favicon.ico',
     ]),

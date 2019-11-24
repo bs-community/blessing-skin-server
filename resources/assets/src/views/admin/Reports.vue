@@ -1,5 +1,5 @@
 <template>
-  <section class="content">
+  <div class="container-fluid">
     <vue-good-table
       mode="remote"
       :rows="reports"
@@ -34,16 +34,16 @@
           {{ $t(`report.status.${props.row.status}`) }}
         </span>
         <span v-else-if="props.column.field === 'ops'">
-          <el-button size="medium" @click="reject(props.row)">
+          <button class="btn btn-default" @click="reject(props.row)">
             {{ $t('report.reject') }}
-          </el-button>
+          </button>
         </span>
         <span v-else>
           {{ props.formattedRow[props.column.field] }}
         </span>
       </template>
     </vue-good-table>
-  </section>
+  </div>
 </template>
 
 <script>

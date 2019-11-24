@@ -7,15 +7,21 @@
     <div class="col-lg-8"><div id="table"></div></div>
     <div class="col-lg-4">
       <form action="{{ url('/admin/i18n') }}" method="post">
-        <div class="box box-primary">
-          <div class="box-header">
-            <h3 class="box-title">{{ trans('admin.i18n.add') }}</h3>
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">{{ trans('admin.i18n.add') }}</h3>
           </div>
-          <div class="box-body">
+          <div class="card-body p-0">
             {% if errors.any %}
-              <div class="callout callout-danger">{{ errors.first }}</div>
+              <div class="alert alert-danger m-3">
+                <i class="icon fas fa-exclamation-triangle"></i>
+                {{ errors.first }}
+              </div>
             {% elseif session_pull('success') %}
-              <div class="callout callout-success">{{ trans('admin.i18n.added') }}</div>
+              <div class="alert alert-success m-3">
+                <i class="icon fas fa-check"></i>
+                {{ trans('admin.i18n.added') }}
+              </div>
             {% endif %}
             {{ csrf_field() }}
             <table class="table">
@@ -41,11 +47,11 @@
               </tbody>
             </table>
           </div>
-          <div class="box-footer">
+          <div class="card-footer">
             <input
               type="submit"
               value="{{ trans('general.submit') }}"
-              class="el-button el-button--primary"
+              class="btn btn-primary"
             >
           </div>
         </div>

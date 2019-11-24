@@ -1,46 +1,43 @@
 <template>
-  <a :href="urlToDetail">
-    <texture-item>
-      <div class="item-body">
-        <img :src="urlToPreview">
+  <a class="ml-3 mr-2 mb-2" :href="urlToDetail">
+    <div class="card skinlib-item">
+      <div class="card-body texture-img">
+        <div v-if="!isPublic" class="ribbon-wrapper">
+          <div class="ribbon bg-pink">{{ $t('skinlib.private') }}</div>
+        </div>
+        <img class="card-img-top" :src="urlToPreview">
       </div>
+      <div class="card-footer pb-0 pt-2 pl-1 pr-1">
+        <div class="container d-flex justify-content-between">
+          <p>
+            <span :title="name">{{ name }}
+              <small>{{ $t('skinlib.filter.' + type) }}</small>
+            </span>
+          </p>
 
-      <template #footer>
-        <p class="texture-name">
-          <span :title="name">{{ name }}
-            <small>{{ $t('skinlib.filter.' + type) }}</small>
-          </span>
-        </p>
+          <a
+            :title="likeActionText"
+            class="btn-like"
+            :class="{ liked }"
+            href="#"
+            @click.stop="toggleLiked"
+          >
+            <i class="fas fa-heart" />
+            <span>{{ likes }}</span>
+          </a>
+        </div>
 
-        <a
-          :title="likeActionText"
-          class="more like"
-          :class="{ liked, anonymous }"
-          href="#"
-          @click.stop="toggleLiked"
-        >
-          <i class="fas fa-heart" />
-          <span>{{ likes }}</span>
-        </a>
-
-        <small v-if="!isPublic" class="more private-label">
-          {{ $t('skinlib.private') }}
-        </small>
-      </template>
-    </texture-item>
+      </div>
+    </div>
   </a>
 </template>
 
 <script>
-import TextureItem from './TextureItem.vue'
 import addClosetItem from './mixins/addClosetItem'
 import removeClosetItem from './mixins/removeClosetItem'
 
 export default {
   name: 'SkinLibItem',
-  components: {
-    TextureItem,
-  },
   mixins: [
     addClosetItem,
     removeClosetItem,
@@ -94,30 +91,18 @@ export default {
 </script>
 
 <style lang="stylus">
-.texture-name
-  width 65%
-  display inline-block
-  overflow hidden
-  text-overflow ellipsis
-  white-space nowrap
+.skinlib-item
+  width 245px
+  transition-property box-shadow
+  transition-duration 0.3s
+  &:hover
+    box-shadow 0 .5rem 1rem rgba(0, 0, 0, 0.15)
 
-@media (min-width: 1200px)
-  .item
-    width 250px
+.texture-img
+  background #eff1f0
 
-  .item-body > img
-    margin-left 50px
-
-  .texture-name
-    width 65%
-
-.item-footer
-  a
-    color #fff
-
-  .like:hover, .liked
+.btn-like
+  color #6c757d
+  &.liked, &:hover
     color #e0353b
-
-.private-label
-  margin-top 2px
 </style>

@@ -5,11 +5,11 @@
 {% block content %}
   <div class="row">
     <div class="col-md-6">
-      <div class="box box-primary">
-        <div class="box-header with-border">
-          <h3 class="box-title">{{ trans('admin.update.info.title') }}</h3>
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">{{ trans('admin.update.info.title') }}</h3>
         </div>
-        <div class="box-body">
+        <div class="card-body">
           {% if extra.canUpdate %}
           <div class="callout callout-info">
             {{ trans('admin.update.info.available') }}
@@ -53,25 +53,26 @@
             </table>
           {% endif %}
         </div>
-        <div class="box-footer">
+        <div class="card-footer">
           <span id="update-button"></span>
           <a
             target="_blank"
-            class="el-button pull-right"
+            class="btn btn-default float-right"
             href="https://github.com/bs-community/blessing-skin-server/releases"
           >
             {{ trans('admin.update.info.check-github') }}
           </a>
         </div>
       </div>
-
-      <div class="box box-default">
-        <div class="box-header with-border">
-          <h3 class="box-title">
+    </div>
+    <div class="col-md-6">
+      <div class="card card-info">
+        <div class="card-header">
+          <h3 class="card-title">
             {{ trans('admin.update.cautions.title') }}
           </h3>
         </div>
-        <div class="box-body">
+        <div class="card-body">
           {% for text in trans('admin.update.cautions.text')|split('\n') %}
             <p>{{ text }}</p>
           {% endfor %}

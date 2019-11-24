@@ -16,21 +16,26 @@ function factory(opt = {}) {
 test('computed values', () => {
   const wrapper = mount(ClosetItem, { propsData: factory() })
   expect(wrapper.find('img').attributes('src')).toBe('/preview/1.png')
-  expect(wrapper.find('a.more').attributes('href')).toBe('/skinlib/show/1')
+  expect(
+    wrapper
+      .findAll('.dropdown-item')
+      .at(2)
+      .attributes('href')
+  ).toBe('/skinlib/show/1')
 })
 
 test('selected item', () => {
   const wrapper = mount(ClosetItem, { propsData: factory({ selected: true }) })
-  expect(wrapper.find('.item').classes('item-selected')).toBeTrue()
+  expect(wrapper.find('.card').classes('shadow')).toBeTrue()
 })
 
 test('click item body', () => {
   const wrapper = mount(ClosetItem, { propsData: factory() })
 
-  wrapper.find('.item').trigger('click')
+  wrapper.find('.card').trigger('click')
   expect(wrapper.emitted().select).toBeUndefined()
 
-  wrapper.find('.item-body > div').trigger('click')
+  wrapper.find('.card-body').trigger('click')
   expect(wrapper.emitted().select).toBeTruthy()
 })
 
@@ -47,8 +52,7 @@ test('rename texture', async () => {
       return Promise.resolve({ value: 'new-name' } as MessageBoxData)
     })
   const wrapper = mount(ClosetItem, { propsData: factory() })
-  const button = wrapper.findAll('.dropdown-menu > li').at(0)
-    .find('a')
+  const button = wrapper.findAll('.dropdown-item').at(0)
 
   button.trigger('click')
   await flushPromises()
@@ -59,7 +63,7 @@ test('rename texture', async () => {
 
   button.trigger('click')
   await flushPromises()
-  expect(wrapper.find('.texture-name > span').text()).toBe('new-name (steve)')
+  expect(wrapper.find('[data-test="name"]').text()).toBe('new-name (steve)')
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/user/closet/rename/1',
     { name: 'new-name' }
@@ -75,8 +79,7 @@ test('remove texture', async () => {
     .mockResolvedValue('confirm')
 
   const wrapper = mount(ClosetItem, { propsData: factory() })
-  const button = wrapper.findAll('.dropdown-menu > li').at(1)
-    .find('a')
+  const button = wrapper.findAll('.dropdown-item').at(1)
 
   button.trigger('click')
   await flushPromises()
@@ -100,8 +103,7 @@ test('set as avatar', async () => {
     .mockResolvedValue('confirm')
 
   const wrapper = mount(ClosetItem, { propsData: factory() })
-  const button = wrapper.findAll('.dropdown-menu > li').at(2)
-    .find('a')
+  const button = wrapper.findAll('.dropdown-item').at(3)
   document.body.innerHTML += '<img alt="User Image" src="a">'
 
   button.trigger('click')
@@ -120,6 +122,5 @@ test('set as avatar', async () => {
 
 test('no avatar option if texture is cape', () => {
   const wrapper = mount(ClosetItem, { propsData: factory({ type: 'cape' }) })
-  const button = wrapper.findAll('.dropdown-menu > li').at(2)
-  expect(button.isEmpty()).toBeTrue()
+  expect(wrapper.findAll('.dropdown-item')).toHaveLength(3)
 })

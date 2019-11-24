@@ -1,14 +1,16 @@
 <template>
   <span>
-    <el-button
+    <button
       v-if="!updating"
-      type="primary"
+      class="btn btn-primary"
       :disabled="!canUpdate"
       @click="update"
-    >{{ $t('admin.updateButton') }}</el-button>
-    <el-button v-else disabled type="primary">
+    >
+      {{ $t('admin.updateButton') }}
+    </button>
+    <button v-else disabled class="btn btn-primary">
       <i class="fa fa-spinner fa-spin" /> {{ $t('admin.downloading') }}
-    </el-button>
+    </button>
 
     <div
       id="modal-download"
@@ -24,7 +26,7 @@
           <div class="modal-body">
             <div class="progress">
               <div
-                class="progress-bar progress-bar-striped active"
+                class="progress-bar progress-bar-striped bg-primary"
                 role="progressbar"
                 aria-valuenow="0"
                 aria-valuemin="0"

@@ -1,11 +1,11 @@
-<div class="box box-{{ $type }}">
-    <div class="box-header with-border">
-        <h3 class="box-title">{{ $title }} {!! $hint ?? '' !!}</h3>
-    </div><!-- /.box-header -->
+<div class="card card-{{ $type }}">
+    <div class="card-header">
+        <h3 class="card-title">{{ $title }} {!! $hint ?? '' !!}</h3>
+    </div>
     <form method="post">
         @csrf
         <input type="hidden" name="option" value="{{ $id }}">
-        <div class="box-body">
+        <div class="card-body">
 
             @foreach($messages as $msg)
             {!! $msg !!}
@@ -31,8 +31,8 @@
             </table>
             @endif
 
-        </div><!-- /.box-body -->
-        <div class="box-footer">
+        </div>
+        <div class="card-footer">
             @foreach($buttons as $button)
             {!! $button !!}
             @endforeach

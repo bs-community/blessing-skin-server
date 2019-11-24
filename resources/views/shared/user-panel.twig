@@ -1,20 +1,16 @@
-<div class="user-panel">
-  <div class="pull-left image">
-    <img src="{{ avatar }}" alt="User Image">
+<div class="user-panel mt-3 mb-3 {{ badges|length > 0 ? 'pb-2' }}">
+  <div class="d-flex">
+    <div class="image">
+      <img src="{{ avatar }}" class="img-circle elevation-2" alt="User Image">
+    </div>
+    <div class="info">
+      <a class="d-block">{{ user.nickname ?? user.email }}</a>
+    </div>
   </div>
-  <div class="pull-left info">
-    <p class="nickname">{{ user.nickname ?? user.email }}</p>
-    <i class="fas fa-circle text-success"></i> {{ role }}
-    {% if badges|length == 1 %}
-      <small class="label bg-{{ badges[0][1] }}">{{ badges[0][0] }}</small>
-    {% endif %}
-  </div>
-</div>
 
-{% if badges|length > 1 %}
-  <div class="user-panel" style="padding-top: 0">
+  <div class="mt-3 ml-2 mr-2 d-flex justify-content-between flex-wrap">
     {% for badge in badges %}
-      <small class="label bg-{{ badge[1] }}">{{ badge[0] }}</small>
+      <span class="badge bg-{{ badge[1] }} mb-1">{{ badge[0] }}</span>
     {% endfor %}
   </div>
-{% endif %}
+</div>

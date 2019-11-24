@@ -148,7 +148,7 @@ class OptionForm
             'name'  => '',
         ], $info);
 
-        $classes = "el-button el-button--{$info['style']} ".implode(' ', (array) Arr::get($info, 'class'));
+        $classes = "btn btn-{$info['style']} ".implode(' ', (array) Arr::get($info, 'class'));
 
         if ($info['href']) {
             $this->buttons[] = "<a href='{$info['href']}' class='$classes'>{$info['text']}</a>";

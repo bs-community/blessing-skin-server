@@ -5,13 +5,13 @@
 {% block content %}
   <p class="login-box-msg">{{ trans('auth.login.message') }}</p>
   {% if session_has('msg') %}
-    <div class="callout callout-warning">{{ session_pull('msg') }}</div>
+    <div class="alert alert-warning">
+      {{ session_pull('msg') }}
+    </div>
   {% endif %}
   <form></form>
   <br>
-  <a href="{{ url('auth/register') }}" class="pull-left" style="margin-top: -10px;">
-    {{ trans('auth.register-link') }}
-  </a>
+  <a href="{{ url('auth/register') }}">{{ trans('auth.register-link') }}</a>
 {% endblock %}
 
 {% block before_foot %}

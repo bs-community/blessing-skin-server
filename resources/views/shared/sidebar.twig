@@ -1,44 +1,53 @@
-<aside class="main-sidebar">
-  <section class="sidebar">
+<aside class="main-sidebar sidebar-dark-primary elevation-3">
+  <a href="{{ url('/') }}" class="brand-link text-center">
+    <span class="brand-text font-weight-light">{{ site_name }}</span>
+  </a>
+  <div class="sidebar">
     {{ include('shared.user-panel') }}
-    <ul class="sidebar-menu tree" data-widget="tree">
+    <nav class="mt-2">
+      <ul
+        class="nav nav-pills nav-sidebar flex-column nav-child-indent"
+        data-widget="treeview"
+        role="menu"
+      >
 
-      {% if scope == 'user' %}
+        {% if scope == 'user' %}
 
-        <li class="header">{{ trans('general.user-center') }}</li>
-        {{ include('shared.side-menu', {type: 'user'}) }}
-        <li class="header">{{ trans('general.explore') }}</li>
-        {{ include('shared.side-menu', {type: 'explore'}) }}
-        {% if auth_user().admin %}
-          <li class="header">{{ trans('general.manage') }}</li>
-          <li>
-            <a href="{{ url('admin') }}">
-              <i class="fas fa-cog"></i> &nbsp;
-              <span>{{ trans('general.admin-panel') }}</span>
+          <li class="nav-header">{{ trans('general.user-center') }}</li>
+          {{ include('shared.side-menu', {type: 'user'}) }}
+          <li class="nav-header">{{ trans('general.explore') }}</li>
+          {{ include('shared.side-menu', {type: 'explore'}) }}
+          {% if auth_user().admin %}
+            <li class="nav-header">{{ trans('general.manage') }}</li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url('admin') }}">
+                <i class="nav-icon fas fa-cog"></i>
+                <p>{{ trans('general.admin-panel') }}</p>
+              </a>
+            </li>
+          {% endif %}
+
+        {% elseif scope == 'admin' %}
+
+          <li class="nav-header">{{ trans('general.admin-panel') }}</li>
+          {{ include('shared.side-menu', {type: 'admin'}) }}
+          <li class="nav-header">{{ trans('general.back') }}</li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('user') }}">
+              <i class="nav-icon fas fa-user"></i> &nbsp;
+              <p>{{ trans('general.user-center') }}</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url('skinlib') }}">
+              <i class="nav-icon fas fa-archive"></i> &nbsp;
+              <p>{{ trans('general.skinlib') }}</p>
+            </a>
+          </li>
+
         {% endif %}
 
-      {% elseif scope == 'admin' %}
-
-        <li class="header">{{ trans('general.admin-panel') }}</li>
-        {{ include('shared.side-menu', {type: 'admin'}) }}
-        <li class="header">{{ trans('general.back') }}</li>
-        <li>
-          <a href="{{ url('user') }}">
-            <i class="fas fa-user"></i> &nbsp;
-            <span>{{ trans('general.user-center') }}</span>
-          </a>
-        </li>
-        <li>
-          <a href="{{ url('skinlib') }}">
-            <i class="fas fa-archive"></i> &nbsp;
-            <span>{{ trans('general.skinlib') }}</span>
-          </a>
-        </li>
-
-      {% endif %}
-
-    </ul>
-  </section>
+      </ul>
+    </nav>
+  </div>
 </aside>

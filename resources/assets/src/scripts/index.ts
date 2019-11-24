@@ -1,16 +1,16 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import './public-path' // Must be first
-import 'jquery'
-import 'bootstrap/js/collapse'
-import 'bootstrap/js/dropdown'
-import 'bootstrap/js/modal'
-import 'bootstrap/js/transition'
-import 'admin-lte/build/js/Layout'
-import 'admin-lte/build/js/PushMenu'
-import 'admin-lte/build/js/Tree'
+import $ from 'jquery'
+import 'bootstrap'
+import 'admin-lte'
 import './i18n'
 import './net'
 import './event'
 import './notification'
 import './element'
 import './logout'
+
+window.addEventListener('load', () => {
+  // @ts-ignore
+  $('[data-toggle="tooltip"]').tooltip()
+})

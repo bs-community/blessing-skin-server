@@ -1,5 +1,5 @@
 <template>
-  <section class="content">
+  <div class="container-fluid">
     <vue-good-table
       :rows="reports"
       :columns="columns"
@@ -22,7 +22,7 @@
         </span>
       </template>
     </vue-good-table>
-  </section>
+  </div>
 </template>
 
 <script>

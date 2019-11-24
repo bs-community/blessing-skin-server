@@ -65,7 +65,6 @@ class HeadComposer
     {
         $view->with('styles', [
             $this->webpack->url('style.css'),
-            $this->webpack->url('skins/'.option('color_scheme').'.min.css'),
         ]);
         $view->with('inline_css', option('custom_css'));
     }

@@ -1,33 +1,31 @@
 {% extends 'auth.base' %}
 
-{% block title %}{{ trans('auth.oauth.authorization.title') }}{% endblock %}
+{% block title %}
+	{{ trans('auth.oauth.authorization.title') }}
+{% endblock %}
 
 {% block content %}
-  <p class="login-box-msg">
-    {{ trans('auth.oauth.authorization.introduction', {name: client.name}) }}
-  </p>
-  <div class="row">
-    <div class="col-xs-6">
-      <form method="post" action="{{ route('passport.authorizations.approve') }}">
-        {{ csrf_field() }}
-        <input type="hidden" name="state" value="{{ request.state }}">
-        <input type="hidden" name="client_id" value="{{ client.id }}">
-        <button type="submit" class="btn btn-success btn-block btn-flat">
-          {{ trans('auth.oauth.authorization.button') }}
-        </button>
-      </form>
-    </div>
+	<p class="login-box-msg">
+		{{ trans('auth.oauth.authorization.introduction', {name: client.name}) }}
+	</p>
+	<div class="d-flex justify-content-between">
+		<form method="post" action="{{ route('passport.authorizations.approve') }}">
+			{{ csrf_field() }}
+			<input type="hidden" name="state" value="{{ request.state }}">
+			<input type="hidden" name="client_id" value="{{ client.id }}">
+			<button type="submit" class="btn btn-success btn-block pl-5 pr-5">
+				{{ trans('auth.oauth.authorization.button') }}
+			</button>
+		</form>
 
-    <div class="col-xs-6">
-      <form method="post" action="{{ route('passport.authorizations.deny') }}">
-        {{ csrf_field() }}
-        {{ method_field('DELETE') }}
-        <input type="hidden" name="state" value="{{ request.state }}">
-        <input type="hidden" name="client_id" value="{{ client.id }}">
-        <button class="btn btn-default btn-block btn-flat">
-          {{ trans('general.cancel') }}
-        </button>
-      </form>
-    </div>
-  </div>
+		<form method="post" action="{{ route('passport.authorizations.deny') }}">
+			{{ csrf_field() }}
+			{{ method_field('DELETE') }}
+			<input type="hidden" name="state" value="{{ request.state }}">
+			<input type="hidden" name="client_id" value="{{ client.id }}">
+			<button class="btn btn-default btn-block pl-5 pr-5">
+				{{ trans('general.cancel') }}
+			</button>
+		</form>
+	</div>
 {% endblock %}
