@@ -6,7 +6,6 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserJSPlugin = require('terser-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const WebpackBar = require('webpackbar')
 const ManifestPlugin = require('webpack-manifest-plugin')
 
@@ -136,10 +135,6 @@ const config = {
       filename: devMode ? '[name].css' : '[name].[contenthash:7].css',
       chunkFilename: devMode ? '[id].css' : '[id].[contenthash:7].css',
     }),
-    new CopyWebpackPlugin([
-      'resources/assets/src/images/bg.jpg',
-      'resources/assets/src/images/favicon.ico',
-    ]),
   ],
   resolve: {
     extensions: ['.js', '.ts', '.vue', '.json'],
