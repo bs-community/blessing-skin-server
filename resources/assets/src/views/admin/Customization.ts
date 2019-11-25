@@ -3,7 +3,7 @@ function handler(event: Event): void {
     document.body.className.replace(
       /skin-\w+(?:-light)?/,
       // eslint-disable-next-line no-extra-parens
-      (event.target as HTMLInputElement).value
+      (event.target as HTMLInputElement).value,
     )
 }
 

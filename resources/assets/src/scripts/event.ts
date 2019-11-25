@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 const bus: { [name: string]: CallableFunction[] } = Object.create(null)
 
 export function on(eventName: string, listener: CallableFunction) {

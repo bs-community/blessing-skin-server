@@ -64,7 +64,7 @@ export default {
     async addPlayer() {
       const { code, message } = await this.$http.post(
         '/user/player/add',
-        { name: this.name }
+        { name: this.name },
       )
       if (code === 0) {
         $('#modal-add-player').modal('hide')

@@ -19,7 +19,7 @@ test('fetch data before mounting', () => {
     '/skinlib/data',
     {
       filter: 'skin', uploader: 0, sort: 'time', keyword: '', page: 1,
-    }
+    },
   )
 })
 
@@ -67,7 +67,7 @@ test('toggle texture type', () => {
     '/skinlib/data',
     {
       filter: 'steve', uploader: 0, sort: 'time', keyword: '', page: 1,
-    }
+    },
   )
 
   btnAlex.trigger('click')
@@ -81,7 +81,7 @@ test('toggle texture type', () => {
     '/skinlib/data',
     {
       filter: 'alex', uploader: 0, sort: 'time', keyword: '', page: 1,
-    }
+    },
   )
   expect(queryString('filter')).toBe('alex')
 
@@ -96,7 +96,7 @@ test('toggle texture type', () => {
     '/skinlib/data',
     {
       filter: 'cape', uploader: 0, sort: 'time', keyword: '', page: 1,
-    }
+    },
   )
   expect(queryString('filter')).toBe('cape')
 })
@@ -120,7 +120,7 @@ test('check specified uploader', async () => {
     '/skinlib/data',
     {
       filter: 'skin', uploader: 1, sort: 'time', keyword: '', page: 1,
-    }
+    },
   )
   expect(queryString('uploader')).toBe('1')
 })
@@ -141,7 +141,7 @@ test('sort items', () => {
     '/skinlib/data',
     {
       filter: 'skin', uploader: 0, sort: 'likes', keyword: '', page: 1,
-    }
+    },
   )
   expect(wrapper.text()).toContain('skinlib.sort.likes')
   expect(sortByLikes.classes()).toContain('active')
@@ -152,7 +152,7 @@ test('sort items', () => {
     '/skinlib/data',
     {
       filter: 'skin', uploader: 0, sort: 'time', keyword: '', page: 1,
-    }
+    },
   )
   expect(wrapper.text()).toContain('skinlib.sort.time')
   expect(sortByTime.classes()).toContain('active')
@@ -174,7 +174,7 @@ test('search by keyword', () => {
     '/skinlib/data',
     {
       filter: 'skin', uploader: 0, sort: 'time', keyword: 'a', page: 1,
-    }
+    },
   )
   expect(queryString('keyword')).toBe('a')
 
@@ -184,7 +184,7 @@ test('search by keyword', () => {
     '/skinlib/data',
     {
       filter: 'skin', uploader: 0, sort: 'time', keyword: 'b', page: 1,
-    }
+    },
   )
   expect(queryString('keyword')).toBe('b')
 })
@@ -231,7 +231,7 @@ test('on page changed', () => {
     '/skinlib/data',
     {
       filter: 'skin', uploader: 0, sort: 'time', keyword: '', page: 2,
-    }
+    },
   )
   expect(queryString('page')).toBe('2')
 })
@@ -247,7 +247,7 @@ test('on like toggled', async () => {
     },
   })
   const wrapper = mount<Vue & {
-    onLikeToggled(tid: number, like: boolean): void,
+    onLikeToggled(tid: number, like: boolean): void
     items: Array<{ liked: boolean, likes: number }>
   }>(List)
   await flushPromises()

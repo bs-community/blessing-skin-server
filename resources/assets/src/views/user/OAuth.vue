@@ -198,7 +198,7 @@ export default {
         Object.assign({}, init, {
           body: JSON.stringify(Object.assign({ name: client.name, redirect: client.redirect }, modified)),
           method: 'PUT',
-        })
+        }),
       )
       request.headers.set('Content-Type', 'application/json')
       const result = await walkFetch(request)
@@ -216,7 +216,7 @@ export default {
       }
       const request = new Request(
         `/oauth/clients/${client.id}`,
-        Object.assign({}, init, { method: 'DELETE' })
+        Object.assign({}, init, { method: 'DELETE' }),
       )
       await walkFetch(request)
       this.$delete(this.clients, this.clients.findIndex(({ id }) => id === client.id))

@@ -74,7 +74,9 @@ test('process input file', () => {
       this.src = ''
       this.onload = null
       Object.defineProperty(this, 'onload', {
-        set: fn => fn(),
+        set: fn => {
+          fn()
+        },
       })
     })
     .mockImplementationOnce(function (this: HTMLImageElement) {
@@ -82,7 +84,9 @@ test('process input file', () => {
       this.width = 500
       this.onload = null
       Object.defineProperty(this, 'onload', {
-        set: fn => fn(),
+        set: fn => {
+          fn()
+        },
       })
     })
   jest.spyOn(skinview3d, 'isSlimSkin')

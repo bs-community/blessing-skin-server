@@ -26,7 +26,8 @@ export async function checkForPluginUpdates(): Promise<void> {
     const data = await response.json()
     const el = document.querySelector(`[href="${blessing.base_url}/admin/plugins/market"] p`)
     if (data.available && el) {
-      el.innerHTML += `<span class="right badge badge-success">${data.plugins.length}</span>`
+      const length = data.plugins.length as number
+      el.innerHTML += `<span class="right badge badge-success">${length}</span>`
     }
   }
 }

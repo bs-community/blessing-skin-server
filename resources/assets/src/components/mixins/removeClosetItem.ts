@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 export default Vue.extend<{
-  name: string,
+  name: string
   tid: number
 }, { removeClosetItem(): Promise<void> }, {}>({
   methods: {
@@ -9,7 +9,7 @@ export default Vue.extend<{
       try {
         await this.$confirm(
           this.$t('user.removeFromClosetNotice'),
-          { type: 'warning' }
+          { type: 'warning' },
         )
       } catch {
         return

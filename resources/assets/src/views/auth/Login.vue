@@ -107,7 +107,7 @@ export default {
           captcha: this.tooManyFails
             ? await this.$refs.captcha.execute()
             : void 0,
-        }
+        },
       )
       if (code === 0) {
         this.$message.success(message)

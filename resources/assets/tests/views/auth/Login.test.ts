@@ -41,7 +41,7 @@ test('login', async () => {
     '/auth/login',
     {
       identification: 'a@b.c', password: '123', keep: false,
-    }
+    },
   )
   expect(warning.text()).toBe('fail')
 
@@ -70,7 +70,7 @@ test('login', async () => {
     '/auth/login',
     {
       identification: 'a@b.c', password: '123', keep: true, captcha: 'a',
-    }
+    },
   )
   await flushPromises()
   jest.runAllTimers()

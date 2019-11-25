@@ -35,7 +35,7 @@ test('reset avatar', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/user/profile/avatar',
-    { tid: 0 }
+    { tid: 0 },
   )
   await flushPromises()
   expect(Vue.prototype.$message.success).toBeCalledWith('ok')
@@ -61,7 +61,7 @@ test('change password', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/user/profile?action=password',
-    { current_password: '1', new_password: '1' }
+    { current_password: '1', new_password: '1' },
   )
   expect(Vue.prototype.$alert).toBeCalledWith('w', { type: 'warning' })
 
@@ -90,7 +90,7 @@ test('change nickname', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/user/profile?action=nickname',
-    { new_nickname: 'nickname' }
+    { new_nickname: 'nickname' },
   )
   await flushPromises()
   expect(Vue.prototype.$alert).toBeCalledWith('w', { type: 'warning' })
@@ -120,7 +120,7 @@ test('change email', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/user/profile?action=email',
-    { new_email: 'a@b.c', password: 'abc' }
+    { new_email: 'a@b.c', password: 'abc' },
   )
   await flushPromises()
   expect(Vue.prototype.$alert).toBeCalledWith('w', { type: 'warning' })
@@ -142,7 +142,7 @@ test('delete account', async () => {
   form.trigger('submit')
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/user/profile?action=delete',
-    { password: 'abc' }
+    { password: 'abc' },
   )
   await flushPromises()
   expect(Vue.prototype.$alert).toBeCalledWith('w', { type: 'warning' })

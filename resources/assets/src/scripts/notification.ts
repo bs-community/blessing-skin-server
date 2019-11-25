@@ -6,10 +6,15 @@ export default async function handler(event: Event) {
   const id = item.getAttribute('data-nid')
   const {
     title, content, time,
-  } = await get(`/user/notifications/${id}`)
+  }: {
+    title: string
+    content: string
+    time: string
+  } = await get(`/user/notifications/${id!}`)
   showModal(`${content}<br><small>${time}</small>`, title)
   item.remove()
-  const counter = document.querySelector('.notifications-counter') as HTMLSpanElement
+  const counter = document
+    .querySelector('.notifications-counter') as HTMLSpanElement
   const value = Number.parseInt(counter.textContent!) - 1
   if (value > 0) {
     counter.textContent = value.toString()

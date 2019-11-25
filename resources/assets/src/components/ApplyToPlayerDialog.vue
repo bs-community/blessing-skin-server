@@ -88,7 +88,7 @@ export default {
         {
           skin: this.skin || undefined,
           cape: this.cape || undefined,
-        }
+        },
       )
       if (code === 0) {
         this.$message.success(message)

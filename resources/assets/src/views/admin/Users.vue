@@ -158,7 +158,7 @@ export default {
     async fetchData() {
       const { data, totalRecords } = await this.$http.get(
         `/admin/user-data${location.search}`,
-        !location.search && this.serverParams
+        !location.search && this.serverParams,
       )
       this.totalRecords = totalRecords
       this.users = data
@@ -176,7 +176,7 @@ export default {
 
       const { code, message } = await this.$http.post(
         '/admin/users?action=email',
-        { uid: user.uid, email: value }
+        { uid: user.uid, email: value },
       )
       if (code === 0) {
         user.email = value
@@ -188,7 +188,7 @@ export default {
     async toggleVerification(user) {
       const { code, message } = await this.$http.post(
         '/admin/users?action=verification',
-        { uid: user.uid }
+        { uid: user.uid },
       )
       if (code === 0) {
         user.verified = !user.verified
@@ -210,7 +210,7 @@ export default {
 
       const { code, message } = await this.$http.post(
         '/admin/users?action=nickname',
-        { uid: user.uid, nickname: value }
+        { uid: user.uid, nickname: value },
       )
       if (code === 0) {
         user.nickname = value
@@ -231,7 +231,7 @@ export default {
 
       const { code, message } = await this.$http.post(
         '/admin/users?action=password',
-        { uid: user.uid, password: value }
+        { uid: user.uid, password: value },
       )
       code === 0 ? this.$message.success(message) : this.$message.warning(message)
     },
@@ -249,7 +249,7 @@ export default {
 
       const { code, message } = await this.$http.post(
         '/admin/users?action=score',
-        { uid: user.uid, score }
+        { uid: user.uid, score },
       )
       if (code === 0) {
         user.score = score
@@ -273,7 +273,7 @@ export default {
         h(
           'select',
           { attrs: { selectedIndex: 0 } },
-          options.map(option => h('option', null, option))
+          options.map(option => h('option', null, option)),
         ),
       ])
 
@@ -309,7 +309,7 @@ export default {
 
       const { code, message } = await this.$http.post(
         '/admin/users?action=delete',
-        { uid }
+        { uid },
       )
       if (code === 0) {
         this.$delete(this.users, originalIndex)

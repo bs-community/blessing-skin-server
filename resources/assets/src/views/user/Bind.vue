@@ -60,7 +60,7 @@ export default {
       this.pending = true
       const { code, message } = await this.$http.post(
         '/user/player/bind',
-        { player: this.selected }
+        { player: this.selected },
       )
       this.pending = false
       if (code === 0) {

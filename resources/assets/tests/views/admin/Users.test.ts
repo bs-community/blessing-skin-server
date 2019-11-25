@@ -16,7 +16,7 @@ test('fetch data after initializing', () => {
     '/admin/user-data',
     {
       page: 1, perPage: 10, search: '', sortField: 'uid', sortType: 'asc',
-    }
+    },
   )
 })
 
@@ -256,7 +256,7 @@ test('change email', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/users?action=email',
-    { uid: 1, email: 'd@e.f' }
+    { uid: 1, email: 'd@e.f' },
   )
   expect(wrapper.text()).toContain('a@b.c')
 
@@ -283,7 +283,7 @@ test('toggle verification', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/users?action=verification',
-    { uid: 1 }
+    { uid: 1 },
   )
   button.trigger('click')
   await flushPromises()
@@ -319,7 +319,7 @@ test('change nickname', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/users?action=nickname',
-    { uid: 1, nickname: 'new' }
+    { uid: 1, nickname: 'new' },
   )
   expect(wrapper.text()).toContain('old')
 
@@ -352,7 +352,7 @@ test('change password', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/users?action=password',
-    { uid: 1, password: 'password' }
+    { uid: 1, password: 'password' },
   )
   await flushPromises()
   expect(Vue.prototype.$message.success).toBeCalledWith('0')
@@ -387,7 +387,7 @@ test('change score', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/users?action=score',
-    { uid: 1, score: 45 }
+    { uid: 1, score: 45 },
   )
   expect(wrapper.text()).toContain('23')
 
@@ -452,7 +452,7 @@ test('change permission', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/users?action=permission',
-    { uid: 1, permission: 1 }
+    { uid: 1, permission: 1 },
   )
   expect(wrapper.text()).toContain('admin.normal')
 
@@ -489,7 +489,7 @@ test('delete user', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/users?action=delete',
-    { uid: 1 }
+    { uid: 1 },
   )
   expect(wrapper.text()).toContain('to-be-deleted')
 

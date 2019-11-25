@@ -73,7 +73,7 @@ export default {
       this.pending = true
       const { code, message } = await this.$http.post(
         '/auth/forgot',
-        { email, captcha: await this.$refs.captcha.execute() }
+        { email, captcha: await this.$refs.captcha.execute() },
       )
       if (code === 0) {
         this.warningMsg = ''

@@ -10,7 +10,7 @@ declare module 'vue/types/vue' {
         post: jest.Mock<any>
         put: jest.Mock<any>
         del: jest.Mock<any>
-      },
+      }
       $message: {
         info: jest.Mock<ReturnType<typeof Message>, Parameters<typeof Message>>
         success: jest.Mock<ReturnType<typeof Message>, Parameters<typeof Message>>

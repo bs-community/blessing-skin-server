@@ -100,7 +100,7 @@ test('reset', () => {
   mockedSkinview3d.SkinViewer.prototype.dispose = jest.fn(
     function (this: mockedSkinview3d.SkinViewer) {
       this.disposed = true
-    }.bind(new mockedSkinview3d.SkinViewer())
+    }.bind(new mockedSkinview3d.SkinViewer()),
   )
   const wrapper = mount<Viewer>(Previewer, {
     propsData: {

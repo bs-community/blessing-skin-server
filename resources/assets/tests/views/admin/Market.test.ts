@@ -63,7 +63,7 @@ test('install plugin', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/plugins/market/download',
-    { name: 'd' }
+    { name: 'd' },
   )
   button.trigger('click')
   await flushPromises()
@@ -97,6 +97,6 @@ test('update plugin', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/plugins/market/download',
-    { name: 'a' }
+    { name: 'a' },
   )
 })

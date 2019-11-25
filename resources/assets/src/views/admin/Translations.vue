@@ -76,7 +76,7 @@ export default {
 
       const { code, message } = await this.$http.put(
         '/admin/i18n',
-        { id: line.id, text }
+        { id: line.id, text },
       )
       if (code === 0) {
         line.text = text

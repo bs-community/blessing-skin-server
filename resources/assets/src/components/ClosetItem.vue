@@ -88,7 +88,7 @@ export default {
             inputValue: this.textureName,
             showCancelButton: true,
             inputValidator: value => !!value || this.$t('skinlib.emptyNewTextureName'),
-          }
+          },
         ))
       } catch {
         return
@@ -96,7 +96,7 @@ export default {
 
       const { code, message } = await this.$http.post(
         `/user/closet/rename/${this.tid}`,
-        { name: newTextureName }
+        { name: newTextureName },
       )
       if (code === 0) {
         this.textureName = newTextureName

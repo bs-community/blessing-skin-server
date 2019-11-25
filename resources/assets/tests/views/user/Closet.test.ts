@@ -17,7 +17,7 @@ test('fetch closet data before mount', () => {
       category: 'skin',
       q: '',
       page: 1,
-    }
+    },
   )
 })
 
@@ -49,7 +49,7 @@ test('switch tabs', () => {
       category: 'skin',
       q: '',
       page: 1,
-    }
+    },
   )
   wrapper
     .findAll('.nav-link')
@@ -62,7 +62,7 @@ test('switch tabs', () => {
       category: 'cape',
       q: '',
       page: 1,
-    }
+    },
   )
 })
 
@@ -74,7 +74,7 @@ test('different categories', () => {
     wrapper
       .findAll('.nav-link')
       .at(0)
-      .classes('active')
+      .classes('active'),
   ).toBeTrue()
   expect(wrapper.find('#skin-category').classes('active')).toBeTrue()
 
@@ -83,7 +83,7 @@ test('different categories', () => {
     wrapper
       .findAll('.nav-link')
       .at(1)
-      .classes('active')
+      .classes('active'),
   ).toBeTrue()
   expect(wrapper.find('#cape-category').classes('active')).toBeTrue()
 })
@@ -103,7 +103,7 @@ test('search textures', () => {
       category: 'skin',
       q: 'q',
       page: 1,
-    }
+    },
   )
 })
 

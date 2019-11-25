@@ -7,7 +7,7 @@ export function debounce(func: CallableFunction, delay: number) {
 }
 
 export function queryString(key: string, defaultValue: string = ''): string {
-  const result = location.search.match(new RegExp(`[?&]${key}=([^&]+)`, 'i'))
+  const result = new RegExp(`[?&]${key}=([^&]+)`, 'i').exec(location.search)
 
   if (result === null || result.length < 1) {
     return defaultValue

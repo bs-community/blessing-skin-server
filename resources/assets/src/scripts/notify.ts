@@ -4,18 +4,24 @@ import { ModalOptions } from '../shims'
 import { trans } from './i18n'
 
 export function showAjaxError(error: Error): void {
-  showModal(error.message.replace(/\n/g, '<br>'), trans('general.fatalError'), 'danger')
+  showModal(
+    error.message.replace(/\n/g, '<br>'),
+    trans('general.fatalError'),
+    'danger',
+  )
 }
 
 export function showModal(
   message: string, title = 'Message',
   type = 'default',
-  options: ModalOptions = {}
+  options: ModalOptions = {},
 ): void {
   const btnType = type === 'default' ? 'btn-primary' : 'btn-outline'
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   const btnText = options.btnText || 'OK'
   const onClick = options.callback === undefined
     ? 'data-dismiss="modal"'
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
     : `onclick="${options.callback}"`
   const destroyOnClose = options.destroyOnClose !== false
 
@@ -43,7 +49,9 @@ export function showModal(
 
   $(dom)
     .on('hidden.bs.modal', /* istanbul ignore next */ function modal() {
-      destroyOnClose && $(this).remove()
+      if (destroyOnClose) {
+        $(this).remove()
+      }
     })
     // @ts-ignore
     .modal(options)

@@ -5,6 +5,7 @@ import * as JQuery from 'jquery'
 type I18n = 'en' | 'zh_CN'
 
 declare global {
+  // eslint-disable-next-line no-redeclare
   let blessing: {
     base_url: string
     debug: boolean
@@ -47,10 +48,10 @@ declare module 'vue/types/vue' {
     $t(key: string, parameters?: object): string
 
     $http: {
-      get(url: string, params?: object)
-      post(url: string, data?: object): { code?: number, message?: string }
-      put(url: string, data?: object): { code?: number, message?: string }
-      del(url: string, data?: object): { code?: number, message?: string }
+      get(url: string, params?: object): Promise<any>
+      post(url: string, data?: object): Promise<{ code?: number, message?: string }>
+      put(url: string, data?: object): Promise<{ code?: number, message?: string }>
+      del(url: string, data?: object): Promise<{ code?: number, message?: string }>
     }
 
     $route: RegExpExecArray | null
@@ -58,7 +59,7 @@ declare module 'vue/types/vue' {
 }
 
 interface ModalOptions {
-  btnText?: string,
-  callback?: CallableFunction,
+  btnText?: string
+  callback?: CallableFunction
   destroyOnClose?: boolean
 }

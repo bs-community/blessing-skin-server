@@ -132,7 +132,7 @@ export default {
     async disablePlugin({ name, originalIndex }) {
       const { code, message } = await this.$http.post(
         '/admin/plugins/manage',
-        { action: 'disable', name }
+        { action: 'disable', name },
       )
       if (code === 0) {
         this.$message.success(message)
@@ -150,7 +150,7 @@ export default {
 
       const { code, message } = await this.$http.post(
         '/admin/plugins/manage',
-        { action: 'delete', name }
+        { action: 'delete', name },
       )
       if (code === 0) {
         this.$delete(this.plugins, originalIndex)

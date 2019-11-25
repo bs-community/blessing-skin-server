@@ -87,7 +87,7 @@ export default {
       this.pending = true
       const { code, message } = await this.$http.post(
         `/auth/reset/${this.uid}${location.search}`,
-        { password }
+        { password },
       )
       if (code === 0) {
         this.$message.success(message)

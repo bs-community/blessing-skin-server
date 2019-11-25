@@ -1,5 +1,5 @@
 /* eslint-disable prefer-const */
-/* eslint-disable camelcase */
+/* eslint-disable @typescript-eslint/camelcase */
 declare let __webpack_public_path__: string
 
 const url = new URL(blessing.base_url)

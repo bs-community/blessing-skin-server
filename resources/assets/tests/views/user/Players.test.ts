@@ -109,7 +109,7 @@ test('change player name', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/user/player/rename/1',
-    { name: 'new-name' }
+    { name: 'new-name' },
   )
   button.trigger('click')
   await flushPromises()
@@ -196,7 +196,7 @@ test('clear texture', async () => {
     '/user/player/texture/clear/1',
     {
       skin: true, cape: false,
-    }
+    },
   )
   button.trigger('click')
   await flushPromises()

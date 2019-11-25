@@ -114,7 +114,7 @@ export default {
     },
     signRemainingTime() {
       if (this.signAfterZero) {
-        const today = (new Date()).setHours(0, 0, 0, 0)
+        const today = new Date().setHours(0, 0, 0, 0)
         const tomorrow = today + ONE_DAY
         return this.lastSignAt.valueOf() < today ? 0 : tomorrow - Date.now()
       }
@@ -125,12 +125,12 @@ export default {
       if (time < 60) {
         return this.$t(
           'user.sign-remain-time',
-          { time: ~~time, unit: this.$t('user.time-unit-min') }
+          { time: ~~time, unit: this.$t('user.time-unit-min') },
         )
       }
       return this.$t(
         'user.sign-remain-time',
-        { time: ~~(time / 60), unit: this.$t('user.time-unit-hour') }
+        { time: ~~(time / 60), unit: this.$t('user.time-unit-hour') },
       )
     },
     canSign() {

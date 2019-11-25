@@ -1,5 +1,4 @@
 /* eslint-disable max-classes-per-file */
-/* eslint-disable import/no-extraneous-dependencies */
 import 'jest-extended'
 import Vue from 'vue'
 import {

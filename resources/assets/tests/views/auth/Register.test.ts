@@ -56,7 +56,7 @@ test('register', async () => {
       password: '12345678',
       nickname: 'abc',
       captcha: 'captcha',
-    }
+    },
   )
   await flushPromises()
   expect(warning.text()).toBe('fail')
@@ -88,6 +88,6 @@ test('register with player name', async () => {
       password: '12345678',
       player_name: 'abc',
       captcha: 'captcha',
-    }
+    },
   )
 })

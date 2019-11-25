@@ -252,7 +252,7 @@ export default {
           sort: this.sort,
           keyword: this.keyword,
           page: this.page,
-        }
+        },
       )
       this.items = items
       this.totalPages = totalPages

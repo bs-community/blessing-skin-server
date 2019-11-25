@@ -171,7 +171,7 @@ export default {
     async fetchData() {
       const { data, totalRecords } = await this.$http.get(
         `/admin/player-data${location.search}`,
-        !location.search && this.serverParams
+        !location.search && this.serverParams,
       )
       this.totalRecords = totalRecords
       this.players = data
@@ -184,7 +184,7 @@ export default {
         '/admin/players?action=texture',
         {
           pid: player.pid, type, tid,
-        }
+        },
       )
       if (code === 0) {
         player[`tid_${type}`] = tid
@@ -207,7 +207,7 @@ export default {
 
       const { code, message } = await this.$http.post(
         '/admin/players?action=name',
-        { pid: player.pid, name: value }
+        { pid: player.pid, name: value },
       )
       if (code === 0) {
         player.name = value
@@ -228,7 +228,7 @@ export default {
 
       const { code, message } = await this.$http.post(
         '/admin/players?action=owner',
-        { pid: player.pid, uid: value }
+        { pid: player.pid, uid: value },
       )
       if (code === 0) {
         player.uid = value
@@ -248,7 +248,7 @@ export default {
 
       const { code, message } = await this.$http.post(
         '/admin/players?action=delete',
-        { pid }
+        { pid },
       )
       if (code === 0) {
         this.$delete(this.players, originalIndex)

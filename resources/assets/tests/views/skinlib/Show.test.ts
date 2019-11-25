@@ -269,7 +269,7 @@ test('change texture name', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/skinlib/rename',
-    { tid: 1, new_name: 'new-name' }
+    { tid: 1, new_name: 'new-name' },
   )
   expect(Vue.prototype.$message.error).toBeCalledWith('1')
 
@@ -314,7 +314,7 @@ test('change texture model', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/skinlib/model',
-    { tid: 1, model: 'alex' }
+    { tid: 1, model: 'alex' },
   )
   expect(Vue.prototype.$message.warning).toBeCalledWith('1')
 
@@ -346,7 +346,7 @@ test('toggle privacy', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/skinlib/privacy',
-    { tid: 1 }
+    { tid: 1 },
   )
   expect(Vue.prototype.$message.warning).toBeCalledWith('1')
 
@@ -382,7 +382,7 @@ test('delete texture', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/skinlib/delete',
-    { tid: 1 }
+    { tid: 1 },
   )
   expect(Vue.prototype.$message.warning).toBeCalledWith('1')
 
@@ -432,7 +432,7 @@ test('report texture', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/skinlib/report',
-    { tid: 1, reason: 'reason' }
+    { tid: 1, reason: 'reason' },
   )
   expect(Vue.prototype.$message.warning).toBeCalledWith('duplicated')
 

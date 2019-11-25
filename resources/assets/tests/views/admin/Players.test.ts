@@ -11,7 +11,7 @@ test('fetch data after initializing', () => {
     '/admin/player-data',
     {
       page: 1, perPage: 10, search: '', sortField: 'pid', sortType: 'asc',
-    }
+    },
   )
 })
 
@@ -39,7 +39,7 @@ test('change texture', async () => {
     '/admin/players?action=texture',
     {
       pid: 1, tid: 5, type: 'skin',
-    }
+    },
   )
   button.trigger('click')
   await flushPromises()
@@ -76,7 +76,7 @@ test('change player name', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/players?action=name',
-    { pid: 1, name: 'new' }
+    { pid: 1, name: 'new' },
   )
   button.trigger('click')
   await flushPromises()
@@ -107,7 +107,7 @@ test('change owner', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/players?action=owner',
-    { pid: 1, uid: '3' }
+    { pid: 1, uid: '3' },
   )
   button.trigger('click')
   await flushPromises()
@@ -138,7 +138,7 @@ test('delete player', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/players?action=delete',
-    { pid: 1 }
+    { pid: 1 },
   )
   expect(wrapper.text()).toContain('to-be-deleted')
 

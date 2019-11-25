@@ -166,7 +166,7 @@ export default {
           email,
           password,
           captcha: await this.$refs.captcha.execute(),
-        }, this.requirePlayer ? { player_name: playerName } : { nickname })
+        }, this.requirePlayer ? { player_name: playerName } : { nickname }),
       )
       if (code === 0) {
         this.$message.success(message)

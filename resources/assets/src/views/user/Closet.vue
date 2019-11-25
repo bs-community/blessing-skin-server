@@ -243,7 +243,7 @@ export default {
           category: this.category,
           q: this.query,
           page,
-        }
+        },
       )
       this[`${category}TotalPages`] = totalPages
       this[`${category}Items`] = items

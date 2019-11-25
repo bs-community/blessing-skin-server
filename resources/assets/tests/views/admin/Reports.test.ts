@@ -48,7 +48,7 @@ test('delete texture', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/reports',
-    { id: 1, action: 'delete' }
+    { id: 1, action: 'delete' },
   )
   expect(Vue.prototype.$message.warning).toBeCalledWith('fail')
 
@@ -72,7 +72,7 @@ test('ban uploader', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/reports',
-    { id: 1, action: 'ban' }
+    { id: 1, action: 'ban' },
   )
   expect(Vue.prototype.$message.success).toBeCalledWith('ok')
   expect(wrapper.text()).toContain('report.status.1')
@@ -92,7 +92,7 @@ test('reject', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/reports',
-    { id: 1, action: 'reject' }
+    { id: 1, action: 'reject' },
   )
   expect(Vue.prototype.$message.success).toBeCalledWith('ok')
   expect(wrapper.text()).toContain('report.status.2')

@@ -29,7 +29,7 @@ test('reset password', async () => {
   form.trigger('submit')
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/auth/reset/1', // Ignore `location.search`
-    { password: '12345678' }
+    { password: '12345678' },
   )
   await flushPromises()
   expect(warning.text()).toBe('fail')

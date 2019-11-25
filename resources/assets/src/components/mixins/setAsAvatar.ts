@@ -8,7 +8,7 @@ export default Vue.extend<{
       try {
         await this.$confirm(
           this.$t('user.setAvatarNotice'),
-          this.$t('user.setAvatar')
+          this.$t('user.setAvatar'),
         )
       } catch {
         return
@@ -16,12 +16,15 @@ export default Vue.extend<{
 
       const { code, message } = await this.$http.post(
         '/user/profile/avatar',
-        { tid: this.tid }
+        { tid: this.tid },
       )
       if (code === 0) {
         this.$message.success(message!)
 
-        Array.from(document.querySelectorAll<HTMLImageElement>('[alt="User Image"]'))
+        Array
+          .from(
+            document.querySelectorAll<HTMLImageElement>('[alt="User Image"]'),
+          )
           .forEach(el => (el.src += `?${new Date().getTime()}`))
       } else {
         this.$message.warning(message!)

@@ -240,7 +240,7 @@ export default {
 
       const { code, message } = await this.$http.post(
         `/user/player/rename/${player.pid}`,
-        { name: value }
+        { name: value },
       )
       if (code === 0) {
         this.$message.success(message)
@@ -256,7 +256,7 @@ export default {
 
       const { code, message } = await this.$http.post(
         `/user/player/texture/clear/${this.selected}`,
-        this.clear
+        this.clear,
       )
       if (code === 0) {
         $('.modal').modal('hide')

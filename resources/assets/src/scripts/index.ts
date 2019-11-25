@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import './public-path' // Must be first
 import $ from 'jquery'
 import 'bootstrap'

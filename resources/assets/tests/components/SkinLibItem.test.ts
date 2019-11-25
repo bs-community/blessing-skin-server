@@ -98,7 +98,7 @@ test('add to closet', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/user/closet/add',
-    { tid: 1, name: 'name' }
+    { tid: 1, name: 'name' },
   )
   expect(Vue.prototype.$message.warning).toBeCalledWith('1')
 

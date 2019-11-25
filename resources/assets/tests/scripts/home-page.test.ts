@@ -10,7 +10,7 @@ test('should be transparent at top', () => {
   handler()
   window.dispatchEvent(new Event('scroll'))
   expect(
-    document.querySelector('nav')!.classList.contains('transparent')
+    document.querySelector('nav')!.classList.contains('transparent'),
   ).toBeTrue()
 })
 
@@ -20,6 +20,6 @@ test('should not be transparent at bottom', () => {
   handler()
   window.dispatchEvent(new Event('scroll'))
   expect(
-    document.querySelector('nav')!.classList.contains('transparent')
+    document.querySelector('nav')!.classList.contains('transparent'),
   ).toBeFalse()
 })

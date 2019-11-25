@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { MessageBoxInputData } from 'element-ui/types/message-box'
 
 export default Vue.extend<{
-  name: string,
+  name: string
   tid: number
 }, { addClosetItem(): Promise<void> }, {}>({
   methods: {
@@ -16,7 +16,7 @@ export default Vue.extend<{
             inputValue: this.name,
             showCancelButton: true,
             inputValidator: val => !!val || this.$t('skinlib.emptyItemName'),
-          }
+          },
         ) as MessageBoxInputData)
       } catch {
         return
@@ -24,7 +24,7 @@ export default Vue.extend<{
 
       const { code, message } = await this.$http.post(
         '/user/closet/add',
-        { tid: this.tid, name: value }
+        { tid: this.tid, name: value },
       )
       if (code === 0) {
         this.$message.success(message!)

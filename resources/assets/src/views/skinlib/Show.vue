@@ -266,7 +266,7 @@ export default {
 
       const { code, message } = await this.$http.post(
         '/skinlib/rename',
-        { tid: this.tid, new_name: value }
+        { tid: this.tid, new_name: value },
       )
       if (code === 0) {
         this.name = value
@@ -297,7 +297,7 @@ export default {
 
       const { code, message } = await this.$http.post(
         '/skinlib/model',
-        { tid: this.tid, model: value }
+        { tid: this.tid, model: value },
       )
       if (code === 0) {
         this.type = value
@@ -312,7 +312,7 @@ export default {
           this.public
             ? this.$t('skinlib.setPrivateNotice')
             : this.$t('skinlib.setPublicNotice'),
-          { type: 'warning' }
+          { type: 'warning' },
         )
       } catch {
         return
@@ -320,7 +320,7 @@ export default {
 
       const { code, message } = await this.$http.post(
         '/skinlib/privacy',
-        { tid: this.tid }
+        { tid: this.tid },
       )
       if (code === 0) {
         this.$message.success(message)
@@ -333,7 +333,7 @@ export default {
       try {
         await this.$confirm(
           this.$t('skinlib.deleteNotice'),
-          { type: 'warning' }
+          { type: 'warning' },
         )
       } catch {
         return
@@ -341,7 +341,7 @@ export default {
 
       const { code, message } = await this.$http.post(
         '/skinlib/delete',
-        { tid: this.tid }
+        { tid: this.tid },
       )
       if (code === 0) {
         this.$message.success(message)
@@ -371,7 +371,7 @@ export default {
 
       const { code, message } = await this.$http.post(
         '/skinlib/report',
-        { tid: this.tid, reason }
+        { tid: this.tid, reason },
       )
       if (code === 0) {
         this.$message.success(message)

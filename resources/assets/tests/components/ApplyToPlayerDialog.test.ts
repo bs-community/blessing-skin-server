@@ -25,7 +25,7 @@ test('submit applying texture', async () => {
     {
       skin: 1,
       cape: undefined,
-    }
+    },
   )
   wrapper.setProps({ skin: 0, cape: 1 })
   button.trigger('click')
@@ -34,7 +34,7 @@ test('submit applying texture', async () => {
     {
       skin: undefined,
       cape: 1,
-    }
+    },
   )
   await flushPromises()
   expect(Vue.prototype.$message.success).toBeCalledWith('ok')

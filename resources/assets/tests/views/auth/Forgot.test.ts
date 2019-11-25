@@ -28,7 +28,7 @@ test('submit forgot form', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/auth/forgot',
-    { email: 'a@b.c', captcha: 'captcha' }
+    { email: 'a@b.c', captcha: 'captcha' },
   )
   expect(warning.text()).toBe('fail')
 

@@ -43,7 +43,7 @@ test('modify line', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.put).toBeCalledWith(
     '/admin/i18n',
-    { id: 1, text: '' }
+    { id: 1, text: '' },
   )
   expect(Vue.prototype.$message.warning).toBeCalledWith('failed')
   expect(wrapper.text()).not.toContain('wanshengwei')
@@ -52,7 +52,7 @@ test('modify line', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.put).toBeCalledWith(
     '/admin/i18n',
-    { id: 1, text: 'wanshengwei' }
+    { id: 1, text: 'wanshengwei' },
   )
   expect(Vue.prototype.$message.success).toBeCalledWith('ok')
   expect(wrapper.text()).toContain('wanshengwei')

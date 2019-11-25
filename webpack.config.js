@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 const fs = require('fs')
 const sass = require('sass')
 const webpack = require('webpack')

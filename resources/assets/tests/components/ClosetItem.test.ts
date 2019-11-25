@@ -20,7 +20,7 @@ test('computed values', () => {
     wrapper
       .findAll('.dropdown-item')
       .at(2)
-      .attributes('href')
+      .attributes('href'),
   ).toBe('/skinlib/show/1')
 })
 
@@ -66,7 +66,7 @@ test('rename texture', async () => {
   expect(wrapper.find('[data-test="name"]').text()).toBe('new-name (steve)')
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/user/closet/rename/1',
-    { name: 'new-name' }
+    { name: 'new-name' },
   )
 })
 

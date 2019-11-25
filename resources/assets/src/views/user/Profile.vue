@@ -242,7 +242,7 @@ export default {
 
       const { message } = await this.$http.post(
         '/user/profile/avatar',
-        { tid: 0 }
+        { tid: 0 },
       )
       this.$message.success(message)
       Array.from(document.querySelectorAll('[alt="User Image"]'))
@@ -261,7 +261,7 @@ export default {
 
       const { code, message } = await this.$http.post(
         '/user/profile?action=password',
-        { current_password: oldPassword, new_password: newPassword }
+        { current_password: oldPassword, new_password: newPassword },
       )
       if (code === 0) {
         await this.$alert(message)
@@ -280,7 +280,7 @@ export default {
 
       const { code, message } = await this.$http.post(
         '/user/profile?action=nickname',
-        { new_nickname: nickname }
+        { new_nickname: nickname },
       )
       if (code === 0) {
         Array.from(document.querySelectorAll('.nickname'))
@@ -300,7 +300,7 @@ export default {
 
       const { code, message } = await this.$http.post(
         '/user/profile?action=email',
-        { new_email: email, password: this.currentPassword }
+        { new_email: email, password: this.currentPassword },
       )
       if (code === 0) {
         await this.$message.success(message)
@@ -313,7 +313,7 @@ export default {
 
       const { code, message } = await this.$http.post(
         '/user/profile?action=delete',
-        { password }
+        { password },
       )
       if (code === 0) {
         await this.$alert(message, { type: 'success' })

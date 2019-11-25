@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import 'zrender/lib/svg/svg'
 import echarts from 'echarts/lib/echarts'
 import 'echarts/lib/chart/line'
@@ -99,7 +98,7 @@ async function createChart(el: HTMLDivElement) {
         smooth: true,
         symbol: 'circle',
         yAxisIndex: index,
-      })
+      }),
     ),
   })
 

@@ -6,15 +6,15 @@ export default Vue.extend({
     async enablePlugin({
       name, dependencies: { all }, originalIndex,
     }: {
-      name: string,
-      dependencies: { all: { [name: string]: string } },
+      name: string
+      dependencies: { all: { [name: string]: string } }
       originalIndex: number
     }) {
       if (Object.keys(all).length === 0) {
         try {
           await this.$confirm(
             this.$t('admin.noDependenciesNotice'),
-            { type: 'warning' }
+            { type: 'warning' },
           )
         } catch {
           return
@@ -25,7 +25,7 @@ export default Vue.extend({
         code, message, data: { reason } = { reason: [] },
       } = await this.$http.post(
         '/admin/plugins/manage',
-        { action: 'enable', name }
+        { action: 'enable', name },
       ) as { code: number, message: string, data: { reason: string[] } }
       if (code === 0) {
         this.$message.success(message)

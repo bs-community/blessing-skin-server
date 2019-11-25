@@ -32,11 +32,11 @@ test('perform update', async () => {
   expect($).toBeCalled()
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/admin/update/download',
-    { action: 'progress' }
+    { action: 'progress' },
   )
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/update/download',
-    { action: 'download' }
+    { action: 'download' },
   )
 })
 
@@ -46,6 +46,6 @@ test('polling for querying download progress', async () => {
   await wrapper.vm.polling()
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/admin/update/download',
-    { action: 'progress' }
+    { action: 'progress' },
   )
 })

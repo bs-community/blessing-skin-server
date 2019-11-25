@@ -21,7 +21,7 @@ test('add player', async () => {
   button.trigger('click')
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/user/player/add',
-    { name: 'the-new' }
+    { name: 'the-new' },
   )
   await flushPromises()
   expect(wrapper.text()).not.toContain('the-new')

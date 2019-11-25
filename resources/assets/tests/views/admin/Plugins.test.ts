@@ -81,7 +81,7 @@ test('enable plugin', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/plugins/manage',
-    { action: 'enable', name: 'a' }
+    { action: 'enable', name: 'a' },
   )
   expect(Vue.prototype.$alert).toBeCalledWith('', ({
     type: 'warning',
@@ -112,7 +112,7 @@ test('disable plugin', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/plugins/manage',
-    { action: 'disable', name: 'a' }
+    { action: 'disable', name: 'a' },
   )
   button.trigger('click')
   await flushPromises()
@@ -148,7 +148,7 @@ test('delete plugin', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/plugins/manage',
-    { action: 'delete', name: 'a' }
+    { action: 'delete', name: 'a' },
   )
   expect(Vue.prototype.$message.warning).toBeCalledWith('1')
 

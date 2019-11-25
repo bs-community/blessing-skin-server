@@ -21,7 +21,9 @@ export const init: RequestInit = {
 }
 
 function retrieveToken() {
-  const csrfField: HTMLMetaElement | null = document.querySelector('meta[name="csrf-token"]')
+  const csrfField: HTMLMetaElement | null =
+    document.querySelector('meta[name="csrf-token"]')
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   return (csrfField && csrfField.content) || ''
 }
 
@@ -37,11 +39,14 @@ export async function walkFetch(request: Request): Promise<any> {
     if (response.ok) {
       return body
     }
-    let message = body.message
+    let message: string = body.message
 
     if (response.status === 422) {
       // Process validation errors from Laravel.
-      const { errors }: { message: string, errors: { [field: string]: string[] } } = body
+      const { errors }: {
+        message: string
+        errors: { [field: string]: string[] }
+      } = body
       return {
         code: 1,
         message: Object.keys(errors).map(field => errors[field][0])[0],
@@ -52,7 +57,7 @@ export async function walkFetch(request: Request): Promise<any> {
     }
 
     if (body.exception && Array.isArray(body.trace)) {
-      const trace = (body.trace as { file: string, line: number }[])
+      const trace = (body.trace as Array<{ file: string, line: number }>)
         .map((t, i) => `[${i + 1}] ${t.file}#L${t.line}`)
         .join('\n')
       message = `${message}\n<details>${trace}</details>`
@@ -91,6 +96,7 @@ function nonGet(method: string, url: string, data: any): Promise<any> {
     method: method.toUpperCase(),
     ...init,
   })
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   !isFormData && request.headers.set('Content-Type', 'application/json')
 
   return walkFetch(request)

@@ -205,7 +205,7 @@ test('process backend errors', async () => {
     })
 
   const result: {
-    code: number,
+    code: number
     message: string
   } = await net.walkFetch({ headers: new Headers() } as Request)
   expect(result.code).toBe(1)
@@ -216,7 +216,7 @@ test('process backend errors', async () => {
 
   await net.walkFetch({ headers: new Headers() } as Request)
   expect(showAjaxError.mock.calls[0][0].message).toBe(
-    'fake exception\n<details>[1] k.php#L2\n[2] v.php#L3</details>'
+    'fake exception\n<details>[1] k.php#L2\n[2] v.php#L3</details>',
   )
 })
 

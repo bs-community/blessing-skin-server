@@ -69,7 +69,7 @@ export default {
       setTimeout(() => this.polling(), POLLING_INTERVAL)
       const { code, message } = await this.$http.post(
         '/admin/update/download',
-        { action: 'download' }
+        { action: 'download' },
       )
       this.updating = false
       if (code) {
@@ -82,7 +82,7 @@ export default {
     async polling() {
       const percentage = await this.$http.get(
         '/admin/update/download',
-        { action: 'progress' }
+        { action: 'progress' },
       )
       this.percentage = ~~percentage * 100
       this.updating && setTimeout(this.polling, POLLING_INTERVAL)

@@ -110,7 +110,7 @@ export default {
     async fetchData() {
       const { data, totalRecords } = await this.$http.get(
         '/admin/report-data',
-        this.serverParams
+        this.serverParams,
       )
       this.totalRecords = totalRecords
       this.reports = data
@@ -129,7 +129,7 @@ export default {
         code, message, data,
       } = await this.$http.post(
         '/admin/reports',
-        { id: report.id, action }
+        { id: report.id, action },
       )
       if (code === 0) {
         this.$message.success(message)

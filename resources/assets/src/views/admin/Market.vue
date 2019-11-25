@@ -135,7 +135,7 @@ export default {
 
       const { code, message } = await this.$http.post(
         '/admin/plugins/market/download',
-        { name }
+        { name },
       )
       if (code === 0) {
         this.$message.success(message)
@@ -152,7 +152,7 @@ export default {
         await this.$confirm(
           this.$t('admin.confirmUpdate', {
             plugin: plugin.title, old: plugin.installed, new: plugin.version,
-          })
+          }),
         )
       } catch {
         return

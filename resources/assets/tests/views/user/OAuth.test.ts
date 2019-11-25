@@ -39,7 +39,7 @@ test('create app', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/oauth/clients',
-    { name: 'name', redirect: 'https://example.com/' }
+    { name: 'name', redirect: 'https://example.com/' },
   )
   expect(Vue.prototype.$message.warning).toBeCalledWith('fail')
 
@@ -73,7 +73,7 @@ test('modify name', async () => {
       url: '/oauth/clients/1',
       body: JSON.stringify({ name: 'new-name' }),
       method: 'PUT',
-    })
+    }),
   )
   expect(Vue.prototype.$message.warning).toBeCalledWith('fail')
 
@@ -107,7 +107,7 @@ test('modify redirect', async () => {
       url: '/oauth/clients/1',
       body: JSON.stringify({ redirect: 'https://example.net/' }),
       method: 'PUT',
-    })
+    }),
   )
   expect(Vue.prototype.$message.warning).toBeCalledWith('fail')
 
