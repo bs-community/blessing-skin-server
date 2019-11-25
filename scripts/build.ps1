@@ -1,3 +1,10 @@
+param (
+    # Clean files and run webpack only.
+    [Parameter()]
+    [switch]
+    $Simple
+)
+
 # Clean files
 if (Test-Path ./public/app) {
     Remove-Item ./public/app -Recurse -Force
@@ -5,6 +12,10 @@ if (Test-Path ./public/app) {
 
 # Run webpack
 yarn build
+
+if ($Simple) {
+    exit
+}
 
 # Copy static files
 Copy-Item -Path ./resources/assets/src/images/bg.jpg -Destination ./public/app
