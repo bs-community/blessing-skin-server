@@ -17,7 +17,7 @@ window.blessing = {
 }
 
 class Headers extends Map {
-  constructor(headers = {}) {
+  constructor(headers: object = {}) {
     // @ts-ignore
     super(Object.entries(headers))
   }
@@ -46,7 +46,7 @@ Object.assign(console, {
 
 Vue.prototype.$t = key => key
 
-Vue.directive('t', (el, { value }) => {
+Vue.directive('t', (el: Element, { value }) => {
   if (typeof value === 'string') {
     el.innerHTML = value
   } else if (typeof value === 'object') {
