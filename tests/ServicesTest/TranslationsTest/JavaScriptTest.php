@@ -97,4 +97,11 @@ class JavaScriptTest extends TestCase
             resolve(JavaScript::class)->plugin('en')
         );
     }
+
+    public function testFallbackLocale()
+    {
+        $this->get('/', ['Accept-Language' => 'xyz'])
+            ->assertSuccessful()
+            ->assertSee('lang/en.js');
+    }
 }
