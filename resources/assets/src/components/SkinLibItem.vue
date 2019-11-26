@@ -55,10 +55,10 @@ export default {
   },
   computed: {
     urlToDetail() {
-      return `${blessing.base_url}/skinlib/show/${this.tid}`
+      return `${document.baseURI}skinlib/show/${this.tid}`
     },
     urlToPreview() {
-      return `${blessing.base_url}/preview/${this.tid}.png`
+      return `${document.baseURI}preview/${this.tid}.png`
     },
     likeActionText() {
       if (this.anonymous) {

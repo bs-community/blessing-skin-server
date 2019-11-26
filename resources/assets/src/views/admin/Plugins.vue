@@ -16,7 +16,7 @@
               <a
                 v-t="'admin.configurePlugin'"
                 class="text-primary"
-                :href="`${baseUrl}/admin/plugins/config/${props.row.name}`"
+                :href="`${baseUrl}admin/plugins/config/${props.row.name}`"
               /> |
             </template>
             <a
@@ -94,7 +94,7 @@ export default {
   props: {
     baseUrl: {
       type: String,
-      default: blessing.base_url,
+      default: document.baseURI,
     },
   },
   data() {

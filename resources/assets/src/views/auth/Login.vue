@@ -39,7 +39,7 @@
       <div>
         <el-switch v-model="remember" :active-text="$t('auth.keep')" />
       </div>
-      <a v-t="'auth.forgot-link'" :href="`${baseUrl}/auth/forgot`" />
+      <a v-t="'auth.forgot-link'" :href="`${baseUrl}auth/forgot`" />
     </div>
 
     <button
@@ -74,7 +74,7 @@ export default {
   props: {
     baseUrl: {
       type: String,
-      default: blessing.base_url,
+      default: document.baseURI,
     },
   },
   data() {

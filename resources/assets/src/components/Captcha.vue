@@ -23,7 +23,7 @@
     <div>
       <img
         class="captcha"
-        :src="`${baseUrl}/auth/captcha?v=${time}`"
+        :src="`${baseUrl}auth/captcha?v=${time}`"
         alt="CAPTCHA"
         :title="$t('auth.change-captcha')"
         data-placement="top"
@@ -45,7 +45,7 @@ export default {
   props: {
     baseUrl: {
       type: String,
-      default: blessing.base_url,
+      default: document.baseURI,
     },
   },
   data() {

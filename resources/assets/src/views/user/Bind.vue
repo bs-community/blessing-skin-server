@@ -65,7 +65,7 @@ export default {
       this.pending = false
       if (code === 0) {
         await this.$alert(message)
-        window.location.href = `${blessing.base_url}/user`
+        window.location.href = `${document.baseURI}user`
       } else {
         this.message = message
       }

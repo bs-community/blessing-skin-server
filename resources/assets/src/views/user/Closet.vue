@@ -32,7 +32,7 @@
                 <li class="nav-item d-none d-md-block">
                   <a
                     v-t="'user.closet.upload'"
-                    :href="`${baseUrl}/skinlib/upload`"
+                    :href="`${baseUrl}skinlib/upload`"
                     class="nav-link"
                   />
                 </li>
@@ -195,7 +195,7 @@ export default {
   props: {
     baseUrl: {
       type: String,
-      default: blessing.base_url,
+      default: document.baseURI,
     },
   },
   data: () => ({
@@ -212,8 +212,8 @@ export default {
     model: 'steve',
     selectedCape: 0,
     capeUrl: '',
-    linkToSkin: `${blessing.base_url}/skinlib?filter=skin`,
-    linkToCape: `${blessing.base_url}/skinlib?filter=cape`,
+    linkToSkin: `${document.baseURI}skinlib?filter=skin`,
+    linkToCape: `${document.baseURI}skinlib?filter=cape`,
   }),
   created() {
     this.search = debounce(this.loadCloset, 350)

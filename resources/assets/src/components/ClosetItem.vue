@@ -72,10 +72,10 @@ export default {
   },
   computed: {
     previewLink() {
-      return `${blessing.base_url}/preview/${this.tid}.png`
+      return `${document.baseURI}preview/${this.tid}.png`
     },
     linkToSkinlib() {
-      return `${blessing.base_url}/skinlib/show/${this.tid}`
+      return `${document.baseURI}skinlib/show/${this.tid}`
     },
   },
   methods: {

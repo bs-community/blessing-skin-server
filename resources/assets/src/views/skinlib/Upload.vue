@@ -168,7 +168,7 @@ export default {
       if (code === 0) {
         this.$message.success(message)
         setTimeout(() => {
-          window.location = `${blessing.base_url}/skinlib/show/${tid}`
+          window.location = `${document.baseURI}skinlib/show/${tid}`
         }, 1000)
       } else {
         this.$message.error(message)

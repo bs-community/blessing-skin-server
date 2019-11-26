@@ -16,7 +16,7 @@
       <template #table-row="props">
         <span v-if="props.column.field === 'tid'">
           {{ props.formattedRow[props.column.field] }}
-          <a :href="`${baseUrl}/skinlib/show/${props.row.tid}`">{{ $t('report.check') }}</a>
+          <a :href="`${baseUrl}skinlib/show/${props.row.tid}`">{{ $t('report.check') }}</a>
           <a href="#" @click="deleteTexture(props.row)">
             {{ $t('report.delete') }}
           </a>
@@ -66,7 +66,7 @@ export default {
   props: {
     baseUrl: {
       type: String,
-      default: blessing.base_url,
+      default: document.baseURI,
     },
   },
   data() {

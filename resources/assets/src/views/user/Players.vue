@@ -82,10 +82,10 @@
             <div id="preview-2d">
               <p>
                 {{ $t('general.skin') }}
-                <a v-if="preview2d.skin" :href="`${baseUrl}/skinlib/show/${preview2d.skin}`">
+                <a v-if="preview2d.skin" :href="`${baseUrl}skinlib/show/${preview2d.skin}`">
                   <img
                     class="skin2d"
-                    :src="`${baseUrl}/preview/64/${preview2d.skin}.png`"
+                    :src="`${baseUrl}preview/64/${preview2d.skin}.png`"
                   >
                 </a>
                 <span v-else v-t="'user.player.texture-empty'" class="skin2d" />
@@ -93,10 +93,10 @@
 
               <p>
                 {{ $t('general.cape') }}
-                <a v-if="preview2d.cape" :href="`${baseUrl}/skinlib/show/${preview2d.cape}`">
+                <a v-if="preview2d.cape" :href="`${baseUrl}skinlib/show/${preview2d.cape}`">
                   <img
                     class="skin2d"
-                    :src="`${baseUrl}/preview/64/${preview2d.cape}.png`"
+                    :src="`${baseUrl}preview/64/${preview2d.cape}.png`"
                   >
                 </a>
                 <span v-else v-t="'user.player.texture-empty'" class="skin2d" />
@@ -172,7 +172,7 @@ export default {
   props: {
     baseUrl: {
       type: String,
-      default: blessing.base_url,
+      default: document.baseURI,
     },
   },
   data() {
@@ -214,7 +214,7 @@ export default {
 
       if (player.tid_skin) {
         const { data: skin } = await this.$http.get(`/skinlib/info/${player.tid_skin}`)
-        this.skinUrl = `${this.baseUrl}/textures/${skin.hash}`
+        this.skinUrl = `${this.baseUrl}textures/${skin.hash}`
         this.model = skin.type
       } else {
         this.skinUrl = ''
@@ -222,7 +222,7 @@ export default {
       }
       if (player.tid_cape) {
         const { data: cape } = await this.$http.get(`/skinlib/info/${player.tid_cape}`)
-        this.capeUrl = `${this.baseUrl}/textures/${cape.hash}`
+        this.capeUrl = `${this.baseUrl}textures/${cape.hash}`
       } else {
         this.capeUrl = ''
       }

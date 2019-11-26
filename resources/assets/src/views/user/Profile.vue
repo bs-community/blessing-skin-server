@@ -265,7 +265,7 @@ export default {
       )
       if (code === 0) {
         await this.$alert(message)
-        return (window.location = `${blessing.base_url}/auth/login`)
+        return (window.location = `${document.baseURI}auth/login`)
       }
       return this.$alert(message, { type: 'warning' })
     },
@@ -304,7 +304,7 @@ export default {
       )
       if (code === 0) {
         await this.$message.success(message)
-        return (window.location = `${blessing.base_url}/auth/login`)
+        return (window.location = `${document.baseURI}auth/login`)
       }
       return this.$alert(message, { type: 'warning' })
     },
@@ -317,7 +317,7 @@ export default {
       )
       if (code === 0) {
         await this.$alert(message, { type: 'success' })
-        window.location = `${blessing.base_url}/auth/login`
+        window.location = `${document.baseURI}auth/login`
       } else {
         return this.$alert(message, { type: 'warning' })
       }

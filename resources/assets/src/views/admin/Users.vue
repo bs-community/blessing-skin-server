@@ -113,7 +113,7 @@ export default {
       }
     },
     playersLink(user) {
-      return `${blessing.base_url}/admin/players?uid=${user.uid}`
+      return `${document.baseURI}admin/players?uid=${user.uid}`
     },
   },
   mixins: [

@@ -12,7 +12,7 @@ export async function logout() {
   }
 
   const { message } = await post('/auth/logout')
-  setTimeout(() => (window.location.href = blessing.base_url), 1000)
+  setTimeout(() => (window.location.href = document.baseURI), 1000)
   Message.success(message)
 }
 

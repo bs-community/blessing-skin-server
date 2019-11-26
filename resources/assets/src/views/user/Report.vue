@@ -10,7 +10,7 @@
       <template #table-row="props">
         <span v-if="props.column.field === 'tid'">
           {{ props.formattedRow[props.column.field] }}
-          <a :href="`${baseUrl}/skinlib/show/${props.row.tid}`">
+          <a :href="`${baseUrl}skinlib/show/${props.row.tid}`">
             <i class="fa fa-share" />
           </a>
         </span>
@@ -43,7 +43,7 @@ export default {
   props: {
     baseUrl: {
       type: String,
-      default: blessing.base_url,
+      default: document.baseURI,
     },
   },
   data() {

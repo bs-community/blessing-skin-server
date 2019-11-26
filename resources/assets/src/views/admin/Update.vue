@@ -77,7 +77,7 @@ export default {
         return
       }
       await this.$alert(this.$t('admin.updateCompleted'), { type: 'success' })
-      window.location = blessing.base_url
+      window.location = document.baseURI
     },
     async polling() {
       const percentage = await this.$http.get(

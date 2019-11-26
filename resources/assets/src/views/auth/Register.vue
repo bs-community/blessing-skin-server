@@ -101,7 +101,7 @@
     </div>
 
     <div class="d-flex justify-content-between mb-3">
-      <a v-t="'auth.login-link'" :href="`${baseUrl}/auth/login`" class="text-center" />
+      <a v-t="'auth.login-link'" :href="`${baseUrl}auth/login`" class="text-center" />
       <div>
         <button
           class="btn btn-primary"
@@ -133,7 +133,7 @@ export default {
   props: {
     baseUrl: {
       type: String,
-      default: blessing.base_url,
+      default: document.baseURI,
     },
   },
   data: () => ({
@@ -171,7 +171,7 @@ export default {
       if (code === 0) {
         this.$message.success(message)
         setTimeout(() => {
-          window.location = `${blessing.base_url}/user`
+          window.location = `${document.baseURI}user`
         }, 1000)
       } else {
         this.infoMsg = ''
