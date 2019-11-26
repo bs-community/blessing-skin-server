@@ -17,6 +17,7 @@ use App\Services\OptionForm;
 use Illuminate\Http\Request;
 use App\Services\PluginManager;
 use Illuminate\Support\Collection;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Redis;
 
 class AdminController extends Controller
@@ -380,12 +381,23 @@ class AdminController extends Controller
             ->with('forms', compact('resources', 'redis', 'cache'));
     }
 
-    public function status(Request $request, PluginManager $plugins)
-    {
+    public function status(
+        Request $request,
+        PluginManager $plugins,
+        Filesystem $filesystem
+    ) {
         $db = get_db_config();
         $enabledPlugins = $plugins->getEnabledPlugins()->map(function ($plugin) {
             return ['title' => trans($plugin->title), 'version' => $plugin->version];
         });
+
+        if ($filesystem->exists(base_path('.git'))) {
+            $process = new \Symfony\Component\Process\Process(
+                ['git', 'log', '--pretty=%H', '-1']
+            );
+            $process->run();
+            $commit = $process->isSuccessful() ? trim($process->getOutput()) : '';
+        }
 
         return view('admin.status')
             ->with('detail', [
@@ -393,7 +405,11 @@ class AdminController extends Controller
                     'version' => config('app.version'),
                     'env' => config('app.env'),
                     'debug' => config('app.debug') ? trans('general.yes') : trans('general.no'),
-                    'commit' => Str::limit(resolve(\App\Services\Webpack::class)->commit, 10, ''),
+                    'commit' => Str::limit(
+                        $commit ?? resolve(\App\Services\Webpack::class)->commit,
+                        16,
+                        ''
+                    ),
                     'laravel' => app()->version(),
                 ],
                 'server' => [
