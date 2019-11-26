@@ -4,7 +4,7 @@ jobs:
   frontend:
     working_directory: ~/repo
     docker:
-      - image: circleci/node:10
+      - image: circleci/node:12
     steps:
       - checkout
       - restore_cache:
