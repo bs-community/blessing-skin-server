@@ -13,25 +13,36 @@ window.blessing = {
   site_name: 'Blessing Skin',
   version: '4.0.0',
   extra: {},
+  i18n: {},
 }
 
-window.Headers = class extends Map {
+class Headers extends Map {
   constructor(headers = {}) {
+    // @ts-ignore
     super(Object.entries(headers))
   }
 }
+class Request {
+  public url: string
 
-window.Request = class {
-  constructor(url, init) {
+  public headers: Headers
+
+  constructor(url: string, init: RequestInit) {
     this.url = url
     Object.assign(this, init)
-    this.headers = new Map(Object.entries(init.headers || {}))
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    this.headers = new Headers(Object.entries(init.headers || {}))
   }
 }
+Object.assign(window, { Headers, Request })
 
 const noop = () => undefined
-// eslint-disable-next-line no-console
-Object.keys(console).forEach(method => (console[method] = noop))
+Object.assign(console, {
+  log: noop,
+  info: noop,
+  warn: noop,
+  error: noop,
+})
 
 Vue.prototype.$t = key => key
 
@@ -56,12 +67,14 @@ Vue.use(Button)
 Vue.use(Input)
 Vue.use(Radio)
 Vue.use(Switch)
+// @ts-ignore
 Vue.prototype.$message = {
   info: jest.fn(),
   success: jest.fn(),
   warning: jest.fn(),
   error: jest.fn(),
 }
+// @ts-ignore
 Vue.prototype.$msgbox = jest.fn()
 Vue.prototype.$alert = jest.fn()
 Vue.prototype.$confirm = jest.fn()

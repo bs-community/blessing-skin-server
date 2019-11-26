@@ -194,7 +194,7 @@
       "\\.(png|jpg)$": "<rootDir>/resources/assets/tests/__mocks__/file.ts"
     },
     "setupFilesAfterEnv": [
-      "<rootDir>/resources/assets/tests/setup.js"
+      "<rootDir>/resources/assets/tests/setup.ts"
     ],
     "coveragePathIgnorePatterns": [
       "/node_modules/",

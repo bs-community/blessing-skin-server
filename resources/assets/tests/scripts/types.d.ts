@@ -8,6 +8,9 @@ interface Window {
   trans(key: string, parameters: object): string
 
   blessing: {
+    base_url: string
+    site_name: string
+    version: string
     i18n: object
     extra: object
   }

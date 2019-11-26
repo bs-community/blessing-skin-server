@@ -2,10 +2,9 @@ import Vue from 'vue'
 
 export function trans(key: string, parameters = Object.create(null)): string {
   const segments = key.split('.')
-  let temp = (
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-    blessing.i18n || Object.create(null)
-  ) as { [k: string]: string | { [k: string]: string } }
+  let temp = (blessing.i18n) as {
+    [k: string]: string | { [k: string]: string }
+  }
   let result = ''
 
   for (const segment of segments) {
