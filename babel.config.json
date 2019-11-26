@@ -1,0 +1,55 @@
+{
+  "presets": [
+    "@babel/preset-typescript"
+  ],
+  "plugins": [],
+  "env": {
+    "production": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "useBuiltIns": false,
+            "loose": true
+          }
+        ]
+      ],
+      "plugins": [
+        [
+          "@babel/plugin-transform-runtime",
+          {
+            "helpers": true,
+            "regenerator": true
+          }
+        ]
+      ]
+    },
+    "development": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "targets": {
+              "esmodules": true
+            }
+          }
+        ]
+      ]
+    },
+    "test": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "targets": {
+              "node": "current"
+            }
+          }
+        ]
+      ],
+      "plugins": [
+        "babel-plugin-dynamic-import-node"
+      ]
+    }
+  }
+}
