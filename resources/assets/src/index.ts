@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import loadI18n from './scripts/i18n-text'
-import './scripts'
+import './scripts/app'
 import routes from './scripts/route'
 
 Vue.config.productionTip = false

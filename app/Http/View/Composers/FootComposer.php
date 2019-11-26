@@ -57,7 +57,7 @@ class FootComposer
         if (Str::startsWith(config('app.asset.env'), 'dev')) {
             $scripts[] = $this->webpack->url('style.js');
         }
-        $scripts[] = $this->webpack->url('index.js');
+        $scripts[] = $this->webpack->url('app.js');
 
         $view->with([
             'scripts' => $scripts,

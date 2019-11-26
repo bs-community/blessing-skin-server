@@ -1,5 +1,4 @@
-import './public-path' // Must be first
-import $ from 'jquery'
+import './init' // Must be first
 import 'bootstrap'
 import 'admin-lte'
 import './i18n'

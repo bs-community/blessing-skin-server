@@ -189,7 +189,7 @@ class AdminFormsTest extends BrowserKitTestCase
         $this->visit('/admin/resource')
             ->type('', 'cdn_address')
             ->press('submit_resources');
-        $this->visit('/')->dontSee('url/app/index.js');
+        $this->visit('/')->dontSee('url/app/app.js');
 
         $this->visit('/admin/resource')
             ->check('enable_redis')

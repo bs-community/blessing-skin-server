@@ -48,15 +48,15 @@ class FootComposerTest extends TestCase
                 ->atLeast(1)
                 ->andReturn('style.js');
             $mock->shouldReceive('url')
-                ->with('index.js')
+                ->with('app.js')
                 ->twice()
-                ->andReturn('index.js');
+                ->andReturn('app.js');
         });
 
         $this->get('/user')
             ->assertSee('en.js')
             ->assertSee('en_plugin.js')
-            ->assertSee('index.js')
+            ->assertSee('app.js')
             ->assertDontSee('check-updates.js');
 
         $superAdmin = factory(User::class, 'superAdmin')->make();

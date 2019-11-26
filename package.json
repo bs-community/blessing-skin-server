@@ -46,7 +46,6 @@
     "@typescript-eslint/parser": "^2.8.0",
     "@vue/test-utils": "^1.0.0-beta.29",
     "autoprefixer": "^9.7.2",
-    "babel-eslint": "^10.0.3",
     "babel-jest": "^24.9.0",
     "babel-loader": "^8.0.6",
     "babel-plugin-dynamic-import-node": "^2.3.0",
@@ -58,7 +57,6 @@
     "eslint-config-gplane": "^6.2.1",
     "eslint-formatter-beauty": "^3.0.0",
     "eslint-plugin-vue": "^6.0.1",
-    "expose-loader": "^0.7.5",
     "file-loader": "^3.0.1",
     "jest": "^24.9.0",
     "jest-extended": "^0.11.2",
@@ -156,12 +154,18 @@
         }
       },
       {
-        "files": ["resources/assets/tests/**/*.ts", "*.d.ts"],
+        "files": [
+          "resources/assets/tests/**/*.ts",
+          "*.d.ts"
+        ],
         "rules": {
           "@typescript-eslint/no-empty-function": 0,
           "@typescript-eslint/unbound-method": 0,
           "@typescript-eslint/no-extra-parens": 0,
-          "max-len": [2, 120]
+          "max-len": [
+            2,
+            120
+          ]
         }
       },
       {

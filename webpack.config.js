@@ -1,4 +1,3 @@
-const fs = require('fs')
 const sass = require('sass')
 const webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
@@ -14,7 +13,7 @@ const devMode = !process.argv.includes('-p')
 const config = {
   mode: devMode ? 'development' : 'production',
   entry: {
-    index: './resources/assets/src/index.ts',
+    app: './resources/assets/src/index.ts',
     'check-updates': './resources/assets/src/scripts/check-updates.ts',
     'language-chooser': './resources/assets/src/scripts/language-chooser.ts',
     style: [
@@ -112,19 +111,6 @@ const config = {
         test: /\.(svg|woff2?|eot|ttf)$/,
         loader: devMode ? 'url-loader' : 'file-loader',
       },
-      {
-        test: require.resolve('jquery'),
-        use: [
-          {
-            loader: 'expose-loader',
-            options: 'jQuery',
-          },
-          {
-            loader: 'expose-loader',
-            options: '$',
-          },
-        ],
-      },
     ],
     noParse: /^(vue|jquery)$/,
   },
@@ -149,7 +135,6 @@ const config = {
     host: '0.0.0.0',
     hot: true,
     hotOnly: true,
-    public: getDevServerUrl(),
     stats: 'errors-only',
   },
   stats: 'errors-only',
@@ -164,13 +149,3 @@ if (devMode) {
 }
 
 module.exports = config
-
-function getDevServerUrl() {
-  const matches = /ASSET_URL=(.*)/.exec(fs.readFileSync('.env', 'utf8'))
-  if (!matches) {
-    return
-  }
-
-  const url = new URL(matches[1])
-  return `${url.host}:8080`
-}
