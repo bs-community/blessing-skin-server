@@ -12,7 +12,7 @@ return [
     'api_type'                  => 'false',
     'announcement'              => 'Welcome to Blessing Skin {version}!',
     'color_scheme'              => 'skin-blue',
-    'home_pic_url'              => './app/bg.jpg',
+    'home_pic_url'              => './app/bg.png',
     'custom_css'                => '',
     'custom_js'                 => '',
     'player_name_rule'          => 'official',
