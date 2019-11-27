@@ -1,6 +1,6 @@
 /* eslint-disable max-params */
 import $ from 'jquery'
-import { ModalOptions } from '../shims'
+import { ModalOption as BootstrapModalOption } from 'bootstrap'
 import { trans } from './i18n'
 
 export function showAjaxError(error: Error): void {
@@ -10,6 +10,12 @@ export function showAjaxError(error: Error): void {
     'danger',
   )
 }
+
+export type ModalOptions = {
+  btnText?: string
+  callback?: CallableFunction
+  destroyOnClose?: boolean
+} & BootstrapModalOption
 
 export function showModal(
   message: string, title = 'Message',
@@ -53,7 +59,6 @@ export function showModal(
         $(this).remove()
       }
     })
-    // @ts-ignore
     .modal(options)
 }
 

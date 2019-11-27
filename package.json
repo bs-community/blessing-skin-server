@@ -38,6 +38,7 @@
     "@babel/preset-env": "^7.7.1",
     "@babel/preset-typescript": "^7.7.2",
     "@gplane/tsconfig": "^1.0.0",
+    "@types/bootstrap": "^4.3.1",
     "@types/echarts": "^4.1.9",
     "@types/jest": "^24.0.23",
     "@types/jquery": "^3.3.29",

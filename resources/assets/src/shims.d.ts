@@ -1,6 +1,7 @@
 /* eslint-disable camelcase */
 import Vue from 'vue'
 import * as JQuery from 'jquery'
+import { ModalOptions } from './scripts/notify'
 
 type I18n = 'en' | 'zh_CN'
 
@@ -37,7 +38,7 @@ declare global {
         message: string,
         title?: string,
         type?: string,
-        options?: Partial<{ btnText: string, callback: string, destroyOnClose: boolean }>
+        options?: ModalOptions
       )
     }
   }
@@ -56,10 +57,4 @@ declare module 'vue/types/vue' {
 
     $route: RegExpExecArray | null
   }
-}
-
-interface ModalOptions {
-  btnText?: string
-  callback?: CallableFunction
-  destroyOnClose?: boolean
 }
