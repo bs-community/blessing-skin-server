@@ -42,7 +42,7 @@
           {{ $t('auth.keep') }}
         </label>
       </div>
-      <a v-t="'auth.forgot-link'" :href="`${baseUrl}auth/forgot`" />
+      <a v-t="'auth.forgot-link'" :href="`${baseUrl}/auth/forgot`" />
     </div>
 
     <button
@@ -73,7 +73,7 @@ export default {
   props: {
     baseUrl: {
       type: String,
-      default: document.baseURI,
+      default: blessing.base_url,
     },
   },
   data() {

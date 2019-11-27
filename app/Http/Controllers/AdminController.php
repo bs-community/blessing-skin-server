@@ -367,7 +367,7 @@ class AdminController extends Controller
                 'type' => 'a',
                 'class' => 'float-right',
                 'style' => 'warning',
-                'href' => $request->url().'?clear-cache',
+                'href' => '?clear-cache',
             ])
             ->addMessage(trans('options.cache.driver', ['driver' => config('cache.default')]), 'info');
 

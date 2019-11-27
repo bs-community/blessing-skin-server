@@ -91,7 +91,7 @@ export default {
       )
       if (code === 0) {
         this.$message.success(message)
-        window.location = `${document.baseURI}auth/login`
+        window.location = `${blessing.base_url}/auth/login`
       } else {
         this.infoMsg = ''
         this.warningMsg = message

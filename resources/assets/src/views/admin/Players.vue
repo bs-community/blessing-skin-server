@@ -22,7 +22,7 @@
         </span>
         <span v-else-if="props.column.field === 'uid'">
           <a
-            :href="`${baseUrl}admin/users?uid=${props.row.uid}`"
+            :href="`${baseUrl}/admin/users?uid=${props.row.uid}`"
             :title="$t('admin.inspectHisOwner')"
             data-toggle="tooltip"
             data-placement="right"
@@ -34,15 +34,15 @@
         <span v-else-if="props.column.field === 'preview'">
           <a
             v-if="props.row.tid_skin"
-            :href="`${baseUrl}skinlib/show/${props.row.tid_skin}`"
+            :href="`${baseUrl}/skinlib/show/${props.row.tid_skin}`"
           >
-            <img :src="`${baseUrl}preview/64/${props.row.tid_skin}.png`" width="64">
+            <img :src="`${baseUrl}/preview/64/${props.row.tid_skin}.png`" width="64">
           </a>
           <a
             v-if="props.row.tid_cape"
-            :href="`${baseUrl}skinlib/show/${props.row.tid_cape}`"
+            :href="`${baseUrl}/skinlib/show/${props.row.tid_cape}`"
           >
-            <img :src="`${baseUrl}preview/64/${props.row.tid_cape}.png`" width="64">
+            <img :src="`${baseUrl}/preview/64/${props.row.tid_cape}.png`" width="64">
           </a>
         </span>
         <span v-else-if="props.column.field === 'operations'">
@@ -133,7 +133,7 @@ export default {
   props: {
     baseUrl: {
       type: String,
-      default: document.baseURI,
+      default: blessing.base_url,
     },
   },
   data() {

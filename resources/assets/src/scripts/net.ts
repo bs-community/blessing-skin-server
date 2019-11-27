@@ -79,9 +79,7 @@ export function get(url: string, params = empty): Promise<any> {
 
   const qs = queryStringify(params)
 
-  return walkFetch(
-    new Request(`${document.baseURI.slice(0, -1)}${url}${qs && `?${qs}`}`, init),
-  )
+  return walkFetch(new Request(`${blessing.base_url}${url}${qs && `?${qs}`}`, init))
 }
 
 function nonGet(method: string, url: string, data: any): Promise<any> {
@@ -93,7 +91,7 @@ function nonGet(method: string, url: string, data: any): Promise<any> {
 
   const isFormData = data instanceof FormData
 
-  const request = new Request(`${document.baseURI.slice(0, -1)}${url}`, {
+  const request = new Request(`${blessing.base_url}${url}`, {
     body: isFormData ? data : JSON.stringify(data),
     method: method.toUpperCase(),
     ...init,

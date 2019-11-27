@@ -8,11 +8,11 @@ const init: RequestInit = {
 }
 
 export async function checkForUpdates(): Promise<void> {
-  const response = await fetch(`${document.baseURI}admin/update/check`, init)
+  const response = await fetch(`${blessing.base_url}/admin/update/check`, init)
 
   if (response.ok) {
     const data = await response.json()
-    const el = document.querySelector(`[href="${document.baseURI}admin/update"] p`)
+    const el = document.querySelector(`[href="${blessing.base_url}/admin/update"] p`)
     if (data.available && el) {
       el.innerHTML += '<span class="right badge badge-primary">New</span>'
     }
@@ -20,11 +20,11 @@ export async function checkForUpdates(): Promise<void> {
 }
 
 export async function checkForPluginUpdates(): Promise<void> {
-  const response = await fetch(`${document.baseURI}admin/plugins/market/check`, init)
+  const response = await fetch(`${blessing.base_url}/admin/plugins/market/check`, init)
 
   if (response.ok) {
     const data = await response.json()
-    const el = document.querySelector(`[href="${document.baseURI}admin/plugins/market"] p`)
+    const el = document.querySelector(`[href="${blessing.base_url}/admin/plugins/market"] p`)
     if (data.available && el) {
       const length = data.plugins.length as number
       el.innerHTML += `<span class="right badge badge-success">${length}</span>`

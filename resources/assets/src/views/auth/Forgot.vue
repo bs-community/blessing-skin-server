@@ -27,7 +27,7 @@
     </div>
 
     <div class="d-flex justify-content-between">
-      <a v-t="'auth.forgot.login-link'" :href="`${baseUrl}auth/login`" class="text-center" />
+      <a v-t="'auth.forgot.login-link'" :href="`${baseUrl}/auth/login`" class="text-center" />
       <button
         class="btn btn-primary"
         type="submit"
@@ -57,7 +57,7 @@ export default {
   props: {
     baseUrl: {
       type: String,
-      default: document.baseURI,
+      default: blessing.base_url,
     },
   },
   data: () => ({

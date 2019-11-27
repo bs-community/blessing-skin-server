@@ -121,7 +121,7 @@
                 <td v-t="'skinlib.show.uploader'" />
                 <td v-if="uploaderNickName !== null">
                   <a
-                    :href="`${baseUrl}skinlib?filter=${type === 'cape' ? 'cape' : 'skin'}&uploader=${uploader}`"
+                    :href="`${baseUrl}/skinlib?filter=${type === 'cape' ? 'cape' : 'skin'}&uploader=${uploader}`"
                   >{{ uploaderNickName }}</a>
                 </td>
                 <td v-else><span v-t="'general.unexistent-user'" /></td>
@@ -187,7 +187,7 @@ export default {
   props: {
     baseUrl: {
       type: String,
-      default: document.baseURI,
+      default: blessing.base_url,
     },
   },
   data() {
@@ -220,7 +220,7 @@ export default {
       return this.public ? 'skinlib.setAsPrivate' : 'skinlib.setAsPublic'
     },
     textureUrl() {
-      return `${this.baseUrl}textures/${this.hash}`
+      return `${this.baseUrl}/textures/${this.hash}`
     },
   },
   beforeMount() {
@@ -248,7 +248,7 @@ export default {
     },
     download() {
       const a = document.createElement('a')
-      a.href = `${this.baseUrl}raw/${this.tid}.png`
+      a.href = `${this.baseUrl}/raw/${this.tid}.png`
       a.download = `${this.name}.png`
       const event = new MouseEvent('click')
       a.dispatchEvent(event)
@@ -345,7 +345,7 @@ export default {
       )
       if (code === 0) {
         this.$message.success(message)
-        setTimeout(() => (window.location = `${this.baseUrl}skinlib`), 1000)
+        setTimeout(() => (window.location = `${this.baseUrl}/skinlib`), 1000)
       } else {
         this.$message.warning(message)
       }

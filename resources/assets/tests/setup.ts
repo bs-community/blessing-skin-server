@@ -8,10 +8,6 @@ import {
   Switch,
 } from 'element-ui'
 
-Object.defineProperty(document, 'baseURI', {
-  get: () => '/',
-})
-
 window.blessing = {
   base_url: '',
   site_name: 'Blessing Skin',
