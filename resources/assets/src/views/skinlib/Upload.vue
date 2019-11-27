@@ -17,9 +17,33 @@
             <div class="form-group">
               <label v-t="'skinlib.upload.texture-type'" />
               <br>
-              <el-radio v-model="type" label="steve">Steve</el-radio>
-              <el-radio v-model="type" label="alex">Alex</el-radio>
-              <el-radio v-model="type" label="cape">{{ $t('general.cape') }}</el-radio>
+              <label class="mr-2">
+                <input
+                  v-model="type"
+                  type="radio"
+                  name="type"
+                  value="steve"
+                >
+                Steve
+              </label>
+              <label class="mr-2">
+                <input
+                  v-model="type"
+                  type="radio"
+                  name="type"
+                  value="alex"
+                >
+                Alex
+              </label>
+              <label class="mr-2">
+                <input
+                  v-model="type"
+                  type="radio"
+                  name="type"
+                  value="cape"
+                >
+                {{ $t('general.cape') }}
+              </label>
             </div>
 
             <div class="form-group">
@@ -57,12 +81,14 @@
 
           <div class="card-footer">
             <div class="container pl-0 pr-0 d-flex justify-content-between">
-              <el-switch
-                v-model="isPrivate"
+              <label
                 class="mt-2"
-                :active-text="$t('skinlib.upload.set-as-private')"
                 :title="$t('skinlib.upload.privacy-notice')"
-              />
+                data-toggle="tooltip"
+              >
+                <input v-model="isPrivate" type="checkbox">
+                {{ $t('skinlib.upload.set-as-private') }}
+              </label>
               <button v-if="uploading" class="btn btn-success" disabled>
                 <i class="fa fa-spinner fa-spin" /> {{ $t('skinlib.uploading') }}
               </button>
@@ -84,7 +110,7 @@
       </div>
       <div class="col-md-6">
         <previewer
-          :skin="type !== 'cape' && texture"
+          :skin="type !== 'cape' ? texture : ''"
           :cape="type === 'cape' ? texture : ''"
           :model="type"
         />
@@ -94,14 +120,9 @@
 </template>
 
 <script>
-import Vue from 'vue'
 import FileUpload from 'vue-upload-component'
 import { isSlimSkin } from 'skinview3d'
-import { Radio, Switch } from 'element-ui'
 import emitMounted from '../../components/mixins/emitMounted'
-
-Vue.use(Radio)
-Vue.use(Switch)
 
 export default {
   name: 'Upload',

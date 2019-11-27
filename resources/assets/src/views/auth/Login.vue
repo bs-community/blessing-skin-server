@@ -37,7 +37,10 @@
 
     <div class="d-flex justify-content-between mb-3">
       <div>
-        <el-switch v-model="remember" :active-text="$t('auth.keep')" />
+        <label>
+          <input v-model="remember" type="checkbox">
+          {{ $t('auth.keep') }}
+        </label>
       </div>
       <a v-t="'auth.forgot-link'" :href="`${baseUrl}auth/forgot`" />
     </div>
@@ -56,12 +59,8 @@
 </template>
 
 <script>
-import Vue from 'vue'
-import { Switch } from 'element-ui'
 import Captcha from '../../components/Captcha.vue'
 import emitMounted from '../../components/mixins/emitMounted'
-
-Vue.use(Switch)
 
 export default {
   name: 'Login',

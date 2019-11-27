@@ -1,7 +1,6 @@
 /* eslint-disable accessor-pairs */
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import { Radio } from 'element-ui'
 import * as skinview3d from 'skinview3d'
 import Upload from '@/views/skinlib/Upload.vue'
 import { flushPromises } from '../../utils'
@@ -96,23 +95,23 @@ test('process input file', () => {
   type Component = Vue & {
     name: string
     texture: string
+    type: string
     inputFile(attrs?: { file: Blob, name: string }): void
   }
   const wrapper = mount<Component>(Upload, {
     stubs: ['file-upload'],
   })
-  const radioes = wrapper.findAll(Radio)
 
   wrapper.vm.inputFile()
   expect(wrapper.vm.name).toBe('')
 
   wrapper.vm.inputFile({ file: blob, name: '123.png' })
   expect(wrapper.vm.name).toBe('123')
-  expect(radioes.at(1).classes()).toContain('is-checked')
+  expect(wrapper.vm.type).toBe('alex')
 
   wrapper.vm.inputFile({ file: blob, name: '456.png' })
   expect(wrapper.vm.name).toBe('123')
-  expect(radioes.at(0).classes()).toContain('is-checked')
+  expect(wrapper.vm.type).toBe('steve')
 
   wrapper.setData({ name: '' })
   wrapper.vm.inputFile({ file: blob, name: '789' })
