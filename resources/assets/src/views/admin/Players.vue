@@ -62,60 +62,35 @@
       </template>
     </vue-good-table>
 
-    <div
+    <modal
       id="modal-change-texture"
-      class="modal fade"
-      tabindex="-1"
-      role="dialog"
+      :title="$t('admin.changeTexture')"
+      @confirm="changeTexture"
     >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 v-t="'admin.changeTexture'" class="modal-title" />
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <label v-t="'admin.textureType'" />
-              <select v-model="textureChanges.type" class="form-control">
-                <option v-t="'general.skin'" value="skin" />
-                <option v-t="'general.cape'" value="cape" />
-              </select>
-            </div>
-            <div class="form-group">
-              <label>TID</label>
-              <input
-                v-model.number="textureChanges.tid"
-                class="form-control"
-                type="text"
-                :placeholder="$t('admin.pidNotice')"
-              >
-            </div>
-          </div>
-          <div class="modal-footer d-flex justify-content-between">
-            <button class="btn btn-default" data-dismiss="modal">
-              {{ $t('general.close') }}
-            </button>
-            <button class="btn btn-primary" data-test="changeTexture" @click="changeTexture">
-              {{ $t('general.submit') }}
-            </button>
-          </div>
-        </div>
+      <div class="form-group">
+        <label v-t="'admin.textureType'" />
+        <select v-model="textureChanges.type" class="form-control">
+          <option v-t="'general.skin'" value="skin" />
+          <option v-t="'general.cape'" value="cape" />
+        </select>
       </div>
-    </div>
+      <div class="form-group">
+        <label>TID</label>
+        <input
+          v-model.number="textureChanges.tid"
+          class="form-control"
+          type="text"
+          :placeholder="$t('admin.pidNotice')"
+        >
+      </div>
+    </modal>
   </div>
 </template>
 
 <script>
 import { VueGoodTable } from 'vue-good-table'
 import 'vue-good-table/dist/vue-good-table.min.css'
+import Modal from '../../components/Modal.vue'
 import tableOptions from '../../components/mixins/tableOptions'
 import serverTable from '../../components/mixins/serverTable'
 import emitMounted from '../../components/mixins/emitMounted'
@@ -123,6 +98,7 @@ import emitMounted from '../../components/mixins/emitMounted'
 export default {
   name: 'PlayersManagement',
   components: {
+    Modal,
     VueGoodTable,
   },
   mixins: [
@@ -189,7 +165,6 @@ export default {
       if (code === 0) {
         player[`tid_${type}`] = tid
         this.$message.success(message)
-        $('.modal').modal('hide')
       } else {
         this.$message.warning(message)
       }

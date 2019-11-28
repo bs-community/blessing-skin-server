@@ -1,61 +1,51 @@
 <template>
-  <div
+  <modal
     id="modal-use-as"
-    class="modal fade"
-    tabindex="-1"
-    role="dialog"
+    ref="modal"
+    :title="$t('user.closet.use-as.title')"
+    :ok-button-text="$t('general.submit')"
+    flex-footer
   >
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 v-t="'user.closet.use-as.title'" class="modal-title" />
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
+    <template v-if="players.length !== 0">
+      <div v-for="player in players" :key="player.pid" class="player-item">
+        <label class="model-label" :for="player.pid">
+          <input
+            v-model="selected"
+            type="radio"
+            name="player"
+            :value="player.pid"
           >
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <template v-if="players.length !== 0">
-            <div v-for="player in players" :key="player.pid" class="player-item">
-              <label class="model-label" :for="player.pid">
-                <input
-                  v-model="selected"
-                  type="radio"
-                  name="player"
-                  :value="player.pid"
-                >
-                <img :src="avatarUrl(player)" width="35" height="35">
-                <span>{{ player.name }}</span>
-              </label>
-            </div>
-          </template>
-          <p v-else v-t="'user.closet.use-as.empty'" />
-        </div>
-        <div class="modal-footer d-flex justify-content-between">
-          <a
-            v-if="allowAdd"
-            v-t="'user.closet.use-as.add'"
-            data-toggle="modal"
-            data-target="#modal-add-player"
-            class="btn btn-default"
-            href="#"
-          />
-          <button class="btn btn-primary" data-test="submit" @click="submit">
-            {{ $t('general.submit') }}
-          </button>
-        </div>
+          <img :src="avatarUrl(player)" width="35" height="35">
+          <span>{{ player.name }}</span>
+        </label>
       </div>
-    </div>
-  </div>
+    </template>
+    <p v-else v-t="'user.closet.use-as.empty'" />
+    <template #footer>
+      <a
+        v-if="allowAdd"
+        v-t="'user.closet.use-as.add'"
+        data-toggle="modal"
+        data-target="#modal-add-player"
+        class="btn btn-default"
+        href="#"
+      />
+      <button class="btn btn-primary" data-test="submit" @click="submit">
+        {{ $t('general.submit') }}
+      </button>
+    </template>
+  </modal>
 </template>
 
 <script>
+import $ from 'jquery'
+import Modal from './Modal.vue'
+
 export default {
   name: 'ApplyToPlayerDialog',
+  components: {
+    Modal,
+  },
   props: {
     skin: Number,
     cape: Number,

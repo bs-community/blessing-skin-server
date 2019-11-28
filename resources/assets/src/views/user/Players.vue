@@ -114,49 +114,24 @@
 
     <add-player-dialog @add="fetchPlayers" />
 
-    <div
+    <modal
       id="modal-clear-texture"
-      class="modal fade"
-      tabindex="-1"
-      role="dialog"
+      :title="$t('user.chooseClearTexture')"
+      @confirm="clearTexture"
     >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 v-t="'user.chooseClearTexture'" class="modal-title" />
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <label class="form-group">
-              <input v-model="clear.skin" type="checkbox"> {{ $t('general.skin') }}
-            </label>
-            <br>
-            <label class="form-group">
-              <input v-model="clear.cape" type="checkbox"> {{ $t('general.cape') }}
-            </label>
-          </div>
-          <div class="modal-footer d-flex justify-content-between">
-            <button class="btn btn-default" data-dismiss="modal">
-              {{ $t('general.close') }}
-            </button>
-            <button class="btn btn-primary" data-test="clearTexture" @click="clearTexture">
-              {{ $t('general.submit') }}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+      <label class="form-group">
+        <input v-model="clear.skin" type="checkbox"> {{ $t('general.skin') }}
+      </label>
+      <br>
+      <label class="form-group">
+        <input v-model="clear.cape" type="checkbox"> {{ $t('general.cape') }}
+      </label>
+    </modal>
   </div>
 </template>
 
 <script>
+import Modal from '../../components/Modal.vue'
 import AddPlayerDialog from '../../components/AddPlayerDialog.vue'
 import emitMounted from '../../components/mixins/emitMounted'
 
@@ -164,6 +139,7 @@ export default {
   name: 'Players',
   components: {
     AddPlayerDialog,
+    Modal,
     Previewer: () => import('../../components/Previewer.vue'),
   },
   mixins: [
@@ -259,7 +235,6 @@ export default {
         this.clear,
       )
       if (code === 0) {
-        $('.modal').modal('hide')
         this.$message.success(message)
         const player = this.players.find(({ pid }) => pid === this.selected)
         Object.keys(this.clear)

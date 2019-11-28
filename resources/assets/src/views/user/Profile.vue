@@ -157,65 +157,51 @@
       </div>
     </div>
 
-    <div
-      id="modal-delete-account"
-      class="modal fade"
-      tabindex="-1"
-      role="dialog"
-    >
-      <form class="modal-dialog" data-test="deleteAccount" @submit.prevent="deleteAccount">
-        <div class="modal-content bg-danger">
-          <div class="modal-header">
-            <h4 v-t="'user.profile.delete.modal-title'" class="modal-title" />
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <!-- eslint-disable-next-line vue/no-v-html -->
-            <div v-once v-html="nl2br($t('user.profile.delete.modal-notice'))" />
-            <br>
-            <input
-              v-model="deleteConfirm"
-              type="password"
-              class="form-control"
-              :placeholder="$t('user.profile.delete.password')"
-              required
-            >
-            <br>
-          </div>
-          <div class="modal-footer d-flex justify-content-between">
-            <button
-              v-t="'general.close'"
-              type="button"
-              class="btn btn-outline-light"
-              data-dismiss="modal"
-            />
-            <button
-              v-t="'general.submit'"
-              type="submit"
-              class="btn btn-outline-light"
-            />
-          </div>
-        </div>
-      </form>
-    </div>
+    <form data-test="deleteAccount" @submit.prevent="deleteAccount">
+      <modal
+        id="modal-delete-account"
+        type="danger"
+        :title="$t('user.profile.delete.modal-title')"
+        flex-footer
+      >
+        <!-- eslint-disable-next-line vue/no-v-html -->
+        <div v-once v-html="nl2br($t('user.profile.delete.modal-notice'))" />
+        <br>
+        <input
+          v-model="deleteConfirm"
+          type="password"
+          class="form-control"
+          :placeholder="$t('user.profile.delete.password')"
+          required
+        >
+        <template #footer>
+          <button
+            v-t="'general.close'"
+            type="button"
+            class="btn btn-outline-light"
+            data-dismiss="modal"
+          />
+          <button
+            v-t="'general.submit'"
+            type="submit"
+            class="btn btn-outline-light"
+          />
+        </template>
+      </modal>
+    </form>
   </div>
 </template>
 
 <script>
 import EmailVerification from '../../components/EmailVerification.vue'
+import Modal from '../../components/Modal.vue'
 import emitMounted from '../../components/mixins/emitMounted'
 
 export default {
   name: 'Profile',
   components: {
     EmailVerification,
+    Modal,
   },
   mixins: [
     emitMounted,

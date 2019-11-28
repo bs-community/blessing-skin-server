@@ -153,21 +153,7 @@ test('toggle preview mode', () => {
   expect(wrapper.text()).toContain('user.player.texture-empty')
 })
 
-test('add player', async () => {
-  window.$ = jest.fn(() => ({ modal() {} }))
-  Vue.prototype.$http.get.mockResolvedValueOnce({ data: [] })
-  Vue.prototype.$http.post.mockResolvedValue({ code: 0 })
-  const wrapper = mount(Players)
-  const button = wrapper.find('[data-test=addPlayer]')
-
-  wrapper.find('input[type="text"]').setValue('the-new')
-  button.trigger('click')
-  await flushPromises()
-  expect(Vue.prototype.$http.get).toBeCalledTimes(2)
-})
-
 test('clear texture', async () => {
-  window.$ = jest.fn(() => ({ modal() {} }))
   Vue.prototype.$http.get
     .mockResolvedValueOnce({
       data: [
@@ -183,22 +169,22 @@ test('clear texture', async () => {
     .mockResolvedValue({ code: 0, message: 'ok' })
   const wrapper = mount(Players)
   await flushPromises()
-  const button = wrapper.find('[data-test=clearTexture]')
+  const modal = wrapper.find('#modal-clear-texture')
   wrapper.find('.player').trigger('click')
 
-  button.trigger('click')
+  modal.vm.$emit('confirm')
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   wrapper.findAll('input[type="checkbox"]').at(0)
     .setChecked()
-  button.trigger('click')
+  modal.vm.$emit('confirm')
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/user/player/texture/clear/1',
     {
       skin: true, cape: false,
     },
   )
-  button.trigger('click')
+  modal.vm.$emit('confirm')
   await flushPromises()
   expect(Vue.prototype.$message.success).toBeCalledWith('ok')
 })

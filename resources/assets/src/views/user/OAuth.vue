@@ -49,60 +49,31 @@
       </template>
     </vue-good-table>
 
-    <div
-      id="modal-create"
-      class="modal fade"
-      tabindex="-1"
-      role="dialog"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 v-t="'user.oauth.create'" class="modal-title" />
-            <button
-              type="button"
-              class="close"
-              data-dismiss="modal"
-              aria-label="Close"
-            >
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <table class="table">
-              <tbody>
-                <tr>
-                  <td v-t="'user.oauth.name'" class="key" />
-                  <td class="value">
-                    <input v-model="name" class="form-control" type="text">
-                  </td>
-                </tr>
-                <tr>
-                  <td v-t="'user.oauth.redirect'" class="key" />
-                  <td class="value">
-                    <input v-model="callback" class="form-control" type="text">
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="modal-footer d-flex justify-content-between">
-            <button class="btn btn-default" data-dismiss="modal">
-              {{ $t('general.close') }}
-            </button>
-            <button class="btn btn-primary" data-test="create" @click="create">
-              {{ $t('general.submit') }}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <modal id="modal-create" :title="$t('user.oauth.create')" @confirm="create">
+      <table class="table">
+        <tbody>
+          <tr>
+            <td v-t="'user.oauth.name'" class="key" />
+            <td class="value">
+              <input v-model="name" class="form-control" type="text">
+            </td>
+          </tr>
+          <tr>
+            <td v-t="'user.oauth.redirect'" class="key" />
+            <td class="value">
+              <input v-model="callback" class="form-control" type="text">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </modal>
   </div>
 </template>
 
 <script>
 import { VueGoodTable } from 'vue-good-table'
 import 'vue-good-table/dist/vue-good-table.min.css'
+import Modal from '../../components/Modal.vue'
 import tableOptions from '../../components/mixins/tableOptions'
 import emitMounted from '../../components/mixins/emitMounted'
 import { walkFetch, init } from '../../scripts/net'
@@ -110,6 +81,7 @@ import { walkFetch, init } from '../../scripts/net'
 export default {
   name: 'OAuthApps',
   components: {
+    Modal,
     VueGoodTable,
   },
   mixins: [
@@ -160,7 +132,6 @@ export default {
         redirect: this.callback,
       })
       if (client.id) {
-        $('#modal-create').modal('hide')
         this.clients.unshift(client)
       } else {
         this.$message.warning(client.message)

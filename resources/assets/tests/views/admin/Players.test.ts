@@ -2,6 +2,7 @@ import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../../utils'
+import Modal from '@/components/Modal.vue'
 import Players from '@/views/admin/Players.vue'
 
 test('fetch data after initializing', () => {
@@ -16,7 +17,6 @@ test('fetch data after initializing', () => {
 })
 
 test('change texture', async () => {
-  window.$ = jest.fn(() => ({ modal() {} }))
   Vue.prototype.$http.get.mockResolvedValue({
     data: [
       { pid: 1, tid_skin: 0 },
@@ -28,12 +28,12 @@ test('change texture', async () => {
 
   const wrapper = mount(Players)
   await flushPromises()
-  const button = wrapper.find('[data-test=changeTexture]')
+  const modal = wrapper.find(Modal)
   wrapper.findAll('.btn-default').trigger('click')
 
   wrapper.find('.modal-body input').setValue('5')
 
-  button.trigger('click')
+  modal.vm.$emit('confirm')
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/players?action=texture',
@@ -41,10 +41,9 @@ test('change texture', async () => {
       pid: 1, tid: 5, type: 'skin',
     },
   )
-  button.trigger('click')
+  modal.vm.$emit('confirm')
   await flushPromises()
   expect(wrapper.html()).toContain('/preview/64/5.png')
-  expect($).toBeCalledWith('.modal')
 })
 
 test('change player name', async () => {

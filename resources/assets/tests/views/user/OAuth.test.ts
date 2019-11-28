@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../../utils'
 import { walkFetch } from '@/scripts/net'
+import Modal from '@/components/Modal.vue'
 import OAuth from '@/views/user/OAuth.vue'
 
 jest.mock('@/scripts/net', () => ({
@@ -20,7 +21,6 @@ test('basic render', async () => {
 })
 
 test('create app', async () => {
-  Object.assign(window, { $: () => ({ modal() {} }) })
   Vue.prototype.$http.get.mockResolvedValue([])
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ message: 'fail' })
@@ -28,14 +28,14 @@ test('create app', async () => {
   const wrapper = mount(OAuth)
   await flushPromises()
 
-  const button = wrapper.find('[data-test=create]')
+  const modal = wrapper.find(Modal)
   const inputs = wrapper.findAll('.value')
   inputs.at(0).find('input')
     .setValue('name')
   inputs.at(1).find('input')
     .setValue('https://example.com/')
 
-  button.trigger('click')
+  modal.vm.$emit('confirm')
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/oauth/clients',
@@ -43,7 +43,7 @@ test('create app', async () => {
   )
   expect(Vue.prototype.$message.warning).toBeCalledWith('fail')
 
-  button.trigger('click')
+  modal.vm.$emit('confirm')
   await flushPromises()
   expect(wrapper.text()).toContain('name')
 })
