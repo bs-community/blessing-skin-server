@@ -126,6 +126,7 @@ export default {
   },
   data() {
     return {
+      hidden: false,
       value: this.input,
     }
   },
@@ -141,19 +142,25 @@ export default {
     },
   },
   mounted() {
-    $(this.$el).on('hide.bs.modal', /* istanbul ignore next */ () => {
-      this.dismiss()
-    })
+    $(this.$el)
+      .on('hide.bs.modal', () => {
+        if (!this.hidden) {
+          this.dismiss()
+        }
+      })
+      .on('hidden.bs.modal', () => {
+        this.hidden = false
+      })
   },
   methods: {
     confirm() {
+      this.hidden = true
       this.$emit('confirm', { value: this.value })
       $(this.$el).modal('hide')
-      this.$destroy()
     },
     dismiss() {
+      this.hidden = true
       this.$emit('dismiss')
-      this.$destroy()
     },
   },
 }

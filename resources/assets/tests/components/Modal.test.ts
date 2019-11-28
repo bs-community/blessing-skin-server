@@ -1,3 +1,4 @@
+import $ from 'jquery'
 import 'bootstrap'
 import { mount } from '@vue/test-utils'
 import Modal from '@/components/Modal.vue'
@@ -155,4 +156,21 @@ test('footer slot', () => {
     },
   })
   expect(wrapper.find('.modal-footer > .contrabass').text()).toBe('sapphire')
+})
+
+test('prevent duplicated dismission', () => {
+  const wrapper = mount(Modal)
+  wrapper.find('.btn-secondary').trigger('click')
+  $(wrapper.element).trigger('hide.bs.modal')
+  $(wrapper.element).trigger('hidden.bs.modal')
+  expect(wrapper.emitted().dismiss).toHaveLength(1)
+
+  wrapper.find('.btn-primary').trigger('click')
+  $(wrapper.element).trigger('hide.bs.modal')
+  $(wrapper.element).trigger('hidden.bs.modal')
+  expect(wrapper.emitted().dismiss).toHaveLength(1)
+
+  $(wrapper.element).trigger('hide.bs.modal')
+  $(wrapper.element).trigger('hidden.bs.modal')
+  expect(wrapper.emitted().dismiss).toHaveLength(2)
 })
