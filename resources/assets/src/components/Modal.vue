@@ -1,5 +1,6 @@
 <template>
   <div
+    :id="id"
     class="modal fade"
     tabindex="-1"
     role="dialog"
@@ -71,6 +72,9 @@ export default {
       type: String,
       default: 'confirm',
       validator: value => ['alert', 'confirm', 'prompt'].includes(value),
+    },
+    id: {
+      type: String,
     },
     title: {
       type: String,

@@ -2,6 +2,15 @@ import 'bootstrap'
 import { mount } from '@vue/test-utils'
 import Modal from '@/components/Modal.vue'
 
+test('id', () => {
+  const wrapper = mount(Modal, {
+    propsData: {
+      id: 'id',
+    },
+  })
+  expect(wrapper.find('#id').exists()).toBeTrue()
+})
+
 test('title', () => {
   const wrapper = mount(Modal, {
     propsData: {
