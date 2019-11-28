@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import * as net from '@/scripts/net'
 import { on } from '@/scripts/event'
-import { showAjaxError, showModal } from '@/scripts/notify'
+import { showModal } from '@/scripts/notify'
 
 jest.mock('@/scripts/notify')
 
@@ -148,17 +148,31 @@ test('low level fetch', async () => {
   on('fetchError', stub)
 
   await net.walkFetch(request as Request)
-  expect(showAjaxError.mock.calls[0][0]).toBeInstanceOf(Error)
-  expect(showAjaxError.mock.calls[0][0]).toHaveProperty('message', 'network')
+  expect(showModal).toBeCalledWith({
+    mode: 'alert',
+    title: 'general.fatalError',
+    dangerousHTML: 'network',
+    type: 'danger',
+  })
   expect(stub).toBeCalledWith(expect.any(Error))
 
   await net.walkFetch(request as Request)
-  expect(showAjaxError.mock.calls[1][0]).toBeInstanceOf(Error)
+  expect(showModal).toBeCalledWith({
+    mode: 'alert',
+    title: 'general.fatalError',
+    dangerousHTML: '404',
+    type: 'danger',
+  })
   expect(stub.mock.calls[1][0]).toHaveProperty('message', '404')
   expect(stub.mock.calls[1][0]).toHaveProperty('response')
 
   await net.walkFetch(request as Request)
-  expect(showAjaxError.mock.calls[2][0]).toBeInstanceOf(Error)
+  expect(showModal).toBeCalledWith({
+    mode: 'alert',
+    title: 'general.fatalError',
+    dangerousHTML: 'error',
+    type: 'danger',
+  })
   expect(stub.mock.calls[2][0]).toHaveProperty('message', 'error')
   expect(stub.mock.calls[2][0]).toHaveProperty('response')
 
@@ -212,12 +226,19 @@ test('process backend errors', async () => {
   expect(result.message).toBe('required')
 
   await net.walkFetch({ headers: new Headers() } as Request)
-  expect(showModal).toBeCalledWith('forbidden', undefined, 'warning')
+  expect(showModal).toBeCalledWith({
+    mode: 'alert',
+    text: 'forbidden',
+    type: 'warning',
+  })
 
   await net.walkFetch({ headers: new Headers() } as Request)
-  expect(showAjaxError.mock.calls[0][0].message).toBe(
-    'fake exception\n<details>[1] k.php#L2\n[2] v.php#L3</details>',
-  )
+  expect(showModal).toBeCalledWith({
+    mode: 'alert',
+    title: 'general.fatalError',
+    dangerousHTML: 'fake exception\n<details>[1] k.php#L2\n[2] v.php#L3</details>',
+    type: 'danger',
+  })
 })
 
 test('inject to Vue instance', () => {

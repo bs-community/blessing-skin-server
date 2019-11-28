@@ -1,14 +1,14 @@
 import { logout } from '@/scripts/logout'
 import { post } from '@/scripts/net'
-import { MessageBox } from 'element-ui'
+import { showModal } from '@/scripts/notify'
 
-jest.mock('element-ui')
 jest.mock('@/scripts/net')
+jest.mock('@/scripts/notify')
 
 test('log out', async () => {
-  jest.spyOn(MessageBox, 'confirm')
-    .mockRejectedValueOnce('cancel')
-    .mockResolvedValue('confirm')
+  showModal
+    .mockRejectedValueOnce({})
+    .mockResolvedValueOnce({ value: '' })
   post.mockResolvedValue({ message: '' })
 
   await logout()
@@ -16,5 +16,4 @@ test('log out', async () => {
 
   await logout()
   expect(post).toBeCalledWith('/auth/logout')
-  jest.runAllTimers()
 })

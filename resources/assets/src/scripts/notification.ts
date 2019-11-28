@@ -11,7 +11,11 @@ export default async function handler(event: Event) {
     content: string
     time: string
   } = await get(`/user/notifications/${id!}`)
-  showModal(`${content}<br><small>${time}</small>`, title)
+  showModal({
+    mode: 'alert',
+    title,
+    dangerousHTML: `${content}<br><small>${time}</small>`,
+  })
   item.remove()
   const counter = document
     .querySelector('.notifications-counter') as HTMLSpanElement

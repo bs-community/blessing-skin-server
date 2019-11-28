@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import { emit } from './event'
 import { queryStringify } from './utils'
-import { showAjaxError, showModal } from './notify'
+import { showModal } from './notify'
+import { trans } from './i18n'
 
 class HTTPError extends Error {
   response: Response
@@ -52,7 +53,11 @@ export async function walkFetch(request: Request): Promise<any> {
         message: Object.keys(errors).map(field => errors[field][0])[0],
       }
     } else if (response.status === 403) {
-      showModal(message, undefined, 'warning')
+      showModal({
+        mode: 'alert',
+        text: message,
+        type: 'warning',
+      })
       return
     }
 
@@ -66,7 +71,12 @@ export async function walkFetch(request: Request): Promise<any> {
     throw new HTTPError(message || body, cloned)
   } catch (error) {
     emit('fetchError', error)
-    showAjaxError(error)
+    showModal({
+      mode: 'alert',
+      title: trans('general.fatalError'),
+      dangerousHTML: error.message,
+      type: 'danger',
+    })
   }
 }
 

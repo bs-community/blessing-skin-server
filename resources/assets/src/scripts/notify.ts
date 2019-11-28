@@ -1,65 +1,44 @@
-/* eslint-disable max-params */
 import $ from 'jquery'
-import { ModalOption as BootstrapModalOption } from 'bootstrap'
-import { trans } from './i18n'
+import Vue from 'vue'
+import Modal from '../components/Modal.vue'
 
-export function showAjaxError(error: Error): void {
-  showModal(
-    error.message.replace(/\n/g, '<br>'),
-    trans('general.fatalError'),
-    'danger',
-  )
+export interface ModalOptions {
+  mode?: 'alert' | 'confirm' | 'prompt'
+  title?: string
+  text?: string
+  dangerousHTML?: string
+  input?: boolean
+  type?: string
+  showHeader?: boolean
+  center?: boolean
+  okButtonText?: string
+  okButtonType?: string
+  cancelButtonText?: string
+  cancelButtonType?: string
+  flexFooter?: boolean
 }
 
-export type ModalOptions = {
-  btnText?: string
-  callback?: CallableFunction
-  destroyOnClose?: boolean
-} & BootstrapModalOption
+export interface ModalResult {
+  value: string
+}
 
-export function showModal(
-  message: string, title = 'Message',
-  type = 'default',
-  options: ModalOptions = {},
-): void {
-  const btnType = type === 'default' ? 'btn-primary' : 'btn-outline'
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  const btnText = options.btnText || 'OK'
-  const onClick = options.callback === undefined
-    ? 'data-dismiss="modal"'
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    : `onclick="${options.callback}"`
-  const destroyOnClose = options.destroyOnClose !== false
+export function showModal(options: ModalOptions = {}): Promise<ModalResult> {
+  return new Promise((resolve, reject) => {
+    const container = document.createElement('div')
+    document.body.appendChild(container)
 
-  const dom = `
-    <div class="modal fade in">
-      <div class="modal-dialog">
-        <div class="modal-content bg-${type}">
-          <div class="modal-header">
-            <h4 class="modal-title">${title}</h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <p>${message}</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" ${onClick} class="btn btn-outline-light ${btnType}">
-              ${btnText}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>`
+    const instance = new Vue({
+      render: h => h(Modal, {
+        props: options,
+        on: {
+          confirm: resolve,
+          dismiss: reject,
+        },
+      }),
+    }).$mount(container)
 
-  $(dom)
-    .on('hidden.bs.modal', /* istanbul ignore next */ function modal() {
-      if (destroyOnClose) {
-        $(this).remove()
-      }
-    })
-    .modal(options)
+    $(instance.$el).modal('show')
+  })
 }
 
 Object.assign(blessing, { notify: { showModal } })

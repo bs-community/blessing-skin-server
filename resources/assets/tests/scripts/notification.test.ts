@@ -24,7 +24,11 @@ test('read notification', async () => {
   document.querySelector('a')!.click()
   await flushPromises()
   expect(get).toBeCalledWith('/user/notifications/1')
-  expect(showModal).toBeCalledWith('content<br><small>time</small>', 'title')
+  expect(showModal).toBeCalledWith({
+    mode: 'alert',
+    title: 'title',
+    dangerousHTML: 'content<br><small>time</small>',
+  })
   expect(document.querySelectorAll('a')).toHaveLength(1)
   expect(document.querySelector('span')!.textContent).toBe('1')
 

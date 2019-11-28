@@ -1,19 +1,19 @@
-import { Message, MessageBox } from 'element-ui'
 import { post } from './net'
 import { trans } from './i18n'
+import { showModal } from './notify'
 
 export async function logout() {
   try {
-    await MessageBox.confirm(trans('general.confirmLogout'), {
-      type: 'warning',
+    await showModal({
+      text: trans('general.confirmLogout'),
+      center: true,
     })
   } catch {
     return
   }
 
-  const { message } = await post('/auth/logout')
-  setTimeout(() => (window.location.href = blessing.base_url), 1000)
-  Message.success(message)
+  await post('/auth/logout')
+  window.location.href = blessing.base_url
 }
 
 const button = document.querySelector('#logout-button')
