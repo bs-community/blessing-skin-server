@@ -9,6 +9,5 @@ import './element'
 import './logout'
 
 window.addEventListener('load', () => {
-  // @ts-ignore
   $('[data-toggle="tooltip"]').tooltip()
 })

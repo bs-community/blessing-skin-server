@@ -1,4 +1,4 @@
-// KEEP THIS FILE DEPENDENCIES FREE!
+// KEEP THIS FILE DEPENDENCY-FREE!
 
 const init: RequestInit = {
   credentials: 'same-origin',
