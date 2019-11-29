@@ -16,6 +16,7 @@
 - [Node.js](https://nodejs.org)
 - [Yarn](https://yarnpkg.com)
 - [Composer](https://getcomposer.org)
+- [PowerShell Core](https://github.com/PowerShell/PowerShell#get-powershell)
 
 然后执行以下命令来拉取代码：
 
@@ -45,7 +46,9 @@ location ~* \w+\.hot-update\.json$ {
 }
 ```
 
-当 `APP_ENV` 为其它值时，您需要事先执行 `yarn build`。此命令将构建并压缩前端资源。通常用于生产环境。
+当 `APP_ENV` 为其它值时，您需要事先执行 `pwsh ./scripts/build.ps1`。此命令将构建并压缩前端资源。通常用于生产环境。
+
+> 如果传递 `-Simple` 参数给 `build.ps1` 脚本，则只会运行 webpack 来编译代码，而不会复制首页背景以及生成 commit 信息。
 
 ### 测试
 
