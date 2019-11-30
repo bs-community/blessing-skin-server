@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import 'bootstrap'
 import Vue from 'vue'
 import Modal from '../components/Modal.vue'
 
