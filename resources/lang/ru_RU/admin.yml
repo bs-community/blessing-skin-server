@@ -5,54 +5,54 @@ index:
   total-textures: Загруженные текстуры
   disk-usage: Использование диска
   overview: Overview
-  texture-uploads: Texture Uploads
+  texture-uploads: Загрузка текстур
   user-registration: User Registration
 notifications:
   send:
     title: Send Notification
-    success: Sent successfully!
+    success: Успешно отправлено!
   receiver:
-    title: Receiver
-    all: All Users
-    normal: Normal Users
-    uid: Specified UID
-    email: Specified Email
-  title: Title
-  content: Content (Markdown is supported.)
+    title: Получатель
+    all: Все пользователи
+    normal: Обычные пользователи
+    uid: Указанный UID
+    email: Указанный адрес электронной почты
+  title: Заголовок
+  content: Содержимое (поддерживается язык разметки Markdown)
 users:
   status:
-    normal: Normal
-    banned: Banned
-    admin: Admin
-    super-admin: Super Admin
+    normal: Обычный
+    banned: Заблокированный
+    admin: Администратор
+    super-admin: Суперадминистратор
   operations:
-    non-existent: No such user.
-    no-permission: You have no permission to operate this user.
-    invalid: Invalid action.
+    non-existent: Пользователь не существует.
+    no-permission: У вас нет прав доступа для управления этим пользователем.
+    invalid: Недопустимое действие.
     email:
-      existed: ':email is existed.'
-      success: Email changed successfully.
+      existed: ':email уже существует.'
+      success: Адрес электронной почты успешно изменен.
     verification:
-      success: Account verification status toggled successfully.
+      success: Статус подтверждения учетной записи успешно изменён.
     nickname:
-      success: Nickname changed successfully.
+      success: Ник успешно изменён.
     password:
-      success: Password changed successfully.
+      success: Пароль успешно изменён.
     score:
-      success: Score changed successfully.
-    permission: Permission updated.
+      success: Счёт успешно изменён.
+    permission: Разрешение обновлено.
     delete:
-      delete: Delete User
-      success: The account has been deleted successfully.
-      cant-super-admin: You can't delete a super admin.
-      cant-admin: You can't delete a admin account.
+      delete: Удалить пользователя
+      success: Учетная запись успешно удалена.
+      cant-super-admin: Вы не можете удалить суперадминистратора.
+      cant-admin: Вы не можете удалить учетную запись администратора.
 players:
-  no-permission: You have no permission to operate this player.
+  no-permission: У вас нет прав доступа для управления этим игроком.
   operations:
-    title: Operations
+    title: Действия
   textures:
-    change: Change Textures
-    non-existent: No such texture tid.:tid
+    change: Изменить текстуры
+    non-existent: Текстуры tid:tid не существует
     success: The textures of :player has been updated.
   name:
     success: Player name has been updated to :player
