@@ -7,7 +7,10 @@ export interface ModalOptions {
   title?: string
   text?: string
   dangerousHTML?: string
-  input?: boolean
+  input?: string
+  placeholder?: string
+  inputType?: string
+  validator?(value: any): string | boolean | void
   type?: string
   showHeader?: boolean
   center?: boolean
@@ -29,7 +32,7 @@ export function showModal(options: ModalOptions = {}): Promise<ModalResult> {
 
     const instance = new Vue({
       render: h => h(Modal, {
-        props: options,
+        props: Object.assign({ center: true }, options),
         on: {
           confirm: resolve,
           dismiss: reject,

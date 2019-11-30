@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { showModal } from '../../scripts/notify'
 
 export default Vue.extend<{
   tid: number
@@ -6,10 +7,10 @@ export default Vue.extend<{
   methods: {
     async setAsAvatar() {
       try {
-        await this.$confirm(
-          this.$t('user.setAvatarNotice'),
-          this.$t('user.setAvatar'),
-        )
+        await showModal({
+          title: this.$t('user.setAvatar'),
+          text: this.$t('user.setAvatarNotice'),
+        })
       } catch {
         return
       }

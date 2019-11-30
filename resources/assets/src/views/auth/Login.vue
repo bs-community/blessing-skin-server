@@ -61,6 +61,7 @@
 <script>
 import Captcha from '../../components/Captcha.vue'
 import emitMounted from '../../components/mixins/emitMounted'
+import { showModal } from '../../scripts/notify'
 
 export default {
   name: 'Login',
@@ -115,10 +116,16 @@ export default {
         if (loginFails > 3 && !this.tooManyFails) {
           if (this.recaptcha) {
             if (!this.invisible) {
-              this.$alert(this.$t('auth.tooManyFails.recaptcha'), { type: 'error' })
+              showModal({
+                mode: 'alert',
+                text: this.$t('auth.tooManyFails.recaptcha'),
+              })
             }
           } else {
-            this.$alert(this.$t('auth.tooManyFails.captcha'), { type: 'error' })
+            showModal({
+              mode: 'alert',
+              text: this.$t('auth.tooManyFails.captcha'),
+            })
           }
           this.tooManyFails = true
         }

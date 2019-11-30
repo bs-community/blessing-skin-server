@@ -77,6 +77,7 @@ import Modal from '../../components/Modal.vue'
 import tableOptions from '../../components/mixins/tableOptions'
 import emitMounted from '../../components/mixins/emitMounted'
 import { walkFetch, init } from '../../scripts/net'
+import { showModal } from '../../scripts/notify'
 
 export default {
   name: 'OAuthApps',
@@ -140,11 +141,11 @@ export default {
     async modifyName(client) {
       let name
       try {
-        const { value } = await this.$prompt('', {
+        ({ value: name } = await showModal({
+          mode: 'prompt',
           title: this.$t('user.oauth.name'),
-          inputValue: client.name,
-        })
-        name = value
+          input: client.name,
+        }))
       } catch {
         return
       }
@@ -153,11 +154,11 @@ export default {
     async modifyCallback(client) {
       let redirect
       try {
-        const { value } = await this.$prompt('', {
+        ({ value: redirect } = await showModal({
+          mode: 'prompt',
           title: this.$t('user.oauth.redirect'),
-          inputValue: client.redirect,
-        })
-        redirect = value
+          input: client.redirect,
+        }))
       } catch {
         return
       }
@@ -181,7 +182,10 @@ export default {
     },
     async remove(client) {
       try {
-        await this.$confirm(this.$t('user.oauth.confirmRemove'), { type: 'warning' })
+        await showModal({
+          text: this.$t('user.oauth.confirmRemove'),
+          okButtonType: 'danger',
+        })
       } catch {
         return
       }

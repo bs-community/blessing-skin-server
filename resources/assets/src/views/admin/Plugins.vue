@@ -80,6 +80,7 @@ import 'vue-good-table/dist/vue-good-table.min.css'
 import enablePlugin from '../../components/mixins/enablePlugin'
 import tableOptions from '../../components/mixins/tableOptions'
 import emitMounted from '../../components/mixins/emitMounted'
+import { showModal } from '../../scripts/notify'
 
 export default {
   name: 'Plugins',
@@ -141,9 +142,15 @@ export default {
         this.$message.warning(message)
       }
     },
-    async deletePlugin({ name, originalIndex }) {
+    async deletePlugin({
+      name, title, originalIndex,
+    }) {
       try {
-        await this.$confirm(this.$t('admin.confirmDeletion'), { type: 'warning' })
+        await showModal({
+          title,
+          text: this.$t('admin.confirmDeletion'),
+          okButtonType: 'danger',
+        })
       } catch {
         return
       }

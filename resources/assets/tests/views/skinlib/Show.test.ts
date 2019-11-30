@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import Show from '@/views/skinlib/Show.vue'
-import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../../utils'
+import { showModal } from '@/scripts/notify'
+import Show from '@/views/skinlib/Show.vue'
+
+jest.mock('@/scripts/notify')
 
 type Component = Vue & {
   liked: boolean
@@ -191,7 +193,7 @@ test('set as avatar', async () => {
   })
   await flushPromises()
   wrapper.find('[data-test="setAsAvatar"]').trigger('click')
-  expect(Vue.prototype.$confirm).toBeCalled()
+  expect(showModal).toBeCalled()
 })
 
 test('hide "set avatar" button when texture is cape', async () => {
@@ -210,7 +212,7 @@ test('add to closet', async () => {
   Object.assign(window.blessing.extra, { currentUid: 1, inCloset: false })
   Vue.prototype.$http.get.mockResolvedValue({ data: { name: 'wow', likes: 2 } })
   Vue.prototype.$http.post.mockResolvedValue({ code: 0, message: '' })
-  Vue.prototype.$prompt.mockResolvedValue({ value: 'a' } as MessageBoxData)
+  showModal.mockResolvedValue({ value: 'a' })
   const wrapper = mount<Component>(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
@@ -245,15 +247,9 @@ test('change texture name', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: '1' })
     .mockResolvedValue({ code: 0, message: '0' })
-  Vue.prototype.$prompt
-    .mockImplementationOnce(() => Promise.reject('cancel'))
-    .mockImplementation((_, { inputValidator }) => {
-      if (inputValidator) {
-        inputValidator('')
-        inputValidator('new-name')
-      }
-      return Promise.resolve({ value: 'new-name' } as MessageBoxData)
-    })
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: 'new-name' })
   const wrapper = mount<Component>(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
@@ -283,34 +279,24 @@ test('change texture model', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: '1' })
     .mockResolvedValue({ code: 0, message: '0' })
-  Vue.prototype.$msgbox
-    .mockImplementationOnce(() => Promise.reject())
-    .mockImplementation(options => {
-      if (options.message) {
-        const vnode = options.message as Vue.VNode
-        const elm = document.createElement('select')
-        elm.appendChild(document.createElement('option'))
-        elm.appendChild(document.createElement('option'))
-        elm.selectedIndex = 1
-        ;(vnode.children as Vue.VNode[])[1].elm = elm
-      }
-      return Promise.resolve({} as MessageBoxData)
-    })
   const wrapper = mount<Component>(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
     },
     stubs: { previewer },
   })
+  const modal = wrapper.find('#modal-type')
   const button = wrapper
     .findAll('small')
     .at(1)
     .find('a')
 
   button.trigger('click')
-  expect(Vue.prototype.$http.post).not.toBeCalled()
-
-  button.trigger('click')
+  wrapper
+    .findAll('[type=radio]')
+    .at(1)
+    .setChecked()
+  modal.vm.$emit('confirm')
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/skinlib/model',
@@ -319,6 +305,11 @@ test('change texture model', async () => {
   expect(Vue.prototype.$message.warning).toBeCalledWith('1')
 
   button.trigger('click')
+  wrapper
+    .findAll('[type=radio]')
+    .at(1)
+    .setChecked()
+  modal.vm.$emit('confirm')
   await flushPromises()
   expect(wrapper.vm.type).toBe('alex')
 })
@@ -328,9 +319,9 @@ test('toggle privacy', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: '1' })
     .mockResolvedValue({ code: 0, message: '0' })
-  Vue.prototype.$confirm
-    .mockRejectedValueOnce('')
-    .mockResolvedValue('confirm')
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: '' })
   const wrapper = mount<Component>(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
@@ -364,9 +355,9 @@ test('delete texture', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: '1' })
     .mockResolvedValue({ code: 0, message: '0' })
-  Vue.prototype.$confirm
-    .mockRejectedValueOnce('')
-    .mockResolvedValue('confirm')
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: '' })
   const wrapper = mount(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
@@ -397,10 +388,10 @@ test('report texture', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: 'duplicated' })
     .mockResolvedValue({ code: 0, message: 'success' })
-  Vue.prototype.$prompt
-    .mockRejectedValueOnce('')
-    .mockRejectedValueOnce('')
-    .mockResolvedValue({ value: 'reason' } as MessageBoxData)
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: 'reason' })
   const wrapper = mount(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
@@ -410,24 +401,30 @@ test('report texture', async () => {
 
   const button = wrapper.find('[data-test=report]')
   button.trigger('click')
-  expect(Vue.prototype.$prompt).toBeCalledWith('', {
+  expect(showModal).toBeCalledWith({
+    mode: 'prompt',
     title: 'skinlib.report.title',
-    inputPlaceholder: 'skinlib.report.reason',
+    text: '',
+    placeholder: 'skinlib.report.reason',
   })
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   wrapper.setData({ reportScore: -5 })
   button.trigger('click')
-  expect(Vue.prototype.$prompt).toBeCalledWith('skinlib.report.negative', {
+  expect(showModal).toBeCalledWith({
+    mode: 'prompt',
     title: 'skinlib.report.title',
-    inputPlaceholder: 'skinlib.report.reason',
+    text: 'skinlib.report.negative',
+    placeholder: 'skinlib.report.reason',
   })
 
   wrapper.setData({ reportScore: 5 })
   button.trigger('click')
-  expect(Vue.prototype.$prompt).toBeCalledWith('skinlib.report.positive', {
+  expect(showModal).toBeCalledWith({
+    mode: 'prompt',
     title: 'skinlib.report.title',
-    inputPlaceholder: 'skinlib.report.reason',
+    text: 'skinlib.report.positive',
+    placeholder: 'skinlib.report.reason',
   })
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(

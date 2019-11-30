@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../../utils'
+import { showModal } from '@/scripts/notify'
 import Players from '@/views/user/Players.vue'
+
+jest.mock('@/scripts/notify')
 
 window.blessing.extra = {
   rule: 'rule',
@@ -90,14 +92,9 @@ test('change player name', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1 })
     .mockResolvedValue({ code: 0 })
-  Vue.prototype.$prompt.mockImplementationOnce(() => Promise.reject('cancel'))
-    .mockImplementation((_, { inputValidator }) => {
-      if (inputValidator) {
-        inputValidator('')
-        inputValidator('new-name')
-      }
-      return Promise.resolve({ value: 'new-name' } as MessageBoxData)
-    })
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: 'new-name' })
   const wrapper = mount(Players)
   await flushPromises()
   const button = wrapper.find('.btn-default')
@@ -126,9 +123,9 @@ test('delete player', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1 })
     .mockResolvedValue({ code: 0 })
-  Vue.prototype.$confirm
-    .mockRejectedValueOnce({})
-    .mockResolvedValue('confirm')
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: '' })
   const wrapper = mount(Players)
   await flushPromises()
   const button = wrapper.findAll('.btn-danger')

@@ -1,13 +1,15 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import Users from '@/views/admin/Users.vue'
-import '@/scripts/i18n'
-import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../../utils'
+import '@/scripts/i18n'
+import Modal from '@/components/Modal.vue'
+import { showModal } from '@/scripts/notify'
+import Users from '@/views/admin/Users.vue'
 
 jest.mock('@/scripts/i18n', () => ({
   trans: (key: string) => key,
 }))
+jest.mock('@/scripts/notify')
 
 test('fetch data after initializing', () => {
   Vue.prototype.$http.get.mockResolvedValue({ data: [] })
@@ -236,15 +238,9 @@ test('change email', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: '1' })
     .mockResolvedValueOnce({ code: 0, message: '0' })
-  Vue.prototype.$prompt
-    .mockImplementationOnce(() => Promise.reject())
-    .mockImplementation((_, options) => {
-      if (options.inputValidator) {
-        options.inputValidator('')
-        options.inputValidator('value')
-      }
-      return Promise.resolve({ value: 'd@e.f' } as MessageBoxData)
-    })
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: 'd@e.f' })
   const wrapper = mount(Users)
   await flushPromises()
   const button = wrapper.find('[data-test="email"]')
@@ -299,15 +295,9 @@ test('change nickname', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: '1' })
     .mockResolvedValueOnce({ code: 0, message: '0' })
-  Vue.prototype.$prompt
-    .mockImplementationOnce(() => Promise.reject())
-    .mockImplementation((_, options) => {
-      if (options.inputValidator) {
-        options.inputValidator('')
-        options.inputValidator('value')
-      }
-      return Promise.resolve({ value: 'new' } as MessageBoxData)
-    })
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: 'new' })
   const wrapper = mount(Users)
   await flushPromises()
   const button = wrapper.find('[data-test="nickname"]')
@@ -337,9 +327,9 @@ test('change password', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 0, message: '0' })
     .mockResolvedValueOnce({ code: 1, message: '1' })
-  Vue.prototype.$prompt
-    .mockRejectedValueOnce('')
-    .mockResolvedValue({ value: 'password' }as MessageBoxData)
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: 'password' })
 
   const wrapper = mount(Users)
   await flushPromises()
@@ -372,9 +362,9 @@ test('change score', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: '1' })
     .mockResolvedValueOnce({ code: 0, message: '0' })
-  Vue.prototype.$prompt
-    .mockRejectedValueOnce('')
-    .mockResolvedValue({ value: '45' }as MessageBoxData)
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: '45' })
 
   const wrapper = mount(Users)
   await flushPromises()
@@ -397,70 +387,48 @@ test('change score', async () => {
 })
 
 test('change permission', async () => {
-  Vue.prototype.$http.get
-    .mockResolvedValueOnce({
-      data: [
-        {
-          uid: 1, permission: 0, operations: 2,
-        },
-      ],
-    })
-    .mockResolvedValueOnce({
-      data: [
-        {
-          uid: 1, permission: 0, operations: 1,
-        },
-      ],
-    })
+  Vue.prototype.$http.get.mockResolvedValue({
+    data: [
+      {
+        uid: 1, permission: 0, operations: 2,
+      },
+      {
+        uid: 2, permission: 0, operations: 1,
+      },
+    ],
+  })
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: '1' })
     .mockResolvedValue({ code: 0, message: '0' })
-  Vue.prototype.$msgbox
-    .mockImplementationOnce(() => Promise.reject())
-    .mockImplementationOnce(options => {
-      if (options.message) {
-        const vnode = options.message as Vue.VNode
-        const elm = document.createElement('select')
-        elm.appendChild(document.createElement('option'))
-        elm.appendChild(document.createElement('option'))
-        elm.appendChild(document.createElement('option'))
-        elm.selectedIndex = 2
-        ;(vnode.children as Vue.VNode[])[1].elm = elm
-      }
-      return Promise.resolve({} as MessageBoxData)
-    })
-    .mockImplementation(options => {
-      if (options.message) {
-        const vnode = options.message as Vue.VNode
-        const elm = document.createElement('select')
-        elm.appendChild(document.createElement('option'))
-        elm.appendChild(document.createElement('option'))
-        elm.selectedIndex = 0
-        ;(vnode.children as Vue.VNode[])[1].elm = elm
-      }
-      return Promise.resolve({} as MessageBoxData)
-    })
 
-  let wrapper = mount(Users)
+  const wrapper = mount(Users)
   await flushPromises()
-  let button = wrapper.find('[data-test=permission]')
 
-  button.trigger('click')
-  expect(Vue.prototype.$http.post).not.toBeCalled()
+  wrapper
+    .findAll('[data-test=permission]')
+    .at(0)
+    .trigger('click')
+  expect(wrapper.findAll('[type=radio]')).toHaveLength(3)
 
+  wrapper
+    .findAll('[data-test=permission]')
+    .at(1)
+    .trigger('click')
+  expect(wrapper.findAll('[type=radio]')).toHaveLength(2)
+
+  const button = wrapper.findAll('[data-test=permission]').at(1)
   button.trigger('click')
+  wrapper.find('[type=radio]:nth-child(1)').setChecked()
+  wrapper.find(Modal).vm.$emit('confirm')
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/users?action=permission',
-    { uid: 1, permission: 1 },
+    { uid: 2, permission: -1 },
   )
-  expect(wrapper.text()).toContain('admin.normal')
-
-  wrapper = mount(Users)
-  await flushPromises()
-  button = wrapper.find('[data-test=permission]')
 
   button.trigger('click')
+  wrapper.find('[type=radio]:nth-child(1)').setChecked()
+  wrapper.find(Modal).vm.$emit('confirm')
   await flushPromises()
   expect(wrapper.text()).toContain('admin.banned')
 })
@@ -474,9 +442,9 @@ test('delete user', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: '1' })
     .mockResolvedValue({ code: 0, message: '0' })
-  Vue.prototype.$confirm
-    .mockRejectedValueOnce('')
-    .mockResolvedValue('confirm')
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: '' })
 
   const wrapper = mount(Users)
   await flushPromises()

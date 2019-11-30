@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { showModal } from '../../scripts/notify'
 
 export default Vue.extend<{
   name: string
@@ -7,10 +8,10 @@ export default Vue.extend<{
   methods: {
     async removeClosetItem() {
       try {
-        await this.$confirm(
-          this.$t('user.removeFromClosetNotice'),
-          { type: 'warning' },
-        )
+        await showModal({
+          text: this.$t('user.removeFromClosetNotice'),
+          okButtonType: 'danger',
+        })
       } catch {
         return
       }

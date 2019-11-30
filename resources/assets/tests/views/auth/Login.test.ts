@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
+import { showModal } from '@/scripts/notify'
 import Login from '@/views/auth/Login.vue'
+
+jest.mock('@/scripts/notify')
 
 const Captcha = Vue.extend({
   methods: {
@@ -47,7 +50,10 @@ test('login', async () => {
 
   form.trigger('submit')
   await flushPromises()
-  expect(Vue.prototype.$alert).toBeCalledWith('auth.tooManyFails.captcha', { type: 'error' })
+  expect(showModal).toBeCalledWith({
+    mode: 'alert',
+    text: 'auth.tooManyFails.captcha',
+  })
   expect(wrapper.find('img').exists()).toBeTrue()
 
   wrapper.setData({
@@ -61,7 +67,10 @@ test('login', async () => {
   })
   form.trigger('submit')
   await flushPromises()
-  expect(Vue.prototype.$alert).toBeCalledWith('auth.tooManyFails.recaptcha', { type: 'error' })
+  expect(showModal).toBeCalledWith({
+    mode: 'alert',
+    text: 'auth.tooManyFails.recaptcha',
+  })
 
   wrapper.find('[type="checkbox"]').setChecked()
   form.trigger('submit')

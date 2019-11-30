@@ -43,6 +43,8 @@
 <script>
 import setAsAvatar from './mixins/setAsAvatar'
 import removeClosetItem from './mixins/removeClosetItem'
+import { showModal } from '../scripts/notify'
+import { truthy } from '../scripts/validators'
 
 export default {
   name: 'ClosetItem',
@@ -82,12 +84,12 @@ export default {
     async rename() {
       let newTextureName
       try {
-        ({ value: newTextureName } = await this.$prompt(
-          this.$t('user.renameClosetItem'),
+        ({ value: newTextureName } = await showModal(
           {
-            inputValue: this.textureName,
-            showCancelButton: true,
-            inputValidator: value => !!value || this.$t('skinlib.emptyNewTextureName'),
+            mode: 'prompt',
+            text: this.$t('user.renameClosetItem'),
+            input: this.textureName,
+            validator: truthy(this.$t('skinlib.emptyNewTextureName')),
           },
         ))
       } catch {

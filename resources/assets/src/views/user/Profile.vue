@@ -196,6 +196,7 @@
 import EmailVerification from '../../components/EmailVerification.vue'
 import Modal from '../../components/Modal.vue'
 import emitMounted from '../../components/mixins/emitMounted'
+import { showModal } from '../../scripts/notify'
 
 export default {
   name: 'Profile',
@@ -221,7 +222,7 @@ export default {
     nl2br: str => str.replace(/\n/g, '<br>'),
     async resetAvatar() {
       try {
-        await this.$confirm(this.$t('user.resetAvatarConfirm'))
+        await showModal({ text: this.$t('user.resetAvatarConfirm') })
       } catch {
         return
       }
@@ -249,40 +250,28 @@ export default {
         '/user/profile?action=password',
         { current_password: oldPassword, new_password: newPassword },
       )
+      await showModal({ mode: 'alert', text: message })
       if (code === 0) {
-        await this.$alert(message)
         return (window.location = `${blessing.base_url}/auth/login`)
       }
-      return this.$alert(message, { type: 'warning' })
     },
     async changeNickName() {
       const { nickname } = this
-
-      try {
-        await this.$confirm(this.$t('user.changeNickName', { new_nickname: nickname }))
-      } catch {
-        return
-      }
 
       const { code, message } = await this.$http.post(
         '/user/profile?action=nickname',
         { new_nickname: nickname },
       )
       if (code === 0) {
-        Array.from(document.querySelectorAll('.nickname'))
+        Array
+          .from(document.querySelectorAll('[data-mark="nickname"]'))
           .forEach(el => (el.textContent = nickname))
         return this.$message.success(message)
       }
-      return this.$alert(message, { type: 'warning' })
+      showModal({ mode: 'alert', text: message })
     },
     async changeEmail() {
       const { email } = this
-
-      try {
-        await this.$confirm(this.$t('user.changeEmail', { new_email: email }))
-      } catch {
-        return
-      }
 
       const { code, message } = await this.$http.post(
         '/user/profile?action=email',
@@ -292,7 +281,7 @@ export default {
         await this.$message.success(message)
         return (window.location = `${blessing.base_url}/auth/login`)
       }
-      return this.$alert(message, { type: 'warning' })
+      showModal({ mode: 'alert', text: message })
     },
     async deleteAccount() {
       const { deleteConfirm: password } = this
@@ -301,11 +290,9 @@ export default {
         '/user/profile?action=delete',
         { password },
       )
+      await showModal({ mode: 'alert', text: message })
       if (code === 0) {
-        await this.$alert(message, { type: 'success' })
         window.location = `${blessing.base_url}/auth/login`
-      } else {
-        return this.$alert(message, { type: 'warning' })
       }
     },
   },

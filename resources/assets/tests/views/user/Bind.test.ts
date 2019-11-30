@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
+import { showModal } from '@/scripts/notify'
 import Bind from '@/views/user/Bind.vue'
+
+jest.mock('@/scripts/notify')
 
 test('list existed players', async () => {
   Vue.prototype.$http.get
@@ -36,5 +39,5 @@ test('submit', async () => {
 
   form.trigger('submit')
   await flushPromises()
-  expect(Vue.prototype.$alert).toBeCalledWith('ok')
+  expect(showModal).toBeCalledWith({ mode: 'alert', text: 'ok' })
 })

@@ -31,6 +31,7 @@ import { VueGoodTable } from 'vue-good-table'
 import 'vue-good-table/dist/vue-good-table.min.css'
 import tableOptions from '../../components/mixins/tableOptions'
 import emitMounted from '../../components/mixins/emitMounted'
+import { showModal } from '../../scripts/notify'
 
 export default {
   name: 'Translations',
@@ -67,8 +68,10 @@ export default {
     async modify(line) {
       let text = null
       try {
-        ({ value: text } = await this.$prompt(this.$t('admin.i18n.updating'), {
-          inputValue: line.text,
+        ({ value: text } = await showModal({
+          mode: 'prompt',
+          text: this.$t('admin.i18n.updating'),
+          input: line.text,
         }))
       } catch {
         return
@@ -87,8 +90,9 @@ export default {
     },
     async remove({ id, originalIndex }) {
       try {
-        await this.$confirm(this.$t('admin.i18n.confirmDelete'), {
-          type: 'warning',
+        await showModal({
+          text: this.$t('admin.i18n.confirmDelete'),
+          okButtonType: 'danger',
         })
       } catch {
         return

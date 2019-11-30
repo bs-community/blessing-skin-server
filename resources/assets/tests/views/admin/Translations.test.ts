@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../../utils'
+import { showModal } from '@/scripts/notify'
 import Translations from '@/views/admin/Translations.vue'
+
+jest.mock('@/scripts/notify')
 
 test('fetch data', async () => {
   Vue.prototype.$http.get.mockResolvedValue([
@@ -26,10 +28,10 @@ test('modify line', async () => {
   Vue.prototype.$http.put
     .mockResolvedValueOnce({ code: 1, message: 'failed' })
     .mockResolvedValueOnce({ code: 0, message: 'ok' })
-  Vue.prototype.$prompt
+  showModal
     .mockRejectedValueOnce(null)
-    .mockResolvedValueOnce({ value: '' } as MessageBoxData)
-    .mockResolvedValueOnce({ value: 'wanshengwei' } as MessageBoxData)
+    .mockResolvedValueOnce({ value: '' })
+    .mockResolvedValueOnce({ value: 'wanshengwei' })
 
   const wrapper = mount(Translations)
   await flushPromises()
@@ -65,9 +67,9 @@ test('delete line', async () => {
     },
   ])
   Vue.prototype.$http.del.mockResolvedValueOnce({ message: 'ok' })
-  Vue.prototype.$confirm
+  showModal
     .mockRejectedValueOnce(null)
-    .mockResolvedValueOnce('confirm')
+    .mockResolvedValueOnce({ value: '' })
 
   const wrapper = mount(Translations)
   await flushPromises()

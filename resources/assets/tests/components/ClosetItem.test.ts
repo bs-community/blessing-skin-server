@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../utils'
+import { showModal } from '@/scripts/notify'
 import ClosetItem from '@/components/ClosetItem.vue'
+
+jest.mock('@/scripts/notify')
 
 function factory(opt = {}) {
   return {
@@ -43,14 +45,9 @@ test('rename texture', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 0 })
     .mockResolvedValueOnce({ code: 1 })
-  Vue.prototype.$prompt.mockImplementationOnce(() => Promise.reject(new Error()))
-    .mockImplementation((_, options) => {
-      if (options.inputValidator) {
-        options.inputValidator('name')
-        options.inputValidator('')
-      }
-      return Promise.resolve({ value: 'new-name' } as MessageBoxData)
-    })
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: 'new-name' })
   const wrapper = mount(ClosetItem, { propsData: factory() })
   const button = wrapper.findAll('.dropdown-item').at(0)
 
@@ -58,6 +55,7 @@ test('rename texture', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
+  // Warning message
   button.trigger('click')
   await flushPromises()
 
@@ -74,9 +72,9 @@ test('remove texture', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 0 })
     .mockResolvedValueOnce({ code: 1 })
-  Vue.prototype.$confirm
-    .mockRejectedValueOnce({})
-    .mockResolvedValue('confirm')
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: '' })
 
   const wrapper = mount(ClosetItem, { propsData: factory() })
   const button = wrapper.findAll('.dropdown-item').at(1)
@@ -98,9 +96,9 @@ test('set as avatar', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 0 })
     .mockResolvedValueOnce({ code: 1 })
-  Vue.prototype.$confirm
-    .mockRejectedValueOnce({})
-    .mockResolvedValue('confirm')
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: '' })
 
   const wrapper = mount(ClosetItem, { propsData: factory() })
   const button = wrapper.findAll('.dropdown-item').at(3)

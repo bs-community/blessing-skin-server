@@ -65,6 +65,7 @@
     <modal
       id="modal-change-texture"
       :title="$t('admin.changeTexture')"
+      center
       @confirm="changeTexture"
     >
       <div class="form-group">
@@ -94,6 +95,8 @@ import Modal from '../../components/Modal.vue'
 import tableOptions from '../../components/mixins/tableOptions'
 import serverTable from '../../components/mixins/serverTable'
 import emitMounted from '../../components/mixins/emitMounted'
+import { showModal } from '../../scripts/notify'
+import { truthy } from '../../scripts/validators'
 
 export default {
   name: 'PlayersManagement',
@@ -172,9 +175,11 @@ export default {
     async changeName(player) {
       let value
       try {
-        ({ value } = await this.$prompt(this.$t('admin.changePlayerNameNotice'), {
-          inputValue: player.name,
-          inputValidator: name => !!name || this.$t('admin.emptyPlayerName'),
+        ({ value } = await showModal({
+          mode: 'prompt',
+          text: this.$t('admin.changePlayerNameNotice'),
+          input: player.name,
+          validator: truthy(this.$t('admin.emptyPlayerName')),
         }))
       } catch {
         return
@@ -194,12 +199,15 @@ export default {
     async changeOwner(player) {
       let value
       try {
-        ({ value } = await this.$prompt(this.$t('admin.changePlayerOwner'), {
-          inputValue: player.uid,
+        ({ value } = await showModal({
+          mode: 'prompt',
+          text: this.$t('admin.changePlayerOwner'),
+          input: player.uid,
         }))
       } catch {
         return
       }
+      value = Number.parseInt(value)
 
       const { code, message } = await this.$http.post(
         '/admin/players?action=owner',
@@ -214,8 +222,9 @@ export default {
     },
     async deletePlayer({ pid, originalIndex }) {
       try {
-        await this.$confirm(this.$t('admin.deletePlayerNotice'), {
-          type: 'warning',
+        await showModal({
+          text: this.$t('admin.deletePlayerNotice'),
+          okButtonType: 'danger',
         })
       } catch {
         return

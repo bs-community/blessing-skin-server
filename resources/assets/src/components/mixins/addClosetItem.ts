@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import { MessageBoxInputData } from 'element-ui/types/message-box'
+import { showModal } from '../../scripts/notify'
+import { truthy } from '../../scripts/validators'
 
 export default Vue.extend<{
   name: string
@@ -9,15 +10,13 @@ export default Vue.extend<{
     async addClosetItem() {
       let value: string
       try {
-        ({ value } = await this.$prompt(
-          this.$t('skinlib.applyNotice'),
-          {
-            title: this.$t('skinlib.setItemName'),
-            inputValue: this.name,
-            showCancelButton: true,
-            inputValidator: val => !!val || this.$t('skinlib.emptyItemName'),
-          },
-        ) as MessageBoxInputData)
+        ({ value } = await showModal({
+          mode: 'prompt',
+          title: this.$t('skinlib.setItemName'),
+          text: this.$t('skinlib.applyNotice'),
+          input: this.name,
+          validator: truthy(this.$t('skinlib.emptyItemName')),
+        }))
       } catch {
         return
       }

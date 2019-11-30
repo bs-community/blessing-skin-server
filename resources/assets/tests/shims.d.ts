@@ -17,10 +17,6 @@ declare module 'vue/types/vue' {
         warning: jest.Mock<ReturnType<typeof Message>, Parameters<typeof Message>>
         error: jest.Mock<ReturnType<typeof Message>, Parameters<typeof Message>>
       }
-      $msgbox: jest.Mock<ReturnType<typeof MessageBox>, [ElMessageBoxOptions]>
-      $alert: jest.Mock<ReturnType<typeof MessageBox>, [string, ElMessageBoxOptions]>
-      $confirm: jest.Mock<ReturnType<typeof MessageBox>, [string, ElMessageBoxOptions]>
-      $prompt: jest.Mock<ReturnType<typeof MessageBox>, [string, ElMessageBoxOptions]>
     }
   }
 }

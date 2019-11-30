@@ -1,9 +1,11 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../../utils'
+import { showModal } from '@/scripts/notify'
 import Modal from '@/components/Modal.vue'
 import Players from '@/views/admin/Players.vue'
+
+jest.mock('@/scripts/notify')
 
 test('fetch data after initializing', () => {
   Vue.prototype.$http.get.mockResolvedValue({ data: [] })
@@ -55,15 +57,9 @@ test('change player name', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: '1' })
     .mockResolvedValueOnce({ code: 0, message: '0' })
-  Vue.prototype.$prompt
-    .mockImplementationOnce(() => Promise.reject())
-    .mockImplementation((_, options) => {
-      if (options.inputValidator) {
-        options.inputValidator('')
-        options.inputValidator('new')
-      }
-      return Promise.resolve({ value: 'new' } as MessageBoxData)
-    })
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: 'new' })
   const wrapper = mount(Players)
   await flushPromises()
   const button = wrapper.find('[data-test="name"]')
@@ -91,9 +87,9 @@ test('change owner', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: '1' })
     .mockResolvedValueOnce({ code: 0, message: '0' })
-  Vue.prototype.$prompt
-    .mockRejectedValueOnce('')
-    .mockResolvedValue({ value: '3' } as MessageBoxData)
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: '3' })
 
   const wrapper = mount(Players)
   await flushPromises()
@@ -106,7 +102,7 @@ test('change owner', async () => {
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/players?action=owner',
-    { pid: 1, uid: '3' },
+    { pid: 1, uid: 3 },
   )
   button.trigger('click')
   await flushPromises()
@@ -122,9 +118,9 @@ test('delete player', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: '1' })
     .mockResolvedValueOnce({ code: 0, message: '0' })
-  Vue.prototype.$confirm
-    .mockRejectedValueOnce('')
-    .mockResolvedValue('confirm')
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: '' })
 
   const wrapper = mount(Players)
   await flushPromises()

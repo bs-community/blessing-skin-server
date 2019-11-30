@@ -1,10 +1,12 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../../utils'
 import { walkFetch } from '@/scripts/net'
+import { showModal } from '@/scripts/notify'
 import Modal from '@/components/Modal.vue'
 import OAuth from '@/views/user/OAuth.vue'
+
+jest.mock('@/scripts/notify')
 
 jest.mock('@/scripts/net', () => ({
   walkFetch: jest.fn(),
@@ -55,9 +57,9 @@ test('modify name', async () => {
   walkFetch
     .mockResolvedValueOnce({ message: 'fail' })
     .mockResolvedValueOnce({ id: 1, name: 'new-name' })
-  Vue.prototype.$prompt
-    .mockRejectedValueOnce('')
-    .mockResolvedValue({ value: 'new-name' } as MessageBoxData)
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: 'new-name' })
   const wrapper = mount(OAuth)
   await flushPromises()
   const button = wrapper.find('[data-test=name]')
@@ -89,9 +91,9 @@ test('modify redirect', async () => {
   walkFetch
     .mockResolvedValueOnce({ message: 'fail' })
     .mockResolvedValueOnce({ id: 1, redirect: 'https://example.net/' })
-  Vue.prototype.$prompt
-    .mockRejectedValueOnce('')
-    .mockResolvedValue({ value: 'https://example.net/' } as MessageBoxData)
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: 'https://example.net/' })
   const wrapper = mount(OAuth)
   await flushPromises()
   const button = wrapper.find('[data-test=callback]')
@@ -120,9 +122,9 @@ test('remove app', async () => {
   Vue.prototype.$http.get.mockResolvedValue([
     { id: 1, name: 'name' },
   ])
-  Vue.prototype.$confirm
-    .mockRejectedValueOnce('cancel')
-    .mockResolvedValue('confirm')
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: '' })
 
   const wrapper = mount(OAuth)
   await flushPromises()

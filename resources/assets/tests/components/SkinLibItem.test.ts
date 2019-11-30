@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import SkinLibItem from '@/components/SkinLibItem.vue'
-import { MessageBoxData } from 'element-ui/types/message-box'
 import { flushPromises } from '../utils'
+import { showModal } from '@/scripts/notify'
+import SkinLibItem from '@/components/SkinLibItem.vue'
+
+jest.mock('@/scripts/notify')
 
 test('urls', () => {
   const wrapper = mount(SkinLibItem, {
@@ -60,7 +62,7 @@ test('liked state', () => {
 
 test('remove from closet', async () => {
   Vue.prototype.$http.post.mockResolvedValue({ code: 0 })
-  Vue.prototype.$confirm.mockResolvedValue('confirm')
+  showModal.mockResolvedValue({ value: '' })
   const wrapper = mount(SkinLibItem, {
     propsData: {
       tid: 1, liked: true, anonymous: false,
@@ -75,15 +77,9 @@ test('add to closet', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: '1' })
     .mockResolvedValue({ code: 0 })
-  Vue.prototype.$prompt
-    .mockImplementationOnce(() => Promise.reject())
-    .mockImplementation((_, { inputValidator }) => {
-      if (inputValidator) {
-        inputValidator('')
-        inputValidator('name')
-      }
-      return Promise.resolve({ value: 'name' } as MessageBoxData)
-    })
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: 'name' })
   const wrapper = mount(SkinLibItem, {
     propsData: {
       tid: 1, liked: false, anonymous: false,

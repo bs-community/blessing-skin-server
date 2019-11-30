@@ -1,7 +1,9 @@
 <li class="nav-item dropdown user-menu">
   <a href="#" class="nav-link" data-toggle="dropdown">
     <img src="{{ avatar }}" class="user-image img-circle elevation-2" alt="User Image">
-    <span class="d-none d-md-inline d-sm-block">{{ user.nickname ?? user.email }}</span>
+    <span class="d-none d-md-inline d-sm-block" data-mark="nickname">
+      {{ user.nickname ?? user.email }}
+    </span>
   </a>
 
   <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">

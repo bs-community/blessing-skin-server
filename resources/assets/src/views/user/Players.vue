@@ -134,6 +134,8 @@
 import Modal from '../../components/Modal.vue'
 import AddPlayerDialog from '../../components/AddPlayerDialog.vue'
 import emitMounted from '../../components/mixins/emitMounted'
+import { showModal } from '../../scripts/notify'
+import { truthy } from '../../scripts/validators'
 
 export default {
   name: 'Players',
@@ -206,9 +208,11 @@ export default {
     async changeName(player) {
       let value
       try {
-        ({ value } = await this.$prompt(this.$t('user.changePlayerName'), {
-          inputValue: player.name,
-          inputValidator: val => !!val || this.$t('user.emptyPlayerName'),
+        ({ value } = await showModal({
+          mode: 'prompt',
+          text: this.$t('user.changePlayerName'),
+          input: player.name,
+          validator: truthy(this.$t('user.emptyPlayerName')),
         }))
       } catch {
         return
@@ -246,9 +250,10 @@ export default {
     },
     async deletePlayer(player, index) {
       try {
-        await this.$confirm(this.$t('user.deletePlayerNotice'), {
+        await showModal({
           title: this.$t('user.deletePlayer'),
-          type: 'warning',
+          text: this.$t('user.deletePlayerNotice'),
+          okButtonType: 'danger',
         })
       } catch {
         return

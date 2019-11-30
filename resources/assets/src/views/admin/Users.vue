@@ -45,8 +45,10 @@
           <a
             v-if="props.row.permission < 1 || (props.row.operations === 2 && props.row.permission < 2)"
             :title="$t('admin.changePermission')"
+            data-toggle="modal"
+            data-target="#modal-permission"
             data-test="permission"
-            @click="changePermission(props.row)"
+            @click="editingUser = props.row, permission = props.row.permission"
           >
             <i class="fas fa-edit btn-edit" />
           </a>
@@ -81,6 +83,40 @@
         <span v-else v-text="props.formattedRow[props.column.field]" />
       </template>
     </vue-good-table>
+    <modal
+      id="modal-permission"
+      :title="$t(this.$t('admin.newPermission'))"
+      center
+      @confirm="changePermission"
+    >
+      <label class="mr-3">
+        <input
+          v-model="permission"
+          type="radio"
+          name="permission"
+          :value="-1"
+        >
+        {{ $t('admin.banned') }}
+      </label>
+      <label class="mr-3">
+        <input
+          v-model="permission"
+          type="radio"
+          name="permission"
+          :value="0"
+        >
+        {{ $t('admin.normal') }}
+      </label>
+      <label v-if="editingUser.operations === 2">
+        <input
+          v-model="permission"
+          type="radio"
+          name="permission"
+          :value="1"
+        >
+        {{ $t('admin.admin') }}
+      </label>
+    </modal>
   </div>
 </template>
 
@@ -88,13 +124,17 @@
 import { VueGoodTable } from 'vue-good-table'
 import 'vue-good-table/dist/vue-good-table.min.css'
 import { trans } from '../../scripts/i18n'
+import Modal from '../../components/Modal.vue'
 import tableOptions from '../../components/mixins/tableOptions'
 import serverTable from '../../components/mixins/serverTable'
 import emitMounted from '../../components/mixins/emitMounted'
+import { showModal } from '../../scripts/notify'
+import { truthy } from '../../scripts/validators'
 
 export default {
   name: 'UsersManagement',
   components: {
+    Modal,
     VueGoodTable,
   },
   filters: {
@@ -149,6 +189,8 @@ export default {
           field: 'operations', label: this.$t('admin.operationsTitle'), sortable: false, globalSearchDisabled: true,
         },
       ],
+      editingUser: {},
+      permission: 0,
     }
   },
   beforeMount() {
@@ -166,9 +208,11 @@ export default {
     async changeEmail(user) {
       let value
       try {
-        ({ value } = await this.$prompt(this.$t('admin.newUserEmail'), {
-          inputValue: user.email,
-          inputValidator: val => !!val || this.$t('auth.emptyEmail'),
+        ({ value } = await showModal({
+          mode: 'prompt',
+          text: this.$t('admin.newUserEmail'),
+          input: user.email,
+          validator: truthy(this.$t('auth.emptyEmail')),
         }))
       } catch {
         return
@@ -200,9 +244,11 @@ export default {
     async changeNickName(user) {
       let value
       try {
-        ({ value } = await this.$prompt(this.$t('admin.newUserNickname'), {
-          inputValue: user.nickname,
-          inputValidator: val => !!val || this.$t('auth.emptyNickname'),
+        ({ value } = await showModal({
+          mode: 'prompt',
+          text: this.$t('admin.newUserNickname'),
+          input: user.nickname,
+          validator: truthy(this.$t('auth.emptyNickname')),
         }))
       } catch {
         return
@@ -222,7 +268,9 @@ export default {
     async changePassword(user) {
       let value
       try {
-        ({ value } = await this.$prompt(this.$t('admin.newUserPassword'), {
+        ({ value } = await showModal({
+          mode: 'prompt',
+          text: this.$t('admin.newUserPassword'),
           inputType: 'password',
         }))
       } catch {
@@ -238,9 +286,11 @@ export default {
     async changeScore(user) {
       let value
       try {
-        ({ value } = await this.$prompt(this.$t('admin.newScore'), {
+        ({ value } = await showModal({
+          mode: 'prompt',
+          text: this.$t('admin.newScore'),
+          input: user.score,
           inputType: 'number',
-          inputValue: user.score,
         }))
       } catch {
         return
@@ -258,41 +308,14 @@ export default {
         this.$message.warning(message)
       }
     },
-    async changePermission(user) {
-      const operator = user.operations
-      const options = [
-        this.$t('admin.banned'),
-        this.$t('admin.normal'),
-      ]
-      if (operator === 2) {
-        options.push(this.$t('admin.admin'))
-      }
-      const h = this.$createElement
-      const vnode = h('div', null, [
-        h('span', null, this.$t('admin.newPermission')),
-        h(
-          'select',
-          { attrs: { selectedIndex: 0 } },
-          options.map(option => h('option', null, option)),
-        ),
-      ])
-
-      try {
-        await this.$msgbox({
-          message: vnode,
-          showCancelButton: true,
-        })
-      } catch {
-        return
-      }
-      const value = vnode.children[1].elm.selectedIndex - 1
-
+    async changePermission() {
+      const permission = Number.parseInt(this.permission)
       const { code, message } = await this.$http.post('/admin/users?action=permission', {
-        uid: user.uid,
-        permission: value,
+        uid: this.editingUser.uid,
+        permission,
       })
       if (code === 0) {
-        user.permission = +value
+        this.editingUser.permission = permission
         this.$message.success(message)
       } else {
         this.$message.warning(message)
@@ -300,8 +323,9 @@ export default {
     },
     async deleteUser({ uid, originalIndex }) {
       try {
-        await this.$confirm(this.$t('admin.deleteUserNotice'), {
-          type: 'warning',
+        await showModal({
+          text: this.$t('admin.deleteUserNotice'),
+          okButtonType: 'danger',
         })
       } catch {
         return

@@ -74,8 +74,3 @@ Vue.prototype.$message = {
   warning: jest.fn(),
   error: jest.fn(),
 }
-// @ts-ignore
-Vue.prototype.$msgbox = jest.fn()
-Vue.prototype.$alert = jest.fn()
-Vue.prototype.$confirm = jest.fn()
-Vue.prototype.$prompt = jest.fn()

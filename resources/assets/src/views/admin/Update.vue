@@ -45,6 +45,7 @@
 
 <script>
 import emitMounted from '../../components/mixins/emitMounted'
+import { showModal } from '../../scripts/notify'
 
 const POLLING_INTERVAL = 500
 
@@ -73,10 +74,19 @@ export default {
       )
       this.updating = false
       if (code) {
-        this.$alert(message, { type: 'error' })
+        showModal({
+          mode: 'alert',
+          text: message,
+          type: 'danger',
+          okButtonType: 'outline-light',
+        })
         return
       }
-      await this.$alert(this.$t('admin.updateCompleted'), { type: 'success' })
+      await showModal({
+        mode: 'alert',
+        text: this.$t('admin.updateCompleted'),
+        okButtonType: 'success',
+      })
       window.location = blessing.base_url
     },
     async polling() {

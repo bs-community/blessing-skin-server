@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
+import { showModal } from '@/scripts/notify'
 import Update from '@/views/admin/Update.vue'
+
+jest.mock('@/scripts/notify')
 
 afterEach(() => {
   window.blessing.extra = { canUpdate: true }
@@ -24,12 +27,16 @@ test('perform update', async () => {
 
   button.trigger('click')
   await flushPromises()
-  expect(Vue.prototype.$alert).toBeCalledWith('fail', { type: 'error' })
+  expect(showModal).toBeCalledWith({
+    mode: 'alert',
+    text: 'fail',
+    type: 'danger',
+    okButtonType: 'outline-light',
+  })
 
   button.trigger('click')
   jest.runOnlyPendingTimers()
   await flushPromises()
-  expect($).toBeCalled()
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/admin/update/download',
     { action: 'progress' },

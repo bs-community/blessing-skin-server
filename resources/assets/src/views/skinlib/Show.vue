@@ -103,7 +103,14 @@
                   <span v-if="type === 'cape'">{{ $t('general.cape') }}</span>
                   <span v-else>{{ type }}</span>
                   <small v-if="hasEditPermission">
-                    <a v-t="'skinlib.show.edit'" href="#" @click="changeModel" />
+                    <a
+                      href="#"
+                      data-toggle="modal"
+                      data-target="#modal-type"
+                      @click="editingType = type"
+                    >
+                      {{ $t('skinlib.show.edit') }}
+                    </a>
                   </small>
                 </td>
               </tr>
@@ -162,20 +169,59 @@
       :skin="type !== 'cape' ? tid : 0"
       :cape="type === 'cape' ? tid : 0"
     />
+
+    <modal
+      id="modal-type"
+      :title="$t(this.$t('skinlib.setNewTextureModel'))"
+      center
+      @confirm="changeModel"
+    >
+      <label class="mr-3">
+        <input
+          v-model="editingType"
+          type="radio"
+          name="type"
+          value="steve"
+        >
+        Steve
+      </label>
+      <label class="mr-3">
+        <input
+          v-model="editingType"
+          type="radio"
+          name="type"
+          value="alex"
+        >
+        Alex
+      </label>
+      <label>
+        <input
+          v-model="editingType"
+          type="radio"
+          name="type"
+          value="cape"
+        >
+        {{ $t('general.cape') }}
+      </label>
+    </modal>
   </div>
 </template>
 
 <script>
+import Modal from '../../components/Modal.vue'
 import setAsAvatar from '../../components/mixins/setAsAvatar'
 import addClosetItem from '../../components/mixins/addClosetItem'
 import removeClosetItem from '../../components/mixins/removeClosetItem'
 import emitMounted from '../../components/mixins/emitMounted'
 import ApplyToPlayerDialog from '../../components/ApplyToPlayerDialog.vue'
+import { showModal } from '../../scripts/notify'
+import { truthy } from '../../scripts/validators'
 
 export default {
   name: 'Show',
   components: {
     ApplyToPlayerDialog,
+    Modal,
     Previewer: () => import('../../components/Previewer.vue'),
   },
   mixins: [
@@ -201,6 +247,7 @@ export default {
       size: 0,
       uploadAt: '',
       public: true,
+      editingType: 'steve',
       liked: blessing.extra.inCloset,
       canBeDownloaded: blessing.extra.download,
       currentUid: blessing.extra.currentUid,
@@ -256,9 +303,11 @@ export default {
     async changeTextureName() {
       let value
       try {
-        ({ value } = await this.$prompt(this.$t('skinlib.setNewTextureName'), {
-          inputValue: this.name,
-          inputValidator: name => !!name || this.$t('skinlib.emptyNewTextureName'),
+        ({ value } = await showModal({
+          mode: 'prompt',
+          text: this.$t('skinlib.setNewTextureName'),
+          input: this.name,
+          validator: truthy(this.$t('skinlib.emptyNewTextureName')),
         }))
       } catch {
         return
@@ -276,31 +325,12 @@ export default {
       }
     },
     async changeModel() {
-      const h = this.$createElement
-      const vnode = h('div', null, [
-        h('span', null, this.$t('skinlib.setNewTextureModel')),
-        h('select', { attrs: { selectedIndex: 0 } }, [
-          h('option', { attrs: { value: 'steve' } }, 'Steve'),
-          h('option', { attrs: { value: 'alex' } }, 'Alex'),
-          h('option', { attrs: { value: 'cape' } }, this.$t('general.cape')),
-        ]),
-      ])
-      try {
-        await this.$msgbox({
-          message: vnode,
-          showCancelButton: true,
-        })
-      } catch {
-        return
-      }
-      const value = ['steve', 'alex', 'cape'][vnode.children[1].elm.selectedIndex]
-
       const { code, message } = await this.$http.post(
         '/skinlib/model',
-        { tid: this.tid, model: value },
+        { tid: this.tid, model: this.editingType },
       )
       if (code === 0) {
-        this.type = value
+        this.type = this.editingType
         this.$message.success(message)
       } else {
         this.$message.warning(message)
@@ -308,12 +338,11 @@ export default {
     },
     async togglePrivacy() {
       try {
-        await this.$confirm(
-          this.public
+        await showModal({
+          text: this.public
             ? this.$t('skinlib.setPrivateNotice')
             : this.$t('skinlib.setPublicNotice'),
-          { type: 'warning' },
-        )
+        })
       } catch {
         return
       }
@@ -331,10 +360,10 @@ export default {
     },
     async deleteTexture() {
       try {
-        await this.$confirm(
-          this.$t('skinlib.deleteNotice'),
-          { type: 'warning' },
-        )
+        await showModal({
+          text: this.$t('skinlib.deleteNotice'),
+          okButtonType: 'danger',
+        })
       } catch {
         return
       }
@@ -361,9 +390,11 @@ export default {
       })()
       let reason
       try {
-        ({ value: reason } = await this.$prompt(prompt, {
+        ({ value: reason } = await showModal({
+          mode: 'prompt',
           title: this.$t('skinlib.report.title'),
-          inputPlaceholder: this.$t('skinlib.report.reason'),
+          text: prompt,
+          placeholder: this.$t('skinlib.report.reason'),
         }))
       } catch {
         return

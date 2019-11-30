@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
+import { showModal } from '@/scripts/notify'
 import Profile from '@/views/user/Profile.vue'
+
+jest.mock('@/scripts/notify')
 
 window.blessing.extra = { unverified: false }
 
@@ -20,9 +23,9 @@ test('convert linebreak', () => {
 })
 
 test('reset avatar', async () => {
-  Vue.prototype.$confirm
-    .mockRejectedValueOnce('close')
-    .mockResolvedValue('confirm')
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: '' })
   Vue.prototype.$http.post.mockResolvedValue({ message: 'ok' })
   const wrapper = mount(Profile)
   const button = wrapper.find('[data-test=resetAvatar]')
@@ -63,29 +66,22 @@ test('change password', async () => {
     '/user/profile?action=password',
     { current_password: '1', new_password: '1' },
   )
-  expect(Vue.prototype.$alert).toBeCalledWith('w', { type: 'warning' })
+  expect(showModal).toBeCalledWith({ mode: 'alert', text: 'w' })
 
   form.trigger('submit')
   await flushPromises()
-  expect(Vue.prototype.$alert).toBeCalledWith('o')
+  expect(showModal).toBeCalledWith({ mode: 'alert', text: 'o' })
 })
 
 test('change nickname', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: 'w' })
     .mockResolvedValue({ code: 0, message: 'o' })
-  Vue.prototype.$confirm
-    .mockRejectedValueOnce('close')
-    .mockResolvedValue('confirm')
   const wrapper = mount(Profile)
   const form = wrapper.find('[data-test=changeNickName]')
-  document.body.innerHTML += '<span class="nickname"></span>'
+  document.body.innerHTML += '<span data-mark="nickname"></span>'
 
   wrapper.setData({ nickname: 'nickname' })
-  form.trigger('submit')
-  expect(Vue.prototype.$http.post).not.toBeCalled()
-  expect(Vue.prototype.$confirm).toBeCalledWith('user.changeNickName')
-
   form.trigger('submit')
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
@@ -93,29 +89,22 @@ test('change nickname', async () => {
     { new_nickname: 'nickname' },
   )
   await flushPromises()
-  expect(Vue.prototype.$alert).toBeCalledWith('w', { type: 'warning' })
+  expect(showModal).toBeCalledWith({ mode: 'alert', text: 'w' })
 
   form.trigger('submit')
   await flushPromises()
   expect(Vue.prototype.$message.success).toBeCalledWith('o')
-  expect(document.querySelector('.nickname')!.textContent).toBe('nickname')
+  expect(document.querySelector('span')!.textContent).toBe('nickname')
 })
 
 test('change email', async () => {
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: 'w' })
     .mockResolvedValue({ code: 0, message: 'o' })
-  Vue.prototype.$confirm
-    .mockRejectedValueOnce('close')
-    .mockResolvedValue('confirm')
   const wrapper = mount(Profile)
   const form = wrapper.find('[data-test=changeEmail]')
 
   wrapper.setData({ email: 'a@b.c', currentPassword: 'abc' })
-  form.trigger('submit')
-  expect(Vue.prototype.$confirm).toBeCalledWith('user.changeEmail')
-  expect(Vue.prototype.$http.post).not.toBeCalled()
-
   form.trigger('submit')
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
@@ -123,7 +112,7 @@ test('change email', async () => {
     { new_email: 'a@b.c', password: 'abc' },
   )
   await flushPromises()
-  expect(Vue.prototype.$alert).toBeCalledWith('w', { type: 'warning' })
+  expect(showModal).toBeCalledWith({ mode: 'alert', text: 'w' })
 
   form.trigger('submit')
   await flushPromises()
@@ -145,9 +134,9 @@ test('delete account', async () => {
     { password: 'abc' },
   )
   await flushPromises()
-  expect(Vue.prototype.$alert).toBeCalledWith('w', { type: 'warning' })
+  expect(showModal).toBeCalledWith({ mode: 'alert', text: 'w' })
 
   form.trigger('submit')
   await flushPromises()
-  expect(Vue.prototype.$alert).toBeCalledWith('o', { type: 'success' })
+  expect(showModal).toBeCalledWith({ mode: 'alert', text: 'w' })
 })

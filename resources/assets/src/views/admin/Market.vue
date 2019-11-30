@@ -76,6 +76,7 @@ import 'vue-good-table/dist/vue-good-table.min.css'
 import enablePlugin from '../../components/mixins/enablePlugin'
 import tableOptions from '../../components/mixins/tableOptions'
 import emitMounted from '../../components/mixins/emitMounted'
+import { showModal } from '../../scripts/notify'
 
 export default {
   name: 'Market',
@@ -149,11 +150,11 @@ export default {
     },
     async updatePlugin(plugin) {
       try {
-        await this.$confirm(
-          this.$t('admin.confirmUpdate', {
+        await showModal({
+          text: this.$t('admin.confirmUpdate', {
             plugin: plugin.title, old: plugin.installed, new: plugin.version,
           }),
-        )
+        })
       } catch {
         return
       }

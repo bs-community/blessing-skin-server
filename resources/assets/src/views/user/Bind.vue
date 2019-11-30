@@ -33,6 +33,7 @@
 
 <script>
 import emitMounted from '../../components/mixins/emitMounted'
+import { showModal } from '../../scripts/notify'
 
 export default {
   name: 'BindPlayer',
@@ -54,7 +55,7 @@ export default {
     async fetchPlayers() {
       const players = (await this.$http.get('/user/player/list')).data
       this.players = players.map(player => player.name)
-      ;[this.selected] = this.players
+      this.selected = this.players[0]
     },
     async submit() {
       this.pending = true
@@ -64,7 +65,7 @@ export default {
       )
       this.pending = false
       if (code === 0) {
-        await this.$alert(message)
+        await showModal({ mode: 'alert', text: message })
         window.location.href = `${blessing.base_url}/user`
       } else {
         this.message = message

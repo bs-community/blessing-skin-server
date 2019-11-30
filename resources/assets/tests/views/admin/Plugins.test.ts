@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import Plugins from '@/views/admin/Plugins.vue'
 import { flushPromises } from '../../utils'
+import { showModal } from '@/scripts/notify'
+import Plugins from '@/views/admin/Plugins.vue'
 
 jest.mock('@/scripts/notify')
 
@@ -60,22 +61,27 @@ test('enable plugin', async () => {
       code: 1, message: '1', data: { reason: ['abc'] },
     })
     .mockResolvedValue({ code: 0, message: '0' })
-  Vue.prototype.$confirm
-    .mockRejectedValueOnce('')
-    .mockResolvedValue('confirm')
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: '' })
   const wrapper = mount(Plugins)
   await flushPromises()
 
-  wrapper.findAll('.actions').at(0)
+  wrapper
+    .findAll('.actions')
+    .at(0)
     .find('a')
     .trigger('click')
   await flushPromises()
-  expect(Vue.prototype.$confirm).toBeCalledWith('admin.noDependenciesNotice', {
-    type: 'warning',
+  expect(showModal).toBeCalledWith({
+    text: 'admin.noDependenciesNotice',
+    okButtonType: 'warning',
   })
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
-  wrapper.findAll('.actions').at(0)
+  wrapper
+    .findAll('.actions')
+    .at(0)
     .find('a')
     .trigger('click')
   await flushPromises()
@@ -83,12 +89,14 @@ test('enable plugin', async () => {
     '/admin/plugins/manage',
     { action: 'enable', name: 'a' },
   )
-  expect(Vue.prototype.$alert).toBeCalledWith('', ({
-    type: 'warning',
-    message: expect.anything(),
-  }))
+  expect(showModal).toBeCalledWith({
+    mode: 'alert',
+    dangerousHTML: expect.stringContaining('<li>abc</li>'),
+  })
 
-  wrapper.findAll('.actions').at(1)
+  wrapper
+    .findAll('.actions')
+    .at(1)
     .find('a')
     .trigger('click')
   await flushPromises()
@@ -123,15 +131,18 @@ test('disable plugin', async () => {
 test('delete plugin', async () => {
   Vue.prototype.$http.get.mockResolvedValue([
     {
-      name: 'a', dependencies: { all: {}, unsatisfied: {} }, enabled: false,
+      name: 'a',
+      title: 'My Plugin',
+      dependencies: { all: {}, unsatisfied: {} },
+      enabled: false,
     },
   ])
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: '1' })
     .mockResolvedValue({ code: 0, message: '0' })
-  Vue.prototype.$confirm
-    .mockRejectedValueOnce('')
-    .mockResolvedValue('confirm')
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: '' })
   const wrapper = mount(Plugins)
   await flushPromises()
   const button = wrapper.find('.actions').findAll('a')
@@ -139,8 +150,10 @@ test('delete plugin', async () => {
 
   button.trigger('click')
   await flushPromises()
-  expect(Vue.prototype.$confirm).toBeCalledWith('admin.confirmDeletion', {
-    type: 'warning',
+  expect(showModal).toBeCalledWith({
+    title: 'My Plugin',
+    text: 'admin.confirmDeletion',
+    okButtonType: 'danger',
   })
   expect(Vue.prototype.$http.post).not.toBeCalled()
 

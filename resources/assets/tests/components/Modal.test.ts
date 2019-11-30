@@ -77,6 +77,46 @@ test('prompt mode', () => {
   expect(wrapper.emitted().confirm[0][0]).toStrictEqual({ value: 'hazuki' })
 })
 
+test('input placeholder', () => {
+  const wrapper = mount(Modal, {
+    propsData: {
+      mode: 'prompt',
+      placeholder: 'hibike',
+    },
+  })
+  expect(wrapper.find('input').attributes('placeholder')).toBe('hibike')
+})
+
+test('validate input', () => {
+  const stub = jest.fn()
+    .mockReturnValueOnce(false)
+    .mockReturnValueOnce('invalid')
+
+  const wrapper = mount(Modal, {
+    propsData: {
+      mode: 'prompt',
+      validator: stub,
+    },
+  })
+  const button = wrapper.find('.btn-primary')
+
+  button.trigger('click')
+  expect(wrapper.find('.alert').exists()).toBeFalse()
+
+  button.trigger('click')
+  expect(wrapper.find('.alert').text()).toContain('invalid')
+})
+
+test('input type', () => {
+  const wrapper = mount(Modal, {
+    propsData: {
+      mode: 'prompt',
+      inputType: 'password',
+    },
+  })
+  expect(wrapper.find('[type=password]').exists()).toBeTrue()
+})
+
 test('modal type', () => {
   const wrapper = mount(Modal, {
     propsData: {

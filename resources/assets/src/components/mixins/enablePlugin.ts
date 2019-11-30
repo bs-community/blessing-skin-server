@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import { showModal } from '../../scripts/notify'
 
 export default Vue.extend({
   data: () => ({ plugins: [] }),
@@ -7,15 +8,15 @@ export default Vue.extend({
       name, dependencies: { all }, originalIndex,
     }: {
       name: string
-      dependencies: { all: { [name: string]: string } }
+      dependencies: { all: Record<string, string> }
       originalIndex: number
     }) {
       if (Object.keys(all).length === 0) {
         try {
-          await this.$confirm(
-            this.$t('admin.noDependenciesNotice'),
-            { type: 'warning' },
-          )
+          await showModal({
+            text: this.$t('admin.noDependenciesNotice'),
+            okButtonType: 'warning',
+          })
         } catch {
           return
         }
@@ -31,12 +32,21 @@ export default Vue.extend({
         this.$message.success(message)
         this.$set(this.plugins[originalIndex], 'enabled', true)
       } else {
-        const h = this.$createElement
-        const vnode = h('div', {}, [
-          h('p', message),
-          h('ul', {}, reason.map(item => h('li', item))),
-        ])
-        this.$alert('', { message: vnode, type: 'warning' })
+        const div = document.createElement('div')
+        const p = document.createElement('p')
+        p.textContent = message
+        div.appendChild(p)
+        const ul = document.createElement('ul')
+        reason.forEach(item => {
+          const li = document.createElement('li')
+          li.textContent = item
+          ul.appendChild(li)
+        })
+        div.appendChild(ul)
+        showModal({
+          mode: 'alert',
+          dangerousHTML: div.outerHTML,
+        })
       }
     },
   },

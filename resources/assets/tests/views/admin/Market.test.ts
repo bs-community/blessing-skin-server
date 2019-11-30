@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import Market from '@/views/admin/Market.vue'
 import { flushPromises } from '../../utils'
+import { showModal } from '@/scripts/notify'
+import Market from '@/views/admin/Market.vue'
+
+jest.mock('@/scripts/notify')
 
 test('render dependencies', async () => {
   Vue.prototype.$http.get.mockResolvedValue([
@@ -82,9 +85,9 @@ test('update plugin', async () => {
   ])
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: '1' })
-  Vue.prototype.$confirm
-    .mockRejectedValueOnce('')
-    .mockResolvedValue('confirm')
+  showModal
+    .mockRejectedValueOnce(null)
+    .mockResolvedValue({ value: '' })
   const wrapper = mount(Market)
   await flushPromises()
   const button = wrapper.find('button')

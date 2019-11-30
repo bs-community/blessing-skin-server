@@ -29,7 +29,17 @@
             <div v-else-if="dangerousHTML" v-html="dangerousHTML" />
             <template v-if="mode === 'prompt'">
               <div class="form-group">
-                <input v-model="value" type="text" class="form-control">
+                <input
+                  v-model="value"
+                  :type="inputType"
+                  class="form-control"
+                  :placeholder="placeholder"
+                  @input="valid = true"
+                >
+              </div>
+              <div v-if="!valid" class="alert alert-danger">
+                <i class="icon far fa-times-circle" />
+                {{ validatorMessage }}
               </div>
             </template>
           </slot>
@@ -91,6 +101,16 @@ export default {
       type: String,
       default: '',
     },
+    placeholder: {
+      type: String,
+    },
+    inputType: {
+      type: String,
+      default: 'text',
+    },
+    validator: {
+      type: Function,
+    },
     type: {
       type: String,
       default: 'default',
@@ -128,6 +148,8 @@ export default {
     return {
       hidden: false,
       value: this.input,
+      valid: true,
+      validatorMessage: '',
     }
   },
   computed: {
@@ -154,6 +176,15 @@ export default {
   },
   methods: {
     confirm() {
+      if (typeof this.validator === 'function') {
+        const result = this.validator(this.value)
+        if (typeof result === 'string') {
+          this.validatorMessage = result
+          this.valid = false
+          return
+        }
+      }
+
       this.hidden = true
       this.$emit('confirm', { value: this.value })
       $(this.$el).modal('hide')
