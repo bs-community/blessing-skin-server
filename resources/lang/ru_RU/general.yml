@@ -7,9 +7,9 @@ login: Войти
 register: Зарегистрироваться
 profile: Профиль
 admin-panel: Панель администратора
-explore: Explore
-manage: Manage
-anonymous: Guest
+explore: Обзор
+manage: Управлeние
+anonymous: Гость
 back: Назад
 dashboard: Главная страница
 my-closet: Гардероб
@@ -25,7 +25,7 @@ plugin-configs: Конфигурации плагинов
 customize: Настроить
 i18n: Локализация
 options: Параметры
-score-options: Score Options
+score-options: Параметры счёта
 res-options: Параметры ресурсов
 status: Статус
 check-update: Проверить обновления
@@ -47,26 +47,26 @@ no: false
 op-success: Успешно выполнено.
 unknown: Неизвестно
 notice: Примечание
-switch-2d-preview: Switch to 2D preview
-illegal-parameters: Illegal parameters.
-private: Private
-public: Public
-unexistent-user: No such user.
-unexistent-player: No such player.
-player-banned: The owner of this player has been banned.
-texture-deleted: The requested texture has been deleted.
-texture-not-uploaded: The user haven't uploaded the texture of :type model yet.
-operations: Operations
+switch-2d-preview: Переключить в 2D режим просмотра
+illegal-parameters: Недопустимые параметры.
+private: Приватный
+public: Публичный
+unexistent-user: Пользователь не существует.
+unexistent-player: Игрок не существует.
+player-banned: Владелец этого игрока был заблокирован.
+texture-deleted: Запрашиваемая текстура удалена.
+texture-not-uploaded: Пользователь еще не загрузил текстуру модели :type.
+operations: Действия
 user:
   uid: UID
-  email: Email
-  nickname: Nickname
-  password: Password
-  score: Score
-  register-at: Registered At
+  email: Адрес электронной почты
+  nickname: Ник
+  password: Пароль
+  score: Счёт
+  register-at: Дата регистрации
 player:
   pid: PID
-  owner: Owner
-  player-name: Player Name
-  previews: Texture Previews
-  last-modified: Last Modified
+  owner: Владелец
+  player-name: Имя игрока
+  previews: Предпросмотр текстуры
+  last-modified: Последнее изменение
