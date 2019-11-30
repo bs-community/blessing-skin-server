@@ -53,11 +53,11 @@ players:
   textures:
     change: Изменить текстуры
     non-existent: Текстуры tid:tid не существует
-    success: The textures of :player has been updated.
+    success: Текстуры :player обновлены.
   name:
-    success: Player name has been updated to :player
+    success: Имя игрока обновлено до :player
   owner:
-    change: Change Owner
+    change: Сменить владельца
     success: The player :player was transferred to user :user.
   delete:
     delete: Delete
