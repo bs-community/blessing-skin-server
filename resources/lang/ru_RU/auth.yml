@@ -3,7 +3,7 @@ login:
   title: Вход
   button: Войти
   message: Войдите, чтобы управлять скином и игроками
-  keep: Запомни меня
+  keep: Запомнить меня
   success: Вход в систему выполнен успешно.
 check:
   anonymous: Неправомерный доступ. Пожалуйста, выполните вход.
@@ -16,7 +16,7 @@ register:
   title: Регистрация
   button: Зарегистрироваться
   message: Добро пожаловать на :sitename!
-  nickname-intro: Whatever you like expect special characters
+  nickname-intro: Всё, что вам угодно, кроме специальных символов
   repeat-pwd: Подтвердить пароль
   close: Мы не принимаем никаких регистраций.
   success: Ваша учетная запись зарегистрирована. Перенаправление...
@@ -26,7 +26,7 @@ forgot:
   title: Забыли пароль?
   button: Отправить
   message: Мы вышлем вам электронное письмо для подтверждения. 
-  login-link: I do remember it
+  login-link: Я это помню
   disabled: Сброс пароля недоступен.
   frequent-mail: Вы слишком быстро нажимаете на кнопку отправки. Подождите несколько минут.
   unregistered: Данный E-mail адрес не зарегистрирован.
