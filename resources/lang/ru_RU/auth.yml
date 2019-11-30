@@ -36,32 +36,32 @@ forgot:
   reset: Восстановление пароля
   notice: Это сообщение отправляется автоматически, никакие ответы не будут отправлены, если вы ответите.
   mail:
-    title: Reset your password on :sitename
-    message: You are receiving this email because we received a password reset request for your account on :sitename.
-    reset: 'To reset your password, please visit: <a href=":url">:url</a>'
-    ignore: If you did not request a password reset, no further action is required.
+    title: Сброс пароля на :sitename
+    message: Вы получаете это письмо, потому что мы получили запрос на сброс пароля для вашей учетной записи на :sitename. 
+    reset: 'Чтобы сбросить пароль, пожалуйста, посетите: <a href=":url">:url</a>'
+    ignore: Если вы не запрашивали сброс пароля, никаких дальнейших действий не требуется.
 reset:
-  title: Reset Password
-  button: Reset
-  invalid: Invalid link.
-  expired: This link is expired.
-  message: ':username, reset your email address here.'
-  success: Password resetted successfully.
+  title: Сброс пароля
+  button: Сброс
+  invalid: Неверная ссылка.
+  expired: Срок действия ссылки истёк.
+  message: ':username, сбросьте свой адрес электронной почты здесь.'
+  success: Пароль успешно сброшен.
 bind:
-  title: Bind Email
-  button: Bind
-  message: You need to provide your email adderss to continue.
-  introduction: We won't send you any spam.
-  registered: The email address was already taken.
+  title: Привязка электронной почты
+  button: Привязать
+  message: Для продолжения работы вам необходимо предоставить адрес электронной почты.
+  introduction: Мы не будем отправлять вам спам.
+  registered: Адрес электронной почты уже занят.
 verify:
-  title: Email Verification
-  success: Your account was now verified.
-  message: Welcome to :sitename!
-  button: Homepage
-  invalid: Invalid link.
-  expired: This link is expired, please resend a verification email.
+  title: Подтверждение адреса электронной почты
+  success: Ваша учетная запись подтверждена.
+  message: Добро пожаловать на :sitename!
+  button: Домашняя страница
+  invalid: Неверная ссылка.
+  expired: Срок действия этой ссылки истек, пожалуйста, отправьте письмо с подтверждением.
 validation:
-  identification: The email or player name is invalid.
+  identification: Неверный адрес электронной почты или имя игрока.
   email: Email format is invalid.
   captcha: Wrong CAPTCHA.
   user: No such user.
