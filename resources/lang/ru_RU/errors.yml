@@ -15,8 +15,8 @@ exception:
   message: |
     Упс, кажется, что-то пошло не так. (включите APP_DEBUG в .env чтобы увидеть подробности)
 plugins:
-  duplicate: The plugin [:dir1] has a duplicated plugin name definition which is same to plugin [:dir2]. Please check your plugins directory, remove one of them or use another name definition.
-  directory: We can't approach the path for loading plugins specified by the PLUGINS_DIR in .env file. Please check your configuration. Error :msg
-  boot: There is something wrong with plugin ":plugin".
+  duplicate: Имя плагина [:dir1] совпадает с именем плагина [:dir2]. Пожалуйста, проверьте вашу папку с плагинами, удалите один из них или используйте другое имя.
+  directory: Мы не можем обратиться к пути для загрузки плагинов, определенном параметром PLUGINS_DIR в файле .env. Пожалуйста, проверьте конфигурацию. Ошибка :msg
+  boot: Что-то не так с плагином ":plugin".
 cipher:
-  unsupported: Unsupported password hashing method `:cipher`, please check your `.env` configuration
+  unsupported: Неподдерживаемый метод хэширования пароля `:cipher`, пожалуйста, проверьте конфигурацию `.env`
