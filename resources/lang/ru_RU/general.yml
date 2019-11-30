@@ -16,37 +16,37 @@ my-closet: Гардероб
 my-reports: Отчёты
 developer: Дополнительные параметры
 oauth-manage: OAuth2 приложения
-player-manage: Players
-user-manage: Users
-report-manage: Reports
-plugin-manage: Plugins
-plugin-market: Plugin Market
-plugin-configs: Plugin Configs
-customize: Customize
-i18n: Internationalization
-options: Options
+player-manage: Игроки
+user-manage: Пользователи
+report-manage: Отчёты
+plugin-manage: Плагины
+plugin-market: Магазин плагинов
+plugin-configs: Конфигурации плагинов
+customize: Настроить
+i18n: Локализация
+options: Параметры
 score-options: Score Options
-res-options: Resource Options
-status: Status
-check-update: Check Update
-download-update: Download Updates
-close: Close
-skin: Skin
-cape: Cape
-loading: Loading
-texture-preview: Texture Preview
-walk: Walk
-run: Run
-rotation: Rotation
-pause: Pause
-reset: Reset
-submit: Submit
-cancel: Cancel
+res-options: Параметры ресурсов
+status: Статус
+check-update: Проверить обновления
+download-update: Загрузить обновление
+close: Закрыть
+skin: Скин
+cape: Плащ
+loading: Загрузка
+texture-preview: Предпросмотр текстуры
+walk: Ходьба
+run: Бег
+rotation: Вращение
+pause: Пауза
+reset: Сброс
+submit: Подтвердить
+cancel: Отмена
 yes: true
 no: false
-op-success: Operated successfully.
-unknown: Unknown
-notice: Notice
+op-success: Успешно выполнено.
+unknown: Неизвестно
+notice: Примечание
 switch-2d-preview: Switch to 2D preview
 illegal-parameters: Illegal parameters.
 private: Private
