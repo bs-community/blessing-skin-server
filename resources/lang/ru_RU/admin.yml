@@ -1,9 +1,9 @@
 ---
 index:
-  total-users: Registered Users
-  total-players: Players
-  total-textures: Uploaded Textures
-  disk-usage: Disk Usage
+  total-users: Зарегистрировано пользователей
+  total-players: Игроки
+  total-textures: Загруженные текстуры
+  disk-usage: Использование диска
   overview: Overview
   texture-uploads: Texture Uploads
   user-registration: User Registration
