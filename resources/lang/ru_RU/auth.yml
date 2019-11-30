@@ -10,31 +10,31 @@ check:
   verified: Чтобы получить доступ к этой странице, вы должны сначала подтвердить свой адрес электронной почты.
   admin: Доступ к этой странице разрешен только администраторам.
   super-admin: Доступ к этой странице разрешен только суперадминистратору.
-  banned: You are banned on this site. Please contact the admin.
-  token: Token expired. Please log in.
+  banned: Вы забанены на этом сайте. Пожалуйста, свяжитесь с администратором.
+  token: Срок действия токена истек. Пожалуйста, войдите в систему.
 register:
-  title: Register
-  button: Register
-  message: Welcome to :sitename!
+  title: Регистрация
+  button: Зарегистрироваться
+  message: Добро пожаловать на :sitename!
   nickname-intro: Whatever you like expect special characters
-  repeat-pwd: Repeat your password
-  close: We don't accept any registration.
-  success: Your account was registered. Redirecting...
-  max: You can't register more than :regs accounts.
-  registered: The email address was already registered.
+  repeat-pwd: Подтвердить пароль
+  close: Мы не принимаем никаких регистраций.
+  success: Ваша учетная запись зарегистрирована. Перенаправление...
+  max: Вы не можете зарегистрироваться более чем :regs аккаунтов.
+  registered: Адрес электронной почты уже зарегистрирован.
 forgot:
-  title: Forgot Password
-  button: Send
-  message: We will send you an E-mail to verify.
+  title: Забыли пароль?
+  button: Отправить
+  message: Мы вышлем вам электронное письмо для подтверждения. 
   login-link: I do remember it
-  disabled: Password resetting is not available.
-  frequent-mail: You click the send button too fast. Wait for some minutes.
-  unregistered: The email address is not registered.
-  success: Mail sent, please check your inbox. The link will be expired in 1 hour.
-  failed: Failed to send verification mail. :msg
-  ignore: If you haven't signed up on our site, please ignore this email. No unsubscribing is required.
-  reset: Reset your password
-  notice: This mail is sending automatically, no reponses will be sent if you reply.
+  disabled: Сброс пароля недоступен.
+  frequent-mail: Вы слишком быстро нажимаете на кнопку отправки. Подождите несколько минут.
+  unregistered: Данный E-mail адрес не зарегистрирован.
+  success: Письмо отправлено, пожалуйста, проверьте ваш почтовый ящик. Срок действия ссылки истекает через 1 час.
+  failed: Не удалось отправить письмо с подтверждением. :msg
+  ignore: Если вы не зарегистрировались на нашем сайте, пожалуйста, проигнорируйте это письмо. Отписка не требуется.
+  reset: Восстановление пароля
+  notice: Это сообщение отправляется автоматически, никакие ответы не будут отправлены, если вы ответите.
   mail:
     title: Reset your password on :sitename
     message: You are receiving this email because we received a password reset request for your account on :sitename.
