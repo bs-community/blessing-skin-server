@@ -1,5 +1,5 @@
 import 'bootstrap'
-import * as notify from '@/scripts/notify'
+import * as modal from '@/scripts/modal'
 
 test('show modal', async () => {
   process.nextTick(() => {
@@ -8,6 +8,6 @@ test('show modal', async () => {
     ).toBe('general.tip')
     document.querySelector<HTMLButtonElement>('.btn-primary')!.click()
   })
-  const { value } = await notify.showModal()
+  const { value } = await modal.showModal()
   expect(value).toBe('')
 })
