@@ -151,6 +151,7 @@
             }
           ],
           "@typescript-eslint/no-invalid-this": 0,
+          "@typescript-eslint/no-unnecessary-condition": 0,
           "no-invalid-this": 0
         }
       },
