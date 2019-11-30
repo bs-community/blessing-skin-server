@@ -1,21 +1,21 @@
 ---
-index: Homepage
-skinlib: Skin Library
-user-center: User Center
-logout: Log Out
-login: Log In
-register: Register Now
-profile: User Profile
-admin-panel: Admin Panel
+index: Домашняя страница
+skinlib: Библиотека скинов
+user-center: Меню пользователя
+logout: Выйти
+login: Войти
+register: Зарегистрироваться
+profile: Профиль
+admin-panel: Панель администратора
 explore: Explore
 manage: Manage
 anonymous: Guest
-back: Back
-dashboard: Dashboard
-my-closet: Closet
-my-reports: Reports
-developer: Advanced
-oauth-manage: OAuth2 Apps
+back: Назад
+dashboard: Главная страница
+my-closet: Гардероб
+my-reports: Отчёты
+developer: Дополнительные параметры
+oauth-manage: OAuth2 приложения
 player-manage: Players
 user-manage: Users
 report-manage: Reports
