@@ -17,7 +17,7 @@
     "codecov": "codecov -F js"
   },
   "dependencies": {
-    "@babel/runtime": "^7.7.2",
+    "@babel/runtime": "^7.7.4",
     "@fortawesome/fontawesome-free": "^5.11.2",
     "@tweenjs/tween.js": "^18.4.2",
     "admin-lte": "^3.0.1",
@@ -33,10 +33,10 @@
     "vuejs-paginate": "^2.1.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.2",
-    "@babel/plugin-transform-runtime": "^7.6.2",
-    "@babel/preset-env": "^7.7.1",
-    "@babel/preset-typescript": "^7.7.2",
+    "@babel/core": "^7.7.4",
+    "@babel/plugin-transform-runtime": "^7.7.4",
+    "@babel/preset-env": "^7.7.4",
+    "@babel/preset-typescript": "^7.7.4",
     "@gplane/tsconfig": "^1.0.0",
     "@types/bootstrap": "^4.3.1",
     "@types/echarts": "^4.1.9",
@@ -81,7 +81,8 @@
     "webpackbar": "^4.0.0"
   },
   "resolutions": {
-    "vue-eslint-parser": "^7.0.0"
+    "vue-eslint-parser": "^7.0.0",
+    "caniuse-lite": "*"
   },
   "browserslist": [
     "> 1%",
