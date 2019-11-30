@@ -7,11 +7,11 @@ features:
     desc: Вы можете добавить несколько игроков на один аккаунт.
   second:
     icon: fa-share-square
-    name: Sharing
+    name: Публикация
     desc: Просматривайте библиотеку скинов, ставьте лайки и делитесь скинами с друзьями.
   third:
     icon: fa-cloud
     name: Это бесплатно
-    desc: It is free forever. No ads. No subscription fees.
-introduction: ':sitename provides the service of uploading and hosting Minecraft skins. By coordinating with skin mods (e.g. CustomSkinLoader), you can choose skin and cape for your game character, and make it visible to other players in Minecraft.'
-start: Join Us
+    desc: Сервис навсегда бесплатный. Без рекламы. Без платной подписки.
+introduction: ':sitename предоставляет возможность загрузки и хранения скинов для Minecraft. Используя сервис совместно с модами для скинов (например, CustomSkinLoader), вы можете выбрать скин и плащ для вашего персонажа и сделать их видимыми для других игроков.'
+start: Присоединяйтесь
