@@ -58,6 +58,7 @@
 
 <script>
 import emitMounted from '../../components/mixins/emitMounted'
+import { toast } from '../../scripts/notify'
 
 export default {
   name: 'Reset',
@@ -90,8 +91,10 @@ export default {
         { password },
       )
       if (code === 0) {
-        this.$message.success(message)
-        window.location = `${blessing.base_url}/auth/login`
+        toast.success(message)
+        setTimeout(() => {
+          window.location = `${blessing.base_url}/auth/login`
+        }, 2000)
       } else {
         this.infoMsg = ''
         this.warningMsg = message

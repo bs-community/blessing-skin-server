@@ -214,7 +214,7 @@ import addClosetItem from '../../components/mixins/addClosetItem'
 import removeClosetItem from '../../components/mixins/removeClosetItem'
 import emitMounted from '../../components/mixins/emitMounted'
 import ApplyToPlayerDialog from '../../components/ApplyToPlayerDialog.vue'
-import { showModal } from '../../scripts/notify'
+import { showModal, toast } from '../../scripts/notify'
 import { truthy } from '../../scripts/validators'
 
 export default {
@@ -319,9 +319,9 @@ export default {
       )
       if (code === 0) {
         this.name = value
-        this.$message.success(message)
+        toast.success(message)
       } else {
-        this.$message.error(message)
+        toast.error(message)
       }
     },
     async changeModel() {
@@ -331,9 +331,9 @@ export default {
       )
       if (code === 0) {
         this.type = this.editingType
-        this.$message.success(message)
+        toast.success(message)
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
     async togglePrivacy() {
@@ -352,10 +352,10 @@ export default {
         { tid: this.tid },
       )
       if (code === 0) {
-        this.$message.success(message)
+        toast.success(message)
         this.public = !this.public
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
     async deleteTexture() {
@@ -373,10 +373,10 @@ export default {
         { tid: this.tid },
       )
       if (code === 0) {
-        this.$message.success(message)
+        toast.success(message)
         setTimeout(() => (window.location = `${this.baseUrl}/skinlib`), 1000)
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
     async report() {
@@ -405,9 +405,9 @@ export default {
         { tid: this.tid, reason },
       )
       if (code === 0) {
-        this.$message.success(message)
+        toast.success(message)
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
     fetchPlayersList() {

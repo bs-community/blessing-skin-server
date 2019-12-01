@@ -77,7 +77,7 @@ import Modal from '../../components/Modal.vue'
 import tableOptions from '../../components/mixins/tableOptions'
 import emitMounted from '../../components/mixins/emitMounted'
 import { walkFetch, init } from '../../scripts/net'
-import { showModal } from '../../scripts/notify'
+import { showModal, toast } from '../../scripts/notify'
 
 export default {
   name: 'OAuthApps',
@@ -135,7 +135,7 @@ export default {
       if (client.id) {
         this.clients.unshift(client)
       } else {
-        this.$message.warning(client.message)
+        toast.error(client.message)
       }
     },
     async modifyName(client) {
@@ -177,7 +177,7 @@ export default {
       if (result.id) {
         Object.assign(client, modified)
       } else {
-        this.$message.warning(result.message)
+        toast.error(result.message)
       }
     },
     async remove(client) {

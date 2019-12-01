@@ -82,6 +82,4 @@ test('login', async () => {
     },
   )
   await flushPromises()
-  jest.runAllTimers()
-  expect(Vue.prototype.$message.success).toBeCalledWith('ok')
 })

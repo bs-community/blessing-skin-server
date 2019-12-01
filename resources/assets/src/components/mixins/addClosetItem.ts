@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { showModal } from '../../scripts/notify'
+import { showModal, toast } from '../../scripts/notify'
 import { truthy } from '../../scripts/validators'
 
 export default Vue.extend<{
@@ -26,10 +26,10 @@ export default Vue.extend<{
         { tid: this.tid, name: value },
       )
       if (code === 0) {
-        this.$message.success(message!)
+        toast.success(message)
         this.$emit('like-toggled', true)
       } else {
-        this.$message.warning(message!)
+        toast.error(message)
       }
     },
   },

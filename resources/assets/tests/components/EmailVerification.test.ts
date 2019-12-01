@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../utils'
+import { toast } from '@/scripts/notify'
 import EmailVerification from '@/components/EmailVerification.vue'
+
+jest.mock('@/scripts/notify')
 
 test('message box should not be render if verified', () => {
   window.blessing.extra = { unverified: false }
@@ -19,9 +22,9 @@ test('resend email', async () => {
 
   button.trigger('click')
   await flushPromises()
-  expect(Vue.prototype.$message.error).toBeCalledWith('1')
+  expect(toast.error).toBeCalledWith('1')
 
   button.trigger('click')
   await flushPromises()
-  expect(Vue.prototype.$message.success).toBeCalledWith('0')
+  expect(toast.success).toBeCalledWith('0')
 })

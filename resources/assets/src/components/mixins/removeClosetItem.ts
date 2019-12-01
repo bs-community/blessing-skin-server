@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { showModal } from '../../scripts/notify'
+import { showModal, toast } from '../../scripts/notify'
 
 export default Vue.extend<{
   name: string
@@ -19,9 +19,9 @@ export default Vue.extend<{
       const { code, message } = await this.$http.post(`/user/closet/remove/${this.tid}`)
       if (code === 0) {
         this.$emit('item-removed')
-        this.$message.success(message!)
+        toast.success(message)
       } else {
-        this.$message.warning(message!)
+        toast.error(message)
       }
     },
   },

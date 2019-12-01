@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
-import { showModal } from '@/scripts/notify'
+import { showModal, toast } from '@/scripts/notify'
 import Profile from '@/views/user/Profile.vue'
 
 jest.mock('@/scripts/notify')
@@ -41,7 +41,7 @@ test('reset avatar', async () => {
     { tid: 0 },
   )
   await flushPromises()
-  expect(Vue.prototype.$message.success).toBeCalledWith('ok')
+  expect(toast.success).toBeCalledWith('ok')
   expect(document.querySelector('img')!.src).toMatch(/\d+$/)
 })
 
@@ -56,7 +56,7 @@ test('change password', async () => {
   wrapper.setData({ newPassword: '1' })
   wrapper.setData({ confirmPassword: '2' })
   form.trigger('submit')
-  expect(Vue.prototype.$message.error).toBeCalledWith('auth.invalidConfirmPwd')
+  expect(toast.error).toBeCalledWith('auth.invalidConfirmPwd')
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
   wrapper.setData({ confirmPassword: '1' })
@@ -93,7 +93,7 @@ test('change nickname', async () => {
 
   form.trigger('submit')
   await flushPromises()
-  expect(Vue.prototype.$message.success).toBeCalledWith('o')
+  expect(toast.success).toBeCalledWith('o')
   expect(document.querySelector('span')!.textContent).toBe('nickname')
 })
 
@@ -116,7 +116,7 @@ test('change email', async () => {
 
   form.trigger('submit')
   await flushPromises()
-  expect(Vue.prototype.$message.success).toBeCalledWith('o')
+  expect(showModal).toBeCalledWith({ mode: 'alert', text: 'o' })
 })
 
 test('delete account', async () => {

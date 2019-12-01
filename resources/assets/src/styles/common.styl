@@ -30,3 +30,13 @@
 
 .user-panel .info
   cursor default
+
+.alert-toast
+  position fixed
+  right calc((100% - 350px) / 2)
+  width 350px
+  z-index 1050
+  transition-property top
+  transition-duration 0.3s
+  .alert
+    box-shadow 0 .25rem .75rem rgba(0,0,0,.1)

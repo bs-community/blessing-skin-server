@@ -52,6 +52,7 @@ import 'vue-good-table/dist/vue-good-table.min.css'
 import tableOptions from '../../components/mixins/tableOptions'
 import serverTable from '../../components/mixins/serverTable'
 import emitMounted from '../../components/mixins/emitMounted'
+import { toast } from '../../scripts/notify'
 
 export default {
   name: 'ReportsManagement',
@@ -132,10 +133,10 @@ export default {
         { id: report.id, action },
       )
       if (code === 0) {
-        this.$message.success(message)
+        toast.success(message)
         report.status = data.status
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
   },

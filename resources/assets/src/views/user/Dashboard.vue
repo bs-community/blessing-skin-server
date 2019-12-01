@@ -81,6 +81,7 @@
 import Tween from '@tweenjs/tween.js'
 import EmailVerification from '../../components/EmailVerification.vue'
 import emitMounted from '../../components/mixins/emitMounted'
+import { toast } from '../../scripts/notify'
 
 const ONE_DAY = 24 * 3600 * 1000
 
@@ -177,13 +178,13 @@ export default {
       } = await this.$http.post('/user/sign')
 
       if (code === 0) {
-        this.$message.success(message)
+        toast.success(message)
         this.score = data.score
         this.lastSignAt = new Date()
         this.storageUsed = data.storage.used
         this.storageTotal = data.storage.total
       } else {
-        this.$message.warning(message)
+        toast.warning(message)
       }
       this.signing = false
     },

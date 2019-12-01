@@ -2,8 +2,11 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import * as skinview3d from 'skinview3d'
-import Upload from '@/views/skinlib/Upload.vue'
 import { flushPromises } from '../../utils'
+import { toast } from '@/scripts/notify'
+import Upload from '@/views/skinlib/Upload.vue'
+
+jest.mock('@/scripts/notify')
 
 window.blessing.extra = {
   textureNameRule: 'rule',
@@ -137,7 +140,7 @@ test('upload file', async () => {
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
-  expect(Vue.prototype.$message.error).toBeCalledWith('skinlib.emptyUploadFile')
+  expect(toast.error).toBeCalledWith('skinlib.emptyUploadFile')
 
   wrapper.setData({
     files: [{
@@ -146,12 +149,12 @@ test('upload file', async () => {
   })
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
-  expect(Vue.prototype.$message.error).toBeCalledWith('skinlib.emptyTextureName')
+  expect(toast.error).toBeCalledWith('skinlib.emptyTextureName')
 
   wrapper.find('[type=text]').setValue('t')
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
-  expect(Vue.prototype.$message.error).toBeCalledWith('skinlib.fileExtError')
+  expect(toast.error).toBeCalledWith('skinlib.fileExtError')
 
   wrapper.setData({
     files: [{
@@ -161,12 +164,10 @@ test('upload file', async () => {
   button.trigger('click')
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith('/skinlib/upload', expect.any(FormData))
-  expect(Vue.prototype.$message.error).toBeCalledWith('1')
+  expect(toast.error).toBeCalledWith('1')
 
   button.trigger('click')
   await flushPromises()
-  jest.runAllTimers()
-  expect(Vue.prototype.$message.success).toBeCalledWith('0')
 })
 
 test('show notice about awarding', () => {

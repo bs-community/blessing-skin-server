@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
 import '@/scripts/i18n'
 import Modal from '@/components/Modal.vue'
-import { showModal } from '@/scripts/notify'
+import { showModal, toast } from '@/scripts/notify'
 import Users from '@/views/admin/Users.vue'
 
 jest.mock('@/scripts/i18n', () => ({
@@ -345,12 +345,12 @@ test('change password', async () => {
     { uid: 1, password: 'password' },
   )
   await flushPromises()
-  expect(Vue.prototype.$message.success).toBeCalledWith('0')
+  expect(toast.success).toBeCalledWith('0')
 
 
   button.trigger('click')
   await flushPromises()
-  expect(Vue.prototype.$message.warning).toBeCalledWith('1')
+  expect(toast.error).toBeCalledWith('1')
 })
 
 test('change score', async () => {

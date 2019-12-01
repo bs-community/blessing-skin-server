@@ -76,7 +76,7 @@ import 'vue-good-table/dist/vue-good-table.min.css'
 import enablePlugin from '../../components/mixins/enablePlugin'
 import tableOptions from '../../components/mixins/tableOptions'
 import emitMounted from '../../components/mixins/emitMounted'
-import { showModal } from '../../scripts/notify'
+import { showModal, toast } from '../../scripts/notify'
 
 export default {
   name: 'Market',
@@ -139,11 +139,11 @@ export default {
         { name },
       )
       if (code === 0) {
-        this.$message.success(message)
+        toast.success(message)
         this.plugins[originalIndex].update_available = false
         this.plugins[originalIndex].installed = true
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
 
       this.installing = ''

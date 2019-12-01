@@ -31,7 +31,7 @@ import { VueGoodTable } from 'vue-good-table'
 import 'vue-good-table/dist/vue-good-table.min.css'
 import tableOptions from '../../components/mixins/tableOptions'
 import emitMounted from '../../components/mixins/emitMounted'
-import { showModal } from '../../scripts/notify'
+import { showModal, toast } from '../../scripts/notify'
 
 export default {
   name: 'Translations',
@@ -83,9 +83,9 @@ export default {
       )
       if (code === 0) {
         line.text = text
-        this.$message.success(message)
+        toast.success(message)
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
     async remove({ id, originalIndex }) {
@@ -100,7 +100,7 @@ export default {
 
       const { message } = await this.$http.del('/admin/i18n', { id })
       this.$delete(this.lines, originalIndex)
-      this.$message.success(message)
+      toast.success(message)
     },
   },
 }

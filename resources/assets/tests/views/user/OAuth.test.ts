@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
 import { walkFetch } from '@/scripts/net'
-import { showModal } from '@/scripts/notify'
+import { showModal, toast } from '@/scripts/notify'
 import Modal from '@/components/Modal.vue'
 import OAuth from '@/views/user/OAuth.vue'
 
@@ -43,7 +43,7 @@ test('create app', async () => {
     '/oauth/clients',
     { name: 'name', redirect: 'https://example.com/' },
   )
-  expect(Vue.prototype.$message.warning).toBeCalledWith('fail')
+  expect(toast.error).toBeCalledWith('fail')
 
   modal.vm.$emit('confirm')
   await flushPromises()
@@ -77,7 +77,7 @@ test('modify name', async () => {
       method: 'PUT',
     }),
   )
-  expect(Vue.prototype.$message.warning).toBeCalledWith('fail')
+  expect(toast.error).toBeCalledWith('fail')
 
   button.trigger('click')
   await flushPromises()
@@ -111,7 +111,7 @@ test('modify redirect', async () => {
       method: 'PUT',
     }),
   )
-  expect(Vue.prototype.$message.warning).toBeCalledWith('fail')
+  expect(toast.error).toBeCalledWith('fail')
 
   button.trigger('click')
   await flushPromises()

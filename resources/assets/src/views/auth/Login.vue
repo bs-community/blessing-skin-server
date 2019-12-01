@@ -110,8 +110,7 @@ export default {
         },
       )
       if (code === 0) {
-        this.$message.success(message)
-        setTimeout(() => (window.location = redirectTo), 1000)
+        window.location = redirectTo
       } else {
         if (loginFails > 3 && !this.tooManyFails) {
           if (this.recaptcha) {

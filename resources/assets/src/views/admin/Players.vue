@@ -95,7 +95,7 @@ import Modal from '../../components/Modal.vue'
 import tableOptions from '../../components/mixins/tableOptions'
 import serverTable from '../../components/mixins/serverTable'
 import emitMounted from '../../components/mixins/emitMounted'
-import { showModal } from '../../scripts/notify'
+import { showModal, toast } from '../../scripts/notify'
 import { truthy } from '../../scripts/validators'
 
 export default {
@@ -167,9 +167,9 @@ export default {
       )
       if (code === 0) {
         player[`tid_${type}`] = tid
-        this.$message.success(message)
+        toast.success(message)
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
     async changeName(player) {
@@ -191,9 +191,9 @@ export default {
       )
       if (code === 0) {
         player.name = value
-        this.$message.success(message)
+        toast.success(message)
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
     async changeOwner(player) {
@@ -215,9 +215,9 @@ export default {
       )
       if (code === 0) {
         player.uid = value
-        this.$message.success(message)
+        toast.success(message)
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
     async deletePlayer({ pid, originalIndex }) {
@@ -236,9 +236,9 @@ export default {
       )
       if (code === 0) {
         this.$delete(this.players, originalIndex)
-        this.$message.success(message)
+        toast.success(message)
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
   },

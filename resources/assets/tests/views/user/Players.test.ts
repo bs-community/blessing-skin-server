@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
-import { showModal } from '@/scripts/notify'
+import { showModal, toast } from '@/scripts/notify'
 import Players from '@/views/user/Players.vue'
 
 jest.mock('@/scripts/notify')
@@ -183,5 +183,5 @@ test('clear texture', async () => {
   )
   modal.vm.$emit('confirm')
   await flushPromises()
-  expect(Vue.prototype.$message.success).toBeCalledWith('ok')
+  expect(toast.success).toBeCalledWith('ok')
 })

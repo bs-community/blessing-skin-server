@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { showModal } from '../../scripts/notify'
+import { showModal, toast } from '../../scripts/notify'
 
 export default Vue.extend({
   data: () => ({ plugins: [] }),
@@ -29,7 +29,7 @@ export default Vue.extend({
         { action: 'enable', name },
       ) as { code: number, message: string, data: { reason: string[] } }
       if (code === 0) {
-        this.$message.success(message)
+        toast.success(message)
         this.$set(this.plugins[originalIndex], 'enabled', true)
       } else {
         const div = document.createElement('div')

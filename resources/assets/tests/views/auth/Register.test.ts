@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import Register from '@/views/auth/Register.vue'
 import { flushPromises } from '../../utils'
+import { toast } from '@/scripts/notify'
+import Register from '@/views/auth/Register.vue'
+
+jest.mock('@/scripts/notify')
 
 window.blessing.extra = { player: false }
 
@@ -64,7 +67,7 @@ test('register', async () => {
   form.trigger('submit')
   await flushPromises()
   jest.runAllTimers()
-  expect(Vue.prototype.$message.success).toBeCalledWith('ok')
+  expect(toast.success).toBeCalledWith('ok')
 })
 
 test('register with player name', async () => {

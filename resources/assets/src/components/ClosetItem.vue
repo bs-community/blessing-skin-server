@@ -43,7 +43,7 @@
 <script>
 import setAsAvatar from './mixins/setAsAvatar'
 import removeClosetItem from './mixins/removeClosetItem'
-import { showModal } from '../scripts/notify'
+import { showModal, toast } from '../scripts/notify'
 import { truthy } from '../scripts/validators'
 
 export default {
@@ -102,9 +102,9 @@ export default {
       )
       if (code === 0) {
         this.textureName = newTextureName
-        this.$message.success(message)
+        toast.success(message)
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
   },

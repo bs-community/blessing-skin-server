@@ -123,6 +123,7 @@
 import FileUpload from 'vue-upload-component'
 import { isSlimSkin } from 'skinview3d'
 import emitMounted from '../../components/mixins/emitMounted'
+import { toast } from '../../scripts/notify'
 
 export default {
   name: 'Upload',
@@ -162,17 +163,17 @@ export default {
   methods: {
     async upload() {
       if (!this.hasFile) {
-        this.$message.error(this.$t('skinlib.emptyUploadFile'))
+        toast.error(this.$t('skinlib.emptyUploadFile'))
         return
       }
 
       if (!this.name) {
-        this.$message.error(this.$t('skinlib.emptyTextureName'))
+        toast.error(this.$t('skinlib.emptyTextureName'))
         return
       }
 
       if (!/image\/(x-)?png/.test(this.files[0].type)) {
-        this.$message.error(this.$t('skinlib.fileExtError'))
+        toast.error(this.$t('skinlib.fileExtError'))
         return
       }
 
@@ -187,12 +188,9 @@ export default {
         code, message, data: { tid } = { tid: 0 },
       } = await this.$http.post('/skinlib/upload', data)
       if (code === 0) {
-        this.$message.success(message)
-        setTimeout(() => {
-          window.location = `${blessing.base_url}/skinlib/show/${tid}`
-        }, 1000)
+        window.location = `${blessing.base_url}/skinlib/show/${tid}`
       } else {
-        this.$message.error(message)
+        toast.error(message)
         this.uploading = false
       }
     },

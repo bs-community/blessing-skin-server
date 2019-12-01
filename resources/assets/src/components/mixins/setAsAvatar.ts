@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import { showModal } from '../../scripts/notify'
+import { showModal, toast } from '../../scripts/notify'
 
 export default Vue.extend<{
   tid: number
@@ -20,7 +20,7 @@ export default Vue.extend<{
         { tid: this.tid },
       )
       if (code === 0) {
-        this.$message.success(message!)
+        toast.success(message)
 
         Array
           .from(
@@ -28,7 +28,7 @@ export default Vue.extend<{
           )
           .forEach(el => (el.src += `?${new Date().getTime()}`))
       } else {
-        this.$message.warning(message!)
+        toast.error(message)
       }
     },
   },

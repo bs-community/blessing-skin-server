@@ -1,5 +1,7 @@
 import { showModal } from './modal'
+import { Toast } from './toast'
 
-Object.assign(blessing, { notify: { showModal } })
+export const toast = new Toast()
+Object.assign(blessing, { notify: { showModal, toast } })
 
-export * from './modal'
+export { showModal } from './modal'

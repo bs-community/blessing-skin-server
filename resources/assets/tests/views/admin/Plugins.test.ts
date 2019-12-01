@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
-import { showModal } from '@/scripts/notify'
+import { showModal, toast } from '@/scripts/notify'
 import Plugins from '@/views/admin/Plugins.vue'
 
 jest.mock('@/scripts/notify')
@@ -124,7 +124,7 @@ test('disable plugin', async () => {
   )
   button.trigger('click')
   await flushPromises()
-  expect(Vue.prototype.$message.success).toBeCalledWith('0')
+  expect(toast.success).toBeCalledWith('0')
   expect(wrapper.text()).toContain('admin.enablePlugin')
 })
 
@@ -163,7 +163,7 @@ test('delete plugin', async () => {
     '/admin/plugins/manage',
     { action: 'delete', name: 'a' },
   )
-  expect(Vue.prototype.$message.warning).toBeCalledWith('1')
+  expect(toast.error).toBeCalledWith('1')
 
   button.trigger('click')
   await flushPromises()

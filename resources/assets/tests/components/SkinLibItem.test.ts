@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../utils'
-import { showModal } from '@/scripts/notify'
+import { showModal, toast } from '@/scripts/notify'
 import SkinLibItem from '@/components/SkinLibItem.vue'
 
 jest.mock('@/scripts/notify')
@@ -96,7 +96,7 @@ test('add to closet', async () => {
     '/user/closet/add',
     { tid: 1, name: 'name' },
   )
-  expect(Vue.prototype.$message.warning).toBeCalledWith('1')
+  expect(toast.error).toBeCalledWith('1')
 
   button.trigger('click')
   await flushPromises()

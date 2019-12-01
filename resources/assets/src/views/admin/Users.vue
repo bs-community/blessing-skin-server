@@ -128,7 +128,7 @@ import Modal from '../../components/Modal.vue'
 import tableOptions from '../../components/mixins/tableOptions'
 import serverTable from '../../components/mixins/serverTable'
 import emitMounted from '../../components/mixins/emitMounted'
-import { showModal } from '../../scripts/notify'
+import { showModal, toast } from '../../scripts/notify'
 import { truthy } from '../../scripts/validators'
 
 export default {
@@ -224,9 +224,9 @@ export default {
       )
       if (code === 0) {
         user.email = value
-        this.$message.success(message)
+        toast.success(message)
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
     async toggleVerification(user) {
@@ -236,9 +236,9 @@ export default {
       )
       if (code === 0) {
         user.verified = !user.verified
-        this.$message.success(message)
+        toast.success(message)
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
     async changeNickName(user) {
@@ -260,9 +260,9 @@ export default {
       )
       if (code === 0) {
         user.nickname = value
-        this.$message.success(message)
+        toast.success(message)
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
     async changePassword(user) {
@@ -281,7 +281,7 @@ export default {
         '/admin/users?action=password',
         { uid: user.uid, password: value },
       )
-      code === 0 ? this.$message.success(message) : this.$message.warning(message)
+      code === 0 ? toast.success(message) : toast.error(message)
     },
     async changeScore(user) {
       let value
@@ -303,9 +303,9 @@ export default {
       )
       if (code === 0) {
         user.score = score
-        this.$message.success(message)
+        toast.success(message)
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
     async changePermission() {
@@ -316,9 +316,9 @@ export default {
       })
       if (code === 0) {
         this.editingUser.permission = permission
-        this.$message.success(message)
+        toast.success(message)
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
     async deleteUser({ uid, originalIndex }) {
@@ -337,9 +337,9 @@ export default {
       )
       if (code === 0) {
         this.$delete(this.users, originalIndex)
-        this.$message.success(message)
+        toast.success(message)
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
   },

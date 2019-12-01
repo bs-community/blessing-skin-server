@@ -121,6 +121,7 @@
 <script>
 import Captcha from '../../components/Captcha.vue'
 import emitMounted from '../../components/mixins/emitMounted'
+import { toast } from '../../scripts/notify'
 
 export default {
   name: 'Register',
@@ -169,7 +170,7 @@ export default {
         }, this.requirePlayer ? { player_name: playerName } : { nickname }),
       )
       if (code === 0) {
-        this.$message.success(message)
+        toast.success(message)
         setTimeout(() => {
           window.location = `${blessing.base_url}/user`
         }, 1000)

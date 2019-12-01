@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
+import { toast } from '@/scripts/notify'
 import Reset from '@/views/auth/Reset.vue'
+
+jest.mock('@/scripts/notify')
 
 test('reset password', async () => {
   Vue.prototype.$http.post
@@ -36,5 +39,6 @@ test('reset password', async () => {
 
   form.trigger('submit')
   await flushPromises()
-  expect(Vue.prototype.$message.success).toBeCalledWith('ok')
+  expect(toast.success).toBeCalledWith('ok')
+  jest.runAllTimers()
 })

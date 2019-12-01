@@ -134,7 +134,7 @@
 import Modal from '../../components/Modal.vue'
 import AddPlayerDialog from '../../components/AddPlayerDialog.vue'
 import emitMounted from '../../components/mixins/emitMounted'
-import { showModal } from '../../scripts/notify'
+import { showModal, toast } from '../../scripts/notify'
 import { truthy } from '../../scripts/validators'
 
 export default {
@@ -223,15 +223,16 @@ export default {
         { name: value },
       )
       if (code === 0) {
-        this.$message.success(message)
+        toast.success(message)
         player.name = value
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
     async clearTexture() {
       if (Object.values(this.clear).every(value => !value)) {
-        return this.$message.warning(this.$t('user.noClearChoice'))
+        toast.error(this.$t('user.noClearChoice'))
+        return
       }
 
       const { code, message } = await this.$http.post(
@@ -239,13 +240,13 @@ export default {
         this.clear,
       )
       if (code === 0) {
-        this.$message.success(message)
+        toast.success(message)
         const player = this.players.find(({ pid }) => pid === this.selected)
         Object.keys(this.clear)
           .filter(type => this.clear[type])
           .forEach(type => (player[`tid_${type}`] = 0))
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
     async deletePlayer(player, index) {
@@ -262,9 +263,9 @@ export default {
       const { code, message } = await this.$http.post(`/user/player/delete/${player.pid}`)
       if (code === 0) {
         this.$delete(this.players, index)
-        this.$message.success(message)
+        toast.success(message)
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
   },

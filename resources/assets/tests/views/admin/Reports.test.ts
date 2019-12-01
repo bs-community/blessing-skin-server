@@ -1,7 +1,10 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
-import Reports from '@/views/admin/Reports.vue'
 import { flushPromises } from '../../utils'
+import { toast } from '@/scripts/notify'
+import Reports from '@/views/admin/Reports.vue'
+
+jest.mock('@/scripts/notify')
 
 test('basic render', async () => {
   Vue.prototype.$http.get.mockResolvedValue({
@@ -50,11 +53,11 @@ test('delete texture', async () => {
     '/admin/reports',
     { id: 1, action: 'delete' },
   )
-  expect(Vue.prototype.$message.warning).toBeCalledWith('fail')
+  expect(toast.error).toBeCalledWith('fail')
 
   button.trigger('click')
   await flushPromises()
-  expect(Vue.prototype.$message.success).toBeCalledWith('ok')
+  expect(toast.success).toBeCalledWith('ok')
   expect(wrapper.text()).toContain('report.status.1')
 })
 
@@ -74,7 +77,7 @@ test('ban uploader', async () => {
     '/admin/reports',
     { id: 1, action: 'ban' },
   )
-  expect(Vue.prototype.$message.success).toBeCalledWith('ok')
+  expect(toast.success).toBeCalledWith('ok')
   expect(wrapper.text()).toContain('report.status.1')
 })
 
@@ -94,6 +97,6 @@ test('reject', async () => {
     '/admin/reports',
     { id: 1, action: 'reject' },
   )
-  expect(Vue.prototype.$message.success).toBeCalledWith('ok')
+  expect(toast.success).toBeCalledWith('ok')
   expect(wrapper.text()).toContain('report.status.2')
 })

@@ -27,6 +27,7 @@
 
 <script>
 import Modal from './Modal.vue'
+import { toast } from '../scripts/notify'
 
 export default {
   name: 'AddPlayerDialog',
@@ -47,10 +48,10 @@ export default {
         { name: this.name },
       )
       if (code === 0) {
-        this.$message.success(message)
+        toast.success(message)
         this.$emit('add')
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
   },

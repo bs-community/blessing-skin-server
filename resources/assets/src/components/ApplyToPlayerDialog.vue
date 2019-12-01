@@ -40,6 +40,7 @@
 <script>
 import $ from 'jquery'
 import Modal from './Modal.vue'
+import { toast } from '../scripts/notify'
 
 export default {
   name: 'ApplyToPlayerDialog',
@@ -66,11 +67,13 @@ export default {
     },
     async submit() {
       if (!this.selected) {
-        return this.$message.info(this.$t('user.emptySelectedPlayer'))
+        toast.info(this.$t('user.emptySelectedPlayer'))
+        return
       }
 
       if (!this.skin && !this.cape) {
-        return this.$message.info(this.$t('user.emptySelectedTexture'))
+        toast.info(this.$t('user.emptySelectedTexture'))
+        return
       }
 
       const { code, message } = await this.$http.post(
@@ -81,10 +84,10 @@ export default {
         },
       )
       if (code === 0) {
-        this.$message.success(message)
+        toast.success(message)
         $('#modal-use-as').modal('hide')
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
     avatarUrl(player) {

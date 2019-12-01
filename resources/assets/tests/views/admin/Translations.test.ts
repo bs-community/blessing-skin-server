@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
-import { showModal } from '@/scripts/notify'
+import { showModal, toast } from '@/scripts/notify'
 import Translations from '@/views/admin/Translations.vue'
 
 jest.mock('@/scripts/notify')
@@ -47,7 +47,7 @@ test('modify line', async () => {
     '/admin/i18n',
     { id: 1, text: '' },
   )
-  expect(Vue.prototype.$message.warning).toBeCalledWith('failed')
+  expect(toast.error).toBeCalledWith('failed')
   expect(wrapper.text()).not.toContain('wanshengwei')
 
   button.trigger('click')
@@ -56,7 +56,7 @@ test('modify line', async () => {
     '/admin/i18n',
     { id: 1, text: 'wanshengwei' },
   )
-  expect(Vue.prototype.$message.success).toBeCalledWith('ok')
+  expect(toast.success).toBeCalledWith('ok')
   expect(wrapper.text()).toContain('wanshengwei')
 })
 
@@ -82,6 +82,6 @@ test('delete line', async () => {
   button.trigger('click')
   await flushPromises()
   expect(Vue.prototype.$http.del).toBeCalledWith('/admin/i18n', { id: 1 })
-  expect(Vue.prototype.$message.success).toBeCalledWith('ok')
+  expect(toast.success).toBeCalledWith('ok')
   expect(wrapper.text()).not.toContain('general')
 })

@@ -15,6 +15,8 @@
 </template>
 
 <script>
+import { toast } from '../scripts/notify'
+
 export default {
   name: 'EmailVerification',
   data() {
@@ -28,9 +30,9 @@ export default {
       this.pending = true
       const { code, message } = await this.$http.post('/user/email-verification')
       if (code === 0) {
-        this.$message.success(message)
+        toast.success(message)
       } else {
-        this.$message.error(message)
+        toast.error(message)
       }
       this.pending = false
     },

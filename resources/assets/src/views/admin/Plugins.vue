@@ -80,7 +80,7 @@ import 'vue-good-table/dist/vue-good-table.min.css'
 import enablePlugin from '../../components/mixins/enablePlugin'
 import tableOptions from '../../components/mixins/tableOptions'
 import emitMounted from '../../components/mixins/emitMounted'
-import { showModal } from '../../scripts/notify'
+import { showModal, toast } from '../../scripts/notify'
 
 export default {
   name: 'Plugins',
@@ -136,10 +136,10 @@ export default {
         { action: 'disable', name },
       )
       if (code === 0) {
-        this.$message.success(message)
+        toast.success(message)
         this.plugins[originalIndex].enabled = false
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
     async deletePlugin({
@@ -161,9 +161,9 @@ export default {
       )
       if (code === 0) {
         this.$delete(this.plugins, originalIndex)
-        this.$message.success(message)
+        toast.success(message)
       } else {
-        this.$message.warning(message)
+        toast.error(message)
       }
     },
   },

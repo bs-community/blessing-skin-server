@@ -196,7 +196,7 @@
 import EmailVerification from '../../components/EmailVerification.vue'
 import Modal from '../../components/Modal.vue'
 import emitMounted from '../../components/mixins/emitMounted'
-import { showModal } from '../../scripts/notify'
+import { showModal, toast } from '../../scripts/notify'
 
 export default {
   name: 'Profile',
@@ -231,7 +231,7 @@ export default {
         '/user/profile/avatar',
         { tid: 0 },
       )
-      this.$message.success(message)
+      toast.success(message)
       Array.from(document.querySelectorAll('[alt="User Image"]'))
         .forEach(el => (el.src += `?${new Date().getTime()}`))
     },
@@ -241,7 +241,7 @@ export default {
       } = this
 
       if (newPassword !== confirmPassword) {
-        this.$message.error(this.$t('auth.invalidConfirmPwd'))
+        toast.error(this.$t('auth.invalidConfirmPwd'))
         this.$refs.confirmPassword.focus()
         return
       }
@@ -252,7 +252,7 @@ export default {
       )
       await showModal({ mode: 'alert', text: message })
       if (code === 0) {
-        return (window.location = `${blessing.base_url}/auth/login`)
+        window.location = `${blessing.base_url}/auth/login`
       }
     },
     async changeNickName() {
@@ -266,7 +266,8 @@ export default {
         Array
           .from(document.querySelectorAll('[data-mark="nickname"]'))
           .forEach(el => (el.textContent = nickname))
-        return this.$message.success(message)
+        toast.success(message)
+        return
       }
       showModal({ mode: 'alert', text: message })
     },
@@ -277,11 +278,10 @@ export default {
         '/user/profile?action=email',
         { new_email: email, password: this.currentPassword },
       )
+      await showModal({ mode: 'alert', text: message })
       if (code === 0) {
-        await this.$message.success(message)
-        return (window.location = `${blessing.base_url}/auth/login`)
+        window.location = `${blessing.base_url}/auth/login`
       }
-      showModal({ mode: 'alert', text: message })
     },
     async deleteAccount() {
       const { deleteConfirm: password } = this

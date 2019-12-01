@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
-import { showModal } from '@/scripts/notify'
+import { showModal, toast } from '@/scripts/notify'
 import Show from '@/views/skinlib/Show.vue'
 
 jest.mock('@/scripts/notify')
@@ -267,7 +267,7 @@ test('change texture name', async () => {
     '/skinlib/rename',
     { tid: 1, new_name: 'new-name' },
   )
-  expect(Vue.prototype.$message.error).toBeCalledWith('1')
+  expect(toast.error).toBeCalledWith('1')
 
   button.trigger('click')
   await flushPromises()
@@ -302,7 +302,7 @@ test('change texture model', async () => {
     '/skinlib/model',
     { tid: 1, model: 'alex' },
   )
-  expect(Vue.prototype.$message.warning).toBeCalledWith('1')
+  expect(toast.error).toBeCalledWith('1')
 
   button.trigger('click')
   wrapper
@@ -339,7 +339,7 @@ test('toggle privacy', async () => {
     '/skinlib/privacy',
     { tid: 1 },
   )
-  expect(Vue.prototype.$message.warning).toBeCalledWith('1')
+  expect(toast.error).toBeCalledWith('1')
 
   button.trigger('click')
   await flushPromises()
@@ -375,12 +375,12 @@ test('delete texture', async () => {
     '/skinlib/delete',
     { tid: 1 },
   )
-  expect(Vue.prototype.$message.warning).toBeCalledWith('1')
+  expect(toast.error).toBeCalledWith('1')
 
   button.trigger('click')
   await flushPromises()
   jest.runAllTimers()
-  expect(Vue.prototype.$message.success).toBeCalledWith('0')
+  expect(toast.success).toBeCalledWith('0')
 })
 
 test('report texture', async () => {
@@ -431,11 +431,11 @@ test('report texture', async () => {
     '/skinlib/report',
     { tid: 1, reason: 'reason' },
   )
-  expect(Vue.prototype.$message.warning).toBeCalledWith('duplicated')
+  expect(toast.error).toBeCalledWith('duplicated')
 
   button.trigger('click')
   await flushPromises()
-  expect(Vue.prototype.$message.success).toBeCalledWith('success')
+  expect(toast.success).toBeCalledWith('success')
 })
 
 test('apply texture to player', () => {

@@ -2,7 +2,10 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
+import { toast } from '@/scripts/notify'
 import Dashboard from '@/views/user/Dashboard.vue'
+
+jest.mock('@/scripts/notify')
 
 jest.mock('@tweenjs/tween.js', () => ({
   Tween: class <T> {
@@ -159,7 +162,7 @@ test('sign', async () => {
   button.trigger('click')
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith('/user/sign')
-  expect(Vue.prototype.$message.warning).toBeCalledWith('1')
+  expect(toast.warning).toBeCalledWith('1')
 
   button.trigger('click')
   await flushPromises()

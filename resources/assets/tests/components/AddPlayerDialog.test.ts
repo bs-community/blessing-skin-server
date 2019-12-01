@@ -1,8 +1,11 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../utils'
+import { toast } from '@/scripts/notify'
 import Modal from '@/components/Modal.vue'
 import AddPlayerDialog from '@/components/AddPlayerDialog.vue'
+
+jest.mock('@/scripts/notify')
 
 window.blessing.extra = {
   rule: 'rule',
@@ -25,10 +28,10 @@ test('add player', async () => {
   )
   await flushPromises()
   expect(wrapper.text()).not.toContain('the-new')
-  expect(Vue.prototype.$message.warning).toBeCalledWith('fail')
+  expect(toast.error).toBeCalledWith('fail')
 
   modal.vm.$emit('confirm')
   await flushPromises()
   expect(wrapper.emitted().add).toBeDefined()
-  expect(Vue.prototype.$message.success).toBeCalledWith('ok')
+  expect(toast.success).toBeCalledWith('ok')
 })
