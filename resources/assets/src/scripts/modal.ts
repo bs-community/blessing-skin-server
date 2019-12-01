@@ -41,6 +41,11 @@ export function showModal(options: ModalOptions = {}): Promise<ModalResult> {
       }),
     }).$mount(container)
 
-    $(instance.$el).modal('show')
+    $(instance.$el)
+      .modal('show')
+      .on('hidden.bs.modal', () => {
+        instance.$el.remove()
+        instance.$destroy()
+      })
   })
 }

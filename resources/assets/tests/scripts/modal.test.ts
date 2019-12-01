@@ -1,3 +1,4 @@
+import $ from 'jquery'
 import { showModal } from '@/scripts/modal'
 
 test('show modal', async () => {
@@ -9,4 +10,7 @@ test('show modal', async () => {
   })
   const { value } = await showModal()
   expect(value).toBe('')
+
+  $('.modal').trigger('hidden.bs.modal')
+  expect(document.querySelector('.modal')).toBeNull()
 })
