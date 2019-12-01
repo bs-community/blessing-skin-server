@@ -1,7 +1,7 @@
-/* eslint-disable camelcase */
 import Vue from 'vue'
 import * as JQuery from 'jquery'
-import { ModalOptions } from './scripts/notify'
+import { ModalOptions, ModalResult } from './scripts/modal'
+import { Toast } from './scripts/toast'
 
 type I18n = 'en' | 'zh_CN'
 
@@ -34,12 +34,8 @@ declare global {
     }
 
     notify: {
-      showModal(
-        message: string,
-        title?: string,
-        type?: string,
-        options?: ModalOptions
-      )
+      showModal(options?: ModalOptions): Promise<ModalResult>
+      toast: Toast
     }
   }
 }
