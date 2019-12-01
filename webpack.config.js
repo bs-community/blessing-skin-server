@@ -1,4 +1,3 @@
-const sass = require('sass')
 const webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -22,8 +21,6 @@ const config = {
       'admin-lte/dist/css/alt/adminlte.components.min.css',
       'admin-lte/dist/css/alt/adminlte.extra-components.min.css',
       'admin-lte/dist/css/alt/adminlte.pages.min.css',
-      'element-ui/lib/theme-chalk/base.css',
-      './resources/assets/src/styles/element.scss',
       '@fortawesome/fontawesome-free/css/fontawesome.min.css',
       '@fortawesome/fontawesome-free/css/regular.min.css',
       '@fortawesome/fontawesome-free/css/solid.min.css',
@@ -41,27 +38,7 @@ const config = {
       {
         test: /\.(t|j)s$/,
         exclude: /node_modules/,
-        use: [
-          'cache-loader',
-          {
-            loader: 'babel-loader',
-            options: {
-              plugins: [
-                ['babel-plugin-import', {
-                  libraryName: 'element-ui',
-                  libraryDirectory: 'lib',
-                  camel2DashComponentName: true,
-                  style: name => {
-                    if (name.includes('locale')) {
-                      return false
-                    }
-                    return `${name.replace('lib/', 'lib/theme-chalk/')}.css`
-                  },
-                }],
-              ],
-            },
-          },
-        ],
+        use: ['cache-loader', 'babel-loader'],
       },
       {
         test: /\.vue$/,
@@ -78,17 +55,10 @@ const config = {
         ],
       },
       {
-        test: /((node_modules.*)|element)\.(sa|sc|c)ss$/,
+        test: /(node_modules.*)\.css$/,
         use: [
           devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
-          { loader: 'css-loader', options: { importLoaders: 2 } },
-          'postcss-loader',
-          {
-            loader: 'sass-loader',
-            options: {
-              implementation: sass,
-            },
-          },
+          'css-loader',
         ],
       },
       {

@@ -1,12 +1,6 @@
 /* eslint-disable max-classes-per-file */
 import 'jest-extended'
 import Vue from 'vue'
-import {
-  Button,
-  Input,
-  Radio,
-  Switch,
-} from 'element-ui'
 
 window.blessing = {
   base_url: '',
@@ -61,16 +55,4 @@ Vue.prototype.$http = {
   post: jest.fn(),
   put: jest.fn(),
   del: jest.fn(),
-}
-
-Vue.use(Button)
-Vue.use(Input)
-Vue.use(Radio)
-Vue.use(Switch)
-// @ts-ignore
-Vue.prototype.$message = {
-  info: jest.fn(),
-  success: jest.fn(),
-  warning: jest.fn(),
-  error: jest.fn(),
 }

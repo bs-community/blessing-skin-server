@@ -5,7 +5,6 @@ import './i18n'
 import './net'
 import './event'
 import './notification'
-import './element'
 import './logout'
 
 window.addEventListener('load', () => {
