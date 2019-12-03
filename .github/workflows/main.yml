@@ -1,13 +1,14 @@
 name: CI
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
-  php73:
-    name: PHP Check
+  twig:
+    name: Twig Linting
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout code
+      uses: actions/checkout@v1
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
     - name: Prepare
@@ -16,14 +17,80 @@ jobs:
         php artisan key:generate
     - name: Validate Twig templates
       run: php artisan twig:lint -v
-  frontend:
-    name: JavaScript Check
+  php:
+    name: PHP ${{ matrix.php }} Tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['7.2', '7.3', '7.4']
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v1
+    - name: Setup PHP only
+      uses: shivammathur/setup-php@v1
+      if: matrix.php != '7.2'
+      with:
+        php-version: ${{ matrix.php }}
+        coverage: none
+        extension-csv: mbstring, dom, fileinfo, sqlite, gd, zip
+    - name: Setup PHP with Xdebug
+      uses: shivammathur/setup-php@v1
+      if: matrix.php == '7.2'
+      with:
+        php-version: ${{ matrix.php }}
+        coverage: xdebug
+        extension-csv: mbstring, dom, fileinfo, sqlite, gd, zip
+    - name: Cache Composer dependencies
+      uses: actions/cache@v1
+      with:
+        path: vendor
+        key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+        restore-keys: ${{ runner.os }}-composer-
+    - name: Install Composer dependencies
+      run: composer install --no-progress --no-suggest --prefer-dist --optimize-autoloader
+    - name: Prepare application
+      run: |
+        cp .env.example .env
+        php artisan key:generate
+    - name: Run tests only
+      if: matrix.php != '7.2'
+      run: ./scripts/phpunit.ps1
+      shell: pwsh
+    - name: Run tests with coverage report
+      if: matrix.php == '7.2'
+      run: ./scripts/phpunit.ps1 -Coverage
+      shell: pwsh
+    - name: Upload coverage report
+      uses: codecov/codecov-action@v1
+      if: matrix.php == '7.2' && success()
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        name: github-actions
+  lint:
+    name: Frontend Linting
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - name: Checkout code
+      uses: actions/checkout@v1
     - name: Install dependencies
       run: yarn
     - name: Run checks
       run: |
         yarn lint
         yarn tsc -p .
+  jest:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v1
+    - name: Install dependencies
+      run: yarn
+    - name: Run tests
+      run: yarn test --coverage
+    - name: Upload coverage report
+      uses: codecov/codecov-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        name: github-actions

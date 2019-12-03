@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Event;
+use Illuminate\Support\Arr;
 use App\Events\GetPlayerJson;
 use App\Events\PlayerProfileUpdated;
 use Illuminate\Database\Eloquent\Model;
@@ -51,7 +52,7 @@ class Player extends Model
     public function getTexture($type)
     {
         if (in_array($type, self::$types)) {
-            return Texture::find($this["tid_$type"])['hash'];
+            return Arr::get(Texture::find($this["tid_$type"]), 'hash');
         }
 
         return false;
