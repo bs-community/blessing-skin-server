@@ -1,0 +1,10 @@
+<label for="{{ id }}">
+  <input
+    type="checkbox"
+    {{ value ? 'checked="true"' : '' }}
+    id="{{ id }}"
+    name="{{ id }}"
+    {{ disabled ? 'disabled=disabled' : '' }}
+    value="true"
+  > {{ label }}
+</label>

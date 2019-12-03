@@ -1,0 +1,10 @@
+<select class="form-control" name="{{ id }}" {{ disabled ? 'disabled=disabled' : '' }}>
+  {% for option in options %}
+    <option
+      value="{{ option.value }}"
+      {{ selected == option.value ? 'selected=selected' : '' }}
+    >
+      {{ option.name }}
+    </option>
+  {% endfor %}
+</select>

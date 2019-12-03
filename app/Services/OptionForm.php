@@ -108,7 +108,7 @@ class OptionForm
             $hintContent = trans("options.$this->id.hint");
         }
 
-        $this->hint = view('common.option-form.hint')->with('hint', $hintContent)->render();
+        $this->hint = view('forms.hint')->with('hint', $hintContent)->render();
 
         return $this;
     }
@@ -148,13 +148,11 @@ class OptionForm
             'name'  => '',
         ], $info);
 
-        $classes = "btn btn-{$info['style']} ".implode(' ', (array) Arr::get($info, 'class'));
-
-        if ($info['href']) {
-            $this->buttons[] = "<a href='{$info['href']}' class='$classes'>{$info['text']}</a>";
-        } else {
-            $this->buttons[] = "<button type='{$info['type']}' name='{$info['name']}' class='$classes'>{$info['text']}</button>";
-        }
+        $info['class'] = array_merge(
+            ['btn', 'btn-'.$info['style']],
+            (array) Arr::get($info, 'class')
+        );
+        $this->buttons[] = $info;
 
         return $this;
     }
@@ -172,7 +170,7 @@ class OptionForm
             $msg = trans("options.$this->id.message");
         }
 
-        $this->messages[] = "<div class='callout callout-$style'>$msg</div>";
+        $this->messages[] = ['content' => $msg, 'type' => $style];
 
         return $this;
     }
@@ -353,7 +351,9 @@ class OptionForm
 
         $this->assignValues();
 
-        return view('common.option-form.main')->with(array_merge(get_object_vars($this)))->render();
+        return view('forms.form')
+            ->with(array_merge(get_object_vars($this)))
+            ->render();
     }
 
     /**
@@ -411,7 +411,7 @@ class OptionFormItem
             $hintContent = trans("options.$this->parentId.$this->id.hint");
         }
 
-        $this->hint = view('common.option-form.hint')->with('hint', $hintContent)->render();
+        $this->hint = view('forms.hint')->with('hint', $hintContent)->render();
 
         return $this;
     }
@@ -425,7 +425,7 @@ class OptionFormItem
 
     public function disabled($disabled = 'disabled')
     {
-        $this->disabled = "disabled=\"$disabled\"";
+        $this->disabled = $disabled;
 
         return $this;
     }
@@ -460,7 +460,7 @@ class OptionFormText extends OptionFormItem
 
     public function render()
     {
-        return view('common.option-form.text')->with([
+        return view('forms.text')->with([
             'id' => $this->id,
             'value' => $this->value,
             'disabled' => $this->disabled,
@@ -486,7 +486,7 @@ class OptionFormCheckbox extends OptionFormItem
 
     public function render()
     {
-        return view('common.option-form.checkbox')->with([
+        return view('forms.checkbox')->with([
             'id'    => $this->id,
             'value' => $this->value,
             'label' => $this->label,
@@ -508,7 +508,7 @@ class OptionFormTextarea extends OptionFormItem
 
     public function render()
     {
-        return view('common.option-form.textarea')->with([
+        return view('forms.textarea')->with([
             'id'    => $this->id,
             'rows'  => $this->rows,
             'value' => $this->value,
@@ -530,9 +530,9 @@ class OptionFormSelect extends OptionFormItem
 
     public function render()
     {
-        return view('common.option-form.select')->with([
+        return view('forms.select')->with([
             'id'       => $this->id,
-            'options'  => $this->options,
+            'options'  => (array) $this->options,
             'selected' => $this->value,
             'disabled' => $this->disabled,
         ]);
@@ -575,13 +575,13 @@ class OptionFormGroup extends OptionFormItem
                 $item['value'] = option_localized($item['id']);
             }
 
-            $rendered[] = view('common.option-form.'.$item['type'])->with([
+            $rendered[] = view('forms.'.$item['type'])->with([
                 'id'    => $item['id'],
                 'value' => $item['value'],
                 'placeholder' => Arr::get($item, 'placeholder'),
             ]);
         }
 
-        return view('common.option-form.group')->with('items', $rendered);
+        return view('forms.group')->with('items', $rendered);
     }
 }

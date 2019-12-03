@@ -87,10 +87,10 @@ class OptionFormTest extends TestCase
         $a = $crawler->filter('a');
         $this->assertEquals('http://example.com', $a->attr('href'));
         $this->assertEquals('btn btn-default a b', $a->attr('class'));
-        $this->assertEquals('link', $a->text());
+        $this->assertEquals('link', trim($a->text()));
 
         $button = $crawler->filter('button.btn-primary');
-        $this->assertEquals('press me', $button->text());
+        $this->assertEquals('press me', trim($button->text()));
         $this->assertEquals('btn', $button->attr('name'));
         $this->assertEquals('button', $button->attr('type'));
 
@@ -106,8 +106,11 @@ class OptionFormTest extends TestCase
         $this->assertSame($form, $returned);
 
         $crawler = new Crawler($form->render());
-        $this->assertEquals(trans('options.test.message'), $crawler->filter('.callout-info')->text());
-        $this->assertEquals('greeting', $crawler->filter('.callout-warning')->text());
+        $this->assertEquals(
+            trans('options.test.message'),
+            trim($crawler->filter('.callout-info')->text())
+        );
+        $this->assertEquals('greeting', trim($crawler->filter('.callout-warning')->text()));
     }
 
     public function testHookBefore()
@@ -217,7 +220,7 @@ class OptionFormTest extends TestCase
         $crawler = new Crawler($form->render());
         $button = $crawler->filter('button');
         $this->assertStringContainsString('btn-primary', $button->attr('class'));
-        $this->assertEquals(trans('general.submit'), $button->text());
+        $this->assertEquals(trans('general.submit'), trim($button->text()));
         $this->assertEquals('submit', $button->attr('type'));
         $this->assertEquals('submit_test', $button->attr('name'));
     }
@@ -235,7 +238,10 @@ class OptionFormTest extends TestCase
 
         $form->handle();
         $crawler = new Crawler($form->render());
-        $this->assertEquals(trans('options.option-saved'), $crawler->filter('.callout-success')->text());
+        $this->assertEquals(
+            trans('options.option-saved'),
+            trim($crawler->filter('.callout-success')->text())
+        );
         $this->assertEquals('formatted value', option('t'));
     }
 

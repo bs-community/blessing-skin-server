@@ -1,0 +1,62 @@
+<div class="card card-{{ type }}">
+  <div class="card-header">
+    <h3 class="card-title">{{ title }} {{ hint|raw }}</h3>
+  </div>
+  <form method="post">
+    {{ csrf_field() }}
+    <input type="hidden" name="option" value="{{ id }}">
+    <div class="card-body">
+      {% for message in messages %}
+        <div class="callout callout-{{ message.type }}">
+          {{ message.content|raw }}
+        </div>
+      {% endfor %}
+
+      {% if renderWithoutTable %}
+        {% for item in items %}
+          {{ item.render()|raw }}
+          {% if item.description %}
+            <p class="description">{{ item.description|raw }}</p>
+          {% endif %}
+        {% endfor %}
+      {% else %}
+        <table class="table">
+          <tbody>
+            {% for item in items %}
+              <tr>
+                {% if not renderInputTagsOnly %}
+                  <td class="key">
+                    {{ item.name }} {{ item.hint|raw }}
+                  </td>
+                {% endif %}
+                <td class="value">
+                  {{ item.render()|raw }}
+                  {% if item.description %}
+                    <p class="description">{{ item.description|raw }}</p>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% endif %}
+    </div>
+    <div class="card-footer">
+      {% for button in buttons %}
+        {% if button.href %}
+          <a href="{{ button.href }}" class="{{ button.class|join(' ') }}">
+            {{ button.text|raw }}
+          </a>
+        {% else %}
+          <button
+            type="{{ button.type }}"
+            name="{{ button.name }}"
+            class="{{ button.class|join(' ') }}"
+          >
+            {{ button.text|raw }}
+          </button>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </form>
+</div>
