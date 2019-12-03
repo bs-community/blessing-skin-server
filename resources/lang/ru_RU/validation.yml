@@ -1,7 +1,7 @@
 ---
 #Blessing Skin
-username: ':attribute format is invalid.'
-player_name: 'The :attribute contains invalid character.'
+username: 'Неправильный формат :attribute.'
+player_name: 'Имя :attribute содержит недопустимые символы'
 no_special_chars: 'The :attribute must not contain special characters.'
 model: 'The :attribute must be steve, alex or cape.'
 accepted: 'The :attribute must be accepted.'
