@@ -6,6 +6,7 @@ coverage
 .cache/
 .cache-loader/
 vendor/*
+storage/textures
 storage/textures/*
 storage/update_cache/*
 node_modules/*
