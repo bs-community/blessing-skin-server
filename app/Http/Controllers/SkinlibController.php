@@ -224,7 +224,7 @@ class SkinlibController extends Controller
             }
         }
 
-        if (! Storage::disk('textures')->exists($t->hash)) {
+        if (Storage::disk('textures')->missing($t->hash)) {
             Storage::disk('textures')->put($t->hash, file_get_contents($request->file('file')));
         }
 
