@@ -550,7 +550,12 @@ class OptionFormGroup extends OptionFormItem
             $placeholder = trans()->has($key) ? trans($key) : '';
         }
 
-        $this->items[] = ['type' => 'text', 'id' => $id, 'value' => $value, 'placeholder' => $placeholder];
+        $this->items[] = [
+            'type' => 'text',
+            'id' => $id,
+            'value' => $value,
+            'placeholder' => $placeholder
+        ];
 
         return $this;
     }
@@ -571,10 +576,6 @@ class OptionFormGroup extends OptionFormItem
         $rendered = [];
 
         foreach ($this->items as $item) {
-            if ($item['id'] && is_null($item['value'])) {
-                $item['value'] = option_localized($item['id']);
-            }
-
             $rendered[] = view('forms.'.$item['type'])->with([
                 'id'    => $item['id'],
                 'value' => $item['value'],

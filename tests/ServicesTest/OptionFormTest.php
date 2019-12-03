@@ -251,4 +251,20 @@ class OptionFormTest extends TestCase
         $crawler = new Crawler(sprintf('%s', $form));
         $this->assertCount(1, $crawler->filter('div.card'));
     }
+
+    public function testFormItemValue()
+    {
+        $form = new OptionForm('test');
+        $form->text('t')->value('abc');
+        $crawler = new Crawler($form->render());
+        $this->assertEquals('abc', $crawler->filter('[name=t]')->attr('value'));
+    }
+
+    public function testFormItemDisabled()
+    {
+        $form = new OptionForm('test');
+        $form->text('t')->disabled();
+        $crawler = new Crawler($form->render());
+        $this->assertEquals('disabled', $crawler->filter('[name=t]')->attr('disabled'));
+    }
 }
