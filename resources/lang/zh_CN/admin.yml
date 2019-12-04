@@ -67,10 +67,10 @@ customize:
     title: 更改配色
     success: 修改配色成功
   colors:
-    navbar: Top Navigation Bar
+    navbar: 顶部导航栏
     sidebar:
-      dark: Sidebar (Dark)
-      light: Sidebar (Light)
+      dark: 侧栏（暗）
+      light: 侧栏（亮）
 i18n:
   add: 添加新条目
   added: 条目增加成功
