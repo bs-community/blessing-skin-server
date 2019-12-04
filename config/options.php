@@ -11,7 +11,6 @@ return [
     'ip_get_method'             => '0',
     'api_type'                  => 'false',
     'announcement'              => 'Welcome to Blessing Skin {version}!',
-    'color_scheme'              => 'skin-blue',
     'home_pic_url'              => './app/bg.png',
     'custom_css'                => '',
     'custom_js'                 => '',
@@ -58,4 +57,6 @@ return [
     'content_policy'            => '',
     'transparent_navbar'        => 'false',
     'status_code_for_private'   => '403',
+    'navbar_color'              => 'cyan',
+    'sidebar_color'             => 'dark-maroon',
 ];

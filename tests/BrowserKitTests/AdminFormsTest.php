@@ -27,9 +27,11 @@ class AdminFormsTest extends BrowserKitTestCase
     {
         // Change color
         $this->visit('/admin/customize')
-            ->select('skin-purple', 'color')
+            ->select('orange', 'navbar')
+            ->select('light-fuchsia', 'sidebar')
             ->press('submit_color');
-        $this->assertEquals('skin-purple', option('color_scheme'));
+        $this->assertEquals('orange', option('navbar_color'));
+        $this->assertEquals('light-fuchsia', option('sidebar_color'));
 
         $this->visit('/admin/customize')
             ->type('url', 'home_pic_url')

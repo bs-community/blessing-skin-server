@@ -53,6 +53,7 @@ class SideMenuComposer
 
         $classes = [];
         if ($isActive) {
+            $item['active'] = true;
             $classes[] = 'active menu-open';
         }
 

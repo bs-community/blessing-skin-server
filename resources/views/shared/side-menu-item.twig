@@ -1,6 +1,6 @@
 <li class="nav-item {{ item.classes|join(' ') }}">
   {% if item.children %}
-    <a class="nav-link" href="#">
+    <a class="nav-link {{ item.active ? 'active' }}" href="#">
       <i class="nav-icon fas {{ item.icon }}"></i>
       <p>{{ trans(item.title) }}</p>
       <i class="right fas fa-angle-left"></i>
@@ -13,7 +13,7 @@
   {% else %}
     <a
       href="{{ url(item.link) }}"
-      class="nav-link"
+      class="nav-link {{ item.active ? 'active' }}"
       {% if attribute(item, 'new-tab') %}
         target="_blank"
         rel="noopener noreferrer"

@@ -12,45 +12,46 @@
             {{ trans('admin.customize.change-color.title') }}
           </h3>
         </div>
-        <div class="card-body p-0">
-          <table class="table table-striped bring-up nth-2-center" id="change-color">
-            <tbody>
-              {% for color in colors %}
-                <tr>
-                  <td>{{ trans("admin.customize.colors.#{color}") }}</td>
-                  <td>
-                    <label>
-                      <input
-                        type="radio"
-                        name="color"
-                        value="skin-{{ color }}"
-                        style="display: none;"
-                      >
-                      <span class="btn bg-{{ color }} btn-xs">
-                        <i class="far fa-eye"></i>
-                      </span>
-                    </label>
-                  </td>
-                </tr>
-                <tr>
-                  <td>{{ trans("admin.customize.colors.#{color}-light") }}</td>
-                  <td>
-                    <label>
-                      <input
-                        type="radio"
-                        name="color"
-                        value="skin-{{ color }}-light"
-                        style="display: none;"
-                      >
-                      <span class="btn bg-{{ color }} btn-xs">
-                        <i class="far fa-eye"></i>
-                      </span>
-                    </label>
-                  </td>
-                </tr>
+        <div class="card-body">
+          <div id="navbar-color-picker">
+            <p>{{ trans('admin.customize.colors.navbar') }}</p>
+            <div>
+              {% for color in colors.navbar %}
+                <label>
+                  <input type="radio" class="d-none" name="navbar" value="{{ color }}">
+                  <div class="btn-color bg-{{ color }} display-inline-block
+                    rounded-pill mr-2 mb-1 elevation-2"
+                  ></div>
+                </label>
               {% endfor %}
-            </tbody>
-          </table>
+            </div>
+          </div>
+          <div id="sidebar-dark-picker">
+            <p>{{ trans('admin.customize.colors.sidebar.dark') }}</p>
+            <div>
+              {% for color in colors.sidebar %}
+                <label>
+                  <input type="radio" class="d-none" name="sidebar" value="dark-{{ color }}">
+                  <div class="btn-color bg-{{ color }} display-inline-block
+                    rounded-pill mr-2 mb-1 elevation-2"
+                  ></div>
+                </label>
+              {% endfor %}
+            </div>
+          </div>
+          <div id="sidebar-light-picker">
+            <p>{{ trans('admin.customize.colors.sidebar.light') }}</p>
+            <div>
+              {% for color in colors.sidebar %}
+                <label>
+                  <input type="radio" class="d-none" name="sidebar" value="light-{{ color }}">
+                  <div class="btn-color bg-{{ color }} display-inline-block
+                    rounded-pill mr-2 mb-1 elevation-2"
+                  ></div>
+                </label>
+              {% endfor %}
+            </div>
+          </div>
         </div>
         <div class="card-footer">
           <input
@@ -70,5 +71,7 @@
 {% endblock %}
 
 {% block before_foot %}
-  <link rel="stylesheet" href="{{ skins_css }}">
+  <script>
+    blessing.extra = {{ extra|json_encode|raw }}
+  </script>
 {% endblock %}

@@ -118,7 +118,7 @@ class AdminController extends Controller
         return redirect('/admin');
     }
 
-    public function customize(Request $request, \App\Services\Webpack $webpack)
+    public function customize(Request $request)
     {
         $homepage = Option::form('homepage', OptionForm::AUTO_DETECT, function ($form) {
             $form->text('home_pic_url')->hint();
@@ -150,17 +150,39 @@ class AdminController extends Controller
             $form->textarea('custom_js', 'JavaScript')->rows(6);
         })->addMessage()->handle();
 
-        if ($request->isMethod('post') && $request->input('action') == 'color') {
-            $color = $this->validate($request, ['color' => 'required'])['color'];
-            option(['color_scheme' => $color]);
+        if ($request->isMethod('post') && $request->input('action') === 'color') {
+            $navbar = $request->input('navbar');
+            if ($navbar) {
+                option(['navbar_color' => $navbar]);
+            }
+
+            $sidebar = $request->input('sidebar');
+            if ($sidebar) {
+                option(['sidebar_color' => $sidebar]);
+            }
         }
 
         return view('admin.customize', [
-            'colors' => ['blue', 'yellow', 'green', 'purple', 'red', 'black'],
-            'skins_css' => $webpack->url('skins/_all-skins.min.css'),
+            'colors' => [
+                'navbar' => [
+                    'primary', 'secondary', 'success', 'danger', 'indigo',
+                    'purple', 'pink', 'teal', 'cyan', 'dark', 'gray',
+                    'fuchsia', 'maroon', 'olive', 'navy',
+                    'lime', 'light', 'warning', 'white', 'orange',
+                ],
+                'sidebar' => [
+                    'primary', 'warning', 'info', 'danger', 'success', 'indigo',
+                    'navy', 'purple', 'fuchsia', 'pink', 'maroon', 'orange',
+                    'lime', 'teal', 'olive',
+                ],
+            ],
             'forms' => [
                 'homepage' => $homepage,
                 'custom_js_css' => $customJsCss,
+            ],
+            'extra' => [
+                'navbar' => option('navbar_color'),
+                'sidebar' => option('sidebar_color'),
             ],
         ]);
     }

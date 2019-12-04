@@ -31,7 +31,8 @@ class SideMenuComposerTest extends TestCase
 
         $crawler = new Crawler($this->get('/user/oauth/manage')->getContent());
         $this->assertCount(1, $crawler->filter('aside .nav-treeview'));
-        $this->assertCount(2, $crawler->filter('aside .active'));
+        $this->assertCount(2, $crawler->filter('aside .nav-item.active'));
+        $this->assertCount(2, $crawler->filter('aside .nav-link.active'));
     }
 
     public function testCollectPluginConfigs()

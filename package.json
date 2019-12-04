@@ -23,6 +23,7 @@
     "admin-lte": "^3.0.1",
     "echarts": "^4.5.0",
     "jquery": "^3.4.1",
+    "rxjs": "^6.5.3",
     "skinview3d": "^1.1.0",
     "vue": "^2.6.10",
     "vue-good-table": "^2.18.1",
@@ -89,7 +90,7 @@
     "printWidth": 80,
     "semi": false,
     "singleQuote": true,
-    "trailingComma": "es5",
+    "trailingComma": "all",
     "arrowParens": "avoid",
     "tabWidth": 2
   },

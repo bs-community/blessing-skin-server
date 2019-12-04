@@ -71,18 +71,10 @@ customize:
     success: Theme color updated.
 
   colors:
-    blue: Blue (Default)
-    blue-light: Blue Light
-    yellow: Yellow
-    yellow-light: Yellow Light
-    green: Green
-    green-light: Green Light
-    purple: Purple
-    purple-light: Purple Light
-    red: Red
-    red-light: Red Light
-    black: Black
-    black-light: Black Light
+    navbar: Top Navigation Bar
+    sidebar:
+      dark: Sidebar (Dark)
+      light: Sidebar (Light)
 
 i18n:
   add: Add New Language Line

@@ -12,9 +12,12 @@ class ViewServiceProvider extends ServiceProvider
     public function boot(Webpack $webpack)
     {
         View::composer(['home', '*.base', 'shared.header'], function ($view) {
+            $lightColors = ['light', 'warning', 'white', 'orange'];
+            $color = option('navbar_color');
             $view->with([
                 'site_name' => option_localized('site_name'),
-                'color_scheme' => option('color_scheme'),
+                'navbar_color' => $color,
+                'color_mode' => in_array($color, $lightColors) ? 'light' : 'dark',
             ]);
         });
 
@@ -31,6 +34,10 @@ class ViewServiceProvider extends ServiceProvider
         View::composer('shared.languages', Composers\LanguagesMenuComposer::class);
 
         View::composer('shared.user-menu', Composers\UserMenuComposer::class);
+
+        View::composer('shared.sidebar', function ($view) {
+            $view->with('sidebar_color', option('sidebar_color'));
+        });
 
         View::composer('shared.side-menu', Composers\SideMenuComposer::class);
 

@@ -41,15 +41,25 @@ class HeadComposer
     public function applyThemeColor(View $view)
     {
         $colors = [
-            'blue' => '#3c8dbc',
-            'yellow' => '#f39c12',
-            'green' => '#00a65a',
-            'purple' => '#605ca8',
-            'red' => '#dd4b39',
-            'black' => '#ffffff',
+            'primary' => '#007bff',
+            'secondary' => '#6c757d',
+            'success' => '#28a745',
+            'warning' => '#ffc107',
+            'danger' => '#dc3545',
+            'navy' => '#001f3f',
+            'olive' => '#3d9970',
+            'lime' => '#01ff70',
+            'fuchsia' => '#f012be',
+            'maroon' => '#d81b60',
+            'indigo' => '#6610f2',
+            'purple' => '#6f42c1',
+            'pink' => '#e83e8c',
+            'orange' => '#fd7e14',
+            'teal' => '#20c997',
+            'cyan' => '#17a2b8',
+            'gray' => '#6c757d',
         ];
-        preg_match('/skin-(\w+)?(?:-light)?/', option('color_scheme'), $matches);
-        $view->with('theme_color', Arr::get($colors, $matches[1]));
+        $view->with('theme_color', Arr::get($colors, option('navbar_color')));
     }
 
     public function seo(View $view)
