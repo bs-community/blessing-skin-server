@@ -44,7 +44,7 @@ class PluginControllerTest extends TestCase
             $mock->shouldReceive('get')
                 ->with('fake3')
                 ->once()
-                ->andReturn();
+                ->andReturn($plugin);
 
             $plugin = new Plugin(resource_path(''), ['config' => 'shared/head.twig']);
             $plugin->setEnabled(true);
