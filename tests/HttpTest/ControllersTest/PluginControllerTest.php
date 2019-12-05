@@ -39,10 +39,12 @@ class PluginControllerTest extends TestCase
                 ->once()
                 ->andReturn(new Plugin('', []));
 
+            $plugin = new Plugin('', []);
+            $plugin->setEnabled(true);
             $mock->shouldReceive('get')
                 ->with('fake3')
                 ->once()
-                ->andReturn(new Plugin('', []));
+                ->andReturn();
 
             $plugin = new Plugin(resource_path(''), ['config' => 'shared/head.twig']);
             $plugin->setEnabled(true);
