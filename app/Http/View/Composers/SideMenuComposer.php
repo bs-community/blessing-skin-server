@@ -75,7 +75,7 @@ class SideMenuComposer
                 $pluginConfigs = resolve(PluginManager::class)
                     ->getEnabledPlugins()
                     ->filter(function ($plugin) {
-                        return $plugin->hasConfigView();
+                        return $plugin->hasConfig();
                     })
                     ->map(function ($plugin) {
                         return [

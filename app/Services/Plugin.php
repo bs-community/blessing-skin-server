@@ -58,6 +58,23 @@ class Plugin
         return "$baseUrl/{$this->name}/assets/$relativeUri?v=".$this->version;
     }
 
+    public function hasConfig(): bool
+    {
+        return $this->hasConfigClass() || $this->hasConfigView();
+    }
+
+    public function hasConfigClass(): bool
+    {
+        return Arr::has($this->manifest, 'enchants.config');
+    }
+
+    public function getConfigClass()
+    {
+        $name = Arr::get($this->manifest, 'enchants.config');
+
+        return Str::start($name, $this->manifest['namespace'].'\\');
+    }
+
     public function getViewPath(string $filename): string
     {
         return $this->path."/views/$filename";

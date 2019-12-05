@@ -11,8 +11,14 @@ class PluginController extends Controller
     public function config(PluginManager $plugins, $name)
     {
         $plugin = $plugins->get($name);
-        if ($plugin && $plugin->isEnabled() && $plugin->hasConfigView()) {
-            return $plugin->getConfigView();
+        if ($plugin && $plugin->isEnabled()) {
+            if ($plugin->hasConfigClass()) {
+                return app()->call($plugin->getConfigClass().'@render');
+            } elseif ($plugin->hasConfigView()) {
+                return $plugin->getConfigView();
+            } else {
+                return abort(404, trans('admin.plugins.operations.no-config-notice'));
+            }
         } else {
             return abort(404, trans('admin.plugins.operations.no-config-notice'));
         }
@@ -89,7 +95,7 @@ class PluginController extends Controller
                     'version' => $plugin->version,
                     'url' => $plugin->url,
                     'enabled' => $plugin->isEnabled(),
-                    'config' => $plugin->hasConfigView(),
+                    'config' => $plugin->hasConfig(),
                     'dependencies' => [
                         'all' => $plugin->require,
                         'unsatisfied' => $plugins->getUnsatisfied($plugin),

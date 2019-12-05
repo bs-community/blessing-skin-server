@@ -50,15 +50,25 @@ class PluginControllerTest extends TestCase
                 ->with('fake4')
                 ->once()
                 ->andReturn($plugin);
+
+            $plugin = new Plugin(resource_path(''), [
+                'namespace' => 'App\\Services',
+                'enchants' => [
+                    'config' => 'OptionForm',
+                ],
+            ]);
+            $plugin->setEnabled(true);
+            $mock->shouldReceive('get')
+                ->with('fake5')
+                ->once()
+                ->andReturn($plugin);
         });
 
         // No such plugin.
-        $this->get('/admin/plugins/config/fake1')
-            ->assertNotFound();
+        $this->get('/admin/plugins/config/fake1')->assertNotFound();
 
         // Plugin is disabled
-        $this->get('/admin/plugins/config/fake2')
-            ->assertNotFound();
+        $this->get('/admin/plugins/config/fake2')->assertNotFound();
 
         // Plugin is enabled but it doesn't have config view
         $this->get('/admin/plugins/config/fake3')
@@ -66,8 +76,14 @@ class PluginControllerTest extends TestCase
             ->assertNotFound();
 
         // Plugin has config view
-        $this->get('/admin/plugins/config/fake4')
-            ->assertSuccessful();
+        $this->get('/admin/plugins/config/fake4')->assertSuccessful();
+
+        // Plugin has config class
+        app()->instance(
+            \App\Services\OptionForm::class,
+            new \App\Services\OptionForm('t')
+        );
+        $this->get('/admin/plugins/config/fake5')->assertSee('card');
 
         option(['plugins_enabled' => '[]']);
     }
