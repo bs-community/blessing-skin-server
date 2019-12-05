@@ -64,8 +64,8 @@ export async function walkFetch(request: Request): Promise<any> {
     if (body.exception && Array.isArray(body.trace)) {
       const trace = (body.trace as Array<{ file: string, line: number }>)
         .map((t, i) => `[${i + 1}] ${t.file}#L${t.line}`)
-        .join('\n')
-      message = `${message}\n<details>${trace}</details>`
+        .join('<br>')
+      message = `${message}<br><details>${trace}</details>`
     }
 
     throw new HTTPError(message || body, cloned)
@@ -76,6 +76,7 @@ export async function walkFetch(request: Request): Promise<any> {
       title: trans('general.fatalError'),
       dangerousHTML: error.message,
       type: 'danger',
+      okButtonType: 'outline-light',
     })
   }
 }

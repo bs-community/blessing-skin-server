@@ -153,6 +153,7 @@ test('low level fetch', async () => {
     title: 'general.fatalError',
     dangerousHTML: 'network',
     type: 'danger',
+    okButtonType: 'outline-light',
   })
   expect(stub).toBeCalledWith(expect.any(Error))
 
@@ -162,6 +163,7 @@ test('low level fetch', async () => {
     title: 'general.fatalError',
     dangerousHTML: '404',
     type: 'danger',
+    okButtonType: 'outline-light',
   })
   expect(stub.mock.calls[1][0]).toHaveProperty('message', '404')
   expect(stub.mock.calls[1][0]).toHaveProperty('response')
@@ -172,6 +174,7 @@ test('low level fetch', async () => {
     title: 'general.fatalError',
     dangerousHTML: 'error',
     type: 'danger',
+    okButtonType: 'outline-light',
   })
   expect(stub.mock.calls[2][0]).toHaveProperty('message', 'error')
   expect(stub.mock.calls[2][0]).toHaveProperty('response')
@@ -236,8 +239,9 @@ test('process backend errors', async () => {
   expect(showModal).toBeCalledWith({
     mode: 'alert',
     title: 'general.fatalError',
-    dangerousHTML: 'fake exception\n<details>[1] k.php#L2\n[2] v.php#L3</details>',
+    dangerousHTML: 'fake exception<br><details>[1] k.php#L2<br>[2] v.php#L3</details>',
     type: 'danger',
+    okButtonType: 'outline-light',
   })
 })
 
