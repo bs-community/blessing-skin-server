@@ -12,6 +12,21 @@
         </div>
       {% endfor %}
 
+      {% for alert in alerts %}
+        <div class="alert alert-{{ alert.type }}">
+          {% if alert.type == 'success' %}
+            <i class="fas fa-check icon"></i>
+          {% elseif alert.type == 'info' %}
+            <i class="fas fa-info icon"></i>
+          {% elseif alert.type == 'warning' %}
+            <i class="fas fa-exclamation-triangle icon"></i>
+          {% elseif alert.type == 'danger' %}
+            <i class="fas fa-times-circle icon"></i>
+          {% endif %}
+          <span>{{ alert.content }}</span>
+        </div>
+      {% endfor %}
+
       {% if renderWithoutTable %}
         {% for item in items %}
           {{ item.render()|raw }}

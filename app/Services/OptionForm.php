@@ -27,6 +27,7 @@ class OptionForm
 
     protected $buttons = [];
     protected $messages = [];
+    protected $alerts = [];
 
     protected $hookBefore;
     protected $hookAfter;
@@ -176,6 +177,24 @@ class OptionForm
     }
 
     /**
+     * Add an alert to the top of option form.
+     *
+     * @param  string $msg
+     * @param  string $style
+     * @return $this
+     */
+    public function addAlert($msg = self::AUTO_DETECT, $style = 'info')
+    {
+        if ($msg == self::AUTO_DETECT) {
+            $msg = trans("options.$this->id.alert");
+        }
+
+        $this->alerts[] = ['content' => $msg, 'type' => $style];
+
+        return $this;
+    }
+
+    /**
      * Add callback which will be executed before handling options.
      *
      * @param callable $callback
@@ -266,7 +285,7 @@ class OptionForm
                 call_user_func($this->hookAfter, $this);
             }
 
-            $this->addMessage(trans('options.option-saved'), 'success');
+            $this->addAlert(trans('options.option-saved'), 'success');
         }
 
         return $this;

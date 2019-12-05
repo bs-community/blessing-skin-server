@@ -113,6 +113,21 @@ class OptionFormTest extends TestCase
         $this->assertEquals('greeting', trim($crawler->filter('.callout-warning')->text()));
     }
 
+    public function testAddAlert()
+    {
+        $form = new OptionForm('test', 'test');
+        $returned = $form->addAlert();
+        $form->addAlert('greeting', 'warning');
+        $this->assertSame($form, $returned);
+
+        $crawler = new Crawler($form->render());
+        $this->assertEquals(
+            trans('options.test.alert'),
+            trim($crawler->filter('.alert-info')->text())
+        );
+        $this->assertEquals('greeting', trim($crawler->filter('.alert-warning')->text()));
+    }
+
     public function testHookBefore()
     {
         $called = false;
@@ -240,7 +255,7 @@ class OptionFormTest extends TestCase
         $crawler = new Crawler($form->render());
         $this->assertEquals(
             trans('options.option-saved'),
-            trim($crawler->filter('.callout-success')->text())
+            trim($crawler->filter('.alert-success')->text())
         );
         $this->assertEquals('formatted value', option('t'));
     }
