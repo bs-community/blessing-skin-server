@@ -54,7 +54,7 @@ test('top position', () => {
 test('delay show', () => {
   const queue: ToastQueue = []
   showToast(queue, 'info')
-  jest.runTimersToTime(100)
+  jest.advanceTimersByTime(100)
   expect(document.querySelector('.fade')!.classList.contains('show')).toBeTrue()
   expect(queue).toHaveLength(1)
 })
