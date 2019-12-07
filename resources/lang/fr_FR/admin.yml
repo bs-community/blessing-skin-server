@@ -39,25 +39,25 @@ users:
     password:
       success: Mot de passe changé avec succès.
     score:
-      success: Score changed successfully.
-    permission: Permission updated.
+      success: Score changé avec succès.
+    permission: Permission mise à jour.
     delete:
-      delete: Delete User
-      success: The account has been deleted successfully.
-      cant-super-admin: You can't delete a super admin.
-      cant-admin: You can't delete a admin account.
+      delete: Supprimer l'utilisateur
+      success: Le compte a été supprimé avec succès.
+      cant-super-admin: Vous ne pouvez pas supprimer un super administrateur.
+      cant-admin: Vous ne pouvez pas supprimer un compte d'administrateur.
 players:
-  no-permission: You have no permission to operate this player.
+  no-permission: Vous n'avez pas la permission de gérer ce joueur.
   operations:
-    title: Operations
+    title: Actions
   textures:
-    change: Change Textures
+    change: Changer les textures
     non-existent: No such texture tid.:tid
-    success: The textures of :player has been updated.
+    success: Les textures de :player ont été mises à jour.
   name:
     success: Player name has been updated to :player
   owner:
-    change: Change Owner
+    change: Changer de propriétaire
     success: The player :player was transferred to user :user.
   delete:
     delete: Delete
