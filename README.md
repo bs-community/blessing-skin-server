@@ -194,6 +194,8 @@ yarn build
 
 接下来请参考「快速安装向导」进行后续安装。
 
+> 您可以订阅我们的 Telegram 频道 [Blessing Skin News](https://t.me/blessing_skin_news) 来获取最新开发动态。当有新的 Commit 被推送时，我们的机器人将会在频道内发送一条消息来提示您能否拉取最新代码，以及拉取后应该做什么。
+
 ## 国际化（i18n）
 
 Blessing Skin 可支持多种语言，当前支持英语（`en`）和简体中文（`zh_CN`）。
