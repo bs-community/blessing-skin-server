@@ -11,7 +11,12 @@ class ViewServiceProvider extends ServiceProvider
 {
     public function boot(Webpack $webpack)
     {
-        View::composer(['home', '*.base', 'shared.header'], function ($view) {
+        View::composer([
+            'home',
+            '*.base',
+            '*.master',
+            'shared.header'
+        ], function ($view) {
             $lightColors = ['light', 'warning', 'white', 'orange'];
             $color = option('navbar_color');
             $view->with([
