@@ -16,7 +16,7 @@ notifications:
     all: Tous les utilisateurs
     normal: Utilisateurs normaux
     uid: UID spécifié
-    email: Adresse e-mail spécifié
+    email: Adresse e-mail spécifiée
   title: Titre
   content: Content (Markdown is supported.)
 users:
@@ -30,7 +30,7 @@ users:
     no-permission: Vous n'avez pas la permission de gérer cet utilisateur.
     invalid: Action invalide.
     email:
-      existed: ':email is existed.'
+      existed: ':email existe.'
       success: Adresse e-mail changée avec succès.
     verification:
       success: Statut de vérification du compte activé avec succès.
@@ -76,10 +76,10 @@ i18n:
   added: Language line added.
   updated: Language line updated.
   deleted: Language line deleted.
-  group: Group
+  group: Groupe
   key: Key
-  text: Text
-  tip: How can I use this page?
+  text: Texte
+  tip: Comment puis-je utiliser cette page ?
 status:
   info: Information
   health: Health
@@ -91,28 +91,28 @@ status:
     commit: Commit
     laravel: Laravel Version
   server:
-    name: Server
+    name: Serveur
     php: PHP Version
     web: Web Server Software
     os: OS
   db:
-    name: Database
-    type: Server
-    host: Host
+    name: Base de données
+    type: Serveur
+    host: Hôte
     port: Port
-    username: Username
-    database: Database
+    username: Nom d'utilisateur
+    database: Base de données
     prefix: Table Prefix
-  plugins: Enabled Plugins (:amount)
+  plugins: Plugins activés (:amount)
 plugins:
-  name: Name
+  name: Nom
   description: Description
-  author: Author
+  author: Auteur
   version: Version
   dependencies: Dependencies
   operations:
-    title: Operations
-    enabled: ':plugin has been enabled.'
+    title: Actions
+    enabled: ':plugin a été activé.'
     unsatisfied:
       notice: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't enable it. Please install or update the plugins listed below, and disable those have conflicts.
       disabled: 'The ":name" plugin is not enabled.'
@@ -155,7 +155,7 @@ update:
 download:
   errors:
     download: 'Échec du téléchargement. Erreur : :error'
-    shasum: File validation failed. Please download again.
+    shasum: Échec de la validation du fichier. Veuillez recommencer le telechargement.
     unzip: Failed to unpack files.
-report-reviewed: This report has been processed.
-invalid-action: Invalid action
+report-reviewed: Ce rapport a été traité.
+invalid-action: Action invalide
