@@ -2,10 +2,10 @@
 index:
   total-users: Utilisateurs inscrits
   total-players: Joueurs
-  total-textures: Textures téléversées
+  total-textures: Textures chargées
   disk-usage: Utilisation du disque
   overview: Aperçu
-  texture-uploads: Texture Uploads
+  texture-uploads: Chargements de textures
   user-registration: User Registration
 notifications:
   send:
@@ -115,11 +115,11 @@ plugins:
     enabled: ':plugin a été activé.'
     unsatisfied:
       notice: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't enable it. Please install or update the plugins listed below, and disable those have conflicts.
-      disabled: 'The ":name" plugin is not enabled.'
+      disabled: 'Le plugin ":name" n''est pas activé.'
       version: 'The version of ":title" does not satisfies the constraint ":constraint".'
       conflict: 'The ":title" plugin cannot run with this plugin at the same time.'
-    disabled: ':plugin has been disabled.'
-    deleted: The plugin was deleted successfully.
+    disabled: ':plugin a été désactivé.'
+    deleted: Le plugin a été supprimé avec succès.
     no-config-notice: Le plugin n'est pas installé ou ne fournit pas de page de configuration.
     not-found: Ce plugin n'existe pas.
   market:
