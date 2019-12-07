@@ -1,43 +1,43 @@
 ---
 index:
-  total-users: Registered Users
-  total-players: Players
-  total-textures: Uploaded Textures
-  disk-usage: Disk Usage
-  overview: Overview
+  total-users: Utilisateurs inscrits
+  total-players: Joueurs
+  total-textures: Textures téléversées
+  disk-usage: Utilisation du disque
+  overview: Aperçu
   texture-uploads: Texture Uploads
   user-registration: User Registration
 notifications:
   send:
-    title: Send Notification
-    success: Sent successfully!
+    title: Envoyer une notification
+    success: Envoyée avec succès !
   receiver:
-    title: Receiver
-    all: All Users
-    normal: Normal Users
-    uid: Specified UID
-    email: Specified Email
-  title: Title
+    title: Destinataire
+    all: Tous les utilisateurs
+    normal: Utilisateurs normaux
+    uid: UID spécifié
+    email: Adresse e-mail spécifié
+  title: Titre
   content: Content (Markdown is supported.)
 users:
   status:
     normal: Normal
-    banned: Banned
-    admin: Admin
-    super-admin: Super Admin
+    banned: Banni
+    admin: Administrateur
+    super-admin: Super administrateur
   operations:
-    non-existent: No such user.
-    no-permission: You have no permission to operate this user.
-    invalid: Invalid action.
+    non-existent: Cet utilisateur n'existe pas.
+    no-permission: Vous n'avez pas la permission de gérer cet utilisateur.
+    invalid: Action invalide.
     email:
       existed: ':email is existed.'
-      success: Email changed successfully.
+      success: Adresse e-mail changée avec succès.
     verification:
-      success: Account verification status toggled successfully.
+      success: Statut de vérification du compte activé avec succès.
     nickname:
-      success: Nickname changed successfully.
+      success: Pseudonyme changé avec succès.
     password:
-      success: Password changed successfully.
+      success: Mot de passe changé avec succès.
     score:
       success: Score changed successfully.
     permission: Permission updated.
