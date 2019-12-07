@@ -12,6 +12,7 @@ jobs:
   twig:
     name: Twig Linting
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
     steps:
     - name: Checkout code
       uses: actions/checkout@v1
@@ -26,6 +27,7 @@ jobs:
   php:
     name: PHP ${{ matrix.php }} Tests
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
     strategy:
       fail-fast: false
       matrix:
@@ -76,6 +78,7 @@ jobs:
   lint:
     name: Frontend Linting
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
     steps:
     - name: Checkout code
       uses: actions/checkout@v1
@@ -88,6 +91,7 @@ jobs:
   jest:
     name: Frontend Tests
     runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
     steps:
     - name: Checkout code
       uses: actions/checkout@v1
