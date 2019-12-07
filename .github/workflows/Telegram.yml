@@ -1,0 +1,20 @@
+name: Telegram
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  notification:
+    name: Send Message
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v1
+    - name: Run bot
+      run: ./scripts/bot.ps1
+      shell: pwsh
+      env:
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
