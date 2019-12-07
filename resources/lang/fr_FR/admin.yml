@@ -154,7 +154,7 @@ update:
     php: Your PHP version is too low to update. Requires :version or later.
 download:
   errors:
-    download: 'Failed to download. Error: :error'
+    download: 'Échec du téléchargement. Erreur : :error'
     shasum: File validation failed. Please download again.
     unzip: Failed to unpack files.
 report-reviewed: This report has been processed.
