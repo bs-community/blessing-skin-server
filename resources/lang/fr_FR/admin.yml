@@ -58,14 +58,14 @@ players:
     success: Player name has been updated to :player
   owner:
     change: Changer de propriétaire
-    success: The player :player was transferred to user :user.
+    success: Le joueur :player a été transféré vers l'utilisateur :user.
   delete:
-    delete: Delete
-    success: The player has been deleted successfully.
+    delete: Supprimer
+    success: Le joueur a été supprimé avec succès.
 customize:
   change-color:
-    title: Change Theme Color
-    success: Theme color updated.
+    title: Changer la couleur du thème
+    success: Couleur du thème mise à jour.
   colors:
     navbar: Top Navigation Bar
     sidebar:
@@ -120,24 +120,24 @@ plugins:
       conflict: 'The ":title" plugin cannot run with this plugin at the same time.'
     disabled: ':plugin has been disabled.'
     deleted: The plugin was deleted successfully.
-    no-config-notice: The plugin is not installed or doesn't provide a configuration page.
-    not-found: No such plugin.
+    no-config-notice: Le plugin n'est pas installé ou ne fournit pas de page de configuration.
+    not-found: Ce plugin n'existe pas.
   market:
-    connection-error: Unable to connect to the plugins registry. :error
-    non-existent: The plugin :plugin does not exist.
-    install-success: Plugin was installed.
-  empty: No result
+    connection-error: Impossible de se connecter au registre des plugins. :error
+    non-existent: Le plugin :plugin n'existe pas.
+    install-success: Plugin installé avec succès.
+  empty: Aucun résultat
 update:
-  complete: Update completed
+  complete: Mise à jour terminée
   info:
     title: Update Information
-    up-to-date: Already up-to-date.
-    available: New version available.
+    up-to-date: Déjà mis à jour.
+    available: Nouvelle version disponible.
     versions:
-      latest: "Latest Version:"
-      current: "Current Version:"
-    check-github: Check GitHub Releases
-    button: Update Now
+      latest: "Dernière version :"
+      current: "Version actuelle :"
+    check-github: Consulter les versions de GitHub
+    button: Mettre à jour maintenant
   cautions:
     title: Cautions
     link: check out this.
@@ -149,8 +149,8 @@ update:
     downloading: Downloading update package...
     size: "Size of package:"
   errors:
-    connection: "Unable to access to current update source. Details: :error"
-    spec: Current update source is not supported.
+    connection: "Impossible d'accéder à la source de la mise à jour actuelle. Détails : :error"
+    spec: La source de la mise à jour actuelle n'est pas prise en charge.
     php: Your PHP version is too low to update. Requires :version or later.
 download:
   errors:
