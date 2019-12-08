@@ -46,7 +46,11 @@ export default {
     return {
       lines: [],
       columns: [
-        { field: 'group', label: this.$t('admin.i18n.group') },
+        {
+          field: 'group',
+          label: this.$t('admin.i18n.group'),
+          width: '15%',
+        },
         { field: 'key', label: this.$t('admin.i18n.key') },
         { field: 'text', label: this.$t('admin.i18n.text') },
         {
@@ -54,6 +58,7 @@ export default {
           label: this.$t('admin.operationsTitle'),
           sortable: false,
           globalSearchDisabled: true,
+          width: '25%',
         },
       ],
     }
