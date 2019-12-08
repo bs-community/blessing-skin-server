@@ -1,17 +1,17 @@
 ---
 http:
-  msg-403: You have no permission to access this page.
-  msg-404: Nothing here.
-  msg-500: Please try again later.
+  msg-403: Vous n'avez pas la permission d'accéder à cette page.
+  msg-404: Il n'y a rien ici.
+  msg-500: Veuillez réessayer plus tard.
   msg-503: The application is now in maintenance mode.
-  method-not-allowed: Method not allowed.
+  method-not-allowed: Méthode non autorisée.
   csrf-token-mismatch: Token does not match, try reloading the page.
-  ie: We don't support Internet Explorer. Please switch to other modern browsers, such as Firefox or Chrome.
+  ie: Nous ne prenons pas en charge Internet Explorer. Veuillez passer à d'autres navigateurs modernes, tels que Firefox ou Chrome.
 general:
-  title: Error occurred
+  title: Une erreur s'est produite
 exception:
-  code: 'Error code: :code'
-  detail: 'Details: :msg'
+  code: 'Code d''erreur : :code'
+  detail: 'Détails : :msg'
   message: |
     Whoops, looks like something went wrong. (enable APP_DEBUG in .env to see details)
 plugins:
