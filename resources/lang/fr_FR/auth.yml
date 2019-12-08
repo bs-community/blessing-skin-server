@@ -13,17 +13,17 @@ check:
   banned: Vous êtes banni de ce site. Veuillez contacter l'administrateur.
   token: Token expired. Please log in.
 register:
-  title: Register
-  button: Register
-  message: Welcome to :sitename!
-  nickname-intro: Whatever you like expect special characters
-  repeat-pwd: Repeat your password
-  close: We don't accept any registration.
-  success: Your account was registered. Redirecting...
-  max: You can't register more than :regs accounts.
-  registered: The email address was already registered.
+  title: S'inscrire
+  button: S'inscrire
+  message: Bienvenue sur :sitename !
+  nickname-intro: Tout ce que vous voulez sauf des caractères spéciaux
+  repeat-pwd: Répétez votre mot de passe
+  close: Nous n'acceptons aucune inscription.
+  success: Votre compte a été créé. Redirection...
+  max: Vous ne pouvez pas créer plus de :regs comptes.
+  registered: L'adresse e-mail est déjà utilisée.
 forgot:
-  title: Forgot Password
+  title: Mot de passe oublié ?
   button: Send
   message: We will send you an E-mail to verify.
   login-link: I do remember it
