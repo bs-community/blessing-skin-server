@@ -21,17 +21,17 @@ register:
   close: Nous n'acceptons aucune inscription.
   success: Votre compte a été créé. Redirection...
   max: Vous ne pouvez pas créer plus de :regs comptes.
-  registered: L'adresse e-mail est déjà utilisée.
+  registered: L'adresse e-mail est déjà enregistrée.
 forgot:
   title: Mot de passe oublié ?
-  button: Send
-  message: We will send you an E-mail to verify.
-  login-link: I do remember it
-  disabled: Password resetting is not available.
-  frequent-mail: You click the send button too fast. Wait for some minutes.
-  unregistered: The email address is not registered.
-  success: Mail sent, please check your inbox. The link will be expired in 1 hour.
-  failed: Failed to send verification mail. :msg
+  button: Envoyer
+  message: Nous vous enverrons un e-mail de vérification.
+  login-link: Je m'en souviens
+  disabled: La réinitialisation de mot de passe n'est pas disponible.
+  frequent-mail: Vous avez cliqué trop rapidement sur le bouton d'envoi. Patientez quelques minutes.
+  unregistered: L'adresse e-mail n'est pas enregistrée.
+  success: L'e-mail a été envoyé, consultez votre boîte de réception. Le lien expirera dans 1 heure.
+  failed: Erreur lors de l'envoi de l'e-mail de vérification. :msg
   ignore: If you haven't signed up on our site, please ignore this email. No unsubscribing is required.
   reset: Reset your password
   notice: This mail is sending automatically, no reponses will be sent if you reply.
