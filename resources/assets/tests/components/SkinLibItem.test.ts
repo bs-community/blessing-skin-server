@@ -102,3 +102,12 @@ test('add to closet', async () => {
   await flushPromises()
   expect(wrapper.emitted('like-toggled')[0]).toEqual([true])
 })
+
+test('truncate too long texture name', () => {
+  const wrapper = mount(SkinLibItem, {
+    propsData: {
+      name: 'very-very-long-texture-name',
+    },
+  })
+  expect(wrapper.text()).toContain('very-very-long-...')
+})

@@ -122,3 +122,10 @@ test('no avatar option if texture is cape', () => {
   const wrapper = mount(ClosetItem, { propsData: factory({ type: 'cape' }) })
   expect(wrapper.findAll('.dropdown-item')).toHaveLength(3)
 })
+
+test('truncate too long texture name', () => {
+  const wrapper = mount(ClosetItem, {
+    propsData: factory({ name: 'very-very-long-texture-name' }),
+  })
+  expect(wrapper.text()).toContain('very-very-long-...')
+})

@@ -10,7 +10,7 @@
       <div class="card-footer pb-0 pt-2 pl-1 pr-1">
         <div class="container d-flex justify-content-between">
           <p>
-            <span :title="name">{{ name }}
+            <span :title="name">{{ name|truncate }}
               <small>{{ $t('skinlib.filter.' + type) }}</small>
             </span>
           </p>
@@ -35,12 +35,14 @@
 <script>
 import addClosetItem from './mixins/addClosetItem'
 import removeClosetItem from './mixins/removeClosetItem'
+import truncateText from './mixins/truncateText'
 
 export default {
   name: 'SkinLibItem',
   mixins: [
     addClosetItem,
     removeClosetItem,
+    truncateText,
   ],
   props: {
     tid: Number,

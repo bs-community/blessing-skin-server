@@ -91,7 +91,7 @@
               <tr>
                 <td v-t="'skinlib.show.name'" />
                 <td>
-                  {{ name.length > 15 ? `${name.slice(0, 15)}...` : name }}
+                  {{ name|truncate }}
                   <small v-if="hasEditPermission">
                     <a v-t="'skinlib.show.edit'" href="#" @click="changeTextureName" />
                   </small>
@@ -213,6 +213,7 @@ import setAsAvatar from '../../components/mixins/setAsAvatar'
 import addClosetItem from '../../components/mixins/addClosetItem'
 import removeClosetItem from '../../components/mixins/removeClosetItem'
 import emitMounted from '../../components/mixins/emitMounted'
+import truncateText from '../../components/mixins/truncateText'
 import ApplyToPlayerDialog from '../../components/ApplyToPlayerDialog.vue'
 import { showModal, toast } from '../../scripts/notify'
 import { truthy } from '../../scripts/validators'
@@ -229,6 +230,7 @@ export default {
     addClosetItem,
     removeClosetItem,
     setAsAvatar,
+    truncateText,
   ],
   props: {
     baseUrl: {

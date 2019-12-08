@@ -6,7 +6,7 @@
     <div class="card-footer pb-2 pt-2 pl-1 pr-1">
       <div class="container d-flex justify-content-between">
         <span data-test="name" :title="name">
-          {{ textureName }} <small>({{ type }})</small>
+          {{ textureName|truncate }} <small>({{ type }})</small>
         </span>
 
         <a class="float-right dropdown">
@@ -43,6 +43,7 @@
 <script>
 import setAsAvatar from './mixins/setAsAvatar'
 import removeClosetItem from './mixins/removeClosetItem'
+import truncateText from './mixins/truncateText'
 import { showModal, toast } from '../scripts/notify'
 import { truthy } from '../scripts/validators'
 
@@ -51,6 +52,7 @@ export default {
   mixins: [
     removeClosetItem,
     setAsAvatar,
+    truncateText,
   ],
   props: {
     tid: {
