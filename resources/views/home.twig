@@ -93,28 +93,33 @@
             <h1>{{ trans('index.features.title') }}</h1>
             <br>
             <br>
-            <div class="container d-flex">
-              {% for item in ['first', 'second', 'third'] %}
-                <div class="col-lg-4">
-                  <i class="fas {{ trans("index.features.#{item}.icon") }} mb-3" aria-hidden="true"></i>
-                  <h3>{{ trans("index.features.#{item}.name") }}</h3>
-                  <p>{{ trans("index.features.#{item}.desc") }}</p>
-                </div>
-              {% endfor %}
+            <div class="container-lg">
+              <div class="row">
+                {% for item in ['first', 'second', 'third'] %}
+                  <div class="col-lg">
+                    <i class="fas {{ trans("index.features.#{item}.icon") }} mb-3" aria-hidden="true"></i>
+                    <h3>{{ trans("index.features.#{item}.name") }}</h3>
+                    <p>{{ trans("index.features.#{item}.desc") }}</p>
+                  </div>
+                {% endfor %}
+              </div>
             </div>
           </div>
           <br>
         </div>
       </div>
       <div id="footerwrap">
-        <div class="container d-flex">
-          <div class="col-lg-6">
-            {{ trans('index.introduction', {sitename: site_name}) }}
-          </div>
-          <div class="col-lg-6">
-            <a href="{{ url('auth/register') }}" class="button">
-              {{ trans('index.start') }}
-            </a>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6 mb-2">
+              {{ trans('index.introduction', {sitename: site_name}) }}
+            </div>
+            <div class="col-lg-4"></div>
+            <div class="col-lg-2 d-flex justify-content-center align-items-center">
+              <a href="{{ url('auth/register') }}" class="button">
+                {{ trans('index.start') }}
+              </a>
+            </div>
           </div>
         </div>
       </div>
