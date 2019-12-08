@@ -1,51 +1,51 @@
 ---
-index: Homepage
-skinlib: Skin Library
-user-center: User Center
-logout: Log Out
-login: Log In
-register: Register Now
-profile: User Profile
-admin-panel: Admin Panel
-explore: Explore
-manage: Manage
-anonymous: Guest
-back: Back
-dashboard: Dashboard
+index: Page d'accueil
+skinlib: Bibliothèque de skins
+user-center: Centre utilisateur
+logout: Se déconnecter
+login: Se connecter
+register: S'inscrire maintenant
+profile: Profil utilisateur
+admin-panel: Panneau d'administration
+explore: Explorer
+manage: Gérer
+anonymous: Invité
+back: Retour
+dashboard: Tableau de bord
 my-closet: Closet
-my-reports: Reports
-developer: Advanced
+my-reports: Rapports
+developer: Avancé
 oauth-manage: OAuth2 Apps
-player-manage: Players
-user-manage: Users
-report-manage: Reports
+player-manage: Joueurs
+user-manage: Utilisateurs
+report-manage: Rapports
 plugin-manage: Plugins
-plugin-market: Plugin Market
+plugin-market: Marché des plugins
 plugin-configs: Plugin Configs
-customize: Customize
+customize: Personnaliser
 i18n: Internationalization
 options: Options
 score-options: Score Options
 res-options: Resource Options
-status: Status
+status: Statut
 check-update: Check Update
-download-update: Download Updates
-close: Close
+download-update: Télécharger les mises à jour
+close: Fermer
 skin: Skin
 cape: Cape
-loading: Loading
-texture-preview: Texture Preview
-walk: Walk
-run: Run
+loading: Chargement
+texture-preview: Aperçu de la texture
+walk: Marcher
+run: Courir
 rotation: Rotation
 pause: Pause
-reset: Reset
-submit: Submit
-cancel: Cancel
+reset: Réinitialiser
+submit: Soumettre
+cancel: Annuler
 yes: true
 no: false
 op-success: Operated successfully.
-unknown: Unknown
+unknown: Inconnu
 notice: Notice
 switch-2d-preview: Switch to 2D preview
 illegal-parameters: Illegal parameters.
