@@ -269,6 +269,7 @@ admin:
   pluginAuthor: 作者
   pluginVersion: 版本
   pluginName: 插件标识
+  pluginReadme: Read Me
   pluginDescription: 描述
   pluginDependencies: 依赖关系
   installPlugin: 安装
