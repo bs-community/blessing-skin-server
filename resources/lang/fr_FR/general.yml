@@ -47,9 +47,9 @@ no: false
 op-success: Operated successfully.
 unknown: Inconnu
 notice: Notice
-switch-2d-preview: Switch to 2D preview
-illegal-parameters: Illegal parameters.
-private: Private
+switch-2d-preview: Passer à l'aperçu 2D
+illegal-parameters: Paramètres illégaux.
+private: Privé
 public: Public
 unexistent-user: No such user.
 unexistent-player: No such player.
