@@ -116,6 +116,7 @@ plugins:
   description: Description
   author: Author
   version: Version
+  readme: Read Me
   dependencies: Dependencies
 
   operations:
@@ -129,6 +130,7 @@ plugins:
     disabled: :plugin has been disabled.
     deleted: The plugin was deleted successfully.
     no-config-notice: The plugin is not installed or doesn't provide a configuration page.
+    no-readme-notice: The plugin doesn't contain a readme file.
     not-found: No such plugin.
 
   market:

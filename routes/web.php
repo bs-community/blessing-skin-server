@@ -151,6 +151,7 @@ Route::group(['middleware' => ['authorize', 'admin'], 'prefix' => 'admin'], func
         Route::view('/manage', 'admin.plugins');
         Route::post('/manage', 'PluginController@manage');
         Route::any('/config/{name}', 'PluginController@config');
+        Route::get('/readme/{name}', 'PluginController@readme');
 
         Route::view('/market', 'admin.market');
         Route::get('/market-data', 'MarketController@marketData');

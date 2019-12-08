@@ -24,6 +24,25 @@ class PluginController extends Controller
         }
     }
 
+    public function readme(PluginManager $plugins, $name)
+    {
+        $plugin = $plugins->get($name);
+        if (empty($plugin)) {
+            return abort(404, trans('admin.plugins.operations.no-readme-notice'));
+        }
+
+        $readmePath = $plugin->getReadme();
+        if (empty($readmePath)) {
+            return abort(404, trans('admin.plugins.operations.no-readme-notice'));
+        }
+
+        $title = $plugin->title;
+        $path = $plugin->getPath().'/'.$readmePath;
+        $content = resolve('parsedown')->text(file_get_contents($path));
+
+        return view('admin.plugin.readme', compact('content', 'title'));
+    }
+
     public function manage(Request $request, PluginManager $plugins)
     {
         $name = $request->input('name');
@@ -95,6 +114,7 @@ class PluginController extends Controller
                     'version' => $plugin->version,
                     'url' => $plugin->url,
                     'enabled' => $plugin->isEnabled(),
+                    'readme' => (bool) $plugin->getReadme(),
                     'config' => $plugin->hasConfig(),
                     'dependencies' => [
                         'all' => $plugin->require,

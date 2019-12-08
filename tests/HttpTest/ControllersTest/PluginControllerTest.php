@@ -90,6 +90,37 @@ class PluginControllerTest extends TestCase
         option(['plugins_enabled' => '[]']);
     }
 
+    public function testReadme()
+    {
+        $this->mock(PluginManager::class, function ($mock) {
+            $mock->shouldReceive('getEnabledPlugins')->andReturn(collect());
+
+            $mock->shouldReceive('get')
+                ->with('fake1')
+                ->once()
+                ->andReturn(null);
+
+            $mock->shouldReceive('get')
+                ->with('fake2')
+                ->once()
+                ->andReturn(new Plugin(storage_path(), []));
+
+            $mock->shouldReceive('get')
+                ->with('fake3')
+                ->once()
+                ->andReturn(new Plugin(base_path(), ['title' => '']));
+        });
+
+        // No such plugin.
+        $this->get('/admin/plugins/readme/fake1')->assertNotFound();
+
+        // Plugin doesn't have readme.
+        $this->get('/admin/plugins/readme/fake2')->assertNotFound();
+
+        // Ok.
+        $this->get('/admin/plugins/readme/fake3')->assertSuccessful();
+    }
+
     public function testManage()
     {
         $this->mock(PluginManager::class, function ($mock) {
@@ -255,6 +286,7 @@ class PluginControllerTest extends TestCase
                     'url',
                     'enabled',
                     'config',
+                    'readme',
                     'dependencies',
                 ],
             ]);

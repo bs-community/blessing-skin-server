@@ -11,34 +11,42 @@
       <template #table-row="props">
         <span v-if="props.column.field === 'title'">
           <strong>{{ props.formattedRow[props.column.field] }}</strong>
-          <div v-if="props.row.enabled" class="actions">
-            <template v-if="props.row.config">
+          <div class="actions">
+            <template v-if="props.row.readme">
               <a
-                v-t="'admin.configurePlugin'"
+                :href="`${baseUrl}/admin/plugins/readme/${props.row.name}`"
                 class="text-primary"
-                :href="`${baseUrl}/admin/plugins/config/${props.row.name}`"
-              /> |
+              >{{ $t('admin.pluginReadme') }}</a> |
             </template>
-            <a
-              v-t="'admin.disablePlugin'"
-              href="#"
-              class="text-primary"
-              @click="disablePlugin(props.row)"
-            />
-          </div>
-          <div v-else class="actions">
-            <a
-              v-t="'admin.enablePlugin'"
-              href="#"
-              class="text-primary"
-              @click="enablePlugin(props.row)"
-            /> |
-            <a
-              v-t="'admin.deletePlugin'"
-              href="#"
-              class="text-danger"
-              @click="deletePlugin(props.row)"
-            />
+            <template v-if="props.row.enabled" class="actions">
+              <template v-if="props.row.config">
+                <a
+                  v-t="'admin.configurePlugin'"
+                  class="text-primary"
+                  :href="`${baseUrl}/admin/plugins/config/${props.row.name}`"
+                /> |
+              </template>
+              <a
+                v-t="'admin.disablePlugin'"
+                href="#"
+                class="text-primary"
+                @click="disablePlugin(props.row)"
+              />
+            </template>
+            <template v-else class="actions">
+              <a
+                v-t="'admin.enablePlugin'"
+                href="#"
+                class="text-primary"
+                @click="enablePlugin(props.row)"
+              /> |
+              <a
+                v-t="'admin.deletePlugin'"
+                href="#"
+                class="text-danger"
+                @click="deletePlugin(props.row)"
+              />
+            </template>
           </div>
         </span>
         <span v-else-if="props.column.field === 'description'">

@@ -169,3 +169,19 @@ test('delete plugin', async () => {
   await flushPromises()
   expect(wrapper.text()).toContain('No data')
 })
+
+test('readme link', async () => {
+  Vue.prototype.$http.get.mockResolvedValue([
+    {
+      name: 'a',
+      readme: true,
+      dependencies: { all: {}, unsatisfied: {} },
+    },
+  ])
+  const wrapper = mount(Plugins)
+  await flushPromises()
+
+  const link = wrapper.find('.actions > a:nth-child(1)')
+  expect(link.text()).toContain('admin.pluginReadme')
+  expect(link.attributes('href')).toBe('/admin/plugins/readme/a')
+})

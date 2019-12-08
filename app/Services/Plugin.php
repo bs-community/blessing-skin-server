@@ -9,6 +9,12 @@ use Illuminate\Support\Str;
 
 class Plugin
 {
+    const README_FILES = [
+        'README.md',
+        'readme.md',
+        'README.MD',
+    ];
+
     /**
      * The full directory of this plugin.
      *
@@ -56,6 +62,13 @@ class Plugin
         $baseUrl = config('plugins.url') ?: url('plugins');
 
         return "$baseUrl/{$this->name}/assets/$relativeUri?v=".$this->version;
+    }
+
+    public function getReadme()
+    {
+        return Arr::first(self::README_FILES, function ($filename) {
+            return file_exists($this->path.'/'.$filename);
+        });
     }
 
     public function hasConfig(): bool
