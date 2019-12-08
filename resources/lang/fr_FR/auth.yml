@@ -1,16 +1,16 @@
 ---
 login:
-  title: Log In
-  button: Log In
-  message: Log in to manage your skin & players
-  keep: Remember me
-  success: Logged in successfully.
+  title: Se connecter
+  button: Se connecter
+  message: Connectez-vous pour gérer vos skins et joueurs
+  keep: Se souvenir de moi
+  success: Authentification réussie.
 check:
   anonymous: Illegal access. Please log in first.
-  verified: To access this page, you should verify your email address first.
-  admin: Only admins are permitted to access this page.
-  super-admin: Only super admin is permitted to access this page.
-  banned: You are banned on this site. Please contact the admin.
+  verified: Pour accéder à cette page, vous devez d'abord vérifier votre adresse e-mail.
+  admin: Seuls les administrateurs ont la permission d'accéder à cette page.
+  super-admin: Seul le super administrateur a la permission d'accéder à cette page.
+  banned: Vous êtes banni de ce site. Veuillez contacter l'administrateur.
   token: Token expired. Please log in.
 register:
   title: Register
