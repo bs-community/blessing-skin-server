@@ -109,6 +109,7 @@ plugins:
   description: 描述
   author: 作者
   version: 版本
+  readme: Read Me
   dependencies: 依赖关系
   operations:
     title: 操作
@@ -121,6 +122,7 @@ plugins:
     disabled: ':plugin 已禁用'
     deleted: 插件已被成功删除
     no-config-notice: 插件未安装或未提供配置页面
+    no-readme-notice: The plugin doesn't contain a readme file.
     not-found: 插件不存在
   market:
     connection-error: 无法连接至插件市场源，错误信息：:error
