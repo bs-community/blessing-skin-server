@@ -90,12 +90,12 @@ general:
     hint: Begin with http(s)://, nerver ends with slash.
   user_can_register:
     title: Inscription ouverte
-    label: Everyone is allowed to register.
+    label: Tout le monde peut s'inscrire.
   register_with_player_name:
-    title: Register with Player Name
+    title: S'inscrire avec le nom du joueur
     label: Require Minecraft's player name when user register
   require_verification:
-    title: Account Verification
+    title: Vérification du compte
     label: Users must verify their email address first.
   regs_per_ip: Max accounts of one IP
   ip_get_method:
@@ -124,7 +124,7 @@ general:
     label: Delete invalid textures automatically.
     hint: Delete textures records whose file no longer exists from skinlib.
   allow_downloading_texture:
-    title: Downloading Textures
+    title: Téléchargement des textures
     label: Allow users to directly download the source file of a skinlib item.
   status_code_for_private:
     title: HTTP Code for Rejecting Accessing Private Textures
@@ -155,7 +155,7 @@ meta:
 recaptcha:
   recaptcha_invisible:
     title: Invisible
-    label: Enable Invisible Mode
+    label: Activer le mode invisible
 res-warning: This page is ONLY for advanced users. If you aren't familiar with these, please don't modify them!
 resources:
   title: Fichiers de ressources
@@ -191,9 +191,9 @@ redis:
     success: Connected to Redis server successfully.
     failed: 'Failed to connect Redis server. Error: :msg'
 cache:
-  title: Cache Configuration
+  title: Configuration du cache
   clear: Vider le cache
-  cleared: Cache has been cleared.
+  cleared: Le cache a été vidé.
   driver: Current cache driver is 「:driver」.
   enable_avatar_cache:
     title: Avatar
