@@ -1,12 +1,12 @@
 ---
-option-saved: Option saved.
+option-saved: Option enregistrée.
 homepage:
-  title: Homepage
+  title: Page d'accueil
   home_pic_url:
     title: Picture URL at Homepage
     hint: Path relative to homepage or full URL, leave empty to use default image.
   favicon_url:
-    title: Website Icon
+    title: Icône du site web
     hint: Path relative to public/ or full URL.
     description: The given image must have same width and height (leave blank to use default icon).
   transparent_navbar:
@@ -19,7 +19,7 @@ homepage:
     title: Fixed Background
     label: This option will make background fixed, not scrolled with scroll bar.
   copyright_prefer:
-    title: Program Copyright
+    title: Copyright du programme
     description: "You can specify a different style of program copyright for each language. To edit a specific language's corresponding program copyright style, please switch to that language and submit your edit. <br><b>Warning:</b> Any evil modification applied on the footer program copyright (including deleting, modifying author, changing link target) with out permission is <b>FORBIDDEN</b>. The author reserves the right to pursue relevant responsibilities."
   copyright_text:
     title: Custom Copyright Text
@@ -41,13 +41,13 @@ rate:
     addon: scores = 1 KB
     hint: Uploading private textures will cost more scores.
   score_per_closet_item:
-    title: Favorites
+    title: Favoris
     addon: score = 1 closet item
   return_score:
     title: Score Return
     label: Return scores back to user after deleting players/textures/closet items.
   score_per_player:
-    title: Players
+    title: Joueurs
     addon: scores = 1 player
   user_initial_score: User Initial Score
 report:
@@ -65,7 +65,7 @@ sign:
     addon2: scores
   sign_gap_time:
     title: Gap Time
-    addon: hours
+    addon: heures
   sign_after_zero:
     title: Time
     label: Users can sign in after 0 everyday.
@@ -80,16 +80,16 @@ sharing:
   score_award_per_like:
     title: Each time the texture is collected, uploader will be rewarded with
 general:
-  title: General Options
-  site_name: Site Name
+  title: Options générales
+  site_name: Nom du site
   site_description:
-    title: Site Description
+    title: Description du site
     description: You can also specify a different site name and description for each language. To edit a specific language's corresponding site name or description text, please switch to that language and submit your edit.
   site_url:
-    title: Site URL
+    title: URL du site
     hint: Begin with http(s)://, nerver ends with slash.
   user_can_register:
-    title: Open Registration
+    title: Inscription ouverte
     label: Everyone is allowed to register.
   register_with_player_name:
     title: Register with Player Name
@@ -99,7 +99,7 @@ general:
     label: Users must verify their email address first.
   regs_per_ip: Max accounts of one IP
   ip_get_method:
-    title: Get IP via
+    title: Obtenir l'IP via
     HTTP_X_FORWARDED_FOR: HTTP_X_FORWARDED_FOR (can be fabricated)
     REMOTE_ADDR: REMOTE_ADDR (NOT suitable for sites under load balancer)
     hint: Unfortunately, we have no method to get the accurate client IP address with pure PHP.
@@ -116,11 +116,11 @@ general:
     hint: Only takes effect when the above option is set to 'custom'. Leave empty to allow any character.
     placeholder: Regular Expressions
   player_name_length:
-    title: Player Name Length
-    suffix: characters
+    title: Longueur du nom du joueur
+    suffix: caractères
   api_type: Prefered JSON API
   auto_del_invalid_texture:
-    title: Invalid Textures
+    title: Textes invalides
     label: Delete invalid textures automatically.
     hint: Delete textures records whose file no longer exists from skinlib.
   allow_downloading_texture:
@@ -139,13 +139,13 @@ general:
     title: Comment Script
     description: Placeholder is available, <code>{tid}</code> will be replaced with texture id, <code>{name}</code> will be replaced with texture name, <code>{url}</code> will be replaced with current URL.
 announ:
-  title: Announcement
+  title: Annonce
   announcement:
     description: Styling with Markdown is supported. You can also specify a different announcement for each language. To edit a specific language's corresponding announcement, please switch to that language and submit your edit.
 meta:
   title: SEO <meta> tags
   meta_keywords:
-    title: Keywords
+    title: Mots-clés
     hint: Split with commas.
   meta_description:
     title: Description
@@ -158,7 +158,7 @@ recaptcha:
     label: Enable Invisible Mode
 res-warning: This page is ONLY for advanced users. If you aren't familiar with these, please don't modify them!
 resources:
-  title: Resource Files
+  title: Fichiers de ressources
   hint: Please check these options if you enabled CDN for your site.
   force_ssl:
     title: Force SSL
@@ -184,7 +184,7 @@ resources:
       <b>How to verify?</b> Verify if <code>{Your CDN URL}/app/manifest.json</code> can be accessed.
 redis:
   enable_redis:
-    title: Enable
+    title: Activer
     label: Enable Redis
     description: Redis will be used to store cache, session and etc.
   connect:
@@ -192,14 +192,14 @@ redis:
     failed: 'Failed to connect Redis server. Error: :msg'
 cache:
   title: Cache Configuration
-  clear: Clear Cache
+  clear: Vider le cache
   cleared: Cache has been cleared.
   driver: Current cache driver is 「:driver」.
   enable_avatar_cache:
     title: Avatar
     label: Enable caching avatar
   enable_preview_cache:
-    title: Texture Preivew
+    title: Aperçu de la texture
     label: Enable caching texture preivew
   enable_json_cache:
     label: Enable caching Json Profile
