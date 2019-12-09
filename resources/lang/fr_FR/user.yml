@@ -15,13 +15,13 @@ sign-remain-time: Available after :time :unit
 announcement: Annonce
 no-unread: Aucune nouvelle notification.
 verification:
-  disabled: Email verification is not available.
+  disabled: La vérification de l'adresse e-mail n'est pas disponible.
   frequent-mail: You click the send button too fast. Wait for 60 secs, guy.
-  verified: Your account is already verified.
+  verified: Votre compte est déjà vérifié.
   success: Verification link was sent, please check your inbox.
   failed: We failed to send you the verification link. Detailed message :msg
   mail:
-    title: Verify Your Account on :sitename
+    title: Vérifiez votre compte sur :sitename
     message: You are receiving this email because someone registered an account with this email address on :sitename.
     reset: 'Click here to verify your account: <a href=":url">:url</a>'
     ignore: If you did not register an account, no further action is required.
@@ -53,12 +53,12 @@ closet:
     add: Ajouter un nouveau joueur
   add:
     success: Added :name to closet successfully.
-    repeated: You have already added this texture.
+    repeated: Vous avez déjà ajouté cette texture.
     not-found: Nous n'avons pas pu trouver cette texture.
     lack-score: You don't have enough score to add it to closet.
   rename:
     title: Renommer l'élément
-    success: The item is successfully renamed to :name
+    success: L'élément a été renommé avec succès en :name
   remove:
     title: Remove from closet
     success: The texture was removed from closet successfully.
@@ -78,16 +78,16 @@ player:
     custom: Custom player name rules are applied on this site. Please contact admins for further information.
   player-name-length: The player name should be at least :min characters and not greater than :max characters.
   add:
-    repeated: The player name is already registered.
+    repeated: Ce nom d'utilisateur est déjà enregistré.
     lack-score: You don't have enough score to add a player.
     single: You must own exactly ONE player so you can't add more.
-    success: Player :name was added successfully.
+    success: Le joueur :name a été ajouté avec succès.
   delete:
     single: You must own exactly ONE player so you can't delete it.
-    success: Player :name was deleted successfully.
+    success: Le joueur :name a été supprimé avec succès.
   rename:
     repeated: This player name is occupied. Please choose another one.
-    success: Player :old was renamed to :new
+    success: Le joueur :old a été renommé en :new
   set:
     success: The texture was applied to player :name successfully.
   clear:
@@ -99,8 +99,8 @@ profile:
   avatar:
     title: Changer d'avatar ?
     notice: Click the gear icon "<i class="fa fa-cog"></i>" of any skin in your closet, then click "Set as avatar". We will cut the head segment of that skin for you. If there is no icon like this, please try to unable your ADs blocking extension.
-    wrong-type: You can't set a cape as avatar.
-    success: New avatar was set successfully.
+    wrong-type: Vous ne pouvez pas utiliser une cape en tant qu'avatar.
+    success: Le nouvel avatar a été défini avec succès.
   password:
     title: Changer le mot de passe
     old: Ancien mot de passe
@@ -112,7 +112,7 @@ profile:
   nickname:
     title: Changer le pseudonyme
     empty: No nickname is set now.
-    rule: Whatever you like expect special characters
+    rule: Tout ce que vous voulez sauf des caractères spéciaux
     single: You're not allowed to update nickname, because we've bound your player with your account.
     success: Nickname is successfully updated to :nickname
   email:
@@ -121,18 +121,18 @@ profile:
     password: Mot de passe actuel
     button: Changer l'adresse e-mail
     wrong-password: Mot de passe incorrect.
-    existed: This email address is occupied.
+    existed: Cette adresse e-mail est déjà enregistrée.
     success: Email address updated successfully, please log in again.
   delete:
     title: Supprimer le compte
-    notice: Sure to delete your account on :site?
-    admin: Admin account can not be deleted.
+    notice: Voulez-vous vraiment supprimer votre compte sur :site ?
+    admin: Le compte d'un administrateur ne peut pas être supprimé.
     button: Supprimer mon compte
-    modal-title: You need to enter your password to continue
+    modal-title: Vous devez entrer votre mot de passe pour continuer
     modal-notice: |
       You're about to delete your account.
       This is permanent! No backups, no restores, no magic undo button.
       We warned you, ok?
     password: Mot de passe actuel
     wrong-password: Mot de passe incorrect.
-    success: Your account is deleted successfully.
+    success: Votre compte a été supprimé avec succès.
