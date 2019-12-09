@@ -125,6 +125,7 @@ plugins:
     no-readme-notice: The plugin doesn't contain a readme file.
     not-found: No existe dicho plugin.
   market:
+    unresolved: Hay conflictos o dependencias insatisfechas en el plugin, por lo tanto no podemos descargar. Por favor, instale o actualice los plugins listados a continuación, y desactive los que tienen conflictos.
     connection-error: No se puede conectar al registro de plugins. :error
     non-existent: El plugin :plugin no existe.
     install-success: Se instaló el plugin.

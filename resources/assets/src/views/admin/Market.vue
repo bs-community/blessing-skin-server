@@ -73,6 +73,7 @@
 <script>
 import { VueGoodTable } from 'vue-good-table'
 import 'vue-good-table/dist/vue-good-table.min.css'
+import alertUnresolvedPlugins from '../../components/mixins/alertUnresolvedPlugins'
 import enablePlugin from '../../components/mixins/enablePlugin'
 import tableOptions from '../../components/mixins/tableOptions'
 import emitMounted from '../../components/mixins/emitMounted'
@@ -134,7 +135,11 @@ export default {
     async installPlugin({ name, originalIndex }) {
       this.installing = name
 
-      const { code, message } = await this.$http.post(
+      const {
+        code,
+        message,
+        data,
+      } = await this.$http.post(
         '/admin/plugins/market/download',
         { name },
       )
@@ -142,6 +147,8 @@ export default {
         toast.success(message)
         this.plugins[originalIndex].update_available = false
         this.plugins[originalIndex].installed = true
+      } else if (data && data.reason) {
+        alertUnresolvedPlugins(message, data.reason)
       } else {
         toast.error(message)
       }

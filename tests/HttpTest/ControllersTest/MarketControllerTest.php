@@ -36,6 +36,26 @@ class MarketControllerTest extends TestCase
             'message' => trans('admin.plugins.market.non-existent', ['plugin' => 'non-existent-plugin']),
         ]);
 
+        // Unresolved plugin.
+        $fakeRegistry = json_encode(['packages' => [
+            [
+                'name' => 'fake',
+                'version' => '0.0.0',
+                'require' => ['a' => '^4.0.0'],
+            ],
+        ]]);
+        $this->appendToGuzzleQueue([new Response(200, [], $fakeRegistry)]);
+        $this->postJson('/admin/plugins/market/download', ['name' => 'fake'])
+            ->assertJson([
+                'message' => trans('admin.plugins.market.unresolved'),
+                'code' => 1,
+                'data' => [
+                    'reason' => [
+                        trans('admin.plugins.operations.unsatisfied.disabled', ['name' => 'a']),
+                    ],
+                ],
+            ]);
+
         // Download
         $fakeRegistry = json_encode(['packages' => [
             [
@@ -51,9 +71,8 @@ class MarketControllerTest extends TestCase
                 ->once()
                 ->andThrow(new \Exception());
         });
-        $this->postJson('/admin/plugins/market/download', [
-            'name' => 'fake',
-        ])->assertJson(['code' => 1]);
+        $this->postJson('/admin/plugins/market/download', ['name' => 'fake'])
+            ->assertJson(['code' => 1]);
 
         $this->appendToGuzzleQueue([new Response(200, [], $fakeRegistry)]);
         $this->mock(PackageManager::class, function ($mock) {
@@ -65,9 +84,11 @@ class MarketControllerTest extends TestCase
                 ->with(base_path('plugins'))
                 ->once();
         });
-        $this->postJson('/admin/plugins/market/download', [
-            'name' => 'fake',
-        ])->assertJson(['code' => 0, 'message' => trans('admin.plugins.market.install-success')]);
+        $this->postJson('/admin/plugins/market/download', ['name' => 'fake'])
+            ->assertJson([
+                'code' => 0,
+                'message' => trans('admin.plugins.market.install-success')
+            ]);
     }
 
     public function testCheckUpdates()

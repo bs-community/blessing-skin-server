@@ -82,6 +82,15 @@ class MarketController extends Controller
             return json(trans('admin.plugins.market.non-existent', ['plugin' => $name]), 1);
         }
 
+        $fakePlugin = new Plugin('', $metadata);
+        $unsatisfied = $manager->getUnsatisfied($fakePlugin);
+        $conflicts = $manager->getConflicts($fakePlugin);
+        if ($unsatisfied->isNotEmpty() || $conflicts->isNotEmpty()) {
+            $reason =  $manager->formatUnresolved($unsatisfied, $conflicts);
+
+            return json(trans('admin.plugins.market.unresolved'), 1, compact('reason'));
+        }
+
         $url = $metadata['dist']['url'];
         $filename = Arr::last(explode('/', $url));
         $pluginsDir = $manager->getPluginsDirs()->first();

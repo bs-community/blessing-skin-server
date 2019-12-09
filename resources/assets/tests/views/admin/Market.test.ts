@@ -57,6 +57,11 @@ test('install plugin', async () => {
   ])
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: '1' })
+    .mockResolvedValueOnce({
+      code: 1,
+      message: 'unresolved',
+      data: { reason: ['u'] },
+    })
     .mockResolvedValueOnce({ code: 0, message: '0' })
   const wrapper = mount(Market)
   await flushPromises()
@@ -68,6 +73,11 @@ test('install plugin', async () => {
     '/admin/plugins/market/download',
     { name: 'd' },
   )
+
+  button.trigger('click')
+  await flushPromises()
+  expect(showModal).toBeCalledWith(expect.objectContaining({ mode: 'alert' }))
+
   button.trigger('click')
   await flushPromises()
   expect(wrapper.text()).toContain('admin.enablePlugin')

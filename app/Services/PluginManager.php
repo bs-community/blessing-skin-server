@@ -406,6 +406,36 @@ class PluginManager
     }
 
     /**
+     * Format the "unresolved" information into human-readable text.
+     */
+    public function formatUnresolved(
+        Collection $unsatisfied,
+        Collection $conflicts
+    ): array {
+        $unsatisfied = $unsatisfied->map(function ($detail, $name) {
+            $constraint = $detail['constraint'];
+            if (! $detail['version']) {
+                $plugin = $this->get($name);
+                $name = $plugin ? trans($plugin->title) : $name;
+
+                return trans('admin.plugins.operations.unsatisfied.disabled', compact('name'));
+            } else {
+                $title = trans($this->get($name)->title);
+
+                return trans('admin.plugins.operations.unsatisfied.version', compact('title', 'constraint'));
+            }
+        })->values()->all();
+
+        $conflicts = $conflicts->map(function ($detail, $name) {
+            $title = trans($this->get($name)->title);
+
+            return trans('admin.plugins.operations.unsatisfied.conflict', compact('title'));
+        })->values()->all();
+
+        return array_merge($unsatisfied, $conflicts);
+    }
+
+    /**
      * The plugins path.
      *
      * @return Collection

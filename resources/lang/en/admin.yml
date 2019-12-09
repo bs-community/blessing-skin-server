@@ -134,6 +134,7 @@ plugins:
     not-found: No such plugin.
 
   market:
+    unresolved: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't download it. Please install or update the plugins listed below, and disable those have conflicts.
     connection-error: Unable to connect to the plugins registry. :error
     non-existent: The plugin :plugin does not exist.
     install-success: Plugin was installed.

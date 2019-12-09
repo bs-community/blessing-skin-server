@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import { showModal, toast } from '../../scripts/notify'
+import alertUnresolvedPlugins from './alertUnresolvedPlugins'
 
 export default Vue.extend({
   data: () => ({ plugins: [] }),
@@ -32,21 +33,7 @@ export default Vue.extend({
         toast.success(message)
         this.$set(this.plugins[originalIndex], 'enabled', true)
       } else {
-        const div = document.createElement('div')
-        const p = document.createElement('p')
-        p.textContent = message
-        div.appendChild(p)
-        const ul = document.createElement('ul')
-        reason.forEach(item => {
-          const li = document.createElement('li')
-          li.textContent = item
-          ul.appendChild(li)
-        })
-        div.appendChild(ul)
-        showModal({
-          mode: 'alert',
-          dangerousHTML: div.outerHTML,
-        })
+        alertUnresolvedPlugins(message, reason)
       }
     },
   },
