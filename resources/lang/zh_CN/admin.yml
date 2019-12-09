@@ -125,6 +125,7 @@ plugins:
     no-readme-notice: 这个插件没有说明文件。
     not-found: 插件不存在
   market:
+    unresolved: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't download it. Please install or update the plugins listed below, and disable those have conflicts.
     connection-error: 无法连接至插件市场源，错误信息：:error
     non-existent: 插件 :plugin 不存在
     install-success: 插件安装成功
