@@ -1,9 +1,9 @@
 ---
-option-saved: Опция сохранена.
+option-saved: Option saved.
 homepage:
-  title: Домашняя страница
+  title: Homepage
   home_pic_url:
-    title: URL изображения на главной странице
+    title: Picture URL at Homepage
     hint: Path relative to homepage or full URL, leave empty to use default image.
   favicon_url:
     title: Website Icon

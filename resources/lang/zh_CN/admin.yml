@@ -67,18 +67,10 @@ customize:
     title: 更改配色
     success: 修改配色成功
   colors:
-    blue: 蓝色主题（默认）
-    blue-light: 蓝色主题 - 白色侧边栏
-    yellow: 黄色主题
-    yellow-light: 黄色主题 - 白色侧边栏
-    green: 绿色主题
-    green-light: 绿色主题 - 白色侧边栏
-    purple: 紫色主题
-    purple-light: 紫色主题 - 白色侧边栏
-    red: 红色主题
-    red-light: 红色主题 - 白色侧边栏
-    black: 黑色主题
-    black-light: 黑色主题 - 白色侧边栏
+    navbar: 顶部导航栏
+    sidebar:
+      dark: 侧栏（暗）
+      light: 侧栏（亮）
 i18n:
   add: 添加新条目
   added: 条目增加成功
@@ -117,6 +109,7 @@ plugins:
   description: 描述
   author: 作者
   version: 版本
+  readme: 说明
   dependencies: 依赖关系
   operations:
     title: 操作
@@ -129,6 +122,7 @@ plugins:
     disabled: ':plugin 已禁用'
     deleted: 插件已被成功删除
     no-config-notice: 插件未安装或未提供配置页面
+    no-readme-notice: 这个插件没有说明文件。
     not-found: 插件不存在
   market:
     connection-error: 无法连接至插件市场源，错误信息：:error

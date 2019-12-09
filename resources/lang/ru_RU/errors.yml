@@ -1,22 +1,22 @@
 ---
 http:
-  msg-403: You have no permission to access this page.
-  msg-404: Nothing here.
-  msg-500: Please try again later.
-  msg-503: The application is now in maintenance mode.
-  method-not-allowed: Method not allowed.
-  csrf-token-mismatch: Token does not match, try reloading the page.
-  ie: We don't support Internet Explorer. Please switch to other modern browsers, such as Firefox or Chrome.
+  msg-403: У вас нет прав доступа для этой страницы.
+  msg-404: Здесь пусто.
+  msg-500: Пожалуйста, повторите попытку позже.
+  msg-503: В настоящее время приложение находится в режиме обслуживания.
+  method-not-allowed: Метод не поддерживается.
+  csrf-token-mismatch: Токен не совпадает, попробуйте перезагрузить страницу.
+  ie: Мы не поддерживаем Internet Explorer. Пожалуйста, перейдите на прочие современные браузеры, такие как Firefox или Chrome.
 general:
-  title: Error occurred
+  title: Произошла ошибка
 exception:
-  code: 'Error code: :code'
-  detail: 'Details: :msg'
+  code: 'Код ошибки: :code'
+  detail: 'Подробнее: :msg'
   message: |
-    Whoops, looks like something went wrong. (enable APP_DEBUG in .env to see details)
+    Упс, кажется, что-то пошло не так. (включите APP_DEBUG в .env чтобы увидеть подробности)
 plugins:
-  duplicate: The plugin [:dir1] has a duplicated plugin name definition which is same to plugin [:dir2]. Please check your plugins directory, remove one of them or use another name definition.
-  directory: We can't approach the path for loading plugins specified by the PLUGINS_DIR in .env file. Please check your configuration. Error :msg
-  boot: There is something wrong with plugin ":plugin".
+  duplicate: Имя плагина [:dir1] совпадает с именем плагина [:dir2]. Пожалуйста, проверьте вашу папку с плагинами, удалите один из них или используйте другое имя.
+  directory: Мы не можем обратиться к пути для загрузки плагинов, определенном параметром PLUGINS_DIR в файле .env. Пожалуйста, проверьте конфигурацию. Ошибка :msg
+  boot: Что-то не так с плагином ":plugin".
 cipher:
-  unsupported: Unsupported password hashing method `:cipher`, please check your `.env` configuration
+  unsupported: Неподдерживаемый метод хэширования пароля `:cipher`, пожалуйста, проверьте конфигурацию `.env`

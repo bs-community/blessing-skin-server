@@ -80,10 +80,10 @@ player:
   add:
     repeated: El nombre del jugador ya está registrado.
     lack-score: No tienes suficiente puntuación para añadir un jugador.
-    single: Debes poseer exactamente UN jugador para que no puedas añadir más.
+    single: Debe poseer exactamente UN jugador, así que no puede añadir más.
     success: Jugador :name se agregó exitosamente.
   delete:
-    single: Debes poseer exactamente UN jugador para que no puedas eliminarlo.
+    single: Debe poseer exactamente UN jugador, así que no puede eliminarlo.
     success: Jugador :name fue eliminado exitosamente.
   rename:
     repeated: Este nombre de jugador está ocupado. Por favor, elija otro.

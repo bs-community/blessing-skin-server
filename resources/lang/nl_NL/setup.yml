@@ -22,45 +22,45 @@ updates:
     text: |
       Welcome! You are going to update to Blessing Skin Server v:version.
       We need to apply some updates to your database, click NEXT to continue.
-    button: Suivant
+    button: Next
   success:
-    title: Mise à jour terminée
-    text: Blessing Skin Server a été mis à jour avec succès à la v:version.
-    tips: "Conseils de mise à jour :"
+    title: Update complete
+    text: Blessing Skin Server has been successfully updated to v:version.
+    tips: "Update Tips:"
   changelog:
-    title: Notes de mise à jour
+    title: Release Note
 wizard:
   master:
-    title: Assistant d'installation - Blessing Skin Server
+    title: Install Wizard - Blessing Skin Server
   welcome:
-    title: Bienvenue
-    button: Suivant
-    text: Bienvenue sur Blessing Skin Server v:version !
+    title: Welcome
+    button: Next
+    text: Welcome to Blessing Skin Server v:version!
   database:
-    title: Base de données
-    text: La base de données est utilisée pour stocker les données de Blessing Skin.
-    type: Type de base de données
-    host: Hôte de la base de données
-    port: Port de la base de données
-    username: Nom d'utilisateur de la base de données
-    password: Mot de passe de la base de données
-    db: Nom de la base de données
+    title: Database
+    text: The database is used for storing data of Blessing Skin.
+    type: Database Type
+    host: Database Host
+    port: Database Port
+    username: Database Username
+    password: Database Password
+    db: Database Name
     db-notice: You should provide the path to SQLite file and there is no need to fill other blanks if you use SQLite.
     prefix: Prefix of Database Table (Optional)
     prefix-notice: You don't need to use this option unless you want to install multiple Blessing Skin Server into one database.
   info:
     title: Information needed
-    button: Lancer l'installation
+    button: Run install
     text: To proceed with the installation, please fill this form with the details of the initial admin account. Don't worry, you can always change these settings later.
     admin-email: Admin Email
     admin-notice: This is the UNIQUE super admin account who can GIVE or CANCEL other users' admin privilege.
-    nickname: Pseudonyme
-    password: Mot de passe
+    nickname: Nickname
+    password: Password
     pwd-notice: 'Attention: You will need the password to log in. Please keep it at a secure place.'
-    confirm-pwd: Confirmer le mot de passe
-    site-name: Nom du site
+    confirm-pwd: Confirm password
+    site-name: Site name
     site-name-notice: This will be shown on every page.
-    secure: Sécurité
+    secure: Security
     secure-notice: Generate random APP_KEY and SALT to make your site secured.
   finish:
     title: Installation complete

@@ -67,18 +67,10 @@ customize:
     title: Cambiar color del tema
     success: Color del tema actualizado.
   colors:
-    blue: Azul (por defecto)
-    blue-light: Azul claro
-    yellow: Amarillo
-    yellow-light: Amarillo claro
-    green: Verde
-    green-light: Verde claro
-    purple: Morado
-    purple-light: Morado claro
-    red: Rojo
-    red-light: Rojo claro
-    black: Negro
-    black-light: Oscuro
+    navbar: Top Navigation Bar
+    sidebar:
+      dark: Sidebar (Dark)
+      light: Sidebar (Light)
 i18n:
   add: Añadir nueva línea de idioma
   added: Línea de idioma añadida.
@@ -117,6 +109,7 @@ plugins:
   description: Descripción
   author: Autor
   version: Versión
+  readme: Read Me
   dependencies: Dependencias
   operations:
     title: Operaciones
@@ -129,6 +122,7 @@ plugins:
     disabled: ':plugin ha sido deshabilitado.'
     deleted: El plugin se eliminó con éxito.
     no-config-notice: El plugin no está instalado o no proporciona una página de configuración.
+    no-readme-notice: The plugin doesn't contain a readme file.
     not-found: No existe dicho plugin.
   market:
     connection-error: No se puede conectar al registro de plugins. :error

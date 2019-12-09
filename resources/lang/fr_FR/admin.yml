@@ -1,93 +1,85 @@
 ---
 index:
-  total-users: Registered Users
-  total-players: Players
-  total-textures: Uploaded Textures
-  disk-usage: Disk Usage
-  overview: Overview
-  texture-uploads: Texture Uploads
+  total-users: Utilisateurs inscrits
+  total-players: Joueurs
+  total-textures: Textures chargées
+  disk-usage: Utilisation du disque
+  overview: Aperçu
+  texture-uploads: Chargements de textures
   user-registration: User Registration
 notifications:
   send:
-    title: Send Notification
-    success: Sent successfully!
+    title: Envoyer une notification
+    success: Envoyée avec succès !
   receiver:
-    title: Receiver
-    all: All Users
-    normal: Normal Users
-    uid: Specified UID
-    email: Specified Email
-  title: Title
+    title: Destinataire
+    all: Tous les utilisateurs
+    normal: Utilisateurs normaux
+    uid: UID spécifié
+    email: Adresse e-mail spécifiée
+  title: Titre
   content: Content (Markdown is supported.)
 users:
   status:
     normal: Normal
-    banned: Banned
-    admin: Admin
-    super-admin: Super Admin
+    banned: Banni
+    admin: Administrateur
+    super-admin: Super administrateur
   operations:
-    non-existent: No such user.
-    no-permission: You have no permission to operate this user.
-    invalid: Invalid action.
+    non-existent: Cet utilisateur n'existe pas.
+    no-permission: Vous n'avez pas la permission de gérer cet utilisateur.
+    invalid: Action invalide.
     email:
-      existed: ':email is existed.'
-      success: Email changed successfully.
+      existed: ':email existe.'
+      success: Adresse e-mail changée avec succès.
     verification:
-      success: Account verification status toggled successfully.
+      success: Statut de vérification du compte activé avec succès.
     nickname:
-      success: Nickname changed successfully.
+      success: Pseudonyme changé avec succès.
     password:
-      success: Password changed successfully.
+      success: Mot de passe changé avec succès.
     score:
-      success: Score changed successfully.
-    permission: Permission updated.
+      success: Score changé avec succès.
+    permission: Permission mise à jour.
     delete:
-      delete: Delete User
-      success: The account has been deleted successfully.
-      cant-super-admin: You can't delete a super admin.
-      cant-admin: You can't delete a admin account.
+      delete: Supprimer l'utilisateur
+      success: Le compte a été supprimé avec succès.
+      cant-super-admin: Vous ne pouvez pas supprimer un super administrateur.
+      cant-admin: Vous ne pouvez pas supprimer un compte d'administrateur.
 players:
-  no-permission: You have no permission to operate this player.
+  no-permission: Vous n'avez pas la permission de gérer ce joueur.
   operations:
-    title: Operations
+    title: Actions
   textures:
-    change: Change Textures
+    change: Changer les textures
     non-existent: No such texture tid.:tid
-    success: The textures of :player has been updated.
+    success: Les textures de :player ont été mises à jour.
   name:
     success: Player name has been updated to :player
   owner:
-    change: Change Owner
-    success: The player :player was transferred to user :user.
+    change: Changer de propriétaire
+    success: Le joueur :player a été transféré vers l'utilisateur :user.
   delete:
-    delete: Delete
-    success: The player has been deleted successfully.
+    delete: Supprimer
+    success: Le joueur a été supprimé avec succès.
 customize:
   change-color:
-    title: Change Theme Color
-    success: Theme color updated.
+    title: Changer la couleur du thème
+    success: Couleur du thème mise à jour.
   colors:
-    blue: Blue (Default)
-    blue-light: Blue Light
-    yellow: Yellow
-    yellow-light: Yellow Light
-    green: Green
-    green-light: Green Light
-    purple: Purple
-    purple-light: Purple Light
-    red: Red
-    red-light: Red Light
-    black: Black
-    black-light: Black Light
+    navbar: Top Navigation Bar
+    sidebar:
+      dark: Sidebar (Dark)
+      light: Sidebar (Light)
 i18n:
   add: Add New Language Line
   added: Language line added.
   updated: Language line updated.
   deleted: Language line deleted.
-  group: Group
+  group: Groupe
   key: Key
-  text: Text
-  tip: How can I use this page?
+  text: Texte
+  tip: Comment puis-je utiliser cette page ?
 status:
   info: Information
   health: Health
@@ -99,53 +91,55 @@ status:
     commit: Commit
     laravel: Laravel Version
   server:
-    name: Server
+    name: Serveur
     php: PHP Version
     web: Web Server Software
     os: OS
   db:
-    name: Database
-    type: Server
-    host: Host
+    name: Base de données
+    type: Serveur
+    host: Hôte
     port: Port
-    username: Username
-    database: Database
+    username: Nom d'utilisateur
+    database: Base de données
     prefix: Table Prefix
-  plugins: Enabled Plugins (:amount)
+  plugins: Plugins activés (:amount)
 plugins:
-  name: Name
+  name: Nom
   description: Description
-  author: Author
+  author: Auteur
   version: Version
+  readme: Read Me
   dependencies: Dependencies
   operations:
-    title: Operations
-    enabled: ':plugin has been enabled.'
+    title: Actions
+    enabled: ':plugin a été activé.'
     unsatisfied:
       notice: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't enable it. Please install or update the plugins listed below, and disable those have conflicts.
-      disabled: 'The ":name" plugin is not enabled.'
+      disabled: 'Le plugin ":name" n''est pas activé.'
       version: 'The version of ":title" does not satisfies the constraint ":constraint".'
       conflict: 'The ":title" plugin cannot run with this plugin at the same time.'
-    disabled: ':plugin has been disabled.'
-    deleted: The plugin was deleted successfully.
-    no-config-notice: The plugin is not installed or doesn't provide a configuration page.
-    not-found: No such plugin.
+    disabled: ':plugin a été désactivé.'
+    deleted: Le plugin a été supprimé avec succès.
+    no-config-notice: Le plugin n'est pas installé ou ne fournit pas de page de configuration.
+    no-readme-notice: The plugin doesn't contain a readme file.
+    not-found: Ce plugin n'existe pas.
   market:
-    connection-error: Unable to connect to the plugins registry. :error
-    non-existent: The plugin :plugin does not exist.
-    install-success: Plugin was installed.
-  empty: No result
+    connection-error: Impossible de se connecter au registre des plugins. :error
+    non-existent: Le plugin :plugin n'existe pas.
+    install-success: Plugin installé avec succès.
+  empty: Aucun résultat
 update:
-  complete: Update completed
+  complete: Mise à jour terminée
   info:
     title: Update Information
-    up-to-date: Already up-to-date.
-    available: New version available.
+    up-to-date: Déjà mis à jour.
+    available: Nouvelle version disponible.
     versions:
-      latest: "Latest Version:"
-      current: "Current Version:"
-    check-github: Check GitHub Releases
-    button: Update Now
+      latest: "Dernière version :"
+      current: "Version actuelle :"
+    check-github: Consulter les versions de GitHub
+    button: Mettre à jour maintenant
   cautions:
     title: Cautions
     link: check out this.
@@ -157,13 +151,13 @@ update:
     downloading: Downloading update package...
     size: "Size of package:"
   errors:
-    connection: "Unable to access to current update source. Details: :error"
-    spec: Current update source is not supported.
+    connection: "Impossible d'accéder à la source de la mise à jour actuelle. Détails : :error"
+    spec: La source de la mise à jour actuelle n'est pas prise en charge.
     php: Your PHP version is too low to update. Requires :version or later.
 download:
   errors:
-    download: 'Failed to download. Error: :error'
-    shasum: File validation failed. Please download again.
+    download: 'Échec du téléchargement. Erreur : :error'
+    shasum: Échec de la validation du fichier. Veuillez recommencer le telechargement.
     unzip: Failed to unpack files.
-report-reviewed: This report has been processed.
-invalid-action: Invalid action
+report-reviewed: Ce rapport a été traité.
+invalid-action: Action invalide

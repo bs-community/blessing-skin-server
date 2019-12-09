@@ -1,19 +1,19 @@
 ---
 http:
-  msg-403: Vous n'avez pas la permission d'accéder à cette page.
-  msg-404: Il n'y a rien ici.
-  msg-500: Veuillez réessayer plus tard.
+  msg-403: You have no permission to access this page.
+  msg-404: Nothing here.
+  msg-500: Please try again later.
   msg-503: The application is now in maintenance mode.
-  method-not-allowed: Méthode non autorisée.
+  method-not-allowed: Method not allowed.
   csrf-token-mismatch: Token does not match, try reloading the page.
-  ie: Nous ne prenons pas en charge Internet Explorer. Veuillez passer à d'autres navigateurs modernes, tels que Firefox ou Chrome.
+  ie: We don't support Internet Explorer. Please switch to other modern browsers, such as Firefox or Chrome.
 general:
-  title: Une erreur s'est produite
+  title: Error occurred
 exception:
-  code: 'Code d''erreur : :code'
-  detail: 'Détails : :msg'
+  code: 'Error code: :code'
+  detail: 'Details: :msg'
   message: |
-    Oups, on dirait qu'une erreur s'est produite. (activez APP_DEBUG dans .env pour voir les détails)
+    Whoops, looks like something went wrong. (enable APP_DEBUG in .env to see details)
 plugins:
   duplicate: The plugin [:dir1] has a duplicated plugin name definition which is same to plugin [:dir2]. Please check your plugins directory, remove one of them or use another name definition.
   directory: We can't approach the path for loading plugins specified by the PLUGINS_DIR in .env file. Please check your configuration. Error :msg
