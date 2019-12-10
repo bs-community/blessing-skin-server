@@ -92,7 +92,7 @@ status:
     laravel: Laravel Version
   server:
     name: Serveur
-    php: PHP Version
+    php: Version de PHP
     web: Web Server Software
     os: OS
   db:
@@ -102,15 +102,15 @@ status:
     port: Port
     username: Nom d'utilisateur
     database: Base de données
-    prefix: Table Prefix
+    prefix: Préfixe de table
   plugins: Plugins activés (:amount)
 plugins:
   name: Nom
   description: Description
   author: Auteur
   version: Version
-  readme: Read Me
-  dependencies: Dependencies
+  readme: Lisez-moi
+  dependencies: Dépendances
   operations:
     title: Actions
     enabled: ':plugin a été activé.'
@@ -142,8 +142,8 @@ update:
     check-github: Consulter les versions de GitHub
     button: Mettre à jour maintenant
   cautions:
-    title: Cautions
-    link: check out this.
+    title: Avertissement
+    link: jetez-y un coup d'œil.
     text: |
       Please choose update source according to your host's network environment.
       Low-speed connection between update source and your host will cause long-time loading at checking and downloading page.
