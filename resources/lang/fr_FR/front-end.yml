@@ -5,7 +5,7 @@ auth:
   tooManyFails:
     captcha: You fails too many times! Please enter the CAPTCHA.
     recaptcha: You fails too many times! Please pass the reCAPTCHA challenge.
-  emptyEmail: Empty email address.
+  emptyEmail: Adresse e-mail vide.
   invalidConfirmPwd: Confirming password is not equal with password.
   emptyNickname: Pseudonyme vide.
   register: S'inscrire
@@ -15,16 +15,16 @@ auth:
   reset: Réinitialiser
   resetting: Réinitialisation
   nickname: Pseudonyme
-  player-name: Minecraft player name
+  player-name: Nom du joueur dans Minecraft
   email: Adresse e-mail
-  identification: Email or player name
+  identification: Adresse e-mail ou nom du joueur
   password: Mot de passe
   captcha: CAPTCHA
   change-captcha: Click to change CAPTCHA image.
   login-link: Already registered? Log in here.
   forgot-link: Mot de passe oublié ?
   keep: Se souvenir de moi
-  repeat-pwd: Repeat your password
+  repeat-pwd: Répétez votre mot de passe
   nickname-intro: Whatever you like expect special characters
   player-name-intro: Player name in Minecraft, can be changed later
   register-button: S'inscrire
@@ -34,7 +34,7 @@ auth:
   reset-button: Réinitialiser
 skinlib:
   private: Privé
-  anonymous: Please login first.
+  anonymous: Connectez-vous d'abord.
   reset: Réinitialiser le filtre
   nowShowing: Maintenant affiché
   addToCloset: Add to closet
@@ -86,7 +86,7 @@ skinlib:
     award: You'll be awarded :score score(s) by uploading public texture.
   show:
     anonymous: You must login to use closets
-    likes: People who like this
+    likes: Personnes qui ont aimé
     detail: Détails
     name: Nom de la texture
     edit: Modifier
@@ -111,15 +111,15 @@ user:
   renameItem: Renommer l'élément
   removeItem: Remove from closet
   setAsAvatar: Utiliser en tant qu'avatar
-  viewInSkinlib: View in skin library
-  switch2dPreview: Switch to 2D Preview
-  switch3dPreview: Switch to 3D Preview
+  viewInSkinlib: Voir dans la bibliothèque de skins
+  switch2dPreview: Passer à l'aperçu 2D
+  switch3dPreview: Passer à l'aperçu 3D
   removeFromClosetNotice: Sure to remove this texture from your closet?
-  emptySelectedPlayer: No player is selected.
-  emptySelectedTexture: No texture is selected.
+  emptySelectedPlayer: Aucun joueur n'est sélectionné.
+  emptySelectedTexture: Aucune texture n'est sélectionnée.
   renameClosetItem: 'Set a new name for this item:'
   changePlayerName: 'Please enter the player name:'
-  emptyPlayerName: Empty player name.
+  emptyPlayerName: Nom du joueur vide.
   clearTexture: Sure to clear the skins & cape of this player?
   deletePlayer: Sure to delete this player?
   deletePlayerNotice: It's permanent. No backups.
@@ -166,7 +166,7 @@ user:
       title: Supprimer le compte
       notice: Sure to delete your account on :site?
       admin: Admin account can not be deleted.
-      button: Delete My Account
+      button: Supprimer mon compte
       modal-title: You need to enter your password to continue
       modal-notice: |
         You're about to delete your account.
@@ -175,7 +175,7 @@ user:
       password: Mot de passe actuel
   used:
     title: Ressources utilisées
-    players: Registered players
+    players: Joueurs inscrits
     storage: Espace utilisé
   cur-score: Current Score
   score-notice: Click the score to show introduction.
@@ -202,16 +202,16 @@ user:
       custom: Custom player name rules are applied on this site. Please contact admins for further information.
     player-name-length: The player name should be at least :min characters and not greater than :max characters.
   verification:
-    title: Verify Your Account
+    title: Vérifiez votre compte
     message: You must verify your email address before using the skin hosting service. Haven't received the email?
-    resend: Click here to send again.
+    resend: Cliquez ici pour renvoyer.
     sending: Envoi...
   oauth:
     id: Client ID
     name: Nom de l'application
     secret: Client Secret
     redirect: Callback URL
-    modifyName: Modify app name.
+    modifyName: Modifier le nom de l'application.
     modifyUrl: Modify callback URL.
     create: Créer une nouvelle appli
     confirmRemove: Are you sure to delete this app? You won't be able to undo this.
@@ -220,11 +220,11 @@ admin:
   permission: Permission
   playersCount: Nombre de joueurs
   deleteUser: Supprimer
-  cannotDeleteAdmin: You can't delete admins.
+  cannotDeleteAdmin: Vous ne pouvez pas supprimer d'administrateurs.
   cannotDeleteSuperAdmin: You can't delete super admin in this way
   changeEmail: Modifier l'adresse e-mail
   newUserEmail: 'Please enter the new email:'
-  verification: Email Verification
+  verification: Vérification de l'adresse e-mail
   toggleVerification: Toggle Verification Status
   changeNickName: Modifier le pseudonyme
   newUserNickname: 'Please enter the new nickname:'
@@ -232,7 +232,7 @@ admin:
   newUserPassword: 'Please enter the new password:'
   changeScore: Edit Score
   newScore: 'Please enter the new score:'
-  changePermission: Change permission
+  changePermission: Modifier la permission
   newPermission: 'Please select new permission:'
   deleteUserNotice: Are you sure to delete this user? It' permanent.
   inspectHisOwner: Click to inspect the owner of this player
@@ -245,9 +245,9 @@ admin:
   verified: Vérifié
   pidNotice: >-
     Please enter the tid of texture. Inputing 0 can clear texture of this player.
-  changePlayerTexture: 'Change textures of :player'
+  changePlayerTexture: 'Changer les textures de :player'
   changeTexture: Changer les textures
-  changePlayerName: Change Player Name
+  changePlayerName: Changer le nom du joueur
   changeOwner: Changer de propriétaire
   textureType: Type de texture
   deletePlayer: Supprimer
@@ -283,7 +283,7 @@ admin:
     There is no dependency definition in the plugin. It means that the plugin may be not compatible with the current version of Blessing Skin, and enabling it may cause unexpected problems. Do you really want to enable the plugin?
   updateButton: Mettre à jour maintenant
   downloading: Téléchargement...
-  updateCompleted: Update completed.
+  updateCompleted: Mise à jour terminée.
   i18n:
     group: Groupe
     key: Key
@@ -291,7 +291,7 @@ admin:
     empty: (Vide)
     modify: Modifier
     delete: Supprimer
-    updating: 'Please type new text:'
+    updating: 'Veuillez saisir un nouveau texte :'
     confirmDelete: Are you sure? This is irreversible.
 report:
   tid: ID de texture
@@ -311,7 +311,7 @@ general:
   skin: Skin
   cape: Cape
   fatalError: Fatal Error
-  confirmLogout: Sure to log out?
+  confirmLogout: Voulez-vous vraiment vous déconnecter ?
   confirm: OK
   cancel: Annuler
   submit: Envoyer
