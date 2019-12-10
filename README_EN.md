@@ -167,33 +167,7 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
 
 ## Developer Install
 
-If you'd like make some contribution on the project, please deploy it from GitHub first.
-
-**You'd better have some experience on shell operations to continue.**
-
-Please make sure you have installed the tools below:
-
-- [Git](https://git-scm.org)
-- [Node.js](https://nodejs.org)
-- [Yarn](https://yarnpkg.com)
-- [Composer](https://getcomposer.org)
-
-Clone the code from GitHub and install dependencies:
-
-```bash
-git clone https://github.com/bs-community/blessing-skin-server.git
-cd blessing-skin-server
-composer install
-yarn
-```
-
-Build the things!
-
-```bash
-yarn build
-```
-
-Congrats! You made it. Next, please refer to No.2 of **Quick Install** section.
+Please refer to [here](https://blessing.netlify.com/build.html).
 
 ## Configure the Web Server
 

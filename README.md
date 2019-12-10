@@ -166,33 +166,7 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
 
 ## 自行构建
 
-如果你想为此项目作贡献，或者抢先尝试未发布的新功能，你应该先用 GitHub 上的代码部署。
-
-**不推荐不熟悉 shell 操作以及不想折腾的用户使用。**
-
-请先确保您安装好以下工具：
-
-- [Git](https://git-scm.org)
-- [Node.js](https://nodejs.org)
-- [Yarn](https://yarnpkg.com)
-- [Composer](https://getcomposer.org)
-
-从 GitHub 上 clone 源码并安装依赖:
-
-```bash
-git clone https://github.com/bs-community/blessing-skin-server.git
-cd blessing-skin-server
-composer install
-yarn
-```
-
-构建前端代码！
-
-```bash
-yarn build
-```
-
-接下来请参考「快速安装向导」进行后续安装。
+详情可阅读 [这里](https://blessing.netlify.com/build.html)。
 
 > 您可以订阅我们的 Telegram 频道 [Blessing Skin News](https://t.me/blessing_skin_news) 来获取最新开发动态。当有新的 Commit 被推送时，我们的机器人将会在频道内发送一条消息来提示您能否拉取最新代码，以及拉取后应该做什么。
 

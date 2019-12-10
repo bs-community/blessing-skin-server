@@ -18,15 +18,15 @@
 - [Composer](https://getcomposer.org)
 - [PowerShell Core](https://github.com/PowerShell/PowerShell#get-powershell)
 
-然后执行以下命令来拉取代码：
+然后执行以下命令：
 
 ```bash
 git clone https://github.com/bs-community/blessing-skin-server.git
 cd blessing-skin-server
 composer install
 cp .env.example .env
-yarn
 php artisan key:generate
+yarn
 ```
 
 然后在 `.env` 中配置好您的环境信息，务必设置好 `ASSET_URL`，否则无法编译前端资源。
