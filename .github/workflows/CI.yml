@@ -2,11 +2,11 @@ name: CI
 
 on:
   push:
-    branches-ignore:
-      - 'l10n*'
+    branches:
+      - dev
   pull_request:
-    branches-ignore:
-      - 'l10n*'
+    branches:
+      - dev
 
 jobs:
   twig:
