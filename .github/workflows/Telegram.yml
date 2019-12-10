@@ -10,8 +10,15 @@ jobs:
     name: Send Message
     runs-on: ubuntu-latest
     steps:
+    - name: Download bot
+      run: |
+        $botRelease = (Invoke-WebRequest 'https://api.github.com/repos/bs-community/telegram-bot/releases/latest').Content | ConvertFrom-Json
+        $botBinUrl = ((Invoke-WebRequest $botRelease.assets_url).Content | ConvertFrom-Json).browser_download_url
+        bash -c "curl -fSL $botBinUrl -o bot"
+        chmod +x ./bot
+      shell: pwsh
     - name: Run bot
-      run: ./scripts/bot.ps1
+      run: ./bot diff
       shell: pwsh
       env:
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
