@@ -138,30 +138,23 @@ class PluginControllerTest extends TestCase
                 ->with('fake2')
                 ->once()
                 ->andReturn(new Plugin('', ['name' => 'fake2']));
-            $mock->shouldReceive('get')
-                ->with('dep')
-                ->once()
-                ->andReturn(new Plugin('', ['title' => 'dep']));
-            $mock->shouldReceive('get')
-                ->with('whatever')
-                ->once()
-                ->andReturn(null);
-            $mock->shouldReceive('get')
-                ->with('conf')
-                ->once()
-                ->andReturn(new Plugin('', ['title' => 'conf']));
+            $unresolvedInfo = [
+                'unsatisfied' => collect([
+                    'dep' => ['version' => '0.0.0', 'constraint' => '^6.6.6'],
+                    'whatever' => ['version' => null, 'constraint' => '^1.2.3'],
+                ]),
+                'conflicts' => collect([
+                    'conf' => ['version' => '1.2.3', 'constraint' => '^1.0.0'],
+                ]),
+            ];
             $mock->shouldReceive('enable')
                 ->with('fake2')
                 ->once()
-                ->andReturn([
-                    'unsatisfied' => collect([
-                        'dep' => ['version' => '0.0.0', 'constraint' => '^6.6.6'],
-                        'whatever' => ['version' => null, 'constraint' => '^1.2.3'],
-                    ]),
-                    'conflicts' => collect([
-                        'conf' => ['version' => '1.2.3', 'constraint' => '^1.0.0'],
-                    ]),
-                ]);
+                ->andReturn($unresolvedInfo);
+            $mock->shouldReceive('formatUnresolved')
+                ->with($unresolvedInfo['unsatisfied'], $unresolvedInfo['conflicts'])
+                ->once()
+                ->andReturn(['dep', 'whatever', 'conf']);
 
             $mock->shouldReceive('get')
                 ->with('fake3')
@@ -210,16 +203,7 @@ class PluginControllerTest extends TestCase
         ])->assertJson([
             'code' => 1,
             'message' => trans('admin.plugins.operations.unsatisfied.notice'),
-            'data' => [
-                'reason' => [
-                    trans('admin.plugins.operations.unsatisfied.version', [
-                        'title' => 'dep',
-                        'constraint' => '^6.6.6',
-                    ]),
-                    trans('admin.plugins.operations.unsatisfied.disabled', ['name' => 'whatever']),
-                    trans('admin.plugins.operations.unsatisfied.conflict', ['title' => 'conf']),
-                ],
-            ],
+            'data' => ['reason' => ['dep', 'whatever', 'conf']],
         ]);
 
         // Enable a plugin

@@ -511,7 +511,7 @@ class PluginManagerTest extends TestCase
 
     public function testGetConflicts()
     {
-        $manager = app('plugins');
+        $manager = resolve(PluginManager::class);
 
         $plugin = new Plugin('/', ['enchants' => ['conflicts' => ['a' => '*', 'b' => '^1.2.0']]]);
         $reflection = new ReflectionClass($manager);
@@ -527,6 +527,38 @@ class PluginManagerTest extends TestCase
 
         $plugin = new Plugin('/', ['enchants' => ['conflicts' => ['b' => '^0.0.0']]]);
         $this->assertNull($manager->getConflicts($plugin)->get('b'));
+    }
+
+    public function testFormatUnresolved()
+    {
+        app()->forgetInstance(PluginManager::class);
+        $manager = resolve(PluginManager::class);
+        $reflection = new ReflectionClass($manager);
+        $property = $reflection->getProperty('plugins');
+        $property->setAccessible(true);
+        $property->setValue($manager, collect([
+            'dep' => new Plugin('', ['title' => 'dep', 'version' => '0.0.0']),
+            'conf' => new Plugin('', ['title' => 'conf', 'version' => '1.2.3']),
+        ]));
+
+        $unsatisfied = collect([
+            'dep' => ['version' => '0.0.0', 'constraint' => '^6.6.6'],
+            'whatever' => ['version' => null, 'constraint' => '^1.2.3'],
+        ]);
+        $conflicts = collect([
+            'conf' => ['version' => '1.2.3', 'constraint' => '^1.0.0'],
+        ]);
+
+        $received = $manager->formatUnresolved($unsatisfied, $conflicts);
+        $expected = [
+            trans('admin.plugins.operations.unsatisfied.version', [
+                'title' => 'dep',
+                'constraint' => '^6.6.6',
+            ]),
+            trans('admin.plugins.operations.unsatisfied.disabled', ['name' => 'whatever']),
+            trans('admin.plugins.operations.unsatisfied.conflict', ['title' => 'conf']),
+        ];
+        $this->assertEquals($expected, $received);
     }
 
     public function testEnable()
