@@ -87,7 +87,7 @@ status:
     name: Blessing Skin
     version: Version
     env: Application Environment
-    debug: Debugging or Not?
+    debug: Débogage ou pas ?
     commit: Commit
     laravel: Laravel Version
   server:
