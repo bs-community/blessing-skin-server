@@ -4,6 +4,7 @@
     :title="$t('user.player.add-player')"
     :ok-button-text="$t('general.submit')"
     flex-footer
+    center
     @confirm="addPlayer"
   >
     <table class="table">

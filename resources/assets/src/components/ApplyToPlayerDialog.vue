@@ -5,6 +5,7 @@
     :title="$t('user.closet.use-as.title')"
     :ok-button-text="$t('general.submit')"
     flex-footer
+    center
   >
     <template v-if="players.length !== 0">
       <div v-for="player in players" :key="player.pid" class="player-item">
