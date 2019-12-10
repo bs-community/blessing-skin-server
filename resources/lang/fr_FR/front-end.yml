@@ -1,33 +1,33 @@
 ---
 auth:
   login: Se connecter
-  loggingIn: Logging In
+  loggingIn: Authentification
   tooManyFails:
     captcha: You fails too many times! Please enter the CAPTCHA.
     recaptcha: You fails too many times! Please pass the reCAPTCHA challenge.
   emptyEmail: Empty email address.
   invalidConfirmPwd: Confirming password is not equal with password.
   emptyNickname: Empty nickname.
-  register: Register
-  registering: Registering
+  register: S'inscrire
+  registering: Inscription
   send: Envoyer
   sending: Envoi en cours
   reset: Réinitialiser
-  resetting: Resetting
-  nickname: Nickname
+  resetting: Réinitialisation
+  nickname: Pseudonyme
   player-name: Minecraft player name
   email: Adresse e-mail
   identification: Email or player name
-  password: Password
+  password: Mot de passe
   captcha: CAPTCHA
   change-captcha: Click to change CAPTCHA image.
   login-link: Already registered? Log in here.
   forgot-link: Forgot password?
-  keep: Remember me
+  keep: Se souvenir de moi
   repeat-pwd: Repeat your password
   nickname-intro: Whatever you like expect special characters
   player-name-intro: Player name in Minecraft, can be changed later
-  register-button: Register
+  register-button: S'inscrire
   forgot:
     login-link: I do remember it
     button: Envoyer
@@ -36,7 +36,7 @@ skinlib:
   private: Privé
   anonymous: Please login first.
   reset: Reset Filter
-  nowShowing: Now showing
+  nowShowing: Maintenant affiché
   addToCloset: Add to closet
   removeFromCloset: Remove from closet
   setItemName: Set a name for this texture
@@ -47,16 +47,16 @@ skinlib:
   seeMyUpload: My Uploads
   apply: Appliquer
   filter:
-    skin: (Any Model)
+    skin: (N'importe quel modèle)
     steve: (Steve)
     alex: (Alex)
     cape: (Cape)
     uploader: 'User (UID = :uid) Uploaded'
-    allUsers: All Users
+    allUsers: Tous les utilisateurs
   sort:
     title: Trier
     time: Récents
-    likes: Most Likes
+    likes: Le plus populaire
   badSkinSize: The size of selected skin file is not valid
   badCapeSize: The size of selected cape file is not valid
   emptyTextureName: Empty texture name.
@@ -76,7 +76,7 @@ skinlib:
   upload:
     texture-name: Texture Name
     texture-type: Texture Type
-    select-file: Select File
+    select-file: Sélectionner un fichier
     privacy-notice: Prevent it from being visible at skin library.
     set-as-private: Make it Private
     button: Upload
@@ -91,10 +91,10 @@ skinlib:
     name: Texture Name
     edit: Modifier
     model: Applicable Model
-    size: File Size
-    uploader: Uploader
+    size: Taille du fichier
+    uploader: Auteur
     upload-at: Upload At
-    download: Download
+    download: Télécharger
     delete-texture: Delete Texture
     manage-notice: The texture which was deleted or setted to private will be removed from the closet of everyone who had favorited it.
   report:
@@ -108,7 +108,7 @@ user:
   timeUnitMin: min
   emptyClosetMsg: >-
     <p>Nothing in your closet...</p><p>Why not explore the <a href=":url">Skin Library</a> for a while?</p>
-  renameItem: Rename item
+  renameItem: Renommer l'élément
   removeItem: Remove from closet
   setAsAvatar: Set as avatar
   viewInSkinlib: View in skin library
@@ -132,14 +132,14 @@ user:
   changeNickName: 'Sure to set your nickname to :new_nickname?'
   changeEmail: 'Sure to change your email address to :new_email?'
   typeToSearch: Type to search
-  useAs: Apply...
+  useAs: Appliquer...
   resetSelected: Clear selected
   bindNewPlayer: You're required to create a player to go ahead. This player will be bound with your account.
   bindExistedPlayer: You're required to select a player to go ahead. This player will be bound with your account. Other players will be deleted.
   closet:
     upload: Upload Texture
     use-as:
-      button: Apply...
+      button: Appliquer...
       reset: Clear selected
       title: Which player should be applied to?
       empty: It seems that you own no player...
@@ -159,7 +159,7 @@ user:
       rule: Whatever you like expect special characters
     email:
       title: Change Email
-      new: New Email
+      new: Nouvelle adresse e-mail
       password: Current Password
       button: Change Email
     delete:
@@ -186,10 +186,10 @@ user:
   last-sign: Last signed at :time
   sign-remain-time: Available after :time :unit
   player:
-    player-name: Player Name
+    player-name: Nom du joueur
     edit: Modifier
-    operation: Operations
-    edit-pname: Edit Name
+    operation: Actions
+    edit-pname: Modifier le nom
     delete-texture: Clear Textures
     delete-player: Supprimer
     add-player: Add new player
@@ -205,10 +205,10 @@ user:
     title: Verify Your Account
     message: You must verify your email address before using the skin hosting service. Haven't received the email?
     resend: Click here to send again.
-    sending: Sending...
+    sending: Envoi...
   oauth:
     id: Client ID
-    name: App Name
+    name: Nom de l'application
     secret: Client Secret
     redirect: Callback URL
     modifyName: Modify app name.
@@ -216,13 +216,13 @@ user:
     create: Create New App
     confirmRemove: Are you sure to delete this app? You won't be able to undo this.
 admin:
-  operationsTitle: Operations
+  operationsTitle: Actions
   permission: Permission
   playersCount: Players Count
   deleteUser: Supprimer
   cannotDeleteAdmin: You can't delete admins.
   cannotDeleteSuperAdmin: You can't delete super admin in this way
-  changeEmail: Edit Email
+  changeEmail: Modifier l'adresse e-mail
   newUserEmail: 'Please enter the new email:'
   verification: Email Verification
   toggleVerification: Toggle Verification Status
@@ -240,9 +240,9 @@ admin:
   banned: Banni
   normal: Normal
   admin: Administrateur
-  superAdmin: Super Admin
-  unverified: Unverified
-  verified: Verified
+  superAdmin: Super administrateur
+  unverified: Non vérifié
+  verified: Vérifié
   pidNotice: >-
     Please enter the tid of texture. Inputing 0 can clear texture of this player.
   changePlayerTexture: 'Change textures of :player'
@@ -257,31 +257,31 @@ admin:
   noSuchUser: No such user
   changePlayerNameNotice: 'Please input new player name:'
   emptyPlayerName: Player name cannot be empty.
-  configurePlugin: Configure
+  configurePlugin: Configurer
   noPluginConfigNotice: The plugin has been disabled or no configuration is provided.
   deletePlugin: Supprimer
   noDependencies: No Dependencies
   whyDependencies: What's this?
   statusEnabled: Activé
-  statusDisabled: Disabled
+  statusDisabled: Désactivé
   pluginTitle: Plugin
   pluginAuthor: Auteur
   pluginVersion: Version
   pluginName: Nom
-  pluginReadme: Read Me
+  pluginReadme: Lisez-moi
   pluginDescription: Description
   pluginDependencies: Dependencies
   installPlugin: Installer
   pluginInstalling: Installing...
   updatePlugin: Mettre à jour
-  pluginUpdating: Updating...
+  pluginUpdating: Mise à jour...
   confirmUpdate: Are you sure to update ":plugin" from :old to :new?
   enablePlugin: Activer
   disablePlugin: Désactiver
   confirmDeletion: Are you sure to delete this plugin?
   noDependenciesNotice: >-
     There is no dependency definition in the plugin. It means that the plugin may be not compatible with the current version of Blessing Skin, and enabling it may cause unexpected problems. Do you really want to enable the plugin?
-  updateButton: Update Now
+  updateButton: Mettre à jour maintenant
   downloading: Downloading...
   updateCompleted: Update completed.
   i18n:
@@ -294,15 +294,15 @@ admin:
     updating: 'Please type new text:'
     confirmDelete: Are you sure? This is irreversible.
 report:
-  tid: Texture ID
-  reporter: Reporter
+  tid: ID de texture
+  reporter: Auteur du signalement
   reason: Raison
   status-title: Statut
   status:
     - Suspendu
-    - Resolved
-    - Rejected
-  time: Report Time
+    - Résolu
+    - Rejeté
+  time: Heure du signalement
   check: Détails
   delete: Supprimer
   ban: Ban
@@ -320,7 +320,7 @@ general:
   tip: Conseil
   pagination: 'Page :page, total :total'
   searchResult: '(Search result of keyword ":keyword")'
-  noResult: No result.
+  noResult: Aucun résultat.
   texturePreview: Texture Preview
   walk: Marcher
   run: Courir
@@ -332,7 +332,7 @@ general:
   wait: Please wait...
   user:
     email: Adresse e-mail
-    nickname: Nick Name
+    nickname: Pseudonyme
     score: Score
     register-at: Registered At
   player:
