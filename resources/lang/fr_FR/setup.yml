@@ -11,14 +11,14 @@ permissions:
 disabled-functions:
   escapeshellarg: "The escapeshellarg function is disabled in your php.ini configuration. Please contact your web hosting provider to enable it or perform the installation manually: http://t.cn/REzBZUe"
 locked:
-  title: Already installed
+  title: Déjà installé
   text: It appears that you have already installed Blessing Skin Server. To reinstall, please delete the "install.lock" file under "storage" directory.
-  button: Back to homepage
+  button: Retour à la page d'accueil
 updates:
   master:
-    title: Update Wizard - Blessing Skin Server
+    title: Assistant de mise à jour - Blessing Skin Server
   welcome:
-    title: One more step
+    title: Une dernière chose
     text: |
       Welcome! You are going to update to Blessing Skin Server v:version.
       We need to apply some updates to your database, click NEXT to continue.
@@ -49,10 +49,10 @@ wizard:
     prefix: Prefix of Database Table (Optional)
     prefix-notice: You don't need to use this option unless you want to install multiple Blessing Skin Server into one database.
   info:
-    title: Information needed
+    title: Information requise
     button: Lancer l'installation
     text: To proceed with the installation, please fill this form with the details of the initial admin account. Don't worry, you can always change these settings later.
-    admin-email: Admin Email
+    admin-email: Adresse e-mail de l'administrateur
     admin-notice: This is the UNIQUE super admin account who can GIVE or CANCEL other users' admin privilege.
     nickname: Pseudonyme
     password: Mot de passe
@@ -63,5 +63,5 @@ wizard:
     secure: Sécurité
     secure-notice: Generate random APP_KEY and SALT to make your site secured.
   finish:
-    title: Installation complete
+    title: Installation terminée
     text: Blessing Skin Server has been installed. Thank you, and enjoy!

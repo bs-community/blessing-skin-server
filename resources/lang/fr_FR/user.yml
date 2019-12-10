@@ -1,8 +1,8 @@
 ---
 used:
-  title: Resources Used
-  players: Registered players
-  storage: Storage used
+  title: Ressources utilisées
+  players: Joueurs inscrits
+  storage: Espace utilisé
 cur-score: Current Score
 score-notice: Click the score to show introduction.
 sign: Sign
@@ -12,16 +12,16 @@ time-unit-min: min
 cant-sign-until: You can't sign in in :time :unit
 last-sign: Last signed at :time
 sign-remain-time: Available after :time :unit
-announcement: Announcement
-no-unread: No new notifications.
+announcement: Annonce
+no-unread: Aucune nouvelle notification.
 verification:
-  disabled: Email verification is not available.
+  disabled: La vérification de l'adresse e-mail n'est pas disponible.
   frequent-mail: You click the send button too fast. Wait for 60 secs, guy.
-  verified: Your account is already verified.
+  verified: Votre compte est déjà vérifié.
   success: Verification link was sent, please check your inbox.
   failed: We failed to send you the verification link. Detailed message :msg
   mail:
-    title: Verify Your Account on :sitename
+    title: Vérifiez votre compte sur :sitename
     message: You are receiving this email because someone registered an account with this email address on :sitename.
     reset: 'Click here to verify your account: <a href=":url">:url</a>'
     ignore: If you did not register an account, no further action is required.
@@ -40,37 +40,37 @@ score-intro:
     player: ':score scores = 1 player'
     closet: ':score socres = 1 closet item'
 closet:
-  type-to-search: Type to search
-  switch-category: Switch Category
-  view: View in skin library
-  more: More
-  set-avatar: Set as avatar
+  type-to-search: Tapez pour rechercher
+  switch-category: Changer de catégorie
+  view: Voir dans la bibliothèque de skins
+  more: Plus
+  set-avatar: Utiliser en tant qu'avatar
   use-as:
-    button: Apply...
+    button: Appliquer...
     reset: Clear selected
     title: Which player should be applied to?
     empty: It seems that you own no player...
-    add: Add a new player
+    add: Ajouter un nouveau joueur
   add:
     success: Added :name to closet successfully.
-    repeated: You have already added this texture.
-    not-found: We cannot find this texture.
+    repeated: Vous avez déjà ajouté cette texture.
+    not-found: Nous n'avons pas pu trouver cette texture.
     lack-score: You don't have enough score to add it to closet.
   rename:
-    title: Rename item
-    success: The item is successfully renamed to :name
+    title: Renommer l'élément
+    success: L'élément a été renommé avec succès en :name
   remove:
     title: Remove from closet
     success: The texture was removed from closet successfully.
     non-existent: The texture does not exist in your closet.
 player:
-  player-name: Player Name
-  edit: Edit
-  operation: Delete
-  edit-pname: Player name
+  player-name: Nom du joueur
+  edit: Modifier
+  operation: Supprimer
+  edit-pname: Nom du joueur
   delete-texture: Textures
-  delete-player: Player
-  add-player: Add new player
+  delete-player: Joueur
+  add-player: Ajouter un nouveau joueur
   login-notice: Now you can log in with player names you owned instead email address.
   player-name-rule:
     official: Player name may only contains letters, numbers and underscores.
@@ -78,16 +78,16 @@ player:
     custom: Custom player name rules are applied on this site. Please contact admins for further information.
   player-name-length: The player name should be at least :min characters and not greater than :max characters.
   add:
-    repeated: The player name is already registered.
+    repeated: Ce nom d'utilisateur est déjà enregistré.
     lack-score: You don't have enough score to add a player.
     single: You must own exactly ONE player so you can't add more.
-    success: Player :name was added successfully.
+    success: Le joueur :name a été ajouté avec succès.
   delete:
     single: You must own exactly ONE player so you can't delete it.
-    success: Player :name was deleted successfully.
+    success: Le joueur :name a été supprimé avec succès.
   rename:
     repeated: This player name is occupied. Please choose another one.
-    success: Player :old was renamed to :new
+    success: Le joueur :old a été renommé en :new
   set:
     success: The texture was applied to player :name successfully.
   clear:
@@ -97,42 +97,42 @@ player:
     success: Bound successfully!
 profile:
   avatar:
-    title: Change Avatar?
+    title: Changer d'avatar ?
     notice: Click the gear icon "<i class="fa fa-cog"></i>" of any skin in your closet, then click "Set as avatar". We will cut the head segment of that skin for you. If there is no icon like this, please try to unable your ADs blocking extension.
-    wrong-type: You can't set a cape as avatar.
-    success: New avatar was set successfully.
+    wrong-type: Vous ne pouvez pas utiliser une cape en tant qu'avatar.
+    success: Le nouvel avatar a été défini avec succès.
   password:
-    title: Change Password
-    old: Old Password
-    new: New Password
-    confirm: Repeat Password
-    button: Change password
-    wrong-password: Wrong original password.
+    title: Changer le mot de passe
+    old: Ancien mot de passe
+    new: Nouveau mot de passe
+    confirm: Répétez le mot de passe
+    button: Changer le mot de passe
+    wrong-password: Mot de passe d'origine incorrect.
     success: Password updated successfully, please log in again.
   nickname:
-    title: Change Nickname
+    title: Changer le pseudonyme
     empty: No nickname is set now.
-    rule: Whatever you like expect special characters
+    rule: Tout ce que vous voulez sauf des caractères spéciaux
     single: You're not allowed to update nickname, because we've bound your player with your account.
     success: Nickname is successfully updated to :nickname
   email:
-    title: Change Email
-    new: New Email
-    password: Current Password
-    button: Change email
-    wrong-password: Wrong password.
-    existed: This email address is occupied.
+    title: Changer l'adresse e-mail
+    new: Nouvelle adresse e-mail
+    password: Mot de passe actuel
+    button: Changer l'adresse e-mail
+    wrong-password: Mot de passe incorrect.
+    existed: Cette adresse e-mail est déjà enregistrée.
     success: Email address updated successfully, please log in again.
   delete:
-    title: Delete Account
-    notice: Sure to delete your account on :site?
-    admin: Admin account can not be deleted.
-    button: Delete my account
-    modal-title: You need to enter your password to continue
+    title: Supprimer le compte
+    notice: Voulez-vous vraiment supprimer votre compte sur :site ?
+    admin: Le compte d'un administrateur ne peut pas être supprimé.
+    button: Supprimer mon compte
+    modal-title: Vous devez entrer votre mot de passe pour continuer
     modal-notice: |
       You're about to delete your account.
       This is permanent! No backups, no restores, no magic undo button.
       We warned you, ok?
-    password: Current Password
-    wrong-password: Wrong password.
-    success: Your account is deleted successfully.
+    password: Mot de passe actuel
+    wrong-password: Mot de passe incorrect.
+    success: Votre compte a été supprimé avec succès.
