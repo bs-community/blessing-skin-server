@@ -150,7 +150,7 @@ update:
       To change the default update source,
   download:
     downloading: Downloading update package...
-    size: "Size of package:"
+    size: "Taille du package :"
   errors:
     connection: "Impossible d'accéder à la source de la mise à jour actuelle. Détails : :error"
     spec: La source de la mise à jour actuelle n'est pas prise en charge.
