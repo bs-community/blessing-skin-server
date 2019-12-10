@@ -179,6 +179,6 @@ Route::group(['prefix' => 'setup'], function () {
 
     Route::group(['middleware' => 'authorize'], function () {
         Route::view('/update', 'setup.updates.welcome')->middleware('setup');
-        Route::any('/exec-update', 'SetupController@update')->middleware('setup');
+        Route::any('/exec-update', 'UpdateController@update')->middleware('setup');
     });
 });

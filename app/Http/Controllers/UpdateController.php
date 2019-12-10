@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Composer\Semver\Comparator;
 use App\Services\PackageManager;
 use Illuminate\Filesystem\Filesystem;
+use Symfony\Component\Finder\SplFileInfo;
+use Illuminate\Contracts\Console\Kernel as Artisan;
 
 class UpdateController extends Controller
 {
@@ -67,6 +69,27 @@ class UpdateController extends Controller
             default:
                 return json(trans('general.illegal-parameters'), 1);
         }
+    }
+
+    public function update(Filesystem $filesystem, Artisan $artisan)
+    {
+        collect($filesystem->files(database_path('update_scripts')))
+            ->filter(function (SplFileInfo $file) {
+                $name = $file->getFilenameWithoutExtension();
+
+                return preg_match('/^\d+\.\d+\.\d+$/', $name) > 0
+                    && Comparator::greaterThanOrEqualTo($name, option('version'));
+            })
+            ->each(function (SplFileInfo $file) use ($filesystem) {
+                $filesystem->getRequire($file->getPathname());
+            });
+
+        option(['version' => config('app.version')]);
+        $artisan->call('migrate', ['--force' => true]);
+        $artisan->call('view:clear');
+        $filesystem->put(storage_path('install.lock'), '');
+
+        return view('setup.updates.success');
     }
 
     protected function getUpdateInfo()
