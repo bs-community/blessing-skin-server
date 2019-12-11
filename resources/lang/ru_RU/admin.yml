@@ -6,10 +6,10 @@ index:
   disk-usage: Использование диска
   overview: Overview
   texture-uploads: Загрузка текстур
-  user-registration: User Registration
+  user-registration: Регистрация пользователя
 notifications:
   send:
-    title: Send Notification
+    title: Отправить уведомление
     success: Успешно отправлено!
   receiver:
     title: Получатель
@@ -58,19 +58,19 @@ players:
     success: Имя игрока обновлено до :player
   owner:
     change: Сменить владельца
-    success: The player :player was transferred to user :user.
+    success: Игрок :player был передан пользователю :user.
   delete:
-    delete: Delete
-    success: The player has been deleted successfully.
+    delete: Удалить
+    success: Игрок был успешно удалён.
 customize:
   change-color:
-    title: Change Theme Color
-    success: Theme color updated.
+    title: Изменить цвет темы
+    success: Цвет темы обновлен.
   colors:
-    navbar: Top Navigation Bar
+    navbar: Верхняя панель навигации
     sidebar:
-      dark: Sidebar (Dark)
-      light: Sidebar (Light)
+      dark: Боковая панель (темная)
+      light: Боковая панель (светлая)
 i18n:
   add: Add New Language Line
   added: Language line added.
