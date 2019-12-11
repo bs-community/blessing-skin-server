@@ -42,17 +42,17 @@ forgot:
     ignore: If you did not request a password reset, no further action is required.
 reset:
   title: Reset Password
-  button: Reset
+  button: Réinitialiser
   invalid: Invalid link.
   expired: This link is expired.
   message: ':username, reset your email address here.'
   success: Password resetted successfully.
 bind:
-  title: Bind Email
-  button: Bind
-  message: You need to provide your email adderss to continue.
-  introduction: We won't send you any spam.
-  registered: The email address was already taken.
+  title: Lier l'adresse e-mail
+  button: Lier
+  message: Vous devez fournir votre adresse e-mail pour continuer.
+  introduction: Nous ne vous enverrons aucun spam.
+  registered: Cette adresse e-mail est déjà utilisée.
 verify:
   title: Email Verification
   success: Your account was now verified.
@@ -75,7 +75,7 @@ oauth:
     introduction: A 3rd-party application ":name" is requesting permission to access your account.
     button: Authorize
 nickname: Nickname
-email: Email
+email: Adresse e-mail
 identification: Email or player name
 password: Password
 captcha: CAPTCHA
