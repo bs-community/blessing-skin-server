@@ -295,11 +295,11 @@ admin:
     confirmDelete: Вы уверены? Это необратимо.
 report:
   tid: ID текстуры
-  reporter: Reporter
-  reason: Reason
-  status-title: Status
+  reporter: Жалуется
+  reason: Причина
+  status-title: Статус
   status:
-    - Pending
+    - В ожидании
     - Resolved
     - Rejected
   time: Report Time
