@@ -181,26 +181,26 @@ user:
   score-notice: Click the score to show introduction.
   sign: Sign
   sign-success: Signed successfully. You got :score scores.
-  time-unit-hour: h
-  time-unit-min: min
-  last-sign: Last signed at :time
-  sign-remain-time: Available after :time :unit
+  time-unit-hour: ч
+  time-unit-min: мин
+  last-sign: Последний вход в :time
+  sign-remain-time: Доступно после :time :unit
   player:
-    player-name: Player Name
-    edit: Edit
-    operation: Operations
-    edit-pname: Edit Name
-    delete-texture: Clear Textures
-    delete-player: Delete
-    add-player: Add new player
-    login-notice: Now you can log in with player names you owned instead email address.
-    player-info: Information <small>(click player name to show preview)</small>
-    texture-empty: Nothing
+    player-name: Имя игрока
+    edit: Редактировать
+    operation: Операции
+    edit-pname: Изменить имя
+    delete-texture: Очистить текстуры
+    delete-player: Удалить
+    add-player: Добавить нового игрока
+    login-notice: Теперь вы можете войти используя имя игроков, которыми вы владеете, вместо адреса электронной почты.
+    player-info: Информация <small>(нажмите на имя игрока, чтобы показать предварительный просмотр)</small>
+    texture-empty: Ничего
     player-name-rule:
-      official: Player name may only contains letters, numbers and underscores.
-      cjk: Player name may contains letters, numbers, underscores and CJK Unified Ideographs.
-      custom: Custom player name rules are applied on this site. Please contact admins for further information.
-    player-name-length: The player name should be at least :min characters and not greater than :max characters.
+      official: Имя игрока может содержать только буквы, цифры и подчеркивания.
+      cjk: Имя игрока может содержать буквы, цифры, подчеркивания и объединенные идеограммы CJK.
+      custom: Пользовательские правила имени игрока применяются на этом сайте. Пожалуйста, свяжитесь с администраторами для получения дополнительной информации.
+    player-name-length: Имя игрока должно быть не менее :min символов и не более :max символов.
   verification:
     title: Verify Your Account
     message: You must verify your email address before using the skin hosting service. Haven't received the email?
@@ -246,55 +246,55 @@ admin:
   pidNotice: >-
     Please enter the tid of texture. Inputing 0 can clear texture of this player.
   changePlayerTexture: 'Change textures of :player'
-  changeTexture: Change Textures
-  changePlayerName: Change Player Name
-  changeOwner: Change Owner
-  textureType: Texture Type
-  deletePlayer: Delete
-  changePlayerOwner: 'Please enter the id of user which this player should be transferred to:'
-  deletePlayerNotice: Are you sure to delete this player? It' permanent.
-  targetUser: 'Target user is :nickname'
-  noSuchUser: No such user
-  changePlayerNameNotice: 'Please input new player name:'
-  emptyPlayerName: Player name cannot be empty.
-  configurePlugin: Configure
-  noPluginConfigNotice: The plugin has been disabled or no configuration is provided.
-  deletePlugin: Delete
-  noDependencies: No Dependencies
-  whyDependencies: What's this?
-  statusEnabled: Enabled
-  statusDisabled: Disabled
-  pluginTitle: Plugin
-  pluginAuthor: Author
-  pluginVersion: Version
-  pluginName: Name
-  pluginReadme: Read Me
-  pluginDescription: Description
-  pluginDependencies: Dependencies
-  installPlugin: Install
-  pluginInstalling: Installing...
-  updatePlugin: Update
-  pluginUpdating: Updating...
-  confirmUpdate: Are you sure to update ":plugin" from :old to :new?
-  enablePlugin: Enable
-  disablePlugin: Disable
-  confirmDeletion: Are you sure to delete this plugin?
+  changeTexture: Изменить текстуры
+  changePlayerName: Изменить имя игрока
+  changeOwner: Изменить владельца
+  textureType: Тип текстуры
+  deletePlayer: Удалить
+  changePlayerOwner: 'Пожалуйста, введите идентификатор пользователя, которому этот игрок должен быть переведен:'
+  deletePlayerNotice: Вы уверены, что хотите удалить этого игрока? Это навсегда.
+  targetUser: 'Целевой пользователь :nickname'
+  noSuchUser: Нет такого пользователя
+  changePlayerNameNotice: 'Пожалуйста, введите новое имя игрока:'
+  emptyPlayerName: Имя игрока не может быть пустым.
+  configurePlugin: Настройка
+  noPluginConfigNotice: Плагин был отключен или конфигурация не предоставлена.
+  deletePlugin: Удалить
+  noDependencies: Нет зависимостей
+  whyDependencies: Что это?
+  statusEnabled: Включено
+  statusDisabled: Отключено
+  pluginTitle: Плагин
+  pluginAuthor: Автор
+  pluginVersion: Версия
+  pluginName: Имя
+  pluginReadme: Прочти меня
+  pluginDescription: Описание
+  pluginDependencies: Зависимости
+  installPlugin: Установить
+  pluginInstalling: Установка...
+  updatePlugin: Обновить
+  pluginUpdating: Обновление...
+  confirmUpdate: Вы уверены, что хотите обновить ":plugin" с :old на :new?
+  enablePlugin: Включить
+  disablePlugin: Отключить
+  confirmDeletion: Вы уверены, что хотите удалить этот плагин?
   noDependenciesNotice: >-
-    There is no dependency definition in the plugin. It means that the plugin may be not compatible with the current version of Blessing Skin, and enabling it may cause unexpected problems. Do you really want to enable the plugin?
-  updateButton: Update Now
-  downloading: Downloading...
-  updateCompleted: Update completed.
+    В плагине нет определения зависимостей. Это означает, что плагин может быть несовместим с текущей версией Blessing Skin, и включение его может привести к неожиданным проблемам. Вы действительно хотите включить плагин?
+  updateButton: Обновить сейчас
+  downloading: Загрузка...
+  updateCompleted: Обновление завершено.
   i18n:
-    group: Group
-    key: Key
-    text: Text
-    empty: (Empty)
-    modify: Modify
-    delete: Delete
-    updating: 'Please type new text:'
-    confirmDelete: Are you sure? This is irreversible.
+    group: Группа
+    key: Ключ
+    text: Текст
+    empty: (Пусто)
+    modify: Изменить
+    delete: Удалить
+    updating: 'Пожалуйста, введите новый текст:'
+    confirmDelete: Вы уверены? Это необратимо.
 report:
-  tid: Texture ID
+  tid: ID текстуры
   reporter: Reporter
   reason: Reason
   status-title: Status
