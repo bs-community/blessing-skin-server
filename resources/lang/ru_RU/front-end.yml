@@ -3,7 +3,7 @@ auth:
   login: Авторизоваться
   loggingIn: Вход в систему
   tooManyFails:
-    captcha: You fails too many times! Please enter the CAPTCHA.
+    captcha: Слишком много попыток! Пожалуйста, введите CAPTCHA.
     recaptcha: You fails too many times! Please pass the reCAPTCHA challenge.
   emptyEmail: Не указан адрес электронной почты.
   invalidConfirmPwd: Подтверждение пароля не совпадает с паролем.
@@ -43,21 +43,21 @@ skinlib:
   applyNotice: You can apply it to player at your closet
   emptyItemName: Не указано название текстуры.
   setNewTextureName: 'Пожалуйста, введите название новой текстуры:'
-  emptyNewTextureName: Empty new texture name.
-  seeMyUpload: My Uploads
-  apply: Apply
+  emptyNewTextureName: Пустое имя новой текстуры.
+  seeMyUpload: Мои загрузки
+  apply: Применить
   filter:
-    skin: (Any Model)
+    skin: (Любая модель)
     steve: (Steve)
     alex: (Alex)
     cape: (Cape)
-    uploader: 'User (UID = :uid) Uploaded'
-    allUsers: All Users
+    uploader: 'Пользователь (UID = :uid) загружен'
+    allUsers: Все пользователи
   sort:
-    title: Sort
-    time: Latest
-    likes: Most Likes
-  badSkinSize: The size of selected skin file is not valid
+    title: Сортировать
+    time: Последние
+    likes: Популярные
+  badSkinSize: Размер выбранного файла скина недействителен
   badCapeSize: The size of selected cape file is not valid
   emptyTextureName: Empty texture name.
   emptyTextureType: Please select a type for this texture.
