@@ -42,7 +42,7 @@ skinlib:
   setItemName: Установите имя для этой текстуры
   applyNotice: You can apply it to player at your closet
   emptyItemName: Не указано название текстуры.
-  setNewTextureName: 'Please enter the new texture name:'
+  setNewTextureName: 'Пожалуйста, введите название новой текстуры:'
   emptyNewTextureName: Empty new texture name.
   seeMyUpload: My Uploads
   apply: Apply
