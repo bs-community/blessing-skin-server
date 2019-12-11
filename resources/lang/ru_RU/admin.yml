@@ -122,25 +122,25 @@ plugins:
     disabled: ':plugin был отключен.'
     deleted: Плагин был успешно удален.
     no-config-notice: Плагин не установлен или не предоставляет страницу конфигурации.
-    no-readme-notice: The plugin doesn't contain a readme file.
-    not-found: No such plugin.
+    no-readme-notice: Плагин не содержит файл readme.
+    not-found: Нет такого плагина.
   market:
-    unresolved: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't download it. Please install or update the plugins listed below, and disable those have conflicts.
-    connection-error: Unable to connect to the plugins registry. :error
-    non-existent: The plugin :plugin does not exist.
-    install-success: Plugin was installed.
-  empty: No result
+    unresolved: В плагине есть конфликты или неудовлетворенные зависимости, поэтому мы не можем его скачать. Пожалуйста, установите или обновите плагины, перечисленные ниже, и отключите те, которые имеют конфликты.
+    connection-error: Невозможно подключиться к реестру плагинов. :error
+    non-existent: Плагин :plugin не существует.
+    install-success: Плагин установлен.
+  empty: Безрезультатно
 update:
-  complete: Update completed
+  complete: Обновление завершено
   info:
-    title: Update Information
-    up-to-date: Already up-to-date.
-    available: New version available.
+    title: Обновить информацию
+    up-to-date: Обновлено до последней версии.
+    available: Доступна новая версия.
     versions:
-      latest: "Latest Version:"
-      current: "Current Version:"
-    check-github: Check GitHub Releases
-    button: Update Now
+      latest: "Последняя версия:"
+      current: "Текущая версия:"
+    check-github: Проверить релизы GitHub
+    button: Обновить сейчас
   cautions:
     title: Cautions
     link: check out this.
