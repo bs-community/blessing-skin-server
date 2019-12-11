@@ -17,37 +17,37 @@ homepage:
     label: Scroll bar will be disabled if this option is enabled, as version 2.x.
   fixed_bg:
     title: Фиксированный фон
-    label: This option will make background fixed, not scrolled with scroll bar.
+    label: Эта опция сделает фон фиксированным, а не прокрутится с помощью полосы прокрутки.
   copyright_prefer:
-    title: Program Copyright
-    description: "You can specify a different style of program copyright for each language. To edit a specific language's corresponding program copyright style, please switch to that language and submit your edit. <br><b>Warning:</b> Any evil modification applied on the footer program copyright (including deleting, modifying author, changing link target) with out permission is <b>FORBIDDEN</b>. The author reserves the right to pursue relevant responsibilities."
+    title: Авторские права
+    description: "Вы можете указать разные стили авторских прав для каждого языка. Чтобы отредактировать соответствующий стиль авторских прав для определенного языка, переключитесь на этот язык и отправьте свои изменения. <br> <b> Предупреждение: </b> Любое злое изменение, примененное к авторскому праву программы нижнего колонтитула (включая удаление, изменение автора, изменение цели ссылки) без разрешения <b> ЗАПРЕЩЕНО </b>. Автор оставляет за собой право выполнять соответствующие обязанности."
   copyright_text:
-    title: Custom Copyright Text
+    title: Пользовательский текст авторского права
     description: Placeholders are available in custom copyright text. e.g. <code>{site_name}</code> & <code>{site_url}</code>. You can also specify a different footer for each language. To edit a specific language's corresponding footer, please switch to that language and submit your edit.
 customJsCss:
   title: Custom CSS/JavaScript
   message: |
-    The contents will be attached to &lt;style&gt; and &lt;script&gt; tags.<br>
-    - Here are some useful examples: <a href="https://blessing.netlify.com/css-js.html">Examples of Custom CSS & JavaScript</a>
+    Содержимое будет прикреплено к тегам &lt;style&gt; и &lt;script&gt;<br>
+    - Вот несколько полезных примеров: <a href="https://blessing.netlify.com/css-js.html">Примеры пользовательских CSS & JavaScript</a>
   custom_css: CSS
   custom_js: JavaScript
 rate:
   title: Scores
   score_per_storage:
-    title: Storage
+    title: Хранилище
     addon: scores = 1 KB
   private_score_per_storage:
-    title: Private Storage
+    title: Приватное хранилище
     addon: scores = 1 KB
-    hint: Uploading private textures will cost more scores.
+    hint: Загрузка приватных текстур будет стоить больше очков.
   score_per_closet_item:
-    title: Favorites
+    title: Избранное
     addon: score = 1 closet item
   return_score:
     title: Score Return
     label: Return scores back to user after deleting players/textures/closet items.
   score_per_player:
-    title: Players
+    title: Игроки
     addon: scores = 1 player
   user_initial_score: User Initial Score
 report:
@@ -65,22 +65,22 @@ sign:
     addon2: scores
   sign_gap_time:
     title: Gap Time
-    addon: hours
+    addon: часов
   sign_after_zero:
-    title: Time
-    label: Users can sign in after 0 everyday.
-    hint: The above option will be ignored if this is checked.
+    title: Время
+    label: Пользователи могут войти после 0 ежедневно.
+    hint: Вышеуказанная опция будет проигнорирована, если этот флажок установлен.
 sharing:
   title: Awarding Sharing
   score_award_per_texture:
-    title: Uploader will be rewarded for each uploading texture with
+    title: Загрузчик будет вознагражден за каждую загружаемую текстуру
   take_back_scores_after_deletion:
     title: Return scores
-    label: Return scores if uploader setting private or deleting texture.
+    label: Возвращает баллы, если загрузчик установит приватный доступ или удалит текстуру.
   score_award_per_like:
     title: Each time the texture is collected, uploader will be rewarded with
 general:
-  title: General Options
+  title: Основные параметры
   site_name: Site Name
   site_description:
     title: Site Description
@@ -117,11 +117,11 @@ general:
     placeholder: Regular Expressions
   player_name_length:
     title: Player Name Length
-    suffix: characters
-  api_type: Prefered JSON API
+    suffix: символы
+  api_type: Предпочтительно JSON API
   auto_del_invalid_texture:
-    title: Invalid Textures
-    label: Delete invalid textures automatically.
+    title: Неправильные текстуры
+    label: Удалить недействительные текстуры автоматически.
     hint: Delete textures records whose file no longer exists from skinlib.
   allow_downloading_texture:
     title: Downloading Textures
