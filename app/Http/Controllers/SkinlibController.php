@@ -10,6 +10,7 @@ use Storage;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
+use App\Services\Filter;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -111,7 +112,7 @@ class SkinlibController extends Controller
         ]);
     }
 
-    public function show($tid)
+    public function show(Filter $filter, $tid)
     {
         $texture = Texture::find($tid);
         $user = Auth::user();
@@ -133,6 +134,16 @@ class SkinlibController extends Controller
             }
         }
 
+        $badges = [];
+        $uploader = User::find($texture->uploader);
+        if ($uploader) {
+            if ($uploader->isAdmin()) {
+                $badges[] = ['text' => 'STAFF', 'color' => 'primary'];
+            }
+
+            $badges = $filter->apply('user_badges', $badges, [$uploader]);
+        }
+
         $commentScript = get_string_replaced(
             option('comment_script'),
             [
@@ -152,6 +163,7 @@ class SkinlibController extends Controller
                 'inCloset' => $user && $user->closet()->where('tid', $texture->tid)->count() > 0,
                 'nickname' => ($up = User::find($texture->uploader)) ? $up->nickname : null,
                 'report' => intval(option('reporter_score_modification', 0)),
+                'badges' => $badges,
             ]);
     }
 

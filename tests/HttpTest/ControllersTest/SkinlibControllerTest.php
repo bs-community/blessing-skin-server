@@ -5,6 +5,7 @@ namespace Tests;
 use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
+use App\Services\Filter;
 use Illuminate\Support\Str;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -317,6 +318,24 @@ class SkinlibControllerTest extends TestCase
         $this->actingAs($uploader)
             ->get('/skinlib/show/'.$texture->tid)
             ->assertViewHas('texture');
+
+        // Badges.
+        $uploader->permission = User::ADMIN;
+        $uploader->save();
+        $this->get('/skinlib/show/'.$texture->tid)
+            ->assertSee('primary')
+            ->assertSee('STAFF');
+        $uid = $uploader->uid;
+        resolve(Filter::class)->add('user_badges', function ($badges, $uploader) use ($uid) {
+            $this->assertEquals($uid, $uploader->uid);
+
+            $badges[] = ['text' => 'badge-test', 'color' => 'maroon'];
+
+            return $badges;
+        });
+        $this->get('/skinlib/show/'.$texture->tid)
+            ->assertSee('badge-test')
+            ->assertSee('maroon');
     }
 
     public function testInfo()

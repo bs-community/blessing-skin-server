@@ -130,6 +130,13 @@
                   <a
                     :href="`${baseUrl}/skinlib?filter=${type === 'cape' ? 'cape' : 'skin'}&uploader=${uploader}`"
                   >{{ uploaderNickName }}</a>
+                  <br>
+                  <span
+                    v-for="(badge, i) in badges"
+                    :key="i"
+                    class="badge mr-2"
+                    :class="`bg-${badge.color}`"
+                  >{{ badge.text }}</span>
                 </td>
                 <td v-else><span v-t="'general.unexistent-user'" /></td>
               </tr>
@@ -256,6 +263,7 @@ export default {
       admin: blessing.extra.admin,
       uploaderNickName: blessing.extra.nickname,
       reportScore: blessing.extra.report,
+      badges: blessing.extra.badges,
     }
   },
   computed: {
@@ -422,4 +430,6 @@ export default {
 <style lang="stylus">
 .table > tbody > tr > td
   border-top 0
+  &:first-child
+    min-width 30%
 </style>

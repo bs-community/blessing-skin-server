@@ -125,7 +125,7 @@ class Hook
         Event::listen(
             Events\RenderingBadges::class,
             function (Events\RenderingBadges $event) use ($text, $color) {
-                $event->badges[] = [$text, $color];
+                $event->badges[] = compact('text', 'color');
             }
         );
     }

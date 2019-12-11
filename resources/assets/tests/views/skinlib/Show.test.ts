@@ -14,13 +14,16 @@ type Component = Vue & {
   type: 'steve' | 'alex' | 'cape'
 }
 
-window.blessing.extra = {
-  download: true,
-  currentUid: 0,
-  admin: false,
-  nickname: 'author',
-  inCloset: false,
-}
+beforeEach(() => {
+  window.blessing.extra = {
+    download: true,
+    currentUid: 0,
+    admin: false,
+    nickname: 'author',
+    inCloset: false,
+    badges: [],
+  }
+})
 
 const previewer = Vue.extend({
   render(h) {
@@ -53,6 +56,7 @@ test('button for adding to closet should be enabled if auth', () => {
 
 test('likes count indicator', async () => {
   Vue.prototype.$http.get.mockResolvedValue({ data: { likes: 2 } })
+  Object.assign(window.blessing.extra, { inCloset: true, currentUid: 1 })
   const wrapper = mount(Show, {
     mocks: {
       $route: ['/skinlib/show/1', '1'],
@@ -384,6 +388,7 @@ test('delete texture', async () => {
 })
 
 test('report texture', async () => {
+  Object.assign(window.blessing.extra, { currentUid: 1 })
   Vue.prototype.$http.get.mockResolvedValue({ data: { report: 0 } })
   Vue.prototype.$http.post
     .mockResolvedValueOnce({ code: 1, message: 'duplicated' })
@@ -439,6 +444,7 @@ test('report texture', async () => {
 })
 
 test('apply texture to player', () => {
+  Object.assign(window.blessing.extra, { currentUid: 1, inCloset: true })
   Vue.prototype.$http.get
     .mockResolvedValue({ data: {} })
     .mockResolvedValue([])
@@ -465,4 +471,18 @@ test('truncate too long texture name', async () => {
   })
   await flushPromises()
   expect(wrapper.find('.card-primary').text()).toContain('very-very-long-...')
+})
+
+test('render badges', async () => {
+  Vue.prototype.$http.get.mockResolvedValue({ data: {} })
+  Object.assign(window.blessing.extra, {
+    badges: [{ text: 'reina', color: 'purple' }]
+  })
+  const wrapper = mount(Show, {
+    mocks: {
+      $route: ['/skinlib/show/1', '1'],
+    },
+  })
+  await flushPromises()
+  expect(wrapper.find('.badge.bg-purple').text()).toBe('reina')
 })

@@ -22,6 +22,9 @@ class UserPanelComposer
         $avatar = url('avatar/45/'.base64_encode($user->email).'.png?tid='.$user->avatar);
 
         $badges = [];
+        if (auth()->user()->isAdmin()) {
+            $badges[] = ['text' => 'STAFF', 'color' => 'primary'];
+        }
         $this->dispatcher->dispatch(new \App\Events\RenderingBadges($badges));
 
         $view->with([

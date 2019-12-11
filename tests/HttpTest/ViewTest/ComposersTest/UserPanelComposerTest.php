@@ -24,9 +24,15 @@ class UserPanelComposerTest extends TestCase
         $this->actingAs($user);
 
         Event::listen(\App\Events\RenderingBadges::class, function ($event) {
-            $event->badges[] = ['Pro', 'purple'];
+            $event->badges[] = ['text' => 'Pro', 'color' => 'purple'];
         });
 
-        $this->get('/user')->assertSee('<span class="badge bg-purple mb-1">Pro</span>');
+        $this->get('/user')
+            ->assertSee('<span class="badge bg-purple mb-1">Pro</span>');
+
+        $user->permission = User::ADMIN;
+        $user->save();
+        $this->get('/user')
+            ->assertSee('<span class="badge bg-primary mb-1">STAFF</span>');
     }
 }
