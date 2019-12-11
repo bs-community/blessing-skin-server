@@ -4,19 +4,19 @@ homepage:
   title: Домашняя страница
   home_pic_url:
     title: URL изображения на главной странице
-    hint: Path relative to homepage or full URL, leave empty to use default image.
+    hint: Путь относительно главной страницы или полной URL, оставьте пустым, чтобы использовать изображение по умолчанию.
   favicon_url:
-    title: Website Icon
-    hint: Path relative to public/ or full URL.
-    description: The given image must have same width and height (leave blank to use default icon).
+    title: Иконка сайта
+    hint: Путь относительно публичного или полного URL.
+    description: Данное изображение должно иметь одинаковую ширину и высоту (оставьте пустым, чтобы использовать стандартную иконку).
   transparent_navbar:
-    title: Transparent Navigation Bar
-    label: This will enable transparent navigation bar of home page, but it will turn to be normal if page is scrolled to bottom.
+    title: Прозрачная панель навигации
+    label: Это включит прозрачную панель навигации на главной странице, но она будет нормальной, если страница прокручивается вниз.
   hide_intro:
     title: Hide Introduction at Bottom
     label: Scroll bar will be disabled if this option is enabled, as version 2.x.
   fixed_bg:
-    title: Fixed Background
+    title: Фиксированный фон
     label: This option will make background fixed, not scrolled with scroll bar.
   copyright_prefer:
     title: Program Copyright
