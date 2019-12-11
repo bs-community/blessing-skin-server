@@ -51,7 +51,7 @@ upload:
   name-rule-regexp: Пользовательские правила имен применяются как :regexp
   texture-type: Тип текстуры
   select-file: Выбрать файл
-  private-score-notice: It will spend you more scores for setting it as private. You will be charged :score scores for per KB storage.
+  private-score-notice: Будет потрачено больше очков, чтобы установить его приватно. С вас будет взиматься плата :scores очков за килобайт.
   privacy-notice: Предотвратите это, чтобы быть видимым в библиотеке скинов.
   set-as-private: Сделать это приватным
   button: Загрузить
@@ -73,8 +73,8 @@ rename:
 model:
   success: Модель текстуры была изменена на :model успешно.
   duplicate: "Та же текстура, которая доступна для выбранной модели, уже существует в skinlib (Название: :tid). Вы можете добавить ее в шкаф напрямую."
-no-permission: You have no permission to moderate this texture.
-non-existent: No such texture.
+no-permission: У вас нет разрешения на модерирование этой текстуры.
+non-existent: Нет такой текстуры.
 report:
-  duplicate: You have already reported this texture. The administrators will review it as soon as possible. You can also track the status of your report at User Center.
-  success: Thanks for reporting! The administrators will review it as soon as possible.
+  duplicate: Вы уже пожаловались на эту текстуру. Администраторы будут проверять ее как можно скорее. Вы также можете отслеживать состояние вашего отчета в Центре пользователей.
+  success: Спасибо за сообщение! Администраторы рассмотрят его как можно скорее.
