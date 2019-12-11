@@ -58,35 +58,35 @@ skinlib:
     time: Последние
     likes: Популярные
   badSkinSize: Размер выбранного файла скина недействителен
-  badCapeSize: The size of selected cape file is not valid
-  emptyTextureName: Empty texture name.
-  emptyTextureType: Please select a type for this texture.
-  emptyUploadFile: You have not uploaded any file.
-  encodingError: 'Error: Encoding of this file is not accepted.'
-  fileExtError: 'Error: Textures should be PNG files.'
-  showContentPolicy: Read content policy
-  uploading: Uploading
-  redirecting: Redirecting...
+  badCapeSize: Размер выбранного файла накидки недействителен
+  emptyTextureName: Не указано название текстуры.
+  emptyTextureType: Пожалуйста, выберите тип для этой текстуры.
+  emptyUploadFile: Вы не загрузили ни одного файла.
+  encodingError: 'Ошибка: Кодировка этого файла не принимается.'
+  fileExtError: 'Ошибка: Текстуры должны быть в PNG формате.'
+  showContentPolicy: Прочитать политику контента
+  uploading: Загружается
+  redirecting: Перенаправление...
   setAsPrivate: Set as Private
-  setAsPublic: Set as Public
+  setAsPublic: Сделать общедоступным
   setPublicNotice: Sure to set this as public texture?
   setPrivateNotice: Sure to set this as private texture?
-  deleteNotice: Are you sure to delete this texture?
-  setNewTextureModel: "Please select a new texture model:"
+  deleteNotice: Вы уверены, что хотите удалить эту текстуру?
+  setNewTextureModel: "Пожалуйста, выберите новую модель текстуры:"
   upload:
-    texture-name: Texture Name
-    texture-type: Texture Type
-    select-file: Select File
+    texture-name: Название текстуры
+    texture-type: Тип текстуры
+    select-file: Выбрать файл
     privacy-notice: Prevent it from being visible at skin library.
-    set-as-private: Make it Private
-    button: Upload
-    dropZone: Drop a file here
-    remove: Remove
+    set-as-private: Сделать его приватным
+    button: Загрузить
+    dropZone: Перетащите файл сюда
+    remove: Удалить
     cost: It costs you about :score score.
     award: You'll be awarded :score score(s) by uploading public texture.
   show:
-    anonymous: You must login to use closets
-    likes: People who like this
+    anonymous: Вы должны войти в систему, чтобы использовать шкафы
+    likes: Люди, которым это нравится
     detail: Details
     name: Texture Name
     edit: Edit
