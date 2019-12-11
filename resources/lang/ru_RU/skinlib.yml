@@ -1,30 +1,30 @@
 ---
 general:
-  filter: Filter
-  my-upload: Uploaded by me
-  sort: Sort
-  search-textures: Search for textures...
-  upload-new-skin: Upload new skin
-  no-result: No result.
+  filter: Фильтр
+  my-upload: Загружено мной
+  sort: Сортировать
+  search-textures: Поиск текстур...
+  upload-new-skin: Загрузить новый скин
+  no-result: Безрезультатно.
 filter:
-  now-showing: Now showing
-  skin: Skin
-  cape: Cape
-  any-model: (Any Model)
-  steve-model: (Steve Model)
-  alex-model: (Alex Model)
-  uploader: User (:name) uploaded
-  clean-filter: Clean filter
+  now-showing: Сейчас показывают
+  skin: Скин
+  cape: Плащ
+  any-model: (Любая модель)
+  steve-model: (Модель Steve)
+  alex-model: (модель Alex)
+  uploader: Пользователь (:name) загружен
+  clean-filter: Очистить фильтр
 sort:
-  newest-uploaded: Newestly uploaded
-  most-likes: Most likes
+  newest-uploaded: Недавно загруженные
+  most-likes: Больше всего лайков
 item:
   steve: (Steve)
   alex: (Alex)
-  cape: (Cape)
-  remove-from-closet: Remove from closet
-  add-to-closet: Add to closet
-  anonymous: Please login first
+  cape: (Плащ)
+  remove-from-closet: Удалить из шкафа
+  add-to-closet: Добавить в шкаф
+  anonymous: Пожалуйста, войдите сначала
   private: Private
 show:
   title: Texture Details
