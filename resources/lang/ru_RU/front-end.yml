@@ -1,18 +1,18 @@
 ---
 auth:
-  login: Log In
-  loggingIn: Logging In
+  login: Авторизоваться
+  loggingIn: Вход в систему
   tooManyFails:
     captcha: You fails too many times! Please enter the CAPTCHA.
     recaptcha: You fails too many times! Please pass the reCAPTCHA challenge.
-  emptyEmail: Empty email address.
-  invalidConfirmPwd: Confirming password is not equal with password.
-  emptyNickname: Empty nickname.
-  register: Register
-  registering: Registering
-  send: Send
-  sending: Sending
-  reset: Reset
+  emptyEmail: Не указан адрес электронной почты.
+  invalidConfirmPwd: Подтверждение пароля не совпадает с паролем.
+  emptyNickname: Не указан никнейм.
+  register: Зарегистрироваться
+  registering: Регистрация
+  send: Отправить
+  sending: Отправка
+  reset: Сброс
   resetting: Resetting
   nickname: Nickname
   player-name: Minecraft player name
