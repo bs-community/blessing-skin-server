@@ -81,9 +81,9 @@ sharing:
     title: Each time the texture is collected, uploader will be rewarded with
 general:
   title: Основные параметры
-  site_name: Site Name
+  site_name: Название сайта
   site_description:
-    title: Site Description
+    title: Описание сайта
     description: You can also specify a different site name and description for each language. To edit a specific language's corresponding site name or description text, please switch to that language and submit your edit.
   site_url:
     title: Site URL
@@ -122,33 +122,33 @@ general:
   auto_del_invalid_texture:
     title: Неправильные текстуры
     label: Удалить недействительные текстуры автоматически.
-    hint: Delete textures records whose file no longer exists from skinlib.
+    hint: Удалить записи текстур, файл которых больше не существует из skinlib.
   allow_downloading_texture:
-    title: Downloading Textures
-    label: Allow users to directly download the source file of a skinlib item.
+    title: Загрузка текстур
+    label: Разрешить пользователям напрямую скачивать исходный файл элемента skinlib.
   status_code_for_private:
-    title: HTTP Code for Rejecting Accessing Private Textures
+    title: HTTP-код для отказа в доступе к приватным текстурам
   texture_name_regexp:
-    title: Texture Name Rules
-    hint: The RegExp for validating name of uploaded textures. Leave empty to allow any character except single, double quote and backslash.
-    placeholder: Regular Expressions
+    title: Правила имени текстуры
+    hint: RegExp нужен для проверки имени загруженных текстур. Оставьте пустым, чтобы разрешить любой символ, кроме одинарных, двойных кавычек и обратной косой черты.
+    placeholder: Регулярные выражения
   content_policy:
-    title: Content Policy
-    description: Display content policy at texture uploading page, supporting Markdown. To edit a specific language's corresponding content policy, please switch to that language and submit your edit.
+    title: Политика в отношении содержания
+    description: Отобразить контентную политику на странице загрузки текстур с поддержкой Markdown. Чтобы отредактировать соответствующую политику в отношении определенного языка, переключитесь на этот язык и отправьте свое изменение.
   comment_script:
     title: Comment Script
     description: Placeholder is available, <code>{tid}</code> will be replaced with texture id, <code>{name}</code> will be replaced with texture name, <code>{url}</code> will be replaced with current URL.
 announ:
-  title: Announcement
+  title: Объявление
   announcement:
-    description: Styling with Markdown is supported. You can also specify a different announcement for each language. To edit a specific language's corresponding announcement, please switch to that language and submit your edit.
+    description: Стилизация с Markdown поддерживается. Вы также можете указать разные объявления для каждого языка. Чтобы отредактировать соответствующее объявление определенного языка, пожалуйста, переключитесь на этот язык и отправьте свою правку.
 meta:
-  title: SEO <meta> tags
+  title: SEO <meta> тэги
   meta_keywords:
-    title: Keywords
-    hint: Split with commas.
+    title: Ключевые слова
+    hint: Разделить запятыми.
   meta_description:
-    title: Description
+    title: Описание
     hint: Description defined in "general options" will be used if you left it empty.
   meta_extras:
     title: Other Custom <meta> Tags
