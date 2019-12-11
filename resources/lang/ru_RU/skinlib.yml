@@ -52,27 +52,27 @@ upload:
   texture-type: Тип текстуры
   select-file: Выбрать файл
   private-score-notice: It will spend you more scores for setting it as private. You will be charged :score scores for per KB storage.
-  privacy-notice: Prevent it from being visible at skin library.
-  set-as-private: Make it private
-  button: Upload
-  type-error: Incorrect mime type of uploaded file.
-  invalid-size: Invalid :type file (width :width, height :height)
-  invalid-hd-skin: Invalid HD skin (width and height should be divisible by 32)
-  lack-score: You don't have enough score to upload this texture.
-  repeated: The texture is already uploaded by someone else. You can add it to your closet directly.
-  success: Texture :name was uploaded successfully.
+  privacy-notice: Предотвратите это, чтобы быть видимым в библиотеке скинов.
+  set-as-private: Сделать это приватным
+  button: Загрузить
+  type-error: Неверный тип Mime загруженного файла.
+  invalid-size: Недопустимый файл :type (ширина :width, высота :height)
+  invalid-hd-skin: Недопустимый HD скин (ширина и высота должны делиться на 32)
+  lack-score: У вас недостаточно очков для загрузки этой текстуры.
+  repeated: Текстура уже загружена кем-то другим. Вы можете добавить её в свой шкаф напрямую.
+  success: Текстура :name была успешно загружена.
 delete:
-  success: The texture was deleted successfully.
+  success: Текстура успешно удалена.
 privacy:
-  change-privacy: Change privacy
-  set-as-private: Set as private
-  set-as-public: Set as public
-  success: The texture was set to :privacy successfully.
+  change-privacy: Изменить конфиденциальность
+  set-as-private: Сделать приватным
+  set-as-public: Сделать общедоступным
+  success: Текстура была успешно изменена на :privacy .
 rename:
-  success: The texture was renamed to :name successfully.
+  success: Текстура успешно переименована в :name.
 model:
-  success: The texture's model was changed to :model successfully.
-  duplicate: "The same texture available for the chosen model already exists in skinlib (Name: :tid). You can add it to your closet directly."
+  success: Модель текстуры была изменена на :model успешно.
+  duplicate: "Та же текстура, которая доступна для выбранной модели, уже существует в skinlib (Название: :tid). Вы можете добавить ее в шкаф напрямую."
 no-permission: You have no permission to moderate this texture.
 non-existent: No such texture.
 report:
