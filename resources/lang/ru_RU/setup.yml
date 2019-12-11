@@ -1,11 +1,11 @@
 ---
 database:
-  connection-error: "Unable to connect to the target :type database, please check your configuration. The server replied with: :msg"
-  connection-success: Connect to the target :type database [:server] successfully, just click NEXT to start installation.
-  table-already-exists: There are some tables already exist in target database, whose names conflict with ones we are going to create. To avoid data loss, please manually delete these tables :tables, or set a different table prefix.
+  connection-error: "Не удается подключиться к базе данных :type, проверьте свою конфигурацию. Сервер ответил: :msg"
+  connection-success: Подключение к базе данных :type [:server] прошло успешно. Нажмите ДАЛЕЕ чтобы начать установку.
+  table-already-exists: 'В целевой базе данных уже есть несколько таблиц, имена которых противоречат тем, которые мы собираемся создать. Чтобы избежать потери данных, удалите эти таблицы: :tables вручную или установите другой префикс таблиц.'
 file:
-  permission-error: Unable to create textures folder, please check the directory permissions or place one manually.
-  no-dot-env: Unable to find environment configuration file. Please rename .env.example to .env (please refer to setup manual).
+  permission-error: Невозможно создать папку текстур, пожалуйста, проверьте права доступа к каталогу или поместите их вручную.
+  no-dot-env: Не удалось найти файл конфигурации. Пожалуйста, переименуйте .env.example в .env (пожалуйста, обратитесь к руководству по установке).
 permissions:
   storage: Unable to write to storage directory, please check the permissions.
 disabled-functions:
