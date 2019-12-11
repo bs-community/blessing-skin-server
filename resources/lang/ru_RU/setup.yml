@@ -45,23 +45,23 @@ wizard:
     username: Имя пользователя базы данных
     password: Пароль базы данных
     db: Имя базы данных
-    db-notice: You should provide the path to SQLite file and there is no need to fill other blanks if you use SQLite.
-    prefix: Prefix of Database Table (Optional)
-    prefix-notice: You don't need to use this option unless you want to install multiple Blessing Skin Server into one database.
+    db-notice: Вы должны указать путь к файлу SQLite, и нет необходимости заполнять другие пробелы, если вы используете SQLite.
+    prefix: Префикс таблицы базы данных (необязательно)
+    prefix-notice: Вам не нужно использовать эту опцию, если вы не хотите устанавливать несколько серверов Blessing Skin в одну базу данных.
   info:
-    title: Information needed
-    button: Run install
-    text: To proceed with the installation, please fill this form with the details of the initial admin account. Don't worry, you can always change these settings later.
-    admin-email: Admin Email
-    admin-notice: This is the UNIQUE super admin account who can GIVE or CANCEL other users' admin privilege.
-    nickname: Nickname
-    password: Password
-    pwd-notice: 'Attention: You will need the password to log in. Please keep it at a secure place.'
-    confirm-pwd: Confirm password
-    site-name: Site name
-    site-name-notice: This will be shown on every page.
-    secure: Security
-    secure-notice: Generate random APP_KEY and SALT to make your site secured.
+    title: Необходимая информация
+    button: Запустить установку
+    text: Чтобы продолжить установку, пожалуйста, заполните эту форму с данными начальной учетной записи администратора. Не волнуйтесь, вы всегда можете изменить эти настройки позже.
+    admin-email: E-mail Администратора
+    admin-notice: Это УНИКАЛЬНАЯ учетная запись супер-администратора, которая может ДАТЬ или ОТМЕНИТЬ привилегии администратора других пользователей.
+    nickname: Ник
+    password: Пароль
+    pwd-notice: 'Внимание: вам понадобится пароль для входа в систему. Пожалуйста, храните его в надежном месте.'
+    confirm-pwd: Подтвердите пароль
+    site-name: Название сайта
+    site-name-notice: Это будет показано на каждой странице.
+    secure: Безопасность
+    secure-notice: Создайте случайные APP_KEY и SALT, чтобы обеспечить безопасность вашего сайта.
   finish:
-    title: Installation complete
-    text: Blessing Skin Server has been installed. Thank you, and enjoy!
+    title: Установка завершена
+    text: Blessing Skin Server был установлен. Спасибо, наслаждайтесь!
