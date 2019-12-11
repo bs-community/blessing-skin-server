@@ -86,7 +86,7 @@ status:
   bs:
     name: Blessing Skin
     version: Version
-    env: Application Environment
+    env: Environnement d'application
     debug: Débogage ou pas ?
     commit: Commit
     laravel: Laravel Version
@@ -122,7 +122,7 @@ plugins:
     disabled: ':plugin a été désactivé.'
     deleted: Le plugin a été supprimé avec succès.
     no-config-notice: Le plugin n'est pas installé ou ne fournit pas de page de configuration.
-    no-readme-notice: The plugin doesn't contain a readme file.
+    no-readme-notice: Le plugin ne contient pas de fichier "readme".
     not-found: Ce plugin n'existe pas.
   market:
     unresolved: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't download it. Please install or update the plugins listed below, and disable those have conflicts.
@@ -149,7 +149,7 @@ update:
       Low-speed connection between update source and your host will cause long-time loading at checking and downloading page.
       To change the default update source,
   download:
-    downloading: Downloading update package...
+    downloading: Téléchargement du package de mise à jour...
     size: "Taille du package :"
   errors:
     connection: "Impossible d'accéder à la source de la mise à jour actuelle. Détails : :error"
