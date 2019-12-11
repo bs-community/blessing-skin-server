@@ -7,44 +7,44 @@ file:
   permission-error: Невозможно создать папку текстур, пожалуйста, проверьте права доступа к каталогу или поместите их вручную.
   no-dot-env: Не удалось найти файл конфигурации. Пожалуйста, переименуйте .env.example в .env (пожалуйста, обратитесь к руководству по установке).
 permissions:
-  storage: Unable to write to storage directory, please check the permissions.
+  storage: Невозможно записать в папку хранения, проверьте разрешения.
 disabled-functions:
-  escapeshellarg: "The escapeshellarg function is disabled in your php.ini configuration. Please contact your web hosting provider to enable it or perform the installation manually: http://t.cn/REzBZUe"
+  escapeshellarg: "Функция escapeshellarg отключена в вашей конфигурации php.ini. Пожалуйста, свяжитесь с вашим хостинг-провайдером, чтобы включить его или выполните установку вручную: http://t.cn/REzBZUe"
 locked:
-  title: Already installed
-  text: It appears that you have already installed Blessing Skin Server. To reinstall, please delete the "install.lock" file under "storage" directory.
-  button: Back to homepage
+  title: Уже установлено
+  text: Похоже, вы уже установили сервер Blessing Skin. Чтобы переустановить, удалите файл "install.lock" в каталоге "storage".
+  button: Вернуться на главную страницу
 updates:
   master:
     title: Update Wizard - Blessing Skin Server
   welcome:
-    title: One more step
+    title: Еще один шаг
     text: |
-      Welcome! You are going to update to Blessing Skin Server v:version.
-      We need to apply some updates to your database, click NEXT to continue.
-    button: Next
+      Добро пожаловать! Вы собираетесь обновить Blessing Skin Server до v:version.
+      Нам нужно применить некоторые обновления к вашей базе данных, нажмите ДАЛЕЕ, чтобы продолжить.
+    button: Далее
   success:
-    title: Update complete
-    text: Blessing Skin Server has been successfully updated to v:version.
-    tips: "Update Tips:"
+    title: Обновление завершено
+    text: Blessing Skin Server успешно обновлен до версии v:version.
+    tips: "Советы по обновлению:"
   changelog:
-    title: Release Note
+    title: Примечания к выпуску
 wizard:
   master:
     title: Install Wizard - Blessing Skin Server
   welcome:
-    title: Welcome
-    button: Next
-    text: Welcome to Blessing Skin Server v:version!
+    title: Добро пожаловать
+    button: Далее
+    text: Добро пожаловать в Blessing Skin Server v:version!
   database:
-    title: Database
-    text: The database is used for storing data of Blessing Skin.
-    type: Database Type
-    host: Database Host
-    port: Database Port
-    username: Database Username
-    password: Database Password
-    db: Database Name
+    title: База данных
+    text: База данных используется для хранения данных Blessing Skin.
+    type: Тип базы данных
+    host: Сервер базы данных
+    port: Порт базы данных
+    username: Имя пользователя базы данных
+    password: Пароль базы данных
+    db: Имя базы данных
     db-notice: You should provide the path to SQLite file and there is no need to fill other blanks if you use SQLite.
     prefix: Prefix of Database Table (Optional)
     prefix-notice: You don't need to use this option unless you want to install multiple Blessing Skin Server into one database.
