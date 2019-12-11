@@ -74,54 +74,54 @@ customize:
 i18n:
   add: Add New Language Line
   added: Language line added.
-  updated: Language line updated.
-  deleted: Language line deleted.
-  group: Group
-  key: Key
-  text: Text
-  tip: How can I use this page?
+  updated: Языковая строка обновлена.
+  deleted: Языковая строка удалена.
+  group: Группа
+  key: Ключ
+  text: Текст
+  tip: Как я могу использовать эту страницу?
 status:
-  info: Information
+  info: Информация
   health: Health
   bs:
     name: Blessing Skin
-    version: Version
+    version: Версия
     env: Application Environment
     debug: Debugging or Not?
     commit: Commit
-    laravel: Laravel Version
+    laravel: Версия Laravel
   server:
-    name: Server
-    php: PHP Version
-    web: Web Server Software
+    name: Сервер
+    php: Версия PHP
+    web: Программное обеспечение веб-сервера
     os: OS
   db:
-    name: Database
-    type: Server
-    host: Host
-    port: Port
-    username: Username
-    database: Database
-    prefix: Table Prefix
-  plugins: Enabled Plugins (:amount)
+    name: База данных
+    type: Сервер
+    host: Хост
+    port: Порт
+    username: Имя пользователя
+    database: База данных
+    prefix: Префикс таблиц
+  plugins: Включены плагины (:amount)
 plugins:
-  name: Name
-  description: Description
-  author: Author
-  version: Version
-  readme: Read Me
-  dependencies: Dependencies
+  name: Имя
+  description: Описание
+  author: Автор
+  version: Версия
+  readme: Прочти меня
+  dependencies: Зависимости
   operations:
     title: Operations
-    enabled: ':plugin has been enabled.'
+    enabled: ':plugin был включен.'
     unsatisfied:
-      notice: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't enable it. Please install or update the plugins listed below, and disable those have conflicts.
-      disabled: 'The ":name" plugin is not enabled.'
-      version: 'The version of ":title" does not satisfies the constraint ":constraint".'
-      conflict: 'The ":title" plugin cannot run with this plugin at the same time.'
-    disabled: ':plugin has been disabled.'
-    deleted: The plugin was deleted successfully.
-    no-config-notice: The plugin is not installed or doesn't provide a configuration page.
+      notice: В плагине есть конфликты или неудовлетворенные зависимости, поэтому мы не можем включить его. Пожалуйста, установите или обновите плагины, перечисленные ниже, и отключите те, которые имеют конфликты.
+      disabled: 'Плагин ":name" не включен.'
+      version: 'Версия ":title" не удовлетворяет ограничениям ":constraint".'
+      conflict: 'Плагин ":title" не может работать с этим плагином одновременно.'
+    disabled: ':plugin был отключен.'
+    deleted: Плагин был успешно удален.
+    no-config-notice: Плагин не установлен или не предоставляет страницу конфигурации.
     no-readme-notice: The plugin doesn't contain a readme file.
     not-found: No such plugin.
   market:
