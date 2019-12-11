@@ -99,7 +99,7 @@ skinlib:
     manage-notice: Текстура, которая была удалена или установлена как приватная, будет удалена из шкафа всех, кто ее добавил в избранное.
   report:
     title: Пожаловаться
-    reason: Tell us reason please.
+    reason: Скажите нам причину, пожалуйста.
     positive: To encourage positive contributions to the skinlib, we will reward who reported inappropriate content with :score scores. However, if any malicious reporting behaviors were found, all scores rewarded will be taken back.
     negative: To mitigate the impact of malicious reports, we will require :score scores for submitting a texture report. Don't worry. The suspended scores and additional reward will be sent to your account after your report reviewed by administrators.
 user:
