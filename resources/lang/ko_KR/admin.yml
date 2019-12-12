@@ -1,7 +1,7 @@
 ---
 index:
-  total-users: Registered Users
-  total-players: Players
+  total-users: 등록된 사용자
+  total-players: 플레이어
   total-textures: Uploaded Textures
   disk-usage: Disk Usage
   overview: Overview
