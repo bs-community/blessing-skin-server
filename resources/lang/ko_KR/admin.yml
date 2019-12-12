@@ -2,19 +2,19 @@
 index:
   total-users: 등록된 사용자
   total-players: 플레이어
-  total-textures: Uploaded Textures
-  disk-usage: Disk Usage
-  overview: Overview
-  texture-uploads: Texture Uploads
-  user-registration: User Registration
+  total-textures: 택스쳐 업로드됨
+  disk-usage: 디스크 사용량
+  overview: 개요(Overview)
+  texture-uploads: 택스쳐 업로드
+  user-registration: 사용자 등록
 notifications:
   send:
-    title: Send Notification
-    success: Sent successfully!
+    title: 알림 보내기
+    success: 성공적으로 전송되었습니다!
   receiver:
     title: Receiver
-    all: All Users
-    normal: Normal Users
+    all: 모든 사용자
+    normal: 일반 유저
     uid: Specified UID
     email: Specified Email
   title: Title
