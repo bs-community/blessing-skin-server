@@ -15,18 +15,18 @@ notifications:
     title: Receiver
     all: 모든 사용자
     normal: 일반 유저
-    uid: Specified UID
-    email: Specified Email
-  title: Title
+    uid: 지정된 UID
+    email: 지정된 이메일
+  title: 제목
   content: Content (Markdown is supported.)
 users:
   status:
-    normal: Normal
-    banned: Banned
-    admin: Admin
-    super-admin: Super Admin
+    normal: 기본
+    banned: 차단됨
+    admin: 관리자
+    super-admin: 최고 운영자
   operations:
-    non-existent: No such user.
+    non-existent: 그런 사용자가 없습니다.
     no-permission: You have no permission to operate this user.
     invalid: Invalid action.
     email:
