@@ -101,7 +101,7 @@ profile:
     notice: Click the gear icon "<i class="fa fa-cog"></i>" of any skin in your closet, then click "Set as avatar". We will cut the head segment of that skin for you. If there is no icon like this, please try to unable your ADs blocking extension.
     wrong-type: Vous ne pouvez pas utiliser une cape en tant qu'avatar.
     success: Le nouvel avatar a été défini avec succès.
-    reset: Reset Avatar
+    reset: Réinitialiser l'avatar
   password:
     title: Changer le mot de passe
     old: Ancien mot de passe
