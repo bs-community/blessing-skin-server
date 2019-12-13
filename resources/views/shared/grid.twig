@@ -1,0 +1,12 @@
+{% for row in grid.widgets %}
+  <div class="row">
+    {% set layout = grid.layout[loop.index0] %}
+    {% for col in row %}
+      <div class="col-{{ layout[loop.index0] }}">
+        {% for widget in col %}
+          {{ include(widget) }}
+        {% endfor %}
+      </div>
+    {% endfor %}
+  </div>
+{% endfor %}

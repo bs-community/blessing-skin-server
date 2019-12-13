@@ -1,0 +1,18 @@
+<form class="card card-primary" method="post" id="change-nickname">
+  <div class="card-header">
+    <h3 class="card-title">
+      {{ trans('user.profile.nickname.title') }}
+    </h3>
+  </div>
+  <div class="card-body">
+    <div class="form-group">
+      <input type="text" class="form-control" name="nickname" required
+        placeholder="{{ trans('user.profile.nickname.rule') }}">
+    </div>
+  </div>
+  <div class="card-footer">
+    <button class="btn btn-primary" type="submit">
+      {{ trans('general.submit') }}
+    </button>
+  </div>
+</form>

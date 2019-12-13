@@ -1,0 +1,22 @@
+<form class="card card-warning" method="post" id="change-email">
+  <div class="card-header">
+    <h3 class="card-title">
+      {{ trans('user.profile.email.title') }}
+    </h3>
+  </div>
+  <div class="card-body">
+    <div class="form-group">
+      <input type="email" class="form-control" name="email" required
+        placeholder="{{ trans('user.profile.email.new') }}">
+    </div>
+    <div class="form-group">
+      <input type="password" class="form-control" name="password" required
+        placeholder="{{ trans('user.profile.email.password') }}">
+    </div>
+  </div>
+  <div class="card-footer">
+    <button class="btn btn-primary" type="submit">
+      {{ trans('user.profile.email.button') }}
+    </button>
+  </div>
+</form>

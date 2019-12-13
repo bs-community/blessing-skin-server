@@ -188,12 +188,33 @@ class UserController extends Controller
         return json(trans('user.verification.success'), 0);
     }
 
-    public function profile()
+    public function profile(Filter $filter)
     {
         $user = Auth::user();
 
+        $grid = [
+            'layout' => [
+                ['md-6', 'md-6'],
+            ],
+            'widgets' => [
+                [
+                    [
+                        'user.widgets.profile.avatar',
+                        'user.widgets.profile.password'
+                    ],
+                    [
+                        'user.widgets.profile.nickname',
+                        'user.widgets.profile.email',
+                        'user.widgets.profile.delete-account',
+                    ],
+                ],
+            ],
+        ];
+        $grid = $filter->apply('grid:user.profile', $grid);
+
         return view('user.profile')
             ->with('user', $user)
+            ->with('grid', $grid)
             ->with('site_name', option_localized('site_name'));
     }
 
