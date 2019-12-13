@@ -101,7 +101,7 @@ profile:
     notice: Haz clic en el icono del engranaje "<i class="fa fa-cog"></i>" de cualquier aspecto de tu armario, luego haz clic en "Establecer como avatar". Cortaremos el segmento de cabeza de ese skin para ti. Si no hay ningún icono como este, por favor intenta desabilitando su bloqueador de anuncios.
     wrong-type: No puedes establecer una capa como avatar.
     success: Nuevo avatar se ha establecido correctamente.
-    reset: Reset Avatar
+    reset: Restablecer avatar
   password:
     title: Cambiar contraseña
     old: Contraseña antigua
