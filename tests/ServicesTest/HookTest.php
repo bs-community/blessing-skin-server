@@ -83,7 +83,7 @@ class HookTest extends TestCase
         Hook::addUserBadge('hi', 'green');
         $this->actAs('normal')
             ->get('/user')
-            ->assertSee('<span class="badge bg-green mb-1">hi</span>');
+            ->assertSee('<span class="badge bg-green mb-1 mr-2">hi</span>');
     }
 
     public function testSendNotification()

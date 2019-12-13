@@ -28,7 +28,7 @@ class UserPanelComposerTest extends TestCase
         });
 
         $this->get('/user')
-            ->assertSee('<span class="badge bg-purple mb-1">Pro</span>');
+            ->assertSee('<span class="badge bg-purple mb-1 mr-2">Pro</span>');
 
         $user->permission = User::ADMIN;
         $user->save();
