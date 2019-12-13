@@ -1,0 +1,14 @@
+<div class="card card-primary card-outline">
+  <div class="card-header">
+    <h3 class="card-title">{{ trans('user.announcement') }}</h3>
+    {% if auth_user().admin %}
+      &nbsp;
+      <a href="{{ url('/admin/options') }}">
+        <i class="fas fa-edit"></i>
+      </a>
+    {% endif %}
+  </div>
+  <div class="card-body">
+    {{ announcement|raw }}
+  </div>
+</div>

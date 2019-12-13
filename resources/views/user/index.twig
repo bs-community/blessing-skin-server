@@ -3,35 +3,8 @@
 {% block title %}{{ trans('general.dashboard') }}{% endblock %}
 
 {% block content %}
-  <div class="row">
-    <div class="col-md-7">
-      <div class="card" id="usage-box">
-        <div class="card-header"></div>
-        <div class="card-body"></div>
-        <div class="card-footer"></div>
-      </div>
-    </div>
+  {{ include('shared.grid') }}
 
-    <div class="col-md-5">
-      <div class="card card-primary card-outline">
-        <div class="card-header">
-          <h3 class="card-title">{{ trans('user.announcement') }}</h3>
-          {% if auth_user().admin %}
-            &nbsp;
-            <a href="{{ url('/admin/options') }}">
-              <i class="fas fa-edit"></i>
-            </a>
-          {% endif %}
-        </div>
-        <div class="card-body">
-          {{ announcement|raw }}
-        </div>
-      </div>
-    </div>
-  </div>
-{% endblock %}
-
-{% block before_foot %}
   <div id="modal-score-instruction" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -60,7 +33,9 @@
       </div>
     </div>
   </div>
+{% endblock %}
 
+{% block before_foot %}
   <script>
     Object.defineProperty(blessing, 'extra', {
       get: () => Object.freeze({{ extra|json_encode|raw }})

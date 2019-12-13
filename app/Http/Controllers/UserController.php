@@ -36,7 +36,7 @@ class UserController extends Controller
         return json('', 0, auth()->user()->makeHidden(['password', 'ip', 'remember_token'])->toArray());
     }
 
-    public function index()
+    public function index(Filter $filter)
     {
         $user = Auth::user();
 
@@ -50,6 +50,19 @@ class UserController extends Controller
                 : trans('user.score-intro.no-return-score'),
         ]);
 
+        $grid = [
+            'layout' => [
+                ['md-7', 'md-5'],
+            ],
+            'widgets' => [
+                [
+                    ['user.widgets.dashboard.usage'],
+                    ['user.widgets.dashboard.announcement'],
+                ]
+            ],
+        ];
+        $grid = $filter->apply('grid:user.index', $grid);
+
         return view('user.index')->with([
             'statistics' => [
                 'players' => $this->calculatePercentageUsed($user->players->count(), option('score_per_player')),
@@ -62,6 +75,7 @@ class UserController extends Controller
                 'closet' => option('score_per_closet_item'),
             ],
             'announcement' => app('parsedown')->text(option_localized('announcement')),
+            'grid' => $grid,
             'extra' => ['unverified' => option('require_verification') && ! $user->verified],
         ]);
     }
