@@ -476,7 +476,7 @@ test('truncate too long texture name', async () => {
 test('render badges', async () => {
   Vue.prototype.$http.get.mockResolvedValue({ data: {} })
   Object.assign(window.blessing.extra, {
-    badges: [{ text: 'reina', color: 'purple' }]
+    badges: [{ text: 'reina', color: 'purple' }],
   })
   const wrapper = mount(Show, {
     mocks: {
