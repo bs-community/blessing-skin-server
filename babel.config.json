@@ -2,7 +2,9 @@
   "presets": [
     "@babel/preset-typescript"
   ],
-  "plugins": [],
+  "plugins": [
+    ["@babel/plugin-proposal-optional-chaining", { "loose": false }]
+  ],
   "env": {
     "production": {
       "presets": [

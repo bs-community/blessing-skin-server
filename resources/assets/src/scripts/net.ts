@@ -27,10 +27,10 @@ export const init: RequestInit = {
 }
 
 function retrieveToken() {
-  const csrfField: HTMLMetaElement | null =
-    document.querySelector('meta[name="csrf-token"]')
+  const csrfField =
+    document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  return (csrfField && csrfField.content) || ''
+  return csrfField?.content || ''
 }
 
 export async function walkFetch(request: Request): Promise<any> {

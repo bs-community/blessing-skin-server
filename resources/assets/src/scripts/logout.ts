@@ -17,7 +17,5 @@ export async function logout() {
 }
 
 const button = document.querySelector('#logout-button')
-/* istanbul ignore next, not all pages contains this button. */
-if (button) {
-  button.addEventListener('click', logout)
-}
+button?.addEventListener('click', logout)
+
