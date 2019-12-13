@@ -101,6 +101,7 @@ profile:
     notice: 在衣柜中任意皮肤的右下角「<i class="fa fa-cog"></i>」图标处点击「设为头像」，即可自动截取该皮肤的头部作为头像。如果看不到这个图标，请尝试关闭你的广告过滤扩展。
     wrong-type: 披风不能被设置为头像
     success: 设置成功
+    reset: Reset Avatar
   password:
     title: 更改密码
     old: 原密码
