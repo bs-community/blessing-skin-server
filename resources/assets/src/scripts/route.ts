@@ -33,8 +33,9 @@ export default [
   },
   {
     path: 'user/profile',
-    component: () => import('../views/user/Profile.vue'),
-    el: '.content > .container-fluid',
+    module: [
+      () => import('../views/user/profile/index'),
+    ],
   },
   {
     path: 'user/oauth/manage',

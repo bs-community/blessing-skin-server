@@ -4,6 +4,11 @@ import { queryStringify } from './utils'
 import { showModal } from './notify'
 import { trans } from './i18n'
 
+export interface ResponseBody {
+  code: number
+  message: string
+}
+
 class HTTPError extends Error {
   response: Response
 

@@ -193,10 +193,8 @@ class UserController extends Controller
         $user = Auth::user();
 
         return view('user.profile')
-            ->with('extra', [
-                'unverified' => option('require_verification') && ! $user->verified,
-                'admin' => $user->isAdmin(),
-            ]);
+            ->with('user', $user)
+            ->with('site_name', option_localized('site_name'));
     }
 
     public function handleProfile(Request $request, Filter $filter, Dispatcher $dispatcher)

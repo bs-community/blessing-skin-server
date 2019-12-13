@@ -2,6 +2,156 @@
 
 {% block title %}{{ trans('general.profile') }}{% endblock %}
 
+{% block content %}
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card card-primary">
+        <div class="card-header">
+          <h3 class="card-title">
+            {{ trans('user.profile.avatar.title') }}
+          </h3>
+        </div>
+        <div class="card-body">
+          {{ trans('user.profile.avatar.notice')|raw }}
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary" id="reset-avatar">
+            {{ trans('user.profile.avatar.reset') }}
+          </button>
+        </div>
+      </div>
+
+      <form class="card card-warning" method="post" id="change-password">
+        <div class="card-header">
+          <h3 class="card-title">
+            {{ trans('user.profile.password.title') }}
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <label>{{ trans('user.profile.password.old') }}</label>
+            <input type="password" class="form-control" name="oldPassword" required>
+          </div>
+
+          <div class="form-group">
+            <label>{{ trans('user.profile.password.new') }}</label>
+            <input type="password" class="form-control" name="newPassword" required
+              minlength="8" maxlength="32">
+          </div>
+
+          <div class="form-group">
+            <label>{{ trans('user.profile.password.confirm') }}</label>
+            <input type="password" class="form-control" name="confirm" required
+              minlength="8" maxlength="32">
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary" type="submit">
+            {{ trans('user.profile.password.button') }}
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-6">
+      <form class="card card-primary" method="post" id="change-nickname">
+        <div class="card-header">
+          <h3 class="card-title">
+            {{ trans('user.profile.nickname.title') }}
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <input type="text" class="form-control" name="nickname" required
+              placeholder="{{ trans('user.profile.nickname.rule') }}">
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary" type="submit">
+            {{ trans('general.submit') }}
+          </button>
+        </div>
+      </form>
+
+      <form class="card card-warning" method="post" id="change-email">
+        <div class="card-header">
+          <h3 class="card-title">
+            {{ trans('user.profile.email.title') }}
+          </h3>
+        </div>
+        <div class="card-body">
+          <div class="form-group">
+            <input type="email" class="form-control" name="email" required
+              placeholder="{{ trans('user.profile.email.new') }}">
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" name="password" required
+              placeholder="{{ trans('user.profile.email.password') }}">
+          </div>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary" type="submit">
+            {{ trans('user.profile.email.button') }}
+          </button>
+        </div>
+      </form>
+
+      <div class="card card-danger">
+        <div class="card-header">
+          <h3 class="card-title">
+            {{ trans('user.profile.delete.title') }}
+          </h3>
+        </div>
+        <div class="card-body">
+          {% if user.admin %}
+            <p>{{ trans('user.profile.delete.admin') }}</p>
+            <button class="btn btn-danger" disabled="disabled">
+              {{ trans('user.profile.delete.button') }}
+            </button>
+          {% else %}
+            <p>{{ trans('user.profile.delete.notice', { site: site_name }) }}</p>
+            <button
+              class="btn btn-danger"
+              data-toggle="modal"
+              data-target="#modal-delete-account"
+            >
+              {{ trans('user.profile.delete.button') }}
+            </button>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <form id="modal-delete-account" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content bg-danger">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            {{ trans('user.profile.delete.modal-title') }}
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div>{{ trans('user.profile.delete.modal-notice')|nl2br|raw }}</div>
+          <br>
+          <input type="password" class="form-control" required name="password"
+            placeholder="{{ trans('user.profile.delete.password') }}">
+        </div>
+        <div class="modal-footer d-flex justify-content-between">
+          <button type="button" class="btn btn-outline-light" data-dismiss="modal">
+            {{ trans('general.close') }}
+          </button>
+          <button type="submit" class="btn btn-outline-light">
+            {{ trans('general.submit') }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+{% endblock %}
+
 {% block before_foot %}
   <script>
     Object.defineProperty(blessing, 'extra', {
