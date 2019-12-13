@@ -4,50 +4,50 @@ homepage:
   title: Домашняя страница
   home_pic_url:
     title: URL изображения на главной странице
-    hint: Path relative to homepage or full URL, leave empty to use default image.
+    hint: Путь относительно главной страницы или полной URL, оставьте пустым, чтобы использовать изображение по умолчанию.
   favicon_url:
-    title: Website Icon
-    hint: Path relative to public/ or full URL.
-    description: The given image must have same width and height (leave blank to use default icon).
+    title: Иконка сайта
+    hint: Путь относительно публичного или полного URL.
+    description: Данное изображение должно иметь одинаковую ширину и высоту (оставьте пустым, чтобы использовать стандартную иконку).
   transparent_navbar:
-    title: Transparent Navigation Bar
-    label: This will enable transparent navigation bar of home page, but it will turn to be normal if page is scrolled to bottom.
+    title: Прозрачная панель навигации
+    label: Это включит прозрачную панель навигации на главной странице, но она будет нормальной, если страница прокручивается вниз.
   hide_intro:
     title: Hide Introduction at Bottom
     label: Scroll bar will be disabled if this option is enabled, as version 2.x.
   fixed_bg:
-    title: Fixed Background
-    label: This option will make background fixed, not scrolled with scroll bar.
+    title: Фиксированный фон
+    label: Эта опция сделает фон фиксированным, а не прокрутится с помощью полосы прокрутки.
   copyright_prefer:
-    title: Program Copyright
-    description: "You can specify a different style of program copyright for each language. To edit a specific language's corresponding program copyright style, please switch to that language and submit your edit. <br><b>Warning:</b> Any evil modification applied on the footer program copyright (including deleting, modifying author, changing link target) with out permission is <b>FORBIDDEN</b>. The author reserves the right to pursue relevant responsibilities."
+    title: Авторские права
+    description: "Вы можете указать разные стили авторских прав для каждого языка. Чтобы отредактировать соответствующий стиль авторских прав для определенного языка, переключитесь на этот язык и отправьте свои изменения. <br> <b> Предупреждение: </b> Любое злое изменение, примененное к авторскому праву программы нижнего колонтитула (включая удаление, изменение автора, изменение цели ссылки) без разрешения <b> ЗАПРЕЩЕНО </b>. Автор оставляет за собой право выполнять соответствующие обязанности."
   copyright_text:
-    title: Custom Copyright Text
+    title: Пользовательский текст авторского права
     description: Placeholders are available in custom copyright text. e.g. <code>{site_name}</code> & <code>{site_url}</code>. You can also specify a different footer for each language. To edit a specific language's corresponding footer, please switch to that language and submit your edit.
 customJsCss:
   title: Custom CSS/JavaScript
   message: |
-    The contents will be attached to &lt;style&gt; and &lt;script&gt; tags.<br>
-    - Here are some useful examples: <a href="https://blessing.netlify.com/css-js.html">Examples of Custom CSS & JavaScript</a>
+    Содержимое будет прикреплено к тегам &lt;style&gt; и &lt;script&gt;<br>
+    - Вот несколько полезных примеров: <a href="https://blessing.netlify.com/css-js.html">Примеры пользовательских CSS & JavaScript</a>
   custom_css: CSS
   custom_js: JavaScript
 rate:
   title: Scores
   score_per_storage:
-    title: Storage
+    title: Хранилище
     addon: scores = 1 KB
   private_score_per_storage:
-    title: Private Storage
+    title: Приватное хранилище
     addon: scores = 1 KB
-    hint: Uploading private textures will cost more scores.
+    hint: Загрузка приватных текстур будет стоить больше очков.
   score_per_closet_item:
-    title: Favorites
+    title: Избранное
     addon: score = 1 closet item
   return_score:
     title: Score Return
     label: Return scores back to user after deleting players/textures/closet items.
   score_per_player:
-    title: Players
+    title: Игроки
     addon: scores = 1 player
   user_initial_score: User Initial Score
 report:
@@ -65,25 +65,25 @@ sign:
     addon2: scores
   sign_gap_time:
     title: Gap Time
-    addon: hours
+    addon: часов
   sign_after_zero:
-    title: Time
-    label: Users can sign in after 0 everyday.
-    hint: The above option will be ignored if this is checked.
+    title: Время
+    label: Пользователи могут войти после 0 ежедневно.
+    hint: Вышеуказанная опция будет проигнорирована, если этот флажок установлен.
 sharing:
   title: Awarding Sharing
   score_award_per_texture:
-    title: Uploader will be rewarded for each uploading texture with
+    title: Загрузчик будет вознагражден за каждую загружаемую текстуру
   take_back_scores_after_deletion:
     title: Return scores
-    label: Return scores if uploader setting private or deleting texture.
+    label: Возвращает баллы, если загрузчик установит приватный доступ или удалит текстуру.
   score_award_per_like:
     title: Each time the texture is collected, uploader will be rewarded with
 general:
-  title: General Options
-  site_name: Site Name
+  title: Основные параметры
+  site_name: Название сайта
   site_description:
-    title: Site Description
+    title: Описание сайта
     description: You can also specify a different site name and description for each language. To edit a specific language's corresponding site name or description text, please switch to that language and submit your edit.
   site_url:
     title: Site URL
@@ -117,38 +117,38 @@ general:
     placeholder: Regular Expressions
   player_name_length:
     title: Player Name Length
-    suffix: characters
-  api_type: Prefered JSON API
+    suffix: символы
+  api_type: Предпочтительно JSON API
   auto_del_invalid_texture:
-    title: Invalid Textures
-    label: Delete invalid textures automatically.
-    hint: Delete textures records whose file no longer exists from skinlib.
+    title: Неправильные текстуры
+    label: Удалить недействительные текстуры автоматически.
+    hint: Удалить записи текстур, файл которых больше не существует из skinlib.
   allow_downloading_texture:
-    title: Downloading Textures
-    label: Allow users to directly download the source file of a skinlib item.
+    title: Загрузка текстур
+    label: Разрешить пользователям напрямую скачивать исходный файл элемента skinlib.
   status_code_for_private:
-    title: HTTP Code for Rejecting Accessing Private Textures
+    title: HTTP-код для отказа в доступе к приватным текстурам
   texture_name_regexp:
-    title: Texture Name Rules
-    hint: The RegExp for validating name of uploaded textures. Leave empty to allow any character except single, double quote and backslash.
-    placeholder: Regular Expressions
+    title: Правила имени текстуры
+    hint: RegExp нужен для проверки имени загруженных текстур. Оставьте пустым, чтобы разрешить любой символ, кроме одинарных, двойных кавычек и обратной косой черты.
+    placeholder: Регулярные выражения
   content_policy:
-    title: Content Policy
-    description: Display content policy at texture uploading page, supporting Markdown. To edit a specific language's corresponding content policy, please switch to that language and submit your edit.
+    title: Политика в отношении содержания
+    description: Отобразить контентную политику на странице загрузки текстур с поддержкой Markdown. Чтобы отредактировать соответствующую политику в отношении определенного языка, переключитесь на этот язык и отправьте свое изменение.
   comment_script:
     title: Comment Script
     description: Placeholder is available, <code>{tid}</code> will be replaced with texture id, <code>{name}</code> will be replaced with texture name, <code>{url}</code> will be replaced with current URL.
 announ:
-  title: Announcement
+  title: Объявление
   announcement:
-    description: Styling with Markdown is supported. You can also specify a different announcement for each language. To edit a specific language's corresponding announcement, please switch to that language and submit your edit.
+    description: Стилизация с Markdown поддерживается. Вы также можете указать разные объявления для каждого языка. Чтобы отредактировать соответствующее объявление определенного языка, пожалуйста, переключитесь на этот язык и отправьте свою правку.
 meta:
-  title: SEO <meta> tags
+  title: SEO <meta> тэги
   meta_keywords:
-    title: Keywords
-    hint: Split with commas.
+    title: Ключевые слова
+    hint: Разделить запятыми.
   meta_description:
-    title: Description
+    title: Описание
     hint: Description defined in "general options" will be used if you left it empty.
   meta_extras:
     title: Other Custom <meta> Tags

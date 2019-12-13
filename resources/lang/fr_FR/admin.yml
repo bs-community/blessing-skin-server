@@ -77,7 +77,7 @@ i18n:
   updated: Language line updated.
   deleted: Language line deleted.
   group: Groupe
-  key: Key
+  key: Clé
   text: Texte
   tip: Comment puis-je utiliser cette page ?
 status:
@@ -86,13 +86,13 @@ status:
   bs:
     name: Blessing Skin
     version: Version
-    env: Application Environment
-    debug: Debugging or Not?
+    env: Environnement d'application
+    debug: Débogage ou pas ?
     commit: Commit
     laravel: Laravel Version
   server:
     name: Serveur
-    php: PHP Version
+    php: Version de PHP
     web: Web Server Software
     os: OS
   db:
@@ -102,15 +102,15 @@ status:
     port: Port
     username: Nom d'utilisateur
     database: Base de données
-    prefix: Table Prefix
+    prefix: Préfixe de table
   plugins: Plugins activés (:amount)
 plugins:
   name: Nom
   description: Description
   author: Auteur
   version: Version
-  readme: Read Me
-  dependencies: Dependencies
+  readme: Lisez-moi
+  dependencies: Dépendances
   operations:
     title: Actions
     enabled: ':plugin a été activé.'
@@ -122,7 +122,7 @@ plugins:
     disabled: ':plugin a été désactivé.'
     deleted: Le plugin a été supprimé avec succès.
     no-config-notice: Le plugin n'est pas installé ou ne fournit pas de page de configuration.
-    no-readme-notice: The plugin doesn't contain a readme file.
+    no-readme-notice: Le plugin ne contient pas de fichier "readme".
     not-found: Ce plugin n'existe pas.
   market:
     unresolved: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't download it. Please install or update the plugins listed below, and disable those have conflicts.
@@ -142,15 +142,15 @@ update:
     check-github: Consulter les versions de GitHub
     button: Mettre à jour maintenant
   cautions:
-    title: Cautions
-    link: check out this.
+    title: Avertissement
+    link: jetez-y un coup d'œil.
     text: |
       Please choose update source according to your host's network environment.
       Low-speed connection between update source and your host will cause long-time loading at checking and downloading page.
       To change the default update source,
   download:
-    downloading: Downloading update package...
-    size: "Size of package:"
+    downloading: Téléchargement du package de mise à jour...
+    size: "Taille du package :"
   errors:
     connection: "Impossible d'accéder à la source de la mise à jour actuelle. Détails : :error"
     spec: La source de la mise à jour actuelle n'est pas prise en charge.

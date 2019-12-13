@@ -6,10 +6,10 @@ index:
   disk-usage: Использование диска
   overview: Overview
   texture-uploads: Загрузка текстур
-  user-registration: User Registration
+  user-registration: Регистрация пользователя
 notifications:
   send:
-    title: Send Notification
+    title: Отправить уведомление
     success: Успешно отправлено!
   receiver:
     title: Получатель
@@ -58,89 +58,89 @@ players:
     success: Имя игрока обновлено до :player
   owner:
     change: Сменить владельца
-    success: The player :player was transferred to user :user.
+    success: Игрок :player был передан пользователю :user.
   delete:
-    delete: Delete
-    success: The player has been deleted successfully.
+    delete: Удалить
+    success: Игрок был успешно удалён.
 customize:
   change-color:
-    title: Change Theme Color
-    success: Theme color updated.
+    title: Изменить цвет темы
+    success: Цвет темы обновлен.
   colors:
-    navbar: Top Navigation Bar
+    navbar: Верхняя панель навигации
     sidebar:
-      dark: Sidebar (Dark)
-      light: Sidebar (Light)
+      dark: Боковая панель (темная)
+      light: Боковая панель (светлая)
 i18n:
   add: Add New Language Line
   added: Language line added.
-  updated: Language line updated.
-  deleted: Language line deleted.
-  group: Group
-  key: Key
-  text: Text
-  tip: How can I use this page?
+  updated: Языковая строка обновлена.
+  deleted: Языковая строка удалена.
+  group: Группа
+  key: Ключ
+  text: Текст
+  tip: Как я могу использовать эту страницу?
 status:
-  info: Information
+  info: Информация
   health: Health
   bs:
     name: Blessing Skin
-    version: Version
+    version: Версия
     env: Application Environment
     debug: Debugging or Not?
     commit: Commit
-    laravel: Laravel Version
+    laravel: Версия Laravel
   server:
-    name: Server
-    php: PHP Version
-    web: Web Server Software
+    name: Сервер
+    php: Версия PHP
+    web: Программное обеспечение веб-сервера
     os: OS
   db:
-    name: Database
-    type: Server
-    host: Host
-    port: Port
-    username: Username
-    database: Database
-    prefix: Table Prefix
-  plugins: Enabled Plugins (:amount)
+    name: База данных
+    type: Сервер
+    host: Хост
+    port: Порт
+    username: Имя пользователя
+    database: База данных
+    prefix: Префикс таблиц
+  plugins: Включены плагины (:amount)
 plugins:
-  name: Name
-  description: Description
-  author: Author
-  version: Version
-  readme: Read Me
-  dependencies: Dependencies
+  name: Имя
+  description: Описание
+  author: Автор
+  version: Версия
+  readme: Прочти меня
+  dependencies: Зависимости
   operations:
     title: Operations
-    enabled: ':plugin has been enabled.'
+    enabled: ':plugin был включен.'
     unsatisfied:
-      notice: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't enable it. Please install or update the plugins listed below, and disable those have conflicts.
-      disabled: 'The ":name" plugin is not enabled.'
-      version: 'The version of ":title" does not satisfies the constraint ":constraint".'
-      conflict: 'The ":title" plugin cannot run with this plugin at the same time.'
-    disabled: ':plugin has been disabled.'
-    deleted: The plugin was deleted successfully.
-    no-config-notice: The plugin is not installed or doesn't provide a configuration page.
-    no-readme-notice: The plugin doesn't contain a readme file.
-    not-found: No such plugin.
+      notice: В плагине есть конфликты или неудовлетворенные зависимости, поэтому мы не можем включить его. Пожалуйста, установите или обновите плагины, перечисленные ниже, и отключите те, которые имеют конфликты.
+      disabled: 'Плагин ":name" не включен.'
+      version: 'Версия ":title" не удовлетворяет ограничениям ":constraint".'
+      conflict: 'Плагин ":title" не может работать с этим плагином одновременно.'
+    disabled: ':plugin был отключен.'
+    deleted: Плагин был успешно удален.
+    no-config-notice: Плагин не установлен или не предоставляет страницу конфигурации.
+    no-readme-notice: Плагин не содержит файл readme.
+    not-found: Нет такого плагина.
   market:
-    unresolved: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't download it. Please install or update the plugins listed below, and disable those have conflicts.
-    connection-error: Unable to connect to the plugins registry. :error
-    non-existent: The plugin :plugin does not exist.
-    install-success: Plugin was installed.
-  empty: No result
+    unresolved: В плагине есть конфликты или неудовлетворенные зависимости, поэтому мы не можем его скачать. Пожалуйста, установите или обновите плагины, перечисленные ниже, и отключите те, которые имеют конфликты.
+    connection-error: Невозможно подключиться к реестру плагинов. :error
+    non-existent: Плагин :plugin не существует.
+    install-success: Плагин установлен.
+  empty: Безрезультатно
 update:
-  complete: Update completed
+  complete: Обновление завершено
   info:
-    title: Update Information
-    up-to-date: Already up-to-date.
-    available: New version available.
+    title: Обновить информацию
+    up-to-date: Обновлено до последней версии.
+    available: Доступна новая версия.
     versions:
-      latest: "Latest Version:"
-      current: "Current Version:"
-    check-github: Check GitHub Releases
-    button: Update Now
+      latest: "Последняя версия:"
+      current: "Текущая версия:"
+    check-github: Проверить релизы GitHub
+    button: Обновить сейчас
   cautions:
     title: Cautions
     link: check out this.

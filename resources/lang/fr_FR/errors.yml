@@ -3,7 +3,7 @@ http:
   msg-403: Vous n'avez pas la permission d'accéder à cette page.
   msg-404: Il n'y a rien ici.
   msg-500: Veuillez réessayer plus tard.
-  msg-503: The application is now in maintenance mode.
+  msg-503: L'application est maintenant en mode maintenance.
   method-not-allowed: Méthode non autorisée.
   csrf-token-mismatch: Token does not match, try reloading the page.
   ie: Nous ne prenons pas en charge Internet Explorer. Veuillez passer à d'autres navigateurs modernes, tels que Firefox ou Chrome.

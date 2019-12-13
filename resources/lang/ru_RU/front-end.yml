@@ -1,105 +1,105 @@
 ---
 auth:
-  login: Log In
-  loggingIn: Logging In
+  login: Авторизоваться
+  loggingIn: Вход в систему
   tooManyFails:
-    captcha: You fails too many times! Please enter the CAPTCHA.
+    captcha: Слишком много попыток! Пожалуйста, введите CAPTCHA.
     recaptcha: You fails too many times! Please pass the reCAPTCHA challenge.
-  emptyEmail: Empty email address.
-  invalidConfirmPwd: Confirming password is not equal with password.
-  emptyNickname: Empty nickname.
-  register: Register
-  registering: Registering
-  send: Send
-  sending: Sending
-  reset: Reset
-  resetting: Resetting
-  nickname: Nickname
-  player-name: Minecraft player name
-  email: Email
-  identification: Email or player name
-  password: Password
+  emptyEmail: Не указан адрес электронной почты.
+  invalidConfirmPwd: Подтверждение пароля не совпадает с паролем.
+  emptyNickname: Не указан никнейм.
+  register: Зарегистрироваться
+  registering: Регистрация
+  send: Отправить
+  sending: Отправка
+  reset: Сброс
+  resetting: Сбрасывается
+  nickname: Ник
+  player-name: Имя игрока Minecraft
+  email: Почта
+  identification: Адрес электронной почты или имя игрока
+  password: Пароль
   captcha: CAPTCHA
-  change-captcha: Click to change CAPTCHA image.
-  login-link: Already registered? Log in here.
-  forgot-link: Forgot password?
-  keep: Remember me
-  repeat-pwd: Repeat your password
-  nickname-intro: Whatever you like expect special characters
-  player-name-intro: Player name in Minecraft, can be changed later
+  change-captcha: Нажмите, чтобы изменить изображение CAPTCHA.
+  login-link: Уже зарегистрированы? Войдите здесь.
+  forgot-link: Забыли пароль?
+  keep: Запомнить меня
+  repeat-pwd: Повторите ваш пароль
+  nickname-intro: Всё, что вам угодно, кроме специальных символов
+  player-name-intro: Имя игрока в Minecraft, может быть изменено позже
   register-button: Register
   forgot:
-    login-link: I do remember it
-    button: Send
-  reset-button: Reset
+    login-link: Я помню это
+    button: Отправить
+  reset-button: Сброс
 skinlib:
   private: Private
-  anonymous: Please login first.
-  reset: Reset Filter
-  nowShowing: Now showing
+  anonymous: Пожалуйста, войдите сначала.
+  reset: Сбросить фильтр
+  nowShowing: Сейчас показывается
   addToCloset: Add to closet
   removeFromCloset: Remove from closet
-  setItemName: Set a name for this texture
+  setItemName: Установите имя для этой текстуры
   applyNotice: You can apply it to player at your closet
-  emptyItemName: Empty texture name.
-  setNewTextureName: 'Please enter the new texture name:'
-  emptyNewTextureName: Empty new texture name.
-  seeMyUpload: My Uploads
-  apply: Apply
+  emptyItemName: Не указано название текстуры.
+  setNewTextureName: 'Пожалуйста, введите название новой текстуры:'
+  emptyNewTextureName: Пустое имя новой текстуры.
+  seeMyUpload: Мои загрузки
+  apply: Применить
   filter:
-    skin: (Any Model)
+    skin: (Любая модель)
     steve: (Steve)
     alex: (Alex)
     cape: (Cape)
-    uploader: 'User (UID = :uid) Uploaded'
-    allUsers: All Users
+    uploader: 'Пользователь (UID = :uid) загружен'
+    allUsers: Все пользователи
   sort:
-    title: Sort
-    time: Latest
-    likes: Most Likes
-  badSkinSize: The size of selected skin file is not valid
-  badCapeSize: The size of selected cape file is not valid
-  emptyTextureName: Empty texture name.
-  emptyTextureType: Please select a type for this texture.
-  emptyUploadFile: You have not uploaded any file.
-  encodingError: 'Error: Encoding of this file is not accepted.'
-  fileExtError: 'Error: Textures should be PNG files.'
-  showContentPolicy: Read content policy
-  uploading: Uploading
-  redirecting: Redirecting...
+    title: Сортировать
+    time: Последние
+    likes: Популярные
+  badSkinSize: Размер выбранного файла скина недействителен
+  badCapeSize: Размер выбранного файла накидки недействителен
+  emptyTextureName: Не указано название текстуры.
+  emptyTextureType: Пожалуйста, выберите тип для этой текстуры.
+  emptyUploadFile: Вы не загрузили ни одного файла.
+  encodingError: 'Ошибка: Кодировка этого файла не принимается.'
+  fileExtError: 'Ошибка: Текстуры должны быть в PNG формате.'
+  showContentPolicy: Прочитать политику контента
+  uploading: Загружается
+  redirecting: Перенаправление...
   setAsPrivate: Set as Private
-  setAsPublic: Set as Public
+  setAsPublic: Сделать общедоступным
   setPublicNotice: Sure to set this as public texture?
   setPrivateNotice: Sure to set this as private texture?
-  deleteNotice: Are you sure to delete this texture?
-  setNewTextureModel: "Please select a new texture model:"
+  deleteNotice: Вы уверены, что хотите удалить эту текстуру?
+  setNewTextureModel: "Пожалуйста, выберите новую модель текстуры:"
   upload:
-    texture-name: Texture Name
-    texture-type: Texture Type
-    select-file: Select File
+    texture-name: Название текстуры
+    texture-type: Тип текстуры
+    select-file: Выбрать файл
     privacy-notice: Prevent it from being visible at skin library.
-    set-as-private: Make it Private
-    button: Upload
-    dropZone: Drop a file here
-    remove: Remove
+    set-as-private: Сделать его приватным
+    button: Загрузить
+    dropZone: Перетащите файл сюда
+    remove: Удалить
     cost: It costs you about :score score.
     award: You'll be awarded :score score(s) by uploading public texture.
   show:
-    anonymous: You must login to use closets
-    likes: People who like this
-    detail: Details
-    name: Texture Name
-    edit: Edit
-    model: Applicable Model
-    size: File Size
-    uploader: Uploader
-    upload-at: Upload At
-    download: Download
-    delete-texture: Delete Texture
-    manage-notice: The texture which was deleted or setted to private will be removed from the closet of everyone who had favorited it.
+    anonymous: Вы должны войти в систему, чтобы использовать шкафы
+    likes: Люди, которым это нравится
+    detail: Детали
+    name: Название текстуры
+    edit: Редактировать
+    model: Применимая модель
+    size: Размер файла
+    uploader: Загрузчик
+    upload-at: Загрузить в
+    download: Скачать
+    delete-texture: Удалить текстуру
+    manage-notice: Текстура, которая была удалена или установлена как приватная, будет удалена из шкафа всех, кто ее добавил в избранное.
   report:
-    title: Report
-    reason: Tell us reason please.
+    title: Пожаловаться
+    reason: Скажите нам причину, пожалуйста.
     positive: To encourage positive contributions to the skinlib, we will reward who reported inappropriate content with :score scores. However, if any malicious reporting behaviors were found, all scores rewarded will be taken back.
     negative: To mitigate the impact of malicious reports, we will require :score scores for submitting a texture report. Don't worry. The suspended scores and additional reward will be sent to your account after your report reviewed by administrators.
 user:
@@ -143,64 +143,64 @@ user:
       reset: Clear selected
       title: Which player should be applied to?
       empty: It seems that you own no player...
-      add: Add new player
+      add: Добавить нового игрока
   profile:
     avatar:
-      title: Change Avatar?
+      title: Изменить аватар?
       notice: Click the gear icon「<i class="fas fa-cog"></i>」of any skin in your skinlib, then click 「Set as avatar」. We will cut the head segment of that skin for you. If there is no icon like this, please unable the extensions like ADBlock.
     password:
-      title: Change Password
-      old: Old Password
-      new: New Password
-      confirm: Repeat Password
-      button: Change Password
+      title: Изменить пароль
+      old: Старый пароль
+      new: Новый пароль
+      confirm: Повторите пароль
+      button: Изменить пароль
     nickname:
-      title: Change Nickname
-      rule: Whatever you like expect special characters
+      title: Изменить никнейм
+      rule: Всё, что вам угодно, кроме специальных символов
     email:
-      title: Change Email
-      new: New Email
-      password: Current Password
-      button: Change Email
+      title: Изменить e-mail
+      new: Новый E-mail
+      password: Текущий пароль
+      button: Изменить e-mail
     delete:
-      title: Delete Account
-      notice: Sure to delete your account on :site?
-      admin: Admin account can not be deleted.
-      button: Delete My Account
-      modal-title: You need to enter your password to continue
+      title: Удалить аккаунт
+      notice: Вы уверены, что хотите удалить учетную запись на :site?
+      admin: Аккаунт администратора не может быть удален.
+      button: Удалить мою учетную запись
+      modal-title: Вам необходимо ввести пароль, чтобы продолжить
       modal-notice: |
-        You're about to delete your account.
-        This is permanent! No backups, no restores, no magic undo button.
-        We warned you, ok?
-      password: Current Password
+        Вы собираетесь удалить свой аккаунт.
+        Это навсегда! Нет резервных копий, нет восстановлений, нет волшебной кнопки отмены.
+        Мы предупреждали вас, хорошо?
+      password: Текущий пароль
   used:
-    title: Resources Used
-    players: Registered players
-    storage: Storage used
+    title: Используемые ресурсы
+    players: Зарегистрированные игроки
+    storage: Использовано памяти
   cur-score: Current Score
   score-notice: Click the score to show introduction.
   sign: Sign
   sign-success: Signed successfully. You got :score scores.
-  time-unit-hour: h
-  time-unit-min: min
-  last-sign: Last signed at :time
-  sign-remain-time: Available after :time :unit
+  time-unit-hour: ч
+  time-unit-min: мин
+  last-sign: Последний вход в :time
+  sign-remain-time: Доступно после :time :unit
   player:
-    player-name: Player Name
-    edit: Edit
-    operation: Operations
-    edit-pname: Edit Name
-    delete-texture: Clear Textures
-    delete-player: Delete
-    add-player: Add new player
-    login-notice: Now you can log in with player names you owned instead email address.
-    player-info: Information <small>(click player name to show preview)</small>
-    texture-empty: Nothing
+    player-name: Имя игрока
+    edit: Редактировать
+    operation: Операции
+    edit-pname: Изменить имя
+    delete-texture: Очистить текстуры
+    delete-player: Удалить
+    add-player: Добавить нового игрока
+    login-notice: Теперь вы можете войти используя имя игроков, которыми вы владеете, вместо адреса электронной почты.
+    player-info: Информация <small>(нажмите на имя игрока, чтобы показать предварительный просмотр)</small>
+    texture-empty: Ничего
     player-name-rule:
-      official: Player name may only contains letters, numbers and underscores.
-      cjk: Player name may contains letters, numbers, underscores and CJK Unified Ideographs.
-      custom: Custom player name rules are applied on this site. Please contact admins for further information.
-    player-name-length: The player name should be at least :min characters and not greater than :max characters.
+      official: Имя игрока может содержать только буквы, цифры и подчеркивания.
+      cjk: Имя игрока может содержать буквы, цифры, подчеркивания и объединенные идеограммы CJK.
+      custom: Пользовательские правила имени игрока применяются на этом сайте. Пожалуйста, свяжитесь с администраторами для получения дополнительной информации.
+    player-name-length: Имя игрока должно быть не менее :min символов и не более :max символов.
   verification:
     title: Verify Your Account
     message: You must verify your email address before using the skin hosting service. Haven't received the email?
@@ -246,60 +246,60 @@ admin:
   pidNotice: >-
     Please enter the tid of texture. Inputing 0 can clear texture of this player.
   changePlayerTexture: 'Change textures of :player'
-  changeTexture: Change Textures
-  changePlayerName: Change Player Name
-  changeOwner: Change Owner
-  textureType: Texture Type
-  deletePlayer: Delete
-  changePlayerOwner: 'Please enter the id of user which this player should be transferred to:'
-  deletePlayerNotice: Are you sure to delete this player? It' permanent.
-  targetUser: 'Target user is :nickname'
-  noSuchUser: No such user
-  changePlayerNameNotice: 'Please input new player name:'
-  emptyPlayerName: Player name cannot be empty.
-  configurePlugin: Configure
-  noPluginConfigNotice: The plugin has been disabled or no configuration is provided.
-  deletePlugin: Delete
-  noDependencies: No Dependencies
-  whyDependencies: What's this?
-  statusEnabled: Enabled
-  statusDisabled: Disabled
-  pluginTitle: Plugin
-  pluginAuthor: Author
-  pluginVersion: Version
-  pluginName: Name
-  pluginReadme: Read Me
-  pluginDescription: Description
-  pluginDependencies: Dependencies
-  installPlugin: Install
-  pluginInstalling: Installing...
-  updatePlugin: Update
-  pluginUpdating: Updating...
-  confirmUpdate: Are you sure to update ":plugin" from :old to :new?
-  enablePlugin: Enable
-  disablePlugin: Disable
-  confirmDeletion: Are you sure to delete this plugin?
+  changeTexture: Изменить текстуры
+  changePlayerName: Изменить имя игрока
+  changeOwner: Изменить владельца
+  textureType: Тип текстуры
+  deletePlayer: Удалить
+  changePlayerOwner: 'Пожалуйста, введите идентификатор пользователя, которому этот игрок должен быть переведен:'
+  deletePlayerNotice: Вы уверены, что хотите удалить этого игрока? Это навсегда.
+  targetUser: 'Целевой пользователь :nickname'
+  noSuchUser: Нет такого пользователя
+  changePlayerNameNotice: 'Пожалуйста, введите новое имя игрока:'
+  emptyPlayerName: Имя игрока не может быть пустым.
+  configurePlugin: Настройка
+  noPluginConfigNotice: Плагин был отключен или конфигурация не предоставлена.
+  deletePlugin: Удалить
+  noDependencies: Нет зависимостей
+  whyDependencies: Что это?
+  statusEnabled: Включено
+  statusDisabled: Отключено
+  pluginTitle: Плагин
+  pluginAuthor: Автор
+  pluginVersion: Версия
+  pluginName: Имя
+  pluginReadme: Прочти меня
+  pluginDescription: Описание
+  pluginDependencies: Зависимости
+  installPlugin: Установить
+  pluginInstalling: Установка...
+  updatePlugin: Обновить
+  pluginUpdating: Обновление...
+  confirmUpdate: Вы уверены, что хотите обновить ":plugin" с :old на :new?
+  enablePlugin: Включить
+  disablePlugin: Отключить
+  confirmDeletion: Вы уверены, что хотите удалить этот плагин?
   noDependenciesNotice: >-
-    There is no dependency definition in the plugin. It means that the plugin may be not compatible with the current version of Blessing Skin, and enabling it may cause unexpected problems. Do you really want to enable the plugin?
-  updateButton: Update Now
-  downloading: Downloading...
-  updateCompleted: Update completed.
+    В плагине нет определения зависимостей. Это означает, что плагин может быть несовместим с текущей версией Blessing Skin, и включение его может привести к неожиданным проблемам. Вы действительно хотите включить плагин?
+  updateButton: Обновить сейчас
+  downloading: Загрузка...
+  updateCompleted: Обновление завершено.
   i18n:
-    group: Group
-    key: Key
-    text: Text
-    empty: (Empty)
-    modify: Modify
-    delete: Delete
-    updating: 'Please type new text:'
-    confirmDelete: Are you sure? This is irreversible.
+    group: Группа
+    key: Ключ
+    text: Текст
+    empty: (Пусто)
+    modify: Изменить
+    delete: Удалить
+    updating: 'Пожалуйста, введите новый текст:'
+    confirmDelete: Вы уверены? Это необратимо.
 report:
-  tid: Texture ID
-  reporter: Reporter
-  reason: Reason
-  status-title: Status
+  tid: ID текстуры
+  reporter: Жалуется
+  reason: Причина
+  status-title: Статус
   status:
-    - Pending
+    - В ожидании
     - Resolved
     - Rejected
   time: Report Time

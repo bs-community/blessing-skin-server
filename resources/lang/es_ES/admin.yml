@@ -1,20 +1,20 @@
 ---
 index:
-  total-users: Usuarios registrados
+  total-users: Usuarios Registrados
   total-players: Jugadores
-  total-textures: Texturas subidas
-  disk-usage: Uso del disco
+  total-textures: Texturas Subidas
+  disk-usage: Uso del Disco
   overview: Resumen
-  texture-uploads: Subidas de texturas
-  user-registration: Registro de usuario
+  texture-uploads: Subidas de Texturas
+  user-registration: Registro de Usuario
 notifications:
   send:
-    title: Enviar notificación
+    title: Enviar Notificación
     success: '¡Enviado con éxito!'
   receiver:
     title: Receptor
-    all: Todos los usuarios
-    normal: Usuarios normales
+    all: Todos los Usuarios
+    normal: Usuarios Normales
     uid: UID especificado
     email: Email especificado
   title: Título
@@ -24,9 +24,9 @@ users:
     normal: Normal
     banned: Baneado
     admin: Admin
-    super-admin: Super Admin
+    super-admin: Súper Admin
   operations:
-    non-existent: No existe tal usuario.
+    non-existent: No existe ese usuario.
     no-permission: No tienes permiso para operar este usuario.
     invalid: Acción inválida.
     email:
@@ -67,10 +67,10 @@ customize:
     title: Cambiar color del tema
     success: Color del tema actualizado.
   colors:
-    navbar: Top Navigation Bar
+    navbar: Barra Superior de Navegación
     sidebar:
-      dark: Sidebar (Dark)
-      light: Sidebar (Light)
+      dark: Barra Lateral (oscuro)
+      light: Barra Lateral (claro)
 i18n:
   add: Añadir nueva línea de idioma
   added: Línea de idioma añadida.
@@ -109,7 +109,7 @@ plugins:
   description: Descripción
   author: Autor
   version: Versión
-  readme: Read Me
+  readme: Leéme
   dependencies: Dependencias
   operations:
     title: Operaciones
@@ -122,7 +122,7 @@ plugins:
     disabled: ':plugin ha sido deshabilitado.'
     deleted: El plugin se eliminó con éxito.
     no-config-notice: El plugin no está instalado o no proporciona una página de configuración.
-    no-readme-notice: The plugin doesn't contain a readme file.
+    no-readme-notice: El plugin no dispone de un archivo de lectura.
     not-found: No existe dicho plugin.
   market:
     unresolved: Hay conflictos o dependencias insatisfechas en el plugin, por lo tanto no podemos descargar. Por favor, instale o actualice los plugins listados a continuación, y desactive los que tienen conflictos.

@@ -1,42 +1,42 @@
 ---
 auth:
-  login: Log In
-  loggingIn: Logging In
+  login: Se connecter
+  loggingIn: Authentification
   tooManyFails:
     captcha: You fails too many times! Please enter the CAPTCHA.
     recaptcha: You fails too many times! Please pass the reCAPTCHA challenge.
-  emptyEmail: Empty email address.
+  emptyEmail: Adresse e-mail vide.
   invalidConfirmPwd: Confirming password is not equal with password.
-  emptyNickname: Empty nickname.
-  register: Register
-  registering: Registering
-  send: Send
-  sending: Sending
-  reset: Reset
-  resetting: Resetting
-  nickname: Nickname
-  player-name: Minecraft player name
-  email: Email
-  identification: Email or player name
-  password: Password
+  emptyNickname: Pseudonyme vide.
+  register: S'inscrire
+  registering: Inscription
+  send: Envoyer
+  sending: Envoi en cours
+  reset: Réinitialiser
+  resetting: Réinitialisation
+  nickname: Pseudonyme
+  player-name: Nom du joueur dans Minecraft
+  email: Adresse e-mail
+  identification: Adresse e-mail ou nom du joueur
+  password: Mot de passe
   captcha: CAPTCHA
   change-captcha: Click to change CAPTCHA image.
   login-link: Already registered? Log in here.
-  forgot-link: Forgot password?
-  keep: Remember me
-  repeat-pwd: Repeat your password
+  forgot-link: Mot de passe oublié ?
+  keep: Se souvenir de moi
+  repeat-pwd: Répétez votre mot de passe
   nickname-intro: Whatever you like expect special characters
   player-name-intro: Player name in Minecraft, can be changed later
-  register-button: Register
+  register-button: S'inscrire
   forgot:
-    login-link: I do remember it
-    button: Send
-  reset-button: Reset
+    login-link: Je m'en souviens
+    button: Envoyer
+  reset-button: Réinitialiser
 skinlib:
-  private: Private
-  anonymous: Please login first.
-  reset: Reset Filter
-  nowShowing: Now showing
+  private: Privé
+  anonymous: Connectez-vous d'abord.
+  reset: Réinitialiser le filtre
+  nowShowing: Maintenant affiché
   addToCloset: Add to closet
   removeFromCloset: Remove from closet
   setItemName: Set a name for this texture
@@ -45,18 +45,18 @@ skinlib:
   setNewTextureName: 'Please enter the new texture name:'
   emptyNewTextureName: Empty new texture name.
   seeMyUpload: My Uploads
-  apply: Apply
+  apply: Appliquer
   filter:
-    skin: (Any Model)
+    skin: (N'importe quel modèle)
     steve: (Steve)
     alex: (Alex)
     cape: (Cape)
     uploader: 'User (UID = :uid) Uploaded'
-    allUsers: All Users
+    allUsers: Tous les utilisateurs
   sort:
-    title: Sort
-    time: Latest
-    likes: Most Likes
+    title: Trier
+    time: Récents
+    likes: Le plus populaire
   badSkinSize: The size of selected skin file is not valid
   badCapeSize: The size of selected cape file is not valid
   emptyTextureName: Empty texture name.
@@ -66,39 +66,39 @@ skinlib:
   fileExtError: 'Error: Textures should be PNG files.'
   showContentPolicy: Read content policy
   uploading: Uploading
-  redirecting: Redirecting...
-  setAsPrivate: Set as Private
-  setAsPublic: Set as Public
+  redirecting: Redirection...
+  setAsPrivate: Rendre privé
+  setAsPublic: Rendre public
   setPublicNotice: Sure to set this as public texture?
   setPrivateNotice: Sure to set this as private texture?
   deleteNotice: Are you sure to delete this texture?
   setNewTextureModel: "Please select a new texture model:"
   upload:
-    texture-name: Texture Name
-    texture-type: Texture Type
-    select-file: Select File
+    texture-name: Nom de la texture
+    texture-type: Type de texture
+    select-file: Sélectionner un fichier
     privacy-notice: Prevent it from being visible at skin library.
-    set-as-private: Make it Private
+    set-as-private: Rendre privé
     button: Upload
-    dropZone: Drop a file here
-    remove: Remove
+    dropZone: Déposez le fichier ici
+    remove: Retirer
     cost: It costs you about :score score.
     award: You'll be awarded :score score(s) by uploading public texture.
   show:
     anonymous: You must login to use closets
-    likes: People who like this
-    detail: Details
-    name: Texture Name
-    edit: Edit
-    model: Applicable Model
-    size: File Size
-    uploader: Uploader
+    likes: Personnes qui ont aimé
+    detail: Détails
+    name: Nom de la texture
+    edit: Modifier
+    model: Modèle applicable
+    size: Taille du fichier
+    uploader: Auteur
     upload-at: Upload At
-    download: Download
-    delete-texture: Delete Texture
+    download: Télécharger
+    delete-texture: Supprimer la texture
     manage-notice: The texture which was deleted or setted to private will be removed from the closet of everyone who had favorited it.
   report:
-    title: Report
+    title: Signaler
     reason: Tell us reason please.
     positive: To encourage positive contributions to the skinlib, we will reward who reported inappropriate content with :score scores. However, if any malicious reporting behaviors were found, all scores rewarded will be taken back.
     negative: To mitigate the impact of malicious reports, we will require :score scores for submitting a texture report. Don't worry. The suspended scores and additional reward will be sent to your account after your report reviewed by administrators.
@@ -108,18 +108,18 @@ user:
   timeUnitMin: min
   emptyClosetMsg: >-
     <p>Nothing in your closet...</p><p>Why not explore the <a href=":url">Skin Library</a> for a while?</p>
-  renameItem: Rename item
+  renameItem: Renommer l'élément
   removeItem: Remove from closet
-  setAsAvatar: Set as avatar
-  viewInSkinlib: View in skin library
-  switch2dPreview: Switch to 2D Preview
-  switch3dPreview: Switch to 3D Preview
+  setAsAvatar: Utiliser en tant qu'avatar
+  viewInSkinlib: Voir dans la bibliothèque de skins
+  switch2dPreview: Passer à l'aperçu 2D
+  switch3dPreview: Passer à l'aperçu 3D
   removeFromClosetNotice: Sure to remove this texture from your closet?
-  emptySelectedPlayer: No player is selected.
-  emptySelectedTexture: No texture is selected.
+  emptySelectedPlayer: Aucun joueur n'est sélectionné.
+  emptySelectedTexture: Aucune texture n'est sélectionnée.
   renameClosetItem: 'Set a new name for this item:'
   changePlayerName: 'Please enter the player name:'
-  emptyPlayerName: Empty player name.
+  emptyPlayerName: Nom du joueur vide.
   clearTexture: Sure to clear the skins & cape of this player?
   deletePlayer: Sure to delete this player?
   deletePlayerNotice: It's permanent. No backups.
@@ -127,56 +127,56 @@ user:
   noClearChoice: You haven't choose any types
   setAvatar: Sure to set this as your avatar?
   setAvatarNotice: The head segment of skin will bu used.
-  resetAvatar: Reset Avatar
+  resetAvatar: Réinitialiser l'avatar
   resetAvatarConfirm: Are you sure to reset your avatar?
   changeNickName: 'Sure to set your nickname to :new_nickname?'
   changeEmail: 'Sure to change your email address to :new_email?'
-  typeToSearch: Type to search
-  useAs: Apply...
-  resetSelected: Clear selected
+  typeToSearch: Tapez pour rechercher
+  useAs: Appliquer...
+  resetSelected: Effacer la sélection
   bindNewPlayer: You're required to create a player to go ahead. This player will be bound with your account.
   bindExistedPlayer: You're required to select a player to go ahead. This player will be bound with your account. Other players will be deleted.
   closet:
     upload: Upload Texture
     use-as:
-      button: Apply...
-      reset: Clear selected
+      button: Appliquer...
+      reset: Effacer la sélection
       title: Which player should be applied to?
       empty: It seems that you own no player...
-      add: Add new player
+      add: Ajouter un nouveau joueur
   profile:
     avatar:
-      title: Change Avatar?
+      title: Changer d'avatar ?
       notice: Click the gear icon「<i class="fas fa-cog"></i>」of any skin in your skinlib, then click 「Set as avatar」. We will cut the head segment of that skin for you. If there is no icon like this, please unable the extensions like ADBlock.
     password:
-      title: Change Password
-      old: Old Password
-      new: New Password
-      confirm: Repeat Password
-      button: Change Password
+      title: Changer le mot de passe
+      old: Ancien mot de passe
+      new: Nouveau mot de passe
+      confirm: Répétez le mot de passe
+      button: Changer le mot de passe
     nickname:
-      title: Change Nickname
+      title: Changer le pseudonyme
       rule: Whatever you like expect special characters
     email:
-      title: Change Email
-      new: New Email
-      password: Current Password
-      button: Change Email
+      title: Changer l'adresse e-mail
+      new: Nouvelle adresse e-mail
+      password: Mot de passe actuel
+      button: Changer l'adresse e-mail
     delete:
-      title: Delete Account
+      title: Supprimer le compte
       notice: Sure to delete your account on :site?
       admin: Admin account can not be deleted.
-      button: Delete My Account
+      button: Supprimer mon compte
       modal-title: You need to enter your password to continue
       modal-notice: |
         You're about to delete your account.
         This is permanent! No backups, no restores, no magic undo button.
         We warned you, ok?
-      password: Current Password
+      password: Mot de passe actuel
   used:
-    title: Resources Used
-    players: Registered players
-    storage: Storage used
+    title: Ressources utilisées
+    players: Joueurs inscrits
+    storage: Espace utilisé
   cur-score: Current Score
   score-notice: Click the score to show introduction.
   sign: Sign
@@ -186,165 +186,165 @@ user:
   last-sign: Last signed at :time
   sign-remain-time: Available after :time :unit
   player:
-    player-name: Player Name
-    edit: Edit
-    operation: Operations
-    edit-pname: Edit Name
-    delete-texture: Clear Textures
-    delete-player: Delete
-    add-player: Add new player
+    player-name: Nom du joueur
+    edit: Modifier
+    operation: Actions
+    edit-pname: Modifier le nom
+    delete-texture: Effacer les textures
+    delete-player: Supprimer
+    add-player: Ajouter un nouveau joueur
     login-notice: Now you can log in with player names you owned instead email address.
     player-info: Information <small>(click player name to show preview)</small>
-    texture-empty: Nothing
+    texture-empty: Rien
     player-name-rule:
       official: Player name may only contains letters, numbers and underscores.
       cjk: Player name may contains letters, numbers, underscores and CJK Unified Ideographs.
       custom: Custom player name rules are applied on this site. Please contact admins for further information.
     player-name-length: The player name should be at least :min characters and not greater than :max characters.
   verification:
-    title: Verify Your Account
+    title: Vérifiez votre compte
     message: You must verify your email address before using the skin hosting service. Haven't received the email?
-    resend: Click here to send again.
-    sending: Sending...
+    resend: Cliquez ici pour renvoyer.
+    sending: Envoi...
   oauth:
     id: Client ID
-    name: App Name
+    name: Nom de l'application
     secret: Client Secret
     redirect: Callback URL
-    modifyName: Modify app name.
+    modifyName: Modifier le nom de l'application.
     modifyUrl: Modify callback URL.
-    create: Create New App
+    create: Créer une nouvelle appli
     confirmRemove: Are you sure to delete this app? You won't be able to undo this.
 admin:
-  operationsTitle: Operations
+  operationsTitle: Actions
   permission: Permission
-  playersCount: Players Count
-  deleteUser: Delete
-  cannotDeleteAdmin: You can't delete admins.
+  playersCount: Nombre de joueurs
+  deleteUser: Supprimer
+  cannotDeleteAdmin: Vous ne pouvez pas supprimer d'administrateurs.
   cannotDeleteSuperAdmin: You can't delete super admin in this way
-  changeEmail: Edit Email
+  changeEmail: Modifier l'adresse e-mail
   newUserEmail: 'Please enter the new email:'
-  verification: Email Verification
+  verification: Vérification de l'adresse e-mail
   toggleVerification: Toggle Verification Status
-  changeNickName: Edit Nickname
+  changeNickName: Modifier le pseudonyme
   newUserNickname: 'Please enter the new nickname:'
-  changePassword: Edit Password
+  changePassword: Modifier le mot de passe
   newUserPassword: 'Please enter the new password:'
   changeScore: Edit Score
   newScore: 'Please enter the new score:'
-  changePermission: Change permission
+  changePermission: Modifier la permission
   newPermission: 'Please select new permission:'
   deleteUserNotice: Are you sure to delete this user? It' permanent.
   inspectHisOwner: Click to inspect the owner of this player
   inspectHisPlayers: Click to inspect the players he owns
-  banned: Banned
+  banned: Banni
   normal: Normal
-  admin: Admin
-  superAdmin: Super Admin
-  unverified: Unverified
-  verified: Verified
+  admin: Administrateur
+  superAdmin: Super administrateur
+  unverified: Non vérifié
+  verified: Vérifié
   pidNotice: >-
     Please enter the tid of texture. Inputing 0 can clear texture of this player.
-  changePlayerTexture: 'Change textures of :player'
-  changeTexture: Change Textures
-  changePlayerName: Change Player Name
-  changeOwner: Change Owner
-  textureType: Texture Type
-  deletePlayer: Delete
+  changePlayerTexture: 'Changer les textures de :player'
+  changeTexture: Changer les textures
+  changePlayerName: Changer le nom du joueur
+  changeOwner: Changer de propriétaire
+  textureType: Type de texture
+  deletePlayer: Supprimer
   changePlayerOwner: 'Please enter the id of user which this player should be transferred to:'
   deletePlayerNotice: Are you sure to delete this player? It' permanent.
   targetUser: 'Target user is :nickname'
-  noSuchUser: No such user
+  noSuchUser: Cet utilisateur n'existe pas
   changePlayerNameNotice: 'Please input new player name:'
   emptyPlayerName: Player name cannot be empty.
-  configurePlugin: Configure
+  configurePlugin: Configurer
   noPluginConfigNotice: The plugin has been disabled or no configuration is provided.
-  deletePlugin: Delete
-  noDependencies: No Dependencies
-  whyDependencies: What's this?
-  statusEnabled: Enabled
-  statusDisabled: Disabled
+  deletePlugin: Supprimer
+  noDependencies: Aucune dépendance
+  whyDependencies: Qu'est-ce que c'est ?
+  statusEnabled: Activé
+  statusDisabled: Désactivé
   pluginTitle: Plugin
-  pluginAuthor: Author
+  pluginAuthor: Auteur
   pluginVersion: Version
-  pluginName: Name
-  pluginReadme: Read Me
+  pluginName: Nom
+  pluginReadme: Lisez-moi
   pluginDescription: Description
-  pluginDependencies: Dependencies
-  installPlugin: Install
-  pluginInstalling: Installing...
-  updatePlugin: Update
-  pluginUpdating: Updating...
+  pluginDependencies: Dépendances
+  installPlugin: Installer
+  pluginInstalling: Installation...
+  updatePlugin: Mettre à jour
+  pluginUpdating: Mise à jour...
   confirmUpdate: Are you sure to update ":plugin" from :old to :new?
-  enablePlugin: Enable
-  disablePlugin: Disable
+  enablePlugin: Activer
+  disablePlugin: Désactiver
   confirmDeletion: Are you sure to delete this plugin?
   noDependenciesNotice: >-
     There is no dependency definition in the plugin. It means that the plugin may be not compatible with the current version of Blessing Skin, and enabling it may cause unexpected problems. Do you really want to enable the plugin?
-  updateButton: Update Now
-  downloading: Downloading...
-  updateCompleted: Update completed.
+  updateButton: Mettre à jour maintenant
+  downloading: Téléchargement...
+  updateCompleted: Mise à jour terminée.
   i18n:
-    group: Group
+    group: Groupe
     key: Key
-    text: Text
-    empty: (Empty)
-    modify: Modify
-    delete: Delete
-    updating: 'Please type new text:'
+    text: Texte
+    empty: (Vide)
+    modify: Modifier
+    delete: Supprimer
+    updating: 'Veuillez saisir un nouveau texte :'
     confirmDelete: Are you sure? This is irreversible.
 report:
-  tid: Texture ID
-  reporter: Reporter
-  reason: Reason
-  status-title: Status
+  tid: ID de texture
+  reporter: Auteur du signalement
+  reason: Raison
+  status-title: Statut
   status:
-    - Pending
-    - Resolved
-    - Rejected
-  time: Report Time
-  check: Details
-  delete: Delete
+    - Suspendu
+    - Résolu
+    - Rejeté
+  time: Heure du signalement
+  check: Détails
+  delete: Supprimer
   ban: Ban
-  reject: Reject
+  reject: Rejeter
 general:
   skin: Skin
   cape: Cape
   fatalError: Fatal Error
-  confirmLogout: Sure to log out?
+  confirmLogout: Voulez-vous vraiment vous déconnecter ?
   confirm: OK
-  cancel: Cancel
-  submit: Submit
-  close: Close
-  more: More
-  tip: Tip
+  cancel: Annuler
+  submit: Envoyer
+  close: Fermer
+  more: Plus
+  tip: Conseil
   pagination: 'Page :page, total :total'
   searchResult: '(Search result of keyword ":keyword")'
-  noResult: No result.
-  texturePreview: Texture Preview
-  walk: Walk
-  run: Run
+  noResult: Aucun résultat.
+  texturePreview: Aperçu de la texture
+  walk: Marcher
+  run: Courir
   rotation: Rotation
-  pause: Pause
-  reset: Reset
-  skinlib: Skin Library
-  loading: Loading
-  wait: Please wait...
+  pause: Suspendre
+  reset: Réinitialiser
+  skinlib: Bibliothèque de skins
+  loading: Chargement
+  wait: Veuillez patienter...
   user:
-    email: Email
-    nickname: Nick Name
+    email: Adresse e-mail
+    nickname: Pseudonyme
     score: Score
-    register-at: Registered At
+    register-at: Inscrit à
   player:
-    owner: Owner
-    player-name: Player Name
+    owner: Propriétaire
+    player-name: Nom du joueur
     previews: Texture Previews
-    last-modified: Last Modified
+    last-modified: Dernière modification
 vendor:
   datatable:
-    search: Search
+    search: Rechercher
     rowsPerPage: Rows per page
-    prev: Prev
-    next: Next
-    of: of
-    all: All
+    prev: Précédent
+    next: Suivant
+    of: de
+    all: Tous

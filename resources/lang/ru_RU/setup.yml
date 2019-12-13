@@ -1,67 +1,67 @@
 ---
 database:
-  connection-error: "Unable to connect to the target :type database, please check your configuration. The server replied with: :msg"
-  connection-success: Connect to the target :type database [:server] successfully, just click NEXT to start installation.
-  table-already-exists: There are some tables already exist in target database, whose names conflict with ones we are going to create. To avoid data loss, please manually delete these tables :tables, or set a different table prefix.
+  connection-error: "Не удается подключиться к базе данных :type, проверьте свою конфигурацию. Сервер ответил: :msg"
+  connection-success: Подключение к базе данных :type [:server] прошло успешно. Нажмите ДАЛЕЕ чтобы начать установку.
+  table-already-exists: 'В целевой базе данных уже есть несколько таблиц, имена которых противоречат тем, которые мы собираемся создать. Чтобы избежать потери данных, удалите эти таблицы: :tables вручную или установите другой префикс таблиц.'
 file:
-  permission-error: Unable to create textures folder, please check the directory permissions or place one manually.
-  no-dot-env: Unable to find environment configuration file. Please rename .env.example to .env (please refer to setup manual).
+  permission-error: Невозможно создать папку текстур, пожалуйста, проверьте права доступа к каталогу или поместите их вручную.
+  no-dot-env: Не удалось найти файл конфигурации. Пожалуйста, переименуйте .env.example в .env (пожалуйста, обратитесь к руководству по установке).
 permissions:
-  storage: Unable to write to storage directory, please check the permissions.
+  storage: Невозможно записать в папку хранения, проверьте разрешения.
 disabled-functions:
-  escapeshellarg: "The escapeshellarg function is disabled in your php.ini configuration. Please contact your web hosting provider to enable it or perform the installation manually: http://t.cn/REzBZUe"
+  escapeshellarg: "Функция escapeshellarg отключена в вашей конфигурации php.ini. Пожалуйста, свяжитесь с вашим хостинг-провайдером, чтобы включить его или выполните установку вручную: http://t.cn/REzBZUe"
 locked:
-  title: Already installed
-  text: It appears that you have already installed Blessing Skin Server. To reinstall, please delete the "install.lock" file under "storage" directory.
-  button: Back to homepage
+  title: Уже установлено
+  text: Похоже, вы уже установили сервер Blessing Skin. Чтобы переустановить, удалите файл "install.lock" в каталоге "storage".
+  button: Вернуться на главную страницу
 updates:
   master:
     title: Update Wizard - Blessing Skin Server
   welcome:
-    title: One more step
+    title: Еще один шаг
     text: |
-      Welcome! You are going to update to Blessing Skin Server v:version.
-      We need to apply some updates to your database, click NEXT to continue.
-    button: Next
+      Добро пожаловать! Вы собираетесь обновить Blessing Skin Server до v:version.
+      Нам нужно применить некоторые обновления к вашей базе данных, нажмите ДАЛЕЕ, чтобы продолжить.
+    button: Далее
   success:
-    title: Update complete
-    text: Blessing Skin Server has been successfully updated to v:version.
-    tips: "Update Tips:"
+    title: Обновление завершено
+    text: Blessing Skin Server успешно обновлен до версии v:version.
+    tips: "Советы по обновлению:"
   changelog:
-    title: Release Note
+    title: Примечания к выпуску
 wizard:
   master:
     title: Install Wizard - Blessing Skin Server
   welcome:
-    title: Welcome
-    button: Next
-    text: Welcome to Blessing Skin Server v:version!
+    title: Добро пожаловать
+    button: Далее
+    text: Добро пожаловать в Blessing Skin Server v:version!
   database:
-    title: Database
-    text: The database is used for storing data of Blessing Skin.
-    type: Database Type
-    host: Database Host
-    port: Database Port
-    username: Database Username
-    password: Database Password
-    db: Database Name
-    db-notice: You should provide the path to SQLite file and there is no need to fill other blanks if you use SQLite.
-    prefix: Prefix of Database Table (Optional)
-    prefix-notice: You don't need to use this option unless you want to install multiple Blessing Skin Server into one database.
+    title: База данных
+    text: База данных используется для хранения данных Blessing Skin.
+    type: Тип базы данных
+    host: Сервер базы данных
+    port: Порт базы данных
+    username: Имя пользователя базы данных
+    password: Пароль базы данных
+    db: Имя базы данных
+    db-notice: Вы должны указать путь к файлу SQLite, и нет необходимости заполнять другие пробелы, если вы используете SQLite.
+    prefix: Префикс таблицы базы данных (необязательно)
+    prefix-notice: Вам не нужно использовать эту опцию, если вы не хотите устанавливать несколько серверов Blessing Skin в одну базу данных.
   info:
-    title: Information needed
-    button: Run install
-    text: To proceed with the installation, please fill this form with the details of the initial admin account. Don't worry, you can always change these settings later.
-    admin-email: Admin Email
-    admin-notice: This is the UNIQUE super admin account who can GIVE or CANCEL other users' admin privilege.
-    nickname: Nickname
-    password: Password
-    pwd-notice: 'Attention: You will need the password to log in. Please keep it at a secure place.'
-    confirm-pwd: Confirm password
-    site-name: Site name
-    site-name-notice: This will be shown on every page.
-    secure: Security
-    secure-notice: Generate random APP_KEY and SALT to make your site secured.
+    title: Необходимая информация
+    button: Запустить установку
+    text: Чтобы продолжить установку, пожалуйста, заполните эту форму с данными начальной учетной записи администратора. Не волнуйтесь, вы всегда можете изменить эти настройки позже.
+    admin-email: E-mail Администратора
+    admin-notice: Это УНИКАЛЬНАЯ учетная запись супер-администратора, которая может ДАТЬ или ОТМЕНИТЬ привилегии администратора других пользователей.
+    nickname: Ник
+    password: Пароль
+    pwd-notice: 'Внимание: вам понадобится пароль для входа в систему. Пожалуйста, храните его в надежном месте.'
+    confirm-pwd: Подтвердите пароль
+    site-name: Название сайта
+    site-name-notice: Это будет показано на каждой странице.
+    secure: Безопасность
+    secure-notice: Создайте случайные APP_KEY и SALT, чтобы обеспечить безопасность вашего сайта.
   finish:
-    title: Installation complete
-    text: Blessing Skin Server has been installed. Thank you, and enjoy!
+    title: Установка завершена
+    text: Blessing Skin Server был установлен. Спасибо, наслаждайтесь!
