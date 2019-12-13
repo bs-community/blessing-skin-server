@@ -39,7 +39,11 @@ trait HasPassword
     public function changePassword($password)
     {
         $responses = event(new EncryptUserPassword($password, $this));
-        $this->password = Arr::get($responses, 0, app('cipher')->hash($password, config('secure.salt')));
+        $hash = Arr::get($responses, 0);
+        if (empty($hash)) {
+            $hash = app('cipher')->hash($password, config('secure.salt'));
+        }
+        $this->password = $hash;
 
         return $this->save();
     }
