@@ -3,18 +3,18 @@ index:
   total-users: Usuarios Registrados
   total-players: Jugadores
   total-textures: Texturas Subidas
-  disk-usage: Uso del disco
+  disk-usage: Uso del Disco
   overview: Resumen
-  texture-uploads: Subidas de texturas
-  user-registration: Registro de usuario
+  texture-uploads: Subidas de Texturas
+  user-registration: Registro de Usuario
 notifications:
   send:
-    title: Enviar notificación
+    title: Enviar Notificación
     success: '¡Enviado con éxito!'
   receiver:
     title: Receptor
-    all: Todos los usuarios
-    normal: Usuarios normales
+    all: Todos los Usuarios
+    normal: Usuarios Normales
     uid: UID especificado
     email: Email especificado
   title: Título
@@ -24,9 +24,9 @@ users:
     normal: Normal
     banned: Baneado
     admin: Admin
-    super-admin: Super Admin
+    super-admin: Súper Admin
   operations:
-    non-existent: No existe tal usuario.
+    non-existent: No existe ese usuario.
     no-permission: No tienes permiso para operar este usuario.
     invalid: Acción inválida.
     email:
