@@ -8,7 +8,8 @@ class HomeController extends Controller
 {
     public function index()
     {
-        return view('home')->with('user', auth()->user())
+        return view('home')
+            ->with('user', auth()->user())
             ->with('site_description', option_localized('site_description'))
             ->with('transparent_navbar', (bool) option('transparent_navbar', false))
             ->with('fixed_bg', option('fixed_bg'))
