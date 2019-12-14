@@ -1,3 +1,5 @@
+const offline = document.createElement('div')
+
 export default [
   {
     path: '/',
@@ -14,7 +16,7 @@ export default [
   {
     path: 'user/closet',
     component: () => import('../views/user/Closet.vue'),
-    el: '.content > .container-fluid',
+    el: offline,
   },
   {
     path: 'user/player',

@@ -4,14 +4,32 @@ namespace App\Http\Controllers;
 
 use App\Models\Texture;
 use App\Models\User;
+use App\Services\Filter;
 use Auth;
 use Illuminate\Http\Request;
 
 class ClosetController extends Controller
 {
-    public function index()
+    public function index(Filter $filter)
     {
+        $grid = [
+            'layout' => [
+                ['md-8', 'md-4'],
+            ],
+            'widgets' => [
+                [
+                    [
+                        'user.widgets.email-verification',
+                        'user.widgets.closet.list',
+                    ],
+                    ['shared.previewer'],
+                ],
+            ],
+        ];
+        $grid = $filter->apply('grid:user.closet', $grid);
+
         return view('user.closet')
+            ->with('grid', $grid)
             ->with('extra', [
                 'unverified' => option('require_verification') && !auth()->user()->verified,
                 'rule' => trans('user.player.player-name-rule.'.option('player_name_rule')),

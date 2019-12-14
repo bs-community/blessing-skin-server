@@ -5,7 +5,14 @@ import Closet from '@/views/user/Closet.vue'
 import ClosetItem from '@/components/ClosetItem.vue'
 import Previewer from '@/components/Previewer.vue'
 
-window.blessing.extra = { unverified: false }
+beforeEach(() => {
+  document.body.innerHTML = `
+    <div id="closet-list"></div>
+    <div id="previewer"></div>
+  `
+
+  window.blessing.extra = { unverified: false }
+})
 
 test('fetch closet data before mount', () => {
   Vue.prototype.$http.get.mockResolvedValue({ data: {} })
