@@ -20,15 +20,17 @@ class ReportController extends Controller
             'reason' => 'required',
         ]);
         $reporter = auth()->user();
+        $tid = $data['tid'];
+        $reason = $data['reason'];
 
-        $can = $filter->apply('user_can_report', true, [$data['tid'], $data['reason'], $reporter]);
+        $can = $filter->apply('user_can_report', true, [$tid, $reason, $reporter]);
         if ($can instanceof Rejection) {
             return json($can->getReason(), 1);
         }
 
-        $dispatcher->dispatch('report.submitting', [$data['tid'], $data['reason'], $reporter]);
+        $dispatcher->dispatch('report.submitting', [$tid, $reason, $reporter]);
 
-        if (Report::where('reporter', $reporter->uid)->where('tid', $data['tid'])->count() > 0) {
+        if (Report::where('reporter', $reporter->uid)->where('tid', $tid)->count() > 0) {
             return json(trans('skinlib.report.duplicate'), 1);
         }
 
@@ -40,10 +42,10 @@ class ReportController extends Controller
         $reporter->save();
 
         $report = new Report();
-        $report->tid = $data['tid'];
-        $report->uploader = Texture::find($data['tid'])->uploader;
+        $report->tid = $tid;
+        $report->uploader = Texture::find($tid)->uploader;
         $report->reporter = $reporter->uid;
-        $report->reason = $data['reason'];
+        $report->reason = $reason;
         $report->status = Report::PENDING;
         $report->save();
 
