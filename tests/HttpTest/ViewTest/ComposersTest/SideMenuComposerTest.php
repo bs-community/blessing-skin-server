@@ -2,11 +2,11 @@
 
 namespace Tests;
 
-use Event;
 use App\Events;
 use App\Models\User;
 use App\Services\Plugin;
 use App\Services\PluginManager;
+use Event;
 use Symfony\Component\DomCrawler\Crawler;
 
 class SideMenuComposerTest extends TestCase
@@ -48,7 +48,7 @@ class SideMenuComposerTest extends TestCase
                             'config' => 'user/master.blade.php',
                             'title' => 'Fake',
                             'name' => 'fake',
-                        ])
+                        ]),
                     ])
                 );
         });

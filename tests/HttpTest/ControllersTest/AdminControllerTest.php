@@ -2,15 +2,15 @@
 
 namespace Tests;
 
-use Notification;
-use App\Models\User;
 use App\Models\Player;
-use App\Notifications;
 use App\Models\Texture;
+use App\Models\User;
+use App\Notifications;
 use App\Services\Plugin;
-use Illuminate\Support\Str;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Support\Str;
+use Notification;
 
 class AdminControllerTest extends TestCase
 {

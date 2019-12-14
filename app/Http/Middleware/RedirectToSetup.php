@@ -15,11 +15,11 @@ class RedirectToSetup
 
         // If lock isn't existed, it means that BS isn't installed.
         // Database is unavailable at this time, so we should disable the loader.
-        if (! $hasLock) {
+        if (!$hasLock) {
             config(['translation-loader.translation_loaders' => []]);
         }
 
-        if ($hasLock && ! $request->is('setup*') && Comparator::greaterThan($version, option('version', $version))) {
+        if ($hasLock && !$request->is('setup*') && Comparator::greaterThan($version, option('version', $version))) {
             $user = $request->user();
             if ($user && $user->isAdmin()) {
                 return redirect('/setup/update');

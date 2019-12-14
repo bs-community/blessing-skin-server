@@ -4,29 +4,28 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use Event;
-use Closure;
 use App\Events;
-use Notification;
 use App\Notifications;
+use Closure;
+use Event;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Notification;
 
 class Hook
 {
     /**
      * Add an item to menu.
      *
-     * @param string  $category  'user' or 'admin' or 'explore'
-     * @param int  $position  Where to insert the given item, start from 0.
-     * @param array  $menu  e.g.
-     * [
-     *     'title' => 'Title',       # will be translated by translator
-     *     'link'  => 'user/config', # route link
-     *     'icon'  => 'fa-book',     # font-awesome icon
-     *     'new-tab' => false,        # open the link in new tab or not, false by default
-     * ]
-     * @return void
+     * @param string $category 'user' or 'admin' or 'explore'
+     * @param int    $position where to insert the given item, start from 0
+     * @param array  $menu     e.g.
+     *                         [
+     *                         'title' => 'Title',       # will be translated by translator
+     *                         'link'  => 'user/config', # route link
+     *                         'icon'  => 'fa-book',     # font-awesome icon
+     *                         'new-tab' => false,        # open the link in new tab or not, false by default
+     *                         ]
      */
     public static function addMenuItem(string $category, int $position, array $menu): void
     {
@@ -68,7 +67,7 @@ class Hook
     {
         Event::listen(Events\RenderingFooter::class, function ($event) use ($name, $pages) {
             foreach ($pages as $pattern) {
-                if (! request()->is($pattern)) {
+                if (!request()->is($pattern)) {
                     continue;
                 }
 
@@ -90,7 +89,7 @@ class Hook
     {
         Event::listen(Events\RenderingHeader::class, function ($event) use ($urls, $pages) {
             foreach ($pages as $pattern) {
-                if (! request()->is($pattern)) {
+                if (!request()->is($pattern)) {
                     continue;
                 }
 
@@ -107,7 +106,7 @@ class Hook
     {
         Event::listen(Events\RenderingFooter::class, function ($event) use ($urls, $pages) {
             foreach ($pages as $pattern) {
-                if (! request()->is($pattern)) {
+                if (!request()->is($pattern)) {
                     continue;
                 }
 

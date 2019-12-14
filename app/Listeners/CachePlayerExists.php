@@ -2,9 +2,9 @@
 
 namespace App\Listeners;
 
-use Cache;
 use App\Events;
 use App\Models\Player;
+use Cache;
 use Illuminate\Events\Dispatcher;
 
 class CachePlayerExists
@@ -22,7 +22,7 @@ class CachePlayerExists
         if ($event->playerName && is_null(Cache::get($key))) {
             $player = Player::where('name', $event->playerName)->first();
 
-            if (! $player) {
+            if (!$player) {
                 Cache::forever($key, '1');
 
                 return false;

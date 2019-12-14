@@ -2,8 +2,8 @@
 
 namespace App\Models\Concerns;
 
-use Illuminate\Support\Arr;
 use App\Events\EncryptUserPassword;
+use Illuminate\Support\Arr;
 
 trait HasPassword
 {
@@ -20,7 +20,8 @@ trait HasPassword
     /**
      * Try to get encrypted password from event dispatcher.
      *
-     * @param  string $raw
+     * @param string $raw
+     *
      * @return mixed
      */
     public function getEncryptedPwdFromEvent($raw)
@@ -33,7 +34,8 @@ trait HasPassword
     /**
      * Change password of the user.
      *
-     * @param  string $password New password that will be set.
+     * @param string $password new password that will be set
+     *
      * @return bool
      */
     public function changePassword($password)

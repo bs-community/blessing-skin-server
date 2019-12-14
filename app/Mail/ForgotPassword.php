@@ -8,7 +8,8 @@ use Illuminate\Queue\SerializesModels;
 
 class ForgotPassword extends Mailable
 {
-    use Queueable, SerializesModels;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * @var string
@@ -18,7 +19,6 @@ class ForgotPassword extends Mailable
     /**
      * Create a new message instance.
      *
-     * @param string $url
      * @return void
      */
     public function __construct(string $url)

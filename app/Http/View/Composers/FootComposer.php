@@ -3,12 +3,12 @@
 namespace App\Http\View\Composers;
 
 use App\Models\User;
+use App\Services\Translations\JavaScript;
 use App\Services\Webpack;
-use Illuminate\View\View;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Services\Translations\JavaScript;
-use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\View\View;
 
 class FootComposer
 {

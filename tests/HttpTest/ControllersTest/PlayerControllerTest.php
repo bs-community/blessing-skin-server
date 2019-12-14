@@ -2,13 +2,13 @@
 
 namespace Tests;
 
-use Event;
 use App\Events;
-use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
+use App\Models\User;
 use App\Services\Filter;
 use App\Services\Rejection;
+use Event;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PlayerControllerTest extends TestCase

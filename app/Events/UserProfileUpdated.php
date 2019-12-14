@@ -12,8 +12,8 @@ class UserProfileUpdated extends Event
     /**
      * Create a new event instance.
      *
-     * @param  string $type Which type of user profile was updated.
-     * @param  User   $user
+     * @param string $type which type of user profile was updated
+     *
      * @return void
      */
     public function __construct($type, User $user)

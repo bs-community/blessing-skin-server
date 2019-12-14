@@ -10,7 +10,7 @@ class ResetInvalidTextureForPlayer
 
         foreach (['skin', 'cape'] as $type) {
             $field = "tid_$type";
-            if (! \App\Models\Texture::find($player->$field)) {
+            if (!\App\Models\Texture::find($player->$field)) {
                 $player->$field = 0;
             }
         }

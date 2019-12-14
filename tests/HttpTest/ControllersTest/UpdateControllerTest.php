@@ -2,15 +2,15 @@
 
 namespace Tests;
 
+use App\Services\PackageManager;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use App\Services\PackageManager;
-use Illuminate\Filesystem\Filesystem;
-use Tests\Concerns\MocksGuzzleClient;
-use Symfony\Component\Finder\SplFileInfo;
-use GuzzleHttp\Exception\RequestException;
 use Illuminate\Contracts\Console\Kernel as Artisan;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Symfony\Component\Finder\SplFileInfo;
+use Tests\Concerns\MocksGuzzleClient;
 
 class UpdateControllerTest extends TestCase
 {

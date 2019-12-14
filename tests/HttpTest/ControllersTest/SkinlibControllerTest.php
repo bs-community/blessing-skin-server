@@ -2,14 +2,14 @@
 
 namespace Tests;
 
-use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
+use App\Models\User;
 use App\Services\Filter;
-use Illuminate\Support\Str;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Str;
 
 class SkinlibControllerTest extends TestCase
 {
@@ -222,7 +222,7 @@ class SkinlibControllerTest extends TestCase
             ]])
             ->decodeResponseJson('data')['items'];
         $this->assertTrue(collect($items)->every(function ($item) {
-            return ! $item['liked'];
+            return !$item['liked'];
         }));
 
         // A user has added a texture from skin library to his closet

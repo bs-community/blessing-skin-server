@@ -2,9 +2,9 @@
 
 namespace App\Providers;
 
-use Event;
 use App\Events;
 use App\Listeners;
+use Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider

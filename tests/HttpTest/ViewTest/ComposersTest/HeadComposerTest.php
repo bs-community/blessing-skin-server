@@ -3,8 +3,8 @@
 namespace Tests;
 
 use Event;
-use Symfony\Component\DomCrawler\Crawler;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Symfony\Component\DomCrawler\Crawler;
 
 class HeadComposerTest extends TestCase
 {
@@ -32,7 +32,7 @@ class HeadComposerTest extends TestCase
         option([
             'meta_keywords' => 'kw',
             'meta_description' => 'desc',
-            'meta_extras' => '<meta name=fake><div id=disallowed></div>'
+            'meta_extras' => '<meta name=fake><div id=disallowed></div>',
         ]);
         $crawler = new Crawler($this->get('/')->getContent());
         $this->assertEquals(

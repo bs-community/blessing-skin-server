@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
+use App\Services\PackageManager;
 use App\Services\Plugin;
-use Illuminate\Support\Arr;
-use Illuminate\Http\Request;
 use App\Services\PluginManager;
 use Composer\Semver\Comparator;
-use App\Services\PackageManager;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class MarketController extends Controller
 {
@@ -78,7 +78,7 @@ class MarketController extends Controller
         $name = $request->get('name');
         $metadata = $this->getPluginMetadata($name);
 
-        if (! $metadata) {
+        if (!$metadata) {
             return json(trans('admin.plugins.market.non-existent', ['plugin' => $name]), 1);
         }
 
@@ -86,7 +86,7 @@ class MarketController extends Controller
         $unsatisfied = $manager->getUnsatisfied($fakePlugin);
         $conflicts = $manager->getConflicts($fakePlugin);
         if ($unsatisfied->isNotEmpty() || $conflicts->isNotEmpty()) {
-            $reason =  $manager->formatUnresolved($unsatisfied, $conflicts);
+            $reason = $manager->formatUnresolved($unsatisfied, $conflicts);
 
             return json(trans('admin.plugins.market.unresolved'), 1, compact('reason'));
         }
@@ -113,7 +113,7 @@ class MarketController extends Controller
     protected function getAllAvailablePlugins()
     {
         $registryVersion = 1;
-        if (app()->runningUnitTests() || ! $this->registryCache) {
+        if (app()->runningUnitTests() || !$this->registryCache) {
             $registries = collect(explode(',', config('plugins.registry')));
             $this->registryCache = $registries->map(function ($registry) use ($registryVersion) {
                 try {
@@ -123,9 +123,7 @@ class MarketController extends Controller
                         ['verify' => \Composer\CaBundle\CaBundle::getSystemCaRootBundlePath()]
                     )->getBody();
                 } catch (Exception $e) {
-                    throw new Exception(trans('admin.plugins.market.connection-error', [
-                        'error' => htmlentities($e->getMessage()),
-                    ]));
+                    throw new Exception(trans('admin.plugins.market.connection-error', ['error' => htmlentities($e->getMessage())]));
                 }
 
                 $registryData = json_decode($pluginsJson, true);

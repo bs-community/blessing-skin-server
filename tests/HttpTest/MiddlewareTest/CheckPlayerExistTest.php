@@ -2,9 +2,8 @@
 
 namespace Tests;
 
-use Event;
-use App\Models\User;
 use App\Models\Player;
+use Event;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CheckPlayerExistTest extends TestCase

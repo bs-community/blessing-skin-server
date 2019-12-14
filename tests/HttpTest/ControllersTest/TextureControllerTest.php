@@ -2,15 +2,15 @@
 
 namespace Tests;
 
-use Event;
-use Mockery;
-use Exception;
-use Carbon\Carbon;
-use App\Models\User;
 use App\Models\Player;
 use App\Models\Texture;
-use Illuminate\Support\Facades\Storage;
+use App\Models\User;
+use Carbon\Carbon;
+use Event;
+use Exception;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Storage;
+use Mockery;
 
 class TextureControllerTest extends TestCase
 {
@@ -126,7 +126,7 @@ class TextureControllerTest extends TestCase
             'If-Modified-Since' => Carbon::now()->addHours(1)->toRfc7231String(),
         ])->assertStatus(304);
 
-        Storage::shouldReceive('disk')->with('textures')->andThrow(new Exception);
+        Storage::shouldReceive('disk')->with('textures')->andThrow(new Exception());
         $this->get('/textures/'.$steve->hash)->assertNotFound();
     }
 
@@ -219,7 +219,7 @@ class TextureControllerTest extends TestCase
             ->assertHeader('Content-Type', 'image/png');
         Event::assertDispatched(\App\Events\GetAvatarPreview::class);
 
-        Storage::shouldReceive('disk')->with('textures')->andThrow(new Exception);
+        Storage::shouldReceive('disk')->with('textures')->andThrow(new Exception());
         $this->get('/avatar/'.base64_encode($user->email).'.png')
             ->assertHeader('Content-Type', 'image/png');
     }
@@ -277,7 +277,7 @@ class TextureControllerTest extends TestCase
         $this->get("/preview/{$cape->tid}.png")
             ->assertHeader('Content-Type', 'image/png');
 
-        Storage::shouldReceive('disk')->with('textures')->andThrow(new Exception);
+        Storage::shouldReceive('disk')->with('textures')->andThrow(new Exception());
         $this->get("/preview/{$steve->tid}.png")
             ->assertHeader('Content-Type', 'image/png');
     }

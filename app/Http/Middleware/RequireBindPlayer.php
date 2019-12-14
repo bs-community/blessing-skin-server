@@ -8,7 +8,7 @@ class RequireBindPlayer
 {
     public function handle($request, Closure $next)
     {
-        if (! option('single_player', false)) {
+        if (!option('single_player', false)) {
             if ($request->is('user/player/bind')) {
                 return redirect('/user');
             } else {

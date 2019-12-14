@@ -23,3 +23,4 @@ storage/oauth-public.key
 storage/oauth-private.key
 storage/install.lock
 .phpunit.result.cache
+.php_cs.cache

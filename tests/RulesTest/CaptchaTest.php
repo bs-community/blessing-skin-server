@@ -4,9 +4,9 @@ namespace Tests;
 
 use App\Rules\Captcha;
 use GuzzleHttp\Client;
+use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Handler\MockHandler;
 
 class CaptchaTest extends TestCase
 {

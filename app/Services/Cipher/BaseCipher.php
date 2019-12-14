@@ -9,7 +9,6 @@ abstract class BaseCipher implements EncryptInterface
      */
     public function hash($value, $salt = '')
     {
-        //
     }
 
     /**

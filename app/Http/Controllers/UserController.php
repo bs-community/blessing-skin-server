@@ -3,27 +3,27 @@
 namespace App\Http\Controllers;
 
 use App;
-use URL;
-use Auth;
-use Mail;
-use View;
-use Session;
-use Carbon\Carbon;
-use App\Models\User;
+use App\Events\UserProfileUpdated;
+use App\Mail\EmailVerification;
 use App\Models\Texture;
+use App\Models\User;
 use App\Services\Filter;
 use App\Services\Rejection;
-use Illuminate\Http\Request;
-use App\Mail\EmailVerification;
-use App\Events\UserProfileUpdated;
+use Auth;
+use Carbon\Carbon;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Http\Request;
+use Mail;
+use Session;
+use URL;
+use View;
 
 class UserController extends Controller
 {
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            if (! Auth::user()->verified) {
+            if (!Auth::user()->verified) {
                 $this->sendVerificationEmail();
             }
 
@@ -43,9 +43,9 @@ class UserController extends Controller
         [$from, $to] = explode(',', option('sign_score'));
         $scoreIntro = trans('user.score-intro.introduction', [
             'initial_score' => option('user_initial_score'),
-            'score-from'    => $from,
-            'score-to'      => $to,
-            'return-score'  => option('return_score')
+            'score-from' => $from,
+            'score-to' => $to,
+            'return-score' => option('return_score')
                 ? trans('user.score-intro.will-return-score')
                 : trans('user.score-intro.no-return-score'),
         ]);
@@ -58,7 +58,7 @@ class UserController extends Controller
                 [
                     ['user.widgets.dashboard.usage'],
                     ['user.widgets.dashboard.announcement'],
-                ]
+                ],
             ],
         ];
         $grid = $filter->apply('grid:user.index', $grid);
@@ -76,7 +76,7 @@ class UserController extends Controller
             ],
             'announcement' => app('parsedown')->text(option_localized('announcement')),
             'grid' => $grid,
-            'extra' => ['unverified' => option('require_verification') && ! $user->verified],
+            'extra' => ['unverified' => option('require_verification') && !$user->verified],
         ]);
     }
 
@@ -169,7 +169,7 @@ class UserController extends Controller
 
     public function sendVerificationEmail()
     {
-        if (! option('require_verification')) {
+        if (!option('require_verification')) {
             return json(trans('user.verification.disabled'), 1);
         }
 
@@ -214,7 +214,7 @@ class UserController extends Controller
                 [
                     [
                         'user.widgets.profile.avatar',
-                        'user.widgets.profile.password'
+                        'user.widgets.profile.password',
                     ],
                     [
                         'user.widgets.profile.nickname',
@@ -267,10 +267,10 @@ class UserController extends Controller
             case 'password':
                 $this->validate($request, [
                     'current_password' => 'required|min:6|max:32',
-                    'new_password'     => 'required|min:8|max:32',
+                    'new_password' => 'required|min:8|max:32',
                 ]);
 
-                if (! $user->verifyPassword($request->input('current_password'))) {
+                if (!$user->verifyPassword($request->input('current_password'))) {
                     return json(trans('user.profile.password.wrong-password'), 1);
                 }
 
@@ -288,14 +288,14 @@ class UserController extends Controller
             case 'email':
                 $this->validate($request, [
                     'new_email' => 'required|email',
-                    'password'  => 'required|min:6|max:32',
+                    'password' => 'required|min:6|max:32',
                 ]);
 
                 if (User::where('email', $request->new_email)->count() > 0) {
                     return json(trans('user.profile.email.existed'), 1);
                 }
 
-                if (! $user->verifyPassword($request->input('password'))) {
+                if (!$user->verifyPassword($request->input('password'))) {
                     return json(trans('user.profile.email.wrong-password'), 1);
                 }
 
@@ -319,7 +319,7 @@ class UserController extends Controller
                     return json(trans('user.profile.delete.admin'), 1);
                 }
 
-                if (! $user->verifyPassword($request->input('password'))) {
+                if (!$user->verifyPassword($request->input('password'))) {
                     return json(trans('user.profile.delete.wrong-password'), 1);
                 }
 

@@ -2,17 +2,17 @@
 
 namespace Tests;
 
-use Event;
-use Parsedown;
 use App\Events;
+use App\Mail\EmailVerification;
 use App\Models\User;
 use App\Notifications;
 use App\Services\Filter;
 use App\Services\Rejection;
-use Illuminate\Support\Str;
-use App\Mail\EmailVerification;
-use Illuminate\Support\Facades\Mail;
+use Event;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Parsedown;
 
 class UserControllerTest extends TestCase
 {

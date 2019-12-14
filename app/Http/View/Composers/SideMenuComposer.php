@@ -3,10 +3,10 @@
 namespace App\Http\View\Composers;
 
 use App\Events;
-use Illuminate\View\View;
-use Illuminate\Support\Arr;
-use Illuminate\Http\Request;
 use App\Services\PluginManager;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\View\View;
 
 class SideMenuComposer
 {
@@ -80,8 +80,8 @@ class SideMenuComposer
                     ->map(function ($plugin) {
                         return [
                             'title' => trans($plugin->title),
-                            'link'  => 'admin/plugins/config/'.$plugin->name,
-                            'icon'  => 'fa-circle',
+                            'link' => 'admin/plugins/config/'.$plugin->name,
+                            'icon' => 'fa-circle',
                         ];
                     });
 

@@ -2,12 +2,12 @@
 
 namespace Tests;
 
-use Event;
-use App\Models\User;
 use App\Models\Report;
 use App\Models\Texture;
+use App\Models\User;
 use App\Services\Filter;
 use App\Services\Rejection;
+use Event;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ReportControllerTest extends TestCase
@@ -104,7 +104,7 @@ class ReportControllerTest extends TestCase
     public function testTrack()
     {
         $user = factory(User::class)->create();
-        $report = new Report;
+        $report = new Report();
         $report->tid = 1;
         $report->uploader = 0;
         $report->reporter = $user->uid;
@@ -127,7 +127,7 @@ class ReportControllerTest extends TestCase
         $reporter = factory(User::class, 'admin')->create();
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
 
-        $report = new Report;
+        $report = new Report();
         $report->tid = $texture->tid;
         $report->uploader = $uploader->uid;
         $report->reporter = $reporter->uid;
@@ -158,7 +158,7 @@ class ReportControllerTest extends TestCase
         $admin = factory(User::class, 'admin')->create();
         $texture = factory(Texture::class)->create(['uploader' => $admin->uid]);
 
-        $report = new Report;
+        $report = new Report();
         $report->tid = $texture->tid;
         $report->uploader = $admin->uid;
         $report->reporter = $admin->uid;
@@ -206,7 +206,7 @@ class ReportControllerTest extends TestCase
         $admin = factory(User::class, 'admin')->create();
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
 
-        $report = new Report;
+        $report = new Report();
         $report->tid = $texture->tid;
         $report->uploader = $uploader->uid;
         $report->reporter = $reporter->uid;
@@ -263,7 +263,7 @@ class ReportControllerTest extends TestCase
         $admin = factory(User::class, 'admin')->create();
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
 
-        $report = new Report;
+        $report = new Report();
         $report->tid = $texture->tid;
         $report->uploader = $uploader->uid;
         $report->reporter = $reporter->uid;
@@ -323,7 +323,7 @@ class ReportControllerTest extends TestCase
         $admin = factory(User::class, 'admin')->create();
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
 
-        $report = new Report;
+        $report = new Report();
         $report->tid = $texture->tid;
         $report->uploader = $uploader->uid;
         $report->reporter = $reporter->uid;
@@ -368,7 +368,7 @@ class ReportControllerTest extends TestCase
         $admin = factory(User::class, 'admin')->create();
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
 
-        $report = new Report;
+        $report = new Report();
         $report->tid = $texture->tid;
         $report->uploader = $uploader->uid;
         $report->reporter = $reporter->uid;

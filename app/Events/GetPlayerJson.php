@@ -19,8 +19,8 @@ class GetPlayerJson extends Event
     /**
      * Create a new event instance.
      *
-     * @param  Player $player
-     * @param  int    $apiType
+     * @param int $apiType
+     *
      * @return void
      */
     public function __construct(Player $player, $apiType)

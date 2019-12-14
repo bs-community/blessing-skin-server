@@ -3,10 +3,10 @@
 namespace Tests;
 
 use Cache;
-use Mockery;
-use Illuminate\Support\Facades\Redis;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Support\Facades\Redis;
+use Mockery;
 
 class AdminFormsTest extends BrowserKitTestCase
 {

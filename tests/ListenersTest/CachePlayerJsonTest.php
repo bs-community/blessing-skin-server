@@ -2,11 +2,11 @@
 
 namespace Tests;
 
-use Cache;
-use Event;
-use App\Models\Player;
 use App\Events\GetPlayerJson;
 use App\Events\PlayerProfileUpdated;
+use App\Models\Player;
+use Cache;
+use Event;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CachePlayerJsonTest extends TestCase

@@ -1,0 +1,21 @@
+<?php
+
+$finder = PhpCsFixer\Finder::create()
+    ->in('app')
+    ->in('database')
+    ->in('routes')
+    ->in('tests')
+;
+
+return PhpCsFixer\Config::create()
+    ->setRules([
+        '@Symfony' => true,
+        'align_multiline_comment' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'increment_style' => ['style' => 'post'],
+        'list_syntax' => ['syntax' => 'short'],
+        'yoda_style' => false,
+
+    ])
+    ->setFinder($finder)
+;

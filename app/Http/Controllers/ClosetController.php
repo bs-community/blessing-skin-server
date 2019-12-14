@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use App\Models\User;
 use App\Models\Texture;
+use App\Models\User;
+use Auth;
 use Illuminate\Http\Request;
 
 class ClosetController extends Controller
@@ -13,7 +13,7 @@ class ClosetController extends Controller
     {
         return view('user.closet')
             ->with('extra', [
-                'unverified' => option('require_verification') && ! auth()->user()->verified,
+                'unverified' => option('require_verification') && !auth()->user()->verified,
                 'rule' => trans('user.player.player-name-rule.'.option('player_name_rule')),
                 'length' => trans(
                     'user.player.player-name-length',
@@ -66,7 +66,7 @@ class ClosetController extends Controller
     public function add(Request $request)
     {
         $this->validate($request, [
-            'tid'  => 'required|integer',
+            'tid' => 'required|integer',
             'name' => 'required|no_special_chars',
         ]);
 
@@ -78,11 +78,11 @@ class ClosetController extends Controller
 
         $tid = $request->tid;
         $texture = Texture::find($tid);
-        if (! $texture) {
+        if (!$texture) {
             return json(trans('user.closet.add.not-found'), 1);
         }
 
-        if (! $texture->public && $texture->uploader != $user->uid) {
+        if (!$texture->public && $texture->uploader != $user->uid) {
             return json(trans('skinlib.show.private'), 1);
         }
 

@@ -2,17 +2,17 @@
 
 namespace App\Http\Middleware;
 
-use Event;
-use App\Models\Player;
-use Illuminate\Support\Arr;
 use App\Events\CheckPlayerExists;
+use App\Models\Player;
+use Event;
+use Illuminate\Support\Arr;
 
 class CheckPlayerExist
 {
     public function handle($request, \Closure $next)
     {
         $pid = Arr::get($request->route()->parameters, 'pid') ?? $request->input('pid');
-        if (! $request->isMethod('get') && ! is_null($pid)) {
+        if (!$request->isMethod('get') && !is_null($pid)) {
             if (is_null(Player::find($pid))) {
                 return json(trans('general.unexistent-player'), 1);
             } else {
@@ -40,7 +40,7 @@ class CheckPlayerExist
             // @codeCoverageIgnoreEnd
         }
 
-        if (! Player::where('name', $player_name)->get()->isEmpty()) {
+        if (!Player::where('name', $player_name)->get()->isEmpty()) {
             return $next($request);
         }
 

@@ -2,10 +2,10 @@
 
 namespace Tests;
 
-use Illuminate\Support\Str;
+use App\Services\Translations\JavaScript;
 use Illuminate\Cache\Repository;
 use Illuminate\Filesystem\Filesystem;
-use App\Services\Translations\JavaScript;
+use Illuminate\Support\Str;
 
 class JavaScriptTest extends TestCase
 {
@@ -26,6 +26,7 @@ class JavaScriptTest extends TestCase
                 ->withArgs(function ($path, $content) {
                     $this->assertEquals(public_path('lang/en.js'), $path);
                     $this->assertTrue(Str::startsWith($content, 'blessing.i18n'));
+
                     return true;
                 })
                 ->once()

@@ -2,23 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Player;
+use App\Models\Texture;
+use App\Models\User;
+use App\Notifications;
+use App\Services\OptionForm;
+use App\Services\PluginManager;
 use Auth;
 use Cache;
-use Option;
-use Notification;
 use Carbon\Carbon;
-use App\Models\User;
-use App\Models\Player;
-use App\Notifications;
-use App\Models\Texture;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use App\Services\OptionForm;
-use Illuminate\Http\Request;
-use App\Services\PluginManager;
-use Illuminate\Support\Collection;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Str;
+use Notification;
+use Option;
 
 class AdminController extends Controller
 {
@@ -224,7 +224,7 @@ class AdminController extends Controller
             Option::set('sign_score', $sign_score);
         })->with([
             'sign_score_from' => @explode(',', option('sign_score'))[0],
-            'sign_score_to'   => @explode(',', option('sign_score'))[1],
+            'sign_score_to' => @explode(',', option('sign_score'))[1],
         ])->handle();
 
         $sharing = Option::form('sharing', OptionForm::AUTO_DETECT, function ($form) {
@@ -527,7 +527,7 @@ class AdminController extends Controller
         $user = User::find($request->uid);
         $currentUser = Auth::user();
 
-        if (! $user) {
+        if (!$user) {
             return json(trans('admin.users.operations.non-existent'), 1);
         }
 
@@ -549,7 +549,7 @@ class AdminController extends Controller
 
             return json(trans('admin.users.operations.email.success'), 0);
         } elseif ($action == 'verification') {
-            $user->verified = ! $user->verified;
+            $user->verified = !$user->verified;
             $user->save();
 
             return json(trans('admin.users.operations.verification.success'), 0);
@@ -606,7 +606,7 @@ class AdminController extends Controller
         $currentUser = Auth::user();
         $player = Player::find($request->input('pid'));
 
-        if (! $player) {
+        if (!$player) {
             return json(trans('general.unexistent-player'), 1);
         }
 
@@ -621,10 +621,10 @@ class AdminController extends Controller
         if ($action == 'texture') {
             $this->validate($request, [
                 'type' => 'required',
-                'tid'  => 'required|integer',
+                'tid' => 'required|integer',
             ]);
 
-            if (! Texture::find($request->tid) && $request->tid != 0) {
+            if (!Texture::find($request->tid) && $request->tid != 0) {
                 return json(trans('admin.players.textures.non-existent', ['tid' => $request->tid]), 1);
             }
 
@@ -640,7 +640,7 @@ class AdminController extends Controller
 
             $user = User::find($request->uid);
 
-            if (! $user) {
+            if (!$user) {
                 return json(trans('admin.users.operations.non-existent'), 1);
             }
 

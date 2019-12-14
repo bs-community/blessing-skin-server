@@ -4,7 +4,6 @@ namespace Tests;
 
 use App\Services\Plugin;
 use App\Services\PluginManager;
-use App\Events\PluginWasEnabled;
 use Illuminate\Filesystem\Filesystem;
 
 class GeneratePluginTranslationsTest extends TestCase

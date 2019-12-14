@@ -2,11 +2,11 @@
 
 namespace App\Models;
 
-use Event;
-use Illuminate\Support\Arr;
 use App\Events\GetPlayerJson;
 use App\Events\PlayerProfileUpdated;
+use Event;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 class Player extends Model
 {
@@ -46,8 +46,9 @@ class Player extends Model
     /**
      * Get specific texture of player.
      *
-     * @param  string $type "skin" or "cape".
-     * @return string The sha256 hash of texture file.
+     * @param string $type "skin" or "cape"
+     *
+     * @return string the sha256 hash of texture file
      */
     public function getTexture($type)
     {

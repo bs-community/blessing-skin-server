@@ -11,8 +11,9 @@ class UserTryToLogin extends Event
     /**
      * Create a new event instance.
      *
-     * @param  string $identification Email or username of the user.
-     * @param  string $authType       "email" or "username".
+     * @param string $identification email or username of the user
+     * @param string $authType       "email" or "username"
+     *
      * @return void
      */
     public function __construct($identification, $authType)

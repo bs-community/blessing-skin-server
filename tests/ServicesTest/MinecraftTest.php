@@ -2,9 +2,9 @@
 
 namespace Tests;
 
+use App\Http\Controllers\TextureController;
 use App\Services\Minecraft;
 use Illuminate\Http\Testing\FileFactory;
-use App\Http\Controllers\TextureController;
 
 class MinecraftTest extends TestCase
 {

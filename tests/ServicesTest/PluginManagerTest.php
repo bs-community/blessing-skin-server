@@ -2,13 +2,13 @@
 
 namespace Tests;
 
-use Event;
 use App\Events;
-use ReflectionClass;
 use App\Services\Option;
 use App\Services\Plugin;
 use App\Services\PluginManager;
+use Event;
 use Illuminate\Filesystem\Filesystem;
+use ReflectionClass;
 
 class PluginManagerTest extends TestCase
 {

@@ -2,18 +2,18 @@
 
 namespace Tests;
 
+use App\Services\PackageManager;
 use Cache;
 use Exception;
-use ZipArchive;
-use ReflectionClass;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use App\Services\PackageManager;
-use GuzzleHttp\Handler\MockHandler;
 use Illuminate\Filesystem\Filesystem;
-use GuzzleHttp\Exception\RequestException;
+use ReflectionClass;
+use ZipArchive;
 
 class PackageManagerTest extends TestCase
 {

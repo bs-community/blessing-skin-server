@@ -2,24 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
-use View;
-use Event;
-use Option;
-use App\Models\User;
-use App\Models\Player;
-use App\Models\Texture;
-use App\Services\Filter;
-use App\Services\Rejection;
-use Illuminate\Http\Request;
+use App\Events\CheckPlayerExists;
 use App\Events\PlayerWasAdded;
 use App\Events\PlayerWasDeleted;
-use App\Events\CheckPlayerExists;
 use App\Events\PlayerWillBeAdded;
 use App\Events\PlayerWillBeDeleted;
 use App\Http\Middleware\CheckPlayerExist;
 use App\Http\Middleware\CheckPlayerOwner;
+use App\Models\Player;
+use App\Models\Texture;
+use App\Services\Filter;
+use App\Services\Rejection;
+use Auth;
+use Event;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Http\Request;
+use Option;
+use View;
 
 class PlayerController extends Controller
 {
@@ -69,7 +68,7 @@ class PlayerController extends Controller
 
         event(new CheckPlayerExists($name));
 
-        if (! Player::where('name', $name)->get()->isEmpty()) {
+        if (!Player::where('name', $name)->get()->isEmpty()) {
             return json(trans('user.player.add.repeated'), 6);
         }
 
@@ -79,7 +78,7 @@ class PlayerController extends Controller
 
         event(new PlayerWillBeAdded($name));
 
-        $player = new Player;
+        $player = new Player();
 
         $player->uid = $user->uid;
         $player->name = $name;
@@ -137,7 +136,7 @@ class PlayerController extends Controller
             return json($can->getReason(), 1);
         }
 
-        if (! Player::where('name', $newName)->get()->isEmpty()) {
+        if (!Player::where('name', $newName)->get()->isEmpty()) {
             return json(trans('user.player.rename.repeated'), 6);
         }
 
@@ -162,7 +161,7 @@ class PlayerController extends Controller
         foreach (['skin', 'cape'] as $type) {
             if ($tid = $request->input($type)) {
                 $texture = Texture::find($tid);
-                if (! $texture) {
+                if (!$texture) {
                     return json(trans('skinlib.non-existent'), 1);
                 }
 
@@ -201,10 +200,10 @@ class PlayerController extends Controller
 
         event(new CheckPlayerExists($name));
         $player = Player::where('name', $name)->first();
-        if (! $player) {
+        if (!$player) {
             event(new PlayerWillBeAdded($name));
 
-            $player = new Player;
+            $player = new Player();
             $player->uid = $user->uid;
             $player->name = $name;
             $player->tid_skin = 0;

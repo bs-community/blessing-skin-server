@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Event;
-use Option;
-use Storage;
-use Response;
-use Exception;
-use Carbon\Carbon;
-use App\Models\User;
+use App\Events\GetAvatarPreview;
+use App\Events\GetSkinPreview;
 use App\Models\Player;
 use App\Models\Texture;
+use App\Models\User;
 use App\Services\Minecraft;
+use Carbon\Carbon;
+use Event;
+use Exception;
 use Illuminate\Support\Arr;
-use App\Events\GetSkinPreview;
-use App\Events\GetAvatarPreview;
+use Option;
+use Response;
+use Storage;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 class TextureController extends Controller
@@ -77,8 +77,9 @@ class TextureController extends Controller
     /**
      * Get the texture image of given type and player.
      *
-     * @param  string $player_name
-     * @param  string $type "steve" or "alex" or "cape".
+     * @param string $player_name
+     * @param string $type        "steve" or "alex" or "cape"
+     *
      * @return Response
      */
     protected function getBinaryTextureFromPlayer($player_name, $type)
@@ -88,7 +89,7 @@ class TextureController extends Controller
         if ($hash = $player->getTexture($type)) {
             return $this->texture(
                 $hash,
-                ['Last-Modified'  => $player->last_modified],
+                ['Last-Modified' => $player->last_modified],
                 trans('general.texture-deleted')
             );
         } else {
@@ -242,6 +243,7 @@ class TextureController extends Controller
      * Default steve skin, base64 encoded.
      *
      * @see https://minecraft.gamepedia.com/File:Steve_skin.png
+     *
      * @return string
      */
     public static function getDefaultSteveSkin()

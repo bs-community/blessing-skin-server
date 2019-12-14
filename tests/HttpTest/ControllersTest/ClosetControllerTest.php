@@ -2,8 +2,8 @@
 
 namespace Tests;
 
-use App\Models\User;
 use App\Models\Texture;
+use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ClosetControllerTest extends TestCase

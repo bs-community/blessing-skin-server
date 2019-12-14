@@ -4,16 +4,15 @@ declare(strict_types=1);
 
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
 
-if (! function_exists('plugin')) {
+if (!function_exists('plugin')) {
     function plugin(string $name)
     {
         return app('plugins')->get($name);
     }
 }
 
-if (! function_exists('plugin_assets')) {
+if (!function_exists('plugin_assets')) {
     function plugin_assets(string $name, string $relativeUri): string
     {
         $plugin = plugin($name);
@@ -25,7 +24,7 @@ if (! function_exists('plugin_assets')) {
     }
 }
 
-if (! function_exists('json')) {
+if (!function_exists('json')) {
     function json()
     {
         $args = func_get_args();
@@ -48,15 +47,16 @@ if (! function_exists('json')) {
     }
 }
 
-if (! function_exists('option')) {
+if (!function_exists('option')) {
     /**
      * Get / set the specified option value.
      *
      * If an array is passed as the key, we will assume you want to set an array of values.
      *
-     * @param  array|string  $key
-     * @param  mixed  $default
-     * @param  raw    $raw  return raw value without convertion
+     * @param array|string $key
+     * @param mixed        $default
+     * @param raw          $raw     return raw value without convertion
+     *
      * @return mixed
      */
     function option($key = null, $default = null, $raw = false)
@@ -77,20 +77,20 @@ if (! function_exists('option')) {
     }
 }
 
-if (! function_exists('option_localized')) {
+if (!function_exists('option_localized')) {
     function option_localized($key = null, $default = null, $raw = false)
     {
         return option($key.'_'.config('app.locale'), option($key));
     }
 }
 
-if (! function_exists('humanize_db_type')) {
+if (!function_exists('humanize_db_type')) {
     function humanize_db_type($type = null): string
     {
         $map = [
-            'mysql'  => 'MySQL/MariaDB',
+            'mysql' => 'MySQL/MariaDB',
             'sqlite' => 'SQLite',
-            'pgsql'  => 'PostgreSQL',
+            'pgsql' => 'PostgreSQL',
         ];
 
         $type = $type ?: config('database.default');
@@ -99,7 +99,7 @@ if (! function_exists('humanize_db_type')) {
     }
 }
 
-if (! function_exists('get_db_config')) {
+if (!function_exists('get_db_config')) {
     function get_db_config($type = null)
     {
         $type = $type ?: config('database.default');
@@ -108,12 +108,11 @@ if (! function_exists('get_db_config')) {
     }
 }
 
-if (! function_exists('get_datetime_string')) {
+if (!function_exists('get_datetime_string')) {
     /**
      * Get date time string in "Y-m-d H:i:s" format.
      *
      * @param int $timestamp
-     * @return string
      */
     function get_datetime_string($timestamp = 0): string
     {
@@ -121,14 +120,12 @@ if (! function_exists('get_datetime_string')) {
     }
 }
 
-if (! function_exists('get_client_ip')) {
+if (!function_exists('get_client_ip')) {
     /**
      * Return the client IP address.
      *
      * We define this function because Symfony's "Request::getClientIp()" method
      * needs "setTrustedProxies()", which sucks when load balancer is enabled.
-     *
-     * @return string
      */
     function get_client_ip(): string
     {
@@ -145,13 +142,9 @@ if (! function_exists('get_client_ip')) {
     }
 }
 
-if (! function_exists('get_string_replaced')) {
+if (!function_exists('get_string_replaced')) {
     /**
      * Replace content of string according to given rules.
-     *
-     * @param  string $str
-     * @param  array  $rules
-     * @return string
      */
     function get_string_replaced(string $str, array $rules): string
     {
@@ -163,26 +156,25 @@ if (! function_exists('get_string_replaced')) {
     }
 }
 
-if (! function_exists('is_request_secure')) {
+if (!function_exists('is_request_secure')) {
     /**
      * Check whether the request is secure or not.
      * True is always returned when "X-Forwarded-Proto" header is set.
      *
      * We define this function because Symfony's "Request::isSecure()" method
      * needs "setTrustedProxies()" which sucks when load balancer is enabled.
-     *
-     * @return bool
      */
     function is_request_secure(): bool
     {
         $request = request();
+
         return $request->server('HTTPS') === 'on'
             || $request->server('HTTP_X_FORWARDED_PROTO') === 'https'
             || $request->server('HTTP_X_FORWARDED_SSL') === 'on';
     }
 }
 
-if (! function_exists('png')) {
+if (!function_exists('png')) {
     function png($resource)
     {
         ob_start();

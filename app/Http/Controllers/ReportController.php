@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use App\Models\Report;
 use App\Models\Texture;
+use App\Models\User;
 use App\Services\Filter;
 use App\Services\Rejection;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
-use Illuminate\Contracts\Events\Dispatcher;
 
 class ReportController extends Controller
 {
@@ -39,7 +39,7 @@ class ReportController extends Controller
         $reporter->score += $score;
         $reporter->save();
 
-        $report = new Report;
+        $report = new Report();
         $report->tid = $data['tid'];
         $report->uploader = Texture::find($data['tid'])->uploader;
         $report->reporter = $reporter->uid;
@@ -141,7 +141,7 @@ class ReportController extends Controller
                 break;
             case 'ban':
                 $uploader = User::find($report->uploader);
-                if (! $uploader) {
+                if (!$uploader) {
                     return json(trans('admin.users.operations.non-existent'), 1);
                 }
                 if (auth()->user()->permission <= $uploader->permission) {

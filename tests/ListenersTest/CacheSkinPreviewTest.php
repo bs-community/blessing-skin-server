@@ -2,14 +2,14 @@
 
 namespace Tests;
 
+use App\Events\GetSkinPreview;
+use App\Models\Texture;
 use Cache;
 use Event;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\UploadedFile;
 use Mockery;
 use Storage;
-use App\Models\Texture;
-use App\Events\GetSkinPreview;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class CacheSkinPreviewTest extends TestCase
 {

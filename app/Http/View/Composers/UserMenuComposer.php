@@ -2,8 +2,8 @@
 
 namespace App\Http\View\Composers;
 
-use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class UserMenuComposer
 {

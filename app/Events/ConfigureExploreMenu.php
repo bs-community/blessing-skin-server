@@ -9,7 +9,6 @@ class ConfigureExploreMenu extends Event
     /**
      * Create a new event instance.
      *
-     * @param  array $menu
      * @return void
      */
     public function __construct(array &$menu)

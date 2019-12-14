@@ -3,10 +3,10 @@
 namespace Tests\Concerns;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\Exception\RequestException;
 
 /**
  * @see http://docs.guzzlephp.org/en/stable/testing.html
@@ -23,6 +23,7 @@ trait MocksGuzzleClient
      * Set up for mocking Guzzle HTTP client.
      *
      * @param Response|RequestException $responses
+     *
      * @return void
      */
     public function setupGuzzleClientMock($responses = null)
@@ -40,14 +41,14 @@ trait MocksGuzzleClient
      * Pass a Response or RequestException instance, or an array of them.
      *
      * @param array|Response|RequestException|int $response
-     * @param array       $headers
-     * @param string      $body
-     * @param string      $version
-     * @param string|null $reason
+     * @param array                               $headers
+     * @param string                              $body
+     * @param string                              $version
+     * @param string|null                         $reason
      */
     public function appendToGuzzleQueue($response = 200, $headers = [], $body = '', $version = '1.1', $reason = null)
     {
-        if (! $this->guzzleMockHandler) {
+        if (!$this->guzzleMockHandler) {
             $this->setupGuzzleClientMock();
         }
 

@@ -2,9 +2,9 @@
 
 namespace App\Listeners;
 
+use App\Services\Minecraft;
 use Cache;
 use Storage;
-use App\Services\Minecraft;
 
 class CacheAvatarPreview
 {

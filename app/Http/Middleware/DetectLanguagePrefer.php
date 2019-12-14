@@ -19,7 +19,7 @@ class DetectLanguagePrefer
             $locale = $alias;
         }
         $locale ?? app()->getLocale();
-        if (! Arr::has(config('locales'), $locale)) {
+        if (!Arr::has(config('locales'), $locale)) {
             $locale = config('app.fallback_locale');
         }
 

@@ -9,7 +9,8 @@ class PlayerWillBeAdded extends Event
     /**
      * Create a new event instance.
      *
-     * @param  string $playerName
+     * @param string $playerName
+     *
      * @return void
      */
     public function __construct($playerName)

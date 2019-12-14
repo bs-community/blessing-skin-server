@@ -21,7 +21,7 @@ class BsInstallCommand extends Command
         }
 
         $this->call('migrate', ['--force' => true]);
-        if (! $this->getLaravel()->runningUnitTests()) {
+        if (!$this->getLaravel()->runningUnitTests()) {
             // @codeCoverageIgnoreStart
             $this->call('key:generate');
             $this->call('jwt:secret', ['--no-interaction' => true]);
@@ -31,7 +31,7 @@ class BsInstallCommand extends Command
 
         option(['site_url' => url('/')]);
 
-        $admin = new User;
+        $admin = new User();
         $admin->email = $this->argument('email');
         $admin->nickname = $this->argument('nickname');
         $admin->score = option('user_initial_score');

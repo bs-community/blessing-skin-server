@@ -2,17 +2,17 @@
 
 namespace Tests;
 
+use App\Events;
+use App\Mail\ForgotPassword;
+use App\Models\Player;
+use App\Models\User;
+use App\Services\Facades\Option;
 use Cache;
 use Event;
-use App\Events;
-use App\Models\User;
-use App\Models\Player;
-use Illuminate\Support\Str;
-use App\Mail\ForgotPassword;
-use App\Services\Facades\Option;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Str;
 
 class AuthControllerTest extends TestCase
 {
@@ -21,7 +21,7 @@ class AuthControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        app()->instance(\App\Rules\Captcha::class, new class extends \App\Rules\Captcha {
+        app()->instance(\App\Rules\Captcha::class, new class() extends \App\Rules\Captcha {
             public function __construct(\GuzzleHttp\Client $client = null)
             {
             }

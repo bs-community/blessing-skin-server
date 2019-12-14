@@ -13,8 +13,8 @@ class EncryptUserPassword extends Event
     /**
      * Create a new event instance.
      *
-     * @param  string $raw The raw password before encrypted.
-     * @param  User   $user
+     * @param string $raw the raw password before encrypted
+     *
      * @return void
      */
     public function __construct($raw, User $user)

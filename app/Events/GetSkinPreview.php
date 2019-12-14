@@ -13,8 +13,8 @@ class GetSkinPreview extends Event
     /**
      * Create a new event instance.
      *
-     * @param  Texture $texture
-     * @param  int     $size
+     * @param int $size
+     *
      * @return void
      */
     public function __construct(Texture $texture, $size)

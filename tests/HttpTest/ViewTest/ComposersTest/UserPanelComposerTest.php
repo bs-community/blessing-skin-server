@@ -2,8 +2,8 @@
 
 namespace Tests;
 
-use Event;
 use App\Models\User;
+use Event;
 
 class UserPanelComposerTest extends TestCase
 {

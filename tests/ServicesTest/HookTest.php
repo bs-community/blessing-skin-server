@@ -100,7 +100,7 @@ class HookTest extends TestCase
 
     public function testPushMiddleware()
     {
-        Hook::pushMiddleware(get_class(new class {
+        Hook::pushMiddleware(get_class(new class() {
             public function handle($request, $next)
             {
                 $response = $next($request);

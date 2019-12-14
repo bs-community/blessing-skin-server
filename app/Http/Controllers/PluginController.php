@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Services\Plugin;
-use Illuminate\Http\Request;
 use App\Services\PluginManager;
+use Illuminate\Http\Request;
 
 class PluginController extends Controller
 {
@@ -59,11 +59,12 @@ class PluginController extends Controller
                     if ($result === true) {
                         return json(trans('admin.plugins.operations.enabled', ['plugin' => $plugin->title]), 0);
                     } else {
-                        $reason =  $plugins->formatUnresolved($result['unsatisfied'], $result['conflicts']);
+                        $reason = $plugins->formatUnresolved($result['unsatisfied'], $result['conflicts']);
 
                         return json(trans('admin.plugins.operations.unsatisfied.notice'), 1, compact('reason'));
                     }
 
+                    // no break
                 case 'disable':
                     $plugins->disable($name);
 

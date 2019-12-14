@@ -2,9 +2,8 @@
 
 namespace App\Http\View\Composers;
 
-use App\Models\User;
-use Illuminate\View\View;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\View\View;
 
 class UserPanelComposer
 {

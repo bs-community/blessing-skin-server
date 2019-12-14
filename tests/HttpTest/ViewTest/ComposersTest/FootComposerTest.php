@@ -2,13 +2,12 @@
 
 namespace Tests;
 
-use Event;
 use App\Models\User;
-use App\Services\Webpack;
 use App\Services\Translations\JavaScript;
-use Symfony\Component\DomCrawler\Crawler;
-use Illuminate\Contracts\Events\Dispatcher;
+use App\Services\Webpack;
+use Event;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Symfony\Component\DomCrawler\Crawler;
 
 class FootComposerTest extends TestCase
 {

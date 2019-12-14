@@ -12,7 +12,7 @@ class Filter
 
     public function add(string $hook, Closure $callback, $priority = 20)
     {
-        if (! isset($this->listeners[$hook])) {
+        if (!isset($this->listeners[$hook])) {
             $this->listeners[$hook] = collect();
         }
 

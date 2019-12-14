@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Player;
+use App\Models\Texture;
+use App\Models\User;
+use App\Services\Filter;
 use Auth;
-use View;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Option;
 use Session;
 use Storage;
-use App\Models\User;
-use App\Models\Player;
-use App\Models\Texture;
-use App\Services\Filter;
-use Illuminate\Http\Request;
-use Illuminate\Http\JsonResponse;
+use View;
 
 class SkinlibController extends Controller
 {
@@ -20,6 +20,7 @@ class SkinlibController extends Controller
      * Map error code of file uploading to human-readable text.
      *
      * @see http://php.net/manual/en/features.file-upload.errors.php
+     *
      * @var array
      */
     public static $phpFileUploadErrors = [
@@ -37,7 +38,8 @@ class SkinlibController extends Controller
      * Get skin library data filtered.
      * Available Query String: filter, uploader, page, sort, keyword, items_per_page.
      *
-     * @param  Request $request [description]
+     * @param Request $request [description]
+     *
      * @return JsonResponse
      */
     public function getSkinlibFiltered(Request $request)
@@ -78,12 +80,12 @@ class SkinlibController extends Controller
             $query = $query->where('uploader', $uploader);
         }
 
-        if (! $user) {
+        if (!$user) {
             // Show public textures only to anonymous visitors
             $query = $query->where('public', true);
         } else {
             // Show private textures when show uploaded textures of current user
-            if ($uploader != $user->uid && ! $user->isAdmin()) {
+            if ($uploader != $user->uid && !$user->isAdmin()) {
                 $query = $query->where(function ($innerQuery) use ($user) {
                     $innerQuery->where('public', true)->orWhere('uploader', '=', $user->uid);
                 });
@@ -117,7 +119,7 @@ class SkinlibController extends Controller
         $texture = Texture::find($tid);
         $user = Auth::user();
 
-        if (! $texture || $texture && ! Storage::disk('textures')->has($texture->hash)) {
+        if (!$texture || $texture && !Storage::disk('textures')->has($texture->hash)) {
             if (option('auto_del_invalid_texture')) {
                 if ($texture) {
                     $texture->delete();
@@ -128,8 +130,8 @@ class SkinlibController extends Controller
             abort(404, trans('skinlib.show.deleted').trans('skinlib.show.contact-admin'));
         }
 
-        if (! $texture->public) {
-            if (! Auth::check() || ($user->uid != $texture->uploader && ! $user->isAdmin())) {
+        if (!$texture->public) {
+            if (!Auth::check() || ($user->uid != $texture->uploader && !$user->isAdmin())) {
                 abort(option('status_code_for_private'), trans('skinlib.show.private'));
             }
         }
@@ -226,7 +228,7 @@ class SkinlibController extends Controller
 
         $results = Texture::where('hash', $t->hash)->get();
 
-        if (! $results->isEmpty()) {
+        if (!$results->isEmpty()) {
             foreach ($results as $result) {
                 // if the texture already uploaded was set to private,
                 // then allow to re-upload it.
@@ -259,11 +261,11 @@ class SkinlibController extends Controller
         $texture = Texture::find($request->tid);
         $user = Auth::user();
 
-        if (! $texture) {
+        if (!$texture) {
             return json(trans('skinlib.non-existent'), 1);
         }
 
-        if ($texture->uploader != $user->uid && ! $user->isAdmin()) {
+        if ($texture->uploader != $user->uid && !$user->isAdmin()) {
             return json(trans('skinlib.no-permission'), 1);
         }
 
@@ -282,11 +284,11 @@ class SkinlibController extends Controller
         $t = Texture::find($request->input('tid'));
         $user = $request->user();
 
-        if (! $t) {
+        if (!$t) {
             return json(trans('skinlib.non-existent'), 1);
         }
 
-        if ($t->uploader != $user->uid && ! $user->isAdmin()) {
+        if ($t->uploader != $user->uid && !$user->isAdmin()) {
             return json(trans('skinlib.no-permission'), 1);
         }
 
@@ -316,11 +318,11 @@ class SkinlibController extends Controller
         $uploader->score += $score_diff;
         $uploader->save();
 
-        $t->public = ! $t->public;
+        $t->public = !$t->public;
         $t->save();
 
         return json(
-            trans('skinlib.privacy.success', ['privacy' => (! $t->public ? trans('general.private') : trans('general.public'))]),
+            trans('skinlib.privacy.success', ['privacy' => (!$t->public ? trans('general.private') : trans('general.public'))]),
             0
         );
     }
@@ -328,17 +330,17 @@ class SkinlibController extends Controller
     public function rename(Request $request)
     {
         $this->validate($request, [
-            'tid'      => 'required|integer',
+            'tid' => 'required|integer',
             'new_name' => 'required|no_special_chars',
         ]);
         $user = $request->user();
         $t = Texture::find($request->input('tid'));
 
-        if (! $t) {
+        if (!$t) {
             return json(trans('skinlib.non-existent'), 1);
         }
 
-        if ($t->uploader != $user->uid && ! $user->isAdmin()) {
+        if ($t->uploader != $user->uid && !$user->isAdmin()) {
             return json(trans('skinlib.no-permission'), 1);
         }
 
@@ -355,17 +357,17 @@ class SkinlibController extends Controller
     {
         $user = $request->user();
         $data = $this->validate($request, [
-            'tid'      => 'required|integer',
-            'model'    => 'required|in:steve,alex,cape',
+            'tid' => 'required|integer',
+            'model' => 'required|in:steve,alex,cape',
         ]);
 
         $t = Texture::find($request->input('tid'));
 
-        if (! $t) {
+        if (!$t) {
             return json(trans('skinlib.non-existent'), 1);
         }
 
-        if ($t->uploader != $user->uid && ! $user->isAdmin()) {
+        if ($t->uploader != $user->uid && !$user->isAdmin()) {
             return json(trans('skinlib.no-permission'), 1);
         }
 
@@ -383,12 +385,6 @@ class SkinlibController extends Controller
         return json(trans('skinlib.model.success', ['model' => $data['model']]), 0);
     }
 
-    /**
-     * Check Uploaded Files.
-     *
-     * @param  Request $request
-     * @return JsonResponse
-     */
     protected function checkUpload(Request $request)
     {
         if ($file = $request->files->get('file')) {
@@ -398,11 +394,11 @@ class SkinlibController extends Controller
         }
 
         $this->validate($request, [
-            'name'   => [
+            'name' => [
                 'required',
                 option('texture_name_regexp') ? 'regex:'.option('texture_name_regexp') : 'no_special_chars',
             ],
-            'file'   => 'required|max:'.option('max_upload_file_size'),
+            'file' => 'required|max:'.option('max_upload_file_size'),
             'public' => 'required',
         ]);
 

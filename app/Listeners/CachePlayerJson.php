@@ -2,9 +2,9 @@
 
 namespace App\Listeners;
 
-use Cache;
 use App\Events;
 use App\Models\Player;
+use Cache;
 use Illuminate\Contracts\Events\Dispatcher;
 
 class CachePlayerJson

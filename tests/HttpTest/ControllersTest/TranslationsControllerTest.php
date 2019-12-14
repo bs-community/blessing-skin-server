@@ -3,8 +3,8 @@
 namespace Tests;
 
 use App\Services\Translations\JavaScript;
-use Spatie\TranslationLoader\LanguageLine;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Spatie\TranslationLoader\LanguageLine;
 
 class TranslationsControllerTest extends TestCase
 {

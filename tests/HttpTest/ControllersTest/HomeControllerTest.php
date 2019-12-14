@@ -2,10 +2,10 @@
 
 namespace Tests;
 
-use stdClass;
 use App\Events\RenderingFooter;
 use App\Events\RenderingHeader;
 use Illuminate\Support\Facades\Event;
+use stdClass;
 
 class HomeControllerTest extends TestCase
 {

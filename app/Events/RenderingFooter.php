@@ -9,7 +9,6 @@ class RenderingFooter extends Event
     /**
      * Create a new event instance.
      *
-     * @param  array $contents
      * @return void
      */
     public function __construct(array &$contents)
@@ -21,13 +20,14 @@ class RenderingFooter extends Event
     /**
      * Add content to page footer.
      *
-     * @param  string $content
+     * @param string $content
+     *
      * @return void
      */
     public function addContent($content)
     {
         if ($content) {
-            if (! is_string($content)) {
+            if (!is_string($content)) {
                 throw new \Exception('Can not add non-string content', 1);
             }
 

@@ -28,7 +28,7 @@ class BrowserKitTestCase extends TestCase
         Artisan::call('migrate:refresh');
 
         $files = $app->make('files');
-        if (! $files->exists(storage_path('install.lock'))) {
+        if (!$files->exists(storage_path('install.lock'))) {
             $files->put(storage_path('install.lock'), '');
         }
 
@@ -37,6 +37,7 @@ class BrowserKitTestCase extends TestCase
 
     /**
      * @param \App\Models\User|string $role
+     *
      * @return $this
      */
     public function actAs($role)

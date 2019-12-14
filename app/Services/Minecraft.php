@@ -9,9 +9,11 @@ class Minecraft
      * HD skin support added by xfl03 <xfl03@hotmail.com>.
      *
      * @see    https://github.com/jamiebicknell/Minecraft-Avatar/blob/master/face.php
-     * @param  string $binary Binary image data or decoded base64 formatted image.
-     * @param  int    $height The height of generated image in pixel.
-     * @param  string $view   Which side of head to be captured, defaults to 'f' for front view.
+     *
+     * @param string $binary binary image data or decoded base64 formatted image
+     * @param int    $height the height of generated image in pixel
+     * @param string $view   which side of head to be captured, defaults to 'f' for front view
+     *
      * @return resource
      */
     public static function generateAvatarFromSkin(string $binary, int $height, string $view = 'f')
@@ -40,11 +42,13 @@ class Minecraft
      * Generate a image preview for a skin texture.
      *
      * @see    https://github.com/NC22/Minecraft-HD-skin-viewer-2D/blob/master/SkinViewer2D.class.php
-     * @param  string $binary Binary image data or decoded base64 formatted image.
-     * @param  int    $height The height of generated image in pixel.
-     * @param  bool   $alex   Whether the given skin is in Alex model.
-     * @param  string $side   Which side of model to be captured, 'front', 'back' or 'both'.
-     * @param  int    $gap    Gap size between front & back preview in relative pixel.
+     *
+     * @param string $binary binary image data or decoded base64 formatted image
+     * @param int    $height the height of generated image in pixel
+     * @param bool   $alex   whether the given skin is in Alex model
+     * @param string $side   which side of model to be captured, 'front', 'back' or 'both'
+     * @param int    $gap    gap size between front & back preview in relative pixel
+     *
      * @return resource
      */
     public static function generatePreviewFromSkin(string $binary, int $height, $alex = false, $side = 'both', $gap = 4)
@@ -166,10 +170,11 @@ class Minecraft
     /**
      * Generate a image preview for a cape texture.
      *
-     * @param  string $binary     Binary image data or decoded base64 formatted image.
-     * @param  int    $height     The size of generated image in pixel.
-     * @param  int    $fillWidth  Create a image with given size, And draw the preview on the center of it.
-     * @param  int    $fillHeight Set the value to 0 to disable.
+     * @param string $binary     binary image data or decoded base64 formatted image
+     * @param int    $height     the size of generated image in pixel
+     * @param int    $fillWidth  create a image with given size, And draw the preview on the center of it
+     * @param int    $fillHeight set the value to 0 to disable
+     *
      * @return resource
      */
     public static function generatePreviewFromCape(string $binary, int $height, $fillWidth = 0, $fillHeight = 0)

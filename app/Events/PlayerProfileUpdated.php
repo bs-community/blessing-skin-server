@@ -11,7 +11,6 @@ class PlayerProfileUpdated extends Event
     /**
      * Create a new event instance.
      *
-     * @param  Player $player
      * @return void
      */
     public function __construct(Player $player)

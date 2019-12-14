@@ -3,15 +3,15 @@
 namespace App\Services;
 
 use App\Events;
-use Composer\Semver\Semver;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
-use Composer\Semver\Comparator;
-use Illuminate\Support\Collection;
-use Illuminate\Filesystem\Filesystem;
 use App\Exceptions\PrettyPageException;
+use Composer\Semver\Comparator;
+use Composer\Semver\Semver;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
 
 class PluginManager
 {
@@ -100,10 +100,7 @@ class PluginManager
 
                 $name = $manifest['name'];
                 if ($plugins->has($name)) {
-                    throw new PrettyPageException(trans('errors.plugins.duplicate', [
-                        'dir1' => $plugins->get($name)->getPath(),
-                        'dir2' => $directory,
-                    ]), 5);
+                    throw new PrettyPageException(trans('errors.plugins.duplicate', ['dir1' => $plugins->get($name)->getPath(), 'dir2' => $directory]), 5);
                 }
 
                 $plugin = new Plugin($directory, $manifest);
@@ -247,7 +244,7 @@ class PluginManager
                 report($th);
                 if (is_a($th, \Exception::class)) {
                     $handler = $this->app->make(\App\Exceptions\Handler::class);
-                    if (! $handler->shouldReport($th)) {
+                    if (!$handler->shouldReport($th)) {
                         throw $th;
                     }
                 }
@@ -284,12 +281,12 @@ class PluginManager
     }
 
     /**
-     * @return bool|array Return `true` if succeeded, or return information if failed.
+     * @return bool|array return `true` if succeeded, or return information if failed
      */
     public function enable($plugin)
     {
         $plugin = is_string($plugin) ? $this->get($plugin) : $plugin;
-        if ($plugin && ! $plugin->isEnabled()) {
+        if ($plugin && !$plugin->isEnabled()) {
             $unsatisfied = $this->getUnsatisfied($plugin);
             $conflicts = $this->getConflicts($plugin);
             if ($unsatisfied->isNotEmpty() || $conflicts->isNotEmpty()) {
@@ -367,22 +364,22 @@ class PluginManager
                 if ($name == 'blessing-skin-server') {
                     $version = config('app.version');
 
-                    return (! Semver::satisfies($version, $constraint))
+                    return (!Semver::satisfies($version, $constraint))
                         ? [$name => compact('version', 'constraint')]
                         : [];
                 } elseif ($name == 'php') {
                     preg_match('/(\d+\.\d+\.\d+)/', PHP_VERSION, $matches);
                     $version = $matches[1];
 
-                    return (! Semver::satisfies($version, $constraint))
+                    return (!Semver::satisfies($version, $constraint))
                         ? [$name => compact('version', 'constraint')]
                         : [];
-                } elseif (! $this->enabled->has($name)) {
+                } elseif (!$this->enabled->has($name)) {
                     return [$name => ['version' => null, 'constraint' => $constraint]];
                 } else {
                     $version = $this->enabled->get($name)['version'];
 
-                    return (! Semver::satisfies($version, $constraint))
+                    return (!Semver::satisfies($version, $constraint))
                         ? [$name => compact('version', 'constraint')]
                         : [];
                 }
@@ -414,7 +411,7 @@ class PluginManager
     ): array {
         $unsatisfied = $unsatisfied->map(function ($detail, $name) {
             $constraint = $detail['constraint'];
-            if (! $detail['version']) {
+            if (!$detail['version']) {
                 $plugin = $this->get($name);
                 $name = $plugin ? trans($plugin->title) : $name;
 

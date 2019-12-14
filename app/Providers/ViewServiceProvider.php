@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
-use View;
-use App\Services\Webpack;
 use App\Http\View\Composers;
+use App\Services\Webpack;
 use Illuminate\Support\ServiceProvider;
+use View;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -15,7 +15,7 @@ class ViewServiceProvider extends ServiceProvider
             'home',
             '*.base',
             '*.master',
-            'shared.header'
+            'shared.header',
         ], function ($view) {
             $lightColors = ['light', 'warning', 'white', 'orange'];
             $color = option('navbar_color');

@@ -46,7 +46,8 @@ class SaltRandomCommand extends Command
     /**
      * Set the application salt in the environment file.
      *
-     * @param  string  $salt
+     * @param string $salt
+     *
      * @return void
      */
     protected function setKeyInEnvironmentFile($salt)

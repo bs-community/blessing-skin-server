@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\Support\Str;
-use Illuminate\Http\Request;
-use Composer\Semver\Comparator;
-use Illuminate\Database\Connection;
-use Illuminate\Filesystem\Filesystem;
 use App\Exceptions\PrettyPageException;
-use Illuminate\Database\DatabaseManager;
+use App\Models\User;
 use Illuminate\Contracts\Console\Kernel as Artisan;
+use Illuminate\Database\Connection;
+use Illuminate\Database\DatabaseManager;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class SetupController extends Controller
 {
     public function welcome(Filesystem $filesystem)
     {
-        if (! $filesystem->exists(base_path('.env'))) {
+        if (!$filesystem->exists(base_path('.env'))) {
             $filesystem->copy(base_path('.env.example'), base_path('.env'));
         }
 
@@ -62,10 +61,7 @@ class SetupController extends Controller
             $msg = iconv('gbk', 'utf-8', $e->getMessage());
             $type = humanize_db_type($request->input('type'));
 
-            throw new PrettyPageException(
-                trans('setup.database.connection-error', compact('msg', 'type')),
-                $e->getCode()
-            );
+            throw new PrettyPageException(trans('setup.database.connection-error', compact('msg', 'type')), $e->getCode());
         }
 
         $content = $filesystem->get(base_path('.env'));
@@ -112,9 +108,9 @@ class SetupController extends Controller
     public function finish(Request $request, Filesystem $filesystem, Artisan $artisan)
     {
         $data = $this->validate($request, [
-            'email'     => 'required|email',
-            'nickname'  => 'required|no_special_chars|max:255',
-            'password'  => 'required|min:8|max:32|confirmed',
+            'email' => 'required|email',
+            'nickname' => 'required|no_special_chars|max:255',
+            'password' => 'required|min:8|max:32|confirmed',
             'site_name' => 'required',
         ]);
 
@@ -144,7 +140,7 @@ class SetupController extends Controller
         ]);
 
         // Register super admin
-        $user = new User;
+        $user = new User();
         $user->email = $data['email'];
         $user->nickname = $data['nickname'];
         $user->score = option('user_initial_score');

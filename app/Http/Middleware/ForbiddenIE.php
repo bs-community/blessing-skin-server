@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Exceptions\PrettyPageException;
 use Closure;
 use Illuminate\Support\Str;
-use App\Exceptions\PrettyPageException;
 
 class ForbiddenIE
 {

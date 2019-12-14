@@ -8,7 +8,7 @@ class Authenticate extends Middleware
 {
     protected function redirectTo($request)
     {
-        if (! $request->expectsJson()) {
+        if (!$request->expectsJson()) {
             session([
                 'last_requested_path' => $request->fullUrl(),
                 'msg' => trans('auth.check.anonymous'),

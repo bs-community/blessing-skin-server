@@ -28,7 +28,7 @@ class JavaScript
         $sourceModified = $this->filesystem->lastModified($source);
         $compiledModified = intval($this->cache->get($this->prefix.$locale, 0));
 
-        if ($sourceModified > $compiledModified || ! $this->filesystem->exists($compiled)) {
+        if ($sourceModified > $compiledModified || !$this->filesystem->exists($compiled)) {
             $content = 'blessing.i18n = '.json_encode(trans('front-end'), JSON_UNESCAPED_UNICODE);
             $this->filesystem->put($compiled, $content);
             $this->cache->put($this->prefix.$locale, $sourceModified);

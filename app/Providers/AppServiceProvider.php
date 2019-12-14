@@ -2,13 +2,10 @@
 
 namespace App\Providers;
 
-use Blade;
-use Event;
 use App\Events;
-use App\Models\User;
-use ReflectionException;
-use Illuminate\Support\Facades\Redis;
 use App\Exceptions\PrettyPageException;
+use Event;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -61,13 +58,12 @@ class AppServiceProvider extends ServiceProvider
         try {
             if (option('enable_redis') && Redis::ping()) {
                 config([
-                    'cache.default'  => 'redis',
+                    'cache.default' => 'redis',
                     'session.driver' => 'redis',
                     'queue.default' => 'redis',
                 ]);
             }
         } catch (\Exception $e) {
-            //
         }
         // @codeCoverageIgnoreEnd
     }
@@ -81,7 +77,7 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function configureUrlGenerator()
     {
-        if (! option('auto_detect_asset_url')) {
+        if (!option('auto_detect_asset_url')) {
             $rootUrl = option('site_url');
 
             // Replace HTTP_HOST with site_url set in options,

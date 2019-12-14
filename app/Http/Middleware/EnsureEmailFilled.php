@@ -10,7 +10,7 @@ class EnsureEmailFilled
     {
         if ($request->user()->email != '' && $request->is('auth/bind')) {
             return redirect('/user');
-        } elseif ($request->user()->email == '' && ! $request->is('auth/bind')) {
+        } elseif ($request->user()->email == '' && !$request->is('auth/bind')) {
             return redirect('/auth/bind');
         }
 

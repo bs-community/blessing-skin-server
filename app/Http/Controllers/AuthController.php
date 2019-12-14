@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use URL;
-use Auth;
-use Mail;
-use View;
-use Cache;
-use Session;
 use App\Events;
-use App\Models\User;
-use App\Models\Player;
-use App\Rules\Captcha;
-use App\Mail\ForgotPassword;
-use Illuminate\Http\Request;
 use App\Exceptions\PrettyPageException;
+use App\Mail\ForgotPassword;
+use App\Models\Player;
+use App\Models\User;
+use App\Rules\Captcha;
+use Auth;
+use Cache;
+use Illuminate\Http\Request;
+use Mail;
+use Session;
+use URL;
+use View;
 
 class AuthController extends Controller
 {
@@ -33,7 +33,7 @@ class AuthController extends Controller
     {
         $this->validate($request, [
             'identification' => 'required',
-            'password'       => 'required|min:6|max:32',
+            'password' => 'required|min:6|max:32',
         ]);
 
         $identification = $request->input('identification');
@@ -58,7 +58,7 @@ class AuthController extends Controller
             $this->validate($request, ['captcha' => ['required', $captcha]]);
         }
 
-        if (! $user) {
+        if (!$user) {
             return json(trans('auth.validation.user'), 2);
         } else {
             if ($user->verifyPassword($request->input('password'))) {
@@ -113,7 +113,7 @@ class AuthController extends Controller
 
     public function handleRegister(Request $request, Captcha $captcha)
     {
-        if (! option('user_can_register')) {
+        if (!option('user_can_register')) {
             return json(trans('auth.register.close'), 7);
         }
 
@@ -121,9 +121,9 @@ class AuthController extends Controller
             ['player_name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max')] :
             ['nickname' => 'required|no_special_chars|max:255'];
         $data = $this->validate($request, array_merge([
-            'email'    => 'required|email|unique:users',
+            'email' => 'required|email|unique:users',
             'password' => 'required|min:8|max:32',
-            'captcha'  => ['required', $captcha],
+            'captcha' => ['required', $captcha],
         ], $rule));
 
         if (option('register_with_player_name')) {
@@ -140,7 +140,7 @@ class AuthController extends Controller
             return json(trans('auth.register.max', ['regs' => option('regs_per_ip')]), 7);
         }
 
-        $user = new User;
+        $user = new User();
         $user->email = $data['email'];
         $user->nickname = $data[option('register_with_player_name') ? 'player_name' : 'nickname'];
         $user->score = option('user_initial_score');
@@ -157,7 +157,7 @@ class AuthController extends Controller
         event(new Events\UserRegistered($user));
 
         if (option('register_with_player_name')) {
-            $player = new Player;
+            $player = new Player();
             $player->uid = $user->uid;
             $player->name = $request->get('player_name');
             $player->tid_skin = 0;
@@ -191,7 +191,7 @@ class AuthController extends Controller
             'captcha' => ['required', $captcha],
         ]);
 
-        if (! config('mail.driver')) {
+        if (!config('mail.driver')) {
             return json(trans('auth.forgot.disabled'), 1);
         }
 
@@ -206,7 +206,7 @@ class AuthController extends Controller
 
         $user = User::where('email', $request->email)->first();
 
-        if (! $user) {
+        if (!$user) {
             return json(trans('auth.forgot.unregistered'), 1);
         }
 
@@ -264,13 +264,13 @@ class AuthController extends Controller
 
     public function verify($uid)
     {
-        if (! option('require_verification')) {
+        if (!option('require_verification')) {
             throw new PrettyPageException(trans('user.verification.disabled'), 1);
         }
 
         $user = User::find($uid);
 
-        if (! $user || $user->verified) {
+        if (!$user || $user->verified) {
             throw new PrettyPageException(trans('auth.verify.invalid'), 1);
         }
 

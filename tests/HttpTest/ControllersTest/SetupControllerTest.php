@@ -2,10 +2,10 @@
 
 namespace Tests;
 
-use Illuminate\Support\Str;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Contracts\Console\Kernel as Artisan;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Str;
 
 class SetupControllerTest extends TestCase
 {

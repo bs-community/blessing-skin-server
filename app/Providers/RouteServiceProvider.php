@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
-use Route;
-use Illuminate\Support\Str;
-use Illuminate\Routing\Router;
-use Laravel\Passport\Passport;
 use App\Events\ConfigureRoutes;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Routing\Router;
+use Illuminate\Support\Str;
+use Laravel\Passport\Passport;
+use Route;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -23,7 +23,6 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Define the routes for the application.
      *
-     * @param  \Illuminate\Routing\Router  $router
      * @return void
      */
     public function map(Router $router)
@@ -49,7 +48,6 @@ class RouteServiceProvider extends ServiceProvider
      *
      * These routes all receive session state, CSRF protection, etc.
      *
-     * @param  \Illuminate\Routing\Router  $router
      * @return void
      */
     protected function mapWebRoutes(Router $router)
@@ -67,7 +65,6 @@ class RouteServiceProvider extends ServiceProvider
      *
      * These routes will not load session, etc.
      *
-     * @param  \Illuminate\Routing\Router  $router
      * @return void
      */
     protected function mapStaticRoutes(Router $router)

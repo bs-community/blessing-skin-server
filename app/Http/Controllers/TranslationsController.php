@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Foundation\Application;
 use App\Services\Translations\JavaScript;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Spatie\TranslationLoader\LanguageLine;
 
 class TranslationsController extends Controller
@@ -13,6 +13,7 @@ class TranslationsController extends Controller
     {
         return LanguageLine::all()->map(function ($line) use ($app) {
             $line->text = $line->getTranslation($app->getLocale());
+
             return $line;
         });
     }

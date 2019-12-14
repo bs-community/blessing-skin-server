@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
-use Illuminate\Support\Arr;
-use Illuminate\Http\Request;
-use Composer\Semver\Comparator;
 use App\Services\PackageManager;
-use Illuminate\Filesystem\Filesystem;
-use Symfony\Component\Finder\SplFileInfo;
+use Composer\Semver\Comparator;
+use Exception;
 use Illuminate\Contracts\Console\Kernel as Artisan;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Symfony\Component\Finder\SplFileInfo;
 
 class UpdateController extends Controller
 {
@@ -29,7 +29,7 @@ class UpdateController extends Controller
     public function showUpdatePage()
     {
         $info = [
-            'latest'  => Arr::get($this->getUpdateInfo(), 'latest'),
+            'latest' => Arr::get($this->getUpdateInfo(), 'latest'),
             'current' => $this->currentVersion,
         ];
         $error = $this->error;
@@ -45,7 +45,7 @@ class UpdateController extends Controller
 
     public function download(Request $request, PackageManager $package, Filesystem $filesystem)
     {
-        if (! $this->canUpdate()) {
+        if (!$this->canUpdate()) {
             return json([]);
         }
 
@@ -95,7 +95,7 @@ class UpdateController extends Controller
     protected function getUpdateInfo()
     {
         $acceptableSpec = 2;
-        if (app()->runningUnitTests() || ! $this->info) {
+        if (app()->runningUnitTests() || !$this->info) {
             try {
                 $json = $this->guzzle->request(
                     'GET',

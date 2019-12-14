@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
-use Option;
-use ReflectionClass;
 use BadMethodCallException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Option;
+use ReflectionClass;
 
 class OptionForm
 {
@@ -40,8 +40,9 @@ class OptionForm
     /**
      * Create a new option form instance.
      *
-     * @param  string  $id
-     * @param  string  $title
+     * @param string $id
+     * @param string $title
+     *
      * @return void
      */
     public function __construct($id, $title = self::AUTO_DETECT)
@@ -58,20 +59,21 @@ class OptionForm
     /**
      * Add option item to the form dynamically.
      *
-     * @param  string  $method
-     * @param  array   $params
+     * @param string $method
+     * @param array  $params
+     *
      * @return OptionItem
      *
      * @throws \BadMethodCallException
      */
     public function __call($method, $params)
     {
-        if (! in_array($method, ['text', 'checkbox', 'textarea', 'select', 'group'])) {
+        if (!in_array($method, ['text', 'checkbox', 'textarea', 'select', 'group'])) {
             throw new BadMethodCallException("Method [$method] does not exist on option form.");
         }
 
         // Assign name for option item
-        if (! isset($params[1]) || Arr::get($params, 1) == OptionForm::AUTO_DETECT) {
+        if (!isset($params[1]) || Arr::get($params, 1) == OptionForm::AUTO_DETECT) {
             $params[1] = Arr::get(trans("options.$this->id.$params[0]"), 'title', trans("options.$this->id.$params[0]"));
         }
 
@@ -87,7 +89,8 @@ class OptionForm
     /**
      * Set the box type of option form.
      *
-     * @param  string  $type
+     * @param string $type
+     *
      * @return $this
      */
     public function type($type)
@@ -100,7 +103,8 @@ class OptionForm
     /**
      * Add a hint to option form.
      *
-     * @param  array  $info
+     * @param array $info
+     *
      * @return $this
      */
     public function hint($hintContent = self::AUTO_DETECT)
@@ -117,8 +121,9 @@ class OptionForm
     /**
      * Add a piece of data to the option form.
      *
-     * @param  string|array  $key
-     * @param  mixed   $value
+     * @param string|array $key
+     * @param mixed        $value
+     *
      * @return $this
      */
     public function with($key, $value = null)
@@ -135,7 +140,6 @@ class OptionForm
     /**
      * Add a button at the footer of option form.
      *
-     * @param  array  $info
      * @return $this
      */
     public function addButton(array $info)
@@ -143,10 +147,10 @@ class OptionForm
         $info = array_merge([
             'style' => 'default',
             'class' => [],
-            'href'  => '',
-            'text'  => 'BUTTON',
-            'type'  => 'button',
-            'name'  => '',
+            'href' => '',
+            'text' => 'BUTTON',
+            'type' => 'button',
+            'name' => '',
         ], $info);
 
         $info['class'] = array_merge(
@@ -161,8 +165,9 @@ class OptionForm
     /**
      * Add a message to the top of option form.
      *
-     * @param  string $msg
-     * @param  string $style
+     * @param string $msg
+     * @param string $style
+     *
      * @return $this
      */
     public function addMessage($msg = self::AUTO_DETECT, $style = 'info')
@@ -179,8 +184,9 @@ class OptionForm
     /**
      * Add an alert to the top of option form.
      *
-     * @param  string $msg
-     * @param  string $style
+     * @param string $msg
+     * @param string $style
+     *
      * @return $this
      */
     public function addAlert($msg = self::AUTO_DETECT, $style = 'info')
@@ -197,7 +203,6 @@ class OptionForm
     /**
      * Add callback which will be executed before handling options.
      *
-     * @param callable $callback
      * @return $this
      */
     public function before(callable $callback)
@@ -210,7 +215,6 @@ class OptionForm
     /**
      * Add callback which will be executed after handling options.
      *
-     * @param callable $callback
      * @return $this
      */
     public function after(callable $callback)
@@ -223,7 +227,6 @@ class OptionForm
     /**
      * Add callback which will be always executed.
      *
-     * @param  callable $callback
      * @return $this
      */
     public function always(callable $callback)
@@ -236,7 +239,8 @@ class OptionForm
     /**
      * Handle the HTTP post request and update modified options.
      *
-     * @param  callable $callback
+     * @param callable $callback
+     *
      * @return $this
      */
     public function handle(callable $callback = null)
@@ -245,11 +249,11 @@ class OptionForm
         $allPostData = $request->all();
 
         if ($request->isMethod('POST') && Arr::get($allPostData, 'option') == $this->id) {
-            if (! is_null($callback)) {
+            if (!is_null($callback)) {
                 call_user_func($callback, $this);
             }
 
-            if (! is_null($this->hookBefore)) {
+            if (!is_null($this->hookBefore)) {
                 call_user_func($this->hookBefore, $this);
             }
 
@@ -269,7 +273,7 @@ class OptionForm
             }
 
             foreach ($postOptionQueue as $item) {
-                if ($item instanceof OptionFormCheckbox && ! isset($allPostData[$item->id])) {
+                if ($item instanceof OptionFormCheckbox && !isset($allPostData[$item->id])) {
                     // preset value for checkboxes which are not checked
                     $allPostData[$item->id] = false;
                 }
@@ -281,7 +285,7 @@ class OptionForm
                 }
             }
 
-            if (! is_null($this->hookAfter)) {
+            if (!is_null($this->hookAfter)) {
                 call_user_func($this->hookAfter, $this);
             }
 
@@ -294,7 +298,8 @@ class OptionForm
     /**
      * Load value from $this->values & options by given id.
      *
-     * @param  string $id
+     * @param string $id
+     *
      * @return mixed
      */
     protected function getValueById($id)
@@ -354,17 +359,17 @@ class OptionForm
      */
     public function render()
     {
-        if (! is_null($this->alwaysCallback)) {
+        if (!is_null($this->alwaysCallback)) {
             call_user_func($this->alwaysCallback, $this);
         }
 
         // attach submit button to the form
-        if (! $this->renderWithoutSubmitButton) {
+        if (!$this->renderWithoutSubmitButton) {
             $this->addButton([
                 'style' => 'primary',
-                'text'  => trans('general.submit'),
-                'type'  => 'submit',
-                'name'  => 'submit_'.$this->id,
+                'text' => trans('general.submit'),
+                'type' => 'submit',
+                'name' => 'submit_'.$this->id,
             ]);
         }
 
@@ -506,7 +511,7 @@ class OptionFormCheckbox extends OptionFormItem
     public function render()
     {
         return view('forms.checkbox')->with([
-            'id'    => $this->id,
+            'id' => $this->id,
             'value' => $this->value,
             'label' => $this->label,
             'disabled' => $this->disabled,
@@ -528,8 +533,8 @@ class OptionFormTextarea extends OptionFormItem
     public function render()
     {
         return view('forms.textarea')->with([
-            'id'    => $this->id,
-            'rows'  => $this->rows,
+            'id' => $this->id,
+            'rows' => $this->rows,
             'value' => $this->value,
             'disabled' => $this->disabled,
         ]);
@@ -550,8 +555,8 @@ class OptionFormSelect extends OptionFormItem
     public function render()
     {
         return view('forms.select')->with([
-            'id'       => $this->id,
-            'options'  => (array) $this->options,
+            'id' => $this->id,
+            'options' => (array) $this->options,
             'selected' => $this->value,
             'disabled' => $this->disabled,
         ]);
@@ -573,7 +578,7 @@ class OptionFormGroup extends OptionFormItem
             'type' => 'text',
             'id' => $id,
             'value' => $value,
-            'placeholder' => $placeholder
+            'placeholder' => $placeholder,
         ];
 
         return $this;
@@ -596,7 +601,7 @@ class OptionFormGroup extends OptionFormItem
 
         foreach ($this->items as $item) {
             $rendered[] = view('forms.'.$item['type'])->with([
-                'id'    => $item['id'],
+                'id' => $item['id'],
                 'value' => $item['value'],
                 'placeholder' => Arr::get($item, 'placeholder'),
             ]);

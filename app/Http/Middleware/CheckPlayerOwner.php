@@ -2,8 +2,8 @@
 
 namespace App\Http\Middleware;
 
-use Closure;
 use App\Models\Player;
+use Closure;
 use Illuminate\Support\Arr;
 
 class CheckPlayerOwner

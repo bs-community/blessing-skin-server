@@ -3,9 +3,9 @@
 namespace App\Services;
 
 use DB;
-use Illuminate\Support\Arr;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Database\QueryException;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Arr;
 
 class Option
 {
@@ -31,7 +31,7 @@ class Option
 
     public function get($key, $default = null, $raw = false)
     {
-        if (! $this->items->has($key) && Arr::has(config('options'), $key)) {
+        if (!$this->items->has($key) && Arr::has(config('options'), $key)) {
             $this->set($key, config("options.$key"));
         }
 
@@ -72,7 +72,6 @@ class Option
                     ['option_value' => $value]
                 );
             } catch (QueryException $e) {
-                //
             }
         }
     }

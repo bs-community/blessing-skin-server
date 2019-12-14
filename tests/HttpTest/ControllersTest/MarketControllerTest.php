@@ -2,13 +2,13 @@
 
 namespace Tests;
 
+use App\Services\PackageManager;
 use App\Services\Plugin;
+use App\Services\PluginManager;
+use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use App\Services\PluginManager;
-use App\Services\PackageManager;
 use Tests\Concerns\MocksGuzzleClient;
-use GuzzleHttp\Exception\RequestException;
 
 class MarketControllerTest extends TestCase
 {
@@ -87,7 +87,7 @@ class MarketControllerTest extends TestCase
         $this->postJson('/admin/plugins/market/download', ['name' => 'fake'])
             ->assertJson([
                 'code' => 0,
-                'message' => trans('admin.plugins.market.install-success')
+                'message' => trans('admin.plugins.market.install-success'),
             ]);
     }
 

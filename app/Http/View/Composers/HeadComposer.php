@@ -2,11 +2,11 @@
 
 namespace App\Http\View\Composers;
 
-use Illuminate\View\View;
 use App\Services\Webpack;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\View\View;
 
 class HeadComposer
 {
