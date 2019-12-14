@@ -13,8 +13,7 @@
     "dev": "webpack-dev-server",
     "build": "webpack --mode=production -p",
     "lint": "eslint --ext=js,vue,ts -f=beauty .",
-    "test": "jest",
-    "codecov": "codecov -F js"
+    "test": "jest"
   },
   "dependencies": {
     "@babel/runtime": "^7.7.4",
@@ -51,7 +50,6 @@
     "babel-loader": "^8.0.6",
     "babel-plugin-dynamic-import-node": "^2.3.0",
     "cache-loader": "^4.1.0",
-    "codecov": "^3.6.1",
     "css-loader": "^3.2.0",
     "eslint": "^6.7.1",
     "eslint-config-gplane": "^6.2.1",
