@@ -11,6 +11,14 @@ window.blessing.extra = {
   length: 'length',
 }
 
+beforeEach(() => {
+  document.body.innerHTML = `
+    <div id="players-list"></div>
+    <div id="previewer"></div>
+    <div id="modals"></div>
+  `
+})
+
 test('display player name constraints', () => {
   Vue.prototype.$http.get.mockResolvedValue({ data: [] })
   const wrapper = mount(Players)

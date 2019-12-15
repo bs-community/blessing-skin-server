@@ -1,137 +1,129 @@
 <template>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="card card-primary">
-          <div class="card-body table-responsive p-0">
-            <table class="table table-hover">
-              <thead>
-                <tr>
-                  <th>PID</th>
-                  <th v-t="'general.player.player-name'" />
-                  <th v-t="'user.player.operation'" />
-                </tr>
-              </thead>
+  <div>
+    <portal selector="#players-list">
+      <div class="card card-primary">
+        <div class="card-body table-responsive p-0">
+          <table class="table table-hover">
+            <thead>
+              <tr>
+                <th>PID</th>
+                <th v-t="'general.player.player-name'" />
+                <th v-t="'user.player.operation'" />
+              </tr>
+            </thead>
 
-              <tbody>
-                <tr
-                  v-for="(player, index) in players"
-                  :key="player.pid"
-                  class="player"
-                  :class="{ 'player-selected': player.pid === selected }"
-                  @click="preview(player)"
+            <tbody>
+              <tr
+                v-for="(player, index) in players"
+                :key="player.pid"
+                class="player"
+                :class="{ 'player-selected': player.pid === selected }"
+                @click="preview(player)"
+              >
+                <td class="pid">{{ player.pid }}</td>
+                <td class="player-name">{{ player.name }}</td>
+                <td>
+                  <button class="btn btn-default" @click="changeName(player)">
+                    {{ $t('user.player.edit-pname') }}
+                  </button>
+                  <button
+                    class="btn btn-warning"
+                    data-toggle="modal"
+                    data-target="#modal-clear-texture"
+                  >
+                    {{ $t('user.player.delete-texture') }}
+                  </button>
+                  <button class="btn btn-danger" @click="deletePlayer(player, index)">
+                    {{ $t('user.player.delete-player') }}
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-primary" data-toggle="modal" data-target="#modal-add-player">
+            <i class="fas fa-plus" aria-hidden="true" />&nbsp;{{ $t('user.player.add-player') }}
+          </button>
+        </div>
+      </div>
+    </portal>
+
+    <portal selector="#previewer">
+      <previewer
+        v-if="using3dPreviewer"
+        :skin="skinUrl"
+        :cape="capeUrl"
+        :model="model"
+        title="user.player.player-info"
+      >
+        <template #footer>
+          <button class="btn btn-default" data-test="to2d" @click="togglePreviewer">
+            {{ $t('user.switch2dPreview') }}
+          </button>
+        </template>
+      </previewer>
+      <div v-else class="card">
+        <div class="card-header card-outline">
+          <!-- eslint-disable-next-line vue/no-v-html -->
+          <h3 class="card-title" v-html="$t('user.player.player-info')" />
+        </div>
+        <div class="card-body">
+          <div id="preview-2d">
+            <p>
+              {{ $t('general.skin') }}
+              <a v-if="preview2d.skin" :href="`${baseUrl}/skinlib/show/${preview2d.skin}`">
+                <img
+                  class="skin2d"
+                  :src="`${baseUrl}/preview/64/${preview2d.skin}.png`"
                 >
-                  <td class="pid">{{ player.pid }}</td>
-                  <td class="player-name">{{ player.name }}</td>
-                  <td>
-                    <button class="btn btn-default" @click="changeName(player)">
-                      {{ $t('user.player.edit-pname') }}
-                    </button>
-                    <button
-                      class="btn btn-warning"
-                      data-toggle="modal"
-                      data-target="#modal-clear-texture"
-                    >
-                      {{ $t('user.player.delete-texture') }}
-                    </button>
-                    <button class="btn btn-danger" @click="deletePlayer(player, index)">
-                      {{ $t('user.player.delete-player') }}
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="card-footer">
-            <button class="btn btn-primary" data-toggle="modal" data-target="#modal-add-player">
-              <i class="fas fa-plus" aria-hidden="true" />&nbsp;{{ $t('user.player.add-player') }}
-            </button>
+              </a>
+              <span v-else v-t="'user.player.texture-empty'" class="skin2d" />
+            </p>
+
+            <p>
+              {{ $t('general.cape') }}
+              <a v-if="preview2d.cape" :href="`${baseUrl}/skinlib/show/${preview2d.cape}`">
+                <img
+                  class="skin2d"
+                  :src="`${baseUrl}/preview/64/${preview2d.cape}.png`"
+                >
+              </a>
+              <span v-else v-t="'user.player.texture-empty'" class="skin2d" />
+            </p>
           </div>
         </div>
-
-        <div v-once class="card">
-          <div class="card-header">
-            <h3 v-t="'general.tip'" class="card-title" />
-          </div>
-          <div class="card-body">
-            <p v-t="'user.player.login-notice'" />
-          </div>
+        <div class="card-footer">
+          <button class="btn btn-default" @click="togglePreviewer">
+            {{ $t('user.switch3dPreview') }}
+          </button>
         </div>
       </div>
+    </portal>
 
-      <div class="col-md-6">
-        <previewer
-          v-if="using3dPreviewer"
-          :skin="skinUrl"
-          :cape="capeUrl"
-          :model="model"
-          title="user.player.player-info"
-        >
-          <template #footer>
-            <button class="btn btn-default" data-test="to2d" @click="togglePreviewer">
-              {{ $t('user.switch2dPreview') }}
-            </button>
-          </template>
-        </previewer>
-        <div v-else class="card">
-          <div class="card-header card-outline">
-            <!-- eslint-disable-next-line vue/no-v-html -->
-            <h3 class="card-title" v-html="$t('user.player.player-info')" />
-          </div>
-          <div class="card-body">
-            <div id="preview-2d">
-              <p>
-                {{ $t('general.skin') }}
-                <a v-if="preview2d.skin" :href="`${baseUrl}/skinlib/show/${preview2d.skin}`">
-                  <img
-                    class="skin2d"
-                    :src="`${baseUrl}/preview/64/${preview2d.skin}.png`"
-                  >
-                </a>
-                <span v-else v-t="'user.player.texture-empty'" class="skin2d" />
-              </p>
+    <portal selector="#modals">
+      <add-player-dialog @add="fetchPlayers" />
 
-              <p>
-                {{ $t('general.cape') }}
-                <a v-if="preview2d.cape" :href="`${baseUrl}/skinlib/show/${preview2d.cape}`">
-                  <img
-                    class="skin2d"
-                    :src="`${baseUrl}/preview/64/${preview2d.cape}.png`"
-                  >
-                </a>
-                <span v-else v-t="'user.player.texture-empty'" class="skin2d" />
-              </p>
-            </div>
-          </div>
-          <div class="card-footer">
-            <button class="btn btn-default" @click="togglePreviewer">
-              {{ $t('user.switch3dPreview') }}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <add-player-dialog @add="fetchPlayers" />
-
-    <modal
-      id="modal-clear-texture"
-      :title="$t('user.chooseClearTexture')"
-      @confirm="clearTexture"
-    >
-      <label class="form-group">
-        <input v-model="clear.skin" type="checkbox"> {{ $t('general.skin') }}
-      </label>
-      <br>
-      <label class="form-group">
-        <input v-model="clear.cape" type="checkbox"> {{ $t('general.cape') }}
-      </label>
-    </modal>
+      <modal
+        id="modal-clear-texture"
+        :title="$t('user.chooseClearTexture')"
+        @confirm="clearTexture"
+      >
+        <label class="form-group">
+          <input v-model="clear.skin" type="checkbox"> {{ $t('general.skin') }}
+        </label>
+        <br>
+        <label class="form-group">
+          <input v-model="clear.cape" type="checkbox"> {{ $t('general.cape') }}
+        </label>
+      </modal>
+    </portal>
   </div>
 </template>
 
 <script>
 import Modal from '../../components/Modal.vue'
+import Portal from '../../components/Portal'
 import AddPlayerDialog from '../../components/AddPlayerDialog.vue'
 import emitMounted from '../../components/mixins/emitMounted'
 import { showModal, toast } from '../../scripts/notify'
@@ -142,6 +134,7 @@ export default {
   components: {
     AddPlayerDialog,
     Modal,
+    Portal,
     Previewer: () => import('../../components/Previewer.vue'),
   },
   mixins: [

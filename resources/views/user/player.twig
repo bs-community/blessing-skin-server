@@ -2,6 +2,12 @@
 
 {% block title %}{{ trans('general.player-manage') }}{% endblock %}
 
+{% block content %}
+  {{ include('shared.grid') }}
+
+  <div id="modals"></div>
+{% endblock %}
+
 {% block before_foot %}
   <script>blessing.extra = {{ extra|json_encode|raw }}</script>
 {% endblock %}

@@ -21,7 +21,7 @@ export default [
   {
     path: 'user/player',
     component: () => import('../views/user/Players.vue'),
-    el: '.content > .container-fluid',
+    el: offline,
   },
   {
     path: 'user/player/bind',

@@ -29,9 +29,26 @@ class PlayerController extends Controller
         ]);
     }
 
-    public function index()
+    public function index(Filter $filter)
     {
+        $grid = [
+            'layout' => [
+                ['md-6', 'md-6']
+            ],
+            'widgets' => [
+                [
+                    [
+                        'user.widgets.players.list',
+                        'user.widgets.players.notice'
+                    ],
+                    ['shared.previewer']
+                ]
+            ]
+        ];
+        $grid = $filter->apply('grid:user.player', $grid);
+
         return view('user.player')
+            ->with('grid', $grid)
             ->with('extra', [
                 'rule' => trans('user.player.player-name-rule.'.option('player_name_rule')),
                 'length' => trans(
