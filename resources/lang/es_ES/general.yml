@@ -40,6 +40,7 @@ run: Correr
 rotation: Girar
 pause: Pausar
 reset: Resetear
+more: More
 submit: Aceptar
 cancel: Cancelar
 yes: true
