@@ -33,17 +33,17 @@ class PlayerController extends Controller
     {
         $grid = [
             'layout' => [
-                ['md-6', 'md-6']
+                ['md-6', 'md-6'],
             ],
             'widgets' => [
                 [
                     [
                         'user.widgets.players.list',
-                        'user.widgets.players.notice'
+                        'user.widgets.players.notice',
                     ],
-                    ['shared.previewer']
-                ]
-            ]
+                    ['shared.previewer'],
+                ],
+            ],
         ];
         $grid = $filter->apply('grid:user.player', $grid);
 
