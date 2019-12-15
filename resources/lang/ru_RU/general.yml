@@ -40,6 +40,7 @@ run: Бег
 rotation: Вращение
 pause: Пауза
 reset: Сброс
+more: More
 submit: Подтвердить
 cancel: Отмена
 yes: true
