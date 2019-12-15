@@ -21,8 +21,8 @@ beforeEach(() => {
 
 test('display player name constraints', () => {
   Vue.prototype.$http.get.mockResolvedValue({ data: [] })
-  const wrapper = mount(Players)
-  const text = wrapper.text()
+  mount(Players)
+  const text = document.querySelector('#modals')!.textContent
   expect(text).toContain('rule')
   expect(text).toContain('length')
 })
@@ -118,7 +118,9 @@ test('change player name', async () => {
   )
   button.trigger('click')
   await flushPromises()
-  expect(wrapper.text()).toContain('new-name')
+  expect(
+    document.querySelector('#players-list')!.textContent,
+  ).toContain('new-name')
 })
 
 test('delete player', async () => {
@@ -137,6 +139,7 @@ test('delete player', async () => {
   const wrapper = mount(Players)
   await flushPromises()
   const button = wrapper.findAll('.btn-danger')
+  const list = document.querySelector('#players-list')!
 
   button.trigger('click')
   expect(Vue.prototype.$http.post).not.toBeCalled()
@@ -144,18 +147,20 @@ test('delete player', async () => {
   button.trigger('click')
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith('/user/player/delete/1')
-  expect(wrapper.text()).toContain('to-be-deleted')
+  expect(list.textContent).toContain('to-be-deleted')
 
   button.trigger('click')
   await flushPromises()
-  expect(wrapper.text()).not.toContain('to-be-deleted')
+  expect(list.textContent).not.toContain('to-be-deleted')
 })
 
 test('toggle preview mode', () => {
   Vue.prototype.$http.get.mockResolvedValueOnce({ data: [] })
   const wrapper = mount(Players)
   wrapper.find('[data-test="to2d"]').trigger('click')
-  expect(wrapper.text()).toContain('user.player.texture-empty')
+  expect(
+    document.querySelector('#previewer')!.textContent,
+  ).toContain('user.player.texture-empty')
 })
 
 test('clear texture', async () => {
