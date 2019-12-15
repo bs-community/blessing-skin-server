@@ -57,16 +57,10 @@ skinlib:
     title: Ordenar
     time: Últimas
     likes: Más popular
-  badSkinSize: El tamaño del archivo de skin seleccionado no es válido
-  badCapeSize: El tamaño del archivo de capa seleccionado no es válido
   emptyTextureName: Nombre de textura vacío.
-  emptyTextureType: Por favor, seleccione un tipo para esta textura.
   emptyUploadFile: No ha subido ningún archivo.
-  encodingError: 'Error: La codificación de este archivo no es aceptada.'
   fileExtError: 'Error: Las texturas deben ser archivos PNG.'
-  showContentPolicy: Leer política de contenido
   uploading: Subiendo
-  redirecting: Redirigiendo...
   setAsPrivate: Establecer como privado
   setAsPublic: Establecer como público
   setPublicNotice: '¿Seguro que quieres establecer esto como textura pública?'
@@ -129,8 +123,6 @@ user:
   setAvatarNotice: El segmento de cabeza del skin se usará.
   resetAvatar: Restablecer avatar
   resetAvatarConfirm: '¿Está seguro que quiere restablecer su avatar?'
-  changeNickName: '¿Seguro que quiere asignar :new_nickname como su apodo?'
-  changeEmail: '¿Seguro que quiere cambiar su dirección de correo electrónico a :new_email?'
   typeToSearch: Escriba para buscar
   useAs: Aplicar...
   resetSelected: Borrar seleccionado
@@ -139,40 +131,9 @@ user:
   closet:
     upload: Subir textura
     use-as:
-      button: Aplicar...
-      reset: Borrar seleccionado
       title: '¿A qué jugador se debe aplicar?'
       empty: Parece que no tienes jugador...
       add: Añadir nuevo jugador
-  profile:
-    avatar:
-      title: '¿Cambiar avatar?'
-      notice: Haz clic en el icono del engranaje <i class="fas fa-cog"></i> de cualquier aspecto de tu skinlib, luego haz clic en "Establecer como avatar". Cortaremos el segmento de cabeza de ese skin para ti. Si no hay ningún icono como este, por favor deshibilita las extensiones como Adblock.
-    password:
-      title: Cambiar contraseña
-      old: Contraseña antigua
-      new: Contraseña nueva
-      confirm: Repetir contraseña
-      button: Cambiar contraseña
-    nickname:
-      title: Cambiar apodo
-      rule: Lo que quieras excepto caracteres especiales
-    email:
-      title: Cambiar email
-      new: Nuevo email
-      password: Contraseña actual
-      button: Cambiar email
-    delete:
-      title: Eliminar cuenta
-      notice: '¿Seguro que quiere eliminar su cuenta en :site?'
-      admin: La cuenta de administrador no puede ser eliminada.
-      button: Eliminar mi cuenta
-      modal-title: Necesita introducir su contraseña para continuar
-      modal-notice: |
-        Está a punto de eliminar su cuenta.
-        ¡Esto es permanente! Sin copias de seguridad, sin restauraciones, sin botón mágico.
-        Le advertimos, ¿bien?
-      password: Contraseña actual
   used:
     title: Recursos usados
     players: Jugadores registrados
@@ -186,21 +147,14 @@ user:
   last-sign: Última firma en :time
   sign-remain-time: Disponible después de :time :unit
   player:
-    player-name: Nombre de jugador
     edit: Editar
     operation: Operaciones
     edit-pname: Editar nombre
     delete-texture: Borrar texturas
     delete-player: Eliminar
     add-player: Añadir nuevo jugador
-    login-notice: Ahora puede iniciar su sesión con los nombres de jugadores que posees en el lugar de una dirección de correo electrónico.
     player-info: Información <small>(haga clic en el nombre del jugador para mostrar el preestreno)</small>
     texture-empty: Nada
-    player-name-rule:
-      official: El nombre del jugador sólo puede contener letras, números y guiones bajos.
-      cjk: El nombre del jugador puede contener letras, números, guiones bajos e ideógrafos unificados de CJK.
-      custom: Las reglas del nombre del jugador personalizado se aplican en este sitio. Por favor, contacta con los administradores para obtener más información.
-    player-name-length: El nombre del jugador debe tener al menos :min caracteres y no más de :max caracteres.
   verification:
     title: Verifica su cuenta
     message: Debe verificar su dirección de correo electrónico antes de usar el servicio de alojamiento de skins. ¿No ha recibido el correo electrónico?
