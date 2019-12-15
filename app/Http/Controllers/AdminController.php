@@ -6,6 +6,7 @@ use App\Models\Player;
 use App\Models\Texture;
 use App\Models\User;
 use App\Notifications;
+use App\Services\Filter;
 use App\Services\OptionForm;
 use App\Services\PluginManager;
 use Auth;
@@ -406,7 +407,8 @@ class AdminController extends Controller
     public function status(
         Request $request,
         PluginManager $plugins,
-        Filesystem $filesystem
+        Filesystem $filesystem,
+        Filter $filter
     ) {
         $db = get_db_config();
         $enabledPlugins = $plugins->getEnabledPlugins()->map(function ($plugin) {
@@ -421,7 +423,21 @@ class AdminController extends Controller
             $commit = $process->isSuccessful() ? trim($process->getOutput()) : '';
         }
 
+        $grid = [
+            'layout' => [
+                ['md-6', 'md-6']
+            ],
+            'widgets' => [
+                [
+                    ['admin.widgets.status.info'],
+                    []
+                ]
+            ]
+        ];
+        $grid = $filter->apply('grid:admin.status', $grid);
+
         return view('admin.status')
+            ->with('grid', $grid)
             ->with('detail', [
                 'bs' => [
                     'version' => config('app.version'),
