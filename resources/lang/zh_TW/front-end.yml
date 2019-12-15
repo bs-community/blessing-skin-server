@@ -57,16 +57,10 @@ skinlib:
     title: Sort
     time: Latest
     likes: Most Likes
-  badSkinSize: The size of selected skin file is not valid
-  badCapeSize: The size of selected cape file is not valid
   emptyTextureName: Empty texture name.
-  emptyTextureType: Please select a type for this texture.
   emptyUploadFile: You have not uploaded any file.
-  encodingError: 'Error: Encoding of this file is not accepted.'
   fileExtError: 'Error: Textures should be PNG files.'
-  showContentPolicy: Read content policy
   uploading: Uploading
-  redirecting: Redirecting...
   setAsPrivate: Set as Private
   setAsPublic: Set as Public
   setPublicNotice: Sure to set this as public texture?
@@ -129,8 +123,6 @@ user:
   setAvatarNotice: The head segment of skin will bu used.
   resetAvatar: Reset Avatar
   resetAvatarConfirm: Are you sure to reset your avatar?
-  changeNickName: 'Sure to set your nickname to :new_nickname?'
-  changeEmail: 'Sure to change your email address to :new_email?'
   typeToSearch: Type to search
   useAs: Apply...
   resetSelected: Clear selected
@@ -139,40 +131,9 @@ user:
   closet:
     upload: Upload Texture
     use-as:
-      button: Apply...
-      reset: Clear selected
       title: Which player should be applied to?
       empty: It seems that you own no player...
       add: Add new player
-  profile:
-    avatar:
-      title: Change Avatar?
-      notice: Click the gear icon「<i class="fas fa-cog"></i>」of any skin in your skinlib, then click 「Set as avatar」. We will cut the head segment of that skin for you. If there is no icon like this, please unable the extensions like ADBlock.
-    password:
-      title: Change Password
-      old: Old Password
-      new: New Password
-      confirm: Repeat Password
-      button: Change Password
-    nickname:
-      title: Change Nickname
-      rule: Whatever you like expect special characters
-    email:
-      title: Change Email
-      new: New Email
-      password: Current Password
-      button: Change Email
-    delete:
-      title: Delete Account
-      notice: Sure to delete your account on :site?
-      admin: Admin account can not be deleted.
-      button: Delete My Account
-      modal-title: You need to enter your password to continue
-      modal-notice: |
-        You're about to delete your account.
-        This is permanent! No backups, no restores, no magic undo button.
-        We warned you, ok?
-      password: Current Password
   used:
     title: Resources Used
     players: Registered players
@@ -186,21 +147,14 @@ user:
   last-sign: Last signed at :time
   sign-remain-time: Available after :time :unit
   player:
-    player-name: Player Name
     edit: Edit
     operation: Operations
     edit-pname: Edit Name
     delete-texture: Clear Textures
     delete-player: Delete
     add-player: Add new player
-    login-notice: Now you can log in with player names you owned instead email address.
     player-info: Information <small>(click player name to show preview)</small>
     texture-empty: Nothing
-    player-name-rule:
-      official: Player name may only contains letters, numbers and underscores.
-      cjk: Player name may contains letters, numbers, underscores and CJK Unified Ideographs.
-      custom: Custom player name rules are applied on this site. Please contact admins for further information.
-    player-name-length: The player name should be at least :min characters and not greater than :max characters.
   verification:
     title: Verify Your Account
     message: You must verify your email address before using the skin hosting service. Haven't received the email?
