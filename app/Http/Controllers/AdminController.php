@@ -23,9 +23,26 @@ use Option;
 
 class AdminController extends Controller
 {
-    public function index()
+    public function index(Filter $filter)
     {
+        $grid = [
+            'layout' => [
+                ['md-6', 'md-6'],
+            ],
+            'widgets' => [
+                [
+                    [
+                        'admin.widgets.dashboard.usage',
+                        'admin.widgets.dashboard.notification',
+                    ],
+                    ['admin.widgets.dashboard.chart'],
+                ],
+            ],
+        ];
+        $grid = $filter->apply('grid:admin.index', $grid);
+
         return view('admin.index', [
+            'grid' => $grid,
             'sum' => [
                 'users' => User::count(),
                 'players' => Player::count(),
@@ -425,14 +442,14 @@ class AdminController extends Controller
 
         $grid = [
             'layout' => [
-                ['md-6', 'md-6']
+                ['md-6', 'md-6'],
             ],
             'widgets' => [
                 [
                     ['admin.widgets.status.info'],
-                    []
-                ]
-            ]
+                    [],
+                ],
+            ],
         ];
         $grid = $filter->apply('grid:admin.status', $grid);
 

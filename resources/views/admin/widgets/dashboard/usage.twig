@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="small-box bg-info">
+      <div class="inner">
+        <h3>{{ sum.users }}</h3>
+        <p>{{ trans('admin.index.total-users') }}</p>
+      </div>
+      <div class="icon"><i class="fas fa-users"></i></div>
+      <a href="{{ url('admin/users') }}" class="small-box-footer">
+        {{ trans('general.user-manage') }}&nbsp;
+        <i class="fa fa-arrow-circle-right"></i>
+      </a>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="small-box bg-green">
+      <div class="inner">
+        <h3>{{ sum.players }}</h3>
+        <p>{{ trans('admin.index.total-players') }}</p>
+      </div>
+      <div class="icon"><i class="fas fa-gamepad"></i></div>
+      <a href="{{ url('admin/players') }}" class="small-box-footer">
+        {{ trans('general.player-manage') }}&nbsp;
+        <i class="fa fa-arrow-circle-right"></i>
+      </a>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <div class="small-box bg-purple">
+      <div class="inner">
+        <h3>{{ sum.textures }}</h3>
+        <p>{{ trans('admin.index.total-textures') }}</p>
+      </div>
+      <div class="icon"><i class="fas fa-file"></i></div>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="small-box bg-yellow">
+      <div class="inner">
+        {% if sum.storage > 1024 %}
+          <h3>{{ (sum.storage / 1024)|round(1) }}MB</h3>
+        {% else %}
+          <h3>{{ sum.storage }}KB</h3>
+        {% endif %}
+        <p>{{ trans('admin.index.disk-usage') }}</p>
+      </div>
+      <div class="icon"><i class="fas fa-hdd"></i></div>
+    </div>
+  </div>
+</div>
