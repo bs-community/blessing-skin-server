@@ -40,6 +40,7 @@ run: Courir
 rotation: Rotation
 pause: Pause
 reset: Réinitialiser
+more: More
 submit: Soumettre
 cancel: Annuler
 yes: true
