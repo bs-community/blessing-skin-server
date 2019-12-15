@@ -4,45 +4,46 @@
   "license": "MIT",
   "require": {
     "php": ">=7.2.0",
-    "ext-zip": "*",
+    "ext-ctype": "*",
+    "ext-gd": "*",
+    "ext-json": "*",
+    "ext-mbstring": "*",
     "ext-openssl": "*",
     "ext-pdo": "*",
-    "ext-mbstring": "*",
     "ext-tokenizer": "*",
-    "ext-gd": "*",
     "ext-xml": "*",
-    "ext-ctype": "*",
-    "ext-json": "*",
-    "predis/predis": "~1.0",
-    "doctrine/inflector": "1.1.0",
-    "laravel/framework": "6.*",
-    "nesbot/carbon": "^2.0",
+    "ext-zip": "*",
+    "composer/ca-bundle": "^1.2",
     "composer/semver": "^1.4",
+    "doctrine/dbal": "^2.9",
+    "doctrine/inflector": "1.1.0",
+    "facade/ignition": "^1.4",
     "gregwar/captcha": "1.*",
     "guzzlehttp/guzzle": "^6.3",
-    "doctrine/dbal": "^2.9",
-    "tymon/jwt-auth": "dev-develop",
+    "laravel/framework": "6.*",
     "laravel/passport": "^7.3",
-    "composer/ca-bundle": "^1.2",
-    "facade/ignition": "^1.4",
+    "nesbot/carbon": "^2.0",
+    "predis/predis": "~1.0",
+    "rcrowe/twigbridge": "^0.11.1",
+    "socialiteproviders/manager": "^3.4",
     "spatie/laravel-translation-loader": "^2.4",
     "symfony/process": "^4.4",
     "symfony/yaml": "^4.3",
     "twig/twig": "^2.11",
-    "rcrowe/twigbridge": "^0.11.1"
+    "tymon/jwt-auth": "dev-develop"
   },
   "require-dev": {
+    "barryvdh/laravel-debugbar": "^3.2",
+    "barryvdh/laravel-ide-helper": "^2.6",
+    "beyondcode/laravel-dump-server": "^1.2",
     "fzaninotto/faker": "~1.8",
+    "laravel/browser-kit-testing": "~5.0",
+    "laravel/tinker": "^1.0",
     "mockery/mockery": "^1.2.2",
     "phpdocumentor/reflection-docblock": "3.2.2",
     "phpunit/phpunit": "~8.0",
-    "laravel/browser-kit-testing": "~5.0",
-    "laravel/tinker": "^1.0",
-    "barryvdh/laravel-debugbar": "^3.2",
-    "beyondcode/laravel-dump-server": "^1.2",
-    "symfony/dom-crawler": "^4.3",
     "symfony/css-selector": "^4.3",
-    "barryvdh/laravel-ide-helper": "^2.6"
+    "symfony/dom-crawler": "^4.3"
   },
   "autoload": {
     "classmap": [
@@ -71,6 +72,13 @@
   "config": {
     "preferred-install": "dist",
     "sort-packages": true
+  },
+  "extra": {
+    "laravel": {
+      "dont-discover": [
+        "laravel/socialite"
+      ]
+    }
   },
   "repositories": {
     "packagist": {

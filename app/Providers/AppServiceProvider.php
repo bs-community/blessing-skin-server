@@ -23,6 +23,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('parsedown', \Parsedown::class);
         $this->app->singleton(\App\Services\Webpack::class);
         $this->app->singleton(\App\Services\Filter::class);
+        $this->app->singleton('oauth.providers', function () {
+            return new \Illuminate\Support\Collection();
+        });
     }
 
     /**

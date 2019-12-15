@@ -11,7 +11,10 @@
   {% endif %}
   <form></form>
   <br>
-  <a href="{{ url('auth/register') }}">{{ trans('auth.register-link') }}</a>
+  {{ include('auth.oauth') }}
+  <div>
+    <a href="{{ url('auth/register') }}">{{ trans('auth.register-link') }}</a>
+  </div>
 {% endblock %}
 
 {% block before_foot %}

@@ -11,6 +11,7 @@ use App\Rules\Captcha;
 use Auth;
 use Cache;
 use Illuminate\Http\Request;
+use Laravel\Socialite\Facades\Socialite;
 use Mail;
 use Session;
 use URL;
@@ -300,5 +301,45 @@ class AuthController extends Controller
     public function jwtRefresh()
     {
         return json(['token' => Auth::guard('jwt')->refresh()]);
+    }
+
+    public function oauthLogin($driver)
+    {
+        return Socialite::driver($driver)->redirect();
+    }
+
+    public function oauthCallback($driver)
+    {
+        $remoteUser = Socialite::driver($driver)->user();
+
+        $email = $remoteUser->email;
+        if (empty($email)) {
+            abort(500, 'Unsupported OAuth Server which does not provide email.');
+        }
+
+        $user = User::where('email', $email)->first();
+        if ($user) {
+            event(new Events\UserLoggedIn($user));
+
+            Auth::login($user);
+        } else {
+            $user = new User();
+            $user->email = $email;
+            $user->nickname = $remoteUser->nickname ?? $remoteUser->name ?? $email;
+            $user->score = option('user_initial_score');
+            $user->avatar = 0;
+            $user->password = '';
+            $user->ip = get_client_ip();
+            $user->permission = User::NORMAL;
+            $user->register_at = get_datetime_string();
+            $user->last_sign_at = get_datetime_string(time() - 86400);
+
+            $user->save();
+            event(new Events\UserRegistered($user));
+
+            Auth::login($user);
+        }
+
+        return redirect('/user');
     }
 }

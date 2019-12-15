@@ -13,6 +13,8 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
+use Laravel\Socialite\AbstractUser;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthControllerTest extends TestCase
 {
@@ -605,5 +607,81 @@ class AuthControllerTest extends TestCase
             'Authorization' => "Bearer $token",
         ])->decodeResponseJson('token');
         $this->assertTrue(is_string($token));
+    }
+
+    public function testOAuthLogin()
+    {
+        Socialite::shouldReceive('driver')
+            ->with('github')
+            ->once()
+            ->andReturn(new class() {
+                public function redirect()
+                {
+                    return redirect('/');
+                }
+            });
+
+        $this->get('/auth/login/github')->assertRedirect();
+    }
+
+    public function testOAuthCallback()
+    {
+        Event::fake();
+
+        Socialite::shouldReceive('driver')
+            ->with('github')
+            ->times(3)
+            ->andReturn(
+                new class() {
+                    public function user()
+                    {
+                        return new class() extends AbstractUser {
+                        };
+                    }
+                },
+                new class() {
+                    public function user()
+                    {
+                        return new class() extends AbstractUser {
+                            public $email = 'a@b.c';
+
+                            public $nickname = 'abc';
+                        };
+                    }
+                },
+                new class() {
+                    public function user()
+                    {
+                        return new class() extends AbstractUser {
+                            public $email = 'a@b.c';
+
+                            public $nickname = 'abc';
+                        };
+                    }
+                }
+            );
+
+        $this->get('/auth/login/github/callback')
+            ->assertStatus(500)
+            ->assertSee('Unsupported');
+
+        $this->get('/auth/login/github/callback')->assertRedirect('/user');
+        $this->assertDatabaseHas('users', [
+            'email' => 'a@b.c',
+            'nickname' => 'abc',
+            'score' => option('user_initial_score'),
+            'avatar' => 0,
+            'ip' => '127.0.0.1',
+            'permission' => User::NORMAL,
+        ]);
+        Event::assertDispatched(Events\UserRegistered::class);
+        $this->assertAuthenticated();
+
+        auth()->logout();
+        $this->assertGuest();
+
+        $this->get('/auth/login/github/callback')->assertRedirect('/user');
+        Event::assertDispatched(Events\UserLoggedIn::class);
+        $this->assertAuthenticated();
     }
 }

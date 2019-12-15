@@ -7,6 +7,7 @@
     {{ trans('auth.register.message', {sitename: site_name}) }}
   </p>
   <form></form>
+  {{ include('auth.oauth') }}
 {% endblock %}
 
 {% block before_foot %}

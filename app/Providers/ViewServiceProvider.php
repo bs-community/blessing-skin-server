@@ -83,5 +83,9 @@ class ViewServiceProvider extends ServiceProvider
                 ],
             ]);
         });
+
+        View::composer('auth.oauth', function ($view) {
+            $view->with('providers', resolve('oauth.providers'));
+        });
     }
 }

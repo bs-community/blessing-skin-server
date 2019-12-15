@@ -27,6 +27,9 @@ Route::group(['prefix' => 'auth'], function () {
         Route::get('/register', 'AuthController@register');
         Route::get('/forgot', 'AuthController@forgot');
         Route::get('/reset/{uid}', 'AuthController@reset')->name('auth.reset')->middleware('signed');
+
+        Route::get('/login/{driver}', 'AuthController@oauthLogin');
+        Route::get('/login/{driver}/callback', 'AuthController@oauthCallback');
     });
 
     Route::any('/logout', 'AuthController@logout');
