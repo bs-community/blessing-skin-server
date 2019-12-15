@@ -673,6 +673,7 @@ class AuthControllerTest extends TestCase
             'avatar' => 0,
             'ip' => '127.0.0.1',
             'permission' => User::NORMAL,
+            'verified' => true,
         ]);
         Event::assertDispatched(Events\UserRegistered::class);
         $this->assertAuthenticated();
