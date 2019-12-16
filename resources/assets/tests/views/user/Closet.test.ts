@@ -6,11 +6,6 @@ import ClosetItem from '@/components/ClosetItem.vue'
 import Previewer from '@/components/Previewer.vue'
 
 beforeEach(() => {
-  document.body.innerHTML = `
-    <div id="closet-list"></div>
-    <div id="previewer"></div>
-  `
-
   window.blessing.extra = { unverified: false }
 })
 

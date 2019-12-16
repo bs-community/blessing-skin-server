@@ -28,6 +28,20 @@ test('custom wrapper tag', () => {
   expect(document.querySelectorAll('span')).toHaveLength(1)
 })
 
+test('disable portal', () => {
+  document.body.innerHTML = '<div id="c"></div>'
+  mount(Portal, {
+    propsData: {
+      selector: '#c',
+      disabled: true,
+    },
+    slots: {
+      default: 'children',
+    },
+  })
+  expect(document.querySelector('#c')!.innerHTML).toBe('')
+})
+
 test('should pass if container does not exist', () => {
   mount(Portal, {
     propsData: {

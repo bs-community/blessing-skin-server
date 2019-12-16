@@ -1,6 +1,6 @@
 <template>
   <div>
-    <portal selector="#players-list">
+    <portal selector="#players-list" :disabled="disablePortal">
       <div class="card card-primary">
         <div class="card-body table-responsive p-0">
           <table class="table table-hover">
@@ -49,7 +49,7 @@
       </div>
     </portal>
 
-    <portal selector="#previewer">
+    <portal selector="#previewer" :disabled="disablePortal">
       <previewer
         v-if="using3dPreviewer"
         :skin="skinUrl"
@@ -101,7 +101,7 @@
       </div>
     </portal>
 
-    <portal selector="#modals">
+    <portal selector="#modals" :disabled="disablePortal">
       <add-player-dialog @add="fetchPlayers" />
 
       <modal
@@ -162,6 +162,7 @@ export default {
         skin: false,
         cape: false,
       },
+      disablePortal: process.env.NODE_ENV === 'test',
     }
   },
   async beforeMount() {

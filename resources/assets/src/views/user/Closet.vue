@@ -1,8 +1,10 @@
 <template>
   <div>
-    <portal selector="#email-verification"><email-verification /></portal>
+    <portal selector="#email-verification" :disabled="disablePortal">
+      <email-verification />
+    </portal>
 
-    <portal selector="#closet-list">
+    <portal selector="#closet-list" :disabled="disablePortal">
       <div class="card card-primary card-tabs">
         <div class="card-header p-0 pt-1 pl-1">
           <div class="d-flex justify-content-between">
@@ -140,7 +142,7 @@
       </div>
     </portal>
 
-    <portal selector="#previewer">
+    <portal selector="#previewer" :disabled="disablePortal">
       <previewer
         closet-mode
         :skin="skinUrl"
@@ -165,7 +167,7 @@
       </previewer>
     </portal>
 
-    <portal selector="#modals">
+    <portal selector="#modals" :disabled="disablePortal">
       <apply-to-player-dialog ref="useAs" :skin="selectedSkin" :cape="selectedCape" />
       <add-player-dialog @add="fetchPlayersList" />
     </portal>
@@ -218,6 +220,7 @@ export default {
     capeUrl: '',
     linkToSkin: `${blessing.base_url}/skinlib?filter=skin`,
     linkToCape: `${blessing.base_url}/skinlib?filter=cape`,
+    disablePortal: process.env.NODE_ENV === 'test',
   }),
   created() {
     this.search = debounce(this.loadCloset, 350)
