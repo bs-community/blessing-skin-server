@@ -1,135 +1,136 @@
 <template>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="card card-primary">
-          <div class="card-body">
-            <div class="form-group">
-              <label v-t="'skinlib.upload.texture-name'" for="name" />
-              <input
-                v-model="name"
-                type="text"
-                :placeholder="textureNameRule"
-                class="form-control"
-              >
-            </div>
-
-            <div class="form-group">
-              <label v-t="'skinlib.upload.texture-type'" />
-              <br>
-              <label class="mr-2">
-                <input
-                  v-model="type"
-                  type="radio"
-                  name="type"
-                  value="steve"
-                >
-                Steve
-              </label>
-              <label class="mr-2">
-                <input
-                  v-model="type"
-                  type="radio"
-                  name="type"
-                  value="alex"
-                >
-                Alex
-              </label>
-              <label class="mr-2">
-                <input
-                  v-model="type"
-                  type="radio"
-                  name="type"
-                  value="cape"
-                >
-                {{ $t('general.cape') }}
-              </label>
-            </div>
-
-            <div class="form-group">
-              <label v-t="'skinlib.upload.select-file'" for="file" />
-              <div class="file-dnd">
-                <img v-if="hasFile" :src="texture" :width="width2d">
-                <h3 v-else v-t="'skinlib.upload.dropZone'" />
-              </div>
-              <file-upload
-                ref="upload"
-                v-model="files"
-                extensions="png"
-                accept="image/png,image/x-png"
-                drop=".file-dnd"
-                @input-file="inputFile"
-              >
-                <button class="btn btn-primary">
-                  {{ $t('skinlib.upload.select-file') }}
-                </button>
-              </file-upload>
-              <button
-                v-show="hasFile"
-                class="btn btn-danger float-right"
-                data-test="remove"
-                @click="remove"
-              >
-                <i class="fas fa-trash-alt" />
-                {{ $t('skinlib.upload.remove') }}
-              </button>
-            </div>
-
-            <!-- eslint-disable-next-line vue/no-v-html -->
-            <div v-if="contentPolicy" class="callout callout-warning" v-html="contentPolicy" />
+  <div>
+    <portal selector="#file-input" :disabled="disablePortal">
+      <div class="card card-primary">
+        <div class="card-body">
+          <div class="form-group">
+            <label v-t="'skinlib.upload.texture-name'" for="name" />
+            <input
+              v-model="name"
+              type="text"
+              :placeholder="textureNameRule"
+              class="form-control"
+            >
           </div>
 
-          <div class="card-footer">
-            <div class="container pl-0 pr-0 d-flex justify-content-between">
-              <label
-                class="mt-2"
-                :title="$t('skinlib.upload.privacy-notice')"
-                data-toggle="tooltip"
+          <div class="form-group">
+            <label v-t="'skinlib.upload.texture-type'" />
+            <br>
+            <label class="mr-2">
+              <input
+                v-model="type"
+                type="radio"
+                name="type"
+                value="steve"
               >
-                <input v-model="isPrivate" type="checkbox">
-                {{ $t('skinlib.upload.set-as-private') }}
-              </label>
-              <button v-if="uploading" class="btn btn-success" disabled>
-                <i class="fa fa-spinner fa-spin" /> {{ $t('skinlib.uploading') }}
+              Steve
+            </label>
+            <label class="mr-2">
+              <input
+                v-model="type"
+                type="radio"
+                name="type"
+                value="alex"
+              >
+              Alex
+            </label>
+            <label class="mr-2">
+              <input
+                v-model="type"
+                type="radio"
+                name="type"
+                value="cape"
+              >
+              {{ $t('general.cape') }}
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label v-t="'skinlib.upload.select-file'" for="file" />
+            <div class="file-dnd">
+              <img v-if="hasFile" :src="texture" :width="width2d">
+              <h3 v-else v-t="'skinlib.upload.dropZone'" />
+            </div>
+            <file-upload
+              ref="upload"
+              v-model="files"
+              extensions="png"
+              accept="image/png,image/x-png"
+              drop=".file-dnd"
+              @input-file="inputFile"
+            >
+              <button class="btn btn-primary">
+                {{ $t('skinlib.upload.select-file') }}
               </button>
-              <button v-else class="btn btn-success" @click="upload">
-                {{ $t('skinlib.upload.button') }}
-              </button>
-            </div>
-            <div v-if="hasFile" class="callout callout-info bottom-notice">
-              <p>{{ $t('skinlib.upload.cost', { score: scoreCost }) }}</p>
-            </div>
-            <div v-if="isPrivate" class="callout callout-info bottom-notice">
-              <p>{{ privacyNotice }}</p>
-            </div>
-            <div v-if="!isPrivate && award" class="callout callout-success bottom-notice">
-              <p>{{ $t('skinlib.upload.award', { score: award }) }}</p>
-            </div>
+            </file-upload>
+            <button
+              v-show="hasFile"
+              class="btn btn-danger float-right"
+              data-test="remove"
+              @click="remove"
+            >
+              <i class="fas fa-trash-alt" />
+              {{ $t('skinlib.upload.remove') }}
+            </button>
+          </div>
+
+          <!-- eslint-disable-next-line vue/no-v-html -->
+          <div v-if="contentPolicy" class="callout callout-warning" v-html="contentPolicy" />
+        </div>
+
+        <div class="card-footer">
+          <div class="container pl-0 pr-0 d-flex justify-content-between">
+            <label
+              class="mt-2"
+              :title="$t('skinlib.upload.privacy-notice')"
+              data-toggle="tooltip"
+            >
+              <input v-model="isPrivate" type="checkbox">
+              {{ $t('skinlib.upload.set-as-private') }}
+            </label>
+            <button v-if="uploading" class="btn btn-success" disabled>
+              <i class="fa fa-spinner fa-spin" /> {{ $t('skinlib.uploading') }}
+            </button>
+            <button v-else class="btn btn-success" @click="upload">
+              {{ $t('skinlib.upload.button') }}
+            </button>
+          </div>
+          <div v-if="hasFile" class="callout callout-info bottom-notice">
+            <p>{{ $t('skinlib.upload.cost', { score: scoreCost }) }}</p>
+          </div>
+          <div v-if="isPrivate" class="callout callout-info bottom-notice">
+            <p>{{ privacyNotice }}</p>
+          </div>
+          <div v-if="!isPrivate && award" class="callout callout-success bottom-notice">
+            <p>{{ $t('skinlib.upload.award', { score: award }) }}</p>
           </div>
         </div>
       </div>
-      <div class="col-md-6">
-        <previewer
-          :skin="type !== 'cape' ? texture : ''"
-          :cape="type === 'cape' ? texture : ''"
-          :model="type"
-        />
-      </div>
-    </div>
+    </portal>
+
+    <portal selector="#previewer" :disabled="disablePortal">
+      <previewer
+        :skin="type !== 'cape' ? texture : ''"
+        :cape="type === 'cape' ? texture : ''"
+        :model="type"
+      />
+    </portal>
   </div>
 </template>
 
 <script>
 import FileUpload from 'vue-upload-component'
 import { isSlimSkin } from 'skinview3d'
+import Portal from '../../components/Portal'
 import emitMounted from '../../components/mixins/emitMounted'
 import { toast } from '../../scripts/notify'
 
 export default {
   name: 'Upload',
   components: {
-    Previewer: () => import('../../components/Previewer.vue'),
     FileUpload,
+    Portal,
+    Previewer: () => import('../../components/Previewer.vue'),
   },
   mixins: [
     emitMounted,
@@ -149,6 +150,7 @@ export default {
       award: blessing.extra.award,
       contentPolicy: blessing.extra.contentPolicy,
       width2d: 64,
+      disablePortal: process.env.NODE_ENV === 'test',
     }
   },
   computed: {

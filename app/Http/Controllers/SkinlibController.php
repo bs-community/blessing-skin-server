@@ -195,9 +195,23 @@ class SkinlibController extends Controller
         }
     }
 
-    public function upload()
+    public function upload(Filter $filter)
     {
+        $grid = [
+            'layout' => [
+                ['md-6', 'md-6'],
+            ],
+            'widgets' => [
+                [
+                    ['skinlib.widgets.upload.input'],
+                    ['shared.previewer'],
+                ],
+            ],
+        ];
+        $grid = $filter->apply('grid:skinlib.upload', $grid);
+
         return view('skinlib.upload')
+            ->with('grid', $grid)
             ->with('extra', [
                 'rule' => ($regexp = option('texture_name_regexp'))
                     ? trans('skinlib.upload.name-rule-regexp', compact('regexp'))
