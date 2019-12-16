@@ -37,10 +37,6 @@ class SkinlibController extends Controller
     /**
      * Get skin library data filtered.
      * Available Query String: filter, uploader, page, sort, keyword, items_per_page.
-     *
-     * @param Request $request [description]
-     *
-     * @return JsonResponse
      */
     public function getSkinlibFiltered(Request $request)
     {
@@ -155,9 +151,30 @@ class SkinlibController extends Controller
             ]
         );
 
+        $grid = [
+            'layout' => [
+                ['md-8', 'md-4'],
+                ['md-12'],
+            ],
+            'widgets' => [
+                [
+                    ['shared.previewer'],
+                    [
+                        'skinlib.widgets.show.info',
+                        'skinlib.widgets.show.operations',
+                    ],
+                ],
+                [
+                    ['skinlib.widgets.show.comment'],
+                ],
+            ],
+        ];
+        $grid = $filter->apply('grid:skinlib.show', $grid);
+
         return view('skinlib.show')
             ->with('texture', $texture)
             ->with('comment_script', $commentScript)
+            ->with('grid', $grid)
             ->with('extra', [
                 'download' => option('allow_downloading_texture'),
                 'currentUid' => $user ? $user->uid : 0,

@@ -1,6 +1,6 @@
 <template>
-  <div class="row">
-    <div class="col-md-8">
+  <div>
+    <portal selector="#previewer" :disabled="disablePortal">
       <previewer
         :skin="type !== 'cape' && textureUrl"
         :cape="type === 'cape' ? textureUrl : ''"
@@ -78,9 +78,9 @@
           </div>
         </template>
       </previewer>
-    </div>
+    </portal>
 
-    <div class="col-md-4">
+    <portal selector="#texture-info" :disabled="disablePortal">
       <div class="card card-primary">
         <div class="card-header">
           <h3 v-t="'skinlib.show.detail'" class="card-title" />
@@ -148,7 +148,9 @@
           </table>
         </div>
       </div>
+    </portal>
 
+    <portal selector="#operations" :disabled="disablePortal">
       <div v-if="hasEditPermission" class="card card-warning">
         <div class="card-header">
           <h3 v-t="'admin.operationsTitle'" class="card-title" />
@@ -168,54 +170,57 @@
           </div>
         </div>
       </div>
-    </div>
+    </portal>
 
-    <apply-to-player-dialog
-      ref="useAs"
-      :allow-add="false"
-      :skin="type !== 'cape' ? tid : 0"
-      :cape="type === 'cape' ? tid : 0"
-    />
+    <portal selector="#modals" :disabled="disablePortal">
+      <apply-to-player-dialog
+        ref="useAs"
+        :allow-add="false"
+        :skin="type !== 'cape' ? tid : 0"
+        :cape="type === 'cape' ? tid : 0"
+      />
 
-    <modal
-      id="modal-type"
-      :title="$t(this.$t('skinlib.setNewTextureModel'))"
-      center
-      @confirm="changeModel"
-    >
-      <label class="mr-3">
-        <input
-          v-model="editingType"
-          type="radio"
-          name="type"
-          value="steve"
-        >
-        Steve
-      </label>
-      <label class="mr-3">
-        <input
-          v-model="editingType"
-          type="radio"
-          name="type"
-          value="alex"
-        >
-        Alex
-      </label>
-      <label>
-        <input
-          v-model="editingType"
-          type="radio"
-          name="type"
-          value="cape"
-        >
-        {{ $t('general.cape') }}
-      </label>
-    </modal>
+      <modal
+        id="modal-type"
+        :title="$t(this.$t('skinlib.setNewTextureModel'))"
+        center
+        @confirm="changeModel"
+      >
+        <label class="mr-3">
+          <input
+            v-model="editingType"
+            type="radio"
+            name="type"
+            value="steve"
+          >
+          Steve
+        </label>
+        <label class="mr-3">
+          <input
+            v-model="editingType"
+            type="radio"
+            name="type"
+            value="alex"
+          >
+          Alex
+        </label>
+        <label>
+          <input
+            v-model="editingType"
+            type="radio"
+            name="type"
+            value="cape"
+          >
+          {{ $t('general.cape') }}
+        </label>
+      </modal>
+    </portal>
   </div>
 </template>
 
 <script>
 import Modal from '../../components/Modal.vue'
+import Portal from '../../components/Portal'
 import setAsAvatar from '../../components/mixins/setAsAvatar'
 import addClosetItem from '../../components/mixins/addClosetItem'
 import removeClosetItem from '../../components/mixins/removeClosetItem'
@@ -230,6 +235,7 @@ export default {
   components: {
     ApplyToPlayerDialog,
     Modal,
+    Portal,
     Previewer: () => import('../../components/Previewer.vue'),
   },
   mixins: [
@@ -264,6 +270,7 @@ export default {
       uploaderNickName: blessing.extra.nickname,
       reportScore: blessing.extra.report,
       badges: blessing.extra.badges,
+      disablePortal: process.env.NODE_ENV === 'test',
     }
   },
   computed: {

@@ -1,4 +1,4 @@
-const offline = document.createElement('div')
+const virtual = document.createElement('div')
 
 export default [
   {
@@ -16,12 +16,12 @@ export default [
   {
     path: 'user/closet',
     component: () => import('../views/user/Closet.vue'),
-    el: offline,
+    el: virtual,
   },
   {
     path: 'user/player',
     component: () => import('../views/user/Players.vue'),
-    el: offline,
+    el: virtual,
   },
   {
     path: 'user/player/bind',
@@ -119,7 +119,7 @@ export default [
   {
     path: 'skinlib/show/(\\d+)',
     component: () => import('../views/skinlib/Show.vue'),
-    el: '.content > .container-fluid > .row:nth-child(1)',
+    el: virtual,
   },
   {
     path: 'skinlib/upload',
