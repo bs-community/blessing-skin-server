@@ -222,7 +222,7 @@ admin:
   pluginAuthor: Autor
   pluginVersion: Versión
   pluginName: Nombre
-  pluginReadme: Read Me
+  pluginReadme: Readme
   pluginDescription: Descripción
   pluginDependencies: Dependencias
   installPlugin: Instalar
