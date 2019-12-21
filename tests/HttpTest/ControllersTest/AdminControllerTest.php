@@ -138,7 +138,6 @@ class AdminControllerTest extends TestCase
 
         $this->get('/admin/status')
             ->assertSee(PHP_VERSION)
-            ->assertSee(humanize_db_type())
             ->assertSee('(1)')
             ->assertSee('MyPlugin')
             ->assertSee('0.0.0');

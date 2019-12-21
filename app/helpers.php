@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Carbon\Carbon;
 use Illuminate\Support\Arr;
 
 if (!function_exists('plugin')) {
@@ -55,7 +54,7 @@ if (!function_exists('option')) {
      *
      * @param array|string $key
      * @param mixed        $default
-     * @param raw          $raw     return raw value without convertion
+     * @param bool         $raw     return raw value without convertion
      *
      * @return mixed
      */
@@ -81,42 +80,6 @@ if (!function_exists('option_localized')) {
     function option_localized($key = null, $default = null, $raw = false)
     {
         return option($key.'_'.config('app.locale'), option($key));
-    }
-}
-
-if (!function_exists('humanize_db_type')) {
-    function humanize_db_type($type = null): string
-    {
-        $map = [
-            'mysql' => 'MySQL/MariaDB',
-            'sqlite' => 'SQLite',
-            'pgsql' => 'PostgreSQL',
-        ];
-
-        $type = $type ?: config('database.default');
-
-        return Arr::get($map, $type, '');
-    }
-}
-
-if (!function_exists('get_db_config')) {
-    function get_db_config($type = null)
-    {
-        $type = $type ?: config('database.default');
-
-        return config("database.connections.$type");
-    }
-}
-
-if (!function_exists('get_datetime_string')) {
-    /**
-     * Get date time string in "Y-m-d H:i:s" format.
-     *
-     * @param int $timestamp
-     */
-    function get_datetime_string($timestamp = 0): string
-    {
-        return $timestamp == 0 ? Carbon::now()->toDateTimeString() : Carbon::createFromTimestamp($timestamp)->toDateTimeString();
     }
 }
 
@@ -153,24 +116,6 @@ if (!function_exists('get_string_replaced')) {
         }
 
         return $str;
-    }
-}
-
-if (!function_exists('is_request_secure')) {
-    /**
-     * Check whether the request is secure or not.
-     * True is always returned when "X-Forwarded-Proto" header is set.
-     *
-     * We define this function because Symfony's "Request::isSecure()" method
-     * needs "setTrustedProxies()" which sucks when load balancer is enabled.
-     */
-    function is_request_secure(): bool
-    {
-        $request = request();
-
-        return $request->server('HTTPS') === 'on'
-            || $request->server('HTTP_X_FORWARDED_PROTO') === 'https'
-            || $request->server('HTTP_X_FORWARDED_SSL') === 'on';
     }
 }
 

@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Rules\Captcha;
 use Auth;
 use Cache;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use Mail;
@@ -150,8 +151,8 @@ class AuthController extends Controller
             ?: app('cipher')->hash($data['password'], config('secure.salt'));
         $user->ip = get_client_ip();
         $user->permission = User::NORMAL;
-        $user->register_at = get_datetime_string();
-        $user->last_sign_at = get_datetime_string(time() - 86400);
+        $user->register_at = Carbon::now();
+        $user->last_sign_at = Carbon::now()->subDay();
 
         $user->save();
 
@@ -331,8 +332,8 @@ class AuthController extends Controller
             $user->password = '';
             $user->ip = get_client_ip();
             $user->permission = User::NORMAL;
-            $user->register_at = get_datetime_string();
-            $user->last_sign_at = get_datetime_string(time() - 86400);
+            $user->register_at = Carbon::now();
+            $user->last_sign_at = Carbon::now()->subDay();
             $user->verified = true;
 
             $user->save();

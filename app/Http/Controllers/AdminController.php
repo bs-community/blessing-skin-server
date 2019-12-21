@@ -427,7 +427,13 @@ class AdminController extends Controller
         Filesystem $filesystem,
         Filter $filter
     ) {
-        $db = get_db_config();
+        $db = config('database.connections.'.config('database.default'));
+        $dbType = Arr::get([
+            'mysql' => 'MySQL/MariaDB',
+            'sqlite' => 'SQLite',
+            'pgsql' => 'PostgreSQL',
+        ], config('database.default'), '');
+
         $enabledPlugins = $plugins->getEnabledPlugins()->map(function ($plugin) {
             return ['title' => trans($plugin->title), 'version' => $plugin->version];
         });
@@ -473,7 +479,7 @@ class AdminController extends Controller
                     'os' => sprintf('%s %s %s', php_uname('s'), php_uname('r'), php_uname('m')),
                 ],
                 'db' => [
-                    'type' => humanize_db_type(),
+                    'type' => $dbType,
                     'host' => Arr::get($db, 'host', ''),
                     'port' => Arr::get($db, 'port', ''),
                     'username' => Arr::get($db, 'username'),

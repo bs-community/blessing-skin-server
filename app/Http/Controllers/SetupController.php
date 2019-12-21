@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\PrettyPageException;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\Console\Kernel as Artisan;
 use Illuminate\Database\Connection;
 use Illuminate\Database\DatabaseManager;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class SetupController extends Controller
@@ -59,7 +61,11 @@ class SetupController extends Controller
             $manager->connection('temp')->getPdo();
         } catch (\Exception $e) {
             $msg = iconv('gbk', 'utf-8', $e->getMessage());
-            $type = humanize_db_type($request->input('type'));
+            $type = Arr::get([
+                'mysql' => 'MySQL/MariaDB',
+                'sqlite' => 'SQLite',
+                'pgsql' => 'PostgreSQL',
+            ], $request->input('type'), '');
 
             throw new PrettyPageException(trans('setup.database.connection-error', compact('msg', 'type')), $e->getCode());
         }
@@ -148,8 +154,8 @@ class SetupController extends Controller
         $user->password = app('cipher')->hash($data['password'], config('secure.salt'));
         $user->ip = get_client_ip();
         $user->permission = User::SUPER_ADMIN;
-        $user->register_at = get_datetime_string();
-        $user->last_sign_at = get_datetime_string(time() - 86400);
+        $user->register_at = Carbon::now();
+        $user->last_sign_at = Carbon::now()->subDay();
         $user->verified = true;
 
         $user->save();

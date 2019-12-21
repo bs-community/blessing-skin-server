@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Notifications;
 use App\Services\Filter;
 use App\Services\Rejection;
+use Carbon\Carbon;
 use Event;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Mail;
@@ -106,7 +107,7 @@ class UserControllerTest extends TestCase
             ]);
 
         // Remaining time is greater than 0
-        $user = factory(User::class)->create(['last_sign_at' => get_datetime_string()]);
+        $user = factory(User::class)->create(['last_sign_at' => Carbon::now()]);
         option(['sign_gap_time' => 2]);
         $this->actingAs($user)
             ->postJson('/user/sign')
@@ -123,7 +124,7 @@ class UserControllerTest extends TestCase
 
         // Can sign after 0 o'clock
         option(['sign_after_zero' => true]);
-        $user = factory(User::class)->create(['last_sign_at' => get_datetime_string()]);
+        $user = factory(User::class)->create(['last_sign_at' => Carbon::now()]);
         $diff = \Carbon\Carbon::now()->diffInSeconds(\Carbon\Carbon::tomorrow());
         if ($diff / 3600 >= 1) {
             $diff = round($diff / 3600);
@@ -146,7 +147,7 @@ class UserControllerTest extends TestCase
             ]);
 
         $user = factory(User::class)->create([
-            'last_sign_at' => \Carbon\Carbon::today()->toDateTimeString(),
+            'last_sign_at' => \Carbon\Carbon::today(),
         ]);
         $this->actingAs($user)->postJson('/user/sign')->assertJson(['code' => 0]);
     }

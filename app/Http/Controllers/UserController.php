@@ -125,7 +125,7 @@ class UserController extends Controller
         if ($this->getSignRemainingTime($user) <= 0) {
             $acquiredScore = rand(...explode(',', option('sign_score')));
             $user->score += $acquiredScore;
-            $user->last_sign_at = Carbon::now()->toDateTimeString();
+            $user->last_sign_at = Carbon::now();
             $user->save();
             $gap = option('sign_gap_time');
 

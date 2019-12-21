@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 
@@ -39,8 +40,8 @@ class BsInstallCommand extends Command
         $admin->password = app('cipher')->hash($this->argument('password'), config('secure.salt'));
         $admin->ip = '127.0.0.1';
         $admin->permission = User::SUPER_ADMIN;
-        $admin->register_at = get_datetime_string();
-        $admin->last_sign_at = get_datetime_string(time() - 86400);
+        $admin->register_at = Carbon::now();
+        $admin->last_sign_at = Carbon::now()->subDay();
         $admin->verified = true;
         $admin->save();
 
