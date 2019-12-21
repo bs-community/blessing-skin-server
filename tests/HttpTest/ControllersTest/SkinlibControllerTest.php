@@ -266,6 +266,7 @@ class SkinlibControllerTest extends TestCase
     public function testShow()
     {
         Storage::fake('textures');
+        $filter = Fakes\Filter::fake();
 
         // Cannot find texture
         $this->get('/skinlib/show/1')
@@ -287,6 +288,7 @@ class SkinlibControllerTest extends TestCase
         $texture = factory(Texture::class)->create();
         Storage::disk('textures')->put($texture->hash, '');
         $this->get('/skinlib/show/'.$texture->tid)->assertViewHas('texture');
+        $filter->assertApplied('grid:skinlib.show');
 
         // Guest should not see private texture
         $uploader = factory(User::class)->create();
@@ -360,7 +362,10 @@ class SkinlibControllerTest extends TestCase
 
     public function testUpload()
     {
+        $filter = Fakes\Filter::fake();
+
         $this->actAs('normal')->get('/skinlib/upload');
+        $filter->assertApplied('grid:skinlib.upload');
 
         option(['texture_name_regexp' => 'abc']);
         $this->get('/skinlib/upload')->assertViewHas('extra');

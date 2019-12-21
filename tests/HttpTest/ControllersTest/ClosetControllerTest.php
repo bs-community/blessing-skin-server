@@ -24,7 +24,10 @@ class ClosetControllerTest extends TestCase
 
     public function testIndex()
     {
+        $filter = Fakes\Filter::fake();
+
         $this->get('/user/closet')->assertViewIs('user.closet');
+        $filter->assertApplied('grid:user.closet');
     }
 
     public function testGetClosetData()

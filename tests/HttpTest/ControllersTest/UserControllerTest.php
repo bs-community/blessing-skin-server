@@ -36,6 +36,8 @@ class UserControllerTest extends TestCase
 
     public function testIndex()
     {
+        $filter = Fakes\Filter::fake();
+
         $user = factory(User::class)->create();
         factory(\App\Models\Player::class)->create(['uid' => $user->uid]);
 
@@ -44,6 +46,7 @@ class UserControllerTest extends TestCase
             ->assertViewHas('statistics')
             ->assertSee((new Parsedown())->text(option_localized('announcement')))
             ->assertSee((string) $user->score);
+        $filter->assertApplied('grid:user.index');
 
         $unverified = factory(User::class)->create(['verified' => false]);
         $this->actingAs($unverified)
@@ -218,7 +221,10 @@ class UserControllerTest extends TestCase
 
     public function testProfile()
     {
+        $filter = Fakes\Filter::fake();
+
         $this->actAs('normal')->get('/user/profile')->assertViewIs('user.profile');
+        $filter->assertApplied('grid:user.profile');
     }
 
     public function testHandleProfile()

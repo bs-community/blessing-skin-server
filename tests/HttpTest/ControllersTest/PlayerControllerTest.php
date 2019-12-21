@@ -23,7 +23,10 @@ class PlayerControllerTest extends TestCase
 
     public function testIndex()
     {
+        $filter = Fakes\Filter::fake();
+
         $this->get('/user/player?pid=5')->assertViewIs('user.player');
+        $filter->assertApplied('grid:user.player');
     }
 
     public function testListAll()

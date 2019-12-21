@@ -23,6 +23,14 @@ class AdminControllerTest extends TestCase
         $this->actAs('admin');
     }
 
+    public function testIndex()
+    {
+        $filter = Fakes\Filter::fake();
+
+        $this->get('/admin')->assertSuccessful();
+        $filter->assertApplied('grid:admin.index');
+    }
+
     public function testChartData()
     {
         factory(User::class)->create();
@@ -126,6 +134,7 @@ class AdminControllerTest extends TestCase
                     'a' => new Plugin('', ['title' => 'MyPlugin', 'version' => '0.0.0']),
                 ]));
         });
+        $filter = Fakes\Filter::fake();
 
         $this->get('/admin/status')
             ->assertSee(PHP_VERSION)
@@ -133,6 +142,7 @@ class AdminControllerTest extends TestCase
             ->assertSee('(1)')
             ->assertSee('MyPlugin')
             ->assertSee('0.0.0');
+        $filter->assertApplied('grid:admin.status');
     }
 
     public function testUsers()
