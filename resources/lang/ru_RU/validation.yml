@@ -2,7 +2,6 @@
 #Blessing Skin
 username: 'Неправильный формат :attribute.'
 player_name: 'Имя :attribute содержит недопустимые символы'
-no_special_chars: ':attribute не должен содержать специальных символов.'
 model: ':attribute должен быть Стив, Алекс или плащ.'
 accepted: ':attribute должен быть принят.'
 active_url: ':attribute не является допустимым URL-адресом.'
