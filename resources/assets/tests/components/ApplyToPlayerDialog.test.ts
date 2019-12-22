@@ -48,5 +48,5 @@ test('compute avatar URL', () => {
   // eslint-disable-next-line camelcase
   const wrapper = mount<Vue & { avatarUrl(player: { tid_skin: number }): string }>(ApplyToPlayerDialog)
   const { avatarUrl } = wrapper.vm
-  expect(avatarUrl({ tid_skin: 1 })).toBe('/avatar/35/1')
+  expect(avatarUrl({ tid_skin: 1 })).toBe('/avatar/1/35')
 })

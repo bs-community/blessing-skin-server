@@ -25,7 +25,7 @@ class UserPanelComposer
         $user = auth()->user();
         $avatar = $this->filter->apply(
             'user_avatar',
-            url('avatar/45/'.base64_encode($user->email).'.png?tid='.$user->avatar),
+            url('/avatar/user/'.$user->uid.'/45'),
             [$user]
         );
 

@@ -26,7 +26,7 @@ class UserMenuComposer
         $email = base64_encode($user->email);
         $avatar = $this->filter->apply(
             'user_avatar',
-            url('avatar/25/'.$email.'.png?tid='.$user->avatar),
+            url('/avatar/user/'.$user->uid.'/25'),
             [$user]
         );
 

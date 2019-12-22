@@ -190,19 +190,12 @@ class TextureControllerTest extends TestCase
         $this->get('/avatar/1')->assertHeader('Content-Type', 'image/png');
     }
 
-    public function testAvatarByTidWithSize()
-    {
-        $this->get('/avatar/50/1')->assertHeader('Content-Type', 'image/png');
-    }
-
     public function testAvatar()
     {
         Event::fake();
 
         Storage::fake('textures');
-        $base64_email = base64_encode('a@b.c');
-        $this->get("/avatar/$base64_email.png")
-            ->assertHeader('Content-Type', 'image/png');
+        $this->get("/avatar/5.png")->assertHeader('Content-Type', 'image/png');
 
         $steve = factory(Texture::class)->create();
         $png = base64_decode(\App\Http\Controllers\TextureController::getDefaultSteveSkin());
@@ -215,34 +208,13 @@ class TextureControllerTest extends TestCase
             ->once()
             ->andReturn(imagecreatefromstring($png));
 
-        $this->get('/avatar/'.base64_encode($user->email).'.png')
+        $this->get('/avatar/user/'.$user->uid)
             ->assertHeader('Content-Type', 'image/png');
         Event::assertDispatched(\App\Events\GetAvatarPreview::class);
 
         Storage::shouldReceive('disk')->with('textures')->andThrow(new Exception());
-        $this->get('/avatar/'.base64_encode($user->email).'.png')
+        $this->get('/avatar/user/'.$user->uid.'/45')
             ->assertHeader('Content-Type', 'image/png');
-    }
-
-    public function testAvatarWithSize()
-    {
-        Event::fake();
-        Storage::fake('textures');
-
-        $steve = factory(Texture::class)->create();
-        $png = base64_decode(\App\Http\Controllers\TextureController::getDefaultSteveSkin());
-        Storage::disk('textures')->put($steve->hash, $png);
-
-        $user = factory(User::class)->create(['avatar' => $steve->tid]);
-
-        $mock = Mockery::mock('overload:Minecraft');
-        $mock->shouldReceive('generateAvatarFromSkin')
-            ->once()
-            ->andReturn(imagecreatefromstring($png));
-
-        $this->get('/avatar/50/'.base64_encode($user->email).'.png')
-            ->assertHeader('Content-Type', 'image/png');
-        Event::fake(\App\Events\GetAvatarPreview::class);
     }
 
     public function testPreview()
@@ -253,10 +225,10 @@ class TextureControllerTest extends TestCase
         $steve = factory(Texture::class)->create();
         $cape = factory(Texture::class, 'cape')->create();
 
-        $this->get('/preview/0.png')
+        $this->get('/preview/0')
             ->assertHeader('Content-Type', 'image/png');
 
-        $this->get("/preview/{$steve->tid}.png")
+        $this->get("/preview/{$steve->tid}")
             ->assertHeader('Content-Type', 'image/png');
 
         $png = base64_decode(\App\Http\Controllers\TextureController::getDefaultSteveSkin());
@@ -267,24 +239,18 @@ class TextureControllerTest extends TestCase
         $mock->shouldReceive('generatePreviewFromSkin')
             ->once()
             ->andReturn(imagecreatefromstring($png));
-        $this->get("/preview/{$steve->tid}.png")
+        $this->get("/preview/{$steve->tid}/56")
             ->assertHeader('Content-Type', 'image/png');
         Event::fake(\App\Events\GetSkinPreview::class);
 
         $mock->shouldReceive('generatePreviewFromCape')
             ->once()
             ->andReturn(imagecreatefromstring($png));
-        $this->get("/preview/{$cape->tid}.png")
+        $this->get("/preview/{$cape->tid}")
             ->assertHeader('Content-Type', 'image/png');
 
         Storage::shouldReceive('disk')->with('textures')->andThrow(new Exception());
-        $this->get("/preview/{$steve->tid}.png")
-            ->assertHeader('Content-Type', 'image/png');
-    }
-
-    public function testPreviewWithSize()
-    {
-        $this->get('/preview/200/0.png')
+        $this->get("/preview/{$steve->tid}")
             ->assertHeader('Content-Type', 'image/png');
     }
 

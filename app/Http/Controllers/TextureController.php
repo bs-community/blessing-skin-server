@@ -122,25 +122,15 @@ class TextureController extends Controller
         return response()->file(storage_path('static_textures/avatar.png'));
     }
 
-    public function avatarByTidWithSize($size, $tid)
+    public function avatar($uid, $size = 128)
     {
-        return $this->avatarByTid($tid, $size);
-    }
-
-    public function avatar($base64_email, $size = 128)
-    {
-        $user = User::where('email', base64_decode($base64_email))->first();
+        $user = User::find($uid);
 
         if ($user) {
             return $this->avatarByTid($user->avatar, $size);
         }
 
         return response()->file(storage_path('static_textures/avatar.png'));
-    }
-
-    public function avatarWithSize($size, $base64_email)
-    {
-        return $this->avatar($base64_email, $size);
     }
 
     public function preview($tid, $size = 250)
@@ -175,11 +165,6 @@ class TextureController extends Controller
 
         // Show this if given texture is invalid.
         return response()->file(storage_path('static_textures/broken.png'));
-    }
-
-    public function previewWithSize($size, $tid)
-    {
-        return $this->preview($tid, $size);
     }
 
     public function raw($tid)

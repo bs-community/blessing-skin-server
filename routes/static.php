@@ -1,19 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
-
-/**
- * Resources.
- */
 Route::group(['middleware' => 'player'], function () {
     // Json profile
     Route::get('/{player_name}.json', 'TextureController@json');
@@ -27,12 +13,9 @@ Route::get('/textures/{hash}', 'TextureController@texture');
 Route::get('/{api}/textures/{hash}', 'TextureController@textureWithApi')->where('api', 'usm|csl');
 
 Route::get('/avatar/player/{size}/{name}.png', 'TextureController@avatarByPlayer');
-Route::get('/avatar/{base64_email}.png', 'TextureController@avatar');
-Route::get('/avatar/{size}/{base64_email}.png', 'TextureController@avatarWithSize');
-Route::get('/avatar/{tid}', 'TextureController@avatarByTid');
-Route::get('/avatar/{size}/{tid}', 'TextureController@avatarByTidWithSize');
+Route::get('/avatar/user/{uid}/{size?}', 'TextureController@avatar');
+Route::get('/avatar/{tid}/{size?}', 'TextureController@avatarByTid');
 
 Route::get('/raw/{tid}.png', 'TextureController@raw');
 
-Route::get('/preview/{tid}.png', 'TextureController@preview');
-Route::get('/preview/{size}/{tid}.png', 'TextureController@previewWithSize');
+Route::get('/preview/{tid}/{size?}', 'TextureController@preview');
