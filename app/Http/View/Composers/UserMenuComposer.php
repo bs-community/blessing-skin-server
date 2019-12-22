@@ -2,6 +2,7 @@
 
 namespace App\Http\View\Composers;
 
+use App\Services\Filter;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -10,20 +11,25 @@ class UserMenuComposer
     /** @var Request */
     protected $request;
 
-    public function __construct(Request $request)
+    /** @var Filter */
+    protected $filter;
+
+    public function __construct(Request $request, Filter $filter)
     {
         $this->request = $request;
+        $this->filter = $filter;
     }
 
     public function compose(View $view)
     {
         $user = auth()->user();
         $email = base64_encode($user->email);
-        $avatar = $user->avatar;
+        $avatar = $this->filter->apply(
+            'user_avatar',
+            url('avatar/25/'.$email.'.png?tid='.$user->avatar),
+            [$user]
+        );
 
-        $view->with([
-            'user' => $user,
-            'avatar' => url('avatar/25/'.$email.'.png?tid='.$avatar),
-        ]);
+        $view->with(compact('user', 'avatar'));
     }
 }

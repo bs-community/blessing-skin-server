@@ -40,7 +40,8 @@ class UserControllerTest extends TestCase
         $filter = Fakes\Filter::fake();
 
         $user = factory(User::class)->create();
-        factory(\App\Models\Player::class)->create(['uid' => $user->uid]);
+        $uid = $user->uid;
+        factory(\App\Models\Player::class)->create(['uid' => $uid]);
 
         $this->actingAs($user)
             ->get('/user')
@@ -48,6 +49,12 @@ class UserControllerTest extends TestCase
             ->assertSee((new Parsedown())->text(option_localized('announcement')))
             ->assertSee((string) $user->score);
         $filter->assertApplied('grid:user.index');
+        $filter->assertApplied('user_avatar', function ($url, $user) use ($uid) {
+            $this->assertTrue(Str::endsWith($url, 'tid=0'));
+            $this->assertEquals($uid, $user->uid);
+
+            return true;
+        });
 
         $unverified = factory(User::class)->create(['verified' => false]);
         $this->actingAs($unverified)
