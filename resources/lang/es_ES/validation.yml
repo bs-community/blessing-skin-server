@@ -1,7 +1,5 @@
 ---
 #Blessing Skin
-username: 'El formato de :attribute es inválido.'
-player_name: 'El campo :attribute contiene un carácter no válido.'
 model: 'El campo :attribute debe ser steve, alex o capa.'
 accepted: 'El campo :attribute debe ser aceptado.'
 active_url: 'El campo :attribute no es un URL válido.'
