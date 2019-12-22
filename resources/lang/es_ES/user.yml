@@ -113,7 +113,6 @@ profile:
   nickname:
     title: Cambiar apodo
     empty: No se hay apodo asignado ahora.
-    rule: Lo que quieras excepto caracteres especiales
     single: No tienes permiso para actualizar el apodo porque hemos vinculado su cuenta a su jugador.
     success: Apodo actualizado correctamente a :nickname
   email:
