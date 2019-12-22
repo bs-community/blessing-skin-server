@@ -113,7 +113,6 @@ profile:
   nickname:
     title: Change Nickname
     empty: No nickname is set now.
-    rule: Всё, что вам угодно, кроме специальных символов
     single: Вам не разрешено обновлять никнейм, потому что мы привязали вашего игрока к вашему аккаунту.
     success: Ник успешно обновлен на :nickname
   email:
