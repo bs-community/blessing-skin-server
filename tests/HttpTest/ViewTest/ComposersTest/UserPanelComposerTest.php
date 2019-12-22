@@ -12,10 +12,7 @@ class UserPanelComposerTest extends TestCase
         $user = factory(User::class)->make();
         $this->actingAs($user);
 
-        $this->get('/user')
-            ->assertSee(
-                url('avatar/45/'.base64_encode($user->email).'.png?tid='.$user->avatar)
-            );
+        $this->get('/user')->assertSee(url('/avatar/user/'.$user->uid.'/45'));
     }
 
     public function testBadges()

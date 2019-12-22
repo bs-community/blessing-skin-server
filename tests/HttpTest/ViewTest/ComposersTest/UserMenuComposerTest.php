@@ -11,18 +11,12 @@ class UserMenuComposerTest extends TestCase
         $user = factory(User::class)->make();
         $this->actingAs($user)
             ->get('/')
-            ->assertSee(
-                url('avatar/25/'.base64_encode($user->email).'.png?tid='.$user->avatar)
-            );
+            ->assertSee(url('/avatar/user/'.$user->uid.'/25'));
         $this->actingAs($user)
             ->get('/skinlib')
-            ->assertSee(
-                url('avatar/25/'.base64_encode($user->email).'.png?tid='.$user->avatar)
-            );
+            ->assertSee(url('/avatar/user/'.$user->uid.'/25'));
         $this->actingAs($user)
             ->get('/user')
-            ->assertSee(
-                url('avatar/25/'.base64_encode($user->email).'.png?tid='.$user->avatar)
-            );
+            ->assertSee(url('/avatar/user/'.$user->uid.'/25'));
     }
 }
