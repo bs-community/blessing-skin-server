@@ -109,18 +109,6 @@ class SetupControllerTest extends TestCase
             'email' => 'a@b.c',
         ])->assertDontSee(trans('setup.wizard.finish.title'));
 
-        // Invalid characters in nickname
-        $this->post('/setup/finish', [
-            'email' => 'a@b.c',
-            'nickname' => '\\',
-        ])->assertDontSee(trans('setup.wizard.finish.title'));
-
-        // Too long nickname
-        $this->post('/setup/finish', [
-            'email' => 'a@b.c',
-            'nickname' => Str::random(256),
-        ])->assertDontSee(trans('setup.wizard.finish.title'));
-
         // Without `password` field
         $this->post('/setup/finish', [
             'email' => 'a@b.c',

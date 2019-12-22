@@ -268,18 +268,6 @@ class UserControllerTest extends TestCase
         $this->postJson('/user/profile', ['action' => 'nickname'])
             ->assertJsonValidationErrors('new_nickname');
 
-        // Invalid nickname
-        $this->postJson('/user/profile', [
-            'action' => 'nickname',
-            'new_nickname' => '\\',
-        ])->assertJsonValidationErrors('new_nickname');
-
-        // Too long nickname
-        $this->postJson('/user/profile', [
-            'action' => 'nickname',
-            'new_nickname' => Str::random(256),
-        ])->assertJsonValidationErrors('new_nickname');
-
         // Single player
         option(['single_player' => true]);
         factory(\App\Models\Player::class)->create(['uid' => $user->uid]);

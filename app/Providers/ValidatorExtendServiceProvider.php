@@ -14,16 +14,6 @@ class ValidatorExtendServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        /*
-         * @param $a     attribute
-         * @param $value value
-         * @param $p     parameters
-         * @param $v     validator
-         */
-        Validator::extend('no_special_chars', function ($a, $value, $p, $v) {
-            return $value === e(addslashes(trim($value)));
-        });
-
         Validator::extend('player_name', function ($a, $value, $p, $v) {
             $regexp = '/^(.*)$/';
 

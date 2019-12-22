@@ -106,12 +106,6 @@ class ClosetControllerTest extends TestCase
             ['tid' => 0]
         )->assertJsonValidationErrors('name');
 
-        // `name` field has special characters
-        $this->postJson(
-            '/user/closet/add',
-            ['tid' => 0, 'name' => '\\']
-        )->assertJsonValidationErrors('name');
-
         // The user doesn't have enough score to add a texture
         $this->user->score = 0;
         $this->user->save();
@@ -180,10 +174,6 @@ class ClosetControllerTest extends TestCase
 
         // Missing `name` field
         $this->postJson('/user/closet/rename/0')->assertJsonValidationErrors('name');
-
-        // `new_name` field has special characters
-        $this->postJson('/user/closet/rename/0', ['name' => '\\'])
-            ->assertJsonValidationErrors('name');
 
         // Rename a not-existed texture
         $this->postJson('/user/closet/rename/-1', ['name' => $name])

@@ -121,7 +121,7 @@ class AuthController extends Controller
 
         $rule = option('register_with_player_name') ?
             ['player_name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max')] :
-            ['nickname' => 'required|no_special_chars|max:255'];
+            ['nickname' => 'required|max:255'];
         $data = $this->validate($request, array_merge([
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|max:32',

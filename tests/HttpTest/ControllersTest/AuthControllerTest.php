@@ -282,17 +282,6 @@ class AuthControllerTest extends TestCase
             ]
         )->assertJsonValidationErrors('nickname');
 
-        // Should return a warning if `nickname` is invalid
-        $this->postJson(
-            '/auth/register',
-            [
-                'email' => 'a@b.c',
-                'password' => '12345678',
-                'nickname' => '\\',
-                'captcha' => 'a',
-            ]
-        )->assertJsonValidationErrors('nickname');
-
         // Should return a warning if `nickname` is too long
         $this->postJson(
             '/auth/register',

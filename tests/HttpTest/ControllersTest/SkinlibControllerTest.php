@@ -397,10 +397,6 @@ class SkinlibControllerTest extends TestCase
         // Without `name` field
         $this->postJson('/skinlib/upload')->assertJsonValidationErrors('name');
 
-        // With some special chars
-        $this->postJson('/skinlib/upload', ['name' => '\\'])
-            ->assertJsonValidationErrors('name');
-
         // Specified regular expression for texture name
         option(['texture_name_regexp' => '/\\d+/']);
         $this->postJson('/skinlib/upload', [
@@ -843,13 +839,6 @@ class SkinlibControllerTest extends TestCase
         // Without `new_name` field
         $this->postJson('/skinlib/rename', [
                 'tid' => $texture->tid,
-            ])
-            ->assertJsonValidationErrors('new_name');
-
-        // `new_name` has special chars
-        $this->postJson('/skinlib/rename', [
-                'tid' => $texture->tid,
-                'new_name' => '\\',
             ])
             ->assertJsonValidationErrors('new_name');
 

@@ -593,9 +593,7 @@ class AdminController extends Controller
 
             return json(trans('admin.users.operations.verification.success'), 0);
         } elseif ($action == 'nickname') {
-            $this->validate($request, [
-                'nickname' => 'required|no_special_chars',
-            ]);
+            $this->validate($request, ['nickname' => 'required']);
 
             $user->nickname = $request->input('nickname');
             $user->save();

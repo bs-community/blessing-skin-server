@@ -292,12 +292,6 @@ class AdminControllerTest extends TestCase
             ['uid' => $user->uid, 'action' => 'nickname']
         )->assertJsonValidationErrors(['nickname']);
 
-        // Action is `nickname` but with an invalid nickname
-        $this->postJson(
-            '/admin/users',
-            ['uid' => $user->uid, 'action' => 'nickname', 'nickname' => '\\']
-        )->assertJsonValidationErrors(['nickname']);
-
         // Set nickname successfully
         $this->postJson(
             '/admin/users',

@@ -362,7 +362,7 @@ class SkinlibController extends Controller
     {
         $this->validate($request, [
             'tid' => 'required|integer',
-            'new_name' => 'required|no_special_chars',
+            'new_name' => 'required',
         ]);
         $user = $request->user();
         $t = Texture::find($request->input('tid'));
@@ -427,7 +427,7 @@ class SkinlibController extends Controller
         $this->validate($request, [
             'name' => [
                 'required',
-                option('texture_name_regexp') ? 'regex:'.option('texture_name_regexp') : 'no_special_chars',
+                option('texture_name_regexp') ? 'regex:'.option('texture_name_regexp') : 'string',
             ],
             'file' => 'required|max:'.option('max_upload_file_size'),
             'public' => 'required',

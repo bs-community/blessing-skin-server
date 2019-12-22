@@ -115,7 +115,7 @@ class SetupController extends Controller
     {
         $data = $this->validate($request, [
             'email' => 'required|email',
-            'nickname' => 'required|no_special_chars|max:255',
+            'nickname' => 'required',
             'password' => 'required|min:8|max:32|confirmed',
             'site_name' => 'required',
         ]);

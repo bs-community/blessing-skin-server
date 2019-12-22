@@ -251,9 +251,7 @@ class UserController extends Controller
                     return json(trans('user.profile.nickname.single'), 1);
                 }
 
-                $this->validate($request, [
-                    'new_nickname' => 'required|no_special_chars|max:255',
-                ]);
+                $this->validate($request, ['new_nickname' => 'required']);
 
                 $nickname = $request->input('new_nickname');
                 $user->nickname = $nickname;

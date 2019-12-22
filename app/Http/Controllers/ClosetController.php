@@ -85,7 +85,7 @@ class ClosetController extends Controller
     {
         $this->validate($request, [
             'tid' => 'required|integer',
-            'name' => 'required|no_special_chars',
+            'name' => 'required',
         ]);
 
         $user = Auth::user();
@@ -126,7 +126,7 @@ class ClosetController extends Controller
 
     public function rename(Request $request, $tid)
     {
-        $this->validate($request, ['name' => 'required|no_special_chars']);
+        $this->validate($request, ['name' => 'required']);
         $user = auth()->user();
 
         if ($user->closet()->where('tid', $request->tid)->count() == 0) {
