@@ -113,7 +113,6 @@ profile:
   nickname:
     title: 更改昵称
     empty: 当前未设置昵称，
-    rule: 可使用除一些特殊符号外的任意字符
     single: 您不能更改昵称，因为我们已将角色与您的账号进行了绑定。
     success: 昵称已成功设置为 :nickname
   email:

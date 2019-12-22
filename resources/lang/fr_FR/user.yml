@@ -113,7 +113,6 @@ profile:
   nickname:
     title: Changer le pseudonyme
     empty: No nickname is set now.
-    rule: Tout ce que vous voulez sauf des caractères spéciaux
     single: You're not allowed to update nickname, because we've bound your player with your account.
     success: Nickname is successfully updated to :nickname
   email:
