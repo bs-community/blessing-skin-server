@@ -55,15 +55,11 @@ class AdminController extends Controller
 
     public function chartData()
     {
-        $today = Carbon::today()->timestamp;
-
-        $xAxis = Collection::times(31, function ($number) use ($today) {
-            $time = Carbon::createFromTimestamp($today - (31 - $number) * 86400);
-
-            return $time->format('m-d');
+        $xAxis = Collection::times(31, function ($i) {
+            return Carbon::today()->subDays(31 - $i)->format('m-d');
         });
 
-        $oneMonthAgo = Carbon::createFromTimestamp($today - 30 * 86400);
+        $oneMonthAgo = Carbon::today()->subMonth();
 
         $grouping = function ($field) {
             return function ($item) use ($field) {
