@@ -2,7 +2,6 @@
 #Blessing Skin
 username: ':attribute 格式错误。'
 player_name: ':attribute 不符合规则。'
-no_special_chars: ':attribute 不能包含特殊字符。'
 model: ':attribute 的值必须为 steve、alex 或 cape。'
 accepted: ':attribute 必须接受。'
 active_url: ':attribute 不是一个有效的网址。'
