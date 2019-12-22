@@ -13,7 +13,7 @@ class PlayerName implements Rule
         switch (option('player_name_rule')) {
             case 'official':
                 // Mojang's official username rule
-                $regexp = '/^[A-Za-z0-9_§]+$/';
+                $regexp = '/^[A-Za-z0-9_]+$/';
                 break;
 
             case 'cjk':
@@ -26,7 +26,7 @@ class PlayerName implements Rule
                 break;
         }
 
-        return preg_match($regexp, $value);
+        return (bool) preg_match($regexp, $value);
     }
 
     public function message()
