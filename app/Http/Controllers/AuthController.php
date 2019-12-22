@@ -7,7 +7,7 @@ use App\Exceptions\PrettyPageException;
 use App\Mail\ForgotPassword;
 use App\Models\Player;
 use App\Models\User;
-use App\Rules\Captcha;
+use App\Rules;
 use Auth;
 use Cache;
 use Carbon\Carbon;
@@ -31,7 +31,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function handleLogin(Request $request, Captcha $captcha)
+    public function handleLogin(Request $request, Rules\Captcha $captcha)
     {
         $this->validate($request, [
             'identification' => 'required',
@@ -113,14 +113,19 @@ class AuthController extends Controller
         }
     }
 
-    public function handleRegister(Request $request, Captcha $captcha)
+    public function handleRegister(Request $request, Rules\Captcha $captcha)
     {
         if (!option('user_can_register')) {
             return json(trans('auth.register.close'), 7);
         }
 
         $rule = option('register_with_player_name') ?
-            ['player_name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max')] :
+            ['player_name' => [
+                'required',
+                new Rules\PlayerName(),
+                'min:'.option('player_name_length_min'),
+                'max:'.option('player_name_length_max'),
+            ]] :
             ['nickname' => 'required|max:255'];
         $data = $this->validate($request, array_merge([
             'email' => 'required|email|unique:users',
@@ -187,7 +192,7 @@ class AuthController extends Controller
         }
     }
 
-    public function handleForgot(Request $request, Captcha $captcha)
+    public function handleForgot(Request $request, Rules\Captcha $captcha)
     {
         $this->validate($request, [
             'captcha' => ['required', $captcha],

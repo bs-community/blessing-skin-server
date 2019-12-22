@@ -6,6 +6,7 @@ use App\Models\Player;
 use App\Models\Texture;
 use App\Models\User;
 use App\Notifications;
+use App\Rules;
 use App\Services\Filter;
 use App\Services\OptionForm;
 use App\Services\PluginManager;
@@ -691,7 +692,12 @@ class AdminController extends Controller
             return json(trans('admin.players.delete.success'), 0);
         } elseif ($action == 'name') {
             $name = $this->validate($request, [
-                'name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max'),
+                'name' => [
+                    'required',
+                    new Rules\PlayerName(),
+                    'min:'.option('player_name_length_min'),
+                    'max:'.option('player_name_length_max'),
+                ],
             ])['name'];
 
             $player->name = $name;

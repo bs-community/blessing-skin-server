@@ -11,6 +11,7 @@ use App\Http\Middleware\CheckPlayerExist;
 use App\Http\Middleware\CheckPlayerOwner;
 use App\Models\Player;
 use App\Models\Texture;
+use App\Rules;
 use App\Services\Filter;
 use App\Services\Rejection;
 use Auth;
@@ -80,7 +81,12 @@ class PlayerController extends Controller
         }
 
         $name = $this->validate($request, [
-            'name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max'),
+            'name' => [
+                'required',
+                new Rules\PlayerName(),
+                'min:'.option('player_name_length_min'),
+                'max:'.option('player_name_length_max'),
+            ],
         ])['name'];
 
         event(new CheckPlayerExists($name));
@@ -142,7 +148,12 @@ class PlayerController extends Controller
         $pid
     ) {
         $newName = $this->validate($request, [
-            'name' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max'),
+            'name' => [
+                'required',
+                new Rules\PlayerName(),
+                'min:'.option('player_name_length_min'),
+                'max:'.option('player_name_length_max'),
+            ],
         ])['name'];
         $player = Player::find($pid);
 
@@ -211,7 +222,12 @@ class PlayerController extends Controller
     public function bind(Request $request)
     {
         $name = $this->validate($request, [
-            'player' => 'required|player_name|min:'.option('player_name_length_min').'|max:'.option('player_name_length_max'),
+            'player' => [
+                'required',
+                new Rules\PlayerName(),
+                'min:'.option('player_name_length_min'),
+                'max:'.option('player_name_length_max'),
+            ],
         ])['player'];
         $user = Auth::user();
 
