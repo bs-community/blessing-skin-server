@@ -195,7 +195,7 @@ class TextureControllerTest extends TestCase
         Event::fake();
 
         Storage::fake('textures');
-        $this->get("/avatar/5.png")->assertHeader('Content-Type', 'image/png');
+        $this->get('/avatar/user/5')->assertHeader('Content-Type', 'image/png');
 
         $steve = factory(Texture::class)->create();
         $png = base64_decode(\App\Http\Controllers\TextureController::getDefaultSteveSkin());
