@@ -24,3 +24,4 @@ storage/oauth-private.key
 storage/install.lock
 .phpunit.result.cache
 .php_cs.cache
+resources/views/overrides
