@@ -11,11 +11,11 @@ class OptionsCacheCommandTest extends TestCase
     {
         $this->mock(Filesystem::class, function ($mock) {
             $mock->shouldReceive('exists')->andReturn(false);
-            $mock->shouldReceive('delete')->with(storage_path('options/cache.php'))->once();
+            $mock->shouldReceive('delete')->with(storage_path('options.php'))->once();
             $mock->shouldReceive('put')
                 ->withArgs(function ($path, $content) {
-                    $this->assertEquals(storage_path('options/cache.php'), $path);
-                    $this->assertTrue(Str::startsWith($content, '<?php'.PHP_EOL.'return'));
+                    $this->assertEquals(storage_path('options.php'), $path);
+                    $this->assertTrue(Str::startsWith($content, '<?php'.PHP_EOL));
                     $this->assertTrue(Str::endsWith($content, ';'));
 
                     return true;

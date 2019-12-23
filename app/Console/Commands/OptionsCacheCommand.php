@@ -15,12 +15,13 @@ class OptionsCacheCommand extends Command
 
     public function handle(Filesystem $filesystem, Application $app)
     {
-        $path = storage_path('options/cache.php');
+        $path = storage_path('options.php');
         $filesystem->delete($path);
         $app->forgetInstance(Option::class);
 
         $content = var_export(resolve(Option::class)->all(), true);
-        $content = '<?php'.PHP_EOL.'return '.$content.';';
+        $notice = '// This is auto-generated. DO NOT edit manually.'.PHP_EOL;
+        $content = '<?php'.PHP_EOL.$notice.'return '.$content.';';
         $filesystem->put($path, $content);
         $this->info('Options cached successfully.');
     }

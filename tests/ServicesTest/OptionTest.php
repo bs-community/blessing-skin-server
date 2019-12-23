@@ -31,7 +31,7 @@ class OptionTest extends TestCase
     public function testReadFromCache()
     {
         $this->mock(\Illuminate\Filesystem\Filesystem::class, function ($mock) {
-            $path = storage_path('options/cache.php');
+            $path = storage_path('options.php');
             $mock->shouldReceive('exists')->with($path)->once()->andReturn(true);
             $mock->shouldReceive('getRequire')->with($path)->once()->andReturn(['k' => 'v']);
         });

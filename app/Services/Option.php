@@ -13,7 +13,7 @@ class Option
 
     public function __construct(Filesystem $filesystem)
     {
-        $cachePath = storage_path('options/cache.php');
+        $cachePath = storage_path('options.php');
         if ($filesystem->exists($cachePath)) {
             $this->items = collect($filesystem->getRequire($cachePath));
 

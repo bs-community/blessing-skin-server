@@ -56,7 +56,7 @@ class UpdateController extends Controller
                     $package->download($this->info['url'], $path)->extract(base_path());
 
                     // Delete options cache. This allows us to update the version info which is recorded as an option.
-                    $filesystem->delete(storage_path('options/cache.php'));
+                    $filesystem->delete(storage_path('options.php'));
 
                     return json(trans('admin.update.complete'), 0);
                 } catch (Exception $e) {

@@ -22,6 +22,7 @@ storage/*.sqlite
 storage/oauth-public.key
 storage/oauth-private.key
 storage/install.lock
+storage/options.php
 .phpunit.result.cache
 .php_cs.cache
 resources/views/overrides
