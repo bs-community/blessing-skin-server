@@ -23,11 +23,8 @@ class UserPanelComposer
     public function compose(View $view)
     {
         $user = auth()->user();
-        $avatar = $this->filter->apply(
-            'user_avatar',
-            url('/avatar/user/'.$user->uid.'/45'),
-            [$user]
-        );
+        $avatarUrl = url('/avatar/user/'.$user->uid.'/45');
+        $avatar = $this->filter->apply('user_avatar', $avatarUrl, [$user]);
 
         $badges = [];
         if (auth()->user()->isAdmin()) {

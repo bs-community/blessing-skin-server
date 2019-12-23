@@ -24,11 +24,8 @@ class UserMenuComposer
     {
         $user = auth()->user();
         $email = base64_encode($user->email);
-        $avatar = $this->filter->apply(
-            'user_avatar',
-            url('/avatar/user/'.$user->uid.'/25'),
-            [$user]
-        );
+        $avatarUrl = url('/avatar/user/'.$user->uid.'/25');
+        $avatar = $this->filter->apply('user_avatar', $avatarUrl, [$user]);
 
         $view->with(compact('user', 'avatar'));
     }
