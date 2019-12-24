@@ -32,7 +32,7 @@ Route::group(['prefix' => 'auth'], function () {
         Route::get('/login/{driver}/callback', 'AuthController@oauthCallback');
     });
 
-    Route::any('/logout', 'AuthController@logout');
+    Route::post('/logout', 'AuthController@logout')->middleware('authorize');
     Route::any('/captcha', 'AuthController@captcha');
 
     Route::post('/login', 'AuthController@handleLogin');

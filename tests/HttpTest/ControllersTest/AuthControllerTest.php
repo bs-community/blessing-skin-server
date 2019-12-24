@@ -75,6 +75,28 @@ class AuthControllerTest extends TestCase
 
         $this->flushSession();
 
+        // Should return a warning if user isn't existed
+        $this->postJson(
+            '/auth/login', [
+            'identification' => 'nope@nope.net',
+            'password' => '12345678',
+        ])->assertJson([
+            'code' => 2,
+            'message' => trans('auth.validation.user'),
+        ]);
+        Event::assertDispatched('auth.login.attempt', function ($event, $payload) use ($user) {
+            $this->assertEquals('nope@nope.net', $payload[0]);
+            $this->assertEquals('12345678', $payload[1]);
+            $this->assertEquals('email', $payload[2]);
+
+            return true;
+        });
+        Event::assertNotDispatched('auth.login.ready');
+        Event::assertNotDispatched('auth.login.succeeded');
+        Event::assertNotDispatched('auth.login.failed');
+        $this->flushSession();
+
+        Event::fake();
         $loginFailsCacheKey = sha1('login_fails_'.get_client_ip());
 
         // Logging in should be failed if password is wrong
@@ -90,6 +112,24 @@ class AuthControllerTest extends TestCase
             ]
         );
         $this->assertTrue(Cache::has($loginFailsCacheKey));
+        Event::assertDispatched('auth.login.attempt', function ($event, $payload) use ($user) {
+            $this->assertEquals($user->email, $payload[0]);
+            $this->assertEquals('wrong-password', $payload[1]);
+            $this->assertEquals('email', $payload[2]);
+
+            return true;
+        });
+        Event::assertDispatched('auth.login.ready', function ($event, $payload) use ($user) {
+            $this->assertEquals($user->uid, $payload[0]->uid);
+
+            return true;
+        });
+        Event::assertDispatched('auth.login.failed', function ($event, $payload) use ($user) {
+            $this->assertEquals($user->uid, $payload[0]->uid);
+            $this->assertEquals(1, $payload[1]);
+
+            return true;
+        });
 
         $this->flushSession();
 
@@ -104,18 +144,6 @@ class AuthControllerTest extends TestCase
         Cache::flush();
         $this->flushSession();
 
-        // Should return a warning if user isn't existed
-        $this->postJson(
-            '/auth/login', [
-            'identification' => 'nope@nope.net',
-            'password' => '12345678',
-        ])->assertJson([
-            'code' => 2,
-            'message' => trans('auth.validation.user'),
-        ]);
-
-        $this->flushSession();
-
         // Should clean the `login_fails` session if logged in successfully
         Cache::put($loginFailsCacheKey, 1);
         $this->postJson('/auth/login', [
@@ -128,6 +156,16 @@ class AuthControllerTest extends TestCase
             ]
         );
         $this->assertFalse(Cache::has($loginFailsCacheKey));
+        Event::assertDispatched('auth.login.ready', function ($event, $payload) use ($user) {
+            $this->assertEquals($user->uid, $payload[0]->uid);
+
+            return true;
+        });
+        Event::assertDispatched('auth.login.succeeded', function ($event, $payload) use ($user) {
+            $this->assertEquals($user->uid, $payload[0]->uid);
+
+            return true;
+        });
 
         Event::assertDispatched(Events\UserTryToLogin::class);
         Event::assertDispatched(Events\UserLoggedIn::class);
@@ -152,11 +190,7 @@ class AuthControllerTest extends TestCase
 
     public function testLogout()
     {
-        $this->postJson('/auth/logout')
-            ->assertJson([
-                'code' => 1,
-                'message' => trans('auth.logout.fail'),
-            ]);
+        Event::fake();
 
         $user = factory(User::class)->create();
         $this->actingAs($user)->postJson('/auth/logout')->assertJson(
@@ -166,6 +200,16 @@ class AuthControllerTest extends TestCase
             ]
         );
         $this->assertGuest();
+        Event::assertDispatched('auth.logout.before', function ($event, $payload) use ($user) {
+            $this->assertEquals($user->uid, $payload[0]->uid);
+
+            return true;
+        });
+        Event::assertDispatched('auth.logout.after', function ($event, $payload) use ($user) {
+            $this->assertEquals($user->uid, $payload[0]->uid);
+
+            return true;
+        });
     }
 
     public function testRegister()
@@ -269,6 +313,15 @@ class AuthControllerTest extends TestCase
             'message' => trans('user.player.add.repeated'),
         ]);
         $this->assertNull(User::where('email', 'a@b.c')->first());
+        Event::assertDispatched('auth.registration.attempt', function ($event, $payload) {
+            [$data] = $payload;
+            $this->assertEquals('a@b.c', $data['email']);
+            $this->assertEquals('12345678', $data['password']);
+
+            return true;
+        });
+        Event::assertNotDispatched('auth.registration.ready');
+        Event::assertNotDispatched('auth.registration.completed');
 
         option(['register_with_player_name' => false]);
 
@@ -318,11 +371,7 @@ class AuthControllerTest extends TestCase
             'message' => trans('auth.register.close'),
         ]);
 
-        // Reopen for test
-        Option::set('user_can_register', true);
-
-        // Should be forbidden if registering's count current IP is over
-        Option::set('regs_per_ip', -1);
+        option(['user_can_register' => true, 'regs_per_ip' => -1]);
         $this->postJson(
             '/auth/register',
             [
@@ -362,7 +411,40 @@ class AuthControllerTest extends TestCase
             'permission' => User::NORMAL,
         ]);
         $this->assertAuthenticated();
+        Event::assertDispatched('auth.registration.attempt', function ($event, $payload) {
+            [$data] = $payload;
+            $this->assertEquals('a@b.c', $data['email']);
+            $this->assertEquals('12345678', $data['password']);
+
+            return true;
+        });
+        Event::assertDispatched('auth.registration.ready', function ($event, $payload) {
+            [$data] = $payload;
+            $this->assertEquals('a@b.c', $data['email']);
+            $this->assertEquals('12345678', $data['password']);
+
+            return true;
+        });
+        Event::assertDispatched('auth.registration.completed', function ($event, $payload) {
+            [$user] = $payload;
+            $this->assertEquals('a@b.c', $user->email);
+            $this->assertGreaterThan(0, $user->uid);
+
+            return true;
+        });
         Event::assertDispatched(Events\UserRegistered::class);
+        Event::assertDispatched('auth.login.ready', function ($event, $payload) {
+            [$user] = $payload;
+            $this->assertEquals('a@b.c', $user->email);
+
+            return true;
+        });
+        Event::assertDispatched('auth.login.succeeded', function ($event, $payload) {
+            [$user] = $payload;
+            $this->assertEquals('a@b.c', $user->email);
+
+            return true;
+        });
 
         // Require player name
         option(['register_with_player_name' => true]);
@@ -388,11 +470,13 @@ class AuthControllerTest extends TestCase
 
     public function testHandleForgot()
     {
+        Event::fake();
         Mail::fake();
 
         // Should be forbidden if "forgot password" is closed
         config(['mail.driver' => '']);
         $this->postJson('/auth/forgot', [
+            'email' => 'nope@nope.net',
             'captcha' => 'a',
         ])->assertJson([
             'code' => 1,
@@ -405,11 +489,20 @@ class AuthControllerTest extends TestCase
         // Should be forbidden if sending email frequently
         Cache::put($lastMailCacheKey, time());
         $this->postJson('/auth/forgot', [
+            'email' => 'nope@nope.net',
             'captcha' => 'a',
         ])->assertJson([
             'code' => 2,
             'message' => trans('auth.forgot.frequent-mail'),
         ]);
+        Event::assertDispatched('auth.forgot.attempt', function ($event, $payload) {
+            $this->assertEquals('nope@nope.net', $payload[0]);
+
+            return true;
+        });
+        Event::assertNotDispatched('auth.forgot.ready');
+        Event::assertNotDispatched('auth.forgot.sent');
+        Event::assertNotDispatched('auth.forgot.sent');
         Cache::flush();
         $this->flushSession();
 
@@ -423,6 +516,7 @@ class AuthControllerTest extends TestCase
             'message' => trans('auth.forgot.unregistered'),
         ]);
 
+        Event::fake();
         $this->postJson('/auth/forgot', [
             'email' => $user->email,
             'captcha' => 'a',
@@ -432,11 +526,28 @@ class AuthControllerTest extends TestCase
         ]);
         $this->assertTrue(Cache::has($lastMailCacheKey));
         Cache::flush();
+        Event::assertDispatched('auth.forgot.attempt', function ($event, $payload) use ($user) {
+            $this->assertEquals($user->email, $payload[0]);
+
+            return true;
+        });
+        Event::assertDispatched('auth.forgot.ready', function ($event, $payload) use ($user) {
+            $this->assertEquals($user->email, $payload[0]->email);
+
+            return true;
+        });
         Mail::assertSent(ForgotPassword::class, function ($mail) use ($user) {
             return $mail->hasTo($user->email);
         });
+        Event::assertDispatched('auth.forgot.sent', function ($event, $payload) use ($user) {
+            $this->assertEquals($user->email, $payload[0]->email);
+            $this->assertStringContainsString('auth/reset/'.$user->uid, $payload[1]);
+
+            return true;
+        });
 
         // Should handle exception when sending email
+        Event::fake();
         Mail::shouldReceive('to')
             ->once()
             ->andThrow(new \Mockery\Exception('A fake exception.'));
@@ -449,6 +560,13 @@ class AuthControllerTest extends TestCase
                 'code' => 2,
                 'message' => trans('auth.forgot.failed', ['msg' => 'A fake exception.']),
             ]);
+        Event::assertNotDispatched('auth.forgot.sent');
+        Event::assertDispatched('auth.forgot.failed', function ($event, $payload) use ($user) {
+            $this->assertEquals($user->email, $payload[0]->email);
+            $this->assertStringContainsString('auth/reset/'.$user->uid, $payload[1]);
+
+            return true;
+        });
 
         // Addition: Mailable test
         $site_name = option_localized('site_name');
@@ -470,6 +588,8 @@ class AuthControllerTest extends TestCase
 
     public function testHandleReset()
     {
+        Event::fake();
+
         $user = factory(User::class)->create();
         $url = URL::temporarySignedRoute('auth.reset', now()->addHour(), ['uid' => $user->uid]);
 
@@ -477,30 +597,32 @@ class AuthControllerTest extends TestCase
         $this->postJson($url)->assertJsonValidationErrors('password');
 
         // Should return a warning if `password` is too short
-        $this->postJson(
-            $url, [
-            'password' => '123',
-        ])->assertJsonValidationErrors('password');
+        $this->postJson($url, ['password' => '123'])
+            ->assertJsonValidationErrors('password');
 
         // Should return a warning if `password` is too long
-        $this->postJson(
-            $url, [
-            'password' => Str::random(33),
-        ])->assertJsonValidationErrors('password');
+        $this->postJson($url, ['password' => Str::random(33)])
+            ->assertJsonValidationErrors('password');
 
         // Success
-        $this->postJson(
-            $url, [
-            'password' => '12345678',
-        ])->assertJson([
+        $this->postJson($url, ['password' => '12345678'])->assertJson([
             'code' => 0,
             'message' => trans('auth.reset.success'),
         ]);
-        // We must re-query the user model,
-        // because the old instance hasn't been changed
-        // after resetting password.
-        $user = User::find($user->uid);
+        $user->refresh();
         $this->assertTrue($user->verifyPassword('12345678'));
+        Event::assertDispatched('auth.reset.before', function ($event, $payload) use ($user) {
+            $this->assertEquals($user->uid, $payload[0]->uid);
+            $this->assertEquals('12345678', $payload[1]);
+
+            return true;
+        });
+        Event::assertDispatched('auth.reset.after', function ($event, $payload) use ($user) {
+            $this->assertEquals($user->uid, $payload[0]->uid);
+            $this->assertEquals('12345678', $payload[1]);
+
+            return true;
+        });
     }
 
     public function testCaptcha()
@@ -664,14 +786,45 @@ class AuthControllerTest extends TestCase
             'permission' => User::NORMAL,
             'verified' => true,
         ]);
-        Event::assertDispatched(Events\UserRegistered::class);
         $this->assertAuthenticated();
+        Event::assertDispatched('auth.registration.completed', function ($event, $payload) {
+            [$user] = $payload;
+            $this->assertEquals('a@b.c', $user->email);
+            $this->assertEquals(1, $user->uid);
+
+            return true;
+        });
+        Event::assertDispatched('auth.login.ready', function ($event, $payload) {
+            [$user] = $payload;
+            $this->assertEquals('a@b.c', $user->email);
+
+            return true;
+        });
+        Event::assertDispatched('auth.login.succeeded', function ($event, $payload) {
+            [$user] = $payload;
+            $this->assertEquals('a@b.c', $user->email);
+
+            return true;
+        });
 
         auth()->logout();
         $this->assertGuest();
+        Event::fake();
 
         $this->get('/auth/login/github/callback')->assertRedirect('/user');
-        Event::assertDispatched(Events\UserLoggedIn::class);
         $this->assertAuthenticated();
+        Event::assertNotDispatched('auth.registration.completed');
+        Event::assertDispatched('auth.login.ready', function ($event, $payload) {
+            [$user] = $payload;
+            $this->assertEquals('a@b.c', $user->email);
+
+            return true;
+        });
+        Event::assertDispatched('auth.login.succeeded', function ($event, $payload) {
+            [$user] = $payload;
+            $this->assertEquals('a@b.c', $user->email);
+
+            return true;
+        });
     }
 }

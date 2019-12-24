@@ -11,6 +11,7 @@ use App\Rules;
 use Auth;
 use Cache;
 use Carbon\Carbon;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use Mail;
@@ -31,25 +32,29 @@ class AuthController extends Controller
         ]);
     }
 
-    public function handleLogin(Request $request, Rules\Captcha $captcha)
-    {
+    public function handleLogin(
+        Request $request,
+        Rules\Captcha $captcha,
+        Dispatcher $dispatcher
+    ) {
         $this->validate($request, [
             'identification' => 'required',
             'password' => 'required|min:6|max:32',
         ]);
 
         $identification = $request->input('identification');
-
+        $password = $request->input('password');
         // Guess type of identification
         $authType = filter_var($identification, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
+        $dispatcher->dispatch('auth.login.attempt', [$identification, $password, $authType]);
         event(new Events\UserTryToLogin($identification, $authType));
 
         if ($authType == 'email') {
             $user = User::where('email', $identification)->first();
         } else {
             $player = Player::where('name', $identification)->first();
-            $user = $player ? $player->user : null;
+            $user = optional($player)->user;
         }
 
         // Require CAPTCHA if user fails to login more than 3 times
@@ -62,39 +67,42 @@ class AuthController extends Controller
 
         if (!$user) {
             return json(trans('auth.validation.user'), 2);
+        }
+
+        $dispatcher->dispatch('auth.login.ready', [$user]);
+
+        if ($user->verifyPassword($request->input('password'))) {
+            Session::forget('login_fails');
+            Cache::forget($loginFailsCacheKey);
+
+            Auth::login($user, $request->input('keep'));
+
+            $dispatcher->dispatch('auth.login.succeeded', [$user]);
+            event(new Events\UserLoggedIn($user));
+
+            return json(trans('auth.login.success'), 0, [
+                'redirectTo' => $request->session()->pull('last_requested_path', url('/user')),
+            ]);
         } else {
-            if ($user->verifyPassword($request->input('password'))) {
-                Session::forget('login_fails');
+            $loginFails++;
+            Cache::put($loginFailsCacheKey, $loginFails, 3600);
+            $dispatcher->dispatch('auth.login.failed', [$user, $loginFails]);
 
-                Auth::login($user, $request->input('keep'));
-
-                event(new Events\UserLoggedIn($user));
-
-                Cache::forget($loginFailsCacheKey);
-
-                return json(trans('auth.login.success'), 0, [
-                    'redirectTo' => $request->session()->pull('last_requested_path', url('/user')),
-                ]);
-            } else {
-                // Increase the counter
-                Cache::put($loginFailsCacheKey, ++$loginFails, 3600);
-
-                return json(trans('auth.validation.password'), 1, [
-                    'login_fails' => $loginFails,
-                ]);
-            }
+            return json(trans('auth.validation.password'), 1, [
+                'login_fails' => $loginFails,
+            ]);
         }
     }
 
-    public function logout()
+    public function logout(Dispatcher $dispatcher)
     {
-        if (Auth::check()) {
-            Auth::logout();
+        $user = Auth::user();
 
-            return json(trans('auth.logout.success'), 0);
-        } else {
-            return json(trans('auth.logout.fail'), 1);
-        }
+        $dispatcher->dispatch('auth.logout.before', [$user]);
+        Auth::logout();
+        $dispatcher->dispatch('auth.logout.after', [$user]);
+
+        return json(trans('auth.logout.success'), 0);
     }
 
     public function register()
@@ -113,8 +121,11 @@ class AuthController extends Controller
         }
     }
 
-    public function handleRegister(Request $request, Rules\Captcha $captcha)
-    {
+    public function handleRegister(
+        Request $request,
+        Rules\Captcha $captcha,
+        Dispatcher $dispatcher
+    ) {
         if (!option('user_can_register')) {
             return json(trans('auth.register.close'), 7);
         }
@@ -133,6 +144,8 @@ class AuthController extends Controller
             'captcha' => ['required', $captcha],
         ], $rule));
 
+        $dispatcher->dispatch('auth.registration.attempt', [$data]);
+
         if (option('register_with_player_name')) {
             event(new Events\CheckPlayerExists($request->get('player_name')));
 
@@ -146,6 +159,8 @@ class AuthController extends Controller
         if (User::where('ip', get_client_ip())->count() >= option('regs_per_ip')) {
             return json(trans('auth.register.max', ['regs' => option('regs_per_ip')]), 7);
         }
+
+        $dispatcher->dispatch('auth.registration.ready', [$data]);
 
         $user = new User();
         $user->email = $data['email'];
@@ -161,6 +176,7 @@ class AuthController extends Controller
 
         $user->save();
 
+        $dispatcher->dispatch('auth.registration.completed', [$user]);
         event(new Events\UserRegistered($user));
 
         if (option('register_with_player_name')) {
@@ -173,7 +189,9 @@ class AuthController extends Controller
             event(new Events\PlayerWasAdded($player));
         }
 
+        $dispatcher->dispatch('auth.login.ready', [$user]);
         Auth::login($user);
+        $dispatcher->dispatch('auth.login.succeeded', [$user]);
 
         return json(trans('auth.register.success'), 0);
     }
@@ -192,9 +210,13 @@ class AuthController extends Controller
         }
     }
 
-    public function handleForgot(Request $request, Rules\Captcha $captcha)
-    {
-        $this->validate($request, [
+    public function handleForgot(
+        Request $request,
+        Rules\Captcha $captcha,
+        Dispatcher $dispatcher
+    ) {
+        $data = $this->validate($request, [
+            'email' => 'required|email',
             'captcha' => ['required', $captcha],
         ]);
 
@@ -202,31 +224,35 @@ class AuthController extends Controller
             return json(trans('auth.forgot.disabled'), 1);
         }
 
+        $email = $data['email'];
+        $dispatcher->dispatch('auth.forgot.attempt', [$email]);
+
         $rateLimit = 180;
         $lastMailCacheKey = sha1('last_mail_'.get_client_ip());
         $remain = $rateLimit + Cache::get($lastMailCacheKey, 0) - time();
-
-        // Rate limit
         if ($remain > 0) {
             return json(trans('auth.forgot.frequent-mail'), 2);
         }
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::where('email', $email)->first();
 
         if (!$user) {
             return json(trans('auth.forgot.unregistered'), 1);
         }
 
-        $url = URL::temporarySignedRoute('auth.reset', now()->addHour(), ['uid' => $user->uid]);
+        $dispatcher->dispatch('auth.forgot.ready', [$user]);
 
+        $url = URL::temporarySignedRoute('auth.reset', now()->addHour(), ['uid' => $user->uid]);
         try {
-            Mail::to($request->input('email'))->send(new ForgotPassword($url));
+            Mail::to($email)->send(new ForgotPassword($url));
         } catch (\Exception $e) {
             report($e);
+            $dispatcher->dispatch('auth.forgot.failed', [$user, $url]);
 
             return json(trans('auth.forgot.failed', ['msg' => $e->getMessage()]), 2);
         }
 
+        $dispatcher->dispatch('auth.forgot.sent', [$user, $url]);
         Cache::put($lastMailCacheKey, time(), 3600);
 
         return json(trans('auth.forgot.success'), 0);
@@ -237,13 +263,16 @@ class AuthController extends Controller
         return view('auth.reset')->with('user', User::find($uid));
     }
 
-    public function handleReset(Request $request, $uid)
+    public function handleReset(Dispatcher $dispatcher, Request $request, $uid)
     {
-        $validated = $this->validate($request, [
+        ['password' => $password] = $this->validate($request, [
             'password' => 'required|min:8|max:32',
         ]);
+        $user = User::find($uid);
 
-        User::find($uid)->changePassword($validated['password']);
+        $dispatcher->dispatch('auth.reset.before', [$user, $password]);
+        $user->changePassword($password);
+        $dispatcher->dispatch('auth.reset.after', [$user, $password]);
 
         return json(trans('auth.reset.success'), 0);
     }
@@ -314,7 +343,7 @@ class AuthController extends Controller
         return Socialite::driver($driver)->redirect();
     }
 
-    public function oauthCallback($driver)
+    public function oauthCallback(Dispatcher $dispatcher, $driver)
     {
         $remoteUser = Socialite::driver($driver)->user();
 
@@ -324,11 +353,7 @@ class AuthController extends Controller
         }
 
         $user = User::where('email', $email)->first();
-        if ($user) {
-            event(new Events\UserLoggedIn($user));
-
-            Auth::login($user);
-        } else {
+        if (!$user) {
             $user = new User();
             $user->email = $email;
             $user->nickname = $remoteUser->nickname ?? $remoteUser->name ?? $email;
@@ -342,10 +367,12 @@ class AuthController extends Controller
             $user->verified = true;
 
             $user->save();
-            event(new Events\UserRegistered($user));
-
-            Auth::login($user);
+            $dispatcher->dispatch('auth.registration.completed', [$user]);
         }
+
+        $dispatcher->dispatch('auth.login.ready', [$user]);
+        Auth::login($user);
+        $dispatcher->dispatch('auth.login.succeeded', [$user]);
 
         return redirect('/user');
     }
