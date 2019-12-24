@@ -98,11 +98,6 @@ general:
     title: Vérification du compte
     label: Users must verify their email address first.
   regs_per_ip: Max accounts of one IP
-  ip_get_method:
-    title: Obtenir l'IP via
-    HTTP_X_FORWARDED_FOR: HTTP_X_FORWARDED_FOR (can be fabricated)
-    REMOTE_ADDR: REMOTE_ADDR (NOT suitable for sites under load balancer)
-    hint: Unfortunately, we have no method to get the accurate client IP address with pure PHP.
   max_upload_file_size:
     title: Max Upload Size
     hint: "Limit specified in php.ini: :size"
