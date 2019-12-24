@@ -75,14 +75,6 @@ export default {
     },
   },
   data: () => ({
-    /** @type {skinview3d.SkinViewer} */
-    viewer: null,
-    handles: {
-      walk: null,
-      run: null,
-      rotate: null,
-    },
-    control: null,
     paused: false,
   }),
   computed: {
@@ -135,9 +127,12 @@ export default {
       })
       this.viewer.camera.position.z = this.initPositionZ
       this.viewer.animation = new skinview3d.CompositeAnimation()
-      this.handles.walk = this.viewer.animation.add(skinview3d.WalkingAnimation)
-      this.handles.run = this.viewer.animation.add(skinview3d.RunningAnimation)
-      this.handles.rotate = this.viewer.animation.add(skinview3d.RotatingAnimation)
+
+      this.handles = {
+        walk: this.viewer.animation.add(skinview3d.WalkingAnimation),
+        run: this.viewer.animation.add(skinview3d.RunningAnimation),
+        rotate: this.viewer.animation.add(skinview3d.RotatingAnimation),
+      }
       this.handles.run.paused = true
       this.control = skinview3d.createOrbitControls(this.viewer)
     },
@@ -154,8 +149,6 @@ export default {
     },
     reset() {
       this.viewer.dispose()
-      this.handles = {}
-      this.control = null
       this.initPreviewer()
       this.handles.walk.paused = true
       this.handles.run.paused = true
