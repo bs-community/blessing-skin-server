@@ -12,6 +12,7 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Vectorface\Whip\Whip;
 
 class SetupController extends Controller
 {
@@ -145,6 +146,9 @@ class SetupController extends Controller
             'site_url' => $siteUrl,
         ]);
 
+        $whip = new Whip();
+        $ip = $whip->getValidIpAddress();
+
         // Register super admin
         $user = new User();
         $user->email = $data['email'];
@@ -152,7 +156,7 @@ class SetupController extends Controller
         $user->score = option('user_initial_score');
         $user->avatar = 0;
         $user->password = app('cipher')->hash($data['password'], config('secure.salt'));
-        $user->ip = get_client_ip();
+        $user->ip = $ip;
         $user->permission = User::SUPER_ADMIN;
         $user->register_at = Carbon::now();
         $user->last_sign_at = Carbon::now()->subDay();

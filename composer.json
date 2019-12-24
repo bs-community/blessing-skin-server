@@ -30,7 +30,8 @@
     "symfony/process": "^4.4",
     "symfony/yaml": "^4.3",
     "twig/twig": "^2.11",
-    "tymon/jwt-auth": "dev-develop"
+    "tymon/jwt-auth": "dev-develop",
+    "vectorface/whip": "^0.3.2"
   },
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.2",

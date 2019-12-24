@@ -83,28 +83,6 @@ if (!function_exists('option_localized')) {
     }
 }
 
-if (!function_exists('get_client_ip')) {
-    /**
-     * Return the client IP address.
-     *
-     * We define this function because Symfony's "Request::getClientIp()" method
-     * needs "setTrustedProxies()", which sucks when load balancer is enabled.
-     */
-    function get_client_ip(): string
-    {
-        $request = request();
-        if (option('ip_get_method') == '0') {
-            $ip = $request->server('HTTP_X_FORWARDED_FOR')
-                ?? $request->server('HTTP_CLIENT_IP')
-                ?? $request->server('REMOTE_ADDR');
-        } else {
-            $ip = $request->server('REMOTE_ADDR');
-        }
-
-        return $ip;
-    }
-}
-
 if (!function_exists('get_string_replaced')) {
     /**
      * Replace content of string according to given rules.

@@ -8,7 +8,6 @@ return [
     'register_with_player_name' => 'true',
     'require_verification'      => 'false',
     'regs_per_ip'               => '3',
-    'ip_get_method'             => '0',
     'api_type'                  => 'false',
     'announcement'              => 'Welcome to Blessing Skin {version}!',
     'home_pic_url'              => './app/bg.png',

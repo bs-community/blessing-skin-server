@@ -110,7 +110,6 @@ class AdminFormsTest extends BrowserKitTestCase
             ->type('http://blessing.skin/', 'site_url')
             ->uncheck('user_can_register')
             ->type('8', 'regs_per_ip')
-            ->select('1', 'ip_get_method')
             ->type('2048', 'max_upload_file_size')
             ->see(trans(
                 'options.general.max_upload_file_size.hint',
@@ -131,7 +130,6 @@ class AdminFormsTest extends BrowserKitTestCase
         $this->assertEquals('http://blessing.skin', option('site_url'));
         $this->assertFalse(option('user_can_register'));
         $this->assertEquals('8', option('regs_per_ip'));
-        $this->assertEquals('1', option('ip_get_method'));
         $this->assertEquals('2048', option('max_upload_file_size'));
         $this->assertEquals('cjk', option('player_name_rule'));
         $this->assertEquals('/^([0-9]+)$/', option('custom_player_name_regexp'));

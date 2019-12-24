@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Laravel\Socialite\AbstractUser;
 use Laravel\Socialite\Facades\Socialite;
+use Vectorface\Whip\Whip;
 
 class AuthControllerTest extends TestCase
 {
@@ -97,7 +98,9 @@ class AuthControllerTest extends TestCase
         $this->flushSession();
 
         Event::fake();
-        $loginFailsCacheKey = sha1('login_fails_'.get_client_ip());
+        $whip = new Whip();
+        $ip = $whip->getValidIpAddress();
+        $loginFailsCacheKey = sha1('login_fails_'.$ip);
 
         // Logging in should be failed if password is wrong
         $this->postJson(
@@ -223,6 +226,8 @@ class AuthControllerTest extends TestCase
     public function testHandleRegister()
     {
         Event::fake();
+        $whip = new Whip();
+        $ip = $whip->getValidIpAddress();
 
         // Should return a warning if `email` is empty
         $this->postJson('/auth/register')->assertJsonValidationErrors('email');
@@ -407,7 +412,7 @@ class AuthControllerTest extends TestCase
             'email' => 'a@b.c',
             'nickname' => 'nickname',
             'score' => option('user_initial_score'),
-            'ip' => '127.0.0.1',
+            'ip' => $ip,
             'permission' => User::NORMAL,
         ]);
         $this->assertAuthenticated();
@@ -484,7 +489,9 @@ class AuthControllerTest extends TestCase
         ]);
         config(['mail.driver' => 'smtp']);
 
-        $lastMailCacheKey = sha1('last_mail_'.get_client_ip());
+        $whip = new Whip();
+        $ip = $whip->getValidIpAddress();
+        $lastMailCacheKey = sha1('last_mail_'.$ip);
 
         // Should be forbidden if sending email frequently
         Cache::put($lastMailCacheKey, time());
@@ -738,6 +745,8 @@ class AuthControllerTest extends TestCase
     public function testOAuthCallback()
     {
         Event::fake();
+        $whip = new Whip();
+        $ip = $whip->getValidIpAddress();
 
         Socialite::shouldReceive('driver')
             ->with('github')
@@ -782,7 +791,7 @@ class AuthControllerTest extends TestCase
             'nickname' => 'abc',
             'score' => option('user_initial_score'),
             'avatar' => 0,
-            'ip' => '127.0.0.1',
+            'ip' => $ip,
             'permission' => User::NORMAL,
             'verified' => true,
         ]);

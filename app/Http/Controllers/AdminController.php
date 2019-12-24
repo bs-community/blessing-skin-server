@@ -281,11 +281,6 @@ class AdminController extends Controller
 
             $form->text('regs_per_ip');
 
-            $form->select('ip_get_method')
-                    ->option('0', trans('options.general.ip_get_method.HTTP_X_FORWARDED_FOR'))
-                    ->option('1', trans('options.general.ip_get_method.REMOTE_ADDR'))
-                    ->hint();
-
             $form->group('max_upload_file_size')
                     ->text('max_upload_file_size')->addon('KB')
                     ->hint(trans('options.general.max_upload_file_size.hint', ['size' => ini_get('upload_max_filesize')]));

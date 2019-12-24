@@ -17,15 +17,19 @@ use Laravel\Socialite\Facades\Socialite;
 use Mail;
 use Session;
 use URL;
+use Vectorface\Whip\Whip;
 use View;
 
 class AuthController extends Controller
 {
     public function login()
     {
+        $whip = new Whip();
+        $ip = $whip->getValidIpAddress();
+
         return view('auth.login', [
             'extra' => [
-                'tooManyFails' => cache(sha1('login_fails_'.get_client_ip())) > 3,
+                'tooManyFails' => cache(sha1('login_fails_'.$ip)) > 3,
                 'recaptcha' => option('recaptcha_sitekey'),
                 'invisible' => (bool) option('recaptcha_invisible'),
             ],
@@ -58,7 +62,9 @@ class AuthController extends Controller
         }
 
         // Require CAPTCHA if user fails to login more than 3 times
-        $loginFailsCacheKey = sha1('login_fails_'.get_client_ip());
+        $whip = new Whip();
+        $ip = $whip->getValidIpAddress();
+        $loginFailsCacheKey = sha1('login_fails_'.$ip);
         $loginFails = (int) Cache::get($loginFailsCacheKey, 0);
 
         if ($loginFails > 3) {
@@ -156,7 +162,9 @@ class AuthController extends Controller
 
         // If amount of registered accounts of IP is more than allowed amounts,
         // then reject the register.
-        if (User::where('ip', get_client_ip())->count() >= option('regs_per_ip')) {
+        $whip = new Whip();
+        $ip = $whip->getValidIpAddress();
+        if (User::where('ip', $ip)->count() >= option('regs_per_ip')) {
             return json(trans('auth.register.max', ['regs' => option('regs_per_ip')]), 7);
         }
 
@@ -169,7 +177,7 @@ class AuthController extends Controller
         $user->avatar = 0;
         $user->password = $user->getEncryptedPwdFromEvent($data['password'])
             ?: app('cipher')->hash($data['password'], config('secure.salt'));
-        $user->ip = get_client_ip();
+        $user->ip = $ip;
         $user->permission = User::NORMAL;
         $user->register_at = Carbon::now();
         $user->last_sign_at = Carbon::now()->subDay();
@@ -228,7 +236,9 @@ class AuthController extends Controller
         $dispatcher->dispatch('auth.forgot.attempt', [$email]);
 
         $rateLimit = 180;
-        $lastMailCacheKey = sha1('last_mail_'.get_client_ip());
+        $whip = new Whip();
+        $ip = $whip->getValidIpAddress();
+        $lastMailCacheKey = sha1('last_mail_'.$ip);
         $remain = $rateLimit + Cache::get($lastMailCacheKey, 0) - time();
         if ($remain > 0) {
             return json(trans('auth.forgot.frequent-mail'), 2);
@@ -354,13 +364,16 @@ class AuthController extends Controller
 
         $user = User::where('email', $email)->first();
         if (!$user) {
+            $whip = new Whip();
+            $ip = $whip->getValidIpAddress();
+
             $user = new User();
             $user->email = $email;
             $user->nickname = $remoteUser->nickname ?? $remoteUser->name ?? $email;
             $user->score = option('user_initial_score');
             $user->avatar = 0;
             $user->password = '';
-            $user->ip = get_client_ip();
+            $user->ip = $ip;
             $user->permission = User::NORMAL;
             $user->register_at = Carbon::now();
             $user->last_sign_at = Carbon::now()->subDay();
