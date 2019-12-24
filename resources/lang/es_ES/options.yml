@@ -98,11 +98,6 @@ general:
     title: Verificación de cuenta
     label: Los usuarios primero deben verificar su dirección de correo electrónico.
   regs_per_ip: Cuentas máximas de un IP
-  ip_get_method:
-    title: Obtener IP vía
-    HTTP_X_FORWARDED_FOR: HTTP_X_FORWARDED_FOR (puede ser fabricado)
-    REMOTE_ADDR: REMOTE_ADDR (NO adecuado para sitios bajo balanceador de carga)
-    hint: Desafortunadamente, no tenemos ningún método para obtener la dirección IP del cliente con puro PHP.
   max_upload_file_size:
     title: Tamaño máximo de subida
     hint: "Límite especificado en php.ini: :size"
