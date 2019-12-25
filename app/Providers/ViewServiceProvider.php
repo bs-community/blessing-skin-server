@@ -49,16 +49,11 @@ class ViewServiceProvider extends ServiceProvider
         View::composer('shared.user-panel', Composers\UserPanelComposer::class);
 
         View::composer('shared.copyright', function ($view) {
-            $customCopyright = get_string_replaced(
-                option_localized('copyright_text'),
-                [
-                    '{site_name}' => option_localized('site_name'),
-                    '{site_url}' => option('site_url'),
-                ]
-            );
             $view->with([
                 'copyright' => option_localized('copyright_prefer', 0),
-                'custom_copyright' => $customCopyright,
+                'custom_copyright' => option_localized('copyright_text'),
+                'site_name' => option_localized('site_name'),
+                'site_url' => option('site_url'),
             ]);
         });
 

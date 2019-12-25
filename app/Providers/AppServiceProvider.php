@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Exceptions\PrettyPageException;
 use App\Services;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;

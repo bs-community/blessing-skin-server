@@ -83,20 +83,6 @@ if (!function_exists('option_localized')) {
     }
 }
 
-if (!function_exists('get_string_replaced')) {
-    /**
-     * Replace content of string according to given rules.
-     */
-    function get_string_replaced(string $str, array $rules): string
-    {
-        foreach ($rules as $search => $replace) {
-            $str = str_replace($search, $replace, $str);
-        }
-
-        return $str;
-    }
-}
-
 if (!function_exists('png')) {
     function png($resource)
     {
