@@ -26,7 +26,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
 
         Artisan::call('migrate:refresh');
 
-        if (file_exists(storage_path('install.lock'))) {
+        if (!file_exists(storage_path('install.lock'))) {
             file_put_contents(storage_path('install.lock'), '');
         }
 
