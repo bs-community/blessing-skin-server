@@ -611,7 +611,7 @@ class UserControllerTest extends TestCase
             ->get('/user/notifications/'.$notification->id)
             ->assertJson([
                 'title' => $notification->data['title'],
-                'content' => app('parsedown')->text($notification->data['content']),
+                'content' => (new Parsedown())->text($notification->data['content']),
                 'time' => $notification->created_at->toDateTimeString(),
             ]);
         $notification->refresh();

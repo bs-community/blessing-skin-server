@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Mail;
+use Parsedown;
 use Session;
 use URL;
 use View;
@@ -63,6 +64,8 @@ class UserController extends Controller
         ];
         $grid = $filter->apply('grid:user.index', $grid);
 
+        $parsedown = new Parsedown();
+
         return view('user.index')->with([
             'statistics' => [
                 'players' => $this->calculatePercentageUsed($user->players->count(), option('score_per_player')),
@@ -74,7 +77,7 @@ class UserController extends Controller
                 'player' => option('score_per_player'),
                 'closet' => option('score_per_closet_item'),
             ],
-            'announcement' => app('parsedown')->text(option_localized('announcement')),
+            'announcement' => $parsedown->text(option_localized('announcement')),
             'grid' => $grid,
             'extra' => ['unverified' => option('require_verification') && !$user->verified],
         ]);
@@ -391,9 +394,11 @@ class UserController extends Controller
             });
         $notification->markAsRead();
 
+        $parsedown = new Parsedown();
+
         return [
             'title' => $notification->data['title'],
-            'content' => app('parsedown')->text($notification->data['content']),
+            'content' => $parsedown->text($notification->data['content']),
             'time' => $notification->created_at->toDateTimeString(),
         ];
     }

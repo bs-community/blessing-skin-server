@@ -10,6 +10,7 @@ use Auth;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Option;
+use Parsedown;
 use Session;
 use Storage;
 use View;
@@ -210,6 +211,8 @@ class SkinlibController extends Controller
         ];
         $grid = $filter->apply('grid:skinlib.upload', $grid);
 
+        $parsedown = new Parsedown();
+
         return view('skinlib.upload')
             ->with('grid', $grid)
             ->with('extra', [
@@ -223,7 +226,7 @@ class SkinlibController extends Controller
                 'scorePublic' => intval(option('score_per_storage')),
                 'scorePrivate' => intval(option('private_score_per_storage')),
                 'award' => intval(option('score_award_per_texture')),
-                'contentPolicy' => app('parsedown')->text(option_localized('content_policy')),
+                'contentPolicy' => $parsedown->text(option_localized('content_policy')),
             ]);
     }
 

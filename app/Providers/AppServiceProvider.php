@@ -21,7 +21,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('cipher', 'App\Services\Cipher\\'.config('secure.cipher'));
         $this->app->singleton(\App\Services\Option::class);
         $this->app->alias(\App\Services\Option::class, 'options');
-        $this->app->singleton('parsedown', \Parsedown::class);
         $this->app->singleton(\App\Services\Webpack::class);
         $this->app->singleton(\App\Services\Filter::class);
         $this->app->singleton('oauth.providers', function () {

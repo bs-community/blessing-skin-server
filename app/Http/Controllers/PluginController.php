@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\Plugin;
 use App\Services\PluginManager;
 use Illuminate\Http\Request;
+use Parsedown;
 
 class PluginController extends Controller
 {
@@ -38,7 +39,8 @@ class PluginController extends Controller
 
         $title = $plugin->title;
         $path = $plugin->getPath().'/'.$readmePath;
-        $content = resolve('parsedown')->text(file_get_contents($path));
+        $parsedown = new Parsedown();
+        $content = $parsedown->text(file_get_contents($path));
 
         return view('admin.plugin.readme', compact('content', 'title'));
     }
