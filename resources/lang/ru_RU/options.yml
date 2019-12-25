@@ -130,9 +130,6 @@ general:
   content_policy:
     title: Политика в отношении содержания
     description: Отобразить контентную политику на странице загрузки текстур с поддержкой Markdown. Чтобы отредактировать соответствующую политику в отношении определенного языка, переключитесь на этот язык и отправьте свое изменение.
-  comment_script:
-    title: Comment Script
-    description: Placeholder is available, <code>{tid}</code> will be replaced with texture id, <code>{name}</code> will be replaced with texture name, <code>{url}</code> will be replaced with current URL.
 announ:
   title: Объявление
   announcement:

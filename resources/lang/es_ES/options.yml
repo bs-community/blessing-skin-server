@@ -130,9 +130,6 @@ general:
   content_policy:
     title: Política de contenido
     description: Muestra la política de contenido en la página de subida de texturas, apoyando a Markdown. Para editar la correspondiente política de contenido de un idioma específico, por favor cambie a ese idioma y someta su edición.
-  comment_script:
-    title: Script de comentarios
-    description: El marcador de posición está disponible, <code>{tid}</code> será reemplazado por el id de la textura, <code>{name}</code> será reemplazado por el nombre de la textura, <code>{url}</code> será reemplazado por la URL actual.
 announ:
   title: Anuncio
   announcement:
