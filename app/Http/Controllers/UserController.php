@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App;
 use App\Events\UserProfileUpdated;
 use App\Mail\EmailVerification;
 use App\Models\Texture;
