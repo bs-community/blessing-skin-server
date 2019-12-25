@@ -38,12 +38,6 @@ class AppServiceProvider extends ServiceProvider
         $this->configureUrlGenerator($request);
 
         try {
-            $this->app->make('cipher');
-        } catch (\Illuminate\Contracts\Container\BindingResolutionException $e) {
-            throw new PrettyPageException(trans('errors.cipher.unsupported', ['cipher' => config('secure.cipher')]));
-        }
-
-        try {
             if (option('enable_redis') && Redis::ping()) {
                 config([
                     'cache.default' => 'redis',
