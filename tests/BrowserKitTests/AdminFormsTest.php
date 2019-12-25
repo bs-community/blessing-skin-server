@@ -123,7 +123,6 @@ class AdminFormsTest extends BrowserKitTestCase
             ->select('404', 'status_code_for_private')
             ->type('abc', 'texture_name_regexp')
             ->type('policy', 'content_policy')
-            ->type('code', 'comment_script')
             ->press('submit_general');
         $this->assertEquals('My Site', option_localized('site_name'));
         $this->assertEquals('hi', option_localized('site_description'));
@@ -139,7 +138,6 @@ class AdminFormsTest extends BrowserKitTestCase
         $this->assertEquals('404', option('status_code_for_private'));
         $this->assertEquals('abc', option('texture_name_regexp'));
         $this->assertEquals('policy', option_localized('content_policy'));
-        $this->assertEquals('code', option('comment_script'));
 
         $this->visit('/admin/options')
             ->type('http://blessing.skin/index.php', 'site_url')

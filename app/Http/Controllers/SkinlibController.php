@@ -143,19 +143,9 @@ class SkinlibController extends Controller
             $badges = $filter->apply('user_badges', $badges, [$uploader]);
         }
 
-        $commentScript = get_string_replaced(
-            option('comment_script'),
-            [
-                '{tid}' => $texture->tid,
-                '{name}' => $texture->name,
-                '{url}' => request()->url(),
-            ]
-        );
-
         $grid = [
             'layout' => [
                 ['md-8', 'md-4'],
-                ['md-12'],
             ],
             'widgets' => [
                 [
@@ -165,16 +155,12 @@ class SkinlibController extends Controller
                         'skinlib.widgets.show.operations',
                     ],
                 ],
-                [
-                    ['skinlib.widgets.show.comment'],
-                ],
             ],
         ];
         $grid = $filter->apply('grid:skinlib.show', $grid);
 
         return view('skinlib.show')
             ->with('texture', $texture)
-            ->with('comment_script', $commentScript)
             ->with('grid', $grid)
             ->with('extra', [
                 'download' => option('allow_downloading_texture'),

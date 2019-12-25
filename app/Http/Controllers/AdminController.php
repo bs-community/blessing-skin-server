@@ -313,8 +313,6 @@ class AdminController extends Controller
             $form->text('texture_name_regexp')->hint()->placeholder();
 
             $form->textarea('content_policy')->rows(3)->description();
-
-            $form->textarea('comment_script')->rows(6)->description();
         })->handle(function () {
             Option::set('site_name_'.config('app.locale'), request('site_name'));
             Option::set('site_description_'.config('app.locale'), request('site_description'));

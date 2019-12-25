@@ -143,9 +143,6 @@ general:
   content_policy:
     title: Content Policy
     description: Display content policy at texture uploading page, supporting Markdown. To edit a specific language's corresponding content policy, please switch to that language and submit your edit.
-  comment_script:
-    title: Comment Script
-    description: Placeholder is available, <code>{tid}</code> will be replaced with texture id, <code>{name}</code> will be replaced with texture name, <code>{url}</code> will be replaced with current URL.
 
 announ:
   title: Announcement
