@@ -130,9 +130,6 @@ general:
   content_policy:
     title: 材质内容策略
     description: 在材质上传页面将会显示此内容，支持 Markdown。如果想要编辑某种特定语言下的内容政策，请在右上角切换至该语言后再提交修改。
-  comment_script:
-    title: 评论代码
-    description: 评论代码内可使用占位符，<code>{tid}</code> 将会被自动替换为材质的 id，<code>{name}</code> 会被替换为材质名称，<code>{url}</code> 会被替换为当前页面地址。
 announ:
   title: 站点公告
   announcement:
