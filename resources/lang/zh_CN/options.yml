@@ -98,11 +98,6 @@ general:
     title: 邮箱验证
     label: 用户必须验证邮箱后才能使用皮肤托管等功能
   regs_per_ip: 每个 IP 限制注册数
-  ip_get_method:
-    title: IP 获取方式
-    HTTP_X_FORWARDED_FOR: HTTP_X_FORWARDED_FOR（可被伪造）
-    REMOTE_ADDR: REMOTE_ADDR（无法伪造，反代、负载均衡用户不要选）
-    hint: 皮肤站单靠 PHP 是无法获取客户端真实 IP 的，原因请自行搜索。
   max_upload_file_size:
     title: 最大允许上传大小
     hint: "PHP 限制：:size，定义在 php.ini 中。"
