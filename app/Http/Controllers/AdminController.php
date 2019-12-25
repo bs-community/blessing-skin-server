@@ -376,9 +376,9 @@ class AdminController extends Controller
         if (option('enable_redis')) {
             try {
                 Redis::ping();
-                $redis->addMessage(trans('options.redis.connect.success'), 'success');
+                $redis->addAlert(trans('options.redis.connect.success'), 'success');
             } catch (\Exception $e) {
-                $redis->addMessage(
+                $redis->addAlert(
                     trans('options.redis.connect.failed', ['msg' => $e->getMessage()]),
                     'danger'
                 );
