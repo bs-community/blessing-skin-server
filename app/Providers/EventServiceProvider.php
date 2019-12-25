@@ -32,6 +32,9 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\PluginBootFailed' => [
             'App\Listeners\NotifyFailedPlugin',
         ],
+        'App\Events\RenderingHeader' => [
+            'App\Listeners\SerializeGlobals',
+        ],
     ];
 
     /**
