@@ -7,12 +7,20 @@
         exit($error);
     }
 
+    if (!file_exists(__DIR__.'/../vendor/autoload.php')) {
+        die_with_utf8_encoding(
+            '[Error] No vendor folder found. Please use the released built package.<br>'.
+            '[错误] 根目录下未发现 vendor 文件夹，请使用正式的已构建好的 release 包。'
+        );
+    }
+
+    $requiredVersion = '7.2.0';
     preg_match('/(\d+\.\d+\.\d+)/', PHP_VERSION, $matches);
     $version = $matches[1];
-    if (version_compare($version, '7.2.0', '<')) {
+    if (version_compare($version, $requiredVersion, '<')) {
         die_with_utf8_encoding(
-            '[Error] Blessing Skin requires PHP version >= 7.2.0, you are now using '.$version.'<br>'.
-            '[错误] 你的 PHP 版本过低（'.$version.'），Blessing Skin 要求至少为 7.2.0'
+            '[Error] Blessing Skin requires PHP version >= '.$requiredVersion.', you are now using '.$version.'<br>'.
+            '[错误] 你的 PHP 版本过低（'.$version.'），Blessing Skin 要求至少为 '.$requiredVersion
         );
     }
 
