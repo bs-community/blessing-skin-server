@@ -113,7 +113,6 @@ general:
   player_name_length:
     title: Player Name Length
     suffix: characters
-  api_type: Prefered JSON API
   auto_del_invalid_texture:
     title: Invalid Textures
     label: Delete invalid textures automatically.
@@ -174,14 +173,6 @@ resources:
       The CDN URL you give must refer to a mirror of <code>/public</code> directory,
       all the files of that directory will be loaded as CDN.<br>
       <b>How to verify?</b> Verify if <code>{Your CDN URL}/app/manifest.json</code> can be accessed.
-redis:
-  enable_redis:
-    title: Enable
-    label: Enable Redis
-    description: Redis will be used to store cache, session and etc.
-  connect:
-    success: Connected to Redis server successfully.
-    failed: 'Failed to connect Redis server. Error: :msg'
 cache:
   title: Cache Configuration
   clear: Clear Cache

@@ -113,7 +113,6 @@ general:
   player_name_length:
     title: 角色名长度
     suffix: 个字符
-  api_type: 首选 JSON API
   auto_del_invalid_texture:
     title: 失效材质
     label: 自动删除失效材质
@@ -173,14 +172,6 @@ resources:
     description: |
       填写的 CDN 地址必须是 <code>/public</code> 目录的镜像，此目录下的所有文件都将会从 CDN 加载。<br>
       <b>测试方法</b>：检查 <code>{填写的地址}/app/manifest.json</code> 是否能够访问。
-redis:
-  enable_redis:
-    title: 启用
-    label: 使用 Redis
-    description: Redis 将被用于存储缓存和 Session 等。
-  connect:
-    success: 成功连接 Redis 服务器。
-    failed: '连接 Redis 服务器失败。错误消息： :msg'
 cache:
   title: 缓存配置
   clear: 清除缓存
