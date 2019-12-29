@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Events;
 use App\Exceptions\PrettyPageException;
+use Composer\Autoload\ClassLoader;
 use Composer\Semver\Comparator;
 use Composer\Semver\Semver;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -41,6 +42,11 @@ class PluginManager
     protected $filesystem;
 
     /**
+     * @var ClassLoader
+     */
+    protected $loader;
+
+    /**
      * @var Collection|null
      */
     protected $plugins;
@@ -61,6 +67,7 @@ class PluginManager
         $this->dispatcher = $dispatcher;
         $this->filesystem = $filesystem;
         $this->enabled = collect();
+        $this->loader = new ClassLoader();
     }
 
     /**
@@ -148,6 +155,7 @@ class PluginManager
         $enabled->each(function ($plugin) {
             $this->registerPlugin($plugin);
         });
+        $this->loader->register();
         $enabled->each(function ($plugin) {
             $this->bootPlugin($plugin);
         });
@@ -179,19 +187,10 @@ class PluginManager
      */
     protected function registerAutoload(Plugin $plugin)
     {
-        spl_autoload_register(function ($class) use ($plugin) {
-            $namespace = $plugin->namespace;
-            $path = $plugin->getPath().'/src';
-            if ($namespace != '' && mb_strpos($class, $namespace) === 0) {
-                // Parse real file path
-                $path = $path.Str::replaceFirst($namespace, '', $class).'.php';
-                $path = str_replace('\\', '/', $path);
-
-                if ($this->filesystem->exists($path)) {
-                    $this->filesystem->getRequire($path);
-                }
-            }
-        });
+        $this->loader->addPsr4(
+            Str::finish($plugin->namespace, '\\'),
+            $plugin->getPath().'/src'
+        );
     }
 
     /**
