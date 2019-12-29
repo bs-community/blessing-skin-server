@@ -194,15 +194,6 @@ resources:
       all the files of that directory will be loaded as CDN.<br>
       <b>How to verify?</b> Verify if <code>{Your CDN URL}/app/manifest.json</code> can be accessed.
 
-redis:
-  enable_redis:
-    title: Enable
-    label: Enable Redis
-    description: Redis will be used to store cache, session and etc.
-  connect:
-    success: Connected to Redis server successfully.
-    failed: 'Failed to connect Redis server. Error: :msg'
-
 cache:
   title: Cache Configuration
   clear: Clear Cache

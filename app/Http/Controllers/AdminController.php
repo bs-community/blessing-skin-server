@@ -17,7 +17,6 @@ use Illuminate\Filesystem\Filesystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Str;
 use Notification;
 use Option;
@@ -363,24 +362,6 @@ class AdminController extends Controller
             })
             ->handle();
 
-        $redis = Option::form('redis', 'Redis', function ($form) {
-            $form->checkbox('enable_redis')->label()->description();
-        });
-
-        if (option('enable_redis')) {
-            try {
-                Redis::ping();
-                $redis->addAlert(trans('options.redis.connect.success'), 'success');
-            } catch (\Exception $e) {
-                $redis->addAlert(
-                    trans('options.redis.connect.failed', ['msg' => $e->getMessage()]),
-                    'danger'
-                );
-            }
-        }
-
-        $redis->handle();
-
         $cache = Option::form('cache', OptionForm::AUTO_DETECT, function ($form) {
             $form->checkbox('enable_avatar_cache')->label();
             $form->checkbox('enable_preview_cache')->label();
@@ -403,8 +384,7 @@ class AdminController extends Controller
         }
         $cache->handle();
 
-        return view('admin.resource')
-            ->with('forms', compact('resources', 'redis', 'cache'));
+        return view('admin.resource')->with('forms', compact('resources', 'cache'));
     }
 
     public function status(

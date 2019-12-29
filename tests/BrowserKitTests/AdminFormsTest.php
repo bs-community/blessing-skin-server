@@ -5,7 +5,6 @@ namespace Tests;
 use Cache;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Support\Facades\Redis;
 use Mockery;
 
 class AdminFormsTest extends BrowserKitTestCase
@@ -186,20 +185,6 @@ class AdminFormsTest extends BrowserKitTestCase
             ->type('', 'cdn_address')
             ->press('submit_resources');
         $this->visit('/')->dontSee('url/app/app.js');
-
-        $this->visit('/admin/resource')
-            ->check('enable_redis')
-            ->press('submit_redis');
-        $this->assertTrue(option('enable_redis'));
-
-        Redis::shouldReceive('ping')->once()->andReturn(true);
-        $this->visit('/admin/resource')->see(trans('options.redis.connect.success'));
-
-        Redis::shouldReceive('ping')->once()->andThrow(new \Exception('fake'));
-        $this->visit('/admin/resource')
-            ->see(trans('options.redis.connect.failed', ['msg' => 'fake']));
-
-        option(['enable_redis' => false]);
 
         $this->visit('/admin/resource')
             ->see(trans('options.cache.driver', ['driver' => config('cache.default')]))
