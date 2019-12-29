@@ -189,7 +189,7 @@ export default {
       filter: queryString('filter', 'skin'),
       uploader: +queryString('uploader', 0),
       sort: queryString('sort', 'time'),
-      keyword: queryString('keyword', ''),
+      keyword: decodeURIComponent(queryString('keyword', '')),
       page: +queryString('page', 1),
       items: [],
       totalPages: 0,
