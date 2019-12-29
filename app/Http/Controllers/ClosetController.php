@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Texture;
 use App\Models\User;
-use App\Services\Filter;
 use Auth;
+use Blessing\Filter;
 use Illuminate\Http\Request;
 
 class ClosetController extends Controller

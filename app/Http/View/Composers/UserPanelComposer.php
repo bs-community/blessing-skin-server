@@ -2,7 +2,7 @@
 
 namespace App\Http\View\Composers;
 
-use App\Services\Filter;
+use Blessing\Filter;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\View\View;
 

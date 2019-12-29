@@ -4,8 +4,61 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7941921d4db971b81f1b97420c1831a6",
+    "content-hash": "3a91095a48c06e8fc97341f7e0f8ad9e",
     "packages": [
+        {
+            "name": "blessing/filter",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bs-community/filter.git",
+                "reference": "ce6227b621cbf071d89214ab5bebcb1fcf797fcd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bs-community/filter/zipball/ce6227b621cbf071d89214ab5bebcb1fcf797fcd",
+                "reference": "ce6227b621cbf071d89214ab5bebcb1fcf797fcd",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/contracts": "6.*",
+                "illuminate/support": "6.*"
+            },
+            "require-dev": {
+                "illuminate/container": "6.*",
+                "phpunit/phpunit": "~8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Blessing\\FilterServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Blessing\\": "src/Blessing"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pig Fang",
+                    "email": "g-plane@hotmail.com"
+                }
+            ],
+            "description": "Filters API for designing plugin system.",
+            "keywords": [
+                "filters",
+                "laravel",
+                "wordpress"
+            ],
+            "time": "2019-12-27T15:01:44+00:00"
+        },
         {
             "name": "composer/ca-bundle",
             "version": "1.2.5",

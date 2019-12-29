@@ -5,7 +5,7 @@ namespace Tests;
 use App\Models\Player;
 use App\Models\Texture;
 use App\Models\User;
-use App\Services\Filter;
+use Blessing\Filter;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;

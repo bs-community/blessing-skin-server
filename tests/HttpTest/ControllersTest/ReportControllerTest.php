@@ -5,8 +5,8 @@ namespace Tests;
 use App\Models\Report;
 use App\Models\Texture;
 use App\Models\User;
-use App\Services\Filter;
 use App\Services\Rejection;
+use Blessing\Filter;
 use Event;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 

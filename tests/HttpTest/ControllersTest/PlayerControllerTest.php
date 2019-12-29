@@ -6,8 +6,8 @@ use App\Events;
 use App\Models\Player;
 use App\Models\Texture;
 use App\Models\User;
-use App\Services\Filter;
 use App\Services\Rejection;
+use Blessing\Filter;
 use Event;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 

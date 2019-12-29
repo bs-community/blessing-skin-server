@@ -2,7 +2,7 @@
 
 namespace Tests\Fakes;
 
-use App\Services\Filter as BaseFilter;
+use Blessing\Filter as BaseFilter;
 use PHPUnit\Framework\Assert;
 
 class Filter extends BaseFilter
@@ -18,7 +18,7 @@ class Filter extends BaseFilter
 
     public static function fake(): Filter
     {
-        $fake = new self();
+        $fake = resolve(Filter::class);
 
         app()->instance(BaseFilter::class, $fake);
 
