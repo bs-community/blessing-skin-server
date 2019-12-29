@@ -126,7 +126,6 @@ general:
   player_name_length:
     title: Player Name Length
     suffix: characters
-  api_type: Prefered JSON API
   auto_del_invalid_texture:
     title: Invalid Textures
     label: Delete invalid textures automatically.

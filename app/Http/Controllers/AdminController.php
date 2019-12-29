@@ -298,10 +298,6 @@ class AdminController extends Controller
                 ->text('player_name_length_max')
                 ->addon(trans('options.general.player_name_length.suffix'));
 
-            $form->select('api_type')
-                    ->option('0', 'CustomSkinLoader API')
-                    ->option('1', 'UniversalSkinAPI');
-
             $form->checkbox('auto_del_invalid_texture')->label()->hint();
 
             $form->checkbox('allow_downloading_texture')->label();

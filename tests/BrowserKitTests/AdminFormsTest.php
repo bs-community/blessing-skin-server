@@ -117,7 +117,6 @@ class AdminFormsTest extends BrowserKitTestCase
             ))
             ->select('cjk', 'player_name_rule')
             ->type('/^([0-9]+)$/', 'custom_player_name_regexp')
-            ->select('1', 'api_type')
             ->check('auto_del_invalid_texture')
             ->uncheck('allow_downloading_texture')
             ->select('404', 'status_code_for_private')
@@ -132,7 +131,6 @@ class AdminFormsTest extends BrowserKitTestCase
         $this->assertEquals('2048', option('max_upload_file_size'));
         $this->assertEquals('cjk', option('player_name_rule'));
         $this->assertEquals('/^([0-9]+)$/', option('custom_player_name_regexp'));
-        $this->assertEquals('1', option('api_type'));
         $this->assertTrue(option('auto_del_invalid_texture'));
         $this->assertFalse(option('allow_downloading_texture'));
         $this->assertEquals('404', option('status_code_for_private'));
