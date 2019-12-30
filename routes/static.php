@@ -1,13 +1,11 @@
 <?php
 
 Route::group(['middleware' => 'player'], function () {
-    // Json profile
-    Route::get('/{player_name}.json', 'TextureController@json');
-    Route::get('/{api}/{player_name}.json', 'TextureController@jsonWithApi')->where('api', 'usm|csl');
+    Route::get('/{player}.json', 'TextureController@json');
+    Route::get('/csl/{player}.json', 'TextureController@json');
 });
 
 Route::get('/textures/{hash}', 'TextureController@texture');
-Route::get('/{api}/textures/{hash}', 'TextureController@textureWithApi')->where('api', 'usm|csl');
 
 Route::get('/avatar/player/{size}/{name}.png', 'TextureController@avatarByPlayer');
 Route::get('/avatar/user/{uid}/{size?}', 'TextureController@avatar');

@@ -8,6 +8,7 @@ use App\Models\Player;
 use App\Models\Texture;
 use App\Models\User;
 use App\Services\Minecraft;
+use Cache;
 use Carbon\Carbon;
 use Event;
 use Exception;
@@ -19,27 +20,20 @@ use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 class TextureController extends Controller
 {
-    public function json($player_name, $api = '')
+    public function json($player)
     {
-        $player = $this->getPlayerInstance($player_name);
+        $player = $this->getPlayerInstance($player);
+        if (option('enable_json_cache')) {
+            $json = Cache::rememberForever('json-'.$player->pid, function () use ($player) {
+                return $player->toJson();
+            });
 
-        if ($api == 'csl') {
-            $content = $player->getJsonProfile(Player::CSL_API);
-        } elseif ($api == 'usm') {
-            $content = $player->getJsonProfile(Player::USM_API);
-        } else {
-            $content = $player->getJsonProfile(option('api_type'));
+            return response($json)
+                ->header('Content-Type', 'application/json')
+                ->setLastModified($player->last_modified);
         }
 
-        return response($content, 200, [
-            'Content-type' => 'application/json',
-            'Last-Modified' => $player->last_modified,
-        ]);
-    }
-
-    public function jsonWithApi($api, $player_name)
-    {
-        return $this->json($player_name, $api);
+        return response()->json($player)->setLastModified($player->last_modified);
     }
 
     public function texture($hash, $headers = [], $message = '')
@@ -57,11 +51,6 @@ class TextureController extends Controller
         }
 
         return abort(404, $message);
-    }
-
-    public function textureWithApi($api, $hash)
-    {
-        return $this->texture($hash);
     }
 
     public function avatarByTid($tid, $size = 128)

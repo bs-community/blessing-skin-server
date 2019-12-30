@@ -56,7 +56,7 @@ class EventServiceProvider extends ServiceProvider
             Event::subscribe(Listeners\CachePlayerExists::class);
         }
         if (option('enable_json_cache')) {
-            Event::subscribe(Listeners\CachePlayerJson::class);
+            Event::listen(Events\PlayerProfileUpdated::class, Listeners\CleanPlayerJson::class);
         }
     }
 }

@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use App\Events\GetPlayerJson;
 use App\Events\PlayerProfileUpdated;
-use Event;
+use App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 
@@ -40,7 +39,39 @@ class Player extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User', 'uid');
+        return $this->belongsTo(Models\User::class, 'uid');
+    }
+
+    public function skin()
+    {
+        return $this->belongsTo(Models\Texture::class, 'tid_skin');
+    }
+
+    public function cape()
+    {
+        return $this->belongsTo(Models\Texture::class, 'tid_cape');
+    }
+
+    public function getModelAttribute()
+    {
+        return optional($this->skin)->model ?? 'default';
+    }
+
+    /**
+     * CustomSkinAPI R1.
+     */
+    public function toJson($options = 0)
+    {
+        $model = $this->model;
+        $profile = [
+            'username' => $this->name,
+            'skins' => [
+                $model => optional($this->skin)->hash,
+            ],
+            'cape' => optional($this->cape)->hash,
+        ];
+
+        return json_encode($profile, $options | JSON_UNESCAPED_UNICODE);
     }
 
     /**
@@ -57,44 +88,5 @@ class Player extends Model
         }
 
         return false;
-    }
-
-    public function getJsonProfile($api_type)
-    {
-        // Support both CustomSkinLoader API & UniSkinAPI
-        if ($api_type == self::CSL_API || $api_type == self::USM_API) {
-            $responses = Event::dispatch(new GetPlayerJson($this, $api_type));
-
-            // If listeners return nothing
-            if (isset($responses[0]) && $responses[0] !== null) {
-                return $responses[0];     // @codeCoverageIgnore
-            } else {
-                return $this->generateJsonProfile($api_type);
-            }
-        } else {
-            throw new \InvalidArgumentException('The given api type should be Player::CSL_API or Player::USM_API.');
-        }
-    }
-
-    public function generateJsonProfile($api_type)
-    {
-        $json[($api_type == self::CSL_API) ? 'username' : 'player_name'] = $this->name;
-
-        $texture = Texture::find($this->tid_skin);
-        $model = empty($texture) ? 'default' : ($texture->type === 'steve' ? 'default' : 'slim');
-
-        if ($api_type == self::USM_API) {
-            $json['last_update'] = strtotime($this->last_modified);
-            $json['model_preference'] = [$model];
-        }
-
-        $skinHash = $this->getTexture('skin');
-        if ($model == 'slim') {
-            $json['skins']['slim'] = $skinHash;
-        }
-        $json['skins']['default'] = $skinHash;
-        $json['cape'] = $this->getTexture('cape');
-
-        return json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 }

@@ -22,6 +22,12 @@ class Texture extends Model
         'deleting' => \App\Events\TextureDeleting::class,
     ];
 
+    public function getModelAttribute()
+    {
+        // Don't worry about cape...
+        return $this->type === 'alex' ? 'slim' : 'default';
+    }
+
     public function scopeLike($query, $field, $value)
     {
         return $query->where($field, 'LIKE', "%$value%");

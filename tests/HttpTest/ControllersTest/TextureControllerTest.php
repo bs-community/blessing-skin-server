@@ -5,6 +5,7 @@ namespace Tests;
 use App\Models\Player;
 use App\Models\Texture;
 use App\Models\User;
+use Cache;
 use Carbon\Carbon;
 use Event;
 use Exception;
@@ -36,7 +37,6 @@ class TextureControllerTest extends TestCase
         $player->user->permission = User::NORMAL;
         $player->user->save();
 
-        // Default API is CSL API
         $this->getJson("/{$player->name}.json")
             ->assertJson([
                 'username' => $player->name,
@@ -45,16 +45,18 @@ class TextureControllerTest extends TestCase
                 ],
                 'cape' => null,
             ])->assertHeader('Last-Modified');
-    }
 
-    public function testJsonWithApi()
-    {
-        $steve = factory(Texture::class)->create();
-        $alex = factory(Texture::class, 'alex')->create();
-        $player = factory(Player::class)->create(['tid_skin' => $steve->tid]);
+        option(['enable_json_cache' => true]);
+        Cache::shouldReceive('rememberForever')
+            ->withArgs(function ($key, $closure) use ($player) {
+                $this->assertEquals('json-'.$player->pid, $key);
+                $this->assertEquals($player->toJson(), $closure());
 
-        // CSL API
-        $this->getJson("/csl/{$player->name}.json")
+                return true;
+            })
+            ->once()
+            ->andReturn($player->toJson());
+        $this->getJson("/{$player->name}.json")
             ->assertJson([
                 'username' => $player->name,
                 'skins' => [
@@ -62,43 +64,6 @@ class TextureControllerTest extends TestCase
                 ],
                 'cape' => null,
             ])->assertHeader('Last-Modified');
-
-        // USM API
-        $this->getJson("/usm/{$player->name}.json")
-            ->assertJson([
-                'player_name' => $player->name,
-                'model_preference' => ['default'],
-                'skins' => [
-                    'default' => $steve->hash,
-                ],
-                'cape' => null,
-            ])->assertHeader('Last-Modified');
-
-        $player->tid_skin = $alex->tid;
-        $player->save();
-
-        // CSL API
-        $this->getJson("/csl/{$player->name}.json")
-            ->assertJson([
-                'username' => $player->name,
-                'skins' => [
-                    'slim' => $alex->hash,
-                    'default' => $alex->hash,
-                ],
-                'cape' => null,
-            ]);
-
-        // USM API
-        $this->getJson("/usm/{$player->name}.json")
-            ->assertJson([
-                'player_name' => $player->name,
-                'model_preference' => ['slim'],
-                'skins' => [
-                    'slim' => $alex->hash,
-                    'default' => $alex->hash,
-                ],
-                'cape' => null,
-            ]);
     }
 
     public function testTexture()
@@ -128,27 +93,6 @@ class TextureControllerTest extends TestCase
 
         Storage::shouldReceive('disk')->with('textures')->andThrow(new Exception());
         $this->get('/textures/'.$steve->hash)->assertNotFound();
-    }
-
-    public function testTextureWithApi()
-    {
-        Storage::fake('textures');
-        $steve = factory(Texture::class)->create();
-        Storage::disk('textures')->put($steve->hash, '');
-
-        $this->get('/csl/textures/'.$steve->hash)
-            ->assertHeader('Content-Type', 'image/png')
-            ->assertHeader('Last-Modified')
-            ->assertHeader('Accept-Ranges', 'bytes')
-            ->assertHeader('Content-Length', Storage::disk('textures')->size($steve->hash))
-            ->assertStatus(200);
-
-        $this->get('/usm/textures/'.$steve->hash)
-            ->assertHeader('Content-Type', 'image/png')
-            ->assertHeader('Last-Modified')
-            ->assertHeader('Accept-Ranges', 'bytes')
-            ->assertHeader('Content-Length', Storage::disk('textures')->size($steve->hash))
-            ->assertSuccessful();
     }
 
     public function testAvatarByTid()

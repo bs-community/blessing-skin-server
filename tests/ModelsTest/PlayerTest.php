@@ -21,10 +21,21 @@ class PlayerTest extends TestCase
         $this->assertFalse($player->getTexture('invalid_type'));
     }
 
-    public function testGetJsonProfile()
+    public function testGetModelAttribute()
     {
-        $player = factory(Player::class)->make();
-        $this->expectException(\InvalidArgumentException::class);
-        $this->assertNull($player->getJsonProfile(-1));
+        $player = factory(Player::class)->create();
+        $this->assertEquals('default', $player->model);
+
+        $alex = factory(Texture::class, 'alex')->create();
+        $player->tid_skin = $alex->tid;
+        $player->save();
+        $player->refresh();
+        $this->assertEquals('slim', $player->model);
+
+        $steve = factory(Texture::class)->create();
+        $player->tid_skin = $steve->tid;
+        $player->save();
+        $player->refresh();
+        $this->assertEquals('default', $player->model);
     }
 }
