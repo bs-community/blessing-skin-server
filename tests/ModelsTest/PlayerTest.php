@@ -27,10 +27,4 @@ class PlayerTest extends TestCase
         $this->expectException(\InvalidArgumentException::class);
         $this->assertNull($player->getJsonProfile(-1));
     }
-
-    public function testGetPlayerName()
-    {
-        $player = factory(Player::class)->make();
-        $this->assertEquals($player->name, $player->player_name);
-    }
 }
