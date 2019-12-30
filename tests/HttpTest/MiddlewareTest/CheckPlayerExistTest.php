@@ -18,10 +18,6 @@ class CheckPlayerExistTest extends TestCase
             ->assertStatus(404)
             ->assertSee(trans('general.unexistent-player'));
 
-        $this->get('/skin/nope.png')
-            ->assertStatus(404)
-            ->assertSee(trans('general.unexistent-player'));
-
         option(['return_204_when_notfound' => true]);
         $this->getJson('/nope.json')->assertNoContent();
 

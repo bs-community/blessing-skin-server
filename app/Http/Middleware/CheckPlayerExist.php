@@ -20,14 +20,8 @@ class CheckPlayerExist
             }
         }
 
-        if (stripos($request->getUri(), '.json') != false) {
-            preg_match('/\/([^\/]*)\.json/', $request->getUri(), $matches);
-        } else {
-            preg_match('/\/([^\/]*)\.png/', $request->getUri(), $matches);
-        }
-
+        preg_match('/\/([^\/]*)\.json/', $request->getUri(), $matches);
         $player_name = urldecode($matches[1]);
-
         $responses = event(new CheckPlayerExists($player_name));
 
         if (is_array($responses)) {

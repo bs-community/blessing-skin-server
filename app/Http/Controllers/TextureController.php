@@ -64,39 +64,6 @@ class TextureController extends Controller
         return $this->texture($hash);
     }
 
-    public function skin($player_name)
-    {
-        return $this->getBinaryTextureFromPlayer($player_name, 'skin');
-    }
-
-    public function cape($player_name)
-    {
-        return $this->getBinaryTextureFromPlayer($player_name, 'cape');
-    }
-
-    /**
-     * Get the texture image of given type and player.
-     *
-     * @param string $player_name
-     * @param string $type        "steve" or "alex" or "cape"
-     *
-     * @return Response
-     */
-    protected function getBinaryTextureFromPlayer($player_name, $type)
-    {
-        $player = $this->getPlayerInstance($player_name);
-
-        if ($hash = $player->getTexture($type)) {
-            return $this->texture(
-                $hash,
-                ['Last-Modified' => $player->last_modified],
-                trans('general.texture-deleted')
-            );
-        } else {
-            abort(404, trans('general.texture-not-uploaded', ['type' => $type]));
-        }
-    }
-
     public function avatarByTid($tid, $size = 128)
     {
         if ($t = Texture::find($tid)) {

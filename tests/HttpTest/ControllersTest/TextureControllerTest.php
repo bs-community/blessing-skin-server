@@ -151,40 +151,6 @@ class TextureControllerTest extends TestCase
             ->assertSuccessful();
     }
 
-    public function testSkin()
-    {
-        Storage::fake('textures');
-        $skin = factory(Texture::class)->create();
-        $player = factory(Player::class)->create();
-
-        $this->get("/skin/{$player->name}.png")
-            ->assertSee(e(trans('general.texture-not-uploaded', ['type' => 'skin'])));
-
-        $player->tid_skin = $skin->tid;
-        $player->save();
-        $this->get("/skin/{$player->name}.png")
-            ->assertSee(trans('general.texture-deleted'));
-
-        Storage::disk('textures')->put($skin->hash, '');
-        $this->get("/skin/{$player->name}.png")
-            ->assertHeader('Content-Type', 'image/png')
-            ->assertHeader('Last-Modified')
-            ->assertHeader('Accept-Ranges', 'bytes')
-            ->assertHeader('Content-Length', Storage::disk('textures')->size($skin->hash))
-            ->assertSuccessful();
-    }
-
-    public function testCape()
-    {
-        $cape = factory(Texture::class, 'cape')->create();
-        $player = factory(Player::class)->create([
-            'tid_cape' => $cape->tid,
-        ]);
-
-        $this->get("/cape/{$player->name}.png")
-            ->assertSee(trans('general.texture-deleted'));
-    }
-
     public function testAvatarByTid()
     {
         $this->get('/avatar/1')->assertHeader('Content-Type', 'image/png');
