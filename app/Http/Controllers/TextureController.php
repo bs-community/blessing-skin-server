@@ -137,7 +137,7 @@ class TextureController extends Controller
         $player = Player::where('name', $name)->first();
         abort_unless($player, 404);
 
-        $hash = $player->getTexture('skin');
+        $hash = optional($player->skin)->hash;
         if (Storage::disk('textures')->has($hash)) {
             $png = Minecraft::generateAvatarFromSkin(
                 Storage::disk('textures')->read($hash),

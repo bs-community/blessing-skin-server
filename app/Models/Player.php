@@ -73,20 +73,4 @@ class Player extends Model
 
         return json_encode($profile, $options | JSON_UNESCAPED_UNICODE);
     }
-
-    /**
-     * Get specific texture of player.
-     *
-     * @param string $type "skin" or "cape"
-     *
-     * @return string the sha256 hash of texture file
-     */
-    public function getTexture($type)
-    {
-        if (in_array($type, self::$types)) {
-            return Arr::get(Texture::find($this["tid_$type"]), 'hash');
-        }
-
-        return false;
-    }
 }
