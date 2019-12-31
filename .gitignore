@@ -19,6 +19,7 @@ junit.xml
 storage/*.db
 storage/*.sqlite
 .vscode
+storage/insane-profile-cache
 storage/oauth-public.key
 storage/oauth-private.key
 storage/install.lock
