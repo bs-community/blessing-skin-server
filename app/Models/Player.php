@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Events\PlayerProfileUpdated;
 use App\Models;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 
 class Player extends Model
 {
