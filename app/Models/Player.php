@@ -12,11 +12,6 @@ class Player extends Model
     public const CREATED_AT = null;
     public const UPDATED_AT = 'last_modified';
 
-    const CSL_API = 0;
-    const USM_API = 1;
-
-    protected static $types = ['skin', 'cape'];
-
     public $primaryKey = 'pid';
     protected $fillable = ['uid', 'name', 'last_modified'];
 
