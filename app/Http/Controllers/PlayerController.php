@@ -61,15 +61,13 @@ class PlayerController extends Controller
 
     public function listAll()
     {
-        return json(
-            '',
-            0,
-            Auth::user()
-                ->players()
-                ->select('pid', 'name', 'tid_skin', 'tid_cape')
-                ->get()
-                ->toArray()
-        );
+        $players = Auth::user()
+            ->players()
+            ->select('pid', 'name', 'tid_skin', 'tid_cape')
+            ->get()
+            ->toArray();
+
+        return json('', 0, $players);
     }
 
     public function add(Request $request)
