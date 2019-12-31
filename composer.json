@@ -22,6 +22,7 @@
     "facade/ignition": "^1.4",
     "gregwar/captcha": "1.*",
     "guzzlehttp/guzzle": "^6.3",
+    "intervention/image": "^2.5",
     "laravel/framework": "6.*",
     "laravel/passport": "^7.3",
     "nesbot/carbon": "^2.0",

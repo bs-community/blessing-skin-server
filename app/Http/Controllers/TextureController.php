@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Event;
 use Exception;
 use Illuminate\Support\Arr;
+use Image;
 use Option;
 use Response;
 use Storage;
@@ -75,7 +76,9 @@ class TextureController extends Controller
             }
         }
 
-        return response()->file(storage_path('static_textures/avatar.png'));
+        $default = Image::make(storage_path('static_textures/avatar.png'));
+
+        return $default->resize($size, $size)->response();
     }
 
     public function avatar($uid, $size = 128)
@@ -86,7 +89,9 @@ class TextureController extends Controller
             return $this->avatarByTid($user->avatar, $size);
         }
 
-        return response()->file(storage_path('static_textures/avatar.png'));
+        $default = Image::make(storage_path('static_textures/avatar.png'));
+
+        return $default->resize($size, $size)->response();
     }
 
     public function preview($tid, $size = 250)

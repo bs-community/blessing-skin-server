@@ -11,6 +11,7 @@ use Event;
 use Exception;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Storage;
+use Image;
 use Mockery;
 
 class TextureControllerTest extends TestCase
@@ -105,7 +106,12 @@ class TextureControllerTest extends TestCase
         Event::fake();
 
         Storage::fake('textures');
-        $this->get('/avatar/user/5')->assertHeader('Content-Type', 'image/png');
+        $image = $this->get('/avatar/user/5/45')
+            ->assertHeader('Content-Type', 'image/png')
+            ->getContent();
+        $image = Image::make($image);
+        $this->assertEquals(45, $image->width());
+        $this->assertEquals(45, $image->height());
 
         $steve = factory(Texture::class)->create();
         $png = base64_decode(\App\Http\Controllers\TextureController::getDefaultSteveSkin());
@@ -123,8 +129,12 @@ class TextureControllerTest extends TestCase
         Event::assertDispatched(\App\Events\GetAvatarPreview::class);
 
         Storage::shouldReceive('disk')->with('textures')->andThrow(new Exception());
-        $this->get('/avatar/user/'.$user->uid.'/45')
-            ->assertHeader('Content-Type', 'image/png');
+        $image = $this->get('/avatar/user/'.$user->uid.'/45')
+            ->assertHeader('Content-Type', 'image/png')
+            ->getContent();
+        $image = Image::make($image);
+        $this->assertEquals(45, $image->width());
+        $this->assertEquals(45, $image->height());
     }
 
     public function testPreview()
