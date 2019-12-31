@@ -33,7 +33,12 @@ class UserController extends Controller
 
     public function user()
     {
-        return json('', 0, auth()->user()->makeHidden(['password', 'ip', 'remember_token'])->toArray());
+        $user = auth()
+            ->user()
+            ->makeHidden(['password', 'ip', 'remember_token', 'verification_token'])
+            ->toArray();
+
+        return json('', 0, $user);
     }
 
     public function index(Filter $filter)
