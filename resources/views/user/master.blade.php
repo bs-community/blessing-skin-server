@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ locale }}">
 <head>
     @include('shared.head')
     <title>@yield('title') - {{ option_localized('site_name') }}</title>

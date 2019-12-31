@@ -23,6 +23,7 @@ class ViewServiceProvider extends ServiceProvider
                 'site_name' => option_localized('site_name'),
                 'navbar_color' => $color,
                 'color_mode' => in_array($color, $lightColors) ? 'light' : 'dark',
+                'locale' => str_replace('_', '-', app()->getLocale()),
             ]);
         });
 
