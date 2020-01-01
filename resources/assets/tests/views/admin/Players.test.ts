@@ -45,7 +45,7 @@ test('change texture', async () => {
   )
   modal.vm.$emit('confirm')
   await flushPromises()
-  expect(wrapper.html()).toContain('/preview/64/5.png')
+  expect(wrapper.html()).toContain('/preview/5/64')
 })
 
 test('change player name', async () => {

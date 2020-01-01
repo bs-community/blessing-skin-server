@@ -36,13 +36,13 @@
             v-if="props.row.tid_skin"
             :href="`${baseUrl}/skinlib/show/${props.row.tid_skin}`"
           >
-            <img :src="`${baseUrl}/preview/64/${props.row.tid_skin}.png`" width="64">
+            <img :src="`${baseUrl}/preview/${props.row.tid_skin}/64`" width="64">
           </a>
           <a
             v-if="props.row.tid_cape"
             :href="`${baseUrl}/skinlib/show/${props.row.tid_cape}`"
           >
-            <img :src="`${baseUrl}/preview/64/${props.row.tid_cape}.png`" width="64">
+            <img :src="`${baseUrl}/preview/${props.row.tid_cape}/64`" width="64">
           </a>
         </span>
         <span v-else-if="props.column.field === 'operations'">

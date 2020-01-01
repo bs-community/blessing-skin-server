@@ -75,7 +75,7 @@
               <a v-if="preview2d.skin" :href="`${baseUrl}/skinlib/show/${preview2d.skin}`">
                 <img
                   class="skin2d"
-                  :src="`${baseUrl}/preview/64/${preview2d.skin}.png`"
+                  :src="`${baseUrl}/preview/${preview2d.skin}/64`"
                 >
               </a>
               <span v-else v-t="'user.player.texture-empty'" class="skin2d" />
@@ -86,7 +86,7 @@
               <a v-if="preview2d.cape" :href="`${baseUrl}/skinlib/show/${preview2d.cape}`">
                 <img
                   class="skin2d"
-                  :src="`${baseUrl}/preview/64/${preview2d.cape}.png`"
+                  :src="`${baseUrl}/preview/${preview2d.cape}/64`"
                 >
               </a>
               <span v-else v-t="'user.player.texture-empty'" class="skin2d" />

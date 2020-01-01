@@ -76,10 +76,10 @@ test('click to preview player', async () => {
   expect(Vue.prototype.$http.get).toBeCalledWith('/skinlib/info/2')
 
   wrapper.find('[data-test="to2d"]').trigger('click')
-  expect(wrapper.find('img').attributes('src')).toBe('/preview/64/2.png')
+  expect(wrapper.find('img').attributes('src')).toBe('/preview/2/64')
   wrapper.find('tbody > tr:nth-child(4)').trigger('click')
   await flushPromises()
-  expect(wrapper.find('img').attributes('src')).toBe('/preview/64/5.png')
+  expect(wrapper.find('img').attributes('src')).toBe('/preview/5/64')
 })
 
 test('change player name', async () => {
