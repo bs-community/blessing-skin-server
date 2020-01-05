@@ -28,11 +28,11 @@ class FootComposerTest extends TestCase
         $this->mock(JavaScript::class, function ($mock) {
             $mock->shouldReceive('generate')
                 ->with('en')
-                ->twice()
+                ->once()
                 ->andReturn('en.js');
             $mock->shouldReceive('plugin')
                 ->with('en')
-                ->twice()
+                ->once()
                 ->andReturn('en_plugin.js');
         });
         $this->mock(Webpack::class, function ($mock) {
@@ -44,7 +44,7 @@ class FootComposerTest extends TestCase
                 ->andReturn('style.js');
             $mock->shouldReceive('url')
                 ->with('app.js')
-                ->twice()
+                ->once()
                 ->andReturn('app.js');
         });
 
