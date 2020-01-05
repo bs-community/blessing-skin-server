@@ -54,21 +54,6 @@ class UpdateControllerTest extends TestCase
         $this->get('/admin/update')->assertSee(config('app.version'))->assertSee('8.9.3');
     }
 
-    public function testCheckUpdates()
-    {
-        $this->setupGuzzleClientMock();
-
-        // Update source is unavailable
-        $this->appendToGuzzleQueue([
-            new RequestException('Connection Error', new Request('GET', 'whatever')),
-        ]);
-        $this->getJson('/admin/update/check')->assertJson(['available' => false]);
-
-        // New version available
-        $this->appendToGuzzleQueue(200, [], $this->mockFakeUpdateInfo('8.9.3'));
-        $this->getJson('/admin/update/check')->assertJson(['available' => true]);
-    }
-
     public function testDownload()
     {
         $this->setupGuzzleClientMock();

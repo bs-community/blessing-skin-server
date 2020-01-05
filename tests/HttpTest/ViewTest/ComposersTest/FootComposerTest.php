@@ -39,10 +39,6 @@ class FootComposerTest extends TestCase
             $mock->shouldReceive('url')->with('style.css');
             $mock->shouldReceive('url')->with('skins/skin-blue.min.css');
             $mock->shouldReceive('url')
-                ->with('check-updates.js')
-                ->once()
-                ->andReturn('check-updates.js');
-            $mock->shouldReceive('url')
                 ->with('style.js')
                 ->atLeast(1)
                 ->andReturn('style.js');
@@ -55,12 +51,7 @@ class FootComposerTest extends TestCase
         $this->get('/user')
             ->assertSee('en.js')
             ->assertSee('en_plugin.js')
-            ->assertSee('app.js')
-            ->assertDontSee('check-updates.js');
-
-        $superAdmin = factory(User::class, 'superAdmin')->make();
-        $this->actingAs($superAdmin);
-        $this->get('/admin')->assertSee('check-updates.js');
+            ->assertSee('app.js');
     }
 
     public function testAddExtra()

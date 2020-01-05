@@ -58,21 +58,6 @@ class MarketController extends Controller
         return $plugins;
     }
 
-    public function checkUpdates(PluginManager $manager)
-    {
-        $pluginsHaveUpdate = collect($this->getAllAvailablePlugins())
-            ->filter(function ($item) use ($manager) {
-                $plugin = $manager->get($item['name']);
-
-                return $plugin && Comparator::greaterThan($item['version'], $plugin->version);
-            });
-
-        return json([
-            'available' => $pluginsHaveUpdate->isNotEmpty(),
-            'plugins' => $pluginsHaveUpdate->values()->all(),
-        ]);
-    }
-
     public function download(Request $request, PluginManager $manager, PackageManager $package)
     {
         $name = $request->get('name');

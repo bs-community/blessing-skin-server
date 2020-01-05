@@ -13,7 +13,6 @@ const config = {
   mode: devMode ? 'development' : 'production',
   entry: {
     app: './resources/assets/src/index.ts',
-    'check-updates': './resources/assets/src/scripts/check-updates.ts',
     'language-chooser': './resources/assets/src/scripts/language-chooser.ts',
     style: [
       'bootstrap/dist/css/bootstrap.min.css',

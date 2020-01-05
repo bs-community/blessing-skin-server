@@ -38,11 +38,6 @@ class UpdateController extends Controller
         return view('admin.update', compact('info', 'error', 'extra'));
     }
 
-    public function checkUpdates()
-    {
-        return json(['available' => $this->canUpdate()]);
-    }
-
     public function download(Request $request, PackageManager $package, Filesystem $filesystem)
     {
         if (!$this->canUpdate()) {

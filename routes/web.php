@@ -158,13 +158,11 @@ Route::group(['middleware' => ['authorize', 'admin'], 'prefix' => 'admin'], func
 
         Route::view('/market', 'admin.market');
         Route::get('/market-data', 'MarketController@marketData');
-        Route::get('/market/check', 'MarketController@checkUpdates');
         Route::post('/market/download', 'MarketController@download');
     });
 
     Route::group(['prefix' => 'update', 'middleware' => 'super-admin'], function () {
         Route::any('', 'UpdateController@showUpdatePage');
-        Route::get('/check', 'UpdateController@checkUpdates');
         Route::any('/download', 'UpdateController@download');
     });
 });

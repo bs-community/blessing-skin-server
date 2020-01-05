@@ -51,9 +51,6 @@ class FootComposer
         if ($pluginI18n = $this->javascript->plugin($locale)) {
             $scripts[] = $pluginI18n;
         }
-        if ($this->request->is('admin*') && auth()->user()->permission >= User::SUPER_ADMIN) {
-            $scripts[] = $this->webpack->url('check-updates.js');
-        }
         if (Str::startsWith(config('app.asset.env'), 'dev')) {
             $scripts[] = $this->webpack->url('style.js');
         }

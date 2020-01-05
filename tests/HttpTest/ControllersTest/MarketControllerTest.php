@@ -91,58 +91,6 @@ class MarketControllerTest extends TestCase
             ]);
     }
 
-    public function testCheckUpdates()
-    {
-        $this->setupGuzzleClientMock();
-
-        $fakeRegistry = json_encode(['packages' => [
-            [
-                'name' => 'fake',
-                'version' => '0.0.1',
-                'dist' => ['url' => 'http://nowhere.test/', 'shasum' => 'deadbeef'],
-            ],
-        ]]);
-
-        // Not installed
-        $this->appendToGuzzleQueue(200, [], $fakeRegistry);
-        $this->getJson('/admin/plugins/market/check')
-            ->assertJson([
-                'available' => false,
-                'plugins' => [],
-            ]);
-
-        $this->mock(PluginManager::class, function ($mock) {
-            $mock->shouldReceive('get')
-                ->with('fake')
-                ->twice()
-                ->andReturn(new Plugin('', ['name' => 'fake', 'version' => '0.0.1']));
-        });
-        // Plugin up-to-date
-        $this->appendToGuzzleQueue(200, [], $fakeRegistry);
-        $this->getJson('/admin/plugins/market/check')
-            ->assertJson([
-                'available' => false,
-                'plugins' => [],
-            ]);
-
-        // New version available
-        $fakeRegistry = json_encode(['packages' => [
-            [
-                'name' => 'fake',
-                'version' => '2.3.3',
-                'dist' => ['url' => 'http://nowhere.test/', 'shasum' => 'deadbeef'],
-            ],
-        ]]);
-        $this->appendToGuzzleQueue(200, [], $fakeRegistry);
-        $this->getJson('/admin/plugins/market/check')
-            ->assertJson([
-                'available' => true,
-                'plugins' => [[
-                    'name' => 'fake',
-                ]],
-            ]);
-    }
-
     public function testMarketData()
     {
         $this->setupGuzzleClientMock([
