@@ -75,9 +75,18 @@ class PlayerControllerTest extends TestCase
             'code' => 7,
             'message' => trans('user.player.add.lack-score'),
         ]);
+        Event::assertDispatched('player.add.attempt', function ($event, $payload) use ($user) {
+            $this->assertEquals('no_score', $payload[0]);
+            $this->assertEquals($user->uid, $payload[1]->uid);
+
+            return true;
+        });
         Event::assertDispatched(Events\CheckPlayerExists::class);
+        Event::assertNotDispatched('player.adding');
+        Event::assertNotDispatched('player.added');
 
         // Allowed to use CJK characters
+        Event::fake();
         option(['player_name_rule' => 'cjk']);
         $user = factory(User::class)->create();
         $score = $user->score;
@@ -87,6 +96,24 @@ class PlayerControllerTest extends TestCase
             'code' => 0,
             'message' => trans('user.player.add.success', ['name' => '角色名']),
         ]);
+        Event::assertDispatched('player.add.attempt', function ($event, $payload) use ($user) {
+            $this->assertEquals('角色名', $payload[0]);
+            $this->assertEquals($user->uid, $payload[1]->uid);
+
+            return true;
+        });
+        Event::assertDispatched('player.adding', function ($event, $payload) use ($user) {
+            $this->assertEquals('角色名', $payload[0]);
+            $this->assertEquals($user->uid, $payload[1]->uid);
+
+            return true;
+        });
+        Event::assertDispatched('player.added', function ($event, $payload) use ($user) {
+            $this->assertEquals('角色名', $payload[0]->name);
+            $this->assertEquals($user->uid, $payload[1]->uid);
+
+            return true;
+        });
         Event::assertDispatched(Events\PlayerWillBeAdded::class);
         Event::assertDispatched(Events\PlayerWasAdded::class);
         $player = Player::where('name', '角色名')->first();
@@ -99,11 +126,14 @@ class PlayerControllerTest extends TestCase
         );
 
         // Add a existed player
+        Event::fake();
         $this->postJson('/user/player/add', ['name' => '角色名'])
             ->assertJson([
                 'code' => 6,
                 'message' => trans('user.player.add.repeated'),
             ]);
+        Event::assertNotDispatched('player.adding');
+        Event::assertNotDispatched('player.added');
 
         // Single player
         option(['single_player' => true]);
@@ -127,7 +157,25 @@ class PlayerControllerTest extends TestCase
                 'code' => 0,
                 'message' => trans('user.player.delete.success', ['name' => $player->name]),
             ]);
+        Event::assertDispatched('player.delete.attempt', function ($event, $payload) use ($player, $user) {
+            $this->assertEquals($player->pid, $payload[0]->pid);
+            $this->assertEquals($user->uid, $payload[1]->uid);
+
+            return true;
+        });
+        Event::assertDispatched('player.deleting', function ($event, $payload) use ($player, $user) {
+            $this->assertEquals($player->pid, $payload[0]->pid);
+            $this->assertEquals($user->uid, $payload[1]->uid);
+
+            return true;
+        });
         $this->assertNull(Player::find($player->pid));
+        Event::assertDispatched('player.deleted', function ($event, $payload) use ($player, $user) {
+            $this->assertEquals($player->pid, $payload[0]->pid);
+            $this->assertEquals($user->uid, $payload[1]->uid);
+
+            return true;
+        });
         Event::assertDispatched(Events\PlayerWillBeDeleted::class);
         Event::assertDispatched(Events\PlayerWasDeleted::class);
         $this->assertEquals(
@@ -257,14 +305,29 @@ class PlayerControllerTest extends TestCase
             ]);
 
         // Set for "skin" type
+        Event::fake();
         $this->postJson('/user/player/set/'.$player->pid, ['skin' => $skin->tid])
             ->assertJson([
                 'code' => 0,
                 'message' => trans('user.player.set.success', ['name' => $player->name]),
             ]);
         $this->assertEquals($skin->tid, Player::find($player->pid)->tid_skin);
+        Event::assertDispatched('player.texture.updating', function ($event, $payload) use ($player, $skin) {
+            $this->assertEquals($player->pid, $payload[0]->pid);
+            $this->assertEquals($skin->tid, $payload[1]->tid);
+
+            return true;
+        });
+        Event::assertDispatched('player.texture.updated', function ($event, $payload) use ($player, $skin) {
+            $this->assertEquals($player->pid, $payload[0]->pid);
+            $this->assertEquals($skin->tid, $payload[0]->tid_skin);
+            $this->assertEquals($skin->tid, $payload[1]->tid);
+
+            return true;
+        });
 
         // Set for "cape" type
+        Event::fake();
         $this->postJson('/user/player/set/'.$player->pid, ['cape' => $cape->tid])
             ->assertJson([
                 'code' => 0,
@@ -297,8 +360,37 @@ class PlayerControllerTest extends TestCase
         $this->assertEquals(0, Player::find($player->pid)->tid_cape);
         Event::assertDispatched(Events\PlayerProfileUpdated::class);
 
+        Event::fake();
         $this->postJson('/user/player/texture/clear/'.$player->pid, ['type' => ['skin']])
             ->assertJson(['code' => 0]);
+        Event::assertDispatched('player.texture.resetting', function ($event, $payload) use ($player) {
+            $this->assertEquals($player->pid, $payload[0]->pid);
+            $this->assertEquals('skin', $payload[1]);
+
+            return true;
+        });
+        Event::assertDispatched('player.texture.reset', function ($event, $payload) use ($player) {
+            $this->assertEquals($player->pid, $payload[0]->pid);
+            $this->assertEquals('skin', $payload[1]);
+
+            return true;
+        });
+
+        Event::fake();
+        $this->postJson('/user/player/texture/clear/'.$player->pid, ['type' => ['cape']])
+            ->assertJson(['code' => 0]);
+        Event::assertDispatched('player.texture.resetting', function ($event, $payload) use ($player) {
+            $this->assertEquals($player->pid, $payload[0]->pid);
+            $this->assertEquals('cape', $payload[1]);
+
+            return true;
+        });
+        Event::assertDispatched('player.texture.reset', function ($event, $payload) use ($player) {
+            $this->assertEquals($player->pid, $payload[0]->pid);
+            $this->assertEquals('cape', $payload[1]);
+
+            return true;
+        });
     }
 
     public function testBind()
@@ -317,6 +409,18 @@ class PlayerControllerTest extends TestCase
                 'message' => trans('user.player.bind.success'),
             ]);
         Event::assertDispatched(Events\CheckPlayerExists::class);
+        Event::assertDispatched('player.adding', function ($event, $payload) use ($user) {
+            $this->assertEquals('abc', $payload[0]);
+            $this->assertEquals($user->uid, $payload[1]->uid);
+
+            return true;
+        });
+        Event::assertDispatched('player.added', function ($event, $payload) use ($user) {
+            $this->assertEquals('abc', $payload[0]->name);
+            $this->assertEquals($user->uid, $payload[1]->uid);
+
+            return true;
+        });
         Event::assertDispatched(Events\PlayerWillBeAdded::class);
         Event::assertDispatched(Events\PlayerWasAdded::class);
         $player = Player::where('name', 'abc')->first();

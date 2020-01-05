@@ -70,7 +70,7 @@ class PlayerController extends Controller
         return json('', 0, $players);
     }
 
-    public function add(Request $request)
+    public function add(Request $request, Dispatcher $dispatcher)
     {
         $user = Auth::user();
 
@@ -87,6 +87,7 @@ class PlayerController extends Controller
             ],
         ])['name'];
 
+        $dispatcher->dispatch('player.add.attempt', [$name, $user]);
         event(new CheckPlayerExists($name));
 
         if (!Player::where('name', $name)->get()->isEmpty()) {
@@ -97,43 +98,48 @@ class PlayerController extends Controller
             return json(trans('user.player.add.lack-score'), 7);
         }
 
+        $dispatcher->dispatch('player.adding', [$name, $user]);
         event(new PlayerWillBeAdded($name));
 
         $player = new Player();
-
         $player->uid = $user->uid;
         $player->name = $name;
         $player->tid_skin = 0;
         $player->tid_cape = 0;
         $player->save();
 
-        event(new PlayerWasAdded($player));
-
         $user->score -= option('score_per_player');
         $user->save();
+
+        $dispatcher->dispatch('player.added', [$player, $user]);
+        event(new PlayerWasAdded($player));
 
         return json(trans('user.player.add.success', ['name' => $name]), 0, $player->toArray());
     }
 
-    public function delete($pid)
+    public function delete(Dispatcher $dispatcher, $pid)
     {
+        $user = auth()->user();
         $player = Player::find($pid);
         $playerName = $player->name;
+
+        $dispatcher->dispatch('player.delete.attempt', [$player, $user]);
 
         if (option('single_player', false)) {
             return json(trans('user.player.delete.single'), 1);
         }
 
+        $dispatcher->dispatch('player.deleting', [$player, $user]);
         event(new PlayerWillBeDeleted($player));
 
         $player->delete();
 
         if (option('return_score')) {
-            $user = auth()->user();
             $user->score += option('score_per_player');
             $user->save();
         }
 
+        $dispatcher->dispatch('player.deleted', [$player, $user]);
         event(new PlayerWasDeleted($playerName));
 
         return json(trans('user.player.delete.success', ['name' => $playerName]), 0);
@@ -181,43 +187,51 @@ class PlayerController extends Controller
         return json(trans('user.player.rename.success', ['old' => $oldName, 'new' => $newName]), 0, $player->toArray());
     }
 
-    public function setTexture(Request $request, $pid)
+    public function setTexture(Request $request, Dispatcher $dispatcher, $pid)
     {
         $player = Player::find($pid);
         foreach (['skin', 'cape'] as $type) {
-            if ($tid = $request->input($type)) {
+            $tid = $request->input($type);
+            if ($tid) {
                 $texture = Texture::find($tid);
                 if (!$texture) {
                     return json(trans('skinlib.non-existent'), 1);
                 }
 
+                $dispatcher->dispatch('player.texture.updating', [$player, $texture]);
+
                 $field = "tid_$type";
                 $player->$field = $tid;
                 $player->save();
+
+                $dispatcher->dispatch('player.texture.updated', [$player, $texture]);
             }
         }
 
         return json(trans('user.player.set.success', ['name' => $player->name]), 0, $player->toArray());
     }
 
-    public function clearTexture(Request $request, $pid)
+    public function clearTexture(Request $request, Dispatcher $dispatcher, $pid)
     {
         $player = Player::find($pid);
-        array_map(function ($type) use ($request, $player) {
-            if (
-                $request->has($type) ||
-                ($request->has('type') && in_array($type, $request->input('type')))
-            ) {
+        $types = $request->input('type', []);
+
+        foreach (['skin', 'cape'] as $type) {
+            if ($request->has($type) || in_array($type, $types)) {
+                $dispatcher->dispatch('player.texture.resetting', [$player, $type]);
+
                 $field = "tid_$type";
                 $player->$field = 0;
+                $player->save();
+
+                $dispatcher->dispatch('player.texture.reset', [$player, $type]);
             }
-        }, ['skin', 'cape']);
-        $player->save();
+        }
 
         return json(trans('user.player.clear.success', ['name' => $player->name]), 0, $player->toArray());
     }
 
-    public function bind(Request $request)
+    public function bind(Request $request, Dispatcher $dispatcher)
     {
         $name = $this->validate($request, [
             'player' => [
@@ -232,6 +246,7 @@ class PlayerController extends Controller
         event(new CheckPlayerExists($name));
         $player = Player::where('name', $name)->first();
         if (!$player) {
+            $dispatcher->dispatch('player.adding', [$name, $user]);
             event(new PlayerWillBeAdded($name));
 
             $player = new Player();
@@ -240,6 +255,7 @@ class PlayerController extends Controller
             $player->tid_skin = 0;
             $player->save();
 
+            $dispatcher->dispatch('player.added', [$player, $user]);
             event(new PlayerWasAdded($player));
         } elseif ($player->uid != $user->uid) {
             return json(trans('user.player.rename.repeated'), 1);
