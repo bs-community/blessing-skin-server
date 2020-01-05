@@ -12,15 +12,12 @@ class CleanPlayerJsonTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function setUp(): void
-    {
-        parent::setUp();
-        option(['enable_json_cache' => true]);
-        app()->register(\App\Providers\EventServiceProvider::class);
-    }
-
     public function testHandle()
     {
+        option(['enable_json_cache' => true]);
+        $provider = new \App\Providers\EventServiceProvider(app());
+        $provider->boot();
+
         $player = factory(Player::class)->create();
         event(new PlayerProfileUpdated($player));
         Cache::shouldReceive('forget')->with('json-'.$player->pid);
