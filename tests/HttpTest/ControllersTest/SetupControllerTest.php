@@ -17,24 +17,6 @@ class SetupControllerTest extends TestCase
         $this->spy(\App\Services\Webpack::class);
     }
 
-    public function testWelcome()
-    {
-        $this->mock(Filesystem::class, function ($mock) {
-            $mock->shouldReceive('exists')
-                ->with(storage_path('install.lock'))
-                ->andReturn(false);
-            $mock->shouldReceive('exists')
-                ->with(base_path('.env'))
-                ->once()
-                ->andReturn(false);
-            $mock->shouldReceive('copy')
-                ->with(base_path('.env.example'), base_path('.env'))
-                ->once()
-                ->andReturn(true);
-        });
-        $this->get('/setup')->assertViewIs('setup.wizard.welcome');
-    }
-
     public function testDatabase()
     {
         $this->mock(Filesystem::class, function ($mock) {

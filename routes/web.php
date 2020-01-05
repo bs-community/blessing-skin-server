@@ -174,7 +174,7 @@ Route::group(['middleware' => ['authorize', 'admin'], 'prefix' => 'admin'], func
  */
 Route::group(['prefix' => 'setup'], function () {
     Route::group(['middleware' => 'setup'], function () {
-        Route::any('/', 'SetupController@welcome');
+        Route::view('/', 'setup.wizard.welcome');
         Route::any('/database', 'SetupController@database');
         Route::view('/info', 'setup.wizard.info');
         Route::post('/finish', 'SetupController@finish');

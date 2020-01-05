@@ -16,15 +16,6 @@ use Vectorface\Whip\Whip;
 
 class SetupController extends Controller
 {
-    public function welcome(Filesystem $filesystem)
-    {
-        if (!$filesystem->exists(base_path('.env'))) {
-            $filesystem->copy(base_path('.env.example'), base_path('.env'));
-        }
-
-        return view('setup.wizard.welcome');
-    }
-
     public function database(
         Request $request,
         Filesystem $filesystem,
