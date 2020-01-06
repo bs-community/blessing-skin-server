@@ -10,28 +10,28 @@
           <h3 class="card-title">{{ trans('admin.update.info.title') }}</h3>
         </div>
         <div class="card-body">
-          {% if extra.canUpdate %}
-          <div class="callout callout-info">
-            {{ trans('admin.update.info.available') }}
-          </div>
-          <table class="table">
-            <tbody>
-              <tr>
-                <td class="key">{{ trans('admin.update.info.versions.latest') }}</td>
-                <td class="value">
-                  v{{ info.latest }}
-                </td>
-              </tr>
-              <tr>
-                <td class="key">{{ trans('admin.update.info.versions.current') }}</td>
-                <td class="value">
-                  v{{ info.current }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          {% if can_update %}
+            <div class="callout callout-info">
+              {{ trans('admin.update.info.available') }}
+            </div>
+            <table class="table">
+              <tbody>
+                <tr>
+                  <td class="key">{{ trans('admin.update.info.versions.latest') }}</td>
+                  <td class="value">
+                    v{{ info.latest }}
+                  </td>
+                </tr>
+                <tr>
+                  <td class="key">{{ trans('admin.update.info.versions.current') }}</td>
+                  <td class="value">
+                    v{{ info.current }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           {% else %}
-            {% if error is not empty %}
+            {% if error %}
               <div class="callout callout-danger">
                 {{ trans('admin.update.errors.connection', {error: error}) }}
               </div>
@@ -54,7 +54,15 @@
           {% endif %}
         </div>
         <div class="card-footer">
-          <span id="update-button"></span>
+          {% if can_update %}
+            <button class="btn bg-primary" id="update">
+              {{ trans('admin.update.info.button') }}
+            </button>
+          {% else %}
+            <button class="btn bg-primary" disabled="disabled">
+              {{ trans('admin.update.info.button') }}
+            </button>
+          {% endif %}
           <a
             target="_blank"
             class="btn btn-default float-right"
@@ -73,9 +81,7 @@
           </h3>
         </div>
         <div class="card-body">
-          {% for text in trans('admin.update.cautions.text')|split('\n') %}
-            <p>{{ text }}</p>
-          {% endfor %}
+          {{ trans('admin.update.cautions.text')|nl2br }}
           <a target="_blank" href="https://blessing.netlify.com/update-sources.html">
             {{ trans('admin.update.cautions.link') }}
           </a>
@@ -83,10 +89,4 @@
       </div>
     </div>
   </div>
-{% endblock %}
-
-{% block before_foot %}
-  <script>
-    blessing.extra = {{ extra|json_encode|raw }}
-  </script>
 {% endblock %}

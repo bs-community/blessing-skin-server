@@ -2,7 +2,6 @@
 
 namespace App\Http\View\Composers;
 
-use App\Models\User;
 use App\Services\Translations\JavaScript;
 use App\Services\Webpack;
 use Illuminate\Contracts\Events\Dispatcher;

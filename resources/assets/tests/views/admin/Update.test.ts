@@ -1,58 +1,24 @@
-import Vue from 'vue'
-import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
 import { showModal } from '@/scripts/notify'
-import Update from '@/views/admin/Update.vue'
+import { post } from '@/scripts/net'
+import handler from '@/views/admin/Update'
 
 jest.mock('@/scripts/notify')
+jest.mock('@/scripts/net')
 
-afterEach(() => {
-  window.blessing.extra = { canUpdate: true }
-})
-test('button should be disabled if update is unavailable', () => {
-  window.blessing.extra = { canUpdate: false }
-  const wrapper = mount(Update)
-  expect(wrapper.find('button').attributes('disabled')).toBe('disabled')
-})
+test('click button', async () => {
+  post.mockResolvedValueOnce({ code: 1, message: 'failed' })
+    .mockResolvedValue({ code: 0, message: 'ok' })
 
-test('perform update', async () => {
-  window.$ = jest.fn(() => ({
-    modal() {},
-  }))
-  Vue.prototype.$http.post
-    .mockResolvedValueOnce({ code: 1, message: 'fail' })
-    .mockResolvedValue({})
-  const wrapper = mount(Update)
-  const button = wrapper.find('button')
+  const button = document.createElement('button')
+  button.addEventListener('click', handler)
 
-  button.trigger('click')
+  const event = new MouseEvent('click')
+  button.dispatchEvent(event)
   await flushPromises()
-  expect(showModal).toBeCalledWith({
-    mode: 'alert',
-    text: 'fail',
-    type: 'danger',
-    okButtonType: 'outline-light',
-  })
+  expect(showModal).toBeCalledWith({ mode: 'alert', text: 'failed' })
 
-  button.trigger('click')
-  jest.runOnlyPendingTimers()
+  button.dispatchEvent(event)
   await flushPromises()
-  expect(Vue.prototype.$http.get).toBeCalledWith(
-    '/admin/update/download',
-    { action: 'progress' },
-  )
-  expect(Vue.prototype.$http.post).toBeCalledWith(
-    '/admin/update/download',
-    { action: 'download' },
-  )
-})
-
-test('polling for querying download progress', async () => {
-  const wrapper = mount<Vue & { polling(): Promise<void> }>(Update)
-  wrapper.setData({ updating: true })
-  await wrapper.vm.polling()
-  expect(Vue.prototype.$http.get).toBeCalledWith(
-    '/admin/update/download',
-    { action: 'progress' },
-  )
+  expect(showModal).toBeCalledWith({ mode: 'alert', text: 'ok' })
 })

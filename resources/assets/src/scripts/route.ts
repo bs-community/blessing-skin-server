@@ -88,8 +88,9 @@ export default [
   },
   {
     path: 'admin/update',
-    component: () => import('../views/admin/Update.vue'),
-    el: '#update-button',
+    module: [
+      () => import('../views/admin/Update'),
+    ],
   },
   {
     path: 'auth/login',

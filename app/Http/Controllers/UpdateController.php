@@ -3,66 +3,58 @@
 namespace App\Http\Controllers;
 
 use App\Services\PackageManager;
+use Composer\CaBundle\CaBundle;
 use Composer\Semver\Comparator;
 use Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 use Illuminate\Contracts\Console\Kernel as Artisan;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Symfony\Component\Finder\SplFileInfo;
 
 class UpdateController extends Controller
 {
-    protected $currentVersion;
-    protected $updateSource;
-    protected $guzzle;
-    protected $error;
-    protected $info = [];
+    const SPEC = 2;
 
-    public function __construct(\GuzzleHttp\Client $guzzle)
+    public function showUpdatePage(Client $client)
     {
-        $this->updateSource = config('app.update_source');
-        $this->currentVersion = config('app.version');
-        $this->guzzle = $guzzle;
+        $info = $this->getUpdateInfo($client);
+        $canUpdate = $this->canUpdate(Arr::get($info, 'info'));
+
+        return view('admin.update', [
+            'info' => [
+                'latest' => Arr::get($info, 'info.latest'),
+                'current' => config('app.version'),
+            ],
+            'error' => Arr::get($info, 'error', $canUpdate['reason']),
+            'can_update' => $canUpdate['can'],
+        ]);
     }
 
-    public function showUpdatePage()
-    {
-        $info = [
-            'latest' => Arr::get($this->getUpdateInfo(), 'latest'),
-            'current' => $this->currentVersion,
-        ];
-        $error = $this->error;
-        $extra = ['canUpdate' => $this->canUpdate()];
-
-        return view('admin.update', compact('info', 'error', 'extra'));
-    }
-
-    public function download(Request $request, PackageManager $package, Filesystem $filesystem)
-    {
-        if (!$this->canUpdate()) {
-            return json([]);
+    public function download(
+        PackageManager $package,
+        Filesystem $filesystem,
+        Client $client
+    ) {
+        $info = $this->getUpdateInfo($client);
+        if (!$info['ok'] || !$this->canUpdate($info['info'])['can']) {
+            return json(trans('admin.update.info.up-to-date'), 1);
         }
 
-        $path = storage_path('packages/bs_'.$this->info['latest'].'.zip');
-        switch ($request->get('action')) {
-            case 'download':
-                try {
-                    $package->download($this->info['url'], $path)->extract(base_path());
+        $info = $info['info'];
+        $path = storage_path('packages/bs_'.$info['latest'].'.zip');
+        try {
+            $package->download($info['url'], $path)->extract(base_path());
 
-                    // Delete options cache. This allows us to update the version info which is recorded as an option.
-                    $filesystem->delete(storage_path('options.php'));
+            // Delete options cache. This allows us to update the version.
+            $filesystem->delete(storage_path('options.php'));
 
-                    return json(trans('admin.update.complete'), 0);
-                } catch (Exception $e) {
-                    report($e);
+            return json(trans('admin.update.complete'), 0);
+        } catch (Exception $e) {
+            report($e);
 
-                    return json($e->getMessage(), 1);
-                }
-            case 'progress':
-                return $package->progress();
-            default:
-                return json(trans('general.illegal-parameters'), 1);
+            return json($e->getMessage(), 1);
         }
     }
 
@@ -87,43 +79,37 @@ class UpdateController extends Controller
         return view('setup.updates.success');
     }
 
-    protected function getUpdateInfo()
+    protected function getUpdateInfo(Client $client)
     {
-        $acceptableSpec = 2;
-        if (app()->runningUnitTests() || !$this->info) {
-            try {
-                $json = $this->guzzle->request(
-                    'GET',
-                    $this->updateSource,
-                    ['verify' => \Composer\CaBundle\CaBundle::getSystemCaRootBundlePath()]
-                )->getBody();
-                $info = json_decode($json, true);
-                if (Arr::get($info, 'spec') == $acceptableSpec) {
-                    $this->info = $info;
-                } else {
-                    $this->error = trans('admin.update.errors.spec');
-                }
-            } catch (Exception $e) {
-                $this->error = $e->getMessage();
+        try {
+            $response = $client->request('GET', config('app.update_source'), [
+                'verify' => CaBundle::getSystemCaRootBundlePath(),
+            ]);
+            $info = json_decode($response->getBody(), true);
+            if (Arr::get($info, 'spec') === self::SPEC) {
+                return ['ok' => true, 'info' => $info];
+            } else {
+                return ['ok' => false, 'error' => trans('admin.update.errors.spec')];
             }
+        } catch (RequestException $e) {
+            return ['ok' => false, 'error' => $e->getMessage()];
         }
-
-        return $this->info;
     }
 
-    protected function canUpdate()
+    protected function canUpdate($info = [])
     {
-        $this->getUpdateInfo();
-
-        $php = Arr::get($this->info, 'php');
+        $php = Arr::get($info, 'php');
         preg_match('/(\d+\.\d+\.\d+)/', PHP_VERSION, $matches);
         $version = $matches[1];
         if (Comparator::lessThan($version, $php)) {
-            $this->error = trans('admin.update.errors.php', ['version' => $php]);
-
-            return false;
+            return [
+                'can' => false,
+                'reason' => trans('admin.update.errors.php', ['version' => $php]),
+            ];
         }
 
-        return Comparator::greaterThan(Arr::get($this->info, 'latest'), $this->currentVersion);
+        $can = Comparator::greaterThan(Arr::get($info, 'latest'), config('app.version'));
+
+        return ['can' => $can, 'reason' => ''];
     }
 }

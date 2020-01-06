@@ -36,8 +36,6 @@ class UpdateControllerTest extends TestCase
         // Missing `spec` field
         $this->appendToGuzzleQueue([
             new Response(200, [], $this->mockFakeUpdateInfo('8.9.3', ['spec' => 0])),
-            // Weird. Don't remove the following line, or the tests will fail.
-            new Response(200, [], $this->mockFakeUpdateInfo('8.9.3', ['php' => '100.0.0'])),
         ]);
         $this->get('/admin/update')->assertSee(trans('admin.update.errors.spec'));
 
@@ -59,8 +57,14 @@ class UpdateControllerTest extends TestCase
         $this->setupGuzzleClientMock();
 
         // Already up-to-date
+        $this->appendToGuzzleQueue([
+            new Response(200, [], $this->mockFakeUpdateInfo('1.2.3')),
+        ]);
         $this->getJson('/admin/update/download')
-            ->assertDontSee(trans('general.illegal-parameters'));
+            ->assertJson([
+                'code' => 1,
+                'message' => trans('admin.update.info.up-to-date'),
+            ]);
 
         // Download
         $this->appendToGuzzleQueue([
@@ -70,31 +74,17 @@ class UpdateControllerTest extends TestCase
         $this->mock(PackageManager::class, function ($mock) {
             $mock->shouldReceive('download')->andThrow(new \Exception('ddd'));
         });
-        $this->getJson('/admin/update/download?action=download')
-            ->assertJson(['code' => 1]);
+        $this->getJson('/admin/update/download')->assertJson(['code' => 1]);
         $this->mock(PackageManager::class, function ($mock) {
             $mock->shouldReceive('download')->andReturnSelf();
             $mock->shouldReceive('extract')->andReturn(true);
-            $mock->shouldReceive('progress');
         });
         $this->mock(\Illuminate\Filesystem\Filesystem::class, function ($mock) {
             $mock->shouldReceive('delete')->with(storage_path('options.php'))->once();
             $mock->shouldReceive('exists')->with(storage_path('install.lock'))->andReturn(true);
         });
-        $this->getJson('/admin/update/download?action=download')
+        $this->getJson('/admin/update/download')
             ->assertJson(['code' => 0, 'message' => trans('admin.update.complete')]);
-
-        // Get download progress
-        $this->getJson('/admin/update/download?action=progress')
-            ->assertSee('0');
-
-        // Invalid action
-        $this->appendToGuzzleQueue(200, [], $this->mockFakeUpdateInfo('8.9.3'));
-        $this->getJson('/admin/update/download?action=no')
-            ->assertJson([
-                'code' => 1,
-                'message' => trans('general.illegal-parameters'),
-            ]);
     }
 
     public function testUpdate()
