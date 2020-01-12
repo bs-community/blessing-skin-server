@@ -279,16 +279,13 @@ class UserController extends Controller
                     return json(trans('user.profile.password.wrong-password'), 1);
                 }
 
-                if ($user->changePassword($request->input('new_password'))) {
-                    $dispatcher->dispatch('user.profile.updated', [$user, $action, $addition]);
-                    event(new UserProfileUpdated($action, $user));
+                $user->changePassword($request->input('new_password'));
+                $dispatcher->dispatch('user.profile.updated', [$user, $action, $addition]);
+                event(new UserProfileUpdated($action, $user));
 
-                    Auth::logout();
+                Auth::logout();
 
-                    return json(trans('user.profile.password.success'), 0);
-                }
-
-                break;   // @codeCoverageIgnore
+                return json(trans('user.profile.password.success'), 0);
 
             case 'email':
                 $this->validate($request, [
@@ -332,22 +329,16 @@ class UserController extends Controller
 
                 $dispatcher->dispatch('user.deleting', [$user]);
 
-                if ($user->delete()) {
-                    $dispatcher->dispatch('user.deleted', [$user]);
-                    session()->flush();
+                $user->delete();
+                $dispatcher->dispatch('user.deleted', [$user]);
+                session()->flush();
 
-                    return json(trans('user.profile.delete.success'), 0);
-                }
-
-                break;   // @codeCoverageIgnore
+                return json(trans('user.profile.delete.success'), 0);
 
             default:
                 return json(trans('general.illegal-parameters'), 1);
-                break;
         }
     }
-
-    // @codeCoverageIgnore
 
     public function setAvatar(Request $request, Filter $filter, Dispatcher $dispatcher)
     {
