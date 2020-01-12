@@ -2,9 +2,6 @@
 
 namespace App\Providers;
 
-use App\Events;
-use App\Listeners;
-use Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -36,18 +33,4 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\SerializeGlobals',
         ],
     ];
-
-    /**
-     * Register any other events for your application.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        parent::boot();
-
-        if (option('enable_notfound_cache')) {
-            Event::subscribe(Listeners\CachePlayerExists::class);
-        }
-    }
 }

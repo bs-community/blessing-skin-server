@@ -190,11 +190,9 @@ class AdminFormsTest extends BrowserKitTestCase
             ->see(trans('options.cache.driver', ['driver' => config('cache.default')]))
             ->check('enable_avatar_cache')
             ->check('enable_preview_cache')
-            ->check('enable_notfound_cache')
             ->press('submit_cache');
         $this->assertTrue(option('enable_avatar_cache'));
         $this->assertTrue(option('enable_preview_cache'));
-        $this->assertTrue(option('enable_notfound_cache'));
 
         Cache::shouldReceive('flush');
         $this->visit('/admin/resource')

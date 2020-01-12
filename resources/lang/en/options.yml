@@ -206,5 +206,3 @@ cache:
   enable_preview_cache:
     title: Texture Preivew
     label: Enable caching texture preivew
-  enable_notfound_cache:
-    label: Enable caching whether player is existed or not
