@@ -40,26 +40,6 @@ class TextureControllerTest extends TestCase
 
         $player->user->permission = User::NORMAL;
         $player->user->save();
-
-        $this->getJson("/{$player->name}.json")
-            ->assertJson([
-                'username' => $player->name,
-                'skins' => [
-                    'default' => $steve->hash,
-                ],
-                'cape' => null,
-            ])->assertHeader('Last-Modified');
-
-        option(['enable_json_cache' => true]);
-        Cache::shouldReceive('rememberForever')
-            ->withArgs(function ($key, $closure) use ($player) {
-                $this->assertEquals('json-'.$player->pid, $key);
-                $this->assertEquals($player->toJson(), $closure());
-
-                return true;
-            })
-            ->once()
-            ->andReturn($player->toJson());
         $this->getJson("/{$player->name}.json")
             ->assertJson([
                 'username' => $player->name,

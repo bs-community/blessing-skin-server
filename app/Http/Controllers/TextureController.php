@@ -16,6 +16,9 @@ class TextureController extends Controller
 {
     public function __construct()
     {
+        $this->middleware('cache.headers:public;max_age='.option('cache_expire_time'))
+            ->only(['json']);
+
         $this->middleware('cache.headers:etag;public;max_age='.option('cache_expire_time'))
             ->only([
                 'preview',
@@ -29,16 +32,9 @@ class TextureController extends Controller
 
     public function json($player)
     {
-        $player = $this->getPlayerInstance($player);
-        if (option('enable_json_cache')) {
-            $json = Cache::rememberForever('json-'.$player->pid, function () use ($player) {
-                return $player->toJson();
-            });
-
-            return response($json)
-                ->header('Content-Type', 'application/json')
-                ->setLastModified($player->last_modified);
-        }
+        $player = Player::where('name', $player)->firstOrFail();
+        $isBanned = $player->user->permission === User::BANNED;
+        abort_if($isBanned, 403, trans('general.player-banned'));
 
         return response()->json($player)->setLastModified($player->last_modified);
     }
@@ -158,13 +154,5 @@ class TextureController extends Controller
         );
 
         return $response;
-    }
-
-    protected function getPlayerInstance($player_name)
-    {
-        $player = Player::where('name', $player_name)->first();
-        abort_if($player->isBanned(), 403, trans('general.player-banned'));
-
-        return $player;
     }
 }

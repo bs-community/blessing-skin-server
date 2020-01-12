@@ -365,7 +365,6 @@ class AdminController extends Controller
         $cache = Option::form('cache', OptionForm::AUTO_DETECT, function ($form) {
             $form->checkbox('enable_avatar_cache')->label();
             $form->checkbox('enable_preview_cache')->label();
-            $form->checkbox('enable_json_cache', 'JSON Profile')->label();
             $form->checkbox('enable_notfound_cache', '404')->label();
         })
             ->type('warning')
