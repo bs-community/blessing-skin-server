@@ -17,7 +17,7 @@ function factory(opt = {}) {
 
 test('computed values', () => {
   const wrapper = mount(ClosetItem, { propsData: factory() })
-  expect(wrapper.find('img').attributes('src')).toBe('/preview/1.png')
+  expect(wrapper.find('img').attributes('src')).toBe('/preview/1?height=150')
   expect(
     wrapper
       .findAll('.dropdown-item')

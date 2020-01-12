@@ -11,7 +11,7 @@ test('urls', () => {
     propsData: { tid: 1 },
   })
   expect(wrapper.find('a').attributes('href')).toBe('/skinlib/show/1')
-  expect(wrapper.find('img').attributes('src')).toBe('/preview/1.png')
+  expect(wrapper.find('img').attributes('src')).toBe('/preview/1?height=150')
 })
 
 test('render basic information', () => {

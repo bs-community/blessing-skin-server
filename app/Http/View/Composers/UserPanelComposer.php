@@ -23,7 +23,7 @@ class UserPanelComposer
     public function compose(View $view)
     {
         $user = auth()->user();
-        $avatarUrl = url('/avatar/user/'.$user->uid.'/45');
+        $avatarUrl = url('/avatar/user/'.$user->uid.'?size=45');
         $avatar = $this->filter->apply('user_avatar', $avatarUrl, [$user]);
 
         $badges = [];

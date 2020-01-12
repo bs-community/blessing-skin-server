@@ -92,7 +92,7 @@ export default {
       }
     },
     avatarUrl(player) {
-      return `${blessing.base_url}/avatar/${player.tid_skin}/35`
+      return `${blessing.base_url}/avatar/${player.tid_skin}?size=35`
     },
   },
 }

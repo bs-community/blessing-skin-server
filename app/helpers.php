@@ -82,16 +82,3 @@ if (!function_exists('option_localized')) {
         return option($key.'_'.config('app.locale'), option($key));
     }
 }
-
-if (!function_exists('png')) {
-    function png($resource)
-    {
-        ob_start();
-        imagepng($resource);
-        $image = ob_get_contents();
-        ob_end_clean();
-        imagedestroy($resource);
-
-        return $image;
-    }
-}

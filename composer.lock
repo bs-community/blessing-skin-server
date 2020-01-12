@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7fffc88319cd5ed6dbadbf6b52564465",
+    "content-hash": "938107f4ff375749aa599b1e4069f2d2",
     "packages": [
         {
             "name": "blessing/filter",
@@ -97,6 +97,42 @@
             ],
             "description": "Rejection is an object that indicates you are rejecting.",
             "time": "2019-12-31T09:26:32+00:00"
+        },
+        {
+            "name": "blessing/texture-renderer",
+            "version": "0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bs-community/texture-renderer.git",
+                "reference": "26dc3d8c516f8bd106a41ff3d534cbe2652a1753"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bs-community/texture-renderer/zipball/26dc3d8c516f8bd106a41ff3d534cbe2652a1753",
+                "reference": "26dc3d8c516f8bd106a41ff3d534cbe2652a1753",
+                "shasum": ""
+            },
+            "require": {
+                "intervention/image": "^2.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Blessing\\": "src/Blessing"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pig Fang",
+                    "email": "g-plane@hotmail.com"
+                }
+            ],
+            "description": "Minecraft texture renderer.",
+            "time": "2020-01-10T08:35:52+00:00"
         },
         {
             "name": "composer/ca-bundle",
@@ -5190,6 +5226,7 @@
                 "psr",
                 "psr-7"
             ],
+            "abandoned": "laminas/laminas-diactoros",
             "time": "2019-11-13T19:16:13+00:00"
         }
     ],

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\PackageManager;
+use Cache;
 use Composer\CaBundle\CaBundle;
 use Composer\Semver\Comparator;
 use Exception;
@@ -75,6 +76,7 @@ class UpdateController extends Controller
         $artisan->call('migrate', ['--force' => true]);
         $artisan->call('view:clear');
         $filesystem->put(storage_path('install.lock'), '');
+        Cache::flush();
 
         return view('setup.updates.success');
     }

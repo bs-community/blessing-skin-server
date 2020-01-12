@@ -210,7 +210,7 @@ test('apply texture', async () => {
   button.trigger('click')
   await flushPromises()
   expect(wrapper.find('input[type="radio"]').attributes('value')).toBe('1')
-  expect(wrapper.find('.model-label > img').attributes('src')).toBe('/avatar/10/35')
+  expect(wrapper.find('.model-label > img').attributes('src')).toBe('/avatar/10?size=35')
   expect(wrapper.find('.modal-body').text()).toContain('name')
   jest.runAllTimers()
 })

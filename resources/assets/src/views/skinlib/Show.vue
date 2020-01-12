@@ -312,7 +312,7 @@ export default {
     },
     download() {
       const a = document.createElement('a')
-      a.href = `${this.baseUrl}/raw/${this.tid}.png`
+      a.href = `${this.baseUrl}/raw/${this.tid}`
       a.download = `${this.name}.png`
       const event = new MouseEvent('click')
       a.dispatchEvent(event)

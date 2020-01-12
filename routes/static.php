@@ -7,10 +7,10 @@ Route::group(['middleware' => 'player'], function () {
 
 Route::get('/textures/{hash}', 'TextureController@texture');
 
-Route::get('/avatar/player/{size}/{name}.png', 'TextureController@avatarByPlayer');
-Route::get('/avatar/user/{uid}/{size?}', 'TextureController@avatar');
-Route::get('/avatar/{tid}/{size?}', 'TextureController@avatarByTid');
+Route::get('/avatar/player/{name}', 'TextureController@avatarByPlayer');
+Route::get('/avatar/user/{uid}', 'TextureController@avatarByUser');
+Route::get('/avatar/{tid}', 'TextureController@avatarByTexture');
 
-Route::get('/raw/{tid}.png', 'TextureController@raw');
+Route::get('/raw/{tid}', 'TextureController@raw');
 
-Route::get('/preview/{tid}/{size?}', 'TextureController@preview');
+Route::get('/preview/{tid}', 'TextureController@preview');

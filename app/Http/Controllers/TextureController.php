@@ -2,25 +2,31 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\GetAvatarPreview;
-use App\Events\GetSkinPreview;
 use App\Models\Player;
 use App\Models\Texture;
 use App\Models\User;
-use App\Services\Minecraft;
+use Blessing\Minecraft;
 use Cache;
 use Carbon\Carbon;
-use Event;
-use Exception;
-use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
 use Image;
-use Option;
-use Response;
 use Storage;
-use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 class TextureController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('cache.headers:etag;public;max_age='.option('cache_expire_time'))
+            ->only([
+                'preview',
+                'raw',
+                'texture',
+                'avatarByPlayer',
+                'avatarByUser',
+                'avatarByTexture',
+            ]);
+    }
+
     public function json($player)
     {
         $player = $this->getPlayerInstance($player);
@@ -37,144 +43,112 @@ class TextureController extends Controller
         return response()->json($player)->setLastModified($player->last_modified);
     }
 
-    public function texture($hash, $headers = [], $message = '')
+    public function preview(Minecraft $minecraft, Request $request, $tid)
     {
-        try {
-            if (Storage::disk('textures')->has($hash)) {
-                return $this->outputImage(Storage::disk('textures')->get($hash), array_merge([
-                    'Last-Modified' => Storage::disk('textures')->lastModified($hash),
-                    'Accept-Ranges' => 'bytes',
-                    'Content-Length' => Storage::disk('textures')->size($hash),
-                ], $headers));
-            }
-        } catch (Exception $e) {
-            report($e);
-        }
+        $texture = Texture::findOrFail($tid);
+        $hash = $texture->hash;
 
-        return abort(404, $message);
-    }
+        $disk = Storage::disk('textures');
+        abort_if($disk->missing($hash), 404);
 
-    public function avatarByTid($tid, $size = 128)
-    {
-        if ($t = Texture::find($tid)) {
-            try {
-                if (Storage::disk('textures')->has($t->hash)) {
-                    $responses = event(new GetAvatarPreview($t, $size));
-
-                    if (isset($responses[0]) && $responses[0] instanceof SymfonyResponse) {
-                        return $responses[0];       // @codeCoverageIgnore
-                    } else {
-                        $png = Minecraft::generateAvatarFromSkin(
-                            Storage::disk('textures')->read($t->hash), $size
-                        );
-
-                        return $this->outputImage(png($png));
-                    }
+        $height = (int) $request->query('height', 200);
+        $now = Carbon::now();
+        $response = Cache::remember(
+            'preview-t'.$tid,
+            option('enable_preview_cache') ? $now->addYear() : $now->addMinute(),
+            function () use ($minecraft, $disk, $texture, $hash, $height) {
+                $file = $disk->get($hash);
+                if ($texture->type === 'cape') {
+                    $image = $minecraft->renderCape($file, 12);
+                } else {
+                    $image = $minecraft->renderSkin($file, 12, $texture->type === 'alex');
                 }
-            } catch (Exception $e) {
-                report($e);
+
+                $lastModified = $disk->lastModified($hash);
+
+                return Image::make($image)
+                    ->resize(null, $height, function ($constraint) {
+                        $constraint->aspectRatio();
+                    })
+                    ->response('png', 100)
+                    ->setLastModified(Carbon::createFromTimestamp($lastModified));
             }
-        }
+        );
 
-        $default = Image::make(storage_path('static_textures/avatar.png'));
-
-        return $default->resize($size, $size)->response();
-    }
-
-    public function avatar($uid, $size = 128)
-    {
-        $user = User::find($uid);
-
-        if ($user) {
-            return $this->avatarByTid($user->avatar, $size);
-        }
-
-        $default = Image::make(storage_path('static_textures/avatar.png'));
-
-        return $default->resize($size, $size)->response();
-    }
-
-    public function preview($tid, $size = 250)
-    {
-        if ($t = Texture::find($tid)) {
-            try {
-                if (Storage::disk('textures')->has($t->hash)) {
-                    $responses = event(new GetSkinPreview($t, $size));
-
-                    if (isset($responses[0]) && $responses[0] instanceof \Symfony\Component\HttpFoundation\Response) {
-                        return $responses[0];      // @codeCoverageIgnore
-                    } else {
-                        $binary = Storage::disk('textures')->read($t->hash);
-
-                        if ($t->type == 'cape') {
-                            $png = Minecraft::generatePreviewFromCape(
-                                $binary, $size * 0.8, $size * 1.125, $size
-                            );
-                        } else {
-                            $png = Minecraft::generatePreviewFromSkin(
-                                $binary, $size, ($t->type == 'alex'), 'both', 4
-                            );
-                        }
-
-                        return $this->outputImage(png($png));
-                    }
-                }
-            } catch (Exception $e) {
-                report($e);
-            }
-        }
-
-        // Show this if given texture is invalid.
-        return response()->file(storage_path('static_textures/broken.png'));
+        return $response;
     }
 
     public function raw($tid)
     {
-        abort_unless(option('allow_downloading_texture'), 404);
+        abort_unless(option('allow_downloading_texture'), 403);
 
-        return ($t = Texture::find($tid))
-            ? $this->texture($t->hash)
-            : abort(404, trans('skinlib.non-existent'));
+        $texture = Texture::findOrFail($tid);
+
+        return $this->texture($texture->hash);
     }
 
-    public function avatarByPlayer($size, $name)
+    public function texture(string $hash)
     {
-        $player = Player::where('name', $name)->first();
-        abort_unless($player, 404);
+        $disk = Storage::disk('textures');
+        abort_if($disk->missing($hash), 404);
 
-        $hash = optional($player->skin)->hash;
-        if (Storage::disk('textures')->has($hash)) {
-            $png = Minecraft::generateAvatarFromSkin(
-                Storage::disk('textures')->read($hash),
-                $size
-            );
+        $lastModified = Carbon::createFromTimestamp($disk->lastModified($hash));
 
-            return $this->outputImage(png($png));
-        }
-
-        return abort(404);
+        return response($disk->get($hash))
+            ->withHeaders([
+                'Content-Type' => 'image/png',
+                'Content-Length' => $disk->size($hash),
+            ])
+            ->setLastModified($lastModified);
     }
 
-    protected function outputImage($content, $headers = [])
+    public function avatarByPlayer(Minecraft $minecraft, Request $request, $name)
     {
-        $request = request();
+        $player = Player::where('name', $name)->firstOrFail();
 
-        $ifNoneMatch = $request->header('If-None-Match');
-        $eTag = md5($content);
+        return $this->avatar($minecraft, $player->skin, (int) $request->query('size', 100));
+    }
 
-        $ifModifiedSince = Carbon::parse($request->header('If-Modified-Since', 0));
-        $lastModified = Carbon::parse(Arr::pull($headers, 'Last-Modified', time()));
+    public function avatarByUser(Minecraft $minecraft, Request $request, $uid)
+    {
+        $texture = Texture::find(optional(User::find($uid))->avatar);
 
-        if ($eTag === $ifNoneMatch || $lastModified <= $ifModifiedSince) {
-            return response(null)->withHeaders($headers)->setNotModified();
+        return $this->avatar($minecraft, $texture, (int) $request->query('size', 100));
+    }
+
+    public function avatarByTexture(Minecraft $minecraft, Request $request, $tid)
+    {
+        $texture = Texture::find($tid);
+
+        return $this->avatar($minecraft, $texture, (int) $request->query('size', 100));
+    }
+
+    protected function avatar(Minecraft $minecraft, Texture $texture = null, int $size = 100)
+    {
+        $disk = Storage::disk('textures');
+        if (is_null($texture) || $disk->missing($texture->hash)) {
+            return Image::make(storage_path('static_textures/avatar.png'))
+                ->resize($size, $size)
+                ->response('png', 100);
         }
 
-        return response($content, 200, $headers)->withHeaders([
-            'Content-Type' => 'image/png',
-            'ETag' => $eTag,
-            'Last-Modified' => $lastModified->toRfc7231String(),
-            'Cache-Control' => 'max-age='.option('cache_expire_time').', public',
-        ]);
+        $hash = $texture->hash;
+        $now = Carbon::now();
+        $response = Cache::remember(
+            'avatar-2d-t'.$texture->tid.'-s'.$size,
+            option('enable_avatar_cache') ? $now->addYear() : $now->addMinute(),
+            function () use ($minecraft, $disk, $hash, $size) {
+                $image = $minecraft->render2dAvatar($disk->get($hash), 25);
+                $lastModified = Carbon::createFromTimestamp($disk->lastModified($hash));
+
+                return Image::make($image)
+                    ->resize($size, $size)
+                    ->response('png', 100)
+                    ->setLastModified($lastModified);
+            }
+        );
+
+        return $response;
     }
 
     protected function getPlayerInstance($player_name)
@@ -183,17 +157,5 @@ class TextureController extends Controller
         abort_if($player->isBanned(), 403, trans('general.player-banned'));
 
         return $player;
-    }
-
-    /**
-     * Default steve skin, base64 encoded.
-     *
-     * @see https://minecraft.gamepedia.com/File:Steve_skin.png
-     *
-     * @return string
-     */
-    public static function getDefaultSteveSkin()
-    {
-        return 'iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAFDUlEQVR42u2a20sUURzH97G0LKMotPuWbVpslj1olJXdjCgyisowsSjzgrB0gSKyC5UF1ZNQWEEQSBQ9dHsIe+zJ/+nXfM/sb/rN4ZwZ96LOrnPgyxzP/M7Z+X7OZc96JpEISfWrFhK0YcU8knlozeJKunE4HahEqSc2nF6zSEkCgGCyb+82enyqybtCZQWAzdfVVFgBJJNJn1BWFgC49/VpwGVlD0CaxQiA5HSYEwBM5sMAdKTqygcAG9+8coHKY/XXAZhUNgDYuBSPjJL/GkzVVhAEU5tqK5XZ7cnFtHWtq/TahdSw2l0HUisr1UKIWJQBAMehDuqiDdzndsP2EZECAG1ZXaWMwOCODdXqysLf++uXUGv9MhUHIByDOijjdiSAoH3ErANQD73C7TXXuGOsFj1d4YH4OTJAEy8y9Hd0mCaeZ5z8dfp88zw1bVyiYhCLOg1ZeAqC0ybaDttHRGME1DhDeVWV26u17lRAPr2+mj7dvULfHw2q65fhQRrLXKDfIxkau3ZMCTGIRR3URR5toU38HbaPiMwUcKfBAkoun09PzrbQ2KWD1JJaqswjdeweoR93rirzyCMBCmIQizqoizZkm2H7iOgAcHrMHbbV9KijkUYv7qOn55sdc4fo250e+vUg4329/Xk6QB/6DtOws+dHDGJRB3XRBve+XARt+4hIrAF4UAzbnrY0ve07QW8uHfB+0LzqanMM7qVb+3f69LJrD90/1axiEIs6qIs21BTIToewfcSsA+Bfb2x67OoR1aPPzu2i60fSNHRwCw221Suz0O3jO+jh6V1KyCMGse9721XdN5ePutdsewxS30cwuMjtC860T5JUKpXyKbSByUn7psi5l+juDlZYGh9324GcPKbkycaN3jUSAGxb46IAYPNZzW0AzgiQ5tVnzLUpUDCAbakMQXXrOtX1UMtHn+Q9/X5L4wgl7t37r85OSrx+TYl379SCia9KXjxRpiTjIZTBFOvrV1f8ty2eY/T7XJ81FQAwmA8ASH1ob68r5PnBsxA88/xAMh6SpqW4HRnLBrkOA9Xv5wPAZjAUgOkB+SHxgBgR0qSMh0zmZRsmwDJm1gFg2PMDIC8/nAHIMls8x8GgzOsG5WiaqREgYzDvpTwjLDy8NM15LpexDEA3LepjU8Z64my+8PtDCmUyRr+fFwA2J0eAFYA0AxgSgMmYBMZTwFQnO9RNAEaHOj2DXF5UADmvAToA2ftyxZYA5BqgmZZApDkdAK4mAKo8GzPlr8G8AehzMAyA/i1girUA0HtYB2CaIkUBEHQ/cBHSvwF0AKZFS5M0ZwMQtEaEAmhtbSUoDADH9ff3++QZ4o0I957e+zYAMt6wHkhzpjkuAcgpwNcpA7AZDLsvpwiuOkBvxygA6Bsvb0HlaeKIF2EbADZpGiGzBsA0gnwQHGOhW2snRpbpPexbAB2Z1oicAMQpTnGKU5ziFKc4xSlOcYpTnOIUpzgVmgo+XC324WfJAdDO/+ceADkCpuMFiFKbApEHkOv7BfzfXt+5gpT8V7rpfYJcDz+jAsB233r6yyBsJ0mlBCDofuBJkel4vOwBFPv8fyYAFPJ+wbSf/88UANNRVy4Awo6+Ig2gkCmgA5DHWjoA+X7AlM//owLANkX0w0359od++pvX8fdMAcj3/QJ9iJsAFPQCxHSnQt8vMJ3v2wCYpkhkAOR7vG7q4aCXoMoSgG8hFAuc/grMdAD4B/kHl9da7Ne9AAAAAElFTkSuQmCC';
     }
 }

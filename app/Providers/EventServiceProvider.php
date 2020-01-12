@@ -46,12 +46,6 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
 
-        if (option('enable_avatar_cache')) {
-            Event::listen(Events\GetAvatarPreview::class, Listeners\CacheAvatarPreview::class);
-        }
-        if (option('enable_preview_cache')) {
-            Event::listen(Events\GetSkinPreview::class, Listeners\CacheSkinPreview::class);
-        }
         if (option('enable_notfound_cache')) {
             Event::subscribe(Listeners\CachePlayerExists::class);
         }

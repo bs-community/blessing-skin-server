@@ -76,7 +76,7 @@ export default {
   },
   computed: {
     previewLink() {
-      return `${blessing.base_url}/preview/${this.tid}.png`
+      return `${blessing.base_url}/preview/${this.tid}?height=150`
     },
     linkToSkinlib() {
       return `${blessing.base_url}/skinlib/show/${this.tid}`

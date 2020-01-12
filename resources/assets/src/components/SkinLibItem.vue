@@ -60,7 +60,7 @@ export default {
       return `${blessing.base_url}/skinlib/show/${this.tid}`
     },
     urlToPreview() {
-      return `${blessing.base_url}/preview/${this.tid}.png`
+      return `${blessing.base_url}/preview/${this.tid}?height=150`
     },
     likeActionText() {
       if (this.anonymous) {
@@ -102,6 +102,8 @@ export default {
 
 .texture-img
   background #eff1f0
+  img
+    height 210px
 
 .btn-like
   color #6c757d
