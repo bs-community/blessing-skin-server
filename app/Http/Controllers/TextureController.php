@@ -106,28 +106,31 @@ class TextureController extends Controller
     {
         $player = Player::where('name', $name)->firstOrFail();
 
-        return $this->avatar($minecraft, $player->skin, (int) $request->query('size', 100));
+        return $this->avatar($minecraft, $request, $player->skin);
     }
 
     public function avatarByUser(Minecraft $minecraft, Request $request, $uid)
     {
         $texture = Texture::find(optional(User::find($uid))->avatar);
 
-        return $this->avatar($minecraft, $texture, (int) $request->query('size', 100));
+        return $this->avatar($minecraft, $request, $texture);
     }
 
     public function avatarByTexture(Minecraft $minecraft, Request $request, $tid)
     {
         $texture = Texture::find($tid);
 
-        return $this->avatar($minecraft, $texture, (int) $request->query('size', 100));
+        return $this->avatar($minecraft, $request, $texture);
     }
 
-    protected function avatar(Minecraft $minecraft, Texture $texture = null, int $size = 100)
+    protected function avatar(Minecraft $minecraft, Request $request, Texture $texture = null)
     {
+        $size = (int) $request->query('size', 100);
+        $mode = $request->has('3d') ? '3d' : '2d';
+
         $disk = Storage::disk('textures');
         if (is_null($texture) || $disk->missing($texture->hash)) {
-            return Image::make(storage_path('static_textures/avatar.png'))
+            return Image::make(resource_path("misc/textures/avatar$mode.png"))
                 ->resize($size, $size)
                 ->response('png', 100);
         }
@@ -135,10 +138,16 @@ class TextureController extends Controller
         $hash = $texture->hash;
         $now = Carbon::now();
         $response = Cache::remember(
-            'avatar-2d-t'.$texture->tid.'-s'.$size,
+            'avatar-'.$mode.'-t'.$texture->tid.'-s'.$size,
             option('enable_avatar_cache') ? $now->addYear() : $now->addMinute(),
-            function () use ($minecraft, $disk, $hash, $size) {
-                $image = $minecraft->render2dAvatar($disk->get($hash), 25);
+            function () use ($minecraft, $disk, $hash, $size, $mode) {
+                $file = $disk->get($hash);
+                if ($mode === '3d') {
+                    $image = $minecraft->render3dAvatar($file, 25);
+                } else {
+                    $image = $minecraft->render2dAvatar($file, 25);
+                }
+
                 $lastModified = Carbon::createFromTimestamp($disk->lastModified($hash));
 
                 return Image::make($image)

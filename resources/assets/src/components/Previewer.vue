@@ -53,7 +53,7 @@
 <script>
 import * as skinview3d from 'skinview3d'
 import { emit } from '../scripts/event'
-import SkinSteve from '../images/textures/steve.png'
+import SkinSteve from '../../../misc/textures/steve.png'
 
 export default {
   name: 'Previewer',

@@ -225,5 +225,14 @@ class TextureControllerTest extends TestCase
         $this->assertEquals(50, $image->width());
         $this->assertEquals(50, $image->height());
         $this->assertTrue(Cache::has('avatar-2d-t'.$texture->tid.'-s50'));
+
+        $image = $this->get('/avatar/'.$texture->tid.'?3d')
+            ->assertSuccessful()
+            ->assertHeader('Content-Type', 'image/png')
+            ->getContent();
+        $image = Image::make($image);
+        $this->assertEquals(100, $image->width());
+        $this->assertEquals(100, $image->height());
+        $this->assertTrue(Cache::has('avatar-3d-t'.$texture->tid.'-s100'));
     }
 }
