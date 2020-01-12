@@ -183,5 +183,3 @@ cache:
   enable_preview_cache:
     title: 材质预览
     label: 启用材质预览缓存
-  enable_notfound_cache:
-    label: 启用「角色存在与否」的缓存
