@@ -26,9 +26,7 @@ class TextureControllerTest extends TestCase
         $steve = factory(Texture::class)->create();
 
         // Player is not existed
-        $this->get('/nope.json')
-            ->assertSee(trans('general.unexistent-player'))
-            ->assertStatus(404);
+        $this->get('/nope.json')->assertStatus(404);
 
         // Player is banned
         $player = factory(Player::class)->create(['tid_skin' => $steve->tid]);

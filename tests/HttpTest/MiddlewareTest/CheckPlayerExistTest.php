@@ -14,19 +14,11 @@ class CheckPlayerExistTest extends TestCase
     {
         Event::fake();
 
-        $this->getJson('/nope.json')
-            ->assertStatus(404)
-            ->assertSee(trans('general.unexistent-player'));
-
-        option(['return_204_when_notfound' => true]);
-        $this->getJson('/nope.json')->assertNoContent();
+        $this->getJson('/nope.json')->assertStatus(404);
 
         $player = factory(Player::class)->create();
         $this->getJson("/{$player->name}.json")
             ->assertJson(['username' => $player->name]);  // Default is CSL API
-
-        $this->getJson("/{$player->name}.json");
-        Event::assertDispatched(\App\Events\CheckPlayerExists::class);
 
         $player = factory(Player::class)->create();
         $user = $player->user;
