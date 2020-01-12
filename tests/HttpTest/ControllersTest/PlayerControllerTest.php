@@ -81,7 +81,6 @@ class PlayerControllerTest extends TestCase
 
             return true;
         });
-        Event::assertDispatched(Events\CheckPlayerExists::class);
         Event::assertNotDispatched('player.adding');
         Event::assertNotDispatched('player.added');
 
@@ -408,7 +407,6 @@ class PlayerControllerTest extends TestCase
                 'code' => 0,
                 'message' => trans('user.player.bind.success'),
             ]);
-        Event::assertDispatched(Events\CheckPlayerExists::class);
         Event::assertDispatched('player.adding', function ($event, $payload) use ($user) {
             $this->assertEquals('abc', $payload[0]);
             $this->assertEquals($user->uid, $payload[1]->uid);

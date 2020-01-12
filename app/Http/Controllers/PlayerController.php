@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\CheckPlayerExists;
 use App\Events\PlayerWasAdded;
 use App\Events\PlayerWasDeleted;
 use App\Events\PlayerWillBeAdded;
@@ -88,7 +87,6 @@ class PlayerController extends Controller
         ])['name'];
 
         $dispatcher->dispatch('player.add.attempt', [$name, $user]);
-        event(new CheckPlayerExists($name));
 
         if (!Player::where('name', $name)->get()->isEmpty()) {
             return json(trans('user.player.add.repeated'), 6);
@@ -243,7 +241,6 @@ class PlayerController extends Controller
         ])['player'];
         $user = Auth::user();
 
-        event(new CheckPlayerExists($name));
         $player = Player::where('name', $name)->first();
         if (!$player) {
             $dispatcher->dispatch('player.adding', [$name, $user]);

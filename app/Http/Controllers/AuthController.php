@@ -152,12 +152,11 @@ class AuthController extends Controller
 
         $dispatcher->dispatch('auth.registration.attempt', [$data]);
 
-        if (option('register_with_player_name')) {
-            event(new Events\CheckPlayerExists($request->get('player_name')));
-
-            if (Player::where('name', $request->get('player_name'))->first()) {
-                return json(trans('user.player.add.repeated'), 2);
-            }
+        if (
+            option('register_with_player_name') &&
+            Player::where('name', $request->input('player_name'))->count() > 0
+        ) {
+            return json(trans('user.player.add.repeated'), 2);
         }
 
         // If amount of registered accounts of IP is more than allowed amounts,
