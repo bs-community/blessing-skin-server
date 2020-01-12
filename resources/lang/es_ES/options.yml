@@ -184,5 +184,3 @@ cache:
   enable_preview_cache:
     title: Preestreno de textura
     label: Habilitar el preestreno de textura en caché
-  enable_notfound_cache:
-    label: Habilitar el almacenamiento en caché si el jugador existe o no
