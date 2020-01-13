@@ -209,10 +209,9 @@ test('apply texture', async () => {
 
   button.trigger('click')
   await flushPromises()
-  expect(wrapper.find('input[type="radio"]').attributes('value')).toBe('1')
-  expect(wrapper.find('.model-label > img').attributes('src')).toBe('/avatar/10?3d&size=35')
-  expect(wrapper.find('.modal-body').text()).toContain('name')
-  jest.runAllTimers()
+  expect(wrapper.find('.btn-outline-info').text()).toContain('name')
+  expect(wrapper.find('.btn-outline-info > img').attributes('src'))
+    .toBe('/avatar/10?3d&size=45')
 })
 
 test('reset selected texture', () => {

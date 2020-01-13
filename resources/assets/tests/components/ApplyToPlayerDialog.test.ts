@@ -11,8 +11,8 @@ test('submit applying texture', async () => {
   Vue.prototype.$http.get.mockResolvedValue({ data: [{ pid: 1, name: 'a' }] })
   Vue.prototype.$http.post.mockResolvedValueOnce({ code: 1 })
     .mockResolvedValue({ code: 0, message: 'ok' })
-  const wrapper = mount(ApplyToPlayerDialog)
-  await flushPromises()
+  const wrapper = mount<Vue & { fetchList(): Promise<void> }>(ApplyToPlayerDialog)
+  await wrapper.vm.fetchList()
   const button = wrapper.find('.btn-outline-info')
 
   button.trigger('click')
@@ -50,8 +50,8 @@ test('compute avatar URL', () => {
 
 test('search players', async () => {
   Vue.prototype.$http.get.mockResolvedValue({ data: [{ pid: 1, name: 'abc' }] })
-  const wrapper = mount(ApplyToPlayerDialog)
-  await flushPromises()
+  const wrapper = mount<Vue & { fetchList(): Promise<void> }>(ApplyToPlayerDialog)
+  await wrapper.vm.fetchList()
 
   wrapper.find('input').setValue('e')
   expect(wrapper.find('.btn-outline-info').exists()).toBeFalse()

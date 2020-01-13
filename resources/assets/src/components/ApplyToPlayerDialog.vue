@@ -71,9 +71,6 @@ export default {
       return this.players.filter(player => player.name.includes(this.search))
     },
   },
-  mounted() {
-    this.fetchList()
-  },
   methods: {
     async fetchList() {
       this.players = (await this.$http.get('/user/player/list')).data
