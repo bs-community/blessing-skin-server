@@ -15,7 +15,7 @@ class SideMenuComposerTest extends TestCase
     {
         Event::fake();
 
-        $admin = factory(User::class, 'admin')->make();
+        $admin = factory(User::class, 'admin')->create();
         $this->actingAs($admin)->get('/user');
         Event::assertDispatched(Events\ConfigureUserMenu::class);
         Event::assertDispatched(Events\ConfigureExploreMenu::class);
@@ -26,7 +26,7 @@ class SideMenuComposerTest extends TestCase
 
     public function testTransform()
     {
-        $user = factory(User::class)->make();
+        $user = factory(User::class)->create();
         $this->actingAs($user);
 
         $crawler = new Crawler($this->get('/user/oauth/manage')->getContent());
@@ -53,7 +53,7 @@ class SideMenuComposerTest extends TestCase
                 );
         });
 
-        $admin = factory(User::class, 'admin')->make();
+        $admin = factory(User::class, 'admin')->create();
         $this->actingAs($admin)
             ->get('/admin')
             ->assertDontSee(trans('general.plugin-configs'));

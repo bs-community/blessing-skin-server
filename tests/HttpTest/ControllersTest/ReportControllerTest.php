@@ -113,7 +113,7 @@ class ReportControllerTest extends TestCase
         $report->save();
 
         $this->actingAs($user)
-            ->getJson('/user/report-list')
+            ->getJson('/user/reports/list')
             ->assertJson([[
                 'tid' => 1,
                 'reason' => 'test',
@@ -136,7 +136,7 @@ class ReportControllerTest extends TestCase
         $report->save();
 
         $this->actingAs($reporter)
-            ->getJson('/admin/report-data')
+            ->getJson('/admin/reports/list')
             ->assertJson([
                 'totalRecords' => 1,
                 'data' => [[

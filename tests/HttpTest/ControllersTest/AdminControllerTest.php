@@ -151,7 +151,7 @@ class AdminControllerTest extends TestCase
 
     public function testGetUserData()
     {
-        $this->getJson('/admin/user-data')
+        $this->getJson('/admin/users/list')
             ->assertJsonStructure([
                 'data' => [[
                     'uid',
@@ -166,7 +166,7 @@ class AdminControllerTest extends TestCase
             ]);
 
         $user = factory(User::class)->create();
-        $this->getJson('/admin/user-data?uid='.$user->uid)
+        $this->getJson('/admin/users/list?uid='.$user->uid)
             ->assertJson([
                 'data' => [[
                     'uid' => $user->uid,
@@ -189,7 +189,7 @@ class AdminControllerTest extends TestCase
         $player = factory(Player::class)->create();
         $user = $player->user;
 
-        $this->getJson('/admin/player-data')
+        $this->getJson('/admin/players/list')
             ->assertJsonStructure([
                 'data' => [[
                     'pid',
@@ -201,7 +201,7 @@ class AdminControllerTest extends TestCase
                 ]],
             ]);
 
-        $this->getJson('/admin/player-data?uid='.$user->uid)
+        $this->getJson('/admin/players/list?uid='.$user->uid)
             ->assertJson([
                 'data' => [[
                     'pid' => $player->pid,

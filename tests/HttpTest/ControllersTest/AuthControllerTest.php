@@ -177,6 +177,7 @@ class AuthControllerTest extends TestCase
         $this->flushSession();
 
         // Logged in should be in success if logged in with player name
+        auth()->logout();
         $this->postJson(
             '/auth/login', [
             'identification' => $player->name,
@@ -453,6 +454,7 @@ class AuthControllerTest extends TestCase
 
         // Require player name
         option(['register_with_player_name' => true]);
+        auth()->logout();
         $this->postJson(
             '/auth/register',
             [

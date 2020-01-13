@@ -245,7 +245,7 @@ export default {
           items, category, total_pages: totalPages,
         },
       } = await this.$http.get(
-        '/user/closet-data',
+        '/user/closet/list',
         {
           category: this.category,
           q: this.query,

@@ -130,7 +130,7 @@ export default {
   },
   methods: {
     async fetchData() {
-      this.plugins = await this.$http.get('/admin/plugins/market-data')
+      this.plugins = await this.$http.get('/admin/plugins/market/list')
     },
     async installPlugin({ name, originalIndex }) {
       this.installing = name

@@ -23,8 +23,7 @@ class UserMenuComposer
     public function compose(View $view)
     {
         $user = auth()->user();
-        $email = base64_encode($user->email);
-        $avatarUrl = url('/avatar/user/'.$user->uid.'?size=25');
+        $avatarUrl = route('avatar.user', ['uid' => $user->uid, 'size' => 25]);
         $avatar = $this->filter->apply('user_avatar', $avatarUrl, [$user]);
 
         $view->with(compact('user', 'avatar'));

@@ -110,7 +110,7 @@ export default {
   methods: {
     async fetchData() {
       const { data, totalRecords } = await this.$http.get(
-        '/admin/report-data',
+        '/admin/reports/list',
         this.serverParams,
       )
       this.totalRecords = totalRecords

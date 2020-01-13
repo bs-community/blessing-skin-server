@@ -8,7 +8,7 @@ class UserMenuComposerTest extends TestCase
 {
     public function testAvatar()
     {
-        $user = factory(User::class)->make();
+        $user = factory(User::class)->create();
         $this->actingAs($user)
             ->get('/')
             ->assertSee(url('/avatar/user/'.$user->uid.'?size=25'));

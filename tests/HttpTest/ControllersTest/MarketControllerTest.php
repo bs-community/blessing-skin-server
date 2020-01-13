@@ -119,7 +119,7 @@ class MarketControllerTest extends TestCase
         ]);
 
         // Expected an exception, but unable to be asserted.
-        $this->getJson('/admin/plugins/market-data');
+        $this->getJson('/admin/plugins/market/list');
 
         $this->mock(PluginManager::class, function ($mock) {
             $mock->shouldReceive('get')
@@ -132,7 +132,7 @@ class MarketControllerTest extends TestCase
                 ->andReturn(null);
             $mock->shouldReceive('getUnsatisfied')->twice();
         });
-        $this->getJson('/admin/plugins/market-data')
+        $this->getJson('/admin/plugins/market/list')
             ->assertJsonStructure([
                 [
                     'name',
@@ -146,7 +146,7 @@ class MarketControllerTest extends TestCase
                 ],
             ]);
 
-        $this->getJson('/admin/plugins/market-data')
+        $this->getJson('/admin/plugins/market/list')
             ->assertJson(['message' => 'Only version 1 of market registry is accepted.']);
     }
 }

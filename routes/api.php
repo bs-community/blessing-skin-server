@@ -1,6 +1,6 @@
 <?php
 
-Route::any('/', 'HomeController@apiRoot');
+Route::any('', 'HomeController@apiRoot');
 
 Route::prefix('auth')->group(function () {
     Route::post('login', 'AuthController@jwtLogin');

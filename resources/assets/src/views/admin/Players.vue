@@ -149,7 +149,7 @@ export default {
   methods: {
     async fetchData() {
       const { data, totalRecords } = await this.$http.get(
-        `/admin/player-data${location.search}`,
+        `/admin/players/list${location.search}`,
         !location.search && this.serverParams,
       )
       this.totalRecords = totalRecords

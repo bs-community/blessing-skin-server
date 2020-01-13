@@ -9,7 +9,7 @@ class UserPanelComposerTest extends TestCase
 {
     public function testRenderUser()
     {
-        $user = factory(User::class)->make();
+        $user = factory(User::class)->create();
         $this->actingAs($user);
 
         $this->get('/user')->assertSee(url('/avatar/user/'.$user->uid.'?size=45'));
@@ -17,7 +17,7 @@ class UserPanelComposerTest extends TestCase
 
     public function testBadges()
     {
-        $user = factory(User::class)->make();
+        $user = factory(User::class)->create();
         $this->actingAs($user);
 
         Event::listen(\App\Events\RenderingBadges::class, function ($event) {

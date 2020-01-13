@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     async fetchData() {
-      this.reports = await this.$http.get('/user/report-list')
+      this.reports = await this.$http.get('/user/reports/list')
     },
   },
 }

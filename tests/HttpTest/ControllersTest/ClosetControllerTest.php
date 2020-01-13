@@ -38,7 +38,7 @@ class ClosetControllerTest extends TestCase
         });
 
         // Use default query parameters
-        $this->getJson('/user/closet-data')
+        $this->getJson('/user/closet/list')
             ->assertJsonStructure([
                 'data' => [
                     'category',
@@ -48,17 +48,17 @@ class ClosetControllerTest extends TestCase
             ]);
 
         // Responsive
-        $result = $this->json('get', '/user/closet-data?perPage=0')->json()['data'];
+        $result = $this->json('get', '/user/closet/list?perPage=0')->json()['data'];
         $this->assertCount(6, $result['items']);
-        $result = $this->json('get', '/user/closet-data?perPage=8')->json()['data'];
+        $result = $this->json('get', '/user/closet/list?perPage=8')->json()['data'];
         $this->assertCount(8, $result['items']);
-        $result = $this->json('get', '/user/closet-data?perPage=8&page=2')->json()['data'];
+        $result = $this->json('get', '/user/closet/list?perPage=8&page=2')->json()['data'];
         $this->assertCount(2, $result['items']);
 
         // Get capes
         $cape = factory(Texture::class, 'cape')->create();
         $this->user->closet()->attach($cape->tid, ['item_name' => 'custom_name']);
-        $this->getJson('/user/closet-data?category=cape')
+        $this->getJson('/user/closet/list?category=cape')
             ->assertJson(['data' => [
                 'category' => 'cape',
                 'total_pages' => 1,
@@ -71,7 +71,7 @@ class ClosetControllerTest extends TestCase
 
         // Search by keyword
         $random = $textures->random();
-        $this->getJson('/user/closet-data?q='.$random->name)
+        $this->getJson('/user/closet/list?q='.$random->name)
             ->assertJson(['data' => [
                 'category' => 'skin',
                 'total_pages' => 1,

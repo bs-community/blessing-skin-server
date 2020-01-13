@@ -60,7 +60,7 @@ class UpdateControllerTest extends TestCase
         $this->appendToGuzzleQueue([
             new Response(200, [], $this->mockFakeUpdateInfo('1.2.3')),
         ]);
-        $this->getJson('/admin/update/download')
+        $this->postJson('/admin/update/download')
             ->assertJson([
                 'code' => 1,
                 'message' => trans('admin.update.info.up-to-date'),
@@ -74,7 +74,7 @@ class UpdateControllerTest extends TestCase
         $this->mock(PackageManager::class, function ($mock) {
             $mock->shouldReceive('download')->andThrow(new \Exception('ddd'));
         });
-        $this->getJson('/admin/update/download')->assertJson(['code' => 1]);
+        $this->postJson('/admin/update/download')->assertJson(['code' => 1]);
         $this->mock(PackageManager::class, function ($mock) {
             $mock->shouldReceive('download')->andReturnSelf();
             $mock->shouldReceive('extract')->andReturn(true);
@@ -83,7 +83,7 @@ class UpdateControllerTest extends TestCase
             $mock->shouldReceive('delete')->with(storage_path('options.php'))->once();
             $mock->shouldReceive('exists')->with(storage_path('install.lock'))->andReturn(true);
         });
-        $this->getJson('/admin/update/download')
+        $this->postJson('/admin/update/download')
             ->assertJson(['code' => 0, 'message' => trans('admin.update.complete')]);
     }
 

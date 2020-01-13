@@ -15,7 +15,7 @@ test('fetch data after initializing', () => {
   Vue.prototype.$http.get.mockResolvedValue({ data: [] })
   mount(Users)
   expect(Vue.prototype.$http.get).toBeCalledWith(
-    '/admin/user-data',
+    '/admin/users/list',
     {
       page: 1, perPage: 10, search: '', sortField: 'uid', sortType: 'asc',
     },

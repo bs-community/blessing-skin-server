@@ -12,7 +12,7 @@ class RedirectToSetupTest extends TestCase
 
     public function testHandle()
     {
-        $superAdmin = factory(User::class, 'superAdmin')->make();
+        $superAdmin = factory(User::class, 'superAdmin')->create();
 
         $current = config('app.version');
         config(['app.version' => '100.0.0']);

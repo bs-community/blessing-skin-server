@@ -14,7 +14,7 @@ test('fetch closet data before mount', () => {
   mount(Closet)
   jest.runAllTicks()
   expect(Vue.prototype.$http.get).toBeCalledWith(
-    '/user/closet-data',
+    '/user/closet/list',
     {
       category: 'skin',
       q: '',
@@ -46,7 +46,7 @@ test('switch tabs', () => {
     .trigger('click')
   jest.runAllTicks()
   expect(Vue.prototype.$http.get).toBeCalledWith(
-    '/user/closet-data',
+    '/user/closet/list',
     {
       category: 'skin',
       q: '',
@@ -59,7 +59,7 @@ test('switch tabs', () => {
     .trigger('click')
   jest.runAllTicks()
   expect(Vue.prototype.$http.get).toBeCalledWith(
-    '/user/closet-data',
+    '/user/closet/list',
     {
       category: 'cape',
       q: '',
@@ -100,7 +100,7 @@ test('search textures', () => {
   jest.runAllTimers()
   jest.runAllTicks()
   expect(Vue.prototype.$http.get).toBeCalledWith(
-    '/user/closet-data',
+    '/user/closet/list',
     {
       category: 'skin',
       q: 'q',
