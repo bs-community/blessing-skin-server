@@ -5,21 +5,25 @@
     :title="$t('user.closet.use-as.title')"
     :ok-button-text="$t('general.submit')"
     flex-footer
-    center
   >
     <template v-if="players.length !== 0">
-      <div v-for="player in players" :key="player.pid" class="player-item">
-        <label class="model-label" :for="player.pid">
-          <input
-            v-model="selected"
-            type="radio"
-            name="player"
-            :value="player.pid"
-          >
-          <img :src="avatarUrl(player)" width="35" height="35">
-          <span>{{ player.name }}</span>
-        </label>
+      <div class="form-group">
+        <input
+          v-model="search"
+          type="text"
+          class="form-control"
+          :placeholder="$t('user.typeToSearch')"
+        >
       </div>
+      <button
+        v-for="player in filteredPlayers"
+        :key="player.pid"
+        class="btn btn-block btn-outline-info text-left"
+        @click="submit(player.pid)"
+      >
+        <img :src="avatarUrl(player)" width="45" height="45">&nbsp;
+        <span>{{ player.name }}</span>
+      </button>
     </template>
     <p v-else v-t="'user.closet.use-as.empty'" />
     <template #footer>
@@ -31,8 +35,8 @@
         class="btn btn-default"
         href="#"
       />
-      <button class="btn btn-primary" data-test="submit" @click="submit">
-        {{ $t('general.submit') }}
+      <button class="btn btn-default" data-dismiss="modal">
+        {{ $t('general.cancel') }}
       </button>
     </template>
   </modal>
@@ -59,26 +63,29 @@ export default {
   data() {
     return {
       players: [],
-      selected: 0,
+      search: '',
     }
+  },
+  computed: {
+    filteredPlayers() {
+      return this.players.filter(player => player.name.includes(this.search))
+    },
+  },
+  mounted() {
+    this.fetchList()
   },
   methods: {
     async fetchList() {
       this.players = (await this.$http.get('/user/player/list')).data
     },
-    async submit() {
-      if (!this.selected) {
-        toast.info(this.$t('user.emptySelectedPlayer'))
-        return
-      }
-
+    async submit(selected) {
       if (!this.skin && !this.cape) {
         toast.info(this.$t('user.emptySelectedTexture'))
         return
       }
 
       const { code, message } = await this.$http.post(
-        `/user/player/set/${this.selected}`,
+        `/user/player/set/${selected}`,
         {
           skin: this.skin || undefined,
           cape: this.cape || undefined,
@@ -92,13 +99,8 @@ export default {
       }
     },
     avatarUrl(player) {
-      return `${blessing.base_url}/avatar/${player.tid_skin}?3d&size=35`
+      return `${blessing.base_url}/avatar/${player.tid_skin}?3d&size=45`
     },
   },
 }
 </script>
-
-<style lang="stylus">
-.player-item:not(:nth-child(1))
-  margin-top 10px
-</style>

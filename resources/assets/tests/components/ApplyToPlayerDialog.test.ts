@@ -8,16 +8,13 @@ import ApplyToPlayerDialog from '@/components/ApplyToPlayerDialog.vue'
 jest.mock('@/scripts/notify')
 
 test('submit applying texture', async () => {
-  Vue.prototype.$http.get.mockResolvedValue({ data: [{ pid: 1 }] })
+  Vue.prototype.$http.get.mockResolvedValue({ data: [{ pid: 1, name: 'a' }] })
   Vue.prototype.$http.post.mockResolvedValueOnce({ code: 1 })
     .mockResolvedValue({ code: 0, message: 'ok' })
   const wrapper = mount(ApplyToPlayerDialog)
-  const button = wrapper.find('[data-test=submit]')
+  await flushPromises()
+  const button = wrapper.find('.btn-outline-info')
 
-  button.trigger('click')
-  expect(toast.info).toBeCalledWith('user.emptySelectedPlayer')
-
-  wrapper.setData({ selected: 1 })
   button.trigger('click')
   expect(toast.info).toBeCalledWith('user.emptySelectedTexture')
 
@@ -48,5 +45,17 @@ test('compute avatar URL', () => {
   // eslint-disable-next-line camelcase
   const wrapper = mount<Vue & { avatarUrl(player: { tid_skin: number }): string }>(ApplyToPlayerDialog)
   const { avatarUrl } = wrapper.vm
-  expect(avatarUrl({ tid_skin: 1 })).toBe('/avatar/1?3d&size=35')
+  expect(avatarUrl({ tid_skin: 1 })).toBe('/avatar/1?3d&size=45')
+})
+
+test('search players', async () => {
+  Vue.prototype.$http.get.mockResolvedValue({ data: [{ pid: 1, name: 'abc' }] })
+  const wrapper = mount(ApplyToPlayerDialog)
+  await flushPromises()
+
+  wrapper.find('input').setValue('e')
+  expect(wrapper.find('.btn-outline-info').exists()).toBeFalse()
+
+  wrapper.find('input').setValue('b')
+  expect(wrapper.find('.btn-outline-info').exists()).toBeTrue()
 })
