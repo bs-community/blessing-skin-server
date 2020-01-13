@@ -45,7 +45,7 @@ users:
       delete: Delete User
       success: The account has been deleted successfully.
       cant-super-admin: You can't delete a super admin.
-      cant-admin: You can't delete a admin account.
+      cant-admin: 你無法刪除管理員賬戶
 players:
   no-permission: You have no permission to operate this player.
   operations:

@@ -159,10 +159,6 @@ resources:
     title: 资源地址
     label: 自动判断资源文件地址
     description: 根据当前 URL 自动加载资源文件，如果关闭则将根据「站点地址」填写的内容加载。如果出现 CDN 回源问题请关闭
-  return_204_when_notfound:
-    title: HTTP 响应码
-    label: 请求不存在的角色时返回 204 而不是 404
-    description: 如果你的 CDN 不缓存 404 页面，请打开此项。否则大量对不存在角色的 Profile 请求会加重站点负载。
   cache_expire_time:
     title: 缓存失效时间
     hint: 秒数，86400 = 一天，31536000 = 一年
@@ -183,7 +179,3 @@ cache:
   enable_preview_cache:
     title: 材质预览
     label: 启用材质预览缓存
-  enable_json_cache:
-    label: 启用 Json Profile 缓存
-  enable_notfound_cache:
-    label: 启用「角色存在与否」的缓存

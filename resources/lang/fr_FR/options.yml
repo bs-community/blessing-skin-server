@@ -159,10 +159,6 @@ resources:
     title: Assets URL
     label: Determine assets url automatically.
     description: Please unable this if assets URLs are wrongly generated under a CDN. The site url will be used if this is not enabled.
-  return_204_when_notfound:
-    title: HTTP Response Code
-    label: Return 204 instead of 404 when requesting non-existent player.
-    description: If your CDN doesn't cache 404 pages, please turn this on. A flood of requests to non-existent players will greatly slow down the site.
   cache_expire_time:
     title: Cache Exipre Time
     hint: In seconds, 86400 = one day, 31536000 = one year.
@@ -184,7 +180,3 @@ cache:
   enable_preview_cache:
     title: Aperçu de la texture
     label: Enable caching texture preivew
-  enable_json_cache:
-    label: Enable caching Json Profile
-  enable_notfound_cache:
-    label: Enable caching whether player is existed or not
