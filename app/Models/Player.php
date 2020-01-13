@@ -26,11 +26,6 @@ class Player extends Model
         'updated' => PlayerProfileUpdated::class,
     ];
 
-    public function isBanned()
-    {
-        return $this->user->permission == User::BANNED;
-    }
-
     public function user()
     {
         return $this->belongsTo(Models\User::class, 'uid');
