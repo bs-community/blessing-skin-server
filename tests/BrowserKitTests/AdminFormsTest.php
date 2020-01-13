@@ -171,13 +171,11 @@ class AdminFormsTest extends BrowserKitTestCase
         $this->visit('/admin/resource')
             ->check('force_ssl')
             ->uncheck('auto_detect_asset_url')
-            ->check('return_204_when_notfound')
             ->type('0', 'cache_expire_time')
             ->type('url/', 'cdn_address')
             ->press('submit_resources');
         $this->assertTrue(option('force_ssl'));
         $this->assertFalse(option('auto_detect_asset_url'));
-        $this->assertTrue(option('return_204_when_notfound'));
         $this->assertEquals('0', option('cache_expire_time'));
         $this->visit('/')->see('url/app/');
 

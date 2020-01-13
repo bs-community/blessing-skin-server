@@ -341,7 +341,6 @@ class AdminController extends Controller
         $resources = Option::form('resources', OptionForm::AUTO_DETECT, function ($form) {
             $form->checkbox('force_ssl')->label()->hint();
             $form->checkbox('auto_detect_asset_url')->label()->description();
-            $form->checkbox('return_204_when_notfound')->label()->description();
 
             $form->text('cache_expire_time')->hint(OptionForm::AUTO_DETECT);
             $form->text('cdn_address')

@@ -29,7 +29,6 @@ return [
     'auto_del_invalid_texture'  => 'false',
     'allow_downloading_texture' => 'true',
     'texture_name_regexp'       => '',
-    'return_204_when_notfound'  => 'false',
     'cache_expire_time'         => '31536000',
     'max_upload_file_size'      => '1024',
     'force_ssl'                 => 'false',
