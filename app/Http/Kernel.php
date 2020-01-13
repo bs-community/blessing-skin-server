@@ -59,13 +59,11 @@ class Kernel extends HttpKernel
         'auth' => \App\Http\Middleware\Authenticate::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
-        'verified' => \App\Http\Middleware\CheckUserVerified::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
-        'admin' => \App\Http\Middleware\CheckAdministrator::class,
-        'super-admin' => \App\Http\Middleware\CheckSuperAdmin::class,
-        'player' => \App\Http\Middleware\CheckPlayerExist::class,
+        'role' => \App\Http\Middleware\CheckRole::class,
         'setup' => \App\Http\Middleware\CheckInstallation::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
+        'verified' => \App\Http\Middleware\CheckUserVerified::class,
     ];
 }

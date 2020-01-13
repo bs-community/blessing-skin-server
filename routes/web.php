@@ -118,7 +118,7 @@ Route::prefix('skinlib')->name('skinlib.')->group(function () {
 
 Route::prefix('admin')
     ->name('admin.')
-    ->middleware(['authorize', 'admin'])
+    ->middleware(['authorize', 'role:admin'])
     ->group(function () {
         Route::get('', 'AdminController@index');
         Route::get('chart', 'AdminController@chartData');
@@ -172,7 +172,7 @@ Route::prefix('admin')
             });
         });
 
-        Route::prefix('update')->middleware('super-admin')->group(function () {
+        Route::prefix('update')->middleware('role:super-admin')->group(function () {
             Route::get('', 'UpdateController@showUpdatePage');
             Route::post('download', 'UpdateController@download');
         });
