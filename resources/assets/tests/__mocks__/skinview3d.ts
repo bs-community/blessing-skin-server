@@ -30,7 +30,7 @@ export class SkinViewer {
     this.playerObject = {
       skin: {} as SkinObject,
       cape: {} as CapeObject,
-    }
+    } as PlayerObject
   }
 
   dispose() {
