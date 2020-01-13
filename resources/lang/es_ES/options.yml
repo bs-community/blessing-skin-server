@@ -159,10 +159,6 @@ resources:
     title: URL de assets
     label: Determinar la url de assets automáticamente.
     description: Por favor, deshabilite esto si las URL de los assets se generan incorrectamente bajo un CDN. Se utilizará la url del sitio si esto no está habilitado.
-  return_204_when_notfound:
-    title: Código de respuesta HTTP
-    label: Devuelve 204 en lugar de 404 cuando solicite un jugador inexistente.
-    description: Si tu CDN no almacena en caché páginas 404, por favor activa esta opción. Un aluvión de peticiones a jugadores inexistentes ralentizará enormemente el sitio.
   cache_expire_time:
     title: Tiempo de expiración caché
     hint: En segundos, 86400 = un día, 31536000 = un año.
