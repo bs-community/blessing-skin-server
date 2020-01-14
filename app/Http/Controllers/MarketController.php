@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\PackageManager;
 use App\Services\Plugin;
 use App\Services\PluginManager;
+use App\Services\Unzip;
+use Composer\CaBundle\CaBundle;
 use Composer\Semver\Comparator;
 use Exception;
 use Illuminate\Http\Request;
@@ -58,7 +59,7 @@ class MarketController extends Controller
         return $plugins;
     }
 
-    public function download(Request $request, PluginManager $manager, PackageManager $package)
+    public function download(Request $request, PluginManager $manager, Unzip $unzip)
     {
         $name = $request->get('name');
         $metadata = $this->getPluginMetadata($name);
@@ -77,12 +78,15 @@ class MarketController extends Controller
         }
 
         $url = $metadata['dist']['url'];
-        $filename = Arr::last(explode('/', $url));
         $pluginsDir = $manager->getPluginsDirs()->first();
         $path = storage_path("packages/$name".'_'.$metadata['version'].'.zip');
 
         try {
-            $package->download($url, $path, $metadata['dist']['shasum'])->extract($pluginsDir);
+            $this->guzzle->get($url, [
+                'sink' => $path,
+                'verify' => CaBundle::getSystemCaRootBundlePath(),
+            ]);
+            $unzip->extract($path, $pluginsDir);
         } catch (Exception $e) {
             return json($e->getMessage(), 1);
         }

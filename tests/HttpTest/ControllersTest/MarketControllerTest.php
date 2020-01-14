@@ -2,9 +2,9 @@
 
 namespace Tests;
 
-use App\Services\PackageManager;
 use App\Services\Plugin;
 use App\Services\PluginManager;
+use App\Services\Unzip;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
@@ -64,25 +64,19 @@ class MarketControllerTest extends TestCase
                 'dist' => ['url' => 'http://nowhere.test/', 'shasum' => 'deadbeef'],
             ],
         ]]);
-        $this->appendToGuzzleQueue([new Response(200, [], $fakeRegistry)]);
-        $this->mock(PackageManager::class, function ($mock) {
-            $mock->shouldReceive('download')
-                ->withArgs(['http://nowhere.test/', storage_path('packages/fake_0.0.0.zip'), 'deadbeef'])
-                ->once()
-                ->andThrow(new \Exception());
-        });
+        $this->appendToGuzzleQueue([
+            new Response(200, [], $fakeRegistry),
+            new Response(404),
+        ]);
         $this->postJson('/admin/plugins/market/download', ['name' => 'fake'])
             ->assertJson(['code' => 1]);
 
-        $this->appendToGuzzleQueue([new Response(200, [], $fakeRegistry)]);
-        $this->mock(PackageManager::class, function ($mock) {
-            $mock->shouldReceive('download')
-                ->withArgs(['http://nowhere.test/', storage_path('packages/fake_0.0.0.zip'), 'deadbeef'])
-                ->once()
-                ->andReturnSelf();
-            $mock->shouldReceive('extract')
-                ->with(base_path('plugins'))
-                ->once();
+        $this->appendToGuzzleQueue([
+            new Response(200, [], $fakeRegistry),
+            new Response(200),
+        ]);
+        $this->mock(Unzip::class, function ($mock) {
+            $mock->shouldReceive('extract')->once();
         });
         $this->postJson('/admin/plugins/market/download', ['name' => 'fake'])
             ->assertJson([

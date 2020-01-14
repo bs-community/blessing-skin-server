@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\PackageManager;
+use App\Services\Unzip;
 use Cache;
 use Composer\CaBundle\CaBundle;
 use Composer\Semver\Comparator;
@@ -33,20 +33,21 @@ class UpdateController extends Controller
         ]);
     }
 
-    public function download(
-        PackageManager $package,
-        Filesystem $filesystem,
-        Client $client
-    ) {
+    public function download(Unzip $unzip, Filesystem $filesystem, Client $client)
+    {
         $info = $this->getUpdateInfo($client);
         if (!$info['ok'] || !$this->canUpdate($info['info'])['can']) {
             return json(trans('admin.update.info.up-to-date'), 1);
         }
 
         $info = $info['info'];
-        $path = storage_path('packages/bs_'.$info['latest'].'.zip');
+        $path = tempnam(sys_get_temp_dir(), 'bs');
         try {
-            $package->download($info['url'], $path)->extract(base_path());
+            $client->get($info['url'], [
+                'sink' => $path,
+                'verify' => CaBundle::getSystemCaRootBundlePath(),
+            ]);
+            $unzip->extract($path, base_path());
 
             // Delete options cache. This allows us to update the version.
             $filesystem->delete(storage_path('options.php'));
@@ -55,7 +56,7 @@ class UpdateController extends Controller
         } catch (Exception $e) {
             report($e);
 
-            return json($e->getMessage(), 1);
+            return json(trans('admin.download.errors.download', ['error' => $e->getMessage()]), 1);
         }
     }
 
@@ -88,6 +89,7 @@ class UpdateController extends Controller
                 'verify' => CaBundle::getSystemCaRootBundlePath(),
             ]);
             $info = json_decode($response->getBody(), true);
+
             if (Arr::get($info, 'spec') === self::SPEC) {
                 return ['ok' => true, 'info' => $info];
             } else {

@@ -2,7 +2,7 @@
 
 namespace Tests;
 
-use App\Services\PackageManager;
+use App\Services\Unzip;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
@@ -69,15 +69,13 @@ class UpdateControllerTest extends TestCase
         // Download
         $this->appendToGuzzleQueue([
             new Response(200, [], $this->mockFakeUpdateInfo('8.9.3')),
+            new Response(404),
             new Response(200, [], $this->mockFakeUpdateInfo('8.9.3')),
+            new Response(200),
         ]);
-        $this->mock(PackageManager::class, function ($mock) {
-            $mock->shouldReceive('download')->andThrow(new \Exception('ddd'));
-        });
         $this->postJson('/admin/update/download')->assertJson(['code' => 1]);
-        $this->mock(PackageManager::class, function ($mock) {
-            $mock->shouldReceive('download')->andReturnSelf();
-            $mock->shouldReceive('extract')->andReturn(true);
+        $this->mock(Unzip::class, function ($mock) {
+            $mock->shouldReceive('extract')->once()->andReturn();
         });
         $this->mock(\Illuminate\Filesystem\Filesystem::class, function ($mock) {
             $mock->shouldReceive('delete')->with(storage_path('options.php'))->once();
