@@ -27,7 +27,7 @@ test('render dependencies', async () => {
 test('render operation buttons', async () => {
   Vue.prototype.$http.get.mockResolvedValue([
     {
-      name: 'a', dependencies: { all: {}, unsatisfied: {} }, installed: true, update_available: true,
+      name: 'a', dependencies: { all: {}, unsatisfied: {} }, installed: true, can_update: true,
     },
     {
       name: 'b', dependencies: { all: {}, unsatisfied: {} }, installed: true, enabled: true,
@@ -90,7 +90,7 @@ test('update plugin', async () => {
       version: '2.0.0',
       dependencies: { all: {}, unsatisfied: {} },
       installed: '1.0.0',
-      update_available: true,
+      can_update: true,
     },
   ])
   Vue.prototype.$http.post

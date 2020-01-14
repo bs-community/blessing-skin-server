@@ -8,46 +8,28 @@ use App\Services\Unzip;
 use Composer\CaBundle\CaBundle;
 use Composer\Semver\Comparator;
 use Exception;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 
 class MarketController extends Controller
 {
-    /**
-     * Guzzle HTTP client.
-     *
-     * @var \GuzzleHttp\Client
-     */
-    protected $guzzle;
-
-    /**
-     * Cache for plugins registry.
-     *
-     * @var array
-     */
-    protected $registryCache;
-
-    public function __construct(\GuzzleHttp\Client $guzzle)
+    public function marketData(PluginManager $manager, Client $client)
     {
-        $this->guzzle = $guzzle;
-    }
-
-    public function marketData(PluginManager $manager)
-    {
-        $plugins = collect($this->getAllAvailablePlugins())->map(function ($item) use ($manager) {
+        $plugins = $this->fetch($client)->map(function ($item) use ($manager) {
             $plugin = $manager->get($item['name']);
 
             if ($plugin) {
                 $item['enabled'] = $plugin->isEnabled();
                 $item['installed'] = $plugin->version;
-                $item['update_available'] = Comparator::greaterThan($item['version'], $item['installed']);
+                $item['can_update'] = Comparator::greaterThan($item['version'], $item['installed']);
             } else {
                 $item['installed'] = false;
             }
 
             $requirements = Arr::get($item, 'require', []);
             unset($item['require']);
-
             $item['dependencies'] = [
                 'all' => $requirements,
                 'unsatisfied' => $manager->getUnsatisfied(new Plugin('', $item)),
@@ -59,10 +41,15 @@ class MarketController extends Controller
         return $plugins;
     }
 
-    public function download(Request $request, PluginManager $manager, Unzip $unzip)
-    {
-        $name = $request->get('name');
-        $metadata = $this->getPluginMetadata($name);
+    public function download(
+        Request $request,
+        PluginManager $manager,
+        Client $client,
+        Unzip $unzip
+    ) {
+        $name = $request->input('name');
+        $plugins = $this->fetch($client);
+        $metadata = $plugins->firstWhere('name', $name);
 
         if (!$metadata) {
             return json(trans('admin.plugins.market.non-existent', ['plugin' => $name]), 1);
@@ -77,56 +64,38 @@ class MarketController extends Controller
             return json(trans('admin.plugins.market.unresolved'), 1, compact('reason'));
         }
 
-        $url = $metadata['dist']['url'];
-        $pluginsDir = $manager->getPluginsDirs()->first();
-        $path = storage_path("packages/$name".'_'.$metadata['version'].'.zip');
-
+        $path = tempnam(sys_get_temp_dir(), $name);
         try {
-            $this->guzzle->get($url, [
+            $client->get($metadata['dist']['url'], [
                 'sink' => $path,
                 'verify' => CaBundle::getSystemCaRootBundlePath(),
             ]);
-            $unzip->extract($path, $pluginsDir);
+            $unzip->extract($path, $manager->getPluginsDirs()->first());
         } catch (Exception $e) {
-            return json($e->getMessage(), 1);
+            report($e);
+
+            return json(trans('admin.download.errors.download', ['error' => $e->getMessage()]), 1);
         }
 
         return json(trans('admin.plugins.market.install-success'), 0);
     }
 
-    protected function getPluginMetadata($name)
+    protected function fetch(Client $client): Collection
     {
-        return collect($this->getAllAvailablePlugins())->firstWhere('name', $name);
-    }
-
-    protected function getAllAvailablePlugins()
-    {
-        $registryVersion = 1;
-        if (app()->runningUnitTests() || !$this->registryCache) {
-            $registries = collect(explode(',', config('plugins.registry')));
-            $this->registryCache = $registries->map(function ($registry) use ($registryVersion) {
+        $plugins = collect(explode(',', config('plugins.registry')))
+            ->map(function ($registry) use ($client) {
                 try {
-                    $pluginsJson = $this->guzzle->request(
-                        'GET',
-                        trim($registry),
-                        ['verify' => \Composer\CaBundle\CaBundle::getSystemCaRootBundlePath()]
-                    )->getBody();
+                    $body = $client->get(trim($registry), [
+                        'verify' => CaBundle::getSystemCaRootBundlePath(),
+                    ])->getBody();
                 } catch (Exception $e) {
-                    throw new Exception(trans('admin.plugins.market.connection-error', ['error' => htmlentities($e->getMessage())]));
+                    throw new Exception(trans('admin.plugins.market.connection-error', ['error' => $e->getMessage()]));
                 }
 
-                $registryData = json_decode($pluginsJson, true);
-                $received = Arr::get($registryData, 'version');
-                abort_if(
-                    is_int($received) && $received != $registryVersion,
-                    500,
-                    "Only version $registryVersion of market registry is accepted."
-                );
+                return Arr::get(json_decode($body, true), 'packages', []);
+            })
+            ->flatten(1);
 
-                return Arr::get($registryData, 'packages', []);
-            })->flatten(1);
-        }
-
-        return $this->registryCache;
+        return $plugins;
     }
 }

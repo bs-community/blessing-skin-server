@@ -17,24 +17,22 @@ class MarketControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actAs('superAdmin');
+        $this->actingAs(factory(\App\Models\User::class, 'superAdmin')->create());
     }
 
     public function testDownload()
     {
         $this->setupGuzzleClientMock();
 
-        // Try to download a non-existent plugin
         $this->appendToGuzzleQueue(200, [], json_encode([
             'version' => 1,
             'packages' => [],
         ]));
-        $this->postJson('/admin/plugins/market/download', [
-            'name' => 'non-existent-plugin',
-        ])->assertJson([
-            'code' => 1,
-            'message' => trans('admin.plugins.market.non-existent', ['plugin' => 'non-existent-plugin']),
-        ]);
+        $this->postJson('/admin/plugins/market/download', ['name' => 'nope'])
+            ->assertJson([
+                'code' => 1,
+                'message' => trans('admin.plugins.market.non-existent', ['plugin' => 'nope']),
+            ]);
 
         // Unresolved plugin.
         $fakeRegistry = json_encode(['packages' => [
@@ -88,7 +86,7 @@ class MarketControllerTest extends TestCase
     public function testMarketData()
     {
         $this->setupGuzzleClientMock([
-            new RequestException('Connection Error', new Request('POST', 'whatever')),
+            new RequestException('Connection Error', new Request('POST', '')),
             new Response(200, [], json_encode(['version' => 1, 'packages' => [
                 [
                     'name' => 'fake1',
@@ -109,11 +107,9 @@ class MarketControllerTest extends TestCase
                     'require' => [],
                 ],
             ]])),
-            new Response(200, [], json_encode(['version' => 0])),
         ]);
 
-        // Expected an exception, but unable to be asserted.
-        $this->getJson('/admin/plugins/market/list');
+        $this->getJson('/admin/plugins/market/list')->assertStatus(500);
 
         $this->mock(PluginManager::class, function ($mock) {
             $mock->shouldReceive('get')
@@ -139,8 +135,5 @@ class MarketControllerTest extends TestCase
                     'dependencies',
                 ],
             ]);
-
-        $this->getJson('/admin/plugins/market/list')
-            ->assertJson(['message' => 'Only version 1 of market registry is accepted.']);
     }
 }

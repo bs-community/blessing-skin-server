@@ -31,7 +31,7 @@
         <span v-else-if="props.column.field === 'operations'">
           <template v-if="props.row.installed">
             <button
-              v-if="props.row.update_available"
+              v-if="props.row.can_update"
               class="btn btn-success"
               :disabled="installing === props.row.name"
               @click="updatePlugin(props.row)"
@@ -145,7 +145,7 @@ export default {
       )
       if (code === 0) {
         toast.success(message)
-        this.plugins[originalIndex].update_available = false
+        this.plugins[originalIndex].can_update = false
         this.plugins[originalIndex].installed = true
       } else if (data && data.reason) {
         alertUnresolvedPlugins(message, data.reason)
