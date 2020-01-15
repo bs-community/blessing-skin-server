@@ -16,7 +16,7 @@
               <div class="info-box-content">
                 <span class="info-box-text">{{ $t('user.used.players') }}</span>
                 <span class="info-box-number">
-                  <b>{{ playersUsed }}</b> / {{ playersTotal }}
+                  <strong>{{ playersUsed }}</strong> / {{ playersTotal }}
                 </span>
                 <div class="progress">
                   <div class="progress-bar" :style="{ width: playersPercentage + '%' }" />
@@ -31,10 +31,10 @@
                 <span class="info-box-text">{{ $t('user.used.storage') }}</span>
                 <span class="info-box-number">
                   <template v-if="storageUsed > 1024">
-                    <b>{{ ~~(storageUsed / 1024) }}</b> / {{ ~~(storageTotal / 1024) }} MB
+                    <strong>{{ ~~(storageUsed / 1024) }}</strong> / {{ ~~(storageTotal / 1024) }} MB
                   </template>
                   <template v-else>
-                    <b>{{ storageUsed }}</b> / {{ storageTotal }} KB
+                    <strong>{{ storageUsed }}</strong> / {{ storageTotal }} KB
                   </template>
                 </span>
                 <div class="progress">
