@@ -13,9 +13,6 @@ if (Test-Path ./public/app) {
 # Run webpack
 yarn build
 
-New-Item -ItemType Directory ./public/app/brand-icons
-Copy-Item -Path ./node_modules/@fortawesome/fontawesome-free/svgs/brands/*.svg -Destination ./public/app/brand-icons
-
 if ($Simple) {
     exit
 }
