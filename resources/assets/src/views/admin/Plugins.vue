@@ -1,104 +1,51 @@
 <template>
-  <div class="container-fluid">
-    <vue-good-table
-      :rows="plugins"
-      :columns="columns"
-      :search-options="tableOptions.search"
-      :pagination-options="tableOptions.pagination"
-      style-class="vgt-table striped"
-      :row-style-class="rowStyleClassFn"
-    >
-      <template #table-row="props">
-        <span v-if="props.column.field === 'title'">
-          <strong>{{ props.formattedRow[props.column.field] }}</strong>
-          <div class="actions">
-            <template v-if="props.row.readme">
-              <a
-                :href="`${baseUrl}/admin/plugins/readme/${props.row.name}`"
-                class="text-primary"
-              >{{ $t('admin.pluginReadme') }}</a> |
-            </template>
-            <template v-if="props.row.enabled" class="actions">
-              <template v-if="props.row.config">
-                <a
-                  v-t="'admin.configurePlugin'"
-                  class="text-primary"
-                  :href="`${baseUrl}/admin/plugins/config/${props.row.name}`"
-                /> |
-              </template>
-              <a
-                v-t="'admin.disablePlugin'"
-                href="#"
-                class="text-primary"
-                @click="disablePlugin(props.row)"
-              />
-            </template>
-            <template v-else class="actions">
-              <a
-                v-t="'admin.enablePlugin'"
-                href="#"
-                class="text-primary"
-                @click="enablePlugin(props.row)"
-              /> |
-              <a
-                v-t="'admin.deletePlugin'"
-                href="#"
-                class="text-danger"
-                @click="deletePlugin(props.row)"
-              />
-            </template>
+  <div class="container-fluid d-flex flex-wrap">
+    <div v-for="(plugin, index) in plugins" :key="plugin.name" class="info-box mr-3">
+      <span class="info-box-icon" :class="`bg-${plugin.icon.bg}`">
+        <i :class="`${plugin.icon.faType} fa-${plugin.icon.fa}`" />
+      </span>
+      <div class="info-box-content">
+        <div class="d-flex justify-content-between">
+          <div>
+            <input :checked="plugin.enabled" type="checkbox" @click.prevent="switchPlugin(plugin, $event)">&nbsp;
+            <strong>{{ plugin.title }}</strong>&nbsp;
+            <span class="text-gray">v{{ plugin.version }}</span>
           </div>
-        </span>
-        <span v-else-if="props.column.field === 'description'">
-          <div><p>{{ props.formattedRow.description }}</p></div>
-          <div class="plugin-version-author">
-            {{ $t('admin.pluginVersion') }}
-            <span class="text-primary">{{ props.row.version }}</span> |
-            {{ $t('admin.pluginAuthor') }}
-            <a :href="props.row.url">{{ props.row.author }}</a> |
-            {{ $t('admin.pluginName') }}
-            {{ props.row.name }}
-          </div>
-        </span>
-        <span v-else-if="props.column.field === 'dependencies'">
-          <span v-if="Object.keys(props.row.dependencies.all).length === 0">
-            <i v-t="'admin.noDependencies'" />
-          </span>
-          <div v-else>
-            <span
-              v-for="(constraint, name) in props.row.dependencies.all"
-              :key="name"
-              class="badge"
-              :class="`bg-${name in props.row.dependencies.unsatisfied ? 'red' : 'green'}`"
+          <div class="plugin-actions">
+            <a
+              v-if="plugin.readme"
+              :href="`${baseUrl}/admin/plugins/readme/${plugin.name}`"
             >
-              {{ name }}: {{ constraint }}
-              <br>
-            </span>
+              <i class="fas fa-question" />
+            </a>
+            <a
+              v-if="plugin.enabled && plugin.config"
+              :href="`${baseUrl}/admin/plugins/config/${plugin.name}`"
+            >
+              <i class="fas fa-cog" />
+            </a>
+            <a href="#" @click="deletePlugin(plugin, index)">
+              <i class="fas fa-trash" />
+            </a>
           </div>
-        </span>
-        <span v-else v-text="props.formattedRow[props.column.field]" />
-      </template>
-    </vue-good-table>
+        </div>
+        <div class="mt-2 plugin-desc" :title="plugin.description">
+          {{ plugin.description }}
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import { VueGoodTable } from 'vue-good-table'
-import 'vue-good-table/dist/vue-good-table.min.css'
-import enablePlugin from '../../components/mixins/enablePlugin'
-import tableOptions from '../../components/mixins/tableOptions'
+import alertUnresolvedPlugins from '../../components/mixins/alertUnresolvedPlugins'
 import emitMounted from '../../components/mixins/emitMounted'
 import { showModal, toast } from '../../scripts/notify'
 
 export default {
   name: 'Plugins',
-  components: {
-    VueGoodTable,
-  },
   mixins: [
     emitMounted,
-    enablePlugin,
-    tableOptions,
   ],
   props: {
     baseUrl: {
@@ -109,23 +56,6 @@ export default {
   data() {
     return {
       plugins: [],
-      columns: [
-        {
-          field: 'title', label: this.$t('admin.pluginTitle'), width: '17%',
-        },
-        {
-          field: 'description',
-          label: this.$t('admin.pluginDescription'),
-          sortable: false,
-          width: '65%',
-        },
-        {
-          field: 'dependencies',
-          label: this.$t('admin.pluginDependencies'),
-          sortable: false,
-          globalSearchDisabled: true,
-        },
-      ],
     }
   },
   beforeMount() {
@@ -135,27 +65,47 @@ export default {
     async fetchData() {
       this.plugins = await this.$http.get('/admin/plugins/data')
     },
-    rowStyleClassFn(row) {
-      return row.enabled ? 'plugin-enabled' : 'plugin'
+    async switchPlugin(plugin, { target }) {
+      if (target.checked) {
+        if (await this.enablePlugin(plugin.name)) {
+          plugin.enabled = true
+        }
+      } else if (await this.disablePlugin(plugin.name)) {
+        plugin.enabled = false
+      }
     },
-    async disablePlugin({ name, originalIndex }) {
+    async enablePlugin(name) {
+      const {
+        code, message, data: { reason } = { reason: [] },
+      } = await this.$http.post(
+        '/admin/plugins/manage',
+        { action: 'enable', name },
+      )
+      if (code === 0) {
+        toast.success(message)
+      } else {
+        alertUnresolvedPlugins(message, reason)
+      }
+
+      return code === 0
+    },
+    async disablePlugin(name) {
       const { code, message } = await this.$http.post(
         '/admin/plugins/manage',
         { action: 'disable', name },
       )
       if (code === 0) {
         toast.success(message)
-        this.plugins[originalIndex].enabled = false
       } else {
         toast.error(message)
       }
+
+      return code === 0
     },
-    async deletePlugin({
-      name, title, originalIndex,
-    }) {
+    async deletePlugin(plugin, index) {
       try {
         await showModal({
-          title,
+          title: plugin.title,
           text: this.$t('admin.confirmDeletion'),
           okButtonType: 'danger',
         })
@@ -165,10 +115,10 @@ export default {
 
       const { code, message } = await this.$http.post(
         '/admin/plugins/manage',
-        { action: 'delete', name },
+        { action: 'delete', name: plugin.name },
       )
       if (code === 0) {
-        this.$delete(this.plugins, originalIndex)
+        this.$delete(this.plugins, index)
         toast.success(message)
       } else {
         toast.error(message)
@@ -179,25 +129,35 @@ export default {
 </script>
 
 <style lang="stylus">
-.actions
-  margin-top 5px
-  color #ddd
+.info-box
+  cursor default
+  transition-property box-shadow
+  transition-duration 0.3s
+  width 32%
+  @media (max-width: 1280px)
+    width 47%
+  @media (max-width: 768px)
+    width 100%
+  &:hover
+    box-shadow 0 .5rem 1rem rgba(0,0,0,.15)
 
-.plugin-version-author
-  color #777
-  font-size small
-    a
-      color #337ab7
+.info-box-content
+  max-width 85%
 
-.plugin:nth-of-type(2n+1) > td:first-child
-  border-left 5px solid rgba(51, 68, 109, 0.03)
+.plugin-actions
+  margin-top -7px
+  a
+    transition-property color
+    transition-duration 0.3s
+    color #000
+    &:hover
+      color #999
+    &:not(:last-child)
+      margin-right 7px
 
-.plugin:nth-of-type(2n) > td:first-child
-  border-left 5px solid #fff
-
-.plugin-enabled
-  background-color #f7fcfe
-
-.plugin-enabled > td:first-child
-  border-left 5px solid #3c8dbc
+.plugin-desc
+  font-size 14px
+  white-space nowrap
+  overflow hidden
+  text-overflow ellipsis
 </style>

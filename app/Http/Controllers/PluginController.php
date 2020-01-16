@@ -88,21 +88,19 @@ class PluginController extends Controller
     public function getPluginData(PluginManager $plugins)
     {
         return $plugins->all()
-            ->map(function ($plugin) use ($plugins) {
+            ->map(function (Plugin $plugin) {
                 return [
                     'name' => $plugin->name,
-                    'title' => trans($plugin->title ?: 'EMPTY'),
-                    'author' => $plugin->author,
-                    'description' => trans($plugin->description ?: 'EMPTY'),
+                    'title' => trans($plugin->title),
+                    'description' => trans($plugin->description ?? ''),
                     'version' => $plugin->version,
-                    'url' => $plugin->url,
                     'enabled' => $plugin->isEnabled(),
                     'readme' => (bool) $plugin->getReadme(),
                     'config' => $plugin->hasConfig(),
-                    'dependencies' => [
-                        'all' => $plugin->require,
-                        'unsatisfied' => $plugins->getUnsatisfied($plugin),
-                    ],
+                    'icon' => array_merge(
+                        ['fa' => 'plug', 'faType' => 'fas', 'bg' => 'navy'],
+                        $plugin->getManifestAttr('enchants.icon', [])
+                    ),
                 ];
             })
             ->values();

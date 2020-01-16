@@ -21,7 +21,6 @@ class MarketController extends Controller
             $plugin = $manager->get($item['name']);
 
             if ($plugin) {
-                $item['enabled'] = $plugin->isEnabled();
                 $item['installed'] = $plugin->version;
                 $item['can_update'] = Comparator::greaterThan($item['version'], $item['installed']);
             } else {

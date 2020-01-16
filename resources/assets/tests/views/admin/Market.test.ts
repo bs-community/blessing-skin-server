@@ -30,13 +30,10 @@ test('render operation buttons', async () => {
       name: 'a', dependencies: { all: {}, unsatisfied: {} }, installed: true, can_update: true,
     },
     {
-      name: 'b', dependencies: { all: {}, unsatisfied: {} }, installed: true, enabled: true,
+      name: 'b', dependencies: { all: {}, unsatisfied: {} }, installed: true,
     },
     {
-      name: 'c', dependencies: { all: {}, unsatisfied: {} }, installed: true,
-    },
-    {
-      name: 'd', dependencies: { all: {}, unsatisfied: {} }, installed: false,
+      name: 'c', dependencies: { all: {}, unsatisfied: {} }, installed: false,
     },
   ])
   const wrapper = mount(Market)
@@ -44,9 +41,9 @@ test('render operation buttons', async () => {
   const tbody = wrapper.find('tbody')
 
   expect(tbody.find('tr:nth-child(1)').text()).toContain('admin.updatePlugin')
-  expect(tbody.find('tr:nth-child(2)').text()).toContain('admin.statusEnabled')
-  expect(tbody.find('tr:nth-child(3)').text()).toContain('admin.enablePlugin')
-  expect(tbody.find('tr:nth-child(4)').text()).toContain('admin.installPlugin')
+  expect(tbody.find('tr:nth-child(2)').text()).toContain('admin.installPlugin')
+  expect(tbody.find('tr:nth-child(2) button').attributes('disabled')).toBeTruthy()
+  expect(tbody.find('tr:nth-child(3)').text()).toContain('admin.installPlugin')
 })
 
 test('install plugin', async () => {
@@ -80,7 +77,7 @@ test('install plugin', async () => {
 
   button.trigger('click')
   await flushPromises()
-  expect(wrapper.text()).toContain('admin.enablePlugin')
+  expect(wrapper.find('.btn-default').attributes('disabled')).toBeTruthy()
 })
 
 test('update plugin', async () => {

@@ -18,8 +18,7 @@ class PluginControllerTest extends TestCase
 
     public function testShowManage()
     {
-        $this->get('/admin/plugins/manage')
-            ->assertSee(trans('general.plugin-manage'));
+        $this->get('/admin/plugins/manage')->assertSee(trans('general.plugin-manage'));
     }
 
     public function testConfig()
@@ -250,14 +249,6 @@ class PluginControllerTest extends TestCase
                     'version' => '0.0.0',
                     'title' => '',
                 ])]));
-            $mock->shouldReceive('getUnsatisfied')
-                ->withArgs(function ($plugin) {
-                    $this->assertEquals('a', $plugin->name);
-
-                    return true;
-                })
-                ->once()
-                ->andReturn(collect(['b' => null]));
         });
         $this->getJson('/admin/plugins/data')
             ->assertJsonStructure([
@@ -266,12 +257,9 @@ class PluginControllerTest extends TestCase
                     'version',
                     'title',
                     'description',
-                    'author',
-                    'url',
                     'enabled',
                     'config',
                     'readme',
-                    'dependencies',
                 ],
             ]);
     }

@@ -43,11 +43,8 @@
                 <i class="fas fa-sync-alt" /> {{ $t('admin.updatePlugin') }}
               </template>
             </button>
-            <button v-else-if="props.row.enabled" class="btn btn-primary" disabled>
-              <i class="fas fa-check" /> {{ $t('admin.statusEnabled') }}
-            </button>
-            <button v-else class="btn btn-primary" @click="enablePlugin(props.row)">
-              <i class="fas fa-plug" /> {{ $t('admin.enablePlugin') }}
+            <button v-else class="btn btn-default" disabled>
+              <i class="fas fa-download" /> {{ $t('admin.installPlugin') }}
             </button>
           </template>
           <button
@@ -74,7 +71,6 @@
 import { VueGoodTable } from 'vue-good-table'
 import 'vue-good-table/dist/vue-good-table.min.css'
 import alertUnresolvedPlugins from '../../components/mixins/alertUnresolvedPlugins'
-import enablePlugin from '../../components/mixins/enablePlugin'
 import tableOptions from '../../components/mixins/tableOptions'
 import emitMounted from '../../components/mixins/emitMounted'
 import { showModal, toast } from '../../scripts/notify'
@@ -86,7 +82,6 @@ export default {
   },
   mixins: [
     emitMounted,
-    enablePlugin,
     tableOptions,
   ],
   data() {

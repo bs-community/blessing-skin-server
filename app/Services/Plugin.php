@@ -16,7 +16,7 @@ class Plugin
     ];
 
     /**
-     * The full directory of this plugin.
+     * The full path of this plugin.
      *
      * @var string
      */
@@ -29,11 +29,6 @@ class Plugin
      */
     protected $manifest;
 
-    /**
-     * Whether the plugin is enabled.
-     *
-     * @var bool
-     */
     protected $enabled = false;
 
     public function __construct(string $path, array $manifest)

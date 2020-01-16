@@ -6,54 +6,30 @@ import Plugins from '@/views/admin/Plugins.vue'
 
 jest.mock('@/scripts/notify')
 
-test('render dependencies', async () => {
+test('render config button', async () => {
   Vue.prototype.$http.get.mockResolvedValue([
-    { name: 'a', dependencies: { all: {}, unsatisfied: {} } },
     {
-      name: 'b',
-      dependencies: {
-        all: { a: '^1.0.0', c: '^2.0.0' }, unsatisfied: { c: '' },
-      },
+      name: 'a', icon: {}, enabled: true, config: true,
+    },
+    {
+      name: 'b', icon: {}, enabled: false, config: true,
+    },
+    {
+      name: 'c', icon: {}, enabled: false, config: false,
     },
   ])
   const wrapper = mount(Plugins)
   await flushPromises()
 
-  expect(wrapper.text()).toContain('admin.noDependencies')
-  expect(wrapper.find('span.badge.bg-green').text()).toBe('a: ^1.0.0')
-  expect(wrapper.find('span.badge.bg-red').text()).toBe('c: ^2.0.0')
-})
-
-test('render operation buttons', async () => {
-  Vue.prototype.$http.get.mockResolvedValue([
-    {
-      name: 'a', dependencies: { all: {}, unsatisfied: {} }, enabled: true, config: true,
-    },
-    {
-      name: 'b', dependencies: { all: {}, unsatisfied: {} }, enabled: true, config: false,
-    },
-    {
-      name: 'c', dependencies: { all: {}, unsatisfied: {} }, enabled: false,
-    },
-  ])
-  const wrapper = mount(Plugins)
-  await flushPromises()
-  const tbody = wrapper.find('tbody')
-
-  expect(tbody.find('tr:nth-child(1)').text()).toContain('admin.disablePlugin')
-  expect(tbody.find('tr:nth-child(1)').text()).toContain('admin.configurePlugin')
-  expect(tbody.find('tr:nth-child(2)').text()).not.toContain('admin.configurePlugin')
-  expect(tbody.find('tr:nth-child(3)').text()).toContain('admin.enablePlugin')
-  expect(tbody.find('tr:nth-child(3)').text()).toContain('admin.deletePlugin')
+  expect(wrapper.find('.info-box:nth-child(1) .fa-cog').exists()).toBeTrue()
+  expect(wrapper.find('.info-box:nth-child(2) .fa-cog').exists()).toBeFalse()
+  expect(wrapper.find('.info-box:nth-child(3) .fa-cog').exists()).toBeFalse()
 })
 
 test('enable plugin', async () => {
   Vue.prototype.$http.get.mockResolvedValue([
     {
-      name: 'a', dependencies: { all: {}, unsatisfied: {} }, enabled: false,
-    },
-    {
-      name: 'b', dependencies: { all: { c: '' }, unsatisfied: {} }, enabled: false,
+      name: 'a', icon: {}, enabled: false,
     },
   ])
   Vue.prototype.$http.post
@@ -61,29 +37,11 @@ test('enable plugin', async () => {
       code: 1, message: '1', data: { reason: ['abc'] },
     })
     .mockResolvedValue({ code: 0, message: '0' })
-  showModal
-    .mockRejectedValueOnce(null)
-    .mockResolvedValue({ value: '' })
   const wrapper = mount(Plugins)
   await flushPromises()
+  const checkbox = wrapper.find('input[type=checkbox]')
 
-  wrapper
-    .findAll('.actions')
-    .at(0)
-    .find('a')
-    .trigger('click')
-  await flushPromises()
-  expect(showModal).toBeCalledWith({
-    text: 'admin.noDependenciesNotice',
-    okButtonType: 'warning',
-  })
-  expect(Vue.prototype.$http.post).not.toBeCalled()
-
-  wrapper
-    .findAll('.actions')
-    .at(0)
-    .find('a')
-    .trigger('click')
+  checkbox.trigger('click')
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/plugins/manage',
@@ -94,19 +52,15 @@ test('enable plugin', async () => {
     dangerousHTML: expect.stringContaining('<li>abc</li>'),
   })
 
-  wrapper
-    .findAll('.actions')
-    .at(1)
-    .find('a')
-    .trigger('click')
+  checkbox.trigger('click')
   await flushPromises()
-  expect(wrapper.text()).toContain('admin.disablePlugin')
+  expect(toast.success).toBeCalled()
 })
 
 test('disable plugin', async () => {
   Vue.prototype.$http.get.mockResolvedValue([
     {
-      name: 'a', dependencies: { all: {}, unsatisfied: {} }, enabled: true, config: false,
+      name: 'a', icon: {}, enabled: true,
     },
   ])
   Vue.prototype.$http.post
@@ -114,18 +68,18 @@ test('disable plugin', async () => {
     .mockResolvedValue({ code: 0, message: '0' })
   const wrapper = mount(Plugins)
   await flushPromises()
-  const button = wrapper.find('.actions').find('a')
+  const checkbox = wrapper.find('input[type="checkbox"]')
 
-  button.trigger('click')
+  checkbox.trigger('click')
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(
     '/admin/plugins/manage',
     { action: 'disable', name: 'a' },
   )
-  button.trigger('click')
+  checkbox.trigger('click')
   await flushPromises()
   expect(toast.success).toBeCalledWith('0')
-  expect(wrapper.text()).toContain('admin.enablePlugin')
+  expect(checkbox.attributes('checked')).toBeFalsy()
 })
 
 test('delete plugin', async () => {
@@ -133,8 +87,7 @@ test('delete plugin', async () => {
     {
       name: 'a',
       title: 'My Plugin',
-      dependencies: { all: {}, unsatisfied: {} },
-      enabled: false,
+      icon: {},
     },
   ])
   Vue.prototype.$http.post
@@ -145,8 +98,7 @@ test('delete plugin', async () => {
     .mockResolvedValue({ value: '' })
   const wrapper = mount(Plugins)
   await flushPromises()
-  const button = wrapper.find('.actions').findAll('a')
-    .at(1)
+  const button = wrapper.find('.plugin-actions a')
 
   button.trigger('click')
   await flushPromises()
@@ -167,7 +119,7 @@ test('delete plugin', async () => {
 
   button.trigger('click')
   await flushPromises()
-  expect(wrapper.text()).toContain('No data')
+  expect(wrapper.text()).not.toContain('My Plugin')
 })
 
 test('readme link', async () => {
@@ -175,13 +127,12 @@ test('readme link', async () => {
     {
       name: 'a',
       readme: true,
-      dependencies: { all: {}, unsatisfied: {} },
+      icon: {},
     },
   ])
   const wrapper = mount(Plugins)
   await flushPromises()
 
-  const link = wrapper.find('.actions > a:nth-child(1)')
-  expect(link.text()).toContain('admin.pluginReadme')
+  const link = wrapper.find('.plugin-actions > a:nth-child(1)')
   expect(link.attributes('href')).toBe('/admin/plugins/readme/a')
 })
