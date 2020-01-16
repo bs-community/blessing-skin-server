@@ -1,7 +1,4 @@
 {
-  "presets": [
-    "@babel/preset-typescript"
-  ],
   "env": {
     "production": {
       "presets": [
@@ -19,18 +16,6 @@
           {
             "helpers": true,
             "regenerator": true
-          }
-        ]
-      ]
-    },
-    "development": {
-      "presets": [
-        [
-          "@babel/preset-env",
-          {
-            "targets": {
-              "esmodules": true
-            }
           }
         ]
       ]

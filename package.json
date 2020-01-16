@@ -32,9 +32,8 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
-    "@babel/plugin-transform-runtime": "^7.8.0",
+    "@babel/plugin-transform-runtime": "^7.8.3",
     "@babel/preset-env": "^7.8.2",
-    "@babel/preset-typescript": "^7.8.0",
     "@gplane/tsconfig": "^1.0.0",
     "@types/bootstrap": "^4.3.1",
     "@types/echarts": "^4.4.2",
@@ -63,6 +62,8 @@
     "style-loader": "^1.1.2",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
+    "ts-jest": "^24.3.0",
+    "ts-loader": "^6.2.1",
     "typescript": "^3.7.4",
     "url-loader": "^3.0.0",
     "vue-jest": "^4.0.0-beta.2",
@@ -175,10 +176,12 @@
     ]
   },
   "jest": {
+    "preset": "ts-jest",
     "resetMocks": true,
     "timers": "fake",
     "transform": {
-      ".*\\.(t|j)s$": "babel-jest",
+      ".*\\.js$": "babel-jest",
+      ".*\\.tsx?$": "ts-jest",
       ".*\\.vue$": "vue-jest"
     },
     "moduleFileExtensions": [

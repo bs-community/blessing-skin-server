@@ -33,9 +33,13 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.(t|j)s$/,
+        test: /\.js$/,
         exclude: /node_modules/,
         use: ['cache-loader', 'babel-loader'],
+      },
+      {
+        test: /\.tsx?$/,
+        use: ['cache-loader', 'ts-loader'],
       },
       {
         test: /\.vue$/,

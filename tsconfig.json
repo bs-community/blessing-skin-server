@@ -1,9 +1,9 @@
 {
   "extends": "@gplane/tsconfig",
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es2016",
+    "module": "esnext",
     "moduleResolution": "node",
-    "noEmit": true,
     "baseUrl": ".",
     "paths": {
       "@/scripts/*": [

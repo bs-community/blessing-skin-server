@@ -18,4 +18,3 @@ export async function logout() {
 
 const button = document.querySelector('#logout-button')
 button?.addEventListener('click', logout)
-
