@@ -12,7 +12,7 @@ const devMode = !process.argv.includes('-p')
 const config = {
   mode: devMode ? 'development' : 'production',
   entry: {
-    app: './resources/assets/src/index.ts',
+    app: ['react-hot-loader/patch', './resources/assets/src/index.tsx'],
     'language-chooser': './resources/assets/src/scripts/language-chooser.ts',
     style: [
       'bootstrap/dist/css/bootstrap.min.css',
@@ -46,11 +46,29 @@ const config = {
         use: ['cache-loader', 'vue-loader'],
       },
       {
-        test: /\.(css|styl(us)?)$/,
-        exclude: /node_modules/,
+        test: /\.vue.*\.stylus$/,
         use: [
           'vue-style-loader',
           { loader: 'css-loader', options: { importLoaders: 2 } },
+          'postcss-loader',
+          'stylus-loader',
+        ],
+      },
+      {
+        test: /views.*\.styl$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2,
+              modules: {
+                localIdentName: devMode ? '[name]__[local]' : '[hash:base64]',
+              },
+              localsConvention: 'dashes',
+              esModule: true,
+            },
+          },
           'postcss-loader',
           'stylus-loader',
         ],
@@ -93,7 +111,10 @@ const config = {
     }),
   ],
   resolve: {
-    extensions: ['.js', '.ts', '.vue', '.json'],
+    extensions: ['.js', '.ts', '.tsx', '.vue', '.json'],
+    alias: {
+      'react-dom': '@hot-loader/react-dom',
+    },
   },
   optimization: {
     minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],

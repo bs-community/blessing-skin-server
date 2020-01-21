@@ -78,7 +78,7 @@ export default [
   },
   {
     path: 'admin/plugins/manage',
-    component: () => import('../views/admin/Plugins.vue'),
+    react: () => import('../views/admin/PluginsManagement'),
     el: '.content > .container-fluid',
   },
   {

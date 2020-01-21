@@ -5,22 +5,10 @@
     "module": "esnext",
     "moduleResolution": "node",
     "baseUrl": ".",
-    "paths": {
-      "@/scripts/*": [
-        "./resources/assets/tests/ts-shims/*",
-        "./resources/assets/src/scripts/*"
-      ],
-      "@/components/*": [
-        "./resources/assets/src/components/*"
-      ],
-      "@/views/*": [
-        "./resources/assets/src/views/*"
-      ]
-    }
+    "incremental": true
   },
-  "exclude": [
-    "node_modules",
-    "plugins",
-    "vendor"
+  "include": [
+    "resources/assets/src",
+    "resources/assets/webpack.d.ts"
   ]
 }

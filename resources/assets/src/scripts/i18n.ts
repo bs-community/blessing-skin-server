@@ -44,5 +44,4 @@ Vue.use(_Vue => {
   })
 })
 
-// eslint-disable-next-line @typescript-eslint/unbound-method
-window.trans = trans
+Object.assign(window, { trans })

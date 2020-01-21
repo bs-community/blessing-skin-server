@@ -4,9 +4,10 @@ import { queryStringify } from './utils'
 import { showModal } from './notify'
 import { trans } from './i18n'
 
-export interface ResponseBody {
+export interface ResponseBody<T = null> {
   code: number
   message: string
+  data: T extends null ? never : T
 }
 
 class HTTPError extends Error {

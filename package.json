@@ -18,10 +18,14 @@
   "dependencies": {
     "@babel/runtime": "^7.8.0",
     "@fortawesome/fontawesome-free": "^5.12.0",
+    "@hot-loader/react-dom": "^16.11.0",
     "@tweenjs/tween.js": "^18.4.2",
     "admin-lte": "^3.0.1",
     "echarts": "^4.6.0",
     "jquery": "^3.4.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-hot-loader": "^4.12.18",
     "rxjs": "^6.5.3",
     "skinview3d": "^1.2.1",
     "vue": "^2.6.11",
@@ -35,10 +39,13 @@
     "@babel/plugin-transform-runtime": "^7.8.3",
     "@babel/preset-env": "^7.8.2",
     "@gplane/tsconfig": "^1.0.0",
+    "@testing-library/react": "^9.4.0",
     "@types/bootstrap": "^4.3.1",
     "@types/echarts": "^4.4.2",
     "@types/jest": "^24.0.25",
     "@types/jquery": "^3.3.29",
+    "@types/react": "^16.9.17",
+    "@types/react-dom": "^16.9.4",
     "@types/webpack": "^4.41.2",
     "@typescript-eslint/eslint-plugin": "^2.8.0",
     "@typescript-eslint/parser": "^2.8.0",
@@ -188,12 +195,13 @@
       "js",
       "vue",
       "ts",
+      "tsx",
       "json",
       "node"
     ],
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/resources/assets/src/$1",
-      "\\.css$": "<rootDir>/resources/assets/tests/__mocks__/style.ts",
+      "\\.(css|styl)$": "<rootDir>/resources/assets/tests/__mocks__/style.ts",
       "\\.(png|jpg)$": "<rootDir>/resources/assets/tests/__mocks__/file.ts"
     },
     "setupFilesAfterEnv": [
@@ -204,6 +212,15 @@
       "<rootDir>/resources/assets/tests/setup",
       "<rootDir>/resources/assets/tests/utils"
     ],
-    "testRegex": "resources/assets/tests/.*\\.(spec|test)\\.(t|j)s$"
+    "testMatch": [
+      "<rootDir>/resources/assets/tests/**/*.test.ts",
+      "<rootDir>/resources/assets/tests/**/*.test.tsx"
+    ],
+    "globals": {
+      "ts-jest": {
+        "tsConfig": "<rootDir>/resources/assets/tests/tsconfig.json",
+        "isolatedModules": true
+      }
+    }
   }
 }
