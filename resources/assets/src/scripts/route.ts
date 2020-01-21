@@ -29,11 +29,6 @@ export default [
     el: 'form',
   },
   {
-    path: 'user/reports',
-    component: () => import('../views/user/Report.vue'),
-    el: '.content > .container-fluid',
-  },
-  {
     path: 'user/profile',
     module: [
       () => import('../views/user/profile/index'),

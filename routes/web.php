@@ -57,10 +57,7 @@ Route::prefix('user')
         Route::get('score-info', 'UserController@scoreInfo')->name('score');
         Route::post('sign', 'UserController@sign')->name('sign');
 
-        Route::prefix('reports')->group(function () {
-            Route::view('', 'user.report');
-            Route::get('list', 'ReportController@track');
-        });
+        Route::get('reports', 'ReportController@track');
 
         Route::prefix('profile')->group(function () {
             Route::get('', 'UserController@profile')->name('profile');

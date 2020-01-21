@@ -113,12 +113,9 @@ class ReportControllerTest extends TestCase
         $report->save();
 
         $this->actingAs($user)
-            ->getJson('/user/reports/list')
-            ->assertJson([[
-                'tid' => 1,
-                'reason' => 'test',
-                'status' => Report::PENDING,
-            ]]);
+            ->getJson('/user/reports')
+            ->assertSee('test')
+            ->assertSee(trans('front-end.report.status')[0]);
     }
 
     public function testManage()

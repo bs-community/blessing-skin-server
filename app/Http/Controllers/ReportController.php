@@ -56,9 +56,11 @@ class ReportController extends Controller
 
     public function track()
     {
-        return Report::where('reporter', auth()->id())
+        $reports = Report::where('reporter', auth()->id())
             ->orderBy('report_at', 'desc')
             ->get();
+
+        return view('user.report', ['reports' => $reports]);
     }
 
     public function manage(Request $request)
