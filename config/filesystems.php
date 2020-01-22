@@ -55,7 +55,7 @@ return [
 
         'textures' => [
             'driver' => env('FS_DRIVER', 'local'),
-            'root' => storage_path('textures'),
+            'root' => env('TEXTURES_DIR', storage_path('textures')),
         ],
 
         'testing' => [

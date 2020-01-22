@@ -593,6 +593,8 @@ class SkinlibControllerTest extends TestCase
 
     public function testDelete()
     {
+        $disk = Storage::fake('textures');
+
         $uploader = factory(User::class)->create();
         $other = factory(User::class)->create();
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
@@ -625,7 +627,7 @@ class SkinlibControllerTest extends TestCase
 
         $texture = factory(Texture::class)->create();
         factory(Texture::class)->create(['hash' => $texture->hash]);
-        Storage::disk('textures')->put($texture->hash, '');
+        $disk->put($texture->hash, '');
 
         // When file is occupied, the file should not be deleted
         $this->postJson('/skinlib/delete', ['tid' => $texture->tid])
