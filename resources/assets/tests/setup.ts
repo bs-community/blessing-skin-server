@@ -1,5 +1,6 @@
 /* eslint-disable max-classes-per-file */
 import 'jest-extended'
+import '@testing-library/jest-dom'
 import Vue from 'vue'
 
 window.blessing = {

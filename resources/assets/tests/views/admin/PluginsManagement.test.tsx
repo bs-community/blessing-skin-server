@@ -70,6 +70,7 @@ describe('enable plugin', () => {
       name: 'a',
     })
     expect(toast.success).toBeCalled()
+    expect(getByTitle(trans('admin.disablePlugin'))).toBeChecked()
   })
 
   it('failed', async () => {
@@ -121,6 +122,7 @@ describe('disable plugin', () => {
       name: 'a',
     })
     expect(toast.success).toBeCalledWith('0')
+    expect(getByTitle(trans('admin.enablePlugin'))).not.toBeChecked()
   })
 
   it('failed', async () => {
