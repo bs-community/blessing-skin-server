@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import JQuery from 'jquery'
-import { ModalOptions, ModalResult } from './scripts/modal'
+import { ModalOptions, ModalResult } from './components/Modal'
 import { Toast } from './scripts/toast'
 
 declare global {

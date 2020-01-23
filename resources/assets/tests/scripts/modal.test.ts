@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import { act } from 'react-dom/test-utils'
 import { showModal } from '@/scripts/modal'
 
 test('show modal', async () => {
@@ -11,6 +12,9 @@ test('show modal', async () => {
   const { value } = await showModal()
   expect(value).toBe('')
 
-  $('.modal').trigger('hidden.bs.modal')
+  act(() => {
+    $('.modal').trigger('hidden.bs.modal')
+    jest.runAllTimers()
+  })
   expect(document.querySelector('.modal')).toBeNull()
 })

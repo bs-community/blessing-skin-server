@@ -194,9 +194,9 @@
     },
     "moduleFileExtensions": [
       "js",
-      "vue",
       "ts",
       "tsx",
+      "vue",
       "json",
       "node"
     ],
