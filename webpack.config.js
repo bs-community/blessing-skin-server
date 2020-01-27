@@ -136,7 +136,6 @@ if (devMode) {
   config.plugins.push(new webpack.NamedModulesPlugin())
   config.plugins.push(new webpack.HotModuleReplacementPlugin())
 } else {
-  config.plugins.push(new WebpackBar())
   config.plugins.push(new ManifestPlugin())
 }
 

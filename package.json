@@ -11,7 +11,7 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server",
-    "build": "webpack --mode=production -p",
+    "build": "webpack --mode=production -p --progress",
     "lint": "eslint --ext=js,vue,ts -f=beauty .",
     "test": "jest"
   },
@@ -82,8 +82,7 @@
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1",
-    "webpack-manifest-plugin": "^2.2.0",
-    "webpackbar": "^4.0.0"
+    "webpack-manifest-plugin": "^2.2.0"
   },
   "resolutions": {
     "caniuse-lite": "*"
