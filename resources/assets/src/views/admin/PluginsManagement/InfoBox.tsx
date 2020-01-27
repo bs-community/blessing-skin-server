@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react'
 import { trans } from '../../../scripts/i18n'
 import { Plugin } from './types'
-import styles from './InfoBox.styl'
+import styles from './InfoBox.scss'
 
 interface Props {
   plugin: Plugin

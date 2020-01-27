@@ -55,7 +55,7 @@ const config = {
         ],
       },
       {
-        test: /views.*\.styl$/,
+        test: /\.scss$/,
         use: [
           'style-loader',
           {
@@ -70,7 +70,7 @@ const config = {
             },
           },
           'postcss-loader',
-          'stylus-loader',
+          'sass-loader',
         ],
       },
       {

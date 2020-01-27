@@ -67,6 +67,8 @@
     "mini-css-extract-plugin": "^0.9.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
+    "sass": "^1.25.0",
+    "sass-loader": "^8.0.2",
     "style-loader": "^1.1.2",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
@@ -202,7 +204,7 @@
     ],
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/resources/assets/src/$1",
-      "\\.(css|styl)$": "<rootDir>/resources/assets/tests/__mocks__/style.ts",
+      "\\.(s?css|styl)$": "<rootDir>/resources/assets/tests/__mocks__/style.ts",
       "\\.(png|jpg)$": "<rootDir>/resources/assets/tests/__mocks__/file.ts"
     },
     "setupFilesAfterEnv": [
