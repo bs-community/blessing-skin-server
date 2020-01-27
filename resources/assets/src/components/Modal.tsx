@@ -74,7 +74,6 @@ const Modal = React.forwardRef<HTMLDivElement, ModalOptions & Props>(
 
     useEffect(() => {
       const onHide = () => {
-        /* istanbul ignore else */
         if (!hidden) {
           dismiss()
         }
@@ -87,7 +86,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalOptions & Props>(
       return () => {
         el.off('hide.bs.modal', onHide).off('hidden.bs.modal', onHidden)
       }
-    }, [])
+    }, [hidden, props.onDismiss])
 
     return (
       <div

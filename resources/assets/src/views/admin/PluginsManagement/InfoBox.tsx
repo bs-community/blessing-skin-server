@@ -24,12 +24,12 @@ const InfoBox: React.FC<Props> = props => {
         props.onDisable(plugin)
       }
     },
-    [],
+    [plugin],
   )
 
   const handleDelete = useCallback(() => {
     props.onDelete(plugin)
-  }, [])
+  }, [plugin])
 
   return (
     <div className={`info-box mr-3 ${styles.box}`}>

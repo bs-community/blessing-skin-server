@@ -32,7 +32,14 @@ test('forward ref', () => {
 
 test('jQuery events', () => {
   const ref = React.createRef<HTMLDivElement>()
-  render(<Modal ref={ref} show />)
+  const { getByText } = render(<Modal ref={ref} mode="confirm" show />)
+  act(() => {
+    $(ref.current!)
+      .trigger('hide.bs.modal')
+      .trigger('hidden.bs.modal')
+  })
+
+  fireEvent.click(getByText(trans('general.cancel')))
   act(() => {
     $(ref.current!)
       .trigger('hide.bs.modal')
