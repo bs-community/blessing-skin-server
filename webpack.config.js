@@ -39,7 +39,7 @@ const config = {
       },
       {
         test: /\.tsx?$/,
-        use: ['cache-loader', 'ts-loader'],
+        use: 'ts-loader',
       },
       {
         test: /\.vue$/,
