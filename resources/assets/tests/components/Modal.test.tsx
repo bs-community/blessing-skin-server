@@ -218,6 +218,26 @@ describe('"prompt" mode', () => {
     expect(reject).toBeCalled()
   })
 
+  it('radio inputs', () => {
+    const choices = [
+      { text: 'A', value: 'a' },
+      { text: 'B', value: 'b' },
+    ]
+    const resolve = jest.fn()
+    const { getByText, getByLabelText } = render(
+      <Modal
+        mode="prompt"
+        inputType="radios"
+        choices={choices}
+        onConfirm={resolve}
+        show
+      />,
+    )
+    fireEvent.click(getByLabelText('B'))
+    fireEvent.click(getByText(trans('general.confirm')))
+    expect(resolve).toBeCalledWith({ value: 'b' })
+  })
+
   it('validate input', () => {
     const resolve = jest.fn()
     const reject = jest.fn()

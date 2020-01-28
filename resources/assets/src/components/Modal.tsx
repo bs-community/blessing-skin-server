@@ -16,6 +16,7 @@ export type ModalOptions = {
   placeholder?: string
   inputType?: string
   validator?(value: any): string | boolean | undefined
+  choices?: { text: string; value: string }[]
   type?: string
   showHeader?: boolean
   center?: boolean
@@ -114,6 +115,7 @@ const Modal = React.forwardRef<HTMLDivElement, ModalOptions & Props>(
               dangerousHTML={props.dangerousHTML}
               showInput={props.mode === 'prompt'}
               value={value}
+              choices={props.choices}
               onChange={handleInputChange}
               inputType={props.inputType}
               placeholder={props.placeholder}
