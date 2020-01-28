@@ -3,7 +3,6 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserJSPlugin = require('terser-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-const WebpackBar = require('webpackbar')
 const ManifestPlugin = require('webpack-manifest-plugin')
 
 const devMode = !process.argv.includes('-p')
