@@ -94,7 +94,7 @@ export default {
             validator: truthy(this.$t('skinlib.emptyNewTextureName')),
           },
         ))
-      } catch {
+      } catch (_) {
         return
       }
 

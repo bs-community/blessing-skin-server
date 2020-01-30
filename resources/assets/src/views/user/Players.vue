@@ -208,7 +208,7 @@ export default {
           input: player.name,
           validator: truthy(this.$t('user.emptyPlayerName')),
         }))
-      } catch {
+      } catch (_) {
         return
       }
 
@@ -250,7 +250,7 @@ export default {
           text: this.$t('user.deletePlayerNotice'),
           okButtonType: 'danger',
         })
-      } catch {
+      } catch (_) {
         return
       }
 

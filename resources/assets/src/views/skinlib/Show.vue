@@ -326,7 +326,7 @@ export default {
           input: this.name,
           validator: truthy(this.$t('skinlib.emptyNewTextureName')),
         }))
-      } catch {
+      } catch (_) {
         return
       }
 
@@ -360,7 +360,7 @@ export default {
             ? this.$t('skinlib.setPrivateNotice')
             : this.$t('skinlib.setPublicNotice'),
         })
-      } catch {
+      } catch (_) {
         return
       }
 
@@ -381,7 +381,7 @@ export default {
           text: this.$t('skinlib.deleteNotice'),
           okButtonType: 'danger',
         })
-      } catch {
+      } catch (_) {
         return
       }
 
@@ -413,7 +413,7 @@ export default {
           text: prompt,
           placeholder: this.$t('skinlib.report.reason'),
         }))
-      } catch {
+      } catch (_) {
         return
       }
 
