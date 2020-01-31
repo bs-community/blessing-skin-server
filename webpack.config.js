@@ -62,9 +62,8 @@ const config = {
             options: {
               importLoaders: 2,
               modules: {
-                localIdentName: devMode ? '[name]__[local]' : '[hash:base64]',
+                localIdentName: devMode ? '[name]__[local]' : '[local]__[hash:base64:5]',
               },
-              localsConvention: 'dashes',
               esModule: true,
             },
           },

@@ -1,0 +1,23 @@
+@use 'sass:map';
+@use '../../../styles/breakpoints';
+
+.title {
+  font-weight: bold;
+  margin-top: 5px;
+
+  @include breakpoints.less-than('md') {
+    margin-top: 12px;
+  }
+}
+
+.number {
+  font-family: 'Minecraft';
+  font-size: 50px;
+  margin-top: 20px;
+  cursor: help;
+}
+
+.notice {
+  font-size: smaller;
+  margin-top: 20px;
+}

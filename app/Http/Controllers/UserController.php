@@ -100,8 +100,8 @@ class UserController extends Controller
                 'players' => $this->calculatePercentageUsed($user->players->count(), option('score_per_player')),
                 'storage' => $this->calculatePercentageUsed($this->getStorageUsed($user), option('score_per_storage')),
             ],
-            'signAfterZero' => option('sign_after_zero'),
-            'signGapTime' => option('sign_gap_time'),
+            'signAfterZero' => (bool) option('sign_after_zero'),
+            'signGapTime' => (int) option('sign_gap_time'),
         ]);
     }
 

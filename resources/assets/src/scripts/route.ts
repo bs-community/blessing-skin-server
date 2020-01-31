@@ -10,7 +10,7 @@ export default [
   },
   {
     path: 'user',
-    component: () => import('../views/user/Dashboard.vue'),
+    react: () => import('../views/user/Dashboard'),
     el: '#usage-box',
   },
   {

@@ -1,14 +1,16 @@
 /* eslint-disable max-classes-per-file */
+import * as fs from 'fs'
 import 'jest-extended'
 import '@testing-library/jest-dom'
 import Vue from 'vue'
+import yaml from 'js-yaml'
 
 window.blessing = {
   base_url: '',
   site_name: 'Blessing Skin',
   version: '4.0.0',
   extra: {},
-  i18n: {},
+  i18n: yaml.load(fs.readFileSync('resources/lang/en/front-end.yml', 'utf8')),
 }
 
 class Headers extends Map {
