@@ -2,6 +2,7 @@ import 'bootstrap'
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../utils'
+import { trans } from '@/scripts/i18n'
 import { toast } from '@/scripts/notify'
 import ApplyToPlayerDialog from '@/components/ApplyToPlayerDialog.vue'
 
@@ -16,7 +17,7 @@ test('submit applying texture', async () => {
   const button = wrapper.find('.btn-outline-info')
 
   button.trigger('click')
-  expect(toast.info).toBeCalledWith('user.emptySelectedTexture')
+  expect(toast.info).toBeCalledWith(trans('user.emptySelectedTexture'))
 
   wrapper.setProps({ skin: 1 })
   button.trigger('click')

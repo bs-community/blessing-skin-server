@@ -1,4 +1,5 @@
 import { flushPromises } from '../../../utils'
+import { trans } from '@/scripts/i18n'
 import { showModal, toast } from '@/scripts/notify'
 import { post } from '@/scripts/net'
 import handler from '@/views/user/profile/password'
@@ -36,7 +37,7 @@ test('change password', async () => {
   form.dispatchEvent(event)
   await flushPromises()
   expect(post).not.toBeCalled()
-  expect(toast.error).toBeCalledWith('auth.invalidConfirmPwd')
+  expect(toast.error).toBeCalledWith(trans('auth.invalidConfirmPwd'))
 
   confirm.value = '1'
   form.dispatchEvent(event)

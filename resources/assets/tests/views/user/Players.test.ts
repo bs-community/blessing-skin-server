@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
+import { trans } from '@/scripts/i18n'
 import { showModal, toast } from '@/scripts/notify'
 import Players from '@/views/user/Players.vue'
 
@@ -147,7 +148,7 @@ test('toggle preview mode', () => {
   Vue.prototype.$http.get.mockResolvedValueOnce({ data: [] })
   const wrapper = mount(Players)
   wrapper.find('[data-test="to2d"]').trigger('click')
-  expect(wrapper.text()).toContain('user.player.texture-empty')
+  expect(wrapper.text()).toContain(trans('user.player.texture-empty'))
 })
 
 test('clear texture', async () => {
