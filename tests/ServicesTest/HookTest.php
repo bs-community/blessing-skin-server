@@ -100,15 +100,7 @@ class HookTest extends TestCase
 
     public function testPushMiddleware()
     {
-        Hook::pushMiddleware(get_class(new class() {
-            public function handle($request, $next)
-            {
-                $response = $next($request);
-                $response->header('X-Middleware-Test', 'value');
-
-                return $response;
-            }
-        }));
+        Hook::pushMiddleware(Concerns\FakeMiddleware::class);
         $this->get('/')->assertHeader('X-Middleware-Test');
     }
 }
