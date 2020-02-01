@@ -28,6 +28,7 @@
     "react-hot-loader": "^4.12.18",
     "rxjs": "^6.5.3",
     "skinview3d": "^1.2.1",
+    "spectre.css": "^0.5.8",
     "vue": "^2.6.11",
     "vue-good-table": "^2.18.1",
     "vue-recaptcha": "^1.2.0",

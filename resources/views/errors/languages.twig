@@ -1,10 +1,7 @@
-<select id="language-chooser">
-  {% for code, locale in config('locales') %}
-    {% if locale.alias is empty %}
-      <option
-        value="{{ code }}"
-        {{ code == app.getLocale() ? 'selected="selected"' }}
-      >{{ locale.name }}</option>
-    {% endif %}
+<div class="text-right m-2 p-2">
+  {% for lang in langs %}
+    <a href="{{ lang.url }}"
+      class="mx-2 p-1 label {{ lang.name == lang_name ? 'label-primary' : 'label-secondary' }}"
+    >{{ lang.name }}</a>
   {% endfor %}
-</select>
+</div>

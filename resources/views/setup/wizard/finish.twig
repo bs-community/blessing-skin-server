@@ -4,14 +4,8 @@
 
 {% block content %}
   <p>{{ trans('setup.wizard.finish.text') }}</p>
-  <table class="form-table install-success">
-    <tr>
-      <th>{{ trans('auth.email') }}</th>
-      <td>{{ email }}</td>
-    </tr>
-  </table>
-  <p class="step">
-    <a href="{{ url('/') }}" class="button button-large">
+  <p>
+    <a href="{{ url('/') }}" class="btn btn-primary">
       {{ trans('general.index') }}
     </a>
   </p>

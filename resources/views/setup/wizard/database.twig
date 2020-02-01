@@ -11,26 +11,33 @@
     novalidate="novalidate"
   >
     {{ csrf_field() }}
-    <table class="form-table">
-      <tr class="form-field form-required">
-        <th scope="row">
-          <label for="type">{{ trans('setup.wizard.database.type') }}</label>
+    <table>
+      <tr>
+        <th>
+          <label for="type" class="form-label">{{ trans('setup.wizard.database.type') }}</label>
         </th>
-        <td>
-          <input name="type" type="radio" value="mysql" id="type-mysql" checked>
-          <label for="type-mysql">MySQL / MariaDB</label>
-          <input name="type" type="radio" value="pgsql" id="type-pgsql">
-          <label for="type-pgsql">PostgreSQL</label>
-          <input name="type" type="radio" value="sqlite" id="type-sqlite">
-          <label for="type-sqlite">SQLite</label>
+        <td class="form-group">
+          <label class="form-radio d-inline-block">
+            <input name="type" type="radio" value="mysql" id="type-mysql" checked>
+            <i class="form-icon"></i> MySQL / MariaDB
+          </label>
+          <label class="form-radio d-inline-block">
+            <input name="type" type="radio" value="pgsql" id="type-pgsql">
+            <i class="form-icon"></i> PostgreSQL
+          </label>
+          <label class="form-radio d-inline-block">
+            <input name="type" type="radio" value="sqlite" id="type-sqlite">
+            <i class="form-icon"></i> SQLite
+          </label>
         </td>
       </tr>
-      <tr class="form-field form-required">
-        <th scope="row">
-          <label for="host">{{ trans('setup.wizard.database.host') }}</label>
+      <tr>
+        <th>
+          <label class="form-label" for="host">{{ trans('setup.wizard.database.host') }}</label>
         </th>
         <td>
           <input
+            class="form-input"
             name="host"
             type="text"
             id="host"
@@ -39,12 +46,13 @@
           >
         </td>
       </tr>
-      <tr class="form-field form-required">
-        <th scope="row">
-          <label for="port">{{ trans('setup.wizard.database.port') }}</label>
+      <tr>
+        <th>
+          <label class="form-label" for="port">{{ trans('setup.wizard.database.port') }}</label>
         </th>
         <td>
           <input
+            class="form-input"
             name="port"
             type="text"
             id="port"
@@ -53,12 +61,13 @@
           >
         </td>
       </tr>
-      <tr class="form-field form-required">
-        <th scope="row">
-          <label for="username">{{ trans('setup.wizard.database.username') }}</label>
+      <tr>
+        <th>
+          <label class="form-label" for="username">{{ trans('setup.wizard.database.username') }}</label>
         </th>
         <td>
           <input
+            class="form-input"
             name="username"
             type="text"
             id="username"
@@ -67,54 +76,62 @@
           >
         </td>
       </tr>
-      <tr class="form-field form-required">
-        <th scope="row">
-          <label for="password">{{ trans('setup.wizard.database.password') }}</label>
+      <tr>
+        <th>
+          <label class="form-label" for="password">{{ trans('setup.wizard.database.password') }}</label>
         </th>
         <td>
           <input
+            class="form-input"
             type="password"
             name="password"
             id="password"
-            class="regular-text"
             value="{{ password }}"
           >
         </td>
       </tr>
-      <tr class="form-field form-required">
-        <th scope="row">
-          <label for="db">{{ trans('setup.wizard.database.db') }}</label>
+      <tr>
+        <th>
+          <label class="form-label" for="db">{{ trans('setup.wizard.database.db') }}</label>
         </th>
         <td>
           <input
+            class="form-input"
             name="db"
             type="text"
             id="db"
             size="25"
             value="{{ database }}"
           >
-          <p>{{ trans('setup.wizard.database.db-notice') }}</p>
         </td>
       </tr>
       <tr>
-        <th scope="row">
-          <label for="prefix">{{ trans('setup.wizard.database.prefix') }}</label>
+        <th></th>
+        <td><p><small>{{ trans('setup.wizard.database.db-notice') }}</small></p></td>
+      </tr>
+      <tr>
+        <th>
+          <label class="form-label" for="prefix">{{ trans('setup.wizard.database.prefix') }}</label>
         </th>
         <td>
           <input
+            class="form-input"
             name="prefix"
             type="text"
             id="prefix"
             size="25"
             value="{{ prefix }}"
           >
-          <p>{{ trans('setup.wizard.database.prefix-notice') }}</p>
         </td>
+      </tr>
+      <tr>
+        <th></th>
+        <td><p><small>{{ trans('setup.wizard.database.prefix-notice') }}</small></p></td>
       </tr>
     </table>
 
     {% if errors.any %}
-      <div class="alert alert-warning" role="alert">
+      <div class="toast toast-error" role="alert">
         <ul>
           {% for error in errors.all %}
             <li>{{ error }}</li>
@@ -128,7 +145,7 @@
         type="submit"
         name="submit"
         id="submit"
-        class="button button-large"
+        class="btn btn-primary"
         value="{{ trans('setup.wizard.welcome.button') }}"
       >
     </p>

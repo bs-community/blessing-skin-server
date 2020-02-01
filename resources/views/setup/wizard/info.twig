@@ -11,86 +11,79 @@
     novalidate="novalidate"
   >
     {{ csrf_field() }}
-    <table class="form-table">
-      <tr>
-        <th scope="row">
-          <label for="email">{{ trans('setup.wizard.info.admin-email') }}</label>
+    <table>
+      <tr class="form-group">
+        <th>
+          <label class="form-label" for="email">{{ trans('setup.wizard.info.admin-email') }}</label>
         </th>
         <td>
-          <input name="email" type="email" id="email" size="25">
-          <p>{{ trans('setup.wizard.info.admin-notice') }}</p>
+          <input class="form-input" name="email" type="email" id="email" size="25">
         </td>
       </tr>
       <tr>
-        <th scope="row">
-          <label for="email">{{ trans('setup.wizard.info.nickname') }}</label>
+        <th></th>
+        <td><p><small>{{ trans('setup.wizard.info.admin-notice') }}</small></p></td>
+      </tr>
+      <tr class="form-group">
+        <th>
+          <label class="form-label" for="email">{{ trans('setup.wizard.info.nickname') }}</label>
         </th>
         <td>
-          <input name="nickname" type="text" id="nickname" size="25">
+          <input class="form-input my-2" name="nickname" type="text" id="nickname" size="25">
         </td>
       </tr>
-      <tr class="form-field form-required">
-        <th scope="row">
-          <label for="password">{{ trans('setup.wizard.info.password') }}</label>
+      <tr class="form-group">
+        <th>
+          <label class="form-label" for="password">{{ trans('setup.wizard.info.password') }}</label>
         </th>
         <td>
-          <input type="password" name="password" id="password" class="regular-text">
-          <p>{{ trans('setup.wizard.info.pwd-notice') }}</p>
+          <input class="form-input" type="password" name="password" id="password" class="regular-text">
         </td>
       </tr>
-      <tr class="form-field form-required">
-        <th scope="row">
-          <label for="password_confirmation">
+      <tr>
+        <th></th>
+        <td><p><small>{{ trans('setup.wizard.info.pwd-notice') }}</small></p></td>
+      </tr>
+      <tr class="form-group">
+        <th>
+          <label class="form-label" for="password_confirmation">
             {{ trans('setup.wizard.info.confirm-pwd') }}
           </label>
         </th>
         <td>
           <input
+            class="form-input my-2"
             type="password"
             name="password_confirmation"
             id="password_confirmation"
           >
         </td>
       </tr>
-      <tr>
-        <th scope="row">
-          <label for="site_name">
+      <tr class="form-group">
+        <th>
+          <label class="form-label" for="site_name">
             {{ trans('setup.wizard.info.site-name') }}
           </label>
         </th>
         <td>
           <input
+            class="form-input"
             name="site_name"
             type="text"
             id="site_name"
             size="25"
             value="{{ config('options.site_name') }}"
           >
-          <p>{{ trans('setup.wizard.info.site-name-notice') }}</p>
         </td>
       </tr>
       <tr>
-        <th scope="row">
-          <label for="generate_random">{{ trans('setup.wizard.info.secure') }}</label>
-        </th>
-        <td>
-          <label for="generate_random">
-            <input
-              name="generate_random"
-              type="checkbox"
-              id="generate_random"
-              size="25"
-              value="on"
-              checked
-            >
-            {{ trans('setup.wizard.info.secure-notice') }}
-          </label>
-        </td>
+        <th></th>
+        <td><p><small>{{ trans('setup.wizard.info.site-name-notice') }}</small></p></td>
       </tr>
     </table>
 
     {% if errors.any %}
-      <div class="alert alert-warning" role="alert">
+      <div class="toast toast-error" role="alert">
         <ul>
           {% for error in errors.all %}
             <li>{{ error }}</li>
@@ -104,7 +97,7 @@
         type="submit"
         name="submit"
         id="submit"
-        class="button button-large"
+        class="btn btn-primary"
         value="{{ trans('setup.wizard.info.button') }}"
       >
     </p>

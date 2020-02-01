@@ -37,7 +37,10 @@ class ViewServiceProvider extends ServiceProvider
             ]);
         });
 
-        View::composer('shared.languages', Composers\LanguagesMenuComposer::class);
+        View::composer(
+            ['shared.languages', 'errors.*'],
+            Composers\LanguagesMenuComposer::class
+        );
 
         View::composer('shared.user-menu', Composers\UserMenuComposer::class);
 
@@ -72,11 +75,9 @@ class ViewServiceProvider extends ServiceProvider
         View::composer(['errors.*', 'setup.*'], function ($view) use ($webpack) {
             $view->with([
                 'styles' => [
-                    $webpack->url('setup.css'),
+                    $webpack->url('spectre.css'),
                 ],
-                'scripts' => [
-                    $webpack->url('language-chooser.js'),
-                ],
+                'scripts' => [],
             ]);
         });
 

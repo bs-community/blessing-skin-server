@@ -13,17 +13,21 @@
     {% endfor %}
   </head>
 
-  <body class="container">
-    <p id="logo">
-      <a href="https://github.com/bs-community/blessing-skin-server" tabindex="-1">
-        Blessing Skin Server
-      </a>
-    </p>
-    <h1>
-      {% block subtitle %}{{ block('title') }}{% endblock %}
-      {{ include('errors.languages') }}
-    </h1>
-    {% block content %}{% endblock %}
+  <body class="bg-secondary">
+    {{ include('errors.languages') }}
+    <div class="hero d-flex">
+      <div class="hero-body">
+        <h1 class="text-center">
+          <a class="text-primary" href="https://github.com/bs-community/blessing-skin-server">
+            Blessing Skin Server
+          </a>
+        </h1>
+        <div class="divider"></div>
+        <h3>{% block subtitle %}{{ block('title') }}{% endblock %}</h3>
+        <div class="divider"></div>
+        {% block content %}{% endblock %}
+      </div>
+    </div>
     {% for script in scripts %}
       <script src="{{ script }}"></script>
     {% endfor %}

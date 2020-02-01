@@ -12,7 +12,6 @@ const config = {
   mode: devMode ? 'development' : 'production',
   entry: {
     app: ['react-hot-loader/patch', './resources/assets/src/index.tsx'],
-    'language-chooser': './resources/assets/src/scripts/language-chooser.ts',
     style: [
       'bootstrap/dist/css/bootstrap.min.css',
       'admin-lte/dist/css/alt/adminlte.core.min.css',
@@ -22,7 +21,11 @@ const config = {
       '@fortawesome/fontawesome-free/css/all.min.css',
       './resources/assets/src/styles/common.styl',
     ],
-    setup: './resources/assets/src/styles/setup.styl',
+    spectre: [
+      'spectre.css/dist/spectre.min.css',
+      './resources/assets/src/fonts/minecraft.css',
+      './resources/assets/src/styles/spectre.css',
+    ],
   },
   output: {
     path: `${__dirname}/public/app`,
@@ -72,14 +75,14 @@ const config = {
         ],
       },
       {
-        test: /(node_modules.*)\.css$/,
+        test: /\.css$/,
         use: [
           devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
           'css-loader',
         ],
       },
       {
-        test: /(common|home|setup)\.styl$/,
+        test: /(common|home)\.styl$/,
         use: [
           MiniCssExtractPlugin.loader,
           { loader: 'css-loader', options: { importLoaders: 2 } },
