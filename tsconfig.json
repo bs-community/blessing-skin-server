@@ -4,6 +4,7 @@
     "target": "es2016",
     "module": "esnext",
     "moduleResolution": "node",
+    "declaration": false,
     "baseUrl": ".",
     "incremental": true
   },
