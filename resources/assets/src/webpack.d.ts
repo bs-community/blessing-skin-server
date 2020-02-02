@@ -11,3 +11,7 @@ declare module '*.styl' {
 declare module '*.scss' {
   export default {} as Record<string, string>
 }
+
+declare module '*.png' {
+  export default ''
+}
