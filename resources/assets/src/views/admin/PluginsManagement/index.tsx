@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import { hot } from 'react-hot-loader/root'
 import { trans } from '../../../scripts/i18n'
 import * as fetch from '../../../scripts/net'
@@ -20,7 +20,7 @@ const PluginsManagement: React.FC = () => {
     getPlugins()
   }, [])
 
-  const handleEnable = useCallback(async (plugin: Plugin, i: number) => {
+  const handleEnable = async (plugin: Plugin, i: number) => {
     const {
       code,
       message,
@@ -40,9 +40,9 @@ const PluginsManagement: React.FC = () => {
     } else {
       alertUnresolved(message, reason)
     }
-  }, [])
+  }
 
-  const handleDisable = useCallback(async (plugin: Plugin, i: number) => {
+  const handleDisable = async (plugin: Plugin, i: number) => {
     const { code, message } = await fetch.post('/admin/plugins/manage', {
       action: 'disable',
       name: plugin.name,
@@ -56,9 +56,9 @@ const PluginsManagement: React.FC = () => {
     } else {
       toast.error(message)
     }
-  }, [])
+  }
 
-  const handleDelete = useCallback(async (plugin: Plugin) => {
+  const handleDelete = async (plugin: Plugin) => {
     try {
       await showModal({
         title: plugin.title,
@@ -80,7 +80,7 @@ const PluginsManagement: React.FC = () => {
     } else {
       toast.error(message)
     }
-  }, [])
+  }
 
   return loading ? (
     <Loading />

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { trans } from '../../../scripts/i18n'
 import { Plugin } from './types'
 import styles from './InfoBox.scss'
@@ -14,22 +14,17 @@ interface Props {
 const InfoBox: React.FC<Props> = props => {
   const { plugin } = props
 
-  const handleChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      event.preventDefault()
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault()
 
-      if (event.target.checked) {
-        props.onEnable(plugin)
-      } else {
-        props.onDisable(plugin)
-      }
-    },
-    [plugin],
-  )
+    if (event.target.checked) {
+      props.onEnable(plugin)
+    } else {
+      props.onDisable(plugin)
+    }
+  }
 
-  const handleDelete = useCallback(() => {
-    props.onDelete(plugin)
-  }, [plugin])
+  const handleDelete = () => props.onDelete(plugin)
 
   return (
     <div className={`info-box mr-3 ${styles.box}`}>

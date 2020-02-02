@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import * as skinview3d from 'skinview3d'
 import { trans } from '../scripts/i18n'
 import styles from './Viewer.scss'
@@ -39,7 +39,7 @@ const Viewer: React.FC<Props> = props => {
 
   const [paused, setPaused] = useState(false)
   const [reset, setReset] = useState(0)
-  const indicator = useMemo(() => {
+  const indicator = (() => {
     const { skin, cape } = props
     if (skin && cape) {
       return `${trans('general.skin')} & ${trans('general.cape')}`
@@ -49,7 +49,7 @@ const Viewer: React.FC<Props> = props => {
       return trans('general.cape')
     }
     return ''
-  }, [props.skin, props.cape])
+  })()
 
   useEffect(() => {
     const container = containerRef.current!
