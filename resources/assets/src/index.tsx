@@ -3,7 +3,6 @@ import * as React from 'react'
 import ReactDOM from 'react-dom'
 import './scripts/app'
 import routes from './scripts/route'
-import Loading from './components/Loading'
 
 Vue.config.productionTip = false
 
@@ -23,7 +22,7 @@ function loadModules() {
         route.react as (() => Promise<{ default: React.ComponentType }>)
       )
       const Root = () => (
-        <React.Suspense fallback={<Loading />}>
+        <React.Suspense fallback={''}>
           <Component />
         </React.Suspense>
       )
