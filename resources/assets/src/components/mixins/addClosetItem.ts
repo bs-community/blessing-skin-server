@@ -26,10 +26,10 @@ export default Vue.extend<{
         { tid: this.tid, name: value },
       )
       if (code === 0) {
-        toast.success(message)
+        toast.success(message!)
         this.$emit('like-toggled', true)
       } else {
-        toast.error(message)
+        toast.error(message!)
       }
     },
   },

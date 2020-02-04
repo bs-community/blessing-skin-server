@@ -20,7 +20,7 @@ export default Vue.extend<{
         { tid: this.tid },
       )
       if (code === 0) {
-        toast.success(message)
+        toast.success(message!)
 
         Array
           .from(
@@ -28,7 +28,7 @@ export default Vue.extend<{
           )
           .forEach(el => (el.src += `?${new Date().getTime()}`))
       } else {
-        toast.error(message)
+        toast.error(message!)
       }
     },
   },
