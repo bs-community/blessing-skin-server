@@ -36,7 +36,7 @@ export default [
   },
   {
     path: 'user/oauth/manage',
-    component: () => import('../views/user/OAuth.vue'),
+    react: () => import('../views/user/OAuth'),
     el: '.content > .container-fluid',
   },
   {
