@@ -37,9 +37,11 @@ const Toast: React.FC<Props> = props => {
     classes.push('show')
   }
 
+  const role = type === 'success' || type === 'info' ? 'status' : 'alert'
+
   return (
     <div className={styles.toast} style={{ top: `${props.distance}px` }}>
-      <div className={classes.join(' ')}>
+      <div className={classes.join(' ')} role={role}>
         <span className="mr-auto">
           <i className={`icon fas fa-${icons.get(props.type)}`}></i>
           <span>{props.children}</span>
