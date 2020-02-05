@@ -3,7 +3,9 @@ import Modal from '../../../components/Modal'
 import { trans } from '../../../scripts/i18n'
 
 interface Props {
+  show: boolean
   onCreate(name: string, redirect: string): Promise<void>
+  onClose(): void
 }
 
 const ModalCreate: React.FC<Props> = props => {
@@ -30,8 +32,10 @@ const ModalCreate: React.FC<Props> = props => {
   return (
     <Modal
       id="modal-create"
+      show={props.show}
       onConfirm={handleComplete}
       onDismiss={handleDismiss}
+      onClose={props.onClose}
     >
       <table className="table">
         <tbody>

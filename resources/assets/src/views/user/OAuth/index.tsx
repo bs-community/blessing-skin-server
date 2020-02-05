@@ -15,6 +15,7 @@ type Exception = {
 const OAuth: React.FC = () => {
   const [apps, setApps] = useState<App[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const [showModalCreate, setShowModalCreate] = useState(false)
 
   useEffect(() => {
     const getApps = async () => {
@@ -25,6 +26,10 @@ const OAuth: React.FC = () => {
     }
     getApps()
   }, [])
+
+  const handleShowModalCreate = () => setShowModalCreate(true)
+
+  const handleCloseModalCreate = () => setShowModalCreate(false)
 
   const handleAdd = async (name: string, redirect: string) => {
     const result = await fetch.post<App | Exception>('/oauth/clients', {
@@ -106,11 +111,7 @@ const OAuth: React.FC = () => {
 
   return (
     <>
-      <button
-        className="btn btn-primary"
-        data-toggle="modal"
-        data-target="#modal-create"
-      >
+      <button className="btn btn-primary" onClick={handleShowModalCreate}>
         {trans('user.oauth.create')}
       </button>
       <div className="card mt-2">
@@ -147,7 +148,11 @@ const OAuth: React.FC = () => {
           </table>
         </div>
       </div>
-      <ModalCreate onCreate={handleAdd} />
+      <ModalCreate
+        show={showModalCreate}
+        onCreate={handleAdd}
+        onClose={handleCloseModalCreate}
+      />
     </>
   )
 }

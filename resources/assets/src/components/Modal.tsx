@@ -33,115 +33,131 @@ type Props = {
   footer?: React.ReactNode
   onConfirm?(payload: { value: string }): void
   onDismiss?(): void
+  onClose?(): void
 }
 
 export type ModalResult = {
   value: string
 }
 
-const Modal = React.forwardRef<HTMLDivElement, ModalOptions & Props>(
-  (props, forwardedRef) => {
-    const [hidden, setHidden] = useState(false)
-    const [value, setValue] = useState(props.input!)
-    const [valid, setValid] = useState(true)
-    const [validatorMessage, setValidatorMessage] = useState('')
-    const ref = (forwardedRef ??
-      useRef<HTMLDivElement>(null)) as React.RefObject<HTMLDivElement>
+const Modal: React.FC<ModalOptions & Props> = props => {
+  const [value, setValue] = useState(props.input!)
+  const [valid, setValid] = useState(true)
+  const [validatorMessage, setValidatorMessage] = useState('')
+  const ref = useRef<HTMLDivElement>(null)
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setValue(event.target.value)
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValue(event.target.value)
+  }
+
+  const confirm = () => {
+    const { validator } = props
+    if (typeof validator === 'function') {
+      const result = validator(value)
+      if (typeof result === 'string') {
+        setValidatorMessage(result)
+        setValid(false)
+        return
+      }
     }
 
-    const confirm = () => {
-      const { validator } = props
-      if (typeof validator === 'function') {
-        const result = validator(value)
-        if (typeof result === 'string') {
-          setValidatorMessage(result)
-          setValid(false)
-          return
-        }
-      }
+    props.onConfirm?.({ value })
+    $(ref.current!).modal('hide')
 
-      setHidden(true)
-      props.onConfirm?.({ value })
-      $(ref.current!).modal('hide')
+    // The "hidden.bs.modal" event can't be trigged automatically when testing.
+    /* istanbul ignore next */
+    if (process.env.NODE_ENV === 'test') {
+      $(ref.current!).trigger('hidden.bs.modal')
+    }
+  }
+
+  const dismiss = () => {
+    props.onDismiss?.()
+    $(ref.current!).modal('hide')
+
+    /* istanbul ignore next */
+    if (process.env.NODE_ENV === 'test') {
+      $(ref.current!).trigger('hidden.bs.modal')
+    }
+  }
+
+  useEffect(() => {
+    if (!props.show) {
+      return
     }
 
-    const dismiss = () => {
-      setHidden(true)
-      props.onDismiss?.()
+    const onHidden = () => props.onClose?.()
+
+    const el = $(ref.current!)
+    el.on('hidden.bs.modal', onHidden)
+
+    return () => {
+      el.off('hidden.bs.modal', onHidden)
     }
+  }, [props.onClose, props.show])
 
-    useEffect(() => {
-      const onHide = () => {
-        if (!hidden) {
-          dismiss()
-        }
-      }
-      const onHidden = () => setHidden(false)
+  useEffect(() => {
+    if (props.show) {
+      setTimeout(() => $(ref.current!).modal('show'), 50)
+    }
+  }, [props.show])
 
-      const el = $(ref.current!)
-      el.on('hide.bs.modal', onHide).on('hidden.bs.modal', onHidden)
+  if (!props.show) {
+    return null
+  }
 
-      return () => {
-        el.off('hide.bs.modal', onHide).off('hidden.bs.modal', onHidden)
-      }
-    }, [hidden, props.onDismiss])
-
-    return (
+  return (
+    <div
+      id={props.id}
+      className="modal fade"
+      tabIndex={-1}
+      role="dialog"
+      aria-hidden={!props.show}
+      ref={ref}
+    >
       <div
-        id={props.id}
-        className={`modal fade ${props.show ? 'show' : ''}`}
-        tabIndex={-1}
-        role="dialog"
-        aria-hidden={!props.show}
-        ref={ref}
+        className={`modal-dialog ${
+          props.center ? 'modal-dialog-centered' : ''
+        }`}
+        role="document"
       >
-        <div
-          className={`modal-dialog ${
-            props.center ? 'modal-dialog-centered' : ''
-          }`}
-          role="document"
-        >
-          <div className={`modal-content bg-${props.type}`}>
-            <ModalHeader
-              show={props.showHeader}
-              title={props.title}
-              onDismiss={dismiss}
-            />
-            <ModalBody
-              text={props.text}
-              dangerousHTML={props.dangerousHTML}
-              showInput={props.mode === 'prompt'}
-              value={value}
-              choices={props.choices}
-              onChange={handleInputChange}
-              inputType={props.inputType}
-              placeholder={props.placeholder}
-              invalid={!valid}
-              validatorMessage={validatorMessage}
-            >
-              {props.children}
-            </ModalBody>
-            <ModalFooter
-              showCancelButton={props.mode !== 'alert'}
-              flexFooter={props.flexFooter}
-              okButtonType={props.okButtonType}
-              okButtonText={props.okButtonText}
-              cancelButtonType={props.cancelButtonType}
-              cancelButtonText={props.cancelButtonText}
-              onConfirm={confirm}
-              onDismiss={dismiss}
-            >
-              {props.footer}
-            </ModalFooter>
-          </div>
+        <div className={`modal-content bg-${props.type}`}>
+          <ModalHeader
+            show={props.showHeader}
+            title={props.title}
+            onDismiss={dismiss}
+          />
+          <ModalBody
+            text={props.text}
+            dangerousHTML={props.dangerousHTML}
+            showInput={props.mode === 'prompt'}
+            value={value}
+            choices={props.choices}
+            onChange={handleInputChange}
+            inputType={props.inputType}
+            placeholder={props.placeholder}
+            invalid={!valid}
+            validatorMessage={validatorMessage}
+          >
+            {props.children}
+          </ModalBody>
+          <ModalFooter
+            showCancelButton={props.mode !== 'alert'}
+            flexFooter={props.flexFooter}
+            okButtonType={props.okButtonType}
+            okButtonText={props.okButtonText}
+            cancelButtonType={props.cancelButtonType}
+            cancelButtonText={props.cancelButtonText}
+            onConfirm={confirm}
+            onDismiss={dismiss}
+          >
+            {props.footer}
+          </ModalFooter>
         </div>
       </div>
-    )
-  },
-)
+    </div>
+  )
+}
 
 Modal.displayName = 'Modal'
 

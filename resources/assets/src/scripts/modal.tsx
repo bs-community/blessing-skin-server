@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Modal, { ModalOptions, ModalResult } from '../components/Modal'
@@ -8,25 +7,21 @@ export function showModal(options: ModalOptions = {}): Promise<ModalResult> {
     const container = document.createElement('div')
     document.body.appendChild(container)
 
-    const ref = React.createRef<HTMLDivElement>()
+    const handleClose = () => {
+      ReactDOM.unmountComponentAtNode(container)
+      document.body.removeChild(container)
+    }
+
     ReactDOM.render(
       <Modal
         {...options}
-        ref={ref}
+        show
         center
         onConfirm={resolve}
         onDismiss={reject}
+        onClose={handleClose}
       />,
       container,
     )
-
-    $(ref.current!)
-      .modal('show')
-      .on('hidden.bs.modal', () => {
-        setTimeout(() => {
-          ReactDOM.unmountComponentAtNode(container)
-          container.remove()
-        }, 0)
-      })
   })
 }
