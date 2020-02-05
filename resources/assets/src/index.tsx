@@ -26,7 +26,11 @@ function loadModules() {
           <Component />
         </React.Suspense>
       )
-      ReactDOM.render(<Root />, document.querySelector(route.el))
+      if (typeof route.el === 'string') {
+        ReactDOM.render(<Root />, document.querySelector(route.el))
+      } else {
+        ReactDOM.render(<Root />, route.el)
+      }
     }
     if (route.component) {
       Vue.prototype.$route = new RegExp(`^${route.path}$`, 'i').exec(blessing.route)
