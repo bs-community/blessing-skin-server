@@ -56,7 +56,7 @@ const Viewer: React.FC<Props> = props => {
     const viewer = new skinview3d.SkinViewer({
       domElement: container,
       width: container.clientWidth,
-      height: container.clientWidth,
+      height: container.clientHeight,
       skinUrl: props.skin ?? SkinSteve,
       capeUrl: props.cape ?? '',
       detectModel: false,
