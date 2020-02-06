@@ -2,11 +2,9 @@ import React from 'react'
 import { render, fireEvent, wait } from '@testing-library/react'
 import * as fetch from '@/scripts/net'
 import { trans } from '@/scripts/i18n'
-import { toast } from '@/scripts/notify'
 import Dashboard from '@/views/user/Dashboard'
 
 jest.mock('@/scripts/net')
-jest.mock('@/scripts/notify')
 
 function scoreInfo(data = {}, user = {}, stats = {}) {
   return {
@@ -75,7 +73,7 @@ describe('sign', () => {
       data: { score: 900, storage: { used: 5, total: 25 } },
     })
 
-    const { getByRole, queryByText } = render(<Dashboard />)
+    const { getByRole, getByText, queryByText } = render(<Dashboard />)
     await wait()
 
     const button = getByRole('button')
@@ -83,7 +81,8 @@ describe('sign', () => {
     await wait()
 
     expect(fetch.post).toBeCalledWith('/user/sign')
-    expect(toast.success).toBeCalledWith('ok')
+    expect(getByText('ok')).toBeInTheDocument()
+    expect(getByRole('status')).toHaveClass('alert-success')
     expect(button).toBeDisabled()
     expect(queryByText(/25/)).toBeInTheDocument()
   })
@@ -91,14 +90,15 @@ describe('sign', () => {
   it('should fail', async () => {
     fetch.post.mockResolvedValue({ code: 1, message: 'f', data: {} })
 
-    const { getByRole } = render(<Dashboard />)
+    const { getByRole, getByText } = render(<Dashboard />)
     await wait()
 
     fireEvent.click(getByRole('button'))
     await wait()
 
     expect(fetch.post).toBeCalledWith('/user/sign')
-    expect(toast.warning).toBeCalledWith('f')
+    expect(getByText('f')).toBeInTheDocument()
+    expect(getByRole('alert')).toHaveClass('alert-warning')
   })
 })
 

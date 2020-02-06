@@ -2,12 +2,10 @@ import React from 'react'
 import { render, fireEvent, wait } from '@testing-library/react'
 import * as fetch from '@/scripts/net'
 import { trans } from '@/scripts/i18n'
-import { toast, showModal } from '@/scripts/notify'
 import OAuth from '@/views/user/OAuth'
 import { App } from '@/views/user/OAuth/types'
 
 jest.mock('@/scripts/net')
-jest.mock('@/scripts/notify')
 
 const example: App = {
   id: 1,
@@ -54,7 +52,9 @@ describe('create app', () => {
 
   it('failed', async () => {
     fetch.post.mockResolvedValue({ message: 'exception' })
-    const { getByPlaceholderText, getByText, queryByText } = render(<OAuth />)
+    const { getByPlaceholderText, getByText, getByRole, queryByText } = render(
+      <OAuth />,
+    )
     await wait()
 
     fireEvent.click(getByText(trans('user.oauth.create')))
@@ -71,9 +71,10 @@ describe('create app', () => {
       name: 'My App',
       redirect: 'http://url.test/',
     })
-    expect(toast.error).toBeCalledWith('exception')
     expect(queryByText(example.name)).not.toBeInTheDocument()
     expect(queryByText(example.redirect)).not.toBeInTheDocument()
+    expect(queryByText('exception')).toBeInTheDocument()
+    expect(getByRole('alert')).toHaveClass('alert-danger')
   })
 
   it('cancel dialog', async () => {
@@ -106,12 +107,17 @@ describe('edit app', () => {
   describe('edit name', () => {
     it('succeeded', async () => {
       fetch.put.mockResolvedValue({ ...example, name: 'new name' })
-      showModal.mockResolvedValue({ value: 'new name' })
 
-      const { getByTitle, queryByText } = render(<OAuth />)
+      const { getByTitle, getByText, getByDisplayValue, queryByText } = render(
+        <OAuth />,
+      )
       await wait()
 
       fireEvent.click(getByTitle(trans('user.oauth.modifyName')))
+      fireEvent.input(getByDisplayValue(example.name), {
+        target: { value: 'new name' },
+      })
+      fireEvent.click(getByText(trans('general.confirm')))
       await wait()
 
       expect(fetch.put).toBeCalledWith(`/oauth/clients/${example.id}`, {
@@ -123,12 +129,21 @@ describe('edit app', () => {
 
     it('failed', async () => {
       fetch.put.mockResolvedValue({ message: 'exception' })
-      showModal.mockResolvedValue({ value: 'new name' })
 
-      const { getByTitle, queryByText } = render(<OAuth />)
+      const {
+        getByTitle,
+        getByText,
+        getByDisplayValue,
+        getByRole,
+        queryByText,
+      } = render(<OAuth />)
       await wait()
 
       fireEvent.click(getByTitle(trans('user.oauth.modifyName')))
+      fireEvent.input(getByDisplayValue(example.name), {
+        target: { value: 'new name' },
+      })
+      fireEvent.click(getByText(trans('general.confirm')))
       await wait()
 
       expect(fetch.put).toBeCalledWith(`/oauth/clients/${example.id}`, {
@@ -136,15 +151,16 @@ describe('edit app', () => {
         name: 'new name',
       })
       expect(queryByText(example.name)).toBeInTheDocument()
+      expect(queryByText('exception')).toBeInTheDocument()
+      expect(getByRole('alert')).toHaveClass('alert-danger')
     })
 
     it('cancel dialog', async () => {
-      showModal.mockRejectedValue(null)
-
-      const { getByTitle, queryByText } = render(<OAuth />)
+      const { getByTitle, getByText, queryByText } = render(<OAuth />)
       await wait()
 
       fireEvent.click(getByTitle(trans('user.oauth.modifyName')))
+      fireEvent.click(getByText(trans('general.cancel')))
       await wait()
 
       expect(fetch.put).not.toBeCalled()
@@ -155,12 +171,17 @@ describe('edit app', () => {
   describe('edit redirect url', () => {
     it('succeeded', async () => {
       fetch.put.mockResolvedValue({ ...example, redirect: 'http://new.test/' })
-      showModal.mockResolvedValue({ value: 'http://new.test/' })
 
-      const { getByTitle, queryByText } = render(<OAuth />)
+      const { getByTitle, getByDisplayValue, getByText, queryByText } = render(
+        <OAuth />,
+      )
       await wait()
 
       fireEvent.click(getByTitle(trans('user.oauth.modifyUrl')))
+      fireEvent.input(getByDisplayValue(example.redirect), {
+        target: { value: 'http://new.test/' },
+      })
+      fireEvent.click(getByText(trans('general.confirm')))
       await wait()
 
       expect(fetch.put).toBeCalledWith(`/oauth/clients/${example.id}`, {
@@ -172,29 +193,38 @@ describe('edit app', () => {
 
     it('failed', async () => {
       fetch.put.mockResolvedValue({ message: 'exception' })
-      showModal.mockResolvedValue({ value: 'http://new.test/' })
 
-      const { getByTitle, queryByText } = render(<OAuth />)
+      const {
+        getByTitle,
+        getByDisplayValue,
+        getByText,
+        getByRole,
+        queryByText,
+      } = render(<OAuth />)
       await wait()
 
       fireEvent.click(getByTitle(trans('user.oauth.modifyUrl')))
+      fireEvent.input(getByDisplayValue(example.redirect), {
+        target: { value: 'http://new.test/' },
+      })
+      fireEvent.click(getByText(trans('general.confirm')))
       await wait()
 
       expect(fetch.put).toBeCalledWith(`/oauth/clients/${example.id}`, {
         ...example,
         redirect: 'http://new.test/',
       })
-      expect(toast.error).toBeCalledWith('exception')
       expect(queryByText(example.redirect)).toBeInTheDocument()
+      expect(queryByText('exception')).toBeInTheDocument()
+      expect(getByRole('alert')).toHaveClass('alert-danger')
     })
 
     it('cancel dialog', async () => {
-      showModal.mockRejectedValue(null)
-
-      const { getByTitle, queryByText } = render(<OAuth />)
+      const { getByTitle, getByText, queryByText } = render(<OAuth />)
       await wait()
 
       fireEvent.click(getByTitle(trans('user.oauth.modifyUrl')))
+      fireEvent.click(getByText(trans('general.cancel')))
       await wait()
 
       expect(fetch.put).not.toBeCalled()
@@ -209,12 +239,11 @@ describe('delete app', () => {
   })
 
   it('succeeded', async () => {
-    showModal.mockResolvedValue({ value: '' })
-
     const { getByText, queryByText } = render(<OAuth />)
     await wait()
 
     fireEvent.click(getByText(trans('report.delete')))
+    fireEvent.click(getByText(trans('general.confirm')))
     await wait()
 
     expect(fetch.del).toBeCalledWith(`/oauth/clients/${example.id}`)
@@ -223,12 +252,11 @@ describe('delete app', () => {
   })
 
   it('cancel dialog', async () => {
-    showModal.mockRejectedValue(null)
-
     const { getByText, queryByText } = render(<OAuth />)
     await wait()
 
     fireEvent.click(getByText(trans('report.delete')))
+    fireEvent.click(getByText(trans('general.cancel')))
     await wait()
 
     expect(fetch.post).not.toBeCalled()
