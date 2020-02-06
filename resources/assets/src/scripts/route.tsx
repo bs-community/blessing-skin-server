@@ -1,3 +1,5 @@
+import React from 'react'
+
 const virtual = document.createElement('div')
 
 export default [
@@ -12,6 +14,13 @@ export default [
     path: 'user',
     react: () => import('../views/user/Dashboard'),
     el: '#usage-box',
+    frame: (
+      <div className="card card-primary card-outline">
+        <div className="card-header">&nbsp;</div>
+        <div className="card-body"></div>
+        <div className="card-footer">&nbsp;</div>
+      </div>
+    )
   },
   {
     path: 'user/closet',

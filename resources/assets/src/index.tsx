@@ -22,7 +22,7 @@ function loadModules() {
         route.react as (() => Promise<{ default: React.ComponentType }>)
       )
       const Root = () => (
-        <React.Suspense fallback={''}>
+        <React.Suspense fallback={route.frame ?? ''}>
           <Component />
         </React.Suspense>
       )
