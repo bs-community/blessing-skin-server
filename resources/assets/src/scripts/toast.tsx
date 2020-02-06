@@ -8,19 +8,24 @@ type QueueElement = { id: string; type: ToastType; message: string }
 type ToastQueue = QueueElement[]
 
 const TOAST_EVENT = Symbol('toast')
+const CLEAR_EVENT = Symbol('clear')
 
 export const ToastContainer: React.FC = () => {
   const [queue, setQueue] = useState<ToastQueue>([])
 
   useEffect(() => {
-    const off = emitter.on(TOAST_EVENT, (toast: QueueElement) => {
+    const off1 = emitter.on(TOAST_EVENT, (toast: QueueElement) => {
       setQueue(queue => {
         queue.push(toast)
         return queue.slice()
       })
     })
+    const off2 = emitter.on(CLEAR_EVENT, () => setQueue([]))
 
-    return off
+    return () => {
+      off1()
+      off2()
+    }
   }, [])
 
   const handleClose = (id: string) => {
@@ -65,5 +70,9 @@ export class Toast {
 
   error(message: string) {
     emitter.emit(TOAST_EVENT, { id: nanoid(4), type: 'error', message })
+  }
+
+  clear() {
+    emitter.emit(CLEAR_EVENT)
   }
 }

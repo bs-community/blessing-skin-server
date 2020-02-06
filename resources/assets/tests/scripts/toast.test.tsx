@@ -26,3 +26,14 @@ test('"Toast" class', () => {
 
   jest.runAllTimers()
 })
+
+test('clear toasts', () => {
+  render(<ToastContainer />)
+  const toast = new Toast()
+
+  toast.success('success')
+  toast.info('info')
+
+  toast.clear()
+  expect(document.querySelectorAll('.alert')).toHaveLength(0)
+})
