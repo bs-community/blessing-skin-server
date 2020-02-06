@@ -46,6 +46,23 @@ const Modal: React.FC<ModalOptions & Props> = props => {
   const [validatorMessage, setValidatorMessage] = useState('')
   const ref = useRef<HTMLDivElement>(null)
 
+  const { show } = props
+
+  useEffect(() => {
+    if (!show) {
+      return
+    }
+
+    const onHidden = () => props.onClose?.()
+
+    const el = $(ref.current!)
+    el.on('hidden.bs.modal', onHidden)
+
+    return () => {
+      el.off('hidden.bs.modal', onHidden)
+    }
+  }, [show, props.onClose])
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value)
   }
@@ -82,39 +99,17 @@ const Modal: React.FC<ModalOptions & Props> = props => {
   }
 
   useEffect(() => {
-    if (!props.show) {
-      return
-    }
-
-    const onHidden = () => props.onClose?.()
-
-    const el = $(ref.current!)
-    el.on('hidden.bs.modal', onHidden)
-
-    return () => {
-      el.off('hidden.bs.modal', onHidden)
-    }
-  }, [props.onClose, props.show])
-
-  useEffect(() => {
-    if (props.show) {
+    if (show) {
       setTimeout(() => $(ref.current!).modal('show'), 50)
     }
-  }, [props.show])
+  }, [show])
 
-  if (!props.show) {
+  if (!show) {
     return null
   }
 
   return (
-    <div
-      id={props.id}
-      className="modal fade"
-      tabIndex={-1}
-      role="dialog"
-      aria-hidden={!props.show}
-      ref={ref}
-    >
+    <div id={props.id} className="modal fade" role="dialog" ref={ref}>
       <div
         className={`modal-dialog ${
           props.center ? 'modal-dialog-centered' : ''
@@ -158,8 +153,6 @@ const Modal: React.FC<ModalOptions & Props> = props => {
     </div>
   )
 }
-
-Modal.displayName = 'Modal'
 
 Modal.defaultProps = {
   mode: 'confirm',

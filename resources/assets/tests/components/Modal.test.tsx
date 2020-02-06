@@ -27,11 +27,13 @@ test('background color', () => {
 test('jQuery events', () => {
   const { getByText } = render(<Modal mode="confirm" show />)
   act(() => {
+    jest.runAllTimers()
     $('.modal').trigger('hidden.bs.modal')
   })
 
   fireEvent.click(getByText(trans('general.cancel')))
   act(() => {
+    jest.runAllTimers()
     $('.modal').trigger('hidden.bs.modal')
   })
 })
@@ -275,8 +277,6 @@ describe('"onClose" event', () => {
     const mock = jest.fn()
     const { getByText } = render(<Modal show mode="confirm" onClose={mock} />)
     fireEvent.click(getByText(trans('general.confirm')))
-    jest.runAllTimers()
-    $('.modal').trigger('hidden.bs.modal')
     expect(mock).toBeCalled()
   })
 
@@ -284,8 +284,6 @@ describe('"onClose" event', () => {
     const mock = jest.fn()
     const { getByText } = render(<Modal show mode="confirm" onClose={mock} />)
     fireEvent.click(getByText(trans('general.cancel')))
-    jest.runAllTimers()
-    $('.modal').trigger('hidden.bs.modal')
     expect(mock).toBeCalled()
   })
 })
