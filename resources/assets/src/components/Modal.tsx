@@ -25,6 +25,7 @@ export type ModalOptions = {
   cancelButtonText?: string
   cancelButtonType?: string
   flexFooter?: boolean
+  children?: React.ReactNode
 }
 
 type Props = {

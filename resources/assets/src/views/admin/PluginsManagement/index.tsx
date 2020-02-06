@@ -4,7 +4,6 @@ import { trans } from '../../../scripts/i18n'
 import * as fetch from '../../../scripts/net'
 import { toast, showModal } from '../../../scripts/notify'
 import Loading from '../../../components/Loading'
-import alertUnresolved from '../../../components/mixins/alertUnresolvedPlugins'
 import InfoBox from './InfoBox'
 import { Plugin } from './types'
 
@@ -38,7 +37,19 @@ const PluginsManagement: React.FC = () => {
         return plugins.slice()
       })
     } else {
-      alertUnresolved(message, reason)
+      showModal({
+        mode: 'alert',
+        children: (
+          <div>
+            <p>{message}</p>
+            <ul>
+              {reason.map((t, i) => (
+                <li key={i}>{t}</li>
+              ))}
+            </ul>
+          </div>
+        ),
+      })
     }
   }
 
