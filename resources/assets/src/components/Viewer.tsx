@@ -7,7 +7,7 @@ import SkinSteve from '../../../misc/textures/steve.png'
 interface Props {
   skin?: string
   cape?: string
-  model?: 'steve' | 'alex'
+  isAlex?: boolean
   showIndicator?: boolean
   initPositionZ?: number
 }
@@ -57,8 +57,8 @@ const Viewer: React.FC<Props> = props => {
       domElement: container,
       width: container.clientWidth,
       height: container.clientHeight,
-      skinUrl: props.skin ?? SkinSteve,
-      capeUrl: props.cape ?? '',
+      skinUrl: props.skin || SkinSteve,
+      capeUrl: props.cape || '',
       detectModel: false,
     })
     viewer.camera.position.z = props.initPositionZ!
@@ -91,19 +91,25 @@ const Viewer: React.FC<Props> = props => {
   }, [reset])
 
   useEffect(() => {
+    return () => {
+      stuffRef.current.firstRun = true
+    }
+  }, [])
+
+  useEffect(() => {
     const viewer = viewRef.current
-    viewer.skinUrl = props.skin ?? SkinSteve
+    viewer.skinUrl = props.skin || SkinSteve
   }, [props.skin])
 
   useEffect(() => {
     const viewer = viewRef.current
-    viewer.capeUrl = props.cape ?? ''
+    viewer.capeUrl = props.cape || ''
   }, [props.cape])
 
   useEffect(() => {
     const viewer = viewRef.current
-    viewer.playerObject.skin.slim = props.model === 'alex'
-  }, [props.model])
+    viewer.playerObject.skin.slim = !!props.isAlex
+  }, [props.isAlex])
 
   const togglePause = () => {
     setPaused(paused => !paused)
@@ -176,7 +182,6 @@ const Viewer: React.FC<Props> = props => {
 }
 
 Viewer.defaultProps = {
-  model: 'steve',
   initPositionZ: 70,
 }
 
