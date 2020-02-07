@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { hot } from 'react-hot-loader/root'
-import { trans } from '../../../scripts/i18n'
-import * as fetch from '../../../scripts/net'
-import { showModal, toast } from '../../../scripts/notify'
-import Loading from '../../../components/Loading'
+import { t } from '@/scripts/i18n'
+import * as fetch from '@/scripts/net'
+import { showModal, toast } from '@/scripts/notify'
+import Loading from '@/components/Loading'
 import Row from './Row'
 import ModalCreate from './ModalCreate'
 import { App } from './types'
@@ -46,11 +46,12 @@ const OAuth: React.FC = () => {
   const editName = async (app: App, index: number) => {
     let name: string
     try {
-      ;({ value: name } = await showModal({
+      const { value } = await showModal({
         mode: 'prompt',
-        title: trans('user.oauth.name'),
+        title: t('user.oauth.name'),
         input: app.name,
-      }))
+      })
+      name = value
     } catch {
       return
     }
@@ -72,11 +73,12 @@ const OAuth: React.FC = () => {
   const editRedirect = async (app: App, index: number) => {
     let redirect: string
     try {
-      ;({ value: redirect } = await showModal({
+      const { value } = await showModal({
         mode: 'prompt',
-        title: trans('user.oauth.redirect'),
+        title: t('user.oauth.redirect'),
         input: app.redirect,
-      }))
+      })
+      redirect = value
     } catch {
       return
     }
@@ -98,7 +100,7 @@ const OAuth: React.FC = () => {
   const handleDelete = async (app: App) => {
     try {
       await showModal({
-        text: trans('user.oauth.confirmRemove'),
+        text: t('user.oauth.confirmRemove'),
         okButtonType: 'danger',
       })
     } catch {
@@ -112,18 +114,18 @@ const OAuth: React.FC = () => {
   return (
     <>
       <button className="btn btn-primary" onClick={handleShowModalCreate}>
-        {trans('user.oauth.create')}
+        {t('user.oauth.create')}
       </button>
       <div className="card mt-2">
         <div className="card-body p-0">
           <table className="table table-striped">
             <thead>
               <tr>
-                <th>{trans('user.oauth.id')}</th>
-                <th>{trans('user.oauth.name')}</th>
-                <th>{trans('user.oauth.secret')}</th>
-                <th>{trans('user.oauth.redirect')}</th>
-                <th>{trans('admin.operationsTitle')}</th>
+                <th>{t('user.oauth.id')}</th>
+                <th>{t('user.oauth.name')}</th>
+                <th>{t('user.oauth.secret')}</th>
+                <th>{t('user.oauth.redirect')}</th>
+                <th>{t('admin.operationsTitle')}</th>
               </tr>
             </thead>
             <tbody>

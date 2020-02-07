@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, fireEvent, wait } from '@testing-library/react'
 import * as fetch from '@/scripts/net'
-import { trans } from '@/scripts/i18n'
+import { t } from '@/scripts/i18n'
 import OAuth from '@/views/user/OAuth'
 import { App } from '@/views/user/OAuth/types'
 
@@ -30,14 +30,14 @@ describe('create app', () => {
     const { getByPlaceholderText, getByText, queryByText } = render(<OAuth />)
     await wait()
 
-    fireEvent.click(getByText(trans('user.oauth.create')))
-    fireEvent.input(getByPlaceholderText(trans('user.oauth.name')), {
+    fireEvent.click(getByText(t('user.oauth.create')))
+    fireEvent.input(getByPlaceholderText(t('user.oauth.name')), {
       target: { value: 'My App' },
     })
-    fireEvent.input(getByPlaceholderText(trans('user.oauth.redirect')), {
+    fireEvent.input(getByPlaceholderText(t('user.oauth.redirect')), {
       target: { value: 'http://url.test/' },
     })
-    fireEvent.click(getByText(trans('general.confirm')))
+    fireEvent.click(getByText(t('general.confirm')))
     await wait()
 
     expect(fetch.post).toBeCalledWith('/oauth/clients', {
@@ -57,14 +57,14 @@ describe('create app', () => {
     )
     await wait()
 
-    fireEvent.click(getByText(trans('user.oauth.create')))
-    fireEvent.input(getByPlaceholderText(trans('user.oauth.name')), {
+    fireEvent.click(getByText(t('user.oauth.create')))
+    fireEvent.input(getByPlaceholderText(t('user.oauth.name')), {
       target: { value: 'My App' },
     })
-    fireEvent.input(getByPlaceholderText(trans('user.oauth.redirect')), {
+    fireEvent.input(getByPlaceholderText(t('user.oauth.redirect')), {
       target: { value: 'http://url.test/' },
     })
-    fireEvent.click(getByText(trans('general.confirm')))
+    fireEvent.click(getByText(t('general.confirm')))
 
     await wait()
     expect(fetch.post).toBeCalledWith('/oauth/clients', {
@@ -81,21 +81,21 @@ describe('create app', () => {
     const { getByPlaceholderText, getByText } = render(<OAuth />)
     await wait()
 
-    fireEvent.click(getByText(trans('user.oauth.create')))
-    fireEvent.input(getByPlaceholderText(trans('user.oauth.name')), {
+    fireEvent.click(getByText(t('user.oauth.create')))
+    fireEvent.input(getByPlaceholderText(t('user.oauth.name')), {
       target: { value: 'My App' },
     })
-    fireEvent.input(getByPlaceholderText(trans('user.oauth.redirect')), {
+    fireEvent.input(getByPlaceholderText(t('user.oauth.redirect')), {
       target: { value: 'http://url.test/' },
     })
-    fireEvent.click(getByText(trans('general.cancel')))
+    fireEvent.click(getByText(t('general.cancel')))
 
     await wait()
     expect(fetch.post).not.toBeCalled()
 
-    fireEvent.click(getByText(trans('user.oauth.create')))
-    expect(getByPlaceholderText(trans('user.oauth.name'))).toHaveValue('')
-    expect(getByPlaceholderText(trans('user.oauth.redirect'))).toHaveValue('')
+    fireEvent.click(getByText(t('user.oauth.create')))
+    expect(getByPlaceholderText(t('user.oauth.name'))).toHaveValue('')
+    expect(getByPlaceholderText(t('user.oauth.redirect'))).toHaveValue('')
   })
 })
 
@@ -113,11 +113,11 @@ describe('edit app', () => {
       )
       await wait()
 
-      fireEvent.click(getByTitle(trans('user.oauth.modifyName')))
+      fireEvent.click(getByTitle(t('user.oauth.modifyName')))
       fireEvent.input(getByDisplayValue(fixture.name), {
         target: { value: 'new name' },
       })
-      fireEvent.click(getByText(trans('general.confirm')))
+      fireEvent.click(getByText(t('general.confirm')))
       await wait()
 
       expect(fetch.put).toBeCalledWith(`/oauth/clients/${fixture.id}`, {
@@ -139,11 +139,11 @@ describe('edit app', () => {
       } = render(<OAuth />)
       await wait()
 
-      fireEvent.click(getByTitle(trans('user.oauth.modifyName')))
+      fireEvent.click(getByTitle(t('user.oauth.modifyName')))
       fireEvent.input(getByDisplayValue(fixture.name), {
         target: { value: 'new name' },
       })
-      fireEvent.click(getByText(trans('general.confirm')))
+      fireEvent.click(getByText(t('general.confirm')))
       await wait()
 
       expect(fetch.put).toBeCalledWith(`/oauth/clients/${fixture.id}`, {
@@ -159,8 +159,8 @@ describe('edit app', () => {
       const { getByTitle, getByText, queryByText } = render(<OAuth />)
       await wait()
 
-      fireEvent.click(getByTitle(trans('user.oauth.modifyName')))
-      fireEvent.click(getByText(trans('general.cancel')))
+      fireEvent.click(getByTitle(t('user.oauth.modifyName')))
+      fireEvent.click(getByText(t('general.cancel')))
       await wait()
 
       expect(fetch.put).not.toBeCalled()
@@ -177,11 +177,11 @@ describe('edit app', () => {
       )
       await wait()
 
-      fireEvent.click(getByTitle(trans('user.oauth.modifyUrl')))
+      fireEvent.click(getByTitle(t('user.oauth.modifyUrl')))
       fireEvent.input(getByDisplayValue(fixture.redirect), {
         target: { value: 'http://new.test/' },
       })
-      fireEvent.click(getByText(trans('general.confirm')))
+      fireEvent.click(getByText(t('general.confirm')))
       await wait()
 
       expect(fetch.put).toBeCalledWith(`/oauth/clients/${fixture.id}`, {
@@ -203,11 +203,11 @@ describe('edit app', () => {
       } = render(<OAuth />)
       await wait()
 
-      fireEvent.click(getByTitle(trans('user.oauth.modifyUrl')))
+      fireEvent.click(getByTitle(t('user.oauth.modifyUrl')))
       fireEvent.input(getByDisplayValue(fixture.redirect), {
         target: { value: 'http://new.test/' },
       })
-      fireEvent.click(getByText(trans('general.confirm')))
+      fireEvent.click(getByText(t('general.confirm')))
       await wait()
 
       expect(fetch.put).toBeCalledWith(`/oauth/clients/${fixture.id}`, {
@@ -223,8 +223,8 @@ describe('edit app', () => {
       const { getByTitle, getByText, queryByText } = render(<OAuth />)
       await wait()
 
-      fireEvent.click(getByTitle(trans('user.oauth.modifyUrl')))
-      fireEvent.click(getByText(trans('general.cancel')))
+      fireEvent.click(getByTitle(t('user.oauth.modifyUrl')))
+      fireEvent.click(getByText(t('general.cancel')))
       await wait()
 
       expect(fetch.put).not.toBeCalled()
@@ -242,8 +242,8 @@ describe('delete app', () => {
     const { getByText, queryByText } = render(<OAuth />)
     await wait()
 
-    fireEvent.click(getByText(trans('report.delete')))
-    fireEvent.click(getByText(trans('general.confirm')))
+    fireEvent.click(getByText(t('report.delete')))
+    fireEvent.click(getByText(t('general.confirm')))
     await wait()
 
     expect(fetch.del).toBeCalledWith(`/oauth/clients/${fixture.id}`)
@@ -255,8 +255,8 @@ describe('delete app', () => {
     const { getByText, queryByText } = render(<OAuth />)
     await wait()
 
-    fireEvent.click(getByText(trans('report.delete')))
-    fireEvent.click(getByText(trans('general.cancel')))
+    fireEvent.click(getByText(t('report.delete')))
+    fireEvent.click(getByText(t('general.cancel')))
     await wait()
 
     expect(fetch.post).not.toBeCalled()
