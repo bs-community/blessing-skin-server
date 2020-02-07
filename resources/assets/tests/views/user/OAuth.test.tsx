@@ -7,12 +7,12 @@ import { App } from '@/views/user/OAuth/types'
 
 jest.mock('@/scripts/net')
 
-const example: App = {
+const fixture: Readonly<App> = Object.freeze({
   id: 1,
   name: 'My App',
   redirect: 'http://url.test/',
   secret: 'abc',
-}
+})
 
 test('loading data', () => {
   fetch.get.mockResolvedValue([])
@@ -26,7 +26,7 @@ describe('create app', () => {
   })
 
   it('succeeded', async () => {
-    fetch.post.mockResolvedValue(example)
+    fetch.post.mockResolvedValue(fixture)
     const { getByPlaceholderText, getByText, queryByText } = render(<OAuth />)
     await wait()
 
@@ -44,10 +44,10 @@ describe('create app', () => {
       name: 'My App',
       redirect: 'http://url.test/',
     })
-    expect(queryByText(example.id.toString())).toBeInTheDocument()
-    expect(queryByText(example.name)).toBeInTheDocument()
-    expect(queryByText(example.redirect)).toBeInTheDocument()
-    expect(queryByText(example.secret)).toBeInTheDocument()
+    expect(queryByText(fixture.id.toString())).toBeInTheDocument()
+    expect(queryByText(fixture.name)).toBeInTheDocument()
+    expect(queryByText(fixture.redirect)).toBeInTheDocument()
+    expect(queryByText(fixture.secret)).toBeInTheDocument()
   })
 
   it('failed', async () => {
@@ -71,8 +71,8 @@ describe('create app', () => {
       name: 'My App',
       redirect: 'http://url.test/',
     })
-    expect(queryByText(example.name)).not.toBeInTheDocument()
-    expect(queryByText(example.redirect)).not.toBeInTheDocument()
+    expect(queryByText(fixture.name)).not.toBeInTheDocument()
+    expect(queryByText(fixture.redirect)).not.toBeInTheDocument()
     expect(queryByText('exception')).toBeInTheDocument()
     expect(getByRole('alert')).toHaveClass('alert-danger')
   })
@@ -101,12 +101,12 @@ describe('create app', () => {
 
 describe('edit app', () => {
   beforeEach(() => {
-    fetch.get.mockResolvedValue([example])
+    fetch.get.mockResolvedValue([fixture])
   })
 
   describe('edit name', () => {
     it('succeeded', async () => {
-      fetch.put.mockResolvedValue({ ...example, name: 'new name' })
+      fetch.put.mockResolvedValue({ ...fixture, name: 'new name' })
 
       const { getByTitle, getByText, getByDisplayValue, queryByText } = render(
         <OAuth />,
@@ -114,14 +114,14 @@ describe('edit app', () => {
       await wait()
 
       fireEvent.click(getByTitle(trans('user.oauth.modifyName')))
-      fireEvent.input(getByDisplayValue(example.name), {
+      fireEvent.input(getByDisplayValue(fixture.name), {
         target: { value: 'new name' },
       })
       fireEvent.click(getByText(trans('general.confirm')))
       await wait()
 
-      expect(fetch.put).toBeCalledWith(`/oauth/clients/${example.id}`, {
-        ...example,
+      expect(fetch.put).toBeCalledWith(`/oauth/clients/${fixture.id}`, {
+        ...fixture,
         name: 'new name',
       })
       expect(queryByText('new name')).toBeInTheDocument()
@@ -140,17 +140,17 @@ describe('edit app', () => {
       await wait()
 
       fireEvent.click(getByTitle(trans('user.oauth.modifyName')))
-      fireEvent.input(getByDisplayValue(example.name), {
+      fireEvent.input(getByDisplayValue(fixture.name), {
         target: { value: 'new name' },
       })
       fireEvent.click(getByText(trans('general.confirm')))
       await wait()
 
-      expect(fetch.put).toBeCalledWith(`/oauth/clients/${example.id}`, {
-        ...example,
+      expect(fetch.put).toBeCalledWith(`/oauth/clients/${fixture.id}`, {
+        ...fixture,
         name: 'new name',
       })
-      expect(queryByText(example.name)).toBeInTheDocument()
+      expect(queryByText(fixture.name)).toBeInTheDocument()
       expect(queryByText('exception')).toBeInTheDocument()
       expect(getByRole('alert')).toHaveClass('alert-danger')
     })
@@ -164,13 +164,13 @@ describe('edit app', () => {
       await wait()
 
       expect(fetch.put).not.toBeCalled()
-      expect(queryByText(example.name)).toBeInTheDocument()
+      expect(queryByText(fixture.name)).toBeInTheDocument()
     })
   })
 
   describe('edit redirect url', () => {
     it('succeeded', async () => {
-      fetch.put.mockResolvedValue({ ...example, redirect: 'http://new.test/' })
+      fetch.put.mockResolvedValue({ ...fixture, redirect: 'http://new.test/' })
 
       const { getByTitle, getByDisplayValue, getByText, queryByText } = render(
         <OAuth />,
@@ -178,14 +178,14 @@ describe('edit app', () => {
       await wait()
 
       fireEvent.click(getByTitle(trans('user.oauth.modifyUrl')))
-      fireEvent.input(getByDisplayValue(example.redirect), {
+      fireEvent.input(getByDisplayValue(fixture.redirect), {
         target: { value: 'http://new.test/' },
       })
       fireEvent.click(getByText(trans('general.confirm')))
       await wait()
 
-      expect(fetch.put).toBeCalledWith(`/oauth/clients/${example.id}`, {
-        ...example,
+      expect(fetch.put).toBeCalledWith(`/oauth/clients/${fixture.id}`, {
+        ...fixture,
         redirect: 'http://new.test/',
       })
       expect(queryByText('http://new.test/')).toBeInTheDocument()
@@ -204,17 +204,17 @@ describe('edit app', () => {
       await wait()
 
       fireEvent.click(getByTitle(trans('user.oauth.modifyUrl')))
-      fireEvent.input(getByDisplayValue(example.redirect), {
+      fireEvent.input(getByDisplayValue(fixture.redirect), {
         target: { value: 'http://new.test/' },
       })
       fireEvent.click(getByText(trans('general.confirm')))
       await wait()
 
-      expect(fetch.put).toBeCalledWith(`/oauth/clients/${example.id}`, {
-        ...example,
+      expect(fetch.put).toBeCalledWith(`/oauth/clients/${fixture.id}`, {
+        ...fixture,
         redirect: 'http://new.test/',
       })
-      expect(queryByText(example.redirect)).toBeInTheDocument()
+      expect(queryByText(fixture.redirect)).toBeInTheDocument()
       expect(queryByText('exception')).toBeInTheDocument()
       expect(getByRole('alert')).toHaveClass('alert-danger')
     })
@@ -228,14 +228,14 @@ describe('edit app', () => {
       await wait()
 
       expect(fetch.put).not.toBeCalled()
-      expect(queryByText(example.redirect)).toBeInTheDocument()
+      expect(queryByText(fixture.redirect)).toBeInTheDocument()
     })
   })
 })
 
 describe('delete app', () => {
   beforeEach(() => {
-    fetch.get.mockResolvedValue([example])
+    fetch.get.mockResolvedValue([fixture])
   })
 
   it('succeeded', async () => {
@@ -246,9 +246,9 @@ describe('delete app', () => {
     fireEvent.click(getByText(trans('general.confirm')))
     await wait()
 
-    expect(fetch.del).toBeCalledWith(`/oauth/clients/${example.id}`)
-    expect(queryByText(example.name)).not.toBeInTheDocument()
-    expect(queryByText(example.redirect)).not.toBeInTheDocument()
+    expect(fetch.del).toBeCalledWith(`/oauth/clients/${fixture.id}`)
+    expect(queryByText(fixture.name)).not.toBeInTheDocument()
+    expect(queryByText(fixture.redirect)).not.toBeInTheDocument()
   })
 
   it('cancel dialog', async () => {
@@ -260,7 +260,7 @@ describe('delete app', () => {
     await wait()
 
     expect(fetch.post).not.toBeCalled()
-    expect(queryByText(example.name)).toBeInTheDocument()
-    expect(queryByText(example.redirect)).toBeInTheDocument()
+    expect(queryByText(fixture.name)).toBeInTheDocument()
+    expect(queryByText(fixture.redirect)).toBeInTheDocument()
   })
 })

@@ -61,7 +61,7 @@ const OAuth: React.FC = () => {
     )
     if ('id' in result) {
       setApps(apps => {
-        apps[index].name = name
+        apps[index] = { ...app, name }
         return apps.slice()
       })
     } else {
@@ -87,7 +87,7 @@ const OAuth: React.FC = () => {
     )
     if ('id' in result) {
       setApps(apps => {
-        apps[index].redirect = redirect
+        apps[index] = { ...app, redirect }
         return apps.slice()
       })
     } else {
