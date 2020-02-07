@@ -31,7 +31,6 @@ const ModalCreate: React.FC<Props> = props => {
 
   return (
     <Modal
-      id="modal-create"
       show={props.show}
       onConfirm={handleComplete}
       onDismiss={handleDismiss}
