@@ -6,7 +6,10 @@
     "moduleResolution": "node",
     "declaration": false,
     "baseUrl": ".",
-    "incremental": true
+    "incremental": true,
+    "paths": {
+      "@/*": ["./resources/assets/src/*"]
+    }
   },
   "include": [
     "resources/assets/src",

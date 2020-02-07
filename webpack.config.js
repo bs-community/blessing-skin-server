@@ -1,3 +1,4 @@
+const path = require('path')
 const webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
@@ -115,6 +116,7 @@ const config = {
     extensions: ['.js', '.ts', '.tsx', '.vue', '.json'],
     alias: {
       'react-dom': '@hot-loader/react-dom',
+      '@': path.resolve(__dirname, 'resources/assets/src'),
     },
   },
   optimization: {
