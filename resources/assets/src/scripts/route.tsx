@@ -5,10 +5,7 @@ const virtual = document.createElement('div')
 export default [
   {
     path: '/',
-    module: [
-      () => import('../styles/home.styl'),
-      () => import('./home-page'),
-    ],
+    module: [() => import('../styles/home.styl'), () => import('./home-page')],
   },
   {
     path: 'user',
@@ -20,7 +17,7 @@ export default [
         <div className="card-body"></div>
         <div className="card-footer">&nbsp;</div>
       </div>
-    )
+    ),
   },
   {
     path: 'user/closet',
@@ -29,8 +26,14 @@ export default [
   },
   {
     path: 'user/player',
-    component: () => import('../views/user/Players.vue'),
-    el: virtual,
+    react: () => import('../views/user/Players'),
+    el: '#players-list',
+    frame: () => (
+      <div className="card">
+        <div className="card-header">&nbsp;</div>
+        <div className="card-body p-0"></div>
+      </div>
+    ),
   },
   {
     path: 'user/player/bind',
@@ -39,9 +42,7 @@ export default [
   },
   {
     path: 'user/profile',
-    module: [
-      () => import('../views/user/profile/index'),
-    ],
+    module: [() => import('../views/user/profile/index')],
   },
   {
     path: 'user/oauth/manage',
@@ -50,9 +51,7 @@ export default [
   },
   {
     path: 'admin',
-    module: [
-      () => import('../views/admin/Dashboard'),
-    ],
+    module: [() => import('../views/admin/Dashboard')],
   },
   {
     path: 'admin/users',
@@ -71,9 +70,7 @@ export default [
   },
   {
     path: 'admin/customize',
-    module: [
-      () => import('../views/admin/Customization'),
-    ],
+    module: [() => import('../views/admin/Customization')],
   },
   {
     path: 'admin/i18n',
@@ -92,9 +89,7 @@ export default [
   },
   {
     path: 'admin/update',
-    module: [
-      () => import('../views/admin/Update'),
-    ],
+    module: [() => import('../views/admin/Update')],
   },
   {
     path: 'auth/login',
