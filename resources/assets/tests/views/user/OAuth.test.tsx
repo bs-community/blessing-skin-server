@@ -27,14 +27,14 @@ describe('create app', () => {
 
   it('succeeded', async () => {
     fetch.post.mockResolvedValue(fixture)
-    const { getByPlaceholderText, getByText, queryByText } = render(<OAuth />)
+    const { getByLabelText, getByText, queryByText } = render(<OAuth />)
     await wait()
 
     fireEvent.click(getByText(t('user.oauth.create')))
-    fireEvent.input(getByPlaceholderText(t('user.oauth.name')), {
+    fireEvent.input(getByLabelText(t('user.oauth.name')), {
       target: { value: 'My App' },
     })
-    fireEvent.input(getByPlaceholderText(t('user.oauth.redirect')), {
+    fireEvent.input(getByLabelText(t('user.oauth.redirect')), {
       target: { value: 'http://url.test/' },
     })
     fireEvent.click(getByText(t('general.confirm')))
@@ -52,16 +52,16 @@ describe('create app', () => {
 
   it('failed', async () => {
     fetch.post.mockResolvedValue({ message: 'exception' })
-    const { getByPlaceholderText, getByText, getByRole, queryByText } = render(
+    const { getByLabelText, getByText, getByRole, queryByText } = render(
       <OAuth />,
     )
     await wait()
 
     fireEvent.click(getByText(t('user.oauth.create')))
-    fireEvent.input(getByPlaceholderText(t('user.oauth.name')), {
+    fireEvent.input(getByLabelText(t('user.oauth.name')), {
       target: { value: 'My App' },
     })
-    fireEvent.input(getByPlaceholderText(t('user.oauth.redirect')), {
+    fireEvent.input(getByLabelText(t('user.oauth.redirect')), {
       target: { value: 'http://url.test/' },
     })
     fireEvent.click(getByText(t('general.confirm')))
@@ -78,14 +78,14 @@ describe('create app', () => {
   })
 
   it('cancel dialog', async () => {
-    const { getByPlaceholderText, getByText } = render(<OAuth />)
+    const { getByLabelText, getByText } = render(<OAuth />)
     await wait()
 
     fireEvent.click(getByText(t('user.oauth.create')))
-    fireEvent.input(getByPlaceholderText(t('user.oauth.name')), {
+    fireEvent.input(getByLabelText(t('user.oauth.name')), {
       target: { value: 'My App' },
     })
-    fireEvent.input(getByPlaceholderText(t('user.oauth.redirect')), {
+    fireEvent.input(getByLabelText(t('user.oauth.redirect')), {
       target: { value: 'http://url.test/' },
     })
     fireEvent.click(getByText(t('general.cancel')))
@@ -94,8 +94,8 @@ describe('create app', () => {
     expect(fetch.post).not.toBeCalled()
 
     fireEvent.click(getByText(t('user.oauth.create')))
-    expect(getByPlaceholderText(t('user.oauth.name'))).toHaveValue('')
-    expect(getByPlaceholderText(t('user.oauth.redirect'))).toHaveValue('')
+    expect(getByLabelText(t('user.oauth.name'))).toHaveValue('')
+    expect(getByLabelText(t('user.oauth.redirect'))).toHaveValue('')
   })
 })
 

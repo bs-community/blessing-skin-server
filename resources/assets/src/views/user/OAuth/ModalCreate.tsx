@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
+import { t } from '../../../scripts/i18n'
 import Modal from '../../../components/Modal'
-import { trans } from '../../../scripts/i18n'
 
 interface Props {
   show: boolean
@@ -36,36 +36,28 @@ const ModalCreate: React.FC<Props> = props => {
       onDismiss={handleDismiss}
       onClose={props.onClose}
     >
-      <table className="table">
-        <tbody>
-          <tr>
-            <td className="key">{trans('user.oauth.name')}</td>
-            <td className="value">
-              <input
-                value={name}
-                onChange={handleNameChange}
-                className="form-control"
-                placeholder={trans('user.oauth.name')}
-                type="text"
-                required
-              />
-            </td>
-          </tr>
-          <tr>
-            <td className="key">{trans('user.oauth.redirect')}</td>
-            <td className="value">
-              <input
-                value={url}
-                onChange={handleUrlChange}
-                className="form-control"
-                placeholder={trans('user.oauth.redirect')}
-                type="url"
-                required
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div className="form-group">
+        <label htmlFor="new-app-name">{t('user.oauth.name')}</label>
+        <input
+          value={name}
+          onChange={handleNameChange}
+          className="form-control"
+          id="new-app-name"
+          type="text"
+          required
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="new-app-redirect">{t('user.oauth.redirect')}</label>
+        <input
+          value={url}
+          onChange={handleUrlChange}
+          className="form-control"
+          id="new-app-redirect"
+          type="url"
+          required
+        />
+      </div>
     </Modal>
   )
 }
