@@ -30,11 +30,13 @@ class ViewServiceProvider extends ServiceProvider
         View::composer('shared.head', Composers\HeadComposer::class);
 
         View::composer('shared.notifications', function ($view) {
-            $notifications = auth()->user()->unreadNotifications;
-            $view->with([
-                'notifications' => $notifications,
-                'amount' => count($notifications),
-            ]);
+            $notifications = auth()->user()->unreadNotifications->map(function ($notification) {
+                return [
+                    'id' => $notification->id,
+                    'title' => $notification->data['title'],
+                ];
+            });
+            $view->with(['notifications' => $notifications]);
         });
 
         View::composer(
