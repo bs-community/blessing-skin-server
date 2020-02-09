@@ -37,7 +37,7 @@ export default [
   },
   {
     path: 'user/player/bind',
-    component: () => import('../views/user/Bind.vue'),
+    react: () => import('../views/user/BindPlayers'),
     el: 'form',
   },
   {
