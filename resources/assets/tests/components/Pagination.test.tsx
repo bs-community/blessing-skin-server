@@ -2,6 +2,16 @@ import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import Pagination, { labels } from '@/components/Pagination'
 
+test('hide when total pages is invalid', () => {
+  const { queryByText } = render(
+    <Pagination page={1} totalPages={0} onChange={() => {}} />,
+  )
+  expect(queryByText(labels.first)).not.toBeInTheDocument()
+  expect(queryByText(labels.prev)).not.toBeInTheDocument()
+  expect(queryByText(labels.next)).not.toBeInTheDocument()
+  expect(queryByText(labels.last)).not.toBeInTheDocument()
+})
+
 describe('first page', () => {
   it('enabled', () => {
     const mock = jest.fn()

@@ -17,6 +17,10 @@ export const labels = {
 const Pagination: React.FC<Props> = props => {
   const { page, totalPages, onChange } = props
 
+  if (totalPages < 1) {
+    return null
+  }
+
   return (
     <ul className="pagination">
       <PaginationItem disabled={page === 1} onClick={() => onChange(1)}>
