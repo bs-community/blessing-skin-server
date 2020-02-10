@@ -129,7 +129,7 @@ const Players: React.FC = () => {
       return
     }
 
-    const { code, message } = await fetch.post(
+    const { code, message } = await fetch.post<fetch.ResponseBody>(
       `/user/player/delete/${player.pid}`,
     )
     if (code === 0) {
