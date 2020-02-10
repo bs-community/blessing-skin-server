@@ -451,9 +451,7 @@ describe('reset texture', () => {
   })
 
   it('cancelled', async () => {
-    const { getByText, getByRole, getByLabelText, queryByText } = render(
-      <Players />,
-    )
+    const { getByText, getByLabelText } = render(<Players />)
     await wait()
 
     fireEvent.click(getByText(t('user.player.delete-texture')))
@@ -503,7 +501,7 @@ describe('delete player', () => {
   })
 
   it('cancelled', async () => {
-    const { getByText, getByRole, queryByText } = render(<Players />)
+    const { getByText, queryByText } = render(<Players />)
     await wait()
 
     fireEvent.click(getByText(t('user.player.delete-player')))
