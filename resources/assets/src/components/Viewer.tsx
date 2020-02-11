@@ -103,7 +103,11 @@ const Viewer: React.FC<Props> = props => {
 
   useEffect(() => {
     const viewer = viewRef.current
-    viewer.capeUrl = props.cape || ''
+    if (props.cape) {
+      viewer.capeUrl = props.cape
+    } else {
+      viewer.playerObject.cape.visible = false
+    }
   }, [props.cape])
 
   useEffect(() => {
@@ -138,7 +142,7 @@ const Viewer: React.FC<Props> = props => {
           <h3 className="card-title">
             <span>{trans('general.texturePreview')}</span>
             {props.showIndicator && (
-              <span className="badge bg-olive">{indicator}</span>
+              <span className="badge bg-olive ml-1">{indicator}</span>
             )}
           </h3>
           <div className={styles.actions}>

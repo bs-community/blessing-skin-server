@@ -21,8 +21,8 @@ export default [
   },
   {
     path: 'user/closet',
-    component: () => import('../views/user/Closet.vue'),
-    el: virtual,
+    react: () => import('../views/user/Closet'),
+    el: '#closet-list',
   },
   {
     path: 'user/player',
