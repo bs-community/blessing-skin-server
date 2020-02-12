@@ -6,7 +6,7 @@ import EmailVerification from '@/views/widgets/EmailVerification'
 
 jest.mock('@/scripts/net')
 
-describe('send email', async () => {
+describe('send email', () => {
   it('succeeded', async () => {
     fetch.post.mockResolvedValue({ code: 0, message: 'success' })
 
