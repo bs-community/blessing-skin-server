@@ -61,7 +61,10 @@ class UserController extends Controller
             ],
             'widgets' => [
                 [
-                    ['user.widgets.dashboard.usage'],
+                    [
+                        'user.widgets.email-verification',
+                        'user.widgets.dashboard.usage',
+                    ],
                     ['user.widgets.dashboard.announcement'],
                 ],
             ],
