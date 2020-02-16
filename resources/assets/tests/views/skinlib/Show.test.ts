@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
+import { trans } from '@/scripts/i18n'
 import { showModal, toast } from '@/scripts/notify'
 import Show from '@/views/skinlib/Show.vue'
 
@@ -408,9 +409,9 @@ test('report texture', async () => {
   button.trigger('click')
   expect(showModal).toBeCalledWith({
     mode: 'prompt',
-    title: 'skinlib.report.title',
+    title: trans('skinlib.report.title'),
     text: '',
-    placeholder: 'skinlib.report.reason',
+    placeholder: trans('skinlib.report.reason'),
   })
   expect(Vue.prototype.$http.post).not.toBeCalled()
 
@@ -418,18 +419,18 @@ test('report texture', async () => {
   button.trigger('click')
   expect(showModal).toBeCalledWith({
     mode: 'prompt',
-    title: 'skinlib.report.title',
-    text: 'skinlib.report.negative',
-    placeholder: 'skinlib.report.reason',
+    title: trans('skinlib.report.title'),
+    text: trans('skinlib.report.negative', { score: 5 }),
+    placeholder: trans('skinlib.report.reason'),
   })
 
   wrapper.setData({ reportScore: 5 })
   button.trigger('click')
   expect(showModal).toBeCalledWith({
     mode: 'prompt',
-    title: 'skinlib.report.title',
-    text: 'skinlib.report.positive',
-    placeholder: 'skinlib.report.reason',
+    title: trans('skinlib.report.title'),
+    text: trans('skinlib.report.positive', { score: 5 }),
+    placeholder: trans('skinlib.report.reason'),
   })
   await flushPromises()
   expect(Vue.prototype.$http.post).toBeCalledWith(

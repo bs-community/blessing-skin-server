@@ -1,3 +1,35 @@
 {% extends 'user.base' %}
 
 {% block title %}{{ trans('general.my-reports') }}{% endblock %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-body p-0">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>{{ trans('front-end.report.tid') }}</th>
+            <th>{{ trans('front-end.report.reason') }}</th>
+            <th>{{ trans('front-end.report.status-title') }}</th>
+            <th>{{ trans('front-end.report.time') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for report in reports %}
+            <tr>
+              <td>
+                {{ report.tid }}&nbsp;
+                <a href="{{ route('skinlib.show', {tid: report.tid}) }}" target="_blank">
+                  <i class="fas fa-share"></i>
+                </a>
+              </td>
+              <td>{{ report.reason }}</td>
+              <td>{{ trans('front-end.report.status')[report.status] }}</td>
+              <td>{{ report.report_at }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock %}

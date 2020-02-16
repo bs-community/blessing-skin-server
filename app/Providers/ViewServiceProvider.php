@@ -30,14 +30,19 @@ class ViewServiceProvider extends ServiceProvider
         View::composer('shared.head', Composers\HeadComposer::class);
 
         View::composer('shared.notifications', function ($view) {
-            $notifications = auth()->user()->unreadNotifications;
-            $view->with([
-                'notifications' => $notifications,
-                'amount' => count($notifications),
-            ]);
+            $notifications = auth()->user()->unreadNotifications->map(function ($notification) {
+                return [
+                    'id' => $notification->id,
+                    'title' => $notification->data['title'],
+                ];
+            });
+            $view->with(['notifications' => $notifications]);
         });
 
-        View::composer('shared.languages', Composers\LanguagesMenuComposer::class);
+        View::composer(
+            ['shared.languages', 'errors.*'],
+            Composers\LanguagesMenuComposer::class
+        );
 
         View::composer('shared.user-menu', Composers\UserMenuComposer::class);
 
@@ -72,11 +77,9 @@ class ViewServiceProvider extends ServiceProvider
         View::composer(['errors.*', 'setup.*'], function ($view) use ($webpack) {
             $view->with([
                 'styles' => [
-                    $webpack->url('setup.css'),
+                    $webpack->url('spectre.css'),
                 ],
-                'scripts' => [
-                    $webpack->url('language-chooser.js'),
-                ],
+                'scripts' => [],
             ]);
         });
 

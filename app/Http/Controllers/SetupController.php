@@ -112,10 +112,6 @@ class SetupController extends Controller
             'site_name' => 'required',
         ]);
 
-        if ($request->has('generate_random')) {
-            $artisan->call('key:generate');
-            $artisan->call('salt:random');
-        }
         $artisan->call('jwt:secret', ['--no-interaction' => true]);
         $artisan->call('passport:keys', ['--no-interaction' => true]);
 
@@ -157,8 +153,6 @@ class SetupController extends Controller
 
         $filesystem->put(storage_path('install.lock'), '');
 
-        return view('setup.wizard.finish')->with([
-            'email' => $request->input('email'),
-        ]);
+        return view('setup.wizard.finish');
     }
 }

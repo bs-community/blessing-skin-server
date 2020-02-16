@@ -1,12 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
-const bus: { [name: string]: CallableFunction[] } = Object.create(null)
+const bus = new Map<string | symbol, Set<CallableFunction>>()
 
-export function on(eventName: string, listener: CallableFunction) {
-  (bus[eventName] || (bus[eventName] = [])).push(listener)
+export function on(event: string | symbol, listener: CallableFunction) {
+  if (!bus.has(event)) {
+    bus.set(event, new Set())
+  }
+  const listeners = bus.get(event)!
+  listeners.add(listener)
+
+  return () => {
+    listeners.delete(listener)
+  }
 }
 
-export function emit(eventName: string, payload?: any) {
-  bus[eventName] && bus[eventName].forEach(listener => listener(payload))
+export function emit(event: string | symbol, payload?: unknown) {
+  bus.get(event)?.forEach(listener => listener(payload))
 }
 
 blessing.event = { on, emit }

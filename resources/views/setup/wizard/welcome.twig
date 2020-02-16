@@ -5,7 +5,7 @@
 {% block content %}
   <p>{{ trans('setup.wizard.welcome.text', {version: config('app.version')}) }}</p>
   <p class="step">
-    <a href="{{ url('setup/database') }}" class="button button-large">
+    <a href="{{ url('setup/database') }}" class="btn btn-primary">
       {{ trans('setup.wizard.welcome.button') }}
     </a>
   </p>

@@ -19,9 +19,9 @@ export default Vue.extend<{
       const { code, message } = await this.$http.post(`/user/closet/remove/${this.tid}`)
       if (code === 0) {
         this.$emit('item-removed')
-        toast.success(message)
+        toast.success(message!)
       } else {
-        toast.error(message)
+        toast.error(message!)
       }
     },
   },

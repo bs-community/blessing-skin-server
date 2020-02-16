@@ -11,18 +11,20 @@
     {% endfor %}
   </head>
 
-  <body class="container">
-    <p id="logo">
-      <a href="{{ url('/') }}" tabindex="-1">{{ site_name }}</a>
-    </p>
-    <h1>
-      {% block subtitle %}{{ block('title') }}{% endblock %}
-      {{ include('errors.languages') }}
-    </h1>
-    {% block message %}{% endblock %}
-    {% if auth_user().admin %}
-      <a class="faq" href="https://blessing.netlify.com/faq.html" target="_blank">FAQ</a>
-    {% endif %}
+  <body class="bg-gray">
+    {{ include('errors.languages') }}
+    <div class="hero d-flex">
+      <div class="hero-body text-center">
+        <h1><a class="text-primary" href="{{ url('/') }}">{{ site_name }}</a></h1>
+        <div class="divider"></div>
+        <h3 style="margin-top: 15vh;">{% block subtitle %}{{ block('title') }}{% endblock %}</h3>
+        {% block message %}{% endblock %}
+        <div class="divider"></div>
+        {% if auth_user().admin %}
+          <a class="btn btn-link" href="https://blessing.netlify.com/faq.html" target="_blank">FAQ</a>
+        {% endif %}
+      </div>
+    </div>
     {% for script in scripts %}
       <script src="{{ script }}"></script>
     {% endfor %}

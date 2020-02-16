@@ -25,6 +25,8 @@ export function trans(key: string, parameters = Object.create(null)): string {
   return result
 }
 
+export const t = trans
+
 Vue.use(_Vue => {
   // eslint-disable-next-line @typescript-eslint/unbound-method
   _Vue.prototype.$t = trans
@@ -44,5 +46,4 @@ Vue.use(_Vue => {
   })
 })
 
-// eslint-disable-next-line @typescript-eslint/unbound-method
-window.trans = trans
+Object.assign(window, { trans })

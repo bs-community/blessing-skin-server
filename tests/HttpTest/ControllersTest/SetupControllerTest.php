@@ -128,8 +128,6 @@ class SetupControllerTest extends TestCase
         ])->assertDontSee(trans('setup.wizard.finish.title'));
 
         $this->spy(Artisan::class, function ($spy) {
-            $spy->shouldReceive('call')->with('key:generate')->once();
-            $spy->shouldReceive('call')->with('salt:random')->once();
             $spy->shouldReceive('call')
                 ->with('jwt:secret', ['--no-interaction' => true])
                 ->once();
@@ -152,9 +150,7 @@ class SetupControllerTest extends TestCase
             'password' => '12345678',
             'password_confirmation' => '12345678',
             'site_name' => 'bs',
-            'generate_random' => true,
-        ])->assertSee(trans('setup.wizard.finish.title'))
-            ->assertSee('a@b.c');
+        ])->assertSee(trans('setup.wizard.finish.title'));
         $superAdmin = \App\Models\User::find(1);
         $this->assertEquals('a@b.c', $superAdmin->email);
         $this->assertTrue($superAdmin->verifyPassword('12345678'));

@@ -1,0 +1,15 @@
+body {
+  height: 97vh;
+}
+
+.hero {
+  align-items: center;
+}
+
+h1 {
+  font-family: Minecraft;
+}
+
+a:hover {
+  text-decoration: none;
+}

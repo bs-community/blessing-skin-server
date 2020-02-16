@@ -1,16 +1,5 @@
 import * as utils from '@/scripts/utils'
 
-test('debounce', () => {
-  const stub = jest.fn()
-  const debounced = utils.debounce(stub, 2000)
-
-  debounced()
-  debounced()
-  expect(stub).not.toBeCalled()
-  jest.runAllTimers()
-  expect(stub).toBeCalledTimes(1)
-})
-
 test('queryString', () => {
   history.pushState({}, 'page', `${location.href}?key=value`)
   expect(utils.queryString('key')).toBe('value')

@@ -55,6 +55,8 @@ class PlayerController extends Controller
                     'user.player.player-name-length',
                     ['min' => option('player_name_length_min'), 'max' => option('player_name_length_max')]
                 ),
+                'score' => auth()->user()->score,
+                'cost' => (int) option('score_per_player'),
             ]);
     }
 

@@ -1,24 +1,6 @@
-<li class="nav-item dropdown">
-  <a class="nav-link" data-toggle="dropdown" href="#">
-    <i class="far fa-bell"></i>
-    {% if amount > 0 %}
-      <span class="badge badge-warning navbar-badge notifications-counter">
-        {{ amount }}
-      </span>
-    {% endif %}
-  </a>
-  <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-    {% if amount == 0 %}
-      <p class="text-center text-muted pt-2 pb-2">{{ trans('user.no-unread') }}</p>
-    {% else %}
-      <div class="notifications-list">
-        {% for notification in notifications %}
-          <a href="#" class="dropdown-item" data-nid="{{ notification.id }}">
-            <i class="far fa-circle text-info"></i> {{ notification.data.title }}
-          </a>
-          <div class="dropdown-divider"></div>
-        {% endfor %}
-      </div>
-    {% endif %}
-  </div>
+<li
+  class="nav-item dropdown"
+  data-t="{{ trans('user.no-unread') }}"
+  data-notifications="{{ notifications|json_encode }}"
+>
 </li>

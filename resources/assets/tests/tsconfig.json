@@ -1,0 +1,22 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "..",
+    "noEmit": true,
+    "paths": {
+      "@/scripts/*": [
+        "./tests/ts-shims/*",
+        "./src/scripts/*"
+      ],
+      "@/components/*": [
+        "./src/components/*"
+      ],
+      "@/views/*": [
+        "./src/views/*"
+      ]
+    }
+  },
+  "include": [
+    "."
+  ]
+}

@@ -1,9 +1,7 @@
 import Vue from 'vue'
-import * as JQuery from 'jquery'
-import { ModalOptions, ModalResult } from './scripts/modal'
+import JQuery from 'jquery'
+import { ModalOptions, ModalResult } from './components/Modal'
 import { Toast } from './scripts/toast'
-
-type I18n = 'en' | 'zh_CN'
 
 declare global {
   // eslint-disable-next-line no-redeclare
@@ -11,15 +9,14 @@ declare global {
     base_url: string
     debug: boolean
     env: string
-    fallback_locale: I18n
-    locale: I18n
+    fallback_locale: string
+    locale: string
     site_name: string
     timezone: string
     version: string
     route: string
     extra: any
     i18n: object
-    ui: object
 
     fetch: {
       get(url: string, params?: object): Promise<object>

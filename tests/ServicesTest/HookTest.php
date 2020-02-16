@@ -4,7 +4,6 @@ namespace Tests;
 
 use App\Models\User;
 use App\Services\Hook;
-use Symfony\Component\DomCrawler\Crawler;
 
 class HookTest extends TestCase
 {
@@ -90,25 +89,13 @@ class HookTest extends TestCase
     {
         $user = factory(User::class)->create();
         Hook::sendNotification([$user], 'Ibara Mayaka');
-        $html = $this->actingAs($user)
-            ->get('/user')
-            ->assertSee('Ibara Mayaka')
-            ->getContent();
-        $crawler = new Crawler($html);
-        $this->assertEquals('1', trim($crawler->filter('.badge-warning')->text()));
+        $user->refresh();
+        $this->assertCount(1, $user->unreadNotifications);
     }
 
     public function testPushMiddleware()
     {
-        Hook::pushMiddleware(get_class(new class() {
-            public function handle($request, $next)
-            {
-                $response = $next($request);
-                $response->header('X-Middleware-Test', 'value');
-
-                return $response;
-            }
-        }));
+        Hook::pushMiddleware(Concerns\FakeMiddleware::class);
         $this->get('/')->assertHeader('X-Middleware-Test');
     }
 }

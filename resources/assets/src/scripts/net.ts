@@ -4,9 +4,10 @@ import { queryStringify } from './utils'
 import { showModal } from './notify'
 import { trans } from './i18n'
 
-export interface ResponseBody {
+export interface ResponseBody<T = null> {
   code: number
   message: string
+  data: T extends null ? never : T
 }
 
 class HTTPError extends Error {
@@ -27,8 +28,9 @@ export const init: RequestInit = {
 }
 
 function retrieveToken() {
-  const csrfField =
-    document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')
+  const csrfField = document.querySelector<HTMLMetaElement>(
+    'meta[name="csrf-token"]',
+  )
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   return csrfField?.content || ''
 }
@@ -39,9 +41,10 @@ export async function walkFetch(request: Request): Promise<any> {
   try {
     const response = await fetch(request)
     const cloned = response.clone()
-    const body = response.headers.get('Content-Type') === 'application/json'
-      ? await response.json()
-      : await response.text()
+    const body =
+      response.headers.get('Content-Type') === 'application/json'
+        ? await response.json()
+        : await response.text()
     if (response.ok) {
       return body
     }
@@ -49,7 +52,9 @@ export async function walkFetch(request: Request): Promise<any> {
 
     if (response.status === 422) {
       // Process validation errors from Laravel.
-      const { errors }: {
+      const {
+        errors,
+      }: {
         message: string
         errors: { [field: string]: string[] }
       } = body
@@ -67,7 +72,7 @@ export async function walkFetch(request: Request): Promise<any> {
     }
 
     if (body.exception && Array.isArray(body.trace)) {
-      const trace = (body.trace as Array<{ file: string, line: number }>)
+      const trace = (body.trace as Array<{ file: string; line: number }>)
         .map((t, i) => `[${i + 1}] ${t.file}#L${t.line}`)
         .join('<br>')
       message = `${message}<br><details>${trace}</details>`
@@ -86,7 +91,7 @@ export async function walkFetch(request: Request): Promise<any> {
   }
 }
 
-export function get(url: string, params = empty): Promise<any> {
+export function get<T = any>(url: string, params = empty): Promise<T> {
   emit('beforeFetch', {
     method: 'GET',
     url,
@@ -95,10 +100,12 @@ export function get(url: string, params = empty): Promise<any> {
 
   const qs = queryStringify(params)
 
-  return walkFetch(new Request(`${blessing.base_url}${url}${qs && `?${qs}`}`, init))
+  return walkFetch(
+    new Request(`${blessing.base_url}${url}${qs && `?${qs}`}`, init),
+  )
 }
 
-function nonGet(method: string, url: string, data: any): Promise<any> {
+function nonGet<T = any>(method: string, url: string, data: any): Promise<T> {
   emit('beforeFetch', {
     method: method.toUpperCase(),
     url,
@@ -118,26 +125,32 @@ function nonGet(method: string, url: string, data: any): Promise<any> {
   return walkFetch(request)
 }
 
-export function post(url: string, data = empty): Promise<any> {
-  return nonGet('POST', url, data)
+export function post<T = any>(url: string, data = empty): Promise<T> {
+  return nonGet<T>('POST', url, data)
 }
 
-export function put(url: string, data = empty): Promise<any> {
-  return nonGet('PUT', url, data)
+export function put<T = any>(url: string, data = empty): Promise<T> {
+  return nonGet<T>('PUT', url, data)
 }
 
-export function del(url: string, data = empty): Promise<any> {
-  return nonGet('DELETE', url, data)
+export function del<T = any>(url: string, data = empty): Promise<T> {
+  return nonGet<T>('DELETE', url, data)
 }
 
 Vue.use(_Vue => {
   Object.defineProperty(_Vue.prototype, '$http', {
     get: () => ({
-      get, post, put, del,
+      get,
+      post,
+      put,
+      del,
     }),
   })
 })
 
 blessing.fetch = {
-  get, post, put, del,
+  get,
+  post,
+  put,
+  del,
 }

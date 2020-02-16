@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import { mount } from '@vue/test-utils'
 import { flushPromises } from '../../utils'
+import { trans } from '@/scripts/i18n'
 import { queryString } from '@/scripts/utils'
 import List from '@/views/skinlib/List.vue'
 
@@ -30,7 +31,7 @@ test('empty skin library', () => {
     },
   })
   const wrapper = mount(List)
-  expect(wrapper.text()).toContain('general.noResult')
+  expect(wrapper.text()).toContain(trans('general.noResult'))
 })
 
 test('toggle texture type', () => {
@@ -52,8 +53,8 @@ test('toggle texture type', () => {
   expect(btnSteve.classes()).not.toContain('active')
   expect(btnAlex.classes()).not.toContain('active')
   expect(btnCape.classes()).not.toContain('active')
-  expect(dropdownToggle.text()).toContain('general.skin')
-  expect(breadcrumb.text()).toContain('skinlib.filter.skin')
+  expect(dropdownToggle.text()).toContain(trans('general.skin'))
+  expect(breadcrumb.text()).toContain(trans('skinlib.filter.skin'))
 
   btnSteve.trigger('click')
   expect(btnSkin.classes()).not.toContain('active')
@@ -61,7 +62,7 @@ test('toggle texture type', () => {
   expect(btnAlex.classes()).not.toContain('active')
   expect(btnCape.classes()).not.toContain('active')
   expect(dropdownToggle.text()).toContain('Steve')
-  expect(breadcrumb.text()).toContain('skinlib.filter.steve')
+  expect(breadcrumb.text()).toContain(trans('skinlib.filter.steve'))
   expect(queryString('filter')).toBe('steve')
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/skinlib/data',
@@ -76,7 +77,7 @@ test('toggle texture type', () => {
   expect(btnAlex.classes()).toContain('active')
   expect(btnCape.classes()).not.toContain('active')
   expect(dropdownToggle.text()).toContain('Alex')
-  expect(breadcrumb.text()).toContain('skinlib.filter.alex')
+  expect(breadcrumb.text()).toContain(trans('skinlib.filter.alex'))
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/skinlib/data',
     {
@@ -90,8 +91,8 @@ test('toggle texture type', () => {
   expect(btnSteve.classes()).not.toContain('active')
   expect(btnAlex.classes()).not.toContain('active')
   expect(btnCape.classes()).toContain('active')
-  expect(dropdownToggle.text()).toContain('general.cape')
-  expect(breadcrumb.text()).toContain('general.cape')
+  expect(dropdownToggle.text()).toContain(trans('general.cape'))
+  expect(breadcrumb.text()).toContain(trans('general.cape'))
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/skinlib/data',
     {
@@ -111,11 +112,11 @@ test('check specified uploader', async () => {
   await flushPromises()
   const breadcrumb = wrapper.find('.breadcrumb')
   const button = wrapper.findAll('.bg-olive').at(2)
-  expect(breadcrumb.text()).toContain('skinlib.filter.allUsers')
+  expect(breadcrumb.text()).toContain(trans('skinlib.filter.allUsers'))
 
   button.trigger('click')
   expect(button.classes()).toContain('active')
-  expect(breadcrumb.text()).toContain('skinlib.filter.uploader')
+  expect(breadcrumb.text()).toContain(trans('skinlib.filter.uploader', { uid: 1 }))
   expect(Vue.prototype.$http.get).toBeCalledWith(
     '/skinlib/data',
     {
@@ -143,7 +144,7 @@ test('sort items', () => {
       filter: 'skin', uploader: 0, sort: 'likes', keyword: '', page: 1,
     },
   )
-  expect(wrapper.text()).toContain('skinlib.sort.likes')
+  expect(wrapper.text()).toContain(trans('skinlib.sort.likes'))
   expect(sortByLikes.classes()).toContain('active')
   expect(queryString('sort')).toBe('likes')
 
@@ -154,7 +155,7 @@ test('sort items', () => {
       filter: 'skin', uploader: 0, sort: 'time', keyword: '', page: 1,
     },
   )
-  expect(wrapper.text()).toContain('skinlib.sort.time')
+  expect(wrapper.text()).toContain(trans('skinlib.sort.time'))
   expect(sortByTime.classes()).toContain('active')
   expect(queryString('sort')).toBe('time')
 })

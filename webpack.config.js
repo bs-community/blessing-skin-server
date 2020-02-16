@@ -1,9 +1,9 @@
+const path = require('path')
 const webpack = require('webpack')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserJSPlugin = require('terser-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
-const WebpackBar = require('webpackbar')
 const ManifestPlugin = require('webpack-manifest-plugin')
 
 const devMode = !process.argv.includes('-p')
@@ -12,8 +12,7 @@ const devMode = !process.argv.includes('-p')
 const config = {
   mode: devMode ? 'development' : 'production',
   entry: {
-    app: './resources/assets/src/index.ts',
-    'language-chooser': './resources/assets/src/scripts/language-chooser.ts',
+    app: ['react-hot-loader/patch', './resources/assets/src/index.tsx'],
     style: [
       'bootstrap/dist/css/bootstrap.min.css',
       'admin-lte/dist/css/alt/adminlte.core.min.css',
@@ -23,7 +22,11 @@ const config = {
       '@fortawesome/fontawesome-free/css/all.min.css',
       './resources/assets/src/styles/common.styl',
     ],
-    setup: './resources/assets/src/styles/setup.styl',
+    spectre: [
+      'spectre.css/dist/spectre.min.css',
+      './resources/assets/src/fonts/minecraft.css',
+      './resources/assets/src/styles/spectre.css',
+    ],
   },
   output: {
     path: `${__dirname}/public/app`,
@@ -39,15 +42,14 @@ const config = {
       },
       {
         test: /\.tsx?$/,
-        use: ['cache-loader', 'ts-loader'],
+        use: 'ts-loader',
       },
       {
         test: /\.vue$/,
         use: ['cache-loader', 'vue-loader'],
       },
       {
-        test: /\.(css|styl(us)?)$/,
-        exclude: /node_modules/,
+        test: /\.vue.*\.stylus$/,
         use: [
           'vue-style-loader',
           { loader: 'css-loader', options: { importLoaders: 2 } },
@@ -56,14 +58,32 @@ const config = {
         ],
       },
       {
-        test: /(node_modules.*)\.css$/,
+        test: /\.scss$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2,
+              modules: {
+                localIdentName: devMode ? '[name]__[local]' : '[local]__[hash:base64:5]',
+              },
+              esModule: true,
+            },
+          },
+          'postcss-loader',
+          'sass-loader',
+        ],
+      },
+      {
+        test: /\.css$/,
         use: [
           devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
           'css-loader',
         ],
       },
       {
-        test: /(common|home|setup)\.styl$/,
+        test: /(common|home)\.styl$/,
         use: [
           MiniCssExtractPlugin.loader,
           { loader: 'css-loader', options: { importLoaders: 2 } },
@@ -93,7 +113,11 @@ const config = {
     }),
   ],
   resolve: {
-    extensions: ['.js', '.ts', '.vue', '.json'],
+    extensions: ['.js', '.ts', '.tsx', '.vue', '.json'],
+    alias: {
+      'react-dom': '@hot-loader/react-dom',
+      '@': path.resolve(__dirname, 'resources/assets/src'),
+    },
   },
   optimization: {
     minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
@@ -115,7 +139,6 @@ if (devMode) {
   config.plugins.push(new webpack.NamedModulesPlugin())
   config.plugins.push(new webpack.HotModuleReplacementPlugin())
 } else {
-  config.plugins.push(new WebpackBar())
   config.plugins.push(new ManifestPlugin())
 }
 

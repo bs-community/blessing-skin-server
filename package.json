@@ -11,19 +11,26 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server",
-    "build": "webpack --mode=production -p",
+    "build": "webpack --mode=production -p --progress",
     "lint": "eslint --ext=js,vue,ts -f=beauty .",
     "test": "jest"
   },
   "dependencies": {
     "@babel/runtime": "^7.8.0",
     "@fortawesome/fontawesome-free": "^5.12.0",
+    "@hot-loader/react-dom": "^16.11.0",
     "@tweenjs/tween.js": "^18.4.2",
     "admin-lte": "^3.0.1",
     "echarts": "^4.6.0",
     "jquery": "^3.4.1",
+    "lodash.debounce": "^4.0.8",
+    "nanoid": "^2.1.11",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-hot-loader": "^4.12.18",
     "rxjs": "^6.5.3",
     "skinview3d": "^1.2.1",
+    "spectre.css": "^0.5.8",
     "vue": "^2.6.11",
     "vue-good-table": "^2.18.1",
     "vue-recaptcha": "^1.2.0",
@@ -35,10 +42,18 @@
     "@babel/plugin-transform-runtime": "^7.8.3",
     "@babel/preset-env": "^7.8.2",
     "@gplane/tsconfig": "^1.0.0",
+    "@testing-library/jest-dom": "^5.0.2",
+    "@testing-library/react": "^9.4.0",
     "@types/bootstrap": "^4.3.1",
     "@types/echarts": "^4.4.2",
     "@types/jest": "^24.0.25",
     "@types/jquery": "^3.3.29",
+    "@types/js-yaml": "^3.12.2",
+    "@types/lodash.debounce": "^4.0.6",
+    "@types/nanoid": "^2.1.0",
+    "@types/react": "^16.9.17",
+    "@types/react-dom": "^16.9.4",
+    "@types/tween.js": "^17.2.0",
     "@types/webpack": "^4.41.2",
     "@typescript-eslint/eslint-plugin": "^2.8.0",
     "@typescript-eslint/parser": "^2.8.0",
@@ -56,9 +71,12 @@
     "file-loader": "^5.0.2",
     "jest": "^24.9.0",
     "jest-extended": "^0.11.2",
+    "js-yaml": "^3.13.1",
     "mini-css-extract-plugin": "^0.9.0",
     "optimize-css-assets-webpack-plugin": "^5.0.3",
     "postcss-loader": "^3.0.0",
+    "sass": "^1.25.0",
+    "sass-loader": "^8.0.2",
     "style-loader": "^1.1.2",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
@@ -72,8 +90,7 @@
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1",
-    "webpack-manifest-plugin": "^2.2.0",
-    "webpackbar": "^4.0.0"
+    "webpack-manifest-plugin": "^2.2.0"
   },
   "resolutions": {
     "caniuse-lite": "*"
@@ -186,14 +203,15 @@
     },
     "moduleFileExtensions": [
       "js",
-      "vue",
       "ts",
+      "tsx",
+      "vue",
       "json",
       "node"
     ],
     "moduleNameMapper": {
       "^@/(.*)$": "<rootDir>/resources/assets/src/$1",
-      "\\.css$": "<rootDir>/resources/assets/tests/__mocks__/style.ts",
+      "\\.(s?css|styl)$": "<rootDir>/resources/assets/tests/__mocks__/style.ts",
       "\\.(png|jpg)$": "<rootDir>/resources/assets/tests/__mocks__/file.ts"
     },
     "setupFilesAfterEnv": [
@@ -204,6 +222,15 @@
       "<rootDir>/resources/assets/tests/setup",
       "<rootDir>/resources/assets/tests/utils"
     ],
-    "testRegex": "resources/assets/tests/.*\\.(spec|test)\\.(t|j)s$"
+    "testMatch": [
+      "<rootDir>/resources/assets/tests/**/*.test.ts",
+      "<rootDir>/resources/assets/tests/**/*.test.tsx"
+    ],
+    "globals": {
+      "ts-jest": {
+        "tsConfig": "<rootDir>/resources/assets/tests/tsconfig.json",
+        "isolatedModules": true
+      }
+    }
   }
 }
