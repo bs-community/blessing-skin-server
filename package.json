@@ -21,6 +21,7 @@
     "@hot-loader/react-dom": "^16.11.0",
     "@tweenjs/tween.js": "^18.4.2",
     "admin-lte": "^3.0.1",
+    "blessing-skin-shell": "^0.1.0",
     "echarts": "^4.6.0",
     "jquery": "^3.4.1",
     "lodash.debounce": "^4.0.8",
@@ -35,7 +36,9 @@
     "vue-good-table": "^2.18.1",
     "vue-recaptcha": "^1.2.0",
     "vue-upload-component": "^2.8.20",
-    "vuejs-paginate": "^2.1.0"
+    "vuejs-paginate": "^2.1.0",
+    "xterm": "^4.4.0",
+    "xterm-addon-fit": "^0.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",

@@ -10,6 +10,14 @@ Vue.config.productionTip = false
 loadModules()
 
 function loadModules() {
+  if (blessing.route.startsWith('admin')) {
+    const entry = document.querySelector<HTMLAnchorElement>('#launch-cli')
+    entry?.addEventListener('click', async () => {
+      const { launch } = await import('./scripts/cli')
+      launch()
+    })
+  }
+
   const route = routes.find(
     // eslint-disable-next-line no-shadow
     route => new RegExp(`^${route.path}$`, 'i').test(blessing.route),

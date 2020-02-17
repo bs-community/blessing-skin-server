@@ -25,7 +25,8 @@ class UserMenuComposer
         $user = auth()->user();
         $avatarUrl = route('avatar.user', ['uid' => $user->uid, 'size' => 25]);
         $avatar = $this->filter->apply('user_avatar', $avatarUrl, [$user]);
+        $cli = $this->request->is('admin', 'admin/*');
 
-        $view->with(compact('user', 'avatar'));
+        $view->with(compact('user', 'avatar', 'cli'));
     }
 }

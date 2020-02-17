@@ -24,6 +24,11 @@
       <a class="dropdown-item" href="{{ url('admin/reports') }}">
         {{ trans('general.report-manage') }}
       </a>
+      {% if cli %}
+        <a class="dropdown-item" href="#" id="launch-cli">
+          Web CLI
+        </a>
+      {% endif %}
       <div class="dropdown-divider"></div>
     {% endif %}
     <a class="dropdown-item" href="#" id="logout-button">

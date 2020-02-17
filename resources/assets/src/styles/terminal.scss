@@ -1,0 +1,25 @@
+@use '../styles/breakpoints';
+
+.terminal {
+  z-index: 1060;
+  position: fixed;
+  bottom: 0;
+
+  @include breakpoints.greater-than('xl') {
+    left: 25vw;
+    width: 50vw;
+    height: 50vh;
+  }
+
+  @include breakpoints.between('md', 'xl') {
+    left: 5vw;
+    width: 90vw;
+    height: 40vh;
+  }
+
+  @include breakpoints.less-than('md') {
+    left: 1vw;
+    width: 98vw;
+    height: 35vh;
+  }
+}
