@@ -72,7 +72,7 @@ rename:
   success: The texture was renamed to :name successfully.
 model:
   success: The texture's model was changed to :model successfully.
-  duplicate: "The same texture available for the chosen model already exists in skinlib (Name: :tid). You can add it to your closet directly."
+  duplicate: "The same texture available for the chosen model already exists in skinlib (Name: :name). You can add it to your closet directly."
 no-permission: You have no permission to moderate this texture.
 non-existent: Cette texture n'existe pas.
 report:
