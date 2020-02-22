@@ -947,17 +947,6 @@ class SkinlibControllerTest extends TestCase
             'hash' => $texture->hash,
         ]);
 
-        // Should fail if there is already a texture with same hash and chosen model
-        $this->actingAs($uploader)
-            ->postJson('/skinlib/model', [
-                'tid' => $texture->tid,
-                'model' => 'alex',
-            ])
-            ->assertJson([
-                'code' => 1,
-                'message' => trans('skinlib.model.duplicate', ['name' => $duplicate->name]),
-            ]);
-
         // Allow private texture
         $duplicate->public = false;
         $duplicate->save();
