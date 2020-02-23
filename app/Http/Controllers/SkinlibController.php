@@ -246,16 +246,11 @@ class SkinlibController extends Controller
             return json(trans('skinlib.upload.lack-score'), 7);
         }
 
-        $results = Texture::where('hash', $t->hash)->get();
-
-        if (!$results->isEmpty()) {
-            foreach ($results as $result) {
-                // if the texture already uploaded was set to private,
-                // then allow to re-upload it.
-                if ($result->public) {
-                    return json(trans('skinlib.upload.repeated'), 0, ['tid' => $result->tid]);
-                }
-            }
+        $repeated = Texture::where('hash', $t->hash)->where('public', true)->first();
+        if ($repeated) {
+            // if the texture already uploaded was set to private,
+            // then allow to re-upload it.
+            return json(trans('skinlib.upload.repeated'), 2, ['tid' => $repeated->tid]);
         }
 
         if (Storage::disk('textures')->missing($t->hash)) {

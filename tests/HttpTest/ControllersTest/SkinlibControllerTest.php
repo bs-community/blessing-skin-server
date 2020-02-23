@@ -583,7 +583,7 @@ class SkinlibControllerTest extends TestCase
                     'file' => $upload,
                 ]
             )->assertJson([
-                'code' => 0,
+                'code' => 2,
                 'message' => trans('skinlib.upload.repeated'),
                 'data' => ['tid' => $t->tid],
             ]);
