@@ -252,7 +252,7 @@ class SkinlibController extends Controller
             foreach ($results as $result) {
                 // if the texture already uploaded was set to private,
                 // then allow to re-upload it.
-                if ($result->type == $t->type && $result->public) {
+                if ($result->public) {
                     return json(trans('skinlib.upload.repeated'), 0, ['tid' => $result->tid]);
                 }
             }
@@ -389,14 +389,6 @@ class SkinlibController extends Controller
 
         if ($t->uploader != $user->uid && !$user->isAdmin()) {
             return json(trans('skinlib.no-permission'), 1);
-        }
-
-        $duplicate = Texture::where('hash', $t->hash)
-            ->where('type', $request->input('model'))
-            ->where('tid', '<>', $t->tid)
-            ->first();
-        if ($duplicate && $duplicate->public) {
-            return json(trans('skinlib.model.duplicate', ['name' => $duplicate->name]), 1);
         }
 
         $t->type = $request->input('model');
