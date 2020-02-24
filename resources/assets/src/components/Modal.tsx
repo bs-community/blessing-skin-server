@@ -42,7 +42,24 @@ export type ModalResult = {
 }
 
 const Modal: React.FC<ModalOptions & Props> = props => {
-  const [value, setValue] = useState(props.input!)
+  const {
+    mode = 'confirm',
+    title = trans('general.tip'),
+    text = '',
+    input = '',
+    placeholder = '',
+    inputType = 'text',
+    type = 'default',
+    showHeader = true,
+    center = false,
+    okButtonText = trans('general.confirm'),
+    okButtonType = 'primary',
+    cancelButtonText = trans('general.cancel'),
+    cancelButtonType = 'secondary',
+    flexFooter = false,
+  } = props
+
+  const [value, setValue] = useState(input)
   const [valid, setValid] = useState(true)
   const [validatorMessage, setValidatorMessage] = useState('')
   const ref = useRef<HTMLDivElement>(null)
@@ -112,38 +129,32 @@ const Modal: React.FC<ModalOptions & Props> = props => {
   return (
     <div id={props.id} className="modal fade" role="dialog" ref={ref}>
       <div
-        className={`modal-dialog ${
-          props.center ? 'modal-dialog-centered' : ''
-        }`}
+        className={`modal-dialog ${center ? 'modal-dialog-centered' : ''}`}
         role="document"
       >
-        <div className={`modal-content bg-${props.type}`}>
-          <ModalHeader
-            show={props.showHeader}
-            title={props.title}
-            onDismiss={dismiss}
-          />
+        <div className={`modal-content bg-${type}`}>
+          <ModalHeader show={showHeader} title={title} onDismiss={dismiss} />
           <ModalBody
-            text={props.text}
+            text={text}
             dangerousHTML={props.dangerousHTML}
-            showInput={props.mode === 'prompt'}
+            showInput={mode === 'prompt'}
             value={value}
             choices={props.choices}
             onChange={handleInputChange}
-            inputType={props.inputType}
-            placeholder={props.placeholder}
+            inputType={inputType}
+            placeholder={placeholder}
             invalid={!valid}
             validatorMessage={validatorMessage}
           >
             {props.children}
           </ModalBody>
           <ModalFooter
-            showCancelButton={props.mode !== 'alert'}
-            flexFooter={props.flexFooter}
-            okButtonType={props.okButtonType}
-            okButtonText={props.okButtonText}
-            cancelButtonType={props.cancelButtonType}
-            cancelButtonText={props.cancelButtonText}
+            showCancelButton={mode !== 'alert'}
+            flexFooter={flexFooter}
+            okButtonType={okButtonType}
+            okButtonText={okButtonText}
+            cancelButtonType={cancelButtonType}
+            cancelButtonText={cancelButtonText}
             onConfirm={confirm}
             onDismiss={dismiss}
           >
@@ -153,23 +164,6 @@ const Modal: React.FC<ModalOptions & Props> = props => {
       </div>
     </div>
   )
-}
-
-Modal.defaultProps = {
-  mode: 'confirm',
-  title: trans('general.tip'),
-  text: '',
-  input: '',
-  placeholder: '',
-  inputType: 'text',
-  type: 'default',
-  showHeader: true,
-  center: false,
-  okButtonText: trans('general.confirm'),
-  okButtonType: 'primary',
-  cancelButtonText: trans('general.cancel'),
-  cancelButtonType: 'secondary',
-  flexFooter: false,
 }
 
 export default Modal

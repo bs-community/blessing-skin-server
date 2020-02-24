@@ -33,6 +33,8 @@ const emptyStuff: ViewerStuff = {
 }
 
 const Viewer: React.FC<Props> = props => {
+  const { initPositionZ = 70 } = props
+
   const viewRef: React.MutableRefObject<skinview3d.SkinViewer> = useRef(null!)
   const containerRef = useRef<HTMLDivElement>(null)
   const stuffRef = useRef(emptyStuff)
@@ -61,7 +63,7 @@ const Viewer: React.FC<Props> = props => {
       capeUrl: props.cape || '',
       detectModel: false,
     })
-    viewer.camera.position.z = props.initPositionZ!
+    viewer.camera.position.z = initPositionZ
 
     const animation = new skinview3d.CompositeAnimation()
     stuffRef.current.handles = {
@@ -183,10 +185,6 @@ const Viewer: React.FC<Props> = props => {
       {props.children && <div className="card-footer">{props.children}</div>}
     </div>
   )
-}
-
-Viewer.defaultProps = {
-  initPositionZ: 70,
 }
 
 export default Viewer
