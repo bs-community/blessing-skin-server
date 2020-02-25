@@ -1,22 +1,22 @@
 ---
 index:
-  total-users: Registered Users
-  total-players: Players
-  total-textures: Uploaded Textures
-  disk-usage: Disk Usage
-  overview: Overview
-  texture-uploads: Texture Uploads
-  user-registration: User Registration
+  total-users: 登録ユーザー数
+  total-players: プレイヤー数
+  total-textures: 登録したスキン数
+  disk-usage: ディスク使用量
+  overview: 概要
+  texture-uploads: スキンのアップロード
+  user-registration: ユーザー登録
 notifications:
   send:
-    title: Send Notification
-    success: Sent successfully!
+    title: 通知を送信
+    success: 送信に成功しました.
   receiver:
-    title: Receiver
-    all: All Users
-    normal: Normal Users
-    uid: Specified UID
-    email: Specified Email
+    title: 受信者
+    all: 全てのユーザ
+    normal: 一般ユーザー
+    uid: UIDを指定
+    email: メールアドレスを指定
   title: Title
   content: Content (Markdown is supported.)
 users:
