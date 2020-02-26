@@ -32,7 +32,7 @@ class EmailVerification extends Mailable
     {
         $site_name = option_localized('site_name');
 
-        return $this->from(config('mail.username'), $site_name)
+        return $this->from(config('mail.from'))
             ->subject(trans('user.verification.mail.title', ['sitename' => $site_name]))
             ->view('mails.email-verification');
     }
