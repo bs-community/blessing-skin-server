@@ -284,6 +284,7 @@ general:
   skinlib: 皮肤库
   loading: 正在加载
   wait: 请稍等...
+  csrf: This page is out-dated. Please refresh it.
   user:
     email: 邮箱
     nickname: 昵称
