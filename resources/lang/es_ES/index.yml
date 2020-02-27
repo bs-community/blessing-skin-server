@@ -8,7 +8,7 @@ features:
   second:
     icon: fa-share-square
     name: Compartiendo
-    desc: Explora la colección de skin, deja un "like" y compártelos con tus amigos.
+    desc: Explora la colección de skins, deja un "like" y compártelos con tus amigos.
   third:
     icon: fa-cloud
     name: Gratis
