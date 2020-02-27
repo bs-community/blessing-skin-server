@@ -284,6 +284,7 @@ general:
   skinlib: Skin Library
   loading: Loading
   wait: Please wait...
+  csrf: This page is out-dated. Please refresh it.
   user:
     email: Email
     nickname: Nick Name
