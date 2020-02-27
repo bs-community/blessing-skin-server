@@ -25,7 +25,7 @@ return [
         'repositories/a9ff8df7-6dc3-4ff8-bb22-4871d3a43936/Items?path=%2Fupdate_preview.json'
     ),
 
-    'name' => env('APP_NAME', 'Laravel'),
+    'name' => env('APP_NAME', 'blessing_skin'),
 
     /*
     |--------------------------------------------------------------------------
