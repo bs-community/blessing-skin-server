@@ -284,6 +284,7 @@ general:
   skinlib: Bibliothèque de skins
   loading: Chargement
   wait: Veuillez patienter...
+  csrf: This page is out-dated. Please refresh it.
   user:
     email: Adresse e-mail
     nickname: Pseudonyme
