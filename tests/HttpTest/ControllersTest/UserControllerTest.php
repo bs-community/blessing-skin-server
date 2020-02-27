@@ -222,7 +222,7 @@ class UserControllerTest extends TestCase
         $site_name = option_localized('site_name');
         $mailable = new EmailVerification('url');
         $mailable->build();
-        $this->assertTrue($mailable->hasFrom(config('mail.username'), $site_name));
+        $this->assertTrue($mailable->hasFrom(config('mail.from.address')));
         $this->assertEquals(trans('user.verification.mail.title', ['sitename' => $site_name]), $mailable->subject);
         $this->assertEquals('mails.email-verification', $mailable->view);
     }

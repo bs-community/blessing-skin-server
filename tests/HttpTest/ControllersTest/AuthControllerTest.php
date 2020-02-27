@@ -581,7 +581,7 @@ class AuthControllerTest extends TestCase
         $site_name = option_localized('site_name');
         $mailable = new ForgotPassword('url');
         $mailable->build();
-        $this->assertTrue($mailable->hasFrom(config('mail.username'), $site_name));
+        $this->assertTrue($mailable->hasFrom(config('mail.from.address')));
         $this->assertEquals(trans('auth.forgot.mail.title', ['sitename' => $site_name]), $mailable->subject);
         $this->assertEquals('mails.password-reset', $mailable->view);
     }
