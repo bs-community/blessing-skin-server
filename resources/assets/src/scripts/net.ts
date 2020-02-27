@@ -2,7 +2,7 @@ import Vue from 'vue'
 import { emit } from './event'
 import { queryStringify } from './utils'
 import { showModal } from './notify'
-import { trans } from './i18n'
+import { trans, t } from './i18n'
 
 export interface ResponseBody<T = null> {
   code: number
@@ -62,6 +62,12 @@ export async function walkFetch(request: Request): Promise<any> {
         code: 1,
         message: Object.keys(errors).map(field => errors[field][0])[0],
       }
+    } else if (response.status === 419) {
+      showModal({
+        mode: 'alert',
+        text: t('general.csrf'),
+      })
+      return
     } else if (response.status === 403) {
       showModal({
         mode: 'alert',

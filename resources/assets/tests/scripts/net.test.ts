@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import * as net from '@/scripts/net'
 import { on } from '@/scripts/event'
-import { trans } from '@/scripts/i18n'
+import { trans, t } from '@/scripts/i18n'
 import { showModal } from '@/scripts/notify'
 
 jest.mock('@/scripts/notify')
@@ -199,6 +199,16 @@ test('process backend errors', async () => {
       clone: () => ({}),
     })
     .mockResolvedValueOnce({
+      status: 419,
+      headers: new Map([['Content-Type', 'application/json']]),
+      json() {
+        return Promise.resolve({
+          message: 'CSRF token mismatched.',
+        })
+      },
+      clone: () => ({}),
+    })
+    .mockResolvedValueOnce({
       status: 403,
       headers: new Map([['Content-Type', 'application/json']]),
       json() {
@@ -228,6 +238,12 @@ test('process backend errors', async () => {
   } = await net.walkFetch({ headers: new Headers() } as Request)
   expect(result.code).toBe(1)
   expect(result.message).toBe('required')
+
+  await net.walkFetch({ headers: new Headers() } as Request)
+  expect(showModal).toBeCalledWith({
+    mode: 'alert',
+    text: t('general.csrf'),
+  })
 
   await net.walkFetch({ headers: new Headers() } as Request)
   expect(showModal).toBeCalledWith({
