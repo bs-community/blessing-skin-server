@@ -20,17 +20,6 @@ use View;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(function ($request, $next) {
-            if (!Auth::user()->verified) {
-                $this->sendVerificationEmail();
-            }
-
-            return $next($request);
-        })->only(['index', 'profile']);
-    }
-
     public function user()
     {
         $user = auth()
