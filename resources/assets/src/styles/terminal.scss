@@ -3,7 +3,8 @@
 .terminal {
   z-index: 1060;
   position: fixed;
-  bottom: 0;
+  bottom: 7vh;
+  user-select: none;
 
   @include breakpoints.greater-than('xl') {
     left: 25vw;
@@ -22,4 +23,8 @@
     width: 98vw;
     height: 35vh;
   }
+}
+
+.body {
+  background-color: #000;
 }

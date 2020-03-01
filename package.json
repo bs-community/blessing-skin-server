@@ -28,6 +28,7 @@
     "nanoid": "^2.1.11",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
+    "react-draggable": "^4.2.0",
     "react-hot-loader": "^4.12.18",
     "rxjs": "^6.5.3",
     "skinview3d": "^1.2.1",
