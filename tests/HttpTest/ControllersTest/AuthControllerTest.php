@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 use Laravel\Socialite\AbstractUser;
 use Laravel\Socialite\Facades\Socialite;
+use Tests\Fakes\Filter;
 use Vectorface\Whip\Whip;
 
 class AuthControllerTest extends TestCase
@@ -98,6 +99,7 @@ class AuthControllerTest extends TestCase
         $this->flushSession();
 
         Event::fake();
+        $filter = Filter::fake();
         $whip = new Whip();
         $ip = $whip->getValidIpAddress();
         $loginFailsCacheKey = sha1('login_fails_'.$ip);
@@ -114,6 +116,11 @@ class AuthControllerTest extends TestCase
                 'data' => ['login_fails' => 1],
             ]
         );
+        $filter->assertApplied('client_ip', function ($value) use ($ip) {
+            $this->assertEquals($ip, $value);
+
+            return true;
+        });
         $this->assertTrue(Cache::has($loginFailsCacheKey));
         Event::assertDispatched('auth.login.attempt', function ($event, $payload) use ($user) {
             $this->assertEquals($user->email, $payload[0]);
@@ -227,6 +234,7 @@ class AuthControllerTest extends TestCase
     public function testHandleRegister()
     {
         Event::fake();
+        $filter = Filter::fake();
         $whip = new Whip();
         $ip = $whip->getValidIpAddress();
 
@@ -408,6 +416,11 @@ class AuthControllerTest extends TestCase
             'code' => 0,
             'message' => trans('auth.register.success'),
         ]);
+        $filter->assertApplied('client_ip', function ($value) use ($ip) {
+            $this->assertEquals($ip, $value);
+
+            return true;
+        });
         $this->assertTrue($newUser->verifyPassword('12345678'));
         $this->assertDatabaseHas('users', [
             'email' => 'a@b.c',
@@ -479,6 +492,7 @@ class AuthControllerTest extends TestCase
     {
         Event::fake();
         Mail::fake();
+        $filter = Filter::fake();
 
         // Should be forbidden if "forgot password" is closed
         config(['mail.driver' => '']);
@@ -504,6 +518,11 @@ class AuthControllerTest extends TestCase
             'code' => 2,
             'message' => trans('auth.forgot.frequent-mail'),
         ]);
+        $filter->assertApplied('client_ip', function ($value) use ($ip) {
+            $this->assertEquals($ip, $value);
+
+            return true;
+        });
         Event::assertDispatched('auth.forgot.attempt', function ($event, $payload) {
             $this->assertEquals('nope@nope.net', $payload[0]);
 
@@ -747,6 +766,7 @@ class AuthControllerTest extends TestCase
     public function testOAuthCallback()
     {
         Event::fake();
+        $filter = Filter::fake();
         $whip = new Whip();
         $ip = $whip->getValidIpAddress();
 
@@ -788,6 +808,11 @@ class AuthControllerTest extends TestCase
             ->assertSee('Unsupported');
 
         $this->get('/auth/login/github/callback')->assertRedirect('/user');
+        $filter->assertApplied('client_ip', function ($value) use ($ip) {
+            $this->assertEquals($ip, $value);
+
+            return true;
+        });
         $this->assertDatabaseHas('users', [
             'email' => 'a@b.c',
             'nickname' => 'abc',

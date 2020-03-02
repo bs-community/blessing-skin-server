@@ -9,6 +9,7 @@ use App\Models\Player;
 use App\Models\User;
 use App\Rules;
 use Auth;
+use Blessing\Filter;
 use Cache;
 use Carbon\Carbon;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -18,14 +19,14 @@ use Mail;
 use Session;
 use URL;
 use Vectorface\Whip\Whip;
-use View;
 
 class AuthController extends Controller
 {
-    public function login()
+    public function login(Filter $filter)
     {
         $whip = new Whip();
         $ip = $whip->getValidIpAddress();
+        $ip = $filter->apply('client_ip', $ip);
 
         return view('auth.login', [
             'extra' => [
@@ -39,7 +40,8 @@ class AuthController extends Controller
     public function handleLogin(
         Request $request,
         Rules\Captcha $captcha,
-        Dispatcher $dispatcher
+        Dispatcher $dispatcher,
+        Filter $filter
     ) {
         $this->validate($request, [
             'identification' => 'required',
@@ -64,6 +66,7 @@ class AuthController extends Controller
         // Require CAPTCHA if user fails to login more than 3 times
         $whip = new Whip();
         $ip = $whip->getValidIpAddress();
+        $ip = $filter->apply('client_ip', $ip);
         $loginFailsCacheKey = sha1('login_fails_'.$ip);
         $loginFails = (int) Cache::get($loginFailsCacheKey, 0);
 
@@ -130,7 +133,8 @@ class AuthController extends Controller
     public function handleRegister(
         Request $request,
         Rules\Captcha $captcha,
-        Dispatcher $dispatcher
+        Dispatcher $dispatcher,
+        Filter $filter
     ) {
         if (!option('user_can_register')) {
             return json(trans('auth.register.close'), 7);
@@ -163,6 +167,7 @@ class AuthController extends Controller
         // then reject the register.
         $whip = new Whip();
         $ip = $whip->getValidIpAddress();
+        $ip = $filter->apply('client_ip', $ip);
         if (User::where('ip', $ip)->count() >= option('regs_per_ip')) {
             return json(trans('auth.register.max', ['regs' => option('regs_per_ip')]), 7);
         }
@@ -220,7 +225,8 @@ class AuthController extends Controller
     public function handleForgot(
         Request $request,
         Rules\Captcha $captcha,
-        Dispatcher $dispatcher
+        Dispatcher $dispatcher,
+        Filter $filter
     ) {
         $data = $this->validate($request, [
             'email' => 'required|email',
@@ -237,6 +243,7 @@ class AuthController extends Controller
         $rateLimit = 180;
         $whip = new Whip();
         $ip = $whip->getValidIpAddress();
+        $ip = $filter->apply('client_ip', $ip);
         $lastMailCacheKey = sha1('last_mail_'.$ip);
         $remain = $rateLimit + Cache::get($lastMailCacheKey, 0) - time();
         if ($remain > 0) {
@@ -352,7 +359,7 @@ class AuthController extends Controller
         return Socialite::driver($driver)->redirect();
     }
 
-    public function oauthCallback(Dispatcher $dispatcher, $driver)
+    public function oauthCallback(Dispatcher $dispatcher, Filter $filter, $driver)
     {
         $remoteUser = Socialite::driver($driver)->user();
 
@@ -365,6 +372,7 @@ class AuthController extends Controller
         if (!$user) {
             $whip = new Whip();
             $ip = $whip->getValidIpAddress();
+            $ip = $filter->apply('client_ip', $ip);
 
             $user = new User();
             $user->email = $email;
