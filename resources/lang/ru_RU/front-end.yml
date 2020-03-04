@@ -295,6 +295,12 @@ general:
     player-name: Player Name
     previews: Texture Previews
     last-modified: Last Modified
+colors:
+  black: Black
+  white: White
+  gray: Gray
+  prev: Previous Background
+  next: Next Background
 vendor:
   datatable:
     search: Search

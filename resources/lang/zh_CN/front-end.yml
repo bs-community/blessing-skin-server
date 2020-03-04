@@ -295,6 +295,12 @@ general:
     player-name: 角色名
     previews: 预览材质
     last-modified: 修改时间
+colors:
+  black: 黑色
+  white: 白色
+  gray: 灰色
+  prev: 上个背景
+  next: 下个背景
 vendor:
   datatable:
     search: 搜索
