@@ -296,9 +296,9 @@ general:
     previews: 预览材质
     last-modified: 修改时间
 colors:
-  black: Black
-  white: White
-  gray: Gray
+  black: 黑色
+  white: 白色
+  gray: 灰色
   prev: Previous Background
   next: Next Background
 vendor:
