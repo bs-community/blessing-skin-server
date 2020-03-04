@@ -20,6 +20,7 @@ if ($Simple) {
 # Copy static files
 Copy-Item -Path ./resources/assets/src/images/bg.png -Destination ./public/app
 Copy-Item -Path ./resources/assets/src/images/favicon.ico -Destination ./public/app
+Copy-Item -Path ./resources/misc/backgrounds/ ./public/bg -Recurse
 Write-Host 'Static files copied.' -ForegroundColor Green
 
 # Write commit ID

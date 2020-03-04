@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'
 import * as skinview3d from 'skinview3d'
-import { trans } from '../scripts/i18n'
+import { t } from '../scripts/i18n'
 import styles from './Viewer.scss'
 import SkinSteve from '../../../misc/textures/steve.png'
+
+export const PICTURES_COUNT = 7
 
 interface Props {
   skin?: string
@@ -40,15 +42,19 @@ const Viewer: React.FC<Props> = props => {
   const stuffRef = useRef(emptyStuff)
 
   const [paused, setPaused] = useState(false)
+  const [running, setRunning] = useState(false)
   const [reset, setReset] = useState(0)
+  const [background, setBackground] = useState('#fff')
+  const [bgPicture, setBgPicture] = useState(0)
+
   const indicator = (() => {
     const { skin, cape } = props
     if (skin && cape) {
-      return `${trans('general.skin')} & ${trans('general.cape')}`
+      return `${t('general.skin')} & ${t('general.cape')}`
     } else if (skin) {
-      return trans('general.skin')
+      return t('general.skin')
     } else if (cape) {
-      return trans('general.cape')
+      return t('general.cape')
     }
     return ''
   })()
@@ -117,12 +123,19 @@ const Viewer: React.FC<Props> = props => {
     viewer.playerObject.skin.slim = !!props.isAlex
   }, [props.isAlex])
 
+  useEffect(() => {
+    if (bgPicture !== 0) {
+      setBackground(`url("${blessing.base_url}/bg/${bgPicture}.png")`)
+    }
+  }, [bgPicture])
+
   const togglePause = () => {
     setPaused(paused => !paused)
     viewRef.current.animationPaused = !viewRef.current.animationPaused
   }
 
   const toggleRun = () => {
+    setRunning(running => !running)
     const { handles } = stuffRef.current
     handles.run.paused = !handles.run.paused
     handles.walk.paused = false
@@ -137,52 +150,103 @@ const Viewer: React.FC<Props> = props => {
     setReset(c => c + 1)
   }
 
+  const setWhite = () => setBackground('#fff')
+  const setGray = () => setBackground('#6c757d')
+  const setBlack = () => setBackground('#000')
+  const setPrevPicture = () => {
+    if (bgPicture <= 1) {
+      setBgPicture(PICTURES_COUNT)
+    } else {
+      setBgPicture(bg => bg - 1)
+    }
+  }
+  const setNextPicture = () => {
+    if (bgPicture >= PICTURES_COUNT) {
+      setBgPicture(1)
+    } else {
+      setBgPicture(bg => bg + 1)
+    }
+  }
+
   return (
     <div className="card">
       <div className="card-header">
         <div className="d-flex justify-content-between">
           <h3 className="card-title">
-            <span>{trans('general.texturePreview')}</span>
+            <span>{t('general.texturePreview')}</span>
             {props.showIndicator && (
               <span className="badge bg-olive ml-1">{indicator}</span>
             )}
           </h3>
           <div className={styles.actions}>
             <i
-              className="fas fa-forward"
+              className={`fas fa-${running ? 'walking' : 'running'}`}
               data-toggle="tooltip"
               data-placement="bottom"
-              title={`${trans('general.walk')} / ${trans('general.run')}`}
+              title={`${t('general.walk')} / ${t('general.run')}`}
               onClick={toggleRun}
             ></i>
             <i
               className="fas fa-redo-alt"
               data-toggle="tooltip"
               data-placement="bottom"
-              title={trans('general.rotation')}
+              title={t('general.rotation')}
               onClick={toggleRotate}
             ></i>
             <i
               className={`fas fa-${paused ? 'play' : 'pause'}`}
               data-toggle="tooltip"
               data-placement="bottom"
-              title={trans('general.pause')}
+              title={t('general.pause')}
               onClick={togglePause}
             ></i>
             <i
               className="fas fa-stop"
               data-toggle="tooltip"
               data-placement="bottom"
-              title={trans('general.reset')}
+              title={t('general.reset')}
               onClick={handleReset}
             ></i>
           </div>
         </div>
       </div>
-      <div className="card-body">
+      <div className="card-body" style={{ background }}>
         <div ref={containerRef} className={styles.viewer}></div>
       </div>
-      {props.children && <div className="card-footer">{props.children}</div>}
+      <div className="card-footer">
+        <div className="mt-2 mb-3 d-flex">
+          <div
+            className="btn-color bg-white display-inline-block rounded-pill mr-2 mb-1 elevation-2"
+            title={t('colors.white')}
+            onClick={setWhite}
+          />
+          <div
+            className="btn-color bg-black display-inline-block rounded-pill mr-2 mb-1 elevation-2"
+            title={t('colors.black')}
+            onClick={setBlack}
+          />
+          <div
+            className="btn-color bg-gray display-inline-block rounded-pill mr-2 mb-1 elevation-2"
+            title={t('colors.gray')}
+            onClick={setGray}
+          />
+          <div
+            className="btn-color bg-green display-inline-block rounded-pill mr-2 mb-1 elevation-2 text-center"
+            title={t('colors.prev')}
+            onClick={setPrevPicture}
+          >
+            <i className="fas fa-arrow-left"></i>
+          </div>
+          <div
+            className="btn-color bg-green display-inline-block rounded-pill mr-2 mb-1 elevation-2 text-center"
+            title={t('colors.next')}
+            onClick={setNextPicture}
+          >
+            <i className="fas fa-arrow-right"></i>
+          </div>
+        </div>
+        {props.children}
+      </div>
     </div>
   )
 }
