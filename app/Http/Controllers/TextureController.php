@@ -55,7 +55,7 @@ class TextureController extends Controller
             function () use ($minecraft, $disk, $texture, $hash, $height) {
                 $file = $disk->get($hash);
                 if ($texture->type === 'cape') {
-                    $image = $minecraft->renderCape($file, 12);
+                    $image = $minecraft->renderCape($file, $height);
                 } else {
                     $image = $minecraft->renderSkin($file, 12, $texture->type === 'alex');
                 }
@@ -63,9 +63,6 @@ class TextureController extends Controller
                 $lastModified = $disk->lastModified($hash);
 
                 return Image::make($image)
-                    ->resize(null, $height, function ($constraint) {
-                        $constraint->aspectRatio();
-                    })
                     ->response('png', 100)
                     ->setLastModified(Carbon::createFromTimestamp($lastModified));
             }
