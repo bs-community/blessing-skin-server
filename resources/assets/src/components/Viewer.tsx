@@ -210,7 +210,7 @@ const Viewer: React.FC<Props> = props => {
           </div>
         </div>
       </div>
-      <div className="card-body" style={{ background }}>
+      <div className={`card-body ${styles.body}`} style={{ background }}>
         <div ref={containerRef} className={styles.viewer}></div>
       </div>
       <div className="card-footer">

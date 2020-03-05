@@ -1,5 +1,11 @@
 @use '../styles/breakpoints';
 
+.body {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
 .viewer {
   @include breakpoints.greater-than('lg') {
     min-height: 500px;
