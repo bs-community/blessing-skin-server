@@ -216,29 +216,29 @@ const Viewer: React.FC<Props> = props => {
       <div className="card-footer">
         <div className="mt-2 mb-3 d-flex">
           <div
-            className="btn-color bg-white display-inline-block rounded-pill mr-2 mb-1 elevation-2"
+            className="btn-color bg-white rounded-pill mr-2 elevation-2"
             title={t('colors.white')}
             onClick={setWhite}
           />
           <div
-            className="btn-color bg-black display-inline-block rounded-pill mr-2 mb-1 elevation-2"
+            className="btn-color bg-black rounded-pill mr-2 elevation-2"
             title={t('colors.black')}
             onClick={setBlack}
           />
           <div
-            className="btn-color bg-gray display-inline-block rounded-pill mr-2 mb-1 elevation-2"
+            className="btn-color bg-gray rounded-pill mr-2 elevation-2"
             title={t('colors.gray')}
             onClick={setGray}
           />
           <div
-            className="btn-color bg-green display-inline-block rounded-pill mr-2 mb-1 elevation-2 text-center"
+            className={`btn-color bg-green rounded-pill mr-2 elevation-2 ${styles.btn}`}
             title={t('colors.prev')}
             onClick={setPrevPicture}
           >
             <i className="fas fa-arrow-left"></i>
           </div>
           <div
-            className="btn-color bg-green display-inline-block rounded-pill mr-2 mb-1 elevation-2 text-center"
+            className={`btn-color bg-green rounded-pill mr-2 elevation-2 ${styles.btn}`}
             title={t('colors.next')}
             onClick={setNextPicture}
           >
