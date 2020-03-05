@@ -123,7 +123,7 @@ export default [
   },
   {
     path: 'skinlib/upload',
-    component: () => import('../views/skinlib/Upload.vue'),
-    el: virtual,
+    react: () => import('../views/skinlib/Upload'),
+    el: '#file-input',
   },
 ]

@@ -9155,6 +9155,11 @@ sisteransi@^1.0.0:
   resolved "https://registry.npmjs.org/sisteransi/-/sisteransi-1.0.0.tgz#77d9622ff909080f1c19e5f4a1df0c1b0a27b88c"
   integrity sha512-N+z4pHB4AmUv0SjveWRd6q1Nj5w62m5jodv+GD8lvmbY/83T/rpbJGZOnK5T149OldDj4Db07BSv9xY4K6NTPQ==
 
+skinview-utils@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/skinview-utils/-/skinview-utils-0.2.1.tgz#14f3f41ec812c9639dfc7b9b7745d60df1f26a84"
+  integrity sha512-WhXaKwYp1FBspaKq/AXb4EG3E2gaVpA57dXWvPgM7GP2F36E8Pfdg1MZESWpTMG2TGp8xKz5JELgKD3uXSG0EA==
+
 skinview3d@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/skinview3d/-/skinview3d-1.2.1.tgz#f9628940b5118112fc877872325717839f0d3976"
@@ -10380,11 +10385,6 @@ vue-template-es2015-compiler@^1.8.2, vue-template-es2015-compiler@^1.9.0:
   version "1.9.1"
   resolved "https://registry.npmjs.org/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz#1ee3bc9a16ecbf5118be334bb15f9c46f82f5825"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
-
-vue-upload-component@^2.8.20:
-  version "2.8.20"
-  resolved "https://registry.npmjs.org/vue-upload-component/-/vue-upload-component-2.8.20.tgz#60824d3f20f3216dca90d8c86a5c980851b04ea0"
-  integrity sha512-zrnJvULu4rnZe36Ib2/AZrI/h/mmNbUJZ+acZD652PyumzbvjCOQeYHe00sGifTdYjzzS66CwhTT+ubZ2D0Aow==
 
 vue@^2.6.11:
   version "2.6.11"

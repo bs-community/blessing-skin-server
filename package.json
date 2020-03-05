@@ -31,12 +31,12 @@
     "react-draggable": "^4.2.0",
     "react-hot-loader": "^4.12.18",
     "rxjs": "^6.5.3",
+    "skinview-utils": "^0.2.1",
     "skinview3d": "^1.2.1",
     "spectre.css": "^0.5.8",
     "vue": "^2.6.11",
     "vue-good-table": "^2.18.1",
     "vue-recaptcha": "^1.2.0",
-    "vue-upload-component": "^2.8.20",
     "vuejs-paginate": "^2.1.0",
     "xterm": "^4.4.0",
     "xterm-addon-fit": "^0.3.0"
