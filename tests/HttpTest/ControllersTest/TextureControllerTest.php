@@ -54,24 +54,21 @@ class TextureControllerTest extends TestCase
 
         $this->get('/preview/0')->assertNotFound();
 
+        $this->mock(\Blessing\Minecraft::class, function ($mock) {
+            $mock->shouldReceive('renderSkin')->andReturn(Image::canvas(1, 1));
+            $mock->shouldReceive('renderCape')->andReturn(Image::canvas(1, 1));
+        });
+
         $skin = factory(Texture::class)->create();
         $this->get('/preview/'.$skin->tid)->assertNotFound();
 
         $disk->put($skin->hash, '');
-        $content = $this->get('/preview/'.$skin->tid)
-            ->assertHeader('Content-Type', 'image/png')
-            ->getContent();
-        $image = Image::make($content);
-        $this->assertEquals(80, $image->width());
-        $this->assertEquals(200, $image->height());
+        $this->get('/preview/'.$skin->tid)->assertHeader('Content-Type', 'image/png');
         $this->assertTrue(Cache::has('preview-t'.$skin->tid));
 
         $cape = factory(Texture::class, 'cape')->create();
         $disk->put($cape->hash, '');
-        $content = $this->get('/preview/'.$cape->tid.'?height=100')->getContent();
-        $image = Image::make($content);
-        $this->assertEquals(50, $image->width());
-        $this->assertEquals(100, $image->height());
+        $this->get('/preview/'.$cape->tid.'?height=100')->assertHeader('Content-Type', 'image/png');
         $this->assertTrue(Cache::has('preview-t'.$cape->tid));
     }
 
