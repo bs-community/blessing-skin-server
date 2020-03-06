@@ -14,7 +14,7 @@
         );
     }
 
-    $requiredVersion = '7.2.0';
+    $requiredVersion = '7.2.5';
     preg_match('/(\d+\.\d+\.\d+)/', PHP_VERSION, $matches);
     $version = $matches[1];
     if (version_compare($version, $requiredVersion, '<')) {
