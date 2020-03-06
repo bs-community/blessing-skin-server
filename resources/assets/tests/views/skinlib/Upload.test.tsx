@@ -18,6 +18,7 @@ beforeEach(() => {
     privacyNotice: 'privacy notice',
     scorePrivate: 10,
     scorePublic: 1,
+    closetItemCost: 10,
     award: 0,
     contentPolicy: 'the policy',
   }
@@ -145,7 +146,7 @@ describe('score cost', () => {
     })
 
     expect(
-      queryByText(t('skinlib.upload.cost', { score: 1 })),
+      queryByText(t('skinlib.upload.cost', { score: 11 })),
     ).toBeInTheDocument()
   })
 
@@ -159,7 +160,7 @@ describe('score cost', () => {
     fireEvent.click(getByLabelText(t('skinlib.upload.set-as-private')))
 
     expect(
-      queryByText(t('skinlib.upload.cost', { score: 10 })),
+      queryByText(t('skinlib.upload.cost', { score: 20 })),
     ).toBeInTheDocument()
   })
 })

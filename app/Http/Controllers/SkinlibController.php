@@ -211,6 +211,7 @@ class SkinlibController extends Controller
                 ),
                 'scorePublic' => intval(option('score_per_storage')),
                 'scorePrivate' => intval(option('private_score_per_storage')),
+                'closetItemCost' => intval(option('score_per_closet_item')),
                 'award' => intval(option('score_award_per_texture')),
                 'contentPolicy' => $parsedown->text(option_localized('content_policy')),
             ]);

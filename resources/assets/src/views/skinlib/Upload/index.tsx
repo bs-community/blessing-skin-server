@@ -28,6 +28,7 @@ const Upload: React.FC = () => {
   const award = useBlessingExtra<number>('award')
   const scorePublic = useBlessingExtra<number>('scorePublic')
   const scorePrivate = useBlessingExtra<number>('scorePrivate')
+  const closetItemCost = useBlessingExtra<number>('closetItemCost')
 
   useEffect(() => {
     const mount = document.querySelector('#previewer')!
@@ -119,6 +120,8 @@ const Upload: React.FC = () => {
   }
 
   const costRatio = isPrivate ? scorePrivate : scorePublic
+  const size = file?.size ?? 0
+  const scoreCost = (~~(size / 1024) || 1) * costRatio + closetItemCost
 
   return (
     <>
@@ -241,11 +244,7 @@ const Upload: React.FC = () => {
           </div>
           {file && (
             <div className="callout callout-success mt-3">
-              <p>
-                {t('skinlib.upload.cost', {
-                  score: (~~(file.size / 1024) || 1) * costRatio,
-                })}
-              </p>
+              <p>{t('skinlib.upload.cost', { score: scoreCost })}</p>
             </div>
           )}
           {isPrivate && (
