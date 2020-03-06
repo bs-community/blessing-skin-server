@@ -133,13 +133,6 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
             </a>
         </td>
         <td align=center>
-            <a href="https://afdian.net/@tnqzh123">
-                <img src="https://pic.afdiancdn.com/user/97a0416ca47211e8849452540025c377/avatar/d2f6d8d489cb952ff29740e715b067c0_w768_h768_s211.jpg?imageView2/1/w/75/h/75">
-                <br>
-                Little_Qiu
-            </a>
-        </td>
-        <td align=center>
             <a href="https://afdian.net/@hempflower">
                 <img src="https://pic.afdiancdn.com/user/0f396eb2a37c11e8b93452540025c377/avatar/bee35eb0f5cd2a506eb34c6e13de1154_w160_h160_s0.jpg?imageView2/1/w/75/h/75">
                 <br>
