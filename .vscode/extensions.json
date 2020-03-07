@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "editorconfig.editorconfig",
+    "eamodio.gitlens",
+    "bmewburn.vscode-intelephense-client",
+    "esbenp.prettier-vscode",
+    "mrmlnc.vscode-scss",
+    "mblode.twig-language-2"
+  ]
+}
