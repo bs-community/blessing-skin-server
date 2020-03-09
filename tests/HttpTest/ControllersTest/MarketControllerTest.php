@@ -5,15 +5,10 @@ namespace Tests;
 use App\Services\Plugin;
 use App\Services\PluginManager;
 use App\Services\Unzip;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
-use Tests\Concerns\MocksGuzzleClient;
+use Illuminate\Support\Facades\Http;
 
 class MarketControllerTest extends TestCase
 {
-    use MocksGuzzleClient;
-
     protected function setUp(): void
     {
         parent::setUp();
@@ -22,12 +17,37 @@ class MarketControllerTest extends TestCase
 
     public function testDownload()
     {
-        $this->setupGuzzleClientMock();
+        Http::fake([
+            config('plugins.registry') => Http::sequence()
+                ->push(['version' => 1, 'packages' => []])
+                ->push([
+                    'version' => 1,
+                    'packages' => [
+                        [
+                            'name' => 'fake',
+                            'version' => '0.0.0',
+                            'require' => ['a' => '^4.0.0'],
+                        ],
+                    ],
+                ])
+                ->whenEmpty([
+                    'version' => 1,
+                    'packages' => [
+                        [
+                            'name' => 'fake',
+                            'version' => '0.0.0',
+                            'dist' => [
+                                'url' => 'http://nowhere.test/',
+                                'shasum' => 'deadbeef',
+                            ],
+                        ],
+                    ],
+                ]),
+            'http://nowhere.test/' => Http::sequence()
+                ->pushStatus(404)
+                ->pushStatus(200),
+        ]);
 
-        $this->appendToGuzzleQueue(200, [], json_encode([
-            'version' => 1,
-            'packages' => [],
-        ]));
         $this->postJson('/admin/plugins/market/download', ['name' => 'nope'])
             ->assertJson([
                 'code' => 1,
@@ -35,14 +55,6 @@ class MarketControllerTest extends TestCase
             ]);
 
         // Unresolved plugin.
-        $fakeRegistry = json_encode(['packages' => [
-            [
-                'name' => 'fake',
-                'version' => '0.0.0',
-                'require' => ['a' => '^4.0.0'],
-            ],
-        ]]);
-        $this->appendToGuzzleQueue([new Response(200, [], $fakeRegistry)]);
         $this->postJson('/admin/plugins/market/download', ['name' => 'fake'])
             ->assertJson([
                 'message' => trans('admin.plugins.market.unresolved'),
@@ -55,24 +67,9 @@ class MarketControllerTest extends TestCase
             ]);
 
         // Download
-        $fakeRegistry = json_encode(['packages' => [
-            [
-                'name' => 'fake',
-                'version' => '0.0.0',
-                'dist' => ['url' => 'http://nowhere.test/', 'shasum' => 'deadbeef'],
-            ],
-        ]]);
-        $this->appendToGuzzleQueue([
-            new Response(200, [], $fakeRegistry),
-            new Response(404),
-        ]);
         $this->postJson('/admin/plugins/market/download', ['name' => 'fake'])
             ->assertJson(['code' => 1]);
 
-        $this->appendToGuzzleQueue([
-            new Response(200, [], $fakeRegistry),
-            new Response(200),
-        ]);
         $this->mock(Unzip::class, function ($mock) {
             $mock->shouldReceive('extract')->once();
         });
@@ -85,29 +82,31 @@ class MarketControllerTest extends TestCase
 
     public function testMarketData()
     {
-        $this->setupGuzzleClientMock([
-            new RequestException('Connection Error', new Request('POST', '')),
-            new Response(200, [], json_encode(['version' => 1, 'packages' => [
-                [
-                    'name' => 'fake1',
-                    'title' => 'Fake',
-                    'version' => '1.0.0',
-                    'description' => '',
-                    'author' => '',
-                    'dist' => [],
-                    'require' => [],
+        Http::fakeSequence()
+            ->pushStatus(404)
+            ->push([
+                'version' => 1,
+                'packages' => [
+                    [
+                        'name' => 'fake1',
+                        'title' => 'Fake',
+                        'version' => '1.0.0',
+                        'description' => '',
+                        'author' => '',
+                        'dist' => [],
+                        'require' => [],
+                    ],
+                    [
+                        'name' => 'fake2',
+                        'title' => 'Fake',
+                        'version' => '0.0.0',
+                        'description' => '',
+                        'author' => '',
+                        'dist' => [],
+                        'require' => [],
+                    ],
                 ],
-                [
-                    'name' => 'fake2',
-                    'title' => 'Fake',
-                    'version' => '0.0.0',
-                    'description' => '',
-                    'author' => '',
-                    'dist' => [],
-                    'require' => [],
-                ],
-            ]])),
-        ]);
+            ]);
 
         $this->getJson('/admin/plugins/market/list')->assertStatus(500);
 

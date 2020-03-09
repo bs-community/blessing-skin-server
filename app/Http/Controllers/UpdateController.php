@@ -6,21 +6,19 @@ use App\Services\Unzip;
 use Cache;
 use Composer\CaBundle\CaBundle;
 use Composer\Semver\Comparator;
-use Exception;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
 use Illuminate\Contracts\Console\Kernel as Artisan;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Http;
 use Symfony\Component\Finder\SplFileInfo;
 
 class UpdateController extends Controller
 {
     const SPEC = 2;
 
-    public function showUpdatePage(Client $client)
+    public function showUpdatePage()
     {
-        $info = $this->getUpdateInfo($client);
+        $info = $this->getUpdateInfo();
         $canUpdate = $this->canUpdate(Arr::get($info, 'info'));
 
         return view('admin.update', [
@@ -33,30 +31,30 @@ class UpdateController extends Controller
         ]);
     }
 
-    public function download(Unzip $unzip, Filesystem $filesystem, Client $client)
+    public function download(Unzip $unzip, Filesystem $filesystem)
     {
-        $info = $this->getUpdateInfo($client);
+        $info = $this->getUpdateInfo();
         if (!$info['ok'] || !$this->canUpdate($info['info'])['can']) {
             return json(trans('admin.update.info.up-to-date'), 1);
         }
 
         $info = $info['info'];
         $path = tempnam(sys_get_temp_dir(), 'bs');
-        try {
-            $client->get($info['url'], [
-                'sink' => $path,
-                'verify' => CaBundle::getSystemCaRootBundlePath(),
-            ]);
+
+        $response = Http::withOptions([
+            'sink' => $path,
+            'verify' => CaBundle::getSystemCaRootBundlePath(),
+        ])->get($info['url']);
+
+        if ($response->ok()) {
             $unzip->extract($path, base_path());
 
             // Delete options cache. This allows us to update the version.
             $filesystem->delete(storage_path('options.php'));
 
             return json(trans('admin.update.complete'), 0);
-        } catch (Exception $e) {
-            report($e);
-
-            return json(trans('admin.download.errors.download', ['error' => $e->getMessage()]), 1);
+        } else {
+            return json(trans('admin.download.errors.download', ['error' => $response->status()]), 1);
         }
     }
 
@@ -82,21 +80,21 @@ class UpdateController extends Controller
         return view('setup.updates.success');
     }
 
-    protected function getUpdateInfo(Client $client)
+    protected function getUpdateInfo()
     {
-        try {
-            $response = $client->request('GET', config('app.update_source'), [
-                'verify' => CaBundle::getSystemCaRootBundlePath(),
-            ]);
-            $info = json_decode($response->getBody(), true);
+        $response = Http::withOptions([
+            'verify' => CaBundle::getSystemCaRootBundlePath(),
+        ])->get(config('app.update_source'));
 
+        if ($response->ok()) {
+            $info = $response->json();
             if (Arr::get($info, 'spec') === self::SPEC) {
                 return ['ok' => true, 'info' => $info];
             } else {
                 return ['ok' => false, 'error' => trans('admin.update.errors.spec')];
             }
-        } catch (RequestException $e) {
-            return ['ok' => false, 'error' => $e->getMessage()];
+        } else {
+            return ['ok' => false, 'error' => 'HTTP status code: '.$response->status()];
         }
     }
 

@@ -3,63 +3,55 @@
 namespace Tests;
 
 use App\Services\Unzip;
-use GuzzleHttp\Exception\RequestException;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
 use Illuminate\Contracts\Console\Kernel as Artisan;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Http;
 use Symfony\Component\Finder\SplFileInfo;
-use Tests\Concerns\MocksGuzzleClient;
 
 class UpdateControllerTest extends TestCase
 {
     use DatabaseTransactions;
-    use MocksGuzzleClient;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actAs('superAdmin');
+        $this->actingAs(factory(\App\Models\User::class)->states('superAdmin')->create());
     }
 
     public function testShowUpdatePage()
     {
-        $this->setupGuzzleClientMock();
+        Http::fakeSequence()
+            ->pushStatus(404)
+            ->push($this->fakeUpdateInfo('8.9.3', ['spec' => 0]))
+            ->push($this->fakeUpdateInfo('8.9.3', ['php' => '100.0.0']))
+            ->push($this->fakeUpdateInfo('8.9.3'));
 
         // Can't connect to update source
-        $this->appendToGuzzleQueue([
-            new RequestException('Connection Error', new Request('GET', 'whatever')),
-        ]);
         $this->get('/admin/update')->assertSee(config('app.version'));
 
         // Missing `spec` field
-        $this->appendToGuzzleQueue([
-            new Response(200, [], $this->mockFakeUpdateInfo('8.9.3', ['spec' => 0])),
-        ]);
         $this->get('/admin/update')->assertSee(trans('admin.update.errors.spec'));
 
         // Low PHP version
-        $this->appendToGuzzleQueue([
-            new Response(200, [], $this->mockFakeUpdateInfo('8.9.3', ['php' => '100.0.0'])),
-        ]);
         $this->get('/admin/update')->assertSee(trans('admin.update.errors.php', ['version' => '100.0.0']));
 
         // New version available
-        $this->appendToGuzzleQueue([
-            new Response(200, [], $this->mockFakeUpdateInfo('8.9.3')),
-        ]);
         $this->get('/admin/update')->assertSee(config('app.version'))->assertSee('8.9.3');
     }
 
     public function testDownload()
     {
-        $this->setupGuzzleClientMock();
+        Http::fake([
+            config('app.update_source') => Http::sequence()
+                ->push($this->fakeUpdateInfo('1.2.3'))
+                ->whenEmpty($this->fakeUpdateInfo('8.9.3')),
+            'https://whatever.test/8.9.3/update.zip' => Http::sequence()
+                ->pushStatus(404)
+                ->pushStatus(200),
+        ]);
 
         // Already up-to-date
-        $this->appendToGuzzleQueue([
-            new Response(200, [], $this->mockFakeUpdateInfo('1.2.3')),
-        ]);
         $this->postJson('/admin/update/download')
             ->assertJson([
                 'code' => 1,
@@ -67,12 +59,6 @@ class UpdateControllerTest extends TestCase
             ]);
 
         // Download
-        $this->appendToGuzzleQueue([
-            new Response(200, [], $this->mockFakeUpdateInfo('8.9.3')),
-            new Response(404),
-            new Response(200, [], $this->mockFakeUpdateInfo('8.9.3')),
-            new Response(200),
-        ]);
         $this->postJson('/admin/update/download')->assertJson(['code' => 1]);
         $this->mock(Unzip::class, function ($mock) {
             $mock->shouldReceive('extract')->once()->andReturn();
@@ -130,13 +116,13 @@ class UpdateControllerTest extends TestCase
         $this->assertEquals('100.0.0', option('version'));
     }
 
-    protected function mockFakeUpdateInfo(string $version, $extra = [])
+    protected function fakeUpdateInfo(string $version, $extra = [])
     {
-        return json_encode(array_merge([
+        return array_merge([
             'spec' => 2,
             'php' => '7.2.5',
             'latest' => $version,
             'url' => "https://whatever.test/$version/update.zip",
-        ], $extra));
+        ], $extra);
     }
 }

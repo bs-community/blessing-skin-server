@@ -8,16 +8,16 @@ use App\Services\Unzip;
 use Composer\CaBundle\CaBundle;
 use Composer\Semver\Comparator;
 use Exception;
-use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Http;
 
 class MarketController extends Controller
 {
-    public function marketData(PluginManager $manager, Client $client)
+    public function marketData(PluginManager $manager)
     {
-        $plugins = $this->fetch($client)->map(function ($item) use ($manager) {
+        $plugins = $this->fetch()->map(function ($item) use ($manager) {
             $plugin = $manager->get($item['name']);
 
             if ($plugin) {
@@ -40,14 +40,10 @@ class MarketController extends Controller
         return $plugins;
     }
 
-    public function download(
-        Request $request,
-        PluginManager $manager,
-        Client $client,
-        Unzip $unzip
-    ) {
+    public function download(Request $request, PluginManager $manager, Unzip $unzip)
+    {
         $name = $request->input('name');
-        $plugins = $this->fetch($client);
+        $plugins = $this->fetch();
         $metadata = $plugins->firstWhere('name', $name);
 
         if (!$metadata) {
@@ -64,34 +60,33 @@ class MarketController extends Controller
         }
 
         $path = tempnam(sys_get_temp_dir(), $name);
-        try {
-            $client->get($metadata['dist']['url'], [
-                'sink' => $path,
-                'verify' => CaBundle::getSystemCaRootBundlePath(),
-            ]);
+        $response = Http::withOptions([
+            'sink' => $path,
+            'verify' => CaBundle::getSystemCaRootBundlePath(),
+        ])->get($metadata['dist']['url']);
+
+        if ($response->ok()) {
             $unzip->extract($path, $manager->getPluginsDirs()->first());
-        } catch (Exception $e) {
-            report($e);
 
-            return json(trans('admin.download.errors.download', ['error' => $e->getMessage()]), 1);
+            return json(trans('admin.plugins.market.install-success'), 0);
+        } else {
+            return json(trans('admin.download.errors.download', ['error' => $response->status()]), 1);
         }
-
-        return json(trans('admin.plugins.market.install-success'), 0);
     }
 
-    protected function fetch(Client $client): Collection
+    protected function fetch(): Collection
     {
         $plugins = collect(explode(',', config('plugins.registry')))
-            ->map(function ($registry) use ($client) {
-                try {
-                    $body = $client->get(trim($registry), [
-                        'verify' => CaBundle::getSystemCaRootBundlePath(),
-                    ])->getBody();
-                } catch (Exception $e) {
-                    throw new Exception(trans('admin.plugins.market.connection-error', ['error' => $e->getMessage()]));
-                }
+            ->map(function ($registry) {
+                $response = Http::withOptions([
+                    'verify' => CaBundle::getSystemCaRootBundlePath(),
+                ])->get(trim($registry));
 
-                return Arr::get(json_decode($body, true), 'packages', []);
+                if ($response->ok()) {
+                    return $response->json()['packages'];
+                } else {
+                    throw new Exception(trans('admin.plugins.market.connection-error', ['error' => $response->status()]));
+                }
             })
             ->flatten(1);
 

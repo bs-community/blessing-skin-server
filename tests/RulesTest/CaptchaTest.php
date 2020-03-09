@@ -3,23 +3,21 @@
 namespace Tests;
 
 use App\Rules\Captcha;
-use GuzzleHttp\Client;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Psr7\Response;
+use Illuminate\Http\Client\Request;
+use Illuminate\Support\Facades\Http;
 
 class CaptchaTest extends TestCase
 {
     public function testCharactersCaptcha()
     {
         session(['captcha' => 'abc']);
-        $rule = resolve(Captcha::class);
+        $rule = new Captcha();
         $this->assertFalse($rule->passes('captcha', 'abcd'));
         $this->assertEquals(trans('validation.captcha'), $rule->message());
         $this->assertNull(session('captcha'));
 
         session(['captcha' => 'abc']);
-        $rule = resolve(Captcha::class);
+        $rule = new Captcha();
         $this->assertTrue($rule->passes('captcha', 'abc'));
         $this->assertNull(session('captcha'));
     }
@@ -27,16 +25,18 @@ class CaptchaTest extends TestCase
     public function testRecaptcha()
     {
         option(['recaptcha_secretkey' => 'secret']);
-        $mock = new MockHandler([
-            new Response(403),
-            new Response(200, [], json_encode(['success' => true])),
-        ]);
-        $handler = HandlerStack::create($mock);
-        $client = new Client(['handler' => $handler]);
+        Http::fake(Http::response(['success' => true]));
 
-        $rule = new Captcha($client);
-        $this->assertFalse($rule->passes('captcha', 'value'));
+        $rule = new Captcha();
         $this->assertTrue($rule->passes('captcha', 'value'));
         $this->assertEquals(trans('validation.recaptcha'), $rule->message());
+        Http::assertSent(function (Request $request) {
+            $this->assertEquals(
+                ['secret' => 'secret', 'response' => 'value'],
+                $request->data()
+            );
+
+            return true;
+        });
     }
 }

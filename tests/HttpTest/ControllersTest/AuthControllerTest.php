@@ -6,6 +6,7 @@ use App\Events;
 use App\Mail\ForgotPassword;
 use App\Models\Player;
 use App\Models\User;
+use App\Rules\Captcha;
 use App\Services\Facades\Option;
 use Cache;
 use Event;
@@ -25,11 +26,7 @@ class AuthControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        app()->instance(\App\Rules\Captcha::class, new class() extends \App\Rules\Captcha {
-            public function __construct(\GuzzleHttp\Client $client = null)
-            {
-            }
-
+        app()->instance(Captcha::class, new class() extends Captcha {
             public function passes($attribute, $value)
             {
                 return true;
