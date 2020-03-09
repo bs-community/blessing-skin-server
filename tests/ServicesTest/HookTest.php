@@ -19,7 +19,7 @@ class HookTest extends TestCase
             ->get('/user')
             ->assertSee('Link A')
             ->assertSee('/to/a')
-            ->assertSee('target="_blank"')
+            ->assertSee('target="_blank"', false)
             ->assertSee('fa-book');
 
         // Out of bound
@@ -55,26 +55,26 @@ class HookTest extends TestCase
     {
         Hook::addStyleFileToPage('/style/all');
         $this->get('/')
-            ->assertSee('<link rel="stylesheet" href="/style/all">');
+            ->assertSee('<link rel="stylesheet" href="/style/all">', false);
 
         Hook::addStyleFileToPage('/style/pattern', ['skinlib']);
         $this->get('/')
             ->assertDontSee('<link rel="stylesheet" href="/style/pattern">');
         $this->get('/skinlib')
-            ->assertSee('<link rel="stylesheet" href="/style/pattern">');
+            ->assertSee('<link rel="stylesheet" href="/style/pattern">', false);
     }
 
     public function testAddScriptFileToPage()
     {
         Hook::addScriptFileToPage('/script/all');
         $this->get('/')
-            ->assertSee('<script src="/script/all"></script>');
+            ->assertSee('<script src="/script/all"></script>', false);
 
         Hook::addScriptFileToPage('/script/pattern', ['skinlib']);
         $this->get('/')
             ->assertDontSee('<script src="/script/pattern"></script>');
         $this->get('/skinlib')
-            ->assertSee('<script src="/script/pattern"></script>');
+            ->assertSee('<script src="/script/pattern"></script>', false);
     }
 
     public function testAddUserBadge()
@@ -82,7 +82,7 @@ class HookTest extends TestCase
         Hook::addUserBadge('hi', 'green');
         $this->actAs('normal')
             ->get('/user')
-            ->assertSee('<span class="badge bg-green mb-1 mr-2">hi</span>');
+            ->assertSee('<span class="badge bg-green mb-1 mr-2">hi</span>', false);
     }
 
     public function testSendNotification()

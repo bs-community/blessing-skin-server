@@ -66,7 +66,7 @@ class TextureControllerTest extends TestCase
         $this->get('/preview/'.$skin->tid)->assertHeader('Content-Type', 'image/png');
         $this->assertTrue(Cache::has('preview-t'.$skin->tid));
 
-        $cape = factory(Texture::class, 'cape')->create();
+        $cape = factory(Texture::class)->states('cape')->create();
         $disk->put($cape->hash, '');
         $this->get('/preview/'.$cape->tid.'?height=100')->assertHeader('Content-Type', 'image/png');
         $this->assertTrue(Cache::has('preview-t'.$cape->tid));

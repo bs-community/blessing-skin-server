@@ -121,7 +121,7 @@ class ReportControllerTest extends TestCase
     public function testManage()
     {
         $uploader = factory(User::class)->create();
-        $reporter = factory(User::class, 'admin')->create();
+        $reporter = factory(User::class)->states('admin')->create();
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
 
         $report = new Report();
@@ -152,7 +152,7 @@ class ReportControllerTest extends TestCase
     {
         Event::fake();
 
-        $admin = factory(User::class, 'admin')->create();
+        $admin = factory(User::class)->states('admin')->create();
         $texture = factory(Texture::class)->create(['uploader' => $admin->uid]);
 
         $report = new Report();
@@ -200,7 +200,7 @@ class ReportControllerTest extends TestCase
 
         $uploader = factory(User::class)->create();
         $reporter = factory(User::class)->create();
-        $admin = factory(User::class, 'admin')->create();
+        $admin = factory(User::class)->states('admin')->create();
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
 
         $report = new Report();
@@ -257,7 +257,7 @@ class ReportControllerTest extends TestCase
 
         $uploader = factory(User::class)->create();
         $reporter = factory(User::class)->create();
-        $admin = factory(User::class, 'admin')->create();
+        $admin = factory(User::class)->states('admin')->create();
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
 
         $report = new Report();
@@ -317,7 +317,7 @@ class ReportControllerTest extends TestCase
 
         $uploader = factory(User::class)->create();
         $reporter = factory(User::class)->create();
-        $admin = factory(User::class, 'admin')->create();
+        $admin = factory(User::class)->states('admin')->create();
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
 
         $report = new Report();
@@ -362,7 +362,7 @@ class ReportControllerTest extends TestCase
 
         $uploader = factory(User::class)->create();
         $reporter = factory(User::class)->create();
-        $admin = factory(User::class, 'admin')->create();
+        $admin = factory(User::class)->states('admin')->create();
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
 
         $report = new Report();

@@ -44,7 +44,7 @@ class TestCase extends \Illuminate\Foundation\Testing\TestCase
             if ($role == 'normal') {
                 $role = factory(\App\Models\User::class)->create();
             } else {
-                $role = factory(\App\Models\User::class, $role)->create();
+                $role = factory(\App\Models\User::class)->states($role)->create();
             }
         }
 

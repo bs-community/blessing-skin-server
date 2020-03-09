@@ -210,7 +210,7 @@ class AuthController extends Controller
 
     public function forgot()
     {
-        if (config('mail.driver') != '') {
+        if (config('mail.default') != '') {
             return view('auth.forgot', [
                 'extra' => [
                     'recaptcha' => option('recaptcha_sitekey'),
@@ -233,7 +233,7 @@ class AuthController extends Controller
             'captcha' => ['required', $captcha],
         ]);
 
-        if (!config('mail.driver')) {
+        if (!config('mail.default')) {
             return json(trans('auth.forgot.disabled'), 1);
         }
 

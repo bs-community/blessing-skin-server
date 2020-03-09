@@ -15,7 +15,7 @@ class SideMenuComposerTest extends TestCase
     {
         Event::fake();
 
-        $admin = factory(User::class, 'admin')->create();
+        $admin = factory(User::class)->states('admin')->create();
         $this->actingAs($admin)->get('/user');
         Event::assertDispatched(Events\ConfigureUserMenu::class);
         Event::assertDispatched(Events\ConfigureExploreMenu::class);
@@ -53,7 +53,7 @@ class SideMenuComposerTest extends TestCase
                 );
         });
 
-        $admin = factory(User::class, 'admin')->create();
+        $admin = factory(User::class)->states('admin')->create();
         $this->actingAs($admin)
             ->get('/admin')
             ->assertDontSee(trans('general.plugin-configs'));

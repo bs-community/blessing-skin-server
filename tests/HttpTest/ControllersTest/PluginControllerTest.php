@@ -73,7 +73,7 @@ class PluginControllerTest extends TestCase
 
         // Plugin is enabled but it doesn't have config view
         $this->get('/admin/plugins/config/fake3')
-            ->assertSee(e(trans('admin.plugins.operations.no-config-notice')))
+            ->assertSee(trans('admin.plugins.operations.no-config-notice'))
             ->assertNotFound();
 
         // Plugin has config view

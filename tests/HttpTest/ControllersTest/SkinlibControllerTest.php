@@ -24,10 +24,10 @@ class SkinlibControllerTest extends TestCase
                 'total_pages' => 0,
             ]]);
 
-        $steves = factory(Texture::class)->times(5)->create();
-        $alexs = factory(Texture::class, 'alex')->times(5)->create();
+        $steves = factory(Texture::class, 5)->create();
+        $alexs = factory(Texture::class, 5)->states('alex')->create();
         $skins = $steves->merge($alexs);
-        $capes = factory(Texture::class, 'cape')->times(5)->create();
+        $capes = factory(Texture::class, 5)->states('cape')->create();
 
         // Default arguments
         $items = $this->getJson('/skinlib/data')
@@ -250,7 +250,7 @@ class SkinlibControllerTest extends TestCase
         }));
 
         // Administrators can see private textures
-        $admin = factory(User::class, 'admin')->create();
+        $admin = factory(User::class)->states('admin')->create();
         $items = $this->actingAs($admin)
             ->getJson('/skinlib/data')
             ->assertJson(['data' => [
@@ -381,7 +381,6 @@ class SkinlibControllerTest extends TestCase
             $file->path(),
             'test.png',
             'image/png',
-            50,
             UPLOAD_ERR_NO_TMP_DIR,
             true
         );
@@ -942,7 +941,7 @@ class SkinlibControllerTest extends TestCase
             ]);
         $this->assertEquals('steve', Texture::find($texture->tid)->type);
 
-        $duplicate = factory(Texture::class, 'alex')->create([
+        $duplicate = factory(Texture::class)->states('alex')->create([
             'uploader' => $other->uid,
             'hash' => $texture->hash,
         ]);

@@ -15,7 +15,7 @@ class PlayerTest extends TestCase
         $player = factory(Player::class)->create();
         $this->assertEquals('default', $player->model);
 
-        $alex = factory(Texture::class, 'alex')->create();
+        $alex = factory(Texture::class)->states('alex')->create();
         $player->tid_skin = $alex->tid;
         $player->save();
         $player->refresh();

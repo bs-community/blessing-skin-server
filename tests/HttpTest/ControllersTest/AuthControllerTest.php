@@ -228,7 +228,7 @@ class AuthControllerTest extends TestCase
         $this->get('/auth/register')->assertSee('Register');
 
         option(['user_can_register' => false]);
-        $this->get('/auth/register')->assertSee(e(trans('auth.register.close')));
+        $this->get('/auth/register')->assertSee(trans('auth.register.close'));
     }
 
     public function testHandleRegister()
@@ -484,7 +484,7 @@ class AuthControllerTest extends TestCase
     {
         $this->get('/auth/forgot')->assertSee('Forgot Password');
 
-        config(['mail.driver' => '']);
+        config(['mail.default' => '']);
         $this->get('/auth/forgot')->assertSee(trans('auth.forgot.disabled'));
     }
 
@@ -495,7 +495,7 @@ class AuthControllerTest extends TestCase
         $filter = Filter::fake();
 
         // Should be forbidden if "forgot password" is closed
-        config(['mail.driver' => '']);
+        config(['mail.default' => '']);
         $this->postJson('/auth/forgot', [
             'email' => 'nope@nope.net',
             'captcha' => 'a',
@@ -503,7 +503,7 @@ class AuthControllerTest extends TestCase
             'code' => 1,
             'message' => trans('auth.forgot.disabled'),
         ]);
-        config(['mail.driver' => 'smtp']);
+        config(['mail.default' => 'smtp']);
 
         $whip = new Whip();
         $ip = $whip->getValidIpAddress();
@@ -748,7 +748,7 @@ class AuthControllerTest extends TestCase
         $this->assertTrue(is_string($token));
     }
 
-    public function testOAuthLogin()
+    public function testOauthLogin()
     {
         Socialite::shouldReceive('driver')
             ->with('github')
@@ -763,7 +763,7 @@ class AuthControllerTest extends TestCase
         $this->get('/auth/login/github')->assertRedirect();
     }
 
-    public function testOAuthCallback()
+    public function testOauthCallback()
     {
         Event::fake();
         $filter = Filter::fake();

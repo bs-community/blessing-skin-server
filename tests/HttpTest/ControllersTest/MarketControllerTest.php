@@ -17,7 +17,7 @@ class MarketControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actingAs(factory(\App\Models\User::class, 'superAdmin')->create());
+        $this->actingAs(factory(\App\Models\User::class)->states('superAdmin')->create());
     }
 
     public function testDownload()

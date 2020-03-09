@@ -20,7 +20,7 @@ class FootComposerTest extends TestCase
         ]);
         $user = factory(User::class)->create();
         $this->actingAs($user);
-        $this->get('/user')->assertSee('"<div></div>"');
+        $this->get('/user')->assertSee('"<div></div>"', false);
         $crawler = new Crawler($this->get('/user')->getContent());
         $this->assertCount(0, $crawler->filter('#disallowed'));
 
@@ -62,6 +62,6 @@ class FootComposerTest extends TestCase
 
         $user = factory(User::class)->create();
         $this->actingAs($user);
-        $this->get('/user')->assertSee('<div id=appended></div>');
+        $this->get('/user')->assertSee('<div id=appended></div>', false);
     }
 }

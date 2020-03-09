@@ -46,7 +46,7 @@ class AdminControllerTest extends TestCase
 
     public function testSendNotification()
     {
-        $admin = factory(User::class, 'admin')->create();
+        $admin = factory(User::class)->states('admin')->create();
         $normal = factory(User::class)->create();
         Notification::fake();
 
@@ -232,7 +232,7 @@ class AdminControllerTest extends TestCase
             ]);
 
         // An admin operating on a super admin should be forbidden
-        $superAdmin = factory(User::class, 'superAdmin')->create();
+        $superAdmin = factory(User::class)->states('superAdmin')->create();
         $this->postJson('/admin/users', ['uid' => $superAdmin->uid])
             ->assertJson([
                 'code' => 1,
@@ -401,7 +401,7 @@ class AdminControllerTest extends TestCase
             ]);
 
         // An admin cannot operate another admin's player
-        $admin = factory(User::class, 'admin')->create();
+        $admin = factory(User::class)->states('admin')->create();
         $this->postJson(
             '/admin/players',
             ['pid' => factory(Player::class)->create(['uid' => $admin->uid])->pid]
@@ -409,7 +409,7 @@ class AdminControllerTest extends TestCase
             'code' => 1,
             'message' => trans('admin.players.no-permission'),
         ]);
-        $superAdmin = factory(User::class, 'superAdmin')->create();
+        $superAdmin = factory(User::class)->states('superAdmin')->create();
         $this->postJson(
             '/admin/players',
             ['pid' => factory(Player::class)->create(['uid' => $superAdmin->uid])->pid]
@@ -459,7 +459,7 @@ class AdminControllerTest extends TestCase
         ]);
 
         $skin = factory(Texture::class)->create();
-        $cape = factory(Texture::class, 'cape')->create();
+        $cape = factory(Texture::class)->states('cape')->create();
 
         // Skin
         $this->postJson('/admin/players', [

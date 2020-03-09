@@ -1,5 +1,6 @@
 <?php
 
+/** @var \Illuminate\Database\Eloquent\Factory $factory */
 use App\Models\Player;
 
 $factory->define(Player::class, function (Faker\Generator $faker) {

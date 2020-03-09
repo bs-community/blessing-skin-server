@@ -63,6 +63,6 @@ class HeadComposerTest extends TestCase
             $event->contents[] = '<meta name=appended>';
         });
 
-        $this->get('/')->assertSee('<meta name=appended>');
+        $this->get('/')->assertSee('<meta name=appended>', false);
     }
 }

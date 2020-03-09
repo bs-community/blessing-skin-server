@@ -28,7 +28,7 @@ class CheckInstallationTest extends TestCase
             ['version' => config('app.version')]
         ));
 
-        $this->actingAs(factory(User::class, 'superAdmin')->make());
+        $this->actingAs(factory(User::class)->states('superAdmin')->make());
         $this->mock(Filesystem::class, function ($mock) {
             $mock->shouldReceive('exists')
                 ->with(storage_path('install.lock'))

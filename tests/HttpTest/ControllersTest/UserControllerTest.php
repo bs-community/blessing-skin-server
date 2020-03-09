@@ -46,7 +46,7 @@ class UserControllerTest extends TestCase
         $this->actingAs($user)
             ->get('/user')
             ->assertViewHas('statistics')
-            ->assertSee((new Parsedown())->text(option_localized('announcement')))
+            ->assertSee((new Parsedown())->text(option_localized('announcement')), false)
             ->assertSee((string) $user->score);
         $filter->assertApplied('grid:user.index');
         $filter->assertApplied('user_avatar', function ($url, $user) use ($uid) {
@@ -513,7 +513,7 @@ class UserControllerTest extends TestCase
         $user = factory(User::class)->create();
         $uid = $user->uid;
         $steve = factory(\App\Models\Texture::class)->create();
-        $cape = factory(\App\Models\Texture::class, 'cape')->create();
+        $cape = factory(\App\Models\Texture::class)->states('cape')->create();
 
         // Without `tid` field
         $this->actingAs($user)

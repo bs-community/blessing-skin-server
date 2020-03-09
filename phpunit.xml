@@ -24,4 +24,7 @@
   <php>
     <env name="APP_ENV" value="testing"/>
   </php>
+  <listeners>
+    <listener class="NunoMaduro\Collision\Adapters\Phpunit\Printer" />
+  </listeners>
 </phpunit>

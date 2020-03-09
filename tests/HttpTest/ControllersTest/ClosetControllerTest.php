@@ -56,7 +56,7 @@ class ClosetControllerTest extends TestCase
         $this->assertCount(2, $result['items']);
 
         // Get capes
-        $cape = factory(Texture::class, 'cape')->create();
+        $cape = factory(Texture::class)->states('cape')->create();
         $this->user->closet()->attach($cape->tid, ['item_name' => 'custom_name']);
         $this->getJson('/user/closet/list?category=cape')
             ->assertJson(['data' => [

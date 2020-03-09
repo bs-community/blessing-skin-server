@@ -12,13 +12,13 @@ class CheckRole extends TestCase
             ->get('/admin')
             ->assertForbidden();
 
-        $this->actAs(factory(User::class, 'admin')->create())
+        $this->actAs(factory(User::class)->states('admin')->create())
             ->get('/admin')
             ->assertSuccessful();
 
         $this->get('/admin/update')->assertForbidden();
 
-        $this->actAs(factory(User::class, 'superAdmin')->create())
+        $this->actAs(factory(User::class)->states('superAdmin')->create())
             ->get('/admin/update')
             ->assertSuccessful();
     }

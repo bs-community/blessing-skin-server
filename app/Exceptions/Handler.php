@@ -2,10 +2,10 @@
 
 namespace App\Exceptions;
 
-use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Throwable;
 
 class Handler extends ExceptionHandler
 {
@@ -22,7 +22,7 @@ class Handler extends ExceptionHandler
         PrettyPageException::class,
     ];
 
-    protected function convertExceptionToArray(Exception $e)
+    protected function convertExceptionToArray(Throwable $e)
     {
         return [
             'message' => $e->getMessage(),

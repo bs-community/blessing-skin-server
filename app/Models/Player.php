@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Events\PlayerProfileUpdated;
 use App\Models;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class Player extends Model
@@ -61,5 +62,10 @@ class Player extends Model
         ];
 
         return json_encode($profile, $options | JSON_UNESCAPED_UNICODE);
+    }
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 }

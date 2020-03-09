@@ -293,7 +293,7 @@ class PlayerControllerTest extends TestCase
         $player = factory(Player::class)->create();
         $user = $player->user;
         $skin = factory(Texture::class)->create();
-        $cape = factory(Texture::class, 'cape')->create();
+        $cape = factory(Texture::class)->states('cape')->create();
 
         // Set a not-existed texture
         $this->actingAs($user)

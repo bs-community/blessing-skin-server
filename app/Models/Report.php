@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 
 class Report extends Model
@@ -28,5 +29,10 @@ class Report extends Model
     public function informer()
     {
         return $this->belongsTo(User::class, 'reporter', 'uid');
+    }
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d H:i:s');
     }
 }
