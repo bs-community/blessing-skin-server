@@ -109,8 +109,7 @@ class SkinlibControllerTest extends TestCase
         $keyword = Str::limit($skins->random()->name, 1, '');
         $keyworded = $skins
             ->filter(function ($texture) use ($keyword) {
-                return Str::contains($texture->name, $keyword) ||
-                    Str::contains($texture->name, strtolower($keyword));
+                return Str::contains($texture->name, [$keyword, strtolower($keyword)]);
             });
         $items = $this->getJson('/skinlib/data?keyword='.$keyword)
             ->assertJson(['data' => [
@@ -124,8 +123,7 @@ class SkinlibControllerTest extends TestCase
         $keyword = Str::limit($skins->random()->name, 1, '');
         $filtered = $skins
             ->filter(function ($texture) use ($keyword) {
-                return Str::contains($texture->name, $keyword) ||
-                    Str::contains($texture->name, strtolower($keyword));
+                return Str::contains($texture->name, [$keyword, strtolower($keyword)]);
             })
             ->sortByDesc('size')
             ->map(function ($skin) {

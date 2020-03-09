@@ -223,7 +223,9 @@ class PluginManager
     {
         $providers = Arr::get($plugin->getManifest(), 'enchants.providers', []);
         array_walk($providers, function ($provider) use ($plugin) {
-            $class = Str::start(Str::finish($provider, 'ServiceProvider'), $plugin->namespace.'\\');
+            $class = (string) Str::of($provider)
+                ->finish('ServiceProvider')
+                ->start($plugin->namespace.'\\');
             if (class_exists($class)) {
                 $this->app->register($class);
             }
