@@ -60,12 +60,6 @@ test('award notice', () => {
   ).not.toBeInTheDocument()
 })
 
-test('invoke selecting file', () => {
-  const { getAllByText } = render(<Upload />)
-
-  fireEvent.click(getAllByText(t('skinlib.upload.select-file'))[1])
-})
-
 describe('input file', () => {
   it('cancelled', () => {
     const { getByTitle } = render(<Upload />)

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { hot } from 'react-hot-loader/root'
 import { t } from '@/scripts/i18n'
@@ -7,8 +7,8 @@ import * as fetch from '@/scripts/net'
 import { showModal, toast } from '@/scripts/notify'
 import { isAlex } from '@/scripts/textureUtils'
 import { TextureType } from '@/scripts/types'
+import FileInput from '@/components/FileInput'
 import ViewerSkeleton from '@/components/ViewerSkeleton'
-import styles from './styles.module.scss'
 
 const Previewer = React.lazy(() => import('@/components/Viewer'))
 
@@ -21,7 +21,6 @@ const Upload: React.FC = () => {
   const [isUploading, setIsUploading] = useState(false)
   const [file, setFile] = useState<File | null>(null)
   const [texture, setTexture] = useState('')
-  const fileInput = useRef<HTMLInputElement>(null)
   const nameRule = useBlessingExtra<string>('rule')
   const contentPolicy = useBlessingExtra<string>('contentPolicy')
   const privacyNotice = useBlessingExtra<string>('privacyNotice')
@@ -51,11 +50,7 @@ const Upload: React.FC = () => {
     setIsPrivate(event.target.checked)
   }
 
-  const invokeSelectFile = () => {
-    fileInput.current!.click()
-  }
-
-  const handleSelectFile = async (
+  const handleFileChange = async (
     event: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const files = event.target.files!
@@ -177,32 +172,11 @@ const Upload: React.FC = () => {
               {t('general.cape')}
             </label>
           </div>
-          <div className="form-group">
-            <label htmlFor="select-file">
-              {t('skinlib.upload.select-file')}
-            </label>
-            <div className="input-group">
-              <div className="custom-file">
-                <input
-                  type="file"
-                  className="custom-file-input"
-                  id="select-file"
-                  accept="image/png, image/x-png"
-                  title={t('skinlib.upload.select-file')}
-                  ref={fileInput}
-                  onChange={handleSelectFile}
-                />
-                <label className={`custom-file-label ${styles.label}`}>
-                  {file?.name}
-                </label>
-              </div>
-              <div className="input-group-append">
-                <button className="btn btn-default" onClick={invokeSelectFile}>
-                  {t('skinlib.upload.select-file')}
-                </button>
-              </div>
-            </div>
-          </div>
+          <FileInput
+            file={file}
+            accept="image/png, image/x-png"
+            onChange={handleFileChange}
+          />
 
           {contentPolicy && (
             <div
