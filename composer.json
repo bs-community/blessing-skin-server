@@ -29,7 +29,6 @@
     "laravel/passport": "^8.4",
     "nesbot/carbon": "^2.0",
     "nunomaduro/collision": "^4.1",
-    "predis/predis": "~1.0",
     "rcrowe/twigbridge": "^0.11.3",
     "socialiteproviders/manager": "^3.5",
     "spatie/laravel-translation-loader": "^2.6",
