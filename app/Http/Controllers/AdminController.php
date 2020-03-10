@@ -416,7 +416,7 @@ class AdminController extends Controller
             'widgets' => [
                 [
                     ['admin.widgets.status.info'],
-                    [],
+                    ['admin.widgets.status.plugins'],
                 ],
             ],
         ];

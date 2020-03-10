@@ -16,17 +16,6 @@
             </tr>
           {% endfor %}
         {% endfor %}
-        <tr>
-          <th colspan="2">
-            {{ trans('admin.status.plugins', {amount: plugins|length}) }}
-          </th>
-        </tr>
-        {% for plugin in plugins %}
-          <tr>
-            <td>{{ plugin.title }}</td>
-            <td>{{ plugin.version }}</td>
-          </tr>
-        {% endfor %}
       </tbody>
     </table>
   </div>
