@@ -243,13 +243,18 @@ class PluginManager
                 $this->app->call($this->filesystem->getRequire($path), ['plugin' => $plugin]);
             } catch (\Throwable $th) {
                 report($th);
+                $this->dispatcher->dispatch(new Events\PluginBootFailed($plugin));
+                // @codeCoverageIgnoreStart
+                if (config('app.debug')) {
+                    throw $th;
+                }
+                // @codeCoverageIgnoreEnd
                 if (is_a($th, \Exception::class)) {
                     $handler = $this->app->make(\App\Exceptions\Handler::class);
                     if (!$handler->shouldReport($th)) {
                         throw $th;
                     }
                 }
-                $this->dispatcher->dispatch(new Events\PluginBootFailed($plugin));
             }
         }
     }

@@ -34,7 +34,7 @@ class User extends Authenticatable implements JWTSubject
 
     protected $hidden = ['password', 'remember_token'];
 
-    public function isAdmin()
+    public function isAdmin(): bool
     {
         return $this->permission >= static::ADMIN;
     }

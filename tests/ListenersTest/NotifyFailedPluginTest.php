@@ -3,6 +3,7 @@
 namespace Tests;
 
 use App\Events;
+use App\Models\User;
 use App\Services\Plugin;
 
 class NotifyFailedPluginTest extends TestCase
@@ -16,14 +17,14 @@ class NotifyFailedPluginTest extends TestCase
         event(new Events\RenderingFooter($content));
         $this->assertCount(0, $content);
 
-        $this->actAs('normal');
+        $this->actingAs(factory(User::class)->make());
         event(new Events\PluginBootFailed($plugin));
         event(new Events\RenderingFooter($content));
         $this->assertCount(0, $content);
 
-        $this->actAs('admin');
+        $this->actingAs(factory(User::class)->states('admin')->make());
         event(new Events\PluginBootFailed($plugin));
         event(new Events\RenderingFooter($content));
-        $this->assertStringContainsString('blessing.ui.message', $content[0]);
+        $this->assertStringContainsString('blessing.notify.toast', $content[0]);
     }
 }
