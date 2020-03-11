@@ -4,7 +4,7 @@ auth:
   loggingIn: Вход в систему
   tooManyFails:
     captcha: Слишком много попыток! Пожалуйста, введите CAPTCHA.
-    recaptcha: You fails too many times! Please pass the reCAPTCHA challenge.
+    recaptcha: Слишком много неудачных попыток! Пройдите проверку reCAPTCHA.
   emptyEmail: Не указан адрес электронной почты.
   invalidConfirmPwd: Подтверждение пароля не совпадает с паролем.
   emptyNickname: Не указан никнейм.
@@ -27,20 +27,20 @@ auth:
   repeat-pwd: Повторите ваш пароль
   nickname-intro: Всё, что вам угодно, кроме специальных символов
   player-name-intro: Имя игрока в Minecraft, может быть изменено позже
-  register-button: Register
+  register-button: Регистрация
   forgot:
     login-link: Я помню это
     button: Отправить
   reset-button: Сброс
 skinlib:
-  private: Private
+  private: Приватный
   anonymous: Пожалуйста, войдите сначала.
   reset: Сбросить фильтр
   nowShowing: Сейчас показывается
-  addToCloset: Add to closet
-  removeFromCloset: Remove from closet
+  addToCloset: Добавить в шкаф
+  removeFromCloset: Удалить из шкафа
   setItemName: Установите имя для этой текстуры
-  applyNotice: You can apply it to player at your closet
+  applyNotice: Вы можете применить его к игроку в вашем шкафу
   emptyItemName: Не указано название текстуры.
   setNewTextureName: 'Пожалуйста, введите название новой текстуры:'
   emptyNewTextureName: Пустое имя новой текстуры.
@@ -48,9 +48,9 @@ skinlib:
   apply: Применить
   filter:
     skin: (Любая модель)
-    steve: (Steve)
-    alex: (Alex)
-    cape: (Cape)
+    steve: (Стив)
+    alex: (Алекс)
+    cape: (Плащ)
     uploader: 'Пользователь (UID = :uid) загружен'
     allUsers: Все пользователи
   sort:
@@ -61,23 +61,23 @@ skinlib:
   emptyUploadFile: Вы не загрузили ни одного файла.
   fileExtError: 'Ошибка: Текстуры должны быть в PNG формате.'
   uploading: Загружается
-  setAsPrivate: Set as Private
+  setAsPrivate: Сделать приватным
   setAsPublic: Сделать общедоступным
-  setPublicNotice: Sure to set this as public texture?
-  setPrivateNotice: Sure to set this as private texture?
+  setPublicNotice: Вы уверены, что хотите установить это как публичную текстуру?
+  setPrivateNotice: Вы уверены, что хотите установить это как приватную текстуру?
   deleteNotice: Вы уверены, что хотите удалить эту текстуру?
   setNewTextureModel: "Пожалуйста, выберите новую модель текстуры:"
   upload:
     texture-name: Название текстуры
     texture-type: Тип текстуры
     select-file: Выбрать файл
-    privacy-notice: Prevent it from being visible at skin library.
+    privacy-notice: Предотвратите его видимость в библиотеке скинов.
     set-as-private: Сделать его приватным
     button: Загрузить
     dropZone: Перетащите файл сюда
     remove: Удалить
-    cost: It costs you about :score score.
-    award: You'll be awarded :score score(s) by uploading public texture.
+    cost: Это будет стоить вам :score очков.
+    award: Загрузив публичную текстуру, вас наградят :score оч.
   show:
     anonymous: Вы должны войти в систему, чтобы использовать шкафы
     likes: Люди, которым это нравится
@@ -94,12 +94,12 @@ skinlib:
   report:
     title: Пожаловаться
     reason: Скажите нам причину, пожалуйста.
-    positive: To encourage positive contributions to the skinlib, we will reward who reported inappropriate content with :score scores. However, if any malicious reporting behaviors were found, all scores rewarded will be taken back.
-    negative: To mitigate the impact of malicious reports, we will require :score scores for submitting a texture report. Don't worry. The suspended scores and additional reward will be sent to your account after your report reviewed by administrators.
+    positive: 'Чтобы поощрить положительный вклад в skinlib, мы вознаградим тех, кто сообщил о недопустимом контенте: :score оч. Однако, если было обнаружено какое-либо вредоносное поведение при составлении отчётов, все вознаграждения будут возвращены.'
+    negative: Чтобы смягчить влияние вредоносных отчётов, нам потребуется :score оч. за отправку отчёта о текстуре. Не беспокойтесь. Приостановленные баллы и дополнительное вознаграждение будут отправлены на ваш счёт после проверки вашего отчёта администраторами.
 user:
-  signRemainingTime: 'Available after :time :unit'
-  timeUnitHour: h
-  timeUnitMin: min
+  signRemainingTime: 'Доступно после :time :unit'
+  timeUnitHour: ч
+  timeUnitMin: мин
   emptyClosetMsg: >-
     <p>Nothing in your closet...</p><p>Why not explore the <a href=":url">Skin Library</a> for a while?</p>
   renameItem: Rename item
