@@ -94,6 +94,8 @@ export async function walkFetch(request: Request): Promise<any> {
       type: 'danger',
       okButtonType: 'outline-light',
     })
+
+    return { code: -1, message: trans('general.fatalError') }
   }
 }
 
