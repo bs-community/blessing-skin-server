@@ -13,8 +13,8 @@ homepage:
     title: Прозрачная панель навигации
     label: Это включит прозрачную панель навигации на главной странице, но она будет нормальной, если страница прокручивается вниз.
   hide_intro:
-    title: Hide Introduction at Bottom
-    label: Scroll bar will be disabled if this option is enabled, as version 2.x.
+    title: Скрыть введение в низу
+    label: Строка прокрутки будет отключена, если эта опция включена, как версия 2.x.
   fixed_bg:
     title: Фиксированный фон
     label: Эта опция сделает фон фиксированным, а не прокрутится с помощью полосы прокрутки.
@@ -23,28 +23,28 @@ homepage:
     description: "Вы можете указать разные стили авторских прав для каждого языка. Чтобы отредактировать соответствующий стиль авторских прав для определенного языка, переключитесь на этот язык и отправьте свои изменения. <br> <b> Предупреждение: </b> Любое злое изменение, примененное к авторскому праву программы нижнего колонтитула (включая удаление, изменение автора, изменение цели ссылки) без разрешения <b> ЗАПРЕЩЕНО </b>. Автор оставляет за собой право выполнять соответствующие обязанности."
   copyright_text:
     title: Пользовательский текст авторского права
-    description: Placeholders are available in custom copyright text. e.g. <code>{site_name}</code> & <code>{site_url}</code>. You can also specify a different footer for each language. To edit a specific language's corresponding footer, please switch to that language and submit your edit.
+    description: Заполнители доступны в пользовательском тексте авторских прав. Например <code>{site_name}</code> & <code>{site_url}</code>. Кроме того, для каждого языка можно указать свой нижний колонтитул. Чтобы отредактировать соответствующий нижний колонтитул определенного языка, переключитесь на этот язык и отправьте свое редактирование.
 customJsCss:
-  title: Custom CSS/JavaScript
+  title: Пользовательские CSS/JavaScript
   message: |
     Содержимое будет прикреплено к тегам &lt;style&gt; и &lt;script&gt;<br>
     - Вот несколько полезных примеров: <a href="https://blessing.netlify.com/css-js.html">Примеры пользовательских CSS & JavaScript</a>
   custom_css: CSS
   custom_js: JavaScript
 rate:
-  title: Scores
+  title: Очки
   score_per_storage:
     title: Хранилище
-    addon: scores = 1 KB
+    addon: очки = 1 КБ
   private_score_per_storage:
     title: Приватное хранилище
-    addon: scores = 1 KB
+    addon: очки = 1 КБ
     hint: Загрузка приватных текстур будет стоить больше очков.
   score_per_closet_item:
     title: Избранное
-    addon: score = 1 closet item
+    addon: очки = 1 предмет шкафа
   return_score:
-    title: Score Return
+    title: Возврат очков
     label: Return scores back to user after deleting players/textures/closet items.
   score_per_player:
     title: Игроки
