@@ -2,8 +2,8 @@
 
 namespace App\Listeners;
 
-use Event;
 use App\Models\User;
+use Event;
 
 class NotifyFailedPlugin
 {
