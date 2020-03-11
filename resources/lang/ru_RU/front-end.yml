@@ -138,8 +138,8 @@ user:
     title: Используемые ресурсы
     players: Зарегистрированные игроки
     storage: Использовано памяти
-  cur-score: Current Score
-  score-notice: Click the score to show introduction.
+  cur-score: 'Очки:'
+  score-notice: Нажмите на очки для просмотра информации.
   sign: Sign
   sign-success: Signed successfully. You got :score scores.
   time-unit-hour: ч
