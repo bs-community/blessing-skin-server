@@ -16,7 +16,7 @@ locked:
   button: Вернуться на главную страницу
 updates:
   master:
-    title: Update Wizard - Blessing Skin Server
+    title: Мастер обновления - Сервер Blessing Skin
   welcome:
     title: Еще один шаг
     text: |
@@ -31,7 +31,7 @@ updates:
     title: Примечания к выпуску
 wizard:
   master:
-    title: Install Wizard - Blessing Skin Server
+    title: Мастер установки - Сервер Blessing Skin
   welcome:
     title: Добро пожаловать
     button: Далее
