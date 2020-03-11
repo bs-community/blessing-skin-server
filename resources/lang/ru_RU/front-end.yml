@@ -101,38 +101,38 @@ user:
   timeUnitHour: ч
   timeUnitMin: мин
   emptyClosetMsg: >-
-    <p>Nothing in your closet...</p><p>Why not explore the <a href=":url">Skin Library</a> for a while?</p>
-  renameItem: Rename item
-  removeItem: Remove from closet
-  setAsAvatar: Set as avatar
-  viewInSkinlib: View in skin library
-  switch2dPreview: Switch to 2D Preview
-  switch3dPreview: Switch to 3D Preview
-  removeFromClosetNotice: Sure to remove this texture from your closet?
-  emptySelectedPlayer: No player is selected.
-  emptySelectedTexture: No texture is selected.
-  renameClosetItem: 'Set a new name for this item:'
-  changePlayerName: 'Please enter the player name:'
-  emptyPlayerName: Empty player name.
-  clearTexture: Sure to clear the skins & cape of this player?
-  deletePlayer: Sure to delete this player?
-  deletePlayerNotice: It's permanent. No backups.
-  chooseClearTexture: Choose texture types you want to clear
-  noClearChoice: You haven't choose any types
-  setAvatar: Sure to set this as your avatar?
-  setAvatarNotice: The head segment of skin will bu used.
-  resetAvatar: Reset Avatar
-  resetAvatarConfirm: Are you sure to reset your avatar?
-  typeToSearch: Type to search
-  useAs: Apply...
-  resetSelected: Clear selected
-  bindNewPlayer: You're required to create a player to go ahead. This player will be bound with your account.
-  bindExistedPlayer: You're required to select a player to go ahead. This player will be bound with your account. Other players will be deleted.
+    <p>В вашем шкафу ничего нет...</p><p>Почему бы вам не исследовать <a href=":url">библиотеку скинов</a>?</p>
+  renameItem: Переименовать элемент
+  removeItem: Удалить из шкафа
+  setAsAvatar: Установить как аватар
+  viewInSkinlib: Открыть в библиотеке скинов
+  switch2dPreview: Переключить предпросмотр в 2D режим
+  switch3dPreview: Переключить предпросмотр в 3D режим
+  removeFromClosetNotice: Удалить эту текстуру из шкафа?
+  emptySelectedPlayer: Игрок не выбран.
+  emptySelectedTexture: Текстура не выбрана.
+  renameClosetItem: 'Задать новое имя для этого элемента:'
+  changePlayerName: 'Введите имя игрока:'
+  emptyPlayerName: Пустое имя игрока.
+  clearTexture: Очистить скины и плащ этого игрока?
+  deletePlayer: Удалить этого игрока?
+  deletePlayerNotice: Это навсегда. Без резервных копий.
+  chooseClearTexture: Выберите типы текстур, которые вы хотите очистить
+  noClearChoice: Вы не выбрали ни одного типа
+  setAvatar: Установить этот как ваш аватар?
+  setAvatarNotice: Будет использован сегмент кожи головы.
+  resetAvatar: Сбросить аватар
+  resetAvatarConfirm: Выполнить сброс вашего аватара?
+  typeToSearch: Введите для поиска
+  useAs: Применить...
+  resetSelected: Очистить выбранное
+  bindNewPlayer: Вы должны создать игрока, чтобы продолжить. Этот игрок будет привязан к вашей учётной записью.
+  bindExistedPlayer: Вам необходимо выбрать игрока, чтобы продолжить. Этот игрок будет привязан к вашей учётной записи. Другие игроки будут удалены.
   closet:
-    upload: Upload Texture
+    upload: Загрузить текстуру
     use-as:
-      title: Which player should be applied to?
-      empty: It seems that you own no player...
+      title: К какому игроку следует применить?
+      empty: Кажется, у вас нет игрока...
       add: Добавить нового игрока
   used:
     title: Используемые ресурсы
@@ -259,25 +259,25 @@ report:
   time: Report Time
   check: Details
   delete: Delete
-  ban: Ban
-  reject: Reject
+  ban: Заблокировать
+  reject: Отклонить
 general:
-  skin: Skin
-  cape: Cape
-  fatalError: Fatal Error
-  confirmLogout: Sure to log out?
+  skin: Скин
+  cape: Плащ
+  fatalError: Критическая ошибка
+  confirmLogout: Выйти?
   confirm: OK
-  cancel: Cancel
-  submit: Submit
-  close: Close
-  more: More
-  tip: Tip
-  pagination: 'Page :page, total :total'
-  searchResult: '(Search result of keyword ":keyword")'
-  noResult: No result.
-  texturePreview: Texture Preview
-  walk: Walk
-  run: Run
+  cancel: Отмена
+  submit: Подтвердить
+  close: Закрыть
+  more: Ещё
+  tip: Совет
+  pagination: 'Страница :page, всего :total'
+  searchResult: '(Результат поиска по ключевому слову ":keyword")'
+  noResult: По запросу ничего не найдено.
+  texturePreview: Предпросмотр текстуры
+  walk: Пешком
+  run: Режим бега
   rotation: Rotation
   pause: Pause
   reset: Reset
