@@ -1,12 +1,12 @@
 ---
 used:
-  title: Resources Used
+  title: Используемые ресурсы
   players: Зарегистрированные игроки
   storage: Использовано памяти
 cur-score: Текущий счет
 score-notice: Нажмите на счет, чтобы показать введение.
-sign: Sign
-sign-success: Signed successfully. You got :score scores.
+sign: Войти
+sign-success: Подписано успешно. Вы получили :score оч.
 time-unit-hour: ч
 time-unit-min: мин
 cant-sign-until: Вы не можете войти в :time :unit
@@ -26,14 +26,14 @@ verification:
     reset: 'Нажмите здесь, чтобы подтвердить ваш аккаунт: <a href=":url">:url</a>'
     ignore: Если вы не регистрировали аккаунт, никаких дальнейших действий не требуется.
 score-intro:
-  title: What is score?
+  title: Что такое очки?
   introduction: |
-    We use score system to prevent the behaviors like uplaoding huge amount of textures and registering players casually.
-    Either adding players, uplaoding textures or adding a skinlib item to your closet will consume scores.
+    Мы используем систему подсчета очков, чтобы предотвратить такие действия, как выгрузка огромного количества текстур и случайная регистрация игроков.
+    Иначе добавление игроков, загрузка текстур или добавление элемента skinlib в ваш шкаф будет потреблять очки.
     :return-score
 
-    New users will get :initial_score scores initially, and you can acquire :score-from ~ :score-to scores by daily signing in.
-  will-return-score: The score will be returned if you deleted players, uploaded textures or closet items.
+    Сначала новые пользователи получат очков: :initial_scores, и вы можете получить очков: :score-from ~ :score-to, ежедневно выполняя вход в систему.
+  will-return-score: Очки будут возвращены, если вы удалили игроков, загруженные текстуры или элементы шкафа.
   no-return-score: The score will NOT be returned if you deleted players, uploaded textures or closet items.
   rates:
     storage: ':score scores = 1 KB storage'
