@@ -42,76 +42,76 @@ rate:
     hint: Загрузка приватных текстур будет стоить больше очков.
   score_per_closet_item:
     title: Избранное
-    addon: очки = 1 предмет шкафа
+    addon: очки = 1 элемент шкафа
   return_score:
     title: Возврат очков
-    label: Return scores back to user after deleting players/textures/closet items.
+    label: Возврат очков обратно пользователю после удаления игроков/текстур/элементов шкафа.
   score_per_player:
     title: Игроки
-    addon: scores = 1 player
-  user_initial_score: User Initial Score
+    addon: очки = 1 игрок
+  user_initial_score: Начальные очки пользователя
 report:
-  title: Reporting Textures
+  title: Отчет о текстурах
   reporter_score_modification:
-    title: Scores for Submitting an Report
+    title: Очки за отправку отчёта
     description: Set a positive integer value to reward user who submits new reports. Set to a negative value will require scores for submitting reports, and the suspended scores will be available if user's report was resolved. Set to 0 to disable.
   reporter_reward_score:
     title: Reward the Reporter with Scores If Report Resolved
 sign:
-  title: Signing
+  title: Подпись
   sign_score:
-    title: Score Granted
-    addon1: scores ~
-    addon2: scores
+    title: Очки предоставлены
+    addon1: очки ~
+    addon2: очки
   sign_gap_time:
-    title: Gap Time
+    title: Промежуток времени
     addon: часов
   sign_after_zero:
     title: Время
     label: Пользователи могут войти после 0 ежедневно.
     hint: Вышеуказанная опция будет проигнорирована, если этот флажок установлен.
 sharing:
-  title: Awarding Sharing
+  title: Распределение наград
   score_award_per_texture:
     title: Загрузчик будет вознагражден за каждую загружаемую текстуру
   take_back_scores_after_deletion:
-    title: Return scores
+    title: Возврат очков
     label: Возвращает баллы, если загрузчик установит приватный доступ или удалит текстуру.
   score_award_per_like:
-    title: Each time the texture is collected, uploader will be rewarded with
+    title: Каждый раз при сборе текстуры отправитель получает вознаграждение
 general:
   title: Основные параметры
   site_name: Название сайта
   site_description:
     title: Описание сайта
-    description: You can also specify a different site name and description for each language. To edit a specific language's corresponding site name or description text, please switch to that language and submit your edit.
+    description: Вы также можете указать другое имя сайта и описание для каждого языка. Чтобы изменить название сайта или текст описания соответствующего языка, переключитесь на этот язык и отправьте свои изменения.
   site_url:
-    title: Site URL
-    hint: Begin with http(s)://, nerver ends with slash.
+    title: Адрес сайта
+    hint: Начинайте с http(s)://, никогда не заканчивайте косой чертой.
   user_can_register:
-    title: Open Registration
-    label: Everyone is allowed to register.
+    title: Открыть регистрацию
+    label: Регистрация разрешена всем.
   register_with_player_name:
-    title: Register with Player Name
-    label: Require Minecraft's player name when user register
+    title: Регистрация с именем игрока
+    label: Требовать имя игрока Minecraft при регистрации пользователя
   require_verification:
-    title: Account Verification
-    label: Users must verify their email address first.
-  regs_per_ip: Max accounts of one IP
+    title: Подтверждение аккаунта
+    label: Пользователи должны сначала подтвердить свой адрес электронной почты.
+  regs_per_ip: Максимум аккаунтов с одним IP
   max_upload_file_size:
-    title: Max Upload Size
-    hint: "Limit specified in php.ini: :size"
+    title: Максимальный размер загрузки
+    hint: "Ограничение, указанное в файле php.ini: :size"
   player_name_rule:
-    title: Player Name Rule
-    official: Letters, numbers and underscores (Mojang's official rule)
-    cjk: Allow CJK Unified Ideographs
-    custom: Use custom rules (regular expression)
+    title: Правило имени игрока
+    official: Буквы, цифры и подчеркивание (официальное правило Mojang)
+    cjk: Разрешить унифицированные идеографы CJK
+    custom: Использовать пользовательские правила (регулярное выражение)
   custom_player_name_regexp:
-    title: Custom Player Name Rules
-    hint: Only takes effect when the above option is set to 'custom'. Leave empty to allow any character.
-    placeholder: Regular Expressions
+    title: Пользовательские правила имени игрока
+    hint: Применяется только когда опция выше имеет значение 'custom'. Оставьте пустым, чтобы разрешить любой символ.
+    placeholder: Регулярные выражения
   player_name_length:
-    title: Player Name Length
+    title: Длина имени игрока
     suffix: символы
   auto_del_invalid_texture:
     title: Неправильные текстуры
@@ -140,16 +140,16 @@ meta:
     hint: Разделить запятыми.
   meta_description:
     title: Описание
-    hint: Description defined in "general options" will be used if you left it empty.
+    hint: Описание, определенное в "Общие настройки", будет использоваться, если вы оставите его пустым.
   meta_extras:
-    title: Other Custom <meta> Tags
+    title: Другие пользовательские <meta> теги
 recaptcha:
   recaptcha_invisible:
-    title: Invisible
-    label: Enable Invisible Mode
-res-warning: This page is ONLY for advanced users. If you aren't familiar with these, please don't modify them!
+    title: Не виден
+    label: Включить невидимый режим
+res-warning: Эта страница ТОЛЬКО для продвинутых пользователей. Если вы не знакомы с этим, то не трогайте это!
 resources:
-  title: Resource Files
+  title: Файлы ресурсов
   hint: Please check these options if you enabled CDN for your site.
   force_ssl:
     title: Force SSL
