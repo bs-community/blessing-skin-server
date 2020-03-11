@@ -1,6 +1,6 @@
 ---
 auth:
-  login: Авторизоваться
+  login: Войти
   loggingIn: Вход в систему
   tooManyFails:
     captcha: Слишком много попыток! Пожалуйста, введите CAPTCHA.
@@ -276,36 +276,36 @@ general:
   searchResult: '(Результат поиска по ключевому слову ":keyword")'
   noResult: По запросу ничего не найдено.
   texturePreview: Предпросмотр текстуры
-  walk: Пешком
-  run: Режим бега
-  rotation: Rotation
-  pause: Pause
-  reset: Reset
-  skinlib: Skin Library
-  loading: Loading
-  wait: Please wait...
-  csrf: This page is out-dated. Please refresh it.
+  walk: Ходьба
+  run: Бег
+  rotation: Вращение
+  pause: Приостановить
+  reset: Сброс
+  skinlib: Библиотека скинов
+  loading: Загрузка
+  wait: Подождите...
+  csrf: Страница устарела. Обновите её.
   user:
-    email: Email
-    nickname: Nick Name
-    score: Score
-    register-at: Registered At
+    email: Адрес электронной почты
+    nickname: Никнейм
+    score: Очки
+    register-at: Дата регистрации
   player:
-    owner: Owner
-    player-name: Player Name
-    previews: Texture Previews
-    last-modified: Last Modified
+    owner: Владелец
+    player-name: Имя игрока
+    previews: Предпросмотр текстур
+    last-modified: Последнее изменение
 colors:
-  black: Black
-  white: White
-  gray: Gray
-  prev: Previous Background
-  next: Next Background
+  black: Чёрный
+  white: Белый
+  gray: Серый
+  prev: Предыдущий фон
+  next: Следующий фон
 vendor:
   datatable:
-    search: Search
-    rowsPerPage: Rows per page
-    prev: Prev
-    next: Next
-    of: of
-    all: All
+    search: Поиск
+    rowsPerPage: Строк на странице
+    prev: Назад
+    next: Вперед
+    of: из
+    all: Все
