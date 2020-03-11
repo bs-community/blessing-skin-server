@@ -4,7 +4,7 @@ index:
   total-players: Игроки
   total-textures: Загруженные текстуры
   disk-usage: Использование диска
-  overview: Overview
+  overview: Обзор
   texture-uploads: Загрузка текстур
   user-registration: Регистрация пользователя
 notifications:
@@ -72,7 +72,7 @@ customize:
       dark: Боковая панель (темная)
       light: Боковая панель (светлая)
 i18n:
-  add: Add New Language Line
+  add: Добавить новую строку языка
   added: Language line added.
   updated: Языковая строка обновлена.
   deleted: Языковая строка удалена.
