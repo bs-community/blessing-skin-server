@@ -305,12 +305,12 @@ class SkinlibControllerTest extends TestCase
             ->assertSee(trans('skinlib.show.private'));
 
         // Other user should not see private texture
-        $this->actAs('normal')
+        $this->actingAs(factory(User::class)->create())
             ->get('/skinlib/show/'.$texture->tid)
             ->assertSee(trans('skinlib.show.private'));
 
         // Administrators should be able to see private textures
-        $this->actAs('admin')
+        $this->actingAs(factory(User::class)->states('admin')->create())
             ->get('/skinlib/show/'.$texture->tid)
             ->assertViewHas('texture');
 
@@ -362,7 +362,7 @@ class SkinlibControllerTest extends TestCase
     {
         $filter = Fakes\Filter::fake();
 
-        $this->actAs('normal')->get('/skinlib/upload');
+        $this->actingAs(factory(User::class)->create())->get('/skinlib/upload');
         $filter->assertApplied('grid:skinlib.upload');
 
         option(['texture_name_regexp' => 'abc']);
@@ -382,7 +382,7 @@ class SkinlibControllerTest extends TestCase
             UPLOAD_ERR_NO_TMP_DIR,
             true
         );
-        $this->actAs('normal')
+        $this->actingAs(factory(User::class)->create())
             ->postJson(
                 '/skinlib/upload',
                 ['file' => $upload]
@@ -614,7 +614,7 @@ class SkinlibControllerTest extends TestCase
             ]);
 
         // Administrators can delete it
-        $this->actAs('admin')
+        $this->actingAs(factory(User::class)->states('admin')->create())
             ->postJson('/skinlib/delete', ['tid' => $texture->tid])
             ->assertJson([
                 'code' => 0,
@@ -742,7 +742,7 @@ class SkinlibControllerTest extends TestCase
         // Administrators can change it
         $uploader->score += $texture->size * option('private_score_per_storage');
         $uploader->save();
-        $this->actAs('admin')
+        $this->actingAs(factory(User::class)->states('admin')->create())
             ->postJson('/skinlib/privacy', ['tid' => $texture->tid])
             ->assertJson([
                 'code' => 0,
@@ -863,7 +863,7 @@ class SkinlibControllerTest extends TestCase
             ]);
 
         // Administrators should be able to rename
-        $this->actAs('admin')
+        $this->actingAs(factory(User::class)->states('admin')->create())
             ->postJson('/skinlib/rename', [
                 'tid' => $texture->tid,
                 'new_name' => 'name',
@@ -916,7 +916,7 @@ class SkinlibControllerTest extends TestCase
             ]);
 
         // Administrators should be able to change model
-        $this->actAs('admin')
+        $this->actingAs(factory(User::class)->states('admin')->create())
             ->postJson('/skinlib/model', [
                 'tid' => $texture->tid,
                 'model' => 'alex',

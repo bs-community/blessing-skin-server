@@ -8,17 +8,17 @@ class CheckRole extends TestCase
 {
     public function testHandle()
     {
-        $this->actAs(factory(User::class)->create())
+        $this->actingAs(factory(User::class)->create())
             ->get('/admin')
             ->assertForbidden();
 
-        $this->actAs(factory(User::class)->states('admin')->create())
+        $this->actingAs(factory(User::class)->states('admin')->create())
             ->get('/admin')
             ->assertSuccessful();
 
         $this->get('/admin/update')->assertForbidden();
 
-        $this->actAs(factory(User::class)->states('superAdmin')->create())
+        $this->actingAs(factory(User::class)->states('superAdmin')->create())
             ->get('/admin/update')
             ->assertSuccessful();
     }

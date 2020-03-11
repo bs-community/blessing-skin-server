@@ -110,7 +110,7 @@ class UpdateControllerTest extends TestCase
         });
         config(['app.version' => '100.0.0']);
 
-        $this->actAs('superAdmin')
+        $this->actingAs(factory(\App\Models\User::class)->states('superAdmin')->create())
             ->get('/setup/exec-update')
             ->assertViewIs('setup.updates.success');
         $this->assertEquals('100.0.0', option('version'));

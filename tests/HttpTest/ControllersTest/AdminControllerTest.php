@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Notifications;
 use App\Services\Plugin;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Str;
 use Notification;
 
@@ -20,7 +19,7 @@ class AdminControllerTest extends TestCase
     {
         // Do not use `WithoutMiddleware` trait
         parent::setUp();
-        $this->actAs('admin');
+        $this->actingAs(factory(\App\Models\User::class)->states('admin')->create());
     }
 
     public function testIndex()

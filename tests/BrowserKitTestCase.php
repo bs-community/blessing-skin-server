@@ -33,22 +33,4 @@ class BrowserKitTestCase extends TestCase
 
         return $app;
     }
-
-    /**
-     * @param \App\Models\User|string $role
-     *
-     * @return $this
-     */
-    public function actAs($role)
-    {
-        if (is_string($role)) {
-            if ($role == 'normal') {
-                $role = factory(\App\Models\User::class)->create();
-            } else {
-                $role = factory(\App\Models\User::class)->states($role)->create();
-            }
-        }
-
-        return $this->actingAs($role);
-    }
 }

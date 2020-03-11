@@ -15,7 +15,7 @@ class HookTest extends TestCase
             'icon' => 'fa-book',
             'new-tab' => true,
         ]);
-        $this->actAs('normal')
+        $this->actingAs(factory(User::class)->create())
             ->get('/user')
             ->assertSee('Link A')
             ->assertSee('/to/a')
@@ -28,7 +28,7 @@ class HookTest extends TestCase
             'link' => '/to/b',
             'icon' => 'fa-book',
         ]);
-        $this->actAs('normal')
+        $this->actingAs(factory(User::class)->create())
             ->get('/user')
             ->assertSee('Link B')
             ->assertSee('/to/b');
@@ -80,7 +80,7 @@ class HookTest extends TestCase
     public function testAddUserBadge()
     {
         Hook::addUserBadge('hi', 'green');
-        $this->actAs('normal')
+        $this->actingAs(factory(User::class)->create())
             ->get('/user')
             ->assertSee('<span class="badge bg-green mb-1 mr-2">hi</span>', false);
     }

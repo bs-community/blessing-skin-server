@@ -231,7 +231,9 @@ class UserControllerTest extends TestCase
     {
         $filter = Fakes\Filter::fake();
 
-        $this->actAs('normal')->get('/user/profile')->assertViewIs('user.profile');
+        $this->actingAs(factory(User::class)->create())
+            ->get('/user/profile')
+            ->assertViewIs('user.profile');
         $filter->assertApplied('grid:user.profile');
     }
 
@@ -498,7 +500,7 @@ class UserControllerTest extends TestCase
         $this->assertNull(User::find($user->uid));
 
         // Administrator cannot be deleted
-        $this->actAs('admin')
+        $this->actingAs(factory(User::class)->states('admin')->create())
             ->postJson('/user/profile', [
             'action' => 'delete',
             'password' => '87654321',

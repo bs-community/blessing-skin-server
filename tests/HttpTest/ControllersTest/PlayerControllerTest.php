@@ -18,7 +18,7 @@ class PlayerControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actAs('normal');
+        $this->actingAs(factory(User::class)->create());
     }
 
     public function testIndex()

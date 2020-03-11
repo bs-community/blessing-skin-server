@@ -13,7 +13,7 @@ class PluginControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actAs('superAdmin');
+        $this->actingAs(factory(\App\Models\User::class)->states('superAdmin')->create());
     }
 
     public function testShowManage()

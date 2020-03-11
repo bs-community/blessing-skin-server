@@ -4,7 +4,6 @@ namespace Tests;
 
 use Cache;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Mockery;
 
 class AdminFormsTest extends BrowserKitTestCase
@@ -19,7 +18,7 @@ class AdminFormsTest extends BrowserKitTestCase
             \App\Services\Translations\JavaScript::class,
             Mockery::spy(\App\Services\Translations\JavaScript::class)
         );
-        $this->actAs('admin');
+        $this->actingAs(factory(\App\Models\User::class)->states('admin')->create());
     }
 
     public function testCustomize()

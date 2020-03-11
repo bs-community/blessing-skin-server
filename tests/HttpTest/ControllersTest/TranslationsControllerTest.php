@@ -13,7 +13,7 @@ class TranslationsControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actAs('admin');
+        $this->actingAs(factory(\App\Models\User::class)->states('admin')->create());
     }
 
     public function testList()

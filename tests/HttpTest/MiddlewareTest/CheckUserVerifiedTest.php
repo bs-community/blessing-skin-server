@@ -24,7 +24,7 @@ class CheckUserVerifiedTest extends TestCase
             ->assertStatus(403)
             ->assertSee(trans('auth.check.verified'));
 
-        $this->actAs('normal')
+        $this->actingAs(factory(User::class)->create())
             ->get('/skinlib/upload')
             ->assertSuccessful();
 
