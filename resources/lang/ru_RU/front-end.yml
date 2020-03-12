@@ -1,10 +1,10 @@
 ---
 auth:
-  login: Авторизоваться
+  login: Войти
   loggingIn: Вход в систему
   tooManyFails:
     captcha: Слишком много попыток! Пожалуйста, введите CAPTCHA.
-    recaptcha: You fails too many times! Please pass the reCAPTCHA challenge.
+    recaptcha: Слишком много неудачных попыток! Пройдите проверку reCAPTCHA.
   emptyEmail: Не указан адрес электронной почты.
   invalidConfirmPwd: Подтверждение пароля не совпадает с паролем.
   emptyNickname: Не указан никнейм.
@@ -27,20 +27,20 @@ auth:
   repeat-pwd: Повторите ваш пароль
   nickname-intro: Всё, что вам угодно, кроме специальных символов
   player-name-intro: Имя игрока в Minecraft, может быть изменено позже
-  register-button: Register
+  register-button: Регистрация
   forgot:
     login-link: Я помню это
     button: Отправить
   reset-button: Сброс
 skinlib:
-  private: Private
+  private: Приватный
   anonymous: Пожалуйста, войдите сначала.
   reset: Сбросить фильтр
   nowShowing: Сейчас показывается
-  addToCloset: Add to closet
-  removeFromCloset: Remove from closet
+  addToCloset: Добавить в шкаф
+  removeFromCloset: Удалить из шкафа
   setItemName: Установите имя для этой текстуры
-  applyNotice: You can apply it to player at your closet
+  applyNotice: Вы можете применить его к игроку в вашем шкафу
   emptyItemName: Не указано название текстуры.
   setNewTextureName: 'Пожалуйста, введите название новой текстуры:'
   emptyNewTextureName: Пустое имя новой текстуры.
@@ -48,9 +48,9 @@ skinlib:
   apply: Применить
   filter:
     skin: (Любая модель)
-    steve: (Steve)
-    alex: (Alex)
-    cape: (Cape)
+    steve: (Стив)
+    alex: (Алекс)
+    cape: (Плащ)
     uploader: 'Пользователь (UID = :uid) загружен'
     allUsers: Все пользователи
   sort:
@@ -61,23 +61,23 @@ skinlib:
   emptyUploadFile: Вы не загрузили ни одного файла.
   fileExtError: 'Ошибка: Текстуры должны быть в PNG формате.'
   uploading: Загружается
-  setAsPrivate: Set as Private
+  setAsPrivate: Сделать приватным
   setAsPublic: Сделать общедоступным
-  setPublicNotice: Sure to set this as public texture?
-  setPrivateNotice: Sure to set this as private texture?
+  setPublicNotice: Вы уверены, что хотите установить это как публичную текстуру?
+  setPrivateNotice: Вы уверены, что хотите установить это как приватную текстуру?
   deleteNotice: Вы уверены, что хотите удалить эту текстуру?
   setNewTextureModel: "Пожалуйста, выберите новую модель текстуры:"
   upload:
     texture-name: Название текстуры
     texture-type: Тип текстуры
     select-file: Выбрать файл
-    privacy-notice: Prevent it from being visible at skin library.
+    privacy-notice: Предотвратите его видимость в библиотеке скинов.
     set-as-private: Сделать его приватным
     button: Загрузить
     dropZone: Перетащите файл сюда
     remove: Удалить
-    cost: It costs you about :score score.
-    award: You'll be awarded :score score(s) by uploading public texture.
+    cost: Это будет стоить вам :score очков.
+    award: Загрузив публичную текстуру, вас наградят :score оч.
   show:
     anonymous: Вы должны войти в систему, чтобы использовать шкафы
     likes: Люди, которым это нравится
@@ -94,52 +94,52 @@ skinlib:
   report:
     title: Пожаловаться
     reason: Скажите нам причину, пожалуйста.
-    positive: To encourage positive contributions to the skinlib, we will reward who reported inappropriate content with :score scores. However, if any malicious reporting behaviors were found, all scores rewarded will be taken back.
-    negative: To mitigate the impact of malicious reports, we will require :score scores for submitting a texture report. Don't worry. The suspended scores and additional reward will be sent to your account after your report reviewed by administrators.
+    positive: 'Чтобы поощрить положительный вклад в skinlib, мы вознаградим тех, кто сообщил о недопустимом контенте: :score оч. Однако, если было обнаружено какое-либо вредоносное поведение при составлении отчётов, все вознаграждения будут возвращены.'
+    negative: Чтобы смягчить влияние вредоносных отчётов, нам потребуется :score оч. за отправку отчёта о текстуре. Не беспокойтесь. Приостановленные баллы и дополнительное вознаграждение будут отправлены на ваш счёт после проверки вашего отчёта администраторами.
 user:
-  signRemainingTime: 'Available after :time :unit'
-  timeUnitHour: h
-  timeUnitMin: min
+  signRemainingTime: 'Доступно после :time :unit'
+  timeUnitHour: ч
+  timeUnitMin: мин
   emptyClosetMsg: >-
-    <p>Nothing in your closet...</p><p>Why not explore the <a href=":url">Skin Library</a> for a while?</p>
-  renameItem: Rename item
-  removeItem: Remove from closet
-  setAsAvatar: Set as avatar
-  viewInSkinlib: View in skin library
-  switch2dPreview: Switch to 2D Preview
-  switch3dPreview: Switch to 3D Preview
-  removeFromClosetNotice: Sure to remove this texture from your closet?
-  emptySelectedPlayer: No player is selected.
-  emptySelectedTexture: No texture is selected.
-  renameClosetItem: 'Set a new name for this item:'
-  changePlayerName: 'Please enter the player name:'
-  emptyPlayerName: Empty player name.
-  clearTexture: Sure to clear the skins & cape of this player?
-  deletePlayer: Sure to delete this player?
-  deletePlayerNotice: It's permanent. No backups.
-  chooseClearTexture: Choose texture types you want to clear
-  noClearChoice: You haven't choose any types
-  setAvatar: Sure to set this as your avatar?
-  setAvatarNotice: The head segment of skin will bu used.
-  resetAvatar: Reset Avatar
-  resetAvatarConfirm: Are you sure to reset your avatar?
-  typeToSearch: Type to search
-  useAs: Apply...
-  resetSelected: Clear selected
-  bindNewPlayer: You're required to create a player to go ahead. This player will be bound with your account.
-  bindExistedPlayer: You're required to select a player to go ahead. This player will be bound with your account. Other players will be deleted.
+    <p>В вашем шкафу ничего нет...</p><p>Почему бы вам не исследовать <a href=":url">библиотеку скинов</a>?</p>
+  renameItem: Переименовать элемент
+  removeItem: Удалить из шкафа
+  setAsAvatar: Установить как аватар
+  viewInSkinlib: Открыть в библиотеке скинов
+  switch2dPreview: Переключить предпросмотр в 2D режим
+  switch3dPreview: Переключить предпросмотр в 3D режим
+  removeFromClosetNotice: Удалить эту текстуру из шкафа?
+  emptySelectedPlayer: Игрок не выбран.
+  emptySelectedTexture: Текстура не выбрана.
+  renameClosetItem: 'Задать новое имя для этого элемента:'
+  changePlayerName: 'Введите имя игрока:'
+  emptyPlayerName: Пустое имя игрока.
+  clearTexture: Очистить скины и плащ этого игрока?
+  deletePlayer: Удалить этого игрока?
+  deletePlayerNotice: Это навсегда. Без резервных копий.
+  chooseClearTexture: Выберите типы текстур, которые вы хотите очистить
+  noClearChoice: Вы не выбрали ни одного типа
+  setAvatar: Установить этот как ваш аватар?
+  setAvatarNotice: Будет использован сегмент кожи головы.
+  resetAvatar: Сбросить аватар
+  resetAvatarConfirm: Выполнить сброс вашего аватара?
+  typeToSearch: Введите для поиска
+  useAs: Применить...
+  resetSelected: Очистить выбранное
+  bindNewPlayer: Вы должны создать игрока, чтобы продолжить. Этот игрок будет привязан к вашей учётной записью.
+  bindExistedPlayer: Вам необходимо выбрать игрока, чтобы продолжить. Этот игрок будет привязан к вашей учётной записи. Другие игроки будут удалены.
   closet:
-    upload: Upload Texture
+    upload: Загрузить текстуру
     use-as:
-      title: Which player should be applied to?
-      empty: It seems that you own no player...
+      title: К какому игроку следует применить?
+      empty: Кажется, у вас нет игрока...
       add: Добавить нового игрока
   used:
     title: Используемые ресурсы
     players: Зарегистрированные игроки
     storage: Использовано памяти
-  cur-score: Current Score
-  score-notice: Click the score to show introduction.
+  cur-score: 'Очки:'
+  score-notice: Нажмите на очки для просмотра информации.
   sign: Sign
   sign-success: Signed successfully. You got :score scores.
   time-unit-hour: ч
@@ -233,6 +233,10 @@ admin:
   enablePlugin: Включить
   disablePlugin: Отключить
   confirmDeletion: Вы уверены, что хотите удалить этот плагин?
+  uploadArchive: Upload Archive
+  uploadArchiveNotice: Install a plugin by uploading a Zip archive.
+  downloadRemote: Download From Remote
+  downloadRemoteNotice: Install a plugin by downloading a Zip archive from remote URL.
   noDependenciesNotice: >-
     В плагине нет определения зависимостей. Это означает, что плагин может быть несовместим с текущей версией Blessing Skin, и включение его может привести к неожиданным проблемам. Вы действительно хотите включить плагин?
   updateButton: Обновить сейчас
@@ -259,53 +263,53 @@ report:
   time: Report Time
   check: Details
   delete: Delete
-  ban: Ban
-  reject: Reject
+  ban: Заблокировать
+  reject: Отклонить
 general:
-  skin: Skin
-  cape: Cape
-  fatalError: Fatal Error
-  confirmLogout: Sure to log out?
+  skin: Скин
+  cape: Плащ
+  fatalError: Критическая ошибка
+  confirmLogout: Выйти?
   confirm: OK
-  cancel: Cancel
-  submit: Submit
-  close: Close
-  more: More
-  tip: Tip
-  pagination: 'Page :page, total :total'
-  searchResult: '(Search result of keyword ":keyword")'
-  noResult: No result.
-  texturePreview: Texture Preview
-  walk: Walk
-  run: Run
-  rotation: Rotation
-  pause: Pause
-  reset: Reset
-  skinlib: Skin Library
-  loading: Loading
-  wait: Please wait...
-  csrf: This page is out-dated. Please refresh it.
+  cancel: Отмена
+  submit: Подтвердить
+  close: Закрыть
+  more: Ещё
+  tip: Совет
+  pagination: 'Страница :page, всего :total'
+  searchResult: '(Результат поиска по ключевому слову ":keyword")'
+  noResult: По запросу ничего не найдено.
+  texturePreview: Предпросмотр текстуры
+  walk: Ходьба
+  run: Бег
+  rotation: Вращение
+  pause: Приостановить
+  reset: Сброс
+  skinlib: Библиотека скинов
+  loading: Загрузка
+  wait: Подождите...
+  csrf: Страница устарела. Обновите её.
   user:
-    email: Email
-    nickname: Nick Name
-    score: Score
-    register-at: Registered At
+    email: Адрес электронной почты
+    nickname: Никнейм
+    score: Очки
+    register-at: Дата регистрации
   player:
-    owner: Owner
-    player-name: Player Name
-    previews: Texture Previews
-    last-modified: Last Modified
+    owner: Владелец
+    player-name: Имя игрока
+    previews: Предпросмотр текстур
+    last-modified: Последнее изменение
 colors:
-  black: Black
-  white: White
-  gray: Gray
-  prev: Previous Background
-  next: Next Background
+  black: Чёрный
+  white: Белый
+  gray: Серый
+  prev: Предыдущий фон
+  next: Следующий фон
 vendor:
   datatable:
-    search: Search
-    rowsPerPage: Rows per page
-    prev: Prev
-    next: Next
-    of: of
-    all: All
+    search: Поиск
+    rowsPerPage: Строк на странице
+    prev: Назад
+    next: Вперед
+    of: из
+    all: Все

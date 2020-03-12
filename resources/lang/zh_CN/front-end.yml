@@ -233,6 +233,10 @@ admin:
   enablePlugin: 启用
   disablePlugin: 禁用
   confirmDeletion: 真的要删除这个插件吗？
+  uploadArchive: 上传压缩包
+  uploadArchiveNotice: 通过上传 Zip 压缩包来安装插件。
+  downloadRemote: 从远程下载
+  downloadRemoteNotice: 通过远程 URL 来下载 Zip 压缩包并安装插件。
   noDependenciesNotice: >-
     此插件没有声明任何依赖关系，这代表它有可能并不兼容此版本的 Blessing Skin，请将此插件升级至可能的最新版本。强行启用可能导致无法预料的后果。你确定要启用此插件吗？
   updateButton: 马上升级

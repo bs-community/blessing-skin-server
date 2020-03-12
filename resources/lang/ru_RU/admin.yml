@@ -1,11 +1,11 @@
 ---
 index:
-  total-users: Зарегистрировано пользователей
+  total-users: Зарегистрированные пользователи
   total-players: Игроки
   total-textures: Загруженные текстуры
   disk-usage: Использование диска
-  overview: Overview
-  texture-uploads: Загрузка текстур
+  overview: Обзор
+  texture-uploads: Загрузки текстур
   user-registration: Регистрация пользователя
 notifications:
   send:
@@ -72,8 +72,8 @@ customize:
       dark: Боковая панель (темная)
       light: Боковая панель (светлая)
 i18n:
-  add: Add New Language Line
-  added: Language line added.
+  add: Добавить новую языковую строку
+  added: Языковая строка добавлена.
   updated: Языковая строка обновлена.
   deleted: Языковая строка удалена.
   group: Группа
@@ -82,13 +82,13 @@ i18n:
   tip: Как я могу использовать эту страницу?
 status:
   info: Информация
-  health: Health
+  health: Здоровье
   bs:
     name: Blessing Skin
     version: Версия
-    env: Application Environment
-    debug: Debugging or Not?
-    commit: Commit
+    env: Окружение приложения
+    debug: Отладка или нет?
+    commit: Утвердить
     laravel: Версия Laravel
   server:
     name: Сервер
@@ -112,7 +112,7 @@ plugins:
   readme: Прочти меня
   dependencies: Зависимости
   operations:
-    title: Operations
+    title: Операции
     enabled: ':plugin был включен.'
     unsatisfied:
       notice: В плагине есть конфликты или неудовлетворенные зависимости, поэтому мы не можем включить его. Пожалуйста, установите или обновите плагины, перечисленные ниже, и отключите те, которые имеют конфликты.
@@ -142,23 +142,23 @@ update:
     check-github: Проверить релизы GitHub
     button: Обновить сейчас
   cautions:
-    title: Cautions
-    link: check out this.
+    title: Предостережения
+    link: проверьте это.
     text: |
-      Please choose update source according to your host's network environment.
-      Low-speed connection between update source and your host will cause long-time loading at checking and downloading page.
-      To change the default update source,
+      Пожалуйста, выберите источник обновления в соответствии с сетевой средой вашего узла.
+      При низкой скорости соединения между источником обновлений и вашим хостом вызовет длительную загрузку на странице проверки и загрузки.
+      Чтобы изменить источник обновлений по умолчанию,
   download:
-    downloading: Downloading update package...
-    size: "Size of package:"
+    downloading: Загрузка пакета обновления...
+    size: "Размер пакета:"
   errors:
-    connection: "Unable to access to current update source. Details: :error"
-    spec: Current update source is not supported.
-    php: Your PHP version is too low to update. Requires :version or later.
+    connection: "Не удается получить доступ к текущему источнику обновления. Подробности: :error"
+    spec: Текущий источник обновлений не поддерживается.
+    php: Ваша версия PHP слишком низкая для обновления. Требуется :version или более поздней версии.
 download:
   errors:
-    download: 'Failed to download. Error: :error'
-    shasum: File validation failed. Please download again.
-    unzip: Failed to unpack files.
-report-reviewed: This report has been processed.
-invalid-action: Invalid action
+    download: 'Не удалось загрузить. Ошибка: :error'
+    shasum: Ошибка проверки файла. Пожалуйста, загрузите снова.
+    unzip: Не удалось распаковать файлы.
+report-reviewed: Этот отчет был обработан.
+invalid-action: Неверное действие
