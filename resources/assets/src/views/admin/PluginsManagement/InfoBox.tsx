@@ -1,5 +1,5 @@
 import React from 'react'
-import { trans } from '../../../scripts/i18n'
+import { t } from '@/scripts/i18n'
 import { Plugin } from './types'
 import styles from './InfoBox.scss'
 
@@ -33,26 +33,30 @@ const InfoBox: React.FC<Props> = props => {
       </span>
       <div className={`info-box-content ${styles.content}`}>
         <div className="d-flex justify-content-between">
-          <div>
+          <div className={`d-flex ${styles.header}`}>
             <input
-              className="mr-2"
+              className="mr-2 d-inline-block"
               type="checkbox"
               checked={plugin.enabled}
               title={
                 plugin.enabled
-                  ? trans('admin.disablePlugin')
-                  : trans('admin.enablePlugin')
+                  ? t('admin.disablePlugin')
+                  : t('admin.enablePlugin')
               }
               onChange={handleChange}
             />
-            <strong className="mr-2">{plugin.title}</strong>
-            <span className="text-gray">v{plugin.version}</span>
+            <strong className={`d-inline-block mr-2 ${styles.title}`}>
+              {plugin.title}
+            </strong>
+            <span className="d-none d-sm-inline-block text-gray">
+              v{plugin.version}
+            </span>
           </div>
           <div className={styles.actions}>
             {plugin.readme && (
               <a
                 href={`${props.baseUrl}/admin/plugins/readme/${plugin.name}`}
-                title={trans('admin.pluginReadme')}
+                title={t('admin.pluginReadme')}
               >
                 <i className="fas fa-question" />
               </a>
@@ -60,16 +64,12 @@ const InfoBox: React.FC<Props> = props => {
             {plugin.enabled && plugin.config && (
               <a
                 href={`${props.baseUrl}/admin/plugins/config/${plugin.name}`}
-                title={trans('admin.configurePlugin')}
+                title={t('admin.configurePlugin')}
               >
                 <i className="fas fa-cog" />
               </a>
             )}
-            <a
-              href="#"
-              title={trans('admin.deletePlugin')}
-              onClick={handleDelete}
-            >
+            <a href="#" title={t('admin.deletePlugin')} onClick={handleDelete}>
               <i className="fas fa-trash" />
             </a>
           </div>
@@ -80,4 +80,4 @@ const InfoBox: React.FC<Props> = props => {
   )
 }
 
-export default React.memo(InfoBox)
+export default InfoBox

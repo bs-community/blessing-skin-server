@@ -4,7 +4,11 @@ namespace Tests;
 
 use App\Services\Plugin;
 use App\Services\PluginManager;
+use App\Services\Unzip;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Http;
+use Mockery\MockInterface;
 
 class PluginControllerTest extends TestCase
 {
@@ -261,6 +265,73 @@ class PluginControllerTest extends TestCase
                     'config',
                     'readme',
                 ],
+            ]);
+    }
+
+    public function testUpload()
+    {
+        // Missing file.
+        $this->postJson('/admin/plugins/upload')->assertJsonValidationErrors('file');
+
+        // Not a file.
+        $this->postJson('/admin/plugins/upload', ['file' => 'f'])
+            ->assertJsonValidationErrors('file');
+
+        // Not a zip.
+        $file = UploadedFile::fake()->create('plugin.zip', 0, 'application/x-tar');
+        $this->postJson('/admin/plugins/upload', ['file' => $file])
+            ->assertJsonValidationErrors('file');
+
+        // Success.
+        $file = UploadedFile::fake()->create('plugin.zip', 0, 'application/zip');
+        $this->mock(Unzip::class, function (MockInterface $mock) {
+            $mock->shouldReceive('extract')->withArgs(function ($path, $dest) {
+                $this->assertEquals(
+                    resolve(PluginManager::class)->getPluginsDirs()->first(),
+                    $dest
+                );
+
+                return true;
+            })->once();
+        });
+        $this->postJson('/admin/plugins/upload', ['file' => $file])
+            ->assertJson([
+                'code' => 0,
+                'message' => trans('admin.plugins.market.install-success'),
+            ]);
+    }
+
+    public function testWget()
+    {
+        // Missing url.
+        $this->postJson('/admin/plugins/wget')->assertJsonValidationErrors('url');
+
+        // Not a url.
+        $this->postJson('/admin/plugins/wget', ['url' => 'f'])
+            ->assertJsonValidationErrors('url');
+
+        Http::fakeSequence()->pushStatus(404)->pushStatus(200);
+
+        $this->postJson('/admin/plugins/wget', ['url' => 'https://down.org/a.zip'])
+            ->assertJson([
+                'code' => 1,
+                'message' => trans('admin.download.errors.download', ['error' => 404]),
+            ]);
+
+        $this->mock(Unzip::class, function (MockInterface $mock) {
+            $mock->shouldReceive('extract')->withArgs(function ($path, $dest) {
+                $this->assertEquals(
+                    resolve(PluginManager::class)->getPluginsDirs()->first(),
+                    $dest
+                );
+
+                return true;
+            })->once();
+        });
+        $this->postJson('/admin/plugins/wget', ['url' => 'https://down.org/a.zip'])
+            ->assertJson([
+                'code' => 0,
+                'message' => trans('admin.plugins.market.install-success'),
             ]);
     }
 }

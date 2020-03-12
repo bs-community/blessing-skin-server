@@ -161,6 +161,8 @@ Route::prefix('admin')
             Route::post('manage', 'PluginController@manage');
             Route::any('config/{name}', 'PluginController@config');
             Route::get('readme/{name}', 'PluginController@readme');
+            Route::post('upload', 'PluginController@upload');
+            Route::post('wget', 'PluginController@wget');
 
             Route::prefix('market')->group(function () {
                 Route::view('', 'admin.market');

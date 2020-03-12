@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Services\Plugin;
 use App\Services\PluginManager;
+use App\Services\Unzip;
+use Composer\CaBundle\CaBundle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Parsedown;
 
 class PluginController extends Controller
@@ -104,5 +107,34 @@ class PluginController extends Controller
                 ];
             })
             ->values();
+    }
+
+    public function upload(Request $request, PluginManager $manager, Unzip $unzip)
+    {
+        $request->validate(['file' => 'required|file|mimetypes:application/zip']);
+
+        $path = $request->file('file')->getPathname();
+        $unzip->extract($path, $manager->getPluginsDirs()->first());
+
+        return json(trans('admin.plugins.market.install-success'), 0);
+    }
+
+    public function wget(Request $request, PluginManager $manager, Unzip $unzip)
+    {
+        $data = $request->validate(['url' => 'required|url']);
+
+        $path = tempnam(sys_get_temp_dir(), 'wget-plugin');
+        $response = Http::withOptions([
+            'sink' => $path,
+            'verify' => CaBundle::getSystemCaRootBundlePath(),
+        ])->get($data['url']);
+
+        if ($response->ok()) {
+            $unzip->extract($path, $manager->getPluginsDirs()->first());
+
+            return json(trans('admin.plugins.market.install-success'), 0);
+        } else {
+            return json(trans('admin.download.errors.download', ['error' => $response->status()]), 1);
+        }
     }
 }

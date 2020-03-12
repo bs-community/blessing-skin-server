@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, wait, fireEvent } from '@testing-library/react'
-import { trans } from '@/scripts/i18n'
+import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import PluginsManagement from '@/views/admin/PluginsManagement'
 
@@ -24,13 +24,23 @@ test('plugin info box', async () => {
       icon: {},
       enabled: true,
     },
+    {
+      name: 'b',
+      title: 'Another Plugin',
+      version: '0.1.0',
+      description: '',
+      config: true,
+      readme: true,
+      icon: {},
+      enabled: true,
+    },
   ])
 
   const { queryByTitle, queryByText } = render(<PluginsManagement />)
   await wait()
 
-  expect(queryByTitle(trans('admin.configurePlugin'))).not.toBeNull()
-  expect(queryByTitle(trans('admin.pluginReadme'))).not.toBeNull()
+  expect(queryByTitle(t('admin.configurePlugin'))).not.toBeNull()
+  expect(queryByTitle(t('admin.pluginReadme'))).not.toBeNull()
   expect(queryByText('My Plugin')).not.toBeNull()
   expect(queryByText('v1.0.0')).not.toBeNull()
   expect(queryByText('desc')).not.toBeNull()
@@ -47,7 +57,7 @@ describe('enable plugin', () => {
     ])
   })
 
-  it('successfully', async () => {
+  it('succeeded', async () => {
     fetch.get.mockResolvedValue([
       {
         name: 'a',
@@ -60,7 +70,7 @@ describe('enable plugin', () => {
     const { getByTitle, getByRole, queryByText } = render(<PluginsManagement />)
     await wait()
 
-    fireEvent.click(getByTitle(trans('admin.enablePlugin')))
+    fireEvent.click(getByTitle(t('admin.enablePlugin')))
     await wait()
 
     expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
@@ -69,7 +79,7 @@ describe('enable plugin', () => {
     })
     expect(queryByText('success')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
-    expect(getByTitle(trans('admin.disablePlugin'))).toBeChecked()
+    expect(getByTitle(t('admin.disablePlugin'))).toBeChecked()
   })
 
   it('failed', async () => {
@@ -82,7 +92,7 @@ describe('enable plugin', () => {
     const { getByTitle, getByText, queryByText } = render(<PluginsManagement />)
     await wait()
 
-    fireEvent.click(getByTitle(trans('admin.enablePlugin')))
+    fireEvent.click(getByTitle(t('admin.enablePlugin')))
     await wait()
 
     expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
@@ -92,7 +102,7 @@ describe('enable plugin', () => {
     expect(queryByText('unresolved')).toBeInTheDocument()
     expect(queryByText('abc')).toBeInTheDocument()
 
-    fireEvent.click(getByText(trans('general.confirm')))
+    fireEvent.click(getByText(t('general.confirm')))
   })
 })
 
@@ -107,13 +117,13 @@ describe('disable plugin', () => {
     ])
   })
 
-  it('successfully', async () => {
+  it('succeeded', async () => {
     fetch.post.mockResolvedValue({ code: 0, message: 'success' })
 
     const { getByTitle, getByRole, queryByText } = render(<PluginsManagement />)
     await wait()
 
-    fireEvent.click(getByTitle(trans('admin.disablePlugin')))
+    fireEvent.click(getByTitle(t('admin.disablePlugin')))
     await wait()
 
     expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
@@ -122,7 +132,7 @@ describe('disable plugin', () => {
     })
     expect(queryByText('success')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
-    expect(getByTitle(trans('admin.enablePlugin'))).not.toBeChecked()
+    expect(getByTitle(t('admin.enablePlugin'))).not.toBeChecked()
   })
 
   it('failed', async () => {
@@ -131,7 +141,7 @@ describe('disable plugin', () => {
     const { getByTitle, getByRole, queryByText } = render(<PluginsManagement />)
     await wait()
 
-    fireEvent.click(getByTitle(trans('admin.disablePlugin')))
+    fireEvent.click(getByTitle(t('admin.disablePlugin')))
     await wait()
 
     expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
@@ -159,14 +169,14 @@ describe('delete plugin', () => {
     const { getByTitle, getByText } = render(<PluginsManagement />)
     await wait()
 
-    fireEvent.click(getByTitle(trans('admin.deletePlugin')))
-    fireEvent.click(getByText(trans('general.cancel')))
+    fireEvent.click(getByTitle(t('admin.deletePlugin')))
+    fireEvent.click(getByText(t('general.cancel')))
     await wait()
 
     expect(fetch.post).not.toBeCalled()
   })
 
-  it('successfully', async () => {
+  it('succeeded', async () => {
     fetch.post.mockResolvedValue({ code: 0, message: 'success' })
 
     const { getByTitle, getByText, getByRole, queryByText } = render(
@@ -174,8 +184,8 @@ describe('delete plugin', () => {
     )
     await wait()
 
-    fireEvent.click(getByTitle(trans('admin.deletePlugin')))
-    fireEvent.click(getByText(trans('general.confirm')))
+    fireEvent.click(getByTitle(t('admin.deletePlugin')))
+    fireEvent.click(getByText(t('general.confirm')))
     await wait()
 
     expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
@@ -195,8 +205,8 @@ describe('delete plugin', () => {
     )
     await wait()
 
-    fireEvent.click(getByTitle(trans('admin.deletePlugin')))
-    fireEvent.click(getByText(trans('general.confirm')))
+    fireEvent.click(getByTitle(t('admin.deletePlugin')))
+    fireEvent.click(getByText(t('general.confirm')))
     await wait()
 
     expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
@@ -206,5 +216,131 @@ describe('delete plugin', () => {
     expect(queryByText('failed')).toBeInTheDocument()
     expect(getByRole('alert')).toHaveClass('alert-danger')
     expect(queryByText('My Plugin')).not.toBeNull()
+  })
+})
+
+describe('upload plugin archive', () => {
+  it('no selected file', async () => {
+    fetch.get.mockResolvedValue([])
+
+    const { getAllByText } = render(<PluginsManagement />)
+    await wait()
+
+    fireEvent.click(getAllByText(t('general.submit'))[0])
+    expect(fetch.post).not.toBeCalled()
+  })
+
+  it('succeeded', async () => {
+    fetch.get.mockResolvedValue([])
+    fetch.post.mockResolvedValue({ code: 0, message: 'ok' })
+
+    const { getByTitle, getAllByText, getByRole, queryByText } = render(
+      <PluginsManagement />,
+    )
+    await wait()
+
+    const file = new File([], 'plugin.zip')
+    fireEvent.change(getByTitle(t('skinlib.upload.select-file')), {
+      target: { files: [file] },
+    })
+    fireEvent.click(getAllByText(t('general.submit'))[0])
+    await wait()
+
+    expect(fetch.get).toBeCalledTimes(2)
+    expect(fetch.post).toBeCalledWith(
+      '/admin/plugins/upload',
+      expect.any(FormData),
+    )
+    const formData: FormData = fetch.post.mock.calls[0][1]
+    expect(formData.get('file')).toStrictEqual(file)
+    expect(queryByText('plugin.zip')).not.toBeInTheDocument()
+    expect(queryByText('ok')).toBeInTheDocument()
+    expect(getByRole('status')).toHaveClass('alert-success')
+  })
+
+  it('failed', async () => {
+    fetch.get.mockResolvedValue([])
+    fetch.post.mockResolvedValue({ code: 1, message: 'failed' })
+
+    const { getByTitle, getAllByText, getByRole, queryByText } = render(
+      <PluginsManagement />,
+    )
+    await wait()
+
+    const file = new File([], 'plugin.zip')
+    fireEvent.change(getByTitle(t('skinlib.upload.select-file')), {
+      target: { files: [file] },
+    })
+    fireEvent.click(getAllByText(t('general.submit'))[0])
+    await wait()
+
+    expect(fetch.get).toBeCalledTimes(1)
+    expect(fetch.post).toBeCalledWith(
+      '/admin/plugins/upload',
+      expect.any(FormData),
+    )
+    expect(queryByText('plugin.zip')).toBeInTheDocument()
+    expect(queryByText('failed')).toBeInTheDocument()
+    expect(getByRole('alert')).toHaveClass('alert-danger')
+  })
+})
+
+describe('submit remote URL', () => {
+  it('succeeded', async () => {
+    fetch.get.mockResolvedValue([])
+    fetch.post.mockResolvedValue({ code: 0, message: 'ok' })
+
+    const {
+      getByLabelText,
+      getAllByText,
+      getByRole,
+      queryByText,
+      queryByDisplayValue,
+    } = render(<PluginsManagement />)
+    await wait()
+
+    fireEvent.input(getByLabelText('URL'), {
+      target: { value: 'https://example.com/a.zip' },
+    })
+    fireEvent.click(getAllByText(t('general.submit'))[1])
+    await wait()
+
+    expect(fetch.get).toBeCalledTimes(2)
+    expect(fetch.post).toBeCalledWith('/admin/plugins/wget', {
+      url: 'https://example.com/a.zip',
+    })
+    expect(
+      queryByDisplayValue('https://example.com/a.zip'),
+    ).not.toBeInTheDocument()
+    expect(queryByText('ok')).toBeInTheDocument()
+    expect(getByRole('status')).toHaveClass('alert-success')
+  })
+
+  it('failed', async () => {
+    fetch.get.mockResolvedValue([])
+    fetch.post.mockResolvedValue({ code: 1, message: 'failed' })
+
+    const {
+      getByLabelText,
+      getAllByText,
+      getByRole,
+      queryByText,
+      queryByDisplayValue,
+    } = render(<PluginsManagement />)
+    await wait()
+
+    fireEvent.input(getByLabelText('URL'), {
+      target: { value: 'https://example.com/a.zip' },
+    })
+    fireEvent.click(getAllByText(t('general.submit'))[1])
+    await wait()
+
+    expect(fetch.get).toBeCalledTimes(1)
+    expect(fetch.post).toBeCalledWith('/admin/plugins/wget', {
+      url: 'https://example.com/a.zip',
+    })
+    expect(queryByDisplayValue('https://example.com/a.zip')).toBeInTheDocument()
+    expect(queryByText('failed')).toBeInTheDocument()
+    expect(getByRole('alert')).toHaveClass('alert-danger')
   })
 })
