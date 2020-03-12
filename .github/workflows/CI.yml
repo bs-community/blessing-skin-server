@@ -4,9 +4,15 @@ on:
   push:
     branches:
       - dev
+    paths-ignore:
+      - 'resources/lang/**'
+      - '**.md'
   pull_request:
     branches:
       - dev
+    paths-ignore:
+      - 'resources/lang/**'
+      - '**.md'
 
 jobs:
   twig:
