@@ -29,10 +29,10 @@ test('plugin info box', async () => {
       title: 'Another Plugin',
       version: '0.1.0',
       description: '',
-      config: true,
-      readme: true,
+      config: false,
+      readme: false,
       icon: {},
-      enabled: true,
+      enabled: false,
     },
   ])
 
