@@ -19,7 +19,7 @@ const PluginsManagement: React.FC = () => {
   useEffect(() => {
     const getPlugins = async () => {
       setLoading(true)
-      setPlugins(await fetch.get('/admin/plugins/data'))
+      setPlugins(await fetch.get<Plugin[]>('/admin/plugins/data'))
       setLoading(false)
     }
     getPlugins()
@@ -30,9 +30,11 @@ const PluginsManagement: React.FC = () => {
       code,
       message,
       data: { reason } = { reason: [] },
-    }: fetch.ResponseBody<{
-      reason: string[]
-    }> = await fetch.post('/admin/plugins/manage', {
+    } = await fetch.post<
+      fetch.ResponseBody<{
+        reason: string[]
+      }>
+    >('/admin/plugins/manage', {
       action: 'enable',
       name: plugin.name,
     })
@@ -60,10 +62,13 @@ const PluginsManagement: React.FC = () => {
   }
 
   const handleDisable = async (plugin: Plugin, i: number) => {
-    const { code, message } = await fetch.post('/admin/plugins/manage', {
-      action: 'disable',
-      name: plugin.name,
-    })
+    const { code, message } = await fetch.post<fetch.ResponseBody>(
+      '/admin/plugins/manage',
+      {
+        action: 'disable',
+        name: plugin.name,
+      },
+    )
     if (code === 0) {
       toast.success(message)
       setPlugins(plugins => {
@@ -86,10 +91,13 @@ const PluginsManagement: React.FC = () => {
       return
     }
 
-    const { code, message } = await fetch.post('/admin/plugins/manage', {
-      action: 'delete',
-      name: plugin.name,
-    })
+    const { code, message } = await fetch.post<fetch.ResponseBody>(
+      '/admin/plugins/manage',
+      {
+        action: 'delete',
+        name: plugin.name,
+      },
+    )
     if (code === 0) {
       const { name } = plugin
       setPlugins(plugins => plugins.filter(plugin => plugin.name !== name))
@@ -124,7 +132,7 @@ const PluginsManagement: React.FC = () => {
     if (code === 0) {
       toast.success(message)
       setFile(null)
-      setPlugins(await fetch.get('/admin/plugins/data'))
+      setPlugins(await fetch.get<Plugin[]>('/admin/plugins/data'))
     } else {
       toast.error(message)
     }
@@ -141,7 +149,7 @@ const PluginsManagement: React.FC = () => {
     if (code === 0) {
       toast.success(message)
       setUrl('')
-      setPlugins(await fetch.get('/admin/plugins/data'))
+      setPlugins(await fetch.get<Plugin[]>('/admin/plugins/data'))
     } else {
       toast.error(message)
     }
