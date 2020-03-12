@@ -233,6 +233,10 @@ admin:
   enablePlugin: Включить
   disablePlugin: Отключить
   confirmDeletion: Вы уверены, что хотите удалить этот плагин?
+  uploadArchive: Upload Archive
+  uploadArchiveNotice: Install a plugin by uploading a Zip archive.
+  downloadRemote: Download From Remote
+  downloadRemoteNotice: Install a plugin by downloading a Zip archive from remote URL.
   noDependenciesNotice: >-
     В плагине нет определения зависимостей. Это означает, что плагин может быть несовместим с текущей версией Blessing Skin, и включение его может привести к неожиданным проблемам. Вы действительно хотите включить плагин?
   updateButton: Обновить сейчас
