@@ -233,6 +233,10 @@ admin:
   enablePlugin: Habilitar
   disablePlugin: Deshabilitar
   confirmDeletion: '¿Seguro que desea eliminar este plugin?'
+  uploadArchive: Upload Archive
+  uploadArchiveNotice: Install a plugin by uploading a Zip archive.
+  downloadRemote: Download From Remote
+  downloadRemoteNotice: Install a plugin by downloading a Zip archive from remote URL.
   noDependenciesNotice: >-
     No hay ninguna definición de dependencia en el plugin. Significa que el plugin puede no ser compatible con la versión actual de Blessing Skin, y activarlo puede causar problemas inesperados. ¿Realmente desea activar el plugin?
   updateButton: Actualizar ahora
