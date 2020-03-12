@@ -9,6 +9,9 @@ param (
 if (Test-Path ./public/app) {
     Remove-Item ./public/app -Recurse -Force
 }
+if (Test-Path ./public/bg) {
+    Remove-Item ./public/bg -Recurse -Force
+}
 
 # Run webpack
 yarn build
