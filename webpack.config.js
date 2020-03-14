@@ -12,19 +12,16 @@ const devMode = !process.argv.includes('-p')
 const config = {
   mode: devMode ? 'development' : 'production',
   entry: {
-    app: ['react-hot-loader/patch', './resources/assets/src/index.tsx'],
+    app: ['react-hot-loader/patch', '@/index.tsx'],
     style: [
-      'admin-lte/dist/css/alt/adminlte.core.min.css',
-      'admin-lte/dist/css/alt/adminlte.components.min.css',
-      'admin-lte/dist/css/alt/adminlte.extra-components.min.css',
-      'admin-lte/dist/css/alt/adminlte.pages.min.css',
+      '@/styles/admin-lte.scss',
       '@fortawesome/fontawesome-free/css/all.min.css',
-      './resources/assets/src/styles/common.styl',
+      '@/styles/common.styl',
     ],
     spectre: [
       'spectre.css/dist/spectre.min.css',
-      './resources/assets/src/fonts/minecraft.css',
-      './resources/assets/src/styles/spectre.css',
+      '@/fonts/minecraft.css',
+      '@/styles/spectre.css',
     ],
   },
   output: {
@@ -60,6 +57,21 @@ const config = {
         ],
       },
       {
+        test: /\.scss$/,
+        exclude: /\.module\.scss$/,
+        use: [
+          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 2,
+            },
+          },
+          'postcss-loader',
+          'sass-loader',
+        ],
+      },
+      {
         test: /\.module\.scss$/,
         use: [
           'style-loader',
@@ -68,7 +80,9 @@ const config = {
             options: {
               importLoaders: 2,
               modules: {
-                localIdentName: devMode ? '[name]__[local]' : '[local]__[hash:base64:5]',
+                localIdentName: devMode
+                  ? '[name]__[local]'
+                  : '[local]__[hash:base64:5]',
               },
               esModule: true,
             },
