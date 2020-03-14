@@ -100,7 +100,7 @@ class ClosetController extends Controller
             return json(trans('user.closet.add.not-found'), 1);
         }
 
-        if (!$texture->public && $texture->uploader != $user->uid) {
+        if (!$texture->public && ($texture->uploader != $user->uid && !$user->isAdmin())) {
             return json(trans('skinlib.show.private'), 1);
         }
 

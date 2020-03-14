@@ -142,14 +142,28 @@ class ClosetControllerTest extends TestCase
             'message' => trans('skinlib.show.private'),
         ]);
 
-        // Add a texture successfully
-        $this->postJson(
-            '/user/closet/add',
-            ['tid' => $texture->tid, 'name' => $name]
-        )->assertJson([
-            'code' => 0,
-            'message' => trans('user.closet.add.success', ['name' => $name]),
+        // Administrator can add it.
+        $privateTexture = factory(Texture::class)->state('private')->create([
+            'uploader' => 0,
         ]);
+        $this->actingAs(factory(User::class)->state('admin')->create())
+            ->postJson(
+                '/user/closet/add',
+                ['tid' => $privateTexture->tid, 'name' => $name]
+            )->assertJson([
+                'code' => 0,
+                'message' => trans('user.closet.add.success', ['name' => $name]),
+            ]);
+
+        // Add a texture successfully
+        $this->actingAs($this->user)
+            ->postJson(
+                '/user/closet/add',
+                ['tid' => $texture->tid, 'name' => $name]
+            )->assertJson([
+                'code' => 0,
+                'message' => trans('user.closet.add.success', ['name' => $name]),
+            ]);
         $this->assertEquals($likes + 1, Texture::find($texture->tid)->likes);
         $this->user = User::find($this->user->uid);
         $this->assertEquals(90, $this->user->score);

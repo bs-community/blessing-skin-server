@@ -19,3 +19,5 @@ $factory->define(Texture::class, function (Faker\Generator $faker) {
 $factory->state(Texture::class, 'alex', ['type' => 'alex']);
 
 $factory->state(Texture::class, 'cape', ['type' => 'cape']);
+
+$factory->state(Texture::class, 'private', ['public' => false]);
