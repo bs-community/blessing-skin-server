@@ -1,4 +1,4 @@
-import { trans } from '../../../scripts/i18n'
+import { t } from '@/scripts/i18n'
 
 const ONE_MINUTE = 60 * 1000
 const ONE_HOUR = 60 * ONE_MINUTE
@@ -23,12 +23,12 @@ export function remainingTime(
 export function remainingTimeText(remainingTime: number): string {
   const time = remainingTime / ONE_MINUTE
   return time < 60
-    ? trans('user.sign-remain-time', {
+    ? t('user.sign-remain-time', {
         time: ~~time,
-        unit: trans('user.time-unit-min'),
+        unit: t('user.time-unit-min'),
       })
-    : trans('user.sign-remain-time', {
+    : t('user.sign-remain-time', {
         time: ~~(time / 60),
-        unit: trans('user.time-unit-hour'),
+        unit: t('user.time-unit-hour'),
       })
 }

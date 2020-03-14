@@ -5,7 +5,7 @@ import { FitAddon } from 'xterm-addon-fit'
 import { Shell } from 'blessing-skin-shell'
 import 'xterm/css/xterm.css'
 import Draggable from 'react-draggable'
-import styles from '@/styles/terminal.scss'
+import styles from '@/styles/terminal.module.scss'
 
 let launched = false
 

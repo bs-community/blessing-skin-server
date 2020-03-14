@@ -1,5 +1,5 @@
-import { post, ResponseBody } from '../../../scripts/net'
-import { showModal } from '../../../scripts/notify'
+import { post, ResponseBody } from '@/scripts/net'
+import { showModal } from '@/scripts/notify'
 
 export default async function handler(event: Event) {
   event.preventDefault()

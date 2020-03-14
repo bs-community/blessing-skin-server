@@ -1,5 +1,5 @@
 import React from 'react'
-import { trans } from '../../../scripts/i18n'
+import { t } from '@/scripts/i18n'
 import * as scoreUtils from './scoreUtils'
 
 interface Props {
@@ -28,7 +28,7 @@ const SignButton: React.FC<Props> = props => {
       onClick={props.onClick}
     >
       <i className="far fa-calendar-check" aria-hidden="true" /> &nbsp;
-      {canSign ? trans('user.sign') : remainingTimeText}
+      {canSign ? t('user.sign') : remainingTimeText}
     </button>
   )
 }

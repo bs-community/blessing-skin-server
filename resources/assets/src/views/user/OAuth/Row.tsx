@@ -1,6 +1,6 @@
 import React from 'react'
-import { trans } from '../../../scripts/i18n'
-import ButtonEdit from '../../../components/ButtonEdit'
+import { t } from '@/scripts/i18n'
+import ButtonEdit from '@/components/ButtonEdit'
 import { App } from './types'
 
 interface Props {
@@ -19,7 +19,7 @@ const Row: React.FC<Props> = props => {
       <td>
         <span>{app.name}</span>
         <ButtonEdit
-          title={trans('user.oauth.modifyName')}
+          title={t('user.oauth.modifyName')}
           onClick={props.onEditName}
         />
       </td>
@@ -27,13 +27,13 @@ const Row: React.FC<Props> = props => {
       <td>
         <span>{app.redirect}</span>
         <ButtonEdit
-          title={trans('user.oauth.modifyUrl')}
+          title={t('user.oauth.modifyUrl')}
           onClick={props.onEditRedirect}
         />
       </td>
       <td>
         <button className="btn btn-danger" onClick={props.onDelete}>
-          {trans('report.delete')}
+          {t('report.delete')}
         </button>
       </td>
     </tr>

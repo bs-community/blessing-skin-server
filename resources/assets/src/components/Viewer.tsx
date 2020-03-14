@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import * as skinview3d from 'skinview3d'
-import { t } from '../scripts/i18n'
-import styles from './Viewer.scss'
+import { t } from '@/scripts/i18n'
+import styles from './Viewer.module.scss'
 import SkinSteve from '../../../misc/textures/steve.png'
 
 export const PICTURES_COUNT = 7

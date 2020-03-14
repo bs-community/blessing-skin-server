@@ -60,7 +60,7 @@ const config = {
         ],
       },
       {
-        test: /\.scss$/,
+        test: /\.module\.scss$/,
         use: [
           'style-loader',
           {

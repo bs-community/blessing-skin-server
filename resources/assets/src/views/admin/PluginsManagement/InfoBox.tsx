@@ -1,7 +1,7 @@
 import React from 'react'
 import { t } from '@/scripts/i18n'
 import { Plugin } from './types'
-import styles from './InfoBox.scss'
+import styles from './InfoBox.module.scss'
 
 interface Props {
   plugin: Plugin

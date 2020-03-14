@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { hot } from 'react-hot-loader/root'
-import { trans } from '../../../scripts/i18n'
-import * as fetch from '../../../scripts/net'
-import { toast } from '../../../scripts/notify'
-import useTween from '../../../scripts/hooks/useTween'
+import { t } from '@/scripts/i18n'
+import * as fetch from '@/scripts/net'
+import { toast } from '@/scripts/notify'
+import useTween from '@/scripts/hooks/useTween'
 import InfoBox from './InfoBox'
 import SignButton from './SignButton'
-import scoreStyle from './score.scss'
+import scoreStyle from './score.module.scss'
 
 type ScoreInfo = {
   signAfterZero: boolean
@@ -71,7 +71,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className="card card-primary card-outline">
       <div className="card-header">
-        <h3 className="card-title">{trans('user.used.title')}</h3>
+        <h3 className="card-title">{t('user.used.title')}</h3>
       </div>
       <div className="card-body">
         <div className="row">
@@ -80,7 +80,7 @@ const Dashboard: React.FC = () => {
             <InfoBox
               color="teal"
               icon="gamepad"
-              name={trans('user.used.players')}
+              name={t('user.used.players')}
               used={players.used}
               total={players.total}
               unit=""
@@ -89,7 +89,7 @@ const Dashboard: React.FC = () => {
               <InfoBox
                 color="maroon"
                 icon="hdd"
-                name={trans('user.used.storage')}
+                name={t('user.used.storage')}
                 used={~~(storage.used / 1024)}
                 total={~~(storage.total / 1024)}
                 unit="MB"
@@ -98,7 +98,7 @@ const Dashboard: React.FC = () => {
               <InfoBox
                 color="maroon"
                 icon="hdd"
-                name={trans('user.used.storage')}
+                name={t('user.used.storage')}
                 used={storage.used}
                 total={storage.total}
                 unit="KB"
@@ -106,7 +106,7 @@ const Dashboard: React.FC = () => {
             )}
           </div>
           <div className="col-md-4 text-center">
-            <p className={scoreStyle.title}>{trans('user.cur-score')}</p>
+            <p className={scoreStyle.title}>{t('user.cur-score')}</p>
             <p
               className={scoreStyle.number}
               data-toggle="modal"
@@ -114,7 +114,7 @@ const Dashboard: React.FC = () => {
             >
               {~~score}
             </p>
-            <p className={scoreStyle.notice}>{trans('user.score-notice')}</p>
+            <p className={scoreStyle.notice}>{t('user.score-notice')}</p>
           </div>
         </div>
       </div>

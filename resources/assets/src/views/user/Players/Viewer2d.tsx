@@ -1,6 +1,6 @@
 import React from 'react'
 import { t } from '@/scripts/i18n'
-import styles from './Viewer2d.scss'
+import styles from './Viewer2d.module.scss'
 
 interface Props {
   skin: string

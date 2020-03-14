@@ -2,7 +2,7 @@ import React from 'react'
 import { t } from '@/scripts/i18n'
 import ButtonEdit from '@/components/ButtonEdit'
 import { Player } from '@/scripts/types'
-import styles from './Row.scss'
+import styles from './Row.module.scss'
 
 interface Props {
   player: Player

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import styles from './Toast.scss'
+import styles from './Toast.module.scss'
 
 export type ToastType = 'success' | 'info' | 'warning' | 'error'
 

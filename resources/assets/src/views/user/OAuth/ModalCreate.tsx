@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { t } from '../../../scripts/i18n'
-import Modal from '../../../components/Modal'
+import { t } from '@/scripts/i18n'
+import Modal from '@/components/Modal'
 
 interface Props {
   show: boolean
