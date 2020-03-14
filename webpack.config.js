@@ -14,7 +14,6 @@ const config = {
   entry: {
     app: ['react-hot-loader/patch', './resources/assets/src/index.tsx'],
     style: [
-      'bootstrap/dist/css/bootstrap.min.css',
       'admin-lte/dist/css/alt/adminlte.core.min.css',
       'admin-lte/dist/css/alt/adminlte.components.min.css',
       'admin-lte/dist/css/alt/adminlte.extra-components.min.css',
