@@ -28,7 +28,7 @@ test('the GET method', async () => {
   expect(json).toBeCalled()
 
   await net.get('/abc')
-  expect(window.fetch.mock.calls[1][0].url).toBe('/abc')
+  expect(window.fetch.mock.calls[1][0].url).toBe('/abc?')
 })
 
 test('the POST method', async () => {

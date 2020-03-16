@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import { emit } from './event'
-import { queryStringify } from './utils'
 import { showModal } from './notify'
 import { trans, t } from './i18n'
 
@@ -106,10 +105,10 @@ export function get<T = any>(url: string, params = empty): Promise<T> {
     data: params,
   })
 
-  const qs = queryStringify(params)
+  const qs = new URLSearchParams(params)
 
   return walkFetch(
-    new Request(`${blessing.base_url}${url}${qs && `?${qs}`}`, init),
+    new Request(`${blessing.base_url}${url}?${qs}`, init),
   )
 }
 
