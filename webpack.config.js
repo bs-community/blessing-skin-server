@@ -42,6 +42,7 @@ const config = {
         loader: 'ts-loader',
         options: {
           configFile: 'tsconfig.build.json',
+          transpileOnly: true,
         },
       },
       {
