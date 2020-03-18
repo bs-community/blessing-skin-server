@@ -17,6 +17,7 @@ const config = {
       '@/styles/admin-lte.scss',
       '@fortawesome/fontawesome-free/css/all.min.css',
       '@/styles/common.styl',
+      '@/styles/common.scss',
     ],
     spectre: [
       'spectre.css/dist/spectre.min.css',
