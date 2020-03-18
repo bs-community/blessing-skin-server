@@ -6,7 +6,7 @@ http:
   msg-503: 网站维护中
   method-not-allowed: 不允许的 HTTP 请求方法
   csrf-token-mismatch: Token 不正确，请尝试刷新页面
-  ie: 我们不支持 Internet Explorer，请使用其它现代浏览器（如 Firefox 或 Chrome）。
+  ie: Your browser isn't supported. Please switch to other modern browsers, such as Firefox or Chrome.
 general:
   title: 出现错误
 exception:
