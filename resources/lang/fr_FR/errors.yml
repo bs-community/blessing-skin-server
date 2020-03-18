@@ -6,7 +6,7 @@ http:
   msg-503: L'application est maintenant en mode maintenance.
   method-not-allowed: Méthode non autorisée.
   csrf-token-mismatch: Token does not match, try reloading the page.
-  ie: Nous ne prenons pas en charge Internet Explorer. Veuillez passer à d'autres navigateurs modernes, tels que Firefox ou Chrome.
+  ie: Your browser isn't supported. Please switch to other modern browsers, such as Firefox or Chrome.
 general:
   title: Une erreur s'est produite
 exception:
