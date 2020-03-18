@@ -416,17 +416,20 @@ class PluginManager
         Collection $conflicts
     ): array {
         $unsatisfied = $unsatisfied->map(function ($detail, $name) {
-            $constraint = $detail['constraint'];
-            if (!$detail['version']) {
-                $plugin = $this->get($name);
-                $name = $plugin ? trans($plugin->title) : $name;
-
-                return trans('admin.plugins.operations.unsatisfied.disabled', compact('name'));
+            if ($name === 'blessing-skin-server') {
+                $title = 'Blessing Skin Server';
+            } elseif ($name === 'php') {
+                $title = 'PHP';
             } else {
-                $title = trans($this->get($name)->title);
-
-                return trans('admin.plugins.operations.unsatisfied.version', compact('title', 'constraint'));
+                $plugin = $this->get($name);
+                $title = $plugin ? trans($plugin->title) : $name;
             }
+
+            $constraint = $detail['constraint'];
+
+            return $detail['version']
+                ? trans('admin.plugins.operations.unsatisfied.version', compact('title', 'constraint'))
+                : trans('admin.plugins.operations.unsatisfied.disabled', ['name' => $title]);
         })->values()->all();
 
         $conflicts = $conflicts->map(function ($detail, $name) {

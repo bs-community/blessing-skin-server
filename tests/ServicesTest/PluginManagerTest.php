@@ -542,6 +542,8 @@ class PluginManagerTest extends TestCase
         ]));
 
         $unsatisfied = collect([
+            'blessing-skin-server' => ['version' => '4.0.0', 'constraint' => '^5.0.0'],
+            'php' => ['version' => '7.2.0', 'constraint' => '^7.3.0'],
             'dep' => ['version' => '0.0.0', 'constraint' => '^6.6.6'],
             'whatever' => ['version' => null, 'constraint' => '^1.2.3'],
         ]);
@@ -551,6 +553,14 @@ class PluginManagerTest extends TestCase
 
         $received = $manager->formatUnresolved($unsatisfied, $conflicts);
         $expected = [
+            trans('admin.plugins.operations.unsatisfied.version', [
+                'title' => 'Blessing Skin Server',
+                'constraint' => '^5.0.0',
+            ]),
+            trans('admin.plugins.operations.unsatisfied.version', [
+                'title' => 'PHP',
+                'constraint' => '^7.3.0',
+            ]),
             trans('admin.plugins.operations.unsatisfied.version', [
                 'title' => 'dep',
                 'constraint' => '^6.6.6',
