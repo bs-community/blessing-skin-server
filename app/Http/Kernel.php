@@ -32,7 +32,7 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \Illuminate\Foundation\Http\Middleware\VerifyCsrfToken::class,
-            \App\Http\Middleware\ForbiddenIE::class,
+            \App\Http\Middleware\EnforceEverGreen::class,
             \App\Http\Middleware\RedirectToSetup::class,
         ],
 
