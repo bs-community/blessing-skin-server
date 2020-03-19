@@ -48,10 +48,10 @@ const Toast: React.FC<Props> = props => {
   return (
     <div className={styles.toast} style={{ top: `${props.distance}px` }}>
       <div className={classes.join(' ')} role={role}>
-        <span className="mr-auto">
+        <span className="mr-1 d-flex align-items-center">
           <i className={`icon fas fa-${icons.get(props.type)}`}></i>
-          <span>{props.children}</span>
         </span>
+        <span>{props.children}</span>
         <button
           type="button"
           className="mr-2 ml-1 close"
@@ -63,7 +63,5 @@ const Toast: React.FC<Props> = props => {
     </div>
   )
 }
-
-Toast.displayName = 'Toast'
 
 export default Toast
