@@ -40,7 +40,6 @@
   },
   "require-dev": {
     "barryvdh/laravel-debugbar": "^3.2",
-    "beyondcode/laravel-dump-server": "^1.4",
     "fzaninotto/faker": "~1.9",
     "laravel/browser-kit-testing": "^6.0",
     "laravel/tinker": "^2.2",
