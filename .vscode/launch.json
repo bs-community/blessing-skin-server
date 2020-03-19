@@ -1,0 +1,19 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "firefox",
+        "request": "launch",
+        "reAttach": true,
+        "name": "Launch with Firefox Debugger",
+        "url": "http://localhost/",
+        "webRoot": "${workspaceFolder}",
+        "pathMappings": [
+          {
+            "url": "webpack:///",
+            "path": "${workspaceFolder}/"
+          }
+        ]
+      }
+    ]
+}
