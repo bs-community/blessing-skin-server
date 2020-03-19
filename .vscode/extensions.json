@@ -5,6 +5,8 @@
     "bmewburn.vscode-intelephense-client",
     "esbenp.prettier-vscode",
     "mrmlnc.vscode-scss",
-    "mblode.twig-language-2"
+    "mblode.twig-language-2",
+    "firefox-devtools.vscode-firefox-debug",
+    "felixfbecker.php-debug"
   ]
 }
