@@ -27,7 +27,7 @@ const Previewer: React.FC<Props> = props => {
 
   return ReactDOM.createPortal(
     <React.Suspense fallback={<ViewerSkeleton />}>
-      <Viewer skin={skin} cape={cape} showIndicator>
+      <Viewer skin={skin} cape={cape} isAlex={props.isAlex} showIndicator>
         {props.children}
       </Viewer>
     </React.Suspense>,

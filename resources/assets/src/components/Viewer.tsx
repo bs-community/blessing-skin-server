@@ -9,7 +9,7 @@ export const PICTURES_COUNT = 7
 interface Props {
   skin?: string
   cape?: string
-  isAlex?: boolean
+  isAlex: boolean
   showIndicator?: boolean
   initPositionZ?: number
 }
@@ -120,7 +120,7 @@ const Viewer: React.FC<Props> = props => {
 
   useEffect(() => {
     const viewer = viewRef.current
-    viewer.playerObject.skin.slim = !!props.isAlex
+    viewer.playerObject.skin.slim = props.isAlex
   }, [props.isAlex])
 
   useEffect(() => {

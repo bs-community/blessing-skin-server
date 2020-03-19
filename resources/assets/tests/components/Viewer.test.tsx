@@ -4,37 +4,41 @@ import { t } from '@/scripts/i18n'
 import Viewer, { PICTURES_COUNT } from '@/components/Viewer'
 
 test('custom footer', () => {
-  const { queryByText } = render(<Viewer>footer</Viewer>)
+  const { queryByText } = render(<Viewer isAlex={false}>footer</Viewer>)
   expect(queryByText('footer')).toBeInTheDocument()
 })
 
 describe('indicator', () => {
   it('hidden by default', () => {
-    const { queryByText } = render(<Viewer skin="skin" />)
+    const { queryByText } = render(<Viewer skin="skin" isAlex={false} />)
     expect(queryByText(t('general.skin'))).not.toBeInTheDocument()
   })
 
   it('nothing', () => {
-    const { queryByText } = render(<Viewer showIndicator />)
+    const { queryByText } = render(<Viewer isAlex={false} showIndicator />)
     expect(queryByText(t('general.skin'))).not.toBeInTheDocument()
     expect(queryByText(t('general.cape'))).not.toBeInTheDocument()
   })
 
   it('skin only', () => {
-    const { queryByText } = render(<Viewer skin="skin" showIndicator />)
+    const { queryByText } = render(
+      <Viewer skin="skin" isAlex={false} showIndicator />,
+    )
     expect(queryByText(t('general.skin'))).toBeInTheDocument()
     expect(queryByText(t('general.cape'))).not.toBeInTheDocument()
   })
 
   it('cape only', () => {
-    const { queryByText } = render(<Viewer cape="cape" showIndicator />)
+    const { queryByText } = render(
+      <Viewer cape="cape" isAlex={false} showIndicator />,
+    )
     expect(queryByText(t('general.skin'))).not.toBeInTheDocument()
     expect(queryByText(t('general.cape'))).toBeInTheDocument()
   })
 
   it('skin and cape', () => {
     const { queryByText } = render(
-      <Viewer skin="skin" cape="cape" showIndicator />,
+      <Viewer skin="skin" cape="cape" isAlex={false} showIndicator />,
     )
     expect(
       queryByText(`${t('general.skin')} & ${t('general.cape')}`),
@@ -46,31 +50,31 @@ describe('indicator', () => {
 
 describe('actions', () => {
   it('toggle run', () => {
-    const { getByTitle } = render(<Viewer />)
+    const { getByTitle } = render(<Viewer isAlex={false} />)
     fireEvent.click(getByTitle(`${t('general.walk')} / ${t('general.run')}`))
   })
 
   it('toggle rotation', () => {
-    const { getByTitle } = render(<Viewer />)
+    const { getByTitle } = render(<Viewer isAlex={false} />)
     fireEvent.click(getByTitle(t('general.rotation')))
   })
 
   it('toggle pause', () => {
-    const { getByTitle } = render(<Viewer />)
+    const { getByTitle } = render(<Viewer isAlex={false} />)
     const icon = getByTitle(t('general.pause'))
     fireEvent.click(icon)
     expect(icon).toHaveClass('fa-play')
   })
 
   it('reset', () => {
-    const { getByTitle } = render(<Viewer />)
+    const { getByTitle } = render(<Viewer isAlex={false} />)
     fireEvent.click(getByTitle(t('general.reset')))
   })
 })
 
 describe('background', () => {
   it('white', () => {
-    const { getByTitle, baseElement } = render(<Viewer />)
+    const { getByTitle, baseElement } = render(<Viewer isAlex={false} />)
     fireEvent.click(getByTitle(t('colors.white')))
     expect(
       baseElement.querySelector<HTMLDivElement>('.card-body')!.style.background,
@@ -78,7 +82,7 @@ describe('background', () => {
   })
 
   it('black', () => {
-    const { getByTitle, baseElement } = render(<Viewer />)
+    const { getByTitle, baseElement } = render(<Viewer isAlex={false} />)
     fireEvent.click(getByTitle(t('colors.black')))
     expect(
       baseElement.querySelector<HTMLDivElement>('.card-body')!.style.background,
@@ -86,7 +90,7 @@ describe('background', () => {
   })
 
   it('white', () => {
-    const { getByTitle, baseElement } = render(<Viewer />)
+    const { getByTitle, baseElement } = render(<Viewer isAlex={false} />)
     fireEvent.click(getByTitle(t('colors.gray')))
     expect(
       baseElement.querySelector<HTMLDivElement>('.card-body')!.style.background,
@@ -94,7 +98,7 @@ describe('background', () => {
   })
 
   it('previous picture', () => {
-    const { getByTitle, baseElement } = render(<Viewer />)
+    const { getByTitle, baseElement } = render(<Viewer isAlex={false} />)
 
     fireEvent.click(getByTitle(t('colors.prev')))
     expect(
@@ -108,7 +112,7 @@ describe('background', () => {
   })
 
   it('next picture', () => {
-    const { getByTitle, baseElement } = render(<Viewer />)
+    const { getByTitle, baseElement } = render(<Viewer isAlex={false} />)
 
     fireEvent.click(getByTitle(t('colors.next')))
     expect(

@@ -116,9 +116,7 @@ const Closet: React.FC = () => {
     if (code === 0) {
       toast.success(message)
       setItems(items => {
-        items[index] = Object.assign({}, item, {
-          pivot: Object.assign({}, item.pivot, { item_name: name }),
-        })
+        items[index] = { ...item, pivot: { ...item.pivot, item_name: name } }
         return items.slice()
       })
     } else {
