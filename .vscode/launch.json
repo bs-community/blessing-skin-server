@@ -2,6 +2,14 @@
     "version": "0.2.0",
     "configurations": [
       {
+        "type": "php",
+        "request": "launch",
+        "name": "Launch with XDebug",
+        "ignore": [
+          "**/vendor/**/*.php"
+        ]
+      },
+      {
         "type": "firefox",
         "request": "launch",
         "reAttach": true,
