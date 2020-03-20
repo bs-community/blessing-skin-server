@@ -12,7 +12,7 @@ interface Window {
     site_name: string
     version: string
     i18n: object
-    extra: object
+    extra: any
   }
 
   fetch: jest.Mock

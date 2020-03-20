@@ -10,6 +10,7 @@ import Pagination from '@/components/Pagination'
 import ClosetItem from './ClosetItem'
 import Previewer from './Previewer'
 import ModalApply from './ModalApply'
+import removeClosetItem from './removeClosetItem'
 
 type Category = 'skin' | 'cape'
 
@@ -125,24 +126,10 @@ const Closet: React.FC = () => {
   }
 
   const removeItem = async (item: Item) => {
-    try {
-      await showModal({
-        text: t('user.removeFromClosetNotice'),
-        okButtonType: 'danger',
-      })
-    } catch {
-      return
-    }
-
-    const { code, message } = await fetch.post<fetch.ResponseBody>(
-      `/user/closet/remove/${item.tid}`,
-    )
-    if (code === 0) {
-      toast.success(message)
-      const { tid } = item
+    const { tid } = item
+    const ok = await removeClosetItem(tid)
+    if (ok) {
       setItems(items => items.filter(item => item.tid !== tid))
-    } else {
-      toast.error(message)
     }
   }
 

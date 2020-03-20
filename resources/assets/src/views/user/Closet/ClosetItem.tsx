@@ -1,8 +1,7 @@
 import React from 'react'
 import { t } from '@/scripts/i18n'
-import * as fetch from '@/scripts/net'
-import { showModal, toast } from '@/scripts/notify'
 import { ClosetItem } from '@/scripts/types'
+import setAsAvatar from './setAsAvatar'
 import styles from './ClosetItem.module.scss'
 
 interface Props {
@@ -20,29 +19,7 @@ const ClosetItem: React.FC<Props> = props => {
     props.onClick(item)
   }
 
-  const setAsAvatar = async () => {
-    try {
-      await showModal({
-        title: t('user.setAvatar'),
-        text: t('user.setAvatarNotice'),
-      })
-    } catch {
-      return
-    }
-
-    const { code, message } = await fetch.post<fetch.ResponseBody>(
-      '/user/profile/avatar',
-      { tid: item.tid },
-    )
-    if (code === 0) {
-      toast.success(message)
-      document
-        .querySelectorAll<HTMLImageElement>('[alt="User Image"]')
-        .forEach(el => (el.src += `?${new Date().getTime()}`))
-    } else {
-      toast.error(message)
-    }
-  }
+  const handleSetAsAvatar = () => setAsAvatar(item.tid)
 
   return (
     <div
@@ -84,7 +61,7 @@ const ClosetItem: React.FC<Props> = props => {
               >
                 {t('user.viewInSkinlib')}
               </a>
-              <a href="#" className="dropdown-item" onClick={setAsAvatar}>
+              <a href="#" className="dropdown-item" onClick={handleSetAsAvatar}>
                 {t('user.setAsAvatar')}
               </a>
             </div>

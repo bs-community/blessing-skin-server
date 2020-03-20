@@ -21,6 +21,7 @@ const ModalInput: React.FC<Props> = props => (
               name="modal-radios"
               id={`modal-radio-${choice.value}`}
               value={choice.value}
+              checked={choice.value === props.value}
               onChange={props.onChange}
             />
             <label htmlFor={`modal-radio-${choice.value}`} className="ml-1">

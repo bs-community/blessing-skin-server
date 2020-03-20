@@ -1,7 +1,5 @@
 import React from 'react'
 
-const virtual = document.createElement('div')
-
 export default [
   {
     path: '/',
@@ -118,8 +116,8 @@ export default [
   },
   {
     path: 'skinlib/show/(\\d+)',
-    component: () => import('../views/skinlib/Show.vue'),
-    el: virtual,
+    react: () => import('../views/skinlib/Show'),
+    el: '#side',
   },
   {
     path: 'skinlib/upload',

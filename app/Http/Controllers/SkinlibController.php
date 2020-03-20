@@ -150,10 +150,7 @@ class SkinlibController extends Controller
             'widgets' => [
                 [
                     ['shared.previewer'],
-                    [
-                        'skinlib.widgets.show.info',
-                        'skinlib.widgets.show.operations',
-                    ],
+                    ['skinlib.widgets.show.side'],
                 ],
             ],
         ];
