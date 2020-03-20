@@ -22,3 +22,12 @@ export type TextureType = 'steve' | 'alex' | 'cape'
 export type ClosetItem = Texture & {
   pivot: { user_uid: number; texture_tid: number; item_name: string }
 }
+
+export type Paginator<T> = {
+  data: T[]
+  current_page: number
+  last_page: number
+  from: number
+  to: number
+  total: number
+}

@@ -4,7 +4,7 @@ import debounce from 'lodash.debounce'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { showModal, toast } from '@/scripts/notify'
-import { ClosetItem as Item, Texture } from '@/scripts/types'
+import { ClosetItem as Item, Texture, Paginator } from '@/scripts/types'
 import Loading from '@/components/Loading'
 import Pagination from '@/components/Pagination'
 import ClosetItem from './ClosetItem'
@@ -37,23 +37,13 @@ const Closet: React.FC = () => {
   useEffect(() => {
     const getItems = async () => {
       setIsLoading(true)
-      const {
-        data: { items, category: c, total_pages: totalPages },
-      } = await fetch.get<
-        fetch.ResponseBody<{
-          items: Item[]
-          category: Category
-          total_pages: number
-        }>
-      >('/user/closet/list', {
-        category,
-        q: query,
-        page,
-      })
+      const { data, last_page } = await fetch.get<Paginator<Item>>(
+        '/user/closet/list',
+        { category, q: query, page },
+      )
 
-      setItems(items)
-      setCategory(c)
-      setTotalPages(totalPages)
+      setItems(data)
+      setTotalPages(last_page)
       setIsLoading(false)
     }
     getItems()

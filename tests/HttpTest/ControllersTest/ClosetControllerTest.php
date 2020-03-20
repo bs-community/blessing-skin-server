@@ -40,46 +40,28 @@ class ClosetControllerTest extends TestCase
         // Use default query parameters
         $this->getJson('/user/closet/list')
             ->assertJsonStructure([
-                'data' => [
-                    'category',
-                    'total_pages',
-                    'items' => [['tid', 'name', 'type']],
-                ],
+                'data' => [['tid', 'name', 'type']],
             ]);
-
-        // Responsive
-        $result = $this->json('get', '/user/closet/list?perPage=0')->json()['data'];
-        $this->assertCount(6, $result['items']);
-        $result = $this->json('get', '/user/closet/list?perPage=8')->json()['data'];
-        $this->assertCount(8, $result['items']);
-        $result = $this->json('get', '/user/closet/list?perPage=8&page=2')->json()['data'];
-        $this->assertCount(2, $result['items']);
 
         // Get capes
         $cape = factory(Texture::class)->states('cape')->create();
         $this->user->closet()->attach($cape->tid, ['item_name' => 'custom_name']);
         $this->getJson('/user/closet/list?category=cape')
-            ->assertJson(['data' => [
-                'category' => 'cape',
-                'total_pages' => 1,
-                'items' => [[
+            ->assertJson(['data' => [[
                     'tid' => $cape->tid,
-                    'name' => 'custom_name',
                     'type' => 'cape',
-                ]],
+                    'pivot' => ['item_name' => 'custom_name'],
+                ],
             ]]);
 
         // Search by keyword
         $random = $textures->random();
         $this->getJson('/user/closet/list?q='.$random->name)
-            ->assertJson(['data' => [
-                'category' => 'skin',
-                'total_pages' => 1,
-                'items' => [[
+            ->assertJson(['data' => [[
                     'tid' => $random->tid,
                     'name' => $random->name,
                     'type' => $random->type,
-                ]],
+                ],
             ]]);
     }
 

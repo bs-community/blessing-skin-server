@@ -3,7 +3,7 @@ import { render, fireEvent, wait } from '@testing-library/react'
 import $ from 'jquery'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
-import { ClosetItem, Player } from '@/scripts/types'
+import { ClosetItem, Player, Paginator } from '@/scripts/types'
 import Closet from '@/views/user/Closet'
 
 jest.mock('@/scripts/net')
@@ -49,6 +49,17 @@ const fixturePlayer: Readonly<Player> = Object.freeze<Player>({
   tid_cape: 2,
 })
 
+function createPaginator(data: ClosetItem[]): Paginator<ClosetItem> {
+  return {
+    data,
+    total: data.length,
+    from: 1,
+    to: data.length,
+    current_page: 1,
+    last_page: 1,
+  }
+}
+
 beforeEach(() => {
   const container = document.createElement('div')
   container.id = 'previewer'
@@ -60,17 +71,13 @@ afterEach(() => {
 })
 
 test('loading indicator', () => {
-  fetch.get.mockResolvedValue({
-    data: { items: [], category: 'skin', total_pages: 1 },
-  })
+  fetch.get.mockResolvedValue(createPaginator([]))
   const { queryByTitle } = render(<Closet />)
   expect(queryByTitle('Loading...')).toBeInTheDocument()
 })
 
 test('empty closet', async () => {
-  fetch.get.mockResolvedValue({
-    data: { items: [], category: 'skin', total_pages: 0 },
-  })
+  fetch.get.mockResolvedValue(createPaginator([]))
 
   const { queryByText } = render(<Closet />)
   await wait()
@@ -79,15 +86,9 @@ test('empty closet', async () => {
 
 test('categories', async () => {
   fetch.get
-    .mockResolvedValueOnce({
-      data: { items: [fixtureSkin], category: 'skin', total_pages: 1 },
-    })
-    .mockResolvedValueOnce({
-      data: { items: [fixtureCape], category: 'cape', total_pages: 1 },
-    })
-    .mockResolvedValueOnce({
-      data: { items: [fixtureSkin], category: 'skin', total_pages: 1 },
-    })
+    .mockResolvedValueOnce(createPaginator([fixtureSkin]))
+    .mockResolvedValueOnce(createPaginator([fixtureCape]))
+    .mockResolvedValueOnce(createPaginator([fixtureSkin]))
 
   const { getByText, queryByText } = render(<Closet />)
   await wait()
@@ -107,12 +108,8 @@ test('categories', async () => {
 
 test('search textures', async () => {
   fetch.get
-    .mockResolvedValueOnce({
-      data: { items: [fixtureSkin], category: 'skin', total_pages: 1 },
-    })
-    .mockResolvedValueOnce({
-      data: { items: [], category: 'skin', total_pages: 0 },
-    })
+    .mockResolvedValueOnce(createPaginator([fixtureSkin]))
+    .mockResolvedValueOnce(createPaginator([]))
 
   const { getByPlaceholderText, queryByText } = render(<Closet />)
   await wait()
@@ -127,12 +124,8 @@ test('search textures', async () => {
 
 test('switch page', async () => {
   fetch.get
-    .mockResolvedValueOnce({
-      data: { items: [], category: 'skin', total_pages: 2 },
-    })
-    .mockResolvedValueOnce({
-      data: { items: [fixtureSkin], category: 'skin', total_pages: 2 },
-    })
+    .mockResolvedValueOnce({ ...createPaginator([]), last_page: 2 })
+    .mockResolvedValueOnce({ ...createPaginator([fixtureSkin]), last_page: 2 })
 
   const { getByText, queryByText } = render(<Closet />)
   await wait()
@@ -144,9 +137,7 @@ test('switch page', async () => {
 
 describe('rename item', () => {
   beforeEach(() => {
-    fetch.get.mockResolvedValue({
-      data: { items: [fixtureSkin], category: 'skin', total_pages: 1 },
-    })
+    fetch.get.mockResolvedValue(createPaginator([fixtureSkin]))
   })
 
   it('succeeded', async () => {
@@ -234,9 +225,7 @@ describe('rename item', () => {
 
 describe('remove item', () => {
   beforeEach(() => {
-    fetch.get.mockResolvedValue({
-      data: { items: [fixtureSkin], category: 'skin', total_pages: 1 },
-    })
+    fetch.get.mockResolvedValue(createPaginator([fixtureSkin]))
   })
 
   it('succeeded', async () => {
@@ -287,12 +276,8 @@ describe('remove item', () => {
 describe('select textures', () => {
   beforeEach(() => {
     fetch.get
-      .mockResolvedValueOnce({
-        data: { items: [fixtureSkin], category: 'skin', total_pages: 1 },
-      })
-      .mockResolvedValueOnce({
-        data: { items: [fixtureCape], category: 'cape', total_pages: 1 },
-      })
+      .mockResolvedValueOnce(createPaginator([fixtureSkin]))
+      .mockResolvedValueOnce(createPaginator([fixtureCape]))
   })
 
   it('select skin', async () => {
@@ -336,9 +321,7 @@ describe('select textures', () => {
 
 describe('set avatar', () => {
   beforeEach(() => {
-    fetch.get.mockResolvedValue({
-      data: { items: [fixtureSkin], category: 'skin', total_pages: 1 },
-    })
+    fetch.get.mockResolvedValue(createPaginator([fixtureSkin]))
 
     const img = document.createElement('img')
     img.alt = 'User Image'
@@ -398,9 +381,7 @@ describe('set avatar', () => {
 
 describe('apply textures to player', () => {
   it('selected nothing', async () => {
-    fetch.get.mockResolvedValue({
-      data: { items: [], category: 'skin', total_pages: 1 },
-    })
+    fetch.get.mockResolvedValue(createPaginator([]))
 
     const { getByText, getByRole, queryByText } = render(<Closet />)
     await wait()
@@ -413,9 +394,7 @@ describe('apply textures to player', () => {
 
   it('search players', async () => {
     fetch.get
-      .mockResolvedValueOnce({
-        data: { items: [fixtureSkin], category: 'skin', total_pages: 1 },
-      })
+      .mockResolvedValueOnce(createPaginator([fixtureSkin]))
       .mockResolvedValueOnce({ data: [fixturePlayer] })
 
     const {
@@ -440,9 +419,7 @@ describe('apply textures to player', () => {
 
   it('succeeded', async () => {
     fetch.get
-      .mockResolvedValueOnce({
-        data: { items: [fixtureSkin], category: 'skin', total_pages: 1 },
-      })
+      .mockResolvedValueOnce(createPaginator([fixtureSkin]))
       .mockResolvedValueOnce({ data: [fixturePlayer] })
     fetch.post.mockResolvedValue({ code: 0, message: 'success' })
 
@@ -470,9 +447,7 @@ describe('apply textures to player', () => {
 
   it('failed', async () => {
     fetch.get
-      .mockResolvedValueOnce({
-        data: { items: [fixtureSkin], category: 'skin', total_pages: 1 },
-      })
+      .mockResolvedValueOnce(createPaginator([fixtureSkin]))
       .mockResolvedValueOnce({ data: [fixturePlayer] })
     fetch.post.mockResolvedValue({ code: 1, message: 'failed' })
 
@@ -500,9 +475,7 @@ describe('apply textures to player', () => {
 
   it('close dialog', async () => {
     fetch.get
-      .mockResolvedValueOnce({
-        data: { items: [fixtureSkin], category: 'skin', total_pages: 1 },
-      })
+      .mockResolvedValueOnce(createPaginator([fixtureSkin]))
       .mockResolvedValueOnce({ data: [fixturePlayer] })
 
     const { getByText, getByAltText } = render(<Closet />)

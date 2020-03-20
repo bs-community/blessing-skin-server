@@ -43,42 +43,23 @@ class ClosetController extends Controller
     public function getClosetData(Request $request)
     {
         $category = $request->input('category', 'skin');
-        $page = abs($request->input('page', 1));
-        $perPage = (int) $request->input('perPage', 6);
-        $q = $request->input('q', null);
+        $search = $request->input('q');
 
-        $perPage = $perPage > 0 ? $perPage : 6;
-
-        $user = auth()->user();
-        $closet = $user->closet();
+        $query = auth()->user()->closet();
 
         if ($category == 'cape') {
-            $closet = $closet->where('type', 'cape');
+            $query = $query->where('type', 'cape');
         } else {
-            $closet = $closet->where(function ($query) {
+            $query = $query->where(function ($query) {
                 return $query->where('type', 'steve')->orWhere('type', 'alex');
             });
         }
 
-        if ($q) {
-            $closet = $closet->where('item_name', 'like', "%$q%");
+        if ($search) {
+            $query = $query->where('item_name', 'like', "%$search%");
         }
 
-        $total = $closet->count();
-        $closet->offset(($page - 1) * $perPage)->limit($perPage);
-
-        $totalPages = ceil($total / $perPage);
-        $items = $closet->get()->map(function ($t) {
-            $t->name = $t->pivot->item_name;
-
-            return $t;
-        });
-
-        return json('', 0, [
-            'category' => $category,
-            'items' => $items,
-            'total_pages' => $totalPages,
-        ]);
+        return $query->paginate(6);
     }
 
     public function add(Request $request)
