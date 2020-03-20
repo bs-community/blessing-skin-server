@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 import { hot } from 'react-hot-loader/root'
 import { t } from '@/scripts/i18n'
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra'
+import useMount from '@/scripts/hooks/useMount'
 import * as fetch from '@/scripts/net'
 import { showModal, toast } from '@/scripts/notify'
 import { isAlex } from '@/scripts/textureUtils'
@@ -11,8 +12,6 @@ import FileInput from '@/components/FileInput'
 import ViewerSkeleton from '@/components/ViewerSkeleton'
 
 const Previewer = React.lazy(() => import('@/components/Viewer'))
-
-const container = document.createElement('div')
 
 const Upload: React.FC = () => {
   const [name, setName] = useState('')
@@ -29,14 +28,7 @@ const Upload: React.FC = () => {
   const scorePrivate = useBlessingExtra<number>('scorePrivate')
   const closetItemCost = useBlessingExtra<number>('closetItemCost')
 
-  useEffect(() => {
-    const mount = document.querySelector('#previewer')!
-    mount.appendChild(container)
-
-    return () => {
-      mount.removeChild(container)
-    }
-  }, [])
+  const container = useMount('#previewer')
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value)

@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
+import useMount from '@/scripts/hooks/useMount'
 import { t } from '@/scripts/i18n'
 import ViewerSkeleton from '@/components/ViewerSkeleton'
 import Viewer2d from './Viewer2d'
@@ -12,19 +13,10 @@ interface Props {
   isAlex: boolean
 }
 
-const container = document.createElement('div')
-
 const Previewer: React.FC<Props> = props => {
   const [is3d, setIs3d] = useState(true)
 
-  useEffect(() => {
-    const mount = document.querySelector('#previewer')!
-    mount.appendChild(container)
-
-    return () => {
-      mount.removeChild(container)
-    }
-  }, [])
+  const container = useMount('#previewer')
 
   const switchMode = () => setIs3d(is => !is)
 

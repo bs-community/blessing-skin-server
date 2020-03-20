@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
+import useMount from '@/scripts/hooks/useMount'
 import ViewerSkeleton from '@/components/ViewerSkeleton'
 
 const Viewer = React.lazy(() => import('@/components/Viewer'))
@@ -10,17 +11,8 @@ interface Props {
   isAlex: boolean
 }
 
-const container = document.createElement('div')
-
 const Previewer: React.FC<Props> = props => {
-  useEffect(() => {
-    const mount = document.querySelector('#previewer')!
-    mount.appendChild(container)
-
-    return () => {
-      mount.removeChild(container)
-    }
-  }, [])
+  const container = useMount('#previewer')
 
   const skin = props.skin ? `${blessing.base_url}/textures/${props.skin}` : ''
   const cape = props.cape ? `${blessing.base_url}/textures/${props.cape}` : ''
