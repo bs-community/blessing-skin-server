@@ -2,7 +2,7 @@ import type { Stdio } from 'blessing-skin-shell'
 import * as fetch from '../net'
 import { User, Texture } from '../types'
 
-type Subcommand = 'add' | 'remove'
+type SubCommand = 'add' | 'remove'
 
 type Response = fetch.ResponseBody<{ user: User; texture: Texture }>
 
@@ -12,7 +12,7 @@ export default async function closet(stdio: Stdio, args: string[]) {
     return
   }
 
-  const command = args[0] as Subcommand
+  const command = args[0] as SubCommand | undefined
   const uid = args[1]
   const tid = args[2]
 
