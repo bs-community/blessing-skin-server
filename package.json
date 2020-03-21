@@ -21,7 +21,7 @@
     "@hot-loader/react-dom": "^16.11.0",
     "@tweenjs/tween.js": "^18.4.2",
     "admin-lte": "^3.0.1",
-    "blessing-skin-shell": "^0.1.0",
+    "blessing-skin-shell": "^0.2.0",
     "echarts": "^4.6.0",
     "jquery": "^3.4.1",
     "lodash.debounce": "^4.0.8",
@@ -224,7 +224,8 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "<rootDir>/resources/assets/tests/setup",
-      "<rootDir>/resources/assets/tests/utils"
+      "<rootDir>/resources/assets/tests/utils",
+      "<rootDir>/resources/assets/tests/scripts/cli/stdio"
     ],
     "testMatch": [
       "<rootDir>/resources/assets/tests/**/*.test.ts",

@@ -1,3 +1,16 @@
+export type User = {
+  uid: number
+  email: string
+  nickname: string
+  score: number
+  avatar: number
+  permission: number
+  ip: string
+  last_sign_at: string
+  register_at: string
+  verified: boolean
+}
+
 export type Player = {
   pid: number
   name: string

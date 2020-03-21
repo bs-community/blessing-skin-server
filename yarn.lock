@@ -2267,10 +2267,10 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.0.0.tgz#23c0df14f6a88077f5f986c0d167ec03c3d5537c"
   integrity sha512-Phlt0plgpIIBOGTT/ehfFnbNlfsDEiqmzE2KRXoX1bLIlir4X/MR+zSyBEkL05ffWgnRSf/DXv+WrUAVr93/ow==
 
-blessing-skin-shell@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/blessing-skin-shell/-/blessing-skin-shell-0.1.0.tgz#6251b154d2e5b225d65f1b6e8c7489bb2eb67303"
-  integrity sha512-6c7RwPqLS1mXsrLd6QU7xUjr/gfmDgAY5L+CqOMWwwjLfjuohw6SK6cnGyfWxeK8KoDj5zX3QyoYuCKapXlkUg==
+blessing-skin-shell@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/blessing-skin-shell/-/blessing-skin-shell-0.2.0.tgz#2454e305c69de134164491d2715a34d599c0d8a1"
+  integrity sha512-bwVHWep3jlPwgY7rAmr+KZJr1RdfVS9OTQB25avRW4EzONflQRiRgU76T8X/DeWa3PItEEGf3qNUJJuRhN5orw==
 
 bluebird@^3.1.1, bluebird@^3.5.5:
   version "3.5.5"

@@ -5,6 +5,7 @@ import { FitAddon } from 'xterm-addon-fit'
 import { Shell } from 'blessing-skin-shell'
 import 'xterm/css/xterm.css'
 import Draggable from 'react-draggable'
+import ClosetCommand from './cli/ClosetCommand'
 import styles from '@/styles/terminal.module.scss'
 
 let launched = false
@@ -29,6 +30,8 @@ const TerminalWindow: React.FC<{ onClose(): void }> = props => {
     fitAddon.fit()
 
     const shell = new Shell(terminal)
+    shell.addExternal('closet', ClosetCommand)
+
     const unbind = terminal.onData(e => shell.input(e))
     launched = true
 

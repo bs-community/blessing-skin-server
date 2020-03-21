@@ -140,6 +140,11 @@ Route::prefix('admin')
             Route::get('list', 'AdminController@getPlayerData');
         });
 
+        Route::prefix('closet')->group(function () {
+            Route::post('{uid}', 'ClosetManagementController@add');
+            Route::delete('{uid}', 'ClosetManagementController@remove');
+        });
+
         Route::prefix('reports')->group(function () {
             Route::view('', 'admin.reports');
             Route::post('', 'ReportController@review');
