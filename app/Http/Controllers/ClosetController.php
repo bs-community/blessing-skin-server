@@ -6,6 +6,7 @@ use App\Models\Texture;
 use App\Models\User;
 use Auth;
 use Blessing\Filter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
 class ClosetController extends Controller
@@ -43,23 +44,19 @@ class ClosetController extends Controller
     public function getClosetData(Request $request)
     {
         $category = $request->input('category', 'skin');
-        $search = $request->input('q');
 
-        $query = auth()->user()->closet();
-
-        if ($category == 'cape') {
-            $query = $query->where('type', 'cape');
-        } else {
-            $query = $query->where(function ($query) {
-                return $query->where('type', 'steve')->orWhere('type', 'alex');
-            });
-        }
-
-        if ($search) {
-            $query = $query->like('item_name', $search);
-        }
-
-        return $query->paginate(6);
+        return auth()
+            ->user()
+            ->closet()
+            ->when($category === 'cape', function (Builder $query) {
+                return $query->where('type', 'cape');
+            }, function (Builder $query) {
+                return $query->whereIn('type', ['steve', 'alex']);
+            })
+            ->when($request->input('q'), function (Builder $query, $search) {
+                return $query->where('item_name', $search);
+            })
+            ->paginate(6);
     }
 
     public function add(Request $request)
