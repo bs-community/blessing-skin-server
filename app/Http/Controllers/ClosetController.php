@@ -54,7 +54,7 @@ class ClosetController extends Controller
                 return $query->whereIn('type', ['steve', 'alex']);
             })
             ->when($request->input('q'), function (Builder $query, $search) {
-                return $query->where('item_name', $search);
+                return $query->like('item_name', $search);
             })
             ->paginate(6);
     }
