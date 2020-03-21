@@ -56,7 +56,7 @@ class ClosetController extends Controller
         }
 
         if ($search) {
-            $query = $query->where('item_name', 'like', "%$search%");
+            $query = $query->like('item_name', $search);
         }
 
         return $query->paginate(6);
