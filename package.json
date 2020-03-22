@@ -22,6 +22,7 @@
     "@tweenjs/tween.js": "^18.4.2",
     "admin-lte": "^3.0.1",
     "blessing-skin-shell": "^0.2.0",
+    "commander": "^5.0.0",
     "echarts": "^4.6.0",
     "jquery": "^3.4.1",
     "lodash.debounce": "^4.0.8",

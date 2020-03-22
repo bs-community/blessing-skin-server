@@ -150,7 +150,10 @@ const config = {
     hotOnly: true,
     stats: 'errors-only',
   },
-  stats: 'errors-only',
+  node: {
+    child_process: 'empty',
+    fs: 'empty',
+  },
 }
 
 if (devMode) {

@@ -1,36 +1,25 @@
 import type { Stdio } from 'blessing-skin-shell'
+import { Command } from 'commander'
 import * as fetch from '../net'
 import { User, Texture } from '../types'
-
-type SubCommand = 'add' | 'remove'
+import { hackStdout, overrideExit } from './configureStdio'
 
 type Response = fetch.ResponseBody<{ user: User; texture: Texture }>
 
 export default async function closet(stdio: Stdio, args: string[]) {
-  if (args.includes('-h') || args.includes('--help')) {
-    stdio.println('Usage: closet <add|remove> <uid> <tid>')
-    return
+  const program = new Command()
+
+  /* istanbul ignore next */
+  if (process.env.NODE_ENV !== 'test') {
+    process.stdout = hackStdout(stdio)
+    overrideExit(program, stdio)
   }
 
-  const command = args[0] as SubCommand | undefined
-  const uid = args[1]
-  const tid = args[2]
-
-  if (!command) {
-    stdio.println('Supported subcommand: add, remove.')
-    return
-  }
-  if (!uid) {
-    stdio.println('User ID must be provided.')
-    return
-  }
-  if (!tid) {
-    stdio.println('Texture ID must be provided.')
-    return
-  }
-
-  switch (command) {
-    case 'add': {
+  program.name('closet').version('0.1.0')
+  program
+    .command('add <uid> <tid>')
+    .description("add texture to someone's closet")
+    .action(async (uid: string, tid: string) => {
       const { code, data } = await fetch.post<Response>(
         `/admin/closet/${uid}`,
         { tid },
@@ -43,9 +32,11 @@ export default async function closet(stdio: Stdio, args: string[]) {
       } else {
         stdio.println('Error occurred.')
       }
-      break
-    }
-    case 'remove': {
+    })
+  program
+    .command('remove <uid> <tid>')
+    .description("remove texture from someone's closet")
+    .action(async (uid: string, tid: string) => {
       const { code, data } = await fetch.del<Response>(`/admin/closet/${uid}`, {
         tid,
       })
@@ -57,7 +48,7 @@ export default async function closet(stdio: Stdio, args: string[]) {
       } else {
         stdio.println('Error occurred.')
       }
-      break
-    }
-  }
+    })
+
+  await program.parseAsync(args, { from: 'user' })
 }
