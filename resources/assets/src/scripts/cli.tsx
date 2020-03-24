@@ -6,11 +6,12 @@ import { Shell } from 'blessing-skin-shell'
 import 'xterm/css/xterm.css'
 import Draggable from 'react-draggable'
 import ClosetCommand from './cli/ClosetCommand'
+import RmCommand from './cli/RmCommand'
 import styles from '@/styles/terminal.module.scss'
 
 let launched = false
 
-const TerminalWindow: React.FC<{ onClose(): void }> = props => {
+const TerminalWindow: React.FC<{ onClose(): void }> = (props) => {
   const mount = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -31,8 +32,9 @@ const TerminalWindow: React.FC<{ onClose(): void }> = props => {
 
     const shell = new Shell(terminal)
     shell.addExternal('closet', ClosetCommand)
+    shell.addExternal('rm', RmCommand)
 
-    const unbind = terminal.onData(e => shell.input(e))
+    const unbind = terminal.onData((e) => shell.input(e))
     launched = true
 
     return () => {
