@@ -14,22 +14,24 @@
             <div class="callout callout-info">
               {{ trans('admin.update.info.available') }}
             </div>
-            <table class="table">
-              <tbody>
-                <tr>
-                  <td class="key">{{ trans('admin.update.info.versions.latest') }}</td>
-                  <td class="value">
-                    v{{ info.latest }}
-                  </td>
-                </tr>
-                <tr>
-                  <td class="key">{{ trans('admin.update.info.versions.current') }}</td>
-                  <td class="value">
-                    v{{ info.current }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="container-fluid">
+              <div class="row mb-3">
+                <div class="col-sm-4">
+                  {{ trans('admin.update.info.versions.latest') }}
+                </div>
+                <div class="col-sm-8">
+                  v{{ info.latest }}
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-sm-4">
+                  {{ trans('admin.update.info.versions.current') }}
+                </div>
+                <div class="col-sm-8">
+                  v{{ info.current }}
+                </div>
+              </div>
+            </div>
           {% else %}
             {% if error %}
               <div class="callout callout-danger">
@@ -40,17 +42,16 @@
                 {{ trans('admin.update.info.up-to-date') }}
               </div>
             {% endif %}
-            <table class="table">
-              <tbody>
-                <tr>
-                  <td class="key">
-                    {{ trans('admin.update.info.versions.current') }}</td>
-                  <td class="value">
-                    v{{ info.current }}
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-sm-4">
+                  {{ trans('admin.update.info.versions.current') }}
+                </div>
+                <div class="col-sm-8">
+                  v{{ info.current }}
+                </div>
+              </div>
+            </div>
           {% endif %}
         </div>
         <div class="card-footer">

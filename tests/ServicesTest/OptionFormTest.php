@@ -214,8 +214,7 @@ class OptionFormTest extends TestCase
         $returned = $form->renderInputTagsOnly();
         $this->assertSame($form, $returned);
         $crawler = new Crawler($form->render());
-        $this->assertCount(0, $crawler->filter('td.key'));
-        $this->assertCount(1, $crawler->filter('td.value'));
+        $this->assertCount(1, $crawler->filter('.col-sm-12'));
     }
 
     public function testRenderWithoutSubmitButton()

@@ -35,25 +35,23 @@
           {% endif %}
         {% endfor %}
       {% else %}
-        <table class="table">
-          <tbody>
-            {% for item in items %}
-              <tr>
-                {% if not renderInputTagsOnly %}
-                  <td class="key">
-                    {{ item.name }} {{ item.hint|raw }}
-                  </td>
+        <div class="container-fluid">
+          {% for item in items %}
+            <div class="row {{ loop.index == 1 ? 'mb-3' : (loop.index == loop.length ? 'mt-3' : 'my-3') }}">
+              {% if not renderInputTagsOnly %}
+                <div class="col-sm-4">
+                  {{ item.name }} {{ item.hint|raw }}
+                </div>
+              {% endif %}
+              <div class="col-sm-{{ renderInputTagsOnly ? '12' : '8' }}">
+                {{ item.render()|raw }}
+                {% if item.description %}
+                  <p class="description">{{ item.description|raw }}</p>
                 {% endif %}
-                <td class="value">
-                  {{ item.render()|raw }}
-                  {% if item.description %}
-                    <p class="description">{{ item.description|raw }}</p>
-                  {% endif %}
-                </td>
-              </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
       {% endif %}
     </div>
     <div class="card-footer">
