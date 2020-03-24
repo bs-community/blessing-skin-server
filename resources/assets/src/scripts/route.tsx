@@ -111,7 +111,7 @@ export default [
   },
   {
     path: 'skinlib',
-    component: () => import('../views/skinlib/List.vue'),
+    react: () => import('../views/skinlib/SkinLibrary'),
     el: '.content-wrapper',
   },
   {

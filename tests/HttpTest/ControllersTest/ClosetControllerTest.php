@@ -65,6 +65,17 @@ class ClosetControllerTest extends TestCase
             ]]);
     }
 
+    public function testAllIds()
+    {
+        $texture = factory(Texture::class)->create();
+        $user = factory(User::class)->create();
+        $user->closet()->attach($texture->tid, ['item_name' => '']);
+
+        $this->actingAs($user)
+            ->getJson(route('user.closet.ids'))
+            ->assertJson([$texture->tid]);
+    }
+
     public function testAdd()
     {
         $uploader = factory(User::class)->create(['score' => 0]);

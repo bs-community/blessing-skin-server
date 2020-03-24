@@ -1,0 +1,21 @@
+@use '../../../styles/utils';
+
+.card {
+  width: 245px;
+  transition-property: box-shadow;
+  transition-duration: 0.3s;
+  &:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  }
+}
+
+.image {
+  background-color: #eff1f0;
+  img {
+    height: 210px;
+  }
+}
+
+.truncate {
+  @include utils.truncate-text;
+}

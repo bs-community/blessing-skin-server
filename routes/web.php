@@ -85,6 +85,7 @@ Route::prefix('user')
         Route::prefix('closet')->name('closet.')->group(function () {
             Route::get('', 'ClosetController@index')->name('page');
             Route::get('list', 'ClosetController@getClosetData')->name('list');
+            Route::get('ids', 'ClosetController@allIds')->name('ids');
             Route::post('add', 'ClosetController@add')->name('add');
             Route::post('remove/{tid}', 'ClosetController@remove')->name('remove');
             Route::post('rename/{tid}', 'ClosetController@rename')->name('rename');
@@ -96,9 +97,9 @@ Route::prefix('user')
 
 Route::prefix('skinlib')->name('skinlib.')->group(function () {
     Route::view('', 'skinlib.index')->name('home');
-    Route::any('info/{tid}', 'SkinlibController@info')->name('info');
-    Route::any('show/{tid}', 'SkinlibController@show')->name('show');
-    Route::any('data', 'SkinlibController@getSkinlibFiltered')->name('list');
+    Route::get('info/{tid}', 'SkinlibController@info')->name('info');
+    Route::get('show/{tid}', 'SkinlibController@show')->name('show');
+    Route::get('list', 'SkinlibController@library')->name('list');
 
     Route::middleware(['authorize', 'verified'])->group(function () {
         Route::prefix('upload')->name('upload')->group(function () {

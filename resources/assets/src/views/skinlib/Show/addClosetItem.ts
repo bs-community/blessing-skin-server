@@ -4,7 +4,7 @@ import { showModal, toast } from '@/scripts/notify'
 import { Texture } from '@/scripts/types'
 
 export default async function addClosetItem(
-  texture: Texture,
+  texture: Pick<Texture, 'tid' | 'name'>,
 ): Promise<boolean> {
   let name: string
   try {

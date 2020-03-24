@@ -38,7 +38,6 @@
     "vue": "^2.6.11",
     "vue-good-table": "^2.18.1",
     "vue-recaptcha": "^1.2.0",
-    "vuejs-paginate": "^2.1.0",
     "xterm": "^4.4.0",
     "xterm-addon-fit": "^0.3.0"
   },

@@ -59,6 +59,11 @@ class ClosetController extends Controller
             ->paginate(6);
     }
 
+    public function allIds()
+    {
+        return auth()->user()->closet()->pluck('texture_tid');
+    }
+
     public function add(Request $request)
     {
         $this->validate($request, [

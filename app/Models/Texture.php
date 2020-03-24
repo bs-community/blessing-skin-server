@@ -34,6 +34,11 @@ class Texture extends Model
         return $query->where($field, 'LIKE', "%$value%");
     }
 
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'uploader');
+    }
+
     public function likers()
     {
         return $this->belongsToMany(User::class, 'user_closet')->withPivot('item_name');

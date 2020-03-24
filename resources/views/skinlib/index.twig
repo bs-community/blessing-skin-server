@@ -5,3 +5,9 @@
 {% block content %}
   <div class="content-wrapper"></div>
 {% endblock %}
+
+{% block before_foot %}
+  <script>
+    blessing.extra = {{ {currentUid: auth_user().uid}|json_encode|raw }}
+  </script>
+{% endblock %}

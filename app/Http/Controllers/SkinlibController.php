@@ -7,13 +7,12 @@ use App\Models\Texture;
 use App\Models\User;
 use Auth;
 use Blessing\Filter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Option;
 use Parsedown;
-use Session;
 use Storage;
-use View;
 
 class SkinlibController extends Controller
 {
@@ -35,80 +34,42 @@ class SkinlibController extends Controller
         8 => 'A PHP extension stopped the file upload.',
     ];
 
-    /**
-     * Get skin library data filtered.
-     * Available Query String: filter, uploader, page, sort, keyword, items_per_page.
-     */
-    public function getSkinlibFiltered(Request $request)
+    public function library(Request $request)
     {
         $user = Auth::user();
 
         // Available filters: skin, steve, alex, cape
-        $filter = $request->input('filter', 'skin');
-
-        // Filter result by uploader's uid
-        $uploader = intval($request->input('uploader', 0));
-
-        // Current page
-        $page = $request->input('page', 1);
-        $currentPage = ($page <= 0) ? 1 : $page;
-
-        // How many items to show in one page
-        $itemsPerPage = $request->input('items_per_page', 20);
-        $itemsPerPage = $itemsPerPage <= 0 ? 20 : $itemsPerPage;
-
-        // Keyword to search
-        $keyword = $request->input('keyword', '');
-
-        if ($filter == 'skin') {
-            $query = Texture::where(function ($innerQuery) {
-                // Nested condition, DO NOT MODIFY
-                $innerQuery->where('type', 'steve')->orWhere('type', 'alex');
-            });
-        } else {
-            $query = Texture::where('type', $filter);
-        }
-
-        if ($keyword !== '') {
-            $query = $query->like('name', $keyword);
-        }
-
-        if ($uploader !== 0) {
-            $query = $query->where('uploader', $uploader);
-        }
-
-        if (!$user) {
-            // Show public textures only to anonymous visitors
-            $query = $query->where('public', true);
-        } else {
-            // Show private textures when show uploaded textures of current user
-            if ($uploader != $user->uid && !$user->isAdmin()) {
-                $query = $query->where(function ($innerQuery) use ($user) {
-                    $innerQuery->where('public', true)->orWhere('uploader', '=', $user->uid);
-                });
-            }
-        }
-
-        $totalPages = ceil($query->count() / $itemsPerPage);
-
+        $type = $request->input('filter', 'skin');
+        $uploader = $request->input('uploader');
+        $keyword = $request->input('keyword');
         $sort = $request->input('sort', 'time');
         $sortBy = $sort == 'time' ? 'upload_at' : $sort;
-        $query = $query->orderBy($sortBy, 'desc');
 
-        $textures = $query->skip(($currentPage - 1) * $itemsPerPage)->take($itemsPerPage)->get();
-
-        if ($user) {
-            $closet = $user->closet()->get();
-            foreach ($textures as $item) {
-                $item->liked = $closet->contains('tid', $item->tid);
-            }
-        }
-
-        return json('', 0, [
-            'items' => $textures,
-            'current_uid' => $user ? $user->uid : 0,
-            'total_pages' => $totalPages,
-        ]);
+        return Texture::orderBy($sortBy, 'desc')
+            ->when($type === 'skin', function (Builder $query) {
+                return $query->whereIn('type', ['steve', 'alex']);
+            }, function (Builder $query) use ($type) {
+                return $query->where('type', $type);
+            })
+            ->when($keyword, function (Builder $query, $keyword) {
+                return $query->like('name', $keyword);
+            })
+            ->when($uploader, function (Builder $query, $uploader) {
+                return $query->where('uploader', $uploader);
+            })
+            ->when($user, function (Builder $query, User $user) {
+                if (!$user->isAdmin()) {
+                    return $query
+                        ->where('public', true)
+                        ->orWhere('uploader', $user->uid);
+                }
+            }, function (Builder $query) {
+                // show public textures only to anonymous visitors
+                return $query->where('public', true);
+            })
+            ->join('users', 'uid', 'uploader')
+            ->select(['tid', 'name', 'type', 'uploader', 'public', 'likes', 'nickname'])
+            ->paginate(20);
     }
 
     public function show(Filter $filter, $tid)
