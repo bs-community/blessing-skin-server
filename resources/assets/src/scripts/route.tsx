@@ -101,8 +101,8 @@ export default [
   },
   {
     path: 'auth/forgot',
-    component: () => import('../views/auth/Forgot.vue'),
-    el: 'form',
+    react: () => import('../views/auth/Forgot'),
+    el: 'main',
   },
   {
     path: 'auth/reset/(\\d+)',
