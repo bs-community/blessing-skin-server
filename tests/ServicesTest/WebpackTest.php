@@ -43,7 +43,7 @@ class WebpackTest extends TestCase
 
         $this->app->forgetInstance(Webpack::class);
         $webpack = $this->app->make(Webpack::class);
-        $this->assertEquals('http://localhost/app/b', $webpack->url('a'));
+        $this->assertEquals('/app/b', $webpack->url('a'));
 
         $this->mock(\App\Services\Option::class, function ($mock) {
             $mock->shouldReceive('get')
