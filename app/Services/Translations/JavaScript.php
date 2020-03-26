@@ -33,10 +33,10 @@ class JavaScript
             $this->filesystem->put($compiled, $content);
             $this->cache->put($this->prefix.$locale, $sourceModified);
 
-            return url("lang/$locale.js?t=$sourceModified");
+            return url()->asset("lang/$locale.js?t=$sourceModified");
         }
 
-        return url("lang/$locale.js?t=$compiledModified");
+        return url()->asset("lang/$locale.js?t=$compiledModified");
     }
 
     public function resetTime(string $locale): void
@@ -48,7 +48,9 @@ class JavaScript
     {
         $path = public_path("lang/${locale}_plugin.js");
         if ($this->filesystem->exists($path)) {
-            return url("lang/${locale}_plugin.js?t=".$this->filesystem->lastModified($path));
+            $lastModified = $this->filesystem->lastModified($path);
+
+            return url()->asset("lang/${locale}_plugin.js?t=$lastModified");
         }
 
         return '';
