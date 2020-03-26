@@ -27,7 +27,7 @@ const Show: React.FC = () => {
   const [showModalApply, setShowModalApply] = useState(false)
   const [liked, setLiked] = useState(false)
   const nickname = useBlessingExtra<string | null>('nickname')
-  const currentUid = useBlessingExtra<number>('currentUid')
+  const currentUid = useBlessingExtra<number>('currentUid', 0)
   const isAdmin = useBlessingExtra<boolean>('admin')
   const badges = useBlessingExtra<Badge[]>('badges', [])
   const canBeDownloaded = useBlessingExtra<boolean>('download')
