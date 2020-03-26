@@ -63,7 +63,7 @@ class Hook
         });
     }
 
-    public static function registerPluginTransScripts(string $name, $pages = ['*'], $priority = 999): void
+    public static function registerPluginTransScripts(string $name, $pages = ['*']): void
     {
         Event::listen(Events\RenderingFooter::class, function ($event) use ($name, $pages) {
             foreach ($pages as $pattern) {
@@ -82,7 +82,7 @@ class Hook
 
                 return;
             }
-        }, $priority);
+        });
     }
 
     public static function addStyleFileToPage($urls, $pages = ['*']): void
