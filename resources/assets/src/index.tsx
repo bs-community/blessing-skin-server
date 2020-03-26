@@ -40,7 +40,7 @@ function loadModules() {
           ? document.querySelector(route.el)
           : route.el
       ReactDOM.render(<Root />, c, () => {
-        emitter.emit('mounted', { el: route.el })
+        setTimeout(() => emitter.emit('mounted', { el: route.el }), 0)
       })
     }
     if (route.component) {
