@@ -3,8 +3,16 @@ import * as skinview3d from 'skinview3d'
 import { t } from '@/scripts/i18n'
 import styles from './Viewer.module.scss'
 import SkinSteve from '../../../misc/textures/steve.png'
+import bg1 from '../../../misc/backgrounds/1.png'
+import bg2 from '../../../misc/backgrounds/2.png'
+import bg3 from '../../../misc/backgrounds/3.png'
+import bg4 from '../../../misc/backgrounds/4.png'
+import bg5 from '../../../misc/backgrounds/5.png'
+import bg6 from '../../../misc/backgrounds/6.png'
+import bg7 from '../../../misc/backgrounds/7.png'
 
-export const PICTURES_COUNT = 7
+const backgrounds = [bg1, bg2, bg3, bg4, bg5, bg6, bg7]
+export const PICTURES_COUNT = backgrounds.length
 
 interface Props {
   skin?: string
@@ -34,7 +42,7 @@ const emptyStuff: ViewerStuff = {
   firstRun: true,
 }
 
-const Viewer: React.FC<Props> = props => {
+const Viewer: React.FC<Props> = (props) => {
   const { initPositionZ = 70 } = props
 
   const viewRef: React.MutableRefObject<skinview3d.SkinViewer> = useRef(null!)
@@ -123,19 +131,13 @@ const Viewer: React.FC<Props> = props => {
     viewer.playerObject.skin.slim = props.isAlex
   }, [props.isAlex])
 
-  useEffect(() => {
-    if (bgPicture !== 0) {
-      setBackground(`url("${blessing.base_url}/bg/${bgPicture}.png")`)
-    }
-  }, [bgPicture])
-
   const togglePause = () => {
-    setPaused(paused => !paused)
+    setPaused((paused) => !paused)
     viewRef.current.animationPaused = !viewRef.current.animationPaused
   }
 
   const toggleRun = () => {
-    setRunning(running => !running)
+    setRunning((running) => !running)
     const { handles } = stuffRef.current
     handles.run.paused = !handles.run.paused
     handles.walk.paused = false
@@ -147,25 +149,31 @@ const Viewer: React.FC<Props> = props => {
   }
 
   const handleReset = () => {
-    setReset(c => c + 1)
+    setReset((c) => c + 1)
   }
 
   const setWhite = () => setBackground('#fff')
   const setGray = () => setBackground('#6c757d')
   const setBlack = () => setBackground('#000')
   const setPrevPicture = () => {
-    if (bgPicture <= 1) {
-      setBgPicture(PICTURES_COUNT)
+    let index = bgPicture
+    if (bgPicture <= 0) {
+      index = PICTURES_COUNT - 1
     } else {
-      setBgPicture(bg => bg - 1)
+      index -= 1
     }
+    setBgPicture(index)
+    setBackground(`url('${backgrounds[index]}')`)
   }
   const setNextPicture = () => {
-    if (bgPicture >= PICTURES_COUNT) {
-      setBgPicture(1)
+    let index = bgPicture
+    if (bgPicture >= PICTURES_COUNT - 1) {
+      index = 1
     } else {
-      setBgPicture(bg => bg + 1)
+      index += 1
     }
+    setBgPicture(index)
+    setBackground(`url('${backgrounds[index]}')`)
   }
 
   return (
