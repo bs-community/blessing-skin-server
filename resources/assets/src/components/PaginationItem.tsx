@@ -6,7 +6,7 @@ interface Props {
   onClick?(): void
 }
 
-const PaginationItem: React.FC<Props> = props => {
+const PaginationItem: React.FC<Props> = (props) => {
   const classes = ['page-item']
   if (props.active) {
     classes.push('active')
@@ -15,7 +15,8 @@ const PaginationItem: React.FC<Props> = props => {
     classes.push('disabled')
   }
 
-  const handleClick = () => {
+  const handleClick = (event: React.MouseEvent) => {
+    event.preventDefault()
     if (!props.disabled && props.onClick) {
       props.onClick()
     }
