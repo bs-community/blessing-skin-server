@@ -139,9 +139,10 @@ test('browser goes back', async () => {
   fireEvent.click(getByText('Steve'))
   await wait()
 
-  const state: URLSearchParams = window.history.state
-  state.set('filter', 'skin')
-  const event = new PopStateEvent('popstate', { state })
+  const state: string = window.history.state
+  const event = new PopStateEvent('popstate', {
+    state: state.replace('steve', 'skin'),
+  })
   window.dispatchEvent(event)
   await wait()
 

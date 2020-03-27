@@ -28,9 +28,8 @@ const SkinLibrary: React.FC = () => {
   const currentUid = useBlessingExtra<number | null>('currentUid', null)
 
   useEffect(() => {
-    const parseSearch = (query: string | URLSearchParams) => {
-      const search =
-        typeof query === 'string' ? new URLSearchParams(query) : query
+    const parseSearch = (query: string) => {
+      const search = new URLSearchParams(query)
 
       const filter = search.get('filter') ?? ''
       setFilter(
@@ -51,9 +50,7 @@ const SkinLibrary: React.FC = () => {
 
     parseSearch(location.search)
 
-    const handler = (event: PopStateEvent) => {
-      parseSearch(event.state as URLSearchParams)
-    }
+    const handler = (event: PopStateEvent) => parseSearch(event.state)
     window.addEventListener('popstate', handler)
 
     return () => {
@@ -75,7 +72,7 @@ const SkinLibrary: React.FC = () => {
       }
       search.append('sort', sort)
       search.append('page', page.toString())
-      window.history.pushState(search, '', `?${search}`)
+      window.history.pushState(search.toString(), '', `?${search}`)
 
       const result = await fetch.get<Paginator<LibraryItem>>(
         '/skinlib/list',
