@@ -19,15 +19,15 @@ class LanguagesMenuComposer
     public function compose(View $view)
     {
         $query = $this->request->query();
-        $url = $this->request->url();
+        $path = $this->request->path();
 
         $langs = collect(config('locales'))
             ->reject(function ($locale) {
                 return Arr::has($locale, 'alias');
             })
-            ->map(function ($locale, $id) use ($query, $url) {
+            ->map(function ($locale, $id) use ($query, $path) {
                 $query = array_merge($query, ['lang' => $id]);
-                $locale['url'] = $url.'?'.http_build_query($query);
+                $locale['url'] = url($path.'?'.http_build_query($query));
 
                 return $locale;
             });
