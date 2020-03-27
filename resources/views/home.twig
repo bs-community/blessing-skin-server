@@ -99,7 +99,7 @@
                   <div class="col-lg">
                     <i class="fas {{ trans("index.features.#{item}.icon") }} mb-3" aria-hidden="true"></i>
                     <h3>{{ trans("index.features.#{item}.name") }}</h3>
-                    <p>{{ trans("index.features.#{item}.desc") }}</p>
+                    <p>{{ trans("index.features.#{item}.desc")|raw }}</p>
                   </div>
                 {% endfor %}
               </div>
