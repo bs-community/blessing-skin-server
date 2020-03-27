@@ -9,7 +9,7 @@
       {{ session_pull('msg') }}
     </div>
   {% endif %}
-  <form></form>
+  <main></main>
   <br>
   {{ include('auth.oauth') }}
   <div>
@@ -18,9 +18,6 @@
 {% endblock %}
 
 {% block before_foot %}
-  {% if enable_recaptcha %}
-    <script src="{{ recaptcha_url }}" async defer></script>
-  {% endif %}
   <script>
     Object.defineProperty(blessing, 'extra', {
       configurable: false,

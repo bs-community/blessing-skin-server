@@ -37,9 +37,6 @@ class AuthControllerTest extends TestCase
     public function testLogin()
     {
         $this->get('/auth/login')->assertSee('Log in');
-
-        option(['recaptcha_sitekey' => 'key']);
-        $this->get('/auth/login')->assertSee('recaptcha.net');
     }
 
     public function testHandleLogin()
