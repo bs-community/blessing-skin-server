@@ -1,12 +1,15 @@
 import React from 'react'
 
-interface Props {
-  show?: boolean
+export interface Props {
   title?: string
-  onDismiss?(): void
 }
 
-const ModalHeader: React.FC<Props> = props =>
+interface InternalProps {
+  onDismiss?(): void
+  show?: boolean
+}
+
+const ModalHeader: React.FC<Props & InternalProps> = (props) =>
   props.show ? (
     <div className="modal-header">
       <h5 className="modal-title">{props.title}</h5>

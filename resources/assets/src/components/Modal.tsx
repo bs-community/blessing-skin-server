@@ -5,28 +5,22 @@ import { trans } from '../scripts/i18n'
 import ModalHeader from './ModalHeader'
 import ModalBody from './ModalBody'
 import ModalFooter from './ModalFooter'
+import type { Props as HeaderProps } from './ModalHeader'
+import type { Props as BodyProps } from './ModalBody'
+import type { Props as FooterProps } from './ModalFooter'
 
-export type ModalOptions = {
+type BasicOptions = {
   mode?: 'alert' | 'confirm' | 'prompt'
   show?: boolean
-  title?: string
-  text?: string
-  dangerousHTML?: string
   input?: string
-  placeholder?: string
-  inputType?: string
   validator?(value: any): string | boolean | undefined
-  choices?: { text: string; value: string }[]
   type?: string
   showHeader?: boolean
   center?: boolean
-  okButtonText?: string
-  okButtonType?: string
-  cancelButtonText?: string
-  cancelButtonType?: string
-  flexFooter?: boolean
   children?: React.ReactNode
 }
+
+export type ModalOptions = BasicOptions & HeaderProps & BodyProps & FooterProps
 
 type Props = {
   id?: string
@@ -41,7 +35,7 @@ export type ModalResult = {
   value: string
 }
 
-const Modal: React.FC<ModalOptions & Props> = props => {
+const Modal: React.FC<ModalOptions & Props> = (props) => {
   const {
     mode = 'confirm',
     title = trans('general.tip'),

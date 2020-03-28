@@ -1,21 +1,21 @@
 import React from 'react'
 import ModalContent from './ModalContent'
 import ModalInput from './ModalInput'
+import type { Props as ContentProps } from './ModalContent'
+import type {
+  Props as InputProps,
+  InternalProps as InputInteralProps,
+} from './ModalInput'
 
-interface Props {
-  text?: string
-  dangerousHTML?: string
+interface InternalProps {
   showInput: boolean
-  inputType?: string
-  value?: string
-  choices?: { text: string; value: string }[]
-  onChange?: React.ChangeEventHandler<HTMLInputElement>
-  placeholder?: string
-  invalid?: boolean
-  validatorMessage?: string
 }
 
-const ModalBody: React.FC<Props> = props => {
+export type Props = ContentProps & InputProps
+
+const ModalBody: React.FC<InternalProps & InputInteralProps & Props> = (
+  props,
+) => {
   return (
     <div className="modal-body">
       <ModalContent text={props.text} dangerousHTML={props.dangerousHTML}>

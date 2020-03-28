@@ -1,20 +1,23 @@
 import React from 'react'
 
-interface Props {
+export interface Props {
   inputType?: string
-  value?: string
   choices?: { text: string; value: string }[]
-  onChange?: React.ChangeEventHandler<HTMLInputElement>
   placeholder?: string
-  invalid?: boolean
-  validatorMessage?: string
 }
 
-const ModalInput: React.FC<Props> = props => (
+export interface InternalProps {
+  value?: string
+  invalid?: boolean
+  validatorMessage?: string
+  onChange?: React.ChangeEventHandler<HTMLInputElement>
+}
+
+const ModalInput: React.FC<InternalProps & Props> = (props) => (
   <>
     {props.inputType === 'radios' && props.choices ? (
       <>
-        {props.choices.map(choice => (
+        {props.choices.map((choice) => (
           <div key={choice.value}>
             <input
               type="radio"

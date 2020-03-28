@@ -1,17 +1,20 @@
 import React from 'react'
 
-interface Props {
-  showCancelButton: boolean
+export interface Props {
   flexFooter?: boolean
   okButtonText?: string
   okButtonType?: string
   cancelButtonText?: string
   cancelButtonType?: string
+}
+
+interface InternalProps {
+  showCancelButton: boolean
   onConfirm?(): void
   onDismiss?(): void
 }
 
-const ModalFooter: React.FC<Props> = props => {
+const ModalFooter: React.FC<InternalProps & Props> = (props) => {
   const classes = ['modal-footer']
   if (props.flexFooter) {
     classes.push('d-flex', 'justify-content-between')

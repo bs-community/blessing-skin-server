@@ -1,11 +1,11 @@
 import React from 'react'
 
-interface Props {
+export interface Props {
   text?: string
   dangerousHTML?: string
 }
 
-const ModalContent: React.FC<Props> = props => {
+const ModalContent: React.FC<Props> = (props) => {
   if (props.children) {
     return <>{props.children}</>
   } else if (props.text) {
