@@ -72,7 +72,7 @@ export default [
   },
   {
     path: 'admin/i18n',
-    component: () => import('../views/admin/Translations.vue'),
+    react: () => import('../views/admin/Translations'),
     el: '#table',
   },
   {

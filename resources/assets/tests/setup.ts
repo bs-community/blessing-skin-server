@@ -7,6 +7,7 @@ import yaml from 'js-yaml'
 
 window.blessing = {
   base_url: '',
+  locale: 'en',
   site_name: 'Blessing Skin',
   version: '4.0.0',
   extra: {},

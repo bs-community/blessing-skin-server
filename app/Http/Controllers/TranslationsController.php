@@ -9,13 +9,9 @@ use Spatie\TranslationLoader\LanguageLine;
 
 class TranslationsController extends Controller
 {
-    public function list(Application $app)
+    public function list()
     {
-        return LanguageLine::all()->map(function ($line) use ($app) {
-            $line->text = $line->getTranslation($app->getLocale());
-
-            return $line;
-        });
+        return LanguageLine::paginate(10);
     }
 
     public function create(Request $request, Application $app, JavaScript $js)

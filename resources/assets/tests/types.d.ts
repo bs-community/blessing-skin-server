@@ -9,6 +9,7 @@ interface Window {
 
   blessing: {
     base_url: string
+    locale: string
     site_name: string
     version: string
     i18n: object

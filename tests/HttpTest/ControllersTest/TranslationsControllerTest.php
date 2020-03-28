@@ -18,20 +18,14 @@ class TranslationsControllerTest extends TestCase
 
     public function testList()
     {
-        LanguageLine::create([
+        $line = LanguageLine::create([
             'group' => 'general',
             'key' => 'submit',
             'text' => ['en' => 'submit'],
         ]);
 
         $this->getJson('/admin/i18n/list')
-            ->assertJson([
-                [
-                    'group' => 'general',
-                    'key' => 'submit',
-                    'text' => 'submit',
-                ],
-            ]);
+            ->assertJson(['data' => [$line->toArray()]]);
     }
 
     public function testCreate()
