@@ -185,7 +185,7 @@ class UserController extends Controller
             return json(trans('user.verification.verified'), 1);
         }
 
-        $url = URL::signedRoute('auth.verify', ['uid' => $user->uid]);
+        $url = URL::signedRoute('auth.verify', ['uid' => $user->uid], null, false);
 
         try {
             Mail::to($user->email)->send(new EmailVerification($url));

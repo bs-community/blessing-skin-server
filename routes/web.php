@@ -26,10 +26,8 @@ Route::prefix('auth')->name('auth.')->group(function () {
         Route::get('forgot', 'AuthController@forgot')->name('forgot');
         Route::post('forgot', 'AuthController@handleForgot')->name('forgot');
 
-        Route::middleware('signed')->name('reset')->group(function () {
-            Route::get('reset/{uid}', 'AuthController@reset');
-            Route::post('reset/{uid}', 'AuthController@handleReset');
-        });
+        Route::get('reset/{uid}', 'AuthController@reset')->name('reset');
+        Route::post('reset/{uid}', 'AuthController@handleReset')->name('reset');
 
         Route::get('login/{driver}', 'AuthController@oauthLogin');
         Route::get('login/{driver}/callback', 'AuthController@oauthCallback');
@@ -45,7 +43,7 @@ Route::prefix('auth')->name('auth.')->group(function () {
             Route::post('bind', 'AuthController@fillEmail');
         });
 
-    Route::get('verify/{uid}', 'AuthController@verify')->name('verify')->middleware('signed');
+    Route::get('verify/{uid}', 'AuthController@verify')->name('verify');
 });
 
 Route::prefix('user')

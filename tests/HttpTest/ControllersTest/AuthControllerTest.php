@@ -613,7 +613,16 @@ class AuthControllerTest extends TestCase
         Event::fake();
 
         $user = factory(User::class)->create();
-        $url = URL::temporarySignedRoute('auth.reset', now()->addHour(), ['uid' => $user->uid]);
+        $url = URL::temporarySignedRoute(
+            'auth.reset',
+            now()->addHour(),
+            ['uid' => $user->uid],
+            false
+        );
+
+        // invalid signature
+        $this->postJson(route('auth.reset', ['uid' => $user->uid]))
+            ->assertForbidden();
 
         // Should return a warning if `password` is empty
         $this->postJson($url)->assertJsonValidationErrors('password');
@@ -676,21 +685,25 @@ class AuthControllerTest extends TestCase
 
     public function testVerify()
     {
-        $url = URL::signedRoute('auth.verify', ['uid' => 1]);
+        $url = URL::signedRoute('auth.verify', ['uid' => 1], null, false);
 
         // Should be forbidden if account verification is disabled
         option(['require_verification' => false]);
         $this->get($url)->assertSee(trans('user.verification.disabled'));
         option(['require_verification' => true]);
 
+        // Invalid link
+        $this->get(route('auth.verify', ['uid' => 1]))->assertForbidden();
+
+        // Non-existed user
         $this->get($url)->assertSee(trans('auth.verify.invalid'));
 
         $user = factory(User::class)->create();
-        $url = URL::signedRoute('auth.verify', ['uid' => $user->uid]);
+        $url = URL::signedRoute('auth.verify', ['uid' => $user->uid], null, false);
         $this->get($url)->assertSee(trans('auth.verify.invalid'));
 
         $user = factory(User::class)->create(['verified' => false]);
-        $url = URL::signedRoute('auth.verify', ['uid' => $user->uid]);
+        $url = URL::signedRoute('auth.verify', ['uid' => $user->uid], null, false);
         $this->get($url)->assertViewIs('auth.verify');
         $this->assertEquals(1, User::find($user->uid)->verified);
     }

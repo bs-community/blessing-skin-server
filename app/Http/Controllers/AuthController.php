@@ -258,7 +258,12 @@ class AuthController extends Controller
 
         $dispatcher->dispatch('auth.forgot.ready', [$user]);
 
-        $url = URL::temporarySignedRoute('auth.reset', now()->addHour(), ['uid' => $user->uid]);
+        $url = URL::temporarySignedRoute(
+            'auth.reset',
+            now()->addHour(),
+            ['uid' => $user->uid],
+            false
+        );
         try {
             Mail::to($email)->send(new ForgotPassword($url));
         } catch (\Exception $e) {
@@ -281,6 +286,8 @@ class AuthController extends Controller
 
     public function handleReset(Dispatcher $dispatcher, Request $request, $uid)
     {
+        abort_unless($request->hasValidSignature(false), 403, trans('auth.reset.invalid'));
+
         ['password' => $password] = $this->validate($request, [
             'password' => 'required|min:8|max:32',
         ]);
@@ -314,11 +321,13 @@ class AuthController extends Controller
         return redirect('/user');
     }
 
-    public function verify($uid)
+    public function verify(Request $request, $uid)
     {
         if (!option('require_verification')) {
             throw new PrettyPageException(trans('user.verification.disabled'), 1);
         }
+
+        abort_unless($request->hasValidSignature(false), 403, trans('auth.verify.invalid'));
 
         $user = User::find($uid);
 
