@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent, wait } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import NotificationsList, {
@@ -54,7 +54,7 @@ test('read notification', async () => {
   const { getByText, queryByText } = render(<NotificationsList />)
 
   fireEvent.click(getByText('hi'))
-  await wait()
+  await waitFor(() => expect(fetch.get).toBeCalled())
 
   expect(queryByText(fixture.title)).toBeInTheDocument()
   expect(queryByText(fixture.content)).toBeInTheDocument()

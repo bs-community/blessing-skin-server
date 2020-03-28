@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, wait, fireEvent } from '@testing-library/react'
+import { render, waitFor, fireEvent } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import Forgot from '@/views/auth/Forgot'
@@ -19,12 +19,12 @@ describe('submit', () => {
       target: { value: 'abc' },
     })
     fireEvent.click(getByText(t('auth.forgot.button')))
-    await wait()
-
-    expect(fetch.post).toBeCalledWith('/auth/forgot', {
-      email: 'a@b.c',
-      captcha: 'abc',
-    })
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith('/auth/forgot', {
+        email: 'a@b.c',
+        captcha: 'abc',
+      }),
+    )
     expect(queryByText('ok')).toBeInTheDocument()
   })
 
@@ -40,12 +40,12 @@ describe('submit', () => {
       target: { value: 'abc' },
     })
     fireEvent.click(getByText(t('auth.forgot.button')))
-    await wait()
-
-    expect(fetch.post).toBeCalledWith('/auth/forgot', {
-      email: 'a@b.c',
-      captcha: 'abc',
-    })
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith('/auth/forgot', {
+        email: 'a@b.c',
+        captcha: 'abc',
+      }),
+    )
     expect(queryByText('failed')).toBeInTheDocument()
   })
 })

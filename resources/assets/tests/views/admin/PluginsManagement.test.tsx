@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, wait, fireEvent } from '@testing-library/react'
+import { render, waitFor, fireEvent } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import PluginsManagement from '@/views/admin/PluginsManagement'
@@ -37,7 +37,7 @@ test('plugin info box', async () => {
   ])
 
   const { queryByTitle, queryByText } = render(<PluginsManagement />)
-  await wait()
+  await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
   expect(queryByTitle(t('admin.configurePlugin'))).not.toBeNull()
   expect(queryByTitle(t('admin.pluginReadme'))).not.toBeNull()
@@ -68,15 +68,15 @@ describe('enable plugin', () => {
     fetch.post.mockResolvedValue({ code: 0, message: 'success' })
 
     const { getByTitle, getByRole, queryByText } = render(<PluginsManagement />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByTitle(t('admin.enablePlugin')))
-    await wait()
-
-    expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
-      action: 'enable',
-      name: 'a',
-    })
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
+        action: 'enable',
+        name: 'a',
+      }),
+    )
     expect(queryByText('success')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
     expect(getByTitle(t('admin.disablePlugin'))).toBeChecked()
@@ -90,11 +90,15 @@ describe('enable plugin', () => {
     })
 
     const { getByTitle, getByText, queryByText } = render(<PluginsManagement />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByTitle(t('admin.enablePlugin')))
-    await wait()
-
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
+        action: 'enable',
+        name: 'a',
+      }),
+    )
     expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
       action: 'enable',
       name: 'a',
@@ -121,15 +125,15 @@ describe('disable plugin', () => {
     fetch.post.mockResolvedValue({ code: 0, message: 'success' })
 
     const { getByTitle, getByRole, queryByText } = render(<PluginsManagement />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByTitle(t('admin.disablePlugin')))
-    await wait()
-
-    expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
-      action: 'disable',
-      name: 'a',
-    })
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
+        action: 'disable',
+        name: 'a',
+      }),
+    )
     expect(queryByText('success')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
     expect(getByTitle(t('admin.enablePlugin'))).not.toBeChecked()
@@ -139,11 +143,15 @@ describe('disable plugin', () => {
     fetch.post.mockResolvedValue({ code: 1, message: 'failed' })
 
     const { getByTitle, getByRole, queryByText } = render(<PluginsManagement />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByTitle(t('admin.disablePlugin')))
-    await wait()
-
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
+        action: 'disable',
+        name: 'a',
+      }),
+    )
     expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
       action: 'disable',
       name: 'a',
@@ -167,13 +175,11 @@ describe('delete plugin', () => {
 
   it('rejected by user', async () => {
     const { getByTitle, getByText } = render(<PluginsManagement />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByTitle(t('admin.deletePlugin')))
     fireEvent.click(getByText(t('general.cancel')))
-    await wait()
-
-    expect(fetch.post).not.toBeCalled()
+    await waitFor(() => expect(fetch.post).not.toBeCalled())
   })
 
   it('succeeded', async () => {
@@ -182,16 +188,16 @@ describe('delete plugin', () => {
     const { getByTitle, getByText, getByRole, queryByText } = render(
       <PluginsManagement />,
     )
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByTitle(t('admin.deletePlugin')))
     fireEvent.click(getByText(t('general.confirm')))
-    await wait()
-
-    expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
-      action: 'delete',
-      name: 'a',
-    })
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
+        action: 'delete',
+        name: 'a',
+      }),
+    )
     expect(queryByText('success')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
     expect(queryByText('My Plugin')).toBeNull()
@@ -203,12 +209,16 @@ describe('delete plugin', () => {
     const { getByTitle, getByText, getByRole, queryByText } = render(
       <PluginsManagement />,
     )
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByTitle(t('admin.deletePlugin')))
     fireEvent.click(getByText(t('general.confirm')))
-    await wait()
-
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
+        action: 'delete',
+        name: 'a',
+      }),
+    )
     expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
       action: 'delete',
       name: 'a',
@@ -224,7 +234,7 @@ describe('upload plugin archive', () => {
     fetch.get.mockResolvedValue([])
 
     const { getAllByText } = render(<PluginsManagement />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getAllByText(t('general.submit'))[0])
     expect(fetch.post).not.toBeCalled()
@@ -237,20 +247,20 @@ describe('upload plugin archive', () => {
     const { getByTitle, getAllByText, getByRole, queryByText } = render(
       <PluginsManagement />,
     )
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     const file = new File([], 'plugin.zip')
     fireEvent.change(getByTitle(t('skinlib.upload.select-file')), {
       target: { files: [file] },
     })
     fireEvent.click(getAllByText(t('general.submit'))[0])
-    await wait()
-
-    expect(fetch.get).toBeCalledTimes(2)
-    expect(fetch.post).toBeCalledWith(
-      '/admin/plugins/upload',
-      expect.any(FormData),
-    )
+    await waitFor(() => {
+      expect(fetch.get).toBeCalledTimes(2)
+      expect(fetch.post).toBeCalledWith(
+        '/admin/plugins/upload',
+        expect.any(FormData),
+      )
+    })
     const formData: FormData = fetch.post.mock.calls[0][1]
     expect(formData.get('file')).toStrictEqual(file)
     expect(queryByText('plugin.zip')).not.toBeInTheDocument()
@@ -265,20 +275,20 @@ describe('upload plugin archive', () => {
     const { getByTitle, getAllByText, getByRole, queryByText } = render(
       <PluginsManagement />,
     )
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     const file = new File([], 'plugin.zip')
     fireEvent.change(getByTitle(t('skinlib.upload.select-file')), {
       target: { files: [file] },
     })
     fireEvent.click(getAllByText(t('general.submit'))[0])
-    await wait()
-
-    expect(fetch.get).toBeCalledTimes(1)
-    expect(fetch.post).toBeCalledWith(
-      '/admin/plugins/upload',
-      expect.any(FormData),
-    )
+    await waitFor(() => {
+      expect(fetch.get).toBeCalledTimes(1)
+      expect(fetch.post).toBeCalledWith(
+        '/admin/plugins/upload',
+        expect.any(FormData),
+      )
+    })
     expect(queryByText('plugin.zip')).toBeInTheDocument()
     expect(queryByText('failed')).toBeInTheDocument()
     expect(getByRole('alert')).toHaveClass('alert-danger')
@@ -297,17 +307,17 @@ describe('submit remote URL', () => {
       queryByText,
       queryByDisplayValue,
     } = render(<PluginsManagement />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.input(getByLabelText('URL'), {
       target: { value: 'https://example.com/a.zip' },
     })
     fireEvent.click(getAllByText(t('general.submit'))[1])
-    await wait()
-
-    expect(fetch.get).toBeCalledTimes(2)
-    expect(fetch.post).toBeCalledWith('/admin/plugins/wget', {
-      url: 'https://example.com/a.zip',
+    await waitFor(() => {
+      expect(fetch.get).toBeCalledTimes(2)
+      expect(fetch.post).toBeCalledWith('/admin/plugins/wget', {
+        url: 'https://example.com/a.zip',
+      })
     })
     expect(
       queryByDisplayValue('https://example.com/a.zip'),
@@ -327,17 +337,17 @@ describe('submit remote URL', () => {
       queryByText,
       queryByDisplayValue,
     } = render(<PluginsManagement />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.input(getByLabelText('URL'), {
       target: { value: 'https://example.com/a.zip' },
     })
     fireEvent.click(getAllByText(t('general.submit'))[1])
-    await wait()
-
-    expect(fetch.get).toBeCalledTimes(1)
-    expect(fetch.post).toBeCalledWith('/admin/plugins/wget', {
-      url: 'https://example.com/a.zip',
+    await waitFor(() => {
+      expect(fetch.get).toBeCalledTimes(1)
+      expect(fetch.post).toBeCalledWith('/admin/plugins/wget', {
+        url: 'https://example.com/a.zip',
+      })
     })
     expect(queryByDisplayValue('https://example.com/a.zip')).toBeInTheDocument()
     expect(queryByText('failed')).toBeInTheDocument()

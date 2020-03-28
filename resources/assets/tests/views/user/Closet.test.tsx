@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent, wait } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 import $ from 'jquery'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
@@ -80,7 +80,7 @@ test('empty closet', async () => {
   fetch.get.mockResolvedValue(createPaginator([]))
 
   const { queryByText } = render(<Closet />)
-  await wait()
+  await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
   expect(queryByText(/skin library/i)).toBeInTheDocument()
 })
 
@@ -91,17 +91,17 @@ test('categories', async () => {
     .mockResolvedValueOnce(createPaginator([fixtureSkin]))
 
   const { getByText, queryByText } = render(<Closet />)
-  await wait()
+  await waitFor(() => expect(fetch.get).toBeCalled())
   expect(queryByText(fixtureSkin.pivot.item_name)).toBeInTheDocument()
   expect(queryByText(fixtureCape.pivot.item_name)).not.toBeInTheDocument()
 
   fireEvent.click(getByText(t('general.cape')))
-  await wait()
+  await waitFor(() => expect(fetch.get).toBeCalled())
   expect(queryByText(fixtureSkin.pivot.item_name)).not.toBeInTheDocument()
   expect(queryByText(fixtureCape.pivot.item_name)).toBeInTheDocument()
 
   fireEvent.click(getByText(t('general.skin')))
-  await wait()
+  await waitFor(() => expect(fetch.get).toBeCalled())
   expect(queryByText(fixtureSkin.pivot.item_name)).toBeInTheDocument()
   expect(queryByText(fixtureCape.pivot.item_name)).not.toBeInTheDocument()
 })
@@ -111,15 +111,13 @@ test('search textures', async () => {
     .mockResolvedValueOnce(createPaginator([fixtureSkin]))
     .mockResolvedValueOnce(createPaginator([]))
 
-  const { getByPlaceholderText, queryByText } = render(<Closet />)
-  await wait()
+  const { getByPlaceholderText, findByText } = render(<Closet />)
+  await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
   fireEvent.input(getByPlaceholderText(t('user.typeToSearch')), {
     target: { value: 'abc' },
   })
-  await wait()
-
-  expect(queryByText(/no result/i)).toBeInTheDocument()
+  expect(await findByText(/no result/i)).toBeInTheDocument()
 })
 
 test('switch page', async () => {
@@ -127,12 +125,10 @@ test('switch page', async () => {
     .mockResolvedValueOnce({ ...createPaginator([]), last_page: 2 })
     .mockResolvedValueOnce({ ...createPaginator([fixtureSkin]), last_page: 2 })
 
-  const { getByText, queryByText } = render(<Closet />)
-  await wait()
+  const { getByText, findByText } = render(<Closet />)
+  await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
   fireEvent.click(getByText('2'))
-  await wait()
-
-  expect(queryByText(fixtureSkin.pivot.item_name)).toBeInTheDocument()
+  expect(await findByText(fixtureSkin.pivot.item_name)).toBeInTheDocument()
 })
 
 describe('rename item', () => {
@@ -146,18 +142,20 @@ describe('rename item', () => {
     const { getByText, getByDisplayValue, getByRole, queryByText } = render(
       <Closet />,
     )
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByText(t('user.renameItem')))
     fireEvent.input(getByDisplayValue(fixtureSkin.pivot.item_name), {
       target: { value: 'my skin' },
     })
     fireEvent.click(getByText(t('general.confirm')))
-    await wait()
-
-    expect(fetch.post).toBeCalledWith(
-      `/user/closet/rename/${fixtureSkin.tid}`,
-      { name: 'my skin' },
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith(
+        `/user/closet/rename/${fixtureSkin.tid}`,
+        {
+          name: 'my skin',
+        },
+      ),
     )
     expect(queryByText('my skin')).toBeInTheDocument()
     expect(queryByText('success')).toBeInTheDocument()
@@ -168,16 +166,14 @@ describe('rename item', () => {
     fetch.post.mockResolvedValue({ code: 0, message: 'success' })
 
     const { getByText, getByDisplayValue, queryByText } = render(<Closet />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByText(t('user.renameItem')))
     fireEvent.input(getByDisplayValue(fixtureSkin.pivot.item_name), {
       target: { value: '' },
     })
     fireEvent.click(getByText(t('general.confirm')))
-    await wait()
-
-    expect(fetch.post).not.toBeCalled()
+    await waitFor(() => expect(fetch.post).not.toBeCalled())
     expect(queryByText(t('skinlib.emptyNewTextureName'))).toBeInTheDocument()
 
     fireEvent.click(getByText(t('general.cancel')))
@@ -189,18 +185,20 @@ describe('rename item', () => {
     const { getByText, getByDisplayValue, getByRole, queryByText } = render(
       <Closet />,
     )
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByText(t('user.renameItem')))
     fireEvent.input(getByDisplayValue(fixtureSkin.pivot.item_name), {
       target: { value: 'my skin' },
     })
     fireEvent.click(getByText(t('general.confirm')))
-    await wait()
-
-    expect(fetch.post).toBeCalledWith(
-      `/user/closet/rename/${fixtureSkin.tid}`,
-      { name: 'my skin' },
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith(
+        `/user/closet/rename/${fixtureSkin.tid}`,
+        {
+          name: 'my skin',
+        },
+      ),
     )
     expect(queryByText(fixtureSkin.pivot.item_name)).toBeInTheDocument()
     expect(queryByText('failed')).toBeInTheDocument()
@@ -209,16 +207,14 @@ describe('rename item', () => {
 
   it('cancelled', async () => {
     const { getByText, getByDisplayValue, queryByText } = render(<Closet />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByText(t('user.renameItem')))
     fireEvent.input(getByDisplayValue(fixtureSkin.pivot.item_name), {
       target: { value: 'my skin' },
     })
     fireEvent.click(getByText(t('general.cancel')))
-    await wait()
-
-    expect(fetch.post).not.toBeCalled()
+    await waitFor(() => expect(fetch.post).not.toBeCalled())
     expect(queryByText(fixtureSkin.pivot.item_name)).toBeInTheDocument()
   })
 })
@@ -232,13 +228,15 @@ describe('remove item', () => {
     fetch.post.mockResolvedValue({ code: 0, message: 'success' })
 
     const { getByText, getByRole, queryByText } = render(<Closet />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByText(t('user.removeItem')))
     fireEvent.click(getByText(t('general.confirm')))
-    await wait()
-
-    expect(fetch.post).toBeCalledWith(`/user/closet/remove/${fixtureSkin.tid}`)
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith(
+        `/user/closet/remove/${fixtureSkin.tid}`,
+      ),
+    )
     expect(queryByText(/skin library/i)).toBeInTheDocument()
     expect(queryByText('success')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
@@ -248,13 +246,15 @@ describe('remove item', () => {
     fetch.post.mockResolvedValue({ code: 1, message: 'failed' })
 
     const { getByText, getByRole, queryByText } = render(<Closet />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByText(t('user.removeItem')))
     fireEvent.click(getByText(t('general.confirm')))
-    await wait()
-
-    expect(fetch.post).toBeCalledWith(`/user/closet/remove/${fixtureSkin.tid}`)
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith(
+        `/user/closet/remove/${fixtureSkin.tid}`,
+      ),
+    )
     expect(queryByText(fixtureSkin.pivot.item_name)).toBeInTheDocument()
     expect(queryByText('failed')).toBeInTheDocument()
     expect(getByRole('alert')).toHaveClass('alert-danger')
@@ -262,13 +262,11 @@ describe('remove item', () => {
 
   it('cancelled', async () => {
     const { getByText, queryByText } = render(<Closet />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByText(t('user.removeItem')))
     fireEvent.click(getByText(t('general.cancel')))
-    await wait()
-
-    expect(fetch.post).not.toBeCalled()
+    await waitFor(() => expect(fetch.post).not.toBeCalled())
     expect(queryByText(fixtureSkin.pivot.item_name)).toBeInTheDocument()
   })
 })
@@ -282,7 +280,7 @@ describe('select textures', () => {
 
   it('select skin', async () => {
     const { getByAltText, queryAllByText } = render(<Closet />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByAltText(fixtureSkin.pivot.item_name))
     expect(queryAllByText(t('general.skin'))).toHaveLength(2)
@@ -290,10 +288,10 @@ describe('select textures', () => {
 
   it('select cape', async () => {
     const { getByText, getByAltText, queryAllByText } = render(<Closet />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
 
     fireEvent.click(getByText(t('general.cape')))
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
 
     fireEvent.click(getByAltText(fixtureCape.pivot.item_name))
     expect(queryAllByText(t('general.cape'))).toHaveLength(2)
@@ -301,11 +299,11 @@ describe('select textures', () => {
 
   it('reset selected', async () => {
     const { getByText, getByAltText, queryByText } = render(<Closet />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
 
     fireEvent.click(getByAltText(fixtureSkin.pivot.item_name))
     fireEvent.click(getByText(t('general.cape')))
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
     fireEvent.click(getByAltText(fixtureCape.pivot.item_name))
 
     expect(
@@ -336,15 +334,15 @@ describe('set avatar', () => {
     fetch.post.mockResolvedValue({ code: 0, message: 'success' })
 
     const { getByText, getByRole, queryByText } = render(<Closet />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByText(t('user.setAsAvatar')))
     fireEvent.click(getByText(t('general.confirm')))
-    await wait()
-
-    expect(fetch.post).toBeCalledWith('/user/profile/avatar', {
-      tid: fixtureSkin.tid,
-    })
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith('/user/profile/avatar', {
+        tid: fixtureSkin.tid,
+      }),
+    )
     expect(queryByText('success')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
     expect(document.querySelector('[alt="User Image"]')).toHaveAttribute('src')
@@ -354,28 +352,26 @@ describe('set avatar', () => {
     fetch.post.mockResolvedValue({ code: 1, message: 'failed' })
 
     const { getByText, getByRole, queryByText } = render(<Closet />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByText(t('user.setAsAvatar')))
     fireEvent.click(getByText(t('general.confirm')))
-    await wait()
-
-    expect(fetch.post).toBeCalledWith('/user/profile/avatar', {
-      tid: fixtureSkin.tid,
-    })
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith('/user/profile/avatar', {
+        tid: fixtureSkin.tid,
+      }),
+    )
     expect(queryByText('failed')).toBeInTheDocument()
     expect(getByRole('alert')).toHaveClass('alert-danger')
   })
 
   it('cancelled', async () => {
     const { getByText } = render(<Closet />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByText(t('user.setAsAvatar')))
     fireEvent.click(getByText(t('general.cancel')))
-    await wait()
-
-    expect(fetch.post).not.toBeCalled()
+    await waitFor(() => expect(fetch.post).not.toBeCalled())
   })
 })
 
@@ -384,7 +380,7 @@ describe('apply textures to player', () => {
     fetch.get.mockResolvedValue(createPaginator([]))
 
     const { getByText, getByRole, queryByText } = render(<Closet />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByText(t('user.useAs')))
 
@@ -402,14 +398,14 @@ describe('apply textures to player', () => {
       getByAltText,
       getAllByPlaceholderText,
       queryByText,
+      findByText,
     } = render(<Closet />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByAltText(fixtureSkin.pivot.item_name))
     fireEvent.click(getByText(t('user.useAs')))
 
-    await wait()
-    expect(queryByText(fixturePlayer.name)).toBeInTheDocument()
+    expect(await findByText(fixturePlayer.name)).toBeInTheDocument()
 
     fireEvent.input(getAllByPlaceholderText(t('user.typeToSearch'))[1], {
       target: { value: 'reina' },
@@ -430,17 +426,20 @@ describe('apply textures to player', () => {
       getByRole,
       queryByText,
     } = render(<Closet />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
 
     fireEvent.click(getByAltText(fixtureSkin.pivot.item_name))
     fireEvent.click(getByText(t('user.useAs')))
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
     fireEvent.click(getByTitle(fixturePlayer.name))
-    await wait()
-
-    expect(fetch.post).toBeCalledWith(`/user/player/set/${fixturePlayer.pid}`, {
-      skin: fixtureSkin.tid,
-    })
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith(
+        `/user/player/set/${fixturePlayer.pid}`,
+        {
+          skin: fixtureSkin.tid,
+        },
+      ),
+    )
     expect(queryByText('success')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
   })
@@ -458,17 +457,20 @@ describe('apply textures to player', () => {
       getByRole,
       queryByText,
     } = render(<Closet />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
 
     fireEvent.click(getByAltText(fixtureSkin.pivot.item_name))
     fireEvent.click(getByText(t('user.useAs')))
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
     fireEvent.click(getByTitle(fixturePlayer.name))
-    await wait()
-
-    expect(fetch.post).toBeCalledWith(`/user/player/set/${fixturePlayer.pid}`, {
-      skin: fixtureSkin.tid,
-    })
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith(
+        `/user/player/set/${fixturePlayer.pid}`,
+        {
+          skin: fixtureSkin.tid,
+        },
+      ),
+    )
     expect(queryByText('failed')).toBeInTheDocument()
     expect(getByRole('alert')).toHaveClass('alert-danger')
   })
@@ -479,15 +481,13 @@ describe('apply textures to player', () => {
       .mockResolvedValueOnce({ data: [fixturePlayer] })
 
     const { getByText, getByAltText } = render(<Closet />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
 
     fireEvent.click(getByAltText(fixtureSkin.pivot.item_name))
     fireEvent.click(getByText(t('user.useAs')))
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
 
-    $('#modal-apply')
-      .modal('hide')
-      .trigger('hidden.bs.modal')
+    $('#modal-apply').modal('hide').trigger('hidden.bs.modal')
 
     expect(fetch.post).not.toBeCalled()
   })

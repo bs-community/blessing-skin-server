@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent, wait } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 import * as fetch from '@/scripts/net'
 import { trans } from '@/scripts/i18n'
 import Dashboard from '@/views/user/Dashboard'
@@ -29,7 +29,7 @@ describe('info box', () => {
     )
 
     const { getByText } = render(<Dashboard />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
     expect(getByText('13')).toBeInTheDocument()
     expect(getByText(/21/)).toBeInTheDocument()
   })
@@ -41,7 +41,7 @@ describe('info box', () => {
       )
 
       const { getByText } = render(<Dashboard />)
-      await wait()
+      await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
       expect(getByText('700')).toBeInTheDocument()
       expect(getByText(/800/)).toBeInTheDocument()
       expect(getByText(/KB/)).toBeInTheDocument()
@@ -53,7 +53,7 @@ describe('info box', () => {
       )
 
       const { getByText } = render(<Dashboard />)
-      await wait()
+      await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
       expect(getByText('7')).toBeInTheDocument()
       expect(getByText(/10/)).toBeInTheDocument()
       expect(getByText(/MB/)).toBeInTheDocument()
@@ -74,13 +74,11 @@ describe('sign', () => {
     })
 
     const { getByRole, getByText, queryByText } = render(<Dashboard />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     const button = getByRole('button')
     fireEvent.click(button)
-    await wait()
-
-    expect(fetch.post).toBeCalledWith('/user/sign')
+    await waitFor(() => expect(fetch.post).toBeCalledWith('/user/sign'))
     expect(getByText('ok')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
     expect(button).toBeDisabled()
@@ -91,12 +89,10 @@ describe('sign', () => {
     fetch.post.mockResolvedValue({ code: 1, message: 'f', data: {} })
 
     const { getByRole, getByText } = render(<Dashboard />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByRole('button'))
-    await wait()
-
-    expect(fetch.post).toBeCalledWith('/user/sign')
+    await waitFor(() => expect(fetch.post).toBeCalledWith('/user/sign'))
     expect(getByText('f')).toBeInTheDocument()
     expect(getByRole('alert')).toHaveClass('alert-warning')
   })
@@ -112,7 +108,7 @@ describe('sign button', () => {
   it('sign is allowed', async () => {
     fetch.get.mockResolvedValue(scoreInfo())
     const { getByRole } = render(<Dashboard />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
     const button = getByRole('button')
 
     expect(button).toBeEnabled()
@@ -122,7 +118,7 @@ describe('sign button', () => {
   it('sign is allowed if last sign is yesterday', async () => {
     fetch.get.mockResolvedValue(scoreInfo({ signAfterZero: true }))
     const { getByRole } = render(<Dashboard />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
     expect(getByRole('button')).toBeEnabled()
   })
 
@@ -131,7 +127,7 @@ describe('sign button', () => {
       scoreInfo({ signAfterZero: true }, { lastSignAt: Date.now() }),
     )
     const { getByRole } = render(<Dashboard />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
     expect(getByRole('button')).toBeDisabled()
   })
 
@@ -139,7 +135,7 @@ describe('sign button', () => {
     fetch.get.mockResolvedValue(scoreInfo({}, { lastSignAt: Date.now() }))
 
     const { getByRole } = render(<Dashboard />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
     const button = getByRole('button')
 
     expect(button).toBeDisabled()
@@ -152,7 +148,7 @@ describe('sign button', () => {
     )
 
     const { getByRole } = render(<Dashboard />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
     const button = getByRole('button')
 
     expect(button).toBeDisabled()

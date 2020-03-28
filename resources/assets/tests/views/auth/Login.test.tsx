@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, wait, fireEvent } from '@testing-library/react'
+import { render, waitFor, fireEvent } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import Login from '@/views/auth/Login'
@@ -32,13 +32,13 @@ describe('submit form', () => {
       target: { value: 'password' },
     })
     fireEvent.click(getByText(t('auth.login')))
-    await wait()
-
-    expect(fetch.post).toBeCalledWith('/auth/login', {
-      identification: 'a@b.c',
-      password: 'password',
-      keep: false,
-    })
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith('/auth/login', {
+        identification: 'a@b.c',
+        password: 'password',
+        keep: false,
+      }),
+    )
   })
 
   it('remember me', async () => {
@@ -59,13 +59,13 @@ describe('submit form', () => {
     })
     fireEvent.click(getByLabelText(t('auth.keep')))
     fireEvent.click(getByText(t('auth.login')))
-    await wait()
-
-    expect(fetch.post).toBeCalledWith('/auth/login', {
-      identification: 'a@b.c',
-      password: 'password',
-      keep: true,
-    })
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith('/auth/login', {
+        identification: 'a@b.c',
+        password: 'password',
+        keep: true,
+      }),
+    )
   })
 
   it('failed', async () => {
@@ -83,13 +83,13 @@ describe('submit form', () => {
       target: { value: 'password' },
     })
     fireEvent.click(getByText(t('auth.login')))
-    await wait()
-
-    expect(fetch.post).toBeCalledWith('/auth/login', {
-      identification: 'a@b.c',
-      password: 'password',
-      keep: false,
-    })
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith('/auth/login', {
+        identification: 'a@b.c',
+        password: 'password',
+        keep: false,
+      }),
+    )
     expect(queryByText('failed')).toBeInTheDocument()
   })
 
@@ -113,13 +113,13 @@ describe('submit form', () => {
       target: { value: 'password' },
     })
     fireEvent.click(getByText(t('auth.login')))
-    await wait()
-
-    expect(fetch.post).toBeCalledWith('/auth/login', {
-      identification: 'a@b.c',
-      password: 'password',
-      keep: false,
-    })
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith('/auth/login', {
+        identification: 'a@b.c',
+        password: 'password',
+        keep: false,
+      }),
+    )
     expect(queryByText('failed')).toBeInTheDocument()
     expect(queryByText(t('auth.tooManyFails.captcha'))).toBeInTheDocument()
     expect(queryByAltText(t('auth.captcha'))).toBeInTheDocument()
@@ -129,14 +129,14 @@ describe('submit form', () => {
       target: { value: 'captcha' },
     })
     fireEvent.click(getByText(t('auth.login')))
-    await wait()
-
-    expect(fetch.post).toBeCalledWith('/auth/login', {
-      identification: 'a@b.c',
-      password: 'password',
-      keep: false,
-      captcha: 'captcha',
-    })
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith('/auth/login', {
+        identification: 'a@b.c',
+        password: 'password',
+        keep: false,
+        captcha: 'captcha',
+      }),
+    )
   })
 
   it('too many fails with normal recaptcha', async () => {
@@ -155,13 +155,13 @@ describe('submit form', () => {
       target: { value: 'password' },
     })
     fireEvent.click(getByText(t('auth.login')))
-    await wait()
-
-    expect(fetch.post).toBeCalledWith('/auth/login', {
-      identification: 'a@b.c',
-      password: 'password',
-      keep: false,
-    })
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith('/auth/login', {
+        identification: 'a@b.c',
+        password: 'password',
+        keep: false,
+      }),
+    )
     expect(queryByText('failed')).toBeInTheDocument()
   })
 
@@ -182,13 +182,13 @@ describe('submit form', () => {
       target: { value: 'password' },
     })
     fireEvent.click(getByText(t('auth.login')))
-    await wait()
-
-    expect(fetch.post).toBeCalledWith('/auth/login', {
-      identification: 'a@b.c',
-      password: 'password',
-      keep: false,
-    })
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith('/auth/login', {
+        identification: 'a@b.c',
+        password: 'password',
+        keep: false,
+      }),
+    )
     expect(queryByText('failed')).toBeInTheDocument()
     expect(queryByText(t('auth.tooManyFails.recaptcha'))).toBeInTheDocument()
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent, wait } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { Paginator } from '@/scripts/types'
@@ -37,7 +37,7 @@ test('without authenticated', async () => {
   fetch.get.mockResolvedValue(createPaginator([]))
 
   const { queryByText } = render(<SkinLibrary />)
-  await wait()
+  await waitFor(() => expect(fetch.get).toBeCalled())
 
   expect(fetch.get).toBeCalledWith(
     '/skinlib/list',
@@ -56,20 +56,20 @@ test('search by keyword', async () => {
   fetch.get.mockResolvedValue(createPaginator([]))
 
   const { getByText, getByPlaceholderText } = render(<SkinLibrary />)
-  await wait()
+  await waitFor(() => expect(fetch.get).toBeCalled())
 
   fireEvent.input(getByPlaceholderText(t('vendor.datatable.search')), {
     target: { value: 'k' },
   })
   fireEvent.click(getByText(t('general.submit')))
-  await wait()
-
-  expect(fetch.get).toHaveBeenLastCalledWith(
-    '/skinlib/list',
-    expect.toSatisfy((search: URLSearchParams) => {
-      expect(search.get('keyword')).toBe('k')
-      return true
-    }),
+  await waitFor(() =>
+    expect(fetch.get).toHaveBeenLastCalledWith(
+      '/skinlib/list',
+      expect.toSatisfy((search: URLSearchParams) => {
+        expect(search.get('keyword')).toBe('k')
+        return true
+      }),
+    ),
   )
 })
 
@@ -78,17 +78,17 @@ test('select uploaded by self', async () => {
   fetch.get.mockResolvedValue(createPaginator([]))
 
   const { getByText, queryByText } = render(<SkinLibrary />)
-  await wait()
+  await waitFor(() => expect(fetch.get).toBeCalled())
 
   fireEvent.click(getByText(t('skinlib.seeMyUpload')))
-  await wait()
-
-  expect(fetch.get).toHaveBeenLastCalledWith(
-    '/skinlib/list',
-    expect.toSatisfy((search: URLSearchParams) => {
-      expect(search.get('uploader')).toBe('1')
-      return true
-    }),
+  await waitFor(() =>
+    expect(fetch.get).toHaveBeenLastCalledWith(
+      '/skinlib/list',
+      expect.toSatisfy((search: URLSearchParams) => {
+        expect(search.get('uploader')).toBe('1')
+        return true
+      }),
+    ),
   )
   expect(queryByText(t('skinlib.filter.uploader', { uid: 1 })))
 })
@@ -100,32 +100,32 @@ test('reset query', async () => {
   const { getByText, getByPlaceholderText, queryByText } = render(
     <SkinLibrary />,
   )
-  await wait()
+  await waitFor(() => expect(fetch.get).toBeCalled())
 
   fireEvent.click(getByText('Steve'))
-  await wait()
+  await waitFor(() => expect(fetch.get).toBeCalled())
   fireEvent.input(getByPlaceholderText(t('vendor.datatable.search')), {
     target: { value: 'k' },
   })
   fireEvent.click(getByText(t('general.submit')))
-  await wait()
+  await waitFor(() => expect(fetch.get).toBeCalled())
   fireEvent.click(getByText(t('skinlib.seeMyUpload')))
-  await wait()
+  await waitFor(() => expect(fetch.get).toBeCalled())
   fireEvent.click(getByText(t('skinlib.sort.likes')))
-  await wait()
+  await waitFor(() => expect(fetch.get).toBeCalled())
   fireEvent.click(getByText(t('skinlib.reset')))
-  await wait()
-
-  expect(fetch.get).toHaveBeenLastCalledWith(
-    '/skinlib/list',
-    expect.toSatisfy((search: URLSearchParams) => {
-      expect(search.get('filter')).toBe('skin')
-      expect(search.get('keyword')).toBeNull()
-      expect(search.get('uploader')).toBeNull()
-      expect(search.get('sort')).toBe('time')
-      expect(search.get('page')).toBe('1')
-      return true
-    }),
+  await waitFor(() =>
+    expect(fetch.get).toHaveBeenLastCalledWith(
+      '/skinlib/list',
+      expect.toSatisfy((search: URLSearchParams) => {
+        expect(search.get('filter')).toBe('skin')
+        expect(search.get('keyword')).toBeNull()
+        expect(search.get('uploader')).toBeNull()
+        expect(search.get('sort')).toBe('time')
+        expect(search.get('page')).toBe('1')
+        return true
+      }),
+    ),
   )
   expect(queryByText(t('skinlib.filter.uploader', { uid: 1 })))
 })
@@ -134,24 +134,24 @@ test('browser goes back', async () => {
   fetch.get.mockResolvedValue(createPaginator([]))
 
   const { getByText } = render(<SkinLibrary />)
-  await wait()
+  await waitFor(() => expect(fetch.get).toBeCalled())
 
   fireEvent.click(getByText('Steve'))
-  await wait()
+  await waitFor(() => expect(fetch.get).toBeCalled())
 
   const state: string = window.history.state
   const event = new PopStateEvent('popstate', {
     state: state.replace('steve', 'skin'),
   })
   window.dispatchEvent(event)
-  await wait()
-
-  expect(fetch.get).toHaveBeenLastCalledWith(
-    '/skinlib/list',
-    expect.toSatisfy((search: URLSearchParams) => {
-      expect(search.get('filter')).toBe('skin')
-      return true
-    }),
+  await waitFor(() =>
+    expect(fetch.get).toHaveBeenLastCalledWith(
+      '/skinlib/list',
+      expect.toSatisfy((search: URLSearchParams) => {
+        expect(search.get('filter')).toBe('skin')
+        return true
+      }),
+    ),
   )
 })
 
@@ -160,7 +160,7 @@ test('pagination', async () => {
   fetch.get.mockResolvedValue(response)
 
   const { getByText } = render(<SkinLibrary />)
-  await wait()
+  await waitFor(() => expect(fetch.get).toBeCalled())
 
   fireEvent.click(getByText('2'))
 
@@ -179,7 +179,7 @@ test('library item', async () => {
   const { getByText, queryByText, queryAllByText, queryByAltText } = render(
     <SkinLibrary />,
   )
-  await wait()
+  await waitFor(() => expect(fetch.get).toBeCalled())
 
   expect(queryAllByText('Steve')).toHaveLength(2)
   expect(queryByText(fixtureItem.name)).toBeInTheDocument()
@@ -190,14 +190,14 @@ test('library item', async () => {
   expect(queryByText(fixtureItem.nickname)).toBeInTheDocument()
 
   fireEvent.click(getByText(fixtureItem.nickname))
-  await wait()
-
-  expect(fetch.get).toHaveBeenLastCalledWith(
-    '/skinlib/list',
-    expect.toSatisfy((search: URLSearchParams) => {
-      expect(search.get('uploader')).toBe(fixtureItem.uploader.toString())
-      return true
-    }),
+  await waitFor(() =>
+    expect(fetch.get).toHaveBeenLastCalledWith(
+      '/skinlib/list',
+      expect.toSatisfy((search: URLSearchParams) => {
+        expect(search.get('uploader')).toBe(fixtureItem.uploader.toString())
+        return true
+      }),
+    ),
   )
   const search = new URLSearchParams(location.search)
   expect(search.get('uploader')).toBe(fixtureItem.uploader.toString())
@@ -208,7 +208,7 @@ test('private texture', async () => {
   fetch.get.mockResolvedValue(createPaginator([item]))
 
   const { queryByText } = render(<SkinLibrary />)
-  await wait()
+  await waitFor(() => expect(fetch.get).toBeCalled())
 
   expect(queryByText(t('skinlib.private'))).toBeInTheDocument()
 })
@@ -220,19 +220,19 @@ describe('by filter', () => {
 
   it('skin', async () => {
     const { getByText, queryAllByText } = render(<SkinLibrary />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
 
     fireEvent.click(getByText('Steve'))
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
     fireEvent.click(getByText(t('general.skin')))
-    await wait()
-
-    expect(fetch.get).toHaveBeenLastCalledWith(
-      '/skinlib/list',
-      expect.toSatisfy((search: URLSearchParams) => {
-        expect(search.get('filter')).toBe('skin')
-        return true
-      }),
+    await waitFor(() =>
+      expect(fetch.get).toHaveBeenLastCalledWith(
+        '/skinlib/list',
+        expect.toSatisfy((search: URLSearchParams) => {
+          expect(search.get('filter')).toBe('skin')
+          return true
+        }),
+      ),
     )
     expect(queryAllByText(t('general.skin'))).toHaveLength(2)
     const search = new URLSearchParams(location.search)
@@ -241,17 +241,17 @@ describe('by filter', () => {
 
   it('steve', async () => {
     const { getByText, queryAllByText } = render(<SkinLibrary />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
 
     fireEvent.click(getByText('Steve'))
-    await wait()
-
-    expect(fetch.get).toHaveBeenLastCalledWith(
-      '/skinlib/list',
-      expect.toSatisfy((search: URLSearchParams) => {
-        expect(search.get('filter')).toBe('steve')
-        return true
-      }),
+    await waitFor(() =>
+      expect(fetch.get).toHaveBeenLastCalledWith(
+        '/skinlib/list',
+        expect.toSatisfy((search: URLSearchParams) => {
+          expect(search.get('filter')).toBe('steve')
+          return true
+        }),
+      ),
     )
     expect(queryAllByText('Steve')).toHaveLength(2)
     const search = new URLSearchParams(location.search)
@@ -260,17 +260,17 @@ describe('by filter', () => {
 
   it('alex', async () => {
     const { getByText, queryAllByText } = render(<SkinLibrary />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
 
     fireEvent.click(getByText('Alex'))
-    await wait()
-
-    expect(fetch.get).toHaveBeenLastCalledWith(
-      '/skinlib/list',
-      expect.toSatisfy((search: URLSearchParams) => {
-        expect(search.get('filter')).toBe('alex')
-        return true
-      }),
+    await waitFor(() =>
+      expect(fetch.get).toHaveBeenLastCalledWith(
+        '/skinlib/list',
+        expect.toSatisfy((search: URLSearchParams) => {
+          expect(search.get('filter')).toBe('alex')
+          return true
+        }),
+      ),
     )
     expect(queryAllByText('Alex')).toHaveLength(2)
     const search = new URLSearchParams(location.search)
@@ -279,17 +279,17 @@ describe('by filter', () => {
 
   it('cape', async () => {
     const { getByText, queryAllByText } = render(<SkinLibrary />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
 
     fireEvent.click(getByText(t('general.cape')))
-    await wait()
-
-    expect(fetch.get).toHaveBeenLastCalledWith(
-      '/skinlib/list',
-      expect.toSatisfy((search: URLSearchParams) => {
-        expect(search.get('filter')).toBe('cape')
-        return true
-      }),
+    await waitFor(() =>
+      expect(fetch.get).toHaveBeenLastCalledWith(
+        '/skinlib/list',
+        expect.toSatisfy((search: URLSearchParams) => {
+          expect(search.get('filter')).toBe('cape')
+          return true
+        }),
+      ),
     )
     expect(queryAllByText(t('general.cape'))).toHaveLength(2)
     const search = new URLSearchParams(location.search)
@@ -304,19 +304,19 @@ describe('sorting', () => {
 
   it('by time', async () => {
     const { getByText } = render(<SkinLibrary />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
 
     fireEvent.click(getByText(t('skinlib.sort.likes')))
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
     fireEvent.click(getByText(t('skinlib.sort.time')))
-    await wait()
-
-    expect(fetch.get).toHaveBeenLastCalledWith(
-      '/skinlib/list',
-      expect.toSatisfy((search: URLSearchParams) => {
-        expect(search.get('sort')).toBe('time')
-        return true
-      }),
+    await waitFor(() =>
+      expect(fetch.get).toHaveBeenLastCalledWith(
+        '/skinlib/list',
+        expect.toSatisfy((search: URLSearchParams) => {
+          expect(search.get('sort')).toBe('time')
+          return true
+        }),
+      ),
     )
     const search = new URLSearchParams(location.search)
     expect(search.get('sort')).toBe('time')
@@ -324,17 +324,17 @@ describe('sorting', () => {
 
   it('by likes', async () => {
     const { getByText } = render(<SkinLibrary />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
 
     fireEvent.click(getByText(t('skinlib.sort.likes')))
-    await wait()
-
-    expect(fetch.get).toHaveBeenLastCalledWith(
-      '/skinlib/list',
-      expect.toSatisfy((search: URLSearchParams) => {
-        expect(search.get('sort')).toBe('likes')
-        return true
-      }),
+    await waitFor(() =>
+      expect(fetch.get).toHaveBeenLastCalledWith(
+        '/skinlib/list',
+        expect.toSatisfy((search: URLSearchParams) => {
+          expect(search.get('sort')).toBe('likes')
+          return true
+        }),
+      ),
     )
     const search = new URLSearchParams(location.search)
     expect(search.get('sort')).toBe('likes')
@@ -354,7 +354,7 @@ describe('add to closet', () => {
 
   it('without authenticated', async () => {
     const { getByText, queryByText } = render(<SkinLibrary />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
 
     fireEvent.click(getByText(fixtureItem.likes.toString()))
     expect(queryByText(t('skinlib.anonymous'))).toBeInTheDocument()
@@ -366,13 +366,11 @@ describe('add to closet', () => {
     fetch.post.mockResolvedValue({ code: 0, message: 'ok' })
 
     const { getByText, queryByText } = render(<SkinLibrary />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
 
     fireEvent.click(getByText(fixtureItem.likes.toString()))
     fireEvent.click(getByText(t('general.confirm')))
-    await wait()
-
-    expect(fetch.post).toBeCalled()
+    await waitFor(() => expect(fetch.post).toBeCalled())
     expect(queryByText((fixtureItem.likes + 1).toString())).toBeInTheDocument()
   })
 
@@ -381,13 +379,11 @@ describe('add to closet', () => {
     fetch.post.mockResolvedValue({ code: 1, message: 'failed' })
 
     const { getByText, queryByText } = render(<SkinLibrary />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
 
     fireEvent.click(getByText(fixtureItem.likes.toString()))
     fireEvent.click(getByText(t('general.confirm')))
-    await wait()
-
-    expect(fetch.post).toBeCalled()
+    await waitFor(() => expect(fetch.post).toBeCalled())
     expect(queryByText(fixtureItem.likes.toString())).toBeInTheDocument()
   })
 })
@@ -408,13 +404,11 @@ describe('remove from closet', () => {
     fetch.post.mockResolvedValue({ code: 0, message: 'ok' })
 
     const { getByText, queryByText } = render(<SkinLibrary />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
 
     fireEvent.click(getByText(fixtureItem.likes.toString()))
     fireEvent.click(getByText(t('general.confirm')))
-    await wait()
-
-    expect(fetch.post).toBeCalled()
+    await waitFor(() => expect(fetch.post).toBeCalled())
     expect(queryByText((fixtureItem.likes - 1).toString())).toBeInTheDocument()
   })
 
@@ -422,13 +416,11 @@ describe('remove from closet', () => {
     fetch.post.mockResolvedValue({ code: 1, message: 'failed' })
 
     const { getByText, queryByText } = render(<SkinLibrary />)
-    await wait()
+    await waitFor(() => expect(fetch.get).toBeCalled())
 
     fireEvent.click(getByText(fixtureItem.likes.toString()))
     fireEvent.click(getByText(t('general.confirm')))
-    await wait()
-
-    expect(fetch.post).toBeCalled()
+    await waitFor(() => expect(fetch.post).toBeCalled())
     expect(queryByText(fixtureItem.likes.toString())).toBeInTheDocument()
   })
 })

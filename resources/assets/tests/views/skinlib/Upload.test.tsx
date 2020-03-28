@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent, wait } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { isAlex } from '@/scripts/textureUtils'
@@ -103,30 +103,28 @@ describe('input file', () => {
   it('select skin type automatically', async () => {
     isAlex.mockResolvedValue(true)
 
-    const { getByTitle, getByLabelText } = render(<Upload />)
+    const { getByTitle, findByLabelText } = render(<Upload />)
 
     const file = new File([], 't.png')
     fireEvent.change(getByTitle(t('skinlib.upload.select-file')), {
       target: { files: [file] },
     })
 
-    await wait()
-    expect(getByLabelText('Alex')).toBeChecked()
+    expect(await findByLabelText('Alex')).toBeChecked()
   })
 
   it('do not overwrite "cape" type', async () => {
-    const { getByTitle, getByLabelText } = render(<Upload />)
+    const { getByTitle, getByLabelText, findByLabelText } = render(<Upload />)
 
     fireEvent.click(getByLabelText(t('general.cape')))
-    await wait()
+    await waitFor(() => {})
 
     const file = new File([], 't.png')
     fireEvent.change(getByTitle(t('skinlib.upload.select-file')), {
       target: { files: [file] },
     })
 
-    await wait()
-    expect(getByLabelText(t('general.cape'))).toBeChecked()
+    expect(await findByLabelText(t('general.cape'))).toBeChecked()
   })
 })
 
@@ -234,7 +232,7 @@ describe('upload texture', () => {
     })
     fireEvent.click(getByText(t('skinlib.upload.button')))
 
-    await wait()
+    await waitFor(() => expect(fetch.post).toBeCalled())
   })
 
   it('duplicated texture detected', async () => {
@@ -248,7 +246,7 @@ describe('upload texture', () => {
     })
     fireEvent.click(getByText(t('skinlib.upload.button')))
 
-    await wait()
+    await waitFor(() => expect(fetch.post).toBeCalled())
     expect(queryByText('dup')).toBeInTheDocument()
 
     fireEvent.click(getByText(t('user.viewInSkinlib')))
@@ -265,7 +263,7 @@ describe('upload texture', () => {
     })
     fireEvent.click(getByText(t('skinlib.upload.button')))
 
-    await wait()
+    await waitFor(() => expect(fetch.post).toBeCalled())
     expect(queryByText('failed')).toBeInTheDocument()
     expect(getByRole('alert')).toHaveClass('alert-danger')
   })

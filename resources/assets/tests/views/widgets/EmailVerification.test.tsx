@@ -1,5 +1,5 @@
 import React from 'react'
-import { render, fireEvent, wait } from '@testing-library/react'
+import { render, fireEvent, waitFor } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import EmailVerification from '@/views/widgets/EmailVerification'
@@ -13,9 +13,9 @@ describe('send email', () => {
     const { getByText, getByRole, queryByText } = render(<EmailVerification />)
 
     fireEvent.click(getByText(t('user.verification.resend')))
-    await wait()
-
-    expect(fetch.post).toBeCalledWith('/user/email-verification')
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith('/user/email-verification'),
+    )
     expect(queryByText('success')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
   })
@@ -26,8 +26,9 @@ describe('send email', () => {
     const { getByText, getByRole, queryByText } = render(<EmailVerification />)
 
     fireEvent.click(getByText(t('user.verification.resend')))
-    await wait()
-
+    await waitFor(() =>
+      expect(fetch.post).toBeCalledWith('/user/email-verification'),
+    )
     expect(fetch.post).toBeCalledWith('/user/email-verification')
     expect(queryByText('failed')).toBeInTheDocument()
     expect(getByRole('alert')).toHaveClass('alert-danger')
