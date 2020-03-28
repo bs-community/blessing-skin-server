@@ -147,8 +147,6 @@ const SkinLibrary: React.FC = () => {
     }
   }
 
-  const handlePageChange = (page: number) => setPage(page)
-
   return (
     <div className="container">
       <div className="content-header">
@@ -248,7 +246,7 @@ const SkinLibrary: React.FC = () => {
               <Pagination
                 page={page}
                 totalPages={totalPages}
-                onChange={handlePageChange}
+                onChange={setPage}
               />
             </div>
           </div>
