@@ -85,15 +85,22 @@ const Translations: React.FC = () => {
             </tr>
           </thead>
           <tbody>
-            {lines.length === 0 ? (
+            {isLoading ? (
               <tr>
                 <td className="text-center" colSpan={4}>
-                  {isLoading ? <Loading /> : 'Nothing here.'}
+                  <Loading />
+                </td>
+              </tr>
+            ) : lines.length === 0 ? (
+              <tr>
+                <td className="text-center" colSpan={4}>
+                  Nothing here.
                 </td>
               </tr>
             ) : (
               lines.map((line, i) => (
                 <Row
+                  key={line.id}
                   line={line}
                   onEdit={(line) => handleEdit(line, i)}
                   onRemove={handleRemove}
