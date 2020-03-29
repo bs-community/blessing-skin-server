@@ -188,7 +188,7 @@ class UserController extends Controller
         $url = URL::signedRoute('auth.verify', ['uid' => $user->uid], null, false);
 
         try {
-            Mail::to($user->email)->send(new EmailVerification($url));
+            Mail::to($user->email)->send(new EmailVerification(url($url)));
         } catch (\Exception $e) {
             // Write the exception to log
             report($e);
