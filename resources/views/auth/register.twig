@@ -6,14 +6,11 @@
   <p class="login-box-msg">
     {{ trans('auth.register.message', {sitename: site_name}) }}
   </p>
-  <form></form>
+  <main></main>
   {{ include('auth.oauth') }}
 {% endblock %}
 
 {% block before_foot %}
-  {% if enable_recaptcha %}
-    <script src="{{ recaptcha_url }}" async defer></script>
-  {% endif %}
   <script>
     Object.defineProperty(blessing, 'extra', {
       configurable: false,

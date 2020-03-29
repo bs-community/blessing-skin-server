@@ -96,8 +96,8 @@ export default [
   },
   {
     path: 'auth/register',
-    component: () => import('../views/auth/Register.vue'),
-    el: 'form',
+    react: () => import('../views/auth/Registration'),
+    el: 'main',
   },
   {
     path: 'auth/forgot',

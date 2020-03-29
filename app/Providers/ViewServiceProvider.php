@@ -65,15 +65,6 @@ class ViewServiceProvider extends ServiceProvider
 
         View::composer('shared.foot', Composers\FootComposer::class);
 
-        View::composer('auth.*', function ($view) {
-            $view->with('enable_recaptcha', (bool) option('recaptcha_sitekey'));
-            $view->with(
-                'recaptcha_url',
-                'https://www.recaptcha.net/recaptcha/api.js'
-                .'?onload=vueRecaptchaApiLoaded&render=explicit'
-            );
-        });
-
         View::composer(['errors.*', 'setup.*'], function ($view) use ($webpack) {
             $view->with([
                 'styles' => [
