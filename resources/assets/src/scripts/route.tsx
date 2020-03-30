@@ -106,8 +106,8 @@ export default [
   },
   {
     path: 'auth/reset/(\\d+)',
-    component: () => import('../views/auth/Reset.vue'),
-    el: 'form',
+    react: () => import('../views/auth/Reset'),
+    el: 'main',
   },
   {
     path: 'skinlib',
