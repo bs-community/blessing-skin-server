@@ -24,6 +24,7 @@ interface Window {
 declare let blessing: {
   base_url: string
   site_name: string
+  locale: string
   timezone: string
   version: string
   route: string
