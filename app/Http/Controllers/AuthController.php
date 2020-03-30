@@ -279,8 +279,10 @@ class AuthController extends Controller
         return json(trans('auth.forgot.success'), 0);
     }
 
-    public function reset($uid)
+    public function reset(Request $request, $uid)
     {
+        abort_unless($request->hasValidSignature(false), 403, trans('auth.reset.invalid'));
+
         return view('auth.reset')->with('user', User::find($uid));
     }
 

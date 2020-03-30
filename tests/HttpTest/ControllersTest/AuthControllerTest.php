@@ -602,10 +602,20 @@ class AuthControllerTest extends TestCase
     public function testReset()
     {
         $user = factory(User::class)->create();
+        $url = URL::temporarySignedRoute(
+            'auth.reset',
+            now()->addHour(),
+            ['uid' => $user->uid],
+            false
+        );
+        $this->get($url)->assertSuccessful();
 
-        $this->get(
-            URL::temporarySignedRoute('auth.reset', now()->addHour(), ['uid' => $user->uid])
-        )->assertSuccessful();
+        $url = URL::temporarySignedRoute(
+            'auth.reset',
+            now()->addHour(),
+            ['uid' => $user->uid]
+        );
+        $this->get($url)->assertForbidden();
     }
 
     public function testHandleReset()
