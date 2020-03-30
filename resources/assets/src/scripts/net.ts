@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import { emit } from './event'
 import { showModal } from './notify'
 import { trans, t } from './i18n'
@@ -143,17 +142,6 @@ export function put<T = any>(url: string, data = empty): Promise<T> {
 export function del<T = any>(url: string, data = empty): Promise<T> {
   return nonGet<T>('DELETE', url, data)
 }
-
-Vue.use(_Vue => {
-  Object.defineProperty(_Vue.prototype, '$http', {
-    get: () => ({
-      get,
-      post,
-      put,
-      del,
-    }),
-  })
-})
 
 blessing.fetch = {
   get,

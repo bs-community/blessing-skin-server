@@ -1,15 +1,12 @@
-import Vue from 'vue'
 import * as React from 'react'
 import ReactDOM from 'react-dom'
 import './scripts/app'
 import routes from './scripts/route'
 import * as emitter from './scripts/event'
 
-Vue.config.productionTip = false
-
 loadModules()
 
-function loadModules() {
+async function loadModules() {
   if (blessing.route.startsWith('admin')) {
     const entry = document.querySelector<HTMLAnchorElement>('#launch-cli')
     entry?.addEventListener('click', async () => {
@@ -44,6 +41,9 @@ function loadModules() {
       })
     }
     if (route.component) {
+      const { default: Vue } = await import('vue')
+      const { default: inject } = await import('./scripts/injectVue')
+      inject(Vue)
       Vue.prototype.$route = new RegExp(`^${route.path}$`, 'i').exec(
         blessing.route,
       )
