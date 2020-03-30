@@ -75,6 +75,7 @@ class HeadComposer
     {
         $view->with('styles', [
             $this->webpack->url('style.css'),
+            'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css',
         ]);
         $view->with('inline_css', option('custom_css'));
     }

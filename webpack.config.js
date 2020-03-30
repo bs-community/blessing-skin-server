@@ -15,7 +15,6 @@ const config = {
     app: ['react-hot-loader/patch', '@/index.tsx'],
     style: [
       '@/styles/admin-lte.scss',
-      '@fortawesome/fontawesome-free/css/all.min.css',
       '@/styles/common.styl',
       '@/styles/common.scss',
     ],
@@ -137,6 +136,15 @@ const config = {
       '@': path.resolve(__dirname, 'resources/assets/src'),
     },
   },
+  externals: devMode
+    ? {}
+    : {
+        react: 'React',
+        'react-dom': 'ReactDOM',
+        jquery: 'jQuery',
+        bootstrap: 'bootstrap',
+        'admin-lte': 'adminlte',
+      },
   optimization: {
     minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
   },

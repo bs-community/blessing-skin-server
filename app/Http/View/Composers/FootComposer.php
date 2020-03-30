@@ -52,6 +52,13 @@ class FootComposer
         }
         if (Str::startsWith(config('app.asset.env'), 'dev')) {
             $scripts[] = $this->webpack->url('style.js');
+        } else {
+            $scripts[] = 'https://cdn.jsdelivr.net/combine/'.
+                'npm/react@16.13/umd/react.production.min.js,'.
+                'npm/react-dom@16.13/umd/react-dom.production.min.js,'.
+                'npm/jquery@3.4,'.
+                'npm/bootstrap@4.4/dist/js/bootstrap.min.js,'.
+                'npm/admin-lte@3.0/dist/js/adminlte.min.js';
         }
         $scripts[] = $this->webpack->url('app.js');
 
