@@ -57,8 +57,9 @@ class FootComposer
                 'npm/react@16.13/umd/react.production.min.js,'.
                 'npm/react-dom@16.13/umd/react-dom.production.min.js,'.
                 'npm/jquery@3.4,'.
+                'npm/popper.js@1.16,'.
                 'npm/bootstrap@4.4/dist/js/bootstrap.min.js,'.
-                'npm/admin-lte@3.0/dist/js/adminlte.min.js';
+                'npm/admin-lte@3.0';
         }
         $scripts[] = $this->webpack->url('app.js');
 
