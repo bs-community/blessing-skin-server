@@ -46,6 +46,8 @@ const SkinLibrary: React.FC = () => {
       setUploader(Number.parseInt(uploader))
 
       setSort(search.get('sort') ?? 'time')
+
+      setPage(Number.parseInt(search.get('page') ?? '0'))
     }
 
     parseSearch(location.search)
