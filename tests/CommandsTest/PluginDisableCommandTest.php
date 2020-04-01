@@ -4,9 +4,12 @@ namespace Tests;
 
 use App\Services\Plugin;
 use App\Services\PluginManager;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class PluginDisableCommandTest extends TestCase
 {
+    use DatabaseTransactions;
+
     public function testDisablePlugin()
     {
         $this->mock(PluginManager::class, function ($mock) {
