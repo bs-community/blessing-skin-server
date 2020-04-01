@@ -157,15 +157,15 @@ user:
     texture-empty: Ничего
   verification:
     title: Подтвердите свой аккаунт
-    message: You must verify your email address before using the skin hosting service. Haven't received the email?
-    resend: Click here to send again.
-    sending: Sending...
+    message: Вы должны подтвердить свой адрес электронной почты, прежде чем использовать сервис хостинга скинов. Не получили письмо?
+    resend: Нажмите здесь, чтобы отправить снова.
+    sending: Отправка...
   oauth:
-    id: Client ID
-    name: App Name
-    secret: Client Secret
-    redirect: Callback URL
-    modifyName: Modify app name.
+    id: ID клиента
+    name: Имя приложения
+    secret: Пароль клиента
+    redirect: URL обратного вызова
+    modifyName: Изменить имя приложения.
     modifyUrl: Modify callback URL.
     create: Create New App
     confirmRemove: Are you sure to delete this app? You won't be able to undo this.
