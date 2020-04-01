@@ -234,6 +234,10 @@
       "<rootDir>/resources/assets/tests/**/*.test.ts",
       "<rootDir>/resources/assets/tests/**/*.test.tsx"
     ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "<rootDir>/resources/assets/tests/(views|components)/.*\\.ts$"
+    ],
     "globals": {
       "ts-jest": {
         "tsConfig": "<rootDir>/resources/assets/tests/tsconfig.json",
