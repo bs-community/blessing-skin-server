@@ -95,7 +95,7 @@ class SkinlibController extends Controller
         }
 
         $badges = [];
-        $uploader = User::find($texture->uploader);
+        $uploader = $texture->owner;
         if ($uploader) {
             if ($uploader->isAdmin()) {
                 $badges[] = ['text' => 'STAFF', 'color' => 'primary'];
@@ -125,7 +125,8 @@ class SkinlibController extends Controller
                 'currentUid' => $user ? $user->uid : 0,
                 'admin' => $user && $user->isAdmin(),
                 'inCloset' => $user && $user->closet()->where('tid', $texture->tid)->count() > 0,
-                'nickname' => ($up = User::find($texture->uploader)) ? $up->nickname : null,
+                'uploaderExists' => (bool) $uploader,
+                'nickname' => optional($uploader)->nickname ?? trans('general.unexistent-user'),
                 'report' => intval(option('reporter_score_modification', 0)),
                 'badges' => $badges,
             ]);

@@ -40,6 +40,7 @@ beforeEach(() => {
     download: true,
     currentUid: 0,
     admin: false,
+    uploaderExists: true,
     nickname: 'author',
     inCloset: false,
     report: 0,
@@ -88,12 +89,13 @@ test('authenticated but not uploader', async () => {
 })
 
 test('uploader is not existed', async () => {
-  window.blessing.extra.nickname = null
+  window.blessing.extra.nickname = 'not existed'
+  window.blessing.extra.uploaderExists = false
   fetch.get.mockResolvedValue({ data: fixtureSkin })
 
   const { queryByText } = render(<Show />)
   await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
-  expect(queryByText(t('general.unexistent-user'))).toBeInTheDocument()
+  expect(queryByText('not existed')).toBeInTheDocument()
 })
 
 test('badges', async () => {

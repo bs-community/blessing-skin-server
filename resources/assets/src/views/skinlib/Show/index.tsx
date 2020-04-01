@@ -26,7 +26,8 @@ const Show: React.FC = () => {
   const [texture, setTexture] = useState<Texture>({} as Texture)
   const [showModalApply, setShowModalApply] = useState(false)
   const [liked, setLiked] = useState(false)
-  const nickname = useBlessingExtra<string | null>('nickname')
+  const nickname = useBlessingExtra<string>('nickname')
+  const isUploaderExists = useBlessingExtra<boolean>('uploaderExists')
   const currentUid = useBlessingExtra<number>('currentUid', 0)
   const isAdmin = useBlessingExtra<boolean>('admin')
   const badges = useBlessingExtra<Badge[]>('badges', [])
@@ -77,7 +78,7 @@ const Show: React.FC = () => {
     )
     if (code === 0) {
       toast.success(message)
-      setTexture(texture => ({ ...texture, name }))
+      setTexture((texture) => ({ ...texture, name }))
     } else {
       toast.error(message)
     }
@@ -111,7 +112,7 @@ const Show: React.FC = () => {
     )
     if (code === 0) {
       toast.success(message)
-      setTexture(texture => ({ ...texture, type }))
+      setTexture((texture) => ({ ...texture, type }))
     } else {
       toast.error(message)
     }
@@ -120,7 +121,7 @@ const Show: React.FC = () => {
   const handleAddItemClick = async () => {
     const ok = await addClosetItem(texture)
     if (ok) {
-      setTexture(texture => ({ ...texture, likes: texture.likes + 1 }))
+      setTexture((texture) => ({ ...texture, likes: texture.likes + 1 }))
       setLiked(true)
     }
   }
@@ -128,7 +129,7 @@ const Show: React.FC = () => {
   const handleRemoveItemClick = async () => {
     const ok = await removeClosetItem(texture.tid)
     if (ok) {
-      setTexture(texture => ({ ...texture, likes: texture.likes - 1 }))
+      setTexture((texture) => ({ ...texture, likes: texture.likes - 1 }))
       setLiked(false)
     }
   }
@@ -196,7 +197,7 @@ const Show: React.FC = () => {
     )
     if (code === 0) {
       toast.success(message)
-      setTexture(texture => ({ ...texture, public: !texture.public }))
+      setTexture((texture) => ({ ...texture, public: !texture.public }))
     } else {
       toast.error(message)
     }
@@ -366,7 +367,7 @@ const Show: React.FC = () => {
             <div className="row my-4">
               <div className="col-4">{t('skinlib.show.uploader')}</div>
               <div className={`col-8 ${styles.truncate}`}>
-                {nickname !== null ? (
+                {isUploaderExists ? (
                   <>
                     <div>
                       <a href={linkToUploader} target="_blank">
@@ -374,7 +375,7 @@ const Show: React.FC = () => {
                       </a>
                     </div>
                     <div>
-                      {badges.map(badge => (
+                      {badges.map((badge) => (
                         <span
                           className={`badge bg-${badge.color} mr-2`}
                           key={badge.text}
@@ -385,7 +386,7 @@ const Show: React.FC = () => {
                     </div>
                   </>
                 ) : (
-                  t('general.unexistent-user')
+                  nickname
                 )}
               </div>
             </div>
