@@ -140,8 +140,8 @@ user:
     storage: Использовано памяти
   cur-score: 'Очки:'
   score-notice: Нажмите на очки для просмотра информации.
-  sign: Sign
-  sign-success: Signed successfully. You got :score scores.
+  sign: Отметиться
+  sign-success: Отметка успешна. Вы получили :score очков.
   time-unit-hour: ч
   time-unit-min: мин
   last-sign: Последний вход в :time
@@ -156,7 +156,7 @@ user:
     player-info: Информация <small>(нажмите на имя игрока, чтобы показать предварительный просмотр)</small>
     texture-empty: Ничего
   verification:
-    title: Verify Your Account
+    title: Подтвердите свой аккаунт
     message: You must verify your email address before using the skin hosting service. Haven't received the email?
     resend: Click here to send again.
     sending: Sending...
