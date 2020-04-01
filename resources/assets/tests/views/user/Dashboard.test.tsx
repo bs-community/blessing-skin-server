@@ -25,7 +25,7 @@ function scoreInfo(data = {}, user = {}, stats = {}) {
 describe('info box', () => {
   it('players', async () => {
     fetch.get.mockResolvedValue(
-      scoreInfo({}, {}, { players: { used: 13, total: 21 } }),
+      scoreInfo({}, { score: 0 }, { players: { used: 13, total: 21 } }),
     )
 
     const { getByText } = render(<Dashboard />)
@@ -37,7 +37,7 @@ describe('info box', () => {
   describe('storage', () => {
     it('in KB', async () => {
       fetch.get.mockResolvedValue(
-        scoreInfo({}, {}, { storage: { used: 700, total: 800 } }),
+        scoreInfo({}, { score: 0 }, { storage: { used: 700, total: 800 } }),
       )
 
       const { getByText } = render(<Dashboard />)
@@ -49,7 +49,7 @@ describe('info box', () => {
 
     it('in MB', async () => {
       fetch.get.mockResolvedValue(
-        scoreInfo({}, {}, { storage: { used: 7168, total: 10240 } }),
+        scoreInfo({}, { score: 0 }, { storage: { used: 7168, total: 10240 } }),
       )
 
       const { getByText } = render(<Dashboard />)
