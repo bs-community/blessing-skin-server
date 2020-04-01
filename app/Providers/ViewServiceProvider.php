@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Http\View\Composers;
 use App\Services\Webpack;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 use View;
 
 class ViewServiceProvider extends ServiceProvider
@@ -66,12 +67,13 @@ class ViewServiceProvider extends ServiceProvider
         View::composer('shared.foot', Composers\FootComposer::class);
 
         View::composer(['errors.*', 'setup.*'], function ($view) use ($webpack) {
-            $view->with([
-                'styles' => [
-                    $webpack->url('spectre.css'),
-                ],
-                'scripts' => [],
-            ]);
+            // @codeCoverageIgnoreStart
+            if (Str::startsWith(config('app.asset.env'), 'dev')) {
+                $view->with(['scripts' => [$webpack->url('spectre.js')]]);
+            } else {
+                $view->with('styles', [$webpack->url('spectre.css')]);
+            }
+            // @codeCoverageIgnoreEnd
         });
 
         View::composer('auth.oauth', function ($view) {

@@ -17,6 +17,7 @@ class RedirectToSetupTest extends TestCase
         $current = config('app.version');
         config(['app.version' => '100.0.0']);
         $this->get('/')->assertStatus(503);
+        $this->get('/auth/login')->assertViewIs('auth.login');
         $this->actingAs($superAdmin)->get('/')->assertRedirect('/setup/update');
         config(['app.version' => $current]);
 

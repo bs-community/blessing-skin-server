@@ -23,6 +23,8 @@ class RedirectToSetup
             $user = $request->user();
             if ($user && $user->isAdmin()) {
                 return redirect('/setup/update');
+            } elseif ($request->is('auth/login')) {
+                return $next($request);
             } else {
                 abort(503);
             }
