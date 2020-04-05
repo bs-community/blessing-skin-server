@@ -134,6 +134,7 @@ const config = {
     alias: {
       'react-dom': '@hot-loader/react-dom',
       '@': path.resolve(__dirname, 'resources/assets/src'),
+      'readline': '@/scripts/cli/readline.ts',
     },
   },
   externals: devMode

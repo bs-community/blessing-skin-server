@@ -5,7 +5,11 @@ import { FitAddon } from 'xterm-addon-fit'
 import { Shell } from 'blessing-skin-shell'
 import 'xterm/css/xterm.css'
 import Draggable from 'react-draggable'
+import * as event from './event'
+import AptCommand from './cli/AptCommand'
 import ClosetCommand from './cli/ClosetCommand'
+import DnfCommand from './cli/DnfCommand'
+import PacmanCommand from './cli/PacmanCommand'
 import RmCommand from './cli/RmCommand'
 import styles from '@/styles/terminal.module.scss'
 
@@ -31,14 +35,21 @@ const TerminalWindow: React.FC<{ onClose(): void }> = (props) => {
     fitAddon.fit()
 
     const shell = new Shell(terminal)
+    shell.addExternal(AptCommand.name, AptCommand)
     shell.addExternal('closet', ClosetCommand)
+    shell.addExternal(DnfCommand.name, DnfCommand)
+    shell.addExternal(PacmanCommand.name, PacmanCommand)
     shell.addExternal('rm', RmCommand)
 
-    const unbind = terminal.onData((e) => shell.input(e))
+    const unbindData = terminal.onData((e) => shell.input(e))
+    const unbindKey = terminal.onKey((e) =>
+      event.emit('terminalKeyPress', e.key),
+    )
     launched = true
 
     return () => {
-      unbind.dispose()
+      unbindData.dispose()
+      unbindKey.dispose()
       shell.free()
       fitAddon.dispose()
       terminal.dispose()

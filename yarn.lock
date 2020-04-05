@@ -2072,7 +2072,7 @@ amdefine@>=0.0.4:
   version "1.0.1"
   resolved "https://registry.npmjs.org/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
 
-ansi-colors@^3.0.0:
+ansi-colors@^3.0.0, ansi-colors@^3.2.1:
   version "3.2.4"
   resolved "https://registry.npmjs.org/ansi-colors/-/ansi-colors-3.2.4.tgz#e3a3da4bfbae6c86a9c285625de124a234026fbf"
   integrity sha512-hHUXGagefjN2iRrID63xckIvotOXOojhQKWIPUZ4mNUZ9nLZW+7FMNoE1lOkEhNWYsx/7ysGIuJYCiMAA9FnrA==
@@ -2443,10 +2443,10 @@ binary-extensions@^2.0.0:
   resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-2.0.0.tgz#23c0df14f6a88077f5f986c0d167ec03c3d5537c"
   integrity sha512-Phlt0plgpIIBOGTT/ehfFnbNlfsDEiqmzE2KRXoX1bLIlir4X/MR+zSyBEkL05ffWgnRSf/DXv+WrUAVr93/ow==
 
-blessing-skin-shell@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/blessing-skin-shell/-/blessing-skin-shell-0.2.0.tgz#2454e305c69de134164491d2715a34d599c0d8a1"
-  integrity sha512-bwVHWep3jlPwgY7rAmr+KZJr1RdfVS9OTQB25avRW4EzONflQRiRgU76T8X/DeWa3PItEEGf3qNUJJuRhN5orw==
+blessing-skin-shell@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/blessing-skin-shell/-/blessing-skin-shell-0.3.1.tgz#154b1d3d38f7ba137a66795450f8e7d3b0b6eca9"
+  integrity sha512-CaVdi3waNXIUKdpQgppY+LeOAuQB6uakHdA7bhMalw9zTz+/VTyuDtnPnkSjpFLDsbBaWL4vSqcgui+pPYZDzQ==
 
 bluebird@^3.1.1, bluebird@^3.5.5:
   version "3.5.5"
@@ -2998,6 +2998,11 @@ cli-cursor@^3.1.0:
   integrity sha512-I/zHAwsKf9FqGoXM4WWRACob9+SNukZTd94DWF57E4toouRulbCxcUh6RKUEOQlYTHJnzkPMySvPNaaSLNfLZw==
   dependencies:
     restore-cursor "^3.1.0"
+
+cli-spinners@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/cli-spinners/-/cli-spinners-2.2.0.tgz#e8b988d9206c692302d8ee834e7a85c0144d8f77"
+  integrity sha512-tgU3fKwzYjiLEQgPMD9Jt+JjHVL9kW93FiIMX/l7rivvOD4/LL0Mf7gda3+4U2KJBloybwgj5KEoQgGRioMiKQ==
 
 cli-width@^2.0.0:
   version "2.2.0"
@@ -4252,6 +4257,13 @@ enhanced-resolve@^4.0.0:
     graceful-fs "^4.1.2"
     memory-fs "^0.5.0"
     tapable "^1.0.0"
+
+enquirer@^2.3.4:
+  version "2.3.4"
+  resolved "https://registry.yarnpkg.com/enquirer/-/enquirer-2.3.4.tgz#c608f2e1134c7f68c1c9ee056de13f9b31076de9"
+  integrity sha512-pkYrrDZumL2VS6VBGDhqbajCM2xpkUNLuKfGPjfKaSIBKYopQbqEFyrOkRMIb2HDR/rO1kGhEt/5twBwtzKBXw==
+  dependencies:
+    ansi-colors "^3.2.1"
 
 entities@^2.0.0:
   version "2.0.0"
