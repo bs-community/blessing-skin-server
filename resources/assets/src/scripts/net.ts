@@ -66,7 +66,7 @@ export async function walkFetch(request: Request): Promise<any> {
         text: t('general.csrf'),
       })
       return
-    } else if (response.status === 403) {
+    } else if (response.status === 403 || response.status === 400) {
       showModal({
         mode: 'alert',
         text: message,
