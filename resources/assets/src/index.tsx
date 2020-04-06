@@ -6,6 +6,11 @@ import * as emitter from './scripts/event'
 
 loadModules()
 
+if (process.env.NODE_ENV === 'development') {
+  window.React = React
+  window.ReactDOM = ReactDOM
+}
+
 async function loadModules() {
   if (blessing.route.startsWith('admin')) {
     const entry = document.querySelector<HTMLAnchorElement>('#launch-cli')
@@ -17,11 +22,11 @@ async function loadModules() {
 
   const route = routes.find(
     // eslint-disable-next-line no-shadow
-    route => new RegExp(`^${route.path}$`, 'i').test(blessing.route),
+    (route) => new RegExp(`^${route.path}$`, 'i').test(blessing.route),
   )
   if (route) {
     if (route.module) {
-      Promise.all(route.module.map(m => m()))
+      Promise.all(route.module.map((m) => m()))
     }
     if (route.react) {
       const Component = React.lazy(
@@ -50,7 +55,7 @@ async function loadModules() {
       // eslint-disable-next-line no-new
       new Vue({
         el: route.el,
-        render: h => h(route.component),
+        render: (h) => h(route.component),
       })
     }
   }
