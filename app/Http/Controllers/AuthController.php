@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Rules;
 use Auth;
 use Blessing\Filter;
+use Blessing\Rejection;
 use Cache;
 use Carbon\Carbon;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -47,9 +48,14 @@ class AuthController extends Controller
             'identification' => 'required',
             'password' => 'required|min:6|max:32',
         ]);
-
         $identification = $request->input('identification');
         $password = $request->input('password');
+
+        $can = $filter->apply('can_login', null, [$identification, $password]);
+        if ($can instanceof Rejection) {
+            return json($can->getReason(), 1);
+        }
+
         // Guess type of identification
         $authType = filter_var($identification, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
 
@@ -138,6 +144,11 @@ class AuthController extends Controller
     ) {
         if (!option('user_can_register')) {
             return json(trans('auth.register.close'), 7);
+        }
+
+        $can = $filter->apply('can_register', null);
+        if ($can instanceof Rejection) {
+            return json($can->getReason(), 1);
         }
 
         $rule = option('register_with_player_name') ?

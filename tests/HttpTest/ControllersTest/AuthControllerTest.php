@@ -8,6 +8,7 @@ use App\Models\Player;
 use App\Models\User;
 use App\Rules\Captcha;
 use App\Services\Facades\Option;
+use Blessing\Rejection;
 use Cache;
 use Event;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -191,6 +192,25 @@ class AuthControllerTest extends TestCase
             ]
         );
         $this->assertAuthenticated();
+        auth()->logout();
+
+        // rejected by filter
+        $filter->add('can_login', function () {
+            return new Rejection('banned');
+        });
+        $this->postJson('/auth/login', [
+            'identification' => $player->name,
+            'password' => '12345678',
+        ])->assertJson(['code' => 1, 'message' => 'banned']);
+        $filter->assertApplied(
+            'can_login',
+            function ($can, $identification, $password) use ($player) {
+                $this->assertEquals($player->name, $identification);
+                $this->assertEquals('12345678', $password);
+
+                return true;
+            }
+        );
     }
 
     public function testLogout()
@@ -472,6 +492,16 @@ class AuthControllerTest extends TestCase
             ]
         )->assertJson(['code' => 0]);
         $this->assertNotNull(Player::where('player', 'name'));
+        auth()->logout();
+
+        // rejected by filter
+        $filter = Filter::fake();
+        $filter->add('can_register', function () {
+            return new Rejection('disabled');
+        });
+        $this->postJson('/auth/register', [])
+            ->dump()
+            ->assertJson(['code' => 1, 'message' => 'disabled']);
     }
 
     public function testForgot()
