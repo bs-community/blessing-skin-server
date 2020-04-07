@@ -33,7 +33,6 @@ return [
     */
     'registry' => env(
         'PLUGINS_REGISTRY',
-        'https://dev.azure.com/blessing-skin/0dc12c60-882a-46a2-90c6-9450490193a2/_apis/'.
-        'git/repositories/d5283b63-dfb0-497e-ad17-2860a547596f/Items?path=%2Fregistry-preview.json'
+        'https://cdn.jsdelivr.net/gh/bs-community/plugins-dist@latest/registry-preview.json'
     ),
 ];
