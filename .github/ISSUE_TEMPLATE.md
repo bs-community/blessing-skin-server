@@ -14,13 +14,20 @@
 
 - Blessing Skin 版本 (Version of Blessing Skin):
 - PHP 版本 (Version of PHP):
-- 什么 Web 服务器，Apache 还是 Nginx (Which web server and its version):
+- Apache / Nginx:
 - 什么浏览器，出现错误时的地址栏 URL 是什么 (Which browser and URL):
 
 ## Error Message 错误信息
 
-<!-- 出现错误时的提示，请把它贴上来（截图或文本） -->
-<!-- Paste the error message or a screenshot here. -->
+<!--
+    请提供详细信息，如截图。日志内容请不要直接贴出来，请把它放在 pastebin 等网站上。
+    不提供详细信息的 issue 或不按要求提供日志的将被直接忽略，谢谢合作。
+    Please provide more information, such as screenshots.
+    For logs, don't paste it in issue directly. You can paste in on pastebin.
+    You will be ignored if you don't provide enough information or
+    your logs messes up the issue.
+    Thanks for your cooperation.
+-->
 
 ## Steps to Reproduce 重现步骤
 
