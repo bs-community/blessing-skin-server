@@ -47,7 +47,7 @@ const SkinLibrary: React.FC = () => {
 
       setSort(search.get('sort') ?? 'time')
 
-      setPage(Number.parseInt(search.get('page') ?? '0'))
+      setPage(Number.parseInt(search.get('page') ?? '1'))
     }
 
     parseSearch(location.search)
@@ -81,7 +81,6 @@ const SkinLibrary: React.FC = () => {
         search,
       )
       setItems(result.data)
-      setPage(result.current_page)
       setTotalPages(result.last_page)
       setIsLoading(false)
     }
@@ -118,6 +117,7 @@ const SkinLibrary: React.FC = () => {
     setKeyword('')
     setSort('time')
     setUploader(0)
+    setPage(1)
   }
 
   const handleUploaderClick = (uploader: number) => setUploader(uploader)
