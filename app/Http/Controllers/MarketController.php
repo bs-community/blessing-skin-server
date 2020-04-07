@@ -76,8 +76,13 @@ class MarketController extends Controller
 
     protected function fetch(): Collection
     {
+        $lang = in_array(app()->getLocale(), config('plugins.locales'))
+            ? app()->getLocale()
+            : config('app.fallback_locale');
+
         $plugins = collect(explode(',', config('plugins.registry')))
-            ->map(function ($registry) {
+            ->map(function ($registry) use ($lang) {
+                $registry = str_replace('{lang}', $lang, $registry);
                 $response = Http::withOptions([
                     'verify' => CaBundle::getSystemCaRootBundlePath(),
                 ])->get(trim($registry));

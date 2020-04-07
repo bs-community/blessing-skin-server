@@ -33,6 +33,16 @@ return [
     */
     'registry' => env(
         'PLUGINS_REGISTRY',
-        'https://cdn.jsdelivr.net/gh/bs-community/plugins-dist@latest/registry-preview.json'
+        'https://cdn.jsdelivr.net/gh/bs-community/plugins-dist@latest/registry-preview_{lang}.json'
     ),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Plugins Market Localization
+    |--------------------------------------------------------------------------
+    |
+    | Supported languages of plugins market registry will be listed here.
+    |
+    */
+    'locales' => ['en', 'zh_CN'],
 ];

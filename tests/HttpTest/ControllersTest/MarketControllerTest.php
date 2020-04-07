@@ -17,8 +17,9 @@ class MarketControllerTest extends TestCase
 
     public function testDownload()
     {
+        $registryUrl = str_replace('{lang}', 'en', config('plugins.registry'));
         Http::fake([
-            config('plugins.registry') => Http::sequence()
+            $registryUrl => Http::sequence()
                 ->push(['version' => 1, 'packages' => []])
                 ->push([
                     'version' => 1,
@@ -82,44 +83,49 @@ class MarketControllerTest extends TestCase
 
     public function testMarketData()
     {
+        $registry = [
+            'version' => 1,
+            'packages' => [
+                [
+                    'name' => 'fake1',
+                    'title' => 'Fake',
+                    'version' => '1.0.0',
+                    'description' => '',
+                    'author' => '',
+                    'dist' => [],
+                    'require' => [],
+                ],
+                [
+                    'name' => 'fake2',
+                    'title' => 'Fake',
+                    'version' => '0.0.0',
+                    'description' => '',
+                    'author' => '',
+                    'dist' => [],
+                    'require' => [],
+                ],
+            ],
+        ];
+
         Http::fakeSequence()
             ->pushStatus(404)
-            ->push([
-                'version' => 1,
-                'packages' => [
-                    [
-                        'name' => 'fake1',
-                        'title' => 'Fake',
-                        'version' => '1.0.0',
-                        'description' => '',
-                        'author' => '',
-                        'dist' => [],
-                        'require' => [],
-                    ],
-                    [
-                        'name' => 'fake2',
-                        'title' => 'Fake',
-                        'version' => '0.0.0',
-                        'description' => '',
-                        'author' => '',
-                        'dist' => [],
-                        'require' => [],
-                    ],
-                ],
-            ]);
+            ->push($registry)
+            ->push($registry);
 
         $this->getJson('/admin/plugins/market/list')->assertStatus(500);
 
         $this->mock(PluginManager::class, function ($mock) {
             $mock->shouldReceive('get')
                 ->with('fake1')
+                ->atLeast()
                 ->once()
                 ->andReturn(new Plugin('', ['name' => 'fake1', 'version' => '0.0.1']));
             $mock->shouldReceive('get')
                 ->with('fake2')
+                ->atLeast()
                 ->once()
                 ->andReturn(null);
-            $mock->shouldReceive('getUnsatisfied')->twice();
+            $mock->shouldReceive('getUnsatisfied')->atLeast()->once();
         });
         $this->getJson('/admin/plugins/market/list')
             ->assertJsonStructure([
@@ -134,5 +140,22 @@ class MarketControllerTest extends TestCase
                     'dependencies',
                 ],
             ]);
+
+        // with fallback locale
+        app()->setLocale('es_ES');
+        $this->getJson('/admin/plugins/market/list')
+            ->assertJsonStructure([
+                [
+                    'name',
+                    'title',
+                    'version',
+                    'installed',
+                    'description',
+                    'author',
+                    'dist',
+                    'dependencies',
+                ],
+            ]);
+        app()->setLocale('en');
     }
 }
