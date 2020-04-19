@@ -4,7 +4,19 @@ namespace App\Models;
 
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int     $id
+ * @property int     $tid
+ * @property int     $uploader
+ * @property int     $reporter
+ * @property string  $reason
+ * @property int     $status
+ * @property Carbon  $report_at
+ * @property Texture $texture
+ * @property User    $informer  The reporter.
+ */
 class Report extends Model
 {
     public const CREATED_AT = 'report_at';

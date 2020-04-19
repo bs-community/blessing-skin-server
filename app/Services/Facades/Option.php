@@ -7,17 +7,12 @@ use Illuminate\Support\Facades\Facade;
 
 class Option extends Facade
 {
-    /**
-     * Get the registered name of the component.
-     *
-     * @return string
-     */
     protected static function getFacadeAccessor()
     {
         return 'options';
     }
 
-    public static function form($id, $title, $callback)
+    public static function form(string $id, string $title, $callback): OptionForm
     {
         $form = new OptionForm($id, $title);
 

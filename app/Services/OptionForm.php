@@ -8,6 +8,13 @@ use Illuminate\Support\Str;
 use Option;
 use ReflectionClass;
 
+/**
+ * @method OptionFormText     text(string $id, string|null $name)
+ * @method OptionFormCheckbox checkbox(string $id, string|null $name)
+ * @method OptionFormTextarea textarea(string $id, string|null $name)
+ * @method OptionFormSelect   select(string $id, string|null $name)
+ * @method OptionFormGroup    group(string $id, string|null $name)
+ */
 class OptionForm
 {
     /**
@@ -39,13 +46,8 @@ class OptionForm
 
     /**
      * Create a new option form instance.
-     *
-     * @param string $id
-     * @param string $title
-     *
-     * @return void
      */
-    public function __construct($id, $title = self::AUTO_DETECT)
+    public function __construct(string $id, string $title = self::AUTO_DETECT)
     {
         $this->id = $id;
 
@@ -88,12 +90,8 @@ class OptionForm
 
     /**
      * Set the box type of option form.
-     *
-     * @param string $type
-     *
-     * @return $this
      */
-    public function type($type)
+    public function type(string $type): self
     {
         $this->type = $type;
 
@@ -104,10 +102,8 @@ class OptionForm
      * Add a hint to option form.
      *
      * @param array $info
-     *
-     * @return $this
      */
-    public function hint($hintContent = self::AUTO_DETECT)
+    public function hint($hintContent = self::AUTO_DETECT): self
     {
         if ($hintContent == self::AUTO_DETECT) {
             $hintContent = trans("options.$this->id.hint");
@@ -123,10 +119,8 @@ class OptionForm
      *
      * @param string|array $key
      * @param mixed        $value
-     *
-     * @return $this
      */
-    public function with($key, $value = null)
+    public function with($key, $value = null): self
     {
         if (is_array($key)) {
             $this->values = array_merge($this->values, $key);
@@ -139,10 +133,8 @@ class OptionForm
 
     /**
      * Add a button at the footer of option form.
-     *
-     * @return $this
      */
-    public function addButton(array $info)
+    public function addButton(array $info): self
     {
         $info = array_merge([
             'style' => 'default',
@@ -166,11 +158,8 @@ class OptionForm
      * Add a message to the top of option form.
      *
      * @param string $msg
-     * @param string $style
-     *
-     * @return $this
      */
-    public function addMessage($msg = self::AUTO_DETECT, $style = 'info')
+    public function addMessage($msg = self::AUTO_DETECT, string $style = 'info'): self
     {
         if ($msg == self::AUTO_DETECT) {
             $msg = trans("options.$this->id.message");
@@ -185,11 +174,8 @@ class OptionForm
      * Add an alert to the top of option form.
      *
      * @param string $msg
-     * @param string $style
-     *
-     * @return $this
      */
-    public function addAlert($msg = self::AUTO_DETECT, $style = 'info')
+    public function addAlert($msg = self::AUTO_DETECT, string $style = 'info'): self
     {
         if ($msg == self::AUTO_DETECT) {
             $msg = trans("options.$this->id.alert");
@@ -202,10 +188,8 @@ class OptionForm
 
     /**
      * Add callback which will be executed before handling options.
-     *
-     * @return $this
      */
-    public function before(callable $callback)
+    public function before(callable $callback): self
     {
         $this->hookBefore = $callback;
 
@@ -214,10 +198,8 @@ class OptionForm
 
     /**
      * Add callback which will be executed after handling options.
-     *
-     * @return $this
      */
-    public function after(callable $callback)
+    public function after(callable $callback): self
     {
         $this->hookAfter = $callback;
 
@@ -226,10 +208,8 @@ class OptionForm
 
     /**
      * Add callback which will be always executed.
-     *
-     * @return $this
      */
-    public function always(callable $callback)
+    public function always(callable $callback): self
     {
         $this->alwaysCallback = $callback;
 
@@ -238,12 +218,8 @@ class OptionForm
 
     /**
      * Handle the HTTP post request and update modified options.
-     *
-     * @param callable $callback
-     *
-     * @return $this
      */
-    public function handle(callable $callback = null)
+    public function handle(callable $callback = null): self
     {
         $request = request();
         $allPostData = $request->all();
@@ -297,22 +273,16 @@ class OptionForm
 
     /**
      * Load value from $this->values & options by given id.
-     *
-     * @param string $id
-     *
-     * @return mixed
      */
-    protected function getValueById($id)
+    protected function getValueById(string $id)
     {
         return Arr::get($this->values, $id, option_localized($id));
     }
 
     /**
      * Assign value for option items whose value haven't been set.
-     *
-     * @return void
      */
-    protected function assignValues()
+    protected function assignValues(): void
     {
         // Load values for items if not set manually
         foreach ($this->items as $item) {
@@ -331,21 +301,21 @@ class OptionForm
         }
     }
 
-    public function renderWithoutTable()
+    public function renderWithoutTable(): self
     {
         $this->renderWithoutTable = true;
 
         return $this;
     }
 
-    public function renderInputTagsOnly()
+    public function renderInputTagsOnly(): self
     {
         $this->renderInputTagsOnly = true;
 
         return $this;
     }
 
-    public function renderWithoutSubmitButton()
+    public function renderWithoutSubmitButton(): self
     {
         $this->renderWithoutSubmitButton = true;
 
@@ -354,10 +324,8 @@ class OptionForm
 
     /**
      * Get the string contents of the option form.
-     *
-     * @return string
      */
-    public function render()
+    public function render(): string
     {
         if (!is_null($this->alwaysCallback)) {
             call_user_func($this->alwaysCallback, $this);
@@ -382,10 +350,8 @@ class OptionForm
 
     /**
      * Get the string contents of the option form.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->render();
     }
@@ -409,7 +375,7 @@ class OptionFormItem
 
     protected $parentId;
 
-    public function __construct($id, $name = null)
+    public function __construct(string $id, $name = null)
     {
         $this->id = $id;
         $this->name = $name;

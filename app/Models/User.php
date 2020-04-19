@@ -4,11 +4,28 @@ namespace App\Models;
 
 use App\Models\Concerns\HasPassword;
 use DateTimeInterface;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+/**
+ * @property int        $uid
+ * @property string     $email
+ * @property string     $password
+ * @property string     $nickname
+ * @property int        $avatar
+ * @property int        $score
+ * @property int        $permission
+ * @property string     $ip
+ * @property string     $last_sign_at
+ * @property string     $register_at
+ * @property bool       $verified
+ * @property string     $player_name
+ * @property Collection $players
+ * @property Collection $closet
+ */
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
@@ -69,7 +86,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function players()
     {
-        return $this->hasMany('App\Models\Player', 'uid');
+        return $this->hasMany(Player::class, 'uid');
     }
 
     public function getAuthIdentifier()

@@ -3,8 +3,24 @@
 namespace App\Models;
 
 use DateTimeInterface;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int        $tid
+ * @property string     $name
+ * @property string     $type
+ * @property string     $hash
+ * @property int        $size
+ * @property int        $uploader
+ * @property bool       $public
+ * @property Carbon     $upload_at
+ * @property int        $likes
+ * @property string     $model
+ * @property User       $owner
+ * @property Collection $likers
+ */
 class Texture extends Model
 {
     public $primaryKey = 'tid';

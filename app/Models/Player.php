@@ -6,7 +6,20 @@ use App\Events\PlayerProfileUpdated;
 use App\Models;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
+/**
+ * @property int     $pid
+ * @property int     $uid
+ * @property string  $name
+ * @property int     $tid_skin
+ * @property int     $tid_cape
+ * @property Carbon  $last_modified
+ * @property User    $user
+ * @property Texture $skin
+ * @property Texture $cape
+ * @property string  $model
+ */
 class Player extends Model
 {
     public const CREATED_AT = null;
