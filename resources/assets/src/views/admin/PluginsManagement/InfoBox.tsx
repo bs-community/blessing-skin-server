@@ -11,7 +11,7 @@ interface Props {
   baseUrl: string
 }
 
-const InfoBox: React.FC<Props> = props => {
+const InfoBox: React.FC<Props> = (props) => {
   const { plugin } = props
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,7 +74,12 @@ const InfoBox: React.FC<Props> = props => {
             </a>
           </div>
         </div>
-        <div className={`mt-2 ${styles.description}`}>{plugin.description}</div>
+        <div
+          className={`mt-2 ${styles.description}`}
+          title={plugin.description}
+        >
+          {plugin.description}
+        </div>
       </div>
     </div>
   )
