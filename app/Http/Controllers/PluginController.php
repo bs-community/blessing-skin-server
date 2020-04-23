@@ -40,7 +40,7 @@ class PluginController extends Controller
             return abort(404, trans('admin.plugins.operations.no-readme-notice'));
         }
 
-        $title = $plugin->title;
+        $title = trans($plugin->title);
         $path = $plugin->getPath().'/'.$readmePath;
         $parsedown = new Parsedown();
         $content = $parsedown->text(file_get_contents($path));
