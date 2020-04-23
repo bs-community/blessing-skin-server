@@ -272,7 +272,7 @@ class PluginManager
                 $callbacks = $this->filesystem->getRequire($path);
                 $callback = Arr::get($callbacks, get_class($event));
                 if ($callback) {
-                    return $this->app->call($callback, [$plugin]);
+                    return $this->app->call($callback, ['plugin' => $plugin]);
                 }
             }
         });
