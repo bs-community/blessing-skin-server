@@ -172,6 +172,6 @@ Blessing Skin 可支持多种语言，当前支持英语（`en`）和简体中�
 
 MIT License
 
-Copyright (c) 2016-present The Blessing Skin Community
+Copyright (c) 2016-present The Blessing Skin Team
 
 程序原作者为 [@printempw](https://blessing.studio/)，转载请注明。

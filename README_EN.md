@@ -195,4 +195,4 @@ When reporting a problem, please attach your log file (located at `storage/logs/
 
 MIT License
 
-Copyright (c) 2016-present The Blessing Skin Community
+Copyright (c) 2016-present The Blessing Skin Team
