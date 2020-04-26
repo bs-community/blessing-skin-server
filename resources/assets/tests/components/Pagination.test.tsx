@@ -80,7 +80,7 @@ describe('middle pages', () => {
   })
 
   describe('pages count greater than or equals to 8', () => {
-    it('edge', () => {
+    it('left edge', () => {
       const mock = jest.fn()
       const { getByText, queryByText } = render(
         <Pagination page={2} totalPages={10} onChange={mock} />,
@@ -90,31 +90,38 @@ describe('middle pages', () => {
       expect(mock).toBeCalledWith(1)
       expect(queryByText('1')).toBeInTheDocument()
       expect(queryByText('2')).toBeInTheDocument()
+      expect(queryByText('3')).toBeInTheDocument()
       expect(queryByText('...')).toBeInTheDocument()
-      expect(queryByText('9')).toBeInTheDocument()
       expect(queryByText('10')).toBeInTheDocument()
 
       fireEvent.click(getByText('2'))
       expect(mock).toBeCalledWith(2)
       expect(queryByText('1')).toBeInTheDocument()
       expect(queryByText('2')).toBeInTheDocument()
+      expect(queryByText('3')).toBeInTheDocument()
       expect(queryByText('...')).toBeInTheDocument()
+      expect(queryByText('10')).toBeInTheDocument()
+    })
+
+    it('right edge', () => {
+      const mock = jest.fn()
+      const { getByText, queryByText } = render(
+        <Pagination page={9} totalPages={10} onChange={mock} />,
+      )
+
+      fireEvent.click(getByText('10'))
+      expect(mock).toBeCalledWith(10)
+      expect(queryByText('1')).toBeInTheDocument()
+      expect(queryByText('...')).toBeInTheDocument()
+      expect(queryByText('8')).toBeInTheDocument()
       expect(queryByText('9')).toBeInTheDocument()
       expect(queryByText('10')).toBeInTheDocument()
 
       fireEvent.click(getByText('9'))
       expect(mock).toBeCalledWith(9)
       expect(queryByText('1')).toBeInTheDocument()
-      expect(queryByText('2')).toBeInTheDocument()
       expect(queryByText('...')).toBeInTheDocument()
-      expect(queryByText('9')).toBeInTheDocument()
-      expect(queryByText('10')).toBeInTheDocument()
-
-      fireEvent.click(getByText('10'))
-      expect(mock).toBeCalledWith(10)
-      expect(queryByText('1')).toBeInTheDocument()
-      expect(queryByText('2')).toBeInTheDocument()
-      expect(queryByText('...')).toBeInTheDocument()
+      expect(queryByText('8')).toBeInTheDocument()
       expect(queryByText('9')).toBeInTheDocument()
       expect(queryByText('10')).toBeInTheDocument()
     })

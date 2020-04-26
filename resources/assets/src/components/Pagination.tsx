@@ -12,7 +12,7 @@ export const labels = {
   next: '›',
 }
 
-const Pagination: React.FC<Props> = props => {
+const Pagination: React.FC<Props> = (props) => {
   const { page, totalPages, onChange } = props
 
   if (totalPages < 1) {
@@ -34,45 +34,53 @@ const Pagination: React.FC<Props> = props => {
             {i + 1}
           </PaginationItem>
         ))
-      ) : page < 3 || totalPages - page < 2 ? (
-        <>
-          {[1, 2].map(p => (
-            <PaginationItem
-              key={p}
-              active={page === p}
-              onClick={() => onChange(p)}
-            >
-              {p}
-            </PaginationItem>
-          ))}
-          <PaginationItem disabled>...</PaginationItem>
-          {[totalPages - 1, totalPages].map(p => (
-            <PaginationItem
-              key={p}
-              active={page === p}
-              onClick={() => onChange(p)}
-            >
-              {p}
-            </PaginationItem>
-          ))}
-        </>
       ) : (
         <>
-          <PaginationItem onClick={() => onChange(1)}>1</PaginationItem>
+          {page < 4 ? (
+            [1, 2, 3, 4].map((n) => (
+              <PaginationItem
+                key={n}
+                active={page === n}
+                onClick={() => onChange(n)}
+              >
+                {n}
+              </PaginationItem>
+            ))
+          ) : (
+            <PaginationItem onClick={() => onChange(1)}>1</PaginationItem>
+          )}
           <PaginationItem disabled>...</PaginationItem>
-          {[page - 1, page, page + 1].map(p => (
-            <PaginationItem
-              key={p}
-              active={page === p}
-              onClick={() => onChange(p)}
-            >
-              {p}
+          {page > 3 && page < totalPages - 2 && (
+            <>
+              {[page - 1, page, page + 1].map((n) => (
+                <PaginationItem
+                  key={n}
+                  active={page === n}
+                  onClick={() => onChange(n)}
+                >
+                  {n}
+                </PaginationItem>
+              ))}
+              <PaginationItem disabled>...</PaginationItem>
+            </>
+          )}
+          {totalPages - page < 3 ? (
+            [totalPages - 3, totalPages - 2, totalPages - 1, totalPages].map(
+              (n) => (
+                <PaginationItem
+                  key={n}
+                  active={page === n}
+                  onClick={() => onChange(n)}
+                >
+                  {n}
+                </PaginationItem>
+              ),
+            )
+          ) : (
+            <PaginationItem onClick={() => onChange(totalPages)}>
+              {totalPages}
             </PaginationItem>
-          ))}
-          <PaginationItem disabled>...</PaginationItem>
-          <PaginationItem onClick={() => onChange(totalPages)}>
-            {totalPages}
-          </PaginationItem>
+          )}
         </>
       )}
       <PaginationItem
