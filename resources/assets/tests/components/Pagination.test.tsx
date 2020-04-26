@@ -6,50 +6,8 @@ test('hide when total pages is invalid', () => {
   const { queryByText } = render(
     <Pagination page={1} totalPages={0} onChange={() => {}} />,
   )
-  expect(queryByText(labels.first)).not.toBeInTheDocument()
   expect(queryByText(labels.prev)).not.toBeInTheDocument()
   expect(queryByText(labels.next)).not.toBeInTheDocument()
-  expect(queryByText(labels.last)).not.toBeInTheDocument()
-})
-
-describe('first page', () => {
-  it('enabled', () => {
-    const mock = jest.fn()
-    const { getByText } = render(
-      <Pagination page={2} totalPages={3} onChange={mock} />,
-    )
-    fireEvent.click(getByText(labels.first))
-    expect(mock).toBeCalledWith(1)
-  })
-
-  it('disabled', () => {
-    const mock = jest.fn()
-    const { getByText } = render(
-      <Pagination page={1} totalPages={3} onChange={mock} />,
-    )
-    fireEvent.click(getByText(labels.first))
-    expect(mock).not.toBeCalled()
-  })
-})
-
-describe('last page', () => {
-  it('enabled', () => {
-    const mock = jest.fn()
-    const { getByText } = render(
-      <Pagination page={2} totalPages={3} onChange={mock} />,
-    )
-    fireEvent.click(getByText(labels.last))
-    expect(mock).toBeCalledWith(3)
-  })
-
-  it('disabled', () => {
-    const mock = jest.fn()
-    const { getByText } = render(
-      <Pagination page={3} totalPages={3} onChange={mock} />,
-    )
-    fireEvent.click(getByText(labels.last))
-    expect(mock).not.toBeCalled()
-  })
 })
 
 describe('previous page', () => {

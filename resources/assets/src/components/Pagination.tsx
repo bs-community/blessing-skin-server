@@ -8,10 +8,8 @@ interface Props {
 }
 
 export const labels = {
-  first: '«',
   prev: '‹',
   next: '›',
-  last: '»',
 }
 
 const Pagination: React.FC<Props> = props => {
@@ -23,9 +21,6 @@ const Pagination: React.FC<Props> = props => {
 
   return (
     <ul className="pagination">
-      <PaginationItem disabled={page === 1} onClick={() => onChange(1)}>
-        {labels.first}
-      </PaginationItem>
       <PaginationItem disabled={page === 1} onClick={() => onChange(page - 1)}>
         {labels.prev}
       </PaginationItem>
@@ -85,12 +80,6 @@ const Pagination: React.FC<Props> = props => {
         onClick={() => onChange(page + 1)}
       >
         {labels.next}
-      </PaginationItem>
-      <PaginationItem
-        disabled={page === totalPages}
-        onClick={() => onChange(totalPages)}
-      >
-        {labels.last}
       </PaginationItem>
     </ul>
   )
