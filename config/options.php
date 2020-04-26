@@ -25,7 +25,7 @@ return [
     'score_per_player'          => '100',
     'sign_after_zero'           => 'false',
     'version'                   => '',
-    'copyright_text'            => '<strong>Copyright &copy; {year} <a href="{site_url}">{site_name}</a>.</strong> All rights reserved.',
+    'copyright_text'            => '<b>Copyright &copy; {year} <a href="{site_url}">{site_name}</a>.</b> All rights reserved.',
     'auto_del_invalid_texture'  => 'false',
     'allow_downloading_texture' => 'true',
     'texture_name_regexp'       => '',

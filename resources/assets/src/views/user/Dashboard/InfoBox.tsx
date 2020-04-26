@@ -9,7 +9,7 @@ interface Props {
   unit: string
 }
 
-const InfoBox: React.FC<Props> = props => {
+const InfoBox: React.FC<Props> = (props) => {
   const percentage = (props.used / props.total) * 100
 
   return (
@@ -20,7 +20,7 @@ const InfoBox: React.FC<Props> = props => {
       <div className="info-box-content">
         <span className="info-box-text">{props.name}</span>
         <span className="info-box-number">
-          <strong>{props.used}</strong> / {props.total} {props.unit}
+          <b>{props.used}</b> / {props.total} {props.unit}
         </span>
         <div className="progress">
           <div className="progress-bar" style={{ width: `${percentage}%` }} />
