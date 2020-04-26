@@ -18,8 +18,6 @@ const Item: React.FC<Props> = (props) => {
   const link = `${blessing.base_url}/skinlib/show/${item.tid}`
   const preview = `${blessing.base_url}/preview/${item.tid}?height=150`
 
-  const heartColor = props.liked ? 'text-red' : 'text-gray'
-
   const handleUploaderClick = (event: React.MouseEvent) => {
     event.preventDefault()
     props.onUploaderClick(item.uploader)
@@ -57,15 +55,19 @@ const Item: React.FC<Props> = (props) => {
                 {humanizeType(item.type)}
               </span>
               <a
-                className="badge bg-indigo py-1"
-                href="#"
+                className="badge bg-indigo py-1 cursor-pointer"
                 title={t('skinlib.show.uploader')}
                 onClick={handleUploaderClick}
               >
                 {item.nickname}
               </a>
             </div>
-            <a href="#" className={heartColor} onClick={handleHeartClick}>
+            <a
+              className={`cursor-pointer ${styles.like}`}
+              onClick={handleHeartClick}
+              tabIndex={-1}
+              data-liked={props.liked}
+            >
               <i className="fas fa-heart mr-1"></i>
               {item.likes}
             </a>

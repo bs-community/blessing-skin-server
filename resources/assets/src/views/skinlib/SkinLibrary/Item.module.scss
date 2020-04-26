@@ -19,3 +19,15 @@
 .truncate {
   @include utils.truncate-text;
 }
+
+.like {
+  color: #6c757d;
+
+  &:hover {
+    color: #343a40;
+  }
+
+  &[data-liked="true"] {
+    color: #dc3545;
+  }
+}
