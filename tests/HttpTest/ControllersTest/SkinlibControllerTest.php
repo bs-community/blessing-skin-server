@@ -55,6 +55,11 @@ class SkinlibControllerTest extends TestCase
                     ['tid' => $steve->tid, 'nickname' => $steve->owner->nickname],
                 ],
             ]);
+        $user = factory(User::class)->create();
+        $list = $this->actingAs($user)
+            ->getJson('/skinlib/list?keyword=a')
+            ->decodeResponseJson('data');
+        $this->assertCount(1, $list);
 
         // with uploader
         $this->getJson('/skinlib/list?uploader='.$steve->uploader)

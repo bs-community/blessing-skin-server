@@ -59,9 +59,12 @@ class SkinlibController extends Controller
             })
             ->when($user, function (Builder $query, User $user) {
                 if (!$user->isAdmin()) {
-                    return $query
-                        ->where('public', true)
-                        ->orWhere('uploader', $user->uid);
+                    // use closure-style `where` clause to lift up SQL priority
+                    return $query->where(function (Builder $query) use ($user) {
+                        $query
+                            ->where('public', true)
+                            ->orWhere('uploader', $user->uid);
+                    });
                 }
             }, function (Builder $query) {
                 // show public textures only to anonymous visitors
