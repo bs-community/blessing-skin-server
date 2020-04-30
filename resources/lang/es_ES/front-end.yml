@@ -233,10 +233,10 @@ admin:
   enablePlugin: Habilitar
   disablePlugin: Deshabilitar
   confirmDeletion: '¿Seguro que desea eliminar este plugin?'
-  uploadArchive: Upload Archive
-  uploadArchiveNotice: Install a plugin by uploading a Zip archive.
-  downloadRemote: Download From Remote
-  downloadRemoteNotice: Install a plugin by downloading a Zip archive from remote URL.
+  uploadArchive: Subir archivo
+  uploadArchiveNotice: Instalar un plugin subiendo un archivo zip.
+  downloadRemote: Descargar desde remoto
+  downloadRemoteNotice: Instalar un plugin descargando un archivo zip desde la URL remota.
   noDependenciesNotice: >-
     No hay ninguna definición de dependencia en el plugin. Significa que el plugin puede no ser compatible con la versión actual de Blessing Skin, y activarlo puede causar problemas inesperados. ¿Realmente desea activar el plugin?
   updateButton: Actualizar ahora
@@ -288,7 +288,7 @@ general:
   skinlib: Colección de skins
   loading: Cargando
   wait: Por favor, espere...
-  csrf: This page is out-dated. Please refresh it.
+  csrf: Esta página está desactualizada. Por favor refrescar.
   user:
     email: Email
     nickname: Apodo
@@ -300,11 +300,11 @@ general:
     previews: Preestrenos de textura
     last-modified: Últim actualiz
 colors:
-  black: Black
-  white: White
-  gray: Gray
-  prev: Previous Background
-  next: Next Background
+  black: Negro
+  white: Blanco
+  gray: Gris
+  prev: Fondo anterior
+  next: Siguiente fondo
 vendor:
   datatable:
     search: Buscar
