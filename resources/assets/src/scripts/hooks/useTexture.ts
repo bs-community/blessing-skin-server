@@ -4,10 +4,7 @@ import { Texture, TextureType } from '../types'
 
 type Response = fetch.ResponseBody<Texture>
 
-export default function useTexture(): [
-  { url: string; type: TextureType },
-  React.Dispatch<React.SetStateAction<number>>,
-] {
+export default function useTexture() {
   const [tid, setTid] = useState(0)
   const [url, setUrl] = useState('')
   const [type, setType] = useState<TextureType>('steve')
@@ -29,5 +26,5 @@ export default function useTexture(): [
     getTexture()
   }, [tid])
 
-  return [{ url, type }, setTid]
+  return [{ url, type }, setTid] as const
 }

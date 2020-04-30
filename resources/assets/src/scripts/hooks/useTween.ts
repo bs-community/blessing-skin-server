@@ -1,9 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import TWEEN from '@tweenjs/tween.js'
 
-export default function useTween<T = any>(
-  initialValue: T,
-): [T, React.Dispatch<React.SetStateAction<T>>] {
+export default function useTween<T = any>(initialValue: T) {
   const [value, setValue] = useState<T>(initialValue)
   const ref = useRef<T>(value)
   const [dest, setDest] = useState<T>(initialValue)
@@ -20,5 +18,5 @@ export default function useTween<T = any>(
     animate()
   }, [dest])
 
-  return [value, setDest]
+  return [value, setDest] as const
 }
