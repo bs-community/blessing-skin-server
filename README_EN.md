@@ -90,17 +90,24 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
         </a>
       </td>
       <td align=center>
-        <a href="https://afdian.net/@xiaoye">
-          <img src="https://pic1.afdiancdn.com/user/3cab3390efed11e88ad552540025c377/avatar/23b9e2fabc1c11019cc67cc075673544_w640_h640_s32.jpg" width="120" height="120">
-          <br>
-          星域联盟_晓夜
-        </a>
-      </td>
-      <td align=center>
         <a href="">
           <img src="https://pic1.afdiancdn.com/default/avatar/default-avatar@2x.png" width="120" height="120">
           <br>
           爱发电用户_xQKh
+        </a>
+      </td>
+      <td align=center>
+        <a href="https://afdian.net/@HyperCol_Studio">
+          <img src="https://pic1.afdiancdn.com/user/ad213afe31b311e991c252540025c377/avatar/cb8f7ef0832124d336839cdb4a784e14_w2000_h2000_s1992.jpg" width="120" height="120">
+          <br>
+          HyperCol
+        </a>
+      </td>
+      <td align=center>
+        <a href="">
+          <img src="https://pic1.afdiancdn.com/default/avatar/avatar-purple.png" width="120" height="120">
+          <br>
+          爱发电用户_9JTs
         </a>
       </td>
       <td align=center>
@@ -110,7 +117,7 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
           Kyle
         </a>
       </td>
-    </tr>
+      </tr>
   </tbody>
 </table>
 
@@ -119,13 +126,6 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
 <table>
   <tbody>
     <tr>
-      <td align=center>
-        <a href="">
-          <img src="https://pic1.afdiancdn.com/default/avatar/default-avatar@2x.png" width="75" height="75">
-          <br>
-          爱发电用户_4ft3
-        </a>
-      </td>
       <td align=center>
         <a href="">
           <img src="https://pic1.afdiancdn.com/user/68d07bf851fc11e98e5652540025c377/avatar/48538be153c8eebc3eb5cb6bc085cde9_w574_h574_s173.jpg" width="75" height="75">
@@ -147,7 +147,7 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
           酷车手BB弹
         </a>
       </td>
-    </tr>
+      </tr>
   </tbody>
 </table>
 
