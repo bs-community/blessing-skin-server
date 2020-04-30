@@ -10,8 +10,10 @@ jest.mock('@/scripts/net')
 const fixture: Readonly<Player> = Object.freeze<Player>({
   pid: 1,
   name: 'kumiko',
+  uid: 1,
   tid_skin: 1,
   tid_cape: 2,
+  last_modified: new Date().toString(),
 })
 
 beforeEach(() => {
@@ -38,7 +40,14 @@ test('loading indicator', () => {
 })
 
 test('search players', async () => {
-  const fixture2: Player = { pid: 2, name: 'reina', tid_skin: 3, tid_cape: 4 }
+  const fixture2: Player = {
+    pid: 2,
+    name: 'reina',
+    uid: 2,
+    tid_skin: 3,
+    tid_cape: 4,
+    last_modified: new Date().toString(),
+  }
   fetch.get.mockResolvedValue({ data: [fixture, fixture2] })
 
   const { getByPlaceholderText, queryByText } = render(<Players />)
@@ -63,7 +72,14 @@ describe('select player automatically', () => {
   })
 
   it('more players', async () => {
-    const fixture2: Player = { pid: 2, name: 'reina', tid_skin: 3, tid_cape: 4 }
+    const fixture2: Player = {
+      pid: 2,
+      name: 'reina',
+      uid: 2,
+      tid_skin: 3,
+      tid_cape: 4,
+      last_modified: new Date().toString(),
+    }
     fetch.get.mockResolvedValue({ data: [fixture, fixture2] })
     render(<Players />)
     await waitFor(() => expect(fetch.get).toBeCalledTimes(1))

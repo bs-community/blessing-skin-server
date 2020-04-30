@@ -58,7 +58,7 @@ export default [
   },
   {
     path: 'admin/players',
-    component: () => import('../views/admin/Players.vue'),
+    react: () => import('../views/admin/PlayersManagement'),
     el: '.content > .container-fluid',
   },
   {

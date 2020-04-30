@@ -7,6 +7,7 @@ use App\Models;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Lorisleiva\LaravelSearchString\Concerns\SearchString;
 
 /**
  * @property int     $pid
@@ -22,6 +23,8 @@ use Illuminate\Support\Carbon;
  */
 class Player extends Model
 {
+    use SearchString;
+
     public const CREATED_AT = null;
     public const UPDATED_AT = 'last_modified';
 
@@ -38,6 +41,14 @@ class Player extends Model
     protected $dispatchesEvents = [
         'retrieved' => \App\Events\PlayerRetrieved::class,
         'updated' => PlayerProfileUpdated::class,
+    ];
+
+    protected $searchStringColumns = [
+        'pid', 'uid',
+        'tid_skin' => '/^(?:tid_)?skin$/',
+        'tid_cape' => '/^(?:tid_)?cape$/',
+        'name' => ['searchable' => true],
+        'last_modified' => ['date' => true],
     ];
 
     public function user()

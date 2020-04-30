@@ -27,6 +27,7 @@
     "intervention/image": "^2.5",
     "laravel/framework": "^7.0",
     "laravel/passport": "^8.4",
+    "lorisleiva/laravel-search-string": "^0.1.6",
     "nesbot/carbon": "^2.0",
     "nunomaduro/collision": "^4.1",
     "rcrowe/twigbridge": "^0.11.3",

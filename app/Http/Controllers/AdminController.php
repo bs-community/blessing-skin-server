@@ -6,7 +6,6 @@ use App\Models\Player;
 use App\Models\Texture;
 use App\Models\User;
 use App\Notifications;
-use App\Rules;
 use App\Services\OptionForm;
 use App\Services\PluginManager;
 use Auth;
@@ -595,82 +594,6 @@ class AdminController extends Controller
             $user->delete();
 
             return json(trans('admin.users.operations.delete.success'), 0);
-        } else {
-            return json(trans('admin.users.operations.invalid'), 1);
-        }
-    }
-
-    public function playerAjaxHandler(Request $request)
-    {
-        $action = $request->input('action');
-        $currentUser = Auth::user();
-        $player = Player::find($request->input('pid'));
-
-        if (!$player) {
-            return json(trans('general.unexistent-player'), 1);
-        }
-
-        $owner = $player->user;
-        if (
-            $owner && $owner->uid !== $currentUser->uid &&
-            $owner->permission >= $currentUser->permission
-        ) {
-            return json(trans('admin.players.no-permission'), 1);
-        }
-
-        if ($action == 'texture') {
-            $this->validate($request, [
-                'type' => 'required',
-                'tid' => 'required|integer',
-            ]);
-
-            if (!Texture::find($request->tid) && $request->tid != 0) {
-                return json(trans('admin.players.textures.non-existent', ['tid' => $request->tid]), 1);
-            }
-
-            $field = 'tid_'.$request->type;
-            $player->$field = $request->tid;
-            $player->save();
-
-            return json(trans('admin.players.textures.success', ['player' => $player->name]), 0);
-        } elseif ($action == 'owner') {
-            $this->validate($request, [
-                'uid' => 'required|integer',
-            ]);
-
-            $user = User::find($request->uid);
-
-            if (!$user) {
-                return json(trans('admin.users.operations.non-existent'), 1);
-            }
-
-            $player->uid = $request->input('uid');
-            $player->save();
-
-            return json(trans('admin.players.owner.success', ['player' => $player->name, 'user' => $user->nickname]), 0);
-        } elseif ($action == 'delete') {
-            $player->delete();
-
-            return json(trans('admin.players.delete.success'), 0);
-        } elseif ($action == 'name') {
-            $name = $this->validate($request, [
-                'name' => [
-                    'required',
-                    new Rules\PlayerName(),
-                    'min:'.option('player_name_length_min'),
-                    'max:'.option('player_name_length_max'),
-                ],
-            ])['name'];
-
-            $player->name = $name;
-            $player->save();
-
-            if (option('single_player', false) && $owner) {
-                $owner->nickname = $name;
-                $owner->save();
-            }
-
-            return json(trans('admin.players.name.success', ['player' => $player->name]), 0);
         } else {
             return json(trans('admin.users.operations.invalid'), 1);
         }

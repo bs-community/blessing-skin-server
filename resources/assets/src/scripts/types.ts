@@ -14,8 +14,10 @@ export type User = {
 export type Player = {
   pid: number
   name: string
+  uid: number
   tid_skin: number
   tid_cape: number
+  last_modified: string
 }
 
 export type Texture = {

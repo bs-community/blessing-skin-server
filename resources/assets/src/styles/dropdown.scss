@@ -1,0 +1,15 @@
+.dropdown-item {
+  &:hover {
+    color: #fff;
+    background-color: var(--blue);
+  }
+
+  &.dropdown-item-danger {
+    color: var(--danger);
+
+    &:hover, &:active {
+      color: #fff;
+      background-color: var(--danger);
+    }
+  }
+}

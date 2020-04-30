@@ -133,11 +133,16 @@ Route::prefix('admin')
             Route::get('list', 'AdminController@getUserData');
         });
 
-        Route::prefix('players')->group(function () {
-            Route::view('', 'admin.players');
-            Route::post('', 'AdminController@playerAjaxHandler');
-            Route::get('list', 'AdminController@getPlayerData');
-        });
+        Route::prefix('players')
+            ->name('players.')
+            ->group(function () {
+                Route::view('', 'admin.players');
+                Route::get('list', 'PlayersManagementController@list')->name('list');
+                Route::put('{player}/name', 'PlayersManagementController@name')->name('name');
+                Route::put('{player}/owner', 'PlayersManagementController@owner')->name('owner');
+                Route::put('{player}/textures', 'PlayersManagementController@texture')->name('texture');
+                Route::delete('{player}', 'PlayersManagementController@delete')->name('delete');
+            });
 
         Route::prefix('closet')->group(function () {
             Route::post('{uid}', 'ClosetManagementController@add');

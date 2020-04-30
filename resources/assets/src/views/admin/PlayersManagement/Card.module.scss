@@ -1,0 +1,10 @@
+@use '../../../styles/breakpoints';
+
+.box {
+  width: 48%;
+  margin: 7px;
+
+  @include breakpoints.less-than('lg') {
+    width: 98%;
+  }
+}

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -13,24 +14,27 @@ class EventServiceProvider extends ServiceProvider
      */
     protected $listen = [
         'App\Events\PlayerRetrieved' => [
-            'App\Listeners\ResetInvalidTextureForPlayer',
+            Listeners\ResetInvalidTextureForPlayer::class,
         ],
         'App\Events\TextureDeleting' => [
             'App\Listeners\TextureRemoved',
         ],
         'App\Events\PluginWasEnabled' => [
-            'App\Listeners\CopyPluginAssets',
-            'App\Listeners\GeneratePluginTranslations',
+            Listeners\CopyPluginAssets::class,
+            Listeners\GeneratePluginTranslations::class,
         ],
         'plugin.versionChanged' => [
             'App\Listeners\CopyPluginAssets',
             'App\Listeners\GeneratePluginTranslations',
         ],
         'App\Events\PluginBootFailed' => [
-            'App\Listeners\NotifyFailedPlugin',
+            Listeners\NotifyFailedPlugin::class,
         ],
         'App\Events\RenderingHeader' => [
-            'App\Listeners\SerializeGlobals',
+            Listeners\SerializeGlobals::class,
+        ],
+        'player.name.updated' => [
+            Listeners\SinglePlayer\UpdateOwnerNickName::class,
         ],
     ];
 }

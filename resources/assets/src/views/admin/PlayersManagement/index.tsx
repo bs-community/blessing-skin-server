@@ -1,0 +1,200 @@
+import React, { useState, useEffect } from 'react'
+import { hot } from 'react-hot-loader/root'
+import { useImmer } from 'use-immer'
+import { t } from '@/scripts/i18n'
+import * as fetch from '@/scripts/net'
+import { Player, Paginator } from '@/scripts/types'
+import { toast, showModal } from '@/scripts/notify'
+import Loading from '@/components/Loading'
+import Pagination from '@/components/Pagination'
+import Card from './Card'
+import ModalUpdateTexture from './ModalUpdateTexture'
+
+const PlayersManagement: React.FC = () => {
+  const [players, setPlayers] = useImmer<Player[]>([])
+  const [page, setPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
+  const [isLoading, setIsLoading] = useState(false)
+  const [query, setQuery] = useState('')
+  const [textureUpdating, setTextureUpdating] = useState(-1)
+
+  const getPlayers = async () => {
+    setIsLoading(true)
+    const { data, last_page }: Paginator<Player> = await fetch.get(
+      '/admin/players/list',
+      {
+        q: query,
+        page,
+      },
+    )
+    setTotalPages(last_page)
+    setPlayers(() => data)
+    setIsLoading(false)
+  }
+
+  useEffect(() => {
+    getPlayers()
+  }, [page])
+
+  const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(event.target.value)
+  }
+
+  const handleSubmitQuery = (event: React.FormEvent) => {
+    event.preventDefault()
+    getPlayers()
+  }
+
+  const handleUpdateName = async (player: Player, index: number) => {
+    let name: string
+    try {
+      const { value } = await showModal({
+        mode: 'prompt',
+        text: t('admin.changePlayerNameNotice'),
+        input: player.name,
+        validator: (value: string) => {
+          if (!value) {
+            return t('admin.emptyPlayerName')
+          }
+        },
+      })
+      name = value
+    } catch {
+      return
+    }
+
+    const { code, message } = await fetch.put<fetch.ResponseBody>(
+      `/admin/players/${player.pid}/name`,
+      { player_name: name },
+    )
+    if (code === 0) {
+      toast.success(message)
+      setPlayers((players) => {
+        players[index].name = name
+      })
+    } else {
+      toast.error(message)
+    }
+  }
+
+  const handleUpdateOwner = async (player: Player, index: number) => {
+    let uid: number
+    try {
+      const { value } = await showModal({
+        mode: 'prompt',
+        text: t('admin.changePlayerOwner'),
+        input: player.uid.toString(),
+        inputType: 'number',
+      })
+      uid = Number.parseInt(value)
+    } catch {
+      return
+    }
+
+    const { code, message } = await fetch.put<fetch.ResponseBody>(
+      `/admin/players/${player.pid}/owner`,
+      { uid },
+    )
+    if (code === 0) {
+      toast.success(message)
+      setPlayers((players) => {
+        players[index].uid = uid
+      })
+    } else {
+      toast.error(message)
+    }
+  }
+
+  const handleCloseModalUpdateTexture = () => setTextureUpdating(-1)
+
+  const handleUpdateTexture = async (type: 'skin' | 'cape', tid: number) => {
+    const { code, message } = await fetch.put<fetch.ResponseBody>(
+      `/admin/players/${players[textureUpdating].pid}/textures`,
+      { type, tid },
+    )
+
+    if (code === 0) {
+      toast.success(message)
+      setPlayers((players) => {
+        const field = `tid_${type}` as 'tid_skin' | 'tid_cape'
+        players[textureUpdating][field] = tid
+      })
+    } else {
+      toast.error(message)
+    }
+  }
+
+  const handleDelete = async (player: Player) => {
+    try {
+      await showModal({
+        text: t('admin.deletePlayerNotice'),
+        okButtonType: 'danger',
+      })
+    } catch {
+      return
+    }
+
+    const { code, message } = await fetch.del<fetch.ResponseBody>(
+      `/admin/players/${player.pid}`,
+    )
+    if (code === 0) {
+      setPlayers((players) => players.filter(({ pid }) => pid !== player.pid))
+      toast.success(message)
+    } else {
+      toast.error(message)
+    }
+  }
+
+  return (
+    <div className="card">
+      <div className="card-header">
+        <form className="input-group" onSubmit={handleSubmitQuery}>
+          <input
+            type="text"
+            className="form-control"
+            title={t('vendor.datatable.search')}
+            value={query}
+            onChange={handleQueryChange}
+          />
+          <div className="input-group-append">
+            <button className="btn btn-primary" type="submit">
+              {t('vendor.datatable.search')}
+            </button>
+          </div>
+        </form>
+      </div>
+      <div className="card-body">
+        {isLoading ? (
+          <Loading />
+        ) : players.length === 0 ? (
+          <div className="text-center">No players.</div>
+        ) : (
+          <div className="d-flex flex-wrap">
+            {players.map((player, i) => (
+              <Card
+                key={player.pid}
+                player={player}
+                onUpdateName={() => handleUpdateName(player, i)}
+                onUpdateOwner={() => handleUpdateOwner(player, i)}
+                onUpdateTexture={() => setTextureUpdating(i)}
+                onDelete={() => handleDelete(player)}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="card-footer">
+        <div className="float-right">
+          <Pagination page={page} totalPages={totalPages} onChange={setPage} />
+        </div>
+      </div>
+      <ModalUpdateTexture
+        open={textureUpdating > -1}
+        onSubmit={handleUpdateTexture}
+        onClose={handleCloseModalUpdateTexture}
+      />
+    </div>
+  )
+}
+
+export default hot(PlayersManagement)

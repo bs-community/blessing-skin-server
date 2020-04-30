@@ -45,8 +45,10 @@ const fixtureCape: Readonly<ClosetItem> = Object.freeze<ClosetItem>({
 const fixturePlayer: Readonly<Player> = Object.freeze<Player>({
   pid: 1,
   name: 'kumiko',
+  uid: 1,
   tid_skin: 1,
   tid_cape: 2,
+  last_modified: new Date().toString(),
 })
 
 function createPaginator(data: ClosetItem[]): Paginator<ClosetItem> {

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e9621ab58940ab0702842b6ba6c80ccb",
+    "content-hash": "d1615cec2f58f3b4eb54ac477e348b42",
     "packages": [
         {
             "name": "blessing/filter",
@@ -2329,6 +2329,52 @@
                 "server"
             ],
             "time": "2019-07-13T18:58:26+00:00"
+        },
+        {
+            "name": "lorisleiva/laravel-search-string",
+            "version": "v0.1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lorisleiva/laravel-search-string.git",
+                "reference": "68189cad7614d0c9cb09a83315e1ccfe49e7f0c1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lorisleiva/laravel-search-string/zipball/68189cad7614d0c9cb09a83315e1ccfe49e7f0c1",
+                "reference": "68189cad7614d0c9cb09a83315e1ccfe49e7f0c1",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.5|^6.0|^7.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^5.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Lorisleiva\\LaravelSearchString\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Lorisleiva\\LaravelSearchString\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Loris Leiva",
+                    "email": "loris.leiva@gmail.com"
+                }
+            ],
+            "description": "Generates database queries based on one unique string using a simple and customizable syntax.",
+            "time": "2020-04-05T15:40:30+00:00"
         },
         {
             "name": "monolog/monolog",
