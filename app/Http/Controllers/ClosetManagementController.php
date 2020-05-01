@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 
 class ClosetManagementController extends Controller
 {
+    public function list($uid)
+    {
+        /** @var User */
+        $user = User::findOrFail($uid);
+
+        return $user->closet;
+    }
+
     public function add(Request $request, $uid)
     {
         /** @var Texture */

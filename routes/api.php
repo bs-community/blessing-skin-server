@@ -38,4 +38,10 @@ Route::prefix('admin')
             Route::put('{player}/textures', 'PlayersManagementController@texture');
             Route::delete('{player}', 'PlayersManagementController@delete');
         });
+
+        Route::prefix('closet')->group(function () {
+            Route::get('{uid}', 'ClosetManagementController@list');
+            Route::post('{uid}', 'ClosetManagementController@add');
+            Route::delete('{uid}', 'ClosetManagementController@remove');
+        });
     });

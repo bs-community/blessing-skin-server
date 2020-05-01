@@ -13,7 +13,18 @@ class ClosetManagementControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actingAs(factory(\App\Models\User::class)->states('admin')->create());
+        $this->actingAs(factory(User::class)->states('admin')->create());
+    }
+
+    public function testList()
+    {
+        $texture = factory(Texture::class)->create();
+        $admin = factory(User::class)->states('admin')->create();
+        $admin->closet()->attach($texture->tid);
+
+        $this->actingAs($admin, 'oauth')
+            ->getJson('/api/admin/closet/'.$admin->uid)
+            ->assertJson([['tid' => $texture->tid]]);
     }
 
     public function testAdd()
