@@ -94,7 +94,7 @@ const Translations: React.FC = () => {
             ) : lines.length === 0 ? (
               <tr>
                 <td className="text-center" colSpan={4}>
-                  Nothing here.
+                  {t('general.noResult')}
                 </td>
               </tr>
             ) : (

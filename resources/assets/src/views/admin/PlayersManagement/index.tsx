@@ -209,7 +209,7 @@ const PlayersManagement: React.FC = () => {
           <Loading />
         </div>
       ) : players.length === 0 ? (
-        <div className="card-body text-center">No players.</div>
+        <div className="card-body text-center">{t('general.noResult')}</div>
       ) : isTableMode ? (
         <div className="card-body table-responsive p-0">
           <table className="table table-striped">

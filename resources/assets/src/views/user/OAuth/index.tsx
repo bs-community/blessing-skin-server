@@ -37,7 +37,7 @@ const OAuth: React.FC = () => {
       redirect,
     })
     if ('id' in result) {
-      setApps(apps => [...apps, result])
+      setApps((apps) => [...apps, result])
     } else {
       toast.error(result.message)
     }
@@ -61,7 +61,7 @@ const OAuth: React.FC = () => {
       { ...app, name },
     )
     if ('id' in result) {
-      setApps(apps => {
+      setApps((apps) => {
         apps[index] = { ...app, name }
         return apps.slice()
       })
@@ -88,7 +88,7 @@ const OAuth: React.FC = () => {
       { ...app, redirect },
     )
     if ('id' in result) {
-      setApps(apps => {
+      setApps((apps) => {
         apps[index] = { ...app, redirect }
         return apps.slice()
       })
@@ -108,7 +108,7 @@ const OAuth: React.FC = () => {
     }
 
     await fetch.del(`/oauth/clients/${app.id}`)
-    setApps(apps => apps.filter(a => a.id !== app.id))
+    setApps((apps) => apps.filter((a) => a.id !== app.id))
   }
 
   return (
@@ -132,7 +132,7 @@ const OAuth: React.FC = () => {
               {apps.length === 0 ? (
                 <tr>
                   <td className="text-center" colSpan={5}>
-                    {isLoading ? <Loading /> : 'Nothing here.'}
+                    {isLoading ? <Loading /> : t('general.noResult')}
                   </td>
                 </tr>
               ) : (

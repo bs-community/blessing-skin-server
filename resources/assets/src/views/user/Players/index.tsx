@@ -47,7 +47,7 @@ const Players: React.FC = () => {
   }
 
   const handleAdd = (player: Player) => {
-    setPlayers(players => [...players, player])
+    setPlayers((players) => [...players, player])
   }
 
   const editName = async (player: Player, index: number) => {
@@ -74,7 +74,7 @@ const Players: React.FC = () => {
     )
     if (code === 0) {
       toast.success(message)
-      setPlayers(players => {
+      setPlayers((players) => {
         players[index] = { ...player, name }
         return players.slice()
       })
@@ -101,8 +101,8 @@ const Players: React.FC = () => {
       if (cape) {
         setCape(0)
       }
-      setPlayers(players => {
-        const index = players.findIndex(player => player.pid === selected)
+      setPlayers((players) => {
+        const index = players.findIndex((player) => player.pid === selected)
         const player = Object.assign({}, players[index])
         if (skin) {
           player.tid_skin = 0
@@ -135,7 +135,7 @@ const Players: React.FC = () => {
     if (code === 0) {
       toast.success(message)
       const { pid } = player
-      setPlayers(players => players.filter(player => player.pid !== pid))
+      setPlayers((players) => players.filter((player) => player.pid !== pid))
     } else {
       toast.error(message)
     }
@@ -171,7 +171,7 @@ const Players: React.FC = () => {
               {players.length === 0 ? (
                 <tr>
                   <td className="text-center" colSpan={3}>
-                    {isLoading ? <Loading /> : 'Nothing here.'}
+                    {isLoading ? <Loading /> : t('general.noResult')}
                   </td>
                 </tr>
               ) : (
