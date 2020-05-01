@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { hot } from 'react-hot-loader/root'
+import { useImmer } from 'use-immer'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { toast, showModal } from '@/scripts/notify'
@@ -10,7 +11,7 @@ import { Plugin } from './types'
 
 const PluginsManagement: React.FC = () => {
   const [loading, setLoading] = useState(false)
-  const [plugins, setPlugins] = useState<Plugin[]>([])
+  const [plugins, setPlugins] = useImmer<Plugin[]>([])
   const [file, setFile] = useState<File | null>(null)
   const [isUploading, setIsUploading] = useState(false)
   const [url, setUrl] = useState('')
@@ -19,7 +20,8 @@ const PluginsManagement: React.FC = () => {
   useEffect(() => {
     const getPlugins = async () => {
       setLoading(true)
-      setPlugins(await fetch.get<Plugin[]>('/admin/plugins/data'))
+      const plugins = await fetch.get<Plugin[]>('/admin/plugins/data')
+      setPlugins(() => plugins)
       setLoading(false)
     }
     getPlugins()
@@ -40,9 +42,8 @@ const PluginsManagement: React.FC = () => {
     })
     if (code === 0) {
       toast.success(message)
-      setPlugins(plugins => {
-        plugins.splice(i, 1, { ...plugin, enabled: true })
-        return plugins.slice()
+      setPlugins((plugins) => {
+        plugins[i].enabled = true
       })
     } else {
       showModal({
@@ -71,9 +72,8 @@ const PluginsManagement: React.FC = () => {
     )
     if (code === 0) {
       toast.success(message)
-      setPlugins(plugins => {
-        plugins.splice(i, 1, { ...plugin, enabled: false })
-        return plugins.slice()
+      setPlugins((plugins) => {
+        plugins[i].enabled = false
       })
     } else {
       toast.error(message)
@@ -100,7 +100,7 @@ const PluginsManagement: React.FC = () => {
     )
     if (code === 0) {
       const { name } = plugin
-      setPlugins(plugins => plugins.filter(plugin => plugin.name !== name))
+      setPlugins((plugins) => plugins.filter((plugin) => plugin.name !== name))
       toast.success(message)
     } else {
       toast.error(message)
@@ -132,7 +132,9 @@ const PluginsManagement: React.FC = () => {
     if (code === 0) {
       toast.success(message)
       setFile(null)
-      setPlugins(await fetch.get<Plugin[]>('/admin/plugins/data'))
+
+      const plugins = await fetch.get<Plugin[]>('/admin/plugins/data')
+      setPlugins(() => plugins)
     } else {
       toast.error(message)
     }
@@ -149,7 +151,9 @@ const PluginsManagement: React.FC = () => {
     if (code === 0) {
       toast.success(message)
       setUrl('')
-      setPlugins(await fetch.get<Plugin[]>('/admin/plugins/data'))
+
+      const plugins = await fetch.get<Plugin[]>('/admin/plugins/data')
+      setPlugins(() => plugins)
     } else {
       toast.error(message)
     }
@@ -171,8 +175,8 @@ const PluginsManagement: React.FC = () => {
                 <div className="col-md-6" key={plugin.name}>
                   <InfoBox
                     plugin={plugin}
-                    onEnable={plugin => handleEnable(plugin, i * 2 + j)}
-                    onDisable={plugin => handleDisable(plugin, i * 2 + j)}
+                    onEnable={(plugin) => handleEnable(plugin, i * 2 + j)}
+                    onDisable={(plugin) => handleDisable(plugin, i * 2 + j)}
                     onDelete={handleDelete}
                     baseUrl={blessing.base_url}
                   />
