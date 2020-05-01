@@ -78,6 +78,7 @@ const Viewer: React.FC<Props> = (props) => {
       detectModel: false,
     })
     viewer.camera.position.z = initPositionZ
+    viewer.playerObject.skin.slim = props.isAlex
 
     const animation = new skinview3d.CompositeAnimation()
     stuffRef.current.handles = {
