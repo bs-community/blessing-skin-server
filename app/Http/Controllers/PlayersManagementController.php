@@ -23,7 +23,7 @@ class PlayersManagementController extends Controller
             $currentUser = $request->user();
 
             if (
-                $owner && $owner->uid !== $currentUser->uid &&
+                $owner->uid !== $currentUser->uid &&
                 $owner->permission >= $currentUser->permission
             ) {
                 return json(trans('admin.players.no-permission'), 1)
@@ -107,7 +107,7 @@ class PlayersManagementController extends Controller
 
         $dispatcher->dispatch('player.texture.updating', [$player, $type, $tid]);
 
-        if (!Texture::find($tid) && $tid !== 0) {
+        if (Texture::where('tid', $tid)->doesntExist() && $tid !== 0) {
             return json(trans('admin.players.textures.non-existent', ['tid' => $tid]), 1);
         }
 
