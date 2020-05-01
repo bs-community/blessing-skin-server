@@ -27,6 +27,14 @@ function createPaginator(data: Player[]): Paginator<Player> {
   }
 }
 
+beforeAll(() => {
+  Object.assign(window, { innerWidth: 500 })
+})
+
+afterAll(() => {
+  Object.assign(window, { innerWidth: 1024 })
+})
+
 test('search players', async () => {
   fetch.get.mockResolvedValue(createPaginator([]))
 
@@ -358,5 +366,68 @@ describe('delete player', () => {
     expect(queryByText('failed')).toBeInTheDocument()
     expect(queryByRole('alert')).toHaveClass('alert-danger')
     expect(queryByText(fixture.name)).toBeInTheDocument()
+  })
+})
+
+describe('table mode', () => {
+  beforeEach(() => {
+    fetch.get.mockResolvedValue(createPaginator([fixture]))
+  })
+
+  it('large screen', async () => {
+    Object.assign(window, { innerWidth: 1024 })
+
+    const { queryByText } = render(<PlayersManagement />)
+
+    await waitFor(() => expect(fetch.get).toBeCalled())
+    expect(queryByText(t('admin.operationsTitle'))).toBeInTheDocument()
+
+    Object.assign(window, { innerWidth: 500 })
+  })
+
+  it('update player name', async () => {
+    const { getByText, getByTitle, queryByText } = render(<PlayersManagement />)
+
+    await waitFor(() => expect(fetch.get).toBeCalled())
+    fireEvent.click(getByTitle('Table Mode'))
+    fireEvent.click(getByTitle(t('admin.changePlayerName')))
+    expect(queryByText(t('admin.changePlayerNameNotice'))).toBeInTheDocument()
+
+    fireEvent.click(getByText(t('general.cancel')))
+  })
+
+  it('update owner', async () => {
+    const { getByText, getByTitle, queryByText } = render(<PlayersManagement />)
+
+    await waitFor(() => expect(fetch.get).toBeCalled())
+    fireEvent.click(getByTitle('Table Mode'))
+    fireEvent.click(getByTitle(t('admin.changeOwner')))
+    expect(queryByText(t('admin.changePlayerOwner'))).toBeInTheDocument()
+
+    fireEvent.click(getByText(t('general.cancel')))
+  })
+
+  it('update texture', async () => {
+    const { getByText, getByTitle, queryByPlaceholderText } = render(
+      <PlayersManagement />,
+    )
+
+    await waitFor(() => expect(fetch.get).toBeCalled())
+    fireEvent.click(getByTitle('Table Mode'))
+    fireEvent.click(getByText(t('admin.changeTexture')))
+    expect(queryByPlaceholderText(t('admin.pidNotice'))).toBeInTheDocument()
+
+    fireEvent.click(getByText(t('general.cancel')))
+  })
+
+  it('delete player', async () => {
+    const { getByText, getByTitle, queryByText } = render(<PlayersManagement />)
+
+    await waitFor(() => expect(fetch.get).toBeCalled())
+    fireEvent.click(getByTitle('Table Mode'))
+    fireEvent.click(getByText(t('admin.deletePlayer')))
+    expect(queryByText(t('admin.deletePlayerNotice'))).toBeInTheDocument()
+
+    fireEvent.click(getByText(t('general.cancel')))
   })
 })

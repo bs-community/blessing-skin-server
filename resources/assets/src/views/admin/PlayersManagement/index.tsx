@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { hot } from 'react-hot-loader/root'
 import { useImmer } from 'use-immer'
+import useIsLargeScreen from '@/scripts/hooks/useIsLargeScreen'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { Player, Paginator } from '@/scripts/types'
 import { toast, showModal } from '@/scripts/notify'
+import modeSwitchStyles from '@/styles/table-mode-switch.module.scss'
 import Loading from '@/components/Loading'
 import Pagination from '@/components/Pagination'
 import Card from './Card'
+import Row from './Row'
 import ModalUpdateTexture from './ModalUpdateTexture'
 
 const PlayersManagement: React.FC = () => {
@@ -15,8 +18,16 @@ const PlayersManagement: React.FC = () => {
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
+  const isLargeScreen = useIsLargeScreen()
+  const [isTableMode, setIsTableMode] = useState(false)
   const [query, setQuery] = useState('')
   const [textureUpdating, setTextureUpdating] = useState(-1)
+
+  useEffect(() => {
+    if (isLargeScreen) {
+      setIsTableMode(true)
+    }
+  }, [isLargeScreen])
 
   const getPlayers = async () => {
     setIsLoading(true)
@@ -35,6 +46,10 @@ const PlayersManagement: React.FC = () => {
   useEffect(() => {
     getPlayers()
   }, [page])
+
+  const handleModeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsTableMode(event.target.value === 'table')
+  }
 
   const handleQueryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value)
@@ -147,7 +162,7 @@ const PlayersManagement: React.FC = () => {
 
   return (
     <div className="card">
-      <div className="card-header">
+      <div className={`card-header ${modeSwitchStyles.header}`}>
         <form className="input-group" onSubmit={handleSubmitQuery}>
           <input
             type="text"
@@ -162,27 +177,80 @@ const PlayersManagement: React.FC = () => {
             </button>
           </div>
         </form>
+        <div className="btn-group btn-group-toggle">
+          <label
+            className={`btn btn-secondary ${isTableMode ? 'active' : ''}`}
+            title="Table Mode"
+          >
+            <input
+              type="radio"
+              value="table"
+              checked={isTableMode}
+              onChange={handleModeChange}
+            />
+            <i className="fas fa-list"></i>
+          </label>
+          <label
+            className={`btn btn-secondary ${isTableMode ? '' : 'active'}`}
+            title="Card Mode"
+          >
+            <input
+              type="radio"
+              value="card"
+              checked={!isTableMode}
+              onChange={handleModeChange}
+            />
+            <i className="fas fa-grip-vertical"></i>
+          </label>
+        </div>
       </div>
-      <div className="card-body">
-        {isLoading ? (
+      {isLoading ? (
+        <div className="card-body">
           <Loading />
-        ) : players.length === 0 ? (
-          <div className="text-center">No players.</div>
-        ) : (
-          <div className="d-flex flex-wrap">
-            {players.map((player, i) => (
-              <Card
-                key={player.pid}
-                player={player}
-                onUpdateName={() => handleUpdateName(player, i)}
-                onUpdateOwner={() => handleUpdateOwner(player, i)}
-                onUpdateTexture={() => setTextureUpdating(i)}
-                onDelete={() => handleDelete(player)}
-              />
-            ))}
-          </div>
-        )}
-      </div>
+        </div>
+      ) : players.length === 0 ? (
+        <div className="card-body text-center">No players.</div>
+      ) : isTableMode ? (
+        <div className="card-body table-responsive p-0">
+          <table className="table table-striped">
+            <thead>
+              <tr>
+                <th>PID</th>
+                <th>{t('general.player.player-name')}</th>
+                <th>{t('general.player.owner')}</th>
+                <th>{t('general.player.previews')}</th>
+                <th>{t('general.player.last-modified')}</th>
+                <th>{t('admin.operationsTitle')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {players.map((player, i) => (
+                <Row
+                  key={player.pid}
+                  player={player}
+                  onUpdateName={() => handleUpdateName(player, i)}
+                  onUpdateOwner={() => handleUpdateOwner(player, i)}
+                  onUpdateTexture={() => setTextureUpdating(i)}
+                  onDelete={() => handleDelete(player)}
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="card-body d-flex flex-wrap">
+          {players.map((player, i) => (
+            <Card
+              key={player.pid}
+              player={player}
+              onUpdateName={() => handleUpdateName(player, i)}
+              onUpdateOwner={() => handleUpdateOwner(player, i)}
+              onUpdateTexture={() => setTextureUpdating(i)}
+              onDelete={() => handleDelete(player)}
+            />
+          ))}
+        </div>
+      )}
       <div className="card-footer">
         <div className="float-right">
           <Pagination page={page} totalPages={totalPages} onChange={setPage} />

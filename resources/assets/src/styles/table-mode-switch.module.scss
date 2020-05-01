@@ -1,0 +1,19 @@
+@use './breakpoints';
+
+.header {
+  display: flex;
+  & > div {
+    margin-left: 4px;
+
+    & label {
+      cursor: pointer;
+    }
+  }
+
+  @include breakpoints.less-than('sm') {
+    flex-wrap: wrap;
+    & > div {
+      margin: 7px 0 0 0;
+    }
+  }
+}

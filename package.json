@@ -219,9 +219,9 @@
       "node"
     ],
     "moduleNameMapper": {
-      "^@/(.*)$": "<rootDir>/resources/assets/src/$1",
       "\\.(s?css|styl)$": "<rootDir>/resources/assets/tests/__mocks__/style.ts",
-      "\\.(png|jpg)$": "<rootDir>/resources/assets/tests/__mocks__/file.ts"
+      "\\.(png|jpg)$": "<rootDir>/resources/assets/tests/__mocks__/file.ts",
+      "^@/(.*)$": "<rootDir>/resources/assets/src/$1"
     },
     "setupFilesAfterEnv": [
       "<rootDir>/resources/assets/tests/setup.ts"
