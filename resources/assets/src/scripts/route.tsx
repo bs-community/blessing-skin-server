@@ -82,7 +82,7 @@ export default [
   },
   {
     path: 'admin/plugins/market',
-    component: () => import('../views/admin/Market.vue'),
+    react: () => import('../views/admin/PluginsMarket'),
     el: '.content > .container-fluid',
   },
   {
