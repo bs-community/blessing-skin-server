@@ -36,6 +36,7 @@ const ModalUpdateTexture: React.FC<Props> = (props) => {
     <Modal
       show={props.open}
       center
+      title={t('admin.changeTexture')}
       onConfirm={handleConfirm}
       onClose={handleClose}
     >
