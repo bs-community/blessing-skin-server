@@ -17,6 +17,6 @@ class SerializeGlobals
             'i18n' => new stdClass(),
             'extra' => [],
         ];
-        $event->addContent('<script>const blessing = '.json_encode($blessing).';</script>');
+        $event->addContent('<script>window.blessing = '.json_encode($blessing).';</script>');
     }
 }
