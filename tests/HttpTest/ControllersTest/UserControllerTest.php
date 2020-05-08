@@ -5,7 +5,6 @@ namespace Tests;
 use App\Events;
 use App\Mail\EmailVerification;
 use App\Models\User;
-use App\Notifications;
 use Blessing\Filter;
 use Blessing\Rejection;
 use Carbon\Carbon;
@@ -600,23 +599,5 @@ class UserControllerTest extends TestCase
         $this->actingAs($user)
             ->postJson('/user/profile/avatar', ['tid' => $steve->tid])
             ->assertJson(['code' => 1, 'message' => 'rejected']);
-    }
-
-    public function testReadNotification()
-    {
-        $user = factory(User::class)->create();
-        $user->notify(new Notifications\SiteMessage('Hyouka', 'Kotenbu?'));
-        $user->refresh();
-        $notification = $user->unreadNotifications->first();
-
-        $this->actingAs($user)
-            ->get('/user/notifications/'.$notification->id)
-            ->assertJson([
-                'title' => $notification->data['title'],
-                'content' => (new Parsedown())->text($notification->data['content']),
-                'time' => $notification->created_at->toDateTimeString(),
-            ]);
-        $notification->refresh();
-        $this->assertNotNull($notification->read_at);
     }
 }

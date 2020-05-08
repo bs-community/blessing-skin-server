@@ -51,7 +51,7 @@ Route::prefix('user')
     ->middleware(['authorize', Middleware\RequireBindPlayer::class])
     ->group(function () {
         Route::get('', 'UserController@index')->name('home');
-        Route::get('notifications/{id}', 'UserController@readNotification')->name('notification');
+        Route::get('notifications/{id}', 'NotificationsController@read')->name('notification');
         Route::get('score-info', 'UserController@scoreInfo')->name('score');
         Route::post('sign', 'UserController@sign')->name('sign');
 
@@ -118,7 +118,7 @@ Route::prefix('admin')
     ->group(function () {
         Route::get('', 'AdminController@index');
         Route::get('chart', 'AdminController@chartData');
-        Route::post('notifications/send', 'AdminController@sendNotification');
+        Route::post('notifications/send', 'NotificationsController@send');
 
         Route::any('customize', 'AdminController@customize');
         Route::any('score', 'AdminController@score');

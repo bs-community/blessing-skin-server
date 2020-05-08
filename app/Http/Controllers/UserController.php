@@ -16,7 +16,6 @@ use Mail;
 use Parsedown;
 use Session;
 use URL;
-use View;
 
 class UserController extends Controller
 {
@@ -369,24 +368,5 @@ class UserController extends Controller
         } else {
             return json(trans('skinlib.non-existent'), 1);
         }
-    }
-
-    public function readNotification($id)
-    {
-        $notification = auth()
-            ->user()
-            ->unreadNotifications
-            ->first(function ($notification) use ($id) {
-                return $notification->id === $id;
-            });
-        $notification->markAsRead();
-
-        $parsedown = new Parsedown();
-
-        return [
-            'title' => $notification->data['title'],
-            'content' => $parsedown->text($notification->data['content']),
-            'time' => $notification->created_at->toDateTimeString(),
-        ];
     }
 }

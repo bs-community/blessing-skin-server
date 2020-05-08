@@ -10,6 +10,9 @@ Route::prefix('auth')->group(function () {
 
 Route::prefix('user')->middleware('auth:jwt,oauth')->group(function () {
     Route::get('', 'UserController@user');
+
+    Route::get('notifications', 'NotificationsController@all');
+    Route::get('notifications/{id}', 'NotificationsController@read');
 });
 
 Route::prefix('players')->middleware('auth:jwt,oauth')->group(function () {
@@ -44,4 +47,6 @@ Route::prefix('admin')
             Route::post('{uid}', 'ClosetManagementController@add');
             Route::delete('{uid}', 'ClosetManagementController@remove');
         });
+
+        Route::post('notifications', 'NotificationsController@send');
     });
