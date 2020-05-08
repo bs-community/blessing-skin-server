@@ -456,37 +456,6 @@ class AdminController extends Controller
         ];
     }
 
-    public function getPlayerData(Request $request)
-    {
-        $isSpecifiedUser = $request->has('uid');
-
-        if ($isSpecifiedUser) {
-            $players = Player::select(['pid', 'uid', 'name', 'tid_skin', 'tid_cape', 'last_modified'])
-                            ->where('uid', intval($request->input('uid')))
-                            ->get();
-        } else {
-            $search = $request->input('search', '');
-            $sortField = $request->input('sortField', 'pid');
-            $sortType = $request->input('sortType', 'asc');
-            $page = $request->input('page', 1);
-            $perPage = $request->input('perPage', 10);
-
-            $players = Player::select(['pid', 'uid', 'name', 'tid_skin', 'tid_cape', 'last_modified'])
-                            ->where('pid', 'like', '%'.$search.'%')
-                            ->orWhere('uid', 'like', '%'.$search.'%')
-                            ->orWhere('name', 'like', '%'.$search.'%')
-                            ->orderBy($sortField, $sortType)
-                            ->offset(($page - 1) * $perPage)
-                            ->limit($perPage)
-                            ->get();
-        }
-
-        return [
-            'totalRecords' => $isSpecifiedUser ? 1 : Player::count(),
-            'data' => $players,
-        ];
-    }
-
     public function userAjaxHandler(Request $request)
     {
         $action = $request->input('action');

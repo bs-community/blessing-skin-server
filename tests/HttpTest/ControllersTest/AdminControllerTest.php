@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use App\Models\Player;
 use App\Models\Texture;
 use App\Models\User;
 use App\Services\Plugin;
@@ -90,40 +89,6 @@ class AdminControllerTest extends TestCase
                     'score' => $user->score,
                     'permission' => $user->permission,
                     'players_count' => 0,
-                ]],
-            ]);
-    }
-
-    public function testPlayers()
-    {
-        $this->get('/admin/players')->assertSee(trans('general.player-manage'));
-    }
-
-    public function testGetPlayerData()
-    {
-        $player = factory(Player::class)->create();
-        $user = $player->user;
-
-        $this->getJson('/admin/players/list')
-            ->assertJsonStructure([
-                'data' => [[
-                    'pid',
-                    'uid',
-                    'name',
-                    'tid_skin',
-                    'tid_cape',
-                    'last_modified',
-                ]],
-            ]);
-
-        $this->getJson('/admin/players/list?uid='.$user->uid)
-            ->assertJson([
-                'data' => [[
-                    'pid' => $player->pid,
-                    'uid' => $user->uid,
-                    'name' => $player->name,
-                    'tid_skin' => $player->tid_skin,
-                    'tid_cape' => $player->tid_cape,
                 ]],
             ]);
     }
