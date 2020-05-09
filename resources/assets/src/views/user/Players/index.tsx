@@ -30,12 +30,10 @@ const Players: React.FC = () => {
   useEffect(() => {
     const getPlayers = async () => {
       setIsLoading(true)
-      const { data } = await fetch.get<fetch.ResponseBody<Player[]>>(
-        '/user/player/list',
-      )
-      setPlayers(data)
-      if (data.length === 1) {
-        selectPlayer(data[0])
+      const players = await fetch.get<Player[]>('/user/player/list')
+      setPlayers(players)
+      if (players.length === 1) {
+        selectPlayer(players[0])
       }
       setIsLoading(false)
     }

@@ -34,7 +34,7 @@ afterEach(() => {
 })
 
 test('loading indicator', () => {
-  fetch.get.mockResolvedValue({ data: [] })
+  fetch.get.mockResolvedValue([])
   const { queryByTitle } = render(<Players />)
   expect(queryByTitle('Loading...')).toBeInTheDocument()
 })
@@ -48,7 +48,7 @@ test('search players', async () => {
     tid_cape: 4,
     last_modified: new Date().toString(),
   }
-  fetch.get.mockResolvedValue({ data: [fixture, fixture2] })
+  fetch.get.mockResolvedValue([fixture, fixture2])
 
   const { getByPlaceholderText, queryByText } = render(<Players />)
   await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
@@ -63,7 +63,10 @@ test('search players', async () => {
 
 describe('select player automatically', () => {
   it('only one player', async () => {
-    fetch.get.mockResolvedValue({ data: [fixture] })
+    fetch.get
+      .mockResolvedValueOnce([fixture])
+      .mockResolvedValueOnce({ data: { hash: '', type: 'steve' } })
+      .mockResolvedValueOnce({ data: { hash: '', type: 'cape' } })
     render(<Players />)
     await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
@@ -80,7 +83,7 @@ describe('select player automatically', () => {
       tid_cape: 4,
       last_modified: new Date().toString(),
     }
-    fetch.get.mockResolvedValue({ data: [fixture, fixture2] })
+    fetch.get.mockResolvedValue([fixture, fixture2])
     render(<Players />)
     await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
@@ -92,7 +95,7 @@ describe('select player automatically', () => {
 describe('2d preview', () => {
   it('skin and cape', async () => {
     fetch.get
-      .mockResolvedValueOnce({ data: [fixture] })
+      .mockResolvedValueOnce([fixture])
       .mockResolvedValueOnce({ data: { hash: 'a', type: 'steve' } })
       .mockResolvedValueOnce({ data: { hash: 'b', type: 'cape' } })
 
@@ -113,7 +116,7 @@ describe('2d preview', () => {
 
   it('skin only', async () => {
     fetch.get
-      .mockResolvedValueOnce({ data: [{ ...fixture, tid_cape: 0 }] })
+      .mockResolvedValueOnce([{ ...fixture, tid_cape: 0 }])
       .mockResolvedValueOnce({ data: { hash: 'a', type: 'steve' } })
 
     const { getByAltText, queryByAltText, getByText, queryByText } = render(
@@ -133,7 +136,7 @@ describe('2d preview', () => {
 
   it('cape only', async () => {
     fetch.get
-      .mockResolvedValueOnce({ data: [{ ...fixture, tid_skin: 0 }] })
+      .mockResolvedValueOnce([{ ...fixture, tid_skin: 0 }])
       .mockResolvedValueOnce({ data: { hash: 'a', type: 'cape' } })
 
     const { getByAltText, queryByAltText, getByText, queryByText } = render(
@@ -154,7 +157,7 @@ describe('2d preview', () => {
 
 describe('create player', () => {
   beforeEach(() => {
-    fetch.get.mockResolvedValue({ data: [] })
+    fetch.get.mockResolvedValue([])
   })
 
   it('alert if score is enough', async () => {
@@ -259,7 +262,10 @@ describe('create player', () => {
 
 describe('edit player name', () => {
   beforeEach(() => {
-    fetch.get.mockResolvedValue({ data: [fixture] })
+    fetch.get
+      .mockResolvedValueOnce([fixture])
+      .mockResolvedValueOnce({ data: { hash: 'a', type: 'skin' } })
+      .mockResolvedValueOnce({ data: { hash: 'b', type: 'cape' } })
   })
 
   it('succeeded', async () => {
@@ -351,7 +357,10 @@ describe('edit player name', () => {
 
 describe('reset texture', () => {
   beforeEach(() => {
-    fetch.get.mockResolvedValue({ data: [fixture] })
+    fetch.get
+      .mockResolvedValueOnce([fixture])
+      .mockResolvedValueOnce({ data: { hash: 'a', type: 'skin' } })
+      .mockResolvedValueOnce({ data: { hash: 'b', type: 'cape' } })
   })
 
   it('clear skin and cape', async () => {
@@ -471,7 +480,10 @@ describe('reset texture', () => {
 
 describe('delete player', () => {
   beforeEach(() => {
-    fetch.get.mockResolvedValue({ data: [fixture] })
+    fetch.get
+      .mockResolvedValueOnce([fixture])
+      .mockResolvedValueOnce({ data: { hash: 'a', type: 'skin' } })
+      .mockResolvedValueOnce({ data: { hash: 'b', type: 'cape' } })
   })
 
   it('succeeded', async () => {

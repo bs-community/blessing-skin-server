@@ -16,7 +16,7 @@ Route::prefix('user')->middleware('auth:jwt,oauth')->group(function () {
 });
 
 Route::prefix('players')->middleware('auth:jwt,oauth')->group(function () {
-    Route::get('', 'PlayerController@listAll');
+    Route::get('', 'PlayerController@list');
     Route::post('', 'PlayerController@add');
     Route::delete('{pid}', 'PlayerController@delete');
     Route::put('{pid}/name', 'PlayerController@rename');

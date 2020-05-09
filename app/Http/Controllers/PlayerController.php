@@ -60,15 +60,9 @@ class PlayerController extends Controller
             ]);
     }
 
-    public function listAll()
+    public function list()
     {
-        $players = Auth::user()
-            ->players()
-            ->select('pid', 'name', 'tid_skin', 'tid_cape')
-            ->get()
-            ->toArray();
-
-        return json('', 0, $players);
+        return Auth::user()->players;
     }
 
     public function add(Request $request, Dispatcher $dispatcher)

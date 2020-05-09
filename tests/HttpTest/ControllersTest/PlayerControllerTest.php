@@ -29,18 +29,13 @@ class PlayerControllerTest extends TestCase
         $filter->assertApplied('grid:user.player');
     }
 
-    public function testListAll()
+    public function testList()
     {
         $user = factory(User::class)->create();
         $player = factory(Player::class)->create(['uid' => $user->uid]);
         $this->actingAs($user)
             ->get('/user/player/list')
-            ->assertJson(['data' => [
-                [
-                    'pid' => $player->pid,
-                    'name' => $player->name,
-                ],
-            ]]);
+            ->assertJson([$player->toArray()]);
     }
 
     public function testAdd()

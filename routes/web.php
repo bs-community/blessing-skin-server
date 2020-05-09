@@ -70,7 +70,7 @@ Route::prefix('user')
             ->middleware('verified')
             ->group(function () {
                 Route::get('', 'PlayerController@index')->name('page');
-                Route::get('list', 'PlayerController@listAll')->name('list');
+                Route::get('list', 'PlayerController@list')->name('list');
                 Route::post('add', 'PlayerController@add')->name('add');
                 Route::post('set/{pid}', 'PlayerController@setTexture')->name('set');
                 Route::post('texture/clear/{pid}', 'PlayerController@clearTexture')->name('clear');
