@@ -15,7 +15,7 @@ class PlayersManagementControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->actingAs(factory(\App\Models\User::class)->states('admin')->create());
+        $this->actingAs(factory(User::class)->states('admin')->create());
     }
 
     public function testList()

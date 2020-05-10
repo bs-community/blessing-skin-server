@@ -133,15 +133,15 @@ Route::prefix('admin')
             Route::get('list', 'AdminController@getUserData');
         });
 
-        Route::prefix('players')
-            ->name('players.')
-            ->group(function () {
+        Route::prefix('players')->name('players.')->group(function () {
                 Route::view('', 'admin.players');
                 Route::get('list', 'PlayersManagementController@list')->name('list');
-                Route::put('{player}/name', 'PlayersManagementController@name')->name('name');
-                Route::put('{player}/owner', 'PlayersManagementController@owner')->name('owner');
-                Route::put('{player}/textures', 'PlayersManagementController@texture')->name('texture');
-                Route::delete('{player}', 'PlayersManagementController@delete')->name('delete');
+            Route::prefix('{player}')->group(function () {
+                Route::put('name', 'PlayersManagementController@name')->name('name');
+                Route::put('owner', 'PlayersManagementController@owner')->name('owner');
+                Route::put('textures', 'PlayersManagementController@texture')->name('texture');
+                Route::delete('', 'PlayersManagementController@delete')->name('delete');
+            });
             });
 
         Route::prefix('closet')->group(function () {
