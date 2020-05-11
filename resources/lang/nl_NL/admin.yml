@@ -1,48 +1,48 @@
 ---
 index:
-  total-users: Registered Users
-  total-players: Players
-  total-textures: Uploaded Textures
-  disk-usage: Disk Usage
-  overview: Overview
+  total-users: Regregistreerde Gebruikers
+  total-players: Spelers
+  total-textures: Geüploade Textures
+  disk-usage: Schijfgebruik
+  overview: Overzicht
   texture-uploads: Texture Uploads
-  user-registration: User Registration
+  user-registration: Gebruikers Registratie
 notifications:
   send:
-    title: Send Notification
-    success: Sent successfully!
+    title: Verstuur Notificatie
+    success: Succesvol verzonden!
   receiver:
-    title: Receiver
-    all: All Users
-    normal: Normal Users
-    uid: Specified UID
-    email: Specified Email
-  title: Title
-  content: Content (Markdown is supported.)
+    title: Ontvanger
+    all: Alle Gebruikers
+    normal: Normale Gebruikers
+    uid: Opgegeven UID
+    email: Opgegeven Email
+  title: Titel
+  content: Inhoud (Markdown wordt ondersteund.)
 users:
   status:
-    normal: Normal
-    banned: Banned
-    admin: Admin
-    super-admin: Super Admin
+    normal: Normaal
+    banned: Geband
+    admin: Administrator
+    super-admin: Super Administrator
   operations:
-    non-existent: No such user.
-    no-permission: You have no permission to operate this user.
-    invalid: Invalid action.
+    non-existent: Deze gebruiker bestaat niet.
+    no-permission: Je hebt geen permissie om deze speler te bewerken.
+    invalid: Ongeldige actie.
     email:
-      existed: ':email is existed.'
-      success: Email changed successfully.
+      existed: ':email bestaat al.'
+      success: E-mail succesvol gewijzigd.
     verification:
-      success: Account verification status toggled successfully.
+      success: Account verificatiestatus succesvol ingevuld.
     nickname:
-      success: Nickname changed successfully.
+      success: Naam succesvol aangepast.
     password:
-      success: Password changed successfully.
+      success: Wachtwoord succesvol gewijzigd.
     score:
-      success: Score changed successfully.
-    permission: Permission updated.
+      success: Score succesvol aangepast.
+    permission: Toestemming bijgewerkt.
     delete:
-      delete: Delete User
+      delete: Verwijder gebruiker
       success: The account has been deleted successfully.
       cant-super-admin: You can't delete a super admin.
       cant-admin: You can't delete a admin account.
