@@ -7,7 +7,7 @@ use Illuminate\Support\Arr;
 
 trait HasPassword
 {
-    public function verifyPassword($raw)
+    public function verifyPassword(string $raw)
     {
         // Compare directly if any responses is returned by event dispatcher
         if ($result = $this->getEncryptedPwdFromEvent($raw, $this)) {
@@ -19,26 +19,15 @@ trait HasPassword
 
     /**
      * Try to get encrypted password from event dispatcher.
-     *
-     * @param string $raw
-     *
-     * @return mixed
      */
-    public function getEncryptedPwdFromEvent($raw)
+    public function getEncryptedPwdFromEvent(string $raw)
     {
         $responses = event(new EncryptUserPassword($raw, $this));
 
         return Arr::get($responses, 0);
     }
 
-    /**
-     * Change password of the user.
-     *
-     * @param string $password new password that will be set
-     *
-     * @return bool
-     */
-    public function changePassword($password)
+    public function changePassword(string $password): bool
     {
         $responses = event(new EncryptUserPassword($password, $this));
         $hash = Arr::get($responses, 0);
