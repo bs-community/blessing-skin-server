@@ -65,9 +65,7 @@ const Card: React.FC<Props> = (props) => {
       <div className="info-box-content">
         <div className="row">
           <div className="col-10">
-            <div>
-              <b>{player.name}</b>
-            </div>
+            <b>{player.name}</b>
           </div>
           <div className="col-2">
             <div className="float-right dropdown">
