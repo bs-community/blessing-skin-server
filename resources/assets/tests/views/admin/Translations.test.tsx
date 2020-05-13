@@ -1,8 +1,8 @@
 import React from 'react'
 import { render, waitFor, fireEvent } from '@testing-library/react'
+import { createPaginator } from '../../utils'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
-import type { Paginator } from '@/scripts/types'
 import Translations from '@/views/admin/Translations'
 import type { Line } from '@/views/admin/Translations/types'
 
@@ -16,17 +16,6 @@ const fixtureLine: Readonly<Line> = Object.freeze<Line>({
     en: 'Submit',
   },
 })
-
-function createPaginator(data: Line[]): Paginator<Line> {
-  return {
-    data,
-    total: data.length,
-    from: 1,
-    to: data.length,
-    current_page: 1,
-    last_page: 1,
-  }
-}
 
 test('empty text', async () => {
   const line = { ...fixtureLine, text: { en: '' } }

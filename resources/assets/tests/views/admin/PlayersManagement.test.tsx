@@ -1,8 +1,9 @@
 import React from 'react'
 import { render, waitFor, fireEvent } from '@testing-library/react'
+import { createPaginator } from '../../utils'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
-import { Player, Paginator } from '@/scripts/types'
+import { Player } from '@/scripts/types'
 import PlayersManagement from '@/views/admin/PlayersManagement'
 
 jest.mock('@/scripts/net')
@@ -15,17 +16,6 @@ const fixture: Readonly<Player> = Object.freeze<Player>({
   tid_cape: 2,
   last_modified: new Date().toString(),
 })
-
-function createPaginator(data: Player[]): Paginator<Player> {
-  return {
-    data,
-    total: data.length,
-    from: 1,
-    to: data.length,
-    current_page: 1,
-    last_page: 1,
-  }
-}
 
 beforeAll(() => {
   Object.assign(window, { innerWidth: 500 })

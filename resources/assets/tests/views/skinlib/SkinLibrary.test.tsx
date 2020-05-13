@@ -1,8 +1,8 @@
 import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
+import { createPaginator } from '../../utils'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
-import { Paginator } from '@/scripts/types'
 import SkinLibrary from '@/views/skinlib/SkinLibrary'
 import { LibraryItem } from '@/views/skinlib/SkinLibrary/types'
 
@@ -17,17 +17,6 @@ const fixtureItem: Readonly<LibraryItem> = Object.freeze<LibraryItem>({
   public: true,
   likes: 70,
 })
-
-function createPaginator(data: LibraryItem[]): Paginator<LibraryItem> {
-  return {
-    data,
-    total: data.length,
-    from: 1,
-    to: data.length,
-    current_page: 1,
-    last_page: 1,
-  }
-}
 
 beforeEach(() => {
   window.blessing.extra = { currentUid: null }

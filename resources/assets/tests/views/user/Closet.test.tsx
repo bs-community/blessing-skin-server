@@ -1,9 +1,10 @@
 import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
+import { createPaginator } from '../../utils'
 import $ from 'jquery'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
-import { ClosetItem, Player, Paginator } from '@/scripts/types'
+import { ClosetItem, Player } from '@/scripts/types'
 import Closet from '@/views/user/Closet'
 
 jest.mock('@/scripts/net')
@@ -50,17 +51,6 @@ const fixturePlayer: Readonly<Player> = Object.freeze<Player>({
   tid_cape: 2,
   last_modified: new Date().toString(),
 })
-
-function createPaginator(data: ClosetItem[]): Paginator<ClosetItem> {
-  return {
-    data,
-    total: data.length,
-    from: 1,
-    to: data.length,
-    current_page: 1,
-    last_page: 1,
-  }
-}
 
 beforeEach(() => {
   const container = document.createElement('div')
