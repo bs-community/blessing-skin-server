@@ -183,6 +183,7 @@ describe('update plugin', () => {
       }),
     )
     expect(queryByText('ok')).toBeInTheDocument()
+    expect(queryByText(t('admin.updatePlugin'))).not.toBeInTheDocument()
     expect(queryByText(t('admin.installPlugin'))).toBeDisabled()
   })
 })
