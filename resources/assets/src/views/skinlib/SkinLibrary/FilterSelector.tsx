@@ -1,5 +1,6 @@
 import React from 'react'
 import { t } from '@/scripts/i18n'
+import { TextureType } from '@/scripts/types'
 import Button from './Button'
 import { Filter } from './types'
 import { humanizeType } from './utils'
@@ -13,9 +14,9 @@ const FilterSelector: React.FC<Props> = (props) => {
   const { filter, onChange } = props
 
   const handleSkinClick = () => onChange('skin')
-  const handleSteveClick = () => onChange('steve')
-  const handleAlexClick = () => onChange('alex')
-  const handleCapeClick = () => onChange('cape')
+  const handleSteveClick = () => onChange(TextureType.Steve)
+  const handleAlexClick = () => onChange(TextureType.Alex)
+  const handleCapeClick = () => onChange(TextureType.Cape)
 
   return (
     <>
@@ -36,21 +37,21 @@ const FilterSelector: React.FC<Props> = (props) => {
         </Button>
         <Button
           className="dropdown-item"
-          active={filter === 'steve'}
+          active={filter === TextureType.Steve}
           onClick={handleSteveClick}
         >
           Steve
         </Button>
         <Button
           className="dropdown-item"
-          active={filter === 'alex'}
+          active={filter === TextureType.Alex}
           onClick={handleAlexClick}
         >
           Alex
         </Button>
         <Button
           className="dropdown-item"
-          active={filter === 'cape'}
+          active={filter === TextureType.Cape}
           onClick={handleCapeClick}
         >
           {t('general.cape')}

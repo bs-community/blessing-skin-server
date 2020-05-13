@@ -2,7 +2,7 @@ import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
-import { Texture } from '@/scripts/types'
+import { Texture, TextureType } from '@/scripts/types'
 import Show, { Badge } from '@/views/skinlib/Show'
 
 jest.mock('@/scripts/net')
@@ -10,7 +10,7 @@ jest.mock('@/scripts/net')
 const fixtureSkin: Readonly<Texture> = Object.freeze<Texture>({
   tid: 1,
   name: 'skin',
-  type: 'steve',
+  type: TextureType.Steve,
   hash: 'abc',
   size: 2,
   uploader: 1,
@@ -22,7 +22,7 @@ const fixtureSkin: Readonly<Texture> = Object.freeze<Texture>({
 const fixtureCape: Readonly<Texture> = Object.freeze<Texture>({
   tid: 2,
   name: 'cape',
-  type: 'cape',
+  type: TextureType.Cape,
   hash: 'def',
   size: 2,
   uploader: 1,

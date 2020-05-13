@@ -39,7 +39,11 @@ export type Texture = {
   likes: number
 }
 
-export type TextureType = 'steve' | 'alex' | 'cape'
+export const enum TextureType {
+  Steve = 'steve',
+  Alex = 'alex',
+  Cape = 'cape',
+}
 
 export type ClosetItem = Texture & {
   pivot: { user_uid: number; texture_tid: number; item_name: string }

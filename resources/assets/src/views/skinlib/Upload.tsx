@@ -15,7 +15,7 @@ const Previewer = React.lazy(() => import('@/components/Viewer'))
 
 const Upload: React.FC = () => {
   const [name, setName] = useState('')
-  const [type, setType] = useState<TextureType>('steve')
+  const [type, setType] = useState(TextureType.Steve)
   const [isPrivate, setIsPrivate] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
   const [file, setFile] = useState<File | null>(null)
@@ -54,8 +54,8 @@ const Upload: React.FC = () => {
       }
       const texture = URL.createObjectURL(file)
       setTexture(texture)
-      if (type !== 'cape') {
-        setType((await isAlex(texture)) ? 'alex' : 'steve')
+      if (type !== TextureType.Cape) {
+        setType((await isAlex(texture)) ? TextureType.Alex : TextureType.Steve)
       }
     }
   }
@@ -136,7 +136,7 @@ const Upload: React.FC = () => {
                 className="mr-1"
                 name="type"
                 value="steve"
-                checked={type === 'steve'}
+                checked={type === TextureType.Steve}
                 onChange={handleTypeChange}
               />
               Steve
@@ -147,7 +147,7 @@ const Upload: React.FC = () => {
                 className="mr-1"
                 name="type"
                 value="alex"
-                checked={type === 'alex'}
+                checked={type === TextureType.Alex}
                 onChange={handleTypeChange}
               />
               Alex
@@ -158,7 +158,7 @@ const Upload: React.FC = () => {
                 className="mr-1"
                 name="type"
                 value="cape"
-                checked={type === 'cape'}
+                checked={type === TextureType.Cape}
                 onChange={handleTypeChange}
               />
               {t('general.cape')}
@@ -228,9 +228,9 @@ const Upload: React.FC = () => {
       {ReactDOM.createPortal(
         <React.Suspense fallback={<ViewerSkeleton />}>
           <Previewer
-            skin={type !== 'cape' ? texture : undefined}
-            cape={type === 'cape' ? texture : undefined}
-            isAlex={type === 'alex'}
+            skin={type !== TextureType.Cape ? texture : undefined}
+            cape={type === TextureType.Cape ? texture : undefined}
+            isAlex={type === TextureType.Alex}
           />
         </React.Suspense>,
         container,

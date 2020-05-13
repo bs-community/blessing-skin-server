@@ -1,11 +1,12 @@
 import { t } from '@/scripts/i18n'
+import { TextureType } from '@/scripts/types'
 import { Filter } from './types'
 
 export function humanizeType(type: Filter): string {
   switch (type) {
-    case 'steve':
+    case TextureType.Steve:
       return 'Steve'
-    case 'alex':
+    case TextureType.Alex:
       return 'Alex'
     default:
       return t(`general.${type}`)

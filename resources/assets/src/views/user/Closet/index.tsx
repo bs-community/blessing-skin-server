@@ -4,7 +4,12 @@ import debounce from 'lodash.debounce'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { showModal, toast } from '@/scripts/notify'
-import { ClosetItem as Item, Texture, Paginator } from '@/scripts/types'
+import {
+  ClosetItem as Item,
+  Texture,
+  Paginator,
+  TextureType,
+} from '@/scripts/types'
 import Loading from '@/components/Loading'
 import Pagination from '@/components/Pagination'
 import ClosetItem from './ClosetItem'
@@ -50,7 +55,7 @@ const Closet: React.FC = () => {
   }, [category, query, page])
 
   const switchCategory = () => {
-    setCategory(category => (category === 'skin' ? 'cape' : 'skin'))
+    setCategory((category) => (category === 'skin' ? 'cape' : 'skin'))
   }
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -70,7 +75,7 @@ const Closet: React.FC = () => {
   }
 
   const handleSelect = (item: Item) => {
-    if (item.type === 'cape') {
+    if (item.type === TextureType.Cape) {
       setCape(item)
     } else {
       setSkin(item)
@@ -106,7 +111,7 @@ const Closet: React.FC = () => {
     )
     if (code === 0) {
       toast.success(message)
-      setItems(items => {
+      setItems((items) => {
         items[index] = { ...item, pivot: { ...item.pivot, item_name: name } }
         return items.slice()
       })
@@ -119,7 +124,7 @@ const Closet: React.FC = () => {
     const { tid } = item
     const ok = await removeClosetItem(tid)
     if (ok) {
-      setItems(items => items.filter(item => item.tid !== tid))
+      setItems((items) => items.filter((item) => item.tid !== tid))
     }
   }
 
@@ -151,7 +156,9 @@ const Closet: React.FC = () => {
               <li className="nav-item">
                 <a
                   href="#"
-                  className={`nav-link ${category === 'cape' ? 'active' : ''}`}
+                  className={`nav-link ${
+                    category === TextureType.Cape ? 'active' : ''
+                  }`}
                   data-toggle="pill"
                   role="tab"
                   onClick={switchCategory}
@@ -225,7 +232,7 @@ const Closet: React.FC = () => {
       <Previewer
         skin={skin?.hash}
         cape={cape?.hash}
-        isAlex={skin?.type === 'alex'}
+        isAlex={skin?.type === TextureType.Alex}
       >
         <div className="d-flex justify-content-between">
           <button className="btn btn-primary" onClick={applyToPlayer}>

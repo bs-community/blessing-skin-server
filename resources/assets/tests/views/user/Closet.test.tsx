@@ -4,7 +4,7 @@ import { createPaginator } from '../../utils'
 import $ from 'jquery'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
-import { ClosetItem, Player } from '@/scripts/types'
+import { ClosetItem, Player, TextureType } from '@/scripts/types'
 import Closet from '@/views/user/Closet'
 
 jest.mock('@/scripts/net')
@@ -12,7 +12,7 @@ jest.mock('@/scripts/net')
 const fixtureSkin: Readonly<ClosetItem> = Object.freeze<ClosetItem>({
   tid: 1,
   name: 'skin',
-  type: 'steve',
+  type: TextureType.Steve,
   hash: 'abc',
   size: 2,
   uploader: 1,
@@ -29,7 +29,7 @@ const fixtureSkin: Readonly<ClosetItem> = Object.freeze<ClosetItem>({
 const fixtureCape: Readonly<ClosetItem> = Object.freeze<ClosetItem>({
   tid: 2,
   name: 'cape',
-  type: 'cape',
+  type: TextureType.Cape,
   hash: 'def',
   size: 2,
   uploader: 1,

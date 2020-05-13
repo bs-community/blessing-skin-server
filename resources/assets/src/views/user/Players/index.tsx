@@ -4,7 +4,7 @@ import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { showModal, toast } from '@/scripts/notify'
 import useTexture from '@/scripts/hooks/useTexture'
-import { Player } from '@/scripts/types'
+import { Player, TextureType } from '@/scripts/types'
 import Loading from '@/components/Loading'
 import Row from './Row'
 import Previewer from './Previewer'
@@ -200,7 +200,7 @@ const Players: React.FC = () => {
       <Previewer
         skin={skin.url}
         cape={cape.url}
-        isAlex={skin.type === 'alex'}
+        isAlex={skin.type === TextureType.Alex}
       />
       <ModalAddPlayer
         show={showModalAddPlayer}

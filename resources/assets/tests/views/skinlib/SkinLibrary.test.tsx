@@ -3,6 +3,7 @@ import { render, fireEvent, waitFor } from '@testing-library/react'
 import { createPaginator } from '../../utils'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
+import { TextureType } from '@/scripts/types'
 import SkinLibrary from '@/views/skinlib/SkinLibrary'
 import { LibraryItem } from '@/views/skinlib/SkinLibrary/types'
 
@@ -11,7 +12,7 @@ jest.mock('@/scripts/net')
 const fixtureItem: Readonly<LibraryItem> = Object.freeze<LibraryItem>({
   tid: 1,
   name: 'my skin',
-  type: 'steve',
+  type: TextureType.Steve,
   uploader: 1,
   nickname: 'me',
   public: true,

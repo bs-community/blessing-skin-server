@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { t } from '@/scripts/i18n'
+import { TextureType } from '@/scripts/types'
 import Modal from '@/components/Modal'
 
 interface Props {
@@ -58,7 +59,7 @@ const ModalUpdateTexture: React.FC<Props> = (props) => {
               className="mr-1"
               type="radio"
               value="cape"
-              checked={type === 'cape'}
+              checked={type === TextureType.Cape}
               onChange={handleTypeChange}
             />
             {t('general.cape')}

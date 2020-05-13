@@ -4,7 +4,7 @@ import useBlessingExtra from '@/scripts/hooks/useBlessingExtra'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { toast } from '@/scripts/notify'
-import { Paginator } from '@/scripts/types'
+import { Paginator, TextureType } from '@/scripts/types'
 import Loading from '@/components/Loading'
 import Pagination from '@/components/Pagination'
 import addClosetItem from '../Show/addClosetItem'
@@ -33,7 +33,12 @@ const SkinLibrary: React.FC = () => {
 
       const filter = search.get('filter') ?? ''
       setFilter(
-        ['skin', 'steve', 'alex', 'cape'].includes(filter)
+        [
+          'skin',
+          TextureType.Steve,
+          TextureType.Alex,
+          TextureType.Cape,
+        ].includes(filter)
           ? (filter as Filter)
           : 'skin',
       )

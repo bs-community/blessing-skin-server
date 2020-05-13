@@ -7,7 +7,7 @@ type Response = fetch.ResponseBody<Texture>
 export default function useTexture() {
   const [tid, setTid] = useState(0)
   const [url, setUrl] = useState('')
-  const [type, setType] = useState<TextureType>('steve')
+  const [type, setType] = useState(TextureType.Steve)
 
   useEffect(() => {
     if (tid <= 0) {

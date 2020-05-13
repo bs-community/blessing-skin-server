@@ -93,9 +93,9 @@ const Show: React.FC = () => {
         input: texture.type,
         inputType: 'radios',
         choices: [
-          { text: 'Steve', value: 'steve' },
-          { text: 'Alex', value: 'alex' },
-          { text: t('general.cape'), value: 'cape' },
+          { text: 'Steve', value: TextureType.Steve },
+          { text: 'Alex', value: TextureType.Alex },
+          { text: t('general.cape'), value: TextureType.Cape },
         ],
       })
       type = value as TextureType
@@ -232,7 +232,10 @@ const Show: React.FC = () => {
 
   const linkToUploader = (() => {
     const search = new URLSearchParams()
-    search.append('filter', texture.type === 'cape' ? 'cape' : 'skin')
+    search.append(
+      'filter',
+      texture.type === TextureType.Cape ? TextureType.Cape : 'skin',
+    )
     search.append('uploader', texture.uploader?.toString())
 
     return `${blessing.base_url}/skinlib?${search}`
@@ -246,8 +249,12 @@ const Show: React.FC = () => {
       {createPortal(
         <React.Suspense fallback={<ViewerSkeleton />}>
           <Previewer
-            {...{ [texture.type === 'cape' ? 'cape' : 'skin']: textureUrl }}
-            isAlex={texture.type === 'alex'}
+            {...{
+              [texture.type === TextureType.Cape
+                ? TextureType.Cape
+                : 'skin']: textureUrl,
+            }}
+            isAlex={texture.type === TextureType.Alex}
             initPositionZ={60}
           >
             {currentUid === 0 ? (
@@ -284,7 +291,7 @@ const Show: React.FC = () => {
                       {t('skinlib.addToCloset')}
                     </button>
                   )}
-                  {texture.type !== 'cape' && (
+                  {texture.type !== TextureType.Cape && (
                     <button
                       className="btn btn-outline-info mr-2"
                       onClick={handleSetAsAvatar}
@@ -343,7 +350,9 @@ const Show: React.FC = () => {
             <div className="row my-4">
               <div className="col-4">{t('skinlib.show.model')}</div>
               <div className="col-7">
-                {texture.type === 'cape' ? t('general.cape') : texture.type}
+                {texture.type === TextureType.Cape
+                  ? t('general.cape')
+                  : texture.type}
               </div>
               {canEdit && (
                 <div className="col-1">
@@ -425,7 +434,11 @@ const Show: React.FC = () => {
       <ModalApply
         show={showModalApply}
         canAdd={false}
-        {...{ [texture.type === 'cape' ? 'cape' : 'skin']: texture.tid }}
+        {...{
+          [texture.type === TextureType.Cape
+            ? TextureType.Cape
+            : 'skin']: texture.tid,
+        }}
         onClose={handleCloseModalApply}
       />
     </>
