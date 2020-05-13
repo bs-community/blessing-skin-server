@@ -53,7 +53,7 @@ export default [
   },
   {
     path: 'admin/users',
-    component: () => import('../views/admin/Users.vue'),
+    react: () => import('../views/admin/UsersManagement'),
     el: '.content > .container-fluid',
   },
   {

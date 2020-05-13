@@ -1,0 +1,27 @@
+@use '../../../styles/breakpoints';
+
+.box {
+  width: 48%;
+  margin: 7px;
+
+  @include breakpoints.less-than('lg') {
+    width: 98%;
+  }
+}
+
+.icon {
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  padding-top: 22px;
+}
+
+$border: 1px solid rgba(0, 0, 0, 0.125);
+.border {
+  @include breakpoints.less-than('sm') {
+    border-bottom: $border;
+  }
+  @include breakpoints.greater-than('sm') {
+    border-right: $border;
+  }
+}

@@ -127,22 +127,30 @@ Route::prefix('admin')
 
         Route::get('status', 'AdminController@status');
 
-        Route::prefix('users')->group(function () {
+        Route::prefix('users')->name('users.')->group(function () {
             Route::view('', 'admin.users');
-            Route::post('', 'AdminController@userAjaxHandler');
-            Route::get('list', 'AdminController@getUserData');
+            Route::get('list', 'UsersManagementController@list')->name('list');
+            Route::prefix('{user}')->group(function () {
+                Route::put('email', 'UsersManagementController@email')->name('email');
+                Route::put('verification', 'UsersManagementController@verification')->name('verification');
+                Route::put('nickname', 'UsersManagementController@nickname')->name('nickname');
+                Route::put('password', 'UsersManagementController@password')->name('password');
+                Route::put('score', 'UsersManagementController@score')->name('score');
+                Route::put('permission', 'UsersManagementController@permission')->name('permission');
+                Route::delete('', 'UsersManagementController@delete')->name('delete');
+            });
         });
 
         Route::prefix('players')->name('players.')->group(function () {
-                Route::view('', 'admin.players');
-                Route::get('list', 'PlayersManagementController@list')->name('list');
+            Route::view('', 'admin.players');
+            Route::get('list', 'PlayersManagementController@list')->name('list');
             Route::prefix('{player}')->group(function () {
                 Route::put('name', 'PlayersManagementController@name')->name('name');
                 Route::put('owner', 'PlayersManagementController@owner')->name('owner');
                 Route::put('textures', 'PlayersManagementController@texture')->name('texture');
                 Route::delete('', 'PlayersManagementController@delete')->name('delete');
             });
-            });
+        });
 
         Route::prefix('closet')->group(function () {
             Route::post('{uid}', 'ClosetManagementController@add');

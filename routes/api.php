@@ -34,6 +34,19 @@ Route::prefix('closet')->middleware('auth:jwt,oauth')->group(function () {
 Route::prefix('admin')
     ->middleware(['auth:jwt,oauth', 'role:admin'])
     ->group(function () {
+        Route::prefix('users')->group(function () {
+            Route::get('', 'UsersManagementController@list')->name('list');
+            Route::prefix('{user}')->group(function () {
+                Route::put('email', 'UsersManagementController@email')->name('email');
+                Route::put('verification', 'UsersManagementController@verification')->name('verification');
+                Route::put('nickname', 'UsersManagementController@nickname')->name('nickname');
+                Route::put('password', 'UsersManagementController@password')->name('password');
+                Route::put('score', 'UsersManagementController@score')->name('score');
+                Route::put('permission', 'UsersManagementController@permission')->name('permission');
+                Route::delete('', 'UsersManagementController@delete')->name('delete');
+            });
+        });
+
         Route::prefix('players')->group(function () {
             Route::get('', 'PlayersManagementController@list');
             Route::put('{player}/name', 'PlayersManagementController@name');

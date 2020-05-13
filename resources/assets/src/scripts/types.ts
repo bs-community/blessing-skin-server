@@ -4,11 +4,18 @@ export type User = {
   nickname: string
   score: number
   avatar: number
-  permission: number
+  permission: UserPermission
   ip: string
   last_sign_at: string
   register_at: string
   verified: boolean
+}
+
+export const enum UserPermission {
+  Banned = -1,
+  Normal = 0,
+  Admin = 1,
+  SuperAdmin = 2,
 }
 
 export type Player = {

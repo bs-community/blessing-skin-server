@@ -1,3 +1,10 @@
 {% extends 'admin.base' %}
 
 {% block title %}{{ trans('general.user-manage') }}{% endblock %}
+
+{% block before_foot %}
+  {% set extra = {'currentUser': auth_user()} %}
+  <script>
+    blessing.extra = {{ extra|json_encode|raw }}
+  </script>
+{% endblock %}

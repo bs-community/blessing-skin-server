@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Lorisleiva\LaravelSearchString\Concerns\SearchString;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
@@ -31,6 +32,7 @@ class User extends Authenticatable implements JWTSubject
     use Notifiable;
     use HasPassword;
     use HasApiTokens;
+    use SearchString;
 
     const BANNED = -1;
     const NORMAL = 0;
@@ -50,6 +52,16 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     protected $hidden = ['password', 'remember_token'];
+
+    protected $searchStringColumns = [
+        'uid',
+        'email' => ['searchable' => true],
+        'nickname' => ['searchable' => true],
+        'avatar', 'score', 'permission', 'ip',
+        'last_sign_at' => ['date' => true],
+        'register_at' => ['date' => true],
+        'verified' => ['boolean' => true],
+    ];
 
     public function isAdmin(): bool
     {
