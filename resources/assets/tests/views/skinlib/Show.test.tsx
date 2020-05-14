@@ -114,7 +114,7 @@ test('apply to player', async () => {
   window.blessing.extra.inCloset = true
   fetch.get
     .mockResolvedValueOnce({ data: fixtureSkin })
-    .mockResolvedValueOnce({ data: [] })
+    .mockResolvedValueOnce([])
 
   const { getByText, getByLabelText } = render(<Show />)
   await waitFor(() => expect(fetch.get).toBeCalledTimes(1))

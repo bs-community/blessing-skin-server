@@ -383,7 +383,7 @@ describe('apply textures to player', () => {
   it('search players', async () => {
     fetch.get
       .mockResolvedValueOnce(createPaginator([fixtureSkin]))
-      .mockResolvedValueOnce({ data: [fixturePlayer] })
+      .mockResolvedValueOnce([fixturePlayer])
 
     const {
       getByText,
@@ -408,7 +408,7 @@ describe('apply textures to player', () => {
   it('succeeded', async () => {
     fetch.get
       .mockResolvedValueOnce(createPaginator([fixtureSkin]))
-      .mockResolvedValueOnce({ data: [fixturePlayer] })
+      .mockResolvedValueOnce([fixturePlayer])
     fetch.post.mockResolvedValue({ code: 0, message: 'success' })
 
     const {
@@ -439,7 +439,7 @@ describe('apply textures to player', () => {
   it('failed', async () => {
     fetch.get
       .mockResolvedValueOnce(createPaginator([fixtureSkin]))
-      .mockResolvedValueOnce({ data: [fixturePlayer] })
+      .mockResolvedValueOnce([fixturePlayer])
     fetch.post.mockResolvedValue({ code: 1, message: 'failed' })
 
     const {
@@ -470,7 +470,7 @@ describe('apply textures to player', () => {
   it('close dialog', async () => {
     fetch.get
       .mockResolvedValueOnce(createPaginator([fixtureSkin]))
-      .mockResolvedValueOnce({ data: [fixturePlayer] })
+      .mockResolvedValueOnce([fixturePlayer])
 
     const { getByText, getByAltText } = render(<Closet />)
     await waitFor(() => expect(fetch.get).toBeCalled())

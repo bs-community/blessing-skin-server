@@ -17,7 +17,7 @@ interface Props {
   onClose(): void
 }
 
-const ModalApply: React.FC<Props> = props => {
+const ModalApply: React.FC<Props> = (props) => {
   const [players, setPlayers] = useState<Player[]>([])
   const [search, setSearch] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -29,10 +29,8 @@ const ModalApply: React.FC<Props> = props => {
 
     const getPlayers = async () => {
       setIsLoading(true)
-      const { data } = await fetch.get<fetch.ResponseBody<Player[]>>(
-        '/user/player/list',
-      )
-      setPlayers(data)
+      const players = await fetch.get<Player[]>('/user/player/list')
+      setPlayers(players)
       setIsLoading(false)
     }
     getPlayers()
@@ -82,8 +80,8 @@ const ModalApply: React.FC<Props> = props => {
             />
           </div>
           {players
-            .filter(player => player.name.includes(search))
-            .map(player => (
+            .filter((player) => player.name.includes(search))
+            .map((player) => (
               <button
                 key={player.pid}
                 className="btn btn-block btn-outline-info text-left"
