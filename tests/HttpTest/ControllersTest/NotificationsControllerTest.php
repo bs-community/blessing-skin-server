@@ -112,8 +112,9 @@ class NotificationsControllerTest extends TestCase
         $user->refresh();
         $notification = $user->unreadNotifications->first();
 
-        $this->actingAs($user)
-            ->get('/user/notifications/'.$notification->id)
+        $this->actingAs($user)->get('/user')->assertSee('Hyouka');
+
+        $this->get('/user/notifications/'.$notification->id)
             ->assertJson([
                 'title' => $notification->data['title'],
                 'content' => (new Parsedown())->text($notification->data['content']),
