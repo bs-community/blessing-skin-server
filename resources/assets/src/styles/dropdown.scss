@@ -1,5 +1,5 @@
 .dropdown-item {
-  &:hover {
+  &:hover, &:focus {
     color: #fff;
     background-color: var(--blue);
   }
@@ -7,7 +7,7 @@
   &.dropdown-item-danger {
     color: var(--danger);
 
-    &:hover, &:active {
+    &:hover, &:focus {
       color: #fff;
       background-color: var(--danger);
     }
