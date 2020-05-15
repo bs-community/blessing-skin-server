@@ -1,6 +1,5 @@
 const path = require('path')
 const webpack = require('webpack')
-const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserJSPlugin = require('terser-webpack-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
@@ -32,30 +31,12 @@ const config = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: ['cache-loader', 'babel-loader'],
-      },
-      {
         test: /\.tsx?$/,
         loader: 'ts-loader',
         options: {
           configFile: 'tsconfig.build.json',
           transpileOnly: true,
         },
-      },
-      {
-        test: /\.vue$/,
-        use: ['cache-loader', 'vue-loader'],
-      },
-      {
-        test: /\.vue.*\.stylus$/,
-        use: [
-          'vue-style-loader',
-          { loader: 'css-loader', options: { importLoaders: 2 } },
-          'postcss-loader',
-          'stylus-loader',
-        ],
       },
       {
         test: /\.scss$/,
@@ -120,17 +101,15 @@ const config = {
         loader: devMode ? 'url-loader' : 'file-loader',
       },
     ],
-    noParse: /^(vue|jquery)$/,
   },
   plugins: [
-    new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
       filename: devMode ? '[name].css' : '[name].[contenthash:7].css',
       chunkFilename: devMode ? '[id].css' : '[id].[contenthash:7].css',
     }),
   ],
   resolve: {
-    extensions: ['.js', '.ts', '.tsx', '.vue', '.json'],
+    extensions: ['.js', '.ts', '.tsx', '.json'],
     alias: {
       'react-dom': '@hot-loader/react-dom',
       '@': path.resolve(__dirname, 'resources/assets/src'),

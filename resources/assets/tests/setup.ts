@@ -2,7 +2,6 @@
 import * as fs from 'fs'
 import 'jest-extended'
 import '@testing-library/jest-dom'
-import Vue from 'vue'
 import yaml from 'js-yaml'
 
 window.blessing = {
@@ -41,22 +40,3 @@ Object.assign(console, {
   warn: noop,
   error: noop,
 })
-
-Vue.prototype.$t = key => key
-
-Vue.directive('t', (el: Element, { value }) => {
-  if (typeof value === 'string') {
-    el.innerHTML = value
-  } else if (typeof value === 'object') {
-    el.innerHTML = value.path
-  } else {
-    throw new Error('[i18n] Invalid arguments in `v-t` directive.')
-  }
-})
-
-Vue.prototype.$http = {
-  get: jest.fn(),
-  post: jest.fn(),
-  put: jest.fn(),
-  del: jest.fn(),
-}

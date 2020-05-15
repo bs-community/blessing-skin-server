@@ -1,4 +1,3 @@
-import Vue from 'vue'
 import * as net from '@/scripts/net'
 import { on } from '@/scripts/event'
 import { trans, t } from '@/scripts/i18n'
@@ -260,9 +259,4 @@ test('process backend errors', async () => {
     type: 'danger',
     okButtonType: 'outline-light',
   })
-})
-
-test('inject to Vue instance', () => {
-  expect(typeof Vue.prototype.$http.get).toBe('function')
-  expect(typeof Vue.prototype.$http.post).toBe('function')
 })

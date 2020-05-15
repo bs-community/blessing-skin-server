@@ -12,11 +12,10 @@
   "scripts": {
     "dev": "webpack-dev-server",
     "build": "webpack --mode=production -p --progress",
-    "lint": "eslint --ext=js,vue,ts -f=beauty .",
+    "lint": "eslint --ext=ts -f=beauty .",
     "test": "jest"
   },
   "dependencies": {
-    "@babel/runtime": "^7.8.0",
     "@fortawesome/fontawesome-free": "^5.12.0",
     "@hot-loader/react-dom": "^16.11.0",
     "@tweenjs/tween.js": "^18.4.2",
@@ -40,15 +39,10 @@
     "skinview3d": "^1.2.1",
     "spectre.css": "^0.5.8",
     "use-immer": "^0.3.5",
-    "vue": "^2.6.11",
-    "vue-good-table": "^2.18.1",
     "xterm": "^4.4.0",
     "xterm-addon-fit": "^0.3.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.8.7",
-    "@babel/plugin-transform-runtime": "^7.8.3",
-    "@babel/preset-env": "^7.8.7",
     "@gplane/tsconfig": "^1.0.0",
     "@testing-library/jest-dom": "^5.3.0",
     "@testing-library/react": "^10.0.1",
@@ -65,17 +59,11 @@
     "@types/webpack": "^4.41.2",
     "@typescript-eslint/eslint-plugin": "^2.8.0",
     "@typescript-eslint/parser": "^2.8.0",
-    "@vue/test-utils": "^1.0.0-beta.29",
     "autoprefixer": "^9.7.3",
-    "babel-jest": "^25.2.3",
-    "babel-loader": "^8.0.6",
-    "babel-plugin-dynamic-import-node": "^2.3.0",
-    "cache-loader": "^4.1.0",
     "css-loader": "^3.4.2",
     "eslint": "^6.7.1",
     "eslint-config-gplane": "^6.2.1",
     "eslint-formatter-beauty": "^3.0.0",
-    "eslint-plugin-vue": "^6.1.2",
     "file-loader": "^5.0.2",
     "jest": "^25.2.3",
     "jest-extended": "^0.11.5",
@@ -93,9 +81,6 @@
     "ts-loader": "^7.0.4",
     "typescript": "^3.9.2",
     "url-loader": "^3.0.0",
-    "vue-jest": "^4.0.0-beta.2",
-    "vue-loader": "^15.8.3",
-    "vue-template-compiler": "^2.6.11",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1",
@@ -121,10 +106,8 @@
   "eslintConfig": {
     "root": true,
     "extends": [
-      "gplane",
-      "gplane/vue"
+      "gplane"
     ],
-    "parser": "vue-eslint-parser",
     "env": {
       "node": true,
       "es6": true,
@@ -154,8 +137,7 @@
         ],
         "extends": [
           "gplane",
-          "gplane/typescript",
-          "gplane/vue"
+          "gplane/typescript"
         ],
         "parserOptions": {
           "parser": "@typescript-eslint/parser"
@@ -190,14 +172,6 @@
             120
           ]
         }
-      },
-      {
-        "files": [
-          "resources/assets/src/components/mixins/*.ts"
-        ],
-        "rules": {
-          "@typescript-eslint/no-extra-parens": 0
-        }
       }
     ]
   },
@@ -206,15 +180,12 @@
     "resetMocks": true,
     "timers": "fake",
     "transform": {
-      ".*\\.js$": "babel-jest",
-      ".*\\.tsx?$": "ts-jest",
-      ".*\\.vue$": "vue-jest"
+      ".*\\.tsx?$": "ts-jest"
     },
     "moduleFileExtensions": [
       "js",
       "ts",
       "tsx",
-      "vue",
       "json",
       "node"
     ],
