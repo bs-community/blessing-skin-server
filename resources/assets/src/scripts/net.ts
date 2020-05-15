@@ -1,6 +1,6 @@
 import { emit } from './event'
 import { showModal } from './notify'
-import { trans, t } from './i18n'
+import { t } from './i18n'
 
 export interface ResponseBody<T = null> {
   code: number
@@ -87,13 +87,13 @@ export async function walkFetch(request: Request): Promise<any> {
     emit('fetchError', error)
     showModal({
       mode: 'alert',
-      title: trans('general.fatalError'),
+      title: t('general.fatalError'),
       dangerousHTML: error.message,
       type: 'danger',
       okButtonType: 'outline-light',
     })
 
-    return { code: -1, message: trans('general.fatalError') }
+    return { code: -1, message: t('general.fatalError') }
   }
 }
 

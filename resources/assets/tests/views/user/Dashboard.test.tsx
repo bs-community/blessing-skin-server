@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import * as fetch from '@/scripts/net'
-import { trans } from '@/scripts/i18n'
+import { t } from '@/scripts/i18n'
 import Dashboard from '@/views/user/Dashboard'
 
 jest.mock('@/scripts/net')
@@ -112,7 +112,7 @@ describe('sign button', () => {
     const button = getByRole('button')
 
     expect(button).toBeEnabled()
-    expect(button).toHaveTextContent(trans('user.sign'))
+    expect(button).toHaveTextContent(t('user.sign'))
   })
 
   it('sign is allowed if last sign is yesterday', async () => {

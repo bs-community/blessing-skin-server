@@ -1,4 +1,4 @@
-export function trans(key: string, parameters = Object.create(null)): string {
+export function t(key: string, parameters = Object.create(null)): string {
   const segments = key.split('.')
   let temp = (blessing.i18n) as {
     [k: string]: string | { [k: string]: string }
@@ -23,6 +23,4 @@ export function trans(key: string, parameters = Object.create(null)): string {
   return result
 }
 
-export const t = trans
-
-Object.assign(window, { trans })
+Object.assign(window, { trans: t })

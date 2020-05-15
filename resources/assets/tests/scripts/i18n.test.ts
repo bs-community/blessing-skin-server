@@ -1,13 +1,13 @@
-import { trans } from '@/scripts/i18n'
+import { t } from '@/scripts/i18n'
 
 test('mount to global', () => {
-  expect(window.trans).toBe(trans)
+  expect(window.trans).toBe(t)
 })
 
 test('translate text', () => {
   window.blessing.i18n = { a: { b: { c: 'text', d: 'Hi, :name!' } } }
-  expect(trans('a.b.c')).toBe('text')
-  expect(trans('a.b.d')).toBe('Hi, :name!')
-  expect(trans('a.b.d', { name: 'me' })).toBe('Hi, me!')
-  expect(trans('d.e')).toBe('d.e')
+  expect(t('a.b.c')).toBe('text')
+  expect(t('a.b.d')).toBe('Hi, :name!')
+  expect(t('a.b.d', { name: 'me' })).toBe('Hi, me!')
+  expect(t('d.e')).toBe('d.e')
 })

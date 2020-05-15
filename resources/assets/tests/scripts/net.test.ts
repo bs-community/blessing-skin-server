@@ -1,6 +1,6 @@
 import * as net from '@/scripts/net'
 import { on } from '@/scripts/event'
-import { trans, t } from '@/scripts/i18n'
+import { t } from '@/scripts/i18n'
 import { showModal } from '@/scripts/notify'
 
 jest.mock('@/scripts/notify')
@@ -150,7 +150,7 @@ test('low level fetch', async () => {
   await net.walkFetch(request as Request)
   expect(showModal).toBeCalledWith({
     mode: 'alert',
-    title: trans('general.fatalError'),
+    title: t('general.fatalError'),
     dangerousHTML: 'network',
     type: 'danger',
     okButtonType: 'outline-light',
@@ -160,7 +160,7 @@ test('low level fetch', async () => {
   await net.walkFetch(request as Request)
   expect(showModal).toBeCalledWith({
     mode: 'alert',
-    title: trans('general.fatalError'),
+    title: t('general.fatalError'),
     dangerousHTML: '404',
     type: 'danger',
     okButtonType: 'outline-light',
@@ -171,7 +171,7 @@ test('low level fetch', async () => {
   await net.walkFetch(request as Request)
   expect(showModal).toBeCalledWith({
     mode: 'alert',
-    title: trans('general.fatalError'),
+    title: t('general.fatalError'),
     dangerousHTML: 'error',
     type: 'danger',
     okButtonType: 'outline-light',
@@ -254,7 +254,7 @@ test('process backend errors', async () => {
   await net.walkFetch({ headers: new Headers() } as Request)
   expect(showModal).toBeCalledWith({
     mode: 'alert',
-    title: trans('general.fatalError'),
+    title: t('general.fatalError'),
     dangerousHTML: 'fake exception<br><details>[1] k.php#L2<br>[2] v.php#L3</details>',
     type: 'danger',
     okButtonType: 'outline-light',

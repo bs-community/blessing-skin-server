@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import $ from 'jquery'
 import 'bootstrap'
-import { trans } from '../scripts/i18n'
+import { t } from '../scripts/i18n'
 import ModalHeader from './ModalHeader'
 import ModalBody from './ModalBody'
 import ModalFooter from './ModalFooter'
@@ -38,7 +38,7 @@ export type ModalResult = {
 const Modal: React.FC<ModalOptions & Props> = (props) => {
   const {
     mode = 'confirm',
-    title = trans('general.tip'),
+    title = t('general.tip'),
     text = '',
     input = '',
     placeholder = '',
@@ -46,9 +46,9 @@ const Modal: React.FC<ModalOptions & Props> = (props) => {
     type = 'default',
     showHeader = true,
     center = false,
-    okButtonText = trans('general.confirm'),
+    okButtonText = t('general.confirm'),
     okButtonType = 'primary',
-    cancelButtonText = trans('general.cancel'),
+    cancelButtonText = t('general.cancel'),
     cancelButtonType = 'secondary',
     flexFooter = false,
   } = props

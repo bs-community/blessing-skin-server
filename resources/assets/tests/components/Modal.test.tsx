@@ -1,6 +1,6 @@
 import React from 'react'
 import { render, fireEvent, act } from '@testing-library/react'
-import { trans } from '@/scripts/i18n'
+import { t } from '@/scripts/i18n'
 import $ from 'jquery'
 import Modal from '@/components/Modal'
 
@@ -31,7 +31,7 @@ test('jQuery events', () => {
     $('.modal').trigger('hidden.bs.modal')
   })
 
-  fireEvent.click(getByText(trans('general.cancel')))
+  fireEvent.click(getByText(t('general.cancel')))
   act(() => {
     jest.runAllTimers()
     $('.modal').trigger('hidden.bs.modal')
@@ -107,7 +107,7 @@ describe('modal footer', () => {
   it('custom footer content', () => {
     const { queryByText } = render(<Modal footer={<div>footer</div>} show />)
     expect(queryByText('footer')).toBeInTheDocument()
-    expect(queryByText(trans('general.confirm'))).not.toBeInTheDocument()
+    expect(queryByText(t('general.confirm'))).not.toBeInTheDocument()
   })
 
   it('flex footer', () => {
@@ -136,22 +136,22 @@ describe('"alert" mode', () => {
     const { getByText, queryByText } = render(
       <Modal mode="alert" onConfirm={resolve} show />,
     )
-    fireEvent.click(getByText(trans('general.confirm')))
+    fireEvent.click(getByText(t('general.confirm')))
     expect(resolve).toBeCalledWith({ value: '' })
-    expect(queryByText(trans('general.cancel'))).toBeNull()
+    expect(queryByText(t('general.cancel'))).toBeNull()
   })
 
   it('confirm callback is optional', () => {
     const { getByText } = render(<Modal mode="alert" show />)
-    fireEvent.click(getByText(trans('general.confirm')))
+    fireEvent.click(getByText(t('general.confirm')))
   })
 })
 
 describe('"confirm" mode', () => {
   it('default mode is "confirm"', () => {
     const { queryByText } = render(<Modal show />)
-    expect(queryByText(trans('general.confirm'))).toBeInTheDocument()
-    expect(queryByText(trans('general.cancel'))).toBeInTheDocument()
+    expect(queryByText(t('general.confirm'))).toBeInTheDocument()
+    expect(queryByText(t('general.cancel'))).toBeInTheDocument()
   })
 
   it('"confirm" button', () => {
@@ -160,7 +160,7 @@ describe('"confirm" mode', () => {
     const { getByText } = render(
       <Modal mode="prompt" onConfirm={resolve} onDismiss={reject} show />,
     )
-    fireEvent.click(getByText(trans('general.confirm')))
+    fireEvent.click(getByText(t('general.confirm')))
     expect(resolve).toBeCalledWith({ value: '' })
     expect(reject).not.toBeCalled()
   })
@@ -171,7 +171,7 @@ describe('"confirm" mode', () => {
     const { getByText } = render(
       <Modal mode="prompt" onConfirm={resolve} onDismiss={reject} show />,
     )
-    fireEvent.click(getByText(trans('general.cancel')))
+    fireEvent.click(getByText(t('general.cancel')))
     expect(resolve).not.toBeCalled()
     expect(reject).toBeCalled()
   })
@@ -193,7 +193,7 @@ describe('"prompt" mode', () => {
     fireEvent.change(getByPlaceholderText('hint'), {
       target: { value: 'my' },
     })
-    fireEvent.click(getByText(trans('general.confirm')))
+    fireEvent.click(getByText(t('general.confirm')))
     expect(resolve).toBeCalledWith({ value: 'my' })
     expect(reject).not.toBeCalled()
   })
@@ -204,7 +204,7 @@ describe('"prompt" mode', () => {
     const { getByText } = render(
       <Modal mode="prompt" onConfirm={resolve} onDismiss={reject} show />,
     )
-    fireEvent.click(getByText(trans('general.cancel')))
+    fireEvent.click(getByText(t('general.cancel')))
     expect(resolve).not.toBeCalled()
     expect(reject).toBeCalled()
   })
@@ -225,7 +225,7 @@ describe('"prompt" mode', () => {
       />,
     )
     fireEvent.click(getByLabelText('B'))
-    fireEvent.click(getByText(trans('general.confirm')))
+    fireEvent.click(getByText(t('general.confirm')))
     expect(resolve).toBeCalledWith({ value: 'b' })
   })
 
@@ -243,7 +243,7 @@ describe('"prompt" mode', () => {
         show
       />,
     )
-    fireEvent.click(getByText(trans('general.confirm')))
+    fireEvent.click(getByText(t('general.confirm')))
     expect(resolve).toBeCalledWith({ value: 'val' })
     expect(reject).not.toBeCalled()
   })
@@ -265,7 +265,7 @@ describe('"prompt" mode', () => {
     )
     expect(queryByText(message)).not.toBeInTheDocument()
 
-    fireEvent.click(getByText(trans('general.confirm')))
+    fireEvent.click(getByText(t('general.confirm')))
     expect(queryByText(message)).toBeInTheDocument()
     expect(resolve).not.toBeCalled()
     expect(reject).not.toBeCalled()
@@ -276,14 +276,14 @@ describe('"onClose" event', () => {
   it('button confirm', () => {
     const mock = jest.fn()
     const { getByText } = render(<Modal show mode="confirm" onClose={mock} />)
-    fireEvent.click(getByText(trans('general.confirm')))
+    fireEvent.click(getByText(t('general.confirm')))
     expect(mock).toBeCalled()
   })
 
   it('button cancel', () => {
     const mock = jest.fn()
     const { getByText } = render(<Modal show mode="confirm" onClose={mock} />)
-    fireEvent.click(getByText(trans('general.cancel')))
+    fireEvent.click(getByText(t('general.cancel')))
     expect(mock).toBeCalled()
   })
 })

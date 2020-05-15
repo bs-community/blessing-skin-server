@@ -1,11 +1,11 @@
 import { post } from './net'
-import { trans } from './i18n'
+import { t } from './i18n'
 import { showModal } from './notify'
 
 export async function logout() {
   try {
     await showModal({
-      text: trans('general.confirmLogout'),
+      text: t('general.confirmLogout'),
       center: true,
     })
   } catch {

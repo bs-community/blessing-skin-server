@@ -1,5 +1,5 @@
 import { post, ResponseBody } from '@/scripts/net'
-import { trans } from '@/scripts/i18n'
+import { t } from '@/scripts/i18n'
 import { showModal, toast } from '@/scripts/notify'
 
 export default async function handler(event: Event) {
@@ -11,7 +11,7 @@ export default async function handler(event: Event) {
   const confirmPassword = form.confirm.value
 
   if (newPassword !== confirmPassword) {
-    toast.error(trans('auth.invalidConfirmPwd'))
+    toast.error(t('auth.invalidConfirmPwd'))
     ;(form.confirm as HTMLInputElement).focus()
     return
   }
