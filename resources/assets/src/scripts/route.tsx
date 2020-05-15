@@ -63,7 +63,7 @@ export default [
   },
   {
     path: 'admin/reports',
-    component: () => import('../views/admin/Reports.vue'),
+    react: () => import('../views/admin/ReportsManagement'),
     el: '.content > .container-fluid',
   },
   {

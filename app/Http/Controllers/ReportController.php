@@ -9,6 +9,7 @@ use Blessing\Filter;
 use Blessing\Rejection;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
 class ReportController extends Controller
@@ -65,46 +66,35 @@ class ReportController extends Controller
 
     public function manage(Request $request)
     {
-        $search = $request->input('search', '');
-        $sortField = $request->input('sortField', 'report_at');
-        $sortType = $request->input('sortType', 'desc');
-        $page = $request->input('page', 1);
-        $perPage = $request->input('perPage', 10);
+        $q = $request->input('q');
 
-        $reports = Report::where('tid', 'like', '%'.$search.'%')
-                        ->orWhere('reporter', 'like', '%'.$search.'%')
-                        ->orWhere('reason', 'like', '%'.$search.'%')
-                        ->orderBy($sortField, $sortType)
-                        ->offset(($page - 1) * $perPage)
-                        ->limit($perPage)
-                        ->get()
-                        ->makeHidden(['informer'])
-                        ->map(function ($report) {
-                            $uploader = User::find($report->uploader);
-                            if ($uploader) {
-                                $report->uploaderName = $uploader->nickname;
-                            }
-                            if ($report->informer) {
-                                $report->reporterName = $report->informer->nickname;
-                            }
+        $pagination = Report::usingSearchString($q)->paginate(9);
+        $collection = $pagination->getCollection()->map(function ($report) {
+            $uploader = User::find($report->uploader);
+            if ($uploader) {
+                $report->uploaderName = $uploader->nickname;
+            }
+            if ($report->informer) {
+                $report->reporterName = $report->informer->nickname;
+            }
+            $report->getAttribute('texture');
 
-                            return $report;
-                        });
+            return $report;
+        });
+        $pagination->setCollection($collection);
 
-        return [
-            'totalRecords' => Report::count(),
-            'data' => $reports,
-        ];
+        return $pagination;
     }
 
-    public function review(Request $request, Dispatcher $dispatcher)
-    {
-        $data = $this->validate($request, [
-            'id' => 'required|exists:reports',
+    public function review(
+        Report $report,
+        Request $request,
+        Dispatcher $dispatcher
+    ) {
+        $data = $request->validate([
             'action' => ['required', Rule::in(['delete', 'ban', 'reject'])],
         ]);
         $action = $data['action'];
-        $report = Report::find($data['id']);
 
         $dispatcher->dispatch('report.reviewing', [$report, $action]);
 
@@ -127,8 +117,10 @@ class ReportController extends Controller
 
         switch ($action) {
             case 'delete':
+                /** @var Texture */
                 $texture = $report->texture;
                 if ($texture) {
+                    Storage::disk('textures')->delete($texture->hash);
                     $texture->delete();
                     $dispatcher->dispatch('texture.deleted', [$texture]);
                 } else {

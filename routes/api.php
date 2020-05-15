@@ -61,5 +61,10 @@ Route::prefix('admin')
             Route::delete('{uid}', 'ClosetManagementController@remove');
         });
 
+        Route::prefix('reports')->group(function () {
+            Route::get('', 'ReportController@manage');
+            Route::put('{report}', 'ReportController@review');
+        });
+
         Route::post('notifications', 'NotificationsController@send');
     });

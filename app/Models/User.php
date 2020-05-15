@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Models\Concerns\HasPassword;
-use DateTimeInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;

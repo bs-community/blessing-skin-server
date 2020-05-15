@@ -1,0 +1,116 @@
+import React from 'react'
+import { t } from '@/scripts/i18n'
+import { Texture } from '@/scripts/types'
+import { Report, Status } from './types'
+import styles from './ImageBox.module.scss'
+
+interface Props {
+  report: Report
+  onClick(texture: Texture | null): void
+  onBan(): void
+  onDelete(): void
+  onReject(): void
+}
+
+const ImageBox: React.FC<Props> = (props) => {
+  const { report } = props
+
+  const handleImageClick = () => props.onClick(report.texture)
+
+  return (
+    <div className={`card mr-3 mb-3 ${styles.box}`}>
+      <div className="card-header">
+        <b>
+          {t('skinlib.show.uploader')}
+          {': '}
+        </b>
+        <span className="mr-1">{report.uploaderName}</span>
+        (UID: {report.uploader})
+      </div>
+      <div className={`card-body ${styles.body}`}>
+        <img
+          src={`${blessing.base_url}/preview/${report.tid}?height=150`}
+          alt={report.tid.toString()}
+          className="card-img-top"
+          onClick={handleImageClick}
+        />
+      </div>
+      <div className={`card-footer ${styles.footer}`}>
+        <div className="d-flex justify-content-between">
+          <div>
+            {report.status === Status.Pending ? (
+              <span className="badge bg-warning">{t('report.status.0')}</span>
+            ) : report.status === Status.Resolved ? (
+              <span className="badge bg-success">{t('report.status.1')}</span>
+            ) : (
+              <span className="badge bg-danger">{t('report.status.2')}</span>
+            )}
+          </div>
+          <div className="dropdown">
+            <a
+              className="text-gray"
+              href="#"
+              data-toggle="dropdown"
+              aria-expanded="false"
+            >
+              <i className="fas fa-cog"></i>
+            </a>
+            <div className="dropdown-menu dropdown-menu-right">
+              <a
+                href={`${blessing.base_url}/skinlib/show/${report.tid}`}
+                className="dropdown-item"
+                target="_blank"
+              >
+                <i className="fas fa-share-square mr-2"></i>
+                {t('user.viewInSkinlib')}
+              </a>
+              <a href="#" className="dropdown-item" onClick={props.onBan}>
+                <i className="fas fa-user-slash mr-2"></i>
+                {t('report.ban')}
+              </a>
+              <a
+                href="#"
+                className="dropdown-item dropdown-item-danger"
+                onClick={props.onDelete}
+              >
+                <i className="fas fa-trash mr-2"></i>
+                {t('skinlib.show.delete-texture')}
+              </a>
+              <a href="#" className="dropdown-item" onClick={props.onReject}>
+                <i className="fas fa-thumbs-down mr-2"></i>
+                {t('report.reject')}
+              </a>
+            </div>
+          </div>
+        </div>
+        <div>
+          <b>
+            {t('report.reporter')}
+            {': '}
+          </b>
+          <span className="mr-1">{report.reporterName}</span>
+          (UID: {report.reporter})
+        </div>
+        <details>
+          <summary className={styles.reason}>
+            <b>
+              {t('report.reason')}
+              {': '}
+            </b>
+            {report.reason}
+          </summary>
+          <div>{report.reason}</div>
+          <div>
+            <small>
+              {t('report.time')}
+              {': '}
+              {report.report_at}
+            </small>
+          </div>
+        </details>
+      </div>
+    </div>
+  )
+}
+
+export default ImageBox

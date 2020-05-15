@@ -9,6 +9,7 @@ use Blessing\Filter;
 use Blessing\Rejection;
 use Event;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Storage;
 
 class ReportControllerTest extends TestCase
 {
@@ -22,20 +23,20 @@ class ReportControllerTest extends TestCase
         $user = factory(User::class)->create();
         $texture = factory(Texture::class)->create();
 
-        // Without `tid` field
+        // without `tid` field
         $this->actingAs($user)
             ->postJson('/skinlib/report')
             ->assertJsonValidationErrors('tid');
 
-        // Invalid texture
+        // invalid texture
         $this->postJson('/skinlib/report', ['tid' => $texture->tid - 1])
             ->assertJsonValidationErrors('tid');
 
-        // Without `reason` field
+        // without `reason` field
         $this->postJson('/skinlib/report', ['tid' => $texture->tid])
             ->assertJsonValidationErrors('reason');
 
-        // Lack of score
+        // lack of score
         $user->score = 0;
         $user->save();
         option(['reporter_score_modification' => -5]);
@@ -46,7 +47,7 @@ class ReportControllerTest extends TestCase
             ]);
         option(['reporter_score_modification' => 5]);
 
-        // Rejection
+        // rejection
         $filter->add(
             'user_can_report',
             function ($can, $tid, $reason, $reporter) use ($texture, $user) {
@@ -61,7 +62,7 @@ class ReportControllerTest extends TestCase
             ->assertJson(['code' => 1, 'message' => 'rejected']);
         $filter->remove('user_can_report');
 
-        // Success
+        // success
         $this->postJson('/skinlib/report', ['tid' => $texture->tid, 'reason' => 'reason'])
             ->assertJson([
                 'code' => 0,
@@ -93,7 +94,7 @@ class ReportControllerTest extends TestCase
             return true;
         });
 
-        // Prevent duplication
+        // prevent duplication
         $this->postJson('/skinlib/report', ['tid' => $texture->tid, 'reason' => 'reason'])
             ->assertJson([
                 'code' => 1,
@@ -134,18 +135,7 @@ class ReportControllerTest extends TestCase
 
         $this->actingAs($reporter)
             ->getJson('/admin/reports/list')
-            ->assertJson([
-                'totalRecords' => 1,
-                'data' => [[
-                    'tid' => $texture->tid,
-                    'uploader' => $uploader->uid,
-                    'reporter' => $reporter->uid,
-                    'reason' => 'test',
-                    'status' => Report::PENDING,
-                    'uploaderName' => $uploader->nickname,
-                    'reporterName' => $reporter->nickname,
-                ]],
-            ]);
+            ->assertJson(['data' => [$report->toArray()]]);
     }
 
     public function testReview()
@@ -164,25 +154,17 @@ class ReportControllerTest extends TestCase
         $report->save();
         $report->refresh();
 
-        // Without `id` field
-        $this->actingAs($admin)
-            ->postJson('/admin/reports')
-            ->assertJsonValidationErrors('id');
-
-        // Not existed
-        $this->postJson('/admin/reports', ['id' => $report->id - 1])
-            ->assertJsonValidationErrors('id');
-
         // Without `action` field
-        $this->postJson('/admin/reports', ['id' => $report->id])
+        $this->actingAs($admin)
+            ->putJson('/admin/reports/'.$report->id)
             ->assertJsonValidationErrors('action');
 
-        // Invalid action
-        $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'a'])
+        // invalid action
+        $this->putJson('/admin/reports/'.$report->id, ['action' => 'a'])
             ->assertJsonValidationErrors('action');
 
-        // Allow to process again
-        $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'reject'])
+        // allow to process again
+        $this->putJson('/admin/reports/'.$report->id, ['action' => 'reject'])
             ->assertJson(['code' => 0]);
         $id = $report->id;
         Event::assertDispatched('report.reviewing', function ($event, $payload) use ($id) {
@@ -213,10 +195,10 @@ class ReportControllerTest extends TestCase
         $report->refresh();
         $id = $report->id;
 
-        // Should not cost score
+        // should not cost score
         $score = $reporter->score;
         $this->actingAs($admin)
-            ->postJson('/admin/reports', ['id' => $report->id, 'action' => 'reject'])
+            ->putJson('/admin/reports/'.$report->id, ['action' => 'reject'])
             ->assertJson([
                 'code' => 0,
                 'message' => trans('general.op-success'),
@@ -240,12 +222,12 @@ class ReportControllerTest extends TestCase
             return true;
         });
 
-        // Should cost score
+        // should cost score
         $report->status = Report::PENDING;
         $report->save();
         option(['reporter_score_modification' => 5]);
         $score = $reporter->score;
-        $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'reject'])
+        $this->putJson('/admin/reports/'.$report->id, ['action' => 'reject'])
             ->assertJson(['code' => 0]);
         $reporter->refresh();
         $this->assertEquals($score - 5, $reporter->score);
@@ -254,11 +236,13 @@ class ReportControllerTest extends TestCase
     public function testReviewDelete()
     {
         Event::fake();
+        $disk = Storage::fake('textures');
 
         $uploader = factory(User::class)->create();
         $reporter = factory(User::class)->create();
         $admin = factory(User::class)->states('admin')->create();
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+        $disk->put($texture->hash, '');
 
         $report = new Report();
         $report->tid = $texture->tid;
@@ -278,7 +262,7 @@ class ReportControllerTest extends TestCase
         ]);
         $score = $reporter->score;
         $this->actingAs($admin)
-            ->postJson('/admin/reports', ['id' => $report->id, 'action' => 'delete'])
+            ->putJson('/admin/reports/'.$report->id, ['action' => 'delete'])
             ->assertJson([
                 'code' => 0,
                 'message' => trans('general.op-success'),
@@ -289,6 +273,7 @@ class ReportControllerTest extends TestCase
         $this->assertEquals(Report::RESOLVED, $report->status);
         $this->assertNull(Texture::find($texture->tid));
         $this->assertEquals($score + 7, $reporter->score);
+        Storage::assertMissing($texture->hash);
         Event::assertDispatched('report.reviewing', function ($event, $payload) use ($id) {
             [$report, $action] = $payload;
             $this->assertEquals($id, $report->id);
@@ -337,7 +322,7 @@ class ReportControllerTest extends TestCase
         $score = $reporter->score;
         $texture->delete();
         $this->actingAs($admin)
-            ->postJson('/admin/reports', ['id' => $report->id, 'action' => 'delete'])
+            ->putJson('/admin/reports/'.$report->id, ['action' => 'delete'])
             ->assertJson([
                 'code' => 0,
                 'message' => trans('general.texture-deleted'),
@@ -375,11 +360,11 @@ class ReportControllerTest extends TestCase
         $report->refresh();
         $id = $report->id;
 
-        // Uploader should be banned
+        // uploader should be banned
         option(['reporter_reward_score' => 6]);
         $score = $reporter->score;
         $this->actingAs($admin)
-            ->postJson('/admin/reports', ['id' => $report->id, 'action' => 'ban'])
+            ->putJson('/admin/reports/'.$report->id, ['action' => 'ban'])
             ->assertJson([
                 'code' => 0,
                 'message' => trans('general.op-success'),
@@ -391,14 +376,14 @@ class ReportControllerTest extends TestCase
         $this->assertEquals($score + 6, $reporter->score);
         option(['reporter_reward_score' => 0]);
 
-        // Should not ban admin uploader
+        // should not ban admin uploader
         $report->refresh();
         $report->status = Report::PENDING;
         $report->save();
         $uploader->refresh();
         $uploader->permission = User::ADMIN;
         $uploader->save();
-        $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'ban'])
+        $this->putJson('/admin/reports/'.$report->id, ['action' => 'ban'])
             ->assertJson([
                 'code' => 1,
                 'message' => trans('admin.users.operations.no-permission'),
@@ -427,10 +412,10 @@ class ReportControllerTest extends TestCase
             return true;
         });
 
-        // Uploader has deleted its account
+        // uploader has deleted its account
         $report->uploader = -1;
         $report->save();
-        $this->postJson('/admin/reports', ['id' => $report->id, 'action' => 'ban'])
+        $this->putJson('/admin/reports/'.$report->id, ['action' => 'ban'])
             ->assertJson([
                 'code' => 1,
                 'message' => trans('admin.users.operations.non-existent'),

@@ -5,6 +5,7 @@ namespace App\Models;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
+use Lorisleiva\LaravelSearchString\Concerns\SearchString;
 
 /**
  * @property int     $id
@@ -19,6 +20,8 @@ use Illuminate\Support\Carbon;
  */
 class Report extends Model
 {
+    use SearchString;
+
     public const CREATED_AT = 'report_at';
     public const UPDATED_AT = null;
 
@@ -31,6 +34,12 @@ class Report extends Model
         'uploader' => 'integer',
         'reporter' => 'integer',
         'status' => 'integer',
+    ];
+
+    protected $searchStringColumns = [
+        'id', 'tid', 'uploader', 'reporter',
+        'reason', 'status',
+        'report_at' => ['date' => true],
     ];
 
     public function texture()

@@ -159,8 +159,8 @@ Route::prefix('admin')
 
         Route::prefix('reports')->group(function () {
             Route::view('', 'admin.reports');
-            Route::post('', 'ReportController@review');
-            Route::any('list', 'ReportController@manage');
+            Route::put('{report}', 'ReportController@review');
+            Route::get('list', 'ReportController@manage');
         });
 
         Route::prefix('i18n')->group(function () {
