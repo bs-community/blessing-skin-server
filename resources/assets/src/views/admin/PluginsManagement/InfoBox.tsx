@@ -1,7 +1,41 @@
-import React from 'react'
+/** @jsx jsx */
+import { jsx } from '@emotion/core'
+import styled from '@emotion/styled'
 import { t } from '@/scripts/i18n'
+import * as cssUtils from '@/styles/utils'
 import { Plugin } from './types'
-import styles from './InfoBox.module.scss'
+
+const Box = styled.div`
+  cursor: default;
+  transition-property: box-shadow;
+  transition-duration: 0.3s;
+  &:hover {
+    box-shadow: 0 0.5rem 1rem rgba(#000, 0.15);
+  }
+
+  .info-box-content {
+    max-width: calc(100% - 70px);
+  }
+`
+const ActionButton = styled.a`
+  transition-property: color;
+  transition-duration: 0.3s;
+  color: #000;
+  &:hover {
+    color: #999;
+  }
+  &:not(:last-child) {
+    margin-right: 9px;
+  }
+`
+const Header = styled.div`
+  max-width: calc(100% - 40px);
+  display: flex;
+`
+const Description = styled.div`
+  font-size: 14px;
+  ${cssUtils.truncateText};
+`
 
 interface Props {
   plugin: Plugin
@@ -27,13 +61,13 @@ const InfoBox: React.FC<Props> = (props) => {
   const handleDelete = () => props.onDelete(plugin)
 
   return (
-    <div className={`info-box mr-3 ${styles.box}`}>
+    <Box className="info-box mr-3">
       <span className={`info-box-icon bg-${plugin.icon.bg}`}>
         <i className={`${plugin.icon.faType} fa-${plugin.icon.fa}`} />
       </span>
-      <div className={`info-box-content ${styles.content}`}>
+      <div className="info-box-content">
         <div className="d-flex justify-content-between">
-          <div className={`d-flex ${styles.header}`}>
+          <Header>
             <input
               className="mr-2 d-inline-block"
               type="checkbox"
@@ -45,43 +79,44 @@ const InfoBox: React.FC<Props> = (props) => {
               }
               onChange={handleChange}
             />
-            <strong className={`d-inline-block mr-2 ${styles.title}`}>
+            <strong className="d-inline-block mr-2" css={cssUtils.truncateText}>
               {plugin.title}
             </strong>
             <span className="d-none d-sm-inline-block text-gray">
               v{plugin.version}
             </span>
-          </div>
-          <div className={styles.actions}>
+          </Header>
+          <div>
             {plugin.readme && (
-              <a
+              <ActionButton
                 href={`${props.baseUrl}/admin/plugins/readme/${plugin.name}`}
                 title={t('admin.pluginReadme')}
               >
                 <i className="fas fa-question" />
-              </a>
+              </ActionButton>
             )}
             {plugin.enabled && plugin.config && (
-              <a
+              <ActionButton
                 href={`${props.baseUrl}/admin/plugins/config/${plugin.name}`}
                 title={t('admin.configurePlugin')}
               >
                 <i className="fas fa-cog" />
-              </a>
+              </ActionButton>
             )}
-            <a href="#" title={t('admin.deletePlugin')} onClick={handleDelete}>
+            <ActionButton
+              href="#"
+              title={t('admin.deletePlugin')}
+              onClick={handleDelete}
+            >
               <i className="fas fa-trash" />
-            </a>
+            </ActionButton>
           </div>
         </div>
-        <div
-          className={`mt-2 ${styles.description}`}
-          title={plugin.description}
-        >
+        <Description className="mt-2" title={plugin.description}>
           {plugin.description}
-        </div>
+        </Description>
       </div>
-    </div>
+    </Box>
   )
 }
 

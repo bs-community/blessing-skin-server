@@ -6,9 +6,9 @@ import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { Player, Paginator } from '@/scripts/types'
 import { toast, showModal } from '@/scripts/notify'
-import modeSwitchStyles from '@/styles/table-mode-switch.module.scss'
 import Loading from '@/components/Loading'
 import Pagination from '@/components/Pagination'
+import Header from '../UsersManagement/Header'
 import Card from './Card'
 import Row from './Row'
 import ModalUpdateTexture from './ModalUpdateTexture'
@@ -162,7 +162,7 @@ const PlayersManagement: React.FC = () => {
 
   return (
     <div className="card">
-      <div className={`card-header ${modeSwitchStyles.header}`}>
+      <Header className="card-header">
         <form className="input-group" onSubmit={handleSubmitQuery}>
           <input
             type="text"
@@ -203,7 +203,7 @@ const PlayersManagement: React.FC = () => {
             <i className="fas fa-grip-vertical"></i>
           </label>
         </div>
-      </div>
+      </Header>
       {isLoading ? (
         <div className="card-body">
           <Loading />

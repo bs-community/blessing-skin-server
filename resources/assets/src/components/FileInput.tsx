@@ -1,6 +1,13 @@
-import React, { useRef } from 'react'
+/** @jsx jsx */
+import { useRef } from 'react'
+import { jsx, css } from '@emotion/core'
 import { t } from '@/scripts/i18n'
-import styles from './FileInput.module.scss'
+
+const hideRawBrowseButton = css`
+  ::after {
+    display: none;
+  }
+`
 
 interface Props {
   file: File | null
@@ -8,7 +15,7 @@ interface Props {
   onChange(event: React.ChangeEvent<HTMLInputElement>): void
 }
 
-const FileInput: React.FC<Props> = props => {
+const FileInput: React.FC<Props> = (props) => {
   const ref = useRef<HTMLInputElement>(null)
 
   const handleClick = () => {
@@ -29,7 +36,7 @@ const FileInput: React.FC<Props> = props => {
             ref={ref}
             onChange={props.onChange}
           />
-          <label className={`custom-file-label ${styles.label}`}>
+          <label className="custom-file-label" css={hideRawBrowseButton}>
             {props.file?.name}
           </label>
         </div>

@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react'
+import styled from '@emotion/styled'
 import { hot } from 'react-hot-loader/root'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { toast } from '@/scripts/notify'
 import useTween from '@/scripts/hooks/useTween'
+import * as breakpoints from '@/styles/breakpoints'
 import InfoBox from './InfoBox'
 import SignButton from './SignButton'
-import scoreStyle from './score.module.scss'
 
 type ScoreInfo = {
   signAfterZero: boolean
@@ -24,6 +25,24 @@ type SignReturn = {
   score: number
   storage: Stat
 }
+
+const ScoreTitle = styled.p`
+  font-weight: bold;
+  margin-top: 5px;
+  ${breakpoints.lessThan(breakpoints.Breakpoint.md)} {
+    margin-top: 12px;
+  }
+`
+const Score = styled.p`
+  font-family: 'Minecraft';
+  font-size: 50px;
+  margin-top: 20px;
+  cursor: help;
+`
+const ScoreNotice = styled.p`
+  font-size: smaller;
+  margin-top: 20px;
+`
 
 const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(false)
@@ -106,15 +125,11 @@ const Dashboard: React.FC = () => {
             )}
           </div>
           <div className="col-md-4 text-center">
-            <p className={scoreStyle.title}>{t('user.cur-score')}</p>
-            <p
-              className={scoreStyle.number}
-              data-toggle="modal"
-              data-target="#modal-score-instruction"
-            >
+            <ScoreTitle>{t('user.cur-score')}</ScoreTitle>
+            <Score data-toggle="modal" data-target="#modal-score-instruction">
               {~~score}
-            </p>
-            <p className={scoreStyle.notice}>{t('user.score-notice')}</p>
+            </Score>
+            <ScoreNotice>{t('user.score-notice')}</ScoreNotice>
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import ReactDOM from 'react-dom'
+import styled from '@emotion/styled'
 import { Terminal } from 'xterm'
 import { FitAddon } from 'xterm-addon-fit'
 import { Shell } from 'blessing-skin-shell'
@@ -11,9 +12,38 @@ import ClosetCommand from './cli/ClosetCommand'
 import DnfCommand from './cli/DnfCommand'
 import PacmanCommand from './cli/PacmanCommand'
 import RmCommand from './cli/RmCommand'
-import styles from '@/styles/terminal.module.scss'
+import * as breakpoints from '@/styles/breakpoints'
 
 let launched = false
+
+const TerminalContainer = styled.div`
+  z-index: 1040;
+  position: fixed;
+  bottom: 7vh;
+  user-select: none;
+
+  .card-body {
+    background-color: #000;
+  }
+
+  ${breakpoints.greaterThan(breakpoints.Breakpoint.xl)} {
+    left: 25vw;
+    width: 50vw;
+    height: 50vh;
+  }
+
+  ${breakpoints.between(breakpoints.Breakpoint.md, breakpoints.Breakpoint.xl)} {
+    left: 5vw;
+    width: 90vw;
+    height: 40vh;
+  }
+
+  ${breakpoints.lessThan(breakpoints.Breakpoint.md)} {
+    left: 1vw;
+    width: 98vw;
+    height: 35vh;
+  }
+`
 
 const TerminalWindow: React.FC<{ onClose(): void }> = (props) => {
   const mount = useRef<HTMLDivElement>(null)
@@ -59,7 +89,7 @@ const TerminalWindow: React.FC<{ onClose(): void }> = (props) => {
 
   return (
     <Draggable handle=".card-header">
-      <div className={`card ${styles.terminal}`}>
+      <TerminalContainer className="card">
         <div className="card-header">
           <div className="d-flex justify-content-between">
             <h4 className="card-title mt-1">Blessing Skin Shell</h4>
@@ -68,8 +98,8 @@ const TerminalWindow: React.FC<{ onClose(): void }> = (props) => {
             </button>
           </div>
         </div>
-        <div className={`card-body p-2 ${styles.body}`} ref={mount}></div>
-      </div>
+        <div className="card-body p-2" ref={mount}></div>
+      </TerminalContainer>
     </Draggable>
   )
 }

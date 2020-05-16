@@ -1,8 +1,35 @@
-import React from 'react'
+/** @jsx jsx */
+import { jsx } from '@emotion/core'
+import styled from '@emotion/styled'
 import { t } from '@/scripts/i18n'
 import { Texture } from '@/scripts/types'
+import * as cssUtils from '@/styles/utils'
 import { Report, Status } from './types'
-import styles from './ImageBox.module.scss'
+
+const Card = styled.div`
+  width: 240px;
+  transition-property: box-shadow;
+  transition-duration: 0.3s;
+
+  .card-body {
+    flex: unset;
+    display: flex;
+    justify-content: center;
+  }
+
+  img {
+    cursor: pointer;
+    width: 170px;
+    height: 170px;
+  }
+
+  .card-footer {
+    flex: 1 1 auto;
+    * {
+      margin: 2.5px 0;
+    }
+  }
+`
 
 interface Props {
   report: Report
@@ -18,7 +45,7 @@ const ImageBox: React.FC<Props> = (props) => {
   const handleImageClick = () => props.onClick(report.texture)
 
   return (
-    <div className={`card mr-3 mb-3 ${styles.box}`}>
+    <Card className="card mr-3 mb-3">
       <div className="card-header">
         <b>
           {t('skinlib.show.uploader')}
@@ -27,7 +54,7 @@ const ImageBox: React.FC<Props> = (props) => {
         <span className="mr-1">{report.uploaderName}</span>
         (UID: {report.uploader})
       </div>
-      <div className={`card-body ${styles.body}`}>
+      <div className="card-body">
         <img
           src={`${blessing.base_url}/preview/${report.tid}?height=150`}
           alt={report.tid.toString()}
@@ -35,7 +62,7 @@ const ImageBox: React.FC<Props> = (props) => {
           onClick={handleImageClick}
         />
       </div>
-      <div className={`card-footer ${styles.footer}`}>
+      <div className="card-footer">
         <div className="d-flex justify-content-between">
           <div>
             {report.status === Status.Pending ? (
@@ -92,7 +119,7 @@ const ImageBox: React.FC<Props> = (props) => {
           (UID: {report.reporter})
         </div>
         <details>
-          <summary className={styles.reason}>
+          <summary css={cssUtils.truncateText}>
             <b>
               {t('report.reason')}
               {': '}
@@ -109,7 +136,7 @@ const ImageBox: React.FC<Props> = (props) => {
           </div>
         </details>
       </div>
-    </div>
+    </Card>
   )
 }
 

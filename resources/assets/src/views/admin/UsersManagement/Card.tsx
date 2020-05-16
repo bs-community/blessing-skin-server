@@ -1,13 +1,39 @@
 import React from 'react'
+import styled from '@emotion/styled'
 import { t } from '@/scripts/i18n'
 import { User } from '@/scripts/types'
+import * as breakpoints from '@/styles/breakpoints'
 import {
   humanizePermission,
   verificationStatusText,
   canModifyUser,
   canModifyPermission,
 } from './utils'
-import styles from './Card.module.scss'
+
+const Box = styled.div`
+  width: 48%;
+  margin: 7px;
+
+  ${breakpoints.lessThan(breakpoints.Breakpoint.lg)} {
+    width: 98%;
+  }
+`
+const Icon = styled.div`
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  padding-top: 22px;
+`
+const InfoTable = styled.div`
+  > div:not(:last-child) {
+    ${breakpoints.lessThan(breakpoints.Breakpoint.sm)} {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+    }
+    ${breakpoints.greaterThan(breakpoints.Breakpoint.sm)} {
+      border-right: 1px solid rgba(0, 0, 0, 0.125);
+    }
+  }
+`
 
 interface Props {
   user: User
@@ -27,13 +53,13 @@ const Card: React.FC<Props> = (props) => {
   const canModify = canModifyUser(user, currentUser)
 
   return (
-    <div className={`info-box ${styles.box}`}>
-      <div className={styles.icon}>
+    <Box className="info-box">
+      <Icon>
         <img
           className="bs-avatar"
           src={`${blessing.base_url}/avatar/user/${user.uid}`}
         />
-      </div>
+      </Icon>
       <div className="info-box-content">
         <div className="row">
           <div className="col-10">
@@ -123,12 +149,12 @@ const Card: React.FC<Props> = (props) => {
             {': '}
             <span>{user.email}</span>
           </div>
-          <div className="row m-2 border-top border-bottom">
-            <div className={`col-sm-4 py-1 text-center ${styles.border}`}>
+          <InfoTable className="row m-2 border-top border-bottom">
+            <div className="col-sm-4 py-1 text-center">
               <b className="d-block">{t('general.user.score')}</b>
               <span className="d-block py-1">{user.score}</span>
             </div>
-            <div className={`col-sm-4 py-1 text-center ${styles.border}`}>
+            <div className="col-sm-4 py-1 text-center">
               <b className="d-block">{t('admin.permission')}</b>
               <span className="d-block py-1">
                 {humanizePermission(user.permission)}
@@ -140,7 +166,7 @@ const Card: React.FC<Props> = (props) => {
                 {verificationStatusText(user.verified)}
               </span>
             </div>
-          </div>
+          </InfoTable>
           <div>
             <small className="text-gray">
               {t('general.user.register-at')}
@@ -150,7 +176,7 @@ const Card: React.FC<Props> = (props) => {
           </div>
         </div>
       </div>
-    </div>
+    </Box>
   )
 }
 

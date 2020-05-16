@@ -1,8 +1,37 @@
-import React from 'react'
+/** @jsx jsx */
+import { jsx } from '@emotion/core'
+import styled from '@emotion/styled'
 import { t } from '@/scripts/i18n'
+import * as cssUtils from '@/styles/utils'
 import { LibraryItem } from './types'
 import { humanizeType } from './utils'
-import styles from './Item.module.scss'
+
+const Card = styled.div`
+  width: 245px;
+  transition-property: box-shadow;
+  transition-duration: 0.3s;
+  &:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  }
+
+  .card-body {
+    background-color: #eff1f0;
+  }
+
+  img {
+    height: 210px;
+  }
+`
+
+interface ButtonLikeProps {
+  liked: boolean
+}
+const ButtonLike = styled.a<ButtonLikeProps>`
+  color: ${(props) => (props.liked ? '#dc3545' : '#6c757d')};
+  &:hover {
+    color: ${(props) => (props.liked ? '#dc3545' : '#343a40')};
+  }
+`
 
 interface Props {
   item: LibraryItem
@@ -29,8 +58,8 @@ const Item: React.FC<Props> = (props) => {
 
   return (
     <div className="ml-3 mr-2 mb-2">
-      <div className={`card ${styles.card}`}>
-        <div className={`card-body ${styles.image}`}>
+      <Card className="card">
+        <div className="card-body">
           {item.public || (
             <div className="ribbon-wrapper">
               <div className="ribbon bg-pink">{t('skinlib.private')}</div>
@@ -42,7 +71,8 @@ const Item: React.FC<Props> = (props) => {
         </div>
         <div className="card-footer">
           <a
-            className={`d-block mb-1 ${styles.truncate}`}
+            className="d-block mb-1"
+            css={cssUtils.truncateText}
             title={item.name}
             href={link}
             target="_blank"
@@ -62,18 +92,18 @@ const Item: React.FC<Props> = (props) => {
                 {item.nickname}
               </a>
             </div>
-            <a
-              className={`cursor-pointer ${styles.like}`}
-              onClick={handleHeartClick}
+            <ButtonLike
+              liked={props.liked}
+              css={cssUtils.pointerCursor}
               tabIndex={-1}
-              data-liked={props.liked}
+              onClick={handleHeartClick}
             >
               <i className="fas fa-heart mr-1"></i>
               {item.likes}
-            </a>
+            </ButtonLike>
           </div>
         </div>
-      </div>
+      </Card>
     </div>
   )
 }

@@ -1,3 +1,5 @@
+/** @jsx jsx */
+import { jsx } from '@emotion/core'
 import React, { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { hot } from 'react-hot-loader/root'
@@ -9,11 +11,11 @@ import { showModal, toast } from '@/scripts/notify'
 import { Texture, TextureType } from '@/scripts/types'
 import ButtonEdit from '@/components/ButtonEdit'
 import ViewerSkeleton from '@/components/ViewerSkeleton'
+import * as cssUtils from '@/styles/utils'
 import ModalApply from '@/views/user/Closet/ModalApply'
 import removeClosetItem from '@/views/user/Closet/removeClosetItem'
 import setAsAvatar from '@/views/user/Closet/setAsAvatar'
 import addClosetItem from './addClosetItem'
-import styles from './styles.module.scss'
 
 export type Badge = {
   color: string
@@ -245,7 +247,7 @@ const Show: React.FC = () => {
   const textureUrl = `${blessing.base_url}/textures/${texture.hash}`
 
   return (
-    <>
+    <React.Fragment>
       {createPortal(
         <React.Suspense fallback={<ViewerSkeleton />}>
           <Previewer
@@ -335,7 +337,11 @@ const Show: React.FC = () => {
           <div className="container">
             <div className="row mt-2 mb-4">
               <div className="col-4">{t('skinlib.show.name')}</div>
-              <div className={`col-7 ${styles.truncate}`} title={texture.name}>
+              <div
+                className="col-7"
+                css={cssUtils.truncateText}
+                title={texture.name}
+              >
                 {texture.name}
               </div>
               {canEdit && (
@@ -365,7 +371,11 @@ const Show: React.FC = () => {
             </div>
             <div className="row my-4">
               <div className="col-4">Hash</div>
-              <div className={`col-8 ${styles.truncate}`} title={texture.hash}>
+              <div
+                className="col-8"
+                css={cssUtils.truncateText}
+                title={texture.hash}
+              >
                 {texture.hash}
               </div>
             </div>
@@ -375,9 +385,9 @@ const Show: React.FC = () => {
             </div>
             <div className="row my-4">
               <div className="col-4">{t('skinlib.show.uploader')}</div>
-              <div className={`col-8 ${styles.truncate}`}>
+              <div className="col-8" css={cssUtils.truncateText}>
                 {isUploaderExists ? (
-                  <>
+                  <React.Fragment>
                     <div>
                       <a href={linkToUploader} target="_blank">
                         {nickname}
@@ -393,7 +403,7 @@ const Show: React.FC = () => {
                         </span>
                       ))}
                     </div>
-                  </>
+                  </React.Fragment>
                 ) : (
                   nickname
                 )}
@@ -441,7 +451,7 @@ const Show: React.FC = () => {
         }}
         onClose={handleCloseModalApply}
       />
-    </>
+    </React.Fragment>
   )
 }
 

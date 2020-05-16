@@ -1,7 +1,11 @@
+/** @jsx jsx */
 import React, { useState, useEffect, useRef } from 'react'
+import { jsx, css } from '@emotion/core'
+import styled from '@emotion/styled'
 import * as skinview3d from 'skinview3d'
 import { t } from '@/scripts/i18n'
-import styles from './Viewer.module.scss'
+import * as cssUtils from '@/styles/utils'
+import * as breakpoints from '@/styles/breakpoints'
 import SkinSteve from '../../../misc/textures/steve.png'
 import bg1 from '../../../misc/backgrounds/1.png'
 import bg2 from '../../../misc/backgrounds/2.png'
@@ -41,6 +45,30 @@ const emptyStuff: ViewerStuff = {
   control: {} as skinview3d.OrbitControls,
   firstRun: true,
 }
+
+const ActionButton = styled.i`
+  display: inline;
+  padding: 0.5em 0.5em;
+  &:hover {
+    color: #555;
+    cursor: pointer;
+  }
+`
+
+const cssCardBody = css`
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+`
+const cssViewer = css`
+  ${breakpoints.greaterThan(breakpoints.Breakpoint.lg)} {
+    min-height: 500px;
+  }
+
+  canvas {
+    cursor: move;
+  }
+`
 
 const Viewer: React.FC<Props> = (props) => {
   const { initPositionZ = 70 } = props
@@ -187,40 +215,40 @@ const Viewer: React.FC<Props> = (props) => {
               <span className="badge bg-olive ml-1">{indicator}</span>
             )}
           </h3>
-          <div className={styles.actions}>
-            <i
+          <div>
+            <ActionButton
               className={`fas fa-${running ? 'walking' : 'running'}`}
               data-toggle="tooltip"
               data-placement="bottom"
               title={`${t('general.walk')} / ${t('general.run')}`}
               onClick={toggleRun}
-            ></i>
-            <i
+            ></ActionButton>
+            <ActionButton
               className="fas fa-redo-alt"
               data-toggle="tooltip"
               data-placement="bottom"
               title={t('general.rotation')}
               onClick={toggleRotate}
-            ></i>
-            <i
+            ></ActionButton>
+            <ActionButton
               className={`fas fa-${paused ? 'play' : 'pause'}`}
               data-toggle="tooltip"
               data-placement="bottom"
               title={t('general.pause')}
               onClick={togglePause}
-            ></i>
-            <i
+            ></ActionButton>
+            <ActionButton
               className="fas fa-stop"
               data-toggle="tooltip"
               data-placement="bottom"
               title={t('general.reset')}
               onClick={handleReset}
-            ></i>
+            ></ActionButton>
           </div>
         </div>
       </div>
-      <div className={`card-body ${styles.body}`} style={{ background }}>
-        <div ref={containerRef} className={styles.viewer}></div>
+      <div className="card-body" css={cssCardBody} style={{ background }}>
+        <div ref={containerRef} css={cssViewer}></div>
       </div>
       <div className="card-footer">
         <div className="mt-2 mb-3 d-flex">
@@ -240,14 +268,16 @@ const Viewer: React.FC<Props> = (props) => {
             onClick={setGray}
           />
           <div
-            className={`btn-color bg-green rounded-pill mr-2 elevation-2 ${styles.btn}`}
+            className="btn-color bg-green rounded-pill mr-2 elevation-2"
+            css={cssUtils.center}
             title={t('colors.prev')}
             onClick={setPrevPicture}
           >
             <i className="fas fa-arrow-left"></i>
           </div>
           <div
-            className={`btn-color bg-green rounded-pill mr-2 elevation-2 ${styles.btn}`}
+            className="btn-color bg-green rounded-pill mr-2 elevation-2"
+            css={cssUtils.center}
             title={t('colors.next')}
             onClick={setNextPicture}
           >

@@ -1,8 +1,30 @@
+/** @jsx jsx */
 import React from 'react'
+import { jsx, css } from '@emotion/core'
+import styled from '@emotion/styled'
 import { t } from '@/scripts/i18n'
 import { ClosetItem } from '@/scripts/types'
+import * as cssUtils from '@/styles/utils'
 import setAsAvatar from './setAsAvatar'
-import styles from './ClosetItem.module.scss'
+
+const Card = styled.div`
+  width: 235px;
+  transition-property: box-shadow;
+  transition-duration: 0.3s;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  .card-body {
+    background-color: #eff1f0;
+  }
+`
+const blackOnHover = css`
+  :hover {
+    color: #000;
+  }
+`
 
 interface Props {
   item: ClosetItem
@@ -12,7 +34,7 @@ interface Props {
   onRemove(): void
 }
 
-const ClosetItem: React.FC<Props> = props => {
+const ClosetItem: React.FC<Props> = (props) => {
   const { item } = props
 
   const handleItemClick = () => {
@@ -22,12 +44,8 @@ const ClosetItem: React.FC<Props> = props => {
   const handleSetAsAvatar = () => setAsAvatar(item.tid)
 
   return (
-    <div
-      className={`card mr-3 mb-3 ${styles.item} ${
-        props.selected ? 'shadow' : ''
-      }`}
-    >
-      <div className={`card-body ${styles.bg}`} onClick={handleItemClick}>
+    <Card className={`card mr-3 mb-3 ${props.selected ? 'shadow' : ''}`}>
+      <div className="card-body" onClick={handleItemClick}>
         <img
           src={`${blessing.base_url}/preview/${item.tid}?height=150`}
           alt={item.pivot.item_name}
@@ -36,7 +54,7 @@ const ClosetItem: React.FC<Props> = props => {
       </div>
       <div className="card-footer pb-2 pt-2 pl-1 pr-1">
         <div className="container d-flex justify-content-between">
-          <span className={styles.truncate} title={item.pivot.item_name}>
+          <span css={cssUtils.truncateText} title={item.pivot.item_name}>
             {item.pivot.item_name}
           </span>
           <span className="d-inline-block drop-down">
@@ -45,7 +63,7 @@ const ClosetItem: React.FC<Props> = props => {
               aria-haspopup="true"
               aria-expanded="false"
             >
-              <i className={`fas fa-cog text-gray ${styles.icon}`} />
+              <i className="fas fa-cog text-gray" css={blackOnHover} />
             </span>
             <div className="dropdown-menu">
               <a href="#" className="dropdown-item" onClick={props.onRename}>
@@ -68,7 +86,7 @@ const ClosetItem: React.FC<Props> = props => {
           </span>
         </div>
       </div>
-    </div>
+    </Card>
   )
 }
 

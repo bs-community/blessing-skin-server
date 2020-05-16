@@ -16,6 +16,8 @@
     "test": "jest"
   },
   "dependencies": {
+    "@emotion/core": "^10.0.28",
+    "@emotion/styled": "^10.0.27",
     "@fortawesome/fontawesome-free": "^5.12.0",
     "@hot-loader/react-dom": "^16.11.0",
     "@tweenjs/tween.js": "^18.4.2",

@@ -1,8 +1,10 @@
-import React from 'react'
+/** @jsx jsx */
+import * as React from 'react'
+import { jsx } from '@emotion/core'
 import Reaptcha from 'reaptcha'
 import { emit, on } from '@/scripts/event'
 import { t } from '@/scripts/i18n'
-import styles from './Captcha.module.scss'
+import * as cssUtils from '@/styles/utils'
 
 const eventId = Symbol()
 
@@ -31,7 +33,7 @@ class Captcha extends React.Component<{}, State> {
   execute = async () => {
     const recaptcha = this.ref.current
     if (recaptcha && this.state.invisible) {
-      return new Promise<string>(resolve => {
+      return new Promise<string>((resolve) => {
         const off = on(eventId, (value: string) => {
           resolve(value)
           off()
@@ -89,7 +91,7 @@ class Captcha extends React.Component<{}, State> {
         <img
           src={`${blessing.base_url}/auth/captcha?v=${this.state.time}`}
           alt={t('auth.captcha')}
-          className={styles.captcha}
+          css={cssUtils.pointerCursor}
           height={34}
           title={t('auth.change-captcha')}
           onClick={this.handleRefresh}

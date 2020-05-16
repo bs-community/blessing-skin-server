@@ -1,8 +1,9 @@
-import React from 'react'
+/** @jsx jsx */
+import { jsx, css } from '@emotion/core'
 import { t } from '@/scripts/i18n'
-import ButtonEdit from '@/components/ButtonEdit'
 import { Player } from '@/scripts/types'
-import styles from './Row.module.scss'
+import ButtonEdit from '@/components/ButtonEdit'
+import * as cssUtils from '@/styles/utils'
 
 interface Props {
   player: Player
@@ -13,7 +14,7 @@ interface Props {
   onDelete(player: Player): Promise<void>
 }
 
-const Row: React.FC<Props> = props => {
+const Row: React.FC<Props> = (props) => {
   const { player } = props
 
   const handleEdit = () => {
@@ -24,13 +25,14 @@ const Row: React.FC<Props> = props => {
     props.onDelete(player)
   }
 
-  const classes = [styles.row]
-  if (props.selected) {
-    classes.push(styles.selected)
-  }
+  const selected =
+    props.selected &&
+    css`
+      background-color: #efefef;
+    `
 
   return (
-    <tr className={classes.join(' ')} onClick={props.onClick}>
+    <tr css={[cssUtils.pointerCursor, selected]} onClick={props.onClick}>
       <td>{player.pid}</td>
       <td>
         <span>{player.name}</span>
