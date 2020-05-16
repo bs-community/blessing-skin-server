@@ -11,7 +11,7 @@ interface Props {
   isAlex: boolean
 }
 
-const Previewer: React.FC<Props> = props => {
+const Previewer: React.FC<Props> = (props) => {
   const container = useMount('#previewer')
 
   const skin = props.skin ? `${blessing.base_url}/textures/${props.skin}` : ''

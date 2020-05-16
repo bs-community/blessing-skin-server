@@ -58,7 +58,7 @@ export async function walkFetch(request: Request): Promise<any> {
       } = body
       return {
         code: 1,
-        message: Object.keys(errors).map(field => errors[field][0])[0],
+        message: Object.keys(errors).map((field) => errors[field][0])[0],
       }
     } else if (response.status === 419) {
       showModal({
@@ -106,9 +106,7 @@ export function get<T = any>(url: string, params = empty): Promise<T> {
 
   const qs = new URLSearchParams(params)
 
-  return walkFetch(
-    new Request(`${blessing.base_url}${url}?${qs}`, init),
-  )
+  return walkFetch(new Request(`${blessing.base_url}${url}?${qs}`, init))
 }
 
 function nonGet<T = any>(method: string, url: string, data: any): Promise<T> {

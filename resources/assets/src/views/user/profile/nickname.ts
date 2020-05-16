@@ -7,15 +7,16 @@ export default async function handler(event: Event) {
   const form = event.target as HTMLFormElement
   const nickname: string = form.nickname.value
 
-  const { code, message }: ResponseBody = await post(
-    '/user/profile?action=nickname', { new_nickname: nickname },
-  )
+  const {
+    code,
+    message,
+  }: ResponseBody = await post('/user/profile?action=nickname', {
+    new_nickname: nickname,
+  })
   showModal({ mode: 'alert', text: message })
   if (code === 0) {
-    document
-      .querySelectorAll('[data-mark="nickname"]')
-      .forEach(el => {
-        el.textContent = nickname
-      })
+    document.querySelectorAll('[data-mark="nickname"]').forEach((el) => {
+      el.textContent = nickname
+    })
   }
 }

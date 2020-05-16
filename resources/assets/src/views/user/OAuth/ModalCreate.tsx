@@ -8,7 +8,7 @@ interface Props {
   onClose(): void
 }
 
-const ModalCreate: React.FC<Props> = props => {
+const ModalCreate: React.FC<Props> = (props) => {
   const [name, setName] = useState('')
   const [url, setUrl] = useState('')
 

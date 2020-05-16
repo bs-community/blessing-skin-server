@@ -23,10 +23,9 @@ test('delete account', async () => {
   const event = new Event('submit')
   form.dispatchEvent(event)
   await flushPromises()
-  expect(post).toBeCalledWith(
-    '/user/profile?action=delete',
-    { password: 'abc' },
-  )
+  expect(post).toBeCalledWith('/user/profile?action=delete', {
+    password: 'abc',
+  })
   expect(showModal).toBeCalledWith({ mode: 'alert', text: 'w' })
 
   form.dispatchEvent(event)

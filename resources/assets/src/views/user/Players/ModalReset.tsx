@@ -8,7 +8,7 @@ interface Props {
   onClose(): void
 }
 
-const ModalReset: React.FC<Props> = props => {
+const ModalReset: React.FC<Props> = (props) => {
   const [skin, setSkin] = useState(false)
   const [cape, setCape] = useState(false)
 

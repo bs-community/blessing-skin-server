@@ -16,6 +16,7 @@ nicknameForm?.addEventListener('submit', nicknameFormHandler)
 const emailForm = document.querySelector<HTMLFormElement>('#change-email')
 emailForm?.addEventListener('submit', emailFormHandler)
 
-const deleteAccountForm = document
-  .querySelector<HTMLFormElement>('#modal-delete-account')
+const deleteAccountForm = document.querySelector<HTMLFormElement>(
+  '#modal-delete-account',
+)
 deleteAccountForm?.addEventListener('submit', deleteAccountFormHandler)

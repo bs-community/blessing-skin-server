@@ -7,14 +7,13 @@ export function registerNavbarPicker(
   picker: HTMLDivElement,
   init: string,
 ): void {
-  const color$ = fromEvent(picker, 'click')
-    .pipe(
-      map(event => (event.target as HTMLElement)),
-      filter(
-        (element): element is HTMLInputElement => element.tagName === 'INPUT',
-      ),
-      map(element => element.value),
-    )
+  const color$ = fromEvent(picker, 'click').pipe(
+    map((event) => event.target as HTMLElement),
+    filter(
+      (element): element is HTMLInputElement => element.tagName === 'INPUT',
+    ),
+    map((element) => element.value),
+  )
 
   merge(of(init), color$)
     .pipe(pairwise())
@@ -22,9 +21,8 @@ export function registerNavbarPicker(
       navbar.classList.replace(`navbar-${previous}`, `navbar-${current}`)
     })
 
-  const [light$, dark$] = partition(
-    color$,
-    color => ['light', 'warning', 'white', 'orange', 'lime'].includes(color),
+  const [light$, dark$] = partition(color$, (color) =>
+    ['light', 'warning', 'white', 'orange', 'lime'].includes(color),
   )
   light$.subscribe(() => {
     // DO NOT use `classList.replace`.
@@ -47,18 +45,18 @@ if (navbar && picker) {
 
 export function registerSidebarPicker(
   sidebar: HTMLElement,
-  { dark, light }: { dark: HTMLDivElement, light: HTMLDivElement },
+  { dark, light }: { dark: HTMLDivElement; light: HTMLDivElement },
   init: string,
 ): void {
   const color$ = merge(
     fromEvent(dark, 'click'),
     fromEvent(light, 'click'),
   ).pipe(
-    map(event => (event.target as HTMLElement)),
+    map((event) => event.target as HTMLElement),
     filter(
       (element): element is HTMLInputElement => element.tagName === 'INPUT',
     ),
-    map(element => element.value),
+    map((element) => element.value),
   )
 
   merge(of(init), color$)
@@ -69,10 +67,12 @@ export function registerSidebarPicker(
 }
 
 const sidebar = document.querySelector<HTMLElement>('.main-sidebar')
-const darkPicker = document
-  .querySelector<HTMLDivElement>('#sidebar-dark-picker')
-const lightPicker = document
-  .querySelector<HTMLDivElement>('#sidebar-light-picker')
+const darkPicker = document.querySelector<HTMLDivElement>(
+  '#sidebar-dark-picker',
+)
+const lightPicker = document.querySelector<HTMLDivElement>(
+  '#sidebar-light-picker',
+)
 /* istanbul ignore next */
 if (sidebar && darkPicker && lightPicker) {
   registerSidebarPicker(

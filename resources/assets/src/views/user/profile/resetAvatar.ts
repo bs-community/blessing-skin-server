@@ -15,7 +15,7 @@ export default async function resetAvatar() {
   toast.success(message)
   document
     .querySelectorAll<HTMLImageElement>('[alt="User Image"]')
-    .forEach(el => {
+    .forEach((el) => {
       el.src += `?${new Date().getTime()}`
     })
 }

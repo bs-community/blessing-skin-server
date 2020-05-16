@@ -20,7 +20,7 @@ export default async function setAsAvatar(tid: number) {
     toast.success(message)
     document
       .querySelectorAll<HTMLImageElement>('[alt="User Image"]')
-      .forEach(el => (el.src += `?${new Date().getTime()}`))
+      .forEach((el) => (el.src += `?${new Date().getTime()}`))
   } else {
     toast.error(message)
   }

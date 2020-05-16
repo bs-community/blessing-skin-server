@@ -1,6 +1,6 @@
 export function t(key: string, parameters = Object.create(null)): string {
   const segments = key.split('.')
-  let temp = (blessing.i18n) as {
+  let temp = blessing.i18n as {
     [k: string]: string | { [k: string]: string }
   }
   let result = ''
@@ -17,8 +17,9 @@ export function t(key: string, parameters = Object.create(null)): string {
     }
   }
 
-  Object.keys(parameters)
-    .forEach(slot => (result = result.replace(`:${slot}`, parameters[slot])))
+  Object.keys(parameters).forEach(
+    (slot) => (result = result.replace(`:${slot}`, parameters[slot])),
+  )
 
   return result
 }

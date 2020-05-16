@@ -31,13 +31,12 @@ test('the GET method', async () => {
 })
 
 test('the POST method', async () => {
-  window.fetch = jest.fn()
-    .mockResolvedValue({
-      ok: true,
-      json: () => Promise.resolve({}),
-      headers: new Map([['Content-Type', 'application/json']]),
-      clone: () => ({}),
-    })
+  window.fetch = jest.fn().mockResolvedValue({
+    ok: true,
+    json: () => Promise.resolve({}),
+    headers: new Map([['Content-Type', 'application/json']]),
+    clone: () => ({}),
+  })
 
   const meta = document.createElement('meta')
   meta.name = 'csrf-token'
@@ -115,7 +114,8 @@ test('the DELETE method', () => {
 
 test('low level fetch', async () => {
   const json = jest.fn().mockResolvedValue({})
-  window.fetch = jest.fn()
+  window.fetch = jest
+    .fn()
     .mockRejectedValueOnce(new Error('network'))
     .mockResolvedValueOnce({
       ok: false,
@@ -186,7 +186,8 @@ test('low level fetch', async () => {
 })
 
 test('process backend errors', async () => {
-  window.fetch = jest.fn()
+  window.fetch = jest
+    .fn()
     .mockResolvedValueOnce({
       status: 422,
       headers: new Map([['Content-Type', 'application/json']]),
@@ -255,7 +256,8 @@ test('process backend errors', async () => {
   expect(showModal).toBeCalledWith({
     mode: 'alert',
     title: t('general.fatalError'),
-    dangerousHTML: 'fake exception<br><details>[1] k.php#L2<br>[2] v.php#L3</details>',
+    dangerousHTML:
+      'fake exception<br><details>[1] k.php#L2<br>[2] v.php#L3</details>',
     type: 'danger',
     okButtonType: 'outline-light',
   })

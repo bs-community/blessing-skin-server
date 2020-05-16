@@ -13,6 +13,7 @@
     "dev": "webpack-dev-server",
     "build": "webpack --mode=production -p --progress",
     "lint": "eslint --ext=ts -f=beauty .",
+    "fmt": "prettier --write 'resources/assets/**/*.{ts,tsx}'",
     "test": "jest"
   },
   "dependencies": {
@@ -201,6 +202,7 @@
     ],
     "coveragePathIgnorePatterns": [
       "/node_modules/",
+      "<rootDir>/resources/assets/styles",
       "<rootDir>/resources/assets/tests/setup",
       "<rootDir>/resources/assets/tests/utils",
       "<rootDir>/resources/assets/tests/scripts/cli/stdio"

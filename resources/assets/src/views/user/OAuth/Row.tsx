@@ -10,7 +10,7 @@ interface Props {
   onDelete: React.MouseEventHandler<HTMLButtonElement>
 }
 
-const Row: React.FC<Props> = props => {
+const Row: React.FC<Props> = (props) => {
   const { app } = props
 
   return (

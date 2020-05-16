@@ -7,7 +7,9 @@ export default async function handler(event: MouseEvent) {
   button.disabled = true
 
   const text = button.textContent
-  button.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('admin.downloading')}`
+  button.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t(
+    'admin.downloading',
+  )}`
 
   const { code, message }: ResponseBody = await post('/admin/update/download')
   button.textContent = text

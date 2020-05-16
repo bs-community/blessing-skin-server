@@ -13,12 +13,12 @@ interface Props {
   isAlex: boolean
 }
 
-const Previewer: React.FC<Props> = props => {
+const Previewer: React.FC<Props> = (props) => {
   const [is3d, setIs3d] = useState(true)
 
   const container = useMount('#previewer')
 
-  const switchMode = () => setIs3d(is => !is)
+  const switchMode = () => setIs3d((is) => !is)
 
   const switcher = (
     <button className="btn btn-default" onClick={switchMode}>
@@ -40,7 +40,7 @@ const Previewer: React.FC<Props> = props => {
         {switcher}
       </Viewer2d>
     ),
-    container
+    container,
   )
 }
 

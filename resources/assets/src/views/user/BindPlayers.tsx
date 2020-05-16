@@ -18,7 +18,7 @@ const BindPlayers: React.FC = () => {
       const response = await fetch.get<fetch.ResponseBody<Player[]>>(
         '/user/player/list',
       )
-      const players = response.data.map(player => player.name)
+      const players = response.data.map((player) => player.name)
       setPlayers(players)
       setSelected(players[0])
       setIsLoading(false)
@@ -52,7 +52,7 @@ const BindPlayers: React.FC = () => {
         <>
           <p>{t('user.bindExistedPlayer')}</p>
           <div className="mb-3">
-            {players.map(player => (
+            {players.map((player) => (
               <label className="d-block mb-1">
                 <input
                   key={player}
@@ -73,7 +73,7 @@ const BindPlayers: React.FC = () => {
             type="text"
             className="form-control mb-3"
             placeholder={t('general.player.player-name')}
-            onChange={e => setSelected(e.target.value)}
+            onChange={(e) => setSelected(e.target.value)}
           />
         </>
       )}

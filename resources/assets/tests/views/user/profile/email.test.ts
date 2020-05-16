@@ -29,10 +29,10 @@ test('change email', async () => {
   const event = new Event('submit')
   form.dispatchEvent(event)
   await flushPromises()
-  expect(post).toBeCalledWith(
-    '/user/profile?action=email',
-    { new_email: 'a@b.c', password: 'abc' },
-  )
+  expect(post).toBeCalledWith('/user/profile?action=email', {
+    new_email: 'a@b.c',
+    password: 'abc',
+  })
   expect(showModal).toBeCalledWith({ mode: 'alert', text: 'w' })
 
   form.dispatchEvent(event)

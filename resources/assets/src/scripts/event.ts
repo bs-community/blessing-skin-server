@@ -14,7 +14,7 @@ export function on(event: string | symbol, listener: CallableFunction) {
 }
 
 export function emit(event: string | symbol, payload?: unknown) {
-  bus.get(event)?.forEach(listener => listener(payload))
+  bus.get(event)?.forEach((listener) => listener(payload))
 }
 
 blessing.event = { on, emit }

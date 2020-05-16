@@ -10,7 +10,7 @@ interface Props {
   onClick: React.MouseEventHandler<HTMLButtonElement>
 }
 
-const SignButton: React.FC<Props> = props => {
+const SignButton: React.FC<Props> = (props) => {
   const { lastSign, signGap, canSignAfterZero } = props
   const remainingTime = scoreUtils.remainingTime(
     lastSign,

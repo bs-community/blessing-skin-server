@@ -18,7 +18,7 @@ interface Props {
   onClose(): void
 }
 
-const ModalAddPlayer: React.FC<Props> = props => {
+const ModalAddPlayer: React.FC<Props> = (props) => {
   const [name, setName] = useState('')
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {

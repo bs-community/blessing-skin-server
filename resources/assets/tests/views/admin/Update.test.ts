@@ -7,7 +7,8 @@ jest.mock('@/scripts/notify')
 jest.mock('@/scripts/net')
 
 test('click button', async () => {
-  post.mockResolvedValueOnce({ code: 1, message: 'failed' })
+  post
+    .mockResolvedValueOnce({ code: 1, message: 'failed' })
     .mockResolvedValue({ code: 0, message: 'ok' })
 
   const button = document.createElement('button')

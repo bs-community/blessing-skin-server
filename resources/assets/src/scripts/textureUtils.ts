@@ -17,7 +17,7 @@ function checkPixel(
 
 /* istanbul ignore next */
 export function isAlex(texture: string): Promise<boolean> {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const image = new Image()
     image.src = texture
     image.onload = () => {

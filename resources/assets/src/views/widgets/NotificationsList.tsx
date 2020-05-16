@@ -40,8 +40,8 @@ const NotificationsList: React.FC = () => {
         </>
       ),
     })
-    setNotifications(notifications =>
-      notifications.filter(notification => notification.id !== id),
+    setNotifications((notifications) =>
+      notifications.filter((notification) => notification.id !== id),
     )
   }
 
@@ -59,7 +59,7 @@ const NotificationsList: React.FC = () => {
       </a>
       <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right">
         {hasUnread ? (
-          notifications.map(notification => (
+          notifications.map((notification) => (
             <>
               <a
                 href="#"

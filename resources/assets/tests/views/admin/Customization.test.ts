@@ -33,12 +33,16 @@ test('preview sidebar color', () => {
   const darkPicker = document.createElement('div')
   darkPicker.innerHTML = `
     <label><input type="radio" name="sidebar" value="dark-cyan"></label>`
-  const darkCyan = darkPicker.querySelector<HTMLInputElement>('[value="dark-cyan"]')!
+  const darkCyan = darkPicker.querySelector<HTMLInputElement>(
+    '[value="dark-cyan"]',
+  )!
 
   const lightPicker = document.createElement('div')
   lightPicker.innerHTML = `
     <label><input type="radio" name="sidebar" value="light-cyan"></label>`
-  const lightCyan = lightPicker.querySelector<HTMLInputElement>('[value="light-cyan"]')!
+  const lightCyan = lightPicker.querySelector<HTMLInputElement>(
+    '[value="light-cyan"]',
+  )!
 
   registerSidebarPicker(
     sidebar,

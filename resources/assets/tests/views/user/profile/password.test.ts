@@ -42,10 +42,10 @@ test('change password', async () => {
   confirm.value = '1'
   form.dispatchEvent(event)
   await flushPromises()
-  expect(post).toBeCalledWith(
-    '/user/profile?action=password',
-    { current_password: '1', new_password: '1' },
-  )
+  expect(post).toBeCalledWith('/user/profile?action=password', {
+    current_password: '1',
+    new_password: '1',
+  })
   expect(showModal).toBeCalledWith({ mode: 'alert', text: 'w' })
 
   form.dispatchEvent(event)

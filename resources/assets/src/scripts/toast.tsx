@@ -15,7 +15,7 @@ export const ToastContainer: React.FC = () => {
 
   useEffect(() => {
     const off1 = emitter.on(TOAST_EVENT, (toast: QueueElement) => {
-      setQueue(queue => {
+      setQueue((queue) => {
         queue.push(toast)
         return queue.slice()
       })
@@ -29,7 +29,7 @@ export const ToastContainer: React.FC = () => {
   }, [])
 
   const handleClose = (id: string) => {
-    setQueue(queue => queue.filter(el => el.id !== id))
+    setQueue((queue) => queue.filter((el) => el.id !== id))
   }
 
   return (

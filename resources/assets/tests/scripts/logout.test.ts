@@ -6,9 +6,7 @@ jest.mock('@/scripts/net')
 jest.mock('@/scripts/notify')
 
 test('log out', async () => {
-  showModal
-    .mockRejectedValueOnce(null)
-    .mockResolvedValueOnce({ value: '' })
+  showModal.mockRejectedValueOnce(null).mockResolvedValueOnce({ value: '' })
   post.mockResolvedValue({ message: '' })
 
   await logout()

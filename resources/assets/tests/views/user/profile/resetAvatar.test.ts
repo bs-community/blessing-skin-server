@@ -6,9 +6,7 @@ jest.mock('@/scripts/notify')
 jest.mock('@/scripts/net')
 
 test('reset avatar', async () => {
-  showModal
-    .mockRejectedValueOnce(null)
-    .mockResolvedValue({ value: '' })
+  showModal.mockRejectedValueOnce(null).mockResolvedValue({ value: '' })
   post.mockResolvedValue({ message: 'ok' })
   document.body.innerHTML = '<img alt="User Image" src="a">'
 
