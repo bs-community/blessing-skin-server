@@ -3,7 +3,7 @@ import React from 'react'
 export default [
   {
     path: '/',
-    module: [() => import('../styles/home.styl'), () => import('./home-page')],
+    module: [() => import('./home-page')],
   },
   {
     path: 'user',

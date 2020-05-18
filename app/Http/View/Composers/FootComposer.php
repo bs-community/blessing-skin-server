@@ -46,22 +46,38 @@ class FootComposer
         $scripts = [];
 
         $locale = app()->getLocale();
-        $scripts[] = $this->javascript->generate($locale);
+        $scripts[] = [
+            'src' => $this->javascript->generate($locale),
+            'defer' => true,
+        ];
         if ($pluginI18n = $this->javascript->plugin($locale)) {
-            $scripts[] = $pluginI18n;
+            $scripts[] = [
+                'src' => $pluginI18n,
+                'defer' => true,
+            ];
         }
         if (Str::startsWith(config('app.asset.env'), 'dev')) {
-            $scripts[] = $this->webpack->url('style.js');
+            $scripts[] = [
+                'src' => $this->webpack->url('style.js'),
+                'async' => true,
+                'defer' => true,
+            ];
         } else {
-            $scripts[] = 'https://cdn.jsdelivr.net/combine/'.
-                'npm/react@16.13/umd/react.production.min.js,'.
-                'npm/react-dom@16.13/umd/react-dom.production.min.js,'.
-                'npm/jquery@3.4,'.
-                'npm/popper.js@1.16,'.
-                'npm/bootstrap@4.4/dist/js/bootstrap.min.js,'.
-                'npm/admin-lte@3.0';
+            $scripts[] = [
+                'src' => 'https://cdn.jsdelivr.net/combine/'.
+                    'npm/react@16.13/umd/react.production.min.js,'.
+                    'npm/react-dom@16.13/umd/react-dom.production.min.js',
+                'crossorigin' => 'anonymous',
+            ];
         }
-        $scripts[] = $this->webpack->url('app.js');
+        $scripts[] = [
+            'src' => 'https://cdn.jsdelivr.net/npm/@blessing-skin/admin-lte@3.0/dist/admin-lte.min.js',
+            'integrity' => 'sha256-lEpMZPtZ0RgHYZFOcJeX94WMegvHJ+beF5V7XtCcWxY=',
+            'crossorigin' => 'anonymous',
+        ];
+        $scripts[] = [
+            'src' => $this->webpack->url('app.js'),
+        ];
 
         $view->with([
             'scripts' => $scripts,

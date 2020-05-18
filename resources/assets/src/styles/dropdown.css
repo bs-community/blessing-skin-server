@@ -1,0 +1,14 @@
+.dropdown-item:hover,
+.dropdown-item:focus {
+  color: #fff;
+  background-color: var(--blue);
+}
+
+.dropdown-item.dropdown-item-danger {
+  color: var(--danger);
+}
+.dropdown-item.dropdown-item-danger:hover,
+.dropdown-item.dropdown-item-danger:focus {
+  color: #fff;
+  background-color: var(--danger);
+}

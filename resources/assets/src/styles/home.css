@@ -1,0 +1,118 @@
+body {
+  font-size: 16px;
+}
+
+.layout-top-nav > .hp-wrapper {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center 0;
+  height: 100vh;
+}
+
+.navbar {
+  transition: color 0.25s ease-in-out, border-color 0.25s ease-in-out,
+    background-color 0.25s ease-in-out;
+}
+.navbar.transparent {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.navbar.transparent .navbar-brand {
+  color: #5e5e5e;
+}
+.navbar-brand {
+  font-family: Minecraft;
+}
+
+.splash {
+  width: 80%;
+  height: 50%;
+  margin: auto;
+  position: absolute;
+  top: 100px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  text-align: center;
+}
+.splash-head {
+  color: #fff;
+  padding: 0.8em 0.5em 1em;
+  line-height: 1.5em;
+  margin: 0.2em 0 0.5em;
+  font-family: Minecraft;
+  text-shadow: 0 4px 3px rgba(0, 0, 0, 0.4), 0 8px 13px rgba(0, 0, 0, 0.1),
+    0 18px 23px rgba(0, 0, 0, 0.1);
+}
+.splash-subhead {
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  margin-bottom: 3em;
+  color: #fff;
+  font-family: Ubuntu, 'Segoe UI', 'Microsoft Yahei', 'Microsoft Jhenghei',
+    sans-serif;
+}
+@media (max-width: 768px) {
+  .splash {
+    width: 100%;
+  }
+  .splash-head {
+    font-size: 200%;
+  }
+}
+@media (min-width: 768px) {
+  .splash-head {
+    font-size: 250%;
+  }
+}
+
+.main-button {
+  color: #fff;
+  padding: 0.8em 2.5em;
+  border-radius: 5px;
+  background: transparent;
+  border: 1px solid #fff;
+  font-size: 120%;
+  transition: color 0.25s ease-in-out, border-color 0.25s ease-in-out,
+    background-color 0.25s ease-in-out;
+}
+.main-button:hover {
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+#fixed-bg {
+  position: fixed;
+  z-index: -1;
+  height: 100vh;
+  width: 100%;
+  background-size: cover;
+}
+
+#intro {
+  padding: 50px 0;
+  border-top: 5px solid #bdc3c7;
+  background-color: #fff;
+}
+#intro i {
+  font-size: 80px;
+}
+
+#footer-wrap {
+  color: #fff;
+  background-color: #2f2f2f;
+  padding: 50px 0;
+}
+
+#copyright {
+  color: #fff;
+}
+#copyright.with-intro {
+  background-color: #222;
+  padding: 15px 0;
+}
+#copyright.without-intro {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  padding: 16px 50px;
+}

@@ -1,0 +1,21 @@
+@import '../fonts/minecraft.css';
+@import './avatar.css';
+@import './dropdown.css';
+@import './auth.css';
+@import './admin.css';
+
+a {
+  outline: none;
+}
+
+.brand-link, .navbar-brand {
+  font-family: Minecraft;
+}
+
+.breadcrumb {
+  font-size: 14px;
+}
+
+.user-panel .info {
+  cursor: default;
+}

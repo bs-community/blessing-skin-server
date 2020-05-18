@@ -1,5 +1,5 @@
 {% for script in scripts %}
-  <script src="{{ script }}"></script>
+  <script{% for attribute, value in script %} {{ attribute }}="{{ value }}"{% endfor %}></script>
 {% endfor %}
 
 <script>

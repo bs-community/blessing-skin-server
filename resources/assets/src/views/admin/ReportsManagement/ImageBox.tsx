@@ -1,9 +1,7 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
+import React from 'react'
 import styled from '@emotion/styled'
 import { t } from '@/scripts/i18n'
 import { Texture } from '@/scripts/types'
-import * as cssUtils from '@/styles/utils'
 import { Report, Status } from './types'
 
 const Card = styled.div`
@@ -119,7 +117,7 @@ const ImageBox: React.FC<Props> = (props) => {
           (UID: {report.reporter})
         </div>
         <details>
-          <summary css={cssUtils.truncateText}>
+          <summary className="text-truncate">
             <b>
               {t('report.reason')}
               {': '}

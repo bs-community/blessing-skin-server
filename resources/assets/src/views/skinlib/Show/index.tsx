@@ -1,5 +1,3 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
 import React, { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { hot } from 'react-hot-loader/root'
@@ -11,7 +9,6 @@ import { showModal, toast } from '@/scripts/notify'
 import { Texture, TextureType } from '@/scripts/types'
 import ButtonEdit from '@/components/ButtonEdit'
 import ViewerSkeleton from '@/components/ViewerSkeleton'
-import * as cssUtils from '@/styles/utils'
 import ModalApply from '@/views/user/Closet/ModalApply'
 import removeClosetItem from '@/views/user/Closet/removeClosetItem'
 import setAsAvatar from '@/views/user/Closet/setAsAvatar'
@@ -337,11 +334,7 @@ const Show: React.FC = () => {
           <div className="container">
             <div className="row mt-2 mb-4">
               <div className="col-4">{t('skinlib.show.name')}</div>
-              <div
-                className="col-7"
-                css={cssUtils.truncateText}
-                title={texture.name}
-              >
+              <div className="col-7 text-truncate" title={texture.name}>
                 {texture.name}
               </div>
               {canEdit && (
@@ -371,11 +364,7 @@ const Show: React.FC = () => {
             </div>
             <div className="row my-4">
               <div className="col-4">Hash</div>
-              <div
-                className="col-8"
-                css={cssUtils.truncateText}
-                title={texture.hash}
-              >
+              <div className="col-8 text-truncate" title={texture.hash}>
                 {texture.hash}
               </div>
             </div>
@@ -385,7 +374,7 @@ const Show: React.FC = () => {
             </div>
             <div className="row my-4">
               <div className="col-4">{t('skinlib.show.uploader')}</div>
-              <div className="col-8" css={cssUtils.truncateText}>
+              <div className="col-8 text-truncate">
                 {isUploaderExists ? (
                   <React.Fragment>
                     <div>

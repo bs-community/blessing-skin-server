@@ -1,8 +1,6 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
+import React from 'react'
 import styled from '@emotion/styled'
 import { t } from '@/scripts/i18n'
-import * as cssUtils from '@/styles/utils'
 import { Plugin } from './types'
 
 const Box = styled.div`
@@ -34,7 +32,6 @@ const Header = styled.div`
 `
 const Description = styled.div`
   font-size: 14px;
-  ${cssUtils.truncateText};
 `
 
 interface Props {
@@ -79,7 +76,7 @@ const InfoBox: React.FC<Props> = (props) => {
               }
               onChange={handleChange}
             />
-            <strong className="d-inline-block mr-2" css={cssUtils.truncateText}>
+            <strong className="d-inline-block mr-2 text-truncate">
               {plugin.title}
             </strong>
             <span className="d-none d-sm-inline-block text-gray">
@@ -112,7 +109,7 @@ const InfoBox: React.FC<Props> = (props) => {
             </ActionButton>
           </div>
         </div>
-        <Description className="mt-2" title={plugin.description}>
+        <Description className="mt-2 text-truncate" title={plugin.description}>
           {plugin.description}
         </Description>
       </div>

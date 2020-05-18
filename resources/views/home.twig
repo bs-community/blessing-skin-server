@@ -2,6 +2,8 @@
 <html lang="{{ locale }}">
   <head>
     {{ include('shared.head') }}
+    <link rel="stylesheet" href="{{ home_page_css }}">
+    <link rel="preload" as="image" href="{{ home_pic_url }}">
     <title>{{ site_name }}</title>
     <style>
       .hp-wrapper {
@@ -59,16 +61,16 @@
           </p>
           <p>
             {% if auth_check() %}
-              <a href="{{ url('user') }}" class="button">
+              <a href="{{ url('user') }}" class="main-button">
                 {{ trans('general.user-center') }}
               </a>
             {% else %}
               {% if user_can_register %}
-                <a href="{{ url('auth/register') }}" class="button">
+                <a href="{{ url('auth/register') }}" class="main-button">
                   {{ trans('general.register') }}
                 </a>
               {% else %}
-                <a href="{{ url('auth/login') }}" class="button">
+                <a href="{{ url('auth/login') }}" class="main-button">
                   {{ trans('general.login') }}
                 </a>
               {% endif %}
@@ -108,7 +110,7 @@
           <br>
         </div>
       </div>
-      <div id="footerwrap">
+      <div id="footer-wrap">
         <div class="container">
           <div class="row">
             <div class="col-lg-6 mb-2">
@@ -116,7 +118,7 @@
             </div>
             <div class="col-lg-4"></div>
             <div class="col-lg-2 d-flex justify-content-center align-items-center">
-              <a href="{{ url('auth/register') }}" class="button">
+              <a href="{{ url('auth/register') }}" class="main-button">
                 {{ trans('index.start') }}
               </a>
             </div>
@@ -130,6 +132,9 @@
       </div>
     {% endif %}
 
+    {% if home_page_css_loader %}
+      <script src="{{ home_page_css_loader }}"></script>
+    {% endif %}
     <script>
       blessing.extra = { transparent_navbar: {{ transparent_navbar ? 'true' : 'false' }} }
     </script>

@@ -1,0 +1,8 @@
+.login-logo a {
+  font-family: Minecraft;
+  transition: all 0.2s ease-in-out;
+}
+
+.login-logo a:hover {
+  color: #42a5f5;
+}

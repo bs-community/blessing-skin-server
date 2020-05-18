@@ -71,8 +71,7 @@ const Item: React.FC<Props> = (props) => {
         </div>
         <div className="card-footer">
           <a
-            className="d-block mb-1"
-            css={cssUtils.truncateText}
+            className="d-block mb-1 truncate-text"
             title={item.name}
             href={link}
             target="_blank"
@@ -85,7 +84,8 @@ const Item: React.FC<Props> = (props) => {
                 {humanizeType(item.type)}
               </span>
               <a
-                className="badge bg-indigo py-1 cursor-pointer"
+                className="badge bg-indigo py-1"
+                css={cssUtils.pointerCursor}
                 title={t('skinlib.show.uploader')}
                 onClick={handleUploaderClick}
               >

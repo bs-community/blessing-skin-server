@@ -73,10 +73,40 @@ class HeadComposer
 
     public function injectStyles(View $view)
     {
-        $view->with('styles', [
-            $this->webpack->url('style.css'),
-            'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css',
-        ]);
+        $links = [];
+        $links[] = [
+            'rel' => 'stylesheet',
+            'href' => 'https://cdn.jsdelivr.net/npm/@blessing-skin/admin-lte@3.0.4/dist/admin-lte.min.css',
+            'integrity' => 'sha256-nr8InsK/i0Skb3n3yHCVwEnsmblkae4Rs9aFJ4/JTWE=',
+            'crossorigin' => 'anonymous',
+        ];
+        $links[] = [
+            'rel' => 'preload',
+            'as' => 'font',
+            'href' => 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/webfonts/fa-solid-900.woff2',
+            'integrity' => 'sha256-f00/0KcF2/hAMpiq2R1d5pcua11TYGjrqLJJVKWgqMc=',
+            'crossorigin' => 'anonymous',
+        ];
+        $links[] = [
+            'rel' => 'preload',
+            'as' => 'font',
+            'href' => 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/webfonts/fa-regular-400.woff2',
+            'integrity' => 'sha256-aoyOnh5/aSwhrxlW3hY/PQJneOZEn+k6CaZxhHyhrmU=',
+            'crossorigin' => 'anonymous',
+        ];
+        $links[] = [
+            'rel' => 'stylesheet',
+            'href' => 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css',
+            'integrity' => 'sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=',
+            'crossorigin' => 'anonymous',
+        ];
+        $links[] = [
+            'rel' => 'preload',
+            'as' => 'script',
+            'href' => $this->webpack->url('app.js'),
+        ];
+        $links[] = ['rel' => 'stylesheet', 'href' => $this->webpack->url('style.css')];
+        $view->with('links', $links);
         $view->with('inline_css', option('custom_css'));
     }
 

@@ -2,7 +2,6 @@ const path = require('path')
 const webpack = require('webpack')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserJSPlugin = require('terser-webpack-plugin')
-const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const ManifestPlugin = require('webpack-manifest-plugin')
 
 const devMode = !process.argv.includes('-p')
@@ -12,11 +11,8 @@ const config = {
   mode: devMode ? 'development' : 'production',
   entry: {
     app: ['react-hot-loader/patch', '@/index.tsx'],
-    style: [
-      '@/styles/admin-lte.scss',
-      '@/styles/common.styl',
-      '@/styles/common.scss',
-    ],
+    style: ['@/styles/common.css'],
+    home: '@/styles/home.css',
     spectre: [
       'spectre.css/dist/spectre.min.css',
       '@/fonts/minecraft.css',
@@ -39,54 +35,16 @@ const config = {
         },
       },
       {
-        test: /\.scss$/,
-        exclude: /\.module\.scss$/,
-        use: [
-          devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 2,
-            },
-          },
-          'postcss-loader',
-          'sass-loader',
-        ],
-      },
-      {
-        test: /\.module\.scss$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 2,
-              modules: {
-                localIdentName: devMode
-                  ? '[name]__[local]'
-                  : '[local]__[hash:base64:5]',
-              },
-              esModule: true,
-            },
-          },
-          'postcss-loader',
-          'sass-loader',
-        ],
-      },
-      {
         test: /\.css$/,
         use: [
           devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
-          'css-loader',
-        ],
-      },
-      {
-        test: /(common|home)\.styl$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          { loader: 'css-loader', options: { importLoaders: 2 } },
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+            },
+          },
           'postcss-loader',
-          'stylus-loader',
         ],
       },
       {
@@ -113,20 +71,20 @@ const config = {
     alias: {
       'react-dom': '@hot-loader/react-dom',
       '@': path.resolve(__dirname, 'resources/assets/src'),
-      'readline': '@/scripts/cli/readline.ts',
+      readline: '@/scripts/cli/readline.ts',
     },
   },
-  externals: devMode
-    ? {}
-    : {
-        react: 'React',
-        'react-dom': 'ReactDOM',
-        jquery: 'jQuery',
-        bootstrap: 'bootstrap',
-        'admin-lte': 'adminlte',
-      },
+  externals: Object.assign(
+    { jquery: 'jQuery', bootstrap: 'bootstrap', 'admin-lte': 'adminlte' },
+    devMode
+      ? {}
+      : {
+          react: 'React',
+          'react-dom': 'ReactDOM',
+        },
+  ),
   optimization: {
-    minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],
+    minimizer: [new TerserJSPlugin({})],
   },
   devtool: devMode ? 'cheap-module-eval-source-map' : false,
   devServer: {

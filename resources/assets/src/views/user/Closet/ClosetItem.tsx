@@ -1,10 +1,7 @@
-/** @jsx jsx */
 import React from 'react'
-import { jsx, css } from '@emotion/core'
 import styled from '@emotion/styled'
 import { t } from '@/scripts/i18n'
 import { ClosetItem } from '@/scripts/types'
-import * as cssUtils from '@/styles/utils'
 import setAsAvatar from './setAsAvatar'
 
 const Card = styled.div`
@@ -20,7 +17,7 @@ const Card = styled.div`
     background-color: #eff1f0;
   }
 `
-const blackOnHover = css`
+const DropdownButton = styled.i`
   :hover {
     color: #000;
   }
@@ -54,7 +51,7 @@ const ClosetItem: React.FC<Props> = (props) => {
       </div>
       <div className="card-footer pb-2 pt-2 pl-1 pr-1">
         <div className="container d-flex justify-content-between">
-          <span css={cssUtils.truncateText} title={item.pivot.item_name}>
+          <span className="text-truncate" title={item.pivot.item_name}>
             {item.pivot.item_name}
           </span>
           <span className="d-inline-block drop-down">
@@ -63,7 +60,7 @@ const ClosetItem: React.FC<Props> = (props) => {
               aria-haspopup="true"
               aria-expanded="false"
             >
-              <i className="fas fa-cog text-gray" css={blackOnHover} />
+              <DropdownButton className="fas fa-cog text-gray" />
             </span>
             <div className="dropdown-menu">
               <a href="#" className="dropdown-item" onClick={props.onRename}>
