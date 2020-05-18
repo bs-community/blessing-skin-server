@@ -214,7 +214,7 @@ const UsersManagement: React.FC = () => {
         mode: 'prompt',
         text: t('admin.newUserPassword'),
         inputType: 'password',
-        placeholder: t('adminchangePassword'),
+        placeholder: t('admin.changePassword'),
       })
       password = value
     } catch {

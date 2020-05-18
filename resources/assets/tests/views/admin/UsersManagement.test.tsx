@@ -604,7 +604,7 @@ describe('update password', () => {
 
     await waitFor(() => expect(fetch.get).toBeCalled())
     fireEvent.click(getByText(t('admin.changePassword')))
-    fireEvent.input(getByPlaceholderText(t('adminchangePassword')), {
+    fireEvent.input(getByPlaceholderText(t('admin.changePassword')), {
       target: { value: '123' },
     })
     fireEvent.click(getByText(t('general.confirm')))
@@ -630,7 +630,7 @@ describe('update password', () => {
 
     await waitFor(() => expect(fetch.get).toBeCalled())
     fireEvent.click(getByText(t('admin.changePassword')))
-    fireEvent.input(getByPlaceholderText(t('adminchangePassword')), {
+    fireEvent.input(getByPlaceholderText(t('admin.changePassword')), {
       target: { value: '123' },
     })
     fireEvent.click(getByText(t('general.confirm')))
