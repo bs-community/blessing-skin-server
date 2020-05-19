@@ -11,6 +11,7 @@ const config = {
   mode: devMode ? 'development' : 'production',
   entry: {
     app: ['react-hot-loader/patch', '@/index.tsx'],
+    sw: '@/scripts/sw.ts',
     style: ['@/styles/common.css'],
     home: '@/styles/home.css',
     spectre: [
@@ -21,7 +22,12 @@ const config = {
   },
   output: {
     path: `${__dirname}/public/app`,
-    filename: devMode ? '[name].js' : '[name].[contenthash:7].js',
+    filename: ({ chunk }) =>
+      chunk.name === 'sw'
+        ? 'sw.js'
+        : devMode
+        ? '[name].js'
+        : '[name].[contenthash:7].js',
     chunkFilename: devMode ? '[id].js' : '[id].[contenthash:7].js',
   },
   module: {
@@ -84,7 +90,9 @@ const config = {
         },
   ),
   optimization: {
-    minimizer: [new TerserJSPlugin({})],
+    minimizer: [
+      /*new TerserJSPlugin({})*/
+    ],
   },
   devtool: devMode ? 'cheap-module-eval-source-map' : false,
   devServer: {

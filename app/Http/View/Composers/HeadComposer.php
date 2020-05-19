@@ -84,14 +84,12 @@ class HeadComposer
             'rel' => 'preload',
             'as' => 'font',
             'href' => 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/webfonts/fa-solid-900.woff2',
-            'integrity' => 'sha256-f00/0KcF2/hAMpiq2R1d5pcua11TYGjrqLJJVKWgqMc=',
             'crossorigin' => 'anonymous',
         ];
         $links[] = [
             'rel' => 'preload',
             'as' => 'font',
             'href' => 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/webfonts/fa-regular-400.woff2',
-            'integrity' => 'sha256-aoyOnh5/aSwhrxlW3hY/PQJneOZEn+k6CaZxhHyhrmU=',
             'crossorigin' => 'anonymous',
         ];
         $links[] = [
@@ -103,6 +101,7 @@ class HeadComposer
         $links[] = ['rel' => 'stylesheet', 'href' => $this->webpack->url('style.css')];
         $view->with('links', $links);
         $view->with('inline_css', option('custom_css'));
+        $view->with('workbox', $this->webpack->url('workbox.js'));
     }
 
     public function addExtra(View $view)

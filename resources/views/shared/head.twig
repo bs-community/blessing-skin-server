@@ -6,6 +6,11 @@
 <meta name="keywords" content="{{ seo.keywords }}">
 <meta name="description" content="{{ seo.description }}">
 {{ seo.extra|striptags('<meta>')|raw }}
+<script>
+window.addEventListener('load', () => {
+  navigator.serviceWorker.register('/sw.js')
+})
+</script>
 {% for link in links %}
   <link{% for attribute, value in link %} {{ attribute }}="{{ value }}"{% endfor %}>
 {% endfor %}

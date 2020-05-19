@@ -1,7 +1,6 @@
 {% for script in scripts %}
   <script{% for attribute, value in script %} {{ attribute }}="{{ value }}"{% endfor %}></script>
 {% endfor %}
-
 <script>
   {{ inline_js|striptags('<div><span><ul><li><p><a><img><i>')|raw }}
 </script>

@@ -26,4 +26,4 @@ storage/options.php
 .phpunit.result.cache
 .php_cs.cache
 resources/views/overrides
-public/bg
+public/sw.js
