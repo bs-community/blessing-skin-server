@@ -90,9 +90,7 @@ const config = {
         },
   ),
   optimization: {
-    minimizer: [
-      /*new TerserJSPlugin({})*/
-    ],
+    minimizer: [new TerserJSPlugin({})],
   },
   devtool: devMode ? 'cheap-module-eval-source-map' : false,
   devServer: {
