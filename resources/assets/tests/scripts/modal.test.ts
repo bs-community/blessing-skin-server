@@ -2,7 +2,7 @@ import { t } from '@/scripts/i18n'
 import { showModal } from '@/scripts/modal'
 
 test('show modal', async () => {
-  process.nextTick(() => {
+  Promise.resolve().then(() => {
     expect(document.querySelector('.modal-title')!.textContent).toBe(
       t('general.tip'),
     )

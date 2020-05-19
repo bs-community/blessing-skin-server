@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import ReactDOM from 'react-dom'
-import nanoid from 'nanoid'
+import { nanoid } from 'nanoid'
 import * as emitter from './event'
 import ToastBox, { ToastType } from '../components/Toast'
 

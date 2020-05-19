@@ -132,6 +132,7 @@ describe('sign button', () => {
   })
 
   it('remain in hours', async () => {
+    jest.useRealTimers()
     fetch.get.mockResolvedValue(scoreInfo({}, { lastSignAt: Date.now() }))
 
     const { getByRole } = render(<Dashboard />)

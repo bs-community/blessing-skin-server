@@ -41,10 +41,12 @@ describe('install plugin', () => {
 })
 
 describe('remove plugin', () => {
+  beforeAll(() => jest.useRealTimers())
+
   it('cancelled', async () => {
     const stdio = new Stdio()
 
-    process.nextTick(() => process.stdin.emit('keypress', 'n'))
+    setImmediate(() => process.stdin.emit('keypress', 'n'))
     await pacman(stdio, ['-R', 'test'])
     expect(fetch.post).not.toBeCalled()
   })
@@ -53,7 +55,7 @@ describe('remove plugin', () => {
     fetch.post.mockResolvedValue({ code: 0, message: 'ok' })
     const stdio = new Stdio()
 
-    process.nextTick(() => process.stdin.emit('keypress', 'y'))
+    setImmediate(() => process.stdin.emit('keypress', 'y'))
     await pacman(stdio, ['-R', 'test'])
     expect(fetch.post).toBeCalledWith('/admin/plugins/manage', {
       action: 'delete',
