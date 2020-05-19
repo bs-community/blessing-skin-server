@@ -290,6 +290,11 @@ class UsersManagementControllerTest extends TestCase
 
             return true;
         });
+        Event::assertDispatched('user.banned', function ($eventName, $payload) use ($user) {
+            $this->assertTrue($user->fresh()->is($payload[0]));
+
+            return true;
+        });
     }
 
     public function testDelete()

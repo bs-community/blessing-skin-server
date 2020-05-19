@@ -152,6 +152,10 @@ class UsersManagementController extends Controller
         $user->permission = $permission;
         $user->save();
 
+        if ($permission === User::BANNED) {
+            $dispatcher->dispatch('user.banned', [$user]);
+        }
+
         $dispatcher->dispatch('user.permission.updated', [$user, $old]);
 
         return json(trans('admin.users.operations.permission'), 0);
