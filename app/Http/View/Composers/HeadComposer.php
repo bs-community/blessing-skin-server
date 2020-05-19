@@ -101,7 +101,6 @@ class HeadComposer
         $links[] = ['rel' => 'stylesheet', 'href' => $this->webpack->url('style.css')];
         $view->with('links', $links);
         $view->with('inline_css', option('custom_css'));
-        $view->with('workbox', $this->webpack->url('workbox.js'));
     }
 
     public function addExtra(View $view)
