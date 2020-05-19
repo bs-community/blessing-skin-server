@@ -71,7 +71,7 @@ const Item: React.FC<Props> = (props) => {
         </div>
         <div className="card-footer">
           <a
-            className="d-block mb-1 truncate-text"
+            className="d-block mb-1 text-truncate"
             title={item.name}
             href={link}
             target="_blank"
