@@ -64,9 +64,13 @@ class FootComposer
             ];
         } else {
             $scripts[] = [
-                'src' => 'https://cdn.jsdelivr.net/combine/'.
-                    'npm/react@16.13/umd/react.production.min.js,'.
-                    'npm/react-dom@16.13/umd/react-dom.production.min.js',
+                'src' => 'https://cdn.jsdelivr.net/npm/react@16.13.1/umd/react.production.min.js',
+                'integrity' => 'sha256-yUhvEmYVhZ/GGshIQKArLvySDSh6cdmdcIx0spR3UP4=',
+                'crossorigin' => 'anonymous',
+            ];
+            $scripts[] = [
+                'src' => 'https://cdn.jsdelivr.net/npm/react-dom@16.13.1/umd/react-dom.production.min.js',
+                'integrity' => 'sha256-vFt3l+illeNlwThbDUdoPTqF81M8WNSZZZt3HEjsbSU=',
                 'crossorigin' => 'anonymous',
             ];
         }
