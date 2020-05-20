@@ -6,7 +6,7 @@ features:
     name: Multijugador
     desc: Puedes añadir multiples jugadores con sólo una cuenta.
   second:
-    icon: fa-share-square
+    icon: fa-share-alt
     name: Compartido
     desc: Explora la colección de skins, deja un "like" y compártelos con tus amigos.
   third:
