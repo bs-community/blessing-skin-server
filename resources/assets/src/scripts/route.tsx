@@ -2,10 +2,6 @@ import React from 'react'
 
 export default [
   {
-    path: '/',
-    module: [() => import('./home-page')],
-  },
-  {
     path: 'user',
     react: () => import('../views/user/Dashboard'),
     el: '#usage-box',

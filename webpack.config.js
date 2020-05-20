@@ -13,7 +13,7 @@ const config = {
     app: ['react-hot-loader/patch', '@/index.tsx'],
     sw: '@/scripts/sw.ts',
     style: ['@/styles/common.css'],
-    home: '@/styles/home.css',
+    home: '@/scripts/home-page.ts',
     spectre: [
       'spectre.css/dist/spectre.min.css',
       '@/fonts/minecraft.css',

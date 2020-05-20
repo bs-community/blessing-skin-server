@@ -132,6 +132,26 @@
       </div>
     {% endif %}
 
+    <div id="modal-logout" class="modal fade" tabindex="-1" role="dialog">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">{{ trans('general.notice') }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>{{ trans('front-end.general.confirmLogout') }}</p>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" data-dismiss="modal">{{ trans('general.cancel') }}</button>
+            <button class="btn btn-primary" id="btn-logout">{{ trans('front-end.general.confirm') }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     {% if home_page_css_loader %}
       <script src="{{ home_page_css_loader }}"></script>
     {% endif %}

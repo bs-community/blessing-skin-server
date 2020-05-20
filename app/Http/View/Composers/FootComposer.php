@@ -62,7 +62,7 @@ class FootComposer
                 'async' => true,
                 'defer' => true,
             ];
-        } else {
+        } elseif (!$this->request->is('/')) {
             $scripts[] = [
                 'src' => 'https://cdn.jsdelivr.net/npm/react@16.13.1/umd/react.production.min.js',
                 'integrity' => 'sha256-yUhvEmYVhZ/GGshIQKArLvySDSh6cdmdcIx0spR3UP4=',
@@ -79,9 +79,15 @@ class FootComposer
             'integrity' => 'sha256-lEpMZPtZ0RgHYZFOcJeX94WMegvHJ+beF5V7XtCcWxY=',
             'crossorigin' => 'anonymous',
         ];
-        $scripts[] = [
-            'src' => $this->webpack->url('app.js'),
-        ];
+        if ($this->request->is('/')) {
+            $scripts[] = [
+                'src' => $this->webpack->url('home.js'),
+            ];
+        } else {
+            $scripts[] = [
+                'src' => $this->webpack->url('app.js'),
+            ];
+        }
 
         $view->with([
             'scripts' => $scripts,
