@@ -21,6 +21,7 @@ class HomeController extends Controller
                 'home_page_css_loader',
                 config('app.asset.env') === 'development' ? $webpack->url('home.js') : null
             )
+            ->with('app_js', $webpack->url('app.js'))
             ->with('user_can_register', option('user_can_register'));
     }
 
