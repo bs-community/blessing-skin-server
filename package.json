@@ -13,7 +13,7 @@
     "dev": "webpack-dev-server",
     "build": "webpack --mode=production -p --progress",
     "lint": "eslint --ext=ts -f=beauty .",
-    "fmt": "prettier --write 'resources/assets/**/*.{ts,tsx}'",
+    "fmt": "prettier --write resources/assets",
     "test": "jest"
   },
   "dependencies": {

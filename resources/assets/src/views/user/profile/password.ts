@@ -16,13 +16,13 @@ export default async function handler(event: Event) {
     return
   }
 
-  const {
-    code,
-    message,
-  }: ResponseBody = await post('/user/profile?action=password', {
-    current_password: oldPassword,
-    new_password: newPassword,
-  })
+  const { code, message }: ResponseBody = await post(
+    '/user/profile?action=password',
+    {
+      current_password: oldPassword,
+      new_password: newPassword,
+    },
+  )
   await showModal({ mode: 'alert', text: message })
   if (code === 0) {
     window.location.href = `${blessing.base_url}/auth/login`

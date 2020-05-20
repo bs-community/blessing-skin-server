@@ -8,7 +8,8 @@ a {
   outline: none;
 }
 
-.brand-link, .navbar-brand {
+.brand-link,
+.navbar-brand {
   font-family: Minecraft;
 }
 
