@@ -70,6 +70,7 @@ const ImageBox: React.FC<Props> = (props) => {
             ) : (
               <span className="badge bg-danger">{t('report.status.2')}</span>
             )}
+            <span className="badge bg-info ml-1">TID: {report.tid}</span>
           </div>
           <div className="dropdown">
             <a
