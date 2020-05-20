@@ -26,7 +26,7 @@ registerRoute(
 registerRoute(
   /\/avatar\/user\/\d+/,
   new StaleWhileRevalidate({
-    cacheName: 'png-resource-v1',
+    cacheName: 'avatar-v1',
     fetchOptions: {
       credentials: 'omit',
     },

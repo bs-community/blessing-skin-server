@@ -8,7 +8,7 @@
 {{ seo.extra|striptags('<meta>')|raw }}
 <script>
 window.addEventListener('load', () => {
-  navigator.serviceWorker.register('/sw.js')
+  navigator.serviceWorker.register('/sw.js?v1')
 })
 </script>
 {% for link in links %}
