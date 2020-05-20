@@ -6,7 +6,7 @@ features:
     name: 多角色
     desc: 一个账户可绑定多个游戏角色
   second:
-    icon: fa-share-square
+    icon: fa-share-alt
     name: 分享
     desc: 浏览皮肤库，添加喜爱的皮肤并与好友分享
   third:

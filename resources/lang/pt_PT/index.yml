@@ -6,7 +6,7 @@ features:
     name: Multi Player
     desc: You can add multiple players within one registered account.
   second:
-    icon: fa-share-square
+    icon: fa-share-alt
     name: Sharing
     desc: Explore the skin library, send a "like" and share them with your friends.
   third:
