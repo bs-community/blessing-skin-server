@@ -116,7 +116,7 @@ class TextureControllerTest extends TestCase
             ->assertHeader('Content-Type', 'image/webp');
 
         $texture = factory(Texture::class)->create();
-        $disk->put($texture->hash, '');
+        $disk->put($texture->hash, Image::canvas(1, 1)->encode('webp'));
         $player->tid_skin = $texture->tid;
         $player->save();
         $image = $this->get('/avatar/player/'.$player->name)
@@ -147,7 +147,7 @@ class TextureControllerTest extends TestCase
             ->assertHeader('Content-Type', 'image/webp');
 
         $texture = factory(Texture::class)->create();
-        $disk->put($texture->hash, '');
+        $disk->put($texture->hash, Image::canvas(1, 1)->encode('webp'));
         $user->avatar = $texture->tid;
         $user->save();
         $image = $this->get('/avatar/user/'.$user->uid)
@@ -185,7 +185,7 @@ class TextureControllerTest extends TestCase
         $this->assertEquals(100, $image->width());
         $this->assertEquals(100, $image->height());
 
-        $disk->put($texture->hash, '');
+        $disk->put($texture->hash, Image::canvas(1, 1)->encode('webp'));
         $image = $this->get('/avatar/'.$texture->tid)
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/webp')
