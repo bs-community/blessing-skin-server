@@ -43,6 +43,7 @@ class TextureController extends Controller
     {
         $texture = Texture::findOrFail($tid);
         $hash = $texture->hash;
+        $usePNG = $request->has('png') || !(imagetypes() & IMG_WEBP);
 
         $disk = Storage::disk('textures');
         abort_if($disk->missing($hash), 404);
@@ -52,7 +53,7 @@ class TextureController extends Controller
         $response = Cache::remember(
             'preview-t'.$tid,
             option('enable_preview_cache') ? $now->addYear() : $now->addMinute(),
-            function () use ($minecraft, $disk, $texture, $hash, $height) {
+            function () use ($minecraft, $disk, $texture, $hash, $height, $usePNG) {
                 $file = $disk->get($hash);
                 if ($texture->type === 'cape') {
                     $image = $minecraft->renderCape($file, $height);
@@ -63,7 +64,7 @@ class TextureController extends Controller
                 $lastModified = $disk->lastModified($hash);
 
                 return Image::make($image)
-                    ->response('webp', 100)
+                    ->response($usePNG ? 'png' : 'webp', 100)
                     ->setLastModified(Carbon::createFromTimestamp($lastModified));
             }
         );
@@ -120,12 +121,13 @@ class TextureController extends Controller
     {
         $size = (int) $request->query('size', 100);
         $mode = $request->has('3d') ? '3d' : '2d';
+        $usePNG = $request->has('png') || !(imagetypes() & IMG_WEBP);
 
         $disk = Storage::disk('textures');
         if (is_null($texture) || $disk->missing($texture->hash)) {
             return Image::make(resource_path("misc/textures/avatar$mode.png"))
                 ->resize($size, $size)
-                ->response('webp', 100);
+                ->response($usePNG ? 'png' : 'webp', 100);
         }
 
         $hash = $texture->hash;
@@ -133,7 +135,7 @@ class TextureController extends Controller
         $response = Cache::remember(
             'avatar-'.$mode.'-t'.$texture->tid.'-s'.$size,
             option('enable_avatar_cache') ? $now->addYear() : $now->addMinute(),
-            function () use ($minecraft, $disk, $hash, $size, $mode) {
+            function () use ($minecraft, $disk, $hash, $size, $mode, $usePNG) {
                 $file = $disk->get($hash);
                 if ($mode === '3d') {
                     $image = $minecraft->render3dAvatar($file, 25);
@@ -145,7 +147,7 @@ class TextureController extends Controller
 
                 return Image::make($image)
                     ->resize($size, $size)
-                    ->response('webp', 100)
+                    ->response($usePNG ? 'png' : 'webp', 100)
                     ->setLastModified($lastModified);
             }
         );

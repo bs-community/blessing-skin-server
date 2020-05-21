@@ -57,7 +57,11 @@ class TextureControllerTest extends TestCase
         $this->get('/preview/'.$skin->tid)->assertNotFound();
 
         $disk->put($skin->hash, '');
-        $this->get('/preview/'.$skin->tid)->assertHeader('Content-Type', 'image/webp');
+        $this->get('/preview/'.$skin->tid)
+            ->assertHeader('Content-Type', 'image/webp');
+        Cache::clear();
+        $this->get('/preview/'.$skin->tid.'?png')
+            ->assertHeader('Content-Type', 'image/png');
         $this->assertTrue(Cache::has('preview-t'.$skin->tid));
 
         $cape = factory(Texture::class)->states('cape')->create();
@@ -123,6 +127,11 @@ class TextureControllerTest extends TestCase
         $image = Image::make($image);
         $this->assertEquals(100, $image->width());
         $this->assertEquals(100, $image->height());
+
+        Cache::clear();
+        $this->get('/avatar/player/'.$player->name.'?png=true')
+            ->assertSuccessful()
+            ->assertHeader('Content-Type', 'image/png');
 
         $image = $this->get('/avatar/player/'.$player->name.'?size=50')->getContent();
         $image = Image::make($image);
