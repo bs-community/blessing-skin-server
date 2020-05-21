@@ -195,13 +195,9 @@ class TextureControllerTest extends TestCase
         $this->assertEquals(100, $image->height());
 
         $texture = factory(Texture::class)->create();
-        $image = $this->get('/avatar/'.$texture->tid)
+        $this->get('/avatar/'.$texture->tid)
             ->assertSuccessful()
-            ->assertHeader('Content-Type', 'image/webp')
-            ->getContent();
-        $image = Image::make($image);
-        $this->assertEquals(100, $image->width());
-        $this->assertEquals(100, $image->height());
+            ->assertHeader('Content-Type', 'image/webp');
 
         $this->mock(Minecraft::class, function ($mock) {
             $mock->shouldReceive('render2dAvatar')->andReturn(Image::canvas(1, 1));
