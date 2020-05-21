@@ -5,6 +5,7 @@ namespace Tests;
 use App\Models\Player;
 use App\Models\Texture;
 use App\Models\User;
+use Blessing\Minecraft;
 use Cache;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Storage;
@@ -13,13 +14,6 @@ use Image;
 class TextureControllerTest extends TestCase
 {
     use DatabaseTransactions;
-
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->swap(\Blessing\Minecraft::class, new Fakes\Minecraft());
-    }
 
     public function testJson()
     {
@@ -54,7 +48,7 @@ class TextureControllerTest extends TestCase
 
         $this->get('/preview/0')->assertNotFound();
 
-        $this->mock(\Blessing\Minecraft::class, function ($mock) {
+        $this->mock(Minecraft::class, function ($mock) {
             $mock->shouldReceive('renderSkin')->andReturn(Image::canvas(1, 1));
             $mock->shouldReceive('renderCape')->andReturn(Image::canvas(1, 1));
         });
@@ -115,8 +109,11 @@ class TextureControllerTest extends TestCase
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/webp');
 
+        $this->mock(Minecraft::class, function ($mock) {
+            $mock->shouldReceive('render2dAvatar')->andReturn(Image::canvas(1, 1));
+        });
         $texture = factory(Texture::class)->create();
-        $disk->put($texture->hash, Image::canvas(1, 1)->encode('webp'));
+        $disk->put($texture->hash, '');
         $player->tid_skin = $texture->tid;
         $player->save();
         $image = $this->get('/avatar/player/'.$player->name)
@@ -146,8 +143,11 @@ class TextureControllerTest extends TestCase
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/webp');
 
+        $this->mock(Minecraft::class, function ($mock) {
+            $mock->shouldReceive('render2dAvatar')->andReturn(Image::canvas(1, 1));
+        });
         $texture = factory(Texture::class)->create();
-        $disk->put($texture->hash, Image::canvas(1, 1)->encode('webp'));
+        $disk->put($texture->hash, '');
         $user->avatar = $texture->tid;
         $user->save();
         $image = $this->get('/avatar/user/'.$user->uid)
@@ -185,7 +185,11 @@ class TextureControllerTest extends TestCase
         $this->assertEquals(100, $image->width());
         $this->assertEquals(100, $image->height());
 
-        $disk->put($texture->hash, Image::canvas(1, 1)->encode('webp'));
+        $this->mock(Minecraft::class, function ($mock) {
+            $mock->shouldReceive('render2dAvatar')->andReturn(Image::canvas(1, 1));
+            $mock->shouldReceive('render3dAvatar')->andReturn(Image::canvas(1, 1));
+        });
+        $disk->put($texture->hash, '');
         $image = $this->get('/avatar/'.$texture->tid)
             ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/webp')
