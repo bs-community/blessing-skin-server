@@ -9,7 +9,6 @@ use Blessing\Minecraft;
 use Cache;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Image;
 
 class TextureControllerTest extends TestCase
@@ -121,27 +120,23 @@ class TextureControllerTest extends TestCase
         $disk->put($texture->hash, '');
         $player->tid_skin = $texture->tid;
         $player->save();
-        $image = $this->get('/avatar/player/'.$player->name)
+        $this->get('/avatar/player/'.$player->name)
             ->assertSuccessful()
-            ->assertHeader('Content-Type', 'image/webp')
-            ->getContent();
-        if (!(getenv('CI') && Str::startsWith(PHP_VERSION, '7.2'))) {
-            $image = Image::make($image);
-            $this->assertEquals(100, $image->width());
-            $this->assertEquals(100, $image->height());
-        }
+            ->assertHeader('Content-Type', 'image/webp');
 
         Cache::clear();
-        $this->get('/avatar/player/'.$player->name.'?png=true')
+        $image = $this->get('/avatar/player/'.$player->name.'?png')
             ->assertSuccessful()
-            ->assertHeader('Content-Type', 'image/png');
+            ->assertHeader('Content-Type', 'image/png')
+            ->getContent();
+        $image = Image::make($image);
+        $this->assertEquals(100, $image->width());
+        $this->assertEquals(100, $image->height());
 
-        $image = $this->get('/avatar/player/'.$player->name.'?size=50')->getContent();
-        if (!(getenv('CI') && Str::startsWith(PHP_VERSION, '7.2'))) {
-            $image = Image::make($image);
-            $this->assertEquals(50, $image->width());
-            $this->assertEquals(50, $image->height());
-        }
+        $image = $this->get('/avatar/player/'.$player->name.'?size=50&png')->getContent();
+        $image = Image::make($image);
+        $this->assertEquals(50, $image->width());
+        $this->assertEquals(50, $image->height());
     }
 
     public function testAvatarByUser()
@@ -164,22 +159,23 @@ class TextureControllerTest extends TestCase
         $disk->put($texture->hash, '');
         $user->avatar = $texture->tid;
         $user->save();
-        $image = $this->get('/avatar/user/'.$user->uid)
+        $this->get('/avatar/user/'.$user->uid)
             ->assertSuccessful()
-            ->assertHeader('Content-Type', 'image/webp')
-            ->getContent();
-        if (!(getenv('CI') && Str::startsWith(PHP_VERSION, '7.2'))) {
-            $image = Image::make($image);
-            $this->assertEquals(100, $image->width());
-            $this->assertEquals(100, $image->height());
-        }
+            ->assertHeader('Content-Type', 'image/webp');
 
-        $image = $this->get('/avatar/user/'.$user->uid.'?size=50')->getContent();
-        if (!(getenv('CI') && Str::startsWith(PHP_VERSION, '7.2'))) {
-            $image = Image::make($image);
-            $this->assertEquals(50, $image->width());
-            $this->assertEquals(50, $image->height());
-        }
+        Cache::clear();
+        $image = $this->get('/avatar/user/'.$user->uid.'?png')
+            ->assertSuccessful()
+            ->assertHeader('Content-Type', 'image/png')
+            ->getContent();
+        $image = Image::make($image);
+        $this->assertEquals(100, $image->width());
+        $this->assertEquals(100, $image->height());
+
+        $image = $this->get('/avatar/user/'.$user->uid.'?size=50&png')->getContent();
+        $image = Image::make($image);
+        $this->assertEquals(50, $image->width());
+        $this->assertEquals(50, $image->height());
     }
 
     public function testAvatarByTexture()
@@ -208,34 +204,28 @@ class TextureControllerTest extends TestCase
             $mock->shouldReceive('render3dAvatar')->andReturn(Image::canvas(1, 1));
         });
         $disk->put($texture->hash, '');
-        $image = $this->get('/avatar/'.$texture->tid)
+        $this->get('/avatar/'.$texture->tid)
             ->assertSuccessful()
-            ->assertHeader('Content-Type', 'image/webp')
-            ->getContent();
-        if (!(getenv('CI') && Str::startsWith(PHP_VERSION, '7.2'))) {
-            $image = Image::make($image);
-            $this->assertEquals(100, $image->width());
-            $this->assertEquals(100, $image->height());
-        }
+            ->assertHeader('Content-Type', 'image/webp');
+
+        Cache::clear();
+        $this->get('/avatar/'.$texture->tid.'?png')
+            ->assertSuccessful()
+            ->assertHeader('Content-Type', 'image/png');
+        $image = Image::make($image);
+        $this->assertEquals(100, $image->width());
+        $this->assertEquals(100, $image->height());
         $this->assertTrue(Cache::has('avatar-2d-t'.$texture->tid.'-s100'));
 
-        $image = $this->get('/avatar/'.$texture->tid.'?size=50')->getContent();
-        if (!(getenv('CI') && Str::startsWith(PHP_VERSION, '7.2'))) {
-            $image = Image::make($image);
-            $this->assertEquals(50, $image->width());
-            $this->assertEquals(50, $image->height());
-        }
+        $image = $this->get('/avatar/'.$texture->tid.'?size=50&png')->getContent();
+        $image = Image::make($image);
+        $this->assertEquals(50, $image->width());
+        $this->assertEquals(50, $image->height());
         $this->assertTrue(Cache::has('avatar-2d-t'.$texture->tid.'-s50'));
 
-        $image = $this->get('/avatar/'.$texture->tid.'?3d')
+        $this->get('/avatar/'.$texture->tid.'?3d')
             ->assertSuccessful()
-            ->assertHeader('Content-Type', 'image/webp')
-            ->getContent();
-        if (!(getenv('CI') && Str::startsWith(PHP_VERSION, '7.2'))) {
-            $image = Image::make($image);
-            $this->assertEquals(100, $image->width());
-            $this->assertEquals(100, $image->height());
-        }
+            ->assertHeader('Content-Type', 'image/webp');
         $this->assertTrue(Cache::has('avatar-3d-t'.$texture->tid.'-s100'));
     }
 }
