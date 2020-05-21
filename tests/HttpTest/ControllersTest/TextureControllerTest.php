@@ -182,9 +182,13 @@ class TextureControllerTest extends TestCase
     {
         $disk = Storage::fake('textures');
 
-        $image = $this->get('/avatar/0')
+        $this->get('/avatar/0')
             ->assertSuccessful()
-            ->assertHeader('Content-Type', 'image/webp')
+            ->assertHeader('Content-Type', 'image/webp');
+        Cache::clear();
+        $image = $this->get('/avatar/0?png')
+            ->assertSuccessful()
+            ->assertHeader('Content-Type', 'image/png')
             ->getContent();
         $image = Image::make($image);
         $this->assertEquals(100, $image->width());
