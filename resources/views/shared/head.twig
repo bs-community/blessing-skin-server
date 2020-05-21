@@ -6,13 +6,15 @@
 <meta name="keywords" content="{{ seo.keywords }}">
 <meta name="description" content="{{ seo.description }}">
 {{ seo.extra|striptags('<meta>')|raw }}
+<link rel="preconnect" href="https://cdn.jsdelivr.net/" crossorigin>
+<link rel="preconnect" href="{{ custom_cdn_host }}" crossorigin>
 <script>
 window.addEventListener('load', () => {
   navigator.serviceWorker.register('/sw.js?v1')
 })
 </script>
 {% for link in links %}
-  <link{% for attribute, value in link %} {{ attribute }}="{{ value }}"{% endfor %}>
+  <link{% for attribute, value in link %} {{ attribute }}="{{ value|raw }}"{% endfor %}>
 {% endfor %}
 <link rel="shortcut icon" href="{{ favicon }}">
 <link rel="icon" type="image/png" href="{{ favicon }}" sizes="192x192">

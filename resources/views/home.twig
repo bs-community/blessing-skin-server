@@ -2,7 +2,7 @@
 <html lang="{{ locale }}">
   <head>
     {{ include('shared.head') }}
-    <link rel="stylesheet" href="{{ home_page_css }}">
+    <link rel="preload" as="style" href="{{ home_page_css }}" crossorigin="anonymous" onload="this.rel = 'stylesheet'">
     <link rel="preload" as="image" href="{{ home_pic_url }}">
     <title>{{ site_name }}</title>
     <style>

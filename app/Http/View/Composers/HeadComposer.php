@@ -4,6 +4,7 @@ namespace App\Http\View\Composers;
 
 use App\Services\Webpack;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -16,10 +17,17 @@ class HeadComposer
     /** @var Dispatcher */
     protected $dispatcher;
 
-    public function __construct(Webpack $webpack, Dispatcher $dispatcher)
-    {
+    /** @var Request */
+    protected $request;
+
+    public function __construct(
+        Webpack $webpack,
+        Dispatcher $dispatcher,
+        Request $request
+    ) {
         $this->webpack = $webpack;
         $this->dispatcher = $dispatcher;
+        $this->request = $request;
     }
 
     public function compose(View $view)
@@ -75,10 +83,12 @@ class HeadComposer
     {
         $links = [];
         $links[] = [
-            'rel' => 'stylesheet',
+            'rel' => 'preload',
+            'as' => 'style',
             'href' => 'https://cdn.jsdelivr.net/npm/@blessing-skin/admin-lte@3.0.4/dist/admin-lte.min.css',
             'integrity' => 'sha256-nr8InsK/i0Skb3n3yHCVwEnsmblkae4Rs9aFJ4/JTWE=',
             'crossorigin' => 'anonymous',
+            'onload' => "this.rel = 'stylesheet'",
         ];
         $links[] = [
             'rel' => 'preload',
@@ -93,14 +103,25 @@ class HeadComposer
             'crossorigin' => 'anonymous',
         ];
         $links[] = [
-            'rel' => 'stylesheet',
+            'rel' => 'preload',
+            'as' => 'style',
             'href' => 'https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.13.0/css/all.min.css',
             'integrity' => 'sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=',
             'crossorigin' => 'anonymous',
+            'onload' => "this.rel = 'stylesheet'",
         ];
-        $links[] = ['rel' => 'stylesheet', 'href' => $this->webpack->url('style.css')];
+        if (!$this->request->is('/')) {
+            $links[] = [
+                'rel' => 'preload',
+                'as' => 'style',
+                'href' => $this->webpack->url('style.css'),
+                'crossorigin' => 'anonymous',
+                'onload' => "this.rel = 'stylesheet'",
+            ];
+        }
         $view->with('links', $links);
         $view->with('inline_css', option('custom_css'));
+        $view->with('custom_cdn_host', option('cdn_address'));
     }
 
     public function addExtra(View $view)
