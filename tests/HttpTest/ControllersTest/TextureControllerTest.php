@@ -175,8 +175,8 @@ class TextureControllerTest extends TestCase
         $image = $this->get('/avatar/user/'.$user->uid.'?size=50')->getContent();
         if (!(getenv('CI') && Str::startsWith(PHP_VERSION, '7.2'))) {
             $image = Image::make($image);
-            $this->assertEquals(100, $image->width());
-            $this->assertEquals(100, $image->height());
+            $this->assertEquals(50, $image->width());
+            $this->assertEquals(50, $image->height());
         }
     }
 
