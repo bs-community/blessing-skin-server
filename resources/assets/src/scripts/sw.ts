@@ -5,7 +5,7 @@ import { ExpirationPlugin } from 'workbox-expiration'
 registerRoute(
   /\/preview\/\d+/,
   new CacheFirst({
-    cacheName: 'texture-preview-v1',
+    cacheName: 'texture-preview-v2',
     fetchOptions: {
       credentials: 'omit',
     },
@@ -26,7 +26,7 @@ registerRoute(
 registerRoute(
   /\/avatar\/user\/\d+/,
   new StaleWhileRevalidate({
-    cacheName: 'avatar-v1',
+    cacheName: 'avatar-v2',
     fetchOptions: {
       credentials: 'omit',
     },

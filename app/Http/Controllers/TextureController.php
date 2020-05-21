@@ -63,7 +63,7 @@ class TextureController extends Controller
                 $lastModified = $disk->lastModified($hash);
 
                 return Image::make($image)
-                    ->response('png', 100)
+                    ->response('webp', 100)
                     ->setLastModified(Carbon::createFromTimestamp($lastModified));
             }
         );
@@ -125,7 +125,7 @@ class TextureController extends Controller
         if (is_null($texture) || $disk->missing($texture->hash)) {
             return Image::make(resource_path("misc/textures/avatar$mode.png"))
                 ->resize($size, $size)
-                ->response('png', 100);
+                ->response('webp', 100);
         }
 
         $hash = $texture->hash;
@@ -145,7 +145,7 @@ class TextureController extends Controller
 
                 return Image::make($image)
                     ->resize($size, $size)
-                    ->response('png', 100)
+                    ->response('webp', 100)
                     ->setLastModified($lastModified);
             }
         );
