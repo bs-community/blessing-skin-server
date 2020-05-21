@@ -1,7 +1,9 @@
 {% for script in scripts %}
   <script{% for attribute, value in script %} {{ attribute }}="{{ value }}"{% endfor %}></script>
 {% endfor %}
-<script>
-  {{ inline_js|striptags('<div><span><ul><li><p><a><img><i>')|raw }}
-</script>
+{% if inline_js %}
+  <script>
+    {{ inline_js|striptags('<div><span><ul><li><p><a><img><i>')|raw }}
+  </script>
+{% endif %}
 {{ extra_foot|join('\n')|raw }}
