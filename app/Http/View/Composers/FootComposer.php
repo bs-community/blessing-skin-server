@@ -48,12 +48,10 @@ class FootComposer
         $locale = app()->getLocale();
         $scripts[] = [
             'src' => $this->javascript->generate($locale),
-            'defer' => true,
         ];
         if ($pluginI18n = $this->javascript->plugin($locale)) {
             $scripts[] = [
                 'src' => $pluginI18n,
-                'defer' => true,
             ];
         }
         if (Str::startsWith(config('app.asset.env'), 'dev')) {
