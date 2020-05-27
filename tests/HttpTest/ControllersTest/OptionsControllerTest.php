@@ -6,7 +6,7 @@ use Cache;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Mockery;
 
-class AdminFormsTest extends BrowserKitTestCase
+class OptionsControllerTest extends BrowserKitTestCase
 {
     use DatabaseTransactions;
 

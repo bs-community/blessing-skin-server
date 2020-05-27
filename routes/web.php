@@ -120,10 +120,10 @@ Route::prefix('admin')
         Route::get('chart', 'AdminController@chartData');
         Route::post('notifications/send', 'NotificationsController@send');
 
-        Route::any('customize', 'AdminController@customize');
-        Route::any('score', 'AdminController@score');
-        Route::any('options', 'AdminController@options');
-        Route::any('resource', 'AdminController@resource');
+        Route::any('customize', 'OptionsController@customize');
+        Route::any('score', 'OptionsController@score');
+        Route::any('options', 'OptionsController@options');
+        Route::any('resource', 'OptionsController@resource');
 
         Route::get('status', 'AdminController@status');
 
