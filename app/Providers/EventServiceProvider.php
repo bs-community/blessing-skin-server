@@ -36,5 +36,8 @@ class EventServiceProvider extends ServiceProvider
         'player.name.updated' => [
             Listeners\SinglePlayer\UpdateOwnerNickName::class,
         ],
+        'auth.registration.completed' => [
+            Listeners\SendEmailVerification::class,
+        ],
     ];
 }
