@@ -4,7 +4,9 @@ namespace Tests;
 
 use App\Models\Texture;
 use App\Models\User;
+use Blessing\Rejection;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Event;
 
 class ClosetControllerTest extends TestCase
 {
@@ -78,13 +80,14 @@ class ClosetControllerTest extends TestCase
 
     public function testAdd()
     {
+        Event::fake();
         $uploader = factory(User::class)->create(['score' => 0]);
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
         $likes = $texture->likes;
         $name = 'my';
         option(['score_per_closet_item' => 10]);
 
-        // Missing `tid` field
+        // missing `tid` field
         $this->postJson('/user/closet/add')->assertJsonValidationErrors('tid');
 
         // `tid` is not a integer
@@ -93,24 +96,60 @@ class ClosetControllerTest extends TestCase
             ['tid' => 'string']
         )->assertJsonValidationErrors('tid');
 
-        // Missing `name` field
+        // missing `name` field
         $this->postJson(
             '/user/closet/add',
             ['tid' => 0]
         )->assertJsonValidationErrors('name');
 
-        // The user doesn't have enough score to add a texture
+        // rejection
+        $filter = Fakes\Filter::fake();
+        $filter->add(
+            'can_add_closet_item',
+            function ($can, $tid, $itemName) use ($name, $texture) {
+                $this->assertEquals($name, $itemName);
+                $this->assertEquals($texture->tid, $tid);
+
+                return new Rejection('rejected');
+            }
+        );
+        $this->postJson(
+            '/user/closet/add',
+            ['tid' => $texture->tid, 'name' => $name]
+        )->assertJson(['code' => 1, 'message' => 'rejected']);
+        $filter->assertApplied(
+            'add_closet_item_name',
+            function ($itemName, $tid) use ($name, $texture) {
+                $this->assertEquals($name, $itemName);
+                $this->assertEquals($texture->tid, $tid);
+
+                return true;
+            }
+        );
+        Event::assertDispatched(
+            'closet.adding',
+            function ($eventName, $payload) use ($name, $texture) {
+                $this->assertEquals($texture->tid, $payload[0]);
+                $this->assertEquals($name, $payload[1]);
+
+                return true;
+            }
+        );
+        Event::assertNotDispatched('closet.added');
+        Fakes\Filter::fake();
+
+        // the user doesn't have enough score to add a texture
         $this->user->score = 0;
         $this->user->save();
         $this->postJson(
             '/user/closet/add',
             ['tid' => $texture->tid, 'name' => $name]
         )->assertJson([
-            'code' => 7,
+            'code' => 1,
             'message' => trans('user.closet.add.lack-score'),
         ]);
 
-        // Add a not-existed texture
+        // add a not-existed texture
         $this->user->score = 100;
         $this->user->save();
         $this->postJson(
@@ -121,7 +160,7 @@ class ClosetControllerTest extends TestCase
             'message' => trans('user.closet.add.not-found'),
         ]);
 
-        // Texture is private
+        // texture is private
         option(['score_award_per_like' => 5]);
         $privateTexture = factory(Texture::class)->create([
             'public' => false,
@@ -135,7 +174,7 @@ class ClosetControllerTest extends TestCase
             'message' => trans('skinlib.show.private'),
         ]);
 
-        // Administrator can add it.
+        // administrator can add it.
         $privateTexture = factory(Texture::class)->state('private')->create([
             'uploader' => 0,
         ]);
@@ -148,7 +187,8 @@ class ClosetControllerTest extends TestCase
                 'message' => trans('user.closet.add.success', ['name' => $name]),
             ]);
 
-        // Add a texture successfully
+        // add a texture successfully
+        Event::fake();
         $this->actingAs($this->user)
             ->postJson(
                 '/user/closet/add',
@@ -163,8 +203,26 @@ class ClosetControllerTest extends TestCase
         $this->assertEquals(1, $this->user->closet()->count());
         $uploader->refresh();
         $this->assertEquals(5, $uploader->score);
+        Event::assertDispatched(
+            'closet.adding',
+            function ($eventName, $payload) use ($name, $texture) {
+                $this->assertEquals($texture->tid, $payload[0]);
+                $this->assertEquals($name, $payload[1]);
 
-        // If the texture is duplicated, should be warned
+                return true;
+            }
+        );
+        Event::assertDispatched(
+            'closet.added',
+            function ($eventName, $payload) use ($name, $texture) {
+                $this->assertTrue($texture->is($payload[0]));
+                $this->assertEquals($name, $payload[1]);
+
+                return true;
+            }
+        );
+
+        // if the texture is duplicated, should be warned
         $this->postJson(
             '/user/closet/add',
             ['tid' => $texture->tid, 'name' => $name]
@@ -176,43 +234,120 @@ class ClosetControllerTest extends TestCase
 
     public function testRename()
     {
+        Event::fake();
         $texture = factory(Texture::class)->create();
         $name = 'new';
 
-        // Missing `name` field
+        // missing `name` field
         $this->postJson('/user/closet/rename/0')->assertJsonValidationErrors('name');
 
-        // Rename a not-existed texture
+        // rejection
+        $filter = Fakes\Filter::fake();
+        $filter->add(
+            'can_rename_closet_item',
+            function ($can, $item, $itemName) use ($texture, $name) {
+                $this->assertTrue($texture->is($item));
+                $this->assertEquals($name, $itemName);
+
+                return new Rejection('rejected');
+            }
+        );
+        $this->user->closet()->attach($texture->tid, ['item_name' => 'name']);
+        $this->postJson('/user/closet/rename/'.$texture->tid, ['name' => $name])
+            ->assertJson(['code' => 1, 'message' => 'rejected']);
+        $filter->assertApplied(
+            'rename_closet_item_name',
+            function ($itemName, $tid) use ($name, $texture) {
+                $this->assertEquals($name, $itemName);
+                $this->assertEquals($texture->tid, $tid);
+
+                return true;
+            }
+        );
+        Event::assertDispatched(
+            'closet.renaming',
+            function ($eventName, $payload) use ($name, $texture) {
+                $this->assertEquals($texture->tid, $payload[0]);
+                $this->assertEquals($name, $payload[1]);
+
+                return true;
+            }
+        );
+        Event::assertNotDispatched('closet.renamed');
+        $this->user->closet()->detach($texture->tid);
+
+        // rename a not-existed texture
+        Fakes\Filter::fake();
         $this->postJson('/user/closet/rename/-1', ['name' => $name])
             ->assertJson([
                 'code' => 1,
                 'message' => trans('user.closet.remove.non-existent'),
             ]);
 
-        // Rename a closet item successfully
-        $this->user->closet()->attach($texture->tid, ['item_name' => 'name']);
+        // rename a closet item successfully
+        Event::fake();
+        $this->user->closet()->attach($texture->tid, ['item_name' => $texture->name]);
         $this->postJson('/user/closet/rename/'.$texture->tid, ['name' => $name])
             ->assertJson([
                 'code' => 0,
                 'message' => trans('user.closet.rename.success', ['name' => $name]),
             ]);
         $this->assertEquals(1, $this->user->closet()->where('item_name', $name)->count());
+        Event::assertDispatched(
+            'closet.renaming',
+            function ($eventName, $payload) use ($name, $texture) {
+                $this->assertEquals($texture->tid, $payload[0]);
+                $this->assertEquals($name, $payload[1]);
+
+                return true;
+            }
+        );
+        Event::assertDispatched(
+            'closet.renamed',
+            function ($eventName, $payload) use ($name, $texture) {
+                $this->assertTrue($texture->is($payload[0]));
+                $this->assertEquals($texture->name, $payload[1]);
+
+                return true;
+            }
+        );
     }
 
     public function testRemove()
     {
+        Event::fake();
         $uploader = factory(User::class)->create(['score' => 5]);
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
         $likes = $texture->likes;
 
-        // Rename a not-existed texture
+        // rename a not-existed texture
         $this->postJson('/user/closet/remove/-1')
             ->assertJson([
                 'code' => 1,
                 'message' => trans('user.closet.remove.non-existent'),
             ]);
+        Event::assertDispatched('closet.removing', function ($eventName, $payload) {
+            $this->assertEquals(-1, $payload[0]);
 
-        // Should return score if `return_score` is true
+            return true;
+        });
+        Event::assertNotDispatched('closet.removed');
+
+        // rejection
+        $filter = Fakes\Filter::fake();
+        $filter->add('can_remove_closet_item', function ($can, $item) use ($texture) {
+            $this->assertTrue($texture->is($item));
+
+            return new Rejection('rejected');
+        });
+        $this->user->closet()->attach($texture->tid, ['item_name' => 'name']);
+        $this->postJson('/user/closet/remove/'.$texture->tid)
+            ->assertJson(['code' => 1, 'message' => 'rejected']);
+        $this->user->closet()->detach($texture->tid);
+        Fakes\Filter::fake();
+
+        // should return score if `return_score` is true
+        Event::fake();
         option(['score_award_per_like' => 5]);
         $this->user->closet()->attach($texture->tid, ['item_name' => 'name']);
         $score = $this->user->score;
@@ -221,15 +356,31 @@ class ClosetControllerTest extends TestCase
                 'code' => 0,
                 'message' => trans('user.closet.remove.success'),
             ]);
-        $this->assertEquals($likes - 1, Texture::find($texture->tid)->likes);
+        $this->assertEquals($likes - 1, $texture->fresh()->likes);
         $this->assertEquals($score + option('score_per_closet_item'), $this->user->score);
         $this->assertEquals(0, $this->user->closet()->count());
         $uploader->refresh();
         $this->assertEquals(0, $uploader->score);
+        Event::assertDispatched(
+            'closet.removing',
+            function ($eventName, $payload) use ($texture) {
+                $this->assertEquals($texture->tid, $payload[0]);
+
+                return true;
+            }
+        );
+        Event::assertDispatched(
+            'closet.removed',
+            function ($eventName, $payload) use ($texture) {
+                $this->assertTrue($texture->is($payload[0]));
+
+                return true;
+            }
+        );
 
         $texture = Texture::find($texture->tid);
         $likes = $texture->likes;
-        // Should not return score if `return_score` is false
+        // should not return score if `return_score` is false
         option(['return_score' => false]);
         $this->user->closet()->attach($texture->tid, ['item_name' => 'name']);
         $score = $this->user->score;
