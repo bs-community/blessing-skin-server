@@ -105,8 +105,8 @@ const Closet: React.FC = () => {
       return
     }
 
-    const { code, message } = await fetch.post<fetch.ResponseBody>(
-      `/user/closet/rename/${item.tid}`,
+    const { code, message } = await fetch.put<fetch.ResponseBody>(
+      `/user/closet/${item.tid}`,
       { name },
     )
     if (code === 0) {

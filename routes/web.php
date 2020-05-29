@@ -84,9 +84,9 @@ Route::prefix('user')
             Route::get('', 'ClosetController@index')->name('page');
             Route::get('list', 'ClosetController@getClosetData')->name('list');
             Route::get('ids', 'ClosetController@allIds')->name('ids');
-            Route::post('add', 'ClosetController@add')->name('add');
-            Route::post('remove/{tid}', 'ClosetController@remove')->name('remove');
-            Route::post('rename/{tid}', 'ClosetController@rename')->name('rename');
+            Route::post('', 'ClosetController@add')->name('add');
+            Route::put('{tid}', 'ClosetController@rename')->name('rename');
+            Route::delete('{tid}', 'ClosetController@remove')->name('remove');
         });
 
         // OAuth2 Management

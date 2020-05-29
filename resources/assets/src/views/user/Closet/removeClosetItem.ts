@@ -12,8 +12,8 @@ export default async function removeClosetItem(tid: number): Promise<boolean> {
     return false
   }
 
-  const { code, message } = await fetch.post<fetch.ResponseBody>(
-    `/user/closet/remove/${tid}`,
+  const { code, message } = await fetch.del<fetch.ResponseBody>(
+    `/user/closet/${tid}`,
   )
   if (code === 0) {
     toast.success(message)

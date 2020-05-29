@@ -391,26 +391,26 @@ describe('remove from closet', () => {
   })
 
   it('succeeded', async () => {
-    fetch.post.mockResolvedValue({ code: 0, message: 'ok' })
+    fetch.del.mockResolvedValue({ code: 0, message: 'ok' })
 
     const { getByText, queryByText } = render(<SkinLibrary />)
     await waitFor(() => expect(fetch.get).toBeCalled())
 
     fireEvent.click(getByText(fixtureItem.likes.toString()))
     fireEvent.click(getByText(t('general.confirm')))
-    await waitFor(() => expect(fetch.post).toBeCalled())
+    await waitFor(() => expect(fetch.del).toBeCalled())
     expect(queryByText((fixtureItem.likes - 1).toString())).toBeInTheDocument()
   })
 
   it('failed', async () => {
-    fetch.post.mockResolvedValue({ code: 1, message: 'failed' })
+    fetch.del.mockResolvedValue({ code: 1, message: 'failed' })
 
     const { getByText, queryByText } = render(<SkinLibrary />)
     await waitFor(() => expect(fetch.get).toBeCalled())
 
     fireEvent.click(getByText(fixtureItem.likes.toString()))
     fireEvent.click(getByText(t('general.confirm')))
-    await waitFor(() => expect(fetch.post).toBeCalled())
+    await waitFor(() => expect(fetch.del).toBeCalled())
     expect(queryByText(fixtureItem.likes.toString())).toBeInTheDocument()
   })
 })

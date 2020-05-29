@@ -25,7 +25,7 @@ export default async function addClosetItem(
   }
 
   const { code, message } = await fetch.post<fetch.ResponseBody>(
-    '/user/closet/add',
+    '/user/closet',
     { tid: texture.tid, name },
   )
   if (code === 0) {

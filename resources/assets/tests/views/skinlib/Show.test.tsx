@@ -376,7 +376,7 @@ describe('add to closet', () => {
     })
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith('/user/closet/add', {
+      expect(fetch.post).toBeCalledWith('/user/closet', {
         tid: fixtureSkin.tid,
         name: 't',
       }),
@@ -400,7 +400,7 @@ describe('add to closet', () => {
     })
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith('/user/closet/add', {
+      expect(fetch.post).toBeCalledWith('/user/closet', {
         tid: fixtureSkin.tid,
         name: 't',
       }),
@@ -419,7 +419,7 @@ describe('remove from closet', () => {
   })
 
   it('succeeded', async () => {
-    fetch.post.mockResolvedValue({ code: 0, message: 'ok' })
+    fetch.del.mockResolvedValue({ code: 0, message: 'ok' })
 
     const { getByText, getByRole, queryByText } = render(<Show />)
     await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
@@ -427,9 +427,7 @@ describe('remove from closet', () => {
     fireEvent.click(getByText(t('skinlib.removeFromCloset')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith(
-        `/user/closet/remove/${fixtureSkin.tid}`,
-      ),
+      expect(fetch.del).toBeCalledWith(`/user/closet/${fixtureSkin.tid}`),
     )
     expect(queryByText('ok')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
@@ -437,7 +435,7 @@ describe('remove from closet', () => {
   })
 
   it('failed', async () => {
-    fetch.post.mockResolvedValue({ code: 1, message: 'failed' })
+    fetch.del.mockResolvedValue({ code: 1, message: 'failed' })
 
     const { getByText, getByRole, queryByText } = render(<Show />)
     await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
@@ -445,9 +443,7 @@ describe('remove from closet', () => {
     fireEvent.click(getByText(t('skinlib.removeFromCloset')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith(
-        `/user/closet/remove/${fixtureSkin.tid}`,
-      ),
+      expect(fetch.del).toBeCalledWith(`/user/closet/${fixtureSkin.tid}`),
     )
     expect(queryByText('failed')).toBeInTheDocument()
     expect(getByRole('alert')).toHaveClass('alert-danger')
