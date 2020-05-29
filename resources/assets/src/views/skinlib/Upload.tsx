@@ -24,6 +24,7 @@ const Upload: React.FC = () => {
   const contentPolicy = useBlessingExtra<string>('contentPolicy')
   const privacyNotice = useBlessingExtra<string>('privacyNotice')
   const award = useBlessingExtra<number>('award')
+  const currentScore = useBlessingExtra<number>('score', 0)
   const scorePublic = useBlessingExtra<number>('scorePublic')
   const scorePrivate = useBlessingExtra<number>('scorePrivate')
   const closetItemCost = useBlessingExtra<number>('closetItemCost')
@@ -108,7 +109,7 @@ const Upload: React.FC = () => {
 
   const costRatio = isPrivate ? scorePrivate : scorePublic
   const size = file?.size ?? 0
-  const scoreCost = (~~(size / 1024) || 1) * costRatio + closetItemCost
+  const scoreCost = Math.ceil(size / 1024) * costRatio + closetItemCost
 
   return (
     <>
@@ -209,18 +210,24 @@ const Upload: React.FC = () => {
             </button>
           </div>
           {file && (
-            <div className="callout callout-success mt-3">
-              <p>{t('skinlib.upload.cost', { score: scoreCost })}</p>
+            <div
+              className={`callout callout-${
+                currentScore > scoreCost ? 'success' : 'danger'
+              } mt-3`}
+            >
+              <div>{t('skinlib.upload.cost', { score: scoreCost })}</div>
+              <div>
+                {t('user.cur-score')}
+                <span className="ml-1">{currentScore}</span>
+              </div>
             </div>
           )}
           {isPrivate && (
-            <div className="callout callout-info mt-3">
-              <p>{privacyNotice}</p>
-            </div>
+            <div className="callout callout-info mt-3">{privacyNotice}</div>
           )}
           {!isPrivate && award > 0 && (
             <div className="callout callout-success mt-3">
-              <p>{t('skinlib.upload.award', { score: award })}</p>
+              {t('skinlib.upload.award', { score: award })}
             </div>
           )}
         </div>

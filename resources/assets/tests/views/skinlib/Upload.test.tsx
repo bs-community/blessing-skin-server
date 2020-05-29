@@ -16,6 +16,7 @@ beforeEach(() => {
   window.blessing.extra = {
     rule: 'rule',
     privacyNotice: 'privacy notice',
+    score: 15,
     scorePrivate: 10,
     scorePublic: 1,
     closetItemCost: 10,
@@ -132,7 +133,7 @@ describe('score cost', () => {
   it('public texture', () => {
     const { getByTitle, queryByText } = render(<Upload />)
 
-    const file = new File([], 't.png')
+    const file = new File(['content'], 't.png')
     fireEvent.change(getByTitle(t('skinlib.upload.select-file')), {
       target: { files: [file] },
     })
@@ -145,7 +146,7 @@ describe('score cost', () => {
   it('private texture', () => {
     const { getByTitle, getByLabelText, queryByText } = render(<Upload />)
 
-    const file = new File([], 't.png')
+    const file = new File(['content'], 't.png')
     fireEvent.change(getByTitle(t('skinlib.upload.select-file')), {
       target: { files: [file] },
     })
