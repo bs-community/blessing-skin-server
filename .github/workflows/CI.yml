@@ -90,20 +90,11 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: 7.4
-        coverage: none
-        extensions: mbstring, dom, fileinfo, gd
     - name: Install dependencies
-      run: |
-        yarn
-        composer install --prefer-dist --no-progress --no-suggest --no-dev
+      run: yarn
     - name: Run checks
       run: |
         # yarn lint
-        yarn build:urls
         yarn tsc -p . --noEmit
         yarn tsc -p ./resources/assets/tests --noEmit
   jest:
@@ -113,18 +104,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: 7.4
-        coverage: none
-        extensions: mbstring, dom, fileinfo, gd
     - name: Install dependencies
-      run: |
-        yarn
-        composer install --prefer-dist --no-progress --no-suggest --no-dev
-    - name: Build
-      run: yarn build:urls
+      run: yarn
     - name: Run tests
       run: yarn test --coverage
     - name: Upload coverage report
