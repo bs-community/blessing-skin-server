@@ -54,7 +54,7 @@ const config = {
         ],
       },
       {
-        test: /\.(png|jpg|gif)$/,
+        test: /\.(png|webp)$/,
         loader: 'url-loader',
         options: {
           limit: 8192,

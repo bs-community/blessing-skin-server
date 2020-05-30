@@ -20,7 +20,7 @@ if ($Simple) {
 }
 
 # Copy static files
-Copy-Item -Path ./resources/assets/src/images/bg.png -Destination ./public/app
+Copy-Item -Path ./resources/assets/src/images/bg.webp -Destination ./public/app
 Copy-Item -Path ./resources/assets/src/images/favicon.ico -Destination ./public/app
 Write-Host 'Static files copied.' -ForegroundColor Green
 
