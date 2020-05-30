@@ -198,6 +198,7 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "<rootDir>/resources/assets/src/styles",
+      "<rootDir>/resources/assets/src/scripts/urls.ts",
       "<rootDir>/resources/assets/tests/setup",
       "<rootDir>/resources/assets/tests/utils",
       "<rootDir>/resources/assets/tests/scripts/cli/stdio"
