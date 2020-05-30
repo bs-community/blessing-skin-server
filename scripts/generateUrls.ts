@@ -88,10 +88,19 @@ function parseTree(tree: Tree): ts.ObjectLiteralExpression {
   return ts.createObjectLiteral(properties)
 }
 
-const routes: Route[] = JSON.parse(
-  spawnSync('php', ['artisan', 'route:list', '--json', '--columns=uri,name'])
-    .stdout,
-)
+const { stdout } = spawnSync('php', [
+  'artisan',
+  'route:list',
+  '--json',
+  '--columns=uri,name',
+])
+let routes: Route[] = []
+try {
+  routes = JSON.parse(stdout)
+} catch (e) {
+  console.error(stdout)
+  throw e
+}
 routes
   .filter(
     (route) =>
