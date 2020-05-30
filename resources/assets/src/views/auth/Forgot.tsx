@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import { hot } from 'react-hot-loader/root'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
+import urls from '@/scripts/urls'
 import Alert from '@/components/Alert'
 import Captcha from '@/components/Captcha'
 
@@ -23,7 +24,7 @@ const Forgot: React.FC = () => {
 
     const captcha = await ref.current!.execute()
     const { code, message } = await fetch.post<fetch.ResponseBody>(
-      '/auth/forgot',
+      urls.auth.forgot(),
       { email, captcha },
     )
     if (code === 0) {

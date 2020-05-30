@@ -2,6 +2,7 @@ import React from 'react'
 import { render, waitFor, fireEvent } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
+import urls from '@/scripts/urls'
 import Login from '@/views/auth/Login'
 
 jest.mock('@/scripts/net')
@@ -33,7 +34,7 @@ describe('submit form', () => {
     })
     fireEvent.click(getByText(t('auth.login')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith('/auth/login', {
+      expect(fetch.post).toBeCalledWith(urls.auth.login(), {
         identification: 'a@b.c',
         password: 'password',
         keep: false,
@@ -60,7 +61,7 @@ describe('submit form', () => {
     fireEvent.click(getByLabelText(t('auth.keep')))
     fireEvent.click(getByText(t('auth.login')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith('/auth/login', {
+      expect(fetch.post).toBeCalledWith(urls.auth.login(), {
         identification: 'a@b.c',
         password: 'password',
         keep: true,
@@ -84,7 +85,7 @@ describe('submit form', () => {
     })
     fireEvent.click(getByText(t('auth.login')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith('/auth/login', {
+      expect(fetch.post).toBeCalledWith(urls.auth.login(), {
         identification: 'a@b.c',
         password: 'password',
         keep: false,
@@ -114,7 +115,7 @@ describe('submit form', () => {
     })
     fireEvent.click(getByText(t('auth.login')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith('/auth/login', {
+      expect(fetch.post).toBeCalledWith(urls.auth.login(), {
         identification: 'a@b.c',
         password: 'password',
         keep: false,
@@ -130,7 +131,7 @@ describe('submit form', () => {
     })
     fireEvent.click(getByText(t('auth.login')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith('/auth/login', {
+      expect(fetch.post).toBeCalledWith(urls.auth.login(), {
         identification: 'a@b.c',
         password: 'password',
         keep: false,
@@ -156,7 +157,7 @@ describe('submit form', () => {
     })
     fireEvent.click(getByText(t('auth.login')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith('/auth/login', {
+      expect(fetch.post).toBeCalledWith(urls.auth.login(), {
         identification: 'a@b.c',
         password: 'password',
         keep: false,
@@ -183,7 +184,7 @@ describe('submit form', () => {
     })
     fireEvent.click(getByText(t('auth.login')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith('/auth/login', {
+      expect(fetch.post).toBeCalledWith(urls.auth.login(), {
         identification: 'a@b.c',
         password: 'password',
         keep: false,

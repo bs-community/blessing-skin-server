@@ -1,6 +1,7 @@
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { showModal, toast } from '@/scripts/notify'
+import urls from '@/scripts/urls'
 
 export default async function setAsAvatar(tid: number) {
   try {
@@ -13,7 +14,7 @@ export default async function setAsAvatar(tid: number) {
   }
 
   const { code, message } = await fetch.post<fetch.ResponseBody>(
-    '/user/profile/avatar',
+    urls.user.profile.avatar(),
     { tid },
   )
   if (code === 0) {

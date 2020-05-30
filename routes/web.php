@@ -57,10 +57,10 @@ Route::prefix('user')
 
         Route::get('reports', 'ReportController@track');
 
-        Route::prefix('profile')->group(function () {
-            Route::get('', 'UserController@profile')->name('profile');
-            Route::post('', 'UserController@handleProfile')->name('profile');
-            Route::post('avatar', 'UserController@setAvatar')->name('profile.avatar');
+        Route::prefix('profile')->name('profile.')->group(function () {
+            Route::get('', 'UserController@profile');
+            Route::post('', 'UserController@handleProfile');
+            Route::post('avatar', 'UserController@setAvatar')->name('avatar');
         });
 
         Route::post('email-verification', 'UserController@sendVerificationEmail');

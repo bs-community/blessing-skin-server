@@ -1,6 +1,7 @@
 import { logout } from '@/scripts/logout'
 import { post } from '@/scripts/net'
 import { showModal } from '@/scripts/notify'
+import urls from '@/scripts/urls'
 
 jest.mock('@/scripts/net')
 jest.mock('@/scripts/notify')
@@ -13,5 +14,5 @@ test('log out', async () => {
   expect(post).not.toBeCalled()
 
   await logout()
-  expect(post).toBeCalledWith('/auth/logout')
+  expect(post).toBeCalledWith(urls.auth.logout())
 })

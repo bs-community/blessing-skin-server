@@ -10,6 +10,7 @@ import {
   Paginator,
   TextureType,
 } from '@/scripts/types'
+import urls from '@/scripts/urls'
 import Loading from '@/components/Loading'
 import Pagination from '@/components/Pagination'
 import ClosetItem from './ClosetItem'
@@ -43,7 +44,7 @@ const Closet: React.FC = () => {
     const getItems = async () => {
       setIsLoading(true)
       const { data, last_page } = await fetch.get<Paginator<Item>>(
-        '/user/closet/list',
+        urls.user.closet.list(),
         { category, q: query, page },
       )
 
@@ -106,7 +107,7 @@ const Closet: React.FC = () => {
     }
 
     const { code, message } = await fetch.put<fetch.ResponseBody>(
-      `/user/closet/${item.tid}`,
+      urls.user.closet.rename(item.tid),
       { name },
     )
     if (code === 0) {

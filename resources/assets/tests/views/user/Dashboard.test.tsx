@@ -2,6 +2,7 @@ import React from 'react'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import * as fetch from '@/scripts/net'
 import { t } from '@/scripts/i18n'
+import urls from '@/scripts/urls'
 import Dashboard from '@/views/user/Dashboard'
 
 jest.mock('@/scripts/net')
@@ -78,7 +79,7 @@ describe('sign', () => {
 
     const button = getByRole('button')
     fireEvent.click(button)
-    await waitFor(() => expect(fetch.post).toBeCalledWith('/user/sign'))
+    await waitFor(() => expect(fetch.post).toBeCalledWith(urls.user.sign()))
     expect(getByText('ok')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
     expect(button).toBeDisabled()
@@ -92,7 +93,7 @@ describe('sign', () => {
     await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
     fireEvent.click(getByRole('button'))
-    await waitFor(() => expect(fetch.post).toBeCalledWith('/user/sign'))
+    await waitFor(() => expect(fetch.post).toBeCalledWith(urls.user.sign()))
     expect(getByText('f')).toBeInTheDocument()
     expect(getByRole('alert')).toHaveClass('alert-warning')
   })

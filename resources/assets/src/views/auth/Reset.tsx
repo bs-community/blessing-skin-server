@@ -3,6 +3,7 @@ import { hot } from 'react-hot-loader/root'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { toast } from '@/scripts/notify'
+import urls from '@/scripts/urls'
 import Alert from '@/components/Alert'
 
 const Reset: React.FC = () => {
@@ -37,7 +38,7 @@ const Reset: React.FC = () => {
     if (code === 0) {
       toast.success(message)
       setTimeout(() => {
-        window.location.href = `${blessing.base_url}/auth/login`
+        window.location.href = blessing.base_url + urls.auth.login()
       }, 2000)
     } else {
       setWarningMessage(message)

@@ -4,6 +4,7 @@ import { createPaginator } from '../../utils'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { TextureType } from '@/scripts/types'
+import urls from '@/scripts/urls'
 import SkinLibrary from '@/views/skinlib/SkinLibrary'
 import { LibraryItem } from '@/views/skinlib/SkinLibrary/types'
 
@@ -30,7 +31,7 @@ test('without authenticated', async () => {
   await waitFor(() => expect(fetch.get).toBeCalled())
 
   expect(fetch.get).toBeCalledWith(
-    '/skinlib/list',
+    urls.skinlib.list(),
     expect.toSatisfy((search: URLSearchParams) => {
       expect(search.get('filter')).toBe('skin')
       expect(search.get('sort')).toBe('time')
@@ -54,7 +55,7 @@ test('search by keyword', async () => {
   fireEvent.click(getByText(t('general.submit')))
   await waitFor(() =>
     expect(fetch.get).toHaveBeenLastCalledWith(
-      '/skinlib/list',
+      urls.skinlib.list(),
       expect.toSatisfy((search: URLSearchParams) => {
         expect(search.get('keyword')).toBe('k')
         return true
@@ -73,7 +74,7 @@ test('select uploaded by self', async () => {
   fireEvent.click(getByText(t('skinlib.seeMyUpload')))
   await waitFor(() =>
     expect(fetch.get).toHaveBeenLastCalledWith(
-      '/skinlib/list',
+      urls.skinlib.list(),
       expect.toSatisfy((search: URLSearchParams) => {
         expect(search.get('uploader')).toBe('1')
         return true
@@ -106,7 +107,7 @@ test('reset query', async () => {
   fireEvent.click(getByText(t('skinlib.reset')))
   await waitFor(() =>
     expect(fetch.get).toHaveBeenLastCalledWith(
-      '/skinlib/list',
+      urls.skinlib.list(),
       expect.toSatisfy((search: URLSearchParams) => {
         expect(search.get('filter')).toBe('skin')
         expect(search.get('keyword')).toBeNull()
@@ -136,7 +137,7 @@ test('browser goes back', async () => {
   window.dispatchEvent(event)
   await waitFor(() =>
     expect(fetch.get).toHaveBeenLastCalledWith(
-      '/skinlib/list',
+      urls.skinlib.list(),
       expect.toSatisfy((search: URLSearchParams) => {
         expect(search.get('filter')).toBe('skin')
         return true
@@ -155,7 +156,7 @@ test('pagination', async () => {
   fireEvent.click(getByText('2'))
 
   expect(fetch.get).toHaveBeenLastCalledWith(
-    '/skinlib/list',
+    urls.skinlib.list(),
     expect.toSatisfy((search: URLSearchParams) => {
       expect(search.get('page')).toBe('2')
       return true
@@ -182,7 +183,7 @@ test('library item', async () => {
   fireEvent.click(getByText(fixtureItem.nickname))
   await waitFor(() =>
     expect(fetch.get).toHaveBeenLastCalledWith(
-      '/skinlib/list',
+      urls.skinlib.list(),
       expect.toSatisfy((search: URLSearchParams) => {
         expect(search.get('uploader')).toBe(fixtureItem.uploader.toString())
         return true
@@ -217,7 +218,7 @@ describe('by filter', () => {
     fireEvent.click(getByText(t('general.skin')))
     await waitFor(() =>
       expect(fetch.get).toHaveBeenLastCalledWith(
-        '/skinlib/list',
+        urls.skinlib.list(),
         expect.toSatisfy((search: URLSearchParams) => {
           expect(search.get('filter')).toBe('skin')
           return true
@@ -236,7 +237,7 @@ describe('by filter', () => {
     fireEvent.click(getByText('Steve'))
     await waitFor(() =>
       expect(fetch.get).toHaveBeenLastCalledWith(
-        '/skinlib/list',
+        urls.skinlib.list(),
         expect.toSatisfy((search: URLSearchParams) => {
           expect(search.get('filter')).toBe('steve')
           return true
@@ -255,7 +256,7 @@ describe('by filter', () => {
     fireEvent.click(getByText('Alex'))
     await waitFor(() =>
       expect(fetch.get).toHaveBeenLastCalledWith(
-        '/skinlib/list',
+        urls.skinlib.list(),
         expect.toSatisfy((search: URLSearchParams) => {
           expect(search.get('filter')).toBe('alex')
           return true
@@ -274,7 +275,7 @@ describe('by filter', () => {
     fireEvent.click(getByText(t('general.cape')))
     await waitFor(() =>
       expect(fetch.get).toHaveBeenLastCalledWith(
-        '/skinlib/list',
+        urls.skinlib.list(),
         expect.toSatisfy((search: URLSearchParams) => {
           expect(search.get('filter')).toBe('cape')
           return true
@@ -301,7 +302,7 @@ describe('sorting', () => {
     fireEvent.click(getByText(t('skinlib.sort.time')))
     await waitFor(() =>
       expect(fetch.get).toHaveBeenLastCalledWith(
-        '/skinlib/list',
+        urls.skinlib.list(),
         expect.toSatisfy((search: URLSearchParams) => {
           expect(search.get('sort')).toBe('time')
           return true
@@ -319,7 +320,7 @@ describe('sorting', () => {
     fireEvent.click(getByText(t('skinlib.sort.likes')))
     await waitFor(() =>
       expect(fetch.get).toHaveBeenLastCalledWith(
-        '/skinlib/list',
+        urls.skinlib.list(),
         expect.toSatisfy((search: URLSearchParams) => {
           expect(search.get('sort')).toBe('likes')
           return true
@@ -334,7 +335,7 @@ describe('sorting', () => {
 describe('add to closet', () => {
   beforeEach(() => {
     fetch.get.mockImplementation((url: string) => {
-      if (url === '/skinlib/list') {
+      if (url === urls.skinlib.list()) {
         return Promise.resolve(createPaginator([fixtureItem]))
       } else {
         return Promise.resolve([])
@@ -382,7 +383,7 @@ describe('remove from closet', () => {
   beforeEach(() => {
     window.blessing.extra.currentUid = 1
     fetch.get.mockImplementation((url: string) => {
-      if (url === '/skinlib/list') {
+      if (url === urls.skinlib.list()) {
         return Promise.resolve(createPaginator([fixtureItem]))
       } else {
         return Promise.resolve([fixtureItem.tid])

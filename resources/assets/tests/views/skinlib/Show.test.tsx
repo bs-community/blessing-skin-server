@@ -3,6 +3,7 @@ import { render, fireEvent, waitFor } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { Texture, TextureType } from '@/scripts/types'
+import urls from '@/scripts/urls'
 import Show, { Badge } from '@/views/skinlib/Show'
 
 jest.mock('@/scripts/net')
@@ -376,7 +377,7 @@ describe('add to closet', () => {
     })
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith('/user/closet', {
+      expect(fetch.post).toBeCalledWith(urls.user.closet.add(), {
         tid: fixtureSkin.tid,
         name: 't',
       }),
@@ -400,7 +401,7 @@ describe('add to closet', () => {
     })
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith('/user/closet', {
+      expect(fetch.post).toBeCalledWith(urls.user.closet.add(), {
         tid: fixtureSkin.tid,
         name: 't',
       }),

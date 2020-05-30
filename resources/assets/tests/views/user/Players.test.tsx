@@ -3,6 +3,7 @@ import { render, fireEvent, waitFor } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { Player, TextureType } from '@/scripts/types'
+import urls from '@/scripts/urls'
 import Players from '@/views/user/Players'
 
 jest.mock('@/scripts/net')
@@ -199,7 +200,7 @@ describe('create player', () => {
     })
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith('/user/player/add', {
+      expect(fetch.post).toBeCalledWith(urls.user.player.add(), {
         name: fixture.name,
       }),
     )
@@ -223,7 +224,7 @@ describe('create player', () => {
     })
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith('/user/player/add', {
+      expect(fetch.post).toBeCalledWith(urls.user.player.add(), {
         name: fixture.name,
       }),
     )
@@ -286,7 +287,7 @@ describe('edit player name', () => {
     })
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith(`/user/player/rename/${fixture.pid}`, {
+      expect(fetch.post).toBeCalledWith(urls.user.player.rename(fixture.pid), {
         name: 'reina',
       }),
     )
@@ -330,7 +331,7 @@ describe('edit player name', () => {
     })
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith(`/user/player/rename/${fixture.pid}`, {
+      expect(fetch.post).toBeCalledWith(urls.user.player.rename(fixture.pid), {
         name: 'reina',
       }),
     )
@@ -376,12 +377,9 @@ describe('reset texture', () => {
     fireEvent.click(getByLabelText(t('general.cape')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith(
-        `/user/player/texture/clear/${fixture.pid}`,
-        {
-          type: ['skin', 'cape'],
-        },
-      ),
+      expect(fetch.post).toBeCalledWith(urls.user.player.clear(fixture.pid), {
+        type: ['skin', 'cape'],
+      }),
     )
     expect(queryByText('success')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
@@ -399,12 +397,9 @@ describe('reset texture', () => {
     fireEvent.click(getByLabelText(t('general.skin')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith(
-        `/user/player/texture/clear/${fixture.pid}`,
-        {
-          type: ['skin'],
-        },
-      ),
+      expect(fetch.post).toBeCalledWith(urls.user.player.clear(fixture.pid), {
+        type: ['skin'],
+      }),
     )
     expect(queryByText('success')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
@@ -422,12 +417,9 @@ describe('reset texture', () => {
     fireEvent.click(getByLabelText(t('general.cape')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith(
-        `/user/player/texture/clear/${fixture.pid}`,
-        {
-          type: ['cape'],
-        },
-      ),
+      expect(fetch.post).toBeCalledWith(urls.user.player.clear(fixture.pid), {
+        type: ['cape'],
+      }),
     )
     expect(queryByText('success')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
@@ -456,12 +448,9 @@ describe('reset texture', () => {
     fireEvent.click(getByLabelText(t('general.skin')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith(
-        `/user/player/texture/clear/${fixture.pid}`,
-        {
-          type: ['skin'],
-        },
-      ),
+      expect(fetch.post).toBeCalledWith(urls.user.player.clear(fixture.pid), {
+        type: ['skin'],
+      }),
     )
     expect(queryByText('failed')).toBeInTheDocument()
     expect(getByRole('alert')).toHaveClass('alert-danger')
@@ -495,7 +484,7 @@ describe('delete player', () => {
     fireEvent.click(getByText(t('user.player.delete-player')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith(`/user/player/delete/${fixture.pid}`),
+      expect(fetch.post).toBeCalledWith(urls.user.player.delete(fixture.pid)),
     )
     expect(getByText('success')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
@@ -511,7 +500,7 @@ describe('delete player', () => {
     fireEvent.click(getByText(t('user.player.delete-player')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith(`/user/player/delete/${fixture.pid}`),
+      expect(fetch.post).toBeCalledWith(urls.user.player.delete(fixture.pid)),
     )
     expect(getByText('failed')).toBeInTheDocument()
     expect(getByRole('alert')).toHaveClass('alert-danger')

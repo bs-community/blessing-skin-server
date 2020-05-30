@@ -7,6 +7,7 @@ import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { User, UserPermission, Paginator } from '@/scripts/types'
 import { toast, showModal } from '@/scripts/notify'
+import urls from '@/scripts/urls'
 import type { Props as ModalInputProps } from '@/components/ModalInput'
 import Loading from '@/components/Loading'
 import Pagination from '@/components/Pagination'
@@ -36,7 +37,7 @@ const UsersManagement: React.FC = () => {
   const getUsers = async () => {
     setIsLoading(true)
     const { data, last_page }: Paginator<User> = await fetch.get(
-      '/admin/users/list',
+      urls.admin.users.list(),
       {
         q: query,
         page,
@@ -83,7 +84,7 @@ const UsersManagement: React.FC = () => {
     }
 
     const { code, message } = await fetch.put<fetch.ResponseBody>(
-      `/admin/users/${user.uid}/email`,
+      urls.admin.users.email(user.uid),
       { email },
     )
     if (code === 0) {
@@ -115,7 +116,7 @@ const UsersManagement: React.FC = () => {
     }
 
     const { code, message } = await fetch.put<fetch.ResponseBody>(
-      `/admin/users/${user.uid}/nickname`,
+      urls.admin.users.nickname(user.uid),
       { nickname },
     )
     if (code === 0) {
@@ -143,7 +144,7 @@ const UsersManagement: React.FC = () => {
     }
 
     const { code, message } = await fetch.put<fetch.ResponseBody>(
-      `/admin/users/${user.uid}/score`,
+      urls.admin.users.score(user.uid),
       { score },
     )
     if (code === 0) {
@@ -180,7 +181,7 @@ const UsersManagement: React.FC = () => {
     }
 
     const { code, message } = await fetch.put<fetch.ResponseBody>(
-      `/admin/users/${user.uid}/permission`,
+      urls.admin.users.permission(user.uid),
       { permission },
     )
     if (code === 0) {
@@ -195,7 +196,7 @@ const UsersManagement: React.FC = () => {
 
   const handleVerificationToggle = async (user: User, index: number) => {
     const { code, message } = await fetch.put<fetch.ResponseBody>(
-      `/admin/users/${user.uid}/verification`,
+      urls.admin.users.verification(user.uid),
     )
     if (code === 0) {
       toast.success(message)
@@ -222,7 +223,7 @@ const UsersManagement: React.FC = () => {
     }
 
     const { code, message } = await fetch.put<fetch.ResponseBody>(
-      `/admin/users/${user.uid}/password`,
+      urls.admin.users.password(user.uid),
       { password },
     )
     if (code === 0) {
@@ -242,7 +243,7 @@ const UsersManagement: React.FC = () => {
       return
     }
 
-    const { code, message } = await fetch.del(`/admin/users/${user.uid}`)
+    const { code, message } = await fetch.del(urls.admin.users.delete(user.uid))
     if (code === 0) {
       toast.success(message)
       setUsers((users) => users.filter(({ uid }) => uid !== user.uid))

@@ -85,10 +85,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Install dependencies
-      run: yarn
+      run: |
+        yarn
+        composer install --prefer-dist --no-progress --no-suggest --no-dev
     - name: Run checks
       run: |
         # yarn lint
+        yarn build:urls
         yarn tsc -p . --noEmit
         yarn tsc -p ./resources/assets/tests --noEmit
   jest:
@@ -99,7 +102,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Install dependencies
-      run: yarn
+      run: |
+        yarn
+        composer install --prefer-dist --no-progress --no-suggest --no-dev
+    - name: Build
+      run: yarn build:urls
     - name: Run tests
       run: yarn test --coverage
     - name: Upload coverage report

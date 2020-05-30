@@ -4,6 +4,7 @@ import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { toast } from '@/scripts/notify'
 import { Player } from '@/scripts/types'
+import urls from '@/scripts/urls'
 import Loading from '@/components/Loading'
 import Modal from '@/components/Modal'
 
@@ -29,7 +30,7 @@ const ModalApply: React.FC<Props> = (props) => {
 
     const getPlayers = async () => {
       setIsLoading(true)
-      const players = await fetch.get<Player[]>('/user/player/list')
+      const players = await fetch.get<Player[]>(urls.user.player.list())
       setPlayers(players)
       setIsLoading(false)
     }
@@ -42,7 +43,7 @@ const ModalApply: React.FC<Props> = (props) => {
 
   const handleSelect = async (player: Player) => {
     const { code, message } = await fetch.post<fetch.ResponseBody>(
-      `/user/player/set/${player.pid}`,
+      urls.user.player.set(player.pid),
       {
         skin: props.skin,
         cape: props.cape,

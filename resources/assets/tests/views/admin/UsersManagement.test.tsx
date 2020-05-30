@@ -4,6 +4,7 @@ import { createPaginator } from '../../utils'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { User, UserPermission } from '@/scripts/types'
+import urls from '@/scripts/urls'
 import UsersManagement from '@/views/admin/UsersManagement'
 
 jest.mock('@/scripts/net')
@@ -40,7 +41,10 @@ test('search users', async () => {
 
   const { getByTitle, getByText } = render(<UsersManagement />)
   await waitFor(() =>
-    expect(fetch.get).toBeCalledWith('/admin/users/list', { q: '', page: 1 }),
+    expect(fetch.get).toBeCalledWith(urls.admin.users.list(), {
+      q: '',
+      page: 1,
+    }),
   )
 
   fireEvent.input(getByTitle(t('vendor.datatable.search')), {
@@ -48,7 +52,7 @@ test('search users', async () => {
   })
   fireEvent.click(getByText(t('vendor.datatable.search')))
   await waitFor(() =>
-    expect(fetch.get).toBeCalledWith('/admin/users/list', {
+    expect(fetch.get).toBeCalledWith(urls.admin.users.list(), {
       q: 's',
       page: 1,
     }),
@@ -267,7 +271,7 @@ describe('update email', () => {
     fireEvent.click(getByText(t('general.confirm')))
 
     await waitFor(() =>
-      expect(fetch.put).toBeCalledWith(`/admin/users/${fixture.uid}/email`, {
+      expect(fetch.put).toBeCalledWith(urls.admin.users.email(fixture.uid), {
         email: 'd@e.f',
       }),
     )
@@ -291,7 +295,7 @@ describe('update email', () => {
     fireEvent.click(getByText(t('general.confirm')))
 
     await waitFor(() =>
-      expect(fetch.put).toBeCalledWith(`/admin/users/${fixture.uid}/email`, {
+      expect(fetch.put).toBeCalledWith(urls.admin.users.email(fixture.uid), {
         email: 'd@e.f',
       }),
     )
@@ -339,7 +343,7 @@ describe('update nickname', () => {
     fireEvent.click(getByText(t('general.confirm')))
 
     await waitFor(() =>
-      expect(fetch.put).toBeCalledWith(`/admin/users/${fixture.uid}/nickname`, {
+      expect(fetch.put).toBeCalledWith(urls.admin.users.nickname(fixture.uid), {
         nickname: 'kumiko',
       }),
     )
@@ -363,7 +367,7 @@ describe('update nickname', () => {
     fireEvent.click(getByText(t('general.confirm')))
 
     await waitFor(() =>
-      expect(fetch.put).toBeCalledWith(`/admin/users/${fixture.uid}/nickname`, {
+      expect(fetch.put).toBeCalledWith(urls.admin.users.nickname(fixture.uid), {
         nickname: 'kumiko',
       }),
     )
@@ -403,7 +407,7 @@ describe('update score', () => {
     fireEvent.click(getByText(t('general.confirm')))
 
     await waitFor(() =>
-      expect(fetch.put).toBeCalledWith(`/admin/users/${fixture.uid}/score`, {
+      expect(fetch.put).toBeCalledWith(urls.admin.users.score(fixture.uid), {
         score: 999,
       }),
     )
@@ -427,7 +431,7 @@ describe('update score', () => {
     fireEvent.click(getByText(t('general.confirm')))
 
     await waitFor(() =>
-      expect(fetch.put).toBeCalledWith(`/admin/users/${fixture.uid}/score`, {
+      expect(fetch.put).toBeCalledWith(urls.admin.users.score(fixture.uid), {
         score: 999,
       }),
     )
@@ -466,7 +470,7 @@ describe('update permission', () => {
 
     await waitFor(() =>
       expect(fetch.put).toBeCalledWith(
-        `/admin/users/${fixture.uid}/permission`,
+        urls.admin.users.permission(fixture.uid),
         {
           permission: UserPermission.Banned,
         },
@@ -491,7 +495,7 @@ describe('update permission', () => {
 
     await waitFor(() =>
       expect(fetch.put).toBeCalledWith(
-        `/admin/users/${fixture.uid}/permission`,
+        urls.admin.users.permission(fixture.uid),
         {
           permission: UserPermission.Banned,
         },
@@ -523,7 +527,7 @@ describe('update permission', () => {
 
     await waitFor(() =>
       expect(fetch.put).toBeCalledWith(
-        `/admin/users/${fixture.uid}/permission`,
+        urls.admin.users.permission(fixture.uid),
         {
           permission: UserPermission.Admin,
         },
@@ -550,7 +554,7 @@ describe('toggle verification', () => {
 
     await waitFor(() =>
       expect(fetch.put).toBeCalledWith(
-        `/admin/users/${fixture.uid}/verification`,
+        urls.admin.users.verification(fixture.uid),
       ),
     )
     expect(queryByText('ok')).toBeInTheDocument()
@@ -568,7 +572,7 @@ describe('toggle verification', () => {
 
     await waitFor(() =>
       expect(fetch.put).toBeCalledWith(
-        `/admin/users/${fixture.uid}/verification`,
+        urls.admin.users.verification(fixture.uid),
       ),
     )
     expect(queryByText('failed')).toBeInTheDocument()
@@ -610,7 +614,7 @@ describe('update password', () => {
     fireEvent.click(getByText(t('general.confirm')))
 
     await waitFor(() =>
-      expect(fetch.put).toBeCalledWith(`/admin/users/${fixture.uid}/password`, {
+      expect(fetch.put).toBeCalledWith(urls.admin.users.password(fixture.uid), {
         password: '123',
       }),
     )
@@ -636,7 +640,7 @@ describe('update password', () => {
     fireEvent.click(getByText(t('general.confirm')))
 
     await waitFor(() =>
-      expect(fetch.put).toBeCalledWith(`/admin/users/${fixture.uid}/password`, {
+      expect(fetch.put).toBeCalledWith(urls.admin.users.password(fixture.uid), {
         password: '123',
       }),
     )
@@ -670,7 +674,7 @@ describe('delete user', () => {
     fireEvent.click(getByText(t('general.confirm')))
 
     await waitFor(() =>
-      expect(fetch.del).toBeCalledWith(`/admin/users/${fixture.uid}`),
+      expect(fetch.del).toBeCalledWith(urls.admin.users.delete(fixture.uid)),
     )
     expect(queryByText('ok')).toBeInTheDocument()
     expect(queryByRole('status')).toHaveClass('alert-success')
@@ -687,7 +691,7 @@ describe('delete user', () => {
     fireEvent.click(getByText(t('general.confirm')))
 
     await waitFor(() =>
-      expect(fetch.del).toBeCalledWith(`/admin/users/${fixture.uid}`),
+      expect(fetch.del).toBeCalledWith(urls.admin.users.delete(fixture.uid)),
     )
     expect(queryByText('failed')).toBeInTheDocument()
     expect(queryByRole('alert')).toHaveClass('alert-danger')
@@ -764,11 +768,7 @@ describe('table mode', () => {
     fireEvent.click(getByTitle('Table Mode'))
     fireEvent.click(getByTitle(t('admin.toggleVerification')))
 
-    await waitFor(() =>
-      expect(fetch.put).toBeCalledWith(
-        `/admin/users/${fixture.uid}/verification`,
-      ),
-    )
+    await waitFor(() => expect(fetch.put).toBeCalled())
     expect(queryByText('ok')).toBeInTheDocument()
     expect(queryByRole('status')).toHaveClass('alert-success')
     expect(queryByText(t('admin.unverified'))).toBeInTheDocument()

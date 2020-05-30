@@ -6,6 +6,7 @@ import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { Player, Paginator } from '@/scripts/types'
 import { toast, showModal } from '@/scripts/notify'
+import urls from '@/scripts/urls'
 import Loading from '@/components/Loading'
 import Pagination from '@/components/Pagination'
 import Header from '../UsersManagement/Header'
@@ -32,7 +33,7 @@ const PlayersManagement: React.FC = () => {
   const getPlayers = async () => {
     setIsLoading(true)
     const { data, last_page }: Paginator<Player> = await fetch.get(
-      '/admin/players/list',
+      urls.admin.players.list(),
       {
         q: query,
         page,
@@ -79,7 +80,7 @@ const PlayersManagement: React.FC = () => {
     }
 
     const { code, message } = await fetch.put<fetch.ResponseBody>(
-      `/admin/players/${player.pid}/name`,
+      urls.admin.players.name(player.pid),
       { player_name: name },
     )
     if (code === 0) {
@@ -107,7 +108,7 @@ const PlayersManagement: React.FC = () => {
     }
 
     const { code, message } = await fetch.put<fetch.ResponseBody>(
-      `/admin/players/${player.pid}/owner`,
+      urls.admin.players.owner(player.pid),
       { uid },
     )
     if (code === 0) {
@@ -124,7 +125,7 @@ const PlayersManagement: React.FC = () => {
 
   const handleUpdateTexture = async (type: 'skin' | 'cape', tid: number) => {
     const { code, message } = await fetch.put<fetch.ResponseBody>(
-      `/admin/players/${players[textureUpdating].pid}/textures`,
+      urls.admin.players.texture(players[textureUpdating].pid),
       { type, tid },
     )
 
@@ -150,7 +151,7 @@ const PlayersManagement: React.FC = () => {
     }
 
     const { code, message } = await fetch.del<fetch.ResponseBody>(
-      `/admin/players/${player.pid}`,
+      urls.admin.players.delete(player.pid),
     )
     if (code === 0) {
       setPlayers((players) => players.filter(({ pid }) => pid !== player.pid))

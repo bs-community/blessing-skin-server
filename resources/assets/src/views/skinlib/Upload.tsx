@@ -8,6 +8,7 @@ import * as fetch from '@/scripts/net'
 import { showModal, toast } from '@/scripts/notify'
 import { isAlex } from '@/scripts/textureUtils'
 import { TextureType } from '@/scripts/types'
+import urls from '@/scripts/urls'
 import FileInput from '@/components/FileInput'
 import ViewerSkeleton from '@/components/ViewerSkeleton'
 
@@ -86,11 +87,11 @@ const Upload: React.FC = () => {
     setIsUploading(true)
     const { code, message, data: { tid } = { tid: 0 } } = await fetch.post<
       fetch.ResponseBody<{ tid: number }>
-    >('/skinlib/upload', formData)
+    >(urls.skinlib.upload(), formData)
     setIsUploading(false)
 
     if (code === 0) {
-      window.location.href = `${blessing.base_url}/skinlib/show/${tid}`
+      window.location.href = blessing.base_url + urls.skinlib.show(tid)
     } else if (code === 2) {
       try {
         await showModal({
@@ -98,7 +99,7 @@ const Upload: React.FC = () => {
           text: message,
           okButtonText: t('user.viewInSkinlib'),
         })
-        window.location.href = `${blessing.base_url}/skinlib/show/${tid}`
+        window.location.href = blessing.base_url + urls.skinlib.show(tid)
       } catch {
         //
       }

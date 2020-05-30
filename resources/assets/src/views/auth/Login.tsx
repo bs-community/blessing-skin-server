@@ -4,6 +4,7 @@ import useBlessingExtra from '@/scripts/hooks/useBlessingExtra'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { showModal } from '@/scripts/notify'
+import urls from '@/scripts/urls'
 import Alert from '@/components/Alert'
 import Captcha from '@/components/Captcha'
 
@@ -58,7 +59,7 @@ const Login: React.FC = () => {
     event.preventDefault()
     setIsPending(true)
 
-    const response = await fetch.post<Response>('/auth/login', {
+    const response = await fetch.post<Response>(urls.auth.login(), {
       identification,
       password,
       keep: remember,

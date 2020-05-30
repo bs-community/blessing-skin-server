@@ -5,6 +5,7 @@ import * as fetch from '@/scripts/net'
 import { showModal, toast } from '@/scripts/notify'
 import useTexture from '@/scripts/hooks/useTexture'
 import { Player, TextureType } from '@/scripts/types'
+import urls from '@/scripts/urls'
 import Loading from '@/components/Loading'
 import Row from './Row'
 import Previewer from './Previewer'
@@ -67,7 +68,7 @@ const Players: React.FC = () => {
     }
 
     const { code, message } = await fetch.post<fetch.ResponseBody>(
-      `/user/player/rename/${player.pid}`,
+      urls.user.player.rename(player.pid),
       { name },
     )
     if (code === 0) {
@@ -88,7 +89,7 @@ const Players: React.FC = () => {
     }
 
     const { code, message } = await fetch.post<fetch.ResponseBody>(
-      `/user/player/texture/clear/${selected}`,
+      urls.user.player.clear(selected),
       { type: [skin && 'skin', cape && 'cape'].filter(Boolean) },
     )
     if (code === 0) {
@@ -128,7 +129,7 @@ const Players: React.FC = () => {
     }
 
     const { code, message } = await fetch.post<fetch.ResponseBody>(
-      `/user/player/delete/${player.pid}`,
+      urls.user.player.delete(player.pid),
     )
     if (code === 0) {
       toast.success(message)

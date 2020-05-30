@@ -2,6 +2,7 @@ import React from 'react'
 import { render, waitFor, fireEvent } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
+import urls from '@/scripts/urls'
 import Forgot from '@/views/auth/Forgot'
 
 jest.mock('@/scripts/net')
@@ -20,7 +21,7 @@ describe('submit', () => {
     })
     fireEvent.click(getByText(t('auth.forgot.button')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith('/auth/forgot', {
+      expect(fetch.post).toBeCalledWith(urls.auth.forgot(), {
         email: 'a@b.c',
         captcha: 'abc',
       }),
@@ -41,7 +42,7 @@ describe('submit', () => {
     })
     fireEvent.click(getByText(t('auth.forgot.button')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith('/auth/forgot', {
+      expect(fetch.post).toBeCalledWith(urls.auth.forgot(), {
         email: 'a@b.c',
         captcha: 'abc',
       }),

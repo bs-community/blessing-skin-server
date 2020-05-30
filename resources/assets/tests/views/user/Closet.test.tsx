@@ -5,6 +5,7 @@ import $ from 'jquery'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { ClosetItem, Player, TextureType } from '@/scripts/types'
+import urls from '@/scripts/urls'
 import Closet from '@/views/user/Closet'
 
 jest.mock('@/scripts/net')
@@ -142,9 +143,10 @@ describe('rename item', () => {
     })
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.put).toBeCalledWith(`/user/closet/${fixtureSkin.tid}`, {
-        name: 'my skin',
-      }),
+      expect(fetch.put).toBeCalledWith(
+        urls.user.closet.rename(fixtureSkin.tid),
+        { name: 'my skin' },
+      ),
     )
     expect(queryByText('my skin')).toBeInTheDocument()
     expect(queryByText('success')).toBeInTheDocument()
@@ -180,9 +182,10 @@ describe('rename item', () => {
     })
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.put).toBeCalledWith(`/user/closet/${fixtureSkin.tid}`, {
-        name: 'my skin',
-      }),
+      expect(fetch.put).toBeCalledWith(
+        urls.user.closet.rename(fixtureSkin.tid),
+        { name: 'my skin' },
+      ),
     )
     expect(queryByText(fixtureSkin.pivot.item_name)).toBeInTheDocument()
     expect(queryByText('failed')).toBeInTheDocument()
@@ -204,7 +207,9 @@ describe('remove item', () => {
     fireEvent.click(getByText(t('user.removeItem')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.del).toBeCalledWith(`/user/closet/${fixtureSkin.tid}`),
+      expect(fetch.del).toBeCalledWith(
+        urls.user.closet.remove(fixtureSkin.tid),
+      ),
     )
     expect(queryByText(/skin library/i)).toBeInTheDocument()
     expect(queryByText('success')).toBeInTheDocument()
@@ -220,7 +225,9 @@ describe('remove item', () => {
     fireEvent.click(getByText(t('user.removeItem')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.del).toBeCalledWith(`/user/closet/${fixtureSkin.tid}`),
+      expect(fetch.del).toBeCalledWith(
+        urls.user.closet.remove(fixtureSkin.tid),
+      ),
     )
     expect(queryByText(fixtureSkin.pivot.item_name)).toBeInTheDocument()
     expect(queryByText('failed')).toBeInTheDocument()
@@ -306,7 +313,7 @@ describe('set avatar', () => {
     fireEvent.click(getByText(t('user.setAsAvatar')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith('/user/profile/avatar', {
+      expect(fetch.post).toBeCalledWith(urls.user.profile.avatar(), {
         tid: fixtureSkin.tid,
       }),
     )
@@ -324,7 +331,7 @@ describe('set avatar', () => {
     fireEvent.click(getByText(t('user.setAsAvatar')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith('/user/profile/avatar', {
+      expect(fetch.post).toBeCalledWith(urls.user.profile.avatar(), {
         tid: fixtureSkin.tid,
       }),
     )
@@ -401,10 +408,8 @@ describe('apply textures to player', () => {
     fireEvent.click(getByTitle(fixturePlayer.name))
     await waitFor(() =>
       expect(fetch.post).toBeCalledWith(
-        `/user/player/set/${fixturePlayer.pid}`,
-        {
-          skin: fixtureSkin.tid,
-        },
+        urls.user.player.set(fixturePlayer.pid),
+        { skin: fixtureSkin.tid },
       ),
     )
     expect(queryByText('success')).toBeInTheDocument()
@@ -432,10 +437,8 @@ describe('apply textures to player', () => {
     fireEvent.click(getByTitle(fixturePlayer.name))
     await waitFor(() =>
       expect(fetch.post).toBeCalledWith(
-        `/user/player/set/${fixturePlayer.pid}`,
-        {
-          skin: fixtureSkin.tid,
-        },
+        urls.user.player.set(fixturePlayer.pid),
+        { skin: fixtureSkin.tid },
       ),
     )
     expect(queryByText('failed')).toBeInTheDocument()

@@ -5,6 +5,7 @@ import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { toast } from '@/scripts/notify'
 import useTween from '@/scripts/hooks/useTween'
+import urls from '@/scripts/urls'
 import * as breakpoints from '@/styles/breakpoints'
 import InfoBox from './InfoBox'
 import SignButton from './SignButton'
@@ -57,7 +58,7 @@ const Dashboard: React.FC = () => {
     const fetchInfo = async () => {
       setLoading(true)
       const { data } = await fetch.get<fetch.ResponseBody<ScoreInfo>>(
-        '/user/score-info',
+        urls.user.score(),
       )
       setPlayers(data.stats.players)
       setStorage(data.stats.storage)
@@ -74,7 +75,7 @@ const Dashboard: React.FC = () => {
     setLoading(true)
     const { code, message, data } = await fetch.post<
       fetch.ResponseBody<SignReturn>
-    >('/user/sign')
+    >(urls.user.sign())
 
     if (code === 0) {
       toast.success(message)

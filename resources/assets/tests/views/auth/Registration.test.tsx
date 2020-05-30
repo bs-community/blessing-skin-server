@@ -2,6 +2,7 @@ import React from 'react'
 import { render, waitFor, fireEvent } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
+import urls from '@/scripts/urls'
 import Registration from '@/views/auth/Registration'
 
 jest.mock('@/scripts/net')
@@ -59,7 +60,7 @@ test('succeeded', async () => {
   })
   fireEvent.click(getByText(t('auth.register-button')))
   await waitFor(() =>
-    expect(fetch.post).toBeCalledWith('/auth/register', {
+    expect(fetch.post).toBeCalledWith(urls.auth.register(), {
       email: 'a@b.c',
       password: 'password',
       nickname: 't',
@@ -94,7 +95,7 @@ test('failed', async () => {
   })
   fireEvent.click(getByText(t('auth.register-button')))
   await waitFor(() =>
-    expect(fetch.post).toBeCalledWith('/auth/register', {
+    expect(fetch.post).toBeCalledWith(urls.auth.register(), {
       email: 'a@b.c',
       password: 'password',
       nickname: 't',
@@ -128,7 +129,7 @@ test('register with new player', async () => {
   })
   fireEvent.click(getByText(t('auth.register-button')))
   await waitFor(() =>
-    expect(fetch.post).toBeCalledWith('/auth/register', {
+    expect(fetch.post).toBeCalledWith(urls.auth.register(), {
       email: 'a@b.c',
       password: 'password',
       player_name: 'player',

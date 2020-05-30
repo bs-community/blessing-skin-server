@@ -4,6 +4,7 @@ import { createPaginator } from '../../utils'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { Player } from '@/scripts/types'
+import urls from '@/scripts/urls'
 import PlayersManagement from '@/views/admin/PlayersManagement'
 
 jest.mock('@/scripts/net')
@@ -30,7 +31,10 @@ test('search players', async () => {
 
   const { getByTitle, getByText } = render(<PlayersManagement />)
   await waitFor(() =>
-    expect(fetch.get).toBeCalledWith('/admin/players/list', { q: '', page: 1 }),
+    expect(fetch.get).toBeCalledWith(urls.admin.players.list(), {
+      q: '',
+      page: 1,
+    }),
   )
 
   fireEvent.input(getByTitle(t('vendor.datatable.search')), {
@@ -38,7 +42,7 @@ test('search players', async () => {
   })
   fireEvent.click(getByText(t('vendor.datatable.search')))
   await waitFor(() =>
-    expect(fetch.get).toBeCalledWith('/admin/players/list', {
+    expect(fetch.get).toBeCalledWith(urls.admin.players.list(), {
       q: 's',
       page: 1,
     }),
@@ -103,7 +107,7 @@ describe('update player name', () => {
     fireEvent.click(getByText(t('general.confirm')))
 
     await waitFor(() =>
-      expect(fetch.put).toBeCalledWith(`/admin/players/${fixture.pid}/name`, {
+      expect(fetch.put).toBeCalledWith(urls.admin.players.name(fixture.pid), {
         player_name: 'reina',
       }),
     )
@@ -127,7 +131,7 @@ describe('update player name', () => {
     fireEvent.click(getByText(t('general.confirm')))
 
     await waitFor(() =>
-      expect(fetch.put).toBeCalledWith(`/admin/players/${fixture.pid}/name`, {
+      expect(fetch.put).toBeCalledWith(urls.admin.players.name(fixture.pid), {
         player_name: 'reina',
       }),
     )
@@ -170,7 +174,7 @@ describe('update owner', () => {
     fireEvent.click(getByText(t('general.confirm')))
 
     await waitFor(() =>
-      expect(fetch.put).toBeCalledWith(`/admin/players/${fixture.pid}/owner`, {
+      expect(fetch.put).toBeCalledWith(urls.admin.players.owner(fixture.pid), {
         uid: 2,
       }),
     )
@@ -194,7 +198,7 @@ describe('update owner', () => {
     fireEvent.click(getByText(t('general.confirm')))
 
     await waitFor(() =>
-      expect(fetch.put).toBeCalledWith(`/admin/players/${fixture.pid}/owner`, {
+      expect(fetch.put).toBeCalledWith(urls.admin.players.owner(fixture.pid), {
         uid: 2,
       }),
     )
@@ -237,7 +241,7 @@ describe('update texture', () => {
 
     await waitFor(() =>
       expect(fetch.put).toBeCalledWith(
-        `/admin/players/${fixture.pid}/textures`,
+        urls.admin.players.texture(fixture.pid),
         {
           type: 'skin',
           tid: 2,
@@ -265,7 +269,7 @@ describe('update texture', () => {
 
     await waitFor(() =>
       expect(fetch.put).toBeCalledWith(
-        `/admin/players/${fixture.pid}/textures`,
+        urls.admin.players.texture(fixture.pid),
         {
           type: 'cape',
           tid: 2,
@@ -292,7 +296,7 @@ describe('update texture', () => {
 
     await waitFor(() =>
       expect(fetch.put).toBeCalledWith(
-        `/admin/players/${fixture.pid}/textures`,
+        urls.admin.players.texture(fixture.pid),
         {
           type: 'skin',
           tid: 2,
@@ -332,7 +336,7 @@ describe('delete player', () => {
     fireEvent.click(getByText(t('general.confirm')))
 
     await waitFor(() =>
-      expect(fetch.del).toBeCalledWith(`/admin/players/${fixture.pid}`),
+      expect(fetch.del).toBeCalledWith(urls.admin.players.delete(fixture.pid)),
     )
     expect(queryByText('ok')).toBeInTheDocument()
     expect(queryByRole('status')).toHaveClass('alert-success')
@@ -351,7 +355,7 @@ describe('delete player', () => {
     fireEvent.click(getByText(t('general.confirm')))
 
     await waitFor(() =>
-      expect(fetch.del).toBeCalledWith(`/admin/players/${fixture.pid}`),
+      expect(fetch.del).toBeCalledWith(urls.admin.players.delete(fixture.pid)),
     )
     expect(queryByText('failed')).toBeInTheDocument()
     expect(queryByRole('alert')).toHaveClass('alert-danger')

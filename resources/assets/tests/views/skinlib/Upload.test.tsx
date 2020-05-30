@@ -3,6 +3,7 @@ import { render, fireEvent, waitFor } from '@testing-library/react'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { isAlex } from '@/scripts/textureUtils'
+import urls from '@/scripts/urls'
 import Upload from '@/views/skinlib/Upload'
 
 jest.mock('@/scripts/net')
@@ -188,7 +189,7 @@ describe('upload texture', () => {
     expect(getByRole('alert')).toHaveClass('alert-danger')
   })
 
-  it('no name', () => {
+  it('invalid file type', () => {
     const { getByText, getByTitle, getByRole, queryByText } = render(<Upload />)
 
     const file = new File([], 't.png', { type: 'image/jpeg' })
@@ -213,7 +214,10 @@ describe('upload texture', () => {
     fireEvent.click(getByText(t('skinlib.upload.button')))
 
     expect(queryByText(t('skinlib.uploading'))).toBeInTheDocument()
-    expect(fetch.post).toBeCalledWith('/skinlib/upload', expect.any(FormData))
+    expect(fetch.post).toBeCalledWith(
+      urls.skinlib.upload(),
+      expect.any(FormData),
+    )
 
     const formData: FormData = fetch.post.mock.calls[0][1]
     expect(formData.get('name')).toBe('t')

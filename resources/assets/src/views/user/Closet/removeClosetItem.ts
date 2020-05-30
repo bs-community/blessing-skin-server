@@ -1,6 +1,7 @@
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { showModal, toast } from '@/scripts/notify'
+import urls from '@/scripts/urls'
 
 export default async function removeClosetItem(tid: number): Promise<boolean> {
   try {
@@ -13,7 +14,7 @@ export default async function removeClosetItem(tid: number): Promise<boolean> {
   }
 
   const { code, message } = await fetch.del<fetch.ResponseBody>(
-    `/user/closet/${tid}`,
+    urls.user.closet.remove(tid),
   )
   if (code === 0) {
     toast.success(message)

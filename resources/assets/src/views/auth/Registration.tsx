@@ -4,6 +4,7 @@ import useBlessingExtra from '@/scripts/hooks/useBlessingExtra'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { toast } from '@/scripts/notify'
+import urls from '@/scripts/urls'
 import Alert from '@/components/Alert'
 import Captcha from '@/components/Captcha'
 
@@ -55,7 +56,7 @@ const Registration: React.FC = () => {
 
     setIsPending(true)
     const { code, message } = await fetch.post<fetch.ResponseBody>(
-      '/auth/register',
+      urls.auth.register(),
       Object.assign(
         { email, password, captcha: await captchaRef.current!.execute() },
         requirePlayer ? { player_name: playerName } : { nickname: nickName },

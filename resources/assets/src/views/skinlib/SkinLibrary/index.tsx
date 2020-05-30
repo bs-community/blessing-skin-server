@@ -5,6 +5,7 @@ import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { toast } from '@/scripts/notify'
 import { Paginator, TextureType } from '@/scripts/types'
+import urls from '@/scripts/urls'
 import Loading from '@/components/Loading'
 import Pagination from '@/components/Pagination'
 import addClosetItem from '../Show/addClosetItem'
@@ -82,7 +83,7 @@ const SkinLibrary: React.FC = () => {
       window.history.pushState(search.toString(), '', `?${search}`)
 
       const result = await fetch.get<Paginator<LibraryItem>>(
-        '/skinlib/list',
+        urls.skinlib.list(),
         search,
       )
       setItems(result.data)
@@ -94,7 +95,7 @@ const SkinLibrary: React.FC = () => {
 
   useEffect(() => {
     const getCloset = async () => {
-      const closet = await fetch.get<number[]>('/user/closet/ids')
+      const closet = await fetch.get<number[]>(urls.user.closet.ids())
       setCloset(closet)
     }
     if (currentUid) {

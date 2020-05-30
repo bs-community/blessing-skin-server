@@ -1,6 +1,7 @@
 import { post } from './net'
 import { t } from './i18n'
 import { showModal } from './notify'
+import urls from './urls'
 
 export async function logout() {
   try {
@@ -12,7 +13,7 @@ export async function logout() {
     return
   }
 
-  await post('/auth/logout')
+  await post(urls.auth.logout())
   window.location.href = blessing.base_url
 }
 

@@ -2,6 +2,7 @@ import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { showModal, toast } from '@/scripts/notify'
 import { Texture } from '@/scripts/types'
+import urls from '@/scripts/urls'
 
 export default async function addClosetItem(
   texture: Pick<Texture, 'tid' | 'name'>,
@@ -25,7 +26,7 @@ export default async function addClosetItem(
   }
 
   const { code, message } = await fetch.post<fetch.ResponseBody>(
-    '/user/closet',
+    urls.user.closet.add(),
     { tid: texture.tid, name },
   )
   if (code === 0) {
