@@ -4,6 +4,7 @@ namespace App\Http\View\Composers;
 
 use App\Events;
 use App\Services\PluginManager;
+use Blessing\Filter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\View\View;
@@ -13,9 +14,13 @@ class SideMenuComposer
     /** @var Request */
     protected $request;
 
-    public function __construct(Request $request)
+    /** @var Filter */
+    protected $filter;
+
+    public function __construct(Request $request, Filter $filter)
     {
         $this->request = $request;
+        $this->filter = $filter;
     }
 
     public function compose(View $view)
@@ -36,9 +41,12 @@ class SideMenuComposer
                 break;
         }
 
+        $menu = $menu[$type];
+        $menu = $this->filter->apply('side_menu', $menu, [$type]);
+
         $view->with('items', array_map(function ($item) {
             return $this->transform($item);
-        }, $menu[$type]));
+        }, $menu));
     }
 
     public function transform(array $item): array

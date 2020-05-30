@@ -24,6 +24,26 @@ class SideMenuComposerTest extends TestCase
         Event::assertDispatched(Events\ConfigureAdminMenu::class);
     }
 
+    public function testFilter()
+    {
+        $filter = Fakes\Filter::fake();
+
+        $user = factory(User::class)->create();
+        $this->actingAs($user)->get('/user');
+        $filter->assertHaveBeenApplied('side_menu', function ($menu, $type) {
+            $this->assertCount(count(config('menu.user')), $menu);
+            $this->assertEquals('user', $type);
+
+            return true;
+        });
+        $filter->assertApplied('side_menu', function ($menu, $type) {
+            $this->assertCount(count(config('menu.explore')), $menu);
+            $this->assertEquals('explore', $type);
+
+            return true;
+        });
+    }
+
     public function testTransform()
     {
         $user = factory(User::class)->create();
