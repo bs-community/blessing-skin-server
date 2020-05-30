@@ -7,13 +7,13 @@ import { t } from '@/scripts/i18n'
 import * as cssUtils from '@/styles/utils'
 import * as breakpoints from '@/styles/breakpoints'
 import SkinSteve from '../../../misc/textures/steve.png'
-import bg1 from '../../../misc/backgrounds/1.png'
-import bg2 from '../../../misc/backgrounds/2.png'
-import bg3 from '../../../misc/backgrounds/3.png'
-import bg4 from '../../../misc/backgrounds/4.png'
-import bg5 from '../../../misc/backgrounds/5.png'
-import bg6 from '../../../misc/backgrounds/6.png'
-import bg7 from '../../../misc/backgrounds/7.png'
+import bg1 from '../../../misc/backgrounds/1.webp'
+import bg2 from '../../../misc/backgrounds/2.webp'
+import bg3 from '../../../misc/backgrounds/3.webp'
+import bg4 from '../../../misc/backgrounds/4.webp'
+import bg5 from '../../../misc/backgrounds/5.webp'
+import bg6 from '../../../misc/backgrounds/6.webp'
+import bg7 from '../../../misc/backgrounds/7.webp'
 
 const backgrounds = [bg1, bg2, bg3, bg4, bg5, bg6, bg7]
 export const PICTURES_COUNT = backgrounds.length
@@ -205,6 +205,10 @@ const Viewer: React.FC<Props> = (props) => {
     setBackground(`url('${backgrounds[index]}')`)
   }
 
+  const backgroundStyle = background.startsWith('#')
+    ? { backgroundColor: background }
+    : { backgroundImage: background }
+
   return (
     <div className="card">
       <div className="card-header">
@@ -247,7 +251,7 @@ const Viewer: React.FC<Props> = (props) => {
           </div>
         </div>
       </div>
-      <div className="card-body" css={cssCardBody} style={{ background }}>
+      <div className="card-body" css={cssCardBody} style={backgroundStyle}>
         <div ref={containerRef} css={cssViewer}></div>
       </div>
       <div className="card-footer">

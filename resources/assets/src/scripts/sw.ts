@@ -14,9 +14,9 @@ registerRoute(
 )
 
 registerRoute(
-  /\/app\/.*\.png/,
+  /\/app\/.*\.webp/,
   new StaleWhileRevalidate({
-    cacheName: 'png-resource-v1',
+    cacheName: 'webp-resource-v1',
     fetchOptions: {
       credentials: 'omit',
     },

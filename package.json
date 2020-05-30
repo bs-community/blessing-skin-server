@@ -189,7 +189,7 @@
     ],
     "moduleNameMapper": {
       "\\.css$": "<rootDir>/resources/assets/tests/__mocks__/style.ts",
-      "\\.(png|jpg)$": "<rootDir>/resources/assets/tests/__mocks__/file.ts",
+      "\\.(png|webp)$": "<rootDir>/resources/assets/tests/__mocks__/file.ts",
       "^@/(.*)$": "<rootDir>/resources/assets/src/$1"
     },
     "setupFilesAfterEnv": [
