@@ -3,6 +3,7 @@
 namespace App\Http\View\Composers;
 
 use App\Services\Webpack;
+use Blessing\Filter;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -20,14 +21,19 @@ class HeadComposer
     /** @var Request */
     protected $request;
 
+    /** @var Filter */
+    protected $filter;
+
     public function __construct(
         Webpack $webpack,
         Dispatcher $dispatcher,
-        Request $request
+        Request $request,
+        Filter $filter
     ) {
         $this->webpack = $webpack;
         $this->dispatcher = $dispatcher;
         $this->request = $request;
+        $this->filter = $filter;
     }
 
     public function compose(View $view)
@@ -113,6 +119,7 @@ class HeadComposer
                 'crossorigin' => 'anonymous',
             ];
         }
+        $links = $this->filter->apply('head_links', $links);
         $view->with('links', $links);
         $view->with('inline_css', option('custom_css'));
         $view->with('custom_cdn_host', option('cdn_address'));

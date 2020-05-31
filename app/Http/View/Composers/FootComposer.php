@@ -4,6 +4,7 @@ namespace App\Http\View\Composers;
 
 use App\Services\Translations\JavaScript;
 use App\Services\Webpack;
+use Blessing\Filter;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -22,6 +23,9 @@ class FootComposer
 
     /** @var Dispatcher */
     protected $dispatcher;
+
+    /** @var Filter */
+    protected $filter;
 
     public function __construct(
         Request $request,
@@ -86,6 +90,8 @@ class FootComposer
                 'src' => $this->webpack->url('app.js'),
             ];
         }
+
+        $scripts = $this->filter->apply('scripts', $scripts);
 
         $view->with([
             'scripts' => $scripts,
