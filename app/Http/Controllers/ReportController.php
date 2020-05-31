@@ -16,7 +16,7 @@ class ReportController extends Controller
 {
     public function submit(Request $request, Dispatcher $dispatcher, Filter $filter)
     {
-        $data = $this->validate($request, [
+        $data = $request->validate([
             'tid' => 'required|exists:textures',
             'reason' => 'required',
         ]);

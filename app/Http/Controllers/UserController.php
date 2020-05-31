@@ -249,7 +249,7 @@ class UserController extends Controller
                     return json(trans('user.profile.nickname.single'), 1);
                 }
 
-                $this->validate($request, ['new_nickname' => 'required']);
+                $request->validate(['new_nickname' => 'required']);
 
                 $nickname = $request->input('new_nickname');
                 $user->nickname = $nickname;
@@ -261,7 +261,7 @@ class UserController extends Controller
                 return json(trans('user.profile.nickname.success', ['nickname' => $nickname]), 0);
 
             case 'password':
-                $this->validate($request, [
+                $request->validate([
                     'current_password' => 'required|min:6|max:32',
                     'new_password' => 'required|min:8|max:32',
                 ]);
@@ -279,7 +279,7 @@ class UserController extends Controller
                 return json(trans('user.profile.password.success'), 0);
 
             case 'email':
-                $this->validate($request, [
+                $request->validate([
                     'new_email' => 'required|email',
                     'password' => 'required|min:6|max:32',
                 ]);
@@ -304,7 +304,7 @@ class UserController extends Controller
                 return json(trans('user.profile.email.success'), 0);
 
             case 'delete':
-                $this->validate($request, [
+                $request->validate([
                     'password' => 'required|min:6|max:32',
                 ]);
 
@@ -333,7 +333,7 @@ class UserController extends Controller
 
     public function setAvatar(Request $request, Filter $filter, Dispatcher $dispatcher)
     {
-        $this->validate($request, ['tid' => 'required|integer']);
+        $request->validate(['tid' => 'required|integer']);
         $tid = $request->input('tid');
         $user = auth()->user();
 

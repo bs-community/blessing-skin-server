@@ -73,7 +73,7 @@ class PlayerController extends Controller
             return json(trans('user.player.add.single'), 1);
         }
 
-        $name = $this->validate($request, [
+        $name = $request->validate([
             'name' => [
                 'required',
                 new Rules\PlayerName(),
@@ -145,7 +145,7 @@ class PlayerController extends Controller
         Filter $filter,
         $pid
     ) {
-        $newName = $this->validate($request, [
+        $newName = $request->validate([
             'name' => [
                 'required',
                 new Rules\PlayerName(),
@@ -227,7 +227,7 @@ class PlayerController extends Controller
 
     public function bind(Request $request, Dispatcher $dispatcher)
     {
-        $name = $this->validate($request, [
+        $name = $request->validate([
             'player' => [
                 'required',
                 new Rules\PlayerName(),

@@ -16,7 +16,7 @@ class TranslationsController extends Controller
 
     public function create(Request $request, Application $app, JavaScript $js)
     {
-        $data = $this->validate($request, [
+        $data = $request->validate([
             'group' => 'required|string',
             'key' => 'required|string',
             'text' => 'required|string',
@@ -38,7 +38,7 @@ class TranslationsController extends Controller
 
     public function update(Request $request, Application $app, JavaScript $js)
     {
-        $data = $this->validate($request, [
+        $data = $request->validate([
             'id' => 'required|integer',
             'text' => 'required|string',
         ]);
@@ -56,7 +56,7 @@ class TranslationsController extends Controller
 
     public function delete(Request $request, Application $app, JavaScript $js)
     {
-        ['id' => $id] = $this->validate($request, ['id' => 'required|integer']);
+        ['id' => $id] = $request->validate(['id' => 'required|integer']);
         $line = LanguageLine::findOrFail($id);
         $line->delete();
 

@@ -46,7 +46,7 @@ class PlayersManagementController extends Controller
         Request $request,
         Dispatcher $dispatcher
     ) {
-        $name = $this->validate($request, [
+        $name = $request->validate([
             'player_name' => [
                 'required',
                 new Rules\PlayerName(),
@@ -72,7 +72,7 @@ class PlayersManagementController extends Controller
         Request $request,
         Dispatcher $dispatcher
     ) {
-        $uid = $this->validate($request, ['uid' => 'required|integer'])['uid'];
+        $uid = $request->validate(['uid' => 'required|integer'])['uid'];
 
         $dispatcher->dispatch('player.owner.updating', [$player, $uid]);
 
@@ -98,7 +98,7 @@ class PlayersManagementController extends Controller
         Request $request,
         Dispatcher $dispatcher
     ) {
-        $data = $this->validate($request, [
+        $data = $request->validate([
             'tid' => 'required|integer',
             'type' => ['required', Rule::in(['skin', 'cape'])],
         ]);

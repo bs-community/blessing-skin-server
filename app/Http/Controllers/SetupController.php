@@ -105,7 +105,7 @@ class SetupController extends Controller
 
     public function finish(Request $request, Filesystem $filesystem, Artisan $artisan)
     {
-        $data = $this->validate($request, [
+        $data = $request->validate([
             'email' => 'required|email',
             'nickname' => 'required',
             'password' => 'required|min:8|max:32|confirmed',

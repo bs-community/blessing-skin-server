@@ -308,7 +308,7 @@ class SkinlibController extends Controller
 
     public function rename(Request $request)
     {
-        $this->validate($request, [
+        $request->validate([
             'tid' => 'required|integer',
             'new_name' => 'required',
         ]);
@@ -335,7 +335,7 @@ class SkinlibController extends Controller
     public function model(Request $request)
     {
         $user = $request->user();
-        $data = $this->validate($request, [
+        $data = $request->validate([
             'tid' => 'required|integer',
             'model' => 'required|in:steve,alex,cape',
         ]);
@@ -364,7 +364,7 @@ class SkinlibController extends Controller
             }
         }
 
-        $this->validate($request, [
+        $request->validate([
             'name' => [
                 'required',
                 option('texture_name_regexp') ? 'regex:'.option('texture_name_regexp') : 'string',

@@ -12,7 +12,7 @@ class NotificationsController extends Controller
 {
     public function send(Request $request)
     {
-        $data = $this->validate($request, [
+        $data = $request->validate([
             'receiver' => 'required|in:all,normal,uid,email',
             'uid' => 'required_if:receiver,uid|nullable|integer|exists:users',
             'email' => 'required_if:receiver,email|nullable|email|exists:users',

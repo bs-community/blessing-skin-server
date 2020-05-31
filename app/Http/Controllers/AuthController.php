@@ -44,7 +44,7 @@ class AuthController extends Controller
         Dispatcher $dispatcher,
         Filter $filter
     ) {
-        $this->validate($request, [
+        $request->validate([
             'identification' => 'required',
             'password' => 'required|min:6|max:32',
         ]);
@@ -77,7 +77,7 @@ class AuthController extends Controller
         $loginFails = (int) Cache::get($loginFailsCacheKey, 0);
 
         if ($loginFails > 3) {
-            $this->validate($request, ['captcha' => ['required', $captcha]]);
+            $request->validate(['captcha' => ['required', $captcha]]);
         }
 
         if (!$user) {
@@ -159,7 +159,7 @@ class AuthController extends Controller
                 'max:'.option('player_name_length_max'),
             ]] :
             ['nickname' => 'required|max:255'];
-        $data = $this->validate($request, array_merge([
+        $data = $request->validate(array_merge([
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|max:32',
             'captcha' => ['required', $captcha],
@@ -239,7 +239,7 @@ class AuthController extends Controller
         Dispatcher $dispatcher,
         Filter $filter
     ) {
-        $data = $this->validate($request, [
+        $data = $request->validate([
             'email' => 'required|email',
             'captcha' => ['required', $captcha],
         ]);
@@ -301,7 +301,7 @@ class AuthController extends Controller
     {
         abort_unless($request->hasValidSignature(false), 403, trans('auth.reset.invalid'));
 
-        ['password' => $password] = $this->validate($request, [
+        ['password' => $password] = $request->validate([
             'password' => 'required|min:8|max:32',
         ]);
         $user = User::find($uid);
@@ -326,7 +326,7 @@ class AuthController extends Controller
 
     public function fillEmail(Request $request)
     {
-        $email = $this->validate($request, ['email' => 'required|email|unique:users'])['email'];
+        $email = $request->validate(['email' => 'required|email|unique:users'])['email'];
         $user = $request->user();
         $user->email = $email;
         $user->save();
