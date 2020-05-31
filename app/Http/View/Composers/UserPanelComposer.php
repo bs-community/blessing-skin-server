@@ -2,6 +2,7 @@
 
 namespace App\Http\View\Composers;
 
+use App\Models\User;
 use Blessing\Filter;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\View\View;
@@ -22,15 +23,17 @@ class UserPanelComposer
 
     public function compose(View $view)
     {
+        /** @var User */
         $user = auth()->user();
         $avatarUrl = route('avatar.user', ['uid' => $user->uid, 'size' => 45]);
         $avatar = $this->filter->apply('user_avatar', $avatarUrl, [$user]);
 
         $badges = [];
-        if (auth()->user()->isAdmin()) {
+        if ($user->isAdmin()) {
             $badges[] = ['text' => 'STAFF', 'color' => 'primary'];
         }
         $this->dispatcher->dispatch(new \App\Events\RenderingBadges($badges));
+        $badges = $this->filter->apply('user_badges', $badges, [$user]);
 
         $view->with(compact('user', 'avatar', 'badges'));
     }

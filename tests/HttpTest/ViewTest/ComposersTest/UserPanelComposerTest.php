@@ -17,6 +17,8 @@ class UserPanelComposerTest extends TestCase
 
     public function testBadges()
     {
+        $filter = Fakes\Filter::fake();
+
         $user = factory(User::class)->create();
         $this->actingAs($user);
 
@@ -26,6 +28,12 @@ class UserPanelComposerTest extends TestCase
 
         $this->get('/user')
             ->assertSee('<span class="badge bg-purple mb-1 mr-2">Pro</span>', false);
+        $filter->assertApplied('user_badges', function ($badges, $user) {
+            $this->assertCount(1, $badges);
+            $this->assertInstanceOf(User::class, $user);
+
+            return true;
+        });
 
         $user->permission = User::ADMIN;
         $user->save();
