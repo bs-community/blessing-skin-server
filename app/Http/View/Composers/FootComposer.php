@@ -31,12 +31,14 @@ class FootComposer
         Request $request,
         Webpack $webpack,
         JavaScript $javascript,
-        Dispatcher $dispatcher
+        Dispatcher $dispatcher,
+        Filter $filter
     ) {
         $this->request = $request;
         $this->webpack = $webpack;
         $this->javascript = $javascript;
         $this->dispatcher = $dispatcher;
+        $this->filter = $filter;
     }
 
     public function compose(View $view)
