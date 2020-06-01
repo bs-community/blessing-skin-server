@@ -1,5 +1,9 @@
 import { registerRoute } from 'workbox-routing'
-import { CacheFirst, StaleWhileRevalidate } from 'workbox-strategies'
+import {
+  CacheFirst,
+  StaleWhileRevalidate,
+  NetworkOnly,
+} from 'workbox-strategies'
 import { ExpirationPlugin } from 'workbox-expiration'
 
 registerRoute(
@@ -27,6 +31,18 @@ registerRoute(
   /\/avatar\/user\/\d+/,
   new StaleWhileRevalidate({
     cacheName: 'avatar-v2',
+    fetchOptions: {
+      credentials: 'omit',
+    },
+  }),
+)
+
+registerRoute(/.+\/\d+\.js$/, new NetworkOnly())
+
+registerRoute(
+  /\/app\/\w{2,3}\.\w{7}\.js$/,
+  new CacheFirst({
+    cacheName: 'javascript-v1',
     fetchOptions: {
       credentials: 'omit',
     },
