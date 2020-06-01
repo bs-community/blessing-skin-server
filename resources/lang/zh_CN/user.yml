@@ -7,11 +7,6 @@ cur-score: 当前积分
 score-notice: 点击积分查看说明
 sign: 签到
 sign-success: 签到成功，获得了 :score 积分
-time-unit-hour: 小时
-time-unit-min: 分钟
-cant-sign-until: ':time :unit 后才能再次签到哦'
-last-sign: 上次签到于 :time
-sign-remain-time: ':time :unit 后可签到'
 announcement: 公告
 no-unread: 无未读通知
 verification:
