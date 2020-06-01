@@ -23,15 +23,7 @@ class UserControllerTest extends TestCase
         $user = factory(User::class)->create();
         $this->actingAs($user, 'jwt')
             ->get('/api/user')
-            ->assertJson([
-                'code' => 0,
-                'data' => [
-                    'uid' => $user->uid,
-                    'email' => $user->email,
-                    'nickname' => $user->nickname,
-                    'score' => $user->score,
-                ],
-            ]);
+            ->assertJson($user->toArray());
     }
 
     public function testIndex()

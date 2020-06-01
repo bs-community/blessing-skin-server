@@ -21,12 +21,10 @@ class UserController extends Controller
 {
     public function user()
     {
-        $user = auth()
-            ->user()
-            ->makeHidden(['password', 'ip', 'remember_token', 'verification_token'])
-            ->toArray();
-
-        return json('', 0, $user);
+        /** @var User */
+        $user = auth()->user();
+        return $user
+            ->makeHidden(['password', 'ip', 'remember_token', 'verification_token']);
     }
 
     public function index(Filter $filter)
