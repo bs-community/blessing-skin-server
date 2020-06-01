@@ -97,6 +97,13 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
         </a>
       </td>
       <td align=center>
+        <a href="">
+          <img src="https://pic1.afdiancdn.com/user/5b1b5ef6a23c11ea90a952540025c377/avatar/5c02c61401606370e1b088955c1a10fc_w342_h342_s33.jpg" width="120" height="120">
+          <br>
+          诶呀好气呀
+        </a>
+      </td>
+      <td align=center>
         <a href="https://afdian.net/@HyperCol_Studio">
           <img src="https://pic1.afdiancdn.com/user/ad213afe31b311e991c252540025c377/avatar/cb8f7ef0832124d336839cdb4a784e14_w2000_h2000_s1992.jpg" width="120" height="120">
           <br>
@@ -131,20 +138,6 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
           <img src="https://pic1.afdiancdn.com/user/68d07bf851fc11e98e5652540025c377/avatar/48538be153c8eebc3eb5cb6bc085cde9_w574_h574_s173.jpg" width="75" height="75">
           <br>
           dz_paji
-        </a>
-      </td>
-      <td align=center>
-        <a href="https://afdian.net/@whitecola620">
-          <img src="https://pic1.afdiancdn.com/user/960addda8f5411e9a08f52540025c377/avatar/db3f11ba4f4dbfa27dde17fbf16948d4_w1080_h1920_s1047.jpg" width="75" height="75">
-          <br>
-          白可乐乐乐乐
-        </a>
-      </td>
-      <td align=center>
-        <a href="https://afdian.net/@zsn741656478">
-          <img src="https://pic1.afdiancdn.com/user/d15ed87897f211e8a63852540025c377/avatar/0aabb840877dbf4bd87201d0166f3891_w350_h350_s8.jpg" width="75" height="75">
-          <br>
-          酷车手BB弹
         </a>
       </td>
       </tr>
