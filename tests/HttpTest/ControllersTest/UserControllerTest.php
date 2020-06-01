@@ -34,11 +34,10 @@ class UserControllerTest extends TestCase
         $uid = $user->uid;
         factory(\App\Models\Player::class)->create(['uid' => $uid]);
 
+        $announcement = (new Parsedown())->text(option_localized('announcement'));
         $this->actingAs($user)
             ->get('/user')
-            ->assertViewHas('statistics')
-            ->assertSee((new Parsedown())->text(option_localized('announcement')), false)
-            ->assertSee((string) $user->score);
+            ->assertSee($announcement, false);
         $filter->assertApplied('grid:user.index');
         $filter->assertApplied('user_avatar', function ($url, $user) use ($uid) {
             $this->assertTrue(Str::contains($url, '/avatar/user/'.$uid));
@@ -60,26 +59,22 @@ class UserControllerTest extends TestCase
 
         $this->actingAs($user)
             ->get('/user/score-info')
-            ->assertJson(['data' => [
+            ->assertJson([
                 'user' => [
                     'score' => $user->score,
                     'lastSignAt' => $user->last_sign_at,
                 ],
-                'stats' => [
-                    'players' => [
-                        'used' => 1,
-                        'total' => 11,
-                        'percentage' => 1 / 11 * 100,
-                    ],
-                    'storage' => [
-                        'used' => 0,
-                        'total' => $user->score,
-                        'percentage' => 0,
-                    ],
+                'rate' => [
+                    'storage' => (int) option('score_per_storage'),
+                    'players' => (int) option('score_per_player'),
+                ],
+                'usage' => [
+                    'players' => 1,
+                    'storage' => 0,
                 ],
                 'signAfterZero' => option('sign_after_zero'),
                 'signGapTime' => option('sign_gap_time'),
-            ]]);
+            ]);
     }
 
     public function testSign()
@@ -87,7 +82,7 @@ class UserControllerTest extends TestCase
         option(['sign_score' => '50,50']);
         $user = factory(User::class)->create();
 
-        // Success
+        // success
         $this->actingAs($user)
             ->postJson('/user/sign')
             ->assertJson([
@@ -95,57 +90,25 @@ class UserControllerTest extends TestCase
                 'message' => trans('user.sign-success', ['score' => 50]),
                 'data' => [
                     'score' => option('user_initial_score') + 50,
-                    'storage' => [
-                        'percentage' => 0,
-                        'total' => option('user_initial_score') + 50,
-                        'used' => 0,
-                    ],
-                    'remaining_time' => (int) option('sign_gap_time'),
                 ],
             ]);
 
-        // Remaining time is greater than 0
+        // remaining time is greater than 0
         $user = factory(User::class)->create(['last_sign_at' => Carbon::now()]);
         option(['sign_gap_time' => 2]);
         $this->actingAs($user)
             ->postJson('/user/sign')
-            ->assertJson([
-                'code' => 1,
-                'message' => trans(
-                    'user.cant-sign-until',
-                    [
-                        'time' => 2,
-                        'unit' => trans('user.time-unit-hour'),
-                    ]
-                ),
-            ]);
+            ->assertJson(['code' => 1]);
 
-        // Can sign after 0 o'clock
+        // can sign after 0 o'clock
         option(['sign_after_zero' => true]);
         $user = factory(User::class)->create(['last_sign_at' => Carbon::now()]);
-        $diff = \Carbon\Carbon::now()->diffInSeconds(\Carbon\Carbon::tomorrow());
-        if ($diff / 3600 >= 1) {
-            $diff = round($diff / 3600);
-            $unit = 'hour';
-        } else {
-            $diff = round($diff / 60);
-            $unit = 'min';
-        }
         $this->actingAs($user)
             ->postJson('/user/sign')
-            ->assertJson([
-                'code' => 1,
-                'message' => trans(
-                    'user.cant-sign-until',
-                    [
-                        'time' => $diff,
-                        'unit' => trans("user.time-unit-$unit"),
-                    ]
-                ),
-            ]);
+            ->assertJson(['code' => 1]);
 
         $user = factory(User::class)->create([
-            'last_sign_at' => \Carbon\Carbon::today(),
+            'last_sign_at' => Carbon::today(),
         ]);
         $this->actingAs($user)->postJson('/user/sign')->assertJson(['code' => 0]);
     }

@@ -9,22 +9,18 @@ import urls from '@/scripts/urls'
 import * as breakpoints from '@/styles/breakpoints'
 import InfoBox from './InfoBox'
 import SignButton from './SignButton'
+import * as scoreUtils from './scoreUtils'
 
 type ScoreInfo = {
   signAfterZero: boolean
   signGapTime: number
-  stats: { players: Stat; storage: Stat }
+  rate: { players: number; storage: number }
+  usage: { players: number; storage: number }
   user: { score: number; lastSignAt: string }
-}
-
-type Stat = {
-  used: number
-  total: number
 }
 
 type SignReturn = {
   score: number
-  storage: Stat
 }
 
 const ScoreTitle = styled.p`
@@ -47,9 +43,12 @@ const ScoreNotice = styled.p`
 
 const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(false)
-  const [players, setPlayers] = useState<Stat>({ used: 0, total: 1 })
-  const [storage, setStorage] = useState<Stat>({ used: 0, total: 1 })
-  const [score, setScore] = useTween(0)
+  const [players, setPlayers] = useState(0)
+  const [storage, setStorage] = useState(0)
+  const [score, setScore] = useState(0)
+  const [tweenedScore, setTweenedScore] = useTween(0)
+  const [playersRate, setPlayersRate] = useState(1)
+  const [storageRate, setStorageRate] = useState(1)
   const [lastSign, setLastSign] = useState(new Date())
   const [canSignAfterZero, setCanSignAfterZero] = useState(false)
   const [signGap, setSignGap] = useState(24)
@@ -57,12 +56,13 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetchInfo = async () => {
       setLoading(true)
-      const { data } = await fetch.get<fetch.ResponseBody<ScoreInfo>>(
-        urls.user.score(),
-      )
-      setPlayers(data.stats.players)
-      setStorage(data.stats.storage)
+      const data = await fetch.get<ScoreInfo>(urls.user.score())
+      setPlayers(data.usage.players)
+      setStorage(data.usage.storage)
+      setTweenedScore(data.user.score)
       setScore(data.user.score)
+      setPlayersRate(data.rate.players)
+      setStorageRate(data.rate.storage)
       setLastSign(new Date(data.user.lastSignAt))
       setCanSignAfterZero(data.signAfterZero)
       setSignGap(data.signGapTime)
@@ -80,10 +80,15 @@ const Dashboard: React.FC = () => {
     if (code === 0) {
       toast.success(message)
       setLastSign(new Date())
+      setTweenedScore(data.score)
       setScore(data.score)
-      setStorage(data.storage)
     } else {
-      toast.warning(message)
+      const remainingTime = scoreUtils.remainingTime(
+        lastSign,
+        signGap,
+        canSignAfterZero,
+      )
+      toast.warning(scoreUtils.remainingTimeText(remainingTime))
     }
     setLoading(false)
   }, [])
@@ -101,17 +106,17 @@ const Dashboard: React.FC = () => {
               color="teal"
               icon="gamepad"
               name={t('user.used.players')}
-              used={players.used}
-              total={players.total}
+              used={players}
+              unused={score / playersRate}
               unit=""
             />
-            {storage.used > 1024 ? (
+            {storage > 1024 ? (
               <InfoBox
                 color="maroon"
                 icon="hdd"
                 name={t('user.used.storage')}
-                used={~~(storage.used / 1024)}
-                total={~~(storage.total / 1024)}
+                used={~~(storage / 1024)}
+                unused={~~(score / storageRate / 1024)}
                 unit="MB"
               />
             ) : (
@@ -119,8 +124,8 @@ const Dashboard: React.FC = () => {
                 color="maroon"
                 icon="hdd"
                 name={t('user.used.storage')}
-                used={storage.used}
-                total={storage.total}
+                used={storage}
+                unused={score / storageRate}
                 unit="KB"
               />
             )}
@@ -128,7 +133,7 @@ const Dashboard: React.FC = () => {
           <div className="col-md-4 text-center">
             <ScoreTitle>{t('user.cur-score')}</ScoreTitle>
             <Score data-toggle="modal" data-target="#modal-score-instruction">
-              {~~score}
+              {~~tweenedScore}
             </Score>
             <ScoreNotice>{t('user.score-notice')}</ScoreNotice>
           </div>

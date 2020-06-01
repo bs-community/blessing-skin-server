@@ -23,11 +23,11 @@ export function remainingTime(
 export function remainingTimeText(remainingTime: number): string {
   const time = remainingTime / ONE_MINUTE
   return time < 60
-    ? t('user.sign-remain-time', {
+    ? t('user.signRemainingTime', {
         time: ~~time,
         unit: t('user.time-unit-min'),
       })
-    : t('user.sign-remain-time', {
+    : t('user.signRemainingTime', {
         time: ~~(time / 60),
         unit: t('user.time-unit-hour'),
       })

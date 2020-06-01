@@ -23,6 +23,7 @@ class UserController extends Controller
     {
         /** @var User */
         $user = auth()->user();
+
         return $user
             ->makeHidden(['password', 'ip', 'remember_token', 'verification_token']);
     }
@@ -31,11 +32,11 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        [$from, $to] = explode(',', option('sign_score'));
+        [$min, $max] = explode(',', option('sign_score'));
         $scoreIntro = trans('user.score-intro.introduction', [
             'initial_score' => option('user_initial_score'),
-            'score-from' => $from,
-            'score-to' => $to,
+            'score-from' => $min,
+            'score-to' => $max,
             'return-score' => option('return_score')
                 ? trans('user.score-intro.will-return-score')
                 : trans('user.score-intro.no-return-score'),
@@ -60,10 +61,6 @@ class UserController extends Controller
         $parsedown = new Parsedown();
 
         return view('user.index')->with([
-            'statistics' => [
-                'players' => $this->calculatePercentageUsed($user->players->count(), option('score_per_player')),
-                'storage' => $this->calculatePercentageUsed($this->getStorageUsed($user), option('score_per_storage')),
-            ],
             'score_intro' => $scoreIntro,
             'rates' => [
                 'storage' => option('score_per_storage'),
@@ -80,87 +77,53 @@ class UserController extends Controller
     {
         $user = Auth::user();
 
-        return json('', 0, [
+        return response()->json([
             'user' => [
                 'score' => $user->score,
                 'lastSignAt' => $user->last_sign_at,
             ],
-            'stats' => [
-                'players' => $this->calculatePercentageUsed($user->players->count(), option('score_per_player')),
-                'storage' => $this->calculatePercentageUsed($this->getStorageUsed($user), option('score_per_storage')),
+            'rate' => [
+                'storage' => (int) option('score_per_storage'),
+                'players' => (int) option('score_per_player'),
+            ],
+            'usage' => [
+                'players' => $user->players->count(),
+                'storage' => (int) Texture::where('uploader', $user->uid)->sum('size'),
             ],
             'signAfterZero' => (bool) option('sign_after_zero'),
             'signGapTime' => (int) option('sign_gap_time'),
         ]);
     }
 
-    protected function calculatePercentageUsed(int $used, int $rate): array
-    {
-        $user = Auth::user();
-        // Initialize default value to avoid division by zero.
-        $result['used'] = $used;
-        $result['total'] = 'UNLIMITED';
-        $result['percentage'] = 0;
-
-        if ($rate != 0) {
-            $result['total'] = $used + floor($user->score / $rate);
-            $result['percentage'] = $result['total'] ? $used / $result['total'] * 100 : 100;
-        }
-
-        return $result;
-    }
-
-    protected function getStorageUsed(User $user)
-    {
-        return Texture::where('uploader', $user->uid)->select('size')->sum('size');
-    }
-
     public function sign()
     {
+        /** @var User */
         $user = Auth::user();
-        if ($this->getSignRemainingTime($user) <= 0) {
-            $acquiredScore = rand(...explode(',', option('sign_score')));
+
+        $lastSignTime = Carbon::parse($user->last_sign_at);
+        $remainingTime = option('sign_after_zero')
+            ? Carbon::now()->diffInSeconds(
+                $lastSignTime <= Carbon::today() ? $lastSignTime : Carbon::tomorrow(),
+                false
+            )
+            : Carbon::now()->diffInSeconds(
+                $lastSignTime->addHours((int) option('sign_gap_time')),
+                false
+            );
+
+        if ($remainingTime <= 0) {
+            [$min, $max] = explode(',', option('sign_score'));
+            $acquiredScore = rand((int) $min, (int) $max);
             $user->score += $acquiredScore;
             $user->last_sign_at = Carbon::now();
             $user->save();
-            $gap = option('sign_gap_time');
 
             return json(trans('user.sign-success', ['score' => $acquiredScore]), 0, [
                 'score' => $user->score,
-                'storage' => $this->calculatePercentageUsed($this->getStorageUsed($user), option('score_per_storage')),
-                'remaining_time' => $gap > 1 ? round($gap) : $gap,
             ]);
         } else {
-            $remaining_time = $this->getUserSignRemainingTimeWithPrecision($user);
-
-            return json(trans('user.cant-sign-until', [
-                'time' => $remaining_time >= 1
-                    ? $remaining_time : round($remaining_time * 60),
-                'unit' => $remaining_time >= 1
-                    ? trans('user.time-unit-hour') : trans('user.time-unit-min'),
-            ]), 1);
+            return json('', 1);
         }
-    }
-
-    protected function getUserSignRemainingTimeWithPrecision(User $user)
-    {
-        $hours = $this->getSignRemainingTime($user) / 3600;
-
-        return $hours > 1 ? round($hours) : $hours;
-    }
-
-    protected function getSignRemainingTime(User $user)
-    {
-        $lastSignTime = Carbon::parse($user->last_sign_at);
-
-        if (option('sign_after_zero')) {
-            return Carbon::now()->diffInSeconds(
-                $lastSignTime <= Carbon::today() ? $lastSignTime : Carbon::tomorrow(),
-                false
-            );
-        }
-
-        return Carbon::now()->diffInSeconds($lastSignTime->addHours(option('sign_gap_time')), false);
     }
 
     public function sendVerificationEmail()
@@ -187,7 +150,6 @@ class UserController extends Controller
         try {
             Mail::to($user->email)->send(new EmailVerification(url($url)));
         } catch (\Exception $e) {
-            // Write the exception to log
             report($e);
 
             return json(trans('user.verification.failed', ['msg' => $e->getMessage()]), 2);
@@ -231,6 +193,7 @@ class UserController extends Controller
     public function handleProfile(Request $request, Filter $filter, Dispatcher $dispatcher)
     {
         $action = $request->input('action', '');
+        /** @var User */
         $user = Auth::user();
         $addition = $request->except('action');
 
@@ -333,6 +296,7 @@ class UserController extends Controller
     {
         $request->validate(['tid' => 'required|integer']);
         $tid = $request->input('tid');
+        /** @var User */
         $user = auth()->user();
 
         $can = $filter->apply('user_can_update_avatar', true, [$user, $tid]);
