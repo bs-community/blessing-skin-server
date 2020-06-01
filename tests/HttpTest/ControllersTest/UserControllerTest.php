@@ -79,6 +79,8 @@ class UserControllerTest extends TestCase
 
     public function testSign()
     {
+        Event::fake();
+        $filter = Fakes\Filter::fake();
         option(['sign_score' => '50,50']);
         $user = factory(User::class)->create();
 
@@ -92,25 +94,59 @@ class UserControllerTest extends TestCase
                     'score' => option('user_initial_score') + 50,
                 ],
             ]);
+        $filter->assertApplied('sign_score', function ($score) {
+            $this->assertEquals(50, $score);
+
+            return true;
+        });
+        Event::assertDispatched('user.sign.before', function ($eventName, $payload) {
+            $this->assertEquals(50, $payload[0]);
+
+            return true;
+        });
+        Event::assertDispatched('user.sign.after', function ($eventName, $payload) {
+            $this->assertEquals(50, $payload[0]);
+
+            return true;
+        });
 
         // remaining time is greater than 0
+        Event::fake();
         $user = factory(User::class)->create(['last_sign_at' => Carbon::now()]);
         option(['sign_gap_time' => 2]);
         $this->actingAs($user)
             ->postJson('/user/sign')
             ->assertJson(['code' => 1]);
+        Event::assertNotDispatched('user.sign.before');
+        Event::assertNotDispatched('user.sign.after');
 
         // can sign after 0 o'clock
+        Event::fake();
         option(['sign_after_zero' => true]);
         $user = factory(User::class)->create(['last_sign_at' => Carbon::now()]);
         $this->actingAs($user)
             ->postJson('/user/sign')
             ->assertJson(['code' => 1]);
+        Event::assertNotDispatched('user.sign.before');
+        Event::assertNotDispatched('user.sign.after');
 
         $user = factory(User::class)->create([
             'last_sign_at' => Carbon::today(),
         ]);
-        $this->actingAs($user)->postJson('/user/sign')->assertJson(['code' => 0]);
+        $this->actingAs($user)
+            ->postJson('/user/sign')
+            ->assertJson(['code' => 0]);
+
+        // rejected
+        Event::fake();
+        $filter->add('can_sign', function () {
+            return new Rejection('rejected');
+        });
+        $this
+            ->postJson('/user/sign')
+            ->assertJson(['code' => 2, 'message' => 'rejected']);
+        Event::assertNotDispatched('user.sign.before');
+        Event::assertNotDispatched('user.sign.after');
     }
 
     public function testSendVerificationEmail()

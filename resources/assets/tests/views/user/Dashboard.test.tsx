@@ -87,7 +87,7 @@ describe('sign', () => {
     expect(queryByText(/905/)).toBeInTheDocument()
   })
 
-  it('failed', async () => {
+  it('cannot sign', async () => {
     fetch.post.mockResolvedValue({ code: 1, message: '' })
 
     const { getByRole, getByText } = render(<Dashboard />)
@@ -101,6 +101,19 @@ describe('sign', () => {
       getByText(scoreUtils.remainingTimeText(remainingTime)),
     ).toBeInTheDocument()
     expect(getByRole('alert')).toHaveClass('alert-warning')
+  })
+
+  it('failed', async () => {
+    fetch.post.mockResolvedValue({ code: 2, message: 'f' })
+
+    const { getByRole, getByText } = render(<Dashboard />)
+    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
+
+    fireEvent.click(getByRole('button'))
+    await waitFor(() => expect(fetch.post).toBeCalledWith(urls.user.sign()))
+
+    expect(getByText('f')).toBeInTheDocument()
+    expect(getByRole('alert')).toHaveClass('alert-danger')
   })
 })
 

@@ -82,13 +82,15 @@ const Dashboard: React.FC = () => {
       setLastSign(new Date())
       setTweenedScore(data.score)
       setScore(data.score)
-    } else {
+    } else if (code === 1) {
       const remainingTime = scoreUtils.remainingTime(
         lastSign,
         signGap,
         canSignAfterZero,
       )
       toast.warning(scoreUtils.remainingTimeText(remainingTime))
+    } else {
+      toast.error(message)
     }
     setLoading(false)
   }, [])

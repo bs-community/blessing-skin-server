@@ -95,10 +95,15 @@ class UserController extends Controller
         ]);
     }
 
-    public function sign()
+    public function sign(Dispatcher $dispatcher, Filter $filter)
     {
         /** @var User */
         $user = Auth::user();
+
+        $can = $filter->apply('can_sign', true);
+        if ($can instanceof Rejection) {
+            return json($can->getReason(), 2);
+        }
 
         $lastSignTime = Carbon::parse($user->last_sign_at);
         $remainingTime = option('sign_after_zero')
@@ -114,9 +119,15 @@ class UserController extends Controller
         if ($remainingTime <= 0) {
             [$min, $max] = explode(',', option('sign_score'));
             $acquiredScore = rand((int) $min, (int) $max);
+            $acquiredScore = $filter->apply('sign_score', $acquiredScore);
+
+            $dispatcher->dispatch('user.sign.before', [$acquiredScore]);
+
             $user->score += $acquiredScore;
             $user->last_sign_at = Carbon::now();
             $user->save();
+
+            $dispatcher->dispatch('user.sign.after', [$acquiredScore]);
 
             return json(trans('user.sign-success', ['score' => $acquiredScore]), 0, [
                 'score' => $user->score,
