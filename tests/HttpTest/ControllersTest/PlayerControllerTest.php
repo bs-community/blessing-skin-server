@@ -60,8 +60,13 @@ class PlayerControllerTest extends TestCase
             ['name' => 'yjsnpi']
         )->assertJsonValidationErrors('name');
 
-        // Lack of score
+        // with an existed player name
         option(['player_name_rule' => 'official']);
+        $existed = factory(Player::class)->create();
+        $this->postJson('/user/player/add', ['name' => $existed->name])
+            ->assertJsonValidationErrors('name');
+
+        // Lack of score
         $user = factory(User::class)->create(['score' => 0]);
         $this->actingAs($user)->postJson(
             '/user/player/add',
@@ -139,16 +144,6 @@ class PlayerControllerTest extends TestCase
             $score - option('score_per_player'),
             User::find($user->uid)->score
         );
-
-        // Add a existed player
-        Event::fake();
-        $this->postJson('/user/player/add', ['name' => '角色名'])
-            ->assertJson([
-                'code' => 6,
-                'message' => trans('user.player.add.repeated'),
-            ]);
-        Event::assertNotDispatched('player.adding');
-        Event::assertNotDispatched('player.added');
 
         // Single player
         option(['single_player' => true]);
@@ -260,19 +255,10 @@ class PlayerControllerTest extends TestCase
         $this->postJson('/user/player/rename/'.$player->pid, ['name' => '\\'])
             ->assertJsonValidationErrors('name');
 
-        // Use a duplicated player name
-        $name = factory(Player::class)->create()->name;
-        $this->postJson('/user/player/rename/'.$player->pid, ['name' => $name])
-            ->assertJson([
-                'code' => 6,
-                'message' => trans('user.player.rename.repeated'),
-            ]);
-        Event::assertDispatched('player.renaming');
-        $filter->assertApplied('new_player_name', function ($newName) use ($name) {
-            $this->assertEquals($name, $newName);
-
-            return true;
-        });
+        // with an existed player name
+        $existed = factory(Player::class)->create();
+        $this->postJson('/user/player/rename/'.$player->pid, ['name' => $existed->name])
+            ->assertJsonValidationErrors('name');
 
         // Rejected by filter
         $filter = Fakes\Filter::fake();
@@ -312,6 +298,11 @@ class PlayerControllerTest extends TestCase
         Event::assertDispatched('player.renamed', function ($event, $payload) use ($player) {
             $this->assertTrue($player->fresh()->is($payload[0]));
             $this->assertNotEquals('new_name', $payload[1]->name);
+
+            return true;
+        });
+        $filter->assertApplied('new_player_name', function ($name) {
+            $this->assertEquals('new_name', $name);
 
             return true;
         });

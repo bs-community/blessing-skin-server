@@ -17,6 +17,7 @@ use Blessing\Filter;
 use Blessing\Rejection;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PlayerController extends Controller
 {
@@ -78,6 +79,7 @@ class PlayerController extends Controller
                 new Rules\PlayerName(),
                 'min:'.option('player_name_length_min'),
                 'max:'.option('player_name_length_max'),
+                'unique:players',
             ],
         ])['name'];
         $name = $filter->apply('new_player_name', $name);
@@ -87,10 +89,6 @@ class PlayerController extends Controller
         $can = $filter->apply('can_add_player', true, [$name]);
         if ($can instanceof Rejection) {
             return json($can->getReason(), 1);
-        }
-
-        if (Player::where('name', $name)->count() > 0) {
-            return json(trans('user.player.add.repeated'), 6);
         }
 
         if ($user->score < (int) option('score_per_player')) {
@@ -162,6 +160,7 @@ class PlayerController extends Controller
                 new Rules\PlayerName(),
                 'min:'.option('player_name_length_min'),
                 'max:'.option('player_name_length_max'),
+                Rule::unique('players')->ignore($pid),
             ],
         ])['name'];
         $name = $filter->apply('new_player_name', $name);
@@ -172,10 +171,6 @@ class PlayerController extends Controller
         $can = $filter->apply('user_can_rename_player', true, [$player, $name]);
         if ($can instanceof Rejection) {
             return json($can->getReason(), 1);
-        }
-
-        if (Player::where('name', $name)->count() > 0) {
-            return json(trans('user.player.rename.repeated'), 6);
         }
 
         $old = $player->replicate();
