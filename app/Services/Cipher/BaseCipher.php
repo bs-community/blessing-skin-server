@@ -10,7 +10,7 @@ abstract class BaseCipher
      * @param string $value
      * @param string $salt
      */
-    public abstract function hash($value, $salt = '');
+    abstract public function hash($value, $salt = '');
 
     /**
      * Verify that the given hash matches the given password.
@@ -19,7 +19,7 @@ abstract class BaseCipher
      * @param string $hash
      * @param string $salt
      */
-    public  function verify($password, $hash, $salt = '')
+    public function verify($password, $hash, $salt = '')
     {
         return hash_equals($hash, $this->hash($password, $salt));
     }
