@@ -10,15 +10,13 @@ use App\Http\Middleware\CheckPlayerExist;
 use App\Http\Middleware\CheckPlayerOwner;
 use App\Models\Player;
 use App\Models\Texture;
+use App\Models\User;
 use App\Rules;
 use Auth;
 use Blessing\Filter;
 use Blessing\Rejection;
-use Event;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
-use Option;
-use View;
 
 class PlayerController extends Controller
 {
@@ -65,8 +63,9 @@ class PlayerController extends Controller
         return Auth::user()->players;
     }
 
-    public function add(Request $request, Dispatcher $dispatcher)
+    public function add(Request $request, Dispatcher $dispatcher, Filter $filter)
     {
+        /** @var User */
         $user = Auth::user();
 
         if (option('single_player', false)) {
@@ -81,14 +80,20 @@ class PlayerController extends Controller
                 'max:'.option('player_name_length_max'),
             ],
         ])['name'];
+        $name = $filter->apply('new_player_name', $name);
 
         $dispatcher->dispatch('player.add.attempt', [$name, $user]);
 
-        if (!Player::where('name', $name)->get()->isEmpty()) {
+        $can = $filter->apply('can_add_player', true, [$name]);
+        if ($can instanceof Rejection) {
+            return json($can->getReason(), 1);
+        }
+
+        if (Player::where('name', $name)->count() > 0) {
             return json(trans('user.player.add.repeated'), 6);
         }
 
-        if ($user->score < Option::get('score_per_player')) {
+        if ($user->score < (int) option('score_per_player')) {
             return json(trans('user.player.add.lack-score'), 7);
         }
 
@@ -102,7 +107,7 @@ class PlayerController extends Controller
         $player->tid_cape = 0;
         $player->save();
 
-        $user->score -= option('score_per_player');
+        $user->score -= (int) option('score_per_player');
         $user->save();
 
         $dispatcher->dispatch('player.added', [$player, $user]);
@@ -111,13 +116,19 @@ class PlayerController extends Controller
         return json(trans('user.player.add.success', ['name' => $name]), 0, $player->toArray());
     }
 
-    public function delete(Dispatcher $dispatcher, $pid)
+    public function delete(Dispatcher $dispatcher, Filter $filter, $pid)
     {
+        /** @var User */
         $user = auth()->user();
         $player = Player::find($pid);
         $playerName = $player->name;
 
         $dispatcher->dispatch('player.delete.attempt', [$player, $user]);
+
+        $can = $filter->apply('can_delete_player', true, [$player]);
+        if ($can instanceof Rejection) {
+            return json($can->getReason(), 1);
+        }
 
         if (option('single_player', false)) {
             return json(trans('user.player.delete.single'), 1);
@@ -129,7 +140,7 @@ class PlayerController extends Controller
         $player->delete();
 
         if (option('return_score')) {
-            $user->score += option('score_per_player');
+            $user->score += (int) option('score_per_player');
             $user->save();
         }
 
@@ -145,7 +156,7 @@ class PlayerController extends Controller
         Filter $filter,
         $pid
     ) {
-        $newName = $request->validate([
+        $name = $request->validate([
             'name' => [
                 'required',
                 new Rules\PlayerName(),
@@ -153,39 +164,55 @@ class PlayerController extends Controller
                 'max:'.option('player_name_length_max'),
             ],
         ])['name'];
+        $name = $filter->apply('new_player_name', $name);
         $player = Player::find($pid);
 
-        $dispatcher->dispatch('player.renaming', [$player, $newName]);
+        $dispatcher->dispatch('player.renaming', [$player, $name]);
 
-        $can = $filter->apply('user_can_rename_player', true, [$player, $newName]);
+        $can = $filter->apply('user_can_rename_player', true, [$player, $name]);
         if ($can instanceof Rejection) {
             return json($can->getReason(), 1);
         }
 
-        if (!Player::where('name', $newName)->get()->isEmpty()) {
+        if (Player::where('name', $name)->count() > 0) {
             return json(trans('user.player.rename.repeated'), 6);
         }
 
-        $oldName = $player->name;
-        $player->name = $newName;
+        $old = $player->replicate();
+        $player->name = $name;
         $player->save();
 
         if (option('single_player', false)) {
+            /** @var User */
             $user = auth()->user();
-            $user->nickname = $newName;
+            $user->nickname = $name;
             $user->save();
         }
 
-        $dispatcher->dispatch('player.renamed', [$player, $oldName]);
+        $dispatcher->dispatch('player.renamed', [$player, $old]);
 
-        return json(trans('user.player.rename.success', ['old' => $oldName, 'new' => $newName]), 0, $player->toArray());
+        return json(
+            trans('user.player.rename.success', ['old' => $old->name, 'new' => $name]),
+            0,
+            $player->toArray()
+        );
     }
 
-    public function setTexture(Request $request, Dispatcher $dispatcher, $pid)
-    {
+    public function setTexture(
+        Request $request,
+        Dispatcher $dispatcher,
+        Filter $filter,
+        $pid
+    ) {
         $player = Player::find($pid);
         foreach (['skin', 'cape'] as $type) {
             $tid = $request->input($type);
+
+            $can = $filter->apply('can_set_texture', true, [$player, $type, $tid]);
+            if ($can instanceof Rejection) {
+                return json($can->getReason(), 1);
+            }
+
             if ($tid) {
                 $texture = Texture::find($tid);
                 if (!$texture) {
@@ -205,12 +232,21 @@ class PlayerController extends Controller
         return json(trans('user.player.set.success', ['name' => $player->name]), 0, $player->toArray());
     }
 
-    public function clearTexture(Request $request, Dispatcher $dispatcher, $pid)
-    {
+    public function clearTexture(
+        Request $request,
+        Dispatcher $dispatcher,
+        Filter $filter,
+        $pid
+    ) {
         $player = Player::find($pid);
         $types = $request->input('type', []);
 
         foreach (['skin', 'cape'] as $type) {
+            $can = $filter->apply('can_clear_texture', true, [$player, $type]);
+            if ($can instanceof Rejection) {
+                return json($can->getReason(), 1);
+            }
+
             if ($request->has($type) || in_array($type, $types)) {
                 $dispatcher->dispatch('player.texture.resetting', [$player, $type]);
 
@@ -235,10 +271,11 @@ class PlayerController extends Controller
                 'max:'.option('player_name_length_max'),
             ],
         ])['player'];
+        /** @var User */
         $user = Auth::user();
 
         $player = Player::where('name', $name)->first();
-        if (!$player) {
+        if (empty($player)) {
             $dispatcher->dispatch('player.adding', [$name, $user]);
             event(new PlayerWillBeAdded($name));
 
