@@ -7,11 +7,6 @@ cur-score: Текущий счет
 score-notice: Нажмите на счет, чтобы показать введение.
 sign: Войти
 sign-success: Подписано успешно. Вы получили :score оч.
-time-unit-hour: ч
-time-unit-min: мин
-cant-sign-until: Вы не можете войти в :time :unit
-last-sign: Последний вход в :time
-sign-remain-time: Доступно после :time :unit
 announcement: Объявление
 no-unread: Нет новых уведомлений.
 verification:
