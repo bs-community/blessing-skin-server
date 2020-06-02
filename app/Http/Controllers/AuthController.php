@@ -44,12 +44,12 @@ class AuthController extends Controller
         Dispatcher $dispatcher,
         Filter $filter
     ) {
-        $request->validate([
+        $data = $request->validate([
             'identification' => 'required',
             'password' => 'required|min:6|max:32',
         ]);
-        $identification = $request->input('identification');
-        $password = $request->input('password');
+        $identification = $data['identification'];
+        $password = $data['password'];
 
         $can = $filter->apply('can_login', null, [$identification, $password]);
         if ($can instanceof Rejection) {
@@ -143,7 +143,7 @@ class AuthController extends Controller
         Filter $filter
     ) {
         if (!option('user_can_register')) {
-            return json(trans('auth.register.close'), 7);
+            return json(trans('auth.register.close'), 1);
         }
 
         $can = $filter->apply('can_register', null);
@@ -164,23 +164,24 @@ class AuthController extends Controller
             'password' => 'required|min:8|max:32',
             'captcha' => ['required', $captcha],
         ], $rule));
+        $playerName = $request->input('player_name');
 
         $dispatcher->dispatch('auth.registration.attempt', [$data]);
 
         if (
             option('register_with_player_name') &&
-            Player::where('name', $request->input('player_name'))->count() > 0
+            Player::where('name', $playerName)->count() > 0
         ) {
-            return json(trans('user.player.add.repeated'), 2);
+            return json(trans('user.player.add.repeated'), 1);
         }
 
-        // If amount of registered accounts of IP is more than allowed amounts,
-        // then reject the register.
+        // If amount of registered accounts of IP is more than allowed amount,
+        // reject this registration.
         $whip = new Whip();
         $ip = $whip->getValidIpAddress();
         $ip = $filter->apply('client_ip', $ip);
         if (User::where('ip', $ip)->count() >= option('regs_per_ip')) {
-            return json(trans('auth.register.max', ['regs' => option('regs_per_ip')]), 7);
+            return json(trans('auth.register.max', ['regs' => option('regs_per_ip')]), 1);
         }
 
         $dispatcher->dispatch('auth.registration.ready', [$data]);
@@ -190,25 +191,28 @@ class AuthController extends Controller
         $user->nickname = $data[option('register_with_player_name') ? 'player_name' : 'nickname'];
         $user->score = option('user_initial_score');
         $user->avatar = 0;
-        $user->password = $user->getEncryptedPwdFromEvent($data['password'])
-            ?: app('cipher')->hash($data['password'], config('secure.salt'));
+        $password = app('cipher')->hash($data['password'], config('secure.salt'));
+        $password = $filter->apply('user_password', $password);
+        $user->password = $password;
         $user->ip = $ip;
         $user->permission = User::NORMAL;
         $user->register_at = Carbon::now();
         $user->last_sign_at = Carbon::now()->subDay();
-
         $user->save();
 
         $dispatcher->dispatch('auth.registration.completed', [$user]);
         event(new Events\UserRegistered($user));
 
         if (option('register_with_player_name')) {
+            $dispatcher->dispatch('player.adding', [$playerName, $user]);
+
             $player = new Player();
             $player->uid = $user->uid;
-            $player->name = $request->get('player_name');
+            $player->name = $playerName;
             $player->tid_skin = 0;
             $player->save();
 
+            $dispatcher->dispatch('player.added', [$player, $user]);
             event(new Events\PlayerWasAdded($player));
         }
 
@@ -262,7 +266,6 @@ class AuthController extends Controller
         }
 
         $user = User::where('email', $email)->first();
-
         if (!$user) {
             return json(trans('auth.forgot.unregistered'), 1);
         }
@@ -271,7 +274,7 @@ class AuthController extends Controller
 
         $url = URL::temporarySignedRoute(
             'auth.reset',
-            now()->addHour(),
+            Carbon::now()->addHour(),
             ['uid' => $user->uid],
             false
         );
@@ -343,7 +346,6 @@ class AuthController extends Controller
         abort_unless($request->hasValidSignature(false), 403, trans('auth.verify.invalid'));
 
         $user = User::find($uid);
-
         if (!$user || $user->verified) {
             throw new PrettyPageException(trans('auth.verify.invalid'), 1);
         }

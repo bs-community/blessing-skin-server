@@ -7,9 +7,9 @@ use App\Mail\ForgotPassword;
 use App\Models\Player;
 use App\Models\User;
 use App\Rules\Captcha;
-use App\Services\Facades\Option;
 use Blessing\Rejection;
 use Cache;
+use Carbon\Carbon;
 use Event;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Mail;
@@ -337,7 +337,7 @@ class AuthControllerTest extends TestCase
                 'captcha' => 'a',
             ]
         )->assertJson([
-            'code' => 2,
+            'code' => 1,
             'message' => trans('user.player.add.repeated'),
         ]);
         $this->assertNull(User::where('email', 'a@b.c')->first());
@@ -385,7 +385,7 @@ class AuthControllerTest extends TestCase
         )->assertJsonValidationErrors('captcha');
 
         // Should be forbidden if registering is closed
-        Option::set('user_can_register', false);
+        option(['user_can_register' => false]);
         $this->postJson(
             '/auth/register',
             [
@@ -395,7 +395,7 @@ class AuthControllerTest extends TestCase
                 'captcha' => 'a',
             ]
         )->assertJson([
-            'code' => 7,
+            'code' => 1,
             'message' => trans('auth.register.close'),
         ]);
 
@@ -409,12 +409,11 @@ class AuthControllerTest extends TestCase
                 'captcha' => 'a',
             ]
         )->assertJson([
-            'code' => 7,
+            'code' => 1,
             'message' => trans('auth.register.max', ['regs' => option('regs_per_ip')]),
         ]);
 
-        Option::set('regs_per_ip', 100);
-
+        option(['regs_per_ip' => 100]);
         // Database should be updated if succeeded
         $response = $this->postJson(
             '/auth/register',
@@ -434,6 +433,9 @@ class AuthControllerTest extends TestCase
             $this->assertEquals($ip, $value);
 
             return true;
+        });
+        $filter->assertApplied('user_password', function ($password) {
+            return app('cipher')->verify('12345678', $password);
         });
         $this->assertTrue($newUser->verifyPassword('12345678'));
         $this->assertDatabaseHas('users', [
@@ -480,6 +482,7 @@ class AuthControllerTest extends TestCase
         });
 
         // Require player name
+        Event::fake();
         option(['register_with_player_name' => true]);
         auth()->logout();
         $this->postJson(
@@ -492,6 +495,18 @@ class AuthControllerTest extends TestCase
             ]
         )->assertJson(['code' => 0]);
         $this->assertNotNull(Player::where('player', 'name'));
+        Event::assertDispatched('player.adding', function ($eventName, $payload) {
+            $this->assertEquals('name', $payload[0]);
+            $this->assertEquals('abc@test.org', $payload[1]->email);
+
+            return true;
+        });
+        Event::assertDispatched('player.added', function ($eventName, $payload) {
+            $this->assertEquals('name', $payload[0]->name);
+            $this->assertEquals('abc@test.org', $payload[1]->email);
+
+            return true;
+        });
         auth()->logout();
 
         // rejected by filter
@@ -500,7 +515,6 @@ class AuthControllerTest extends TestCase
             return new Rejection('disabled');
         });
         $this->postJson('/auth/register', [])
-            ->dump()
             ->assertJson(['code' => 1, 'message' => 'disabled']);
     }
 
@@ -634,7 +648,7 @@ class AuthControllerTest extends TestCase
         $user = factory(User::class)->create();
         $url = URL::temporarySignedRoute(
             'auth.reset',
-            now()->addHour(),
+            Carbon::now()->addHour(),
             ['uid' => $user->uid],
             false
         );
@@ -642,7 +656,7 @@ class AuthControllerTest extends TestCase
 
         $url = URL::temporarySignedRoute(
             'auth.reset',
-            now()->addHour(),
+            Carbon::now()->addHour(),
             ['uid' => $user->uid]
         );
         $this->get($url)->assertForbidden();
@@ -655,7 +669,7 @@ class AuthControllerTest extends TestCase
         $user = factory(User::class)->create();
         $url = URL::temporarySignedRoute(
             'auth.reset',
-            now()->addHour(),
+            Carbon::now()->addHour(),
             ['uid' => $user->uid],
             false
         );
