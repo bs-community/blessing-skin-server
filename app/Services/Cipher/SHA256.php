@@ -4,10 +4,7 @@ namespace App\Services\Cipher;
 
 class SHA256 extends BaseCipher
 {
-    /**
-     * Once SHA256 hash.
-     */
-    public function hash($value, $salt = '')
+    public function hash($value, $salt = ''): string
     {
         return hash('sha256', $value);
     }

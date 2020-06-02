@@ -4,10 +4,7 @@ namespace App\Services\Cipher;
 
 class SHA512 extends BaseCipher
 {
-    /**
-     * Once SHA512 hash.
-     */
-    public function hash($value, $salt = '')
+    public function hash($value, $salt = ''): string
     {
         return hash('sha512', $value);
     }
