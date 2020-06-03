@@ -330,6 +330,7 @@ class UserControllerTest extends TestCase
         ]);
 
         // Change password successfully
+        $filter = Fakes\Filter::fake();
         $this->postJson('/user/profile', [
             'action' => 'password',
             'current_password' => '12345678',
@@ -349,7 +350,17 @@ class UserControllerTest extends TestCase
 
             return true;
         });
-        Event::assertDispatched(Events\EncryptUserPassword::class);
+        $filter->assertApplied('verify_password', function ($passed, $raw, $u) use ($user) {
+            $this->assertEquals('12345678', $raw);
+            $this->assertTrue($user->is($u));
+
+            return true;
+        });
+        $filter->assertApplied('user_password', function ($password) {
+            $this->assertTrue(password_verify('87654321', $password));
+
+            return true;
+        });
         $this->assertTrue(User::find($user->uid)->verifyPassword('87654321'));
         // After changed password, user should re-login.
         $this->assertGuest();

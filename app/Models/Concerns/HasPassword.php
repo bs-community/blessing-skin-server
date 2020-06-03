@@ -2,39 +2,31 @@
 
 namespace App\Models\Concerns;
 
-use App\Events\EncryptUserPassword;
-use Illuminate\Support\Arr;
+use App\Services\Cipher\BaseCipher;
+use Blessing\Filter;
 
 trait HasPassword
 {
     public function verifyPassword(string $raw)
     {
-        // Compare directly if any responses is returned by event dispatcher
-        if ($result = $this->getEncryptedPwdFromEvent($raw, $this)) {
-            return hash_equals($this->password, $result);     // @codeCoverageIgnore
-        }
+        /** @var BaseCipher */
+        $cipher = resolve('cipher');
+        /** @var Filter */
+        $filter = resolve(Filter::class);
+        $password = $this->password;
+        $user = $this;
 
-        return app('cipher')->verify($raw, $this->password, config('secure.salt'));
-    }
+        $passed = $cipher->verify($raw, $password, config('secure.salt'));
+        $passed = $filter->apply('verify_password', $passed, [$raw, $user]);
 
-    /**
-     * Try to get encrypted password from event dispatcher.
-     */
-    public function getEncryptedPwdFromEvent(string $raw)
-    {
-        $responses = event(new EncryptUserPassword($raw, $this));
-
-        return Arr::get($responses, 0);
+        return $passed;
     }
 
     public function changePassword(string $password): bool
     {
-        $responses = event(new EncryptUserPassword($password, $this));
-        $hash = Arr::get($responses, 0);
-        if (empty($hash)) {
-            $hash = app('cipher')->hash($password, config('secure.salt'));
-        }
-        $this->password = $hash;
+        $password = resolve('cipher')->hash($password, config('secure.salt'));
+        $password = resolve(Filter::class)->apply('user_password', $password);
+        $this->password = $password;
 
         return $this->save();
     }
