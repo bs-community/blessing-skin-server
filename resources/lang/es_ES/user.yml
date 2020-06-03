@@ -75,10 +75,8 @@ player:
   add:
     repeated: El nombre del jugador ya está registrado.
     lack-score: No tienes suficiente puntuación para añadir un jugador.
-    single: Debe poseer exactamente UN jugador, así que no puede añadir más.
     success: Jugador :name se agregó exitosamente.
   delete:
-    single: Debe poseer exactamente UN jugador, así que no puede eliminarlo.
     success: Jugador :name fue eliminado exitosamente.
   rename:
     repeated: Este nombre de jugador está ocupado. Por favor, elija otro.
@@ -87,9 +85,6 @@ player:
     success: La textura se aplicó al jugador :name con éxito.
   clear:
     success: Las texturas del jugador :name se restablecieron con éxito.
-  bind:
-    title: Vincular jugadores
-    success: '¡Vinculados con éxito!'
 profile:
   avatar:
     title: '¿Cambiar avatar?'
@@ -108,7 +103,6 @@ profile:
   nickname:
     title: Cambiar apodo
     empty: No se hay apodo asignado ahora.
-    single: No tienes permiso para actualizar el apodo porque hemos vinculado su cuenta a su jugador.
     success: Apodo actualizado correctamente a :nickname
   email:
     title: Cambiar email
