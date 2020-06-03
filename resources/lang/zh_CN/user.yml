@@ -75,10 +75,8 @@ player:
   add:
     repeated: 该角色名已被占用
     lack-score: 添加角色失败，积分不足
-    single: 您必须拥有且只有一个角色，因此您不能添加更多角色。
     success: 成功添加了角色 :name
   delete:
-    single: 您必须拥有且只有一个角色，因此您不能删除。
     success: 角色 :name 已被删除
   rename:
     repeated: 该角色名已被占用
@@ -87,9 +85,6 @@ player:
     success: 材质已成功应用至角色 :name
   clear:
     success: 角色 :name 的材质已被成功重置
-  bind:
-    title: 绑定角色
-    success: 绑定成功
 profile:
   avatar:
     title: 更改头像？
@@ -108,7 +103,6 @@ profile:
   nickname:
     title: 更改昵称
     empty: 当前未设置昵称，
-    single: 您不能更改昵称，因为我们已将角色与您的账号进行了绑定。
     success: 昵称已成功设置为 :nickname
   email:
     title: 更改邮箱
