@@ -6,7 +6,6 @@ use App\Events\PlayerWasAdded;
 use App\Events\PlayerWasDeleted;
 use App\Events\PlayerWillBeAdded;
 use App\Events\PlayerWillBeDeleted;
-use App\Http\Middleware\CheckPlayerOwner;
 use App\Models\Player;
 use App\Models\Texture;
 use App\Models\User;
@@ -77,10 +76,6 @@ class PlayerController extends Controller
         /** @var User */
         $user = Auth::user();
 
-        if (option('single_player', false)) {
-            return json(trans('user.player.add.single'), 1);
-        }
-
         $name = $request->validate([
             'name' => [
                 'required',
@@ -138,10 +133,6 @@ class PlayerController extends Controller
             return json($can->getReason(), 1);
         }
 
-        if (option('single_player', false)) {
-            return json(trans('user.player.delete.single'), 1);
-        }
-
         $dispatcher->dispatch('player.deleting', [$player, $user]);
         event(new PlayerWillBeDeleted($player));
 
@@ -185,13 +176,6 @@ class PlayerController extends Controller
         $old = $player->replicate();
         $player->name = $name;
         $player->save();
-
-        if (option('single_player', false)) {
-            /** @var User */
-            $user = auth()->user();
-            $user->nickname = $name;
-            $user->save();
-        }
 
         $dispatcher->dispatch('player.renamed', [$player, $old]);
 
@@ -261,42 +245,5 @@ class PlayerController extends Controller
         }
 
         return json(trans('user.player.clear.success', ['name' => $player->name]), 0, $player->toArray());
-    }
-
-    public function bind(Request $request, Dispatcher $dispatcher)
-    {
-        $name = $request->validate([
-            'player' => [
-                'required',
-                new Rules\PlayerName(),
-                'min:'.option('player_name_length_min'),
-                'max:'.option('player_name_length_max'),
-            ],
-        ])['player'];
-        /** @var User */
-        $user = Auth::user();
-
-        $player = Player::where('name', $name)->first();
-        if (empty($player)) {
-            $dispatcher->dispatch('player.adding', [$name, $user]);
-            event(new PlayerWillBeAdded($name));
-
-            $player = new Player();
-            $player->uid = $user->uid;
-            $player->name = $name;
-            $player->tid_skin = 0;
-            $player->save();
-
-            $dispatcher->dispatch('player.added', [$player, $user]);
-            event(new PlayerWasAdded($player));
-        } elseif ($player->uid != $user->uid) {
-            return json(trans('user.player.rename.repeated'), 1);
-        }
-
-        $user->players()->where('name', '<>', $name)->delete();
-        $user->nickname = $name;
-        $user->save();
-
-        return json(trans('user.player.bind.success'), 0);
     }
 }

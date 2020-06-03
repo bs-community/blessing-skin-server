@@ -76,16 +76,6 @@ class PlayersManagementControllerTest extends TestCase
             ['player_name' => $player->name]
         )->assertJsonValidationErrors(['player_name']);
 
-        // single player
-        option(['single_player' => true]);
-        $this->putJson(
-            route('admin.players.name', ['player' => $player->pid]),
-            ['player_name' => 'abc']
-        )->assertJson(['code' => 0]);
-        $player->refresh();
-        $this->assertEquals('abc', $player->user->nickname);
-        option(['single_player' => false]);
-
         // rename a player successfully
         Event::fake();
         $this->putJson(
@@ -99,7 +89,7 @@ class PlayersManagementControllerTest extends TestCase
         $player->refresh();
         $this->assertEquals('new_name', $player->name);
         Event::assertDispatched(
-            'player.name.updating',
+            'player.renaming',
             function ($eventName, $payload) use ($player) {
                 $this->assertEquals($player->pid, $payload[0]->pid);
                 $this->assertEquals('new_name', $payload[1]);
@@ -108,7 +98,7 @@ class PlayersManagementControllerTest extends TestCase
             }
         );
         Event::assertDispatched(
-            'player.name.updated',
+            'player.renamed',
             function ($eventName, $payload) use ($player, $oldName) {
                 $this->assertEquals($player->pid, $payload[0]->pid);
                 $this->assertEquals($oldName, $payload[1]);

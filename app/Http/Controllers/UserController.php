@@ -217,10 +217,6 @@ class UserController extends Controller
 
         switch ($action) {
             case 'nickname':
-                if (option('single_player', false)) {
-                    return json(trans('user.profile.nickname.single'), 1);
-                }
-
                 $request->validate(['new_nickname' => 'required']);
 
                 $nickname = $request->input('new_nickname');

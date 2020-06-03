@@ -48,7 +48,7 @@ Route::prefix('auth')->name('auth.')->group(function () {
 
 Route::prefix('user')
     ->name('user.')
-    ->middleware(['authorize', Middleware\RequireBindPlayer::class])
+    ->middleware(['authorize'])
     ->group(function () {
         Route::get('', 'UserController@index')->name('home');
         Route::get('notifications/{id}', 'NotificationsController@read')->name('notification');
@@ -76,8 +76,6 @@ Route::prefix('user')
                 Route::delete('{player}/textures', 'PlayerController@clearTexture')->name('clear');
                 Route::put('{player}/name', 'PlayerController@rename')->name('rename');
                 Route::delete('{player}', 'PlayerController@delete')->name('delete');
-                Route::view('bind', 'user.bind')->name('bind');
-                Route::post('bind', 'PlayerController@bind')->name('bind');
             });
 
         Route::prefix('closet')->name('closet.')->group(function () {

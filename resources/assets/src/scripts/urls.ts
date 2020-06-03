@@ -37,8 +37,8 @@ export default {
   user: {
     home: () => '/user' as const,
     closet: {
-      add: () => '/user/closet' as const,
       page: () => '/user/closet' as const,
+      add: () => '/user/closet' as const,
       ids: () => '/user/closet/ids' as const,
       list: () => '/user/closet/list' as const,
       rename: (tid: number) => `/user/closet/${tid}`,
@@ -48,7 +48,6 @@ export default {
     player: {
       add: () => '/user/player' as const,
       page: () => '/user/player' as const,
-      bind: () => '/user/player/bind' as const,
       list: () => '/user/player/list' as const,
       delete: (player: number) => `/user/player/${player}`,
       rename: (player: number) => `/user/player/${player}/name`,

@@ -56,13 +56,13 @@ class PlayersManagementController extends Controller
             ],
         ])['player_name'];
 
-        $dispatcher->dispatch('player.name.updating', [$player, $name]);
+        $dispatcher->dispatch('player.renaming', [$player, $name]);
 
         $oldName = $player->name;
         $player->name = $name;
         $player->save();
 
-        $dispatcher->dispatch('player.name.updated', [$player, $oldName]);
+        $dispatcher->dispatch('player.renamed', [$player, $oldName]);
 
         return json(trans('admin.players.name.success', ['player' => $player->name]), 0);
     }

@@ -267,13 +267,6 @@ class UserControllerTest extends TestCase
         $this->postJson('/user/profile', ['action' => 'nickname'])
             ->assertJsonValidationErrors('new_nickname');
 
-        // Single player
-        option(['single_player' => true]);
-        factory(\App\Models\Player::class)->create(['uid' => $user->uid]);
-        $this->postJson('/user/profile', ['action' => 'nickname'])
-            ->assertJson(['code' => 1, 'message' => trans('user.profile.nickname.single')]);
-        option(['single_player' => false]);
-
         // Change nickname successfully
         $this->postJson('/user/profile', [
             'action' => 'nickname',

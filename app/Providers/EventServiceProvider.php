@@ -33,9 +33,6 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\RenderingHeader' => [
             Listeners\SerializeGlobals::class,
         ],
-        'player.name.updated' => [
-            Listeners\SinglePlayer\UpdateOwnerNickName::class,
-        ],
         'auth.registration.completed' => [
             Listeners\SendEmailVerification::class,
         ],
