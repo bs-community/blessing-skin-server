@@ -270,7 +270,7 @@ describe('edit player name', () => {
   })
 
   it('succeeded', async () => {
-    fetch.post.mockResolvedValue({ code: 0, message: 'success' })
+    fetch.put.mockResolvedValue({ code: 0, message: 'success' })
 
     const {
       getByText,
@@ -287,7 +287,7 @@ describe('edit player name', () => {
     })
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith(urls.user.player.rename(fixture.pid), {
+      expect(fetch.put).toBeCalledWith(urls.user.player.rename(fixture.pid), {
         name: 'reina',
       }),
     )
@@ -307,14 +307,15 @@ describe('edit player name', () => {
       target: { value: '' },
     })
     fireEvent.click(getByText(t('general.confirm')))
-    await waitFor(() => expect(fetch.post).not.toBeCalled())
+    await waitFor(() => expect(fetch.put).not.toBeCalled())
     expect(queryByText(t('user.emptyPlayerName'))).toBeInTheDocument()
 
     fireEvent.click(getByText(t('general.cancel')))
+    expect(queryByText(fixture.name)).toBeInTheDocument()
   })
 
   it('failed', async () => {
-    fetch.post.mockResolvedValue({ code: 1, message: 'failed' })
+    fetch.put.mockResolvedValue({ code: 1, message: 'failed' })
 
     const {
       getByText,
@@ -331,27 +332,12 @@ describe('edit player name', () => {
     })
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith(urls.user.player.rename(fixture.pid), {
+      expect(fetch.put).toBeCalledWith(urls.user.player.rename(fixture.pid), {
         name: 'reina',
       }),
     )
     expect(queryByText('failed')).toBeInTheDocument()
     expect(getByRole('alert')).toHaveClass('alert-danger')
-    expect(queryByText(fixture.name)).toBeInTheDocument()
-  })
-
-  it('cancelled', async () => {
-    const { getByText, getByTitle, getByDisplayValue, queryByText } = render(
-      <Players />,
-    )
-    await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
-
-    fireEvent.click(getByTitle(t('user.player.edit-pname')))
-    fireEvent.input(getByDisplayValue(fixture.name), {
-      target: { value: 'reina' },
-    })
-    fireEvent.click(getByText(t('general.cancel')))
-    await waitFor(() => expect(fetch.post).not.toBeCalled())
     expect(queryByText(fixture.name)).toBeInTheDocument()
   })
 })
@@ -365,7 +351,7 @@ describe('reset texture', () => {
   })
 
   it('clear skin and cape', async () => {
-    fetch.post.mockResolvedValue({ code: 0, message: 'success' })
+    fetch.del.mockResolvedValue({ code: 0, message: 'success' })
 
     const { getByText, getByRole, getByLabelText, queryByText } = render(
       <Players />,
@@ -377,7 +363,7 @@ describe('reset texture', () => {
     fireEvent.click(getByLabelText(t('general.cape')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith(urls.user.player.clear(fixture.pid), {
+      expect(fetch.del).toBeCalledWith(urls.user.player.clear(fixture.pid), {
         type: ['skin', 'cape'],
       }),
     )
@@ -386,7 +372,7 @@ describe('reset texture', () => {
   })
 
   it('clear skin', async () => {
-    fetch.post.mockResolvedValue({ code: 0, message: 'success' })
+    fetch.del.mockResolvedValue({ code: 0, message: 'success' })
 
     const { getByText, getByRole, getByLabelText, queryByText } = render(
       <Players />,
@@ -397,7 +383,7 @@ describe('reset texture', () => {
     fireEvent.click(getByLabelText(t('general.skin')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith(urls.user.player.clear(fixture.pid), {
+      expect(fetch.del).toBeCalledWith(urls.user.player.clear(fixture.pid), {
         type: ['skin'],
       }),
     )
@@ -406,7 +392,7 @@ describe('reset texture', () => {
   })
 
   it('clear cape', async () => {
-    fetch.post.mockResolvedValue({ code: 0, message: 'success' })
+    fetch.del.mockResolvedValue({ code: 0, message: 'success' })
 
     const { getByText, getByRole, getByLabelText, queryByText } = render(
       <Players />,
@@ -417,7 +403,7 @@ describe('reset texture', () => {
     fireEvent.click(getByLabelText(t('general.cape')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith(urls.user.player.clear(fixture.pid), {
+      expect(fetch.del).toBeCalledWith(urls.user.player.clear(fixture.pid), {
         type: ['cape'],
       }),
     )
@@ -431,13 +417,13 @@ describe('reset texture', () => {
 
     fireEvent.click(getByText(t('user.player.delete-texture')))
     fireEvent.click(getByText(t('general.confirm')))
-    await waitFor(() => expect(fetch.post).not.toBeCalled())
+    await waitFor(() => expect(fetch.del).not.toBeCalled())
     expect(queryByText(t('user.noClearChoice'))).toBeInTheDocument()
     expect(getByRole('alert')).toHaveClass('alert-warning')
   })
 
   it('failed', async () => {
-    fetch.post.mockResolvedValue({ code: 1, message: 'failed' })
+    fetch.del.mockResolvedValue({ code: 1, message: 'failed' })
 
     const { getByText, getByRole, getByLabelText, queryByText } = render(
       <Players />,
@@ -448,7 +434,7 @@ describe('reset texture', () => {
     fireEvent.click(getByLabelText(t('general.skin')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith(urls.user.player.clear(fixture.pid), {
+      expect(fetch.del).toBeCalledWith(urls.user.player.clear(fixture.pid), {
         type: ['skin'],
       }),
     )
@@ -463,7 +449,7 @@ describe('reset texture', () => {
     fireEvent.click(getByText(t('user.player.delete-texture')))
     fireEvent.click(getByLabelText(t('general.skin')))
     fireEvent.click(getByText(t('general.cancel')))
-    await waitFor(() => expect(fetch.post).not.toBeCalled())
+    await waitFor(() => expect(fetch.del).not.toBeCalled())
   })
 })
 
@@ -476,7 +462,7 @@ describe('delete player', () => {
   })
 
   it('succeeded', async () => {
-    fetch.post.mockResolvedValue({ code: 0, message: 'success' })
+    fetch.del.mockResolvedValue({ code: 0, message: 'success' })
 
     const { getByText, getByRole, queryByText } = render(<Players />)
     await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
@@ -484,7 +470,7 @@ describe('delete player', () => {
     fireEvent.click(getByText(t('user.player.delete-player')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith(urls.user.player.delete(fixture.pid)),
+      expect(fetch.del).toBeCalledWith(urls.user.player.delete(fixture.pid)),
     )
     expect(getByText('success')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
@@ -492,7 +478,7 @@ describe('delete player', () => {
   })
 
   it('failed', async () => {
-    fetch.post.mockResolvedValue({ code: 1, message: 'failed' })
+    fetch.del.mockResolvedValue({ code: 1, message: 'failed' })
 
     const { getByText, getByRole, queryByText } = render(<Players />)
     await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
@@ -500,7 +486,7 @@ describe('delete player', () => {
     fireEvent.click(getByText(t('user.player.delete-player')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith(urls.user.player.delete(fixture.pid)),
+      expect(fetch.del).toBeCalledWith(urls.user.player.delete(fixture.pid)),
     )
     expect(getByText('failed')).toBeInTheDocument()
     expect(getByRole('alert')).toHaveClass('alert-danger')
@@ -513,7 +499,7 @@ describe('delete player', () => {
 
     fireEvent.click(getByText(t('user.player.delete-player')))
     fireEvent.click(getByText(t('general.cancel')))
-    await waitFor(() => expect(fetch.post).not.toBeCalled())
+    await waitFor(() => expect(fetch.del).not.toBeCalled())
     expect(queryByText(fixture.name)).toBeInTheDocument()
   })
 })

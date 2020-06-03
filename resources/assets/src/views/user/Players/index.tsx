@@ -67,7 +67,7 @@ const Players: React.FC = () => {
       return
     }
 
-    const { code, message } = await fetch.post<fetch.ResponseBody>(
+    const { code, message } = await fetch.put<fetch.ResponseBody>(
       urls.user.player.rename(player.pid),
       { name },
     )
@@ -88,7 +88,7 @@ const Players: React.FC = () => {
       return
     }
 
-    const { code, message } = await fetch.post<fetch.ResponseBody>(
+    const { code, message } = await fetch.del<fetch.ResponseBody>(
       urls.user.player.clear(selected),
       { type: [skin && 'skin', cape && 'cape'].filter(Boolean) },
     )
@@ -128,7 +128,7 @@ const Players: React.FC = () => {
       return
     }
 
-    const { code, message } = await fetch.post<fetch.ResponseBody>(
+    const { code, message } = await fetch.del<fetch.ResponseBody>(
       urls.user.player.delete(player.pid),
     )
     if (code === 0) {

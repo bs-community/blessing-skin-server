@@ -391,7 +391,7 @@ describe('apply textures to player', () => {
     fetch.get
       .mockResolvedValueOnce(createPaginator([fixtureSkin]))
       .mockResolvedValueOnce([fixturePlayer])
-    fetch.post.mockResolvedValue({ code: 0, message: 'success' })
+    fetch.put.mockResolvedValue({ code: 0, message: 'success' })
 
     const {
       getByText,
@@ -407,7 +407,7 @@ describe('apply textures to player', () => {
     await waitFor(() => expect(fetch.get).toBeCalled())
     fireEvent.click(getByTitle(fixturePlayer.name))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith(
+      expect(fetch.put).toBeCalledWith(
         urls.user.player.set(fixturePlayer.pid),
         { skin: fixtureSkin.tid },
       ),
@@ -420,7 +420,7 @@ describe('apply textures to player', () => {
     fetch.get
       .mockResolvedValueOnce(createPaginator([fixtureSkin]))
       .mockResolvedValueOnce([fixturePlayer])
-    fetch.post.mockResolvedValue({ code: 1, message: 'failed' })
+    fetch.put.mockResolvedValue({ code: 1, message: 'failed' })
 
     const {
       getByText,
@@ -436,7 +436,7 @@ describe('apply textures to player', () => {
     await waitFor(() => expect(fetch.get).toBeCalled())
     fireEvent.click(getByTitle(fixturePlayer.name))
     await waitFor(() =>
-      expect(fetch.post).toBeCalledWith(
+      expect(fetch.put).toBeCalledWith(
         urls.user.player.set(fixturePlayer.pid),
         { skin: fixtureSkin.tid },
       ),
@@ -459,6 +459,6 @@ describe('apply textures to player', () => {
 
     $('#modal-apply').modal('hide').trigger('hidden.bs.modal')
 
-    expect(fetch.post).not.toBeCalled()
+    expect(fetch.put).not.toBeCalled()
   })
 })
