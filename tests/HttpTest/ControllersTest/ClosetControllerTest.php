@@ -137,7 +137,7 @@ class ClosetControllerTest extends TestCase
             }
         );
         Event::assertNotDispatched('closet.added');
-        Fakes\Filter::fake();
+        $filter->remove('can_add_closet_item');
 
         // the user doesn't have enough score to add a texture
         $this->user->score = 0;
@@ -278,10 +278,10 @@ class ClosetControllerTest extends TestCase
             }
         );
         Event::assertNotDispatched('closet.renamed');
+        $filter->remove('can_rename_closet_item');
         $this->user->closet()->detach($texture->tid);
 
         // rename a not-existed texture
-        Fakes\Filter::fake();
         $this->putJson(
             route('user.closet.rename', ['tid' => -1]),
             ['name' => $name]
@@ -352,7 +352,7 @@ class ClosetControllerTest extends TestCase
         $this->deleteJson(route('user.closet.remove', ['tid' => $texture->tid]))
             ->assertJson(['code' => 1, 'message' => 'rejected']);
         $this->user->closet()->detach($texture->tid);
-        Fakes\Filter::fake();
+        $filter->remove('can_remove_closet_item');
 
         // should return score if `return_score` is true
         Event::fake();

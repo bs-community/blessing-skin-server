@@ -103,10 +103,10 @@ class PlayerControllerTest extends TestCase
         Event::assertDispatched('player.add.attempt');
         Event::assertNotDispatched('player.adding');
         Event::assertNotDispatched('player.added');
+        $filter->remove('can_add_player');
 
         // Allowed to use CJK characters
         Event::fake();
-        Fakes\Filter::fake();
         option(['player_name_rule' => 'cjk']);
         $user = factory(User::class)->create();
         $score = $user->score;
@@ -172,9 +172,9 @@ class PlayerControllerTest extends TestCase
         $this->actingAs($user)
             ->deleteJson(route('user.player.delete', ['player' => $player]))
             ->assertJson(['code' => 1, 'message' => 'rejected']);
+        $filter->remove('can_delete_player');
 
         // success
-        $filter = Fakes\Filter::fake();
         $this->deleteJson(route('user.player.delete', ['player' => $player]))
             ->assertJson([
                 'code' => 0,
@@ -236,7 +236,6 @@ class PlayerControllerTest extends TestCase
     public function testRename()
     {
         Event::fake();
-        $filter = Fakes\Filter::fake();
         $player = factory(Player::class)->create();
         $user = $player->user;
 
@@ -268,7 +267,7 @@ class PlayerControllerTest extends TestCase
 
         // Rejected by filter
         $filter = Fakes\Filter::fake();
-        $filter->add('user_can_rename_player', function ($can, $p, $name) use ($player) {
+        $filter->add('can_rename_player', function ($can, $p, $name) use ($player) {
             $this->assertTrue($player->is($p));
             $this->assertEquals('new', $name);
 
@@ -282,7 +281,7 @@ class PlayerControllerTest extends TestCase
             'code' => 1,
             'message' => 'rejected',
         ]);
-        $filter->remove('user_can_rename_player');
+        $filter->remove('can_rename_player');
 
         // Success
         Event::fake();

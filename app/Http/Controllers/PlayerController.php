@@ -168,7 +168,7 @@ class PlayerController extends Controller
 
         $dispatcher->dispatch('player.renaming', [$player, $name]);
 
-        $can = $filter->apply('user_can_rename_player', true, [$player, $name]);
+        $can = $filter->apply('can_rename_player', true, [$player, $name]);
         if ($can instanceof Rejection) {
             return json($can->getReason(), 1);
         }

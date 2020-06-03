@@ -176,9 +176,8 @@ class SkinlibControllerTest extends TestCase
             ->assertSee('primary')
             ->assertSee('STAFF');
         $uid = $uploader->uid;
-        resolve(Filter::class)->add('user_badges', function ($badges, $uploader) use ($uid) {
+        $filter->add('user_badges', function ($badges, $uploader) use ($uid) {
             $this->assertEquals($uid, $uploader->uid);
-
             $badges[] = ['text' => 'badge-test', 'color' => 'maroon'];
 
             return $badges;
