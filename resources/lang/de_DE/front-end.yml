@@ -126,8 +126,6 @@ user:
   typeToSearch: Type to search
   useAs: Apply...
   resetSelected: Clear selected
-  bindNewPlayer: You're required to create a player to go ahead. This player will be bound with your account.
-  bindExistedPlayer: You're required to select a player to go ahead. This player will be bound with your account. Other players will be deleted.
   closet:
     upload: Upload Texture
     use-as:

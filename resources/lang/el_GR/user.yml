@@ -75,10 +75,8 @@ player:
   add:
     repeated: The player name is already registered.
     lack-score: You don't have enough score to add a player.
-    single: You must own exactly ONE player so you can't add more.
     success: Player :name was added successfully.
   delete:
-    single: You must own exactly ONE player so you can't delete it.
     success: Player :name was deleted successfully.
   rename:
     repeated: This player name is occupied. Please choose another one.
@@ -87,9 +85,6 @@ player:
     success: The texture was applied to player :name successfully.
   clear:
     success: The textures of player :name was resetted successfully.
-  bind:
-    title: Bind Players
-    success: Bound successfully!
 profile:
   avatar:
     title: Change Avatar?
@@ -108,7 +103,6 @@ profile:
   nickname:
     title: Change Nickname
     empty: No nickname is set now.
-    single: You're not allowed to update nickname, because we've bound your player with your account.
     success: Nickname is successfully updated to :nickname
   email:
     title: Change Email
