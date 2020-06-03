@@ -37,6 +37,20 @@ class PlayerControllerTest extends TestCase
             ->assertJson([$player->toArray()]);
     }
 
+    public function testAccessControl()
+    {
+        $user = factory(User::class)->make();
+        $player = factory(Player::class)->create();
+
+        $this->actingAs($user)
+            ->deleteJson(route('user.player.delete', ['player' => $player]))
+            ->assertJson([
+                'code' => 1,
+                'message' => trans('admin.players.no-permission'),
+            ])
+            ->assertForbidden();
+    }
+
     public function testAdd()
     {
         Event::fake();

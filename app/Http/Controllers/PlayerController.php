@@ -22,7 +22,16 @@ class PlayerController extends Controller
 {
     public function __construct()
     {
-        $this->middleware([CheckPlayerOwner::class], [
+        $this->middleware(function (Request $request, $next) {
+            /** @var Player */
+            $player = $request->route('player');
+            if ($player->user->isNot($request->user())) {
+                return json(trans('admin.players.no-permission'), 1)
+                    ->setStatusCode(403);
+            }
+
+            return $next($request);
+        }, [
             'only' => ['delete', 'rename', 'setTexture', 'clearTexture'],
         ]);
     }
