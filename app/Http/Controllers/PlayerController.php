@@ -6,7 +6,6 @@ use App\Events\PlayerWasAdded;
 use App\Events\PlayerWasDeleted;
 use App\Events\PlayerWillBeAdded;
 use App\Events\PlayerWillBeDeleted;
-use App\Http\Middleware\CheckPlayerExist;
 use App\Http\Middleware\CheckPlayerOwner;
 use App\Models\Player;
 use App\Models\Texture;
@@ -23,7 +22,7 @@ class PlayerController extends Controller
 {
     public function __construct()
     {
-        $this->middleware([CheckPlayerExist::class, CheckPlayerOwner::class], [
+        $this->middleware([CheckPlayerOwner::class], [
             'only' => ['delete', 'rename', 'setTexture', 'clearTexture'],
         ]);
     }
@@ -114,11 +113,13 @@ class PlayerController extends Controller
         return json(trans('user.player.add.success', ['name' => $name]), 0, $player->toArray());
     }
 
-    public function delete(Dispatcher $dispatcher, Filter $filter, $pid)
-    {
+    public function delete(
+        Dispatcher $dispatcher,
+        Filter $filter,
+        Player $player
+    ) {
         /** @var User */
         $user = auth()->user();
-        $player = Player::find($pid);
         $playerName = $player->name;
 
         $dispatcher->dispatch('player.delete.attempt', [$player, $user]);
@@ -152,7 +153,7 @@ class PlayerController extends Controller
         Request $request,
         Dispatcher $dispatcher,
         Filter $filter,
-        $pid
+        Player $player
     ) {
         $name = $request->validate([
             'name' => [
@@ -160,11 +161,10 @@ class PlayerController extends Controller
                 new Rules\PlayerName(),
                 'min:'.option('player_name_length_min'),
                 'max:'.option('player_name_length_max'),
-                Rule::unique('players')->ignore($pid),
+                Rule::unique('players')->ignoreModel($player),
             ],
         ])['name'];
         $name = $filter->apply('new_player_name', $name);
-        $player = Player::find($pid);
 
         $dispatcher->dispatch('player.renaming', [$player, $name]);
 
@@ -197,9 +197,8 @@ class PlayerController extends Controller
         Request $request,
         Dispatcher $dispatcher,
         Filter $filter,
-        $pid
+        Player $player
     ) {
-        $player = Player::find($pid);
         foreach (['skin', 'cape'] as $type) {
             $tid = $request->input($type);
 
@@ -231,9 +230,8 @@ class PlayerController extends Controller
         Request $request,
         Dispatcher $dispatcher,
         Filter $filter,
-        $pid
+        Player $player
     ) {
-        $player = Player::find($pid);
         $types = $request->input('type', []);
 
         foreach (['skin', 'cape'] as $type) {

@@ -43,12 +43,12 @@ class PlayerControllerTest extends TestCase
         $filter = Fakes\Filter::fake();
 
         // Without player name
-        $this->postJson('/user/player/add')->assertJsonValidationErrors('name');
+        $this->postJson(route('user.player.add'))->assertJsonValidationErrors('name');
 
         // Only A-Za-z0-9_ are allowed
         option(['player_name_rule' => 'official']);
         $this->postJson(
-            '/user/player/add',
+            route('user.player.add'),
             ['name' => '角色名']
         )->assertJsonValidationErrors('name');
 
@@ -56,20 +56,20 @@ class PlayerControllerTest extends TestCase
         option(['player_name_rule' => 'custom']);
         option(['custom_player_name_regexp' => '/^\d+$/']);
         $this->postJson(
-            '/user/player/add',
+            route('user.player.add'),
             ['name' => 'yjsnpi']
         )->assertJsonValidationErrors('name');
 
         // with an existed player name
         option(['player_name_rule' => 'official']);
         $existed = factory(Player::class)->create();
-        $this->postJson('/user/player/add', ['name' => $existed->name])
+        $this->postJson(route('user.player.add'), ['name' => $existed->name])
             ->assertJsonValidationErrors('name');
 
         // Lack of score
         $user = factory(User::class)->create(['score' => 0]);
         $this->actingAs($user)->postJson(
-            '/user/player/add',
+            route('user.player.add'),
             ['name' => 'no_score']
         )->assertJson([
             'code' => 7,
@@ -97,7 +97,7 @@ class PlayerControllerTest extends TestCase
             return new Rejection('rejected');
         });
         $this->postJson(
-            '/user/player/add',
+            route('user.player.add'),
             ['name' => 'can']
         )->assertJson(['code' => 1, 'message' => 'rejected']);
         Event::assertDispatched('player.add.attempt');
@@ -110,7 +110,7 @@ class PlayerControllerTest extends TestCase
         option(['player_name_rule' => 'cjk']);
         $user = factory(User::class)->create();
         $score = $user->score;
-        $this->actingAs($user)->postJson('/user/player/add', [
+        $this->actingAs($user)->postJson(route('user.player.add'), [
             'name' => '角色名',
         ])->assertJson([
             'code' => 0,
@@ -147,7 +147,7 @@ class PlayerControllerTest extends TestCase
 
         // Single player
         option(['single_player' => true]);
-        $this->postJson('/user/player/add', ['name' => 'abc'])
+        $this->postJson(route('user.player.add'), ['name' => 'abc'])
             ->assertJson([
                 'code' => 1,
                 'message' => trans('user.player.add.single'),
@@ -170,12 +170,12 @@ class PlayerControllerTest extends TestCase
             return new Rejection('rejected');
         });
         $this->actingAs($user)
-            ->postJson('/user/player/delete/'.$player->pid)
+            ->deleteJson(route('user.player.delete', ['player' => $player]))
             ->assertJson(['code' => 1, 'message' => 'rejected']);
 
         // success
         $filter = Fakes\Filter::fake();
-        $this->postJson('/user/player/delete/'.$player->pid)
+        $this->deleteJson(route('user.player.delete', ['player' => $player]))
             ->assertJson([
                 'code' => 0,
                 'message' => trans('user.player.delete.success', ['name' => $player->name]),
@@ -211,7 +211,7 @@ class PlayerControllerTest extends TestCase
         $player = factory(Player::class)->create();
         $user = $player->user;
         $this->actingAs($user)
-            ->postJson('/user/player/delete/'.$player->pid)
+            ->deleteJson(route('user.player.delete', ['player' => $player]))
             ->assertJson([
                 'code' => 0,
                 'message' => trans('user.player.delete.success', ['name' => $player->name]),
@@ -225,7 +225,7 @@ class PlayerControllerTest extends TestCase
         option(['single_player' => true]);
         $player = factory(Player::class)->create(['uid' => $user->uid]);
         $this->actingAs($user)
-            ->postJson('/user/player/delete/'.$player->pid)
+            ->deleteJson(route('user.player.delete', ['player' => $player]))
             ->assertJson([
                 'code' => 1,
                 'message' => trans('user.player.delete.single'),
@@ -242,23 +242,29 @@ class PlayerControllerTest extends TestCase
 
         // Without new player name
         $this->actingAs($user)
-            ->postJson('/user/player/rename/'.$player->pid)
+            ->putJson(route('user.player.rename', ['player' => $player]))
             ->assertJsonValidationErrors('name');
 
         // Only A-Za-z0-9_ are allowed
         option(['player_name_rule' => 'official']);
-        $this->postJson('/user/player/rename/'.$player->pid, ['name' => '角色名'])
-            ->assertJsonValidationErrors('name');
+        $this->putJson(
+                route('user.player.rename', ['player' => $player]),
+                ['name' => '角色名']
+            )->assertJsonValidationErrors('name');
 
         // Other invalid characters
         option(['player_name_rule' => 'cjk']);
-        $this->postJson('/user/player/rename/'.$player->pid, ['name' => '\\'])
-            ->assertJsonValidationErrors('name');
+        $this->putJson(
+                route('user.player.rename', ['player' => $player]),
+                ['name' => '\\']
+            )->assertJsonValidationErrors('name');
 
         // with an existed player name
         $existed = factory(Player::class)->create();
-        $this->postJson('/user/player/rename/'.$player->pid, ['name' => $existed->name])
-            ->assertJsonValidationErrors('name');
+        $this->putJson(
+                route('user.player.rename', ['player' => $player]),
+                ['name' => $existed->name]
+            )->assertJsonValidationErrors('name');
 
         // Rejected by filter
         $filter = Fakes\Filter::fake();
@@ -268,25 +274,29 @@ class PlayerControllerTest extends TestCase
 
             return new Rejection('rejected');
         });
-        $name = factory(Player::class)->create()->name;
-        $this->postJson('/user/player/rename/'.$player->pid, ['name' => 'new'])
-            ->assertJson([
-                'code' => 1,
-                'message' => 'rejected',
-            ]);
+        factory(Player::class)->create()->name;
+        $this->putJson(
+            route('user.player.rename', ['player' => $player]),
+            ['name' => 'new']
+        )->assertJson([
+            'code' => 1,
+            'message' => 'rejected',
+        ]);
         $filter->remove('user_can_rename_player');
 
         // Success
         Event::fake();
         $pid = $player->pid;
-        $this->postJson('/user/player/rename/'.$pid, ['name' => 'new_name'])
-            ->assertJson([
-                'code' => 0,
-                'message' => trans(
-                    'user.player.rename.success',
-                    ['old' => $player->name, 'new' => 'new_name']
-                ),
-            ]);
+        $this->putJson(
+            route('user.player.rename', ['player' => $player]),
+            ['name' => 'new_name']
+        )->assertJson([
+            'code' => 0,
+            'message' => trans(
+                'user.player.rename.success',
+                ['old' => $player->name, 'new' => 'new_name']
+            ),
+        ]);
         Event::assertDispatched(Events\PlayerProfileUpdated::class);
         Event::assertDispatched('player.renaming', function ($event, $payload) use ($pid) {
             [$player, $newName] = $payload;
@@ -309,8 +319,10 @@ class PlayerControllerTest extends TestCase
 
         // Single player
         option(['single_player' => true]);
-        $this->postJson('/user/player/rename/'.$player->pid, ['name' => 'abc'])
-            ->assertJson(['code' => 0]);
+        $this->putJson(
+            route('user.player.rename', ['player' => $player]),
+            ['name' => 'abc']
+        )->assertJson(['code' => 0]);
         $this->assertEquals('abc', $player->user->nickname);
     }
 
@@ -331,12 +343,12 @@ class PlayerControllerTest extends TestCase
             return new Rejection('rejected');
         });
         $this->actingAs($user)
-            ->postJson('/user/player/set/'.$player->pid, ['skin' => -1])
+            ->putJson(route('user.player.set', ['player' => $player]), ['skin' => -1])
             ->assertJson(['code' => 1, 'message' => 'rejected']);
+        $filter->remove('can_set_texture');
 
         // Set a not-existed texture
-        Fakes\Filter::fake();
-        $this->postJson('/user/player/set/'.$player->pid, ['skin' => -1])
+        $this->putJson(route('user.player.set', ['player' => $player]), ['skin' => -1])
             ->assertJson([
                 'code' => 1,
                 'message' => trans('skinlib.non-existent'),
@@ -344,33 +356,43 @@ class PlayerControllerTest extends TestCase
 
         // Set for "skin" type
         Event::fake();
-        $this->postJson('/user/player/set/'.$player->pid, ['skin' => $skin->tid])
-            ->assertJson([
-                'code' => 0,
-                'message' => trans('user.player.set.success', ['name' => $player->name]),
-            ]);
+        $this->putJson(
+            route('user.player.set', ['player' => $player]),
+            ['skin' => $skin->tid]
+        )->assertJson([
+            'code' => 0,
+            'message' => trans('user.player.set.success', ['name' => $player->name]),
+        ]);
         $this->assertEquals($skin->tid, Player::find($player->pid)->tid_skin);
-        Event::assertDispatched('player.texture.updating', function ($event, $payload) use ($player, $skin) {
-            $this->assertEquals($player->pid, $payload[0]->pid);
-            $this->assertEquals($skin->tid, $payload[1]->tid);
+        Event::assertDispatched(
+            'player.texture.updating',
+            function ($event, $payload) use ($player, $skin) {
+                $this->assertEquals($player->pid, $payload[0]->pid);
+                $this->assertEquals($skin->tid, $payload[1]->tid);
 
-            return true;
-        });
-        Event::assertDispatched('player.texture.updated', function ($event, $payload) use ($player, $skin) {
-            $this->assertEquals($player->pid, $payload[0]->pid);
-            $this->assertEquals($skin->tid, $payload[0]->tid_skin);
-            $this->assertEquals($skin->tid, $payload[1]->tid);
+                return true;
+            }
+        );
+        Event::assertDispatched(
+            'player.texture.updated',
+            function ($event, $payload) use ($player, $skin) {
+                $this->assertEquals($player->pid, $payload[0]->pid);
+                $this->assertEquals($skin->tid, $payload[0]->tid_skin);
+                $this->assertEquals($skin->tid, $payload[1]->tid);
 
-            return true;
-        });
+                return true;
+            }
+        );
 
         // Set for "cape" type
         Event::fake();
-        $this->postJson('/user/player/set/'.$player->pid, ['cape' => $cape->tid])
-            ->assertJson([
-                'code' => 0,
-                'message' => trans('user.player.set.success', ['name' => $player->name]),
-            ]);
+        $this->putJson(
+            route('user.player.set', ['player' => $player]),
+            ['cape' => $cape->tid]
+        )->assertJson([
+            'code' => 0,
+            'message' => trans('user.player.set.success', ['name' => $player->name]),
+        ]);
         $this->assertEquals($cape->tid, Player::find($player->pid)->tid_cape);
     }
 
@@ -394,15 +416,18 @@ class PlayerControllerTest extends TestCase
             return new Rejection('rejected');
         });
         $this->actingAs($user)
-            ->postJson('/user/player/texture/clear/'.$player->pid, ['skin' => true])
+            ->deleteJson(
+                route('user.player.clear', ['player' => $player]),
+                ['skin' => true]
+            )
             ->assertJson(['code' => 1, 'message' => 'rejected']);
+        $filter->remove('can_clear_texture');
 
         // success
-        Fakes\Filter::fake();
-        $this->postJson('/user/player/texture/clear/'.$player->pid, [
-                'skin' => true,    // "1" stands for "true"
+        $this->deleteJson(route('user.player.clear', ['player' => $player]), [
+                'skin' => true,
                 'cape' => true,
-                'nope' => true,    // invalid texture type is acceptable
+                'nope' => true, // invalid texture type is acceptable
             ])->assertJson([
                 'code' => 0,
                 'message' => trans('user.player.clear.success', ['name' => $player->name]),
@@ -412,8 +437,10 @@ class PlayerControllerTest extends TestCase
         Event::assertDispatched(Events\PlayerProfileUpdated::class);
 
         Event::fake();
-        $this->postJson('/user/player/texture/clear/'.$player->pid, ['type' => ['skin']])
-            ->assertJson(['code' => 0]);
+        $this->deleteJson(
+            route('user.player.clear', ['player' => $player]),
+            ['type' => ['skin']]
+        )->assertJson(['code' => 0]);
         Event::assertDispatched('player.texture.resetting', function ($event, $payload) use ($player) {
             $this->assertEquals($player->pid, $payload[0]->pid);
             $this->assertEquals('skin', $payload[1]);
@@ -428,8 +455,10 @@ class PlayerControllerTest extends TestCase
         });
 
         Event::fake();
-        $this->postJson('/user/player/texture/clear/'.$player->pid, ['type' => ['cape']])
-            ->assertJson(['code' => 0]);
+        $this->deleteJson(
+            route('user.player.clear', ['player' => $player]),
+            ['type' => ['cape']]
+        )->assertJson(['code' => 0]);
         Event::assertDispatched('player.texture.resetting', function ($event, $payload) use ($player) {
             $this->assertEquals($player->pid, $payload[0]->pid);
             $this->assertEquals('cape', $payload[1]);

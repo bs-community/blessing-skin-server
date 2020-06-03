@@ -71,11 +71,11 @@ Route::prefix('user')
             ->group(function () {
                 Route::get('', 'PlayerController@index')->name('page');
                 Route::get('list', 'PlayerController@list')->name('list');
-                Route::post('add', 'PlayerController@add')->name('add');
-                Route::post('set/{pid}', 'PlayerController@setTexture')->name('set');
-                Route::post('texture/clear/{pid}', 'PlayerController@clearTexture')->name('clear');
-                Route::post('rename/{pid}', 'PlayerController@rename')->name('rename');
-                Route::post('delete/{pid}', 'PlayerController@delete')->name('delete');
+                Route::post('', 'PlayerController@add')->name('add');
+                Route::put('{player}/textures', 'PlayerController@setTexture')->name('set');
+                Route::delete('{player}/textures', 'PlayerController@clearTexture')->name('clear');
+                Route::put('{player}/name', 'PlayerController@rename')->name('rename');
+                Route::delete('{player}', 'PlayerController@delete')->name('delete');
                 Route::view('bind', 'user.bind')->name('bind');
                 Route::post('bind', 'PlayerController@bind')->name('bind');
             });

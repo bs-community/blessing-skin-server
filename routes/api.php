@@ -18,10 +18,10 @@ Route::prefix('user')->middleware('auth:jwt,oauth')->group(function () {
 Route::prefix('players')->middleware('auth:jwt,oauth')->group(function () {
     Route::get('', 'PlayerController@list');
     Route::post('', 'PlayerController@add');
-    Route::delete('{pid}', 'PlayerController@delete');
-    Route::put('{pid}/name', 'PlayerController@rename');
-    Route::put('{pid}/textures', 'PlayerController@setTexture');
-    Route::delete('{pid}/textures', 'PlayerController@clearTexture');
+    Route::delete('{player}', 'PlayerController@delete');
+    Route::put('{player}/name', 'PlayerController@rename');
+    Route::put('{player}/textures', 'PlayerController@setTexture');
+    Route::delete('{player}/textures', 'PlayerController@clearTexture');
 });
 
 Route::prefix('closet')->middleware('auth:jwt,oauth')->group(function () {
