@@ -15,8 +15,8 @@ on:
       - '**.md'
 
 jobs:
-  twig:
-    name: Twig Linting
+  php-lint:
+    name: PHP Linting
     runs-on: ubuntu-latest
     if: "!contains(github.event.head_commit.message, 'skip ci')"
     steps:
@@ -29,13 +29,17 @@ jobs:
         coverage: none
         extensions: mbstring, dom, fileinfo, gd
     - name: Install dependencies
-      run: composer install --prefer-dist --no-progress --no-suggest
+      run: |
+        composer install --prefer-dist --no-progress --no-suggest
+        composer global require friendsofphp/php-cs-fixer
     - name: Prepare
       run: |
         cp .env.example .env
         php artisan key:generate
     - name: Validate Twig templates
       run: php artisan twig:lint -v
+    - name: Check coding style
+      run: php-cs-fixer fix --dry-run --stop-on-violation --diff-format=udiff
   php:
     name: PHP ${{ matrix.php }} Tests
     runs-on: ubuntu-latest
