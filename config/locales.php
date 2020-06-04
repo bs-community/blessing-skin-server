@@ -11,20 +11,20 @@ return [
     */
     'zh_CN' => [
         'name' => '中文 (简体)',
-        'short_name' => 'ZH (CN)',
+        'short_name' => 'zh-CN',
     ],
     'zh_HANS_CN' => [
         'alias' => 'zh_CN',
     ],
     'en' => [
         'name' => 'English',
-        'short_name' => 'EN',
+        'short_name' => 'en',
     ],
     'en_US' => [
         'alias' => 'en',
     ],
     'es_ES' => [
         'name' => 'Español',
-        'short_name' => 'ES'
+        'short_name' => 'es'
     ],
 ];

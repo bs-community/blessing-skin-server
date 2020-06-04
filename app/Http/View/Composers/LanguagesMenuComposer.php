@@ -34,8 +34,7 @@ class LanguagesMenuComposer
 
         $current = 'locales.'.app()->getLocale();
         $view->with([
-            'lang_short_name' => config($current.'.short_name'),
-            'lang_name' => config($current.'.name'),
+            'current' => config($current.'.name'),
             'langs' => $langs,
         ]);
     }
