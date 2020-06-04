@@ -123,13 +123,9 @@ class SkinlibController extends Controller
             ]);
     }
 
-    public function info($tid)
+    public function info(Texture $texture)
     {
-        if ($t = Texture::find($tid)) {
-            return json('', 0, $t->toArray());
-        } else {
-            return abort(404);
-        }
+        return $texture;
     }
 
     public function upload(Filter $filter)

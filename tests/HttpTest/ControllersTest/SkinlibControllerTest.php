@@ -191,22 +191,9 @@ class SkinlibControllerTest extends TestCase
 
     public function testInfo()
     {
-        // Non-existed texture
-        $this->get('/skinlib/info/1')->assertNotFound();
-
         $texture = factory(Texture::class)->create();
-        $this->get('/skinlib/info/'.$texture->tid)
-            ->assertJson(['data' => [
-                'tid' => $texture->tid,
-                'name' => $texture->name,
-                'type' => $texture->type,
-                'likes' => $texture->likes,
-                'hash' => $texture->hash,
-                'size' => $texture->size,
-                'uploader' => $texture->uploader,
-                'public' => $texture->public,
-                'upload_at' => $texture->upload_at->format('Y-m-d H:i:s'),
-            ]]);
+        $this->get(route('skinlib.info', ['texture' => $texture]))
+            ->assertJson($texture->toArray());
     }
 
     public function testUpload()

@@ -29,7 +29,7 @@ export default {
   },
   skinlib: {
     home: () => '/skinlib' as const,
-    info: (tid: number) => `/skinlib/info/${tid}`,
+    info: (texture: number) => `/skinlib/info/${texture}`,
     list: () => '/skinlib/list' as const,
     show: (tid: number) => `/skinlib/show/${tid}`,
     upload: () => '/skinlib/upload' as const,
@@ -37,8 +37,8 @@ export default {
   user: {
     home: () => '/user' as const,
     closet: {
-      page: () => '/user/closet' as const,
       add: () => '/user/closet' as const,
+      page: () => '/user/closet' as const,
       ids: () => '/user/closet/ids' as const,
       list: () => '/user/closet/list' as const,
       rename: (tid: number) => `/user/closet/${tid}`,
@@ -46,8 +46,8 @@ export default {
     },
     notification: (id: number) => `/user/notifications/${id}`,
     player: {
-      add: () => '/user/player' as const,
       page: () => '/user/player' as const,
+      add: () => '/user/player' as const,
       list: () => '/user/player/list' as const,
       delete: (player: number) => `/user/player/${player}`,
       rename: (player: number) => `/user/player/${player}/name`,

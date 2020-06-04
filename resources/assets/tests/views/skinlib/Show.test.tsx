@@ -54,7 +54,7 @@ afterEach(() => {
 })
 
 test('without authenticated', async () => {
-  fetch.get.mockResolvedValue({ data: fixtureSkin })
+  fetch.get.mockResolvedValue(fixtureSkin)
 
   const { queryByText, queryByTitle } = render(<Show />)
   await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
@@ -72,7 +72,7 @@ test('without authenticated', async () => {
 })
 
 test('authenticated but not uploader', async () => {
-  fetch.get.mockResolvedValue({ data: fixtureCape })
+  fetch.get.mockResolvedValue(fixtureCape)
 
   const { queryByText, queryByTitle } = render(<Show />)
   await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
@@ -92,7 +92,7 @@ test('authenticated but not uploader', async () => {
 test('uploader is not existed', async () => {
   window.blessing.extra.nickname = 'not existed'
   window.blessing.extra.uploaderExists = false
-  fetch.get.mockResolvedValue({ data: fixtureSkin })
+  fetch.get.mockResolvedValue(fixtureSkin)
 
   const { queryByText } = render(<Show />)
   await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
@@ -103,7 +103,7 @@ test('badges', async () => {
   window.blessing.extra.badges = [
     { text: 'STAFF', color: 'primary' },
   ] as Badge[]
-  fetch.get.mockResolvedValue({ data: fixtureSkin })
+  fetch.get.mockResolvedValue(fixtureSkin)
 
   const { queryByText } = render(<Show />)
   await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
@@ -114,7 +114,7 @@ test('apply to player', async () => {
   window.blessing.extra.currentUid = 2
   window.blessing.extra.inCloset = true
   fetch.get
-    .mockResolvedValueOnce({ data: fixtureSkin })
+    .mockResolvedValueOnce(fixtureSkin)
     .mockResolvedValueOnce([])
 
   const { getByText, getByLabelText } = render(<Show />)
@@ -128,7 +128,7 @@ test('apply to player', async () => {
 
 test('set as avatar', async () => {
   window.blessing.extra.currentUid = fixtureSkin.uploader + 1
-  fetch.get.mockResolvedValue({ data: fixtureSkin })
+  fetch.get.mockResolvedValue(fixtureSkin)
   fetch.post.mockResolvedValue({ code: 0, message: 'ok' })
 
   const { getByText, getByRole, queryByText } = render(<Show />)
@@ -145,7 +145,7 @@ test('set as avatar', async () => {
 describe('download texture', () => {
   beforeEach(() => {
     window.blessing.extra.currentUid = fixtureSkin.uploader + 1
-    fetch.get.mockResolvedValue({ data: fixtureSkin })
+    fetch.get.mockResolvedValue(fixtureSkin)
   })
 
   it('allowed', async () => {
@@ -166,7 +166,7 @@ describe('download texture', () => {
 
 describe('operation panel', () => {
   beforeEach(() => {
-    fetch.get.mockResolvedValue({ data: fixtureSkin })
+    fetch.get.mockResolvedValue(fixtureSkin)
   })
 
   it('uploader', async () => {
@@ -192,7 +192,7 @@ describe('operation panel', () => {
 describe('edit texture name', () => {
   beforeEach(() => {
     window.blessing.extra.currentUid = fixtureSkin.uploader
-    fetch.get.mockResolvedValue({ data: fixtureSkin })
+    fetch.get.mockResolvedValue(fixtureSkin)
   })
 
   it('cancelled', async () => {
@@ -273,7 +273,7 @@ describe('edit texture name', () => {
 describe('edit texture type', () => {
   beforeEach(() => {
     Object.assign(window.blessing.extra, { currentUid: fixtureSkin.uploader })
-    fetch.get.mockResolvedValue({ data: fixtureSkin })
+    fetch.get.mockResolvedValue(fixtureSkin)
   })
 
   it('cancelled', async () => {
@@ -345,7 +345,7 @@ describe('edit texture type', () => {
 describe('add to closet', () => {
   beforeEach(() => {
     window.blessing.extra.currentUid = fixtureSkin.uploader + 1
-    fetch.get.mockResolvedValue({ data: fixtureSkin })
+    fetch.get.mockResolvedValue(fixtureSkin)
   })
 
   it('cancelled', async () => {
@@ -416,7 +416,7 @@ describe('remove from closet', () => {
   beforeEach(() => {
     window.blessing.extra.currentUid = fixtureSkin.uploader + 1
     window.blessing.extra.inCloset = true
-    fetch.get.mockResolvedValue({ data: fixtureSkin })
+    fetch.get.mockResolvedValue(fixtureSkin)
   })
 
   it('succeeded', async () => {
@@ -455,7 +455,7 @@ describe('remove from closet', () => {
 describe('report texture', () => {
   beforeEach(() => {
     window.blessing.extra.currentUid = fixtureSkin.uploader + 1
-    fetch.get.mockResolvedValue({ data: fixtureSkin })
+    fetch.get.mockResolvedValue(fixtureSkin)
   })
 
   it('positive score', async () => {
@@ -537,7 +537,7 @@ describe('change privacy', () => {
   })
 
   it('cancelled', async () => {
-    fetch.get.mockResolvedValue({ data: fixtureSkin })
+    fetch.get.mockResolvedValue(fixtureSkin)
 
     const { getByText, queryByText } = render(<Show />)
     await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
@@ -549,7 +549,7 @@ describe('change privacy', () => {
   })
 
   it('succeeded', async () => {
-    fetch.get.mockResolvedValue({ data: fixtureSkin })
+    fetch.get.mockResolvedValue(fixtureSkin)
     fetch.post.mockResolvedValue({ code: 0, message: 'ok' })
 
     const { getByText, getByRole, queryByText } = render(<Show />)
@@ -568,7 +568,7 @@ describe('change privacy', () => {
   })
 
   it('failed', async () => {
-    fetch.get.mockResolvedValue({ data: { ...fixtureSkin, public: false } })
+    fetch.get.mockResolvedValue({ ...fixtureSkin, public: false })
     fetch.post.mockResolvedValue({ code: 1, message: 'failed' })
 
     const { getByText, getByRole, queryByText } = render(<Show />)
@@ -590,7 +590,7 @@ describe('change privacy', () => {
 describe('delete texture', () => {
   beforeEach(() => {
     window.blessing.extra.currentUid = fixtureSkin.uploader
-    fetch.get.mockResolvedValue({ data: fixtureSkin })
+    fetch.get.mockResolvedValue(fixtureSkin)
   })
 
   it('cancelled', async () => {

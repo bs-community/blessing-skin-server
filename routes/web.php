@@ -93,7 +93,7 @@ Route::prefix('user')
 
 Route::prefix('skinlib')->name('skinlib.')->group(function () {
     Route::view('', 'skinlib.index')->name('home');
-    Route::get('info/{tid}', 'SkinlibController@info')->name('info');
+    Route::get('info/{texture}', 'SkinlibController@info')->name('info');
     Route::get('show/{tid}', 'SkinlibController@show')->name('show');
     Route::get('list', 'SkinlibController@library')->name('list');
 

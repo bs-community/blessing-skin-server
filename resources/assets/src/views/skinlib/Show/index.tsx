@@ -40,8 +40,8 @@ const Show: React.FC = () => {
         .replace(blessing.base_url, '')
         .replace('show', 'info')
 
-      const { data } = await fetch.get<fetch.ResponseBody<Texture>>(url)
-      setTexture(data)
+      const texture = await fetch.get<Texture>(url)
+      setTexture(texture)
     }
     fetchInfo()
   }, [])
