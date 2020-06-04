@@ -113,5 +113,11 @@ uuid: 'The :attribute must be a valid UUID.'
 #with something more reader friendly such as E-Mail Address instead
 #of "email". This simply helps us make messages a little cleaner.
 attributes:
+  name: name
   player_name: nombre del jugador
   identification: email o nombre del jugador
+  email: email
+  password: password
+  password_confirmation: 'password confirmation'
+  title: title
+  content: content
