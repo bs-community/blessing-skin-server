@@ -63,9 +63,12 @@ class SkinlibController extends Controller
     public function show(Filter $filter, $tid)
     {
         $texture = Texture::find($tid);
+        /** @var User */
         $user = Auth::user();
+        /** @var FilesystemAdapter */
+        $disk = Storage::disk('textures');
 
-        if (!$texture || $texture && !Storage::disk('textures')->has($texture->hash)) {
+        if (!$texture || $texture && $disk->missing($texture->hash)) {
             if (option('auto_del_invalid_texture')) {
                 if ($texture) {
                     $texture->delete();
@@ -289,6 +292,7 @@ class SkinlibController extends Controller
     public function delete(Request $request)
     {
         $texture = Texture::find($request->tid);
+        /** @var User */
         $user = Auth::user();
 
         if (!$texture) {
