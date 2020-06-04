@@ -223,21 +223,24 @@ describe('upload texture', () => {
     expect(formData.get('name')).toBe('t')
     expect(formData.get('type')).toBe('steve')
     expect(formData.get('file')).toStrictEqual(file)
-    expect(formData.get('public')).toBe('true')
+    expect(formData.get('public')).toBe('1')
   })
 
   it('uploaded successfully', async () => {
     fetch.post.mockResolvedValue({ code: 0, message: 'ok', tid: 1 })
 
-    const { getByText, getByTitle } = render(<Upload />)
+    const { getByText, getByTitle, getByLabelText } = render(<Upload />)
 
     const file = new File([], 't.png', { type: 'image/png' })
     fireEvent.change(getByTitle(t('skinlib.upload.select-file')), {
       target: { files: [file] },
     })
+    fireEvent.click(getByLabelText(t('skinlib.upload.set-as-private')))
     fireEvent.click(getByText(t('skinlib.upload.button')))
 
     await waitFor(() => expect(fetch.post).toBeCalled())
+    const formData: FormData = fetch.post.mock.calls[0][1]
+    expect(formData.get('public')).toBe('0')
   })
 
   it('duplicated texture detected', async () => {

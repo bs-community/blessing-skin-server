@@ -5,10 +5,12 @@ namespace Tests;
 use App\Models\Player;
 use App\Models\Texture;
 use App\Models\User;
-use Blessing\Filter;
+use Blessing\Rejection;
 use Carbon\Carbon;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Storage;
 
 class SkinlibControllerTest extends TestCase
@@ -220,9 +222,21 @@ class SkinlibControllerTest extends TestCase
 
     public function testHandleUpload()
     {
-        Storage::fake('textures');
+        Event::fake();
+        /** @var FilesystemAdapter */
+        $disk = Storage::fake('textures');
+        $filter = Fakes\Filter::fake();
+        $user = factory(User::class)->create();
 
-        // Some error occurred when uploading file
+        // without file
+        $this->actingAs($user)
+            ->postJson('/skinlib/upload', [
+                'name' => 'name',
+                'type' => 'steve',
+                'public' => true,
+            ])->assertJsonValidationErrors('file');
+
+        // some error occurred when uploading file
         $file = UploadedFile::fake()->image('test.png');
         $upload = new UploadedFile(
             $file->path(),
@@ -231,31 +245,29 @@ class SkinlibControllerTest extends TestCase
             UPLOAD_ERR_NO_TMP_DIR,
             true
         );
-        $this->actingAs(factory(User::class)->create())
-            ->postJson(
-                '/skinlib/upload',
-                ['file' => $upload]
-            )->assertJson([
-                'code' => UPLOAD_ERR_NO_TMP_DIR,
-                'message' => \App\Http\Controllers\SkinlibController::$phpFileUploadErrors[UPLOAD_ERR_NO_TMP_DIR],
-            ]);
-
-        // Without `name` field
-        $this->postJson('/skinlib/upload')->assertJsonValidationErrors('name');
-
-        // Specified regular expression for texture name
-        option(['texture_name_regexp' => '/\\d+/']);
         $this->postJson('/skinlib/upload', [
-            'name' => 'abc',
-        ])->assertJsonValidationErrors('name');
-        option(['texture_name_regexp' => null]);
-
-        // Without file
-        $this->postJson('/skinlib/upload', [
-            'name' => 'texture',
+            'name' => 'name',
+            'file' => $upload,
+            'type' => 'steve',
+            'public' => true,
         ])->assertJsonValidationErrors('file');
 
-        // Too large file
+        // without `name` field
+        $this->postJson('/skinlib/upload')->assertJsonValidationErrors('name');
+
+        // specified regular expression for texture name
+        option(['texture_name_regexp' => '/\\d+/']);
+        $this->postJson('/skinlib/upload', ['name' => 'abc'])
+            ->assertJsonValidationErrors('name');
+        option(['texture_name_regexp' => null]);
+
+        // not a PNG file
+        $this->postJson('/skinlib/upload', [
+            'name' => 'texture',
+            'file' => UploadedFile::fake()->create('fake', 5),
+        ])->assertJsonValidationErrors('file');
+
+        // too large file
         option(['max_upload_file_size' => 2]);
         $upload = UploadedFile::fake()->create('large.png', 5);
         $this->postJson('/skinlib/upload', [
@@ -264,113 +276,80 @@ class SkinlibControllerTest extends TestCase
         ])->assertJsonValidationErrors('file');
         option(['max_upload_file_size' => 1024]);
 
-        // Without `public` field
+        // no texture type is specified
         $this->postJson('/skinlib/upload', [
             'name' => 'texture',
-            'file' => 'content',    // Though it is not a file, it is OK
+            'file' => $file,
+        ])->assertJsonValidationErrors('type');
+
+        // invalid texture type
+        $this->postJson('/skinlib/upload', [
+            'name' => 'texture',
+            'file' => $file,
+            'type' => 'nope',
+        ])->assertJsonValidationErrors('type');
+
+        // without `public` field
+        $this->postJson('/skinlib/upload', [
+            'name' => 'texture',
+            'file' => $file,
+            'type' => 'steve',
         ])->assertJsonValidationErrors('public');
 
-        // Not a PNG image
-        $this->postJson(
-            '/skinlib/upload',
-            [
-                'name' => 'texture',
-                'public' => 'true',
-                'file' => UploadedFile::fake()->create('fake', 5),
-            ]
-        )->assertJson([
+        // invalid skin size
+        $this->postJson('/skinlib/upload', [
+            'name' => 'texture',
+            'public' => true,
+            'type' => 'steve',
+            'file' => UploadedFile::fake()->image('texture.png', 64, 30),
+        ])->assertJson([
             'code' => 1,
-            'message' => trans('skinlib.upload.type-error'),
+            'message' => trans('skinlib.upload.invalid-size', [
+                'type' => trans('general.skin'),
+                'width' => 64,
+                'height' => 30,
+            ]),
         ]);
-
-        // No texture type is specified
-        $this->postJson(
-            '/skinlib/upload',
-            [
-                'name' => 'texture',
-                'public' => 'true',
-                'file' => UploadedFile::fake()->image('texture.png', 64, 32),
-            ]
-        )->assertJson([
+        $this->postJson('/skinlib/upload', [
+            'name' => 'texture',
+            'public' => true,
+            'type' => 'alex',
+            'file' => UploadedFile::fake()->image('texture.png', 100, 50),
+        ])->assertJson([
             'code' => 1,
-            'message' => trans('general.illegal-parameters'),
+            'message' => trans('skinlib.upload.invalid-hd-skin', [
+                'type' => trans('general.skin'),
+                'width' => 100,
+                'height' => 50,
+            ]),
         ]);
-
-        // Invalid skin size
-        $this->postJson(
-            '/skinlib/upload',
-            [
-                'name' => 'texture',
-                'public' => 'true',
-                'type' => 'steve',
-                'file' => UploadedFile::fake()->image('texture.png', 64, 30),
-            ]
-        )->assertJson([
+        $this->postJson('/skinlib/upload', [
+            'name' => 'texture',
+            'public' => true,
+            'type' => 'cape',
+            'file' => UploadedFile::fake()->image('texture.png', 64, 30),
+        ])->assertJson([
             'code' => 1,
-            'message' => trans(
-                'skinlib.upload.invalid-size',
-                [
-                    'type' => trans('general.skin'),
-                    'width' => 64,
-                    'height' => 30,
-                ]
-            ),
-        ]);
-        $this->postJson(
-            '/skinlib/upload',
-            [
-                'name' => 'texture',
-                'public' => 'true',
-                'type' => 'alex',
-                'file' => UploadedFile::fake()->image('texture.png', 100, 50),
-            ]
-        )->assertJson([
-            'code' => 1,
-            'message' => trans(
-                'skinlib.upload.invalid-hd-skin',
-                [
-                    'type' => trans('general.skin'),
-                    'width' => 100,
-                    'height' => 50,
-                ]
-            ),
-        ]);
-        $this->postJson(
-            '/skinlib/upload',
-            [
-                'name' => 'texture',
-                'public' => 'true',
-                'type' => 'cape',
-                'file' => UploadedFile::fake()->image('texture.png', 64, 30),
-            ]
-        )->assertJson([
-            'code' => 1,
-            'message' => trans(
-                'skinlib.upload.invalid-size',
-                [
-                    'type' => trans('general.cape'),
-                    'width' => 64,
-                    'height' => 30,
-                ]
-            ),
+            'message' => trans('skinlib.upload.invalid-size', [
+                'type' => trans('general.cape'),
+                'width' => 64,
+                'height' => 30,
+            ]),
         ]);
 
         $upload = UploadedFile::fake()->image('texture.png', 64, 32);
 
-        // Score is not enough
+        // score is not enough
         $user = factory(User::class)->create(['score' => 0]);
         $this->actingAs($user)
-            ->postJson(
-                '/skinlib/upload',
-                [
-                    'name' => 'texture',
-                    'public' => 'true',
-                    'type' => 'steve',
-                    'file' => $upload,
-                ]
-            )
+            ->postJson('/skinlib/upload', [
+                'name' => 'texture',
+                'public' => true,
+                'type' => 'steve',
+                'file' => $upload,
+            ])
             ->assertJson([
-                'code' => 7,
+                'code' => 1,
                 'message' => trans('skinlib.upload.lack-score'),
             ]);
 
@@ -381,60 +360,104 @@ class SkinlibControllerTest extends TestCase
             '/skinlib/upload',
             [
                 'name' => 'texture',
-                'public' => 'false',  // Private texture cost more scores
+                'public' => false,
                 'type' => 'steve',
                 'file' => $upload,
             ]
         )->assertJson([
-            'code' => 7,
+            'code' => 1,
             'message' => trans('skinlib.upload.lack-score'),
         ]);
 
-        // Success
+        // success
         option(['score_award_per_texture' => 2]);
-        $response = $this->postJson(
-            '/skinlib/upload',
-            [
-                'name' => 'texture',
-                'public' => 'true',    // Public texture
-                'type' => 'steve',
-                'file' => $upload,
-            ]
-        );
-        $t = Texture::where('name', 'texture')->first();
-        $response->assertJson([
+        $this->postJson('/skinlib/upload', [
+            'name' => 'texture',
+            'public' => true,
+            'type' => 'steve',
+            'file' => $upload,
+        ])->assertJson([
             'code' => 0,
             'message' => trans('skinlib.upload.success', ['name' => 'texture']),
-            'data' => ['tid' => $t->tid],
         ]);
-        Storage::disk('textures')->assertExists($t->hash);
-        $user = User::find($user->uid);
+        $texture = Texture::where('name', 'texture')->first();
+        $disk->assertExists($texture->hash);
+        $user->refresh();
         $this->assertEquals(2, $user->score);
-        $this->assertEquals('texture', $t->name);
-        $this->assertEquals('steve', $t->type);
-        $this->assertEquals(1, $t->likes);
-        $this->assertEquals(1, $t->size);
-        $this->assertEquals($user->uid, $t->uploader);
-        $this->assertTrue($t->public);
+        $this->assertEquals('texture', $texture->name);
+        $this->assertEquals('steve', $texture->type);
+        $this->assertEquals(1, $texture->likes);
+        $this->assertEquals(1, $texture->size);
+        $this->assertEquals($user->uid, $texture->uploader);
+        $this->assertTrue($texture->public);
+        $filter->assertApplied('uploaded_texture_file', function ($file) {
+            $this->assertInstanceOf(UploadedFile::class, $file);
 
-        // Upload a duplicated texture
+            return true;
+        });
+        $filter->assertApplied('uploaded_texture_name', function ($name) {
+            $this->assertEquals('texture', $name);
+
+            return true;
+        });
+        $filter->assertApplied(
+            'uploaded_texture_hash',
+            function ($hash, $file) use ($texture) {
+                $this->assertEquals($texture->hash, $hash);
+                $this->assertInstanceOf(UploadedFile::class, $file);
+
+                return true;
+            }
+        );
+        Event::assertDispatched(
+            'texture.uploading',
+            function ($eventName, $payload) use ($texture) {
+                $this->assertInstanceOf(UploadedFile::class, $payload[0]);
+                $this->assertEquals($texture->name, $payload[1]);
+                $this->assertEquals($texture->hash, $payload[2]);
+
+                return true;
+            }
+        );
+        Event::assertDispatched(
+            'texture.uploaded',
+            function ($eventName, $payload) use ($texture) {
+                $this->assertTrue($texture->is($payload[0]));
+                $this->assertInstanceOf(UploadedFile::class, $payload[1]);
+
+                return true;
+            }
+        );
+
+        // upload a duplicated texture
         $user = factory(User::class)->create();
         $this->actingAs($user)
-            ->postJson(
-                '/skinlib/upload',
-                [
-                    'name' => 'texture',
-                    'public' => 'true',
-                    'type' => 'steve',
-                    'file' => $upload,
-                ]
-            )->assertJson([
+            ->postJson('/skinlib/upload', [
+                'name' => 'texture',
+                'public' => true,
+                'type' => 'steve',
+                'file' => $upload,
+            ])->assertJson([
                 'code' => 2,
                 'message' => trans('skinlib.upload.repeated'),
-                'data' => ['tid' => $t->tid],
+                'data' => ['tid' => $texture->tid],
             ]);
 
-        unlink(storage_path('framework/testing/disks/textures/'.$t->hash));
+        // rejected
+        $filter->add('can_upload_texture', function ($can, $file, $name) {
+            $this->assertInstanceOf(UploadedFile::class, $file);
+            $this->assertEquals('texture', $name);
+
+            return new Rejection('rejected');
+        });
+        $this->postJson('/skinlib/upload', [
+                'name' => 'texture',
+                'public' => true,
+                'type' => 'steve',
+                'file' => $upload,
+            ])->assertJson(['code' => 1, 'message' => 'rejected']);
+
+        $disk->delete($texture->hash);
     }
 
     public function testDelete()

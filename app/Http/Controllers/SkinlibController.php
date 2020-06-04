@@ -7,33 +7,18 @@ use App\Models\Texture;
 use App\Models\User;
 use Auth;
 use Blessing\Filter;
+use Blessing\Rejection;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\JsonResponse;
+use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\Request;
-use Option;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use Parsedown;
 use Storage;
 
 class SkinlibController extends Controller
 {
-    /**
-     * Map error code of file uploading to human-readable text.
-     *
-     * @see http://php.net/manual/en/features.file-upload.errors.php
-     *
-     * @var array
-     */
-    public static $phpFileUploadErrors = [
-        0 => 'There is no error, the file uploaded with success',
-        1 => 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
-        2 => 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form',
-        3 => 'The uploaded file was only partially uploaded',
-        4 => 'No file was uploaded',
-        6 => 'Missing a temporary folder',
-        7 => 'Failed to write file to disk.',
-        8 => 'A PHP extension stopped the file upload.',
-    ];
-
     public function library(Request $request)
     {
         $user = Auth::user();
@@ -180,60 +165,126 @@ class SkinlibController extends Controller
             ]);
     }
 
-    public function handleUpload(Request $request)
-    {
-        $user = Auth::user();
-
-        if (($response = $this->checkUpload($request)) instanceof JsonResponse) {
-            return $response;
-        }
-
+    public function handleUpload(
+        Request $request,
+        Filter $filter,
+        Dispatcher $dispatcher
+    ) {
         $file = $request->file('file');
-        $responses = event(new \App\Events\HashingFile($file));
-        if (isset($responses[0]) && is_string($responses[0])) {
-            return $responses[0];  // @codeCoverageIgnore
+        if ($file && !$file->isValid()) {
+            Log::error($file->getErrorMessage());
         }
 
-        $t = new Texture();
-        $t->name = $request->input('name');
-        $t->type = $request->input('type');
-        $t->hash = hash_file('sha256', $file);
-        $t->size = ceil($request->file('file')->getSize() / 1024);
-        $t->public = $request->input('public') == 'true';
-        $t->uploader = $user->uid;
+        $data = $request->validate([
+            'name' => [
+                'required',
+                option('texture_name_regexp') ? 'regex:'.option('texture_name_regexp') : 'string',
+            ],
+            'file' => 'required|mimes:png|max:'.option('max_upload_file_size'),
+            'type' => ['required', Rule::in(['steve', 'alex', 'cape'])],
+            'public' => 'required|boolean',
+        ]);
 
-        $cost = $t->size * ($t->public ? Option::get('score_per_storage') : Option::get('private_score_per_storage'));
-        $cost += option('score_per_closet_item');
-        $cost -= option('score_award_per_texture', 0);
+        $file = $filter->apply('uploaded_texture_file', $file);
 
-        if ($user->score < $cost) {
-            return json(trans('skinlib.upload.lack-score'), 7);
+        $name = $data['name'];
+        $name = $filter->apply('uploaded_texture_name', $name, [$file]);
+
+        $can = $filter->apply('can_upload_texture', true, [$file, $name]);
+        if ($can instanceof Rejection) {
+            return json($can->getReason(), 1);
         }
 
-        $repeated = Texture::where('hash', $t->hash)->where('public', true)->first();
-        if ($repeated) {
+        $type = $data['type'];
+        $size = getimagesize($file);
+        $ratio = $size[0] / $size[1];
+        if ($type == 'steve' || $type == 'alex') {
+            if ($ratio != 2 && $ratio != 1) {
+                $message = trans('skinlib.upload.invalid-size', [
+                    'type' => trans('general.skin'),
+                    'width' => $size[0],
+                    'height' => $size[1],
+                ]);
+
+                return json($message, 1);
+            }
+            if ($size[0] % 64 != 0 || $size[1] % 32 != 0) {
+                $message = trans('skinlib.upload.invalid-hd-skin', [
+                    'type' => trans('general.skin'),
+                    'width' => $size[0],
+                    'height' => $size[1],
+                ]);
+
+                return json($message, 1);
+            }
+        } elseif ($type == 'cape') {
+            if ($ratio != 2) {
+                $message = trans('skinlib.upload.invalid-size', [
+                    'type' => trans('general.cape'),
+                    'width' => $size[0],
+                    'height' => $size[1],
+                ]);
+
+                return json($message, 1);
+            }
+        }
+
+        $hash = hash_file('sha256', $file);
+        $hash = $filter->apply('uploaded_texture_hash', $hash, [$file]);
+
+        $duplicated = Texture::where('hash', $hash)->where('public', true)->first();
+        if ($duplicated) {
             // if the texture already uploaded was set to private,
             // then allow to re-upload it.
-            return json(trans('skinlib.upload.repeated'), 2, ['tid' => $repeated->tid]);
+            return json(trans('skinlib.upload.repeated'), 2, ['tid' => $duplicated->tid]);
         }
 
-        if (Storage::disk('textures')->missing($t->hash)) {
-            Storage::disk('textures')->put($t->hash, file_get_contents($request->file('file')));
+        /** @var User */
+        $user = Auth::user();
+
+        $size = ceil($file->getSize() / 1024);
+        $isPublic = is_string($data['public'])
+            ? $data['public'] === '1'
+            : $data['public'];
+        $cost = $size * (
+            $isPublic
+            ? option('score_per_storage')
+            : option('private_score_per_storage')
+        );
+        $cost += option('score_per_closet_item');
+        $cost -= option('score_award_per_texture', 0);
+        if ($user->score < $cost) {
+            return json(trans('skinlib.upload.lack-score'), 1);
         }
 
-        $t->likes++;
-        $t->save();
+        $dispatcher->dispatch('texture.uploading', [$file, $name, $hash]);
+
+        $texture = new Texture();
+        $texture->name = $name;
+        $texture->type = $type;
+        $texture->hash = $hash;
+        $texture->size = $size;
+        $texture->public = $isPublic;
+        $texture->uploader = $user->uid;
+        $texture->likes = 1;
+        $texture->save();
+
+        /** @var FilesystemAdapter */
+        $disk = Storage::disk('textures');
+        if ($disk->missing($hash)) {
+            $disk->putFile($hash, $file);
+        }
 
         $user->score -= $cost;
-        $user->closet()->attach($t->tid, ['item_name' => $t->name]);
+        $user->closet()->attach($texture->tid, ['item_name' => $name]);
         $user->save();
 
-        return json(trans('skinlib.upload.success', ['name' => $request->input('name')]), 0, [
-            'tid' => $t->tid,
+        $dispatcher->dispatch('texture.uploaded', [$texture, $file]);
+
+        return json(trans('skinlib.upload.success', ['name' => $name]), 0, [
+            'tid' => $texture->tid,
         ]);
     }
-
-    // @codeCoverageIgnore
 
     public function delete(Request $request)
     {
@@ -355,48 +406,4 @@ class SkinlibController extends Controller
 
         return json(trans('skinlib.model.success', ['model' => $data['model']]), 0);
     }
-
-    protected function checkUpload(Request $request)
-    {
-        if ($file = $request->files->get('file')) {
-            if ($file->getError() !== UPLOAD_ERR_OK) {
-                return json(static::$phpFileUploadErrors[$file->getError()], $file->getError());
-            }
-        }
-
-        $request->validate([
-            'name' => [
-                'required',
-                option('texture_name_regexp') ? 'regex:'.option('texture_name_regexp') : 'string',
-            ],
-            'file' => 'required|max:'.option('max_upload_file_size'),
-            'public' => 'required',
-        ]);
-
-        $mime = $request->file('file')->getMimeType();
-        if ($mime != 'image/png' && $mime != 'image/x-png') {
-            return json(trans('skinlib.upload.type-error'), 1);
-        }
-
-        $type = $request->input('type');
-        $size = getimagesize($request->file('file'));
-        $ratio = $size[0] / $size[1];
-
-        if ($type == 'steve' || $type == 'alex') {
-            if ($ratio != 2 && $ratio != 1) {
-                return json(trans('skinlib.upload.invalid-size', ['type' => trans('general.skin'), 'width' => $size[0], 'height' => $size[1]]), 1);
-            }
-            if ($size[0] % 64 != 0 || $size[1] % 32 != 0) {
-                return json(trans('skinlib.upload.invalid-hd-skin', ['type' => trans('general.skin'), 'width' => $size[0], 'height' => $size[1]]), 1);
-            }
-        } elseif ($type == 'cape') {
-            if ($ratio != 2) {
-                return json(trans('skinlib.upload.invalid-size', ['type' => trans('general.cape'), 'width' => $size[0], 'height' => $size[1]]), 1);
-            }
-        } else {
-            return json(trans('general.illegal-parameters'), 1);
-        }
-    }
-
-    // @codeCoverageIgnore
 }

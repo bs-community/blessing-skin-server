@@ -82,7 +82,7 @@ const Upload: React.FC = () => {
     formData.append('name', name)
     formData.append('type', type)
     formData.append('file', file, file.name)
-    formData.append('public', (!isPrivate).toString())
+    formData.append('public', isPrivate ? '0' : '1')
 
     setIsUploading(true)
     const { code, message, data: { tid } = { tid: 0 } } = await fetch.post<
