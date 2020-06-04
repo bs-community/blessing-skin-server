@@ -11,7 +11,6 @@ if (Test-Path ./public/app) {
 }
 
 # Run webpack
-yarn build:urls
 yarn build
 Move-Item -Path ./public/app/sw.js -Destination ./public -Force
 
