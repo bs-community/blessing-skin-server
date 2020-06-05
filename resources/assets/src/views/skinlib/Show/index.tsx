@@ -7,6 +7,7 @@ import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { showModal, toast } from '@/scripts/notify'
 import { Texture, TextureType } from '@/scripts/types'
+import urls from '@/scripts/urls'
 import ButtonEdit from '@/components/ButtonEdit'
 import ViewerSkeleton from '@/components/ViewerSkeleton'
 import ModalApply from '@/views/user/Closet/ModalApply'
@@ -38,7 +39,7 @@ const Show: React.FC = () => {
     const fetchInfo = async () => {
       const url = location.href
         .replace(blessing.base_url, '')
-        .replace('show', 'info')
+        .replace('skinlib/show', 'texture')
 
       const texture = await fetch.get<Texture>(url)
       setTexture(texture)
@@ -68,12 +69,9 @@ const Show: React.FC = () => {
       return
     }
 
-    const { code, message } = await fetch.post<fetch.ResponseBody>(
-      '/skinlib/rename',
-      {
-        tid: texture.tid,
-        new_name: name,
-      },
+    const { code, message } = await fetch.put<fetch.ResponseBody>(
+      urls.texture.name(texture.tid),
+      { name },
     )
     if (code === 0) {
       toast.success(message)
@@ -102,12 +100,9 @@ const Show: React.FC = () => {
       return
     }
 
-    const { code, message } = await fetch.post<fetch.ResponseBody>(
-      '/skinlib/model',
-      {
-        tid: texture.tid,
-        model: type,
-      },
+    const { code, message } = await fetch.put<fetch.ResponseBody>(
+      urls.texture.type(texture.tid),
+      { type },
     )
     if (code === 0) {
       toast.success(message)
@@ -190,9 +185,8 @@ const Show: React.FC = () => {
       return
     }
 
-    const { code, message } = await fetch.post<fetch.ResponseBody>(
-      '/skinlib/privacy',
-      { tid: texture.tid },
+    const { code, message } = await fetch.put<fetch.ResponseBody>(
+      urls.texture.privacy(texture.tid),
     )
     if (code === 0) {
       toast.success(message)
@@ -212,9 +206,8 @@ const Show: React.FC = () => {
       return
     }
 
-    const { code, message } = await fetch.post<fetch.ResponseBody>(
-      '/skinlib/delete',
-      { tid: texture.tid },
+    const { code, message } = await fetch.del<fetch.ResponseBody>(
+      urls.texture.delete(texture.tid),
     )
     if (code === 0) {
       toast.success(message)

@@ -91,6 +91,19 @@ Route::prefix('user')
         Route::view('oauth/manage', 'user.oauth')->middleware('verified');
     });
 
+Route::prefix('texture')->name('texture.')->group(function () {
+    Route::get('{texture}', 'SkinlibController@info')->name('info');
+    Route::middleware(['authorize', 'verified'])->group(function () {
+        Route::post('', 'SkinlibController@handleUpload')->name('upload');
+        Route::prefix('{texture}')->group(function () {
+            Route::put('type', 'SkinlibController@type')->name('type');
+            Route::put('name', 'SkinlibController@rename')->name('name');
+            Route::put('privacy', 'SkinlibController@privacy')->name('privacy');
+            Route::delete('', 'SkinlibController@delete')->name('delete');
+        });
+    });
+});
+
 Route::prefix('skinlib')->name('skinlib.')->group(function () {
     Route::view('', 'skinlib.index')->name('home');
     Route::get('info/{texture}', 'SkinlibController@info')->name('info');
@@ -98,14 +111,7 @@ Route::prefix('skinlib')->name('skinlib.')->group(function () {
     Route::get('list', 'SkinlibController@library')->name('list');
 
     Route::middleware(['authorize', 'verified'])->group(function () {
-        Route::prefix('upload')->name('upload')->group(function () {
-            Route::get('', 'SkinlibController@upload');
-            Route::post('', 'SkinlibController@handleUpload');
-        });
-        Route::post('model', 'SkinlibController@model');
-        Route::post('rename', 'SkinlibController@rename');
-        Route::post('privacy', 'SkinlibController@privacy');
-        Route::post('delete', 'SkinlibController@delete');
+        Route::get('upload', 'SkinlibController@upload');
         Route::post('report', 'ReportController@submit');
     });
 });

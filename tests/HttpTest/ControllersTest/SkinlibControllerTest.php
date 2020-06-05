@@ -17,6 +17,25 @@ class SkinlibControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
+    public function testAccessControl()
+    {
+        Storage::fake('textures');
+
+        $other = factory(User::class)->create();
+        $texture = factory(Texture::class)->create();
+
+        // other user should not be able to delete
+        $this->actingAs($other)
+            ->deleteJson(route('texture.delete', ['texture' => $texture]))
+            ->assertJson(['code' => 1])
+            ->assertForbidden();
+
+        // administrators can delete it
+        $this->actingAs(factory(User::class)->states('admin')->create())
+            ->deleteJson(route('texture.delete', ['texture' => $texture]))
+            ->assertJson(['code' => 0]);
+    }
+
     public function testLibrary()
     {
         $steve = factory(Texture::class)->create([
@@ -192,7 +211,7 @@ class SkinlibControllerTest extends TestCase
     public function testInfo()
     {
         $texture = factory(Texture::class)->create();
-        $this->get(route('skinlib.info', ['texture' => $texture]))
+        $this->get(route('texture.info', ['texture' => $texture]))
             ->assertJson($texture->toArray());
     }
 
@@ -217,7 +236,7 @@ class SkinlibControllerTest extends TestCase
 
         // without file
         $this->actingAs($user)
-            ->postJson('/skinlib/upload', [
+            ->postJson(route('texture.upload'), [
                 'name' => 'name',
                 'type' => 'steve',
                 'public' => true,
@@ -232,7 +251,7 @@ class SkinlibControllerTest extends TestCase
             UPLOAD_ERR_NO_TMP_DIR,
             true
         );
-        $this->postJson('/skinlib/upload', [
+        $this->postJson(route('texture.upload'), [
             'name' => 'name',
             'file' => $upload,
             'type' => 'steve',
@@ -240,16 +259,17 @@ class SkinlibControllerTest extends TestCase
         ])->assertJsonValidationErrors('file');
 
         // without `name` field
-        $this->postJson('/skinlib/upload')->assertJsonValidationErrors('name');
+        $this->postJson(route('texture.upload'))
+            ->assertJsonValidationErrors('name');
 
         // specified regular expression for texture name
         option(['texture_name_regexp' => '/\\d+/']);
-        $this->postJson('/skinlib/upload', ['name' => 'abc'])
+        $this->postJson(route('texture.upload'), ['name' => 'abc'])
             ->assertJsonValidationErrors('name');
         option(['texture_name_regexp' => null]);
 
         // not a PNG file
-        $this->postJson('/skinlib/upload', [
+        $this->postJson(route('texture.upload'), [
             'name' => 'texture',
             'file' => UploadedFile::fake()->create('fake', 5),
         ])->assertJsonValidationErrors('file');
@@ -257,34 +277,34 @@ class SkinlibControllerTest extends TestCase
         // too large file
         option(['max_upload_file_size' => 2]);
         $upload = UploadedFile::fake()->create('large.png', 5);
-        $this->postJson('/skinlib/upload', [
+        $this->postJson(route('texture.upload'), [
             'name' => 'texture',
             'file' => $upload,
         ])->assertJsonValidationErrors('file');
         option(['max_upload_file_size' => 1024]);
 
         // no texture type is specified
-        $this->postJson('/skinlib/upload', [
+        $this->postJson(route('texture.upload'), [
             'name' => 'texture',
             'file' => $file,
         ])->assertJsonValidationErrors('type');
 
         // invalid texture type
-        $this->postJson('/skinlib/upload', [
+        $this->postJson(route('texture.upload'), [
             'name' => 'texture',
             'file' => $file,
             'type' => 'nope',
         ])->assertJsonValidationErrors('type');
 
         // without `public` field
-        $this->postJson('/skinlib/upload', [
+        $this->postJson(route('texture.upload'), [
             'name' => 'texture',
             'file' => $file,
             'type' => 'steve',
         ])->assertJsonValidationErrors('public');
 
         // invalid skin size
-        $this->postJson('/skinlib/upload', [
+        $this->postJson(route('texture.upload'), [
             'name' => 'texture',
             'public' => true,
             'type' => 'steve',
@@ -297,7 +317,7 @@ class SkinlibControllerTest extends TestCase
                 'height' => 30,
             ]),
         ]);
-        $this->postJson('/skinlib/upload', [
+        $this->postJson(route('texture.upload'), [
             'name' => 'texture',
             'public' => true,
             'type' => 'alex',
@@ -310,7 +330,7 @@ class SkinlibControllerTest extends TestCase
                 'height' => 50,
             ]),
         ]);
-        $this->postJson('/skinlib/upload', [
+        $this->postJson(route('texture.upload'), [
             'name' => 'texture',
             'public' => true,
             'type' => 'cape',
@@ -329,7 +349,7 @@ class SkinlibControllerTest extends TestCase
         // score is not enough
         $user = factory(User::class)->create(['score' => 0]);
         $this->actingAs($user)
-            ->postJson('/skinlib/upload', [
+            ->postJson(route('texture.upload'), [
                 'name' => 'texture',
                 'public' => true,
                 'type' => 'steve',
@@ -344,7 +364,7 @@ class SkinlibControllerTest extends TestCase
             'score' => (int) option('score_per_closet_item') + (int) option('score_per_storage'),
         ]);
         $this->actingAs($user)->postJson(
-            '/skinlib/upload',
+            route('texture.upload'),
             [
                 'name' => 'texture',
                 'public' => false,
@@ -358,7 +378,7 @@ class SkinlibControllerTest extends TestCase
 
         // success
         option(['score_award_per_texture' => 2]);
-        $this->postJson('/skinlib/upload', [
+        $this->postJson(route('texture.upload'), [
             'name' => 'texture',
             'public' => true,
             'type' => 'steve',
@@ -419,7 +439,7 @@ class SkinlibControllerTest extends TestCase
         // upload a duplicated texture
         $user = factory(User::class)->create();
         $this->actingAs($user)
-            ->postJson('/skinlib/upload', [
+            ->postJson(route('texture.upload'), [
                 'name' => 'texture',
                 'public' => true,
                 'type' => 'steve',
@@ -437,7 +457,7 @@ class SkinlibControllerTest extends TestCase
 
             return new Rejection('rejected');
         });
-        $this->postJson('/skinlib/upload', [
+        $this->postJson(route('texture.upload'), [
                 'name' => 'texture',
                 'public' => true,
                 'type' => 'steve',
@@ -449,6 +469,7 @@ class SkinlibControllerTest extends TestCase
 
     public function testDelete()
     {
+        /** @var FilesystemAdapter */
         $disk = Storage::fake('textures');
 
         $uploader = factory(User::class)->create();
@@ -456,121 +477,97 @@ class SkinlibControllerTest extends TestCase
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
         option(['return_score' => false]);
 
-        // Non-existed texture
-        $this->actingAs($uploader)
-            ->postJson('/skinlib/delete', ['tid' => -1])
-            ->assertJson([
-                'code' => 1,
-                'message' => trans('skinlib.non-existent'),
-            ]);
-
-        // Other user should not be able to delete
-        $this->actingAs($other)
-            ->postJson('/skinlib/delete', ['tid' => $texture->tid])
-            ->assertJson([
-                'code' => 1,
-                'message' => trans('skinlib.no-permission'),
-            ]);
-
-        // Administrators can delete it
-        $this->actingAs(factory(User::class)->states('admin')->create())
-            ->postJson('/skinlib/delete', ['tid' => $texture->tid])
-            ->assertJson([
-                'code' => 0,
-                'message' => trans('skinlib.delete.success'),
-            ]);
-        $this->assertNull(Texture::find($texture->tid));
-
-        $texture = factory(Texture::class)->create();
-        factory(Texture::class)->create(['hash' => $texture->hash]);
+        $duplicate = factory(Texture::class)->create([
+            'hash' => $texture->hash,
+            'uploader' => $uploader->uid,
+        ]);
         $disk->put($texture->hash, '');
 
-        // When file is occupied, the file should not be deleted
-        $this->postJson('/skinlib/delete', ['tid' => $texture->tid])
+        // when file is occupied, the file should not be deleted
+        $this->actingAs($uploader)
+            ->deleteJson(route('texture.delete', ['texture' => $duplicate]))
+            ->assertJson([
+                'code' => 0,
+                'message' => trans('skinlib.delete.success'),
+            ]);
+        $this->assertNull(Texture::find($duplicate->tid));
+        $disk->assertExists($texture->hash);
+
+        $this->deleteJson(route('texture.delete', ['texture' => $texture]))
             ->assertJson([
                 'code' => 0,
                 'message' => trans('skinlib.delete.success'),
             ]);
         $this->assertNull(Texture::find($texture->tid));
-        $this->assertTrue(Storage::disk('textures')->exists($texture->hash));
+        $disk->assertMissing($texture->hash);
 
-        $texture = factory(Texture::class)->create();
-        factory(Texture::class)->create(['hash' => $texture->hash]);
-        $this->postJson('/skinlib/delete', ['tid' => $texture->tid])
-            ->assertJson([
-                'code' => 0,
-                'message' => trans('skinlib.delete.success'),
-            ]);
-        $this->assertNull(Texture::find($texture->tid));
-        $this->assertFalse(Storage::disk('textures')->exists($texture->hash));
-
-        // Return score
+        // return score
         option(['return_score' => true]);
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
         $this->actingAs($uploader)
-            ->postJson('/skinlib/delete', ['tid' => $texture->tid])
+            ->deleteJson(route('texture.delete', ['texture' => $texture]))
             ->assertJson([
                 'code' => 0,
                 'message' => trans('skinlib.delete.success'),
             ]);
         $this->assertEquals(
             $uploader->score + $texture->size * option('score_per_storage'),
-            User::find($uploader->uid)->score
+            $uploader->fresh()->score
         );
 
-        $uploader = User::find($uploader->uid);
+        $uploader->refresh();
         $texture = factory(Texture::class)->create([
             'uploader' => $uploader->uid,
             'public' => false,
         ]);
         $this->actingAs($uploader)
-            ->postJson('/skinlib/delete', ['tid' => $texture->tid])
+            ->deleteJson(route('texture.delete', ['texture' => $texture]))
             ->assertJson([
                 'code' => 0,
                 'message' => trans('skinlib.delete.success'),
             ]);
         $this->assertEquals(
             $uploader->score + $texture->size * option('private_score_per_storage'),
-            User::find($uploader->uid)->score
+            $uploader->fresh()->score
         );
 
         option(['return_score' => false]);
 
-        // Return the award
+        // return the award
         option(['score_award_per_texture' => 5]);
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
         $uploader->refresh();
         $this->actingAs($uploader)
-            ->postJson('/skinlib/delete', ['tid' => $texture->tid])
+            ->deleteJson(route('texture.delete', ['texture' => $texture]))
             ->assertJson(['code' => 0]);
-        $this->assertEquals($uploader->score - 5, User::find($uploader->uid)->score);
-        // Option disabled
+        $this->assertEquals($uploader->score - 5, $uploader->fresh()->score);
+        // option disabled
         option(['take_back_scores_after_deletion' => false]);
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
         $uploader->refresh();
         $this->actingAs($uploader)
-            ->postJson('/skinlib/delete', ['tid' => $texture->tid])
+            ->deleteJson(route('texture.delete', ['texture' => $texture]))
             ->assertJson(['code' => 0]);
-        $this->assertEquals($uploader->score, User::find($uploader->uid)->score);
-        // Private texture
+        $this->assertEquals($uploader->score, $uploader->fresh()->score);
+        // private texture
         $texture = factory(Texture::class)->create([
             'uploader' => $uploader->uid,
             'public' => false,
         ]);
         $uploader->refresh();
         $this->actingAs($uploader)
-            ->postJson('/skinlib/delete', ['tid' => $texture->tid])
+            ->deleteJson(route('texture.delete', ['texture' => $texture]))
             ->assertJson(['code' => 0]);
-        $this->assertEquals($uploader->score, User::find($uploader->uid)->score);
+        $this->assertEquals($uploader->score, $uploader->fresh()->score);
 
-        // Remove from closet
+        // remove from closet
         option(['return_score' => true]);
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
         $other->closet()->attach($texture->tid, ['item_name' => 'a']);
         $other->score = 0;
         $other->save();
         $this->actingAs($uploader)
-            ->postJson('/skinlib/delete', ['tid' => $texture->tid])
+            ->deleteJson(route('texture.delete', ['texture' => $texture]))
             ->assertJson(['code' => 0]);
         $other->refresh();
         $this->assertEquals(option('score_per_closet_item'), $other->score);
@@ -582,56 +579,30 @@ class SkinlibControllerTest extends TestCase
         $other = factory(User::class)->create();
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
 
-        // Non-existed texture
-        $this->actingAs($uploader)
-            ->postJson('/skinlib/privacy', ['tid' => -1])
-            ->assertJson([
-                'code' => 1,
-                'message' => trans('skinlib.non-existent'),
-            ]);
-
-        // Other user should not be able to set privacy
-        $this->actingAs($other)
-            ->postJson('/skinlib/privacy', ['tid' => $texture->tid])
-            ->assertJson([
-                'code' => 1,
-                'message' => trans('skinlib.no-permission'),
-            ]);
-
-        // Administrators can change it
-        $uploader->score += $texture->size * option('private_score_per_storage');
-        $uploader->save();
-        $this->actingAs(factory(User::class)->states('admin')->create())
-            ->postJson('/skinlib/privacy', ['tid' => $texture->tid])
-            ->assertJson([
-                'code' => 0,
-                'message' => trans('skinlib.privacy.success', ['privacy' => trans('general.private')]),
-            ]);
-        $this->assertEquals(0, Texture::find($texture->tid)->public);
-
-        // Setting a texture to be private needs more scores
+        // setting a texture to be private needs more scores
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
         $uploader->score = 0;
         $uploader->save();
         $this->actingAs($uploader)
-            ->postJson('/skinlib/privacy', ['tid' => $texture->tid])
+            ->putJson(route('texture.privacy', ['texture' => $texture]))
             ->assertJson([
                 'code' => 1,
                 'message' => trans('skinlib.upload.lack-score'),
             ]);
-        $this->assertEquals(1, Texture::find($texture->tid)->public);
+        $this->assertTrue($texture->fresh()->public);
 
         $texture->public = true;
         $texture->save();
         $uploader->score = $texture->size *
             (option('private_score_per_storage') - option('score_per_storage'));
         $uploader->save();
-        $this->postJson('/skinlib/privacy', ['tid' => $texture->tid])
+        $this->putJson(route('texture.privacy', ['texture' => $texture]))
             ->assertJson([
                 'code' => 0,
                 'message' => trans('skinlib.privacy.success', ['privacy' => trans('general.private')]),
             ]);
-        $this->assertEquals(0, User::find($uploader->uid)->score);
+        $this->assertEquals(0, $uploader->fresh()->score);
+        $this->assertFalse($texture->fresh()->public);
 
         // When setting a texture to be private,
         // other players should not be able to use it.
@@ -641,19 +612,19 @@ class SkinlibControllerTest extends TestCase
         $player = factory(Player::class)->create(['tid_skin' => $texture->tid]);
         $other = factory(User::class)->create();
         $other->closet()->attach($texture->tid, ['item_name' => 'a']);
-        $this->postJson('/skinlib/privacy', ['tid' => $texture->tid])
+        $this->putJson(route('texture.privacy', ['texture' => $texture]))
             ->assertJson([
                 'code' => 0,
                 'message' => trans('skinlib.privacy.success', ['privacy' => trans('general.private')]),
             ]);
-        $this->assertEquals(0, Player::find($player->pid)->tid_skin);
+        $this->assertEquals(0, $player->fresh()->tid_skin);
         $this->assertEquals(0, $other->closet()->count());
         $this->assertEquals(
             $other->score + option('score_per_closet_item'),
-            User::find($other->uid)->score
+            $other->fresh()->score
         );
 
-        // Take back the score
+        // take back the score
         option(['score_award_per_texture' => 5]);
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
         $uploader->score = $texture->size * (
@@ -661,159 +632,92 @@ class SkinlibControllerTest extends TestCase
         );
         $uploader->score += option('score_award_per_texture');
         $uploader->save();
-        $this->postJson('/skinlib/privacy', ['tid' => $texture->tid])
+        $this->putJson(route('texture.privacy', ['texture' => $texture]))
             ->assertJson(['code' => 0]);
-        $this->assertEquals(0, User::find($uploader->uid)->score);
+        $this->assertEquals(0, $uploader->fresh()->score);
 
-        // Without returning score
+        // without returning score
         option(['return_score' => false, 'private_score_per_storage' => 0]);
         $uploader->score += 1000;
         $uploader->save();
         $texture = factory(Texture::class)->create(['public' => 'false', 'uploader' => $uploader->uid]);
         $other = factory(User::class)->create();
         $other->closet()->attach($texture->tid, ['item_name' => 'a']);
-        $this->postJson('/skinlib/privacy', ['tid' => $texture->tid])
+        $this->putJson(route('texture.privacy', ['texture' => $texture]))
             ->assertJson(['code' => 0]);
-        $this->assertEquals($other->score, User::find($other->uid)->score);
+        $this->assertEquals($other->score, $other->fresh()->score);
     }
 
     public function testRename()
     {
         $uploader = factory(User::class)->create();
-        $other = factory(User::class)->create();
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
 
-        // Without `tid` field
+        // without `name` field
         $this->actingAs($uploader)
-            ->postJson('/skinlib/rename')
-            ->assertJsonValidationErrors('tid');
+            ->putJson(route('texture.name', ['texture' => $texture]))
+            ->assertJsonValidationErrors('name');
 
-        // `tid` is not a integer
-        $this->postJson('/skinlib/rename', [
-                'tid' => 'str',
-            ])
-            ->assertJsonValidationErrors('tid');
+        // specified regular expression for texture name
+        option(['texture_name_regexp' => '/\\d+/']);
+        $this->putJson(
+            route('texture.name', ['texture' => $texture]),
+            ['name' => 'abc']
+        )->assertJsonValidationErrors('name');
+        option(['texture_name_regexp' => null]);
 
-        // Without `new_name` field
-        $this->postJson('/skinlib/rename', [
-                'tid' => $texture->tid,
-            ])
-            ->assertJsonValidationErrors('new_name');
-
-        // Non-existed texture
-        $this->postJson('/skinlib/rename', [
-                'tid' => -1,
-                'new_name' => 'name',
-            ])
-            ->assertJson([
-                'code' => 1,
-                'message' => trans('skinlib.non-existent'),
-            ]);
-
-        // Other user should not be able to rename
-        $this->actingAs($other)
-            ->postJson('/skinlib/rename', [
-                'tid' => $texture->tid,
-                'new_name' => 'name',
-            ])
-            ->assertJson([
-                'code' => 1,
-                'message' => trans('skinlib.no-permission'),
-            ]);
-
-        // Administrators should be able to rename
-        $this->actingAs(factory(User::class)->states('admin')->create())
-            ->postJson('/skinlib/rename', [
-                'tid' => $texture->tid,
-                'new_name' => 'name',
-            ])
-            ->assertJson([
-                'code' => 0,
-                'message' => trans('skinlib.rename.success', ['name' => 'name']),
-            ]);
-        $this->assertEquals('name', Texture::find($texture->tid)->name);
-
-        // Uploader should be able to rename
-        $this->actingAs($uploader)
-            ->postJson('/skinlib/rename', [
-                'tid' => $texture->tid,
-                'new_name' => 'new_name',
-            ])
-            ->assertJson([
-                'code' => 0,
-                'message' => trans('skinlib.rename.success', ['name' => 'new_name']),
-            ]);
-        $this->assertEquals('new_name', Texture::find($texture->tid)->name);
+        // success
+        $this->putJson(
+            route('texture.name', ['texture' => $texture]),
+            ['name' => 'abc']
+        )->assertJson([
+            'code' => 0,
+            'message' => trans('skinlib.rename.success', ['name' => 'abc']),
+        ]);
+        $this->assertEquals('abc', $texture->fresh()->name);
     }
 
-    public function testModel()
+    public function testType()
     {
         $uploader = factory(User::class)->create();
         $other = factory(User::class)->create();
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
 
-        // Non-existed texture
+        // missing `type` field
         $this->actingAs($uploader)
-            ->postJson('/skinlib/model', [
-                'tid' => -1,
-                'model' => 'alex',
-            ])
-            ->assertJson([
-                'code' => 1,
-                'message' => trans('skinlib.non-existent'),
-            ]);
+            ->putJson(route('texture.type', ['texture' => $texture]))
+            ->assertJsonValidationErrors('type');
 
-        // Other user should not be able to change model
-        $this->actingAs($other)
-            ->postJson('/skinlib/model', [
-                'tid' => $texture->tid,
-                'model' => 'alex',
-            ])
-            ->assertJson([
-                'code' => 1,
-                'message' => trans('skinlib.no-permission'),
-            ]);
+        // invalid type
+        $this->putJson(
+            route('texture.type', ['texture' => $texture]),
+            ['type' => 'nope']
+        )->assertJsonValidationErrors('type');
 
-        // Administrators should be able to change model
-        $this->actingAs(factory(User::class)->states('admin')->create())
-            ->postJson('/skinlib/model', [
-                'tid' => $texture->tid,
-                'model' => 'alex',
-            ])
-            ->assertJson([
-                'code' => 0,
-                'message' => trans('skinlib.model.success', ['model' => 'alex']),
-            ]);
-        $this->assertEquals('alex', Texture::find($texture->tid)->type);
-
-        // Uploader should be able to change model
-        $this->actingAs($uploader)
-            ->postJson('/skinlib/model', [
-                'tid' => $texture->tid,
-                'model' => 'steve',
-            ])
-            ->assertJson([
-                'code' => 0,
-                'message' => trans('skinlib.model.success', ['model' => 'steve']),
-            ]);
-        $this->assertEquals('steve', Texture::find($texture->tid)->type);
+        // success
+        $this->putJson(
+            route('texture.type', ['texture' => $texture]),
+            ['type' => 'steve']
+        )->assertJson([
+            'code' => 0,
+            'message' => trans('skinlib.model.success', ['model' => 'steve']),
+        ]);
+        $this->assertEquals('steve', $texture->fresh()->type);
 
         $duplicate = factory(Texture::class)->states('alex')->create([
             'uploader' => $other->uid,
             'hash' => $texture->hash,
         ]);
 
-        // Allow private texture
+        // allow private texture
         $duplicate->public = false;
         $duplicate->save();
-        $this->actingAs($uploader)
-            ->postJson('/skinlib/model', [
-                'tid' => $texture->tid,
-                'model' => 'alex',
-            ])
-            ->assertJson([
-                'code' => 0,
-                'message' => trans('skinlib.model.success', ['model' => 'alex']),
-            ]);
+        $this->putJson(
+            route('texture.type', ['texture' => $texture]),
+            ['type' => 'alex']
+        )->assertJson([
+            'code' => 0,
+            'message' => trans('skinlib.model.success', ['model' => 'alex']),
+        ]);
     }
 }

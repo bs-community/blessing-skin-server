@@ -87,7 +87,7 @@ const Upload: React.FC = () => {
     setIsUploading(true)
     const { code, message, data: { tid } = { tid: 0 } } = await fetch.post<
       fetch.ResponseBody<{ tid: number }>
-    >(urls.skinlib.upload(), formData)
+    >(urls.texture.upload(), formData)
     setIsUploading(false)
 
     if (code === 0) {

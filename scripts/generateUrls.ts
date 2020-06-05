@@ -4,7 +4,7 @@ import ts from 'typescript'
 import prettier from 'prettier'
 
 type Route = { uri: string; name: string | null }
-const supportedPrefixes = ['auth.', 'user.', 'skinlib.', 'admin.']
+const supportedPrefixes = ['auth.', 'user.', 'skinlib.', 'texture.', 'admin.']
 
 type TreeObject = { [key: string]: Tree }
 type Tree = TreeObject | string
@@ -71,19 +71,21 @@ function parseURI(uri: string): ts.ArrowFunction {
 }
 
 function parseTree(tree: Tree): ts.ObjectLiteralExpression {
-  const properties = Object.entries(tree).map(([key, value]) => {
-    if (typeof value === 'string') {
-      return ts.createPropertyAssignment(
-        ts.createIdentifier(key),
-        parseURI(value),
-      )
-    } else {
-      return ts.createPropertyAssignment(
-        ts.createIdentifier(key),
-        parseTree(value),
-      )
-    }
-  })
+  const properties = Object.entries(tree)
+    .sort(([a], [b]) => (a > b ? 1 : -1))
+    .map(([key, value]) => {
+      if (typeof value === 'string') {
+        return ts.createPropertyAssignment(
+          ts.createIdentifier(key),
+          parseURI(value),
+        )
+      } else {
+        return ts.createPropertyAssignment(
+          ts.createIdentifier(key),
+          parseTree(value),
+        )
+      }
+    })
 
   return ts.createObjectLiteral(properties)
 }

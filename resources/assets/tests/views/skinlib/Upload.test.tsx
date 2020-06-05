@@ -215,7 +215,7 @@ describe('upload texture', () => {
 
     expect(queryByText(t('skinlib.uploading'))).toBeInTheDocument()
     expect(fetch.post).toBeCalledWith(
-      urls.skinlib.upload(),
+      urls.texture.upload(),
       expect.any(FormData),
     )
 

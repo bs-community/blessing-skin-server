@@ -19,6 +19,23 @@ use Storage;
 
 class SkinlibController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(function (Request $request, $next) {
+            /** @var User */
+            $user = $request->user();
+            /** @var Texture */
+            $texture = $request->route('texture');
+
+            if ($texture->uploader != $user->uid && !$user->isAdmin()) {
+                return json(trans('skinlib.no-permission'), 1)
+                    ->setStatusCode(403);
+            }
+
+            return $next($request);
+        })->only(['rename', 'privacy', 'type', 'delete']);
+    }
+
     public function library(Request $request)
     {
         $user = Auth::user();
@@ -285,22 +302,10 @@ class SkinlibController extends Controller
         ]);
     }
 
-    public function delete(Request $request)
+    public function delete(Texture $texture)
     {
-        $texture = Texture::find($request->tid);
-        /** @var User */
-        $user = Auth::user();
-
-        if (!$texture) {
-            return json(trans('skinlib.non-existent'), 1);
-        }
-
-        if ($texture->uploader != $user->uid && !$user->isAdmin()) {
-            return json(trans('skinlib.no-permission'), 1);
-        }
-
         // check if file occupied
-        if (Texture::where('hash', $texture->hash)->count() == 1) {
+        if (Texture::where('hash', $texture->hash)->count() === 1) {
             Storage::disk('textures')->delete($texture->hash);
         }
 
@@ -309,101 +314,75 @@ class SkinlibController extends Controller
         return json(trans('skinlib.delete.success'), 0);
     }
 
-    public function privacy(Request $request)
+    public function privacy(Texture $texture)
     {
-        $t = Texture::find($request->input('tid'));
-        $user = $request->user();
-
-        if (!$t) {
-            return json(trans('skinlib.non-existent'), 1);
-        }
-
-        if ($t->uploader != $user->uid && !$user->isAdmin()) {
-            return json(trans('skinlib.no-permission'), 1);
-        }
-
-        $uploader = User::find($t->uploader);
-        $score_diff = $t->size * (option('private_score_per_storage') - option('score_per_storage')) * ($t->public ? -1 : 1);
-        if ($t->public && option('take_back_scores_after_deletion', true)) {
+        $uploader = User::find($texture->uploader);
+        $score_diff = $texture->size
+            * (option('private_score_per_storage') - option('score_per_storage'))
+            * ($texture->public ? -1 : 1);
+        if ($texture->public && option('take_back_scores_after_deletion', true)) {
             $score_diff -= option('score_award_per_texture', 0);
         }
         if ($uploader->score + $score_diff < 0) {
             return json(trans('skinlib.upload.lack-score'), 1);
         }
 
-        $type = $t->type == 'cape' ? 'cape' : 'skin';
-        Player::where("tid_$type", $t->tid)
+        $type = $texture->type == 'cape' ? 'cape' : 'skin';
+        Player::where("tid_$type", $texture->tid)
             ->where('uid', '<>', session('uid'))
             ->update(["tid_$type" => 0]);
 
-        $t->likers()->get()->each(function ($user) use ($t) {
-            $user->closet()->detach($t->tid);
+        $texture->likers()->get()->each(function ($user) use ($texture) {
+            $user->closet()->detach($texture->tid);
             if (option('return_score')) {
                 $user->score += option('score_per_closet_item');
                 $user->save();
             }
-            $t->likes--;
+            $texture->likes--;
         });
 
         $uploader->score += $score_diff;
         $uploader->save();
 
-        $t->public = !$t->public;
-        $t->save();
+        $texture->public = !$texture->public;
+        $texture->save();
 
-        return json(
-            trans('skinlib.privacy.success', ['privacy' => (!$t->public ? trans('general.private') : trans('general.public'))]),
-            0
-        );
-    }
-
-    public function rename(Request $request)
-    {
-        $request->validate([
-            'tid' => 'required|integer',
-            'new_name' => 'required',
+        $message = trans('skinlib.privacy.success', [
+            'privacy' => (
+                $texture->public
+                    ? trans('general.public')
+                    : trans('general.private')),
         ]);
-        $user = $request->user();
-        $t = Texture::find($request->input('tid'));
 
-        if (!$t) {
-            return json(trans('skinlib.non-existent'), 1);
-        }
-
-        if ($t->uploader != $user->uid && !$user->isAdmin()) {
-            return json(trans('skinlib.no-permission'), 1);
-        }
-
-        $t->name = $request->input('new_name');
-
-        if ($t->save()) {
-            return json(trans('skinlib.rename.success', ['name' => $request->input('new_name')]), 0);
-        }
+        return json($message, 0);
     }
 
-    // @codeCoverageIgnore
-
-    public function model(Request $request)
+    public function rename(Request $request, Texture $texture)
     {
-        $user = $request->user();
+        $data = $request->validate(['name' => [
+            'required',
+            option('texture_name_regexp')
+                ? 'regex:'.option('texture_name_regexp')
+                : 'string',
+        ]]);
+        $name = $data['name'];
+
+        $texture->name = $name;
+        $texture->save();
+
+        return json(trans('skinlib.rename.success', ['name' => $name]), 0);
+    }
+
+    public function type(Request $request, Texture $texture)
+    {
         $data = $request->validate([
-            'tid' => 'required|integer',
-            'model' => 'required|in:steve,alex,cape',
+            'type' => ['required', Rule::in(['steve', 'alex', 'cape'])],
         ]);
+        $type = $data['type'];
 
-        $t = Texture::find($request->input('tid'));
+        $texture->type = $type;
+        $texture->save();
 
-        if (!$t) {
-            return json(trans('skinlib.non-existent'), 1);
-        }
-
-        if ($t->uploader != $user->uid && !$user->isAdmin()) {
-            return json(trans('skinlib.no-permission'), 1);
-        }
-
-        $t->type = $request->input('model');
-        $t->save();
-
-        return json(trans('skinlib.model.success', ['model' => $data['model']]), 0);
+        return json(trans('skinlib.model.success', ['model' => $type]), 0);
     }
 }
