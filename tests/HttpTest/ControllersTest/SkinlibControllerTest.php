@@ -351,7 +351,7 @@ class SkinlibControllerTest extends TestCase
         $this->actingAs($user)
             ->postJson(route('texture.upload'), [
                 'name' => 'texture',
-                'public' => true,
+                'public' => '1',
                 'type' => 'steve',
                 'file' => $upload,
             ])
