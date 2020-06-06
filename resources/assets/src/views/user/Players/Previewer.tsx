@@ -28,19 +28,22 @@ const Previewer: React.FC<Props> = (props) => {
 
   const { skin, cape, isAlex } = props
 
-  return ReactDOM.createPortal(
-    is3d ? (
-      <React.Suspense fallback={<ViewerSkeleton />}>
-        <Viewer3d skin={skin} cape={cape} isAlex={isAlex}>
+  return (
+    container &&
+    ReactDOM.createPortal(
+      is3d ? (
+        <React.Suspense fallback={<ViewerSkeleton />}>
+          <Viewer3d skin={skin} cape={cape} isAlex={isAlex}>
+            {switcher}
+          </Viewer3d>
+        </React.Suspense>
+      ) : (
+        <Viewer2d skin={skin} cape={cape}>
           {switcher}
-        </Viewer3d>
-      </React.Suspense>
-    ) : (
-      <Viewer2d skin={skin} cape={cape}>
-        {switcher}
-      </Viewer2d>
-    ),
-    container,
+        </Viewer2d>
+      ),
+      container,
+    )
   )
 }
 

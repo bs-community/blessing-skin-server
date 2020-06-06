@@ -233,16 +233,17 @@ const Upload: React.FC = () => {
           )}
         </div>
       </div>
-      {ReactDOM.createPortal(
-        <React.Suspense fallback={<ViewerSkeleton />}>
-          <Previewer
-            skin={type !== TextureType.Cape ? texture : undefined}
-            cape={type === TextureType.Cape ? texture : undefined}
-            isAlex={type === TextureType.Alex}
-          />
-        </React.Suspense>,
-        container,
-      )}
+      {container &&
+        ReactDOM.createPortal(
+          <React.Suspense fallback={<ViewerSkeleton />}>
+            <Previewer
+              skin={type !== TextureType.Cape ? texture : undefined}
+              cape={type === TextureType.Cape ? texture : undefined}
+              isAlex={type === TextureType.Alex}
+            />
+          </React.Suspense>,
+          container,
+        )}
     </>
   )
 }

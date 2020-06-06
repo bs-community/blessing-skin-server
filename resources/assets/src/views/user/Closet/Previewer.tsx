@@ -17,13 +17,16 @@ const Previewer: React.FC<Props> = (props) => {
   const skin = props.skin ? `${blessing.base_url}/textures/${props.skin}` : ''
   const cape = props.cape ? `${blessing.base_url}/textures/${props.cape}` : ''
 
-  return ReactDOM.createPortal(
-    <React.Suspense fallback={<ViewerSkeleton />}>
-      <Viewer skin={skin} cape={cape} isAlex={props.isAlex} showIndicator>
-        {props.children}
-      </Viewer>
-    </React.Suspense>,
-    container,
+  return (
+    container &&
+    ReactDOM.createPortal(
+      <React.Suspense fallback={<ViewerSkeleton />}>
+        <Viewer skin={skin} cape={cape} isAlex={props.isAlex} showIndicator>
+          {props.children}
+        </Viewer>
+      </React.Suspense>,
+      container,
+    )
   )
 }
 

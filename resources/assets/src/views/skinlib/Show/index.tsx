@@ -238,87 +238,88 @@ const Show: React.FC = () => {
 
   return (
     <React.Fragment>
-      {createPortal(
-        <React.Suspense fallback={<ViewerSkeleton />}>
-          <Previewer
-            {...{
-              [texture.type === TextureType.Cape
-                ? TextureType.Cape
-                : 'skin']: textureUrl,
-            }}
-            isAlex={texture.type === TextureType.Alex}
-            initPositionZ={60}
-          >
-            {currentUid === 0 ? (
-              <button
-                className="btn btn-outline-secondary"
-                title={t('skinlib.show.anonymous')}
-                disabled
-              >
-                {t('skinlib.addToCloset')}
-              </button>
-            ) : (
-              <div className="d-flex justify-content-between align-items-center">
-                <div>
-                  {liked && (
-                    <button
-                      className="btn btn-outline-success mr-2"
-                      onClick={handleOpenModalApply}
-                    >
-                      {t('skinlib.apply')}
-                    </button>
-                  )}
-                  {liked ? (
-                    <button
-                      className="btn btn-outline-primary mr-2"
-                      onClick={handleRemoveItemClick}
-                    >
-                      {t('skinlib.removeFromCloset')}
-                    </button>
-                  ) : (
-                    <button
-                      className="btn btn-outline-primary mr-2"
-                      onClick={handleAddItemClick}
-                    >
-                      {t('skinlib.addToCloset')}
-                    </button>
-                  )}
-                  {texture.type !== TextureType.Cape && (
-                    <button
-                      className="btn btn-outline-info mr-2"
-                      onClick={handleSetAsAvatar}
-                    >
-                      {t('user.setAsAvatar')}
-                    </button>
-                  )}
-                  {canBeDownloaded && (
-                    <button
-                      className="btn btn-outline-info mr-2"
-                      onClick={handleDownloadClick}
-                    >
-                      {t('skinlib.show.download')}
-                    </button>
-                  )}
-                  <button
-                    className="btn btn-outline-info mr-2"
-                    onClick={handleReport}
-                  >
-                    {t('skinlib.report.title')}
-                  </button>
-                </div>
-                <div
-                  className={liked ? 'text-red' : 'text-gray'}
-                  title={t('skinlib.show.likes')}
+      {container &&
+        createPortal(
+          <React.Suspense fallback={<ViewerSkeleton />}>
+            <Previewer
+              {...{
+                [texture.type === TextureType.Cape
+                  ? TextureType.Cape
+                  : 'skin']: textureUrl,
+              }}
+              isAlex={texture.type === TextureType.Alex}
+              initPositionZ={60}
+            >
+              {currentUid === 0 ? (
+                <button
+                  className="btn btn-outline-secondary"
+                  title={t('skinlib.show.anonymous')}
+                  disabled
                 >
-                  <i className="fas fa-heart mr-1" />
-                  <span>{texture.likes}</span>
+                  {t('skinlib.addToCloset')}
+                </button>
+              ) : (
+                <div className="d-flex justify-content-between align-items-center">
+                  <div>
+                    {liked && (
+                      <button
+                        className="btn btn-outline-success mr-2"
+                        onClick={handleOpenModalApply}
+                      >
+                        {t('skinlib.apply')}
+                      </button>
+                    )}
+                    {liked ? (
+                      <button
+                        className="btn btn-outline-primary mr-2"
+                        onClick={handleRemoveItemClick}
+                      >
+                        {t('skinlib.removeFromCloset')}
+                      </button>
+                    ) : (
+                      <button
+                        className="btn btn-outline-primary mr-2"
+                        onClick={handleAddItemClick}
+                      >
+                        {t('skinlib.addToCloset')}
+                      </button>
+                    )}
+                    {texture.type !== TextureType.Cape && (
+                      <button
+                        className="btn btn-outline-info mr-2"
+                        onClick={handleSetAsAvatar}
+                      >
+                        {t('user.setAsAvatar')}
+                      </button>
+                    )}
+                    {canBeDownloaded && (
+                      <button
+                        className="btn btn-outline-info mr-2"
+                        onClick={handleDownloadClick}
+                      >
+                        {t('skinlib.show.download')}
+                      </button>
+                    )}
+                    <button
+                      className="btn btn-outline-info mr-2"
+                      onClick={handleReport}
+                    >
+                      {t('skinlib.report.title')}
+                    </button>
+                  </div>
+                  <div
+                    className={liked ? 'text-red' : 'text-gray'}
+                    title={t('skinlib.show.likes')}
+                  >
+                    <i className="fas fa-heart mr-1" />
+                    <span>{texture.likes}</span>
+                  </div>
                 </div>
-              </div>
-            )}
-          </Previewer>
-        </React.Suspense>,
-        container,
-      )}
+              )}
+            </Previewer>
+          </React.Suspense>,
+          container,
+        )}
       <div className="card card-primary">
         <div className="card-header">
           <h3 className="card-title">{t('skinlib.show.detail')}</h3>
