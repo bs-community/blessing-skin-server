@@ -29,6 +29,10 @@ class Report extends Model
     public const RESOLVED = 1;
     public const REJECTED = 2;
 
+    protected $fillable = [
+        'uploader', 'reporter', 'reason', 'status',
+    ];
+
     protected $casts = [
         'tid' => 'integer',
         'uploader' => 'integer',

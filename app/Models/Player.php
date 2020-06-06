@@ -29,7 +29,9 @@ class Player extends Model
     public const UPDATED_AT = 'last_modified';
 
     public $primaryKey = 'pid';
-    protected $fillable = ['uid', 'name', 'last_modified'];
+    protected $fillable = [
+        'uid', 'name', 'tid_skin', 'tid_cape', 'last_modified',
+    ];
 
     protected $casts = [
         'pid' => 'integer',

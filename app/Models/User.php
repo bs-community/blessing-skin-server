@@ -40,7 +40,10 @@ class User extends Authenticatable implements JWTSubject
 
     protected $primaryKey = 'uid';
     public $timestamps = false;
-    protected $fillable = ['email', 'nickname', 'permission'];
+
+    protected $fillable = [
+        'email', 'nickname', 'avatar', 'score', 'permission', 'last_sign_at',
+    ];
 
     protected $casts = [
         'uid' => 'integer',

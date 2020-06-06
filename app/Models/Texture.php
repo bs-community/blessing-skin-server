@@ -27,6 +27,10 @@ class Texture extends Model
     public const CREATED_AT = 'upload_at';
     public const UPDATED_AT = null;
 
+    protected $fillable = [
+        'name', 'type', 'uploader', 'public', 'likes',
+    ];
+
     protected $casts = [
         'tid' => 'integer',
         'size' => 'integer',
