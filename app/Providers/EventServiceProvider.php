@@ -7,25 +7,21 @@ use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvi
 
 class EventServiceProvider extends ServiceProvider
 {
-    /**
-     * The event listener mappings for the application.
-     *
-     * @var array
-     */
+    // The event listener mappings for the application.
     protected $listen = [
         'App\Events\PlayerRetrieved' => [
             Listeners\ResetInvalidTextureForPlayer::class,
         ],
         'App\Events\TextureDeleting' => [
-            'App\Listeners\TextureRemoved',
+            Listeners\TextureRemoved::class,
         ],
         'App\Events\PluginWasEnabled' => [
             Listeners\CopyPluginAssets::class,
             Listeners\GeneratePluginTranslations::class,
         ],
         'plugin.versionChanged' => [
-            'App\Listeners\CopyPluginAssets',
-            'App\Listeners\GeneratePluginTranslations',
+            Listeners\CopyPluginAssets::class,
+            Listeners\GeneratePluginTranslations::class,
         ],
         'App\Events\PluginBootFailed' => [
             Listeners\NotifyFailedPlugin::class,
