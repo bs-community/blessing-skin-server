@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use App\Models\Player;
 use App\Models\Texture;
 use App\Models\User;
 use Blessing\Rejection;
@@ -469,13 +468,12 @@ class SkinlibControllerTest extends TestCase
 
     public function testDelete()
     {
+        Event::fake();
         /** @var FilesystemAdapter */
         $disk = Storage::fake('textures');
 
         $uploader = factory(User::class)->create();
-        $other = factory(User::class)->create();
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
-        option(['return_score' => false]);
 
         $duplicate = factory(Texture::class)->create([
             'hash' => $texture->hash,
@@ -492,6 +490,33 @@ class SkinlibControllerTest extends TestCase
             ]);
         $this->assertNull(Texture::find($duplicate->tid));
         $disk->assertExists($texture->hash);
+        Event::assertDispatched(
+            'texture.deleting',
+            function ($eventName, $payload) use ($duplicate) {
+                $this->assertTrue($duplicate->is($payload[0]));
+
+                return true;
+            }
+        );
+        Event::assertDispatched(
+            'texture.deleted',
+            function ($eventName, $payload) use ($duplicate) {
+                $this->assertTrue($duplicate->is($payload[0]));
+
+                return true;
+            }
+        );
+
+        // rejected
+        $filter = Fakes\Filter::fake();
+        $filter->add('can_delete_texture', function ($can, $t) use ($texture) {
+            $this->assertTrue($texture->is($t));
+
+            return new Rejection('rejected');
+        });
+        $this->deleteJson(route('texture.delete', ['texture' => $texture]))
+            ->assertJson(['code' => 1, 'message' => 'rejected']);
+        $filter->remove('can_delete_texture');
 
         $this->deleteJson(route('texture.delete', ['texture' => $texture]))
             ->assertJson([
@@ -500,81 +525,11 @@ class SkinlibControllerTest extends TestCase
             ]);
         $this->assertNull(Texture::find($texture->tid));
         $disk->assertMissing($texture->hash);
-
-        // return score
-        option(['return_score' => true]);
-        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
-        $this->actingAs($uploader)
-            ->deleteJson(route('texture.delete', ['texture' => $texture]))
-            ->assertJson([
-                'code' => 0,
-                'message' => trans('skinlib.delete.success'),
-            ]);
-        $this->assertEquals(
-            $uploader->score + $texture->size * option('score_per_storage'),
-            $uploader->fresh()->score
-        );
-
-        $uploader->refresh();
-        $texture = factory(Texture::class)->create([
-            'uploader' => $uploader->uid,
-            'public' => false,
-        ]);
-        $this->actingAs($uploader)
-            ->deleteJson(route('texture.delete', ['texture' => $texture]))
-            ->assertJson([
-                'code' => 0,
-                'message' => trans('skinlib.delete.success'),
-            ]);
-        $this->assertEquals(
-            $uploader->score + $texture->size * option('private_score_per_storage'),
-            $uploader->fresh()->score
-        );
-
-        option(['return_score' => false]);
-
-        // return the award
-        option(['score_award_per_texture' => 5]);
-        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
-        $uploader->refresh();
-        $this->actingAs($uploader)
-            ->deleteJson(route('texture.delete', ['texture' => $texture]))
-            ->assertJson(['code' => 0]);
-        $this->assertEquals($uploader->score - 5, $uploader->fresh()->score);
-        // option disabled
-        option(['take_back_scores_after_deletion' => false]);
-        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
-        $uploader->refresh();
-        $this->actingAs($uploader)
-            ->deleteJson(route('texture.delete', ['texture' => $texture]))
-            ->assertJson(['code' => 0]);
-        $this->assertEquals($uploader->score, $uploader->fresh()->score);
-        // private texture
-        $texture = factory(Texture::class)->create([
-            'uploader' => $uploader->uid,
-            'public' => false,
-        ]);
-        $uploader->refresh();
-        $this->actingAs($uploader)
-            ->deleteJson(route('texture.delete', ['texture' => $texture]))
-            ->assertJson(['code' => 0]);
-        $this->assertEquals($uploader->score, $uploader->fresh()->score);
-
-        // remove from closet
-        option(['return_score' => true]);
-        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
-        $other->closet()->attach($texture->tid, ['item_name' => 'a']);
-        $other->score = 0;
-        $other->save();
-        $this->actingAs($uploader)
-            ->deleteJson(route('texture.delete', ['texture' => $texture]))
-            ->assertJson(['code' => 0]);
-        $other->refresh();
-        $this->assertEquals(option('score_per_closet_item'), $other->score);
     }
 
     public function testPrivacy()
     {
+        Event::fake();
         $uploader = factory(User::class)->create();
         $other = factory(User::class)->create();
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
@@ -591,11 +546,24 @@ class SkinlibControllerTest extends TestCase
             ]);
         $this->assertTrue($texture->fresh()->public);
 
+        // rejected
+        $filter = Fakes\Filter::fake();
+        $filter->add('can_update_texture_privacy', function ($can, $t) use ($texture) {
+            $this->assertTrue($texture->fresh()->is($t));
+
+            return new Rejection('rejected');
+        });
+        $this->actingAs($uploader)
+            ->putJson(route('texture.privacy', ['texture' => $texture]))
+            ->assertJson(['code' => 1, 'message' => 'rejected']);
+        $filter->remove('can_update_texture_privacy');
+
         $texture->public = true;
         $texture->save();
         $uploader->score = $texture->size *
             (option('private_score_per_storage') - option('score_per_storage'));
         $uploader->save();
+        $replicated = $texture->replicate();
         $this->putJson(route('texture.privacy', ['texture' => $texture]))
             ->assertJson([
                 'code' => 0,
@@ -603,26 +571,34 @@ class SkinlibControllerTest extends TestCase
             ]);
         $this->assertEquals(0, $uploader->fresh()->score);
         $this->assertFalse($texture->fresh()->public);
+        Event::assertDispatched(
+            'texture.privacy.updating',
+            function ($eventName, $payload) use ($replicated) {
+                $this->assertInstanceOf(Texture::class, $payload[0]);
+                $this->assertTrue($replicated->public);
+
+                return true;
+            }
+        );
+        Event::assertDispatched(
+            'texture.privacy.updated',
+            function ($eventName, $payload) {
+                $this->assertFalse($payload[0]->public);
+
+                return true;
+            }
+        );
 
         // When setting a texture to be private,
         // other players should not be able to use it.
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
         $uploader->score += $texture->size * option('private_score_per_storage');
         $uploader->save();
-        $player = factory(Player::class)->create(['tid_skin' => $texture->tid]);
-        $other = factory(User::class)->create();
-        $other->closet()->attach($texture->tid, ['item_name' => 'a']);
         $this->putJson(route('texture.privacy', ['texture' => $texture]))
             ->assertJson([
                 'code' => 0,
                 'message' => trans('skinlib.privacy.success', ['privacy' => trans('general.private')]),
             ]);
-        $this->assertEquals(0, $player->fresh()->tid_skin);
-        $this->assertEquals(0, $other->closet()->count());
-        $this->assertEquals(
-            $other->score + option('score_per_closet_item'),
-            $other->fresh()->score
-        );
 
         // take back the score
         option(['score_award_per_texture' => 5]);
@@ -650,6 +626,7 @@ class SkinlibControllerTest extends TestCase
 
     public function testRename()
     {
+        Event::fake();
         $uploader = factory(User::class)->create();
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
 
@@ -675,13 +652,47 @@ class SkinlibControllerTest extends TestCase
             'message' => trans('skinlib.rename.success', ['name' => 'abc']),
         ]);
         $this->assertEquals('abc', $texture->fresh()->name);
+        Event::assertDispatched(
+            'texture.name.updating',
+            function ($eventName, $payload) use ($texture) {
+                $this->assertTrue($texture->is($payload[0]));
+                $this->assertEquals('abc', $payload[1]);
+
+                return true;
+            }
+        );
+        Event::assertDispatched(
+            'texture.name.updated',
+            function ($eventName, $payload) use ($texture) {
+                $this->assertTrue($texture->fresh()->is($payload[0]));
+                $this->assertEquals($texture->name, $payload[1]->name);
+
+                return true;
+            }
+        );
+
+        // rejected
+        $filter = Fakes\Filter::fake();
+        $filter->add('can_update_texture_name', function ($can, $t, $name) use ($texture) {
+            $this->assertTrue($texture->is($t));
+            $this->assertEquals('abc', $name);
+
+            return new Rejection('rejected');
+        });
+        $this->putJson(
+            route('texture.name', ['texture' => $texture]),
+            ['name' => 'abc']
+        )->assertJson(['code' => 1, 'message' => 'rejected']);
     }
 
     public function testType()
     {
+        Event::fake();
         $uploader = factory(User::class)->create();
         $other = factory(User::class)->create();
-        $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
+        $texture = factory(Texture::class)
+            ->states('alex')
+            ->create(['uploader' => $uploader->uid]);
 
         // missing `type` field
         $this->actingAs($uploader)
@@ -703,6 +714,24 @@ class SkinlibControllerTest extends TestCase
             'message' => trans('skinlib.model.success', ['model' => 'steve']),
         ]);
         $this->assertEquals('steve', $texture->fresh()->type);
+        Event::assertDispatched(
+            'texture.type.updating',
+            function ($eventName, $payload) use ($texture) {
+                $this->assertTrue($texture->is($payload[0]));
+                $this->assertEquals('steve', $payload[1]);
+
+                return true;
+            }
+        );
+        Event::assertDispatched(
+            'texture.type.updated',
+            function ($eventName, $payload) use ($texture) {
+                $this->assertTrue($texture->fresh()->is($payload[0]));
+                $this->assertEquals('alex', $payload[1]->type);
+
+                return true;
+            }
+        );
 
         $duplicate = factory(Texture::class)->states('alex')->create([
             'uploader' => $other->uid,
@@ -719,5 +748,18 @@ class SkinlibControllerTest extends TestCase
             'code' => 0,
             'message' => trans('skinlib.model.success', ['model' => 'alex']),
         ]);
+
+        // rejected
+        $filter = Fakes\Filter::fake();
+        $filter->add('can_update_texture_type', function ($can, $t, $type) use ($texture) {
+            $this->assertTrue($texture->is($t));
+            $this->assertEquals('steve', $type);
+
+            return new Rejection('rejected');
+        });
+        $this->putJson(
+            route('texture.type', ['texture' => $texture]),
+            ['type' => 'steve']
+        )->assertJson(['code' => 1, 'message' => 'rejected']);
     }
 }

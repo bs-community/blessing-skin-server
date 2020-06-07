@@ -281,6 +281,12 @@ class ReportControllerTest extends TestCase
 
             return true;
         });
+        Event::assertDispatched('texture.deleting', function ($event, $payload) use ($tid) {
+            [$texture] = $payload;
+            $this->assertEquals($tid, $texture->tid);
+
+            return true;
+        });
         Event::assertDispatched('texture.deleted', function ($event, $payload) use ($tid) {
             [$texture] = $payload;
             $this->assertEquals($tid, $texture->tid);

@@ -120,6 +120,7 @@ class ReportController extends Controller
                 /** @var Texture */
                 $texture = $report->texture;
                 if ($texture) {
+                    $dispatcher->dispatch('texture.deleting', [$texture]);
                     Storage::disk('textures')->delete($texture->hash);
                     $texture->delete();
                     $dispatcher->dispatch('texture.deleted', [$texture]);

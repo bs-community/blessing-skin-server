@@ -12,9 +12,6 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\PlayerRetrieved' => [
             Listeners\ResetInvalidTextureForPlayer::class,
         ],
-        'App\Events\TextureDeleting' => [
-            Listeners\TextureRemoved::class,
-        ],
         'App\Events\PluginWasEnabled' => [
             Listeners\CopyPluginAssets::class,
             Listeners\GeneratePluginTranslations::class,
@@ -31,6 +28,15 @@ class EventServiceProvider extends ServiceProvider
         ],
         'auth.registration.completed' => [
             Listeners\SendEmailVerification::class,
+        ],
+        'texture.privacy.updated' => [
+            Listeners\ResetPlayers::class,
+            Listeners\CleanUpCloset::class,
+        ],
+        'texture.deleted' => [
+            Listeners\UpdateScoreForDeletedTexture::class,
+            Listeners\ResetPlayers::class,
+            Listeners\CleanUpCloset::class,
         ],
     ];
 }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Player;
 use App\Models\Texture;
 use App\Models\User;
 use Auth;
@@ -302,8 +301,15 @@ class SkinlibController extends Controller
         ]);
     }
 
-    public function delete(Texture $texture)
+    public function delete(Texture $texture, Dispatcher $dispatcher, Filter $filter)
     {
+        $can = $filter->apply('can_delete_texture', true, [$texture]);
+        if ($can instanceof Rejection) {
+            return json($can->getReason(), 1);
+        }
+
+        $dispatcher->dispatch('texture.deleting', [$texture]);
+
         // check if file occupied
         if (Texture::where('hash', $texture->hash)->count() === 1) {
             Storage::disk('textures')->delete($texture->hash);
@@ -311,12 +317,19 @@ class SkinlibController extends Controller
 
         $texture->delete();
 
+        $dispatcher->dispatch('texture.deleted', [$texture]);
+
         return json(trans('skinlib.delete.success'), 0);
     }
 
-    public function privacy(Texture $texture)
+    public function privacy(Texture $texture, Dispatcher $dispatcher, Filter $filter)
     {
-        $uploader = User::find($texture->uploader);
+        $can = $filter->apply('can_update_texture_privacy', true, [$texture]);
+        if ($can instanceof Rejection) {
+            return json($can->getReason(), 1);
+        }
+
+        $uploader = $texture->owner;
         $score_diff = $texture->size
             * (option('private_score_per_storage') - option('score_per_storage'))
             * ($texture->public ? -1 : 1);
@@ -327,25 +340,15 @@ class SkinlibController extends Controller
             return json(trans('skinlib.upload.lack-score'), 1);
         }
 
-        $type = $texture->type == 'cape' ? 'cape' : 'skin';
-        Player::where("tid_$type", $texture->tid)
-            ->where('uid', '<>', session('uid'))
-            ->update(["tid_$type" => 0]);
-
-        $texture->likers()->get()->each(function ($user) use ($texture) {
-            $user->closet()->detach($texture->tid);
-            if (option('return_score')) {
-                $user->score += option('score_per_closet_item');
-                $user->save();
-            }
-            $texture->likes--;
-        });
+        $dispatcher->dispatch('texture.privacy.updating', [$texture]);
 
         $uploader->score += $score_diff;
         $uploader->save();
 
         $texture->public = !$texture->public;
         $texture->save();
+
+        $dispatcher->dispatch('texture.privacy.updated', [$texture]);
 
         $message = trans('skinlib.privacy.success', [
             'privacy' => (
@@ -357,8 +360,12 @@ class SkinlibController extends Controller
         return json($message, 0);
     }
 
-    public function rename(Request $request, Texture $texture)
-    {
+    public function rename(
+        Request $request,
+        Dispatcher $dispatcher,
+        Filter $filter,
+        Texture $texture
+    ) {
         $data = $request->validate(['name' => [
             'required',
             option('texture_name_regexp')
@@ -367,21 +374,45 @@ class SkinlibController extends Controller
         ]]);
         $name = $data['name'];
 
+        $can = $filter->apply('can_update_texture_name', true, [$texture, $name]);
+        if ($can instanceof Rejection) {
+            return json($can->getReason(), 1);
+        }
+
+        $dispatcher->dispatch('texture.name.updating', [$texture, $name]);
+
+        $old = $texture->replicate();
         $texture->name = $name;
         $texture->save();
+
+        $dispatcher->dispatch('texture.name.updated', [$texture, $old]);
 
         return json(trans('skinlib.rename.success', ['name' => $name]), 0);
     }
 
-    public function type(Request $request, Texture $texture)
-    {
+    public function type(
+        Request $request,
+        Dispatcher $dispatcher,
+        Filter $filter,
+        Texture $texture
+    ) {
         $data = $request->validate([
             'type' => ['required', Rule::in(['steve', 'alex', 'cape'])],
         ]);
         $type = $data['type'];
 
+        $can = $filter->apply('can_update_texture_type', true, [$texture, $type]);
+        if ($can instanceof Rejection) {
+            return json($can->getReason(), 1);
+        }
+
+        $dispatcher->dispatch('texture.type.updating', [$texture, $type]);
+
+        $old = $texture->replicate();
         $texture->type = $type;
         $texture->save();
+
+        $dispatcher->dispatch('texture.type.updated', [$texture, $old]);
 
         return json(trans('skinlib.model.success', ['model' => $type]), 0);
     }
