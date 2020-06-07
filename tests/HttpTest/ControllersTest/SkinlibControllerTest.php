@@ -589,6 +589,13 @@ class SkinlibControllerTest extends TestCase
             }
         );
 
+        $this->putJson(route('texture.privacy', ['texture' => $texture]))
+            ->assertJson([
+                'code' => 0,
+                'message' => trans('skinlib.privacy.success', ['privacy' => trans('general.public')]),
+            ]);
+        $this->assertTrue($texture->fresh()->public);
+
         // When setting a texture to be private,
         // other players should not be able to use it.
         $texture = factory(Texture::class)->create(['uploader' => $uploader->uid]);
