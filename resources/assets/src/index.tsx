@@ -2,7 +2,6 @@ import * as React from 'react'
 import ReactDOM from 'react-dom'
 import './scripts/app'
 import routes from './scripts/route'
-import * as emitter from './scripts/event'
 
 loadModules()
 
