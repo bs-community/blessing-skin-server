@@ -83,7 +83,7 @@ class ClosetController extends Controller
         /** @var User */
         $user = Auth::user();
         $name = $filter->apply('add_closet_item_name', $name, [$tid]);
-        $dispatcher->dispatch('closet.adding', [$tid, $name]);
+        $dispatcher->dispatch('closet.adding', [$tid, $name, $user]);
 
         $can = $filter->apply('can_add_closet_item', true, [$tid, $name]);
         if ($can instanceof Rejection) {
@@ -115,7 +115,7 @@ class ClosetController extends Controller
         $texture->likes++;
         $texture->save();
 
-        $dispatcher->dispatch('closet.added', [$texture, $name]);
+        $dispatcher->dispatch('closet.added', [$texture, $name, $user]);
 
         $uploader = User::find($texture->uploader);
         if ($uploader && $uploader->uid != $user->uid) {
@@ -137,7 +137,7 @@ class ClosetController extends Controller
         $user = auth()->user();
 
         $name = $filter->apply('rename_closet_item_name', $name, [$tid]);
-        $dispatcher->dispatch('closet.renaming', [$tid, $name]);
+        $dispatcher->dispatch('closet.renaming', [$tid, $name, $user]);
 
         $item = $user->closet()->find($tid);
         if (empty($item)) {
@@ -152,7 +152,7 @@ class ClosetController extends Controller
 
         $user->closet()->updateExistingPivot($tid, ['item_name' => $name]);
 
-        $dispatcher->dispatch('closet.renamed', [$item, $previousName]);
+        $dispatcher->dispatch('closet.renamed', [$item, $previousName, $user]);
 
         return json(trans('user.closet.rename.success', ['name' => $name]), 0);
     }
@@ -162,7 +162,7 @@ class ClosetController extends Controller
         /** @var User */
         $user = auth()->user();
 
-        $dispatcher->dispatch('closet.removing', [$tid]);
+        $dispatcher->dispatch('closet.removing', [$tid, $user]);
 
         $item = $user->closet()->find($tid);
         if (empty($item)) {
@@ -185,7 +185,7 @@ class ClosetController extends Controller
         $texture->likes--;
         $texture->save();
 
-        $dispatcher->dispatch('closet.removed', [$texture]);
+        $dispatcher->dispatch('closet.removed', [$texture, $user]);
 
         $uploader = User::find($texture->uploader);
         $uploader->score -= option('score_award_per_like', 0);

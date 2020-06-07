@@ -56,9 +56,9 @@ Route::prefix('admin')
         });
 
         Route::prefix('closet')->group(function () {
-            Route::get('{uid}', 'ClosetManagementController@list');
-            Route::post('{uid}', 'ClosetManagementController@add');
-            Route::delete('{uid}', 'ClosetManagementController@remove');
+            Route::get('{user}', 'ClosetManagementController@list');
+            Route::post('{user}', 'ClosetManagementController@add');
+            Route::delete('{user}', 'ClosetManagementController@remove');
         });
 
         Route::prefix('reports')->group(function () {

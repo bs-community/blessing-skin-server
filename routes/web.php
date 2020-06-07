@@ -157,8 +157,8 @@ Route::prefix('admin')
         });
 
         Route::prefix('closet')->group(function () {
-            Route::post('{uid}', 'ClosetManagementController@add');
-            Route::delete('{uid}', 'ClosetManagementController@remove');
+            Route::post('{user}', 'ClosetManagementController@add');
+            Route::delete('{user}', 'ClosetManagementController@remove');
         });
 
         Route::prefix('reports')->group(function () {
