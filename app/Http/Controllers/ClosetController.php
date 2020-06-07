@@ -46,9 +46,10 @@ class ClosetController extends Controller
     public function getClosetData(Request $request)
     {
         $category = $request->input('category', 'skin');
+        /** @var User */
+        $user = auth()->user();
 
-        return auth()
-            ->user()
+        return $user
             ->closet()
             ->when($category === 'cape', function (Builder $query) {
                 return $query->where('type', 'cape');
@@ -63,7 +64,10 @@ class ClosetController extends Controller
 
     public function allIds()
     {
-        return auth()->user()->closet()->pluck('texture_tid');
+        /** @var User */
+        $user = auth()->user();
+
+        return $user->closet()->pluck('texture_tid');
     }
 
     public function add(
