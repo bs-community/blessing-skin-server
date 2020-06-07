@@ -14,9 +14,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(Services\Option::class);
         $this->app->alias(Services\Option::class, 'options');
         $this->app->singleton(Services\Webpack::class);
-        $this->app->singleton('oauth.providers', function () {
-            return new \Illuminate\Support\Collection();
-        });
     }
 
     public function boot(Request $request)

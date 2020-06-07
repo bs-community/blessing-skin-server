@@ -15,7 +15,6 @@ use Cache;
 use Carbon\Carbon;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Http\Request;
-use Laravel\Socialite\Facades\Socialite;
 use Mail;
 use Session;
 use URL;
@@ -392,48 +391,5 @@ class AuthController extends Controller
     public function jwtRefresh()
     {
         return json(['token' => Auth::guard('jwt')->refresh()]);
-    }
-
-    public function oauthLogin($driver)
-    {
-        return Socialite::driver($driver)->redirect();
-    }
-
-    public function oauthCallback(Dispatcher $dispatcher, Filter $filter, $driver)
-    {
-        $remoteUser = Socialite::driver($driver)->user();
-
-        $email = $remoteUser->email;
-        if (empty($email)) {
-            abort(500, 'Unsupported OAuth Server which does not provide email.');
-        }
-
-        $user = User::where('email', $email)->first();
-        if (!$user) {
-            $whip = new Whip();
-            $ip = $whip->getValidIpAddress();
-            $ip = $filter->apply('client_ip', $ip);
-
-            $user = new User();
-            $user->email = $email;
-            $user->nickname = $remoteUser->nickname ?? $remoteUser->name ?? $email;
-            $user->score = option('user_initial_score');
-            $user->avatar = 0;
-            $user->password = '';
-            $user->ip = $ip;
-            $user->permission = User::NORMAL;
-            $user->register_at = Carbon::now();
-            $user->last_sign_at = Carbon::now()->subDay();
-            $user->verified = true;
-
-            $user->save();
-            $dispatcher->dispatch('auth.registration.completed', [$user]);
-        }
-
-        $dispatcher->dispatch('auth.login.ready', [$user]);
-        Auth::login($user);
-        $dispatcher->dispatch('auth.login.succeeded', [$user]);
-
-        return redirect('/user');
     }
 }

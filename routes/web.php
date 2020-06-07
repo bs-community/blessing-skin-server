@@ -28,9 +28,6 @@ Route::prefix('auth')->name('auth.')->group(function () {
 
         Route::get('reset/{uid}', 'AuthController@reset')->name('reset');
         Route::post('reset/{uid}', 'AuthController@handleReset')->name('reset');
-
-        Route::get('login/{driver}', 'AuthController@oauthLogin');
-        Route::get('login/{driver}/callback', 'AuthController@oauthCallback');
     });
 
     Route::post('logout', 'AuthController@logout')->name('logout')->middleware('authorize');
