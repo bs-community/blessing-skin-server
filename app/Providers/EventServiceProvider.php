@@ -38,5 +38,8 @@ class EventServiceProvider extends ServiceProvider
             Listeners\ResetPlayers::class,
             Listeners\CleanUpCloset::class,
         ],
+        'closet.removed' => [
+            Listeners\ResetPlayerForRemovedClosetItem::class,
+        ],
     ];
 }
