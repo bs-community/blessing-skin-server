@@ -168,6 +168,8 @@ const PluginsManagement: React.FC = () => {
       <div className="col-lg-8">
         {loading ? (
           <Loading />
+        ) : plugins.length === 0 ? (
+          t('general.noResult')
         ) : (
           chunks.map((chunk, i) => (
             <div className="row" key={`${chunk[0].name}&${chunk[1]?.name}`}>
