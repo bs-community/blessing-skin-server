@@ -37,7 +37,10 @@ class AuthControllerTest extends TestCase
 
     public function testLogin()
     {
+        $filter = Fakes\Filter::fake();
+
         $this->get('/auth/login')->assertSee('Log in');
+        $filter->assertApplied('auth_page_rows:login');
     }
 
     public function testHandleLogin()
@@ -239,7 +242,10 @@ class AuthControllerTest extends TestCase
 
     public function testRegister()
     {
+        $filter = Fakes\Filter::fake();
+
         $this->get('/auth/register')->assertSee('Register');
+        $filter->assertApplied('auth_page_rows:register');
 
         option(['user_can_register' => false]);
         $this->get('/auth/register')->assertSee(trans('auth.register.close'));

@@ -29,7 +29,16 @@ class AuthController extends Controller
         $ip = $whip->getValidIpAddress();
         $ip = $filter->apply('client_ip', $ip);
 
+        $rows = [
+            'auth.rows.login.notice',
+            'auth.rows.login.message',
+            'auth.rows.login.form',
+            'auth.rows.login.registration-link',
+        ];
+        $rows = $filter->apply('auth_page_rows:login', $rows);
+
         return view('auth.login', [
+            'rows' => $rows,
             'extra' => [
                 'tooManyFails' => cache(sha1('login_fails_'.$ip)) > 3,
                 'recaptcha' => option('recaptcha_sitekey'),
@@ -120,11 +129,18 @@ class AuthController extends Controller
         return json(trans('auth.logout.success'), 0);
     }
 
-    public function register()
+    public function register(Filter $filter)
     {
+        $rows = [
+            'auth.rows.register.notice',
+            'auth.rows.register.form',
+        ];
+        $rows = $filter->apply('auth_page_rows:register', $rows);
+
         if (option('user_can_register')) {
             return view('auth.register', [
                 'site_name' => option_localized('site_name'),
+                'rows' => $rows,
                 'extra' => [
                     'player' => (bool) option('register_with_player_name'),
                     'recaptcha' => option('recaptcha_sitekey'),

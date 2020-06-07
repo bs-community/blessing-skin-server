@@ -3,11 +3,9 @@
 {% block title %}{{ trans('auth.register.title') }}{% endblock %}
 
 {% block content %}
-  <p class="login-box-msg">
-    {{ trans('auth.register.message', {sitename: site_name}) }}
-  </p>
-  <main></main>
-  {{ include('auth.oauth') }}
+  {% for row in rows %}
+    {{ include(row) }}
+  {% endfor %}
 {% endblock %}
 
 {% block before_foot %}

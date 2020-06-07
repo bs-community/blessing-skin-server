@@ -3,18 +3,9 @@
 {% block title %}{{ trans('auth.login.title') }}{% endblock %}
 
 {% block content %}
-  <p class="login-box-msg">{{ trans('auth.login.message') }}</p>
-  {% if session_has('msg') %}
-    <div class="alert alert-warning">
-      {{ session_pull('msg') }}
-    </div>
-  {% endif %}
-  <main></main>
-  <br>
-  {{ include('auth.oauth') }}
-  <div>
-    <a href="{{ url('auth/register') }}">{{ trans('auth.register-link') }}</a>
-  </div>
+  {% for row in rows %}
+    {{ include(row) }}
+  {% endfor %}
 {% endblock %}
 
 {% block before_foot %}
