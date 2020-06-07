@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react'
 import { hot } from 'react-hot-loader/root'
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra'
+import useEmitMounted from '@/scripts/hooks/useEmitMounted'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { toast } from '@/scripts/notify'
@@ -19,6 +20,8 @@ const Registration: React.FC = () => {
   const requirePlayer = useBlessingExtra<boolean>('player')
   const confirmationRef = useRef<HTMLInputElement | null>(null)
   const captchaRef = useRef<Captcha | null>(null)
+
+  useEmitMounted()
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value)

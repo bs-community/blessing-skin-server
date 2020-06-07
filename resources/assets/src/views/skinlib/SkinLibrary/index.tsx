@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { hot } from 'react-hot-loader/root'
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra'
+import useEmitMounted from '@/scripts/hooks/useEmitMounted'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { toast } from '@/scripts/notify'
@@ -27,6 +28,8 @@ const SkinLibrary: React.FC = () => {
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const currentUid = useBlessingExtra<number | null>('currentUid', null)
+
+  useEmitMounted()
 
   useEffect(() => {
     const parseSearch = (query: string) => {

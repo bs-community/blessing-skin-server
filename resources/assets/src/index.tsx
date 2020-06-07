@@ -41,9 +41,7 @@ async function loadModules() {
         typeof route.el === 'string'
           ? document.querySelector(route.el)
           : route.el
-      ReactDOM.render(<Root />, c, () => {
-        setTimeout(() => emitter.emit('mounted', { el: route.el }), 0)
-      })
+      ReactDOM.render(<Root />, c)
     }
   }
 }

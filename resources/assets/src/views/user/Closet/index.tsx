@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { hot } from 'react-hot-loader/root'
 import debounce from 'lodash.debounce'
+import useEmitMounted from '@/scripts/hooks/useEmitMounted'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { showModal, toast } from '@/scripts/notify'
@@ -39,6 +40,8 @@ const Closet: React.FC = () => {
   const [skin, setSkin] = useState<Texture | null>(null)
   const [cape, setCape] = useState<Texture | null>(null)
   const [showModalApply, setShowModalApply] = useState(false)
+
+  useEmitMounted()
 
   useEffect(() => {
     const getItems = async () => {

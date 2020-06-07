@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { hot } from 'react-hot-loader/root'
+import useEmitMounted from '@/scripts/hooks/useEmitMounted'
+import useTexture from '@/scripts/hooks/useTexture'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { showModal, toast } from '@/scripts/notify'
-import useTexture from '@/scripts/hooks/useTexture'
 import { Player, TextureType } from '@/scripts/types'
 import urls from '@/scripts/urls'
 import Loading from '@/components/Loading'
@@ -21,6 +22,8 @@ const Players: React.FC = () => {
   const [search, setSearch] = useState('')
   const [showModalAddPlayer, setShowModalAddPlayer] = useState(false)
   const [showModalReset, setShowModalReset] = useState(false)
+
+  useEmitMounted()
 
   const selectPlayer = (player: Player) => {
     setSelected(player.pid)

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { hot } from 'react-hot-loader/root'
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra'
+import useEmitMounted from '@/scripts/hooks/useEmitMounted'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { showModal } from '@/scripts/notify'
@@ -36,6 +37,8 @@ const Login: React.FC = () => {
   const ref = useRef<Captcha | null>(null)
   const recaptcha = useBlessingExtra<string>('recaptcha')
   const invisibleRecaptcha = useBlessingExtra<boolean>('invisible')
+
+  useEmitMounted()
 
   useEffect(() => {
     setHasTooManyFails(blessing.extra.tooManyFails as boolean)

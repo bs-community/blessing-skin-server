@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react'
 import { hot } from 'react-hot-loader/root'
+import useEmitMounted from '@/scripts/hooks/useEmitMounted'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import urls from '@/scripts/urls'
@@ -12,6 +13,8 @@ const Forgot: React.FC = () => {
   const [successMessage, setSuccessMessage] = useState('')
   const [warningMessage, setWarningMessage] = useState('')
   const ref = useRef<Captcha | null>(null)
+
+  useEmitMounted()
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value)

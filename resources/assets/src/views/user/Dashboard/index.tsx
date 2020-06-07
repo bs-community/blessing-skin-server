@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import styled from '@emotion/styled'
 import { hot } from 'react-hot-loader/root'
+import useEmitMounted from '@/scripts/hooks/useEmitMounted'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
 import { toast } from '@/scripts/notify'
@@ -52,6 +53,8 @@ const Dashboard: React.FC = () => {
   const [lastSign, setLastSign] = useState(new Date())
   const [canSignAfterZero, setCanSignAfterZero] = useState(false)
   const [signGap, setSignGap] = useState(24)
+
+  useEmitMounted()
 
   useEffect(() => {
     const fetchInfo = async () => {

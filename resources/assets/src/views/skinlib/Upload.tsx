@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import { hot } from 'react-hot-loader/root'
 import { t } from '@/scripts/i18n'
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra'
+import useEmitMounted from '@/scripts/hooks/useEmitMounted'
 import useMount from '@/scripts/hooks/useMount'
 import * as fetch from '@/scripts/net'
 import { showModal, toast } from '@/scripts/notify'
@@ -31,6 +32,8 @@ const Upload: React.FC = () => {
   const closetItemCost = useBlessingExtra<number>('closetItemCost')
 
   const container = useMount('#previewer')
+
+  useEmitMounted()
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value)

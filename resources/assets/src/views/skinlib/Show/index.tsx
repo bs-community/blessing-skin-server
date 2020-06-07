@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { hot } from 'react-hot-loader/root'
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra'
+import useEmitMounted from '@/scripts/hooks/useEmitMounted'
 import useMount from '@/scripts/hooks/useMount'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
@@ -34,6 +35,8 @@ const Show: React.FC = () => {
   const canBeDownloaded = useBlessingExtra<boolean>('download')
   const reportScore = useBlessingExtra<number>('report')
   const container = useMount('#previewer')
+
+  useEmitMounted()
 
   useEffect(() => {
     const fetchInfo = async () => {
