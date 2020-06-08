@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Events;
 use App\Notifications;
+use Blessing\Filter;
 use Closure;
 use Event;
 use Illuminate\Support\Arr;
@@ -62,46 +63,47 @@ class Hook
 
     public static function addStyleFileToPage($urls, $pages = ['*']): void
     {
-        Event::listen(Events\RenderingHeader::class, function ($event) use ($urls, $pages) {
-            foreach ($pages as $pattern) {
-                if (!request()->is($pattern)) {
-                    continue;
-                }
-
-                foreach ((array) $urls as $url) {
-                    $event->addContent("<link rel=\"stylesheet\" href=\"$url\">");
-                }
-
-                return;
+        $urls = collect($urls);
+        $pages = collect($pages);
+        resolve(Filter::class)->add('head_links', function ($links) use ($urls, $pages) {
+            $matched = $pages->some(function ($page) {
+                return request()->is($page);
+            });
+            if ($matched) {
+                $urls->each(function ($url) use (&$links) {
+                    $links[] = ['rel' => 'stylesheet', 'href' => $url];
+                });
             }
+
+            return $links;
         });
     }
 
     public static function addScriptFileToPage($urls, $pages = ['*']): void
     {
-        Event::listen(Events\RenderingFooter::class, function ($event) use ($urls, $pages) {
-            foreach ($pages as $pattern) {
-                if (!request()->is($pattern)) {
-                    continue;
-                }
-
-                foreach ((array) $urls as $url) {
-                    $event->addContent("<script src=\"$url\"></script>");
-                }
-
-                return;
+        $urls = collect($urls);
+        $pages = collect($pages);
+        resolve(Filter::class)->add('scripts', function ($scripts) use ($urls, $pages) {
+            $matched = $pages->some(function ($page) {
+                return request()->is($page);
+            });
+            if ($matched) {
+                $urls->each(function ($url) use (&$scripts) {
+                    $scripts[] = ['src' => $url];
+                });
             }
+
+            return $scripts;
         });
     }
 
     public static function addUserBadge(string $text, $color = 'primary'): void
     {
-        Event::listen(
-            Events\RenderingBadges::class,
-            function (Events\RenderingBadges $event) use ($text, $color) {
-                $event->badges[] = compact('text', 'color');
-            }
-        );
+        resolve(Filter::class)->add('user_badges', function ($badges) use ($text, $color) {
+            $badges[] = ['text' => $text, 'color' => $color];
+
+            return $badges;
+        });
     }
 
     public static function sendNotification($users, string $title, $content = ''): void
