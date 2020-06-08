@@ -53,35 +53,10 @@ class Hook
         });
     }
 
-    /**
-     * Add routes. A router instance will be passed to the given callback.
-     */
     public static function addRoute(Closure $callback): void
     {
         Event::listen(Events\ConfigureRoutes::class, function ($event) use ($callback) {
             return call_user_func($callback, $event->router);
-        });
-    }
-
-    public static function registerPluginTransScripts(string $name, $pages = ['*']): void
-    {
-        Event::listen(Events\RenderingFooter::class, function ($event) use ($name, $pages) {
-            foreach ($pages as $pattern) {
-                if (!request()->is($pattern)) {
-                    continue;
-                }
-
-                // We will determine current locale in the event callback,
-                // otherwise the locale is not properly detected.
-                $basepath = config('plugins.url') ?: url('plugins').'/'.$name.'/';
-                $relative = 'lang/'.config('app.locale').'/locale.js';
-
-                $event->addContent(
-                    '<script src="'.$basepath.$relative.'"></script>'
-                );
-
-                return;
-            }
         });
     }
 

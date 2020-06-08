@@ -44,13 +44,6 @@ class HookTest extends TestCase
         $this->get('/test-hook')->assertSuccessful();
     }
 
-    public function testRegisterPluginTransScripts()
-    {
-        Hook::registerPluginTransScripts('fake-plugin-with-i18n', ['/']);
-        $this->get('/')->assertSee('fake-plugin-with-i18n/lang/en/locale.js');
-        $this->get('/skinlib')->assertDontSee('fake-plugin-with-i18n/lang/en/locale.js');
-    }
-
     public function testAddStyleFileToPage()
     {
         Hook::addStyleFileToPage('/style/all');
