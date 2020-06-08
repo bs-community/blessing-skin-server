@@ -51,6 +51,11 @@ class Report extends Model
         return $this->belongsTo(Texture::class, 'tid', 'tid');
     }
 
+    public function textureUploader()
+    {
+        return $this->belongsTo(User::class, 'uploader', 'uid');
+    }
+
     public function informer()
     {
         return $this->belongsTo(User::class, 'reporter', 'uid');

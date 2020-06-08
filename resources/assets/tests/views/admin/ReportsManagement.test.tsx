@@ -3,7 +3,7 @@ import { render, waitFor, fireEvent } from '@testing-library/react'
 import { createPaginator } from '../../utils'
 import { t } from '@/scripts/i18n'
 import * as fetch from '@/scripts/net'
-import { Texture, TextureType } from '@/scripts/types'
+import { Texture, TextureType, User, UserPermission } from '@/scripts/types'
 import ReportsManagement from '@/views/admin/ReportsManagement'
 import { Report, Status } from '@/views/admin/ReportsManagement/types'
 
@@ -14,9 +14,31 @@ const fixture: Readonly<Report> = Object.freeze<Report>({
   tid: 1,
   texture: null,
   uploader: 1,
-  uploaderName: 'xx',
+  texture_uploader: Object.freeze<Readonly<User>>({
+    uid: 1,
+    email: 'a@b.c',
+    nickname: 'abc',
+    score: 1000,
+    avatar: 0,
+    permission: UserPermission.Normal,
+    ip: '::1',
+    last_sign_at: new Date().toString(),
+    register_at: new Date().toString(),
+    verified: true,
+  }),
   reporter: 2,
-  reporterName: 'yy',
+  informer: Object.freeze<Readonly<User>>({
+    uid: 1,
+    email: 'a@b.c',
+    nickname: 'abc',
+    score: 1000,
+    avatar: 0,
+    permission: UserPermission.Normal,
+    ip: '::1',
+    last_sign_at: new Date().toString(),
+    register_at: new Date().toString(),
+    verified: true,
+  }),
   reason: 'nsfw',
   status: Status.Pending,
   report_at: new Date().toString(),
@@ -43,6 +65,13 @@ test('search reports', async () => {
       page: 1,
     }),
   )
+})
+
+test('empty reporter or texture uploader', async () => {
+  const report = { ...fixture, texture_uploader: null, informer: null }
+  fetch.get.mockResolvedValue(createPaginator([report]))
+
+  render(<ReportsManagement />)
 })
 
 test('preview texture', async () => {

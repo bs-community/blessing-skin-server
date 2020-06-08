@@ -1,4 +1,4 @@
-import { Texture } from '@/scripts/types'
+import { Texture, User } from '@/scripts/types'
 
 export const enum Status {
   Pending = 0,
@@ -11,9 +11,9 @@ export type Report = {
   tid: number
   texture: Texture | null
   uploader: number
-  uploaderName: string
+  texture_uploader: User | null
   reporter: number
-  reporterName: string
+  informer: User | null
   reason: string
   status: Status
   report_at: string

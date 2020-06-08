@@ -49,7 +49,7 @@ const ImageBox: React.FC<Props> = (props) => {
           {t('skinlib.show.uploader')}
           {': '}
         </b>
-        <span className="mr-1">{report.uploaderName}</span>
+        <span className="mr-1">{report.texture_uploader?.nickname}</span>
         (UID: {report.uploader})
       </div>
       <div className="card-body">
@@ -114,7 +114,7 @@ const ImageBox: React.FC<Props> = (props) => {
             {t('report.reporter')}
             {': '}
           </b>
-          <span className="mr-1">{report.reporterName}</span>
+          <span className="mr-1">{report.informer?.nickname}</span>
           (UID: {report.reporter})
         </div>
         <details>

@@ -20,6 +20,7 @@ class ReportController extends Controller
             'tid' => 'required|exists:textures',
             'reason' => 'required',
         ]);
+        /** @var User */
         $reporter = auth()->user();
         $tid = $data['tid'];
         $reason = $data['reason'];
@@ -68,22 +69,9 @@ class ReportController extends Controller
     {
         $q = $request->input('q');
 
-        $pagination = Report::usingSearchString($q)->paginate(9);
-        $collection = $pagination->getCollection()->map(function ($report) {
-            $uploader = User::find($report->uploader);
-            if ($uploader) {
-                $report->uploaderName = $uploader->nickname;
-            }
-            if ($report->informer) {
-                $report->reporterName = $report->informer->nickname;
-            }
-            $report->getAttribute('texture');
-
-            return $report;
-        });
-        $pagination->setCollection($collection);
-
-        return $pagination;
+        return Report::usingSearchString($q)
+            ->with(['texture', 'textureUploader', 'informer'])
+            ->paginate(9);
     }
 
     public function review(
