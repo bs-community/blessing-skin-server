@@ -34,6 +34,30 @@ test('search plugins', async () => {
   expect(queryByText('yggdrasil-api')).not.toBeInTheDocument()
 })
 
+test('install a plugin after first page', async () => {
+  const plugins = Array.from({ length: 10 }).map(() => {
+    return { ...fixture, name: `${fixture.name}_${Math.random()}` }
+  })
+  plugins.push(fixture)
+  fetch.get.mockResolvedValue(plugins)
+  fetch.post.mockResolvedValue({ code: 0, message: 'ok' })
+
+  const { getByText, queryByText, queryAllByText } = render(<PluginsMarket />)
+  await waitFor(() => expect(fetch.get).toBeCalled())
+
+  fireEvent.click(getByText('2'))
+  fireEvent.click(getByText(t('admin.installPlugin')))
+  await waitFor(() =>
+    expect(fetch.post).toBeCalledWith('/admin/plugins/market/download', {
+      name: fixture.name,
+    }),
+  )
+  expect(queryByText(t('admin.installPlugin'))).toBeDisabled()
+
+  fireEvent.click(getByText('1'))
+  expect(queryAllByText(t('admin.installPlugin'))[0]).toBeEnabled()
+})
+
 describe('dependencies', () => {
   it('no dependencies', async () => {
     fetch.get.mockResolvedValue([
@@ -78,7 +102,7 @@ describe('dependencies', () => {
   })
 })
 
-describe('install plugin', async () => {
+describe('install plugin', () => {
   beforeEach(() => {
     fetch.get.mockResolvedValue([fixture])
   })

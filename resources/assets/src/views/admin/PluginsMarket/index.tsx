@@ -142,8 +142,8 @@ const PluginsMarket: React.FC = () => {
                   key={plugin.name}
                   plugin={plugin}
                   isInstalling={installings.has(plugin.name)}
-                  onInstall={() => handleInstall(plugin, i)}
-                  onUpdate={() => handleUpdate(plugin, i)}
+                  onInstall={() => handleInstall(plugin, (page - 1) * 10 + i)}
+                  onUpdate={() => handleUpdate(plugin, (page - 1) * 10 + i)}
                 />
               ))}
             </tbody>

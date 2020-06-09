@@ -35,8 +35,6 @@ Object.assign(window, { Headers, Request })
 
 const noop = () => undefined
 Object.assign(console, {
-  log: noop,
-  info: noop,
   warn: noop,
   error: noop,
 })
