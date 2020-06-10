@@ -83,17 +83,17 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
         </a>
       </td>
       <td align=center>
+        <a href="https://afdian.net/@ValiantShishu976400">
+          <img src="https://pic1.afdiancdn.com/user/178a08963a5e11e9addd52540025c377/avatar/ece9f089aaf2c2f83204a8de11697caf_w350_h350_s16.jpg" width="120" height="120">
+          <br>
+          飒爽师叔
+        </a>
+      </td>
+      <td align=center>
         <a href="https://afdian.net/@8mi_admin">
           <img src="https://pic1.afdiancdn.com/user/3beb3fc626e411e98d8852540025c377/avatar/282f4cd47f763244f85b0c1d2693f727_w640_h640_s17.jpg" width="120" height="120">
           <br>
           八蓝米科技丶以勒
-        </a>
-      </td>
-      <td align=center>
-        <a href="">
-          <img src="https://pic1.afdiancdn.com/default/avatar/default-avatar@2x.png" width="120" height="120">
-          <br>
-          爱发电用户_xQKh
         </a>
       </td>
       <td align=center>
