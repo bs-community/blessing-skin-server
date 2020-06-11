@@ -20,9 +20,6 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\PluginBootFailed' => [
             Listeners\NotifyFailedPlugin::class,
         ],
-        'App\Events\RenderingHeader' => [
-            Listeners\SerializeGlobals::class,
-        ],
         'auth.registration.completed' => [
             Listeners\SendEmailVerification::class,
         ],

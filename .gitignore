@@ -27,3 +27,4 @@ storage/options.php
 .php_cs.cache
 resources/views/overrides
 public/sw.js
+public/meta.js

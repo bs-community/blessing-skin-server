@@ -43,6 +43,7 @@ class HeadComposer
         $this->seo($view);
         $this->injectStyles($view);
         $this->addExtra($view);
+        $this->serializeGlobals($view);
     }
 
     public function addFavicon(View $view)
@@ -112,7 +113,7 @@ class HeadComposer
             'integrity' => 'sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=',
             'crossorigin' => 'anonymous',
         ];
-        if (!$this->request->is('/')) {
+        if (!$this->request->is('/') && config('app.asset.env') !== 'development') {
             $links[] = [
                 'rel' => 'stylesheet',
                 'href' => $this->webpack->url('style.css'),
@@ -130,5 +131,19 @@ class HeadComposer
         $content = [];
         $this->dispatcher->dispatch(new \App\Events\RenderingHeader($content));
         $view->with('extra_head', $content);
+    }
+
+    public function serializeGlobals(View $view)
+    {
+        $blessing = [
+            'version' => config('app.version'),
+            'locale' => config('app.locale'),
+            'base_url' => url('/'),
+            'site_name' => option_localized('site_name'),
+            'route' => request()->path(),
+            'i18n' => new \stdClass(),
+            'extra' => [],
+        ];
+        $view->with('blessing', $blessing);
     }
 }

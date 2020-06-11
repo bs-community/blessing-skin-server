@@ -13,10 +13,7 @@
 {% endblock %}
 
 {% block before_foot %}
-  <script>
-    Object.defineProperty(blessing, 'extra', {
-      configurable: false,
-      get: () => Object.freeze({{ extra|json_encode|raw }})
-    })
+  <script id="blessing-extra" type="application/json">
+    {{ extra|json_encode|raw }}
   </script>
 {% endblock %}

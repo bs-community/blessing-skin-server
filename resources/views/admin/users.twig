@@ -4,7 +4,7 @@
 
 {% block before_foot %}
   {% set extra = {'currentUser': auth_user()} %}
-  <script>
-    blessing.extra = {{ extra|json_encode|raw }}
+  <script id="blessing-extra" type="application/json">
+    {{ extra|json_encode|raw }}
   </script>
 {% endblock %}

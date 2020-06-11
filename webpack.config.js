@@ -11,7 +11,6 @@ const config = {
   mode: devMode ? 'development' : 'production',
   entry: {
     app: ['react-hot-loader/patch', '@/index.tsx'],
-    sw: '@/scripts/sw.ts',
     style: ['@/styles/common.css'],
     home: '@/scripts/home-page.ts',
     spectre: [
@@ -22,12 +21,7 @@ const config = {
   },
   output: {
     path: `${__dirname}/public/app`,
-    filename: ({ chunk }) =>
-      chunk.name === 'sw'
-        ? 'sw.js'
-        : devMode
-        ? '[name].js'
-        : '[name].[contenthash:7].js',
+    filename: devMode ? '[name].js' : '[name].[contenthash:7].js',
     chunkFilename: devMode ? '[id].js' : '[id].[contenthash:7].js',
   },
   module: {

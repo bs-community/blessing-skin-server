@@ -1,4 +1,5 @@
 import '@/styles/home.css'
+import { getExtraData } from './extra'
 
 export function scrollHander() {
   const header = document.querySelector('.navbar')
@@ -28,8 +29,11 @@ export async function logout() {
 }
 
 /* istanbul ignore next */
-if (blessing.extra.transparent_navbar) {
-  window.addEventListener('load', scrollHander)
+if (process.env.NODE_ENV !== 'test') {
+  const { transparent_navbar }: { transparent_navbar: boolean } = getExtraData()
+  if (transparent_navbar) {
+    window.addEventListener('load', scrollHander)
+  }
 }
 /* istanbul ignore next */
 document

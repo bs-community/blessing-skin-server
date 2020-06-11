@@ -71,7 +71,7 @@
 {% endblock %}
 
 {% block before_foot %}
-  <script>
-    blessing.extra = {{ extra|json_encode|raw }}
+  <script id="blessing-extra" type="application/json">
+    {{ extra|json_encode|raw }}
   </script>
 {% endblock %}

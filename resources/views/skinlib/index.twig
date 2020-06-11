@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block before_foot %}
-  <script>
-    blessing.extra = {{ {currentUid: auth_user().uid}|json_encode|raw }}
+  <script id="blessing-extra" type="application/json">
+    {{ {currentUid: auth_user().uid}|json_encode|raw }}
   </script>
 {% endblock %}

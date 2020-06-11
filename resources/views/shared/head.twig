@@ -10,11 +10,8 @@
 {% if custom_cdn_host %}
   <link rel="preconnect" href="{{ custom_cdn_host }}" crossorigin>
 {% endif %}
-<script>
-window.addEventListener('load', () => {
-  navigator.serviceWorker.register('/sw.js?v4')
-})
-</script>
+<script id="blessing-globals" type="application/json">{{ blessing|json_encode|raw }}</script>
+<script src="{{ url('/meta.js') }}"></script>
 {% for link in links %}
   <link{% for attribute, value in link %} {{ attribute }}="{{ value|raw }}"{% endfor %}>
 {% endfor %}

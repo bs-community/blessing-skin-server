@@ -1,4 +1,5 @@
 import './init' // Must be first
+import './extra'
 import './i18n'
 import './net'
 import './event'

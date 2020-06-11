@@ -11,7 +11,7 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server",
-    "build": "webpack --mode=production -p --progress",
+    "build": "webpack -p --progress && webpack -p --config=webpack.meta.config.js",
     "lint": "eslint --ext=ts -f=beauty .",
     "fmt": "prettier --write resources/assets",
     "test": "jest",
@@ -198,6 +198,7 @@
     "coveragePathIgnorePatterns": [
       "/node_modules/",
       "<rootDir>/resources/assets/src/styles",
+      "<rootDir>/resources/assets/src/scripts/extra.ts",
       "<rootDir>/resources/assets/src/scripts/urls.ts",
       "<rootDir>/resources/assets/tests/setup",
       "<rootDir>/resources/assets/tests/utils",

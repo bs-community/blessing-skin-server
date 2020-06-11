@@ -158,8 +158,8 @@
     {% if home_page_css_loader %}
       <script src="{{ home_page_css_loader }}"></script>
     {% endif %}
-    <script>
-      blessing.extra = { transparent_navbar: {{ transparent_navbar ? 'true' : 'false' }} }
+    <script type="application/json" id="blessing-extra">
+      {{ {transparent_navbar: transparent_navbar}|json_encode|raw }}
     </script>
     {{ include('shared.foot') }}
   </body>
