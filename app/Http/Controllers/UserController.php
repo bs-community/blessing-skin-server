@@ -75,6 +75,7 @@ class UserController extends Controller
 
     public function scoreInfo()
     {
+        /** @var User */
         $user = Auth::user();
 
         return response()->json([
@@ -87,7 +88,7 @@ class UserController extends Controller
                 'players' => (int) option('score_per_player'),
             ],
             'usage' => [
-                'players' => $user->players->count(),
+                'players' => $user->players()->count(),
                 'storage' => (int) Texture::where('uploader', $user->uid)->sum('size'),
             ],
             'signAfterZero' => (bool) option('sign_after_zero'),

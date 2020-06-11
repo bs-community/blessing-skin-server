@@ -9,9 +9,6 @@ class EventServiceProvider extends ServiceProvider
 {
     // The event listener mappings for the application.
     protected $listen = [
-        'App\Events\PlayerRetrieved' => [
-            Listeners\ResetInvalidTextureForPlayer::class,
-        ],
         'App\Events\PluginWasEnabled' => [
             Listeners\CopyPluginAssets::class,
             Listeners\GeneratePluginTranslations::class,
