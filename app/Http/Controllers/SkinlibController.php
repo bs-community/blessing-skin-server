@@ -11,6 +11,7 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 use Parsedown;
@@ -200,6 +201,7 @@ class SkinlibController extends Controller
             'public' => 'required|boolean',
         ]);
 
+        /** @var UploadedFile */
         $file = $filter->apply('uploaded_texture_file', $file);
 
         $name = $data['name'];
@@ -287,7 +289,7 @@ class SkinlibController extends Controller
         /** @var FilesystemAdapter */
         $disk = Storage::disk('textures');
         if ($disk->missing($hash)) {
-            $disk->putFile($hash, $file);
+            $file->storePubliclyAs('', $hash, ['disk' => 'textures']);
         }
 
         $user->score -= $cost;
