@@ -66,8 +66,8 @@ describe('select player automatically', () => {
   it('only one player', async () => {
     fetch.get
       .mockResolvedValueOnce([fixture])
-      .mockResolvedValueOnce({ data: { hash: '', type: TextureType.Steve } })
-      .mockResolvedValueOnce({ data: { hash: '', type: TextureType.Cape } })
+      .mockResolvedValueOnce({ hash: '', type: TextureType.Steve })
+      .mockResolvedValueOnce({ hash: '', type: TextureType.Cape })
     render(<Players />)
     await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
 
@@ -97,8 +97,8 @@ describe('2d preview', () => {
   it('skin and cape', async () => {
     fetch.get
       .mockResolvedValueOnce([fixture])
-      .mockResolvedValueOnce({ data: { hash: 'a', type: TextureType.Steve } })
-      .mockResolvedValueOnce({ data: { hash: 'b', type: TextureType.Cape } })
+      .mockResolvedValueOnce({ hash: 'a', type: TextureType.Steve })
+      .mockResolvedValueOnce({ hash: 'b', type: TextureType.Cape })
 
     const { getByAltText, getByText } = render(<Players />)
     await waitFor(() => expect(fetch.get).toBeCalledTimes(1))
@@ -118,7 +118,7 @@ describe('2d preview', () => {
   it('skin only', async () => {
     fetch.get
       .mockResolvedValueOnce([{ ...fixture, tid_cape: 0 }])
-      .mockResolvedValueOnce({ data: { hash: 'a', type: TextureType.Steve } })
+      .mockResolvedValueOnce({ hash: 'a', type: TextureType.Steve })
 
     const { getByAltText, queryByAltText, getByText, queryByText } = render(
       <Players />,
@@ -138,7 +138,7 @@ describe('2d preview', () => {
   it('cape only', async () => {
     fetch.get
       .mockResolvedValueOnce([{ ...fixture, tid_skin: 0 }])
-      .mockResolvedValueOnce({ data: { hash: 'a', type: TextureType.Cape } })
+      .mockResolvedValueOnce({ hash: 'a', type: TextureType.Cape })
 
     const { getByAltText, queryByAltText, getByText, queryByText } = render(
       <Players />,
@@ -265,8 +265,8 @@ describe('edit player name', () => {
   beforeEach(() => {
     fetch.get
       .mockResolvedValueOnce([fixture])
-      .mockResolvedValueOnce({ data: { hash: 'a', type: 'skin' } })
-      .mockResolvedValueOnce({ data: { hash: 'b', type: TextureType.Cape } })
+      .mockResolvedValueOnce({ hash: 'a', type: 'skin' })
+      .mockResolvedValueOnce({ hash: 'b', type: TextureType.Cape })
   })
 
   it('succeeded', async () => {
@@ -346,8 +346,8 @@ describe('reset texture', () => {
   beforeEach(() => {
     fetch.get
       .mockResolvedValueOnce([fixture])
-      .mockResolvedValueOnce({ data: { hash: 'a', type: 'skin' } })
-      .mockResolvedValueOnce({ data: { hash: 'b', type: TextureType.Cape } })
+      .mockResolvedValueOnce({ hash: 'a', type: 'skin' })
+      .mockResolvedValueOnce({ hash: 'b', type: TextureType.Cape })
   })
 
   it('clear skin and cape', async () => {
@@ -457,8 +457,8 @@ describe('delete player', () => {
   beforeEach(() => {
     fetch.get
       .mockResolvedValueOnce([fixture])
-      .mockResolvedValueOnce({ data: { hash: 'a', type: 'skin' } })
-      .mockResolvedValueOnce({ data: { hash: 'b', type: TextureType.Cape } })
+      .mockResolvedValueOnce({ hash: 'a', type: 'skin' })
+      .mockResolvedValueOnce({ hash: 'b', type: TextureType.Cape })
   })
 
   it('succeeded', async () => {

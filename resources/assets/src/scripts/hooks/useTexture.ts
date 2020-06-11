@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react'
 import * as fetch from '../net'
 import { Texture, TextureType } from '../types'
 
-type Response = fetch.ResponseBody<Texture>
-
 export default function useTexture() {
   const [tid, setTid] = useState(0)
   const [url, setUrl] = useState('')
@@ -16,9 +14,7 @@ export default function useTexture() {
     }
 
     const getTexture = async () => {
-      const {
-        data: { hash, type },
-      } = await fetch.get<Response>(`/skinlib/info/${tid}`)
+      const { hash, type } = await fetch.get<Texture>(`/skinlib/info/${tid}`)
 
       setUrl(`${blessing.base_url}/textures/${hash}`)
       setType(type)
