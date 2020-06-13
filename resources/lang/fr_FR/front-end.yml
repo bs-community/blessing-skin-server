@@ -3,10 +3,10 @@ auth:
   login: Se connecter
   loggingIn: Authentification
   tooManyFails:
-    captcha: You fails too many times! Please enter the CAPTCHA.
-    recaptcha: You fails too many times! Please pass the reCAPTCHA challenge.
+    captcha: Vous avez échoué trop de fois! Veuillez passer le reCAPTCHA.
+    recaptcha: Vous avez échoué trop de fois! Veuillez passer le reCAPTCHA.
   emptyEmail: Adresse e-mail vide.
-  invalidConfirmPwd: Confirming password is not equal with password.
+  invalidConfirmPwd: Le mot de passe de confirmation n'est pas le meme que le mot de passe original.
   emptyNickname: Pseudonyme vide.
   register: S'inscrire
   registering: Inscription
@@ -20,8 +20,8 @@ auth:
   identification: Adresse e-mail ou nom du joueur
   password: Mot de passe
   captcha: CAPTCHA
-  change-captcha: Click to change CAPTCHA image.
-  login-link: Already registered? Log in here.
+  change-captcha: Cliquez pour changer l'image du CAPTCHA.
+  login-link: Déjà inscrit? Connectez-vous ici.
   forgot-link: Mot de passe oublié ?
   keep: Se souvenir de moi
   repeat-pwd: Répétez votre mot de passe
