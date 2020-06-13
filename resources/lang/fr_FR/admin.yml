@@ -125,7 +125,7 @@ plugins:
     no-readme-notice: Le plugin ne contient pas de fichier "readme".
     not-found: Ce plugin n'existe pas.
   market:
-    unresolved: There are conflicts or unsatisfied dependencies in the plugin, therefore we can't download it. Please install or update the plugins listed below, and disable those have conflicts.
+    unresolved: Il y a des conflits ou des dépendances insatisfaisantes dans le plugin, nous ne pouvons donc pas le télécharger. Veuillez installer ou mettre à jour les plugins listés ci-dessous, et désactiver ceux qui ont des conflits.
     connection-error: Impossible de se connecter au registre des plugins. :error
     non-existent: Le plugin :plugin n'existe pas.
     install-success: Plugin installé avec succès.
@@ -133,7 +133,7 @@ plugins:
 update:
   complete: Mise à jour terminée
   info:
-    title: Update Information
+    title: Mettre à jour les informations
     up-to-date: Déjà mis à jour.
     available: Nouvelle version disponible.
     versions:
