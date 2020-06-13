@@ -6,7 +6,7 @@ index:
   disk-usage: Utilisation du disque
   overview: Aperçu
   texture-uploads: Chargements de textures
-  user-registration: User Registration
+  user-registration: Enregister un utilisateur
 notifications:
   send:
     title: Envoyer une notification
@@ -18,7 +18,7 @@ notifications:
     uid: UID spécifié
     email: Adresse e-mail spécifiée
   title: Titre
-  content: Content (Markdown is supported.)
+  content: Contenu (Markdown est supporté)
 users:
   status:
     normal: Normal
@@ -52,7 +52,7 @@ players:
     title: Actions
   textures:
     change: Changer les textures
-    non-existent: No such texture tid.:tid
+    non-existent: Cette texture n'existes pas tid.:tid
     success: Les textures de :player ont été mises à jour.
   name:
     success: Player name has been updated to :player
@@ -67,7 +67,7 @@ customize:
     title: Changer la couleur du thème
     success: Couleur du thème mise à jour.
   colors:
-    navbar: Top Navigation Bar
+    navbar: Barre de navigation du haut
     sidebar:
       dark: Sidebar (Dark)
       light: Sidebar (Light)
@@ -154,11 +154,11 @@ update:
   errors:
     connection: "Impossible d'accéder à la source de la mise à jour actuelle. Détails : :error"
     spec: La source de la mise à jour actuelle n'est pas prise en charge.
-    php: Your PHP version is too low to update. Requires :version or later.
+    php: Votre version de PHP est trop faible pour être mise à jour. Nécessite :version ou supérieure.
 download:
   errors:
     download: 'Échec du téléchargement. Erreur : :error'
     shasum: Échec de la validation du fichier. Veuillez recommencer le telechargement.
-    unzip: Failed to unpack files.
+    unzip: Impossible de dézipper les fichiers.
 report-reviewed: Ce rapport a été traité.
 invalid-action: Action invalide
