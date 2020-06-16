@@ -99,6 +99,10 @@ class TextureControllerTest extends TestCase
 
         $disk->put($skin->hash, '');
         $this->get('/textures/'.$skin->hash)
+            ->assertSuccessful()
+            ->assertHeader('Content-Type', 'image/png');
+        $this->get('/csl/textures/'.$skin->hash)
+            ->assertSuccessful()
             ->assertHeader('Content-Type', 'image/png');
     }
 
