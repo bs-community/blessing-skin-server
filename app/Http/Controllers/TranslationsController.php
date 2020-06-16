@@ -36,14 +36,14 @@ class TranslationsController extends Controller
         return redirect('/admin/i18n');
     }
 
-    public function update(Request $request, Application $app, JavaScript $js)
-    {
-        $data = $request->validate([
-            'id' => 'required|integer',
-            'text' => 'required|string',
-        ]);
+    public function update(
+        Request $request,
+        Application $app,
+        JavaScript $js,
+        LanguageLine $line
+    ) {
+        $data = $request->validate(['text' => 'required|string']);
 
-        $line = LanguageLine::findOrFail($data['id']);
         $line->setTranslation($app->getLocale(), $data['text']);
         $line->save();
 
@@ -54,10 +54,11 @@ class TranslationsController extends Controller
         return json(trans('admin.i18n.updated'), 0);
     }
 
-    public function delete(Request $request, Application $app, JavaScript $js)
-    {
-        ['id' => $id] = $request->validate(['id' => 'required|integer']);
-        $line = LanguageLine::findOrFail($id);
+    public function delete(
+        Application $app,
+        JavaScript $js,
+        LanguageLine $line
+    ) {
         $line->delete();
 
         if ($line->group === 'front-end') {

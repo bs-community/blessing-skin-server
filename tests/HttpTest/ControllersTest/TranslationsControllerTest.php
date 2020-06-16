@@ -59,32 +59,25 @@ class TranslationsControllerTest extends TestCase
 
     public function testUpdate()
     {
-        // Request validation
-        $this->putJson('/admin/i18n', [])->assertJsonValidationErrors('id');
-        $this->putJson('/admin/i18n', ['id' => 'a'])
-            ->assertJsonValidationErrors('id');
-        $this->putJson('/admin/i18n', ['id' => 1])
-            ->assertJsonValidationErrors('text');
-
-        $this->putJson('/admin/i18n', ['id' => 1, 'text' => 's'])->assertNotFound();
-
         $this->spy(JavaScript::class, function ($spy) {
             $spy->shouldReceive('resetTime')->with('en')->once();
         });
-        LanguageLine::create([
+        $line1 = LanguageLine::create([
             'group' => 'general',
             'key' => 'submit',
             'text' => ['en' => 'submit'],
         ]);
-        LanguageLine::create([
+        $line2 = LanguageLine::create([
             'group' => 'front-end',
             'key' => 'general.submit',
             'text' => ['en' => 'submit'],
         ]);
 
-        $this->putJson('/admin/i18n', ['id' => 1, 'text' => 's'])
+        $this->putJson('/admin/i18n/'.$line1->id)
+            ->assertJsonValidationErrors('text');
+        $this->putJson('/admin/i18n/'.$line1->id, ['id' => 1, 'text' => 's'])
             ->assertJson(['code' => 0, 'message' => trans('admin.i18n.updated')]);
-        $this->putJson('/admin/i18n', ['id' => 2, 'text' => 's'])
+        $this->putJson('/admin/i18n/'.$line2->id, ['id' => 2, 'text' => 's'])
             ->assertJson(['code' => 0, 'message' => trans('admin.i18n.updated')]);
         $this->assertEquals('s', trans('general.submit'));
         $this->assertEquals('s', trans('front-end.general.submit'));
@@ -92,30 +85,23 @@ class TranslationsControllerTest extends TestCase
 
     public function testDelete()
     {
-        // Request validation
-        $this->deleteJson('/admin/i18n', [])->assertJsonValidationErrors('id');
-        $this->deleteJson('/admin/i18n', ['id' => 'a'])
-            ->assertJsonValidationErrors('id');
-
-        $this->deleteJson('/admin/i18n', ['id' => 1])->assertNotFound();
-
         $this->spy(JavaScript::class, function ($spy) {
             $spy->shouldReceive('resetTime')->with('en')->once();
         });
-        LanguageLine::create([
+        $line1 = LanguageLine::create([
             'group' => 'general',
             'key' => 'submit',
             'text' => ['en' => 'submit'],
         ]);
-        LanguageLine::create([
+        $line2 = LanguageLine::create([
             'group' => 'front-end',
             'key' => 'general.submit',
             'text' => ['en' => 'submit'],
         ]);
 
-        $this->deleteJson('/admin/i18n', ['id' => 1])
+        $this->deleteJson('/admin/i18n/'.$line1->id)
             ->assertJson(['code' => 0, 'message' => trans('admin.i18n.deleted')]);
-        $this->deleteJson('/admin/i18n', ['id' => 2])
+        $this->deleteJson('/admin/i18n/'.$line2->id)
             ->assertJson(['code' => 0, 'message' => trans('admin.i18n.deleted')]);
         $this->assertEquals('Submit', trans('general.submit'));
         $this->assertEquals('Submit', trans('front-end.general.submit'));

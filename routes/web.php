@@ -168,8 +168,8 @@ Route::prefix('admin')
             Route::view('', 'admin.i18n');
             Route::get('list', 'TranslationsController@list');
             Route::post('', 'TranslationsController@create');
-            Route::put('', 'TranslationsController@update');
-            Route::delete('', 'TranslationsController@delete');
+            Route::put('{line}', 'TranslationsController@update');
+            Route::delete('{line}', 'TranslationsController@delete');
         });
 
         Route::prefix('plugins')->group(function () {

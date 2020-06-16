@@ -43,8 +43,8 @@ const Translations: React.FC = () => {
     }
 
     const { code, message } = await fetch.put<fetch.ResponseBody>(
-      '/admin/i18n',
-      { id: line.id, text },
+      `/admin/i18n/${line.id}`,
+      { text },
     )
     if (code === 0) {
       toast.success(message)
@@ -66,7 +66,7 @@ const Translations: React.FC = () => {
       return
     }
 
-    const { message } = await fetch.del('/admin/i18n', { id: line.id })
+    const { message } = await fetch.del(`/admin/i18n/${line.id}`)
     toast.success(message)
     const { id } = line
     setLines((lines) => lines.filter((line) => line.id !== id))

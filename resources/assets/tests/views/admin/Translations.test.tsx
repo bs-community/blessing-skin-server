@@ -45,8 +45,7 @@ describe('edit line', () => {
     })
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.put).toBeCalledWith('/admin/i18n', {
-        id: 1,
+      expect(fetch.put).toBeCalledWith(`/admin/i18n/${fixtureLine.id}`, {
         text: 'finish',
       }),
     )
@@ -69,8 +68,7 @@ describe('edit line', () => {
     })
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.put).toBeCalledWith('/admin/i18n', {
-        id: 1,
+      expect(fetch.put).toBeCalledWith(`/admin/i18n/${fixtureLine.id}`, {
         text: 'finish',
       }),
     )
@@ -109,9 +107,7 @@ describe('delete line', () => {
     fireEvent.click(getByText(t('admin.i18n.delete')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.del).toBeCalledWith('/admin/i18n', {
-        id: 1,
-      }),
+      expect(fetch.del).toBeCalledWith(`/admin/i18n/${fixtureLine.id}`),
     )
     expect(queryByText(fixtureLine.text.en)).not.toBeInTheDocument()
     expect(queryByText('ok')).toBeInTheDocument()
