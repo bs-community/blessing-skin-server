@@ -261,7 +261,7 @@ describe('upload plugin archive', () => {
         expect.any(FormData),
       )
     })
-    const formData: FormData = fetch.post.mock.calls[0][1]
+    const formData = fetch.post.mock.calls[0][1] as FormData
     expect(formData.get('file')).toStrictEqual(file)
     expect(queryByText('plugin.zip')).not.toBeInTheDocument()
     expect(queryByText('ok')).toBeInTheDocument()
