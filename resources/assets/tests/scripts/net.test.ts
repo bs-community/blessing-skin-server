@@ -69,7 +69,7 @@ test('the POST method', async () => {
   expect(request.headers.get('Content-Type')).toBe('application/json')
 
   await net.post('/abc')
-  expect(window.fetch.mock.calls[2][0].body).toBe('{}')
+  expect(window.fetch.mock.calls[2][0].body).toBeUndefined()
 })
 
 test('the PUT method', () => {
@@ -88,7 +88,7 @@ test('the PUT method', () => {
   expect(stub).toBeCalledWith({
     method: 'PUT',
     url: '/abc',
-    data: {},
+    data: undefined,
   })
 })
 
@@ -108,7 +108,7 @@ test('the DELETE method', () => {
   expect(stub).toBeCalledWith({
     method: 'DELETE',
     url: '/abc',
-    data: {},
+    data: undefined,
   })
 })
 

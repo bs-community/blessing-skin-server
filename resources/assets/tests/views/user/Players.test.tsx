@@ -363,9 +363,9 @@ describe('reset texture', () => {
     fireEvent.click(getByLabelText(t('general.cape')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.del).toBeCalledWith(urls.user.player.clear(fixture.pid), {
-        type: ['skin', 'cape'],
-      }),
+      expect(fetch.del).toBeCalledWith(
+        `${urls.user.player.clear(fixture.pid)}?skin=true&cape=true`,
+      ),
     )
     expect(queryByText('success')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
@@ -383,9 +383,9 @@ describe('reset texture', () => {
     fireEvent.click(getByLabelText(t('general.skin')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.del).toBeCalledWith(urls.user.player.clear(fixture.pid), {
-        type: ['skin'],
-      }),
+      expect(fetch.del).toBeCalledWith(
+        `${urls.user.player.clear(fixture.pid)}?skin=true`,
+      ),
     )
     expect(queryByText('success')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
@@ -403,9 +403,9 @@ describe('reset texture', () => {
     fireEvent.click(getByLabelText(t('general.cape')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.del).toBeCalledWith(urls.user.player.clear(fixture.pid), {
-        type: ['cape'],
-      }),
+      expect(fetch.del).toBeCalledWith(
+        `${urls.user.player.clear(fixture.pid)}?cape=true`,
+      ),
     )
     expect(queryByText('success')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
@@ -434,9 +434,9 @@ describe('reset texture', () => {
     fireEvent.click(getByLabelText(t('general.skin')))
     fireEvent.click(getByText(t('general.confirm')))
     await waitFor(() =>
-      expect(fetch.del).toBeCalledWith(urls.user.player.clear(fixture.pid), {
-        type: ['skin'],
-      }),
+      expect(fetch.del).toBeCalledWith(
+        `${urls.user.player.clear(fixture.pid)}?skin=true`,
+      ),
     )
     expect(queryByText('failed')).toBeInTheDocument()
     expect(getByRole('alert')).toHaveClass('alert-danger')

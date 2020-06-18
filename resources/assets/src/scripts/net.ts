@@ -109,35 +109,38 @@ export function get<T = any>(url: string, params = empty): Promise<T> {
   return walkFetch(new Request(`${blessing.base_url}${url}?${qs}`, init))
 }
 
-function nonGet<T = any>(method: string, url: string, data: any): Promise<T> {
+function nonGet<T = any>(
+  method: string,
+  url: string,
+  data?: FormData | object,
+): Promise<T> {
   emit('beforeFetch', {
     method: method.toUpperCase(),
     url,
     data,
   })
 
-  const isFormData = data instanceof FormData
-
   const request = new Request(`${blessing.base_url}${url}`, {
-    body: isFormData ? data : JSON.stringify(data),
+    body: data instanceof FormData ? data : JSON.stringify(data),
     method: method.toUpperCase(),
     ...init,
   })
-  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-  !isFormData && request.headers.set('Content-Type', 'application/json')
+  if (!(data instanceof FormData)) {
+    request.headers.set('Content-Type', 'application/json')
+  }
 
   return walkFetch(request)
 }
 
-export function post<T = any>(url: string, data = empty): Promise<T> {
+export function post<T = any>(url: string, data?: object): Promise<T> {
   return nonGet<T>('POST', url, data)
 }
 
-export function put<T = any>(url: string, data = empty): Promise<T> {
+export function put<T = any>(url: string, data?: object): Promise<T> {
   return nonGet<T>('PUT', url, data)
 }
 
-export function del<T = any>(url: string, data = empty): Promise<T> {
+export function del<T = any>(url: string, data?: object): Promise<T> {
   return nonGet<T>('DELETE', url, data)
 }
 

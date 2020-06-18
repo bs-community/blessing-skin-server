@@ -91,9 +91,16 @@ const Players: React.FC = () => {
       return
     }
 
+    // workaround for AliCDN, issue#184
+    const search = new URLSearchParams()
+    if (skin) {
+      search.append('skin', 'true')
+    }
+    if (cape) {
+      search.append('cape', 'true')
+    }
     const { code, message } = await fetch.del<fetch.ResponseBody>(
-      urls.user.player.clear(selected),
-      { type: [skin && 'skin', cape && 'cape'].filter(Boolean) },
+      `${urls.user.player.clear(selected)}?${search}`,
     )
     if (code === 0) {
       toast.success(message)
