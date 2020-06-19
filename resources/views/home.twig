@@ -68,15 +68,9 @@
                 {{ trans('general.user-center') }}
               </a>
             {% else %}
-              {% if user_can_register %}
-                <a href="{{ url('auth/register') }}" class="main-button">
-                  {{ trans('general.register') }}
-                </a>
-              {% else %}
-                <a href="{{ url('auth/login') }}" class="main-button">
-                  {{ trans('general.login') }}
-                </a>
-              {% endif %}
+              <a href="{{ url('auth/register') }}" class="main-button">
+                {{ trans('general.register') }}
+              </a>
             {% endif %}
           </p>
         </div>

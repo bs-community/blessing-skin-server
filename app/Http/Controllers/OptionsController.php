@@ -152,7 +152,6 @@ class OptionsController extends Controller
                     return $url;
                 });
 
-            $form->checkbox('user_can_register')->label();
             $form->checkbox('register_with_player_name')->label();
             $form->checkbox('require_verification')->label();
 

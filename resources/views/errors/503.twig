@@ -7,7 +7,7 @@
   <p>
     {{ trans('errors.exception.detail', {msg: exception.message ?: trans('errors.http.msg-503')}) }}
   </p>
-  {% if not auth_check() %}
+  {% if show_login_button %}
     <div class="mt-5">
       <a href="{{ url('/auth/login') }}" class="btn btn-primary">
         <i class="icon fas fa-sign-in-alt mr-1"></i>

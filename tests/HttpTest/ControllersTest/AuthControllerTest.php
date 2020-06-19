@@ -244,9 +244,6 @@ class AuthControllerTest extends TestCase
 
         $this->get('/auth/register')->assertSee('Register');
         $filter->assertApplied('auth_page_rows:register');
-
-        option(['user_can_register' => false]);
-        $this->get('/auth/register')->assertSee(trans('auth.register.close'));
     }
 
     public function testHandleRegister()
@@ -388,22 +385,7 @@ class AuthControllerTest extends TestCase
             ]
         )->assertJsonValidationErrors('captcha');
 
-        // Should be forbidden if registering is closed
-        option(['user_can_register' => false]);
-        $this->postJson(
-            '/auth/register',
-            [
-                'email' => 'a@b.c',
-                'password' => '12345678',
-                'nickname' => 'nickname',
-                'captcha' => 'a',
-            ]
-        )->assertJson([
-            'code' => 1,
-            'message' => trans('auth.register.close'),
-        ]);
-
-        option(['user_can_register' => true, 'regs_per_ip' => -1]);
+        option(['regs_per_ip' => -1]);
         $this->postJson(
             '/auth/register',
             [

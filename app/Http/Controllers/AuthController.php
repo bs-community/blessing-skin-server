@@ -136,19 +136,15 @@ class AuthController extends Controller
         ];
         $rows = $filter->apply('auth_page_rows:register', $rows);
 
-        if (option('user_can_register')) {
-            return view('auth.register', [
-                'site_name' => option_localized('site_name'),
-                'rows' => $rows,
-                'extra' => [
-                    'player' => (bool) option('register_with_player_name'),
-                    'recaptcha' => option('recaptcha_sitekey'),
-                    'invisible' => (bool) option('recaptcha_invisible'),
-                ],
-            ]);
-        } else {
-            throw new PrettyPageException(trans('auth.register.close'), 7);
-        }
+        return view('auth.register', [
+            'site_name' => option_localized('site_name'),
+            'rows' => $rows,
+            'extra' => [
+                'player' => (bool) option('register_with_player_name'),
+                'recaptcha' => option('recaptcha_sitekey'),
+                'invisible' => (bool) option('recaptcha_invisible'),
+            ],
+        ]);
     }
 
     public function handleRegister(
@@ -157,10 +153,6 @@ class AuthController extends Controller
         Dispatcher $dispatcher,
         Filter $filter
     ) {
-        if (!option('user_can_register')) {
-            return json(trans('auth.register.close'), 1);
-        }
-
         $can = $filter->apply('can_register', null);
         if ($can instanceof Rejection) {
             return json($can->getReason(), 1);

@@ -75,5 +75,12 @@ class ViewServiceProvider extends ServiceProvider
             }
             // @codeCoverageIgnoreEnd
         });
+
+        View::composer('errors.503', function ($view) {
+            $view->with(
+                'show_login_button',
+                !auth()->check() && request()->is('setup/*')
+            );
+        });
     }
 }

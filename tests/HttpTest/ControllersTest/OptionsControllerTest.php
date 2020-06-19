@@ -106,7 +106,6 @@ class OptionsControllerTest extends BrowserKitTestCase
             ->type('My Site', 'site_name')
             ->type('hi', 'site_description')
             ->type('http://blessing.skin/', 'site_url')
-            ->uncheck('user_can_register')
             ->type('8', 'regs_per_ip')
             ->type('2048', 'max_upload_file_size')
             ->see(trans(
@@ -124,7 +123,6 @@ class OptionsControllerTest extends BrowserKitTestCase
         $this->assertEquals('My Site', option_localized('site_name'));
         $this->assertEquals('hi', option_localized('site_description'));
         $this->assertEquals('http://blessing.skin', option('site_url'));
-        $this->assertFalse(option('user_can_register'));
         $this->assertEquals('8', option('regs_per_ip'));
         $this->assertEquals('2048', option('max_upload_file_size'));
         $this->assertEquals('cjk', option('player_name_rule'));
