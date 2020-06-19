@@ -88,9 +88,6 @@ general:
   site_url:
     title: Адрес сайта
     hint: Начинайте с http(s)://, никогда не заканчивайте косой чертой.
-  user_can_register:
-    title: Открыть регистрацию
-    label: Регистрация разрешена всем.
   register_with_player_name:
     title: Регистрация с именем игрока
     label: Требовать имя игрока Minecraft при регистрации пользователя
