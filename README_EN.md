@@ -90,13 +90,6 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
         </a>
       </td>
       <td align=center>
-        <a href="https://afdian.net/@8mi_admin">
-          <img src="https://pic1.afdiancdn.com/user/3beb3fc626e411e98d8852540025c377/avatar/282f4cd47f763244f85b0c1d2693f727_w640_h640_s17.jpg" width="120" height="120">
-          <br>
-          八蓝米科技丶以勒
-        </a>
-      </td>
-      <td align=center>
         <a href="">
           <img src="https://pic1.afdiancdn.com/user/5b1b5ef6a23c11ea90a952540025c377/avatar/5c02c61401606370e1b088955c1a10fc_w342_h342_s33.jpg" width="120" height="120">
           <br>
@@ -122,6 +115,13 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
           <img src="https://pic1.afdiancdn.com/user/f3a0367a79b911ea883352540025c377/avatar/c37aef9b387742ad1e3033f4c57a0028_w801_h801_s500.jpg" width="120" height="120">
           <br>
           Kyle
+        </a>
+      </td>
+      <td align=center>
+        <a href="https://afdian.net/@mengluorj">
+          <img src="https://pic1.afdiancdn.com/user/ffc6500452ed11e9994e52540025c377/avatar/ae9c5ec36b51e8314787cc19acf2d12e_w815_h815_s459.jpg" width="120" height="120">
+          <br>
+          MengLuoRJ
         </a>
       </td>
       </tr>
