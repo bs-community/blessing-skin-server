@@ -88,9 +88,6 @@ general:
   site_url:
     title: 站点地址（URL）
     hint: 以 http(s):// 开头，不要以 / 结尾
-  user_can_register:
-    title: 开放注册
-    label: 任何人都可以注册
   register_with_player_name:
     title: 使用角色名注册
     label: 注册时要求填写游戏内角色名

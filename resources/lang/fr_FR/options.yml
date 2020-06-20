@@ -88,9 +88,6 @@ general:
   site_url:
     title: URL du site
     hint: Begin with http(s)://, nerver ends with slash.
-  user_can_register:
-    title: Inscription ouverte
-    label: Tout le monde peut s'inscrire.
   register_with_player_name:
     title: S'inscrire avec le nom du joueur
     label: Require Minecraft's player name when user register

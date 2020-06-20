@@ -88,9 +88,6 @@ general:
   site_url:
     title: URL del sitio
     hint: Comienza con http(s)://, nunca termina con una barra.
-  user_can_register:
-    title: Registro abierto
-    label: A todo el mundo se le permite registrarse.
   register_with_player_name:
     title: Registrar con el nombre del jugador
     label: Requerir el nombre del jugador de Minecraft cuando el usuario se registre
