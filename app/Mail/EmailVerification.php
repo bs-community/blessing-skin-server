@@ -13,26 +13,16 @@ class EmailVerification extends Mailable
 
     public $url;
 
-    /**
-     * Create a new message instance.
-     *
-     * @return void
-     */
     public function __construct($url)
     {
         $this->url = $url;
     }
 
-    /**
-     * Build the message.
-     *
-     * @return $this
-     */
     public function build()
     {
         $site_name = option_localized('site_name');
 
-        return $this->from(config('mail.from'))
+        return $this
             ->subject(trans('user.verification.mail.title', ['sitename' => $site_name]))
             ->view('mails.email-verification');
     }
