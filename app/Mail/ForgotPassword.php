@@ -35,8 +35,7 @@ class ForgotPassword extends Mailable
     {
         $site_name = option_localized('site_name');
 
-        return $this->from(config('mail.from'))
-            ->subject(trans('auth.forgot.mail.title', ['sitename' => $site_name]))
+        return $this->subject(trans('auth.forgot.mail.title', ['sitename' => $site_name]))
             ->view('mails.password-reset');
     }
 }
