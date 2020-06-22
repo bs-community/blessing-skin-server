@@ -1,7 +1,8 @@
 /** @jsx jsx */
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Autosuggest from 'react-autosuggest'
 import { jsx, css } from '@emotion/core'
+import { emit } from '@/scripts/event'
 import { pointerCursor } from '@/styles/utils'
 
 const styles = css`
@@ -10,7 +11,7 @@ const styles = css`
   }
 `
 
-const domainNames = ['qq.com', '163.com', 'gmail.com', 'hotmail.com']
+const domainNames = new Set(['qq.com', '163.com', 'gmail.com', 'hotmail.com'])
 
 type Props = Omit<Autosuggest.InputProps<string>, 'onChange'> & {
   onChange(value: string): void
@@ -19,11 +20,15 @@ type Props = Omit<Autosuggest.InputProps<string>, 'onChange'> & {
 const EmailSuggestion: React.FC<Props> = (props) => {
   const [suggestions, setSuggestions] = useState<string[]>([])
 
+  useEffect(() => {
+    emit('emailDomainsSuggestion', domainNames)
+  }, [])
+
   const handleSuggestionsFetchRequested: Autosuggest.SuggestionsFetchRequested = ({
     value,
   }) => {
     const segments = value.split('@')
-    setSuggestions(domainNames.map((name) => `${segments[0]}@${name}`))
+    setSuggestions([...domainNames].map((name) => `${segments[0]}@${name}`))
   }
 
   const handleSuggestionsClearRequested = () => {
@@ -31,7 +36,9 @@ const EmailSuggestion: React.FC<Props> = (props) => {
   }
 
   const shouldRenderSuggestions = (value: string) => {
-    const isSelecting = domainNames.some((name) => value.endsWith(`@${name}`))
+    const isSelecting = [...domainNames].some((name) =>
+      value.endsWith(`@${name}`),
+    )
 
     return isSelecting || (value.length > 0 && !value.includes('@'))
   }

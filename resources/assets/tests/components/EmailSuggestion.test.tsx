@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { render, fireEvent } from '@testing-library/react'
+import { on } from '@/scripts/event'
 import EmailSuggestion from '@/components/EmailSuggestion'
 
 const Wrapper: React.FC = () => {
@@ -55,4 +56,19 @@ test('display suggestions when typing with configured domain names', () => {
   expect(queryByText('abc@163.com')).toBeInTheDocument()
   expect(queryByText('abc@gmail.com')).toBeInTheDocument()
   expect(queryByText('abc@hotmail.com')).toBeInTheDocument()
+})
+
+test('events', () => {
+  const off = on('emailDomainsSuggestion', (names: Set<string>) => {
+    names.add('outlook.com')
+  })
+
+  const { getByDisplayValue, queryByText } = render(<Wrapper />)
+  const input = getByDisplayValue('')
+
+  fireEvent.input(input, { target: { value: 'abc' } })
+  fireEvent.focus(input)
+  expect(queryByText('abc@outlook.com')).toBeInTheDocument()
+
+  off()
 })
