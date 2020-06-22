@@ -6,6 +6,7 @@ import * as fetch from '@/scripts/net'
 import urls from '@/scripts/urls'
 import Alert from '@/components/Alert'
 import Captcha from '@/components/Captcha'
+import EmailSuggestion from '@/components/EmailSuggestion'
 
 const Forgot: React.FC = () => {
   const [email, setEmail] = useState('')
@@ -15,10 +16,6 @@ const Forgot: React.FC = () => {
   const ref = useRef<Captcha | null>(null)
 
   useEmitMounted()
-
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value)
-  }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -41,21 +38,13 @@ const Forgot: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="input-group mb-3">
-        <input
-          type="email"
-          className="form-control"
-          placeholder={t('auth.email')}
-          required
-          value={email}
-          onChange={handleEmailChange}
-        />
-        <div className="input-group-append">
-          <div className="input-group-text">
-            <i className="fas fa-envelope"></i>
-          </div>
-        </div>
-      </div>
+      <EmailSuggestion
+        type="email"
+        placeholder={t('auth.email')}
+        required
+        value={email}
+        onChange={setEmail}
+      />
 
       <Captcha ref={ref} />
 

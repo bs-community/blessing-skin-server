@@ -8,6 +8,7 @@ import { showModal } from '@/scripts/notify'
 import urls from '@/scripts/urls'
 import Alert from '@/components/Alert'
 import Captcha from '@/components/Captcha'
+import EmailSuggestion from '@/components/EmailSuggestion'
 
 type SuccessfulResponse = {
   code: 0
@@ -43,12 +44,6 @@ const Login: React.FC = () => {
   useEffect(() => {
     setHasTooManyFails(blessing.extra.tooManyFails as boolean)
   }, [])
-
-  const handleIdentificationChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-  ) => {
-    setIdentification(event.target.value)
-  }
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value)
@@ -99,21 +94,13 @@ const Login: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="input-group mb-3">
-        <input
-          type="text"
-          className="form-control"
-          placeholder={t('auth.identification')}
-          value={identification}
-          onChange={handleIdentificationChange}
-          required
-        />
-        <div className="input-group-append">
-          <div className="input-group-text">
-            <i className="fas fa-envelope"></i>
-          </div>
-        </div>
-      </div>
+      <EmailSuggestion
+        type="text"
+        placeholder={t('auth.identification')}
+        required
+        value={identification}
+        onChange={setIdentification}
+      />
       <div className="input-group mb-3">
         <input
           type="password"

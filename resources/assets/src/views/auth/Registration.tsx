@@ -8,6 +8,7 @@ import { toast } from '@/scripts/notify'
 import urls from '@/scripts/urls'
 import Alert from '@/components/Alert'
 import Captcha from '@/components/Captcha'
+import EmailSuggestion from '@/components/EmailSuggestion'
 
 const Registration: React.FC = () => {
   const [email, setEmail] = useState('')
@@ -22,10 +23,6 @@ const Registration: React.FC = () => {
   const captchaRef = useRef<Captcha | null>(null)
 
   useEmitMounted()
-
-  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value)
-  }
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value)
@@ -79,21 +76,13 @@ const Registration: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="input-group mb-3">
-        <input
-          type="email"
-          required
-          className="form-control"
-          placeholder={t('auth.email')}
-          value={email}
-          onChange={handleEmailChange}
-        />
-        <div className="input-group-append">
-          <div className="input-group-text">
-            <i className="fas fa-envelope"></i>
-          </div>
-        </div>
-      </div>
+      <EmailSuggestion
+        type="email"
+        required
+        placeholder={t('auth.email')}
+        value={email}
+        onChange={setEmail}
+      />
       <div className="input-group mb-3">
         <input
           type="password"
