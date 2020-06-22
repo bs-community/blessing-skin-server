@@ -11,7 +11,7 @@ export default async function handler(event: Event) {
   const { code, message }: ResponseBody = await post(
     '/user/profile?action=email',
     {
-      new_email: email,
+      email,
       password,
     },
   )

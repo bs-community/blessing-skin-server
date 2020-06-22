@@ -366,38 +366,38 @@ class UserControllerTest extends TestCase
         Event::fake();
 
         $user = User::find($user->uid);
-        // Change email without `new_email` field
+        // Change email without `email` field
         $this->actingAs($user)
             ->postJson(
                 '/user/profile',
                 ['action' => 'email']
             )
-            ->assertJsonValidationErrors('new_email');
+            ->assertJsonValidationErrors('email');
 
         // Invalid email
         $this->postJson('/user/profile', [
             'action' => 'email',
-            'new_email' => 'not_an_email',
-        ])->assertJsonValidationErrors('new_email');
+            'email' => 'not_an_email',
+        ])->assertJsonValidationErrors('email');
 
         // Too short current password
         $this->postJson('/user/profile', [
             'action' => 'email',
-            'new_email' => 'a@b.c',
+            'email' => 'a@b.c',
             'password' => '1',
         ])->assertJsonValidationErrors('password');
 
         // Too long current password
         $this->postJson('/user/profile', [
             'action' => 'email',
-            'new_email' => 'a@b.c',
+            'email' => 'a@b.c',
             'password' => Str::random(33),
         ])->assertJsonValidationErrors('password');
 
         // Use a duplicated email
         $this->postJson('/user/profile', [
             'action' => 'email',
-            'new_email' => $user->email,
+            'email' => $user->email,
             'password' => '87654321',
         ])->assertJson([
             'code' => 1,
@@ -407,7 +407,7 @@ class UserControllerTest extends TestCase
         // Wrong password
         $this->postJson('/user/profile', [
             'action' => 'email',
-            'new_email' => 'a@b.c',
+            'email' => 'a@b.c',
             'password' => '7654321',
         ])->assertJson([
             'code' => 1,
@@ -417,7 +417,7 @@ class UserControllerTest extends TestCase
         // Change email successfully
         $this->postJson('/user/profile', [
             'action' => 'email',
-            'new_email' => 'a@b.c',
+            'email' => 'a@b.c',
             'password' => '87654321',
         ])->assertJson([
             'code' => 0,
@@ -428,7 +428,7 @@ class UserControllerTest extends TestCase
             $this->assertEquals($uid, $user->uid);
             $this->assertEquals('email', $action);
             $this->assertEquals([
-                'new_email' => 'a@b.c',
+                'email' => 'a@b.c',
                 'password' => '87654321',
             ], $addition);
 

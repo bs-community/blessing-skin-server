@@ -248,20 +248,20 @@ class UserController extends Controller
                 return json(trans('user.profile.password.success'), 0);
 
             case 'email':
-                $request->validate([
-                    'new_email' => 'required|email',
+                $data = $request->validate([
+                    'email' => 'required|email',
                     'password' => 'required|min:6|max:32',
                 ]);
 
-                if (User::where('email', $request->new_email)->count() > 0) {
+                if (User::where('email', $data['email'])->count() > 0) {
                     return json(trans('user.profile.email.existed'), 1);
                 }
 
-                if (!$user->verifyPassword($request->input('password'))) {
+                if (!$user->verifyPassword($data['password'])) {
                     return json(trans('user.profile.email.wrong-password'), 1);
                 }
 
-                $user->email = $request->input('new_email');
+                $user->email = $data['email'];
                 $user->verified = false;
                 $user->save();
 
