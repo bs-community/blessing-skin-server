@@ -38,7 +38,6 @@ export const ToastContainer: React.FC = () => {
 
   return (
     <>
-      {queue.length}
       {queue.map((el, i) => (
         <ToastBox
           key={el.id}
@@ -56,12 +55,13 @@ export const ToastContainer: React.FC = () => {
 export class Toast {
   private container: HTMLDivElement
 
-  constructor() {
+  constructor(render?: (element: JSX.Element) => void) {
     this.container = document.createElement('div')
     document.body.appendChild(this.container)
 
-    /* istanbul ignore next */
-    if (process.env.NODE_ENV !== 'test') {
+    if (render) {
+      render(<ToastContainer />)
+    } else {
       ReactDOM.render(<ToastContainer />, this.container)
     }
   }
@@ -87,10 +87,7 @@ export class Toast {
   }
 
   dispose() {
-    /* istanbul ignore next */
-    if (process.env.NODE_ENV !== 'test') {
-      ReactDOM.unmountComponentAtNode(this.container)
-    }
+    ReactDOM.unmountComponentAtNode(this.container)
     this.container.remove()
   }
 }

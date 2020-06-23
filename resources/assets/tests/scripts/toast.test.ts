@@ -1,10 +1,8 @@
-import React from 'react'
 import { render, fireEvent, screen } from '@testing-library/react'
-import { Toast, ToastContainer } from '@/scripts/toast'
+import { Toast } from '@/scripts/toast'
 
 test('"Toast" class', () => {
-  render(<ToastContainer />)
-  const toast = new Toast()
+  const toast = new Toast(render)
 
   toast.success('success')
   expect(document.querySelector('.alert-success')!.textContent).toContain(
@@ -29,8 +27,7 @@ test('"Toast" class', () => {
 })
 
 test('clear toasts', () => {
-  render(<ToastContainer />)
-  const toast = new Toast()
+  const toast = new Toast(render)
 
   toast.success('success')
   toast.info('info')
@@ -42,8 +39,7 @@ test('clear toasts', () => {
 })
 
 test('close toast manually', () => {
-  render(<ToastContainer />)
-  const toast = new Toast()
+  const toast = new Toast(render)
   toast.success('success')
 
   fireEvent.click(screen.getByText('×'))
