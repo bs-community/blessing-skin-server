@@ -1,5 +1,5 @@
 import React from 'react'
-import { render } from '@testing-library/react'
+import { render, fireEvent, screen } from '@testing-library/react'
 import { Toast, ToastContainer } from '@/scripts/toast'
 
 test('"Toast" class', () => {
@@ -25,6 +25,7 @@ test('"Toast" class', () => {
   )
 
   jest.runAllTimers()
+  toast.dispose()
 })
 
 test('clear toasts', () => {
@@ -36,4 +37,17 @@ test('clear toasts', () => {
 
   toast.clear()
   expect(document.querySelectorAll('.alert')).toHaveLength(0)
+
+  toast.dispose()
+})
+
+test('close toast manually', () => {
+  render(<ToastContainer />)
+  const toast = new Toast()
+  toast.success('success')
+
+  fireEvent.click(screen.getByText('×'))
+  expect(document.querySelectorAll('.alert')).toHaveLength(0)
+
+  toast.dispose()
 })

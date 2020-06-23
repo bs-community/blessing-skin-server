@@ -33,14 +33,10 @@ const Toast: React.FC<Props> = (props) => {
   const [show, setShow] = useState(false)
 
   useEffect(() => {
-    const id1 = setTimeout(() => setShow(true), 100)
-    const id2 = setTimeout(() => setShow(false), 3000)
-    const id3 = setTimeout(props.onClose, 3100)
+    const timer = setTimeout(() => setShow(true), 100)
 
     return () => {
-      clearTimeout(id1)
-      clearTimeout(id2)
-      clearTimeout(id3)
+      clearTimeout(timer)
     }
   }, [props.onClose])
 

@@ -13,12 +13,20 @@ const CLEAR_EVENT = Symbol('clear')
 export const ToastContainer: React.FC = () => {
   const [queue, setQueue] = useState<ToastQueue>([])
 
+  const handleClose = (id: string) => {
+    setQueue((queue) => queue.filter((el) => el.id !== id))
+  }
+
   useEffect(() => {
     const off1 = emitter.on(TOAST_EVENT, (toast: QueueElement) => {
       setQueue((queue) => {
         queue.push(toast)
         return queue.slice()
       })
+
+      setTimeout(() => {
+        handleClose(toast.id)
+      }, 3100)
     })
     const off2 = emitter.on(CLEAR_EVENT, () => setQueue([]))
 
@@ -28,12 +36,9 @@ export const ToastContainer: React.FC = () => {
     }
   }, [])
 
-  const handleClose = (id: string) => {
-    setQueue((queue) => queue.filter((el) => el.id !== id))
-  }
-
   return (
     <>
+      {queue.length}
       {queue.map((el, i) => (
         <ToastBox
           key={el.id}
@@ -49,11 +54,16 @@ export const ToastContainer: React.FC = () => {
 }
 
 export class Toast {
-  constructor() {
-    const container = document.createElement('div')
-    document.body.appendChild(container)
+  private container: HTMLDivElement
 
-    ReactDOM.render(<ToastContainer />, container)
+  constructor() {
+    this.container = document.createElement('div')
+    document.body.appendChild(this.container)
+
+    /* istanbul ignore next */
+    if (process.env.NODE_ENV !== 'test') {
+      ReactDOM.render(<ToastContainer />, this.container)
+    }
   }
 
   success(message: string) {
@@ -74,5 +84,13 @@ export class Toast {
 
   clear() {
     emitter.emit(CLEAR_EVENT)
+  }
+
+  dispose() {
+    /* istanbul ignore next */
+    if (process.env.NODE_ENV !== 'test') {
+      ReactDOM.unmountComponentAtNode(this.container)
+    }
+    this.container.remove()
   }
 }
