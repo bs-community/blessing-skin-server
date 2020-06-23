@@ -6,6 +6,11 @@ import {
 } from 'workbox-strategies'
 import { ExpirationPlugin } from 'workbox-expiration'
 
+if (process.env.NODE_ENV === 'development') {
+  registerRoute(/\.js/, new NetworkOnly())
+  registerRoute(/\.css/, new NetworkOnly())
+}
+
 registerRoute(
   /\/preview\/\d+/,
   new CacheFirst({
