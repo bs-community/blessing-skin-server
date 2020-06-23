@@ -2,6 +2,8 @@
 
 namespace App\Services\Translations;
 
+use App\Services\Plugin;
+use App\Services\PluginManager;
 use Illuminate\Cache\Repository;
 use Illuminate\Filesystem\Filesystem;
 
@@ -13,23 +15,49 @@ class JavaScript
     /** @var Repository */
     protected $cache;
 
+    /** @var PluginManager */
+    protected $plugins;
+
     protected $prefix = 'front-end-trans-';
 
-    public function __construct(Filesystem $filesystem, Repository $cache)
-    {
+    public function __construct(
+        Filesystem $filesystem,
+        Repository $cache,
+        PluginManager $plugins
+    ) {
         $this->filesystem = $filesystem;
         $this->cache = $cache;
+        $this->plugins = $plugins;
     }
 
     public function generate(string $locale): string
     {
-        $source = resource_path("lang/$locale/front-end.yml");
+        $plugins = $this->plugins->getEnabledPlugins();
+        $sourceFiles = $plugins
+            ->map(function (Plugin $plugin) use ($locale) {
+                return $plugin->getPath()."/lang/$locale/front-end.yml";
+            })
+            ->filter(function ($path) {
+                return $this->filesystem->exists($path);
+            });
+        $sourceFiles->push(resource_path("lang/$locale/front-end.yml"));
+        $sourceModified = $sourceFiles->max(function ($path) {
+            return $this->filesystem->lastModified($path);
+        });
+
         $compiled = public_path("lang/$locale.js");
-        $sourceModified = $this->filesystem->lastModified($source);
-        $compiledModified = intval($this->cache->get($this->prefix.$locale, 0));
+        $compiledModified = (int) $this->cache->get($this->prefix.$locale, 0);
 
         if ($sourceModified > $compiledModified || !$this->filesystem->exists($compiled)) {
-            $content = 'blessing.i18n = '.json_encode(trans('front-end'), JSON_UNESCAPED_UNICODE);
+            $translations = trans('front-end');
+            foreach ($plugins as $plugin) {
+                $translations = array_merge(
+                    $translations,
+                    [$plugin->name => trans($plugin->namespace.'::front-end')]
+                );
+            }
+
+            $content = 'blessing.i18n = '.json_encode($translations, JSON_UNESCAPED_UNICODE);
             $this->filesystem->put($compiled, $content);
             $this->cache->put($this->prefix.$locale, $sourceModified);
 
@@ -42,17 +70,5 @@ class JavaScript
     public function resetTime(string $locale): void
     {
         $this->cache->put($this->prefix.$locale, 0);
-    }
-
-    public function plugin(string $locale): string
-    {
-        $path = public_path("lang/${locale}_plugin.js");
-        if ($this->filesystem->exists($path)) {
-            $lastModified = $this->filesystem->lastModified($path);
-
-            return url()->asset("lang/${locale}_plugin.js?t=$lastModified");
-        }
-
-        return '';
     }
 }

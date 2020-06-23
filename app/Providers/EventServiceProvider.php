@@ -11,11 +11,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         'App\Events\PluginWasEnabled' => [
             Listeners\CopyPluginAssets::class,
-            Listeners\GeneratePluginTranslations::class,
         ],
         'plugin.versionChanged' => [
             Listeners\CopyPluginAssets::class,
-            Listeners\GeneratePluginTranslations::class,
         ],
         'App\Events\PluginBootFailed' => [
             Listeners\NotifyFailedPlugin::class,

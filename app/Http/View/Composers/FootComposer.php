@@ -55,11 +55,6 @@ class FootComposer
         $scripts[] = [
             'src' => $this->javascript->generate($locale),
         ];
-        if ($pluginI18n = $this->javascript->plugin($locale)) {
-            $scripts[] = [
-                'src' => $pluginI18n,
-            ];
-        }
         if (Str::startsWith(config('app.asset.env'), 'dev')) {
             $scripts[] = [
                 'src' => $this->webpack->url('style.js'),

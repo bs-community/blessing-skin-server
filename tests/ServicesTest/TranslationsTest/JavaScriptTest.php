@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use App\Services\Plugin;
+use App\Services\PluginManager;
 use App\Services\Translations\JavaScript;
 use Illuminate\Cache\Repository;
 use Illuminate\Filesystem\Filesystem;
@@ -12,20 +14,35 @@ class JavaScriptTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->app->forgetInstance(JavaScript::class);
+        app()->forgetInstance(JavaScript::class);
     }
 
     public function testGenerateFreshFile()
     {
+        $this->mock(PluginManager::class, function ($mock) {
+            $mock->shouldReceive('getEnabledPlugins')
+                ->with()
+                ->once()
+                ->andReturn(collect([new Plugin('/reina', ['namespace' => 'れいな'])]));
+        });
         $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('exists')
+                ->with('/reina/lang/en/front-end.yml')
+                ->once()
+                ->andReturn(true);
             $mock->shouldReceive('lastModified')
                 ->with(resource_path('lang/en/front-end.yml'))
                 ->once()
                 ->andReturn(1);
+            $mock->shouldReceive('lastModified')
+                ->with('/reina/lang/en/front-end.yml')
+                ->once()
+                ->andReturn(2);
             $mock->shouldReceive('put')
                 ->withArgs(function ($path, $content) {
                     $this->assertEquals(public_path('lang/en.js'), $path);
                     $this->assertTrue(Str::startsWith($content, 'blessing.i18n'));
+                    $this->assertStringContainsString('"れいな::front-end"', $content);
 
                     return true;
                 })
@@ -38,20 +55,37 @@ class JavaScriptTest extends TestCase
                 ->once()
                 ->andReturn(0);
             $mock->shouldReceive('put')
-                ->with('front-end-trans-en', 1)
+                ->with('front-end-trans-en', 2)
                 ->once();
         });
 
-        $this->assertEquals(url('lang/en.js?t=1'), resolve(JavaScript::class)->generate('en'));
+        $this->assertEquals(
+            url('lang/en.js?t=2'),
+            resolve(JavaScript::class)->generate('en')
+        );
     }
 
     public function testGenerateCached()
     {
+        $this->mock(PluginManager::class, function ($mock) {
+            $mock->shouldReceive('getEnabledPlugins')
+                ->with()
+                ->once()
+                ->andReturn(collect([new Plugin('/reina', ['namespace' => 'れいな'])]));
+        });
         $this->mock(Filesystem::class, function ($mock) {
+            $mock->shouldReceive('exists')
+                ->with('/reina/lang/en/front-end.yml')
+                ->once()
+                ->andReturn(true);
             $mock->shouldReceive('lastModified')
                 ->with(resource_path('lang/en/front-end.yml'))
                 ->once()
                 ->andReturn(1);
+            $mock->shouldReceive('lastModified')
+                ->with('/reina/lang/en/front-end.yml')
+                ->once()
+                ->andReturn(2);
             $mock->shouldReceive('exists')
                 ->with(public_path('lang/en.js'))
                 ->once()
@@ -61,10 +95,13 @@ class JavaScriptTest extends TestCase
             $mock->shouldReceive('get')
                 ->with('front-end-trans-en', 0)
                 ->once()
-                ->andReturn(1);
+                ->andReturn(2);
         });
 
-        $this->assertEquals(url('lang/en.js?t=1'), resolve(JavaScript::class)->generate('en'));
+        $this->assertEquals(
+            url('lang/en.js?t=2'),
+            resolve(JavaScript::class)->generate('en')
+        );
     }
 
     public function testResetTime()
@@ -76,27 +113,6 @@ class JavaScriptTest extends TestCase
         });
 
         resolve(JavaScript::class)->resetTime('en');
-    }
-
-    public function testPlugin()
-    {
-        $this->mock(Filesystem::class, function ($mock) {
-            $mock->shouldReceive('exists')
-                ->with(public_path('lang/en_plugin.js'))
-                ->twice()
-                ->andReturn(false, true);
-            $mock->shouldReceive('lastModified')
-                ->with(public_path('lang/en_plugin.js'))
-                ->once()
-                ->andReturn(1);
-        });
-
-        $this->assertEquals('', resolve(JavaScript::class)->plugin('en'));
-
-        $this->assertEquals(
-            url('lang/en_plugin.js?t=1'),
-            resolve(JavaScript::class)->plugin('en')
-        );
     }
 
     public function testFallbackLocale()

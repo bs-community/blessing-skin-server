@@ -30,10 +30,6 @@ class FootComposerTest extends TestCase
                 ->with('en')
                 ->once()
                 ->andReturn('en.js');
-            $mock->shouldReceive('plugin')
-                ->with('en')
-                ->once()
-                ->andReturn('en_plugin.js');
         });
         $this->mock(Webpack::class, function ($mock) {
             $mock->shouldReceive('url')->with('style.css');
@@ -48,10 +44,7 @@ class FootComposerTest extends TestCase
                 ->andReturn('app.js');
         });
 
-        $this->get('/user')
-            ->assertSee('en.js')
-            ->assertSee('en_plugin.js')
-            ->assertSee('app.js');
+        $this->get('/user')->assertSee('en.js')->assertSee('app.js');
     }
 
     public function testAddExtra()
