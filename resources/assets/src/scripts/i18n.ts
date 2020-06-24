@@ -25,3 +25,4 @@ export function t(key: string, parameters = Object.create(null)): string {
 }
 
 Object.assign(window, { trans: t })
+Object.assign(blessing, { t })
