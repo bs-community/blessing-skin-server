@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use App\Models\User;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
