@@ -4,11 +4,6 @@ use Illuminate\Database\Migrations\Migration;
 
 class ImportOptions extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         // import options
@@ -33,11 +28,6 @@ class ImportOptions extends Migration
         }
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         DB::table('options')->delete();

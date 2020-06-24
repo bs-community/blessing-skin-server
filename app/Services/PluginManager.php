@@ -16,44 +16,28 @@ use Illuminate\Support\Str;
 
 class PluginManager
 {
-    /**
-     * @var bool
-     */
+    /** @var bool */
     protected $booted = false;
 
-    /**
-     * @var Application
-     */
+    /** @var Application */
     protected $app;
 
-    /**
-     * @var Option
-     */
+    /** @var Option */
     protected $option;
 
-    /**
-     * @var Dispatcher
-     */
+    /** @var Dispatcher */
     protected $dispatcher;
 
-    /**
-     * @var Filesystem
-     */
+    /** @var Filesystem */
     protected $filesystem;
 
-    /**
-     * @var ClassLoader
-     */
+    /** @var ClassLoader */
     protected $loader;
 
-    /**
-     * @var Collection|null
-     */
+    /** @var Collection|null */
     protected $plugins;
 
-    /**
-     * @var Collection
-     */
+    /** @var Collection */
     protected $enabled;
 
     public function __construct(
@@ -70,12 +54,7 @@ class PluginManager
         $this->loader = new ClassLoader();
     }
 
-    /**
-     * Get all installed plugins.
-     *
-     * @return Collection
-     */
-    public function all()
+    public function all(): Collection
     {
         if (filled($this->plugins)) {
             return $this->plugins;
@@ -278,10 +257,7 @@ class PluginManager
         });
     }
 
-    /**
-     * @return Plugin|null
-     */
-    public function get(string $name)
+    public function get(string $name): ?Plugin
     {
         return $this->all()->get($name);
     }
@@ -340,10 +316,7 @@ class PluginManager
         }
     }
 
-    /**
-     * @return Collection
-     */
-    public function getEnabledPlugins()
+    public function getEnabledPlugins(): Collection
     {
         return $this->all()->filter(function ($plugin) {
             return $plugin->isEnabled();
@@ -360,9 +333,6 @@ class PluginManager
         })->values()->toJson());
     }
 
-    /**
-     * @return Collection
-     */
     public function getUnsatisfied(Plugin $plugin)
     {
         return collect(Arr::get($plugin->getManifest(), 'require', []))
@@ -392,10 +362,7 @@ class PluginManager
             });
     }
 
-    /**
-     * @return Collection
-     */
-    public function getConflicts(Plugin $plugin)
+    public function getConflicts(Plugin $plugin): Collection
     {
         return collect($plugin->getManifestAttr('enchants.conflicts', []))
             ->mapWithKeys(function ($constraint, $name) {
@@ -441,12 +408,7 @@ class PluginManager
         return array_merge($unsatisfied, $conflicts);
     }
 
-    /**
-     * The plugins path.
-     *
-     * @return Collection
-     */
-    public function getPluginsDirs()
+    public function getPluginsDirs(): Collection
     {
         $config = config('plugins.directory');
         if ($config) {

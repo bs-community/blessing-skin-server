@@ -7,25 +7,10 @@ use Illuminate\Console\Command;
 
 class PluginEnableCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'plugin:enable {name}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Enable a plugin';
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
     public function handle(PluginManager $plugins)
     {
         $name = $this->argument('name');

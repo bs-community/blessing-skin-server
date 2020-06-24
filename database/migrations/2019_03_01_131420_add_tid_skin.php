@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class AddTidSkin extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::table('players', function (Blueprint $table) {
@@ -22,11 +17,6 @@ class AddTidSkin extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::table('players', function (Blueprint $table) {

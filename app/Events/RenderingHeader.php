@@ -6,25 +6,12 @@ class RenderingHeader extends Event
 {
     public $contents;
 
-    /**
-     * Create a new event instance.
-     *
-     * @return void
-     */
     public function __construct(array &$contents)
     {
-        // Pass array by reference
         $this->contents = &$contents;
     }
 
-    /**
-     * Add content to page footer.
-     *
-     * @param string $content
-     *
-     * @return void
-     */
-    public function addContent($content)
+    public function addContent(string $content)
     {
         if ($content) {
             if (!is_string($content)) {

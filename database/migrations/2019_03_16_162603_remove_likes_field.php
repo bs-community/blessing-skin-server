@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class RemoveLikesField extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         if (Schema::hasColumn('textures', 'likes')) {
@@ -20,13 +15,7 @@ class RemoveLikesField extends Migration
         }
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
-        // Do nothing.
     }
 }

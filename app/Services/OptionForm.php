@@ -59,16 +59,9 @@ class OptionForm
     }
 
     /**
-     * Add option item to the form dynamically.
-     *
-     * @param string $method
-     * @param array  $params
-     *
-     * @return OptionItem
-     *
      * @throws \BadMethodCallException
      */
-    public function __call($method, $params)
+    public function __call(string $method, array $params): OptionFormItem
     {
         if (!in_array($method, ['text', 'checkbox', 'textarea', 'select', 'group'])) {
             throw new BadMethodCallException("Method [$method] does not exist on option form.");
@@ -88,9 +81,7 @@ class OptionForm
         return $item;
     }
 
-    /**
-     * Set the box type of option form.
-     */
+    /** Set the box type of option form. */
     public function type(string $type): self
     {
         $this->type = $type;
@@ -98,11 +89,7 @@ class OptionForm
         return $this;
     }
 
-    /**
-     * Add a hint to option form.
-     *
-     * @param array $info
-     */
+    /** Add a hint to option form. */
     public function hint($hintContent = self::AUTO_DETECT): self
     {
         if ($hintContent == self::AUTO_DETECT) {
@@ -131,9 +118,7 @@ class OptionForm
         return $this;
     }
 
-    /**
-     * Add a button at the footer of option form.
-     */
+    /** Add a button at the footer of option form. */
     public function addButton(array $info): self
     {
         $info = array_merge([

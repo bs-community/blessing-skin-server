@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateCloset extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('user_closet', function (Blueprint $table) {
@@ -20,11 +15,6 @@ class CreateCloset extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('user_closet');

@@ -16,11 +16,6 @@ class SiteMessage extends Notification implements ShouldQueue
 
     public $content;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
     public function __construct(string $title, $content = '')
     {
         $this->title = $title;

@@ -5,11 +5,6 @@ use Illuminate\Database\Schema\Blueprint;
 
 class CreateAllTables extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
@@ -51,11 +46,6 @@ class CreateAllTables extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::drop('users');

@@ -6,25 +6,10 @@ use Illuminate\Console\Command;
 
 class SaltRandomCommand extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'salt:random {--show : Display the salt instead of modifying files}';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
     protected $description = 'Set the application salt';
 
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
     public function handle()
     {
         $salt = $this->generateRandomSalt();
@@ -43,14 +28,7 @@ class SaltRandomCommand extends Command
         $this->info("Application salt [$salt] set successfully.");
     }
 
-    /**
-     * Set the application salt in the environment file.
-     *
-     * @param string $salt
-     *
-     * @return void
-     */
-    protected function setKeyInEnvironmentFile($salt)
+    protected function setKeyInEnvironmentFile(string $salt)
     {
         file_put_contents($this->laravel->environmentFilePath(), str_replace(
             'SALT = '.$this->laravel['config']['secure.salt'],
@@ -59,12 +37,7 @@ class SaltRandomCommand extends Command
         ));
     }
 
-    /**
-     * Generate a random salt for the application.
-     *
-     * @return string
-     */
-    protected function generateRandomSalt()
+    protected function generateRandomSalt(): string
     {
         return bin2hex(resolve(\Illuminate\Contracts\Encryption\Encrypter::class)->generateKey('AES-128-CBC'));
     }
