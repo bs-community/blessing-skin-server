@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Composer\Semver\Comparator;
 use Illuminate\Filesystem\Filesystem;
+use Illuminate\Support\Facades\Artisan;
 
 class RedirectToSetup
 {
@@ -20,14 +21,7 @@ class RedirectToSetup
         }
 
         if ($hasLock && !$request->is('setup*') && Comparator::greaterThan($version, option('version', $version))) {
-            $user = $request->user();
-            if ($user && $user->isAdmin()) {
-                return redirect('/setup/update');
-            } elseif ($request->is('auth/login')) {
-                return $next($request);
-            } else {
-                abort(503);
-            }
+            Artisan::call('update');
         }
 
         if ($hasLock || $request->is('setup*')) {

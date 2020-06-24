@@ -3,11 +3,8 @@
 namespace Tests;
 
 use App\Services\Unzip;
-use Illuminate\Contracts\Console\Kernel as Artisan;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Http;
-use Symfony\Component\Finder\SplFileInfo;
 
 class UpdateControllerTest extends TestCase
 {
@@ -69,51 +66,6 @@ class UpdateControllerTest extends TestCase
         });
         $this->postJson('/admin/update/download')
             ->assertJson(['code' => 0, 'message' => trans('admin.update.complete')]);
-    }
-
-    public function testUpdate()
-    {
-        $this->mock(Filesystem::class, function ($mock) {
-            $mock->shouldReceive('exists')
-                ->with(storage_path('install.lock'))
-                ->andReturn(true);
-
-            $mock->shouldReceive('put')
-                ->with(storage_path('install.lock'), '')
-                ->once()
-                ->andReturn(true);
-
-            $mock->shouldReceive('files')
-                ->with(database_path('update_scripts'))
-                ->once()
-                ->andReturn([
-                    new SplFileInfo('/1.0.0.php', '', ''),
-                    new SplFileInfo('/99.0.0.php', '', ''),
-                    new SplFileInfo('/100.0.0.php', '', ''),
-                ]);
-
-            $mock->shouldNotReceive('getRequire')->with('/1.0.0.php');
-
-            $mock->shouldReceive('getRequire')
-                ->with('/99.0.0.php')
-                ->once();
-
-            $mock->shouldReceive('getRequire')
-                ->with('/100.0.0.php')
-                ->once();
-        });
-        $this->spy(Artisan::class, function ($spy) {
-            $spy->shouldReceive('call')
-                ->with('migrate', ['--force' => true])
-                ->once();
-            $spy->shouldReceive('call')->with('view:clear')->once();
-        });
-        config(['app.version' => '100.0.0']);
-
-        $this->actingAs(factory(\App\Models\User::class)->states('superAdmin')->create())
-            ->get('/setup/exec-update')
-            ->assertViewIs('setup.updates.success');
-        $this->assertEquals('100.0.0', option('version'));
     }
 
     protected function fakeUpdateInfo(string $version, $extra = [])

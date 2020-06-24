@@ -2,9 +2,9 @@
 
 namespace Tests;
 
-use App\Models\User;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Artisan;
 
 class RedirectToSetupTest extends TestCase
 {
@@ -12,23 +12,16 @@ class RedirectToSetupTest extends TestCase
 
     public function testHandle()
     {
-        $superAdmin = factory(User::class)->states('superAdmin')->create();
-
         $current = config('app.version');
         config(['app.version' => '100.0.0']);
-        $this->get('/')->assertStatus(503);
-        $this->get('/auth/login')->assertViewIs('auth.login');
-        $this->actingAs($superAdmin)->get('/')->assertRedirect('/setup/update');
+        Artisan::shouldReceive('call')->with('update')->once();
+        $this->get('/');
         config(['app.version' => $current]);
 
         $this->mock(Filesystem::class, function ($mock) {
             $mock->shouldReceive('exists')
                 ->with(storage_path('install.lock'))
                 ->andReturn(true, false, false);
-
-            $mock->shouldReceive('exists')
-                ->with(base_path('.env'))
-                ->andReturn(true);
         });
         $this->get('/')->assertViewIs('home');
         $this->get('/setup')->assertViewIs('setup.wizard.welcome');

@@ -4,6 +4,8 @@ namespace Tests;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Event;
 
 class UpdateCommandTest extends TestCase
 {
@@ -11,25 +13,23 @@ class UpdateCommandTest extends TestCase
 
     public function testUpdate()
     {
+        Event::fake();
         $this->mock(Filesystem::class, function ($mock) {
-            $mock->shouldReceive('exists')
-                ->with(storage_path('install.lock'))
-                ->andReturn(true);
-
             $mock->shouldReceive('put')
                 ->with(storage_path('install.lock'), '')
                 ->once()
                 ->andReturn(true);
-
-            $mock->shouldReceive('files')
-                ->with(database_path('update_scripts'))
-                ->once()
-                ->andReturn([]);
         });
-        config(['app.version' => '100.0.0']);
+        Cache::partialMock()->shouldReceive('flush')->once();
+        option(['version' => '0.0.0']);
+        config([
+            'app.version' => '0.0.1',
+            'translation-loader.translation_loaders' => [],
+        ]);
 
         $this->artisan('update')
             ->expectsOutput(trans('setup.updates.success.title'));
-        $this->assertEquals('100.0.0', option('version'));
+        $this->assertEquals('0.0.1', option('version'));
+        Event::assertDispatched('__0.0.1');
     }
 }

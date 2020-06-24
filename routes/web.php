@@ -204,9 +204,4 @@ Route::prefix('setup')->group(function () {
         Route::view('info', 'setup.wizard.info');
         Route::post('finish', 'SetupController@finish');
     });
-
-    Route::middleware('authorize')->group(function () {
-        Route::view('update', 'setup.updates.welcome')->middleware('setup');
-        Route::any('exec-update', 'UpdateController@update')->middleware('setup');
-    });
 });

@@ -6,11 +6,9 @@ use App\Services\Unzip;
 use Cache;
 use Composer\CaBundle\CaBundle;
 use Composer\Semver\Comparator;
-use Illuminate\Contracts\Console\Kernel as Artisan;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
-use Symfony\Component\Finder\SplFileInfo;
 
 class UpdateController extends Controller
 {
@@ -56,28 +54,6 @@ class UpdateController extends Controller
         } else {
             return json(trans('admin.download.errors.download', ['error' => $response->status()]), 1);
         }
-    }
-
-    public function update(Filesystem $filesystem, Artisan $artisan)
-    {
-        collect($filesystem->files(database_path('update_scripts')))
-            ->filter(function (SplFileInfo $file) {
-                $name = $file->getFilenameWithoutExtension();
-
-                return preg_match('/^\d+\.\d+\.\d+$/', $name) > 0
-                    && Comparator::greaterThanOrEqualTo($name, option('version'));
-            })
-            ->each(function (SplFileInfo $file) use ($filesystem) {
-                $filesystem->getRequire($file->getPathname());
-            });
-
-        option(['version' => config('app.version')]);
-        $artisan->call('migrate', ['--force' => true]);
-        $artisan->call('view:clear');
-        $filesystem->put(storage_path('install.lock'), '');
-        Cache::flush();
-
-        return view('setup.updates.success');
     }
 
     protected function getUpdateInfo()
