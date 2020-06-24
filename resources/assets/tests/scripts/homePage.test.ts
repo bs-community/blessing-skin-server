@@ -1,4 +1,4 @@
-import { scrollHander, logout } from '@/scripts/home-page'
+import { scrollHander, logout } from '@/scripts/homePage'
 
 test('logout', async () => {
   const meta = document.createElement('meta')
