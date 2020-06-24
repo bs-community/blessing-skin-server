@@ -10,7 +10,6 @@ declare global {
     env: string
     locale: string
     site_name: string
-    timezone: string
     version: string
     route: string
     extra: any
