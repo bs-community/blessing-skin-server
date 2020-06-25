@@ -37,28 +37,25 @@ Blessing Skin is an open-source project written in PHP, which means you can depl
 
 ## Requirements
 
-Blessing Skin has only a few system requirements. _In most cases, these PHP extensions are already enabled._
+Blessing Skin has only a few system requirements. In most cases, these PHP extensions are already enabled.
 
 - Web server with URL rewriting enabled (Nginx or Apache)
-- **PHP >= 7.2.5**
-- OpenSSL PHP Extension
-- PDO PHP Extension
-- Mbstring PHP Extension
-- Tokenizer PHP Extension
-- GD PHP Extension
-- XML PHP Extension
-- Ctype PHP Extension
-- JSON PHP Extension
-- fileinfo PHP Extension
-- zip PHP Extension
+- PHP >= 7.2.5
+- PHP Extensions
+    - OpenSSL
+    - PDO
+    - Mbstring
+    - Tokenizer
+    - GD
+    - XML
+    - Ctype
+    - JSON
+    - fileinfo
+    - zip
 
 ## Quick Install
 
-1. Download our [latest release](https://github.com/bs-community/blessing-skin-server/releases), extract to where you like to installed on.
-2. Rename `.env.example` to `.env` and configure your database information. (For windows users, just rename it to `.env.`, and the last dot will be removed automatically)
-3. For Nginx users, add [rewrite rules](#configure-the-web-server) to your Nginx configuration
-4. Navigate to `http://your-domain.com/setup` in your browser. If 404 is returned, please check whether the rewrite rules works correctly.
-5. Follow the setup wizard and your website is ready-to-go.
+Please read [Installation Guide](https://blessing.netlify.app/en/setup.html).
 
 ## Plugin System
 
@@ -107,6 +104,13 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
         <a href="">
           <img src="https://pic1.afdiancdn.com/default/avatar/avatar-purple.png" width="120" height="120">
           <br>
+          graytoowolf
+        </a>
+      </td>
+      <td align=center>
+        <a href="">
+          <img src="https://pic1.afdiancdn.com/default/avatar/avatar-purple.png" width="120" height="120">
+          <br>
           爱发电用户_9JTs
         </a>
       </td>
@@ -144,45 +148,28 @@ Currently you can sponsor us via [爱发电](https://afdian.net/@blessing-skin).
   </tbody>
 </table>
 
-## Developer Install
+## Build From Source
 
-Please refer to [here](https://blessing.netlify.com/build.html).
-
-## Configure the Web Server
-
-For Apache (most of the virtual hosts) users, there is already a pre-configured file for you. What you need is just to enjoy!
-
-For Nginx users, **please add the following rules** to your Nginx configuration file:
-
-```
-location / {
-    try_files $uri $uri/ /index.php?$query_string;
-}
-
-location ~ /\.env {
-    deny all;
-}
-```
-
-## Mod Configuration
-
-Please refer to [Mod Configuration](https://blessing.netlify.com/en/mod.html).
-
-![screenshot](https://img.blessing.studio/images/2017/07/29/2017-06-16_15.54.16.png)
+Please refer to [Manual Build](https://blessing.netlify.app/build.html).
 
 ## Internationalization
 
-Blessing Skin supports multiple languages, while currently supporting English (`en`) and Simplified Chinese (`zh_CN`).
+Blessing Skin supports multiple languages, while currently supporting English, Simplified Chinese and Spanish.
 
-Of course, you can add your own language. Please check [Add other language [i18n]](https://blessing.netlify.com/i18n.html) (Simplified Chinese only).
+Of course, you can add your own language. Please check [Add other language [i18n]](https://blessing.netlify.app/i18n.html) (Simplified Chinese only).
 
 If you are willing to contribute your translation, welcome to join [our Crowdin project](https://crowdin.com/project/blessing-skin).
 
 ## Report Bugs
 
-Read [FAQ](https://blessing.netlify.com/faq.html) and double check if your situation doesn't suit any case mentioned there before reporting.
+Read [FAQ](https://blessing.netlify.app/faq.html) and double check if your situation doesn't suit any case mentioned there before reporting.
 
-When reporting a problem, please attach your log file (located at `storage/logs/laravel.log`) and the information of your server where the error occured on. You should also read this [guide](https://blessing.netlify.com/report.html) before reporting a problem.
+When reporting a problem, please attach your log file (located at `storage/logs/laravel.log`) and the information of your server where the error occured on. You should also read this [guide](https://blessing.netlify.app/report.html) before reporting a problem.
+
+## Related Links
+
+- [User Manual](https://blessing.netlify.app/en/)
+- [Plugins Development Documentation](https://bs-plugin.netlify.app/)
 
 ## Copyright & License
 

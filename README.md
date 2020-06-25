@@ -37,10 +37,10 @@ Blessing Skin 是一个开源的 PHP 项目，这意味着您可以自由地在�
 
 ## 环境要求
 
-Blessing Skin 对您的服务器有一定的要求。_在大多数情况下，下列所需的 PHP 扩展已经开启。_
+Blessing Skin 对您的服务器有一定的要求。在大多数情况下，下列所需的 PHP 扩展已经开启。
 
 - 一台支持 URL 重写的主机，Nginx 或 Apache
-- **PHP >= 7.2.5** [（服务器不支持？）](https://blessing.netlify.com/versions.html)
+- PHP >= 7.2.5
 - 安装并启用如下 PHP 扩展：
     - OpenSSL
     - PDO
@@ -55,9 +55,7 @@ Blessing Skin 对您的服务器有一定的要求。_在大多数情况下，�
 
 ## 快速使用
 
-请参阅 [安装指南](https://blessing.netlify.com/setup.html)。
-
-![screenshot](https://img.blessing.studio/images/2017/07/29/2017-06-16_15.54.16.png)
+请参阅 [安装指南](https://blessing.netlify.app/setup.html)。
 
 ## 插件系统
 
@@ -100,6 +98,13 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
           <img src="https://pic1.afdiancdn.com/user/ad213afe31b311e991c252540025c377/avatar/cb8f7ef0832124d336839cdb4a784e14_w2000_h2000_s1992.jpg" width="120" height="120">
           <br>
           HyperCol
+        </a>
+      </td>
+      <td align=center>
+        <a href="">
+          <img src="https://pic1.afdiancdn.com/default/avatar/avatar-purple.png" width="120" height="120">
+          <br>
+          graytoowolf
         </a>
       </td>
       <td align=center>
@@ -151,7 +156,7 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
 
 ## 国际化（i18n）
 
-Blessing Skin 可支持多种语言，当前支持英语（`en`）和简体中文（`zh_CN`）。
+Blessing Skin 可支持多种语言，当前支持英语、简体中文和西班牙语。
 
 当然，您也可以添加您自己的语言。请参阅 [添加其它语言](https://blessing.netlify.com/i18n.html)
 
@@ -160,6 +165,11 @@ Blessing Skin 可支持多种语言，当前支持英语（`en`）和简体中�
 ## 问题报告
 
 请参阅 [报告问题的正确姿势](https://blessing.netlify.com/report.html)。
+
+## 相关链接
+
+- [用户手册](https://blessing.netlify.app/)
+- [插件开发文档](https://bs-plugin.netlify.app/)
 
 ## 版权
 
