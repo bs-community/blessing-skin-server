@@ -158,8 +158,6 @@ Blessing Skin 提供了强大的插件系统，您可以通过添加多种多样
 
 Blessing Skin 可支持多种语言，当前支持英语、简体中文和西班牙语。
 
-当然，您也可以添加您自己的语言。请参阅 [添加其它语言](https://blessing.netlify.com/i18n.html)
-
 如果您愿意将您的翻译贡献出来，欢迎参与 [我们的 Crowdin 项目](https://crowdin.com/project/blessing-skin)。
 
 ## 问题报告

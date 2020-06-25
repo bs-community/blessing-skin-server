@@ -156,8 +156,6 @@ Please refer to [Manual Build](https://blessing.netlify.app/build.html).
 
 Blessing Skin supports multiple languages, while currently supporting English, Simplified Chinese and Spanish.
 
-Of course, you can add your own language. Please check [Add other language [i18n]](https://blessing.netlify.app/i18n.html) (Simplified Chinese only).
-
 If you are willing to contribute your translation, welcome to join [our Crowdin project](https://crowdin.com/project/blessing-skin).
 
 ## Report Bugs
