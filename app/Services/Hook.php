@@ -97,6 +97,7 @@ class Hook
         });
     }
 
+    /** @deprecated */
     public static function addUserBadge(string $text, $color = 'primary'): void
     {
         resolve(Filter::class)->add('user_badges', function ($badges) use ($text, $color) {
