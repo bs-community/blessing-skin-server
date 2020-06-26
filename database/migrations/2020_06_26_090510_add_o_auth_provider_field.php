@@ -8,15 +8,10 @@ class AddOAuthProviderField extends Migration
 {
     public function up()
     {
-        Schema::table('oauth_clients', function (Blueprint $table) {
-            $table->string('provider')->after('secret')->nullable();
-        });
-    }
-
-    public function down()
-    {
-        Schema::table('oauth_clients', function (Blueprint $table) {
-            $table->removeColumn('provider');
-        });
+        if (!Schema::hasColumn('oauth_clients', 'provider')) {
+            Schema::table('oauth_clients', function (Blueprint $table) {
+                $table->string('provider')->after('secret')->nullable();
+            });
+        }
     }
 }

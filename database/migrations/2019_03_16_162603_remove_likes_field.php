@@ -14,8 +14,4 @@ class RemoveLikesField extends Migration
             });
         }
     }
-
-    public function down()
-    {
-    }
 }
