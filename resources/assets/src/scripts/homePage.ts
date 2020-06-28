@@ -31,7 +31,9 @@ export async function logout() {
 
 /* istanbul ignore next */
 if (process.env.NODE_ENV !== 'test') {
-  const { transparent_navbar }: { transparent_navbar: boolean } = getExtraData()
+  const { transparent_navbar } = getExtraData() as {
+    transparent_navbar: boolean
+  }
   if (transparent_navbar) {
     window.addEventListener('load', scrollHander)
   }
