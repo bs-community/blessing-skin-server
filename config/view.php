@@ -14,8 +14,8 @@ return [
     */
 
     'paths' => [
-        realpath(base_path('resources/views/overrides')),
-        realpath(base_path('resources/views')),
+        resource_path('views/overrides'),
+        resource_path('views'),
     ],
 
     /*
