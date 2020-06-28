@@ -11,20 +11,21 @@ use Lorisleiva\LaravelSearchString\Concerns\SearchString;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
- * @property int        $uid
- * @property string     $email
- * @property string     $password
- * @property string     $nickname
- * @property int        $avatar
- * @property int        $score
- * @property int        $permission
- * @property string     $ip
- * @property string     $last_sign_at
- * @property string     $register_at
- * @property bool       $verified
- * @property string     $player_name
- * @property Collection $players
- * @property Collection $closet
+ * @property int         $uid
+ * @property string      $email
+ * @property string      $password
+ * @property string      $nickname
+ * @property string|null $locale
+ * @property int         $avatar
+ * @property int         $score
+ * @property int         $permission
+ * @property string      $ip
+ * @property string      $last_sign_at
+ * @property string      $register_at
+ * @property bool        $verified
+ * @property string      $player_name
+ * @property Collection  $players
+ * @property Collection  $closet
  */
 class User extends Authenticatable implements JWTSubject
 {

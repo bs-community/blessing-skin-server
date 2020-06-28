@@ -2,6 +2,7 @@ export type User = {
   uid: number
   email: string
   nickname: string
+  user: string | null
   score: number
   avatar: number
   permission: UserPermission
