@@ -40,7 +40,7 @@ class UserControllerTest extends TestCase
             ->assertSee($announcement, false);
         $filter->assertApplied('grid:user.index');
         $filter->assertApplied('user_avatar', function ($url, $user) use ($uid) {
-            $this->assertTrue(Str::contains($url, '/avatar/user/'.$uid));
+            $this->assertTrue(Str::contains($url, '/avatar/'.$user->avatar));
             $this->assertEquals($uid, $user->uid);
 
             return true;

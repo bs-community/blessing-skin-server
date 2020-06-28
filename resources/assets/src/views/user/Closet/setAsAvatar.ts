@@ -21,7 +21,9 @@ export default async function setAsAvatar(tid: number) {
     toast.success(message)
     document
       .querySelectorAll<HTMLImageElement>('[alt="User Image"]')
-      .forEach((el) => (el.src += `?${new Date().getTime()}`))
+      .forEach((el) => {
+        el.src = `${blessing.base_url}/avatar/${tid}`
+      })
   } else {
     toast.error(message)
   }

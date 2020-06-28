@@ -319,7 +319,10 @@ describe('set avatar', () => {
     )
     expect(queryByText('success')).toBeInTheDocument()
     expect(getByRole('status')).toHaveClass('alert-success')
-    expect(document.querySelector('[alt="User Image"]')).toHaveAttribute('src')
+    expect(document.querySelector('[alt="User Image"]')).toHaveAttribute(
+      'src',
+      `/avatar/${fixtureSkin.tid}`,
+    )
   })
 
   it('failed', async () => {

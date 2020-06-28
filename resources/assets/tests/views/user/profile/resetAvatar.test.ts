@@ -16,5 +16,5 @@ test('reset avatar', async () => {
   await resetAvatar()
   expect(post).toBeCalledWith('/user/profile/avatar', { tid: 0 })
   expect(toast.success).toBeCalledWith('ok')
-  expect(document.querySelector('img')!.src).toMatch(/\d+$/)
+  expect(document.querySelector('img')!.src).toBe('/avatar/0')
 })

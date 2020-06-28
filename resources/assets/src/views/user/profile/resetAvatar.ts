@@ -16,6 +16,6 @@ export default async function resetAvatar() {
   document
     .querySelectorAll<HTMLImageElement>('[alt="User Image"]')
     .forEach((el) => {
-      el.src += `?${new Date().getTime()}`
+      el.src = `${blessing.base_url}/avatar/0`
     })
 }

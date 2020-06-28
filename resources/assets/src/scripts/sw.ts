@@ -38,8 +38,8 @@ registerRoute(
 )
 
 registerRoute(
-  /\/avatar\/user\/\d+/,
-  new StaleWhileRevalidate({
+  /\/avatar\/\d+/,
+  new CacheFirst({
     cacheName: 'avatar-v2',
     fetchOptions: {
       credentials: 'omit',
