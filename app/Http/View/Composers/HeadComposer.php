@@ -141,7 +141,6 @@ class HeadComposer
             'base_url' => url('/'),
             'site_name' => option_localized('site_name'),
             'route' => request()->path(),
-            'i18n' => new \stdClass(),
         ];
         $view->with('blessing', $blessing);
     }

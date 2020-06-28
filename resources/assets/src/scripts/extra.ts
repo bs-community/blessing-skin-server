@@ -1,12 +1,11 @@
-export function getExtraData(): any {
+export function getExtraData(): Record<string, any> {
   const jsonElement = document.querySelector('#blessing-extra')
   /* istanbul ignore next */
   if (jsonElement) {
     return JSON.parse(jsonElement.textContent ?? '{}')
+  } else {
+    return {}
   }
 }
 
-const extraData = getExtraData()
-if (extraData) {
-  blessing.extra = extraData
-}
+blessing.extra = getExtraData()
