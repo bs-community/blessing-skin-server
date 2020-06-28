@@ -48,26 +48,26 @@ class HookTest extends TestCase
     {
         Hook::addStyleFileToPage('/style/all');
         $this->get('/')
-            ->assertSee('<link rel="stylesheet" href="/style/all">', false);
+            ->assertSee('<link rel="stylesheet" href="/style/all" crossorigin="anonymous">', false);
 
         Hook::addStyleFileToPage('/style/pattern', ['skinlib']);
         $this->get('/')
             ->assertDontSee('<link rel="stylesheet" href="/style/pattern">');
         $this->get('/skinlib')
-            ->assertSee('<link rel="stylesheet" href="/style/pattern">', false);
+            ->assertSee('<link rel="stylesheet" href="/style/pattern" crossorigin="anonymous">', false);
     }
 
     public function testAddScriptFileToPage()
     {
         Hook::addScriptFileToPage('/script/all');
         $this->get('/')
-            ->assertSee('<script src="/script/all"></script>', false);
+            ->assertSee('<script src="/script/all" crossorigin="anonymous"></script>', false);
 
         Hook::addScriptFileToPage('/script/pattern', ['skinlib']);
         $this->get('/')
-            ->assertDontSee('<script src="/script/pattern"></script>');
+            ->assertDontSee('<script src="/script/pattern" crossorigin="anonymous"></script>');
         $this->get('/skinlib')
-            ->assertSee('<script src="/script/pattern"></script>', false);
+            ->assertSee('<script src="/script/pattern" crossorigin="anonymous"></script>', false);
     }
 
     public function testAddUserBadge()
