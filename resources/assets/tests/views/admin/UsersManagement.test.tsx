@@ -13,6 +13,7 @@ const fixture: Readonly<User> = Object.freeze<User>({
   uid: 1,
   email: 'a@b.c',
   nickname: 'abc',
+  locale: 'en',
   score: 1000,
   avatar: 0,
   permission: UserPermission.Normal,
