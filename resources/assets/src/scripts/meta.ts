@@ -4,6 +4,6 @@
   window.blessing = JSON.parse(blessingElement.textContent!)
 
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js?v4')
+    navigator.serviceWorker.register('/sw.js?v5')
   })
 }
