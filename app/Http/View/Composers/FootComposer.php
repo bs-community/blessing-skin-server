@@ -74,7 +74,7 @@ class FootComposer
             ];
         }
         $scripts[] = [
-            'src' => 'https://cdn.jsdelivr.net/npm/@blessing-skin/admin-lte@3.0/dist/admin-lte.min.js',
+            'src' => 'https://cdn.jsdelivr.net/npm/@blessing-skin/admin-lte@3.0.4/dist/admin-lte.min.js',
             'integrity' => 'sha256-lEpMZPtZ0RgHYZFOcJeX94WMegvHJ+beF5V7XtCcWxY=',
             'crossorigin' => 'anonymous',
         ];

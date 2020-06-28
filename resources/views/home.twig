@@ -150,7 +150,7 @@
     </div>
 
     {% if home_page_css_loader %}
-      <script src="{{ home_page_css_loader }}"></script>
+      <script src="{{ home_page_css_loader }}" crossorigin="anonymous"></script>
     {% endif %}
     <script type="application/json" id="blessing-extra">
       {{ {transparent_navbar: transparent_navbar}|json_encode|raw }}

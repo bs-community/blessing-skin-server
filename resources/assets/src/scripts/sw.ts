@@ -6,11 +6,14 @@ import {
 } from 'workbox-strategies'
 import { ExpirationPlugin } from 'workbox-expiration'
 
+const oneWeek = 7 * 24 * 3600
+
 if (process.env.NODE_ENV === 'development') {
   registerRoute(/\.js/, new NetworkOnly())
   registerRoute(/\.css/, new NetworkOnly())
 }
 
+//#region Pictures
 registerRoute(
   /\/preview\/\d+/,
   new CacheFirst({
@@ -18,7 +21,9 @@ registerRoute(
     fetchOptions: {
       credentials: 'omit',
     },
-    plugins: [new ExpirationPlugin({ maxAgeSeconds: 7 * 24 * 60 * 60 })],
+    plugins: [
+      new ExpirationPlugin({ maxAgeSeconds: oneWeek, purgeOnQuotaError: true }),
+    ],
   }),
 )
 
@@ -39,45 +44,96 @@ registerRoute(
     fetchOptions: {
       credentials: 'omit',
     },
+    plugins: [new ExpirationPlugin({ maxAgeSeconds: oneWeek })],
   }),
 )
 
-registerRoute(/.+\/\d+\.js$/, new NetworkOnly())
+//#endregion
 
+//#region jsDelivr
 registerRoute(
-  /\/app\/\w{2,3}\.\w{7}\.js$/,
+  /.*cdn\.jsdelivr\.net/,
+  new CacheFirst({
+    cacheName: 'jsdelivr-v1',
+    fetchOptions: {
+      credentials: 'omit',
+      mode: 'cors',
+    },
+    plugins: [
+      new ExpirationPlugin({ maxAgeSeconds: oneWeek, purgeOnQuotaError: true }),
+    ],
+  }),
+)
+//#endregion
+
+//#region JavaScript files
+registerRoute(
+  /.+\/app\/\w{2,3}\.\w{7}\.js$/,
   new CacheFirst({
     cacheName: 'javascript-v1',
     fetchOptions: {
       credentials: 'omit',
+      mode: 'cors',
     },
+    plugins: [
+      new ExpirationPlugin({ maxAgeSeconds: oneWeek, purgeOnQuotaError: true }),
+    ],
   }),
 )
-
 registerRoute(
-  ({ request }) => request.destination === 'script',
+  /.+\/plugins\/.+\.js$/,
   new StaleWhileRevalidate({
     cacheName: 'javascript-v1',
     fetchOptions: {
       credentials: 'omit',
+      mode: 'cors',
     },
+    plugins: [
+      new ExpirationPlugin({ maxAgeSeconds: oneWeek, purgeOnQuotaError: true }),
+    ],
+  }),
+)
+//#endregion
+
+//#region CSS files
+registerRoute(
+  /.+\/app\/.*\.css$/,
+  new CacheFirst({
+    cacheName: 'stylesheet-v1',
+    fetchOptions: {
+      credentials: 'omit',
+      mode: 'cors',
+    },
+    plugins: [
+      new ExpirationPlugin({ maxAgeSeconds: oneWeek, purgeOnQuotaError: true }),
+    ],
   }),
 )
 registerRoute(
-  ({ request }) => request.destination === 'style',
+  /.+\/plugins\/.+\.css$/,
   new StaleWhileRevalidate({
     cacheName: 'stylesheet-v1',
     fetchOptions: {
       credentials: 'omit',
+      mode: 'cors',
     },
+    plugins: [
+      new ExpirationPlugin({ maxAgeSeconds: oneWeek, purgeOnQuotaError: true }),
+    ],
   }),
 )
+//#endregion
+
+//#region Fonts
 registerRoute(
   ({ request }) => request.destination === 'font',
   new StaleWhileRevalidate({
     cacheName: 'font-v1',
     fetchOptions: {
       credentials: 'omit',
+      mode: 'cors',
     },
+    plugins: [new ExpirationPlugin({ maxEntries: 12 })],
   }),
 )
+//#endregion

@@ -71,7 +71,11 @@ class Hook
             });
             if ($matched) {
                 $urls->each(function ($url) use (&$links) {
-                    $links[] = ['rel' => 'stylesheet', 'href' => $url];
+                    $links[] = [
+                        'rel' => 'stylesheet',
+                        'href' => $url,
+                        'crossorigin' => 'anonymous',
+                    ];
                 });
             }
 
@@ -89,7 +93,7 @@ class Hook
             });
             if ($matched) {
                 $urls->each(function ($url) use (&$scripts) {
-                    $scripts[] = ['src' => $url];
+                    $scripts[] = ['src' => $url, 'crossorigin' => 'anonymous'];
                 });
             }
 
