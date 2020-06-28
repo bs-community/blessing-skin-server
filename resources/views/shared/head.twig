@@ -8,7 +8,7 @@
 {{ seo.extra|striptags('<meta>')|raw }}
 <link rel="preconnect" href="https://cdn.jsdelivr.net/" crossorigin>
 {% if custom_cdn_host %}
-  <link rel="preconnect" href="{{ custom_cdn_host }}" crossorigin>
+  <link rel="preconnect" href="{{ custom_cdn_host }}" id="cdn-host" crossorigin>
 {% endif %}
 <script id="blessing-globals" type="application/json">{{ blessing|json_encode|raw }}</script>
 <script src="{{ url('/meta.js') }}"></script>

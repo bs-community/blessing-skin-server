@@ -1,13 +1,14 @@
 /* eslint-disable prefer-const */
 /* eslint-disable @typescript-eslint/camelcase */
 
-// @ts-ignore
 declare let __webpack_public_path__: string
 
-const url = new URL(blessing.base_url)
-url.port = '8080'
-
-__webpack_public_path__ =
-  process.env.NODE_ENV === 'development'
-    ? url.toString()
-    : `${blessing.base_url}/app/`
+if (process.env.NODE_ENV === 'development') {
+  const url = new URL(blessing.base_url)
+  url.port = '8080'
+  __webpack_public_path__ = url.toString()
+} else {
+  const link = document.querySelector<HTMLLinkElement>('link#cdn-host')
+  const base = link?.href ?? blessing.base_url
+  __webpack_public_path__ = `${base}/app/`
+}
