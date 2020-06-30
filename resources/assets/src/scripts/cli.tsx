@@ -70,7 +70,7 @@ const TerminalWindow: React.FC<{ onClose(): void }> = (props) => {
     programs.set('dnf', DnfCommand)
     programs.set('pacman', PacmanCommand)
     programs.set('rm', RmCommand)
-    event.emit('registerCLIPrgrams', programs)
+    event.emit('registerCLIPrograms', programs)
 
     const shell = new Shell(terminal)
     programs.forEach((program, name) => {
