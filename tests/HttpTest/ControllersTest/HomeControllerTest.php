@@ -5,7 +5,6 @@ namespace Tests;
 use App\Events\RenderingFooter;
 use App\Events\RenderingHeader;
 use Illuminate\Support\Facades\Event;
-use stdClass;
 
 class HomeControllerTest extends TestCase
 {
@@ -23,11 +22,6 @@ class HomeControllerTest extends TestCase
             $event->addContent('testing custom header');
         });
         $this->get('/')->assertSee('testing custom header');
-
-        Event::listen(RenderingHeader::class, function (RenderingHeader $event) {
-            $event->addContent(new stdClass());
-        });
-        $this->get('/');
     }
 
     public function testRenderingFooterEvent()
@@ -36,11 +30,6 @@ class HomeControllerTest extends TestCase
             $event->addContent('testing custom footer');
         });
         $this->get('/')->assertSee('testing custom footer');
-
-        Event::listen(RenderingFooter::class, function (RenderingFooter $event) {
-            $event->addContent(new stdClass());
-        });
-        $this->get('/');
     }
 
     public function testApiRoot()
