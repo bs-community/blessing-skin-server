@@ -48,7 +48,7 @@ Route::prefix('user')
     ->middleware(['authorize'])
     ->group(function () {
         Route::get('', 'UserController@index')->name('home');
-        Route::get('notifications/{id}', 'NotificationsController@read')->name('notification');
+        Route::post('notifications/{id}', 'NotificationsController@read')->name('notification');
         Route::get('score-info', 'UserController@scoreInfo')->name('score');
         Route::post('sign', 'UserController@sign')->name('sign');
 

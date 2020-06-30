@@ -12,7 +12,7 @@ Route::prefix('user')->middleware('auth:jwt,oauth')->group(function () {
     Route::get('', 'UserController@user');
 
     Route::get('notifications', 'NotificationsController@all');
-    Route::get('notifications/{id}', 'NotificationsController@read');
+    Route::post('notifications/{id}', 'NotificationsController@read');
 });
 
 Route::prefix('players')->middleware('auth:jwt,oauth')->group(function () {

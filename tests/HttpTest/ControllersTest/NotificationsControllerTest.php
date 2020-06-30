@@ -114,7 +114,7 @@ class NotificationsControllerTest extends TestCase
 
         $this->actingAs($user)->get('/user')->assertSee('Hyouka');
 
-        $this->get('/user/notifications/'.$notification->id)
+        $this->postJson('/user/notifications/'.$notification->id)
             ->assertJson([
                 'title' => $notification->data['title'],
                 'content' => (new Parsedown())->text($notification->data['content']),
