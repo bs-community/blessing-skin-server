@@ -17,7 +17,8 @@ class PluginEnableCommand extends Command
         $result = $plugins->enable($name);
         if ($result === true) {
             $plugin = $plugins->get($name);
-            $this->info(trans('admin.plugins.operations.enabled', ['plugin' => $plugin->title]));
+            $title = trans($plugin->title);
+            $this->info(trans('admin.plugins.operations.enabled', ['plugin' => $title]));
         } elseif ($result === false) {
             $this->warn(trans('admin.plugins.operations.not-found'));
         }

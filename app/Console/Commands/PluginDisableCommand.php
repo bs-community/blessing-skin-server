@@ -16,7 +16,8 @@ class PluginDisableCommand extends Command
         $plugin = $plugins->get($this->argument('name'));
         if ($plugin) {
             $plugins->disable($this->argument('name'));
-            $this->info(trans('admin.plugins.operations.disabled', ['plugin' => $plugin->title]));
+            $title = trans($plugin->title);
+            $this->info(trans('admin.plugins.operations.disabled', ['plugin' => $title]));
         } else {
             $this->warn(trans('admin.plugins.operations.not-found'));
         }
