@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import styled from '@emotion/styled'
 import { Terminal } from 'xterm'
 import { FitAddon } from 'xterm-addon-fit'
-import { Shell } from 'blessing-skin-shell'
+import { Shell, Stdio } from 'blessing-skin-shell'
 import 'xterm/css/xterm.css'
 import Draggable from 'react-draggable'
 import * as event from './event'
@@ -64,12 +64,18 @@ const TerminalWindow: React.FC<{ onClose(): void }> = (props) => {
     terminal.open(el)
     fitAddon.fit()
 
+    const programs = new Map<string, (stdio: Stdio, args: string[]) => void>()
+    programs.set('apt', AptCommand)
+    programs.set('closet', ClosetCommand)
+    programs.set('dnf', DnfCommand)
+    programs.set('pacman', PacmanCommand)
+    programs.set('rm', RmCommand)
+    event.emit('registerCLIPrgrams', programs)
+
     const shell = new Shell(terminal)
-    shell.addExternal(AptCommand.name, AptCommand)
-    shell.addExternal('closet', ClosetCommand)
-    shell.addExternal(DnfCommand.name, DnfCommand)
-    shell.addExternal(PacmanCommand.name, PacmanCommand)
-    shell.addExternal('rm', RmCommand)
+    programs.forEach((program, name) => {
+      shell.addExternal(name, program)
+    })
 
     const unbindData = terminal.onData((e) => shell.input(e))
     const unbindKey = terminal.onKey((e) =>
