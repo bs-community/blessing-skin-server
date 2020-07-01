@@ -41,6 +41,9 @@ async function createChart(el: HTMLDivElement) {
         minInterval: 1,
         boundaryGap: false,
         position: 'left',
+        splitLine: {
+          show: false,
+        },
         axisPointer: {
           label: {
             precision: 0,
@@ -52,6 +55,9 @@ async function createChart(el: HTMLDivElement) {
         minInterval: 1,
         boundaryGap: false,
         position: 'right',
+        splitLine: {
+          show: false,
+        },
         axisPointer: {
           label: {
             precision: 0,
