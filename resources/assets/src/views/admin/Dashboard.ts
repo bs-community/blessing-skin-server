@@ -41,12 +41,22 @@ async function createChart(el: HTMLDivElement) {
         minInterval: 1,
         boundaryGap: false,
         position: 'left',
+        axisPointer: {
+          label: {
+            precision: 0,
+          },
+        },
       },
       {
         type: 'value',
         minInterval: 1,
         boundaryGap: false,
         position: 'right',
+        axisPointer: {
+          label: {
+            precision: 0,
+          },
+        },
       },
     ],
     series: [
