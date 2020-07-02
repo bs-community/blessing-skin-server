@@ -10,8 +10,12 @@
       "@/*": ["./resources/assets/src/*"]
     }
   },
-  "include": [
-    "resources/assets/src",
-    "resources/assets/webpack.d.ts"
-  ]
+  "include": ["resources/assets/src", "resources/assets/webpack.d.ts"],
+  "ts-node": {
+    "compilerOptions": {
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
+      "module": "commonjs"
+    }
+  }
 }

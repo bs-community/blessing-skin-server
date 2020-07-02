@@ -15,7 +15,7 @@
     "lint": "eslint --ext=ts -f=beauty .",
     "fmt": "prettier --write resources/assets",
     "test": "jest",
-    "build:urls": "ts-node -P tsconfig.node.json scripts/generateUrls.ts"
+    "build:urls": "ts-node scripts/generateUrls.ts"
   },
   "dependencies": {
     "@emotion/core": "^10.0.28",
