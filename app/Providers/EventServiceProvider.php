@@ -33,5 +33,8 @@ class EventServiceProvider extends ServiceProvider
         'closet.removed' => [
             Listeners\ResetPlayerForRemovedClosetItem::class,
         ],
+        'Illuminate\Auth\Events\Authenticated' => [
+            Listeners\SetAppLocale::class,
+        ],
     ];
 }

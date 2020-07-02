@@ -8,6 +8,7 @@ $factory->define(User::class, function (Faker\Generator $faker) {
     return [
         'email' => $faker->email,
         'nickname' => $faker->name,
+        'locale' => null,
         'score' => 1000,
         'avatar' => 0,
         'password' => app('cipher')->hash(Str::random(10), config('secure.salt')),
