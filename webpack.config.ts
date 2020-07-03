@@ -1,13 +1,12 @@
-const path = require('path')
-const webpack = require('webpack')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const TerserJSPlugin = require('terser-webpack-plugin')
-const ManifestPlugin = require('webpack-manifest-plugin')
+import * as path from 'path'
+import * as webpack from 'webpack'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
+import TerserJSPlugin from 'terser-webpack-plugin'
+import ManifestPlugin from 'webpack-manifest-plugin'
 
 const devMode = !process.argv.includes('-p')
 
-/** @type {import('webpack').Configuration} */
-const config = {
+const config: webpack.Configuration = {
   mode: devMode ? 'development' : 'production',
   entry: {
     app: ['react-hot-loader/patch', '@/index.tsx'],
@@ -82,7 +81,7 @@ const config = {
           react: 'React',
           'react-dom': 'ReactDOM',
         },
-  ),
+  ) as Record<string, string>,
   optimization: {
     minimizer: [new TerserJSPlugin({})],
   },
@@ -104,10 +103,10 @@ const config = {
 }
 
 if (devMode) {
-  config.plugins.push(new webpack.NamedModulesPlugin())
-  config.plugins.push(new webpack.HotModuleReplacementPlugin())
+  config.plugins!.push(new webpack.NamedModulesPlugin())
+  config.plugins!.push(new webpack.HotModuleReplacementPlugin())
 } else {
-  config.plugins.push(new ManifestPlugin())
+  config.plugins!.push(new ManifestPlugin())
 }
 
-module.exports = config
+export default config

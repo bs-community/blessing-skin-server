@@ -1,6 +1,8 @@
+import * as webpack from 'webpack'
+
 const devMode = !process.argv.includes('-p')
 
-module.exports = {
+const config: webpack.Configuration = {
   mode: devMode ? 'development' : 'production',
   entry: {
     meta: './resources/assets/src/scripts/meta.ts',
@@ -27,3 +29,5 @@ module.exports = {
   },
   stats: 'errors-only',
 }
+
+export default config
