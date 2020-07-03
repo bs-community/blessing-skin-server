@@ -91,8 +91,8 @@ class HeadComposer
         $links = [];
         $links[] = [
             'rel' => 'stylesheet',
-            'href' => 'https://cdn.jsdelivr.net/npm/@blessing-skin/admin-lte@3.0.4/dist/admin-lte.min.css',
-            'integrity' => 'sha256-nr8InsK/i0Skb3n3yHCVwEnsmblkae4Rs9aFJ4/JTWE=',
+            'href' => 'https://cdn.jsdelivr.net/npm/@blessing-skin/admin-lte@3.0.5/dist/admin-lte.min.css',
+            'integrity' => 'sha256-zG+BobiRcnWbKPGtQ++LoogyH9qSHjhBwhbFFP8HbDM=',
             'crossorigin' => 'anonymous',
         ];
         $links[] = [

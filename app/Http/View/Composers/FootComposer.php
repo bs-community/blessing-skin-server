@@ -74,8 +74,8 @@ class FootComposer
             ];
         }
         $scripts[] = [
-            'src' => 'https://cdn.jsdelivr.net/npm/@blessing-skin/admin-lte@3.0.4/dist/admin-lte.min.js',
-            'integrity' => 'sha256-lEpMZPtZ0RgHYZFOcJeX94WMegvHJ+beF5V7XtCcWxY=',
+            'src' => 'https://cdn.jsdelivr.net/npm/@blessing-skin/admin-lte@3.0.5/dist/admin-lte.min.js',
+            'integrity' => 'sha256-8RoBtV28TLYWlTMCRwqGv4NQW9bgc4jZphsQV3iLV4g=',
             'crossorigin' => 'anonymous',
         ];
         if ($this->request->is('/')) {
