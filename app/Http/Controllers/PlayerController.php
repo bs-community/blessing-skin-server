@@ -53,9 +53,13 @@ class PlayerController extends Controller
         ];
         $grid = $filter->apply('grid:user.player', $grid);
 
+        /** @var User */
+        $user = auth()->user();
+
         return view('user.player')
             ->with('grid', $grid)
             ->with('extra', [
+                'count' => $user->players()->count(),
                 'rule' => trans('user.player.player-name-rule.'.option('player_name_rule')),
                 'length' => trans(
                     'user.player.player-name-length',

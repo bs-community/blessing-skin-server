@@ -23,6 +23,7 @@ beforeEach(() => {
   document.body.appendChild(container)
 
   blessing.extra = {
+    count: 1,
     rule: 'please follow the rule',
     length: 'greater than 3',
     score: 1000,
@@ -32,12 +33,6 @@ beforeEach(() => {
 
 afterEach(() => {
   document.querySelector('#previewer')!.remove()
-})
-
-test('loading indicator', () => {
-  fetch.get.mockResolvedValue([])
-  const { queryByTitle } = render(<Players />)
-  expect(queryByTitle('Loading...')).toBeInTheDocument()
 })
 
 test('search players', async () => {

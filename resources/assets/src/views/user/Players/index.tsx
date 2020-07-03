@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { hot } from 'react-hot-loader/root'
+import useBlessingExtra from '@/scripts/hooks/useBlessingExtra'
 import useEmitMounted from '@/scripts/hooks/useEmitMounted'
 import useTexture from '@/scripts/hooks/useTexture'
 import { t } from '@/scripts/i18n'
@@ -7,8 +8,8 @@ import * as fetch from '@/scripts/net'
 import { showModal, toast } from '@/scripts/notify'
 import { Player, TextureType } from '@/scripts/types'
 import urls from '@/scripts/urls'
-import Loading from '@/components/Loading'
 import Row from './Row'
+import LoadingRow from './LoadingRow'
 import Previewer from './Previewer'
 import ModalAddPlayer from './ModalAddPlayer'
 import ModalReset from './ModalReset'
@@ -22,6 +23,7 @@ const Players: React.FC = () => {
   const [search, setSearch] = useState('')
   const [showModalAddPlayer, setShowModalAddPlayer] = useState(false)
   const [showModalReset, setShowModalReset] = useState(false)
+  const playersCount = useBlessingExtra<number>('count')
 
   useEmitMounted()
 
@@ -157,7 +159,7 @@ const Players: React.FC = () => {
   const closeModalReset = () => setShowModalReset(false)
 
   return (
-    <>
+    <React.Fragment>
       <div className="card">
         <div className="card-header">
           <input
@@ -177,10 +179,14 @@ const Players: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {players.length === 0 ? (
+              {isLoading ? (
+                new Array(playersCount)
+                  .fill(null)
+                  .map((_, i) => <LoadingRow key={i} />)
+              ) : players.length === 0 ? (
                 <tr>
                   <td className="text-center" colSpan={3}>
-                    {isLoading ? <Loading /> : t('general.noResult')}
+                    {t('general.noResult')}
                   </td>
                 </tr>
               ) : (
@@ -223,7 +229,7 @@ const Players: React.FC = () => {
         onSubmit={resetTexture}
         onClose={closeModalReset}
       />
-    </>
+    </React.Fragment>
   )
 }
 
