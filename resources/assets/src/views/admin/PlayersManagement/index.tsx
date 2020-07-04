@@ -7,11 +7,12 @@ import * as fetch from '@/scripts/net'
 import { Player, Paginator } from '@/scripts/types'
 import { toast, showModal } from '@/scripts/notify'
 import urls from '@/scripts/urls'
-import Loading from '@/components/Loading'
 import Pagination from '@/components/Pagination'
 import Header from '../UsersManagement/Header'
 import Card from './Card'
+import LoadingCard from './LoadingCard'
 import Row from './Row'
+import LoadingRow from './LoadingRow'
 import ModalUpdateTexture from './ModalUpdateTexture'
 
 const PlayersManagement: React.FC = () => {
@@ -205,15 +206,11 @@ const PlayersManagement: React.FC = () => {
           </label>
         </div>
       </Header>
-      {isLoading ? (
-        <div className="card-body">
-          <Loading />
-        </div>
-      ) : players.length === 0 ? (
+      {players.length === 0 && !isLoading ? (
         <div className="card-body text-center">{t('general.noResult')}</div>
       ) : isTableMode ? (
         <div className="card-body table-responsive p-0">
-          <table className="table table-striped">
+          <table className={`table ${isLoading ? '' : 'table-striped'}`}>
             <thead>
               <tr>
                 <th>PID</th>
@@ -225,8 +222,27 @@ const PlayersManagement: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {players.map((player, i) => (
-                <Row
+              {isLoading
+                ? new Array(10).fill(null).map((_, i) => <LoadingRow key={i} />)
+                : players.map((player, i) => (
+                    <Row
+                      key={player.pid}
+                      player={player}
+                      onUpdateName={() => handleUpdateName(player, i)}
+                      onUpdateOwner={() => handleUpdateOwner(player, i)}
+                      onUpdateTexture={() => setTextureUpdating(i)}
+                      onDelete={() => handleDelete(player)}
+                    />
+                  ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="card-body d-flex flex-wrap">
+          {isLoading
+            ? new Array(10).fill(null).map((_, i) => <LoadingCard key={i} />)
+            : players.map((player, i) => (
+                <Card
                   key={player.pid}
                   player={player}
                   onUpdateName={() => handleUpdateName(player, i)}
@@ -235,21 +251,6 @@ const PlayersManagement: React.FC = () => {
                   onDelete={() => handleDelete(player)}
                 />
               ))}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <div className="card-body d-flex flex-wrap">
-          {players.map((player, i) => (
-            <Card
-              key={player.pid}
-              player={player}
-              onUpdateName={() => handleUpdateName(player, i)}
-              onUpdateOwner={() => handleUpdateOwner(player, i)}
-              onUpdateTexture={() => setTextureUpdating(i)}
-              onDelete={() => handleDelete(player)}
-            />
-          ))}
         </div>
       )}
       <div className="card-footer">

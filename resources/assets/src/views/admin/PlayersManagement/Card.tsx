@@ -1,18 +1,8 @@
-/** @jsx jsx */
-import { jsx, css } from '@emotion/core'
+import React from 'react'
 import { t } from '@/scripts/i18n'
 import { showModal } from '@/scripts/notify'
 import { Player } from '@/scripts/types'
-import * as breakpoints from '@/styles/breakpoints'
-
-const style = css`
-  width: 48%;
-  margin: 7px;
-
-  ${breakpoints.lessThan(breakpoints.Breakpoint.lg)} {
-    width: 98%;
-  }
-`
+import { Box } from './styles'
 
 interface Props {
   player: Player
@@ -65,7 +55,7 @@ const Card: React.FC<Props> = (props) => {
   }
 
   return (
-    <div className="info-box" css={style}>
+    <Box className="info-box">
       <div className="info-box-icon">
         <img
           className="bs-avatar"
@@ -149,7 +139,7 @@ const Card: React.FC<Props> = (props) => {
           </div>
         </div>
       </div>
-    </div>
+    </Box>
   )
 }
 
