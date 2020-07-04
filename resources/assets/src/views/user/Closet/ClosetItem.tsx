@@ -1,27 +1,8 @@
 import React from 'react'
-import styled from '@emotion/styled'
 import { t } from '@/scripts/i18n'
 import { ClosetItem } from '@/scripts/types'
 import setAsAvatar from './setAsAvatar'
-
-const Card = styled.div`
-  width: 235px;
-  transition-property: box-shadow;
-  transition-duration: 0.3s;
-
-  &:hover {
-    cursor: pointer;
-  }
-
-  .card-body {
-    background-color: #eff1f0;
-  }
-`
-const DropdownButton = styled.i`
-  :hover {
-    color: #000;
-  }
-`
+import { Card, DropdownButton } from './styles'
 
 interface Props {
   item: ClosetItem
@@ -55,13 +36,13 @@ const ClosetItem: React.FC<Props> = (props) => {
             {item.pivot.item_name}
           </span>
           <span className="d-inline-block drop-down">
-            <span
+            <DropdownButton
               data-toggle="dropdown"
               aria-haspopup="true"
               aria-expanded="false"
             >
-              <DropdownButton className="fas fa-cog text-gray" />
-            </span>
+              <i className="fas fa-cog" />
+            </DropdownButton>
             <div className="dropdown-menu">
               <a href="#" className="dropdown-item" onClick={props.onRename}>
                 {t('user.renameItem')}

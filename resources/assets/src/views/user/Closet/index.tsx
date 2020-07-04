@@ -12,9 +12,9 @@ import {
   TextureType,
 } from '@/scripts/types'
 import urls from '@/scripts/urls'
-import Loading from '@/components/Loading'
 import Pagination from '@/components/Pagination'
 import ClosetItem from './ClosetItem'
+import LoadingClosetItem from './LoadingClosetItem'
 import Previewer from './Previewer'
 import ModalApply from './ModalApply'
 import removeClosetItem from './removeClosetItem'
@@ -193,7 +193,11 @@ const Closet: React.FC = () => {
         </div>
         <div className="card-body">
           {isLoading ? (
-            <Loading />
+            <div className="d-flex flex-wrap">
+              {new Array(6).fill(null).map((_, i) => (
+                <LoadingClosetItem key={i} />
+              ))}
+            </div>
           ) : items.length === 0 ? (
             <div className="text-center p-3">
               {search ? (

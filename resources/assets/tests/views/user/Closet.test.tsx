@@ -63,12 +63,6 @@ afterEach(() => {
   document.querySelector('#previewer')!.remove()
 })
 
-test('loading indicator', () => {
-  fetch.get.mockResolvedValue(createPaginator([]))
-  const { queryByTitle } = render(<Closet />)
-  expect(queryByTitle('Loading...')).toBeInTheDocument()
-})
-
 test('empty closet', async () => {
   fetch.get.mockResolvedValue(createPaginator([]))
 
