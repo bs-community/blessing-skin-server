@@ -23,6 +23,15 @@ const Card = styled.div`
   }
 `
 
+const Badge = styled.span`
+  padding-top: 0.4rem;
+`
+
+const NickNameBadge = styled(Badge)`
+  ${cssUtils.pointerCursor}
+  max-width: 100px;
+`
+
 interface ButtonLikeProps {
   liked: boolean
 }
@@ -79,18 +88,17 @@ const Item: React.FC<Props> = (props) => {
             {item.name}
           </a>
           <div className="d-flex justify-content-between">
-            <div>
-              <span className="badge bg-teal py-1 mr-1">
+            <div className="d-flex">
+              <Badge className="badge bg-teal mr-1">
                 {humanizeType(item.type)}
-              </span>
-              <a
-                className="badge bg-indigo py-1"
-                css={cssUtils.pointerCursor}
+              </Badge>
+              <NickNameBadge
+                className="badge bg-indigo text-truncate"
                 title={t('skinlib.show.uploader')}
                 onClick={handleUploaderClick}
               >
                 {item.nickname}
-              </a>
+              </NickNameBadge>
             </div>
             <ButtonLike
               liked={props.liked}
