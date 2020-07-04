@@ -3,6 +3,8 @@ import React from 'react'
 interface Props {
   disabled?: boolean
   active?: boolean
+  title?: string
+  className?: string
   onClick?(): void
 }
 
@@ -14,6 +16,9 @@ const PaginationItem: React.FC<Props> = (props) => {
   if (props.disabled) {
     classes.push('disabled')
   }
+  if (props.className) {
+    classes.push(props.className)
+  }
 
   const handleClick = (event: React.MouseEvent) => {
     event.preventDefault()
@@ -23,7 +28,7 @@ const PaginationItem: React.FC<Props> = (props) => {
   }
 
   return (
-    <li className={classes.join(' ')} onClick={handleClick}>
+    <li className={classes.join(' ')} title={props.title} onClick={handleClick}>
       <a href="#" className="page-link" aria-disabled={props.disabled}>
         {props.children}
       </a>

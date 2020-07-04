@@ -1,13 +1,14 @@
 import React from 'react'
 import { render, fireEvent } from '@testing-library/react'
-import Pagination, { labels } from '@/components/Pagination'
+import { t } from '@/scripts/i18n'
+import Pagination from '@/components/Pagination'
 
 test('hide when total pages is invalid', () => {
   const { queryByText } = render(
     <Pagination page={1} totalPages={0} onChange={() => {}} />,
   )
-  expect(queryByText(labels.prev)).not.toBeInTheDocument()
-  expect(queryByText(labels.next)).not.toBeInTheDocument()
+  expect(queryByText(t('vendor.datatable.prev'))).not.toBeInTheDocument()
+  expect(queryByText(t('vendor.datatable.next'))).not.toBeInTheDocument()
 })
 
 describe('previous page', () => {
@@ -16,7 +17,7 @@ describe('previous page', () => {
     const { getByText } = render(
       <Pagination page={3} totalPages={5} onChange={mock} />,
     )
-    fireEvent.click(getByText(labels.prev))
+    fireEvent.click(getByText(t('vendor.datatable.prev')))
     expect(mock).toBeCalledWith(2)
   })
 
@@ -25,7 +26,7 @@ describe('previous page', () => {
     const { getByText } = render(
       <Pagination page={1} totalPages={5} onChange={mock} />,
     )
-    fireEvent.click(getByText(labels.prev))
+    fireEvent.click(getByText(t('vendor.datatable.prev')))
     expect(mock).not.toBeCalled()
   })
 })
@@ -36,7 +37,7 @@ describe('next page', () => {
     const { getByText } = render(
       <Pagination page={3} totalPages={5} onChange={mock} />,
     )
-    fireEvent.click(getByText(labels.next))
+    fireEvent.click(getByText(t('vendor.datatable.next')))
     expect(mock).toBeCalledWith(4)
   })
 
@@ -45,7 +46,7 @@ describe('next page', () => {
     const { getByText } = render(
       <Pagination page={5} totalPages={5} onChange={mock} />,
     )
-    fireEvent.click(getByText(labels.next))
+    fireEvent.click(getByText(t('vendor.datatable.next')))
     expect(mock).not.toBeCalled()
   })
 })
