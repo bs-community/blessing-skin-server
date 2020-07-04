@@ -1,39 +1,13 @@
 import React from 'react'
-import styled from '@emotion/styled'
 import { t } from '@/scripts/i18n'
 import { User } from '@/scripts/types'
-import * as breakpoints from '@/styles/breakpoints'
+import { Box, Icon, InfoTable } from './styles'
 import {
   humanizePermission,
   verificationStatusText,
   canModifyUser,
   canModifyPermission,
 } from './utils'
-
-const Box = styled.div`
-  width: 48%;
-  margin: 7px;
-
-  ${breakpoints.lessThan(breakpoints.Breakpoint.lg)} {
-    width: 98%;
-  }
-`
-const Icon = styled.div`
-  width: 70px;
-  display: flex;
-  justify-content: center;
-  padding-top: 22px;
-`
-const InfoTable = styled.div`
-  > div:not(:last-child) {
-    ${breakpoints.lessThan(breakpoints.Breakpoint.sm)} {
-      border-bottom: 1px solid rgba(0, 0, 0, 0.125);
-    }
-    ${breakpoints.greaterThan(breakpoints.Breakpoint.sm)} {
-      border-right: 1px solid rgba(0, 0, 0, 0.125);
-    }
-  }
-`
 
 interface Props {
   user: User
@@ -54,7 +28,7 @@ const Card: React.FC<Props> = (props) => {
 
   return (
     <Box className="info-box">
-      <Icon>
+      <Icon py>
         <img
           className="bs-avatar"
           src={`${blessing.base_url}/avatar/user/${user.uid}`}

@@ -9,11 +9,12 @@ import { User, UserPermission, Paginator } from '@/scripts/types'
 import { toast, showModal } from '@/scripts/notify'
 import urls from '@/scripts/urls'
 import type { Props as ModalInputProps } from '@/components/ModalInput'
-import Loading from '@/components/Loading'
 import Pagination from '@/components/Pagination'
 import Header from './Header'
 import Card from './Card'
+import LoadingCard from './LoadingCard'
 import Row from './Row'
+import LoadingRow from './LoadingRow'
 
 const UsersManagement: React.FC = () => {
   const [users, setUsers] = useImmer<User[]>([])
@@ -296,15 +297,11 @@ const UsersManagement: React.FC = () => {
           </label>
         </div>
       </Header>
-      {isLoading ? (
-        <div className="card-body">
-          <Loading />
-        </div>
-      ) : users.length === 0 ? (
+      {users.length === 0 && !isLoading ? (
         <div className="card-body text-center">{t('general.noResult')}</div>
       ) : isTableMode ? (
         <div className="card-body table-responsive p-0">
-          <table className="table table-striped">
+          <table className={`table ${isLoading ? '' : 'table-striped'}`}>
             <thead>
               <tr>
                 <th>UID</th>
@@ -318,8 +315,33 @@ const UsersManagement: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {users.map((user, i) => (
-                <Row
+              {isLoading
+                ? new Array(10).fill(null).map((_, i) => <LoadingRow key={i} />)
+                : users.map((user, i) => (
+                    <Row
+                      key={user.uid}
+                      user={user}
+                      currentUser={currentUser}
+                      onEmailChange={() => handleEmailChange(user, i)}
+                      onNicknameChange={() => handleNicknameChange(user, i)}
+                      onScoreChange={() => handleScoreChange(user, i)}
+                      onPermissionChange={() => handlePermissionChange(user, i)}
+                      onVerificationToggle={() =>
+                        handleVerificationToggle(user, i)
+                      }
+                      onPasswordChange={() => handlePasswordChange(user)}
+                      onDelete={() => handleDelete(user)}
+                    />
+                  ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="card-body d-flex flex-wrap">
+          {isLoading
+            ? new Array(10).fill(null).map((_, i) => <LoadingCard key={i} />)
+            : users.map((user, i) => (
+                <Card
                   key={user.uid}
                   user={user}
                   currentUser={currentUser}
@@ -332,25 +354,6 @@ const UsersManagement: React.FC = () => {
                   onDelete={() => handleDelete(user)}
                 />
               ))}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <div className="card-body d-flex flex-wrap">
-          {users.map((user, i) => (
-            <Card
-              key={user.uid}
-              user={user}
-              currentUser={currentUser}
-              onEmailChange={() => handleEmailChange(user, i)}
-              onNicknameChange={() => handleNicknameChange(user, i)}
-              onScoreChange={() => handleScoreChange(user, i)}
-              onPermissionChange={() => handlePermissionChange(user, i)}
-              onVerificationToggle={() => handleVerificationToggle(user, i)}
-              onPasswordChange={() => handlePasswordChange(user)}
-              onDelete={() => handleDelete(user)}
-            />
-          ))}
         </div>
       )}
       <div className="card-footer">
