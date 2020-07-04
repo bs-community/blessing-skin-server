@@ -1,5 +1,4 @@
-/** @jsx jsx */
-import { jsx } from '@emotion/core'
+import React from 'react'
 import styled from '@emotion/styled'
 import { t } from '@/scripts/i18n'
 import * as cssUtils from '@/styles/utils'
@@ -36,9 +35,13 @@ interface ButtonLikeProps {
   liked: boolean
 }
 const ButtonLike = styled.a<ButtonLikeProps>`
-  color: ${(props) => (props.liked ? '#dc3545' : '#6c757d')};
-  &:hover {
-    color: ${(props) => (props.liked ? '#dc3545' : '#343a40')};
+  ${cssUtils.pointerCursor}
+
+  i, span {
+    color: ${(props) => (props.liked ? '#dc3545' : '#6c757d')};
+    &:hover {
+      color: ${(props) => (props.liked ? '#dc3545' : '#343a40')};
+    }
   }
 `
 
@@ -102,12 +105,11 @@ const Item: React.FC<Props> = (props) => {
             </div>
             <ButtonLike
               liked={props.liked}
-              css={cssUtils.pointerCursor}
               tabIndex={-1}
               onClick={handleHeartClick}
             >
               <i className="fas fa-heart mr-1"></i>
-              {item.likes}
+              <span>{item.likes}</span>
             </ButtonLike>
           </div>
         </div>
