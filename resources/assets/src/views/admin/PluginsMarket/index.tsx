@@ -14,7 +14,7 @@ enableMapSet()
 
 const PluginsMarket: React.FC = () => {
   const [plugins, setPlugins] = useImmer<Plugin[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)

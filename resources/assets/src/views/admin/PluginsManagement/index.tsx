@@ -10,7 +10,7 @@ import InfoBox from './InfoBox'
 import { Plugin } from './types'
 
 const PluginsManagement: React.FC = () => {
-  const [loading, setLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [plugins, setPlugins] = useImmer<Plugin[]>([])
   const [file, setFile] = useState<File | null>(null)
   const [isUploading, setIsUploading] = useState(false)
@@ -19,10 +19,10 @@ const PluginsManagement: React.FC = () => {
 
   useEffect(() => {
     const getPlugins = async () => {
-      setLoading(true)
+      setIsLoading(true)
       const plugins = await fetch.get<Plugin[]>('/admin/plugins/data')
       setPlugins(() => plugins)
-      setLoading(false)
+      setIsLoading(false)
     }
     getPlugins()
   }, [])
@@ -166,7 +166,7 @@ const PluginsManagement: React.FC = () => {
   return (
     <div className="row">
       <div className="col-lg-8">
-        {loading ? (
+        {isLoading ? (
           <Loading />
         ) : plugins.length === 0 ? (
           t('general.noResult')

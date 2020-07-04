@@ -30,7 +30,7 @@ const updater = debounce(
 )
 
 const Closet: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [category, setCategory] = useState<Category>('skin')
   const [search, setSearch] = useState('')
   const [query, setQuery] = useState('')

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import { hot } from 'react-hot-loader/root'
 import { useImmer } from 'use-immer'
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra'
@@ -29,7 +29,7 @@ const UsersManagement: React.FC = () => {
     permission: UserPermission.Admin,
   } as User)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isLargeScreen) {
       setIsTableMode(true)
     }

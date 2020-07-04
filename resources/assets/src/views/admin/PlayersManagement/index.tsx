@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useLayoutEffect } from 'react'
 import { hot } from 'react-hot-loader/root'
 import { useImmer } from 'use-immer'
 import useIsLargeScreen from '@/scripts/hooks/useIsLargeScreen'
@@ -25,7 +25,7 @@ const PlayersManagement: React.FC = () => {
   const [query, setQuery] = useState('')
   const [textureUpdating, setTextureUpdating] = useState(-1)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (isLargeScreen) {
       setIsTableMode(true)
     }

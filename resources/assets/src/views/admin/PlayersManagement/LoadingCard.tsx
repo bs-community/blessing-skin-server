@@ -15,22 +15,16 @@ const LoadingCard: React.FC = () => (
     <div className="info-box-content">
       <div className="row">
         <div className="col-10">
-          <ShrinkedSkeleton width="150px" />
+          <ShrinkedSkeleton width="120px" />
         </div>
-        <div className="col-2">
-          <div className="float-right dropdown">
-            <span className="text-gray">
-              <i className="fas fa-cog"></i>
-            </span>
-          </div>
-        </div>
+        <div className="col-2"></div>
       </div>
       <div>
         <div>
-          <ShrinkedSkeleton width="200px" />
+          <ShrinkedSkeleton width="150px" />
         </div>
         <div>
-          <ShrinkedSkeleton width="240px" />
+          <ShrinkedSkeleton width="180px" />
         </div>
       </div>
     </div>

@@ -12,7 +12,7 @@ import Row from './Row'
 
 const Translations: React.FC = () => {
   const [lines, setLines] = useImmer<Line[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
 

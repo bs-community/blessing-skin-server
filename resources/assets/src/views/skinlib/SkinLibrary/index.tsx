@@ -17,7 +17,7 @@ import Item from './Item'
 import { Filter, LibraryItem } from './types'
 
 const SkinLibrary: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [items, setItems] = useState<LibraryItem[]>([])
   const [closet, setCloset] = useState<number[]>([])
   const [filter, setFilter] = useState<Filter>('skin')
@@ -253,7 +253,7 @@ const SkinLibrary: React.FC = () => {
             )}
           </div>
           <div className="card-footer">
-            <div className="float-right">
+            <div className="d-flex justify-content-center">
               <Pagination
                 page={page}
                 totalPages={totalPages}

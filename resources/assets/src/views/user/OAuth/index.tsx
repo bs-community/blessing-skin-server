@@ -14,7 +14,7 @@ type Exception = {
 
 const OAuth: React.FC = () => {
   const [apps, setApps] = useState<App[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [showModalCreate, setShowModalCreate] = useState(false)
 
   useEffect(() => {

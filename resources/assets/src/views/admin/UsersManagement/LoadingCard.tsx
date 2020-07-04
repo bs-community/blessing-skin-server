@@ -16,20 +16,16 @@ const LoadingCard: React.FC = () => (
     <div className="info-box-content">
       <div className="row">
         <div className="col-10">
-          <Skeleton width="200px" />
+          <Skeleton width="140px" />
         </div>
-        <div className="col-2">
-          <span className="text-gray">
-            <i className="fas fa-cog"></i>
-          </span>
-        </div>
+        <div className="col-2"></div>
       </div>
       <div>
         <div>
-          <Skeleton width="200px" />
+          <Skeleton width="140px" />
         </div>
         <div>
-          <Skeleton width="200px" />
+          <Skeleton width="140px" />
         </div>
         <InfoTable className="row m-2 border-top border-bottom">
           <div className="col-sm-4 py-1 text-center">
@@ -52,7 +48,7 @@ const LoadingCard: React.FC = () => (
           </div>
         </InfoTable>
         <div>
-          <Skeleton width="240px" />
+          <Skeleton width="180px" />
         </div>
       </div>
     </div>

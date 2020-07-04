@@ -17,7 +17,7 @@ const ReportsManagement: React.FC = () => {
   const [reports, setReports] = useImmer<Report[]>([])
   const [page, setPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [query, setQuery] = useState('status:0 sort:-report_at')
   const [viewingTexture, setViewingTexture] = useState<Texture | null>(null)
 

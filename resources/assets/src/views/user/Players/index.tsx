@@ -16,7 +16,7 @@ import ModalReset from './ModalReset'
 
 const Players: React.FC = () => {
   const [players, setPlayers] = useState<Player[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [selected, setSelected] = useState(0)
   const [skin, setSkin] = useTexture()
   const [cape, setCape] = useTexture()
