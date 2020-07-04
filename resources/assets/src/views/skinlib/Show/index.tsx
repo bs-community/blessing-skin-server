@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { hot } from 'react-hot-loader/root'
+import Skeleton from 'react-loading-skeleton'
 import useBlessingExtra from '@/scripts/hooks/useBlessingExtra'
 import useEmitMounted from '@/scripts/hooks/useEmitMounted'
 import useMount from '@/scripts/hooks/useMount'
@@ -25,6 +26,7 @@ const Previewer = React.lazy(() => import('@/components/Viewer'))
 
 const Show: React.FC = () => {
   const [texture, setTexture] = useState<Texture>({} as Texture)
+  const [isLoading, setIsLoading] = useState(true)
   const [showModalApply, setShowModalApply] = useState(false)
   const [liked, setLiked] = useState(false)
   const nickname = useBlessingExtra<string>('nickname')
@@ -46,6 +48,7 @@ const Show: React.FC = () => {
 
       const texture = await fetch.get<Texture>(url)
       setTexture(texture)
+      setIsLoading(false)
     }
     fetchInfo()
   }, [])
@@ -331,48 +334,68 @@ const Show: React.FC = () => {
           <div className="container">
             <div className="row mt-2 mb-4">
               <div className="col-4">{t('skinlib.show.name')}</div>
-              <div className="col-7 text-truncate" title={texture.name}>
-                {texture.name}
-              </div>
-              {canEdit && (
-                <div className="col-1">
-                  <ButtonEdit
-                    title={t('skinlib.show.edit')}
-                    onClick={handleEditName}
-                  />
+              {isLoading ? (
+                <div className="col-8">
+                  <Skeleton />
                 </div>
+              ) : (
+                <React.Fragment>
+                  <div className="col-7 text-truncate" title={texture.name}>
+                    {texture.name}
+                  </div>
+                  {canEdit && (
+                    <div className="col-1">
+                      <ButtonEdit
+                        title={t('skinlib.show.edit')}
+                        onClick={handleEditName}
+                      />
+                    </div>
+                  )}
+                </React.Fragment>
               )}
             </div>
             <div className="row my-4">
               <div className="col-4">{t('skinlib.show.model')}</div>
-              <div className="col-7">
-                {texture.type === TextureType.Cape
-                  ? t('general.cape')
-                  : texture.type}
-              </div>
-              {canEdit && (
-                <div className="col-1">
-                  <ButtonEdit
-                    title={t('skinlib.show.edit')}
-                    onClick={handleSwitchType}
-                  />
+              {isLoading ? (
+                <div className="col-8">
+                  <Skeleton />
                 </div>
+              ) : (
+                <React.Fragment>
+                  <div className="col-7">
+                    {texture.type === TextureType.Cape
+                      ? t('general.cape')
+                      : texture.type}
+                  </div>
+                  {canEdit && (
+                    <div className="col-1">
+                      <ButtonEdit
+                        title={t('skinlib.show.edit')}
+                        onClick={handleSwitchType}
+                      />
+                    </div>
+                  )}
+                </React.Fragment>
               )}
             </div>
             <div className="row my-4">
               <div className="col-4">Hash</div>
               <div className="col-8 text-truncate" title={texture.hash}>
-                {texture.hash}
+                {isLoading ? <Skeleton /> : texture.hash}
               </div>
             </div>
             <div className="row my-4">
               <div className="col-4">{t('skinlib.show.size')}</div>
-              <div className="col-8">{texture.size} KB</div>
+              <div className="col-8">
+                {isLoading ? <Skeleton /> : <span>{texture.size} KB</span>}
+              </div>
             </div>
             <div className="row my-4">
               <div className="col-4">{t('skinlib.show.uploader')}</div>
               <div className="col-8 text-truncate">
-                {isUploaderExists ? (
+                {isLoading ? (
+                  <Skeleton />
+                ) : isUploaderExists ? (
                   <React.Fragment>
                     <div>
                       <a href={linkToUploader} target="_blank">
@@ -397,7 +420,9 @@ const Show: React.FC = () => {
             </div>
             <div className="row mt-4 mb-2">
               <div className="col-4">{t('skinlib.show.upload-at')}</div>
-              <div className="col-8">{texture.upload_at}</div>
+              <div className="col-8">
+                {isLoading ? <Skeleton /> : texture.upload_at}
+              </div>
             </div>
           </div>
         </div>
