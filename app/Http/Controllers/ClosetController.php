@@ -59,7 +59,7 @@ class ClosetController extends Controller
             ->when($request->input('q'), function (Builder $query, $search) {
                 return $query->like('item_name', $search);
             })
-            ->paginate(6);
+            ->paginate((int) $request->input('perPage', 6));
     }
 
     public function allIds()
